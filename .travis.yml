@@ -2,17 +2,24 @@ language: python
 
 python:
   - "2.7"
+  
+addons:
+  apt:
+    packages:
+      - expect-dev  # provides unbuffer utility
+      - python-lxml  # because pip installation is slow  
 
 env:
-  - VERSION="8.0" LINT_CHECK="1"
-  - VERSION="8.0" ODOO_REPO="odoo/odoo" LINT_CHECK="0"
-  - VERSION="8.0" ODOO_REPO="OCA/OCB" LINT_CHECK="0"
-# either use the two lines above or the two below. Don't change the default if
-# it's not necessary (it is only necessary if modules in your repository can't
-# be installed in the same database. And you get a huge speed penalty in your
-# tests)
-#  - VERSION="8.0" ODOO_REPO="odoo/odoo" UNIT_TEST="1" LINT_CHECK="0"
-#  - VERSION="8.0" ODOO_REPO="OCA/OCB" UNIT_TEST="1" LINT_CHECK="0"
+  global:
+  - VERSION="8.0" TESTS="0" LINT_CHECK="0" TRANSIFEX="0"
+  - TRANSIFEX_USER='transbot@odoo-community.org'
+  - secure: ABaQffZycmzdJs9Slg4OLC8K+wnmpkS5R7bEIOAgsZYMYnOntZz6SzhF8/TOqI2hdUyvxgyVLhUlZdLrgogUgG/V2QjdmIErE6+x4iHECgQ4iXvhqtTpN2S/SVyjVP+7QE8Ugnth/tykWxXpgMpkuA6xnGC2HU8r/s4261tys4g=
+
+  matrix:
+  - LINT_CHECK="1"
+  - TRANSIFEX="1"
+  - TESTS="1" ODOO_REPO="odoo/odoo"
+  - TESTS="1" ODOO_REPO="OCA/OCB"
 
 virtualenv:
   system_site_packages: true
@@ -20,6 +27,7 @@ virtualenv:
 install:
   - git clone --depth=1 https://github.com/OCA/maintainer-quality-tools.git ${HOME}/maintainer-quality-tools
   - export PATH=${HOME}/maintainer-quality-tools/travis:${PATH}
+  - pip install --upgrade stdnum
   - travis_install_nightly
 # example: dependency
 # - git clone --depth=1 https://github.com/OCA/webkit-tools -b ${VERSION} $HOME/webkit-tools
@@ -28,4 +36,4 @@ script:
   - travis_run_tests
 
 after_success:
-  coveralls
+  - travis_after_tests_success
