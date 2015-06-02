@@ -1,9 +1,3 @@
-addons:
-  apt:
-    packages:
-      - expect-dev  # provides unbuffer utility
-      - python-lxml # because pip installation is slow
-
 language: python
 
 python:
@@ -35,8 +29,6 @@ install:
   - export PATH=${HOME}/maintainer-quality-tools/travis:${PATH}
   - pip install --upgrade stdnum
   - travis_install_nightly
-# example: dependency
-# - git clone --depth=1 https://github.com/OCA/webkit-tools -b ${VERSION} $HOME/webkit-tools
 
 script:
   - travis_run_tests

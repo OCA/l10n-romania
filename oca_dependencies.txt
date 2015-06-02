@@ -1,4 +1,6 @@
-# Add account-financial-tools repo dependency to have the currency_rate_update module.
-# Add account-payment repo dependency to have the account_vat_on_payment and account_voucher_cash_basis modules.
+# Add account-financial-tools repo dependency to have access to currency_rate_update module.
+# Add account-payment repo dependency to have access to account_vat_on_payment and account_voucher_cash_basis modules.
+# Add hr repo dependency to have access to account_vat_on_payment and account_voucher_cash_basis modules.
 account-financial-tools
 account-payment
+hr
