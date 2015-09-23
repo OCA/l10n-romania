@@ -4,3 +4,6 @@
 Odoo Romania Localisation
 
 WRITE ME!
+
+[//]: # (addons)
+[//]: # (end addons)
