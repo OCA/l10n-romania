@@ -1,19 +1,23 @@
+sudo: false
+cache: pip
+
+addons:
+  apt:
+    packages:
+      - expect-dev  # provides unbuffer utility
+      - python-lxml # because pip installation is slow
+
 language: python
 
 python:
   - "2.7"
   
-addons:
-  apt:
-    packages:
-      - expect-dev  # provides unbuffer utility
-      - python-lxml  # because pip installation is slow  
 
 env:
   global:
   - VERSION="8.0" TESTS="0" LINT_CHECK="0" TRANSIFEX="0"
   - TRANSIFEX_USER='transbot@odoo-community.org'
-  - secure: ABaQffZycmzdJs9Slg4OLC8K+wnmpkS5R7bEIOAgsZYMYnOntZz6SzhF8/TOqI2hdUyvxgyVLhUlZdLrgogUgG/V2QjdmIErE6+x4iHECgQ4iXvhqtTpN2S/SVyjVP+7QE8Ugnth/tykWxXpgMpkuA6xnGC2HU8r/s4261tys4g=
+  - secure: oGR/dBwtppmz8AWPy/1gChKk3TbMOnzHnVxp1ywimKBt7tOtpA8EEgOEY3Zs9xgCa/DYo/Vf5tVtpFw3T9E8ohkqdwr3514dh5zFAASvlkTq7IY623Yntky0Sj4h1edooPFjzm33TzIMB6Vbwv/aZaeJFspV+OWbPPUq7Rel2qI=
 
   matrix:
   - LINT_CHECK="1"
