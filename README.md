@@ -1,6 +1,6 @@
 [![Runbot Status](https://runbot.odoo-community.org/runbot/badge/flat/177/8.0.svg)](https://runbot.odoo-community.org/runbot/repo/github-com-oca-l10n-romania-177)
 [![Build Status](https://travis-ci.org/OCA/l10n-romania.svg?branch=8.0)](https://travis-ci.org/OCA/l10n-romania)
-[![Coverage Status](https://coveralls.io/repos/OCA/l10n-romania/badge.svg?branch=8.0)](https://coveralls.io/r/OCA/l10n-romania?branch=8.0)
+[![Coverage Status](https://coveralls.io/repos/OCA/l10n-romania/badge.png?branch=8.0)](https://coveralls.io/r/OCA/l10n-romania?branch=8.0)
 
 Odoo Romania Localisation
 =========================
