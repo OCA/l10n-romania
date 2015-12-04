@@ -5,7 +5,7 @@
 from openerp import models, fields, api
 
 
-class res_country_zone(models.Model):
+class ResCountryZone(models.Model):
     _name = 'res.country.zone'
     _description = 'Country Zones'
 
@@ -26,7 +26,7 @@ class res_country_zone(models.Model):
     siruta = fields.Char('Siruta')
 
 
-class res_country_state(models.Model):
+class ResCountryState(models.Model):
     _name = 'res.country.state'
     _inherit = 'res.country.state'
 
@@ -56,7 +56,7 @@ class res_country_state(models.Model):
     siruta = fields.Char('Siruta')
 
 
-class res_country_commune(models.Model):
+class ResCountryCommune(models.Model):
     _name = 'res.country.commune'
     _description = 'Country Cities/Communes'
 
@@ -96,7 +96,7 @@ class res_country_commune(models.Model):
     siruta = fields.Char('Siruta')
 
 
-class res_country_city(models.Model):
+class ResCountryCity(models.Model):
     _name = 'res.country.city'
     _description = 'Country Cities'
 
