@@ -22,5 +22,5 @@
              'data/res.country.commune.csv',
              'data/res.country.city.csv',
              ],
-    'images': ['static/description/customer.png'],    
+    'images': ['static/description/customer.png'],
 }
