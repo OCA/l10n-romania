@@ -1,0 +1,9 @@
+id,name,siruta,country_id/id
+RO_NE,"Nord - Est",813,base.ro
+RO_SE,"Sud - Est",822,base.ro
+RO_SM,"Sud - Muntenia",831,base.ro
+RO_SVO,"Sud - Vest - Oltenia",840,base.ro
+RO_V,Vest,859,base.ro
+RO_NV,"Nord - Vest",868,base.ro
+RO_C,Centru,877,base.ro
+RO_BI,"București - Ilfov",886,base.ro
