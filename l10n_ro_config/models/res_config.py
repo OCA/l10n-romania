@@ -36,6 +36,16 @@ class RomaniaConfigSettings(models.TransientModel):
              'openapi.ro Webservices Datas\n'
              'European partners will be create based on VIES Website Datas '
              '(for countries that allow). \n')
+    module_l10n_ro_partner_unique = fields.Boolean(
+        'Partners unique by VAT, NRC',
+        help='This allows you to have unique partners by VAT and NRC.')
+    module_l10n_ro_partner_fiscal_validation = fields.Boolean(
+        'Partners Fiscal Validation',
+        help='This allows you to manage updates of the vat subjected and '
+             'vat on payment fields update:\n'
+             'For Romanian partners based on Ministry of Finance or OpenAPI '
+             'webservice and ANAF data.\n'
+             'For European partners based on VIES data.')
     siruta_update = fields.Boolean('Load / Update Siruta Data')
 
     @api.model

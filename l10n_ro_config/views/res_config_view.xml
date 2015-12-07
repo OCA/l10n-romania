@@ -44,6 +44,14 @@
 								<field name="module_partner_create_by_vat" class="oe_inline"/>
 								<label for="module_partner_create_by_vat"/>
 							</div>
+							<div>
+								<field name="module_l10n_ro_fiscal_validation" class="oe_inline"/>
+								<label for="module_l10n_ro_fiscal_validation"/>
+							</div>
+							<div>
+								<field name="module_l10n_ro_partner_unique" class="oe_inline"/>
+								<label for="module_l10n_ro_partner_unique"/>
+							</div>
 						</div> 
                     </group>
                 </form>
