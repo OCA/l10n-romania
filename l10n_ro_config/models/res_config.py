@@ -2,33 +2,33 @@
 # ©  2015 Forest and Biomass Services Romania
 # See README.rst file on addons root folder for license details
 
-from openerp import models, fields, api, tools, _
-from openerp.exceptions import except_orm
-
-import csv
-import os
-
+from openerp import models, fields, api, tools
 
 class RomaniaConfigSettings(models.TransientModel):
     _name = 'l10n.ro.config.settings'
     _inherit = 'res.config.settings'
 
-    company_id = fields.Many2one('res.company', string='Company',
+    company_id = fields.Many2one(
+        'res.company',
+        string='Company',
         change_default=True,
         default=lambda self: self.env['res.company']._company_default_get(
             'l10n.ro.config.settings')
         )
-    has_default_company = fields.Boolean(string='Has default company',
+    has_default_company = fields.Boolean(
+        string='Has default company',
         readonly=True, change_default=True,
         default=lambda self: bool(
             self.env['res.company'].search_count([]) == 1)
         )
-    module_l10n_ro_siruta = fields.Boolean(string='Romanian SIRUTA',
+    module_l10n_ro_siruta = fields.Boolean(
+        string='Romanian SIRUTA',
         help='This allows you to manage the Romanian Zones, States, Communes, '
              'Cities:\n'
              'The address fields will contain city, commune, state, zone, '
              'country, zip.')
-    module_partner_create_by_vat = fields.Boolean('Create Partners by VAT',
+    module_partner_create_by_vat = fields.Boolean(
+        'Create Partners by VAT',
         help='This allows you to create partners based on VAT:\n'
              'Romanian partners will be create based on Ministry of Finance / '
              'openapi.ro Webservices Datas\n'
