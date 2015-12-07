@@ -7,14 +7,6 @@ Romania - SIRUTA
 This module entends partners addresses with communes and zones,
 according administrative-territorial units of Romania Registry.
 
-* Installing this module will import datas in:
-
-- Country Zones
-- Country Communes
-- Country Cities
-
-Datas were taken from http://data.gov.ro/dataset/siruta
-
 Installation
 ============
 
