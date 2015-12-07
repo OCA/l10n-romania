@@ -17,10 +17,6 @@
     'data': ['views/partner_view.xml',
              'views/siruta_view.xml',
              'security/ir.model.access.csv',
-             'data/res.country.zone.csv',
-             'data/res.country.state.csv',
-             'data/res.country.commune.csv',
-             'data/res.country.city.csv',
              ],
     'images': ['static/description/customer.png',
                'static/description/address.png']
