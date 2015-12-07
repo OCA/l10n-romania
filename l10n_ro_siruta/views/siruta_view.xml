@@ -10,9 +10,9 @@
         <field name="inherit_id" ref="base.view_country_state_tree"/>
         <field name="arch" type="xml">
             <field name="country_id" position="before"> 
-				<field name="siruta"/>           
-				<field name="zone_id"/>
-			</field>
+                <field name="siruta"/>           
+                <field name="zone_id"/>
+            </field>
         </field>
     </record>
     
@@ -22,9 +22,9 @@
         <field name="inherit_id" ref="base.view_country_state_form"/>
         <field name="arch" type="xml">
             <field name="country_id" position="before"> 
-				<field name="siruta"/>           
-				<field name="zone_id" options='{"no_open": True}'/>
-			</field>
+                <field name="siruta"/>           
+                <field name="zone_id" options='{"no_open": True}'/>
+            </field>
         </field>
     </record>
     
@@ -34,46 +34,46 @@
         <field name="name">res.country.commune.search</field>
         <field name="model">res.country.commune</field>
         <field name="arch" type="xml">
-			<search string="communes">
-				<field name="name"/>
-				<field name="siruta"/>
-				<field name="state_id"/>
-				<field name="zone_id"/>
-				<field name="country_id"/>
-			</search>
-		</field>
-	</record>
-	
-	<record model="ir.ui.view" id="view_commune_tree">
+            <search string="Communes">
+                <field name="name"/>
+                <field name="siruta"/>
+                <field name="state_id"/>
+                <field name="zone_id"/>
+                <field name="country_id"/>
+            </search>
+        </field>
+    </record>
+    
+    <record model="ir.ui.view" id="view_commune_tree">
         <field name="name">res.country.commune.tree</field>
         <field name="model">res.country.commune</field>
         <field name="arch" type="xml">
-			<tree string="communes">
-				<field name="name"/>
-				<field name="siruta"/>
-				<field name="state_id"/>
-				<field name="zone_id"/>
-				<field name="country_id"/>
-			</tree>
-		</field>
-	</record>
+            <tree string="Communes">
+                <field name="name"/>
+                <field name="siruta"/>
+                <field name="state_id"/>
+                <field name="zone_id"/>
+                <field name="country_id"/>
+            </tree>
+        </field>
+    </record>
 
     <record model="ir.ui.view" id="view_commune_form">
         <field name="name">res.country.commune.form</field>
         <field name="model">res.country.commune</field>
         <field name="arch" type="xml">
-            <form string="commune">
-				<field name="name"/>
-				<field name="siruta"/>
-				<field name="state_id"/>
-				<field name="zone_id"/>
-				<field name="country_id"/>				
+            <form string="Commune">
+                <field name="name"/>
+                <field name="siruta"/>
+                <field name="state_id"/>
+                <field name="zone_id"/>
+                <field name="country_id"/>                
             </form>
         </field>
     </record>
 
     <record model="ir.actions.act_window" id="action_commune">
-        <field name="name">Country communes</field>
+        <field name="name">Communes</field>
         <field name="type">ir.actions.act_window</field>
         <field name="res_model">res.country.commune</field>
         <field name="view_type">form</field>
@@ -94,7 +94,7 @@
         <field name="act_window_id" ref="action_commune"/>
     </record>        
 
-    <menuitem name="Country communes" groups="base.group_no_one" action="action_commune" parent="base.menu_localisation" id="menu_commune"/>
+    <menuitem name="Communes" groups="base.group_no_one" action="action_commune" parent="base.menu_localisation" id="menu_commune"/>
 
     <!--City-->
 
@@ -102,43 +102,43 @@
         <field name="name">res.country.city.search</field>
         <field name="model">res.country.city</field>
         <field name="arch" type="xml">
-			<search string="Cities">
-				<field name="name"/>
-				<field name="siruta"/>
-				<field name="commune_id"/>
-				<field name="state_id"/>
-				<field name="zone_id"/>
-				<field name="country_id"/>
-			</search>
-		</field>
-	</record>
-	
-	<record model="ir.ui.view" id="view_city_tree">
+            <search string="Cities">
+                <field name="name"/>
+                <field name="siruta"/>
+                <field name="commune_id"/>
+                <field name="state_id"/>
+                <field name="zone_id"/>
+                <field name="country_id"/>
+            </search>
+        </field>
+    </record>
+    
+    <record model="ir.ui.view" id="view_city_tree">
         <field name="name">res.country.city.tree</field>
         <field name="model">res.country.city</field>
         <field name="arch" type="xml">
-			<tree string="Cities">
-				<field name="name"/>
-				<field name="siruta"/>
-				<field name="commune_id"/>
-				<field name="state_id"/>
-				<field name="zone_id"/>
-				<field name="country_id"/>
-			</tree>
-		</field>
-	</record>
+            <tree string="Cities">
+                <field name="name"/>
+                <field name="siruta"/>
+                <field name="commune_id"/>
+                <field name="state_id"/>
+                <field name="zone_id"/>
+                <field name="country_id"/>
+            </tree>
+        </field>
+    </record>
 
     <record model="ir.ui.view" id="view_city_form">
         <field name="name">res.country.city.form</field>
         <field name="model">res.country.city</field>
         <field name="arch" type="xml">
-            <form string="Cities">
-				<field name="name"/>
-				<field name="siruta"/>
-				<field name="commune_id"/>
-				<field name="state_id"/>
-				<field name="zone_id"/>
-				<field name="country_id"/>
+            <form string="City">
+                <field name="name"/>
+                <field name="siruta"/>
+                <field name="commune_id"/>
+                <field name="state_id"/>
+                <field name="zone_id"/>
+                <field name="country_id"/>
             </form>
         </field>
     </record>
@@ -173,41 +173,41 @@
         <field name="name">res.country.zone.search</field>
         <field name="model">res.country.zone</field>
         <field name="arch" type="xml">
-			<search string="zones">
-				<field name="name"/>
-				<field name="siruta"/>
-				<field name="country_id"/>
-			</search>
-		</field>
-	</record>
-	
-	<record model="ir.ui.view" id="view_zone_tree">
+            <search string="Zones">
+                <field name="name"/>
+                <field name="siruta"/>
+                <field name="country_id"/>
+            </search>
+        </field>
+    </record>
+    
+    <record model="ir.ui.view" id="view_zone_tree">
         <field name="name">res.country.zone.tree</field>
         <field name="model">res.country.zone</field>
         <field name="arch" type="xml">
-			<tree string="zones">
-				<field name="name"/>
-				<field name="siruta"/>
-				<field name="country_id"/>
-			</tree>
-		</field>
-	</record>
+            <tree string="Zones">
+                <field name="name"/>
+                <field name="siruta"/>
+                <field name="country_id"/>
+            </tree>
+        </field>
+    </record>
 
     <record model="ir.ui.view" id="view_zone_form">
         <field name="name">res.country.zone.form</field>
         <field name="model">res.country.zone</field>
         <field name="arch" type="xml">
-            <form string="zone">
-				<field name="name"/>
-				<field name="siruta"/>
-				<field name="country_id"/>
-				<field name="state_ids"/>				
+            <form string="Zone">
+                <field name="name"/>
+                <field name="siruta"/>
+                <field name="country_id"/>
+                <field name="state_ids"/>                
             </form>
         </field>
     </record>
 
     <record model="ir.actions.act_window" id="action_zone">
-        <field name="name">Country Zones</field>
+        <field name="name">Zones</field>
         <field name="type">ir.actions.act_window</field>
         <field name="res_model">res.country.zone</field>
         <field name="view_type">form</field>
@@ -228,6 +228,6 @@
         <field name="act_window_id" ref="action_zone"/>
     </record>        
 
-    <menuitem name="Country Zones" groups="base.group_no_one" action="action_zone" parent="base.menu_localisation" id="menu_zone"/>
+    <menuitem name="Zones" groups="base.group_no_one" action="action_zone" parent="base.menu_localisation" id="menu_zone"/>
     </data>
 </openerp>
