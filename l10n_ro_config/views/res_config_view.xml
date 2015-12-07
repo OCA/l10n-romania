@@ -19,7 +19,6 @@
                                 <label for="company_id" string="Select Company"/>
                                 <field name="company_id"
                                     widget="selection"
-                                    on_change="onchange_company_id(company_id)"
                                     class="oe_inline"/>
                             </div>
                         </div>
@@ -30,6 +29,13 @@
 							<div>
 								<field name="module_l10n_ro_siruta" class="oe_inline"/>
 								<label for="module_l10n_ro_siruta"/>
+								<group attrs="{'invisible': [('module_l10n_ro_siruta', '&lt;&gt;', True)]}" col="2">
+									<group>
+										<field name="siruta_update"/>
+									</group>
+									<group>
+									</group>
+								</group>
 							</div> 
 						</div>  
 						<label for="id" string="Partners"/>
