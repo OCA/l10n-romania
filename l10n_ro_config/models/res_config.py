@@ -68,14 +68,18 @@ class RomaniaConfigSettings(models.TransientModel):
                 [('name', '=', 'l10n_ro_siruta'),
                  ('state', '=', 'installed')])
             if installed:
-                path = data_dir + '/l10n_ro_siruta/res_country_zone.csv'
-                print path
-                with tools.file_open(path) as fp:
-                    tools.convert_csv_import(self._cr,
-                                             'l10n_ro_config',
-                                             'data/l10n_ro_siruta/res_country_zone.csv',
-                                             fp.read(),
-                                             {},
-                                             mode="init",
-                                             noupdate=True)
+                path = data_dir + '/l10n_ro_siruta/'
+                files = ['res.country.zone.csv',
+                         'res.country.state.csv',
+                         'res.country.commune.csv',
+                         'res.country.city.csv']
+                for file1 in files:
+                    with tools.file_open(path + file1) as fp:
+                        tools.convert_csv_import(self._cr,
+                                                 'l10n_ro_config',
+                                                 file1,
+                                                 fp.read(),
+                                                 {},
+                                                 mode="init",
+                                                 noupdate=True)
         return res
