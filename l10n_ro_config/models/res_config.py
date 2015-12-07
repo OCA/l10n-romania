@@ -2,7 +2,11 @@
 # ©  2015 Forest and Biomass Services Romania
 # See README.rst file on addons root folder for license details
 
-from openerp import models, fields
+from openerp import models, fields, api, tools, _
+from openerp.exceptions import except_orm
+
+import csv
+import os
 
 
 class RomaniaConfigSettings(models.TransientModel):
@@ -30,6 +34,7 @@ class RomaniaConfigSettings(models.TransientModel):
              'openapi.ro Webservices Datas\n'
              'European partners will be create based on VIES Website Datas '
              '(for countries that allow). \n')
+    siruta_update = fields.Boolean('Load / Update Siruta Data')
 
     @api.model
     def create(self, values):
@@ -44,7 +49,33 @@ class RomaniaConfigSettings(models.TransientModel):
         self.write(vals)
         return id
 
+    @api.onchange('company_id')
+    def onchange_company_id(self):
+        # Update related fields
+        values = {}
+        return {'value': values}
+
     @api.multi
     def execute(self):
         res = super(RomaniaConfigSettings, self).execute()
+        data_dir = os.path.join(os.path.dirname(
+            os.path.dirname(os.path.abspath(__file__))), 'data')
+        # Load SIRUTA datas if field is checked
+        wiz = self[0]
+        if wiz.siruta_update:
+            # First check if module is installed
+            installed = self.env['ir.module.module'].search(
+                [('name', '=', 'l10n_ro_siruta'),
+                 ('state', '=', 'installed')])
+            if installed:
+                path = data_dir + '/l10n_ro_siruta/res_country_zone.csv'
+                print path
+                with tools.file_open(path) as fp:
+                    tools.convert_csv_import(self._cr,
+                                             'l10n_ro_config',
+                                             'data/l10n_ro_siruta/res_country_zone.csv',
+                                             fp.read(),
+                                             {},
+                                             mode="init",
+                                             noupdate=True)
         return res
