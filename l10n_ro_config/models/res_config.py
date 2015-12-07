@@ -3,6 +3,8 @@
 # See README.rst file on addons root folder for license details
 
 from openerp import models, fields, api, tools
+import os
+
 
 class RomaniaConfigSettings(models.TransientModel):
     _name = 'l10n.ro.config.settings'
