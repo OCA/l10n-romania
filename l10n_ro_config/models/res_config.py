@@ -39,7 +39,7 @@ class RomaniaConfigSettings(models.TransientModel):
     module_l10n_ro_partner_unique = fields.Boolean(
         'Partners unique by VAT, NRC',
         help='This allows you to have unique partners by VAT and NRC.')
-    module_l10n_ro_partner_fiscal_validation = fields.Boolean(
+    module_l10n_ro_fiscal_validation = fields.Boolean(
         'Partners Fiscal Validation',
         help='This allows you to manage updates of the vat subjected and '
              'vat on payment fields update:\n'
