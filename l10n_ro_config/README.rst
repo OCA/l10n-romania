@@ -4,7 +4,7 @@
 Romania - Localization Config
 =================================
 
-This module allows you to install and config all the localization modules
+This module allows you to install and configure all the localization modules
 related to Romania.
 
 Some of the modules will load data at install.
