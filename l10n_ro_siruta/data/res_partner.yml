@@ -1,0 +1,5 @@
+# -*- coding: utf-8 -*-
+# ©  2015 Forest and Biomass Services Romania
+# See README.rst file on addons root folder for license details
+
+ - !function {model: res.partner, name: _install_l10n_ro_siruta}
