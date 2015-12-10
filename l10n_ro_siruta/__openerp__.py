@@ -17,6 +17,7 @@
     'data': ['views/partner_view.xml',
              'views/siruta_view.xml',
              'security/ir.model.access.csv',
+             'data/res_partner.yml',
              ],
     'images': ['static/description/customer.png',
                'static/description/address.png']
