@@ -29,23 +29,9 @@ class RomaniaConfigSettings(models.TransientModel):
              'Cities:\n'
              'The address fields will contain city, commune, state, zone, '
              'country, zip.')
-    module_partner_create_by_vat = fields.Boolean(
-        'Create Partners by VAT',
-        help='This allows you to create partners based on VAT:\n'
-             'Romanian partners will be create based on Ministry of Finance / '
-             'openapi.ro Webservices Datas\n'
-             'European partners will be create based on VIES Website Datas '
-             '(for countries that allow). \n')
     module_l10n_ro_partner_unique = fields.Boolean(
         'Partners unique by VAT, NRC',
         help='This allows you to have unique partners by VAT and NRC.')
-    module_l10n_ro_fiscal_validation = fields.Boolean(
-        'Partners Fiscal Validation',
-        help='This allows you to manage updates of the vat subjected and '
-             'vat on payment fields update:\n'
-             'For Romanian partners based on Ministry of Finance or OpenAPI '
-             'webservice and ANAF data.\n'
-             'For European partners based on VIES data.')
     siruta_update = fields.Boolean('Load / Update Siruta Data')
 
     @api.model
