@@ -32,6 +32,10 @@ class RomaniaConfigSettings(models.TransientModel):
     module_l10n_ro_partner_unique = fields.Boolean(
         'Partners unique by VAT, NRC',
         help='This allows you to have unique partners by VAT and NRC.')
+    module_l10n_ro_partner_create_by_vat = fields.Boolean(
+        'Romania - Partner Create by VAT',
+        help='This allows you to create partners by VAT based on '
+             'Ministry of Finance or OpenAPI webservices.')
     siruta_update = fields.Boolean('Load / Update Siruta Data')
 
     @api.model
