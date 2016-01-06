@@ -44,6 +44,10 @@
 								<field name="module_l10n_ro_partner_unique" class="oe_inline"/>
 								<label for="module_l10n_ro_partner_unique"/>
 							</div>
+							<div>
+								<field name="module_l10n_ro_partner_create_by_vat" class="oe_inline"/>
+								<label for="module_l10n_ro_partner_create_by_vat"/>
+							</div>
 						</div> 
                     </group>
                 </form>
