@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+        <record model="ir.cron" id="ir_cron_res_partner_anaf_update_every_day">
+            <field name="name">Download Partner ANAF Data</field>
+            <field name="interval_number">1</field>
+            <field name="interval_type">days</field><!-- it s every day -->
+            <field name="numbercall">-1</field>
+            <field name="doall" eval="False"/>
+            <field name="model" eval="'res.partner.anaf'"/>
+            <field name="function" eval="'_download_anaf_data'"/>
+            <field name="args"></field>
+        </record>
+        
+        <record model="ir.cron" id="ir_cron_res_partner_vat_payment_update_every_day">
+            <field name="name">Update Partner VAT on Payment</field>
+            <field name="interval_number">1</field>
+            <field name="interval_type">days</field><!-- it s every day -->
+            <field name="numbercall">-1</field>
+            <field name="doall" eval="False"/>
+            <field name="model" eval="'res.partner'"/>
+            <field name="function" eval="'_update_vat_payment_all'"/>
+            <field name="args"></field>
+        </record>
+
+    </data>
+</openerp>
