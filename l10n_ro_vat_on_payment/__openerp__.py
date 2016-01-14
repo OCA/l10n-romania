@@ -17,6 +17,9 @@
              'views/res_partner_view.xml',
              'security/ir.model.access.csv',
              'views/res_partner_anaf_cron.xml'],
-    'depends': ['account_vat_on_payment'],
+    'images': ['static/description/customer.png',
+               'static/description/customer1.png',
+               'static/description/invoice1.png'],
+    'depends': ['base_vat', 'account_vat_on_payment'],
     'auto_install': False,
 }
