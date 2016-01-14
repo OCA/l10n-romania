@@ -8,9 +8,6 @@
             <field name="type">form</field>
             <field name="inherit_id" ref="account.invoice_form"/>
             <field name="arch" type="xml">
-                <field name="fiscal_position" position="after">
-                    <field name="vat_on_payment"/>
-                </field>
                 <field name="date_invoice" position="replace">
                      <field name="date_invoice" on_change="onchange_partner_id(type, partner_id, date_invoice, payment_term, partner_bank_id, company_id, context)"/>
                 </field>
@@ -24,8 +21,7 @@
             <field name="inherit_id" ref="account.invoice_supplier_form"/>
             <field name="arch" type="xml">
                 <field name="fiscal_position" position="after">
-                    <field name="fiscal_receipt" on_change="onchange_fiscal_receipt(fiscal_receipt, vat_on_payment)"/>
-                    <field name="vat_on_payment"/>
+                    <field name="fiscal_receipt"/>
                 </field>
                 <field name="date_invoice" position="replace">
                      <field name="date_invoice" on_change="onchange_partner_id(type, partner_id, date_invoice, payment_term, partner_bank_id, company_id, context)"/>

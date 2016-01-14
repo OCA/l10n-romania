@@ -34,8 +34,9 @@ class ResPartnerAnaf(models.Model):
 
     @api.model
     def download_anaf_data(self):
-        """ Download VAT on Payment data from ANAF if the file"""
-        """ was not modified in the same date"""
+        """ Download VAT on Payment data from ANAF if the file
+            was not modified in the same date
+        """
         data_dir = os.path.join(os.path.dirname(
             os.path.dirname(os.path.abspath(__file__))), 'data')
         istoric = os.path.join(data_dir, "istoric.txt")
