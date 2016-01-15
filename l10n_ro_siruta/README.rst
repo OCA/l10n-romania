@@ -23,7 +23,7 @@ Usage
 
 On the partner form view on the address you will have extra fields for
 city, commune and zone.
-      
+
 .. image:: https://odoo-community.org/website/image/ir.attachment/5784_f2813bd/datas
    :alt: Try me on Runbot
    :target: https://runbot.odoo-community.org/runbot/177/8.0
