@@ -33,7 +33,7 @@ Usage
 
 On the Settings / Configuration you will have a new menu called Romania,
 from where you can install, config, load datas from different modules.
-      
+
 .. image:: https://odoo-community.org/website/image/ir.attachment/5784_f2813bd/datas
    :alt: Try me on Runbot
    :target: https://runbot.odoo-community.org/runbot/177/8.0
