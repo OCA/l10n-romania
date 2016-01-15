@@ -25,30 +25,30 @@
                     </group>
                     <group string="General">
                         <label for="id" string="Localization"/>
-						<div>
-							<div>
-								<field name="module_l10n_ro_siruta" class="oe_inline"/>
-								<label for="module_l10n_ro_siruta"/>
-								<group attrs="{'invisible': [('module_l10n_ro_siruta', '&lt;&gt;', True)]}" col="2">
-									<group>
-										<field name="siruta_update"/>
-									</group>
-									<group>
-									</group>
-								</group>
-							</div> 
-						</div>  
-						<label for="id" string="Partners"/>
-						<div>
-							<div>
-								<field name="module_l10n_ro_partner_unique" class="oe_inline"/>
-								<label for="module_l10n_ro_partner_unique"/>
-							</div>
-							<div>
-								<field name="module_l10n_ro_partner_create_by_vat" class="oe_inline"/>
-								<label for="module_l10n_ro_partner_create_by_vat"/>
-							</div>
-						</div> 
+                        <div>
+                            <div>
+                                <field name="module_l10n_ro_siruta" class="oe_inline"/>
+                                <label for="module_l10n_ro_siruta"/>
+                                <group attrs="{'invisible': [('module_l10n_ro_siruta', '&lt;&gt;', True)]}" col="2">
+                                    <group>
+                                        <field name="siruta_update"/>
+                                    </group>
+                                    <group>
+                                    </group>
+                                </group>
+                            </div>
+                        </div>
+                        <label for="id" string="Partners"/>
+                        <div>
+                            <div>
+                                <field name="module_l10n_ro_partner_unique" class="oe_inline"/>
+                                <label for="module_l10n_ro_partner_unique"/>
+                            </div>
+                            <div>
+                                <field name="module_l10n_ro_partner_create_by_vat" class="oe_inline"/>
+                                <label for="module_l10n_ro_partner_create_by_vat"/>
+                            </div>
+                        </div>
                     </group>
                 </form>
             </field>
