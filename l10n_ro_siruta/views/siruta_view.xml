@@ -2,7 +2,7 @@
 <openerp>
     <data>
 
-   <!--State-->
+    <!--State-->
 
     <record model="ir.ui.view" id="view_country_state_tree">
         <field name="name">view_country_state_tree</field>
@@ -10,24 +10,24 @@
         <field name="inherit_id" ref="base.view_country_state_tree"/>
         <field name="arch" type="xml">
             <field name="country_id" position="before">
-                <field name="siruta"/>   
+                <field name="siruta"/>
                 <field name="zone_id"/>
             </field>
         </field>
     </record>
-    
+
     <record model="ir.ui.view" id="view_country_state_form">
         <field name="name">view_country_state_form</field>
         <field name="model">res.country.state</field>
         <field name="inherit_id" ref="base.view_country_state_form"/>
         <field name="arch" type="xml">
             <field name="country_id" position="before">
-                <field name="siruta"/>   
+                <field name="siruta"/>
                 <field name="zone_id" options='{"no_open": True}'/>
             </field>
         </field>
     </record>
-    
+
     <!--Communes-->
 
     <record model="ir.ui.view" id="view_commune_search">
@@ -43,7 +43,7 @@
             </search>
         </field>
     </record>
-    
+
     <record model="ir.ui.view" id="view_commune_tree">
         <field name="name">res.country.commune.tree</field>
         <field name="model">res.country.commune</field>
@@ -107,7 +107,8 @@
         <field name="act_window_id" ref="action_commune"/>
     </record>
 
-    <menuitem name="Communes" groups="base.group_no_one" action="action_commune" parent="base.menu_localisation" id="menu_commune"/>
+    <menuitem name="Communes" groups="base.group_no_one" action="action_commune"
+              parent="base.menu_localisation" id="menu_commune"/>
 
     <!--City-->
 
@@ -125,7 +126,7 @@
             </search>
         </field>
     </record>
-    
+
     <record model="ir.ui.view" id="view_city_tree">
         <field name="name">res.country.city.tree</field>
         <field name="model">res.country.city</field>
@@ -156,11 +157,11 @@
                 </div>
                 <group>
                     <group>
-						<field name="siruta"/>
-						<field name="commune_id"/>
-						<field name="state_id"/>
-						<field name="zone_id"/>
-						<field name="country_id"/>
+                        <field name="siruta"/>
+                        <field name="commune_id"/>
+                        <field name="state_id"/>
+                        <field name="zone_id"/>
+                        <field name="country_id"/>
                     </group>
                     <group>
                     </group>
@@ -191,7 +192,8 @@
         <field name="act_window_id" ref="action_city"/>
     </record>
 
-    <menuitem name="Cities" groups="base.group_no_one" action="action_city" parent="base.menu_localisation" id="menu_city"/>  
+    <menuitem name="Cities" groups="base.group_no_one" action="action_city"
+              parent="base.menu_localisation" id="menu_city"/>
 
     <!--Zones-->
 
@@ -206,7 +208,7 @@
             </search>
         </field>
     </record>
-    
+
     <record model="ir.ui.view" id="view_zone_tree">
         <field name="name">res.country.zone.tree</field>
         <field name="model">res.country.zone</field>
@@ -234,9 +236,9 @@
                 </div>
                 <group>
                     <group>
-						<field name="siruta"/>
-						<field name="country_id"/>
-						<field name="state_ids"/>
+                        <field name="siruta"/>
+                        <field name="country_id"/>
+                        <field name="state_ids"/>
                     </group>
                     <group>
                     </group>
@@ -267,6 +269,7 @@
         <field name="act_window_id" ref="action_zone"/>
     </record>
 
-    <menuitem name="Zones" groups="base.group_no_one" action="action_zone" parent="base.menu_localisation" id="menu_zone"/>
+    <menuitem name="Zones" groups="base.group_no_one" action="action_zone"
+              parent="base.menu_localisation" id="menu_zone"/>
     </data>
 </openerp>
