@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+        <record id="view_l10n_ro_config_settings" model="ir.ui.view">
+            <field name="name">Romania Settings</field>
+            <field name="model">l10n.ro.config.settings</field>
+            <field name="arch" type="xml">
+                <form string="Configure Applications - Romania" class="oe_form_configuration">
+                    <header>
+                        <button string="Apply" type="object" name="execute" class="oe_highlight"/>
+                        or
+                        <button string="Cancel" type="object" name="cancel" class="oe_link"/>
+                    </header>
+                    <group groups="base.group_multi_company">
+                        <div>
+                            <field name="has_default_company" invisible="1" />
+                            <div attrs="{'invisible': [('has_default_company', '=', True)]}">
+                                <label for="company_id" string="Select Company"/>
+                                <field name="company_id"
+                                    widget="selection"
+                                    class="oe_inline"/>
+                            </div>
+                        </div>
+                    </group>
+                    <group string="General">
+                        <label for="id" string="Localization"/>
+                        <div>
+                            <div>
+                                <field name="module_l10n_ro_siruta" class="oe_inline"/>
+                                <label for="module_l10n_ro_siruta"/>
+                                <group attrs="{'invisible': [('module_l10n_ro_siruta', '&lt;&gt;', True)]}" col="2">
+                                    <group>
+                                        <field name="siruta_update"/>
+                                    </group>
+                                    <group>
+                                    </group>
+                                </group>
+                            </div>
+                        </div>
+                        <label for="id" string="Partners"/>
+                        <div>
+                            <div>
+                                <field name="module_l10n_ro_partner_unique" class="oe_inline"/>
+                                <label for="module_l10n_ro_partner_unique"/>
+                            </div>
+                            <div>
+                                <field name="module_l10n_ro_partner_create_by_vat" class="oe_inline"/>
+                                <label for="module_l10n_ro_partner_create_by_vat"/>
+                            </div>
+                        </div>
+                    </group>
+                </form>
+            </field>
+        </record>
+
+        <record id="action_l10n_ro_config" model="ir.actions.act_window">
+            <field name="name">Romanian Applications</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">l10n.ro.config.settings</field>
+            <field name="view_mode">form</field>
+            <field name="target">inline</field>
+        </record>
+
+        <menuitem id="menu_account_config" name="Romania" parent="base.menu_config"
+            sequence="14" action="action_l10n_ro_config"/>
+    </data>
+</openerp>
