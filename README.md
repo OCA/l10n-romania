@@ -14,6 +14,12 @@ List of Modules
 ---------------
 
 [//]: # (addons)
+Available addons
+----------------
+addon | version | summary
+--- | --- | ---
+[l10n_ro_config](l10n_ro_config/) | 8.0.1.0.0 | Romania - Localization Install and Config Apllications
+
 [//]: # (end addons)
 
 Translation Status
