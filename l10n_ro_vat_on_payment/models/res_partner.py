@@ -94,7 +94,9 @@ class ResPartner(models.Model):
             else:
                 return False
         vat_numbers = [
-            p.vat_number for p in self if p.vat and p.vat.lower().startswith('ro')]
+            p.vat_number for p in self if p.vat and p.vat.lower().startswith(
+                'ro')
+            ]
         if vat_numbers == []:
             return
         anaf_obj = self.env['res.partner.anaf']
