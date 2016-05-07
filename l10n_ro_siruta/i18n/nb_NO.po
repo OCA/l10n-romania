@@ -7,15 +7,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: l10n-romania (8.0)\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-05-07 02:39+0000\n"
-"PO-Revision-Date: 2016-05-06 05:22+0000\n"
-"Last-Translator: OCA Transbot <transbot@odoo-community.org>\n"
-"Language-Team: Romanian (http://www.transifex.com/oca/OCA-l10n-romania-8-0/language/ro/)\n"
+"POT-Creation-Date: 2017-07-01 04:40+0000\n"
+"PO-Revision-Date: 2016-05-03 12:28+0000\n"
+"Last-Translator: <>\n"
+"Language-Team: Norwegian Bokmål (Norway) (http://www.transifex.com/oca/OCA-l10n-romania-8-0/language/nb_NO/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
-"Language: ro\n"
-"Plural-Forms: nplurals=3; plural=(n==1?0:(((n%100>19)||((n%100==0)&&(n!=0)))?2:1));\n"
+"Language: nb_NO\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #. module: l10n_ro_siruta
 #: model:ir.actions.act_window,name:l10n_ro_siruta.action_city
@@ -24,31 +24,31 @@ msgstr ""
 #: view:res.country.city:l10n_ro_siruta.view_city_tree
 #: field:res.country.state,city_ids:0
 msgid "Cities"
-msgstr "Orașe"
+msgstr ""
 
 #. module: l10n_ro_siruta
 #: field:res.country.state,commune_ids:0
 msgid "Cities/Communes"
-msgstr "Orașe/Comune"
+msgstr ""
 
 #. module: l10n_ro_siruta
 #: view:res.country.city:l10n_ro_siruta.view_city_form
 #: view:res.partner:l10n_ro_siruta.partners_form_address
 #: field:res.partner,city_id:0
 msgid "City"
-msgstr "Oraș"
+msgstr ""
 
 #. module: l10n_ro_siruta
 #: field:res.country.city,commune_id:0
 #: view:res.partner:l10n_ro_siruta.partners_form_address
 #: field:res.partner,commune_id:0
 msgid "City/Commune"
-msgstr "Oraș/Comună"
+msgstr ""
 
 #. module: l10n_ro_siruta
 #: view:res.country.commune:l10n_ro_siruta.view_commune_form
 msgid "Commune"
-msgstr "Comună"
+msgstr ""
 
 #. module: l10n_ro_siruta
 #: model:ir.actions.act_window,name:l10n_ro_siruta.action_commune
@@ -56,53 +56,53 @@ msgstr "Comună"
 #: view:res.country.commune:l10n_ro_siruta.view_commune_search
 #: view:res.country.commune:l10n_ro_siruta.view_commune_tree
 msgid "Communes"
-msgstr "Comune"
+msgstr ""
 
 #. module: l10n_ro_siruta
 #: field:res.country.city,country_id:0 field:res.country.commune,country_id:0
 #: field:res.country.zone,country_id:0
 msgid "Country"
-msgstr "Țara"
+msgstr ""
 
 #. module: l10n_ro_siruta
 #: model:ir.model,name:l10n_ro_siruta.model_res_country_city
 msgid "Country Cities"
-msgstr "Orașele Țării"
+msgstr ""
 
 #. module: l10n_ro_siruta
 #: model:ir.model,name:l10n_ro_siruta.model_res_country_commune
 msgid "Country Cities/Communes"
-msgstr "Orașele/Comunele Țării"
+msgstr ""
 
 #. module: l10n_ro_siruta
 #: model:ir.model,name:l10n_ro_siruta.model_res_country_zone
 msgid "Country Zones"
-msgstr "Zonele Țării"
+msgstr ""
 
 #. module: l10n_ro_siruta
 #: model:ir.model,name:l10n_ro_siruta.model_res_country_state
 msgid "Country state"
-msgstr "Județele Țării"
+msgstr ""
 
 #. module: l10n_ro_siruta
 #: field:res.country.city,create_uid:0 field:res.country.commune,create_uid:0
 #: field:res.country.zone,create_uid:0
 msgid "Created by"
-msgstr "Creeat de"
+msgstr "Laget av"
 
 #. module: l10n_ro_siruta
 #: field:res.country.city,create_date:0
 #: field:res.country.commune,create_date:0
 #: field:res.country.zone,create_date:0
 msgid "Created on"
-msgstr "Creeat în"
+msgstr "Laget den"
 
 #. module: l10n_ro_siruta
 #: field:res.country.city,display_name:0
 #: field:res.country.commune,display_name:0
 #: field:res.country.zone,display_name:0
 msgid "Display Name"
-msgstr "Nume Afişat"
+msgstr "Vis navn"
 
 #. module: l10n_ro_siruta
 #: field:res.country.city,id:0 field:res.country.commune,id:0
@@ -115,19 +115,19 @@ msgstr "ID"
 #: field:res.country.commune,__last_update:0
 #: field:res.country.zone,__last_update:0
 msgid "Last Modified on"
-msgstr "Ultima actualizare în"
+msgstr "Sist endret den"
 
 #. module: l10n_ro_siruta
 #: field:res.country.city,write_uid:0 field:res.country.commune,write_uid:0
 #: field:res.country.zone,write_uid:0
 msgid "Last Updated by"
-msgstr "Ultima actualizare de"
+msgstr "Sist oppdatert av"
 
 #. module: l10n_ro_siruta
 #: field:res.country.city,write_date:0 field:res.country.commune,write_date:0
 #: field:res.country.zone,write_date:0
 msgid "Last Updated on"
-msgstr "Ultima actualizare în"
+msgstr "Sist oppdatert den"
 
 #. module: l10n_ro_siruta
 #: view:res.country.city:l10n_ro_siruta.view_city_form
@@ -137,30 +137,30 @@ msgstr "Ultima actualizare în"
 #: view:res.country.zone:l10n_ro_siruta.view_zone_form
 #: field:res.country.zone,name:0
 msgid "Name"
-msgstr "Nume"
+msgstr ""
 
 #. module: l10n_ro_siruta
 #: model:ir.model,name:l10n_ro_siruta.model_res_partner
 msgid "Partner"
-msgstr "Partener"
+msgstr "Partner"
 
 #. module: l10n_ro_siruta
 #: field:res.country.city,siruta:0 field:res.country.commune,siruta:0
 #: field:res.country.state,siruta:0 field:res.country.zone,siruta:0
 msgid "Siruta"
-msgstr "Siruta"
+msgstr ""
 
 #. module: l10n_ro_siruta
 #: field:res.country.city,state_id:0 field:res.country.commune,state_id:0
 #: field:res.country.zone,state_ids:0
 #: view:res.partner:l10n_ro_siruta.partners_form_address
 msgid "State"
-msgstr "Județ"
+msgstr "Stat"
 
 #. module: l10n_ro_siruta
 #: view:res.partner:l10n_ro_siruta.partners_form_address
 msgid "ZIP"
-msgstr "Cod Poștal"
+msgstr ""
 
 #. module: l10n_ro_siruta
 #: field:res.country.city,zone_id:0 field:res.country.commune,zone_id:0
@@ -169,7 +169,7 @@ msgstr "Cod Poștal"
 #: view:res.partner:l10n_ro_siruta.partners_form_address
 #: field:res.partner,zone_id:0
 msgid "Zone"
-msgstr "Zonă"
+msgstr ""
 
 #. module: l10n_ro_siruta
 #: model:ir.actions.act_window,name:l10n_ro_siruta.action_zone
@@ -177,4 +177,4 @@ msgstr "Zonă"
 #: view:res.country.zone:l10n_ro_siruta.view_zone_search
 #: view:res.country.zone:l10n_ro_siruta.view_zone_tree
 msgid "Zones"
-msgstr "Zone"
+msgstr ""
