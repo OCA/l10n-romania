@@ -19,6 +19,7 @@ Available addons
 addon | version | summary
 --- | --- | ---
 [l10n_ro_config](l10n_ro_config/) | 8.0.1.0.0 | Romania - Localization Install and Config Apllications
+[l10n_ro_partner_unique](l10n_ro_partner_unique/) | 8.0.1.0.0 | Creates a rule for vat and nrc unique for partners.
 [l10n_ro_siruta](l10n_ro_siruta/) | 8.0.1.0.0 | Romania - Siruta
 
 [//]: # (end addons)
