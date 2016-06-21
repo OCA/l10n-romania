@@ -3,7 +3,7 @@
 # See README.rst file on addons root folder for license details
 {
     'name': 'MT940 BRD Format Bank Statements Import',
-    'version': '8.0.0.1.0',
+    'version': '8.0.1.0.0',
     'license': 'AGPL-3',
     'author': 'Forest and Biomass Services Romania, '
               'Odoo Community Association (OCA)',

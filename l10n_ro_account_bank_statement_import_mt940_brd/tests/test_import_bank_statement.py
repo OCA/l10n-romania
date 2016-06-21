@@ -12,7 +12,7 @@ class TestImport(TestStatementFile):
     def test_statement_import(self):
         """Test correct creation of single statement."""
         self._test_statement_import(
-            'account_bank_statement_import_mt940_ro_brd', 'test-brd.940',
+            'l10n_ro_account_bank_statement_import_mt940_brd', 'test-brd.940',
             '00138/1',
             start_balance=3885.24, end_balance=3671.88
         )
