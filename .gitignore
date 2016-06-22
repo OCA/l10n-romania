@@ -58,5 +58,3 @@ docs/_build/
 # OSX Files
 *.DS_Store
 
-# ANAF Data
-l10n_ro_vat_on_payment/data/
