@@ -10,7 +10,7 @@ from zipfile import ZipFile
 from StringIO import StringIO
 import requests
 
-from openerp import models, fields, api
+from openerp import models, fields, api, tools
 from openerp.tools import DEFAULT_SERVER_DATE_FORMAT as DATE_FORMAT
 
 ANAF_URL = 'http://static.anaf.ro/static/10/Anaf/TVA_incasare/ultim_%s.zip'
@@ -37,8 +37,7 @@ class ResPartnerAnaf(models.Model):
         """ Download VAT on Payment data from ANAF if the file
             was not modified in the same date
         """
-        data_dir = os.path.join(os.path.dirname(
-            os.path.dirname(os.path.abspath(__file__))), 'data')
+        data_dir = tools.config['data_dir']
         istoric = os.path.join(data_dir, "istoric.txt")
         if os.path.exists(istoric):
             modify = date.fromtimestamp(os.path.getmtime(istoric))
@@ -100,8 +99,7 @@ class ResPartner(models.Model):
         if vat_numbers == []:
             return
         anaf_obj = self.env['res.partner.anaf']
-        data_dir = os.path.join(os.path.dirname(
-            os.path.dirname(os.path.abspath(__file__))), 'data')
+        data_dir = tools.config['data_dir']
         istoric = os.path.join(data_dir, "istoric.txt")
         vat_regex = '^[0-9]+#(%s)#' % '|'.join(vat_numbers)
         anaf_data = Popen(['egrep', vat_regex, istoric], stdout=PIPE)
