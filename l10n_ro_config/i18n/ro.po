@@ -1,0 +1,153 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# * l10n_ro_config
+# 
+# Translators:
+# Fekete Mihai <mihai.fekete@forestandbiomass.ro>, 2016
+msgid ""
+msgstr ""
+"Project-Id-Version: l10n-romania (8.0)\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2016-05-07 02:39+0000\n"
+"PO-Revision-Date: 2016-05-06 05:22+0000\n"
+"Last-Translator: Fekete Mihai <mihai.fekete@forestandbiomass.ro>\n"
+"Language-Team: Romanian (http://www.transifex.com/oca/OCA-l10n-romania-8-0/language/ro/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Language: ro\n"
+"Plural-Forms: nplurals=3; plural=(n==1?0:(((n%100>19)||((n%100==0)&&(n!=0)))?2:1));\n"
+
+#. module: l10n_ro_config
+#: view:l10n.ro.config.settings:l10n_ro_config.view_l10n_ro_config_settings
+msgid "Apply"
+msgstr "Aplică"
+
+#. module: l10n_ro_config
+#: view:l10n.ro.config.settings:l10n_ro_config.view_l10n_ro_config_settings
+msgid "Cancel"
+msgstr "Anulează"
+
+#. module: l10n_ro_config
+#: field:l10n.ro.config.settings,company_id:0
+msgid "Company"
+msgstr "Compania"
+
+#. module: l10n_ro_config
+#: view:l10n.ro.config.settings:l10n_ro_config.view_l10n_ro_config_settings
+msgid "Configure Applications - Romania"
+msgstr "Configurează Aplicațiile - România"
+
+#. module: l10n_ro_config
+#: field:l10n.ro.config.settings,create_uid:0
+msgid "Created by"
+msgstr "Creeat de"
+
+#. module: l10n_ro_config
+#: field:l10n.ro.config.settings,create_date:0
+msgid "Created on"
+msgstr "Creeat în"
+
+#. module: l10n_ro_config
+#: field:l10n.ro.config.settings,display_name:0
+msgid "Display Name"
+msgstr "Nume Afişat"
+
+#. module: l10n_ro_config
+#: view:l10n.ro.config.settings:l10n_ro_config.view_l10n_ro_config_settings
+msgid "General"
+msgstr "General"
+
+#. module: l10n_ro_config
+#: field:l10n.ro.config.settings,has_default_company:0
+msgid "Has default company"
+msgstr "Are compania implicită"
+
+#. module: l10n_ro_config
+#: field:l10n.ro.config.settings,id:0
+msgid "ID"
+msgstr "ID"
+
+#. module: l10n_ro_config
+#: field:l10n.ro.config.settings,__last_update:0
+msgid "Last Modified on"
+msgstr "Ultima actualizare în"
+
+#. module: l10n_ro_config
+#: field:l10n.ro.config.settings,write_uid:0
+msgid "Last Updated by"
+msgstr "Ultima actualizare de"
+
+#. module: l10n_ro_config
+#: field:l10n.ro.config.settings,write_date:0
+msgid "Last Updated on"
+msgstr "Ultima actualizare în"
+
+#. module: l10n_ro_config
+#: field:l10n.ro.config.settings,siruta_update:0
+msgid "Load / Update Siruta Data"
+msgstr "Încarcă / Actualizează datele SIRUTA"
+
+#. module: l10n_ro_config
+#: view:l10n.ro.config.settings:l10n_ro_config.view_l10n_ro_config_settings
+msgid "Localization"
+msgstr "Localizare"
+
+#. module: l10n_ro_config
+#: view:l10n.ro.config.settings:l10n_ro_config.view_l10n_ro_config_settings
+msgid "Partners"
+msgstr "Parteneri"
+
+#. module: l10n_ro_config
+#: field:l10n.ro.config.settings,module_l10n_ro_partner_unique:0
+msgid "Partners unique by VAT, NRC"
+msgstr "Unicitate parteneri după CUI, NRC"
+
+#. module: l10n_ro_config
+#: model:ir.ui.menu,name:l10n_ro_config.menu_account_config
+msgid "Romania"
+msgstr "România"
+
+#. module: l10n_ro_config
+#: field:l10n.ro.config.settings,module_l10n_ro_partner_create_by_vat:0
+msgid "Romania - Partner Create by VAT"
+msgstr "România - Creează Parteneri după CUI"
+
+#. module: l10n_ro_config
+#: model:ir.actions.act_window,name:l10n_ro_config.action_l10n_ro_config
+msgid "Romanian Applications"
+msgstr "Aplicații România"
+
+#. module: l10n_ro_config
+#: field:l10n.ro.config.settings,module_l10n_ro_siruta:0
+msgid "Romanian SIRUTA"
+msgstr "SIRUTA România"
+
+#. module: l10n_ro_config
+#: view:l10n.ro.config.settings:l10n_ro_config.view_l10n_ro_config_settings
+msgid "Select Company"
+msgstr "Selectează Compania"
+
+#. module: l10n_ro_config
+#: help:l10n.ro.config.settings,module_l10n_ro_partner_create_by_vat:0
+msgid ""
+"This allows you to create partners by VAT based on Ministry of Finance or "
+"OpenAPI webservices."
+msgstr "Acest modul vă permite sa creeați parteneri după CUI de pe serviciile Ministerului Finanțelor sau OpenAPI."
+
+#. module: l10n_ro_config
+#: help:l10n.ro.config.settings,module_l10n_ro_partner_unique:0
+msgid "This allows you to have unique partners by VAT and NRC."
+msgstr "Acest modul vă permite unicitatea partenerilor după CUI si NRC."
+
+#. module: l10n_ro_config
+#: help:l10n.ro.config.settings,module_l10n_ro_siruta:0
+msgid ""
+"This allows you to manage the Romanian Zones, States, Communes, Cities:\n"
+"The address fields will contain city, commune, state, zone, country, zip."
+msgstr "Acest modul vă permite să gestionați Zonele, Județele, Comunele, Orașele României:\nCâmpurile din adresă vor conține orașul, comuna, județul, zona, țara, codul poștal."
+
+#. module: l10n_ro_config
+#: view:l10n.ro.config.settings:l10n_ro_config.view_l10n_ro_config_settings
+msgid "or"
+msgstr "sau"
