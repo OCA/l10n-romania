@@ -4,13 +4,14 @@
 # 
 # Translators:
 # OCA Transbot <transbot@odoo-community.org>, 2016
+# Fekete Mihai <mihai.fekete@forestandbiomass.ro>, 2016
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 8.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-07-03 00:01+0000\n"
-"PO-Revision-Date: 2016-07-03 00:01+0000\n"
-"Last-Translator: OCA Transbot <transbot@odoo-community.org>, 2016\n"
+"POT-Creation-Date: 2016-07-10 00:01+0000\n"
+"PO-Revision-Date: 2016-07-10 00:01+0000\n"
+"Last-Translator: Fekete Mihai <mihai.fekete@forestandbiomass.ro>, 2016\n"
 "Language-Team: Romanian (https://www.transifex.com/oca/teams/23907/ro/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -57,7 +58,7 @@ msgstr "Creeat în"
 #. module: l10n_ro_vat_on_payment
 #: field:res.partner.anaf,display_name:0
 msgid "Display Name"
-msgstr ""
+msgstr "Nume Afişat"
 
 #. module: l10n_ro_vat_on_payment
 #: field:res.partner.anaf,end_date:0
@@ -87,7 +88,7 @@ msgstr "Este Bon Fiscal"
 #. module: l10n_ro_vat_on_payment
 #: field:res.partner.anaf,__last_update:0
 msgid "Last Modified on"
-msgstr ""
+msgstr "Ultima actualizare în"
 
 #. module: l10n_ro_vat_on_payment
 #: field:res.partner.anaf,write_uid:0
@@ -147,12 +148,12 @@ msgstr "TVA"
 #. module: l10n_ro_vat_on_payment
 #: field:res.partner,vat_number:0
 msgid "VAT number"
-msgstr ""
+msgstr "Număr TVA"
 
 #. module: l10n_ro_vat_on_payment
 #: help:res.partner,vat_number:0
 msgid "VAT number without country code."
-msgstr ""
+msgstr "Număr TVA fără cod ţară."
 
 #. module: l10n_ro_vat_on_payment
 #: view:res.partner:l10n_ro_vat_on_payment.view_partner_anaf_form
@@ -167,3 +168,5 @@ msgid ""
 "onchange_partner_id(type, partner_id, date_invoice, payment_term, "
 "partner_bank_id, company_id, context)"
 msgstr ""
+"onchange_partner_id(type, partner_id, date_invoice, payment_term, "
+"partner_bank_id, company_id, context)"
