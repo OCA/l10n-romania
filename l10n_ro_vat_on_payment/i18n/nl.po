@@ -4,19 +4,18 @@
 # 
 # Translators:
 # OCA Transbot <transbot@odoo-community.org>, 2016
-# Andrea Cometa <a.cometa@apuliasoftware.it>, 2016
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 8.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-09-17 18:04+0000\n"
 "PO-Revision-Date: 2016-09-17 18:04+0000\n"
-"Last-Translator: Andrea Cometa <a.cometa@apuliasoftware.it>, 2016\n"
-"Language-Team: Italian (https://www.transifex.com/oca/teams/23907/it/)\n"
+"Last-Translator: OCA Transbot <transbot@odoo-community.org>, 2016\n"
+"Language-Team: Dutch (https://www.transifex.com/oca/teams/23907/nl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
-"Language: it\n"
+"Language: nl\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #. module: l10n_ro_vat_on_payment
@@ -48,22 +47,22 @@ msgstr ""
 #. module: l10n_ro_vat_on_payment
 #: field:res.partner.anaf,create_uid:0
 msgid "Created by"
-msgstr "Creato da"
+msgstr ""
 
 #. module: l10n_ro_vat_on_payment
 #: field:res.partner.anaf,create_date:0
 msgid "Created on"
-msgstr "Creato il"
+msgstr ""
 
 #. module: l10n_ro_vat_on_payment
 #: field:res.partner.anaf,display_name:0
 msgid "Display Name"
-msgstr "Nome da visualizzare"
+msgstr "Te tonen naam"
 
 #. module: l10n_ro_vat_on_payment
 #: field:res.partner.anaf,end_date:0
 msgid "End Date"
-msgstr "Data fine"
+msgstr ""
 
 #. module: l10n_ro_vat_on_payment
 #: selection:res.partner.anaf,operation_type:0
@@ -73,12 +72,12 @@ msgstr ""
 #. module: l10n_ro_vat_on_payment
 #: field:res.partner.anaf,id:0
 msgid "ID"
-msgstr "ID"
+msgstr ""
 
 #. module: l10n_ro_vat_on_payment
 #: model:ir.model,name:l10n_ro_vat_on_payment.model_account_invoice
 msgid "Invoice"
-msgstr "Fattura"
+msgstr ""
 
 #. module: l10n_ro_vat_on_payment
 #: field:account.invoice,fiscal_receipt:0
@@ -88,17 +87,17 @@ msgstr ""
 #. module: l10n_ro_vat_on_payment
 #: field:res.partner.anaf,__last_update:0
 msgid "Last Modified on"
-msgstr "Ultima modifica il"
+msgstr "Laatst bijgewerkt op"
 
 #. module: l10n_ro_vat_on_payment
 #: field:res.partner.anaf,write_uid:0
 msgid "Last Updated by"
-msgstr "Ultimo aggiornamento di"
+msgstr ""
 
 #. module: l10n_ro_vat_on_payment
 #: field:res.partner.anaf,write_date:0
 msgid "Last Updated on"
-msgstr "Ultimo aggiornamento il"
+msgstr ""
 
 #. module: l10n_ro_vat_on_payment
 #: field:res.partner.anaf,operation_date:0
@@ -113,7 +112,7 @@ msgstr ""
 #. module: l10n_ro_vat_on_payment
 #: model:ir.model,name:l10n_ro_vat_on_payment.model_res_partner
 msgid "Partner"
-msgstr "Partner"
+msgstr "Relatie"
 
 #. module: l10n_ro_vat_on_payment
 #: field:res.partner.anaf,publish_date:0
@@ -133,7 +132,7 @@ msgstr ""
 #. module: l10n_ro_vat_on_payment
 #: field:res.partner.anaf,start_date:0
 msgid "Start Date"
-msgstr "Data inizio"
+msgstr ""
 
 #. module: l10n_ro_vat_on_payment
 #: view:res.partner:l10n_ro_vat_on_payment.partners_form_add_vat_payment
