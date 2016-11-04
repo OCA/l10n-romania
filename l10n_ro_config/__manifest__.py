@@ -12,7 +12,7 @@
     'website': 'https://www.forbiom.eu',
     'license': 'AGPL-3',
     'application': False,
-    'installable': True,
+    'installable': False,
     'depends': ['l10n_ro'],
     'data': ['views/res_config_view.xml'],
     'images': [],
