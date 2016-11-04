@@ -15,7 +15,7 @@ python:
 
 env:
   global:
-  - VERSION="8.0" TESTS="0" LINT_CHECK="0" TRANSIFEX="0"
+  - VERSION="10.0" TESTS="0" LINT_CHECK="0" TRANSIFEX="0"
   - TRANSIFEX_USER='transbot@odoo-community.org'
   - secure: BIxyobsp4CrZ5IU7vR3XuBhdHtR5y2TjxXs1BPe+omUlgZcfFhtr4OqYGXwFHZPHDiWvk57I1q9rKazWrI+a6n96uB4kxka3E/foU780/VZRipB7q6MgEkGIOTUPqjghCPnUaGoPKfw4JrX6MJj1RBD6XQT3wq8vLkjClKhx/XU=
 
