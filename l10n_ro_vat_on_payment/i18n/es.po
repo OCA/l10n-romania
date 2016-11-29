@@ -63,7 +63,7 @@ msgstr "Nombre mostrado"
 #. module: l10n_ro_vat_on_payment
 #: field:res.partner.anaf,end_date:0
 msgid "End Date"
-msgstr ""
+msgstr "Fecha Final"
 
 #. module: l10n_ro_vat_on_payment
 #: selection:res.partner.anaf,operation_type:0
@@ -78,7 +78,7 @@ msgstr "ID"
 #. module: l10n_ro_vat_on_payment
 #: model:ir.model,name:l10n_ro_vat_on_payment.model_account_invoice
 msgid "Invoice"
-msgstr ""
+msgstr "Factura"
 
 #. module: l10n_ro_vat_on_payment
 #: field:account.invoice,fiscal_receipt:0
@@ -133,7 +133,7 @@ msgstr ""
 #. module: l10n_ro_vat_on_payment
 #: field:res.partner.anaf,start_date:0
 msgid "Start Date"
-msgstr ""
+msgstr "Fecha de inicio"
 
 #. module: l10n_ro_vat_on_payment
 #: view:res.partner:l10n_ro_vat_on_payment.partners_form_add_vat_payment

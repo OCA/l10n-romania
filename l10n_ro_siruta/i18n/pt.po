@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: l10n-romania (8.0)\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-08-26 15:51+0000\n"
+"POT-Creation-Date: 2016-09-17 18:04+0000\n"
 "PO-Revision-Date: 2016-05-03 12:28+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: Portuguese (http://www.transifex.com/oca/OCA-l10n-romania-8-0/language/pt/)\n"
@@ -36,7 +36,7 @@ msgstr ""
 #: view:res.partner:l10n_ro_siruta.partners_form_address
 #: field:res.partner,city_id:0
 msgid "City"
-msgstr ""
+msgstr "Cidade"
 
 #. module: l10n_ro_siruta
 #: field:res.country.city,commune_id:0
@@ -62,7 +62,7 @@ msgstr ""
 #: field:res.country.city,country_id:0 field:res.country.commune,country_id:0
 #: field:res.country.zone,country_id:0
 msgid "Country"
-msgstr ""
+msgstr "País"
 
 #. module: l10n_ro_siruta
 #: model:ir.model,name:l10n_ro_siruta.model_res_country_city
@@ -102,7 +102,7 @@ msgstr "Criado em"
 #: field:res.country.commune,display_name:0
 #: field:res.country.zone,display_name:0
 msgid "Display Name"
-msgstr ""
+msgstr "Nome"
 
 #. module: l10n_ro_siruta
 #: field:res.country.city,id:0 field:res.country.commune,id:0
@@ -115,7 +115,7 @@ msgstr "ID"
 #: field:res.country.commune,__last_update:0
 #: field:res.country.zone,__last_update:0
 msgid "Last Modified on"
-msgstr ""
+msgstr "Modificado a última vez por"
 
 #. module: l10n_ro_siruta
 #: field:res.country.city,write_uid:0 field:res.country.commune,write_uid:0
@@ -137,12 +137,12 @@ msgstr "Atualizado pela última vez em"
 #: view:res.country.zone:l10n_ro_siruta.view_zone_form
 #: field:res.country.zone,name:0
 msgid "Name"
-msgstr ""
+msgstr "Nome"
 
 #. module: l10n_ro_siruta
 #: model:ir.model,name:l10n_ro_siruta.model_res_partner
 msgid "Partner"
-msgstr ""
+msgstr "Parceiro"
 
 #. module: l10n_ro_siruta
 #: field:res.country.city,siruta:0 field:res.country.commune,siruta:0
@@ -160,7 +160,7 @@ msgstr ""
 #. module: l10n_ro_siruta
 #: view:res.partner:l10n_ro_siruta.partners_form_address
 msgid "ZIP"
-msgstr ""
+msgstr "CP"
 
 #. module: l10n_ro_siruta
 #: field:res.country.city,zone_id:0 field:res.country.commune,zone_id:0

@@ -137,7 +137,7 @@ msgstr "Ultimo aggiornamento il"
 #: view:res.country.zone:l10n_ro_siruta.view_zone_form
 #: field:res.country.zone,name:0
 msgid "Name"
-msgstr ""
+msgstr "Nome"
 
 #. module: l10n_ro_siruta
 #: model:ir.model,name:l10n_ro_siruta.model_res_partner
@@ -155,7 +155,7 @@ msgstr ""
 #: field:res.country.zone,state_ids:0
 #: view:res.partner:l10n_ro_siruta.partners_form_address
 msgid "State"
-msgstr ""
+msgstr "Stato"
 
 #. module: l10n_ro_siruta
 #: view:res.partner:l10n_ro_siruta.partners_form_address

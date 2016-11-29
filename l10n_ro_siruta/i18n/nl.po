@@ -88,14 +88,14 @@ msgstr ""
 #: field:res.country.city,create_uid:0 field:res.country.commune,create_uid:0
 #: field:res.country.zone,create_uid:0
 msgid "Created by"
-msgstr ""
+msgstr "Aangemaakt door"
 
 #. module: l10n_ro_siruta
 #: field:res.country.city,create_date:0
 #: field:res.country.commune,create_date:0
 #: field:res.country.zone,create_date:0
 msgid "Created on"
-msgstr ""
+msgstr "Aangemaakt op"
 
 #. module: l10n_ro_siruta
 #: field:res.country.city,display_name:0
@@ -108,7 +108,7 @@ msgstr "Te tonen naam"
 #: field:res.country.city,id:0 field:res.country.commune,id:0
 #: field:res.country.zone,id:0
 msgid "ID"
-msgstr ""
+msgstr "ID"
 
 #. module: l10n_ro_siruta
 #: field:res.country.city,__last_update:0
@@ -121,13 +121,13 @@ msgstr "Laatst bijgewerkt op"
 #: field:res.country.city,write_uid:0 field:res.country.commune,write_uid:0
 #: field:res.country.zone,write_uid:0
 msgid "Last Updated by"
-msgstr ""
+msgstr "Laatst bijgewerkt door"
 
 #. module: l10n_ro_siruta
 #: field:res.country.city,write_date:0 field:res.country.commune,write_date:0
 #: field:res.country.zone,write_date:0
 msgid "Last Updated on"
-msgstr ""
+msgstr "Laatst bijgewerkt op"
 
 #. module: l10n_ro_siruta
 #: view:res.country.city:l10n_ro_siruta.view_city_form

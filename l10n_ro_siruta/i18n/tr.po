@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: l10n-romania (8.0)\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-08-26 15:51+0000\n"
+"POT-Creation-Date: 2016-09-17 18:04+0000\n"
 "PO-Revision-Date: 2016-05-03 12:28+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: Turkish (http://www.transifex.com/oca/OCA-l10n-romania-8-0/language/tr/)\n"
@@ -137,7 +137,7 @@ msgstr "Son güncelleme"
 #: view:res.country.zone:l10n_ro_siruta.view_zone_form
 #: field:res.country.zone,name:0
 msgid "Name"
-msgstr ""
+msgstr "Adı"
 
 #. module: l10n_ro_siruta
 #: model:ir.model,name:l10n_ro_siruta.model_res_partner
@@ -155,7 +155,7 @@ msgstr ""
 #: field:res.country.zone,state_ids:0
 #: view:res.partner:l10n_ro_siruta.partners_form_address
 msgid "State"
-msgstr ""
+msgstr "Durum"
 
 #. module: l10n_ro_siruta
 #: view:res.partner:l10n_ro_siruta.partners_form_address

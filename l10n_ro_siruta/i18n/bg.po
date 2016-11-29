@@ -102,7 +102,7 @@ msgstr "Създадено на"
 #: field:res.country.commune,display_name:0
 #: field:res.country.zone,display_name:0
 msgid "Display Name"
-msgstr ""
+msgstr "Име за Показване"
 
 #. module: l10n_ro_siruta
 #: field:res.country.city,id:0 field:res.country.commune,id:0

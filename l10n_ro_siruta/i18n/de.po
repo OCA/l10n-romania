@@ -155,7 +155,7 @@ msgstr ""
 #: field:res.country.zone,state_ids:0
 #: view:res.partner:l10n_ro_siruta.partners_form_address
 msgid "State"
-msgstr ""
+msgstr "Status"
 
 #. module: l10n_ro_siruta
 #: view:res.partner:l10n_ro_siruta.partners_form_address

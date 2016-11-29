@@ -102,7 +102,7 @@ msgstr "创建时间"
 #: field:res.country.commune,display_name:0
 #: field:res.country.zone,display_name:0
 msgid "Display Name"
-msgstr ""
+msgstr "显示名称"
 
 #. module: l10n_ro_siruta
 #: field:res.country.city,id:0 field:res.country.commune,id:0
@@ -115,7 +115,7 @@ msgstr "ID"
 #: field:res.country.commune,__last_update:0
 #: field:res.country.zone,__last_update:0
 msgid "Last Modified on"
-msgstr ""
+msgstr "最后修改时间"
 
 #. module: l10n_ro_siruta
 #: field:res.country.city,write_uid:0 field:res.country.commune,write_uid:0
@@ -137,7 +137,7 @@ msgstr "上次更新日期"
 #: view:res.country.zone:l10n_ro_siruta.view_zone_form
 #: field:res.country.zone,name:0
 msgid "Name"
-msgstr ""
+msgstr "名称"
 
 #. module: l10n_ro_siruta
 #: model:ir.model,name:l10n_ro_siruta.model_res_partner

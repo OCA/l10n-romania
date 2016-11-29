@@ -1,0 +1,180 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# * l10n_ro_siruta
+# 
+# Translators:
+msgid ""
+msgstr ""
+"Project-Id-Version: l10n-romania (8.0)\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2016-09-17 18:04+0000\n"
+"PO-Revision-Date: 2016-05-03 12:28+0000\n"
+"Last-Translator: <>\n"
+"Language-Team: Persian (http://www.transifex.com/oca/OCA-l10n-romania-8-0/language/fa/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Language: fa\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+
+#. module: l10n_ro_siruta
+#: model:ir.actions.act_window,name:l10n_ro_siruta.action_city
+#: model:ir.ui.menu,name:l10n_ro_siruta.menu_city
+#: view:res.country.city:l10n_ro_siruta.view_city_search
+#: view:res.country.city:l10n_ro_siruta.view_city_tree
+#: field:res.country.state,city_ids:0
+msgid "Cities"
+msgstr ""
+
+#. module: l10n_ro_siruta
+#: field:res.country.state,commune_ids:0
+msgid "Cities/Communes"
+msgstr ""
+
+#. module: l10n_ro_siruta
+#: view:res.country.city:l10n_ro_siruta.view_city_form
+#: view:res.partner:l10n_ro_siruta.partners_form_address
+#: field:res.partner,city_id:0
+msgid "City"
+msgstr ""
+
+#. module: l10n_ro_siruta
+#: field:res.country.city,commune_id:0
+#: view:res.partner:l10n_ro_siruta.partners_form_address
+#: field:res.partner,commune_id:0
+msgid "City/Commune"
+msgstr ""
+
+#. module: l10n_ro_siruta
+#: view:res.country.commune:l10n_ro_siruta.view_commune_form
+msgid "Commune"
+msgstr ""
+
+#. module: l10n_ro_siruta
+#: model:ir.actions.act_window,name:l10n_ro_siruta.action_commune
+#: model:ir.ui.menu,name:l10n_ro_siruta.menu_commune
+#: view:res.country.commune:l10n_ro_siruta.view_commune_search
+#: view:res.country.commune:l10n_ro_siruta.view_commune_tree
+msgid "Communes"
+msgstr ""
+
+#. module: l10n_ro_siruta
+#: field:res.country.city,country_id:0 field:res.country.commune,country_id:0
+#: field:res.country.zone,country_id:0
+msgid "Country"
+msgstr ""
+
+#. module: l10n_ro_siruta
+#: model:ir.model,name:l10n_ro_siruta.model_res_country_city
+msgid "Country Cities"
+msgstr ""
+
+#. module: l10n_ro_siruta
+#: model:ir.model,name:l10n_ro_siruta.model_res_country_commune
+msgid "Country Cities/Communes"
+msgstr ""
+
+#. module: l10n_ro_siruta
+#: model:ir.model,name:l10n_ro_siruta.model_res_country_zone
+msgid "Country Zones"
+msgstr ""
+
+#. module: l10n_ro_siruta
+#: model:ir.model,name:l10n_ro_siruta.model_res_country_state
+msgid "Country state"
+msgstr ""
+
+#. module: l10n_ro_siruta
+#: field:res.country.city,create_uid:0 field:res.country.commune,create_uid:0
+#: field:res.country.zone,create_uid:0
+msgid "Created by"
+msgstr "ایجاد شده توسط"
+
+#. module: l10n_ro_siruta
+#: field:res.country.city,create_date:0
+#: field:res.country.commune,create_date:0
+#: field:res.country.zone,create_date:0
+msgid "Created on"
+msgstr "ایجاد شده در"
+
+#. module: l10n_ro_siruta
+#: field:res.country.city,display_name:0
+#: field:res.country.commune,display_name:0
+#: field:res.country.zone,display_name:0
+msgid "Display Name"
+msgstr "نام نمایشی"
+
+#. module: l10n_ro_siruta
+#: field:res.country.city,id:0 field:res.country.commune,id:0
+#: field:res.country.zone,id:0
+msgid "ID"
+msgstr "شناسه"
+
+#. module: l10n_ro_siruta
+#: field:res.country.city,__last_update:0
+#: field:res.country.commune,__last_update:0
+#: field:res.country.zone,__last_update:0
+msgid "Last Modified on"
+msgstr "تاریخ آخرین به‌روزرسانی"
+
+#. module: l10n_ro_siruta
+#: field:res.country.city,write_uid:0 field:res.country.commune,write_uid:0
+#: field:res.country.zone,write_uid:0
+msgid "Last Updated by"
+msgstr "آخرین به روز رسانی توسط"
+
+#. module: l10n_ro_siruta
+#: field:res.country.city,write_date:0 field:res.country.commune,write_date:0
+#: field:res.country.zone,write_date:0
+msgid "Last Updated on"
+msgstr "آخرین به روز رسانی در"
+
+#. module: l10n_ro_siruta
+#: view:res.country.city:l10n_ro_siruta.view_city_form
+#: field:res.country.city,name:0
+#: view:res.country.commune:l10n_ro_siruta.view_commune_form
+#: field:res.country.commune,name:0
+#: view:res.country.zone:l10n_ro_siruta.view_zone_form
+#: field:res.country.zone,name:0
+msgid "Name"
+msgstr "نام"
+
+#. module: l10n_ro_siruta
+#: model:ir.model,name:l10n_ro_siruta.model_res_partner
+msgid "Partner"
+msgstr ""
+
+#. module: l10n_ro_siruta
+#: field:res.country.city,siruta:0 field:res.country.commune,siruta:0
+#: field:res.country.state,siruta:0 field:res.country.zone,siruta:0
+msgid "Siruta"
+msgstr ""
+
+#. module: l10n_ro_siruta
+#: field:res.country.city,state_id:0 field:res.country.commune,state_id:0
+#: field:res.country.zone,state_ids:0
+#: view:res.partner:l10n_ro_siruta.partners_form_address
+msgid "State"
+msgstr ""
+
+#. module: l10n_ro_siruta
+#: view:res.partner:l10n_ro_siruta.partners_form_address
+msgid "ZIP"
+msgstr ""
+
+#. module: l10n_ro_siruta
+#: field:res.country.city,zone_id:0 field:res.country.commune,zone_id:0
+#: field:res.country.state,zone_id:0
+#: view:res.country.zone:l10n_ro_siruta.view_zone_form
+#: view:res.partner:l10n_ro_siruta.partners_form_address
+#: field:res.partner,zone_id:0
+msgid "Zone"
+msgstr ""
+
+#. module: l10n_ro_siruta
+#: model:ir.actions.act_window,name:l10n_ro_siruta.action_zone
+#: model:ir.ui.menu,name:l10n_ro_siruta.menu_zone
+#: view:res.country.zone:l10n_ro_siruta.view_zone_search
+#: view:res.country.zone:l10n_ro_siruta.view_zone_tree
+msgid "Zones"
+msgstr ""

@@ -57,7 +57,7 @@ msgstr "Създадено на"
 #. module: l10n_ro_vat_on_payment
 #: field:res.partner.anaf,display_name:0
 msgid "Display Name"
-msgstr ""
+msgstr "Име за Показване"
 
 #. module: l10n_ro_vat_on_payment
 #: field:res.partner.anaf,end_date:0

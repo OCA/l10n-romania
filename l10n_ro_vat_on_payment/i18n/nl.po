@@ -47,12 +47,12 @@ msgstr ""
 #. module: l10n_ro_vat_on_payment
 #: field:res.partner.anaf,create_uid:0
 msgid "Created by"
-msgstr ""
+msgstr "Aangemaakt door"
 
 #. module: l10n_ro_vat_on_payment
 #: field:res.partner.anaf,create_date:0
 msgid "Created on"
-msgstr ""
+msgstr "Aangemaakt op"
 
 #. module: l10n_ro_vat_on_payment
 #: field:res.partner.anaf,display_name:0
@@ -72,7 +72,7 @@ msgstr ""
 #. module: l10n_ro_vat_on_payment
 #: field:res.partner.anaf,id:0
 msgid "ID"
-msgstr ""
+msgstr "ID"
 
 #. module: l10n_ro_vat_on_payment
 #: model:ir.model,name:l10n_ro_vat_on_payment.model_account_invoice
@@ -92,12 +92,12 @@ msgstr "Laatst bijgewerkt op"
 #. module: l10n_ro_vat_on_payment
 #: field:res.partner.anaf,write_uid:0
 msgid "Last Updated by"
-msgstr ""
+msgstr "Laatst bijgewerkt door"
 
 #. module: l10n_ro_vat_on_payment
 #: field:res.partner.anaf,write_date:0
 msgid "Last Updated on"
-msgstr ""
+msgstr "Laatst bijgewerkt op"
 
 #. module: l10n_ro_vat_on_payment
 #: field:res.partner.anaf,operation_date:0

@@ -62,7 +62,7 @@ msgstr "Nom à afficher"
 #. module: l10n_ro_vat_on_payment
 #: field:res.partner.anaf,end_date:0
 msgid "End Date"
-msgstr ""
+msgstr "Date de fin"
 
 #. module: l10n_ro_vat_on_payment
 #: selection:res.partner.anaf,operation_type:0
