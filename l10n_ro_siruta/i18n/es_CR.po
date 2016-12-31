@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: l10n-romania (8.0)\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-09-17 18:04+0000\n"
+"POT-Creation-Date: 2016-12-24 02:52+0000\n"
 "PO-Revision-Date: 2016-05-03 12:28+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: Spanish (Costa Rica) (http://www.transifex.com/oca/OCA-l10n-romania-8-0/language/es_CR/)\n"
@@ -88,7 +88,7 @@ msgstr ""
 #: field:res.country.city,create_uid:0 field:res.country.commune,create_uid:0
 #: field:res.country.zone,create_uid:0
 msgid "Created by"
-msgstr ""
+msgstr "Creado por"
 
 #. module: l10n_ro_siruta
 #: field:res.country.city,create_date:0
@@ -121,13 +121,13 @@ msgstr ""
 #: field:res.country.city,write_uid:0 field:res.country.commune,write_uid:0
 #: field:res.country.zone,write_uid:0
 msgid "Last Updated by"
-msgstr ""
+msgstr "Ultima actualización por"
 
 #. module: l10n_ro_siruta
 #: field:res.country.city,write_date:0 field:res.country.commune,write_date:0
 #: field:res.country.zone,write_date:0
 msgid "Last Updated on"
-msgstr ""
+msgstr "Ultima actualización en"
 
 #. module: l10n_ro_siruta
 #: view:res.country.city:l10n_ro_siruta.view_city_form
@@ -142,7 +142,7 @@ msgstr "Nombre"
 #. module: l10n_ro_siruta
 #: model:ir.model,name:l10n_ro_siruta.model_res_partner
 msgid "Partner"
-msgstr ""
+msgstr "Empresa"
 
 #. module: l10n_ro_siruta
 #: field:res.country.city,siruta:0 field:res.country.commune,siruta:0

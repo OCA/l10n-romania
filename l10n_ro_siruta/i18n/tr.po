@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: l10n-romania (8.0)\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-09-17 18:04+0000\n"
+"POT-Creation-Date: 2016-12-24 02:52+0000\n"
 "PO-Revision-Date: 2016-05-03 12:28+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: Turkish (http://www.transifex.com/oca/OCA-l10n-romania-8-0/language/tr/)\n"
@@ -62,7 +62,7 @@ msgstr ""
 #: field:res.country.city,country_id:0 field:res.country.commune,country_id:0
 #: field:res.country.zone,country_id:0
 msgid "Country"
-msgstr ""
+msgstr "Ülke"
 
 #. module: l10n_ro_siruta
 #: model:ir.model,name:l10n_ro_siruta.model_res_country_city
@@ -102,7 +102,7 @@ msgstr "Oluşturuldu"
 #: field:res.country.commune,display_name:0
 #: field:res.country.zone,display_name:0
 msgid "Display Name"
-msgstr ""
+msgstr "Görünen İsim"
 
 #. module: l10n_ro_siruta
 #: field:res.country.city,id:0 field:res.country.commune,id:0
@@ -115,7 +115,7 @@ msgstr "ID"
 #: field:res.country.commune,__last_update:0
 #: field:res.country.zone,__last_update:0
 msgid "Last Modified on"
-msgstr ""
+msgstr "Son değişiklik"
 
 #. module: l10n_ro_siruta
 #: field:res.country.city,write_uid:0 field:res.country.commune,write_uid:0
@@ -142,7 +142,7 @@ msgstr "Adı"
 #. module: l10n_ro_siruta
 #: model:ir.model,name:l10n_ro_siruta.model_res_partner
 msgid "Partner"
-msgstr ""
+msgstr "İş Ortağı"
 
 #. module: l10n_ro_siruta
 #: field:res.country.city,siruta:0 field:res.country.commune,siruta:0

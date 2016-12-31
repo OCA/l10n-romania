@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: l10n-romania (8.0)\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-09-17 18:04+0000\n"
-"PO-Revision-Date: 2016-11-25 14:57+0000\n"
+"POT-Creation-Date: 2016-12-24 02:52+0000\n"
+"PO-Revision-Date: 2016-12-30 21:51+0000\n"
 "Last-Translator: OCA Transbot <transbot@odoo-community.org>\n"
 "Language-Team: Turkish (http://www.transifex.com/oca/OCA-l10n-romania-8-0/language/tr/)\n"
 "MIME-Version: 1.0\n"
@@ -30,7 +30,7 @@ msgstr "Vazgeç"
 #. module: l10n_ro_config
 #: field:l10n.ro.config.settings,company_id:0
 msgid "Company"
-msgstr ""
+msgstr "Şirket"
 
 #. module: l10n_ro_config
 #: view:l10n.ro.config.settings:l10n_ro_config.view_l10n_ro_config_settings
@@ -50,7 +50,7 @@ msgstr "Oluşturuldu"
 #. module: l10n_ro_config
 #: field:l10n.ro.config.settings,display_name:0
 msgid "Display Name"
-msgstr ""
+msgstr "Görünen İsim"
 
 #. module: l10n_ro_config
 #: view:l10n.ro.config.settings:l10n_ro_config.view_l10n_ro_config_settings
@@ -70,7 +70,7 @@ msgstr "ID"
 #. module: l10n_ro_config
 #: field:l10n.ro.config.settings,__last_update:0
 msgid "Last Modified on"
-msgstr ""
+msgstr "Son değişiklik"
 
 #. module: l10n_ro_config
 #: field:l10n.ro.config.settings,write_uid:0
@@ -95,7 +95,7 @@ msgstr ""
 #. module: l10n_ro_config
 #: view:l10n.ro.config.settings:l10n_ro_config.view_l10n_ro_config_settings
 msgid "Partners"
-msgstr ""
+msgstr "Ortaklar"
 
 #. module: l10n_ro_config
 #: field:l10n.ro.config.settings,module_l10n_ro_partner_unique:0
