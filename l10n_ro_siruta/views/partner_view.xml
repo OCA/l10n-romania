@@ -1,0 +1,39 @@
+<?xml version="1.0"?>
+<openerp>
+    <data>
+
+<!-- Partner -->
+
+   <record model="ir.ui.view" id="partners_form_address">
+        <field name="name">partners_form_address</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_form"/>
+        <field eval="18" name="priority"/>
+        <field name="arch" type="xml">
+            <div class="address_format" position="replace">
+                <div class="address_format">
+                    <field name="city" invisible="1"/>
+                    <field name="city_id" placeholder="City" style="width: 50%%"
+                           attrs="{'readonly': [('use_parent_address','=',True)]}"/>
+                    <field name="commune_id" class="oe_no_button"
+                           placeholder="City/Commune" style="width: 50%%"
+                           options='{"no_open": True}'
+                           attrs="{'readonly': [('use_parent_address','=',True)]}"/>
+                    <field name="state_id" class="oe_no_button"
+                           placeholder="State" style="width: 50%%"
+                           options='{"no_open": True}'
+                           attrs="{'readonly': [('use_parent_address','=',True)]}"/>
+                    <field name="zone_id" class="oe_no_button"
+                           placeholder="Zone" style="width: 50%%"
+                           options='{"no_open": True}'
+                           attrs="{'readonly': [('use_parent_address','=',True)]}"/>
+                    <field name="zip" placeholder="ZIP"
+                           attrs="{'readonly': [('use_parent_address','=',True)]}"/>
+                </div>
+            </div>
+
+        </field>
+    </record>
+
+    </data>
+</openerp>
