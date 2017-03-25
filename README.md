@@ -14,6 +14,7 @@ List of Modules
 ---------------
 
 [//]: # (addons)
+
 Available addons
 ----------------
 addon | version | summary
