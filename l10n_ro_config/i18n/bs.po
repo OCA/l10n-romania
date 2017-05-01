@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: l10n-romania (8.0)\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-09-17 18:04+0000\n"
-"PO-Revision-Date: 2016-11-22 16:24+0000\n"
+"POT-Creation-Date: 2017-03-25 08:38+0000\n"
+"PO-Revision-Date: 2017-04-25 11:09+0000\n"
 "Last-Translator: OCA Transbot <transbot@odoo-community.org>\n"
 "Language-Team: Bosnian (http://www.transifex.com/oca/OCA-l10n-romania-8-0/language/bs/)\n"
 "MIME-Version: 1.0\n"
@@ -30,7 +30,7 @@ msgstr "Otkaži"
 #. module: l10n_ro_config
 #: field:l10n.ro.config.settings,company_id:0
 msgid "Company"
-msgstr ""
+msgstr "Kompanija"
 
 #. module: l10n_ro_config
 #: view:l10n.ro.config.settings:l10n_ro_config.view_l10n_ro_config_settings
