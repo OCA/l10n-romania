@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: l10n-romania (8.0)\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-05-13 03:24+0000\n"
+"POT-Creation-Date: 2017-08-19 04:05+0000\n"
 "PO-Revision-Date: 2016-05-03 12:28+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: Dutch (Netherlands) (http://www.transifex.com/oca/OCA-l10n-romania-8-0/language/nl_NL/)\n"
@@ -88,14 +88,14 @@ msgstr ""
 #: field:res.country.city,create_uid:0 field:res.country.commune,create_uid:0
 #: field:res.country.zone,create_uid:0
 msgid "Created by"
-msgstr ""
+msgstr "Aangemaakt door"
 
 #. module: l10n_ro_siruta
 #: field:res.country.city,create_date:0
 #: field:res.country.commune,create_date:0
 #: field:res.country.zone,create_date:0
 msgid "Created on"
-msgstr ""
+msgstr "Aangemaakt op"
 
 #. module: l10n_ro_siruta
 #: field:res.country.city,display_name:0
@@ -121,13 +121,13 @@ msgstr "Laatst gewijzigd op"
 #: field:res.country.city,write_uid:0 field:res.country.commune,write_uid:0
 #: field:res.country.zone,write_uid:0
 msgid "Last Updated by"
-msgstr ""
+msgstr "Laatst bijgewerkt door"
 
 #. module: l10n_ro_siruta
 #: field:res.country.city,write_date:0 field:res.country.commune,write_date:0
 #: field:res.country.zone,write_date:0
 msgid "Last Updated on"
-msgstr ""
+msgstr "Laatst bijgewerkt op"
 
 #. module: l10n_ro_siruta
 #: view:res.country.city:l10n_ro_siruta.view_city_form
