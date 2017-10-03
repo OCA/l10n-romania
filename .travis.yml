@@ -1,0 +1,38 @@
+sudo: false
+cache: pip
+
+addons:
+  apt:
+    packages:
+      - expect-dev  # provides unbuffer utility
+      - python-lxml # because pip installation is slow
+
+language: python
+
+python:
+  - "3.5"
+  
+
+env:
+  global:
+  - VERSION="11.0" TESTS="0" LINT_CHECK="0" TRANSIFEX="0"
+  - TRANSIFEX_USER='transbot@odoo-community.org'
+  - secure: BIxyobsp4CrZ5IU7vR3XuBhdHtR5y2TjxXs1BPe+omUlgZcfFhtr4OqYGXwFHZPHDiWvk57I1q9rKazWrI+a6n96uB4kxka3E/foU780/VZRipB7q6MgEkGIOTUPqjghCPnUaGoPKfw4JrX6MJj1RBD6XQT3wq8vLkjClKhx/XU=
+
+  matrix:
+  - LINT_CHECK="1"
+  - TRANSIFEX="1"
+  - TESTS="1" ODOO_REPO="OCA/OCB"
+  - TESTS="1" ODOO_REPO="odoo/odoo"
+
+
+install:
+  - git clone --depth=1 https://github.com/OCA/maintainer-quality-tools.git ${HOME}/maintainer-quality-tools
+  - export PATH=${HOME}/maintainer-quality-tools/travis:${PATH}
+  - travis_install_nightly
+
+script:
+  - travis_run_tests
+
+after_success:
+  - travis_after_tests_success
