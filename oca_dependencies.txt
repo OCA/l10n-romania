@@ -1,8 +1,5 @@
-# Add account-financial-tools repo dependency to have access to currency_rate_update module.
-# Add account-payment repo dependency to have access to account_vat_on_payment and account_voucher_cash_basis modules.
-# Add hr repo dependency to have access to some hr modules.
-# Add partner-contact repo dependency to have access to partner_create_by_vat module.
-account-financial-tools https://github.com/OCA/account-financial-tools 8.0
-account-payment https://github.com/OCA/account-payment 8.0
-hr https://github.com/OCA/hr 8.0
-partner-contact https://github.com/OCA/partner-contact 8.0
+account-financial-tools
+account-payment
+bank-statement-import
+hr
+partner-contact
