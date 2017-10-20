@@ -1,68 +1,64 @@
 <?xml version="1.0" encoding="utf-8"?>
-<openerp>
-    <data>
-
-        <record id="view_l10n_ro_config_settings" model="ir.ui.view">
-            <field name="name">Romania Settings</field>
-            <field name="model">l10n.ro.config.settings</field>
+<odoo>
+        <record id="res_config_settings_view_form" model="ir.ui.view">
+            <field name="name">res.config.settings.view.form.inherit.romania</field>
+            <field name="model">res.config.settings</field>
+            <field name="priority" eval="150"/>
+            <field name="inherit_id" ref="base.res_config_settings_view_form"/>
             <field name="arch" type="xml">
-                <form string="Configure Applications - Romania" class="oe_form_configuration">
-                    <header>
-                        <button string="Apply" type="object" name="execute" class="oe_highlight"/>
-                        or
-                        <button string="Cancel" type="object" name="cancel" class="oe_link"/>
-                    </header>
-                    <group groups="base.group_multi_company">
-                        <div>
-                            <field name="has_default_company" invisible="1" />
-                            <div attrs="{'invisible': [('has_default_company', '=', True)]}">
-                                <label for="company_id" string="Select Company"/>
-                                <field name="company_id"
-                                    widget="selection"
-                                    class="oe_inline"/>
-                            </div>
-                        </div>
-                    </group>
-                    <group string="General">
-                        <label for="id" string="Localization"/>
-                        <div>
-                            <div>
-                                <field name="module_l10n_ro_siruta" class="oe_inline"/>
-                                <label for="module_l10n_ro_siruta"/>
-                                <group attrs="{'invisible': [('module_l10n_ro_siruta', '&lt;&gt;', True)]}" col="2">
-                                    <group>
-                                        <field name="siruta_update"/>
-                                    </group>
-                                    <group>
-                                    </group>
-                                </group>
-                            </div>
-                        </div>
-                        <label for="id" string="Partners"/>
-                        <div>
-                            <div>
-                                <field name="module_l10n_ro_partner_unique" class="oe_inline"/>
-                                <label for="module_l10n_ro_partner_unique"/>
-                            </div>
-                            <div>
-                                <field name="module_l10n_ro_partner_create_by_vat" class="oe_inline"/>
-                                <label for="module_l10n_ro_partner_create_by_vat"/>
-                            </div>
-                        </div>
-                    </group>
-                </form>
+                <xpath expr="//div[hasclass('settings')]" position="inside">
+                    <div class="app_settings_block" data-string="Romania" data-key="l10n_ro_config" groups="base.group_no_one">
+                        <div id="l10n_ro_config">
+							<h2>General</h2>
+							<div class="row mt16 o_settings_container">
+								<div class="col-xs-12 col-md-6 o_setting_box" title="Update Siruta Data">
+									<div class="o_setting_left_pane">
+										<field name="siruta_update"/>
+									</div>
+									<div class="o_setting_right_pane">
+										<label for="siruta_update"/>
+										<div class="text-muted">
+											Update Siruta Data.
+										</div>
+									</div>
+								</div>
+								<div class="col-xs-12 col-md-6 o_setting_box" title="Add Siruta on Addresses">
+									<div class="o_setting_left_pane">
+										<field name="module_l10n_ro_siruta"/>
+									</div>
+									<div class="o_setting_right_pane">
+										<label for="module_l10n_ro_siruta"/>
+										<div class="text-muted">
+											Add Siruta on Addresses.
+										</div>
+									</div>
+								</div>
+								<div class="col-xs-12 col-md-6 o_setting_box" title="Add Unicity on Partners">
+									<div class="o_setting_left_pane">
+										<field name="module_l10n_ro_partner_unique"/>
+									</div>
+									<div class="o_setting_right_pane">
+										<label for="module_l10n_ro_partner_unique"/>
+										<div class="text-muted">
+											Add Unicity on Partners.
+										</div>
+									</div>
+								</div>
+								<div class="col-xs-12 col-md-6 o_setting_box" title="Create Romanian Partners from Anaf, Openapi">
+									<div class="o_setting_left_pane">
+										<field name="module_l10n_ro_partner_create_by_vat"/>
+									</div>
+									<div class="o_setting_right_pane">
+										<label for="module_l10n_ro_partner_create_by_vat"/>
+										<div class="text-muted">
+											Create Romanian Partners from Anaf, Openapi.
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+                </xpath>
             </field>
         </record>
-
-        <record id="action_l10n_ro_config" model="ir.actions.act_window">
-            <field name="name">Romanian Applications</field>
-            <field name="type">ir.actions.act_window</field>
-            <field name="res_model">l10n.ro.config.settings</field>
-            <field name="view_mode">form</field>
-            <field name="target">inline</field>
-        </record>
-
-        <menuitem id="menu_account_config" name="Romania" parent="base.menu_config"
-            sequence="14" action="action_l10n_ro_config"/>
-    </data>
-</openerp>
+</odoo>

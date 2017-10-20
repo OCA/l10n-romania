@@ -1,28 +1,13 @@
-# -*- coding: utf-8 -*-
-# ©  2015 Forest and Biomass Services Romania
-# See README.rst file on addons root folder for license details
+# Copyright  2015 Forest and Biomass Romania
+# License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
-from openerp import models, fields, api, tools
+from odoo import models, fields, api, tools
 import os
 
 
-class RomaniaConfigSettings(models.TransientModel):
-    _name = 'l10n.ro.config.settings'
+class ResConfigSettings(models.TransientModel):
     _inherit = 'res.config.settings'
 
-    company_id = fields.Many2one(
-        'res.company',
-        string='Company',
-        change_default=True,
-        default=lambda self: self.env['res.company']._company_default_get(
-            'l10n.ro.config.settings')
-        )
-    has_default_company = fields.Boolean(
-        string='Has default company',
-        readonly=True, change_default=True,
-        default=lambda self: bool(
-            self.env['res.company'].search_count([]) == 1)
-        )
     module_l10n_ro_siruta = fields.Boolean(
         string='Romanian SIRUTA',
         help='This allows you to manage the Romanian Zones, States, Communes, '
@@ -39,32 +24,18 @@ class RomaniaConfigSettings(models.TransientModel):
     siruta_update = fields.Boolean('Load / Update Siruta Data')
 
     @api.model
-    def create(self, values):
-        id = super(RomaniaConfigSettings, self).create(values)
-        # Hack: to avoid some nasty bug, related fields are not written
-        # upon record creation.
-        # Hence we write on those fields here.
-        vals = {}
-        for fname, field in self._columns.iteritems():
-            if isinstance(field, fields.Many2one) and fname in values:
-                vals[fname] = values[fname]
-        self.write(vals)
-        return id
-
-    @api.onchange('company_id')
-    def onchange_company_id(self):
-        # Update related fields
-        values = {}
-        return {'value': values}
+    def get_values(self):
+        res = super(ResConfigSettings, self).get_values()
+        res.update(siruta_update=False)
+        return res
 
     @api.multi
-    def execute(self):
-        res = super(RomaniaConfigSettings, self).execute()
+    def set_values(self):
+        res = super(ResConfigSettings, self).set_values()
         data_dir = os.path.join(os.path.dirname(
             os.path.dirname(os.path.abspath(__file__))), 'data')
         # Load SIRUTA datas if field is checked
-        wiz = self[0]
-        if wiz.siruta_update:
+        if self.siruta_update:
             # First check if module is installed
             installed = self.env['ir.module.module'].search(
                 [('name', '=', 'l10n_ro_siruta'),
@@ -74,13 +45,13 @@ class RomaniaConfigSettings(models.TransientModel):
                 files = ['res.country.zone.csv',
                          'res.country.state.csv',
                          'res.country.commune.csv',
-                         'res.country.city.csv']
+                         'res.city.csv']
                 for file1 in files:
                     with tools.file_open(path + file1) as fp:
                         tools.convert_csv_import(self._cr,
                                                  'l10n_ro_config',
                                                  file1,
-                                                 fp.read(),
+                                                 bytes(fp.read(), 'utf-8'),
                                                  {},
                                                  mode="init",
                                                  noupdate=True)

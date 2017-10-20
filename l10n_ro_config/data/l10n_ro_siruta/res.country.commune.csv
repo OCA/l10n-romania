@@ -247,7 +247,7 @@ RO_19141,Șuici,19141,base.ro,RO_SM,l10n_ro.RO_AG
 RO_19007,Suseni,19007,base.ro,RO_SM,l10n_ro.RO_AG
 RO_19212,Teiu,19212,base.ro,RO_SM,l10n_ro.RO_AG
 RO_19249,Tigveni,19249,base.ro,RO_SM,l10n_ro.RO_AG
-RO_19338,Ȣițești,19338,base.ro,RO_SM,l10n_ro.RO_AG
+RO_19338,Țițești,19338,base.ro,RO_SM,l10n_ro.RO_AG
 RO_13757,Topoloveni,13757,base.ro,RO_SM,l10n_ro.RO_AG
 RO_19392,Uda,19392,base.ro,RO_SM,l10n_ro.RO_AG
 RO_19560,Ungheni,19560,base.ro,RO_SM,l10n_ro.RO_AG
@@ -441,7 +441,7 @@ RO_32153,Tămășeu,32153,base.ro,RO_NV,l10n_ro.RO_BH
 RO_31609,Tărcaia,31609,base.ro,RO_NV,l10n_ro.RO_BH
 RO_31565,Tarcea,31565,base.ro,RO_NV,l10n_ro.RO_BH
 RO_31654,Tăuteu,31654,base.ro,RO_NV,l10n_ro.RO_BH
-RO_31878,Ȣețchea,31878,base.ro,RO_NV,l10n_ro.RO_BH
+RO_31878,Țețchea,31878,base.ro,RO_NV,l10n_ro.RO_BH
 RO_31716,Tileagd,31716,base.ro,RO_NV,l10n_ro.RO_BH
 RO_31789,Tinca,31789,base.ro,RO_NV,l10n_ro.RO_BH
 RO_32201,Toboliu,32201,base.ro,RO_NV,l10n_ro.RO_BH
@@ -773,7 +773,7 @@ RO_49439,Scutelnici,49439,base.ro,RO_SE,l10n_ro.RO_BZ
 RO_49484,Siriu,49484,base.ro,RO_SE,l10n_ro.RO_BZ
 RO_49545,Smeeni,49545,base.ro,RO_SE,l10n_ro.RO_BZ
 RO_49625,Stâlpu,49625,base.ro,RO_SE,l10n_ro.RO_BZ
-RO_49849,Ȣintești,49849,base.ro,RO_SE,l10n_ro.RO_BZ
+RO_49849,Țintești,49849,base.ro,RO_SE,l10n_ro.RO_BZ
 RO_49643,Tisău,49643,base.ro,RO_SE,l10n_ro.RO_BZ
 RO_49769,Topliceni,49769,base.ro,RO_SE,l10n_ro.RO_BZ
 RO_49894,Ulmeni,49894,base.ro,RO_SE,l10n_ro.RO_BZ
@@ -936,7 +936,7 @@ RO_59586,Sânpaul,59586,base.ro,RO_NV,l10n_ro.RO_CJ
 RO_59327,Săvădisla,59327,base.ro,RO_NV,l10n_ro.RO_CJ
 RO_59416,Sic,59416,base.ro,RO_NV,l10n_ro.RO_CJ
 RO_59657,Suatu,59657,base.ro,RO_NV,l10n_ro.RO_CJ
-RO_59826,Ȣaga,59826,base.ro,RO_NV,l10n_ro.RO_CJ
+RO_59826,Țaga,59826,base.ro,RO_NV,l10n_ro.RO_CJ
 RO_59693,"Tritenii De Jos",59693,base.ro,RO_NV,l10n_ro.RO_CJ
 RO_55259,Turda,55259,base.ro,RO_NV,l10n_ro.RO_CJ
 RO_59764,Tureni,59764,base.ro,RO_NV,l10n_ro.RO_CJ
@@ -945,7 +945,7 @@ RO_59942,Vad,59942,base.ro,RO_NV,l10n_ro.RO_CJ
 RO_60026,"Valea Ierii",60026,base.ro,RO_NV,l10n_ro.RO_CJ
 RO_60062,Viișoara,60062,base.ro,RO_NV,l10n_ro.RO_CJ
 RO_60099,Vultureni,60099,base.ro,RO_NV,l10n_ro.RO_CJ
-RO_60598,2014/08/23,60598,base.ro,RO_SE,l10n_ro.RO_CT
+RO_60598,"23 August",60598,base.ro,RO_SE,l10n_ro.RO_CT
 RO_60883,Adamclisi,60883,base.ro,RO_SE,l10n_ro.RO_CT
 RO_60570,Agigea,60570,base.ro,RO_SE,l10n_ro.RO_CT
 RO_60945,Albești,60945,base.ro,RO_SE,l10n_ro.RO_CT
@@ -1253,7 +1253,7 @@ RO_74956,Tălpaș,74956,base.ro,RO_SVO,l10n_ro.RO_DJ
 RO_74322,Teasc,74322,base.ro,RO_SVO,l10n_ro.RO_DJ
 RO_74359,Terpezița,74359,base.ro,RO_SVO,l10n_ro.RO_DJ
 RO_74411,Teslui,74411,base.ro,RO_SVO,l10n_ro.RO_DJ
-RO_74509,Ȣuglui,74509,base.ro,RO_SVO,l10n_ro.RO_DJ
+RO_74509,Țuglui,74509,base.ro,RO_SVO,l10n_ro.RO_DJ
 RO_74536,Unirea,74536,base.ro,RO_SVO,l10n_ro.RO_DJ
 RO_74554,Urzicuța,74554,base.ro,RO_SVO,l10n_ro.RO_DJ
 RO_74581,"Valea Stanciului",74581,base.ro,RO_SVO,l10n_ro.RO_DJ
@@ -1318,7 +1318,7 @@ RO_77288,Suceveni,77288,base.ro,RO_SE,l10n_ro.RO_GL
 RO_77601,Suhurlui,77601,base.ro,RO_SE,l10n_ro.RO_GL
 RO_75472,"Târgu Bujor",75472,base.ro,RO_SE,l10n_ro.RO_GL
 RO_75203,Tecuci,75203,base.ro,RO_SE,l10n_ro.RO_GL
-RO_77377,Ȣepu,77377,base.ro,RO_SE,l10n_ro.RO_GL
+RO_77377,Țepu,77377,base.ro,RO_SE,l10n_ro.RO_GL
 RO_77313,"Tudor Vladimirescu",77313,base.ro,RO_SE,l10n_ro.RO_GL
 RO_77331,Tulucești,77331,base.ro,RO_SE,l10n_ro.RO_GL
 RO_77402,Umbrărești,77402,base.ro,RO_SE,l10n_ro.RO_GL
@@ -1384,11 +1384,11 @@ RO_82047,Slivilești,82047,base.ro,RO_SVO,l10n_ro.RO_GJ
 RO_82136,Stănești,82136,base.ro,RO_SVO,l10n_ro.RO_GJ
 RO_82243,Stejari,82243,base.ro,RO_SVO,l10n_ro.RO_GJ
 RO_82314,Stoina,82314,base.ro,RO_SVO,l10n_ro.RO_GJ
-RO_82680,Ȣânțăreni,82680,base.ro,RO_SVO,l10n_ro.RO_GJ
+RO_82680,Țânțăreni,82680,base.ro,RO_SVO,l10n_ro.RO_GJ
 RO_78329,"Târgu Cărbunești",78329,base.ro,RO_SVO,l10n_ro.RO_GJ
 RO_77812,"Târgu Jiu",77812,base.ro,RO_SVO,l10n_ro.RO_GJ
 RO_82396,Telești,82396,base.ro,RO_SVO,l10n_ro.RO_GJ
-RO_78454,Ȣicleni,78454,base.ro,RO_SVO,l10n_ro.RO_GJ
+RO_78454,Țicleni,78454,base.ro,RO_SVO,l10n_ro.RO_GJ
 RO_82430,Tismana,82430,base.ro,RO_SVO,l10n_ro.RO_GJ
 RO_82555,Turburea,82555,base.ro,RO_SVO,l10n_ro.RO_GJ
 RO_82617,Turceni,82617,base.ro,RO_SVO,l10n_ro.RO_GJ
@@ -1592,7 +1592,7 @@ RO_105026,Sinești,105026,base.ro,RO_SM,l10n_ro.RO_IL
 RO_92658,Slobozia,92658,base.ro,RO_SM,l10n_ro.RO_IL
 RO_94492,Stelnica,94492,base.ro,RO_SM,l10n_ro.RO_IL
 RO_94535,Sudiți,94535,base.ro,RO_SM,l10n_ro.RO_IL
-RO_92765,Ȣăndărei,92765,base.ro,RO_SM,l10n_ro.RO_IL
+RO_92765,Țăndărei,92765,base.ro,RO_SM,l10n_ro.RO_IL
 RO_179702,Traian,179702,base.ro,RO_SM,l10n_ro.RO_IL
 RO_100683,Urziceni,100683,base.ro,RO_SM,l10n_ro.RO_IL
 RO_94688,"Valea Ciorii",94688,base.ro,RO_SM,l10n_ro.RO_IL
@@ -1682,13 +1682,13 @@ RO_99209,Strunga,99209,base.ro,RO_NE,l10n_ro.RO_IS
 RO_99441,Tansa,99441,base.ro,RO_NE,l10n_ro.RO_IS
 RO_95471,"Târgu Frumos",95471,base.ro,RO_NE,l10n_ro.RO_IS
 RO_99478,Tătăruși,99478,base.ro,RO_NE,l10n_ro.RO_IS
-RO_99673,Ȣibana,99673,base.ro,RO_NE,l10n_ro.RO_IS
-RO_99780,Ȣibănești,99780,base.ro,RO_NE,l10n_ro.RO_IS
-RO_99879,Ȣigănăși,99879,base.ro,RO_NE,l10n_ro.RO_IS
+RO_99673,Țibana,99673,base.ro,RO_NE,l10n_ro.RO_IS
+RO_99780,Țibănești,99780,base.ro,RO_NE,l10n_ro.RO_IS
+RO_99879,Țigănăși,99879,base.ro,RO_NE,l10n_ro.RO_IS
 RO_99539,Todirești,99539,base.ro,RO_NE,l10n_ro.RO_IS
 RO_95293,Tomești,95293,base.ro,RO_NE,l10n_ro.RO_IS
 RO_99600,Trifești,99600,base.ro,RO_NE,l10n_ro.RO_IS
-RO_99922,Ȣuțora,99922,base.ro,RO_NE,l10n_ro.RO_IS
+RO_99922,Țuțora,99922,base.ro,RO_NE,l10n_ro.RO_IS
 RO_96003,Ungheni,96003,base.ro,RO_NE,l10n_ro.RO_IS
 RO_100353,"Valea Lupului",100353,base.ro,RO_NE,l10n_ro.RO_IS
 RO_99968,"Valea Seacă",99968,base.ro,RO_NE,l10n_ro.RO_IS
@@ -1770,7 +1770,7 @@ RO_108106,Fărcașa,108106,base.ro,RO_NV,l10n_ro.RO_MM
 RO_179855,Gârdani,179855,base.ro,RO_NV,l10n_ro.RO_MM
 RO_108151,Giulești,108151,base.ro,RO_NV,l10n_ro.RO_MM
 RO_106363,Groși,106363,base.ro,RO_NV,l10n_ro.RO_MM
-RO_179622,"Groșii Ȣibleșului",179622,base.ro,RO_NV,l10n_ro.RO_MM
+RO_179622,"Groșii Țibleșului",179622,base.ro,RO_NV,l10n_ro.RO_MM
 RO_108204,Ieud,108204,base.ro,RO_NV,l10n_ro.RO_MM
 RO_108222,Lăpuș,108222,base.ro,RO_NV,l10n_ro.RO_MM
 RO_108240,Leordina,108240,base.ro,RO_NV,l10n_ro.RO_MM
@@ -2056,7 +2056,7 @@ RO_124493,Tarcău,124493,base.ro,RO_NE,l10n_ro.RO_NT
 RO_121055,"Târgu Neamț",121055,base.ro,RO_NE,l10n_ro.RO_NT
 RO_124563,Tașca,124563,base.ro,RO_NE,l10n_ro.RO_NT
 RO_124616,Tazlău,124616,base.ro,RO_NE,l10n_ro.RO_NT
-RO_124803,Ȣibucani,124803,base.ro,RO_NE,l10n_ro.RO_NT
+RO_124803,Țibucani,124803,base.ro,RO_NE,l10n_ro.RO_NT
 RO_124661,Timișești,124661,base.ro,RO_NE,l10n_ro.RO_NT
 RO_124723,Trifești,124723,base.ro,RO_NE,l10n_ro.RO_NT
 RO_124750,Tupilați,124750,base.ro,RO_NE,l10n_ro.RO_NT
@@ -2669,7 +2669,7 @@ RO_154460,Suhaia,154460,base.ro,RO_SM,l10n_ro.RO_TR
 RO_154521,Talpa,154521,base.ro,RO_SM,l10n_ro.RO_TR
 RO_154585,"Tătărăștii De Jos",154585,base.ro,RO_SM,l10n_ro.RO_TR
 RO_154665,"Tătărăștii De Sus",154665,base.ro,RO_SM,l10n_ro.RO_TR
-RO_154834,Ȣigănești,154834,base.ro,RO_SM,l10n_ro.RO_TR
+RO_154834,Țigănești,154834,base.ro,RO_SM,l10n_ro.RO_TR
 RO_154736,Traian,154736,base.ro,RO_SM,l10n_ro.RO_TR
 RO_154754,Trivalea-Moșteni,154754,base.ro,RO_SM,l10n_ro.RO_TR
 RO_154790,Troianul,154790,base.ro,RO_SM,l10n_ro.RO_TR
@@ -3069,7 +3069,7 @@ RO_177842,Suraia,177842,base.ro,RO_SE,l10n_ro.RO_VN
 RO_178046,Tâmboești,178046,base.ro,RO_SE,l10n_ro.RO_VN
 RO_177879,Tănăsoaia,177879,base.ro,RO_SE,l10n_ro.RO_VN
 RO_177986,Tătăranu,177986,base.ro,RO_SE,l10n_ro.RO_VN
-RO_178180,Ȣifești,178180,base.ro,RO_SE,l10n_ro.RO_VN
+RO_178180,Țifești,178180,base.ro,RO_SE,l10n_ro.RO_VN
 RO_178117,Tulnici,178117,base.ro,RO_SE,l10n_ro.RO_VN
 RO_178279,Urechești,178279,base.ro,RO_SE,l10n_ro.RO_VN
 RO_178313,"Valea Sării",178313,base.ro,RO_SE,l10n_ro.RO_VN
@@ -3135,7 +3135,7 @@ RO_94651,Unirea,94651,base.ro,RO_SM,l10n_ro.RO_CL
 RO_94731,Vâlcelele,94731,base.ro,RO_SM,l10n_ro.RO_CL
 RO_105712,"Valea Argovei",105712,base.ro,RO_SM,l10n_ro.RO_CL
 RO_105829,Vasilați,105829,base.ro,RO_SM,l10n_ro.RO_CL
-RO_94768,"Vlad Ȣepeș",94768,base.ro,RO_SM,l10n_ro.RO_CL
+RO_94768,"Vlad Țepeș",94768,base.ro,RO_SM,l10n_ro.RO_CL
 RO_100781,Adunații-Copăceni,100781,base.ro,RO_SM,l10n_ro.RO_GR
 RO_101001,Băneasa,101001,base.ro,RO_SM,l10n_ro.RO_GR
 RO_101163,Bolintin-Deal,101163,base.ro,RO_SM,l10n_ro.RO_GR
