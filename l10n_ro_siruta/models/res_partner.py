@@ -1,18 +1,20 @@
-# -*- coding: utf-8 -*-
-# ©  2015 Forest and Biomass Services Romania
-# See README.rst file on addons root folder for license details
-
+# Copyright  2015 Forest and Biomass Romania
+# License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
+import logging
 from openerp import models, fields, api
+
+_logger = logging.getLogger(__name__)
 
 
 class ResPartner(models.Model):
-    _inherit = "res.partner"
+    _name = 'res.partner'
+    _inherit = 'res.partner'
 
     @api.onchange('city_id')
     def _onchange_city_id(self):
+        super(ResPartner, self)._onchange_city_id()
         if self.city_id:
             self.commune_id = self.city_id.commune_id.id
-            self.state_id = self.city_id.state_id.id
             self.zone_id = self.city_id.zone_id.id
             self.country_id = self.city_id.country_id.id
 
@@ -24,32 +26,19 @@ class ResPartner(models.Model):
         new_list = ['city_id', 'commune_id', 'zone_id']
         return super(ResPartner, self)._address_fields() + new_list
 
-    @api.one
-    def _search_city(self):
-        city_obj = self.env['res.country.city']
-        if self.state_id:
-            city_id = city_obj.search([("name", "ilike", self.city),
-                                       ("state_id", "=", self.state_id.id)])
-            if city_id:
-                self.city_id = city_id[0].id
-        else:
-            city_id = city_obj.search([("name", "ilike", self.city)])
-            if city_id:
-                self.city_id = city_id[0].id
-
     @api.model
     def _install_l10n_ro_siruta(self):
-        """Updates city_id field by searching on city and state_id."""
-        partners = self.search([("city", "!=", False)])
-        partners._search_city()
+        """Update commune and zone fields for partners.
+        """
+        # Find records with city_id completed but not the commune
+        records = self.search([("city_id", "!=", False),
+                               ("commune_id", "=", False)])
 
-    city_id = fields.Many2one('res.country.city',
-                              string='City',
-                              ondelete='set null',
-                              index=True)
-    city = fields.Char(related='city_id.name',
-                       string='City',
-                       store=True)
+        # Launch onchange city_id for each partner
+        for partner in records:
+            partner._onchange_city_id()
+        _logger.info("%d partners updated installing module.", len(records))
+
     commune_id = fields.Many2one('res.country.commune',
                                  string='City/Commune',
                                  ondelete='set null',

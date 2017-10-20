@@ -1,8 +1,9 @@
 .. image:: https://img.shields.io/badge/licence-AGPL--3-blue.svg
     :alt: License: AGPL-3
 
+================
 Romania - SIRUTA
-=================================
+================
 
 This module extends partners addresses with communes and zones,
 according administrative-territorial units of Romania Registry.
@@ -12,7 +13,7 @@ Installation
 
 To install this module, you need to:
 
-* clone the branch 8.0 of the repository https://github.com/OCA/l10n-romania
+* clone the branch 11.0 of the repository https://github.com/OCA/l10n-romania
 * add the path to this repository in your configuration (addons-path)
 * update the module list
 * search for "Romania - SIRUTA" in your addons
@@ -22,22 +23,26 @@ Usage
 =====
 
 On the partner form view on the address you will have extra fields for
-city, commune and zone.
+commune and zone.
 
 .. image:: https://odoo-community.org/website/image/ir.attachment/5784_f2813bd/datas
    :alt: Try me on Runbot
-   :target: https://runbot.odoo-community.org/runbot/177/8.0
+   :target: https://runbot.odoo-community.org/runbot/177/11.0
 
 Bug Tracker
 ===========
 
 Bugs are tracked on `GitHub Issues <https://github.com/OCA/l10n-romania/issues>`_.
 In case of trouble, please check there if your issue has already been reported.
-If you spotted it first, help us smashing it by providing a detailed and welcomed feedback
-`here <https://github.com/OCA/l10n-romania/issues/new?body=module:%20l10n_ro_siruta%0Aversion:%208.0%0A%0A**Steps%20to%20reproduce**%0A-%20...%0A%0A**Current%20behavior**%0A%0A**Expected%20behavior**>`_.
+If you spotted it first, help us smash it by providing detailed and welcomed feedback.
 
 Credits
 =======
+
+Images
+------
+
+* Odoo Community Association: `Icon <https://github.com/OCA/maintainer-tools/blob/master/template/module/static/description/icon.svg>`_.
 
 Contributors
 ------------
@@ -45,6 +50,8 @@ Contributors
 * Fekete Mihai <feketemihai@gmail.com>
 * Dorin Hongu <dhongu@gmail.com>
 * Adrian Vasile <adrian.vasile@gmail.com>
+
+Do not contact contributors directly about support or help with technical issues.
 
 Maintainer
 ----------
