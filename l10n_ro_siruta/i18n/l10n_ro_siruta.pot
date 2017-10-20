@@ -1,13 +1,13 @@
 # Translation of Odoo Server.
 # This file contains the translation of the following modules:
-#   * l10n_ro_siruta
+#	* l10n_ro_siruta
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 8.0\n"
+"Project-Id-Version: Odoo Server 11.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-12-07 04:57+0000\n"
-"PO-Revision-Date: 2015-12-07 04:57+0000\n"
+"POT-Creation-Date: 2017-10-20 09:49+0000\n"
+"PO-Revision-Date: 2017-10-20 09:49+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -16,56 +16,53 @@ msgstr ""
 "Plural-Forms: \n"
 
 #. module: l10n_ro_siruta
-#: model:ir.actions.act_window,name:l10n_ro_siruta.action_city
+#: model:ir.model.fields,field_description:l10n_ro_siruta.field_res_country_state_city_ids
 #: model:ir.ui.menu,name:l10n_ro_siruta.menu_city
-#: view:res.country.city:l10n_ro_siruta.view_city_search
-#: view:res.country.city:l10n_ro_siruta.view_city_tree
-#: field:res.country.state,city_ids:0
 msgid "Cities"
 msgstr ""
 
 #. module: l10n_ro_siruta
-#: field:res.country.state,commune_ids:0
+#: model:ir.model.fields,field_description:l10n_ro_siruta.field_res_country_state_commune_ids
 msgid "Cities/Communes"
 msgstr ""
 
 #. module: l10n_ro_siruta
-#: view:res.country.city:l10n_ro_siruta.view_city_form
-#: view:res.partner:l10n_ro_siruta.partners_form_address
-#: field:res.partner,city_id:0
+#: model:ir.model,name:l10n_ro_siruta.model_res_city
+#: model:ir.ui.view,arch_db:l10n_ro_siruta.view_city_form
 msgid "City"
 msgstr ""
 
 #. module: l10n_ro_siruta
-#: field:res.country.city,commune_id:0
-#: view:res.partner:l10n_ro_siruta.partners_form_address
-#: field:res.partner,commune_id:0
+#: model:ir.model.fields,field_description:l10n_ro_siruta.field_res_city_commune_id
+#: model:ir.model.fields,field_description:l10n_ro_siruta.field_res_partner_commune_id
+#: model:ir.model.fields,field_description:l10n_ro_siruta.field_res_users_commune_id
+#: model:ir.ui.view,arch_db:l10n_ro_siruta.partners_form_address
+#: model:ir.ui.view,arch_db:l10n_ro_siruta.partners_short_form_address
 msgid "City/Commune"
 msgstr ""
 
 #. module: l10n_ro_siruta
-#: view:res.country.commune:l10n_ro_siruta.view_commune_form
+#: model:ir.ui.view,arch_db:l10n_ro_siruta.view_commune_form
 msgid "Commune"
 msgstr ""
 
 #. module: l10n_ro_siruta
 #: model:ir.actions.act_window,name:l10n_ro_siruta.action_commune
 #: model:ir.ui.menu,name:l10n_ro_siruta.menu_commune
-#: view:res.country.commune:l10n_ro_siruta.view_commune_search
-#: view:res.country.commune:l10n_ro_siruta.view_commune_tree
+#: model:ir.ui.view,arch_db:l10n_ro_siruta.view_commune_search
+#: model:ir.ui.view,arch_db:l10n_ro_siruta.view_commune_tree
 msgid "Communes"
 msgstr ""
 
 #. module: l10n_ro_siruta
-#: field:res.country.city,country_id:0
-#: field:res.country.commune,country_id:0
-#: field:res.country.zone,country_id:0
-msgid "Country"
+#: model:ir.model,name:l10n_ro_siruta.model_res_partner
+msgid "Contact"
 msgstr ""
 
 #. module: l10n_ro_siruta
-#: model:ir.model,name:l10n_ro_siruta.model_res_country_city
-msgid "Country Cities"
+#: model:ir.model.fields,field_description:l10n_ro_siruta.field_res_country_commune_country_id
+#: model:ir.model.fields,field_description:l10n_ro_siruta.field_res_country_zone_country_id
+msgid "Country"
 msgstr ""
 
 #. module: l10n_ro_siruta
@@ -84,88 +81,87 @@ msgid "Country state"
 msgstr ""
 
 #. module: l10n_ro_siruta
-#: field:res.country.city,create_uid:0
-#: field:res.country.commune,create_uid:0
-#: field:res.country.zone,create_uid:0
+#: model:ir.model.fields,field_description:l10n_ro_siruta.field_res_country_commune_create_uid
+#: model:ir.model.fields,field_description:l10n_ro_siruta.field_res_country_zone_create_uid
 msgid "Created by"
 msgstr ""
 
 #. module: l10n_ro_siruta
-#: field:res.country.city,create_date:0
-#: field:res.country.commune,create_date:0
-#: field:res.country.zone,create_date:0
+#: model:ir.model.fields,field_description:l10n_ro_siruta.field_res_country_commune_create_date
+#: model:ir.model.fields,field_description:l10n_ro_siruta.field_res_country_zone_create_date
 msgid "Created on"
 msgstr ""
 
 #. module: l10n_ro_siruta
-#: field:res.country.city,id:0
-#: field:res.country.commune,id:0
-#: field:res.country.zone,id:0
+#: model:ir.model.fields,field_description:l10n_ro_siruta.field_res_country_commune_display_name
+#: model:ir.model.fields,field_description:l10n_ro_siruta.field_res_country_zone_display_name
+msgid "Display Name"
+msgstr ""
+
+#. module: l10n_ro_siruta
+#: model:ir.model.fields,field_description:l10n_ro_siruta.field_res_country_commune_id
+#: model:ir.model.fields,field_description:l10n_ro_siruta.field_res_country_zone_id
 msgid "ID"
 msgstr ""
 
 #. module: l10n_ro_siruta
-#: field:res.country.city,write_uid:0
-#: field:res.country.commune,write_uid:0
-#: field:res.country.zone,write_uid:0
+#: model:ir.model.fields,field_description:l10n_ro_siruta.field_res_country_commune___last_update
+#: model:ir.model.fields,field_description:l10n_ro_siruta.field_res_country_zone___last_update
+msgid "Last Modified on"
+msgstr ""
+
+#. module: l10n_ro_siruta
+#: model:ir.model.fields,field_description:l10n_ro_siruta.field_res_country_commune_write_uid
+#: model:ir.model.fields,field_description:l10n_ro_siruta.field_res_country_zone_write_uid
 msgid "Last Updated by"
 msgstr ""
 
 #. module: l10n_ro_siruta
-#: field:res.country.city,write_date:0
-#: field:res.country.commune,write_date:0
-#: field:res.country.zone,write_date:0
+#: model:ir.model.fields,field_description:l10n_ro_siruta.field_res_country_commune_write_date
+#: model:ir.model.fields,field_description:l10n_ro_siruta.field_res_country_zone_write_date
 msgid "Last Updated on"
 msgstr ""
 
 #. module: l10n_ro_siruta
-#: field:res.country.city,name:0
-#: field:res.country.commune,name:0
-#: field:res.country.zone,name:0
+#: model:ir.model.fields,field_description:l10n_ro_siruta.field_res_country_commune_name
+#: model:ir.model.fields,field_description:l10n_ro_siruta.field_res_country_zone_name
+#: model:ir.ui.view,arch_db:l10n_ro_siruta.view_city_form
+#: model:ir.ui.view,arch_db:l10n_ro_siruta.view_commune_form
+#: model:ir.ui.view,arch_db:l10n_ro_siruta.view_zone_form
 msgid "Name"
 msgstr ""
 
 #. module: l10n_ro_siruta
-#: model:ir.model,name:l10n_ro_siruta.model_res_partner
-msgid "Partner"
-msgstr ""
-
-#. module: l10n_ro_siruta
-#: field:res.country.city,siruta:0
-#: field:res.country.commune,siruta:0
-#: field:res.country.state,siruta:0
-#: field:res.country.zone,siruta:0
+#: model:ir.model.fields,field_description:l10n_ro_siruta.field_res_city_siruta
+#: model:ir.model.fields,field_description:l10n_ro_siruta.field_res_country_commune_siruta
+#: model:ir.model.fields,field_description:l10n_ro_siruta.field_res_country_state_siruta
+#: model:ir.model.fields,field_description:l10n_ro_siruta.field_res_country_zone_siruta
 msgid "Siruta"
 msgstr ""
 
 #. module: l10n_ro_siruta
-#: field:res.country.city,state_id:0
-#: field:res.country.commune,state_id:0
-#: field:res.country.zone,state_ids:0
-#: view:res.partner:l10n_ro_siruta.partners_form_address
+#: model:ir.model.fields,field_description:l10n_ro_siruta.field_res_country_commune_state_id
+#: model:ir.model.fields,field_description:l10n_ro_siruta.field_res_country_zone_state_ids
 msgid "State"
 msgstr ""
 
 #. module: l10n_ro_siruta
-#: view:res.partner:l10n_ro_siruta.partners_form_address
-msgid "ZIP"
-msgstr ""
-
-#. module: l10n_ro_siruta
-#: field:res.country.city,zone_id:0
-#: field:res.country.commune,zone_id:0
-#: field:res.country.state,zone_id:0
-#: view:res.country.zone:l10n_ro_siruta.view_zone_form
-#: view:res.partner:l10n_ro_siruta.partners_form_address
-#: field:res.partner,zone_id:0
+#: model:ir.model.fields,field_description:l10n_ro_siruta.field_res_city_zone_id
+#: model:ir.model.fields,field_description:l10n_ro_siruta.field_res_country_commune_zone_id
+#: model:ir.model.fields,field_description:l10n_ro_siruta.field_res_country_state_zone_id
+#: model:ir.model.fields,field_description:l10n_ro_siruta.field_res_partner_zone_id
+#: model:ir.model.fields,field_description:l10n_ro_siruta.field_res_users_zone_id
+#: model:ir.ui.view,arch_db:l10n_ro_siruta.partners_form_address
+#: model:ir.ui.view,arch_db:l10n_ro_siruta.partners_short_form_address
+#: model:ir.ui.view,arch_db:l10n_ro_siruta.view_zone_form
 msgid "Zone"
 msgstr ""
 
 #. module: l10n_ro_siruta
 #: model:ir.actions.act_window,name:l10n_ro_siruta.action_zone
 #: model:ir.ui.menu,name:l10n_ro_siruta.menu_zone
-#: view:res.country.zone:l10n_ro_siruta.view_zone_search
-#: view:res.country.zone:l10n_ro_siruta.view_zone_tree
+#: model:ir.ui.view,arch_db:l10n_ro_siruta.view_zone_search
+#: model:ir.ui.view,arch_db:l10n_ro_siruta.view_zone_tree
 msgid "Zones"
 msgstr ""
 
