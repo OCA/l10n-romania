@@ -1,125 +1,107 @@
-# -*- coding: utf-8 -*-
-# ©  2015 Forest and Biomass Services Romania
-# See README.rst file on addons root folder for license details
+# Copyright (C) 2015 Forest and Biomass Romania
+# License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
+import logging
 import requests
 
-from string import maketrans
-from lxml import html
+from odoo import api, fields, models
 
-from openerp import models, api
+_logger = logging.getLogger(__name__)
 
-CEDILLATRANS = maketrans(u'\u015f\u0163\u015e\u0162'.encode(
+CEDILLATRANS = bytes.maketrans(u'\u015f\u0163\u015e\u0162'.encode(
     'utf8'), u'\u0219\u021b\u0218\u021a'.encode('utf8'))
 
 headers = {
-    "User-Agent": "Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.0)",
-    "Content-Type": "multipart/form-data;"
+    "User-Agent": "Mozilla/5.0 (compatible; MSIE 7.01; Windows NT 5.0)",
+    "Content-Type": "application/json;"
 }
+
+ANAF_URL = 'https://webservicesp.anaf.ro/PlatitorTvaRest/api/v2/ws/tva'
 
 
 class ResPartner(models.Model):
-    _inherit = "res.partner"
+    _name = 'res.partner'
+    _inherit = 'res.partner'
+
+    vat_subjected = fields.Boolean('VAT Legal Statement')
 
     @api.model
-    def _get_Mfinante(self, cod):
-        params = {'cod': cod}
-        res = requests.get(
-            'http://www.mfinante.ro/infocodfiscal.html',
-            params=params,
-            headers=headers
-        )
-        res.raise_for_status()
-
-        htm = html.fromstring(res.text)
-        # There are 2 table, the first one contains partner datas.
-        table = htm.xpath("//div[@id='main']//center/table")[0]
-        result = dict()
-        for tr in table.iterchildren():
-            key = ' '.join([x.strip() for x in tr.getchildren()[
-                           0].text_content().split('\n') if x.strip() != ''])
-            val = ' '.join([x.strip() for x in tr.getchildren()[
-                           1].text_content().split('\n') if x.strip() != ''])
-            result[key] = val.encode('utf8').translate(
-                CEDILLATRANS).decode('utf8')
+    def _get_Anaf(self, cod, data=False):
+        # Function to get datas from ANAF Webservice
+        # cod = vat number without country code
+        # data = date of the interogation
+        if not data:
+            data = fields.Date.today()
+        res = requests.post(ANAF_URL, json=[{'cui': cod, 'data': data}],
+                            headers=headers)
+        result = {}
+        if res.status_code == 200:
+            res = res.json()
+            if res['found'] and res['found'][0]:
+                result = res['found'][0]
         return result
 
     @api.model
-    def _Mfinante_to_Odoo(self, result):
-        res = {}
-        nrc_key = 'Numar de inmatriculare la Registrul Comertului:'
-        tva_key = 'Taxa pe valoarea adaugata (data luarii in evidenta):'
-        if 'Denumire platitor:' in result.keys():
-            res['name'] = result['Denumire platitor:']
-        if 'Adresa:' in result.keys():
-            res['street'] = result['Adresa:'].strip().title()
-        if nrc_key in result.keys():
-            nrc = result[nrc_key].strip()
-            if nrc == '-/-/-':
-                nrc = ''
-            res['nrc'] = nrc
-        if 'Codul postal:' in result.keys():
-            res['zip'] = result['Codul postal:'] or ''
-        if 'Judetul:' in result.keys():
-            jud = result['Judetul:'].title() or ''
-            state = False
-            if jud.lower().startswith('municip'):
-                jud = ' '.join(jud.split(' ')[1:]).strip()
-                if jud != '':
+    def _Anaf_to_Odoo(self, result):
+        res = {'name': result['denumire'].upper(),
+               'vat_subjected': result['scpTVA'],
+               'company_type': 'company'}
+        addr = city = ''
+        if result['adresa']:
+            lines = [x for x in result['adresa'].replace(
+                'NR,', 'NR.').split(",") if x]
+            nostreet = True
+            strlistabr = ['STR.', 'ALEEA', 'CAL.', 'INTR.', 'BD-UL']
+            for line in lines:
+                if any([x in line for x in strlistabr]):
+                    nostreet = False
+                    break
+            if nostreet:
+                addr = 'Principala '
+            for line in lines:
+                line = line.encode('utf8').translate(
+                    CEDILLATRANS).decode('utf8')
+                if 'JUD.' in line:
                     state = self.env['res.country.state'].search(
-                        [('name', 'ilike', jud)])
+                        [('name',
+                          '=',
+                          line.replace('JUD.', '').strip().title())])
                     if state:
-                        state = state[0].id
-            res['state_id'] = state
-        if 'Telefon:' in result.keys():
-            res['phone'] = result['Telefon:'].replace('.', '') or ''
-        if 'Fax:' in result.keys():
-            res['fax'] = result['Fax:'].replace('.', '') or ''
-        if tva_key in result.keys():
-            res['vat_subjected'] = bool(result[tva_key] != 'NU')
+                        res['state_id'] = state[0].id
+                elif 'MUN.' in line:
+                    city = line.replace('MUN.', '').strip().title()
+                elif 'ORȘ.' in line:
+                    city = line.replace('ORȘ.', '').strip().title()
+                elif 'COM.' in line:
+                    city += ' ' + line.strip().title()
+                elif ' SAT ' in line:
+                    city += ' ' + line.strip().title()
+                else:
+                    addr += line.replace('STR.', '').strip().title() + ' '
+            if city:
+                res['city'] = city.replace('-', ' ').title().strip()
+        res['street'] = addr.strip()
         return res
 
-    @api.model
-    def _get_Openapi(self, cod):
-        result = requests.get('http://openapi.ro/api/companies/%s.json' %
-                              cod)
-        return result
-
-    @api.model
-    def _Openapi_to_Odoo(self, result):
-        res = {}
-        result = result.json()
-        state = False
-        if res.get('state'):
-            state = self.env['res.country.state'].search(
-                [('name', '=', res.get('state').title())])
-            if state:
-                state = state[0].id
-        res['name'] = res.get('name')
-        res['nrc'] = res.get('registration_id')
-        res['street'] = res.get('address')
-        res['city'] = res.get('city')
-        res['state_id'] = state
-        res['phone'] = res.get('phone')
-        res['fax'] = res.get('fax')
-        res['zip'] = res.get('zip')
-        res['vat_subjected'] = bool(res.get('vat', '0') == '1')
-        return res
-
-    @api.model
-    def _get_partner_data(self, vat):
-        vat = vat.strip().upper()
-        vat_country, vat_number = self._split_vat(vat)
-        if vat_country == 'ro':
-            result = self._get_Mfinante(vat_number)
-            if result:
-                res = self._Mfinante_to_Odoo(result)
-            else:
-                result = self._get_Openapi(vat_number)
-                if result.status_code == 200:
-                    res = self._Openapi_to_Odoo(result)
-            res['country_id'] = self.env['res.country'].search(
-                [('code', 'ilike', vat_country)])[0].id
-            return res
-        else:
-            super(ResPartner, self)._get_partner_data()
+    @api.onchange('vat')
+    def vies_vat_change(self):
+        for partner in self:
+            if not partner.vat:
+                return {}
+            res = {}
+            vat = partner.vat.strip().upper()
+            vat_country, vat_number = partner._split_vat(vat)
+            try:
+                if vat_country == 'ro':
+                    try:
+                        result = partner._get_Anaf(vat_number)
+                        if result:
+                            res = partner._Anaf_to_Odoo(result)
+                    except:
+                        _logger.info("ANAF Webservice not working.")
+                    if res:
+                        res['country_id'] = self.env['res.country'].search(
+                            [('code', 'ilike', vat_country)])[0].id
+                        partner.update(res)
+            except:
+                super(ResPartner, partner).vies_vat_change()
