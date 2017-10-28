@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: l10n-romania (8.0)\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-09-17 18:04+0000\n"
+"POT-Creation-Date: 2017-10-21 03:01+0000\n"
 "PO-Revision-Date: 2016-05-03 12:28+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: Portuguese (Brazil) (http://www.transifex.com/oca/OCA-l10n-romania-8-0/language/pt_BR/)\n"
@@ -36,7 +36,7 @@ msgstr ""
 #: view:res.partner:l10n_ro_siruta.partners_form_address
 #: field:res.partner,city_id:0
 msgid "City"
-msgstr ""
+msgstr "Cidade"
 
 #. module: l10n_ro_siruta
 #: field:res.country.city,commune_id:0
