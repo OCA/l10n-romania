@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: l10n-romania (8.0)\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-09-17 18:04+0000\n"
-"PO-Revision-Date: 2016-11-25 14:57+0000\n"
+"POT-Creation-Date: 2017-11-11 04:35+0000\n"
+"PO-Revision-Date: 2017-11-23 23:25+0000\n"
 "Last-Translator: OCA Transbot <transbot@odoo-community.org>\n"
 "Language-Team: Italian (http://www.transifex.com/oca/OCA-l10n-romania-8-0/language/it/)\n"
 "MIME-Version: 1.0\n"
@@ -95,7 +95,7 @@ msgstr ""
 #. module: l10n_ro_config
 #: view:l10n.ro.config.settings:l10n_ro_config.view_l10n_ro_config_settings
 msgid "Partners"
-msgstr ""
+msgstr "Partner"
 
 #. module: l10n_ro_config
 #: field:l10n.ro.config.settings,module_l10n_ro_partner_unique:0

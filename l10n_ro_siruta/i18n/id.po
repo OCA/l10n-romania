@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: l10n-romania (8.0)\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-10-28 05:31+0000\n"
+"POT-Creation-Date: 2017-11-11 04:35+0000\n"
 "PO-Revision-Date: 2016-05-03 12:28+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: Indonesian (http://www.transifex.com/oca/OCA-l10n-romania-8-0/language/id/)\n"
@@ -142,7 +142,7 @@ msgstr "Nama"
 #. module: l10n_ro_siruta
 #: model:ir.model,name:l10n_ro_siruta.model_res_partner
 msgid "Partner"
-msgstr ""
+msgstr "Mitra"
 
 #. module: l10n_ro_siruta
 #: field:res.country.city,siruta:0 field:res.country.commune,siruta:0
