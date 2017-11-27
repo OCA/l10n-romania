@@ -1,0 +1,572 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+#	* l10n_ro_hr_payroll
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 8.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2015-02-23 11:38+0000\n"
+"PO-Revision-Date: 2015-02-23 11:38+0000\n"
+"Last-Translator: <>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: l10n_ro_hr_payroll
+#: field:hr.holidays.status.type,employer_days:0
+msgid "# Days by Employer"
+msgstr ""
+
+#. module: l10n_ro_hr_payroll
+#: view:website:l10n_ro_hr_payroll.report_meal_vouchers_template
+msgid "# of Meal Vouchers"
+msgstr ""
+
+#. module: l10n_ro_hr_payroll
+#: code:addons/l10n_ro_hr_payroll/models/hr_meal_vouchers.py:36
+#: field:hr.meal.vouchers.line,num_vouchers:0
+#, python-format
+msgid "# of Vouchers"
+msgstr ""
+
+#. module: l10n_ro_hr_payroll
+#: code:addons/l10n_ro_hr_payroll/models/hr_public_holidays.py:88
+#, python-format
+msgid "%s for %s"
+msgstr ""
+
+#. module: l10n_ro_hr_payroll
+#: model:hr.holidays.public.line,name:l10n_ro_hr_payroll.ro_public_holidays_6
+msgid "1 Mai"
+msgstr ""
+
+#. module: l10n_ro_hr_payroll
+#: model:hr.holidays.public.line,name:l10n_ro_hr_payroll.ro_public_holidays_8
+msgid "A doua zi de Rusalii"
+msgstr ""
+
+#. module: l10n_ro_hr_payroll
+#: help:hr.contract.advantages,amount:0
+msgid "Advantage amount"
+msgstr ""
+
+#. module: l10n_ro_hr_payroll
+#: help:hr.contract.advantages,code:0
+msgid "Advantage code"
+msgstr ""
+
+#. module: l10n_ro_hr_payroll
+#: help:hr.contract.advantages,name:0
+msgid "Advantage name"
+msgstr ""
+
+#. module: l10n_ro_hr_payroll
+#: view:hr.contract:l10n_ro_hr_payroll.hr_contract_view_ro_form2
+#: field:hr.contract,advantage_ids:0
+msgid "Advantages"
+msgstr ""
+
+#. module: l10n_ro_hr_payroll
+#: field:hr.holidays.public.line,alloc:0
+msgid "Alloc"
+msgstr ""
+
+#. module: l10n_ro_hr_payroll
+#: field:hr.holidays.status.type,code:0
+msgid "Allowance Code"
+msgstr ""
+
+#. module: l10n_ro_hr_payroll
+#: view:hr.contract:l10n_ro_hr_payroll.hr_contract_view_ro_form2
+msgid "Amount"
+msgstr ""
+
+#. module: l10n_ro_hr_payroll
+#: model:hr.holidays.public.line,name:l10n_ro_hr_payroll.ro_public_holidays_2
+msgid "Anul Nou - a doua zi"
+msgstr ""
+
+#. module: l10n_ro_hr_payroll
+#: model:hr.holidays.public.line,name:l10n_ro_hr_payroll.ro_public_holidays_1
+msgid "Anul Nou - prima zi"
+msgstr ""
+
+#. module: l10n_ro_hr_payroll
+#: view:hr.holidays.public:l10n_ro_hr_payroll.hr_public_holidays_form
+msgid "Approve"
+msgstr ""
+
+#. module: l10n_ro_hr_payroll
+#: selection:hr.holidays.public,state:0
+msgid "Approved"
+msgstr ""
+
+#. module: l10n_ro_hr_payroll
+#: field:hr.holidays.status.type,ceiling:0
+msgid "Ceiling"
+msgstr ""
+
+#. module: l10n_ro_hr_payroll
+#: field:hr.holidays.status.type,ceiling_type:0
+msgid "Ceiling based on"
+msgstr ""
+
+#. module: l10n_ro_hr_payroll
+#: field:hr.wage.history,ceiling_min_wage:0
+msgid "Ceiling for 6 month income"
+msgstr ""
+
+#. module: l10n_ro_hr_payroll
+#: view:hr.holidays.public:l10n_ro_hr_payroll.hr_public_holidays_form
+msgid "Close"
+msgstr ""
+
+#. module: l10n_ro_hr_payroll
+#: selection:hr.holidays.public,state:0
+msgid "Closed"
+msgstr ""
+
+#. module: l10n_ro_hr_payroll
+#: view:hr.contract:l10n_ro_hr_payroll.hr_contract_view_ro_form2
+#: field:hr.contract.advantages,code:0
+msgid "Code"
+msgstr ""
+
+#. module: l10n_ro_hr_payroll
+#: model:ir.model,name:l10n_ro_hr_payroll.model_res_company
+msgid "Companies"
+msgstr ""
+
+#. module: l10n_ro_hr_payroll
+#: code:addons/l10n_ro_hr_payroll/models/hr_meal_vouchers.py:51
+#: field:hr.meal.vouchers,company_id:0
+#: field:res.company.payrolltaxes,company_id:0
+#, python-format
+msgid "Company"
+msgstr ""
+
+#. module: l10n_ro_hr_payroll
+#: view:res.company:l10n_ro_hr_payroll.view_payroll_config_page_payrolltaxes_form
+#: field:res.company,payroll_taxes:0
+msgid "Company Payroll Taxes"
+msgstr ""
+
+#. module: l10n_ro_hr_payroll
+#: code:addons/l10n_ro_hr_payroll/models/hr_meal_vouchers.py:35
+#: field:hr.contract.advantages,contract_id:0
+#: field:hr.meal.vouchers.line,contract_id:0
+#: model:ir.model,name:l10n_ro_hr_payroll.model_hr_contract
+#, python-format
+msgid "Contract"
+msgstr ""
+
+#. module: l10n_ro_hr_payroll
+#: field:hr.contract.advantages,create_uid:0
+#: field:hr.holidays.status.type,create_uid:0
+#: field:hr.meal.vouchers,create_uid:0
+#: field:hr.meal.vouchers.line,create_uid:0
+#: field:hr.wage.history,create_uid:0
+#: field:res.company.payrolltaxes,create_uid:0
+msgid "Created by"
+msgstr ""
+
+#. module: l10n_ro_hr_payroll
+#: field:hr.contract.advantages,create_date:0
+#: field:hr.holidays.status.type,create_date:0
+#: field:hr.meal.vouchers,create_date:0
+#: field:hr.meal.vouchers.line,create_date:0
+#: field:hr.wage.history,create_date:0
+#: field:res.company.payrolltaxes,create_date:0
+msgid "Created on"
+msgstr ""
+
+#. module: l10n_ro_hr_payroll
+#: model:hr.holidays.public.line,name:l10n_ro_hr_payroll.ro_public_holidays_13
+msgid "Crăciunul - a doua zi"
+msgstr ""
+
+#. module: l10n_ro_hr_payroll
+#: model:hr.holidays.public.line,name:l10n_ro_hr_payroll.ro_public_holidays_12
+msgid "Crăciunul - prima zi"
+msgstr ""
+
+#. module: l10n_ro_hr_payroll
+#: field:hr.meal.vouchers,date_from:0
+msgid "Date From"
+msgstr ""
+
+#. module: l10n_ro_hr_payroll
+#: field:hr.meal.vouchers,date_to:0
+msgid "Date To"
+msgstr ""
+
+#. module: l10n_ro_hr_payroll
+#: view:hr.holidays.public:l10n_ro_hr_payroll.hr_public_holidays_form
+msgid "Decline"
+msgstr ""
+
+#. module: l10n_ro_hr_payroll
+#: selection:hr.holidays.public,state:0
+msgid "Declined"
+msgstr ""
+
+#. module: l10n_ro_hr_payroll
+#: field:hr.holidays,diag_code:0
+msgid "Diagnostic Code"
+msgstr ""
+
+#. module: l10n_ro_hr_payroll
+#: selection:hr.holidays.public,state:0
+msgid "Draft"
+msgstr ""
+
+#. module: l10n_ro_hr_payroll
+#: code:addons/l10n_ro_hr_payroll/models/hr_meal_vouchers.py:34
+#: field:hr.meal.vouchers.line,employee_id:0
+#: model:ir.model,name:l10n_ro_hr_payroll.model_hr_employee
+#, python-format
+msgid "Employee"
+msgstr ""
+
+#. module: l10n_ro_hr_payroll
+#: field:hr.holidays.public,category_id:0
+msgid "Employee Tag"
+msgstr ""
+
+#. module: l10n_ro_hr_payroll
+#: help:hr.holidays.status.type,ceiling:0
+msgid "Expressed in months"
+msgstr ""
+
+#. module: l10n_ro_hr_payroll
+#: view:hr.meal.vouchers:l10n_ro_hr_payroll.hr_meal_vouchers_form
+msgid "Get # of Meal Vouchers"
+msgstr ""
+
+#. module: l10n_ro_hr_payroll
+#: field:hr.contract.advantages,id:0
+#: field:hr.holidays.status.type,id:0
+#: field:hr.meal.vouchers,id:0
+#: field:hr.meal.vouchers.line,id:0
+#: field:hr.wage.history,id:0
+#: field:res.company.payrolltaxes,id:0
+msgid "ID"
+msgstr ""
+
+#. module: l10n_ro_hr_payroll
+#: field:hr.holidays,initial_id:0
+msgid "Initial Sick Leave"
+msgstr ""
+
+#. module: l10n_ro_hr_payroll
+#: field:hr.holidays,is_sick_leave:0
+msgid "Is sick leave"
+msgstr ""
+
+#. module: l10n_ro_hr_payroll
+#: field:hr.contract.advantages,write_uid:0
+#: field:hr.holidays.status.type,write_uid:0
+#: field:hr.meal.vouchers,write_uid:0
+#: field:hr.meal.vouchers.line,write_uid:0
+#: field:hr.wage.history,write_uid:0
+#: field:res.company.payrolltaxes,write_uid:0
+msgid "Last Updated by"
+msgstr ""
+
+#. module: l10n_ro_hr_payroll
+#: field:hr.contract.advantages,write_date:0
+#: field:hr.holidays.status.type,write_date:0
+#: field:hr.meal.vouchers,write_date:0
+#: field:hr.meal.vouchers.line,write_date:0
+#: field:hr.wage.history,write_date:0
+#: field:res.company.payrolltaxes,write_date:0
+msgid "Last Updated on"
+msgstr ""
+
+#. module: l10n_ro_hr_payroll
+#: model:ir.model,name:l10n_ro_hr_payroll.model_hr_holidays
+msgid "Leave"
+msgstr ""
+
+#. module: l10n_ro_hr_payroll
+#: field:hr.holidays.status,leave_code:0
+msgid "Leave Code"
+msgstr ""
+
+#. module: l10n_ro_hr_payroll
+#: field:hr.holidays.public,holiday_status_id:0
+#: model:ir.model,name:l10n_ro_hr_payroll.model_hr_holidays_status
+msgid "Leave Type"
+msgstr ""
+
+#. module: l10n_ro_hr_payroll
+#: field:hr.meal.vouchers,line_ids:0
+msgid "Line ids"
+msgstr ""
+
+#. module: l10n_ro_hr_payroll
+#: field:hr.holidays.public,master_alloc:0
+msgid "Master alloc"
+msgstr ""
+
+#. module: l10n_ro_hr_payroll
+#: field:hr.holidays.status.type,max_days:0
+msgid "Max # of days"
+msgstr ""
+
+#. module: l10n_ro_hr_payroll
+#: view:hr.meal.vouchers.line:l10n_ro_hr_payroll.view_meal_vouchers_line_form
+#: view:hr.meal.vouchers.line:l10n_ro_hr_payroll.view_meal_vouchers_line_tree
+msgid "Meal Voucher Lines"
+msgstr ""
+
+#. module: l10n_ro_hr_payroll
+#: code:addons/l10n_ro_hr_payroll/models/hr_meal_vouchers.py:33
+#: field:hr.meal.vouchers.line,meal_voucher_id:0
+#, python-format
+msgid "Meal Voucher Run"
+msgstr ""
+
+#. module: l10n_ro_hr_payroll
+#: field:res.company,meal_voucher_value:0
+msgid "Meal Voucher Value"
+msgstr ""
+
+#. module: l10n_ro_hr_payroll
+#: view:hr.meal.vouchers:l10n_ro_hr_payroll.hr_meal_vouchers_form
+#: view:hr.meal.vouchers:l10n_ro_hr_payroll.hr_meal_vouchers_tree
+#: model:ir.actions.act_window,name:l10n_ro_hr_payroll.open_meal_vouchers_view
+#: model:ir.ui.menu,name:l10n_ro_hr_payroll.menu_hr_meal_vouchers_view
+#: view:website:l10n_ro_hr_payroll.report_meal_vouchers_template
+msgid "Meal Vouchers"
+msgstr ""
+
+#. module: l10n_ro_hr_payroll
+#: model:ir.actions.report.xml,name:l10n_ro_hr_payroll.report_meal_vouchers
+msgid "Meal Vouchers Report"
+msgstr ""
+
+#. module: l10n_ro_hr_payroll
+#: field:hr.holidays.status.type,emergency:0
+msgid "Medical emergency"
+msgstr ""
+
+#. module: l10n_ro_hr_payroll
+#: selection:hr.holidays.status.type,ceiling_type:0
+msgid "Medium Wage"
+msgstr ""
+
+#. module: l10n_ro_hr_payroll
+#: field:hr.wage.history,med_wage:0
+msgid "Medium Wage per economy"
+msgstr ""
+
+#. module: l10n_ro_hr_payroll
+#: selection:hr.holidays.status.type,ceiling_type:0
+msgid "Minimum Wage"
+msgstr ""
+
+#. module: l10n_ro_hr_payroll
+#: field:hr.wage.history,min_wage:0
+msgid "Minimum Wage per economy"
+msgstr ""
+
+#. module: l10n_ro_hr_payroll
+#: field:hr.wage.history,date:0
+msgid "Month/Year"
+msgstr ""
+
+#. module: l10n_ro_hr_payroll
+#: view:hr.contract:l10n_ro_hr_payroll.hr_contract_view_ro_form2
+#: field:hr.contract.advantages,amount:0
+#: field:hr.contract.advantages,name:0
+#: field:hr.holidays.status.type,name:0
+#: view:website:l10n_ro_hr_payroll.report_meal_vouchers_template
+msgid "Name"
+msgstr ""
+
+#. module: l10n_ro_hr_payroll
+#: model:hr.holidays.status,name:l10n_ro_hr_payroll.hr_holidays_status_nat
+msgid "National Holidays"
+msgstr ""
+
+#. module: l10n_ro_hr_payroll
+#: code:addons/l10n_ro_hr_payroll/models/hr_payslip.py:94
+#, python-format
+msgid "Normal Working Days paid at 100%"
+msgstr ""
+
+#. module: l10n_ro_hr_payroll
+#: field:hr.wage.history,working_days:0
+msgid "Number of Working(ed) Days"
+msgstr ""
+
+#. module: l10n_ro_hr_payroll
+#: view:res.company:l10n_ro_hr_payroll.view_payroll_config_page_payrolltaxes_form
+msgid "Other"
+msgstr ""
+
+#. module: l10n_ro_hr_payroll
+#: model:ir.model,name:l10n_ro_hr_payroll.model_hr_payslip
+msgid "Pay Slip"
+msgstr ""
+
+#. module: l10n_ro_hr_payroll
+#: field:hr.holidays.status.type,value:0
+msgid "Percentage"
+msgstr ""
+
+#. module: l10n_ro_hr_payroll
+#: view:hr.meal.vouchers:l10n_ro_hr_payroll.hr_meal_vouchers_form
+msgid "Period"
+msgstr ""
+
+#. module: l10n_ro_hr_payroll
+#: code:addons/l10n_ro_hr_payroll/models/hr_meal_vouchers.py:47
+#, python-format
+msgid "Period %s - %s"
+msgstr ""
+
+#. module: l10n_ro_hr_payroll
+#: model:hr.holidays.public.line,name:l10n_ro_hr_payroll.ro_public_holidays_7
+msgid "Prima zi de Rusalii"
+msgstr ""
+
+#. module: l10n_ro_hr_payroll
+#: field:hr.contract,programmer_or_handicaped:0
+msgid "Programmer or Handicaped"
+msgstr ""
+
+#. module: l10n_ro_hr_payroll
+#: view:hr.holidays.public:l10n_ro_hr_payroll.hr_public_holidays_form
+#: model:ir.model,name:l10n_ro_hr_payroll.model_hr_holidays_public
+msgid "Public Holidays"
+msgstr ""
+
+#. module: l10n_ro_hr_payroll
+#: model:ir.model,name:l10n_ro_hr_payroll.model_hr_holidays_public_line
+msgid "Public Holidays Lines"
+msgstr ""
+
+#. module: l10n_ro_hr_payroll
+#: view:hr.holidays.public:l10n_ro_hr_payroll.hr_public_holidays_form
+msgid "Reset to Draft"
+msgstr ""
+
+#. module: l10n_ro_hr_payroll
+#: code:addons/l10n_ro_hr_payroll/models/hr_meal_vouchers.py:37
+#: field:hr.meal.vouchers.line,serial_from:0
+#: view:website:l10n_ro_hr_payroll.report_meal_vouchers_template
+#, python-format
+msgid "Serial # from"
+msgstr ""
+
+#. module: l10n_ro_hr_payroll
+#: code:addons/l10n_ro_hr_payroll/models/hr_meal_vouchers.py:38
+#: field:hr.meal.vouchers.line,serial_to:0
+#: view:website:l10n_ro_hr_payroll.report_meal_vouchers_template
+#, python-format
+msgid "Serial # to"
+msgstr ""
+
+#. module: l10n_ro_hr_payroll
+#: model:hr.holidays.public.line,name:l10n_ro_hr_payroll.ro_public_holidays_5
+msgid "Sfintele Paști - a doua zi"
+msgstr ""
+
+#. module: l10n_ro_hr_payroll
+#: model:hr.holidays.public.line,name:l10n_ro_hr_payroll.ro_public_holidays_4
+msgid "Sfintele Paști - prima zi"
+msgstr ""
+
+#. module: l10n_ro_hr_payroll
+#: model:hr.holidays.public.line,name:l10n_ro_hr_payroll.ro_public_holidays_9
+msgid "Sfânta Maria"
+msgstr ""
+
+#. module: l10n_ro_hr_payroll
+#: model:hr.holidays.public.line,name:l10n_ro_hr_payroll.ro_public_holidays_10
+msgid "Sfântul Andrei"
+msgstr ""
+
+#. module: l10n_ro_hr_payroll
+#: field:hr.holidays,status_type:0
+msgid "Sick Leave Code"
+msgstr ""
+
+#. module: l10n_ro_hr_payroll
+#: view:website:l10n_ro_hr_payroll.report_meal_vouchers_template
+msgid "Signature"
+msgstr ""
+
+#. module: l10n_ro_hr_payroll
+#: field:hr.holidays.public,state:0
+msgid "State"
+msgstr ""
+
+#. module: l10n_ro_hr_payroll
+#: view:hr.holidays.status.type:l10n_ro_hr_payroll.edit_holiday_status_type
+msgid "Status Type"
+msgstr ""
+
+#. module: l10n_ro_hr_payroll
+#: field:res.company.payrolltaxes,code:0
+msgid "Tax Code"
+msgstr ""
+
+#. module: l10n_ro_hr_payroll
+#: field:res.company.payrolltaxes,name:0
+msgid "Tax Name"
+msgstr ""
+
+#. module: l10n_ro_hr_payroll
+#: field:res.company.payrolltaxes,value:0
+msgid "Tax Value"
+msgstr ""
+
+#. module: l10n_ro_hr_payroll
+#: model:hr.holidays.public.line,name:l10n_ro_hr_payroll.ro_public_holidays_3
+msgid "Unirea Principatelor"
+msgstr ""
+
+#. module: l10n_ro_hr_payroll
+#: view:hr.wage.history:l10n_ro_hr_payroll.view_wage_history_tree
+#: model:ir.actions.act_window,name:l10n_ro_hr_payroll.open_wage_history_view
+#: model:ir.ui.menu,name:l10n_ro_hr_payroll.menu_wage_history_view
+msgid "Wage History"
+msgstr ""
+
+#. module: l10n_ro_hr_payroll
+#: model:hr.holidays.public.line,name:l10n_ro_hr_payroll.ro_public_holidays_11
+msgid "Ziua Națională"
+msgstr ""
+
+#. module: l10n_ro_hr_payroll
+#: model:ir.model,name:l10n_ro_hr_payroll.model_hr_contract_advantages
+msgid "hr_contract_advantages"
+msgstr ""
+
+#. module: l10n_ro_hr_payroll
+#: model:ir.model,name:l10n_ro_hr_payroll.model_hr_holidays_status_type
+msgid "hr_holidays_status_type"
+msgstr ""
+
+#. module: l10n_ro_hr_payroll
+#: model:ir.model,name:l10n_ro_hr_payroll.model_hr_meal_vouchers
+#: model:ir.model,name:l10n_ro_hr_payroll.model_hr_meal_vouchers_line
+msgid "hr_meal_vouchers"
+msgstr ""
+
+#. module: l10n_ro_hr_payroll
+#: model:ir.model,name:l10n_ro_hr_payroll.model_hr_wage_history
+msgid "hr_wage_history"
+msgstr ""
+
+#. module: l10n_ro_hr_payroll
+#: model:ir.model,name:l10n_ro_hr_payroll.model_res_company_payrolltaxes
+msgid "res_company_payrolltaxes"
+msgstr ""
+
