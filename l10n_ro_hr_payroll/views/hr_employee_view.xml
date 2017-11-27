@@ -1,0 +1,26 @@
+<?xml version="1.0"?>
+<odoo>
+    <record id="view_employee_form_romania" model="ir.ui.view">
+        <field name="name">view.employee.form.romania</field>
+        <field name="model">hr.employee</field>
+        <field name="inherit_id" ref="hr.view_employee_form"/>
+        <field name="arch" type="xml">
+            <page name="hr_settings" position="after">
+                <page name="hr_income" string="Income History">
+                    <field name="income_ids" context="{'employee_id': active_id, 'default_employee_id': active_id}">
+                        <tree string="Payslip History" editable="bottom">
+                        <field name="employee_id" invisible="1"/>
+                        <field name="payslip_id"/>
+                        <field name="date_from"/>
+                        <field name="date_to"/>
+                        <field name="number_of_days" sum="Total Working Days"/>
+                        <field name="number_of_hours" sum="Total Working Hours"/>
+                        <field name="gross_amount" sum="Total Gross Income"/>
+                        <field name="net_amount" sum="Total Net Salary"/>
+                        </tree>
+                    </field>
+                </page>
+            </page>
+        </field>
+    </record>
+</odoo>

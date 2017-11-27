@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+<odoo>
+    <template id="report_meal_vouchers_template">
+        <t t-foreach="docs" t-as="o">
+            <t t-call="web.external_layout">
+                <div class="page">
+                    <h2>Meal Vouchers</h2>
+                    <p t-field="o.name"/>
+                    <table class="table table-condensed table-bordered">
+                        <thead>
+                            <tr>
+                                <td>Name</td>
+                                <td># of Meal Vouchers</td>
+                                <td>Serial # from</td>
+                                <td>Serial # to</td>
+                                <td>Signature</td>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr t-foreach="o.line_ids" t-as="l">
+                                <td><span t-field="l.employee_id"/></td>
+                                <td><span t-field="l.vouchers_no"/></td>
+                                <td><span t-field="l.serial_from"/></td>
+                                <td><span t-field="l.serial_to"/></td>
+                                <td></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </t>
+        </t>
+    </template>
+</odoo>

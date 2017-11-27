@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<odoo>
+
+    <record id="edit_holiday_amounts_form2" model="ir.ui.view">
+        <field name="name">hr.holidays.amounts.form</field>
+        <field name="model">hr.holidays</field>
+        <field name="inherit_id" ref="l10n_ro_hr_medical_holidays.edit_holiday_medical_form"/>
+        <field name="arch" type="xml">
+            <group name="med_days" position="after">
+                <group string="Holiday Amounts" name="med_amounts" attrs="{'invisible': [('is_sick_leave', '=', False)]}">
+                    <field name="daily_base"/>
+                    <field name="employer_amount"/>
+                    <field name="budget_amount"/>
+                    <field name="total_amount"/>
+                </group>
+            </group>
+        </field>
+    </record>
+</odoo>
