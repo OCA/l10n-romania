@@ -1,15 +1,12 @@
-.. image:: https://img.shields.io/badge/licence-AGPL--3-blue.svg
+.. image:: https://img.shields.io/badge/license-AGPL--3-blue.png
+    :target: https://www.gnu.org/licenses/agpl
     :alt: License: AGPL-3
 
-=============================
-Romania - Localization Config
-=============================
+=========================
+Romania - Human Resources
+=========================
 
-This module allows you to install and configure all the localization modules
-related to Romania.
-
-Some of the modules will load data at install.
-
+This module allows you to configure company CAEN codes, related persons to employees.
 
 Installation
 ============
@@ -19,15 +16,8 @@ To install this module, you need to:
 * clone the branch 11.0 of the repository https://github.com/OCA/l10n-romania
 * add the path to this repository in your configuration (addons-path)
 * update the module list
-* search for "Romania - Localization Config" in your addons
+* search for "Romania - Human Resources" in your addons
 * install the module
-
-If you have already set up the path of the repository before creating the
-database, when installing the l10n_ro module from the Odoo base addons,
-this module will automatically install.
-
-At install it will change the main currency to RON and set the rate to 1.
-
 
 Usage
 =====
@@ -52,7 +42,7 @@ Credits
 Images
 ------
 
-* Odoo Community Association: `Icon <https://github.com/OCA/maintainer-tools/blob/master/template/module/static/description/icon.svg>`_.
+* Odoo Community Association: `Icon <https://odoo-community.org/logo.png>`_.
 
 Contributors
 ------------
@@ -66,9 +56,9 @@ Do not contact contributors directly about support or help with technical issues
 Maintainer
 ----------
 
-.. image:: http://odoo-community.org/logo.png
+.. image:: https://odoo-community.org/logo.png
    :alt: Odoo Community Association
-   :target: http://odoo-community.org
+   :target: https://odoo-community.org
 
 This module is maintained by the OCA.
 
@@ -76,4 +66,4 @@ OCA, or the Odoo Community Association, is a nonprofit organization whose
 mission is to support the collaborative development of Odoo features and
 promote its widespread use.
 
-To contribute to this module, please visit http://odoo-community.org.
+To contribute to this module, please visit https://odoo-community.org.
