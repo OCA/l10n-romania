@@ -1,15 +1,12 @@
-.. image:: https://img.shields.io/badge/licence-AGPL--3-blue.svg
+.. image:: https://img.shields.io/badge/license-AGPL--3-blue.png
+    :target: https://www.gnu.org/licenses/agpl
     :alt: License: AGPL-3
 
-=============================
-Romania - Localization Config
-=============================
+============================
+Romania - Employee Contracts
+============================
 
-This module allows you to install and configure all the localization modules
-related to Romania.
-
-Some of the modules will load data at install.
-
+This module allows you to configure employee contracts base on Romania legislation.
 
 Installation
 ============
@@ -19,21 +16,11 @@ To install this module, you need to:
 * clone the branch 11.0 of the repository https://github.com/OCA/l10n-romania
 * add the path to this repository in your configuration (addons-path)
 * update the module list
-* search for "Romania - Localization Config" in your addons
+* search for "Romania - Employee Contracts" in your addons
 * install the module
-
-If you have already set up the path of the repository before creating the
-database, when installing the l10n_ro module from the Odoo base addons,
-this module will automatically install.
-
-At install it will change the main currency to RON and set the rate to 1.
-
 
 Usage
 =====
-
-On the Settings / General Settings you will have a new menu called Romania,
-from where you can install, config, load datas from different modules.
 
 .. image:: https://odoo-community.org/website/image/ir.attachment/5784_f2813bd/datas
    :alt: Try me on Runbot
@@ -52,7 +39,7 @@ Credits
 Images
 ------
 
-* Odoo Community Association: `Icon <https://github.com/OCA/maintainer-tools/blob/master/template/module/static/description/icon.svg>`_.
+* Odoo Community Association: `Icon <https://odoo-community.org/logo.png>`_.
 
 Contributors
 ------------

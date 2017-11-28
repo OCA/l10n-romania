@@ -1,7 +1,7 @@
 # Copyright (C) 2017 FOREST AND BIOMASS ROMANIA SA
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
-from odoo import models, fields, api
+from odoo import api, fields, models, _
 
 
 class HRInsuranceType(models.Model):
@@ -18,31 +18,31 @@ class HRInsuranceType(models.Model):
     name = fields.Char('Name', required=True, help='Insurance name')
 
 
-class hr_contract(models.Model):
+class HRContract(models.Model):
     _inherit = 'hr.contract'
 
     @api.model
     def _get_work_norm(self):
-        work = [('N', 'cu norma intreaga'),
-                ('P1', 'cu timp de lucru partial de 1 ora'),
-                ('P2', 'cu timp de lucru partial de 2 ore'),
-                ('P3', 'cu timp de lucru partial de 3 ore'),
-                ('P4', 'cu timp de lucru partial de 4 ore'),
-                ('P5', 'cu timp de lucru partial de 5 ore'),
-                ('P6', 'cu timp de lucru partial de 6 ore'),
-                ('P7', 'cu timp de lucru partial de 7 ore')]
+        work = [('N', _('full time')),
+                ('P1', _('1 hour partial work time')),
+                ('P2', _('2 hours partial work time')),
+                ('P3', _('3 hours partial work time')),
+                ('P4', _('4 hours partial work time')),
+                ('P5', _('5 hours partial work time')),
+                ('P6', _('6 hours partial work time')),
+                ('P7', _('7 hours partial work time'))]
         return work
 
     @api.model
     def _get_work_hours(self):
-        hours = [('6', '6 ore'), ('7', '7 ore'), ('8', '8 ore')]
+        hours = [('6', _('6 hours')), ('7', _('7 hours')), ('8', _('8 hours'))]
         return hours
 
     @api.model
     def _get_work_type(self):
-        worktype = [('1', 'Conditii normale'),
-                    ('2', 'Conditii deosebite'),
-                    ('3', 'Conditii Speciale')]
+        worktype = [('1', _('Normal Conditions')),
+                    ('2', _('Particular Conditions')),
+                    ('3', _('Special Conditions'))]
         return worktype
 
     @api.model

@@ -3,7 +3,7 @@
 
 {
     'name': 'Romania - Employee Contracts',
-    'summary': 'Romania  - Employee Contracts',    
+    'summary': 'Romania  - Employee Contracts',
     'version': '11.0.1.0.0',
     'category': 'Localization',
     'author': 'Forest and Biomass Romania, '
@@ -17,6 +17,6 @@
         'data/hr.insurance.type.csv',
         'data/hr.job.csv',
         'views/hr_contract_view.xml',
-        'security/ir.model.access.csv',],
+        'security/ir.model.access.csv'],
     'auto_install': False,
 }
