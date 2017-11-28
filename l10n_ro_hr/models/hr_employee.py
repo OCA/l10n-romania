@@ -1,14 +1,20 @@
 # Copyright (C) 2017 FOREST AND BIOMASS ROMANIA SA
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
-from odoo import models, fields, api, _
-from odoo.exceptions import ValidationError
-from stdnum.ro.cnp import get_birth_date, is_valid as validate_cnp
-from datetime import timedelta, date
+import logging
 
-# luat de pe wikipedia:
-# http://ro.wikipedia.org/wiki/Cod_numeric_personal#JJ
-pob = {
+from odoo import api, fields, models, _
+from odoo.exceptions import ValidationError
+
+_logger = logging.getLogger(__name__)
+
+try:
+    from stdnum.ro.cnp import get_birth_date, is_valid as validate_cnp
+except ImportError:
+    _logger.debug("Cannot import check_vies method from python stdnum.")
+
+# Source: http://ro.wikipedia.org/wiki/Cod_numeric_personal#JJ
+birthplace = {
     '01': u'Alba',
     '02': u'Arad',
     '03': u'Argeș',
@@ -64,35 +70,35 @@ class HREmployeeRelated(models.Model):
     _name = 'hr.employee.related'
     _description = "Employee person in care or are coinsured"
 
-    @api.one
     @api.constrains('ssnid')
     def _validate_ssnid(self):
-        if self.ssnid and not validate_cnp(self.ssnid):
-            raise ValidationError('Invalid SSN number')
+        for relation in self:
+            if relation.ssnid and not validate_cnp(relation.ssnid):
+                raise ValidationError(_('Invalid SSN number'))
 
-    @api.one
     @api.constrains('relation', 'relation_type')
     def _validate_relation(self):
-        if self.relation_type and self.relation:
-            if self.relation_type in ('coinsured', 'both') and \
-                    self.relation not in ('husband', 'wife', 'parent'):
-                raise ValidationError(_("Just parents and husband/wife"))
+        for relation in self:
+            if relation.relation_type and relation.relation:
+                if relation.relation_type in ('coinsured', 'both') and \
+                        relation.relation not in ('husband', 'wife', 'parent'):
+                    raise ValidationError(_('Just parents and husband/wife'))
 
     @api.model
     def _get_relation_dict(self):
-        rel_dict = [('husband', 'Husband'),
-                    ('wife', 'Wife'),
-                    ('parent', 'Parent'),
-                    ('child', 'Child'),
-                    ('firstdegree', 'First degree relationship'),
-                    ('secdegree', 'Second degree relationship')]
+        rel_dict = [('husband', _('Husband')),
+                    ('wife', _('Wife')),
+                    ('parent', _('Parent')),
+                    ('child', _('Child')),
+                    ('firstdegree', _('First degree relationship')),
+                    ('secdegree', _('Second degree relationship'))]
         return rel_dict
 
     @api.model
     def _get_relation_type_dict(self):
-        rel_type_dict = [('in_care', 'In Care'),
-                         ('coinsured', 'Coinsured'),
-                         ('both', 'Both')]
+        rel_type_dict = [('in_care', _('In Care')),
+                         ('coinsured', _('Coinsured')),
+                         ('both', _('Both'))]
         return rel_type_dict
 
     employee_id = fields.Many2one('hr.employee', 'Employee', required=True)
@@ -116,42 +122,32 @@ class HREmployeeRelated(models.Model):
 class Employee(models.Model):
     _inherit = 'hr.employee'
 
-    @api.one
+    @api.multi
     @api.depends('person_related')
-    def _number_personcare(self):
-        self.person_in_care = self.person_related.search_count([
-            ('relation_type', 'in', ('in_care', 'both')),
-            ('employee_id', '=', self.id),
-        ])
+    def _compute_person_in_care(self):
+        for employee in self:
+            employee.person_in_care = employee.person_related.search_count([
+                ('relation_type', 'in', ('in_care', 'both')),
+                ('employee_id', '=', employee.id),
+            ])
 
     @api.onchange('ssnid')
     def _ssnid_birthday_gender(self):
-        self.ensure_one()
+        gender = bplace = bday = False
         if self.ssnid and self.country_id and\
                 'RO' in self.country_id.code.upper():
             if not validate_cnp(self.ssnid):
-                raise ValidationError('Invalid SSN number')
-            gender = bp = None
-            if self.ssnid[7:9] in pob.keys():
-                bp = pob[self.ssnid[7:9]]
-            try:
-                bday = get_birth_date(self.ssnid)
-            except:
-                bday = None
+                raise ValidationError(_("Invalid SSN number"))
+            if self.ssnid[7:9] in birthplace.keys():
+                bplace = birthplace[self.ssnid[7:9]]
+            bday = get_birth_date(self.ssnid)
             if self.ssnid[0] in '1357':
                 gender = 'male'
             elif self.ssnid[0] in '2468':
                 gender = 'female'
-            self.gender = gender
-            self.birthday = bday
-            self.place_of_birth = bp
-
-    @api.multi
-    def _return_medic_exam_expiring(self):
-        return self.search([
-            ('active', '=', True),
-            ('medic_exam', '>=', self._medic_exam_expires()),
-        ])
+        self.gender = gender
+        self.birthday = bday
+        self.place_of_birth = bplace
 
     @api.model
     def _get_casang_dict(self):
@@ -183,12 +179,11 @@ class Employee(models.Model):
         'Initial SSN No', help='Initial Social Security Number')
     first_name_init = fields.Char('Initial Name')
     last_name_init = fields.Char('Initial First Name')
-    casang = fields.Selection(
-        '_get_casang_dict', string='Insurance', required=True)
-    person_related = fields.One2many(
-        'hr.employee.related', 'employee_id', 'Related Persons')
+    casang = fields.Selection('_get_casang_dict', string='Insurance')
+    person_related = fields.One2many('hr.employee.related', 'employee_id',
+                                     'Related Persons')
     person_in_care = fields.Integer(string='No of persons in care',
-                                    compute='_number_personcare',
+                                    compute='_compute_person_in_care',
                                     help='Number of persons in care')
     emit_by = fields.Char('Emmited by')
     emit_on = fields.Date('Emmited on')

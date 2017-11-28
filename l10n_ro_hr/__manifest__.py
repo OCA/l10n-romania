@@ -3,21 +3,25 @@
 
 
 {
-    "name": "Romania - Human Resources",
-    "version": "11.0.1.0.0",
-    "author": "FOREST AND BIOMASS ROMANIA",
-    "website": "http://www.forbiom.eu",
-    "category": "Localization",
-    "depends": ['hr', 'hr_employee_firstname'],
-    "external_dependencies": {
-        'python' : ['stdnum'],
+    'name': 'Romania - Human Resources',
+    'summary': 'Romania  - Human Resources',
+    'version': '11.0.1.0.0',
+    'category': 'Localization',
+    'author': 'Forest and Biomass Romania, '
+              'Odoo Community Association (OCA)',
+    'website': 'https://www.forbiom.eu',
+    'license': 'AGPL-3',
+    'installable': True,
+    'depends': ['hr', 'hr_employee_firstname'],
+    'external_dependencies': {
+        'python': ['stdnum'],
     },
-    "description": "Romania  - Human Resources",
-    "data": [
-        "data/res.company.caen.csv",
-        "views/hr_employee_view.xml",
-        "views/res_company_view.xml",
-        "security/ir.model.access.csv",
+    'data': [
+        'views/hr_employee_view.xml',
+        'views/res_company_view.xml',
+        'security/ir.model.access.csv',
     ],
-    "installable": True
+    'demo': [
+        'data/hr_demo.xml'
+    ],
 }
