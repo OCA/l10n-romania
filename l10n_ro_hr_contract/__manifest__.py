@@ -15,7 +15,6 @@
     'depends': ['hr_contract'],
     'data': [
         'data/hr.insurance.type.csv',
-        'data/hr.job.csv',
         'views/hr_contract_view.xml',
         'security/ir.model.access.csv'],
     'auto_install': False,

@@ -60,7 +60,7 @@ class HRContract(models.Model):
         return workspecial
 
     revisal_no = fields.Char('REVISAL Number', required=True,
-                             help='Numbered registered in Revisal')
+                             help='Number registered in Revisal')
     internal_no = fields.Char('Internal Number',
                               help='Internal Number')
     period_type = fields.Boolean(
