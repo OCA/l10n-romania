@@ -14,6 +14,7 @@
             <field name="name">BRD Account</field>
             <field name="reconcile" eval='True'/>
             <field name="user_type_id" ref="account.data_account_type_liquidity"/>
+            <field name="currency_id" ref="base.EUR"/>
         </record>
         
         <record id="seq_brd_account_journal" model="ir.sequence">
@@ -31,6 +32,7 @@
             <field name="default_debit_account_id" ref="brd_account_id"/>
             <field name="default_credit_account_id" ref="brd_account_id"/>
             <field name="bank_account_id" ref="mt940_brd_company_bank"/>
+            <field name="currency_id" ref="base.EUR"/>
         </record>
     </data>
 </odoo>
