@@ -1,8 +1,8 @@
-# Copyright  2015 Forest and Biomass Romania
+# Copyright (C) 2015 Forest and Biomass Romania
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
-from odoo import models, fields, api, tools
 import os
+from odoo import models, fields, api, tools
 
 
 class ResConfigSettings(models.TransientModel):
@@ -71,11 +71,11 @@ class ResConfigSettings(models.TransientModel):
                          'res.country.commune.csv',
                          'res.city.csv']
                 for file1 in files:
-                    with tools.file_open(path + file1) as fp:
+                    with tools.file_open(path + file1) as fdata:
                         tools.convert_csv_import(self._cr,
                                                  'l10n_ro_config',
                                                  file1,
-                                                 bytes(fp.read(), 'utf-8'),
+                                                 bytes(fdata.read(), 'utf-8'),
                                                  {},
                                                  mode="init",
                                                  noupdate=True)
@@ -89,11 +89,11 @@ class ResConfigSettings(models.TransientModel):
                 path = data_dir + '/l10n_ro_hr/'
                 files = ['hr.job.csv']
                 for file1 in files:
-                    with tools.file_open(path + file1) as fp:
+                    with tools.file_open(path + file1) as fdata:
                         tools.convert_csv_import(self._cr,
                                                  'l10n_ro_config',
                                                  file1,
-                                                 bytes(fp.read(), 'utf-8'),
+                                                 bytes(fdata.read(), 'utf-8'),
                                                  {},
                                                  mode="init",
                                                  noupdate=True)
@@ -107,11 +107,11 @@ class ResConfigSettings(models.TransientModel):
                 path = data_dir + '/l10n_ro_hr/'
                 files = ['res.company.caen.csv']
                 for file1 in files:
-                    with tools.file_open(path + file1) as fp:
+                    with tools.file_open(path + file1) as fdata:
                         tools.convert_csv_import(self._cr,
                                                  'l10n_ro_config',
                                                  file1,
-                                                 bytes(fp.read(), 'utf-8'),
+                                                 bytes(fdata.read(), 'utf-8'),
                                                  {},
                                                  mode="init",
                                                  noupdate=True)
@@ -129,11 +129,11 @@ class ResConfigSettings(models.TransientModel):
                          'hr.medical.emergency.disease.csv',
                          'hr.medical.infecto.disease.csv']
                 for file1 in files:
-                    with tools.file_open(path + file1) as fp:
+                    with tools.file_open(path + file1) as fdata:
                         tools.convert_csv_import(self._cr,
                                                  'l10n_ro_config',
                                                  file1,
-                                                 bytes(fp.read(), 'utf-8'),
+                                                 bytes(fdata.read(), 'utf-8'),
                                                  {},
                                                  mode="init",
                                                  noupdate=True)
