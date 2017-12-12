@@ -1,0 +1,2 @@
+# bank-statement-import
+bank-statement-import https://github.com/feketemihai/bank-statement-import 11.0-mig-account_bank_statement_import_mt940_base
