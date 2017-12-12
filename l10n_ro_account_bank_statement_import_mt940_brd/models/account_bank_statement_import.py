@@ -1,9 +1,8 @@
-# -*- coding: utf-8 -*-
-# ©  2016 Forest and Biomass Services Romania
-# See README.rst file on addons root folder for license details
+# Copyright (C) 2016 Forest and Biomass Romania
+# License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
 import logging
-from openerp import models
+from odoo import models
 from .mt940 import MT940Parser as Parser
 
 _logger = logging.getLogger(__name__)
@@ -13,7 +12,7 @@ class AccountBankStatementImport(models.TransientModel):
     """Add parsing of mt940 files to bank statement import."""
     _inherit = 'account.bank.statement.import'
 
-    def _parse_file(self, cr, uid, data_file, context=None):
+    def _parse_file(self, data_file):
         """Parse a MT940 IBAN BRD file."""
         parser = Parser()
         try:
@@ -24,4 +23,4 @@ class AccountBankStatementImport(models.TransientModel):
             _logger.debug("Statement file was not a MT940 IBAN BRD file.",
                           exc_info=True)
             return super(AccountBankStatementImport, self)._parse_file(
-                cr, uid, data_file, context=context)
+                data_file)

@@ -1,9 +1,8 @@
-# -*- coding: utf-8 -*-
-# ©  2016 Forest and Biomass Services Romania
-# See README.rst file on addons root folder for license details
+# Copyright (C) 2016 Forest and Biomass Romania
+# License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
 import re
-from openerp.addons.account_bank_statement_import_mt940_base.mt940 import (
+from odoo.addons.account_bank_statement_import_mt940_base.mt940 import (
     MT940, str2amount)
 
 
@@ -15,11 +14,12 @@ def get_counterpart(transaction, subfield):
     if not subfield:
         return  # subfield is empty
     if len(subfield) >= 1 and subfield[0]:
-        transaction.remote_account = subfield[0]
+        transaction.update({'account_number': subfield[0]})
     if len(subfield) >= 2 and subfield[1]:
-        transaction.remote_owner = subfield[1]
+        transaction.update({'partner_name': subfield[1]})
     if len(subfield) >= 3 and subfield[2]:
-        transaction.remote_owner_tin = subfield[2]
+        # Holds the partner VAT number
+        pass
 
 
 def get_subfields(data, codewords):
@@ -78,15 +78,15 @@ def handle_common_subfields(transaction, subfields):
     if counterpart_fields:
         get_counterpart(transaction, counterpart_fields)
     # REMI: Remitter information (text entered by other party on trans.):
-    transaction.message = ''
+    if not transaction.get('name'):
+        transaction['name'] = ''
     for counterpart_field in ['23', '24', '25', '26', '27']:
         if counterpart_field in subfields:
-            transaction.message += (
+            transaction['name'] += (
                 '/'.join(x for x in subfields[counterpart_field] if x))
     # Get transaction reference subfield (might vary):
-    if transaction.eref in subfields:
-        transaction.eref = ''.join(
-            subfields[transaction.eref])
+    if transaction.get('ref') in subfields:
+        transaction['ref'] = ''.join(subfields[transaction['ref']])
 
 
 class MT940Parser(MT940):
@@ -102,20 +102,17 @@ class MT940Parser(MT940):
         """Initialize parser - override at least header_regex."""
         super(MT940Parser, self).__init__()
         self.mt940_type = 'BRD'
-        self.header_lines = 1  # Number of lines to skip
-        # Do not user $ for end of string below: line contains much
-        # more data than just the first line.
+        self.header_lines = 1
         self.header_regex = '^:20:'  # Start of relevant data
 
     def handle_tag_25(self, data):
         """Local bank account information."""
         data = data.replace('.', '').strip()
-        self.current_statement.local_account = data
+        self.account_number = data
 
     def handle_tag_28(self, data):
         """Number of BRD bank statement."""
-        stmt = self.current_statement
-        stmt.statement_id = data.replace('.', '').strip()
+        self.current_statement['name'] = data.replace('.', '').strip()
 
     def handle_tag_61(self, data):
         """get transaction values"""
@@ -124,9 +121,9 @@ class MT940Parser(MT940):
         if not re_61:
             raise ValueError("Cannot parse %s" % data)
         parsed_data = re_61.groupdict()
-        self.current_transaction.transferred_amount = (
+        self.current_transaction['amount'] = (
             str2amount(parsed_data['sign'], parsed_data['amount']))
-        self.current_transaction.eref = parsed_data['reference']
+        self.current_transaction['note'] = parsed_data['reference']
 
     def handle_tag_86(self, data):
         """Parse 86 tag containing reference data."""
