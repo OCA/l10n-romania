@@ -1,13 +1,13 @@
-# Copyright  2015 Forest and Biomass Romania
+# Copyright (C) 2015 Forest and Biomass Romania
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
+
 import logging
-from openerp import models, fields, api
+from odoo import api, fields, models
 
 _logger = logging.getLogger(__name__)
 
 
 class ResPartner(models.Model):
-    _name = 'res.partner'
     _inherit = 'res.partner'
 
     @api.onchange('city_id')
