@@ -25,18 +25,15 @@
         'views/hr_holidays.xml',
         'views/hr_meal_vouchers.xml',
         'views/hr_wage_history.xml',
-        #'wizard/attendance_fulfill_view.xml',
-        #'wizard/hr_attendance_bymonth_view.xml',
         # data
         'data/res.partner.csv',
-        'data/hr.contribution.register.csv',
         'data/hr.wage.history.csv',
+        'data/hr.contribution.register.csv',
         'data/hr_salary_rule_category.xml',
         'data/hr_salary_rule.xml',
         # report
-        #'report/hr_meal_vouchers.xml',
-        #'report/report_meal_vouchers_template.xml',
-        #'report/hr_attendance_by_month.xml',
+        'report/hr_meal_vouchers.xml',
+        'report/report_meal_vouchers_template.xml',
         # model access
         'security/hr_security.xml',
         'security/ir.model.access.csv',],

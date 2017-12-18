@@ -39,8 +39,7 @@ class HrPayslip(models.Model):
             return res
 
         res = []
-        for contract in contracts.filtered(
-                lambda contract: contract.resource_calendar_id):
+        for contract in contracts:
             attendances = {
                 'name': _("Normal Working Days paid at 100%"),
                 'sequence': 1,

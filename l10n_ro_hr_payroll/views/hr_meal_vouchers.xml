@@ -18,7 +18,7 @@
             <field name="arch" type="xml">
                 <form string="Meal Vouchers">
                     <header>
-                        <button string="Get # of Meal Vouchers" name="build_lines" type="object" groups="base.group_hr_user"/>
+                        <button string="Get # of Meal Vouchers" name="build_lines" type="object"  class="oe_highlight"/>
                     </header>
                     <group colspan="4">
                         <group col="2">
@@ -85,5 +85,5 @@
                   id="menu_hr_meal_vouchers_view"
                   parent="hr_payroll.menu_hr_payroll_root"
                   groups="hr_payroll.group_hr_payroll_user"
-                  sequence="100"/>
+                  sequence="40"/>
 </odoo>

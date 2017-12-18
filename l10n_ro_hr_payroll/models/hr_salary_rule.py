@@ -21,4 +21,4 @@ class HrSalaryRule(models.Model):
         localdict.update({
             'working_days_hours': (working_days, working_hours),
         })
-        return super(HrSalaryRule, self).compute_rule(localdict)
+        return super(HrSalaryRule, self)._compute_rule(localdict)

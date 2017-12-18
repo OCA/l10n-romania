@@ -26,9 +26,9 @@ class HRMealVouchers(models.Model):
     _name = 'hr.meal.vouchers'
     _description = 'Meal Vouchers per Company'
 
-    @api.depends('date_from', 'date_to')
+    @api.depends('company_id', 'date_from', 'date_to')
     def _compute_name(self):
-        self.name = _("Period %s - %s") % (self.date_from, self.date_to)
+        self.name = _("%s - Period %s - %s") % (self.company_id.name, self.date_from, self.date_to)
 
     @api.onchange('date_from')
     def _onchange_date_from(self):
@@ -78,7 +78,7 @@ class HRMealVouchers(models.Model):
             tich_rule = self.env.ref('l10n_ro_hr_payroll.tichetedemasa')
             if tich_rule and tich_rule in contract.struct_id.rule_ids:
                 num = self.env['hr.payslip'].get_worked_day_lines(
-                    [contract.id], self.date_from, self.date_to
+                    contract, self.date_from, self.date_to
                 )[0]['number_of_days']
 
                 if num > 0.0:
@@ -86,7 +86,7 @@ class HRMealVouchers(models.Model):
                         'meal_voucher_id': self.id,
                         'employee_id': contract.employee_id.id,
                         'contract_id': contract.id,
-                        'num_vouchers': num,
+                        'vouchers_no': num,
                         'voucher_value': voucher_value
                     })
         return True

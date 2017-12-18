@@ -49,10 +49,14 @@
 			<field name="name">PREMII / REGULARIZARI</field>
 			<field name="parent_id" ref="venitbrut_categ"/>
 		</record>
-		<record id="sporuri_categ" model="hr.salary.rule.category">
-			<field name="code">SPOR</field>
-			<field name="name">SPORURI</field>
+		<record id="sporimpozabil_categ" model="hr.salary.rule.category">
+			<field name="code">SPORIMP</field>
+			<field name="name">SPORURI IMPOZABILE</field>
 			<field name="parent_id" ref="venitbrut_categ"/>
+		</record>
+		<record id="sporneimpozabil_categ" model="hr.salary.rule.category">
+			<field name="code">SPORNEIMP</field>
+			<field name="name">SPORURI NEIMPOZABILE</field>
 		</record>
 		
 		<!-- Contributii Angajat -->
@@ -64,11 +68,6 @@
 		<record id="contributiiangajat_categ1" model="hr.salary.rule.category">
 			<field name="code">ANG_ALL</field>
 			<field name="name">TOTAL CONTRIBUTII ANGAJAT</field>
-		</record>
-		<record id="somajangajat_categ" model="hr.salary.rule.category">
-			<field name="code">ANG_SOMAJ</field>
-			<field name="name">SOMAJ ANGAJAT</field>
-			<field name="parent_id" ref="contributiiangajat_categ"/>
 		</record>
 		<record id="casangajat_categ" model="hr.salary.rule.category">
 			<field name="code">ANG_CAS</field>
@@ -154,35 +153,15 @@
 		<record id="contributiiangajator_categ1" model="hr.salary.rule.category">
 			<field name="code">COMP_ALL</field>
 			<field name="name">TOTAL CONTRIBUTII ANGAJATOR</field>
-		</record>	
-		<record id="somajangajator_categ" model="hr.salary.rule.category">
-			<field name="code">COMP_SOMAJ</field>
-			<field name="name">SOMAJ ANGAJATOR</field>
-			<field name="parent_id" ref="contributiiangajator_categ"/>
 		</record>
 		<record id="casangajator_categ" model="hr.salary.rule.category">
 			<field name="code">COMP_CAS</field>
 			<field name="name">CAS ANGAJATOR</field>
 			<field name="parent_id" ref="contributiiangajator_categ"/>
 		</record>
-		<record id="cassangajator_categ" model="hr.salary.rule.category">
-			<field name="code">COMP_CASS</field>
-			<field name="name">CASS ANGAJATOR</field>
-			<field name="parent_id" ref="contributiiangajator_categ"/>
-		</record>
-		<record id="fondconcediimedicale_categ" model="hr.salary.rule.category">
-			<field name="code">COMP_FCON</field>
-			<field name="name">FOND CONCEDII MEDICALE</field>
-			<field name="parent_id" ref="contributiiangajator_categ"/>
-		</record>
-		<record id="fondaccidente_categ" model="hr.salary.rule.category">
-			<field name="code">COMP_FACC</field>
-			<field name="name">FOND ACCIDENTE</field>
-			<field name="parent_id" ref="contributiiangajator_categ"/>
-		</record>
-		<record id="fondgarantaresalarii_categ" model="hr.salary.rule.category">
-			<field name="code">COMP_FSAL</field>
-			<field name="name">FOND GARANTARE SALARII</field>
+		<record id="contributieasiguratoaremunca_categ" model="hr.salary.rule.category">
+			<field name="code">COMP_CAM</field>
+			<field name="name">CONTRIBUTIE ASIGURATOARE DE MUNCA</field>
 			<field name="parent_id" ref="contributiiangajator_categ"/>
 		</record>
     </data> 
