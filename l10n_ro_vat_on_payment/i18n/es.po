@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 8.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-03-25 08:38+0000\n"
-"PO-Revision-Date: 2017-03-25 08:38+0000\n"
+"POT-Creation-Date: 2017-11-25 05:16+0000\n"
+"PO-Revision-Date: 2017-11-25 05:16+0000\n"
 "Last-Translator: OCA Transbot <transbot@odoo-community.org>, 2016\n"
 "Language-Team: Spanish (https://www.transifex.com/oca/teams/23907/es/)\n"
 "MIME-Version: 1.0\n"
@@ -147,7 +147,7 @@ msgstr ""
 #. module: l10n_ro_vat_on_payment
 #: field:res.partner,vat_number:0
 msgid "VAT number"
-msgstr ""
+msgstr "NIF"
 
 #. module: l10n_ro_vat_on_payment
 #: help:res.partner,vat_number:0
