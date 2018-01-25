@@ -1,6 +1,5 @@
-# -*- coding: utf-8 -*-
-# ©  2015 Forest and Biomass Services Romania
-# See README.rst file on addons root folder for license details
-
+from . import res_partner_anaf
 from . import res_partner
+from . import account_tax
+from . import account_partial_reconcile
 from . import account_invoice
