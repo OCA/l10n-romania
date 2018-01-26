@@ -12,9 +12,8 @@ It extends ODOO/OpenERP functionalities to be usable in Romania.
 
 List of Modules
 ---------------
-
 [//]: # (addons)
-this part will be replaced nightly
+
 [//]: # (end addons)
 
 Translation Status
