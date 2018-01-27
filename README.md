@@ -14,6 +14,12 @@ List of Modules
 ---------------
 [//]: # (addons)
 
+Available addons
+----------------
+addon | version | summary
+--- | --- | ---
+[l10n_ro_partner_create_by_vat](l10n_ro_partner_create_by_vat/) | 11.0.1.0.0 | Romania - Partner Create by VAT
+
 [//]: # (end addons)
 
 Translation Status
