@@ -1,2 +1,1 @@
-# hr
-hr https://github.com/feketemihai/hr
+hr
