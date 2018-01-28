@@ -1,31 +1,26 @@
-# -*- coding: utf-8 -*-
-# ©  2015 Forest and Biomass Services Romania
-# See README.rst file on addons root folder for license details
+# Copyright (C) 2015 Forest and Biomass Romania
+# License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
-from openerp import models
+from odoo import api, models, _
+from odoo.exceptions import ValidationError
 
 
 class ResPartner(models.Model):
-    _inherit = "res.partner"
+    _inherit = 'res.partner'
 
-    def _auto_init(self, cr, context=None):
-        # Remove vat and nrc unique constraints from Odoo base addons from
-        # https://github.com/odoo/odoo/blob/8.0/addons/l10n_ro/res_partner.py
-        # history, if exists, and add a new one based on
-        # company_id, vat and nrc pair.
-        result = super(ResPartner, self)._auto_init(cr, context=context)
-        # Real implementation of the vat/nrc constraints: only
-        # "commercial entities" need to have unique numbers, and the condition
-        # for being a commercial entity is "is_company or parent_id IS NULL".
-        # Contacts inside a company automatically have a copy of the company's
-        # commercial fields (see _commercial_fields()), so they are
-        # automatically consistent.
-        cr.execute("""
-            DROP INDEX IF EXISTS res_partner_vat_nrc_uniq_for_companies;
-            DROP INDEX IF EXISTS res_partner_vat_uniq_for_companies;
-            DROP INDEX IF EXISTS res_partner_nrc_uniq_for_companies;
-            CREATE UNIQUE INDEX res_partner_vat_nrc_uniq_for_companies
-                ON res_partner (company_id, vat, nrc) WHERE is_company OR
-                parent_id IS NULL;
-        """)
-        return result
+    @api.model
+    def _get_vat_nrc_constrain_domain(self):
+        domain = [('parent_id', '=', False),
+                  ('vat', '=', self.vat),
+                  ('nrc', '=', self.nrc)]
+        return domain
+
+    @api.constrains('vat', 'nrc')
+    def _check_vat_nrc_unique(self):
+        for record in self:
+            domain = record._get_vat_nrc_constrain_domain()
+            results = self.env['res.partner'].search(domain)
+            if len(results) > 1:
+                raise ValidationError(
+                    _("The VAT and NRC pair (%s, %s) must be unique!") %
+                    (record.vat, record.nrc))
