@@ -1,0 +1,5 @@
+hr
+hr_pr401 https://github.com/feketemihai/hr 11.0-mig-hr_public_holidays
+l10n-romania_pr18 https://github.com/feketemihai/l10n-romania-1 11.0-add-hr_employee
+l10n-romania_pr19 https://github.com/feketemihai/l10n-romania-1 11.0-add-hr_contract
+l10n-romania_pr20 https://github.com/feketemihai/l10n-romania-1 11.0-add-hr_medical_holidays
