@@ -1,5 +1,5 @@
 # Copyright (C) 2014 Adrian Vasile
-# Copyright (C) 2017 FOREST AND BIOMASS ROMANIA SA
+# Copyright (C) 2018 FOREST AND BIOMASS ROMANIA SA
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
 import time
@@ -28,7 +28,8 @@ class HRMealVouchers(models.Model):
 
     @api.depends('company_id', 'date_from', 'date_to')
     def _compute_name(self):
-        self.name = _("%s - Period %s - %s") % (self.company_id.name, self.date_from, self.date_to)
+        self.name = _("%s - Period %s - %s") % (
+            self.company_id.name, self.date_from, self.date_to)
 
     @api.onchange('date_from')
     def _onchange_date_from(self):
@@ -53,7 +54,7 @@ class HRMealVouchers(models.Model):
             ('company_id', '=', self.company_id.id),
             ('company_id.meal_voucher_ids', '!=', False)
         ])
-        # TODO: Suspended Contracts
+        # To Do: Suspended Contracts
         clause = [('employee_id', 'in', employees.ids), '|', '|']
         clause += ['&', ('date_end', '<=', self.date_to),
                    ('date_end', '>=', self.date_from)]

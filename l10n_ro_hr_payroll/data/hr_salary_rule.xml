@@ -1,43 +1,39 @@
 <?xml version="1.0" ?>
-<openerp>
-    <data>
-
-
-
-<!-- HR SALARY RULES-->
-        <record id="salarrealizat" model="hr.salary.rule">
-            <field name="code">REAL</field>
-            <field name="name">SALAR REALIZAT</field>
-            <field name="category_id" ref="l10n_ro_hr_payroll.salarrealizat_categ"/>
-            <field eval="1" name="sequence"/>
-            <field name="appears_on_payslip" eval="True"/>
-            <field name="condition_select">none</field>
-            <field name="amount_select">code</field>
-            <field name="amount_python_compute">
+<odoo>
+    <!-- HR SALARY RULES-->
+    <record id="salarrealizat" model="hr.salary.rule">
+    <field name="code">REAL</field>
+    <field name="name">SALAR REALIZAT</field>
+    <field name="category_id" ref="l10n_ro_hr_payroll.salarrealizat_categ"/>
+    <field eval="1" name="sequence"/>
+    <field name="appears_on_payslip" eval="True"/>
+    <field name="condition_select">none</field>
+    <field name="amount_select">code</field>
+    <field name="amount_python_compute">
 result = round(contract.wage / payslip.working_days * worked_days.WORK100.number_of_days)</field>
-        </record>
+    </record>
 
-        <record id="concediuodihna" model="hr.salary.rule">
-            <field name="code">OD</field>
-            <field name="name">CONCEDIU ODIHNA</field>
-            <field name="category_id" ref="l10n_ro_hr_payroll.concedii_categ"/>
-            <field eval="10" name="sequence"/>
-            <field name="appears_on_payslip" eval="True"/>
-            <field name="condition_select">none</field>
-            <field name="amount_select">code</field>
-            <field name="amount_python_compute">result = 0
+    <record id="concediuodihna" model="hr.salary.rule">
+    <field name="code">OD</field>
+    <field name="name">CONCEDIU ODIHNA</field>
+    <field name="category_id" ref="l10n_ro_hr_payroll.concedii_categ"/>
+    <field eval="10" name="sequence"/>
+    <field name="appears_on_payslip" eval="True"/>
+    <field name="condition_select">none</field>
+    <field name="amount_select">code</field>
+    <field name="amount_python_compute">result = 0
 if worked_days.LL : result += round(worked_days.LL.number_of_days * worked_days.LL.daily_base)</field>
-        </record>
+    </record>
 
-        <record id="concediimedicale0" model="hr.salary.rule">
-            <field name="code">MEDA</field>
-            <field name="name">CONCEDII MEDICALE - A</field>
-            <field name="category_id" ref="l10n_ro_hr_payroll.concediimedicale_catega"/>
-            <field eval="21" name="sequence"/>
-            <field eval="0" name="appears_on_payslip"/>
-            <field name="condition_select">none</field>
-            <field name="amount_select">code</field>
-            <field name="amount_python_compute">result = 0
+    <record id="concediimedicale0" model="hr.salary.rule">
+    <field name="code">MEDA</field>
+    <field name="name">CONCEDII MEDICALE - A</field>
+    <field name="category_id" ref="l10n_ro_hr_payroll.concediimedicale_catega"/>
+    <field eval="21" name="sequence"/>
+    <field eval="0" name="appears_on_payslip"/>
+    <field name="condition_select">none</field>
+    <field name="amount_select">code</field>
+    <field name="amount_python_compute">result = 0
 if worked_days.SL01 : result += worked_days.SL01.employer_days * worked_days.SL01.daily_base
 if worked_days.SL02 : result += worked_days.SL02.employer_days * worked_days.SL02.daily_base
 if worked_days.SL03 : result += worked_days.SL03.employer_days * worked_days.SL03.daily_base
@@ -48,16 +44,16 @@ if worked_days.SL11 : result += worked_days.SL11.employer_days * worked_days.SL1
 if worked_days.SL12 : result += worked_days.SL12.employer_days * worked_days.SL12.daily_base
 if worked_days.SL13 : result += worked_days.SL13.employer_days * worked_days.SL13.daily_base
 if worked_days.SL14 : result += worked_days.SL14.employer_days * worked_days.SL14.daily_base</field>
-        </record>
-        <record id="concediimedicale1" model="hr.salary.rule">
-            <field name="code">MEDB</field>
-            <field name="name">CONCEDII MEDICALE - B</field>
-            <field name="category_id" ref="l10n_ro_hr_payroll.concediimedicale_categb"/>
-            <field eval="22" name="sequence"/>
-            <field eval="0" name="appears_on_payslip"/>
-            <field name="condition_select">none</field>
-            <field name="amount_select">code</field>
-            <field name="amount_python_compute">result = 0
+    </record>
+    <record id="concediimedicale1" model="hr.salary.rule">
+    <field name="code">MEDB</field>
+    <field name="name">CONCEDII MEDICALE - B</field>
+    <field name="category_id" ref="l10n_ro_hr_payroll.concediimedicale_categb"/>
+    <field eval="22" name="sequence"/>
+    <field eval="0" name="appears_on_payslip"/>
+    <field name="condition_select">none</field>
+    <field name="amount_select">code</field>
+    <field name="amount_python_compute">result = 0
 if worked_days.SL01 : result += worked_days.SL01.budget_days * worked_days.SL01.daily_base
 if worked_days.SL05 : result += worked_days.SL05.budget_days * worked_days.SL05.daily_base
 if worked_days.SL06 : result += worked_days.SL06.budget_days * worked_days.SL06.daily_base
@@ -69,161 +65,161 @@ if worked_days.SL12 : result += worked_days.SL12.budget_days * worked_days.SL12.
 if worked_days.SL13 : result += worked_days.SL13.budget_days * worked_days.SL13.daily_base
 if worked_days.SL14 : result += worked_days.SL14.budget_days * worked_days.SL14.daily_base
 if worked_days.SL15 : result += worked_days.SL15.budget_days * worked_days.SL15.daily_base</field>
-        </record>
-        <record id="concediimedicale2" model="hr.salary.rule">
-            <field name="code">MEDC</field>
-            <field name="name">CONCEDII MEDICALE - C</field>
-            <field name="category_id" ref="l10n_ro_hr_payroll.concediimedicale_categc"/>
-            <field eval="23" name="sequence"/>
-            <field eval="0" name="appears_on_payslip"/>
-            <field name="condition_select">none</field>
-            <field name="amount_select">code</field>
-            <field name="amount_python_compute">result = 0
+    </record>
+    <record id="concediimedicale2" model="hr.salary.rule">
+    <field name="code">MEDC</field>
+    <field name="name">CONCEDII MEDICALE - C</field>
+    <field name="category_id" ref="l10n_ro_hr_payroll.concediimedicale_categc"/>
+    <field eval="23" name="sequence"/>
+    <field eval="0" name="appears_on_payslip"/>
+    <field name="condition_select">none</field>
+    <field name="amount_select">code</field>
+    <field name="amount_python_compute">result = 0
 if worked_days.SL02 : result += worked_days.SL02.budget_days * worked_days.SL02.daily_base
 if worked_days.SL03 : result += worked_days.SL03.budget_days * worked_days.SL03.daily_base
 if worked_days.SL04 : result += worked_days.SL04.budget_days * worked_days.SL04.daily_base
 if worked_days.SL11 : result += worked_days.SL011.budget_days * worked_days.SL011.daily_base</field>
-        </record>
-        <record id="concediimedicale3" model="hr.salary.rule">
-            <field name="code">MED</field>
-            <field name="name">CONCEDII MEDICALE</field>
-            <field name="category_id" ref="l10n_ro_hr_payroll.concediimedicale_categ"/>
-            <field eval="25" name="sequence"/>
-            <field name="appears_on_payslip" eval="True"/>
-            <field name="condition_select">none</field>
-            <field name="amount_select">code</field>
-            <field name="amount_python_compute">result = round(categories.MEDA + categories.MEDB + categories.MEDC)</field>
-        </record>
-        <record id="premii" model="hr.salary.rule">
-            <field name="code">PREM</field>
-            <field name="name">PREMII</field>
-            <field name="category_id" ref="l10n_ro_hr_payroll.premiiregularizari_categ"/>
-            <field eval="30" name="sequence"/>
-            <field name="appears_on_payslip" eval="True"/>
-            <field name="condition_select">none</field>
-            <field name="amount_select">percentage</field>
-            <field name="amount_percentage_base">inputs.PREM.amount</field>
-            <field name="amount_percentage">100.00</field>
-        </record>
-        <record id="hr_rule_input_premii" model="hr.rule.input">
-            <field name="code">PREM</field>
-            <field name="input_id" ref="premii"/>
-            <field name="name">PREMII</field>
-        </record>
-        <record id="spor_imp" model="hr.salary.rule">
-            <field name="code">SPORIMP</field>
-            <field name="name">SPOR IMPOZABIL</field>
-            <field name="category_id" ref="l10n_ro_hr_payroll.sporimpozabil_categ"/>
-            <field eval="50" name="sequence"/>
-            <field name="appears_on_payslip" eval="True"/>
-            <field name="condition_select">none</field>
-            <field name="amount_select">percentage</field>
-            <field name="amount_percentage_base">inputs.SPORIMP.amount</field>
-            <field name="amount_percentage">100.00</field>
-        </record>
-        <record id="hr_rule_input_spor_imp" model="hr.rule.input">
-            <field name="code">SPORIMP</field>
-            <field name="input_id" ref="spor_imp"/>
-            <field name="name">SPOR IMPOZABIL</field>
-        </record>
-        <record id="tichetedemasa" model="hr.salary.rule">
-            <field name="code">TIC</field>
-            <field name="name">TICHETE DE MASA</field>
-            <field name="category_id" ref="l10n_ro_hr_payroll.tichetedemasa_categ"/>
-            <field eval="59" name="sequence"/>
-            <field name="appears_on_payslip" eval="True"/>
-            <field name="condition_select">none</field>
-            <field name="amount_select">code</field>
-            <field name="amount_python_compute">result = round(worked_days.WORK100.number_of_days * employee.company_id.get_meal_voucher_value(payslip.date_from))</field>
-            <field name="register_id" ref="ro_contribution_register_meal_voucher"/>
-        </record>
-        <record id="spor_neimp" model="hr.salary.rule">
-            <field name="code">SPORNEIMP</field>
-            <field name="name">SPOR NEIMPOZABIL</field>
-            <field name="category_id" ref="l10n_ro_hr_payroll.sporneimpozabil_categ"/>
-            <field eval="60" name="sequence"/>
-            <field name="appears_on_payslip" eval="True"/>
-            <field name="condition_select">none</field>
-            <field name="amount_select">percentage</field>
-            <field name="amount_percentage_base">inputs.SPORNEIMP.amount</field>
-            <field name="amount_percentage">100.00</field>
-        </record>
-        <record id="hr_rule_input_spor_neimp" model="hr.rule.input">
-            <field name="code">SPORNEIMP</field>
-            <field name="input_id" ref="spor_neimp"/>
-            <field name="name">SPOR NEIMPOZABIL</field>
-        </record>
-        
-        <record id="venit_brut" model="hr.salary.rule">
-            <field name="code">BRUT</field>
-            <field name="name">BRUT</field>
-            <field name="category_id" ref="l10n_ro_hr_payroll.brut_categ"/>
-            <field eval="55" name="sequence"/>
-            <field name="appears_on_payslip" eval="True"/>
-            <field name="condition_select">none</field>
-            <field name="amount_select">code</field>
-            <field name="amount_python_compute">result = round(categories.VBRUT)</field>
-        </record>
+    </record>
+    <record id="concediimedicale3" model="hr.salary.rule">
+        <field name="code">MED</field>
+        <field name="name">CONCEDII MEDICALE</field>
+        <field name="category_id" ref="l10n_ro_hr_payroll.concediimedicale_categ"/>
+        <field eval="25" name="sequence"/>
+        <field name="appears_on_payslip" eval="True"/>
+        <field name="condition_select">none</field>
+        <field name="amount_select">code</field>
+        <field name="amount_python_compute">result = round(categories.MEDA + categories.MEDB + categories.MEDC)</field>
+    </record>
+    <record id="premii" model="hr.salary.rule">
+        <field name="code">PREM</field>
+        <field name="name">PREMII</field>
+        <field name="category_id" ref="l10n_ro_hr_payroll.premiiregularizari_categ"/>
+        <field eval="30" name="sequence"/>
+        <field name="appears_on_payslip" eval="True"/>
+        <field name="condition_select">none</field>
+        <field name="amount_select">percentage</field>
+        <field name="amount_percentage_base">inputs.PREM.amount</field>
+        <field name="amount_percentage">100.00</field>
+    </record>
+    <record id="hr_rule_input_premii" model="hr.rule.input">
+        <field name="code">PREM</field>
+        <field name="input_id" ref="premii"/>
+        <field name="name">PREMII</field>
+    </record>
+    <record id="spor_imp" model="hr.salary.rule">
+        <field name="code">SPORIMP</field>
+        <field name="name">SPOR IMPOZABIL</field>
+        <field name="category_id" ref="l10n_ro_hr_payroll.sporimpozabil_categ"/>
+        <field eval="50" name="sequence"/>
+        <field name="appears_on_payslip" eval="True"/>
+        <field name="condition_select">none</field>
+        <field name="amount_select">percentage</field>
+        <field name="amount_percentage_base">inputs.SPORIMP.amount</field>
+        <field name="amount_percentage">100.00</field>
+    </record>
+    <record id="hr_rule_input_spor_imp" model="hr.rule.input">
+        <field name="code">SPORIMP</field>
+        <field name="input_id" ref="spor_imp"/>
+        <field name="name">SPOR IMPOZABIL</field>
+    </record>
+    <record id="tichetedemasa" model="hr.salary.rule">
+        <field name="code">TIC</field>
+        <field name="name">TICHETE DE MASA</field>
+        <field name="category_id" ref="l10n_ro_hr_payroll.tichetedemasa_categ"/>
+        <field eval="59" name="sequence"/>
+        <field name="appears_on_payslip" eval="True"/>
+        <field name="condition_select">none</field>
+        <field name="amount_select">code</field>
+        <field name="amount_python_compute">result = round(worked_days.WORK100.number_of_days * employee.company_id.get_meal_voucher_value(payslip.date_from))</field>
+        <field name="register_id" ref="ro_contribution_register_meal_voucher"/>
+    </record>
+    <record id="spor_neimp" model="hr.salary.rule">
+        <field name="code">SPORNEIMP</field>
+        <field name="name">SPOR NEIMPOZABIL</field>
+        <field name="category_id" ref="l10n_ro_hr_payroll.sporneimpozabil_categ"/>
+        <field eval="60" name="sequence"/>
+        <field name="appears_on_payslip" eval="True"/>
+        <field name="condition_select">none</field>
+        <field name="amount_select">percentage</field>
+        <field name="amount_percentage_base">inputs.SPORNEIMP.amount</field>
+        <field name="amount_percentage">100.00</field>
+    </record>
+    <record id="hr_rule_input_spor_neimp" model="hr.rule.input">
+        <field name="code">SPORNEIMP</field>
+        <field name="input_id" ref="spor_neimp"/>
+        <field name="name">SPOR NEIMPOZABIL</field>
+    </record>
 
-        <record id="cass0" model="hr.salary.rule">
-            <field name="code">CASSA</field>
-            <field name="name">CASS ANGAJAT - BRUT</field>
-            <field name="category_id" ref="l10n_ro_hr_payroll.cassangajat_categ"/>
-            <field eval="111" name="sequence"/>
-            <field eval="0" name="appears_on_payslip"/>
-            <field name="condition_select">none</field>
-            <field name="amount_select">code</field>
-            <field name="amount_python_compute">perc = 0.10
+    <record id="venit_brut" model="hr.salary.rule">
+        <field name="code">BRUT</field>
+        <field name="name">BRUT</field>
+        <field name="category_id" ref="l10n_ro_hr_payroll.brut_categ"/>
+        <field eval="55" name="sequence"/>
+        <field name="appears_on_payslip" eval="True"/>
+        <field name="condition_select">none</field>
+        <field name="amount_select">code</field>
+        <field name="amount_python_compute">result = round(categories.VBRUT)</field>
+    </record>
+
+    <record id="cass0" model="hr.salary.rule">
+        <field name="code">CASSA</field>
+        <field name="name">CASS ANGAJAT - BRUT</field>
+        <field name="category_id" ref="l10n_ro_hr_payroll.cassangajat_categ"/>
+        <field eval="111" name="sequence"/>
+        <field eval="0" name="appears_on_payslip"/>
+        <field name="condition_select">none</field>
+        <field name="amount_select">code</field>
+        <field name="amount_python_compute">perc = 0.10
 result = round((categories.BRUT - categories.MED) * perc)</field>
-        </record>
-        <record id="cass1" model="hr.salary.rule">
-            <field name="code">CASSB</field>
-            <field name="name">CASS ANGAJAT - MEDICAL</field>
-            <field name="category_id" ref="l10n_ro_hr_payroll.cassangajat_categ"/>
-            <field eval="112" name="sequence"/>
-            <field eval="0" name="appears_on_payslip"/>
-            <field name="condition_select">none</field>
-            <field name="amount_select">code</field>
-            <field name="amount_python_compute">result = 0
+    </record>
+    <record id="cass1" model="hr.salary.rule">
+        <field name="code">CASSB</field>
+        <field name="name">CASS ANGAJAT - MEDICAL</field>
+        <field name="category_id" ref="l10n_ro_hr_payroll.cassangajat_categ"/>
+        <field eval="112" name="sequence"/>
+        <field eval="0" name="appears_on_payslip"/>
+        <field name="condition_select">none</field>
+        <field name="amount_select">code</field>
+        <field name="amount_python_compute">result = 0
 perc = 0.10
 if worked_days.SL02 : result += worked_days.SL02.employer_days * worked_days.SL02.daily_base * perc
 if worked_days.SL03 : result += worked_days.SL03.employer_days * worked_days.SL03.daily_base * perc
 if worked_days.SL04 : result += worked_days.SL04.employer_days * worked_days.SL04.daily_base * perc
 if worked_days.SL11 : result += worked_days.SL011.employer_days * worked_days.SL011.daily_base * perc
-            </field>
-        </record>
-        <record id="cass2" model="hr.salary.rule">
-            <field name="code">CASS</field>
-            <field name="name">CASS ANGAJAT</field>
-            <field name="category_id" ref="l10n_ro_hr_payroll.contributiiangajat_categ"/>
-            <field eval="115" name="sequence"/>
-            <field name="appears_on_payslip" eval="True"/>
-            <field name="condition_select">none</field>
-            <field name="amount_select">code</field>
-            <field name="amount_python_compute">result = round(categories.ANG_CASS)</field>
-            <field name="register_id" ref="ro_contribution_register_cass"/>
-        </record>
+        </field>
+    </record>
+    <record id="cass2" model="hr.salary.rule">
+        <field name="code">CASS</field>
+        <field name="name">CASS ANGAJAT</field>
+        <field name="category_id" ref="l10n_ro_hr_payroll.contributiiangajat_categ"/>
+        <field eval="115" name="sequence"/>
+        <field name="appears_on_payslip" eval="True"/>
+        <field name="condition_select">none</field>
+        <field name="amount_select">code</field>
+        <field name="amount_python_compute">result = round(categories.ANG_CASS)</field>
+        <field name="register_id" ref="ro_contribution_register_cass"/>
+    </record>
 
-        <record id="cas0" model="hr.salary.rule">
-            <field name="code">CASA</field>
-            <field name="name">CAS ANGAJAT - BRUT</field>
-            <field name="category_id" ref="l10n_ro_hr_payroll.casangajat_categ"/>
-            <field eval="121" name="sequence"/>
-            <field eval="0" name="appears_on_payslip"/>
-            <field name="condition_select">none</field>
-            <field name="amount_select">code</field>
-            <field name="amount_python_compute">perc = 0.25
+    <record id="cas0" model="hr.salary.rule">
+        <field name="code">CASA</field>
+        <field name="name">CAS ANGAJAT - BRUT</field>
+        <field name="category_id" ref="l10n_ro_hr_payroll.casangajat_categ"/>
+        <field eval="121" name="sequence"/>
+        <field eval="0" name="appears_on_payslip"/>
+        <field name="condition_select">none</field>
+        <field name="amount_select">code</field>
+        <field name="amount_python_compute">perc = 0.25
 result = round((categories.BRUT - categories.MED) * perc)</field>
-        </record>
-        <record id="cas1" model="hr.salary.rule">
-            <field name="code">CASB</field>
-            <field name="name">CAS ANGAJAT - MEDICAL1</field>
-            <field name="category_id" ref="l10n_ro_hr_payroll.casangajat_categ"/>
-            <field eval="122" name="sequence"/>
-            <field eval="0" name="appears_on_payslip"/>
-            <field name="condition_select">none</field>
-            <field name="amount_select">code</field>
-            <field name="amount_python_compute">result = 0
+    </record>
+    <record id="cas1" model="hr.salary.rule">
+        <field name="code">CASB</field>
+        <field name="name">CAS ANGAJAT - MEDICAL1</field>
+        <field name="category_id" ref="l10n_ro_hr_payroll.casangajat_categ"/>
+        <field eval="122" name="sequence"/>
+        <field eval="0" name="appears_on_payslip"/>
+        <field name="condition_select">none</field>
+        <field name="amount_select">code</field>
+        <field name="amount_python_compute">result = 0
 perc = 0.25
 if worked_days.SL01 : result += employee.company_id.get_medium_wage(payslip.date_from) * 0.35 * perc * worked_days.SL01.employer_days / payslip.working_days
 if worked_days.SL05 : result += employee.company_id.get_medium_wage(payslip.date_from) * 0.35 * perc * worked_days.SL05.employer_days / payslip.working_days
@@ -231,16 +227,16 @@ if worked_days.SL06 : result += employee.company_id.get_medium_wage(payslip.date
 if worked_days.SL12 : result += employee.company_id.get_medium_wage(payslip.date_from) * 0.35 * perc * worked_days.SL12.employer_days / payslip.working_days
 if worked_days.SL13 : result += employee.company_id.get_medium_wage(payslip.date_from) * 0.35 * perc * worked_days.SL13.employer_days / payslip.working_days
 if worked_days.SL14 : result += employee.company_id.get_medium_wage(payslip.date_from) * 0.35 * perc * worked_days.SL14.employer_days / payslip.working_days</field>
-        </record>
-        <record id="cas2" model="hr.salary.rule">
-            <field name="code">CASC</field>
-            <field name="name">CAS ANGAJAT - MEDICAL2</field>
-            <field name="category_id" ref="l10n_ro_hr_payroll.casangajat_categ"/>
-            <field eval="123" name="sequence"/>
-            <field eval="0" name="appears_on_payslip"/>
-            <field name="condition_select">none</field>
-            <field name="amount_select">code</field>
-            <field name="amount_python_compute">result = 0
+    </record>
+    <record id="cas2" model="hr.salary.rule">
+        <field name="code">CASC</field>
+        <field name="name">CAS ANGAJAT - MEDICAL2</field>
+        <field name="category_id" ref="l10n_ro_hr_payroll.casangajat_categ"/>
+        <field eval="123" name="sequence"/>
+        <field eval="0" name="appears_on_payslip"/>
+        <field name="condition_select">none</field>
+        <field name="amount_select">code</field>
+        <field name="amount_python_compute">result = 0
 perc = 0.25
 if worked_days.SL01 : result += employee.company_id.get_medium_wage(payslip.date_from) * 0.35 * perc * worked_days.SL01.budget_days / payslip.working_days
 if worked_days.SL05 : result += employee.company_id.get_medium_wage(payslip.date_from) * 0.35 * perc * worked_days.SL05.budget_days / payslip.working_days
@@ -253,40 +249,40 @@ if worked_days.SL12 : result += employee.company_id.get_medium_wage(payslip.date
 if worked_days.SL13 : result += employee.company_id.get_medium_wage(payslip.date_from) * 0.35 * perc * worked_days.SL13.budget_days / payslip.working_days
 if worked_days.SL14 : result += employee.company_id.get_medium_wage(payslip.date_from) * 0.35 * perc * worked_days.SL14.budget_days / payslip.working_days
 if worked_days.SL15 : result += employee.company_id.get_medium_wage(payslip.date_from) * 0.35 * perc * worked_days.SL15.budget_days / payslip.working_days</field>
-        </record>
-        <record id="cas3" model="hr.salary.rule">
-            <field name="code">CAS</field>
-            <field name="name">CAS ANGAJAT</field>
-            <field name="category_id" ref="l10n_ro_hr_payroll.contributiiangajat_categ"/>
-            <field eval="125" name="sequence"/>
-            <field name="appears_on_payslip" eval="True"/>
-            <field name="condition_select">none</field>
-            <field name="amount_select">code</field>
-            <field name="amount_python_compute">result = round(categories.ANG_CAS)</field>
-            <field name="register_id" ref="ro_contribution_register_cas"/>
-        </record>
-        <record id="cas_ang0" model="hr.salary.rule">
-            <field name="code">CAS1A</field>
-            <field name="name">CAS ANGAJATOR - BRUT</field>
-            <field name="category_id" ref="l10n_ro_hr_payroll.casangajator_categ"/>
-            <field eval="521" name="sequence"/>
-            <field eval="0" name="appears_on_payslip"/>
-            <field name="condition_select">none</field>
-            <field name="amount_select">code</field>
-            <field name="amount_python_compute">if contract.work_type =="1": perc=0
+    </record>
+    <record id="cas3" model="hr.salary.rule">
+        <field name="code">CAS</field>
+        <field name="name">CAS ANGAJAT</field>
+        <field name="category_id" ref="l10n_ro_hr_payroll.contributiiangajat_categ"/>
+        <field eval="125" name="sequence"/>
+        <field name="appears_on_payslip" eval="True"/>
+        <field name="condition_select">none</field>
+        <field name="amount_select">code</field>
+        <field name="amount_python_compute">result = round(categories.ANG_CAS)</field>
+        <field name="register_id" ref="ro_contribution_register_cas"/>
+    </record>
+    <record id="cas_ang0" model="hr.salary.rule">
+        <field name="code">CAS1A</field>
+        <field name="name">CAS ANGAJATOR - BRUT</field>
+        <field name="category_id" ref="l10n_ro_hr_payroll.casangajator_categ"/>
+        <field eval="521" name="sequence"/>
+        <field eval="0" name="appears_on_payslip"/>
+        <field name="condition_select">none</field>
+        <field name="amount_select">code</field>
+        <field name="amount_python_compute">if contract.work_type =="1": perc=0
 if contract.work_type =="2": perc=0.04
 if contract.work_type =="3": perc=0.08
 result = (categories.BRUT - categories.MED) * perc</field>
-        </record>
-        <record id="cas_ang1" model="hr.salary.rule">
-            <field name="code">CAS1B</field>
-            <field name="name">CAS ANGAJATOR - MEDICAL1</field>
-            <field name="category_id" ref="l10n_ro_hr_payroll.casangajator_categ"/>
-            <field eval="522" name="sequence"/>
-            <field eval="0" name="appears_on_payslip"/>
-            <field name="condition_select">none</field>
-            <field name="amount_select">code</field>
-            <field name="amount_python_compute">if contract.work_type =="1": perc=0.0
+    </record>
+    <record id="cas_ang1" model="hr.salary.rule">
+        <field name="code">CAS1B</field>
+        <field name="name">CAS ANGAJATOR - MEDICAL1</field>
+        <field name="category_id" ref="l10n_ro_hr_payroll.casangajator_categ"/>
+        <field eval="522" name="sequence"/>
+        <field eval="0" name="appears_on_payslip"/>
+        <field name="condition_select">none</field>
+        <field name="amount_select">code</field>
+        <field name="amount_python_compute">if contract.work_type =="1": perc=0.0
 if contract.work_type =="2": perc=0.04
 if contract.work_type =="3": perc=0.08
 result = 0
@@ -296,16 +292,16 @@ if worked_days.SL06 : result += employee.company_id.get_medium_wage(payslip.date
 if worked_days.SL12 : result += employee.company_id.get_medium_wage(payslip.date_from) * 0.35 * perc * worked_days.SL12.employer_days / payslip.working_days
 if worked_days.SL13 : result += employee.company_id.get_medium_wage(payslip.date_from) * 0.35 * perc * worked_days.SL13.employer_days / payslip.working_days
 if worked_days.SL14 : result += employee.company_id.get_medium_wage(payslip.date_from) * 0.35 * perc * worked_days.SL14.employer_days / payslip.working_days</field>
-        </record>
-        <record id="cas_ang2" model="hr.salary.rule">
-            <field name="code">CAS1C</field>
-            <field name="name">CAS ANGAJATOR - MEDICAL2</field>
-            <field name="category_id" ref="l10n_ro_hr_payroll.casangajator_categ"/>
-            <field eval="523" name="sequence"/>
-            <field eval="0" name="appears_on_payslip"/>
-            <field name="condition_select">none</field>
-            <field name="amount_select">code</field>
-            <field name="amount_python_compute">if contract.work_type =="1": perc=0
+    </record>
+    <record id="cas_ang2" model="hr.salary.rule">
+        <field name="code">CAS1C</field>
+        <field name="name">CAS ANGAJATOR - MEDICAL2</field>
+        <field name="category_id" ref="l10n_ro_hr_payroll.casangajator_categ"/>
+        <field eval="523" name="sequence"/>
+        <field eval="0" name="appears_on_payslip"/>
+        <field name="condition_select">none</field>
+        <field name="amount_select">code</field>
+        <field name="amount_python_compute">if contract.work_type =="1": perc=0
 if contract.work_type =="2": perc=0.04
 if contract.work_type =="3": perc=0.08
 result = 0
@@ -320,38 +316,38 @@ if worked_days.SL12 : result += employee.company_id.get_medium_wage(payslip.date
 if worked_days.SL13 : result += employee.company_id.get_medium_wage(payslip.date_from) * 0.35 * perc * worked_days.SL13.budget_days / payslip.working_days
 if worked_days.SL14 : result += employee.company_id.get_medium_wage(payslip.date_from) * 0.35 * perc * worked_days.SL14.budget_days / payslip.working_days
 if worked_days.SL15 : result += employee.company_id.get_medium_wage(payslip.date_from) * 0.35 * perc * worked_days.SL15.budget_days / payslip.working_days</field>
-        </record>
-        <record id="cas_ang3" model="hr.salary.rule">
-            <field name="code">CAS1</field>
-            <field name="name">CAS ANGAJATOR</field>
-            <field name="category_id" ref="l10n_ro_hr_payroll.contributiiangajator_categ"/>
-            <field eval="525" name="sequence"/>
-            <field name="appears_on_payslip" eval="True"/>
-            <field name="condition_select">none</field>
-            <field name="amount_select">code</field>
-            <field name="amount_python_compute">result = round(categories.COMP_CAS)</field>
-            <field name="register_id" ref="ro_contribution_register_ang_cas"/>
-        </record>
-        <record id="contributieasiguratoaremunca0" model="hr.salary.rule">
-            <field name="code">CAMA</field>
-            <field name="name">CONTRIBUTIE ASIGURATOARE DE MUNCA - BRUT</field>
-            <field name="category_id" ref="l10n_ro_hr_payroll.contributieasiguratoaremunca_categ"/>
-            <field eval="551" name="sequence"/>
-            <field eval="0" name="appears_on_payslip"/>
-            <field name="condition_select">none</field>
-            <field name="amount_select">code</field>
-            <field name="amount_python_compute">perc = 0.0225
+    </record>
+    <record id="cas_ang3" model="hr.salary.rule">
+        <field name="code">CAS1</field>
+        <field name="name">CAS ANGAJATOR</field>
+        <field name="category_id" ref="l10n_ro_hr_payroll.contributiiangajator_categ"/>
+        <field eval="525" name="sequence"/>
+        <field name="appears_on_payslip" eval="True"/>
+        <field name="condition_select">none</field>
+        <field name="amount_select">code</field>
+        <field name="amount_python_compute">result = round(categories.COMP_CAS)</field>
+        <field name="register_id" ref="ro_contribution_register_ang_cas"/>
+    </record>
+    <record id="contributieasiguratoaremunca0" model="hr.salary.rule">
+        <field name="code">CAMA</field>
+        <field name="name">CONTRIBUTIE ASIGURATOARE DE MUNCA - BRUT</field>
+        <field name="category_id" ref="l10n_ro_hr_payroll.contributieasiguratoaremunca_categ"/>
+        <field eval="551" name="sequence"/>
+        <field eval="0" name="appears_on_payslip"/>
+        <field name="condition_select">none</field>
+        <field name="amount_select">code</field>
+        <field name="amount_python_compute">perc = 0.0225
 result = round((categories.BRUT - categories.MED) * perc)</field>
-        </record>
-        <record id="contributieasiguratoaremunca1" model="hr.salary.rule">
-            <field name="code">CAMB</field>
-            <field name="name">CONTRIBUTIE ASIGURATOARE DE MUNCA - MEDICAL</field>
-            <field name="category_id" ref="l10n_ro_hr_payroll.contributieasiguratoaremunca_categ"/>
-            <field eval="552" name="sequence"/>
-            <field eval="0" name="appears_on_payslip"/>
-            <field name="condition_select">none</field>
-            <field name="amount_select">code</field>
-            <field name="amount_python_compute">result = 0
+    </record>
+    <record id="contributieasiguratoaremunca1" model="hr.salary.rule">
+        <field name="code">CAMB</field>
+        <field name="name">CONTRIBUTIE ASIGURATOARE DE MUNCA - MEDICAL</field>
+        <field name="category_id" ref="l10n_ro_hr_payroll.contributieasiguratoaremunca_categ"/>
+        <field eval="552" name="sequence"/>
+        <field eval="0" name="appears_on_payslip"/>
+        <field name="condition_select">none</field>
+        <field name="amount_select">code</field>
+        <field name="amount_python_compute">result = 0
 perc = 0.0225
 if worked_days.SL01 : result += worked_days.SL01.employer_amount * perc
 if worked_days.SL02 : result += worked_days.SL02.employer_amount * perc
@@ -363,47 +359,47 @@ if worked_days.SL11 : result += worked_days.SL11.employer_amount * perc
 if worked_days.SL12 : result += worked_days.SL12.employer_amount * perc
 if worked_days.SL13 : result += worked_days.SL13.employer_amount * perc
 if worked_days.SL14 : result += worked_days.SL14.employer_amount * perc</field>
-        </record>
-        <record id="contributieasiguratoaremunca2" model="hr.salary.rule">
-            <field name="code">CAM1</field>
-            <field name="name">CONTRIBUTIE ASIGURATOARE DE MUNCA</field>
-            <field name="category_id" ref="l10n_ro_hr_payroll.contributiiangajator_categ"/>
-            <field eval="555" name="sequence"/>
-            <field name="appears_on_payslip" eval="True"/>
-            <field name="condition_select">none</field>
-            <field name="amount_select">code</field>
-            <field name="amount_python_compute">result = round(categories.COMP_CAM)</field>
-            <field name="register_id" ref="ro_contribution_register_ang_cam"/>
-        </record>
-        <record id="contributiiangajat" model="hr.salary.rule">
-            <field name="code">ANG</field>
-            <field name="name">CONTRIBUTII ANGAJAT</field>
-            <field name="category_id" ref="l10n_ro_hr_payroll.contributiiangajat_categ1"/>
-            <field eval="130" name="sequence"/>
-            <field name="appears_on_payslip" eval="True"/>
-            <field name="condition_select">none</field>
-            <field name="amount_select">code</field>
-            <field name="amount_python_compute">result = round(categories.ANG_CASS + categories.ANG_CAS)</field>
-        </record>
-        <record id="contributiiangajator" model="hr.salary.rule">
-            <field name="code">COMP</field>
-            <field name="name">CONTRIBUTII ANGAJATOR</field>
-            <field name="category_id" ref="l10n_ro_hr_payroll.contributiiangajator_categ1"/>
-            <field eval="560" name="sequence"/>
-            <field name="appears_on_payslip" eval="True"/>
-            <field name="condition_select">none</field>
-            <field name="amount_select">code</field>
-            <field name="amount_python_compute">result = round(categories.COMP_CAS + categories.COMP_CAM)</field>
-        </record>
-        <record id="deducerebaza" model="hr.salary.rule">
-            <field name="code">DED</field>
-            <field name="name">DEDUCERE BAZA</field>
-            <field name="category_id" ref="l10n_ro_hr_payroll.deducerebaza_categ"/>
-            <field eval="140" name="sequence"/>
-            <field name="appears_on_payslip" eval="True"/>
-            <field name="condition_select">none</field>
-            <field name="amount_select">code</field>
-            <field name="amount_python_compute">if categories.VBRUT &gt; 3600 : result = 0
+    </record>
+    <record id="contributieasiguratoaremunca2" model="hr.salary.rule">
+        <field name="code">CAM1</field>
+        <field name="name">CONTRIBUTIE ASIGURATOARE DE MUNCA</field>
+        <field name="category_id" ref="l10n_ro_hr_payroll.contributiiangajator_categ"/>
+        <field eval="555" name="sequence"/>
+        <field name="appears_on_payslip" eval="True"/>
+        <field name="condition_select">none</field>
+        <field name="amount_select">code</field>
+        <field name="amount_python_compute">result = round(categories.COMP_CAM)</field>
+        <field name="register_id" ref="ro_contribution_register_ang_cam"/>
+    </record>
+    <record id="contributiiangajat" model="hr.salary.rule">
+        <field name="code">ANG</field>
+        <field name="name">CONTRIBUTII ANGAJAT</field>
+        <field name="category_id" ref="l10n_ro_hr_payroll.contributiiangajat_categ1"/>
+        <field eval="130" name="sequence"/>
+        <field name="appears_on_payslip" eval="True"/>
+        <field name="condition_select">none</field>
+        <field name="amount_select">code</field>
+        <field name="amount_python_compute">result = round(categories.ANG_CASS + categories.ANG_CAS)</field>
+    </record>
+    <record id="contributiiangajator" model="hr.salary.rule">
+        <field name="code">COMP</field>
+        <field name="name">CONTRIBUTII ANGAJATOR</field>
+        <field name="category_id" ref="l10n_ro_hr_payroll.contributiiangajator_categ1"/>
+        <field eval="560" name="sequence"/>
+        <field name="appears_on_payslip" eval="True"/>
+        <field name="condition_select">none</field>
+        <field name="amount_select">code</field>
+        <field name="amount_python_compute">result = round(categories.COMP_CAS + categories.COMP_CAM)</field>
+    </record>
+    <record id="deducerebaza" model="hr.salary.rule">
+        <field name="code">DED</field>
+        <field name="name">DEDUCERE BAZA</field>
+        <field name="category_id" ref="l10n_ro_hr_payroll.deducerebaza_categ"/>
+        <field eval="140" name="sequence"/>
+        <field name="appears_on_payslip" eval="True"/>
+        <field name="condition_select">none</field>
+        <field name="amount_select">code</field>
+        <field name="amount_python_compute">if categories.VBRUT &gt; 3600 : result = 0
 if ((employee.person_in_care == 0) and (categories.VBRUT &lt;= 1950)) : result = 510
 if ((employee.person_in_care == 1) and (categories.VBRUT &lt;= 1950)) : result = 670
 if ((employee.person_in_care == 2) and (categories.VBRUT &lt;= 1950)) : result = 830
@@ -414,106 +410,105 @@ if ((employee.person_in_care == 1) and (categories.VBRUT &gt; 1950) and (categor
 if ((employee.person_in_care == 2) and (categories.VBRUT &gt; 1950) and (categories.VBRUT &lt; 3600)) : result = round(830 - (int(categories.VBRUT / 50 + 0.99999) * 50 - 1950) / 50 * 15)
 if ((employee.person_in_care == 3) and (categories.VBRUT &gt; 1950) and (categories.VBRUT &lt; 3600)) : result = round(990 - (int(categories.VBRUT / 50 + 0.99999) * 50 - 1950) / 50 * 15)
 if ((employee.person_in_care >= 4) and (categories.VBRUT &gt; 1950) and (categories.VBRUT &lt; 3600)) : result = round(1310 - (int(categories.VBRUT / 50 + 0.99999) * 50 - 1950) / 50 * 15)</field>
-        </record>/50 + 0.99999) * 50 - 1950) / 50 * 15
+    </record>/50 + 0.99999) * 50 - 1950) / 50 * 15
 
-        <record id="bazacalculimpozit" model="hr.salary.rule">
-            <field name="code">IMPZ</field>
-            <field name="name">BAZA IMPOZITARE</field>
-            <field name="category_id" ref="l10n_ro_hr_payroll.venitimpozabil_categ"/>
-            <field eval="150" name="sequence"/>
-            <field name="appears_on_payslip" eval="True"/>
-            <field name="condition_select">none</field>
-            <field name="amount_select">percentage</field>
-            <field name="amount_percentage_base">categories.VBRUT - categories.ANG_ALL - categories.DED - categories.DEDS</field>
-            <field name="amount_percentage">100.00</field>
-        </record>
-        <record id="impozit" model="hr.salary.rule">
-            <field name="code">IMP</field>
-            <field name="name">IMPOZIT</field>
-            <field name="category_id" ref="l10n_ro_hr_payroll.impozit_categ"/>
-            <field eval="160" name="sequence"/>
-            <field name="appears_on_payslip" eval="True"/>
-            <field name="condition_select">none</field>
-            <field name="amount_select">code</field>
-            <field name="amount_python_compute">perc = 0.10
+    <record id="bazacalculimpozit" model="hr.salary.rule">
+        <field name="code">IMPZ</field>
+        <field name="name">BAZA IMPOZITARE</field>
+        <field name="category_id" ref="l10n_ro_hr_payroll.venitimpozabil_categ"/>
+        <field eval="150" name="sequence"/>
+        <field name="appears_on_payslip" eval="True"/>
+        <field name="condition_select">none</field>
+        <field name="amount_select">percentage</field>
+        <field name="amount_percentage_base">categories.VBRUT - categories.ANG_ALL - categories.DED - categories.DEDS</field>
+        <field name="amount_percentage">100.00</field>
+    </record>
+    <record id="impozit" model="hr.salary.rule">
+        <field name="code">IMP</field>
+        <field name="name">IMPOZIT</field>
+        <field name="category_id" ref="l10n_ro_hr_payroll.impozit_categ"/>
+        <field eval="160" name="sequence"/>
+        <field name="appears_on_payslip" eval="True"/>
+        <field name="condition_select">none</field>
+        <field name="amount_select">code</field>
+        <field name="amount_python_compute">perc = 0.10
 result = round(IMPZ * perc + 0.5)</field>
-            <field name="register_id" ref="ro_contribution_register_imp_sal"/>
-        </record>
-        <record id="salarnet" model="hr.salary.rule">
-            <field name="code">NET1</field>
-            <field name="name">SALAR NET</field>
-            <field name="category_id" ref="l10n_ro_hr_payroll.salarnet_categ"/>
-            <field eval="170" name="sequence"/>
-            <field name="appears_on_payslip" eval="True"/>
-            <field name="condition_select">none</field>
-            <field name="amount_select">percentage</field>
-            <field name="amount_percentage_base">round(categories.BRUT - categories.ANG_ALL - categories.IMP + categories.SPORNEIMP)</field>
-            <field name="amount_percentage">100.00</field>
-        </record>
-        <record id="retineri" model="hr.salary.rule">
-            <field name="code">RET</field>
-            <field name="name">RETINERI</field>
-            <field name="category_id" ref="l10n_ro_hr_payroll.retineri_categ"/>
-            <field eval="180" name="sequence"/>
-            <field name="appears_on_payslip" eval="True"/>
-            <field name="condition_select">none</field>
-            <field name="amount_select">code</field>
-            <field name="amount_python_compute">result =  inputs.RETINERI.amount</field>
-        </record>
-        <record id="input_alteretineri" model="hr.rule.input">
-            <field name="code">RETINERI</field>
-            <field name="input_id" ref="retineri"/>
-            <field name="name">RETINERI</field>
-        </record>
-        <record id="restplata" model="hr.salary.rule">
-            <field name="code">REST</field>
-            <field name="name">REST PLATA</field>
-            <field name="category_id" ref="l10n_ro_hr_payroll.restplata_categ"/>
-            <field eval="210" name="sequence"/>
-            <field name="appears_on_payslip" eval="True"/>
-            <field name="condition_select">none</field>
-            <field name="amount_select">percentage</field>
-            <field name="amount_percentage_base">round(categories.NET - categories.RET)</field>
-            <field name="amount_percentage">100.00</field>
-        </record>
+        <field name="register_id" ref="ro_contribution_register_imp_sal"/>
+    </record>
+    <record id="salarnet" model="hr.salary.rule">
+        <field name="code">NET1</field>
+        <field name="name">SALAR NET</field>
+        <field name="category_id" ref="l10n_ro_hr_payroll.salarnet_categ"/>
+        <field eval="170" name="sequence"/>
+        <field name="appears_on_payslip" eval="True"/>
+        <field name="condition_select">none</field>
+        <field name="amount_select">percentage</field>
+        <field name="amount_percentage_base">round(categories.BRUT - categories.ANG_ALL - categories.IMP + categories.SPORNEIMP)</field>
+        <field name="amount_percentage">100.00</field>
+    </record>
+    <record id="retineri" model="hr.salary.rule">
+        <field name="code">RET</field>
+        <field name="name">RETINERI</field>
+        <field name="category_id" ref="l10n_ro_hr_payroll.retineri_categ"/>
+        <field eval="180" name="sequence"/>
+        <field name="appears_on_payslip" eval="True"/>
+        <field name="condition_select">none</field>
+        <field name="amount_select">code</field>
+        <field name="amount_python_compute">result =  inputs.RETINERI.amount</field>
+    </record>
+    <record id="input_alteretineri" model="hr.rule.input">
+        <field name="code">RETINERI</field>
+        <field name="input_id" ref="retineri"/>
+        <field name="name">RETINERI</field>
+    </record>
+    <record id="restplata" model="hr.salary.rule">
+        <field name="code">REST</field>
+        <field name="name">REST PLATA</field>
+        <field name="category_id" ref="l10n_ro_hr_payroll.restplata_categ"/>
+        <field eval="210" name="sequence"/>
+        <field name="appears_on_payslip" eval="True"/>
+        <field name="condition_select">none</field>
+        <field name="amount_select">percentage</field>
+        <field name="amount_percentage_base">round(categories.NET - categories.RET)</field>
+        <field name="amount_percentage">100.00</field>
+    </record>
 
-        <record id="salarbaza" model="hr.payroll.structure">
-            <field name="code">BASE1</field>
-            <field name="name">Salar baza</field>
-            <field name="company_id" ref="base.main_company"/>
-            <field eval="[(6,0,[ref('l10n_ro_hr_payroll.salarrealizat'),
-                                ref('l10n_ro_hr_payroll.concediuodihna'),
-                                ref('l10n_ro_hr_payroll.concediimedicale0'),
-                                ref('l10n_ro_hr_payroll.concediimedicale1'),
-                                ref('l10n_ro_hr_payroll.concediimedicale2'),
-                                ref('l10n_ro_hr_payroll.concediimedicale3'),
-                                ref('l10n_ro_hr_payroll.premii'),
-                                ref('l10n_ro_hr_payroll.spor_imp'),
-                                ref('l10n_ro_hr_payroll.spor_neimp'),
-                                ref('l10n_ro_hr_payroll.deducerebaza'),
-                                ref('l10n_ro_hr_payroll.tichetedemasa'),
-                                ref('l10n_ro_hr_payroll.venit_brut'),
-                                ref('l10n_ro_hr_payroll.cass0'),
-                                ref('l10n_ro_hr_payroll.cass1'),
-                                ref('l10n_ro_hr_payroll.cass2'),
-                                ref('l10n_ro_hr_payroll.cas0'),
-                                ref('l10n_ro_hr_payroll.cas1'),
-                                ref('l10n_ro_hr_payroll.cas2'),
-                                ref('l10n_ro_hr_payroll.cas3'),
-                                ref('l10n_ro_hr_payroll.cas_ang0'),
-                                ref('l10n_ro_hr_payroll.cas_ang1'),
-                                ref('l10n_ro_hr_payroll.cas_ang2'),
-                                ref('l10n_ro_hr_payroll.cas_ang3'),
-                                ref('l10n_ro_hr_payroll.contributieasiguratoaremunca0'),
-                                ref('l10n_ro_hr_payroll.contributieasiguratoaremunca1'),
-                                ref('l10n_ro_hr_payroll.contributieasiguratoaremunca2'),
-                                ref('l10n_ro_hr_payroll.contributiiangajat'),
-                                ref('l10n_ro_hr_payroll.contributiiangajator'),
-                                ref('l10n_ro_hr_payroll.bazacalculimpozit'),
-                                ref('l10n_ro_hr_payroll.impozit'),
-                                ref('l10n_ro_hr_payroll.retineri'),
-                                ref('l10n_ro_hr_payroll.salarnet'),
-                                ref('l10n_ro_hr_payroll.restplata')])]" name="rule_ids"/>
-        </record>
-    </data>
-</openerp>
+    <record id="salarbaza" model="hr.payroll.structure">
+        <field name="code">BASE1</field>
+        <field name="name">Salar baza</field>
+        <field name="company_id" ref="base.main_company"/>
+        <field eval="[(6,0,[ref('l10n_ro_hr_payroll.salarrealizat'),
+                ref('l10n_ro_hr_payroll.concediuodihna'),
+                ref('l10n_ro_hr_payroll.concediimedicale0'),
+                ref('l10n_ro_hr_payroll.concediimedicale1'),
+                ref('l10n_ro_hr_payroll.concediimedicale2'),
+                ref('l10n_ro_hr_payroll.concediimedicale3'),
+                ref('l10n_ro_hr_payroll.premii'),
+                ref('l10n_ro_hr_payroll.spor_imp'),
+                ref('l10n_ro_hr_payroll.spor_neimp'),
+                ref('l10n_ro_hr_payroll.deducerebaza'),
+                ref('l10n_ro_hr_payroll.tichetedemasa'),
+                ref('l10n_ro_hr_payroll.venit_brut'),
+                ref('l10n_ro_hr_payroll.cass0'),
+                ref('l10n_ro_hr_payroll.cass1'),
+                ref('l10n_ro_hr_payroll.cass2'),
+                ref('l10n_ro_hr_payroll.cas0'),
+                ref('l10n_ro_hr_payroll.cas1'),
+                ref('l10n_ro_hr_payroll.cas2'),
+                ref('l10n_ro_hr_payroll.cas3'),
+                ref('l10n_ro_hr_payroll.cas_ang0'),
+                ref('l10n_ro_hr_payroll.cas_ang1'),
+                ref('l10n_ro_hr_payroll.cas_ang2'),
+                ref('l10n_ro_hr_payroll.cas_ang3'),
+                ref('l10n_ro_hr_payroll.contributieasiguratoaremunca0'),
+                ref('l10n_ro_hr_payroll.contributieasiguratoaremunca1'),
+                ref('l10n_ro_hr_payroll.contributieasiguratoaremunca2'),
+                ref('l10n_ro_hr_payroll.contributiiangajat'),
+                ref('l10n_ro_hr_payroll.contributiiangajator'),
+                ref('l10n_ro_hr_payroll.bazacalculimpozit'),
+                ref('l10n_ro_hr_payroll.impozit'),
+                ref('l10n_ro_hr_payroll.retineri'),
+                ref('l10n_ro_hr_payroll.salarnet'),
+                ref('l10n_ro_hr_payroll.restplata')])]" name="rule_ids"/>
+    </record>
+</odoo>

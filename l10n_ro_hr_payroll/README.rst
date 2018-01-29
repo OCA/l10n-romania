@@ -1,17 +1,16 @@
 .. image:: https://img.shields.io/badge/licence-AGPL--3-blue.svg
     :alt: License: AGPL-3
 
-=================
-Romania - Payroll
-=================
+=============================
+Romania - Payroll Application
+=============================
 
 This module deals with Romanian Payroll implementation.
-
+It adds multiple configuration including:
 
 Wage History
 ------------
 * Used to compute base for Sick Leaves and others as given by `ANAF <http://static.anaf.ro/static/10/Anaf/Declaratii_R/AplicatiiDec/structura_dunica_A304_2015_230115.pdf>`_
-
 
 Meal Vouchers
 -------------
@@ -19,12 +18,14 @@ Meal Vouchers
 * Calculates the number of vouchers per employee
 * Meal voucher report
 
-Company Payroll Taxes
----------------------
-* Setup company taxes used in Payroll
+Salary Categories and Rules
+---------------------------
+* As default it adds a single Salary Structure to include basic calculation of salaries in Romania.
 
-Employee Contract
------------------
+Employee Income History
+-----------------------
+* You have a history about employee incomes, calculated directly from Pyaroll, 
+or inputed for previous months.
 
 Installation
 ============
@@ -40,8 +41,7 @@ To install this module, you need to:
 Usage
 =====
 
-On the Settings / General Settings you will have a new menu called Romania,
-from where you can install, config, load datas from different modules.
+
 
 .. image:: https://odoo-community.org/website/image/ir.attachment/5784_f2813bd/datas
    :alt: Try me on Runbot
