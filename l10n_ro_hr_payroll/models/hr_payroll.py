@@ -9,12 +9,12 @@ from odoo import api, fields, models, _
 class HrPayslipWorkedDays(models.Model):
     _inherit = 'hr.payslip.worked_days'
 
-    daily_base = fields.Float(_('Daily Base'))
-    employer_days = fields.Integer(_('# Days by Employer'))
-    budget_days = fields.Integer(_('# Days by Social Security'))
-    employer_amount = fields.Float(_('Amount by Employer'))
-    budget_amount = fields.Float(_('Amount by Social Sevcurity'))
-    total_amount = fields.Float(_('Total Amount'))
+    daily_base = fields.Float('Daily Base')
+    employer_days = fields.Integer('# Days by Employer')
+    budget_days = fields.Integer('# Days by Social Security')
+    employer_amount = fields.Float('Amount by Employer')
+    budget_amount = fields.Float('Amount by Social Sevcurity')
+    total_amount = fields.Float('Total Amount')
 
 
 class HrPayslip(models.Model):
@@ -108,12 +108,13 @@ class HrPayslip(models.Model):
             res += [attendances] + leaves
         return res
 
-    @api.one
+    @api.multi
     @api.depends('worked_days_line_ids')
-    def _get_working_days(self):
+    def _compute_working_days(self):
+        self.ensure_one()
         self.working_days = sum(
             line.number_of_days for line in self.worked_days_line_ids)
 
     working_days = fields.Integer('# Working Days',
-                                  compute='_get_working_days',
+                                  compute='_compute_working_days',
                                   store=True)

@@ -8,9 +8,10 @@ from odoo import api, fields, models
 class HRHolidays(models.Model):
     _inherit = 'hr.holidays'
 
-    @api.one
+    @api.multi
     @api.depends('date_from', 'date_to', 'holiday_status_id')
-    def _get_holiday_daily_base(self):
+    def _compute_holiday_daily_base(self):
+        self.ensure_one()
         daily_base = 0
         if not self.is_unpaid:
             if self.is_sick_leave:
@@ -30,14 +31,14 @@ class HRHolidays(models.Model):
         self.daily_base = daily_base
 
     daily_base = fields.Float('Daily Base',
-                              compute='_get_holiday_daily_base',
+                              compute='_compute_holiday_daily_base',
                               store=True)
     employer_amount = fields.Float('Amount by Employer',
-                                   compute='_get_holiday_daily_base',
+                                   compute='_compute_holiday_daily_base',
                                    store=True)
     budget_amount = fields.Float('Amount by Social Sevcurity',
-                                 compute='_get_holiday_daily_base',
+                                 compute='_compute_holiday_daily_base',
                                  store=True)
     total_amount = fields.Float('Total Amount',
-                                compute='_get_holiday_daily_base',
+                                compute='_compute_holiday_daily_base',
                                 store=True)

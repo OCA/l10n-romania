@@ -13,7 +13,7 @@
     'depends': [
         'hr_payroll',
         'l10n_ro_hr_contract',
-        'l10n_ro_hr_medical_holidays',],
+        'l10n_ro_hr_medical_holidays'],
     'data': [
         # views
         'views/hr_employee_view.xml',
@@ -33,6 +33,6 @@
         'report/report_meal_vouchers_template.xml',
         # model access
         'security/hr_security.xml',
-        'security/ir.model.access.csv',],
+        'security/ir.model.access.csv'],
     'auto_install': False,
 }
