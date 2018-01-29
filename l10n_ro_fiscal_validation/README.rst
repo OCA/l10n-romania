@@ -2,16 +2,15 @@
    :target: https://www.gnu.org/licenses/agpl
    :alt: License: AGPL-3
 
-===============================
-Romania - Partner Create by VAT
-===============================
+===========================
+Romania - Fiscal Validation
+===========================
 
-This module allows you to create the partners (companies) based on their
-VAT number. It will complete the name, address of the partner from ANAF
-webservice.
+This module allows you to bulk update partners (companies) datas from ANAF
+webservice. It updates the name, address, vat subjected...
 
 ANAF
-https://webservicesp.anaf.ro/PlatitorTvaRest/api/v2/
+https://webservicesp.anaf.ro/AsynchWebService/api/v3/ws/tva
 
 Installation
 ============
@@ -21,17 +20,13 @@ To install this module, you need to:
 * clone the branch 11.0 of the repository https://github.com/OCA/l10n-romania
 * add the path to this repository in your configuration (addons-path)
 * update the module list
-* search for "Romania - Partner Create by VAT" in your addons
+* search for "Romania - Fiscal Validation" in your addons
 * install the module
 
 Usage
 =====
 
-Put the VAT number in the partner's form and save the new record
-
-* If it'a a romanian company, the first source used is the ANAF.
-* If it's not a romanian company, will use the datas from VIES Webservice if they are available.
-
+A cron is set to update partners daily.
 
 .. image:: https://odoo-community.org/website/image/ir.attachment/5784_f2813bd/datas
    :alt: Try me on Runbot
@@ -56,8 +51,6 @@ Contributors
 ------------
 
 * Fekete Mihai <feketemihai@gmail.com>
-* Dorin Hongu <dhongu@gmail.com>
-* Adrian Vasile <adrian.vasile@gmail.com>
 
 Do not contact contributors directly about support or help with technical issues.
 
