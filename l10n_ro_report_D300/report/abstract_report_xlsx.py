@@ -1,10 +1,6 @@
-# Author: Julien Coux
-# Copyright 2016 Camptocamp SA
-# License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 # Copyright  2018 Forest and Biomass Romania
+# License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
-# file modified from https://github.com/OCA/account-financial-reporting/
-# tree/11.0/account_financial_report/report
 from odoo import models
 
 

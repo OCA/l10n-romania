@@ -123,14 +123,6 @@ class RomaniaReportD300Tax(models.TransientModel):
         inverse_name='tax_line_id',
         compute='_compute_move_lines'
     )
-    
-    def open_lines(self):
-        partner_id = int(params.get('id').split('_')[0])
-        [action] = self.env.ref('account.action_account_moves_all_tree').read()
-        action['context'] = self.env.context
-        action['domain'] = [('id', 'in', self.move_line_ids.ids)]
-        action = clean_action(action)
-        return action
 
 
 class RomaniaReportD300Compute(models.TransientModel):
@@ -183,8 +175,8 @@ class RomaniaReportD300Compute(models.TransientModel):
         query_inject_taxtags = """
 WITH
     taxtags AS
-        (SELECT replace(tag.name, 'Romania - D300: randul ', '')::integer
-            AS code,
+        (SELECT coalesce(regexp_replace(replace(tag.name, 'D300', ''),
+                '[^0-9\\.]+', '', 'g')::numeric * 10, 0)::integer AS code,
                 tag.name, tag.id,
                 abs(coalesce(sum(movetax.tax_base_amount), 0.00)) AS net,
                 abs(coalesce(sum(movetax.balance), 0.00)) AS tax
@@ -202,8 +194,7 @@ WITH
                 AND move.company_id = %s AND move.date >= %s
                     AND move.date <= %s AND move.state = 'posted'
             GROUP BY tag.id
-            ORDER BY replace(tag.name, 'Romania - D300: randul ',
-                '')::integer, tag.name
+            ORDER BY code, tag.name
         )
 INSERT INTO
     l10n_ro_report_d300_taxtag

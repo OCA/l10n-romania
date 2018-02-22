@@ -13,7 +13,7 @@
       model="l10n_ro_report_d300"
       string="D300"
       report_type="qweb-html"
-      name="l10n_ro_report_D300.l10n_ro_report_d300_html"
+      name="l10n_ro_report_D300.l10n_ro_report_d300_qweb"
       file="l10n_ro_report_D300.l10n_ro_report_d300_html"
     />
 
