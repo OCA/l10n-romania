@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_account_period_closing_wizard" model="ir.ui.view">
+        <field name="name">account.period.closing.wizard</field>
+        <field name="model">account.period.closing.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Account Period Closing Wizard">
+                <group name="main_info">
+                    <field name="closing_id" options="{'no_create': True}"/>
+                    <field name="company_id" readonly="1"/>
+                    <field name="journal_id" readonly="1"/>
+                </group>
+                <group name="filters">
+                    <group name="date_range">
+                        <field name="date_range_id" domain="['|',('company_id','=',company_id), ('company_id','=',False)]"/>
+                        <field name="date_from"/>
+                        <field name="date_to"/>
+                    </group>
+                </group>
+                <footer>
+                    <button name="do_close" string="Close" type="object"/>
+                    <button string="Cancel" class="oe_link" special="cancel" />
+                </footer>
+            </form>
+        </field>
+    </record>
+</odoo>
