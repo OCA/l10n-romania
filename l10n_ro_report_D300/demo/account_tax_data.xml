@@ -4,6 +4,7 @@
         <record id="demo_pcg_411" model="account.account">
             <field name="name">Clienti</field>
             <field name="code">411</field>
+            <field name="reconcile" eval="True"</field>
             <field name="user_type_id" ref="account.data_account_type_receivable"/>
         </record>        
         <record id="demo_pcg_4427" model="account.account">
