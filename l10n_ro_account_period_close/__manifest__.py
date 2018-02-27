@@ -11,7 +11,7 @@
     'website': 'https://www.forbiom.eu',
     'license': 'AGPL-3',
     'installable': True,
-    'depends': ['account'],
+    'depends': ['account', 'date_range'],
     'data': [
         'views/account_period_close_view.xml',
         'wizards/wizard_account_period_closing_view.xml',
