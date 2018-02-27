@@ -32,5 +32,4 @@ class TestD300(abstract_test.AbstractTest):
             'date_to': time.strftime('%Y-%m-28'),
             'company_id': self.env.ref('base.main_company').id,
             'tax_detail': True
-        }    
-    
+        }

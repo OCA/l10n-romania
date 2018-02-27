@@ -7,11 +7,6 @@ from odoo.tools import test_reports
 
 _logger = logging.getLogger(__name__)
 
-try:
-    from xlrd import open_workbook
-except ImportError:
-    _logger.debug('Can not import xlsxwriter`.')
-
 
 class AbstractTest(TransactionCase):
     """Common technical tests for all reports."""
@@ -38,7 +33,6 @@ class AbstractTest(TransactionCase):
                                 [self.report.id],
                                 report_type='qweb-html')
 
-    
     def test_qweb(self):
         test_reports.try_report(self.env.cr, self.env.uid,
                                 self.qweb_report_name,
@@ -50,7 +44,7 @@ class AbstractTest(TransactionCase):
                                 self.xlsx_report_name,
                                 [self.report.id],
                                 report_type='xlsx')
-    
+
     def test_print(self):
         self.report.print_report('qweb')
         self.report.print_report('xlsx')

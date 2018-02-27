@@ -27,6 +27,6 @@
         'demo/account_tax_tags.xml',
         'demo/account_tax_data.xml',
         'demo/account_fiscal_position_data.xml',
-        'demo/account_invoice_data.xml',        
+        'demo/account_invoice_data.xml',
     ],
 }

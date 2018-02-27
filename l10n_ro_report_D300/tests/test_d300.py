@@ -132,4 +132,3 @@ class TestD300Report(TransactionCase):
         wizard.button_export_html()
         wizard.button_export_pdf()
         wizard.button_export_xlsx()
-
