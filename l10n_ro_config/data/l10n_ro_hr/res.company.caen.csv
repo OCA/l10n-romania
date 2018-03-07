@@ -1,0 +1,610 @@
+id,code,risk_class,risk_rate,name
+res_company_caen_111,111,4.25,0.27,"Cultivarea cerealelor (exclusiv orez), plantelor leguminoase si a plantelor producatoare de seminte oleaginoase"
+res_company_caen_112,112,1,0.15,Cultivarea orezului
+res_company_caen_113,113,4,0.26,"Cultivarea legumelor si a pepenilor, a radacinoaselor si tuberculilor"
+res_company_caen_114,114,1,0.15,Cultivarea trestiei de zahar
+res_company_caen_115,115,5.75,325,Cultivarea tutunului
+res_company_caen_116,116,5.5,316,Cultivarea plantelor pentru fibre textile
+res_company_caen_119,119,4,0.26,Cultivarea altor plante din culturi nepermanente
+res_company_caen_121,121,2.25,196,Cultivarea strugurilor
+res_company_caen_122,122,1,0.15,Cultivarea fructelor tropicale si subtropicale
+res_company_caen_123,123,1,0.15,Cultivarea fructelor citrice
+res_company_caen_124,124,2.5,205,Cultivarea fructelor semintoase si samburoase
+res_company_caen_125,125,4.5,279,"Cultiv.fructelor arbustilor fructiferi, capsunilor, nuciferilor si a altor pomi fructiferi"
+res_company_caen_126,126,1,0.15,Cultivarea fructelor oleaginoase
+res_company_caen_127,127,1,0.15,Cultivarea plantelor pentru prepararea bauturilor
+res_company_caen_128,128,1,0.15,"Cultivarea condiment.,plantelor aromatice, medicin. si a plantelor de uz farm."
+res_company_caen_129,129,5.5,316,Cultivarea altor plante permanente
+res_company_caen_130,130,4,0.26,Cultivarea plantelor pentru inmultire
+res_company_caen_141,141,4,0.26,Cresterea bovinelor de lapte
+res_company_caen_142,142,2.75,214,Cresterea altor bovine
+res_company_caen_143,143,3.5,242,Cresterea cailor si a altor cabaline
+res_company_caen_144,144,4.75,288,Cresterea camilelor si a camelidelor
+res_company_caen_145,145,1,0.15,Cresterea ovinelor si a caprinelor
+res_company_caen_146,146,6.5,352,Cresterea porcinelor
+res_company_caen_147,147,3.25,233,Cresterea pasarilor
+res_company_caen_149,149,1,0.15,Cresterea altor animale
+res_company_caen_150,150,5.25,306,Activitati in ferme mixte (cultura vegetala combinata cu cresterea animalelor)
+res_company_caen_161,161,3,224,Activitati auxiliare pentru productia vegetala
+res_company_caen_162,162,3.5,242,Activitati auxiliare pentru cresterea animalelor
+res_company_caen_163,163,5.75,325,Activitati dupa recoltare
+res_company_caen_164,164,1,0.15,Pregatirea semintelor
+res_company_caen_170,170,4.25,0.27,"Vanatoare, capturarea cu capcane a vanatului si activitati de servicii anexe vanatorii"
+res_company_caen_210,210,4.5,279,Silvicultura si alte activitati forestiere
+res_company_caen_220,220,7.5,389,Exploatare forestiera
+res_company_caen_230,230,1,0.15,Colectarea produselor forestiere nelemnoase din flora spontana
+res_company_caen_240,240,1,0.15,Activitati de servicii anexe silviculturii
+res_company_caen_311,311,1,0.15,Pescuitul maritim
+res_company_caen_312,312,1.5,168,Pescuitul in ape dulci
+res_company_caen_321,321,1,0.15,Acvacultura maritima
+res_company_caen_322,322,3.75,251,Acvacultura in ape dulci
+res_company_caen_510,510,16.5,0.72,Extractia carbunelui superior (PCS=>23865kJ/kg)
+res_company_caen_520,520,10.5,0.5,Extractia carbunelui inferior (PCS<23865kJ/kg)
+res_company_caen_610,610,6.75,362,Extractia petrolului brut
+res_company_caen_620,620,6.5,352,Extractia gazelor naturale
+res_company_caen_710,710,5.75,325,Extractia minereurilor feroase
+res_company_caen_721,721,6.5,352,Extractia minereurilor de uraniu si toriu
+res_company_caen_729,729,9.25,454,Extractia altor minereuri metalifere neferoase
+res_company_caen_811,811,6,334,"Extractia pietrei ornamentale si a pietrei pentru constructii, extractia pietrei calcaroase, ghipsului, cretei si a ardeziei"
+res_company_caen_812,812,4.75,288,Extractia pietrisului si nisipului extractia argilei si caolinului
+res_company_caen_891,891,1,0.15,Extractia mineralelor pentru industria chimica si a ingrasamintelor naturale
+res_company_caen_892,892,1,0.15,Extractia turbei
+res_company_caen_893,893,5.5,316,Extractia sarii
+res_company_caen_899,899,12.5,573,Alte activitati extractive n.c.a.
+res_company_caen_910,910,5.75,325,Activitati de servicii anexe extractiei petrolului brut si gazelor naturale
+res_company_caen_990,990,11,518,Activitati de servicii anexe pentru extractia mineralelor
+res_company_caen_1011,1011,2.75,214,Prelucrarea si conservarea carnii
+res_company_caen_1012,1012,2,187,Prelucrarea si conservarea carnii de pasare
+res_company_caen_1013,1013,2.75,214,Fabricarea produselor din carne (inclusiv din carne de pasare)
+res_company_caen_1020,1020,3.75,251,"Prelucrarea si conservarea pestelui, crustaceelor si a molustelor"
+res_company_caen_1031,1031,5.75,325,Prelucrarea si conservarea cartofilor
+res_company_caen_1032,1032,1.5,168,Fabricarea sucurilor de fructe si legume
+res_company_caen_1039,1039,4.5,279,Prelucrarea si conservarea fructelor si legumelor n.c.a.
+res_company_caen_1041,1041,3.75,251,Fabricarea uleiurilor si grasimilor
+res_company_caen_1042,1042,6,334,Fabricarea margarinei si a altor produse comestibile similare
+res_company_caen_1051,1051,2.75,214,Fabricarea produselor lactate si a branzeturilor
+res_company_caen_1052,1052,3.25,233,Fabricarea inghetatei
+res_company_caen_1061,1061,5,297,"Fabricarea produselor de morarit, a amidonului si produselor din amidon"
+res_company_caen_1062,1062,3,224,Fabricarea amidonului si a produselor din amidon
+res_company_caen_1071,1071,3.75,251,"Fabricarea painii, fabricarea prajiturilor si a produselor proaspete de patiserie"
+res_company_caen_1072,1072,3.5,242,"Fabric.biscuitilor si piscoturilor, fabric.prajiturilor si a prod.conservate de patiserie"
+res_company_caen_1073,1073,4.75,288,"Fabric.macaroanelor, taiteilor, cus-cus-ului si a altor produse fainoase similare"
+res_company_caen_1081,1081,6.25,343,Fabricarea zaharului
+res_company_caen_1082,1082,1.5,168,"Fabricarea produselor din cacao, aciocolatei si a produselor zaharoase"
+res_company_caen_1083,1083,2,187,Prelucrarea ceaiului si cafelei
+res_company_caen_1084,1084,1.25,159,Fabricarea condimentelor si ingredientelor
+res_company_caen_1085,1085,2.5,205,Fabricarea de mancaruri preparate
+res_company_caen_1086,1086,1,0.15,Fabricarea preparatelor alimentare omogenizate si alimentelor dietetice
+res_company_caen_1089,1089,1.5,168,Fabricarea altor produse alimentare n.c.a.
+res_company_caen_1091,1091,2,187,Fabricare preparatelor pentru hrana animalelor de ferma
+res_company_caen_1092,1092,1,0.15,Fabricare preparatelor pentru hrana animalelor de companie
+res_company_caen_1101,1101,3,224,"Distilarea, rafinarea si mixarea bauturilor alcoolice"
+res_company_caen_1102,1102,2.25,196,Fabricarea vinurilor din struguri
+res_company_caen_1103,1103,1,0.15,Fabricarea cidrului si a altor vinurio din fructe
+res_company_caen_1104,1104,1,0.15,"Fabricarea altor bauturi nedistilate, obtinute prin fermentare"
+res_company_caen_1105,1105,4,0.26,Fabricarea berii
+res_company_caen_1106,1106,1,0.15,Fabricarea maltului
+res_company_caen_1107,1107,4.25,0.27,"Prod.de bauturi racorit.nealcoolice,  prod.de ape minerale si alte ape imbuteliate"
+res_company_caen_1200,1200,2.25,196,Fabricarea produselor din tutun
+res_company_caen_1310,1310,5.5,316,Pregatirea fibrelor si filarea fibrelor textile
+res_company_caen_1320,1320,8.75,435,Productia de tesaturi
+res_company_caen_1330,1330,1.75,178,Finisarea materialelor textile
+res_company_caen_1391,1391,3,224,Fabricarea de metraje prin tricotare sau crosetare
+res_company_caen_1392,1392,2.5,205,Fabric.de artic.confect. din textile (cu exceptia imbracamintei si lenjeriei de corp)
+res_company_caen_1393,1393,1,0.15,Fabricarea de covoare si mochete
+res_company_caen_1394,1394,2,187,"Fabricarea de odgoane, franghii, sfori si plase"
+res_company_caen_1395,1395,2.25,196,"Fabric.de textile netesute si artic.din acestea, cu exceptia confect. de imbracam."
+res_company_caen_1396,1396,2.75,214,Fabricarea de articole tehnice si industriale din textile
+res_company_caen_1399,1399,4.25,0.27,Fabricarea altor articole textile n.c.a.
+res_company_caen_1411,1411,1.25,159,Fabricarea articolelor de imbracaminte din piele
+res_company_caen_1412,1412,2.75,214,Fabricarea de articole de imbracaminte pentru lucru
+res_company_caen_1413,1413,2.25,196,Fabricarea altor articole de imbracaminte (exclusiv lenjeria de corp)
+res_company_caen_1414,1414,2.5,205,Fabricarea de articole de lenjerie de corp
+res_company_caen_1419,1419,3,224,Fabricarea altor articole de imbracaminte si accesorii n.c.a.
+res_company_caen_1420,1420,1,0.15,Fabricarea articolelor din blana
+res_company_caen_1431,1431,1.25,159,Fabricarea prin tricotare sau crosetare a ciorapilor si articolelor de galanterie
+res_company_caen_1439,1439,2,187,Fabricarea prin tricotare sau crosetare a altor articole de imbracaminte
+res_company_caen_1511,1511,1.5,168,"Tabacirea si finisarea pieilor,  prepararea si vopsirea blanurilor"
+res_company_caen_1512,1512,1.75,178,Fabricarea articolelor de voiaj si marochinarie si a articolelor de harnasament
+res_company_caen_1520,1520,2.75,214,Fabricarea incaltamintei
+res_company_caen_1610,1610,5.5,316,Taierea si rindeluirea lemnului
+res_company_caen_1621,1621,4,0.26,Fabricarea de furnire si a panourilor din lemn
+res_company_caen_1622,1622,2.75,214,Fabricarea parchetului asamblat in panouri
+res_company_caen_1623,1623,5.5,316,"Fabricarea altor elemente de dulgherie si tamplarie, pentru constructii"
+res_company_caen_1624,1624,2,187,Fabricarea ambalajelor din lemn
+res_company_caen_1629,1629,4.25,0.27,"Fabric.altor prod.din lemn;fabric.artic.din pluta,paie si din alte mat.veget.impletite"
+res_company_caen_1711,1711,4.5,279,Fabricarea celulozei
+res_company_caen_1712,1712,2.75,214,Fabricarea hartiei si cartonului
+res_company_caen_1721,1721,5.5,316,Fabricarea hartiei si cartonului ondulat si a ambalajelor din hartie si carton
+res_company_caen_1722,1722,1.75,178,"Fabricarea produselor de uz gospodaresc si sanitar, din hartie sau carton"
+res_company_caen_1723,1723,1.75,178,Fabricarea articolelor de papetarie
+res_company_caen_1724,1724,1,0.15,Fabricarea tapetului
+res_company_caen_1729,1729,1,0.15,Fabricarea altor articole din hartie si carton n.c.a.
+res_company_caen_1811,1811,1.5,168,Tiparirea ziarelor
+res_company_caen_1812,1812,3,224,Alte activitati de tiparire n.c.a.
+res_company_caen_1813,1813,1,0.15,Servicii pregatitoare pentru pretiparire
+res_company_caen_1814,1814,1.5,168,Legatorie si servicii conexe
+res_company_caen_1820,1820,1,0.15,Reproducerea inregistrarilor
+res_company_caen_1910,1910,1,0.15,Fabricarea produselor de cocserie
+res_company_caen_1920,1920,7.25,0.38,Fabricarea produselor obtinute din prelucrarea titeiului
+res_company_caen_2011,2011,3.25,233,Fabricarea gazelor industriale
+res_company_caen_2012,2012,3.5,242,Fabricarea colorantilor si a pigmentilor
+res_company_caen_2013,2013,8.5,426,"Fabricarea altor produse chimice anorganice, de baza"
+res_company_caen_2014,2014,6.75,362,"Fabricarea altor produse chimice organice, de baza"
+res_company_caen_2015,2015,8,408,Fabricarea ingrasamintelor si produselor azotoase
+res_company_caen_2016,2016,6,334,Fabricarea materialelor plastice in forme primare
+res_company_caen_2017,2017,3.5,242,Fabricarea cauciucului sintetic in forme primare
+res_company_caen_2020,2020,8,408,Fabricarea pesticidelor si a altor produse agrochimice
+res_company_caen_2030,2030,8.5,426,"Fabricarea vopselelor, lacurilor, cernelii tipografice si masticurilor"
+res_company_caen_2041,2041,3,224,"Fabricarea sapunurilor, detergentilor si a produselor de intretinere"
+res_company_caen_2042,2042,4,0.26,Fabricarea parfumurilor si a produselor cosmetice (de toaleta)
+res_company_caen_2051,2051,3.25,233,Fabricarea explozivilor
+res_company_caen_2052,2052,1,0.15,Fabricarea cleiurilor
+res_company_caen_2053,2053,1,0.15,Fabricarea uleiurilor esentiale
+res_company_caen_2059,2059,8.25,417,Fabricarea altor produse chimice n.c.a.
+res_company_caen_2060,2060,3.25,233,Fabricarea fibrelor sintetice si artificiale
+res_company_caen_2110,2110,4.5,279,Fabricarea produselor farmaceutice de baza
+res_company_caen_2120,2120,1.75,178,Fabricarea preparatelor farmaceutice
+res_company_caen_2211,2211,4.5,279,"Fabricarea anvelopelor si a camerelor de aer,  resaparea si refacerea anvelopelor"
+res_company_caen_2219,2219,2.75,214,Fabricarea altor produse din cauciuc
+res_company_caen_2221,2221,3.25,233,"Fabricarea placilor, foliilor, tuburilor si profilelor din material plastic"
+res_company_caen_2222,2222,2.75,214,Fabricarea articolelor de ambalaj din material plastic
+res_company_caen_2223,2223,2.75,214,Fabricarea articolelor din material plastic pentru constructii
+res_company_caen_2229,2229,2.25,196,Fabricarea altor produse din material plastic
+res_company_caen_2311,2311,5.5,316,Fabricarea sticlei plate
+res_company_caen_2312,2312,1.5,168,Prelucrarea si fasonarea sticlei plate
+res_company_caen_2313,2313,9,444,Fabricarea articolelor din sticla
+res_company_caen_2314,2314,6,334,Fabricarea fibrelor din sticla
+res_company_caen_2319,2319,2.25,196,Fabricarea de sticlarie tehnica
+res_company_caen_2320,2320,9.25,454,Fabricarea de produse refractare
+res_company_caen_2331,2331,5,297,Fabricarea placilor si dalelor din ceramica
+res_company_caen_2332,2332,4.25,0.27,"Fabricarea caramizilor, tiglelor si altor produse pentru constructii, din argila arsa"
+res_company_caen_2341,2341,4,0.26,Fabricarea articolelor ceramice pentru uz gospodaresc si ornamental
+res_company_caen_2342,2342,6.75,362,Fabricarea de obiecte sanitare din ceramica
+res_company_caen_2343,2343,4.75,288,Fabricarea izolatorilor si pieselor izolante din ceramica
+res_company_caen_2344,2344,4,0.26,Fabricarea altor produse tehnice din ceramica
+res_company_caen_2349,2349,7.75,398,Fabricarea altor produse ceramice n.c.a.
+res_company_caen_2351,2351,7.25,0.38,Fabricarea cimentului
+res_company_caen_2352,2352,6.25,343,Fabricarea varului si ipsosului
+res_company_caen_2361,2361,4,0.26,Fabricarea produselor din beton pentru constructii
+res_company_caen_2362,2362,4.25,0.27,Fabricarea produselor din ipsos pentru constructii
+res_company_caen_2363,2363,4,0.26,Fabricarea betonului
+res_company_caen_2364,2364,2.25,196,Fabricarea mortarului
+res_company_caen_2365,2365,8.25,417,Fabricarea produselor din azbociment
+res_company_caen_2369,2369,1.25,159,"Fabricarea altor articole din beton, ciment si ipsos"
+res_company_caen_2370,2370,7.25,0.38,"Taierea, fasonarea si finisarea pietrei"
+res_company_caen_2391,2391,4,0.26,Fabricarea produselor abrazive
+res_company_caen_2399,2399,9.75,472,Fabricarea altor produse din minerale nemetalice n.c.a.
+res_company_caen_2410,2410,9.5,463,Productia de metale feroase sub forme primare si de feroaliaje
+res_company_caen_2420,2420,10.5,0.5,"Productia de tuburi, tevi, profile tubulare si accesorii pentru acestea, din otel"
+res_company_caen_2431,2431,8.25,417,Tragere la rece a barelor
+res_company_caen_2432,2432,6.25,343,Laminare la rece a benzilor inguste
+res_company_caen_2433,2433,5,297,Productia de profile obtinute la rece
+res_company_caen_2434,2434,4.5,279,Trefilarea firelor la rece
+res_company_caen_2441,2441,1,0.15,Productia metalelor pretioase
+res_company_caen_2442,2442,10.25,0.49,Metalurgia aluminiului
+res_company_caen_2443,2443,12,555,"Productia plumbului, zincului si cositorului"
+res_company_caen_2444,2444,7.5,389,Metalurgia cuprului
+res_company_caen_2445,2445,10.75,509,Productia altor metale neferoase
+res_company_caen_2446,2446,5.75,325,Prelucrarea combustibililor nucleari
+res_company_caen_2451,2451,10.75,509,Turnarea fontei
+res_company_caen_2452,2452,7.25,0.38,Turnarea otelului
+res_company_caen_2453,2453,6.5,352,Turnarea metalelor neferoase usoare
+res_company_caen_2454,2454,3,224,Turnarea altor metale neferoase
+res_company_caen_2511,2511,4.5,279,Fabricarea de constructii metalice si parti componente ale structurilor metalice
+res_company_caen_2512,2512,2.75,214,Fabricarea de usi si ferestre din metal
+res_company_caen_2521,2521,5.25,306,Productia de radiatoare si cazane pentru incalzire centrala
+res_company_caen_2529,2529,5.5,316,"Productia de rezervoare, cisterne si containere metalice"
+res_company_caen_2530,2530,3.75,251,Prod.generatoarelor de aburi (cu exceptia cazanelor pentru incalzire centrala)
+res_company_caen_2540,2540,7.5,389,Fabricarea armamentului si munitiei
+res_company_caen_2550,2550,4.5,279,"Fabric.produselor metalice obtinute prin deformare plastica, metalurgia pulberilor"
+res_company_caen_2561,2561,3.5,242,Tratarea si acoperirea metalelor
+res_company_caen_2562,2562,5,297,Operatiuni de mecanica generala
+res_company_caen_2571,2571,3.5,242,Fabricarea produselor de taiat
+res_company_caen_2572,2572,4,0.26,Fabricarea articolelor de feronerie
+res_company_caen_2573,2573,5.75,325,Fabricarea uneltelor
+res_company_caen_2591,2591,2.5,205,"Fabricarea de recipienti, containere si alte produse similare din otel"
+res_company_caen_2592,2592,1.75,178,Fabricarea ambalajelor usoare din metal
+res_company_caen_2593,2593,2.25,196,"Fabricarea articolelor din fire metalice,  fabricarea de lanturi si arcuri"
+res_company_caen_2594,2594,4,0.26,"Fabric.de suruburi, buloane si alte articole filetate; fabricarea de nituri si saibe"
+res_company_caen_2599,2599,4.5,279,Fabricarea altor articole din metal n.c.a.
+res_company_caen_2611,2611,2.5,205,Fabricarea subansambluri lor electronice (module)
+res_company_caen_2612,2612,1.25,159,Fabricarea altor componente electronice
+res_company_caen_2620,2620,2,187,Fabricarea calculatoarelor si a echipamentelor periferice
+res_company_caen_2630,2630,1.25,159,Fabricarea echipamentelor de comunicatii
+res_company_caen_2640,2640,2.5,205,Fabricarea produselor electronice de larg consum
+res_company_caen_2651,2651,2.25,196,"Fabric.de instrumente si dispozitive pentru masura, verificare, control, navigatie"
+res_company_caen_2652,2652,5.75,325,Productia de ceasuri
+res_company_caen_2660,2660,1.5,168,"Fabricarea de echipamente pentru radiologie, electrodiagnostic si electroterapie"
+res_company_caen_2670,2670,1.5,168,Fabricarea de instrumente optice si echipamente fotografice
+res_company_caen_2680,2680,1,0.15,Fabricarea suportilor magnetici si optici destinati inregistrarilor
+res_company_caen_2711,2711,8,408,"Fabricarea motoarelor, generatoarelor si transformatoarelor electrice"
+res_company_caen_2712,2712,3.25,233,Fabricarea aparatelor de distributie si control a electricitatii
+res_company_caen_2720,2720,8,408,Fabricarea de acumulatori si baterii
+res_company_caen_2731,2731,1,0.15,Fabricarea de cabluri cu fibra optica
+res_company_caen_2732,2732,4.25,0.27,Fabricarea altor fire si cabluri electrice si electronice
+res_company_caen_2733,2733,1,0.15,Fabric.dispozitivelor de conexiune pentru fire si cabluri electrice si electronice
+res_company_caen_2740,2740,3,224,Fabricarea de echipamente electrice de iluminat
+res_company_caen_2751,2751,5.25,306,Fabricarea de aparate electrocasnice
+res_company_caen_2752,2752,7.5,389,Fabricarea de echipamente casnice neelectrice
+res_company_caen_2790,2790,6.5,352,Fabricarea altor echipamente electrice
+res_company_caen_2811,2811,7.5,389,"Fabric.de mot.si turbine(cu exceptia celor pentru avioane, autoveh.si motociclete)"
+res_company_caen_2812,2812,7.25,0.38,Fabricarea de motoare hidraulice
+res_company_caen_2813,2813,8.75,435,Fabricarea de pompe si compresoare
+res_company_caen_2814,2814,11,518,Fabricarea de articole de robinetarie
+res_company_caen_2815,2815,5.25,306,"Fabric.lagarelor,angrenajelor, cutiilor de viteza si a elem.mecanice de transmisie"
+res_company_caen_2821,2821,5.5,316,"Fabricarea cuptoarelor, furnalelor si arzatoarelor"
+res_company_caen_2822,2822,8,408,Fabricarea echipamentelor de ridicat si manipulat
+res_company_caen_2823,2823,1.5,168,Fabricarea masinilor si echipamentelor de birou (exclusiv fabricarea calculatoarelor si a echipamentelor periferice)
+res_company_caen_2824,2824,2,187,Fabricarea masinilor-unelte portabile actionate electric
+res_company_caen_2825,2825,1.75,178,"Fabric.echip.de ventilatie si frigorifice, exclusiv a echipamentelor de uz casnic"
+res_company_caen_2829,2829,3,224,Fabricarea altor masini si utilaje de utilizare generala
+res_company_caen_2830,2830,9.25,454,Fabricarea masinilor si utilajelor pentru agricultura si exploatari forestiere
+res_company_caen_2841,2841,4.25,0.27,Fabricarea utilajelor si a masinilor-unelte pentru prelucrarea metalului
+res_company_caen_2849,2849,6.75,362,Fabricarea altor masini-unelte n.c.a.
+res_company_caen_2891,2891,5.5,316,Fabricarea utilajelor pentru metalurgie
+res_company_caen_2892,2892,8.25,417,Fabricarea utilajelor pentru extractie si constructii
+res_company_caen_2893,2893,5.75,325,"Fabric.utilajelor pentru prelucrarea produselor alimentare, bauturilor si tutunului"
+res_company_caen_2894,2894,1.75,178,"Fabricarea utilajelor pentru industria textila, a imbracamintei si a pielariei"
+res_company_caen_2895,2895,1,0.15,Fabricarea utilajelor pentru industria hartiei si cartonului
+res_company_caen_2896,2896,1,0.15,Fabricarea utilajelor pentru prelucrarea maselor plastice si a cauciucului
+res_company_caen_2899,2899,4.75,288,Fabricarea altor masini si utilaje specifice n.c.a.
+res_company_caen_2910,2910,10,481,Fabricarea autovehiculelor de transport rutier
+res_company_caen_2920,2920,2.75,214,"Productia de caroserii pentru autovehicule, fabricarea de remorci si semiremorci"
+res_company_caen_2931,2931,2.25,196,Fabricarea de echipamente electrice si electronice pentru autovehicule simotoare de autovehicule
+res_company_caen_2932,2932,5.25,306,Fabric.altor piese si accesorii pentru autoveh. si pentru motoare de autovehicule
+res_company_caen_3011,3011,8.75,435,Constructia de nave si structuri plutitoare
+res_company_caen_3012,3012,1,0.15,Constructia de ambarcatiuni sportive si de agrement
+res_company_caen_3020,3020,8.25,417,Fabricarea materialului rulant
+res_company_caen_3030,3030,7.25,0.38,Fabricarea de aeronave si nave spatiale
+res_company_caen_3040,3040,1,0.15,Fabricarea vehiculelor militare de lupta
+res_company_caen_3091,3091,1,0.15,Fabricarea de motociclete
+res_company_caen_3092,3092,2.25,196,Fabricarea de biciclete si de vehicule pentru invalizi
+res_company_caen_3099,3099,1,0.15,Fabricarea altor mijloace de transport n.c.a.
+res_company_caen_3101,3101,3.75,251,Fabricarea de mobila pentru birouri si magazine
+res_company_caen_3102,3102,3.25,233,Fabricarea de mobila pentru bucatarii
+res_company_caen_3103,3103,1.75,178,Fabricarea de saltele si somiere
+res_company_caen_3109,3109,4.75,288,Fabricarea de mobila n.c.a.
+res_company_caen_3211,3211,1,0.15,Baterea monedelor
+res_company_caen_3212,3212,1,0.15,Fabricarea bijuteriilor si articolelor similare din metale si pietre pretioase
+res_company_caen_3213,3213,1,0.15,Fabricarea imitatiilor de bijuterii si articole similare
+res_company_caen_3220,3220,6.5,352,Fabricarea instrumentelor muzicale
+res_company_caen_3230,3230,1.5,168,Fabricarea articolelor pentru sport
+res_company_caen_3240,3240,1.25,159,Fabricarea jocurilor si jucariilor
+res_company_caen_3250,3250,2,187,"Fabricarea de dispozitive, aparate si instrumente medicale stomatologice"
+res_company_caen_3291,3291,4.5,279,Fabricarea maturilor si periilor
+res_company_caen_3299,3299,4,0.26,Fabricarea altor produse manufacturiere n.c.a.
+res_company_caen_3311,3311,2.5,205,Repararea articolelor fabricate din metal
+res_company_caen_3312,3312,7.75,398,Repararea masinilor
+res_company_caen_3313,3313,2.25,196,Repararea echipamentelor electronice si optice
+res_company_caen_3314,3314,3.75,251,Repararea echipamentelor electrice
+res_company_caen_3315,3315,5.5,316,Repararea si intretinerea navelor si barcilor
+res_company_caen_3316,3316,4.5,279,Repararea si intretinerea aeronavelor si navelor spatiale
+res_company_caen_3317,3317,6,334,Repararea si intretinerea altor echipamente de transport n.c.a.
+res_company_caen_3319,3319,7.75,398,Repararea altor echipamente
+res_company_caen_3320,3320,3.25,233,Instalarea masinilor si echipamentelor industriale
+res_company_caen_3511,3511,7,371,Productia de energie electrica
+res_company_caen_3512,3512,2,187,Transportul energiei electrice
+res_company_caen_3513,3513,3,224,Distributia energiei electrice
+res_company_caen_3514,3514,2.5,205,Comercializarea energiei electrice
+res_company_caen_3521,3521,2,187,Productia gazelor
+res_company_caen_3522,3522,3.25,233,"Distributia combustibililor gazosi, prin conducte"
+res_company_caen_3523,3523,1.75,178,"Comercializerea combustibililor gazosi, prin conducte"
+res_company_caen_3530,3530,5.25,306,Furnizarea de abur si aer conditionat
+res_company_caen_3600,3600,2.75,214,"Captarea, tratarea si distributia apei"
+res_company_caen_3700,3700,2.75,214,Colectarea si epurarea apelor uzate
+res_company_caen_3811,3811,4.5,279,Colectarea deseurilor nepericuloase
+res_company_caen_3812,3812,4.75,288,Colectarea deseurilor periculoase
+res_company_caen_3821,3821,2,187,Tratarea si eliminarea deseurilor nepericuloase
+res_company_caen_3822,3822,8,408,Tratarea si eliminarea deseurilor periculoase
+res_company_caen_3831,3831,3.5,242,Demontarea (dezasamblarea)masinilor si a echipamentelor scoase din uz pentru recuperarea materialelor
+res_company_caen_3832,3832,4.25,0.27,Recuperarea materialelor reciclabile sortate
+res_company_caen_3900,3900,4.5,279,Activitati si servicii de decontaminare
+res_company_caen_4110,4110,3.25,233,Dezvoltare (promovare) imobiliara
+res_company_caen_4120,4120,4.25,0.27,Lucrari de constructii a cladirilor rezidentiale si nerezidentiale
+res_company_caen_4211,4211,3.75,251,Lucrari de constructii a drumurilor si autostrazilor
+res_company_caen_4212,4212,5.75,325,Lucrari de constructii a cailor ferate de suprafata si subterane
+res_company_caen_4213,4213,9.5,463,Constructia de poduri si tuneluri
+res_company_caen_4221,4221,5.75,325,Lucrari de constructii a proiectelor utilitare pentru fluide
+res_company_caen_4222,4222,4,0.26,Lucrari de constructii a proiectelor utilitare pentru electricitate si telecomunicatii
+res_company_caen_4291,4291,6,334,Constructii hidrotehnice
+res_company_caen_4299,4299,3,224,Lucrari de constructii a altor proiecte ingineresti n.c.a.
+res_company_caen_4311,4311,4.25,0.27,Lucrari de demolare a constructiilor
+res_company_caen_4312,4312,4.75,288,Lucrari de pregatire a terenului
+res_company_caen_4313,4313,4.5,279,Lucrari de foraj si sondaj pentru constructii
+res_company_caen_4321,4321,4,0.26,Lucrari de instalatii electrice
+res_company_caen_4322,4322,4,0.26,"Lucrari de instalatii sanitare, de incalzire si de aer conditionat"
+res_company_caen_4329,4329,2.75,214,Alte lucrari de instalatii pentru constructii
+res_company_caen_4331,4331,1.75,178,Lucrari de ipsoserie
+res_company_caen_4332,4332,3,224,Lucrari de tamplarie si dulgherie
+res_company_caen_4333,4333,4,0.26,Lucrari de pardosire si placare a peretilor
+res_company_caen_4334,4334,2.25,196,"Lucrari de vopsitorie, zugraveli si montari de geamuri"
+res_company_caen_4339,4339,4,0.26,Alte lucrari de finisare
+res_company_caen_4391,4391,3.25,233,"Lucrari de invelitori, sarpante si terase la constructii"
+res_company_caen_4399,4399,4.25,0.27,Alte lucrari speciale de constructii n.c.a.
+res_company_caen_4511,4511,2.25,196,"Comert cu autoturisme si autovehicule usoare (sub 3,5 tone)"
+res_company_caen_4519,4519,1.25,159,Comert cu alte autovehicule
+res_company_caen_4520,4520,3,224,intretinerea si repararea autovehiculelor
+res_company_caen_4531,4531,2,187,Comert cu ridicata de piese si accesorii pentru autovehicule
+res_company_caen_4532,4532,1.75,178,Comert cu amanuntul de piese si accesorii pt autovehicule
+res_company_caen_4540,4540,1,0.15,"Comert cu motociclete,piese si acces.aferente,intret.si repararea motocicletelor"
+res_company_caen_4611,4611,2.75,214,"Intermedieri in comertul cu materii prime agricole, animale vii,materii prime textile si cu semifabricate"
+res_company_caen_4612,4612,1,0.15,"Intermed.in comertul cu combustib.,minereuri,metale si prod.chimice pentru ind."
+res_company_caen_4613,4613,4.5,279,Intermedieri in comertul cu material lemnos si materiale de constructii
+res_company_caen_4614,4614,3,224,"Intermedieri in comertul cu masini, echipamente industriale nave si avioane"
+res_company_caen_4615,4615,1,0.15,"Intermedieri in comertul cu mobila, articole de menaj si de fierarie"
+res_company_caen_4616,4616,1.25,159,"Intermed.in comertul cu textile, confectii din blana, incaltaminte si art. din piele"
+res_company_caen_4617,4617,1.25,159,"Intermedieri in comertul cu produse alimentare, bauturi si tutun"
+res_company_caen_4618,4618,1.75,178,"Intermedieri in comertul specializat in vanzarea prod. cu caracter specific, n.c.a."
+res_company_caen_4619,4619,1.75,178,Intermedieri in comertul cu produse diverse
+res_company_caen_4621,4621,2.75,214,"Comert cu ridicata al cerealelor, semintelor, furajelor si tutunului neprelucrat"
+res_company_caen_4622,4622,1.5,168,Comert cu ridicata al florilor si al plantelor
+res_company_caen_4623,4623,1,0.15,Comert cu ridicata al animalelor vii
+res_company_caen_4624,4624,1.75,178,"Comert cu ridicata la blanurilor, pieilor brute si al pieilor prelucrate"
+res_company_caen_4631,4631,2.25,196,Comert cu ridicata al fructelor si al legumelor
+res_company_caen_4632,4632,3.25,233,Comert cu ridicata al carnii si produselor din carne
+res_company_caen_4633,4633,2.5,205,"Comert cu ridicata al prod.lactate, oualor, uleiurilor si grasimilor comestibile"
+res_company_caen_4634,4634,2,187,Comert cu ridicata al bauturilor
+res_company_caen_4635,4635,1.25,159,Comert cu ridicata al produselor din tutun
+res_company_caen_4636,4636,1.25,159,"Comert cu ridicata al zaharului, ciocolatei si produselor zaharoase"
+res_company_caen_4637,4637,1.5,168,"Comert cu ridicata cu cafea, ceai, cacao si condimente"
+res_company_caen_4638,4638,2.75,214,"Comert cu ridicata specializat al altor alim., inclusiv peste, crustacee si moluste"
+res_company_caen_4639,4639,3,224,"Comert cu ridicata nespecializat de produse alimentare, bauturi si tutun"
+res_company_caen_4641,4641,1.5,168,Comert cu ridicata al produselor textile
+res_company_caen_4642,4642,1.5,168,Comert cu ridicata al imbracamintei si incaltamintei
+res_company_caen_4643,4643,1.25,159,"Comert cu ridicata al aparatelor electrice de uz gospodaresc, al aparatelor deradio si televizoarelor"
+res_company_caen_4644,4644,2.5,205,"Comert cu ridicata al produselor din ceramica, sticlarie si produse de intretinere"
+res_company_caen_4645,4645,1.5,168,Comert cu ridicata al produselor cosmetice si de parfumerie
+res_company_caen_4646,4646,1.75,178,Comert cu ridicata al produselor farmaceutice
+res_company_caen_4647,4647,2.75,214,"Comert cu ridicata al mobilei, covoarelor si a articolelor de iluminat"
+res_company_caen_4648,4648,1,0.15,Comert cu ridicata al ceasurilor si bijuteriilor
+res_company_caen_4649,4649,1.25,159,Comert cu ridicata al altor bunuri de uz gospodaresc
+res_company_caen_4651,4651,2.25,196,"Comert cu ridicata al calculatoarelor, echipamentelor periferice si software-lui"
+res_company_caen_4652,4652,1.25,159,Comert cu ridicata de componente si echipamente electronice si de telecomunicatii
+res_company_caen_4661,4661,2.75,214,"Comert cu ridicata al masinilor agricole, echipamentelor si furniturilor"
+res_company_caen_4662,4662,1.75,178,Comert cu ridicata al masinilor-unelte
+res_company_caen_4663,4663,1.75,178,Comert cu ridicata al masinilor pentru industria miniera si constructii
+res_company_caen_4664,4664,2,187,Comert cu ridicata al masinilor pentru industria textila si al masinilor de cusut side tricotat
+res_company_caen_4665,4665,1,0.15,Comert cu ridicata al mobilei de birou
+res_company_caen_4666,4666,1,0.15,Comert cu ridicata al altor masini si echipamente de birou
+res_company_caen_4669,4669,2,187,Comert cu ridicata al altor masini si echipamente
+res_company_caen_4671,4671,3.5,242,"Comert cu ridicata al combustibililor solizi, lichizi si gazosi si al prod. derivate"
+res_company_caen_4672,4672,2.75,214,Comert cu ridicata al metalelor si minereurilor metalice
+res_company_caen_4673,4673,2.5,205,Comert cu ridicata al materialului lemnos si a materialelor de constructie si echipamentelor sanitare
+res_company_caen_4674,4674,1.5,168,Comert cu ridicata al echipamentelor si furniturilor de fierarie pentru instalatii sanitare si de incalzire
+res_company_caen_4675,4675,2.25,196,Comert cu ridicata al produselor chimice
+res_company_caen_4676,4676,1,0.15,Comert cu ridicata al altor produse intermediare
+res_company_caen_4677,4677,4,0.26,Comert cu ridicata al deseurilor si resturilor
+res_company_caen_4690,4690,2.25,196,Comert cu ridicata nespecializat
+res_company_caen_4711,4711,2,187,"Comert cu amanuntul in magazine nespecializate, cu vanzare predominanta de produse alimentare, bauturi si tutun"
+res_company_caen_4719,4719,1,0.15,"Comert cu amanuntul in magazine nespecializate, cu vanzare predominanta de produse nealimentare"
+res_company_caen_4721,4721,3,224,"Comert cu amanuntul al fructelor si leg. proaspete, in magazine specializate"
+res_company_caen_4722,4722,2,187,"Comert cu amanuntul al carnii si al produselor din carne, in magazine specializate"
+res_company_caen_4723,4723,1.5,168,"Comert cu amanuntul al pestelui, crustaceelor si molustelor, in magazine specializate"
+res_company_caen_4724,4724,2.25,196,"Comert cu amanuntul al painii, produselor de patiserie si produselor zaharoase, in magazine specializate"
+res_company_caen_4725,4725,1,0.15,"Comert cu amanuntul al bauturilor, in magazine specializate"
+res_company_caen_4726,4726,1,0.15,"Comert cu amanuntul al produselor din tutun, in magazine specializate"
+res_company_caen_4729,4729,1.5,168,"Comert cu amanuntul al altor produse alimentare , in magazine specializate"
+res_company_caen_4730,4730,2.25,196,"Comert cu amanuntul al carburantilor pentru autovehicule, in magazine specializate"
+res_company_caen_4741,4741,2.25,196,"Comert cu amanuntul al calculatoarelor, unitatilor periferice si software-lui, in magazine specializate"
+res_company_caen_4742,4742,1.25,159,Comert cu amanuntul al echip.pentru telecomunicatii in magazine specializate
+res_company_caen_4743,4743,1,0.15,Comert cu amanuntul al echipamentelor audio/video in magazine specializate
+res_company_caen_4751,4751,3,224,"Comert cu amanuntul al textilelor, in magazine specializate"
+res_company_caen_4752,4752,2.25,196,"Comert cu amanuntul al articolelor de fierarie, al articolelor din sticla si a celor pentru vopsit, in magazine specializate"
+res_company_caen_4753,4753,1,0.15,"Comert cu amanuntul al covoarelor, carpetelor, tapetelor si a altor acoperitoare de podea, in magazine specializate"
+res_company_caen_4754,4754,2,187,"Comert cu amanuntul al artic. si aparat.electrocasnice, in magazine specializate"
+res_company_caen_4759,4759,2.25,196,"Comert cu amanuntul al mobilei, al articolelor de iluminat si al articolelor de uz casnic n.c.a., in magazine specializate"
+res_company_caen_4761,4761,2,187,"Comert cu amanuntul al cartilor, in magazine specializate"
+res_company_caen_4762,4762,2.25,196,"Comert cu amanuntul al ziarelor si articolelor de papetarie, in magazine specializate"
+res_company_caen_4763,4763,1,0.15,"Comert cu amanuntul al discurilor si benzilor magnetice cu sau fara inregistrari audio/video, in magazine specializate"
+res_company_caen_4764,4764,1.5,168,"Comert cu amanuntul al echipamentelor sportive, in magazine specializate"
+res_company_caen_4765,4765,1,0.15,"Comert cu amanuntul al jocurilor si jucariilor, in magazine specializate"
+res_company_caen_4771,4771,1.25,159,"Comert cu amanuntul al imbracamintei, in magazine specializate"
+res_company_caen_4772,4772,1.75,178,"Comert cu amanuntul al incaltamintei si articolelor din piele, in magazine specializate"
+res_company_caen_4773,4773,1,0.15,"Comert cu amanuntul al produselor farmaceutice, in magazine specializate"
+res_company_caen_4774,4774,1,0.15,"Comert cu amanuntul al articolelor medicale si ortopedice, in magazine specializate"
+res_company_caen_4775,4775,1,0.15,"Comert cu amanuntul al prod.cosmetice si de parfumerie, in magazine specializ."
+res_company_caen_4776,4776,1,0.15,"Comert cu amanuntul al florilor, plantelor si semintelor, comert cu amanuntul al animalelor de companie si a hranei pentru acestea, in magazine specializate"
+res_company_caen_4777,4777,1.25,159,"Comert cu amanuntul al ceasurilor si bijuteriilor, in magazine specializate"
+res_company_caen_4778,4778,2,187,"Comert cu ananuntul al altor bunuri noi, in magazine specializate"
+res_company_caen_4779,4779,2.25,196,Comert cu amanuntul al bunurilor de ocazie vandute prin magazine
+res_company_caen_4781,4781,1,0.15,"Comert cu amanuntul al produselor alimentare, bauturilor si produselor din tutun, efectuat prin standuri, chioscuri si piete"
+res_company_caen_4782,4782,1,0.15,"Comert cu amanuntul al textilelor, imbracamintei si incaltamintei efectuat prin standuri, chioscuri si piete"
+res_company_caen_4789,4789,1,0.15,"Comert cu amanuntul prin standuri, chioscuri si piete al altor produse"
+res_company_caen_4791,4791,1,0.15,Comert cu amanuntul prin intermediul caselor de comenzi sau prin internet
+res_company_caen_4799,4799,2,187,"Comert cu amanuntul efect.in afara magazinelor,standurilor,chioscurilor si pietelor"
+res_company_caen_4910,4910,6,334,Trasporturi interurbane de calatori pe calea ferata
+res_company_caen_4920,4920,3.25,233,Transporturi de marfa pe calea ferata
+res_company_caen_4931,4931,10,481,"Transporturi urbane, suburbane si metropolitane de calatori"
+res_company_caen_4932,4932,2.5,205,Transporturi cu taxiuri
+res_company_caen_4939,4939,3.5,242,Alte transporturi terestre de calatori n.c.a.
+res_company_caen_4941,4941,3.5,242,Transporturi rutiere de marfuri
+res_company_caen_4942,4942,2.25,196,Servicii de mutare
+res_company_caen_4950,4950,3.25,233,Transporturi prin conducte
+res_company_caen_5010,5010,3.75,251,Transporturi maritime si costiere de pasageri
+res_company_caen_5020,5020,1,0.15,Transporturi maritime si costiere de marfa
+res_company_caen_5030,5030,4.5,279,Transportul de pasageri pe cai navigabile interioare
+res_company_caen_5040,5040,4.5,279,Transportul de marfa pe cai navigabile interioare
+res_company_caen_5110,5110,6.25,343,Transporturi aeriere de pasageri
+res_company_caen_5121,5121,5,297,Transporturi aeriene de marfa
+res_company_caen_5210,5210,5.25,306,Depozitari
+res_company_caen_5221,5221,3.25,233,Activitati de servicii anexe pentru transporturi terestre
+res_company_caen_5222,5222,4,0.26,Activitati de servicii anexe transporturilor pe apa
+res_company_caen_5223,5223,2.25,196,Activitati de servicii anexe transporturilor aeriene
+res_company_caen_5224,5224,7,371,Manipulari
+res_company_caen_5229,5229,1.75,178,Alte activitati anexe transporturilor
+res_company_caen_5310,5310,2.5,205,Activitati postale desfasurate sub obligativitatea serviciului universal
+res_company_caen_5320,5320,2.5,205,Alte activitati postale si de curier
+res_company_caen_5510,5510,1.75,178,Hoteluri si alte facilitati de cazare similare
+res_company_caen_5520,5520,1,0.15,Facilitati de cazare pentru vacante si perioade de scurta durata
+res_company_caen_5530,5530,3.25,233,"Parcuri pentru rulote, campinguri si tabere"
+res_company_caen_5590,5590,1.75,178,Alte servicii de cazare
+res_company_caen_5610,5610,2,187,Restaurante
+res_company_caen_5621,5621,2.75,214,Activitati de alimentatie (catering) pentru evenimente
+res_company_caen_5629,5629,2.25,196,Alte servicii de alimentatie n.c.a.
+res_company_caen_5630,5630,2,187,Baruri si alte activitati de servire a bauturilor
+res_company_caen_5811,5811,1.25,159,Activitati de editare a cartilor
+res_company_caen_5812,5812,1,0.15,"Activitati de editare de ghiduri, compendii, liste de adrese si similare"
+res_company_caen_5813,5813,2,187,Activitati de editare a ziarelor
+res_company_caen_5814,5814,1,0.15,Activitati de editare a revistelor si periodicelor
+res_company_caen_5819,5819,1,0.15,Alte activitati de editare
+res_company_caen_5821,5821,1,0.15,Activitati de editare a jocurilor de calculator
+res_company_caen_5829,5829,1.25,159,Activitati de editare a altor produse software
+res_company_caen_5911,5911,1,0.15,"Activitati de productie cinematografica, video si de programe de televiziune"
+res_company_caen_5912,5912,1,0.15,"Activitati post-productie cinematografica, video si de programe de televiziune"
+res_company_caen_5913,5913,1,0.15,"Activitati de distributie a filmelor cinematografice, video si a programelor de televiziune"
+res_company_caen_5914,5914,1,0.15,Proiectia de filme cinematografice
+res_company_caen_5920,5920,1.5,168,Activitati de realizare a inregistrarilor audio si activitati de editare muzicala
+res_company_caen_6010,6010,3.25,233,Activitati de difuzare a programelor de radio
+res_company_caen_6020,6020,2.75,214,Activitati de difuzare a programelor de televiziune
+res_company_caen_6110,6110,2.75,214,Activitati de telecomunicatii prin retele cu cablu
+res_company_caen_6120,6120,2,187,Activitati de telecomunicatii prin retele fara cablu (exclusiv prin satelit)
+res_company_caen_6130,6130,1,0.15,Activitati de telecomunicatii prin satelit
+res_company_caen_6190,6190,2.5,205,Alte activitati de telecomunicatii
+res_company_caen_6201,6201,1,0.15,Activitati de realizare a soft-ului la comanda (software orientat client)
+res_company_caen_6202,6202,1,0.15,Activitati de consultanta in tehnologia informatiei
+res_company_caen_6203,6203,1.5,168,Activitati de management (gestiune ti exploatare) a mijloacelor de calcul
+res_company_caen_6209,6209,2.5,205,Alte activitati de servicii privind tehnologia informatiei
+res_company_caen_6311,6311,2.75,214,"Prelucrarea datelor, administrarea paginilor web si activitati conexe"
+res_company_caen_6312,6312,2,187,Activitati ale portalurilor web
+res_company_caen_6391,6391,1,0.15,Activitati ale agentiilor de stiri
+res_company_caen_6399,6399,2.25,196,Alte activitati de servicii informationale n.c.a.
+res_company_caen_6411,6411,1.75,178,Activitati ale bancii centrale (nationale)
+res_company_caen_6419,6419,1.75,178,Alte activitati de intermedieri monetare
+res_company_caen_6420,6420,3.5,242,Activitati ale holdingurilor
+res_company_caen_6430,6430,1,0.15,Fonduri mutuale si alte entitati financiare similare
+res_company_caen_6491,6491,1.5,168,Leasing financiar
+res_company_caen_6492,6492,1.25,159,Alte activitati de creditare
+res_company_caen_6499,6499,1.5,168,Alte intermedieri financiare n.c.a.
+res_company_caen_6511,6511,1.25,159,Activitati de asigurari de viata
+res_company_caen_6512,6512,2.5,205,Alte activitati de asigurari (exceptand asigurarile de viata)
+res_company_caen_6520,6520,1,0.15,Activitati de reasigurare
+res_company_caen_6530,6530,1,0.15,Activit.ale fond.de pensii (cu exceptia celor din sist. public de asigurari sociale)
+res_company_caen_6611,6611,1,0.15,Administrarea pietelor financiare
+res_company_caen_6612,6612,2.25,196,Activitati de intermediere a tranzactiilor financiare
+res_company_caen_6619,6619,1.5,168,"Activit.auxiliare intermed.financiare, exclusiv activitati de asig.si fonduri de pensii"
+res_company_caen_6621,6621,1,0.15,Activitati de evaluare a riscului de asigurare si a pagubelor
+res_company_caen_6622,6622,1,0.15,Activitati ale agentilor si broker-ilor de asigurari
+res_company_caen_6629,6629,1,0.15,Alte activitati auxiliare de asigurari si fonduri de pensii
+res_company_caen_6630,6630,4.5,279,Activitati de administrare a fondurilor
+res_company_caen_6810,6810,2.5,205,Cumpararea si vanzarea de bunuri imobiliare proprii
+res_company_caen_6820,6820,2.25,196,inchirierea si subinchirierea bunurilor imobiliare proprii sau inchiriate
+res_company_caen_6831,6831,1,0.15,Agentii imobiliare
+res_company_caen_6832,6832,1.25,159,Administrarea imobilelor pe baza de comision sau contract
+res_company_caen_6910,6910,2.25,196,Activitati juridice
+res_company_caen_6920,6920,1,0.15,"Activitati de contabilitate si audit financiar, consultanta in domeniul fiscal"
+res_company_caen_7010,7010,2.5,205,"Activitati ale directiilor (centralelor), birourilor administrative centralizate"
+res_company_caen_7021,7021,1,0.15,Activitati de consultanta in domeniul relatiilor publice si al comunicarii
+res_company_caen_7022,7022,1.5,168,Activitati de consultanta pentru afaceri si management
+res_company_caen_7111,7111,1.25,159,Activitati de arhitectura
+res_company_caen_7112,7112,2.5,205,Activitati de inginerie si consultanta tehnica legate de acestea
+res_company_caen_7120,7120,2.5,205,Activitati de testari si analize tehnice
+res_company_caen_7211,7211,4.25,0.27,Cercetare-dezvoltare in biotehnologie
+res_company_caen_7219,7219,3.75,251,Cercetare-dezvoltare in alte stiinte naturale si inginerie
+res_company_caen_7220,7220,2.75,214,Cercetare-dezvoltare in stiinte sociale si umaniste
+res_company_caen_7311,7311,1.75,178,Activitati ale agentiilor de publicitate
+res_company_caen_7312,7312,1,0.15,Servicii de reprezentare media
+res_company_caen_7320,7320,1.25,159,Activitati de studiere a pietei si de sondare a opiniei publice
+res_company_caen_7410,7410,1.25,159,Activitati de design specializat
+res_company_caen_7420,7420,2,187,Activitati fotografice
+res_company_caen_7430,7430,1.25,159,Activitati de traducere scrisa si orala (interpreti)
+res_company_caen_7490,7490,2,187,"Alte activitati profesionale, stiintifice si tehnice, n.c.a."
+res_company_caen_7500,7500,2.25,196,Activitati veterinare
+res_company_caen_7711,7711,3.5,242,Activitati de inchiriere si leasing cu autoturisme si autovehicule rutiere usoare
+res_company_caen_7712,7712,1,0.15,Activitati de inchiriere si leasing cu autovehicule rutiere grele
+res_company_caen_7721,7721,1,0.15,Activitati de inchiriere si leasing cu bunuri recreationale si echipament sportiv
+res_company_caen_7722,7722,1,0.15,inchirierea de casete video si discuri
+res_company_caen_7729,7729,1,0.15,Activitati de inchiriere si leasing cu alte bunuri personale si gospodaresti n.c.a.
+res_company_caen_7731,7731,1,0.15,Activitati de inchiriere si leasing cu masini si echipamente agricole
+res_company_caen_7732,7732,3.25,233,Activitati de inchiriere si leasing cu masini si echipamente pentru constructii
+res_company_caen_7733,7733,1,0.15,Activit.de inchiriere si leasing cu mas. si echipam.de birou (inclusiv calculatoare)
+res_company_caen_7734,7734,1,0.15,Activitati de inchiriere si leasing cu echipamente de transport pe apa
+res_company_caen_7735,7735,1,0.15,Activitati de inchiriere si leasing cu echipamente de transport aerian
+res_company_caen_7739,7739,3.75,251,"Activitati de inchiriere si leasing cu alte masini, echip. si bunuri tangibile n.c.a."
+res_company_caen_7740,7740,1,0.15,Leasing cu bunuri intangibile (exclusiv financiare)
+res_company_caen_7810,7810,1,0.15,Activitati ale agentiilor de plasare a fortei de munca
+res_company_caen_7820,7820,2.5,205,"Activitati de contractare, pe baze temporare, a personalului"
+res_company_caen_7830,7830,1,0.15,Servicii de furnizare si management a fortei de munca
+res_company_caen_7911,7911,1.25,159,Activitati ale agentiilor turistice
+res_company_caen_7912,7912,1,0.15,Activitati ale tur-operatorilor
+res_company_caen_7990,7990,2.25,196,Alte activitati de rezervare si asistenta turistica
+res_company_caen_8010,8010,2.5,205,Activitati de protectie si garda
+res_company_caen_8020,8020,2,187,Activitati de servicii privind sistemele de securizare
+res_company_caen_8030,8030,1.5,168,Activitati de investigatii
+res_company_caen_8110,8110,1.75,178,Activitati de servicii suport combinate
+res_company_caen_8121,8121,1.75,178,Activitati generale de curatenie a cladirilor
+res_company_caen_8122,8122,3.75,251,Activitati specializate de curatenie
+res_company_caen_8129,8129,3.5,242,Alte activitati de curatenie
+res_company_caen_8130,8130,3.25,233,Activitati de intretinere peisagistica
+res_company_caen_8211,8211,1,0.15,Activitati combinate de secretariat
+res_company_caen_8219,8219,3.25,233,"Activit.de fotocop., de pregatire a docum.si alte activit.specializate de secretariat"
+res_company_caen_8220,8220,1.25,159,Activitati ale centrelor de intermediere telefonica (call center)
+res_company_caen_8230,8230,1,0.15,"Activitati de organizare a expozitiilor, targurilor si congreselor"
+res_company_caen_8291,8291,1,0.15,Activit.ale agentiilor de colectare si a birourilor (oficiilor) de raportare a creditului
+res_company_caen_8292,8292,1.5,168,Activitati de ambalare
+res_company_caen_8299,8299,1.75,178,Alte activitati de servicii suport pentru intreprinderi n.c.a.
+res_company_caen_8411,8411,1,0.15,Servicii de administrare publica generala
+res_company_caen_8412,8412,1.75,178,"Reglementarea activitatilor organismelor care presteaza servicii in domeniul ingrijirii sanatatii, invatamantului, culturii si al altor activitati sociale, exclusiv protectia sociala"
+res_company_caen_8413,8413,2.75,214,Reglementarea si eficientizarea activitatilor economice
+res_company_caen_8421,8421,1,0.15,Activitati de afaceri externe
+res_company_caen_8423,8423,1.25,159,Activitati de justitie
+res_company_caen_8424,8424,4,0.26,Activitati de ordine publica si de protectie civila
+res_company_caen_8425,8425,5.75,325,Activitati de lupta impotriva incendiilor si de prevenire a acestora
+res_company_caen_8430,8430,1,0.15,Activitati de protectie sociala obligatorie
+res_company_caen_8510,8510,1.5,168,invatamant prescolar
+res_company_caen_8520,8520,2.25,196,invatamant primar
+res_company_caen_8531,8531,1.25,159,invatamant secundar general
+res_company_caen_8532,8532,2,187,"invatamant secundar, tehnic sau profesional"
+res_company_caen_8541,8541,1,0.15,invatamant superior non-universitar
+res_company_caen_8542,8542,2,187,invatamant superior universitar
+res_company_caen_8551,8551,1.25,159,invatamant in domeniul sportiv si recreational
+res_company_caen_8552,8552,1.25,159,"invatamant in dom.cultural (limbi straine, muzica, teatru, dans, arte plastice, etc.)"
+res_company_caen_8553,8553,1.25,159,scoli de conducere (pilotaj)
+res_company_caen_8559,8559,1.25,159,Alte forme de invatamant n.c.a.
+res_company_caen_8560,8560,1,0.15,Activitati de servicii suport pentru invatamant
+res_company_caen_8610,8610,4.5,279,Activitati de asistenta spitaliceasca
+res_company_caen_8621,8621,1.5,168,Activitati de asistenta medicala generala
+res_company_caen_8622,8622,2.25,196,Activitati de asistenta medicala specializata
+res_company_caen_8623,8623,1.25,159,Activitati de asistenta stomatologica
+res_company_caen_8690,8690,2.75,214,Alte activitati referitoare la sanatatea umana
+res_company_caen_8710,8710,5.25,306,Activitati ale centrelor de ingrijire medicala
+res_company_caen_8720,8720,3.5,242,"Activitati ale centrelor de recuperare psihica si de dezintoxicare, exclusiv spitale"
+res_company_caen_8730,8730,3.5,242,Activitati ale caminelor de batrani si ale caminelor pentru persoane aflate in incapacitate de a se ingriji singure
+res_company_caen_8790,8790,1.25,159,"Alte activitati de asistenta sociala, cu cazare n.c.a."
+res_company_caen_8810,8810,1.25,159,"Activitati de asistenta sociala, fara cazare, pentru batrani si pentru persoane aflate in incapacitate de a se ingriji singure"
+res_company_caen_8891,8891,2.25,196,Activitati de ingrijire zilnica pentru copii
+res_company_caen_8899,8899,1.25,159,"Alte activitati de asistenta sociala, fara cazare n.c.a."
+res_company_caen_9001,9001,7.5,389,Activitati de interpretare artistica (spectacole)
+res_company_caen_9002,9002,4.5,279,Activitati suport pentru interpretarea artistica (spectacole)
+res_company_caen_9003,9003,3.75,251,Activitati de creatie artistica
+res_company_caen_9004,9004,1.5,168,Activitati de gestionare a salilor de spectacol
+res_company_caen_9101,9101,1.25,159,Activitati ale bibliotecilor si arhivelor
+res_company_caen_9102,9102,1.5,168,Activitati ale muzeelor
+res_company_caen_9103,9103,2,187,"Gestionarea monumentelor, clad. istorice si a altor obiective de interes turistic"
+res_company_caen_9104,9104,1.75,178,"Activitati ale gradinilor zoologice, botanice si ale rezervatiilor naturale"
+res_company_caen_9200,9200,1.5,168,Activitati de jocuri de noroc si pariuri
+res_company_caen_9311,9311,2.25,196,Activitati ale bazelor sportive
+res_company_caen_9312,9312,1.25,159,Activitati ale cluburilor sportive
+res_company_caen_9313,9313,1,0.15,Activitati ale centrelor de fitness
+res_company_caen_9319,9319,2,187,Alte activitati sportive
+res_company_caen_9321,9321,4.75,288,Balciuri si parcuri de distractii
+res_company_caen_9329,9329,2.5,205,Alte activitati recreative si distractive n.c.a.
+res_company_caen_9411,9411,1.5,168,Activitati ale organizatiilor economice si patronale
+res_company_caen_9412,9412,1,0.15,Activitati ale organizatiilor profesionale
+res_company_caen_9420,9420,1.75,178,Activitati ale sindicatelor salariatilor
+res_company_caen_9491,9491,1.5,168,Activitati ale organizatiilor religioase
+res_company_caen_9492,9492,1,0.15,Activitati ale organizatiilor politice
+res_company_caen_9499,9499,1.5,168,Activitati ale altor organizatii n.c.a.
+res_company_caen_9511,9511,1,0.15,Repararea calculatoarelor si a echipamentelor periferice
+res_company_caen_9512,9512,1.5,168,Repararea echipamentelor de comunicatii
+res_company_caen_9521,9521,3,224,Repararea aparatelor electronice de uz casnic
+res_company_caen_9522,9522,1,0.15,Repararea dispozitivelor de uz gospod.si a echipamentelor pentru casa si gradina
+res_company_caen_9523,9523,1,0.15,Repararea incaltamintei si a articolelor din piele
+res_company_caen_9524,9524,1,0.15,Repararea mobilei si a furniturilor casnice
+res_company_caen_9525,9525,1,0.15,Repararea ceasurilor si a bijuteriilor
+res_company_caen_9529,9529,3.5,242,Repararea articolelor de uz personal si gospodaresc n.c.a.
+res_company_caen_9601,9601,3.25,233,Spalarea si curatarea (uscata) articolelor textile si a produselor din blana
+res_company_caen_9602,9602,1.25,159,Coafura si alte activitati de infrumusetare
+res_company_caen_9603,9603,1,0.15,Activitati de pompe funebre si similare
+res_company_caen_9604,9604,1.25,159,Activitati de intretinere corporala
+res_company_caen_9609,9609,3.25,233,Alte activitati de servicii n.c.a.

@@ -1,0 +1,1000 @@
+id,code,name
+hr_medical_disease_1,1,Holera
+hr_medical_disease_2,2,Febra tifoida
+hr_medical_disease_3,3,Paratifos
+hr_medical_disease_4,4,Salmoneloze
+hr_medical_disease_5,5,Shigelloze
+hr_medical_disease_6,6,Alte infectii intestinale bacteriene
+hr_medical_disease_7,7,Botulismul
+hr_medical_disease_8,8,Alte intoxicatii alimentare de origine bacteriana
+hr_medical_disease_9,9,Amibiaza
+hr_medical_disease_10,10,Giardiaza (lambliaza)
+hr_medical_disease_11,11,Alte boli intestinale prin protozoare
+hr_medical_disease_12,12,"Alte infectii virale si intestinale, precizate"
+hr_medical_disease_13,13,Diareea si gastroenterita (probabil infectioasa)
+hr_medical_disease_14,14,Tuberculoza aparatului respirator
+hr_medical_disease_15,15,Tuberculoza sistemului nervos
+hr_medical_disease_16,16,Tuberculoza altor organe
+hr_medical_disease_17,17,Tuberculoza miliara
+hr_medical_disease_18,18,Antraxul
+hr_medical_disease_19,19,Brucelloza
+hr_medical_disease_20,20,Leptospiroza
+hr_medical_disease_21,21,Alte antropo-zoonoze bacteriene
+hr_medical_disease_22,22,Lepra
+hr_medical_disease_23,23,Tetanosul neonatorum
+hr_medical_disease_24,24,Tetanosul obstetrical
+hr_medical_disease_25,25,Alte forme de tetanos
+hr_medical_disease_26,26,Difteria
+hr_medical_disease_27,27,Tusea convulsiva
+hr_medical_disease_28,28,Scarlatina
+hr_medical_disease_29,29,infectia cu meningococi
+hr_medical_disease_30,30,Erizipelul
+hr_medical_disease_31,31,Alte boli neclasate la alte locuri
+hr_medical_disease_32,32,Sifilisul congenital
+hr_medical_disease_33,33,"Sifilisul recent (primar, secundar)"
+hr_medical_disease_34,34,Sifilisul tardiv
+hr_medical_disease_35,35,"Alte forme de sifilis, fara precizare"
+hr_medical_disease_36,36,Infectia gonococica
+hr_medical_disease_37,37,Sancrul moale
+hr_medical_disease_38,38,Trichomoniaza
+hr_medical_disease_39,39,Alte boli precizate al caror mod de transmitere este in special sexual
+hr_medical_disease_40,40,Trahomul
+hr_medical_disease_41,41,Alte boli prin Chlamidia
+hr_medical_disease_42,42,Tifosul exantematic
+hr_medical_disease_43,43,Tifosul recrudescent (boala Brill)
+hr_medical_disease_44,44,Alte rickettsioze
+hr_medical_disease_45,45,Poliomielita acuta
+hr_medical_disease_46,46,Rabia
+hr_medical_disease_47,47,Encefalita si meningita virala
+hr_medical_disease_48,48,Alte infectii virale ale sistemului nervos
+hr_medical_disease_49,49,Varicela
+hr_medical_disease_50,50,Zona (herpes zoster)
+hr_medical_disease_51,51,Rujeola
+hr_medical_disease_52,52,Rubeola
+hr_medical_disease_53,53,Alte infectii virale cu leziuni cutaneo-mucoase
+hr_medical_disease_54,54,Hepatita virala A
+hr_medical_disease_55,55,Hepatita acuta B
+hr_medical_disease_56,56,Alte hepatite virale
+hr_medical_disease_57,57,Imunodeficienta umana virala (VIH) cu unele boli infectioase si parazitare
+hr_medical_disease_58,58,Imunodeficienta umana virala (VIH) cu tumori maligne
+hr_medical_disease_59,59,Imunodeficienta virala umana (VIH) cu alte boli specificate
+hr_medical_disease_60,60,Imunodeficienta umana (VIH) in alte afectiuni
+hr_medical_disease_61,61,Imunodeficienta umana (VIH) fara precizare
+hr_medical_disease_62,62,Oreionul
+hr_medical_disease_63,63,Mononucleoza infectioasa
+hr_medical_disease_64,64,"Alte boli cu virus, neclasate la alte locuri"
+hr_medical_disease_65,65,Dermatofitoze
+hr_medical_disease_66,66,Candidiaza
+hr_medical_disease_67,67,Alte micoze
+hr_medical_disease_68,68,Malaria
+hr_medical_disease_69,69,Toxoplasmoza
+hr_medical_disease_70,70,Alte boli prin protozoare
+hr_medical_disease_71,71,Echinococoza
+hr_medical_disease_72,72,Teniaza
+hr_medical_disease_73,73,Trichineloza
+hr_medical_disease_74,74,Ascaridiaza
+hr_medical_disease_75,75,Oxiuraza
+hr_medical_disease_76,76,Alte helmintiaze
+hr_medical_disease_77,77,Scabia
+hr_medical_disease_78,78,Alte infestatii (inclusiv pediculoza)
+hr_medical_disease_79,79,"Boli infectioase, alte si neprecizate"
+hr_medical_disease_80,80,Tumora maligna a buzei
+hr_medical_disease_81,81,Tumora maligna a bazei limbii
+hr_medical_disease_82,82,"Tumora maligna a limbii, alte si neprecizate"
+hr_medical_disease_83,83,Tumora maligna a gingiei
+hr_medical_disease_84,84,Tumora maligna a planseului gurii
+hr_medical_disease_85,85,Tumora maligna a palatului
+hr_medical_disease_86,86,"Tumora maligna a gurii, alte si fara precizare"
+hr_medical_disease_87,87,Tumora maligna a glandei parotide
+hr_medical_disease_88,88,Tumora maligna a glandelor salivare principale; altele si fara precizare
+hr_medical_disease_89,89,Tumora maligna a amigdalei
+hr_medical_disease_90,90,Tumora maligna a orofaringelui
+hr_medical_disease_91,91,Tumora maligna a rinofaringelui
+hr_medical_disease_92,92,Tumora maligna a sinusului piriform
+hr_medical_disease_93,93,Tumora maligna a hipofaringelui
+hr_medical_disease_94,94,"Tumora maligna a buzei, cavitatii bucale si a faringelui cu alte localizari si rau definite"
+hr_medical_disease_95,95,Tumori maligne ale esofagului
+hr_medical_disease_96,96,Tumori maligne ale stomacului
+hr_medical_disease_97,97,Tumora maligna a intestinului subtire
+hr_medical_disease_98,98,Tumora maligna a colonului
+hr_medical_disease_99,99,Tumora maligna a jonctiunii rectosigmoidiene
+hr_medical_disease_100,100,Tumora maligna a rectului
+hr_medical_disease_101,101,Tumora maligna a anusului si canalului anal
+hr_medical_disease_102,102,Tumora maligna a ficatului si canalelor biliare intrahepatice
+hr_medical_disease_103,103,Tumora maligna a veziculei biliare
+hr_medical_disease_104,104,"Tumori maligne ale cailor biliare, alte si neprecizate"
+hr_medical_disease_105,105,Tumori maligne ale pancreasului
+hr_medical_disease_106,106,Tumora maligna a organelor digestive cu alta localizare si rau definita
+hr_medical_disease_107,107,Tumora maligna a foselor nazale si a urechii medii
+hr_medical_disease_108,108,Tumora maligna a sinusurilor fetei
+hr_medical_disease_109,109,Tumori maligne ale laringelui
+hr_medical_disease_110,110,Tumora maligna a traheei
+hr_medical_disease_111,111,Tumora maligna a bronhiilor si pulmonului
+hr_medical_disease_112,112,Tumora maligna a timusului
+hr_medical_disease_113,113,"Tumora maligna a inimii, mediastinului si pleurei"
+hr_medical_disease_114,114,Tumora maligna a aparatului respirator si a organelor intratoracice cu alte localizari si rau definite
+hr_medical_disease_115,115,Tumora maligna a oaselor si cartilagiilor articulare ale membrelor
+hr_medical_disease_116,116,"Tumori maligne ale oaselor si cartilagiilor articulare, cu alte localizari si neprecizate"
+hr_medical_disease_117,117,Melanomul malign al pielii
+hr_medical_disease_118,118,Alte tumori maligne ale pielii
+hr_medical_disease_119,119,Mesotheliomul
+hr_medical_disease_120,120,Sarcomul Kaposi
+hr_medical_disease_121,121,Tumora maligna a nervilor periferici si a sistemului nervos autonom
+hr_medical_disease_122,122,Tumora maligna a retroperitoneului si a peritonelui
+hr_medical_disease_123,123,Tumora maligna a tesutului conjunctiv si a altor tesuturi moi
+hr_medical_disease_124,124,Tumori maligne ale sinului
+hr_medical_disease_125,125,Tumora maligna a vulvei
+hr_medical_disease_126,126,Tumora maligna a vaginului
+hr_medical_disease_127,127,Tumora maligna a colului uterin
+hr_medical_disease_128,128,Tumora maligna a corpului uterin
+hr_medical_disease_129,129,"Tumora maligna a uterului, localizare neprecizata"
+hr_medical_disease_130,130,Tumora maligna a ovarului
+hr_medical_disease_131,131,"Tumora maligna a organelor genitale la femeie, alte si neprecizate"
+hr_medical_disease_132,132,Tumora maligna a placentei
+hr_medical_disease_133,133,Tumora maligna a penisului
+hr_medical_disease_134,134,Tumora maligna a prostatei
+hr_medical_disease_135,135,Tumora maligna a testicolului
+hr_medical_disease_136,136,"Tumori maligne ale organelor genitale la barbat, alte si neprecizate"
+hr_medical_disease_137,137,"Tumora maligna a rinichiului, cu exceptia bazinetului renal"
+hr_medical_disease_138,138,Tumora maligna a bazinetului renal
+hr_medical_disease_139,139,Tumora maligna a ureterului
+hr_medical_disease_140,140,Tumora maligna a vezicii urinare
+hr_medical_disease_141,141,"Tumora maligna a organelor urinare, alte si neprecizate"
+hr_medical_disease_142,142,Tumora maligna a ochiului si anexelor sale
+hr_medical_disease_143,143,Tumora maligna a meningelui
+hr_medical_disease_144,144,Tumora maligna a creierului
+hr_medical_disease_145,145,"Tumora maligna a maduvei spinarii, a nervilor cranieni si alte parti ale sistemului nervos central"
+hr_medical_disease_146,146,Tumora maligna a tiroidei
+hr_medical_disease_147,147,Tumora maligna asuprarenalei
+hr_medical_disease_148,148,Tumora maligna a altor glande endocrine si structuri inrudite
+hr_medical_disease_149,149,Tumora maligna cu alte localizari si nespecificate
+hr_medical_disease_150,150,"Tumora maligna a ganglionilor limfatici, secundara si neprecizata"
+hr_medical_disease_151,151,Tumora maligna secundara a organelor respiratorii si digestive
+hr_medical_disease_152,152,Tumora maligna secundara cu alte localizari
+hr_medical_disease_153,153,Tumori maligne cu sediu neprecizat
+hr_medical_disease_154,154,Boala Hodgkin
+hr_medical_disease_155,155,Limfom folicular (nodular) non-Hodgkin
+hr_medical_disease_156,156,Limfom difuz non-Hodgkin
+hr_medical_disease_157,157,Limfoame periferice si cutanate cu celule T
+hr_medical_disease_158,158,"Limfom non-Hodgkin, de alte tipuri si neprecizate"
+hr_medical_disease_159,159,Boli imunoproliferative maligne
+hr_medical_disease_160,160,Mielom multiplu si tumori maligne cu plasmocite
+hr_medical_disease_161,161,Leucemia limfoida
+hr_medical_disease_162,162,Leucemia mieloida
+hr_medical_disease_163,163,Leucemia monocitara
+hr_medical_disease_164,164,Alte leucemii cu celule precizate
+hr_medical_disease_165,165,Leucemia cu celule neprecizate
+hr_medical_disease_166,166,"Tumori maligne ale tesutului limfoid, hematopoietic si inrudite, alte si neprecizate"
+hr_medical_disease_167,167,Tumori maligne cu localizari multiple independente (primare)
+hr_medical_disease_168,168,"Carcinom in situ al cavitatii bucale, al esofagului si stomacului"
+hr_medical_disease_169,169,"Carcinom in situ al organelor digestive, alte si neprecizate"
+hr_medical_disease_170,170,Carcinom in situ al urechii mijlocii si al aparatului respirator
+hr_medical_disease_171,171,Melanom in situ
+hr_medical_disease_172,172,Carcinom in situ al pielii
+hr_medical_disease_173,173,Carcinom in situ al sinului
+hr_medical_disease_174,174,Carcinom in situ al colului uterin
+hr_medical_disease_175,175,"Carcinom in situ al organelor genitale, alte si neprecizate"
+hr_medical_disease_176,176,Carcinom in situ cu alte localizari si neprecizate
+hr_medical_disease_177,177,Tumori benigne cu alte localizari si rau definite ale aparatului digestiv
+hr_medical_disease_178,178,Tumora benigna a urechii mijlocii si a aparatului respirator
+hr_medical_disease_179,179,Tumora benigna a organelor intratoracice alte si neprecizate
+hr_medical_disease_180,180,Tumora benigna a osului si a cartilajului articular
+hr_medical_disease_181,181,Tumora lipomatoasa benigna
+hr_medical_disease_182,182,"Hemangiom si limfangiom, toate localizarile"
+hr_medical_disease_183,183,Tumori benigne ale pielii
+hr_medical_disease_184,184,Tumora benigna a sinului
+hr_medical_disease_185,185,Leiomiomul uterului
+hr_medical_disease_186,186,Alte tumori benigne ale uterului
+hr_medical_disease_187,187,Tumora benigna a ovarului
+hr_medical_disease_188,188,"Tumora benigna a organelor genitale la femeie, alte si neprecizate"
+hr_medical_disease_189,189,Tumora benigna a organelor urinare
+hr_medical_disease_190,190,Tumora benigna a creierului si altor portiuni ale sistemului nervos central
+hr_medical_disease_191,191,"Tumora benigna a glandelor endocrine, alte si neprecizate"
+hr_medical_disease_192,192,Tumora benigna cu alte localizari si fara precizare
+hr_medical_disease_193,193,"Tumora cavitatii bucale si a organelor digestive, cu evolutie imprevizibila si necunoscuta"
+hr_medical_disease_194,194,"Tumora urechii mijlocii, a organelor respiratorii si intratoracice, cu evolutie imprevizibila si necunoscuta"
+hr_medical_disease_195,195,"Tumora organelor genitale la femeie, cu evolutie imprevizibila si necunoscuta"
+hr_medical_disease_196,196,"Tumora organelor genitale la barbat, cu evolutie imprevizibila si necunoscuta"
+hr_medical_disease_197,197,"Tumora organelor urinare, cu evolutie imprevizibila si necunoscuta"
+hr_medical_disease_198,198,"Tumora creierului si sistemului nervos central, cu evolutie imprevizibila si necunoscuta"
+hr_medical_disease_199,199,"Tumora glandelor endocrine, cu evolutie imprevizibila si necunoscuta"
+hr_medical_disease_200,200,Poliglobulia esentiala
+hr_medical_disease_201,201,"Alte tumori de tesut limfoid, hematopoietic si inrudite, cu evolutie imprevizibila si necunoscuta"
+hr_medical_disease_202,202,"Tumora cu alte localizari si neprecizata, cu evolutie imprevizibila si necunoscuta"
+hr_medical_disease_203,203,Anemia prin carenta de fier
+hr_medical_disease_204,204,Anemia prin carenta de vitamina B12
+hr_medical_disease_205,205,Anemia prin carenta de acid folic
+hr_medical_disease_206,206,Alte anemii de nutritie
+hr_medical_disease_207,207,Anemia datorita tulburarilor enzimatice
+hr_medical_disease_208,208,Thalassemia
+hr_medical_disease_209,209,Afectiuni cu hematii falciforme (drepanocitoze)
+hr_medical_disease_210,210,Alte anemii hemolitice ereditare
+hr_medical_disease_211,211,Anemia hemolitica dobandita
+hr_medical_disease_212,212,Aplazia medulara dobandita pura (eritroblastopenia)
+hr_medical_disease_213,213,Alte aplazii medulare
+hr_medical_disease_214,214,Anemia posthemoragica acuta
+hr_medical_disease_215,215,Alte anemii
+hr_medical_disease_216,216,Coagularea intravasculara diseminata (sindromul de defibrinare)
+hr_medical_disease_217,217,Carenta ereditara in factorul VIII
+hr_medical_disease_218,218,Carenta ereditara in factorul IX
+hr_medical_disease_219,219,Alte anomalii de coagulare
+hr_medical_disease_220,220,Purpura si alte afectiuni hemoragice
+hr_medical_disease_221,221,Agranulocitoza
+hr_medical_disease_222,222,Tulburari functionale ale polinuclearelor neutrofile
+hr_medical_disease_223,223,Alte anomalii ale leucocitelor
+hr_medical_disease_224,224,Bolile splinei
+hr_medical_disease_225,225,Alte boli ale sangelui si ale organelor hematopoietice
+hr_medical_disease_226,226,Unele boli ale tesutului limforeticular si ale sistemului reticulo-histocitar
+hr_medical_disease_227,227,Imunodeficienta cu predominarea anomaliilor de anticorpi
+hr_medical_disease_228,228,Imunodeficiente combinate
+hr_medical_disease_229,229,Deficit imunitar asociat altor anomalii majore
+hr_medical_disease_230,230,Imunodeficienta comuna variabila
+hr_medical_disease_231,231,Alte imunodeficiente
+hr_medical_disease_232,232,Sarcoidoza
+hr_medical_disease_233,233,"Alte tulburari implicand sistemul imunitar, neclasificate la alte locuri"
+hr_medical_disease_234,234,Sindromul insuficientei tiroide congenitale
+hr_medical_disease_235,235,"Afectiuni tiroidiene si inrudite, legate de carenta in iod"
+hr_medical_disease_236,236,Hipotiroidia prin carenta subclinica de iod
+hr_medical_disease_237,237,Alte guse netoxice
+hr_medical_disease_238,238,Tireotoxicoza (hipertiroidia)
+hr_medical_disease_239,239,Tiroidita
+hr_medical_disease_240,240,Alte afectiuni ale tiroidei
+hr_medical_disease_241,241,Diabetul zaharat insulino-dependent
+hr_medical_disease_242,242,Diabetul zaharat neinsulino-dependent
+hr_medical_disease_243,243,Diabetul zaharat de malnutritie
+hr_medical_disease_244,244,Alte forme de diabet zaharat
+hr_medical_disease_245,245,Diabet zaharat fara precizare
+hr_medical_disease_246,246,Coma hipoglicemica non-diabetica
+hr_medical_disease_247,247,Alte tulburari ale secretiei pancreatice interne
+hr_medical_disease_248,248,Hipoparatiroidia
+hr_medical_disease_249,249,Hipoparatiroidia si alte boli ale glandei paratiroide
+hr_medical_disease_250,250,Hipersecretia glandei hipofizare (pituitara)
+hr_medical_disease_251,251,Hiposecretia si alte tulburari ale glandei hipofizare
+hr_medical_disease_252,252,Sindromul Cushing
+hr_medical_disease_253,253,Tulburari adreno-genitale
+hr_medical_disease_254,254,Hiperaldosteronismul
+hr_medical_disease_255,255,Alte tulburari ale glandei suprarenale
+hr_medical_disease_256,256,Disfunctia ovariana
+hr_medical_disease_257,257,Disfunctia testiculara
+hr_medical_disease_258,258,Tulburarile pubertatii neclasate la alte locuri
+hr_medical_disease_259,259,Disfunctiuni pluriglandurale
+hr_medical_disease_260,260,Bolile timusului
+hr_medical_disease_261,261,Alte tulburari endocrine
+hr_medical_disease_262,262,Malnutritia proteino-energetica grava fara precizare
+hr_medical_disease_263,263,Malnutritia proteino-energetica usoara sau moderata
+hr_medical_disease_264,264,Intarzierea de dezvoltare datorita malnutritiei proteino-energetice
+hr_medical_disease_265,265,"Malnutritia proteino-energetica, fara precizare"
+hr_medical_disease_266,266,Avitaminoza A
+hr_medical_disease_267,267,Carenta de tiamina
+hr_medical_disease_268,268,Carenta in acid nicotinic (pelagra)
+hr_medical_disease_269,269,Alte avitaminoze din grupa B
+hr_medical_disease_270,270,Carenta de acid ascorbic
+hr_medical_disease_271,271,Rahitismul evolutiv
+hr_medical_disease_272,272,Carenta in vitamina D fara precizare
+hr_medical_disease_273,273,Alte avitaminoze
+hr_medical_disease_274,274,Carenta alimentara in calciu
+hr_medical_disease_275,275,Carenta alimentara in seleniu
+hr_medical_disease_276,276,Carenta in zinc
+hr_medical_disease_277,277,Carenta in alte elemente nutritionale
+hr_medical_disease_278,278,Alte carente nutritionale
+hr_medical_disease_279,279,Obezitatea
+hr_medical_disease_280,280,Alte excese de aport
+hr_medical_disease_281,281,Fenilcetonuria
+hr_medical_disease_282,282,Tulburari de metabolism ale acizilor aminati aromatici
+hr_medical_disease_283,283,Alte tulburari de metabolism ale acizilor aminati
+hr_medical_disease_284,284,Intoleranta la lactoza
+hr_medical_disease_285,285,Alte tulburari de metabolism al hidratilor de carbon
+hr_medical_disease_286,286,Tulburari de metabolism al sfingolipidelor si al altor lipide de rezerva
+hr_medical_disease_287,287,Tulburari de metabolism al glicosiaminoglicani
+hr_medical_disease_288,288,Tulburari de metabolism al glicoproteinelor
+hr_medical_disease_289,289,Tulburari de metabolism al lipoproteinelor si alte lipidemii
+hr_medical_disease_290,290,Tulburari de metabolism al purinelor si al pirimidinei
+hr_medical_disease_291,291,Tulburari de metabolism al porfirinei si bilirubinei
+hr_medical_disease_292,292,Tulburari de metabolism al mineralelor
+hr_medical_disease_293,293,Fibroza chistica
+hr_medical_disease_294,294,Amiloidoza
+hr_medical_disease_295,295,Hipovolemia deshidratara
+hr_medical_disease_296,296,Alte tulburari de echilibru acido-bazic hidric si electrolitic
+hr_medical_disease_297,297,Alte tulburari de metabolism
+hr_medical_disease_298,298,"Tulburari metabolice si endocrine dupa o prestatie medicala in vederea diagnosticului si tratamentului, neclasate in alte locuri"
+hr_medical_disease_299,299,Dementa vasculara
+hr_medical_disease_300,300,"Dementa fara precizare (presenila, senila)"
+hr_medical_disease_301,301,"S+A2060indrom amnezic organic, neindus de alcool si alte substante psiho-afective"
+hr_medical_disease_302,302,Delir neindus de alcool si alte substante psihoactive
+hr_medical_disease_303,303,"Alte tulburari mentale datorate unei leziuni cerebrale, unei disfunctii cerebrale si unei afectiuni somatice"
+hr_medical_disease_304,304,"Tulburari ale personalitatii si comportamentului datorate unei afectiuni, leziuni si disfunctii cerebrale"
+hr_medical_disease_305,305,"Tulburare mentala organica sau simptomatica, fara precizare"
+hr_medical_disease_306,306,Tulburari mentale si de comportament legate de consumul de alcool
+hr_medical_disease_307,307,"Tulburari mentale si de comportament legate de consumul opiaceelor si derivatelor de cannabis, cocaina si halucinogene"
+hr_medical_disease_308,308,Tulburari mentale si de comportament legate de consumul sedativelor sau hipnoticelor
+hr_medical_disease_309,309,"Tulburari mentale si de comportament legate de consumul altor stimulente, inclusiv cofeina"
+hr_medical_disease_310,310,Tulburari mentale si de comportament legate de consumul tutunului
+hr_medical_disease_311,311,Tulburari mentale si de comportament legate de consumul solventilor volatili
+hr_medical_disease_312,312,Schizofrenia
+hr_medical_disease_313,313,Tulburare schizotipala
+hr_medical_disease_314,314,Tulburari delirante persistente
+hr_medical_disease_315,315,Tulburari psihotice acute si tranzitorii
+hr_medical_disease_316,316,Tulburare deliranta indusa
+hr_medical_disease_317,317,Tulburari schizoafective
+hr_medical_disease_318,318,Alte tulburari psihotice neorganice
+hr_medical_disease_319,319,Episod maniacal
+hr_medical_disease_320,320,Tulburare afectiva bipolara
+hr_medical_disease_321,321,Episod depresiv
+hr_medical_disease_322,322,Tulburari ale dispozitiei afectivitatii
+hr_medical_disease_323,323,Alte tulburari ale dispozitiei afectivitatii
+hr_medical_disease_324,324,Tulburari ale dispoziitei afectivitatii fara precizare
+hr_medical_disease_325,325,Tulburari anxioase
+hr_medical_disease_326,326,Tulburare obsesionala-compulsiva
+hr_medical_disease_327,327,Reactia la un factor de stress important si tulburari de adaptare
+hr_medical_disease_328,328,Tulburari disociative (de conversie)
+hr_medical_disease_329,329,Tulburari somatice
+hr_medical_disease_330,330,Alte tulburari nevrotice
+hr_medical_disease_331,331,Tulburari de alimentatie
+hr_medical_disease_332,332,Tulburari de somn neorganice
+hr_medical_disease_333,333,"Disfunctie sexuala, nedatorata unei tulburari sau boli organice"
+hr_medical_disease_334,334,"Tulburari mentale si de comportament asociate cu puerperiu, necalsate la alte locuri"
+hr_medical_disease_335,335,Factori psihologici si comportamentali asociati bolilor sau tulburari clasate la alte locuri
+hr_medical_disease_336,336,Abuz de substanta nedeterminand dependenta
+hr_medical_disease_337,337,sindroame comportamentale neprecizate asociate perturbarilor fiziologice si factorilor fizici
+hr_medical_disease_338,338,Tulburari specifice ale personalitatii
+hr_medical_disease_339,339,Tulburari de identitate sexuala si de preferinta sexuala
+hr_medical_disease_340,340,Probleme psihologice si comportamentale asociate dezvoltarii sexuale si orientarii
+hr_medical_disease_341,341,Alte tulburari ale personalitati si a comportamentului la adulti
+hr_medical_disease_342,342,intarziere mentala uSoara
+hr_medical_disease_343,343,intarziere mentala medie
+hr_medical_disease_344,344,intarziere mentala grava
+hr_medical_disease_345,345,intarziere mentala profunda
+hr_medical_disease_346,346,Alte forme de intarziere mentala si fara precizare
+hr_medical_disease_347,347,"Tulburari specifice de dezvoltarea vorbirii si limbajului, achizitiilor scolare"
+hr_medical_disease_348,348,Tulburari specifice de dezvoltare motorie
+hr_medical_disease_349,349,Alte tulburari ale dezvoltarii psihologice si fara precizare
+hr_medical_disease_350,350,Tulburari hiperchinetice
+hr_medical_disease_351,351,Tulburari de conduita
+hr_medical_disease_352,352,Tulburari emotionale cu aparitia in special in copilarie
+hr_medical_disease_353,353,"Tulburari ale functiei sociale, cu aparitia specifica in perioada copilariei si adolescentei"
+hr_medical_disease_354,354,Alte tulburari de comportament si tulburari emotionale aparand de obicei in perioada copilariei si adolescentei
+hr_medical_disease_355,355,Tulburare mentala fara alte indicatii
+hr_medical_disease_356,356,"Meningita bacteriana, neclasata in alte locuri"
+hr_medical_disease_357,357,Meningita datorita altor cauze si neprecizate
+hr_medical_disease_358,358,"Encefalita, mielita, encefalomielita"
+hr_medical_disease_359,359,Abces si granulom intracranian si intrarahidian
+hr_medical_disease_360,360,Flebita si tromboflebita intracraniana si intrarahidiana
+hr_medical_disease_361,361,Coreea Huntington
+hr_medical_disease_362,362,Ataxia ereditara
+hr_medical_disease_363,363,Amiotrofia spinala si sindroame inrudite
+hr_medical_disease_364,364,Boala Parkinson
+hr_medical_disease_365,365,Sindrom parkinsonian secundar
+hr_medical_disease_366,366,Alte boli degenerative ale nucleilor centrali cenusii
+hr_medical_disease_367,367,Alte sindroame extrapiramidale si tulburari de motricitate
+hr_medical_disease_368,368,Boala Alzheimer
+hr_medical_disease_369,369,"Alte afectiuni degenerative ale sistemului nervos, neclasate la alte locuri"
+hr_medical_disease_370,370,Scleroza multipla
+hr_medical_disease_371,371,Alte afectiuni demielinizante acute diseminate
+hr_medical_disease_372,372,Alte afectiuni demielinizante ale sistemului nervos central
+hr_medical_disease_373,373,Epilepsia
+hr_medical_disease_374,374,Stare de rau epileptic
+hr_medical_disease_375,375,sindroame de algii cefalice
+hr_medical_disease_376,376,Accidente ischemice cerebrale tranzitorii si sindroame inrudite
+hr_medical_disease_377,377,Tulburari de somn
+hr_medical_disease_378,378,Afectiunile nervilor cranieni
+hr_medical_disease_379,379,Afectiunile radacinilor si plexurilor nervoase
+hr_medical_disease_380,380,Mononevrite
+hr_medical_disease_381,381,Neuropatia ereditara si idiopatica
+hr_medical_disease_382,382,Polinevrite inflamatorii
+hr_medical_disease_383,383,Alte polinevrite
+hr_medical_disease_384,384,Alte afectiuni ale sistemului nervos periferic
+hr_medical_disease_385,385,Miastenia si alte afectiuni neuromusculare
+hr_medical_disease_386,386,Afectiuni musculare primitive (Distrofia musculara Duchenne)
+hr_medical_disease_387,387,Alte afectiuni musculare
+hr_medical_disease_388,388,Paralizia cerebrala infantila
+hr_medical_disease_389,389,Hemiplegia
+hr_medical_disease_390,390,"Paraplegia, tetraplegia"
+hr_medical_disease_391,391,Alte sindroame paralitice
+hr_medical_disease_392,392,Afectiuni ale sistemului nervos autonom
+hr_medical_disease_393,393,Hidrocefalia
+hr_medical_disease_394,394,Encefalopatia toxica si alte afectiuni ale creierului
+hr_medical_disease_395,395,Alte afectiuni ale maduvei spinarii
+hr_medical_disease_396,396,Alte afectiuni ale sistemului nervos central
+hr_medical_disease_397,397,Afectiunile sistemului nervos dupa un act medical in vederea diagnosticului si tratamentului neclasate la alte locuri
+hr_medical_disease_398,398,Orgelet si chalazion
+hr_medical_disease_399,399,Alte afectiuni ale pleoapei
+hr_medical_disease_400,400,Afectiuni ale aparatului lacrimal
+hr_medical_disease_401,401,Afectiuni ale orbitei
+hr_medical_disease_402,402,Conjunctivita
+hr_medical_disease_403,403,Alte afectiuni ale conjunctivei
+hr_medical_disease_404,404,Afectiuni ale scleroticei
+hr_medical_disease_405,405,Cheratita
+hr_medical_disease_406,406,"Cicatrice, opacitati si alte afectiuni ale corneei"
+hr_medical_disease_407,407,Iridociclita
+hr_medical_disease_408,408,Alte afectiuni ale irisului si corpilor ciliari
+hr_medical_disease_409,409,Cataracta senila
+hr_medical_disease_410,410,Alte cataracte
+hr_medical_disease_411,411,Alte afectiuni ale cristalinului
+hr_medical_disease_412,412,Chorioretinita si alte afectiuni ale choroidei
+hr_medical_disease_413,413,Dezlipirea si ruptura retinei
+hr_medical_disease_414,414,Alte afectiuni retiniene
+hr_medical_disease_415,415,Glaucomul
+hr_medical_disease_416,416,Afectiuni ale corpului vitros
+hr_medical_disease_417,417,Afectiuni ale globului ocular
+hr_medical_disease_418,418,Nevrita optica
+hr_medical_disease_419,419,Alte afectiuni ale nervului si cailor optice
+hr_medical_disease_420,420,Strabism paralitic
+hr_medical_disease_421,421,Alte anomalii de miscare binoculara
+hr_medical_disease_422,422,Vicii de refractie si tulburari de acomodare
+hr_medical_disease_423,423,Tulburari de vedere
+hr_medical_disease_424,424,Cecitatea si scaderea vazului
+hr_medical_disease_425,425,Nistagmus si alte miscari anormale
+hr_medical_disease_426,426,Alte afectiuni ale ochiului si anexelor sale
+hr_medical_disease_427,427,Afectiuni ale ochiului si anexelor sale in vederea dg si trat. neclasate la alte locuri
+hr_medical_disease_428,428,Otita externa
+hr_medical_disease_429,429,Alte afectiuni ale urechii externe
+hr_medical_disease_430,430,Otita medie nesupurata
+hr_medical_disease_431,431,Otita medie supurativa fara precizare
+hr_medical_disease_432,432,"Inflamatia, obstructia si alte afectiuni ale trompei Eustachio"
+hr_medical_disease_433,433,Mastoidita si afectiuni asociate
+hr_medical_disease_434,434,Colesteatomul urechii medii
+hr_medical_disease_435,435,Perforatia si alte afectiuni ale timpanului
+hr_medical_disease_436,436,Alte afectiuni ale urechii medii si apofizei mastoide
+hr_medical_disease_437,437,Otoscleroza
+hr_medical_disease_438,438,Afectiunile functiei vestibulare si sindroame de vertij
+hr_medical_disease_439,439,Alte boli ale urechii interne
+hr_medical_disease_440,440,Surditate de transmisie si neurosenzoriala
+hr_medical_disease_441,441,Alte pierderi ale auzului si surdomutitatea
+hr_medical_disease_442,442,Otalgia si otoreea
+hr_medical_disease_443,443,"Alte afectiuni ale urechii, neclasate la alte locuri"
+hr_medical_disease_444,444,"Afectiuni dupa un act medical de dg. si trat. la nivelul urechii si apof. Mastoide, neclasate la alte locuri"
+hr_medical_disease_445,445,Reumatismul articular acut fara mentionarea complicatiilor cardiace
+hr_medical_disease_446,446,Reumatismul articular acut cu complicatii cardiace
+hr_medical_disease_447,447,Coreeea reumatismala
+hr_medical_disease_448,448,"Boli ale valvulei mitrale, reumatismale"
+hr_medical_disease_449,449,"Boli ale valvulei aortice, reumatismale"
+hr_medical_disease_450,450,"Boli ale valvulei tricuspide, reumatismale"
+hr_medical_disease_451,451,Boli multiple valvulare
+hr_medical_disease_452,452,Alte boli reumatice ale inimii
+hr_medical_disease_453,453,Hipertensiunea esentiala (primara)
+hr_medical_disease_454,454,Cardiopatia hipertensiva
+hr_medical_disease_455,455,Nefropatia hipertensiva
+hr_medical_disease_456,456,Cario-nefropatia hipertensiva
+hr_medical_disease_457,457,Hipertensiunea secundar?
+hr_medical_disease_458,458,Angina pectorala
+hr_medical_disease_459,459,Infarct miocardic acut
+hr_medical_disease_460,460,Infarct miocardic ulterior
+hr_medical_disease_461,461,Alte boli ischemice acute cardiace
+hr_medical_disease_462,462,Cardiopatie ischemica cronica
+hr_medical_disease_463,463,Embolia vaselor pulmonare
+hr_medical_disease_464,464,Alte cardiopatii pulmonare
+hr_medical_disease_465,465,Cord pulmonar cronic
+hr_medical_disease_466,466,Alte boli ale vaselor pulmonare
+hr_medical_disease_467,467,Pericardita acuta
+hr_medical_disease_468,468,Alte boli ale pericardului
+hr_medical_disease_469,469,Endocardita acuta si subacuta
+hr_medical_disease_470,470,Afectiuni nereumatice ale valvei mitrale
+hr_medical_disease_471,471,Afectiuni nereumatice ale valvei aortice
+hr_medical_disease_472,472,Afectiuni nereumatice ale valvei tricuspide
+hr_medical_disease_473,473,Afectiunile valvei pulmonare
+hr_medical_disease_474,474,"Endocardita, valvula nespecificata"
+hr_medical_disease_475,475,Miocardita acuta
+hr_medical_disease_476,476,Cardiomiopatia
+hr_medical_disease_477,477,Hemoragia subarahnoida
+hr_medical_disease_478,478,Hemoragia intracerebrala si alte hemoragii intracraniene netraumatice
+hr_medical_disease_479,479,Infarct cerebral
+hr_medical_disease_480,480,Accident cerebral nespecificat ca hemoragie sau infarct
+hr_medical_disease_481,481,Alte boli cerebrovasculare
+hr_medical_disease_482,482,Ateroscleroza
+hr_medical_disease_483,483,Anevrismul si disectia de aorta
+hr_medical_disease_484,484,Alte anevrisme
+hr_medical_disease_485,485,Alte boli vasculare periferice
+hr_medical_disease_486,486,Embolia si tromboza arteriala
+hr_medical_disease_487,487,Alte afectiuni ale arterelor si arteriolelor
+hr_medical_disease_488,488,Bolile capilarelor
+hr_medical_disease_489,489,Flebita si tromboflebita
+hr_medical_disease_490,490,Embolia si tromboza venoasa
+hr_medical_disease_491,491,Vene varicoase ale membrelor inferioare
+hr_medical_disease_492,492,Hemoroizi
+hr_medical_disease_493,493,Varice esofagiene si alte afectiuni ale venelor
+hr_medical_disease_494,494,"Limfadenita nespecifica, exceptind cea acuta"
+hr_medical_disease_495,495,Hipotensiunea
+hr_medical_disease_496,496,Afectiuni postchirurgicale sau proceduri pe aparatul circulator FAI
+hr_medical_disease_497,497,Alte afectiuni nespecificate ale aparatului circulator
+hr_medical_disease_498,498,Rino-faringita acuta
+hr_medical_disease_499,499,sinuzita acuta
+hr_medical_disease_500,500,faringita si amigdalita acuta
+hr_medical_disease_501,501,laringita si traheita acuta
+hr_medical_disease_502,502,laringita obstructiva acuta si epiglotita acuta
+hr_medical_disease_503,503,infectii acute ale cailor respiratorii superioare cu localizari multiple si neprecizate
+hr_medical_disease_504,504,"gripa, cu virus identificat"
+hr_medical_disease_505,505,"gripa, cu virus neidentificat"
+hr_medical_disease_506,506,"pneumonia virala, neclasata la alte locuri"
+hr_medical_disease_507,507,pneumonia prin streptococus pneumoniae
+hr_medical_disease_508,508,pneumonia prin haemophilus influenzae
+hr_medical_disease_509,509,"pneumonii bacteriene, neclasate la alte locuri"
+hr_medical_disease_510,510,"pneumonia datorita altor microorganisme infectioase, neclasate la alte locuri"
+hr_medical_disease_511,511,Pneumonii cu microorganisme neprecizate
+hr_medical_disease_512,512,Bronsita si bronsiolita acuta
+hr_medical_disease_513,513,I+A3359nfectii acute ale cailor respiratorii inferioare fara precizare
+hr_medical_disease_514,514,Rinita alergica si vazomotorie
+hr_medical_disease_515,515,"Rinita, rinofaringita si faringita cronica"
+hr_medical_disease_516,516,Sinuzita cronica
+hr_medical_disease_517,517,Bolile cronice ale amigdalelor si vegetatiilor adenoide
+hr_medical_disease_518,518,Angina flegmonoasa
+hr_medical_disease_519,519,Laringita si laringo-traheita cronica
+hr_medical_disease_520,520,"Bolile corzilor voale si ale laringelui, neclasate la alte locuri"
+hr_medical_disease_521,521,Alteboli ale cailor respiratorii superioare
+hr_medical_disease_522,522,Bronsita neprecizata ca acuta sau cronica
+hr_medical_disease_523,523,Bronsita cronica simpla si mucopurulenta
+hr_medical_disease_524,524,Bronsita cronica FAI
+hr_medical_disease_525,525,Emfizemul
+hr_medical_disease_526,526,Alte boli pulmonare obstructive cronice
+hr_medical_disease_527,527,Astmul
+hr_medical_disease_528,528,Bronsiectazia
+hr_medical_disease_529,529,Pneumoconioza de carbune a minerilor
+hr_medical_disease_530,530,Pneumodonioza datorata azbestului si altor fibre minerale
+hr_medical_disease_531,531,Pneumoconioza datorata pulberii de siliciu
+hr_medical_disease_532,532,Pneumoconioza datorata altor pulberi neorganice si fara precizare
+hr_medical_disease_533,533,Pneumoconioza asociata cu tuberculoza
+hr_medical_disease_534,534,Afectiuni ale cailor aeriene datorate pulberilor organice precizate
+hr_medical_disease_535,535,Afectiuni respiratorii datorate altor agenti externi
+hr_medical_disease_536,536,Edem pulmonar
+hr_medical_disease_537,537,Alte afectiuni pulmonare interstitiale
+hr_medical_disease_538,538,Abcesul pulmonar si al mediastinului
+hr_medical_disease_539,539,Pneumothorax
+hr_medical_disease_540,540,Afectiuni pleurale
+hr_medical_disease_541,541,"Tulburari respiratorii dupa un act medical privind diagnosticul si tratamentul, neclasate la alte locuri"
+hr_medical_disease_542,542,Alte tulburari respiratorii
+hr_medical_disease_543,543,Tulburari de ontogeneza si de eruptie
+hr_medical_disease_544,544,Carii dentare
+hr_medical_disease_545,545,Alte boli ale tesutului dentar dur
+hr_medical_disease_546,546,Afectiuni ale gingiei si crestei alveolare edentate
+hr_medical_disease_547,547,Anomalii dento-faciale (inclusiv malocluzia)
+hr_medical_disease_548,548,Alte boli ale maxilarelor
+hr_medical_disease_549,549,Bolile glandelor salivare
+hr_medical_disease_550,550,Stomatitele si afectiunile inrudite
+hr_medical_disease_551,551,Alte boli ale buzelor si mucoasei bucale
+hr_medical_disease_552,552,Bolile limbii
+hr_medical_disease_553,553,Esofagita
+hr_medical_disease_554,554,Alte boli ale esofagului
+hr_medical_disease_555,555,Ulcerul gastric
+hr_medical_disease_556,556,Ulcerul duodenal
+hr_medical_disease_557,557,Ulcerul peptic cu localizare neprecizata
+hr_medical_disease_558,558,Ulcerul gastro-jejunal
+hr_medical_disease_559,559,Gastrita si duodenita
+hr_medical_disease_560,560,Dispepsia
+hr_medical_disease_561,561,Alte boli ale stomacului si duodenului
+hr_medical_disease_562,562,Apendicita acuta
+hr_medical_disease_563,563,Alte boli ale apendicelui
+hr_medical_disease_564,564,Hernia inghinala
+hr_medical_disease_565,565,Hernia diafragmatica
+hr_medical_disease_566,566,Alte hernii abdominale
+hr_medical_disease_567,567,Boala Crohn (enterita regionala)
+hr_medical_disease_568,568,Rectocolita hemoragica (colita ulceroasa)
+hr_medical_disease_569,569,Alte gastroenterite si colite neinfectioase
+hr_medical_disease_570,570,Tulburari vasculare ale intestinului
+hr_medical_disease_571,571,Ileus paralitic si ocluzia intestinala fara mentionarea herniei
+hr_medical_disease_572,572,Diverticuloza intestinului
+hr_medical_disease_573,573,Sindromul intestinului iritabil si alte tulburari functionale ale intestinului
+hr_medical_disease_574,574,"Fisura, fistula si abcesul regiunilor anale si rectale"
+hr_medical_disease_575,575,Alte boli ale intestinului
+hr_medical_disease_576,576,Peritonita
+hr_medical_disease_577,577,Alte boli ale peritoneului
+hr_medical_disease_578,578,Boala alcoolica a ficatului
+hr_medical_disease_579,579,Boala toxica a ficatului
+hr_medical_disease_580,580,"Hepatita cronica, neclasata la alte locuri"
+hr_medical_disease_581,581,Fibroza si ciroza ficatului
+hr_medical_disease_582,582,Alte boli inflamatorii ale ficatului
+hr_medical_disease_583,583,Alte boli ale ficatului
+hr_medical_disease_584,584,Litiaza biliara
+hr_medical_disease_585,585,Colecistita
+hr_medical_disease_586,586,Alte boli ale vezicii si ale cailor biliare
+hr_medical_disease_587,587,Pancreatita acuta
+hr_medical_disease_588,588,Alte boli ale pancreasului
+hr_medical_disease_589,589,Malabsorbtia intestinala
+hr_medical_disease_590,590,"Afectiunile aparatului digestiv dupa un act medical de diagnostic si tratament, neclasate la alte locuri"
+hr_medical_disease_591,591,Alte boli ale aparatului digestiv
+hr_medical_disease_592,592,Impetigo
+hr_medical_disease_593,593,"Abces cutanat, furuncul si furuncul antracoid, flegmon"
+hr_medical_disease_594,594,Limfadenita acuta
+hr_medical_disease_595,595,Chist dermoid pararectal
+hr_medical_disease_596,596,Alte infectii localizate ale pielii si tesutului celular subcutanat
+hr_medical_disease_597,597,Pemphigus
+hr_medical_disease_598,598,Alte dermatoze buloase
+hr_medical_disease_599,599,Dermita seboreica
+hr_medical_disease_600,600,Dermita alergica de contact
+hr_medical_disease_601,601,Lichen simplex cronic si prurigo
+hr_medical_disease_602,602,Alte dermite
+hr_medical_disease_603,603,Psoriazis
+hr_medical_disease_604,604,Lichen plan
+hr_medical_disease_605,605,Alte leziuni papulo-scuamoase
+hr_medical_disease_606,606,Urticaria
+hr_medical_disease_607,607,Eritem polimorf
+hr_medical_disease_608,608,Eritem nodos
+hr_medical_disease_609,609,Alte forme de eritem
+hr_medical_disease_610,610,insolatia
+hr_medical_disease_611,611,Radiodermite
+hr_medical_disease_612,612,Alte afectiuni ale pielii si tesutului celular subcutanat legate de o iradiere
+hr_medical_disease_613,613,Bolile unghiei
+hr_medical_disease_614,614,Alopecia areata
+hr_medical_disease_615,615,Alte forme de rarefiere a sistemului pilos
+hr_medical_disease_616,616,Hipertrichoza
+hr_medical_disease_617,617,Acneea
+hr_medical_disease_618,618,Anceea rozacee
+hr_medical_disease_619,619,Afectiuni foliculare
+hr_medical_disease_620,620,Afectiunile glandelor sudoripare
+hr_medical_disease_621,621,Vitiligo
+hr_medical_disease_622,622,Ulceratia de decubitus
+hr_medical_disease_623,623,Lupus eritematos
+hr_medical_disease_624,624,Alte afectiuni localizate ale tesutului conjunctiv
+hr_medical_disease_625,625,"Alte afectiuni ale pielii si tesutului celular subcutanat, neclasate la alte locuri"
+hr_medical_disease_626,626,Artrita cu bacterii piogene
+hr_medical_disease_627,627,Artropatia de reactie
+hr_medical_disease_628,628,Artrita reumatoida
+hr_medical_disease_629,629,Artrita juvenila
+hr_medical_disease_630,630,Guta
+hr_medical_disease_631,631,Alte artrite
+hr_medical_disease_632,632,Poliartroza
+hr_medical_disease_633,633,Coxartroza (artroza coapsei)
+hr_medical_disease_634,634,Gonartroza (artroza genunchiului)
+hr_medical_disease_635,635,Alte artroze
+hr_medical_disease_636,636,Deformatii dobandite ale degetelor mainilor si picioarelor
+hr_medical_disease_637,637,Alte deformatii dobandite ale membrelor
+hr_medical_disease_638,638,Alte afectiuni articulare precizate
+hr_medical_disease_639,639,Alte afectiuni articulare neclasate la alte locuri
+hr_medical_disease_640,640,Poliarterita nodoasa si afectiunile inrudite
+hr_medical_disease_641,641,Lupus eritematos diseminat
+hr_medical_disease_642,642,Alte atingeri sistemice ale tesutului conjunctiv
+hr_medical_disease_643,643,Cifoza si lordoza
+hr_medical_disease_644,644,Scolioza
+hr_medical_disease_645,645,Alte dorsopatii deformante
+hr_medical_disease_646,646,Spondilartrita anchilozanta
+hr_medical_disease_647,647,Alte spondilopatii inflamatorii
+hr_medical_disease_648,648,Spondiloza
+hr_medical_disease_649,649,Alte spondilopatii
+hr_medical_disease_650,650,Atingeri ale discurilor cervicale
+hr_medical_disease_651,651,Alte atingeri ale discurilor intervertebrale
+hr_medical_disease_652,652,"Alte dorsopatii, neclasate la alte locuri"
+hr_medical_disease_653,653,Dorsalgii
+hr_medical_disease_654,654,Miozita
+hr_medical_disease_655,655,Alte atingeri musculare
+hr_medical_disease_656,656,Sinovite si tenosinovite
+hr_medical_disease_657,657,Alte atingeri ale sinovialei si tendonului
+hr_medical_disease_658,658,Afectiuni ale tesuturilor moi legate de o solicitare excesiva a articulatiei
+hr_medical_disease_659,659,Leziunile umarului
+hr_medical_disease_660,660,"Alte afectiuni ale tesuturilor moi, neclasate la alte locuri"
+hr_medical_disease_661,661,Osteoporoza
+hr_medical_disease_662,662,Osteomalacia adultului
+hr_medical_disease_663,663,Alte atingeri ale densitatii si structurii osoase
+hr_medical_disease_664,664,Osteomielita
+hr_medical_disease_665,665,Boala osoasa Paget (osteita deformanta)
+hr_medical_disease_666,666,Alte boli osoase
+hr_medical_disease_667,667,Osteochondrita juvenila a soldului si a bazinului
+hr_medical_disease_668,668,Alte afectiuni ale cartilajului
+hr_medical_disease_669,669,Alte deformatii dobandite ale sistemului osteo-articular si ale muschilor
+hr_medical_disease_670,670,Sindromul nefritic acut
+hr_medical_disease_671,671,Sindromul nefritic cu evolutie rapida si progresiva
+hr_medical_disease_672,672,Hematuria recidivanta si persistenta
+hr_medical_disease_673,673,Sindromul nefritic cronic
+hr_medical_disease_674,674,Sindromul nefrotic
+hr_medical_disease_675,675,Sindromul nefritic fara precizare
+hr_medical_disease_676,676,Proteinuria izolata cu leziuni morfologice precizate
+hr_medical_disease_677,677,"Nefropatia ereditara, neclasata la alte locuri"
+hr_medical_disease_678,678,Nefrita tubulo-interstitiala acuta
+hr_medical_disease_679,679,Nefrita tubulo-interstitiala cronica
+hr_medical_disease_680,680,"Nefrita tubulo-interstitiala, neprecizata ca acuta sau cronica"
+hr_medical_disease_681,681,Uropatia obstructiva si prin reflux
+hr_medical_disease_682,682,Atingerile tubulo-interstitiale si tubulare datorate medicamentelor si metalelor grele
+hr_medical_disease_683,683,Alte boli renale tubulo-interstitiale
+hr_medical_disease_684,684,Insuficienta renala acuta
+hr_medical_disease_685,685,Insuficienta renala cronica
+hr_medical_disease_686,686,I+A6137nsuficienta renala fara precizare
+hr_medical_disease_687,687,Litiaza rinichiului si ureterului
+hr_medical_disease_688,688,Litiaza cailor urinare inferioare
+hr_medical_disease_689,689,Colica nefritica fara precizare
+hr_medical_disease_690,690,Afectiuni datorate unei rele functionari tubulare
+hr_medical_disease_691,691,Rinichi scleros fara precizare
+hr_medical_disease_692,692,Rinichi mic de cauza necunoscuta
+hr_medical_disease_693,693,Alte afectiuni ale rinichiului si uterului neclasate la alte locuri
+hr_medical_disease_694,694,Cistita
+hr_medical_disease_695,695,Disfunctiunea neuro-musculara a vezicii
+hr_medical_disease_696,696,Alte afectiuni ale vezicii
+hr_medical_disease_697,697,Uretrita si sindromul ureteral
+hr_medical_disease_698,698,Strictura uretrala
+hr_medical_disease_699,699,Alte afectiuni ale uretrei
+hr_medical_disease_700,700,Alte afectiuni ale aparatului urinar
+hr_medical_disease_701,701,Hiperplazia prostatei
+hr_medical_disease_702,702,Hidrocelul si spermatocelul
+hr_medical_disease_703,703,Orhita si epididimita
+hr_medical_disease_704,704,"Hipertrofia preputului, fimoza, parafimoza"
+hr_medical_disease_705,705,Alte afectiuni ale organelor genitale la barbat
+hr_medical_disease_706,706,Displaziile mamare benigne
+hr_medical_disease_707,707,Afectiunile inflamatorii ale sanului
+hr_medical_disease_708,708,Alte afectiuni ale sanului
+hr_medical_disease_709,709,Salpingita si ooforita
+hr_medical_disease_710,710,Afectiuni inflamatorii ale uterului cu exceptia colului
+hr_medical_disease_711,711,Afectiuni inflamatorii ale colului uterin
+hr_medical_disease_712,712,Alte afectiuni inflamatorii pelviene la femeie
+hr_medical_disease_713,713,Alte inflamatii ale vaginului si vulvei
+hr_medical_disease_714,714,Endometrioza
+hr_medical_disease_715,715,Prolapsul genital la femeie
+hr_medical_disease_716,716,Fistulele tractului genital la femeie
+hr_medical_disease_717,717,Afectiuni neinflamatorii ale ovarului trompei Fallope si ligamentului larg
+hr_medical_disease_718,718,Polipul tractului genital la femeie
+hr_medical_disease_719,719,"Alte afectiuni neinflamatorii ale uterului, exceptand colul"
+hr_medical_disease_720,720,Eroziunea cu ectropion a colului uterin
+hr_medical_disease_721,721,Displazia colului uterin
+hr_medical_disease_722,722,Alte afectiuni neinflamatorii ale colului uterin
+hr_medical_disease_723,723,Alte afectiuni neinflamatorii ale vaginului
+hr_medical_disease_724,724,Alte afectiuni neinflamatorii ale vulvei si perineului
+hr_medical_disease_725,725,"Amenoreea, oligomenoreea, hipomenoreea"
+hr_medical_disease_726,726,"Menoragia, polimenoreea si metroragia"
+hr_medical_disease_727,727,Sangerari anormale ale uterului si vaginului
+hr_medical_disease_728,728,Dureri si alte afectiuni ale organelor genitale la femeie si tulburari ale ciclului menstrual
+hr_medical_disease_729,729,Tulburarile menopauzei si alte tulburari ale premenopauzei
+hr_medical_disease_730,730,Avort repetat
+hr_medical_disease_731,731,Sterilitatea la femeie
+hr_medical_disease_732,732,"Afectiunile aparatului genito-urinar dupa un act medical de diagnostic si tratament, neclasate la alte locuri"
+hr_medical_disease_733,733,Sarcina extrauterina
+hr_medical_disease_734,734,Mola hidatiforma si alte produse anormale
+hr_medical_disease_735,735,Avortul spontan
+hr_medical_disease_736,736,Alte forme de avort
+hr_medical_disease_737,737,"Complicatiile consecutive unui avort, unei sarcini extrauterine si molare"
+hr_medical_disease_738,738,"Hipertensiunea preexistenta, complicand sarcina, nasterea si lauzia"
+hr_medical_disease_739,739,"Sindrom hipertensiv preexistent, cu proteinurie supraadaugata"
+hr_medical_disease_740,740,Edem si proteinurie gestationala (legate de sarcina) fara hipertensiune
+hr_medical_disease_741,741,Hipertensiune gestationala (legate de sarcina) fara proteinurie importanta
+hr_medical_disease_742,742,Hipertensiune gestationala (legate de sarcina) cu proteinurie importanta
+hr_medical_disease_743,743,Eclampsia
+hr_medical_disease_744,744,"Hipertensiunea mamei, fara precizare"
+hr_medical_disease_745,745,Hemoragia de la debutul sarcinii
+hr_medical_disease_746,746,Voma incoercibila in cursul sarcinii
+hr_medical_disease_747,747,Complicatii venoase ale sarcinii
+hr_medical_disease_748,748,Infectiile aparatului genito-urinar in cursul sarcinii
+hr_medical_disease_749,749,Diabetul zaharat in cursul sarcinii
+hr_medical_disease_750,750,Malnutritia in cursul sarcinii
+hr_medical_disease_751,751,Ingrijiri acordate mamei pentru alte afectiuni legate in principal de sarcina
+hr_medical_disease_752,752,Rezultate anormale constatate in cursul examenelor prenatale sistematice ale mamei
+hr_medical_disease_753,753,Complicatiile unei anestezii in cursul sarcinii
+hr_medical_disease_754,754,Complicatiile specifice unei sarcini
+hr_medical_disease_755,755,Hidramnios
+hr_medical_disease_756,756,Ruptura prematura a membranelor
+hr_medical_disease_757,757,Anomaliile placentei; placenta praevia
+hr_medical_disease_758,758,"Hemoragie precedand nasterea, neclasata la alte locuri"
+hr_medical_disease_759,759,Travaliu inainte de termen sau prelungit; inertie uterina
+hr_medical_disease_760,760,Distocia de obstacol datorita unei pozitii si prezentari anormale a fatului
+hr_medical_disease_761,761,Distocia de obstacol datorita unei anomalii pelviene a mamei si alte distocii
+hr_medical_disease_762,762,"Travaliul si nasterea complicate cu hemoragie intrapartum, neclasate la alte locuri"
+hr_medical_disease_763,763,Travaliul si nasterea complicate cu suferinta fetala si anomalii de cordon ombilical
+hr_medical_disease_764,764,Ruptura perineala in cursul nasterii
+hr_medical_disease_765,765,Alte traumatisme obstetricale
+hr_medical_disease_766,766,Hemoragie post-partum
+hr_medical_disease_767,767,"Retentie de placenta si de membrane, fara hemoragie"
+hr_medical_disease_768,768,Complicatiile unei anestezii in cursul travaliului si nasterii
+hr_medical_disease_769,769,"Alte complicatii ale travaliului si nasterii, neclasate la alte locuri"
+hr_medical_disease_770,770,Infectia puerperala
+hr_medical_disease_771,771,Alte infectii puerperale
+hr_medical_disease_772,772,Complicatii venoase in timpul lauziei
+hr_medical_disease_773,773,Embolia de origine obstetricala
+hr_medical_disease_774,774,Complicatiile unei anestezii in cursul lauziei
+hr_medical_disease_775,775,"Complicatii puerperale, neclasate la alte locuri"
+hr_medical_disease_776,776,Infectia sanului asociata nasterii
+hr_medical_disease_777,777,Alte afectiuni ale sanului asociate nasterii si tulburari de lactatie
+hr_medical_disease_778,778,Fat si nou-nascut afectati de tulburarile materne cu si fara legatura cu sarcina actuala
+hr_medical_disease_779,779,Fat si nou-nascut afectati de complicatiile sarcinii la mama
+hr_medical_disease_780,780,"Fat si nou-nascut afectati de complicatii privind placenta, cordonul ombilical si membrane"
+hr_medical_disease_781,781,Fat si nou-nascut afectati de alte complicatii ale travaliului si nasterii
+hr_medical_disease_782,782,Fat si nou-nascut afectati de efectele nocive transmise pe cale transplacentara sau prin laptele matern
+hr_medical_disease_783,783,Intarzierea cresterii si malnutritia fatului
+hr_medical_disease_784,784,"Tulburari relative la scurtarea gestatiei si o greutate insuficienta la nastere, neclasate la alte locuri"
+hr_medical_disease_785,785,Tulburari privind prelungirea gestatiei si o dificultate crescuta la nastere
+hr_medical_disease_786,786,Ruptura si hemoragie intracraniana datorita traumatismului obstetrical
+hr_medical_disease_787,787,Alte leziuni ale sistemului nervos central datorita traumatismului
+hr_medical_disease_788,788,Alte traumatisme obstetricale
+hr_medical_disease_789,789,Hipoxie intrauterina
+hr_medical_disease_790,790,Asfixia obstetricala
+hr_medical_disease_791,791,Pneumopatia congenitala
+hr_medical_disease_792,792,Sindroame de aspiratie in perioada neonatala
+hr_medical_disease_793,793,Emfizem interstitial si afectiuni inrudite survenind in perioada perinatala
+hr_medical_disease_794,794,Hemoragia pulmonara survenind in perioada perinatala
+hr_medical_disease_795,795,Alte tulburari respiratorii survenind in perioada perinatala
+hr_medical_disease_796,796,Tulburari cardio-vasculare survenind in perioada perinatala
+hr_medical_disease_797,797,Rubeola congenitala
+hr_medical_disease_798,798,Boli congenitale virotice
+hr_medical_disease_799,799,Infectia bacteriana a nou-nascutului
+hr_medical_disease_800,800,Alte boli infectioase si parazitare congenitale
+hr_medical_disease_801,801,"Omfalita nou-nascutului, cu sau fara hemoragie usoara"
+hr_medical_disease_802,802,Alte infectii specifice perioadei perinatale
+hr_medical_disease_803,803,Hemoragii fetale si neonatale
+hr_medical_disease_804,804,Boala hemolitica a fatului si nou-nascutului
+hr_medical_disease_805,805,Anasarca feto-placentara datorita bolii hemolitice
+hr_medical_disease_806,806,Icter nuclear (kernicter)
+hr_medical_disease_807,807,Icter neonatal datorat altor hemolize excesive si altor cauze
+hr_medical_disease_808,808,Alte tulburari hematologice ale perioadei perinatale
+hr_medical_disease_809,809,Tulburari endocrine tranzitorii ale nou-nascutului
+hr_medical_disease_810,810,Ocluzia intestinala la nou-nascut
+hr_medical_disease_811,811,Enterocolita necrozanta a fatului si nou-nascutului
+hr_medical_disease_812,812,Alte tulburari perinatale ale aparatului digestiv
+hr_medical_disease_813,813,Afectiuni ale tegumentelor si reglarea termica a fatului si nou-nascutului
+hr_medical_disease_814,814,Convulsiile nou-nascutului
+hr_medical_disease_815,815,Alte tulburari cerebrale ale nou-nascutului
+hr_medical_disease_816,816,Tulburari de alimentatie a nou-nascutului
+hr_medical_disease_817,817,Reactii si intoxicatii medicamentoase la fat si nou-nascut
+hr_medical_disease_818,818,Tulburari de tonus muscular la nou-nascut
+hr_medical_disease_819,819,Moarte fetala de cauza neprecizata
+hr_medical_disease_820,820,Alte afectiuni a caror origine se situeaza in perioada perinatala
+hr_medical_disease_821,821,Microcefalia
+hr_medical_disease_822,822,Hidrocefalia congenitala
+hr_medical_disease_823,823,Alte malformatii congenitale ale creierului
+hr_medical_disease_824,824,Spina bifida
+hr_medical_disease_825,825,Alte malformatii ale maduvei spinarii
+hr_medical_disease_826,826,Alte malformatii congenitale ale sistemului nervos
+hr_medical_disease_827,827,"Anoftalmia, microftalmia si macroftalmia"
+hr_medical_disease_828,828,Alte malformatii congenitale ale fetei si gatului
+hr_medical_disease_829,829,"Malformatii congenitale ale cavitatilor, orificiilor si ale septului cardiac"
+hr_medical_disease_830,830,Alte malformatii congenitale ale inimii
+hr_medical_disease_831,831,Malformatii congenitale ale arterelor mari
+hr_medical_disease_832,832,Malformatii congenitale ale venelor mari
+hr_medical_disease_833,833,Alte malformatii congenitale ale aparatului circulator
+hr_medical_disease_834,834,"Malformatii congenitale si alte anomalii ale laringelui, traheii si bronhiilor"
+hr_medical_disease_835,835,Malformatia congenitala a pulmonului
+hr_medical_disease_836,836,Alte malformatii congenitale ale aparatului respirator
+hr_medical_disease_837,837,Fisura palatina
+hr_medical_disease_838,838,Fisura labiala
+hr_medical_disease_839,839,Buza de iepure cu palatoschisis
+hr_medical_disease_840,840,Malformatii congenitale ale cailor digestive superioare
+hr_medical_disease_841,841,"Absenta, atrezia si stenoza congenitala a intestinului subtire"
+hr_medical_disease_842,842,Alte malformatii congenitale ale intestinului
+hr_medical_disease_843,843,"Malformatii congenitale ale vezicii biliare, cailor biliare si ficatului"
+hr_medical_disease_844,844,Alte malformatii congenitale ale aparatului digestiv
+hr_medical_disease_845,845,"Malformatiile ovarului, uterului si cervixului"
+hr_medical_disease_846,846,Alte malformatii congenitale ale organelor genitale feminine
+hr_medical_disease_847,847,Malformatii congenitale ale organelor genitale masculine
+hr_medical_disease_848,848,Agenezie renala si alte extinderi ale reducerii
+hr_medical_disease_849,849,Boala chistica a rinichiului
+hr_medical_disease_850,850,Alte malformatii congenitale ale aparatului urinar
+hr_medical_disease_851,851,Deformatii congenitale ale soldului
+hr_medical_disease_852,852,Deformatii congenitale ale piciorului
+hr_medical_disease_853,853,"Deformatii osoase ale capului, fetei, coloanei vertebrale, pieptului si alte deformatii"
+hr_medical_disease_854,854,Polidactilia si sindactilia
+hr_medical_disease_855,855,Alte anomalii congenitale ale membrelor
+hr_medical_disease_856,856,"Malformatii si anomalii congenitale ale coloanei vertebrale, coaste si stern, capului si fetei"
+hr_medical_disease_857,857,"Malformatii congenitale ale sistemuluui osteo-articular, neclasate la alte locuri"
+hr_medical_disease_858,858,"Alte malformatii congenitale specificate, afectand sisteme multiple"
+hr_medical_disease_859,859,"Alte malformatii congenitale, neclasate la alte locuri"
+hr_medical_disease_860,860,Sindromul Down
+hr_medical_disease_861,861,Sindromul Edwards si sindromul Patau
+hr_medical_disease_862,862,"Alte trisomii si trisomii partiale (dublare) a autosomilor, neclasate la alte locuri"
+hr_medical_disease_863,863,"Monosomia si lipsa de autosomi, neclasate la alte locuri"
+hr_medical_disease_864,864,"Rearanjarea echilibrata si markerii structurali, neclasate la alte locuri"
+hr_medical_disease_865,865,Sindromul Turner
+hr_medical_disease_866,866,"Alte anomalii ale cromozomilor sexuali, fenotip feminin, neclasate la alte locuri"
+hr_medical_disease_867,867,"Alte anomalii ale cromozomilor sexuali, fenotip masculin, neclasate la alte locuri"
+hr_medical_disease_868,868,"Alte anomalii ale cromozomilor sexuali, neclasate la alte locuri"
+hr_medical_disease_869,869,Simptome si semne referitoare la aparatul circulator si respirator
+hr_medical_disease_870,870,Simptome si semne referitoare la aparatul digestiv si la abdomen
+hr_medical_disease_871,871,Simptome si semne referitoare la sistemul nervos si osteomuscular
+hr_medical_disease_872,872,Simptome si semne referitoare la aparatul urinar
+hr_medical_disease_873,873,"Simptome si semne referitoare la constienta, perceptie, comportament si limbaj"
+hr_medical_disease_874,874,Simptome si semne generale
+hr_medical_disease_875,875,Rezultate anormale ale examenelor de sange fara diagnostic
+hr_medical_disease_876,876,Rezultate anormale ale examenelor de urina fara diagnostic de boala
+hr_medical_disease_877,877,"Rezultate anormale ale examinarii altor lichide, substante si tesuturi, fara diagnostic"
+hr_medical_disease_878,878,"Rezultate anormale ale imaginii diagnostice si probelor functionale, fara diagnostic"
+hr_medical_disease_879,879,Leziunea traumatica superficiala a capului
+hr_medical_disease_880,880,Plaga deschisa a capului
+hr_medical_disease_881,881,Fractura craniului si oaselor fetei
+hr_medical_disease_882,882,"Luxatia, entorsa si intinderea de ligamente ale articulatiei capului"
+hr_medical_disease_883,883,Leziunea traumatica a nervilor cranieni
+hr_medical_disease_884,884,Leziunea traumatica a ochiului si orbitei
+hr_medical_disease_885,885,Leziunea traumatica intracraniana
+hr_medical_disease_886,886,Zdrobirea traumatica a capului
+hr_medical_disease_887,887,Amputatia traumatica partiala a capului
+hr_medical_disease_888,888,Leziuni traumatice ale capului alte si fara precizare
+hr_medical_disease_889,889,Leziunea traumatica superficiala a gatului
+hr_medical_disease_890,890,Plaga deschisa a gatului
+hr_medical_disease_891,891,Fractura gatului
+hr_medical_disease_892,892,"Luxatia, entorsa si intinderea de ligamente ale articulatiei gatului"
+hr_medical_disease_893,893,Leziunea traumatica a nervilor si maduvei spinarii la nivelul gatului
+hr_medical_disease_894,894,Leziunea traumatica a vaselor sangvine la nivelul gatului
+hr_medical_disease_895,895,Leziunea traumatica a muSchilor si tendoanelor gatului
+hr_medical_disease_896,896,Zdrobirea traumatica a gatului
+hr_medical_disease_897,897,Amputatia traumatica la nivelul gatului
+hr_medical_disease_898,898,"Leziuni traumatice ale gatului, alte neprecizate"
+hr_medical_disease_899,899,Leziunea traumatica superficiala a toracelui
+hr_medical_disease_900,900,Plaga deschisa a toracelui
+hr_medical_disease_901,901,"Fractura de coaste, stern si coloana vertebrala"
+hr_medical_disease_902,902,"Luxatia, entorsa si intinderea de ligamente ale articulatiei toracelui"
+hr_medical_disease_903,903,Leziunea traumatica a nervilor si maduvei spinarii la nivelul toracelui
+hr_medical_disease_904,904,Leziunea traumatica a vaselor sangvine la nivelul toracelui
+hr_medical_disease_905,905,Leziunea traumatica a inimii
+hr_medical_disease_906,906,"Leziuni traumatice ale ale organelor intratoracice, alte si neprecizate"
+hr_medical_disease_907,907,Zdrobirea traumatica a toracelui si amputarea traumatica partiala a toracelui
+hr_medical_disease_908,908,"Leziuni traumatice ale toracelui, alte si fara precizare"
+hr_medical_disease_909,909,"Leziunea traumatica superficiala a abdomenului, lombelor si bazinului"
+hr_medical_disease_910,910,"Plaga deschisa a abdomenului, lombelor si bazinului"
+hr_medical_disease_911,911,Fractura de coloanei vertebrale si a bazinului
+hr_medical_disease_912,912,"Luxatia, entorsa si intinderea de ligamente ale articulatiei coloanei vertebrale si bazinului"
+hr_medical_disease_913,913,"Leziunea nervilor si a coloanei vertebrale lombare si a abdomenului, partea inferioara a spatelui si a bazinului"
+hr_medical_disease_914,914,"Leziunea traumatica a vaselor sangvine la nivelul abdomenului, lombelor si bazinului"
+hr_medical_disease_915,915,Leziunea traumatica a organelor intraabdominale
+hr_medical_disease_916,916,Leziunea traumatica a organelor pelviene
+hr_medical_disease_917,917,"Zdrobirea si amputatia traumatica partiala a abdomenului, lombelor si bazinului"
+hr_medical_disease_918,918,"Leziuni traumatice ale abdomenului,lombelor si bazinului alte si fara precizare"
+hr_medical_disease_919,919,Leziune traumatica superficiala
+hr_medical_disease_920,920,Plaga deschisa
+hr_medical_disease_921,921,Fractura
+hr_medical_disease_922,922,"Luxatia, entorsa si intinderea de ligamente ale articulatiei"
+hr_medical_disease_923,923,Leziunea traumatica a nervilor
+hr_medical_disease_924,924,Leziunea traumatica a vaselor sanguine
+hr_medical_disease_925,925,Leziunea traumatica a mulchilor si tendoanelor
+hr_medical_disease_926,926,Zdrobirea traumatica
+hr_medical_disease_927,927,Amputatia traumatica
+hr_medical_disease_928,928,"Leziuni traumatice, alte si neprecizate"
+hr_medical_disease_929,929,Leziune traumatica superficiala
+hr_medical_disease_930,930,Plaga deschisa
+hr_medical_disease_931,931,Fractura
+hr_medical_disease_932,932,"Luxatia, entorsa si intinderea de ligamente ale articulatiei"
+hr_medical_disease_933,933,Leziunea traumatica a nervilor
+hr_medical_disease_934,934,Leziunea traumatica a vaselor sanguine
+hr_medical_disease_935,935,Leziunea traumatica a muschilor si tendoanelor
+hr_medical_disease_936,936,Zdrobirea traumatica
+hr_medical_disease_937,937,Amputatia traumatica
+hr_medical_disease_938,938,"Leziuni traumatice, alte si neprecizate"
+hr_medical_disease_939,939,Leziuni traumatice superficiale corpului cu multe localizari
+hr_medical_disease_940,940,Plagi deschise ale corpului cu mai multe localizari
+hr_medical_disease_941,941,Fracturi ale corpului cu alte localizari multiple
+hr_medical_disease_942,942,"Luxatii, entorse si intinderi de ligament ale corpului cu localizari multiple"
+hr_medical_disease_943,943,Zdrobiri traumatice ale corpului cu localizari multiple
+hr_medical_disease_944,944,Amputatii traumatice ale corpului cu localizari multiple
+hr_medical_disease_945,945,"Alte leziuni traumatice ale corpului cu localizari multiple, neclasate la alte locuri"
+hr_medical_disease_946,946,"Leziuni traumatice multiple, fara precizare"
+hr_medical_disease_947,947,Corp strain in partea externa a ochiului
+hr_medical_disease_948,948,Corp strain in ureche
+hr_medical_disease_949,949,Corp strain in caile respiratorii
+hr_medical_disease_950,950,Corp strain in caile digestive
+hr_medical_disease_951,951,Corp strain in caile genito-urinare
+hr_medical_disease_952,952,"Arsura si coroziunea capului, gatului si trunchiului"
+hr_medical_disease_953,953,Arsura si coroziunea membrului superior
+hr_medical_disease_954,954,Arsura si coroziunea membrului inferior
+hr_medical_disease_955,955,Arsuri si coroziuni limitate la ochi si anexele sale
+hr_medical_disease_956,956,Arsuri si coroziuni ale altor organe interne
+hr_medical_disease_957,957,Arsuri si coroziuni ale corpului cu localizari multiple
+hr_medical_disease_958,958,Arsuri si coroziuni ale corpului cu localizari neprecizate
+hr_medical_disease_959,959,Arsuri clasate dupa intinderea lezata a suprafetei corpului
+hr_medical_disease_960,960,Coroziuni clasate dupa intinderea lezata a suprafetei corpului
+hr_medical_disease_961,961,Degeratura superficiala
+hr_medical_disease_962,962,Degeratura cu necroza de tesut
+hr_medical_disease_963,963,Degeratura corpului cu localizari multiple si fara precizare
+hr_medical_disease_964,964,Intoxicatii prin medicamente si substante biologice
+hr_medical_disease_965,965,"Efectele toxice ale substantelor, in special nemedicamentoase"
+hr_medical_disease_966,966,Efectele radiatiilor fara precizare
+hr_medical_disease_967,967,Efectele caldurii si ale luminii
+hr_medical_disease_968,968,Hipotermia
+hr_medical_disease_969,969,Efectele presiunii atmosferice si ale presiunii apei
+hr_medical_disease_970,970,Asfixia
+hr_medical_disease_971,971,sindroame datorite unor maltratari
+hr_medical_disease_972,972,Efectele altor cauze externe
+hr_medical_disease_973,973,"Complicatii ale actelor medicale de diagnostic si tratament, neclasate la alte locuri"
+hr_medical_disease_974,974,"Complicatiile protezelor, implantelor si grefelor cardiace si vasculare"
+hr_medical_disease_975,975,"Alte complicatii ale tratamentului chirurgical si medical, neclasate la alte locuri"
+hr_medical_disease_976,976,Accidente de transport
+hr_medical_disease_977,977,Accidente de transport pe apa
+hr_medical_disease_978,978,Accidente de transport aerian si de zbor spatial
+hr_medical_disease_979,979,"Accidente de transport, alte si fara precizare"
+hr_medical_disease_980,980,Caderi
+hr_medical_disease_981,981,Expunere la fortele mecanice
+hr_medical_disease_982,982,Inecul si submersia accidentala si alte accidente afectind respiratia
+hr_medical_disease_983,983,"Expunerea la curentul electric, radiatii, temperaturi si presiuni extreme ale mediului ambiant"
+hr_medical_disease_984,984,"Expunerea la fum, foc si flacari, contact cu o sursa de caldura si de substante arzinde"
+hr_medical_disease_985,985,Expunerea la fortele naturii
+hr_medical_disease_986,986,Intoxicatii accidentale prin expunere la substante nocive
+hr_medical_disease_987,987,"Expunerea accidentala la factori, altii si fara precizare"
+hr_medical_disease_988,988,Leziuni auto-provocate
+hr_medical_disease_989,989,Agresiunea
+hr_medical_disease_990,990,Evenimente a caror intentie nu este precizata
+hr_medical_disease_991,991,Interventia fortei publice si actiuni de razboi
+hr_medical_disease_992,992,"Complicatiile ingrijirilor medicale si chirurgicale, medicamente si substante biologice care au provocat efecte indezirabile in cursul utilizarii terapeutice"
+hr_medical_disease_993,993,Persoane in contact cu serviciile de sanatate pentru diverse investigatii
+hr_medical_disease_994,994,Persoane susceptibile de a fi contaminate cu boli transmisibile
+hr_medical_disease_995,995,Persoane care se adreseaza serviciilor de sanatate pentru motive legate de reproductie
+hr_medical_disease_996,996,Recurgere la servicii de sanatate pentru acte medicale specifice si de ingrijire medicala
+hr_medical_disease_997,997,Persoane cu risc de sanatate conditionat de factori socio-economici sau psiho-sociali
+hr_medical_disease_998,998,Alte motive de recurgere la serviciile de sanatate
+hr_medical_disease_999,999,Antecedente personale si familiale putind crea riscuri latente de boala si unele afectiuni cu efect asupra starii de sanatate
