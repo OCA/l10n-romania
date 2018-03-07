@@ -1,0 +1,46 @@
+<?xml version="1.0"?>
+<openerp>
+    <data>
+
+<!-- Partner -->
+
+   <record model="ir.ui.view" id="partners_form_address">
+        <field name="name">partners.form.address</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_form"/>
+        <field eval="18" name="priority"/>
+        <field name="arch" type="xml">
+            <field name="state_id" position="before">
+                    <field name="commune_id" class="oe_no_button"
+                           placeholder="City/Commune" style="width: 50%%"
+                           options='{"no_open": True}'
+                           attrs="{'readonly': [('type', '=', 'contact'),('parent_id', '!=', False)]}"/>
+                    <field name="zone_id" class="oe_no_button"
+                           placeholder="Zone" style="width: 50%%"
+                           options='{"no_open": True}'
+                           attrs="{'readonly': [('type', '=', 'contact'),('parent_id', '!=', False)]}"/>
+            </field>
+        </field>
+    </record>
+    
+    <record model="ir.ui.view" id="partners_short_form_address">
+        <field name="name">partners.short.form.address</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_short_form"/>
+        <field eval="18" name="priority"/>
+        <field name="arch" type="xml">
+            <field name="state_id" position="before">
+                    <field name="commune_id" class="oe_no_button"
+                           placeholder="City/Commune" style="width: 50%%"
+                           options='{"no_open": True}'
+                           attrs="{'readonly': [('type', '=', 'contact'),('parent_id', '!=', False)]}"/>
+                    <field name="zone_id" class="oe_no_button"
+                           placeholder="Zone" style="width: 50%%"
+                           options='{"no_open": True}'
+                           attrs="{'readonly': [('type', '=', 'contact'),('parent_id', '!=', False)]}"/>
+            </field>
+        </field>
+    </record>
+
+    </data>
+</openerp>
