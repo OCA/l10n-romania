@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+    
+    <!--Partners to be linked as related persons-->
+
+    <record id="res_partner_ppso" model="res.partner">
+        <field name="name">Pieter Parker Son</field>
+        <field eval="0" name="supplier"/>
+        <field eval="0" name="customer"/>
+        <field eval="0" name="is_company"/>            
+    </record>
+    <record id="res_partner_ppsp" model="res.partner">
+        <field name="name">Pieter Parker Spouse</field>
+        <field eval="0" name="supplier"/>
+        <field eval="0" name="customer"/>
+        <field eval="0" name="is_company"/>            
+    </record>
+    
+    <record id="res_partner_also1" model="res.partner">
+        <field name="name">Antoine Langlais Son1</field>
+        <field eval="0" name="supplier"/>
+        <field eval="0" name="customer"/>
+        <field eval="0" name="is_company"/>            
+    </record>
+    <record id="res_partner_also2" model="res.partner">
+        <field name="name">Antoine Langlais Son2</field>
+        <field eval="0" name="supplier"/>
+        <field eval="0" name="customer"/>
+        <field eval="0" name="is_company"/>            
+    </record>
+    <record id="res_partner_alsp" model="res.partner">
+        <field name="name">Antoine Langlais Spouse</field>
+        <field eval="0" name="supplier"/>
+        <field eval="0" name="customer"/>
+        <field eval="0" name="is_company"/>            
+    </record>
+    
+    <!--Employees-->
+
+      <record id="hr.employee_root" model="hr.employee">
+          <field name="country_id" ref="base.ro"/>
+          <field name="ssnid">1850720124541</field>
+      </record>
+
+      <record id="hr.employee_al" model="hr.employee">
+          <field name="country_id" ref="base.ro"/>
+          <field name="ssnid">1900601056845</field>
+      </record>
+    
+    <!--Employee Related persons-->
+    
+    <record id="root_ppso" model="hr.employee.related">        
+          <field name="employee_id" ref="hr.employee_root"/>
+          <field name="partner_id" ref="res_partner_ppso"/>
+          <field name="ssnid">2980511469378</field>
+          <field name="relation">child</field>          
+          <field name="relation_type">in_care</field>
+    </record>
+    <record id="root_ppsp" model="hr.employee.related">        
+          <field name="employee_id" ref="hr.employee_root"/>
+          <field name="partner_id" ref="res_partner_ppsp"/>
+          <field name="ssnid">2941108303800</field>
+          <field name="relation">wife</field>          
+          <field name="relation_type">coinsured</field>
+    </record>
+    
+    <record id="al_also1" model="hr.employee.related">        
+          <field name="employee_id" ref="hr.employee_al"/>
+          <field name="partner_id" ref="res_partner_also1"/>
+          <field name="ssnid">1910701529001</field>
+          <field name="relation">child</field>          
+          <field name="relation_type">in_care</field>
+    </record>
+    <record id="al_also2" model="hr.employee.related">        
+          <field name="employee_id" ref="hr.employee_al"/>
+          <field name="partner_id" ref="res_partner_also2"/>
+          <field name="ssnid">2961224437388</field>
+          <field name="relation">child</field>          
+          <field name="relation_type">in_care</field>
+    </record>
+    <record id="al_alsp" model="hr.employee.related">        
+          <field name="employee_id" ref="hr.employee_al"/>
+          <field name="partner_id" ref="res_partner_alsp"/>
+          <field name="ssnid">2930104220081</field>
+          <field name="relation">wife</field>          
+          <field name="relation_type">coinsured</field>
+    </record>
+
+    </data>
+</odoo>

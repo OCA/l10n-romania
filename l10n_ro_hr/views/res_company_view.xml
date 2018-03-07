@@ -1,0 +1,55 @@
+<?xml version="1.0"?>
+<odoo>
+    <record id="view_res_company_caen_tree" model="ir.ui.view">
+        <field name="name">res.company.caen.tree</field>
+        <field name="model">res.company.caen</field>
+        <field name="arch" type="xml">
+            <tree string="CAEN codes">
+                <field name="code"/>
+                <field name="name"/>
+                <field name="risk_class"/>
+                <field name="risk_rate"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_res_company_caen_form" model="ir.ui.view">
+        <field name="name">res.company.caen.form</field>
+        <field name="model">res.company.caen</field>
+        <field name="arch" type="xml">
+            <form string="CAEN codes">
+                <field name="code"/>
+                <field name="name"/>
+                <field name="risk_class"/>
+                <field name="risk_rate"/>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_res_company_caen_filter" model="ir.ui.view">
+        <field name="name">res.company.caen.filter</field>
+        <field name="model">res.company.caen</field>
+        <field name="arch" type="xml">
+            <search string="Search CAEN code">
+                <field name="code"/>
+                <field name="name"/>
+            </search>
+        </field>
+    </record>
+
+    <record id="view_payroll_config_page_form" model="ir.ui.view">
+        <field name="name">view_payroll_config_page_form</field>
+        <field name="model">res.company</field>
+        <field name="inherit_id" ref="base.view_company_form"/>
+        <field name="arch" type="xml">
+            <group name="social_media" position="after">
+                <group colspan="4" name="caen_config" string="CAEN Configuration">
+                    <field name="caen_id"/>
+                    <field name="risk_rate"/>
+                </group>
+            </group>
+        </field>
+    </record>
+</odoo>
+
+
