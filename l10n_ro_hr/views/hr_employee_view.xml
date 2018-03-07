@@ -1,0 +1,112 @@
+<?xml version="1.0"?>
+<odoo>
+    <record id="view_employee_form_romania" model="ir.ui.view">
+        <field name="name">view.employee.form.romania</field>
+        <field name="model">hr.employee</field>
+        <field name="inherit_id" ref="hr.view_employee_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//group[@name='active_group']" position="after">
+                <group colspan="4" string="Social Security">
+                    <field name="casang"/>
+                    <field name="person_in_care"/>
+                    <field name="person_related" context="{'employee_id': active_id, 'default_employee_id': active_id}">
+                        <tree string="Persons Related" editable="bottom">
+                            <field name="partner_id" context="{'default_customer': False, 'default_supplier': False}"/>
+                            <field name="ssnid"/>
+                            <field name="relation"/>
+                            <field name="relation_type"/>
+                        </tree>
+                    </field>
+                </group>
+            </xpath>
+            <field name="identification_id" position="before">
+                <field name="ssnid"/>
+            </field>
+            <field name="identification_id" position="after">
+                <field name="emit_by"/>
+                <field name="emit_on"/>
+                <field name="expires_on"/>
+            </field>
+            <group name="work_permit" position="before">
+                <group string="Initial Datas">
+                    <field name="ssnid_init"/>
+                    <field name="first_name_init"/>
+                    <field name="last_name_init"/>
+                </group>
+            </group>
+        </field>
+    </record>
+
+    <record id="view_hr_person_related_tree" model="ir.ui.view">
+        <field name="name">view.hr.person.related.tree</field>
+        <field name="model">hr.employee.related</field>
+        <field name="arch" type="xml">
+            <tree string="Employees Persons related">
+                <field name="employee_id"/>
+                <field name="partner_id"/>
+                <field name="name"/>
+                <field name="ssnid"/>
+                <field name="relation"/>
+                <field name="relation_type"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_hr_person_related_form" model="ir.ui.view">
+        <field name="name">view.hr.person.related.form</field>
+        <field name="model">hr.employee.related</field>
+        <field name="arch" type="xml">
+            <form string="Employees Persons related">
+                <sheet>
+                    <div class="oe_button_box" name="button_box"/>
+                    <div class="oe_title">
+                        <label for="partner_id" class="oe_edit_only"/>
+                        <h1><field name="partner_id" placeholder="e.g. John Doe" context="{'default_customer': False, 'default_supplier': False}"/></h1>
+                    </div>
+                    <group>
+                        <group string="Employee" name="employee">
+                            <field name="employee_id" options="{'no_create': True}"/>
+                        </group>
+                        <group string="Personal Data" name="personal">
+                            <field name="ssnid"/>
+                        </group>
+                        <group string="Relations" name="relations">
+                            <field name="relation"/>
+                            <field name="relation_type"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_hr_person_related_search" model="ir.ui.view">
+        <field name="name">view.hr.person.related.search</field>
+        <field name="model">hr.employee.related</field>
+        <field name="arch" type="xml">
+            <search string="Persons related">
+                <field name="employee_id"/>
+                <field name="partner_id"/>
+                <newline/>
+                <group expand="1" string="Group By...">
+                    <filter string="Employee" icon="terp-personal" domain="[]" context="{'group_by':'employee_id'}"/>
+                    <filter string="Relation" icon="terp-personal" domain="[]" context="{'group_by':'relation'}"/>
+                    <filter string="Relation Type" icon="terp-personal" domain="[]" context="{'group_by':'relation_type'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_hr_person_related_form" model="ir.actions.act_window">
+        <field name="name">Person related</field>
+        <field name="res_model">hr.employee.related</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <menuitem id="menu_hr_person_related"
+        parent="hr.menu_hr_root"
+        action="action_hr_person_related_form"
+        sequence="4"/>
+
+</odoo>
