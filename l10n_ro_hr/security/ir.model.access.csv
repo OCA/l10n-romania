@@ -1,0 +1,5 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_hr_employee_related,hr.employee.related,model_hr_employee_related,base.group_user,1,0,0,0
+access_hr_employee_related_all,hr.employee.related,model_hr_employee_related,hr.group_hr_manager,1,1,1,1
+access_res_company_caen_user,res.company.caen.user,model_res_company_caen,base.group_user,1,0,0,0
+access_res_company_caen_manager,res.company.caen.manager,model_res_company_caen,hr.group_hr_manager,1,1,1,1
