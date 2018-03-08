@@ -13,9 +13,12 @@ class Partner(models.Model):
     _inherit = ['res.partner']
     _name = 'res.partner'
 
-    street_staircase = fields.Char('Staircase Number',
-                                   compute='_split_street',
-                                   inverse='_set_street', store=True)
+    # Compute and Inverse taken from Odoo base.
+    street_staircase = fields.Char(
+        'Staircase Number',
+        compute='_split_street',  # pylint: disable=method-compute
+        inverse='_set_street',  # pylint: disable=method-inverse
+        store=True)
 
     def get_street_fields(self):
         """Returns the fields that can be used in a street format.

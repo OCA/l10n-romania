@@ -57,7 +57,7 @@ class ResConfigSettings(models.TransientModel):
         self.ensure_one()
         res = super(ResConfigSettings, self).execute()
         data_dir = os.path.join(os.path.dirname(
-            os.path.dirname(os.path.abspath(__file__))), 'data')
+            os.path.dirname(os.path.abspath(__file__))), 'examples')
         # Load SIRUTA datas if field is checked
         if self.siruta_update:
             # First check if module is installed

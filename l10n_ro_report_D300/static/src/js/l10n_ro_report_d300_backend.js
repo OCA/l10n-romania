@@ -4,12 +4,7 @@ odoo.define('l10n_ro_report_D300.l10n_ro_report_d300_backend', function (require
 var core = require('web.core');
 var Widget = require('web.Widget');
 var ControlPanelMixin = require('web.ControlPanelMixin');
-var session = require('web.session');
 var ReportWidget = require('l10n_ro_report_D300.l10n_ro_report_d300_widget');
-var framework = require('web.framework');
-var crash_manager = require('web.crash_manager');
-
-var QWeb = core.qweb;
 
 var report_backend = Widget.extend(ControlPanelMixin, {
     // Stores all the parameters of the action.
@@ -67,7 +62,7 @@ var report_backend = Widget.extend(ControlPanelMixin, {
     // Updates the control panel and render the elements that have yet to be rendered
     update_cp: function() {
         if (!this.$buttons) {
-
+            // empty
         }
         var status = {
             breadcrumbs: this.actionManager.get_breadcrumbs(),
@@ -79,7 +74,7 @@ var report_backend = Widget.extend(ControlPanelMixin, {
         this._super();
         this.update_cp();
     },
-    print: function(e) {
+    print: function() {
         var self = this;
         this._rpc({
             model: this.given_context.model,
@@ -90,7 +85,7 @@ var report_backend = Widget.extend(ControlPanelMixin, {
             self.do_action(result);
         });
     },
-    export: function(e) {
+    export: function() {
         var self = this;
         this._rpc({
             model: this.given_context.model,
