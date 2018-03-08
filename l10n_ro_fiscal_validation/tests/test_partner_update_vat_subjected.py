@@ -18,7 +18,7 @@ class TestPartnerUpdateVatSubjectedBase(common.SavepointCase):
             [('country_id', '=', cls.env.ref('base.ro').id)])
         parts.write({'country_id': False})
         data_dir = os.path.join(os.path.dirname(
-            os.path.dirname(os.path.abspath(__file__))), 'data/')
+            os.path.dirname(os.path.abspath(__file__))), 'examples/')
         context = {'tracking_disable': True}
         fdata = tools.file_open(data_dir + 'res.partner.csv')
         csvdata = pycompat.csv_reader(
