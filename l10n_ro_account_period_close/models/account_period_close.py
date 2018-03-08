@@ -80,6 +80,7 @@ class AccountPeriodClosing(models.Model):
             wheres.append(where_clause.strip())
         filters = " AND ".join(wheres)
         # compute the balance, debit and credit for the provided accounts
+        # pylint: disable=E8103
         request = ("SELECT account_id AS id, "
                    "SUM(debit) AS debit, "
                    "SUM(credit) AS credit, "
