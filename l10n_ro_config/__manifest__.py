@@ -12,6 +12,7 @@
     'license': 'AGPL-3',
     'installable': True,
     'depends': ['l10n_ro'],
-    'data': ['views/res_config_view.xml'],
+    'data': ['data/res_currency_data.xml',
+             'views/res_config_view.xml'],
     'auto_install': True,
 }

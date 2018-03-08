@@ -2,12 +2,7 @@ odoo.define('l10n_ro_report_D300.l10n_ro_report_d300_widget', function
 (require) {
 'use strict';
 
-var core = require('web.core');
 var Widget = require('web.Widget');
-
-var QWeb = core.qweb;
-
-var _t = core._t;
 
 var D300ReportWidget = Widget.extend({
     events: {
@@ -24,8 +19,8 @@ var D300ReportWidget = Widget.extend({
         return this._super.apply(this, arguments);
     },
     boundLink: function(e) {
-        var res_model = $(e.target).data('res-model')
-        var res_id = $(e.target).data('active-id')
+        var res_model = $(e.target).data('res-model');
+        var res_id = $(e.target).data('active-id');
         return this.do_action({
             type: 'ir.actions.act_window',
             res_model: res_model,
@@ -35,8 +30,8 @@ var D300ReportWidget = Widget.extend({
         });
     },
     boundLinkmulti: function(e) {
-        var res_model = $(e.target).data('res-model')
-        var res_id = $(e.target).data('active-id')
+        var res_model = $(e.target).data('res-model');
+        var res_id = $(e.target).data('active-id');
         return this.do_action({
             type: 'ir.actions.act_window',
             res_model: res_model,
