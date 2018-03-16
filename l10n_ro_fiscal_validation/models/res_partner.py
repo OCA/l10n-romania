@@ -3,6 +3,7 @@
 
 import time
 import requests
+from requests.adapters import HTTPAdapter
 
 from odoo import api, fields, models
 
@@ -10,8 +11,9 @@ CEDILLATRANS = bytes.maketrans(u'\u015f\u0163\u015e\u0162'.encode(
     'utf8'), u'\u0219\u021b\u0218\u021a'.encode('utf8'))
 
 headers = {
-    "User-Agent": "Mozilla/5.0 (compatible; MSIE 7.01; Windows NT 5.0)",
-    "Content-Type": "application/json;"
+    "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 "
+                  "(KHTML, like Gecko) Chrome/56.0.2924.87 Safari/537.36",
+    "Content-Type": "application/json;charset=UTF-8"
 }
 
 ANAF_BULK_URL = 'https://webservicesp.anaf.ro/AsynchWebService/api/v3/ws/tva'
@@ -23,6 +25,8 @@ class ResPartner(models.Model):
 
     @api.multi
     def update_vat_subjected(self):
+        s = request.Session()
+        s.mount('https', HTTPAdapter(max_retries=3))
         anaf_dict = []
         check_date = fields.Date.today()
         # Build list of vat numbers to be checked on ANAF
@@ -39,16 +43,16 @@ class ResPartner(models.Model):
             anaf_ask = []
             for item in chunk:
                 anaf_ask.append({'cui': int(item), 'data': check_date})
-            res = requests.post(
+            res = s.post(
                 ANAF_BULK_URL,
                 json=anaf_ask,
                 headers=headers)
-            if res.status_code == 200:
+            if res.raise_for_status():
                 res = res.json()
                 if res['correlationId']:
                     time.sleep(3)
-                    resp = requests.get(ANAF_CORR % res['correlationId'])
-                    if resp.status_code == 200:
+                    resp = s.get(ANAF_CORR % res['correlationId'])
+                    if resp.raise_for_status():
                         resp = resp.json()
                         for res in resp['found'] + resp['notfound']:
                             partner = self.search(
@@ -56,6 +60,7 @@ class ResPartner(models.Model):
                             if partner:
                                 data = partner._Anaf_to_Odoo(res)
                                 partner.update(data)
+            time.sleep(2)
 
     @api.multi
     def update_vat_subjected_all(self):
