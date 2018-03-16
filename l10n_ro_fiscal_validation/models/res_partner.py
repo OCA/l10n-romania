@@ -25,7 +25,7 @@ class ResPartner(models.Model):
 
     @api.multi
     def update_vat_subjected(self):
-        s = request.Session()
+        s = requests.Session()
         s.mount('https', HTTPAdapter(max_retries=3))
         anaf_dict = []
         check_date = fields.Date.today()
