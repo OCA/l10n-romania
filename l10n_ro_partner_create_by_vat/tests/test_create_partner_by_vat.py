@@ -1,6 +1,7 @@
 # Copyright  2017 Forest and Biomass Romania
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
+import time
 from odoo.tests import common
 
 
@@ -28,6 +29,7 @@ class TestCreatePartner(TestCreatePartnerBase):
         ''' Check onchange vat from ANAF.'''
         # Test onchange from ANAF
         with self.env.do_in_onchange():
+            time.sleep(1)
             self.mainpartner.vat = 'RO30834857'
             self.mainpartner.vies_vat_change()
             self.assertEqual(self.mainpartner.name,
@@ -40,6 +42,7 @@ class TestCreatePartner(TestCreatePartnerBase):
             self.assertEqual(self.mainpartner.country_id,
                              self.env.ref('base.ro'))
             # Check inactive vatnumber
+            time.sleep(1)
             self.mainpartner.vat = 'RO27193515'
             self.mainpartner.vies_vat_change()
             self.assertEqual(self.mainpartner.name,
@@ -52,6 +55,7 @@ class TestCreatePartner(TestCreatePartnerBase):
             self.assertEqual(self.mainpartner.country_id,
                              self.env.ref('base.ro'))
             # Check address from commune
+            time.sleep(1)
             self.mainpartner.vat = 'RO8235738'
             self.mainpartner.vies_vat_change()
             self.assertEqual(self.mainpartner.name,
