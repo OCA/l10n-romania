@@ -17,13 +17,14 @@ class AccountInvoice(models.Model):
         fp_model = self.env['account.fiscal.position']
         vatp = False
         ctx = dict(self._context)
-        company_id = self.company_id.id
-        partner = self.partner_id if not company_id else \
-            self.partner_id.with_context(force_company=company_id)
+        company = self.company_id
+        partner = self.env['res.partner']._find_accounting_partner(
+            self.partner_id) if not company else \
+            self.partner_id.with_context(force_company=company.id)
         if self.date_invoice:
             ctx.update({'check_date': self.date_invoice})
         if 'out' in self.type:
-            vatp = company_id.partner_id.with_context(
+            vatp = company.partner_id.with_context(
                 ctx)._check_vat_on_payment()
         else:
             vatp = partner.with_context(ctx)._check_vat_on_payment()
