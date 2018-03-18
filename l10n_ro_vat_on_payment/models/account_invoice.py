@@ -19,15 +19,15 @@ class AccountInvoice(models.Model):
         ctx = dict(self._context)
         company = self.company_id
         partner = self.env['res.partner']._find_accounting_partner(
-            self.partner_id) if not company else \
-            self.partner_id.with_context(force_company=company.id)
+            self.partner_id) or self.partner_id
         if self.date_invoice:
             ctx.update({'check_date': self.date_invoice})
         if 'out' in self.type:
             vatp = company.partner_id.with_context(
                 ctx)._check_vat_on_payment()
         else:
-            vatp = partner.with_context(ctx)._check_vat_on_payment()
+            if partner:
+                vatp = partner.with_context(ctx)._check_vat_on_payment()
         if vatp:
             fptvainc = fp_model.search(
                 [('name', 'ilike', 'Regim TVA la Incasare')])
