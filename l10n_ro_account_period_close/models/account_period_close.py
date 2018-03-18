@@ -212,8 +212,8 @@ class AccountPeriodClosing(models.Model):
                             ' ' + str(debit_acc.code),
                     'move_id': move.id,
                     'account_id': debit_acc.id,
-                    'credit': 0.0,
-                    'debit': new_amount,
+                    'credit': new_amount,
+                    'debit': 0.0,
                 }
                 self.env['account.move.line'].with_context(
                     check_move_validity=False).create(diff_line)
@@ -222,8 +222,8 @@ class AccountPeriodClosing(models.Model):
                             ' ' + str(credit_acc.code),
                     'move_id': move.id,
                     'account_id': credit_acc.id,
-                    'credit': new_amount,
-                    'debit': 0.0,
+                    'credit': 0.0,
+                    'debit': new_amount,
                 }
                 self.env['account.move.line'].with_context(
                     check_move_validity=False).create(diff_line)
