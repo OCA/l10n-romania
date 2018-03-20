@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <template id="l10n_ro_report_D300.internal_layout">
+        <t t-if="o and 'company_id' in o">
+            <t t-set="company" t-value="o.company_id"/>
+        </t>
+        <t t-if="not o or not 'company_id' in o">
+            <t t-set="company" t-value="res_company"/>
+        </t>
+        <div class="header">
+            <div class="row">
+                <div class="col-xs-3 mb4">
+                    <img t-if="company.logo" t-att-src="'data:image/png;base64,%s' % to_text(company.logo)" style="max-height: 45px;"/>
+                </div>
+                <div class="col-xs-9 text-right" style="margin-top:22px;" t-field="company.report_header" name="moto"/>
+            </div>
+            <div t-if="company.logo or company.report_header" class="row zero_min_height">
+                <div class="col-xs-12">
+                    <div style="border-bottom: 1px solid black;"/>
+                </div>
+            </div>
+            <div class="row">
+                <h4 class="mt0" style="padding-left:10px;"  t-field="company.name"/>
+            </div>
+            <div class="row">
+                <div class="col-xs-6" name="company_vat">
+                    <t t-if="company.vat"><t t-esc="company.country_id.vat_label or 'TIN'"/>: <span t-field="company.vat"/></t>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-6" name="company_nrc">
+                    <t t-if="company.partner_id.nrc"><t t-esc="'NRC'"/>: <span t-field="company.partner_id.nrc"/></t>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-6" name="company_address">
+                    <span t-field="company.partner_id"
+                        t-options='{"widget": "contact", "fields": ["address"], "no_marker": true}'
+                        style="border-bottom: 1px solid black; display:inline-block;"/>
+                </div>
+            </div>
+        </div>
+
+        <div class="article">
+            <link href="/l10n_ro_report_D300/static/src/css/report.css" rel="stylesheet"/>
+            <t t-raw="0"/>
+        </div>
+
+        <div class="footer">
+            <div class="row">
+                <div class="col-xs-6 custom_footer">
+                    <span t-esc="context_timestamp(datetime.datetime.now()).strftime('%Y-%m-%d %H:%M')"/>
+                </div>
+                <div class="col-xs-6 text-right custom_footer">
+                    <ul class="list-inline">
+                        <li><span class="page"/></li>
+                        <li>/</li>
+                        <li><span class="topage"/></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </template>
+
+</odoo>

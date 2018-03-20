@@ -1,0 +1,176 @@
+id,code,name
+hr_medical_emergency_disease_1,1,arsurile
+hr_medical_emergency_disease_2,2,"anemiile severe, cu complicatii cardiovasculare"
+hr_medical_emergency_disease_3,3,accidentele tromboembolice la pacientii cu tromboflebita ereditara
+hr_medical_emergency_disease_4,4,"accidente toxice hematologice si viscerale, secundare tratamentelor cu citostatice"
+hr_medical_emergency_disease_5,5,accidentele survenite dupa terapia de substitutie cu produse sanguine
+hr_medical_emergency_disease_6,6,accidente cardiace sau vasculare dupa cateterism cardiac
+hr_medical_emergency_disease_7,7,angioaccesul pentru dializa extrarenala
+hr_medical_emergency_disease_8,8,artrita gutoasa acuta
+hr_medical_emergency_disease_9,9,angiocolecistita acuta
+hr_medical_emergency_disease_10,10,artritele reactive in puseu acut
+hr_medical_emergency_disease_11,11,artritele septice
+hr_medical_emergency_disease_12,12,abdomenul acut medico-chirurgical
+hr_medical_emergency_disease_13,13,abcesul pulmonar
+hr_medical_emergency_disease_14,14,anuria
+hr_medical_emergency_disease_15,15,astmul bronsic in criza
+hr_medical_emergency_disease_16,16,"accidentele vasculare cerebrale (infarctul cerebral, hemoragia cerebrala, hemoragia subarahnoidiana, atacul ischemic tranzitoriu)"
+hr_medical_emergency_disease_17,17,atacul migrenos
+hr_medical_emergency_disease_18,18,atacul cerebral
+hr_medical_emergency_disease_19,19,avortul complicat septic sau cu soc hemoragic
+hr_medical_emergency_disease_20,20,atacul acut de glaucom
+hr_medical_emergency_disease_21,21,apoplexia utero-placentara
+hr_medical_emergency_disease_22,22,abcesul sau flegmonul cu stare septica
+hr_medical_emergency_disease_23,23,bolile cardiace congenitale ale nou-nascutului si copilului mic
+hr_medical_emergency_disease_24,24,"bronhopneumonia, pneumopatiile acute virale si bacteriene"
+hr_medical_emergency_disease_25,25,BPOC cu insuficienta respiratorie severa
+hr_medical_emergency_disease_26,26,blocurile atrio-ventriculare simptomatice neonatale
+hr_medical_emergency_disease_27,27,bolile medico-chirurgicale specifice perinatale
+hr_medical_emergency_disease_28,28,criza epileptica si starea de rau epileptic
+hr_medical_emergency_disease_29,29,criza miastenica
+hr_medical_emergency_disease_30,30,"cetoacidoza la pacientii cu diabet zaharat tip 1, tip 2 si in diabetul gestational"
+hr_medical_emergency_disease_31,31,chistul hidatic evacuat
+hr_medical_emergency_disease_32,32,"corpii straini (nazali, faringieni, laringieni, traheo-bronhici, esofagieni, auriculari cu lezarea partilor conductului auditiv extern sau a timpanului"
+hr_medical_emergency_disease_33,33,conjunctivita acuta virala sau microbiana
+hr_medical_emergency_disease_34,34,corpii straini penetranti sau nepenetranti in globul ocular
+hr_medical_emergency_disease_35,35,"colica renala, biliara, abdominala"
+hr_medical_emergency_disease_36,36,colecistita acuta
+hr_medical_emergency_disease_37,37,colita ischemica
+hr_medical_emergency_disease_38,38,complicatiile sarcinii
+hr_medical_emergency_disease_39,39,complicatiile litiazei reno-ureterale si vezicale
+hr_medical_emergency_disease_40,40,criza de lumbago
+hr_medical_emergency_disease_41,41,coma hipofizara
+hr_medical_emergency_disease_42,42,criza tireotoxica
+hr_medical_emergency_disease_43,43,coma mixedematoasa
+hr_medical_emergency_disease_44,44,coma hiperglicemica
+hr_medical_emergency_disease_45,45,"comele diabetice (cetoacidoza, hiperosmolara si lactica)"
+hr_medical_emergency_disease_46,46,come de alte etiologii
+hr_medical_emergency_disease_47,47,criza addisoniana
+hr_medical_emergency_disease_48,48,criza de hemoliza acuta extra- si intravasculara
+hr_medical_emergency_disease_49,49,complicatiile hemoragice dupa interventii cardiovasculare
+hr_medical_emergency_disease_50,50,complicatiile septice dupa interventiile cardiovasculare
+hr_medical_emergency_disease_51,51,"carditele acute (endocardite, miocardite si pericardite)"
+hr_medical_emergency_disease_52,52,"crizele severe de cianoza, hipoxie, acidoze in cardiovascular"
+hr_medical_emergency_disease_53,53,"convulsiile, starea de rau convulsiv"
+hr_medical_emergency_disease_54,54,disgravidia precoce - forma severa
+hr_medical_emergency_disease_55,55,disgravidia tardiva
+hr_medical_emergency_disease_56,56,dermatomizitele active
+hr_medical_emergency_disease_57,57,diabetul zaharat tip 1 nou-depistat
+hr_medical_emergency_disease_58,58,diabetul gestational nou-depistat
+hr_medical_emergency_disease_59,59,delirium
+hr_medical_emergency_disease_60,60,decolarea de retina
+hr_medical_emergency_disease_61,61,"dispneea faringiana, laringiana, traheala inalta"
+hr_medical_emergency_disease_62,62,disfagia totala de cauza bucofaringiana sau esofagiana
+hr_medical_emergency_disease_63,63,"disectia de aorta, anevrismul disecant al aortei si alte leziuni parietale cu manifestari acute"
+hr_medical_emergency_disease_64,64,disfunctiile acute de proteze cardiace
+hr_medical_emergency_disease_65,65,edemul pulmonar acut
+hr_medical_emergency_disease_66,66,edemul pulmonar acut de cauza cardiovasculara
+hr_medical_emergency_disease_67,67,encefalopatia hepatica
+hr_medical_emergency_disease_68,68,eritrocitoze asociate cu fenomene de sludge
+hr_medical_emergency_disease_69,69,embolia pulmonara
+hr_medical_emergency_disease_70,70,eclampsia si preeclampsia
+hr_medical_emergency_disease_71,71,"flebita si tromboflebita profunda, extensiva"
+hr_medical_emergency_disease_72,72,gamapatiile monoclonale cu sindrom de hiperviscozitate
+hr_medical_emergency_disease_73,73,hemoptizia
+hr_medical_emergency_disease_74,74,hematuria
+hr_medical_emergency_disease_75,75,"hemoragiile nazale (epistaxisul major, epistaxisul minor, repetat cu anemie secundara), faringiene, laringiene, traheale (posttraumatice, tumorale) si hemoragii exteriorizate prin conductul auditiv extern"
+hr_medical_emergency_disease_76,76,hemoragia digestiva superioara (hematemeza)
+hr_medical_emergency_disease_77,77,hemoragia digestiva inferioara
+hr_medical_emergency_disease_78,78,hemoragiile genitale
+hr_medical_emergency_disease_79,79,hemoragia in vitros si retinopatia diabetica preproliferativa si proliferativa (cazuri noi)
+hr_medical_emergency_disease_80,80,hipertrigliceridemiile severe (>1.000 mg/l)
+hr_medical_emergency_disease_81,81,hepatita acuta toxica/medicamentoasa
+hr_medical_emergency_disease_82,82,hipercalcemia
+hr_medical_emergency_disease_83,83,hipertensiunea arteriala paroxistica
+hr_medical_emergency_disease_84,84,insuficientele cardiorespiratorii acute
+hr_medical_emergency_disease_85,85,insuficienta respiratorie la obezitate cu risc crescut (IMC>40)
+hr_medical_emergency_disease_86,86,"infectiile acute ale cailor respiratorii superioare, cu alterarea starii generale"
+hr_medical_emergency_disease_87,87,infectiile acute ale mainii
+hr_medical_emergency_disease_88,88,"infectiile acute rinosinusale, otice, faringiene, perifaringiene si cervicomediastinale"
+hr_medical_emergency_disease_89,89,infectiile si inflamatiile acute ale anexelor globului ocular
+hr_medical_emergency_disease_90,90,infectiile acute osoase
+hr_medical_emergency_disease_91,91,infectiile acute urinare
+hr_medical_emergency_disease_92,92,insuficienta renala acuta
+hr_medical_emergency_disease_93,93,insuficienta corticosuprarenala acuta (iatrogena sau de alte cauze)
+hr_medical_emergency_disease_94,94,"ischemia viscerala (renala, enteromezenterica, hepatica, splenica)"
+hr_medical_emergency_disease_95,95,intoxicatiile acute voluntare si involuntare
+hr_medical_emergency_disease_96,96,keratita virala sau microbiana
+hr_medical_emergency_disease_97,97,"lovirea sau alte acte de violenta ce au avut ca rezultat vatamarea corporala, conform art. 180, 181, 182, 184 si 211 (talharia) din Codul penal"
+hr_medical_emergency_disease_98,98,lombosciatica
+hr_medical_emergency_disease_99,99,"lupusul eritematos sistemic activ, cu manifestari renale miocardice seroase, vasculitice"
+hr_medical_emergency_disease_100,100,leucemia acuta in faza de evolutie initiala sau de recadere
+hr_medical_emergency_disease_101,101,leucemiile cronice cu hiperleucocitoza si sindrom de leucostaza
+hr_medical_emergency_disease_102,102,limfoame maligne cu mase ganglionare compresive
+hr_medical_emergency_disease_103,103,nevralgia cervicobrahiala
+hr_medical_emergency_disease_104,104,ocluziile intestinale
+hr_medical_emergency_disease_105,105,ocluziile vasculare retiniene
+hr_medical_emergency_disease_106,106,pusee acute de scleroza in placi
+hr_medical_emergency_disease_107,107,paraliziile periodice diskaliemice
+hr_medical_emergency_disease_108,108,pleureziile acute virale si bacteriene
+hr_medical_emergency_disease_109,109,pneumotoraxul neterapeutic
+hr_medical_emergency_disease_110,110,polimiozite acute
+hr_medical_emergency_disease_111,111,pneumopatia de aspiratie
+hr_medical_emergency_disease_112,112,plagi si traumatisme cardiopericardice si vasculare
+hr_medical_emergency_disease_113,113,plagi complicate
+hr_medical_emergency_disease_114,114,plagi ale globului ocular si organelor anexe
+hr_medical_emergency_disease_115,115,parodontita apicala acuta
+hr_medical_emergency_disease_116,116,pulpita acuta
+hr_medical_emergency_disease_117,117,poliradiculonevrita acuta
+hr_medical_emergency_disease_118,118,paralizia periferica de nerv facial
+hr_medical_emergency_disease_119,119,penetratia si perforatia ulcerelor
+hr_medical_emergency_disease_120,120,pancreatitele acute
+hr_medical_emergency_disease_121,121,peritonita
+hr_medical_emergency_disease_122,122,patologia inflamatorie acuta a uterului si anexelor
+hr_medical_emergency_disease_123,123,periartrita scapulolumelara - umerul acut hiperalgic
+hr_medical_emergency_disease_124,124,poliartrita reumatoida activa in puseu acut
+hr_medical_emergency_disease_125,125,pericardita acuta cu tamponada cardiaca
+hr_medical_emergency_disease_126,126,politraumatisme cu leziuni importante
+hr_medical_emergency_disease_127,127,reumatismul articular acut
+hr_medical_emergency_disease_128,128,rectocolita hemoragica - puseu acut - megacolonul toxic
+hr_medical_emergency_disease_129,129,reactiile alergice
+hr_medical_emergency_disease_130,130,reactiile alergice oculare
+hr_medical_emergency_disease_131,131,"reactiile adverse, severe la terapia hipoglicemianta orala (cutanate si digestive)"
+hr_medical_emergency_disease_132,132,retentia acuta de urina
+hr_medical_emergency_disease_133,133,starile comatoase de cauza neurologica
+hr_medical_emergency_disease_134,134,"starile confuzionale acute in afectiunile sistemice, inclusiv in bolile nutritionale si metabolice ale sistemului nervos"
+hr_medical_emergency_disease_135,135,sindroamele cefalgice acute
+hr_medical_emergency_disease_136,136,sindroamele septice
+hr_medical_emergency_disease_137,137,sindromul de agitatie psihomotorie
+hr_medical_emergency_disease_138,138,sindromul psihopatic acut
+hr_medical_emergency_disease_139,139,sindromul catatonic
+hr_medical_emergency_disease_140,140,sindromul discomportamental violent
+hr_medical_emergency_disease_141,141,sarcina extrauterina
+hr_medical_emergency_disease_142,142,sincopa
+hr_medical_emergency_disease_143,143,sindromul de ischemie periferica acuta
+hr_medical_emergency_disease_144,144,"supuratiile acute si cele cronice, reactualizate"
+hr_medical_emergency_disease_145,145,sindroamele vestibulare in criza
+hr_medical_emergency_disease_146,146,surditatea brusc instalata sau brusc agravata
+hr_medical_emergency_disease_147,147,sangerarile uterine disfunctionale
+hr_medical_emergency_disease_148,148,sindromul de debit cardiac scazut prin colmatarea valvulelor
+hr_medical_emergency_disease_149,149,socul cardiogen si alte stari de debit cardiac scazut
+hr_medical_emergency_disease_150,150,"sindroamele coronariene acute (infarctul acut de miocard, angina instabila)"
+hr_medical_emergency_disease_151,151,"starile de instabilitate hemodinamica sau aritmia acuta survenita la bolnavii cu cardiopatii cronice, care le pot pune in pericol viata"
+hr_medical_emergency_disease_152,152,sindroame hemoragice cu manifestari clinice ce pun in pericol viata
+hr_medical_emergency_disease_153,153,sindromul febril
+hr_medical_emergency_disease_154,154,sindromul de hiperuricemie
+hr_medical_emergency_disease_155,155,"traumatismele musculare neurovasculare, osteoarticulare, tegumentare si viscerale recente"
+hr_medical_emergency_disease_156,156,traumatismele craniene si ale maduvei spinarii
+hr_medical_emergency_disease_157,157,traumatismele toracice cu insuficienta respiratorie
+hr_medical_emergency_disease_158,158,tulburarea depresiva cu risc suicidar
+hr_medical_emergency_disease_159,159,tulburarea anxioasa paroxistica (atacul de panica)
+hr_medical_emergency_disease_160,160,tulburarea acuta de stres
+hr_medical_emergency_disease_161,161,traumatismele aparatului urinar
+hr_medical_emergency_disease_162,162,"traumatismele aparatului locomotor (fracturi, luxatii, entorse, rupturi de tendoane, rupturi musculare), cu exceptia celor determinate de alcoolism"
+hr_medical_emergency_disease_163,163,tumorile maligne sangerande
+hr_medical_emergency_disease_164,164,tromboflebita orbito-cavernoasa
+hr_medical_emergency_disease_165,165,traumatismele orbito-oculare cu complicatii
+hr_medical_emergency_disease_166,166,traumatismele abdominale
+hr_medical_emergency_disease_167,167,"tumorile neuroendocrine cu eliberari paroxistice de insulina, VIP, serotonina, glucagon"
+hr_medical_emergency_disease_168,168,trombembolismul pulmonar acut
+hr_medical_emergency_disease_169,169,tulburarile acute paroxistice de ritm supraventriculare
+hr_medical_emergency_disease_170,170,tahicardiile ventriculare
+hr_medical_emergency_disease_171,171,tromboflebita acuta proximala severa
+hr_medical_emergency_disease_172,172,trombocitozele complicate cu eritromelalgie si cu alte fenomene de constrictie a microcirculatiei
+hr_medical_emergency_disease_173,173,"urgentele hipertensive (encefalopatia hipertensiva, criza hipertensiva, hemoragia cerebromeningee, eclampsia)"
+hr_medical_emergency_disease_174,174,"uveita optica, cu exceptia celei alcoolo-tabagice"
+hr_medical_emergency_disease_175,175,ulcerul gastroduodenal in puseu acut.

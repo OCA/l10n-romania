@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record model="ir.ui.view" id="partner_vat_on_payment_filter">
+            <field name="name">partners_vat_on_payment_filter</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="base.view_res_partner_filter"/>
+            <field name="arch" type="xml">
+                <field name="user_id" position="before">
+                    <filter name="VAT on Payment" domain="[('vat_on_payment','=',1)]"/>
+                </field>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="partner_vat_on_payment_tree">
+            <field name="name">partners_vat_on_payment_tree</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="base.view_partner_tree"/>
+            <field name="arch" type="xml">
+                <field name="user_id" position="before">
+                    <field name="vat_on_payment" invisible="1"/>
+                </field>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="partners_form_add_vat_payment">
+        <field name="name">partners_form_add_vat_payment</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_form"/>
+        <field name="arch" type="xml">
+            <field name="vat" position="after">
+                <label for="vat_on_payment"/>
+                <div name="vat_on_payment_info" class="o_row">
+                    <field name="vat_on_payment"
+                        attrs="{'invisible': [
+                            ('vat', '=', False),
+                            ('company_type', '=', 'company')]}"/>
+                    <button name="check_vat_on_payment"
+                        attrs="{'invisible': [
+                            ('vat', '=', False),
+                            ('is_company', '=', False )]}"
+                        string="Update VAT on Payment" type="object"
+                        class="oe_highlight"/>
+                </div>
+            </field>
+        </field>
+    </record>
+
+    <record id="view_partner_anaf_form" model="ir.ui.view">
+        <field name="name">res.partner.vat.inherit</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="account.view_partner_property_form"/>
+        <field name="arch" type="xml">
+            <page name="accounting" position="inside">
+                <separator string="ANAF - VAT on Payment"/>
+                <field name="anaf_history">
+                    <tree string="ANAF History">
+                        <field name="start_date"/>
+                        <field name="end_date"/>
+                        <field name="publish_date"/>
+                        <field name="operation_date"/>
+                        <field name="operation_type"/>
+                    </tree>
+                </field>
+            </page>
+        </field>
+    </record>
+
+</odoo>
+
