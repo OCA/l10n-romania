@@ -12,8 +12,9 @@ CEDILLATRANS = bytes.maketrans(u'\u015f\u0163\u015e\u0162'.encode(
     'utf8'), u'\u0219\u021b\u0218\u021a'.encode('utf8'))
 
 headers = {
-    "User-Agent": "Mozilla/5.0 (compatible; MSIE 7.01; Windows NT 5.0)",
-    "Content-Type": "application/json;"
+    "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 "
+                  "(KHTML, like Gecko) Chrome/56.0.2924.87 Safari/537.36",
+    "Content-Type": "application/json;charset=UTF-8"
 }
 
 ANAF_URL = 'https://webservicesp.anaf.ro/PlatitorTvaRest/api/v3/ws/tva'
@@ -35,7 +36,7 @@ class ResPartner(models.Model):
         res = requests.post(ANAF_URL, json=[{'cui': cod, 'data': data}],
                             headers=headers)
         result = {}
-        if res.status_code == 200:
+        if res.raise_for_status():
             res = res.json()
             if res['found'] and res['found'][0]:
                 result = res['found'][0]
