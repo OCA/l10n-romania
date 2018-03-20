@@ -102,8 +102,29 @@ class MT940Parser(MT940):
         """Initialize parser - override at least header_regex."""
         super(MT940Parser, self).__init__()
         self.mt940_type = 'BRD'
-        self.header_lines = 1
+        self.header_lines = 0
         self.header_regex = '^:20:'  # Start of relevant data
+
+    def is_mt940_statement(self, line):
+        """determine if line is the start of a statement"""
+        if not bool(line.startswith(':20:')):
+            raise ValueError(
+                'The pre processed match %s does not seem to be a'
+                ' valid %s MT940 format bank statement. Every statement'
+                ' should start be a dict starting with {4:..' % line
+            )
+
+    def pre_process_data(self, data):
+        matches = []
+        self.is_mt940(line=data)
+        data = data.replace(
+            '-}', '}').replace('}{', '}\r\n{').replace('\r\n', '\n')
+        if data.startswith(':20:'):
+            for statement in data.split(':20:'):
+                match = ':20:' + statement
+                matches.append(match)
+            return matches
+        return super(MT940Parser, self).pre_process_data(data)
 
     def handle_tag_25(self, data):
         """Local bank account information."""
