@@ -1,0 +1,269 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <template id="l10n_ro_report_trial_balance.l10n_ro_report_trial_balance_qweb">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="o">
+                <t t-call="l10n_ro_report_trial_balance.internal_layout">
+                    <t t-call="l10n_ro_report_trial_balance.l10n_ro_report_trial_balance_base"/>
+                </t>
+            </t>
+        </t>
+    </template>
+
+    <template id="l10n_ro_report_trial_balance.l10n_ro_report_trial_balance_base">
+        <!-- Defines global variables used by internal layout -->
+        <t t-set="title">Trial Balance</t>
+        <t t-set="company_name" t-value="o.company_id.name"/>
+        <div class="page data_table">
+            <!-- Display filters -->
+            <t t-call="l10n_ro_report_trial_balance.l10n_ro_report_trial_balance_filters"/>
+            <div class="page_break"/>
+
+            <!-- Display account lines -->
+            <div class="act_as_table data_table" style="width: 100% !important;">
+                <!-- Display account header -->
+                <t t-call="l10n_ro_report_trial_balance.l10n_ro_report_trial_balance_lines_header"/>
+                <!-- Display each lines -->
+                <t t-set="padding" t-value="0"/>
+                <t t-set="firstdate" t-value="time.strftime('%Y-01-01', time.strptime(o.date_from, '%Y-%m-%d'))"/>
+                <t t-if="o.line_account_ids">
+                    <t t-set="level" t-value="0"/>
+                    <t t-foreach="o.line_account_ids" t-as="line">
+                        <t t-set="style" t-value="'font-size:8px;'"/>
+                        <t t-if="line.account_group_id">
+                            <t t-set="level" t-value="line.account_group_id.level"/>
+                        </t>
+                        <t t-set="padding" t-value="level * 4"/>
+                        <t t-set="style" t-value="'font-size: ' + str(14 - level) + 'px; margin-left: ' + str(level * 4) + 'px;'"/>
+                        <t t-if="line.account_group_id">
+                            <t t-set="style" t-value="style + 'font-weight: bold; color: blue;'"/>
+                        </t>              
+                            
+                        <!-- Display account group lines -->
+                        <t t-call="l10n_ro_report_trial_balance.l10n_ro_report_trial_balance_line"/>                        
+                    </t>
+                </t>
+            </div>
+        </div>
+    </template>
+
+    <template id="l10n_ro_report_trial_balance.l10n_ro_report_trial_balance_filters">
+        <div class="act_as_table data_table" style="width: 100% !important;">
+            <div class="act_as_row labels">
+                <div class="act_as_cell">Date range filter</div>
+                <div class="act_as_cell">Target moves filter</div>
+                <div class="act_as_cell">With Special Accounts</div>
+            </div>
+            <div class="act_as_row">
+                <div class="act_as_cell">
+                    From: <span t-field="o.date_from"/> To: <span t-field="o.date_to"/>
+                </div>
+                <div class="act_as_cell">
+                    <t t-if="o.only_posted_moves">All posted entries</t>
+                    <t t-if="not o.only_posted_moves">All entries</t>
+                </div>
+                <div class="act_as_cell">
+                    <t t-if="o.with_special_accounts">Yes</t>
+                    <t t-if="not o.with_special_accounts">No</t>
+                </div>
+            </div>
+        </div>
+    </template>
+
+    <template id="l10n_ro_report_trial_balance.l10n_ro_report_trial_balance_lines_header">
+        <!-- Display table headers for lines -->
+        <div class="act_as_thead">
+            <div class="act_as_row labels" style="font-size:12px; font-weight: bold;">
+                <!--## Code-->
+                <div class="act_as_cell" style="width: 5%;">Code</div>
+                <!--## Account-->
+                <div class="act_as_cell" style="width: 20%;">Account</div>
+                <!--## Opening Debit-->
+                <div class="act_as_cell" style="width: 7%;">Opening Debit</div>
+                <!--## Opening Credit-->
+                <div class="act_as_cell" style="width: 7%;">Opening Credit</div>
+                <!--## Initial balance-->
+                <div class="act_as_cell" style="width: 7%;">Initial debit</div>
+                <!--## Initial balance-->
+                <div class="act_as_cell" style="width: 7%;">Initial credit</div>
+                <!--## Current Debit-->
+                <div class="act_as_cell" style="width: 7%;">Current Debit</div>
+                <!--## Current Credit-->
+                <div class="act_as_cell" style="width: 7%;">Current Credit</div>
+                <!--## Total Debit-->
+                <div class="act_as_cell" style="width: 7%;">Total Debit</div>
+                <!--## Total Credit-->
+                <div class="act_as_cell" style="width: 7%;">Total Credit</div>
+                <!--## Balance Debit-->
+                <div class="act_as_cell" style="width: 7%;">Balance Debit</div>
+                <!--## Balance Credit-->
+                <div class="act_as_cell" style="width: 7%;">Balance Credit</div>
+            </div>
+        </div>
+    </template>
+
+    <template id="l10n_ro_report_trial_balance.l10n_ro_report_trial_balance_line">
+        <!-- # line -->
+        <div class="act_as_row lines">
+            <t t-if="line.account_id">
+                <t t-set="res_model" t-value="'account.account'"/>
+                <t t-set="res_id" t-value="line.account_id.id"/>
+                <t t-set="accounts" t-value="line.account_id._ids"/>
+            </t>
+            <t t-if="line.account_group_id">
+                <t t-set="res_model" t-value="'account.group'"/>
+                <t t-set="res_id" t-value="line.account_group_id.id"/>
+                <t t-set="accounts" t-value="line.account_group_id.compute_account_ids._ids"/>
+            </t>
+            <!--## Code-->
+            <div class="act_as_cell left">
+                <span>
+                    <a t-att-data-active-id="res_id"
+                        t-att-data-res-model="res_model"
+                        class="o_l10n_ro_report_trial_balance_web_action"
+                        t-att-style="style">
+                        <t t-att-style="style" t-raw="line.code"/></a>
+                </span>
+            </div>
+            <!--## Account-->
+            <div class="act_as_cell left">
+                <span>
+                    <a t-att-data-active-id="res_id"
+                        t-att-data-res-model="res_model"
+                        class="o_l10n_ro_report_trial_balance_web_action"
+                        t-att-style="style">
+                        <t t-att-style="style" t-raw="line.name"/></a>
+                </span>              
+            </div>
+            <!--## Opening Debit-->
+            <div class="act_as_cell amount">
+                <t t-set="domain" t-value="[('account_id', 'in', accounts),
+                                            ('date', '&lt;', firstdate),
+                                            ('debit', '&lt;&gt;', 0)]"/>
+                <span>
+                    <a t-att-data-res-model="'account.move.line'"
+                       t-att-data-domain="domain"
+                       t-att-style="style"
+                       class="o_l10n_ro_report_trial_balance_web_action_multi">
+                    <t t-att-style="style" t-raw="line.debit_opening" t-options="{'widget': 'monetary', 'display_currency': res_company.currency_id}"/></a>
+                </span>
+            </div>
+            <!--## Opening Credit-->
+            <div class="act_as_cell amount">
+                <t t-set="domain" t-value="[('account_id', 'in', accounts),
+                                            ('date', '&lt;', firstdate),
+                                            ('credit', '&lt;&gt;', 0)]"/>
+                <span>
+                    <a t-att-data-res-model="'account.move.line'"
+                       t-att-data-domain="domain"
+                       t-att-style="style"
+                       class="o_l10n_ro_report_trial_balance_web_action_multi">
+                    <t t-att-style="style" t-raw="line.credit_opening" t-options="{'widget': 'monetary', 'display_currency': res_company.currency_id}"/></a>
+                </span>
+            </div>
+            <!--## Initial debit-->
+            <div class="act_as_cell amount">
+                <t t-set="domain" t-value="[('account_id', 'in', accounts),
+                                            ('date', '&gt;=', firstdate),
+                                            ('date', '&lt;', line.report_id.date_from),
+                                            ('debit', '&lt;&gt;', 0)]"/>
+                <span>
+                    <a t-att-data-res-model="'account.move.line'"
+                       t-att-data-domain="domain"
+                       t-att-style="style"
+                       class="o_l10n_ro_report_trial_balance_web_action_multi">
+                    <t t-att-style="style" t-raw="line.debit_initial" t-options="{'widget': 'monetary', 'display_currency': res_company.currency_id}"/></a>
+                </span>
+            </div>
+            <!--## Initial credit-->
+            <div class="act_as_cell amount">
+                <t t-set="domain" t-value="[('account_id', 'in', accounts),
+                                            ('date', '&gt;=', firstdate),
+                                            ('date', '&lt;', line.report_id.date_from),
+                                            ('credit', '&lt;&gt;', 0)]"/>
+                <span>
+                    <a t-att-data-res-model="'account.move.line'"
+                       t-att-data-domain="domain"
+                       t-att-style="style"
+                       class="o_l10n_ro_report_trial_balance_web_action_multi">
+                    <t t-att-style="style" t-raw="line.credit_initial" t-options="{'widget': 'monetary', 'display_currency': res_company.currency_id}"/></a>
+                </span>
+            </div>
+            <!--## Current Debit-->
+            <div class="act_as_cell amount">
+                <t t-set="domain" t-value="[('account_id', 'in', accounts),
+                                            ('date', '&gt;=', line.report_id.date_from),
+                                            ('date', '&lt;=', line.report_id.date_to),
+                                            ('debit', '&lt;&gt;', 0)]"/>
+                <span>
+                    <a t-att-data-res-model="'account.move.line'"
+                       t-att-data-domain="domain"
+                       t-att-style="style"
+                       class="o_l10n_ro_report_trial_balance_web_action_multi">
+                    <t t-att-style="style" t-raw="line.debit" t-options="{'widget': 'monetary', 'display_currency': res_company.currency_id}"/></a>
+                </span>
+            </div>
+            <!--## Current Credit-->
+            <div class="act_as_cell amount">
+                <t t-set="domain" t-value="[('account_id', 'in', accounts),
+                                            ('date', '&gt;=', line.report_id.date_from),
+                                            ('date', '&lt;=', line.report_id.date_to),
+                                            ('credit', '&lt;&gt;', 0)]"/>
+                <span>
+                    <a t-att-data-res-model="'account.move.line'"
+                       t-att-data-domain="domain"
+                       t-att-style="style"
+                       class="o_l10n_ro_report_trial_balance_web_action_multi">
+                    <t t-att-style="style" t-raw="line.credit" t-options="{'widget': 'monetary', 'display_currency': res_company.currency_id}"/></a>
+                </span>
+            </div>
+            <!--## Total Debit-->
+            <div class="act_as_cell amount">
+                <t t-set="domain" t-value="[('account_id', 'in', accounts),
+                                            ('debit', '&lt;&gt;', 0)]"/>
+                <span>
+                    <a t-att-data-res-model="'account.move.line'"
+                       t-att-data-domain="domain"
+                       t-att-style="style"
+                       class="o_l10n_ro_report_trial_balance_web_action_multi">
+                    <t t-att-style="style" t-raw="line.debit_total" t-options="{'widget': 'monetary', 'display_currency': res_company.currency_id}"/></a>
+                </span>
+            </div>
+            <!--## Total Credit-->
+            <div class="act_as_cell amount">
+                <t t-set="domain" t-value="[('account_id', 'in', accounts),
+                                            ('credit', '&lt;&gt;', 0)]"/>
+                <span>
+                    <a t-att-data-res-model="'account.move.line'"
+                       t-att-data-domain="domain"
+                       t-att-style="style"
+                       class="o_l10n_ro_report_trial_balance_web_action_multi">
+                    <t t-att-style="style" t-raw="line.credit_total" t-options="{'widget': 'monetary', 'display_currency': res_company.currency_id}"/></a>
+                </span>
+            </div>
+            <!--## Balance Debit-->
+            <div class="act_as_cell amount">
+                <t t-set="domain" t-value="[('account_id', 'in', accounts)]"/>
+                <span>
+                    <a t-att-data-res-model="'account.move.line'"
+                       t-att-data-domain="domain"
+                       t-att-style="style"
+                       class="o_l10n_ro_report_trial_balance_web_action_multi">
+                    <t t-att-style="style" t-raw="line.debit_balance" t-options="{'widget': 'monetary', 'display_currency': res_company.currency_id}"/></a>
+                </span>
+            </div>
+            <!--## Balance Credit-->
+            <div class="act_as_cell amount"><t t-set="domain" t-value="[('account_id', 'in', accounts)]"/>
+                <span>
+                    <a t-att-data-res-model="'account.move.line'"
+                       t-att-data-domain="domain"
+                       t-att-style="style"
+                       class="o_l10n_ro_report_trial_balance_web_action_multi">
+                    <t t-att-style="style" t-raw="line.credit_balance" t-options="{'widget': 'monetary', 'display_currency': res_company.currency_id}"/></a>
+                </span>
+            </div>
+        </div>
+    </template>
+
+</odoo>

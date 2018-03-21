@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="l10n_ro_report_trial_balance">
+        <div class="container o_l10n_ro_report_trial_balance_page">
+            <t t-call="l10n_ro_report_trial_balance.l10n_ro_report_trial_balance_buttons"/>
+            <t t-call="l10n_ro_report_trial_balance.l10n_ro_report_trial_balance_base"/>
+        </div>
+    </template>
+</odoo>
