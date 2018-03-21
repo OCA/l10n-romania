@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <report
+      id="action_l10n_ro_report_trial_balance_qweb"
+      model="l10n_ro_report_trial_balance"
+      string="Trial Balance"
+      report_type="qweb-pdf"
+      name="l10n_ro_report_trial_balance.l10n_ro_report_trial_balance_qweb"
+      file="l10n_ro_report_trial_balance.l10n_ro_report_trial_balance_qweb"
+    />
+   <report
+      id="action_l10n_ro_report_trial_balance_html"
+      model="l10n_ro_report_trial_balance"
+      string="Trial Balance"
+      report_type="qweb-html"
+      name="l10n_ro_report_trial_balance.l10n_ro_report_trial_balance_qweb"
+      file="l10n_ro_report_trial_balance.l10n_ro_report_trial_balance_html"
+    />
+
+    <record id="report_qweb_paperformat" model="report.paperformat">
+        <field name="name">Account financial report qweb paperformat</field>
+        <field name="default" eval="True"/>
+        <field name="format">custom</field>
+        <field name="page_height">297</field>
+        <field name="page_width">210</field>
+        <field name="orientation">Landscape</field>
+        <field name="margin_top">45</field>
+        <field name="margin_bottom">8</field>
+        <field name="margin_left">5</field>
+        <field name="margin_right">5</field>
+        <field name="header_line" eval="True"/>
+        <field name="header_spacing">40</field>
+        <field name="dpi">110</field>
+    </record>
+
+    <record id="action_l10n_ro_report_trial_balance_qweb" model="ir.actions.report">
+        <field name="paperformat_id" ref="report_qweb_paperformat"/>
+    </record>
+    <record id="action_l10n_ro_report_trial_balance_xlsx" model="ir.actions.report">
+        <field name="name">Trial Balance XLSX</field>
+        <field name="model">l10n_ro_report_trial_balance</field>
+        <field name="type">ir.actions.report</field>
+        <field name="report_name">l10n_ro_report_trial_balance_xlsx</field>
+        <field name="report_type">xlsx</field>
+        <field name="report_file">l10n_ro_report_trial_balance</field>
+    </record>
+
+</odoo>
