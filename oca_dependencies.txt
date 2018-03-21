@@ -1,3 +1,4 @@
+bank-statement-import
 hr
 reporting-engine
 server-ux
