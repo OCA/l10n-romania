@@ -18,6 +18,8 @@ Available addons
 ----------------
 addon | version | summary
 --- | --- | ---
+[currency_rate_update_RO_BNR](currency_rate_update_RO_BNR/) | 11.0.1.0.0 | Currency Rate Update National Bank of Romania service
+[l10n_ro_account_bank_statement_import_mt940_brd](l10n_ro_account_bank_statement_import_mt940_brd/) | 11.0.1.0.0 | MT940 BRD Format Bank Statements Import
 [l10n_ro_account_period_close](l10n_ro_account_period_close/) | 11.0.1.0.0 | Romania - Account Period Closing
 [l10n_ro_address_extended](l10n_ro_address_extended/) | 11.0.1.0.0 | Romania - Extended Addresses
 [l10n_ro_config](l10n_ro_config/) | 11.0.1.0.0 | Romania - Localization Install and Config Apllications
@@ -27,6 +29,7 @@ addon | version | summary
 [l10n_ro_partner_create_by_vat](l10n_ro_partner_create_by_vat/) | 11.0.1.0.0 | Romania - Partner Create by VAT
 [l10n_ro_partner_unique](l10n_ro_partner_unique/) | 11.0.1.0.0 | Creates a rule for vat and nrc unique for partners.
 [l10n_ro_report_D300](l10n_ro_report_D300/) | 11.0.1.0.0 | Romania - D300 Report
+[l10n_ro_report_trial_balance](l10n_ro_report_trial_balance/) | 11.0.1.0.0 | Romania - Account Trial Balance Report
 [l10n_ro_siruta](l10n_ro_siruta/) | 11.0.1.0.0 | Romania - Siruta
 [l10n_ro_vat_on_payment](l10n_ro_vat_on_payment/) | 11.0.1.0.0 | Romania - VAT on Payment
 
