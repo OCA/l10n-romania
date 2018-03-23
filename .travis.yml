@@ -22,8 +22,8 @@ env:
   matrix:
   - LINT_CHECK="1"
   - TRANSIFEX="1"
-  - TESTS="1" ODOO_REPO="OCA/OCB" EXCLUDE="l10n_ro_partner_create_by_vat,l10n_ro_fiscal_validation" 
-  - TESTS="1" ODOO_REPO="odoo/odoo" EXCLUDE="l10n_ro_partner_create_by_vat,l10n_ro_fiscal_validation" 
+  - TESTS="1" ODOO_REPO="OCA/OCB"
+  - TESTS="1" ODOO_REPO="odoo/odoo"
 
 
 install:
