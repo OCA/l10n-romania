@@ -125,6 +125,7 @@ class AccountPeriodClosing(models.Model):
         for closing in self:
             ctx = self.env.context.copy()
             ctx['strict_range'] = True
+            ctx['state'] = 'posted'
             ctx['date_from'] = date_from
             ctx['date_to'] = date_to
             account_res = self.with_context(ctx)._get_accounts(
