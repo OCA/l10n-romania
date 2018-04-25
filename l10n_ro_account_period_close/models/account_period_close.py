@@ -44,14 +44,29 @@ class AccountPeriodClosing(models.Model):
         if self.type == 'income':
             acc_type = self.env.ref(
                 'account.data_account_type_revenue').id
+            if acc_type:
+                accounts = self.env['account.account'].search([
+                    ('user_type_id', '=', acc_type),
+                    ('company_id', '=', self.company_id.id)
+                ])
+            if not accounts:
+                accounts = self.env['account.account'].search([
+                    ('user_type_id.name', '=', 'Income'),
+                    ('company_id', '=', self.company_id.id)
+                ])
         elif self.type == 'expense':
             acc_type = self.env.ref(
                 'account.data_account_type_expenses').id
-        if acc_type:
-            accounts = self.env['account.account'].search([
-                ('user_type_id', '=', acc_type),
-                ('company_id', '=', self.company_id.id)
-            ])
+            if acc_type:
+                accounts = self.env['account.account'].search([
+                    ('user_type_id', '=', acc_type),
+                    ('company_id', '=', self.company_id.id)
+                ])
+            if not accounts:
+                accounts = self.env['account.account'].search([
+                    ('user_type_id.name', '=', 'Expense'),
+                    ('company_id', '=', self.company_id.id)
+                ])
         self.account_ids = accounts
 
     def _get_accounts(self, accounts, display_account):
@@ -124,10 +139,12 @@ class AccountPeriodClosing(models.Model):
         journal_id = self.journal_id.id
         for closing in self:
             ctx = self.env.context.copy()
-            ctx['strict_range'] = True
-            ctx['state'] = 'posted'
-            ctx['date_from'] = date_from
-            ctx['date_to'] = date_to
+            ctx.update({
+                'strict_range': True,
+                'state': 'posted',
+                'date_from': date_from,
+                'date_to': date_to
+            })
             account_res = self.with_context(ctx)._get_accounts(
                 closing.account_ids, 'not_zero')
             move = self.env['account.move'].create({
