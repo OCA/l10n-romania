@@ -1,0 +1,364 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+#	* l10n_ro_hr
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 11.0\n"
+"Report-Msgid-Bugs-To: \n"
+"Last-Translator: <>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: l10n_ro_hr
+#: model:ir.model.fields,field_description:l10n_ro_hr.field_res_company_risk_rate
+msgid "Accident Coefficient"
+msgstr ""
+
+#. module: l10n_ro_hr
+#: code:addons/l10n_ro_hr/models/hr_employee.py:101
+#, python-format
+msgid "Both"
+msgstr ""
+
+#. module: l10n_ro_hr
+#: model:ir.ui.view,arch_db:l10n_ro_hr.view_payroll_config_page_form
+msgid "CAEN Configuration"
+msgstr ""
+
+#. module: l10n_ro_hr
+#: model:ir.model.fields,field_description:l10n_ro_hr.field_res_company_caen_code
+#: model:ir.model.fields,field_description:l10n_ro_hr.field_res_company_caen_id_4205
+#: model:ir.model.fields,help:l10n_ro_hr.field_res_company_caen_code
+msgid "CAEN code"
+msgstr ""
+
+#. module: l10n_ro_hr
+#: model:ir.ui.view,arch_db:l10n_ro_hr.view_res_company_caen_form
+#: model:ir.ui.view,arch_db:l10n_ro_hr.view_res_company_caen_tree
+msgid "CAEN codes"
+msgstr ""
+
+#. module: l10n_ro_hr
+#: model:ir.model,name:l10n_ro_hr.model_res_company_caen
+msgid "CAEN codes for Romanian Companies"
+msgstr ""
+
+#. module: l10n_ro_hr
+#: model:ir.model.fields,field_description:l10n_ro_hr.field_res_company_caen_name
+#: model:ir.model.fields,help:l10n_ro_hr.field_res_company_caen_name
+msgid "CAEN name"
+msgstr ""
+
+#. module: l10n_ro_hr
+#: code:addons/l10n_ro_hr/models/hr_employee.py:92
+#, python-format
+msgid "Child"
+msgstr ""
+
+#. module: l10n_ro_hr
+#: code:addons/l10n_ro_hr/models/hr_employee.py:100
+#, python-format
+msgid "Coinsured"
+msgstr ""
+
+#. module: l10n_ro_hr
+#: model:ir.model,name:l10n_ro_hr.model_res_company
+msgid "Companies"
+msgstr ""
+
+#. module: l10n_ro_hr
+#: model:ir.model.fields,help:l10n_ro_hr.field_res_company_caen_id_4205
+msgid "Company CAEN code."
+msgstr ""
+
+#. module: l10n_ro_hr
+#: model:ir.model.fields,field_description:l10n_ro_hr.field_hr_employee_related_create_uid
+#: model:ir.model.fields,field_description:l10n_ro_hr.field_res_company_caen_create_uid
+msgid "Created by"
+msgstr ""
+
+#. module: l10n_ro_hr
+#: model:ir.model.fields,field_description:l10n_ro_hr.field_hr_employee_related_create_date
+#: model:ir.model.fields,field_description:l10n_ro_hr.field_res_company_caen_create_date
+msgid "Created on"
+msgstr ""
+
+#. module: l10n_ro_hr
+#: model:ir.model.fields,field_description:l10n_ro_hr.field_hr_employee_related_display_name
+#: model:ir.model.fields,field_description:l10n_ro_hr.field_res_company_caen_display_name
+msgid "Display Name"
+msgstr ""
+
+#. module: l10n_ro_hr
+#: model:ir.model.fields,field_description:l10n_ro_hr.field_hr_employee_emit_by
+msgid "Emmited by"
+msgstr ""
+
+#. module: l10n_ro_hr
+#: model:ir.model.fields,field_description:l10n_ro_hr.field_hr_employee_emit_on
+msgid "Emmited on"
+msgstr ""
+
+#. module: l10n_ro_hr
+#: model:ir.model,name:l10n_ro_hr.model_hr_employee
+#: model:ir.model.fields,field_description:l10n_ro_hr.field_hr_employee_related_employee_id
+#: model:ir.ui.view,arch_db:l10n_ro_hr.view_hr_person_related_form
+#: model:ir.ui.view,arch_db:l10n_ro_hr.view_hr_person_related_search
+msgid "Employee"
+msgstr ""
+
+#. module: l10n_ro_hr
+#: model:ir.model,name:l10n_ro_hr.model_hr_employee_related
+msgid "Employee person in care or are coinsured"
+msgstr ""
+
+#. module: l10n_ro_hr
+#: model:ir.ui.view,arch_db:l10n_ro_hr.view_hr_person_related_form
+#: model:ir.ui.view,arch_db:l10n_ro_hr.view_hr_person_related_tree
+msgid "Employees Persons related"
+msgstr ""
+
+#. module: l10n_ro_hr
+#: model:ir.model.fields,field_description:l10n_ro_hr.field_hr_employee_expires_on
+msgid "Expires on"
+msgstr ""
+
+#. module: l10n_ro_hr
+#: model:ir.model.fields,field_description:l10n_ro_hr.field_hr_employee_related_firstname
+msgid "First Name"
+msgstr ""
+
+#. module: l10n_ro_hr
+#: code:addons/l10n_ro_hr/models/hr_employee.py:93
+#, python-format
+msgid "First degree relationship"
+msgstr ""
+
+#. module: l10n_ro_hr
+#: model:ir.ui.view,arch_db:l10n_ro_hr.view_hr_person_related_search
+msgid "Group By..."
+msgstr ""
+
+#. module: l10n_ro_hr
+#: code:addons/l10n_ro_hr/models/hr_employee.py:89
+#, python-format
+msgid "Husband"
+msgstr ""
+
+#. module: l10n_ro_hr
+#: model:ir.model.fields,field_description:l10n_ro_hr.field_hr_employee_related_id
+#: model:ir.model.fields,field_description:l10n_ro_hr.field_res_company_caen_id
+msgid "ID"
+msgstr ""
+
+#. module: l10n_ro_hr
+#: code:addons/l10n_ro_hr/models/hr_employee.py:99
+#, python-format
+msgid "In Care"
+msgstr ""
+
+#. module: l10n_ro_hr
+#: model:ir.ui.view,arch_db:l10n_ro_hr.view_employee_form_romania
+msgid "Initial Datas"
+msgstr ""
+
+#. module: l10n_ro_hr
+#: model:ir.model.fields,field_description:l10n_ro_hr.field_hr_employee_last_name_init
+msgid "Initial First Name"
+msgstr ""
+
+#. module: l10n_ro_hr
+#: model:ir.model.fields,field_description:l10n_ro_hr.field_hr_employee_first_name_init
+msgid "Initial Name"
+msgstr ""
+
+#. module: l10n_ro_hr
+#: model:ir.model.fields,field_description:l10n_ro_hr.field_hr_employee_ssnid_init
+msgid "Initial SSN No"
+msgstr ""
+
+#. module: l10n_ro_hr
+#: model:ir.model.fields,help:l10n_ro_hr.field_hr_employee_ssnid_init
+msgid "Initial Social Security Number"
+msgstr ""
+
+#. module: l10n_ro_hr
+#: model:ir.model.fields,field_description:l10n_ro_hr.field_hr_employee_casang
+msgid "Insurance"
+msgstr ""
+
+#. module: l10n_ro_hr
+#: code:addons/l10n_ro_hr/models/hr_employee.py:77
+#: code:addons/l10n_ro_hr/models/hr_employee.py:140
+#, python-format
+msgid "Invalid SSN number"
+msgstr ""
+
+#. module: l10n_ro_hr
+#: code:addons/l10n_ro_hr/models/hr_employee.py:85
+#, python-format
+msgid "Just parents and husband/wife"
+msgstr ""
+
+#. module: l10n_ro_hr
+#: model:ir.model.fields,field_description:l10n_ro_hr.field_hr_employee_related___last_update
+#: model:ir.model.fields,field_description:l10n_ro_hr.field_res_company_caen___last_update
+msgid "Last Modified on"
+msgstr ""
+
+#. module: l10n_ro_hr
+#: model:ir.model.fields,field_description:l10n_ro_hr.field_hr_employee_related_lastname
+msgid "Last Name"
+msgstr ""
+
+#. module: l10n_ro_hr
+#: model:ir.model.fields,field_description:l10n_ro_hr.field_hr_employee_related_write_uid
+#: model:ir.model.fields,field_description:l10n_ro_hr.field_res_company_caen_write_uid
+msgid "Last Updated by"
+msgstr ""
+
+#. module: l10n_ro_hr
+#: model:ir.model.fields,field_description:l10n_ro_hr.field_hr_employee_related_write_date
+#: model:ir.model.fields,field_description:l10n_ro_hr.field_res_company_caen_write_date
+msgid "Last Updated on"
+msgstr ""
+
+#. module: l10n_ro_hr
+#: model:ir.model.fields,field_description:l10n_ro_hr.field_hr_employee_related_name
+msgid "Name"
+msgstr ""
+
+#. module: l10n_ro_hr
+#: model:ir.model.fields,field_description:l10n_ro_hr.field_hr_employee_person_in_care
+msgid "No of persons in care"
+msgstr ""
+
+#. module: l10n_ro_hr
+#: model:ir.model.fields,help:l10n_ro_hr.field_hr_employee_person_in_care
+msgid "Number of persons in care"
+msgstr ""
+
+#. module: l10n_ro_hr
+#: code:addons/l10n_ro_hr/models/hr_employee.py:91
+#, python-format
+msgid "Parent"
+msgstr ""
+
+#. module: l10n_ro_hr
+#: model:ir.model.fields,field_description:l10n_ro_hr.field_hr_employee_related_partner_id
+msgid "Partner"
+msgstr ""
+
+#. module: l10n_ro_hr
+#: model:ir.actions.act_window,name:l10n_ro_hr.action_hr_person_related_form
+#: model:ir.ui.menu,name:l10n_ro_hr.menu_hr_person_related
+msgid "Person related"
+msgstr ""
+
+#. module: l10n_ro_hr
+#: model:ir.ui.view,arch_db:l10n_ro_hr.view_hr_person_related_form
+msgid "Personal Data"
+msgstr ""
+
+#. module: l10n_ro_hr
+#: model:ir.ui.view,arch_db:l10n_ro_hr.view_employee_form_romania
+msgid "Persons Related"
+msgstr ""
+
+#. module: l10n_ro_hr
+#: model:ir.ui.view,arch_db:l10n_ro_hr.view_hr_person_related_search
+msgid "Persons related"
+msgstr ""
+
+#. module: l10n_ro_hr
+#: model:ir.model.fields,field_description:l10n_ro_hr.field_hr_employee_person_related
+msgid "Related Persons"
+msgstr ""
+
+#. module: l10n_ro_hr
+#: model:ir.model.fields,help:l10n_ro_hr.field_hr_employee_related_firstname
+msgid "Related person first name"
+msgstr ""
+
+#. module: l10n_ro_hr
+#: model:ir.model.fields,help:l10n_ro_hr.field_hr_employee_related_lastname
+msgid "Related person last name"
+msgstr ""
+
+#. module: l10n_ro_hr
+#: model:ir.model.fields,help:l10n_ro_hr.field_hr_employee_related_name
+msgid "Related person name"
+msgstr ""
+
+#. module: l10n_ro_hr
+#: model:ir.model.fields,field_description:l10n_ro_hr.field_hr_employee_related_relation
+#: model:ir.ui.view,arch_db:l10n_ro_hr.view_hr_person_related_search
+msgid "Relation"
+msgstr ""
+
+#. module: l10n_ro_hr
+#: model:ir.ui.view,arch_db:l10n_ro_hr.view_hr_person_related_search
+msgid "Relation Type"
+msgstr ""
+
+#. module: l10n_ro_hr
+#: model:ir.model.fields,field_description:l10n_ro_hr.field_hr_employee_related_relation_type
+msgid "Relation type"
+msgstr ""
+
+#. module: l10n_ro_hr
+#: model:ir.ui.view,arch_db:l10n_ro_hr.view_hr_person_related_form
+msgid "Relations"
+msgstr ""
+
+#. module: l10n_ro_hr
+#: model:ir.model.fields,field_description:l10n_ro_hr.field_res_company_caen_risk_class
+msgid "Risk Class"
+msgstr ""
+
+#. module: l10n_ro_hr
+#: model:ir.model.fields,field_description:l10n_ro_hr.field_res_company_caen_risk_rate
+msgid "Risk Rate"
+msgstr ""
+
+#. module: l10n_ro_hr
+#: model:ir.model.fields,field_description:l10n_ro_hr.field_hr_employee_related_ssnid
+msgid "SSN No"
+msgstr ""
+
+#. module: l10n_ro_hr
+#: model:ir.ui.view,arch_db:l10n_ro_hr.view_res_company_caen_filter
+msgid "Search CAEN code"
+msgstr ""
+
+#. module: l10n_ro_hr
+#: code:addons/l10n_ro_hr/models/hr_employee.py:94
+#, python-format
+msgid "Second degree relationship"
+msgstr ""
+
+#. module: l10n_ro_hr
+#: model:ir.ui.view,arch_db:l10n_ro_hr.view_employee_form_romania
+msgid "Social Security"
+msgstr ""
+
+#. module: l10n_ro_hr
+#: model:ir.model.fields,help:l10n_ro_hr.field_hr_employee_related_ssnid
+msgid "Social Security Number"
+msgstr ""
+
+#. module: l10n_ro_hr
+#: code:addons/l10n_ro_hr/models/hr_employee.py:90
+#, python-format
+msgid "Wife"
+msgstr ""
+
+#. module: l10n_ro_hr
+#: model:ir.ui.view,arch_db:l10n_ro_hr.view_hr_person_related_form
+msgid "e.g. John Doe"
+msgstr ""
+
