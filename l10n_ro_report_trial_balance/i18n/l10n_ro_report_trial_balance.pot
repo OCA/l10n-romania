@@ -1,0 +1,459 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+#	* l10n_ro_report_trial_balance
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 11.0\n"
+"Report-Msgid-Bugs-To: \n"
+"Last-Translator: <>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: l10n_ro_report_trial_balance
+#: model:ir.ui.view,arch_db:l10n_ro_report_trial_balance.l10n_ro_report_trial_balance_buttons
+msgid "<span class=\"fa fa-download\"/> Export"
+msgstr ""
+
+#. module: l10n_ro_report_trial_balance
+#: model:ir.ui.view,arch_db:l10n_ro_report_trial_balance.l10n_ro_report_trial_balance_buttons
+msgid "<span class=\"fa fa-print\"/> Print"
+msgstr ""
+
+#. module: l10n_ro_report_trial_balance
+#: model:ir.model.fields,field_description:l10n_ro_report_trial_balance.field_l10n_ro_report_trial_balance_account_account_id
+#: model:ir.model.fields,field_description:l10n_ro_report_trial_balance.field_l10n_ro_report_trial_balance_account_account_ids
+#: model:ir.model.fields,field_description:l10n_ro_report_trial_balance.field_l10n_ro_report_trial_balance_account_ids
+#: model:ir.ui.view,arch_db:l10n_ro_report_trial_balance.l10n_ro_report_trial_balance_lines_header
+msgid "Account"
+msgstr ""
+
+#. module: l10n_ro_report_trial_balance
+#: model:ir.model.fields,field_description:l10n_ro_report_trial_balance.field_l10n_ro_report_trial_balance_account_account_group_id
+msgid "Account Group"
+msgstr ""
+
+#. module: l10n_ro_report_trial_balance
+#: selection:l10n.ro.report.trial.balance.wizard,target_move:0
+msgid "All Entries"
+msgstr ""
+
+#. module: l10n_ro_report_trial_balance
+#: selection:l10n.ro.report.trial.balance.wizard,target_move:0
+msgid "All Posted Entries"
+msgstr ""
+
+#. module: l10n_ro_report_trial_balance
+#: model:ir.ui.view,arch_db:l10n_ro_report_trial_balance.l10n_ro_report_trial_balance_filters
+msgid "All entries"
+msgstr ""
+
+#. module: l10n_ro_report_trial_balance
+#: code:addons/l10n_ro_report_trial_balance/report/trial_balance_xlsx.py:75
+#: model:ir.ui.view,arch_db:l10n_ro_report_trial_balance.l10n_ro_report_trial_balance_filters
+#, python-format
+msgid "All posted entries"
+msgstr ""
+
+#. module: l10n_ro_report_trial_balance
+#: code:addons/l10n_ro_report_trial_balance/report/trial_balance_xlsx.py:66
+#: model:ir.ui.view,arch_db:l10n_ro_report_trial_balance.l10n_ro_report_trial_balance_lines_header
+#, python-format
+msgid "Balance Credit"
+msgstr ""
+
+#. module: l10n_ro_report_trial_balance
+#: code:addons/l10n_ro_report_trial_balance/report/trial_balance_xlsx.py:62
+#: model:ir.ui.view,arch_db:l10n_ro_report_trial_balance.l10n_ro_report_trial_balance_lines_header
+#, python-format
+msgid "Balance Debit"
+msgstr ""
+
+#. module: l10n_ro_report_trial_balance
+#: model:ir.ui.view,arch_db:l10n_ro_report_trial_balance.trial_balance_wizard
+msgid "Cancel"
+msgstr ""
+
+#. module: l10n_ro_report_trial_balance
+#: model:ir.model.fields,help:l10n_ro_report_trial_balance.field_l10n_ro_report_trial_balance_wizard_with_special_accounts
+msgid "Check this if you want to print classes 8 and 9 of accounts."
+msgstr ""
+
+#. module: l10n_ro_report_trial_balance
+#: code:addons/l10n_ro_report_trial_balance/report/trial_balance_xlsx.py:27
+#: model:ir.model.fields,field_description:l10n_ro_report_trial_balance.field_l10n_ro_report_trial_balance_account_code
+#: model:ir.ui.view,arch_db:l10n_ro_report_trial_balance.l10n_ro_report_trial_balance_lines_header
+#, python-format
+msgid "Code"
+msgstr ""
+
+#. module: l10n_ro_report_trial_balance
+#: model:ir.model.fields,field_description:l10n_ro_report_trial_balance.field_l10n_ro_report_trial_balance_company_id
+#: model:ir.model.fields,field_description:l10n_ro_report_trial_balance.field_l10n_ro_report_trial_balance_wizard_company_id
+msgid "Company"
+msgstr ""
+
+#. module: l10n_ro_report_trial_balance
+#: model:ir.model.fields,field_description:l10n_ro_report_trial_balance.field_l10n_ro_report_trial_balance_account_create_uid
+#: model:ir.model.fields,field_description:l10n_ro_report_trial_balance.field_l10n_ro_report_trial_balance_create_uid
+#: model:ir.model.fields,field_description:l10n_ro_report_trial_balance.field_l10n_ro_report_trial_balance_wizard_create_uid
+msgid "Created by"
+msgstr ""
+
+#. module: l10n_ro_report_trial_balance
+#: model:ir.model.fields,field_description:l10n_ro_report_trial_balance.field_l10n_ro_report_trial_balance_account_create_date
+#: model:ir.model.fields,field_description:l10n_ro_report_trial_balance.field_l10n_ro_report_trial_balance_create_date
+#: model:ir.model.fields,field_description:l10n_ro_report_trial_balance.field_l10n_ro_report_trial_balance_wizard_create_date
+msgid "Created on"
+msgstr ""
+
+#. module: l10n_ro_report_trial_balance
+#: model:ir.model.fields,field_description:l10n_ro_report_trial_balance.field_l10n_ro_report_trial_balance_account_credit
+msgid "Credit"
+msgstr ""
+
+#. module: l10n_ro_report_trial_balance
+#: model:ir.model.fields,field_description:l10n_ro_report_trial_balance.field_l10n_ro_report_trial_balance_account_credit_balance
+msgid "Credit Balance"
+msgstr ""
+
+#. module: l10n_ro_report_trial_balance
+#: model:ir.model.fields,field_description:l10n_ro_report_trial_balance.field_l10n_ro_report_trial_balance_account_credit_initial
+msgid "Credit Initial"
+msgstr ""
+
+#. module: l10n_ro_report_trial_balance
+#: model:ir.model.fields,field_description:l10n_ro_report_trial_balance.field_l10n_ro_report_trial_balance_account_credit_opening
+msgid "Credit Opening"
+msgstr ""
+
+#. module: l10n_ro_report_trial_balance
+#: model:ir.model.fields,field_description:l10n_ro_report_trial_balance.field_l10n_ro_report_trial_balance_account_credit_total
+msgid "Credit Total"
+msgstr ""
+
+#. module: l10n_ro_report_trial_balance
+#: code:addons/l10n_ro_report_trial_balance/report/trial_balance_xlsx.py:50
+#: model:ir.ui.view,arch_db:l10n_ro_report_trial_balance.l10n_ro_report_trial_balance_lines_header
+#, python-format
+msgid "Current Credit"
+msgstr ""
+
+#. module: l10n_ro_report_trial_balance
+#: code:addons/l10n_ro_report_trial_balance/report/trial_balance_xlsx.py:46
+#: model:ir.ui.view,arch_db:l10n_ro_report_trial_balance.l10n_ro_report_trial_balance_lines_header
+#, python-format
+msgid "Current Debit"
+msgstr ""
+
+#. module: l10n_ro_report_trial_balance
+#: model:ir.model.fields,field_description:l10n_ro_report_trial_balance.field_l10n_ro_report_trial_balance_date_from
+#: model:ir.model.fields,field_description:l10n_ro_report_trial_balance.field_l10n_ro_report_trial_balance_wizard_date_from
+msgid "Date From"
+msgstr ""
+
+#. module: l10n_ro_report_trial_balance
+#: model:ir.model.fields,field_description:l10n_ro_report_trial_balance.field_l10n_ro_report_trial_balance_date_to
+#: model:ir.model.fields,field_description:l10n_ro_report_trial_balance.field_l10n_ro_report_trial_balance_wizard_date_to
+msgid "Date To"
+msgstr ""
+
+#. module: l10n_ro_report_trial_balance
+#: code:addons/l10n_ro_report_trial_balance/report/trial_balance_xlsx.py:73
+#, python-format
+msgid "Date from"
+msgstr ""
+
+#. module: l10n_ro_report_trial_balance
+#: model:ir.model.fields,field_description:l10n_ro_report_trial_balance.field_l10n_ro_report_trial_balance_wizard_date_range_id
+msgid "Date range"
+msgstr ""
+
+#. module: l10n_ro_report_trial_balance
+#: model:ir.ui.view,arch_db:l10n_ro_report_trial_balance.l10n_ro_report_trial_balance_filters
+msgid "Date range filter"
+msgstr ""
+
+#. module: l10n_ro_report_trial_balance
+#: code:addons/l10n_ro_report_trial_balance/report/trial_balance_xlsx.py:74
+#, python-format
+msgid "Date to"
+msgstr ""
+
+#. module: l10n_ro_report_trial_balance
+#: model:ir.model.fields,field_description:l10n_ro_report_trial_balance.field_l10n_ro_report_trial_balance_account_debit
+msgid "Debit"
+msgstr ""
+
+#. module: l10n_ro_report_trial_balance
+#: model:ir.model.fields,field_description:l10n_ro_report_trial_balance.field_l10n_ro_report_trial_balance_account_debit_balance
+msgid "Debit Balance"
+msgstr ""
+
+#. module: l10n_ro_report_trial_balance
+#: model:ir.model.fields,field_description:l10n_ro_report_trial_balance.field_l10n_ro_report_trial_balance_account_debit_initial
+msgid "Debit Initial"
+msgstr ""
+
+#. module: l10n_ro_report_trial_balance
+#: model:ir.model.fields,field_description:l10n_ro_report_trial_balance.field_l10n_ro_report_trial_balance_account_debit_opening
+msgid "Debit Opening"
+msgstr ""
+
+#. module: l10n_ro_report_trial_balance
+#: model:ir.model.fields,field_description:l10n_ro_report_trial_balance.field_l10n_ro_report_trial_balance_account_debit_total
+msgid "Debit Total"
+msgstr ""
+
+#. module: l10n_ro_report_trial_balance
+#: model:ir.model.fields,field_description:l10n_ro_report_trial_balance.field_l10n_ro_report_trial_balance_account_display_name
+#: model:ir.model.fields,field_description:l10n_ro_report_trial_balance.field_l10n_ro_report_trial_balance_display_name
+#: model:ir.model.fields,field_description:l10n_ro_report_trial_balance.field_l10n_ro_report_trial_balance_wizard_display_name
+#: model:ir.model.fields,field_description:l10n_ro_report_trial_balance.field_report_l10n_ro_report_trial_balance_xlsx_display_name
+#: model:ir.model.fields,field_description:l10n_ro_report_trial_balance.field_report_romania_trial_balance_abstract_report_xlsx_display_name
+msgid "Display Name"
+msgstr ""
+
+#. module: l10n_ro_report_trial_balance
+#: model:ir.ui.view,arch_db:l10n_ro_report_trial_balance.trial_balance_wizard
+msgid "Export PDF"
+msgstr ""
+
+#. module: l10n_ro_report_trial_balance
+#: model:ir.ui.view,arch_db:l10n_ro_report_trial_balance.trial_balance_wizard
+msgid "Export XLSX"
+msgstr ""
+
+#. module: l10n_ro_report_trial_balance
+#: model:ir.model.fields,field_description:l10n_ro_report_trial_balance.field_l10n_ro_report_trial_balance_wizard_account_ids
+msgid "Filter accounts"
+msgstr ""
+
+#. module: l10n_ro_report_trial_balance
+#: model:ir.ui.view,arch_db:l10n_ro_report_trial_balance.l10n_ro_report_trial_balance_filters
+msgid "From:"
+msgstr ""
+
+#. module: l10n_ro_report_trial_balance
+#: model:ir.model.fields,field_description:l10n_ro_report_trial_balance.field_l10n_ro_report_trial_balance_hide_account_balance_at_0
+msgid "Hide Account Balance At 0"
+msgstr ""
+
+#. module: l10n_ro_report_trial_balance
+#: model:ir.model.fields,field_description:l10n_ro_report_trial_balance.field_l10n_ro_report_trial_balance_wizard_hide_account_balance_at_0
+msgid "Hide account ending balance at 0"
+msgstr ""
+
+#. module: l10n_ro_report_trial_balance
+#: code:addons/l10n_ro_report_trial_balance/report/trial_balance_xlsx.py:76
+#, python-format
+msgid "Hide accounts with 0 balance"
+msgstr ""
+
+#. module: l10n_ro_report_trial_balance
+#: model:ir.model.fields,field_description:l10n_ro_report_trial_balance.field_l10n_ro_report_trial_balance_account_id
+#: model:ir.model.fields,field_description:l10n_ro_report_trial_balance.field_l10n_ro_report_trial_balance_id
+#: model:ir.model.fields,field_description:l10n_ro_report_trial_balance.field_l10n_ro_report_trial_balance_wizard_id
+#: model:ir.model.fields,field_description:l10n_ro_report_trial_balance.field_report_l10n_ro_report_trial_balance_xlsx_id
+#: model:ir.model.fields,field_description:l10n_ro_report_trial_balance.field_report_romania_trial_balance_abstract_report_xlsx_id
+msgid "ID"
+msgstr ""
+
+#. module: l10n_ro_report_trial_balance
+#: code:addons/l10n_ro_report_trial_balance/report/trial_balance_xlsx.py:38
+#, python-format
+msgid "Initial Debit"
+msgstr ""
+
+#. module: l10n_ro_report_trial_balance
+#: model:ir.ui.view,arch_db:l10n_ro_report_trial_balance.l10n_ro_report_trial_balance_lines_header
+msgid "Initial credit"
+msgstr ""
+
+#. module: l10n_ro_report_trial_balance
+#: model:ir.ui.view,arch_db:l10n_ro_report_trial_balance.l10n_ro_report_trial_balance_lines_header
+msgid "Initial debit"
+msgstr ""
+
+#. module: l10n_ro_report_trial_balance
+#: code:addons/l10n_ro_report_trial_balance/report/trial_balance_xlsx.py:42
+#, python-format
+msgid "Initital Credit"
+msgstr ""
+
+#. module: l10n_ro_report_trial_balance
+#: model:ir.model.fields,field_description:l10n_ro_report_trial_balance.field_l10n_ro_report_trial_balance___last_update
+#: model:ir.model.fields,field_description:l10n_ro_report_trial_balance.field_l10n_ro_report_trial_balance_account___last_update
+#: model:ir.model.fields,field_description:l10n_ro_report_trial_balance.field_l10n_ro_report_trial_balance_wizard___last_update
+#: model:ir.model.fields,field_description:l10n_ro_report_trial_balance.field_report_l10n_ro_report_trial_balance_xlsx___last_update
+#: model:ir.model.fields,field_description:l10n_ro_report_trial_balance.field_report_romania_trial_balance_abstract_report_xlsx___last_update
+msgid "Last Modified on"
+msgstr ""
+
+#. module: l10n_ro_report_trial_balance
+#: model:ir.model.fields,field_description:l10n_ro_report_trial_balance.field_l10n_ro_report_trial_balance_account_write_uid
+#: model:ir.model.fields,field_description:l10n_ro_report_trial_balance.field_l10n_ro_report_trial_balance_wizard_write_uid
+#: model:ir.model.fields,field_description:l10n_ro_report_trial_balance.field_l10n_ro_report_trial_balance_write_uid
+msgid "Last Updated by"
+msgstr ""
+
+#. module: l10n_ro_report_trial_balance
+#: model:ir.model.fields,field_description:l10n_ro_report_trial_balance.field_l10n_ro_report_trial_balance_account_write_date
+#: model:ir.model.fields,field_description:l10n_ro_report_trial_balance.field_l10n_ro_report_trial_balance_wizard_write_date
+#: model:ir.model.fields,field_description:l10n_ro_report_trial_balance.field_l10n_ro_report_trial_balance_write_date
+msgid "Last Updated on"
+msgstr ""
+
+#. module: l10n_ro_report_trial_balance
+#: model:ir.model.fields,field_description:l10n_ro_report_trial_balance.field_l10n_ro_report_trial_balance_line_account_ids
+msgid "Line Account"
+msgstr ""
+
+#. module: l10n_ro_report_trial_balance
+#: code:addons/l10n_ro_report_trial_balance/report/trial_balance_xlsx.py:29
+#: model:ir.model.fields,field_description:l10n_ro_report_trial_balance.field_l10n_ro_report_trial_balance_account_name
+#, python-format
+msgid "Name"
+msgstr ""
+
+#. module: l10n_ro_report_trial_balance
+#: model:ir.ui.view,arch_db:l10n_ro_report_trial_balance.l10n_ro_report_trial_balance_filters
+msgid "No"
+msgstr ""
+
+#. module: l10n_ro_report_trial_balance
+#: model:ir.model.fields,field_description:l10n_ro_report_trial_balance.field_l10n_ro_report_trial_balance_only_posted_moves
+msgid "Only Posted Moves"
+msgstr ""
+
+#. module: l10n_ro_report_trial_balance
+#: code:addons/l10n_ro_report_trial_balance/report/trial_balance_xlsx.py:34
+#: model:ir.ui.view,arch_db:l10n_ro_report_trial_balance.l10n_ro_report_trial_balance_lines_header
+#, python-format
+msgid "Opening Credit"
+msgstr ""
+
+#. module: l10n_ro_report_trial_balance
+#: code:addons/l10n_ro_report_trial_balance/report/trial_balance_xlsx.py:30
+#: model:ir.ui.view,arch_db:l10n_ro_report_trial_balance.l10n_ro_report_trial_balance_lines_header
+#, python-format
+msgid "Opening Debit"
+msgstr ""
+
+#. module: l10n_ro_report_trial_balance
+#: model:ir.ui.view,arch_db:l10n_ro_report_trial_balance.internal_layout
+msgid "Page: <span class=\"page\"/> / <span class=\"topage\"/>"
+msgstr ""
+
+#. module: l10n_ro_report_trial_balance
+#: model:ir.model.fields,field_description:l10n_ro_report_trial_balance.field_l10n_ro_report_trial_balance_account_report_id
+msgid "Report"
+msgstr ""
+
+#. module: l10n_ro_report_trial_balance
+#: model:ir.model,name:l10n_ro_report_trial_balance.model_l10n_ro_report_trial_balance_wizard
+msgid "Romania Trial Balance Report Wizard"
+msgstr ""
+
+#. module: l10n_ro_report_trial_balance
+#: model:ir.model.fields,field_description:l10n_ro_report_trial_balance.field_l10n_ro_report_trial_balance_wizard_target_move
+msgid "Target Moves"
+msgstr ""
+
+#. module: l10n_ro_report_trial_balance
+#: model:ir.ui.view,arch_db:l10n_ro_report_trial_balance.l10n_ro_report_trial_balance_filters
+msgid "Target moves filter"
+msgstr ""
+
+#. module: l10n_ro_report_trial_balance
+#: model:ir.ui.view,arch_db:l10n_ro_report_trial_balance.l10n_ro_report_trial_balance_filters
+msgid "To:"
+msgstr ""
+
+#. module: l10n_ro_report_trial_balance
+#: code:addons/l10n_ro_report_trial_balance/report/trial_balance_xlsx.py:58
+#: model:ir.ui.view,arch_db:l10n_ro_report_trial_balance.l10n_ro_report_trial_balance_lines_header
+#, python-format
+msgid "Total Credit"
+msgstr ""
+
+#. module: l10n_ro_report_trial_balance
+#: code:addons/l10n_ro_report_trial_balance/report/trial_balance_xlsx.py:54
+#: model:ir.ui.view,arch_db:l10n_ro_report_trial_balance.l10n_ro_report_trial_balance_lines_header
+#, python-format
+msgid "Total Debit"
+msgstr ""
+
+#. module: l10n_ro_report_trial_balance
+#: code:addons/l10n_ro_report_trial_balance/report/trial_balance_xlsx.py:23
+#: model:ir.actions.act_window,name:l10n_ro_report_trial_balance.action_trial_balance_wizard
+#: model:ir.actions.client,name:l10n_ro_report_trial_balance.action_l10n_ro_report_trial_balance
+#: model:ir.actions.report,name:l10n_ro_report_trial_balance.action_l10n_ro_report_trial_balance_html
+#: model:ir.actions.report,name:l10n_ro_report_trial_balance.action_l10n_ro_report_trial_balance_qweb
+#: model:ir.ui.menu,name:l10n_ro_report_trial_balance.menu_action_l10n_ro_report_trial_balance
+#: model:ir.ui.view,arch_db:l10n_ro_report_trial_balance.l10n_ro_report_trial_balance_base
+#, python-format
+msgid "Trial Balance"
+msgstr ""
+
+#. module: l10n_ro_report_trial_balance
+#: model:ir.actions.report,name:l10n_ro_report_trial_balance.action_l10n_ro_report_trial_balance_xlsx
+msgid "Trial Balance XLSX"
+msgstr ""
+
+#. module: l10n_ro_report_trial_balance
+#: model:ir.model.fields,help:l10n_ro_report_trial_balance.field_l10n_ro_report_trial_balance_wizard_hide_account_balance_at_0
+msgid "Use this filter to hide accounts with an ending balance at 0. If all accounts from an account group have ending balance at 0, the group will not be printed in the report."
+msgstr ""
+
+#. module: l10n_ro_report_trial_balance
+#: model:ir.ui.view,arch_db:l10n_ro_report_trial_balance.trial_balance_wizard
+msgid "View"
+msgstr ""
+
+#. module: l10n_ro_report_trial_balance
+#: model:ir.model.fields,field_description:l10n_ro_report_trial_balance.field_l10n_ro_report_trial_balance_with_special_accounts
+#: model:ir.model.fields,field_description:l10n_ro_report_trial_balance.field_l10n_ro_report_trial_balance_wizard_with_special_accounts
+#: model:ir.ui.view,arch_db:l10n_ro_report_trial_balance.l10n_ro_report_trial_balance_filters
+msgid "With Special Accounts"
+msgstr ""
+
+#. module: l10n_ro_report_trial_balance
+#: code:addons/l10n_ro_report_trial_balance/report/trial_balance_xlsx.py:78
+#, python-format
+msgid "With special accounts"
+msgstr ""
+
+#. module: l10n_ro_report_trial_balance
+#: model:ir.ui.view,arch_db:l10n_ro_report_trial_balance.l10n_ro_report_trial_balance_filters
+msgid "Yes"
+msgstr ""
+
+#. module: l10n_ro_report_trial_balance
+#: model:ir.model,name:l10n_ro_report_trial_balance.model_l10n_ro_report_trial_balance
+msgid "l10n_ro_report_trial_balance"
+msgstr ""
+
+#. module: l10n_ro_report_trial_balance
+#: model:ir.model,name:l10n_ro_report_trial_balance.model_l10n_ro_report_trial_balance_account
+msgid "l10n_ro_report_trial_balance_account"
+msgstr ""
+
+#. module: l10n_ro_report_trial_balance
+#: model:ir.ui.view,arch_db:l10n_ro_report_trial_balance.trial_balance_wizard
+msgid "or"
+msgstr ""
+
+#. module: l10n_ro_report_trial_balance
+#: model:ir.model,name:l10n_ro_report_trial_balance.model_report_l10n_ro_report_trial_balance_xlsx
+msgid "report.l10n_ro_report_trial_balance_xlsx"
+msgstr ""
+
+#. module: l10n_ro_report_trial_balance
+#: model:ir.model,name:l10n_ro_report_trial_balance.model_report_romania_trial_balance_abstract_report_xlsx
+msgid "report.romania.trial.balance.abstract_report_xlsx"
+msgstr ""
+
