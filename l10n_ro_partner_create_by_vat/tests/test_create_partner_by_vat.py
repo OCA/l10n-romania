@@ -20,7 +20,7 @@ class TestCreatePartner(TestCreatePartnerBase):
             res = self.mainpartner._Anaf_to_Odoo(result)
             self.assertEqual(res['name'], 'FOREST AND BIOMASS ROMÂNIA S.A.')
             self.assertEqual(res['street'],
-                             'Cal. Buziașului Nr.11 A Corp B Zona Nr.2 Et.3')
+                             'Ciprian Porumbescu Nr.12 Zona Nr.3 Etaj 1')
             self.assertEqual(res['state_id'], self.env.ref('l10n_ro.RO_TM').id)
             self.assertEqual(res['city'], 'Timișoara')
 
@@ -33,7 +33,7 @@ class TestCreatePartner(TestCreatePartnerBase):
             self.assertEqual(self.mainpartner.name,
                              'FOREST AND BIOMASS ROMÂNIA S.A.')
             self.assertEqual(self.mainpartner.street,
-                             'Cal. Buziașului Nr.11 A Corp B Zona Nr.2 Et.3')
+                             'Ciprian Porumbescu Nr.12 Zona Nr.3 Etaj 1')
             self.assertEqual(self.mainpartner.state_id,
                              self.env.ref('l10n_ro.RO_TM'))
             self.assertEqual(self.mainpartner.city, 'Timișoara')
