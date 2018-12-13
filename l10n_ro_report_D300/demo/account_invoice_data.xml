@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo noupdate="1">
+    <record id="test_vat" model="product.product">
+        <field name="name">Test VAT</field>
+        <field name="categ_id" ref="product.product_category_3"/>
+        <field name="list_price">100</field>
+        <field name="type">service</field>
+        <field name="uom_id" ref="product.product_uom_unit"/>
+        <field name="uom_po_id" ref="product.product_uom_unit"/>
+        <field name="taxes_id" eval="[(6, 0, [ref('demo_tvac_05'),ref('demo_tvac_09'),ref('demo_tvac_19')])]"/>
+        <field name="default_code">test_tva</field>
+    </record>
+
+    <record id="demo_invoice_line_1" model="account.invoice.line">
+        <field name="name">Test TVA</field>
+        <field name="account_id" ref="demo_pcg_704"/>
+        <field name="product_id" ref="test_vat"/>
+        <field name="price_unit">100</field>
+        <field name="quantity">1</field>
+        <field name="invoice_line_tax_ids" eval="[(6, 0, [ref('demo_tvac_05'),ref('demo_tvac_09'),ref('demo_tvac_19')])]"/>
+    </record>
+    <record id="demo_invoice_line_2" model="account.invoice.line">
+        <field name="name">Test TVA</field>
+        <field name="account_id" ref="demo_pcg_704"/>
+        <field name="product_id" ref="test_vat"/>
+        <field name="price_unit">100</field>
+        <field name="quantity">1</field>
+        <field name="invoice_line_tax_ids" eval="[(6, 0, [ref('demo_tvaic_05'),ref('demo_tvaic_09'),ref('demo_tvaic_19')])]"/>
+    </record>
+    <record id="demo_invoice_1" model="account.invoice">
+        <field name="partner_id" ref="base.res_partner_12"/>
+        <field name="journal_id" search="[('type', '=', 'sale')]"/>
+        <field name="state">draft</field>
+        <field name="type">out_invoice</field>
+        <field name="date_invoice" eval="time.strftime('%Y-%m-02')"/>
+        <field name="account_id" ref="demo_pcg_411"/>
+        <field name="name">Test invoice 1</field>
+        <field name="invoice_line_ids" eval="[(6, 0, [ref('demo_invoice_line_1')])]"/>
+    </record>
+    <record id="demo_invoice_2" model="account.invoice">
+        <field name="fiscal_position_id" ref="demo_fiscal_position_vatp"/>
+        <field name="partner_id" ref="base.res_partner_12"/>
+        <field name="journal_id" search="[('type', '=', 'sale')]"/>
+        <field name="state">draft</field>
+        <field name="type">out_invoice</field>
+        <field name="date_invoice" eval="time.strftime('%Y-%m-03')"/>
+        <field name="account_id" ref="demo_pcg_411"/>
+        <field name="name">Test invoice cash basis 1</field>
+        <field name="invoice_line_ids" eval="[(6, 0, [ref('demo_invoice_line_2')])]"/>
+    </record>
+    <function model="account.invoice" name="action_invoice_open" eval="[[ref('demo_invoice_1')]]"/>
+    <function model="account.invoice" name="action_invoice_open" eval="[[ref('demo_invoice_2')]]"/>
+</odoo>
+

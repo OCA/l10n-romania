@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <template id="l10n_ro_report_trial_balance.internal_layout">
+        <t t-if="o and 'company_id' in o">
+            <t t-set="company" t-value="o.company_id"/>
+        </t>
+        <t t-if="not o or not 'company_id' in o">
+            <t t-set="company" t-value="res_company"/>
+        </t>
+        <div class="header o_background_header">
+            <img t-if="company.logo" t-att-src="'data:image/png;base64,%s' % to_text(company.logo)" class="pull-left"/>
+            <div class="pull-right company_address">
+                <div>
+                    <strong t-field="company.partner_id.name"/>
+                </div>
+                <t t-if="company.vat"><t t-esc="company.country_id.vat_label or 'TIN'"/>: <span t-att-style="'font-size: 9px; font-weight: bold;'" t-field="company.vat"/></t>
+                <t t-if="company.partner_id.nrc"><t t-att-style="'font-size: 9px; font-weight: bold;'" t-esc="'NRC'"/>: <span t-att-style="'font-size: 9px; font-weight: bold;'" t-field="company.partner_id.nrc"/></t>
+                <span t-field="company.partner_id"
+                    t-field-options='{"widget": "contact", "fields": ["address"], "no_marker": true}'/>
+            </div>
+            <div class="clearfix mb8"/>
+        </div>
+
+        <div class="article">
+            <link href="/l10n_ro_report_trial_balance/static/src/css/report.css" rel="stylesheet"/>
+            <t t-raw="0"/>
+        </div>
+
+        <div class="footer o_background_footer">
+            <div class="col-xs-6 custom_footer">
+                <span t-esc="context_timestamp(datetime.datetime.now()).strftime('%Y-%m-%d %H:%M')"/>
+            </div>
+            <div class="col-xs-6 text-right custom_footer">
+                    Page: <span class="page"/> / <span class="topage"/>
+            </div>
+        </div>
+    </template>
+
+</odoo>

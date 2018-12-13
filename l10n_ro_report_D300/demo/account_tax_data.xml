@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo noupdate="1">
+    <record id="demo_pcg_411" model="account.account">
+        <field name="name">Clienti</field>
+        <field name="code">411</field>
+        <field name="reconcile" eval="True"/>
+        <field name="user_type_id" ref="account.data_account_type_receivable"/>
+    </record>
+    <record id="demo_pcg_4427" model="account.account">
+        <field name="name">TVA Colectată</field>
+        <field name="code">4427</field>
+        <field name="user_type_id" ref="account.data_account_type_non_current_liabilities"/>
+    </record>
+    <record id="demo_pcg_44281" model="account.account">
+        <field name="name">TVA neexigibilă - Colectată</field>
+        <field name="code">44281</field>
+        <field name="user_type_id" ref="account.data_account_type_non_current_liabilities"/>
+    </record>
+    <record id="demo_pcg_704" model="account.account">
+        <field name="name">Venituri din prestari servicii</field>
+        <field name="code">704</field>
+        <field name="user_type_id" ref="account.data_account_type_revenue"/>
+    </record>
+    <!-- TVA -->
+    <record id="demo_tvac_05" model="account.tax">
+        <field name="sequence">11</field>
+        <field name="name">Demo TVA colectat 5%</field>
+        <field name="description">Demo TVA colectat 5%</field>
+        <field name="amount">5</field>
+        <field name="amount_type">percent</field>
+        <field name="type_tax_use">sale</field>
+        <field name="account_id" ref="demo_pcg_4427"/>
+        <field name="refund_account_id" ref="demo_pcg_4427"/>
+        <field name="tag_ids" eval="[(6,0,[ref('demo_tax_tag_ro_110'), ref('demo_tax_tag_ro_170')])]"/>
+    </record>
+    <record id="demo_tvac_09" model="account.tax">
+        <field name="sequence">12</field>
+        <field name="name">Demo TVA colectat 9%</field>
+        <field name="description">Demo TVA colectat 9%</field>
+        <field name="amount">9</field>
+        <field name="amount_type">percent</field>
+        <field name="type_tax_use">sale</field>
+        <field name="account_id" ref="demo_pcg_4427"/>
+        <field name="refund_account_id" ref="demo_pcg_4427"/>
+        <field name="tag_ids" eval="[(6,0,[ref('demo_tax_tag_ro_100'), ref('demo_tax_tag_ro_170')])]"/>
+    </record>
+    <record id="demo_tvac_19" model="account.tax">
+        <field name="sequence">13</field>
+        <field name="name">Demo TVA colectat 19%</field>
+        <field name="description">Demo TVA colectat 19%</field>
+        <field name="amount">19</field>
+        <field name="amount_type">percent</field>
+        <field name="type_tax_use">sale</field>
+        <field name="account_id" ref="demo_pcg_4427"/>
+        <field name="refund_account_id" ref="demo_pcg_4427"/>
+        <field name="tag_ids" eval="[(6,0,[ref('demo_tax_tag_ro_090'), ref('demo_tax_tag_ro_170')])]"/>
+    </record>
+    <!-- TVA la Incasare-->
+    <record id="demo_tvaic_05" model="account.tax">
+        <field name="sequence">21</field>
+        <field name="name">Demo TVA la Incasare - colectat 5%</field>
+        <field name="description">Demo TVA colectat 5%</field>
+        <field name="amount">5</field>
+        <field name="amount_type">percent</field>
+        <field name="type_tax_use">sale</field>
+        <field name="tax_exigibility">on_payment</field>
+        <field name="account_id" ref="demo_pcg_44281"/>
+        <field name="refund_account_id" ref="demo_pcg_4427"/>
+        <field name="cash_basis_account" ref="demo_pcg_4427"/>
+        <field name="tag_ids" eval="[(6,0,[ref('demo_tax_tag_ro_110'), ref('demo_tax_tag_ro_170')])]"/>
+    </record>
+    <record id="demo_tvaic_09" model="account.tax">
+        <field name="sequence">22</field>
+        <field name="name">Demo TVA la Incasare - colectat 9%</field>
+        <field name="description">Demo TVA colectat 9%</field>
+        <field name="amount">9</field>
+        <field name="amount_type">percent</field>
+        <field name="type_tax_use">sale</field>
+        <field name="tax_exigibility">on_payment</field>
+        <field name="account_id" ref="demo_pcg_44281"/>
+        <field name="refund_account_id" ref="demo_pcg_4427"/>
+        <field name="cash_basis_account" ref="demo_pcg_4427"/>
+        <field name="tag_ids" eval="[(6,0,[ref('demo_tax_tag_ro_100'), ref('demo_tax_tag_ro_170')])]"/>
+    </record>
+    <record id="demo_tvaic_19" model="account.tax">
+        <field name="sequence">23</field>
+        <field name="name">Demo TVA la Incasare - colectat 19%</field>
+        <field name="description">Demo TVA colectat 19%</field>
+        <field name="amount">19</field>
+        <field name="amount_type">percent</field>
+        <field name="type_tax_use">sale</field>
+        <field name="tax_exigibility">on_payment</field>
+        <field name="account_id" ref="demo_pcg_44281"/>
+        <field name="refund_account_id" ref="demo_pcg_4427"/>
+        <field name="cash_basis_account" ref="demo_pcg_4427"/>
+        <field name="tag_ids" eval="[(6,0,[ref('demo_tax_tag_ro_090'), ref('demo_tax_tag_ro_170')])]"/>
+    </record>
+</odoo>

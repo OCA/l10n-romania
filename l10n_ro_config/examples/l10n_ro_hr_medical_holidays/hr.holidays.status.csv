@@ -1,0 +1,19 @@
+id,name,color_name,limit,is_sick_leave,indemn_code,emergency,percentage,employer_days,max_days,timesheet_generate
+hr_holidays_status_cm_01,Boala obisnuita,violet,1,TRUE,1,FALSE,75,5,183,FALSE
+hr_holidays_status_cm_02,Accident in timpul deplasarii la/de la locul de munca,violet,1,TRUE,2,FALSE,80,3,183,FALSE
+hr_holidays_status_cm_02u,Accident in timpul deplasarii la/de la locul de munca [URG],violet,1,TRUE,2,TRUE,100,3,183,FALSE
+hr_holidays_status_cm_03,Accident de munca,violet,1,TRUE,3,FALSE,80,3,183,FALSE
+hr_holidays_status_cm_03u,Accident de munca [URG],violet,1,TRUE,3,TRUE,100,3,183,FALSE
+hr_holidays_status_cm_04,Boala profesionala,violet,1,TRUE,4,FALSE,80,3,183,FALSE
+hr_holidays_status_cm_04u,Boala profesionala [URG],violet,1,TRUE,4,TRUE,100,3,183,FALSE
+hr_holidays_status_cm_05,Boala infectocontagioasa din grupa A,violet,1,TRUE,5,FALSE,100,5,183,FALSE
+hr_holidays_status_cm_06,Urgenta medico-chirurgicala,violet,1,TRUE,6,FALSE,100,5,183,FALSE
+hr_holidays_status_cm_07,Carantina,violet,1,TRUE,7,FALSE,75,5,183,FALSE
+hr_holidays_status_cm_08,Sarcina și Lauzie,violet,1,TRUE,8,FALSE,85,0,126,FALSE
+hr_holidays_status_cm_09,"Ingrijire copil bolnav in varsta de pana la 7 ani sau copil cu handicap pentru afectiuni intercurente, pana la implinirea varstei de 18 ani",violet,1,TRUE,9,FALSE,85,0,-1,FALSE
+hr_holidays_status_cm_10,Reducerea cu 1/4 a duratei normale de lucru,violet,1,TRUE,10,FALSE,25,5,183,FALSE
+hr_holidays_status_cm_11,Trecerea temporara in alta munca,violet,1,TRUE,11,FALSE,25,3,-1,FALSE
+hr_holidays_status_cm_12,Tuberculoza,violet,1,TRUE,12,FALSE,100,5,-1,FALSE
+hr_holidays_status_cm_13,Boala cardiovasculara,violet,1,TRUE,13,FALSE,75,5,-1,FALSE
+hr_holidays_status_cm_14,"Neoplazii, SIDA",violet,1,TRUE,14,FALSE,100,5,183,FALSE
+hr_holidays_status_cm_15,Risc maternal,violet,1,TRUE,15,FALSE,75,0,120,FALSE

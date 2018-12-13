@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo noupdate="1">
+    <record id="demo_tax_tag_ro_090" model="account.account.tag">
+        <field name="name">Romania - D300: randul 9</field>
+        <field name="applicability">taxes</field>
+    </record>
+    <record id="demo_tax_tag_ro_100" model="account.account.tag">
+        <field name="name">Romania - D300: randul 10</field>
+        <field name="applicability">taxes</field>
+    </record>
+    <record id="demo_tax_tag_ro_110" model="account.account.tag">
+        <field name="name">Romania - D300: randul 11</field>
+        <field name="applicability">taxes</field>
+    </record>
+    <record id="demo_tax_tag_ro_170" model="account.account.tag">
+        <field name="name">Romania - D300: randul 17</field>
+        <field name="applicability">taxes</field>
+    </record>
+</odoo>
