@@ -16,6 +16,7 @@ setuptools.setup(
         'odoo11-addon-l10n_ro_fiscal_validation',
         'odoo11-addon-l10n_ro_hr',
         'odoo11-addon-l10n_ro_hr_contract',
+        'odoo11-addon-l10n_ro_hr_medical_holidays',
         'odoo11-addon-l10n_ro_partner_create_by_vat',
         'odoo11-addon-l10n_ro_partner_unique',
         'odoo11-addon-l10n_ro_report_D300',
