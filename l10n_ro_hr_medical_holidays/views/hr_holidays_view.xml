@@ -1,0 +1,56 @@
+<?xml version="1.0"?>
+<odoo>
+    <record id="edit_holiday_status_ro_form" model="ir.ui.view">
+        <field name="name">hr.holidays.status.ro.form</field>
+        <field name="model">hr.holidays.status</field>
+        <field name="inherit_id" ref="hr_holidays.edit_holiday_status_form"/>
+        <field name="arch" type="xml">
+            <field name="name" position="after">
+                <field name="is_unpaid"/>
+                <field name="is_sick_leave"/>
+            </field>
+            <group name="options" position="after">
+                <group name="med_leave" string="Sick Leave" attrs="{'invisible': [('is_sick_leave', '=', False)]}">
+                    <group name="med_def" string="Medical Configuration">
+                        <field name="leave_code" attrs="{'required': [('is_sick_leave', '=', True)]}"/>
+                        <field name="indemn_code" attrs="{'required': [('is_sick_leave', '=', True)]}"/>
+                        <field name="emergency"/>
+                        <field name="percentage" attrs="{'required': [('is_sick_leave', '=', True)]}"/>
+                    </group>
+                    <group name="med_days" string="Medical Days">
+                        <field name="employer_days" attrs="{'required': [('is_sick_leave', '=', True)]}"/>
+                        <field name="max_days" attrs="{'required': [('is_sick_leave', '=', True)]}"/>
+                    </group>
+                </group>
+            </group>
+        </field>
+    </record>
+
+    <record id="edit_holiday_medical_form" model="ir.ui.view">
+        <field name="name">hr.holidays.medical.form</field>
+        <field name="model">hr.holidays</field>
+        <field name="inherit_id" ref="hr_holidays.edit_holiday_new"/>
+        <field name="arch" type="xml">
+            <field name="notes"  position="before">
+                <group name="med_leave" string="Medical Leave" attrs="{'invisible': [('is_sick_leave', '=', False)]}">
+                    <field name="is_sick_leave" invisible="1"/>
+                    <field name="allowance_code" invisible="1"/>
+                    <field name="date_issue" attrs="{'required': [('is_sick_leave', '=', True)]}"/>
+                    <field name="date_health" attrs="{'required': [('is_sick_leave', '=', True)]}"/>
+                    <field name="medleave_issuer" attrs="{'required': [('is_sick_leave', '=', True)]}"/>
+                    <field name="medleave_serie" attrs="{'required': [('is_sick_leave', '=', True)]}"/>
+                    <field name="medleave_number" attrs="{'required': [('is_sick_leave', '=', True)]}"/>
+                    <field name="disease_id" attrs="{'required': [('is_sick_leave', '=', True)]}"/>
+                    <field name="infecto_disease_id" attrs="{'invisible': [('allowance_code', '!=', '5')], 'required': [('allowance_code', '=', '5')]}"/>
+                    <field name="emergency_disease_id" attrs="{'invisible': [('allowance_code', '!=', '6')], 'required': [('allowance_code', '=', '6')]}"/>
+                    <field name="expert_number" attrs="{'invisible': [('allowance_code', '!=', '10')], 'required': [('allowance_code', '=', '10')]}"/>
+                    <field name="initial_id" domain="[('employee_id','=', employee_id)]"/>
+                </group>
+                <group name="med_days" string="Medical Days" attrs="{'invisible': [('is_sick_leave','=',False)]}">
+                    <field name="employer_days"/>
+                    <field name="budget_days"/>
+                </group>
+            </field>
+        </field>
+    </record>
+</odoo>
