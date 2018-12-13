@@ -150,9 +150,8 @@ class TestStreetFields(TransactionCase):
             {'street_staircase': 'A1', 'street_number2': '4'},
             'Chee de Namur, 40/A1/4',
             'Chee de Namur', '40', 'A1', '4')
-        # we don't recompute the street fields when we change the country
         self.write_and_assert(
             p1,
             {'country_id': self.env.ref('base.us').id},
-            'Chee de Namur, 40/A1/4',
+            '40/A1/4 Chee de Namur',
             'Chee de Namur', '40', 'A1', '4')
