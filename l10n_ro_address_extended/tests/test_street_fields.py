@@ -153,5 +153,5 @@ class TestStreetFields(TransactionCase):
         self.write_and_assert(
             p1,
             {'country_id': self.env.ref('base.us').id},
-            'Chee de Namur, 40/A1/4',
+            '40/A1/4 Chee de Namur',
             'Chee de Namur', '40', 'A1', '4')
