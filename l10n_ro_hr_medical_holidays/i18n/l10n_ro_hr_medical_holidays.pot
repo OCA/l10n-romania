@@ -1,0 +1,313 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+#	* l10n_ro_hr_medical_holidays
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 11.0\n"
+"Report-Msgid-Bugs-To: \n"
+"Last-Translator: <>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: l10n_ro_hr_medical_holidays
+#: model:ir.model.fields,field_description:l10n_ro_hr_medical_holidays.field_hr_holidays_employer_days
+#: model:ir.model.fields,field_description:l10n_ro_hr_medical_holidays.field_hr_holidays_status_employer_days
+msgid "# Days by Employer"
+msgstr ""
+
+#. module: l10n_ro_hr_medical_holidays
+#: model:ir.model.fields,field_description:l10n_ro_hr_medical_holidays.field_hr_holidays_budget_days
+msgid "# Days by Social Security"
+msgstr ""
+
+#. module: l10n_ro_hr_medical_holidays
+#: code:addons/l10n_ro_hr_medical_holidays/models/hr_holidays.py:46
+#: code:addons/l10n_ro_hr_medical_holidays/models/hr_holidays.py:86
+#: code:addons/l10n_ro_hr_medical_holidays/models/hr_holidays.py:112
+#: code:addons/l10n_ro_hr_medical_holidays/models/hr_holidays.py:138
+#, python-format
+msgid "%s - %s"
+msgstr ""
+
+#. module: l10n_ro_hr_medical_holidays
+#: model:ir.model.fields,field_description:l10n_ro_hr_medical_holidays.field_hr_holidays_allowance_code
+msgid "Allowance Code"
+msgstr ""
+
+#. module: l10n_ro_hr_medical_holidays
+#: model:hr.holidays.status,name:l10n_ro_hr_medical_holidays.hr_holidays_status_demo_cm_01
+msgid "Boala obisnuita"
+msgstr ""
+
+#. module: l10n_ro_hr_medical_holidays
+#: model:ir.model.fields,field_description:l10n_ro_hr_medical_holidays.field_hr_holidays_status_ceiling
+msgid "Ceiling"
+msgstr ""
+
+#. module: l10n_ro_hr_medical_holidays
+#: model:ir.model.fields,field_description:l10n_ro_hr_medical_holidays.field_hr_holidays_status_ceiling_type
+msgid "Ceiling based on"
+msgstr ""
+
+#. module: l10n_ro_hr_medical_holidays
+#: model:ir.model.fields,field_description:l10n_ro_hr_medical_holidays.field_hr_medical_disease_code
+#: model:ir.model.fields,field_description:l10n_ro_hr_medical_holidays.field_hr_medical_emergency_disease_code
+#: model:ir.model.fields,field_description:l10n_ro_hr_medical_holidays.field_hr_medical_infecto_disease_code
+msgid "Code"
+msgstr ""
+
+#. module: l10n_ro_hr_medical_holidays
+#: model:ir.model.fields,field_description:l10n_ro_hr_medical_holidays.field_hr_medical_disease_create_uid
+#: model:ir.model.fields,field_description:l10n_ro_hr_medical_holidays.field_hr_medical_emergency_disease_create_uid
+#: model:ir.model.fields,field_description:l10n_ro_hr_medical_holidays.field_hr_medical_infecto_disease_create_uid
+msgid "Created by"
+msgstr ""
+
+#. module: l10n_ro_hr_medical_holidays
+#: model:ir.model.fields,field_description:l10n_ro_hr_medical_holidays.field_hr_medical_disease_create_date
+#: model:ir.model.fields,field_description:l10n_ro_hr_medical_holidays.field_hr_medical_emergency_disease_create_date
+#: model:ir.model.fields,field_description:l10n_ro_hr_medical_holidays.field_hr_medical_infecto_disease_create_date
+msgid "Created on"
+msgstr ""
+
+#. module: l10n_ro_hr_medical_holidays
+#: model:ir.model.fields,field_description:l10n_ro_hr_medical_holidays.field_hr_holidays_disease_id
+msgid "Disease"
+msgstr ""
+
+#. module: l10n_ro_hr_medical_holidays
+#: model:ir.model.fields,field_description:l10n_ro_hr_medical_holidays.field_hr_medical_disease_display_name
+#: model:ir.model.fields,field_description:l10n_ro_hr_medical_holidays.field_hr_medical_emergency_disease_display_name
+#: model:ir.model.fields,field_description:l10n_ro_hr_medical_holidays.field_hr_medical_infecto_disease_display_name
+msgid "Display Name"
+msgstr ""
+
+#. module: l10n_ro_hr_medical_holidays
+#: model:ir.model.fields,field_description:l10n_ro_hr_medical_holidays.field_hr_holidays_emergency_disease_id
+msgid "Emergecy Code"
+msgstr ""
+
+#. module: l10n_ro_hr_medical_holidays
+#: model:ir.model.fields,field_description:l10n_ro_hr_medical_holidays.field_hr_holidays_expert_number
+msgid "Expert Number"
+msgstr ""
+
+#. module: l10n_ro_hr_medical_holidays
+#: model:ir.model.fields,help:l10n_ro_hr_medical_holidays.field_hr_holidays_status_ceiling
+msgid "Expressed in months"
+msgstr ""
+
+#. module: l10n_ro_hr_medical_holidays
+#: model:ir.model.fields,field_description:l10n_ro_hr_medical_holidays.field_hr_medical_disease_id
+#: model:ir.model.fields,field_description:l10n_ro_hr_medical_holidays.field_hr_medical_emergency_disease_id
+#: model:ir.model.fields,field_description:l10n_ro_hr_medical_holidays.field_hr_medical_infecto_disease_id
+msgid "ID"
+msgstr ""
+
+#. module: l10n_ro_hr_medical_holidays
+#: model:ir.model.fields,field_description:l10n_ro_hr_medical_holidays.field_hr_holidays_status_indemn_code
+msgid "Indemnization Code"
+msgstr ""
+
+#. module: l10n_ro_hr_medical_holidays
+#: model:ir.model.fields,field_description:l10n_ro_hr_medical_holidays.field_hr_holidays_infecto_disease_id
+msgid "Infectious-contagious Code"
+msgstr ""
+
+#. module: l10n_ro_hr_medical_holidays
+#: model:ir.model.fields,field_description:l10n_ro_hr_medical_holidays.field_hr_holidays_initial_id
+msgid "Initial Sick Leave"
+msgstr ""
+
+#. module: l10n_ro_hr_medical_holidays
+#: model:ir.model.fields,field_description:l10n_ro_hr_medical_holidays.field_hr_holidays_is_sick_leave
+#: model:ir.model.fields,field_description:l10n_ro_hr_medical_holidays.field_hr_holidays_status_is_sick_leave
+msgid "Is Sick Leave"
+msgstr ""
+
+#. module: l10n_ro_hr_medical_holidays
+#: model:ir.model.fields,field_description:l10n_ro_hr_medical_holidays.field_hr_holidays_is_unpaid
+#: model:ir.model.fields,field_description:l10n_ro_hr_medical_holidays.field_hr_holidays_status_is_unpaid
+msgid "Is Unpaid"
+msgstr ""
+
+#. module: l10n_ro_hr_medical_holidays
+#: model:ir.model.fields,field_description:l10n_ro_hr_medical_holidays.field_hr_holidays_date_issue
+msgid "Issue Date"
+msgstr ""
+
+#. module: l10n_ro_hr_medical_holidays
+#: model:ir.model.fields,field_description:l10n_ro_hr_medical_holidays.field_hr_medical_disease___last_update
+#: model:ir.model.fields,field_description:l10n_ro_hr_medical_holidays.field_hr_medical_emergency_disease___last_update
+#: model:ir.model.fields,field_description:l10n_ro_hr_medical_holidays.field_hr_medical_infecto_disease___last_update
+msgid "Last Modified on"
+msgstr ""
+
+#. module: l10n_ro_hr_medical_holidays
+#: model:ir.model.fields,field_description:l10n_ro_hr_medical_holidays.field_hr_medical_disease_write_uid
+#: model:ir.model.fields,field_description:l10n_ro_hr_medical_holidays.field_hr_medical_emergency_disease_write_uid
+#: model:ir.model.fields,field_description:l10n_ro_hr_medical_holidays.field_hr_medical_infecto_disease_write_uid
+msgid "Last Updated by"
+msgstr ""
+
+#. module: l10n_ro_hr_medical_holidays
+#: model:ir.model.fields,field_description:l10n_ro_hr_medical_holidays.field_hr_medical_disease_write_date
+#: model:ir.model.fields,field_description:l10n_ro_hr_medical_holidays.field_hr_medical_emergency_disease_write_date
+#: model:ir.model.fields,field_description:l10n_ro_hr_medical_holidays.field_hr_medical_infecto_disease_write_date
+msgid "Last Updated on"
+msgstr ""
+
+#. module: l10n_ro_hr_medical_holidays
+#: model:ir.model,name:l10n_ro_hr_medical_holidays.model_hr_holidays
+msgid "Leave"
+msgstr ""
+
+#. module: l10n_ro_hr_medical_holidays
+#: model:ir.model.fields,field_description:l10n_ro_hr_medical_holidays.field_hr_holidays_status_leave_code
+msgid "Leave Code"
+msgstr ""
+
+#. module: l10n_ro_hr_medical_holidays
+#: model:ir.model,name:l10n_ro_hr_medical_holidays.model_hr_holidays_status
+msgid "Leave Type"
+msgstr ""
+
+#. module: l10n_ro_hr_medical_holidays
+#: model:ir.model.fields,field_description:l10n_ro_hr_medical_holidays.field_hr_holidays_status_max_days
+msgid "Max # of days"
+msgstr ""
+
+#. module: l10n_ro_hr_medical_holidays
+#: model:ir.ui.view,arch_db:l10n_ro_hr_medical_holidays.edit_holiday_status_ro_form
+msgid "Medical Configuration"
+msgstr ""
+
+#. module: l10n_ro_hr_medical_holidays
+#: model:ir.ui.view,arch_db:l10n_ro_hr_medical_holidays.edit_holiday_medical_form
+#: model:ir.ui.view,arch_db:l10n_ro_hr_medical_holidays.edit_holiday_status_ro_form
+msgid "Medical Days"
+msgstr ""
+
+#. module: l10n_ro_hr_medical_holidays
+#: model:ir.model,name:l10n_ro_hr_medical_holidays.model_hr_medical_disease
+msgid "Medical Disease"
+msgstr ""
+
+#. module: l10n_ro_hr_medical_holidays
+#: model:ir.model.fields,field_description:l10n_ro_hr_medical_holidays.field_hr_holidays_medical_emergency
+#: model:ir.model.fields,field_description:l10n_ro_hr_medical_holidays.field_hr_holidays_status_emergency
+msgid "Medical Emergency"
+msgstr ""
+
+#. module: l10n_ro_hr_medical_holidays
+#: model:ir.model,name:l10n_ro_hr_medical_holidays.model_hr_medical_emergency_disease
+msgid "Medical Emergency Disease"
+msgstr ""
+
+#. module: l10n_ro_hr_medical_holidays
+#: model:ir.model,name:l10n_ro_hr_medical_holidays.model_hr_medical_infecto_disease
+msgid "Medical Infecto Disease"
+msgstr ""
+
+#. module: l10n_ro_hr_medical_holidays
+#: model:ir.ui.view,arch_db:l10n_ro_hr_medical_holidays.edit_holiday_medical_form
+msgid "Medical Leave"
+msgstr ""
+
+#. module: l10n_ro_hr_medical_holidays
+#: model:ir.model.fields,field_description:l10n_ro_hr_medical_holidays.field_hr_holidays_medleave_issuer
+#: model:ir.model.fields,help:l10n_ro_hr_medical_holidays.field_hr_holidays_medleave_issuer
+msgid "Medical Leave Issuer"
+msgstr ""
+
+#. module: l10n_ro_hr_medical_holidays
+#: code:addons/l10n_ro_hr_medical_holidays/models/hr_holidays.py:168
+#, python-format
+msgid "Medical Leave date from must be consequent to Initial medical leave date to."
+msgstr ""
+
+#. module: l10n_ro_hr_medical_holidays
+#: code:addons/l10n_ro_hr_medical_holidays/models/hr_holidays.py:176
+#, python-format
+msgid "Medical Leave must have the same disease as the Initial medical leave."
+msgstr ""
+
+#. module: l10n_ro_hr_medical_holidays
+#: code:addons/l10n_ro_hr_medical_holidays/models/hr_holidays.py:172
+#, python-format
+msgid "Medical Leave must have the same leave type as the Initial medical leave."
+msgstr ""
+
+#. module: l10n_ro_hr_medical_holidays
+#: selection:hr.holidays.status,ceiling_type:0
+msgid "Medium Wage"
+msgstr ""
+
+#. module: l10n_ro_hr_medical_holidays
+#: selection:hr.holidays.status,ceiling_type:0
+msgid "Minimum Wage"
+msgstr ""
+
+#. module: l10n_ro_hr_medical_holidays
+#: model:ir.model.fields,field_description:l10n_ro_hr_medical_holidays.field_hr_medical_disease_name
+#: model:ir.model.fields,field_description:l10n_ro_hr_medical_holidays.field_hr_medical_emergency_disease_name
+#: model:ir.model.fields,field_description:l10n_ro_hr_medical_holidays.field_hr_medical_infecto_disease_name
+msgid "Name"
+msgstr ""
+
+#. module: l10n_ro_hr_medical_holidays
+#: model:ir.model.fields,field_description:l10n_ro_hr_medical_holidays.field_hr_holidays_medleave_number
+msgid "Number"
+msgstr ""
+
+#. module: l10n_ro_hr_medical_holidays
+#: model:ir.model.fields,help:l10n_ro_hr_medical_holidays.field_hr_holidays_expert_number
+msgid "Number of expert medical opinion"
+msgstr ""
+
+#. module: l10n_ro_hr_medical_holidays
+#: model:ir.model.fields,field_description:l10n_ro_hr_medical_holidays.field_hr_holidays_status_percentage
+msgid "Percentage"
+msgstr ""
+
+#. module: l10n_ro_hr_medical_holidays
+#: model:ir.model.fields,field_description:l10n_ro_hr_medical_holidays.field_hr_holidays_date_health
+msgid "Public Health Direction Date"
+msgstr ""
+
+#. module: l10n_ro_hr_medical_holidays
+#: model:hr.holidays.status,name:l10n_ro_hr_medical_holidays.hr_holidays_status_demo_cm_15
+msgid "Risc maternal"
+msgstr ""
+
+#. module: l10n_ro_hr_medical_holidays
+#: model:ir.model.fields,field_description:l10n_ro_hr_medical_holidays.field_hr_holidays_medleave_serie
+msgid "Serie"
+msgstr ""
+
+#. module: l10n_ro_hr_medical_holidays
+#: code:addons/l10n_ro_hr_medical_holidays/models/hr_holidays.py:36
+#, python-format
+msgid "Set Indemnization Code"
+msgstr ""
+
+#. module: l10n_ro_hr_medical_holidays
+#: code:addons/l10n_ro_hr_medical_holidays/models/hr_holidays.py:38
+#, python-format
+msgid "Set Percentage"
+msgstr ""
+
+#. module: l10n_ro_hr_medical_holidays
+#: model:ir.ui.view,arch_db:l10n_ro_hr_medical_holidays.edit_holiday_status_ro_form
+msgid "Sick Leave"
+msgstr ""
+
+#. module: l10n_ro_hr_medical_holidays
+#: model:ir.model.fields,help:l10n_ro_hr_medical_holidays.field_hr_holidays_date_health
+msgid "The date announced at the public health directorate"
+msgstr ""
+
