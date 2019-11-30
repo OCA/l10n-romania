@@ -1,16 +1,9 @@
-# Copyright  2018 Forest and Biomass Romania
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
 {
     'name': 'Romania - Account Period Closing',
-    'summary': 'Romania - Account Period Closing',
-    'version': '11.0.1.0.0',
     'category': 'Localization',
-    'author': 'Forest and Biomass Romania, '
-              'Odoo Community Association (OCA)',
-    'website': 'https://www.forbiom.eu',
-    'license': 'AGPL-3',
-    'installable': True,
+    'summary': 'Romania - Account Period Closing',
     'depends': ['account', 'date_range'],
     'data': [
         'views/account_period_close_view.xml',
@@ -18,4 +11,13 @@
         'security/account_security.xml',
         'security/ir.model.access.csv',
     ],
+    'license': 'AGPL-3',
+    'version': '11.0.1.0.0',
+    'author': 'OdooERP Romania,'
+              'Forest and Biomass Romania,'
+              'Odoo Community Association (OCA)',
+    'website': 'https://github.com/OCA/l10n-romania',
+    'installable': True,
+    'development_status': 'Mature',
+    'maintainers': ['feketemihai'],
 }
