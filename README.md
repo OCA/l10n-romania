@@ -38,4 +38,4 @@ addon | version | summary
 
 Translation Status
 ------------------
-[![Transifex Status](https://www.transifex.com/projects/p/OCA-l10n-romania-11-0/chart/image_png)](https://www.transifex.com/projects/p/OCA-l10n-romania-11-0)
+[![OCA Weblate Status](https://translation.odoo-community.org/widgets/l10n-romania-11-0/-/svg-badge.svg)](https://translation.odoo-community.org/projects/l10n-romania-11-0)
