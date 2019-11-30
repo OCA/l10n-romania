@@ -1,17 +1,9 @@
-# Copyright (C) 2017 FOREST AND BIOMASS ROMANIA SA
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
-
 
 {
     'name': 'Romania - Human Resources',
-    'summary': 'Romania  - Human Resources',
-    'version': '11.0.1.0.0',
     'category': 'Localization',
-    'author': 'Forest and Biomass Romania, '
-              'Odoo Community Association (OCA)',
-    'website': 'https://www.forbiom.eu',
-    'license': 'AGPL-3',
-    'installable': True,
+    'summary': 'Romania  - Human Resources',
     'depends': ['hr', 'hr_employee_firstname'],
     'external_dependencies': {
         'python': ['stdnum'],
@@ -24,4 +16,13 @@
     'demo': [
         'data/hr_demo.xml'
     ],
+    'license': 'AGPL-3',
+    'version': '11.0.1.0.0',
+    'author': 'OdooERP Romania,'
+              'Forest and Biomass Romania,'
+              'Odoo Community Association (OCA)',
+    'website': 'https://github.com/OCA/l10n-romania',
+    'installable': True,
+    'development_status': 'Mature',
+    'maintainers': ['feketemihai'],
 }

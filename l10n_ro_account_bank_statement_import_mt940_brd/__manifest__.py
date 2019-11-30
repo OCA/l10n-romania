@@ -1,15 +1,18 @@
-# Copyright (C) 2016 Forest and Biomass Romania
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
 {
     'name': 'MT940 BRD Format Bank Statements Import',
-    'version': '11.0.1.0.0',
-    'license': 'AGPL-3',
-    'author': 'Forest and Biomass Romania, '
-              'Odoo Community Association (OCA)',
-    'website': 'https://www.forbiom.eu',
     'category': 'Banking addons',
+    'summary': 'Currency Rate Update National Bank of Romania service',
     'depends': ['account_bank_statement_import_mt940_base'],
     'demo': ['demo/demo_data.xml'],
+    'license': 'AGPL-3',
+    'version': '11.0.1.0.0',
+    'author': 'OdooERP Romania,'
+              'Forest and Biomass Romania,'
+              'Odoo Community Association (OCA)',
+    'website': 'https://github.com/OCA/l10n-romania',
     'installable': True,
+    'development_status': 'Mature',
+    'maintainers': ['feketemihai'],
 }
