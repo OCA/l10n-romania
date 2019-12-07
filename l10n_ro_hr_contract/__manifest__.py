@@ -1,21 +1,21 @@
-# Copyright (C) 2017 FOREST AND BIOMASS ROMANIA SA
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
 {
     'name': 'Romania - Employee Contracts',
-    'summary': 'Romania  - Employee Contracts',
-    'version': '11.0.1.0.0',
     'category': 'Localization',
-    'author': 'Forest and Biomass Romania, '
-              'Odoo Community Association (OCA)',
-    'website': 'https://www.forbiom.eu',
-    'license': 'AGPL-3',
-    'application': False,
-    'installable': True,
+    'summary': 'Romania  - Employee Contracts',
     'depends': ['hr_contract'],
     'data': [
         'data/hr.insurance.type.csv',
         'views/hr_contract_view.xml',
         'security/ir.model.access.csv'],
-    'auto_install': False,
+    'license': 'AGPL-3',
+    'version': '11.0.1.0.0',
+    'author': 'OdooERP Romania,'
+              'Forest and Biomass Romania,'
+              'Odoo Community Association (OCA)',
+    'website': 'https://github.com/OCA/l10n-romania',
+    'installable': True,
+    'development_status': 'Mature',
+    'maintainers': ['feketemihai'],
 }
