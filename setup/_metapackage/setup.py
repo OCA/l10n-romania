@@ -22,6 +22,7 @@ setuptools.setup(
         'odoo11-addon-l10n_ro_report_D300',
         'odoo11-addon-l10n_ro_report_trial_balance',
         'odoo11-addon-l10n_ro_siruta',
+        'odoo11-addon-l10n_ro_stock',
         'odoo11-addon-l10n_ro_vat_on_payment',
     ],
     classifiers=[
