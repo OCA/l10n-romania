@@ -31,7 +31,7 @@ msgstr ""
 
 #. module: l10n_ro_hr
 #: model:ir.model.fields,field_description:l10n_ro_hr.field_res_company_caen_code
-#: model:ir.model.fields,field_description:l10n_ro_hr.field_res_company_caen_id_5471
+#: model:ir.model.fields,field_description:l10n_ro_hr.field_res_company_caen_id_6236
 #: model:ir.model.fields,help:l10n_ro_hr.field_res_company_caen_code
 msgid "CAEN code"
 msgstr ""
@@ -71,7 +71,7 @@ msgid "Companies"
 msgstr ""
 
 #. module: l10n_ro_hr
-#: model:ir.model.fields,help:l10n_ro_hr.field_res_company_caen_id_5471
+#: model:ir.model.fields,help:l10n_ro_hr.field_res_company_caen_id_6236
 msgid "Company CAEN code."
 msgstr ""
 
