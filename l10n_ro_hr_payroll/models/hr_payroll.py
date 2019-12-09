@@ -1,5 +1,6 @@
 # Copyright (C) 2014 Adrian Vasile
 # Copyright (C) 2018 FOREST AND BIOMASS ROMANIA SA
+# Copyright (C) 2019 OdooERP Romania SRL
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
 from datetime import datetime, timedelta
@@ -65,7 +66,8 @@ class HrPayslip(models.Model):
                         # if he was on leave, fill the leaves dict
                         for leave in emp_leaves:
                             if leave.holiday_status_id.leave_code:
-                                leave_code = leave.holiday_status_id.leave_code
+                                leave_code = \
+                                    leave.holiday_status_id.leave_code
                             else:
                                 leave_code = leave.holiday_status_id.name
                             if leave_code in leaves:

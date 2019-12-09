@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="l10n_ro_report_d300">
+        <div class="o_l10n_ro_report_d300_page">
+            <t t-call="l10n_ro_report_D300.l10n_ro_report_d300_buttons"/>
+            <t t-call="l10n_ro_report_D300.l10n_ro_report_d300_base"/>
+        </div>
+    </template>
+</odoo>

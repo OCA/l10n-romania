@@ -1,0 +1,91 @@
+<?xml version="1.0"?>
+<odoo>
+    <record id="view_hr_insurance_type_tree" model="ir.ui.view">
+        <field name="name">hr.insurance.type.tree</field>
+        <field name="model">hr.insurance.type</field>
+        <field name="arch" type="xml">
+            <tree string="Insurance types">
+                <field name="name"/>
+                <field name="code"/>
+                <field name="type"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_hr_insurance_type_form" model="ir.ui.view">
+        <field name="name">hr.insurance.type.form</field>
+        <field name="model">hr.insurance.type</field>
+        <field name="arch" type="xml">
+            <form string="Insurance types">
+                <field name="name"/>
+                <newline/>
+                <group>
+                    <field name="type"/>
+                    <field name="code"/>
+                </group>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_hr_insurance_type_filter" model="ir.ui.view">
+        <field name="name">hr.insurance.type.filter</field>
+        <field name="model">hr.insurance.type</field>
+        <field name="arch" type="xml">
+            <search string="Search insurance type">
+                <field name="name"/>
+                <field name="code"/>
+                <field name="type"/>
+            </search>
+        </field>
+    </record>
+
+    <record id="hr_contract_view_ro_form" model="ir.ui.view">
+        <field name="name">hr.contract.view.ro.form</field>
+        <field name="model">hr.contract</field>
+        <field name="inherit_id" ref="hr_contract.hr_contract_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='employee_id']" position="before">
+                <field name="revisal_no"/>
+                <field name="internal_no"/>
+            </xpath>
+            <field name="employee_id" position="after">
+                <field name="sign_date"/>
+            </field>
+            <field name="resource_calendar_id" position="before">
+                <label for="period_type" string="Period type"/>
+                <div>
+                    <field name="period_type"/>
+                </div>
+            </field>
+            <page name="other" position="after">
+                <page string="Work Conditions" name="conditions">
+                    <group colspan="4">
+                        <group col="2" name="col1">
+                            <field name="pensioneer"/>
+                            <field name="tax_exempt"/>
+                            <field name="suspended"/>
+                            <label for="sus_date_from" string="Suspension Duration"/>
+                            <div attrs="{'invisible': [('suspended', '==', False)]}">
+                                <field name="sus_date_from" class="oe_inline"/> - <field name="sus_date_to" class="oe_inline"/>
+                            </div>
+                        </group>
+                        <group col="2" name="col2">
+                            <label for="insurance_type" string="Insurance Type"/>
+                            <div>
+                                <field name="insurance_type" class="oe_inline"/>
+                            </div>
+                            <field name="work_norm"/>
+                            <field name="work_hour"/>
+                            <field name="work_type"/>
+                            <field name="work_special"/>
+                        </group>
+                    </group>
+                </page>
+            </page>
+        </field>
+    </record>
+
+</odoo>
+
+
+

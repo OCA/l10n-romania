@@ -1,0 +1,317 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* l10n_ro_hr_contract
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 11.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2017-12-06 12:17+0000\n"
+"PO-Revision-Date: 2017-12-06 12:17+0000\n"
+"Last-Translator: <>\n"
+"Language-Team: \n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: l10n_ro_hr_contract
+#: code:addons/l10n_ro_hr_contract/models/hr_contract.py:27
+#, python-format
+msgid "1 hour partial work time"
+msgstr "cu timp de lucru parțial de 1 oră"
+
+#. module: l10n_ro_hr_contract
+#: code:addons/l10n_ro_hr_contract/models/hr_contract.py:28
+#, python-format
+msgid "2 hours partial work time"
+msgstr "cu timp de lucru parțial de 2 ore"
+
+#. module: l10n_ro_hr_contract
+#: code:addons/l10n_ro_hr_contract/models/hr_contract.py:29
+#, python-format
+msgid "3 hours partial work time"
+msgstr "cu timp de lucru parțial de 3 ore"
+
+#. module: l10n_ro_hr_contract
+#: code:addons/l10n_ro_hr_contract/models/hr_contract.py:30
+#, python-format
+msgid "4 hours partial work time"
+msgstr "cu timp de lucru parțial de 4 ore"
+
+#. module: l10n_ro_hr_contract
+#: code:addons/l10n_ro_hr_contract/models/hr_contract.py:31
+#, python-format
+msgid "5 hours partial work time"
+msgstr "cu timp de lucru parțial de 5 ore"
+
+#. module: l10n_ro_hr_contract
+#: code:addons/l10n_ro_hr_contract/models/hr_contract.py:38
+#, python-format
+msgid "6 hours"
+msgstr "6 ore"
+
+#. module: l10n_ro_hr_contract
+#: code:addons/l10n_ro_hr_contract/models/hr_contract.py:32
+#, python-format
+msgid "6 hours partial work time"
+msgstr "cu timp de lucru parțial de 6 ore"
+
+#. module: l10n_ro_hr_contract
+#: code:addons/l10n_ro_hr_contract/models/hr_contract.py:38
+#, python-format
+msgid "7 hours"
+msgstr "7 ore"
+
+#. module: l10n_ro_hr_contract
+#: code:addons/l10n_ro_hr_contract/models/hr_contract.py:33
+#, python-format
+msgid "7 hours partial work time"
+msgstr "cu timp de lucru parțial de 7 ore"
+
+#. module: l10n_ro_hr_contract
+#: code:addons/l10n_ro_hr_contract/models/hr_contract.py:38
+#, python-format
+msgid "8 hours"
+msgstr "8 ore"
+
+#. module: l10n_ro_hr_contract
+#: model:ir.model.fields,field_description:l10n_ro_hr_contract.field_hr_insurance_type_code
+msgid "Code"
+msgstr "Cod"
+
+#. module: l10n_ro_hr_contract
+#: model:ir.model,name:l10n_ro_hr_contract.model_hr_contract
+#, fuzzy
+msgid "Contract"
+msgstr "Contracte Angajați"
+
+#. module: l10n_ro_hr_contract
+#: model:ir.model.fields,field_description:l10n_ro_hr_contract.field_hr_contract_suspended
+msgid "Contract suspended?"
+msgstr "Contract suspendat?"
+
+#. module: l10n_ro_hr_contract
+#: model:ir.model.fields,field_description:l10n_ro_hr_contract.field_hr_insurance_type_create_uid
+msgid "Created by"
+msgstr "Creeat de"
+
+#. module: l10n_ro_hr_contract
+#: model:ir.model.fields,field_description:l10n_ro_hr_contract.field_hr_insurance_type_create_date
+msgid "Created on"
+msgstr "Creeat în"
+
+#. module: l10n_ro_hr_contract
+#: model:ir.model.fields,field_description:l10n_ro_hr_contract.field_hr_contract_sign_date
+msgid "Date"
+msgstr "Data"
+
+#. module: l10n_ro_hr_contract
+#: model:ir.model.fields,help:l10n_ro_hr_contract.field_hr_contract_sign_date
+msgid "Date of signing the contract"
+msgstr "Data semnării contractului"
+
+#. module: l10n_ro_hr_contract
+#: model:ir.model.fields,field_description:l10n_ro_hr_contract.field_hr_contract_period_type
+msgid "Determined Period"
+msgstr "Perioadă determinată"
+
+#. module: l10n_ro_hr_contract
+#: model:ir.model.fields,field_description:l10n_ro_hr_contract.field_hr_insurance_type_display_name
+msgid "Display Name"
+msgstr "Nume Afişat"
+
+#. module: l10n_ro_hr_contract
+#: model:ir.model,name:l10n_ro_hr_contract.model_hr_insurance_type
+msgid "Employee insurance type"
+msgstr "Tip asigurare angajat"
+
+#. module: l10n_ro_hr_contract
+#: model:ir.model.fields,help:l10n_ro_hr_contract.field_hr_contract_tax_exempt
+msgid "Exempt from income tax"
+msgstr "Scutit de impozitul pe venit"
+
+#. module: l10n_ro_hr_contract
+#: model:ir.model.fields,field_description:l10n_ro_hr_contract.field_hr_contract_work_hour
+msgid "Hour per day"
+msgstr "Ore pe zi"
+
+#. module: l10n_ro_hr_contract
+#: model:ir.model.fields,field_description:l10n_ro_hr_contract.field_hr_insurance_type_id
+msgid "ID"
+msgstr "ID"
+
+#. module: l10n_ro_hr_contract
+#: model:ir.ui.view,arch_db:l10n_ro_hr_contract.hr_contract_view_ro_form
+msgid "Insurance Type"
+msgstr "Tip asigurare"
+
+#. module: l10n_ro_hr_contract
+#: model:ir.model.fields,help:l10n_ro_hr_contract.field_hr_insurance_type_code
+msgid "Insurance code"
+msgstr "Cod Asigurare"
+
+#. module: l10n_ro_hr_contract
+#: model:ir.model.fields,help:l10n_ro_hr_contract.field_hr_insurance_type_name
+msgid "Insurance name"
+msgstr "Nume asigurare"
+
+#. module: l10n_ro_hr_contract
+#: model:ir.model.fields,field_description:l10n_ro_hr_contract.field_hr_contract_insurance_type
+#: model:ir.model.fields,help:l10n_ro_hr_contract.field_hr_contract_insurance_type
+#: model:ir.model.fields,help:l10n_ro_hr_contract.field_hr_insurance_type_type
+msgid "Insurance type"
+msgstr "Tip asigurare"
+
+#. module: l10n_ro_hr_contract
+#: model:ir.ui.view,arch_db:l10n_ro_hr_contract.view_hr_insurance_type_form
+#: model:ir.ui.view,arch_db:l10n_ro_hr_contract.view_hr_insurance_type_tree
+msgid "Insurance types"
+msgstr "Tipuri asigurare"
+
+#. module: l10n_ro_hr_contract
+#: model:ir.model.fields,field_description:l10n_ro_hr_contract.field_hr_contract_internal_no
+#: model:ir.model.fields,help:l10n_ro_hr_contract.field_hr_contract_internal_no
+msgid "Internal Number"
+msgstr "Număr intern"
+
+#. module: l10n_ro_hr_contract
+#: model:ir.model.fields,help:l10n_ro_hr_contract.field_hr_contract_pensioneer
+msgid "Is the employee a pensioneer"
+msgstr "Este angajatul un pensionar"
+
+#. module: l10n_ro_hr_contract
+#: model:ir.model.fields,field_description:l10n_ro_hr_contract.field_hr_insurance_type___last_update
+msgid "Last Modified on"
+msgstr "Ultima actualizare în"
+
+#. module: l10n_ro_hr_contract
+#: model:ir.model.fields,field_description:l10n_ro_hr_contract.field_hr_insurance_type_write_uid
+msgid "Last Updated by"
+msgstr "Ultima actualizare de"
+
+#. module: l10n_ro_hr_contract
+#: model:ir.model.fields,field_description:l10n_ro_hr_contract.field_hr_insurance_type_write_date
+msgid "Last Updated on"
+msgstr "Ultima actualizare în"
+
+#. module: l10n_ro_hr_contract
+#: model:ir.model.fields,field_description:l10n_ro_hr_contract.field_hr_insurance_type_name
+msgid "Name"
+msgstr "Nume"
+
+#. module: l10n_ro_hr_contract
+#: code:addons/l10n_ro_hr_contract/models/hr_contract.py:43
+#, python-format
+msgid "Normal Conditions"
+msgstr "Condiții Normale"
+
+#. module: l10n_ro_hr_contract
+#: model:ir.model.fields,help:l10n_ro_hr_contract.field_hr_contract_revisal_no
+msgid "Number registered in Revisal"
+msgstr "Numărul înregistrat în Revisal"
+
+#. module: l10n_ro_hr_contract
+#: code:addons/l10n_ro_hr_contract/models/hr_contract.py:44
+#, python-format
+msgid "Particular Conditions"
+msgstr "Condiții Deosebite"
+
+#. module: l10n_ro_hr_contract
+#: model:ir.model.fields,field_description:l10n_ro_hr_contract.field_hr_contract_pensioneer
+msgid "Pensioneer"
+msgstr "Pensionar"
+
+#. module: l10n_ro_hr_contract
+#: model:ir.ui.view,arch_db:l10n_ro_hr_contract.hr_contract_view_ro_form
+msgid "Period type"
+msgstr "Tip Perioadă"
+
+#. module: l10n_ro_hr_contract
+#: model:ir.model.fields,field_description:l10n_ro_hr_contract.field_hr_contract_revisal_no
+msgid "REVISAL Number"
+msgstr "Număr REVISAL"
+
+#. module: l10n_ro_hr_contract
+#: model:ir.ui.view,arch_db:l10n_ro_hr_contract.view_hr_insurance_type_filter
+msgid "Search insurance type"
+msgstr "Caută după tip asigurare"
+
+#. module: l10n_ro_hr_contract
+#: code:addons/l10n_ro_hr_contract/models/hr_contract.py:45
+#: model:ir.model.fields,field_description:l10n_ro_hr_contract.field_hr_contract_work_special
+#, python-format
+msgid "Special Conditions"
+msgstr "Condiții Speciale"
+
+#. module: l10n_ro_hr_contract
+#: model:ir.model.fields,help:l10n_ro_hr_contract.field_hr_contract_work_special
+msgid "Special condition of work"
+msgstr "Condiții Speciale de muncă"
+
+#. module: l10n_ro_hr_contract
+#: model:ir.model.fields,field_description:l10n_ro_hr_contract.field_hr_contract_sus_date_from
+msgid "Suspended from"
+msgstr "Suspendat de la"
+
+#. module: l10n_ro_hr_contract
+#: model:ir.model.fields,field_description:l10n_ro_hr_contract.field_hr_contract_sus_date_to
+msgid "Suspended to"
+msgstr "Suspendat până la"
+
+#. module: l10n_ro_hr_contract
+#: model:ir.ui.view,arch_db:l10n_ro_hr_contract.hr_contract_view_ro_form
+msgid "Suspension Duration"
+msgstr "Durată Suspendare"
+
+#. module: l10n_ro_hr_contract
+#: model:ir.model.fields,field_description:l10n_ro_hr_contract.field_hr_contract_tax_exempt
+msgid "Tax Exempt"
+msgstr "Scutit de impozit"
+
+#. module: l10n_ro_hr_contract
+#: model:ir.model.fields,help:l10n_ro_hr_contract.field_hr_contract_period_type
+msgid "The contract period type"
+msgstr "Tipul perioadei contractuale"
+
+#. module: l10n_ro_hr_contract
+#: model:ir.model.fields,help:l10n_ro_hr_contract.field_hr_contract_work_hour
+msgid "The numbers of hours/day"
+msgstr "Numărul de ore / zi"
+
+#. module: l10n_ro_hr_contract
+#: model:ir.model.fields,help:l10n_ro_hr_contract.field_hr_contract_work_norm
+msgid "The type of work depending on worked hours"
+msgstr "Tipul de muncă din perspectiva orelor lucrate"
+
+#. module: l10n_ro_hr_contract
+#: model:ir.model.fields,help:l10n_ro_hr_contract.field_hr_contract_work_type
+msgid "The work type based on conditions"
+msgstr "Tipul de lucru în funcție de condiții"
+
+#. module: l10n_ro_hr_contract
+#: model:ir.model.fields,field_description:l10n_ro_hr_contract.field_hr_insurance_type_type
+msgid "Type"
+msgstr "Tip"
+
+#. module: l10n_ro_hr_contract
+#: model:ir.ui.view,arch_db:l10n_ro_hr_contract.hr_contract_view_ro_form
+msgid "Work Conditions"
+msgstr "Condiții de muncă"
+
+#. module: l10n_ro_hr_contract
+#: model:ir.model.fields,field_description:l10n_ro_hr_contract.field_hr_contract_work_norm
+msgid "Work Norm"
+msgstr "Normă muncă"
+
+#. module: l10n_ro_hr_contract
+#: model:ir.model.fields,field_description:l10n_ro_hr_contract.field_hr_contract_work_type
+msgid "Work type"
+msgstr "Tip muncă"
+
+#. module: l10n_ro_hr_contract
+#: code:addons/l10n_ro_hr_contract/models/hr_contract.py:26
+#, python-format
+msgid "full time"
+msgstr "cu normă întreagă"

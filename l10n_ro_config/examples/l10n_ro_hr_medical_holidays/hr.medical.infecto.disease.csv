@@ -1,0 +1,37 @@
+id,code,name
+hr_medical_infecto_disease_1,1,amibiaza (dizenterie amibiana)
+hr_medical_infecto_disease_2,2,antraxul
+hr_medical_infecto_disease_3,3,bruceloza
+hr_medical_infecto_disease_4,4,difteria
+hr_medical_infecto_disease_5,5,febra butunoasa
+hr_medical_infecto_disease_6,6,febra galbena
+hr_medical_infecto_disease_7,7,"febrele paratifoide A, B, C"
+hr_medical_infecto_disease_8,8,febra Q
+hr_medical_infecto_disease_9,9,febra recurenta
+hr_medical_infecto_disease_10,10,febra tifoida
+hr_medical_infecto_disease_11,11,"filarioza, dracunculoza"
+hr_medical_infecto_disease_12,12,hepatita virala
+hr_medical_infecto_disease_13,13,holera
+hr_medical_infecto_disease_14,14,infectia gonococica
+hr_medical_infecto_disease_15,15,leishmaniozele
+hr_medical_infecto_disease_16,16,lepra
+hr_medical_infecto_disease_17,17,leptospiroza
+hr_medical_infecto_disease_18,18,limfogranulomatoza inghinala benigna
+hr_medical_infecto_disease_19,19,malaria
+hr_medical_infecto_disease_20,20,meningita cerebrospinala epidemica
+hr_medical_infecto_disease_21,21,"morva, meioidoza"
+hr_medical_infecto_disease_22,22,pesta
+hr_medical_infecto_disease_23,23,poliomielita ?i alte neuroviroze paralitice
+hr_medical_infecto_disease_24,24,psitacoza-ornitoza
+hr_medical_infecto_disease_25,25,rabia
+hr_medical_infecto_disease_26,26,reumatismul articular acut
+hr_medical_infecto_disease_27,27,scarlatina
+hr_medical_infecto_disease_28,28,sifilisul
+hr_medical_infecto_disease_29,29,sancrul moale
+hr_medical_infecto_disease_30,30,tetanosul
+hr_medical_infecto_disease_31,31,tifosul exantematic
+hr_medical_infecto_disease_32,32,tuberculoza (toate formele ?i localizarile)
+hr_medical_infecto_disease_33,33,tularemia
+hr_medical_infecto_disease_34,34,tusea convulsiva
+hr_medical_infecto_disease_35,35,complicatiile postvaccinale
+hr_medical_infecto_disease_36,36,infectia HIV.

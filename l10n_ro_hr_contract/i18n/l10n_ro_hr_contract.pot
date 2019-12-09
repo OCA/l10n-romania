@@ -1,0 +1,314 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+#	* l10n_ro_hr_contract
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 11.0\n"
+"Report-Msgid-Bugs-To: \n"
+"Last-Translator: <>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: l10n_ro_hr_contract
+#: code:addons/l10n_ro_hr_contract/models/hr_contract.py:27
+#, python-format
+msgid "1 hour partial work time"
+msgstr ""
+
+#. module: l10n_ro_hr_contract
+#: code:addons/l10n_ro_hr_contract/models/hr_contract.py:28
+#, python-format
+msgid "2 hours partial work time"
+msgstr ""
+
+#. module: l10n_ro_hr_contract
+#: code:addons/l10n_ro_hr_contract/models/hr_contract.py:29
+#, python-format
+msgid "3 hours partial work time"
+msgstr ""
+
+#. module: l10n_ro_hr_contract
+#: code:addons/l10n_ro_hr_contract/models/hr_contract.py:30
+#, python-format
+msgid "4 hours partial work time"
+msgstr ""
+
+#. module: l10n_ro_hr_contract
+#: code:addons/l10n_ro_hr_contract/models/hr_contract.py:31
+#, python-format
+msgid "5 hours partial work time"
+msgstr ""
+
+#. module: l10n_ro_hr_contract
+#: code:addons/l10n_ro_hr_contract/models/hr_contract.py:38
+#, python-format
+msgid "6 hours"
+msgstr ""
+
+#. module: l10n_ro_hr_contract
+#: code:addons/l10n_ro_hr_contract/models/hr_contract.py:32
+#, python-format
+msgid "6 hours partial work time"
+msgstr ""
+
+#. module: l10n_ro_hr_contract
+#: code:addons/l10n_ro_hr_contract/models/hr_contract.py:38
+#, python-format
+msgid "7 hours"
+msgstr ""
+
+#. module: l10n_ro_hr_contract
+#: code:addons/l10n_ro_hr_contract/models/hr_contract.py:33
+#, python-format
+msgid "7 hours partial work time"
+msgstr ""
+
+#. module: l10n_ro_hr_contract
+#: code:addons/l10n_ro_hr_contract/models/hr_contract.py:38
+#, python-format
+msgid "8 hours"
+msgstr ""
+
+#. module: l10n_ro_hr_contract
+#: model:ir.model.fields,field_description:l10n_ro_hr_contract.field_hr_insurance_type_code
+msgid "Code"
+msgstr ""
+
+#. module: l10n_ro_hr_contract
+#: model:ir.model,name:l10n_ro_hr_contract.model_hr_contract
+msgid "Contract"
+msgstr ""
+
+#. module: l10n_ro_hr_contract
+#: model:ir.model.fields,field_description:l10n_ro_hr_contract.field_hr_contract_suspended
+msgid "Contract suspended?"
+msgstr ""
+
+#. module: l10n_ro_hr_contract
+#: model:ir.model.fields,field_description:l10n_ro_hr_contract.field_hr_insurance_type_create_uid
+msgid "Created by"
+msgstr ""
+
+#. module: l10n_ro_hr_contract
+#: model:ir.model.fields,field_description:l10n_ro_hr_contract.field_hr_insurance_type_create_date
+msgid "Created on"
+msgstr ""
+
+#. module: l10n_ro_hr_contract
+#: model:ir.model.fields,field_description:l10n_ro_hr_contract.field_hr_contract_sign_date
+msgid "Date"
+msgstr ""
+
+#. module: l10n_ro_hr_contract
+#: model:ir.model.fields,help:l10n_ro_hr_contract.field_hr_contract_sign_date
+msgid "Date of signing the contract"
+msgstr ""
+
+#. module: l10n_ro_hr_contract
+#: model:ir.model.fields,field_description:l10n_ro_hr_contract.field_hr_contract_period_type
+msgid "Determined Period"
+msgstr ""
+
+#. module: l10n_ro_hr_contract
+#: model:ir.model.fields,field_description:l10n_ro_hr_contract.field_hr_insurance_type_display_name
+msgid "Display Name"
+msgstr ""
+
+#. module: l10n_ro_hr_contract
+#: model:ir.model,name:l10n_ro_hr_contract.model_hr_insurance_type
+msgid "Employee insurance type"
+msgstr ""
+
+#. module: l10n_ro_hr_contract
+#: model:ir.model.fields,help:l10n_ro_hr_contract.field_hr_contract_tax_exempt
+msgid "Exempt from income tax"
+msgstr ""
+
+#. module: l10n_ro_hr_contract
+#: model:ir.model.fields,field_description:l10n_ro_hr_contract.field_hr_contract_work_hour
+msgid "Hour per day"
+msgstr ""
+
+#. module: l10n_ro_hr_contract
+#: model:ir.model.fields,field_description:l10n_ro_hr_contract.field_hr_insurance_type_id
+msgid "ID"
+msgstr ""
+
+#. module: l10n_ro_hr_contract
+#: model:ir.ui.view,arch_db:l10n_ro_hr_contract.hr_contract_view_ro_form
+msgid "Insurance Type"
+msgstr ""
+
+#. module: l10n_ro_hr_contract
+#: model:ir.model.fields,help:l10n_ro_hr_contract.field_hr_insurance_type_code
+msgid "Insurance code"
+msgstr ""
+
+#. module: l10n_ro_hr_contract
+#: model:ir.model.fields,help:l10n_ro_hr_contract.field_hr_insurance_type_name
+msgid "Insurance name"
+msgstr ""
+
+#. module: l10n_ro_hr_contract
+#: model:ir.model.fields,field_description:l10n_ro_hr_contract.field_hr_contract_insurance_type
+#: model:ir.model.fields,help:l10n_ro_hr_contract.field_hr_contract_insurance_type
+#: model:ir.model.fields,help:l10n_ro_hr_contract.field_hr_insurance_type_type
+msgid "Insurance type"
+msgstr ""
+
+#. module: l10n_ro_hr_contract
+#: model:ir.ui.view,arch_db:l10n_ro_hr_contract.view_hr_insurance_type_form
+#: model:ir.ui.view,arch_db:l10n_ro_hr_contract.view_hr_insurance_type_tree
+msgid "Insurance types"
+msgstr ""
+
+#. module: l10n_ro_hr_contract
+#: model:ir.model.fields,field_description:l10n_ro_hr_contract.field_hr_contract_internal_no
+#: model:ir.model.fields,help:l10n_ro_hr_contract.field_hr_contract_internal_no
+msgid "Internal Number"
+msgstr ""
+
+#. module: l10n_ro_hr_contract
+#: model:ir.model.fields,help:l10n_ro_hr_contract.field_hr_contract_pensioneer
+msgid "Is the employee a pensioneer"
+msgstr ""
+
+#. module: l10n_ro_hr_contract
+#: model:ir.model.fields,field_description:l10n_ro_hr_contract.field_hr_insurance_type___last_update
+msgid "Last Modified on"
+msgstr ""
+
+#. module: l10n_ro_hr_contract
+#: model:ir.model.fields,field_description:l10n_ro_hr_contract.field_hr_insurance_type_write_uid
+msgid "Last Updated by"
+msgstr ""
+
+#. module: l10n_ro_hr_contract
+#: model:ir.model.fields,field_description:l10n_ro_hr_contract.field_hr_insurance_type_write_date
+msgid "Last Updated on"
+msgstr ""
+
+#. module: l10n_ro_hr_contract
+#: model:ir.model.fields,field_description:l10n_ro_hr_contract.field_hr_insurance_type_name
+msgid "Name"
+msgstr ""
+
+#. module: l10n_ro_hr_contract
+#: code:addons/l10n_ro_hr_contract/models/hr_contract.py:43
+#, python-format
+msgid "Normal Conditions"
+msgstr ""
+
+#. module: l10n_ro_hr_contract
+#: model:ir.model.fields,help:l10n_ro_hr_contract.field_hr_contract_revisal_no
+msgid "Number registered in Revisal"
+msgstr ""
+
+#. module: l10n_ro_hr_contract
+#: code:addons/l10n_ro_hr_contract/models/hr_contract.py:44
+#, python-format
+msgid "Particular Conditions"
+msgstr ""
+
+#. module: l10n_ro_hr_contract
+#: model:ir.model.fields,field_description:l10n_ro_hr_contract.field_hr_contract_pensioneer
+msgid "Pensioneer"
+msgstr ""
+
+#. module: l10n_ro_hr_contract
+#: model:ir.ui.view,arch_db:l10n_ro_hr_contract.hr_contract_view_ro_form
+msgid "Period type"
+msgstr ""
+
+#. module: l10n_ro_hr_contract
+#: model:ir.model.fields,field_description:l10n_ro_hr_contract.field_hr_contract_revisal_no
+msgid "REVISAL Number"
+msgstr ""
+
+#. module: l10n_ro_hr_contract
+#: model:ir.ui.view,arch_db:l10n_ro_hr_contract.view_hr_insurance_type_filter
+msgid "Search insurance type"
+msgstr ""
+
+#. module: l10n_ro_hr_contract
+#: code:addons/l10n_ro_hr_contract/models/hr_contract.py:45
+#: model:ir.model.fields,field_description:l10n_ro_hr_contract.field_hr_contract_work_special
+#, python-format
+msgid "Special Conditions"
+msgstr ""
+
+#. module: l10n_ro_hr_contract
+#: model:ir.model.fields,help:l10n_ro_hr_contract.field_hr_contract_work_special
+msgid "Special condition of work"
+msgstr ""
+
+#. module: l10n_ro_hr_contract
+#: model:ir.model.fields,field_description:l10n_ro_hr_contract.field_hr_contract_sus_date_from
+msgid "Suspended from"
+msgstr ""
+
+#. module: l10n_ro_hr_contract
+#: model:ir.model.fields,field_description:l10n_ro_hr_contract.field_hr_contract_sus_date_to
+msgid "Suspended to"
+msgstr ""
+
+#. module: l10n_ro_hr_contract
+#: model:ir.ui.view,arch_db:l10n_ro_hr_contract.hr_contract_view_ro_form
+msgid "Suspension Duration"
+msgstr ""
+
+#. module: l10n_ro_hr_contract
+#: model:ir.model.fields,field_description:l10n_ro_hr_contract.field_hr_contract_tax_exempt
+msgid "Tax Exempt"
+msgstr ""
+
+#. module: l10n_ro_hr_contract
+#: model:ir.model.fields,help:l10n_ro_hr_contract.field_hr_contract_period_type
+msgid "The contract period type"
+msgstr ""
+
+#. module: l10n_ro_hr_contract
+#: model:ir.model.fields,help:l10n_ro_hr_contract.field_hr_contract_work_hour
+msgid "The numbers of hours/day"
+msgstr ""
+
+#. module: l10n_ro_hr_contract
+#: model:ir.model.fields,help:l10n_ro_hr_contract.field_hr_contract_work_norm
+msgid "The type of work depending on worked hours"
+msgstr ""
+
+#. module: l10n_ro_hr_contract
+#: model:ir.model.fields,help:l10n_ro_hr_contract.field_hr_contract_work_type
+msgid "The work type based on conditions"
+msgstr ""
+
+#. module: l10n_ro_hr_contract
+#: model:ir.model.fields,field_description:l10n_ro_hr_contract.field_hr_insurance_type_type
+msgid "Type"
+msgstr ""
+
+#. module: l10n_ro_hr_contract
+#: model:ir.ui.view,arch_db:l10n_ro_hr_contract.hr_contract_view_ro_form
+msgid "Work Conditions"
+msgstr ""
+
+#. module: l10n_ro_hr_contract
+#: model:ir.model.fields,field_description:l10n_ro_hr_contract.field_hr_contract_work_norm
+msgid "Work Norm"
+msgstr ""
+
+#. module: l10n_ro_hr_contract
+#: model:ir.model.fields,field_description:l10n_ro_hr_contract.field_hr_contract_work_type
+msgid "Work type"
+msgstr ""
+
+#. module: l10n_ro_hr_contract
+#: code:addons/l10n_ro_hr_contract/models/hr_contract.py:26
+#, python-format
+msgid "full time"
+msgstr ""
+

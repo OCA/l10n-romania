@@ -1,0 +1,48 @@
+<?xml version = "1.0" encoding="utf-8"?>
+<odoo>    
+    <record id="hr_holidays_status_demo_cm_01" model="hr.holidays.status">
+        <field name="name">Boala obisnuita</field>
+        <field name="color_name">violet</field>
+        <field name="limit">1</field>
+        <field name="indemn_code">1</field>
+        <field name="percentage">75</field>
+        <field name="employer_days">5</field>
+        <field name="max_days">183</field>
+        <field eval="1" name="is_sick_leave"/>        
+        <field eval="0" name="emergency"/>
+        <field eval="0" name="timesheet_generate"/>
+    </record>
+    
+    <record id="hr_holidays_status_demo_cm_15" model="hr.holidays.status">
+        <field name="name">Risc maternal</field>
+        <field name="color_name">violet</field>
+        <field name="limit">1</field>
+        <field name="indemn_code">15</field>
+        <field name="percentage">75</field>
+        <field name="employer_days">0</field>
+        <field name="max_days">120</field>
+        <field eval="1" name="is_sick_leave"/>        
+        <field eval="0" name="emergency"/>
+        <field eval="0" name="timesheet_generate"/>
+    </record>
+
+    <record id="hr_medical_disease_demo_1" model="hr.medical.disease">
+      <field name="code">1</field>
+      <field name="name">Holera</field>      
+    </record>
+    
+    <record id="hr_medical_disease_demo_2" model="hr.medical.disease">
+      <field name="code">1</field>
+      <field name="name">Febra tifoida</field>      
+    </record>
+    
+    <record id="hr_medical_emergency_disease_demo_1" model="hr.medical.emergency.disease">
+      <field name="code">1</field>
+      <field name="name">arsurile</field>      
+    </record>
+    
+    <record id="hr_medical_infecto_disease_demo_1" model="hr.medical.infecto.disease">
+      <field name="code">1</field>
+      <field name="name">amibiaza (dizenterie amibiana)</field>      
+    </record>
+</odoo>

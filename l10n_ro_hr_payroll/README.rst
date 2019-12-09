@@ -1,9 +1,9 @@
 .. image:: https://img.shields.io/badge/licence-AGPL--3-blue.svg
     :alt: License: AGPL-3
 
-=============================
-Romania - Payroll Application
-=============================
+=================
+Romania - Payroll
+=================
 
 This module deals with Romanian Payroll implementation.
 It adds multiple configuration including:
@@ -24,7 +24,7 @@ Salary Categories and Rules
 
 Employee Income History
 -----------------------
-* You have a history about employee incomes, calculated directly from Pyaroll, 
+* You have a history about employee incomes, calculated directly from Pyaroll,
 or inputed for previous months.
 
 Installation

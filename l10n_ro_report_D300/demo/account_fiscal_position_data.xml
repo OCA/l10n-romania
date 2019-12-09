@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo noupdate="1">
+    <!-- Fiscal Position -->
+    <record id="demo_fiscal_position_vatp" model="account.fiscal.position">
+        <field name="name">Regim TVA la Incasare</field>
+    </record>
+    <!-- account.fiscal.position.tax -->
+    <!-- TVA la Incasare -->
+    <!-- Sales -->
+    <record id="afptt_tvaincasare_2" model="account.fiscal.position.tax">
+        <field name="position_id" ref="demo_fiscal_position_vatp"/>
+        <field name="tax_src_id" ref="demo_tvac_05"/>
+        <field name="tax_dest_id" ref="demo_tvaic_05"/>
+    </record>
+    <record id="afptt_tvaincasare_3" model="account.fiscal.position.tax">
+        <field name="position_id" ref="demo_fiscal_position_vatp"/>
+        <field name="tax_src_id" ref="demo_tvac_09"/>
+        <field name="tax_dest_id" ref="demo_tvaic_09"/>
+    </record>
+    <record id="afptt_tvaincasare_4" model="account.fiscal.position.tax">
+        <field name="position_id" ref="demo_fiscal_position_vatp"/>
+        <field name="tax_src_id" ref="demo_tvac_19"/>
+        <field name="tax_dest_id" ref="demo_tvaic_19"/>
+    </record>
+</odoo>

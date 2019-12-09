@@ -1,0 +1,7 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_hr_medical_disease_user,hr.medical.disease.user,model_hr_medical_disease,base.group_user,1,0,0,0
+access_hr_medical_disease_manager,hr.medical.disease.manager,model_hr_medical_disease,hr.group_hr_manager,1,1,1,1
+access_hr_medical_emergency_disease_user,hr.medical.emergency.disease.user,model_hr_medical_emergency_disease,base.group_user,1,0,0,0
+access_hr_medical_emergency_disease_manager,hr.medical.emergency.disease.manager,model_hr_medical_emergency_disease,hr.group_hr_manager,1,1,1,1
+access_hr_medical_infecto_disease_user,hr.medical.infecto.disease.user,model_hr_medical_infecto_disease,base.group_user,1,0,0,0
+access_hr_medical_infecto_disease_manager,hr.medical.infecto.disease.manager,model_hr_medical_infecto_disease,hr.group_hr_manager,1,1,1,1

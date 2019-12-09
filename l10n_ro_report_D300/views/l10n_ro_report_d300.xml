@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <template id="l10n_ro_report_D300.l10n_ro_report_d300_qweb">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="o">
+                <t t-call="l10n_ro_report_D300.internal_layout" t-lang="user.lang">
+                    <t t-call="l10n_ro_report_D300.l10n_ro_report_d300_base"/>
+                </t>
+            </t>
+        </t>
+    </template>
+
+    <template id="l10n_ro_report_D300.l10n_ro_report_d300_base">
+        <div class="page data_table">
+            <t t-set="title">Decont TVA - D300</t>
+            <div class="row">
+                <h4 class="mt0" t-esc="title or 'Odoo Report'"/>
+            </div>
+
+
+            <!-- Display filters -->
+            <t t-call="l10n_ro_report_D300.l10n_ro_report_d300_filters"/>
+            <div class="page_break"/>
+
+            <div class="act_as_table data_table" style="width: 100%;">
+                <!-- Display table headers for lines -->
+                <div class="act_as_thead">
+                    <div class="act_as_row labels">
+                        <!--## code-->
+                        <div class="act_as_cell first_column" style="width: 5%;">Code</div>
+                        <!--## name-->
+                        <t t-if="'ttype' not in o._context">
+                            <div class="act_as_cell" style="width: 65%;">Name</div>
+                        </t>
+                        <t t-if="'ttype' in o._context">
+                            <div class="act_as_cell" style="width: 55%;">Name</div>
+                            <div class="act_as_cell" style="width: 10%;"></div>
+                        </t>
+                        <!--## net-->
+                        <div class="act_as_cell" style="width: 15%;">Net</div>
+                        <!--## tax-->
+                        <div class="act_as_cell" style="width: 15%;">Tax</div>
+                    </div>
+                </div>
+
+                <t t-foreach="o.taxtags_ids" t-as="tag">
+                    <div class="act_as_row lines" style="font-weight: bold;">
+                        <t t-set="res_model" t-value="'account.account.tag'"/>
+                        <div class="act_as_cell left" style="width: 5%;">
+                            <span>
+                                <a t-att-data-active-id="tag.taxtag_id.id"
+                                   t-att-data-res-model="res_model"
+                                   class="o_l10n_ro_report_d300_web_action"
+                                   style="color: black;">
+                                <t t-raw="tag.code"/></a>
+                            </span>
+                        </div>
+                        <t t-if="'ttype' not in o._context">
+                            <div class="act_as_cell left" style="width: 65%;">
+                                <span>
+                                    <a t-att-data-active-id="tag.taxtag_id.id"
+                                       t-att-data-res-model="res_model"
+                                       class="o_l10n_ro_report_d300_web_action"
+                                       style="color: black;"><t t-raw="tag.name"/></a>
+                                </span>
+                            </div>
+                        </t>
+                        <t t-if="'ttype' in o._context">
+                            <div class="act_as_cell left" style="width: 55%;">
+                                <span>
+                                    <a t-att-data-active-id="tag.taxtag_id.id"
+                                       t-att-data-res-model="res_model"
+                                       class="o_l10n_ro_report_d300_web_action"
+                                       style="color: black;"><t t-raw="tag.name"/></a>
+                                </span>
+                            </div>
+                            <div class="act_as_cell left col-md-offset-1t" style="width: 10%;" >
+                                <a t-att-data-res-model="'account.move.line'"
+                                   t-att-data-active-id="tag.move_line_ids.ids"
+                                   class="o_l10n_ro_report_d300_web_action_multi"
+                                   style="color: black;">View Move Lines</a>
+                            </div>
+                        </t>
+                        <div class="act_as_cell amount" style="width: 15%;">
+                            <span t-field="tag.net"/>
+                        </div>
+                        <div class="act_as_cell amount" style="width: 15%;">
+                            <span t-field="tag.tax"/>
+                        </div>
+                    </div>
+                    <t t-if="o.tax_detail">
+                        <t t-foreach="tag.tax_ids" t-as="tax">
+                            <t t-set="res_model" t-value="'account.tax'"/>
+                            <div class="act_as_row lines">
+                                <div class="act_as_cell" style="width: 5%;"/>
+                                <t t-if="'ttype' not in o._context">
+                                    <div class="act_as_cell left" style="padding-left: 20px; width: 65%;">
+                                        <span>
+                                            <a t-att-data-active-id="tax.tax_id.id"
+                                               t-att-data-res-model="res_model"
+                                               class="o_l10n_ro_report_d300_web_action"
+                                               style="color: black;"><t t-raw="tax.name"/></a>
+                                        </span>
+                                   </div>
+                                </t>
+                                <t t-if="'ttype' in o._context">
+                                    <div class="act_as_cell left" style="padding-left: 20px; width: 55%;">
+                                        <span>
+                                            <a t-att-data-active-id="tax.tax_id.id"
+                                               t-att-data-res-model="res_model"
+                                               class="o_l10n_ro_report_d300_web_action"
+                                               style="color: black;">
+                                             <t t-raw="tax.name"/></a>
+                                        </span>
+                                   </div>
+                                   <div class="act_as_cell left col-md-offset-1t" style="width: 10%;">                        
+                                        <a t-att-data-res-model="'account.move.line'"
+                                           t-att-data-active-id="tax.move_line_ids.ids"
+                                           class="o_l10n_ro_report_d300_web_action_multi"
+                                           style="color: black;">View Move Lines</a>
+                                    </div>
+                                </t>
+                                <div class="act_as_cell amount" style="width: 15%;">
+                                    <span t-field="tax.net"/>
+                                </div>
+                                <div class="act_as_cell amount" style="width: 15%;">
+                                    <span t-field="tax.tax"/>
+                                </div>
+                            </div>
+                        </t>
+                    </t>
+                </t>
+            </div>
+        </div>
+    </template>
+
+    <template id="l10n_ro_report_D300.l10n_ro_report_d300_filters">
+        <div class="act_as_table data_table" style="width: 100%;">
+            <div class="act_as_row labels">
+                <div class="act_as_cell">Date From</div>
+                <div class="act_as_cell">Date To</div>
+            </div>
+            <div class="act_as_row">
+                <div class="act_as_cell">
+                    <span t-field="o.date_from"/>
+                </div>
+                <div class="act_as_cell">
+                    <span t-field="o.date_to"/>
+                </div>
+            </div>
+        </div>
+    </template>
+</odoo>

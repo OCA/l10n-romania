@@ -1,15 +1,8 @@
-# Copyright (C) 2014 Adrian Vasile
-# Copyright (C) 2018 FOREST AND BIOMASS ROMANIA SA
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 {
-    'name': 'Romania - Payroll Apllications',
-    'summary': 'Romania - Payroll Apllications',
-    'version': '11.0.1.0.0',
+    'name': 'Romania - Payroll',
+    'summary': 'Romania - Payroll',
     'category': 'Localization',
-    'author': 'Forest and Biomass Romania, '
-              'Odoo Community Association (OCA)',
-    'website': 'https://www.forbiom.eu',
-    'license': 'AGPL-3',
     'depends': [
         'hr_payroll',
         'l10n_ro_hr_contract',
@@ -34,5 +27,13 @@
         # model access
         'security/hr_security.xml',
         'security/ir.model.access.csv'],
-    'auto_install': False,
+    'license': 'AGPL-3',
+    'version': '11.0.1.0.0',
+    'author': 'OdooERP Romania,'
+              'Forest and Biomass Romania,'
+              'Odoo Community Association (OCA)',
+    'website': 'https://github.com/OCA/l10n-romania',
+    'installable': True,
+    'development_status': 'Beta',
+    'maintainers': ['feketemihai'],
 }
