@@ -32,6 +32,7 @@ addon | version | summary
 [l10n_ro_report_D300](l10n_ro_report_D300/) | 11.0.1.0.0 | Romania - D300 Report
 [l10n_ro_report_trial_balance](l10n_ro_report_trial_balance/) | 11.0.1.0.0 | Romania - Account Trial Balance Report
 [l10n_ro_siruta](l10n_ro_siruta/) | 11.0.1.0.0 | Romania - Siruta
+[l10n_ro_stock](l10n_ro_stock/) | 11.0.1.0.0 | Romania - Stock
 [l10n_ro_vat_on_payment](l10n_ro_vat_on_payment/) | 11.0.1.0.0 | Romania - VAT on Payment
 
 [//]: # (end addons)
