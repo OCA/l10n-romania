@@ -1,0 +1,86 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+#	* l10n_ro_stock
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 11.0\n"
+"Report-Msgid-Bugs-To: \n"
+"Last-Translator: <>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: l10n_ro_stock
+#: code:addons/l10n_ro_stock/models/stock_warehouse.py:58
+#, python-format
+msgid " Sequence consume"
+msgstr ""
+
+#. module: l10n_ro_stock
+#: code:addons/l10n_ro_stock/models/stock_warehouse.py:61
+#, python-format
+msgid " Sequence usage"
+msgstr ""
+
+#. module: l10n_ro_stock
+#: code:addons/l10n_ro_stock/models/stock_warehouse.py:28
+#: code:addons/l10n_ro_stock/models/stock_warehouse.py:91
+#, python-format
+msgid "Consume"
+msgstr ""
+
+#. module: l10n_ro_stock
+#: model:ir.model.fields,field_description:l10n_ro_stock.field_stock_warehouse_wh_consume_loc_id
+msgid "Consume Location"
+msgstr ""
+
+#. module: l10n_ro_stock
+#: model:ir.model.fields,field_description:l10n_ro_stock.field_stock_warehouse_consume_type_id
+msgid "Consume Type"
+msgstr ""
+
+#. module: l10n_ro_stock
+#: model:ir.model,name:l10n_ro_stock.model_stock_location
+msgid "Inventory Locations"
+msgstr ""
+
+#. module: l10n_ro_stock
+#: model:ir.model.fields,field_description:l10n_ro_stock.field_stock_location_merchandise_type
+msgid "Merchandise type"
+msgstr ""
+
+#. module: l10n_ro_stock
+#: code:addons/l10n_ro_stock/models/stock_location.py:16
+#: selection:stock.location,merchandise_type:0
+#, python-format
+msgid "Store"
+msgstr ""
+
+#. module: l10n_ro_stock
+#: code:addons/l10n_ro_stock/models/stock_warehouse.py:33
+#: code:addons/l10n_ro_stock/models/stock_warehouse.py:101
+#, python-format
+msgid "Usage"
+msgstr ""
+
+#. module: l10n_ro_stock
+#: model:ir.model.fields,field_description:l10n_ro_stock.field_stock_warehouse_wh_usage_loc_id
+msgid "Usage Giving Location"
+msgstr ""
+
+#. module: l10n_ro_stock
+#: model:ir.model.fields,field_description:l10n_ro_stock.field_stock_warehouse_usage_type_id
+msgid "Usage Giving Type"
+msgstr ""
+
+#. module: l10n_ro_stock
+#: code:addons/l10n_ro_stock/models/stock_location.py:17
+#: model:ir.model,name:l10n_ro_stock.model_stock_warehouse
+#: selection:stock.location,merchandise_type:0
+#, python-format
+msgid "Warehouse"
+msgstr ""
+
