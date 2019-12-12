@@ -3,7 +3,7 @@
 {
     'name': 'MT940 BRD Format Bank Statements Import',
     'category': 'Banking addons',
-    'summary': 'Currency Rate Update National Bank of Romania service',
+    'summary': 'Romania - Import bank statements from BRD',
     'depends': ['account_bank_statement_import_mt940_base'],
     'demo': ['demo/demo_data.xml'],
     'license': 'AGPL-3',
