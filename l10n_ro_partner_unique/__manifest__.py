@@ -4,7 +4,7 @@
     "name": "Romania - Partners Unique",
     "category": "Localization",
     "summary": "Creates a rule for vat and nrc unique for partners.",
-    "depends": ["base", "l10n_ro"],
+    "depends": ["l10n_ro"],
     "license": "AGPL-3",
     "version": "13.0.1.0.0",
     "author": "OdooERP Romania,"
