@@ -14,7 +14,7 @@ Installation
 
 To install this module, you need to:
 
-#. Clone the branch 11.0 of the repository https://github.com/OCA/l10n-romania
+#. Clone the branch 13.0 of the repository https://github.com/OCA/l10n-romania
 #. Add the path to this repository in your configuration (addons-path)
 #. Update the module list
 #. Search for "Romania - Partners Unique" in your addons
@@ -26,7 +26,7 @@ Usage
 
 .. image:: https://odoo-community.org/website/image/ir.attachment/5784_f2813bd/datas
    :alt: Try me on Runbot
-   :target: https://runbot.odoo-community.org/runbot/177/11.0
+   :target: https://runbot.odoo-community.org/runbot/177/13.0
 
 Bug Tracker
 ===========
