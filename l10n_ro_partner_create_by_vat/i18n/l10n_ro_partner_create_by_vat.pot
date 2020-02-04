@@ -23,4 +23,3 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_ro_partner_create_by_vat.field_res_users_vat_subjected
 msgid "VAT Legal Statement"
 msgstr ""
-
