@@ -8,6 +8,7 @@ setuptools.setup(
     description="Meta package for oca-l10n-romania Odoo addons",
     version=version,
     install_requires=[
+        'odoo13-addon-l10n_ro_partner_create_by_vat',
         'odoo13-addon-l10n_ro_partner_unique',
         'odoo13-addon-l10n_ro_vat_on_payment',
     ],
