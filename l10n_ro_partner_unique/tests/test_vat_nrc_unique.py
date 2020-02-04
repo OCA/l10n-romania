@@ -1,12 +1,12 @@
 # Copyright (C) 2017 Forest and Biomass Romania
-# Copyright (C) 2020 NextERP Romania
+# Copyright (C) 2020 OdooERP Romania
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
 from odoo.exceptions import ValidationError
-from odoo.tests.common import TransactionCase
+from odoo.tests.common import SavepointCase
 
 
-class TestVatUnique(TransactionCase):
+class TestVatUnique(SavepointCase):
     @classmethod
     def setUpClass(cls):
         super(TestVatUnique, cls).setUpClass()
@@ -15,14 +15,14 @@ class TestVatUnique(TransactionCase):
         )
 
     def test_duplicated_vat_creation(self):
-        """Test creation of partner."""
+        """ Test creation of partner."""
         with self.assertRaises(ValidationError):
             self.env["res.partner"].create(
                 {"name": "Second partner", "vat": "RO30834857", "nrc": "J35/2622/2012"}
             )
 
     def test_contact_vat_creation(self):
-        """Test creation of partner contacs."""
+        """ Test creation of partner contacs."""
         self.env["res.partner"].create(
             {
                 "name": "Test partner 1 - child",

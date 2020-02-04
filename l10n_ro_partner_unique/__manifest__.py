@@ -4,10 +4,10 @@
     "name": "Romania - Partners Unique",
     "category": "Localization",
     "summary": "Creates a rule for vat and nrc unique for partners.",
-    "depends": ["l10n_ro"],
+    "depends": ["base", "l10n_ro"],
     "license": "AGPL-3",
-    "version": "15.0.1.1.0",
-    "author": "NextERP Romania,"
+    "version": "13.0.1.0.0",
+    "author": "OdooERP Romania,"
     "Forest and Biomass Romania,"
     "Odoo Community Association (OCA)",
     "website": "https://github.com/OCA/l10n-romania",
