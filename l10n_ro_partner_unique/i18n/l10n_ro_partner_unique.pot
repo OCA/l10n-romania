@@ -4,7 +4,7 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 15.0\n"
+"Project-Id-Version: Odoo Server 13.0\n"
 "Report-Msgid-Bugs-To: \n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -21,5 +21,5 @@ msgstr ""
 #. module: l10n_ro_partner_unique
 #: code:addons/l10n_ro_partner_unique/models/res_partner.py:0
 #, python-format
-msgid "The VAT and NRC pair: %(vat)s - %(nrc)s must be unique ids=%(ids)s!"
+msgid "The VAT and NRC pair (%s, %s) must be unique!"
 msgstr ""
