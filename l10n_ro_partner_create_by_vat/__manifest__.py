@@ -4,7 +4,7 @@
     "name": "Romania - Partner Create by VAT",
     "category": "Localization",
     "summary": "Romania - Partner Create by VAT",
-    "depends": ["l10n_ro"],
+    "depends": ["base"],
     "data": ["views/res_partner_view.xml"],
     "license": "AGPL-3",
     "version": "13.0.1.0.0",
