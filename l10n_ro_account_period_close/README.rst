@@ -14,7 +14,7 @@ Installation
 
 To install this module, you need to:
 
-* clone the branch 11.0 of the repository https://github.com/OCA/l10n-romania
+* clone the branch 13.0 of the repository https://github.com/OCA/l10n-romania
 * add the path to this repository in your configuration (addons-path)
 * update the module list
 * search for "Romania - Account Period Closing" in your addons
@@ -26,7 +26,7 @@ Configuration
 * Go to Accounting -> Adviser -> Actions -> Account Period Closing,
   create separate templates for Incomes, Expenses, VAT.
 * Income and Expenses templates select "121000" account as debit and credit account.
-* For VAT template select closing accounts "442600" and "442700" with 
+* For VAT template select closing accounts "442600" and "442700" with
   debit account "442400" and credit account "442300", plus check the
   Close debit and credit accounts option.
 
@@ -44,7 +44,7 @@ go to the account and select the Bypass Closing Side Check option.
 
 .. image:: https://odoo-community.org/website/image/ir.attachment/5784_f2813bd/datas
    :alt: Try me on Runbot
-   :target: https://runbot.odoo-community.org/runbot/177/11.0
+   :target: https://runbot.odoo-community.org/runbot/177/13.0
 
 Bug Tracker
 ===========
