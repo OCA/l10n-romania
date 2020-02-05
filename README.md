@@ -14,6 +14,15 @@ List of Modules
 ---------------
 [//]: # (addons)
 
+Available addons
+----------------
+addon | version | summary
+--- | --- | ---
+[l10n_ro_fiscal_validation](l10n_ro_fiscal_validation/) | 13.0.1.0.0 | Romania - Fiscal Validation
+[l10n_ro_partner_create_by_vat](l10n_ro_partner_create_by_vat/) | 13.0.1.0.0 | Romania - Partner Create by VAT
+[l10n_ro_partner_unique](l10n_ro_partner_unique/) | 13.0.1.0.0 | Creates a rule for vat and nrc unique for partners.
+[l10n_ro_vat_on_payment](l10n_ro_vat_on_payment/) | 13.0.1.0.0 | Romania - VAT on Payment
+
 [//]: # (end addons)
 
 Translation Status
