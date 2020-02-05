@@ -1,11 +1,11 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
 {
-    "name": "Romania - Partner Create by VAT",
+    "name": "Romania - Fiscal Validation",
     "category": "Localization",
-    "summary": "Romania - Partner Create by VAT",
-    "depends": ["base"],
-    "data": ["views/res_partner_view.xml"],
+    "summary": "Romania - Fiscal Validation",
+    "depends": ["l10n_ro_partner_create_by_vat", "l10n_ro_vat_on_payment"],
+    "data": ["data/res_partner_vat_cron.xml"],
     "license": "AGPL-3",
     "version": "13.0.1.0.0",
     "author": "OdooERP Romania,"
