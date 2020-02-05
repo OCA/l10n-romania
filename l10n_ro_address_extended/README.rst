@@ -16,7 +16,7 @@ Installation
 
 To install this module, you need to:
 
-* clone the branch 11.0 of the repository https://github.com/OCA/l10n-romania
+* clone the branch 13.0 of the repository https://github.com/OCA/l10n-romania
 * add the path to this repository in your configuration (addons-path)
 * update the module list
 * search for "Romania - Address Extended" in your addons
@@ -27,7 +27,7 @@ Usage
 
 .. image:: https://odoo-community.org/website/image/ir.attachment/5784_f2813bd/datas
    :alt: Try me on Runbot
-   :target: https://runbot.odoo-community.org/runbot/177/11.0
+   :target: https://runbot.odoo-community.org/runbot/177/13.0
 
 Bug Tracker
 ===========
