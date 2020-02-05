@@ -5,16 +5,14 @@ from odoo.tests.common import TransactionCase
 
 
 class TestStockWarehouseCreation(TransactionCase):
-
     def setUp(self):
         super(TestStockWarehouseCreation, self).setUp()
-        self.warehouse_obj = self.env['stock.warehouse']
+        self.warehouse_obj = self.env["stock.warehouse"]
 
     def test_warehouse_creation(self):
-        warehouse = self.warehouse_obj.create({
-            'name': 'Warehouse Romania',
-            'code': 'ROW',
-        })
+        warehouse = self.warehouse_obj.create(
+            {"name": "Warehouse Romania", "code": "ROW"}
+        )
         self.assertTrue(warehouse.wh_consume_loc_id)
         self.assertTrue(warehouse.wh_usage_loc_id)
         self.assertTrue(warehouse.consume_type_id)
@@ -27,13 +25,13 @@ class TestStockWarehouseCreation(TransactionCase):
         consume_type = warehouse.consume_type_id
         usage_type = warehouse.usage_type_id
 
-        self.assertTrue(wh_consume_loc.usage, 'consume')
-        self.assertTrue(wh_usage_loc.usage, 'usage_giving')
+        self.assertTrue(wh_consume_loc.usage, "consume")
+        self.assertTrue(wh_usage_loc.usage, "usage_giving")
 
-        self.assertTrue(consume_type.code, 'internal')
+        self.assertTrue(consume_type.code, "internal")
         self.assertTrue(consume_type.default_location_src_id, wh_stock_loc)
         self.assertTrue(consume_type.default_location_dest_id, wh_consume_loc)
 
-        self.assertTrue(usage_type.code, 'internal')
+        self.assertTrue(usage_type.code, "internal")
         self.assertTrue(usage_type.default_location_src_id, wh_stock_loc)
         self.assertTrue(usage_type.default_location_dest_id, wh_usage_loc)
