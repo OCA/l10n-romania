@@ -41,7 +41,7 @@ class ResPartner(models.Model):
         result = {}
         if res.status_code == 200:
             res = res.json()
-            if res["found"] and res["found"][0]:
+            if res.get("found") and res["found"][0]:
                 result = res["found"][0]
         return result
 
@@ -53,7 +53,7 @@ class ResPartner(models.Model):
             "company_type": "company",
         }
         addr = city = ""
-        if result["adresa"]:
+        if result.get("adresa"):
             lines = [x for x in result["adresa"].replace("NR,", "NR.").split(",") if x]
             nostreet = True
             strlistabr = ["STR.", "ALEEA", "CAL.", "INTR.", "BD-UL"]
