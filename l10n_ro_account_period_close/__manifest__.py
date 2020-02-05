@@ -19,5 +19,6 @@
     "website": "https://github.com/OCA/l10n-romania",
     "installable": True,
     "development_status": "Mature",
+    "external_dependencies": {"python": ["dateutil"]},
     "maintainers": ["feketemihai"],
 }
