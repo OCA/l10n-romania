@@ -3,17 +3,17 @@
 # Copyright (C) 2019 OdooERP Romania
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
-from odoo import fields, models, _
+from odoo import _, fields, models
 
 
 class StockLocation(models.Model):
     _inherit = "stock.location"
 
     usage = fields.Selection(
-        selection_add=[('usage_giving', 'Usage Giving'),
-                       ('consume', 'Consume')])
+        selection_add=[("usage_giving", "Usage Giving"), ("consume", "Consume")]
+    )
     merchandise_type = fields.Selection(
-        [("store", _("Store")),
-         ("warehouse", _("Warehouse"))],
+        [("store", _("Store")), ("warehouse", _("Warehouse"))],
         string="Merchandise type",
-        default="warehouse")
+        default="warehouse",
+    )
