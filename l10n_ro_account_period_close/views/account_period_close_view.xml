@@ -6,7 +6,7 @@
         <field name="type">form</field>
         <field name="inherit_id" ref="account.view_account_form"/>
         <field name="arch" type="xml">
-                <field position="after" name="reconcile">
+                <field position="after" name="deprecated">
                     <label for="close_check"/>
                     <field name="close_check"/>
                 </field>
@@ -62,7 +62,6 @@
     <record id="action_account_period_closing" model="ir.actions.act_window">
         <field name="name">Account Period Closing</field>
         <field name="res_model">account.period.closing</field>
-        <field name="view_type">form</field>
         <field name="view_mode">tree,form</field>
     </record>
 
@@ -72,11 +71,13 @@
         parent="account.menu_finance_entries_actions"/>
 
     <act_window
-        id="act_account_period_closing_wizard"
         name="Close Period"
         res_model="account.period.closing.wizard"
-        view_mode="form" target="new" multi="False"
+        binding_model="account.period.closing"
+        binding_views="form"
+        view_mode="form"
+        target="new"
         context="{'search_default_closing_id':[active_id], 'default_closing_id': active_id}"
-        src_model="account.period.closing"/>
-
+        id="act_account_period_closing_wizard"
+        />
 </odoo>
