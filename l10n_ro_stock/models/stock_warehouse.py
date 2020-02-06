@@ -3,7 +3,7 @@
 # Copyright (C) 2019 OdooERP Romania
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
-from odoo import _, api, fields, models
+from odoo import _, fields, models
 
 
 class StockWarehouse(models.Model):
@@ -14,115 +14,97 @@ class StockWarehouse(models.Model):
     consume_type_id = fields.Many2one("stock.picking.type", "Consume Type")
     usage_type_id = fields.Many2one("stock.picking.type", "Usage Giving Type")
 
-    # Change warehouse methods for create to add the consume and usage giving
-    # operations.
+    def _get_locations_values(self, vals, code=False):
+        sub_locations = super(StockWarehouse, self)._get_locations_values(vals, code)
+        code = vals.get("code") or code or ""
+        code = code.replace(" ", "").upper()
+        company_id = vals.get(
+            "company_id", self.default_get(["company_id"])["company_id"]
+        )
+        sub_locations.update(
+            {
+                "wh_consume_loc_id": {
+                    "name": _("Consume"),
+                    "active": True,
+                    "usage": "consume",
+                    "barcode": self._valid_barcode(code + "-CONSUME", company_id),
+                },
+                "wh_usage_loc_id": {
+                    "name": _("Usage"),
+                    "active": True,
+                    "usage": "usage_giving",
+                    "barcode": self._valid_barcode(code + "-USAGE", company_id),
+                },
+            }
+        )
+        return sub_locations
 
-    @api.model
-    def create(self, vals):
-        warehouse = super(StockWarehouse, self).create(vals)
-        stock_loc_obj = self.env["stock.location"]
-        wh_consume_loc_vals = {
-            "name": _("Consume"),
-            "active": True,
-            "usage": "consume",
-            "company_id": warehouse.company_id.id,
-            "location_id": warehouse.view_location_id.id,
-        }
-        wh_usage_loc_vals = {
-            "name": _("Usage"),
-            "active": True,
-            "usage": "usage_giving",
-            "company_id": warehouse.company_id.id,
-            "location_id": warehouse.view_location_id.id,
-        }
-        warehouse.wh_consume_loc_id = stock_loc_obj.create(wh_consume_loc_vals)
-        warehouse.wh_usage_loc_id = stock_loc_obj.create(wh_usage_loc_vals)
-        # Update picking types location destination with the locations created
-        warehouse.consume_type_id.default_location_dest_id = warehouse.wh_consume_loc_id
-        warehouse.usage_type_id.default_location_dest_id = warehouse.wh_usage_loc_id
-        return warehouse
+    def _get_picking_type_update_values(self):
+        res = super(StockWarehouse, self)._get_picking_type_update_values()
+        res.update({"consume_type_id": {}, "usage_type_id": {}})
+        return res
 
-    def _create_or_update_sequences_and_picking_types(self):
-        warehouse_data = super(
+    def _get_picking_type_create_values(self, max_sequence):
+        create_data, max_sequence = super(
             StockWarehouse, self
-        )._create_or_update_sequences_and_picking_types()
-        warehouse = self
-        seq_obj = self.env["ir.sequence"]
-        picking_type_obj = self.env["stock.picking.type"]
-        # create new sequences
-        cons_seq_id = seq_obj.sudo().create(
+        )._get_picking_type_create_values(max_sequence)
+        create_data.update(
             {
-                "name": warehouse.name + _(" Sequence consume"),
-                "prefix": warehouse.code + "/CONS/",
-                "padding": 5,
+                "consume_type_id": {
+                    "name": _("Consume"),
+                    "code": "internal",
+                    "use_create_lots": True,
+                    "use_existing_lots": False,
+                    "default_location_src_id": self.lot_stock_id.id,
+                    "default_location_dest_id": self.wh_consume_loc_id.id,
+                    "sequence": max_sequence + 6,
+                    "barcode": self.code.replace(" ", "").upper() + "-CONSUME",
+                    "show_reserved": False,
+                    "sequence_code": "CONS",
+                    "company_id": self.company_id.id,
+                },
+                "usage_type_id": {
+                    "name": _("Usage Giving"),
+                    "code": "internal",
+                    "use_create_lots": True,
+                    "use_existing_lots": False,
+                    "default_location_src_id": self.lot_stock_id.id,
+                    "default_location_dest_id": self.wh_usage_loc_id.id,
+                    "sequence": max_sequence + 7,
+                    "barcode": self.code.replace(" ", "").upper() + "-USAGE",
+                    "sequence_code": "USAGE",
+                    "company_id": self.company_id.id,
+                },
             }
         )
-        usage_seq_id = seq_obj.sudo().create(
+        max_sequence += 2
+        return create_data, max_sequence
+
+    def _get_sequence_values(self):
+        sequences = super(StockWarehouse, self)._get_sequence_values()
+        sequences.update(
             {
-                "name": warehouse.name + _(" Sequence usage"),
-                "prefix": warehouse.code + "/USAGE/",
-                "padding": 5,
+                "consume_type_id": {
+                    "name": self.name + " " + _("Sequence Consume"),
+                    "prefix": self.code + "/CONS/",
+                    "padding": 5,
+                    "company_id": self.company_id.id,
+                },
+                "usage_type_id": {
+                    "name": self.name + " " + _("Sequence Usage Giving"),
+                    "prefix": self.code + "/USAGE/",
+                    "padding": 5,
+                    "company_id": self.company_id.id,
+                },
             }
         )
+        return sequences
 
-        wh_stock_loc = warehouse.lot_stock_id
-        cons_stock_loc = warehouse.wh_consume_loc_id
-        usage_stock_loc = warehouse.wh_usage_loc_id
-
-        # order the picking types with a sequence allowing to have the
-        # following suit for each warehouse: reception, internal, pick, pack,
-        # ship.
-        max_sequence = self.env["stock.picking.type"].search_read(
-            [], ["sequence"], order="sequence desc"
-        )
-        max_sequence = max_sequence and max_sequence[0]["sequence"] or 0
-
-        # choose the next available color for the picking types of this
-        # warehouse
-        color = 0
-        # put flashy colors first
-        available_colors = [c % 9 for c in range(3, 12)]
-        all_used_colors = self.env["stock.picking.type"].search_read(
-            [("warehouse_id", "!=", False), ("color", "!=", False)],
-            ["color"],
-            order="color",
-        )
-        # don't use sets to preserve the list order
-        for x in all_used_colors:
-            if x["color"] in available_colors:
-                available_colors.remove(x["color"])
-        if available_colors:
-            color = available_colors[0]
-
-        consume_type_id = picking_type_obj.create(
-            {
-                "name": _("Consume"),
-                "warehouse_id": warehouse.id,
-                "code": "internal",
-                "sequence_id": cons_seq_id.id,
-                "default_location_src_id": wh_stock_loc.id,
-                "default_location_dest_id": cons_stock_loc.id,
-                "sequence": max_sequence + 1,
-                "sequence_code": "CONS",
-                "color": color,
-            }
-        )
-        usage_type_id = picking_type_obj.create(
-            {
-                "name": _("Usage"),
-                "warehouse_id": warehouse.id,
-                "code": "internal",
-                "sequence_id": usage_seq_id.id,
-                "default_location_src_id": wh_stock_loc.id,
-                "default_location_dest_id": usage_stock_loc.id,
-                "sequence": max_sequence + 4,
-                "sequence_code": "USAGE",
-                "color": color,
-            }
-        )
-        vals = {
-            "consume_type_id": consume_type_id.id,
-            "usage_type_id": usage_type_id.id,
-        }
-        warehouse.write(vals)
-        return warehouse_data
+    def _update_name_and_code(self, new_name=False, new_code=False):
+        super(StockWarehouse, self)._update_name_and_code(new_name, new_code)
+        for warehouse in self:
+            sequence_data = warehouse._get_sequence_values()
+            warehouse.consume_type_id.sequence_id.write(
+                sequence_data["consume_type_id"]
+            )
+            warehouse.usage_type_id.sequence_id.write(sequence_data["usage_type_id"])
