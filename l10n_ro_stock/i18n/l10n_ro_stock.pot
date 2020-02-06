@@ -14,18 +14,6 @@ msgstr ""
 "Plural-Forms: \n"
 
 #. module: l10n_ro_stock
-#: code:addons/l10n_ro_stock/models/stock_warehouse.py:0
-#, python-format
-msgid " Sequence consume"
-msgstr ""
-
-#. module: l10n_ro_stock
-#: code:addons/l10n_ro_stock/models/stock_warehouse.py:0
-#, python-format
-msgid " Sequence usage"
-msgstr ""
-
-#. module: l10n_ro_stock
 #: model:ir.model.fields,help:l10n_ro_stock.field_stock_location__usage
 msgid ""
 "* Vendor Location: Virtual location representing the source location for products coming from your vendors\n"
@@ -71,6 +59,18 @@ msgid "Merchandise type"
 msgstr ""
 
 #. module: l10n_ro_stock
+#: code:addons/l10n_ro_stock/models/stock_warehouse.py:0
+#, python-format
+msgid "Sequence Consume"
+msgstr ""
+
+#. module: l10n_ro_stock
+#: code:addons/l10n_ro_stock/models/stock_warehouse.py:0
+#, python-format
+msgid "Sequence Usage Giving"
+msgstr ""
+
+#. module: l10n_ro_stock
 #: code:addons/l10n_ro_stock/models/stock_location.py:0
 #: model:ir.model.fields.selection,name:l10n_ro_stock.selection__stock_location__merchandise_type__store
 #, python-format
@@ -79,13 +79,14 @@ msgstr ""
 
 #. module: l10n_ro_stock
 #: code:addons/l10n_ro_stock/models/stock_warehouse.py:0
-#: code:addons/l10n_ro_stock/models/stock_warehouse.py:0
 #, python-format
 msgid "Usage"
 msgstr ""
 
 #. module: l10n_ro_stock
+#: code:addons/l10n_ro_stock/models/stock_warehouse.py:0
 #: model:ir.model.fields.selection,name:l10n_ro_stock.selection__stock_location__usage__usage_giving
+#, python-format
 msgid "Usage Giving"
 msgstr ""
 
