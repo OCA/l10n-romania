@@ -21,10 +21,7 @@ class ResPartner(models.Model):
 
     @api.depends("vat_number")
     def _compute_anaf_history(self):
-        partners = self.filtered(
-            lambda r: not isinstance(r.id, models.NewId) and r.vat_number is not False
-        )
-        for partner in partners:
+        for partner in self:
             if partner.vat_number:
                 history = self.env["res.partner.anaf"].search(
                     [("vat", "=", partner.vat_number)]
@@ -85,8 +82,8 @@ class ResPartner(models.Model):
                     }
                 )
 
-    @api.model
     def _check_vat_on_payment(self):
+        self.ensure_one()
         ctx = dict(self._context)
         vat_on_payment = False
         self._insert_relevant_anaf_data()
