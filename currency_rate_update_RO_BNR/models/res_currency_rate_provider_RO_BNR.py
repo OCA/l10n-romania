@@ -99,8 +99,8 @@ class ROBNRRatesHandler(xml.sax.ContentHandler):
                 and (self.date_to is None or self.date <= self.date_to)
                 and self.currency in self.currencies
             ):
-                self.content[self.date.isoformat()][self.currency] = (
-                    1 / self.multiplier * self.rate
+                self.content[self.date.isoformat()][self.currency] = 1 / (
+                    self.rate / self.multiplier
                 )
             self.currency = None
             self.rate = None
