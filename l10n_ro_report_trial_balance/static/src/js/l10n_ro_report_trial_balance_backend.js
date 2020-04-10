@@ -9,7 +9,7 @@ odoo.define('l10n_ro_report_trial_balance.l10n_ro_report_trial_balance_backend',
 
     var report_backend = Widget.extend(ControlPanelMixin, {
         // Stores all the parameters of the action.
-         events: {
+        events: {
             'click .o_l10n_ro_report_trial_balance_print': 'print',
             'click .o_l10n_ro_report_trial_balance_export': 'export',
         },

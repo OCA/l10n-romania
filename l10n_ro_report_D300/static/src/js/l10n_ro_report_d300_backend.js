@@ -8,7 +8,7 @@ odoo.define('l10n_ro_report_D300.l10n_ro_report_d300_backend', function (require
 
     var report_backend = Widget.extend(ControlPanelMixin, {
         // Stores all the parameters of the action.
-         events: {
+        events: {
             'click .o_l10n_ro_report_d300_print': 'print',
             'click .o_l10n_ro_report_d300_export': 'export',
         },
