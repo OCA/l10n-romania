@@ -15,7 +15,7 @@ headers = {
 }
 
 ANAF_BULK_URL = 'https://webservicesp.anaf.ro/AsynchWebService/api/v4/ws/tva'
-ANAF_CORR = 'https://webservicesp.anaf.ro/AsynchWebService/api/v4ws/tva?id=%s'
+ANAF_CORR = 'https://webservicesp.anaf.ro/AsynchWebService/api/v4/ws/tva?id=%s'
 
 
 class ResPartner(models.Model):
