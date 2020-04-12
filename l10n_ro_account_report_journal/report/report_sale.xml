@@ -434,14 +434,15 @@
                 
                 
                 <!--             PURCASE ANAF REPORT PURCASE ANAF REPORT PURCASE ANAF REPORT-->
+ 
                 <table t-if="not report_type_sale"
                     class="table table-condensed table-bordered table-responsive table-hover">
 
                     <thead>                       
                         <tr>
-                            <th colspan="1" rowspan="2" class="text-center align-middle">Nr Crt3</th>
+                            <th colspan="1" rowspan="2" class="text-center align-middle">Nr Crt</th>
                             <th colspan="2" class="text-center">Document</th>
-                            <th colspan="3" class="text-center">Partner</th>
+                            <th colspan="4" class="text-center">Partner</th>
                             <th colspan="8" class="text-center">Goods and Services Purchased</th>
                             <th colspan="2" class="text-center">Goods Imported</th>
                             <th colspan="5" class="text-center">Payments - Exigible Operations</th>
@@ -516,31 +517,31 @@
                                 <span t-esc="l['total_vat']"/>                                     
                             </td>
                             <td class="text-right">
-                               <t t-set="base_19"  t-value="l['+Baza TVA 19%']+l['-Baza TVA 19%']" />
+                              <t t-set="base_19"  t-value="l['+Baza TVA 19% (deductibila)']+l['-Baza TVA 19% (deductibila)']" />
                                <span t-esc="base_19"/>                                     
                             </td>
                             <td class="text-right">
-                               <t t-set="tva_19"  t-value="l['+TVA 19% (TVA colectata)']+l['-TVA 19% (TVA colectata)']" />
+                               <t t-set="tva_19"  t-value="l['+TVA 19% (deductibila)']+l['-TVA 19% (deductibila)']" />
                               <span t-esc="tva_19"/>                                    
                             </td>
                             <td class="text-right">
-                               <t t-set="base_9"  t-value="l['+Baza TVA 9%']+l['-Baza TVA 9%']" />
+                               <t t-set="base_9"  t-value="l['+Baza TVA 9% (deductibila)']+l['-Baza TVA 9% (deductibila)']" />
                                 <span t-esc="base_9"/>                                     
                             </td>
                             <td class="text-right">
-                               <t t-set="tva_9"  t-value="l['+TVA 9% (TVA colectata)']+l['-TVA 9% (TVA colectata)']" />
+                               <t t-set="tva_9"  t-value="l['+TVA 9% (deductibila)']+l['-TVA 9% (deductibila)']" />
                                 <span t-esc="tva_9"/>                                     
                             </td>
                             <td class="text-right">
-                                <t t-set="base_5"  t-value="l['+Baza TVA 5%']+l['-Baza TVA 5%']" />
+                                <t t-set="base_5"  t-value="l['+Baza TVA 5% (deductibila)']+l['-Baza TVA 5% (deductibila)']" />
                                  <span t-esc="base_5"/>                                     
                             </td>
                             <td class="text-right">
-                                 <t t-set="tva_5"  t-value="l['+TVA 5% (TVA colectata)']+l['-TVA 5% (TVA colectata)']" />
+                                 <t t-set="tva_5"  t-value="l['+TVA 5% (deductibila)']+l['-TVA 5% (deductibila)']" />
                                 <span t-esc="tva_5"/>                                     
                             </td>
                             <td class="text-right">
-                                <t t-set="base_0"  t-value="l['+Baza TVA 0%']+l['-Baza TVA 0%']" />
+                                <t t-set="base_0"  t-value="l['+Baza TVA 0% (deductibila)']+l['-Baza TVA 0% (deductibila)']" />
                                <span t-esc="base_0"/>                             
                              </td>
                             <td class="text-right">

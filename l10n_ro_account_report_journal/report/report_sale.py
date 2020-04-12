@@ -71,8 +71,8 @@ class SaleJournalReport(models.TransientModel):
             ["name"],
         )
         posible_tags_just_names = [x["name"] for x in posible_tags]
-        #         for x in posible_tags_just_names:
-        #             print(f"'{x}'")
+        for x in posible_tags_just_names:
+            print(f"'{x}'")
 
         # future posbile_tags_in_sale & posbile_tags_in_purchase and
         # if something not right
@@ -92,6 +92,14 @@ class SaleJournalReport(models.TransientModel):
             for x in posible_tags
             if ("% (TVA colectata)" in x) or ("% (deductibila)" in x and "TVA" in x)
         ]
+
+        aggregated_dict['total_base'] = [x for x in posible_tags_just_names if (
+                            ('+Baza TVA' in x and ('%' == x[-1] or x[-15:] == '% (deductibila)')) or
+                            ('-Baza TVA' in x and ('%' == x[-1] or x[-15:] == '% (deductibila)')) ) ]
+        aggregated_dict['total_vat'] = [x for x in posible_tags if 
+                            ('% (TVA colectata)' in x) or
+                            ('% (deductibila)' in x and 'TVA' in x)   ]
+
 
         sign = 1 if report_type_sale else -1
         report_lines = []
@@ -147,3 +155,78 @@ class SaleJournalReport(models.TransientModel):
         for key in int_float_keys:
             totals[key] = sum([x[key] for x in report_lines])
         return report_lines, totals
+
+"""
+    '-Baza TVA 0%'
+    '+Baza TVA 0%'
+    '-Baza TVA 19%'
+    '+Baza TVA 19%'
+    '-Baza TVA 24%'
+    '+Baza TVA 24%'
+    '-Baza TVA 5%'
+    '+Baza TVA 5%'
+    '-Baza TVA 9%'
+    '+Baza TVA 9%'
+'-Baza TVA Intracomunitar Bunuri'
+'+Baza TVA Intracomunitar Bunuri'
+'-Baza TVA Intracomunitar Servicii'
+'+Baza TVA Intracomunitar Servicii'
+'-Baza TVA Taxare Inversa'
+'+Baza TVA Taxare Inversa'
+    '-TVA 0% (TVA colectata)'
+    '+TVA 0% (TVA colectata)'
+    '-TVA 19% (TVA colectata)'
+    '+TVA 19% (TVA colectata)'
+    '-TVA 24% (TVA colectata)'
+    '+TVA 24% (TVA colectata)'
+    '-TVA 5% (TVA colectata)'
+    '+TVA 5% (TVA colectata)'
+    '-TVA 9% (TVA colectata)'
+    '+TVA 9% (TVA colectata)'
+'-TVA Intracomunitar Bunuri (TVA colectata)'
+'+TVA Intracomunitar Bunuri (TVA colectata)'
+'-TVA Intracomunitar Servicii (TVA colectata)'
+'+TVA Intracomunitar Servicii (TVA colectata)'
+'-TVA Taxare Inversa (TVA colectata)'
+'+TVA Taxare Inversa (TVA colectata)'
+    '-Baza TVA 0% (deductibila)'
+    '+Baza TVA 0% (deductibila)'
+    '-Baza TVA 19% (deductibila)'
+    '+Baza TVA 19% (deductibila)'
+    '-Baza TVA 24% (deductibila)'
+    '+Baza TVA 24% (deductibila)'
+    '-Baza TVA 5% (deductibila)'
+    '+Baza TVA 5% (deductibila)'
+    '-Baza TVA 9% (deductibila)'
+    '+Baza TVA 9% (deductibila)'
+'-Baza TVA Intracomunitar Bunuri (deductibila)'
+'+Baza TVA Intracomunitar Bunuri (deductibila)'
+'-Baza TVA Intracomunitar Servicii (deductibila)'
+'+Baza TVA Intracomunitar Servicii (deductibila)'
+'-Baza TVA Taxare Inversa (deductibila)'
+'+Baza TVA Taxare Inversa (deductibila)'
+'-TVA 0%'
+'+TVA 0%'
+    '-TVA 19% (deductibila)'
+    '+TVA 19% (deductibila)'
+    '-TVA 24% (deductibila)'
+    '+TVA 24% (deductibila)'
+    '-TVA 5% (deductibila)'
+    '+TVA 5% (deductibila)'
+    '-TVA 9% (deductibila)'
+    '+TVA 9% (deductibila)'
+'-TVA Intracomunitar Bunuri (deductibila)'
+'+TVA Intracomunitar Bunuri (deductibila)'
+'-TVA Intracomunitar Servicii (deductibila)'
+'+TVA Intracomunitar Servicii (deductibila)'
+'-TVA Taxare Inversa (deductibila)'
+'+TVA Taxare Inversa (deductibila)'
+'-Baza TVA Taxare Scutita - Achizitii'
+'+Baza TVA Taxare Scutita - Achizitii'
+'-Baza TVA Taxare Scutita - Vanzari'
+'+Baza TVA Taxare Scutita - Vanzari'
+'-Baza TVA Taxare intracomunitara neimpozabila - Achizitii'
+'+Baza TVA Taxare intracomunitara neimpozabila - Achizitii'
+'-Baza TVA Taxare intracomunitara neimpozabila - Vanzari'
+'+Baza TVA Taxare intracomunitara neimpozabila - Vanzari'
+"""
