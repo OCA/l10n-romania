@@ -95,11 +95,10 @@ class SaleJournalReport(models.TransientModel):
 
         aggregated_dict['total_base'] = [x for x in posible_tags_just_names if (
                             ('+Baza TVA' in x and ('%' == x[-1] or x[-15:] == '% (deductibila)')) or
-                            ('-Baza TVA' in x and ('%' == x[-1] or x[-15:] == '% (deductibila)')) ) ]
-        aggregated_dict['total_vat'] = [x for x in posible_tags if 
-                            ('% (TVA colectata)' in x) or
-                            ('% (deductibila)' in x and 'TVA' in x)   ]
-
+                            ('-Baza TVA' in x and ('%' == x[-1] or x[-15:] == '% (deductibila)'))  )]
+        aggregated_dict['total_vat'] = [x for x in posible_tags_just_names if (
+                            ("+TVA" == x[:4] and ('% (TVA colectata)' == x[-17:] or x[-15:]=='% (deductibila)')) or
+                            ("-TVA" == x[:4] and ('% (TVA colectata)' == x[-17:] or x[-15:]=='% (deductibila)'))     )]
 
         sign = 1 if report_type_sale else -1
         report_lines = []
