@@ -93,6 +93,7 @@ class SaleJournalReport(models.TransientModel):
             if ("% (TVA colectata)" in x) or ("% (deductibila)" in x and "TVA" in x)
         ]
 
+        sign = 1 if report_type_sale else -1
         report_lines = []
         for inv1 in invoices:
             vals = {x: 0 for x in posible_tags_just_names}
@@ -100,14 +101,14 @@ class SaleJournalReport(models.TransientModel):
             vals["date"] = inv1.invoice_date
             vals["partner"] = inv1.invoice_partner_display_name
             vals["vat"] = inv1.invoice_partner_display_vat
-            vals["total"] = inv1.amount_total_signed
+            vals["total"] = sign*(inv1.amount_total_signed)
             vals["warnings"] = ""
 
             for line in inv1.line_ids:
                 if line.account_id.code.startswith(
                     "411"
                 ) or line.account_id.code.startswith("401"):
-                    if vals["total"] != -line.credit + line.debit:
+                    if vals["total"] != sign*(-line.credit + line.debit):
                         vals["warnings"] += (
                             f"The value of invoice is {vals['total']} but "
                             f"accounting account {line.account_id.code} has "
@@ -128,7 +129,7 @@ class SaleJournalReport(models.TransientModel):
                             f"find_all_account_tax_report_line"
                         )
                     else:
-                        vals[line.tag_ids[0].name] += line.credit - line.debit
+                        vals[line.tag_ids[0].name] += sign*(line.credit - line.debit)
 
             # put the aggregated values
             for key, value in aggregated_dict.items():

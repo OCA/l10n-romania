@@ -431,58 +431,27 @@
                     </tfoot>
                     -->
                 </table>
+                
+                
                 <!--             PURCASE ANAF REPORT PURCASE ANAF REPORT PURCASE ANAF REPORT-->
-                <table
-                    t-if="not report_type_sale"
-                    class="table table-condensed table-bordered table-responsive table-hover"
-                >
-                    <thead>
+                <table t-if="not report_type_sale"
+                    class="table table-condensed table-bordered table-responsive table-hover">
+
+                    <thead>                       
                         <tr>
-                            <th
-                                colspan="1"
-                                rowspan="2"
-                                class="text-center align-middle"
-                            >Nr Crt</th>
+                            <th colspan="1" rowspan="2" class="text-center align-middle">Nr Crt3</th>
                             <th colspan="2" class="text-center">Document</th>
-                            <th colspan="4" class="text-center">Partner</th>
-                            <th
-                                colspan="9"
-                                class="text-center"
-                            >Deliveries/Services taxable</th>
-                            <th colspan="1" class="text-center">Inverse Taxation</th>
-                            <th colspan="1" class="text-center">Special Treatment</th>
-                            <th
-                                colspan="5"
-                                class="text-center"
-                            >Payments - Exigible Operations</th>
-                            <th
-                                colspan="2"
-                                class="text-center"
-                            >Not Exigible Operations</th>
-                            <th
-                                colspan="2"
-                                class="text-center"
-                            >Intra - communitaire Services</th>
-                            <th
-                                colspan="1"
-                                class="text-center"
-                            >Exempt acc. art.143 al.2 lit.a+d</th>
-                            <th
-                                colspan="1"
-                                class="text-center"
-                            >Exempt acc. art.143 al.2 lit.b+c</th>
-                            <th colspan="1" class="text-center">Others</th>
-                            <th
-                                colspan="2"
-                                class="text-center"
-                            >Intra - communitaire and Inverse Taxation</th>
-                            <th
-                                t-if="show_warnings"
-                                colspan="2"
-                                rowspan="2"
-                                class="text-center align-middle"
-                            >Warnings
-                            </th>
+                            <th colspan="3" class="text-center">Partner</th>
+                            <th colspan="8" class="text-center">Goods and Services Purchased</th>
+                            <th colspan="2" class="text-center">Goods Imported</th>
+                            <th colspan="5" class="text-center">Payments - Exigible Operations</th>
+                            <th colspan="2" class="text-center">Not Exigible Operations</th>
+                            <th colspan="1" class="text-center">Purchases of goods exempt or not taxable</th>
+                            <th colspan="4" class="text-center">Intracommunitaire purchases of goods and services</th>
+                            <th colspan="1" class="text-center">Intracom. purchases exempt</th>
+                            <th colspan="1" class="text-center">Intracom. purchases not taxable</th>
+                            <th colspan="2" class="text-center">Inverse Taxation</th>
+                            <th t-if="show_warnings" colspan="2" rowspan="2" class="text-center align-middle">Warnings</th>
                         </tr>
                         <tr>
                             <th colspan="1" class="text-center">Number</th>
@@ -490,44 +459,182 @@
                             <th colspan="2" class="text-center">Name</th>
                             <th colspan="1" class="text-center">VAT</th>
                             <th colspan="1" class="text-center">Total Fact</th>
-                            <th colspan="1" class="text-center">Base</th>
+                            <th colspan="1" class="text-center">Base</th>                            
                             <th colspan="1" class="text-center">VAT</th>
-                            <th colspan="1" class="text-center">Base 19%</th>
+                            <th colspan="1" class="text-center">Base 19%</th>                            
                             <th colspan="1" class="text-center">VAT 19%</th>
-                            <th colspan="1" class="text-center">Base 9%</th>
+                            <th colspan="1" class="text-center">Base 9%</th>                            
                             <th colspan="1" class="text-center">VAT 9%</th>
-                            <th colspan="1" class="text-center">Base 5%</th>
+                            <th colspan="1" class="text-center">Base 5%</th>                            
                             <th colspan="1" class="text-center">VAT 5%</th>
-                            <th colspan="1" class="text-center">Base 0%</th>
-                            <th colspan="1" class="text-center">Base</th>
-                            <th colspan="1" class="text-center">Base</th>
+                            <th colspan="1" class="text-center">Base</th> 
+                            <th colspan="1" class="text-center">VAT</th> 
                             <th colspan="1" class="text-center">Number</th>
                             <th colspan="1" class="text-center">Date</th>
                             <th colspan="1" class="text-center">Total</th>
-                            <th colspan="1" class="text-center">Base</th>
+                            <th colspan="1" class="text-center">Base</th>                            
                             <th colspan="1" class="text-center">VAT</th>
-                            <th colspan="1" class="text-center">Base</th>
+                            <th colspan="1" class="text-center">Base</th>                            
                             <th colspan="1" class="text-center">VAT</th>
-                            <th
-                                colspan="1"
-                                class="text-center"
-                            >With deduction rights</th>
-                            <th
-                                colspan="1"
-                                class="text-center"
-                            >Without deduction rights</th>>
+                            <th colspan="1" class="text-center">Base</th>                            
+                            <th colspan="1" class="text-center">Base</th>>                            
+                            <th colspan="1" class="text-center">VAT</th>
+                            <th colspan="1" class="text-center">Base</th>                            
+                            <th colspan="1" class="text-center">VAT</th>                            
+                            <th colspan="1" class="text-center">Base</th>                            
                             <th colspan="1" class="text-center">Base</th>
                             <th colspan="1" class="text-center">Base</th>
-                            <th colspan="1" class="text-center">Base</th>
-                            <th colspan="1" class="text-center">Base Collected</th>
-                            <th colspan="1" class="text-center">VAT Collected</th>
-
+                            <th colspan="1" class="text-center">VAT</th>                            
                         </tr>
                     </thead>
+		           <tbody>
+                          <tr t-foreach="lines" t-as="l">
+                            <td><span t-esc="l_index + 1"/></td>
+                            <td>
+                                <span t-esc="l['number']"/>                                     
+                            </td>
+                            <td>
+                                <span t-esc="l['date']"/>                                     
+                            </td>
+                            <td colspan="2" >
+                                <span t-esc="l['partner']"/>                                     
+                            </td>
+                            <td>
+                                <span t-esc="l['vat']"/>                                     
+                            </td>
+
+
+
+
+                            <td class="text-right COPY_FORM_HERE_IN_TOTAL">
+                                <span t-esc="l['total']"/>                                     
+                            </td>
+                            <td class="text-right">
+                                <span t-esc="l['total_base']"/>                                     
+                            </td>
+                            <td class="text-right">
+                                <span t-esc="l['total_vat']"/>                                     
+                            </td>
+                            <td class="text-right">
+                               <t t-set="base_19"  t-value="l['+Baza TVA 19%']+l['-Baza TVA 19%']" />
+                               <span t-esc="base_19"/>                                     
+                            </td>
+                            <td class="text-right">
+                               <t t-set="tva_19"  t-value="l['+TVA 19% (TVA colectata)']+l['-TVA 19% (TVA colectata)']" />
+                              <span t-esc="tva_19"/>                                    
+                            </td>
+                            <td class="text-right">
+                               <t t-set="base_9"  t-value="l['+Baza TVA 9%']+l['-Baza TVA 9%']" />
+                                <span t-esc="base_9"/>                                     
+                            </td>
+                            <td class="text-right">
+                               <t t-set="tva_9"  t-value="l['+TVA 9% (TVA colectata)']+l['-TVA 9% (TVA colectata)']" />
+                                <span t-esc="tva_9"/>                                     
+                            </td>
+                            <td class="text-right">
+                                <t t-set="base_5"  t-value="l['+Baza TVA 5%']+l['-Baza TVA 5%']" />
+                                 <span t-esc="base_5"/>                                     
+                            </td>
+                            <td class="text-right">
+                                 <t t-set="tva_5"  t-value="l['+TVA 5% (TVA colectata)']+l['-TVA 5% (TVA colectata)']" />
+                                <span t-esc="tva_5"/>                                     
+                            </td>
+                            <td class="text-right">
+                                <t t-set="base_0"  t-value="l['+Baza TVA 0%']+l['-Baza TVA 0%']" />
+                               <span t-esc="base_0"/>                             
+                             </td>
+                            <td class="text-right">
+                                <t t-set="invers"  t-value="l['+Baza TVA Taxare Inversa']+l['-Baza TVA Taxare Inversa']" />
+                               <span t-esc="invers"/>                                     
+                             </td>
+                            <td class="text-right SPECIAL_TREATMENT_CE_O_FI?">
+                                <span t-esc="0.00"/>                                     
+                            </td>							
+                            <td colspan="5">
+   <!--                              <t t-if="l['payments']">
+                                <table width="100%">
+                                    <tr t-foreach="l['payments']" t-as="pay">
+                                        <td class="text-right" width="30">
+                                            <t t-if="pay['number']!=''"><span t-esc="pay['number'].rjust(10,' ')"/></t>
+                                            <t t-if="pay['number']==''">...........</t>   
+                                        </td>
+                                        <td class="text-right" width="30">
+                                            <t t-if="pay['date']!=''"><span t-esc="pay['date']"/></t> 
+                                            <t t-if="pay['date']==''">...........</t>       
+                                        </td>
+                                        <td class="text-right">
+                                            <span t-esc="pay['amount']"/>                                     
+                                        </td>
+                                        <td class="text-right">
+                                            <span t-esc="pay['base_exig']"/>                                     
+                                        </td>
+                                        <td class="text-right">
+                                            <span t-esc="pay['tva_exig']"/>                                     
+                                        </td>
+                                    </tr>
+                                </table>
+                                </t>
+    -->                         </td>  
+                            <td class="text-right">
+                                 <t t-set="base_neex"  t-value="l['+Baza TVA Taxare Scutita - Achizitii']+l['-Baza TVA Taxare Scutita - Achizitii']" />
+                                 <span t-esc="base_neex"/> 
+                            </td>
+                            <td class="text-right">
+                                 <t t-set="tva_neex"  t-value="'not_tag_ids'" />
+                                 <span t-esc="tva_neex"/>
+                             </td>
+                            <td class="text-right Intra_communitaire_services_With_deduction_rights" >
+                                 <t t-set="base_ded1"  t-value="l['+Baza TVA Taxare intracomunitara neimpozabila - Achizitii']+l['-Baza TVA Taxare intracomunitara neimpozabila - Achizitii']" />
+                                 <span t-esc="base_ded1"/> 
+                            </td>
+                            <td class="text-right Intra_communitaire_services_Without_deduction_rights">
+                                 <t t-set="base_ded2"  t-value="'not_tag_ids'" />
+                                 <span t-esc="base_ded2"/> 
+                            </td>
+                            <td class="text-right">
+                                 <t t-set="scutit1"  t-value="'not_tag_ids'" />
+                                 <span t-esc="scutit1"/> 
+                            </td>
+                            <td class="text-right">
+                                 <t t-set="scutit2"  t-value="'not_tag_ids'" />
+                                 <span t-esc="scutit2"/> 
+                            </td>
+                            <td class="text-right">
+                                <t t-set="others"  t-value="'not_tag_ids'" />
+                                 <span t-esc="others"/> 
+                            </td>
+                            <td class="text-right">
+                                <t t-set="base_col"  t-value="'not_tag_ids'" />
+                                 <span t-esc="base_col"/> 
+                            </td>
+                            <td class="text-right">
+                                <t t-set="tva_col"  t-value="'not_tag_ids'" />
+                                <span t-esc="tva_col"/> 
+                            </td>   
+                            <td t-if="show_warnings"  class="text-left">
+                                <span t-esc="l['warnings']"/>
+                            </td>   
+                            
+                        </tr>
+                    </tbody>
+                     <tfoot>
+						<t t-set="l" t-value="totals"/>
+                        <tr style="font-weight:bold">
+        		
+		
+		
+						</tr>
+					</tfoot>
+		
+		
+
+
                 </table>
             </div>
         </t>
     </template>
+
+
     <report
         id="action_report_sale"
         string="Sale ANAF Report (PDF)"
