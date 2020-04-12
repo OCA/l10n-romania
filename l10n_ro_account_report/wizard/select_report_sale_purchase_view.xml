@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+         <record id="view_SP_journal1" model="ir.ui.view">
+            <field name="name">Sale Purchase Journal</field>
+            <field name="model">sp.report</field>
+            <field name="arch" type="xml">
+				<form string="Sale/Purchase Journal">
+						<group >
+							<field name="company_id"  options="{'no_quick_create': True, 'no_create_edit' : True}"/>
+							<field name="journal"/>
+							 <field name="date_range_id" />
+							<field name="date_from" attrs="{'readonly':[('date_range_id','!=',False)]}"/> 
+							<field name="date_to" attrs="{'readonly':[('date_range_id','!=',False)]}"/>
+							<field name="show_warnings"/> 
+						</group>
+						<div>This report in based on vat names from invoice. If you have changed them, the report can be wrong. 
+						</div>
+					<footer>
+                        <button name="print_report_html" string="Print HTML" type="object" class="oe_highlight"/>
+                        <button name="print_report" string="Download PDF" type="object" class="oe_highlight"/>
+                        or
+                        <button string="Cancel" class="oe_link" special="cancel"/>
+                    </footer>
+				</form>			           
+			</field>
+		</record>       
+	
+ 	  <record id="action_anaf_SP_jorunal" model="ir.actions.act_window">
+            <field name="name">ANAF Sale Purchase Journal</field>
+            <field name="res_model">sp.report</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_id" ref="l10n_ro_account_report.view_SP_journal1"/>
+            <field name="domain">[]</field>
+            <field name="context">{}</field>
+            <field name='target'>new</field>
+        </record>
+		
+        <menuitem
+            id="menu__anaf_SP_jorunal"
+            action="action_anaf_SP_jorunal"
+            parent="account.account_reports_management_menu"
+            sequence="98"/> 
+
+
+</odoo>
