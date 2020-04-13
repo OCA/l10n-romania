@@ -164,7 +164,7 @@ class SaleJournalReport(models.TransientModel):
 
 """
 not put into xml
-    put into xml
+    used in xml
     '-Baza TVA 0%'
     '+Baza TVA 0%'
     '-Baza TVA 19%'
