@@ -126,7 +126,7 @@ class SaleJournalReport(models.TransientModel):
                         )
                 else:
                     if not line.tag_ids:
-                        vals['total_vat'] += sign*(line.credit - line.debit)
+                        vals['no_tag_like_vat0'] += sign*(line.credit - line.debit)
                     elif len(line.tag_ids) > 1: 
                         vals["warnings"] += (
                             f"line id={line.id} name={line.name}  does not "
