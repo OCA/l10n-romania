@@ -63,6 +63,8 @@ class SaleJournalReport(models.TransientModel):
         # find all the keys for dictionary
         # maybe posible_tags must be put manually,
         # but if so, to be the same as account.account.tag name
+        if not invoices:
+            return [],{}
         posible_tags = self.env["account.account.tag"].search_read(
             [
                 ("country_id", "=", self.env.ref("base.ro").id),
@@ -70,6 +72,7 @@ class SaleJournalReport(models.TransientModel):
             ],
             ["name"],
         )
+        posible_tags += [{'name': 'no_tag_like_vat0'}]
         posible_tags_just_names = [x["name"] for x in posible_tags]
         for x in posible_tags_just_names:
             print(f"'{x}'")
@@ -122,9 +125,9 @@ class SaleJournalReport(models.TransientModel):
                             f"a value of  {line.credit-line.debit}"
                         )
                 else:
-                    if (
-                        not line.tag_ids or len(line.tag_ids) > 1
-                    ):  # or if no tva put tva 0 in future
+                    if not line.tag_ids:
+                        vals['total_vat'] += sign*(line.credit - line.debit)
+                    elif len(line.tag_ids) > 1: 
                         vals["warnings"] += (
                             f"line id={line.id} name={line.name}  does not "
                             f"have line_tag_ids or have more and I'm not "

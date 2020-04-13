@@ -445,7 +445,7 @@
                             <th colspan="2" class="text-center">Goods Imported</th>
                             <th colspan="5" class="text-center" title="only for vat on payment">Payments - Exigible Operations</th>
                             <th colspan="2" class="text-center" title="only for vat on payment">Not Exigible Operations</th>
-                            <th colspan="1" class="text-center">Purchases of goods exempt or not taxable</th>
+                            <th colspan="1" class="text-center" title="with tax 0 or without tax">Purchases of goods exempt or not taxable</th>
                             <th colspan="4" class="text-center">Intracommunitaire purchases of goods and services</th>
                             <th colspan="1" class="text-center">Intracom. purchases exempt</th>
                             <th colspan="1" class="text-center">Intracom. purchases not taxable</th>
@@ -538,11 +538,6 @@
                                  <t t-set="tva_5"  t-value="l['+TVA 5% (deductibila)']+l['-TVA 5% (deductibila)']" />
                                 <span t-esc="tva_5"/>                                     
                             </td>
-<!--                             <td class="text-right     lipseste?">
-                                <t t-set="base_0"  t-value="l['+Baza TVA 0% (deductibila)']+l['-Baza TVA 0% (deductibila)']" />
-                               <span t-esc="base_0"/>                             
-                             </td>
- -->
                             <td class="text-right     GOODS_IMPORTED_EXTRACOMUNITAR_NU_EXISTA">
                                 <t t-set="base_extracomunitar"  t-value="'EXTRACOMUNITAR_NU_EXISTA'" />
                                <span t-esc="base_extracomunitar"/>                             
@@ -585,9 +580,11 @@
                                  <span t-esc="tva_neex"/>
                              </td>
                             <td class="text-right Intra_communitaire_services_With_deduction_rights" >
-                                 <t t-set="base_ded1"  t-value="l['+Baza TVA Taxare intracomunitara neimpozabila - Achizitii']+l['-Baza TVA Taxare intracomunitara neimpozabila - Achizitii']" />
+                                <t t-set="base_0"  t-value="l['+Baza TVA 0% (deductibila)']+l['-Baza TVA 0% (deductibila)']+l['no_tag_like_vat0']" />
+                               <span t-esc="base_0"/>                             
+<!--                                  <t t-set="base_ded1"  t-value="l['+Baza TVA Taxare intracomunitara neimpozabila - Achizitii']+l['-Baza TVA Taxare intracomunitara neimpozabila - Achizitii']" />
                                  <span t-esc="base_ded1"/> 
-                            </td>
+ -->                            </td>
                             <td class="text-right Intra_communitaire_services_Without_deduction_rights">
                                  <t t-set="base_ded2"  t-value="'not_tag_ids'" />
                                  <span t-esc="base_ded2"/> 
@@ -637,7 +634,7 @@
 
     <report
         id="action_report_sale"
-        string="Sale ANAF Report (PDF)"
+        string="Sale/Purchase ANAF Report (PDF)"
         model="l10n.ro.account.report.journal"
         report_type="qweb-pdf"
         name="l10n_ro_account_report_journal.report_sale_purchase"
@@ -645,7 +642,7 @@
     />
     <report
         id="action_report_sale_html"
-        string="Sale ANAF Report (HTML)"
+        string="Sale/Purchase ANAF Report (HTML)"
         model="l10n.ro.account.report.journal"
         report_type="qweb-html"
         name="l10n_ro_account_report_journal.report_sale_purchase"
