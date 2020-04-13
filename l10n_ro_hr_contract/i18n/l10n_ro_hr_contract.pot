@@ -89,6 +89,11 @@ msgid "Contract suspended?"
 msgstr ""
 
 #. module: l10n_ro_hr_contract
+#: model:ir.model.fields,field_description:l10n_ro_hr_contract.field_hr_contract_country_code
+msgid "Country Code"
+msgstr ""
+
+#. module: l10n_ro_hr_contract
 #: model:ir.model.fields,field_description:l10n_ro_hr_contract.field_hr_insurance_type_create_uid
 msgid "Created by"
 msgstr ""
@@ -220,11 +225,6 @@ msgid "Pensioneer"
 msgstr ""
 
 #. module: l10n_ro_hr_contract
-#: model:ir.ui.view,arch_db:l10n_ro_hr_contract.hr_contract_view_ro_form
-msgid "Period type"
-msgstr ""
-
-#. module: l10n_ro_hr_contract
 #: model:ir.model.fields,field_description:l10n_ro_hr_contract.field_hr_contract_revisal_no
 msgid "REVISAL Number"
 msgstr ""
@@ -264,6 +264,12 @@ msgstr ""
 #. module: l10n_ro_hr_contract
 #: model:ir.model.fields,field_description:l10n_ro_hr_contract.field_hr_contract_tax_exempt
 msgid "Tax Exempt"
+msgstr ""
+
+#. module: l10n_ro_hr_contract
+#: model:ir.model.fields,help:l10n_ro_hr_contract.field_hr_contract_country_code
+msgid "The ISO country code in two chars. \n"
+"You can use this field for quick search."
 msgstr ""
 
 #. module: l10n_ro_hr_contract
