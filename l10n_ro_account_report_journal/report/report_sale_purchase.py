@@ -72,10 +72,13 @@ class SaleJournalReport(models.TransientModel):
             ],
             ["name"],
         )
-        posible_tags += [{'name': 'no_tag_like_vat0'}]
+        posible_tags += [{'name': 'no_tag_like_vat0'},
+                         {'name':'avans_clienti'}, 
+                         ]
+        
         posible_tags_just_names = [x["name"] for x in posible_tags]
-        for x in posible_tags_just_names:
-            print(f"'{x}'")
+#         for x in posible_tags_just_names:
+#             print(f"'{x}'")
 
         # future posbile_tags_in_sale & posbile_tags_in_purchase and
         # if something not right
@@ -140,7 +143,8 @@ class SaleJournalReport(models.TransientModel):
                         )
                     else:
                         vals[line.tag_ids[0].name] += sign*(line.credit - line.debit)
-
+                    if line.account_id.code.startswith("419"):
+                        vals['avans_clienti'] = (line.credit - line.debit) #!!!!!!!!!!!!!!! we put it only here or also at sum of bases 
             # put the aggregated values
             for key, value in aggregated_dict.items():
                 vals[key] = sum([vals[x] for x in value])
@@ -175,8 +179,8 @@ not put into xml
 '+Baza TVA Intracomunitar Bunuri'
 '-Baza TVA Intracomunitar Servicii'
 '+Baza TVA Intracomunitar Servicii'
-'-Baza TVA Taxare Inversa'
-'+Baza TVA Taxare Inversa'
+    '-Baza TVA Taxare Inversa'
+    '+Baza TVA Taxare Inversa'
     '-TVA 0% (TVA colectata)'
     '+TVA 0% (TVA colectata)'
     '-TVA 19% (TVA colectata)'

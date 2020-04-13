@@ -192,7 +192,7 @@
                             <td class="text-right">
                                 <t
                                     t-set="base_0"
-                                    t-value="l.get('+Baza TVA 0%', 0)+l.get('-Baza TVA 0%', 0)"
+                                    t-value="l.get('+Baza TVA 0%', 0)+l.get('-Baza TVA 0%', 0)+l['no_tag_like_vat0']"
                                 />
                                 <span t-esc="base_0" />
                             </td>
@@ -203,8 +203,8 @@
                                 />
                                 <span t-esc="invers" />
                             </td>
-                            <td class="text-right SPECIAL_TREATMENT_CE_O_FI?">
-                                <span t-esc="0.00" />
+                            <td class="text-right" title="clients advance money">
+                                <span t-esc="l['avans_clienti]" />
                             </td>
                             <td colspan="5">
                                 <!--                              <t t-if="l['payments']">
@@ -615,10 +615,9 @@
                                 <t t-set="tva_inverse_taxation"  t-value="l['+TVA Taxare Inversa (deductibila)']+l['-TVA Taxare Inversa (deductibila)']" />
                                  <span t-esc="tva_inverse_taxation"/> 
                             </td>
-                            <td t-if="show_warnings"  class="text-left">
+                            <td t-if="show_warnings"  colspan="2" class="text-left">
                                 <span t-esc="l['warnings']"/>
                             </td>   
-                            
                         </tr>
                     </tbody>
                      <tfoot>
