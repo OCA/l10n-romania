@@ -5,8 +5,8 @@ from odoo import api, fields, models
 
 
 class SaleJournalReport(models.TransientModel):
-    _name = "report.l10n_ro_account_report_journal.report_sale_journal"
-    _description = "Report Sale Journal"
+    _name = "report.l10n_ro_account_report_journal.report_sale_purchase"
+    _description = "Report Sale Purchase Journal"
 
     @api.model
     def _get_journal_invoice_domain(self, data, journal_type):

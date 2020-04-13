@@ -1,3 +1,2 @@
-from . import report_sale
+from . import report_sale_purchase
 
-# from . import report_purchase

@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <odoo>
-    <template id="l10n_ro_account_report_journal.report_sale_journal">
-        <t t-call="web.html_container">
-            <div class="page container-fluid">
-                <div>
+    <template id="l10n_ro_account_report_journal.report_sale_purchase">
+       <t t-call="web.html_container">
+               <div>
                     <strong>Company:</strong>
                     <span t-esc="company.name" />
                 </div>
@@ -30,11 +29,10 @@
                     <span>to date:</span>
                     <span t-esc="date_to" />
                 </h4>
-                <!--             SALE ANAF REPORT SALE ANAF REPORT SALE ANAF REPORT-->
-                <table
-                    t-if="report_type_sale"
-                    class="table table-condensed table-bordered table-responsive table-hover"
-                >
+
+                <!--             SALE ANAF REPORT SALE ANAF REPORT SALE ANAF REPORT -->
+
+                <table  t-if="report_type_sale" class="table table-condensed table-bordered table-responsive table-hover" >
                     <thead>
                         <tr>
                             <th
@@ -540,17 +538,19 @@
                                  <t t-set="tva_5"  t-value="l['+TVA 5% (deductibila)']+l['-TVA 5% (deductibila)']" />
                                 <span t-esc="tva_5"/>                                     
                             </td>
-                            <td class="text-right">
+<!--                             <td class="text-right     lipseste?">
                                 <t t-set="base_0"  t-value="l['+Baza TVA 0% (deductibila)']+l['-Baza TVA 0% (deductibila)']" />
                                <span t-esc="base_0"/>                             
                              </td>
-                            <td class="text-right">
-                                <t t-set="invers"  t-value="l['+Baza TVA Taxare Inversa']+l['-Baza TVA Taxare Inversa']" />
-                               <span t-esc="invers"/>                                     
+ -->
+                            <td class="text-right     GOODS_IMPORTED_EXTRACOMUNITAR_NU_EXISTA">
+                                <t t-set="base_extracomunitar"  t-value="'EXTRACOMUNITAR_NU_EXISTA'" />
+                               <span t-esc="base_extracomunitar"/>                             
                              </td>
-                            <td class="text-right SPECIAL_TREATMENT_CE_O_FI?">
-                                <span t-esc="0.00"/>                                     
-                            </td>							
+                            <td class="text-right AICI_NU_CRED_CA_E_BINE_GOODS_IMPORTED">
+                                <t t-set="tva_extracomunitar"  t-value="'TVA_EXTRACOMUNITAR_NU_EXISTA'" />
+                               <span t-esc="tva_extracomunitar"/>                                     
+                             </td>
                             <td colspan="5">
    <!--                              <t t-if="l['payments']">
                                 <table width="100%">
@@ -631,7 +631,6 @@
 
 
                 </table>
-            </div>
         </t>
     </template>
 
@@ -639,17 +638,17 @@
     <report
         id="action_report_sale"
         string="Sale ANAF Report (PDF)"
-        model="report.l10n_ro_account_report_journal.report_sale_journal"
+        model="report.l10n_ro_account_report_journal.report_sale_purchase"
         report_type="qweb-pdf"
-        name="l10n_ro_account_report_journal.report_sale_journal"
+        name="l10n_ro_account_report_journal.report_sale_purchase"
         print_report_name='rrrr'
     />
     <report
         id="action_report_sale_html"
         string="Sale ANAF Report (HTML)"
-        model="report.l10n_ro_account_report_journal.report_sale_journal"
+        model="report.l10n_ro_account_report_journal.report_sale_purchase"
         report_type="qweb-html"
-        name="l10n_ro_account_report_journal.report_sale_journal"
+        name="l10n_ro_account_report_journal.report_sale_purchase"
         print_report_name='rrr---htmlr'
     />
 </odoo>

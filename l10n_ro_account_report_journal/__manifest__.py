@@ -5,7 +5,7 @@
     "category": "Localization",
     "summary": "Romania - Account Sale and Purchase Journal Report",
     "depends": ["l10n_ro", "date_range", "l10n_ro_vat_on_payment"],
-    "data": ["report/report_sale.xml", "wizard/select_report_sale_purchase_view.xml"],
+    "data": ["report/report_sale_purchase.xml", "wizard/select_report_sale_purchase_view.xml"],
     "license": "AGPL-3",
     "version": "13.0.1.0.0",
     "author": "OdooERP Romania, Odoo Community Association (OCA)",
