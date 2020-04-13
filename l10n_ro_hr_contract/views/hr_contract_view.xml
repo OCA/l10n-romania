@@ -45,14 +45,15 @@
         <field name="inherit_id" ref="hr_contract.hr_contract_view_form"/>
         <field name="arch" type="xml">
             <xpath expr="//field[@name='employee_id']" position="before">
-                <field name="revisal_no"/>
-                <field name="internal_no"/>
+                <field name="country_code" invisible="1"/>
+                <field name="revisal_no" attrs="{'required': [('country_code', '=', 'RO')], 'invisible': [('country_code', '!=', 'RO')]}"/>
+                <field name="internal_no" attrs="{'required': [('country_code', '=', 'RO')], 'invisible': [('country_code', '!=', 'RO')]}"/>
             </xpath>
             <field name="employee_id" position="after">
-                <field name="sign_date"/>
+                <field name="sign_date" attrs="{'required': [('country_code', '=', 'RO')], 'invisible': [('country_code', '!=', 'RO')]}"/>
             </field>
             <field name="resource_calendar_id" position="before">
-                <label for="period_type" string="Period type"/>
+                <label for="period_type"/>
                 <div>
                     <field name="period_type"/>
                 </div>
@@ -64,20 +65,20 @@
                             <field name="pensioneer"/>
                             <field name="tax_exempt"/>
                             <field name="suspended"/>
-                            <label for="sus_date_from" string="Suspension Duration"/>
-                            <div attrs="{'invisible': [('suspended', '==', False)]}">
+                            <div attrs="{'invisible': [('suspended', '=', False)]}">
+                                <label for="sus_date_from" string="Suspension Duration"/>
                                 <field name="sus_date_from" class="oe_inline"/> - <field name="sus_date_to" class="oe_inline"/>
                             </div>
                         </group>
                         <group col="2" name="col2">
                             <label for="insurance_type" string="Insurance Type"/>
                             <div>
-                                <field name="insurance_type" class="oe_inline"/>
+                                <field name="insurance_type" class="oe_inline" attrs="{'required': [('country_code', '=', 'RO')], 'invisible': [('country_code', '!=', 'RO')]}"/>
                             </div>
-                            <field name="work_norm"/>
-                            <field name="work_hour"/>
-                            <field name="work_type"/>
-                            <field name="work_special"/>
+                            <field name="work_norm" attrs="{'required': [('country_code', '=', 'RO')], 'invisible': [('country_code', '!=', 'RO')]}"/>
+                            <field name="work_hour" attrs="{'required': [('country_code', '=', 'RO')], 'invisible': [('country_code', '!=', 'RO')]}"/>
+                            <field name="work_type" attrs="{'required': [('country_code', '=', 'RO')], 'invisible': [('country_code', '!=', 'RO')]}"/>
+                            <field name="work_special" attrs="{'required': [('country_code', '=', 'RO')], 'invisible': [('country_code', '!=', 'RO')]}"/>
                         </group>
                     </group>
                 </page>

@@ -59,7 +59,8 @@ class HRContract(models.Model):
             ('7', 'art.30 alin.(1) lit.f )din L263/2010 (Artisti)')]
         return workspecial
 
-    revisal_no = fields.Char('REVISAL Number', required=True,
+    country_code = fields.Char(related='employee_id.country_id.code', store='True')
+    revisal_no = fields.Char('REVISAL Number',
                              help='Number registered in Revisal')
     internal_no = fields.Char('Internal Number',
                               help='Internal Number')
@@ -72,19 +73,25 @@ class HRContract(models.Model):
         'Pensioneer', help="Is the employee a pensioneer")
     tax_exempt = fields.Boolean('Tax Exempt', help="Exempt from income tax")
     work_norm = fields.Selection(
-        '_get_work_norm', string='Work Norm', required=True,
+        '_get_work_norm', string='Work Norm',
         help="The type of work depending on worked hours")
     work_hour = fields.Selection(
-        '_get_work_hours', string='Hour per day', required=True,
+        '_get_work_hours', string='Hour per day',
         help="The numbers of hours/day")
     work_type = fields.Selection(
-        '_get_work_type', string='Work type', required=True,
+        '_get_work_type', string='Work type',
         help="The work type based on conditions")
     insurance_type = fields.Many2one(
         'hr.insurance.type', string='Insurance type',
-        required=True, help="Insurance type")
+        help="Insurance type")
     work_special = fields.Selection(
         '_get_work_special', string='Special Conditions',
         help="Special condition of work")
     sign_date = fields.Date(
-        'Date', required=True, help="Date of signing the contract")
+        'Date', help="Date of signing the contract")
+
+    @api.onchange('employee_id')
+    def _onchange_employee_id(self):
+        super(HRContract, self)._onchange_employee_id()
+        if self.employee_id:
+            self.country_code = self.employee_id.country_id.code
