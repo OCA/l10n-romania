@@ -638,7 +638,7 @@
     <report
         id="action_report_sale"
         string="Sale ANAF Report (PDF)"
-        model="report.l10n_ro_account_report_journal.report_sale_purchase"
+        model="l10n.ro.account.report.journal"
         report_type="qweb-pdf"
         name="l10n_ro_account_report_journal.report_sale_purchase"
         print_report_name='rrrr'
@@ -646,7 +646,7 @@
     <report
         id="action_report_sale_html"
         string="Sale ANAF Report (HTML)"
-        model="report.l10n_ro_account_report_journal.report_sale_purchase"
+        model="l10n.ro.account.report.journal"
         report_type="qweb-html"
         name="l10n_ro_account_report_journal.report_sale_purchase"
         print_report_name='rrr---htmlr'
