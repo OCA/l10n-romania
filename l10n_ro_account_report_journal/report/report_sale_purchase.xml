@@ -1,7 +1,25 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <odoo>
 
-<template	id = "l10n_ro_account_report_journal.sale_purch_6-14_rows">
+<template  id="l10n_ro_account_report_journal.sale_purch_first_5_col">
+                            <td>
+                                <span t-esc="l_index + 1" />
+                            </td>
+                            <td>
+                                <span t-esc="l['number']" />
+                            </td>
+                            <td>
+                                <span t-esc="l['date']" />
+                            </td>
+                            <td colspan="2">
+                                <span t-esc="l['partner']" />
+                            </td>
+                            <td>
+                                xx<span t-esc="l['vat']" />
+                            </td>
+</template>
+
+<template	id = "l10n_ro_account_report_journal.sale_purch_6-14_cols">
                             <td class="text-right">
                                 <span t-esc="l['total']" />
                             </td>
@@ -37,30 +55,111 @@
                             </td>
 </template>
 
-<template  id="l10n_ro_account_report_journal.sale_purch_first_14_rows">
-                            <td>
-                                <span t-esc="l_index + 1" />
+<template id="l10n_ro_account_report_journal.vat_on_payment_columns">
+                           <td colspan="7">
+                                <!--                              <t t-if="l['payments']">
+                                                             <table width="100%">
+                                                                 <tr t-foreach="l['payments']" t-as="pay">
+                                                                     <td class="text-right" width="30">
+                                                                         <t t-if="pay['number']!=''"><span t-esc="pay['number'].rjust(10,' ')"/></t>
+                                                                         <t t-if="pay['number']==''">...........</t>
+                                                                     </td>
+                                                                     <td class="text-right" width="30">
+                                                                         <t t-if="pay['date']!=''"><span t-esc="pay['date']"/></t>
+                                                                         <t t-if="pay['date']==''">...........</t>
+                                                                     </td>
+                                                                     <td class="text-right">
+                                                                         <span t-esc="pay['amount']"/>
+                                                                     </td>
+                                                                     <td class="text-right">
+                                                                         <span t-esc="pay['base_exig']"/>
+                                                                     </td>
+                                                                     <td class="text-right">
+                                                                         <span t-esc="pay['tva_exig']"/>
+                                                                     </td>
+                                                                 </tr>
+                                                             </table>
+                                                             </t>
+                                   
+                               </td>
+                             <td class="text-right">
+                                <t  t-set="base_neex"
+                                    t-value="l.get('+Baza TVA Taxare Scutita - Achizitii', 0) + l.get('-Baza TVA Taxare Scutita - Achizitii', 0)" />
+                                <span t-esc="base_neex" />
                             </td>
-                            <td>
-                                <span t-esc="l['number']" />
-                            </td>
-                            <td>
-                                <span t-esc="l['date']" />
-                            </td>
-                            <td colspan="2">
-                                <span t-esc="l['partner']" />
-                            </td>
-                            <td>
-                                xx<span t-esc="l['vat']" />
-                            </td>
-							<t t-call="l10n_ro_account_report_journal.sale_purch_6-14_rows"/>
+                            <td class="text-right">
+                                <t t-set="tva_neex" t-value="'not_tag_ids'" />
+                                <span t-esc="tva_neex" />
+                            </td> -->
+                          </td>
 </template>
+
+<template	id="l10n_ro_account_report_journal.sale_report_numbers_and_total">
+                    <t t-call="l10n_ro_account_report_journal.sale_purch_6-14_cols"/>
+
+
+
+                            <td class="text-right">
+                                <t t-set="base_0"  t-value="l.get('+Baza TVA 0%', 0)+l.get('-Baza TVA 0%', 0)+l['no_tag_like_vat0']"/>
+                                <span t-esc="base_0" />
+                            </td>
+                            <td class="text-right">
+                                <t  t-set="invers"  t-value="l.get('+Baza TVA Taxare Inversa', 0) + l.get('-Baza TVA Taxare Inversa', 0)"/>
+                                <span t-esc="invers" />
+                            </td>
+                            <td class="text-right" title="clients advance money">
+                                <span t-esc="l['avans_clienti']" />
+                            </td>
+
+							<t t-call="l10n_ro_account_report_journal.vat_on_payment_columns"/>
+
+
+                            <td class="text-right" title="Intra_communitaire_services_With_deduction_rights">
+                                <t t-set="base_ded1" t-value="l.get('+Baza TVA Taxare intracomunitara neimpozabila - Achizitii', 0) + l.get('-Baza TVA Taxare intracomunitara neimpozabila - Achizitii', 0)"/>
+                                <span t-esc="base_ded1" />
+                            </td>
+                            <td  class="text-right Intra_communitaire_services_Without_deduction_rights">
+                                <t t-set="base_ded2" t-value="'not_tag_ids'" />
+                                <span t-esc="base_ded2" />
+                            </td>
+                            <td class="text-right">
+                                <t t-set="scutit1" t-value="'not_tag_ids'" />
+                                <span t-esc="scutit1" />
+                            </td>
+                            <td class="text-right">
+                                <t t-set="scutit2" t-value="'not_tag_ids'" />
+                                <span t-esc="scutit2" />
+                            </td>
+                            <td class="text-right" title="Baza TVA Taxare intracomunitara neimpozabila - Vanzari">
+                                <t t-set="others" t-value="l['+Baza TVA Taxare intracomunitara neimpozabila - Vanzari']+l['-Baza TVA Taxare intracomunitara neimpozabila - Vanzari']" />
+                                <span t-esc="others" />
+                            </td>
+                            <td class="text-right" title="Baza TVA Taxare Inversa asta e la fel ca la national">
+                                <t t-set="base_col" t-value="l['+Baza TVA Taxare Inversa']+l['-Baza TVA Taxare Inversa']" />
+                                <span t-esc="base_col" />
+                            </td>
+                            <td class="text-right" title="TVA Taxare Inversa (TVA colectata)">
+                                <t t-set="tva_col" t-value="l['+TVA Taxare Inversa (TVA colectata)']+l['-TVA Taxare Inversa (TVA colectata)']" />
+                                <span t-esc="tva_col" />
+                            </td>
+ 
+</template>
+
+
+<template id="l10n_ro_account_report_journal.sale_tbody_all_lines_without_total">
+						  <t t-call="l10n_ro_account_report_journal.sale_purch_first_5_col"/>
+                          <t t-call="l10n_ro_account_report_journal.sale_report_numbers_and_total" />
+                          <td t-if="show_warnings" class="text-left">
+                                <span t-esc="l.get('warnings', '')" />
+                          </td>
+</template>
+
 
 
     <template id="l10n_ro_account_report_journal.report_sale_purchase">
        <t t-call="web.html_container">
                <div>
-                    <strong>xxxCompany:</strong>
+                    <strong>Company:</strong>
                     <span t-esc="company.name" />
                 </div>
                 <div>
@@ -180,244 +279,16 @@
                     </thead>
                     <tbody>
                         <tr t-foreach="lines" t-as="l">
-                        <t t-call="l10n_ro_account_report_journal.sale_purch_first_14_rows"/>
-
-                            <td class="text-right">
-                                <t t-set="base_0"  t-value="l.get('+Baza TVA 0%', 0)+l.get('-Baza TVA 0%', 0)+l['no_tag_like_vat0']"/>
-                                <span t-esc="base_0" />
-                            </td>
-                            <td class="text-right">
-                                <t
-                                    t-set="invers"
-                                    t-value="l.get('+Baza TVA Taxare Inversa', 0) + l.get('-Baza TVA Taxare Inversa', 0)"
-                                />
-                                <span t-esc="invers" />
-                            </td>
-                            <td class="text-right" title="clients advance money">
-                                <span t-esc="l['avans_clienti']" />
-                            </td>
-                            <td colspan="5">
-                                <!--                              <t t-if="l['payments']">
-                                                             <table width="100%">
-                                                                 <tr t-foreach="l['payments']" t-as="pay">
-                                                                     <td class="text-right" width="30">
-                                                                         <t t-if="pay['number']!=''"><span t-esc="pay['number'].rjust(10,' ')"/></t>
-                                                                         <t t-if="pay['number']==''">...........</t>
-                                                                     </td>
-                                                                     <td class="text-right" width="30">
-                                                                         <t t-if="pay['date']!=''"><span t-esc="pay['date']"/></t>
-                                                                         <t t-if="pay['date']==''">...........</t>
-                                                                     </td>
-                                                                     <td class="text-right">
-                                                                         <span t-esc="pay['amount']"/>
-                                                                     </td>
-                                                                     <td class="text-right">
-                                                                         <span t-esc="pay['base_exig']"/>
-                                                                     </td>
-                                                                     <td class="text-right">
-                                                                         <span t-esc="pay['tva_exig']"/>
-                                                                     </td>
-                                                                 </tr>
-                                                             </table>
-                                                             </t>
-                                 -->   
-                               </td>
-                             <td class="text-right">
-                                <t  t-set="base_neex"
-                                    t-value="l.get('+Baza TVA Taxare Scutita - Achizitii', 0) + l.get('-Baza TVA Taxare Scutita - Achizitii', 0)" />
-                                <span t-esc="base_neex" />
-                            </td>
-                            <td class="text-right">
-                                <t t-set="tva_neex" t-value="'not_tag_ids'" />
-                                <span t-esc="tva_neex" />
-                            </td>
-                            <td class="text-right" title="Intra_communitaire_services_With_deduction_rights">
-                                <t
-                                    t-set="base_ded1"
-                                    t-value="l.get('+Baza TVA Taxare intracomunitara neimpozabila - Achizitii', 0) + l.get('-Baza TVA Taxare intracomunitara neimpozabila - Achizitii', 0)"
-                                />
-                                <span t-esc="base_ded1" />
-                            </td>
-                            <td
-                                class="text-right Intra_communitaire_services_Without_deduction_rights"
-                            >
-                                <t t-set="base_ded2" t-value="'not_tag_ids'" />
-                                <span t-esc="base_ded2" />
-                            </td>
-                            <td class="text-right">
-                                <t t-set="scutit1" t-value="'not_tag_ids'" />
-                                <span t-esc="scutit1" />
-                            </td>
-                            <td class="text-right">
-                                <t t-set="scutit2" t-value="'not_tag_ids'" />
-                                <span t-esc="scutit2" />
-                            </td>
-                            <td class="text-right" title="Baza TVA Taxare intracomunitara neimpozabila - Vanzari">
-                                <t t-set="others" t-value="l['+Baza TVA Taxare intracomunitara neimpozabila - Vanzari']+l['-Baza TVA Taxare intracomunitara neimpozabila - Vanzari']" />
-                                <span t-esc="others" />
-                            </td>
-                            <td class="text-right" title="Baza TVA Taxare Inversa asta e la fel ca la national">
-                                <t t-set="base_col" t-value="l['+Baza TVA Taxare Inversa']+l['-Baza TVA Taxare Inversa']" />
-                                <span t-esc="base_col" />
-                            </td>
-                            <td class="text-right" title="TVA Taxare Inversa (TVA colectata)">
-                                <t t-set="tva_col" t-value="l['+TVA Taxare Inversa (TVA colectata)']+l['-TVA Taxare Inversa (TVA colectata)']" />
-                                <span t-esc="tva_col" />
-                            </td>
- 
-                            <td t-if="show_warnings" class="text-left">
-                                <span t-esc="l.get('warnings', '')" />
-                            </td>
- 
- 
- 
+							<t t-call="l10n_ro_account_report_journal.sale_tbody_all_lines_without_total"/> 
                          </tr>
                     </tbody>
                     <tfoot>
                         <t t-set="l" t-value="totals" />
                         <tr style="font-weight:bold">
                             <td colspan="6" class="text-center">Totals</td>
-                            <td class="text-right">
-                                <span t-esc="l.get('total', 0)" />
-                            </td>
-                            <td class="text-right">
-                                <span t-esc="l.get('total_base', 0)" />
-                            </td>
-                            <td class="text-right">
-                                <span t-esc="l.get('total_vat', 0)" />
-                            </td>
-                            <td class="text-right">
-                                <t
-                                    t-set="base_19"
-                                    t-value="l.get('+Baza TVA 19%', 0) + l.get('-Baza TVA 19%', 0)"
-                                />
-                                <span t-esc="base_19" />
-                            </td>
-                            <td class="text-right">
-                                <t
-                                    t-set="tva_19"
-                                    t-value="l.get('+TVA 19% (TVA colectata)', 0) + l.get('-TVA 19% (TVA colectata)', 0)"
-                                />
-                                <span t-esc="tva_19" />
-                            </td>
-                            <td class="text-right">
-                                <t
-                                    t-set="base_9"
-                                    t-value="l.get('+Baza TVA 9%', 0) + l.get('-Baza TVA 9%', 0)"
-                                />
-                                <span t-esc="base_9" />
-                            </td>
-                            <td class="text-right">
-                                <t
-                                    t-set="tva_9"
-                                    t-value="l.get('+TVA 9% (TVA colectata)', 0)+l.get('-TVA 9% (TVA colectata)', 0)"
-                                />
-                                <span t-esc="tva_9" />
-                            </td>
-                            <td class="text-right">
-                                <t
-                                    t-set="base_5"
-                                    t-value="l.get('+Baza TVA 5%', 0) + l.get('-Baza TVA 5%', 0)"
-                                />
-                                <span t-esc="base_5" />
-                            </td>
-                            <td class="text-right">
-                                <t
-                                    t-set="tva_5"
-                                    t-value="l.get('+TVA 5% (TVA colectata)', 0)+l.get('-TVA 5% (TVA colectata)', 0)"
-                                />
-                                <span t-esc="tva_5" />
-                            </td>
-                            <td class="text-right">
-                                <t
-                                    t-set="base_0"
-                                    t-value="l.get('+Baza TVA 0%', 0)+l.get('-Baza TVA 0%', 0)"
-                                />
-                                <span t-esc="base_0" />
-                            </td>
-                            <td class="text-right">
-                                <t
-                                    t-set="invers"
-                                    t-value="l.get('+Baza TVA Taxare Inversa', 0)+l.get('-Baza TVA Taxare Inversa', 0)"
-                                />
-                                <span t-esc="invers" />
-                            </td>
-                            <td class="text-right SPECIAL_TREATMENT_CE_O_FI?">
-                                <span t-esc="0.00" />
-                            </td>
-                            <td colspan="5">
-                                <!--                              <t t-if="l['payments']">
-                                                             <table width="100%">
-                                                                 <tr t-foreach="l['payments']" t-as="pay">
-                                                                     <td class="text-right" width="30">
-                                                                         <t t-if="pay['number']!=''"><span t-esc="pay['number'].rjust(10,' ')"/></t>
-                                                                         <t t-if="pay['number']==''">...........</t>
-                                                                     </td>
-                                                                     <td class="text-right" width="30">
-                                                                         <t t-if="pay['date']!=''"><span t-esc="pay['date']"/></t>
-                                                                         <t t-if="pay['date']==''">...........</t>
-                                                                     </td>
-                                                                     <td class="text-right">
-                                                                         <span t-esc="pay['amount']"/>
-                                                                     </td>
-                                                                     <td class="text-right">
-                                                                         <span t-esc="pay['base_exig']"/>
-                                                                     </td>
-                                                                     <td class="text-right">
-                                                                         <span t-esc="pay['tva_exig']"/>
-                                                                     </td>
-                                                                 </tr>
-                                                             </table>
-                                                             </t>
-                                 -->                         </td>
-                            <td class="text-right">
-                                <t
-                                    t-set="base_neex"
-                                    t-value="l.get('+Baza TVA Taxare Scutita - Achizitii', 0) + l.get('-Baza TVA Taxare Scutita - Achizitii', 0)"
-                                />
-                                <span t-esc="base_neex" />
-                            </td>
-                            <td class="text-right">
-                                <t t-set="tva_neex" t-value="'not_tag_ids'" />
-                                <span t-esc="tva_neex" />
-                            </td>
-                            <td
-                                class="text-right Intra_communitaire_services_With_deduction_rights"
-                            >
-                                <t
-                                    t-set="base_ded1"
-                                    t-value="l.get('+Baza TVA Taxare intracomunitara neimpozabila - Achizitii', 0) + l.get('-Baza TVA Taxare intracomunitara neimpozabila - Achizitii', 0)"
-                                />
-                                <span t-esc="base_ded1" />
-                            </td>
-                            <td
-                                class="text-right Intra_communitaire_services_Without_deduction_rights"
-                            >
-                                <t t-set="base_ded2" t-value="'not_tag_ids'" />
-                                <span t-esc="base_ded2" />
-                            </td>
-                            <td class="text-right">
-                                <t t-set="scutit1" t-value="'not_tag_ids'" />
-                                <span t-esc="scutit1" />
-                            </td>
-                            <td class="text-right">
-                                <t t-set="scutit2" t-value="'not_tag_ids'" />
-                                <span t-esc="scutit2" />
-                            </td>
-                            <td class="text-right" title="Baza TVA Taxare intracomunitara neimpozabila - Vanzari">
-                                <t t-set="others" t-value="l['+Baza TVA Taxare intracomunitara neimpozabila - Vanzari']+l['-Baza TVA Taxare intracomunitara neimpozabila - Vanzari']" />
-                                <span t-esc="others" />
-                            </td>
-                            <td class="text-right" title="Baza TVA Taxare Inversa asta e la fel ca la national">
-                                <t t-set="base_col" t-value="l['+Baza TVA Taxare Inversa']+l['-Baza TVA Taxare Inversa']" />
-                                <span t-esc="base_col" />
-                            </td>
-                            <td class="text-right" title="TVA Taxare Inversa (TVA colectata)">
-                                <t t-set="tva_col" t-value="l['+TVA Taxare Inversa (TVA colectata)']+l['-TVA Taxare Inversa (TVA colectata)']" />
-                                <span t-esc="tva_col" />
-                            </td>
-                        </tr>
-                    </tfoot>
+                            <t t-call="l10n_ro_account_report_journal.sale_report_numbers_and_total" />
+						</tr>
+                     </tfoot>
                 </table>
                 
                 
