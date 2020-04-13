@@ -15,7 +15,7 @@
                                 <span t-esc="l['partner']" />
                             </td>
                             <td>
-                                xx<span t-esc="l['vat']" />
+                                <span t-esc="l['vat']" />
                             </td>
 </template>
 
@@ -94,57 +94,55 @@
                           </td>
 </template>
 
+
+<!--   templates only for sales   templates only for sales -->
 <template	id="l10n_ro_account_report_journal.sale_report_numbers_and_total">
-                    <t t-call="l10n_ro_account_report_journal.sale_purch_6-14_cols"/>
+                <t t-call="l10n_ro_account_report_journal.sale_purch_6-14_cols"/>
+
+                <td class="text-right">
+                    <t t-set="base_0"  t-value="l.get('+Baza TVA 0%', 0)+l.get('-Baza TVA 0%', 0)+l['no_tag_like_vat0']"/>
+                    <span t-esc="base_0" />
+                </td>
+                <td class="text-right">
+                    <t  t-set="invers"  t-value="l.get('+Baza TVA Taxare Inversa', 0) + l.get('-Baza TVA Taxare Inversa', 0)"/>
+                    <span t-esc="invers" />
+                </td>
+                <td class="text-right" title="clients advance money">
+                    <span t-esc="l['avans_clienti']" />
+                </td>
+
+				<t t-call="l10n_ro_account_report_journal.vat_on_payment_columns"/>
 
 
-
-                            <td class="text-right">
-                                <t t-set="base_0"  t-value="l.get('+Baza TVA 0%', 0)+l.get('-Baza TVA 0%', 0)+l['no_tag_like_vat0']"/>
-                                <span t-esc="base_0" />
-                            </td>
-                            <td class="text-right">
-                                <t  t-set="invers"  t-value="l.get('+Baza TVA Taxare Inversa', 0) + l.get('-Baza TVA Taxare Inversa', 0)"/>
-                                <span t-esc="invers" />
-                            </td>
-                            <td class="text-right" title="clients advance money">
-                                <span t-esc="l['avans_clienti']" />
-                            </td>
-
-							<t t-call="l10n_ro_account_report_journal.vat_on_payment_columns"/>
-
-
-                            <td class="text-right" title="Intra_communitaire_services_With_deduction_rights">
-                                <t t-set="base_ded1" t-value="l.get('+Baza TVA Taxare intracomunitara neimpozabila - Achizitii', 0) + l.get('-Baza TVA Taxare intracomunitara neimpozabila - Achizitii', 0)"/>
-                                <span t-esc="base_ded1" />
-                            </td>
-                            <td  class="text-right Intra_communitaire_services_Without_deduction_rights">
-                                <t t-set="base_ded2" t-value="'not_tag_ids'" />
-                                <span t-esc="base_ded2" />
-                            </td>
-                            <td class="text-right">
-                                <t t-set="scutit1" t-value="'not_tag_ids'" />
-                                <span t-esc="scutit1" />
-                            </td>
-                            <td class="text-right">
-                                <t t-set="scutit2" t-value="'not_tag_ids'" />
-                                <span t-esc="scutit2" />
-                            </td>
-                            <td class="text-right" title="Baza TVA Taxare intracomunitara neimpozabila - Vanzari">
-                                <t t-set="others" t-value="l['+Baza TVA Taxare intracomunitara neimpozabila - Vanzari']+l['-Baza TVA Taxare intracomunitara neimpozabila - Vanzari']" />
-                                <span t-esc="others" />
-                            </td>
-                            <td class="text-right" title="Baza TVA Taxare Inversa asta e la fel ca la national">
-                                <t t-set="base_col" t-value="l['+Baza TVA Taxare Inversa']+l['-Baza TVA Taxare Inversa']" />
-                                <span t-esc="base_col" />
-                            </td>
-                            <td class="text-right" title="TVA Taxare Inversa (TVA colectata)">
-                                <t t-set="tva_col" t-value="l['+TVA Taxare Inversa (TVA colectata)']+l['-TVA Taxare Inversa (TVA colectata)']" />
-                                <span t-esc="tva_col" />
-                            </td>
- 
+                <td class="text-right" title="Intra_communitaire_services_With_deduction_rights">
+                    <t t-set="base_ded1" t-value="l.get('+Baza TVA Taxare intracomunitara neimpozabila - Achizitii', 0) + l.get('-Baza TVA Taxare intracomunitara neimpozabila - Achizitii', 0)"/>
+                    <span t-esc="base_ded1" />
+                </td>
+                <td  class="text-right Intra_communitaire_services_Without_deduction_rights">
+                    <t t-set="base_ded2" t-value="'not_tag_ids'" />
+                    <span t-esc="base_ded2" />
+                </td>
+                <td class="text-right">
+                    <t t-set="scutit1" t-value="'not_tag_ids'" />
+                    <span t-esc="scutit1" />
+                </td>
+                <td class="text-right">
+                    <t t-set="scutit2" t-value="'not_tag_ids'" />
+                    <span t-esc="scutit2" />
+                </td>
+                <td class="text-right" title="Baza TVA Taxare intracomunitara neimpozabila - Vanzari">
+                    <t t-set="others" t-value="l['+Baza TVA Taxare intracomunitara neimpozabila - Vanzari']+l['-Baza TVA Taxare intracomunitara neimpozabila - Vanzari']" />
+                    <span t-esc="others" />
+                </td>
+                <td class="text-right" title="Baza TVA Taxare Inversa asta e la fel ca la national">
+                    <t t-set="base_col" t-value="l['+Baza TVA Taxare Inversa']+l['-Baza TVA Taxare Inversa']" />
+                    <span t-esc="base_col" />
+                </td>
+                <td class="text-right" title="TVA Taxare Inversa (TVA colectata)">
+                    <t t-set="tva_col" t-value="l['+TVA Taxare Inversa (TVA colectata)']+l['-TVA Taxare Inversa (TVA colectata)']" />
+                    <span t-esc="tva_col" />
+                </td>
 </template>
-
 
 <template id="l10n_ro_account_report_journal.sale_tbody_all_lines_without_total">
 						  <t t-call="l10n_ro_account_report_journal.sale_purch_first_5_col"/>
@@ -155,7 +153,75 @@
 </template>
 
 
+<!--   templates only for purchases   templates only for purchases -->
+<template id="l10n_ro_account_report_journal.purchase_report_numbers_and_total">
+		<t t-call="l10n_ro_account_report_journal.sale_purch_6-14_cols"/>
+        <td class="text-right     GOODS_IMPORTED_EXTRACOMUNITAR_NU_EXISTA">
+              <t t-set="base_extracomunitar"  t-value="'EXTRACOMUNITAR_NU_EXISTA'" />
+             <span t-esc="base_extracomunitar"/>                             
+        </td>
+        <td class="text-right AICI_NU_CRED_CA_E_BINE_GOODS_IMPORTED">
+              <t t-set="tva_extracomunitar"  t-value="'TVA_EXTRACOMUNITAR_NU_EXISTA'" />
+             <span t-esc="tva_extracomunitar"/>                                     
+        </td>
+		<t t-call="l10n_ro_account_report_journal.vat_on_payment_columns"/>
+         <td class="text-right">
+              <t t-set="base_neex"  t-value="'also_from_tva_at_pay'" />
+              <span t-esc="base_neex"/> 
+         </td>
+         <td class="text-right">
+              <t t-set="tva_neex"  t-value="'also_from_tva_at_pay'" />
+              <span t-esc="tva_neex"/> 
+         </td>
+         <td class="text-right" tile="vat0">
+            <t t-set="base_0"  t-value="l['+Baza TVA 0% (deductibila)']+l['-Baza TVA 0% (deductibila)']+l['no_tag_like_vat0']" />
+            <span t-esc="base_0"/>                                    </td>
+         <td class="text-right" title="Baza TVA Intracomunitar Servicii (deductibila)">
+               <t t-set="base_ded1"  t-value="l['+Baza TVA Intracomunitar Servicii (deductibila)']+l['-Baza TVA Intracomunitar Servicii (deductibila)']" />
+              <span t-esc="base_ded1"/> 
+          </td>
+         <td class="text-right " title="Intra_communitaire_services_With_deduction_rights or no vat" >
+               <t t-set="tva_ded1"  t-value="l['+TVA Intracomunitar Servicii (deductibila)']+l['-TVA Intracomunitar Servicii (deductibila)']" />
+              <span t-esc="tva_ded1"/> 
+        </td>
+        <td class="text-right" title="Baza TVA Intracomunitar Bunuri (deductibila)">
+               <t t-set="base_ded2"  t-value="l['+Baza TVA Intracomunitar Bunuri (deductibila)']+l['-Baza TVA Intracomunitar Bunuri (deductibila)']" />
+              <span t-esc="base_ded2"/> 
+         </td>
+        <td class="text-right " title="-TVA Intracomunitar Bunuri (deductibila)">
+               <t t-set="tva_ded2"  t-value="l['+TVA Intracomunitar Bunuri (deductibila)']+l['-TVA Intracomunitar Bunuri (deductibila)']" />
+              <span t-esc="tva_ded2"/> 
+         </td>
 
+         <td class="text-right" title="Baza TVA Taxare Scutita - Achizitii">
+             <t t-set="scutit1"  t-value="l['+Baza TVA Taxare Scutita - Achizitii']+l['-Baza TVA Taxare Scutita - Achizitii']" />
+              <span t-esc="scutit1"/> 
+         </td>
+         <td class="text-right" title="Baza TVA Taxare intracomunitara neimpozabila - Achizitii">
+             <t t-set="scutit2"  t-value="l['+Baza TVA Taxare intracomunitara neimpozabila - Achizitii']+l['-Baza TVA Taxare intracomunitara neimpozabila - Achizitii']" />
+              <span t-esc="scutit2"/> 
+         </td>
+         <td class="text-right" title="-Baza TVA Taxare Inversa (deductibila)">
+             <t t-set="base_inverse_taxation"  t-value="l['+Baza TVA Taxare Inversa (deductibila)']+l['-Baza TVA Taxare Inversa (deductibila)']" />
+              <span t-esc="base_inverse_taxation"/> 
+         </td>
+         <td class="text-right" title="TVA Taxare Inversa (deductibila)">
+             <t t-set="tva_inverse_taxation"  t-value="l['+TVA Taxare Inversa (deductibila)']+l['-TVA Taxare Inversa (deductibila)']" />
+              <span t-esc="tva_inverse_taxation"/> 
+         </td>
+</template>
+
+<template id="l10n_ro_account_report_journal.purchase_tbody_all_lines_without_total">
+		<t t-call="l10n_ro_account_report_journal.sale_purch_first_5_col"/>
+		<t t-call="l10n_ro_account_report_journal.purchase_report_numbers_and_total"/>
+         <td t-if="show_warnings" class="text-left">
+               <span t-esc="l.get('warnings', '')" />
+         </td>
+</template> 
+
+
+
+<!--   the actual report for sale/purchase         the actual report for sale/purchase  -->
     <template id="l10n_ro_account_report_journal.report_sale_purchase">
        <t t-call="web.html_container">
                <div>
@@ -187,55 +253,23 @@
                 </h4>
 
                 <!--             SALE ANAF REPORT SALE ANAF REPORT SALE ANAF REPORT -->
-
                 <table  t-if="report_type_sale" class="table table-condensed table-bordered table-responsive table-hover" >
                     <thead>
                         <tr>
-                            <th
-                                colspan="1"
-                                rowspan="2"
-                                class="text-center align-middle"
-                            >Nr Crt</th>
+                            <th colspan="1" rowspan="2" class="text-center align-middle">Nr Crt</th>
                             <th colspan="2" class="text-center">Document</th>
                             <th colspan="4" class="text-center">Partner</th>
-                            <th
-                                colspan="9"
-                                class="text-center"
-                            >Deliveries/Services taxable</th>
+                            <th colspan="9" class="text-center">Deliveries/Services taxable</th>
                             <th colspan="1" class="text-center">Inverse Taxation</th>
                             <th colspan="1" class="text-center">Special Treatment</th>
-                            <th
-                                colspan="5"
-                                class="text-center"
-                            >Payments - Exigible Operations</th>
-                            <th
-                                colspan="2"
-                                class="text-center"
-                            >Not Exigible Operations</th>
-                            <th
-                                colspan="2"
-                                class="text-center"
-                            >Intra - communitaire Services</th>
-                            <th
-                                colspan="1"
-                                class="text-center"
-                            >Exempt acc. art.143 al.2 lit.a+d</th>
-                            <th
-                                colspan="1"
-                                class="text-center"
-                            >Exempt acc. art.143 al.2 lit.b+c</th>
+                            <th colspan="5" class="text-center">Payments - Exigible Operations</th>
+                            <th colspan="2" class="text-center">Not Exigible Operations</th>
+                            <th colspan="2" class="text-center">Intra - communitaire Services</th>
+                            <th colspan="1" class="text-center">Exempt acc. art.143 al.2 lit.a+d</th>
+                            <th colspan="1" class="text-center">Exempt acc. art.143 al.2 lit.b+c</th>
                             <th colspan="1" class="text-center">Others</th>
-                            <th
-                                colspan="2"
-                                class="text-center"
-                            >Intra - communitaire and Inverse Taxation</th>
-                            <th
-                                t-if="show_warnings"
-                                colspan="2"
-                                rowspan="2"
-                                class="text-center align-middle"
-                            >Warnings
-                            </th>
+                            <th colspan="2" class="text-center">Intra - communitaire and Inverse Taxation</th>
+                            <th t-if="show_warnings"  colspan="2" rowspan="2" class="text-center align-middle">Warnings</th>
                         </tr>
                         <tr>
                             <th colspan="1" class="text-center">Number</th>
@@ -261,20 +295,13 @@
                             <th colspan="1" class="text-center">VAT</th>
                             <th colspan="1" class="text-center">Base</th>
                             <th colspan="1" class="text-center">VAT</th>
-                            <th
-                                colspan="1"
-                                class="text-center"
-                            >With deduction rights</th>
-                            <th
-                                colspan="1"
-                                class="text-center"
-                            >Without deduction rights</th>>
+                            <th colspan="1" class="text-center">With deduction rights</th>
+                            <th colspan="1" class="text-center" >Without deduction rights</th>>
                             <th colspan="1" class="text-center">Base</th>
                             <th colspan="1" class="text-center">Base</th>
                             <th colspan="1" class="text-center">Base</th>
                             <th colspan="1" class="text-center">Base Collected</th>
                             <th colspan="1" class="text-center">VAT Collected</th>
-
                         </tr>
                     </thead>
                     <tbody>
@@ -287,16 +314,15 @@
                         <tr style="font-weight:bold">
                             <td colspan="6" class="text-center">Totals</td>
                             <t t-call="l10n_ro_account_report_journal.sale_report_numbers_and_total" />
+							<td></td>
 						</tr>
                      </tfoot>
                 </table>
                 
                 
                 <!--             PURCASE ANAF REPORT PURCASE ANAF REPORT PURCASE ANAF REPORT-->
- 
-                <table t-if="not report_type_sale"
-                    class="table table-condensed table-bordered table-responsive table-hover">
 
+                <table t-if="not report_type_sale" class="table table-condensed table-bordered table-responsive table-hover">
                     <thead>                       
                         <tr>
                             <th colspan="1" rowspan="2" class="text-center align-middle">Nr Crt</th>
@@ -349,96 +375,15 @@
                     </thead>
 		           <tbody>
                           <tr t-foreach="lines" t-as="l">
-							<t t-call="l10n_ro_account_report_journal.sale_purch_first_14_rows"/>
-
-                            <td class="text-right     GOODS_IMPORTED_EXTRACOMUNITAR_NU_EXISTA">
-                                <t t-set="base_extracomunitar"  t-value="'EXTRACOMUNITAR_NU_EXISTA'" />
-                               <span t-esc="base_extracomunitar"/>                             
-                             </td>
-                            <td class="text-right AICI_NU_CRED_CA_E_BINE_GOODS_IMPORTED">
-                                <t t-set="tva_extracomunitar"  t-value="'TVA_EXTRACOMUNITAR_NU_EXISTA'" />
-                               <span t-esc="tva_extracomunitar"/>                                     
-                             </td>
-                            <td colspan="5">
-   <!--                              <t t-if="l['payments']">
-                                <table width="100%">
-                                    <tr t-foreach="l['payments']" t-as="pay">
-                                        <td class="text-right" width="30">
-                                            <t t-if="pay['number']!=''"><span t-esc="pay['number'].rjust(10,' ')"/></t>
-                                            <t t-if="pay['number']==''">...........</t>   
-                                        </td>
-                                        <td class="text-right" width="30">
-                                            <t t-if="pay['date']!=''"><span t-esc="pay['date']"/></t> 
-                                            <t t-if="pay['date']==''">...........</t>       
-                                        </td>
-                                        <td class="text-right">
-                                            <span t-esc="pay['amount']"/>                                     
-                                        </td>
-                                        <td class="text-right">
-                                            <span t-esc="pay['base_exig']"/>                                     
-                                        </td>
-                                        <td class="text-right">
-                                            <span t-esc="pay['tva_exig']"/>                                     
-                                        </td>
-                                    </tr>
-                                </table>
-                                </t>
-    -->                         </td>  
-                            <td class="text-right">
-                                 <t t-set="base_neex"  t-value="'also_from_tva_at_pay'" />
-                                 <span t-esc="base_neex"/> 
-                            </td>
-                            <td class="text-right">
-                                 <t t-set="tva_neex"  t-value="'also_from_tva_at_pay'" />
-                                 <span t-esc="tva_neex"/> 
-                            </td>
-                            <td class="text-right" tile="vat0">
-                               <t t-set="base_0"  t-value="l['+Baza TVA 0% (deductibila)']+l['-Baza TVA 0% (deductibila)']+l['no_tag_like_vat0']" />
-                               <span t-esc="base_0"/>                                    </td>
-                            <td class="text-right" title="Baza TVA Intracomunitar Servicii (deductibila)">
-                                  <t t-set="base_ded1"  t-value="l['+Baza TVA Intracomunitar Servicii (deductibila)']+l['-Baza TVA Intracomunitar Servicii (deductibila)']" />
-                                 <span t-esc="base_ded1"/> 
-                             </td>
-                            <td class="text-right " title="Intra_communitaire_services_With_deduction_rights or no vat" >
-                                  <t t-set="tva_ded1"  t-value="l['+TVA Intracomunitar Servicii (deductibila)']+l['-TVA Intracomunitar Servicii (deductibila)']" />
-                                 <span t-esc="tva_ded1"/> 
-							</td>
-	                        <td class="text-right" title="Baza TVA Intracomunitar Bunuri (deductibila)">
-                                  <t t-set="base_ded2"  t-value="l['+Baza TVA Intracomunitar Bunuri (deductibila)']+l['-Baza TVA Intracomunitar Bunuri (deductibila)']" />
-                                 <span t-esc="base_ded2"/> 
-                            </td>
-							<td class="text-right " title="-TVA Intracomunitar Bunuri (deductibila)">
-                                  <t t-set="tva_ded2"  t-value="l['+TVA Intracomunitar Bunuri (deductibila)']+l['-TVA Intracomunitar Bunuri (deductibila)']" />
-                                 <span t-esc="tva_ded2"/> 
-                            </td>
-
-                            <td class="text-right" title="Baza TVA Taxare Scutita - Achizitii">
-                                <t t-set="scutit1"  t-value="l['+Baza TVA Taxare Scutita - Achizitii']+l['-Baza TVA Taxare Scutita - Achizitii']" />
-                                 <span t-esc="scutit1"/> 
-                            </td>
-                            <td class="text-right" title="Baza TVA Taxare intracomunitara neimpozabila - Achizitii">
-                                <t t-set="scutit2"  t-value="l['+Baza TVA Taxare intracomunitara neimpozabila - Achizitii']+l['-Baza TVA Taxare intracomunitara neimpozabila - Achizitii']" />
-                                 <span t-esc="scutit2"/> 
-                            </td>
-                            <td class="text-right" title="-Baza TVA Taxare Inversa (deductibila)">
-                                <t t-set="base_inverse_taxation"  t-value="l['+Baza TVA Taxare Inversa (deductibila)']+l['-Baza TVA Taxare Inversa (deductibila)']" />
-                                 <span t-esc="base_inverse_taxation"/> 
-                            </td>
-                            <td class="text-right" title="TVA Taxare Inversa (deductibila)">
-                                <t t-set="tva_inverse_taxation"  t-value="l['+TVA Taxare Inversa (deductibila)']+l['-TVA Taxare Inversa (deductibila)']" />
-                                 <span t-esc="tva_inverse_taxation"/> 
-                            </td>
-                            <td t-if="show_warnings"  colspan="2" class="text-left">
-                                <span t-esc="l['warnings']"/>
-                            </td>   
+							<t t-call="l10n_ro_account_report_journal.purchase_tbody_all_lines_without_total"/>
                         </tr>
                     </tbody>
                      <tfoot>
 						<t t-set="l" t-value="totals"/>
                         <tr style="font-weight:bold">
-        		
-		
-		
+                            <td colspan="6" class="text-center">Totals</td>
+	        				<t t-call="l10n_ro_account_report_journal.purchase_report_numbers_and_total"/>
+							<td/>
 						</tr>
 					</tfoot>
                 </table>
