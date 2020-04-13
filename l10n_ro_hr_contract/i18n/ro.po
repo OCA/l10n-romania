@@ -93,6 +93,11 @@ msgid "Contract suspended?"
 msgstr "Contract suspendat?"
 
 #. module: l10n_ro_hr_contract
+#: model:ir.model.fields,field_description:l10n_ro_hr_contract.field_hr_contract_country_code
+msgid "Country Code"
+msgstr ""
+
+#. module: l10n_ro_hr_contract
 #: model:ir.model.fields,field_description:l10n_ro_hr_contract.field_hr_insurance_type_create_uid
 msgid "Created by"
 msgstr "Creeat de"
@@ -224,11 +229,6 @@ msgid "Pensioneer"
 msgstr "Pensionar"
 
 #. module: l10n_ro_hr_contract
-#: model:ir.ui.view,arch_db:l10n_ro_hr_contract.hr_contract_view_ro_form
-msgid "Period type"
-msgstr "Tip Perioadă"
-
-#. module: l10n_ro_hr_contract
 #: model:ir.model.fields,field_description:l10n_ro_hr_contract.field_hr_contract_revisal_no
 msgid "REVISAL Number"
 msgstr "Număr REVISAL"
@@ -269,6 +269,13 @@ msgstr "Durată Suspendare"
 #: model:ir.model.fields,field_description:l10n_ro_hr_contract.field_hr_contract_tax_exempt
 msgid "Tax Exempt"
 msgstr "Scutit de impozit"
+
+#. module: l10n_ro_hr_contract
+#: model:ir.model.fields,help:l10n_ro_hr_contract.field_hr_contract_country_code
+msgid ""
+"The ISO country code in two chars. \n"
+"You can use this field for quick search."
+msgstr ""
 
 #. module: l10n_ro_hr_contract
 #: model:ir.model.fields,help:l10n_ro_hr_contract.field_hr_contract_period_type
@@ -315,3 +322,6 @@ msgstr "Tip muncă"
 #, python-format
 msgid "full time"
 msgstr "cu normă întreagă"
+
+#~ msgid "Period type"
+#~ msgstr "Tip Perioadă"
