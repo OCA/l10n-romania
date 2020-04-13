@@ -443,8 +443,8 @@
                             <th colspan="4" class="text-center">Partner</th>
                             <th colspan="8" class="text-center">Goods and Services Purchased</th>
                             <th colspan="2" class="text-center">Goods Imported</th>
-                            <th colspan="5" class="text-center">Payments - Exigible Operations</th>
-                            <th colspan="2" class="text-center">Not Exigible Operations</th>
+                            <th colspan="5" class="text-center" title="only for vat on payment">Payments - Exigible Operations</th>
+                            <th colspan="2" class="text-center" title="only for vat on payment">Not Exigible Operations</th>
                             <th colspan="1" class="text-center">Purchases of goods exempt or not taxable</th>
                             <th colspan="4" class="text-center">Intracommunitaire purchases of goods and services</th>
                             <th colspan="1" class="text-center">Intracom. purchases exempt</th>
@@ -576,12 +576,12 @@
                                 </table>
                                 </t>
     -->                         </td>  
-                            <td class="text-right">
-                                 <t t-set="base_neex"  t-value="l['+Baza TVA Taxare Scutita - Achizitii']+l['-Baza TVA Taxare Scutita - Achizitii']" />
+                            <td class="text-right also_from_tva_invsd">
+                                 <t t-set="base_neex"  t-value="'also_from_tva_invsd'" />
                                  <span t-esc="base_neex"/> 
                             </td>
                             <td class="text-right">
-                                 <t t-set="tva_neex"  t-value="'not_tag_ids'" />
+                                 <t t-set="tva_neex"  t-value="'also_from_tva_invsd'" />
                                  <span t-esc="tva_neex"/>
                              </td>
                             <td class="text-right Intra_communitaire_services_With_deduction_rights" >
