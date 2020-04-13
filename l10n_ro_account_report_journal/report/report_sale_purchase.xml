@@ -1,22 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <odoo>
 
-<template  id="l10n_ro_account_report_journal.sale_purch_first_14_rows">
-                            <td>
-                                <span t-esc="l_index + 1" />
-                            </td>
-                            <td>
-                                <span t-esc="l['number']" />
-                            </td>
-                            <td>
-                                <span t-esc="l['date']" />
-                            </td>
-                            <td colspan="2">
-                                <span t-esc="l['partner']" />
-                            </td>
-                            <td>
-                                <span t-esc="l['vat']" />
-                            </td>
+<template	id = "l10n_ro_account_report_journal.sale_purch_6-14_rows">
                             <td class="text-right">
                                 <span t-esc="l['total']" />
                             </td>
@@ -50,6 +35,25 @@
                                 <t t-set="tva_5" t-value="l.get('+TVA 5% (TVA colectata)', 0) + l.get('-TVA 5% (TVA colectata)', 0)"  />
                                 <span t-esc="tva_5" />
                             </td>
+</template>
+
+<template  id="l10n_ro_account_report_journal.sale_purch_first_14_rows">
+                            <td>
+                                <span t-esc="l_index + 1" />
+                            </td>
+                            <td>
+                                <span t-esc="l['number']" />
+                            </td>
+                            <td>
+                                <span t-esc="l['date']" />
+                            </td>
+                            <td colspan="2">
+                                <span t-esc="l['partner']" />
+                            </td>
+                            <td>
+                                xx<span t-esc="l['vat']" />
+                            </td>
+							<t t-call="l10n_ro_account_report_journal.sale_purch_6-14_rows"/>
 </template>
 
 
@@ -177,56 +181,7 @@
                     <tbody>
                         <tr t-foreach="lines" t-as="l">
                         <t t-call="l10n_ro_account_report_journal.sale_purch_first_14_rows"/>
-<!--                             <td>
-                                <span t-esc="l_index + 1" />
-                            </td>
-                            <td>
-                                <span t-esc="l['number']" />
-                            </td>
-                            <td>
-                                <span t-esc="l['date']" />
-                            </td>
-                            <td colspan="2">
-                                <span t-esc="l['partner']" />
-                            </td>
-                            <td>
-                                <span t-esc="l['vat']" />
-                            </td>
-                            <td class="text-right">
-                                <span t-esc="l['total']" />
-                            </td>
-                            <td class="text-right">
-                                <span t-esc="l['total_base']" />
-                            </td>
-                            <td class="text-right">
-                                <span t-esc="l['total_vat']" />
-                            </td>
-                            <td class="text-right">
-                                <t t-set="base_19" t-value="l.get('+Baza TVA 19%', 0) + l.get('-Baza TVA 19%', 0)"/>
-                                <span t-esc="base_19" />
-                            </td>
-                            <td class="text-right">
-                                <t t-set="tva_19" t-value="l.get('+TVA 19% (TVA colectata)', 0) + l.get('-TVA 19% (TVA colectata)', 0)"/>
-                                <span t-esc="tva_19" />
-                            </td>
-                            <td class="text-right">
-                                <t t-set="base_9" t-value="l.get('+Baza TVA 9%', 0) + l.get('-Baza TVA 9%', 0)"/>
-                                <span t-esc="base_9" />
-                            </td>
-                            <td class="text-right">
-                                <t t-set="tva_9" t-value="l.get('+TVA 9% (TVA colectata)', 0) + l.get('-TVA 9% (TVA colectata)', 0)"/>
-                                <span t-esc="tva_9" />
-                            </td>
-                            <td class="text-right">
-                                <t t-set="base_5" t-value="l.get('+Baza TVA 5%', 0)+l.get('-Baza TVA 5%', 0)"/>
-                                <span t-esc="base_5" />
-                            </td>
-                            <td class="text-right">
-                                <t t-set="tva_5" t-value="l.get('+TVA 5% (TVA colectata)', 0) + l.get('-TVA 5% (TVA colectata)', 0)"  />
-                                <span t-esc="tva_5" />
-                            </td>
-                            
- -->                            
+
                             <td class="text-right">
                                 <t t-set="base_0"  t-value="l.get('+Baza TVA 0%', 0)+l.get('-Baza TVA 0%', 0)+l['no_tag_like_vat0']"/>
                                 <span t-esc="base_0" />
@@ -523,56 +478,8 @@
                     </thead>
 		           <tbody>
                           <tr t-foreach="lines" t-as="l">
-                            <td><span t-esc="l_index + 1"/></td>
-                            <td>
-                                <span t-esc="l['number']"/>                                     
-                            </td>
-                            <td>
-                                <span t-esc="l['date']"/>                                     
-                            </td>
-                            <td colspan="2" >
-                                <span t-esc="l['partner']"/>                                     
-                            </td>
-                            <td>
-                                <span t-esc="l['vat']"/>                                     
-                            </td>
+							<t t-call="l10n_ro_account_report_journal.sale_purch_first_14_rows"/>
 
-
-
-
-                            <td class="text-right COPY_FORM_HERE_IN_TOTAL">
-                                <span t-esc="l['total']"/>                                     
-                            </td>
-                            <td class="text-right">
-                                <span t-esc="l['total_base']"/>                                     
-                            </td>
-                            <td class="text-right">
-                                <span t-esc="l['total_vat']"/>                                     
-                            </td>
-                            <td class="text-right">
-                              <t t-set="base_19"  t-value="l['+Baza TVA 19% (deductibila)']+l['-Baza TVA 19% (deductibila)']" />
-                               <span t-esc="base_19"/>                                     
-                            </td>
-                            <td class="text-right">
-                               <t t-set="tva_19"  t-value="l['+TVA 19% (deductibila)']+l['-TVA 19% (deductibila)']" />
-                              <span t-esc="tva_19"/>                                    
-                            </td>
-                            <td class="text-right">
-                               <t t-set="base_9"  t-value="l['+Baza TVA 9% (deductibila)']+l['-Baza TVA 9% (deductibila)']" />
-                                <span t-esc="base_9"/>                                     
-                            </td>
-                            <td class="text-right">
-                               <t t-set="tva_9"  t-value="l['+TVA 9% (deductibila)']+l['-TVA 9% (deductibila)']" />
-                                <span t-esc="tva_9"/>                                     
-                            </td>
-                            <td class="text-right">
-                                <t t-set="base_5"  t-value="l['+Baza TVA 5% (deductibila)']+l['-Baza TVA 5% (deductibila)']" />
-                                 <span t-esc="base_5"/>                                     
-                            </td>
-                            <td class="text-right">
-                                 <t t-set="tva_5"  t-value="l['+TVA 5% (deductibila)']+l['-TVA 5% (deductibila)']" />
-                                <span t-esc="tva_5"/>                                     
-                            </td>
                             <td class="text-right     GOODS_IMPORTED_EXTRACOMUNITAR_NU_EXISTA">
                                 <t t-set="base_extracomunitar"  t-value="'EXTRACOMUNITAR_NU_EXISTA'" />
                                <span t-esc="base_extracomunitar"/>                             
