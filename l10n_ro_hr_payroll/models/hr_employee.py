@@ -54,6 +54,7 @@ class HREmployeeIncome(models.Model):
     gross_amount = fields.Float('Gross Income', required=True)
     net_amount = fields.Float('Net Salary', required=True)
 
+
 class HREmployee(models.Model):
     _inherit = 'hr.employee'
 

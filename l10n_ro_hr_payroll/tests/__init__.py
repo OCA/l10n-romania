@@ -7,3 +7,4 @@ from . import test_hr_meal_vouchers
 from . import test_hr_payroll
 from . import test_hr_wage_history
 from . import test_res_company
+from . import test_hr_payroll_payslips_by_employees

@@ -24,25 +24,25 @@ class HRHolidays(models.Model):
                     else:
                         daily_base = holiday.employee_id._get_holiday_base(
                             date=holiday.date_from, month_no=6)
-
                         if daily_base == 0:
                             gross = holiday.employee_id.contract_id.wage
                             date_from = \
-                                datetime.strptime(holiday.date_from[:10], "%Y-%m-%d") + \
+                                datetime.strptime(holiday.date_from[:10],
+                                                  "%Y-%m-%d") + \
                                 relativedelta(day=1)
                             last_day = \
-                                datetime.strptime(holiday.date_from[:10], "%Y-%m-%d") + \
+                                datetime.strptime(holiday.date_from[:10],
+                                                  "%Y-%m-%d") + \
                                 relativedelta(day=1, months=1, days=-1)
                             nb_of_days = last_day.day
                             total = 0
                             for day in range(0, nb_of_days):
                                 total_day = date_from + \
-                                            relativedelta(days=day)
+                                    relativedelta(days=day)
 
                                 if total_day.weekday() < 5:
                                     total += 1
                             daily_base = gross / total
-
                         daily_base = \
                             daily_base * \
                             holiday.holiday_status_id.percentage / 100
@@ -56,7 +56,6 @@ class HRHolidays(models.Model):
                 else:
                     daily_base = holiday.employee_id._get_holiday_base(
                         date=holiday.date_from, month_no=3)
-
             holiday.daily_base = daily_base
 
     daily_base = fields.Float(

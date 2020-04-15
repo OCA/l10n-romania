@@ -81,6 +81,7 @@ class TestHrPayroll(TestHrEmployee):
         })
 
         with self.env.do_in_onchange():
+            income03.payslip_id = payslip
             income03._onchange_payslip_id()
             self.assertEqual(income03.number_of_days, total)
             self.assertEqual(income03.number_of_hours, total * 8)

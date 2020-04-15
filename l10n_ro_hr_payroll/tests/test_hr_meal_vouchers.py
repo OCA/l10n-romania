@@ -82,9 +82,13 @@ class TestHrMealVouchers(TestHrEmployee):
             'date_start': contract_start_day,
             'name': 'Contract for Test3',
             'wage': 3500.0,
+            'state': 'open',
             'type_id': self.env.ref('hr_contract.hr_contract_type_emp').id,
             'employee_id': self.test_employee_2.id,
-            'struct_id': self.env.ref('l10n_ro_hr_payroll.salarbaza').id
+            'struct_id': self.env.ref('l10n_ro_hr_payroll.salarbaza').id,
+            'resource_calendar_id': self.env.ref(
+                'resource.resource_calendar_std'
+            ).id
         })
 
         contract_test4 = self.env['hr.contract'].create({
@@ -93,9 +97,13 @@ class TestHrMealVouchers(TestHrEmployee):
             'date_start': contract_start_day,
             'name': 'Contract for Test4',
             'wage': 3200.0,
+            'state': 'open',
             'type_id': self.env.ref('hr_contract.hr_contract_type_emp').id,
             'employee_id': self.test_employee_2.id,
-            'struct_id': self.env.ref('l10n_ro_hr_payroll.salarbaza').id
+            'struct_id': self.env.ref('l10n_ro_hr_payroll.salarbaza').id,
+            'resource_calendar_id': self.env.ref(
+                'resource.resource_calendar_std'
+            ).id
         })
 
         contracts = meal_vouchers.get_contracts()
