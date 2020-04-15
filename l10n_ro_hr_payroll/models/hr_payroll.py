@@ -173,3 +173,21 @@ class HrPayslip(models.Model):
                          ['draft', 'cancelled']), '|', '|'] + \
             clause_1 + clause_2 + clause_3
         return self.env['hr.contract'].search(clause_final).ids
+
+    def action_payslip_done(self):
+        res = super(HrPayslip, self).action_payslip_done()
+        income_obj = self.env['hr.employee.income']
+        for payslip in self:
+            if payslip.state == 'done':
+                income = income_obj.create({
+                    'employee_id': payslip.employee_id.id,
+                    'payslip_id': payslip.id,
+                    'date_from': payslip.date_from,
+                    'date_to': payslip.date_to,
+                    'number_of_days': 0,
+                    'number_of_hours': 0,
+                    'gross_amount': 0,
+                    'net_amount': 0
+                })
+                income._onchange_payslip_id()
+        return res

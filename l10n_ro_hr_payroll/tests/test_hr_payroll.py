@@ -70,6 +70,19 @@ class TestHrPayroll(TestHrEmployee):
             datetime.today() + relativedelta(day=1, months=-1, days=-1),
             '%Y-%m-%d',
         )
+
+        incomes = self.env['hr.employee.income'].search([
+            ('payslip_id', '=', payslip.id)
+        ])
+        self.assertFalse(incomes)
+
+        payslip.action_payslip_done()
+        incomes = self.env['hr.employee.income'].search([
+            ('payslip_id', '=', payslip.id)
+        ])
+        self.assertTrue(incomes)
+        self.assertEqual(len(incomes), 1)
+
         income03 = self.env['hr.employee.income'].create({
             'number_of_days': 22,
             'number_of_hours': 176,
@@ -85,5 +98,5 @@ class TestHrPayroll(TestHrEmployee):
             income03._onchange_payslip_id()
             self.assertEqual(income03.number_of_days, total)
             self.assertEqual(income03.number_of_hours, total * 8)
-            self.assertEqual(income03.date_from, income_date_from)
-            self.assertEqual(income03.date_to, income_date_to)
+            self.assertEqual(income03.date_from, first_day)
+            self.assertEqual(income03.date_to, last_day)
