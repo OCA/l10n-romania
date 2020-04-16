@@ -21,7 +21,10 @@ class HRInsuranceType(models.Model):
     def name_get(self):
         result = []
         for insurance in self:
-            result.append((insurance.id, "%s - %s" % (insurance.code, insurance.name[:50] or '')))
+            result.append((
+                insurance.id, "%s - %s" %
+                (insurance.code, insurance.name[:50] or '')
+            ))
         return result
 
 
@@ -42,7 +45,9 @@ class HRContract(models.Model):
 
     @api.model
     def _get_work_hours(self):
-        hours = [('6', _('6 hours')), ('7', _('7 hours')), ('8', _('8 hours'))]
+        hours = [
+            ('6', _('6 hours')), ('7', _('7 hours')), ('8', _('8 hours'))
+        ]
         return hours
 
     @api.model
