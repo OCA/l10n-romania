@@ -14,61 +14,61 @@ msgstr ""
 "Plural-Forms: \n"
 
 #. module: l10n_ro_hr_contract
-#: code:addons/l10n_ro_hr_contract/models/hr_contract.py:27
+#: code:addons/l10n_ro_hr_contract/models/hr_contract.py:37
 #, python-format
 msgid "1 hour partial work time"
 msgstr ""
 
 #. module: l10n_ro_hr_contract
-#: code:addons/l10n_ro_hr_contract/models/hr_contract.py:28
+#: code:addons/l10n_ro_hr_contract/models/hr_contract.py:38
 #, python-format
 msgid "2 hours partial work time"
 msgstr ""
 
 #. module: l10n_ro_hr_contract
-#: code:addons/l10n_ro_hr_contract/models/hr_contract.py:29
+#: code:addons/l10n_ro_hr_contract/models/hr_contract.py:39
 #, python-format
 msgid "3 hours partial work time"
 msgstr ""
 
 #. module: l10n_ro_hr_contract
-#: code:addons/l10n_ro_hr_contract/models/hr_contract.py:30
+#: code:addons/l10n_ro_hr_contract/models/hr_contract.py:40
 #, python-format
 msgid "4 hours partial work time"
 msgstr ""
 
 #. module: l10n_ro_hr_contract
-#: code:addons/l10n_ro_hr_contract/models/hr_contract.py:31
+#: code:addons/l10n_ro_hr_contract/models/hr_contract.py:41
 #, python-format
 msgid "5 hours partial work time"
 msgstr ""
 
 #. module: l10n_ro_hr_contract
-#: code:addons/l10n_ro_hr_contract/models/hr_contract.py:38
+#: code:addons/l10n_ro_hr_contract/models/hr_contract.py:49
 #, python-format
 msgid "6 hours"
 msgstr ""
 
 #. module: l10n_ro_hr_contract
-#: code:addons/l10n_ro_hr_contract/models/hr_contract.py:32
+#: code:addons/l10n_ro_hr_contract/models/hr_contract.py:42
 #, python-format
 msgid "6 hours partial work time"
 msgstr ""
 
 #. module: l10n_ro_hr_contract
-#: code:addons/l10n_ro_hr_contract/models/hr_contract.py:38
+#: code:addons/l10n_ro_hr_contract/models/hr_contract.py:49
 #, python-format
 msgid "7 hours"
 msgstr ""
 
 #. module: l10n_ro_hr_contract
-#: code:addons/l10n_ro_hr_contract/models/hr_contract.py:33
+#: code:addons/l10n_ro_hr_contract/models/hr_contract.py:43
 #, python-format
 msgid "7 hours partial work time"
 msgstr ""
 
 #. module: l10n_ro_hr_contract
-#: code:addons/l10n_ro_hr_contract/models/hr_contract.py:38
+#: code:addons/l10n_ro_hr_contract/models/hr_contract.py:49
 #, python-format
 msgid "8 hours"
 msgstr ""
@@ -203,7 +203,7 @@ msgid "Name"
 msgstr ""
 
 #. module: l10n_ro_hr_contract
-#: code:addons/l10n_ro_hr_contract/models/hr_contract.py:43
+#: code:addons/l10n_ro_hr_contract/models/hr_contract.py:55
 #, python-format
 msgid "Normal Conditions"
 msgstr ""
@@ -214,7 +214,7 @@ msgid "Number registered in Revisal"
 msgstr ""
 
 #. module: l10n_ro_hr_contract
-#: code:addons/l10n_ro_hr_contract/models/hr_contract.py:44
+#: code:addons/l10n_ro_hr_contract/models/hr_contract.py:56
 #, python-format
 msgid "Particular Conditions"
 msgstr ""
@@ -235,7 +235,7 @@ msgid "Search insurance type"
 msgstr ""
 
 #. module: l10n_ro_hr_contract
-#: code:addons/l10n_ro_hr_contract/models/hr_contract.py:45
+#: code:addons/l10n_ro_hr_contract/models/hr_contract.py:57
 #: model:ir.model.fields,field_description:l10n_ro_hr_contract.field_hr_contract_work_special
 #, python-format
 msgid "Special Conditions"
@@ -313,7 +313,7 @@ msgid "Work type"
 msgstr ""
 
 #. module: l10n_ro_hr_contract
-#: code:addons/l10n_ro_hr_contract/models/hr_contract.py:26
+#: code:addons/l10n_ro_hr_contract/models/hr_contract.py:36
 #, python-format
 msgid "full time"
 msgstr ""
