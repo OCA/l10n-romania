@@ -17,6 +17,13 @@ class HRInsuranceType(models.Model):
     code = fields.Char('Code', required=True, help='Insurance code')
     name = fields.Char('Name', required=True, help='Insurance name')
 
+    @api.multi
+    def name_get(self):
+        result = []
+        for insurance in self:
+            result.append((insurance.id, "%s - %s" % (insurance.code, insurance.name[:50] or '')))
+        return result
+
 
 class HRContract(models.Model):
     _inherit = 'hr.contract'
