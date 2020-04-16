@@ -5,8 +5,8 @@
         <field name="model">hr.insurance.type</field>
         <field name="arch" type="xml">
             <tree string="Insurance types">
-                <field name="name"/>
                 <field name="code"/>
+                <field name="name"/>
                 <field name="type"/>
             </tree>
         </field>
