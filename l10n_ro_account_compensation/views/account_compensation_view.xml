@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <data>
+        <record model="ir.ui.view" id="view_compensation_tree">
+            <field name="name">account.compensation.tree</field>
+            <field name="model">account.compensation</field>
+            <field name="arch" type="xml">
+                <tree string="Compensation Entries">
+                    <field name="date" />
+                    <field name="name" />
+                    <field name="partner_id" />
+                    <field name="journal_id" groups="account.group_account_user" />
+                    <field name="state" />
+                </tree>
+            </field>
+        </record>
+        <!-- This general view is used in
+             Invoicing - Journal Entries - Journal Vouchers -->
+        <record model="ir.ui.view" id="view_compensation_form">
+            <field name="name">account.compensation.form</field>
+            <field name="model">account.compensation</field>
+            <field name="arch" type="xml">
+                <form string="Accounting Compensation">
+                    <header>
+                        <button
+                            name="action_done"
+                            string="Post"
+                            states="draft"
+                            class="oe_highlight"
+                            type="object"
+                        />
+                        <button
+                            name="action_draft"
+                            string="Draft"
+                            states="cancel"
+                            class="oe_highlight"
+                            type="object"
+                        />
+                        <button
+                            name="action_cancelled"
+                            string="Cancel"
+                            states="done,draft"
+                            class="oe_highlight"
+                            type="object"
+                        />
+                        <field
+                            name="state"
+                            widget="statusbar"
+                            statusbar_visible="draft,done,cancel"
+                            statusbar_colors='{"cancel":"red"}'
+                        />
+                    </header>
+                    <sheet string="Accounting Compensation">
+                        <group col="4" colspan="6">
+                            <field
+                                name="partner_id"
+                                required="1"
+                                attrs="{'readonly': [('state', '!=', 'draft')]}"
+                            />
+                            <field
+                                name="date"
+                                required="1"
+                                attrs="{'readonly': [('state', '!=', 'draft')]}"
+                            />
+                            <field
+                                name="journal_id"
+                                widget="selection"
+                                attrs="{'readonly': [('state', '!=', 'draft')]}"
+                            />
+                            <field name="name" colspan="2" />
+                            <field
+                                name="company_id"
+                                groups="base.group_multi_company"
+                            />
+                            <field
+                                name="currency_id"
+                                groups="base.group_multi_currency"
+                            />
+                        </group>
+                        <notebook colspan="4">
+                            <page string="Compensation Entry">
+                                <label for="line_ids" />
+                                <field
+                                    name="line_ids"
+                                    widget="one2many"
+                                    nolabel="1"
+                                    attrs="{'readonly': [('state', '!=', 'draft')]}"
+                                >
+                                    <tree editable="bottom" create="0" delete="0">
+                                        <field name="move_line_id" readonly="1" />
+                                        <field name="account_id" readonly="1" />
+                                        <field name="date" readonly="1" />
+                                        <field name="amount_original" readonly="1" />
+                                        <field name="amount_residual" readonly="1" />
+                                        <field name="amount" sum="Total Allocation" />
+                                    </tree>
+                                </field>
+                                <group string="General Notes">
+                                    <field name="notes" nolabel="1" widget="html" />
+                                </group>
+                            </page>
+                            <page
+                                string="Journal Items"
+                                attrs="{'invisible': [('state','!=','done')]}"
+                            >
+                                <field name="move_id" readonly="1" />
+                                <field name="move_line_ids" readonly="1">
+                                    <tree string="Journal Items">
+                                        <field name="ref" />
+                                        <field name="date" />
+                                        <field name="partner_id" />
+                                        <field name="account_id" />
+                                        <field name="name" />
+                                        <field name="debit" />
+                                        <field name="credit" />
+                                        <field name="parent_state" />
+                                    </tree>
+                                </field>
+                            </page>
+                        </notebook>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers" />
+                        <field name="message_ids" widget="mail_thread" />
+                    </div>
+                </form>
+            </field>
+        </record>
+        <record id="view_compensation_filter" model="ir.ui.view">
+            <field name="name">account.compensation.select</field>
+            <field name="model">account.compensation</field>
+            <field name="priority">1</field>
+            <field name="arch" type="xml">
+                <search string="Search Compensation">
+                    <field name="name" string="Compensation" />
+                    <field name="partner_id" />
+                    <field name="journal_id" />
+                    <field name="notes" />
+                    <field name="date" />
+                    <filter
+                        string="Draft"
+                        name="draft"
+                        domain="[('state','=','draft')]"
+                        help="Draft Compensation"
+                    />
+                    <filter
+                        string="Done"
+                        name="done"
+                        domain="[('state','=','done')]"
+                        help="Done Compensation"
+                    />
+                    <separator />
+                    <group expand="0" string="Group By">
+                        <filter
+                            string="Partner"
+                            name="partner"
+                            domain="[]"
+                            context="{'group_by':'partner_id'}"
+                        />
+                        <filter
+                            string="Journal"
+                            name="journal"
+                            domain="[]"
+                            context="{'group_by':'journal_id'}"
+                        />
+                        <filter
+                            string="Notes"
+                            name="notes"
+                            domain="[]"
+                            context="{'group_by':'notes'}"
+                        />
+                        <filter
+                            string="Status"
+                            name="status"
+                            domain="[]"
+                            context="{'group_by':'state'}"
+                        />
+                    </group>
+                </search>
+            </field>
+        </record>
+        <!-- Journal Vouchers -->
+        <record model="ir.actions.act_window" id="action_compensation_list">
+            <field name="name">Journal Compensation</field>
+            <field name="res_model">account.compensation</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+        <menuitem
+            action="action_compensation_list"
+            id="menu_encode_entries_by_compensation"
+            parent="account.menu_finance_entries_actions"
+            sequence="6"
+            groups="base.group_no_one"
+        />
+    </data>
+</odoo>
