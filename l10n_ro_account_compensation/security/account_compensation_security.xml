@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <data noupdate="1">
+        <record id="compensation_comp_rule" model="ir.rule">
+            <field name="name">Compensation multi-company</field>
+            <field name="model_id" ref="model_account_compensation" />
+            <field eval="True" name="global" />
+            <field
+                name="domain_force"
+            >['|',('company_id','=',False),('company_id','child_of',[user.company_id.id])]</field>
+        </record>
+        <record id="compensation_line_comp_rule" model="ir.rule">
+            <field name="name">Compensation Line multi-company</field>
+            <field name="model_id" ref="model_account_compensation_line" />
+            <field eval="True" name="global" />
+            <field
+                name="domain_force"
+            >['|',('company_id','=',False),('company_id','child_of',[user.company_id.id])]</field>
+        </record>
+    </data>
+</odoo>

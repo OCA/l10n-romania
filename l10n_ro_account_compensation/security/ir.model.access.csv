@@ -1,0 +1,5 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_account_compensation_manager,account.compensation,model_account_compensation,account.group_account_manager,1,1,1,1
+access_account_compensation_line_manager,account.compensation.line,model_account_compensation_line,account.group_account_manager,1,1,1,1
+access_account_compensation_invoice,account.compensation invoice,model_account_compensation,account.group_account_invoice,1,0,0,0
+access_account_compensation_line_invoice,account.compensation.line invoice,model_account_compensation_line,account.group_account_invoice,1,0,0,0
