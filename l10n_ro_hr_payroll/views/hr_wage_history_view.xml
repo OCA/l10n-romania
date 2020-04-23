@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<odoo>
+    <record id="view_wage_history_tree" model="ir.ui.view">
+        <field name="name">hr.wage.history.tree</field>
+        <field name="model">hr.wage.history</field>
+        <field name="arch" type="xml">
+            <tree string="Wage History">
+                <field name="date"/>
+                <field name="min_wage"/>
+                <field name="med_wage"/>
+                <field name="working_days"/>
+                <field name="ceiling_min_wage"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="open_wage_history_view" model="ir.actions.act_window">
+        <field name="name">Wage History</field>
+        <field name="res_model">hr.wage.history</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <menuitem action="open_wage_history_view"
+        id="menu_wage_history_view"
+        parent="hr_payroll.menu_hr_payroll_configuration"
+        groups=""
+        sequence="19"/>
+
+</odoo>

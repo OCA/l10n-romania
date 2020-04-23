@@ -187,6 +187,8 @@ class HRHolidays(models.Model):
                 if emp_days <= holiday.holiday_status_id.employer_days:
                     emp_days = holiday.holiday_status_id.employer_days - \
                         emp_days
+                else:
+                    emp_days = 0
                 if holiday.number_of_days_temp <= emp_days:
                     emp_days = holiday.number_of_days_temp
                 holiday.employer_days = emp_days

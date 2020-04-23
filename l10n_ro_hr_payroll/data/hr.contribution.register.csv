@@ -1,0 +1,7 @@
+"id","name","partner_id/id"
+"ro_contribution_register_ang_cam","ANGAJATOR - CAM","res_partner_ro_fiscal_authority"
+"ro_contribution_register_ang_cas","ANGAJATOR - CAS","res_partner_ro_fiscal_authority"
+"ro_contribution_register_cas","ANGAJAT - CAS","res_partner_ro_fiscal_authority"
+"ro_contribution_register_cass","ANGAJAT - CASS","res_partner_ro_fiscal_authority"
+"ro_contribution_register_imp_sal","ANGAJAT - IMPOZIT SALARII","res_partner_ro_fiscal_authority"
+"ro_contribution_register_meal_voucher","TICHETE DE MASĂ","res_partner_ro_mealvoucher"

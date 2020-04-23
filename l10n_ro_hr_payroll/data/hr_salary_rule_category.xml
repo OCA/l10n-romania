@@ -1,0 +1,157 @@
+<?xml version="1.0" ?>
+<odoo>
+    <!-- Venit Brut -->
+    <record id="venitbrut_categ" model="hr.salary.rule.category">
+        <field name="code">VBRUT</field>
+        <field name="name">VENIT BRUT</field>
+    </record>
+    <record id="brut_categ" model="hr.salary.rule.category">
+        <field name="code">BRUT</field>
+        <field name="name">BRUT</field>
+    </record>
+    <record id="salarrealizat_categ" model="hr.salary.rule.category">
+        <field name="code">REAL</field>
+        <field name="name">SALAR REALIZAT</field>
+        <field name="parent_id" ref="venitbrut_categ"/>
+    </record>
+    <record id="tichetedemasa_categ" model="hr.salary.rule.category">
+        <field name="code">TIC</field>
+        <field name="name">TICHETE DE MASA</field>
+        <field name="parent_id" ref="venitbrut_categ"/>
+    </record>
+    <record id="concedii_categ" model="hr.salary.rule.category">
+        <field name="code">CONC</field>
+        <field name="name">CONCEDII</field>
+        <field name="parent_id" ref="venitbrut_categ"/>
+    </record>
+    <record id="concediimedicale_categ" model="hr.salary.rule.category">
+        <field name="code">MED</field>
+        <field name="name">CONCEDII MEDICALE</field>
+        <field name="parent_id" ref="venitbrut_categ"/>
+    </record>
+    <record id="concediimedicale_catega" model="hr.salary.rule.category">
+        <field name="code">MEDA</field>
+        <field name="name">CONCEDII MEDICALE - A</field>
+    </record>
+    <record id="concediimedicale_categb" model="hr.salary.rule.category">
+        <field name="code">MEDB</field>
+        <field name="name">CONCEDII MEDICALE - B</field>
+    </record>
+    <record id="concediimedicale_categc" model="hr.salary.rule.category">
+        <field name="code">MEDC</field>
+        <field name="name">CONCEDII MEDICALE - C</field>
+    </record>
+    <record id="premiiregularizari_categ" model="hr.salary.rule.category">
+        <field name="code">PREM</field>
+        <field name="name">PREMII / REGULARIZARI</field>
+        <field name="parent_id" ref="venitbrut_categ"/>
+    </record>
+    <record id="sporimpozabil_categ" model="hr.salary.rule.category">
+        <field name="code">SPORIMP</field>
+        <field name="name">SPORURI IMPOZABILE</field>
+        <field name="parent_id" ref="venitbrut_categ"/>
+    </record>
+    <record id="sporneimpozabil_categ" model="hr.salary.rule.category">
+        <field name="code">SPORNEIMP</field>
+        <field name="name">SPORURI NEIMPOZABILE</field>
+    </record>
+
+    <!-- Contributii Angajat -->
+    <record id="contributiiangajat_categ" model="hr.salary.rule.category">
+        <field name="code">ANG</field>
+        <field name="name">CONTRIBUTII ANGAJAT</field>
+    </record>
+    <record id="contributiiangajat_categ1" model="hr.salary.rule.category">
+        <field name="code">ANG_ALL</field>
+        <field name="name">TOTAL CONTRIBUTII ANGAJAT</field>
+    </record>
+    <record id="casangajat_categ" model="hr.salary.rule.category">
+        <field name="code">ANG_CAS</field>
+        <field name="name">CAS ANGAJAT</field>
+        <field name="parent_id" ref="contributiiangajat_categ"/>
+    </record>
+    <record id="cassangajat_categ" model="hr.salary.rule.category">
+        <field name="code">ANG_CASS</field>
+        <field name="name">CASS ANGAJAT</field>
+        <field name="parent_id" ref="contributiiangajat_categ"/>
+    </record>
+
+    <!-- Venit Net -->
+    <record id="venitnet_categ" model="hr.salary.rule.category">
+        <field name="code">VNET</field>
+        <field name="name">VENIT NET</field>
+    </record>
+
+    <!-- Cheltuieli Deductibile si Deduceri -->
+    <record id="cheltdeduceri_categ" model="hr.salary.rule.category">
+        <field name="code">CHDED</field>
+        <field name="name">CHELTUIELI DEDUCTIBILE SI DEDUCERI</field>
+    </record>
+
+    <record id="cheltded_categ" model="hr.salary.rule.category">
+        <field name="code">CHDED</field>
+        <field name="name">CHELTUIELI DEDUCTIBILE</field>
+        <field name="parent_id" ref="cheltdeduceri_categ"/>
+    </record>
+    <record id="deducerebaza_categ" model="hr.salary.rule.category">
+        <field name="code">DED</field>
+        <field name="name">DEDUCERE BAZA</field>
+        <field name="parent_id" ref="cheltdeduceri_categ"/>
+    </record>
+    <record id="deduceresupl_categ" model="hr.salary.rule.category">
+        <field name="code">DEDS</field>
+        <field name="name">DEDUCERE SUPLIMENTARA</field>
+        <field name="parent_id" ref="cheltdeduceri_categ"/>
+    </record>
+
+    <!-- Venit Impozabil -->
+    <record id="venitimpozabil_categ" model="hr.salary.rule.category">
+        <field name="code">VIMP</field>
+        <field name="name">VENIT IMPOZABIL</field>
+    </record>
+
+    <!-- Impozit -->
+    <record id="impozit_categ" model="hr.salary.rule.category">
+        <field name="code">IMP</field>
+        <field name="name">IMPOZIT</field>
+    </record>
+
+    <!-- Salar Net-->
+    <record id="salarnet_categ" model="hr.salary.rule.category">
+        <field name="code">NET</field>
+        <field name="name">SALAR NET</field>
+    </record>
+
+    <record id="avans_categ" model="hr.salary.rule.category">
+        <field name="code">AVANS</field>
+        <field name="name">AVANS</field>
+    </record>
+    <record id="retineri_categ" model="hr.salary.rule.category">
+        <field name="code">RET</field>
+        <field name="name">RETINERI</field>
+    </record>
+    <record id="restplata_categ" model="hr.salary.rule.category">
+        <field name="code">REST</field>
+        <field name="name">REST PLATA</field>
+    </record>
+
+    <!-- Contributii Angajator-->
+    <record id="contributiiangajator_categ" model="hr.salary.rule.category">
+        <field name="code">COMP</field>
+        <field name="name">CONTRIBUTII ANGAJATOR</field>
+    </record>
+    <record id="contributiiangajator_categ1" model="hr.salary.rule.category">
+        <field name="code">COMP_ALL</field>
+        <field name="name">TOTAL CONTRIBUTII ANGAJATOR</field>
+    </record>
+    <record id="casangajator_categ" model="hr.salary.rule.category">
+        <field name="code">COMP_CAS</field>
+        <field name="name">CAS ANGAJATOR</field>
+        <field name="parent_id" ref="contributiiangajator_categ"/>
+    </record>
+    <record id="contributieasiguratoaremunca_categ" model="hr.salary.rule.category">
+        <field name="code">COMP_CAM</field>
+        <field name="name">CONTRIBUTIE ASIGURATOARE DE MUNCA</field>
+        <field name="parent_id" ref="contributiiangajator_categ"/>
+    </record>
+</odoo>

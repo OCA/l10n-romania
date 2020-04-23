@@ -1,0 +1,7 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_hr_wage_history,access_hr_wage_history,model_hr_wage_history,hr.group_hr_user,1,1,1,1
+access_hr_meal_vouchers_line,access_hr_meal_vouchers_line,model_hr_meal_vouchers_line,hr.group_hr_user,1,1,1,1
+access_hr_meal_vouchers,access_hr_meal_vouchers,model_hr_meal_vouchers,hr.group_hr_user,1,1,1,1
+access_hr_employee_income,access_hr.employee.income,model_hr_employee_income,hr.group_hr_user,1,1,1,1
+access_hr_employee_meal_vouchers,access_hr.employee.meal.vouchers,model_res_company_meal_voucher,hr.group_hr_user,1,1,1,1
+access_hr_employee_user_income,access_hr.employee.user.income,model_hr_employee_income,base.group_user,1,0,0,0
