@@ -27,6 +27,7 @@ addon | version | summary
 [l10n_ro_hr](l10n_ro_hr/) | 11.0.1.0.0 | Romania - Human Resources
 [l10n_ro_hr_contract](l10n_ro_hr_contract/) | 11.0.1.0.0 | Romania - Employee Contracts
 [l10n_ro_hr_medical_holidays](l10n_ro_hr_medical_holidays/) | 11.0.1.0.0 | Romania - Medical Leaves
+[l10n_ro_hr_payroll](l10n_ro_hr_payroll/) | 11.0.1.0.0 | Romania - Payroll Application
 [l10n_ro_partner_create_by_vat](l10n_ro_partner_create_by_vat/) | 11.0.1.0.0 | Romania - Partner Create by VAT
 [l10n_ro_partner_unique](l10n_ro_partner_unique/) | 11.0.1.0.0 | Creates a rule for vat and nrc unique for partners.
 [l10n_ro_report_D300](l10n_ro_report_D300/) | 11.0.1.0.0 | Romania - D300 Report
