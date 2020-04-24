@@ -79,11 +79,6 @@ msgid "Code"
 msgstr ""
 
 #. module: l10n_ro_hr_contract
-#: model:ir.model,name:l10n_ro_hr_contract.model_hr_contract
-msgid "Contract"
-msgstr ""
-
-#. module: l10n_ro_hr_contract
 #: model:ir.model.fields,field_description:l10n_ro_hr_contract.field_hr_contract_suspended
 msgid "Contract suspended?"
 msgstr ""
@@ -121,6 +116,11 @@ msgstr ""
 #. module: l10n_ro_hr_contract
 #: model:ir.model.fields,field_description:l10n_ro_hr_contract.field_hr_insurance_type_display_name
 msgid "Display Name"
+msgstr ""
+
+#. module: l10n_ro_hr_contract
+#: model:ir.model,name:l10n_ro_hr_contract.model_hr_contract
+msgid "Employee Contract"
 msgstr ""
 
 #. module: l10n_ro_hr_contract
