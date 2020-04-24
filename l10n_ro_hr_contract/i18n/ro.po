@@ -82,12 +82,6 @@ msgid "Code"
 msgstr "Cod"
 
 #. module: l10n_ro_hr_contract
-#: model:ir.model,name:l10n_ro_hr_contract.model_hr_contract
-#, fuzzy
-msgid "Contract"
-msgstr "Contracte Angajați"
-
-#. module: l10n_ro_hr_contract
 #: model:ir.model.fields,field_description:l10n_ro_hr_contract.field_hr_contract_suspended
 msgid "Contract suspended?"
 msgstr "Contract suspendat?"
@@ -126,6 +120,13 @@ msgstr "Perioadă determinată"
 #: model:ir.model.fields,field_description:l10n_ro_hr_contract.field_hr_insurance_type_display_name
 msgid "Display Name"
 msgstr "Nume Afişat"
+
+#. module: l10n_ro_hr_contract
+#: model:ir.model,name:l10n_ro_hr_contract.model_hr_contract
+#, fuzzy
+#| msgid "Employee insurance type"
+msgid "Employee Contract"
+msgstr "Tip asigurare angajat"
 
 #. module: l10n_ro_hr_contract
 #: model:ir.model,name:l10n_ro_hr_contract.model_hr_insurance_type
@@ -322,6 +323,10 @@ msgstr "Tip muncă"
 #, python-format
 msgid "full time"
 msgstr "cu normă întreagă"
+
+#, fuzzy
+#~ msgid "Contract"
+#~ msgstr "Contracte Angajați"
 
 #~ msgid "Period type"
 #~ msgstr "Tip Perioadă"
