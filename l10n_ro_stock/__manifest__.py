@@ -8,7 +8,7 @@
              'views/stock_location_view.xml'],
     'license': 'AGPL-3',
     'version': '11.0.1.0.0',
-    'author': 'OdooERP Romania,'
+    'author': 'NextERP Romania,'
               'Dorin Hongu,'
               'Forest and Biomass Romania,'
               'Odoo Community Association (OCA)',
