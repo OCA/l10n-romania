@@ -67,7 +67,7 @@ class ResPartner(models.Model):
         lines = self.env["res.partner.anaf"].search(
             [("anaf_id", "in", [x[0] for x in process_lines])]
         )
-        line_ids = [l.anaf_id for l in lines]
+        line_ids = [newline.anaf_id for newline in lines]
         for line in process_lines:
             if line[0] not in line_ids:
                 anaf_obj.create(
