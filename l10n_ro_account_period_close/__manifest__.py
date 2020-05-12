@@ -13,7 +13,7 @@
     ],
     "license": "AGPL-3",
     "version": "13.0.1.0.0",
-    "author": "OdooERP Romania,"
+    "author": "NextERP Romania,"
     "Forest and Biomass Romania,"
     "Odoo Community Association (OCA)",
     "website": "https://github.com/OCA/l10n-romania",
