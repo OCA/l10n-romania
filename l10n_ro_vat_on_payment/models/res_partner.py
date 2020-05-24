@@ -18,6 +18,8 @@ class ResPartner(models.Model):
         for partner in self:
             if partner.vat:
                 partner.vat_number = self._split_vat(partner.vat)[1]
+            else:
+                partner.vat_number = ""
 
     @api.depends("vat_number")
     def _compute_anaf_history(self):
@@ -53,7 +55,9 @@ class ResPartner(models.Model):
                 return datetime.strptime(str(strdate), "%Y%m%d").strftime(DATE_FORMAT)
 
         vat_numbers = [
-            p.vat_number for p in self if p.vat and p.vat.lower().startswith("ro")
+            p.vat_number
+            for p in self
+            if p.vat and p.vat.lower().startswith("ro") and p.vat[2:].isnumeric()
         ]
         if vat_numbers == []:
             return
