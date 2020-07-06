@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <data>
+        <record id="view_move_picking_form" model="ir.ui.view">
+            <field name="name">stock.move.form</field>
+            <field name="model">stock.move</field>
+            <field name="inherit_id" ref="stock.view_move_form" />
+            <field name="arch" type="xml">
+                <field name="name" position="after">
+                    <field name="picking_id" invisible="0" />
+                    <field name="picking_type_id" invisible="0" />
+                    <field name="stock_move_type" invisible="0" />
+                    <field
+                        name="price_unit"
+                        attrs="{'invisible': [('picking_type_id','!=','incoming')]}"
+                    />
+                </field>
+                <group name="linked_group" position="before">
+                    <group>
+                        <field name="account_move_ids" />
+                        <field name="move_line_ids" />
+                    </group>
+                </group>
+            </field>
+        </record>
+        <record id="view_move_picking_tree" model="ir.ui.view">
+            <field name="name">view_move_picking_tree</field>
+            <field name="model">stock.move</field>
+            <field name="inherit_id" ref="stock.view_move_tree" />
+            <field name="arch" type="xml">
+                <!--                 <field name="picking_id" position="attributes">
+                	<attribute name="attrs">{'invisible':0, }</attribute>
+                </field>
+ -->
+                <field name="location_dest_id" position="after">
+                    <field name="picking_type_id" invisible="0" optional="show" />
+                    <field name="stock_move_type" invisible="0" optional="show" />
+                    <field
+                        name="price_unit"
+                        attrs="{'readonly': [('picking_type_id','!=','incoming')]}"
+                    />
+                </field>
+            </field>
+        </record>
+        <record id="view_move_picking_tree3" model="ir.ui.view">
+            <field name="name">"view_move_picking_tree3"</field>
+            <field name="model">stock.move</field>
+            <field name="inherit_id" ref="stock.view_move_tree_receipt_picking" />
+            <field name="arch" type="xml">
+                <field name="picking_id" position="attributes">
+                    <attribute name="attrs">{'invisible':0, }</attribute>
+                </field>
+                <field name="location_dest_id" position="after">
+                    <field name="picking_type_id" invisible="0" optional="show" />
+                    <field name="stock_move_type" invisible="0" optional="show" />
+                    <field
+                        name="price_unit"
+                        attrs="{'readonly': [('picking_type_id','!=','incoming')]}"
+                    />
+                </field>
+            </field>
+        </record>
+        <record id="view_move_picking_tree2" model="ir.ui.view">
+            <field name="name">view_move_picking_tree2</field>
+            <field name="model">stock.move</field>
+            <field name="inherit_id" ref="stock.stock_move_tree" />
+            <field name="arch" type="xml">
+                <field name="location_dest_id" position="after">
+                    <field name="picking_type_id" invisible="0" optional="show" />
+                    <field name="stock_move_type" invisible="0" optional="show" />
+                    <field
+                        name="price_unit"
+                        attrs="{'readonly': [('picking_type_id','!=','incoming')]}"
+                    />
+                </field>
+            </field>
+        </record>
+    </data>
+</odoo>

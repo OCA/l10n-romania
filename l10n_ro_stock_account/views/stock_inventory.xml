@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <data>
+        <record id="view_inventory_add_account_lines_form" model="ir.ui.view">
+            <field name="name">view_inventory_add_account_lines_form</field>
+            <field name="model">stock.inventory</field>
+            <field name="inherit_id" ref="stock.view_inventory_form" />
+            <field name="arch" type="xml">
+                <field name="line_ids" position="replace" />
+                <sheet position="inside">
+                    <notebook>
+                        <page
+                            name="inventory_lines"
+                            string="Inventory lines"
+                            groups="account.group_account_readonly"
+                        >
+                            <field name="line_ids" />
+                        </page>
+                        <page
+                            name="accounting_lines"
+                            string="Accounting lines"
+                            groups="account.group_account_readonly"
+                        >
+                            <field name="acc_move_line_ids" />
+                        </page>
+                        <page
+                            name="stock_move"
+                            string="Stork moves"
+                            groups="account.group_account_readonly"
+                        >
+                            <field name="move_ids" />
+                        </page>
+                    </notebook>
+                </sheet>
+            </field>
+        </record>
+    </data>
+</odoo>
