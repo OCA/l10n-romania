@@ -1,0 +1,3193 @@
+id,name,siruta,country_id/id,zone_id/id,state_id/id
+RO_1151,Abrud,1151,base.ro,RO_C,l10n_ro.RO_AB
+RO_1213,Aiud,1213,base.ro,RO_C,l10n_ro.RO_AB
+RO_1017,"Alba Iulia",1017,base.ro,RO_C,l10n_ro.RO_AB
+RO_2130,Albac,2130,base.ro,RO_C,l10n_ro.RO_AB
+RO_2309,"Almaşu Mare",2309,base.ro,RO_C,l10n_ro.RO_AB
+RO_2381,Arieşeni,2381,base.ro,RO_C,l10n_ro.RO_AB
+RO_2577,"Avram Iancu",2577,base.ro,RO_C,l10n_ro.RO_AB
+RO_2915,"Baia De Arieş",2915,base.ro,RO_C,l10n_ro.RO_AB
+RO_2988,Berghin,2988,base.ro,RO_C,l10n_ro.RO_AB
+RO_3039,Bistra,3039,base.ro,RO_C,l10n_ro.RO_AB
+RO_1348,Blaj,1348,base.ro,RO_C,l10n_ro.RO_AB
+RO_3397,Blandiana,3397,base.ro,RO_C,l10n_ro.RO_AB
+RO_9026,"Bucerdea Grânoasă",9026,base.ro,RO_C,l10n_ro.RO_AB
+RO_3459,Bucium,3459,base.ro,RO_C,l10n_ro.RO_AB
+RO_4106,Câlnic,4106,base.ro,RO_C,l10n_ro.RO_AB
+RO_1455,Câmpeni,1455,base.ro,RO_C,l10n_ro.RO_AB
+RO_3761,Cenade,3761,base.ro,RO_C,l10n_ro.RO_AB
+RO_3805,Cergău,3805,base.ro,RO_C,l10n_ro.RO_AB
+RO_3841,Ceru-Băcăinţi,3841,base.ro,RO_C,l10n_ro.RO_AB
+RO_3958,"Cetatea De Baltă",3958,base.ro,RO_C,l10n_ro.RO_AB
+RO_1071,Ciugud,1071,base.ro,RO_C,l10n_ro.RO_AB
+RO_4008,Ciuruleasa,4008,base.ro,RO_C,l10n_ro.RO_AB
+RO_4188,"Crăciunelu De Jos",4188,base.ro,RO_C,l10n_ro.RO_AB
+RO_4142,Cricău,4142,base.ro,RO_C,l10n_ro.RO_AB
+RO_1696,Cugir,1696,base.ro,RO_C,l10n_ro.RO_AB
+RO_9019,Cut,9019,base.ro,RO_C,l10n_ro.RO_AB
+RO_4240,"Daia Română",4240,base.ro,RO_C,l10n_ro.RO_AB
+RO_4268,Doştat,4268,base.ro,RO_C,l10n_ro.RO_AB
+RO_4302,Fărău,4302,base.ro,RO_C,l10n_ro.RO_AB
+RO_4366,"Galda De Jos",4366,base.ro,RO_C,l10n_ro.RO_AB
+RO_4482,Gârbova,4482,base.ro,RO_C,l10n_ro.RO_AB
+RO_4525,"Gârda De Sus",4525,base.ro,RO_C,l10n_ro.RO_AB
+RO_4703,Hopârta,4703,base.ro,RO_C,l10n_ro.RO_AB
+RO_4767,Horea,4767,base.ro,RO_C,l10n_ro.RO_AB
+RO_4927,Ighiu,4927,base.ro,RO_C,l10n_ro.RO_AB
+RO_4981,Întregalde,4981,base.ro,RO_C,l10n_ro.RO_AB
+RO_5103,Jidvei,5103,base.ro,RO_C,l10n_ro.RO_AB
+RO_5167,Livezile,5167,base.ro,RO_C,l10n_ro.RO_AB
+RO_5210,"Lopadea Nouă",5210,base.ro,RO_C,l10n_ro.RO_AB
+RO_5309,"Lunca Mureşului",5309,base.ro,RO_C,l10n_ro.RO_AB
+RO_5336,Lupşa,5336,base.ro,RO_C,l10n_ro.RO_AB
+RO_5577,Meteş,5577,base.ro,RO_C,l10n_ro.RO_AB
+RO_5700,Mihalţ,5700,base.ro,RO_C,l10n_ro.RO_AB
+RO_5755,Mirăslău,5755,base.ro,RO_C,l10n_ro.RO_AB
+RO_5826,Mogoş,5826,base.ro,RO_C,l10n_ro.RO_AB
+RO_6048,Noşlac,6048,base.ro,RO_C,l10n_ro.RO_AB
+RO_1794,"Ocna Mureş",1794,base.ro,RO_C,l10n_ro.RO_AB
+RO_6119,Ocoliş,6119,base.ro,RO_C,l10n_ro.RO_AB
+RO_6164,Ohaba,6164,base.ro,RO_C,l10n_ro.RO_AB
+RO_6217,Pianu,6217,base.ro,RO_C,l10n_ro.RO_AB
+RO_6271,"Poiana Vadului",6271,base.ro,RO_C,l10n_ro.RO_AB
+RO_6397,Ponor,6397,base.ro,RO_C,l10n_ro.RO_AB
+RO_6468,Poşaga,6468,base.ro,RO_C,l10n_ro.RO_AB
+RO_6547,Rădeşti,6547,base.ro,RO_C,l10n_ro.RO_AB
+RO_6627,Râmeţ,6627,base.ro,RO_C,l10n_ro.RO_AB
+RO_6592,Râmetea,6592,base.ro,RO_C,l10n_ro.RO_AB
+RO_6930,"Roşia De Secaş",6930,base.ro,RO_C,l10n_ro.RO_AB
+RO_6761,"Roşia Montană",6761,base.ro,RO_C,l10n_ro.RO_AB
+RO_6976,Sălciua,6976,base.ro,RO_C,l10n_ro.RO_AB
+RO_7044,Săliştea,7044,base.ro,RO_C,l10n_ro.RO_AB
+RO_7348,Sâncel,7348,base.ro,RO_C,l10n_ro.RO_AB
+RO_7384,Sântimbru,7384,base.ro,RO_C,l10n_ro.RO_AB
+RO_7099,Săsciori,7099,base.ro,RO_C,l10n_ro.RO_AB
+RO_7197,Scărişoara,7197,base.ro,RO_C,l10n_ro.RO_AB
+RO_1874,Sebeş,1874,base.ro,RO_C,l10n_ro.RO_AB
+RO_7810,Şibot,7810,base.ro,RO_C,l10n_ro.RO_AB
+RO_7446,Sohodol,7446,base.ro,RO_C,l10n_ro.RO_AB
+RO_7865,Şona,7865,base.ro,RO_C,l10n_ro.RO_AB
+RO_7945,Şpring,7945,base.ro,RO_C,l10n_ro.RO_AB
+RO_7767,Stremţ,7767,base.ro,RO_C,l10n_ro.RO_AB
+RO_8014,Şugag,8014,base.ro,RO_C,l10n_ro.RO_AB
+RO_8096,Teiuş,8096,base.ro,RO_C,l10n_ro.RO_AB
+RO_8158,Unirea,8158,base.ro,RO_C,l10n_ro.RO_AB
+RO_8229,"Vadu Moţilor",8229,base.ro,RO_C,l10n_ro.RO_AB
+RO_8354,"Valea Lungă",8354,base.ro,RO_C,l10n_ro.RO_AB
+RO_8425,Vidra,8425,base.ro,RO_C,l10n_ro.RO_AB
+RO_8826,"Vinţu De Jos",8826,base.ro,RO_C,l10n_ro.RO_AB
+RO_1936,Zlatna,1936,base.ro,RO_C,l10n_ro.RO_AB
+RO_9743,Almaş,9743,base.ro,RO_V,l10n_ro.RO_AR
+RO_9798,Apateu,9798,base.ro,RO_V,l10n_ro.RO_AR
+RO_9262,Arad,9262,base.ro,RO_V,l10n_ro.RO_AR
+RO_9832,Archiş,9832,base.ro,RO_V,l10n_ro.RO_AR
+RO_10051,Bârsa,10051,base.ro,RO_V,l10n_ro.RO_AR
+RO_10104,Bârzava,10104,base.ro,RO_V,l10n_ro.RO_AR
+RO_9887,Bata,9887,base.ro,RO_V,l10n_ro.RO_AR
+RO_9930,Beliu,9930,base.ro,RO_V,l10n_ro.RO_AR
+RO_10006,Birchiş,10006,base.ro,RO_V,l10n_ro.RO_AR
+RO_10195,Bocsig,10195,base.ro,RO_V,l10n_ro.RO_AR
+RO_10239,Brazii,10239,base.ro,RO_V,l10n_ro.RO_AR
+RO_10293,Buteni,10293,base.ro,RO_V,l10n_ro.RO_AR
+RO_10346,Cărand,10346,base.ro,RO_V,l10n_ro.RO_AR
+RO_10373,Cermei,10373,base.ro,RO_V,l10n_ro.RO_AR
+RO_10417,Chisindia,10417,base.ro,RO_V,l10n_ro.RO_AR
+RO_9459,Chişineu-Criş,9459,base.ro,RO_V,l10n_ro.RO_AR
+RO_10453,Conop,10453,base.ro,RO_V,l10n_ro.RO_AR
+RO_10514,Covăsinţ,10514,base.ro,RO_V,l10n_ro.RO_AR
+RO_10532,Craiva,10532,base.ro,RO_V,l10n_ro.RO_AR
+RO_9495,Curtici,9495,base.ro,RO_V,l10n_ro.RO_AR
+RO_10649,Dezna,10649,base.ro,RO_V,l10n_ro.RO_AR
+RO_10701,Dieci,10701,base.ro,RO_V,l10n_ro.RO_AR
+RO_12912,Dorobanţi,12912,base.ro,RO_V,l10n_ro.RO_AR
+RO_9280,Fântânele,9280,base.ro,RO_V,l10n_ro.RO_AR
+RO_10827,Felnac,10827,base.ro,RO_V,l10n_ro.RO_AR
+RO_12920,Frumuşeni,12920,base.ro,RO_V,l10n_ro.RO_AR
+RO_10872,Ghioroc,10872,base.ro,RO_V,l10n_ro.RO_AR
+RO_10916,Grăniceri,10916,base.ro,RO_V,l10n_ro.RO_AR
+RO_10943,Gurahonţ,10943,base.ro,RO_V,l10n_ro.RO_AR
+RO_11174,Hălmăgel,11174,base.ro,RO_V,l10n_ro.RO_AR
+RO_11058,Hălmagiu,11058,base.ro,RO_V,l10n_ro.RO_AR
+RO_11236,Hăşmaş,11236,base.ro,RO_V,l10n_ro.RO_AR
+RO_11307,Igneşti,11307,base.ro,RO_V,l10n_ro.RO_AR
+RO_9538,Ineu,9538,base.ro,RO_V,l10n_ro.RO_AR
+RO_11352,Iratoşu,11352,base.ro,RO_V,l10n_ro.RO_AR
+RO_9574,Lipova,9574,base.ro,RO_V,l10n_ro.RO_AR
+RO_9333,Livada,9333,base.ro,RO_V,l10n_ro.RO_AR
+RO_11398,Macea,11398,base.ro,RO_V,l10n_ro.RO_AR
+RO_11423,Mişca,11423,base.ro,RO_V,l10n_ro.RO_AR
+RO_11478,Moneasa,11478,base.ro,RO_V,l10n_ro.RO_AR
+RO_9627,Nădlac,9627,base.ro,RO_V,l10n_ro.RO_AR
+RO_11502,Olari,11502,base.ro,RO_V,l10n_ro.RO_AR
+RO_9654,Pâncota,9654,base.ro,RO_V,l10n_ro.RO_AR
+RO_11539,Păuliş,11539,base.ro,RO_V,l10n_ro.RO_AR
+RO_11584,Pecica,11584,base.ro,RO_V,l10n_ro.RO_AR
+RO_11637,"Peregu Mare",11637,base.ro,RO_V,l10n_ro.RO_AR
+RO_11664,Petriş,11664,base.ro,RO_V,l10n_ro.RO_AR
+RO_11735,Pilu,11735,base.ro,RO_V,l10n_ro.RO_AR
+RO_11762,Pleşcuţa,11762,base.ro,RO_V,l10n_ro.RO_AR
+RO_12144,Şagu,12144,base.ro,RO_V,l10n_ro.RO_AR
+RO_12091,Sântana,12091,base.ro,RO_V,l10n_ro.RO_AR
+RO_11842,Săvârşin,11842,base.ro,RO_V,l10n_ro.RO_AR
+RO_9690,Sebiş,9690,base.ro,RO_V,l10n_ro.RO_AR
+RO_11940,Secusigiu,11940,base.ro,RO_V,l10n_ro.RO_AR
+RO_12206,Şeitin,12206,base.ro,RO_V,l10n_ro.RO_AR
+RO_11995,Seleuş,11995,base.ro,RO_V,l10n_ro.RO_AR
+RO_12037,Semlac,12037,base.ro,RO_V,l10n_ro.RO_AR
+RO_12224,Şepreuş,12224,base.ro,RO_V,l10n_ro.RO_AR
+RO_12242,Şicula,12242,base.ro,RO_V,l10n_ro.RO_AR
+RO_12288,Şilindia,12288,base.ro,RO_V,l10n_ro.RO_AR
+RO_12340,Şimand,12340,base.ro,RO_V,l10n_ro.RO_AR
+RO_12055,"Sintea Mare",12055,base.ro,RO_V,l10n_ro.RO_AR
+RO_12368,Şiria,12368,base.ro,RO_V,l10n_ro.RO_AR
+RO_12402,Şiştarovăţ,12402,base.ro,RO_V,l10n_ro.RO_AR
+RO_12126,Socodor,12126,base.ro,RO_V,l10n_ro.RO_AR
+RO_9360,Şofronea,9360,base.ro,RO_V,l10n_ro.RO_AR
+RO_12509,Târnova,12509,base.ro,RO_V,l10n_ro.RO_AR
+RO_12457,Tauţ,12457,base.ro,RO_V,l10n_ro.RO_AR
+RO_10765,Ususău,10765,base.ro,RO_V,l10n_ro.RO_AR
+RO_12572,"Vărădia De Mureş",12572,base.ro,RO_V,l10n_ro.RO_AR
+RO_12689,Vârfurile,12689,base.ro,RO_V,l10n_ro.RO_AR
+RO_12643,Vinga,12643,base.ro,RO_V,l10n_ro.RO_AR
+RO_9397,Vladimirescu,9397,base.ro,RO_V,l10n_ro.RO_AR
+RO_12778,Zăbrani,12778,base.ro,RO_V,l10n_ro.RO_AR
+RO_12938,Zădăreni,12938,base.ro,RO_V,l10n_ro.RO_AR
+RO_12812,Zărand,12812,base.ro,RO_V,l10n_ro.RO_AR
+RO_12849,Zerind,12849,base.ro,RO_V,l10n_ro.RO_AR
+RO_12876,"Zimandu Nou",12876,base.ro,RO_V,l10n_ro.RO_AR
+RO_13819,"Albeştii De Argeş",13819,base.ro,RO_SM,l10n_ro.RO_AG
+RO_13891,"Albeştii De Muscel",13891,base.ro,RO_SM,l10n_ro.RO_AG
+RO_13935,Albota,13935,base.ro,RO_SM,l10n_ro.RO_AG
+RO_13999,Aninoasa,13999,base.ro,RO_SM,l10n_ro.RO_AG
+RO_14049,Arefu,14049,base.ro,RO_SM,l10n_ro.RO_AG
+RO_14085,Băbana,14085,base.ro,RO_SM,l10n_ro.RO_AG
+RO_14165,Băiculeşti,14165,base.ro,RO_SM,l10n_ro.RO_AG
+RO_14272,Bălileşti,14272,base.ro,RO_SM,l10n_ro.RO_AG
+RO_14450,Bârla,14450,base.ro,RO_SM,l10n_ro.RO_AG
+RO_13187,Bascov,13187,base.ro,RO_SM,l10n_ro.RO_AG
+RO_14352,Beleţi-Negreşti,14352,base.ro,RO_SM,l10n_ro.RO_AG
+RO_14405,Berevoeşti,14405,base.ro,RO_SM,l10n_ro.RO_AG
+RO_14584,Bogaţi,14584,base.ro,RO_SM,l10n_ro.RO_AG
+RO_14673,Boteni,14673,base.ro,RO_SM,l10n_ro.RO_AG
+RO_14726,Boţeşti,14726,base.ro,RO_SM,l10n_ro.RO_AG
+RO_13276,Bradu,13276,base.ro,RO_SM,l10n_ro.RO_AG
+RO_14753,Brăduleţ,14753,base.ro,RO_SM,l10n_ro.RO_AG
+RO_14851,Budeasa,14851,base.ro,RO_SM,l10n_ro.RO_AG
+RO_14922,"Bughea De Jos",14922,base.ro,RO_SM,l10n_ro.RO_AG
+RO_20063,"Bughea De Sus",20063,base.ro,RO_SM,l10n_ro.RO_AG
+RO_14940,Buzoeşti,14940,base.ro,RO_SM,l10n_ro.RO_AG
+RO_15064,Căldăraru,15064,base.ro,RO_SM,l10n_ro.RO_AG
+RO_15108,Călineşti,15108,base.ro,RO_SM,l10n_ro.RO_AG
+RO_13490,Câmpulung,13490,base.ro,RO_SM,l10n_ro.RO_AG
+RO_15233,Căteasca,15233,base.ro,RO_SM,l10n_ro.RO_AG
+RO_15313,Cepari,15313,base.ro,RO_SM,l10n_ro.RO_AG
+RO_15402,Cetăţeni,15402,base.ro,RO_SM,l10n_ro.RO_AG
+RO_15448,Cicăneşti,15448,base.ro,RO_SM,l10n_ro.RO_AG
+RO_15493,Ciofrângeni,15493,base.ro,RO_SM,l10n_ro.RO_AG
+RO_15554,Ciomăgeşti,15554,base.ro,RO_SM,l10n_ro.RO_AG
+RO_15652,Cocu,15652,base.ro,RO_SM,l10n_ro.RO_AG
+RO_15741,Corbeni,15741,base.ro,RO_SM,l10n_ro.RO_AG
+RO_15830,Corbi,15830,base.ro,RO_SM,l10n_ro.RO_AG
+RO_15901,Coşeşti,15901,base.ro,RO_SM,l10n_ro.RO_AG
+RO_13668,Costeşti,13668,base.ro,RO_SM,l10n_ro.RO_AG
+RO_15983,Cotmeana,15983,base.ro,RO_SM,l10n_ro.RO_AG
+RO_16132,Cuca,16132,base.ro,RO_SM,l10n_ro.RO_AG
+RO_13622,"Curtea De Argeş",13622,base.ro,RO_SM,l10n_ro.RO_AG
+RO_16329,Dâmbovicioara,16329,base.ro,RO_SM,l10n_ro.RO_AG
+RO_16365,Dârmăneşti,16365,base.ro,RO_SM,l10n_ro.RO_AG
+RO_16285,Davideşti,16285,base.ro,RO_SM,l10n_ro.RO_AG
+RO_16427,Dobreşti,16427,base.ro,RO_SM,l10n_ro.RO_AG
+RO_16454,Domneşti,16454,base.ro,RO_SM,l10n_ro.RO_AG
+RO_16506,Drăganu,16506,base.ro,RO_SM,l10n_ro.RO_AG
+RO_16472,Dragoslavele,16472,base.ro,RO_SM,l10n_ro.RO_AG
+RO_16551,Godeni,16551,base.ro,RO_SM,l10n_ro.RO_AG
+RO_16613,Hârseşti,16613,base.ro,RO_SM,l10n_ro.RO_AG
+RO_16659,Hârtieşti,16659,base.ro,RO_SM,l10n_ro.RO_AG
+RO_16739,Izvoru,16739,base.ro,RO_SM,l10n_ro.RO_AG
+RO_16757,Leordeni,16757,base.ro,RO_SM,l10n_ro.RO_AG
+RO_16908,Lereşti,16908,base.ro,RO_SM,l10n_ro.RO_AG
+RO_16944,"Lunca Corbului",16944,base.ro,RO_SM,l10n_ro.RO_AG
+RO_17049,Mălureni,17049,base.ro,RO_SM,l10n_ro.RO_AG
+RO_13365,Mărăcineni,13365,base.ro,RO_SM,l10n_ro.RO_AG
+RO_17101,Merişani,17101,base.ro,RO_SM,l10n_ro.RO_AG
+RO_17209,Miceşti,17209,base.ro,RO_SM,l10n_ro.RO_AG
+RO_17254,Mihăeşti,17254,base.ro,RO_SM,l10n_ro.RO_AG
+RO_17334,Mioarele,17334,base.ro,RO_SM,l10n_ro.RO_AG
+RO_13301,Mioveni,13301,base.ro,RO_SM,l10n_ro.RO_AG
+RO_17398,Miroşi,17398,base.ro,RO_SM,l10n_ro.RO_AG
+RO_17423,Morăreşti,17423,base.ro,RO_SM,l10n_ro.RO_AG
+RO_17496,Moşoaia,17496,base.ro,RO_SM,l10n_ro.RO_AG
+RO_17575,Mozăceni,17575,base.ro,RO_SM,l10n_ro.RO_AG
+RO_17619,Muşăteşti,17619,base.ro,RO_SM,l10n_ro.RO_AG
+RO_17726,Negraşi,17726,base.ro,RO_SM,l10n_ro.RO_AG
+RO_17771,Nucşoara,17771,base.ro,RO_SM,l10n_ro.RO_AG
+RO_17824,Oarja,17824,base.ro,RO_SM,l10n_ro.RO_AG
+RO_17851,Pietroşani,17851,base.ro,RO_SM,l10n_ro.RO_AG
+RO_13169,Piteşti,13169,base.ro,RO_SM,l10n_ro.RO_AG
+RO_18028,"Poiana Lacului",18028,base.ro,RO_SM,l10n_ro.RO_AG
+RO_17913,"Poienarii De Argeş",17913,base.ro,RO_SM,l10n_ro.RO_AG
+RO_17968,"Poienarii De Muscel",17968,base.ro,RO_SM,l10n_ro.RO_AG
+RO_18162,Popeşti,18162,base.ro,RO_SM,l10n_ro.RO_AG
+RO_18242,Priboieni,18242,base.ro,RO_SM,l10n_ro.RO_AG
+RO_20048,Râca,20048,base.ro,RO_SM,l10n_ro.RO_AG
+RO_18331,Răteşti,18331,base.ro,RO_SM,l10n_ro.RO_AG
+RO_18411,Recea,18411,base.ro,RO_SM,l10n_ro.RO_AG
+RO_18475,Rociu,18475,base.ro,RO_SM,l10n_ro.RO_AG
+RO_18527,Rucăr,18527,base.ro,RO_SM,l10n_ro.RO_AG
+RO_18554,Sălătrucu,18554,base.ro,RO_SM,l10n_ro.RO_AG
+RO_18581,Săpata,18581,base.ro,RO_SM,l10n_ro.RO_AG
+RO_18670,"Schitu Goleşti",18670,base.ro,RO_SM,l10n_ro.RO_AG
+RO_18741,Slobozia,18741,base.ro,RO_SM,l10n_ro.RO_AG
+RO_18778,Stâlpeni,18778,base.ro,RO_SM,l10n_ro.RO_AG
+RO_19114,"Ştefan Cel Mare",19114,base.ro,RO_SM,l10n_ro.RO_AG
+RO_13392,Ştefăneşti,13392,base.ro,RO_SM,l10n_ro.RO_AG
+RO_18858,Stoeneşti,18858,base.ro,RO_SM,l10n_ro.RO_AG
+RO_18938,Stolnici,18938,base.ro,RO_SM,l10n_ro.RO_AG
+RO_19141,Şuici,19141,base.ro,RO_SM,l10n_ro.RO_AG
+RO_19007,Suseni,19007,base.ro,RO_SM,l10n_ro.RO_AG
+RO_19212,Teiu,19212,base.ro,RO_SM,l10n_ro.RO_AG
+RO_19249,Tigveni,19249,base.ro,RO_SM,l10n_ro.RO_AG
+RO_19338,Ţiţeşti,19338,base.ro,RO_SM,l10n_ro.RO_AG
+RO_13757,Topoloveni,13757,base.ro,RO_SM,l10n_ro.RO_AG
+RO_19392,Uda,19392,base.ro,RO_SM,l10n_ro.RO_AG
+RO_19560,Ungheni,19560,base.ro,RO_SM,l10n_ro.RO_AG
+RO_19631,"Valea Danului",19631,base.ro,RO_SM,l10n_ro.RO_AG
+RO_19695,"Valea Iaşului",19695,base.ro,RO_SM,l10n_ro.RO_AG
+RO_13524,"Valea Mare Pravăţ",13524,base.ro,RO_SM,l10n_ro.RO_AG
+RO_19793,Vedea,19793,base.ro,RO_SM,l10n_ro.RO_AG
+RO_19999,Vlădeşti,19999,base.ro,RO_SM,l10n_ro.RO_AG
+RO_20055,Vultureşti,20055,base.ro,RO_SM,l10n_ro.RO_AG
+RO_21007,Agăş,21007,base.ro,RO_NE,l10n_ro.RO_BC
+RO_21098,Ardeoani,21098,base.ro,RO_NE,l10n_ro.RO_BC
+RO_21123,Asău,21123,base.ro,RO_NE,l10n_ro.RO_BC
+RO_20297,Bacău,20297,base.ro,RO_NE,l10n_ro.RO_BC
+RO_21196,Balcani,21196,base.ro,RO_NE,l10n_ro.RO_BC
+RO_21454,Bârsăneşti,21454,base.ro,RO_NE,l10n_ro.RO_BC
+RO_21249,Bereşti-Bistriţa,21249,base.ro,RO_NE,l10n_ro.RO_BC
+RO_21338,Bereşti-Tazlău,21338,base.ro,RO_NE,l10n_ro.RO_BC
+RO_21418,Berzunţi,21418,base.ro,RO_NE,l10n_ro.RO_BC
+RO_21506,Blăgeşti,21506,base.ro,RO_NE,l10n_ro.RO_BC
+RO_21560,Bogdăneşti,21560,base.ro,RO_NE,l10n_ro.RO_BC
+RO_21597,Brusturoasa,21597,base.ro,RO_NE,l10n_ro.RO_BC
+RO_26338,Buciumi,26338,base.ro,RO_NE,l10n_ro.RO_BC
+RO_21668,Buhoci,21668,base.ro,RO_NE,l10n_ro.RO_BC
+RO_20778,Buhuşi,20778,base.ro,RO_NE,l10n_ro.RO_BC
+RO_21757,Căiuţi,21757,base.ro,RO_NE,l10n_ro.RO_BC
+RO_21720,Caşin,21720,base.ro,RO_NE,l10n_ro.RO_BC
+RO_21855,Cleja,21855,base.ro,RO_NE,l10n_ro.RO_BC
+RO_21891,Coloneşti,21891,base.ro,RO_NE,l10n_ro.RO_BC
+RO_20821,Comăneşti,20821,base.ro,RO_NE,l10n_ro.RO_BC
+RO_21971,Corbasca,21971,base.ro,RO_NE,l10n_ro.RO_BC
+RO_22059,Coţofăneşti,22059,base.ro,RO_NE,l10n_ro.RO_BC
+RO_22111,Dămieneşti,22111,base.ro,RO_NE,l10n_ro.RO_BC
+RO_22166,Dărmăneşti,22166,base.ro,RO_NE,l10n_ro.RO_BC
+RO_22237,"Dealu Morii",22237,base.ro,RO_NE,l10n_ro.RO_BC
+RO_22380,Dofteana,22380,base.ro,RO_NE,l10n_ro.RO_BC
+RO_22460,Faraoani,22460,base.ro,RO_NE,l10n_ro.RO_BC
+RO_22488,Filipeni,22488,base.ro,RO_NE,l10n_ro.RO_BC
+RO_22576,Filipeşti,22576,base.ro,RO_NE,l10n_ro.RO_BC
+RO_22665,Găiceana,22665,base.ro,RO_NE,l10n_ro.RO_BC
+RO_22781,Gârleni,22781,base.ro,RO_NE,l10n_ro.RO_BC
+RO_22718,Ghimeş-Făget,22718,base.ro,RO_NE,l10n_ro.RO_BC
+RO_26346,Gioseni,26346,base.ro,RO_NE,l10n_ro.RO_BC
+RO_22834,Glăvăneşti,22834,base.ro,RO_NE,l10n_ro.RO_BC
+RO_20607,"Gura Văii",20607,base.ro,RO_NE,l10n_ro.RO_BC
+RO_22898,Helegiu,22898,base.ro,RO_NE,l10n_ro.RO_BC
+RO_20313,Hemeiuş,20313,base.ro,RO_NE,l10n_ro.RO_BC
+RO_22941,Horgeşti,22941,base.ro,RO_NE,l10n_ro.RO_BC
+RO_23047,Huruieşti,23047,base.ro,RO_NE,l10n_ro.RO_BC
+RO_26379,Iteşti,26379,base.ro,RO_NE,l10n_ro.RO_BC
+RO_23127,"Izvoru Berheciului",23127,base.ro,RO_NE,l10n_ro.RO_BC
+RO_20359,"Letea Veche",20359,base.ro,RO_NE,l10n_ro.RO_BC
+RO_23207,Lipova,23207,base.ro,RO_NE,l10n_ro.RO_BC
+RO_23289,Livezi,23289,base.ro,RO_NE,l10n_ro.RO_BC
+RO_23350,Luizi-Călugăra,23350,base.ro,RO_NE,l10n_ro.RO_BC
+RO_23387,Măgireşti,23387,base.ro,RO_NE,l10n_ro.RO_BC
+RO_20411,Măgura,20411,base.ro,RO_NE,l10n_ro.RO_BC
+RO_23449,"Mănăstirea Caşin",23449,base.ro,RO_NE,l10n_ro.RO_BC
+RO_20466,Mărgineni,20466,base.ro,RO_NE,l10n_ro.RO_BC
+RO_20876,Moineşti,20876,base.ro,RO_NE,l10n_ro.RO_BC
+RO_23494,Motoşeni,23494,base.ro,RO_NE,l10n_ro.RO_BC
+RO_23644,Negri,23644,base.ro,RO_NE,l10n_ro.RO_BC
+RO_23715,"Nicolae Bălcescu",23715,base.ro,RO_NE,l10n_ro.RO_BC
+RO_26353,Odobeşti,26353,base.ro,RO_NE,l10n_ro.RO_BC
+RO_23797,Oituz,23797,base.ro,RO_NE,l10n_ro.RO_BC
+RO_23868,Onceşti,23868,base.ro,RO_NE,l10n_ro.RO_BC
+RO_20563,Oneşti,20563,base.ro,RO_NE,l10n_ro.RO_BC
+RO_23948,Orbeni,23948,base.ro,RO_NE,l10n_ro.RO_BC
+RO_23975,Palanca,23975,base.ro,RO_NE,l10n_ro.RO_BC
+RO_24187,Pânceşti,24187,base.ro,RO_NE,l10n_ro.RO_BC
+RO_24034,Parava,24034,base.ro,RO_NE,l10n_ro.RO_BC
+RO_24276,Pârgăreşti,24276,base.ro,RO_NE,l10n_ro.RO_BC
+RO_24089,Parincea,24089,base.ro,RO_NE,l10n_ro.RO_BC
+RO_24338,Pârjol,24338,base.ro,RO_NE,l10n_ro.RO_BC
+RO_24427,Plopana,24427,base.ro,RO_NE,l10n_ro.RO_BC
+RO_24524,"Podu Turcului",24524,base.ro,RO_NE,l10n_ro.RO_BC
+RO_24631,Poduri,24631,base.ro,RO_NE,l10n_ro.RO_BC
+RO_26361,Prăjeşti,26361,base.ro,RO_NE,l10n_ro.RO_BC
+RO_24766,Răcăciuni,24766,base.ro,RO_NE,l10n_ro.RO_BC
+RO_24837,Răchitoasa,24837,base.ro,RO_NE,l10n_ro.RO_BC
+RO_24711,Racova,24711,base.ro,RO_NE,l10n_ro.RO_BC
+RO_24999,Roşiori,24999,base.ro,RO_NE,l10n_ro.RO_BC
+RO_25148,Sănduleni,25148,base.ro,RO_NE,l10n_ro.RO_BC
+RO_26320,Sărata,26320,base.ro,RO_NE,l10n_ro.RO_BC
+RO_25068,Sascut,25068,base.ro,RO_NE,l10n_ro.RO_BC
+RO_25228,Săuceşti,25228,base.ro,RO_NE,l10n_ro.RO_BC
+RO_25291,Scorţeni,25291,base.ro,RO_NE,l10n_ro.RO_BC
+RO_25362,Secuieni,25362,base.ro,RO_NE,l10n_ro.RO_BC
+RO_20910,Slănic-Moldova,20910,base.ro,RO_NE,l10n_ro.RO_BC
+RO_25488,Solonţ,25488,base.ro,RO_NE,l10n_ro.RO_BC
+RO_25521,Stănişeşti,25521,base.ro,RO_NE,l10n_ro.RO_BC
+RO_20670,"Ştefan Cel Mare",20670,base.ro,RO_NE,l10n_ro.RO_BC
+RO_25629,Strugari,25629,base.ro,RO_NE,l10n_ro.RO_BC
+RO_25692,Tamaşi,25692,base.ro,RO_NE,l10n_ro.RO_BC
+RO_20965,"Târgu Ocna",20965,base.ro,RO_NE,l10n_ro.RO_BC
+RO_25825,"Târgu Trotuş",25825,base.ro,RO_NE,l10n_ro.RO_BC
+RO_25745,Tătărăşti,25745,base.ro,RO_NE,l10n_ro.RO_BC
+RO_25861,Traian,25861,base.ro,RO_NE,l10n_ro.RO_BC
+RO_25932,Ungureni,25932,base.ro,RO_NE,l10n_ro.RO_BC
+RO_26029,Urecheşti,26029,base.ro,RO_NE,l10n_ro.RO_BC
+RO_26083,"Valea Seacă",26083,base.ro,RO_NE,l10n_ro.RO_BC
+RO_26118,Vultureni,26118,base.ro,RO_NE,l10n_ro.RO_BC
+RO_26289,Zemeş,26289,base.ro,RO_NE,l10n_ro.RO_BC
+RO_27070,Abram,27070,base.ro,RO_NV,l10n_ro.RO_BH
+RO_27169,Abrămuţ,27169,base.ro,RO_NV,l10n_ro.RO_BH
+RO_26699,Aleşd,26699,base.ro,RO_NV,l10n_ro.RO_BH
+RO_26742,Aştileu,26742,base.ro,RO_NV,l10n_ro.RO_BH
+RO_27212,Auşeu,27212,base.ro,RO_NV,l10n_ro.RO_BH
+RO_27285,"Avram Iancu",27285,base.ro,RO_NV,l10n_ro.RO_BH
+RO_27329,Balc,27329,base.ro,RO_NV,l10n_ro.RO_BH
+RO_27383,Batăr,27383,base.ro,RO_NV,l10n_ro.RO_BH
+RO_26804,Beiuş,26804,base.ro,RO_NV,l10n_ro.RO_BH
+RO_27436,Biharia,27436,base.ro,RO_NV,l10n_ro.RO_BH
+RO_27506,"Boianu Mare",27506,base.ro,RO_NV,l10n_ro.RO_BH
+RO_27560,Borod,27560,base.ro,RO_NV,l10n_ro.RO_BH
+RO_27631,Borş,27631,base.ro,RO_NV,l10n_ro.RO_BH
+RO_27686,Bratca,27686,base.ro,RO_NV,l10n_ro.RO_BH
+RO_27757,Brusturi,27757,base.ro,RO_NV,l10n_ro.RO_BH
+RO_27846,Budureasa,27846,base.ro,RO_NV,l10n_ro.RO_BH
+RO_27908,Buduslău,27908,base.ro,RO_NV,l10n_ro.RO_BH
+RO_27935,Bulz,27935,base.ro,RO_NV,l10n_ro.RO_BH
+RO_27971,Bunteşti,27971,base.ro,RO_NV,l10n_ro.RO_BH
+RO_28077,Căbeşti,28077,base.ro,RO_NV,l10n_ro.RO_BH
+RO_28709,Câmpani,28709,base.ro,RO_NV,l10n_ro.RO_BH
+RO_28139,Căpâlna,28139,base.ro,RO_NV,l10n_ro.RO_BH
+RO_28193,Cărpinet,28193,base.ro,RO_NV,l10n_ro.RO_BH
+RO_28246,Cefa,28246,base.ro,RO_NV,l10n_ro.RO_BH
+RO_28335,Ceica,28335,base.ro,RO_NV,l10n_ro.RO_BH
+RO_28415,Cetariu,28415,base.ro,RO_NV,l10n_ro.RO_BH
+RO_28497,Cherechiu,28497,base.ro,RO_NV,l10n_ro.RO_BH
+RO_28530,Chişlaz,28530,base.ro,RO_NV,l10n_ro.RO_BH
+RO_28665,Ciumeghiu,28665,base.ro,RO_NV,l10n_ro.RO_BH
+RO_28763,"Cociuba Mare",28763,base.ro,RO_NV,l10n_ro.RO_BH
+RO_28816,Copăcel,28816,base.ro,RO_NV,l10n_ro.RO_BH
+RO_28889,"Criştioru De Jos",28889,base.ro,RO_NV,l10n_ro.RO_BH
+RO_28941,Curăţele,28941,base.ro,RO_NV,l10n_ro.RO_BH
+RO_29001,Curtuişeni,29001,base.ro,RO_NV,l10n_ro.RO_BH
+RO_29038,Derna,29038,base.ro,RO_NV,l10n_ro.RO_BH
+RO_29092,Diosig,29092,base.ro,RO_NV,l10n_ro.RO_BH
+RO_29154,Dobreşti,29154,base.ro,RO_NV,l10n_ro.RO_BH
+RO_29243,Drăgăneşti,29243,base.ro,RO_NV,l10n_ro.RO_BH
+RO_29341,Drăgeşti,29341,base.ro,RO_NV,l10n_ro.RO_BH
+RO_29403,Finiş,29403,base.ro,RO_NV,l10n_ro.RO_BH
+RO_32195,Gepiu,32195,base.ro,RO_NV,l10n_ro.RO_BH
+RO_29467,"Girişu De Criş",29467,base.ro,RO_NV,l10n_ro.RO_BH
+RO_29519,"Hidişelu De Sus",29519,base.ro,RO_NV,l10n_ro.RO_BH
+RO_29573,Holod,29573,base.ro,RO_NV,l10n_ro.RO_BH
+RO_29662,"Husasău De Tinca",29662,base.ro,RO_NV,l10n_ro.RO_BH
+RO_29724,Ineu,29724,base.ro,RO_NV,l10n_ro.RO_BH
+RO_29813,Lăzăreni,29813,base.ro,RO_NV,l10n_ro.RO_BH
+RO_29760,"Lazuri De Beiuş",29760,base.ro,RO_NV,l10n_ro.RO_BH
+RO_29902,"Lugaşu De Jos",29902,base.ro,RO_NV,l10n_ro.RO_BH
+RO_29948,Lunca,29948,base.ro,RO_NV,l10n_ro.RO_BH
+RO_30014,Mădăraş,30014,base.ro,RO_NV,l10n_ro.RO_BH
+RO_30069,Măgeşti,30069,base.ro,RO_NV,l10n_ro.RO_BH
+RO_26877,Marghita,26877,base.ro,RO_NV,l10n_ro.RO_BH
+RO_30149,Nojorid,30149,base.ro,RO_NV,l10n_ro.RO_BH
+RO_26920,Nucet,26920,base.ro,RO_NV,l10n_ro.RO_BH
+RO_30229,Olcea,30229,base.ro,RO_NV,l10n_ro.RO_BH
+RO_26564,Oradea,26564,base.ro,RO_NV,l10n_ro.RO_BH
+RO_30274,Oşorhei,30274,base.ro,RO_NV,l10n_ro.RO_BH
+RO_32219,Păcăleşti,32219,base.ro,RO_NV,l10n_ro.RO_BH
+RO_32161,Paleu,32161,base.ro,RO_NV,l10n_ro.RO_BH
+RO_30336,Pietroasa,30336,base.ro,RO_NV,l10n_ro.RO_BH
+RO_30416,Pocola,30416,base.ro,RO_NV,l10n_ro.RO_BH
+RO_30470,Pomezeu,30470,base.ro,RO_NV,l10n_ro.RO_BH
+RO_30568,Popeşti,30568,base.ro,RO_NV,l10n_ro.RO_BH
+RO_30648,Răbăgani,30648,base.ro,RO_NV,l10n_ro.RO_BH
+RO_30719,Remetea,30719,base.ro,RO_NV,l10n_ro.RO_BH
+RO_30773,Rieni,30773,base.ro,RO_NV,l10n_ro.RO_BH
+RO_30844,Roşia,30844,base.ro,RO_NV,l10n_ro.RO_BH
+RO_32187,Roşiori,32187,base.ro,RO_NV,l10n_ro.RO_BH
+RO_30871,Săcădat,30871,base.ro,RO_NV,l10n_ro.RO_BH
+RO_30915,Săcueni,30915,base.ro,RO_NV,l10n_ro.RO_BH
+RO_30988,Sălacea,30988,base.ro,RO_NV,l10n_ro.RO_BH
+RO_31011,Sălard,31011,base.ro,RO_NV,l10n_ro.RO_BH
+RO_26975,Salonta,26975,base.ro,RO_NV,l10n_ro.RO_BH
+RO_31057,Sâmbăta,31057,base.ro,RO_NV,l10n_ro.RO_BH
+RO_28610,Sâniob,28610,base.ro,RO_NV,l10n_ro.RO_BH
+RO_26582,Sânmartin,26582,base.ro,RO_NV,l10n_ro.RO_BH
+RO_32179,"Sănnicolau Romăn",32179,base.ro,RO_NV,l10n_ro.RO_BH
+RO_26653,Sântandrei,26653,base.ro,RO_NV,l10n_ro.RO_BH
+RO_31128,Sârbi,31128,base.ro,RO_NV,l10n_ro.RO_BH
+RO_31333,Şimian,31333,base.ro,RO_NV,l10n_ro.RO_BH
+RO_31379,Şinteu,31379,base.ro,RO_NV,l10n_ro.RO_BH
+RO_31422,Şoimi,31422,base.ro,RO_NV,l10n_ro.RO_BH
+RO_31208,Spinuş,31208,base.ro,RO_NV,l10n_ro.RO_BH
+RO_26840,Ştei,26840,base.ro,RO_NV,l10n_ro.RO_BH
+RO_31510,Şuncuiuş,31510,base.ro,RO_NV,l10n_ro.RO_BH
+RO_31262,"Suplacu De Barcău",31262,base.ro,RO_NV,l10n_ro.RO_BH
+RO_32153,Tămăşeu,32153,base.ro,RO_NV,l10n_ro.RO_BH
+RO_31609,Tărcaia,31609,base.ro,RO_NV,l10n_ro.RO_BH
+RO_31565,Tarcea,31565,base.ro,RO_NV,l10n_ro.RO_BH
+RO_31654,Tăuteu,31654,base.ro,RO_NV,l10n_ro.RO_BH
+RO_31878,Ţeţchea,31878,base.ro,RO_NV,l10n_ro.RO_BH
+RO_31716,Tileagd,31716,base.ro,RO_NV,l10n_ro.RO_BH
+RO_31789,Tinca,31789,base.ro,RO_NV,l10n_ro.RO_BH
+RO_32201,Toboliu,32201,base.ro,RO_NV,l10n_ro.RO_BH
+RO_31841,Tulca,31841,base.ro,RO_NV,l10n_ro.RO_BH
+RO_31921,"Uileacu De Beiuş",31921,base.ro,RO_NV,l10n_ro.RO_BH
+RO_31976,"Vadu Crişului",31976,base.ro,RO_NV,l10n_ro.RO_BH
+RO_32027,"Valea Lui Mihai",32027,base.ro,RO_NV,l10n_ro.RO_BH
+RO_32090,Vârciorog,32090,base.ro,RO_NV,l10n_ro.RO_BH
+RO_27007,Vaşcău,27007,base.ro,RO_NV,l10n_ro.RO_BH
+RO_32045,Viişoara,32045,base.ro,RO_NV,l10n_ro.RO_BH
+RO_32483,Beclean,32483,base.ro,RO_NV,l10n_ro.RO_BN
+RO_32394,Bistriţa,32394,base.ro,RO_NV,l10n_ro.RO_BN
+RO_32633,"Bistriţa Bârgăului",32633,base.ro,RO_NV,l10n_ro.RO_BN
+RO_32660,Braniştea,32660,base.ro,RO_NV,l10n_ro.RO_BN
+RO_32704,"Budacu De Jos",32704,base.ro,RO_NV,l10n_ro.RO_BN
+RO_32768,Budeşti,32768,base.ro,RO_NV,l10n_ro.RO_BN
+RO_32811,"Căianu Mic",32811,base.ro,RO_NV,l10n_ro.RO_BN
+RO_32884,Cetate,32884,base.ro,RO_NV,l10n_ro.RO_BN
+RO_33015,Chiochiş,33015,base.ro,RO_NV,l10n_ro.RO_BN
+RO_33122,Chiuza,33122,base.ro,RO_NV,l10n_ro.RO_BN
+RO_179953,"Ciceu - Mihăieşti",179953,base.ro,RO_NV,l10n_ro.RO_BN
+RO_32955,Ciceu-Giurgeşti,32955,base.ro,RO_NV,l10n_ro.RO_BN
+RO_33177,Coşbuc,33177,base.ro,RO_NV,l10n_ro.RO_BN
+RO_33202,Dumitra,33202,base.ro,RO_NV,l10n_ro.RO_BN
+RO_179686,Dumitriţa,179686,base.ro,RO_NV,l10n_ro.RO_BN
+RO_33248,Feldru,33248,base.ro,RO_NV,l10n_ro.RO_BN
+RO_33275,"Galaţii Bistriţei",33275,base.ro,RO_NV,l10n_ro.RO_BN
+RO_33337,"Ilva Mare",33337,base.ro,RO_NV,l10n_ro.RO_BN
+RO_33364,"Ilva Mică",33364,base.ro,RO_NV,l10n_ro.RO_BN
+RO_33382,"Josenii Bârgăului",33382,base.ro,RO_NV,l10n_ro.RO_BN
+RO_33435,Lechinţa,33435,base.ro,RO_NV,l10n_ro.RO_BN
+RO_33514,Leşu,33514,base.ro,RO_NV,l10n_ro.RO_BN
+RO_33541,Livezile,33541,base.ro,RO_NV,l10n_ro.RO_BN
+RO_33603,"Lunca Ilvei",33603,base.ro,RO_NV,l10n_ro.RO_BN
+RO_33729,"Măgura Ilvei",33729,base.ro,RO_NV,l10n_ro.RO_BN
+RO_33621,Maieru,33621,base.ro,RO_NV,l10n_ro.RO_BN
+RO_33765,Mărişelu,33765,base.ro,RO_NV,l10n_ro.RO_BN
+RO_33658,Matei,33658,base.ro,RO_NV,l10n_ro.RO_BN
+RO_33845,"Miceştii De Câmpie",33845,base.ro,RO_NV,l10n_ro.RO_BN
+RO_33881,Milaş,33881,base.ro,RO_NV,l10n_ro.RO_BN
+RO_33952,Monor,33952,base.ro,RO_NV,l10n_ro.RO_BN
+RO_32544,Năsăud,32544,base.ro,RO_NV,l10n_ro.RO_BN
+RO_179659,Negrileşti,179659,base.ro,RO_NV,l10n_ro.RO_BN
+RO_33989,Nimigea,33989,base.ro,RO_NV,l10n_ro.RO_BN
+RO_34075,Nuşeni,34075,base.ro,RO_NV,l10n_ro.RO_BN
+RO_34155,Parva,34155,base.ro,RO_NV,l10n_ro.RO_BN
+RO_34173,"Petru Rareş",34173,base.ro,RO_NV,l10n_ro.RO_BN
+RO_179720,"Poiana Ilvei",179720,base.ro,RO_NV,l10n_ro.RO_BN
+RO_34235,"Prundu Bârgăului",34235,base.ro,RO_NV,l10n_ro.RO_BN
+RO_34262,Rebra,34262,base.ro,RO_NV,l10n_ro.RO_BN
+RO_34280,Rebrişoara,34280,base.ro,RO_NV,l10n_ro.RO_BN
+RO_34333,Rodna,34333,base.ro,RO_NV,l10n_ro.RO_BN
+RO_34360,Romuli,34360,base.ro,RO_NV,l10n_ro.RO_BN
+RO_179944,"Runcu Salvei",179944,base.ro,RO_NV,l10n_ro.RO_BN
+RO_34397,Salva,34397,base.ro,RO_NV,l10n_ro.RO_BN
+RO_32599,Sângeorz-Băi,32599,base.ro,RO_NV,l10n_ro.RO_BN
+RO_34477,"Sânmihaiu De Câmpie",34477,base.ro,RO_NV,l10n_ro.RO_BN
+RO_34618,Şanţ,34618,base.ro,RO_NV,l10n_ro.RO_BN
+RO_34645,Şieu,34645,base.ro,RO_NV,l10n_ro.RO_BN
+RO_34690,Şieu-Măgheruş,34690,base.ro,RO_NV,l10n_ro.RO_BN
+RO_34770,Şieu-Odorhei,34770,base.ro,RO_NV,l10n_ro.RO_BN
+RO_34850,Şieuţ,34850,base.ro,RO_NV,l10n_ro.RO_BN
+RO_34422,"Silivaşu De Câmpie",34422,base.ro,RO_NV,l10n_ro.RO_BN
+RO_34903,Şintereag,34903,base.ro,RO_NV,l10n_ro.RO_BN
+RO_34547,Spermezeu,34547,base.ro,RO_NV,l10n_ro.RO_BN
+RO_35152,Târlişua,35152,base.ro,RO_NV,l10n_ro.RO_BN
+RO_34985,Teaca,34985,base.ro,RO_NV,l10n_ro.RO_BN
+RO_35054,Telciu,35054,base.ro,RO_NV,l10n_ro.RO_BN
+RO_35090,"Tiha Bârgăului",35090,base.ro,RO_NV,l10n_ro.RO_BN
+RO_35269,Uriu,35269,base.ro,RO_NV,l10n_ro.RO_BN
+RO_35312,Urmeniş,35312,base.ro,RO_NV,l10n_ro.RO_BN
+RO_35429,Zagra,35429,base.ro,RO_NV,l10n_ro.RO_BN
+RO_40035,Adăşeni,40035,base.ro,RO_NE,l10n_ro.RO_BT
+RO_36131,Albeşti,36131,base.ro,RO_NE,l10n_ro.RO_BT
+RO_36202,Avrămeni,36202,base.ro,RO_NE,l10n_ro.RO_BT
+RO_36300,Băluşeni,36300,base.ro,RO_NE,l10n_ro.RO_BT
+RO_40019,Başeu,40019,base.ro,RO_NE,l10n_ro.RO_BT
+RO_39983,Blândeşti,39983,base.ro,RO_NE,l10n_ro.RO_BT
+RO_35731,Botoşani,35731,base.ro,RO_NE,l10n_ro.RO_BT
+RO_36373,Brăeşti,36373,base.ro,RO_NE,l10n_ro.RO_BT
+RO_36426,Broscăuţi,36426,base.ro,RO_NE,l10n_ro.RO_BT
+RO_36453,Bucecea,36453,base.ro,RO_NE,l10n_ro.RO_BT
+RO_36499,Călăraşi,36499,base.ro,RO_NE,l10n_ro.RO_BT
+RO_39967,Cândeşti,39967,base.ro,RO_NE,l10n_ro.RO_BT
+RO_36532,Conceşti,36532,base.ro,RO_NE,l10n_ro.RO_BT
+RO_36569,Copălău,36569,base.ro,RO_NE,l10n_ro.RO_BT
+RO_36649,Cordăreni,36649,base.ro,RO_NE,l10n_ro.RO_BT
+RO_36676,Corlăteni,36676,base.ro,RO_NE,l10n_ro.RO_BT
+RO_36756,Corni,36756,base.ro,RO_NE,l10n_ro.RO_BT
+RO_39975,Coşula,39975,base.ro,RO_NE,l10n_ro.RO_BT
+RO_36809,Coţuşca,36809,base.ro,RO_NE,l10n_ro.RO_BT
+RO_36907,Cristeşti,36907,base.ro,RO_NE,l10n_ro.RO_BT
+RO_36952,Cristineşti,36952,base.ro,RO_NE,l10n_ro.RO_BT
+RO_35759,Curteşti,35759,base.ro,RO_NE,l10n_ro.RO_BT
+RO_37057,Dângeni,37057,base.ro,RO_NE,l10n_ro.RO_BT
+RO_35946,Darabani,35946,base.ro,RO_NE,l10n_ro.RO_BT
+RO_37011,Dersca,37011,base.ro,RO_NE,l10n_ro.RO_BT
+RO_39959,Dimăcheni,39959,base.ro,RO_NE,l10n_ro.RO_BT
+RO_37100,Dobârceni,37100,base.ro,RO_NE,l10n_ro.RO_BT
+RO_40043,Dobrinăuţi-Hapăi,40043,base.ro,RO_NE,l10n_ro.RO_BT
+RO_36006,Dorohoi,36006,base.ro,RO_NE,l10n_ro.RO_BT
+RO_37173,Drăguşeni,37173,base.ro,RO_NE,l10n_ro.RO_BT
+RO_37217,Durneşti,37217,base.ro,RO_NE,l10n_ro.RO_BT
+RO_37280,Flămânzi,37280,base.ro,RO_NE,l10n_ro.RO_BT
+RO_37324,Frumuşica,37324,base.ro,RO_NE,l10n_ro.RO_BT
+RO_37397,"George Enescu",37397,base.ro,RO_NE,l10n_ro.RO_BT
+RO_37459,Gorbăneşti,37459,base.ro,RO_NE,l10n_ro.RO_BT
+RO_37618,Hăneşti,37618,base.ro,RO_NE,l10n_ro.RO_BT
+RO_37547,Havârna,37547,base.ro,RO_NE,l10n_ro.RO_BT
+RO_37672,Hilişeu-Horia,37672,base.ro,RO_NE,l10n_ro.RO_BT
+RO_37734,Hlipiceni,37734,base.ro,RO_NE,l10n_ro.RO_BT
+RO_37770,Hudeşti,37770,base.ro,RO_NE,l10n_ro.RO_BT
+RO_37823,Ibăneşti,37823,base.ro,RO_NE,l10n_ro.RO_BT
+RO_37850,Leorda,37850,base.ro,RO_NE,l10n_ro.RO_BT
+RO_39942,Lozna,39942,base.ro,RO_NE,l10n_ro.RO_BT
+RO_37912,Lunca,37912,base.ro,RO_NE,l10n_ro.RO_BT
+RO_40050,Maghera,40050,base.ro,RO_NE,l10n_ro.RO_BT
+RO_37958,Manoleasa,37958,base.ro,RO_NE,l10n_ro.RO_BT
+RO_38063,"Mihai Eminescu",38063,base.ro,RO_NE,l10n_ro.RO_BT
+RO_38161,Mihăileni,38161,base.ro,RO_NE,l10n_ro.RO_BT
+RO_38241,Mihălăşeni,38241,base.ro,RO_NE,l10n_ro.RO_BT
+RO_38321,Mileanca,38321,base.ro,RO_NE,l10n_ro.RO_BT
+RO_38376,Mitoc,38376,base.ro,RO_NE,l10n_ro.RO_BT
+RO_38456,Nicşeni,38456,base.ro,RO_NE,l10n_ro.RO_BT
+RO_38492,Păltiniş,38492,base.ro,RO_NE,l10n_ro.RO_BT
+RO_38544,Pomârla,38544,base.ro,RO_NE,l10n_ro.RO_BT
+RO_38580,Prăjeni,38580,base.ro,RO_NE,l10n_ro.RO_BT
+RO_40068,Pustoaia,40068,base.ro,RO_NE,l10n_ro.RO_BT
+RO_35839,Răchiţi,35839,base.ro,RO_NE,l10n_ro.RO_BT
+RO_38633,Rădăuţi-Prut,38633,base.ro,RO_NE,l10n_ro.RO_BT
+RO_38679,Răuşeni,38679,base.ro,RO_NE,l10n_ro.RO_BT
+RO_38731,Ripiceni,38731,base.ro,RO_NE,l10n_ro.RO_BT
+RO_38811,Roma,38811,base.ro,RO_NE,l10n_ro.RO_BT
+RO_38848,Româneşti,38848,base.ro,RO_NE,l10n_ro.RO_BT
+RO_38893,"Santa Mare",38893,base.ro,RO_NE,l10n_ro.RO_BT
+RO_36060,Săveni,36060,base.ro,RO_NE,l10n_ro.RO_BT
+RO_39122,Şendriceni,39122,base.ro,RO_NE,l10n_ro.RO_BT
+RO_35884,Stăuceni,35884,base.ro,RO_NE,l10n_ro.RO_BT
+RO_39168,Ştefăneşti,39168,base.ro,RO_NE,l10n_ro.RO_BT
+RO_39220,Ştiubieni,39220,base.ro,RO_NE,l10n_ro.RO_BT
+RO_38982,Suharău,38982,base.ro,RO_NE,l10n_ro.RO_BT
+RO_39051,Suliţa,39051,base.ro,RO_NE,l10n_ro.RO_BT
+RO_39266,Todireni,39266,base.ro,RO_NE,l10n_ro.RO_BT
+RO_39328,Truşeşti,39328,base.ro,RO_NE,l10n_ro.RO_BT
+RO_39391,Tudora,39391,base.ro,RO_NE,l10n_ro.RO_BT
+RO_39417,Ungureni,39417,base.ro,RO_NE,l10n_ro.RO_BT
+RO_39532,Unţeni,39532,base.ro,RO_NE,l10n_ro.RO_BT
+RO_39612,Văculeşti,39612,base.ro,RO_NE,l10n_ro.RO_BT
+RO_39694,"Vârfu Câmpului",39694,base.ro,RO_NE,l10n_ro.RO_BT
+RO_40027,Vatra,40027,base.ro,RO_NE,l10n_ro.RO_BT
+RO_39658,Viişoara,39658,base.ro,RO_NE,l10n_ro.RO_BT
+RO_39738,Vlădeni,39738,base.ro,RO_NE,l10n_ro.RO_BT
+RO_39792,Vlăsineşti,39792,base.ro,RO_NE,l10n_ro.RO_BT
+RO_39836,Vorniceni,39836,base.ro,RO_NE,l10n_ro.RO_BT
+RO_39872,Vorona,39872,base.ro,RO_NE,l10n_ro.RO_BT
+RO_40526,Apaţa,40526,base.ro,RO_C,l10n_ro.RO_BV
+RO_42498,Augustin,42498,base.ro,RO_C,l10n_ro.RO_BV
+RO_40544,Beclean,40544,base.ro,RO_C,l10n_ro.RO_BV
+RO_40606,Bod,40606,base.ro,RO_C,l10n_ro.RO_BV
+RO_40633,Bran,40633,base.ro,RO_C,l10n_ro.RO_BV
+RO_40198,Braşov,40198,base.ro,RO_C,l10n_ro.RO_BV
+RO_40688,Budila,40688,base.ro,RO_C,l10n_ro.RO_BV
+RO_40704,Buneşti,40704,base.ro,RO_C,l10n_ro.RO_BV
+RO_40768,Caţa,40768,base.ro,RO_C,l10n_ro.RO_BV
+RO_40820,Cincu,40820,base.ro,RO_C,l10n_ro.RO_BV
+RO_40241,Codlea,40241,base.ro,RO_C,l10n_ro.RO_BV
+RO_40857,Comăna,40857,base.ro,RO_C,l10n_ro.RO_BV
+RO_40900,Cristian,40900,base.ro,RO_C,l10n_ro.RO_BV
+RO_42456,Crizbav,42456,base.ro,RO_C,l10n_ro.RO_BV
+RO_42480,Drăguş,42480,base.ro,RO_C,l10n_ro.RO_BV
+RO_40928,Dumbrăviţa,40928,base.ro,RO_C,l10n_ro.RO_BV
+RO_40278,Făgăraş,40278,base.ro,RO_C,l10n_ro.RO_BV
+RO_40955,Feldioara,40955,base.ro,RO_C,l10n_ro.RO_BV
+RO_40991,Fundata,40991,base.ro,RO_C,l10n_ro.RO_BV
+RO_40214,Ghimbav,40214,base.ro,RO_C,l10n_ro.RO_BV
+RO_41033,Hălchiu,41033,base.ro,RO_C,l10n_ro.RO_BV
+RO_41088,Hărman,41088,base.ro,RO_C,l10n_ro.RO_BV
+RO_41113,Hârseni,41113,base.ro,RO_C,l10n_ro.RO_BV
+RO_41177,Hoghiz,41177,base.ro,RO_C,l10n_ro.RO_BV
+RO_42472,Holbav,42472,base.ro,RO_C,l10n_ro.RO_BV
+RO_41248,Homorod,41248,base.ro,RO_C,l10n_ro.RO_BV
+RO_41284,Jibert,41284,base.ro,RO_C,l10n_ro.RO_BV
+RO_41346,Lisa,41346,base.ro,RO_C,l10n_ro.RO_BV
+RO_41382,Măieruş,41382,base.ro,RO_C,l10n_ro.RO_BV
+RO_41417,Mândra,41417,base.ro,RO_C,l10n_ro.RO_BV
+RO_41471,Moieciu,41471,base.ro,RO_C,l10n_ro.RO_BV
+RO_41541,Ormeniş,41541,base.ro,RO_C,l10n_ro.RO_BV
+RO_41578,Părău,41578,base.ro,RO_C,l10n_ro.RO_BV
+RO_41621,"Poiana Mărului",41621,base.ro,RO_C,l10n_ro.RO_BV
+RO_40303,Predeal,40303,base.ro,RO_C,l10n_ro.RO_BV
+RO_41667,Prejmer,41667,base.ro,RO_C,l10n_ro.RO_BV
+RO_41701,Racoş,41701,base.ro,RO_C,l10n_ro.RO_BV
+RO_40367,Râşnov,40367,base.ro,RO_C,l10n_ro.RO_BV
+RO_41738,Recea,41738,base.ro,RO_C,l10n_ro.RO_BV
+RO_40394,Rupea,40394,base.ro,RO_C,l10n_ro.RO_BV
+RO_40438,Săcele,40438,base.ro,RO_C,l10n_ro.RO_BV
+RO_42464,"Sâmbăta De Sus",42464,base.ro,RO_C,l10n_ro.RO_BV
+RO_41925,Sânpetru,41925,base.ro,RO_C,l10n_ro.RO_BV
+RO_41818,Şercaia,41818,base.ro,RO_C,l10n_ro.RO_BV
+RO_41854,Şinca,41854,base.ro,RO_C,l10n_ro.RO_BV
+RO_42449,"Şinca Nouă",42449,base.ro,RO_C,l10n_ro.RO_BV
+RO_41943,Şoarş,41943,base.ro,RO_C,l10n_ro.RO_BV
+RO_42003,Tărlungeni,42003,base.ro,RO_C,l10n_ro.RO_BV
+RO_42058,Teliu,42058,base.ro,RO_C,l10n_ro.RO_BV
+RO_42076,Ticuşu,42076,base.ro,RO_C,l10n_ro.RO_BV
+RO_42101,Ucea,42101,base.ro,RO_C,l10n_ro.RO_BV
+RO_42156,Ungra,42156,base.ro,RO_C,l10n_ro.RO_BV
+RO_42183,"Vama Buzăului",42183,base.ro,RO_C,l10n_ro.RO_BV
+RO_40465,Victoria,40465,base.ro,RO_C,l10n_ro.RO_BV
+RO_42236,Viştea,42236,base.ro,RO_C,l10n_ro.RO_BV
+RO_42307,Voila,42307,base.ro,RO_C,l10n_ro.RO_BV
+RO_42398,Vulcan,42398,base.ro,RO_C,l10n_ro.RO_BV
+RO_40492,Zărneşti,40492,base.ro,RO_C,l10n_ro.RO_BV
+RO_42824,Bărăganul,42824,base.ro,RO_SE,l10n_ro.RO_BR
+RO_42842,"Berteştii De Jos",42842,base.ro,RO_SE,l10n_ro.RO_BR
+RO_42913,"Bordei Verde",42913,base.ro,RO_SE,l10n_ro.RO_BR
+RO_42682,Brăila,42682,base.ro,RO_SE,l10n_ro.RO_BR
+RO_44560,Cazasu,44560,base.ro,RO_SE,l10n_ro.RO_BR
+RO_42708,Chişcani,42708,base.ro,RO_SE,l10n_ro.RO_BR
+RO_42968,Ciocile,42968,base.ro,RO_SE,l10n_ro.RO_BR
+RO_43019,Cireşu,43019,base.ro,RO_SE,l10n_ro.RO_BR
+RO_43073,Dudeşti,43073,base.ro,RO_SE,l10n_ro.RO_BR
+RO_42753,Făurei,42753,base.ro,RO_SE,l10n_ro.RO_BR
+RO_43117,Frecăţei,43117,base.ro,RO_SE,l10n_ro.RO_BR
+RO_43180,Galbenu,43180,base.ro,RO_SE,l10n_ro.RO_BR
+RO_43242,Gemenele,43242,base.ro,RO_SE,l10n_ro.RO_BR
+RO_43279,Grădiştea,43279,base.ro,RO_SE,l10n_ro.RO_BR
+RO_43313,Gropeni,43313,base.ro,RO_SE,l10n_ro.RO_BR
+RO_43331,Ianca,43331,base.ro,RO_SE,l10n_ro.RO_BR
+RO_43411,Însurăţei,43411,base.ro,RO_SE,l10n_ro.RO_BR
+RO_43466,Jirlău,43466,base.ro,RO_SE,l10n_ro.RO_BR
+RO_43493,Măraşu,43493,base.ro,RO_SE,l10n_ro.RO_BR
+RO_43563,Măxineni,43563,base.ro,RO_SE,l10n_ro.RO_BR
+RO_43625,"Mircea Vodă",43625,base.ro,RO_SE,l10n_ro.RO_BR
+RO_43652,"Movila Miresii",43652,base.ro,RO_SE,l10n_ro.RO_BR
+RO_43698,Racoviţă,43698,base.ro,RO_SE,l10n_ro.RO_BR
+RO_43732,Râmnicelu,43732,base.ro,RO_SE,l10n_ro.RO_BR
+RO_43787,Romanu,43787,base.ro,RO_SE,l10n_ro.RO_BR
+RO_43812,Roşiori,43812,base.ro,RO_SE,l10n_ro.RO_BR
+RO_43867,"Salcia Tudor",43867,base.ro,RO_SE,l10n_ro.RO_BR
+RO_43929,"Scorţaru Nou",43929,base.ro,RO_SE,l10n_ro.RO_BR
+RO_43992,Siliştea,43992,base.ro,RO_SE,l10n_ro.RO_BR
+RO_44060,Stăncuţa,44060,base.ro,RO_SE,l10n_ro.RO_BR
+RO_44113,Surdila-Găiseanca,44113,base.ro,RO_SE,l10n_ro.RO_BR
+RO_42771,Surdila-Greci,42771,base.ro,RO_SE,l10n_ro.RO_BR
+RO_44140,Şuţeşti,44140,base.ro,RO_SE,l10n_ro.RO_BR
+RO_44177,Tichileşti,44177,base.ro,RO_SE,l10n_ro.RO_BR
+RO_44202,Traian,44202,base.ro,RO_SE,l10n_ro.RO_BR
+RO_44257,"Tudor Vladimirescu",44257,base.ro,RO_SE,l10n_ro.RO_BR
+RO_44300,Tufeşti,44300,base.ro,RO_SE,l10n_ro.RO_BR
+RO_44328,Ulmu,44328,base.ro,RO_SE,l10n_ro.RO_BR
+RO_44355,Unirea,44355,base.ro,RO_SE,l10n_ro.RO_BR
+RO_44391,Vădeni,44391,base.ro,RO_SE,l10n_ro.RO_BR
+RO_44435,Victoria,44435,base.ro,RO_SE,l10n_ro.RO_BR
+RO_44462,Vişani,44462,base.ro,RO_SE,l10n_ro.RO_BR
+RO_44505,Viziru,44505,base.ro,RO_SE,l10n_ro.RO_BR
+RO_44532,Zăvoaia,44532,base.ro,RO_SE,l10n_ro.RO_BR
+RO_44863,Amaru,44863,base.ro,RO_SE,l10n_ro.RO_BZ
+RO_44989,Bălăceanu,44989,base.ro,RO_SE,l10n_ro.RO_BZ
+RO_44934,"Balta Albă",44934,base.ro,RO_SE,l10n_ro.RO_BZ
+RO_45003,Beceni,45003,base.ro,RO_SE,l10n_ro.RO_BZ
+RO_45101,Berca,45101,base.ro,RO_SE,l10n_ro.RO_BZ
+RO_45245,Bisoca,45245,base.ro,RO_SE,l10n_ro.RO_BZ
+RO_45334,Blăjani,45334,base.ro,RO_SE,l10n_ro.RO_BZ
+RO_45361,Boldu,45361,base.ro,RO_SE,l10n_ro.RO_BZ
+RO_45389,Bozioru,45389,base.ro,RO_SE,l10n_ro.RO_BZ
+RO_45496,Brădeanu,45496,base.ro,RO_SE,l10n_ro.RO_BZ
+RO_45539,Brăeşti,45539,base.ro,RO_SE,l10n_ro.RO_BZ
+RO_45619,Breaza,45619,base.ro,RO_SE,l10n_ro.RO_BZ
+RO_45673,Buda,45673,base.ro,RO_SE,l10n_ro.RO_BZ
+RO_44818,Buzău,44818,base.ro,RO_SE,l10n_ro.RO_BZ
+RO_45815,"C.A. Rosetti",45815,base.ro,RO_SE,l10n_ro.RO_BZ
+RO_45753,Calvini,45753,base.ro,RO_SE,l10n_ro.RO_BZ
+RO_45888,Căneşti,45888,base.ro,RO_SE,l10n_ro.RO_BZ
+RO_45959,Cătina,45959,base.ro,RO_SE,l10n_ro.RO_BZ
+RO_46019,Cernăteşti,46019,base.ro,RO_SE,l10n_ro.RO_BZ
+RO_46108,Chiliile,46108,base.ro,RO_SE,l10n_ro.RO_BZ
+RO_46180,Chiojdu,46180,base.ro,RO_SE,l10n_ro.RO_BZ
+RO_46251,Cilibia,46251,base.ro,RO_SE,l10n_ro.RO_BZ
+RO_46313,Cislău,46313,base.ro,RO_SE,l10n_ro.RO_BZ
+RO_46377,Cochirleanca,46377,base.ro,RO_SE,l10n_ro.RO_BZ
+RO_46439,Colţi,46439,base.ro,RO_SE,l10n_ro.RO_BZ
+RO_46484,Costeşti,46484,base.ro,RO_SE,l10n_ro.RO_BZ
+RO_46554,Cozieni,46554,base.ro,RO_SE,l10n_ro.RO_BZ
+RO_50564,Florica,50564,base.ro,RO_SE,l10n_ro.RO_BZ
+RO_46769,Gălbinaşi,46769,base.ro,RO_SE,l10n_ro.RO_BZ
+RO_46803,Gherăseni,46803,base.ro,RO_SE,l10n_ro.RO_BZ
+RO_46830,Ghergheasa,46830,base.ro,RO_SE,l10n_ro.RO_BZ
+RO_46867,"Glodeanu Sărat",46867,base.ro,RO_SE,l10n_ro.RO_BZ
+RO_46910,Glodeanu-Siliştea,46910,base.ro,RO_SE,l10n_ro.RO_BZ
+RO_47006,Grebănu,47006,base.ro,RO_SE,l10n_ro.RO_BZ
+RO_47079,"Gura Teghii",47079,base.ro,RO_SE,l10n_ro.RO_BZ
+RO_47159,Largu,47159,base.ro,RO_SE,l10n_ro.RO_BZ
+RO_47186,Lopătari,47186,base.ro,RO_SE,l10n_ro.RO_BZ
+RO_47300,Luciu,47300,base.ro,RO_SE,l10n_ro.RO_BZ
+RO_47337,Măgura,47337,base.ro,RO_SE,l10n_ro.RO_BZ
+RO_47630,Mânzăleşti,47630,base.ro,RO_SE,l10n_ro.RO_BZ
+RO_47373,Mărăcineni,47373,base.ro,RO_SE,l10n_ro.RO_BZ
+RO_47417,Mărgăriteşti,47417,base.ro,RO_SE,l10n_ro.RO_BZ
+RO_47453,Merei,47453,base.ro,RO_SE,l10n_ro.RO_BZ
+RO_47578,Mihăileşti,47578,base.ro,RO_SE,l10n_ro.RO_BZ
+RO_47774,"Movila Banului",47774,base.ro,RO_SE,l10n_ro.RO_BZ
+RO_47818,Murgeşti,47818,base.ro,RO_SE,l10n_ro.RO_BZ
+RO_47854,Năeni,47854,base.ro,RO_SE,l10n_ro.RO_BZ
+RO_47916,Nehoiu,47916,base.ro,RO_SE,l10n_ro.RO_BZ
+RO_48021,Odăile,48021,base.ro,RO_SE,l10n_ro.RO_BZ
+RO_50556,Ojasca,50556,base.ro,RO_SE,l10n_ro.RO_BZ
+RO_48138,Padina,48138,base.ro,RO_SE,l10n_ro.RO_BZ
+RO_48227,Pănătău,48227,base.ro,RO_SE,l10n_ro.RO_BZ
+RO_48165,Pardoşi,48165,base.ro,RO_SE,l10n_ro.RO_BZ
+RO_48557,Pârscov,48557,base.ro,RO_SE,l10n_ro.RO_BZ
+RO_48325,Pătârlagele,48325,base.ro,RO_SE,l10n_ro.RO_BZ
+RO_48487,Pietroasele,48487,base.ro,RO_SE,l10n_ro.RO_BZ
+RO_48682,Podgoria,48682,base.ro,RO_SE,l10n_ro.RO_BZ
+RO_48744,Pogoanele,48744,base.ro,RO_SE,l10n_ro.RO_BZ
+RO_48771,"Poşta Câlnău",48771,base.ro,RO_SE,l10n_ro.RO_BZ
+RO_48842,Puieşti,48842,base.ro,RO_SE,l10n_ro.RO_BZ
+RO_48922,Racoviţeni,48922,base.ro,RO_SE,l10n_ro.RO_BZ
+RO_48968,Râmnicelu,48968,base.ro,RO_SE,l10n_ro.RO_BZ
+RO_44845,"Râmnicu Sărat",44845,base.ro,RO_SE,l10n_ro.RO_BZ
+RO_49019,Robeasca,49019,base.ro,RO_SE,l10n_ro.RO_BZ
+RO_49046,Ruşeţu,49046,base.ro,RO_SE,l10n_ro.RO_BZ
+RO_49073,Săgeata,49073,base.ro,RO_SE,l10n_ro.RO_BZ
+RO_49153,Săhăteni,49153,base.ro,RO_SE,l10n_ro.RO_BZ
+RO_49206,Săpoca,49206,base.ro,RO_SE,l10n_ro.RO_BZ
+RO_49233,Săruleşti,49233,base.ro,RO_SE,l10n_ro.RO_BZ
+RO_49313,Scorţoasa,49313,base.ro,RO_SE,l10n_ro.RO_BZ
+RO_49439,Scutelnici,49439,base.ro,RO_SE,l10n_ro.RO_BZ
+RO_49484,Siriu,49484,base.ro,RO_SE,l10n_ro.RO_BZ
+RO_49545,Smeeni,49545,base.ro,RO_SE,l10n_ro.RO_BZ
+RO_49625,Stâlpu,49625,base.ro,RO_SE,l10n_ro.RO_BZ
+RO_49849,Ţinteşti,49849,base.ro,RO_SE,l10n_ro.RO_BZ
+RO_49643,Tisău,49643,base.ro,RO_SE,l10n_ro.RO_BZ
+RO_49769,Topliceni,49769,base.ro,RO_SE,l10n_ro.RO_BZ
+RO_49894,Ulmeni,49894,base.ro,RO_SE,l10n_ro.RO_BZ
+RO_50549,Unguriu,50549,base.ro,RO_SE,l10n_ro.RO_BZ
+RO_49956,"Vadu Paşii",49956,base.ro,RO_SE,l10n_ro.RO_BZ
+RO_50399,Vâlcelele,50399,base.ro,RO_SE,l10n_ro.RO_BZ
+RO_50022,"Valea Râmnicului",50022,base.ro,RO_SE,l10n_ro.RO_BZ
+RO_50068,"Valea Salciei",50068,base.ro,RO_SE,l10n_ro.RO_BZ
+RO_50102,Verneşti,50102,base.ro,RO_SE,l10n_ro.RO_BZ
+RO_50228,"Vintilă Vodă",50228,base.ro,RO_SE,l10n_ro.RO_BZ
+RO_50326,Vipereşti,50326,base.ro,RO_SE,l10n_ro.RO_BZ
+RO_50415,Zărneşti,50415,base.ro,RO_SE,l10n_ro.RO_BZ
+RO_50479,Ziduri,50479,base.ro,RO_SE,l10n_ro.RO_BZ
+RO_50889,Anina,50889,base.ro,RO_V,l10n_ro.RO_CS
+RO_51243,Armeniş,51243,base.ro,RO_V,l10n_ro.RO_CS
+RO_50923,"Băile Herculane",50923,base.ro,RO_V,l10n_ro.RO_CS
+RO_51305,Bănia,51305,base.ro,RO_V,l10n_ro.RO_CS
+RO_51332,Băuţar,51332,base.ro,RO_V,l10n_ro.RO_CS
+RO_51387,Berlişte,51387,base.ro,RO_V,l10n_ro.RO_CS
+RO_51449,Berzasca,51449,base.ro,RO_V,l10n_ro.RO_CS
+RO_51500,Berzovia,51500,base.ro,RO_V,l10n_ro.RO_CS
+RO_50969,Bocșa,50969,base.ro,RO_V,l10n_ro.RO_CS
+RO_51546,Bolvaşniţa,51546,base.ro,RO_V,l10n_ro.RO_CS
+RO_51573,Bozovici,51573,base.ro,RO_V,l10n_ro.RO_CS
+RO_51626,Brebu,51626,base.ro,RO_V,l10n_ro.RO_CS
+RO_51662,"Brebu Nou",51662,base.ro,RO_V,l10n_ro.RO_CS
+RO_51699,Buchin,51699,base.ro,RO_V,l10n_ro.RO_CS
+RO_51751,Bucoşniţa,51751,base.ro,RO_V,l10n_ro.RO_CS
+RO_51010,Caransebeș,51010,base.ro,RO_V,l10n_ro.RO_CS
+RO_51804,Caraşova,51804,base.ro,RO_V,l10n_ro.RO_CS
+RO_51840,Cărbunari,51840,base.ro,RO_V,l10n_ro.RO_CS
+RO_51948,"Ciclova Română",51948,base.ro,RO_V,l10n_ro.RO_CS
+RO_51984,Ciuchici,51984,base.ro,RO_V,l10n_ro.RO_CS
+RO_52035,Ciudanoviţa,52035,base.ro,RO_V,l10n_ro.RO_CS
+RO_51877,"Constantin Daicoviciu",51877,base.ro,RO_V,l10n_ro.RO_CS
+RO_52062,Copăcele,52062,base.ro,RO_V,l10n_ro.RO_CS
+RO_52115,Cornea,52115,base.ro,RO_V,l10n_ro.RO_CS
+RO_52160,Cornereva,52160,base.ro,RO_V,l10n_ro.RO_CS
+RO_53489,Coronini,53489,base.ro,RO_V,l10n_ro.RO_CS
+RO_52570,Dalboşeţ,52570,base.ro,RO_V,l10n_ro.RO_CS
+RO_52650,Doclin,52650,base.ro,RO_V,l10n_ro.RO_CS
+RO_52696,Dognecea,52696,base.ro,RO_V,l10n_ro.RO_CS
+RO_52721,Domaşnea,52721,base.ro,RO_V,l10n_ro.RO_CS
+RO_53700,"Eftimie Murgu",53700,base.ro,RO_V,l10n_ro.RO_CS
+RO_52758,Ezeriş,52758,base.ro,RO_V,l10n_ro.RO_CS
+RO_52785,Fârliug,52785,base.ro,RO_V,l10n_ro.RO_CS
+RO_52856,Forotic,52856,base.ro,RO_V,l10n_ro.RO_CS
+RO_52909,Gârnic,52909,base.ro,RO_V,l10n_ro.RO_CS
+RO_52936,Glimboca,52936,base.ro,RO_V,l10n_ro.RO_CS
+RO_52954,Goruia,52954,base.ro,RO_V,l10n_ro.RO_CS
+RO_52990,Grădinari,52990,base.ro,RO_V,l10n_ro.RO_CS
+RO_53023,Iablaniţa,53023,base.ro,RO_V,l10n_ro.RO_CS
+RO_53069,Lăpuşnicel,53069,base.ro,RO_V,l10n_ro.RO_CS
+RO_53103,"Lăpuşnicu Mare",53103,base.ro,RO_V,l10n_ro.RO_CS
+RO_53130,Luncaviţa,53130,base.ro,RO_V,l10n_ro.RO_CS
+RO_53167,Lupac,53167,base.ro,RO_V,l10n_ro.RO_CS
+RO_53210,Marga,53210,base.ro,RO_V,l10n_ro.RO_CS
+RO_53247,Măureni,53247,base.ro,RO_V,l10n_ro.RO_CS
+RO_53274,Mehadia,53274,base.ro,RO_V,l10n_ro.RO_CS
+RO_53327,Mehadica,53327,base.ro,RO_V,l10n_ro.RO_CS
+RO_51056,"Moldova Nouă",51056,base.ro,RO_V,l10n_ro.RO_CS
+RO_53345,Naidăş,53345,base.ro,RO_V,l10n_ro.RO_CS
+RO_53372,Obreja,53372,base.ro,RO_V,l10n_ro.RO_CS
+RO_50987,"Ocna De Fier",50987,base.ro,RO_V,l10n_ro.RO_CS
+RO_51118,Oravița,51118,base.ro,RO_V,l10n_ro.RO_CS
+RO_51207,"Oţelu Roşu",51207,base.ro,RO_V,l10n_ro.RO_CS
+RO_53425,Păltiniş,53425,base.ro,RO_V,l10n_ro.RO_CS
+RO_53513,Pojejena,53513,base.ro,RO_V,l10n_ro.RO_CS
+RO_53577,Prigor,53577,base.ro,RO_V,l10n_ro.RO_CS
+RO_53675,Răcăşdia,53675,base.ro,RO_V,l10n_ro.RO_CS
+RO_53639,Ramna,53639,base.ro,RO_V,l10n_ro.RO_CS
+RO_50790,Reşiţa,50790,base.ro,RO_V,l10n_ro.RO_CS
+RO_53728,"Rusca Montană",53728,base.ro,RO_V,l10n_ro.RO_CS
+RO_53755,Sacu,53755,base.ro,RO_V,l10n_ro.RO_CS
+RO_53791,"Sasca Montană",53791,base.ro,RO_V,l10n_ro.RO_CS
+RO_53853,Sicheviţa,53853,base.ro,RO_V,l10n_ro.RO_CS
+RO_54056,Slatina-Timiş,54056,base.ro,RO_V,l10n_ro.RO_CS
+RO_54109,Socol,54109,base.ro,RO_V,l10n_ro.RO_CS
+RO_54163,"Şopotu Nou",54163,base.ro,RO_V,l10n_ro.RO_CS
+RO_54350,Târnova,54350,base.ro,RO_V,l10n_ro.RO_CS
+RO_54270,Teregova,54270,base.ro,RO_V,l10n_ro.RO_CS
+RO_54305,"Ticvaniu Mare",54305,base.ro,RO_V,l10n_ro.RO_CS
+RO_54387,Topleţ,54387,base.ro,RO_V,l10n_ro.RO_CS
+RO_54412,"Turnu Ruieni",54412,base.ro,RO_V,l10n_ro.RO_CS
+RO_54485,Văliug,54485,base.ro,RO_V,l10n_ro.RO_CS
+RO_54500,Vărădia,54500,base.ro,RO_V,l10n_ro.RO_CS
+RO_54537,Vermeş,54537,base.ro,RO_V,l10n_ro.RO_CS
+RO_54573,Vrani,54573,base.ro,RO_V,l10n_ro.RO_CS
+RO_54617,Zăvoi,54617,base.ro,RO_V,l10n_ro.RO_CS
+RO_54699,"Zorlențu Mare",54699,base.ro,RO_V,l10n_ro.RO_CS
+RO_55473,Aghireşu,55473,base.ro,RO_NV,l10n_ro.RO_CJ
+RO_55598,Aiton,55598,base.ro,RO_NV,l10n_ro.RO_CJ
+RO_55623,Aluniş,55623,base.ro,RO_NV,l10n_ro.RO_CJ
+RO_55687,Apahida,55687,base.ro,RO_NV,l10n_ro.RO_CJ
+RO_55776,Aşchileu,55776,base.ro,RO_NV,l10n_ro.RO_CJ
+RO_55838,Baciu,55838,base.ro,RO_NV,l10n_ro.RO_CJ
+RO_55918,Băişoara,55918,base.ro,RO_NV,l10n_ro.RO_CJ
+RO_56014,Beliş,56014,base.ro,RO_NV,l10n_ro.RO_CJ
+RO_56096,Bobâlna,56096,base.ro,RO_NV,l10n_ro.RO_CJ
+RO_56210,Bonţida,56210,base.ro,RO_NV,l10n_ro.RO_CJ
+RO_56265,Borşa,56265,base.ro,RO_NV,l10n_ro.RO_CJ
+RO_56327,Buza,56327,base.ro,RO_NV,l10n_ro.RO_CJ
+RO_56354,Căianu,56354,base.ro,RO_NV,l10n_ro.RO_CJ
+RO_56425,Călăraşi,56425,base.ro,RO_NV,l10n_ro.RO_CJ
+RO_56461,Călăţele,56461,base.ro,RO_NV,l10n_ro.RO_CJ
+RO_56522,Cămăraşu,56522,base.ro,RO_NV,l10n_ro.RO_CJ
+RO_55357,"Câmpia Turzii",55357,base.ro,RO_NV,l10n_ro.RO_CJ
+RO_56568,"Căpuşu Mare",56568,base.ro,RO_NV,l10n_ro.RO_CJ
+RO_56666,Căşeiu,56666,base.ro,RO_NV,l10n_ro.RO_CJ
+RO_57314,Câţcău,57314,base.ro,RO_NV,l10n_ro.RO_CJ
+RO_56773,Cătina,56773,base.ro,RO_NV,l10n_ro.RO_CJ
+RO_56844,"Ceanu Mare",56844,base.ro,RO_NV,l10n_ro.RO_CJ
+RO_56988,Chinteni,56988,base.ro,RO_NV,l10n_ro.RO_CJ
+RO_57083,Chiuieşti,57083,base.ro,RO_NV,l10n_ro.RO_CJ
+RO_57163,Ciucea,57163,base.ro,RO_NV,l10n_ro.RO_CJ
+RO_57225,Ciurila,57225,base.ro,RO_NV,l10n_ro.RO_CJ
+RO_54975,Cluj-Napoca,54975,base.ro,RO_NV,l10n_ro.RO_CJ
+RO_57350,Cojocna,57350,base.ro,RO_NV,l10n_ro.RO_CJ
+RO_57449,Corneşti,57449,base.ro,RO_NV,l10n_ro.RO_CJ
+RO_55062,Cuzdrioara,55062,base.ro,RO_NV,l10n_ro.RO_CJ
+RO_57546,Dăbâca,57546,base.ro,RO_NV,l10n_ro.RO_CJ
+RO_55008,Dej,55008,base.ro,RO_NV,l10n_ro.RO_CJ
+RO_57582,Feleacu,57582,base.ro,RO_NV,l10n_ro.RO_CJ
+RO_57644,"Fizeşu Gherlii",57644,base.ro,RO_NV,l10n_ro.RO_CJ
+RO_57706,Floreşti,57706,base.ro,RO_NV,l10n_ro.RO_CJ
+RO_57742,Frata,57742,base.ro,RO_NV,l10n_ro.RO_CJ
+RO_57948,Gârbău,57948,base.ro,RO_NV,l10n_ro.RO_CJ
+RO_57831,Geaca,57831,base.ro,RO_NV,l10n_ro.RO_CJ
+RO_55384,Gherla,55384,base.ro,RO_NV,l10n_ro.RO_CJ
+RO_57902,Gilău,57902,base.ro,RO_NV,l10n_ro.RO_CJ
+RO_55446,Huedin,55446,base.ro,RO_NV,l10n_ro.RO_CJ
+RO_58008,Iara,58008,base.ro,RO_NV,l10n_ro.RO_CJ
+RO_58142,Iclod,58142,base.ro,RO_NV,l10n_ro.RO_CJ
+RO_58204,"Izvoru Crişului",58204,base.ro,RO_NV,l10n_ro.RO_CJ
+RO_55106,"Jichişu De Jos",55106,base.ro,RO_NV,l10n_ro.RO_CJ
+RO_58259,Jucu,58259,base.ro,RO_NV,l10n_ro.RO_CJ
+RO_58311,Luna,58311,base.ro,RO_NV,l10n_ro.RO_CJ
+RO_58357,Măguri-Răcătău,58357,base.ro,RO_NV,l10n_ro.RO_CJ
+RO_58393,Mănăstireni,58393,base.ro,RO_NV,l10n_ro.RO_CJ
+RO_58464,Mărgău,58464,base.ro,RO_NV,l10n_ro.RO_CJ
+RO_58534,Mărişel,58534,base.ro,RO_NV,l10n_ro.RO_CJ
+RO_55160,Mica,55160,base.ro,RO_NV,l10n_ro.RO_CJ
+RO_55277,"Mihai Viteazu",55277,base.ro,RO_NV,l10n_ro.RO_CJ
+RO_58552,"Mintiu Gherlii",58552,base.ro,RO_NV,l10n_ro.RO_CJ
+RO_58623,Mociu,58623,base.ro,RO_NV,l10n_ro.RO_CJ
+RO_58721,Moldoveneşti,58721,base.ro,RO_NV,l10n_ro.RO_CJ
+RO_60169,Negreni,60169,base.ro,RO_NV,l10n_ro.RO_CJ
+RO_58794,Pălatca,58794,base.ro,RO_NV,l10n_ro.RO_CJ
+RO_58856,Panticeu,58856,base.ro,RO_NV,l10n_ro.RO_CJ
+RO_58918,"Petreştii De Jos",58918,base.ro,RO_NV,l10n_ro.RO_CJ
+RO_58990,Ploscoş,58990,base.ro,RO_NV,l10n_ro.RO_CJ
+RO_59041,Poieni,59041,base.ro,RO_NV,l10n_ro.RO_CJ
+RO_59238,Râşca,59238,base.ro,RO_NV,l10n_ro.RO_CJ
+RO_59130,Recea-Cristur,59130,base.ro,RO_NV,l10n_ro.RO_CJ
+RO_59283,Săcuieu,59283,base.ro,RO_NV,l10n_ro.RO_CJ
+RO_59434,Sâncraiu,59434,base.ro,RO_NV,l10n_ro.RO_CJ
+RO_55311,Sănduleşti,55311,base.ro,RO_NV,l10n_ro.RO_CJ
+RO_59498,Sânmărtin,59498,base.ro,RO_NV,l10n_ro.RO_CJ
+RO_59586,Sânpaul,59586,base.ro,RO_NV,l10n_ro.RO_CJ
+RO_59327,Săvădisla,59327,base.ro,RO_NV,l10n_ro.RO_CJ
+RO_59416,Sic,59416,base.ro,RO_NV,l10n_ro.RO_CJ
+RO_59657,Suatu,59657,base.ro,RO_NV,l10n_ro.RO_CJ
+RO_59826,Ţaga,59826,base.ro,RO_NV,l10n_ro.RO_CJ
+RO_59693,"Tritenii De Jos",59693,base.ro,RO_NV,l10n_ro.RO_CJ
+RO_55259,Turda,55259,base.ro,RO_NV,l10n_ro.RO_CJ
+RO_59764,Tureni,59764,base.ro,RO_NV,l10n_ro.RO_CJ
+RO_59880,Unguraş,59880,base.ro,RO_NV,l10n_ro.RO_CJ
+RO_59942,Vad,59942,base.ro,RO_NV,l10n_ro.RO_CJ
+RO_60026,"Valea Ierii",60026,base.ro,RO_NV,l10n_ro.RO_CJ
+RO_60062,Viişoara,60062,base.ro,RO_NV,l10n_ro.RO_CJ
+RO_60099,Vultureni,60099,base.ro,RO_NV,l10n_ro.RO_CJ
+RO_60598,2014/08/23,60598,base.ro,RO_SE,l10n_ro.RO_CT
+RO_60883,Adamclisi,60883,base.ro,RO_SE,l10n_ro.RO_CT
+RO_60570,Agigea,60570,base.ro,RO_SE,l10n_ro.RO_CT
+RO_60945,Albeşti,60945,base.ro,RO_SE,l10n_ro.RO_CT
+RO_61005,Aliman,61005,base.ro,RO_SE,l10n_ro.RO_CT
+RO_63198,Amzacea,63198,base.ro,RO_SE,l10n_ro.RO_CT
+RO_61069,Băneasa,61069,base.ro,RO_SE,l10n_ro.RO_CT
+RO_63294,Bărăganu,63294,base.ro,RO_SE,l10n_ro.RO_CT
+RO_61121,Castelu,61121,base.ro,RO_SE,l10n_ro.RO_CT
+RO_61167,Cerchezu,61167,base.ro,RO_SE,l10n_ro.RO_CT
+RO_60776,Cernavodă,60776,base.ro,RO_SE,l10n_ro.RO_CT
+RO_61210,Chirnogeni,61210,base.ro,RO_SE,l10n_ro.RO_CT
+RO_61256,Ciobanu,61256,base.ro,RO_SE,l10n_ro.RO_CT
+RO_61283,Ciocârlia,61283,base.ro,RO_SE,l10n_ro.RO_CT
+RO_61318,Cobadin,61318,base.ro,RO_SE,l10n_ro.RO_CT
+RO_61372,Cogealac,61372,base.ro,RO_SE,l10n_ro.RO_CT
+RO_61452,Comana,61452,base.ro,RO_SE,l10n_ro.RO_CT
+RO_60419,Constanţa,60419,base.ro,RO_SE,l10n_ro.RO_CT
+RO_61513,Corbu,61513,base.ro,RO_SE,l10n_ro.RO_CT
+RO_63286,Costinești,63286,base.ro,RO_SE,l10n_ro.RO_CT
+RO_61559,Crucea,61559,base.ro,RO_SE,l10n_ro.RO_CT
+RO_63349,Culmea,63349,base.ro,RO_SE,l10n_ro.RO_CT
+RO_61620,Cumpăna,61620,base.ro,RO_SE,l10n_ro.RO_CT
+RO_63300,"Cuza Vodă",63300,base.ro,RO_SE,l10n_ro.RO_CT
+RO_61675,Deleni,61675,base.ro,RO_SE,l10n_ro.RO_CT
+RO_61737,Dobromir,61737,base.ro,RO_SE,l10n_ro.RO_CT
+RO_63161,Dumbrăveni,63161,base.ro,RO_SE,l10n_ro.RO_CT
+RO_60455,Eforie,60455,base.ro,RO_SE,l10n_ro.RO_CT
+RO_63334,Fântânele,63334,base.ro,RO_SE,l10n_ro.RO_CT
+RO_61808,Gârliciu,61808,base.ro,RO_SE,l10n_ro.RO_CT
+RO_61826,Ghindăreşti,61826,base.ro,RO_SE,l10n_ro.RO_CT
+RO_63326,Grădina,63326,base.ro,RO_SE,l10n_ro.RO_CT
+RO_60801,Hârşova,60801,base.ro,RO_SE,l10n_ro.RO_CT
+RO_63278,Horia,63278,base.ro,RO_SE,l10n_ro.RO_CT
+RO_61871,Independenţa,61871,base.ro,RO_SE,l10n_ro.RO_CT
+RO_61951,"Ion Corvin",61951,base.ro,RO_SE,l10n_ro.RO_CT
+RO_62020,Istria,62020,base.ro,RO_SE,l10n_ro.RO_CT
+RO_60632,Limanu,60632,base.ro,RO_SE,l10n_ro.RO_CT
+RO_62057,Lipniţa,62057,base.ro,RO_SE,l10n_ro.RO_CT
+RO_63152,Lumina,63152,base.ro,RO_SE,l10n_ro.RO_CT
+RO_60482,Mangalia,60482,base.ro,RO_SE,l10n_ro.RO_CT
+RO_60847,Medgidia,60847,base.ro,RO_SE,l10n_ro.RO_CT
+RO_62137,Mereni,62137,base.ro,RO_SE,l10n_ro.RO_CT
+RO_62253,"Mihai Viteazu",62253,base.ro,RO_SE,l10n_ro.RO_CT
+RO_62191,"Mihail Kogălniceanu",62191,base.ro,RO_SE,l10n_ro.RO_CT
+RO_62280,"Mircea Vodă",62280,base.ro,RO_SE,l10n_ro.RO_CT
+RO_62360,Murfatlar,62360,base.ro,RO_SE,l10n_ro.RO_CT
+RO_60507,Năvodari,60507,base.ro,RO_SE,l10n_ro.RO_CT
+RO_62397,"Negru Vodă",62397,base.ro,RO_SE,l10n_ro.RO_CT
+RO_62440,"Nicolae Bălcescu",62440,base.ro,RO_SE,l10n_ro.RO_CT
+RO_62486,Oltina,62486,base.ro,RO_SE,l10n_ro.RO_CT
+RO_62538,Ostrov,62538,base.ro,RO_SE,l10n_ro.RO_CT
+RO_60687,Ovidiu,60687,base.ro,RO_SE,l10n_ro.RO_CT
+RO_62609,Pantelimon,62609,base.ro,RO_SE,l10n_ro.RO_CT
+RO_62672,Pecineaga,62672,base.ro,RO_SE,l10n_ro.RO_CT
+RO_62707,Peştera,62707,base.ro,RO_SE,l10n_ro.RO_CT
+RO_62761,"Poarta Albă",62761,base.ro,RO_SE,l10n_ro.RO_CT
+RO_62798,Rasova,62798,base.ro,RO_SE,l10n_ro.RO_CT
+RO_62878,Săcele,62878,base.ro,RO_SE,l10n_ro.RO_CT
+RO_63318,Saligny,63318,base.ro,RO_SE,l10n_ro.RO_CT
+RO_62823,Saraiu,62823,base.ro,RO_SE,l10n_ro.RO_CT
+RO_62903,Seimeni,62903,base.ro,RO_SE,l10n_ro.RO_CT
+RO_62949,Siliştea,62949,base.ro,RO_SE,l10n_ro.RO_CT
+RO_62985,Târguşor,62985,base.ro,RO_SE,l10n_ro.RO_CT
+RO_60534,Techirghiol,60534,base.ro,RO_SE,l10n_ro.RO_CT
+RO_63045,Topalu,63045,base.ro,RO_SE,l10n_ro.RO_CT
+RO_63072,Topraisar,63072,base.ro,RO_SE,l10n_ro.RO_CT
+RO_63189,Tortoman,63189,base.ro,RO_SE,l10n_ro.RO_CT
+RO_60721,Tuzla,60721,base.ro,RO_SE,l10n_ro.RO_CT
+RO_63125,"Valu Lui Traian",63125,base.ro,RO_SE,l10n_ro.RO_CT
+RO_63170,Vulturu,63170,base.ro,RO_SE,l10n_ro.RO_CT
+RO_63777,"Aita Mare",63777,base.ro,RO_C,l10n_ro.RO_CV
+RO_65113,Arcuș,65113,base.ro,RO_C,l10n_ro.RO_CV
+RO_63447,Baraolt,63447,base.ro,RO_C,l10n_ro.RO_CV
+RO_63633,Barcani,63633,base.ro,RO_C,l10n_ro.RO_CV
+RO_63802,Băţani,63802,base.ro,RO_C,l10n_ro.RO_CV
+RO_63866,Belin,63866,base.ro,RO_C,l10n_ro.RO_CV
+RO_65121,Bixad,65121,base.ro,RO_C,l10n_ro.RO_CV
+RO_63893,Bodoc,63893,base.ro,RO_C,l10n_ro.RO_CV
+RO_63937,"Boroşneu Mare",63937,base.ro,RO_C,l10n_ro.RO_CV
+RO_64041,Brăduţ,64041,base.ro,RO_C,l10n_ro.RO_CV
+RO_64005,Brateş,64005,base.ro,RO_C,l10n_ro.RO_CV
+RO_64096,Breţcu,64096,base.ro,RO_C,l10n_ro.RO_CV
+RO_64130,Catalina,64130,base.ro,RO_C,l10n_ro.RO_CV
+RO_64194,Cernat,64194,base.ro,RO_C,l10n_ro.RO_CV
+RO_64238,Chichiş,64238,base.ro,RO_C,l10n_ro.RO_CV
+RO_63553,Comandău,63553,base.ro,RO_C,l10n_ro.RO_CV
+RO_63526,Covasna,63526,base.ro,RO_C,l10n_ro.RO_CV
+RO_65147,Dalnic,65147,base.ro,RO_C,l10n_ro.RO_CV
+RO_64265,Dobârlău,64265,base.ro,RO_C,l10n_ro.RO_CV
+RO_65154,Estelnic,65154,base.ro,RO_C,l10n_ro.RO_CV
+RO_64318,Ghelinţa,64318,base.ro,RO_C,l10n_ro.RO_CV
+RO_64345,Ghidfalău,64345,base.ro,RO_C,l10n_ro.RO_CV
+RO_64390,Hăghig,64390,base.ro,RO_C,l10n_ro.RO_CV
+RO_64425,Ilieni,64425,base.ro,RO_C,l10n_ro.RO_CV
+RO_63580,"Întorsura Buzăului",63580,base.ro,RO_C,l10n_ro.RO_CV
+RO_64461,Lemnia,64461,base.ro,RO_C,l10n_ro.RO_CV
+RO_64504,Malnaş,64504,base.ro,RO_C,l10n_ro.RO_CV
+RO_65105,Mereni,65105,base.ro,RO_C,l10n_ro.RO_CV
+RO_65139,Micfalău,65139,base.ro,RO_C,l10n_ro.RO_CV
+RO_64568,Moacşa,64568,base.ro,RO_C,l10n_ro.RO_CV
+RO_64602,Ojdula,64602,base.ro,RO_C,l10n_ro.RO_CV
+RO_64639,Ozun,64639,base.ro,RO_C,l10n_ro.RO_CV
+RO_64719,Poian,64719,base.ro,RO_C,l10n_ro.RO_CV
+RO_64773,Reci,64773,base.ro,RO_C,l10n_ro.RO_CV
+RO_64826,Sânzieni,64826,base.ro,RO_C,l10n_ro.RO_CV
+RO_63394,"Sfântu Gheorghe",63394,base.ro,RO_C,l10n_ro.RO_CV
+RO_63688,"Sita Buzăului",63688,base.ro,RO_C,l10n_ro.RO_CV
+RO_63740,"Târgu Secuiesc",63740,base.ro,RO_C,l10n_ro.RO_CV
+RO_64871,Turia,64871,base.ro,RO_C,l10n_ro.RO_CV
+RO_64942,Vâlcele,64942,base.ro,RO_C,l10n_ro.RO_CV
+RO_64906,"Valea Crişului",64906,base.ro,RO_C,l10n_ro.RO_CV
+RO_65099,"Valea Mare",65099,base.ro,RO_C,l10n_ro.RO_CV
+RO_64997,Vârghiş,64997,base.ro,RO_C,l10n_ro.RO_CV
+RO_65048,Zăbala,65048,base.ro,RO_C,l10n_ro.RO_CV
+RO_65011,Zagon,65011,base.ro,RO_C,l10n_ro.RO_CV
+RO_65379,Aninoasa,65379,base.ro,RO_SM,l10n_ro.RO_DB
+RO_66198,Băleni,66198,base.ro,RO_SM,l10n_ro.RO_DB
+RO_66223,Bărbuleţu,66223,base.ro,RO_SM,l10n_ro.RO_DB
+RO_66330,Bezdead,66330,base.ro,RO_SM,l10n_ro.RO_DB
+RO_66401,Bilciureşti,66401,base.ro,RO_SM,l10n_ro.RO_DB
+RO_66009,Brăneşti,66009,base.ro,RO_SM,l10n_ro.RO_DB
+RO_66152,Braniştea,66152,base.ro,RO_SM,l10n_ro.RO_DB
+RO_101341,Brezoaele,101341,base.ro,RO_SM,l10n_ro.RO_DB
+RO_66438,Buciumeni,66438,base.ro,RO_SM,l10n_ro.RO_DB
+RO_66474,Bucşani,66474,base.ro,RO_SM,l10n_ro.RO_DB
+RO_101564,Butimanu,101564,base.ro,RO_SM,l10n_ro.RO_DB
+RO_66526,Cândeşti,66526,base.ro,RO_SM,l10n_ro.RO_DB
+RO_101840,Ciocăneşti,101840,base.ro,RO_SM,l10n_ro.RO_DB
+RO_66580,Cobia,66580,base.ro,RO_SM,l10n_ro.RO_DB
+RO_66697,Cojasca,66697,base.ro,RO_SM,l10n_ro.RO_DB
+RO_66731,Comişani,66731,base.ro,RO_SM,l10n_ro.RO_DB
+RO_66768,Conţeşti,66768,base.ro,RO_SM,l10n_ro.RO_DB
+RO_66857,"Corbii Mari",66857,base.ro,RO_SM,l10n_ro.RO_DB
+RO_66955,Cornăţelu,66955,base.ro,RO_SM,l10n_ro.RO_DB
+RO_67014,Corneşti,67014,base.ro,RO_SM,l10n_ro.RO_DB
+RO_67121,"Costeştii Din Vale",67121,base.ro,RO_SM,l10n_ro.RO_DB
+RO_67167,Crângurile,67167,base.ro,RO_SM,l10n_ro.RO_DB
+RO_102286,Crevedia,102286,base.ro,RO_SM,l10n_ro.RO_DB
+RO_67256,Dărmăneşti,67256,base.ro,RO_SM,l10n_ro.RO_DB
+RO_67292,Dobra,67292,base.ro,RO_SM,l10n_ro.RO_DB
+RO_65413,Doiceşti,65413,base.ro,RO_SM,l10n_ro.RO_DB
+RO_67327,Dragodana,67327,base.ro,RO_SM,l10n_ro.RO_DB
+RO_67407,Dragomireşti,67407,base.ro,RO_SM,l10n_ro.RO_DB
+RO_65609,Fieni,65609,base.ro,RO_SM,l10n_ro.RO_DB
+RO_67470,Finta,67470,base.ro,RO_SM,l10n_ro.RO_DB
+RO_65681,Găești,65681,base.ro,RO_SM,l10n_ro.RO_DB
+RO_67522,Glodeni,67522,base.ro,RO_SM,l10n_ro.RO_DB
+RO_65707,"Gura Foii",65707,base.ro,RO_SM,l10n_ro.RO_DB
+RO_67595,"Gura Ocniţei",67595,base.ro,RO_SM,l10n_ro.RO_DB
+RO_67648,"Gura Şuţii",67648,base.ro,RO_SM,l10n_ro.RO_DB
+RO_67675,Hulubeşti,67675,base.ro,RO_SM,l10n_ro.RO_DB
+RO_67737,"I. L. Caragiale",67737,base.ro,RO_SM,l10n_ro.RO_DB
+RO_65869,Iedera,65869,base.ro,RO_SM,l10n_ro.RO_DB
+RO_67773,Lucieni,67773,base.ro,RO_SM,l10n_ro.RO_DB
+RO_67835,Ludeşti,67835,base.ro,RO_SM,l10n_ro.RO_DB
+RO_67906,Lunguleţu,67906,base.ro,RO_SM,l10n_ro.RO_DB
+RO_67942,"Malu Cu Flori",67942,base.ro,RO_SM,l10n_ro.RO_DB
+RO_68002,Măneşti,68002,base.ro,RO_SM,l10n_ro.RO_DB
+RO_68048,Mătăsaru,68048,base.ro,RO_SM,l10n_ro.RO_DB
+RO_68128,Mogoşani,68128,base.ro,RO_SM,l10n_ro.RO_DB
+RO_65841,Moreni,65841,base.ro,RO_SM,l10n_ro.RO_DB
+RO_68182,Moroeni,68182,base.ro,RO_SM,l10n_ro.RO_DB
+RO_68253,Morteni,68253,base.ro,RO_SM,l10n_ro.RO_DB
+RO_65645,Moţăieni,65645,base.ro,RO_SM,l10n_ro.RO_DB
+RO_104387,Niculeşti,104387,base.ro,RO_SM,l10n_ro.RO_DB
+RO_68280,Nucet,68280,base.ro,RO_SM,l10n_ro.RO_DB
+RO_68324,Ocniţa,68324,base.ro,RO_SM,l10n_ro.RO_DB
+RO_68342,Odobeşti,68342,base.ro,RO_SM,l10n_ro.RO_DB
+RO_179935,Perșinari,179935,base.ro,RO_SM,l10n_ro.RO_DB
+RO_65752,Petreşti,65752,base.ro,RO_SM,l10n_ro.RO_DB
+RO_179908,Pietrari,179908,base.ro,RO_SM,l10n_ro.RO_DB
+RO_68404,Pietroşiţa,68404,base.ro,RO_SM,l10n_ro.RO_DB
+RO_68431,Poiana,68431,base.ro,RO_SM,l10n_ro.RO_DB
+RO_68468,Potlogi,68468,base.ro,RO_SM,l10n_ro.RO_DB
+RO_68529,Produleşti,68529,base.ro,RO_SM,l10n_ro.RO_DB
+RO_68565,Pucheni,68565,base.ro,RO_SM,l10n_ro.RO_DB
+RO_65921,Pucioasa,65921,base.ro,RO_SM,l10n_ro.RO_DB
+RO_68627,Răcari,68627,base.ro,RO_SM,l10n_ro.RO_DB
+RO_179891,Raciu,179891,base.ro,RO_SM,l10n_ro.RO_DB
+RO_179926,Răscăeți,179926,base.ro,RO_SM,l10n_ro.RO_DB
+RO_179917,"Râu Alb",179917,base.ro,RO_SM,l10n_ro.RO_DB
+RO_65431,Răzvad,65431,base.ro,RO_SM,l10n_ro.RO_DB
+RO_68716,Runcu,68716,base.ro,RO_SM,l10n_ro.RO_DB
+RO_68789,Sălcioara,68789,base.ro,RO_SM,l10n_ro.RO_DB
+RO_68887,Șelaru,68887,base.ro,RO_SM,l10n_ro.RO_DB
+RO_105142,"Slobozia Moară",105142,base.ro,RO_SM,l10n_ro.RO_DB
+RO_65477,Şotânga,65477,base.ro,RO_SM,l10n_ro.RO_DB
+RO_65342,Târgovişte,65342,base.ro,RO_SM,l10n_ro.RO_DB
+RO_105534,Tărtăşeşti,105534,base.ro,RO_SM,l10n_ro.RO_DB
+RO_68921,Tătărani,68921,base.ro,RO_SM,l10n_ro.RO_DB
+RO_66081,Titu,66081,base.ro,RO_SM,l10n_ro.RO_DB
+RO_68976,Ulieşti,68976,base.ro,RO_SM,l10n_ro.RO_DB
+RO_65501,Ulmi,65501,base.ro,RO_SM,l10n_ro.RO_DB
+RO_69250,Văcăreşti,69250,base.ro,RO_SM,l10n_ro.RO_DB
+RO_69063,"Valea Lungă",69063,base.ro,RO_SM,l10n_ro.RO_DB
+RO_69170,"Valea Mare",69170,base.ro,RO_SM,l10n_ro.RO_DB
+RO_69303,Văleni-Dâmbovița,69303,base.ro,RO_SM,l10n_ro.RO_DB
+RO_69447,Vârfuri,69447,base.ro,RO_SM,l10n_ro.RO_DB
+RO_69330,Vișina,69330,base.ro,RO_SM,l10n_ro.RO_DB
+RO_69394,Vișinești,69394,base.ro,RO_SM,l10n_ro.RO_DB
+RO_179711,Vlădeni,179711,base.ro,RO_SM,l10n_ro.RO_DB
+RO_69526,Voinești,69526,base.ro,RO_SM,l10n_ro.RO_DB
+RO_69615,Vulcana-Băi,69615,base.ro,RO_SM,l10n_ro.RO_DB
+RO_179640,Vulcana-Pandele,179640,base.ro,RO_SM,l10n_ro.RO_DB
+RO_70520,Afumaţi,70520,base.ro,RO_SVO,l10n_ro.RO_DJ
+RO_70566,Almăj,70566,base.ro,RO_SVO,l10n_ro.RO_DJ
+RO_70637,"Amărăştii De Jos",70637,base.ro,RO_SVO,l10n_ro.RO_DJ
+RO_70673,"Amărăştii De Sus",70673,base.ro,RO_SVO,l10n_ro.RO_DJ
+RO_70726,"Apele Vii",70726,base.ro,RO_SVO,l10n_ro.RO_DJ
+RO_70744,Argetoaia,70744,base.ro,RO_SVO,l10n_ro.RO_DJ
+RO_70316,Băileşti,70316,base.ro,RO_SVO,l10n_ro.RO_DJ
+RO_70940,Bârca,70940,base.ro,RO_SVO,l10n_ro.RO_DJ
+RO_70879,Bechet,70879,base.ro,RO_SVO,l10n_ro.RO_DJ
+RO_70897,Bistreţ,70897,base.ro,RO_SVO,l10n_ro.RO_DJ
+RO_70968,Botoşeşti-Paia,70968,base.ro,RO_SVO,l10n_ro.RO_DJ
+RO_70986,Brabova,70986,base.ro,RO_SVO,l10n_ro.RO_DJ
+RO_71055,Brădeşti,71055,base.ro,RO_SVO,l10n_ro.RO_DJ
+RO_71126,Braloştiţa,71126,base.ro,RO_SVO,l10n_ro.RO_DJ
+RO_71199,Bratovoeşti,71199,base.ro,RO_SVO,l10n_ro.RO_DJ
+RO_71260,Breasta,71260,base.ro,RO_SVO,l10n_ro.RO_DJ
+RO_69964,Bucovăţ,69964,base.ro,RO_SVO,l10n_ro.RO_DJ
+RO_71340,Bulzeşti,71340,base.ro,RO_SVO,l10n_ro.RO_DJ
+RO_70352,Calafat,70352,base.ro,RO_SVO,l10n_ro.RO_DJ
+RO_71607,Călăraşi,71607,base.ro,RO_SVO,l10n_ro.RO_DJ
+RO_71457,Calopăr,71457,base.ro,RO_SVO,l10n_ro.RO_DJ
+RO_71518,Caraula,71518,base.ro,RO_SVO,l10n_ro.RO_DJ
+RO_74859,Cârcea,74859,base.ro,RO_SVO,l10n_ro.RO_DJ
+RO_74867,Cârna,74867,base.ro,RO_SVO,l10n_ro.RO_DJ
+RO_71536,Carpen,71536,base.ro,RO_SVO,l10n_ro.RO_DJ
+RO_71572,Castranova,71572,base.ro,RO_SVO,l10n_ro.RO_DJ
+RO_74842,Catane,74842,base.ro,RO_SVO,l10n_ro.RO_DJ
+RO_71634,Celaru,71634,base.ro,RO_SVO,l10n_ro.RO_DJ
+RO_71698,Cerăt,71698,base.ro,RO_SVO,l10n_ro.RO_DJ
+RO_71723,Cernăteşti,71723,base.ro,RO_SVO,l10n_ro.RO_DJ
+RO_71787,Cetate,71787,base.ro,RO_SVO,l10n_ro.RO_DJ
+RO_71812,Cioroiaşi,71812,base.ro,RO_SVO,l10n_ro.RO_DJ
+RO_71858,"Ciupercenii Noi",71858,base.ro,RO_SVO,l10n_ro.RO_DJ
+RO_71885,Coşoveni,71885,base.ro,RO_SVO,l10n_ro.RO_DJ
+RO_71910,"Coţofenii Din Dos",71910,base.ro,RO_SVO,l10n_ro.RO_DJ
+RO_74875,"Coţofenii Din Faţă",74875,base.ro,RO_SVO,l10n_ro.RO_DJ
+RO_69900,Craiova,69900,base.ro,RO_SVO,l10n_ro.RO_DJ
+RO_72007,Dăbuleni,72007,base.ro,RO_SVO,l10n_ro.RO_DJ
+RO_71956,Daneţi,71956,base.ro,RO_SVO,l10n_ro.RO_DJ
+RO_72034,Desa,72034,base.ro,RO_SVO,l10n_ro.RO_DJ
+RO_72052,Dioşti,72052,base.ro,RO_SVO,l10n_ro.RO_DJ
+RO_72098,Dobreşti,72098,base.ro,RO_SVO,l10n_ro.RO_DJ
+RO_74883,Dobroteşti,74883,base.ro,RO_SVO,l10n_ro.RO_DJ
+RO_72150,Drăgoteşti,72150,base.ro,RO_SVO,l10n_ro.RO_DJ
+RO_72221,Drănic,72221,base.ro,RO_SVO,l10n_ro.RO_DJ
+RO_72276,Fărcaş,72276,base.ro,RO_SVO,l10n_ro.RO_DJ
+RO_70414,Filiaşi,70414,base.ro,RO_SVO,l10n_ro.RO_DJ
+RO_72383,"Galicea Mare",72383,base.ro,RO_SVO,l10n_ro.RO_DJ
+RO_74891,Galiciuica,74891,base.ro,RO_SVO,l10n_ro.RO_DJ
+RO_72579,Gângiova,72579,base.ro,RO_SVO,l10n_ro.RO_DJ
+RO_72409,Gherceşti,72409,base.ro,RO_SVO,l10n_ro.RO_DJ
+RO_74907,Ghidici,74907,base.ro,RO_SVO,l10n_ro.RO_DJ
+RO_74915,Ghindeni,74915,base.ro,RO_SVO,l10n_ro.RO_DJ
+RO_72463,Gighera,72463,base.ro,RO_SVO,l10n_ro.RO_DJ
+RO_72506,Giubega,72506,base.ro,RO_SVO,l10n_ro.RO_DJ
+RO_72533,Giurgiţa,72533,base.ro,RO_SVO,l10n_ro.RO_DJ
+RO_72604,Gogoşu,72604,base.ro,RO_SVO,l10n_ro.RO_DJ
+RO_72640,Goicea,72640,base.ro,RO_SVO,l10n_ro.RO_DJ
+RO_72677,Goieşti,72677,base.ro,RO_SVO,l10n_ro.RO_DJ
+RO_72819,Greceşti,72819,base.ro,RO_SVO,l10n_ro.RO_DJ
+RO_74923,Întorsura,74923,base.ro,RO_SVO,l10n_ro.RO_DJ
+RO_70094,Işalniţa,70094,base.ro,RO_SVO,l10n_ro.RO_DJ
+RO_72882,Izvoare,72882,base.ro,RO_SVO,l10n_ro.RO_DJ
+RO_72926,Leu,72926,base.ro,RO_SVO,l10n_ro.RO_DJ
+RO_72953,Lipovu,72953,base.ro,RO_SVO,l10n_ro.RO_DJ
+RO_72980,"Măceşu De Jos",72980,base.ro,RO_SVO,l10n_ro.RO_DJ
+RO_73013,"Măceşu De Sus",73013,base.ro,RO_SVO,l10n_ro.RO_DJ
+RO_73031,Maglavit,73031,base.ro,RO_SVO,l10n_ro.RO_DJ
+RO_73068,"Malu Mare",73068,base.ro,RO_SVO,l10n_ro.RO_DJ
+RO_73317,Mârşani,73317,base.ro,RO_SVO,l10n_ro.RO_DJ
+RO_73102,Melineşti,73102,base.ro,RO_SVO,l10n_ro.RO_DJ
+RO_73246,Mischii,73246,base.ro,RO_SVO,l10n_ro.RO_DJ
+RO_73335,Moţăţei,73335,base.ro,RO_SVO,l10n_ro.RO_DJ
+RO_73371,Murgaşi,73371,base.ro,RO_SVO,l10n_ro.RO_DJ
+RO_73460,Negoi,73460,base.ro,RO_SVO,l10n_ro.RO_DJ
+RO_73503,Orodel,73503,base.ro,RO_SVO,l10n_ro.RO_DJ
+RO_73567,Ostroveni,73567,base.ro,RO_SVO,l10n_ro.RO_DJ
+RO_73594,Perişor,73594,base.ro,RO_SVO,l10n_ro.RO_DJ
+RO_73629,Pieleşti,73629,base.ro,RO_SVO,l10n_ro.RO_DJ
+RO_73665,"Piscu Vechi",73665,base.ro,RO_SVO,l10n_ro.RO_DJ
+RO_73709,Pleniţa,73709,base.ro,RO_SVO,l10n_ro.RO_DJ
+RO_74931,Pleşoi,74931,base.ro,RO_SVO,l10n_ro.RO_DJ
+RO_70110,Podari,70110,base.ro,RO_SVO,l10n_ro.RO_DJ
+RO_73736,"Poiana Mare",73736,base.ro,RO_SVO,l10n_ro.RO_DJ
+RO_73772,Predeşti,73772,base.ro,RO_SVO,l10n_ro.RO_DJ
+RO_73852,Radovan,73852,base.ro,RO_SVO,l10n_ro.RO_DJ
+RO_73905,Rast,73905,base.ro,RO_SVO,l10n_ro.RO_DJ
+RO_73923,Robăneşti,73923,base.ro,RO_SVO,l10n_ro.RO_DJ
+RO_74949,Rojişte,74949,base.ro,RO_SVO,l10n_ro.RO_DJ
+RO_73996,Sadova,73996,base.ro,RO_SVO,l10n_ro.RO_DJ
+RO_74028,Sălcuţa,74028,base.ro,RO_SVO,l10n_ro.RO_DJ
+RO_74073,Scăeşti,74073,base.ro,RO_SVO,l10n_ro.RO_DJ
+RO_74108,"Seaca De Câmp",74108,base.ro,RO_SVO,l10n_ro.RO_DJ
+RO_74135,"Seaca De Pădure",74135,base.ro,RO_SVO,l10n_ro.RO_DJ
+RO_74171,Secu,74171,base.ro,RO_SVO,l10n_ro.RO_DJ
+RO_70502,Segarcea,70502,base.ro,RO_SVO,l10n_ro.RO_DJ
+RO_74224,"Siliştea Crucii",74224,base.ro,RO_SVO,l10n_ro.RO_DJ
+RO_70174,"Şimnicu De Sus",70174,base.ro,RO_SVO,l10n_ro.RO_DJ
+RO_74242,Sopot,74242,base.ro,RO_SVO,l10n_ro.RO_DJ
+RO_74956,Tălpaş,74956,base.ro,RO_SVO,l10n_ro.RO_DJ
+RO_74322,Teasc,74322,base.ro,RO_SVO,l10n_ro.RO_DJ
+RO_74359,Terpeziţa,74359,base.ro,RO_SVO,l10n_ro.RO_DJ
+RO_74411,Teslui,74411,base.ro,RO_SVO,l10n_ro.RO_DJ
+RO_74509,Ţuglui,74509,base.ro,RO_SVO,l10n_ro.RO_DJ
+RO_74536,Unirea,74536,base.ro,RO_SVO,l10n_ro.RO_DJ
+RO_74554,Urzicuţa,74554,base.ro,RO_SVO,l10n_ro.RO_DJ
+RO_74581,"Valea Stanciului",74581,base.ro,RO_SVO,l10n_ro.RO_DJ
+RO_74732,Vârtop,74732,base.ro,RO_SVO,l10n_ro.RO_DJ
+RO_74750,"Vârvoru De Jos",74750,base.ro,RO_SVO,l10n_ro.RO_DJ
+RO_74616,Vela,74616,base.ro,RO_SVO,l10n_ro.RO_DJ
+RO_74705,Verbiţa,74705,base.ro,RO_SVO,l10n_ro.RO_DJ
+RO_75542,Bălăbăneşti,75542,base.ro,RO_SE,l10n_ro.RO_GL
+RO_75613,Bălăşeşti,75613,base.ro,RO_SE,l10n_ro.RO_GL
+RO_75668,Băleni,75668,base.ro,RO_SE,l10n_ro.RO_GL
+RO_75686,Băneasa,75686,base.ro,RO_SE,l10n_ro.RO_GL
+RO_75515,Barcea,75515,base.ro,RO_SE,l10n_ro.RO_GL
+RO_75338,Bereşti,75338,base.ro,RO_SE,l10n_ro.RO_GL
+RO_75356,Bereşti-Meria,75356,base.ro,RO_SE,l10n_ro.RO_GL
+RO_75766,Brăhăşeşti,75766,base.ro,RO_SE,l10n_ro.RO_GL
+RO_75711,Braniştea,75711,base.ro,RO_SE,l10n_ro.RO_GL
+RO_75819,Buciumeni,75819,base.ro,RO_SE,l10n_ro.RO_GL
+RO_75864,Cavadineşti,75864,base.ro,RO_SE,l10n_ro.RO_GL
+RO_75917,Cerţeşti,75917,base.ro,RO_SE,l10n_ro.RO_GL
+RO_76004,Corni,76004,base.ro,RO_SE,l10n_ro.RO_GL
+RO_75953,Corod,75953,base.ro,RO_SE,l10n_ro.RO_GL
+RO_76040,Cosmeşti,76040,base.ro,RO_SE,l10n_ro.RO_GL
+RO_76111,"Costache Negri",76111,base.ro,RO_SE,l10n_ro.RO_GL
+RO_76139,Cuca,76139,base.ro,RO_SE,l10n_ro.RO_GL
+RO_76157,Cudalbi,76157,base.ro,RO_SE,l10n_ro.RO_GL
+RO_77595,"Cuza Vodă",77595,base.ro,RO_SE,l10n_ro.RO_GL
+RO_75221,Drăgăneşti,75221,base.ro,RO_SE,l10n_ro.RO_GL
+RO_76175,Drăguşeni,76175,base.ro,RO_SE,l10n_ro.RO_GL
+RO_76255,Fârţăneşti,76255,base.ro,RO_SE,l10n_ro.RO_GL
+RO_76282,Folteşti,76282,base.ro,RO_SE,l10n_ro.RO_GL
+RO_76317,Frumuşiţa,76317,base.ro,RO_SE,l10n_ro.RO_GL
+RO_76353,Fundeni,76353,base.ro,RO_SE,l10n_ro.RO_GL
+RO_75098,Galaţi,75098,base.ro,RO_SE,l10n_ro.RO_GL
+RO_76406,Ghidigeni,76406,base.ro,RO_SE,l10n_ro.RO_GL
+RO_76497,Gohor,76497,base.ro,RO_SE,l10n_ro.RO_GL
+RO_76558,Griviţa,76558,base.ro,RO_SE,l10n_ro.RO_GL
+RO_76585,Independenţa,76585,base.ro,RO_SE,l10n_ro.RO_GL
+RO_76601,Iveşti,76601,base.ro,RO_SE,l10n_ro.RO_GL
+RO_76638,Jorăşti,76638,base.ro,RO_SE,l10n_ro.RO_GL
+RO_76674,Lieşti,76674,base.ro,RO_SE,l10n_ro.RO_GL
+RO_76718,Măstăcani,76718,base.ro,RO_SE,l10n_ro.RO_GL
+RO_76692,Matca,76692,base.ro,RO_SE,l10n_ro.RO_GL
+RO_76745,Movileni,76745,base.ro,RO_SE,l10n_ro.RO_GL
+RO_75258,Munteni,75258,base.ro,RO_SE,l10n_ro.RO_GL
+RO_76763,Nămoloasa,76763,base.ro,RO_SE,l10n_ro.RO_GL
+RO_77579,Negrileşti,77579,base.ro,RO_SE,l10n_ro.RO_GL
+RO_76807,Nicoreşti,76807,base.ro,RO_SE,l10n_ro.RO_GL
+RO_76932,Oancea,76932,base.ro,RO_SE,l10n_ro.RO_GL
+RO_76969,Pechea,76969,base.ro,RO_SE,l10n_ro.RO_GL
+RO_76996,Piscu,76996,base.ro,RO_SE,l10n_ro.RO_GL
+RO_77587,Poiana,77587,base.ro,RO_SE,l10n_ro.RO_GL
+RO_77028,Priponeşti,77028,base.ro,RO_SE,l10n_ro.RO_GL
+RO_77561,Rădeşti,77561,base.ro,RO_SE,l10n_ro.RO_GL
+RO_77082,Rediu,77082,base.ro,RO_SE,l10n_ro.RO_GL
+RO_77126,Scânteieşti,77126,base.ro,RO_SE,l10n_ro.RO_GL
+RO_77153,Schela,77153,base.ro,RO_SE,l10n_ro.RO_GL
+RO_75114,Şendreni,75114,base.ro,RO_SE,l10n_ro.RO_GL
+RO_77180,"Slobozia Conachi",77180,base.ro,RO_SE,l10n_ro.RO_GL
+RO_77224,Smârdan,77224,base.ro,RO_SE,l10n_ro.RO_GL
+RO_77260,Smulţi,77260,base.ro,RO_SE,l10n_ro.RO_GL
+RO_77288,Suceveni,77288,base.ro,RO_SE,l10n_ro.RO_GL
+RO_77601,Suhurlui,77601,base.ro,RO_SE,l10n_ro.RO_GL
+RO_75472,"Târgu Bujor",75472,base.ro,RO_SE,l10n_ro.RO_GL
+RO_75203,Tecuci,75203,base.ro,RO_SE,l10n_ro.RO_GL
+RO_77377,Ţepu,77377,base.ro,RO_SE,l10n_ro.RO_GL
+RO_77313,"Tudor Vladimirescu",77313,base.ro,RO_SE,l10n_ro.RO_GL
+RO_77331,Tuluceşti,77331,base.ro,RO_SE,l10n_ro.RO_GL
+RO_77402,Umbrăreşti,77402,base.ro,RO_SE,l10n_ro.RO_GL
+RO_77475,"Valea Mărului",77475,base.ro,RO_SE,l10n_ro.RO_GL
+RO_75150,Vânători,75150,base.ro,RO_SE,l10n_ro.RO_GL
+RO_77509,Vârlezi,77509,base.ro,RO_SE,l10n_ro.RO_GL
+RO_77536,Vlădeşti,77536,base.ro,RO_SE,l10n_ro.RO_GL
+RO_78472,Albeni,78472,base.ro,RO_SVO,l10n_ro.RO_GJ
+RO_78542,Alimpeşti,78542,base.ro,RO_SVO,l10n_ro.RO_GJ
+RO_78604,Aninoasa,78604,base.ro,RO_SVO,l10n_ro.RO_GJ
+RO_78668,Arcani,78668,base.ro,RO_SVO,l10n_ro.RO_GJ
+RO_78711,"Baia De Fier",78711,base.ro,RO_SVO,l10n_ro.RO_GJ
+RO_78748,Bălăneşti,78748,base.ro,RO_SVO,l10n_ro.RO_GJ
+RO_77910,Băleşti,77910,base.ro,RO_SVO,l10n_ro.RO_GJ
+RO_79004,Bâlteni,79004,base.ro,RO_SVO,l10n_ro.RO_GJ
+RO_78828,Bărbăteşti,78828,base.ro,RO_SVO,l10n_ro.RO_GJ
+RO_78873,Bengeşti-Ciocadia,78873,base.ro,RO_SVO,l10n_ro.RO_GJ
+RO_78926,Berleşti,78926,base.ro,RO_SVO,l10n_ro.RO_GJ
+RO_79077,Bolboşi,79077,base.ro,RO_SVO,l10n_ro.RO_GJ
+RO_79157,Borăscu,79157,base.ro,RO_SVO,l10n_ro.RO_GJ
+RO_79237,Brăneşti,79237,base.ro,RO_SVO,l10n_ro.RO_GJ
+RO_79308,Bumbeşti-Jiu,79308,base.ro,RO_SVO,l10n_ro.RO_GJ
+RO_79362,Bumbeşti-Piţic,79362,base.ro,RO_SVO,l10n_ro.RO_GJ
+RO_79406,Bustuchin,79406,base.ro,RO_SVO,l10n_ro.RO_GJ
+RO_79736,Câlnic,79736,base.ro,RO_SVO,l10n_ro.RO_GJ
+RO_79497,Căpreni,79497,base.ro,RO_SVO,l10n_ro.RO_GJ
+RO_79585,Cătunele,79585,base.ro,RO_SVO,l10n_ro.RO_GJ
+RO_79656,Ciuperceni,79656,base.ro,RO_SVO,l10n_ro.RO_GJ
+RO_79834,Crasna,79834,base.ro,RO_SVO,l10n_ro.RO_GJ
+RO_79932,Cruşeţ,79932,base.ro,RO_SVO,l10n_ro.RO_GJ
+RO_80043,Dănciuleşti,80043,base.ro,RO_SVO,l10n_ro.RO_GJ
+RO_80123,Dăneşti,80123,base.ro,RO_SVO,l10n_ro.RO_GJ
+RO_80249,Drăgoteşti,80249,base.ro,RO_SVO,l10n_ro.RO_GJ
+RO_78016,Drăguţeşti,78016,base.ro,RO_SVO,l10n_ro.RO_GJ
+RO_80285,Fărcăşeşti,80285,base.ro,RO_SVO,l10n_ro.RO_GJ
+RO_80365,Glogova,80365,base.ro,RO_SVO,l10n_ro.RO_GJ
+RO_80427,Godineşti,80427,base.ro,RO_SVO,l10n_ro.RO_GJ
+RO_80506,Hurezani,80506,base.ro,RO_SVO,l10n_ro.RO_GJ
+RO_80560,Ioneşti,80560,base.ro,RO_SVO,l10n_ro.RO_GJ
+RO_80613,Jupâneşti,80613,base.ro,RO_SVO,l10n_ro.RO_GJ
+RO_80677,Leleşti,80677,base.ro,RO_SVO,l10n_ro.RO_GJ
+RO_80711,Licurici,80711,base.ro,RO_SVO,l10n_ro.RO_GJ
+RO_80766,Logreşti,80766,base.ro,RO_SVO,l10n_ro.RO_GJ
+RO_80846,Mătăsari,80846,base.ro,RO_SVO,l10n_ro.RO_GJ
+RO_78141,Motru,78141,base.ro,RO_SVO,l10n_ro.RO_GJ
+RO_80908,Muşeteşti,80908,base.ro,RO_SVO,l10n_ro.RO_GJ
+RO_80980,Negomir,80980,base.ro,RO_SVO,l10n_ro.RO_GJ
+RO_78258,Novaci,78258,base.ro,RO_SVO,l10n_ro.RO_GJ
+RO_81095,Padeş,81095,base.ro,RO_SVO,l10n_ro.RO_GJ
+RO_81184,Peştişani,81184,base.ro,RO_SVO,l10n_ro.RO_GJ
+RO_81264,Plopşoru,81264,base.ro,RO_SVO,l10n_ro.RO_GJ
+RO_81380,Polovragi,81380,base.ro,RO_SVO,l10n_ro.RO_GJ
+RO_81415,Prigoria,81415,base.ro,RO_SVO,l10n_ro.RO_GJ
+RO_81497,"Roşia De Amaradia",81497,base.ro,RO_SVO,l10n_ro.RO_GJ
+RO_82895,Rovinari,82895,base.ro,RO_SVO,l10n_ro.RO_GJ
+RO_81576,Runcu,81576,base.ro,RO_SVO,l10n_ro.RO_GJ
+RO_81754,Săcelu,81754,base.ro,RO_SVO,l10n_ro.RO_GJ
+RO_81656,Samarineşti,81656,base.ro,RO_SVO,l10n_ro.RO_GJ
+RO_81816,Săuleşti,81816,base.ro,RO_SVO,l10n_ro.RO_GJ
+RO_81987,Schela,81987,base.ro,RO_SVO,l10n_ro.RO_GJ
+RO_81861,Scoarţa,81861,base.ro,RO_SVO,l10n_ro.RO_GJ
+RO_82047,Slivileşti,82047,base.ro,RO_SVO,l10n_ro.RO_GJ
+RO_82136,Stăneşti,82136,base.ro,RO_SVO,l10n_ro.RO_GJ
+RO_82243,Stejari,82243,base.ro,RO_SVO,l10n_ro.RO_GJ
+RO_82314,Stoina,82314,base.ro,RO_SVO,l10n_ro.RO_GJ
+RO_82680,Ţânţăreni,82680,base.ro,RO_SVO,l10n_ro.RO_GJ
+RO_78329,"Târgu Cărbuneşti",78329,base.ro,RO_SVO,l10n_ro.RO_GJ
+RO_77812,"Târgu Jiu",77812,base.ro,RO_SVO,l10n_ro.RO_GJ
+RO_82396,Teleşti,82396,base.ro,RO_SVO,l10n_ro.RO_GJ
+RO_78454,Ţicleni,78454,base.ro,RO_SVO,l10n_ro.RO_GJ
+RO_82430,Tismana,82430,base.ro,RO_SVO,l10n_ro.RO_GJ
+RO_82555,Turburea,82555,base.ro,RO_SVO,l10n_ro.RO_GJ
+RO_82617,Turceni,82617,base.ro,RO_SVO,l10n_ro.RO_GJ
+RO_78089,Turcineşti,78089,base.ro,RO_SVO,l10n_ro.RO_GJ
+RO_82733,Urdari,82733,base.ro,RO_SVO,l10n_ro.RO_GJ
+RO_82779,Văgiuleşti,82779,base.ro,RO_SVO,l10n_ro.RO_GJ
+RO_82831,Vladimir,82831,base.ro,RO_SVO,l10n_ro.RO_GJ
+RO_83785,Atid,83785,base.ro,RO_C,l10n_ro.RO_HR
+RO_83847,Avrămeşti,83847,base.ro,RO_C,l10n_ro.RO_HR
+RO_83428,"Băile Tuşnad",83428,base.ro,RO_C,l10n_ro.RO_HR
+RO_83464,Bălan,83464,base.ro,RO_C,l10n_ro.RO_HR
+RO_83936,Bilbor,83936,base.ro,RO_C,l10n_ro.RO_HR
+RO_83491,Borsec,83491,base.ro,RO_C,l10n_ro.RO_HR
+RO_83151,Brădeşti,83151,base.ro,RO_C,l10n_ro.RO_HR
+RO_83963,Căpâlniţa,83963,base.ro,RO_C,l10n_ro.RO_HR
+RO_84102,Cârţa,84102,base.ro,RO_C,l10n_ro.RO_HR
+RO_86461,Ciceu,86461,base.ro,RO_C,l10n_ro.RO_HR
+RO_83981,Ciucsângeorgiu,83981,base.ro,RO_C,l10n_ro.RO_HR
+RO_84086,Ciumani,84086,base.ro,RO_C,l10n_ro.RO_HR
+RO_84148,Corbu,84148,base.ro,RO_C,l10n_ro.RO_HR
+RO_84175,Corund,84175,base.ro,RO_C,l10n_ro.RO_HR
+RO_86446,Cozmeni,86446,base.ro,RO_C,l10n_ro.RO_HR
+RO_83525,"Cristuru Secuiesc",83525,base.ro,RO_C,l10n_ro.RO_HR
+RO_84237,Dăneşti,84237,base.ro,RO_C,l10n_ro.RO_HR
+RO_84380,Dârjiu,84380,base.ro,RO_C,l10n_ro.RO_HR
+RO_84264,Dealu,84264,base.ro,RO_C,l10n_ro.RO_HR
+RO_84344,Ditrău,84344,base.ro,RO_C,l10n_ro.RO_HR
+RO_83197,Feliceni,83197,base.ro,RO_C,l10n_ro.RO_HR
+RO_84415,Frumoasa,84415,base.ro,RO_C,l10n_ro.RO_HR
+RO_84460,Gălăuţaş,84460,base.ro,RO_C,l10n_ro.RO_HR
+RO_83561,Gheorgheni,83561,base.ro,RO_C,l10n_ro.RO_HR
+RO_84558,Joseni,84558,base.ro,RO_C,l10n_ro.RO_HR
+RO_84594,Lăzarea,84594,base.ro,RO_C,l10n_ro.RO_HR
+RO_86479,Leliceni,86479,base.ro,RO_C,l10n_ro.RO_HR
+RO_84629,Lueta,84629,base.ro,RO_C,l10n_ro.RO_HR
+RO_84656,"Lunca De Jos",84656,base.ro,RO_C,l10n_ro.RO_HR
+RO_84754,"Lunca De Sus",84754,base.ro,RO_C,l10n_ro.RO_HR
+RO_84825,Lupeni,84825,base.ro,RO_C,l10n_ro.RO_HR
+RO_86438,Mădăraş,86438,base.ro,RO_C,l10n_ro.RO_HR
+RO_84923,Mărtiniş,84923,base.ro,RO_C,l10n_ro.RO_HR
+RO_85056,Mereşti,85056,base.ro,RO_C,l10n_ro.RO_HR
+RO_83320,"Miercurea Ciuc",83320,base.ro,RO_C,l10n_ro.RO_HR
+RO_85074,Mihăileni,85074,base.ro,RO_C,l10n_ro.RO_HR
+RO_85127,Mugeni,85127,base.ro,RO_C,l10n_ro.RO_HR
+RO_85243,Ocland,85243,base.ro,RO_C,l10n_ro.RO_HR
+RO_83133,"Odorheiu Secuiesc",83133,base.ro,RO_C,l10n_ro.RO_HR
+RO_83375,Păuleni-Ciuc,83375,base.ro,RO_C,l10n_ro.RO_HR
+RO_85289,"Plăieşii De Jos",85289,base.ro,RO_C,l10n_ro.RO_HR
+RO_86487,Porumbeni,86487,base.ro,RO_C,l10n_ro.RO_HR
+RO_85341,Praid,85341,base.ro,RO_C,l10n_ro.RO_HR
+RO_86495,Racu,86495,base.ro,RO_C,l10n_ro.RO_HR
+RO_85412,Remetea,85412,base.ro,RO_C,l10n_ro.RO_HR
+RO_85467,Săcel,85467,base.ro,RO_C,l10n_ro.RO_HR
+RO_85680,Sâncrăieni,85680,base.ro,RO_C,l10n_ro.RO_HR
+RO_85760,Sândominic,85760,base.ro,RO_C,l10n_ro.RO_HR
+RO_85788,Sânmartin,85788,base.ro,RO_C,l10n_ro.RO_HR
+RO_85840,Sânsimion,85840,base.ro,RO_C,l10n_ro.RO_HR
+RO_86519,Sântimbru,86519,base.ro,RO_C,l10n_ro.RO_HR
+RO_85528,Sărmaş,85528,base.ro,RO_C,l10n_ro.RO_HR
+RO_86501,"Satu Mare",86501,base.ro,RO_C,l10n_ro.RO_HR
+RO_85582,Secuieni,85582,base.ro,RO_C,l10n_ro.RO_HR
+RO_85626,Siculeni,85626,base.ro,RO_C,l10n_ro.RO_HR
+RO_85984,Şimoneşti,85984,base.ro,RO_C,l10n_ro.RO_HR
+RO_85877,Subcetate,85877,base.ro,RO_C,l10n_ro.RO_HR
+RO_85920,Suseni,85920,base.ro,RO_C,l10n_ro.RO_HR
+RO_86453,Tomeşti,86453,base.ro,RO_C,l10n_ro.RO_HR
+RO_83632,Topliţa,83632,base.ro,RO_C,l10n_ro.RO_HR
+RO_86133,Tulgheş,86133,base.ro,RO_C,l10n_ro.RO_HR
+RO_86188,Tuşnad,86188,base.ro,RO_C,l10n_ro.RO_HR
+RO_86222,Ulieş,86222,base.ro,RO_C,l10n_ro.RO_HR
+RO_86311,Vărşag,86311,base.ro,RO_C,l10n_ro.RO_HR
+RO_83749,Vlăhiţa,83749,base.ro,RO_C,l10n_ro.RO_HR
+RO_86339,Voşlăbeni,86339,base.ro,RO_C,l10n_ro.RO_HR
+RO_86366,Zetea,86366,base.ro,RO_C,l10n_ro.RO_HR
+RO_87219,Aninoasa,87219,base.ro,RO_V,l10n_ro.RO_HD
+RO_88047,Băcia,88047,base.ro,RO_V,l10n_ro.RO_HD
+RO_87745,"Baia De Criş",87745,base.ro,RO_V,l10n_ro.RO_HD
+RO_88092,Băiţa,88092,base.ro,RO_V,l10n_ro.RO_HD
+RO_87843,Balşa,87843,base.ro,RO_V,l10n_ro.RO_HD
+RO_87246,Băniţa,87246,base.ro,RO_V,l10n_ro.RO_HD
+RO_87996,Baru,87996,base.ro,RO_V,l10n_ro.RO_HD
+RO_88216,Bătrâna,88216,base.ro,RO_V,l10n_ro.RO_HD
+RO_88261,Beriu,88261,base.ro,RO_V,l10n_ro.RO_HD
+RO_88350,Blăjeni,88350,base.ro,RO_V,l10n_ro.RO_HD
+RO_88449,Boşorod,88449,base.ro,RO_V,l10n_ro.RO_HD
+RO_87291,Brad,87291,base.ro,RO_V,l10n_ro.RO_HD
+RO_88546,Brănişca,88546,base.ro,RO_V,l10n_ro.RO_HD
+RO_88644,"Bretea Română",88644,base.ro,RO_V,l10n_ro.RO_HD
+RO_88788,Buceş,88788,base.ro,RO_V,l10n_ro.RO_HD
+RO_88868,Bucureşci,88868,base.ro,RO_V,l10n_ro.RO_HD
+RO_88920,"Bulzeştii De Sus",88920,base.ro,RO_V,l10n_ro.RO_HD
+RO_89026,Bunila,89026,base.ro,RO_V,l10n_ro.RO_HD
+RO_89080,Burjuc,89080,base.ro,RO_V,l10n_ro.RO_HD
+RO_87424,Călan,87424,base.ro,RO_V,l10n_ro.RO_HD
+RO_86749,Cârjiţi,86749,base.ro,RO_V,l10n_ro.RO_HD
+RO_89151,Cerbăl,89151,base.ro,RO_V,l10n_ro.RO_HD
+RO_89240,"Certeju De Sus",89240,base.ro,RO_V,l10n_ro.RO_HD
+RO_87362,Crişcior,87362,base.ro,RO_V,l10n_ro.RO_HD
+RO_89348,Densuş,89348,base.ro,RO_V,l10n_ro.RO_HD
+RO_86687,Deva,86687,base.ro,RO_V,l10n_ro.RO_HD
+RO_89428,Dobra,89428,base.ro,RO_V,l10n_ro.RO_HD
+RO_91731,"General Berthelot",91731,base.ro,RO_V,l10n_ro.RO_HD
+RO_89561,Geoagiu,89561,base.ro,RO_V,l10n_ro.RO_HD
+RO_86883,Ghelari,86883,base.ro,RO_V,l10n_ro.RO_HD
+RO_89687,Gurasada,89687,base.ro,RO_V,l10n_ro.RO_HD
+RO_89801,Hărău,89801,base.ro,RO_V,l10n_ro.RO_HD
+RO_87576,Haţeg,87576,base.ro,RO_V,l10n_ro.RO_HD
+RO_86810,Hunedoara,86810,base.ro,RO_V,l10n_ro.RO_HD
+RO_89856,Ilia,89856,base.ro,RO_V,l10n_ro.RO_HD
+RO_89954,"Lăpugiu De Jos",89954,base.ro,RO_V,l10n_ro.RO_HD
+RO_90066,Lelese,90066,base.ro,RO_V,l10n_ro.RO_HD
+RO_90119,"Lunca Cernii De Jos",90119,base.ro,RO_V,l10n_ro.RO_HD
+RO_90208,"Luncoiu De Jos",90208,base.ro,RO_V,l10n_ro.RO_HD
+RO_87059,Lupeni,87059,base.ro,RO_V,l10n_ro.RO_HD
+RO_90262,Mărtineşti,90262,base.ro,RO_V,l10n_ro.RO_HD
+RO_87638,Orăştie,87638,base.ro,RO_V,l10n_ro.RO_HD
+RO_90342,"Orăştioara De Sus",90342,base.ro,RO_V,l10n_ro.RO_HD
+RO_90431,"Pestişu Mic",90431,base.ro,RO_V,l10n_ro.RO_HD
+RO_87077,Petrila,87077,base.ro,RO_V,l10n_ro.RO_HD
+RO_86990,Petroşani,86990,base.ro,RO_V,l10n_ro.RO_HD
+RO_90538,Pui,90538,base.ro,RO_V,l10n_ro.RO_HD
+RO_90725,Răchitova,90725,base.ro,RO_V,l10n_ro.RO_HD
+RO_90663,"Rapoltu Mare",90663,base.ro,RO_V,l10n_ro.RO_HD
+RO_90878,"Râu De Mori",90878,base.ro,RO_V,l10n_ro.RO_HD
+RO_90805,Ribiţa,90805,base.ro,RO_V,l10n_ro.RO_HD
+RO_90994,Romos,90994,base.ro,RO_V,l10n_ro.RO_HD
+RO_91116,"Sălaşu De Sus",91116,base.ro,RO_V,l10n_ro.RO_HD
+RO_91232,Sântămăria-Orlea,91232,base.ro,RO_V,l10n_ro.RO_HD
+RO_91054,Sarmizegetusa,91054,base.ro,RO_V,l10n_ro.RO_HD
+RO_87665,Simeria,87665,base.ro,RO_V,l10n_ro.RO_HD
+RO_91330,Şoimuş,91330,base.ro,RO_V,l10n_ro.RO_HD
+RO_86936,"Teliucu Inferior",86936,base.ro,RO_V,l10n_ro.RO_HD
+RO_91447,Tomeşti,91447,base.ro,RO_V,l10n_ro.RO_HD
+RO_91535,Topliţa,91535,base.ro,RO_V,l10n_ro.RO_HD
+RO_91624,Toteşti,91624,base.ro,RO_V,l10n_ro.RO_HD
+RO_91688,Turdaş,91688,base.ro,RO_V,l10n_ro.RO_HD
+RO_87139,Uricani,87139,base.ro,RO_V,l10n_ro.RO_HD
+RO_91937,Vălişoara,91937,base.ro,RO_V,l10n_ro.RO_HD
+RO_91795,"Vaţa De Jos",91795,base.ro,RO_V,l10n_ro.RO_HD
+RO_91982,Veţel,91982,base.ro,RO_V,l10n_ro.RO_HD
+RO_92097,Vorţa,92097,base.ro,RO_V,l10n_ro.RO_HD
+RO_87175,Vulcan,87175,base.ro,RO_V,l10n_ro.RO_HD
+RO_92177,Zam,92177,base.ro,RO_V,l10n_ro.RO_HD
+RO_100754,Adâncata,100754,base.ro,RO_SM,l10n_ro.RO_IL
+RO_92783,Albeşti,92783,base.ro,RO_SM,l10n_ro.RO_IL
+RO_100852,Alexeni,100852,base.ro,RO_SM,l10n_ro.RO_IL
+RO_92836,Amara,92836,base.ro,RO_SM,l10n_ro.RO_IL
+RO_92872,Andrăşeşti,92872,base.ro,RO_SM,l10n_ro.RO_IL
+RO_100870,Armăşeşti,100870,base.ro,RO_SM,l10n_ro.RO_IL
+RO_100923,Axintele,100923,base.ro,RO_SM,l10n_ro.RO_IL
+RO_92907,Balaciu,92907,base.ro,RO_SM,l10n_ro.RO_IL
+RO_180064,Bărbuleşti,180064,base.ro,RO_SM,l10n_ro.RO_IL
+RO_101056,Bărcăneşti,101056,base.ro,RO_SM,l10n_ro.RO_IL
+RO_179784,Borăneşti,179784,base.ro,RO_SM,l10n_ro.RO_IL
+RO_92989,Borduşani,92989,base.ro,RO_SM,l10n_ro.RO_IL
+RO_93021,Bucu,93021,base.ro,RO_SM,l10n_ro.RO_IL
+RO_179793,Bueşti,179793,base.ro,RO_SM,l10n_ro.RO_IL
+RO_93067,Căzăneşti,93067,base.ro,RO_SM,l10n_ro.RO_IL
+RO_100709,Ciocârlia,100709,base.ro,RO_SM,l10n_ro.RO_IL
+RO_93101,Ciochina,93101,base.ro,RO_SM,l10n_ro.RO_IL
+RO_93156,Ciulniţa,93156,base.ro,RO_SM,l10n_ro.RO_IL
+RO_93209,Cocora,93209,base.ro,RO_SM,l10n_ro.RO_IL
+RO_179971,Colelia,179971,base.ro,RO_SM,l10n_ro.RO_IL
+RO_93236,Cosâmbeşti,93236,base.ro,RO_SM,l10n_ro.RO_IL
+RO_102240,Coşereni,102240,base.ro,RO_SM,l10n_ro.RO_IL
+RO_102641,Drăgoeşti,102641,base.ro,RO_SM,l10n_ro.RO_IL
+RO_102703,Dridu,102703,base.ro,RO_SM,l10n_ro.RO_IL
+RO_93575,Făcăeni,93575,base.ro,RO_SM,l10n_ro.RO_IL
+RO_92701,Feteşti,92701,base.ro,RO_SM,l10n_ro.RO_IL
+RO_102749,Fierbinţi-Târg,102749,base.ro,RO_SM,l10n_ro.RO_IL
+RO_103283,Gârbovi,103283,base.ro,RO_SM,l10n_ro.RO_IL
+RO_93600,"Gheorghe Doja",93600,base.ro,RO_SM,l10n_ro.RO_IL
+RO_93628,"Gheorghe Lazăr",93628,base.ro,RO_SM,l10n_ro.RO_IL
+RO_93646,Giurgeni,93646,base.ro,RO_SM,l10n_ro.RO_IL
+RO_93717,Grindu,93717,base.ro,RO_SM,l10n_ro.RO_IL
+RO_93735,Griviţa,93735,base.ro,RO_SM,l10n_ro.RO_IL
+RO_180046,"Gura Ialomiţei",180046,base.ro,RO_SM,l10n_ro.RO_IL
+RO_103862,"Ion Roată",103862,base.ro,RO_SM,l10n_ro.RO_IL
+RO_103960,Jilavele,103960,base.ro,RO_SM,l10n_ro.RO_IL
+RO_179800,Maia,179800,base.ro,RO_SM,l10n_ro.RO_IL
+RO_100736,Manasia,100736,base.ro,RO_SM,l10n_ro.RO_IL
+RO_179980,Mărculeşti,179980,base.ro,RO_SM,l10n_ro.RO_IL
+RO_93995,"Mihail Kogălniceanu",93995,base.ro,RO_SM,l10n_ro.RO_IL
+RO_94045,Miloşeşti,94045,base.ro,RO_SM,l10n_ro.RO_IL
+RO_179999,Moldoveni,179999,base.ro,RO_SM,l10n_ro.RO_IL
+RO_94081,Movila,94081,base.ro,RO_SM,l10n_ro.RO_IL
+RO_104270,Moviliţa,104270,base.ro,RO_SM,l10n_ro.RO_IL
+RO_94107,Munteni-Buzău,94107,base.ro,RO_SM,l10n_ro.RO_IL
+RO_179819,Ograda,179819,base.ro,RO_SM,l10n_ro.RO_IL
+RO_94161,Perieţi,94161,base.ro,RO_SM,l10n_ro.RO_IL
+RO_180000,Platoneşti,180000,base.ro,RO_SM,l10n_ro.RO_IL
+RO_101243,Răduleşti,101243,base.ro,RO_SM,l10n_ro.RO_IL
+RO_94269,Reviga,94269,base.ro,RO_SM,l10n_ro.RO_IL
+RO_179828,Roşiori,179828,base.ro,RO_SM,l10n_ro.RO_IL
+RO_94330,Sălcioara,94330,base.ro,RO_SM,l10n_ro.RO_IL
+RO_180019,Sărăţeni,180019,base.ro,RO_SM,l10n_ro.RO_IL
+RO_94376,Săveni,94376,base.ro,RO_SM,l10n_ro.RO_IL
+RO_94429,Scânteia,94429,base.ro,RO_SM,l10n_ro.RO_IL
+RO_94456,"Sfântu Gheorghe",94456,base.ro,RO_SM,l10n_ro.RO_IL
+RO_105026,Sineşti,105026,base.ro,RO_SM,l10n_ro.RO_IL
+RO_92658,Slobozia,92658,base.ro,RO_SM,l10n_ro.RO_IL
+RO_94492,Stelnica,94492,base.ro,RO_SM,l10n_ro.RO_IL
+RO_94535,Sudiţi,94535,base.ro,RO_SM,l10n_ro.RO_IL
+RO_92765,Ţăndărei,92765,base.ro,RO_SM,l10n_ro.RO_IL
+RO_179702,Traian,179702,base.ro,RO_SM,l10n_ro.RO_IL
+RO_100683,Urziceni,100683,base.ro,RO_SM,l10n_ro.RO_IL
+RO_94688,"Valea Ciorii",94688,base.ro,RO_SM,l10n_ro.RO_IL
+RO_105794,"Valea Măcrişului",105794,base.ro,RO_SM,l10n_ro.RO_IL
+RO_94795,Vlădeni,94795,base.ro,RO_SM,l10n_ro.RO_IL
+RO_95612,"Alexandru Ioan Cuza",95612,base.ro,RO_NE,l10n_ro.RO_IS
+RO_95667,Andrieşeni,95667,base.ro,RO_NE,l10n_ro.RO_IS
+RO_95747,Aroneanu,95747,base.ro,RO_NE,l10n_ro.RO_IS
+RO_100273,Balş,100273,base.ro,RO_NE,l10n_ro.RO_IS
+RO_95792,Bălţaţi,95792,base.ro,RO_NE,l10n_ro.RO_IS
+RO_95088,Bârnova,95088,base.ro,RO_NE,l10n_ro.RO_IS
+RO_95872,Belceşti,95872,base.ro,RO_NE,l10n_ro.RO_IS
+RO_95943,Bivolari,95943,base.ro,RO_NE,l10n_ro.RO_IS
+RO_96058,Brăeşti,96058,base.ro,RO_NE,l10n_ro.RO_IS
+RO_96110,Butea,96110,base.ro,RO_NE,l10n_ro.RO_IS
+RO_96147,Cepleniţa,96147,base.ro,RO_NE,l10n_ro.RO_IS
+RO_100362,Ciohorăni,100362,base.ro,RO_NE,l10n_ro.RO_IS
+RO_96192,Ciorteşti,96192,base.ro,RO_NE,l10n_ro.RO_IS
+RO_96254,Ciurea,96254,base.ro,RO_NE,l10n_ro.RO_IS
+RO_96334,"Coarnele Caprei",96334,base.ro,RO_NE,l10n_ro.RO_IS
+RO_96370,Comarna,96370,base.ro,RO_NE,l10n_ro.RO_IS
+RO_100282,Costeşti,100282,base.ro,RO_NE,l10n_ro.RO_IS
+RO_96423,Costuleni,96423,base.ro,RO_NE,l10n_ro.RO_IS
+RO_96478,Cotnari,96478,base.ro,RO_NE,l10n_ro.RO_IS
+RO_96593,Cozmeşti,96593,base.ro,RO_NE,l10n_ro.RO_IS
+RO_96637,Cristeşti,96637,base.ro,RO_NE,l10n_ro.RO_IS
+RO_96664,Cucuteni,96664,base.ro,RO_NE,l10n_ro.RO_IS
+RO_96717,Dagâţa,96717,base.ro,RO_NE,l10n_ro.RO_IS
+RO_96815,Deleni,96815,base.ro,RO_NE,l10n_ro.RO_IS
+RO_96888,Dobrovăţ,96888,base.ro,RO_NE,l10n_ro.RO_IS
+RO_96904,Dolheşti,96904,base.ro,RO_NE,l10n_ro.RO_IS
+RO_100308,Drăguşeni,100308,base.ro,RO_NE,l10n_ro.RO_IS
+RO_96940,Dumeşti,96940,base.ro,RO_NE,l10n_ro.RO_IS
+RO_97009,Erbiceni,97009,base.ro,RO_NE,l10n_ro.RO_IS
+RO_100317,Fântânele,100317,base.ro,RO_NE,l10n_ro.RO_IS
+RO_97063,Focuri,97063,base.ro,RO_NE,l10n_ro.RO_IS
+RO_97090,Golăieşti,97090,base.ro,RO_NE,l10n_ro.RO_IS
+RO_97189,Gorban,97189,base.ro,RO_NE,l10n_ro.RO_IS
+RO_97241,Grajduri,97241,base.ro,RO_NE,l10n_ro.RO_IS
+RO_97321,Gropniţa,97321,base.ro,RO_NE,l10n_ro.RO_IS
+RO_97394,Grozeşti,97394,base.ro,RO_NE,l10n_ro.RO_IS
+RO_97438,Hălăuceşti,97438,base.ro,RO_NE,l10n_ro.RO_IS
+RO_95355,Hârlău,95355,base.ro,RO_NE,l10n_ro.RO_IS
+RO_100326,Hărmăneşti,100326,base.ro,RO_NE,l10n_ro.RO_IS
+RO_97465,Heleşteni,97465,base.ro,RO_NE,l10n_ro.RO_IS
+RO_95159,Holboca,95159,base.ro,RO_NE,l10n_ro.RO_IS
+RO_97517,Horleşti,97517,base.ro,RO_NE,l10n_ro.RO_IS
+RO_95060,Iaşi,95060,base.ro,RO_NE,l10n_ro.RO_IS
+RO_95499,"Ion Neculce",95499,base.ro,RO_NE,l10n_ro.RO_IS
+RO_97553,Ipatele,97553,base.ro,RO_NE,l10n_ro.RO_IS
+RO_97606,Lespezi,97606,base.ro,RO_NE,l10n_ro.RO_IS
+RO_97679,Leţcani,97679,base.ro,RO_NE,l10n_ro.RO_IS
+RO_97722,Lungani,97722,base.ro,RO_NE,l10n_ro.RO_IS
+RO_97777,Mădârjac,97777,base.ro,RO_NE,l10n_ro.RO_IS
+RO_97811,Mirceşti,97811,base.ro,RO_NE,l10n_ro.RO_IS
+RO_97875,Mironeasa,97875,base.ro,RO_NE,l10n_ro.RO_IS
+RO_97919,Miroslava,97919,base.ro,RO_NE,l10n_ro.RO_IS
+RO_98051,Mirosloveşti,98051,base.ro,RO_NE,l10n_ro.RO_IS
+RO_98113,Mogoşeşti,98113,base.ro,RO_NE,l10n_ro.RO_IS
+RO_98168,Mogoşeşti-Siret,98168,base.ro,RO_NE,l10n_ro.RO_IS
+RO_98202,Moşna,98202,base.ro,RO_NE,l10n_ro.RO_IS
+RO_98220,Moţca,98220,base.ro,RO_NE,l10n_ro.RO_IS
+RO_98257,Movileni,98257,base.ro,RO_NE,l10n_ro.RO_IS
+RO_98300,Oţeleni,98300,base.ro,RO_NE,l10n_ro.RO_IS
+RO_95391,Paşcani,95391,base.ro,RO_NE,l10n_ro.RO_IS
+RO_98337,Plugari,98337,base.ro,RO_NE,l10n_ro.RO_IS
+RO_98373,"Podu Iloaiei",98373,base.ro,RO_NE,l10n_ro.RO_IS
+RO_98435,Popeşti,98435,base.ro,RO_NE,l10n_ro.RO_IS
+RO_98505,Popricani,98505,base.ro,RO_NE,l10n_ro.RO_IS
+RO_98603,Prisăcani,98603,base.ro,RO_NE,l10n_ro.RO_IS
+RO_98649,Probota,98649,base.ro,RO_NE,l10n_ro.RO_IS
+RO_100335,Rachiţeni,100335,base.ro,RO_NE,l10n_ro.RO_IS
+RO_98685,Răducăneni,98685,base.ro,RO_NE,l10n_ro.RO_IS
+RO_95239,Rediu,95239,base.ro,RO_NE,l10n_ro.RO_IS
+RO_98738,Româneşti,98738,base.ro,RO_NE,l10n_ro.RO_IS
+RO_100344,Roşcani,100344,base.ro,RO_NE,l10n_ro.RO_IS
+RO_98774,Ruginoasa,98774,base.ro,RO_NE,l10n_ro.RO_IS
+RO_98916,Scânteia,98916,base.ro,RO_NE,l10n_ro.RO_IS
+RO_99290,Şcheia,99290,base.ro,RO_NE,l10n_ro.RO_IS
+RO_98827,"Schitu Duca",98827,base.ro,RO_NE,l10n_ro.RO_IS
+RO_98998,Scobinţi,98998,base.ro,RO_NE,l10n_ro.RO_IS
+RO_99058,Sineşti,99058,base.ro,RO_NE,l10n_ro.RO_IS
+RO_99370,Şipote,99370,base.ro,RO_NE,l10n_ro.RO_IS
+RO_99101,Sireţel,99101,base.ro,RO_NE,l10n_ro.RO_IS
+RO_99165,Stolniceni-Prăjescu,99165,base.ro,RO_NE,l10n_ro.RO_IS
+RO_99209,Strunga,99209,base.ro,RO_NE,l10n_ro.RO_IS
+RO_99441,Tansa,99441,base.ro,RO_NE,l10n_ro.RO_IS
+RO_95471,"Târgu Frumos",95471,base.ro,RO_NE,l10n_ro.RO_IS
+RO_99478,Tătăruşi,99478,base.ro,RO_NE,l10n_ro.RO_IS
+RO_99673,Ţibana,99673,base.ro,RO_NE,l10n_ro.RO_IS
+RO_99780,Ţibăneşti,99780,base.ro,RO_NE,l10n_ro.RO_IS
+RO_99879,Ţigănăşi,99879,base.ro,RO_NE,l10n_ro.RO_IS
+RO_99539,Todireşti,99539,base.ro,RO_NE,l10n_ro.RO_IS
+RO_95293,Tomeşti,95293,base.ro,RO_NE,l10n_ro.RO_IS
+RO_99600,Trifeşti,99600,base.ro,RO_NE,l10n_ro.RO_IS
+RO_99922,Ţuţora,99922,base.ro,RO_NE,l10n_ro.RO_IS
+RO_96003,Ungheni,96003,base.ro,RO_NE,l10n_ro.RO_IS
+RO_100353,"Valea Lupului",100353,base.ro,RO_NE,l10n_ro.RO_IS
+RO_99968,"Valea Seacă",99968,base.ro,RO_NE,l10n_ro.RO_IS
+RO_100086,Vânători,100086,base.ro,RO_NE,l10n_ro.RO_IS
+RO_100004,Victoria,100004,base.ro,RO_NE,l10n_ro.RO_IS
+RO_100148,Vlădeni,100148,base.ro,RO_NE,l10n_ro.RO_IS
+RO_100219,Voineşti,100219,base.ro,RO_NE,l10n_ro.RO_IS
+RO_102543,"1 Decembrie",102543,base.ro,RO_BI,l10n_ro.RO_IF
+RO_100834,Afumaţi,100834,base.ro,RO_BI,l10n_ro.RO_IF
+RO_100969,Baloteşti,100969,base.ro,RO_BI,l10n_ro.RO_IF
+RO_101145,Berceni,101145,base.ro,RO_BI,l10n_ro.RO_IF
+RO_179221,Bragadiru,179221,base.ro,RO_BI,l10n_ro.RO_IF
+RO_101298,Brăneşti,101298,base.ro,RO_BI,l10n_ro.RO_IF
+RO_100576,Buftea,100576,base.ro,RO_BI,l10n_ro.RO_IF
+RO_101742,Cernica,101742,base.ro,RO_BI,l10n_ro.RO_IF
+RO_179249,Chiajna,179249,base.ro,RO_BI,l10n_ro.RO_IF
+RO_179285,Chitila,179285,base.ro,RO_BI,l10n_ro.RO_IF
+RO_101902,Ciolpani,101902,base.ro,RO_BI,l10n_ro.RO_IF
+RO_101957,Ciorogârla,101957,base.ro,RO_BI,l10n_ro.RO_IF
+RO_102035,Clinceni,102035,base.ro,RO_BI,l10n_ro.RO_IF
+RO_179588,Copăceni,179588,base.ro,RO_BI,l10n_ro.RO_IF
+RO_102160,Corbeanca,102160,base.ro,RO_BI,l10n_ro.RO_IF
+RO_102213,Cornetu,102213,base.ro,RO_BI,l10n_ro.RO_IF
+RO_102525,Dărăşti-Ilfov,102525,base.ro,RO_BI,l10n_ro.RO_IF
+RO_102473,Dascălu,102473,base.ro,RO_BI,l10n_ro.RO_IF
+RO_179310,Dobroeşti,179310,base.ro,RO_BI,l10n_ro.RO_IF
+RO_102570,Domneşti,102570,base.ro,RO_BI,l10n_ro.RO_IF
+RO_102605,Dragomireşti-Vale,102605,base.ro,RO_BI,l10n_ro.RO_IF
+RO_103130,Găneasa,103130,base.ro,RO_BI,l10n_ro.RO_IF
+RO_179347,Glina,179347,base.ro,RO_BI,l10n_ro.RO_IF
+RO_103443,Grădiştea,103443,base.ro,RO_BI,l10n_ro.RO_IF
+RO_103513,Gruiu,103513,base.ro,RO_BI,l10n_ro.RO_IF
+RO_179383,Jilava,179383,base.ro,RO_BI,l10n_ro.RO_IF
+RO_179409,Măgurele,179409,base.ro,RO_BI,l10n_ro.RO_IF
+RO_104243,"Moara Vlăsiei",104243,base.ro,RO_BI,l10n_ro.RO_IF
+RO_179463,Mogoşoaia,179463,base.ro,RO_BI,l10n_ro.RO_IF
+RO_104421,Nuci,104421,base.ro,RO_BI,l10n_ro.RO_IF
+RO_179481,Otopeni,179481,base.ro,RO_BI,l10n_ro.RO_IF
+RO_179515,Pantelimon,179515,base.ro,RO_BI,l10n_ro.RO_IF
+RO_104546,Periş,104546,base.ro,RO_BI,l10n_ro.RO_IF
+RO_104582,Petrăchioaia,104582,base.ro,RO_BI,l10n_ro.RO_IF
+RO_179533,"Popeşti Leordeni",179533,base.ro,RO_BI,l10n_ro.RO_IF
+RO_105160,Snagov,105160,base.ro,RO_BI,l10n_ro.RO_IF
+RO_105419,"Ştefăneştii De Jos",105419,base.ro,RO_BI,l10n_ro.RO_IF
+RO_105570,Tunari,105570,base.ro,RO_BI,l10n_ro.RO_IF
+RO_105936,Vidra,105936,base.ro,RO_BI,l10n_ro.RO_IF
+RO_179551,Voluntari,179551,base.ro,RO_BI,l10n_ro.RO_IF
+RO_107001,Ardusat,107001,base.ro,RO_NV,l10n_ro.RO_MM
+RO_107047,Ariniş,107047,base.ro,RO_NV,l10n_ro.RO_MM
+RO_107083,"Asuaju De Sus",107083,base.ro,RO_NV,l10n_ro.RO_MM
+RO_106318,"Baia Mare",106318,base.ro,RO_NV,l10n_ro.RO_MM
+RO_106684,"Baia Sprie",106684,base.ro,RO_NV,l10n_ro.RO_MM
+RO_107118,"Băiţa De Sub Codru",107118,base.ro,RO_NV,l10n_ro.RO_MM
+RO_107154,Băiuţ,107154,base.ro,RO_NV,l10n_ro.RO_MM
+RO_107314,Bârsana,107314,base.ro,RO_NV,l10n_ro.RO_MM
+RO_107190,Băseşti,107190,base.ro,RO_NV,l10n_ro.RO_MM
+RO_107234,Bicaz,107234,base.ro,RO_NV,l10n_ro.RO_MM
+RO_107270,Bistra,107270,base.ro,RO_NV,l10n_ro.RO_MM
+RO_107350,"Bocicoiu Mare",107350,base.ro,RO_NV,l10n_ro.RO_MM
+RO_107403,"Bogdan Vodă",107403,base.ro,RO_NV,l10n_ro.RO_MM
+RO_107430,"Boiu Mare",107430,base.ro,RO_NV,l10n_ro.RO_MM
+RO_106746,Borşa,106746,base.ro,RO_NV,l10n_ro.RO_MM
+RO_107485,Botiza,107485,base.ro,RO_NV,l10n_ro.RO_MM
+RO_107519,Budeşti,107519,base.ro,RO_NV,l10n_ro.RO_MM
+RO_107546,Călineşti,107546,base.ro,RO_NV,l10n_ro.RO_MM
+RO_107715,"Câmpulung La Tisa",107715,base.ro,RO_NV,l10n_ro.RO_MM
+RO_106782,Cavnic,106782,base.ro,RO_NV,l10n_ro.RO_MM
+RO_107582,Cerneşti,107582,base.ro,RO_NV,l10n_ro.RO_MM
+RO_107662,Cicârlău,107662,base.ro,RO_NV,l10n_ro.RO_MM
+RO_179837,Coaş,179837,base.ro,RO_NV,l10n_ro.RO_MM
+RO_179846,Coltău,179846,base.ro,RO_NV,l10n_ro.RO_MM
+RO_107733,Copalnic-Mănăştur,107733,base.ro,RO_NV,l10n_ro.RO_MM
+RO_107868,Coroieni,107868,base.ro,RO_NV,l10n_ro.RO_MM
+RO_107920,Cupşeni,107920,base.ro,RO_NV,l10n_ro.RO_MM
+RO_107975,Deseşti,107975,base.ro,RO_NV,l10n_ro.RO_MM
+RO_108017,Dragomireşti,108017,base.ro,RO_NV,l10n_ro.RO_MM
+RO_108035,Dumbrăviţa,108035,base.ro,RO_NV,l10n_ro.RO_MM
+RO_108106,Fărcaşa,108106,base.ro,RO_NV,l10n_ro.RO_MM
+RO_179855,Gârdani,179855,base.ro,RO_NV,l10n_ro.RO_MM
+RO_108151,Giuleşti,108151,base.ro,RO_NV,l10n_ro.RO_MM
+RO_106363,Groşi,106363,base.ro,RO_NV,l10n_ro.RO_MM
+RO_179622,"Groşii Ţibleşului",179622,base.ro,RO_NV,l10n_ro.RO_MM
+RO_108204,Ieud,108204,base.ro,RO_NV,l10n_ro.RO_MM
+RO_108222,Lăpuş,108222,base.ro,RO_NV,l10n_ro.RO_MM
+RO_108240,Leordina,108240,base.ro,RO_NV,l10n_ro.RO_MM
+RO_108268,"Mireşu Mare",108268,base.ro,RO_NV,l10n_ro.RO_MM
+RO_108348,Moisei,108348,base.ro,RO_NV,l10n_ro.RO_MM
+RO_108366,"Oarţa De Jos",108366,base.ro,RO_NV,l10n_ro.RO_MM
+RO_108400,"Ocna Şugatag",108400,base.ro,RO_NV,l10n_ro.RO_MM
+RO_179864,Onceşti,179864,base.ro,RO_NV,l10n_ro.RO_MM
+RO_108455,Petrova,108455,base.ro,RO_NV,l10n_ro.RO_MM
+RO_108473,"Poienile De Sub Munte",108473,base.ro,RO_NV,l10n_ro.RO_MM
+RO_179604,"Poienile Izei",179604,base.ro,RO_NV,l10n_ro.RO_MM
+RO_106407,Recea,106407,base.ro,RO_NV,l10n_ro.RO_MM
+RO_108491,"Remetea Chioarului",108491,base.ro,RO_NV,l10n_ro.RO_MM
+RO_108552,Remeţi,108552,base.ro,RO_NV,l10n_ro.RO_MM
+RO_108598,Repedea,108598,base.ro,RO_NV,l10n_ro.RO_MM
+RO_108614,"Rona De Jos",108614,base.ro,RO_NV,l10n_ro.RO_MM
+RO_108632,"Rona De Sus",108632,base.ro,RO_NV,l10n_ro.RO_MM
+RO_108669,Rozavlea,108669,base.ro,RO_NV,l10n_ro.RO_MM
+RO_108696,Ruscova,108696,base.ro,RO_NV,l10n_ro.RO_MM
+RO_108794,Săcălăşeni,108794,base.ro,RO_NV,l10n_ro.RO_MM
+RO_108874,Săcel,108874,base.ro,RO_NV,l10n_ro.RO_MM
+RO_108892,"Săliştea De Sus",108892,base.ro,RO_NV,l10n_ro.RO_MM
+RO_108918,Sălsig,108918,base.ro,RO_NV,l10n_ro.RO_MM
+RO_180073,Salta,180073,base.ro,RO_NV,l10n_ro.RO_MM
+RO_108945,Săpânţa,108945,base.ro,RO_NV,l10n_ro.RO_MM
+RO_106620,Sarasău,106620,base.ro,RO_NV,l10n_ro.RO_MM
+RO_108712,Satulung,108712,base.ro,RO_NV,l10n_ro.RO_MM
+RO_108963,Seini,108963,base.ro,RO_NV,l10n_ro.RO_MM
+RO_179613,Şieu,179613,base.ro,RO_NV,l10n_ro.RO_MM
+RO_106559,"Sighetu Marmaţiei",106559,base.ro,RO_NV,l10n_ro.RO_MM
+RO_109096,Şiseşti,109096,base.ro,RO_NV,l10n_ro.RO_MM
+RO_109176,"Şomcuta Mare",109176,base.ro,RO_NV,l10n_ro.RO_MM
+RO_109005,Strâmtura,109005,base.ro,RO_NV,l10n_ro.RO_MM
+RO_109041,"Suciu De Sus",109041,base.ro,RO_NV,l10n_ro.RO_MM
+RO_106817,"Târgu Lăpuş",106817,base.ro,RO_NV,l10n_ro.RO_MM
+RO_106461,Tăuţii-Măgherăuş,106461,base.ro,RO_NV,l10n_ro.RO_MM
+RO_109265,Ulmeni,109265,base.ro,RO_NV,l10n_ro.RO_MM
+RO_106648,"Vadu Izei",106648,base.ro,RO_NV,l10n_ro.RO_MM
+RO_109354,"Valea Chioarului",109354,base.ro,RO_NV,l10n_ro.RO_MM
+RO_109425,"Vima Mică",109425,base.ro,RO_NV,l10n_ro.RO_MM
+RO_109504,"Vişeu De Jos",109504,base.ro,RO_NV,l10n_ro.RO_MM
+RO_106979,"Vişeu De Sus",106979,base.ro,RO_NV,l10n_ro.RO_MM
+RO_110571,Bâcleş,110571,base.ro,RO_SVO,l10n_ro.RO_MH
+RO_109924,"Baia De Aramă",109924,base.ro,RO_SVO,l10n_ro.RO_MH
+RO_110296,Bala,110296,base.ro,RO_SVO,l10n_ro.RO_MH
+RO_110535,Bălăciţa,110535,base.ro,RO_SVO,l10n_ro.RO_MH
+RO_110456,Balta,110456,base.ro,RO_SVO,l10n_ro.RO_MH
+RO_110688,Bâlvăneşti,110688,base.ro,RO_SVO,l10n_ro.RO_MH
+RO_114060,Braniştea,114060,base.ro,RO_SVO,l10n_ro.RO_MH
+RO_110740,Brezniţa-Motru,110740,base.ro,RO_SVO,l10n_ro.RO_MH
+RO_110820,Brezniţa-Ocol,110820,base.ro,RO_SVO,l10n_ro.RO_MH
+RO_110875,Broşteni,110875,base.ro,RO_SVO,l10n_ro.RO_MH
+RO_110946,"Burila Mare",110946,base.ro,RO_SVO,l10n_ro.RO_MH
+RO_111006,Butoieşti,111006,base.ro,RO_SVO,l10n_ro.RO_MH
+RO_111097,Căzăneşti,111097,base.ro,RO_SVO,l10n_ro.RO_MH
+RO_111220,Cireşu,111220,base.ro,RO_SVO,l10n_ro.RO_MH
+RO_111275,Corcova,111275,base.ro,RO_SVO,l10n_ro.RO_MH
+RO_111417,Corlăţel,111417,base.ro,RO_SVO,l10n_ro.RO_MH
+RO_111444,Cujmir,111444,base.ro,RO_SVO,l10n_ro.RO_MH
+RO_111550,Dârvari,111550,base.ro,RO_SVO,l10n_ro.RO_MH
+RO_111480,Devesel,111480,base.ro,RO_SVO,l10n_ro.RO_MH
+RO_109773,"Drobeta-Turnu Severin",109773,base.ro,RO_SVO,l10n_ro.RO_MH
+RO_112904,Dubova,112904,base.ro,RO_SVO,l10n_ro.RO_MH
+RO_111587,Dumbrava,111587,base.ro,RO_SVO,l10n_ro.RO_MH
+RO_112245,Eşelniţa,112245,base.ro,RO_SVO,l10n_ro.RO_MH
+RO_111685,Floreşti,111685,base.ro,RO_SVO,l10n_ro.RO_MH
+RO_111783,"Gârla Mare",111783,base.ro,RO_SVO,l10n_ro.RO_MH
+RO_111818,Godeanu,111818,base.ro,RO_SVO,l10n_ro.RO_MH
+RO_111863,Gogoşu,111863,base.ro,RO_SVO,l10n_ro.RO_MH
+RO_111916,Greci,111916,base.ro,RO_SVO,l10n_ro.RO_MH
+RO_111989,Grozeşti,111989,base.ro,RO_SVO,l10n_ro.RO_MH
+RO_112030,Gruia,112030,base.ro,RO_SVO,l10n_ro.RO_MH
+RO_112076,Hinova,112076,base.ro,RO_SVO,l10n_ro.RO_MH
+RO_112129,Husnicioara,112129,base.ro,RO_SVO,l10n_ro.RO_MH
+RO_112263,Ilovăţ,112263,base.ro,RO_SVO,l10n_ro.RO_MH
+RO_112334,Iloviţa,112334,base.ro,RO_SVO,l10n_ro.RO_MH
+RO_112370,Isverna,112370,base.ro,RO_SVO,l10n_ro.RO_MH
+RO_112469,"Izvoru Bârzii",112469,base.ro,RO_SVO,l10n_ro.RO_MH
+RO_112548,Jiana,112548,base.ro,RO_SVO,l10n_ro.RO_MH
+RO_112600,Livezile,112600,base.ro,RO_SVO,l10n_ro.RO_MH
+RO_112664,Malovăţ,112664,base.ro,RO_SVO,l10n_ro.RO_MH
+RO_112744,"Obârşia De Câmp",112744,base.ro,RO_SVO,l10n_ro.RO_MH
+RO_110027,Obârşia-Cloşani,110027,base.ro,RO_SVO,l10n_ro.RO_MH
+RO_112771,Oprişor,112771,base.ro,RO_SVO,l10n_ro.RO_MH
+RO_110063,Orşova,110063,base.ro,RO_SVO,l10n_ro.RO_MH
+RO_112806,Pădina,112806,base.ro,RO_SVO,l10n_ro.RO_MH
+RO_112879,Pătulele,112879,base.ro,RO_SVO,l10n_ro.RO_MH
+RO_112959,Podeni,112959,base.ro,RO_SVO,l10n_ro.RO_MH
+RO_112995,Ponoarele,112995,base.ro,RO_SVO,l10n_ro.RO_MH
+RO_113153,"Poroina Mare",113153,base.ro,RO_SVO,l10n_ro.RO_MH
+RO_113206,Pristol,113206,base.ro,RO_SVO,l10n_ro.RO_MH
+RO_113233,Prunişor,113233,base.ro,RO_SVO,l10n_ro.RO_MH
+RO_113395,Punghina,113395,base.ro,RO_SVO,l10n_ro.RO_MH
+RO_113466,Rogova,113466,base.ro,RO_SVO,l10n_ro.RO_MH
+RO_113493,Salcia,113493,base.ro,RO_SVO,l10n_ro.RO_MH
+RO_109826,Şimian,109826,base.ro,RO_SVO,l10n_ro.RO_MH
+RO_113625,Şişeşti,113625,base.ro,RO_SVO,l10n_ro.RO_MH
+RO_113698,Şovarna,113698,base.ro,RO_SVO,l10n_ro.RO_MH
+RO_113518,Stângăceaua,113518,base.ro,RO_SVO,l10n_ro.RO_MH
+RO_110116,Strehaia,110116,base.ro,RO_SVO,l10n_ro.RO_MH
+RO_113607,Sviniţa,113607,base.ro,RO_SVO,l10n_ro.RO_MH
+RO_113732,Tâmna,113732,base.ro,RO_SVO,l10n_ro.RO_MH
+RO_113849,Vânători,113849,base.ro,RO_SVO,l10n_ro.RO_MH
+RO_110232,"Vânju Mare",110232,base.ro,RO_SVO,l10n_ro.RO_MH
+RO_113894,Vânjuleţ,113894,base.ro,RO_SVO,l10n_ro.RO_MH
+RO_113929,Vlădaia,113929,base.ro,RO_SVO,l10n_ro.RO_MH
+RO_113974,Voloiac,113974,base.ro,RO_SVO,l10n_ro.RO_MH
+RO_114079,Vrata,114079,base.ro,RO_SVO,l10n_ro.RO_MH
+RO_114970,Acăţari,114970,base.ro,RO_C,l10n_ro.RO_MS
+RO_115076,Adămuş,115076,base.ro,RO_C,l10n_ro.RO_MS
+RO_114603,Albeşti,114603,base.ro,RO_C,l10n_ro.RO_MS
+RO_115147,Aluniş,115147,base.ro,RO_C,l10n_ro.RO_MS
+RO_115183,Apold,115183,base.ro,RO_C,l10n_ro.RO_MS
+RO_115236,Aţintiş,115236,base.ro,RO_C,l10n_ro.RO_MS
+RO_115575,Băgaciu,115575,base.ro,RO_C,l10n_ro.RO_MS
+RO_115307,Bahnea,115307,base.ro,RO_C,l10n_ro.RO_MS
+RO_115600,Băla,115600,base.ro,RO_C,l10n_ro.RO_MS
+RO_115637,Bălăuşeri,115637,base.ro,RO_C,l10n_ro.RO_MS
+RO_115389,Band,115389,base.ro,RO_C,l10n_ro.RO_MS
+RO_115520,Batoş,115520,base.ro,RO_C,l10n_ro.RO_MS
+RO_115708,"Beica De Jos",115708,base.ro,RO_C,l10n_ro.RO_MS
+RO_120511,Bereni,120511,base.ro,RO_C,l10n_ro.RO_MS
+RO_115771,Bichiş,115771,base.ro,RO_C,l10n_ro.RO_MS
+RO_115824,Bogata,115824,base.ro,RO_C,l10n_ro.RO_MS
+RO_115897,Brâncoveneşti,115897,base.ro,RO_C,l10n_ro.RO_MS
+RO_115851,Breaza,115851,base.ro,RO_C,l10n_ro.RO_MS
+RO_115959,"Ceuaşu De Câmpie",115959,base.ro,RO_C,l10n_ro.RO_MS
+RO_116046,Cheţani,116046,base.ro,RO_C,l10n_ro.RO_MS
+RO_120478,Chibed,120478,base.ro,RO_C,l10n_ro.RO_MS
+RO_116126,"Chiheru De Jos",116126,base.ro,RO_C,l10n_ro.RO_MS
+RO_116171,Coroisânmărtin,116171,base.ro,RO_C,l10n_ro.RO_MS
+RO_120487,Corunca,120487,base.ro,RO_C,l10n_ro.RO_MS
+RO_116224,Cozma,116224,base.ro,RO_C,l10n_ro.RO_MS
+RO_116288,Crăciuneşti,116288,base.ro,RO_C,l10n_ro.RO_MS
+RO_116340,Crăieşti,116340,base.ro,RO_C,l10n_ro.RO_MS
+RO_114355,Cristeşti,114355,base.ro,RO_C,l10n_ro.RO_MS
+RO_116395,Cucerdea,116395,base.ro,RO_C,l10n_ro.RO_MS
+RO_116439,Cuci,116439,base.ro,RO_C,l10n_ro.RO_MS
+RO_116493,Daneş,116493,base.ro,RO_C,l10n_ro.RO_MS
+RO_116545,Deda,116545,base.ro,RO_C,l10n_ro.RO_MS
+RO_116590,Eremitu,116590,base.ro,RO_C,l10n_ro.RO_MS
+RO_116652,Ernei,116652,base.ro,RO_C,l10n_ro.RO_MS
+RO_116796,Fântânele,116796,base.ro,RO_C,l10n_ro.RO_MS
+RO_116723,Fărăgău,116723,base.ro,RO_C,l10n_ro.RO_MS
+RO_116867,Găleşti,116867,base.ro,RO_C,l10n_ro.RO_MS
+RO_116938,Găneşti,116938,base.ro,RO_C,l10n_ro.RO_MS
+RO_116983,"Gheorghe Doja",116983,base.ro,RO_C,l10n_ro.RO_MS
+RO_117042,Ghindari,117042,base.ro,RO_C,l10n_ro.RO_MS
+RO_117113,Glodeni,117113,base.ro,RO_C,l10n_ro.RO_MS
+RO_117177,Gorneşti,117177,base.ro,RO_C,l10n_ro.RO_MS
+RO_117275,"Grebenişu De Câmpie",117275,base.ro,RO_C,l10n_ro.RO_MS
+RO_117319,Gurghiu,117319,base.ro,RO_C,l10n_ro.RO_MS
+RO_117426,Hodac,117426,base.ro,RO_C,l10n_ro.RO_MS
+RO_117505,Hodoşa,117505,base.ro,RO_C,l10n_ro.RO_MS
+RO_117550,Ibăneşti,117550,base.ro,RO_C,l10n_ro.RO_MS
+RO_117667,Iclănzel,117667,base.ro,RO_C,l10n_ro.RO_MS
+RO_117783,"Ideciu De Jos",117783,base.ro,RO_C,l10n_ro.RO_MS
+RO_117827,Iernut,117827,base.ro,RO_C,l10n_ro.RO_MS
+RO_117925,Livezeni,117925,base.ro,RO_C,l10n_ro.RO_MS
+RO_114710,Luduș,114710,base.ro,RO_C,l10n_ro.RO_MS
+RO_117998,Lunca,117998,base.ro,RO_C,l10n_ro.RO_MS
+RO_118058,"Lunca Bradului",118058,base.ro,RO_C,l10n_ro.RO_MS
+RO_120502,Mădăraș,120502,base.ro,RO_C,l10n_ro.RO_MS
+RO_118094,Măgherani,118094,base.ro,RO_C,l10n_ro.RO_MS
+RO_118209,Mica,118209,base.ro,RO_C,l10n_ro.RO_MS
+RO_118281,"Miercurea Nirajului",118281,base.ro,RO_C,l10n_ro.RO_MS
+RO_118370,"Miheşu De Câmpie",118370,base.ro,RO_C,l10n_ro.RO_MS
+RO_118469,Nadeş,118469,base.ro,RO_C,l10n_ro.RO_MS
+RO_118511,Neaua,118511,base.ro,RO_C,l10n_ro.RO_MS
+RO_120557,Nicoleşti,120557,base.ro,RO_C,l10n_ro.RO_MS
+RO_118575,Ogra,118575,base.ro,RO_C,l10n_ro.RO_MS
+RO_118691,Pănet,118691,base.ro,RO_C,l10n_ro.RO_MS
+RO_118637,"Papiu Ilarian",118637,base.ro,RO_C,l10n_ro.RO_MS
+RO_118753,Păsăreni,118753,base.ro,RO_C,l10n_ro.RO_MS
+RO_118799,Petelea,118799,base.ro,RO_C,l10n_ro.RO_MS
+RO_118824,Pogăceaua,118824,base.ro,RO_C,l10n_ro.RO_MS
+RO_118995,Râciu,118995,base.ro,RO_C,l10n_ro.RO_MS
+RO_118931,Răstoliţa,118931,base.ro,RO_C,l10n_ro.RO_MS
+RO_114809,Reghin,114809,base.ro,RO_C,l10n_ro.RO_MS
+RO_119153,Ruşii-Munţi,119153,base.ro,RO_C,l10n_ro.RO_MS
+RO_114382,"Sâncraiu De Mureş",114382,base.ro,RO_C,l10n_ro.RO_MS
+RO_119331,"Sângeorgiu De Pădure",119331,base.ro,RO_C,l10n_ro.RO_MS
+RO_119386,Sânger,119386,base.ro,RO_C,l10n_ro.RO_MS
+RO_119466,Sânpaul,119466,base.ro,RO_C,l10n_ro.RO_MS
+RO_119527,"Sânpetru De Câmpie",119527,base.ro,RO_C,l10n_ro.RO_MS
+RO_114453,"Sântana De Mureş",114453,base.ro,RO_C,l10n_ro.RO_MS
+RO_120496,Sărățeni,120496,base.ro,RO_C,l10n_ro.RO_MS
+RO_119242,Sărmaşu,119242,base.ro,RO_C,l10n_ro.RO_MS
+RO_119206,Saschiz,119206,base.ro,RO_C,l10n_ro.RO_MS
+RO_119750,Şăulia,119750,base.ro,RO_C,l10n_ro.RO_MS
+RO_114514,Sighișoara,114514,base.ro,RO_C,l10n_ro.RO_MS
+RO_119803,Şincai,119803,base.ro,RO_C,l10n_ro.RO_MS
+RO_114417,"Sângeorgiu De Mureș",114417,base.ro,RO_C,l10n_ro.RO_MS
+RO_119590,Solovăstru,119590,base.ro,RO_C,l10n_ro.RO_MS
+RO_114854,Sovata,114854,base.ro,RO_C,l10n_ro.RO_MS
+RO_119625,Stânceni,119625,base.ro,RO_C,l10n_ro.RO_MS
+RO_119661,Suplac,119661,base.ro,RO_C,l10n_ro.RO_MS
+RO_119723,Suseni,119723,base.ro,RO_C,l10n_ro.RO_MS
+RO_114319,"Târgu Mureş",114319,base.ro,RO_C,l10n_ro.RO_MS
+RO_114925,Târnăveni,114925,base.ro,RO_C,l10n_ro.RO_MS
+RO_119858,Tăureni,119858,base.ro,RO_C,l10n_ro.RO_MS
+RO_119894,Ungheni,119894,base.ro,RO_C,l10n_ro.RO_MS
+RO_119974,"Valea Largă",119974,base.ro,RO_C,l10n_ro.RO_MS
+RO_120254,Vânători,120254,base.ro,RO_C,l10n_ro.RO_MS
+RO_120076,Vărgata,120076,base.ro,RO_C,l10n_ro.RO_MS
+RO_120138,Vătava,120138,base.ro,RO_C,l10n_ro.RO_MS
+RO_120174,Veţca,120174,base.ro,RO_C,l10n_ro.RO_MS
+RO_120218,Viişoara,120218,base.ro,RO_C,l10n_ro.RO_MS
+RO_120316,Voivodeni,120316,base.ro,RO_C,l10n_ro.RO_MS
+RO_120343,Zagăr,120343,base.ro,RO_C,l10n_ro.RO_MS
+RO_120370,"Zau De Câmpie",120370,base.ro,RO_C,l10n_ro.RO_MS
+RO_121108,Agapia,121108,base.ro,RO_NE,l10n_ro.RO_NT
+RO_124938,"Alexandru Cel Bun",124938,base.ro,RO_NE,l10n_ro.RO_NT
+RO_121153,Bahna,121153,base.ro,RO_NE,l10n_ro.RO_NT
+RO_121242,Bălţăteşti,121242,base.ro,RO_NE,l10n_ro.RO_NT
+RO_121386,Bâra,121386,base.ro,RO_NE,l10n_ro.RO_NT
+RO_121466,Bârgăuani,121466,base.ro,RO_NE,l10n_ro.RO_NT
+RO_120968,Bicaz,120968,base.ro,RO_NE,l10n_ro.RO_NT
+RO_121297,Bicaz-Chei,121297,base.ro,RO_NE,l10n_ro.RO_NT
+RO_121340,"Bicazu Ardelean",121340,base.ro,RO_NE,l10n_ro.RO_NT
+RO_121607,Bodeşti,121607,base.ro,RO_NE,l10n_ro.RO_NT
+RO_125178,Boghicea,125178,base.ro,RO_NE,l10n_ro.RO_NT
+RO_121652,Borca,121652,base.ro,RO_NE,l10n_ro.RO_NT
+RO_121732,Borleşti,121732,base.ro,RO_NE,l10n_ro.RO_NT
+RO_121796,Boteşti,121796,base.ro,RO_NE,l10n_ro.RO_NT
+RO_121876,Bozieni,121876,base.ro,RO_NE,l10n_ro.RO_NT
+RO_121938,Brusturi,121938,base.ro,RO_NE,l10n_ro.RO_NT
+RO_122061,Cândeşti,122061,base.ro,RO_NE,l10n_ro.RO_NT
+RO_122025,Ceahlău,122025,base.ro,RO_NE,l10n_ro.RO_NT
+RO_120888,Cordun,120888,base.ro,RO_NE,l10n_ro.RO_NT
+RO_122132,Costişa,122132,base.ro,RO_NE,l10n_ro.RO_NT
+RO_122187,Crăcăoani,122187,base.ro,RO_NE,l10n_ro.RO_NT
+RO_122249,Dămuc,122249,base.ro,RO_NE,l10n_ro.RO_NT
+RO_122285,Dobreni,122285,base.ro,RO_NE,l10n_ro.RO_NT
+RO_125098,Dochia,125098,base.ro,RO_NE,l10n_ro.RO_NT
+RO_122347,Doljeşti,122347,base.ro,RO_NE,l10n_ro.RO_NT
+RO_125132,Drăgăneşti,125132,base.ro,RO_NE,l10n_ro.RO_NT
+RO_122392,Dragomireşti,122392,base.ro,RO_NE,l10n_ro.RO_NT
+RO_122463,Dulceşti,122463,base.ro,RO_NE,l10n_ro.RO_NT
+RO_120771,"Dumbrava Roşie",120771,base.ro,RO_NE,l10n_ro.RO_NT
+RO_122551,Farcaşa,122551,base.ro,RO_NE,l10n_ro.RO_NT
+RO_122613,Făurei,122613,base.ro,RO_NE,l10n_ro.RO_NT
+RO_125150,Gâdinţi,125150,base.ro,RO_NE,l10n_ro.RO_NT
+RO_122828,Gârcina,122828,base.ro,RO_NE,l10n_ro.RO_NT
+RO_122668,Gherăeşti,122668,base.ro,RO_NE,l10n_ro.RO_NT
+RO_125114,Ghindăoani,125114,base.ro,RO_NE,l10n_ro.RO_NT
+RO_122702,Girov,122702,base.ro,RO_NE,l10n_ro.RO_NT
+RO_122864,Grinţieş,122864,base.ro,RO_NE,l10n_ro.RO_NT
+RO_122908,Grumăzeşti,122908,base.ro,RO_NE,l10n_ro.RO_NT
+RO_122953,Hangu,122953,base.ro,RO_NE,l10n_ro.RO_NT
+RO_120922,Horia,120922,base.ro,RO_NE,l10n_ro.RO_NT
+RO_123013,Icuşeşti,123013,base.ro,RO_NE,l10n_ro.RO_NT
+RO_123102,"Ion Creangă",123102,base.ro,RO_NE,l10n_ro.RO_NT
+RO_123175,Mărgineni,123175,base.ro,RO_NE,l10n_ro.RO_NT
+RO_123228,Moldoveni,123228,base.ro,RO_NE,l10n_ro.RO_NT
+RO_125169,Negreşti,125169,base.ro,RO_NE,l10n_ro.RO_NT
+RO_123255,Oniceni,123255,base.ro,RO_NE,l10n_ro.RO_NT
+RO_125141,Pânceşti,125141,base.ro,RO_NE,l10n_ro.RO_NT
+RO_123601,Pângăraţi,123601,base.ro,RO_NE,l10n_ro.RO_NT
+RO_123371,Păstrăveni,123371,base.ro,RO_NE,l10n_ro.RO_NT
+RO_123424,Petricani,123424,base.ro,RO_NE,l10n_ro.RO_NT
+RO_123479,"Piatra Şoimului",123479,base.ro,RO_NE,l10n_ro.RO_NT
+RO_120726,Piatra-Neamţ,120726,base.ro,RO_NE,l10n_ro.RO_NT
+RO_123521,Pipirig,123521,base.ro,RO_NE,l10n_ro.RO_NT
+RO_123674,Podoleni,123674,base.ro,RO_NE,l10n_ro.RO_NT
+RO_123790,"Poiana Teiului",123790,base.ro,RO_NE,l10n_ro.RO_NT
+RO_123709,Poienari,123709,base.ro,RO_NE,l10n_ro.RO_NT
+RO_123914,Răuceşti,123914,base.ro,RO_NE,l10n_ro.RO_NT
+RO_123969,Războieni,123969,base.ro,RO_NE,l10n_ro.RO_NT
+RO_124028,Rediu,124028,base.ro,RO_NE,l10n_ro.RO_NT
+RO_120860,Roman,120860,base.ro,RO_NE,l10n_ro.RO_NT
+RO_124073,Români,124073,base.ro,RO_NE,l10n_ro.RO_NT
+RO_124117,Roznov,124117,base.ro,RO_NE,l10n_ro.RO_NT
+RO_125105,Ruginoasa,125105,base.ro,RO_NE,l10n_ro.RO_NT
+RO_124206,Săbăoani,124206,base.ro,RO_NE,l10n_ro.RO_NT
+RO_124153,Sagna,124153,base.ro,RO_NE,l10n_ro.RO_NT
+RO_120824,Săvineşti,120824,base.ro,RO_NE,l10n_ro.RO_NT
+RO_124233,Secuieni,124233,base.ro,RO_NE,l10n_ro.RO_NT
+RO_124331,Stăniţa,124331,base.ro,RO_NE,l10n_ro.RO_NT
+RO_124411,"Ştefan Cel Mare",124411,base.ro,RO_NE,l10n_ro.RO_NT
+RO_124634,Tămăşeni,124634,base.ro,RO_NE,l10n_ro.RO_NT
+RO_124493,Tarcău,124493,base.ro,RO_NE,l10n_ro.RO_NT
+RO_121055,"Târgu Neamţ",121055,base.ro,RO_NE,l10n_ro.RO_NT
+RO_124563,Taşca,124563,base.ro,RO_NE,l10n_ro.RO_NT
+RO_124616,Tazlău,124616,base.ro,RO_NE,l10n_ro.RO_NT
+RO_124803,Ţibucani,124803,base.ro,RO_NE,l10n_ro.RO_NT
+RO_124661,Timişeşti,124661,base.ro,RO_NE,l10n_ro.RO_NT
+RO_124723,Trifeşti,124723,base.ro,RO_NE,l10n_ro.RO_NT
+RO_124750,Tupilaţi,124750,base.ro,RO_NE,l10n_ro.RO_NT
+RO_124849,Urecheni,124849,base.ro,RO_NE,l10n_ro.RO_NT
+RO_124885,"Valea Ursului",124885,base.ro,RO_NE,l10n_ro.RO_NT
+RO_125123,Văleni,125123,base.ro,RO_NE,l10n_ro.RO_NT
+RO_125016,Vânători-Neamţ,125016,base.ro,RO_NE,l10n_ro.RO_NT
+RO_125061,Zăneşti,125061,base.ro,RO_NE,l10n_ro.RO_NT
+RO_125659,Băbiciu,125659,base.ro,RO_SVO,l10n_ro.RO_OT
+RO_125677,Baldovineşti,125677,base.ro,RO_SVO,l10n_ro.RO_OT
+RO_125418,Balș,125418,base.ro,RO_SVO,l10n_ro.RO_OT
+RO_130286,Bălteni,130286,base.ro,RO_SVO,l10n_ro.RO_OT
+RO_125757,Bărăşti,125757,base.ro,RO_SVO,l10n_ro.RO_OT
+RO_125846,Bârza,125846,base.ro,RO_SVO,l10n_ro.RO_OT
+RO_125873,Bobiceşti,125873,base.ro,RO_SVO,l10n_ro.RO_OT
+RO_126022,Brâncoveni,126022,base.ro,RO_SVO,l10n_ro.RO_OT
+RO_125962,Brastavăţu,125962,base.ro,RO_SVO,l10n_ro.RO_OT
+RO_125999,Brebeni,125999,base.ro,RO_SVO,l10n_ro.RO_OT
+RO_126077,Bucinişu,126077,base.ro,RO_SVO,l10n_ro.RO_OT
+RO_130295,Călui,130295,base.ro,RO_SVO,l10n_ro.RO_OT
+RO_125472,Caracal,125472,base.ro,RO_SVO,l10n_ro.RO_OT
+RO_126166,Cârlogani,126166,base.ro,RO_SVO,l10n_ro.RO_OT
+RO_126102,Cezieni,126102,base.ro,RO_SVO,l10n_ro.RO_OT
+RO_126148,Cilieni,126148,base.ro,RO_SVO,l10n_ro.RO_OT
+RO_126228,Coloneşti,126228,base.ro,RO_SVO,l10n_ro.RO_OT
+RO_125542,Corabia,125542,base.ro,RO_SVO,l10n_ro.RO_OT
+RO_126326,Corbu,126326,base.ro,RO_SVO,l10n_ro.RO_OT
+RO_126380,Coteana,126380,base.ro,RO_SVO,l10n_ro.RO_OT
+RO_126406,Crâmpoia,126406,base.ro,RO_SVO,l10n_ro.RO_OT
+RO_126503,Cungrea,126503,base.ro,RO_SVO,l10n_ro.RO_OT
+RO_126433,Curtişoara,126433,base.ro,RO_SVO,l10n_ro.RO_OT
+RO_126585,Dăneasa,126585,base.ro,RO_SVO,l10n_ro.RO_OT
+RO_126647,Deveselu,126647,base.ro,RO_SVO,l10n_ro.RO_OT
+RO_126674,Dobreţu,126674,base.ro,RO_SVO,l10n_ro.RO_OT
+RO_126718,Dobrosloveni,126718,base.ro,RO_SVO,l10n_ro.RO_OT
+RO_126772,Dobroteasa,126772,base.ro,RO_SVO,l10n_ro.RO_OT
+RO_126825,Dobrun,126825,base.ro,RO_SVO,l10n_ro.RO_OT
+RO_125622,Drăgăneşti-Olt,125622,base.ro,RO_SVO,l10n_ro.RO_OT
+RO_125490,Drăghiceni,125490,base.ro,RO_SVO,l10n_ro.RO_OT
+RO_126905,Făgeţelu,126905,base.ro,RO_SVO,l10n_ro.RO_OT
+RO_126978,Fălcoiu,126978,base.ro,RO_SVO,l10n_ro.RO_OT
+RO_127019,Fărcașele,127019,base.ro,RO_SVO,l10n_ro.RO_OT
+RO_127064,Găneasa,127064,base.ro,RO_SVO,l10n_ro.RO_OT
+RO_125588,Gârcov,125588,base.ro,RO_SVO,l10n_ro.RO_OT
+RO_130302,Găvănești,130302,base.ro,RO_SVO,l10n_ro.RO_OT
+RO_130311,Ghimpețeni,130311,base.ro,RO_SVO,l10n_ro.RO_OT
+RO_127126,Giuvărăşti,127126,base.ro,RO_SVO,l10n_ro.RO_OT
+RO_127144,Gostavăţu,127144,base.ro,RO_SVO,l10n_ro.RO_OT
+RO_127171,Grădinari,127171,base.ro,RO_SVO,l10n_ro.RO_OT
+RO_130320,Grădinile,130320,base.ro,RO_SVO,l10n_ro.RO_OT
+RO_127224,Grojdibodu,127224,base.ro,RO_SVO,l10n_ro.RO_OT
+RO_130339,"Gura Padinii",130339,base.ro,RO_SVO,l10n_ro.RO_OT
+RO_127251,Ianca,127251,base.ro,RO_SVO,l10n_ro.RO_OT
+RO_127288,"Iancu Jianu",127288,base.ro,RO_SVO,l10n_ro.RO_OT
+RO_127322,Icoana,127322,base.ro,RO_SVO,l10n_ro.RO_OT
+RO_130348,Ipoteşti,130348,base.ro,RO_SVO,l10n_ro.RO_OT
+RO_127368,Izbiceni,127368,base.ro,RO_SVO,l10n_ro.RO_OT
+RO_127386,Izvoarele,127386,base.ro,RO_SVO,l10n_ro.RO_OT
+RO_127411,Leleasca,127411,base.ro,RO_SVO,l10n_ro.RO_OT
+RO_127493,Mărunţei,127493,base.ro,RO_SVO,l10n_ro.RO_OT
+RO_127536,Mihăeşti,127536,base.ro,RO_SVO,l10n_ro.RO_OT
+RO_127563,Milcov,127563,base.ro,RO_SVO,l10n_ro.RO_OT
+RO_127625,Morunglav,127625,base.ro,RO_SVO,l10n_ro.RO_OT
+RO_127689,Movileni,127689,base.ro,RO_SVO,l10n_ro.RO_OT
+RO_127714,"Nicolae Titulescu",127714,base.ro,RO_SVO,l10n_ro.RO_OT
+RO_127750,Obârşia,127750,base.ro,RO_SVO,l10n_ro.RO_OT
+RO_127812,Oboga,127812,base.ro,RO_SVO,l10n_ro.RO_OT
+RO_127858,Oporelu,127858,base.ro,RO_SVO,l10n_ro.RO_OT
+RO_127901,Optaşi-Măgura,127901,base.ro,RO_SVO,l10n_ro.RO_OT
+RO_127938,Orlea,127938,base.ro,RO_SVO,l10n_ro.RO_OT
+RO_130357,"Osica De Jos",130357,base.ro,RO_SVO,l10n_ro.RO_OT
+RO_127983,"Osica De Sus",127983,base.ro,RO_SVO,l10n_ro.RO_OT
+RO_128178,Pârşcoveni,128178,base.ro,RO_SVO,l10n_ro.RO_OT
+RO_128052,Perieţi,128052,base.ro,RO_SVO,l10n_ro.RO_OT
+RO_128105,Piatra-Olt,128105,base.ro,RO_SVO,l10n_ro.RO_OT
+RO_128221,Pleşoiu,128221,base.ro,RO_SVO,l10n_ro.RO_OT
+RO_128301,Poboru,128301,base.ro,RO_SVO,l10n_ro.RO_OT
+RO_128374,Potcoava,128374,base.ro,RO_SVO,l10n_ro.RO_OT
+RO_128436,Priseaca,128436,base.ro,RO_SVO,l10n_ro.RO_OT
+RO_128472,Radomireşti,128472,base.ro,RO_SVO,l10n_ro.RO_OT
+RO_128524,Redea,128524,base.ro,RO_SVO,l10n_ro.RO_OT
+RO_128560,Rotunda,128560,base.ro,RO_SVO,l10n_ro.RO_OT
+RO_128588,Rusăneşti,128588,base.ro,RO_SVO,l10n_ro.RO_OT
+RO_128882,Sâmbureşti,128882,base.ro,RO_SVO,l10n_ro.RO_OT
+RO_130366,"Sârbii - Măgura",130366,base.ro,RO_SVO,l10n_ro.RO_OT
+RO_128613,Scărişoara,128613,base.ro,RO_SVO,l10n_ro.RO_OT
+RO_128659,Schitu,128659,base.ro,RO_SVO,l10n_ro.RO_OT
+RO_128711,Scorniceşti,128711,base.ro,RO_SVO,l10n_ro.RO_OT
+RO_128864,Seaca,128864,base.ro,RO_SVO,l10n_ro.RO_OT
+RO_129246,Şerbăneşti,129246,base.ro,RO_SVO,l10n_ro.RO_OT
+RO_125347,Slatina,125347,base.ro,RO_SVO,l10n_ro.RO_OT
+RO_125374,Slătioara,125374,base.ro,RO_SVO,l10n_ro.RO_OT
+RO_130384,Șopârlița,130384,base.ro,RO_SVO,l10n_ro.RO_OT
+RO_128962,Spineni,128962,base.ro,RO_SVO,l10n_ro.RO_OT
+RO_129040,Sprâncenata,129040,base.ro,RO_SVO,l10n_ro.RO_OT
+RO_129282,"Ştefan Cel Mare",129282,base.ro,RO_SVO,l10n_ro.RO_OT
+RO_129095,Stoeneşti,129095,base.ro,RO_SVO,l10n_ro.RO_OT
+RO_129111,Stoicăneşti,129111,base.ro,RO_SVO,l10n_ro.RO_OT
+RO_129139,Strejeşti,129139,base.ro,RO_SVO,l10n_ro.RO_OT
+RO_129184,Studina,129184,base.ro,RO_SVO,l10n_ro.RO_OT
+RO_129317,Tătuleşti,129317,base.ro,RO_SVO,l10n_ro.RO_OT
+RO_129380,Teslui,129380,base.ro,RO_SVO,l10n_ro.RO_OT
+RO_129460,"Tia Mare",129460,base.ro,RO_SVO,l10n_ro.RO_OT
+RO_129503,Topana,129503,base.ro,RO_SVO,l10n_ro.RO_OT
+RO_129567,Traian,129567,base.ro,RO_SVO,l10n_ro.RO_OT
+RO_129585,Tufeni,129585,base.ro,RO_SVO,l10n_ro.RO_OT
+RO_129629,Urzica,129629,base.ro,RO_SVO,l10n_ro.RO_OT
+RO_129718,Vădastra,129718,base.ro,RO_SVO,l10n_ro.RO_OT
+RO_129745,Vădăstriţa,129745,base.ro,RO_SVO,l10n_ro.RO_OT
+RO_129987,Vâlcele,129987,base.ro,RO_SVO,l10n_ro.RO_OT
+RO_129656,"Valea Mare",129656,base.ro,RO_SVO,l10n_ro.RO_OT
+RO_129763,Văleni,129763,base.ro,RO_SVO,l10n_ro.RO_OT
+RO_129816,Verguleasa,129816,base.ro,RO_SVO,l10n_ro.RO_OT
+RO_129898,Vişina,129898,base.ro,RO_SVO,l10n_ro.RO_OT
+RO_130375,"Vișina Nouă",130375,base.ro,RO_SVO,l10n_ro.RO_OT
+RO_129914,Vitomireşti,129914,base.ro,RO_SVO,l10n_ro.RO_OT
+RO_130026,Vlădila,130026,base.ro,RO_SVO,l10n_ro.RO_OT
+RO_130062,Voineasa,130062,base.ro,RO_SVO,l10n_ro.RO_OT
+RO_130124,Vulpeni,130124,base.ro,RO_SVO,l10n_ro.RO_OT
+RO_130231,Vultureşti,130231,base.ro,RO_SVO,l10n_ro.RO_OT
+RO_131899,Adunați,131899,base.ro,RO_SM,l10n_ro.RO_PH
+RO_131933,Albești-Paleologu,131933,base.ro,RO_SM,l10n_ro.RO_PH
+RO_131988,Aluniş,131988,base.ro,RO_SM,l10n_ro.RO_PH
+RO_132011,Apostolache,132011,base.ro,RO_SM,l10n_ro.RO_PH
+RO_132075,"Ariceştii Rahtivani",132075,base.ro,RO_SM,l10n_ro.RO_PH
+RO_132137,"Ariceştii Zeletin",132137,base.ro,RO_SM,l10n_ro.RO_PH
+RO_130954,Azuga,130954,base.ro,RO_SM,l10n_ro.RO_PH
+RO_132164,"Baba Ana",132164,base.ro,RO_SM,l10n_ro.RO_PH
+RO_130981,Băicoi,130981,base.ro,RO_SM,l10n_ro.RO_PH
+RO_132226,"Balta Doamnei",132226,base.ro,RO_SM,l10n_ro.RO_PH
+RO_132271,Bălţeşti,132271,base.ro,RO_SM,l10n_ro.RO_PH
+RO_132315,Bănești,132315,base.ro,RO_SM,l10n_ro.RO_PH
+RO_130552,Bărcăneşti,130552,base.ro,RO_SM,l10n_ro.RO_PH
+RO_136278,Bătrâni,136278,base.ro,RO_SM,l10n_ro.RO_PH
+RO_130614,Berceni,130614,base.ro,RO_SM,l10n_ro.RO_PH
+RO_132342,Bertea,132342,base.ro,RO_SM,l10n_ro.RO_PH
+RO_130678,Blejoi,130678,base.ro,RO_SM,l10n_ro.RO_PH
+RO_132379,Boldești-Grădiștea,132379,base.ro,RO_SM,l10n_ro.RO_PH
+RO_131069,Boldești-Scăeni,131069,base.ro,RO_SM,l10n_ro.RO_PH
+RO_130712,Brazi,130712,base.ro,RO_SM,l10n_ro.RO_PH
+RO_131103,Breaza,131103,base.ro,RO_SM,l10n_ro.RO_PH
+RO_132404,Brebu,132404,base.ro,RO_SM,l10n_ro.RO_PH
+RO_130785,Bucov,130785,base.ro,RO_SM,l10n_ro.RO_PH
+RO_131210,Bușteni,131210,base.ro,RO_SM,l10n_ro.RO_PH
+RO_132459,Călugăreni,132459,base.ro,RO_SM,l10n_ro.RO_PH
+RO_131256,Câmpina,131256,base.ro,RO_SM,l10n_ro.RO_PH
+RO_132486,Cărbuneşti,132486,base.ro,RO_SM,l10n_ro.RO_PH
+RO_132510,Ceptura,132510,base.ro,RO_SM,l10n_ro.RO_PH
+RO_132574,Ceraşu,132574,base.ro,RO_SM,l10n_ro.RO_PH
+RO_132645,Chiojdeanca,132645,base.ro,RO_SM,l10n_ro.RO_PH
+RO_132681,Ciorani,132681,base.ro,RO_SM,l10n_ro.RO_PH
+RO_136241,"Cocorastii Colt",136241,base.ro,RO_SM,l10n_ro.RO_PH
+RO_132716,"Cocorăştii Mislii",132716,base.ro,RO_SM,l10n_ro.RO_PH
+RO_132752,Colceag,132752,base.ro,RO_SM,l10n_ro.RO_PH
+RO_131336,Comarnic,131336,base.ro,RO_SM,l10n_ro.RO_PH
+RO_132805,Cornu,132805,base.ro,RO_SM,l10n_ro.RO_PH
+RO_132841,Cosminele,132841,base.ro,RO_SM,l10n_ro.RO_PH
+RO_133018,Drăgăneşti,133018,base.ro,RO_SM,l10n_ro.RO_PH
+RO_132896,Drajna,132896,base.ro,RO_SM,l10n_ro.RO_PH
+RO_133090,Dumbrava,133090,base.ro,RO_SM,l10n_ro.RO_PH
+RO_131461,Dumbrăveşti,131461,base.ro,RO_SM,l10n_ro.RO_PH
+RO_133278,Fântânele,133278,base.ro,RO_SM,l10n_ro.RO_PH
+RO_133161,"Filipeştii De Pădure",133161,base.ro,RO_SM,l10n_ro.RO_PH
+RO_133214,"Filipeştii De Târg",133214,base.ro,RO_SM,l10n_ro.RO_PH
+RO_133330,Floreşti,133330,base.ro,RO_SM,l10n_ro.RO_PH
+RO_133394,Fulga,133394,base.ro,RO_SM,l10n_ro.RO_PH
+RO_133429,Gherghiţa,133429,base.ro,RO_SM,l10n_ro.RO_PH
+RO_133508,Gorgota,133508,base.ro,RO_SM,l10n_ro.RO_PH
+RO_133562,Gornet,133562,base.ro,RO_SM,l10n_ro.RO_PH
+RO_133615,Gornet-Cricov,133615,base.ro,RO_SM,l10n_ro.RO_PH
+RO_133688,"Gura Vadului",133688,base.ro,RO_SM,l10n_ro.RO_PH
+RO_131835,"Gura Vitioarei",131835,base.ro,RO_SM,l10n_ro.RO_PH
+RO_133722,Iordăcheanu,133722,base.ro,RO_SM,l10n_ro.RO_PH
+RO_133795,Izvoarele,133795,base.ro,RO_SM,l10n_ro.RO_PH
+RO_133866,Jugureni,133866,base.ro,RO_SM,l10n_ro.RO_PH
+RO_133919,Lapoș,133919,base.ro,RO_SM,l10n_ro.RO_PH
+RO_133964,Lipăneşti,133964,base.ro,RO_SM,l10n_ro.RO_PH
+RO_134014,Măgurele,134014,base.ro,RO_SM,l10n_ro.RO_PH
+RO_134050,Măgureni,134050,base.ro,RO_SM,l10n_ro.RO_PH
+RO_134096,Măneciu,134096,base.ro,RO_SM,l10n_ro.RO_PH
+RO_134194,Mănești,134194,base.ro,RO_SM,l10n_ro.RO_PH
+RO_131407,Mizil,131407,base.ro,RO_SM,l10n_ro.RO_PH
+RO_136250,Olari,136250,base.ro,RO_SM,l10n_ro.RO_PH
+RO_134336,Păcureţi,134336,base.ro,RO_SM,l10n_ro.RO_PH
+RO_130847,Păuleşti,130847,base.ro,RO_SM,l10n_ro.RO_PH
+RO_130534,Ploiești,130534,base.ro,RO_SM,l10n_ro.RO_PH
+RO_131443,Plopeni,131443,base.ro,RO_SM,l10n_ro.RO_PH
+RO_134390,Plopu,134390,base.ro,RO_SM,l10n_ro.RO_PH
+RO_134443,"Podenii Noi",134443,base.ro,RO_SM,l10n_ro.RO_PH
+RO_131274,"Poiana Câmpina",131274,base.ro,RO_SM,l10n_ro.RO_PH
+RO_134559,"Poienarii Burchii",134559,base.ro,RO_SM,l10n_ro.RO_PH
+RO_134648,Posești,134648,base.ro,RO_SM,l10n_ro.RO_PH
+RO_134755,Predeal-Sărari,134755,base.ro,RO_SM,l10n_ro.RO_PH
+RO_134853,"Provița De Jos",134853,base.ro,RO_SM,l10n_ro.RO_PH
+RO_134899,"Provița De Sus",134899,base.ro,RO_SM,l10n_ro.RO_PH
+RO_134942,"Puchenii Mari",134942,base.ro,RO_SM,l10n_ro.RO_PH
+RO_135020,Râfov,135020,base.ro,RO_SM,l10n_ro.RO_PH
+RO_135128,Salcia,135128,base.ro,RO_SM,l10n_ro.RO_PH
+RO_135146,Sălciile,135146,base.ro,RO_SM,l10n_ro.RO_PH
+RO_135164,Scorţeni,135164,base.ro,RO_SM,l10n_ro.RO_PH
+RO_135226,Secăria,135226,base.ro,RO_SM,l10n_ro.RO_PH
+RO_131540,Sinaia,131540,base.ro,RO_SM,l10n_ro.RO_PH
+RO_135244,Sângeru,135244,base.ro,RO_SM,l10n_ro.RO_PH
+RO_135431,Şirna,135431,base.ro,RO_SM,l10n_ro.RO_PH
+RO_131577,Slănic,131577,base.ro,RO_SM,l10n_ro.RO_PH
+RO_135501,Şoimari,135501,base.ro,RO_SM,l10n_ro.RO_PH
+RO_135547,Şotrile,135547,base.ro,RO_SM,l10n_ro.RO_PH
+RO_135315,Starchiojd,135315,base.ro,RO_SM,l10n_ro.RO_PH
+RO_135618,Ştefeşti,135618,base.ro,RO_SM,l10n_ro.RO_PH
+RO_135404,Surani,135404,base.ro,RO_SM,l10n_ro.RO_PH
+RO_135654,Talea,135654,base.ro,RO_SM,l10n_ro.RO_PH
+RO_135681,Tătaru,135681,base.ro,RO_SM,l10n_ro.RO_PH
+RO_135725,Teişani,135725,base.ro,RO_SM,l10n_ro.RO_PH
+RO_135789,Telega,135789,base.ro,RO_SM,l10n_ro.RO_PH
+RO_135850,Tinosu,135850,base.ro,RO_SM,l10n_ro.RO_PH
+RO_130892,"Târgșoru Vechi",130892,base.ro,RO_SM,l10n_ro.RO_PH
+RO_135896,Tomşani,135896,base.ro,RO_SM,l10n_ro.RO_PH
+RO_131620,Urlați,131620,base.ro,RO_SM,l10n_ro.RO_PH
+RO_136269,"Vadu Săpat",136269,base.ro,RO_SM,l10n_ro.RO_PH
+RO_135949,"Valea Călugărească",135949,base.ro,RO_SM,l10n_ro.RO_PH
+RO_136107,"Valea Doftanei",136107,base.ro,RO_SM,l10n_ro.RO_PH
+RO_131817,"Vălenii De Munte",131817,base.ro,RO_SM,l10n_ro.RO_PH
+RO_136134,Vărbilău,136134,base.ro,RO_SM,l10n_ro.RO_PH
+RO_136198,Vâlcănești,136198,base.ro,RO_SM,l10n_ro.RO_PH
+RO_136713,Acâș,136713,base.ro,RO_NV,l10n_ro.RO_SM
+RO_179873,Agriș,179873,base.ro,RO_NV,l10n_ro.RO_SM
+RO_136768,Andrid,136768,base.ro,RO_NV,l10n_ro.RO_SM
+RO_136802,Apa,136802,base.ro,RO_NV,l10n_ro.RO_SM
+RO_136848,Ardud,136848,base.ro,RO_NV,l10n_ro.RO_SM
+RO_136919,Bătarci,136919,base.ro,RO_NV,l10n_ro.RO_SM
+RO_136964,Beltiug,136964,base.ro,RO_NV,l10n_ro.RO_SM
+RO_137032,Berveni,137032,base.ro,RO_NV,l10n_ro.RO_SM
+RO_137103,Bârsău,137103,base.ro,RO_NV,l10n_ro.RO_SM
+RO_137069,Bixad,137069,base.ro,RO_NV,l10n_ro.RO_SM
+RO_137130,Bogdand,137130,base.ro,RO_NV,l10n_ro.RO_SM
+RO_137185,Botiz,137185,base.ro,RO_NV,l10n_ro.RO_SM
+RO_137229,Călinești-Oaș,137229,base.ro,RO_NV,l10n_ro.RO_SM
+RO_137274,Cămărzana,137274,base.ro,RO_NV,l10n_ro.RO_SM
+RO_179677,Cămin,179677,base.ro,RO_NV,l10n_ro.RO_SM
+RO_136553,Căpleni,136553,base.ro,RO_NV,l10n_ro.RO_SM
+RO_136526,Carei,136526,base.ro,RO_NV,l10n_ro.RO_SM
+RO_137292,Căuaș,137292,base.ro,RO_NV,l10n_ro.RO_SM
+RO_137363,Cehal,137363,base.ro,RO_NV,l10n_ro.RO_SM
+RO_137407,Certeze,137407,base.ro,RO_NV,l10n_ro.RO_SM
+RO_179882,Ciumești,179882,base.ro,RO_NV,l10n_ro.RO_SM
+RO_137443,Craidorolț,137443,base.ro,RO_NV,l10n_ro.RO_SM
+RO_137504,Crucișor,137504,base.ro,RO_NV,l10n_ro.RO_SM
+RO_137540,Culciu,137540,base.ro,RO_NV,l10n_ro.RO_SM
+RO_137611,Doba,137611,base.ro,RO_NV,l10n_ro.RO_SM
+RO_137675,Dorolț,137675,base.ro,RO_NV,l10n_ro.RO_SM
+RO_137728,Foieni,137728,base.ro,RO_NV,l10n_ro.RO_SM
+RO_137746,"Gherța Mică",137746,base.ro,RO_NV,l10n_ro.RO_SM
+RO_137764,Halmeu,137764,base.ro,RO_NV,l10n_ro.RO_SM
+RO_137844,Hodod,137844,base.ro,RO_NV,l10n_ro.RO_SM
+RO_137899,Homoroade,137899,base.ro,RO_NV,l10n_ro.RO_SM
+RO_137960,Lazuri,137960,base.ro,RO_NV,l10n_ro.RO_SM
+RO_138039,Livada,138039,base.ro,RO_NV,l10n_ro.RO_SM
+RO_138084,"Medieșu Aurit",138084,base.ro,RO_NV,l10n_ro.RO_SM
+RO_138164,Micula,138164,base.ro,RO_NV,l10n_ro.RO_SM
+RO_138208,Moftin,138208,base.ro,RO_NV,l10n_ro.RO_SM
+RO_136599,Negrești-Oaș,136599,base.ro,RO_NV,l10n_ro.RO_SM
+RO_138280,Odoreu,138280,base.ro,RO_NV,l10n_ro.RO_SM
+RO_138351,"Orașu Nou",138351,base.ro,RO_NV,l10n_ro.RO_SM
+RO_138431,Păulești,138431,base.ro,RO_NV,l10n_ro.RO_SM
+RO_138501,Petrești,138501,base.ro,RO_NV,l10n_ro.RO_SM
+RO_138538,Pir,138538,base.ro,RO_NV,l10n_ro.RO_SM
+RO_138574,Pișcolt,138574,base.ro,RO_NV,l10n_ro.RO_SM
+RO_138618,Pomi,138618,base.ro,RO_NV,l10n_ro.RO_SM
+RO_180028,Porumbești,180028,base.ro,RO_NV,l10n_ro.RO_SM
+RO_180091,Racşa,180091,base.ro,RO_NV,l10n_ro.RO_SM
+RO_138770,Săcășeni,138770,base.ro,RO_NV,l10n_ro.RO_SM
+RO_138663,Sanislău,138663,base.ro,RO_NV,l10n_ro.RO_SM
+RO_138734,Santău,138734,base.ro,RO_NV,l10n_ro.RO_SM
+RO_136483,"Satu Mare",136483,base.ro,RO_NV,l10n_ro.RO_SM
+RO_138805,Săuca,138805,base.ro,RO_NV,l10n_ro.RO_SM
+RO_138869,Socond,138869,base.ro,RO_NV,l10n_ro.RO_SM
+RO_138921,Supur,138921,base.ro,RO_NV,l10n_ro.RO_SM
+RO_139009,"Tarna Mare",139009,base.ro,RO_NV,l10n_ro.RO_SM
+RO_136642,Tășnad,136642,base.ro,RO_NV,l10n_ro.RO_SM
+RO_139054,Terebești,139054,base.ro,RO_NV,l10n_ro.RO_SM
+RO_139107,Tiream,139107,base.ro,RO_NV,l10n_ro.RO_SM
+RO_139143,Târșolț,139143,base.ro,RO_NV,l10n_ro.RO_SM
+RO_139170,Turț,139170,base.ro,RO_NV,l10n_ro.RO_SM
+RO_139214,Turulung,139214,base.ro,RO_NV,l10n_ro.RO_SM
+RO_139250,Urziceni,139250,base.ro,RO_NV,l10n_ro.RO_SM
+RO_139287,"Valea Vinului",139287,base.ro,RO_NV,l10n_ro.RO_SM
+RO_139330,Vama,139330,base.ro,RO_NV,l10n_ro.RO_SM
+RO_139358,Vetiș,139358,base.ro,RO_NV,l10n_ro.RO_SM
+RO_139394,"Viile Satu Mare",139394,base.ro,RO_NV,l10n_ro.RO_SM
+RO_139937,Agrij,139937,base.ro,RO_NV,l10n_ro.RO_SJ
+RO_139982,Almaşu,139982,base.ro,RO_NV,l10n_ro.RO_SJ
+RO_140084,Băbeni,140084,base.ro,RO_NV,l10n_ro.RO_SJ
+RO_140146,Bălan,140146,base.ro,RO_NV,l10n_ro.RO_SJ
+RO_140208,Bănişor,140208,base.ro,RO_NV,l10n_ro.RO_SJ
+RO_140244,Benesat,140244,base.ro,RO_NV,l10n_ro.RO_SJ
+RO_140280,Bobota,140280,base.ro,RO_NV,l10n_ro.RO_SJ
+RO_140324,Bocşa,140324,base.ro,RO_NV,l10n_ro.RO_SJ
+RO_180037,Boghiş,180037,base.ro,RO_NV,l10n_ro.RO_SJ
+RO_140379,Buciumi,140379,base.ro,RO_NV,l10n_ro.RO_SJ
+RO_140440,Camăr,140440,base.ro,RO_NV,l10n_ro.RO_SJ
+RO_140477,Carastelec,140477,base.ro,RO_NV,l10n_ro.RO_SJ
+RO_139740,"Cehu Silvaniei",139740,base.ro,RO_NV,l10n_ro.RO_SJ
+RO_140501,Chieşd,140501,base.ro,RO_NV,l10n_ro.RO_SJ
+RO_140547,Cizer,140547,base.ro,RO_NV,l10n_ro.RO_SJ
+RO_140583,Coşeiu,140583,base.ro,RO_NV,l10n_ro.RO_SJ
+RO_140627,Crasna,140627,base.ro,RO_NV,l10n_ro.RO_SJ
+RO_140672,Creaca,140672,base.ro,RO_NV,l10n_ro.RO_SJ
+RO_140823,Crişeni,140823,base.ro,RO_NV,l10n_ro.RO_SJ
+RO_140770,Cristolţ,140770,base.ro,RO_NV,l10n_ro.RO_SJ
+RO_140869,Cuzăplac,140869,base.ro,RO_NV,l10n_ro.RO_SJ
+RO_140958,Dobrin,140958,base.ro,RO_NV,l10n_ro.RO_SJ
+RO_141027,Dragu,141027,base.ro,RO_NV,l10n_ro.RO_SJ
+RO_141081,"Fildu De Jos",141081,base.ro,RO_NV,l10n_ro.RO_SJ
+RO_141134,Gâlgău,141134,base.ro,RO_NV,l10n_ro.RO_SJ
+RO_141232,Gârbou,141232,base.ro,RO_NV,l10n_ro.RO_SJ
+RO_141312,Halmăşd,141312,base.ro,RO_NV,l10n_ro.RO_SJ
+RO_141376,Hereclean,141376,base.ro,RO_NV,l10n_ro.RO_SJ
+RO_141447,Hida,141447,base.ro,RO_NV,l10n_ro.RO_SJ
+RO_141535,"Horoatu Crasnei",141535,base.ro,RO_NV,l10n_ro.RO_SJ
+RO_141580,Ileanda,141580,base.ro,RO_NV,l10n_ro.RO_SJ
+RO_141722,Ip,141722,base.ro,RO_NV,l10n_ro.RO_SJ
+RO_139811,Jibou,139811,base.ro,RO_NV,l10n_ro.RO_SJ
+RO_141786,Letca,141786,base.ro,RO_NV,l10n_ro.RO_SJ
+RO_141884,Lozna,141884,base.ro,RO_NV,l10n_ro.RO_SJ
+RO_142006,Măerişte,142006,base.ro,RO_NV,l10n_ro.RO_SJ
+RO_141946,Marca,141946,base.ro,RO_NV,l10n_ro.RO_SJ
+RO_142079,"Meseşenii De Jos",142079,base.ro,RO_NV,l10n_ro.RO_SJ
+RO_142122,Mirşid,142122,base.ro,RO_NV,l10n_ro.RO_SJ
+RO_142177,Năpradea,142177,base.ro,RO_NV,l10n_ro.RO_SJ
+RO_142239,Nuşfalău,142239,base.ro,RO_NV,l10n_ro.RO_SJ
+RO_142284,Pericei,142284,base.ro,RO_NV,l10n_ro.RO_SJ
+RO_142337,Plopiş,142337,base.ro,RO_NV,l10n_ro.RO_SJ
+RO_142373,"Poiana Blenchii",142373,base.ro,RO_NV,l10n_ro.RO_SJ
+RO_142426,Românaşi,142426,base.ro,RO_NV,l10n_ro.RO_SJ
+RO_142499,Rus,142499,base.ro,RO_NV,l10n_ro.RO_SJ
+RO_142612,Sâg,142612,base.ro,RO_NV,l10n_ro.RO_SJ
+RO_142550,Sălăţig,142550,base.ro,RO_NV,l10n_ro.RO_SJ
+RO_142854,Şamşud,142854,base.ro,RO_NV,l10n_ro.RO_SJ
+RO_142676,"Sânmihaiu Almaşului",142676,base.ro,RO_NV,l10n_ro.RO_SJ
+RO_142881,Şărmăşag,142881,base.ro,RO_NV,l10n_ro.RO_SJ
+RO_179695,Şimişna,179695,base.ro,RO_NV,l10n_ro.RO_SJ
+RO_139884,"Şimleu Silvaniei",139884,base.ro,RO_NV,l10n_ro.RO_SJ
+RO_142710,Someş-Odorhei,142710,base.ro,RO_NV,l10n_ro.RO_SJ
+RO_142774,Surduc,142774,base.ro,RO_NV,l10n_ro.RO_SJ
+RO_179631,Treznea,179631,base.ro,RO_NV,l10n_ro.RO_SJ
+RO_142952,"Valcău De Jos",142952,base.ro,RO_NV,l10n_ro.RO_SJ
+RO_143021,Vârşolţ,143021,base.ro,RO_NV,l10n_ro.RO_SJ
+RO_139704,Zalău,139704,base.ro,RO_NV,l10n_ro.RO_SJ
+RO_143067,Zalha,143067,base.ro,RO_NV,l10n_ro.RO_SJ
+RO_143147,Zimbor,143147,base.ro,RO_NV,l10n_ro.RO_SJ
+RO_143682,Agnita,143682,base.ro,RO_C,l10n_ro.RO_SB
+RO_146012,Alma,146012,base.ro,RO_C,l10n_ro.RO_SB
+RO_143888,Alţina,143888,base.ro,RO_C,l10n_ro.RO_SB
+RO_143922,"Apoldu De Jos",143922,base.ro,RO_C,l10n_ro.RO_SB
+RO_143959,"Arpaşu De Jos",143959,base.ro,RO_C,l10n_ro.RO_SB
+RO_143995,Aţel,143995,base.ro,RO_C,l10n_ro.RO_SB
+RO_144054,Avrig,144054,base.ro,RO_C,l10n_ro.RO_SB
+RO_144116,"Axente Sever",144116,base.ro,RO_C,l10n_ro.RO_SB
+RO_144232,Bârghiş,144232,base.ro,RO_C,l10n_ro.RO_SB
+RO_144152,Bazna,144152,base.ro,RO_C,l10n_ro.RO_SB
+RO_144198,Biertan,144198,base.ro,RO_C,l10n_ro.RO_SB
+RO_144303,Blăjel,144303,base.ro,RO_C,l10n_ro.RO_SB
+RO_146021,Boiţa,146021,base.ro,RO_C,l10n_ro.RO_SB
+RO_144376,Brădeni,144376,base.ro,RO_C,l10n_ro.RO_SB
+RO_144349,Brateiu,144349,base.ro,RO_C,l10n_ro.RO_SB
+RO_144410,Bruiu,144410,base.ro,RO_C,l10n_ro.RO_SB
+RO_144508,Cârţa,144508,base.ro,RO_C,l10n_ro.RO_SB
+RO_144535,Cârţişoara,144535,base.ro,RO_C,l10n_ro.RO_SB
+RO_144456,Chirpăr,144456,base.ro,RO_C,l10n_ro.RO_SB
+RO_143735,Cisnădie,143735,base.ro,RO_C,l10n_ro.RO_SB
+RO_143771,"Copşa Mică",143771,base.ro,RO_C,l10n_ro.RO_SB
+RO_143487,Cristian,143487,base.ro,RO_C,l10n_ro.RO_SB
+RO_144553,Dârlos,144553,base.ro,RO_C,l10n_ro.RO_SB
+RO_143806,Dumbrăveni,143806,base.ro,RO_C,l10n_ro.RO_SB
+RO_144599,"Gura Râului",144599,base.ro,RO_C,l10n_ro.RO_SB
+RO_144615,Hoghilag,144615,base.ro,RO_C,l10n_ro.RO_SB
+RO_144651,Iacobeni,144651,base.ro,RO_C,l10n_ro.RO_SB
+RO_144713,Jina,144713,base.ro,RO_C,l10n_ro.RO_SB
+RO_144731,Laslea,144731,base.ro,RO_C,l10n_ro.RO_SB
+RO_144795,Loamneş,144795,base.ro,RO_C,l10n_ro.RO_SB
+RO_144866,Ludoş,144866,base.ro,RO_C,l10n_ro.RO_SB
+RO_144893,Marpod,144893,base.ro,RO_C,l10n_ro.RO_SB
+RO_143619,Mediaş,143619,base.ro,RO_C,l10n_ro.RO_SB
+RO_144964,Merghindeal,144964,base.ro,RO_C,l10n_ro.RO_SB
+RO_144991,Micăsasa,144991,base.ro,RO_C,l10n_ro.RO_SB
+RO_144928,"Miercurea Sibiului",144928,base.ro,RO_C,l10n_ro.RO_SB
+RO_145042,Mihăileni,145042,base.ro,RO_C,l10n_ro.RO_SB
+RO_145104,Moşna,145104,base.ro,RO_C,l10n_ro.RO_SB
+RO_145140,Nocrich,145140,base.ro,RO_C,l10n_ro.RO_SB
+RO_143851,"Ocna Sibiului",143851,base.ro,RO_C,l10n_ro.RO_SB
+RO_145202,Orlat,145202,base.ro,RO_C,l10n_ro.RO_SB
+RO_145220,Păuca,145220,base.ro,RO_C,l10n_ro.RO_SB
+RO_145275,"Poiana Sibiului",145275,base.ro,RO_C,l10n_ro.RO_SB
+RO_143502,Poplaca,143502,base.ro,RO_C,l10n_ro.RO_SB
+RO_145293,"Porumbacu De Jos",145293,base.ro,RO_C,l10n_ro.RO_SB
+RO_145355,Racoviţa,145355,base.ro,RO_C,l10n_ro.RO_SB
+RO_143520,Răşinari,143520,base.ro,RO_C,l10n_ro.RO_SB
+RO_145382,"Râu Sadului",145382,base.ro,RO_C,l10n_ro.RO_SB
+RO_145408,Roşia,145408,base.ro,RO_C,l10n_ro.RO_SB
+RO_145471,Sadu,145471,base.ro,RO_C,l10n_ro.RO_SB
+RO_145499,Sălişte,145499,base.ro,RO_C,l10n_ro.RO_SB
+RO_145667,"Şeica Mare",145667,base.ro,RO_C,l10n_ro.RO_SB
+RO_145738,"Şeica Mică",145738,base.ro,RO_C,l10n_ro.RO_SB
+RO_143557,Şelimbăr,143557,base.ro,RO_C,l10n_ro.RO_SB
+RO_143450,Sibiu,143450,base.ro,RO_C,l10n_ro.RO_SB
+RO_145603,Slimnic,145603,base.ro,RO_C,l10n_ro.RO_SB
+RO_145765,"Şura Mare",145765,base.ro,RO_C,l10n_ro.RO_SB
+RO_145792,"Şura Mică",145792,base.ro,RO_C,l10n_ro.RO_SB
+RO_145827,Tălmaciu,145827,base.ro,RO_C,l10n_ro.RO_SB
+RO_143646,Târnava,143646,base.ro,RO_C,l10n_ro.RO_SB
+RO_145907,Tilişca,145907,base.ro,RO_C,l10n_ro.RO_SB
+RO_145934,"Turnu Roşu",145934,base.ro,RO_C,l10n_ro.RO_SB
+RO_145961,"Valea Viilor",145961,base.ro,RO_C,l10n_ro.RO_SB
+RO_145998,Vurpăr,145998,base.ro,RO_C,l10n_ro.RO_SB
+RO_146799,Adâncata,146799,base.ro,RO_NE,l10n_ro.RO_SV
+RO_146860,Arbore,146860,base.ro,RO_NE,l10n_ro.RO_SV
+RO_146904,Baia,146904,base.ro,RO_NE,l10n_ro.RO_SV
+RO_151530,Bălăceana,151530,base.ro,RO_NE,l10n_ro.RO_SV
+RO_146995,Bălcăuţi,146995,base.ro,RO_NE,l10n_ro.RO_SV
+RO_151576,Berchişeşti,151576,base.ro,RO_NE,l10n_ro.RO_SV
+RO_147036,Bilca,147036,base.ro,RO_NE,l10n_ro.RO_SV
+RO_147054,Bogdăneşti,147054,base.ro,RO_NE,l10n_ro.RO_SV
+RO_147072,Boroaia,147072,base.ro,RO_NE,l10n_ro.RO_SV
+RO_147134,Bosanci,147134,base.ro,RO_NE,l10n_ro.RO_SV
+RO_147161,Botoşana,147161,base.ro,RO_NE,l10n_ro.RO_SV
+RO_147205,Breaza,147205,base.ro,RO_NE,l10n_ro.RO_SV
+RO_147241,Brodina,147241,base.ro,RO_NE,l10n_ro.RO_SV
+RO_147358,Broşteni,147358,base.ro,RO_NE,l10n_ro.RO_SV
+RO_147465,Buneşti,147465,base.ro,RO_NE,l10n_ro.RO_SV
+RO_151521,Burla,151521,base.ro,RO_NE,l10n_ro.RO_SV
+RO_147526,Cacica,147526,base.ro,RO_NE,l10n_ro.RO_SV
+RO_147633,Cajvana,147633,base.ro,RO_NE,l10n_ro.RO_SV
+RO_147580,Calafindeşti,147580,base.ro,RO_NE,l10n_ro.RO_SV
+RO_146502,"Câmpulung Moldovenesc",146502,base.ro,RO_NE,l10n_ro.RO_SV
+RO_151503,"Capu Câmpului",151503,base.ro,RO_NE,l10n_ro.RO_SV
+RO_147713,Cârlibaba,147713,base.ro,RO_NE,l10n_ro.RO_SV
+RO_151451,Ciocăneşti,151451,base.ro,RO_NE,l10n_ro.RO_SV
+RO_151567,"Ciprian Porumbescu",151567,base.ro,RO_NE,l10n_ro.RO_SV
+RO_151433,Comăneşti,151433,base.ro,RO_NE,l10n_ro.RO_SV
+RO_147786,"Cornu Luncii",147786,base.ro,RO_NE,l10n_ro.RO_SV
+RO_151497,Coşna,151497,base.ro,RO_NE,l10n_ro.RO_SV
+RO_147884,Crucea,147884,base.ro,RO_NE,l10n_ro.RO_SV
+RO_147937,Dărmăneşti,147937,base.ro,RO_NE,l10n_ro.RO_SV
+RO_148006,Dolhasca,148006,base.ro,RO_NE,l10n_ro.RO_SV
+RO_148097,Dolheşti,148097,base.ro,RO_NE,l10n_ro.RO_SV
+RO_148202,"Dorna Candrenilor",148202,base.ro,RO_NE,l10n_ro.RO_SV
+RO_148131,Dorna-Arini,148131,base.ro,RO_NE,l10n_ro.RO_SV
+RO_148293,Dorneşti,148293,base.ro,RO_NE,l10n_ro.RO_SV
+RO_148328,Drăgoieşti,148328,base.ro,RO_NE,l10n_ro.RO_SV
+RO_148382,Drăguşeni,148382,base.ro,RO_NE,l10n_ro.RO_SV
+RO_148426,Dumbrăveni,148426,base.ro,RO_NE,l10n_ro.RO_SV
+RO_146539,Fălticeni,146539,base.ro,RO_NE,l10n_ro.RO_SV
+RO_151488,"Fântâna Mare",151488,base.ro,RO_NE,l10n_ro.RO_SV
+RO_148453,Fântânele,148453,base.ro,RO_NE,l10n_ro.RO_SV
+RO_148514,Forăşti,148514,base.ro,RO_NE,l10n_ro.RO_SV
+RO_148612,Frasin,148612,base.ro,RO_NE,l10n_ro.RO_SV
+RO_148667,"Frătăuţii Noi",148667,base.ro,RO_NE,l10n_ro.RO_SV
+RO_148694,"Frătăuţii Vechi",148694,base.ro,RO_NE,l10n_ro.RO_SV
+RO_148729,Frumosu,148729,base.ro,RO_NE,l10n_ro.RO_SV
+RO_148765,"Fundu Moldovei",148765,base.ro,RO_NE,l10n_ro.RO_SV
+RO_148872,Gălăneşti,148872,base.ro,RO_NE,l10n_ro.RO_SV
+RO_148916,Grămeşti,148916,base.ro,RO_NE,l10n_ro.RO_SV
+RO_148970,Grăniceşti,148970,base.ro,RO_NE,l10n_ro.RO_SV
+RO_146584,"Gura Humorului",146584,base.ro,RO_NE,l10n_ro.RO_SV
+RO_151512,Hănţeşti,151512,base.ro,RO_NE,l10n_ro.RO_SV
+RO_151549,Hârtop,151549,base.ro,RO_NE,l10n_ro.RO_SV
+RO_149101,"Horodnic De Jos",149101,base.ro,RO_NE,l10n_ro.RO_SV
+RO_151479,"Horodnic De Sus",151479,base.ro,RO_NE,l10n_ro.RO_SV
+RO_149049,Horodniceni,149049,base.ro,RO_NE,l10n_ro.RO_SV
+RO_149138,Iacobeni,149138,base.ro,RO_NE,l10n_ro.RO_SV
+RO_151442,Iaslovăţ,151442,base.ro,RO_NE,l10n_ro.RO_SV
+RO_147660,Ilişeşti,147660,base.ro,RO_NE,l10n_ro.RO_SV
+RO_146281,Ipoteşti,146281,base.ro,RO_NE,l10n_ro.RO_SV
+RO_149183,"Izvoarele Sucevei",149183,base.ro,RO_NE,l10n_ro.RO_SV
+RO_149227,Liteni,149227,base.ro,RO_NE,l10n_ro.RO_SV
+RO_149316,Mălini,149316,base.ro,RO_NE,l10n_ro.RO_SV
+RO_149370,"Mănăstirea Humorului",149370,base.ro,RO_NE,l10n_ro.RO_SV
+RO_149290,Marginea,149290,base.ro,RO_NE,l10n_ro.RO_SV
+RO_146931,Milişăuţi,146931,base.ro,RO_NE,l10n_ro.RO_SV
+RO_146325,"Mitocu Dragomirnei",146325,base.ro,RO_NE,l10n_ro.RO_SV
+RO_149414,Moara,149414,base.ro,RO_NE,l10n_ro.RO_SV
+RO_149502,Moldova-Suliţa,149502,base.ro,RO_NE,l10n_ro.RO_SV
+RO_149539,Moldoviţa,149539,base.ro,RO_NE,l10n_ro.RO_SV
+RO_149584,Muşeniţa,149584,base.ro,RO_NE,l10n_ro.RO_SV
+RO_149655,Ostra,149655,base.ro,RO_NE,l10n_ro.RO_SV
+RO_149753,Păltinoasa,149753,base.ro,RO_NE,l10n_ro.RO_SV
+RO_149682,Panaci,149682,base.ro,RO_NE,l10n_ro.RO_SV
+RO_149780,"Pârteştii De Jos",149780,base.ro,RO_NE,l10n_ro.RO_SV
+RO_149833,Pătrăuţi,149833,base.ro,RO_NE,l10n_ro.RO_SV
+RO_149851,"Poiana Stampei",149851,base.ro,RO_NE,l10n_ro.RO_SV
+RO_151585,Poieni-Solca,151585,base.ro,RO_NE,l10n_ro.RO_SV
+RO_149931,Pojorâta,149931,base.ro,RO_NE,l10n_ro.RO_SV
+RO_149968,Preuteşti,149968,base.ro,RO_NE,l10n_ro.RO_SV
+RO_150043,Putna,150043,base.ro,RO_NE,l10n_ro.RO_SV
+RO_150070,Rădăşeni,150070,base.ro,RO_NE,l10n_ro.RO_SV
+RO_146628,Rădăuţi,146628,base.ro,RO_NE,l10n_ro.RO_SV
+RO_150114,Râşca,150114,base.ro,RO_NE,l10n_ro.RO_SV
+RO_150178,Sadova,150178,base.ro,RO_NE,l10n_ro.RO_SV
+RO_146370,Salcea,146370,base.ro,RO_NE,l10n_ro.RO_SV
+RO_150445,"Şaru Dornei",150445,base.ro,RO_NE,l10n_ro.RO_SV
+RO_150196,"Satu Mare",150196,base.ro,RO_NE,l10n_ro.RO_SV
+RO_146432,Şcheia,146432,base.ro,RO_NE,l10n_ro.RO_SV
+RO_151460,Şerbăuţi,151460,base.ro,RO_NE,l10n_ro.RO_SV
+RO_150221,Siminicea,150221,base.ro,RO_NE,l10n_ro.RO_SV
+RO_146655,Siret,146655,base.ro,RO_NE,l10n_ro.RO_SV
+RO_150258,Slatina,150258,base.ro,RO_NE,l10n_ro.RO_SV
+RO_146708,Solca,146708,base.ro,RO_NE,l10n_ro.RO_SV
+RO_150294,Straja,150294,base.ro,RO_NE,l10n_ro.RO_SV
+RO_150310,Stroieşti,150310,base.ro,RO_NE,l10n_ro.RO_SV
+RO_150356,Stulpicani,150356,base.ro,RO_NE,l10n_ro.RO_SV
+RO_146263,Suceava,146263,base.ro,RO_NE,l10n_ro.RO_SV
+RO_150418,Suceviţa,150418,base.ro,RO_NE,l10n_ro.RO_SV
+RO_150524,Todireşti,150524,base.ro,RO_NE,l10n_ro.RO_SV
+RO_150588,Udeşti,150588,base.ro,RO_NE,l10n_ro.RO_SV
+RO_150702,Ulma,150702,base.ro,RO_NE,l10n_ro.RO_SV
+RO_150766,"Vadu Moldovei",150766,base.ro,RO_NE,l10n_ro.RO_SV
+RO_150891,"Valea Moldovei",150891,base.ro,RO_NE,l10n_ro.RO_SV
+RO_150935,Vama,150935,base.ro,RO_NE,l10n_ro.RO_SV
+RO_146744,"Vatra Dornei",146744,base.ro,RO_NE,l10n_ro.RO_SV
+RO_150980,"Vatra Moldoviţei",150980,base.ro,RO_NE,l10n_ro.RO_SV
+RO_151022,Vereşti,151022,base.ro,RO_NE,l10n_ro.RO_SV
+RO_151077,"Vicovu De Jos",151077,base.ro,RO_NE,l10n_ro.RO_SV
+RO_151095,"Vicovu De Sus",151095,base.ro,RO_NE,l10n_ro.RO_SV
+RO_151558,Voitinel,151558,base.ro,RO_NE,l10n_ro.RO_SV
+RO_151120,Volovăţ,151120,base.ro,RO_NE,l10n_ro.RO_SV
+RO_151157,Vultureşti,151157,base.ro,RO_NE,l10n_ro.RO_SV
+RO_151246,Zamostea,151246,base.ro,RO_NE,l10n_ro.RO_SV
+RO_151344,Zvoriştea,151344,base.ro,RO_NE,l10n_ro.RO_SV
+RO_151790,Alexandria,151790,base.ro,RO_SM,l10n_ro.RO_TR
+RO_152038,Băbăiţa,152038,base.ro,RO_SM,l10n_ro.RO_TR
+RO_151996,Balaci,151996,base.ro,RO_SM,l10n_ro.RO_TR
+RO_155083,Beciu,155083,base.ro,RO_SM,l10n_ro.RO_TR
+RO_155092,Beuca,155092,base.ro,RO_SM,l10n_ro.RO_TR
+RO_152083,Blejeşti,152083,base.ro,RO_SM,l10n_ro.RO_TR
+RO_152127,Bogdana,152127,base.ro,RO_SM,l10n_ro.RO_TR
+RO_152172,Botoroaga,152172,base.ro,RO_SM,l10n_ro.RO_TR
+RO_152234,Bragadiru,152234,base.ro,RO_SM,l10n_ro.RO_TR
+RO_152252,Brânceni,152252,base.ro,RO_SM,l10n_ro.RO_TR
+RO_152270,Bujoreni,152270,base.ro,RO_SM,l10n_ro.RO_TR
+RO_152314,Bujoru,152314,base.ro,RO_SM,l10n_ro.RO_TR
+RO_152332,Buzescu,152332,base.ro,RO_SM,l10n_ro.RO_TR
+RO_152350,Călineşti,152350,base.ro,RO_SM,l10n_ro.RO_TR
+RO_152412,Călmăţuiu,152412,base.ro,RO_SM,l10n_ro.RO_TR
+RO_152467,"Călmăţuiu De Sus",152467,base.ro,RO_SM,l10n_ro.RO_TR
+RO_152500,Cervenia,152500,base.ro,RO_SM,l10n_ro.RO_TR
+RO_152528,Ciolăneşti,152528,base.ro,RO_SM,l10n_ro.RO_TR
+RO_151709,Ciuperceni,151709,base.ro,RO_SM,l10n_ro.RO_TR
+RO_152564,Conţeşti,152564,base.ro,RO_SM,l10n_ro.RO_TR
+RO_152582,Cosmeşti,152582,base.ro,RO_SM,l10n_ro.RO_TR
+RO_152617,Crângeni,152617,base.ro,RO_SM,l10n_ro.RO_TR
+RO_152662,Crângu,152662,base.ro,RO_SM,l10n_ro.RO_TR
+RO_151932,Crevenicu,151932,base.ro,RO_SM,l10n_ro.RO_TR
+RO_152724,Dideşti,152724,base.ro,RO_SM,l10n_ro.RO_TR
+RO_152760,Dobroteşti,152760,base.ro,RO_SM,l10n_ro.RO_TR
+RO_155109,Dracea,155109,base.ro,RO_SM,l10n_ro.RO_TR
+RO_152797,Drăcşenei,152797,base.ro,RO_SM,l10n_ro.RO_TR
+RO_152868,"Drăgăneşti De Vede",152868,base.ro,RO_SM,l10n_ro.RO_TR
+RO_152902,Drăgăneşti-Vlaşca,152902,base.ro,RO_SM,l10n_ro.RO_TR
+RO_155118,Fântânele,155118,base.ro,RO_SM,l10n_ro.RO_TR
+RO_155127,Frăsinet,155127,base.ro,RO_SM,l10n_ro.RO_TR
+RO_152993,Frumoasa,152993,base.ro,RO_SM,l10n_ro.RO_TR
+RO_152948,Furculeşti,152948,base.ro,RO_SM,l10n_ro.RO_TR
+RO_153026,Gălăteni,153026,base.ro,RO_SM,l10n_ro.RO_TR
+RO_153062,Gratia,153062,base.ro,RO_SM,l10n_ro.RO_TR
+RO_151736,Islaz,151736,base.ro,RO_SM,l10n_ro.RO_TR
+RO_153106,Izvoarele,153106,base.ro,RO_SM,l10n_ro.RO_TR
+RO_153124,Lisa,153124,base.ro,RO_SM,l10n_ro.RO_TR
+RO_151763,Liţa,151763,base.ro,RO_SM,l10n_ro.RO_TR
+RO_153151,Lunca,153151,base.ro,RO_SM,l10n_ro.RO_TR
+RO_153240,Măgura,153240,base.ro,RO_SM,l10n_ro.RO_TR
+RO_153277,Măldăeni,153277,base.ro,RO_SM,l10n_ro.RO_TR
+RO_153339,Mârzăneşti,153339,base.ro,RO_SM,l10n_ro.RO_TR
+RO_153204,Mavrodin,153204,base.ro,RO_SM,l10n_ro.RO_TR
+RO_153295,Mereni,153295,base.ro,RO_SM,l10n_ro.RO_TR
+RO_153384,Moşteni,153384,base.ro,RO_SM,l10n_ro.RO_TR
+RO_151816,Nanov,151816,base.ro,RO_SM,l10n_ro.RO_TR
+RO_153400,Năsturelu,153400,base.ro,RO_SM,l10n_ro.RO_TR
+RO_153437,Necşeşti,153437,base.ro,RO_SM,l10n_ro.RO_TR
+RO_154996,Nenciuleşti,154996,base.ro,RO_SM,l10n_ro.RO_TR
+RO_153473,Olteni,153473,base.ro,RO_SM,l10n_ro.RO_TR
+RO_153507,Orbeasca,153507,base.ro,RO_SM,l10n_ro.RO_TR
+RO_153543,Peretu,153543,base.ro,RO_SM,l10n_ro.RO_TR
+RO_153561,Piatra,153561,base.ro,RO_SM,l10n_ro.RO_TR
+RO_153589,Pietroşani,153589,base.ro,RO_SM,l10n_ro.RO_TR
+RO_153623,Plopii-Slăviteşti,153623,base.ro,RO_SM,l10n_ro.RO_TR
+RO_153605,Plosca,153605,base.ro,RO_SM,l10n_ro.RO_TR
+RO_153696,Poeni,153696,base.ro,RO_SM,l10n_ro.RO_TR
+RO_151834,Poroschia,151834,base.ro,RO_SM,l10n_ro.RO_TR
+RO_155136,Purani,155136,base.ro,RO_SM,l10n_ro.RO_TR
+RO_153829,Putineiu,153829,base.ro,RO_SM,l10n_ro.RO_TR
+RO_153865,Rădoieşti,153865,base.ro,RO_SM,l10n_ro.RO_TR
+RO_153909,Răsmireşti,153909,base.ro,RO_SM,l10n_ro.RO_TR
+RO_151870,"Roşiori De Vede",151870,base.ro,RO_SM,l10n_ro.RO_TR
+RO_153972,Săceni,153972,base.ro,RO_SM,l10n_ro.RO_TR
+RO_155145,Saelele,155145,base.ro,RO_SM,l10n_ro.RO_TR
+RO_153936,Salcia,153936,base.ro,RO_SM,l10n_ro.RO_TR
+RO_154308,Sârbeni,154308,base.ro,RO_SM,l10n_ro.RO_TR
+RO_154013,Scrioaştea,154013,base.ro,RO_SM,l10n_ro.RO_TR
+RO_154068,"Scurtu Mare",154068,base.ro,RO_SM,l10n_ro.RO_TR
+RO_154139,Seaca,154139,base.ro,RO_SM,l10n_ro.RO_TR
+RO_154184,Segarcea-Vale,154184,base.ro,RO_SM,l10n_ro.RO_TR
+RO_154166,Sfinţeşti,154166,base.ro,RO_SM,l10n_ro.RO_TR
+RO_154228,Siliştea,154228,base.ro,RO_SM,l10n_ro.RO_TR
+RO_154282,Siliştea-Gumeşti,154282,base.ro,RO_SM,l10n_ro.RO_TR
+RO_154344,"Slobozia Mândra",154344,base.ro,RO_SM,l10n_ro.RO_TR
+RO_154380,Smârdioasa,154380,base.ro,RO_SM,l10n_ro.RO_TR
+RO_154415,Stejaru,154415,base.ro,RO_SM,l10n_ro.RO_TR
+RO_154497,Ştorobăneasa,154497,base.ro,RO_SM,l10n_ro.RO_TR
+RO_154460,Suhaia,154460,base.ro,RO_SM,l10n_ro.RO_TR
+RO_154521,Talpa,154521,base.ro,RO_SM,l10n_ro.RO_TR
+RO_154585,"Tătărăştii De Jos",154585,base.ro,RO_SM,l10n_ro.RO_TR
+RO_154665,"Tătărăştii De Sus",154665,base.ro,RO_SM,l10n_ro.RO_TR
+RO_154834,Ţigăneşti,154834,base.ro,RO_SM,l10n_ro.RO_TR
+RO_154736,Traian,154736,base.ro,RO_SM,l10n_ro.RO_TR
+RO_154754,Trivalea-Moşteni,154754,base.ro,RO_SM,l10n_ro.RO_TR
+RO_154790,Troianul,154790,base.ro,RO_SM,l10n_ro.RO_TR
+RO_151683,"Turnu Măgurele",151683,base.ro,RO_SM,l10n_ro.RO_TR
+RO_155154,Uda-Clocociov,155154,base.ro,RO_SM,l10n_ro.RO_TR
+RO_154932,Vârtoape,154932,base.ro,RO_SM,l10n_ro.RO_TR
+RO_154852,Vedea,154852,base.ro,RO_SM,l10n_ro.RO_TR
+RO_151905,Videle,151905,base.ro,RO_SM,l10n_ro.RO_TR
+RO_154914,Viişoara,154914,base.ro,RO_SM,l10n_ro.RO_TR
+RO_153776,Vităneşti,153776,base.ro,RO_SM,l10n_ro.RO_TR
+RO_154978,Zâmbreasca,154978,base.ro,RO_SM,l10n_ro.RO_TR
+RO_151978,Zimnicea,151978,base.ro,RO_SM,l10n_ro.RO_TR
+RO_155546,Balinţ,155546,base.ro,RO_V,l10n_ro.RO_TM
+RO_155591,Banloc,155591,base.ro,RO_V,l10n_ro.RO_TM
+RO_155662,Bara,155662,base.ro,RO_V,l10n_ro.RO_TM
+RO_155957,Bârna,155957,base.ro,RO_V,l10n_ro.RO_TM
+RO_155724,"Beba Veche",155724,base.ro,RO_V,l10n_ro.RO_TM
+RO_155760,"Becicherecu Mic",155760,base.ro,RO_V,l10n_ro.RO_TM
+RO_155797,Belinţ,155797,base.ro,RO_V,l10n_ro.RO_TM
+RO_155840,Bethausen,155840,base.ro,RO_V,l10n_ro.RO_TM
+RO_155911,Biled,155911,base.ro,RO_V,l10n_ro.RO_TM
+RO_159366,Birda,159366,base.ro,RO_V,l10n_ro.RO_TM
+RO_156035,Bogda,156035,base.ro,RO_V,l10n_ro.RO_TM
+RO_156106,Boldur,156106,base.ro,RO_V,l10n_ro.RO_TM
+RO_156151,Brestovăţ,156151,base.ro,RO_V,l10n_ro.RO_TM
+RO_159516,Bucovăţ,159516,base.ro,RO_V,l10n_ro.RO_TM
+RO_155403,Buziaş,155403,base.ro,RO_V,l10n_ro.RO_TM
+RO_156213,Cărpiniş,156213,base.ro,RO_V,l10n_ro.RO_TM
+RO_156259,Cenad,156259,base.ro,RO_V,l10n_ro.RO_TM
+RO_156277,Cenei,156277,base.ro,RO_V,l10n_ro.RO_TM
+RO_159375,Checea,159375,base.ro,RO_V,l10n_ro.RO_TM
+RO_156311,"Chevereşu Mare",156311,base.ro,RO_V,l10n_ro.RO_TM
+RO_156357,Ciacova,156357,base.ro,RO_V,l10n_ro.RO_TM
+RO_156437,"Comloşu Mare",156437,base.ro,RO_V,l10n_ro.RO_TM
+RO_156473,Coşteiu,156473,base.ro,RO_V,l10n_ro.RO_TM
+RO_156534,Criciova,156534,base.ro,RO_V,l10n_ro.RO_TM
+RO_156589,Curtea,156589,base.ro,RO_V,l10n_ro.RO_TM
+RO_156623,Darova,156623,base.ro,RO_V,l10n_ro.RO_TM
+RO_156669,Denta,156669,base.ro,RO_V,l10n_ro.RO_TM
+RO_155458,Deta,155458,base.ro,RO_V,l10n_ro.RO_TM
+RO_159384,"Dudeştii Noi",159384,base.ro,RO_V,l10n_ro.RO_TM
+RO_156712,"Dudeştii Vechi",156712,base.ro,RO_V,l10n_ro.RO_TM
+RO_156767,Dumbrava,156767,base.ro,RO_V,l10n_ro.RO_TM
+RO_155261,Dumbrăviţa,155261,base.ro,RO_V,l10n_ro.RO_TM
+RO_156801,Făget,156801,base.ro,RO_V,l10n_ro.RO_TM
+RO_156927,Fârdea,156927,base.ro,RO_V,l10n_ro.RO_TM
+RO_159393,Fibiş,159393,base.ro,RO_V,l10n_ro.RO_TM
+RO_157004,Foeni,157004,base.ro,RO_V,l10n_ro.RO_TM
+RO_157086,Gătaia,157086,base.ro,RO_V,l10n_ro.RO_TM
+RO_157031,Gavojdia,157031,base.ro,RO_V,l10n_ro.RO_TM
+RO_159400,Ghilad,159400,base.ro,RO_V,l10n_ro.RO_TM
+RO_155289,Ghiroda,155289,base.ro,RO_V,l10n_ro.RO_TM
+RO_157193,Ghizela,157193,base.ro,RO_V,l10n_ro.RO_TM
+RO_157246,Giarmata,157246,base.ro,RO_V,l10n_ro.RO_TM
+RO_157273,Giera,157273,base.ro,RO_V,l10n_ro.RO_TM
+RO_155314,Giroc,155314,base.ro,RO_V,l10n_ro.RO_TM
+RO_157317,Giulvăz,157317,base.ro,RO_V,l10n_ro.RO_TM
+RO_159419,Gottlob,159419,base.ro,RO_V,l10n_ro.RO_TM
+RO_159428,"Iecea Mare",159428,base.ro,RO_V,l10n_ro.RO_TM
+RO_157362,"Jamu Mare",157362,base.ro,RO_V,l10n_ro.RO_TM
+RO_157424,Jebel,157424,base.ro,RO_V,l10n_ro.RO_TM
+RO_155494,Jimbolia,155494,base.ro,RO_V,l10n_ro.RO_TM
+RO_157451,Lenauheim,157451,base.ro,RO_V,l10n_ro.RO_TM
+RO_157497,Liebling,157497,base.ro,RO_V,l10n_ro.RO_TM
+RO_159491,Livezile,159491,base.ro,RO_V,l10n_ro.RO_TM
+RO_157530,Lovrin,157530,base.ro,RO_V,l10n_ro.RO_TM
+RO_155350,Lugoj,155350,base.ro,RO_V,l10n_ro.RO_TM
+RO_157736,Mănăştiur,157736,base.ro,RO_V,l10n_ro.RO_TM
+RO_157585,Margina,157585,base.ro,RO_V,l10n_ro.RO_TM
+RO_157683,Maşloc,157683,base.ro,RO_V,l10n_ro.RO_TM
+RO_157781,Moraviţa,157781,base.ro,RO_V,l10n_ro.RO_TM
+RO_157834,"Moşniţa Nouă",157834,base.ro,RO_V,l10n_ro.RO_TM
+RO_157898,Nădrag,157898,base.ro,RO_V,l10n_ro.RO_TM
+RO_157923,Niţchidorf,157923,base.ro,RO_V,l10n_ro.RO_TM
+RO_157969,"Ohaba Lungă",157969,base.ro,RO_V,l10n_ro.RO_TM
+RO_158010,Orţişoara,158010,base.ro,RO_V,l10n_ro.RO_TM
+RO_159525,Otelec,159525,base.ro,RO_V,l10n_ro.RO_TM
+RO_159446,Pădureni,159446,base.ro,RO_V,l10n_ro.RO_TM
+RO_159437,Parţa,159437,base.ro,RO_V,l10n_ro.RO_TM
+RO_158065,"Peciu Nou",158065,base.ro,RO_V,l10n_ro.RO_TM
+RO_158109,Periam,158109,base.ro,RO_V,l10n_ro.RO_TM
+RO_159507,Pesac,159507,base.ro,RO_V,l10n_ro.RO_TM
+RO_158136,Pietroasa,158136,base.ro,RO_V,l10n_ro.RO_TM
+RO_158181,Pişchia,158181,base.ro,RO_V,l10n_ro.RO_TM
+RO_158243,Racoviţa,158243,base.ro,RO_V,l10n_ro.RO_TM
+RO_158314,Recaş,158314,base.ro,RO_V,l10n_ro.RO_TM
+RO_158396,"Remetea Mare",158396,base.ro,RO_V,l10n_ro.RO_TM
+RO_158564,Săcălaz,158564,base.ro,RO_V,l10n_ro.RO_TM
+RO_158449,"Sacoşu Turcesc",158449,base.ro,RO_V,l10n_ro.RO_TM
+RO_158779,Şag,158779,base.ro,RO_V,l10n_ro.RO_TM
+RO_158653,Sânandrei,158653,base.ro,RO_V,l10n_ro.RO_TM
+RO_159464,Şandra,159464,base.ro,RO_V,l10n_ro.RO_TM
+RO_158699,"Sânmihaiu Român",158699,base.ro,RO_V,l10n_ro.RO_TM
+RO_155528,"Sânnicolau Mare",155528,base.ro,RO_V,l10n_ro.RO_TM
+RO_158733,"Sânpetru Mare",158733,base.ro,RO_V,l10n_ro.RO_TM
+RO_159455,Saravale,159455,base.ro,RO_V,l10n_ro.RO_TM
+RO_158528,Satchinez,158528,base.ro,RO_V,l10n_ro.RO_TM
+RO_158608,Secaş,158608,base.ro,RO_V,l10n_ro.RO_TM
+RO_158804,Ştiuca,158804,base.ro,RO_V,l10n_ro.RO_TM
+RO_158859,"Teremia Mare",158859,base.ro,RO_V,l10n_ro.RO_TM
+RO_155243,Timişoara,155243,base.ro,RO_V,l10n_ro.RO_TM
+RO_158895,Tomeşti,158895,base.ro,RO_V,l10n_ro.RO_TM
+RO_159473,Tomnatic,159473,base.ro,RO_V,l10n_ro.RO_TM
+RO_158966,"Topolovăţu Mare",158966,base.ro,RO_V,l10n_ro.RO_TM
+RO_159035,Tormac,159035,base.ro,RO_V,l10n_ro.RO_TM
+RO_159071,"Traian Vuia",159071,base.ro,RO_V,l10n_ro.RO_TM
+RO_159142,Uivar,159142,base.ro,RO_V,l10n_ro.RO_TM
+RO_159482,Vâlcani,159482,base.ro,RO_V,l10n_ro.RO_TM
+RO_159213,Variaş,159213,base.ro,RO_V,l10n_ro.RO_TM
+RO_159259,"Victor Vlad Delamarina",159259,base.ro,RO_V,l10n_ro.RO_TM
+RO_159339,Voiteg,159339,base.ro,RO_V,l10n_ro.RO_TM
+RO_159650,Babadag,159650,base.ro,RO_SE,l10n_ro.RO_TL
+RO_159785,Baia,159785,base.ro,RO_SE,l10n_ro.RO_TL
+RO_159847,Beidaud,159847,base.ro,RO_SE,l10n_ro.RO_TL
+RO_161552,Beştepe,161552,base.ro,RO_SE,l10n_ro.RO_TL
+RO_159883,"C.A. Rosetti",159883,base.ro,RO_SE,l10n_ro.RO_TL
+RO_159945,Carcaliu,159945,base.ro,RO_SE,l10n_ro.RO_TL
+RO_159963,Casimcea,159963,base.ro,RO_SE,l10n_ro.RO_TL
+RO_160092,"Ceamurlia De Jos",160092,base.ro,RO_SE,l10n_ro.RO_TL
+RO_160047,Ceatalchioi,160047,base.ro,RO_SE,l10n_ro.RO_TL
+RO_160127,Cerna,160127,base.ro,RO_SE,l10n_ro.RO_TL
+RO_160172,"Chilia Veche",160172,base.ro,RO_SE,l10n_ro.RO_TL
+RO_160225,Ciucurova,160225,base.ro,RO_SE,l10n_ro.RO_TL
+RO_160261,Crişan,160261,base.ro,RO_SE,l10n_ro.RO_TL
+RO_160305,Dăeni,160305,base.ro,RO_SE,l10n_ro.RO_TL
+RO_160323,Dorobanţu,160323,base.ro,RO_SE,l10n_ro.RO_TL
+RO_160387,Frecăţei,160387,base.ro,RO_SE,l10n_ro.RO_TL
+RO_160430,Greci,160430,base.ro,RO_SE,l10n_ro.RO_TL
+RO_160458,Grindu,160458,base.ro,RO_SE,l10n_ro.RO_TL
+RO_160476,Hamcearca,160476,base.ro,RO_SE,l10n_ro.RO_TL
+RO_160528,Horia,160528,base.ro,RO_SE,l10n_ro.RO_TL
+RO_161525,I.C.Brătianu,161525,base.ro,RO_SE,l10n_ro.RO_TL
+RO_159687,Isaccea,159687,base.ro,RO_SE,l10n_ro.RO_TL
+RO_160564,Izvoarele,160564,base.ro,RO_SE,l10n_ro.RO_TL
+RO_160617,Jijila,160617,base.ro,RO_SE,l10n_ro.RO_TL
+RO_160644,Jurilovca,160644,base.ro,RO_SE,l10n_ro.RO_TL
+RO_160680,Luncaviţa,160680,base.ro,RO_SE,l10n_ro.RO_TL
+RO_159730,Măcin,159730,base.ro,RO_SE,l10n_ro.RO_TL
+RO_160724,Mahmudia,160724,base.ro,RO_SE,l10n_ro.RO_TL
+RO_160779,Maliuc,160779,base.ro,RO_SE,l10n_ro.RO_TL
+RO_160831,"Mihai Bravu",160831,base.ro,RO_SE,l10n_ro.RO_TL
+RO_160877,"Mihail Kogălniceanu",160877,base.ro,RO_SE,l10n_ro.RO_TL
+RO_160911,Murighiol,160911,base.ro,RO_SE,l10n_ro.RO_TL
+RO_160993,Nalbant,160993,base.ro,RO_SE,l10n_ro.RO_TL
+RO_161035,Niculiţel,161035,base.ro,RO_SE,l10n_ro.RO_TL
+RO_161053,Nufăru,161053,base.ro,RO_SE,l10n_ro.RO_TL
+RO_161106,Ostrov,161106,base.ro,RO_SE,l10n_ro.RO_TL
+RO_161133,Pardina,161133,base.ro,RO_SE,l10n_ro.RO_TL
+RO_161151,Peceneaga,161151,base.ro,RO_SE,l10n_ro.RO_TL
+RO_161179,Sarichioi,161179,base.ro,RO_SE,l10n_ro.RO_TL
+RO_161231,"Sfântu Gheorghe",161231,base.ro,RO_SE,l10n_ro.RO_TL
+RO_161259,"Slava Cercheză",161259,base.ro,RO_SE,l10n_ro.RO_TL
+RO_161286,Smârdan,161286,base.ro,RO_SE,l10n_ro.RO_TL
+RO_161302,Somova,161302,base.ro,RO_SE,l10n_ro.RO_TL
+RO_161348,Stejaru,161348,base.ro,RO_SE,l10n_ro.RO_TL
+RO_159767,Sulina,159767,base.ro,RO_SE,l10n_ro.RO_TL
+RO_161384,Topolog,161384,base.ro,RO_SE,l10n_ro.RO_TL
+RO_159614,Tulcea,159614,base.ro,RO_SE,l10n_ro.RO_TL
+RO_161464,Turcoaia,161464,base.ro,RO_SE,l10n_ro.RO_TL
+RO_161543,Văcăreni,161543,base.ro,RO_SE,l10n_ro.RO_TL
+RO_161482,"Valea Nucarilor",161482,base.ro,RO_SE,l10n_ro.RO_TL
+RO_161561,"Valea Teilor",161561,base.ro,RO_SE,l10n_ro.RO_TL
+RO_162014,Albeşti,162014,base.ro,RO_NE,l10n_ro.RO_VS
+RO_162069,"Alexandru Vlahuţă",162069,base.ro,RO_NE,l10n_ro.RO_VS
+RO_162149,Arsura,162149,base.ro,RO_NE,l10n_ro.RO_VS
+RO_162327,Băcani,162327,base.ro,RO_NE,l10n_ro.RO_VS
+RO_162381,Băceşti,162381,base.ro,RO_NE,l10n_ro.RO_VS
+RO_162452,Bălteni,162452,base.ro,RO_NE,l10n_ro.RO_VS
+RO_162194,Banca,162194,base.ro,RO_NE,l10n_ro.RO_VS
+RO_161794,Bârlad,161794,base.ro,RO_NE,l10n_ro.RO_VS
+RO_162498,Berezeni,162498,base.ro,RO_NE,l10n_ro.RO_VS
+RO_162559,Blăgeşti,162559,base.ro,RO_NE,l10n_ro.RO_VS
+RO_162595,Bogdana,162595,base.ro,RO_NE,l10n_ro.RO_VS
+RO_162693,Bogdăneşti,162693,base.ro,RO_NE,l10n_ro.RO_VS
+RO_162791,Bogdăniţa,162791,base.ro,RO_NE,l10n_ro.RO_VS
+RO_162871,Boţeşti,162871,base.ro,RO_NE,l10n_ro.RO_VS
+RO_162924,Buneşti-Avereşti,162924,base.ro,RO_NE,l10n_ro.RO_VS
+RO_167268,Ciocani,167268,base.ro,RO_NE,l10n_ro.RO_VS
+RO_163002,Codăeşti,163002,base.ro,RO_NE,l10n_ro.RO_VS
+RO_163057,Coroieşti,163057,base.ro,RO_NE,l10n_ro.RO_VS
+RO_163137,Costeşti,163137,base.ro,RO_NE,l10n_ro.RO_VS
+RO_167277,Cozmeşti,167277,base.ro,RO_NE,l10n_ro.RO_VS
+RO_163208,Creţeşti,163208,base.ro,RO_NE,l10n_ro.RO_VS
+RO_163253,Dăneşti,163253,base.ro,RO_NE,l10n_ro.RO_VS
+RO_163324,Deleni,163324,base.ro,RO_NE,l10n_ro.RO_VS
+RO_163379,Deleşti,163379,base.ro,RO_NE,l10n_ro.RO_VS
+RO_164277,"Dimitrie Cantemir",164277,base.ro,RO_NE,l10n_ro.RO_VS
+RO_167286,Dodeşti,167286,base.ro,RO_NE,l10n_ro.RO_VS
+RO_163486,Dragomireşti,163486,base.ro,RO_NE,l10n_ro.RO_VS
+RO_163618,Drânceni,163618,base.ro,RO_NE,l10n_ro.RO_VS
+RO_163681,Duda-Epureni,163681,base.ro,RO_NE,l10n_ro.RO_VS
+RO_163734,Dumeşti,163734,base.ro,RO_NE,l10n_ro.RO_VS
+RO_163789,Epureni,163789,base.ro,RO_NE,l10n_ro.RO_VS
+RO_163832,Fălciu,163832,base.ro,RO_NE,l10n_ro.RO_VS
+RO_167295,Fereşti,167295,base.ro,RO_NE,l10n_ro.RO_VS
+RO_167231,Fruntişeni,167231,base.ro,RO_NE,l10n_ro.RO_VS
+RO_163903,Găgeşti,163903,base.ro,RO_NE,l10n_ro.RO_VS
+RO_164062,Gârceni,164062,base.ro,RO_NE,l10n_ro.RO_VS
+RO_163967,Ghergheşti,163967,base.ro,RO_NE,l10n_ro.RO_VS
+RO_164133,Griviţa,164133,base.ro,RO_NE,l10n_ro.RO_VS
+RO_164197,Hoceni,164197,base.ro,RO_NE,l10n_ro.RO_VS
+RO_161829,Huşi,161829,base.ro,RO_NE,l10n_ro.RO_VS
+RO_164339,Iana,164339,base.ro,RO_NE,l10n_ro.RO_VS
+RO_167222,Ibăneşti,167222,base.ro,RO_NE,l10n_ro.RO_VS
+RO_164393,Ivăneşti,164393,base.ro,RO_NE,l10n_ro.RO_VS
+RO_164543,Iveşti,164543,base.ro,RO_NE,l10n_ro.RO_VS
+RO_164598,Laza,164598,base.ro,RO_NE,l10n_ro.RO_VS
+RO_164687,Lipovăţ,164687,base.ro,RO_NE,l10n_ro.RO_VS
+RO_164749,"Lunca Banului",164749,base.ro,RO_NE,l10n_ro.RO_VS
+RO_164829,Măluşteni,164829,base.ro,RO_NE,l10n_ro.RO_VS
+RO_164892,Micleşti,164892,base.ro,RO_NE,l10n_ro.RO_VS
+RO_164936,"Muntenii De Jos",164936,base.ro,RO_NE,l10n_ro.RO_VS
+RO_167302,"Muntenii De Sus",167302,base.ro,RO_NE,l10n_ro.RO_VS
+RO_164981,Murgeni,164981,base.ro,RO_NE,l10n_ro.RO_VS
+RO_161856,Negreşti,161856,base.ro,RO_NE,l10n_ro.RO_VS
+RO_165069,Olteneşti,165069,base.ro,RO_NE,l10n_ro.RO_VS
+RO_165130,Oşeşti,165130,base.ro,RO_NE,l10n_ro.RO_VS
+RO_165185,Pădureni,165185,base.ro,RO_NE,l10n_ro.RO_VS
+RO_165274,Perieni,165274,base.ro,RO_NE,l10n_ro.RO_VS
+RO_167311,Pochidia,167311,base.ro,RO_NE,l10n_ro.RO_VS
+RO_165416,Pogana,165416,base.ro,RO_NE,l10n_ro.RO_VS
+RO_167259,Pogoneşti,167259,base.ro,RO_NE,l10n_ro.RO_VS
+RO_165336,Poieneşti,165336,base.ro,RO_NE,l10n_ro.RO_VS
+RO_165470,Puieşti,165470,base.ro,RO_NE,l10n_ro.RO_VS
+RO_165611,Pungeşti,165611,base.ro,RO_NE,l10n_ro.RO_VS
+RO_167320,Puşcaşi,167320,base.ro,RO_NE,l10n_ro.RO_VS
+RO_167240,Rafaila,167240,base.ro,RO_NE,l10n_ro.RO_VS
+RO_165719,Rebricea,165719,base.ro,RO_NE,l10n_ro.RO_VS
+RO_165817,Roşieşti,165817,base.ro,RO_NE,l10n_ro.RO_VS
+RO_165899,Soleşti,165899,base.ro,RO_NE,l10n_ro.RO_VS
+RO_165979,Stănileşti,165979,base.ro,RO_NE,l10n_ro.RO_VS
+RO_166057,"Ştefan Cel Mare",166057,base.ro,RO_NE,l10n_ro.RO_VS
+RO_166137,Şuletea,166137,base.ro,RO_NE,l10n_ro.RO_VS
+RO_166235,Tăcuta,166235,base.ro,RO_NE,l10n_ro.RO_VS
+RO_166182,Tanacu,166182,base.ro,RO_NE,l10n_ro.RO_VS
+RO_166315,Tătărăni,166315,base.ro,RO_NE,l10n_ro.RO_VS
+RO_166413,Todireşti,166413,base.ro,RO_NE,l10n_ro.RO_VS
+RO_166529,Tutova,166529,base.ro,RO_NE,l10n_ro.RO_VS
+RO_166636,Văleni,166636,base.ro,RO_NE,l10n_ro.RO_VS
+RO_161945,Vaslui,161945,base.ro,RO_NE,l10n_ro.RO_VS
+RO_166672,Vetrişoaia,166672,base.ro,RO_NE,l10n_ro.RO_VS
+RO_166707,Viişoara,166707,base.ro,RO_NE,l10n_ro.RO_VS
+RO_166770,Vinderei,166770,base.ro,RO_NE,l10n_ro.RO_VS
+RO_166869,Voineşti,166869,base.ro,RO_NE,l10n_ro.RO_VS
+RO_166985,Vultureşti,166985,base.ro,RO_NE,l10n_ro.RO_VS
+RO_167035,Vutcani,167035,base.ro,RO_NE,l10n_ro.RO_VS
+RO_167071,Zăpodeni,167071,base.ro,RO_NE,l10n_ro.RO_VS
+RO_167179,Zorleni,167179,base.ro,RO_NE,l10n_ro.RO_VS
+RO_168229,Alunu,168229,base.ro,RO_SVO,l10n_ro.RO_VL
+RO_168309,Amărăşti,168309,base.ro,RO_SVO,l10n_ro.RO_VL
+RO_168372,Băbeni,168372,base.ro,RO_SVO,l10n_ro.RO_VL
+RO_167641,"Băile Govora",167641,base.ro,RO_SVO,l10n_ro.RO_VL
+RO_167696,"Băile Olăneşti",167696,base.ro,RO_SVO,l10n_ro.RO_VL
+RO_168452,Bălceşti,168452,base.ro,RO_SVO,l10n_ro.RO_VL
+RO_168559,Bărbăteşti,168559,base.ro,RO_SVO,l10n_ro.RO_VL
+RO_168602,Berbeşti,168602,base.ro,RO_SVO,l10n_ro.RO_VL
+RO_168675,Berislăveşti,168675,base.ro,RO_SVO,l10n_ro.RO_VL
+RO_168755,Boişoara,168755,base.ro,RO_SVO,l10n_ro.RO_VL
+RO_167794,Brezoi,167794,base.ro,RO_SVO,l10n_ro.RO_VL
+RO_168791,Budeşti,168791,base.ro,RO_SVO,l10n_ro.RO_VL
+RO_168880,Bujoreni,168880,base.ro,RO_SVO,l10n_ro.RO_VL
+RO_168960,Buneşti,168960,base.ro,RO_SVO,l10n_ro.RO_VL
+RO_169119,Câineni,169119,base.ro,RO_SVO,l10n_ro.RO_VL
+RO_167909,Călimăneşti,167909,base.ro,RO_SVO,l10n_ro.RO_VL
+RO_169039,Cernişoara,169039,base.ro,RO_SVO,l10n_ro.RO_VL
+RO_169182,Copăceni,169182,base.ro,RO_SVO,l10n_ro.RO_VL
+RO_169253,Costeşti,169253,base.ro,RO_SVO,l10n_ro.RO_VL
+RO_169306,Creţeni,169306,base.ro,RO_SVO,l10n_ro.RO_VL
+RO_169351,Dăeşti,169351,base.ro,RO_SVO,l10n_ro.RO_VL
+RO_169404,Dănicei,169404,base.ro,RO_SVO,l10n_ro.RO_VL
+RO_174502,Diculeşti,174502,base.ro,RO_SVO,l10n_ro.RO_VL
+RO_167981,Drăgăşani,167981,base.ro,RO_SVO,l10n_ro.RO_VL
+RO_169547,Drăgoeşti,169547,base.ro,RO_SVO,l10n_ro.RO_VL
+RO_169681,Fârtăţeşti,169681,base.ro,RO_SVO,l10n_ro.RO_VL
+RO_169583,Făureşti,169583,base.ro,RO_SVO,l10n_ro.RO_VL
+RO_169896,Frânceşti,169896,base.ro,RO_SVO,l10n_ro.RO_VL
+RO_169994,Galicea,169994,base.ro,RO_SVO,l10n_ro.RO_VL
+RO_170097,Ghioroiu,170097,base.ro,RO_SVO,l10n_ro.RO_VL
+RO_170168,Glăvile,170168,base.ro,RO_SVO,l10n_ro.RO_VL
+RO_170220,Goleşti,170220,base.ro,RO_SVO,l10n_ro.RO_VL
+RO_170346,Grădiştea,170346,base.ro,RO_SVO,l10n_ro.RO_VL
+RO_170444,Guşoeni,170444,base.ro,RO_SVO,l10n_ro.RO_VL
+RO_168041,Horezu,168041,base.ro,RO_SVO,l10n_ro.RO_VL
+RO_170514,Ioneşti,170514,base.ro,RO_SVO,l10n_ro.RO_VL
+RO_174511,Lăcusteni,174511,base.ro,RO_SVO,l10n_ro.RO_VL
+RO_170685,Lădeşti,170685,base.ro,RO_SVO,l10n_ro.RO_VL
+RO_170612,Laloşu,170612,base.ro,RO_SVO,l10n_ro.RO_VL
+RO_170792,Lăpuşata,170792,base.ro,RO_SVO,l10n_ro.RO_VL
+RO_170872,Livezi,170872,base.ro,RO_SVO,l10n_ro.RO_VL
+RO_170952,Lungeşti,170952,base.ro,RO_SVO,l10n_ro.RO_VL
+RO_171101,Măciuca,171101,base.ro,RO_SVO,l10n_ro.RO_VL
+RO_171209,Mădulari,171209,base.ro,RO_SVO,l10n_ro.RO_VL
+RO_171021,Malaia,171021,base.ro,RO_SVO,l10n_ro.RO_VL
+RO_171272,Măldăreşti,171272,base.ro,RO_SVO,l10n_ro.RO_VL
+RO_171067,Mateeşti,171067,base.ro,RO_SVO,l10n_ro.RO_VL
+RO_171325,Mihăeşti,171325,base.ro,RO_SVO,l10n_ro.RO_VL
+RO_171469,Milcoiu,171469,base.ro,RO_SVO,l10n_ro.RO_VL
+RO_174520,Mitrofani,174520,base.ro,RO_SVO,l10n_ro.RO_VL
+RO_171539,Muereasca,171539,base.ro,RO_SVO,l10n_ro.RO_VL
+RO_171628,"Nicolae Bălcescu",171628,base.ro,RO_SVO,l10n_ro.RO_VL
+RO_168130,"Ocnele Mari",168130,base.ro,RO_SVO,l10n_ro.RO_VL
+RO_171806,Olanu,171806,base.ro,RO_SVO,l10n_ro.RO_VL
+RO_171879,Orleşti,171879,base.ro,RO_SVO,l10n_ro.RO_VL
+RO_171931,Oteşani,171931,base.ro,RO_SVO,l10n_ro.RO_VL
+RO_171995,Păuşeşti,171995,base.ro,RO_SVO,l10n_ro.RO_VL
+RO_172082,Păuseşti-Măglaşi,172082,base.ro,RO_SVO,l10n_ro.RO_VL
+RO_172153,Perişani,172153,base.ro,RO_SVO,l10n_ro.RO_VL
+RO_172279,Pesceana,172279,base.ro,RO_SVO,l10n_ro.RO_VL
+RO_172340,Pietrari,172340,base.ro,RO_SVO,l10n_ro.RO_VL
+RO_172377,Popeşti,172377,base.ro,RO_SVO,l10n_ro.RO_VL
+RO_172457,Prundeni,172457,base.ro,RO_SVO,l10n_ro.RO_VL
+RO_172509,Racoviţa,172509,base.ro,RO_SVO,l10n_ro.RO_VL
+RO_167473,"Râmnicu Vâlcea",167473,base.ro,RO_SVO,l10n_ro.RO_VL
+RO_172581,Roeşti,172581,base.ro,RO_SVO,l10n_ro.RO_VL
+RO_172698,Roşiile,172698,base.ro,RO_SVO,l10n_ro.RO_VL
+RO_172812,Runcu,172812,base.ro,RO_SVO,l10n_ro.RO_VL
+RO_172894,Sălătrucel,172894,base.ro,RO_SVO,l10n_ro.RO_VL
+RO_172947,Scundu,172947,base.ro,RO_SVO,l10n_ro.RO_VL
+RO_172992,Sineşti,172992,base.ro,RO_SVO,l10n_ro.RO_VL
+RO_173686,Şirineasa,173686,base.ro,RO_SVO,l10n_ro.RO_VL
+RO_173061,Slătioara,173061,base.ro,RO_SVO,l10n_ro.RO_VL
+RO_173132,Stăneşti,173132,base.ro,RO_SVO,l10n_ro.RO_VL
+RO_173748,Ştefăneşti,173748,base.ro,RO_SVO,l10n_ro.RO_VL
+RO_173230,Stoeneşti,173230,base.ro,RO_SVO,l10n_ro.RO_VL
+RO_173374,Stoileşti,173374,base.ro,RO_SVO,l10n_ro.RO_VL
+RO_173533,Stroeşti,173533,base.ro,RO_SVO,l10n_ro.RO_VL
+RO_173793,Şuşani,173793,base.ro,RO_SVO,l10n_ro.RO_VL
+RO_173597,Suteşti,173597,base.ro,RO_SVO,l10n_ro.RO_VL
+RO_173855,Tetoiu,173855,base.ro,RO_SVO,l10n_ro.RO_VL
+RO_174496,Titeşti,174496,base.ro,RO_SVO,l10n_ro.RO_VL
+RO_173935,Tomşani,173935,base.ro,RO_SVO,l10n_ro.RO_VL
+RO_174021,Vaideeni,174021,base.ro,RO_SVO,l10n_ro.RO_VL
+RO_174085,"Valea Mare",174085,base.ro,RO_SVO,l10n_ro.RO_VL
+RO_174156,Vlădeşti,174156,base.ro,RO_SVO,l10n_ro.RO_VL
+RO_174218,Voiceşti,174218,base.ro,RO_SVO,l10n_ro.RO_VL
+RO_174254,Voineasa,174254,base.ro,RO_SVO,l10n_ro.RO_VL
+RO_174290,Zătreni,174290,base.ro,RO_SVO,l10n_ro.RO_VL
+RO_174860,Adjud,174860,base.ro,RO_SE,l10n_ro.RO_VN
+RO_175126,"Andreiaşu De Jos",175126,base.ro,RO_SE,l10n_ro.RO_VN
+RO_175206,Băleşti,175206,base.ro,RO_SE,l10n_ro.RO_VN
+RO_175224,Bârseşti,175224,base.ro,RO_SE,l10n_ro.RO_VN
+RO_178929,Bilieşti,178929,base.ro,RO_SE,l10n_ro.RO_VN
+RO_175260,Bogheşti,175260,base.ro,RO_SE,l10n_ro.RO_VN
+RO_175368,Boloteşti,175368,base.ro,RO_SE,l10n_ro.RO_VN
+RO_175439,Bordeşti,175439,base.ro,RO_SE,l10n_ro.RO_VN
+RO_175466,Broşteni,175466,base.ro,RO_SE,l10n_ro.RO_VN
+RO_174780,Câmpineanca,174780,base.ro,RO_SE,l10n_ro.RO_VN
+RO_175670,Câmpuri,175670,base.ro,RO_SE,l10n_ro.RO_VN
+RO_175732,Cârligele,175732,base.ro,RO_SE,l10n_ro.RO_VN
+RO_175509,Chiojdeni,175509,base.ro,RO_SE,l10n_ro.RO_VN
+RO_175590,Ciorăşti,175590,base.ro,RO_SE,l10n_ro.RO_VN
+RO_175787,Corbiţa,175787,base.ro,RO_SE,l10n_ro.RO_VN
+RO_175885,Coteşti,175885,base.ro,RO_SE,l10n_ro.RO_VN
+RO_175938,Dumbrăveni,175938,base.ro,RO_SE,l10n_ro.RO_VN
+RO_175983,Dumitreşti,175983,base.ro,RO_SE,l10n_ro.RO_VN
+RO_176150,Fitioneşti,176150,base.ro,RO_SE,l10n_ro.RO_VN
+RO_174744,Focşani,174744,base.ro,RO_SE,l10n_ro.RO_VN
+RO_176212,Garoafa,176212,base.ro,RO_SE,l10n_ro.RO_VN
+RO_174824,Goleşti,174824,base.ro,RO_SE,l10n_ro.RO_VN
+RO_178938,Gologanu,178938,base.ro,RO_SE,l10n_ro.RO_VN
+RO_176301,Gugeşti,176301,base.ro,RO_SE,l10n_ro.RO_VN
+RO_176338,"Gura Caliţei",176338,base.ro,RO_SE,l10n_ro.RO_VN
+RO_176445,Homocea,176445,base.ro,RO_SE,l10n_ro.RO_VN
+RO_176506,Jariştea,176506,base.ro,RO_SE,l10n_ro.RO_VN
+RO_176551,Jitia,176551,base.ro,RO_SE,l10n_ro.RO_VN
+RO_176613,Măicăneşti,176613,base.ro,RO_SE,l10n_ro.RO_VN
+RO_174922,Mărăşeşti,174922,base.ro,RO_SE,l10n_ro.RO_VN
+RO_176686,Mera,176686,base.ro,RO_SE,l10n_ro.RO_VN
+RO_176748,Milcovul,176748,base.ro,RO_SE,l10n_ro.RO_VN
+RO_176793,Moviliţa,176793,base.ro,RO_SE,l10n_ro.RO_VN
+RO_176855,Năneşti,176855,base.ro,RO_SE,l10n_ro.RO_VN
+RO_176891,Năruja,176891,base.ro,RO_SE,l10n_ro.RO_VN
+RO_178885,Negrileşti,178885,base.ro,RO_SE,l10n_ro.RO_VN
+RO_176944,Nereju,176944,base.ro,RO_SE,l10n_ro.RO_VN
+RO_177003,Nistoreşti,177003,base.ro,RO_SE,l10n_ro.RO_VN
+RO_178947,Obrejiţa,178947,base.ro,RO_SE,l10n_ro.RO_VN
+RO_175019,Odobeşti,175019,base.ro,RO_SE,l10n_ro.RO_VN
+RO_177101,Paltin,177101,base.ro,RO_SE,l10n_ro.RO_VN
+RO_175055,Panciu,175055,base.ro,RO_SE,l10n_ro.RO_VN
+RO_178910,Păuleşti,178910,base.ro,RO_SE,l10n_ro.RO_VN
+RO_177236,Păuneşti,177236,base.ro,RO_SE,l10n_ro.RO_VN
+RO_178894,Ploscuţeni,178894,base.ro,RO_SE,l10n_ro.RO_VN
+RO_177263,"Poiana Cristei",177263,base.ro,RO_SE,l10n_ro.RO_VN
+RO_178901,Popeşti,178901,base.ro,RO_SE,l10n_ro.RO_VN
+RO_177352,Pufeşti,177352,base.ro,RO_SE,l10n_ro.RO_VN
+RO_177405,Răcoasa,177405,base.ro,RO_SE,l10n_ro.RO_VN
+RO_178956,Răstoaca,178956,base.ro,RO_SE,l10n_ro.RO_VN
+RO_177469,Reghiu,177469,base.ro,RO_SE,l10n_ro.RO_VN
+RO_177557,Rugineşti,177557,base.ro,RO_SE,l10n_ro.RO_VN
+RO_177600,Sihlea,177600,base.ro,RO_SE,l10n_ro.RO_VN
+RO_177655,"Slobozia Bradului",177655,base.ro,RO_SE,l10n_ro.RO_VN
+RO_177726,"Slobozia Ciorăşti",177726,base.ro,RO_SE,l10n_ro.RO_VN
+RO_177762,Soveja,177762,base.ro,RO_SE,l10n_ro.RO_VN
+RO_178965,Spulber,178965,base.ro,RO_SE,l10n_ro.RO_VN
+RO_177799,Străoane,177799,base.ro,RO_SE,l10n_ro.RO_VN
+RO_177842,Suraia,177842,base.ro,RO_SE,l10n_ro.RO_VN
+RO_178046,Tâmboeşti,178046,base.ro,RO_SE,l10n_ro.RO_VN
+RO_177879,Tănăsoaia,177879,base.ro,RO_SE,l10n_ro.RO_VN
+RO_177986,Tătăranu,177986,base.ro,RO_SE,l10n_ro.RO_VN
+RO_178180,Ţifeşti,178180,base.ro,RO_SE,l10n_ro.RO_VN
+RO_178117,Tulnici,178117,base.ro,RO_SE,l10n_ro.RO_VN
+RO_178279,Urecheşti,178279,base.ro,RO_SE,l10n_ro.RO_VN
+RO_178313,"Valea Sării",178313,base.ro,RO_SE,l10n_ro.RO_VN
+RO_178607,Vânători,178607,base.ro,RO_SE,l10n_ro.RO_VN
+RO_178689,Vârteşcoiu,178689,base.ro,RO_SE,l10n_ro.RO_VN
+RO_178377,Vidra,178377,base.ro,RO_SE,l10n_ro.RO_VN
+RO_178475,Vintileasca,178475,base.ro,RO_SE,l10n_ro.RO_VN
+RO_178545,Vizantea-Livezi,178545,base.ro,RO_SE,l10n_ro.RO_VN
+RO_178750,Vrâncioaia,178750,base.ro,RO_SE,l10n_ro.RO_VN
+RO_178821,Vulturu,178821,base.ro,RO_SE,l10n_ro.RO_VN
+RO_179132,Bucureşti,179132,base.ro,RO_BI,l10n_ro.RO_B
+RO_94125,"Alexandru Odobescu",94125,base.ro,RO_SM,l10n_ro.RO_CL
+RO_101083,Belciugatele,101083,base.ro,RO_SM,l10n_ro.RO_CL
+RO_92961,Borcea,92961,base.ro,RO_SM,l10n_ro.RO_CL
+RO_101458,Budeşti,101458,base.ro,RO_SM,l10n_ro.RO_CL
+RO_92569,Călăraşi,92569,base.ro,RO_SM,l10n_ro.RO_CL
+RO_101724,Căscioarele,101724,base.ro,RO_SM,l10n_ro.RO_CL
+RO_101804,Chirnogi,101804,base.ro,RO_SM,l10n_ro.RO_CL
+RO_101822,Chiselet,101822,base.ro,RO_SM,l10n_ro.RO_CL
+RO_93085,Ciocăneşti,93085,base.ro,RO_SM,l10n_ro.RO_CL
+RO_180055,Crivăţ,180055,base.ro,RO_SM,l10n_ro.RO_CL
+RO_102419,Curcani,102419,base.ro,RO_SM,l10n_ro.RO_CL
+RO_93281,"Cuza Vodă",93281,base.ro,RO_SM,l10n_ro.RO_CL
+RO_93325,Dichiseni,93325,base.ro,RO_SM,l10n_ro.RO_CL
+RO_93370,"Dor Mărunt",93370,base.ro,RO_SM,l10n_ro.RO_CL
+RO_93441,Dorobanţu,93441,base.ro,RO_SM,l10n_ro.RO_CL
+RO_93487,Dragalina,93487,base.ro,RO_SM,l10n_ro.RO_CL
+RO_93539,"Dragoş Vodă",93539,base.ro,RO_SM,l10n_ro.RO_CL
+RO_102838,Frăsinet,102838,base.ro,RO_SM,l10n_ro.RO_CL
+RO_102945,Frumuşani,102945,base.ro,RO_SM,l10n_ro.RO_CL
+RO_103014,Fundeni,103014,base.ro,RO_SM,l10n_ro.RO_CL
+RO_103032,Fundulea,103032,base.ro,RO_SM,l10n_ro.RO_CL
+RO_179962,Gălbinaşi,179962,base.ro,RO_SM,l10n_ro.RO_CL
+RO_93664,Grădiştea,93664,base.ro,RO_SM,l10n_ro.RO_CL
+RO_103568,Gurbăneşti,103568,base.ro,RO_SM,l10n_ro.RO_CL
+RO_103764,Ileana,103764,base.ro,RO_SM,l10n_ro.RO_CL
+RO_93771,Independenţa,93771,base.ro,RO_SM,l10n_ro.RO_CL
+RO_93815,Jegălia,93815,base.ro,RO_SM,l10n_ro.RO_CL
+RO_93851,Lehliu,93851,base.ro,RO_SM,l10n_ro.RO_CL
+RO_93888,"Lehliu Gară",93888,base.ro,RO_SM,l10n_ro.RO_CL
+RO_104083,Luica,104083,base.ro,RO_SM,l10n_ro.RO_CL
+RO_93931,Lupşanu,93931,base.ro,RO_SM,l10n_ro.RO_CL
+RO_104181,Mânăstirea,104181,base.ro,RO_SM,l10n_ro.RO_CL
+RO_100638,Mitreni,100638,base.ro,RO_SM,l10n_ro.RO_CL
+RO_92587,Modelu,92587,base.ro,RO_SM,l10n_ro.RO_CL
+RO_104323,Nana,104323,base.ro,RO_SM,l10n_ro.RO_CL
+RO_104341,"Nicolae Bălcescu",104341,base.ro,RO_SM,l10n_ro.RO_CL
+RO_100610,Olteniţa,100610,base.ro,RO_SM,l10n_ro.RO_CL
+RO_94223,Perişoru,94223,base.ro,RO_SM,l10n_ro.RO_CL
+RO_104635,Plătăreşti,104635,base.ro,RO_SM,l10n_ro.RO_CL
+RO_104751,Radovanu,104751,base.ro,RO_SM,l10n_ro.RO_CL
+RO_94312,Roseţi,94312,base.ro,RO_SM,l10n_ro.RO_CL
+RO_104886,Săruleşti,104886,base.ro,RO_SM,l10n_ro.RO_CL
+RO_105222,Sohatu,105222,base.ro,RO_SM,l10n_ro.RO_CL
+RO_105384,Şoldanu,105384,base.ro,RO_SM,l10n_ro.RO_CL
+RO_105259,Spanţov,105259,base.ro,RO_SM,l10n_ro.RO_CL
+RO_94562,"Ştefan Cel Mare",94562,base.ro,RO_SM,l10n_ro.RO_CL
+RO_94580,"Ştefan Vodă",94580,base.ro,RO_SM,l10n_ro.RO_CL
+RO_105455,"Tămădău Mare",105455,base.ro,RO_SM,l10n_ro.RO_CL
+RO_105605,Ulmeni,105605,base.ro,RO_SM,l10n_ro.RO_CL
+RO_94606,Ulmu,94606,base.ro,RO_SM,l10n_ro.RO_CL
+RO_94651,Unirea,94651,base.ro,RO_SM,l10n_ro.RO_CL
+RO_94731,Vâlcelele,94731,base.ro,RO_SM,l10n_ro.RO_CL
+RO_105712,"Valea Argovei",105712,base.ro,RO_SM,l10n_ro.RO_CL
+RO_105829,Vasilaţi,105829,base.ro,RO_SM,l10n_ro.RO_CL
+RO_94768,"Vlad Ţepeş",94768,base.ro,RO_SM,l10n_ro.RO_CL
+RO_100781,Adunaţii-Copăceni,100781,base.ro,RO_SM,l10n_ro.RO_GR
+RO_101001,Băneasa,101001,base.ro,RO_SM,l10n_ro.RO_GR
+RO_101163,Bolintin-Deal,101163,base.ro,RO_SM,l10n_ro.RO_GR
+RO_101190,Bolintin-Vale,101190,base.ro,RO_SM,l10n_ro.RO_GR
+RO_101378,Bucşani,101378,base.ro,RO_SM,l10n_ro.RO_GR
+RO_101519,Bulbucata,101519,base.ro,RO_SM,l10n_ro.RO_GR
+RO_101617,Buturugeni,101617,base.ro,RO_SM,l10n_ro.RO_GR
+RO_101662,Călugăreni,101662,base.ro,RO_SM,l10n_ro.RO_GR
+RO_101984,Clejani,101984,base.ro,RO_SM,l10n_ro.RO_GR
+RO_102071,Colibaşi,102071,base.ro,RO_SM,l10n_ro.RO_GR
+RO_102106,Comana,102106,base.ro,RO_SM,l10n_ro.RO_GR
+RO_180082,Comasca,180082,base.ro,RO_SM,l10n_ro.RO_GR
+RO_179748,Cosoba,179748,base.ro,RO_SM,l10n_ro.RO_GR
+RO_102348,"Crevedia Mare",102348,base.ro,RO_SM,l10n_ro.RO_GR
+RO_102446,Daia,102446,base.ro,RO_SM,l10n_ro.RO_GR
+RO_102794,Floreşti-Stoeneşti,102794,base.ro,RO_SM,l10n_ro.RO_GR
+RO_102909,Frăteşti,102909,base.ro,RO_SM,l10n_ro.RO_GR
+RO_103087,Găiseni,103087,base.ro,RO_SM,l10n_ro.RO_GR
+RO_103194,Găujani,103194,base.ro,RO_SM,l10n_ro.RO_GR
+RO_103238,Ghimpaţi,103238,base.ro,RO_SM,l10n_ro.RO_GR
+RO_100521,Giurgiu,100521,base.ro,RO_SM,l10n_ro.RO_GR
+RO_103309,Gogoşari,103309,base.ro,RO_SM,l10n_ro.RO_GR
+RO_103372,Gostinari,103372,base.ro,RO_SM,l10n_ro.RO_GR
+RO_103354,Gostinu,103354,base.ro,RO_SM,l10n_ro.RO_GR
+RO_103407,Grădinari,103407,base.ro,RO_SM,l10n_ro.RO_GR
+RO_103470,Greaca,103470,base.ro,RO_SM,l10n_ro.RO_GR
+RO_179757,Herăşti,179757,base.ro,RO_SM,l10n_ro.RO_GR
+RO_103639,Hotarele,103639,base.ro,RO_SM,l10n_ro.RO_GR
+RO_103693,Iepureşti,103693,base.ro,RO_SM,l10n_ro.RO_GR
+RO_179766,Isvoarele,179766,base.ro,RO_SM,l10n_ro.RO_GR
+RO_103899,Izvoarele,103899,base.ro,RO_SM,l10n_ro.RO_GR
+RO_103997,Joiţa,103997,base.ro,RO_SM,l10n_ro.RO_GR
+RO_104047,"Letca Nouă",104047,base.ro,RO_SM,l10n_ro.RO_GR
+RO_179739,Malu,179739,base.ro,RO_SM,l10n_ro.RO_GR
+RO_104225,Mârşa,104225,base.ro,RO_SM,l10n_ro.RO_GR
+RO_104118,"Mihai Bravu",104118,base.ro,RO_SM,l10n_ro.RO_GR
+RO_104136,Mihăileşti,104136,base.ro,RO_SM,l10n_ro.RO_GR
+RO_104485,Ogrezeni,104485,base.ro,RO_SM,l10n_ro.RO_GR
+RO_104519,Oinacu,104519,base.ro,RO_SM,l10n_ro.RO_GR
+RO_104680,Prundu,104680,base.ro,RO_SM,l10n_ro.RO_GR
+RO_104715,Putineiu,104715,base.ro,RO_SM,l10n_ro.RO_GR
+RO_104788,Răsuceni,104788,base.ro,RO_SM,l10n_ro.RO_GR
+RO_104831,"Roata De Jos",104831,base.ro,RO_SM,l10n_ro.RO_GR
+RO_179775,Săbăreni,179775,base.ro,RO_SM,l10n_ro.RO_GR
+RO_104975,Schitu,104975,base.ro,RO_SM,l10n_ro.RO_GR
+RO_105106,Singureni,105106,base.ro,RO_SM,l10n_ro.RO_GR
+RO_100549,Slobozia,100549,base.ro,RO_SM,l10n_ro.RO_GR
+RO_105295,Stăneşti,105295,base.ro,RO_SM,l10n_ro.RO_GR
+RO_105348,Stoeneşti,105348,base.ro,RO_SM,l10n_ro.RO_GR
+RO_154709,Toporu,154709,base.ro,RO_SM,l10n_ro.RO_GR
+RO_105623,Ulmi,105623,base.ro,RO_SM,l10n_ro.RO_GR
+RO_105776,"Valea Dragului",105776,base.ro,RO_SM,l10n_ro.RO_GR
+RO_105972,"Vânătorii Mici",105972,base.ro,RO_SM,l10n_ro.RO_GR
+RO_105874,Vărăşti,105874,base.ro,RO_SM,l10n_ro.RO_GR
+RO_105909,Vedea,105909,base.ro,RO_SM,l10n_ro.RO_GR
