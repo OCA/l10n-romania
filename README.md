@@ -25,7 +25,7 @@ addon | version | summary
 [l10n_ro_partner_create_by_vat](l10n_ro_partner_create_by_vat/) | 13.0.1.0.2 | Romania - Partner Create by VAT
 [l10n_ro_partner_unique](l10n_ro_partner_unique/) | 13.0.1.0.0 | Creates a rule for vat and nrc unique for partners.
 [l10n_ro_stock](l10n_ro_stock/) | 13.0.1.0.0 | Romania - Stock
-[l10n_ro_vat_on_payment](l10n_ro_vat_on_payment/) | 13.0.1.0.0 | Romania - VAT on Payment
+[l10n_ro_vat_on_payment](l10n_ro_vat_on_payment/) | 13.0.1.0.1 | Romania - VAT on Payment
 
 [//]: # (end addons)
 
