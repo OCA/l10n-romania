@@ -1,0 +1,200 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <record id='l10n_ro_anaf_reports_form' model='ir.ui.view'>
+        <field name="name">l10n.ro.anaf.reports.form</field>
+        <field name="model">l10n.ro.anaf.reports</field>
+        <field name="arch" type="xml">
+            <form string="Model">
+                <header>
+                </header>
+                <sheet>
+                    <widget
+                        name="web_ribbon"
+                        title="Archived"
+                        bg_color="bg-danger"
+                        attrs="{'invisible': [('active', '=', True)]}"
+                    />
+                    <group>
+                        <field name="active" invisible="1" />
+                        <field name="name" />
+                        <field name="company_type" />
+                        <field name="required" />
+                        <field name="valid_form_date" />
+                        <field name="valid_till_date" />
+                        <separator string="Final PDF report" />
+                        <field name="report_final_pdf_anaf_link" />
+                        <field name="report_final_pdf_local_link" />
+                        <field name="report_xsd_anaf_link" />
+                        <field name="report_xsd_local_link" />
+                    </group>
+                    <notebook>
+                        <page string="Law from pdf to txt">
+                            <group col="3">
+                                <field name="report_law_anaf_link" />
+                                <button
+                                    name="button_anaf_link_pdf_to_text"
+                                    class="btn-primary"
+                                    type="object"
+                                    string="Transform anaf link pdf law to numberd lines text"
+                                    attrs="{'invisible':['|',('report_law_anaf_link','=',''),('report_law_text','!=','')]}"
+                                />
+                                <field name="report_law_local_link" />
+                                <button
+                                    name="button_pdf_to_text"
+                                    class="btn-primary"
+                                    type="object"
+                                    string="Transform local pdf law to numberd lines text"
+                                    attrs="{'invisible':['|',('report_law_local_link','=',''),('report_law_text','!=','')]}"
+                                />
+                            </group>
+                            <field name="report_law_text" />
+                        </page>
+                        <page string="What we need to extract">
+                            <group>
+                                <button
+                                    name="extract_text_from_line_to_line"
+                                    help="Will trim the report_law_text from start line to end line."
+                                    type="object"
+                                    class="btn-primary"
+                                    string="extract_text_from_stat_to_end"
+                                    attrs="{'invisible':['|',('report_law_text','=',''),('report_text','!=','')]}"
+                                />
+                                <field name="report_start_line_nr" />
+                                <field name="report_end_line_nr" />
+                            </group>
+                            <field name="report_text" />
+                        </page>
+                        <page string="Separate header/table/footer">
+                            <button
+                                name="header_table_footer_from_report_text"
+                                attrs="{'invisible':['|',('table_to_parse','!=',''),('report_text','!=','')]}"
+                                type="object"
+                                class="btn-primary"
+                                string="Extract header table footer"
+                            />
+                            <group>
+                                <field name="header" />
+                                <field name="table_to_parse" />
+                                <field name="footer" />
+                            </group>
+                        </page>
+                        <page string="Dictionary from text">
+                            <button
+                                name="dictionary_from_text"
+                                help="Will crete a dictionary form text table; A dictionary that can be printed as a html table identical to text model"
+                                type="object"
+                                class="btn-primary"
+                                string="Create dictionary form text"
+                                attrs="{'invisible':['|',('table_to_parse','=',''),('dictionary_with_rowspan_json','=','')]}"
+                            />
+                            <group>
+                                <field name="html_original_table" />
+                                <filed name="dictionary_no_rowspan_txt" invisible="1" />
+                                <field name="dictionary_with_rowspan_json" />
+                                <field
+                                    name="dictionary_with_rowspan_txt"
+                                    invisible="1"
+                                />
+                            </group>
+                        </page>
+                        <page string="Report from dictionary">
+                            <div>
+                                <button
+                                    name="test_report_html"
+                                    help="Will test the report with test_values and will return a html table with data"
+                                    type="object"
+                                    class="btn-primary"
+                                    string="test report html"
+                                    attrs="{'invisible':[('dictionary_with_rowspan_json','=','')]}"
+                                />
+
+                                <![CDATA[&nbsp;]]>
+                                <button
+                                    name="test_report_html_show_formulas"
+                                    help="Will test the report with test_values and will return a html table with data and as first column the foruulas"
+                                    type="object"
+                                    class="btn-primary"
+                                    string="test report html show formulas"
+                                    attrs="{'invisible':[('dictionary_with_rowspan_json','=','')]}"
+                                />
+
+                                <![CDATA[&nbsp;]]>
+                                <button
+                                    name="test_report_xml"
+                                    help="Will test the report with test_values and will return defined xml."
+                                    type="object"
+                                    class="btn-primary"
+                                    string="test report xml"
+                                    attrs="{'invisible':[('final_dictionary_json','=','')]}"
+                                />
+                                <![CDATA[&nbsp;]]>
+                                <button
+                                    name="verify_xml_with_local_xsd"
+                                    help="Will verify the resulted xml with xsd."
+                                    type="object"
+                                    class="btn-primary"
+                                    string="Verify XML with local XSD  in future when is all the xml"
+                                    attrs="{'invisible':[('resulted_test_xml','=','')]}"
+                                />
+                            </div>
+                            <h4>fill data python function:</h4>
+                            <field name="fill_data_py" colspan="5" />
+                            <h4>transform to xml python function:</h4>
+                            <field name="transform_to_xml" colspan="4" />
+                            <h4>resulted_test_html:</h4>
+                            <field name="resulted_test_html" />
+                            <field name="final_dictionary_json" invisible="1" />
+                            <h4>resulted_test_xml:</h4>
+                            <field name="resulted_test_xml" />
+                        </page>
+                    </notebook>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids" widget="mail_followers" />
+                    <!--                          <field name="activity_ids" widget="mail_activity"/>
+                                             <field name="message_ids" widget="mail_thread"/>
+                     -->
+                </div>
+            </form>
+        </field>
+    </record>
+    <record id='l10n_ro_anaf_reports_tree' model='ir.ui.view'>
+        <field name="name">l10n.ro.anaf.reports.tree</field>
+        <field name="model">l10n.ro.anaf.reports</field>
+        <field name="arch" type="xml">
+            <tree string="Models">
+                <field name="name" />
+                <field name="company_type" />
+                <field name="report_final_pdf_anaf_link" />
+                <field name="report_final_pdf_local_link" />
+                <field name="report_law_anaf_link" />
+                <field name="report_law_local_link" />
+                <field name="report_start_line_nr" />
+                <field name="report_end_line_nr" />
+                <field name="tags_xml_format" />
+                <field name="active" />
+            </tree>
+        </field>
+    </record>
+    <record id='l10n_ro_anaf_reports_search' model='ir.ui.view'>
+        <field name="name">l10n.ro.anaf.reports.search</field>
+        <field name="model">l10n.ro.anaf.reports</field>
+        <field name="arch" type="xml">
+            <search string="anaf reports">
+                <field name="name" />
+            </search>
+        </field>
+    </record>
+    <record id='l10n_ro_anaf_reports_action' model='ir.actions.act_window'>
+        <field name="name">l10n.ro.anaf.reports.action</field>
+        <field name="res_model">l10n.ro.anaf.reports</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+    <menuitem
+        name="Configure ANAF reports"
+        parent="account.account_account_menu"
+        id="l10n_ro_anaf_reports_menu"
+        sequence="130"
+        action="l10n_ro_anaf_reports_action"
+    />
+</odoo>

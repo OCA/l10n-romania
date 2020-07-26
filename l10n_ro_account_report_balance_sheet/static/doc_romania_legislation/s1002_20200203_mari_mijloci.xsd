@@ -1,0 +1,1806 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="mfp:anaf:dgti:s1002:declaratie:v8" targetNamespace="mfp:anaf:dgti:s1002:declaratie:v8" elementFormDefault="qualified" attributeFormDefault="unqualified" version="1.02" xml:lang="ro">
+	<xs:element name="Bilant1002" type="Bilant1002Type"/>
+	<xs:complexType name="Bilant1002Type">
+		<xs:complexContent>
+			<xs:restriction base="xs:anyType">
+				<xs:sequence>
+					<xs:element name="F10" type="F10Type"/>
+					<xs:element name="F20" type="F20Type" minOccurs="0"/>
+					<xs:element name="F30" type="F30Type"/>
+					<xs:element name="F40" type="F40Type" minOccurs="0"/>
+				</xs:sequence>
+				<xs:attribute name="luna" type="IntInt12_12SType" use="required"/>
+				<xs:attribute name="an" type="IntInt2018_2100SType" use="required"/>
+				<xs:attribute name="cui" type="CuiSType" use="required"/>
+				<xs:attribute name="den" type="Str50"/>
+				<xs:attribute name="adresa" type="Str200"/>
+				<xs:attribute name="telefon" type="Str15"/>
+				<xs:attribute name="regCom" type="Str18" use="required"/>
+				<xs:attribute name="caen" type="Str_coduriCaenSType" use="required"/>
+				<xs:attribute name="caenE" type="Str_coduriCaenSType" use="required"/>
+				<xs:attribute name="bifa_aprob" type="Int_bifaAprobSType" use="required"/>
+				<xs:attribute name="bifaMC" type="IntInt0_1SType" use="required"/>
+				<xs:attribute name="bifaDD" type="IntInt0_1SType" use="required"/>
+				<xs:attribute name="bifaGG" type="IntInt0_1SType" use="required"/>
+				<xs:attribute name="bifaAA" type="IntInt0_1SType" use="required"/>
+				<xs:attribute name="bifa_art27" type="Int_bifaArt27SType" use="required"/>
+				<xs:attribute name="tipBIL" type="Str_tipBilSType" use="required"/>
+				<xs:attribute name="interes_public" type="Int_interesPublicSType" use="required"/>
+				<xs:attribute name="codTT" type="Int_listaCodJudSType" use="required"/>
+				<xs:attribute name="codJJ" type="IntPoz2SType" use="required"/>
+				<xs:attribute name="codPP" type="Int_nomenPropSType" use="required"/>
+				<xs:attribute name="nume_admin" type="Str75" use="required"/>
+				<xs:attribute name="nume_intocmit" type="Str75" use="required"/>
+				<xs:attribute name="calit_intocmit" type="Int_nomenCalitSType" use="required"/>
+				<xs:attribute name="nri_intocmit" type="Str15"/>
+				<xs:attribute name="d_audit" type="IntInt1_3SType"/>
+				<xs:attribute name="den_audi" type="Str75"/>
+				<xs:attribute name="nr_audi" type="Str50"/>
+				<xs:attribute name="cif_audi" type="Str13"/>
+				<xs:attribute name="totalPlata_A" type="IntNeg15SType" use="required"/>
+			</xs:restriction>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="F10Type">
+		<xs:complexContent>
+			<xs:restriction base="xs:anyType">
+				<xs:attribute name="F10_0011" type="IntNeg15SType"/>
+				<xs:attribute name="F10_0012" type="IntNeg15SType"/>
+				<xs:attribute name="F10_0021" type="IntNeg15SType"/>
+				<xs:attribute name="F10_0022" type="IntNeg15SType"/>
+				<xs:attribute name="F10_0031" type="IntNeg15SType"/>
+				<xs:attribute name="F10_0032" type="IntNeg15SType"/>
+				<xs:attribute name="F10_0041" type="IntNeg15SType"/>
+				<xs:attribute name="F10_0042" type="IntNeg15SType"/>
+				<xs:attribute name="F10_0051" type="IntNeg15SType"/>
+				<xs:attribute name="F10_0052" type="IntNeg15SType"/>
+				<xs:attribute name="F10_0061" type="IntNeg15SType"/>
+				<xs:attribute name="F10_0062" type="IntNeg15SType"/>
+				<xs:attribute name="F10_0071" type="IntNeg15SType"/>
+				<xs:attribute name="F10_0072" type="IntNeg15SType"/>
+				<xs:attribute name="F10_0081" type="IntNeg15SType"/>
+				<xs:attribute name="F10_0082" type="IntNeg15SType"/>
+				<xs:attribute name="F10_0091" type="IntNeg15SType"/>
+				<xs:attribute name="F10_0092" type="IntNeg15SType"/>
+				<xs:attribute name="F10_0101" type="IntNeg15SType"/>
+				<xs:attribute name="F10_0102" type="IntNeg15SType"/>
+				<xs:attribute name="F10_0111" type="IntNeg15SType"/>
+				<xs:attribute name="F10_0112" type="IntNeg15SType"/>
+				<xs:attribute name="F10_0121" type="IntNeg15SType"/>
+				<xs:attribute name="F10_0122" type="IntNeg15SType"/>
+				<xs:attribute name="F10_0131" type="IntNeg15SType"/>
+				<xs:attribute name="F10_0132" type="IntNeg15SType"/>
+				<xs:attribute name="F10_0141" type="IntNeg15SType"/>
+				<xs:attribute name="F10_0142" type="IntNeg15SType"/>
+				<xs:attribute name="F10_0151" type="IntNeg15SType"/>
+				<xs:attribute name="F10_0152" type="IntNeg15SType"/>
+				<xs:attribute name="F10_0161" type="IntNeg15SType"/>
+				<xs:attribute name="F10_0162" type="IntNeg15SType"/>
+				<xs:attribute name="F10_0171" type="IntNeg15SType"/>
+				<xs:attribute name="F10_0172" type="IntNeg15SType"/>
+				<xs:attribute name="F10_0181" type="IntNeg15SType"/>
+				<xs:attribute name="F10_0182" type="IntNeg15SType"/>
+				<xs:attribute name="F10_0191" type="IntNeg15SType"/>
+				<xs:attribute name="F10_0192" type="IntNeg15SType"/>
+				<xs:attribute name="F10_0201" type="IntNeg15SType"/>
+				<xs:attribute name="F10_0202" type="IntNeg15SType"/>
+				<xs:attribute name="F10_0211" type="IntNeg15SType"/>
+				<xs:attribute name="F10_0212" type="IntNeg15SType"/>
+				<xs:attribute name="F10_0221" type="IntNeg15SType"/>
+				<xs:attribute name="F10_0222" type="IntNeg15SType"/>
+				<xs:attribute name="F10_0231" type="IntNeg15SType"/>
+				<xs:attribute name="F10_0232" type="IntNeg15SType"/>
+				<xs:attribute name="F10_0241" type="IntNeg15SType"/>
+				<xs:attribute name="F10_0242" type="IntNeg15SType"/>
+				<xs:attribute name="F10_0251" type="IntNeg15SType"/>
+				<xs:attribute name="F10_0252" type="IntNeg15SType"/>
+				<xs:attribute name="F10_0261" type="IntNeg15SType"/>
+				<xs:attribute name="F10_0262" type="IntNeg15SType"/>
+				<xs:attribute name="F10_0271" type="IntNeg15SType"/>
+				<xs:attribute name="F10_0272" type="IntNeg15SType"/>
+				<xs:attribute name="F10_0281" type="IntNeg15SType"/>
+				<xs:attribute name="F10_0282" type="IntNeg15SType"/>
+				<xs:attribute name="F10_0291" type="IntNeg15SType"/>
+				<xs:attribute name="F10_0292" type="IntNeg15SType"/>
+				<xs:attribute name="F10_0301" type="IntNeg15SType"/>
+				<xs:attribute name="F10_0302" type="IntNeg15SType"/>
+				<xs:attribute name="F10_0311" type="IntNeg15SType"/>
+				<xs:attribute name="F10_0312" type="IntNeg15SType"/>
+				<xs:attribute name="F10_0321" type="IntNeg15SType"/>
+				<xs:attribute name="F10_0322" type="IntNeg15SType"/>
+				<xs:attribute name="F10_0331" type="IntNeg15SType"/>
+				<xs:attribute name="F10_0332" type="IntNeg15SType"/>
+				<xs:attribute name="F10_0341" type="IntNeg15SType"/>
+				<xs:attribute name="F10_0342" type="IntNeg15SType"/>
+				<xs:attribute name="F10_0351" type="IntNeg15SType"/>
+				<xs:attribute name="F10_0352" type="IntNeg15SType"/>
+				<xs:attribute name="F10_3011" type="IntNeg15SType"/>
+				<xs:attribute name="F10_3012" type="IntNeg15SType"/>
+				<xs:attribute name="F10_0361" type="IntNeg15SType"/>
+				<xs:attribute name="F10_0362" type="IntNeg15SType"/>
+				<xs:attribute name="F10_0371" type="IntNeg15SType"/>
+				<xs:attribute name="F10_0372" type="IntNeg15SType"/>
+				<xs:attribute name="F10_0381" type="IntNeg15SType"/>
+				<xs:attribute name="F10_0382" type="IntNeg15SType"/>
+				<xs:attribute name="F10_0391" type="IntNeg15SType"/>
+				<xs:attribute name="F10_0392" type="IntNeg15SType"/>
+				<xs:attribute name="F10_0401" type="IntNeg15SType"/>
+				<xs:attribute name="F10_0402" type="IntNeg15SType"/>
+				<xs:attribute name="F10_0411" type="IntNeg15SType"/>
+				<xs:attribute name="F10_0412" type="IntNeg15SType"/>
+				<xs:attribute name="F10_0421" type="IntNeg15SType"/>
+				<xs:attribute name="F10_0422" type="IntNeg15SType"/>
+				<xs:attribute name="F10_0431" type="IntNeg15SType"/>
+				<xs:attribute name="F10_0432" type="IntNeg15SType"/>
+				<xs:attribute name="F10_0441" type="IntNeg15SType"/>
+				<xs:attribute name="F10_0442" type="IntNeg15SType"/>
+				<xs:attribute name="F10_0451" type="IntNeg15SType"/>
+				<xs:attribute name="F10_0452" type="IntNeg15SType"/>
+				<xs:attribute name="F10_0461" type="IntNeg15SType"/>
+				<xs:attribute name="F10_0462" type="IntNeg15SType"/>
+				<xs:attribute name="F10_0471" type="IntNeg15SType"/>
+				<xs:attribute name="F10_0472" type="IntNeg15SType"/>
+				<xs:attribute name="F10_0481" type="IntNeg15SType"/>
+				<xs:attribute name="F10_0482" type="IntNeg15SType"/>
+				<xs:attribute name="F10_0491" type="IntNeg15SType"/>
+				<xs:attribute name="F10_0492" type="IntNeg15SType"/>
+				<xs:attribute name="F10_0501" type="IntNeg15SType"/>
+				<xs:attribute name="F10_0502" type="IntNeg15SType"/>
+				<xs:attribute name="F10_0511" type="IntNeg15SType"/>
+				<xs:attribute name="F10_0512" type="IntNeg15SType"/>
+				<xs:attribute name="F10_0521" type="IntNeg15SType"/>
+				<xs:attribute name="F10_0522" type="IntNeg15SType"/>
+				<xs:attribute name="F10_0531" type="IntNeg15SType"/>
+				<xs:attribute name="F10_0532" type="IntNeg15SType"/>
+				<xs:attribute name="F10_0541" type="IntNeg15SType"/>
+				<xs:attribute name="F10_0542" type="IntNeg15SType"/>
+				<xs:attribute name="F10_0551" type="IntNeg15SType"/>
+				<xs:attribute name="F10_0552" type="IntNeg15SType"/>
+				<xs:attribute name="F10_0561" type="IntNeg15SType"/>
+				<xs:attribute name="F10_0562" type="IntNeg15SType"/>
+				<xs:attribute name="F10_0571" type="IntNeg15SType"/>
+				<xs:attribute name="F10_0572" type="IntNeg15SType"/>
+				<xs:attribute name="F10_0581" type="IntNeg15SType"/>
+				<xs:attribute name="F10_0582" type="IntNeg15SType"/>
+				<xs:attribute name="F10_0591" type="IntNeg15SType"/>
+				<xs:attribute name="F10_0592" type="IntNeg15SType"/>
+				<xs:attribute name="F10_0601" type="IntNeg15SType"/>
+				<xs:attribute name="F10_0602" type="IntNeg15SType"/>
+				<xs:attribute name="F10_0611" type="IntNeg15SType"/>
+				<xs:attribute name="F10_0612" type="IntNeg15SType"/>
+				<xs:attribute name="F10_0621" type="IntNeg15SType"/>
+				<xs:attribute name="F10_0622" type="IntNeg15SType"/>
+				<xs:attribute name="F10_0631" type="IntNeg15SType"/>
+				<xs:attribute name="F10_0632" type="IntNeg15SType"/>
+				<xs:attribute name="F10_0641" type="IntNeg15SType"/>
+				<xs:attribute name="F10_0642" type="IntNeg15SType"/>
+				<xs:attribute name="F10_0651" type="IntNeg15SType"/>
+				<xs:attribute name="F10_0652" type="IntNeg15SType"/>
+				<xs:attribute name="F10_0661" type="IntNeg15SType"/>
+				<xs:attribute name="F10_0662" type="IntNeg15SType"/>
+				<xs:attribute name="F10_0671" type="IntNeg15SType"/>
+				<xs:attribute name="F10_0672" type="IntNeg15SType"/>
+				<xs:attribute name="F10_0681" type="IntNeg15SType"/>
+				<xs:attribute name="F10_0682" type="IntNeg15SType"/>
+				<xs:attribute name="F10_0691" type="IntNeg15SType"/>
+				<xs:attribute name="F10_0692" type="IntNeg15SType"/>
+				<xs:attribute name="F10_0701" type="IntNeg15SType"/>
+				<xs:attribute name="F10_0702" type="IntNeg15SType"/>
+				<xs:attribute name="F10_0711" type="IntNeg15SType"/>
+				<xs:attribute name="F10_0712" type="IntNeg15SType"/>
+				<xs:attribute name="F10_0721" type="IntNeg15SType"/>
+				<xs:attribute name="F10_0722" type="IntNeg15SType"/>
+				<xs:attribute name="F10_0731" type="IntNeg15SType"/>
+				<xs:attribute name="F10_0732" type="IntNeg15SType"/>
+				<xs:attribute name="F10_0741" type="IntNeg15SType"/>
+				<xs:attribute name="F10_0742" type="IntNeg15SType"/>
+				<xs:attribute name="F10_0751" type="IntNeg15SType"/>
+				<xs:attribute name="F10_0752" type="IntNeg15SType"/>
+				<xs:attribute name="F10_0761" type="IntNeg15SType"/>
+				<xs:attribute name="F10_0762" type="IntNeg15SType"/>
+				<xs:attribute name="F10_0771" type="IntNeg15SType"/>
+				<xs:attribute name="F10_0772" type="IntNeg15SType"/>
+				<xs:attribute name="F10_0781" type="IntNeg15SType"/>
+				<xs:attribute name="F10_0782" type="IntNeg15SType"/>
+				<xs:attribute name="F10_0791" type="IntNeg15SType"/>
+				<xs:attribute name="F10_0792" type="IntNeg15SType"/>
+				<xs:attribute name="F10_0801" type="IntNeg15SType"/>
+				<xs:attribute name="F10_0802" type="IntNeg15SType"/>
+				<xs:attribute name="F10_0811" type="IntNeg15SType"/>
+				<xs:attribute name="F10_0812" type="IntNeg15SType"/>
+				<xs:attribute name="F10_0821" type="IntNeg15SType"/>
+				<xs:attribute name="F10_0822" type="IntNeg15SType"/>
+				<xs:attribute name="F10_0831" type="IntNeg15SType"/>
+				<xs:attribute name="F10_0832" type="IntNeg15SType"/>
+				<xs:attribute name="F10_0841" type="IntNeg15SType"/>
+				<xs:attribute name="F10_0842" type="IntNeg15SType"/>
+				<xs:attribute name="F10_0851" type="IntNeg15SType"/>
+				<xs:attribute name="F10_0852" type="IntNeg15SType"/>
+				<xs:attribute name="F10_0861" type="IntNeg15SType"/>
+				<xs:attribute name="F10_0862" type="IntNeg15SType"/>
+				<xs:attribute name="F10_0871" type="IntNeg15SType"/>
+				<xs:attribute name="F10_0872" type="IntNeg15SType"/>
+				<xs:attribute name="F10_0881" type="IntNeg15SType"/>
+				<xs:attribute name="F10_0882" type="IntNeg15SType"/>
+				<xs:attribute name="F10_0891" type="IntNeg15SType"/>
+				<xs:attribute name="F10_0892" type="IntNeg15SType"/>
+				<xs:attribute name="F10_0901" type="IntNeg15SType"/>
+				<xs:attribute name="F10_0902" type="IntNeg15SType"/>
+				<xs:attribute name="F10_0911" type="IntNeg15SType"/>
+				<xs:attribute name="F10_0912" type="IntNeg15SType"/>
+				<xs:attribute name="F10_0921" type="IntNeg15SType"/>
+				<xs:attribute name="F10_0922" type="IntNeg15SType"/>
+				<xs:attribute name="F10_0931" type="IntNeg15SType"/>
+				<xs:attribute name="F10_0932" type="IntNeg15SType"/>
+				<xs:attribute name="F10_0941" type="IntNeg15SType"/>
+				<xs:attribute name="F10_0942" type="IntNeg15SType"/>
+				<xs:attribute name="F10_0951" type="IntNeg15SType"/>
+				<xs:attribute name="F10_0952" type="IntNeg15SType"/>
+				<xs:attribute name="F10_0961" type="IntNeg15SType"/>
+				<xs:attribute name="F10_0962" type="IntNeg15SType"/>
+				<xs:attribute name="F10_0971" type="IntNeg15SType"/>
+				<xs:attribute name="F10_0972" type="IntNeg15SType"/>
+				<xs:attribute name="F10_0981" type="IntNeg15SType"/>
+				<xs:attribute name="F10_0982" type="IntNeg15SType"/>
+				<xs:attribute name="F10_0991" type="IntNeg15SType"/>
+				<xs:attribute name="F10_0992" type="IntNeg15SType"/>
+				<xs:attribute name="F10_1001" type="IntNeg15SType"/>
+				<xs:attribute name="F10_1002" type="IntNeg15SType"/>
+				<xs:attribute name="F10_1011" type="IntNeg15SType"/>
+				<xs:attribute name="F10_1012" type="IntNeg15SType"/>
+				<xs:attribute name="F10_1021" type="IntNeg15SType"/>
+				<xs:attribute name="F10_1022" type="IntNeg15SType"/>
+				<xs:attribute name="F10_1031" type="IntNeg15SType"/>
+				<xs:attribute name="F10_1032" type="IntNeg15SType"/>
+			</xs:restriction>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="F20Type">
+		<xs:complexContent>
+			<xs:restriction base="xs:anyType">
+				<xs:attribute name="F20_0011" type="IntNeg15SType"/>
+				<xs:attribute name="F20_0012" type="IntNeg15SType"/>
+				<xs:attribute name="F20_0021" type="IntNeg15SType"/>
+				<xs:attribute name="F20_0022" type="IntNeg15SType"/>
+				<xs:attribute name="F20_0031" type="IntNeg15SType"/>
+				<xs:attribute name="F20_0032" type="IntNeg15SType"/>
+				<xs:attribute name="F20_0041" type="IntNeg15SType"/>
+				<xs:attribute name="F20_0042" type="IntNeg15SType"/>
+				<xs:attribute name="F20_0051" type="IntNeg15SType"/>
+				<xs:attribute name="F20_0052" type="IntNeg15SType"/>
+				<xs:attribute name="F20_0061" type="IntNeg15SType"/>
+				<xs:attribute name="F20_0062" type="IntNeg15SType"/>
+				<xs:attribute name="F20_0071" type="IntNeg15SType"/>
+				<xs:attribute name="F20_0072" type="IntNeg15SType"/>
+				<xs:attribute name="F20_0081" type="IntNeg15SType"/>
+				<xs:attribute name="F20_0082" type="IntNeg15SType"/>
+				<xs:attribute name="F20_0091" type="IntNeg15SType"/>
+				<xs:attribute name="F20_0092" type="IntNeg15SType"/>
+				<xs:attribute name="F20_0101" type="IntNeg15SType"/>
+				<xs:attribute name="F20_0102" type="IntNeg15SType"/>
+				<xs:attribute name="F20_0111" type="IntNeg15SType"/>
+				<xs:attribute name="F20_0112" type="IntNeg15SType"/>
+				<xs:attribute name="F20_0121" type="IntNeg15SType"/>
+				<xs:attribute name="F20_0122" type="IntNeg15SType"/>
+				<xs:attribute name="F20_0131" type="IntNeg15SType"/>
+				<xs:attribute name="F20_0132" type="IntNeg15SType"/>
+				<xs:attribute name="F20_0141" type="IntNeg15SType"/>
+				<xs:attribute name="F20_0142" type="IntNeg15SType"/>
+				<xs:attribute name="F20_0151" type="IntNeg15SType"/>
+				<xs:attribute name="F20_0152" type="IntNeg15SType"/>
+				<xs:attribute name="F20_0161" type="IntNeg15SType"/>
+				<xs:attribute name="F20_0162" type="IntNeg15SType"/>
+				<xs:attribute name="F20_0171" type="IntNeg15SType"/>
+				<xs:attribute name="F20_0172" type="IntNeg15SType"/>
+				<xs:attribute name="F20_0181" type="IntNeg15SType"/>
+				<xs:attribute name="F20_0182" type="IntNeg15SType"/>
+				<xs:attribute name="F20_0191" type="IntNeg15SType"/>
+				<xs:attribute name="F20_0192" type="IntNeg15SType"/>
+				<xs:attribute name="F20_0201" type="IntNeg15SType"/>
+				<xs:attribute name="F20_0202" type="IntNeg15SType"/>
+				<xs:attribute name="F20_0211" type="IntNeg15SType"/>
+				<xs:attribute name="F20_0212" type="IntNeg15SType"/>
+				<xs:attribute name="F20_0221" type="IntNeg15SType"/>
+				<xs:attribute name="F20_0222" type="IntNeg15SType"/>
+				<xs:attribute name="F20_0231" type="IntNeg15SType"/>
+				<xs:attribute name="F20_0232" type="IntNeg15SType"/>
+				<xs:attribute name="F20_0241" type="IntNeg15SType"/>
+				<xs:attribute name="F20_0242" type="IntNeg15SType"/>
+				<xs:attribute name="F20_0251" type="IntNeg15SType"/>
+				<xs:attribute name="F20_0252" type="IntNeg15SType"/>
+				<xs:attribute name="F20_0261" type="IntNeg15SType"/>
+				<xs:attribute name="F20_0262" type="IntNeg15SType"/>
+				<xs:attribute name="F20_0271" type="IntNeg15SType"/>
+				<xs:attribute name="F20_0272" type="IntNeg15SType"/>
+				<xs:attribute name="F20_0281" type="IntNeg15SType"/>
+				<xs:attribute name="F20_0282" type="IntNeg15SType"/>
+				<xs:attribute name="F20_0291" type="IntNeg15SType"/>
+				<xs:attribute name="F20_0292" type="IntNeg15SType"/>
+				<xs:attribute name="F20_0301" type="IntNeg15SType"/>
+				<xs:attribute name="F20_0302" type="IntNeg15SType"/>
+				<xs:attribute name="F20_0311" type="IntNeg15SType"/>
+				<xs:attribute name="F20_0312" type="IntNeg15SType"/>
+				<xs:attribute name="F20_0321" type="IntNeg15SType"/>
+				<xs:attribute name="F20_0322" type="IntNeg15SType"/>
+				<xs:attribute name="F20_0331" type="IntNeg15SType"/>
+				<xs:attribute name="F20_0332" type="IntNeg15SType"/>
+				<xs:attribute name="F20_0341" type="IntNeg15SType"/>
+				<xs:attribute name="F20_0342" type="IntNeg15SType"/>
+				<xs:attribute name="F20_0351" type="IntNeg15SType"/>
+				<xs:attribute name="F20_0352" type="IntNeg15SType"/>
+				<xs:attribute name="F20_0361" type="IntNeg15SType"/>
+				<xs:attribute name="F20_0362" type="IntNeg15SType"/>
+				<xs:attribute name="F20_0371" type="IntNeg15SType"/>
+				<xs:attribute name="F20_0372" type="IntNeg15SType"/>
+				<xs:attribute name="F20_0381" type="IntNeg15SType"/>
+				<xs:attribute name="F20_0382" type="IntNeg15SType"/>
+				<xs:attribute name="F20_0391" type="IntNeg15SType"/>
+				<xs:attribute name="F20_0392" type="IntNeg15SType"/>
+				<xs:attribute name="F20_0401" type="IntNeg15SType"/>
+				<xs:attribute name="F20_0402" type="IntNeg15SType"/>
+				<xs:attribute name="F20_0411" type="IntNeg15SType"/>
+				<xs:attribute name="F20_0412" type="IntNeg15SType"/>
+				<xs:attribute name="F20_0421" type="IntNeg15SType"/>
+				<xs:attribute name="F20_0422" type="IntNeg15SType"/>
+				<xs:attribute name="F20_0431" type="IntNeg15SType"/>
+				<xs:attribute name="F20_0432" type="IntNeg15SType"/>
+				<xs:attribute name="F20_0441" type="IntNeg15SType"/>
+				<xs:attribute name="F20_0442" type="IntNeg15SType"/>
+				<xs:attribute name="F20_0451" type="IntNeg15SType"/>
+				<xs:attribute name="F20_0452" type="IntNeg15SType"/>
+				<xs:attribute name="F20_0461" type="IntNeg15SType"/>
+				<xs:attribute name="F20_0462" type="IntNeg15SType"/>
+				<xs:attribute name="F20_0471" type="IntNeg15SType"/>
+				<xs:attribute name="F20_0472" type="IntNeg15SType"/>
+				<xs:attribute name="F20_0481" type="IntNeg15SType"/>
+				<xs:attribute name="F20_0482" type="IntNeg15SType"/>
+				<xs:attribute name="F20_0491" type="IntNeg15SType"/>
+				<xs:attribute name="F20_0492" type="IntNeg15SType"/>
+				<xs:attribute name="F20_0501" type="IntNeg15SType"/>
+				<xs:attribute name="F20_0502" type="IntNeg15SType"/>
+				<xs:attribute name="F20_0511" type="IntNeg15SType"/>
+				<xs:attribute name="F20_0512" type="IntNeg15SType"/>
+				<xs:attribute name="F20_0521" type="IntNeg15SType"/>
+				<xs:attribute name="F20_0522" type="IntNeg15SType"/>
+				<xs:attribute name="F20_0531" type="IntNeg15SType"/>
+				<xs:attribute name="F20_0532" type="IntNeg15SType"/>
+				<xs:attribute name="F20_0541" type="IntNeg15SType"/>
+				<xs:attribute name="F20_0542" type="IntNeg15SType"/>
+				<xs:attribute name="F20_0551" type="IntNeg15SType"/>
+				<xs:attribute name="F20_0552" type="IntNeg15SType"/>
+				<xs:attribute name="F20_0561" type="IntNeg15SType"/>
+				<xs:attribute name="F20_0562" type="IntNeg15SType"/>
+				<xs:attribute name="F20_0571" type="IntNeg15SType"/>
+				<xs:attribute name="F20_0572" type="IntNeg15SType"/>
+				<xs:attribute name="F20_0581" type="IntNeg15SType"/>
+				<xs:attribute name="F20_0582" type="IntNeg15SType"/>
+				<xs:attribute name="F20_0591" type="IntNeg15SType"/>
+				<xs:attribute name="F20_0592" type="IntNeg15SType"/>
+				<xs:attribute name="F20_0601" type="IntNeg15SType"/>
+				<xs:attribute name="F20_0602" type="IntNeg15SType"/>
+				<xs:attribute name="F20_0611" type="IntNeg15SType"/>
+				<xs:attribute name="F20_0612" type="IntNeg15SType"/>
+				<xs:attribute name="F20_0621" type="IntNeg15SType"/>
+				<xs:attribute name="F20_0622" type="IntNeg15SType"/>
+				<xs:attribute name="F20_0631" type="IntNeg15SType"/>
+				<xs:attribute name="F20_0632" type="IntNeg15SType"/>
+				<xs:attribute name="F20_0641" type="IntNeg15SType"/>
+				<xs:attribute name="F20_0642" type="IntNeg15SType"/>
+				<xs:attribute name="F20_0651" type="IntNeg15SType"/>
+				<xs:attribute name="F20_0652" type="IntNeg15SType"/>
+				<xs:attribute name="F20_0661" type="IntNeg15SType"/>
+				<xs:attribute name="F20_0662" type="IntNeg15SType"/>
+				<xs:attribute name="F20_0671" type="IntNeg15SType"/>
+				<xs:attribute name="F20_0672" type="IntNeg15SType"/>
+				<xs:attribute name="F20_0681" type="IntNeg15SType"/>
+				<xs:attribute name="F20_0682" type="IntNeg15SType"/>
+				<xs:attribute name="F20_0691" type="IntNeg15SType"/>
+				<xs:attribute name="F20_0692" type="IntNeg15SType"/>
+				<xs:attribute name="F20_0701" type="IntNeg15SType"/>
+				<xs:attribute name="F20_0702" type="IntNeg15SType"/>
+			</xs:restriction>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="F30Type">
+		<xs:complexContent>
+			<xs:restriction base="xs:anyType">
+				<xs:attribute name="F30_0011" type="IntNeg15SType"/>
+				<xs:attribute name="F30_0012" type="IntNeg15SType"/>
+				<xs:attribute name="F30_0021" type="IntNeg15SType"/>
+				<xs:attribute name="F30_0022" type="IntNeg15SType"/>
+				<xs:attribute name="F30_0031" type="IntNeg15SType"/>
+				<xs:attribute name="F30_0032" type="IntNeg15SType"/>
+				<xs:attribute name="F30_0041" type="IntNeg15SType"/>
+				<xs:attribute name="F30_0042" type="IntNeg15SType"/>
+				<xs:attribute name="F30_0043" type="IntNeg15SType"/>
+				<xs:attribute name="F30_0051" type="IntNeg15SType"/>
+				<xs:attribute name="F30_0052" type="IntNeg15SType"/>
+				<xs:attribute name="F30_0053" type="IntNeg15SType"/>
+				<xs:attribute name="F30_0061" type="IntNeg15SType"/>
+				<xs:attribute name="F30_0062" type="IntNeg15SType"/>
+				<xs:attribute name="F30_0063" type="IntNeg15SType"/>
+				<xs:attribute name="F30_0071" type="IntNeg15SType"/>
+				<xs:attribute name="F30_0072" type="IntNeg15SType"/>
+				<xs:attribute name="F30_0073" type="IntNeg15SType"/>
+				<xs:attribute name="F30_0081" type="IntNeg15SType"/>
+				<xs:attribute name="F30_0082" type="IntNeg15SType"/>
+				<xs:attribute name="F30_0083" type="IntNeg15SType"/>
+				<xs:attribute name="F30_0091" type="IntNeg15SType"/>
+				<xs:attribute name="F30_0092" type="IntNeg15SType"/>
+				<xs:attribute name="F30_0093" type="IntNeg15SType"/>
+				<xs:attribute name="F30_0101" type="IntNeg15SType"/>
+				<xs:attribute name="F30_0102" type="IntNeg15SType"/>
+				<xs:attribute name="F30_0103" type="IntNeg15SType"/>
+				<xs:attribute name="F30_0111" type="IntNeg15SType"/>
+				<xs:attribute name="F30_0112" type="IntNeg15SType"/>
+				<xs:attribute name="F30_0113" type="IntNeg15SType"/>
+				<xs:attribute name="F30_0121" type="IntNeg15SType"/>
+				<xs:attribute name="F30_0122" type="IntNeg15SType"/>
+				<xs:attribute name="F30_0123" type="IntNeg15SType"/>
+				<xs:attribute name="F30_0131" type="IntNeg15SType"/>
+				<xs:attribute name="F30_0132" type="IntNeg15SType"/>
+				<xs:attribute name="F30_0133" type="IntNeg15SType"/>
+				<xs:attribute name="F30_0141" type="IntNeg15SType"/>
+				<xs:attribute name="F30_0142" type="IntNeg15SType"/>
+				<xs:attribute name="F30_0143" type="IntNeg15SType"/>
+				<xs:attribute name="F30_0151" type="IntNeg15SType"/>
+				<xs:attribute name="F30_0152" type="IntNeg15SType"/>
+				<xs:attribute name="F30_0153" type="IntNeg15SType"/>
+				<xs:attribute name="F30_0161" type="IntNeg15SType"/>
+				<xs:attribute name="F30_0162" type="IntNeg15SType"/>
+				<xs:attribute name="F30_0163" type="IntNeg15SType"/>
+				<xs:attribute name="F30_0171" type="IntNeg15SType"/>
+				<xs:attribute name="F30_0172" type="IntNeg15SType"/>
+				<xs:attribute name="F30_0173" type="IntNeg15SType"/>
+				<xs:attribute name="F30_3011" type="IntNeg15SType"/>
+				<xs:attribute name="F30_3012" type="IntNeg15SType"/>
+				<xs:attribute name="F30_3013" type="IntNeg15SType"/>
+				<xs:attribute name="F30_0181" type="IntNeg15SType"/>
+				<xs:attribute name="F30_0182" type="IntNeg15SType"/>
+				<xs:attribute name="F30_0183" type="IntNeg15SType"/>
+				<xs:attribute name="F30_0191" type="IntNeg15SType"/>
+				<xs:attribute name="F30_0192" type="IntNeg15SType"/>
+				<xs:attribute name="F30_0201" type="IntNeg15SType"/>
+				<xs:attribute name="F30_0202" type="IntNeg15SType"/>
+				<xs:attribute name="F30_0211" type="IntNeg15SType"/>
+				<xs:attribute name="F30_0221" type="IntNeg15SType"/>
+				<xs:attribute name="F30_0231" type="IntNeg15SType"/>
+				<xs:attribute name="F30_0241" type="IntNeg15SType"/>
+				<xs:attribute name="F30_0251" type="IntNeg15SType"/>
+				<xs:attribute name="F30_0261" type="IntNeg15SType"/>
+				<xs:attribute name="F30_0271" type="IntNeg15SType"/>
+				<xs:attribute name="F30_0281" type="IntNeg15SType"/>
+				<xs:attribute name="F30_0291" type="IntNeg15SType"/>
+				<xs:attribute name="F30_0301" type="IntNeg15SType"/>
+				<xs:attribute name="F30_0311" type="IntNeg15SType"/>
+				<xs:attribute name="F30_0321" type="IntNeg15SType"/>
+				<xs:attribute name="F30_0331" type="IntNeg15SType"/>
+				<xs:attribute name="F30_0341" type="IntNeg15SType"/>
+				<xs:attribute name="F30_0351" type="IntNeg15SType"/>
+				<xs:attribute name="F30_0361" type="IntNeg15SType"/>
+				<xs:attribute name="F30_0371" type="IntNeg15SType"/>
+				<xs:attribute name="F30_3021" type="IntNeg15SType"/>
+				<xs:attribute name="F30_0381" type="IntNeg15SType"/>
+				<xs:attribute name="F30_0382" type="IntNeg15SType"/>
+				<xs:attribute name="F30_0391" type="IntNeg15SType"/>
+				<xs:attribute name="F30_0392" type="IntNeg15SType"/>
+				<xs:attribute name="F30_0401" type="IntNeg15SType"/>
+				<xs:attribute name="F30_0402" type="IntNeg15SType"/>
+				<xs:attribute name="F30_0411" type="IntNeg15SType"/>
+				<xs:attribute name="F30_0412" type="IntNeg15SType"/>
+				<xs:attribute name="F30_0421" type="IntNeg15SType"/>
+				<xs:attribute name="F30_0422" type="IntNeg15SType"/>
+				<xs:attribute name="F30_0431" type="IntNeg15SType"/>
+				<xs:attribute name="F30_0432" type="IntNeg15SType"/>
+				<xs:attribute name="F30_0441" type="IntNeg15SType"/>
+				<xs:attribute name="F30_0442" type="IntNeg15SType"/>
+				<xs:attribute name="F30_0451" type="IntNeg15SType"/>
+				<xs:attribute name="F30_0452" type="IntNeg15SType"/>
+				<xs:attribute name="F30_0461" type="IntNeg15SType"/>
+				<xs:attribute name="F30_0462" type="IntNeg15SType"/>
+				<xs:attribute name="F30_3031" type="IntNeg15SType"/>
+				<xs:attribute name="F30_3032" type="IntNeg15SType"/>
+				<xs:attribute name="F30_3041" type="IntNeg15SType"/>
+				<xs:attribute name="F30_3042" type="IntNeg15SType"/>
+				<xs:attribute name="F30_0471" type="IntNeg15SType"/>
+				<xs:attribute name="F30_0472" type="IntNeg15SType"/>
+				<xs:attribute name="F30_3051" type="IntNeg15SType"/>
+				<xs:attribute name="F30_3052" type="IntNeg15SType"/>
+				<xs:attribute name="F30_3061" type="IntNeg15SType"/>
+				<xs:attribute name="F30_3062" type="IntNeg15SType"/>
+				<xs:attribute name="F30_0481" type="IntNeg15SType"/>
+				<xs:attribute name="F30_0482" type="IntNeg15SType"/>
+				<xs:attribute name="F30_0491" type="IntNeg15SType"/>
+				<xs:attribute name="F30_0492" type="IntNeg15SType"/>
+				<xs:attribute name="F30_0501" type="IntNeg15SType"/>
+				<xs:attribute name="F30_0502" type="IntNeg15SType"/>
+				<xs:attribute name="F30_0511" type="IntNeg15SType"/>
+				<xs:attribute name="F30_0512" type="IntNeg15SType"/>
+				<xs:attribute name="F30_0521" type="IntNeg15SType"/>
+				<xs:attribute name="F30_0522" type="IntNeg15SType"/>
+				<xs:attribute name="F30_3071" type="IntNeg15SType"/>
+				<xs:attribute name="F30_3072" type="IntNeg15SType"/>
+				<xs:attribute name="F30_0531" type="IntNeg15SType"/>
+				<xs:attribute name="F30_0532" type="IntNeg15SType"/>
+				<xs:attribute name="F30_0541" type="IntNeg15SType"/>
+				<xs:attribute name="F30_0542" type="IntNeg15SType"/>
+				<xs:attribute name="F30_0551" type="IntNeg15SType"/>
+				<xs:attribute name="F30_0552" type="IntNeg15SType"/>
+				<xs:attribute name="F30_0561" type="IntNeg15SType"/>
+				<xs:attribute name="F30_0562" type="IntNeg15SType"/>
+				<xs:attribute name="F30_0571" type="IntNeg15SType"/>
+				<xs:attribute name="F30_0572" type="IntNeg15SType"/>
+				<xs:attribute name="F30_0581" type="IntNeg15SType"/>
+				<xs:attribute name="F30_0582" type="IntNeg15SType"/>
+				<xs:attribute name="F30_3081" type="IntNeg15SType"/>
+				<xs:attribute name="F30_3082" type="IntNeg15SType"/>
+				<xs:attribute name="F30_0591" type="IntNeg15SType"/>
+				<xs:attribute name="F30_0592" type="IntNeg15SType"/>
+				<xs:attribute name="F30_0601" type="IntNeg15SType"/>
+				<xs:attribute name="F30_0602" type="IntNeg15SType"/>
+				<xs:attribute name="F30_0611" type="IntNeg15SType"/>
+				<xs:attribute name="F30_0612" type="IntNeg15SType"/>
+				<xs:attribute name="F30_0621" type="IntNeg15SType"/>
+				<xs:attribute name="F30_0622" type="IntNeg15SType"/>
+				<xs:attribute name="F30_0631" type="IntNeg15SType"/>
+				<xs:attribute name="F30_0632" type="IntNeg15SType"/>
+				<xs:attribute name="F30_0641" type="IntNeg15SType"/>
+				<xs:attribute name="F30_0642" type="IntNeg15SType"/>
+				<xs:attribute name="F30_0651" type="IntNeg15SType"/>
+				<xs:attribute name="F30_0652" type="IntNeg15SType"/>
+				<xs:attribute name="F30_0661" type="IntNeg15SType"/>
+				<xs:attribute name="F30_0662" type="IntNeg15SType"/>
+				<xs:attribute name="F30_0671" type="IntNeg15SType"/>
+				<xs:attribute name="F30_0672" type="IntNeg15SType"/>
+				<xs:attribute name="F30_0681" type="IntNeg15SType"/>
+				<xs:attribute name="F30_0682" type="IntNeg15SType"/>
+				<xs:attribute name="F30_0691" type="IntNeg15SType"/>
+				<xs:attribute name="F30_0692" type="IntNeg15SType"/>
+				<xs:attribute name="F30_0701" type="IntNeg15SType"/>
+				<xs:attribute name="F30_0702" type="IntNeg15SType"/>
+				<xs:attribute name="F30_0711" type="IntNeg15SType"/>
+				<xs:attribute name="F30_0712" type="IntNeg15SType"/>
+				<xs:attribute name="F30_0721" type="IntNeg15SType"/>
+				<xs:attribute name="F30_0722" type="IntNeg15SType"/>
+				<xs:attribute name="F30_0731" type="IntNeg15SType"/>
+				<xs:attribute name="F30_0732" type="IntNeg15SType"/>
+				<xs:attribute name="F30_0741" type="IntNeg15SType"/>
+				<xs:attribute name="F30_0742" type="IntNeg15SType"/>
+				<xs:attribute name="F30_0751" type="IntNeg15SType"/>
+				<xs:attribute name="F30_0752" type="IntNeg15SType"/>
+				<xs:attribute name="F30_0761" type="IntNeg15SType"/>
+				<xs:attribute name="F30_0762" type="IntNeg15SType"/>
+				<xs:attribute name="F30_0771" type="IntNeg15SType"/>
+				<xs:attribute name="F30_0772" type="IntNeg15SType"/>
+				<xs:attribute name="F30_0781" type="IntNeg15SType"/>
+				<xs:attribute name="F30_0782" type="IntNeg15SType"/>
+				<xs:attribute name="F30_0791" type="IntNeg15SType"/>
+				<xs:attribute name="F30_0792" type="IntNeg15SType"/>
+				<xs:attribute name="F30_0801" type="IntNeg15SType"/>
+				<xs:attribute name="F30_0802" type="IntNeg15SType"/>
+				<xs:attribute name="F30_0811" type="IntNeg15SType"/>
+				<xs:attribute name="F30_0812" type="IntNeg15SType"/>
+				<xs:attribute name="F30_0821" type="IntNeg15SType"/>
+				<xs:attribute name="F30_0822" type="IntNeg15SType"/>
+				<xs:attribute name="F30_0831" type="IntNeg15SType"/>
+				<xs:attribute name="F30_0832" type="IntNeg15SType"/>
+				<xs:attribute name="F30_0841" type="IntNeg15SType"/>
+				<xs:attribute name="F30_0842" type="IntNeg15SType"/>
+				<xs:attribute name="F30_0851" type="IntNeg15SType"/>
+				<xs:attribute name="F30_0852" type="IntNeg15SType"/>
+				<xs:attribute name="F30_0861" type="IntNeg15SType"/>
+				<xs:attribute name="F30_0862" type="IntNeg15SType"/>
+				<xs:attribute name="F30_0871" type="IntNeg15SType"/>
+				<xs:attribute name="F30_0872" type="IntNeg15SType"/>
+				<xs:attribute name="F30_0881" type="IntNeg15SType"/>
+				<xs:attribute name="F30_0882" type="IntNeg15SType"/>
+				<xs:attribute name="F30_0891" type="IntNeg15SType"/>
+				<xs:attribute name="F30_0892" type="IntNeg15SType"/>
+				<xs:attribute name="F30_0901" type="IntNeg15SType"/>
+				<xs:attribute name="F30_0902" type="IntNeg15SType"/>
+				<xs:attribute name="F30_0911" type="IntNeg15SType"/>
+				<xs:attribute name="F30_0912" type="IntNeg15SType"/>
+				<xs:attribute name="F30_0921" type="IntNeg15SType"/>
+				<xs:attribute name="F30_0922" type="IntNeg15SType"/>
+				<xs:attribute name="F30_0931" type="IntNeg15SType"/>
+				<xs:attribute name="F30_0932" type="IntNeg15SType"/>
+				<xs:attribute name="F30_0941" type="IntNeg15SType"/>
+				<xs:attribute name="F30_0942" type="IntNeg15SType"/>
+				<xs:attribute name="F30_0951" type="IntNeg15SType"/>
+				<xs:attribute name="F30_0952" type="IntNeg15SType"/>
+				<xs:attribute name="F30_0961" type="IntNeg15SType"/>
+				<xs:attribute name="F30_0962" type="IntNeg15SType"/>
+				<xs:attribute name="F30_0971" type="IntNeg15SType"/>
+				<xs:attribute name="F30_0972" type="IntNeg15SType"/>
+				<xs:attribute name="F30_0981" type="IntNeg15SType"/>
+				<xs:attribute name="F30_0982" type="IntNeg15SType"/>
+				<xs:attribute name="F30_0991" type="IntNeg15SType"/>
+				<xs:attribute name="F30_0992" type="IntNeg15SType"/>
+				<xs:attribute name="F30_1001" type="IntNeg15SType"/>
+				<xs:attribute name="F30_1002" type="IntNeg15SType"/>
+				<xs:attribute name="F30_1011" type="IntNeg15SType"/>
+				<xs:attribute name="F30_1012" type="IntNeg15SType"/>
+				<xs:attribute name="F30_1021" type="IntNeg15SType"/>
+				<xs:attribute name="F30_1022" type="IntNeg15SType"/>
+				<xs:attribute name="F30_1031" type="IntNeg15SType"/>
+				<xs:attribute name="F30_1032" type="IntNeg15SType"/>
+				<xs:attribute name="F30_1041" type="IntNeg15SType"/>
+				<xs:attribute name="F30_1042" type="IntNeg15SType"/>
+				<xs:attribute name="F30_1051" type="IntNeg15SType"/>
+				<xs:attribute name="F30_1052" type="IntNeg15SType"/>
+				<xs:attribute name="F30_1061" type="IntNeg15SType"/>
+				<xs:attribute name="F30_1062" type="IntNeg15SType"/>
+				<xs:attribute name="F30_1071" type="IntNeg15SType"/>
+				<xs:attribute name="F30_1072" type="IntNeg15SType"/>
+				<xs:attribute name="F30_1081" type="IntNeg15SType"/>
+				<xs:attribute name="F30_1082" type="IntNeg15SType"/>
+				<xs:attribute name="F30_1091" type="IntNeg15SType"/>
+				<xs:attribute name="F30_1092" type="IntNeg15SType"/>
+				<xs:attribute name="F30_3091" type="IntNeg15SType"/>
+				<xs:attribute name="F30_3092" type="IntNeg15SType"/>
+				<xs:attribute name="F30_1101" type="IntNeg15SType"/>
+				<xs:attribute name="F30_1102" type="IntNeg15SType"/>
+				<xs:attribute name="F30_1111" type="IntNeg15SType"/>
+				<xs:attribute name="F30_1112" type="IntNeg15SType"/>
+				<xs:attribute name="F30_1121" type="IntNeg15SType"/>
+				<xs:attribute name="F30_1122" type="IntNeg15SType"/>
+				<xs:attribute name="F30_1131" type="IntNeg15SType"/>
+				<xs:attribute name="F30_1132" type="IntNeg15SType"/>
+				<xs:attribute name="F30_1141" type="IntNeg15SType"/>
+				<xs:attribute name="F30_1142" type="IntNeg15SType"/>
+				<xs:attribute name="F30_1151" type="IntNeg15SType"/>
+				<xs:attribute name="F30_1152" type="IntNeg15SType"/>
+				<xs:attribute name="F30_1161" type="IntNeg15SType"/>
+				<xs:attribute name="F30_1162" type="IntNeg15SType"/>
+				<xs:attribute name="F30_1171" type="IntNeg15SType"/>
+				<xs:attribute name="F30_1172" type="IntNeg15SType"/>
+				<xs:attribute name="F30_1181" type="IntNeg15SType"/>
+				<xs:attribute name="F30_1182" type="IntNeg15SType"/>
+				<xs:attribute name="F30_3101" type="IntNeg15SType"/>
+				<xs:attribute name="F30_3102" type="IntNeg15SType"/>
+				<xs:attribute name="F30_1191" type="IntNeg15SType"/>
+				<xs:attribute name="F30_1192" type="IntNeg15SType"/>
+				<xs:attribute name="F30_1201" type="IntNeg15SType"/>
+				<xs:attribute name="F30_1202" type="IntNeg15SType"/>
+				<xs:attribute name="F30_1211" type="IntNeg15SType"/>
+				<xs:attribute name="F30_1212" type="IntNeg15SType"/>
+				<xs:attribute name="F30_1221" type="IntNeg15SType"/>
+				<xs:attribute name="F30_1222" type="IntNeg15SType"/>
+				<xs:attribute name="F30_1231" type="IntNeg15SType"/>
+				<xs:attribute name="F30_1232" type="IntNeg15SType"/>
+				<xs:attribute name="F30_1241" type="IntNeg15SType"/>
+				<xs:attribute name="F30_1242" type="IntNeg15SType"/>
+				<xs:attribute name="F30_1251" type="IntNeg15SType"/>
+				<xs:attribute name="F30_1252" type="IntNeg15SType"/>
+				<xs:attribute name="F30_1261" type="IntNeg15SType"/>
+				<xs:attribute name="F30_1262" type="IntNeg15SType"/>
+				<xs:attribute name="F30_1271" type="IntNeg15SType"/>
+				<xs:attribute name="F30_1272" type="IntNeg15SType"/>
+				<xs:attribute name="F30_1281" type="IntNeg15SType"/>
+				<xs:attribute name="F30_1282" type="IntNeg15SType"/>
+				<xs:attribute name="F30_3111" type="IntNeg15SType"/>
+				<xs:attribute name="F30_3112" type="IntNeg15SType"/>
+				<xs:attribute name="F30_1291" type="IntNeg15SType"/>
+				<xs:attribute name="F30_1292" type="IntNeg15SType"/>
+				<xs:attribute name="F30_1301" type="IntNeg15SType"/>
+				<xs:attribute name="F30_1302" type="IntNeg15SType"/>
+				<xs:attribute name="F30_1311" type="IntNeg15SType"/>
+				<xs:attribute name="F30_1312" type="IntNeg15SType"/>
+				<xs:attribute name="F30_1321" type="IntNeg15SType"/>
+				<xs:attribute name="F30_1322" type="IntNeg15SType"/>
+				<xs:attribute name="F30_1331" type="IntNeg15SType"/>
+				<xs:attribute name="F30_1332" type="IntNeg15SType"/>
+				<xs:attribute name="F30_1341" type="IntNeg15SType"/>
+				<xs:attribute name="F30_1342" type="IntNeg15SType"/>
+				<xs:attribute name="F30_1351" type="IntNeg15SType"/>
+				<xs:attribute name="F30_1352" type="IntNeg15SType"/>
+				<xs:attribute name="F30_1361" type="IntNeg15SType"/>
+				<xs:attribute name="F30_1362" type="IntNeg15SType"/>
+				<xs:attribute name="F30_1371" type="IntNeg15SType"/>
+				<xs:attribute name="F30_1372" type="IntNeg15SType"/>
+				<xs:attribute name="F30_1381" type="IntNeg15SType"/>
+				<xs:attribute name="F30_1382" type="IntNeg15SType"/>
+				<xs:attribute name="F30_1391" type="IntNeg15SType"/>
+				<xs:attribute name="F30_1392" type="IntNeg15SType"/>
+				<xs:attribute name="F30_1401" type="IntNeg15SType"/>
+				<xs:attribute name="F30_1402" type="IntNeg15SType"/>
+				<xs:attribute name="F30_1411" type="IntNeg15SType"/>
+				<xs:attribute name="F30_1413" type="IntNeg15SType"/>
+				<xs:attribute name="F30_1421" type="IntNeg15SType"/>
+				<xs:attribute name="F30_1422" type="DblGen3_2_L_0d0_100d0SType"/>
+				<xs:attribute name="F30_1423" type="IntNeg15SType"/>
+				<xs:attribute name="F30_1424" type="DblGen3_2_L_0d0_100d0SType"/>
+				<xs:attribute name="F30_1431" type="IntNeg15SType"/>
+				<xs:attribute name="F30_1432" type="DblGen3_2_L_0d0_100d0SType"/>
+				<xs:attribute name="F30_1433" type="IntNeg15SType"/>
+				<xs:attribute name="F30_1434" type="DblGen3_2_L_0d0_100d0SType"/>
+				<xs:attribute name="F30_1441" type="IntNeg15SType"/>
+				<xs:attribute name="F30_1442" type="DblGen3_2_L_0d0_100d0SType"/>
+				<xs:attribute name="F30_1443" type="IntNeg15SType"/>
+				<xs:attribute name="F30_1444" type="DblGen3_2_L_0d0_100d0SType"/>
+				<xs:attribute name="F30_1451" type="IntNeg15SType"/>
+				<xs:attribute name="F30_1452" type="DblGen3_2_L_0d0_100d0SType"/>
+				<xs:attribute name="F30_1453" type="IntNeg15SType"/>
+				<xs:attribute name="F30_1454" type="DblGen3_2_L_0d0_100d0SType"/>
+				<xs:attribute name="F30_1461" type="IntNeg15SType"/>
+				<xs:attribute name="F30_1462" type="DblGen3_2_L_0d0_100d0SType"/>
+				<xs:attribute name="F30_1463" type="IntNeg15SType"/>
+				<xs:attribute name="F30_1464" type="DblGen3_2_L_0d0_100d0SType"/>
+				<xs:attribute name="F30_1471" type="IntNeg15SType"/>
+				<xs:attribute name="F30_1472" type="DblGen3_2_L_0d0_100d0SType"/>
+				<xs:attribute name="F30_1473" type="IntNeg15SType"/>
+				<xs:attribute name="F30_1474" type="DblGen3_2_L_0d0_100d0SType"/>
+				<xs:attribute name="F30_1481" type="IntNeg15SType"/>
+				<xs:attribute name="F30_1482" type="DblGen3_2_L_0d0_100d0SType"/>
+				<xs:attribute name="F30_1483" type="IntNeg15SType"/>
+				<xs:attribute name="F30_1484" type="DblGen3_2_L_0d0_100d0SType"/>
+				<xs:attribute name="F30_1491" type="IntNeg15SType"/>
+				<xs:attribute name="F30_1492" type="DblGen3_2_L_0d0_100d0SType"/>
+				<xs:attribute name="F30_1493" type="IntNeg15SType"/>
+				<xs:attribute name="F30_1494" type="DblGen3_2_L_0d0_100d0SType"/>
+				<xs:attribute name="F30_1501" type="IntNeg15SType"/>
+				<xs:attribute name="F30_1502" type="DblGen3_2_L_0d0_100d0SType"/>
+				<xs:attribute name="F30_1503" type="IntNeg15SType"/>
+				<xs:attribute name="F30_1504" type="DblGen3_2_L_0d0_100d0SType"/>
+				<xs:attribute name="F30_1511" type="IntNeg15SType"/>
+				<xs:attribute name="F30_1512" type="DblGen3_2_L_0d0_100d0SType"/>
+				<xs:attribute name="F30_1513" type="IntNeg15SType"/>
+				<xs:attribute name="F30_1514" type="DblGen3_2_L_0d0_100d0SType"/>
+				<xs:attribute name="F30_1521" type="IntNeg15SType"/>
+				<xs:attribute name="F30_1522" type="DblGen3_2_L_0d0_100d0SType"/>
+				<xs:attribute name="F30_1523" type="IntNeg15SType"/>
+				<xs:attribute name="F30_1524" type="DblGen3_2_L_0d0_100d0SType"/>
+				<xs:attribute name="F30_1531" type="IntNeg15SType"/>
+				<xs:attribute name="F30_1532" type="IntNeg15SType"/>
+				<xs:attribute name="F30_1541" type="IntNeg15SType"/>
+				<xs:attribute name="F30_1542" type="IntNeg15SType"/>
+				<xs:attribute name="F30_1551" type="IntNeg15SType"/>
+				<xs:attribute name="F30_1552" type="IntNeg15SType"/>
+				<xs:attribute name="F30_1561" type="IntNeg15SType"/>
+				<xs:attribute name="F30_1562" type="IntNeg15SType"/>
+				<xs:attribute name="F30_1571" type="IntNeg15SType"/>
+				<xs:attribute name="F30_1572" type="IntNeg15SType"/>
+				<xs:attribute name="F30_1581" type="IntNeg15SType"/>
+				<xs:attribute name="F30_1582" type="IntNeg15SType"/>
+				<xs:attribute name="F30_1591" type="IntNeg15SType"/>
+				<xs:attribute name="F30_1592" type="IntNeg15SType"/>
+				<xs:attribute name="F30_1601" type="IntNeg15SType"/>
+				<xs:attribute name="F30_1602" type="IntNeg15SType"/>
+				<xs:attribute name="F30_1611" type="IntNeg15SType"/>
+				<xs:attribute name="F30_1612" type="IntNeg15SType"/>
+				<xs:attribute name="F30_1621" type="IntNeg15SType"/>
+				<xs:attribute name="F30_1622" type="IntNeg15SType"/>
+				<xs:attribute name="F30_1631" type="IntNeg15SType"/>
+				<xs:attribute name="F30_1632" type="IntNeg15SType"/>
+				<xs:attribute name="F30_1641" type="IntNeg15SType"/>
+				<xs:attribute name="F30_1642" type="IntNeg15SType"/>
+				<xs:attribute name="F30_1651" type="IntNeg15SType"/>
+				<xs:attribute name="F30_1652" type="IntNeg15SType"/>
+				<xs:attribute name="F30_3121" type="IntNeg15SType"/>
+				<xs:attribute name="F30_3122" type="IntNeg15SType"/>
+				<xs:attribute name="F30_1661" type="IntNeg15SType"/>
+				<xs:attribute name="F30_1662" type="IntNeg15SType"/>
+				<xs:attribute name="F30_1671" type="IntNeg15SType"/>
+				<xs:attribute name="F30_1672" type="IntNeg15SType"/>
+				<xs:attribute name="F30_1681" type="IntNeg15SType"/>
+				<xs:attribute name="F30_1682" type="IntNeg15SType"/>
+				<xs:attribute name="F30_1691" type="IntNeg15SType"/>
+				<xs:attribute name="F30_1692" type="IntNeg15SType"/>
+				<xs:attribute name="F30_1701" type="IntNeg15SType"/>
+				<xs:attribute name="F30_1702" type="IntNeg15SType"/>
+			</xs:restriction>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="F40Type">
+		<xs:complexContent>
+			<xs:restriction base="xs:anyType">
+				<xs:attribute name="F40_0011" type="IntNeg15SType"/>
+				<xs:attribute name="F40_0012" type="IntNeg15SType"/>
+				<xs:attribute name="F40_0013" type="IntNeg15SType"/>
+				<xs:attribute name="F40_0015" type="IntNeg15SType"/>
+				<xs:attribute name="F40_0021" type="IntNeg15SType"/>
+				<xs:attribute name="F40_0022" type="IntNeg15SType"/>
+				<xs:attribute name="F40_0023" type="IntNeg15SType"/>
+				<xs:attribute name="F40_0025" type="IntNeg15SType"/>
+				<xs:attribute name="F40_0031" type="IntNeg15SType"/>
+				<xs:attribute name="F40_0032" type="IntNeg15SType"/>
+				<xs:attribute name="F40_0033" type="IntNeg15SType"/>
+				<xs:attribute name="F40_0035" type="IntNeg15SType"/>
+				<xs:attribute name="F40_0041" type="IntNeg15SType"/>
+				<xs:attribute name="F40_0042" type="IntNeg15SType"/>
+				<xs:attribute name="F40_0043" type="IntNeg15SType"/>
+				<xs:attribute name="F40_0045" type="IntNeg15SType"/>
+				<xs:attribute name="F40_0051" type="IntNeg15SType"/>
+				<xs:attribute name="F40_0052" type="IntNeg15SType"/>
+				<xs:attribute name="F40_0053" type="IntNeg15SType"/>
+				<xs:attribute name="F40_0055" type="IntNeg15SType"/>
+				<xs:attribute name="F40_0061" type="IntNeg15SType"/>
+				<xs:attribute name="F40_0062" type="IntNeg15SType"/>
+				<xs:attribute name="F40_0063" type="IntNeg15SType"/>
+				<xs:attribute name="F40_0065" type="IntNeg15SType"/>
+				<xs:attribute name="F40_0071" type="IntNeg15SType"/>
+				<xs:attribute name="F40_0072" type="IntNeg15SType"/>
+				<xs:attribute name="F40_0073" type="IntNeg15SType"/>
+				<xs:attribute name="F40_0074" type="IntNeg15SType"/>
+				<xs:attribute name="F40_0075" type="IntNeg15SType"/>
+				<xs:attribute name="F40_0081" type="IntNeg15SType"/>
+				<xs:attribute name="F40_0082" type="IntNeg15SType"/>
+				<xs:attribute name="F40_0083" type="IntNeg15SType"/>
+				<xs:attribute name="F40_0084" type="IntNeg15SType"/>
+				<xs:attribute name="F40_0085" type="IntNeg15SType"/>
+				<xs:attribute name="F40_0091" type="IntNeg15SType"/>
+				<xs:attribute name="F40_0092" type="IntNeg15SType"/>
+				<xs:attribute name="F40_0093" type="IntNeg15SType"/>
+				<xs:attribute name="F40_0094" type="IntNeg15SType"/>
+				<xs:attribute name="F40_0095" type="IntNeg15SType"/>
+				<xs:attribute name="F40_0101" type="IntNeg15SType"/>
+				<xs:attribute name="F40_0102" type="IntNeg15SType"/>
+				<xs:attribute name="F40_0103" type="IntNeg15SType"/>
+				<xs:attribute name="F40_0104" type="IntNeg15SType"/>
+				<xs:attribute name="F40_0105" type="IntNeg15SType"/>
+				<xs:attribute name="F40_0111" type="IntNeg15SType"/>
+				<xs:attribute name="F40_0112" type="IntNeg15SType"/>
+				<xs:attribute name="F40_0113" type="IntNeg15SType"/>
+				<xs:attribute name="F40_0114" type="IntNeg15SType"/>
+				<xs:attribute name="F40_0115" type="IntNeg15SType"/>
+				<xs:attribute name="F40_0121" type="IntNeg15SType"/>
+				<xs:attribute name="F40_0122" type="IntNeg15SType"/>
+				<xs:attribute name="F40_0123" type="IntNeg15SType"/>
+				<xs:attribute name="F40_0124" type="IntNeg15SType"/>
+				<xs:attribute name="F40_0125" type="IntNeg15SType"/>
+				<xs:attribute name="F40_0131" type="IntNeg15SType"/>
+				<xs:attribute name="F40_0132" type="IntNeg15SType"/>
+				<xs:attribute name="F40_0133" type="IntNeg15SType"/>
+				<xs:attribute name="F40_0134" type="IntNeg15SType"/>
+				<xs:attribute name="F40_0135" type="IntNeg15SType"/>
+				<xs:attribute name="F40_0141" type="IntNeg15SType"/>
+				<xs:attribute name="F40_0142" type="IntNeg15SType"/>
+				<xs:attribute name="F40_0143" type="IntNeg15SType"/>
+				<xs:attribute name="F40_0144" type="IntNeg15SType"/>
+				<xs:attribute name="F40_0145" type="IntNeg15SType"/>
+				<xs:attribute name="F40_0151" type="IntNeg15SType"/>
+				<xs:attribute name="F40_0152" type="IntNeg15SType"/>
+				<xs:attribute name="F40_0153" type="IntNeg15SType"/>
+				<xs:attribute name="F40_0154" type="IntNeg15SType"/>
+				<xs:attribute name="F40_0155" type="IntNeg15SType"/>
+				<xs:attribute name="F40_0161" type="IntNeg15SType"/>
+				<xs:attribute name="F40_0162" type="IntNeg15SType"/>
+				<xs:attribute name="F40_0163" type="IntNeg15SType"/>
+				<xs:attribute name="F40_0164" type="IntNeg15SType"/>
+				<xs:attribute name="F40_0165" type="IntNeg15SType"/>
+				<xs:attribute name="F40_0171" type="IntNeg15SType"/>
+				<xs:attribute name="F40_0172" type="IntNeg15SType"/>
+				<xs:attribute name="F40_0173" type="IntNeg15SType"/>
+				<xs:attribute name="F40_0175" type="IntNeg15SType"/>
+				<xs:attribute name="F40_0181" type="IntNeg15SType"/>
+				<xs:attribute name="F40_0182" type="IntNeg15SType"/>
+				<xs:attribute name="F40_0183" type="IntNeg15SType"/>
+				<xs:attribute name="F40_0184" type="IntNeg15SType"/>
+				<xs:attribute name="F40_0185" type="IntNeg15SType"/>
+				<xs:attribute name="F40_0191" type="IntNeg15SType"/>
+				<xs:attribute name="F40_0192" type="IntNeg15SType"/>
+				<xs:attribute name="F40_0193" type="IntNeg15SType"/>
+				<xs:attribute name="F40_0194" type="IntNeg15SType"/>
+				<xs:attribute name="F40_0201" type="IntNeg15SType"/>
+				<xs:attribute name="F40_0202" type="IntNeg15SType"/>
+				<xs:attribute name="F40_0203" type="IntNeg15SType"/>
+				<xs:attribute name="F40_0204" type="IntNeg15SType"/>
+				<xs:attribute name="F40_0211" type="IntNeg15SType"/>
+				<xs:attribute name="F40_0212" type="IntNeg15SType"/>
+				<xs:attribute name="F40_0213" type="IntNeg15SType"/>
+				<xs:attribute name="F40_0214" type="IntNeg15SType"/>
+				<xs:attribute name="F40_0221" type="IntNeg15SType"/>
+				<xs:attribute name="F40_0222" type="IntNeg15SType"/>
+				<xs:attribute name="F40_0223" type="IntNeg15SType"/>
+				<xs:attribute name="F40_0224" type="IntNeg15SType"/>
+				<xs:attribute name="F40_0231" type="IntNeg15SType"/>
+				<xs:attribute name="F40_0232" type="IntNeg15SType"/>
+				<xs:attribute name="F40_0233" type="IntNeg15SType"/>
+				<xs:attribute name="F40_0234" type="IntNeg15SType"/>
+				<xs:attribute name="F40_0241" type="IntNeg15SType"/>
+				<xs:attribute name="F40_0242" type="IntNeg15SType"/>
+				<xs:attribute name="F40_0243" type="IntNeg15SType"/>
+				<xs:attribute name="F40_0244" type="IntNeg15SType"/>
+				<xs:attribute name="F40_0251" type="IntNeg15SType"/>
+				<xs:attribute name="F40_0252" type="IntNeg15SType"/>
+				<xs:attribute name="F40_0253" type="IntNeg15SType"/>
+				<xs:attribute name="F40_0254" type="IntNeg15SType"/>
+				<xs:attribute name="F40_0261" type="IntNeg15SType"/>
+				<xs:attribute name="F40_0262" type="IntNeg15SType"/>
+				<xs:attribute name="F40_0263" type="IntNeg15SType"/>
+				<xs:attribute name="F40_0264" type="IntNeg15SType"/>
+				<xs:attribute name="F40_0271" type="IntNeg15SType"/>
+				<xs:attribute name="F40_0272" type="IntNeg15SType"/>
+				<xs:attribute name="F40_0273" type="IntNeg15SType"/>
+				<xs:attribute name="F40_0274" type="IntNeg15SType"/>
+				<xs:attribute name="F40_0281" type="IntNeg15SType"/>
+				<xs:attribute name="F40_0282" type="IntNeg15SType"/>
+				<xs:attribute name="F40_0283" type="IntNeg15SType"/>
+				<xs:attribute name="F40_0284" type="IntNeg15SType"/>
+				<xs:attribute name="F40_0291" type="IntNeg15SType"/>
+				<xs:attribute name="F40_0292" type="IntNeg15SType"/>
+				<xs:attribute name="F40_0293" type="IntNeg15SType"/>
+				<xs:attribute name="F40_0294" type="IntNeg15SType"/>
+				<xs:attribute name="F40_0301" type="IntNeg15SType"/>
+				<xs:attribute name="F40_0302" type="IntNeg15SType"/>
+				<xs:attribute name="F40_0303" type="IntNeg15SType"/>
+				<xs:attribute name="F40_0304" type="IntNeg15SType"/>
+				<xs:attribute name="F40_0311" type="IntNeg15SType"/>
+				<xs:attribute name="F40_0312" type="IntNeg15SType"/>
+				<xs:attribute name="F40_0313" type="IntNeg15SType"/>
+				<xs:attribute name="F40_0314" type="IntNeg15SType"/>
+				<xs:attribute name="F40_0321" type="IntNeg15SType"/>
+				<xs:attribute name="F40_0322" type="IntNeg15SType"/>
+				<xs:attribute name="F40_0323" type="IntNeg15SType"/>
+				<xs:attribute name="F40_0324" type="IntNeg15SType"/>
+				<xs:attribute name="F40_0331" type="IntNeg15SType"/>
+				<xs:attribute name="F40_0332" type="IntNeg15SType"/>
+				<xs:attribute name="F40_0333" type="IntNeg15SType"/>
+				<xs:attribute name="F40_0334" type="IntNeg15SType"/>
+				<xs:attribute name="F40_0341" type="IntNeg15SType"/>
+				<xs:attribute name="F40_0342" type="IntNeg15SType"/>
+				<xs:attribute name="F40_0343" type="IntNeg15SType"/>
+				<xs:attribute name="F40_0344" type="IntNeg15SType"/>
+				<xs:attribute name="F40_0351" type="IntNeg15SType"/>
+				<xs:attribute name="F40_0352" type="IntNeg15SType"/>
+				<xs:attribute name="F40_0353" type="IntNeg15SType"/>
+				<xs:attribute name="F40_0354" type="IntNeg15SType"/>
+				<xs:attribute name="F40_0361" type="IntNeg15SType"/>
+				<xs:attribute name="F40_0362" type="IntNeg15SType"/>
+				<xs:attribute name="F40_0363" type="IntNeg15SType"/>
+				<xs:attribute name="F40_0364" type="IntNeg15SType"/>
+				<xs:attribute name="F40_0371" type="IntNeg15SType"/>
+				<xs:attribute name="F40_0372" type="IntNeg15SType"/>
+				<xs:attribute name="F40_0373" type="IntNeg15SType"/>
+				<xs:attribute name="F40_0374" type="IntNeg15SType"/>
+				<xs:attribute name="F40_0381" type="IntNeg15SType"/>
+				<xs:attribute name="F40_0382" type="IntNeg15SType"/>
+				<xs:attribute name="F40_0383" type="IntNeg15SType"/>
+				<xs:attribute name="F40_0384" type="IntNeg15SType"/>
+				<xs:attribute name="F40_0391" type="IntNeg15SType"/>
+				<xs:attribute name="F40_0392" type="IntNeg15SType"/>
+				<xs:attribute name="F40_0393" type="IntNeg15SType"/>
+				<xs:attribute name="F40_0394" type="IntNeg15SType"/>
+				<xs:attribute name="F40_0401" type="IntNeg15SType"/>
+				<xs:attribute name="F40_0402" type="IntNeg15SType"/>
+				<xs:attribute name="F40_0403" type="IntNeg15SType"/>
+				<xs:attribute name="F40_0404" type="IntNeg15SType"/>
+				<xs:attribute name="F40_0411" type="IntNeg15SType"/>
+				<xs:attribute name="F40_0412" type="IntNeg15SType"/>
+				<xs:attribute name="F40_0413" type="IntNeg15SType"/>
+				<xs:attribute name="F40_0414" type="IntNeg15SType"/>
+				<xs:attribute name="F40_0421" type="IntNeg15SType"/>
+				<xs:attribute name="F40_0422" type="IntNeg15SType"/>
+				<xs:attribute name="F40_0423" type="IntNeg15SType"/>
+				<xs:attribute name="F40_0424" type="IntNeg15SType"/>
+				<xs:attribute name="F40_0431" type="IntNeg15SType"/>
+				<xs:attribute name="F40_0432" type="IntNeg15SType"/>
+				<xs:attribute name="F40_0433" type="IntNeg15SType"/>
+				<xs:attribute name="F40_0434" type="IntNeg15SType"/>
+				<xs:attribute name="F40_0441" type="IntNeg15SType"/>
+				<xs:attribute name="F40_0442" type="IntNeg15SType"/>
+				<xs:attribute name="F40_0443" type="IntNeg15SType"/>
+				<xs:attribute name="F40_0444" type="IntNeg15SType"/>
+				<xs:attribute name="F40_0451" type="IntNeg15SType"/>
+				<xs:attribute name="F40_0452" type="IntNeg15SType"/>
+				<xs:attribute name="F40_0453" type="IntNeg15SType"/>
+				<xs:attribute name="F40_0454" type="IntNeg15SType"/>
+				<xs:attribute name="F40_0461" type="IntNeg15SType"/>
+				<xs:attribute name="F40_0462" type="IntNeg15SType"/>
+				<xs:attribute name="F40_0463" type="IntNeg15SType"/>
+				<xs:attribute name="F40_0464" type="IntNeg15SType"/>
+				<xs:attribute name="F40_0471" type="IntNeg15SType"/>
+				<xs:attribute name="F40_0472" type="IntNeg15SType"/>
+				<xs:attribute name="F40_0473" type="IntNeg15SType"/>
+				<xs:attribute name="F40_0474" type="IntNeg15SType"/>
+			</xs:restriction>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:simpleType name="IntInt12_12SType">
+		<xs:restriction base="xs:integer">
+			<xs:minInclusive value="12"/>
+			<xs:maxInclusive value="12"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="IntInt2018_2100SType">
+		<xs:restriction base="xs:integer">
+			<xs:minInclusive value="2018"/>
+			<xs:maxInclusive value="2100"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="CuiSType">
+		<xs:restriction base="xs:token">
+			<xs:pattern value="[1-9]\d{1,9}"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="Str50">
+		<xs:restriction base="xs:string">
+			<xs:maxLength value="50"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="Str200">
+		<xs:restriction base="xs:string">
+			<xs:maxLength value="200"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="Str15">
+		<xs:restriction base="xs:string">
+			<xs:maxLength value="15"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="Str18">
+		<xs:restriction base="xs:string">
+			<xs:maxLength value="18"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="Str_coduriCaenSType">
+		<xs:restriction base="xs:string">
+			<xs:maxLength value="4"/>
+			<xs:enumeration value="0111"/>
+			<xs:enumeration value="0112"/>
+			<xs:enumeration value="0113"/>
+			<xs:enumeration value="0114"/>
+			<xs:enumeration value="0115"/>
+			<xs:enumeration value="0116"/>
+			<xs:enumeration value="0119"/>
+			<xs:enumeration value="0121"/>
+			<xs:enumeration value="0122"/>
+			<xs:enumeration value="0123"/>
+			<xs:enumeration value="0124"/>
+			<xs:enumeration value="0125"/>
+			<xs:enumeration value="0126"/>
+			<xs:enumeration value="0127"/>
+			<xs:enumeration value="0128"/>
+			<xs:enumeration value="0129"/>
+			<xs:enumeration value="0130"/>
+			<xs:enumeration value="0141"/>
+			<xs:enumeration value="0142"/>
+			<xs:enumeration value="0143"/>
+			<xs:enumeration value="0144"/>
+			<xs:enumeration value="0145"/>
+			<xs:enumeration value="0146"/>
+			<xs:enumeration value="0147"/>
+			<xs:enumeration value="0149"/>
+			<xs:enumeration value="0150"/>
+			<xs:enumeration value="0161"/>
+			<xs:enumeration value="0162"/>
+			<xs:enumeration value="0163"/>
+			<xs:enumeration value="0164"/>
+			<xs:enumeration value="0170"/>
+			<xs:enumeration value="0210"/>
+			<xs:enumeration value="0220"/>
+			<xs:enumeration value="0230"/>
+			<xs:enumeration value="0240"/>
+			<xs:enumeration value="0311"/>
+			<xs:enumeration value="0312"/>
+			<xs:enumeration value="0321"/>
+			<xs:enumeration value="0322"/>
+			<xs:enumeration value="0510"/>
+			<xs:enumeration value="0520"/>
+			<xs:enumeration value="0610"/>
+			<xs:enumeration value="0620"/>
+			<xs:enumeration value="0710"/>
+			<xs:enumeration value="0721"/>
+			<xs:enumeration value="0729"/>
+			<xs:enumeration value="0811"/>
+			<xs:enumeration value="0812"/>
+			<xs:enumeration value="0891"/>
+			<xs:enumeration value="0892"/>
+			<xs:enumeration value="0893"/>
+			<xs:enumeration value="0899"/>
+			<xs:enumeration value="0910"/>
+			<xs:enumeration value="0990"/>
+			<xs:enumeration value="1011"/>
+			<xs:enumeration value="1012"/>
+			<xs:enumeration value="1013"/>
+			<xs:enumeration value="1020"/>
+			<xs:enumeration value="1031"/>
+			<xs:enumeration value="1032"/>
+			<xs:enumeration value="1039"/>
+			<xs:enumeration value="1041"/>
+			<xs:enumeration value="1042"/>
+			<xs:enumeration value="1051"/>
+			<xs:enumeration value="1052"/>
+			<xs:enumeration value="1061"/>
+			<xs:enumeration value="1062"/>
+			<xs:enumeration value="1071"/>
+			<xs:enumeration value="1072"/>
+			<xs:enumeration value="1073"/>
+			<xs:enumeration value="1081"/>
+			<xs:enumeration value="1082"/>
+			<xs:enumeration value="1083"/>
+			<xs:enumeration value="1084"/>
+			<xs:enumeration value="1085"/>
+			<xs:enumeration value="1086"/>
+			<xs:enumeration value="1089"/>
+			<xs:enumeration value="1091"/>
+			<xs:enumeration value="1092"/>
+			<xs:enumeration value="1101"/>
+			<xs:enumeration value="1102"/>
+			<xs:enumeration value="1103"/>
+			<xs:enumeration value="1104"/>
+			<xs:enumeration value="1105"/>
+			<xs:enumeration value="1106"/>
+			<xs:enumeration value="1107"/>
+			<xs:enumeration value="1200"/>
+			<xs:enumeration value="1310"/>
+			<xs:enumeration value="1320"/>
+			<xs:enumeration value="1330"/>
+			<xs:enumeration value="1391"/>
+			<xs:enumeration value="1392"/>
+			<xs:enumeration value="1393"/>
+			<xs:enumeration value="1394"/>
+			<xs:enumeration value="1395"/>
+			<xs:enumeration value="1396"/>
+			<xs:enumeration value="1399"/>
+			<xs:enumeration value="1411"/>
+			<xs:enumeration value="1412"/>
+			<xs:enumeration value="1413"/>
+			<xs:enumeration value="1414"/>
+			<xs:enumeration value="1419"/>
+			<xs:enumeration value="1420"/>
+			<xs:enumeration value="1431"/>
+			<xs:enumeration value="1439"/>
+			<xs:enumeration value="1511"/>
+			<xs:enumeration value="1512"/>
+			<xs:enumeration value="1520"/>
+			<xs:enumeration value="1610"/>
+			<xs:enumeration value="1621"/>
+			<xs:enumeration value="1622"/>
+			<xs:enumeration value="1623"/>
+			<xs:enumeration value="1624"/>
+			<xs:enumeration value="1629"/>
+			<xs:enumeration value="1711"/>
+			<xs:enumeration value="1712"/>
+			<xs:enumeration value="1721"/>
+			<xs:enumeration value="1722"/>
+			<xs:enumeration value="1723"/>
+			<xs:enumeration value="1724"/>
+			<xs:enumeration value="1729"/>
+			<xs:enumeration value="1811"/>
+			<xs:enumeration value="1812"/>
+			<xs:enumeration value="1813"/>
+			<xs:enumeration value="1814"/>
+			<xs:enumeration value="1820"/>
+			<xs:enumeration value="1910"/>
+			<xs:enumeration value="1920"/>
+			<xs:enumeration value="2011"/>
+			<xs:enumeration value="2012"/>
+			<xs:enumeration value="2013"/>
+			<xs:enumeration value="2014"/>
+			<xs:enumeration value="2015"/>
+			<xs:enumeration value="2016"/>
+			<xs:enumeration value="2017"/>
+			<xs:enumeration value="2020"/>
+			<xs:enumeration value="2030"/>
+			<xs:enumeration value="2041"/>
+			<xs:enumeration value="2042"/>
+			<xs:enumeration value="2051"/>
+			<xs:enumeration value="2052"/>
+			<xs:enumeration value="2053"/>
+			<xs:enumeration value="2059"/>
+			<xs:enumeration value="2060"/>
+			<xs:enumeration value="2110"/>
+			<xs:enumeration value="2120"/>
+			<xs:enumeration value="2211"/>
+			<xs:enumeration value="2219"/>
+			<xs:enumeration value="2221"/>
+			<xs:enumeration value="2222"/>
+			<xs:enumeration value="2223"/>
+			<xs:enumeration value="2229"/>
+			<xs:enumeration value="2311"/>
+			<xs:enumeration value="2312"/>
+			<xs:enumeration value="2313"/>
+			<xs:enumeration value="2314"/>
+			<xs:enumeration value="2319"/>
+			<xs:enumeration value="2320"/>
+			<xs:enumeration value="2331"/>
+			<xs:enumeration value="2332"/>
+			<xs:enumeration value="2341"/>
+			<xs:enumeration value="2342"/>
+			<xs:enumeration value="2343"/>
+			<xs:enumeration value="2344"/>
+			<xs:enumeration value="2349"/>
+			<xs:enumeration value="2351"/>
+			<xs:enumeration value="2352"/>
+			<xs:enumeration value="2361"/>
+			<xs:enumeration value="2362"/>
+			<xs:enumeration value="2363"/>
+			<xs:enumeration value="2364"/>
+			<xs:enumeration value="2365"/>
+			<xs:enumeration value="2369"/>
+			<xs:enumeration value="2370"/>
+			<xs:enumeration value="2391"/>
+			<xs:enumeration value="2399"/>
+			<xs:enumeration value="2410"/>
+			<xs:enumeration value="2420"/>
+			<xs:enumeration value="2431"/>
+			<xs:enumeration value="2432"/>
+			<xs:enumeration value="2433"/>
+			<xs:enumeration value="2434"/>
+			<xs:enumeration value="2441"/>
+			<xs:enumeration value="2442"/>
+			<xs:enumeration value="2443"/>
+			<xs:enumeration value="2444"/>
+			<xs:enumeration value="2445"/>
+			<xs:enumeration value="2446"/>
+			<xs:enumeration value="2451"/>
+			<xs:enumeration value="2452"/>
+			<xs:enumeration value="2453"/>
+			<xs:enumeration value="2454"/>
+			<xs:enumeration value="2511"/>
+			<xs:enumeration value="2512"/>
+			<xs:enumeration value="2521"/>
+			<xs:enumeration value="2529"/>
+			<xs:enumeration value="2530"/>
+			<xs:enumeration value="2540"/>
+			<xs:enumeration value="2550"/>
+			<xs:enumeration value="2561"/>
+			<xs:enumeration value="2562"/>
+			<xs:enumeration value="2571"/>
+			<xs:enumeration value="2572"/>
+			<xs:enumeration value="2573"/>
+			<xs:enumeration value="2591"/>
+			<xs:enumeration value="2592"/>
+			<xs:enumeration value="2593"/>
+			<xs:enumeration value="2594"/>
+			<xs:enumeration value="2599"/>
+			<xs:enumeration value="2611"/>
+			<xs:enumeration value="2612"/>
+			<xs:enumeration value="2620"/>
+			<xs:enumeration value="2630"/>
+			<xs:enumeration value="2640"/>
+			<xs:enumeration value="2651"/>
+			<xs:enumeration value="2652"/>
+			<xs:enumeration value="2660"/>
+			<xs:enumeration value="2670"/>
+			<xs:enumeration value="2680"/>
+			<xs:enumeration value="2711"/>
+			<xs:enumeration value="2712"/>
+			<xs:enumeration value="2720"/>
+			<xs:enumeration value="2731"/>
+			<xs:enumeration value="2732"/>
+			<xs:enumeration value="2733"/>
+			<xs:enumeration value="2740"/>
+			<xs:enumeration value="2751"/>
+			<xs:enumeration value="2752"/>
+			<xs:enumeration value="2790"/>
+			<xs:enumeration value="2811"/>
+			<xs:enumeration value="2812"/>
+			<xs:enumeration value="2813"/>
+			<xs:enumeration value="2814"/>
+			<xs:enumeration value="2815"/>
+			<xs:enumeration value="2821"/>
+			<xs:enumeration value="2822"/>
+			<xs:enumeration value="2823"/>
+			<xs:enumeration value="2824"/>
+			<xs:enumeration value="2825"/>
+			<xs:enumeration value="2829"/>
+			<xs:enumeration value="2830"/>
+			<xs:enumeration value="2841"/>
+			<xs:enumeration value="2849"/>
+			<xs:enumeration value="2891"/>
+			<xs:enumeration value="2892"/>
+			<xs:enumeration value="2893"/>
+			<xs:enumeration value="2894"/>
+			<xs:enumeration value="2895"/>
+			<xs:enumeration value="2896"/>
+			<xs:enumeration value="2899"/>
+			<xs:enumeration value="2910"/>
+			<xs:enumeration value="2920"/>
+			<xs:enumeration value="2931"/>
+			<xs:enumeration value="2932"/>
+			<xs:enumeration value="3011"/>
+			<xs:enumeration value="3012"/>
+			<xs:enumeration value="3020"/>
+			<xs:enumeration value="3030"/>
+			<xs:enumeration value="3040"/>
+			<xs:enumeration value="3091"/>
+			<xs:enumeration value="3092"/>
+			<xs:enumeration value="3099"/>
+			<xs:enumeration value="3101"/>
+			<xs:enumeration value="3102"/>
+			<xs:enumeration value="3103"/>
+			<xs:enumeration value="3109"/>
+			<xs:enumeration value="3211"/>
+			<xs:enumeration value="3212"/>
+			<xs:enumeration value="3213"/>
+			<xs:enumeration value="3220"/>
+			<xs:enumeration value="3230"/>
+			<xs:enumeration value="3240"/>
+			<xs:enumeration value="3250"/>
+			<xs:enumeration value="3291"/>
+			<xs:enumeration value="3299"/>
+			<xs:enumeration value="3311"/>
+			<xs:enumeration value="3312"/>
+			<xs:enumeration value="3313"/>
+			<xs:enumeration value="3314"/>
+			<xs:enumeration value="3315"/>
+			<xs:enumeration value="3316"/>
+			<xs:enumeration value="3317"/>
+			<xs:enumeration value="3319"/>
+			<xs:enumeration value="3320"/>
+			<xs:enumeration value="3511"/>
+			<xs:enumeration value="3512"/>
+			<xs:enumeration value="3513"/>
+			<xs:enumeration value="3514"/>
+			<xs:enumeration value="3521"/>
+			<xs:enumeration value="3522"/>
+			<xs:enumeration value="3523"/>
+			<xs:enumeration value="3530"/>
+			<xs:enumeration value="3600"/>
+			<xs:enumeration value="3700"/>
+			<xs:enumeration value="3811"/>
+			<xs:enumeration value="3812"/>
+			<xs:enumeration value="3821"/>
+			<xs:enumeration value="3822"/>
+			<xs:enumeration value="3831"/>
+			<xs:enumeration value="3832"/>
+			<xs:enumeration value="3900"/>
+			<xs:enumeration value="4110"/>
+			<xs:enumeration value="4120"/>
+			<xs:enumeration value="4211"/>
+			<xs:enumeration value="4212"/>
+			<xs:enumeration value="4213"/>
+			<xs:enumeration value="4221"/>
+			<xs:enumeration value="4222"/>
+			<xs:enumeration value="4291"/>
+			<xs:enumeration value="4299"/>
+			<xs:enumeration value="4311"/>
+			<xs:enumeration value="4312"/>
+			<xs:enumeration value="4313"/>
+			<xs:enumeration value="4321"/>
+			<xs:enumeration value="4322"/>
+			<xs:enumeration value="4329"/>
+			<xs:enumeration value="4331"/>
+			<xs:enumeration value="4332"/>
+			<xs:enumeration value="4333"/>
+			<xs:enumeration value="4334"/>
+			<xs:enumeration value="4339"/>
+			<xs:enumeration value="4391"/>
+			<xs:enumeration value="4399"/>
+			<xs:enumeration value="4511"/>
+			<xs:enumeration value="4519"/>
+			<xs:enumeration value="4520"/>
+			<xs:enumeration value="4531"/>
+			<xs:enumeration value="4532"/>
+			<xs:enumeration value="4540"/>
+			<xs:enumeration value="4611"/>
+			<xs:enumeration value="4612"/>
+			<xs:enumeration value="4613"/>
+			<xs:enumeration value="4614"/>
+			<xs:enumeration value="4615"/>
+			<xs:enumeration value="4616"/>
+			<xs:enumeration value="4617"/>
+			<xs:enumeration value="4618"/>
+			<xs:enumeration value="4619"/>
+			<xs:enumeration value="4621"/>
+			<xs:enumeration value="4622"/>
+			<xs:enumeration value="4623"/>
+			<xs:enumeration value="4624"/>
+			<xs:enumeration value="4631"/>
+			<xs:enumeration value="4632"/>
+			<xs:enumeration value="4633"/>
+			<xs:enumeration value="4634"/>
+			<xs:enumeration value="4635"/>
+			<xs:enumeration value="4636"/>
+			<xs:enumeration value="4637"/>
+			<xs:enumeration value="4638"/>
+			<xs:enumeration value="4639"/>
+			<xs:enumeration value="4641"/>
+			<xs:enumeration value="4642"/>
+			<xs:enumeration value="4643"/>
+			<xs:enumeration value="4644"/>
+			<xs:enumeration value="4645"/>
+			<xs:enumeration value="4646"/>
+			<xs:enumeration value="4647"/>
+			<xs:enumeration value="4648"/>
+			<xs:enumeration value="4649"/>
+			<xs:enumeration value="4651"/>
+			<xs:enumeration value="4652"/>
+			<xs:enumeration value="4661"/>
+			<xs:enumeration value="4662"/>
+			<xs:enumeration value="4663"/>
+			<xs:enumeration value="4664"/>
+			<xs:enumeration value="4665"/>
+			<xs:enumeration value="4666"/>
+			<xs:enumeration value="4669"/>
+			<xs:enumeration value="4671"/>
+			<xs:enumeration value="4672"/>
+			<xs:enumeration value="4673"/>
+			<xs:enumeration value="4674"/>
+			<xs:enumeration value="4675"/>
+			<xs:enumeration value="4676"/>
+			<xs:enumeration value="4677"/>
+			<xs:enumeration value="4690"/>
+			<xs:enumeration value="4711"/>
+			<xs:enumeration value="4719"/>
+			<xs:enumeration value="4721"/>
+			<xs:enumeration value="4722"/>
+			<xs:enumeration value="4723"/>
+			<xs:enumeration value="4724"/>
+			<xs:enumeration value="4725"/>
+			<xs:enumeration value="4726"/>
+			<xs:enumeration value="4729"/>
+			<xs:enumeration value="4730"/>
+			<xs:enumeration value="4741"/>
+			<xs:enumeration value="4742"/>
+			<xs:enumeration value="4743"/>
+			<xs:enumeration value="4751"/>
+			<xs:enumeration value="4752"/>
+			<xs:enumeration value="4753"/>
+			<xs:enumeration value="4754"/>
+			<xs:enumeration value="4759"/>
+			<xs:enumeration value="4761"/>
+			<xs:enumeration value="4762"/>
+			<xs:enumeration value="4763"/>
+			<xs:enumeration value="4764"/>
+			<xs:enumeration value="4765"/>
+			<xs:enumeration value="4771"/>
+			<xs:enumeration value="4772"/>
+			<xs:enumeration value="4773"/>
+			<xs:enumeration value="4774"/>
+			<xs:enumeration value="4775"/>
+			<xs:enumeration value="4776"/>
+			<xs:enumeration value="4777"/>
+			<xs:enumeration value="4778"/>
+			<xs:enumeration value="4779"/>
+			<xs:enumeration value="4781"/>
+			<xs:enumeration value="4782"/>
+			<xs:enumeration value="4789"/>
+			<xs:enumeration value="4791"/>
+			<xs:enumeration value="4799"/>
+			<xs:enumeration value="4910"/>
+			<xs:enumeration value="4920"/>
+			<xs:enumeration value="4931"/>
+			<xs:enumeration value="4932"/>
+			<xs:enumeration value="4939"/>
+			<xs:enumeration value="4941"/>
+			<xs:enumeration value="4942"/>
+			<xs:enumeration value="4950"/>
+			<xs:enumeration value="5010"/>
+			<xs:enumeration value="5020"/>
+			<xs:enumeration value="5030"/>
+			<xs:enumeration value="5040"/>
+			<xs:enumeration value="5110"/>
+			<xs:enumeration value="5121"/>
+			<xs:enumeration value="5210"/>
+			<xs:enumeration value="5221"/>
+			<xs:enumeration value="5222"/>
+			<xs:enumeration value="5223"/>
+			<xs:enumeration value="5224"/>
+			<xs:enumeration value="5229"/>
+			<xs:enumeration value="5310"/>
+			<xs:enumeration value="5320"/>
+			<xs:enumeration value="5510"/>
+			<xs:enumeration value="5520"/>
+			<xs:enumeration value="5530"/>
+			<xs:enumeration value="5590"/>
+			<xs:enumeration value="5610"/>
+			<xs:enumeration value="5621"/>
+			<xs:enumeration value="5629"/>
+			<xs:enumeration value="5630"/>
+			<xs:enumeration value="5811"/>
+			<xs:enumeration value="5812"/>
+			<xs:enumeration value="5813"/>
+			<xs:enumeration value="5814"/>
+			<xs:enumeration value="5819"/>
+			<xs:enumeration value="5821"/>
+			<xs:enumeration value="5829"/>
+			<xs:enumeration value="5911"/>
+			<xs:enumeration value="5912"/>
+			<xs:enumeration value="5913"/>
+			<xs:enumeration value="5914"/>
+			<xs:enumeration value="5920"/>
+			<xs:enumeration value="6010"/>
+			<xs:enumeration value="6020"/>
+			<xs:enumeration value="6110"/>
+			<xs:enumeration value="6120"/>
+			<xs:enumeration value="6130"/>
+			<xs:enumeration value="6190"/>
+			<xs:enumeration value="6201"/>
+			<xs:enumeration value="6202"/>
+			<xs:enumeration value="6203"/>
+			<xs:enumeration value="6209"/>
+			<xs:enumeration value="6311"/>
+			<xs:enumeration value="6312"/>
+			<xs:enumeration value="6391"/>
+			<xs:enumeration value="6399"/>
+			<xs:enumeration value="6411"/>
+			<xs:enumeration value="6419"/>
+			<xs:enumeration value="6420"/>
+			<xs:enumeration value="6430"/>
+			<xs:enumeration value="6491"/>
+			<xs:enumeration value="6492"/>
+			<xs:enumeration value="6499"/>
+			<xs:enumeration value="6511"/>
+			<xs:enumeration value="6512"/>
+			<xs:enumeration value="6520"/>
+			<xs:enumeration value="6530"/>
+			<xs:enumeration value="6611"/>
+			<xs:enumeration value="6612"/>
+			<xs:enumeration value="6619"/>
+			<xs:enumeration value="6621"/>
+			<xs:enumeration value="6622"/>
+			<xs:enumeration value="6629"/>
+			<xs:enumeration value="6630"/>
+			<xs:enumeration value="6810"/>
+			<xs:enumeration value="6820"/>
+			<xs:enumeration value="6831"/>
+			<xs:enumeration value="6832"/>
+			<xs:enumeration value="6910"/>
+			<xs:enumeration value="6920"/>
+			<xs:enumeration value="7010"/>
+			<xs:enumeration value="7021"/>
+			<xs:enumeration value="7022"/>
+			<xs:enumeration value="7111"/>
+			<xs:enumeration value="7112"/>
+			<xs:enumeration value="7120"/>
+			<xs:enumeration value="7211"/>
+			<xs:enumeration value="7219"/>
+			<xs:enumeration value="7220"/>
+			<xs:enumeration value="7311"/>
+			<xs:enumeration value="7312"/>
+			<xs:enumeration value="7320"/>
+			<xs:enumeration value="7410"/>
+			<xs:enumeration value="7420"/>
+			<xs:enumeration value="7430"/>
+			<xs:enumeration value="7490"/>
+			<xs:enumeration value="7500"/>
+			<xs:enumeration value="7711"/>
+			<xs:enumeration value="7712"/>
+			<xs:enumeration value="7721"/>
+			<xs:enumeration value="7722"/>
+			<xs:enumeration value="7729"/>
+			<xs:enumeration value="7731"/>
+			<xs:enumeration value="7732"/>
+			<xs:enumeration value="7733"/>
+			<xs:enumeration value="7734"/>
+			<xs:enumeration value="7735"/>
+			<xs:enumeration value="7739"/>
+			<xs:enumeration value="7740"/>
+			<xs:enumeration value="7810"/>
+			<xs:enumeration value="7820"/>
+			<xs:enumeration value="7830"/>
+			<xs:enumeration value="7911"/>
+			<xs:enumeration value="7912"/>
+			<xs:enumeration value="7990"/>
+			<xs:enumeration value="8010"/>
+			<xs:enumeration value="8020"/>
+			<xs:enumeration value="8030"/>
+			<xs:enumeration value="8110"/>
+			<xs:enumeration value="8121"/>
+			<xs:enumeration value="8122"/>
+			<xs:enumeration value="8129"/>
+			<xs:enumeration value="8130"/>
+			<xs:enumeration value="8211"/>
+			<xs:enumeration value="8219"/>
+			<xs:enumeration value="8220"/>
+			<xs:enumeration value="8230"/>
+			<xs:enumeration value="8291"/>
+			<xs:enumeration value="8292"/>
+			<xs:enumeration value="8299"/>
+			<xs:enumeration value="8411"/>
+			<xs:enumeration value="8412"/>
+			<xs:enumeration value="8413"/>
+			<xs:enumeration value="8421"/>
+			<xs:enumeration value="8423"/>
+			<xs:enumeration value="8424"/>
+			<xs:enumeration value="8425"/>
+			<xs:enumeration value="8430"/>
+			<xs:enumeration value="8510"/>
+			<xs:enumeration value="8520"/>
+			<xs:enumeration value="8531"/>
+			<xs:enumeration value="8532"/>
+			<xs:enumeration value="8541"/>
+			<xs:enumeration value="8542"/>
+			<xs:enumeration value="8551"/>
+			<xs:enumeration value="8552"/>
+			<xs:enumeration value="8553"/>
+			<xs:enumeration value="8559"/>
+			<xs:enumeration value="8560"/>
+			<xs:enumeration value="8610"/>
+			<xs:enumeration value="8621"/>
+			<xs:enumeration value="8622"/>
+			<xs:enumeration value="8623"/>
+			<xs:enumeration value="8690"/>
+			<xs:enumeration value="8710"/>
+			<xs:enumeration value="8720"/>
+			<xs:enumeration value="8730"/>
+			<xs:enumeration value="8790"/>
+			<xs:enumeration value="8810"/>
+			<xs:enumeration value="8891"/>
+			<xs:enumeration value="8899"/>
+			<xs:enumeration value="9001"/>
+			<xs:enumeration value="9002"/>
+			<xs:enumeration value="9003"/>
+			<xs:enumeration value="9004"/>
+			<xs:enumeration value="9101"/>
+			<xs:enumeration value="9102"/>
+			<xs:enumeration value="9103"/>
+			<xs:enumeration value="9104"/>
+			<xs:enumeration value="9200"/>
+			<xs:enumeration value="9311"/>
+			<xs:enumeration value="9312"/>
+			<xs:enumeration value="9313"/>
+			<xs:enumeration value="9319"/>
+			<xs:enumeration value="9321"/>
+			<xs:enumeration value="9329"/>
+			<xs:enumeration value="9411"/>
+			<xs:enumeration value="9412"/>
+			<xs:enumeration value="9420"/>
+			<xs:enumeration value="9491"/>
+			<xs:enumeration value="9492"/>
+			<xs:enumeration value="9499"/>
+			<xs:enumeration value="9511"/>
+			<xs:enumeration value="9512"/>
+			<xs:enumeration value="9521"/>
+			<xs:enumeration value="9522"/>
+			<xs:enumeration value="9523"/>
+			<xs:enumeration value="9524"/>
+			<xs:enumeration value="9525"/>
+			<xs:enumeration value="9529"/>
+			<xs:enumeration value="9601"/>
+			<xs:enumeration value="9602"/>
+			<xs:enumeration value="9603"/>
+			<xs:enumeration value="9604"/>
+			<xs:enumeration value="9609"/>
+			<xs:enumeration value="9700"/>
+			<xs:enumeration value="9900"/>
+			<xs:enumeration value="8422"/>
+			<xs:enumeration value="5122"/>
+			<xs:enumeration value="9810"/>
+			<xs:enumeration value="9820"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="Int_bifaAprobSType">
+		<xs:restriction base="xs:integer">
+			<xs:enumeration value="1"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="IntInt0_1SType">
+		<xs:restriction base="xs:integer">
+			<xs:minInclusive value="0"/>
+			<xs:maxInclusive value="1"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="Int_bifaArt27SType">
+		<xs:restriction base="xs:integer">
+			<xs:enumeration value="0"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="Str_tipBilSType">
+		<xs:restriction base="xs:string">
+			<xs:maxLength value="2"/>
+			<xs:enumeration value="BL"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="Int_interesPublicSType">
+		<xs:restriction base="xs:integer">
+			<xs:enumeration value="0"/>
+			<xs:enumeration value="1"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="Int_listaCodJudSType">
+		<xs:restriction base="xs:integer">
+			<xs:enumeration value="1"/>
+			<xs:enumeration value="2"/>
+			<xs:enumeration value="3"/>
+			<xs:enumeration value="4"/>
+			<xs:enumeration value="5"/>
+			<xs:enumeration value="6"/>
+			<xs:enumeration value="7"/>
+			<xs:enumeration value="8"/>
+			<xs:enumeration value="9"/>
+			<xs:enumeration value="10"/>
+			<xs:enumeration value="11"/>
+			<xs:enumeration value="51"/>
+			<xs:enumeration value="12"/>
+			<xs:enumeration value="13"/>
+			<xs:enumeration value="14"/>
+			<xs:enumeration value="15"/>
+			<xs:enumeration value="16"/>
+			<xs:enumeration value="17"/>
+			<xs:enumeration value="52"/>
+			<xs:enumeration value="18"/>
+			<xs:enumeration value="19"/>
+			<xs:enumeration value="20"/>
+			<xs:enumeration value="21"/>
+			<xs:enumeration value="22"/>
+			<xs:enumeration value="23"/>
+			<xs:enumeration value="24"/>
+			<xs:enumeration value="25"/>
+			<xs:enumeration value="26"/>
+			<xs:enumeration value="27"/>
+			<xs:enumeration value="28"/>
+			<xs:enumeration value="29"/>
+			<xs:enumeration value="30"/>
+			<xs:enumeration value="31"/>
+			<xs:enumeration value="32"/>
+			<xs:enumeration value="33"/>
+			<xs:enumeration value="34"/>
+			<xs:enumeration value="35"/>
+			<xs:enumeration value="36"/>
+			<xs:enumeration value="37"/>
+			<xs:enumeration value="38"/>
+			<xs:enumeration value="39"/>
+			<xs:enumeration value="40"/>
+			<xs:enumeration value="41"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="IntPoz2SType">
+		<xs:restriction base="xs:integer">
+			<xs:minInclusive value="0"/>
+			<xs:maxInclusive value="99"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="Int_nomenPropSType">
+		<xs:restriction base="xs:integer">
+			<xs:enumeration value="11"/>
+			<xs:enumeration value="12"/>
+			<xs:enumeration value="13"/>
+			<xs:enumeration value="14"/>
+			<xs:enumeration value="15"/>
+			<xs:enumeration value="21"/>
+			<xs:enumeration value="22"/>
+			<xs:enumeration value="23"/>
+			<xs:enumeration value="24"/>
+			<xs:enumeration value="25"/>
+			<xs:enumeration value="26"/>
+			<xs:enumeration value="27"/>
+			<xs:enumeration value="28"/>
+			<xs:enumeration value="29"/>
+			<xs:enumeration value="31"/>
+			<xs:enumeration value="32"/>
+			<xs:enumeration value="33"/>
+			<xs:enumeration value="34"/>
+			<xs:enumeration value="35"/>
+			<xs:enumeration value="36"/>
+			<xs:enumeration value="37"/>
+			<xs:enumeration value="41"/>
+			<xs:enumeration value="42"/>
+			<xs:enumeration value="43"/>
+			<xs:enumeration value="44"/>
+			<xs:enumeration value="50"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="Str75">
+		<xs:restriction base="xs:string">
+			<xs:maxLength value="75"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="Int_nomenCalitSType">
+		<xs:restriction base="xs:integer">
+			<xs:enumeration value="11"/>
+			<xs:enumeration value="12"/>
+			<xs:enumeration value="13"/>
+			<xs:enumeration value="21"/>
+			<xs:enumeration value="22"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="IntInt1_3SType">
+		<xs:restriction base="xs:integer">
+			<xs:minInclusive value="1"/>
+			<xs:maxInclusive value="3"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="Str13">
+		<xs:restriction base="xs:string">
+			<xs:maxLength value="13"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="IntNeg15SType">
+		<xs:restriction base="xs:integer">
+			<xs:minInclusive value="-999999999999999"/>
+			<xs:maxInclusive value="999999999999999"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="DblGen3_2_L_0d0_100d0SType">
+		<xs:restriction base="xs:double">
+			<xs:pattern value="\d{0,3}(\.\d{0,2})?"/>
+			<xs:minInclusive value="0.0"/>
+			<xs:maxInclusive value="100.0"/>
+		</xs:restriction>
+	</xs:simpleType>
+</xs:schema>
