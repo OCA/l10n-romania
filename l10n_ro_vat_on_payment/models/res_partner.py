@@ -1,5 +1,5 @@
 # Copyright (C) 2015 Forest and Biomass Romania
-# Copyright (C) 2020 OdooERP Romania
+# Copyright (C) 2020 NextERP Romania
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
 import os
@@ -18,6 +18,8 @@ class ResPartner(models.Model):
         for partner in self:
             if partner.vat:
                 partner.vat_number = self._split_vat(partner.vat)[1]
+            else:
+                partner.vat_number = ""
 
     @api.depends("vat_number")
     def _compute_anaf_history(self):
@@ -53,7 +55,9 @@ class ResPartner(models.Model):
                 return datetime.strptime(str(strdate), "%Y%m%d").strftime(DATE_FORMAT)
 
         vat_numbers = [
-            p.vat_number for p in self if p.vat and p.vat.lower().startswith("ro")
+            p.vat_number
+            for p in self
+            if p.vat and p.vat.lower().startswith("ro") and p.vat[2:].isnumeric()
         ]
         if vat_numbers == []:
             return
@@ -67,7 +71,7 @@ class ResPartner(models.Model):
         lines = self.env["res.partner.anaf"].search(
             [("anaf_id", "in", [x[0] for x in process_lines])]
         )
-        line_ids = [l.anaf_id for l in lines]
+        line_ids = [newline.anaf_id for newline in lines]
         for line in process_lines:
             if line[0] not in line_ids:
                 anaf_obj.create(
