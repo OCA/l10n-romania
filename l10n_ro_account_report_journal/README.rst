@@ -25,11 +25,17 @@ Romania - Account Report Journal
 
 |badge1| |badge2| |badge3| |badge4| |badge5| 
 
+This module allows you to print the Sale and Purchase journals according to ANAF specification.
 
 **Table of contents**
 
 .. contents::
    :local:
+
+Installation
+============
+
+There is no specific installation procedure for this module.
 
 Bug Tracker
 ===========
@@ -47,7 +53,15 @@ Credits
 Authors
 ~~~~~~~
 
-* OdooERP Romania
+* NextERP Romania
+
+Contributors
+~~~~~~~~~~~~
+
+* `NextERP Romania <https://www.nexterp.ro>`_:
+
+  * Fekete Mihai <feketemihai@nexterp.ro>
+  * Alexandru Teodor <teodoralexandru@nexterp.ro>
 
 Maintainers
 ~~~~~~~~~~~
