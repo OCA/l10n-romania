@@ -1,8 +1,10 @@
-# Copyright (C) 2020 OdooERP Romania
+# Copyright (C) 2020 NextERP Romania
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
+from datetime import timedelta
+
 from dateutil.relativedelta import relativedelta
-from datetime import datetime,timedelta
+
 from odoo import _, api, fields, models
 from odoo.exceptions import ValidationError
 
@@ -13,17 +15,16 @@ class SalePurchaseJournalReport(models.TransientModel):
 
     company_id = fields.Many2one(
         "res.company",
-        "Company",
+        string="Romania Company",
         required=True,
-        default=lambda self: self.env.company,
-        domain="[('country_id', '=', self.env.ref('base.ro'))]",
-        help="Will only show companies with country Romania",
+        default=lambda self: self.env.company.id,
     )
-    journal = fields.Selection(
+    journal_type = fields.Selection(
         selection=[
             ("purchase", "Purchase = In invoices"),
             ("sale", "Sale = Out invoices"),
         ],
+        domain=[("company_id", "=", company_id)],
         string="Journal type",
         default="sale",
         required=True,
@@ -59,6 +60,16 @@ class SalePurchaseJournalReport(models.TransientModel):
             self.date_from = self.date_range_id.date_start
             self.date_to = self.date_range_id.date_end
 
+    @api.onchange("journal_type")
+    def onchange_just_to_filter_companies(self):
+        """will return just companies that have as country Romania."""
+        romania_id = self.env.ref("base.ro")
+        companies = self.env["res.company"].search([])
+        romania_companies = [x.id for x in companies if x.country_id == romania_id]
+        if not self.company_id and romania_companies:
+            self.company_id = romania_companies[0]
+        return {"domain": {"company_id": [("id", "in", romania_companies)]}}
+
     @api.constrains("date_from", "date_to")
     def _check_dates(self):
         for fy in self:
@@ -78,14 +89,9 @@ class SalePurchaseJournalReport(models.TransientModel):
         self.ensure_one()
         [data] = self.read()
         datas = {"ids": [], "model": "l10n_ro_account_report_journal", "form": data}
-        if self.journal == "sale":
-            report_action = "l10n_ro_account_report_journal.action_report_sale" + (
-                "_html" if html else ""
-            )
-        else:
-            report_action = "l10n_ro_account_report_journal.action_report_sale" + (
-                "_html" if html else ""
-            )
+        report_action = "l10n_ro_account_report_journal.action_report_sale" + (
+            "_html" if html else ""
+        )
         ref = self.env.ref(report_action)
         res = ref.report_action(docids=[], data=datas, config=False)
         return res

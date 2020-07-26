@@ -10,20 +10,23 @@
                         name="company_id"
                         options="{'no_quick_create': True, 'no_create_edit' : True}"
                     />
-                    <field name="journal" />
+                    <field name="journal_type" />
                     <field name="date_range_id" />
                     <field
                         name="date_from"
+                        options="{'datepicker': {'warn_future': true}    }"
                         attrs="{'readonly':[('date_range_id','!=',False)]}"
                     />
                     <field
                         name="date_to"
+                        options="{'datepicker': {'warn_future': true}    }"
                         attrs="{'readonly':[('date_range_id','!=',False)]}"
                     />
                     <field name="show_warnings" />
                 </group>
                 <div
-                >This report in based on vat names from invoice. If you have changed them, the report can be wrong.
+                >This report in based on taxes tags names. If you have changed them, or did not put them in invoices,
+                    the report can be wrong.
                 </div>
                 <footer>
                     <button
@@ -47,16 +50,17 @@
     <record id="action_anaf_SP_jorunal" model="ir.actions.act_window">
         <field name="name">ANAF Sale/Purchase Journal</field>
         <field name="res_model">l10n.ro.account.report.journal</field>
-        <field name="view_mode">tree,form</field>
+        <field name="view_mode">form</field>
         <field name="view_id" ref="l10n_ro_account_report_journal.view_SP_journal1" />
-        <field name="domain">[]</field>
-        <field name="context">{}</field>
         <field name='target'>new</field>
     </record>
     <menuitem
-        id="menu__anaf_SP_jorunal"
+        id="menu_anaf_SP_jorunal"
         action="action_anaf_SP_jorunal"
-        parent="account.account_reports_management_menu"
+        parent="l10n_ro.account_reports_ro_statements_menu"
         sequence="98"
     />
+    <!--
+"account.account_reports_management_menu"
+parent="l10n_ro.account_reports_ro_statements_menu" -->
 </odoo>
