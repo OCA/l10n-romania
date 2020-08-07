@@ -1,0 +1,460 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <template id="l10n_ro_account_report_journal.sale_purch_first_5_col">
+        <td t-att-rowspan="l['rowspan']" class="text-left">
+            <span t-esc="l_index + 1" />
+        </td>
+        <td t-att-rowspan="l['rowspan']" class="text-left">
+            <span t-esc="l['number']" />
+        </td>
+        <td t-att-rowspan="l['rowspan']" class="text-left">
+            <span t-esc="l['date']" />
+        </td>
+        <td t-att-rowspan="l['rowspan']" colspan="2" class="text-left">
+            <span t-esc="l['partner']" />
+        </td>
+        <td t-att-rowspan="l['rowspan']" class="text-left">
+            <span t-esc="l['vat']" />
+        </td>
+    </template>
+    <template id="l10n_ro_account_report_journal.sale_purch_6-14_cols">
+        <td t-att-rowspan="l['rowspan']">
+            <span t-esc="l['total']" />
+        </td>
+        <td t-att-rowspan="l['rowspan']">
+            <span t-esc="l['total_base']" />
+        </td>
+        <td t-att-rowspan="l['rowspan']">
+            <span t-esc="l['total_vat']" />
+        </td>
+        <td t-att-rowspan="l['rowspan']">
+            <span t-esc="l['base_19']" />
+        </td>
+        <td t-att-rowspan="l['rowspan']">
+            <span t-esc="l['tva_19']" />
+        </td>
+        <td t-att-rowspan="l['rowspan']">
+            <span t-esc="l['base_9']" />
+        </td>
+        <td t-att-rowspan="l['rowspan']">
+            <span t-esc="l['tva_9']" />
+        </td>
+        <td t-att-rowspan="l['rowspan']">
+            <span t-esc="l['base_5']" />
+        </td>
+        <td t-att-rowspan="l['rowspan']">
+            <span t-esc="l['tva_5']" />
+        </td>
+    </template>
+    <template id="l10n_ro_account_report_journal.vat_on_payment_columns">
+        <t t-if="not l['payments']">
+            <td colspan="5" />
+            <!-- first a empty line, after will come the payments  -->
+        </t>
+        <t t-if="l['payments']">
+            <td>
+                <span t-esc="l['payments'][0]['number']" />
+            </td>
+            <td>
+                <span t-esc="l['payments'][0]['date']" />
+            </td>
+            <td>
+                <span t-esc="l['payments'][0]['amount']" />
+            </td>
+            <td>
+                <span t-esc="l['payments'][0]['base_exig']" />
+            </td>
+            <td>
+                <span t-esc="l['payments'][0]['tva_exig']" />
+            </td>
+        </t>
+        <td t-att-rowspan="l['rowspan']">
+            <span t-esc="l['base_neex']" />
+        </td>
+        <td t-att-rowspan="l['rowspan']">
+            <span t-esc="l['tva_neex']" />
+        </td>
+    </template>
+    <!--   templates only for sales   templates only for sales -->
+    <template id="l10n_ro_account_report_journal.sale_report_numbers_and_total">
+        <t t-call="l10n_ro_account_report_journal.sale_purch_6-14_cols" />
+        <td t-att-rowspan="l['rowspan']">
+            <span t-esc="l['base_0']" />
+        </td>
+        <td t-att-rowspan="l['rowspan']">
+            <span t-esc="l['invers']" />
+        </td>
+        <td title="clients advance money" t-att-rowspan="l['rowspan']">
+                    <!-- <span t-esc="l['avans_clienti']" /> -->
+                </td>
+        <t t-call="l10n_ro_account_report_journal.vat_on_payment_columns" />
+        <td
+            title="Intra_communitaire_services_With_deduction_rights"
+            t-att-rowspan="l['rowspan']"
+        >
+            <span t-esc="l['base_ded1']" />
+        </td>
+        <td t-att-rowspan="l['rowspan']">
+            <span t-esc="l['base_ded2']" />
+        </td>
+        <td t-att-rowspan="l['rowspan']">
+            <span t-esc="l['scutit1']" />
+        </td>
+        <td t-att-rowspan="l['rowspan']">
+            <span t-esc="l['scutit2']" />
+        </td>
+        <td
+            title="Baza TVA Taxare intracomunitara neimpozabila - Vanzari"
+            t-att-rowspan="l['rowspan']"
+        >
+            <span t-esc="l['others']" />
+        </td>
+        <td
+            title="Baza TVA Taxare Inversa asta e la fel ca la national"
+            t-att-rowspan="l['rowspan']"
+        >
+            <span t-esc="l['base_col']" />
+        </td>
+        <td title="TVA Taxare Inversa (TVA colectata)" t-att-rowspan="l['rowspan']">
+            <span t-esc="l['tva_col']" />
+        </td>
+    </template>
+    <template id="l10n_ro_account_report_journal.sale_tbody_all_lines_without_total">
+        <t t-call="l10n_ro_account_report_journal.sale_purch_first_5_col" />
+        <t t-call="l10n_ro_account_report_journal.sale_report_numbers_and_total" />
+        <td t-if="show_warnings" class="text-left" t-att-rowspan="l['rowspan']">
+            <span t-esc="l.get('warnings', '')" />
+        </td>
+    </template>
+    <!--   templates only for purchases   templates only for purchases -->
+    <template id="l10n_ro_account_report_journal.purchase_report_numbers_and_total">
+        <t t-call="l10n_ro_account_report_journal.sale_purch_6-14_cols" />
+        <td t-att-rowspan="l['rowspan']">
+            <t t-set="base_extracomunitar" t-value="'EXTRACOMUNITAR_NU_EXISTA'" />
+            <span t-esc="base_extracomunitar" />
+        </td>
+        <td t-att-rowspan="l['rowspan']">
+            <t t-set="tva_extracomunitar" t-value="'TVA_EXTRACOMUNITAR_NU_EXISTA'" />
+            <span t-esc="tva_extracomunitar" />
+        </td>
+        <t t-call="l10n_ro_account_report_journal.vat_on_payment_columns" />
+        <td tile="vat0" t-att-rowspan="l['rowspan']">
+            <span t-esc="base_0" />
+        </td>
+        <td
+            title="Baza TVA Intracomunitar Servicii (deductibila)"
+            t-att-rowspan="l['rowspan']"
+        >
+            <span t-esc="base_ded1" />
+        </td>
+        <td
+            title="Intra_communitaire_services_With_deduction_rights or no vat"
+            t-att-rowspan="l['rowspan']"
+        >
+            <span t-esc="tva_ded1" />
+        </td>
+        <td
+            title="Baza TVA Intracomunitar Bunuri (deductibila)"
+            t-att-rowspan="l['rowspan']"
+        >
+            <span t-esc="base_ded2" />
+        </td>
+        <td
+            title="-TVA Intracomunitar Bunuri (deductibila)"
+            t-att-rowspan="l['rowspan']"
+        >
+            <span t-esc="tva_ded2" />
+        </td>
+        <td title="Baza TVA Taxare Scutita - Achizitii" t-att-rowspan="l['rowspan']">
+            <span t-esc="scutit1" />
+        </td>
+        <td
+            title="Baza TVA Taxare intracomunitara neimpozabila - Achizitii"
+            t-att-rowspan="l['rowspan']"
+        >
+            <span t-esc="scutit2" />
+        </td>
+        <td title="-Baza TVA Taxare Inversa (deductibila)" t-att-rowspan="l['rowspan']">
+            <span t-esc="base_inverse_taxation" />
+        </td>
+        <td title="TVA Taxare Inversa (deductibila)" t-att-rowspan="l['rowspan']">
+            <span t-esc="tva_inverse_taxation" />
+        </td>
+    </template>
+    <template
+        id="l10n_ro_account_report_journal.purchase_tbody_all_lines_without_total"
+    >
+        <t t-call="l10n_ro_account_report_journal.sale_purch_first_5_col" />
+        <t t-call="l10n_ro_account_report_journal.purchase_report_numbers_and_total" />
+        <td t-if="show_warnings" class="text-left" t-att-rowspan="l['rowspan']">
+            <span t-esc="l.get('warnings', '')" />
+        </td>
+    </template>
+    <template id="l10n_ro_account_report_journal.payments_lines">
+        <tr t-foreach="l['payments'][1:]" t-as="pay">
+            <td>
+                <span t-esc="pay['number']" />
+            </td>
+            <td>
+                <span t-esc="pay['date']" />
+            </td>
+            <td>
+                <span t-esc="pay['amount']" />
+            </td>
+            <td>
+                <span t-esc="pay['base_exig']" />
+            </td>
+            <td>
+                <span t-esc="pay['tva_exig']" />
+            </td>
+        </tr>
+    </template>
+    <!--   the actual report for sale/purchase         the actual report for sale/purchase  -->
+    <template id="l10n_ro_account_report_journal.report_sale_purchase">
+        <t t-call="web.html_container">
+            <div>
+                <strong>Company:</strong>
+                <span t-esc="company.name" />
+            </div>
+            <div>
+                <strong>Address:</strong>
+                <address
+                    t-field="company.partner_id"
+                    t-options='{"widget": "contact", "fields": ["address","phone", "fax"], "no_marker": false, "no_tag_br": true}'
+                />
+            </div>
+            <div t-if="company.partner_id.vat">
+                <strong>CIF:</strong>
+                <span t-field="company.partner_id.vat" />
+            </div>
+            <div t-if="company.partner_id.nrc">
+                <strong>NRC:</strong>
+                <span t-field="company.partner_id.nrc" />
+            </div>
+            <h2 t-if="report_type_sale">Sale journal</h2>
+            <h2 t-if="not report_type_sale">Purchase journal</h2>
+            <h4>
+                <span>From date:</span>
+                <span t-esc="date_from" />
+                <span>to date:</span>
+                <span t-esc="date_to" />
+            </h4>
+            <!--             SALE ANAF REPORT SALE ANAF REPORT SALE ANAF REPORT -->
+            <table
+                t-if="report_type_sale"
+                class="table table-condensed table-bordered table-responsive table-hover"
+            >
+                <thead>
+                    <tr class="text-center align-middle">
+                        <th colspan="1" rowspan="2">Nr Crt</th>
+                        <th colspan="2">Document</th>
+                        <th colspan="4">Partner</th>
+                        <th colspan="9">Deliveries/Services taxable</th>
+                        <th colspan="1">Inverse Taxation</th>
+                        <th colspan="1">Special Treatment</th>
+                        <th colspan="5">Payments - Exigible Operations</th>
+                        <th colspan="2">Not Exigible Operations</th>
+                        <th colspan="2">Intra - communitaire Services</th>
+                        <th colspan="1">Exempt acc. art.143 al.2 lit.a+d</th>
+                        <th colspan="1">Exempt acc. art.143 al.2 lit.b+c</th>
+                        <th colspan="1">Others</th>
+                        <th colspan="2">Intra - communitaire and Inverse Taxation</th>
+                        <th t-if="show_warnings" colspan="2" rowspan="2">Warnings</th>
+                    </tr>
+                    <tr class="text-center align-middle">
+                            <th colspan="1">Number</th>
+                            <th colspan="1">Date</th>
+                            <th colspan="2">Name</th>
+                            <th colspan="1">VAT</th>
+                            <th colspan="1">Total Fact</th>
+                            <th colspan="1">Base</th>
+                            <th colspan="1">VAT</th>
+                            <th colspan="1">Base 19%</th>
+                            <th colspan="1">VAT 19%</th>
+                            <th colspan="1">Base 9%</th>
+                            <th colspan="1">VAT 9%</th>
+                            <th colspan="1">Base 5%</th>
+                            <th colspan="1">VAT 5%</th>
+                            <th colspan="1">Base 0%</th>
+                            <th colspan="1">Base</th>
+                            <th colspan="1">Base</th>
+                            <th colspan="1">Number</th>
+                            <th colspan="1">Date</th>
+                            <th colspan="1">Total</th>
+                            <th colspan="1">Base</th>
+                            <th colspan="1">VAT</th>
+                            <th colspan="1">Base</th>
+                            <th colspan="1">VAT</th>
+                            <th colspan="1">With deduction rights</th>
+                            <th colspan="1">Without deduction rights</th>>
+                            <th colspan="1">Base</th>
+                            <th colspan="1">Base</th>
+                            <th colspan="1">Base</th>
+                            <th colspan="1">Base Collected</th>
+                            <th colspan="1">VAT Collected</th>
+                        </tr>
+                </thead>
+                <tbody>
+                    <t t-if="lines">
+                        <t t-foreach="lines" t-as="l" class="text-right">
+                            <tr>
+                                <t
+                                    t-call="l10n_ro_account_report_journal.sale_tbody_all_lines_without_total"
+                                />
+                            </tr>
+                            <t t-if="l['payments']">
+                                <!--  if payments, put lines with them -->
+                                <t
+                                    t-call="l10n_ro_account_report_journal.payments_lines"
+                                />
+                            </t>
+                        </t>
+                    </t>
+                    <t t-else="">
+                        <tr>
+                            <td colspan="32">
+                                <h1>No lines in this report. View dates selection</h1>
+                            </td>
+                        </tr>
+                    </t>
+                </tbody>
+                <tfoot>
+                    <t t-if="totals">
+                        <t t-set="l" t-value="totals" />
+                        <tr style="font-weight:bold" class="text-right">
+                            <td colspan="6">Totals</td>
+                            <t
+                                t-call="l10n_ro_account_report_journal.sale_report_numbers_and_total"
+                            />
+                            <td />
+                        </tr>
+                    </t>
+                </tfoot>
+            </table>
+            <!--             PURCASE ANAF REPORT PURCASE ANAF REPORT PURCASE ANAF REPORT-->
+            <table
+                t-if="not report_type_sale"
+                class="table table-condensed table-bordered table-responsive table-hover"
+            >
+                <thead>
+                    <tr class="text-center align-middle">
+                        <th colspan="1" rowspan="2">Nr Crt</th>
+                        <th colspan="2">Document</th>
+                        <th colspan="4">Partner</th>
+                        <th colspan="8">Goods and Services Purchased</th>
+                        <th colspan="2">Goods Imported</th>
+                        <th
+                            colspan="5"
+                            title="only for vat on payment"
+                        >Payments - Exigible Operations</th>
+                        <th
+                            colspan="2"
+                            title="only for vat on payment"
+                        >Not Exigible Operations</th>
+                        <th
+                            colspan="1"
+                            title="with tax 0 or without tax"
+                        >Purchases of goods exempt or not taxable</th>
+                        <th
+                            colspan="4"
+                        >Intracommunitaire purchases of services and goods</th>
+                        <th colspan="1">Intracom. purchases exempt</th>
+                        <th colspan="1">Intracom. purchases not taxable</th>
+                        <th colspan="2">Inverse Taxation</th>
+                        <th
+                            t-if="show_warnings"
+                            colspan="2"
+                            rowspan="2"
+                            class="text-center align-middle"
+                        >Warnings</th>
+                    </tr>
+                    <tr class="text-center align-middle ">
+                            <th colspan="1">Number</th>
+                            <th colspan="1">Date</th>
+                            <th colspan="2">Name</th>
+                            <th colspan="1">VAT</th>
+                            <th colspan="1">Total Fact</th>
+                            <th colspan="1">Base</th>
+                            <th colspan="1">VAT</th>
+                            <th colspan="1">Base 19%</th>
+                            <th colspan="1">VAT 19%</th>
+                            <th colspan="1">Base 9%</th>
+                            <th colspan="1">VAT 9%</th>
+                            <th colspan="1">Base 5%</th>
+                            <th colspan="1">VAT 5%</th>
+                            <th colspan="1">Base</th>
+                            <th colspan="1">VAT</th>
+                            <th colspan="1">Number</th>
+                            <th colspan="1">Date</th>
+                            <th colspan="1">Total</th>
+                            <th colspan="1">Base</th>
+                            <th colspan="1">VAT</th>
+                            <th colspan="1">Base</th>
+                            <th colspan="1">VAT</th>
+                            <th colspan="1">Base</th>
+                            <th colspan="1">Base Serv</th>>
+                            <th colspan="1">VAT Serv</th>
+                            <th colspan="1">Base Prod</th>
+                            <th colspan="1">VAT Prod</th>
+                            <th colspan="1">Base</th>
+                            <th colspan="1">Base</th>
+                            <th colspan="1">Base</th>
+                            <th colspan="1">VAT</th>
+                        </tr>
+                </thead>
+                <tbody>
+                    <t t-if="lines">
+                        <t t-foreach="lines" t-as="l" class="text-right">
+                            <tr>
+                                <t
+                                    t-call="l10n_ro_account_report_journal.purchase_tbody_all_lines_without_total"
+                                />
+                            </tr>
+                            <t t-if="l['payments']">
+                                <!--  if payments, put lines with them -->
+                                <t
+                                    t-call="l10n_ro_account_report_journal.payments_lines"
+                                />
+                            </t>
+                        </t>
+                    </t>
+                    <t t-else="">
+                        <tr>
+                            <td colspan="32">
+                                <h1>No lines in this report. View dates selection</h1>
+                            </td>
+                        </tr>
+                    </t>
+                </tbody>
+                <tfoot>
+                    <t t-if="totals">
+                        <t t-set="l" t-value="totals" />
+                        <tr style="font-weight:bold" class="text-right">
+                            <td colspan="6">Totals</td>
+                            <t
+                                t-call="l10n_ro_account_report_journal.purchase_report_numbers_and_total"
+                            />
+                            <td />
+                        </tr>
+                    </t>
+                </tfoot>
+            </table>
+        </t>
+    </template>
+    <report
+        id="action_report_sale"
+        string="Sale/Purchase ANAF Report (PDF)"
+        model="l10n.ro.account.report.journal"
+        report_type="qweb-pdf"
+        name="l10n_ro_account_report_journal.report_sale_purchase"
+        print_report_name='rrrr'
+    />
+    <report
+        id="action_report_sale_html"
+        string="Sale/Purchase ANAF Report (HTML)"
+        model="l10n.ro.account.report.journal"
+        report_type="qweb-html"
+        name="l10n_ro_account_report_journal.report_sale_purchase"
+        print_report_name='rrr---htmlr'
+    />
+</odoo>
