@@ -1,0 +1,69 @@
+Istoria versiunilor pentru S1002
+
+23-Ian-2012 - publicat versiunea J1.0.0
+
+
+07-Mar-2012 - publicat versiunea J1.1.0
+		-eliminat validarile F30_100, F30_101, F30_102, F30_103
+
+03-Mai-2012 - publicat versiunea J1.2.0
+		-eliminat validarile F20_53, F20_54
+
+29-Ian-2013 - publicat versiunea J2.0.0 si P1.1.0
+		-adaugat validari pentru anul 2012 si modificat PDF
+
+30-Ian-2013 - publicat versiunea J2.1.0 cu modificarile:
+		- corectat validarile F10_68, F10_69, F10_73, F10_74
+
+05-Feb-2013 - publicat versiunea P1.1.1 cu modificarile:
+		- corectat textul din PDF = "Situatii financiare incheiate la 31.12." + an_raportare
+
+11-Apr-2013 - publicat versiunea J2.2.0 cu modificarile:
+		- F10_0671 si F10+0672 pot fi si negative
+
+13-Mai-2013 - publicat versiunea J2.2.1 cu modificarile:
+		- la cod proprietate se accepta si valoarea 16
+
+29-Ian-2015 -publicat versiunea J4.0.0
+		-adaugat validari pentru anul 2014
+
+02-Feb-2015 -publicat versiunea J4.0.1
+		-corectat validari F30_79, F30_80, F30_81, F30_82, F30_83, F30_84, F30_85, F30_86
+
+17-Mar-2015 -publicat versiunea J4.0.2
+`		- corectat validarea F30_89a
+
+15-Feb-2016  -publicat versiunea J5.0.0 respectiv P2.0.0
+		-modificat cf. cerinte/ 2015
+24-Feb-2016  -publicat versiunea J5.0.1
+		-s-a adaugat campul caenE
+26-Mai-2016 - publicat versiunea J5.0.2
+		- se accepta valori negative in intervalul F10_0011 - F10_0792
+
+07-Feb-2017 - publicat versiunea 6.1.0 pentru anul 2016
+01-Feb-2018 - publicat versiunea 7.0.0 pentru anul 2017
+01-Feb-2018 - publicat versiunea 7.0.1 cu modificarea
+				verificare opt_audi si oblig_audi <> null
+06-Mar-2018 - publicat versiunea 7.0.2 cu modificarea
+				corectat validarea F30_78
+
+01-Feb-2019 - publicat versiunea J8.0.0 pentru anul 2018
+
+05-Feb-2019 - publicat versiunea J8.0.1 pentru anul 2018
+                -ridicare bug-uri
+
+08-Feb-2019 - publicat versiunea J8.0.2 pentru anul 2018
+            - publicat versiunea P2.0.1 pentru anul 2018
+                -ridicare bug-uri texte (nume_admin si nume_intocmit) si capitaluri
+
+06-May-2019 - publicat versiunea J8.0.3 pentru anul 2018
+                -ridicare bug-uri F10_F20_1, F10_F20_2, F10_F20_3, F10_F20_4
+
+28-May-2019 - publicat versiunea J8.0.4 pentru anul 2018
+                -ridicare bug: actualizare nomenclator forme proprietate: adaugare cod 16
+
+03-Feb-2020 - publicat versiunea J9.0.0 pentru anul 2019
+            - publicat versiunea P2.0.1 pentru anul 2019
+
+04-Feb-2020 - publicat versiunea J9.0.1 pentru anul 2019
+                 -ridicare bug: versiune namespace

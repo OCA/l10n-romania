@@ -1,0 +1,22 @@
+Pt. a rula softul J pentru o declaratie trebuie sa aveti instalat programul DUKIntegrator.
+
+In cazul in care nu il aveti, se descarca de pe site-ul ANAF kitul DUKIntegrator. Se dezarhiveaza intr-un folder local.
+
+Daca aveti conexiune internet pe statia pe care folositi DUKIntegrator actualizarea declaratiilor se poate face automat, lansand programul DUKIntegrator.
+
+Se poate face si actualizare manuala a declaratiilor in DUKIntegrator astfel:
+
+1. se descarca de pe site-ul ANAF zip-ul corespunzator declaratiei, care contine urmatoarele fisiere:
+	- DxxxValidator.jar
+	- DxxxPdf.jar
+	- DxxxIstorieVersiuni.txt
+
+unde Dxxx este codul declaratiei (ex: D112, S1001)
+
+2. se copiaza cele 2 jar-uri in folderul lib (din locatia unde a fost instalat DUKIntegrator).
+
+3. se sterge fisierul config/versiuniCurente.txt
+
+4. (optional) se copiaza fisierul DxxxIstorieVersiuni.txt in folderul doc.
+
+Pt. informatii suplimentare ne puteti contacta pe adresa de email: d112@mfinante.ro.

@@ -1,0 +1,747 @@
+------------
+*1) Formularul este reprodus în facsimil.
+Date informative
+la data de 30 iunie 2019
+Cod 30 - lei -
+____________________________________________________________________________
+| I. Date privind rezultatul înregistrat |Nr.| Nr. unităţi | Sume |
+| |rd.| | |
+|__________________________________________|___|______________|______________|
+| A | B | 1 | 2 |
+|__________________________________________|___|______________|______________|
+| Unităţi care au înregistrat profit | 01| | |
+|__________________________________________|___|______________|______________|
+| Unităţi care au înregistrat pierdere | 02| | |
+|__________________________________________|___|______________|______________|
+| Unităţi care nu au înregistrat nici | 03| | |
+| profit, nici pierdere | | | |
+|__________________________________________|___|______________|______________|
+| II. Date privind plăţile restante |Nr.|Total| Din care: |
+| |rd.|(col.|_______________________|
+| | |2 + |Pentru |Pentru |
+| | |3) |activitatea|activitatea|
+| | | |curentă |de |
+| | | | |investiţii |
+|__________________________________________|___|_____|___________|___________|
+| A | B | 1 | 2 | 3 |
+|__________________________________________|___|_____|___________|___________|
+| Plăţi restante - total (rd. 05 + 09 + 15 | 04| | | |
+| la 17 + 19), din care: | | | | |
+|__________________________________________|___|_____|___________|___________|
+| Furnizori restanţi - total (rd. 06 la | 05| | | |
+| 08), din care: | | | | |
+|__________________________________________|___|_____|___________|___________|
+| - peste 30 de zile | 06| | | |
+|__________________________________________|___|_____|___________|___________|
+| - peste 90 de zile | 07| | | |
+|__________________________________________|___|_____|___________|___________|
+| - peste 1 an | 08| | | |
+|__________________________________________|___|_____|___________|___________|
+| Obligaţii restante faţă de bugetul | 09| | | |
+| asigurărilor sociale - total (rd. 10 la | | | | |
+| 14), din care: | | | | |
+|__________________________________________|___|_____|___________|___________|
+| - contribuţii pentru asigurări sociale de| 10| | | |
+| stat datorate de angajatori, salariaţi şi| | | | |
+| alte persoane asimilate | | | | |
+|__________________________________________|___|_____|___________|___________|
+| - contribuţii pentru fondul asigurărilor | 11| | | |
+| sociale de sănătate | | | | |
+|__________________________________________|___|_____|___________|___________|
+| - contribuţia pentru pensia suplimentară | 12| | | |
+|__________________________________________|___|_____|___________|___________|
+| - contribuţii pentru bugetul asigurărilor| 13| | | |
+| pentru şomaj | | | | |
+|__________________________________________|___|_____|___________|___________|
+| - alte datorii sociale | 14| | | |
+|__________________________________________|___|_____|___________|___________|
+| Obligaţii restante faţă de bugetele | 15| | | |
+| fondurilor speciale şi alte fonduri | | | | |
+|__________________________________________|___|_____|___________|___________|
+| Obligaţii restante faţă de alţi creditori| 16| | | |
+|__________________________________________|___|_____|___________|___________|
+| Impozite, taxe şi contribuţii neplătite | 17| | | |
+| la termenul stabilit la bugetul de stat, | | | | |
+| din care: | | | | |
+|__________________________________________|___|_____|___________|___________|
+| - contribuţia asiguratorie pentru muncă | 18| | | |
+|__________________________________________|___|_____|___________|___________|
+| Impozite şi taxe neplătite la termenul | 19| | | |
+| stabilit la bugetele locale | | | | |
+|__________________________________________|___|_____|___________|___________|
+| III. Număr mediu de salariaţi |Nr.| 30 iunie 2018| 30 iunie 2019|
+| |rd.| | |
+|__________________________________________|___|______________|______________|
+| A | B | 1 | 2 |
+|__________________________________________|___|______________|______________|
+| Număr mediu de salariaţi | 20| | |
+|__________________________________________|___|______________|______________|
+| Numărul efectiv de salariaţi existenţi la| 21| | |
+| sfârşitul perioadei, respectiv la data de| | | |
+| 30 iunie | | | |
+|__________________________________________|___|______________|______________|
+| IV. Redevenţe plătite în cursul |Nr.| Sume |
+| perioadei de raportare, subvenţii |rd.| |
+| încasate şi creanţe restante | | |
+|__________________________________________|___|_____________________________|
+| A | B | 1 |
+|__________________________________________|___|_____________________________|
+| Redevenţe plătite în cursul perioadei de | 22| |
+| raportare pentru bunurile din domeniul | | |
+| public, primite în concesiune, din care: | | |
+|__________________________________________|___|_____________________________|
+| - redevenţe pentru bunurile din domeniul | 23| |
+| public plătite la bugetul de stat | | |
+|__________________________________________|___|_____________________________|
+| Redevenţă minieră plătită la bugetul de | 24| |
+| stat | | |
+|__________________________________________|___|_____________________________|
+| Redevenţă petrolieră plătită la bugetul | 25| |
+| de stat | | |
+|__________________________________________|___|_____________________________|
+| Chirii plătite în cursul perioadei de | 26| |
+| raportare pentru terenuri*1) | | |
+|__________________________________________|___|_____________________________|
+| Venituri brute din servicii plătite către| 27| |
+| persoane nerezidente, din care: | | |
+|__________________________________________|___|_____________________________|
+| - impozitul datorat la bugetul de stat | 28| |
+|__________________________________________|___|_____________________________|
+| Venituri brute din servicii plătite către| 29| |
+| persoane nerezidente din statele membre | | |
+| ale Uniunii Europene, din care: | | |
+|__________________________________________|___|_____________________________|
+| - impozitul datorat la bugetul de stat | 30| |
+|__________________________________________|___|_____________________________|
+| Subvenţii încasate în cursul perioadei de| 31| |
+| raportare, din care: | | |
+|__________________________________________|___|_____________________________|
+| - subvenţii încasate în cursul perioadei | 32| |
+| de raportare aferente activelor | | |
+|__________________________________________|___|_____________________________|
+| - subvenţii aferente veniturilor, din | 33| |
+| care: | | |
+|__________________________________________|___|_____________________________|
+| - subvenţii pentru stimularea ocupării | 34| |
+| forţei de muncă*) | | |
+|__________________________________________|___|_____________________________|
+| Creanţe restante, care nu au fost | 35| |
+| încasate la termenele prevăzute în | | |
+| contractele comerciale şi/sau în actele | | |
+| normative în vigoare, din care: | | |
+|__________________________________________|___|_____________________________|
+| - creanţe restante de la entităţi din | 36| |
+| sectorul majoritar sau integral de stat | | |
+|__________________________________________|___|_____________________________|
+| - creanţe restante de la entităţi din | 37| |
+| sectorul privat | | |
+|__________________________________________|___|_____________________________|
+| V. Tichete acordate salariaţilor |Nr.| Sume |
+| |rd.| |
+|__________________________________________|___|_____________________________|
+| A | B | 1 |
+|__________________________________________|___|_____________________________|
+| Contravaloarea tichetelor acordate | 38| |
+| salariaţilor | | |
+|__________________________________________|___|_____________________________|
+| Contravaloarea tichetelor acordate altor | 39| |
+| categorii de beneficiari, alţii decât | | |
+| salariaţii | | |
+|__________________________________________|___|_____________________________|
+| VI. Cheltuieli efectuate pentru |Nr.| 30 iunie 2018| 30 iunie 2019|
+| activitatea de cercetare-dezvoltare**) |rd.| | |
+|__________________________________________|___|______________|______________|
+| A | B | 1 | 2 |
+|__________________________________________|___|______________|______________|
+| Cheltuieli de cercetare-dezvoltare | 40| | |
+|__________________________________________|___|______________|______________|
+| - după surse de finanţare (rd. 42 + 43), | 41| | |
+| din care: | | | |
+|__________________________________________|___|______________|______________|
+| - din fonduri publice | 42| | |
+|__________________________________________|___|______________|______________|
+| - din fonduri private | 43| | |
+|__________________________________________|___|______________|______________|
+| - după natura cheltuielilor (rd. 45 + | 44| | |
+| 46), din care: | | | |
+|__________________________________________|___|______________|______________|
+| - cheltuieli curente | 45| | |
+|__________________________________________|___|______________|______________|
+| - cheltuieli de capital | 46| | |
+|__________________________________________|___|______________|______________|
+| VII. Cheltuieli de inovare***) |Nr.| 30 iunie 2018| 30 iunie 2019|
+| |rd.| | |
+|__________________________________________|___|______________|______________|
+| A | B | 1 | 2 |
+|__________________________________________|___|______________|______________|
+| Cheltuieli de inovare | 47| | |
+|__________________________________________|___|______________|______________|
+| VIII. Alte informaţii |Nr.| 30 iunie 2018| 30 iunie 2019|
+| |rd.| | |
+|__________________________________________|___|______________|______________|
+| A | B | 1 | 2 |
+|__________________________________________|___|______________|______________|
+| Avansuri acordate pentru imobilizări | 48| | |
+| necorporale (ct. 4094), din care: | | | |
+|__________________________________________|___|______________|______________|
+| - avansuri acordate entităţilor | 49| | |
+| neafiliate nerezidente pentru imobilizări| | | |
+| necorporale (din ct. 4094) | | | |
+|__________________________________________|___|______________|______________|
+| - avansuri acordate entităţilor afiliate | 50| | |
+| nerezidente pentru imobilizări | | | |
+| necorporale (din ct. 4094) | | | |
+|__________________________________________|___|______________|______________|
+| Avansuri acordate pentru imobilizări | 51| | |
+| corporale (ct. 4093), din care: | | | |
+|__________________________________________|___|______________|______________|
+| - avansuri acordate entităţilor | 52| | |
+| neafiliate nerezidente pentru imobilizări| | | |
+| corporale (din ct. 4093) | | | |
+|__________________________________________|___|______________|______________|
+| - avansuri acordate entităţilor afiliate | 53| | |
+| nerezidente pentru imobilizări corporale | | | |
+| (din ct. 4093) | | | |
+|__________________________________________|___|______________|______________|
+| Imobilizări financiare, în sume brute | 54| | |
+| (rd. 55 + 61), din care: | | | |
+|__________________________________________|___|______________|______________|
+| Acţiuni deţinute la entităţile afiliate, | 55| | |
+| interese de participare, alte titluri | | | |
+| imobilizate şi obligaţiuni, în sume brute| | | |
+| (rd. 56 + 57 + 58 + 60), din care: | | | |
+|__________________________________________|___|______________|______________|
+| - acţiuni necotate emise de rezidenţi | 56| | |
+|__________________________________________|___|______________|______________|
+| - părţi sociale emise de rezidenţi | 57| | |
+|__________________________________________|___|______________|______________|
+| - acţiuni şi părţi sociale emise de | 58| | |
+| nerezidenţi, din care: | | | |
+|__________________________________________|___|______________|______________|
+| - deţineri de cel puţin 10% | 59| | |
+|__________________________________________|___|______________|______________|
+| - obligaţiuni emise de nerezidenţi | 60| | |
+|__________________________________________|___|______________|______________|
+| Creanţe imobilizate, în sume brute (rd. | 61| | |
+| 62 + 63), din care: | | | |
+|__________________________________________|___|______________|______________|
+| - creanţe imobilizate în lei şi exprimate| 62| | |
+| în lei, a căror decontare se face în | | | |
+| funcţie de cursul unei valute (din | | | |
+| ct. 267) | | | |
+|__________________________________________|___|______________|______________|
+| - creanţe imobilizate în valută (din | 63| | |
+| ct. 267) | | | |
+|__________________________________________|___|______________|______________|
+| Creanţe comerciale, avansuri pentru | 64| | |
+| cumpărări de bunuri de natura stocurilor | | | |
+| şi pentru prestări de servicii acordate | | | |
+| furnizorilor şi alte conturi asimilate, | | | |
+| în sume brute (ct. 4091 + 4092 + 411 + | | | |
+| 413 + 418 + 4642), din care: | | | |
+|__________________________________________|___|______________|______________|
+| - creanţe comerciale în relaţia cu | 65| | |
+| entităţile neafiliate nerezidente, | | | |
+| avansuri pentru cumpărări de bunuri de | | | |
+| natura stocurilor şi pentru prestări de | | | |
+| servicii acordate furnizorilor neafiliaţi| | | |
+| nerezidenţi şi alte conturi asimilate, în| | | |
+| sume brute în relaţie cu neafiliaţii | | | |
+| nerezidenţi (din ct. 4091 + din ct. 4092 | | | |
+| + din ct. 411 + din ct. 413 + din ct. 418| | | |
+| + din ct. 4642) | | | |
+|__________________________________________|___|______________|______________|
+| - creanţe comerciale în relaţia cu | 66| | |
+| entităţile afiliate nerezidente, avansuri| | | |
+| pentru cumpărări de bunuri de natura | | | |
+| stocurilor şi pentru prestări de servicii| | | |
+| acordate furnizorilor afiliaţi | | | |
+| nerezidenţi şi alte conturi asimilate, în| | | |
+| sume brute în relaţie cu afiliaţii | | | |
+| nerezidenţi (din ct. 4091 + din ct. 4092 | | | |
+| + din ct. 411 + din ct. 413 + din ct. 418| | | |
+| + din ct. 4642) | | | |
+|__________________________________________|___|______________|______________|
+| Creanţe neîncasate la termenul stabilit | 67| | |
+| (din ct. 4091 + din ct. 4092 + din ct. | | | |
+| 411 + din ct. 413) | | | |
+|__________________________________________|___|______________|______________|
+| Creanţe în legătură cu personalul şi | 68| | |
+| conturi asimilate (ct. 425 + 4282) | | | |
+|__________________________________________|___|______________|______________|
+| Creanţe în legătură cu bugetul | 69| | |
+| asigurărilor sociale şi bugetul statului | | | |
+| (din ct. 431 + 436 + 437 + 4382 + 441 + | | | |
+| 4424 + 4428 + 444 + 445 + 446 + 447 + | | | |
+| 4482) (rd. 70 la 74), din care: | | | |
+|__________________________________________|___|______________|______________|
+| - creanţe în legătură cu bugetul | 70| | |
+| asigurărilor sociale (ct. 431 + 437 + | | | |
+| 4382) | | | |
+|__________________________________________|___|______________|______________|
+| - creanţe fiscale în legătură cu bugetul | 71| | |
+| statului (ct. 436 + 441 + 4424 + 4428 + | | | |
+| 444 + 446) | | | |
+|__________________________________________|___|______________|______________|
+| - subvenţii de încasat (ct. 445) | 72| | |
+|__________________________________________|___|______________|______________|
+| - fonduri speciale - taxe şi vărsăminte | 73| | |
+| asimilate (ct. 447) | | | |
+|__________________________________________|___|______________|______________|
+| - alte creanţe în legătură cu bugetul | 74| | |
+| statului (ct. 4482) | | | |
+|__________________________________________|___|______________|______________|
+| Creanţele entităţii în relaţiile cu | 75| | |
+| entităţile afiliate (ct. 451), din care: | | | |
+|__________________________________________|___|______________|______________|
+| - creanţe cu entităţi afiliate | 76| | |
+| nerezidente (din ct. 451), din care: | | | |
+|__________________________________________|___|______________|______________|
+| - creanţe comerciale cu entităţi | 77| | |
+| afiliate nerezidente (din ct. 451) | | | |
+|__________________________________________|___|______________|______________|
+| Creanţe în legătură cu bugetul | 78| | |
+| asigurărilor sociale şi bugetul statului | | | |
+| neîncasate la termenul stabilit (din ct. | | | |
+| 431 + din ct. 436 + din ct. 437 + din ct.| | | |
+| 4382 + din ct. 441 + din ct. 4424 + din | | | |
+| ct. 4428 + din ct. 444 + din ct. 445 + | | | |
+| din ct. 446 + din ct. 447 + din ct. 4482)| | | |
+|__________________________________________|___|______________|______________|
+| Creanţe din operaţiuni cu instrumente | 79| | |
+| derivate (ct. 4652) | | | |
+|__________________________________________|___|______________|______________|
+| Alte creanţe (ct. 453 + 456 + 4582 + 461 | 80| | |
+| + 4662 + 471 + 473 + 4762) (rd. 81 la | | | |
+| 83), din care: | | | |
+|__________________________________________|___|______________|______________|
+| - decontări cu entităţile asociate şi | 81| | |
+| entităţile controlate în comun, decontări| | | |
+| cu acţionarii privind capitalul şi | | | |
+| decontări din operaţiuni în participaţie | | | |
+| (ct. 453 + 456 + 4582) | | | |
+|__________________________________________|___|______________|______________|
+| - alte creanţe în legătură cu persoanele | 82| | |
+| fizice şi persoanele juridice, altele | | | |
+| decât creanţele în legătură cu | | | |
+| instituţiile publice (instituţiile | | | |
+| statului) (din ct. 461 + 4662 + din ct. | | | |
+| 471 + din ct. 473) | | | |
+|__________________________________________|___|______________|______________|
+| - sumele preluate din contul 542 | 83| | |
+| "Avansuri de trezorerie" reprezentând | | | |
+| avansurile de trezorerie, acordate | | | |
+| potrivit legii şi nedecontate până la | | | |
+| data de raportare (din ct. 461) | | | |
+|__________________________________________|___|______________|______________|
+| Dobânzi de încasat (ct. 5187), din care: | 84| | |
+|__________________________________________|___|______________|______________|
+| - de la nerezidenţi | 85| | |
+|__________________________________________|___|______________|______________|
+| Valoarea împrumuturilor acordate | 86| | |
+| operatorilor economici****) | | | |
+|__________________________________________|___|______________|______________|
+| Investiţii pe termen scurt, în sume brute| 87| | |
+| (ct. 505 + 506 + 507 + din ct. 508) (rd. | | | |
+| 88 la 91), din care: | | | |
+|__________________________________________|___|______________|______________|
+| - acţiuni necotate emise de rezidenţi | 88| | |
+|__________________________________________|___|______________|______________|
+| - părţi sociale emise de rezidenţi | 89| | |
+|__________________________________________|___|______________|______________|
+| - acţiuni emise de nerezidenţi | 90| | |
+|__________________________________________|___|______________|______________|
+| - obligaţiuni emise de nerezidenţi | 91| | |
+|__________________________________________|___|______________|______________|
+| Alte valori de încasat (ct. 5113 + 5114) | 92| | |
+|__________________________________________|___|______________|______________|
+| Casa în lei şi în valută (rd. 94 + 95), | 93| | |
+| din care: | | | |
+|__________________________________________|___|______________|______________|
+| - în lei (ct. 5311) | 94| | |
+|__________________________________________|___|______________|______________|
+| - în valută (ct. 5314) | 95| | |
+|__________________________________________|___|______________|______________|
+| Conturi curente la bănci în lei şi în | 96| | |
+| valută (rd. 97 + 99), din care: | | | |
+|__________________________________________|___|______________|______________|
+| - în lei (ct. 5121), din care: | 97| | |
+|__________________________________________|___|______________|______________|
+| - conturi curente în lei deschise la | 98| | |
+| bănci nerezidente | | | |
+|__________________________________________|___|______________|______________|
+| - în valută (ct. 5124), din care: | 99| | |
+|__________________________________________|___|______________|______________|
+| - conturi curente în valută deschise la|100| | |
+| bănci nerezidente | | | |
+|__________________________________________|___|______________|______________|
+| Alte conturi curente la bănci şi |101| | |
+| acreditive (rd. 102 + 103), din care: | | | |
+|__________________________________________|___|______________|______________|
+| - sume în curs de decontare, acreditive |102| | |
+| şi alte valori de încasat, în lei (ct. | | | |
+| 5112 + din ct. 5125 + 5411) | | | |
+|__________________________________________|___|______________|______________|
+| - sume în curs de decontare şi acreditive|103| | |
+| în valută (din ct. 5125 + 5414) | | | |
+|__________________________________________|___|______________|______________|
+| Datorii (rd. 105 + 108 + 111 + 112 + 115 |104| | |
+| + 117 + 120 + 121 + 126 + 130 + 133 + 134| | | |
+| + 140), din care: | | | |
+|__________________________________________|___|______________|______________|
+| Credite bancare externe pe termen scurt |105| | |
+| (credite primite de la instituţii | | | |
+| financiare nerezidente pentru care durata| | | |
+| contractului de credit este mai mică de 1| | | |
+| an) (din ct. 519), (rd. 106 + 107), din | | | |
+| care: | | | |
+|__________________________________________|___|______________|______________|
+| - în lei |106| | |
+|__________________________________________|___|______________|______________|
+| - în valută |107| | |
+|__________________________________________|___|______________|______________|
+| Credite bancare externe pe termen lung |108| | |
+| (credite primite de la instituţii | | | |
+| financiare nerezidente pentru care durata| | | |
+| contractului de credit este mai mare sau | | | |
+| egală cu 1 an) (din ct. 162), (rd. 109 + | | | |
+| 110), din care: | | | |
+|__________________________________________|___|______________|______________|
+| - în lei |109| | |
+|__________________________________________|___|______________|______________|
+| - în valută |110| | |
+|__________________________________________|___|______________|______________|
+| Credite de la trezoreria statului şi |111| | |
+| dobânzile aferente (ct. 1626 + din ct. | | | |
+| 1682) | | | |
+|__________________________________________|___|______________|______________|
+| Alte împrumuturi şi dobânzile aferente |112| | |
+| (ct. 166 + 1685 + 1686 + 1687), (rd. 113 | | | |
+| + 114), din care: | | | |
+|__________________________________________|___|______________|______________|
+| - în lei şi exprimate în lei, a căror |113| | |
+| decontare se face în funcţie de cursul | | | |
+| unei valute | | | |
+|__________________________________________|___|______________|______________|
+| - în valută |114| | |
+|__________________________________________|___|______________|______________|
+| Alte împrumuturi şi datorii asimilate |115| | |
+| (ct. 167), din care: | | | |
+|__________________________________________|___|______________|______________|
+| - valoarea concesiunilor primite (din ct.|116| | |
+| 167) | | | |
+|__________________________________________|___|______________|______________|
+| Datorii comerciale, avansuri primite de |117| | |
+| la clienţi şi alte conturi asimilate, în | | | |
+| sume brute*2) (ct. 401 + 403 + 404 + 405 | | | |
+| + 408 + 419 + 4641), din care: | | | |
+|__________________________________________|___|______________|______________|
+| - datorii comerciale în relaţia cu |118| | |
+| entităţile neafiliate nerezidente, | | | |
+| avansuri primite de la clienţi | | | |
+| neafiliaţi nerezidenţi şi alte conturi | | | |
+| asimilate, în sume brute în relaţie cu | | | |
+| neafiliaţii nerezidenţi (din ct. 401 + | | | |
+| din ct. 403 + din ct. 404 + din ct. 405 +| | | |
+| din ct. 408 + din ct. 419 + din ct. 4641)| | | |
+|__________________________________________|___|______________|______________|
+| - datorii comerciale în relaţia cu |119| | |
+| entităţile afiliate nerezidente, avansuri| | | |
+| primite de la clienţi afiliaţi | | | |
+| nerezidenţi şi alte conturi asimilate, în| | | |
+| sume brute în relaţie cu afiliaţii | | | |
+| nerezidenţi (din ct. 401 + din ct. 403 + | | | |
+| din ct. 404 + din ct. 405 + din ct. 408 +| | | |
+| din ct. 419 + din ct. 4641) | | | |
+|__________________________________________|___|______________|______________|
+| Datorii în legătură cu personalul şi |120| | |
+| conturi asimilate (ct. 421 + 422 + 423 + | | | |
+| 424 + 426 + 427 + 4281) | | | |
+|__________________________________________|___|______________|______________|
+| Datorii în legătură cu bugetul |121| | |
+| asigurărilor sociale şi bugetul statului | | | |
+| (ct. 431 + 436 + 437 + 4381 + 441 + 4423 | | | |
+| + 4428 + 444 + 446 + 447 + 4481), (rd. | | | |
+| 122 la 125), din care: | | | |
+|__________________________________________|___|______________|______________|
+| - datorii în legătură cu bugetul |122| | |
+| asigurărilor sociale (ct. 431 + 437 + | | | |
+| 4381) | | | |
+|__________________________________________|___|______________|______________|
+| - datorii fiscale în legătură cu bugetul |123| | |
+| statului (ct. 436 + 441 + 4423 + 4428 + | | | |
+| 444 + 446) | | | |
+|__________________________________________|___|______________|______________|
+| - fonduri speciale - taxe şi vărsăminte |124| | |
+| asimilate (ct. 447) | | | |
+|__________________________________________|___|______________|______________|
+| - alte datorii în legătură cu bugetul |125| | |
+| statului (ct. 4481) | | | |
+|__________________________________________|___|______________|______________|
+| Datoriile entităţii în relaţiile cu |126| | |
+| entităţile afiliate (ct. 451), din care: | | | |
+|__________________________________________|___|______________|______________|
+| - datorii cu entităţi afiliate |127| | |
+| nerezidente*3) (din ct. 451), din care: | | | |
+|__________________________________________|___|______________|______________|
+| - cu scadenţa iniţială mai mare de un |128| | |
+| an | | | |
+|__________________________________________|___|______________|______________|
+| - datorii comerciale cu entităţi |129| | |
+| afiliate nerezidente indiferent de | | | |
+| scadenţă (din ct. 451) | | | |
+|__________________________________________|___|______________|______________|
+| Sume datorate acţionarilor/asociaţilor |130| | |
+| (ct. 455), din care: | | | |
+|__________________________________________|___|______________|______________|
+| - sume datorate acţionarilor/asociaţilor |131| | |
+| persoane fizice | | | |
+|__________________________________________|___|______________|______________|
+| - sume datorate acţionarilor/asociaţilor |132| | |
+| persoane juridice | | | |
+|__________________________________________|___|______________|______________|
+| Datorii din operaţiuni cu instrumente |133| | |
+| derivate (ct. 4651) | | | |
+|__________________________________________|___|______________|______________|
+| Alte datorii (ct. 269 + 453 + 456 + 457 +|134| | |
+| 4581 + 462 + 4661 + 472 + 473 + 4761 + | | | |
+| 478 + 509) (rd. 135 la 139), din care: | | | |
+|__________________________________________|___|______________|______________|
+| - decontări cu entităţile asociate şi |135| | |
+| entităţile controlate în comun, decontări| | | |
+| cu acţionarii privind capitalul, | | | |
+| dividende şi decontări din operaţii în | | | |
+| participaţie (ct. 453 + 456 + 457 + 4581)| | | |
+|__________________________________________|___|______________|______________|
+| - alte datorii în legătură cu persoanele |136| | |
+| fizice şi persoanele juridice, altele | | | |
+| decât datoriile în legătură cu | | | |
+| instituţiile publice (instituţiile | | | |
+| statului)*4) (din ct. 462 + 4661 + din | | | |
+| ct. 472 + din ct. 473) | | | |
+|__________________________________________|___|______________|______________|
+| - subvenţii nereluate la venituri (din |137| | |
+| ct. 472) | | | |
+|__________________________________________|___|______________|______________|
+| - vărsăminte de efectuat pentru |138| | |
+| imobilizări financiare şi investiţii pe | | | |
+| termen scurt (ct. 269 + 509) | | | |
+|__________________________________________|___|______________|______________|
+| - venituri în avans aferente activelor |139| | |
+| primite prin transfer de la clienţi (ct. | | | |
+| 478) | | | |
+|__________________________________________|___|______________|______________|
+| Dobânzi de plătit (ct. 5186), din care: |140| | |
+|__________________________________________|___|______________|______________|
+| - către nerezidenţi |141| | |
+|__________________________________________|___|______________|______________|
+| Valoarea împrumuturilor primite de la |142| | |
+| operatorii economici****) | | | |
+|__________________________________________|___|______________|______________|
+| Capital subscris vărsat (ct. 1012), din |143| | |
+| care: | | | |
+|__________________________________________|___|______________|______________|
+| - acţiuni cotate*5) |144| | |
+|__________________________________________|___|______________|______________|
+| - acţiuni necotate*6) |145| | |
+|__________________________________________|___|______________|______________|
+| - părţi sociale |146| | |
+|__________________________________________|___|______________|______________|
+| - capital subscris vărsat de nerezidenţi |147| | |
+| (din ct. 1012) | | | |
+|__________________________________________|___|______________|______________|
+| Brevete şi licenţe (din ct. 205) |148| | |
+|__________________________________________|___|______________|______________|
+| IX. Informaţii privind cheltuielile cu |Nr.| 30 iunie 2018| 30 iunie 2019|
+| colaboratorii |rd.| | |
+|__________________________________________|___|______________|______________|
+| A | B | 1 | 2 |
+|__________________________________________|___|______________|______________|
+| Cheltuieli cu colaboratorii (ct. 621) |149| | |
+|__________________________________________|___|______________|______________|
+| X. Informaţii privind bunurile din |Nr.| 30 iunie 2018| 30 iunie 2019|
+| domeniul public al statului |rd.| | |
+|__________________________________________|___|______________|______________|
+| Valoarea bunurilor din domeniul public al|150| | |
+| statului aflate în administrare | | | |
+|__________________________________________|___|______________|______________|
+| Valoarea bunurilor din domeniul public al|151| | |
+| statului aflate în concesiune | | | |
+|__________________________________________|___|______________|______________|
+| Valoarea bunurilor din domeniul public al|152| | |
+| statului închiriate | | | |
+|__________________________________________|___|______________|______________|
+| XI. Informaţii privind bunurile din |Nr.| 30 iunie 2018| 30 iunie 2019|
+| proprietatea privată a statului supuse |rd.| | |
+| inventarierii conform Ordinului | | | |
+| ministrului finanţelor publice şi al | | | |
+| ministrului delegat pentru buget | | | |
+| nr. 668/2014 | | | |
+|__________________________________________|___|______________|______________|
+| Valoarea contabilă netă a bunurilor*7) |153| | |
+|__________________________________________|___|______________|______________|
+| XII. Capital social vărsat |Nr.| 30 iunie 2018| 30 iunie 2019|
+| |rd.|______________|______________|
+| | | Suma | %*8) | Suma | %*8) |
+| | | (Col.| (Col. | (Col.| (Col. |
+| | | 1) | 2) | 3) | 4) |
+|__________________________________________|___|______|_______|______|_______|
+| Capital social vărsat (ct. 1012)*8) |154| | X | | X |
+| (rd. 155 + 158 + 162 + 163 + 164 + 165), | | | | | |
+| din care: | | | | | |
+|__________________________________________|___|______|_______|______|_______|
+| - deţinut de instituţii publice (rd. 156 |155| | | | |
+| + 157), din care: | | | | | |
+|__________________________________________|___|______|_______|______|_______|
+| - deţinut de instituţii publice de |156| | | | |
+| subordonare centrală; | | | | | |
+|__________________________________________|___|______|_______|______|_______|
+| - deţinut de instituţii publice de |157| | | | |
+| subordonare locală; | | | | | |
+|__________________________________________|___|______|_______|______|_______|
+| - deţinut de societăţile cu capital de |158| | | | |
+| stat, din care: | | | | | |
+|__________________________________________|___|______|_______|______|_______|
+| - cu capital integral de stat; |159| | | | |
+|__________________________________________|___|______|_______|______|_______|
+| - cu capital majoritar de stat; |160| | | | |
+|__________________________________________|___|______|_______|______|_______|
+| - cu capital minoritar de stat; |161| | | | |
+|__________________________________________|___|______|_______|______|_______|
+| - deţinut de regii autonome |162| | | | |
+|__________________________________________|___|______|_______|______|_______|
+| - deţinut de societăţile cu capital |163| | | | |
+| privat | | | | | |
+|__________________________________________|___|______|_______|______|_______|
+| - deţinut de persoane fizice |164| | | | |
+|__________________________________________|___|______|_______|______|_______|
+| - deţinut de alte entităţi |165| | | | |
+|__________________________________________|___|______|_______|______|_______|
+| XIII. Dividende distribuite acţionarilor |Nr.| 30 iunie 2018| 30 iunie 2019|
+| din profitul reportat |rd.| | |
+|__________________________________________|___|______________|______________|
+| - Dividende distribuite acţionarilor în |166| | |
+| perioada de raportare din profitul | | | |
+| reportat | | | |
+|__________________________________________|___|______________|______________|
+| A | B | 2019 |
+|__________________________________________|___|_____________________________|
+| XIV. Repartizări interimare de dividende |Nr.| Sume (lei) |
+| potrivit Legii nr. 163/2018 |rd.| |
+|__________________________________________|___|_____________________________|
+| - dividendele interimare repartizate*9) |167| |
+|__________________________________________|___|_____________________________|
+| XV. Creanţe preluate prin cesionare de la|Nr.| Sume (lei) |
+| persoane juridice*****) |rd.| |
+|__________________________________________|___|_____________________________|
+| A | B | 30 iunie 2018| 30 iunie 2019|
+|__________________________________________|___|_____________________________|
+| Creanţe preluate prin cesionare de la |168| | |
+| persoane juridice (la valoarea nominală),| | | |
+| din care: | | | |
+|__________________________________________|___|______________|______________|
+| - creanţe preluate prin cesionare de la |169| | |
+| persoane juridice afiliate | | | |
+|__________________________________________|___|______________|______________|
+| Creanţe preluate prin cesionare de la |170| | |
+| persoane juridice (la cost de achiziţie),| | | |
+| din care: | | | |
+|__________________________________________|___|______________|______________|
+| - creanţe preluate prin cesionare de la |171| | |
+| persoane juridice afiliate | | | |
+|__________________________________________|___|______________|______________|
+| XVI. Venituri obţinute din activităţi |Nr.| Sume (lei) |
+| agricole******) |rd.| |
+|__________________________________________|___|_____________________________|
+| A | B | 30 iunie 2018| 30 iunie 2019|
+|__________________________________________|___|______________|______________|
+| Venituri obţinute din activităţi agricole|172| | |
+|__________________________________________|___|______________|______________|
+*) Subvenţii pentru stimularea ocupării forţei de muncă (transferuri de la bugetul statului
+către angajator) - reprezintă sumele acordate angajatorilor pentru plata absolvenţilor
+instituţiilor de învăţământ, stimularea şomerilor care se încadrează în muncă înainte de
+expirarea perioadei de şomaj, stimularea angajatorilor care încadrează în muncă pe
+perioadă nedeterminată şomeri în vârsta de peste 45 ani, şomeri întreţinători unici de
+familie sau şomeri care în termen de 3 ani de la data angajării îndeplinesc condiţiile pentru
+a solicita pensia anticipată parţială sau de acordare a pensiei pentru limita de vârstă, ori
+pentru alte situaţii prevăzute prin legislaţia în vigoare privind sistemul asigurărilor pentru
+şomaj şi stimularea ocupării forţei de muncă.
+**) Se va completa cu cheltuielile efectuate pentru activitatea de cercetare-dezvoltare,
+respectiv cercetarea fundamentală, cercetarea aplicativă, dezvoltarea tehnologică şi
+inovarea, stabilite potrivit prevederilor Ordonanţei Guvernului nr. 57/2002 privind
+cercetarea ştiinţifică şi dezvoltarea tehnologică, aprobată cu modificări şi completări prin
+Legea nr. 324/2003, cu modificările şi completările ulterioare. Cheltuielile se vor completa
+conform Regulamentului de punere în aplicare (UE) nr. 995/2012 al Comisiei din 26
+octombrie 2012 de stabilire a normelor de punere în aplicare a Deciziei nr. 1.608/2003/CE
+a Parlamentului European şi a Consiliului privind producţia şi dezvoltarea statisticilor
+comunitare în domeniul ştiinţei şi al tehnologiei, publicat în Jurnalul Oficial al Uniunii
+Europene, seria L, nr. 299/27.10.2012.
+***) Se va completa cu cheltuielile efectuate pentru activitatea de inovare conform
+Regulamentului de punere în aplicare (UE) nr. 995/2012 al Comisiei din 26 octombrie 2012
+de stabilire a normelor de punere în aplicare a Deciziei nr. 1.608/2003/CE a Parlamentului
+European şi a Consiliului privind producţia şi dezvoltarea statisticilor comunitare în
+domeniul ştiinţei şi al tehnologiei, publicat în Jurnalul Oficial al Uniunii Europene, seria L,
+nr. 299/27.10.2012.
+****) În categoria operatorilor economici nu se cuprind entităţile reglementate şi
+supravegheate de Banca Naţională a României, respectiv Autoritatea de Supraveghere
+Financiară, societăţile reclasificate în sectorul administraţiei publice şi instituţiile fără scop
+lucrativ în serviciul gospodăriilor populaţiei.
+*****) Pentru creanţele preluate prin cesionare de la persoane juridice se vor completa
+atât valoarea nominală a acestora, cât şi costul lor de achiziţie. Pentru statutul de
+"persoane juridice afiliate" se vor avea în vedere prevederile art. 7 pct. 26 lit. c) şi d) din
+Legea nr. 227/2015 privind Codul fiscal, cu modificările şi completările ulterioare.
+******) Conform art. 11 din Regulamentul Delegat (UE) nr. 639/2014 al Comisiei din 11
+martie 2014 de completare a Regulamentului (UE) nr. 1307/2013 al Parlamentului
+European şi al Consiliului de stabilire a unor norme privind plăţile directe acordate
+fermierilor prin scheme de sprijin în cadrul politicii agricole comune şi de modificare a
+anexei X la regulamentul menţionat, "(1) ... veniturile obţinute din activităţile agricole sunt
+veniturile care au fost obţinute de un fermier din activitatea sa agricolă în sensul articolului
+4 alineatul (1) litera (c) din regulamentul menţionat (R (UE) 1307/2013), în cadrul
+exploataţiei sale, inclusiv sprijinul din partea Uniunii din Fondul european de garantare
+agricolă (FEGA) şi din Fondul european agricol pentru dezvoltare rurală (FEADR), precum
+şi orice ajutor naţional acordat pentru activităţi agricole, cu excepţia plăţilor directe
+naţionale complementare în temeiul articolelor 18 şi 19 din Regulamentul (UE) nr.
+1307/2013.
+Veniturile obţinute din prelucrarea produselor agricole în sensul articolului 4 alineatul (1)
+litera (d) din Regulamentul (UE) nr. 1307/2013 ale exploataţiei sunt considerate venituri din
+activităţi agricole cu condiţia ca produsele prelucrate să rămână proprietatea fermierului şi
+ca o astfel de prelucrare să aibă ca rezultat un alt produs agricol în sensul articolului 4
+alineatul (1) litera (d) din Regulamentul (UE) nr. 1307/2013.
+Orice alte venituri sunt considerate venituri din activităţi neagricole.
+(2) În sensul alineatului (1), "venituri" înseamnă veniturile brute, înaintea deducerii
+costurilor şi impozitelor aferente. ...".
+*1) Se vor include chiriile plătite pentru terenuri ocupate (culturi agricole, păşuni, fâneţe
+etc.) şi aferente spaţiilor comerciale (terase etc.) aparţinând proprietarilor privaţi sau unor
+unităţi ale administraţiei publice, inclusiv chiriile pentru folosirea luciului de apă în scop
+recreativ sau în alte scopuri (pescuit etc.).
+*2) La rândurile 117 - 119, pe col. 1, entităţile vor înscrie şi sumele regăsite în contul
+406.
+*3) Valoarea înscrisă la rândul "datorii cu entităţi afiliate nerezidente (din ct. 451), din
+care:" NU se calculează prin însumarea valorilor de la rândurile "cu scadenţa iniţială mai
+mare de un an" şi "datorii comerciale cu entităţile afiliate nerezidente indiferent de
+scadenţă (din ct. 451)".
+*4) În categoria "Alte datorii în legătură cu persoanele fizice şi persoanele juridice, altele
+decât datoriile în legătură cu instituţiile publice (instituţiile statului)" nu se vor înscrie
+subvenţiile aferente veniturilor existente în soldul contului 472.
+*5) Titluri de valoare care conferă drepturi de proprietate asupra societăţilor, care sunt
+negociabile şi tranzacţionate, potrivit legii.
+*6) Titluri de valoare care conferă drepturi de proprietate asupra societăţilor, care nu
+sunt tranzacţionate.
+*7) Se va completa de către operatorii economici cărora le sunt incidente prevederile
+Ordinului ministrului finanţelor publice şi al ministrului delegat pentru buget nr. 668/2014
+pentru aprobarea Precizărilor privind întocmirea şi actualizarea inventarului centralizat al
+bunurilor imobile proprietate privată a statului şi a drepturilor reale supuse inventarierii, cu
+modificările şi completările ulterioare.
+*8) La secţiunea "XII Capital social vărsat" la rd. 155 - 165 în col. 2 şi col. 4 entităţile vor
+înscrie procentul corespunzător capitalului social deţinut în totalul capitalului social vărsat
+înscris la rd. 154.
+*9) La acest rând se cuprind dividendele repartizate potrivit Legii nr. 163/2018 pentru
+modificarea şi completarea Legii contabilităţii nr. 82/1991, modificarea şi completarea Legii
+societăţilor nr. 31/1990, precum şi modificarea Legii nr. 1/2005 privind organizarea şi
+funcţionarea cooperaţiei.
+ADMINISTRATOR, ÎNTOCMIT,
+Numele şi prenumele _____________ Numele şi prenumele ______________
+Semnătura _______________________ Calitatea ________________________
+Semnătura ________________________
+Nr. de înregistrare în organismul
+profesional ---------------
