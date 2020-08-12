@@ -4,7 +4,6 @@
 from odoo import api, fields, models
 
 
-
 class CountryCity(models.Model):
     _inherit = "res.city"
 
@@ -16,10 +15,15 @@ class CountryCity(models.Model):
         result = []
         for record in self:
             if record.municipality and record.name not in record.municipality:
-                result.append((
-                    record.id, "{} ({}) ({})".format(record.name, record.municipality, record.state_id.code)
-                ))
+                result.append(
+                    (
+                        record.id, "{} ({}) ({})".format(
+                            record.name, record.municipality, record.state_id.code
+                        )
+                    )
+                )
             else:
-                result.append((record.id, "{} ({})".format(record.name, record.state_id.code)))
+                result.append(
+                    (record.id, "{} ({})".format(record.name, record.state_id.code))
+                )
         return result
-

@@ -7,7 +7,6 @@ from odoo.tests.common import TransactionCase
 
 
 class TestRoCity(TransactionCase):
-
     def setUp(self):
         super(TestRoCity, self).setUp()
 
