@@ -20,7 +20,7 @@ class CountryCity(models.Model):
                         record.id,
                         "{} ({}) ({})".format(
                             record.name, record.municipality, record.state_id.code
-                        )
+                        ),
                     )
                 )
             else:
