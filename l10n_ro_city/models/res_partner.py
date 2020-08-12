@@ -3,7 +3,7 @@
 # See README.rst file on addons root folder for license details
 
 
-from odoo import api, models, fields
+from odoo import api, fields, models
 
 
 class Partner(models.Model):

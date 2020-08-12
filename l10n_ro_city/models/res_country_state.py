@@ -17,7 +17,8 @@ class CountryCity(models.Model):
             if record.municipality and record.name not in record.municipality:
                 result.append(
                     (
-                        record.id, "{} ({}) ({})".format(
+                        record.id,
+                        "{} ({}) ({})".format(
                             record.name, record.municipality, record.state_id.code
                         )
                     )
