@@ -23,12 +23,10 @@ class TestRoCity(TransactionCase):
         self.assertEqual(name[0][1], "Filipești (Bogdănești) (BC)")
 
     def test_partner_on_change_city(self):
-        partner_1 = self.env['res.partner'].create(
-            {
-                "name": "Partener Test City",
-                "state_id": self.state_bc.id,
-            }
+        partner_1 = self.env["res.partner"].create(
+            {"name": "Partener Test City", "state_id": self.state_bc.id}
         )
         res = partner_1.onchange_state()
-        self.assertEqual(res["domain"]["city_id"], [("state_id", "=", self.state_bc.id)])
-
+        self.assertEqual(
+            res["domain"]["city_id"], [("state_id", "=", self.state_bc.id)]
+        )
