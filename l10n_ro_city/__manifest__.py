@@ -1,20 +1,17 @@
-# -*- coding: utf-8 -*-
-# ©  2008-2020 Dorin Hongu <dhongu(@)gmail(.)com
-# See README.rst file on addons root folder for license details
+# License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
+
 {
     "name": "Romania - City",
-    "version": "1.0",
-    "author": "Terrabit",
-    "website": "http://www.terrabit.ro",
-    "category": "Tools",
-    "depends": [
-       'base_address_city'
-    ],
-
-    'data': [
-        'data/res.city.csv',
-        'views/res_city_view.xml'
-    ],
+    "summary": "Romania - City",
+    "license": "AGPL-3",
+    "version": "13.0.1.0.0",
+    "author": "Terrabit,"
+              "Odoo Community Association (OCA)",
+    "website": "https://github.com/OCA/l10n-romania",
+    "category": "Localization",
+    "depends": ['base_address_city'],
+    'data': ['data/res.city.csv', 'views/res_city_view.xml'],
+    "development_status": "Mature",
     'installable': True,
-
+    "maintainers": ["dhongu"],
 }
