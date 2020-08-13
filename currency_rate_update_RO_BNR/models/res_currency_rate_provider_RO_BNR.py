@@ -69,7 +69,7 @@ class ResCurrencyRateProviderROBNR(models.Model):
         handler = ROBNRRatesHandler(currencies, date_from, date_to)
         with urlopen(url) as response:
             xml.sax.parse(response, handler)
-        return handler.content
+        return handler.content or {}
 
 
 class ROBNRRatesHandler(xml.sax.ContentHandler):
