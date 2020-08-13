@@ -4,6 +4,8 @@
 
 from unittest import mock
 
+from dateutil.relativedelta import relativedelta
+
 from odoo import fields
 from odoo.tests import tagged
 
@@ -51,6 +53,14 @@ class TestCurrencyRateUpdateRoBnr(AccountingSavepointCase):
     def test_error_RO_BNR(self):
         with mock.patch(_RO_BNR_provider_class + "._obtain_rates", return_value=None):
             self.bnr_provider._update(self.today, self.today)
+
+    def test_update_RO_BNR_this_month(self):
+        today = fields.Date.context_today(self)
+        today = fields.Date.from_string(today)
+
+        from_date = today + relativedelta(day=1, months=-1, days=0)
+        to_date = today + relativedelta(days=-1)
+        self.bnr_provider._update(from_date, to_date)
 
     def test_update_RO_BNR_today(self):
         """No checks are made since today may not be a banking day"""
