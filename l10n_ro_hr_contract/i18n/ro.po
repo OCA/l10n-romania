@@ -124,7 +124,6 @@ msgstr "Nume Afişat"
 #. module: l10n_ro_hr_contract
 #: model:ir.model,name:l10n_ro_hr_contract.model_hr_contract
 #, fuzzy
-#| msgid "Employee insurance type"
 msgid "Employee Contract"
 msgstr "Tip asigurare angajat"
 
