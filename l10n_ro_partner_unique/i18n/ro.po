@@ -28,7 +28,10 @@ msgstr ""
 #: code:addons/l10n_ro_partner_unique/models/res_partner.py:0
 #, python-format
 msgid "The VAT and NRC pair (%s, %s) must be unique!"
-msgstr ""
+msgstr "Combinația CUI si NRC (%s, %s) trebuie să fie nuică"
 
-#~ msgid "Partner"
-#~ msgstr "Partener"
+#. module: l10n_ro_partner_unique
+#: code:addons/l10n_ro_partner_unique/models/res_partner.py:0
+#, python-format
+msgid "The VAT (%s) must be unique!"
+msgstr "CUI-ul (%s) trebuie să fie unic"

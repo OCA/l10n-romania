@@ -23,3 +23,10 @@ msgstr ""
 #, python-format
 msgid "The VAT and NRC pair (%s, %s) must be unique!"
 msgstr ""
+
+
+#. module: l10n_ro_partner_unique
+#: code:addons/l10n_ro_partner_unique/models/res_partner.py:0
+#, python-format
+msgid "The VAT (%s) must be unique!"
+msgstr ""
