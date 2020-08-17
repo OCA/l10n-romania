@@ -17,7 +17,7 @@ class ResPartner(models.Model):
         ]
         return domain
 
-    @api.constrains("vat", "nrc")
+    @api.constrains("vat")
     def _check_vat_nrc_unique(self):
         for record in self:
             if record.vat:
@@ -27,13 +27,3 @@ class ResPartner(models.Model):
                     raise ValidationError(
                         _("The VAT (%s) must be unique!") % (record.vat)
                     )
-                if record.nrc:
-                    domain += [("nrc", "=", self.nrc)]
-
-                results = self.env["res.partner"].search(domain)
-                if len(results) > 1:
-                    if record.nrc:
-                        raise ValidationError(
-                            _("The VAT and NRC pair (%s, %s) must be unique!")
-                            % (record.vat, record.nrc)
-                        )
