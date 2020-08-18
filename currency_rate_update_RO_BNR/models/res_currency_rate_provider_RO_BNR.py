@@ -60,12 +60,16 @@ class ResCurrencyRateProviderROBNR(models.Model):
                 base_currency, currencies, date_from, date_to
             )  # pragma: no cover
 
-        url = "https://www.bnr.ro/nbrfxrates.xml"
+        if date_from == date_to:
+            url = "https://www.bnr.ro/nbrfxrates.xml"
+        else:
+            year = date_from.year
+            url = "http://www.bnr.ro/files/xml/years/nbrfxrates" + str(year) + ".xml"
 
         handler = ROBNRRatesHandler(currencies, date_from, date_to)
         with urlopen(url) as response:
             xml.sax.parse(response, handler)
-        return handler.content
+        return handler.content or {}
 
 
 class ROBNRRatesHandler(xml.sax.ContentHandler):
