@@ -200,4 +200,5 @@ class TestDVI(SavepointCase):
             if valuation["product_id"][0] == self.product_2.id:
                 self.assertEqual(valuation["value"], 10 * 200 + 3.33 + 4)
 
+        action = invoice.button_dvi()
         self.assertEqual(action.get("res_id"), dvi.id)
