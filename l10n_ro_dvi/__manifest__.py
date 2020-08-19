@@ -10,6 +10,7 @@
     "depends": [
         "stock_account",
         "account",
+        "sale",
         "l10n_ro",  # pentru determinare de conturi 446. 447
         "purchase_stock",
         "stock_landed_costs",
