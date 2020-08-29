@@ -25,8 +25,5 @@ msgstr ""
 msgid "Contact"
 msgstr "Contact"
 
-#. module: l10n_ro_partner_create_by_vat
-#: model:ir.model.fields,field_description:l10n_ro_partner_create_by_vat.field_res_partner__vat_subjected
-#: model:ir.model.fields,field_description:l10n_ro_partner_create_by_vat.field_res_users__vat_subjected
-msgid "VAT Legal Statement"
-msgstr "Platitor de TVA"
+#~ msgid "VAT Legal Statement"
+#~ msgstr "Platitor de TVA"
