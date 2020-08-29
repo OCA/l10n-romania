@@ -10,6 +10,7 @@ setuptools.setup(
     install_requires=[
         'odoo13-addon-currency_rate_update_RO_BNR',
         'odoo13-addon-l10n_ro_account_period_close',
+        'odoo13-addon-l10n_ro_account_report_invoice',
         'odoo13-addon-l10n_ro_address_extended',
         'odoo13-addon-l10n_ro_config',
         'odoo13-addon-l10n_ro_fiscal_validation',
