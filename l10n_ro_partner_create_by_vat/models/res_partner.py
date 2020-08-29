@@ -26,8 +26,6 @@ ANAF_URL = "https://webservicesp.anaf.ro/PlatitorTvaRest/api/v4/ws/tva"
 class ResPartner(models.Model):
     _inherit = "res.partner"
 
-    vat_subjected = fields.Boolean("VAT Legal Statement")
-
     @api.model
     def _get_Anaf(self, cod, data=False):
         # Function to get datas from ANAF Webservice
