@@ -20,6 +20,7 @@ addon | version | summary
 --- | --- | ---
 [currency_rate_update_RO_BNR](currency_rate_update_RO_BNR/) | 13.0.2.0.0 | Currency Rate Update National Bank of Romania service
 [l10n_ro_account_period_close](l10n_ro_account_period_close/) | 13.0.1.0.0 | Romania - Account Period Closing
+[l10n_ro_account_report_invoice](l10n_ro_account_report_invoice/) | 13.0.1.0.0 | Romania - Invoice Report
 [l10n_ro_address_extended](l10n_ro_address_extended/) | 13.0.1.0.0 | Romania - Extended Addresses
 [l10n_ro_config](l10n_ro_config/) | 13.0.1.0.0 | Romania - Localization Install and Config Applications
 [l10n_ro_fiscal_validation](l10n_ro_fiscal_validation/) | 13.0.1.0.0 | Romania - Fiscal Validation
