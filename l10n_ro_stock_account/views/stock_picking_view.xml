@@ -19,7 +19,10 @@
             </field>
             <xpath expr="//button[@name='action_show_details']" position="after">
                 <field name="picking_code" invisible="1" />
-                <field name="price_unit" attrs="{'invisible': [('picking_code','!=','incoming')]}" />
+                <field
+                    name="price_unit"
+                    attrs="{'invisible': [('picking_code','!=','incoming')]}"
+                />
             </xpath>
         </field>
     </record>
@@ -40,7 +43,11 @@
         <field name="inherit_id" ref="stock.view_picking_internal_search" />
         <field name="arch" type="xml">
             <filter name="cancel" position="after">
-                <filter name="notice" string="is notice (aviz)" domain="[('notice', '=', True)]" />
+                <filter
+                    name="notice"
+                    string="is notice (aviz)"
+                    domain="[('notice', '=', True)]"
+                />
             </filter>
         </field>
     </record>

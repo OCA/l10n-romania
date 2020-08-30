@@ -22,7 +22,10 @@
                             current partner on stock picking notice.
                         </div>
                         <div class="content-group">
-                            <field name="property_stock_picking_payable_account_id" placeholder="Select 408" />
+                            <field
+                                name="property_stock_picking_payable_account_id"
+                                placeholder="Select 408"
+                            />
                         </div>
                     </div>
                 </div>
@@ -43,7 +46,10 @@
                             current partner on stock picking notice.
                         </div>
                         <div class="content-group">
-                            <field name="property_stock_picking_receivable_account_id" placeholder="Select 418" />
+                            <field
+                                name="property_stock_picking_receivable_account_id"
+                                placeholder="Select 418"
+                            />
                         </div>
                     </div>
                 </div>
