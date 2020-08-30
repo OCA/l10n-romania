@@ -28,6 +28,13 @@ class TestVatUnique(SavepointCase):
                 {"name": "Second partner", "vat": "RO30834857", "nrc": "J35/2622/2012"}
             )
 
+    def test_duplicated_nrc_creation(self):
+        """ Test creation of partner without vat and nrc."""
+        with self.assertRaises(ValidationError):
+            self.env["res.partner"].create(
+                {"name": "Second partner", "nrc": "J35/2622/2012"}
+            )
+
     def test_contact_vat_creation(self):
         """ Test creation of partner contacs."""
         self.env["res.partner"].create(
