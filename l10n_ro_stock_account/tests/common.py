@@ -192,6 +192,7 @@ class TestStockCommon(SavepointCase):
             {
                 "default_location_dest_id": cls.location_warehouse.id,
                 "name": "TEST Receptie in Depozit",
+                "sequence_code": "TWIN",
             }
         )
 
@@ -202,6 +203,7 @@ class TestStockCommon(SavepointCase):
             {
                 "default_location_dest_id": cls.location_store.id,
                 "name": "TEST Receptie in magazin",
+                "sequence_code": "TSIN",
             }
         )
 
