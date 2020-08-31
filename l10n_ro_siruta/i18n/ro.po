@@ -1,0 +1,168 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+#	* l10n_ro_siruta
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 8.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2015-01-09 11:50+0000\n"
+"PO-Revision-Date: 2015-01-09 11:50+0000\n"
+"Last-Translator: <>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+
+
+
+#. module: l10n_ro_siruta
+#: field:res.country.state,commune_ids:0
+msgid "Cities/Communes"
+msgstr "Orase/Comune"
+
+
+
+#. module: l10n_ro_siruta
+#: field:res.country.city,commune_id:0
+#: view:res.partner:l10n_ro_siruta.partners_form_address
+#: field:res.partner,commune_id:0
+msgid "City/Commune"
+msgstr "Oras/Comuna"
+
+#. module: l10n_ro_siruta
+#: field:res.country.city,country_id:0
+#: field:res.country.commune,country_id:0
+#: field:res.country.zone,country_id:0
+msgid "Country"
+msgstr "Tara"
+
+#. module: l10n_ro_siruta
+#: model:ir.model,name:l10n_ro_siruta.model_res_country_city
+msgid "Country Cities"
+msgstr "Orase"
+
+#. module: l10n_ro_siruta
+#: model:ir.model,name:l10n_ro_siruta.model_res_country_commune
+msgid "Country Cities/Communes"
+msgstr "Orase/COmune"
+
+#. module: l10n_ro_siruta
+#: model:ir.actions.act_window,name:l10n_ro_siruta.action_zone
+#: model:ir.model,name:l10n_ro_siruta.model_res_country_zone
+#: model:ir.ui.menu,name:l10n_ro_siruta.menu_zone
+msgid "Country Zones"
+msgstr "Zone"
+
+#. module: l10n_ro_siruta
+#: model:ir.actions.act_window,name:l10n_ro_siruta.action_commune
+#: model:ir.ui.menu,name:l10n_ro_siruta.menu_commune
+msgid "Country communes"
+msgstr "Comune"
+
+#. module: l10n_ro_siruta
+#: model:ir.model,name:l10n_ro_siruta.model_res_country_state
+msgid "Country state"
+msgstr "Judete"
+
+#. module: l10n_ro_siruta
+
+#: field:res.country.commune,create_uid:0
+#: field:res.country.zone,create_uid:0
+msgid "Created by"
+msgstr "Creeat de"
+
+#. module: l10n_ro_siruta
+
+#: field:res.country.commune,create_date:0
+#: field:res.country.zone,create_date:0
+msgid "Created on"
+msgstr "Creeat la"
+
+#. module: l10n_ro_siruta
+
+#: field:res.country.commune,id:0
+#: field:res.country.zone,id:0
+msgid "ID"
+msgstr "ID"
+
+#. module: l10n_ro_siruta
+
+#: field:res.country.commune,write_uid:0
+#: field:res.country.zone,write_uid:0
+msgid "Last Updated by"
+msgstr "Ultima actualizare de"
+
+#. module: l10n_ro_siruta
+#: field:res.country.city,write_date:0
+#: field:res.country.commune,write_date:0
+#: field:res.country.zone,write_date:0
+msgid "Last Updated on"
+msgstr "Ultima actualizare la"
+
+#. module: l10n_ro_siruta
+#: field:res.country.city,name:0
+#: field:res.country.commune,name:0
+#: field:res.country.zone,name:0
+msgid "Name"
+msgstr "Nume"
+
+#. module: l10n_ro_siruta
+#: model:ir.model,name:l10n_ro_siruta.model_res_partner
+msgid "Partner"
+msgstr "Partener"
+
+#. module: l10n_ro_siruta
+#: field:res.country.city,siruta:0
+#: field:res.country.commune,siruta:0
+#: field:res.country.state,siruta:0
+#: field:res.country.zone,siruta:0
+msgid "Siruta"
+msgstr "Siruta"
+
+#. module: l10n_ro_siruta
+#: field:res.country.city,state_id:0
+#: field:res.country.commune,state_id:0
+#: field:res.country.zone,state_ids:0
+#: view:res.partner:l10n_ro_siruta.partners_form_address
+msgid "State"
+msgstr "Judet"
+
+#. module: l10n_ro_siruta
+#: view:res.partner:l10n_ro_siruta.partners_form_address
+msgid "ZIP"
+msgstr "Cod postal"
+
+#. module: l10n_ro_siruta
+#: field:res.country.city,zone_id:0
+#: field:res.country.commune,zone_id:0
+#: field:res.country.state,zone_id:0
+#: view:res.partner:l10n_ro_siruta.partners_form_address
+#: field:res.partner,zone_id:0
+msgid "Zone"
+msgstr "Zone"
+
+#. module: l10n_ro_siruta
+#: view:res.country.commune:l10n_ro_siruta.view_commune_form
+msgid "commune"
+msgstr "Comuna"
+
+#. module: l10n_ro_siruta
+#: view:res.country.commune:l10n_ro_siruta.view_commune_search
+#: view:res.country.commune:l10n_ro_siruta.view_commune_tree
+msgid "communes"
+msgstr "Comune"
+
+#. module: l10n_ro_siruta
+#: view:res.country.zone:l10n_ro_siruta.view_zone_form
+msgid "zone"
+msgstr "Zona"
+
+#. module: l10n_ro_siruta
+#: view:res.country.zone:l10n_ro_siruta.view_zone_search
+#: view:res.country.zone:l10n_ro_siruta.view_zone_tree
+msgid "zones"
+msgstr "Zone"
+
