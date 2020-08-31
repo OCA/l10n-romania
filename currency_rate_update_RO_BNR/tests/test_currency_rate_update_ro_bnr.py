@@ -2,6 +2,7 @@
 # Copyright 2020 NextERP Romania SRL
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
+from datetime import timedelta
 from unittest import mock
 
 from dateutil.relativedelta import relativedelta
@@ -69,7 +70,12 @@ class TestCurrencyRateUpdateRoBnr(SavepointCase):
     def test_update_RO_BNR_scheduled(self):
         self.bnr_provider.interval_type = "days"
         self.bnr_provider.interval_number = 1
-        self.bnr_provider.next_run = self.today
+
+        next_run = self.today
+        if next_run.weekday() == 0:
+            next_run = next_run - timedelta(days=2)
+
+        self.bnr_provider.next_run = next_run
         self.bnr_provider._scheduled_update()
 
         rates = self.CurrencyRate.search(
