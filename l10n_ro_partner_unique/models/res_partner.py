@@ -57,5 +57,5 @@ class ResPartner(models.Model):
                 results = self.env["res.partner"].search(domain)
                 if len(results) > 1:
                     raise ValidationError(
-                        _("The NRC (%s) must be unique!") % (record.vat)
+                        _("The NRC (%s) must be unique!") % (record.nrc)
                     )
