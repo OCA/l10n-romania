@@ -10,7 +10,6 @@
     "Odoo Community Association (OCA)",
     "website": "https://www.forbiom.eu",
     "license": "AGPL-3",
-    "application": False,
     "installable": True,
     "depends": ["contacts", "l10n_ro_city"],
     "data": [
