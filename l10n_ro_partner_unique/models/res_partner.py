@@ -14,7 +14,9 @@ class ResPartner(models.Model):
         domain = [
             ("parent_id", "=", False),
             ("vat", "=", self.vat),
+            "|",
             ("nrc", "=", self.nrc),
+            ("nrc", "=", False),
         ]
         return domain
 
