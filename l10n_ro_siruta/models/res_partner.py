@@ -19,9 +19,7 @@ class ResPartner(models.Model):
         super(ResPartner, self)._onchange_city_id()
         if self.city_id:
             self.commune_id = self.city_id.commune_id.id
-            # self.state_id = self.city_id.state_id.id
             self.zone_id = self.city_id.zone_id.id
-            # self.country_id = self.city_id.country_id.id
 
     @api.model
     def _address_fields(self):
@@ -38,9 +36,7 @@ class ResPartner(models.Model):
 
         if self.commune_id:
             domain = [("commune_id", "=", self.commune_id.id)]
-        else:
-            domain = []
-        return {"domain": {"city_id": domain}}
+            return {"domain": {"city_id": domain}}
 
     @api.onchange("state_id")
     def _onchange_state_id(self):
@@ -48,9 +44,7 @@ class ResPartner(models.Model):
             self.commune_id = False
         if self.state_id:
             domain = [("state_id", "=", self.state_id.id)]
-        else:
-            domain = []
-        return {"domain": {"commune_id": domain}}
+            return {"domain": {"commune_id": domain}}
 
     def write(self, vals):
         if "city_id" in vals and "city" not in vals:

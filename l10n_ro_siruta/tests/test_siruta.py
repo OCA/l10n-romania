@@ -25,6 +25,19 @@ class TestSirutaBase(common.SavepointCase):
 
 
 class TestSiruta(TestSirutaBase):
+    def test_name_search(self):
+        self.env["res.country.zone"].name_search("")
+        self.env["res.country.zone"].name_search("Centru")
+        self.env["res.country.state"].name_search("")
+        self.env["res.country.state"].name_search("centru")
+        self.env["res.country.state"].name_search("bc")
+
+        self.env["res.country.commune"].name_search("")
+        self.env["res.country.commune"].name_search("bc")
+
+        self.env["res.city"].name_search("")
+        self.env["res.city"].name_search("bc")
+
     def test_onchange_city(self):
         """ Check onchange city_id on partner and check if all the fields
             from main partner are changed."""
@@ -32,7 +45,13 @@ class TestSiruta(TestSirutaBase):
         mainpartner_form = Form(self.mainpartner)
         # User change city of main partner
         mainpartner_form.city_id = self.city1
+        mainpartner_form.commune_id = self.commune2
+        mainpartner_form.city_id = self.city1
 
+        mainpartner_form.commune_id = self.commune1
+        mainpartner_form.city_id = self.city2
+        mainpartner_form.state_id = self.state1
+        mainpartner_form.city_id = self.city1
         self.mainpartner = mainpartner_form.save()
 
         # Check main partner changed fields
@@ -78,6 +97,7 @@ class TestSiruta(TestSirutaBase):
         commune1_form.zone_id = self.zone2
 
         # self.commune1._onchange_zone_id()
+
         self.commune1 = commune1_form.save()
 
         # Check country commune changed fields
