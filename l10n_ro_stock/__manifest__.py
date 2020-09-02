@@ -6,7 +6,7 @@
     "depends": ["stock"],
     "data": ["views/stock_warehouse_view.xml", "views/stock_location_view.xml"],
     "license": "AGPL-3",
-    "version": "13.0.1.0.0",
+    "version": "13.0.1.0.1",
     "author": "NextERP Romania,"
     "Dorin Hongu,"
     "Forest and Biomass Romania,"
