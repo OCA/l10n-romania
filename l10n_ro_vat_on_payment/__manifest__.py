@@ -11,7 +11,7 @@
     ],
     "depends": ["account", "l10n_ro"],
     "license": "AGPL-3",
-    "version": "13.0.1.0.2",
+    "version": "13.0.1.0.3",
     "author": "NextERP Romania,"
     "Forest and Biomass Romania,"
     "Odoo Community Association (OCA)",
