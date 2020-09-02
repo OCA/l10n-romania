@@ -1,6 +1,5 @@
-#
-# ©  2015-2020 Deltatech
-# See README.rst file on addons root folder for license details
+# Copyright (C) 2020 Terrabit
+# License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html)
 
 
 from odoo import api, fields, models

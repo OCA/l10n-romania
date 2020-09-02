@@ -1,6 +1,5 @@
-#
-# ©  2008-2020 Dorin Hongu <dhongu(@)gmail(.)com
-# See README.rst file on addons root folder for license details
+# Copyright (C) 2020 Terrabit
+# License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html)
 
 
 from odoo.tests.common import TransactionCase
