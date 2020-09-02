@@ -45,7 +45,6 @@ To install this module, you need to:
 
 The module depends on currency_rate_update module available on https://github.com/OCA/currency
 
-
 Usage
 =====
 
