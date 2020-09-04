@@ -218,7 +218,6 @@ class TestCurrencyReevaluation(TransactionCase):
         )
         self.assertEqual(wizard.date_to.strftime("%Y-%m-%d"), time.strftime("%Y-%m-28"))
         wizard.do_close()
-        # self.env.cr.commit()
 
     def test_wizard_defaults(self):
         today = fields.Date.from_string(fields.Date.today())
@@ -232,4 +231,3 @@ class TestCurrencyReevaluation(TransactionCase):
         self.assertEqual(
             wizard.date_to.strftime("%Y-%m-%d"), fields.Date.to_string(date_to)
         )
-        # self.env.cr.commit()
