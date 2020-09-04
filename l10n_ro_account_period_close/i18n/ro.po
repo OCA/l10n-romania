@@ -6,7 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 13.0\n"
 "Report-Msgid-Bugs-To: \n"
-"Last-Translator: Automatically generated\n"
+"PO-Revision-Date: 2020-09-04 12:09+0000\n"
+"Last-Translator: Dorin Hongu <dhongu@gmail.com>\n"
 "Language-Team: none\n"
 "Language: ro\n"
 "MIME-Version: 1.0\n"
@@ -14,28 +15,29 @@ msgstr ""
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=3; plural=n==1 ? 0 : (n==0 || (n%100 > 0 && n%100 < "
 "20)) ? 1 : 2;\n"
+"X-Generator: Weblate 3.10\n"
 
 #. module: l10n_ro_account_period_close
 #: model:ir.model,name:l10n_ro_account_period_close.model_account_account
 msgid "Account"
-msgstr ""
+msgstr "Cont"
 
 #. module: l10n_ro_account_period_close
 #: model:ir.actions.act_window,name:l10n_ro_account_period_close.action_account_period_closing
 #: model:ir.model,name:l10n_ro_account_period_close.model_account_period_closing
 #: model:ir.ui.menu,name:l10n_ro_account_period_close.menu_action_account_period_closing
 msgid "Account Period Closing"
-msgstr ""
+msgstr "Închidere perioadă contabilă"
 
 #. module: l10n_ro_account_period_close
 #: model_terms:ir.ui.view,arch_db:l10n_ro_account_period_close.view_account_period_closing_wizard
 msgid "Account Period Closing Wizard"
-msgstr ""
+msgstr "Asistent închidere perioadă"
 
 #. module: l10n_ro_account_period_close
 #: model:ir.model.fields,field_description:l10n_ro_account_period_close.field_account_period_closing__account_ids
 msgid "Accounts to close"
-msgstr ""
+msgstr "Conturi de închis"
 
 #. module: l10n_ro_account_period_close
 #: model:ir.model.fields,help:l10n_ro_account_period_close.field_account_account__close_check
@@ -43,6 +45,10 @@ msgid ""
 "By checking this when you close a period, it will not respect the side of closing, meaning: expenses closed on credit side, incomed closed on debit side. \n"
 " You should check the 711xxx accounts."
 msgstr ""
+"Selectând acest lucru când închideți o perioadă, aceasta nu va respecta "
+"partea de închidere, adică: cheltuieli închise pe partea de credit, "
+"veniturile închise pe partea de debit.\n"
+"  Ar trebui să verificați conturile 711xxx."
 
 #. module: l10n_ro_account_period_close
 #: model:ir.model.fields,field_description:l10n_ro_account_period_close.field_account_account__close_check
@@ -52,17 +58,17 @@ msgstr ""
 #. module: l10n_ro_account_period_close
 #: model_terms:ir.ui.view,arch_db:l10n_ro_account_period_close.view_account_period_closing_wizard
 msgid "Cancel"
-msgstr ""
+msgstr "Abandonare"
 
 #. module: l10n_ro_account_period_close
 #: model_terms:ir.ui.view,arch_db:l10n_ro_account_period_close.view_account_period_closing_wizard
 msgid "Close"
-msgstr ""
+msgstr "Închide"
 
 #. module: l10n_ro_account_period_close
 #: model:ir.actions.act_window,name:l10n_ro_account_period_close.act_account_period_closing_wizard
 msgid "Close Period"
-msgstr ""
+msgstr "Închide perioadă"
 
 #. module: l10n_ro_account_period_close
 #: model:ir.model.fields,field_description:l10n_ro_account_period_close.field_account_period_closing__close_result
