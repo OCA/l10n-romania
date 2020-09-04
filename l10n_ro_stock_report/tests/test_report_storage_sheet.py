@@ -84,7 +84,7 @@ class TestStorageSheet(TransactionCase):
         picking_type_in = self.env.ref("stock.picking_type_in")
         self.location = picking_type_in.default_location_dest_id
 
-    def create_po(self, notice=False, picking_type_in=None):
+    def create_po(self, picking_type_in=None):
         po = Form(self.env["purchase.order"])
         po.partner_id = self.vendor
 
@@ -96,7 +96,7 @@ class TestStorageSheet(TransactionCase):
         po = po.save()
         po.button_confirm()
         self.picking = po.picking_ids[0]
-        self.picking.write({"notice": notice})
+
         for move_line in self.picking.move_line_ids:
             if move_line.product_id == self.product_1:
                 move_line.write({"qty_done": self.qty_po_p1})
