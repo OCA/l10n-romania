@@ -171,6 +171,7 @@ class AccountPeriodClosing(models.Model):
                 }
             )
             amount = 0.0
+            line_values = []
             for account in account_res:
                 if account["balance"] != 0.0:
                     balance = account["balance"]
@@ -200,10 +201,8 @@ class AccountPeriodClosing(models.Model):
                             "debit": -balance if balance < 0.0 else 0.0,
                         }
                     amount += balance
-                    self.env["account.move.line"].with_context(
-                        check_move_validity=False
-                    ).create(val)
 
+                    line_values += [val]
             diff_line = {
                 "name": "Closing " + closing.name,
                 "move_id": move.id,
@@ -213,9 +212,9 @@ class AccountPeriodClosing(models.Model):
                 "credit": -amount if amount <= 0.0 else 0.0,
                 "debit": amount if amount >= 0.0 else 0.0,
             }
-            self.env["account.move.line"].with_context(
-                check_move_validity=False
-            ).create(diff_line)
+
+            line_values += [diff_line]
+
             if self.close_result and amount != 0.0:
                 debit_acc = closing.debit_account_id
                 credit_acc = closing.credit_account_id
@@ -250,9 +249,9 @@ class AccountPeriodClosing(models.Model):
                     "credit": new_amount,
                     "debit": 0.0,
                 }
-                self.env["account.move.line"].with_context(
-                    check_move_validity=False
-                ).create(diff_line)
+
+                line_values += [diff_line]
+
                 diff_line = {
                     "name": "Closing " + closing.name + " " + str(credit_acc.code),
                     "move_id": move.id,
@@ -260,7 +259,11 @@ class AccountPeriodClosing(models.Model):
                     "credit": 0.0,
                     "debit": new_amount,
                 }
-                self.env["account.move.line"].with_context(
-                    check_move_validity=False
-                ).create(diff_line)
+
+                line_values += [diff_line]
+
+            # se genereaza toate liniile
+            self.env["account.move.line"].with_context(
+                check_move_validity=False
+            ).create(line_values)
             move.post()
