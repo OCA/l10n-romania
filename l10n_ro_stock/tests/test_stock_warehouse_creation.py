@@ -35,3 +35,9 @@ class TestStockWarehouseCreation(TransactionCase):
         self.assertTrue(usage_type.code, "internal")
         self.assertTrue(usage_type.default_location_src_id, wh_stock_loc)
         self.assertTrue(usage_type.default_location_dest_id, wh_usage_loc)
+
+    def test_warehouse_rename(self):
+        warehouse = self.warehouse_obj.create(
+            {"name": "Warehouse Romania", "code": "ROW"}
+        )
+        warehouse._update_name_and_code(new_name="Warehouse", new_code="WRO")
