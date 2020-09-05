@@ -58,7 +58,7 @@ class ProductCategory(models.Model):
                         )
                     )
         else:
-            self.super(ProductCategory, self)._check_valuation_accouts()
+            super(ProductCategory, self)._check_valuation_accouts()
 
     @api.onchange(
         "property_stock_valuation_account_id",
