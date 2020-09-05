@@ -10,6 +10,7 @@ class ResCompany(models.Model):
 
     share_capital = fields.Float(string="Share Capital", digits="Account", default=200)
     company_registry = fields.Char(related="partner_id.nrc", readonly=False)
+    romanian_accounting = fields.Boolean(string="Use Romanian Accounting")
     property_stock_picking_payable_account_id = fields.Many2one(
         "account.account",
         string="Picking Account Payable",

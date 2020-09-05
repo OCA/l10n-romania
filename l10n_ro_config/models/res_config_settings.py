@@ -8,6 +8,11 @@ from odoo import fields, models
 class ResConfigSettings(models.TransientModel):
     _inherit = "res.config.settings"
 
+    use_romanian_accounting = fields.Boolean(
+        string="Romanian Accounting",
+        related="company_id.romanian_accounting",
+        readonly=False,
+    )
     module_currency_rate_update_RO_BNR = fields.Boolean(
         "Currency Rate Update BNR",
         help="This option allows you to manage the update of currency "

@@ -318,12 +318,41 @@
                     </div>
                     <h2>Stock</h2>
                     <div class="row mt16 o_settings_container">
-                        <div class="col-xs-12 col-md-6 o_setting_box">
+                        <div
+                            class="col-xs-12 col-md-6 o_setting_box"
+                            id="use_anglo_saxon"
+                        >
                             <div class="o_setting_left_pane">
                                 <field name="use_anglo_saxon" />
                             </div>
                             <div class="o_setting_right_pane">
                                 <label for="use_anglo_saxon" />
+                                <span
+                                    class="fa fa-lg fa-building-o"
+                                    title="Values set here are company-specific."
+                                    role="img"
+                                    aria-label="Values set here are company-specific."
+                                    groups="base.group_multi_company"
+                                />
+                                <div class="text-muted">
+                                    Record cost of goods sold in your journal entries
+                                </div>
+                            </div>
+                            <div class="o_setting_left_pane">
+                                <field name="use_romanian_accounting" />
+                            </div>
+                            <div class="o_setting_right_pane">
+                                <label for="use_romanian_accounting" />
+                                <span
+                                    class="fa fa-lg fa-building-o"
+                                    title="Values set here are company-specific."
+                                    role="img"
+                                    aria-label="Values set here are company-specific."
+                                    groups="base.group_multi_company"
+                                />
+                                <div class="text-muted">
+                                    Registration of accounting move according to Romanian legislation
+                                </div>
                             </div>
                         </div>
                         <div
