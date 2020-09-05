@@ -16,7 +16,7 @@ class TestStockCommon(SavepointCase):
     @classmethod
     def setUpClass(cls):
         super(TestStockCommon, cls).setUpClass()
-
+        cls.env.user.company_id.romanian_accounting = True
         cls.account_difference = cls.env["account.account"].search(
             [("code", "=", "348000")], limit=1
         )
