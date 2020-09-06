@@ -117,6 +117,12 @@ class ResConfigSettings(models.TransientModel):
         help="This module add on each warehouse methods of usage "
         "giving and consumption",
     )
+
+    module_l10n_ro_stock_report = fields.Boolean(
+        "Romanian Stock Report",
+        help="This module add stock reports: Storage Sheet, Daily stock report",
+    )
+
     module_l10n_ro_stock_account = fields.Boolean(
         "Romanian Stock Accounting",
         help="This allows you to manage the Romanian Stock Accounting, "

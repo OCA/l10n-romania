@@ -290,7 +290,7 @@ class DailyStockReportRef(models.TransientModel):
             "view_mode": "tree,form",
             "context": self.env.context,
             "res_model": "stock.valuation.layer",
-            "domain": [("id", "in", self.aml_ids.ids)],
+            "domain": [("id", "in", self.valuation_ids.ids)],
         }
 
         return action

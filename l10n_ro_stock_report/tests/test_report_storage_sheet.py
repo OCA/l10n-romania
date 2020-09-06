@@ -3,6 +3,7 @@
 
 
 import logging
+import time
 
 from odoo.tests import Form
 from odoo.tests.common import TransactionCase
@@ -84,6 +85,19 @@ class TestStorageSheet(TransactionCase):
         picking_type_in = self.env.ref("stock.picking_type_in")
         self.location = picking_type_in.default_location_dest_id
 
+        date_range = self.env["date.range"]
+        self.type = self.env["date.range.type"].create(
+            {"name": "Month", "company_id": False, "allow_overlap": False}
+        )
+        self.dt = date_range.create(
+            {
+                "name": "FS2016",
+                "date_start": time.strftime("%Y-%m-01"),
+                "date_end": time.strftime("%Y-%m-28"),
+                "type_id": self.type.id,
+            }
+        )
+
     def create_po(self, picking_type_in=None):
         po = Form(self.env["purchase.order"])
         po.partner_id = self.vendor
@@ -123,27 +137,43 @@ class TestStorageSheet(TransactionCase):
         wizard = Form(self.env["stock.storage.sheet.report"])
         wizard.product_id = self.product_1
         wizard.location_id = self.location
-
+        wizard.date_range_id = self.dt
         wizard = wizard.save()
         wizard.do_compute()
         wizard.button_show()
         wizard.button_print()
 
+        line = self.env["stock.storage.sheet.report.line"].search(
+            [("report_id", "=", wizard.id)], limit=1
+        )
+        line.action_valuation_at_date_details()
+
     def test_report_daily_stock(self):
         self.create_po()
         self.create_invoice()
 
-        wizard = Form(self.env["stock.daily.stock.report"])
+        wizard = Form(
+            self.env["stock.daily.stock.report"].with_context(default_mode="product")
+        )
 
         wizard.location_id = self.location
         wizard.mode = "product"
         wizard = wizard.save()
-
         wizard.button_show()
+        wizard.button_print()
+        line = self.env["stock.daily.stock.report.line"].search(
+            [("report_id", "=", wizard.id)], limit=1
+        )
+        line.action_valuation_at_date_details()
 
         wizard = Form(self.env["stock.daily.stock.report"])
-
+        wizard.date_range_id = self.dt
         wizard.location_id = self.location
         wizard.mode = "ref"
         wizard = wizard.save()
+        wizard.button_show()
         wizard.button_print()
+        line = self.env["stock.daily.stock.report.ref"].search(
+            [("report_id", "=", wizard.id)], limit=1
+        )
+        line.action_valuation_at_date_details()
