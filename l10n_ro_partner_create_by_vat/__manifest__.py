@@ -4,10 +4,10 @@
     "name": "Romania - Partner Create by VAT",
     "category": "Localization",
     "summary": "Romania - Partner Create by VAT",
-    "depends": ["base_vat"],
-    "data": ["views/res_partner_view.xml"],
+    "depends": ["l10n_ro_config"],
+    "data": [],
     "license": "AGPL-3",
-    "version": "13.0.1.0.2",
+    "version": "13.0.2.0.1",
     "author": "NextERP Romania,"
     "Forest and Biomass Romania,"
     "Odoo Community Association (OCA)",
