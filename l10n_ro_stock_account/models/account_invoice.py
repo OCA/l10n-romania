@@ -1,6 +1,7 @@
-# ©  2008-2018 Fekete Mihai <mihai.fekete@forbiom.eu>
-#              Dorin Hongu <dhongu(@)gmail(.)com
-# See README.rst file on addons root folder for license details
+# Copyright (C) 2014 Forest and Biomass Romania
+# Copyright (C) 2020 NextERP Romania
+# Copyright (C) 2020 Terrabit
+# License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
 import logging
 
@@ -27,14 +28,17 @@ class AccountMove(models.Model):
             if invoice.type in ["in_invoice", "in_refund"]:
                 for line in invoice.invoice_line_ids:
                     if line.product_id.cost_method == "standard":
-                        # daca pretul este standard se inregistreaza diferentele de pret.
+                        # daca pretul este standard se inregistreaza
+                        # diferentele de pret.
                         add_diff = True
                     else:
                         add_diff = add_diff_from_config
 
-                    # daca linia a fost receptionata   de pe baza de aviz se seteaza contul 408 pe nota contabile
+                    # daca linia a fost receptionata pe baza de aviz se
+                    # seteaza contul 408 pe nota contabile
                     if account_id and line.account_id == account_id:
-                        # trebuie sa adaug diferenta dintre recpetia pe baza de aviz si receptia din factura
+                        # trebuie sa adaug diferenta dintre receptie pe
+                        # baza de aviz si receptia din factura
                         add_diff = True
 
                     if not add_diff:
@@ -64,7 +68,7 @@ class AccountMove(models.Model):
         return res
 
 
-class AccountInvoiceLine(models.Model):
+class AccountMoveLine(models.Model):
     _inherit = "account.move.line"
 
     def _get_computed_account(self):
@@ -85,8 +89,34 @@ class AccountInvoiceLine(models.Model):
                     sale = self.sale_line_ids[0].order_id
                     if any([p.notice for p in sale.picking_ids]):
                         self = self.with_context(valued_type="invoice_out_notice")
-
-        return super(AccountInvoiceLine, self)._get_computed_account()
+        res = super(AccountMoveLine, self)._get_computed_account()
+        # Take product from stock location in case the category allow and
+        # the picking is not notice
+        if (
+            self.product_id.categ_id.stock_account_change
+            and self.product_id.type == "product"
+            and self.move_id.company_id.romanian_accounting
+        ):
+            fiscal_position = self.move_id.fiscal_position_id
+            if self.move_id.is_purchase_document():
+                stock_moves = self.purchase_line_id.move_ids.filtered(
+                    lambda sm: not sm.picking_id.notice
+                )
+                for stock_move in stock_moves.filtered(lambda m: m.state == "done"):
+                    if stock_move.location_dest_id.valuation_in_account_id:
+                        location = stock_move.location_dest_id
+                        res = location.valuation_in_account_id
+            if self.move_id.is_sale_document():
+                sales = self.sale_line_ids.filtered(lambda s: s.move_ids)
+                for sale in sales:
+                    for stock_move in sale.move_ids.filtered(
+                        lambda m: not m.picking_id.notice and m.state == "done"
+                    ):
+                        location = stock_move.location_id
+                        res = location.property_account_income_location_id
+            if fiscal_position:
+                res = fiscal_position.map_account(res)
+        return res
 
     def get_stock_valuation_difference(self):
         """ Se obtine diferenta dintre evaloarea stocului si valoarea din factura"""
@@ -119,10 +149,12 @@ class AccountInvoiceLine(models.Model):
         valuation_price_unit_total = 0
         valuation_total_qty = 0
         for val_stock_move in valuation_stock_moves:
-            # In case val_stock_move is a return move, its valuation entries have been made with the
-            # currency rate corresponding to the original stock move
+            # In case val_stock_move is a return move, its valuation
+            # entries have been made with the currency rate corresponding
+            # to the original stock move
             # valuation_date = (
-            #     val_stock_move.origin_returned_move_id.date or val_stock_move.date
+            #     val_stock_move.origin_returned_move_id.date or
+            #     val_stock_move.date
             # )
             svl = val_stock_move.mapped("stock_valuation_layer_ids").filtered(
                 lambda l: l.quantity
@@ -189,7 +221,8 @@ class AccountInvoiceLine(models.Model):
                 "value": value,
                 "unit_cost": 0,
                 "quantity": 1e-50,
-                # in _stock_account_prepare_anglo_saxon_in_lines_vals se face filtrarea dupa cantitate
+                # in _stock_account_prepare_anglo_saxon_in_lines_vals
+                # se face filtrarea dupa cantitate
                 "remaining_qty": 0,
                 "stock_valuation_layer_id": linked_layer.id,
                 "description": _("Price difference"),
@@ -199,4 +232,5 @@ class AccountInvoiceLine(models.Model):
             }
         )
 
-        # todo de eliminat cantitatea dupa ce se apeleaza _stock_account_prepare_anglo_saxon_in_lines_vals
+        # todo de eliminat cantitatea dupa ce se apeleaza
+        # _stock_account_prepare_anglo_saxon_in_lines_vals

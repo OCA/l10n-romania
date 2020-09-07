@@ -1,4 +1,6 @@
+# Copyright (C) 2014 Forest and Biomass Romania
 # Copyright (C) 2020 NextERP Romania
+# Copyright (C) 2020 Terrabit
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 from odoo import models
 
@@ -7,12 +9,10 @@ class AccountAccount(models.Model):
     _inherit = "account.account"
 
     def init(self, *a):
-        """init called at every install to change the user_type_id for account 408 418
-            this is required to be able to create a invoice with a line with this accounts
-            and a invoice with right base from sale and purchase
-
-            search with('company_id','=',self.env.company.id) is changing at env company
-            search without compnay_id is modify at all the companies from this database
+        """init called at every install to change the user_type_id
+            for accounts 408, 418.This is required to be able to create
+            a invoice with a line with this accounts and a invoice with
+            right base from sale and purchase
         """
         account_408 = self.search([("code", "=", "408000")])
         for account in account_408:

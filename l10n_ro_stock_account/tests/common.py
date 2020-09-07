@@ -16,7 +16,7 @@ class TestStockCommon(SavepointCase):
     @classmethod
     def setUpClass(cls):
         super(TestStockCommon, cls).setUpClass()
-
+        cls.env.user.company_id.romanian_accounting = True
         cls.account_difference = cls.env["account.account"].search(
             [("code", "=", "348000")], limit=1
         )
@@ -89,7 +89,6 @@ class TestStockCommon(SavepointCase):
             "name": "TEST Marfa",
             "property_cost_method": "fifo",
             "property_valuation": "real_time",
-            "property_account_creditor_price_difference_categ": cls.account_difference.id,
             "property_account_income_categ_id": cls.account_income.id,
             "property_account_expense_categ_id": cls.account_expense.id,
             "property_stock_account_input_categ_id": cls.account_valuation.id,
