@@ -101,6 +101,7 @@ class ProductTemplate(models.Model):
         company = self.env.user.company_id
         if not company.romanian_accounting:
             return accounts
+
         property_stock_valuation_account_id = (
             self.property_stock_valuation_account_id
             or self.categ_id.property_stock_valuation_account_id
@@ -114,11 +115,11 @@ class ProductTemplate(models.Model):
         property_stock_usage_giving_account_id = (
             company.property_stock_usage_giving_account_id
         )
-
         if property_stock_valuation_account_id:
             accounts.update(
                 {
                     "stock_input": property_stock_valuation_account_id,
+                    # in Romania iesirea din stoc de face de regula pe contul de cheltuiala
                     "stock_output": property_stock_valuation_account_id,
                     "stock_valuation": property_stock_valuation_account_id,
                 }
@@ -126,38 +127,47 @@ class ProductTemplate(models.Model):
 
         valued_type = self.env.context.get("valued_type", "indefinite")
         _logger.info(valued_type)
-        # in nir si factura furnizor se va utiliza 408
-        if valued_type in [
-            "reception_notice",
-            "reception_notice_return",
-            "invoice_in_notice",
-        ]:
-            if stock_picking_payable_account_id:
-                accounts["stock_input"] = stock_picking_payable_account_id
 
-        # in aviz si factura client se va utiliza 418
+        # in nir si factura se ca utiliza 408
+        if valued_type in ["reception_notice", "invoice_in_notice"]:
+            stock_picking_payable_account_id = (
+                self.env.user.company_id.property_stock_picking_payable_account_id
+            )
+            if stock_picking_payable_account_id:
+                # pt contabilitatea anglo-saxona
+                accounts["stock_input"] = stock_picking_payable_account_id
+                # pentru contabilitate continentala
+                # accounts['expense'] = stock_picking_payable_account_id
+
         elif valued_type == "invoice_out_notice":
+            stock_picking_receivable_account_id = (
+                self.env.user.company_id.property_stock_picking_receivable_account_id
+            )
             if stock_picking_receivable_account_id:
                 accounts["stock_output"] = stock_picking_receivable_account_id
                 accounts["stock_valuation"] = accounts["income"]
                 accounts["income"] = stock_picking_receivable_account_id
 
+        # la inventatiere si productie
+        elif valued_type in ["plus_inventory", "minus_inventory", "production"]:
+            accounts["stock_input"] = accounts["expense"]
+            accounts["stock_output"] = accounts["expense"]
+
         # la vanzare se scoate stocul pe cheltuiala
+        # la consum in productie se foloseste contul de cheltuiala
+        # la
         elif valued_type in [
-            "production",
             "delivery",
             "delivery_notice",
-            "production_return",
-            "delivery_return",
-            "delivery_notice_return",
-            "minus_inventory",
-            "plus_inventory",
+            "consumption",
+            "usage_giving",
         ]:
             accounts["stock_output"] = accounts["expense"]
-            accounts["stock_input"] = accounts["expense"]
 
-        elif valued_type == "usage_giving":
+        # suplimentar la darea in consum mai face o nota contabila
+        elif valued_type == "usage_giving_secondary":
             accounts["stock_output"] = property_stock_usage_giving_account_id
             accounts["stock_input"] = property_stock_usage_giving_account_id
             accounts["stock_valuation"] = property_stock_usage_giving_account_id
+
         return accounts

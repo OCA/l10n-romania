@@ -14,42 +14,24 @@ _logger = logging.getLogger(__name__)
 
 class TestStockCommon(SavepointCase):
     @classmethod
-    def setUpClass(cls):
-        super(TestStockCommon, cls).setUpClass()
-        cls.env.user.company_id.romanian_accounting = True
-        cls.account_difference = cls.env["account.account"].search(
-            [("code", "=", "348000")], limit=1
-        )
+    def setUpAccounts(cls):
+        def get_account(code):
+            account = cls.env["account.account"].search([("code", "=", code)], limit=1)
+            return account
 
-        cls.account_expense = cls.env["account.account"].search(
-            [("code", "=", "607000")], limit=1
-        )
+        cls.account_difference = get_account("348000")
+        cls.account_expense = get_account("607000")
+        cls.account_expense_mp = get_account("601000")
+        cls.account_income = get_account("707000")
+        cls.account_valuation = get_account("371000")
 
-        cls.account_income = cls.env["account.account"].search(
-            [("code", "=", "707000")]
-        )
-
-        # se poate utiliza foarte bine si  408
-        cls.account_input = cls.env["account.account"].search(
-            [("code", "=", "371000.i")]
-        )
-
-        # se poate utiliza foarte bine si  418
-        cls.account_output = cls.env["account.account"].search(
-            [("code", "=", "371000.o")]
-        )
-
-        cls.account_valuation = cls.env["account.account"].search(
-            [("code", "=", "371000")]
-        )
+        cls.account_valuation_mp = get_account("301000")
 
         cls.uneligible_tax_account_id = (
             cls.env.user.company_id.tax_cash_basis_journal_id.default_debit_account_id
         )
         if not cls.uneligible_tax_account_id:
-            cls.uneligible_tax_account_id = cls.env["account.account"].search(
-                [("code", "=", "442810")]
-            )
+            cls.uneligible_tax_account_id = get_account("442810")
 
         cls.env.user.company_id.tax_cash_basis_journal_id.default_debit_account_id = (
             cls.uneligible_tax_account_id
@@ -59,9 +41,7 @@ class TestStockCommon(SavepointCase):
             cls.env.user.company_id.property_stock_picking_payable_account_id
         )
         if not cls.stock_picking_payable_account_id:
-            cls.stock_picking_payable_account_id = cls.env["account.account"].search(
-                [("code", "=", "408000")]
-            )
+            cls.stock_picking_payable_account_id = get_account("408000")
 
         cls.env.user.company_id.property_stock_picking_payable_account_id = (
             cls.stock_picking_payable_account_id
@@ -71,13 +51,29 @@ class TestStockCommon(SavepointCase):
             cls.env.user.company_id.property_stock_picking_receivable_account_id
         )
         if not cls.stock_picking_receivable_account_id:
-            cls.stock_picking_receivable_account_id = cls.env["account.account"].search(
-                [("code", "=", "418000")]
-            )
+            cls.stock_picking_receivable_account_id = get_account("418000")
 
         cls.env.user.company_id.property_stock_picking_receivable_account_id = (
             cls.stock_picking_receivable_account_id
         )
+
+        cls.stock_usage_giving_account_id = (
+            cls.env.user.company_id.property_stock_usage_giving_account_id
+        )
+        if not cls.stock_usage_giving_account_id:
+            cls.stock_usage_giving_account_id = get_account("803500")
+            cls.env.user.company_id.property_stock_usage_giving_account_id = (
+                cls.stock_usage_giving_account_id
+            )
+
+    @classmethod
+    def setUpClass(cls):
+        super(TestStockCommon, cls).setUpClass()
+
+        cls.env.user.company_id.anglo_saxon_accounting = True
+        cls.env.user.company_id.romanian_accounting = True
+
+        cls.setUpAccounts()
 
         stock_journal = cls.env["account.journal"].search([("code", "=", "STJ")])
         if not stock_journal:
@@ -89,6 +85,7 @@ class TestStockCommon(SavepointCase):
             "name": "TEST Marfa",
             "property_cost_method": "fifo",
             "property_valuation": "real_time",
+            "property_account_creditor_price_difference_categ": cls.account_difference.id,
             "property_account_income_categ_id": cls.account_income.id,
             "property_account_expense_categ_id": cls.account_expense.id,
             "property_stock_account_input_categ_id": cls.account_valuation.id,
@@ -102,6 +99,15 @@ class TestStockCommon(SavepointCase):
             cls.category = cls.env["product.category"].create(category_value)
         else:
             cls.category.write(category_value)
+
+        cls.category_mp = cls.category.copy(
+            {
+                "property_account_expense_categ_id": cls.account_expense_mp.id,
+                "property_stock_account_input_categ_id": cls.account_valuation_mp.id,
+                "property_stock_account_output_categ_id": cls.account_valuation_mp.id,
+                "property_stock_valuation_account_id": cls.account_valuation_mp.id,
+            }
+        )
 
         cls.price_p1 = 50.0
         cls.price_p2 = round(random.random() * 100, 2)
@@ -128,6 +134,18 @@ class TestStockCommon(SavepointCase):
                 "invoice_policy": "delivery",
                 "list_price": cls.list_price_p2,
                 "standard_price": cls.price_p2,
+            }
+        )
+
+        cls.product_mp = cls.env["product.product"].create(
+            {
+                "name": "Product MP",
+                "type": "product",
+                "categ_id": cls.category_mp.id,
+                "invoice_policy": "delivery",
+                "purchase_method": "receive",
+                "list_price": cls.list_price_p1,
+                "standard_price": cls.price_p1,
             }
         )
 
@@ -191,22 +209,20 @@ class TestStockCommon(SavepointCase):
             {
                 "default_location_dest_id": cls.location_warehouse.id,
                 "name": "TEST Receptie in Depozit",
-                "sequence_code": "TWIN",
+                "sequence_code": "IN_test",
             }
         )
 
-        cls.location_store = location.copy(
-            {"merchandise_type": "store", "name": "TEST store"}
-        )
-        cls.picking_type_in_store = picking_type_in.copy(
-            {
-                "default_location_dest_id": cls.location_store.id,
-                "name": "TEST Receptie in magazin",
-                "sequence_code": "TSIN",
-            }
-        )
-
-        cls.env.user.company_id.anglo_saxon_accounting = True
+        # cls.location_store = location.copy(
+        #     {"merchandise_type": "store", "name": "TEST store"}
+        # )
+        # cls.picking_type_in_store = picking_type_in.copy(
+        #     {
+        #         "default_location_dest_id": cls.location_store.id,
+        #         "name": "TEST Receptie in magazin",
+        #         "code": 'IN_TS'
+        #     }
+        # )
 
     def create_po(self, notice=False, picking_type_in=None):
 

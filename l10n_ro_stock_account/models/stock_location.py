@@ -27,3 +27,13 @@ class StockLlocation(models.Model):
         help="This account will overwrite the expense accounts from product "
         "or category.",
     )
+
+    # se va folosi   pentru a evalua diferit un produs care se gaseste in aceasta locatie
+    # la intrarea in aceata locatie se va
+    property_stock_valuation_account_id = fields.Many2one(
+        "account.account",
+        string="Stock Valuation Account",
+        company_dependent=True,
+        domain="[('company_id', '=', current_company_id),"
+        "('deprecated', '=', False)]",
+    )

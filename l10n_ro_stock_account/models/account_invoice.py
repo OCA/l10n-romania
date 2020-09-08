@@ -92,30 +92,30 @@ class AccountMoveLine(models.Model):
         res = super(AccountMoveLine, self)._get_computed_account()
         # Take product from stock location in case the category allow and
         # the picking is not notice
-        if (
-            self.product_id.categ_id.stock_account_change
-            and self.product_id.type == "product"
-            and self.move_id.company_id.romanian_accounting
-        ):
-            fiscal_position = self.move_id.fiscal_position_id
-            if self.move_id.is_purchase_document():
-                stock_moves = self.purchase_line_id.move_ids.filtered(
-                    lambda sm: not sm.picking_id.notice
-                )
-                for stock_move in stock_moves.filtered(lambda m: m.state == "done"):
-                    if stock_move.location_dest_id.valuation_in_account_id:
-                        location = stock_move.location_dest_id
-                        res = location.valuation_in_account_id
-            if self.move_id.is_sale_document():
-                sales = self.sale_line_ids.filtered(lambda s: s.move_ids)
-                for sale in sales:
-                    for stock_move in sale.move_ids.filtered(
-                        lambda m: not m.picking_id.notice and m.state == "done"
-                    ):
-                        location = stock_move.location_id
-                        res = location.property_account_income_location_id
-            if fiscal_position:
-                res = fiscal_position.map_account(res)
+        # if (
+        #     self.product_id.categ_id.stock_account_change
+        #     and self.product_id.type == "product"
+        #     and self.move_id.company_id.romanian_accounting
+        # ):
+        #     fiscal_position = self.move_id.fiscal_position_id
+        #     if self.move_id.is_purchase_document():
+        #         stock_moves = self.purchase_line_id.move_ids.filtered(
+        #             lambda sm: not sm.picking_id.notice
+        #         )
+        #         for stock_move in stock_moves.filtered(lambda m: m.state == "done"):
+        #             if stock_move.location_dest_id.valuation_in_account_id:
+        #                 location = stock_move.location_dest_id
+        #                 res = location.valuation_in_account_id
+        #     if self.move_id.is_sale_document():
+        #         sales = self.sale_line_ids.filtered(lambda s: s.move_ids)
+        #         for sale in sales:
+        #             for stock_move in sale.move_ids.filtered(
+        #                 lambda m: not m.picking_id.notice and m.state == "done"
+        #             ):
+        #                 location = stock_move.location_id
+        #                 res = location.property_account_income_location_id
+        #     if fiscal_position:
+        #         res = fiscal_position.map_account(res)
         return res
 
     def get_stock_valuation_difference(self):
