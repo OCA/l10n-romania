@@ -27,9 +27,11 @@ class StockMove(models.Model):
             "delivery_notice_return",
             "plus_inventory",
             "minus_inventory",
-            "internal_transfer",  # transfer intern
             "consumption",  # consum in productie
+            "consumption_return",  # storno consum produse
             "production",  # inregistrare produse finite/semifabricate prin productie
+            "production_return",  # storno productie
+            "internal_transfer",  # transfer intern
             "usage_giving",
         ]
         return valued_types
@@ -213,7 +215,7 @@ class StockMove(models.Model):
         """ Este retur inregistrare produse finite prin productie"""
         it_is = (
             self.env.user.company_id.romanian_accounting
-            and self._is_in()
+            and self._is_out()
             and self.location_dest_id.usage == "production"
             and self.origin_returned_move_id
         )
@@ -221,14 +223,14 @@ class StockMove(models.Model):
 
     def _create_production_return_svl(self, forced_quantity=None):
         move = self.with_context(standard=True, valued_type="production_return")
-        return move._create_in_svl(forced_quantity)
+        return move._create_out_svl(forced_quantity)
 
     def _is_consumption(self):
         """ Este un conusm de materiale in productie"""
         it_is = (
             self.env.user.company_id.romanian_accounting
             and self._is_out()
-            and self.location_dest_id.usage == "production"
+            and self.location_dest_id.usage in ["production", "consume"]
             and not self.origin_returned_move_id
         )
         return it_is
@@ -236,6 +238,20 @@ class StockMove(models.Model):
     def _create_consumption_svl(self, forced_quantity=None):
         move = self.with_context(standard=True, valued_type="consumption")
         return move._create_out_svl(forced_quantity)
+
+    def _is_consumption_return(self):
+        """ Este un conusm de materiale in productie"""
+        it_is = (
+            self.env.user.company_id.romanian_accounting
+            and self._is_in()
+            and self.location_id.usage in ["production", "consume"]
+            and self.origin_returned_move_id
+        )
+        return it_is
+
+    def _create_consumption_return_svl(self, forced_quantity=None):
+        move = self.with_context(standard=True, valued_type="consumption_return")
+        return move._create_in_svl(forced_quantity)
 
     def _is_internal_transfer(self):
         """ Este transfer intern"""
@@ -246,6 +262,7 @@ class StockMove(models.Model):
         )
         return it_is
 
+    # cred ca este mai bine sa generam doua svl - o intrare si o iesire
     def _create_internal_transfer_svl(self, forced_quantity=None):
         svl_vals_list = []
         for move in self.with_context(standard=True, valued_type="internal_transfer"):
@@ -355,14 +372,17 @@ class StockMove(models.Model):
         # if self._is_internal_transfer():
         #     # inregistrare transfer intern
         #     company = self.env.user.company_id
-        #     move = self.with_context(force_company=company.id, valued_type="internal_transfer")
-        #     journal_id, acc_src, acc_dest, acc_valuation = move._get_accounting_data_for_valuation()
+        #     move = self.with_context(
+        #     force_company=company.id, valued_type="internal_transfer")
+        #     journal_id, acc_src, acc_dest, acc_valuation =
+        #     move._get_accounting_data_for_valuation()
         #     if move._is_internal_transfer():
         #         if move.location_id.valuation_out_account_id:
         #             acc_src = move.location_id.valuation_out_account_id.id
         #         if move.location_dest_id.valuation_in_account_id:
         #             acc_dest = move.location_dest_id.valuation_in_account_id.id
-        #     move._create_account_move_line(acc_src, acc_dest, journal_id, qty, description, svl_id, cost)
+        #     move._create_account_move_line(
+        #     acc_src, acc_dest, journal_id, qty, description, svl_id, cost)
 
     def _get_sale_amount(self):
         valuation_amount = 0

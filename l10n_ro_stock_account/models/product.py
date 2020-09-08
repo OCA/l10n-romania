@@ -119,7 +119,6 @@ class ProductTemplate(models.Model):
             accounts.update(
                 {
                     "stock_input": property_stock_valuation_account_id,
-                    # in Romania iesirea din stoc de face de regula pe contul de cheltuiala
                     "stock_output": property_stock_valuation_account_id,
                     "stock_valuation": property_stock_valuation_account_id,
                 }
@@ -148,21 +147,25 @@ class ProductTemplate(models.Model):
                 accounts["stock_valuation"] = accounts["income"]
                 accounts["income"] = stock_picking_receivable_account_id
 
-        # la inventatiere si productie
-        elif valued_type in ["plus_inventory", "minus_inventory", "production"]:
+        elif valued_type in [
+            "plus_inventory",
+            "minus_inventory",
+        ]:
             accounts["stock_input"] = accounts["expense"]
             accounts["stock_output"] = accounts["expense"]
 
-        # la vanzare se scoate stocul pe cheltuiala
-        # la consum in productie se foloseste contul de cheltuiala
-        # la
+        # in Romania iesirea din stoc de face de regula pe contul de cheltuiala
         elif valued_type in [
             "delivery",
             "delivery_notice",
             "consumption",
+            "production_return",
             "usage_giving",
         ]:
             accounts["stock_output"] = accounts["expense"]
+
+        elif valued_type in ["production", "consumption_return", "delivery_return"]:
+            accounts["stock_input"] = accounts["expense"]
 
         # suplimentar la darea in consum mai face o nota contabila
         elif valued_type == "usage_giving_secondary":
