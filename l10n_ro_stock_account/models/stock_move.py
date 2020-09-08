@@ -374,8 +374,8 @@ class StockMove(models.Model):
         return res
 
     def romanian_account_entry_move(self, qty, description, svl_id, cost):
-        # location_from = self.location_id
-        # location_to = self.location_dest_id
+        location_from = self.location_id
+        location_to = self.location_dest_id
         company_from = (
             self._is_out()
             and self.mapped("move_line_ids.location_id.company_id")
@@ -436,6 +436,26 @@ class StockMove(models.Model):
             move._create_account_move_line(
                 acc_src, acc_dest, journal_id, qty, description, svl_id, cost
             )
+
+        if self._is_internal_transfer():
+            company = self.env.user.company_id
+            move = self.with_context(
+                force_company=company.id, valued_type="internal_transfer"
+            )
+            (
+                journal_id,
+                acc_src,
+                acc_dest,
+                acc_valuation,
+            ) = move._get_accounting_data_for_valuation()
+            if location_to.property_stock_valuation_account_id and cost < 0:
+                move._create_account_move_line(
+                    acc_dest, acc_valuation, journal_id, qty, description, svl_id, cost
+                )
+            if location_from.property_stock_valuation_account_id and cost > 0:
+                move._create_account_move_line(
+                    acc_src, acc_valuation, journal_id, qty, description, svl_id, cost
+                )
 
         # if self._is_internal_transfer():
         #     # inregistrare transfer intern
@@ -519,8 +539,8 @@ class StockMove(models.Model):
 
             # produsele din aceasta locatia folosesc pentru evaluare contul
             if location_to.property_stock_valuation_account_id:
-                # in cazul unui transfer intern se va face contare
-                # dintre contul de stoc si contul din locatie
+                # in cazul unui transfer intern se va face contare dintre
+                # contul de stoc si contul din locatie
                 if self.env.context.get("valued_type") == "internal_transfer":
                     acc_dest = location_to.property_stock_valuation_account_id.id
                 else:
@@ -528,8 +548,8 @@ class StockMove(models.Model):
 
             # produsele din aceasta locatia folosesc pentru evaluare contul
             if location_from.property_stock_valuation_account_id:
-                # in cazul unui transfer intern se va face contare
-                # dintre contul de stoc si contul din locatie
+                # in cazul unui transfer intern se va face contare dintre
+                # contul de stoc si contul din locatie
                 if self.env.context.get("valued_type") == "internal_transfer":
                     acc_src = location_from.property_stock_valuation_account_id.id
                 else:
