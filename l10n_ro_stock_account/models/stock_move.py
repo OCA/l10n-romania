@@ -6,6 +6,7 @@
 import logging
 
 from odoo import api, models
+from odoo.tools import float_is_zero
 
 _logger = logging.getLogger(__name__)
 
@@ -33,6 +34,7 @@ class StockMove(models.Model):
             "production_return",  # storno productie
             "internal_transfer",  # transfer intern
             "usage_giving",
+            "usage_giving_return",
         ]
         return valued_types
 
@@ -266,23 +268,89 @@ class StockMove(models.Model):
     def _create_internal_transfer_svl(self, forced_quantity=None):
         svl_vals_list = []
         for move in self.with_context(standard=True, valued_type="internal_transfer"):
-            svl_vals = move._prepare_common_svl_vals()
+            move = move.with_context(force_company=move.company_id.id)
+
+            valued_move_lines = move.move_line_ids
+            valued_quantity = 0
+            for valued_move_line in valued_move_lines:
+                valued_quantity += valued_move_line.product_uom_id._compute_quantity(
+                    valued_move_line.qty_done, move.product_id.uom_id
+                )
+            if float_is_zero(
+                forced_quantity or valued_quantity,
+                precision_rounding=move.product_id.uom_id.rounding,
+            ):
+                continue
+            svl_vals = move.product_id._prepare_out_svl_vals(
+                forced_quantity or valued_quantity, move.company_id
+            )
+            svl_vals.update(move._prepare_common_svl_vals())
+            if forced_quantity:
+                svl_vals["description"] = (
+                    "Correction of %s (modification of past move)"
+                    % move.picking_id.name
+                    or move.name
+                )
             svl_vals_list.append(svl_vals)
+
+        for move in self.with_context(standard=True, valued_type="internal_transfer"):
+            move = move.with_context(force_company=move.company_id.id)
+            valued_move_lines = move.move_line_ids
+            valued_quantity = 0
+            for valued_move_line in valued_move_lines:
+                valued_quantity += valued_move_line.product_uom_id._compute_quantity(
+                    valued_move_line.qty_done, move.product_id.uom_id
+                )
+            unit_cost = abs(
+                move._get_price_unit()
+            )  # May be negative (i.e. decrease an out move).
+            if move.product_id.cost_method == "standard":
+                unit_cost = move.product_id.standard_price
+            svl_vals = move.product_id._prepare_in_svl_vals(
+                forced_quantity or valued_quantity, unit_cost
+            )
+            svl_vals.update(move._prepare_common_svl_vals())
+            if forced_quantity:
+                svl_vals["description"] = (
+                    "Correction of %s (modification of past move)"
+                    % move.picking_id.name
+                    or move.name
+                )
+            svl_vals_list.append(svl_vals)
+
         return self.env["stock.valuation.layer"].sudo().create(svl_vals_list)
 
+        # for move in self.with_context(standard=True, valued_type="internal_transfer"):
+        #     svl_vals = move._prepare_common_svl_vals()
+        #     svl_vals_list.append(svl_vals)
+        # return self.env["stock.valuation.layer"].sudo().create(svl_vals_list)
+
     def _is_usage_giving(self):
-        """ Este dare in folosinta, normal sau retur"""
-        it_is = self.env.user.company_id.romanian_accounting and (
-            self.location_dest_id.usage == "usage_giving"
+        """ Este dare in folosinta"""
+        it_is = (
+            self.env.user.company_id.romanian_accounting
+            and self.location_dest_id.usage == "usage_giving"
             and self._is_out()
-            or self.location_id.usage == "usage_giving"
-            and self._is_in()
         )
+
         return it_is
 
     def _create_usage_giving_svl(self, forced_quantity=None):
         move = self.with_context(standard=True, valued_type="usage_giving")
         return move._create_out_svl(forced_quantity)
+
+    def _is_usage_giving_return(self):
+        """ Este return dare in folosinta"""
+        it_is = (
+            self.env.user.company_id.romanian_accounting
+            and self.location_id.usage == "usage_giving"
+            and self._is_in()
+        )
+        return it_is
+
+    def _create_usage_giving_return_svl(self, forced_quantity=None):
+        move = self.with_context(standard=True, valued_type="usage_giving_return")
+        return move._create_in_svl(forced_quantity)
 
     def _prepare_common_svl_vals(self):
         vals = super(StockMove, self)._prepare_common_svl_vals()
@@ -446,7 +514,25 @@ class StockMove(models.Model):
             if location_to.property_account_expense_location_id:
                 acc_dest = location_to.property_account_expense_location_id.id
 
+            # nu se va putea face tranferul dintre doua locatii care au
+            # setat cont de evaluare
+
+            # produsele din aceasta locatia folosesc pentru evaluare contul
             if location_to.property_stock_valuation_account_id:
-                acc_valuation = location_to.property_stock_valuation_account_id.id
+                # in cazul unui transfer intern se va face contare
+                # dintre contul de stoc si contul din locatie
+                if self.env.context.get("valued_type") == "internal_transfer":
+                    acc_dest = location_to.property_stock_valuation_account_id.id
+                else:
+                    acc_valuation = location_to.property_stock_valuation_account_id.id
+
+            # produsele din aceasta locatia folosesc pentru evaluare contul
+            if location_from.property_stock_valuation_account_id:
+                # in cazul unui transfer intern se va face contare
+                # dintre contul de stoc si contul din locatie
+                if self.env.context.get("valued_type") == "internal_transfer":
+                    acc_src = location_from.property_stock_valuation_account_id.id
+                else:
+                    acc_valuation = location_from.property_stock_valuation_account_id.id
 
         return journal_id, acc_src, acc_dest, acc_valuation

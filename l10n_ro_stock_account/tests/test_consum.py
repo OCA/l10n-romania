@@ -70,13 +70,49 @@ class TestStockConsumn(TestStockCommon):
         _logger.info("Start return transfer")
         self.make_return(picking, 1)
 
+    def test_transfer_in_locatie_evaluata(self):
+        # transfer materia prima in marfa
+
+        self.set_stock(self.product_mp, 1000)
+        location_id = self.picking_type_transfer.default_location_src_id
+        location_dest_id = self.picking_type_transfer.default_location_dest_id
+        location_dest_id.write(
+            {"property_stock_valuation_account_id": self.account_valuation.id}
+        )
+        _logger.info("Start transfer")
+        picking = self.trasfer(location_id, location_dest_id)
+        _logger.info("Tranfer efectuat")
+
+        _logger.info("Start return transfer")
+        self.make_return(picking, 1)
+        location_dest_id.write({"property_stock_valuation_account_id": False})
+
+    def test_transfer_din_locatie_evaluata(self):
+        # transfer materia prima in marfa
+
+        self.set_stock(self.product_mp, 1000)
+        location_id = self.picking_type_transfer.default_location_src_id
+        location_dest_id = self.picking_type_transfer.default_location_dest_id
+        location_id.write(
+            {"property_stock_valuation_account_id": self.account_valuation.id}
+        )
+        _logger.info("Start transfer")
+        picking = self.trasfer(location_id, location_dest_id)
+        _logger.info("Tranfer efectuat")
+
+        _logger.info("Start return transfer")
+        self.make_return(picking, 1)
+        location_id.write({"property_stock_valuation_account_id": False})
+
     def test_consumption(self):
         self.set_stock(self.product_mp, 1000)
         _logger.info("Start Consum in productie")
         location_id = self.picking_type_transfer.default_location_src_id
-        location_dest_id = self.env["stock.location"].search(
-            [("usage", "=", "production")], limit=1
-        )
+        domain = [
+            ("usage", "=", "production"),
+            ("company_id", "=", self.picking_type_transfer.company_id.id),
+        ]
+        location_dest_id = self.env["stock.location"].search(domain, limit=1)
         picking = self.trasfer(location_id, location_dest_id)
         _logger.info("Consum in productie facut")
 
@@ -86,9 +122,11 @@ class TestStockConsumn(TestStockCommon):
     def test_production(self):
         self.set_stock(self.product_mp, 1000)
         _logger.info("Start receptie din productie")
-        location_id = self.env["stock.location"].search(
-            [("usage", "=", "production")], limit=1
-        )
+        domain = [
+            ("usage", "=", "production"),
+            ("company_id", "=", self.picking_type_transfer.company_id.id),
+        ]
+        location_id = self.env["stock.location"].search(domain, limit=1)
         location_dest_id = self.picking_type_transfer.default_location_dest_id
         picking = self.trasfer(location_id, location_dest_id)
         _logger.info("Receptie  din productie facuta")
@@ -100,9 +138,15 @@ class TestStockConsumn(TestStockCommon):
         self.picking_type = self.env.ref("stock.picking_type_internal")
         self.set_stock(self.product_mp, 1000)
         _logger.info("Start dare in folosinta")
+
         location_id = self.picking_type_transfer.default_location_src_id
-        location_dest_id = self.env["stock.location"].search(
-            [("usage", "=", "usage_giving")], limit=1
-        )
-        self.trasfer(location_id, location_dest_id)
+        domain = [
+            ("usage", "=", "usage_giving"),
+            ("company_id", "=", self.picking_type_transfer.company_id.id),
+        ]
+        location_dest_id = self.env["stock.location"].search(domain, limit=1)
+        picking = self.trasfer(location_id, location_dest_id)
         _logger.info("Dare in folosinta facuta")
+
+        _logger.info("Start retur dare in folosinta")
+        self.make_return(picking, 1)
