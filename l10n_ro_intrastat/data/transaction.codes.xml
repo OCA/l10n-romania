@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <data noupdate="1">
+        <record id="intrastat_transaction_1" model="l10n_ro_intrastat.transaction">
+            <field name="code">1</field>
+            <field
+                name="description"
+            >Tranzacții care implică transferul real sau intenționat de proprietate de la rezidenți la nerezidenți în
+                schimbul unei compensații financiare sau de altă natură (cu excepția tranzacțiilor enumerate la pct. 2,
+                7 și 8)
+            </field>
+        </record>
+        <record id="intrastat_transaction_1_1" model="l10n_ro_intrastat.transaction">
+            <field name="code">1.1</field>
+            <field name="parent_id" ref="intrastat_transaction_1" />
+            <field name="description">Achiziția / vânzarea definitivă</field>
+        </record>
+        <record id="intrastat_transaction_1_2" model="l10n_ro_intrastat.transaction">
+            <field name="code">1.2</field>
+            <field name="parent_id" ref="intrastat_transaction_1" />
+            <field
+                name="description"
+            >Furnizarea pentru vânzare la vedere sau cu testare, pentru consignație sau prin intermediul unui agent
+                comisionar
+            </field>
+        </record>
+        <record id="intrastat_transaction_1_3" model="l10n_ro_intrastat.transaction">
+            <field name="code">1.3</field>
+            <field name="parent_id" ref="intrastat_transaction_1" />
+            <field name="description">Comerț în barter - compensație în natură</field>
+        </record>
+        <record id="intrastat_transaction_1_4" model="l10n_ro_intrastat.transaction">
+            <field name="code">1.4</field>
+            <field name="parent_id" ref="intrastat_transaction_1" />
+            <field name="description">Leasing financiar - închiriere-achiziție</field>
+        </record>
+        <record id="intrastat_transaction_1_9" model="l10n_ro_intrastat.transaction">
+            <field name="code">1.9</field>
+            <field name="parent_id" ref="intrastat_transaction_1" />
+            <field name="description">Altele</field>
+        </record>
+        <record id="intrastat_transaction_2" model="l10n_ro_intrastat.transaction">
+            <field name="code">2</field>
+            <field
+                name="description"
+            >Returnări și înlocuiri de bunuri în mod gratuit după înregistrarea tranzacției inițiale
+            </field>
+        </record>
+        <record id="intrastat_transaction_2_1" model="l10n_ro_intrastat.transaction">
+            <field name="code">2.1</field>
+            <field name="parent_id" ref="intrastat_transaction_2" />
+            <field name="description">Returnări de bunuri</field>
+        </record>
+        <record id="intrastat_transaction_2_2" model="l10n_ro_intrastat.transaction">
+            <field name="code">2.2</field>
+            <field name="parent_id" ref="intrastat_transaction_2" />
+            <field name="description">Înlocuiri de bunuri returnate</field>
+        </record>
+        <record id="intrastat_transaction_2_3" model="l10n_ro_intrastat.transaction">
+            <field name="code">2.3</field>
+            <field name="parent_id" ref="intrastat_transaction_2" />
+            <field
+                name="description"
+            >Înlocuiri - de exemplu, sub garanție - a bunurilor care nu au fost returnate
+            </field>
+        </record>
+        <record id="intrastat_transaction_2_9" model="l10n_ro_intrastat.transaction">
+            <field name="code">2.9</field>
+            <field name="parent_id" ref="intrastat_transaction_2" />
+            <field name="description">Altele</field>
+        </record>
+        <record id="intrastat_transaction_3" model="l10n_ro_intrastat.transaction">
+            <field name="code">3</field>
+            <field
+                name="description"
+            >Tranzacții care implică transferul de proprietate fără compensații financiare sau de altă natură (de
+                exemplu, ajutoare)
+            </field>
+        </record>
+        <record id="intrastat_transaction_4" model="l10n_ro_intrastat.transaction">
+            <field name="code">4</field>
+            <field
+                name="description"
+            >Operațiuni în scopul prelucrării pe bază de contract (lohn), (fără transferul dreptului de proprietate
+                către prelucrător)
+            </field>
+        </record>
+        <record id="intrastat_transaction_4_1" model="l10n_ro_intrastat.transaction">
+            <field name="code">4.1</field>
+            <field name="parent_id" ref="intrastat_transaction_4" />
+            <field
+                name="description"
+            >Bunuri destinate reintroducerii în statul membru de unde au fost expediate inițial
+            </field>
+        </record>
+        <record id="intrastat_transaction_4_2" model="l10n_ro_intrastat.transaction">
+            <field name="code">4.2</field>
+            <field name="parent_id" ref="intrastat_transaction_4" />
+            <field
+                name="description"
+            >Bunuri care nu sunt destinate reintroducerii în statul membru de unde au fost expediate inițial
+            </field>
+        </record>
+        <record id="intrastat_transaction_5" model="l10n_ro_intrastat.transaction">
+            <field name="code">5</field>
+            <field
+                name="description"
+            >Operațiuni ca urmare a prelucrării pe bază de contract (lohn), (fără transferul dreptului de proprietate
+                către prelucrător)
+            </field>
+        </record>
+        <record id="intrastat_transaction_5_1" model="l10n_ro_intrastat.transaction">
+            <field name="code">5.1</field>
+            <field name="parent_id" ref="intrastat_transaction_5" />
+            <field
+                name="description"
+            >Bunuri reintroduse în statul membru de unde au fost expediate inițial
+            </field>
+        </record>
+        <record id="intrastat_transaction_5_2" model="l10n_ro_intrastat.transaction">
+            <field name="code">5.2</field>
+            <field name="parent_id" ref="intrastat_transaction_5" />
+            <field
+                name="description"
+            >Bunuri care nu sunt reintroduse în statul membru de unde au fost expediate inițial
+            </field>
+        </record>
+        <record id="intrastat_transaction_6" model="l10n_ro_intrastat.transaction">
+            <field name="code">6</field>
+            <field
+                name="description"
+            >Tranzacții particulare înregistrate pentru scopuri naționale
+            </field>
+        </record>
+        <record id="intrastat_transaction_7" model="l10n_ro_intrastat.transaction">
+            <field name="code">7</field>
+            <field
+                name="description"
+            >Operațiuni în cadrul unor proiecte comune de apărare sau alte programe comune interguvernamentale de
+                producție
+            </field>
+        </record>
+        <record id="intrastat_transaction_8" model="l10n_ro_intrastat.transaction">
+            <field name="code">8</field>
+            <field
+                name="description"
+            >Tranzacții care implică furnizarea de materiale de construcție și echipament tehnic în cadrul unui contract
+                general de construcții sau construcții civile pentru care nu este necesară o facturare separată a
+                bunurilor, fiind emisă numai o factură pentru totalitatea contractului
+            </field>
+        </record>
+        <record id="intrastat_transaction_9" model="l10n_ro_intrastat.transaction">
+            <field name="code">9</field>
+            <field
+                name="description"
+            >Alte tranzacții care nu pot fi clasificate la alte coduri
+            </field>
+        </record>
+        <record id="intrastat_transaction_9_1" model="l10n_ro_intrastat.transaction">
+            <field name="code">9.1</field>
+            <field name="parent_id" ref="intrastat_transaction_9" />
+            <field
+                name="description"
+            >Închirieri, împrumuturi, leasing operațional cu durata de peste 24 de luni
+            </field>
+        </record>
+        <record id="intrastat_transaction_9_9" model="l10n_ro_intrastat.transaction">
+            <field name="code">9.9</field>
+            <field name="parent_id" ref="intrastat_transaction_9" />
+            <field name="description">Altele</field>
+        </record>
+    </data>
+</odoo>

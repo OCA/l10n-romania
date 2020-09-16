@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <data>
+        <!-- Customer Invoice Form -->
+        <record id="view_move_form" model="ir.ui.view">
+            <field name="name">>account.move.invoice_form</field>
+            <field name="model">account.move</field>
+            <field name="inherit_id" ref="account.view_move_form" />
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='fiscal_position_id']" position="after">
+                    <field
+                        name="intrastat_transaction_id"
+                        attrs="{'invisible': ['|',
+                                ('intrastat_country_id', '=', False),
+                                ('type', 'not in', ('out_invoice', 'out_refund', 'in_invoice', 'in_refund'))]}"
+                    />
+                    <field
+                        name="transport_mode_id"
+                        attrs="{'invisible': ['|',
+                                ('intrastat_country_id', '=', False),
+                                ('type', 'not in', ('out_invoice', 'out_refund', 'in_invoice', 'in_refund'))]}"
+                    />
+                    <field
+                        name="intrastat_country_id"
+                        attrs="{'invisible': [('type', 'not in', ('out_invoice', 'out_refund', 'in_invoice', 'in_refund'))]}"
+                        help="Arrival country"
+                        options="{'no_create': True}"
+                    />
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

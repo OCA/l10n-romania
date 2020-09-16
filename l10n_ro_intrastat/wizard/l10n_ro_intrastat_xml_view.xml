@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <data>
+        <record id="view_intrastat_declaration_xml" model="ir.ui.view">
+            <field name="name">Intrastat XML Declaration</field>
+            <field name="model">l10n_ro_intrastat.intrastat_xml_declaration</field>
+            <field name="arch" type="xml">
+                <form>
+                    <!-- Need the field in the view in order to be able to hide or show part of the view according the state  -->
+                    <field name="state" invisible="1" />
+                    <field name="name" invisible="1" />
+                    <group states="draft">
+                        <group>
+                            <field name="month" />
+                            <field name="year" />
+                        </group>
+                        <group>
+                            <field name="type" />
+                            <field name="contact_id" />
+                        </group>
+                        <group>
+                            <field name="cn8" />
+                        </group>
+                    </group>
+                    <div states="download">
+                        <h2>Intrastat Declaration</h2>
+                        <p>Here is the XML file with your intrastat declaration:
+                            <field name="file_save" filename="name" />
+                        </p>
+                    </div>
+                    <footer>
+                        <button
+                            states="draft"
+                            name="create_xml"
+                            string="Create XML"
+                            type="object"
+                            class="oe_highlight"
+                        />
+                        <button
+                            states="draft"
+                            string="Cancel"
+                            class="oe_link"
+                            special="cancel"
+                        />
+                        <button states="download" string="Close" special="cancel" />
+                    </footer>
+                </form>
+            </field>
+        </record>
+        <act_window
+            id="action_intrastat_xml_declaration"
+            name="Intrastat Declaration"
+            res_model="l10n_ro_intrastat.intrastat_xml_declaration"
+            view_mode="form"
+            view_id="view_intrastat_declaration_xml"
+            target="new"
+        />
+        <menuitem
+            name="Intrastat Declaration"
+            parent="menu_intrastat"
+            action="action_intrastat_xml_declaration"
+            id="l10n_ro_intrastat_xml_declaration"
+            groups="account.group_account_manager"
+        />
+    </data>
+</odoo>

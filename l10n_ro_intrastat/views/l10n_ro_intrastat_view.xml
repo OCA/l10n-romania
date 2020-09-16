@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <data>
+        <!-- Transaction Form -->
+        <record model="ir.ui.view" id="intra_view_transaction_form">
+            <field name="name">intra.view.transaction_form</field>
+            <field name="model">l10n_ro_intrastat.transaction</field>
+            <field name="arch" type="xml">
+                <form string="Intrastat transaction form">
+                    <group>
+                        <field name="code" />
+                        <field name="description" />
+                    </group>
+                </form>
+            </field>
+        </record>
+        <!-- Transaction List -->
+        <record model="ir.ui.view" id="intra_view_transaction_tree">
+            <field name="name">intra.view.transaction_tree</field>
+            <field name="model">l10n_ro_intrastat.transaction</field>
+            <field name="arch" type="xml">
+                <tree string="Intrastat transaction types">
+                    <field name="code" />
+                    <field name="description" />
+                </tree>
+            </field>
+        </record>
+        <!-- Transport mode Form -->
+        <record model="ir.ui.view" id="intra_view_transport_mode_form">
+            <field name="name">intra.view.transport_mode_form</field>
+            <field name="model">l10n_ro_intrastat.transport_mode</field>
+            <field name="arch" type="xml">
+                <form string="Intrastat transportation mode form">
+                    <group>
+                        <field name="code" />
+                        <field name="name" />
+                    </group>
+                </form>
+            </field>
+        </record>
+        <!-- Transport mode List -->
+        <record model="ir.ui.view" id="intra_view_transport_mode_tree">
+            <field name="name">intra.view.transport_mode_tree</field>
+            <field name="model">l10n_ro_intrastat.transport_mode</field>
+            <field name="arch" type="xml">
+                <tree string="Intrastat transportation modes">
+                    <field name="code" />
+                    <field name="name" />
+                </tree>
+            </field>
+        </record>
+        <!--        &lt;!&ndash; Category Form &ndash;&gt;-->
+        <!--        <record id="l10n_ro_intrastat_xml_decl_product_category_view" model="ir.ui.view">-->
+        <!--            <field name="name">l10n_ro_intrastat_xml.productcategory_form</field>-->
+        <!--            <field name="model">product.category</field>-->
+        <!--            <field name="inherit_id" ref="product.product_category_form_view"/>-->
+        <!--            <field name="arch" type="xml">-->
+        <!--                <xpath expr="//group[@name='parent']" position="inside">-->
+        <!--                    <group string="Intrastat" colspan="2">-->
+        <!--                        <field name="intrastat_id"/>-->
+        <!--                    </group>-->
+        <!--                </xpath>-->
+        <!--            </field>-->
+        <!--        </record>-->
+        <!-- Company -->
+        <!--        <record id="l10n_ro_intrastat_xml_decl_res_company_form_view" model="ir.ui.view">-->
+        <!--            <field name="name">l10n_ro_intrastat_xml.rescompany_form</field>-->
+        <!--            <field name="model">res.company</field>-->
+        <!--            <field name="inherit_id" ref="base.view_company_form" />-->
+        <!--            <field name="arch" type="xml">-->
+        <!--                <xpath expr="//field[@name='company_registry']" position="after">-->
+        <!--                    <field name="intrastat_transaction_id" groups="l10n_ro_intrastat.intrastat_extended" />-->
+        <!--                    <field name="transport_mode_id" groups="l10n_ro_intrastat.intrastat_extended" />-->
+        <!--                    <field name="incoterm_id" groups="l10n_ro_intrastat.intrastat_extended" />-->
+        <!--                </xpath>-->
+        <!--            </field>-->
+        <!--        </record>-->
+        <!-- Supplier Invoice Form -->
+        <!--        <record id="l10n_ro_intrastat_xml_decl_supp_invoice_view" model="ir.ui.view">
+            <field name="name">l10n_ro_intrastat_xml.suppinvoice_form</field>
+            <field name="model">account.move</field>
+            <field name="inherit_id" ref="account.invoice_supplier_form"/>
+            <field name="arch" type="xml">
+&lt;!&ndash;                <xpath expr="//field[@name='payment_term']" position="after">&ndash;&gt;
+&lt;!&ndash;                    <field name="incoterm_id" groups="l10n_ro_intrastat.intrastat_extended"/>&ndash;&gt;
+&lt;!&ndash;                </xpath>&ndash;&gt;
+                <xpath expr="//field[@name='fiscal_position_id']" position="after">
+                    <field name="intrastat_transaction_id" />
+                    <field name="transport_mode_id" groups="l10n_ro_intrastat.intrastat_extended"/>
+
+                    <field name="intrastat_country_id" help="Dispatch country" options="{'no_create': True}"/>
+                </xpath>
+            </field>
+
+        </record>-->
+        <record id="view_report_intrastat_tree" model="ir.ui.view">
+            <field name="name">report.intrastat.tree</field>
+            <field name="model">report.intrastat</field>
+            <field name="arch" type="xml">
+                <tree string="Intrastat Data" create="false" delete="false">
+                    <field name="name" />
+                    <field name="month" />
+                    <field name="code" />
+                    <field name="ref" />
+                    <field name="intrastat_name" />
+                    <field name="weight" />
+                    <field name="value" widget="monetary" />
+                    <field name="supply_units" />
+                    <field name="currency_id" groups="base.group_multi_currency" />
+                    <field name="type" />
+                </tree>
+            </field>
+        </record>
+        <record id="view_report_intrastat_search" model="ir.ui.view">
+            <field name="name">report.intrastat.search</field>
+            <field name="model">report.intrastat</field>
+            <field name="arch" type="xml">
+                <search string="Intrastat Data">
+                    <field
+                        name="name"
+                        filter_domain="['|', ('name','ilike',self), ('code','ilike',self)]"
+                        string="Intrastat Data"
+                    />
+                    <field name="month" />
+                    <field name="type" />
+                    <field name="intrastat_name" />
+                </search>
+            </field>
+        </record>
+        <record id="action_report_intrastat_tree_all" model="ir.actions.act_window">
+            <field name="name">Intrastat</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">report.intrastat</field>
+            <field name="view_mode">tree,kanban</field>
+            <field name="search_view_id" ref="view_report_intrastat_search" />
+        </record>
+        <menuitem
+            id="menu_intrastat"
+            name="Intrastat"
+            parent="account.menu_finance_reports"
+            groups="account.group_account_manager"
+        />
+        <menuitem
+            id="menu_report_intrastat_all"
+            action="action_report_intrastat_tree_all"
+            parent="menu_intrastat"
+            sequence="19"
+        />
+    </data>
+</odoo>
