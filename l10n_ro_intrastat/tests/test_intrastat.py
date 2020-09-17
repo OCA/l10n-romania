@@ -4,7 +4,7 @@
 
 from odoo.tests import Form
 from odoo.tests.common import TransactionCase
-
+from odoo.exceptions import UserError
 
 class TestIntrastat(TransactionCase):
     def setUp(self):
@@ -22,9 +22,20 @@ class TestIntrastat(TransactionCase):
             }
         )
 
+        self.product_2 = self.env["product.product"].create(
+            {
+                "name": "Test intrastat",
+                "invoice_policy": "order",
+
+            }
+        )
+
     def test_name(self):
         intrastat = self.env["account.intrastat.code"]._name_search("84221100")
         self.assertEqual(self.intrastat.id, intrastat[0][0])
+
+        self.product_1.categ_id.search_intrastat_code()
+
 
     def test_invoice_purchase(self):
         country = self.env.ref("base.de")
@@ -32,7 +43,7 @@ class TestIntrastat(TransactionCase):
             {"name": "TEST Vendor", "country_id": country.id}
         )
 
-        invoice = Form(self.env["account.move"].with_context(default_type="in_refund"))
+        invoice = Form(self.env["account.move"].with_context(default_type="in_invoice"))
         invoice.partner_id = partner_de
         invoice.intrastat_transaction_id = self.env.ref(
             "l10n_ro_intrastat.intrastat_transaction_1_1"
@@ -88,3 +99,52 @@ class TestIntrastat(TransactionCase):
         wizard.type = "dispatches"
         wizard = wizard.save()
         wizard.create_xml()
+
+    def test_error(self):
+        country = self.env.ref("base.de")
+        partner_de = self.env["res.partner"].create(
+            {"name": "TEST Vendor", "country_id": country.id}
+        )
+
+        invoice = Form(self.env["account.move"].with_context(default_type="in_invoice"))
+        invoice.partner_id = partner_de
+
+        with invoice.invoice_line_ids.new() as line_form:
+            line_form.product_id = self.product_2
+            line_form.price_unit = 10
+            line_form.quantity = 20
+
+        invoice = invoice.save()
+        invoice.post()
+
+
+        wizard = Form(self.env["l10n_ro_intrastat.intrastat_xml_declaration"])
+        wizard.contact_id = self.env.user.partner_id
+        wizard = wizard.save()
+
+        with self.assertRaises(UserError):
+            wizard.create_xml()
+
+        intrastat_transaction = self.env.ref(
+            "l10n_ro_intrastat.intrastat_transaction_1_1"
+        )
+        invoice.write({
+            'intrastat_transaction_id':intrastat_transaction.id
+        })
+        with self.assertRaises(UserError):
+            wizard.create_xml()
+
+        transport_mode = self.env.ref("l10n_ro_intrastat.intrastat_trmode_3")
+        invoice.write({
+            'transport_mode_id': transport_mode.id
+        })
+        with self.assertRaises(UserError):
+            wizard.create_xml()
+
+        invoice_incoterm = self.env.ref("account.incoterm_EXW")
+        invoice.write({
+            'invoice_incoterm_id': invoice_incoterm.id
+        })
+        with self.assertRaises(UserError):
+            wizard.create_xml()
+
