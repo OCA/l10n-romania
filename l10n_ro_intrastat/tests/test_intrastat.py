@@ -2,9 +2,10 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html)
 
 
+from odoo.exceptions import UserError
 from odoo.tests import Form
 from odoo.tests.common import TransactionCase
-from odoo.exceptions import UserError
+
 
 class TestIntrastat(TransactionCase):
     def setUp(self):
@@ -23,11 +24,7 @@ class TestIntrastat(TransactionCase):
         )
 
         self.product_2 = self.env["product.product"].create(
-            {
-                "name": "Test intrastat",
-                "invoice_policy": "order",
-
-            }
+            {"name": "Test intrastat", "invoice_policy": "order"}
         )
 
     def test_name(self):
@@ -35,7 +32,6 @@ class TestIntrastat(TransactionCase):
         self.assertEqual(self.intrastat.id, intrastat[0][0])
 
         self.product_1.categ_id.search_intrastat_code()
-
 
     def test_invoice_purchase(self):
         country = self.env.ref("base.de")
@@ -117,7 +113,6 @@ class TestIntrastat(TransactionCase):
         invoice = invoice.save()
         invoice.post()
 
-
         wizard = Form(self.env["l10n_ro_intrastat.intrastat_xml_declaration"])
         wizard.contact_id = self.env.user.partner_id
         wizard = wizard.save()
@@ -128,23 +123,16 @@ class TestIntrastat(TransactionCase):
         intrastat_transaction = self.env.ref(
             "l10n_ro_intrastat.intrastat_transaction_1_1"
         )
-        invoice.write({
-            'intrastat_transaction_id':intrastat_transaction.id
-        })
+        invoice.write({"intrastat_transaction_id": intrastat_transaction.id})
         with self.assertRaises(UserError):
             wizard.create_xml()
 
         transport_mode = self.env.ref("l10n_ro_intrastat.intrastat_trmode_3")
-        invoice.write({
-            'transport_mode_id': transport_mode.id
-        })
+        invoice.write({"transport_mode_id": transport_mode.id})
         with self.assertRaises(UserError):
             wizard.create_xml()
 
         invoice_incoterm = self.env.ref("account.incoterm_EXW")
-        invoice.write({
-            'invoice_incoterm_id': invoice_incoterm.id
-        })
+        invoice.write({"invoice_incoterm_id": invoice_incoterm.id})
         with self.assertRaises(UserError):
             wizard.create_xml()
-
