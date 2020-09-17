@@ -182,17 +182,17 @@ class ResConfigSettings(models.TransientModel):
         readonly=False,
     )
 
-    property_trade_discount_granted_account_id = fields.Many2one(
-        "account.account",
-        string="Trade discounts granted",
-        related="company_id.property_trade_discount_granted_account_id",
+    property_trade_discount_received_account_id = fields.Many2one(
+        "account.fiscal.position",
+        string="Trade discounts received",
+        related="company_id.property_trade_discount_received_account_id",
         readonly=False,
     )
 
-    property_vat_on_payment_position_id = fields.Many2one(
+    property_trade_discount_granted_account_id = fields.Many2one(
         "account.fiscal.position",
-        string="VAT on Payment",
-        related="company_id.property_vat_on_payment_position_id",
+        string="Trade discounts granted",
+        related="company_id.property_trade_discount_granted_account_id",
         readonly=False,
     )
 
