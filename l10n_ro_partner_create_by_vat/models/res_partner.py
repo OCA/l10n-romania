@@ -26,6 +26,16 @@ ANAF_URL = "https://webservicesp.anaf.ro/PlatitorTvaRest/api/v4/ws/tva"
 class ResPartner(models.Model):
     _inherit = "res.partner"
 
+    def _map_vat_country_code(self, country_code):
+        country_code_map = {
+            "RE": "FR",
+            "GP": "FR",
+            "MQ": "FR",
+            "GF": "FR",
+            "EL": "GR",
+        }
+        return country_code_map.get(country_code, country_code)
+
     @api.model
     def _get_Anaf(self, cod, data=False):
         # Function to get datas from ANAF Webservice
@@ -52,15 +62,11 @@ class ResPartner(models.Model):
         }
         addr = city = ""
         if result.get("adresa"):
-            lines = [x for x in result["adresa"].replace("NR,", "NR.").split(",") if x]
-            nostreet = True
-            strlistabr = ["STR.", "ALEEA", "CAL.", "INTR.", "BD-UL"]
-            for line in lines:
-                if any([x in line for x in strlistabr]):
-                    nostreet = False
-                    break
-            if nostreet:
-                addr = "Principala "
+            sector = False
+            address = result["adresa"].replace("NR,", "NR.").upper()
+            if "SECTOR " in address and "BUCUREŞTI" in address:
+                sector = True
+            lines = [x for x in address.split(",") if x]
             for line in lines:
                 line = line.encode("utf8").translate(CEDILLATRANS).decode("utf8")
                 if "JUD." in line:
@@ -71,6 +77,16 @@ class ResPartner(models.Model):
                         res["state_id"] = state[0].id
                 elif "MUN." in line:
                     city = line.replace("MUN.", "").strip().title()
+                elif sector and "MUNICIPIUL" in line:
+                    state = self.env["res.country.state"].search(
+                        [("name", "=", line.replace("MUNICIPIUL", "").strip().title())]
+                    )
+                    if state:
+                        res["state_id"] = state[0].id
+                elif not sector and "MUNICIPIUL" in line:
+                    city = line.replace("MUNICIPIUL", "").strip().title()
+                elif sector and "SECTOR " in line:
+                    city = line.strip().title()
                 elif "ORȘ." in line:
                     city = line.replace("ORȘ.", "").strip().title()
                 elif "COM." in line:
@@ -84,7 +100,7 @@ class ResPartner(models.Model):
         res["street"] = addr.strip()
         return res
 
-    @api.onchange("vat")
+    @api.onchange("vat", "country_id")
     def ro_vat_change(self):
         for partner in self:
             if not partner.vat:
@@ -92,6 +108,12 @@ class ResPartner(models.Model):
             res = {}
             vat = partner.vat.strip().upper()
             vat_country, vat_number = partner._split_vat(vat)
+            if not vat_country and partner.country_id:
+                vat_country = self._map_vat_country_code(
+                    partner.country_id.code.upper()
+                ).lower()
+                if not vat_number:
+                    vat_number = partner.vat
             if vat_country == "ro":
                 try:
                     result = partner._get_Anaf(vat_number)
@@ -105,4 +127,28 @@ class ResPartner(models.Model):
                         .search([("code", "ilike", vat_country)])[0]
                         .id
                     )
-                    partner.update(res)
+                    partner.with_context(skip_ro_vat_change=True).update(res)
+
+    def _split_vat(self, vat):
+        # Allowing setting the vat without country code
+        vat_country = vat_number = ""
+        if vat and vat.isdigit():
+            partner = self.search([("vat", "=", vat)], limit=1)
+            if partner and partner.country_id:
+                vat_country = self._map_vat_country_code(
+                    partner.country_id.code.upper()
+                ).lower()
+                vat_number = vat
+        else:
+            vat_country, vat_number = super(ResPartner, self)._split_vat(vat)
+        return vat_country, vat_number
+
+    @api.onchange("vat_subjected")
+    def onchange_vat_subjected(self):
+        if not self.env.context.get("skip_ro_vat_change"):
+            if self.vat and self.vat.isdigit() and self.vat_subjected:
+                vat_country = self._map_vat_country_code(self.country_id.code.upper())
+                self.vat = vat_country + self.vat
+            elif self.vat and not self.vat.isdigit() and not self.vat_subjected:
+                vat_country, vat_number = self._split_vat(self.vat)
+                self.vat = vat_number
