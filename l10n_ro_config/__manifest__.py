@@ -14,7 +14,8 @@
     "depends": ["l10n_ro", "base_vat"],
     "data": [
         "views/res_partner_view.xml",
-        "views/report_templates.xml",
+        "views/common_report.xml",
+        # "views/report_templates.xml",
         "views/res_config_view.xml",
         "views/res_bank_view.xml",
     ],
