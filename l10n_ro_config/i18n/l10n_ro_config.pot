@@ -14,31 +14,6 @@ msgstr ""
 "Plural-Forms: \n"
 
 #. module: l10n_ro_config
-#: model_terms:ir.ui.view,arch_db:l10n_ro_config.external_layout_background
-msgid "<i class=\"fa fa-at\" role=\"img\" aria-label=\"Email\" title=\"Email\"/>"
-msgstr ""
-
-#. module: l10n_ro_config
-#: model_terms:ir.ui.view,arch_db:l10n_ro_config.external_layout_background
-msgid "<i class=\"fa fa-building-o\" role=\"img\" aria-label=\"Fiscal number\"/>"
-msgstr ""
-
-#. module: l10n_ro_config
-#: model_terms:ir.ui.view,arch_db:l10n_ro_config.external_layout_background
-msgid "<i class=\"fa fa-building-o\" role=\"img\" aria-label=\"NRC\" title=\"NRC\"/>NRC:"
-msgstr ""
-
-#. module: l10n_ro_config
-#: model_terms:ir.ui.view,arch_db:l10n_ro_config.external_layout_background
-msgid "<i class=\"fa fa-globe\" role=\"img\" aria-label=\"Website\" title=\"Website\"/>"
-msgstr ""
-
-#. module: l10n_ro_config
-#: model_terms:ir.ui.view,arch_db:l10n_ro_config.external_layout_background
-msgid "<i class=\"fa fa-phone\" role=\"img\" aria-label=\"Phone\" title=\"Phone\"/>"
-msgstr ""
-
-#. module: l10n_ro_config
 #: model_terms:ir.ui.view,arch_db:l10n_ro_config.res_config_settings_view_form
 msgid ""
 "<span class=\"fa fa-lg fa-building-o\" title=\"Values set here are company-"
@@ -47,19 +22,33 @@ msgid ""
 msgstr ""
 
 #. module: l10n_ro_config
-#: model_terms:ir.ui.view,arch_db:l10n_ro_config.external_layout_background
-#: model_terms:ir.ui.view,arch_db:l10n_ro_config.external_layout_boxed
-#: model_terms:ir.ui.view,arch_db:l10n_ro_config.external_layout_clean
-#: model_terms:ir.ui.view,arch_db:l10n_ro_config.external_layout_standard
+#: model_terms:ir.ui.view,arch_db:l10n_ro_config.banks
 msgid "<strong>Account:</strong>"
 msgstr ""
 
 #. module: l10n_ro_config
-#: model_terms:ir.ui.view,arch_db:l10n_ro_config.external_layout_background
-#: model_terms:ir.ui.view,arch_db:l10n_ro_config.external_layout_boxed
-#: model_terms:ir.ui.view,arch_db:l10n_ro_config.external_layout_clean
-#: model_terms:ir.ui.view,arch_db:l10n_ro_config.external_layout_standard
+#: model_terms:ir.ui.view,arch_db:l10n_ro_config.report_address_company
+msgid "<strong>Address:</strong>"
+msgstr ""
+
+#. module: l10n_ro_config
+#: model_terms:ir.ui.view,arch_db:l10n_ro_config.banks
 msgid "<strong>Bank:</strong>"
+msgstr ""
+
+#. module: l10n_ro_config
+#: model_terms:ir.ui.view,arch_db:l10n_ro_config.report_address_company
+msgid "<strong>Company</strong>"
+msgstr ""
+
+#. module: l10n_ro_config
+#: model_terms:ir.ui.view,arch_db:l10n_ro_config.report_address_company
+msgid "<strong>NRC:</strong>"
+msgstr ""
+
+#. module: l10n_ro_config
+#: model_terms:ir.ui.view,arch_db:l10n_ro_config.report_address_company
+msgid "<strong>Share Capital:</strong>"
 msgstr ""
 
 #. module: l10n_ro_config
@@ -83,7 +72,7 @@ msgid "Account D394 Report"
 msgstr ""
 
 #. module: l10n_ro_config
-#: model:ir.model.fields,field_description:l10n_ro_config.field_res_config_settings__module_l10n_ro_account_report_intrastat
+#: model:ir.model.fields,field_description:l10n_ro_config.field_res_config_settings__module_l10n_ro_intrastat
 msgid "Account Intrastat Report"
 msgstr ""
 
@@ -181,8 +170,23 @@ msgid "Extend the  partner addres field with flat number, staircase.."
 msgstr ""
 
 #. module: l10n_ro_config
+#: model:ir.model.fields,field_description:l10n_ro_config.field_res_company__property_inverse_taxation_position_id
+msgid "Fiscal Position for Inverse Taxation"
+msgstr ""
+
+#. module: l10n_ro_config
+#: model:ir.model.fields,field_description:l10n_ro_config.field_res_company__property_vat_on_payment_position_id
+msgid "Fiscal Position for VAT on Payment"
+msgstr ""
+
+#. module: l10n_ro_config
 #: model_terms:ir.ui.view,arch_db:l10n_ro_config.res_config_settings_view_form
 msgid "Install BNR update rates"
+msgstr ""
+
+#. module: l10n_ro_config
+#: model:ir.model.fields,field_description:l10n_ro_config.field_res_config_settings__property_inverse_taxation_position_id
+msgid "Inverse Taxation"
 msgstr ""
 
 #. module: l10n_ro_config
@@ -201,21 +205,9 @@ msgid "NRC"
 msgstr ""
 
 #. module: l10n_ro_config
-#: model_terms:ir.ui.view,arch_db:l10n_ro_config.external_layout_boxed
-#: model_terms:ir.ui.view,arch_db:l10n_ro_config.external_layout_clean
-#: model_terms:ir.ui.view,arch_db:l10n_ro_config.external_layout_standard
-msgid "NRC:"
-msgstr ""
-
-#. module: l10n_ro_config
 #: model:ir.model.fields,field_description:l10n_ro_config.field_res_company__property_uneligible_tax_account_id
 #: model:ir.model.fields,field_description:l10n_ro_config.field_res_config_settings__property_uneligible_tax_account_id
 msgid "Not Eligible Tax Account"
-msgstr ""
-
-#. module: l10n_ro_config
-#: model_terms:ir.ui.view,arch_db:l10n_ro_config.external_layout_background
-msgid "Page: <span class=\"page\"/> / <span class=\"topage\"/>"
 msgstr ""
 
 #. module: l10n_ro_config
@@ -260,8 +252,18 @@ msgid "Print in Report"
 msgstr ""
 
 #. module: l10n_ro_config
+#: model_terms:ir.ui.view,arch_db:l10n_ro_config.res_config_settings_view_form
+msgid "Record cost of goods sold in your journal entries"
+msgstr ""
+
+#. module: l10n_ro_config
 #: model:ir.model.fields,help:l10n_ro_config.field_res_company__company_registry
 msgid "Registration number at the Registry of Commerce"
+msgstr ""
+
+#. module: l10n_ro_config
+#: model_terms:ir.ui.view,arch_db:l10n_ro_config.res_config_settings_view_form
+msgid "Registration of accounting move according to Romanian legislation"
 msgstr ""
 
 #. module: l10n_ro_config
@@ -502,7 +504,7 @@ msgid "This module will add the D394 report."
 msgstr ""
 
 #. module: l10n_ro_config
-#: model:ir.model.fields,help:l10n_ro_config.field_res_config_settings__module_l10n_ro_account_report_intrastat
+#: model:ir.model.fields,help:l10n_ro_config.field_res_config_settings__module_l10n_ro_intrastat
 msgid "This module will add the Intrastat report."
 msgstr ""
 
@@ -546,9 +548,27 @@ msgid ""
 msgstr ""
 
 #. module: l10n_ro_config
+#: model:ir.model.fields,field_description:l10n_ro_config.field_res_company__property_trade_discount_granted_account_id
+#: model:ir.model.fields,field_description:l10n_ro_config.field_res_config_settings__property_trade_discount_granted_account_id
+msgid "Trade discounts granted"
+msgstr ""
+
+#. module: l10n_ro_config
+#: model:ir.model.fields,field_description:l10n_ro_config.field_res_company__property_trade_discount_received_account_id
+#: model:ir.model.fields,field_description:l10n_ro_config.field_res_config_settings__property_trade_discount_received_account_id
+msgid "Trade discounts received"
+msgstr ""
+
+#. module: l10n_ro_config
 #: model:ir.model.fields,field_description:l10n_ro_config.field_res_company__property_stock_usage_giving_account_id
 #: model:ir.model.fields,field_description:l10n_ro_config.field_res_config_settings__property_stock_usage_giving_account_id
 msgid "Usage Giving Account"
+msgstr ""
+
+#. module: l10n_ro_config
+#: model:ir.model.fields,field_description:l10n_ro_config.field_res_company__romanian_accounting
+#: model:ir.model.fields,field_description:l10n_ro_config.field_res_config_settings__use_romanian_accounting
+msgid "Use Romanian Accounting"
 msgstr ""
 
 #. module: l10n_ro_config
@@ -558,8 +578,13 @@ msgid "VAT Legal Statement"
 msgstr ""
 
 #. module: l10n_ro_config
+#: model:ir.model.fields,field_description:l10n_ro_config.field_res_config_settings__property_vat_on_payment_position_id
+msgid "VAT on Payment"
+msgstr ""
+
+#. module: l10n_ro_config
 #: model:ir.model.fields,field_description:l10n_ro_config.field_res_config_settings__module_l10n_ro_vat_on_payment
-msgid "VAT_on_payment"
+msgid "VAT on payment"
 msgstr ""
 
 #. module: l10n_ro_config
