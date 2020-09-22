@@ -42,7 +42,8 @@
                             <span t-field="company.website" />
                         </li>
                         <br />
-                        <li t-if="company.vat" class="list-inline-item"><i
+                        <li t-if="company.vat" class="list-inline-item">
+                            <i
                                 class="fa fa-building-o"
                                 role="img"
                                 aria-label="Fiscal number"
@@ -61,39 +62,25 @@
                                 role="img"
                                 aria-label="NRC"
                                 title="NRC"
-                            />NRC: <span t-field="company.partner_id.nrc" />
+                            />NRC:
+                            <span t-field="company.partner_id.nrc" />
                         </li>
                     </ul>
                 </div>
                 <div class="row">
                     <div class="col-6">
-                        <div
-                            t-foreach="company.partner_id.bank_ids"
-                            t-as="bank"
-                            id="partner_bank"
-                        >
-                            <t t-if="bank.print_report">
-                                <div t-if="bank.bank_name">
-                                    <strong>Bank:</strong>
-                                    <span t-field="bank.bank_name" />
-                                </div>
-                                <div t-if="bank.acc_number">
-                                    <strong>Account:</strong>
-                                    <span t-field="bank.acc_number" /> - <strong
-                                        t-if="bank.currency_id"
-                                    >
-                                        <span t-field="bank.currency_id" />
-                                    </strong>
-                                </div>
-                            </t>
-                        </div>
+                        <t t-set="partner_id" t-value="company.partner_id" />
+                        <t t-call="l10n_ro_config.banks" />
                     </div>
                     <div class="col-4" t-field="company.report_footer" />
                     <div
                         class="col-2 text-right"
                         style="margin-right: -5px; margin-bottom: -5px;"
                     >
-                        Page: <span class="page" /> / <span class="topage" />
+                        Page:
+                        <span class="page" />
+                        /
+                        <span class="topage" />
                     </div>
                 </div>
             </div>
@@ -101,22 +88,8 @@
     </template>
     <template id="external_layout_boxed" inherit_id="web.external_layout_boxed">
         <span t-field="company.partner_id" position="after">
-            <div t-foreach="company.partner_id.bank_ids" t-as="bank" id="partner_bank">
-                <t t-if="bank.print_report">
-                    <div t-if="bank.bank_name">
-                        <strong>Bank:</strong>
-                        <span t-field="bank.bank_name" />
-                    </div>
-                    <div t-if="bank.acc_number">
-                        <strong>Account:</strong>
-                        <span t-field="bank.acc_number" /> - <strong
-                            t-if="bank.currency_id"
-                        >
-                            <span t-field="bank.currency_id" />
-                        </strong>
-                    </div>
-                </t>
-            </div>
+            <t t-set="partner_id" t-value="company.partner_id" />
+            <t t-call="l10n_ro_config.banks" />
         </span>
         <span t-field="company.vat" position="replace">
             <t t-if="company.partner_id.vat_subjected">
@@ -127,9 +100,9 @@
             </t>
         </span>
         <li t-if="company.vat" position="after">
-            <li t-if="company.partner_id.nrc">NRC: <span
-                    t-field="company.partner_id.nrc"
-                /></li>
+            <li t-if="company.partner_id.nrc">NRC:
+                <span t-field="company.partner_id.nrc" />
+            </li>
         </li>
     </template>
     <template id="external_layout_clean" inherit_id="web.external_layout_clean">
@@ -142,51 +115,19 @@
             </t>
         </span>
         <li t-if="company.vat" position="after">
-            <li t-if="company.partner_id.nrc">NRC: <span
-                    t-field="company.partner_id.nrc"
-                /></li>
+            <li t-if="company.partner_id.nrc">NRC:
+                <span t-field="company.partner_id.nrc" />
+            </li>
             <li t-if="company.partner_id.bank_ids">
-                <div
-                    t-foreach="company.partner_id.bank_ids"
-                    t-as="bank"
-                    id="partner_bank"
-                >
-                    <t t-if="bank.print_report">
-                        <div t-if="bank.bank_name">
-                            <strong>Bank:</strong>
-                            <span t-field="bank.bank_name" />
-                        </div>
-                        <div t-if="bank.acc_number">
-                            <strong>Account:</strong>
-                            <span t-field="bank.acc_number" /> - <strong
-                                t-if="bank.currency_id"
-                            >
-                                <span t-field="bank.currency_id" />
-                            </strong>
-                        </div>
-                    </t>
-                </div>
+                <t t-set="partner_id" t-value="company.partner_id" />
+                <t t-call="l10n_ro_config.banks" />
             </li>
         </li>
     </template>
     <template id="external_layout_standard" inherit_id="web.external_layout_standard">
         <div t-field="company.partner_id" position="after">
-            <div t-foreach="company.partner_id.bank_ids" t-as="bank" id="partner_bank">
-                <t t-if="bank.print_report">
-                    <div t-if="bank.bank_name">
-                        <strong>Bank:</strong>
-                        <span t-field="bank.bank_name" />
-                    </div>
-                    <div t-if="bank.acc_number">
-                        <strong>Account:</strong>
-                        <span t-field="bank.acc_number" /> - <strong
-                            t-if="bank.currency_id"
-                        >
-                            <span t-field="bank.currency_id" />
-                        </strong>
-                    </div>
-                </t>
-            </div>
+            <t t-set="partner_id" t-value="company.partner_id" />
+            <t t-call="l10n_ro_config.banks" />
         </div>
         <li t-if="company.vat" position="replace">
             <li t-if="company.vat" class="list-inline-item d-inline"><t
@@ -199,10 +140,9 @@
                     <span t-esc="company.partner_id.vat[2:20]" />
                 </t>
             </li>
-            <li
-                t-if="company.partner_id.nrc"
-                class="list-inline-item d-inline"
-            >NRC: <span t-field="company.partner_id.nrc" /></li>
+            <li t-if="company.partner_id.nrc" class="list-inline-item d-inline">NRC:
+                <span t-field="company.partner_id.nrc" />
+            </li>
         </li>
     </template>
 </odoo>
