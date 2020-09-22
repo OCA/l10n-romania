@@ -28,7 +28,7 @@ class ProductCategory(models.Model):
     @api.depends("name")
     def _compute_hide_accounts(self):
         for record in self:
-            if record.env.company.romanian_accounting:
+            if self._context.get('is_romanian_accounting'):
                 record.hide_stock_in_out_account = True
             else:
                 record.hide_stock_in_out_account = False
@@ -43,7 +43,7 @@ class ProductCategory(models.Model):
         stock_valuation, stock_output and stock_input
         are the same
         """
-        if self.env.company.romanian_accounting:
+        if self._context.get('is_romanian_accounting'):
             # is a romanian company:
             for record in self:
                 stock_input = record.property_stock_account_input_categ_id
@@ -95,11 +95,11 @@ class ProductTemplate(models.Model):
     )
 
     def _get_product_accounts(self):
-
+        import ipdb; ipdb.set_trace(context=10)
         accounts = super(ProductTemplate, self)._get_product_accounts()
 
-        company = self.env.user.company_id
-        if not company.romanian_accounting:
+        company = self.env['res.company'].browse(self._context.get('force_company')) or self.env.user.company_id
+        if not self._context.get('is_romanian_accounting'):
             return accounts
 
         property_stock_valuation_account_id = (
@@ -161,11 +161,11 @@ class ProductTemplate(models.Model):
             "consumption",
             "production_return",
             "usage_giving",
-        ]:
-            accounts["stock_output"] = accounts["expense"]
+            "production",
+            "consumption_return",
+            "delivery_return"]:
 
-        elif valued_type in ["production", "consumption_return", "delivery_return"]:
-            accounts["stock_input"] = accounts["expense"]
+            accounts["stock_output"] = accounts["expense"]
 
         # suplimentar la darea in consum mai face o nota contabila
         elif valued_type == "usage_giving_secondary":
