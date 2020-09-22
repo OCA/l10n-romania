@@ -10,6 +10,7 @@ class ResCompany(models.Model):
 
     share_capital = fields.Float(string="Share Capital", digits="Account", default=200)
     company_registry = fields.Char(related="partner_id.nrc", readonly=False)
+    romanian_accounting = fields.Boolean(string="Use Romanian Accounting")
     property_stock_picking_payable_account_id = fields.Many2one(
         "account.account",
         string="Picking Account Payable",
@@ -52,4 +53,18 @@ class ResCompany(models.Model):
         help="This account will be used as an intermediary account for "
         "account move line generated from internal moves between company "
         "stores.",
+    )
+
+    property_trade_discount_received_account_id = fields.Many2one(
+        "account.account", string="Trade discounts received"
+    )
+    property_trade_discount_granted_account_id = fields.Many2one(
+        "account.account", string="Trade discounts granted"
+    )
+
+    property_vat_on_payment_position_id = fields.Many2one(
+        "account.fiscal.position", "Fiscal Position for VAT on Payment"
+    )
+    property_inverse_taxation_position_id = fields.Many2one(
+        "account.fiscal.position", "Fiscal Position for Inverse Taxation"
     )
