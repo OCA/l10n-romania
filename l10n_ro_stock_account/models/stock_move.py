@@ -41,10 +41,7 @@ class StockMove(models.Model):
     # nu se mai face in mod automat evaluarea la intrare in stoc
     def _create_in_svl(self, forced_quantity=None):
         _logger.info("SVL:%s" % self.env.context.get("valued_type", ""))
-        if (
-            self.env.context.get("standard")
-            or not self.company_id.romanian_accounting
-        ):
+        if self.env.context.get("standard") or not self.company_id.romanian_accounting:
             svl = super(StockMove, self)._create_in_svl(forced_quantity)
         else:
             svl = self.env["stock.valuation.layer"]
@@ -53,10 +50,7 @@ class StockMove(models.Model):
     # nu se mai face in mod automat evaluarea la iserirea din stoc
     def _create_out_svl(self, forced_quantity=None):
         _logger.info("SVL:%s" % self.env.context.get("valued_type", ""))
-        if (
-            self.env.context.get("standard")
-            or not self.company_id.romanian_accounting
-        ):
+        if self.env.context.get("standard") or not self.company_id.romanian_accounting:
             svl = super(StockMove, self)._create_out_svl(forced_quantity)
         else:
             svl = self.env["stock.valuation.layer"]
@@ -134,7 +128,6 @@ class StockMove(models.Model):
 
     def _is_delivery_return(self):
         """ Este retur la o livrare din stoc fara aviz"""
-        import ipdb; ipdb.set_trace(context=10)
         it_is = (
             self.company_id.romanian_accounting
             and not self.picking_id.notice
@@ -362,8 +355,16 @@ class StockMove(models.Model):
 
     def _get_company(self, svl):
         self.ensure_one()
-        company_from = self._is_out() and self.mapped('move_line_ids.location_id.company_id') or False
-        company_to = self._is_in() and self.mapped('move_line_ids.location_dest_id.company_id') or False
+        company_from = (
+            self._is_out()
+            and self.mapped("move_line_ids.location_id.company_id")
+            or False
+        )
+        company_to = (
+            self._is_in()
+            and self.mapped("move_line_ids.location_dest_id.company_id")
+            or False
+        )
 
         if self._is_in():
             return company_to
@@ -383,7 +384,9 @@ class StockMove(models.Model):
         company = self._get_company(svl)
         self = company and self.with_context(force_company=company.id) or self
         if company and company.romanian_accounting:
-            self = self.with_context(valued_type=svl.valued_type, is_romanian_accounting=True)
+            self = self.with_context(
+                valued_type=svl.valued_type, is_romanian_accounting=True
+            )
 
         res = super(StockMove, self)._account_entry_move(qty, description, svl_id, cost)
 
