@@ -40,8 +40,7 @@ class AccountMove(models.Model):
                         # trebuie sa adaug diferenta dintre receptie pe
                         # baza de aviz si receptia din factura
                         add_diff = True
-
-                    if not add_diff:
+                    if add_diff:
                         # se reevalueaza stocul
                         price_diff = line.get_stock_valuation_difference()
                         if price_diff:
@@ -90,42 +89,38 @@ class AccountMoveLine(models.Model):
                     if any([p.notice for p in sale.picking_ids]):
                         self = self.with_context(valued_type="invoice_out_notice")
         res = super(AccountMoveLine, self)._get_computed_account()
-        # Take product from stock location in case the category allow and
-        # the picking is not notice
-        # if (
-        #     self.product_id.categ_id.stock_account_change
-        #     and self.product_id.type == "product"
-        #     and self.move_id.company_id.romanian_accounting
-        # ):
-        #     fiscal_position = self.move_id.fiscal_position_id
-        #     if self.move_id.is_purchase_document():
-        #         stock_moves = self.purchase_line_id.move_ids.filtered(
-        #             lambda sm: not sm.picking_id.notice
-        #         )
-        #         for stock_move in stock_moves.filtered(lambda m: m.state == "done"):
-        #             if stock_move.location_dest_id.valuation_in_account_id:
-        #                 location = stock_move.location_dest_id
-        #                 res = location.valuation_in_account_id
-        #     if self.move_id.is_sale_document():
-        #         sales = self.sale_line_ids.filtered(lambda s: s.move_ids)
-        #         for sale in sales:
-        #             for stock_move in sale.move_ids.filtered(
-        #                 lambda m: not m.picking_id.notice and m.state == "done"
-        #             ):
-        #                 location = stock_move.location_id
-        #                 res = location.property_account_income_location_id
-        #     if fiscal_position:
-        #         res = fiscal_position.map_account(res)
+        # Take accounts from stock location in case the category allow changinc
+        # accounts and the picking is not notice
+        if (
+            self.product_id.categ_id.stock_account_change
+            and self.product_id.type == "product"
+            and self.move_id.company_id.romanian_accounting
+        ):
+            fiscal_position = self.move_id.fiscal_position_id
+            if self.move_id.is_purchase_document():
+                stock_moves = self.purchase_line_id.move_ids.filtered(
+                    lambda sm: not sm.picking_id.notice
+                )
+                for stock_move in stock_moves.filtered(lambda m: m.state == "done"):
+                    if stock_move.location_dest_id.property_stock_valuation_account_id:
+                        location = stock_move.location_dest_id
+                        res = location.property_stock_valuation_account_id
+            if self.move_id.is_sale_document():
+                sales = self.sale_line_ids.filtered(lambda s: s.move_ids)
+                for sale in sales:
+                    for stock_move in sale.move_ids.filtered(
+                        lambda m: not m.picking_id.notice and m.state == "done"
+                    ):
+                        location = stock_move.location_id
+                        res = location.property_account_income_location_id
+            if fiscal_position:
+                res = fiscal_position.map_account(res)
         return res
 
     def get_stock_valuation_difference(self):
         """ Se obtine diferenta dintre evaloarea stocului si valoarea din factura"""
         line = self
         move = line.move_id
-
-        # po_currency = line.purchase_line_id.currency_id
-        # po_company = line.purchase_line_id.company_id
-
         # Retrieve stock valuation moves.
         valuation_stock_moves = self.env["stock.move"].search(
             [
@@ -149,13 +144,6 @@ class AccountMoveLine(models.Model):
         valuation_price_unit_total = 0
         valuation_total_qty = 0
         for val_stock_move in valuation_stock_moves:
-            # In case val_stock_move is a return move, its valuation
-            # entries have been made with the currency rate corresponding
-            # to the original stock move
-            # valuation_date = (
-            #     val_stock_move.origin_returned_move_id.date or
-            #     val_stock_move.date
-            # )
             svl = val_stock_move.mapped("stock_valuation_layer_ids").filtered(
                 lambda l: l.quantity
             )
@@ -170,9 +158,6 @@ class AccountMoveLine(models.Model):
             return 0.0
 
         valuation_price_unit = valuation_price_unit_total / valuation_total_qty
-
-        # print('Pretul din receptie este: ', valuation_price_unit)
-
         price_unit = line.price_unit * (1 - (line.discount or 0.0) / 100.0)
         if line.tax_ids:
             price_unit = line.tax_ids.compute_all(
@@ -193,14 +178,11 @@ class AccountMoveLine(models.Model):
             move.invoice_date,
             round=False,
         )
-        # print('Pretul din factura este convertit in moneda companiei: ', price_unit)
-
         price_unit_val_dif = price_unit - valuation_price_unit
         return price_unit_val_dif
 
     def modify_stock_valuation(self, price_unit_val_dif):
         # se adauga la evaluarea miscarii de stoc
-
         valuation_stock_move = self.env["stock.move"].search(
             [
                 ("purchase_line_id", "=", self.purchase_line_id.id),
@@ -213,7 +195,6 @@ class AccountMoveLine(models.Model):
         value = price_unit_val_dif * self.quantity
 
         # trebuie cantitate din factura in unitatea produsului si apoi
-
         value = self.product_uom_id._compute_price(value, self.product_id.uom_id)
 
         self.env["stock.valuation.layer"].create(
@@ -231,6 +212,3 @@ class AccountMoveLine(models.Model):
                 "company_id": self.move_id.company_id.id,
             }
         )
-
-        # todo de eliminat cantitatea dupa ce se apeleaza
-        # _stock_account_prepare_anglo_saxon_in_lines_vals

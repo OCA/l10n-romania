@@ -199,7 +199,6 @@ class StockMove(models.Model):
             self.company_id.romanian_accounting
             and self._is_in()
             and self.location_id.usage == "production"
-            and not self.origin_returned_move_id
         )
         return it_is
 
@@ -213,7 +212,6 @@ class StockMove(models.Model):
             self.company_id.romanian_accounting
             and self._is_out()
             and self.location_dest_id.usage == "production"
-            and self.origin_returned_move_id
         )
         return it_is
 
@@ -226,7 +224,7 @@ class StockMove(models.Model):
         it_is = (
             self.company_id.romanian_accounting
             and self._is_out()
-            and self.location_dest_id.usage in ["production", "consume"]
+            and self.location_dest_id.usage == "consume"
             and not self.origin_returned_move_id
         )
         return it_is
@@ -240,7 +238,7 @@ class StockMove(models.Model):
         it_is = (
             self.company_id.romanian_accounting
             and self._is_in()
-            and self.location_id.usage in ["production", "consume"]
+            and self.location_id.usage == "consume"
             and self.origin_returned_move_id
         )
         return it_is
@@ -314,11 +312,6 @@ class StockMove(models.Model):
 
         return self.env["stock.valuation.layer"].sudo().create(svl_vals_list)
 
-        # for move in self.with_context(standard=True, valued_type="internal_transfer"):
-        #     svl_vals = move._prepare_common_svl_vals()
-        #     svl_vals_list.append(svl_vals)
-        # return self.env["stock.valuation.layer"].sudo().create(svl_vals_list)
-
     def _is_usage_giving(self):
         """ Este dare in folosinta"""
         it_is = (
@@ -372,11 +365,7 @@ class StockMove(models.Model):
         if self._is_out():
             return company_from
 
-        return self.env.user.company_id
-
-    def _action_done(self, cancel_backorder=False):
-
-        return super(StockMove, self)._action_done(cancel_backorder=cancel_backorder)
+        return self.env.company
 
     def _account_entry_move(self, qty, description, svl_id, cost):
         """ Accounting Valuation Entries """
@@ -398,6 +387,7 @@ class StockMove(models.Model):
     def romanian_account_entry_move(self, qty, description, svl_id, cost):
         location_from = self.location_id
         location_to = self.location_dest_id
+        svl = self.env["stock.valuation.layer"]
         if self._is_delivery_notice():
             # inregistrare valoare vanzare
             sale_cost = self._get_sale_amount()
@@ -410,7 +400,7 @@ class StockMove(models.Model):
                 acc_valuation,
             ) = move._get_accounting_data_for_valuation()
             move._create_account_move_line(
-                acc_valuation, acc_dest, journal_id, qty, description, svl_id, sale_cost
+                acc_valuation, acc_dest, journal_id, qty, description, svl, sale_cost
             )
 
         if self._is_delivery_notice_return():
@@ -428,7 +418,7 @@ class StockMove(models.Model):
                 acc_dest, acc_valuation, journal_id, qty, description, svl_id, sale_cost
             )
 
-        if self._is_usage_giving():
+        if self._is_usage_giving() or self._is_usage_giving_return():
             # inregistrare dare in folosinta 8035
             move = self.with_context(valued_type="usage_giving_secondary")
             (
@@ -438,7 +428,7 @@ class StockMove(models.Model):
                 acc_valuation,
             ) = move._get_accounting_data_for_valuation()
             move._create_account_move_line(
-                acc_src, acc_dest, journal_id, qty, description, svl_id, cost
+                acc_src, acc_dest, journal_id, qty, description, svl, cost
             )
 
         if self._is_internal_transfer():
@@ -449,29 +439,31 @@ class StockMove(models.Model):
                 acc_dest,
                 acc_valuation,
             ) = move._get_accounting_data_for_valuation()
-            if location_to.property_stock_valuation_account_id and cost < 0:
-                move._create_account_move_line(
-                    acc_dest, acc_valuation, journal_id, qty, description, svl_id, cost
-                )
-            if location_from.property_stock_valuation_account_id and cost > 0:
-                move._create_account_move_line(
-                    acc_src, acc_valuation, journal_id, qty, description, svl_id, cost
-                )
-
-        # if self._is_internal_transfer():
-        #     # inregistrare transfer intern
-        #     company = self.env.user.company_id
-        #     move = self.with_context(
-        #     force_company=company.id, valued_type="internal_transfer")
-        #     journal_id, acc_src, acc_dest, acc_valuation =
-        #     move._get_accounting_data_for_valuation()
-        #     if move._is_internal_transfer():
-        #         if move.location_id.valuation_out_account_id:
-        #             acc_src = move.location_id.valuation_out_account_id.id
-        #         if move.location_dest_id.valuation_in_account_id:
-        #             acc_dest = move.location_dest_id.valuation_in_account_id.id
-        #     move._creagte_account_move_line(
-        #     acc_src, acc_dest, journal_id, qty, description, svl_id, cost)
+            if acc_src != acc_dest:
+                if self.company_id.property_stock_transfer_account_id:
+                    acc_valuation = (
+                        self.company_id.property_stock_transfer_account_id.id
+                    )
+                if location_to.property_stock_valuation_account_id and cost < 0:
+                    move._create_account_move_line(
+                        acc_dest,
+                        acc_valuation,
+                        journal_id,
+                        qty,
+                        description,
+                        svl_id,
+                        cost,
+                    )
+                if location_from.property_stock_valuation_account_id and cost > 0:
+                    move._create_account_move_line(
+                        acc_src,
+                        acc_valuation,
+                        journal_id,
+                        qty,
+                        description,
+                        svl_id,
+                        cost,
+                    )
 
     def _get_sale_amount(self):
         valuation_amount = 0
@@ -504,6 +496,7 @@ class StockMove(models.Model):
             self.company_id.romanian_accounting
             and credit_account_id == debit_account_id
             and not self._is_usage_giving()
+            and not self._is_usage_giving_return()
         ):
             return
         return super(StockMove, self)._create_account_move_line(
@@ -520,23 +513,13 @@ class StockMove(models.Model):
         journal_id, acc_src, acc_dest, acc_valuation = super(
             StockMove, self
         )._get_accounting_data_for_valuation()
-
         if (
             self.company_id.romanian_accounting
             and self.product_id.categ_id.stock_account_change
         ):
             location_from = self.location_id
             location_to = self.location_dest_id
-
-            if location_from.property_account_income_location_id:
-                acc_src = location_from.property_account_income_location_id.id
-
-            if location_to.property_account_expense_location_id:
-                acc_dest = location_to.property_account_expense_location_id.id
-
-            # nu se va putea face tranferul dintre doua locatii care au
-            # setat cont de evaluare
-
+            valued_type = self.env.context.get("valued_type", "indefinite")
             # produsele din aceasta locatia folosesc pentru evaluare contul
             if location_to.property_stock_valuation_account_id:
                 # in cazul unui transfer intern se va face contare dintre
@@ -555,4 +538,47 @@ class StockMove(models.Model):
                 else:
                     acc_valuation = location_from.property_stock_valuation_account_id.id
 
+            # in nir si factura se ca utiliza 408
+            if valued_type == "invoice_in_notice":
+                if location_to.property_account_expense_location_id:
+                    acc_dest = (
+                        acc_valuation
+                    ) = location_to.property_account_expense_location_id.id
+                if location_to.property_account_expense_location_id:
+                    acc_dest = (
+                        acc_valuation
+                    ) = location_to.property_account_expense_location_id.id
+            elif valued_type == "invoice_out_notice":
+                if location_to.property_account_income_location_id:
+                    acc_valuation = acc_dest
+                    acc_dest = location_to.property_account_income_location_id.id
+                if location_from.property_account_income_location_id:
+                    acc_valuation = location_from.property_account_income_location_id.id
+            elif valued_type == "plus_inventory":
+                if location_to.property_account_expense_location_id:
+                    acc_src = location_to.property_account_expense_location_id.id
+            elif valued_type == "minus_inventory":
+                if location_from.property_account_expense_location_id:
+                    acc_dest = location_from.property_account_expense_location_id.id
+            # in Romania iesirea din stoc de face de regula pe contul de cheltuiala
+            elif valued_type in [
+                "delivery",
+                "delivery_notice",
+                "consumption",
+                "usage_giving",
+                "production_return",
+            ]:
+                if location_from.property_account_expense_location_id:
+                    acc_dest = location_from.property_account_expense_location_id.id
+            elif valued_type in [
+                "production",
+                "delivery_return",
+                "delivery_notice_return",
+                "consumption_return",
+                "usage_giving_return",
+            ]:
+                if location_to.property_account_expense_location_id:
+                    acc_src = (
+                        acc_dest
+                    ) = location_to.property_account_expense_location_id.id
         return journal_id, acc_src, acc_dest, acc_valuation

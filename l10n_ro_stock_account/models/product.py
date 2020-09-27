@@ -28,7 +28,7 @@ class ProductCategory(models.Model):
     @api.depends("name")
     def _compute_hide_accounts(self):
         for record in self:
-            if self._context.get("is_romanian_accounting"):
+            if self.env.company.romanian_accounting:
                 record.hide_stock_in_out_account = True
             else:
                 record.hide_stock_in_out_account = False
@@ -43,7 +43,7 @@ class ProductCategory(models.Model):
         stock_valuation, stock_output and stock_input
         are the same
         """
-        if self._context.get("is_romanian_accounting"):
+        if self.env.company.romanian_accounting:
             # is a romanian company:
             for record in self:
                 stock_input = record.property_stock_account_input_categ_id
@@ -65,7 +65,7 @@ class ProductCategory(models.Model):
         "property_stock_account_output_categ_id",
         "property_stock_account_input_categ_id",
     )
-    def _onchange_stock_accouts(self):
+    def _onchange_stock_accounts(self):
         """ only for Romania, stock_valuation output and input are the same
         """
         for record in self:
@@ -99,9 +99,9 @@ class ProductTemplate(models.Model):
 
         company = (
             self.env["res.company"].browse(self._context.get("force_company"))
-            or self.env.user.company_id
+            or self.env.company
         )
-        if not self._context.get("is_romanian_accounting"):
+        if not company.romanian_accounting:
             return accounts
 
         property_stock_valuation_account_id = (
@@ -127,53 +127,41 @@ class ProductTemplate(models.Model):
             )
 
         valued_type = self.env.context.get("valued_type", "indefinite")
-        _logger.info(valued_type)
-
         # in nir si factura se ca utiliza 408
-        if valued_type in ["reception_notice", "invoice_in_notice"]:
-            stock_picking_payable_account_id = (
-                self.env.user.company_id.property_stock_picking_payable_account_id
-            )
+        if valued_type in [
+            "reception_notice",
+            "invoice_in_notice",
+            "reception_notice_return",
+        ]:
             if stock_picking_payable_account_id:
-                # pt contabilitatea anglo-saxona
                 accounts["stock_input"] = stock_picking_payable_account_id
-                # pentru contabilitate continentala
-                # accounts['expense'] = stock_picking_payable_account_id
-
+        # in aviz si factura client se va utiliza 418
         elif valued_type == "invoice_out_notice":
-            stock_picking_receivable_account_id = (
-                self.env.user.company_id.property_stock_picking_receivable_account_id
-            )
             if stock_picking_receivable_account_id:
                 accounts["stock_output"] = stock_picking_receivable_account_id
                 accounts["stock_valuation"] = accounts["income"]
                 accounts["income"] = stock_picking_receivable_account_id
-
-        elif valued_type in [
-            "plus_inventory",
-            "minus_inventory",
-        ]:
+        elif valued_type in ["production", "plus_inventory", "minus_inventory"]:
             accounts["stock_input"] = accounts["expense"]
             accounts["stock_output"] = accounts["expense"]
 
         # in Romania iesirea din stoc de face de regula pe contul de cheltuiala
         elif valued_type in [
             "delivery",
-            "delivery_notice",
-            "consumption",
-            "production_return",
-            "usage_giving",
-            "production",
-            "consumption_return",
             "delivery_return",
+            "delivery_notice",
+            "delivery_notice_return",
+            "production",
+            "production_return",
+            "consumption",
+            "consumption_return",
+            "usage_giving",
+            "usage_giving_return",
         ]:
-
             accounts["stock_output"] = accounts["expense"]
-
         # suplimentar la darea in consum mai face o nota contabila
         elif valued_type == "usage_giving_secondary":
             accounts["stock_output"] = property_stock_usage_giving_account_id
             accounts["stock_input"] = property_stock_usage_giving_account_id
             accounts["stock_valuation"] = property_stock_usage_giving_account_id
-
         return accounts
