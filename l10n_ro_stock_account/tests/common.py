@@ -101,7 +101,9 @@ class TestStockCommon(SavepointCase):
             "stock_account_change": True,
         }
 
-        cls.category = cls.env["product.category"].search([("name", "=", "TEST Marfa")])
+        cls.category = cls.env["product.category"].search(
+            [("name", "=", "TEST Marfa")], limit=1
+        )
         if not cls.category:
             cls.category = cls.env["product.category"].create(category_value)
         else:
@@ -260,6 +262,7 @@ class TestStockCommon(SavepointCase):
                 move_line.write({"qty_done": self.qty_po_p2})
 
         self.picking.button_validate()
+        self.picking.action_done()
         _logger.info("Receptie facuta")
 
         self.po = po
@@ -335,7 +338,6 @@ class TestStockCommon(SavepointCase):
         account_valuations = self.env["account.move.line"].read_group(
             domain, ["debit:sum", "credit:sum", "quantity:sum"], ["product_id"]
         )
-
         for valuation in account_valuations:
             val = round(valuation["debit"] - valuation["credit"], 2)
             if valuation["product_id"][0] == self.product_1.id:

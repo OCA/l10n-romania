@@ -6,7 +6,6 @@
 import logging
 
 from odoo import _, models
-from odoo.tools import safe_eval
 from odoo.tools.float_utils import float_is_zero
 
 _logger = logging.getLogger(__name__)
@@ -17,9 +16,24 @@ class AccountMove(models.Model):
 
     def _stock_account_prepare_anglo_saxon_in_lines_vals(self):
         # inainte de a genera liniile de diferenta de pret
+
+        lines_vals_list = []
         for invoice in self:
             account_id = invoice.company_id.property_stock_picking_payable_account_id
             if invoice.type in ["in_invoice", "in_refund"]:
+                # Add new account moves for difference between reception
+                # with notice and invoice values. The price difference account
+                # will be changes with the first one available in the reception
+                # notice move lines
+                if invoice.is_reception_notice():
+                    lines_vals_list = super(
+                        AccountMove, invoice
+                    )._stock_account_prepare_anglo_saxon_in_lines_vals()
+                    rec_account = invoice.get_reception_account()
+                    if rec_account:
+                        for line_vals in lines_vals_list:
+                            if line_vals["account_id"] != account_id.id:
+                                line_vals["account_id"] = rec_account.id
                 for line in invoice.invoice_line_ids:
                     add_diff = False
                     if line.product_id.cost_method == "standard":
@@ -38,16 +52,13 @@ class AccountMove(models.Model):
                     if add_diff:
                         # se reevalueaza stocul
                         price_diff = line.get_stock_valuation_difference()
-                        print(line.name)
-                        print("Price diff")
-                        print(price_diff)
                         if price_diff:
                             line.modify_stock_valuation(price_diff)
 
-        lines_vals_list = super(
-            AccountMove, self
-        )._stock_account_prepare_anglo_saxon_in_lines_vals()
-
+                if not invoice.is_reception_notice():
+                    lines_vals_list = super(
+                        AccountMove, invoice
+                    )._stock_account_prepare_anglo_saxon_in_lines_vals()
         return lines_vals_list
 
     def _stock_account_prepare_anglo_saxon_out_lines_vals(self):
@@ -63,6 +74,48 @@ class AccountMove(models.Model):
                     % (line.debit, line.credit, line.account_id.display_name)
                 )
         return res
+
+    def is_reception_notice(self):
+        self.ensure_one()
+        purchases = self.line_ids.mapped("purchase_line_id.order_id")
+        picking_notice = self.env["stock.picking"].search(
+            [
+                ("id", "in", purchases.mapped("picking_ids").ids),
+                ("state", "=", "done"),
+                ("notice", "=", True),
+            ]
+        )
+        if picking_notice:
+            return True
+        return False
+
+    def get_reception_account(self):
+        self.ensure_one()
+        account = self.env["account.account"]
+        acc_payable = self.company_id.property_stock_picking_payable_account_id
+        valuation_stock_moves = self.env["stock.move"].search(
+            [
+                (
+                    "purchase_line_id",
+                    "in",
+                    self.line_ids.mapped("purchase_line_id").ids,
+                ),
+                ("state", "=", "done"),
+                ("picking_id.notice", "=", True),
+                ("product_qty", "!=", 0.0),
+            ]
+        )
+        if valuation_stock_moves:
+            acc_moves = valuation_stock_moves.mapped("account_move_ids")
+            lines = self.env["account.move.line"].search(
+                [("move_id", "in", acc_moves.ids)]
+            )
+            lines_diff_acc = lines.mapped("account_id").filtered(
+                lambda a: a != acc_payable
+            )
+            if lines_diff_acc:
+                account = lines_diff_acc[0]
+        return account
 
 
 class AccountMoveLine(models.Model):
@@ -189,16 +242,12 @@ class AccountMoveLine(models.Model):
             ],
             limit=1,
         )
-        print(valuation_stock_move.ids)
         linked_layer = valuation_stock_move.stock_valuation_layer_ids[:1]
         value = price_unit_val_dif * self.quantity
-        print(linked_layer)
-        print(value)
         # trebuie cantitate din factura in unitatea produsului si apoi
         value = self.product_uom_id._compute_price(value, self.product_id.uom_id)
 
-        print(value)
-        svl = self.env["stock.valuation.layer"].create(
+        self.env["stock.valuation.layer"].create(
             {
                 "value": value,
                 "unit_cost": 0,
@@ -213,4 +262,3 @@ class AccountMoveLine(models.Model):
                 "company_id": self.move_id.company_id.id,
             }
         )
-        print(svl.id)
