@@ -117,6 +117,9 @@ class ResConfigSettings(models.TransientModel):
         related="company_id.anglo_saxon_accounting",
         readonly=False,
     )
+    stock_acc_price_diff = fields.Boolean(
+        related="company_id.stock_acc_price_diff", readonly=False
+    )
     module_l10n_ro_stock = fields.Boolean(
         "Romanian Stock",
         help="This module add on each warehouse methods of usage "

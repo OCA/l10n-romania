@@ -72,10 +72,14 @@ class TestStockCommon(SavepointCase):
 
         cls.env.user.company_id.anglo_saxon_accounting = True
         cls.env.user.company_id.romanian_accounting = True
+        cls.env.user.company_id.stock_acc_price_diff = True
 
         cls.setUpAccounts()
 
-        stock_journal = cls.env["account.journal"].search([("code", "=", "STJ")])
+        stock_journal = cls.env["account.journal"].search(
+            [("code", "=", "STJ"), ("company_id", "=", cls.env.user.company_id.id)],
+            limit=1,
+        )
         if not stock_journal:
             stock_journal = cls.env["account.journal"].create(
                 {"name": "Stock Journal", "code": "STJ", "type": "general"}
@@ -168,7 +172,7 @@ class TestStockCommon(SavepointCase):
         cls.diff_p2 = -1
 
         # cantitatea din PO
-        cls.qty_po_p1 = 20.0
+        cls.qty_po_p1 = 20.00
         cls.qty_po_p2 = 20.00
 
         # cantitata din SO
@@ -225,17 +229,6 @@ class TestStockCommon(SavepointCase):
                 "sequence_code": "TR_test",
             }
         )
-
-        # cls.location_store = location.copy(
-        #     {"merchandise_type": "store", "name": "TEST store"}
-        # )
-        # cls.picking_type_in_store = picking_type_in.copy(
-        #     {
-        #         "default_location_dest_id": cls.location_store.id,
-        #         "name": "TEST Receptie in magazin",
-        #         "code": 'IN_TS'
-        #     }
-        # )
 
     def create_po(self, notice=False, picking_type_in=None):
 
@@ -311,10 +304,6 @@ class TestStockCommon(SavepointCase):
             if move_line.product_uom_qty > 0 and move_line.quantity_done == 0:
                 move_line.write({"quantity_done": move_line.product_uom_qty})
         return_pick.action_done()
-
-        #
-        # return_pick.move_line_ids.write({"qty_done": quantity})
-        # return_pick.button_validate()
 
     def check_stock_valuation(self, val_p1, val_p2):
         val_p1 = round(val_p1, 2)

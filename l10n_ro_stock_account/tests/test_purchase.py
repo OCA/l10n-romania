@@ -82,7 +82,7 @@ class TestStockPurchase(TestStockCommon):
     def test_nir_with_notice_invoice_and_diff(self):
         """
          Receptie produse pe baza de aviz si inregistare ulterioara a facturii
-         cu inregistrare diferente dintre comanda de achzitie si factura
+         cu inregistrare diferente dintre comanda de achizitie si factura
           - Diferentele trebuie sa fie inregitrate in contul de diferente de stoc
 
           De fortat sa foloseasca contul de stoc la diferente de pret

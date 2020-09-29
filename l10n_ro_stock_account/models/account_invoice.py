@@ -17,22 +17,17 @@ class AccountMove(models.Model):
 
     def _stock_account_prepare_anglo_saxon_in_lines_vals(self):
         # inainte de a genera liniile de diferenta de pret
-
-        account_id = self.company_id.property_stock_picking_payable_account_id
-        get_param = self.env["ir.config_parameter"].sudo().get_param
-        # diff_limit = float(get_param("stock_account.diff_limit", "2.0"))
-        add_diff_from_config = get_param("stock_account.add_diff", "False")
-        add_diff_from_config = safe_eval(add_diff_from_config)
-
         for invoice in self:
+            account_id = invoice.company_id.property_stock_picking_payable_account_id
             if invoice.type in ["in_invoice", "in_refund"]:
                 for line in invoice.invoice_line_ids:
+                    add_diff = False
                     if line.product_id.cost_method == "standard":
                         # daca pretul este standard se inregistreaza
                         # diferentele de pret.
                         add_diff = True
                     else:
-                        add_diff = add_diff_from_config
+                        add_diff = invoice.company_id.stock_acc_price_diff
 
                     # daca linia a fost receptionata pe baza de aviz se
                     # seteaza contul 408 pe nota contabile
@@ -43,6 +38,9 @@ class AccountMove(models.Model):
                     if add_diff:
                         # se reevalueaza stocul
                         price_diff = line.get_stock_valuation_difference()
+                        print(line.name)
+                        print("Price diff")
+                        print(price_diff)
                         if price_diff:
                             line.modify_stock_valuation(price_diff)
 
@@ -191,13 +189,16 @@ class AccountMoveLine(models.Model):
             ],
             limit=1,
         )
+        print(valuation_stock_move.ids)
         linked_layer = valuation_stock_move.stock_valuation_layer_ids[:1]
         value = price_unit_val_dif * self.quantity
-
+        print(linked_layer)
+        print(value)
         # trebuie cantitate din factura in unitatea produsului si apoi
         value = self.product_uom_id._compute_price(value, self.product_id.uom_id)
 
-        self.env["stock.valuation.layer"].create(
+        print(value)
+        svl = self.env["stock.valuation.layer"].create(
             {
                 "value": value,
                 "unit_cost": 0,
@@ -212,3 +213,4 @@ class AccountMoveLine(models.Model):
                 "company_id": self.move_id.company_id.id,
             }
         )
+        print(svl.id)
