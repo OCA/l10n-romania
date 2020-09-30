@@ -97,11 +97,17 @@ class TestStockPurchase(TestStockCommon):
 
         self.create_invoice(self.diff_p1, self.diff_p2)
 
-        # in stoc produsele sunt la valoarea de achizitie
-        self.check_stock_valuation(self.val_p1_i, self.val_p2_i)
+        # # in stoc produsele sunt la valoarea de achizitie
+        # self.check_stock_valuation(self.val_p1_i, self.val_p2_i)
+        #
+        # # in contabilitate stocul are acceasi valoare
+        # self.check_account_valuation(self.val_p1_i, self.val_p2_i)
 
-        # in contabilitate stocul are acceasi valoare
-        self.check_account_valuation(self.val_p1_i, self.val_p2_i)
+        # in stoc produsele sunt la valoarea din factura
+        self.check_stock_valuation(self.val_p1_f, self.val_p2_f)
+
+        # in contabilitate stocul are valoarea din factura
+        self.check_account_valuation(self.val_p1_f, self.val_p2_f)
 
         # verificare inregistrare diferenta de pret
         self.check_account_diff(

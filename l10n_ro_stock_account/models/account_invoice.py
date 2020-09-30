@@ -17,10 +17,25 @@ class AccountMove(models.Model):
     def _stock_account_prepare_anglo_saxon_in_lines_vals(self):
         # inainte de a genera liniile de diferenta de pret
 
+        lines_vals_list = []
         for invoice in self:
             account_id = invoice.company_id.property_stock_picking_payable_account_id
             if invoice.type in ["in_invoice", "in_refund"]:
+                # Add new account moves for difference between reception
+                # with notice and invoice values. The price difference account
+                # will be changes with the first one available in the reception
+                # notice move lines
+                if invoice.is_reception_notice():
+                    lines_vals_list = super(
+                        AccountMove, invoice
+                    )._stock_account_prepare_anglo_saxon_in_lines_vals()
+                    rec_account = invoice.get_reception_account()
+                    if rec_account:
+                        for line_vals in lines_vals_list:
+                            if line_vals["account_id"] != account_id.id:
+                                line_vals["account_id"] = rec_account.id
                 for line in invoice.invoice_line_ids:
+                    add_diff = False
                     if line.product_id.cost_method == "standard":
                         # daca pretul este standard se inregistreaza
                         # diferentele de pret.
@@ -30,10 +45,10 @@ class AccountMove(models.Model):
 
                     # daca linia a fost receptionata pe baza de aviz se
                     # seteaza contul 408 pe nota contabile
-                    if account_id and line.account_id == account_id:
-                        # trebuie sa adaug diferenta dintre receptie pe
-                        # baza de aviz si receptia din factura
-                        add_diff = True
+                    # if account_id and line.account_id == account_id:
+                    #     # trebuie sa adaug diferenta dintre receptie pe
+                    #     # baza de aviz si receptia din factura
+                    #     add_diff = True
 
                     if not add_diff:
                         # se reevalueaza stocul
@@ -41,10 +56,10 @@ class AccountMove(models.Model):
                         if price_diff:
                             line.modify_stock_valuation(price_diff)
 
-        lines_vals_list = super(
-            AccountMove, self
-        )._stock_account_prepare_anglo_saxon_in_lines_vals()
-
+                if not invoice.is_reception_notice():
+                    lines_vals_list = super(
+                        AccountMove, invoice
+                    )._stock_account_prepare_anglo_saxon_in_lines_vals()
         return lines_vals_list
 
     def _stock_account_prepare_anglo_saxon_out_lines_vals(self):
@@ -126,32 +141,32 @@ class AccountMoveLine(models.Model):
                     if any([p.notice for p in sale.picking_ids]):
                         self = self.with_context(valued_type="invoice_out_notice")
         res = super(AccountMoveLine, self)._get_computed_account()
-        # Take product from stock location in case the category allow and
-        # the picking is not notice
-        # if (
-        #     self.product_id.categ_id.stock_account_change
-        #     and self.product_id.type == "product"
-        #     and self.move_id.company_id.romanian_accounting
-        # ):
-        #     fiscal_position = self.move_id.fiscal_position_id
-        #     if self.move_id.is_purchase_document():
-        #         stock_moves = self.purchase_line_id.move_ids.filtered(
-        #             lambda sm: not sm.picking_id.notice
-        #         )
-        #         for stock_move in stock_moves.filtered(lambda m: m.state == "done"):
-        #             if stock_move.location_dest_id.valuation_in_account_id:
-        #                 location = stock_move.location_dest_id
-        #                 res = location.valuation_in_account_id
-        #     if self.move_id.is_sale_document():
-        #         sales = self.sale_line_ids.filtered(lambda s: s.move_ids)
-        #         for sale in sales:
-        #             for stock_move in sale.move_ids.filtered(
-        #                 lambda m: not m.picking_id.notice and m.state == "done"
-        #             ):
-        #                 location = stock_move.location_id
-        #                 res = location.property_account_income_location_id
-        #     if fiscal_position:
-        #         res = fiscal_position.map_account(res)
+        # Take accounts from stock location in case the category allow changinc
+        # accounts and the picking is not notice
+        if (
+            self.product_id.categ_id.stock_account_change
+            and self.product_id.type == "product"
+            and self.move_id.company_id.romanian_accounting
+        ):
+            fiscal_position = self.move_id.fiscal_position_id
+            if self.move_id.is_purchase_document():
+                stock_moves = self.purchase_line_id.move_ids.filtered(
+                    lambda sm: not sm.picking_id.notice
+                )
+                for stock_move in stock_moves.filtered(lambda m: m.state == "done"):
+                    if stock_move.location_dest_id.property_stock_valuation_account_id:
+                        location = stock_move.location_dest_id
+                        res = location.property_stock_valuation_account_id
+            if self.move_id.is_sale_document():
+                sales = self.sale_line_ids.filtered(lambda s: s.move_ids)
+                for sale in sales:
+                    for stock_move in sale.move_ids.filtered(
+                        lambda m: not m.picking_id.notice and m.state == "done"
+                    ):
+                        location = stock_move.location_id
+                        res = location.property_account_income_location_id
+            if fiscal_position:
+                res = fiscal_position.map_account(res)
         return res
 
     def get_stock_valuation_difference(self):
