@@ -28,10 +28,7 @@ class ProductCategory(models.Model):
     @api.depends("name")
     def _compute_hide_accounts(self):
         for record in self:
-            if self.env.company.romanian_accounting:
-                record.hide_stock_in_out_account = True
-            else:
-                record.hide_stock_in_out_account = False
+            record.hide_stock_in_out_account = self.env.company.romanian_accounting
 
     @api.constrains(
         "property_stock_valuation_account_id",

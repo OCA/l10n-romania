@@ -36,11 +36,7 @@ class AccountMove(models.Model):
                                 line_vals["account_id"] = rec_account.id
                 for line in invoice.invoice_line_ids:
                     add_diff = False
-                    if line.product_id.cost_method == "standard":
-                        # daca pretul este standard se inregistreaza
-                        # diferentele de pret.
-                        add_diff = True
-                    else:
+                    if line.product_id.cost_method != "standard":
                         add_diff = not invoice.company_id.stock_acc_price_diff
 
                     # daca linia a fost receptionata pe baza de aviz se
@@ -64,14 +60,16 @@ class AccountMove(models.Model):
 
     def _stock_account_prepare_anglo_saxon_out_lines_vals(self):
         # nu se mai face descarcarea de gestiune la facturare
-        return []
+        if self.company_id.romanian_accounting:
+            return []
+        super(AccountMove, self)._stock_account_prepare_anglo_saxon_out_lines_vals()
 
     def post(self):
         res = super(AccountMove, self).post()
         for move in self:
             for line in move.line_ids:
                 _logger.info(
-                    "%s\t\t\t\t%s\t\t\t%s"
+                    "%s\t\t%s\t\t%s"
                     % (line.debit, line.credit, line.account_id.display_name)
                 )
         return res

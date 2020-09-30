@@ -16,18 +16,12 @@ class AccountAccount(models.Model):
         """
         account_408 = self.search([("code", "=", "408000")])
         for account in account_408:
-            if account.user_type_id == self.env.ref(
-                "account.data_account_type_payable"
-            ):
-                account.user_type_id = self.env.ref(
-                    "account.data_account_type_current_liabilities"
-                )
+            account.user_type_id = self.env.ref(
+                "account.data_account_type_current_liabilities"
+            )
 
         account_418 = self.search([("code", "=", "418000")])
         for account in account_418:
-            if account.user_type_id == self.env.ref(
-                "account.data_account_type_receivable"
-            ):
-                account.user_type_id = self.env.ref(
-                    "account.data_account_type_current_assets"
-                )
+            account.user_type_id = self.env.ref(
+                "account.data_account_type_current_assets"
+            )

@@ -507,7 +507,7 @@ class StockMove(models.Model):
             if location_to.property_stock_valuation_account_id:
                 # in cazul unui transfer intern se va face contare dintre
                 # contul de stoc si contul din locatie
-                if self.env.context.get("valued_type") == "internal_transfer":
+                if valued_type == "internal_transfer":
                     acc_dest = location_to.property_stock_valuation_account_id.id
                 else:
                     acc_valuation = location_to.property_stock_valuation_account_id.id
@@ -516,10 +516,17 @@ class StockMove(models.Model):
             if location_from.property_stock_valuation_account_id:
                 # in cazul unui transfer intern se va face contare dintre
                 # contul de stoc si contul din locatie
-                if self.env.context.get("valued_type") == "internal_transfer":
+                if valued_type == "internal_transfer":
                     acc_src = location_from.property_stock_valuation_account_id.id
                 else:
                     acc_valuation = location_from.property_stock_valuation_account_id.id
+
+            # loc_acc_src = (
+            #  location_from.property_account_income_location_id.id or acc_src
+            # )
+            # loc_acc_dest = (
+            #  location_to.property_account_expense_location_id.id or acc_dest
+            # )
 
             # in nir si factura se ca utiliza 408
             if valued_type == "invoice_in_notice":
@@ -527,10 +534,10 @@ class StockMove(models.Model):
                     acc_dest = (
                         acc_valuation
                     ) = location_to.property_account_expense_location_id.id
-                if location_to.property_account_expense_location_id:
-                    acc_dest = (
-                        acc_valuation
-                    ) = location_to.property_account_expense_location_id.id
+                # if location_to.property_account_expense_location_id:
+                #     acc_dest = (
+                #         acc_valuation
+                #     ) = location_to.property_account_expense_location_id.id
             elif valued_type == "invoice_out_notice":
                 if location_to.property_account_income_location_id:
                     acc_valuation = acc_dest
@@ -538,11 +545,11 @@ class StockMove(models.Model):
                 if location_from.property_account_income_location_id:
                     acc_valuation = location_from.property_account_income_location_id.id
             elif valued_type == "plus_inventory":
-                if location_to.property_account_expense_location_id:
-                    acc_src = location_to.property_account_expense_location_id.id
+                acc_src = location_to.property_account_expense_location_id.id or acc_src
             elif valued_type == "minus_inventory":
-                if location_from.property_account_expense_location_id:
-                    acc_dest = location_from.property_account_expense_location_id.id
+                acc_dest = (
+                    location_from.property_account_expense_location_id.id or acc_dest
+                )
             # in Romania iesirea din stoc de face de regula pe contul de cheltuiala
             elif valued_type in [
                 "delivery",
@@ -551,8 +558,9 @@ class StockMove(models.Model):
                 "usage_giving",
                 "production_return",
             ]:
-                if location_from.property_account_expense_location_id:
-                    acc_dest = location_from.property_account_expense_location_id.id
+                acc_dest = (
+                    location_from.property_account_expense_location_id.id or acc_dest
+                )
             elif valued_type in [
                 "production",
                 "delivery_return",
