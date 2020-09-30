@@ -14,7 +14,7 @@ class ResCompany(models.Model):
     stock_acc_price_diff = fields.Boolean(
         string="Stock Price Update",
         help="If this field is checked and the company use Romanian Accounting,"
-        "the currency rate differences between reception and invoice "
+        "the price differences between reception and invoice "
         "will be reflected in the stock valuation.",
     )
     property_stock_picking_payable_account_id = fields.Many2one(
@@ -59,4 +59,18 @@ class ResCompany(models.Model):
         help="This account will be used as an intermediary account for "
         "account move line generated from internal moves between company "
         "stores.",
+    )
+
+    property_trade_discount_received_account_id = fields.Many2one(
+        "account.account", string="Trade discounts received"
+    )
+    property_trade_discount_granted_account_id = fields.Many2one(
+        "account.account", string="Trade discounts granted"
+    )
+
+    property_vat_on_payment_position_id = fields.Many2one(
+        "account.fiscal.position", "Fiscal Position for VAT on Payment"
+    )
+    property_inverse_taxation_position_id = fields.Many2one(
+        "account.fiscal.position", "Fiscal Position for Inverse Taxation"
     )

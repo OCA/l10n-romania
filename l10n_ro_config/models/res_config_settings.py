@@ -55,7 +55,7 @@ class ResConfigSettings(models.TransientModel):
 
     # Accounting Modules
     module_l10n_ro_vat_on_payment = fields.Boolean(
-        "VAT_on_payment",
+        "VAT on payment",
         help="This module will download data from ANAF site and when you "
         "give or receive a invoice will set fiscal position for VAT "
         "on payment",
@@ -107,7 +107,7 @@ class ResConfigSettings(models.TransientModel):
     module_l10n_ro_account_report_D394 = fields.Boolean(
         "Account D394 Report", help="This module will add the D394 report."
     )
-    module_l10n_ro_account_report_intrastat = fields.Boolean(
+    module_l10n_ro_intrastat = fields.Boolean(
         "Account Intrastat Report", help="This module will add the Intrastat report."
     )
 
@@ -115,6 +115,11 @@ class ResConfigSettings(models.TransientModel):
     use_anglo_saxon = fields.Boolean(
         string="Anglo-Saxon Accounting",
         related="company_id.anglo_saxon_accounting",
+        readonly=False,
+    )
+    use_romanian_accounting = fields.Boolean(
+        string="Use Romanian Accounting",
+        related="company_id.romanian_accounting",
         readonly=False,
     )
     stock_acc_price_diff = fields.Boolean(
@@ -181,5 +186,33 @@ class ResConfigSettings(models.TransientModel):
     property_stock_transfer_account_id = fields.Many2one(
         "account.account",
         related="company_id.property_stock_transfer_account_id",
+        readonly=False,
+    )
+
+    property_trade_discount_received_account_id = fields.Many2one(
+        "account.account",
+        string="Trade discounts received",
+        related="company_id.property_trade_discount_received_account_id",
+        readonly=False,
+    )
+
+    property_trade_discount_granted_account_id = fields.Many2one(
+        "account.account",
+        string="Trade discounts granted",
+        related="company_id.property_trade_discount_granted_account_id",
+        readonly=False,
+    )
+
+    property_vat_on_payment_position_id = fields.Many2one(
+        "account.fiscal.position",
+        string="VAT on Payment",
+        related="company_id.property_vat_on_payment_position_id",
+        readonly=False,
+    )
+
+    property_inverse_taxation_position_id = fields.Many2one(
+        "account.fiscal.position",
+        string="Inverse Taxation",
+        related="company_id.property_inverse_taxation_position_id",
         readonly=False,
     )
