@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="RO_V" model="res.country.zone">
+        <field name="name">Vest</field>
+        <field name="siruta">859</field>
+        <field name="country_id" ref="base.ro" />
+    </record>
+    <record id="RO_NV" model="res.country.zone">
+        <field name="name">Nord - Vest</field>
+        <field name="siruta">868</field>
+        <field name="country_id" ref="base.ro" />
+    </record>
+    <record id="base.RO_TM" model="res.country.state">
+        <field name="siruta">350</field>
+        <field name="zone_id" ref="l10n_ro_siruta.RO_V" />
+        <field name="country_id" ref="base.ro" />
+    </record>
+    <record id="base.RO_CJ" model="res.country.state">
+        <field name="siruta">127</field>
+        <field name="zone_id" ref="l10n_ro_siruta.RO_NV" />
+        <field name="country_id" ref="base.ro" />
+    </record>
+    <record id="RO_155243" model="res.country.commune">
+        <field name="name">Timisoara</field>
+        <field name="siruta">155243</field>
+        <field name="state_id" ref="base.RO_TM" />
+        <field name="zone_id" ref="l10n_ro_siruta.RO_V" />
+        <field name="country_id" ref="base.ro" />
+    </record>
+    <record id="RO_54975" model="res.country.commune">
+        <field name="name">Cluj-Napoca</field>
+        <field name="siruta">54975</field>
+        <field name="state_id" ref="base.RO_CJ" />
+        <field name="zone_id" ref="l10n_ro_siruta.RO_NV" />
+        <field name="country_id" ref="base.ro" />
+    </record>
+    <record id="RO_155252" model="res.city">
+        <field name="name">Timisoara</field>
+        <field name="siruta">155252</field>
+        <field name="commune_id" ref="l10n_ro_siruta.RO_155243" />
+        <field name="state_id" ref="base.RO_TM" />
+        <field name="zone_id" ref="l10n_ro_siruta.RO_V" />
+        <field name="country_id" ref="base.ro" />
+    </record>
+    <record id="RO_54984" model="res.city">
+        <field name="name">Cluj-Napoca</field>
+        <field name="siruta">54984</field>
+        <field name="commune_id" ref="l10n_ro_siruta.RO_54975" />
+        <field name="state_id" ref="base.RO_CJ" />
+        <field name="zone_id" ref="l10n_ro_siruta.RO_NV" />
+        <field name="country_id" ref="base.ro" />
+    </record>
+</odoo>
