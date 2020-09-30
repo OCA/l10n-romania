@@ -116,7 +116,7 @@ class TestStockConsumn(TestStockCommon):
         _logger.info("Start retur  consum")
         self.make_return(picking, 1)
 
-    def test_consumption(self):
+    def test_production_consumption(self):
         self.set_stock(self.product_mp, 1000)
         _logger.info("Start Consum in productie")
         location_id = self.picking_type_transfer.default_location_src_id.copy(
@@ -163,4 +163,21 @@ class TestStockConsumn(TestStockCommon):
         _logger.info("Dare in folosinta facuta")
 
         _logger.info("Start retur dare in folosinta")
+        self.make_return(picking, 1)
+
+    def test_consume(self):
+
+        self.set_stock(self.product_mp, 1000)
+        _logger.info("Start consum produse")
+
+        location_id = self.picking_type_transfer.default_location_src_id
+
+        location_dest_id = self.picking_type_transfer.default_location_dest_id.copy(
+            {"usage": "consume"}
+        )
+
+        picking = self.trasfer(location_id, location_dest_id)
+        _logger.info("Consum facuta")
+
+        _logger.info("Start retur consum")
         self.make_return(picking, 1)
