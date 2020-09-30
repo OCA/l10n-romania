@@ -28,7 +28,7 @@ class ProductCategory(models.Model):
     @api.depends("name")
     def _compute_hide_accounts(self):
         for record in self:
-            if record.env.company.romanian_accounting:
+            if self.env.company.romanian_accounting:
                 record.hide_stock_in_out_account = True
             else:
                 record.hide_stock_in_out_account = False
@@ -65,7 +65,7 @@ class ProductCategory(models.Model):
         "property_stock_account_output_categ_id",
         "property_stock_account_input_categ_id",
     )
-    def _onchange_stock_accouts(self):
+    def _onchange_stock_accounts(self):
         """ only for Romania, stock_valuation output and input are the same
         """
         for record in self:

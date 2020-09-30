@@ -273,6 +273,7 @@ class TestStockCommon(SavepointCase):
                 move_line.write({"qty_done": self.qty_po_p2})
 
         self.picking.button_validate()
+        self.picking.action_done()
         _logger.info("Receptie facuta")
 
         self.po = po
