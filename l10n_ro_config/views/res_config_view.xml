@@ -387,7 +387,6 @@
                                     title="Values set here are company-specific."
                                     role="img"
                                     aria-label="Values set here are company-specific."
-                                    groups="base.stock_acc_price_diff"
                                 />
                                 <div class="text-muted">
                                     Update stock valuation in case of currency rate difference between reception and bill
