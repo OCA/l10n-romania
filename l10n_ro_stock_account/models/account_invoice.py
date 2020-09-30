@@ -6,7 +6,6 @@
 import logging
 
 from odoo import _, models
-from odoo.tools import safe_eval
 from odoo.tools.float_utils import float_is_zero
 
 _logger = logging.getLogger(__name__)
@@ -18,13 +17,8 @@ class AccountMove(models.Model):
     def _stock_account_prepare_anglo_saxon_in_lines_vals(self):
         # inainte de a genera liniile de diferenta de pret
 
-        account_id = self.company_id.property_stock_picking_payable_account_id
-        get_param = self.env["ir.config_parameter"].sudo().get_param
-        # diff_limit = float(get_param("stock_account.diff_limit", "2.0"))
-        add_diff_from_config = get_param("stock_account.add_diff", "False")
-        add_diff_from_config = safe_eval(add_diff_from_config)
-
         for invoice in self:
+            account_id = invoice.company_id.property_stock_picking_payable_account_id
             if invoice.type in ["in_invoice", "in_refund"]:
                 for line in invoice.invoice_line_ids:
                     if line.product_id.cost_method == "standard":
@@ -32,7 +26,7 @@ class AccountMove(models.Model):
                         # diferentele de pret.
                         add_diff = True
                     else:
-                        add_diff = add_diff_from_config
+                        add_diff = not invoice.company_id.stock_acc_price_diff
 
                     # daca linia a fost receptionata pe baza de aviz se
                     # seteaza contul 408 pe nota contabile
@@ -122,10 +116,6 @@ class AccountMoveLine(models.Model):
         """ Se obtine diferenta dintre evaloarea stocului si valoarea din factura"""
         line = self
         move = line.move_id
-
-        # po_currency = line.purchase_line_id.currency_id
-        # po_company = line.purchase_line_id.company_id
-
         # Retrieve stock valuation moves.
         valuation_stock_moves = self.env["stock.move"].search(
             [
@@ -149,13 +139,6 @@ class AccountMoveLine(models.Model):
         valuation_price_unit_total = 0
         valuation_total_qty = 0
         for val_stock_move in valuation_stock_moves:
-            # In case val_stock_move is a return move, its valuation
-            # entries have been made with the currency rate corresponding
-            # to the original stock move
-            # valuation_date = (
-            #     val_stock_move.origin_returned_move_id.date or
-            #     val_stock_move.date
-            # )
             svl = val_stock_move.mapped("stock_valuation_layer_ids").filtered(
                 lambda l: l.quantity
             )
@@ -170,9 +153,6 @@ class AccountMoveLine(models.Model):
             return 0.0
 
         valuation_price_unit = valuation_price_unit_total / valuation_total_qty
-
-        # print('Pretul din receptie este: ', valuation_price_unit)
-
         price_unit = line.price_unit * (1 - (line.discount or 0.0) / 100.0)
         if line.tax_ids:
             price_unit = line.tax_ids.compute_all(
@@ -193,14 +173,11 @@ class AccountMoveLine(models.Model):
             move.invoice_date,
             round=False,
         )
-        # print('Pretul din factura este convertit in moneda companiei: ', price_unit)
-
         price_unit_val_dif = price_unit - valuation_price_unit
         return price_unit_val_dif
 
     def modify_stock_valuation(self, price_unit_val_dif):
         # se adauga la evaluarea miscarii de stoc
-
         valuation_stock_move = self.env["stock.move"].search(
             [
                 ("purchase_line_id", "=", self.purchase_line_id.id),
@@ -211,9 +188,7 @@ class AccountMoveLine(models.Model):
         )
         linked_layer = valuation_stock_move.stock_valuation_layer_ids[:1]
         value = price_unit_val_dif * self.quantity
-
         # trebuie cantitate din factura in unitatea produsului si apoi
-
         value = self.product_uom_id._compute_price(value, self.product_id.uom_id)
 
         self.env["stock.valuation.layer"].create(
@@ -231,6 +206,3 @@ class AccountMoveLine(models.Model):
                 "company_id": self.move_id.company_id.id,
             }
         )
-
-        # todo de eliminat cantitatea dupa ce se apeleaza
-        # _stock_account_prepare_anglo_saxon_in_lines_vals

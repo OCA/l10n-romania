@@ -72,10 +72,14 @@ class TestStockCommon(SavepointCase):
 
         cls.env.user.company_id.anglo_saxon_accounting = True
         cls.env.user.company_id.romanian_accounting = True
+        cls.env.user.company_id.stock_acc_price_diff = True
 
         cls.setUpAccounts()
 
-        stock_journal = cls.env["account.journal"].search([("code", "=", "STJ")])
+        stock_journal = cls.env["account.journal"].search(
+            [("code", "=", "STJ"), ("company_id", "=", cls.env.user.company_id.id)],
+            limit=1,
+        )
         if not stock_journal:
             stock_journal = cls.env["account.journal"].create(
                 {"name": "Stock Journal", "code": "STJ", "type": "general"}
@@ -97,7 +101,9 @@ class TestStockCommon(SavepointCase):
             "stock_account_change": True,
         }
 
-        cls.category = cls.env["product.category"].search([("name", "=", "TEST Marfa")])
+        cls.category = cls.env["product.category"].search(
+            [("name", "=", "TEST Marfa")], limit=1
+        )
         if not cls.category:
             cls.category = cls.env["product.category"].create(category_value)
         else:
