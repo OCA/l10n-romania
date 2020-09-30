@@ -175,7 +175,7 @@ class TestStockCommon(SavepointCase):
 
         # cantitatea din PO
         cls.qty_po_p1 = 20.0
-        cls.qty_po_p2 = 20.00
+        cls.qty_po_p2 = 20.0
 
         # cantitata din SO
         cls.qty_so_p1 = 5.0
@@ -231,17 +231,6 @@ class TestStockCommon(SavepointCase):
                 "sequence_code": "TR_test",
             }
         )
-
-        # cls.location_store = location.copy(
-        #     {"merchandise_type": "store", "name": "TEST store"}
-        # )
-        # cls.picking_type_in_store = picking_type_in.copy(
-        #     {
-        #         "default_location_dest_id": cls.location_store.id,
-        #         "name": "TEST Receptie in magazin",
-        #         "code": 'IN_TS'
-        #     }
-        # )
 
     def create_po(self, notice=False, picking_type_in=None):
 
@@ -319,10 +308,6 @@ class TestStockCommon(SavepointCase):
                 move_line.write({"quantity_done": move_line.product_uom_qty})
         return_pick.action_done()
 
-        #
-        # return_pick.move_line_ids.write({"qty_done": quantity})
-        # return_pick.button_validate()
-
     def check_stock_valuation(self, val_p1, val_p2):
         val_p1 = round(val_p1, 2)
         val_p2 = round(val_p2, 2)
@@ -353,7 +338,6 @@ class TestStockCommon(SavepointCase):
         account_valuations = self.env["account.move.line"].read_group(
             domain, ["debit:sum", "credit:sum", "quantity:sum"], ["product_id"]
         )
-
         for valuation in account_valuations:
             val = round(valuation["debit"] - valuation["credit"], 2)
             if valuation["product_id"][0] == self.product_1.id:

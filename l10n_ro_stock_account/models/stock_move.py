@@ -312,11 +312,6 @@ class StockMove(models.Model):
 
         return self.env["stock.valuation.layer"].sudo().create(svl_vals_list)
 
-        # for move in self.with_context(standard=True, valued_type="internal_transfer"):
-        #     svl_vals = move._prepare_common_svl_vals()
-        #     svl_vals_list.append(svl_vals)
-        # return self.env["stock.valuation.layer"].sudo().create(svl_vals_list)
-
     def _is_usage_giving(self):
         """ Este dare in folosinta"""
         it_is = (
@@ -370,7 +365,7 @@ class StockMove(models.Model):
         if self._is_out():
             return company_from
 
-        return self.env.user.company_id
+        return self.env.company
 
     def _account_entry_move(self, qty, description, svl_id, cost):
         """ Accounting Valuation Entries """
@@ -452,21 +447,6 @@ class StockMove(models.Model):
                 move._create_account_move_line(
                     acc_src, acc_valuation, journal_id, qty, description, svl_id, cost
                 )
-
-        # if self._is_internal_transfer():
-        #     # inregistrare transfer intern
-        #     company = self.env.user.company_id
-        #     move = self.with_context(
-        #     force_company=company.id, valued_type="internal_transfer")
-        #     journal_id, acc_src, acc_dest, acc_valuation =
-        #     move._get_accounting_data_for_valuation()
-        #     if move._is_internal_transfer():
-        #         if move.location_id.valuation_out_account_id:
-        #             acc_src = move.location_id.valuation_out_account_id.id
-        #         if move.location_dest_id.valuation_in_account_id:
-        #             acc_dest = move.location_dest_id.valuation_in_account_id.id
-        #     move._creagte_account_move_line(
-        #     acc_src, acc_dest, journal_id, qty, description, svl_id, cost)
 
     def _get_sale_amount(self):
         valuation_amount = 0

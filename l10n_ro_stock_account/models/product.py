@@ -99,7 +99,7 @@ class ProductTemplate(models.Model):
 
         company = (
             self.env["res.company"].browse(self._context.get("force_company"))
-            or self.env.user.company_id
+            or self.env.company
         )
         if not company.romanian_accounting:
             return accounts
@@ -130,31 +130,19 @@ class ProductTemplate(models.Model):
         _logger.info(valued_type)
 
         # in nir si factura se ca utiliza 408
-        if valued_type in ["reception_notice", "invoice_in_notice"]:
-            stock_picking_payable_account_id = (
-                self.env.user.company_id.property_stock_picking_payable_account_id
-            )
+        if valued_type in [
+            "reception_notice",
+            "invoice_in_notice",
+            "reception_notice_return",
+        ]:
             if stock_picking_payable_account_id:
-                # pt contabilitatea anglo-saxona
                 accounts["stock_input"] = stock_picking_payable_account_id
-                # pentru contabilitate continentala
-                # accounts['expense'] = stock_picking_payable_account_id
-
+        # in aviz si factura client se va utiliza 418
         elif valued_type == "invoice_out_notice":
-            stock_picking_receivable_account_id = (
-                self.env.user.company_id.property_stock_picking_receivable_account_id
-            )
             if stock_picking_receivable_account_id:
                 accounts["stock_output"] = stock_picking_receivable_account_id
                 accounts["stock_valuation"] = accounts["income"]
                 accounts["income"] = stock_picking_receivable_account_id
-
-        elif valued_type in [
-            "plus_inventory",
-            "minus_inventory",
-        ]:
-            accounts["stock_input"] = accounts["expense"]
-            accounts["stock_output"] = accounts["expense"]
 
         # in Romania iesirea din stoc de face de regula pe contul de cheltuiala
         elif valued_type in [
@@ -162,11 +150,19 @@ class ProductTemplate(models.Model):
             "delivery_notice",
             "consumption",
             "production_return",
+            "minus_inventory",
             "usage_giving",
         ]:
             accounts["stock_output"] = accounts["expense"]
 
-        elif valued_type in ["production", "consumption_return", "delivery_return"]:
+        # intrare in stoc
+        elif valued_type in [
+            "production",
+            "consumption_return",
+            "delivery_return",
+            "usage_giving_return",
+            "plus_inventory",
+        ]:
             accounts["stock_input"] = accounts["expense"]
 
         # suplimentar la darea in consum mai face o nota contabila
@@ -174,5 +170,4 @@ class ProductTemplate(models.Model):
             accounts["stock_output"] = property_stock_usage_giving_account_id
             accounts["stock_input"] = property_stock_usage_giving_account_id
             accounts["stock_valuation"] = property_stock_usage_giving_account_id
-
         return accounts
