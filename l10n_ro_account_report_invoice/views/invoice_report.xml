@@ -12,11 +12,8 @@
                     id="inv_tax_id_label"
                 />
                 <t t-else="">Tax ID</t>:
-                    <t t-if="o.commercial_partner_id.vat_subjected">
+                <t t-if="o.commercial_partner_id.vat">
                     <span t-field="o.commercial_partner_id.vat" />
-                </t>
-                    <t t-if="not o.commercial_partner_id.vat_subjected">
-                    <span t-esc="o.commercial_partner_id.vat[2:20]" />
                 </t>
             </div>
             <div t-if="o.partner_id.nrc" class="mt16">NRC: <span
