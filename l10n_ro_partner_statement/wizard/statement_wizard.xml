@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="activity_statement_wizard_view" model="ir.ui.view">
+        <field name="name">Activity Statement Wizard</field>
+        <field name="model">activity.statement.wizard</field>
+        <field
+            name="inherit_id"
+            ref="partner_statement.activity_statement_wizard_view"
+        />
+        <field name="arch" type="xml">
+            <xpath expr="//group[@name='aging_report']" position="after">
+                <group name="show_debit_credit">
+                    <field name="show_debit_credit" />
+                </group>
+            </xpath>
+        </field>
+    </record>
+    <act_window
+        id="activity_statement_wizard_action"
+        name="Partner Activity Statement"
+        binding_model="res.partner"
+        res_model="activity.statement.wizard"
+        binding_type="report"
+        view_mode="form"
+        target="new"
+    />
+</odoo>

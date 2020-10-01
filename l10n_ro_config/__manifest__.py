@@ -6,7 +6,7 @@
     "name": "Romania - Localization Config",
     "summary": "Romania - Localization Install and Config Applications",
     "license": "AGPL-3",
-    "version": "13.0.1.0.0",
+    "version": "13.0.1.1.0",
     "author": "NextERP Romania,"
     "Forest and Biomass Romania,"
     "Odoo Community Association (OCA)",
@@ -15,7 +15,6 @@
     "data": [
         "views/res_partner_view.xml",
         "views/common_report.xml",
-        # "views/report_templates.xml",
         "views/res_config_view.xml",
         "views/res_bank_view.xml",
     ],
