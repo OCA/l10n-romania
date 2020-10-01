@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <data>
+        <template
+            id="activity_statement_document"
+            inherit_id="partner_statement.activity_statement_document"
+        >
+            <xpath expr="//table/thead" position="replace">
+                <thead>
+                    <t t-if="show_debit_credit">
+                        <tr>
+                            <th rowspan="2">Reference number</th>
+                            <th rowspan="2">Date</th>
+                            <th rowspan="2">Description</th>
+                            <th colspan="2" class="amount">Amount</th>
+                            <th colspan="2" class="amount">Balance</th>
+                        </tr>
+                        <tr>
+                            <th class="amount">Debit</th>
+                            <th class="amount">Credit</th>
+                            <th class="amount">Debit</th>
+                            <th class="amount">Credit</th>
+                        </tr>
+                    </t>
+                    <t t-else="">
+                        <tr>
+                            <th>Reference number</th>
+                            <th>Date</th>
+                            <th>Description</th>
+                            <th class="amount">Amount</th>
+                            <th class="amount">Balance</th>
+                        </tr>
+                    </t>
+                </thead>
+            </xpath>
+            <xpath expr="//table/tbody/tr[1]/td[5]" position="replace">
+                <t t-if="show_debit_credit">
+                    <td />
+                    <td class="amount">
+                        <span
+                            t-if="currency['balance_forward']&gt;0"
+                            t-esc="currency['balance_forward']"
+                            t-options="{'widget': 'monetary', 'display_currency': display_currency}"
+                        />
+                    </td>
+                    <td class="amount">
+                        <span
+                            t-if="currency['balance_forward']&lt;0"
+                            t-esc="-currency['balance_forward']"
+                            t-options="{'widget': 'monetary', 'display_currency': display_currency}"
+                        />
+                    </td>
+                </t>
+                <t t-else="">
+                    <td class="amount">
+                        <span
+                            t-esc="currency['balance_forward']"
+                            t-options="{'widget': 'monetary', 'display_currency': display_currency}"
+                        />
+                    </td>
+                </t>
+            </xpath>
+            <xpath expr="//table/tbody/tr[2]/td[4]" position="replace">
+                <t id="tag_amount" />
+            </xpath>
+            <xpath expr="//table/tbody/tr[2]/td[4]" position="replace">
+                <t id="tag_balance" />
+            </xpath>
+            <xpath expr="//t[@id='tag_amount']" position="replace">
+                <t t-if="show_debit_credit">
+                    <td class="amount">
+                        <span
+                            t-if="line['amount']&gt;0"
+                            t-esc="line['amount']"
+                            t-options="{'widget': 'monetary', 'display_currency': display_currency}"
+                        />
+                    </td>
+                    <td class="amount">
+                        <span
+                            t-if="line['amount']&lt;0"
+                            t-esc="-line['amount']"
+                            t-options="{'widget': 'monetary', 'display_currency': display_currency}"
+                        />
+                    </td>
+                </t>
+                <t t-else="">
+                    <td class="amount">
+                        <span
+                            t-esc="line['amount']"
+                            t-options="{'widget': 'monetary', 'display_currency': display_currency}"
+                        />
+                    </td>
+                </t>
+            </xpath>
+            <xpath expr="//t[@id='tag_balance']" position="replace">
+                <t t-if="show_debit_credit">
+                    <td class="amount">
+                        <span
+                            t-if="line['balance']&gt;0"
+                            t-esc="line['balance']"
+                            t-options="{'widget': 'monetary', 'display_currency': display_currency}"
+                        />
+                    </td>
+                    <td class="amount">
+                        <span
+                            t-if="line['balance']&lt;0"
+                            t-esc="-line['balance']"
+                            t-options="{'widget': 'monetary', 'display_currency': display_currency}"
+                        />
+                    </td>
+                </t>
+                <t t-else="">
+                    <td class="amount">
+                        <span
+                            t-esc="line['balance']"
+                            t-options="{'widget': 'monetary', 'display_currency': display_currency}"
+                        />
+                    </td>
+                </t>
+            </xpath>
+            <xpath expr="//table/tbody/tr[3]/td[5]" position="replace">
+                <t t-if="show_debit_credit">
+                    <td />
+                    <td class="amount">
+                        <span
+                            t-if="currency['amount_due']&gt;0"
+                            t-esc="currency['amount_due']"
+                            t-options="{'widget': 'monetary', 'display_currency': display_currency}"
+                        />
+                    </td>
+                    <td class="amount">
+                        <span
+                            t-if="currency['amount_due']&lt;0"
+                            t-esc="-currency['amount_due']"
+                            t-options="{'widget': 'monetary', 'display_currency': display_currency}"
+                        />
+                    </td>
+                </t>
+                <t t-else="">
+                    <td class="amount">
+                        <span
+                            t-esc="currency['amount_due']"
+                            t-options="{'widget': 'monetary', 'display_currency': display_currency}"
+                        />
+                    </td>
+                </t>
+            </xpath>
+        </template>
+    </data>
+</odoo>
