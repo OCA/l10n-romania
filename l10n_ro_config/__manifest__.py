@@ -15,7 +15,6 @@
     "data": [
         "views/res_partner_view.xml",
         "views/common_report.xml",
-        # "views/report_templates.xml",
         "views/res_config_view.xml",
         "views/res_bank_view.xml",
     ],
