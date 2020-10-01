@@ -60,9 +60,13 @@ class AccountMove(models.Model):
 
     def _stock_account_prepare_anglo_saxon_out_lines_vals(self):
         # nu se mai face descarcarea de gestiune la facturare
-        if self.company_id.romanian_accounting:
-            return []
-        super(AccountMove, self)._stock_account_prepare_anglo_saxon_out_lines_vals()
+        invoices = self
+        for move in self:
+            if self.company_id.romanian_accounting:
+                invoices -= move
+        return super(
+            AccountMove, invoices
+        )._stock_account_prepare_anglo_saxon_out_lines_vals()
 
     def post(self):
         res = super(AccountMove, self).post()
