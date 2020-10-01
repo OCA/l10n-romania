@@ -16,6 +16,7 @@ setuptools.setup(
         'odoo13-addon-l10n_ro_config',
         'odoo13-addon-l10n_ro_fiscal_validation',
         'odoo13-addon-l10n_ro_partner_create_by_vat',
+        'odoo13-addon-l10n_ro_partner_statement',
         'odoo13-addon-l10n_ro_partner_unique',
         'odoo13-addon-l10n_ro_siruta',
         'odoo13-addon-l10n_ro_stock',
