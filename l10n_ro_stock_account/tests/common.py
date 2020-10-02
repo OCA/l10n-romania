@@ -24,7 +24,6 @@ class TestStockCommon(SavepointCase):
         cls.account_expense_mp = get_account("601000")
         cls.account_income = get_account("707000")
         cls.account_valuation = get_account("371000")
-
         cls.account_valuation_mp = get_account("301000")
 
         cls.uneligible_tax_account_id = (
@@ -231,6 +230,21 @@ class TestStockCommon(SavepointCase):
                 "sequence_code": "TR_test",
             }
         )
+        domain = [
+            ("usage", "=", "production"),
+            ("company_id", "=", cls.env.user.company_id.id),
+        ]
+        cls.location_production = cls.env["stock.location"].search(domain, limit=1)
+
+    def set_warehouse_as_mp(self):
+        self.location_warehouse.write(
+            {
+                "property_stock_valuation_account_id": self.account_valuation_mp.id,
+                "property_account_expense_location_id": self.account_expense_mp.id,
+                "valuation_in_account_id": self.account_valuation_mp.id,
+                "valuation_out_account_id": self.account_valuation_mp.id,
+            }
+        )
 
     def create_po(self, notice=False, picking_type_in=None):
 
@@ -307,6 +321,41 @@ class TestStockCommon(SavepointCase):
             if move_line.product_uom_qty > 0 and move_line.quantity_done == 0:
                 move_line.write({"quantity_done": move_line.product_uom_qty})
         return_pick.action_done()
+
+    def trasfer(self, location, location_dest, product=None):
+
+        self.PickingObj = self.env["stock.picking"]
+        self.MoveObj = self.env["stock.move"]
+
+        if not product:
+            product = self.product_mp
+
+        picking = self.PickingObj.create(
+            {
+                "picking_type_id": self.picking_type_transfer.id,
+                "location_id": location.id,
+                "location_dest_id": location_dest.id,
+            }
+        )
+        self.MoveObj.create(
+            {
+                "name": product.name,
+                "product_id": product.id,
+                "product_uom_qty": 2,
+                "product_uom": product.uom_id.id,
+                "picking_id": picking.id,
+                "location_id": location.id,
+                "location_dest_id": location_dest.id,
+            }
+        )
+        picking.action_confirm()
+        picking.action_assign()
+        for move_line in picking.move_lines:
+            if move_line.product_uom_qty > 0 and move_line.quantity_done == 0:
+                move_line.write({"quantity_done": move_line.product_uom_qty})
+        picking.action_done()
+
+        return picking
 
     def check_stock_valuation(self, val_p1, val_p2):
         val_p1 = round(val_p1, 2)

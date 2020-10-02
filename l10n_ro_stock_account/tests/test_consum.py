@@ -24,38 +24,6 @@ class TestStockConsumn(TestStockCommon):
         inventory.line_ids.product_qty = qty
         inventory.action_validate()
 
-    def trasfer(self, location_id, location_dest_id):
-
-        self.PickingObj = self.env["stock.picking"]
-        self.MoveObj = self.env["stock.move"]
-
-        picking = self.PickingObj.create(
-            {
-                "picking_type_id": self.picking_type_transfer.id,
-                "location_id": location_id.id,
-                "location_dest_id": location_dest_id.id,
-            }
-        )
-        self.MoveObj.create(
-            {
-                "name": self.product_mp.name,
-                "product_id": self.product_mp.id,
-                "product_uom_qty": 2,
-                "product_uom": self.product_mp.uom_id.id,
-                "picking_id": picking.id,
-                "location_id": location_id.id,
-                "location_dest_id": location_dest_id.id,
-            }
-        )
-        picking.action_confirm()
-        picking.action_assign()
-        for move_line in picking.move_lines:
-            if move_line.product_uom_qty > 0 and move_line.quantity_done == 0:
-                move_line.write({"quantity_done": move_line.product_uom_qty})
-        picking.action_done()
-
-        return picking
-
     def test_transfer(self):
         # la transferul dintr-o locatie in alta valoarea stocului trebuie
         # sa ramana neschimbata
@@ -101,33 +69,28 @@ class TestStockConsumn(TestStockCommon):
         _logger.info("Start return transfer")
         self.make_return(picking, 1)
 
-    def test_consumption_din_locatie_evaluata(self):
+    def test_production_consumption(self):
         self.set_stock(self.product_mp, 1000)
         _logger.info("Start Consum in productie")
         location_id = self.picking_type_transfer.default_location_src_id
-        domain = [
-            ("usage", "=", "production"),
-            ("company_id", "=", self.picking_type_transfer.company_id.id),
-        ]
-        location_dest_id = self.env["stock.location"].search(domain, limit=1)
-        picking = self.trasfer(location_id, location_dest_id)
+
+        picking = self.trasfer(location_id, self.location_production)
         _logger.info("Consum in productie facut")
 
         _logger.info("Start retur  consum")
         self.make_return(picking, 1)
 
-    def test_production_consumption(self):
+    def test_consumption_din_locatie_evaluata(self):
         self.set_stock(self.product_mp, 1000)
-        _logger.info("Start Consum in productie")
+        _logger.info("Start Consum in productie din locatie cu alta evaluare")
         location_id = self.picking_type_transfer.default_location_src_id.copy(
-            {"property_stock_valuation_account_id": self.account_valuation.id}
+            {
+                "property_stock_valuation_account_id": self.account_valuation_mp.id,
+                "property_account_expense_location_id": self.account_expense_mp.id,
+            }
         )
-        domain = [
-            ("usage", "=", "production"),
-            ("company_id", "=", self.picking_type_transfer.company_id.id),
-        ]
-        location_dest_id = self.env["stock.location"].search(domain, limit=1)
-        picking = self.trasfer(location_id, location_dest_id)
+
+        picking = self.trasfer(location_id, self.location_production)
         _logger.info("Consum in productie facut")
 
         _logger.info("Start retur  consum")
@@ -136,13 +99,9 @@ class TestStockConsumn(TestStockCommon):
     def test_production(self):
         self.set_stock(self.product_mp, 1000)
         _logger.info("Start receptie din productie")
-        domain = [
-            ("usage", "=", "production"),
-            ("company_id", "=", self.picking_type_transfer.company_id.id),
-        ]
-        location_id = self.env["stock.location"].search(domain, limit=1)
+
         location_dest_id = self.picking_type_transfer.default_location_dest_id
-        picking = self.trasfer(location_id, location_dest_id)
+        picking = self.trasfer(self.location_production, location_dest_id)
         _logger.info("Receptie  din productie facuta")
 
         _logger.info("Start retur  in productie")

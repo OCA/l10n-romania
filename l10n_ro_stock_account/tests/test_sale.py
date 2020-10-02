@@ -57,6 +57,44 @@ class TestStockSale(TestStockCommon):
 
         invoice.post()
 
+    def test_sale_and_invoice_standard(self):
+        """
+        Vanzare si facturare
+             - initial in stoc si contabilitate este valoarea din achizitie
+             - dupa vanzare valoarea stocului trebuie sa scada cu valoarea stocului
+             vandut
+             - valoarea din stoc trebuie sa fie egala cu valoarea din contabilitate
+             - in contul de venituri trebuie sa fie inregistrata valoarea de vanzare
+        """
+
+        self.env.user.company_id.romanian_accounting = False
+
+        #  intrare in stoc
+        self.make_puchase()
+
+        self.check_stock_valuation(self.val_p1_i, self.val_p2_i)
+        self.check_account_valuation(self.val_p1_i, self.val_p2_i)
+
+        # iesire din stoc prin vanzare
+        self.create_so()
+
+        # valoarea de stoc dupa vanzarea produselor
+        val_stock_p1 = round(self.val_p1_i - self.val_stock_out_so_p1, 2)
+        val_stock_p2 = round(self.val_p2_i - self.val_stock_out_so_p2, 2)
+
+        self.check_stock_valuation(val_stock_p1, val_stock_p2)
+
+        self.create_sale_invoice()
+
+        _logger.info("Verifcare valoare ramas in stoc")
+        self.check_stock_valuation(val_stock_p1, val_stock_p2)
+        self.check_account_valuation(val_stock_p1, val_stock_p2)
+
+        _logger.info("Verifcare valoare vanduta")
+        self.check_account_valuation(
+            -self.val_so_p1, -self.val_so_p2, self.account_income
+        )
+
     def test_sale_and_invoice(self):
         """
         Vanzare si facturare
