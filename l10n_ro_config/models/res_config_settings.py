@@ -8,6 +8,11 @@ from odoo import fields, models
 class ResConfigSettings(models.TransientModel):
     _inherit = "res.config.settings"
 
+    use_romanian_accounting = fields.Boolean(
+        string="Romanian Accounting",
+        related="company_id.romanian_accounting",
+        readonly=False,
+    )
     module_currency_rate_update_RO_BNR = fields.Boolean(
         "Currency Rate Update BNR",
         help="This option allows you to manage the update of currency "
@@ -117,7 +122,9 @@ class ResConfigSettings(models.TransientModel):
         related="company_id.romanian_accounting",
         readonly=False,
     )
-
+    stock_acc_price_diff = fields.Boolean(
+        related="company_id.stock_acc_price_diff", readonly=False
+    )
     module_l10n_ro_stock = fields.Boolean(
         "Romanian Stock",
         help="This module add on each warehouse methods of usage "
