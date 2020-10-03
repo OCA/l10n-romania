@@ -305,25 +305,92 @@
                         </div>
                         <div
                             class="col-xs-12 col-md-6 o_setting_box"
-                            id="module_l10n_ro_account_report_intrastat"
+                            id="module_l10n_ro_intrastat"
                         >
                             <div class="o_setting_left_pane">
-                                <field name="module_l10n_ro_account_report_intrastat" />
+                                <field name="module_l10n_ro_intrastat" />
                             </div>
                             <div class="o_setting_right_pane">
-                                <label for="module_l10n_ro_account_report_intrastat" />
+                                <label for="module_l10n_ro_intrastat" />
                                 <div class="text-muted" />
+                            </div>
+                        </div>
+                        <div class="col-xs-12 col-md-6 o_setting_box">
+                            <div class="o_setting_left_pane">
+
+                            </div>
+                            <div class="o_setting_right_pane">
+                                <div class="row mt16">
+                                    <label
+                                        for="property_vat_on_payment_position_id"
+                                        class="col-lg-3 o_light_label"
+                                    />
+                                    <field name="property_vat_on_payment_position_id" />
+                                </div>
+                                <div class="row mt16">
+                                    <label
+                                        for="property_inverse_taxation_position_id"
+                                        class="col-lg-3 o_light_label"
+                                    />
+                                    <field
+                                        name="property_inverse_taxation_position_id"
+                                    />
+                                </div>
                             </div>
                         </div>
                     </div>
                     <h2>Stock</h2>
                     <div class="row mt16 o_settings_container">
-                        <div class="col-xs-12 col-md-6 o_setting_box">
+                        <div
+                            class="col-xs-12 col-md-6 o_setting_box"
+                            id="use_anglo_saxon"
+                        >
                             <div class="o_setting_left_pane">
                                 <field name="use_anglo_saxon" />
                             </div>
                             <div class="o_setting_right_pane">
                                 <label for="use_anglo_saxon" />
+                                <span
+                                    class="fa fa-lg fa-building-o"
+                                    title="Values set here are company-specific."
+                                    role="img"
+                                    aria-label="Values set here are company-specific."
+                                    groups="base.group_multi_company"
+                                />
+                                <div class="text-muted">
+                                    Record cost of goods sold in your journal entries
+                                </div>
+                            </div>
+                            <div class="o_setting_left_pane">
+                                <field name="use_romanian_accounting" />
+                            </div>
+                            <div class="o_setting_right_pane">
+                                <label for="use_romanian_accounting" />
+                                <span
+                                    class="fa fa-lg fa-building-o"
+                                    title="Values set here are company-specific."
+                                    role="img"
+                                    aria-label="Values set here are company-specific."
+                                    groups="base.group_multi_company"
+                                />
+                                <div class="text-muted">
+                                    Registration of accounting move according to Romanian legislation
+                                </div>
+                            </div>
+                            <div class="o_setting_left_pane">
+                                <field name="stock_acc_price_diff" />
+                            </div>
+                            <div class="o_setting_right_pane">
+                                <label for="stock_acc_price_diff" />
+                                <span
+                                    class="fa fa-lg fa-building-o"
+                                    title="Values set here are company-specific."
+                                    role="img"
+                                    aria-label="Values set here are company-specific."
+                                />
+                                <div class="text-muted">
+                                    Update stock valuation in case of currency rate difference between reception and bill
+                                </div>
                             </div>
                         </div>
                         <div
@@ -413,6 +480,24 @@
                                         <field
                                             name="property_stock_transfer_account_id"
                                             placeholder="Select 482"
+                                        />
+                                    </div>
+                                    <div class="row mt16">
+                                        <label
+                                            for="property_trade_discount_received_account_id"
+                                            class="col-lg-3 o_light_label"
+                                        />
+                                        <field
+                                            name="property_trade_discount_received_account_id"
+                                        />
+                                    </div>
+                                    <div class="row mt16">
+                                        <label
+                                            for="property_trade_discount_granted_account_id"
+                                            class="col-lg-3 o_light_label"
+                                        />
+                                        <field
+                                            name="property_trade_discount_granted_account_id"
                                         />
                                     </div>
                                 </div>
