@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="view_picking_add_notice_form" model="ir.ui.view">
+        <field name="name">view_picking_add_note_form</field>
+        <field name="model">stock.picking</field>
+        <field name="inherit_id" ref="stock.view_picking_form" />
+        <field eval="42" name="priority" />
+        <field name="arch" type="xml">
+            <field name="picking_type_code" position="replace" />
+            <field name="picking_type_id" position="after">
+                <field name="picking_type_code" readonly="1" />
+            </field>
+            <field name="backorder_id" position="after">
+                <field name="notice" />
+            </field>
+            <!-- if is a notice/aviz to be mandatory the partner_id -->
+            <field name="partner_id" position="attributes">
+                <attribute name="attrs">{'required':[('notice','=',True)]}</attribute>
+            </field>
+            <xpath expr="//button[@name='action_show_details']" position="after">
+                <field name="picking_code" invisible="1" />
+                <field
+                    name="price_unit"
+                    attrs="{'invisible': [('picking_code','!=','incoming')]}"
+                />
+            </xpath>
+        </field>
+    </record>
+    <record id="view_picking_add_notice_tree" model="ir.ui.view">
+        <field name="name">view_picking_add_notice_tree</field>
+        <field name="model">stock.picking</field>
+        <field name="inherit_id" ref="stock.vpicktree" />
+        <field eval="42" name="priority" />
+        <field name="arch" type="xml">
+            <field name="origin" position="before">
+                <field name="notice" optional="show" />
+            </field>
+        </field>
+    </record>
+    <record id="view_picking_internal_add_notice_search" model="ir.ui.view">
+        <field name="name">view_picking_internal_add_notice_search</field>
+        <field name="model">stock.picking</field>
+        <field name="inherit_id" ref="stock.view_picking_internal_search" />
+        <field name="arch" type="xml">
+            <filter name="cancel" position="after">
+                <filter
+                    name="notice"
+                    string="is notice (aviz)"
+                    domain="[('notice', '=', True)]"
+                />
+            </filter>
+        </field>
+    </record>
+</odoo>
