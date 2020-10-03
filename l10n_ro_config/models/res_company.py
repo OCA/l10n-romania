@@ -11,6 +11,12 @@ class ResCompany(models.Model):
     share_capital = fields.Float(string="Share Capital", digits="Account", default=200)
     company_registry = fields.Char(related="partner_id.nrc", readonly=False)
     romanian_accounting = fields.Boolean(string="Use Romanian Accounting")
+    stock_acc_price_diff = fields.Boolean(
+        string="Stock Valuation Update",
+        help="If this field is checked and the company use Romanian Accounting,"
+        "the currency rate differences between reception and invoice "
+        "will be reflected in the stock valuation.",
+    )
     property_stock_picking_payable_account_id = fields.Many2one(
         "account.account",
         string="Picking Account Payable",
