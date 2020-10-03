@@ -377,6 +377,21 @@
                                     Registration of accounting move according to Romanian legislation
                                 </div>
                             </div>
+                            <div class="o_setting_left_pane">
+                                <field name="stock_acc_price_diff" />
+                            </div>
+                            <div class="o_setting_right_pane">
+                                <label for="stock_acc_price_diff" />
+                                <span
+                                    class="fa fa-lg fa-building-o"
+                                    title="Values set here are company-specific."
+                                    role="img"
+                                    aria-label="Values set here are company-specific."
+                                />
+                                <div class="text-muted">
+                                    Update stock valuation in case of currency rate difference between reception and bill
+                                </div>
+                            </div>
                         </div>
                         <div
                             class="col-xs-12 col-md-6 o_setting_box"
