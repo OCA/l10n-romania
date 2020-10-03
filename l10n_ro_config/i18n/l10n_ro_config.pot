@@ -22,6 +22,14 @@ msgid ""
 msgstr ""
 
 #. module: l10n_ro_config
+#: model_terms:ir.ui.view,arch_db:l10n_ro_config.res_config_settings_view_form
+msgid ""
+"<span class=\"fa fa-lg fa-building-o\" title=\"Values set here are company-"
+"specific.\" role=\"img\" aria-label=\"Values set here are company-"
+"specific.\"/>"
+msgstr ""
+
+#. module: l10n_ro_config
 #: model_terms:ir.ui.view,arch_db:l10n_ro_config.banks
 msgid "<strong>Account:</strong>"
 msgstr ""
@@ -177,6 +185,15 @@ msgstr ""
 #. module: l10n_ro_config
 #: model:ir.model.fields,field_description:l10n_ro_config.field_res_company__property_vat_on_payment_position_id
 msgid "Fiscal Position for VAT on Payment"
+msgstr ""
+
+#. module: l10n_ro_config
+#: model:ir.model.fields,help:l10n_ro_config.field_res_company__stock_acc_price_diff
+#: model:ir.model.fields,help:l10n_ro_config.field_res_config_settings__stock_acc_price_diff
+msgid ""
+"If this field is checked and the company use Romanian Accounting,the "
+"currency rate differences between reception and invoice will be reflected in"
+" the stock valuation."
 msgstr ""
 
 #. module: l10n_ro_config
@@ -349,6 +366,12 @@ msgstr ""
 #. module: l10n_ro_config
 #: model:ir.model.fields,field_description:l10n_ro_config.field_res_config_settings__module_l10n_ro_stock_picking_report_store
 msgid "Stock Picking Report - Store"
+msgstr ""
+
+#. module: l10n_ro_config
+#: model:ir.model.fields,field_description:l10n_ro_config.field_res_company__stock_acc_price_diff
+#: model:ir.model.fields,field_description:l10n_ro_config.field_res_config_settings__stock_acc_price_diff
+msgid "Stock Valuation Update"
 msgstr ""
 
 #. module: l10n_ro_config
@@ -557,6 +580,13 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_ro_config.field_res_company__property_trade_discount_received_account_id
 #: model:ir.model.fields,field_description:l10n_ro_config.field_res_config_settings__property_trade_discount_received_account_id
 msgid "Trade discounts received"
+msgstr ""
+
+#. module: l10n_ro_config
+#: model_terms:ir.ui.view,arch_db:l10n_ro_config.res_config_settings_view_form
+msgid ""
+"Update stock valuation in case of currency rate difference between reception"
+" and bill"
 msgstr ""
 
 #. module: l10n_ro_config
