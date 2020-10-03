@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="res_config_settings_view_form" model="ir.ui.view">
+        <field name="name">res.config.settings.view.form</field>
+        <field name="model">res.config.settings</field>
+        <field name="priority" eval="41" />
+        <field name="inherit_id" ref="base.res_config_settings_view_form" />
+        <field name="arch" type="xml">
+            <xpath expr="//div[@id='account_vendor_bills']" position="inside">
+                <div class="col-12 col-lg-6 o_setting_box">
+                    <div class="o_setting_right_pane">
+                        <label for="property_stock_picking_payable_account_id" />
+                        <span
+                            class="fa fa-lg fa-building-o"
+                            title="Values set here are company-specific."
+                            aria-label="Values set here are company-specific."
+                            groups="base.group_multi_company"
+                            role="img"
+                        />
+                        <div class="text-muted">
+                            This account will be used as the payable account for the
+                            current partner on stock picking notice.
+                        </div>
+                        <div class="content-group">
+                            <field
+                                name="property_stock_picking_payable_account_id"
+                                placeholder="Select 408"
+                            />
+                        </div>
+                    </div>
+                </div>
+            </xpath>
+            <xpath expr="//div[@id='invoicing_settings']" position="inside">
+                <div class="col-12 col-lg-6 o_setting_box">
+                    <div class="o_setting_right_pane">
+                        <label for="property_stock_picking_receivable_account_id" />
+                        <span
+                            class="fa fa-lg fa-building-o"
+                            title="Values set here are company-specific."
+                            aria-label="Values set here are company-specific."
+                            groups="base.group_multi_company"
+                            role="img"
+                        />
+                        <div class="text-muted">
+                            This account will be used as the receivable account for the
+                            current partner on stock picking notice.
+                        </div>
+                        <div class="content-group">
+                            <field
+                                name="property_stock_picking_receivable_account_id"
+                                placeholder="Select 418"
+                            />
+                        </div>
+                    </div>
+                </div>
+            </xpath>
+            <xpath expr="//div[@data-key='account']/div" position="inside">
+                <div class="col-12 col-lg-6 o_setting_box" groups="base.group_no_one">
+                    <div class="o_setting_left_pane">
+                        <field name="use_anglo_saxon" />
+                    </div>
+                    <div class="o_setting_right_pane">
+                        <label for="use_anglo_saxon" />
+                        <span
+                            class="fa fa-lg fa-building-o"
+                            title="Values set here are company-specific."
+                            role="img"
+                            aria-label="Values set here are company-specific."
+                            groups="base.group_multi_company"
+                        />
+                        <div class="text-muted">
+                            Record cost of goods sold in your journal entries
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 col-lg-6 o_setting_box" groups="base.group_no_one">
+                    <div class="o_setting_left_pane">
+                        <field name="use_romanian_accounting" />
+                    </div>
+                    <div class="o_setting_right_pane">
+                        <label for="use_romanian_accounting" />
+                        <span
+                            class="fa fa-lg fa-building-o"
+                            title="Values set here are company-specific."
+                            role="img"
+                            aria-label="Values set here are company-specific."
+                            groups="base.group_multi_company"
+                        />
+                        <div class="text-muted">
+                            Registration of accounting move according to Romanian legislation
+                        </div>
+                    </div>
+                </div>
+            </xpath>
+        </field>
+    </record>
+</odoo>
