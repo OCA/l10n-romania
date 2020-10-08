@@ -1,7 +1,7 @@
-[![Runbot Status](https://runbot.odoo-community.org/runbot/badge/flat/177/15.0.svg)](https://runbot.odoo-community.org/runbot/repo/github-com-oca-l10n-romania-177)
-[![Build Status](https://travis-ci.com/OCA/l10n-romania.svg?branch=15.0)](https://travis-ci.com/OCA/l10n-romania)
-[![codecov](https://codecov.io/gh/OCA/l10n-romania/branch/15.0/graph/badge.svg)](https://codecov.io/gh/OCA/l10n-romania)
-[![Translation Status](https://translation.odoo-community.org/widgets/l10n-romania-15-0/-/svg-badge.svg)](https://translation.odoo-community.org/engage/l10n-romania-15-0/?utm_source=widget)
+[![Runbot Status](https://runbot.odoo-community.org/runbot/badge/flat/177/14.0.svg)](https://runbot.odoo-community.org/runbot/repo/github-com-oca-l10n-romania-177)
+[![Build Status](https://travis-ci.com/OCA/l10n-romania.svg?branch=14.0)](https://travis-ci.com/OCA/l10n-romania)
+[![codecov](https://codecov.io/gh/OCA/l10n-romania/branch/14.0/graph/badge.svg)](https://codecov.io/gh/OCA/l10n-romania)
+[![Translation Status](https://translation.odoo-community.org/widgets/l10n-romania-14-0/-/svg-badge.svg)](https://translation.odoo-community.org/engage/l10n-romania-14-0/?utm_source=widget)
 
 <!-- /!\ do not modify above this line -->
 
@@ -15,18 +15,7 @@ TODO: add repo description.
 
 [//]: # (addons)
 
-Available addons
-----------------
-addon | version | maintainers | summary
---- | --- | --- | ---
-[l10n_ro_account_report_invoice](l10n_ro_account_report_invoice/) | 15.0.1.1.0 |  | Romania - Invoice Report
-[l10n_ro_config](l10n_ro_config/) | 15.0.1.1.0 | [![feketemihai](https://github.com/feketemihai.png?size=30px)](https://github.com/feketemihai) | Romania - Localization Install and Config Applications
-[l10n_ro_fiscal_validation](l10n_ro_fiscal_validation/) | 15.0.1.0.0 | [![feketemihai](https://github.com/feketemihai.png?size=30px)](https://github.com/feketemihai) | Romania - Fiscal Validation
-[l10n_ro_partner_create_by_vat](l10n_ro_partner_create_by_vat/) | 15.0.1.2.0 | [![feketemihai](https://github.com/feketemihai.png?size=30px)](https://github.com/feketemihai) | Romania - Partner Create by VAT
-[l10n_ro_partner_unique](l10n_ro_partner_unique/) | 15.0.1.1.0 | [![feketemihai](https://github.com/feketemihai.png?size=30px)](https://github.com/feketemihai) | Creates a rule for vat and nrc unique for partners.
-[l10n_ro_stock](l10n_ro_stock/) | 15.0.1.0.0 | [![feketemihai](https://github.com/feketemihai.png?size=30px)](https://github.com/feketemihai) | Romania - Stock
-[l10n_ro_stock_account](l10n_ro_stock_account/) | 15.0.1.1.0 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) [![feketemihai](https://github.com/feketemihai.png?size=30px)](https://github.com/feketemihai) | Romania - Stock Accounting
-[l10n_ro_vat_on_payment](l10n_ro_vat_on_payment/) | 15.0.1.0.0 | [![feketemihai](https://github.com/feketemihai.png?size=30px)](https://github.com/feketemihai) | Romania - VAT on Payment
+This part will be replaced when running the oca-gen-addons-table script from OCA/maintainer-tools.
 
 [//]: # (end addons)
 
