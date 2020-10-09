@@ -5,7 +5,7 @@
     "summary": "Currency Rate Update National Bank of Romania service",
     "depends": ["base", "currency_rate_update"],
     "license": "AGPL-3",
-    "version": "13.0.2.0.2",
+    "version": "14.0.1.0.0",
     "author": "NextERP Romania,"
     "Forest and Biomass Romania,"
     "Odoo Community Association (OCA)",
