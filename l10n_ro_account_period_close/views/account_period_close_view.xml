@@ -82,14 +82,16 @@
         id="menu_action_account_period_closing"
         parent="account.menu_finance_entries_actions"
     />
-    <act_window
-        name="Close Period"
-        res_model="account.period.closing.wizard"
-        binding_model="account.period.closing"
-        binding_views="form"
-        view_mode="form"
-        target="new"
-        context="{'search_default_closing_id':[active_id], 'default_closing_id': active_id}"
-        id="act_account_period_closing_wizard"
-    />
+    <record id="act_account_period_closing_wizard" model="ir.actions.act_window">
+        <field name="name">Close Period</field>
+        <field name="res_model">account.period.closing.wizard</field>
+        <field name="context">
+            {'search_default_closing_id':[active_id], 'default_closing_id': active_id}
+        </field>
+        <field
+            name="binding_model_id"
+            ref="l10n_ro_account_period_close.model_account_period_closing"
+        />
+        <field name="binding_view_types">form</field>
+    </record>
 </odoo>
