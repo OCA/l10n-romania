@@ -23,7 +23,7 @@ class ResPartner(models.Model):
     @api.constrains("vat", "nrc")
     def _check_vat_nrc_unique(self):
         for record in self:
-            if record.vat and record.nrc:
+            if record.vat:
                 domain = record._get_vat_nrc_constrain_domain()
                 results = self.env["res.partner"].search(domain)
                 if len(results) > 1:
