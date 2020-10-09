@@ -77,17 +77,17 @@ class AccountPeriodClosing(models.Model):
         self.account_ids = accounts
 
     def _get_accounts(self, accounts, display_account):
-        """ compute the balance, debit and credit for the provided accounts
-            :Arguments:
-                `accounts`: list of accounts record,
-                `display_account`: it's used to display either all accounts or
-                                   those accounts which balance is > 0
-            :Returns a list of dict of Accounts with following key and value
-                `name`: Account name,
-                `code`: Account code,
-                `credit`: total amount of credit,
-                `debit`: total amount of debit,
-                `balance`: total amount of balance,
+        """compute the balance, debit and credit for the provided accounts
+        :Arguments:
+            `accounts`: list of accounts record,
+            `display_account`: it's used to display either all accounts or
+                               those accounts which balance is > 0
+        :Returns a list of dict of Accounts with following key and value
+            `name`: Account name,
+            `code`: Account code,
+            `credit`: total amount of credit,
+            `debit`: total amount of debit,
+            `balance`: total amount of balance,
         """
 
         account_result = {}
@@ -145,8 +145,8 @@ class AccountPeriodClosing(models.Model):
         return account_res
 
     def close(self, date_from=None, date_to=None):
-        """ This method will create the closing move for the
-            date interval selected."""
+        """This method will create the closing move for the
+        date interval selected."""
         account_obj = self.env["account.account"]
         journal_id = self.journal_id.id
         for closing in self:
