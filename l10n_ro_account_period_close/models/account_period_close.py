@@ -266,4 +266,4 @@ class AccountPeriodClosing(models.Model):
             self.env["account.move.line"].with_context(
                 check_move_validity=False
             ).create(line_values)
-            move.post()
+            move.action_post()
