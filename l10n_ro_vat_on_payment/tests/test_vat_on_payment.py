@@ -27,7 +27,7 @@ class TestVATonpayment(TransactionCase):
             [
                 ("internal_type", "=", "other"),
                 ("deprecated", "=", False),
-                ("company_id", "=", self.env.user.company_id.id),
+                ("company_id", "=", self.env.company.id),
             ],
             limit=1,
         )
@@ -47,13 +47,16 @@ class TestVATonpayment(TransactionCase):
         self.invoice = self.invoice_model.create(
             {
                 "partner_id": self.lxt_partner.id,
-                "type": "in_invoice",
+                "move_type": "in_invoice",
                 "invoice_line_ids": self.invoice_line,
             }
         )
         self.fp_model = self.env["account.fiscal.position"]
         self.fptvainc = self.fp_model.search(
-            [("name", "ilike", "Regim TVA la Incasare")]
+            [
+                ("name", "ilike", "Regim TVA la Incasare"),
+                ("company_id", "=", self.env.company.id),
+            ]
         )
 
     def test_download_data(self):
@@ -62,9 +65,9 @@ class TestVATonpayment(TransactionCase):
         prev_day = date.today() - timedelta(1)
         self.partner_anaf_model._download_anaf_data(prev_day)
         istoric = os.path.join(data_dir, "istoric.txt")
-        self.assertEquals(os.path.exists(istoric), True)
+        self.assertEqual(os.path.exists(istoric), True)
         self.partner_anaf_model._download_anaf_data()
-        self.assertEquals(os.path.exists(istoric), True)
+        self.assertEqual(os.path.exists(istoric), True)
 
     def test_update_partner_data(self):
         """Test download file and partner link."""
