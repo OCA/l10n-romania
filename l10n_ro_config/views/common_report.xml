@@ -58,9 +58,10 @@
             <div>
                 <div>
                     <div t-if="res_company.partner_id.vat">
-                        <strong><t
-                                t-esc="res_company.country_id.vat_label or 'Tax ID'"
-                            />:</strong>
+                        <strong>
+                            <t t-esc="res_company.country_id.vat_label or 'Tax ID'" />
+                            :
+                        </strong>
                         <span t-field="res_company.partner_id.vat" />
                     </div>
                     <div t-if="res_company.partner_id.nrc">
