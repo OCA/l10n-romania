@@ -160,7 +160,7 @@ class ProductTemplate(models.Model):
             "usage_giving_return",
             "plus_inventory",
         ]:
-            accounts["stock_input"] = accounts["expense"]
+            accounts["stock_input"] = accounts["stock_output"] = accounts["expense"]
 
         # suplimentar la darea in consum mai face o nota contabila
         elif valued_type == "usage_giving_secondary":
