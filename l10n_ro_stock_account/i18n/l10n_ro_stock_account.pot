@@ -24,6 +24,11 @@ msgid "Allow stock account change from locations"
 msgstr ""
 
 #. module: l10n_ro_stock_account
+#: model:ir.model,name:l10n_ro_stock_account.model_res_company
+msgid "Companies"
+msgstr ""
+
+#. module: l10n_ro_stock_account
 #: model:ir.model.fields,field_description:l10n_ro_stock_account.field_stock_location__property_account_expense_location_id
 msgid "Expense Account"
 msgstr ""
