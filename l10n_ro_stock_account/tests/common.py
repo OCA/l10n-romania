@@ -369,10 +369,10 @@ class TestStockCommon(SavepointCase):
             val = round(valuation["value"], 2)
             if valuation["product_id"][0] == self.product_1.id:
                 _logger.info("Check stoc P1 {} = {}".format(val, val_p1))
-                self.assertEqual(val, val_p1)
+                self.assertAlmostEqual(val, val_p1)
             if valuation["product_id"][0] == self.product_2.id:
                 _logger.info("Check SVL P2 {} = {}".format(val, val_p2))
-                self.assertEqual(val, val_p2)
+                self.assertAlmostEqual(val, val_p2)
 
     def check_account_valuation(self, val_p1, val_p2, account=None):
         val_p1 = round(val_p1, 2)
@@ -391,10 +391,10 @@ class TestStockCommon(SavepointCase):
             val = round(valuation["debit"] - valuation["credit"], 2)
             if valuation["product_id"][0] == self.product_1.id:
                 _logger.info("Check account P1 {} = {}".format(val, val_p1))
-                self.assertEqual(val, val_p1)
+                self.assertAlmostEqual(val, val_p1)
             if valuation["product_id"][0] == self.product_2.id:
                 _logger.info("Check account P2 {} = {}".format(val, val_p2))
-                self.assertEqual(val, val_p2)
+                self.assertAlmostEqual(val, val_p2)
 
     def check_account_diff(self, val_p1, val_p2):
         self.check_account_valuation(val_p1, val_p2, self.account_difference)
