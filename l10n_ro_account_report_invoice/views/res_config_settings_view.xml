@@ -8,7 +8,8 @@
             <div id="invoicing_settings" position="inside">
                 <div class="col-12 col-lg-6 o_setting_box">
                     <div class="o_setting_left_pane">
-                        </div>
+
+                    </div>
                     <div class="o_setting_right_pane">
                         <label for="invoice_no_signature_text" />
                         <span
@@ -18,9 +19,7 @@
                             groups="base.group_multi_company"
                             role="img"
                         />
-                        <div class="text-muted">
-                                Invoices without stamp text
-                            </div>
+                        <div class="text-muted">Invoices without stamp text</div>
                         <div class="content-group">
                             <div class="mt16">
                                 <field
