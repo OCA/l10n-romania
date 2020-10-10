@@ -11,14 +11,16 @@
                     t-esc="o.company_id.country_id.vat_label"
                     id="inv_tax_id_label"
                 />
-                <t t-else="">Tax ID</t>:
+                <t t-else="">Tax ID</t>
+                :
                 <t t-if="o.commercial_partner_id.vat">
                     <span t-field="o.commercial_partner_id.vat" />
                 </t>
             </div>
-            <div t-if="o.partner_id.nrc" class="mt16">NRC: <span
-                    t-field="o.partner_id.nrc"
-                /></div>
+            <div t-if="o.partner_id.nrc" class="mt16">
+                NRC:
+                <span t-field="o.partner_id.nrc" />
+            </div>
             <div
                 t-foreach="o.commercial_partner_id.bank_ids"
                 t-as="bank"
@@ -31,9 +33,9 @@
                     </div>
                     <div t-if="bank.acc_number">
                         <strong>Account:</strong>
-                        <span t-field="bank.acc_number" /> - <strong
-                            t-if="bank.currency_id"
-                        >
+                        <span t-field="bank.acc_number" />
+                        -
+                        <strong t-if="bank.currency_id">
                             <span t-field="bank.currency_id" />
                         </strong>
                     </div>
@@ -44,9 +46,13 @@
             <div
                 t-if="o.currency_id != o.company_currency_id and o.currency_rate"
                 class="mt16"
-            >Currency rate: 1 <span t-esc="o.currency_id.symbol" /> = <span
-                    t-esc="round(o.currency_rate, 4)"
-                /> <span t-esc="o.company_id.currency_id.symbol" /></div>
+            >
+                Currency rate: 1
+                <span t-esc="o.currency_id.symbol" />
+                =
+                <span t-esc="round(o.currency_rate, 4)" />
+                <span t-esc="o.company_id.currency_id.symbol" />
+            </div>
         </div>
         <div id="total" position="inside">
             <div
