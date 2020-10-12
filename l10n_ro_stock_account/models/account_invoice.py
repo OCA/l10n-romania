@@ -20,7 +20,7 @@ class AccountMove(models.Model):
         lines_vals_list = []
         for invoice in self:
             account_id = invoice.company_id.property_stock_picking_payable_account_id
-            if invoice.type in ["in_invoice", "in_refund"]:
+            if invoice.move_type in ["in_invoice", "in_refund"]:
                 # Add new account moves for difference between reception
                 # with notice and invoice values. The price difference account
                 # will be changes with the first one available in the reception
@@ -183,7 +183,7 @@ class AccountMoveLine(models.Model):
                 ("product_qty", "!=", 0.0),
             ]
         )
-        if move.type == "in_refund":
+        if move.move_type == "in_refund":
             valuation_stock_moves = valuation_stock_moves.filtered(
                 lambda stock_move: stock_move._is_out()
             )
@@ -218,7 +218,7 @@ class AccountMoveLine(models.Model):
                 price_unit,
                 currency=move.currency_id,
                 quantity=1.0,
-                is_refund=move.type == "in_refund",
+                is_refund=move.move_type == "in_refund",
             )["total_excluded"]
 
         price_unit = line.product_uom_id._compute_price(
