@@ -26,7 +26,7 @@ class Partner(models.Model):
 
     def _set_street(self):
         """Updates the street field. Writes the `street` field on the partners
-         when one of the sub-fields in STREET_FIELDS has been touched"""
+        when one of the sub-fields in STREET_FIELDS has been touched"""
         street_fields = self.get_street_fields()
         for partner in self:
             street_format = (
