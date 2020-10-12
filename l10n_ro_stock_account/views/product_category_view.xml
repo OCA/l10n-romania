@@ -11,14 +11,14 @@
                 <field name="hide_stock_in_out_account" invisible="1" />
             </field>
             <field name="property_stock_account_input_categ_id" position="attributes">
-                <attribute
-                    name="attrs"
-                >{'invisible':[('hide_stock_in_out_account','=',True)]}</attribute>
+                <attribute name="attrs">
+                    {'invisible':[('hide_stock_in_out_account','=',True)]}
+                </attribute>
             </field>
             <field name="property_stock_account_output_categ_id" position="attributes">
-                <attribute
-                    name="attrs"
-                >{'invisible':[('hide_stock_in_out_account','=',True)]}</attribute>
+                <attribute name="attrs">
+                    {'invisible':[('hide_stock_in_out_account','=',True)]}
+                </attribute>
             </field>
         </field>
     </record>

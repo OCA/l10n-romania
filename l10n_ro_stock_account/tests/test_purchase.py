@@ -31,11 +31,11 @@ class TestStockPurchase(TestStockCommon):
 
     def test_nir_with_invoice(self):
         """
-            Receptie produse in depozit in baza facturii
-             - in stoc valoarea de achiztie
-             - in contabilitate valoarea de achiztie
-             - in diferente de pret zero
-             - in TVA neexigibilă zero
+        Receptie produse in depozit in baza facturii
+         - in stoc valoarea de achiztie
+         - in contabilitate valoarea de achiztie
+         - in diferente de pret zero
+         - in TVA neexigibilă zero
         """
         self.create_po()
 
@@ -56,11 +56,11 @@ class TestStockPurchase(TestStockCommon):
 
     def test_nir_with_invoice_location_valuation(self):
         """
-            Receptie produse in locatie cu alta evaluare in baza facturii
-             - in stoc valoarea de achiztie
-             - in contabilitate valoarea de achiztie
-             - in diferente de pret zero
-             - in TVA neexigibilă zero
+        Receptie produse in locatie cu alta evaluare in baza facturii
+         - in stoc valoarea de achiztie
+         - in contabilitate valoarea de achiztie
+         - in diferente de pret zero
+         - in TVA neexigibilă zero
 
         """
 
@@ -89,13 +89,13 @@ class TestStockPurchase(TestStockCommon):
 
     def test_nir_with_invoice_and_diff(self):
         """
-         Receptie produse in baza facturii cu inregistrare diferente dintre
-         comanda de achizitie si factura
-         Diferentele trebuie sa fie inregitrate in contul de stoc
-             - in stoc valoarea de achiztie din factura
-             - in contabilitate valoarea de achiztie din factura
-             - in diferente de pret zero
-             - in TVA neexigibilă zero
+        Receptie produse in baza facturii cu inregistrare diferente dintre
+        comanda de achizitie si factura
+        Diferentele trebuie sa fie inregitrate in contul de stoc
+            - in stoc valoarea de achiztie din factura
+            - in contabilitate valoarea de achiztie din factura
+            - in diferente de pret zero
+            - in TVA neexigibilă zero
         """
         self.create_po()
 
@@ -117,8 +117,8 @@ class TestStockPurchase(TestStockCommon):
 
     def test_nir_with_notice_and_invoice(self):
         """
-            Receptie produse pe baza de aviz si inregistare
-            ulterioara a facturii
+        Receptie produse pe baza de aviz si inregistare
+        ulterioara a facturii
         """
         self.create_po(notice=True)
 
@@ -135,11 +135,11 @@ class TestStockPurchase(TestStockCommon):
 
     def test_nir_with_notice_invoice_and_diff(self):
         """
-         Receptie produse pe baza de aviz si inregistare ulterioara a facturii
-         cu inregistrare diferente dintre comanda de achizitie si factura
-          - Diferentele trebuie sa fie inregitrate in contul de diferente de stoc
+        Receptie produse pe baza de aviz si inregistare ulterioara a facturii
+        cu inregistrare diferente dintre comanda de achizitie si factura
+         - Diferentele trebuie sa fie inregitrate in contul de diferente de stoc
 
-          De fortat sa foloseasca contul de stoc la diferente de pret
+         De fortat sa foloseasca contul de stoc la diferente de pret
 
         """
         self.create_po(notice=True)
@@ -173,10 +173,10 @@ class TestStockPurchase(TestStockCommon):
 
     def test_nir_with_notice_invoice_and_diff_after_consumption(self):
         """
-         Receptie produse pe baza de aviz,
-          consum partial din produsele receptionate,
-          inregistare ulterioara a facturii  cu diferente
-                dintre comanda de achizitie si factura
+        Receptie produse pe baza de aviz,
+         consum partial din produsele receptionate,
+         inregistare ulterioara a facturii  cu diferente
+               dintre comanda de achizitie si factura
 
         """
         self.create_po(notice=True)
