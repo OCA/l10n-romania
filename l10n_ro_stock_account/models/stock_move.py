@@ -260,7 +260,7 @@ class StockMove(models.Model):
     def _create_internal_transfer_svl(self, forced_quantity=None):
         svl_vals_list = []
         for move in self.with_context(standard=True, valued_type="internal_transfer"):
-            move = move.with_context(force_company=move.company_id.id)
+            move = move.with_company(move.company_id.id)
 
             valued_move_lines = move.move_line_ids
             valued_quantity = 0
@@ -286,7 +286,7 @@ class StockMove(models.Model):
             svl_vals_list.append(svl_vals)
 
         for move in self.with_context(standard=True, valued_type="internal_transfer"):
-            move = move.with_context(force_company=move.company_id.id)
+            move = move.with_company(move.company_id.id)
             valued_move_lines = move.move_line_ids
             valued_quantity = 0
             for valued_move_line in valued_move_lines:
@@ -371,7 +371,7 @@ class StockMove(models.Model):
         """ Accounting Valuation Entries """
         svl = self.env["stock.valuation.layer"].browse(svl_id)
         company = self._get_company(svl)
-        self = company and self.with_context(force_company=company.id) or self
+        self = company and self.with_company(company.id) or self
         if company and company.romanian_accounting:
             self = self.with_context(
                 valued_type=svl.valued_type, is_romanian_accounting=True
@@ -457,7 +457,7 @@ class StockMove(models.Model):
                 price_invoice, self.product_uom
             )
             valuation_amount = price_invoice * abs(self.product_qty)
-            company = self.location_id.company_id or self.env.user.company_id
+            company = self.location_id.company_id or self.env.company
             valuation_amount = sale_line.order_id.currency_id._convert(
                 valuation_amount, company.currency_id, company, self.date
             )
