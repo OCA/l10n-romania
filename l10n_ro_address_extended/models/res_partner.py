@@ -14,20 +14,20 @@ class Partner(models.Model):
     # Compute and Inverse taken from Odoo base.
     street_staircase = fields.Char(
         "Staircase Number",
-        compute="_split_street",  # pylint: disable=method-compute
-        inverse="_set_street",  # pylint: disable=method-inverse
+        compute="_compute_street_data",  # pylint: disable=method-compute
+        inverse="_inverse_street_data",  # pylint: disable=method-inverse
         store=True,
     )
 
-    def get_street_fields(self):
+    def _get_street_fields(self):
         """Returns the fields that can be used in a street format.
         Overwrite this function if you want to add your own fields."""
-        return super(Partner, self).get_street_fields() + ["street_staircase"]
+        return super(Partner, self)._get_street_fields() + ["street_staircase"]
 
-    def _set_street(self):
+    def _inverse_street_data(self):
         """Updates the street field. Writes the `street` field on the partners
         when one of the sub-fields in STREET_FIELDS has been touched"""
-        street_fields = self.get_street_fields()
+        street_fields = self._get_street_fields()
         for partner in self:
             street_format = (
                 partner.country_id.street_format
@@ -67,10 +67,10 @@ class Partner(models.Model):
             partner.street = street_value
 
     @api.depends("street")
-    def _split_street(self):
+    def _compute_street_data(self):
         """Splits street value into sub-fields. Recomputes the fields of
         STREET_FIELDS when `street` of a partner is updated"""
-        street_fields = self.get_street_fields()
+        street_fields = self._get_street_fields()
         for partner in self:
             if not partner.street:
                 for field in street_fields:
