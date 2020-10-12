@@ -13,5 +13,11 @@ def post_init_hook(cr, registry):
     file_city = "res.city.csv"
     with tools.file_open(path + "/" + file_city, mode="rb") as fp:
         tools.convert_csv_import(
-            cr, "base", file_city, fp.read(), {}, mode="init", noupdate=True,
+            cr,
+            "base",
+            file_city,
+            fp.read(),
+            {},
+            mode="init",
+            noupdate=True,
         )
