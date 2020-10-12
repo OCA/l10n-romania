@@ -39,7 +39,7 @@ class TestStockSale(TestStockCommon):
 
         # self.picking.move_lines.write({'quantity_done': 2})
         # self.picking.button_validate()
-        self.picking.action_done()
+        self.picking._action_done()
         _logger.info("Livrare facuta")
 
     def create_sale_invoice(self, diff_p1=0, diff_p2=0):
@@ -67,7 +67,7 @@ class TestStockSale(TestStockCommon):
              - in contul de venituri trebuie sa fie inregistrata valoarea de vanzare
         """
 
-        self.env.user.company_id.romanian_accounting = False
+        self.env.company.romanian_accounting = False
 
         #  intrare in stoc
         self.make_puchase()

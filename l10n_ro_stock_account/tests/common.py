@@ -6,13 +6,17 @@
 import logging
 import random
 
-from odoo.tests import Form
-from odoo.tests.common import SavepointCase
+from odoo.tests import Form, tagged
+
+from odoo.addons.stock_account.tests.test_anglo_saxon_valuation_reconciliation_common import (
+    ValuationReconciliationTestCommon,
+)
 
 _logger = logging.getLogger(__name__)
 
 
-class TestStockCommon(SavepointCase):
+@tagged("post_install", "-at_install")
+class TestStockCommon(ValuationReconciliationTestCommon):
     @classmethod
     def setUpAccounts(cls):
         def get_account(code):
@@ -27,12 +31,12 @@ class TestStockCommon(SavepointCase):
         cls.account_valuation_mp = get_account("301000")
 
         cls.uneligible_tax_account_id = (
-            cls.env.user.company_id.tax_cash_basis_journal_id.default_debit_account_id
+            cls.env.user.company_id.tax_cash_basis_journal_id.default_account_id
         )
         if not cls.uneligible_tax_account_id:
             cls.uneligible_tax_account_id = get_account("442810")
 
-        cls.env.user.company_id.tax_cash_basis_journal_id.default_debit_account_id = (
+        cls.env.user.company_id.tax_cash_basis_journal_id.default_account_id = (
             cls.uneligible_tax_account_id
         )
 
@@ -66,17 +70,18 @@ class TestStockCommon(SavepointCase):
             )
 
     @classmethod
-    def setUpClass(cls):
-        super(TestStockCommon, cls).setUpClass()
+    def setUpClass(cls, chart_template_ref=None):
+        ro_template_ref = "l10n_ro.ro_chart_template"
+        super(TestStockCommon, cls).setUpClass(chart_template_ref=ro_template_ref)
 
-        cls.env.user.company_id.anglo_saxon_accounting = True
-        cls.env.user.company_id.romanian_accounting = True
-        cls.env.user.company_id.stock_acc_price_diff = True
+        cls.env.company.anglo_saxon_accounting = True
+        cls.env.company.romanian_accounting = True
+        cls.env.company.stock_acc_price_diff = True
 
         cls.setUpAccounts()
 
         stock_journal = cls.env["account.journal"].search(
-            [("code", "=", "STJ"), ("company_id", "=", cls.env.user.company_id.id)],
+            [("code", "=", "STJ"), ("company_id", "=", cls.env.company.id)],
             limit=1,
         )
         if not stock_journal:
@@ -207,7 +212,9 @@ class TestStockCommon(SavepointCase):
         cls.adaos_p1_f = round(cls.val_p1_store - cls.val_p1_f, 2)
         cls.adaos_p2_f = round(cls.val_p2_store - cls.val_p2_f, 2)
 
-        picking_type_in = cls.env.ref("stock.picking_type_in")
+        warehouse = cls.company_data["default_warehouse"]
+
+        picking_type_in = warehouse.in_type_id
         location = picking_type_in.default_location_dest_id
 
         cls.location_warehouse = location.copy(
@@ -221,7 +228,7 @@ class TestStockCommon(SavepointCase):
             }
         )
 
-        picking_type_transfer = cls.env.ref("stock.picking_type_internal")
+        picking_type_transfer = warehouse.int_type_id
         cls.picking_type_transfer = picking_type_transfer.copy(
             {
                 "default_location_src_id": cls.location_warehouse.id,
@@ -276,14 +283,16 @@ class TestStockCommon(SavepointCase):
                 move_line.write({"qty_done": self.qty_po_p2})
 
         self.picking.button_validate()
-        self.picking.action_done()
+        self.picking._action_done()
         _logger.info("Receptie facuta")
 
         self.po = po
         return po
 
     def create_invoice(self, diff_p1=0, diff_p2=0):
-        invoice = Form(self.env["account.move"].with_context(default_type="in_invoice"))
+        invoice = Form(
+            self.env["account.move"].with_context(default_move_type="in_invoice")
+        )
         invoice.partner_id = self.vendor
         invoice.purchase_id = self.po
 
@@ -320,7 +329,7 @@ class TestStockCommon(SavepointCase):
         for move_line in return_pick.move_lines:
             if move_line.product_uom_qty > 0 and move_line.quantity_done == 0:
                 move_line.write({"quantity_done": move_line.product_uom_qty})
-        return_pick.action_done()
+        return_pick._action_done()
 
     def trasfer(self, location, location_dest, product=None):
 
@@ -353,7 +362,7 @@ class TestStockCommon(SavepointCase):
         for move_line in picking.move_lines:
             if move_line.product_uom_qty > 0 and move_line.quantity_done == 0:
                 move_line.write({"quantity_done": move_line.product_uom_qty})
-        picking.action_done()
+        picking._action_done()
 
         return picking
 
