@@ -23,10 +23,10 @@ class DailyStockReport(models.TransientModel):
     date_from = fields.Date("Start Date", required=True, default=fields.Date.today)
     date_to = fields.Date("End Date", required=True, default=fields.Date.today)
     company_id = fields.Many2one(
-        "res.company", string="Company", default=lambda self: self.env.user.company_id
+        "res.company", string="Company", default=lambda self: self.env.company
     )
     mode = fields.Selection(
-        [("product", "Product")], default="product", string="Detail mode",
+        [("product", "Product")], default="product", string="Detail mode", required=1
     )
 
     line_product_ids = fields.One2many("stock.daily.stock.report.line", "report_id")
