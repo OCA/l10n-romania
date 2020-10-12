@@ -10,9 +10,9 @@ class AccountAccount(models.Model):
 
     def init(self, *a):
         """init called at every install to change the user_type_id
-            for accounts 408, 418.This is required to be able to create
-            a invoice with a line with this accounts and a invoice with
-            right base from sale and purchase
+        for accounts 408, 418.This is required to be able to create
+        a invoice with a line with this accounts and a invoice with
+        right base from sale and purchase
         """
         account_408 = self.search([("code", "=", "408000")])
         for account in account_408:
