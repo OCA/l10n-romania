@@ -36,7 +36,7 @@ class ProductCategory(models.Model):
         "property_stock_account_input_categ_id",
     )
     def _check_valuation_accouts(self):
-        """ Overwrite default constraint for Romania,
+        """Overwrite default constraint for Romania,
         stock_valuation, stock_output and stock_input
         are the same
         """
@@ -63,8 +63,7 @@ class ProductCategory(models.Model):
         "property_stock_account_input_categ_id",
     )
     def _onchange_stock_accounts(self):
-        """ only for Romania, stock_valuation output and input are the same
-        """
+        """only for Romania, stock_valuation output and input are the same"""
         for record in self:
             if record.hide_stock_in_out_account:
                 # is a romanian company:

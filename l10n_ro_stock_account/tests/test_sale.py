@@ -134,11 +134,11 @@ class TestStockSale(TestStockCommon):
 
     def test_sale_notice_and_invoice(self):
         """
-             - initial in stoc si contabilitate este valoarea din achizitie
-             - dupa vanzare valoarea stocului trebuie sa scada cu valoarea stocului
-             vandut
-             - valoarea din stoc trebuie sa fie egala cu valoarea din contabilitate
-             - in contul de venituri trebuie sa fie inregistrata valoarea de vanzare
+        - initial in stoc si contabilitate este valoarea din achizitie
+        - dupa vanzare valoarea stocului trebuie sa scada cu valoarea stocului
+        vandut
+        - valoarea din stoc trebuie sa fie egala cu valoarea din contabilitate
+        - in contul de venituri trebuie sa fie inregistrata valoarea de vanzare
         """
 
         self.make_puchase()
