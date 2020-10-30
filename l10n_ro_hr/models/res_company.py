@@ -1,7 +1,7 @@
 # Copyright (C) 2017 FOREST AND BIOMASS ROMANIA SA
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
-from odoo import api, fields, models
+from odoo import fields, models
 
 
 class ResCompanyCaen(models.Model):
@@ -13,10 +13,12 @@ class ResCompanyCaen(models.Model):
     risk_class = fields.Float("Risk Class", required=True, digits=(0, 2), default=0.0)
     risk_rate = fields.Float("Risk Rate", required=True, digits=(0, 4), default=0.0)
 
-    @api.multi
     def name_get(self):
         return [
-            (caen.id, "{} - {}".format(caen.code and "[%s] " % caen.code or "", caen.name))
+            (
+                caen.id,
+                "{} - {}".format(caen.code and "[%s] " % caen.code or "", caen.name),
+            )
             for caen in self
         ]
 

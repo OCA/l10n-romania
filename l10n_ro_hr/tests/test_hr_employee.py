@@ -1,14 +1,14 @@
 # Copyright  2017 Forest and Biomass Romania
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
-from odoo.tests import common
+from odoo.tests import Form, common
 
 
 class TestHREmployeebase(common.SavepointCase):
     @classmethod
     def setUpClass(cls):
         super(TestHREmployeebase, cls).setUpClass()
-        cls.employee_root = cls.env.ref("hr.employee_root")
+        cls.employee_root = cls.env.ref("hr.employee_admin")
         cls.employee_mit = cls.env.ref("hr.employee_mit")
         cls.employee_al = cls.env.ref("hr.employee_al")
 
@@ -36,9 +36,8 @@ class TestEmployeeRelated(TestHREmployeebase):
     def test_onchange_ssnid(self):
         """ Check onchange ssnid."""
         # Test onchange from ANAF
-        with self.env.do_in_onchange():
-            self.employee_root.ssnid = "1701224378225"
-            self.employee_root._ssnid_birthday_gender()
-            self.assertEqual(self.employee_root.gender, "male")
-            self.assertEqual(self.employee_root.birthday, "1970-12-24")
-            self.assertEqual(self.employee_root.place_of_birth, "Vaslui")
+        employee_form = Form(self.employee_root)
+        employee_form.ssnid = "1701224378225"
+        self.assertEqual(employee_form.gender, "male")
+        self.assertEqual(employee_form.birthday.strftime("%Y-%m-%d"), "1970-12-24")
+        self.assertEqual(employee_form.place_of_birth, "Vaslui")

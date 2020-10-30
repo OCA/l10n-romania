@@ -5,7 +5,7 @@
         <field name="model">hr.employee</field>
         <field name="inherit_id" ref="hr.view_employee_form" />
         <field name="arch" type="xml">
-            <xpath expr="//group[@name='active_group']" position="after">
+            <page name='personal_information' position="inside">
                 <group colspan="4" string="Social Security">
                     <field name="casang" />
                     <field name="person_in_care" />
@@ -24,7 +24,7 @@
                         </tree>
                     </field>
                 </group>
-            </xpath>
+            </page>
             <field name="identification_id" position="before">
                 <field name="ssnid" />
             </field>
@@ -96,23 +96,23 @@
             <search string="Persons related">
                 <field name="employee_id" />
                 <field name="partner_id" />
-                <newline />
-                <group expand="1" string="Group By...">
+                <separator />
+                <group expand="0" string="Group By">
                     <filter
                         string="Employee"
-                        icon="terp-personal"
+                        name="group_employee"
                         domain="[]"
                         context="{'group_by':'employee_id'}"
                     />
                     <filter
                         string="Relation"
-                        icon="terp-personal"
+                        name="group_relation"
                         domain="[]"
                         context="{'group_by':'relation'}"
                     />
                     <filter
                         string="Relation Type"
-                        icon="terp-personal"
+                        name="group_relation_type"
                         domain="[]"
                         context="{'group_by':'relation_type'}"
                     />
@@ -123,13 +123,16 @@
     <record id="action_hr_person_related_form" model="ir.actions.act_window">
         <field name="name">Person related</field>
         <field name="res_model">hr.employee.related</field>
-        <field name="view_type">form</field>
         <field name="view_mode">tree,form</field>
+        <field name="domain">[]</field>
+        <field name="view_id" eval="False" />
+        <field name="search_view_id" ref="view_hr_person_related_search" />
     </record>
     <menuitem
         id="menu_hr_person_related"
         parent="hr.menu_hr_root"
         action="action_hr_person_related_form"
+        groups="hr.group_hr_user"
         sequence="4"
     />
 </odoo>
