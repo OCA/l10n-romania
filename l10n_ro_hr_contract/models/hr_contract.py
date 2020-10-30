@@ -16,12 +16,14 @@ class HRInsuranceType(models.Model):
     code = fields.Char("Code", required=True, help="Insurance code")
     name = fields.Char("Name", required=True, help="Insurance name")
 
-    @api.multi
     def name_get(self):
         result = []
         for insurance in self:
             result.append(
-                (insurance.id, "{} - {}".format(insurance.code, insurance.name[:50] or ""))
+                (
+                    insurance.id,
+                    "{} - {}".format(insurance.code, insurance.name[:50] or ""),
+                )
             )
         return result
 
