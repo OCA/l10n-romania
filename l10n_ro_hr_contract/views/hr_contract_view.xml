@@ -1,92 +1,115 @@
-<?xml version="1.0"?>
+<?xml version="1.0" ?>
 <odoo>
     <record id="view_hr_insurance_type_tree" model="ir.ui.view">
         <field name="name">hr.insurance.type.tree</field>
         <field name="model">hr.insurance.type</field>
         <field name="arch" type="xml">
             <tree string="Insurance types">
-                <field name="code"/>
-                <field name="name"/>
-                <field name="type"/>
+                <field name="code" />
+                <field name="name" />
+                <field name="type" />
             </tree>
         </field>
     </record>
-
     <record id="view_hr_insurance_type_form" model="ir.ui.view">
         <field name="name">hr.insurance.type.form</field>
         <field name="model">hr.insurance.type</field>
         <field name="arch" type="xml">
             <form string="Insurance types">
-                <field name="name"/>
-                <newline/>
+                <field name="name" />
+                <newline />
                 <group>
-                    <field name="type"/>
-                    <field name="code"/>
+                    <field name="type" />
+                    <field name="code" />
                 </group>
             </form>
         </field>
     </record>
-
     <record id="view_hr_insurance_type_filter" model="ir.ui.view">
         <field name="name">hr.insurance.type.filter</field>
         <field name="model">hr.insurance.type</field>
         <field name="arch" type="xml">
             <search string="Search insurance type">
-                <field name="name"/>
-                <field name="code"/>
-                <field name="type"/>
+                <field name="name" />
+                <field name="code" />
+                <field name="type" />
             </search>
         </field>
     </record>
-
     <record id="hr_contract_view_ro_form" model="ir.ui.view">
         <field name="name">hr.contract.view.ro.form</field>
         <field name="model">hr.contract</field>
-        <field name="inherit_id" ref="hr_contract.hr_contract_view_form"/>
+        <field name="inherit_id" ref="hr_contract.hr_contract_view_form" />
         <field name="arch" type="xml">
             <xpath expr="//field[@name='employee_id']" position="before">
-                <field name="country_code" invisible="1"/>
-                <field name="revisal_no" attrs="{'required': [('country_code', '=', 'RO')], 'invisible': [('country_code', '!=', 'RO')]}"/>
-                <field name="internal_no" attrs="{'required': [('country_code', '=', 'RO')], 'invisible': [('country_code', '!=', 'RO')]}"/>
+                <field name="country_code" invisible="1" />
+                <field
+                    name="revisal_no"
+                    attrs="{'required': [('country_code', '=', 'RO')], 'invisible': [('country_code', '!=', 'RO')]}"
+                />
+                <field
+                    name="internal_no"
+                    attrs="{'required': [('country_code', '=', 'RO')], 'invisible': [('country_code', '!=', 'RO')]}"
+                />
             </xpath>
             <field name="employee_id" position="after">
-                <field name="sign_date" attrs="{'required': [('country_code', '=', 'RO')], 'invisible': [('country_code', '!=', 'RO')]}"/>
+                <field
+                    name="sign_date"
+                    attrs="{'required': [('country_code', '=', 'RO')], 'invisible': [('country_code', '!=', 'RO')]}"
+                />
             </field>
             <field name="resource_calendar_id" position="before">
-                <label for="period_type"/>
+                <label for="period_type" />
                 <div>
-                    <field name="period_type"/>
+                    <field name="period_type" />
                 </div>
             </field>
             <page name="other" position="after">
                 <page string="Work Conditions" name="conditions">
                     <group colspan="4">
                         <group col="2" name="col1">
-                            <field name="pensioneer"/>
-                            <field name="tax_exempt"/>
-                            <field name="suspended"/>
+                            <field name="pensioneer" />
+                            <field name="tax_exempt" />
+                            <field name="suspended" />
                             <div attrs="{'invisible': [('suspended', '=', False)]}">
-                                <label for="sus_date_from" string="Suspension Duration"/>
-                                <field name="sus_date_from" class="oe_inline"/> - <field name="sus_date_to" class="oe_inline"/>
+                                <label
+                                    for="sus_date_from"
+                                    string="Suspension Duration"
+                                />
+                                <field name="sus_date_from" class="oe_inline" />
+                                -
+                                <field name="sus_date_to" class="oe_inline" />
                             </div>
                         </group>
                         <group col="2" name="col2">
-                            <label for="insurance_type" string="Insurance Type"/>
+                            <label for="insurance_type" string="Insurance Type" />
                             <div>
-                                <field name="insurance_type" class="oe_inline" attrs="{'required': [('country_code', '=', 'RO')], 'invisible': [('country_code', '!=', 'RO')]}"/>
+                                <field
+                                    name="insurance_type"
+                                    class="oe_inline"
+                                    attrs="{'required': [('country_code', '=', 'RO')], 'invisible': [('country_code', '!=', 'RO')]}"
+                                />
                             </div>
-                            <field name="work_norm" attrs="{'required': [('country_code', '=', 'RO')], 'invisible': [('country_code', '!=', 'RO')]}"/>
-                            <field name="work_hour" attrs="{'required': [('country_code', '=', 'RO')], 'invisible': [('country_code', '!=', 'RO')]}"/>
-                            <field name="work_type" attrs="{'required': [('country_code', '=', 'RO')], 'invisible': [('country_code', '!=', 'RO')]}"/>
-                            <field name="work_special" attrs="{'required': [('country_code', '=', 'RO')], 'invisible': [('country_code', '!=', 'RO')]}"/>
+                            <field
+                                name="work_norm"
+                                attrs="{'required': [('country_code', '=', 'RO')], 'invisible': [('country_code', '!=', 'RO')]}"
+                            />
+                            <field
+                                name="work_hour"
+                                attrs="{'required': [('country_code', '=', 'RO')], 'invisible': [('country_code', '!=', 'RO')]}"
+                            />
+                            <field
+                                name="work_type"
+                                attrs="{'required': [('country_code', '=', 'RO')], 'invisible': [('country_code', '!=', 'RO')]}"
+                            />
+                            <field
+                                name="work_special"
+                                attrs="{'required': [('country_code', '=', 'RO')], 'invisible': [('country_code', '!=', 'RO')]}"
+                            />
                         </group>
                     </group>
                 </page>
             </page>
         </field>
     </record>
-
 </odoo>
-
-
-
