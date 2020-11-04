@@ -118,4 +118,5 @@ class ResPartner(models.Model):
                         .id
                     )
                     partner.with_context(skip_ro_vat_change=True).update(res)
-        return {} 
+        return {}
+ 
