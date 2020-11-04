@@ -73,7 +73,7 @@ class HRContract(models.Model):
         ]
         return workspecial
 
-    country_code = fields.Char(related="employee_id.country_id.code", store="True")
+    country_code = fields.Char(related="company_country_id.code", store="True")
     revisal_no = fields.Char("REVISAL Number", help="Number registered in Revisal")
     internal_no = fields.Char("Internal Number", help="Internal Number")
     period_type = fields.Boolean("Determined Period", help="The contract period type")
@@ -102,9 +102,3 @@ class HRContract(models.Model):
         help="Special condition of work",
     )
     sign_date = fields.Date("Date", help="Date of signing the contract")
-
-    @api.onchange("employee_id")
-    def _onchange_employee_id(self):
-        super(HRContract, self)._onchange_employee_id()
-        if self.employee_id:
-            self.country_code = self.employee_id.country_id.code
