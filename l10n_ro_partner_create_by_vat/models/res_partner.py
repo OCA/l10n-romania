@@ -94,7 +94,7 @@ class ResPartner(models.Model):
     def ro_vat_change(self):
         for partner in self:
             if not partner.vat:
-                return
+                return {}
             res = {}
             vat = partner.vat.strip().upper()
             vat_country, vat_number = partner._split_vat(vat)
@@ -118,3 +118,4 @@ class ResPartner(models.Model):
                         .id
                     )
                     partner.with_context(skip_ro_vat_change=True).update(res)
+        return {} 
