@@ -21,6 +21,7 @@ addon | version | summary
 --- | --- | ---
 [l10n_ro_address_extended](l10n_ro_address_extended/) | 14.0.1.0.0 | Romania - Extended Addresses
 [l10n_ro_city](l10n_ro_city/) | 14.0.1.0.0 | Romania - City
+[l10n_ro_stock](l10n_ro_stock/) | 14.0.1.0.0 | Romania - Stock
 
 [//]: # (end addons)
 
