@@ -10,6 +10,7 @@ setuptools.setup(
     install_requires=[
         'odoo14-addon-l10n_ro_address_extended',
         'odoo14-addon-l10n_ro_city',
+        'odoo14-addon-l10n_ro_stock',
     ],
     classifiers=[
         'Programming Language :: Python',
