@@ -59,14 +59,14 @@ class HrPayslip(models.Model):
                 if hour_from.hour < 22 and hour_to.hour < 6:
                     nh1 = hour_from.replace(hour=22, minute=00)
                     ore_suplimentare += self.change_in_hour(hour_from, nh1)
-                if hour_from.hour < 22 and hour_to.hour <= hfrom.hour \
-                    and hour_to.hour > 6:
+                if hour_from.hour < 22 and hour_to.hour <= hfrom.hour and \
+                        hour_to.hour > 6:
                     nh1 = hour_from.replace(hour=22, minute=00)
                     nh12 = hour_to.replace(hour=6, minute=00)
                     ore_suplimentare += self.change_in_hour(hour_from, nh1)
                     ore_suplimentare += self.change_in_hour(nh12, hour_to)
-                if hour_from.hour >= 22 and hour_to.hour <= hfrom.hour \
-                    and hour_to.hour > 6:
+                if hour_from.hour >= 22 and hour_to.hour <= hfrom.hour and \
+                        hour_to.hour > 6:
                     nh12 = hour_to.replace(hour=6, minute=00)
                     ore_suplimentare += self.change_in_hour(nh12, hour_to)
         if hour_from.hour < hfrom.hour:
