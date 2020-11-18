@@ -83,7 +83,7 @@ class HREmployee(models.Model):
             days = sum(income.number_of_days for income in income_ids)
         else:
             gross = self.contract_id.wage
-            days = self.env['hr.wage.history'].search([('date','=', date)]).working_days
+            days = self.env['hr.wage.history'].search([('date', '=', date)]).working_days
         if gross and days and days != 0.00:
             return gross / days
         return 0

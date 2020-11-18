@@ -67,7 +67,7 @@ class TestHrPayroll(TestHrEmployee):
             'department_id': self.test_employee_1.department_id.id,
             'check_in': '2020-11-03 20:00:00',
             'check_out': '2020-11-03 23:00:00',
-            'worked_hours': 11
+            'worked_hours': 3
         })
         attendance_obj.create({
             'employee_id': self.test_employee_1.id,
@@ -103,7 +103,8 @@ class TestHrPayroll(TestHrEmployee):
 
         for day in range(0, nb_of_days):
             total_day = date_from + relativedelta(days=day)
-            public_holiday = self.env['hr.holidays.public.line'].search([('date', '=', total_day)])
+            public_holiday = self.env['hr.holidays.public.line'].search(
+                [('date', '=', total_day)])
             if total_day.weekday() < 5 and not public_holiday:
                 total += 1
 
@@ -111,13 +112,15 @@ class TestHrPayroll(TestHrEmployee):
                     total_day.weekday() < 5 and not public_holiday:
                 attendances += 1
 
-        att = self.env['hr.attendance'].search([('check_in', '>=', first_day),
-                                                ('check_out', '<=', last_day),
-                                                ('employee_id', '=', self.test_employee_1.id)])
+        att = self.env['hr.attendance'].search(
+            [('check_in', '>=', first_day),
+             ('check_out', '<=', last_day),
+             ('employee_id', '=', self.test_employee_1.id)])
         for att in att:
             hour_from = datetime.strptime(att.check_in, '%Y-%m-%d %H:%M:%S')
             hour_to = datetime.strptime(att.check_out, '%Y-%m-%d %H:%M:%S')
-            public_holiday = self.env['hr.holidays.public.line'].search([('date', '=', hour_from)])
+            public_holiday = self.env['hr.holidays.public.line'].search(
+                [('date', '=', hour_from)])
             if hour_from.weekday() >= 5 and not public_holiday:
                 weekend += change_in_hour(hour_from, hour_to)
             if public_holiday:
@@ -153,8 +156,8 @@ class TestHrPayroll(TestHrEmployee):
             self.assertEqual(holiday_line.number_of_hours, holiday)
             self.assertEqual(weekend_line.number_of_hours, weekend)
 
-            self.assertEqual(supl_line.number_of_hours, 23)
-            self.assertEqual(night_line.number_of_hours, 20)
+            self.assertEqual(supl_line.number_of_hours, 29)
+            self.assertEqual(night_line.number_of_hours, 28)
             overtime += supl_line.number_of_hours + night_line.number_of_hours
 
         income_date_from = datetime.strftime(
@@ -191,7 +194,8 @@ class TestHrPayroll(TestHrEmployee):
             income03.payslip_id = payslip
             income03._onchange_payslip_id()
             self.assertEqual(income03.number_of_days, total)
-            self.assertEqual(income03.number_of_hours, total * 8 + holiday + weekend + overtime)
+            self.assertEqual(income03.number_of_hours, total * 8 +
+                             holiday + weekend + overtime)
             self.assertEqual(income03.date_from, first_day)
             self.assertEqual(income03.date_to, last_day)
 

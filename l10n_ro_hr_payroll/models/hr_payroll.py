@@ -59,12 +59,14 @@ class HrPayslip(models.Model):
                 if hour_from.hour < 22 and hour_to.hour < 6:
                     nh1 = hour_from.replace(hour=22, minute=00)
                     ore_suplimentare += self.change_in_hour(hour_from, nh1)
-                if hour_from.hour < 22 and hour_to.hour <= hfrom.hour and hour_to.hour > 6:
+                if hour_from.hour < 22 and hour_to.hour <= hfrom.hour \
+                    and hour_to.hour > 6:
                     nh1 = hour_from.replace(hour=22, minute=00)
                     nh12 = hour_to.replace(hour=6, minute=00)
                     ore_suplimentare += self.change_in_hour(hour_from, nh1)
                     ore_suplimentare += self.change_in_hour(nh12, hour_to)
-                if hour_from.hour >= 22 and hour_to.hour <= hfrom.hour and hour_to.hour > 6:
+                if hour_from.hour >= 22 and hour_to.hour <= hfrom.hour \
+                    and hour_to.hour > 6:
                     nh12 = hour_to.replace(hour=6, minute=00)
                     ore_suplimentare += self.change_in_hour(nh12, hour_to)
         if hour_from.hour < hfrom.hour:
@@ -254,7 +256,9 @@ class HrPayslip(models.Model):
                     else:
                         # add the input vals to tmp (increment if existing)
                         dd = day_from + timedelta(days=day)
-                        public_holiday = self.env['hr.holidays.public.line'].search([('date', '=', dd.date())])
+                        public_holiday = \
+                            self.env['hr.holidays.public.line'].search(
+                                [('date', '=', dd.date())])
                         if public_holiday:
                             attendances['number_of_days'] += 0.0
                             attendances['number_of_hours'] += 0.0
@@ -262,27 +266,39 @@ class HrPayslip(models.Model):
                             attendances['number_of_days'] += 1.0
                             attendances['number_of_hours'] += working_hours_on_day
 
-            attendance = self.env['hr.attendance'].search([('check_in', '>=', date_from), ('check_out', '<=', date_to),
-                                                           ('employee_id', '=', contract.employee_id.id)])
+            attendance = self.env['hr.attendance'].search([
+                ('check_in', '>=', date_from),
+                ('check_out', '<=', date_to),
+                ('employee_id', '=', contract.employee_id.id)])
             hour_night = 0.00
             hour_isweekend = 0.00
             hour_holiday = 0.00
             ore_suplimentare = 0.00
             resource_calendar_id = contract.resource_calendar_id
             for att in attendance:
-                hour_from = datetime.strptime(att.check_in, '%Y-%m-%d %H:%M:%S')
-                hour_to = datetime.strptime(att.check_out, '%Y-%m-%d %H:%M:%S')
-
+                check_in = datetime.strptime(att.check_in, '%Y-%m-%d %H:%M:%S')
+                check_out = datetime.strptime(att.check_out, '%Y-%m-%d %H:%M:%S')
+                hour_from = fields.Datetime.context_timestamp(
+                    self.with_context(tz=att.employee_id.user_id.tz), check_in)
+                hour_to = fields.Datetime.context_timestamp(
+                    self.with_context(tz=att.employee_id.user_id.tz), check_out)
                 if resource_calendar_id:
-                    resource_attendance = self.env['resource.calendar.attendance'].search(
-                        [('calendar_id', '=', resource_calendar_id.id), ('dayofweek', '=', hour_from.weekday())])
+                    resource_attendance = \
+                        self.env['resource.calendar.attendance'].search(
+                            [('calendar_id', '=', resource_calendar_id.id),
+                             ('dayofweek', '=', hour_from.weekday())])
                     if resource_attendance:
-                        hfrom = hour_from.replace(hour=int(resource_attendance[0].hour_from), minute=0)
-                        hto = hour_from.replace(hour=int(resource_attendance[-1].hour_to), minute=0)
+                        hfrom = hour_from.replace(
+                            hour=int(resource_attendance[0].hour_from),
+                            minute=0)
+                        hto = hour_from.replace(
+                            hour=int(resource_attendance[-1].hour_to),
+                            minute=0)
                     else:
                         hfrom = hour_from.replace(hour=8, minute=0)
                         hto = hour_from.replace(hour=17, minute=0)
-                public_holiday = self.env['hr.holidays.public.line'].search([('date', '=', hour_from.date())])
+                public_holiday = self.env['hr.holidays.public.line'].search(
+                    [('date', '=', hour_from.date())])
                 if hour_from.isoweekday() <= 5 and not public_holiday:
                     ore_suplimentare += self.overtime(hour_from, hour_to, hfrom, hto)
 
@@ -331,7 +347,8 @@ class HrPayslip(models.Model):
                     'contract_id': contract.id,
                 }
             leaves = [value for key, value in leaves.items()]
-            res += [attendances] + leaves + [night] + [weekend] + [holiday] + [suplimentar]
+            res += [attendances] + leaves + [night] + \
+                   [weekend] + [holiday] + [suplimentar]
         return res
 
     @api.multi
@@ -346,7 +363,8 @@ class HrPayslip(models.Model):
             relativedelta(day=1, months=1, days=-1)
 
         nb_of_days = last_day.day
-        public_holiday = self.env['hr.holidays.public.line'].search([('date', '>=', date_from), ('date', '<=', last_day)])
+        public_holiday = self.env['hr.holidays.public.line'].search(
+            [('date', '>=', date_from), ('date', '<=', last_day)])
         holiday = 0
         for day in public_holiday:
             day = fields.Date.from_string(day.date)
