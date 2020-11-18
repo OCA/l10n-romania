@@ -68,6 +68,7 @@ class HREmployee(models.Model):
             date = fields.Date.today()
         if isinstance(date, str):
             date = fields.Date.from_string(date)
+        date = date + relativedelta(day=1)
         date_string = fields.Date.to_string(date)
         if not month_no:
             month_no = 6
@@ -80,6 +81,9 @@ class HREmployee(models.Model):
         if income_ids:
             gross = sum(income.gross_amount for income in income_ids)
             days = sum(income.number_of_days for income in income_ids)
+        else:
+            gross = self.contract_id.wage
+            days = self.env['hr.wage.history'].search([('date','=', date)]).working_days
         if gross and days and days != 0.00:
             return gross / days
         return 0

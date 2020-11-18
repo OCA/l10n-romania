@@ -55,6 +55,31 @@
         <field name="code">SPORNEIMP</field>
         <field name="name">SPORURI NEIMPOZABILE</field>
     </record>
+    <record id="bonus_categ" model="hr.salary.rule.category">
+        <field name="code">BONUS</field>
+        <field name="name">BONUS</field>
+        <field name="parent_id" ref="venitbrut_categ"/>
+    </record>
+    <record id="orenoapte_categ" model="hr.salary.rule.category">
+        <field name="code">ORENOAPTE</field>
+        <field name="name">ORENOAPTE</field>
+        <field name="parent_id" ref="venitbrut_categ"/>
+    </record>
+    <record id="oreweekend_categ" model="hr.salary.rule.category">
+        <field name="code">OREWEEKEND</field>
+        <field name="name">OREWEEKEND</field>
+        <field name="parent_id" ref="venitbrut_categ"/>
+    </record>
+    <record id="oreholiday_categ" model="hr.salary.rule.category">
+        <field name="code">OREHOLIDAY</field>
+        <field name="name">OREHOLIDAY</field>
+        <field name="parent_id" ref="venitbrut_categ"/>
+    </record>
+    <record id="oresuplimentare_categ" model="hr.salary.rule.category">
+        <field name="code">SUPL</field>
+        <field name="name">Ore suplimentare</field>
+        <field name="parent_id" ref="venitbrut_categ"/>
+    </record>
 
     <!-- Contributii Angajat -->
     <record id="contributiiangajat_categ" model="hr.salary.rule.category">

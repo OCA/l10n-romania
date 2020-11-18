@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <data>
+        <report
+            id="action_report_storage_sheet_report"
+            string="Daily stock report"
+            model='stock.storage.sheet.report'
+            report_type="qweb-pdf"
+            file="l10n_ro_stock_report.document_storage_sheet_report"
+            name="l10n_ro_stock_report.document_storage_sheet_report"
+        />
+        <template id="document_storage_sheet_report">
+            <t t-call="web.html_container">
+                <t t-foreach="docs" t-as="o">
+                    <t t-call="web.external_layout">
+                        <t t-call="l10n_ro_config.report_address_company" />
+                        <div class="page">
+                            <h1>Storage Sheet</h1>
+                            <div class="row mt32 mb32" id="informations">
+                                <div class="col-auto mw-100 mb-2">
+                                    <strong>From Date:</strong>
+                                    <p
+                                        class="m-0"
+                                        t-field="o.date_from"
+                                        t-options='{"widget": "date"}'
+                                    />
+                                </div>
+                                <div
+                                    t-if="o.date_from != o.date_to"
+                                    class="col-auto mw-100 mb-2"
+                                >
+                                    <strong>To date:</strong>
+                                    <p
+                                        class="m-0"
+                                        t-field="o.date_to"
+                                        t-options='{"widget": "date"}'
+                                    />
+                                </div>
+                                <div class="col-auto mw-100 mb-2">
+                                    <strong>Product:</strong>
+                                    <p class="m-0" t-field="o.product_id" />
+                                </div>
+                                <div class="col-auto mw-100 mb-2">
+                                    <strong>Acount:</strong>
+                                    <p
+                                        class="m-0"
+                                        t-field="o.product_id.categ_id.property_stock_valuation_account_id"
+                                    />
+                                </div>
+                                <div
+                                    groups="uom.group_uom"
+                                    class="col-auto mw-100 mb-2"
+                                >
+                                    <strong>UoM:</strong>
+                                    <p class="m-0" t-field="o.product_id.uom_id" />
+                                </div>
+                                <div class="col-auto mw-100 mb-2">
+                                    <strong>Location:</strong>
+                                    <p class="m-0" t-field="o.location_id" />
+                                </div>
+                            </div>
+                            <table class="table table-sm o_main_table">
+                                <thead>
+                                    <tr>
+                                        <th>
+                                            <strong>Type</strong>
+                                        </th>
+                                        <th>
+                                            <strong>Date</strong>
+                                        </th>
+                                        <th>
+                                            <strong>Ref</strong>
+                                        </th>
+                                        <th class="text-right">
+                                            <strong>Quantity</strong>
+                                        </th>
+                                        <th class="text-right">
+                                            <strong>Amount</strong>
+                                        </th>
+                                        <th class="text-right">
+                                            <strong>Price</strong>
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <t t-set="total" t-value="0.0" />
+                                <t t-set="total_qty" t-value="0" />
+                                <tbody>
+                                    <tr t-foreach="o.line_product_ids" t-as="line">
+                                        <t
+                                            t-set="total"
+                                            t-value="total + line.amount"
+                                        />
+                                        <t
+                                            t-set="total_qty"
+                                            t-value="total_qty+line.quantity"
+                                        />
+                                        <td>
+                                            <span t-field="line.type" />
+                                        </td>
+                                        <td>
+                                            <span t-field="line.date" />
+                                        </td>
+                                        <td>
+                                            <span t-field="line.ref" />
+                                        </td>
+                                        <td class="text-right">
+                                            <span t-field="line.quantity" />
+                                        </td>
+                                        <td class="text-right">
+                                            <span t-field="line.amount" />
+                                        </td>
+                                        <td class="text-right">
+                                            <t t-if="line.quantity">
+                                                <t
+                                                    t-set="price"
+                                                    t-value="line.amount/line.quantity"
+                                                />
+                                                <span
+                                                    t-esc="price"
+                                                    t-options='{"widget": "float", "precision": 2}'
+                                                />
+                                            </t>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <span style="font-weight:bold;">Total</span>
+                                        </td>
+                                        <td />
+                                        <td />
+                                        <td class="text-right">
+                                            <span
+                                                style="font-weight:bold;"
+                                                t-esc="total_qty"
+                                                t-options='{"widget": "float", "precision": 2}'
+                                            />
+                                        </td>
+                                        <td class="text-right">
+                                            <span
+                                                style="font-weight:bold;"
+                                                t-esc="total"
+                                                t-options="{'widget': 'monetary', 'display_currency': res_company.currency_id}"
+                                            />
+                                        </td>
+                                        <td />
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </t>
+                </t>
+            </t>
+        </template>
+    </data>
+</odoo>
