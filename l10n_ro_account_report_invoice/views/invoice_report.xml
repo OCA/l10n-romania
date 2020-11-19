@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <template
+        id="l10n_ro_report_invoice_document"
+        inherit_id="account.report_invoice_document"
+    >
+        <div t-if="o.partner_id.vat" position="replace">
+            <div t-if="o.partner_id.vat" class="mt16">
+                <t
+                    t-if="o.company_id.country_id.vat_label"
+                    t-esc="o.company_id.country_id.vat_label"
+                    id="inv_tax_id_label"
+                />
+                <t t-else="">Tax ID</t>
+                :
+                <t t-if="o.commercial_partner_id.vat">
+                    <span t-field="o.commercial_partner_id.vat" />
+                </t>
+            </div>
+            <div t-if="o.partner_id.nrc" class="mt16">
+                NRC:
+                <span t-field="o.partner_id.nrc" />
+            </div>
+            <div
+                t-foreach="o.commercial_partner_id.bank_ids"
+                t-as="bank"
+                id="partner_bank"
+            >
+                <t t-if="bank.print_report">
+                    <div t-if="bank.bank_name">
+                        <strong>Bank:</strong>
+                        <span t-field="bank.bank_name" />
+                    </div>
+                    <div t-if="bank.acc_number">
+                        <strong>Account:</strong>
+                        <span t-field="bank.acc_number" />
+                        -
+                        <strong t-if="bank.currency_id">
+                            <span t-field="bank.currency_id" />
+                        </strong>
+                    </div>
+                </t>
+            </div>
+        </div>
+        <div id="informations" position="before">
+            <div
+                t-if="o.currency_id != o.company_currency_id and o.currency_rate"
+                class="mt16"
+            >
+                Currency rate: 1
+                <span t-esc="o.currency_id.symbol" />
+                =
+                <span t-esc="round(o.currency_rate, 4)" />
+                <span t-esc="o.company_id.currency_id.symbol" />
+            </div>
+        </div>
+        <div id="total" position="inside">
+            <div
+                t-if="o.currency_id != o.company_id.currency_id"
+                class="col-xs-4 pull-left"
+            >
+                <table
+                    class="table table-condensed"
+                    style="min-width: 250px;max-width: 400px;"
+                >
+                    <tr class="border-black" style="border-bottom:1px solid #dddddd;">
+                        <td>
+                            <strong>Subtotal</strong>
+                        </td>
+                        <td class="text-right">
+                            <span
+                                t-field="o.amount_untaxed_signed"
+                                t-options='{"widget": "monetary", "display_currency": o.company_currency_id}'
+                            />
+                        </td>
+                    </tr>
+                    <tr class="border-black" style="border-bottom:1px solid #dddddd;">
+                        <td>
+                            <strong>Tax</strong>
+                        </td>
+                        <td class="text-right">
+                            <span
+                                t-field="o.amount_tax_signed"
+                                t-options='{"widget": "monetary", "display_currency": o.company_currency_id}'
+                            />
+                        </td>
+                    </tr>
+                    <tr class="border-black">
+                        <td>
+                            <strong>Total</strong>
+                        </td>
+                        <td class="text-right">
+                            <span
+                                t-field="o.amount_total_signed"
+                                t-options='{"widget": "monetary", "display_currency": o.company_currency_id}'
+                            />
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        <xpath expr="//p[@name='note']" position="after">
+            <p t-if="o.company_id.invoice_no_signature_text" id="sign_info">
+                <span t-field="o.company_id.invoice_no_signature_text" />
+            </p>
+        </xpath>
+    </template>
+</odoo>
