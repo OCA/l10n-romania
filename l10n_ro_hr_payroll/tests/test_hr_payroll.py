@@ -149,7 +149,7 @@ class TestHrPayroll(TestHrEmployee):
             self.assertEqual(holiday_line.number_of_hours, holiday)
             self.assertEqual(weekend_line.number_of_hours, weekend)
 
-            self.assertEqual(supl_line.number_of_hours, 17)
+            self.assertEqual(supl_line.number_of_hours, 16)
             self.assertEqual(night_line.number_of_hours, 12)
             overtime += supl_line.number_of_hours + night_line.number_of_hours
 
