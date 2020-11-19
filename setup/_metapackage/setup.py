@@ -12,6 +12,7 @@ setuptools.setup(
         'odoo14-addon-l10n_ro_city',
         'odoo14-addon-l10n_ro_config',
         'odoo14-addon-l10n_ro_stock',
+        'odoo14-addon-l10n_ro_vat_on_payment',
     ],
     classifiers=[
         'Programming Language :: Python',
