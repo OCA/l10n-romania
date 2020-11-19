@@ -79,13 +79,6 @@ class TestHrPayroll(TestHrEmployee):
         attendance_obj.create({
             'employee_id': self.test_employee_1.id,
             'department_id': self.test_employee_1.department_id.id,
-            'check_in': '2020-11-05 08:00:00',
-            'check_out': '2020-11-06 07:00:00',
-            'worked_hours': 23
-        })
-        attendance_obj.create({
-            'employee_id': self.test_employee_1.id,
-            'department_id': self.test_employee_1.department_id.id,
             'check_in': '2020-11-06 18:00:00',
             'check_out': '2020-11-07 04:00:00',
             'worked_hours': 11
@@ -156,8 +149,8 @@ class TestHrPayroll(TestHrEmployee):
             self.assertEqual(holiday_line.number_of_hours, holiday)
             self.assertEqual(weekend_line.number_of_hours, weekend)
 
-            self.assertEqual(supl_line.number_of_hours, 29)
-            self.assertEqual(night_line.number_of_hours, 28)
+            self.assertEqual(supl_line.number_of_hours, 17)
+            self.assertEqual(night_line.number_of_hours, 12)
             overtime += supl_line.number_of_hours + night_line.number_of_hours
 
         income_date_from = datetime.strftime(
