@@ -22,6 +22,7 @@ addon | version | summary
 [l10n_ro_address_extended](l10n_ro_address_extended/) | 14.0.1.0.0 | Romania - Extended Addresses
 [l10n_ro_city](l10n_ro_city/) | 14.0.1.0.0 | Romania - City
 [l10n_ro_config](l10n_ro_config/) | 14.0.1.0.0 | Romania - Localization Install and Config Applications
+[l10n_ro_partner_create_by_vat](l10n_ro_partner_create_by_vat/) | 14.0.1.0.0 | Romania - Partner Create by VAT
 [l10n_ro_stock](l10n_ro_stock/) | 14.0.1.0.0 | Romania - Stock
 [l10n_ro_vat_on_payment](l10n_ro_vat_on_payment/) | 14.0.1.0.0 | Romania - VAT on Payment
 
