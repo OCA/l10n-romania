@@ -9,6 +9,7 @@ setuptools.setup(
     version=version,
     install_requires=[
         'odoo14-addon-l10n_ro_account_period_close',
+        'odoo14-addon-l10n_ro_account_report_invoice',
         'odoo14-addon-l10n_ro_address_extended',
         'odoo14-addon-l10n_ro_city',
         'odoo14-addon-l10n_ro_config',
