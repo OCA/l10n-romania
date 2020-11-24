@@ -1,0 +1,161 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* l10n_ro_stock_account
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 13.0\n"
+"Report-Msgid-Bugs-To: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: l10n_ro_stock_account
+#: model:ir.model,name:l10n_ro_stock_account.model_account_account
+msgid "Account"
+msgstr ""
+
+#. module: l10n_ro_stock_account
+#: model:ir.model.fields,field_description:l10n_ro_stock_account.field_product_category__stock_account_change
+msgid "Allow stock account change from locations"
+msgstr ""
+
+#. module: l10n_ro_stock_account
+#: model:ir.model,name:l10n_ro_stock_account.model_res_company
+msgid "Companies"
+msgstr ""
+
+#. module: l10n_ro_stock_account
+#: model:ir.model.fields,field_description:l10n_ro_stock_account.field_stock_location__property_account_expense_location_id
+msgid "Expense Account"
+msgstr ""
+
+#. module: l10n_ro_stock_account
+#: code:addons/l10n_ro_stock_account/models/product.py:0
+#, python-format
+msgid ""
+"For Romanian Stock Accounting the stock_input, stock_output and "
+"stock_valuation accounts must bethe same for category %s"
+msgstr ""
+
+#. module: l10n_ro_stock_account
+#: model:ir.model.fields,field_description:l10n_ro_stock_account.field_product_category__hide_stock_in_out_account
+msgid "Hide Stock In Out Account"
+msgstr ""
+
+#. module: l10n_ro_stock_account
+#: model:ir.model.fields,help:l10n_ro_stock_account.field_product_product__property_stock_valuation_account_id
+#: model:ir.model.fields,help:l10n_ro_stock_account.field_product_template__property_stock_valuation_account_id
+msgid ""
+"In Romania accounting is only one account for valuation/input/output. If "
+"this value is set, we will use it, otherwise will use the category value. "
+msgstr ""
+
+#. module: l10n_ro_stock_account
+#: model:ir.model.fields,field_description:l10n_ro_stock_account.field_stock_location__property_account_income_location_id
+msgid "Income Account"
+msgstr ""
+
+#. module: l10n_ro_stock_account
+#: model:ir.model,name:l10n_ro_stock_account.model_stock_location
+msgid "Inventory Locations"
+msgstr ""
+
+#. module: l10n_ro_stock_account
+#: model:ir.model.fields,field_description:l10n_ro_stock_account.field_stock_picking__notice
+msgid "Is a notice"
+msgstr ""
+
+#. module: l10n_ro_stock_account
+#: model:ir.model,name:l10n_ro_stock_account.model_account_move
+msgid "Journal Entries"
+msgstr ""
+
+#. module: l10n_ro_stock_account
+#: model:ir.model,name:l10n_ro_stock_account.model_account_move_line
+msgid "Journal Item"
+msgstr ""
+
+#. module: l10n_ro_stock_account
+#: model:ir.model.fields,help:l10n_ro_stock_account.field_product_category__stock_account_change
+msgid ""
+"Only for Romania, to change the accounts to the ones defined on stock "
+"locations"
+msgstr ""
+
+#. module: l10n_ro_stock_account
+#: model:ir.model.fields,help:l10n_ro_stock_account.field_product_category__hide_stock_in_out_account
+msgid ""
+"Only for Romania, to hide stock_input and stock_output accounts because they"
+" are the same as stock_valuation account"
+msgstr ""
+
+#. module: l10n_ro_stock_account
+#: code:addons/l10n_ro_stock_account/models/account_invoice.py:0
+#, python-format
+msgid "Price difference"
+msgstr ""
+
+#. module: l10n_ro_stock_account
+#: model:ir.model,name:l10n_ro_stock_account.model_product_category
+msgid "Product Category"
+msgstr ""
+
+#. module: l10n_ro_stock_account
+#: model:ir.model,name:l10n_ro_stock_account.model_product_template
+msgid "Product Template"
+msgstr ""
+
+#. module: l10n_ro_stock_account
+#: model:ir.model,name:l10n_ro_stock_account.model_stock_move
+msgid "Stock Move"
+msgstr ""
+
+#. module: l10n_ro_stock_account
+#: model:ir.model.fields,field_description:l10n_ro_stock_account.field_product_product__property_stock_valuation_account_id
+#: model:ir.model.fields,field_description:l10n_ro_stock_account.field_product_template__property_stock_valuation_account_id
+#: model:ir.model.fields,field_description:l10n_ro_stock_account.field_stock_location__property_stock_valuation_account_id
+msgid "Stock Valuation Account"
+msgstr ""
+
+#. module: l10n_ro_stock_account
+#: model:ir.model,name:l10n_ro_stock_account.model_stock_valuation_layer
+msgid "Stock Valuation Layer"
+msgstr ""
+
+#. module: l10n_ro_stock_account
+#: model:ir.model.fields,help:l10n_ro_stock_account.field_stock_location__property_account_expense_location_id
+msgid ""
+"This account will overwrite the expense accounts from product or category."
+msgstr ""
+
+#. module: l10n_ro_stock_account
+#: model:ir.model.fields,help:l10n_ro_stock_account.field_stock_location__property_account_income_location_id
+msgid ""
+"This account will overwrite the income accounts from product or category."
+msgstr ""
+
+#. module: l10n_ro_stock_account
+#: model:ir.model,name:l10n_ro_stock_account.model_stock_picking
+msgid "Transfer"
+msgstr ""
+
+#. module: l10n_ro_stock_account
+#: model:ir.model.fields,field_description:l10n_ro_stock_account.field_stock_valuation_layer__valued_type
+msgid "Valued Type"
+msgstr ""
+
+#. module: l10n_ro_stock_account
+#: model:ir.model.fields,help:l10n_ro_stock_account.field_stock_picking__notice
+msgid ""
+"With this field the reception/delivery is set as a notice. The generated "
+"account move will contain accounts 408/418."
+msgstr ""
+
+#. module: l10n_ro_stock_account
+#: model_terms:ir.ui.view,arch_db:l10n_ro_stock_account.view_picking_internal_add_notice_search
+msgid "is notice (aviz)"
+msgstr ""
