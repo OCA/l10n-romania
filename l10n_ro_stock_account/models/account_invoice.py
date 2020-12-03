@@ -130,7 +130,7 @@ class AccountMoveLine(models.Model):
             and self.move_id.company_id.anglo_saxon_accounting
         ):
             if self.move_id.is_purchase_document():
-                purchase = self.move_id.purchase_id
+                purchase = self.purchase_order_id
                 if purchase and self.product_id.purchase_method == "receive":
                     # Control bills based on received quantities
                     if any([p.notice for p in purchase.picking_ids]):
