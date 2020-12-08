@@ -346,6 +346,11 @@ class StockMove(models.Model):
             vals["valued_type"] = valued_type
         return vals
 
+    def _create_dropshipped_svl(self, forced_quantity=None):
+        valued_type = "dropshipped"
+        self = self.with_context(valued_type=valued_type)
+        return super(StockMove, self)._create_dropshipped_svl(forced_quantity)
+
     def _get_company(self, svl):
         self.ensure_one()
         company_from = (
