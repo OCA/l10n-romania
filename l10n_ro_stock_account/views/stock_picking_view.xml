@@ -45,10 +45,29 @@
             <filter name="cancel" position="after">
                 <filter
                     name="notice"
-                    string="is notice (aviz)"
+                    string="Is notice"
                     domain="[('notice', '=', True)]"
                 />
             </filter>
         </field>
     </record>
+
+    <record id="stock_picking_kanban" model="ir.ui.view">
+        <field name="name">stock.picking.kanban</field>
+        <field name="model">stock.picking</field>
+        <field name="inherit_id" ref="stock.stock_picking_kanban" />
+        <field name="arch" type="xml">
+            <field name="activity_state" position="after">
+                <field name="notice" />
+            </field>
+            <xpath expr="//div[hasclass('o_kanban_record_bottom')]" position="before">
+                <div class="oe_kanban_content">
+                    <label for="notice">Is notice</label>
+                    <field name="notice" widget="boolean_toggle" />
+                </div>
+            </xpath>
+        </field>
+    </record>
+
+
 </odoo>
