@@ -64,7 +64,9 @@ if worked_days.SL10 : result += round(worked_days.SL10.budget_days * worked_days
 if worked_days.SL12 : result += round(worked_days.SL12.budget_days * worked_days.SL12.daily_base)
 if worked_days.SL13 : result += round(worked_days.SL13.budget_days * worked_days.SL13.daily_base)
 if worked_days.SL14 : result += round(worked_days.SL14.budget_days * worked_days.SL14.daily_base)
-if worked_days.SL15 : result += round(worked_days.SL15.budget_days * worked_days.SL15.daily_base)</field>
+if worked_days.SL15 : result += round(worked_days.SL15.budget_days * worked_days.SL15.daily_base)
+if worked_days.SL51 : result += round(worked_days.SL51.budget_days * worked_days.SL51.daily_base)
+if worked_days.SL91 : result += round(worked_days.SL91.budget_days * worked_days.SL91.daily_base)</field>
     </record>
     <record id="concediimedicale2" model="hr.salary.rule">
     <field name="code">MEDC</field>
