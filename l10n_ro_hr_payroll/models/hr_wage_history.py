@@ -27,21 +27,21 @@ class HRWageHistory(models.Model):
 
     @api.model
     def get_medium_wage(self, checkdate):
-        res = self.search([('date', '<=', checkdate.date())])
+        res = self.search([('date', '<=', checkdate)])
         if res:
             return res[0].med_wage
         return 0.00
 
     @api.model
     def get_minimum_wage(self, checkdate):
-        res = self.search([('date', '<=', checkdate.date())])
+        res = self.search([('date', '<=', checkdate)])
         if res:
             return res[0].min_wage
         return 0.00
 
     @api.model
     def get_ceiling(self, checkdate):
-        res = self.search([('date', '<=', checkdate.date())])
+        res = self.search([('date', '<=', checkdate)])
         if res:
             return res[0].ceiling_min_wage
         return 0.00

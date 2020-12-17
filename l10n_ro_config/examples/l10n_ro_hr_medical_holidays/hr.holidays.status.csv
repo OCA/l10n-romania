@@ -9,11 +9,13 @@ hr_holidays_status_cm_04u,Boala profesionala [URG],violet,1,TRUE,4,TRUE,100,3,18
 hr_holidays_status_cm_05,Boala infectocontagioasa din grupa A,violet,1,TRUE,5,FALSE,100,5,183,FALSE
 hr_holidays_status_cm_06,Urgenta medico-chirurgicala,violet,1,TRUE,6,FALSE,100,5,183,FALSE
 hr_holidays_status_cm_07,Carantina,violet,1,TRUE,7,FALSE,75,5,183,FALSE
-hr_holidays_status_cm_08,Sarcina și Lauzie,violet,1,TRUE,8,FALSE,85,0,126,FALSE
-hr_holidays_status_cm_09,"Ingrijire copil bolnav in varsta de pana la 7 ani sau copil cu handicap pentru afectiuni intercurente, pana la implinirea varstei de 18 ani",violet,1,TRUE,9,FALSE,85,0,-1,FALSE
+hr_holidays_status_cm_08,Sarcina și lehuzie,violet,1,TRUE,8,FALSE,85,0,126,FALSE
+hr_holidays_status_cm_09,Ingrijire copil bolnav in varsta de pana la 7 ani sau copil cu handicap,violet,1,TRUE,9,FALSE,85,0,-1,FALSE
 hr_holidays_status_cm_10,Reducerea cu 1/4 a duratei normale de lucru,violet,1,TRUE,10,FALSE,25,5,183,FALSE
 hr_holidays_status_cm_11,Trecerea temporara in alta munca,violet,1,TRUE,11,FALSE,25,3,-1,FALSE
 hr_holidays_status_cm_12,Tuberculoza,violet,1,TRUE,12,FALSE,100,5,-1,FALSE
 hr_holidays_status_cm_13,Boala cardiovasculara,violet,1,TRUE,13,FALSE,75,5,-1,FALSE
-hr_holidays_status_cm_14,"Neoplazii, SIDA",violet,1,TRUE,14,FALSE,100,5,183,FALSE
+hr_holidays_status_cm_14,"Cancer, HIV, SIDA",violet,1,TRUE,14,FALSE,100,5,183,FALSE
 hr_holidays_status_cm_15,Risc maternal,violet,1,TRUE,15,FALSE,75,0,120,FALSE
+hr_holidays_status_cm_51,Boala infectocontagioasa pentru care se instituie masura izolarii,violet,1,TRUE,51,FALSE,100,0,183,FALSE
+hr_holidays_status_cm_91,"Ingrijire copil bolnav cu afectiuni grave, in varsta de pana la 16 ani",violet,1,TRUE,91,FALSE,100,0,-1,FALSE

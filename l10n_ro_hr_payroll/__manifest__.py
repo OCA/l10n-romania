@@ -12,7 +12,8 @@
     'depends': [
         'hr_payroll',
         'l10n_ro_hr_contract',
-        'l10n_ro_hr_medical_holidays'],
+        'l10n_ro_hr_medical_holidays',
+        'hr_attendance'],
     'data': [
         # views
         'views/hr_employee_view.xml',

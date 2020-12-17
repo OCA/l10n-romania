@@ -29,8 +29,9 @@ class HRMealVouchers(models.Model):
 
     @api.depends('company_id', 'date_from', 'date_to')
     def _compute_name(self):
-        self.name = _("%s - Period %s - %s") % (
-            self.company_id.name, self.date_from, self.date_to)
+        for res in self:
+            res.name = _("%s - Period %s - %s") % (
+                res.company_id.name, res.date_from, res.date_to)
 
     @api.onchange('date_from')
     def _onchange_date_from(self):

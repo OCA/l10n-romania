@@ -34,16 +34,16 @@ if worked_days.LL : result += round(worked_days.LL.number_of_days * worked_days.
     <field name="condition_select">none</field>
     <field name="amount_select">code</field>
     <field name="amount_python_compute">result = 0
-if worked_days.SL01 : result += worked_days.SL01.employer_days * worked_days.SL01.daily_base
-if worked_days.SL02 : result += worked_days.SL02.employer_days * worked_days.SL02.daily_base
-if worked_days.SL03 : result += worked_days.SL03.employer_days * worked_days.SL03.daily_base
-if worked_days.SL04 : result += worked_days.SL04.employer_days * worked_days.SL04.daily_base
-if worked_days.SL05 : result += worked_days.SL05.employer_days * worked_days.SL05.daily_base
-if worked_days.SL06 : result += worked_days.SL06.employer_days * worked_days.SL06.daily_base
-if worked_days.SL11 : result += worked_days.SL11.employer_days * worked_days.SL11.daily_base
-if worked_days.SL12 : result += worked_days.SL12.employer_days * worked_days.SL12.daily_base
-if worked_days.SL13 : result += worked_days.SL13.employer_days * worked_days.SL13.daily_base
-if worked_days.SL14 : result += worked_days.SL14.employer_days * worked_days.SL14.daily_base</field>
+if worked_days.SL01 : result += round(worked_days.SL01.employer_days * worked_days.SL01.daily_base)
+if worked_days.SL02 : result += round(worked_days.SL02.employer_days * worked_days.SL02.daily_base)
+if worked_days.SL03 : result += round(worked_days.SL03.employer_days * worked_days.SL03.daily_base)
+if worked_days.SL04 : result += round(worked_days.SL04.employer_days * worked_days.SL04.daily_base)
+if worked_days.SL05 : result += round(worked_days.SL05.employer_days * worked_days.SL05.daily_base)
+if worked_days.SL06 : result += round(worked_days.SL06.employer_days * worked_days.SL06.daily_base)
+if worked_days.SL11 : result += round(worked_days.SL11.employer_days * worked_days.SL11.daily_base)
+if worked_days.SL12 : result += round(worked_days.SL12.employer_days * worked_days.SL12.daily_base)
+if worked_days.SL13 : result += round(worked_days.SL13.employer_days * worked_days.SL13.daily_base)
+if worked_days.SL14 : result += round(worked_days.SL14.employer_days * worked_days.SL14.daily_base)</field>
     </record>
     <record id="concediimedicale1" model="hr.salary.rule">
     <field name="code">MEDB</field>
@@ -54,17 +54,19 @@ if worked_days.SL14 : result += worked_days.SL14.employer_days * worked_days.SL1
     <field name="condition_select">none</field>
     <field name="amount_select">code</field>
     <field name="amount_python_compute">result = 0
-if worked_days.SL01 : result += worked_days.SL01.budget_days * worked_days.SL01.daily_base
-if worked_days.SL05 : result += worked_days.SL05.budget_days * worked_days.SL05.daily_base
-if worked_days.SL06 : result += worked_days.SL06.budget_days * worked_days.SL06.daily_base
-if worked_days.SL07 : result += worked_days.SL07.budget_days * worked_days.SL07.daily_base
-if worked_days.SL08 : result += worked_days.SL08.budget_days * worked_days.SL08.daily_base
-if worked_days.SL09 : result += worked_days.SL09.budget_days * worked_days.SL09.daily_base
-if worked_days.SL10 : result += worked_days.SL10.budget_days * worked_days.SL10.daily_base
-if worked_days.SL12 : result += worked_days.SL12.budget_days * worked_days.SL12.daily_base
-if worked_days.SL13 : result += worked_days.SL13.budget_days * worked_days.SL13.daily_base
-if worked_days.SL14 : result += worked_days.SL14.budget_days * worked_days.SL14.daily_base
-if worked_days.SL15 : result += worked_days.SL15.budget_days * worked_days.SL15.daily_base</field>
+if worked_days.SL01 : result += round(worked_days.SL01.budget_days * worked_days.SL01.daily_base)
+if worked_days.SL05 : result += round(worked_days.SL05.budget_days * worked_days.SL05.daily_base)
+if worked_days.SL06 : result += round(worked_days.SL06.budget_days * worked_days.SL06.daily_base)
+if worked_days.SL07 : result += round(worked_days.SL07.budget_days * worked_days.SL07.daily_base)
+if worked_days.SL08 : result += round(worked_days.SL08.budget_days * worked_days.SL08.daily_base)
+if worked_days.SL09 : result += round(worked_days.SL09.budget_days * worked_days.SL09.daily_base)
+if worked_days.SL10 : result += round(worked_days.SL10.budget_days * worked_days.SL10.daily_base)
+if worked_days.SL12 : result += round(worked_days.SL12.budget_days * worked_days.SL12.daily_base)
+if worked_days.SL13 : result += round(worked_days.SL13.budget_days * worked_days.SL13.daily_base)
+if worked_days.SL14 : result += round(worked_days.SL14.budget_days * worked_days.SL14.daily_base)
+if worked_days.SL15 : result += round(worked_days.SL15.budget_days * worked_days.SL15.daily_base)
+if worked_days.SL51 : result += round(worked_days.SL51.budget_days * worked_days.SL51.daily_base)
+if worked_days.SL91 : result += round(worked_days.SL91.budget_days * worked_days.SL91.daily_base)</field>
     </record>
     <record id="concediimedicale2" model="hr.salary.rule">
     <field name="code">MEDC</field>
@@ -75,10 +77,10 @@ if worked_days.SL15 : result += worked_days.SL15.budget_days * worked_days.SL15.
     <field name="condition_select">none</field>
     <field name="amount_select">code</field>
     <field name="amount_python_compute">result = 0
-if worked_days.SL02 : result += worked_days.SL02.budget_days * worked_days.SL02.daily_base
-if worked_days.SL03 : result += worked_days.SL03.budget_days * worked_days.SL03.daily_base
-if worked_days.SL04 : result += worked_days.SL04.budget_days * worked_days.SL04.daily_base
-if worked_days.SL11 : result += worked_days.SL011.budget_days * worked_days.SL011.daily_base</field>
+if worked_days.SL02 : result += round(worked_days.SL02.budget_days * worked_days.SL02.daily_base)
+if worked_days.SL03 : result += round(worked_days.SL03.budget_days * worked_days.SL03.daily_base)
+if worked_days.SL04 : result += round(worked_days.SL04.budget_days * worked_days.SL04.daily_base)
+if worked_days.SL11 : result += round(worked_days.SL011.budget_days * worked_days.SL011.daily_base)</field>
     </record>
     <record id="concediimedicale3" model="hr.salary.rule">
         <field name="code">MED</field>
@@ -106,6 +108,141 @@ if worked_days.SL11 : result += worked_days.SL011.budget_days * worked_days.SL01
         <field name="input_id" ref="premii"/>
         <field name="name">PREMII</field>
     </record>
+    <record id="avans" model="hr.salary.rule">
+        <field name="code">AVANS</field>
+        <field name="name">AVANS</field>
+        <field name="category_id" ref="l10n_ro_hr_payroll.avans_categ"/>
+        <field eval="31" name="sequence"/>
+        <field name="appears_on_payslip" eval="True"/>
+        <field name="condition_select">none</field>
+        <field name="amount_select">percentage</field>
+        <field name="amount_percentage_base">inputs.AVANS.amount</field>
+        <field name="amount_percentage">100.00</field>
+    </record>
+    <record id="hr_rule_input_avans" model="hr.rule.input">
+        <field name="code">AVANS</field>
+        <field name="input_id" ref="avans"/>
+        <field name="name">AVANS</field>
+    </record>
+     <record id="bonus" model="hr.salary.rule">
+        <field name="code">BONUS</field>
+        <field name="name">BONUS</field>
+        <field name="category_id" ref="l10n_ro_hr_payroll.bonus_categ"/>
+        <field eval="32" name="sequence"/>
+        <field name="appears_on_payslip" eval="True"/>
+        <field name="condition_select">none</field>
+        <field name="amount_select">percentage</field>
+        <field name="amount_percentage_base">inputs.BONUS.amount</field>
+        <field name="amount_percentage">100.00</field>
+    </record>
+    <record id="hr_rule_input_bonus" model="hr.rule.input">
+        <field name="code">BONUS</field>
+        <field name="input_id" ref="bonus"/>
+        <field name="name">BONUS</field>
+    </record>
+
+
+     <record id="orenoapte" model="hr.salary.rule">
+        <field name="code">ORENOAPTE</field>
+        <field name="name">ORENOAPTE</field>
+        <field name="category_id" ref="l10n_ro_hr_payroll.orenoapte_categ"/>
+        <field eval="33" name="sequence"/>
+        <field name="appears_on_payslip" eval="True"/>
+        <field name="condition_select">none</field>
+         <field name="amount_select">code</field>
+        <field name="amount_python_compute">result = 0
+perc = 0.25
+hour = 8
+if contract.work_norm == 'N':
+   if contract.work_hour == '6': hour = 6
+   if contract.work_hour == '7': hour = 7
+   if contract.work_hour == '8': hour = 8
+if contract.work_norm == 'P1': hour = 1
+if contract.work_norm == 'P2': hour = 2
+if contract.work_norm == 'P3': hour = 3
+if contract.work_norm == 'P4': hour = 4
+if contract.work_norm == 'P5': hour = 5
+if contract.work_norm == 'P6': hour = 6
+if contract.work_norm == 'P7': hour = 7
+if worked_days.NIGHT.number_of_hours >=3: result += round(contract.wage / (payslip.working_days * hour) * worked_days.NIGHT.number_of_hours * perc)</field>
+    </record>
+     <record id="oreweekend" model="hr.salary.rule">
+        <field name="code">OREWEEKEND</field>
+        <field name="name">OREWEEKEND</field>
+        <field name="category_id" ref="l10n_ro_hr_payroll.oreweekend_categ"/>
+        <field eval="34" name="sequence"/>
+        <field name="appears_on_payslip" eval="True"/>
+        <field name="condition_select">none</field>
+        <field name="amount_select">code</field>
+        <field name="amount_python_compute">result = 0
+perc = 0.75
+hour = 8
+if contract.work_norm == 'N':
+   if contract.work_hour == '6': hour = 6
+   if contract.work_hour == '7': hour = 7
+   if contract.work_hour == '8': hour = 8
+if contract.work_norm == 'P1': hour = 1
+if contract.work_norm == 'P2': hour = 2
+if contract.work_norm == 'P3': hour = 3
+if contract.work_norm == 'P4': hour = 4
+if contract.work_norm == 'P5': hour = 5
+if contract.work_norm == 'P6': hour = 6
+if contract.work_norm == 'P7': hour = 7
+if worked_days.WEEKEND.number_of_hours: result += round(contract.wage / (payslip.working_days * hour) * worked_days.WEEKEND.number_of_hours * perc)
+        </field>
+    </record>
+     <record id="oreholiday" model="hr.salary.rule">
+        <field name="code">OREHOLIDAY</field>
+        <field name="name">OREHOLIDAY</field>
+        <field name="category_id" ref="l10n_ro_hr_payroll.oreholiday_categ"/>
+        <field eval="35" name="sequence"/>
+        <field name="appears_on_payslip" eval="True"/>
+        <field name="condition_select">none</field>
+        <field name="amount_select">code</field>
+        <field name="amount_python_compute">result = 0
+perc = 1
+hour = 8
+if contract.work_norm == 'N':
+   if contract.work_hour == '6': hour = 6
+   if contract.work_hour == '7': hour = 7
+   if contract.work_hour == '8': hour = 8
+if contract.work_norm == 'P1': hour = 1
+if contract.work_norm == 'P2': hour = 2
+if contract.work_norm == 'P3': hour = 3
+if contract.work_norm == 'P4': hour = 4
+if contract.work_norm == 'P5': hour = 5
+if contract.work_norm == 'P6': hour = 6
+if contract.work_norm == 'P7': hour = 7
+if worked_days.HOLIDAY.number_of_hours: result += round(contract.wage / (payslip.working_days * hour) * worked_days.HOLIDAY.number_of_hours * perc)
+        </field>
+    </record>
+     <record id="oresuplimentare" model="hr.salary.rule">
+        <field name="code">SUPL</field>
+        <field name="name">Ore suplimentare</field>
+        <field name="category_id" ref="l10n_ro_hr_payroll.oresuplimentare_categ"/>
+        <field eval="36" name="sequence"/>
+        <field name="appears_on_payslip" eval="True"/>
+        <field name="condition_select">none</field>
+        <field name="amount_select">code</field>
+        <field name="amount_python_compute">result = 0
+perc = 0.75
+hour = 8
+if contract.work_norm == 'N':
+   if contract.work_hour == '6': hour = 6
+   if contract.work_hour == '7': hour = 7
+   if contract.work_hour == '8': hour = 8
+if contract.work_norm == 'P1': hour = 1
+if contract.work_norm == 'P2': hour = 2
+if contract.work_norm == 'P3': hour = 3
+if contract.work_norm == 'P4': hour = 4
+if contract.work_norm == 'P5': hour = 5
+if contract.work_norm == 'P6': hour = 6
+if contract.work_norm == 'P7': hour = 7
+if worked_days.SUPL.number_of_hours: result += round(contract.wage / (payslip.working_days * hour) * worked_days.SUPL.number_of_hours * perc)
+        </field>
+    </record>
+
+
     <record id="spor_imp" model="hr.salary.rule">
         <field name="code">SPORIMP</field>
         <field name="name">SPOR IMPOZABIL</field>
@@ -209,7 +346,7 @@ if worked_days.SL11 : result += worked_days.SL011.employer_days * worked_days.SL
         <field name="condition_select">none</field>
         <field name="amount_select">code</field>
         <field name="amount_python_compute">perc = 0.25
-result = round((categories.BRUT - categories.MED) * perc)</field>
+result = round((categories.BRUT - categories.MED) * perc + 0.001)</field>
     </record>
     <record id="cas1" model="hr.salary.rule">
         <field name="code">CASB</field>
@@ -221,12 +358,12 @@ result = round((categories.BRUT - categories.MED) * perc)</field>
         <field name="amount_select">code</field>
         <field name="amount_python_compute">result = 0
 perc = 0.25
-if worked_days.SL01 : result += employee.company_id.get_medium_wage(payslip.date_from) * 0.35 * perc * worked_days.SL01.employer_days / payslip.working_days
-if worked_days.SL05 : result += employee.company_id.get_medium_wage(payslip.date_from) * 0.35 * perc * worked_days.SL05.employer_days / payslip.working_days
-if worked_days.SL06 : result += employee.company_id.get_medium_wage(payslip.date_from) * 0.35 * perc * worked_days.SL06.employer_days / payslip.working_days
-if worked_days.SL12 : result += employee.company_id.get_medium_wage(payslip.date_from) * 0.35 * perc * worked_days.SL12.employer_days / payslip.working_days
-if worked_days.SL13 : result += employee.company_id.get_medium_wage(payslip.date_from) * 0.35 * perc * worked_days.SL13.employer_days / payslip.working_days
-if worked_days.SL14 : result += employee.company_id.get_medium_wage(payslip.date_from) * 0.35 * perc * worked_days.SL14.employer_days / payslip.working_days</field>
+if worked_days.SL01 : result += round(worked_days.SL01.employer_days * worked_days.SL01.daily_base * perc)
+if worked_days.SL05 : result += round(worked_days.SL05.employer_days * worked_days.SL05.daily_base * perc)
+if worked_days.SL06 : result += round(worked_days.SL06.employer_days * worked_days.SL06.daily_base * perc)
+if worked_days.SL12 : result += round(worked_days.SL12.employer_days * worked_days.SL12.daily_base * perc)
+if worked_days.SL13 : result += round(worked_days.SL13.employer_days * worked_days.SL13.daily_base * perc)
+if worked_days.SL14 : result += round(worked_days.SL14.employer_days * worked_days.SL14.daily_base * perc)</field>
     </record>
     <record id="cas2" model="hr.salary.rule">
         <field name="code">CASC</field>
@@ -238,17 +375,17 @@ if worked_days.SL14 : result += employee.company_id.get_medium_wage(payslip.date
         <field name="amount_select">code</field>
         <field name="amount_python_compute">result = 0
 perc = 0.25
-if worked_days.SL01 : result += employee.company_id.get_medium_wage(payslip.date_from) * 0.35 * perc * worked_days.SL01.budget_days / payslip.working_days
-if worked_days.SL05 : result += employee.company_id.get_medium_wage(payslip.date_from) * 0.35 * perc * worked_days.SL05.budget_days / payslip.working_days
-if worked_days.SL06 : result += employee.company_id.get_medium_wage(payslip.date_from) * 0.35 * perc * worked_days.SL06.budget_days / payslip.working_days
-if worked_days.SL07 : result += employee.company_id.get_medium_wage(payslip.date_from) * 0.35 * perc * worked_days.SL07.budget_days / payslip.working_days
-if worked_days.SL08 : result += employee.company_id.get_medium_wage(payslip.date_from) * 0.35 * perc * worked_days.SL08.budget_days / payslip.working_days
-if worked_days.SL09 : result += employee.company_id.get_medium_wage(payslip.date_from) * 0.35 * perc * worked_days.SL09.budget_days / payslip.working_days
-if worked_days.SL10 : result += employee.company_id.get_medium_wage(payslip.date_from) * 0.35 * perc * worked_days.SL10.budget_days / payslip.working_days
-if worked_days.SL12 : result += employee.company_id.get_medium_wage(payslip.date_from) * 0.35 * perc * worked_days.SL12.budget_days / payslip.working_days
-if worked_days.SL13 : result += employee.company_id.get_medium_wage(payslip.date_from) * 0.35 * perc * worked_days.SL13.budget_days / payslip.working_days
-if worked_days.SL14 : result += employee.company_id.get_medium_wage(payslip.date_from) * 0.35 * perc * worked_days.SL14.budget_days / payslip.working_days
-if worked_days.SL15 : result += employee.company_id.get_medium_wage(payslip.date_from) * 0.35 * perc * worked_days.SL15.budget_days / payslip.working_days</field>
+if worked_days.SL01 : result += round(worked_days.SL01.budget_days * worked_days.SL01.daily_base * perc)
+if worked_days.SL05 : result += round(worked_days.SL05.budget_days * worked_days.SL05.daily_base * perc)
+if worked_days.SL06 : result += round(worked_days.SL06.budget_days * worked_days.SL06.daily_base * perc)
+if worked_days.SL07 : result += round(worked_days.SL07.budget_days * worked_days.SL07.daily_base * perc)
+if worked_days.SL08 : result += round(worked_days.SL08.budget_days * worked_days.SL08.daily_base * perc)
+if worked_days.SL09 : result += round(worked_days.SL09.budget_days * worked_days.SL09.daily_base * perc)
+if worked_days.SL10 : result += round(worked_days.SL10.budget_days * worked_days.SL10.daily_base * perc)
+if worked_days.SL12 : result += round(worked_days.SL12.budget_days * worked_days.SL12.daily_base * perc)
+if worked_days.SL13 : result += round(worked_days.SL13.budget_days * worked_days.SL13.daily_base * perc)
+if worked_days.SL14 : result += round(worked_days.SL14.budget_days * worked_days.SL14.daily_base * perc)
+if worked_days.SL15 : result += round(worked_days.SL15.budget_days * worked_days.SL15.daily_base * perc)</field>
     </record>
     <record id="cas3" model="hr.salary.rule">
         <field name="code">CAS</field>
@@ -432,7 +569,7 @@ if ((employee.person_in_care >= 4) and (categories.VBRUT &gt; 1950) and (categor
         <field name="condition_select">none</field>
         <field name="amount_select">code</field>
         <field name="amount_python_compute">perc = 0.10
-result = round(IMPZ * perc + 0.5)
+result = round(IMPZ * perc + 0.001)
 if contract.tax_exempt: result = 0
         </field>
         <field name="register_id" ref="ro_contribution_register_imp_sal"/>
@@ -486,6 +623,10 @@ if contract.tax_exempt: result = 0
                 ref('l10n_ro_hr_payroll.concediimedicale2'),
                 ref('l10n_ro_hr_payroll.concediimedicale3'),
                 ref('l10n_ro_hr_payroll.premii'),
+                ref('l10n_ro_hr_payroll.orenoapte'),
+                ref('l10n_ro_hr_payroll.oreweekend'),
+                ref('l10n_ro_hr_payroll.oreholiday'),
+                ref('l10n_ro_hr_payroll.oresuplimentare'),
                 ref('l10n_ro_hr_payroll.spor_imp'),
                 ref('l10n_ro_hr_payroll.spor_neimp'),
                 ref('l10n_ro_hr_payroll.deducerebaza'),
@@ -510,6 +651,8 @@ if contract.tax_exempt: result = 0
                 ref('l10n_ro_hr_payroll.bazacalculimpozit'),
                 ref('l10n_ro_hr_payroll.impozit'),
                 ref('l10n_ro_hr_payroll.retineri'),
+                ref('l10n_ro_hr_payroll.avans'),
+                ref('l10n_ro_hr_payroll.bonus'),
                 ref('l10n_ro_hr_payroll.salarnet'),
                 ref('l10n_ro_hr_payroll.restplata')])]" name="rule_ids"/>
     </record>
