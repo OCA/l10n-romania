@@ -6,7 +6,7 @@
 from odoo import fields, models
 
 
-class StockLlocation(models.Model):
+class StockLocation(models.Model):
     _inherit = "stock.location"
 
     property_account_income_location_id = fields.Many2one(
