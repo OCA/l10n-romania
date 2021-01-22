@@ -6,7 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 14.0\n"
 "Report-Msgid-Bugs-To: \n"
-"Last-Translator: Automatically generated\n"
+"PO-Revision-Date: 2021-01-22 09:40+0000\n"
+"Last-Translator: Dorin Hongu <dhongu@gmail.com>\n"
 "Language-Team: none\n"
 "Language: ro\n"
 "MIME-Version: 1.0\n"
@@ -14,6 +15,7 @@ msgstr ""
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=3; plural=n==1 ? 0 : (n==0 || (n%100 > 0 && n%100 < "
 "20)) ? 1 : 2;\n"
+"X-Generator: Weblate 4.3.2\n"
 
 #. module: l10n_ro_config
 #: model_terms:ir.ui.view,arch_db:l10n_ro_config.res_config_settings_view_form
@@ -34,32 +36,33 @@ msgstr ""
 #. module: l10n_ro_config
 #: model_terms:ir.ui.view,arch_db:l10n_ro_config.banks
 msgid "<strong>Account:</strong>"
-msgstr ""
+msgstr "<strong>Cont:</strong>"
 
 #. module: l10n_ro_config
 #: model_terms:ir.ui.view,arch_db:l10n_ro_config.report_address_company
 msgid "<strong>Address:</strong>"
-msgstr ""
+msgstr "<strong>Adresa:</strong>"
 
 #. module: l10n_ro_config
 #: model_terms:ir.ui.view,arch_db:l10n_ro_config.banks
 msgid "<strong>Bank:</strong>"
-msgstr ""
+msgstr "<strong>Banca:</strong>"
 
 #. module: l10n_ro_config
 #: model_terms:ir.ui.view,arch_db:l10n_ro_config.report_address_company
 msgid "<strong>Company</strong>"
-msgstr ""
+msgstr "<strong>Companie</strong>"
 
 #. module: l10n_ro_config
 #: model_terms:ir.ui.view,arch_db:l10n_ro_config.report_address_company
+#, fuzzy
 msgid "<strong>NRC:</strong>"
-msgstr ""
+msgstr "<strong>NRC:</strong>"
 
 #. module: l10n_ro_config
 #: model_terms:ir.ui.view,arch_db:l10n_ro_config.report_address_company
 msgid "<strong>Share Capital:</strong>"
-msgstr ""
+msgstr "<strong>Capital social:</strong>"
 
 #. module: l10n_ro_config
 #: model:ir.model.fields,field_description:l10n_ro_config.field_res_config_settings__module_l10n_ro_account_report_balance_sheet
