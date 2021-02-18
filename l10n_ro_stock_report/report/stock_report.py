@@ -371,7 +371,7 @@ ORDER BY product_id, data
             )
             for line in stock_init:
                 if line[key] == product:
-                    if line["data"].date() > self.date_from:
+                    if line["data"].date() >= self.date_from:
                         line["valoare_iesita"] = -line["valoare_iesita"]
                         line["cantitate_iesita"] = -line["cantitate_iesita"]
                         line["valoare_finala"] = 0
