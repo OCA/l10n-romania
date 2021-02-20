@@ -21,9 +21,10 @@ class DailyStockReport(models.TransientModel):
         domain="[('usage','=','internal'),('company_id','=',company_id)]",
         required=True,
     )
-    product_id = fields.Many2one(
-        "product.product",
-        required=True,
+    product_id = fields.Many2one("product.product")
+
+    product_ids = fields.Many2many(
+        comodel_name="product.product"
     )
 
     date_range_id = fields.Many2one("date.range", string="Date range")
@@ -36,7 +37,7 @@ class DailyStockReport(models.TransientModel):
         [("product", "Product")], default="product", string="Detail mode", required=1
     )
 
-    line_product_ids = fields.One2many("stock.daily.stock.report.line", "report_id")
+    line_product_ids = fields.Many2many(comodel_name="stock.daily.stock.report.line")
 
     @api.model
     def default_get(self, fields_list):
@@ -60,148 +61,15 @@ class DailyStockReport(models.TransientModel):
             self.date_from = self.date_range_id.date_start
             self.date_to = self.date_range_id.date_end
 
-    def do_compute(self):
 
-        self.env["account.move.line"].check_access_rights("read")
-
-        lines = self.env["stock.daily.stock.report.line"].search(
-            [("report_id", "=", self.id)]
-        )
-        lines.unlink()
-        stock_init = []
-        if self.mode == "product":
-            query = """
-SELECT product_id,valoare_initiala,cantitate_initiala,
-        valoare_intrata,cantitate_intrata,valoare_iesita,
-        cantitate_iesita,valoare_finala,cantitate_finala,
-        data,reference,partner
-FROM
-    (SELECT sm.product_id as product_id,
-        COALESCE(sum(svl.value),
-                sum(svl2.value),
-                sum(svl3.value)) as valoare_initiala,
-        COALESCE(sum(svl.quantity),
-                sum(svl2.quantity),
-                sum(svl3.quantity)) as cantitate_initiala,
-        0 as valoare_intrata,
-        0 as cantitate_intrata,
-        0 as valoare_iesita,
-        0 as cantitate_iesita,
-        COALESCE(sum(svl.value),
-                sum(svl2.value),
-                sum(svl3.value)) as valoare_finala,
-        COALESCE(sum(svl.quantity),
-                sum(svl2.quantity),
-                sum(svl3.quantity)) as cantitate_finala,
-        date_trunc('day',sm.date) as data,
-        sm.reference as reference,
-        rp.name as partner
-    from stock_move as sm
-        left join (select * from stock_valuation_layer
-                    where valued_type !='internal_transfer' or valued_type is Null)
-                    as svl on svl.stock_move_id = sm.id
-        left join (select * from stock_valuation_layer
-                    where valued_type ='internal_transfer' and quantity<0) as svl2
-                    on svl2.stock_move_id = sm.id and sm.location_id=%(location)s
-        left join (select * from stock_valuation_layer
-                    where valued_type ='internal_transfer' and quantity>0) as svl3
-                    on svl3.stock_move_id = sm.id and sm.location_dest_id=%(location)s
-        left join res_partner rp on rp.id=sm.partner_id
-    where sm.state = 'done' AND
-        sm.company_id = %(company)s AND
-        date_trunc('day',sm.date) <  %(date_from)s AND
-        (sm.location_id = %(location)s OR sm.location_dest_id = %(location)s)
-    GROUP BY sm.product_id, date_trunc('day',sm.date), sm.reference, rp.name
-    order by sm.product_id, date_trunc('day',sm.date)) initial
-union
-    (SELECT sm.product_id as product_id, 0 as valoare_initiala, 0 as cantitate_initiala,
-        COALESCE(sum(svl.value),
-                sum(svl3.value),0) as valoare_intrata,
-        COALESCE(sum(svl.quantity),
-                sum(svl3.quantity),0) as cantitate_intrata,
-        COALESCE(sum(svl1.value),
-                sum(svl2.value),0) as valoare_iesita,
-        COALESCE(sum(svl1.quantity),
-                sum(svl2.quantity),0) as cantitate_iesita,
-        COALESCE(sum(svl.value),
-                sum(svl1.value),
-                sum(svl2.value),
-                sum(svl3.value)) as valoare_finala,
-        COALESCE(sum(svl.quantity),
-                sum(svl1.quantity),
-                sum(svl2.quantity),
-                sum(svl3.quantity)) as cantitate_finala,
-        date_trunc('day',sm.date) as data,
-        sm.reference as reference,
-        rp.name as partner
-    from stock_move as sm
-        left join (select * from stock_valuation_layer
-                    where valued_type !='internal_transfer' or valued_type is Null)
-                    as svl on svl.stock_move_id = sm.id and
-                    sm.location_dest_id=%(location)s
-        left join (select * from stock_valuation_layer
-                    where valued_type !='internal_transfer' or valued_type is Null)
-                    as svl1 on svl1.stock_move_id = sm.id and
-                    sm.location_id=%(location)s
-        left join (select * from stock_valuation_layer
-                    where valued_type ='internal_transfer' and quantity<0) as svl2
-                    on svl2.stock_move_id = sm.id and
-                    sm.location_id=%(location)s
-        left join (select * from stock_valuation_layer
-                    where valued_type ='internal_transfer' and quantity>0) as svl3
-                    on svl3.stock_move_id = sm.id and
-                    sm.location_dest_id=%(location)s
-        left join res_partner rp on rp.id=sm.partner_id
-    where
-        sm.state = 'done' AND
-        sm.company_id = %(company)s AND
-        date_trunc('day',sm.date) >= %(date_from)s  AND
-        date_trunc('day',sm.date) <= %(date_to)s  AND
-        (sm.location_id = %(location)s OR sm.location_dest_id = %(location)s)
-    GROUP BY sm.product_id, date_trunc('day',sm.date),  sm.reference, rp.name
-    order by sm.product_id, date_trunc('day',sm.date))
-ORDER BY product_id, data
-            """
-
-        params = {
-            "location": self.location_id.id,
-            "company": self.company_id.id,
-            "date_from": fields.Date.to_string(self.date_from),
-            "date_to": fields.Date.to_string(self.date_to),
-        }
-
-        self.env.cr.execute(query, params=params)
-
-        if self.mode == "product":
-            key = "product_id"
-
-        res = self.env.cr.fetchall()
-
-        for row in res:
-            values = {
-                key: row[0],
-                "report_id": self.id,
-                "valoare_initiala": row[1],
-                "cantitate_initiala": row[2],
-                "valoare_intrata": row[3],
-                "cantitate_intrata": row[4],
-                "valoare_iesita": row[5],
-                "cantitate_iesita": row[6],
-                "valoare_finala": row[7],
-                "cantitate_finala": row[8],
-                "data": row[9],
-                "referinta": row[10],
-                "partener": row[11],
-            }
-            stock_init += [values]
-
-        if self.mode == "product":
-            line_model = "stock.daily.stock.report.line"
-
-        self.env[line_model].create(stock_init)
 
     def do_compute_product(self):
 
+        if self.product_id:
+            product_list = [self.product_id.id]
+        else:
+            product_list = self.env["product.product"].search([]).mapped("id")
+            _logger.warning(product_list)
         self.env["account.move.line"].check_access_rights("read")
 
         lines = self.env["stock.daily.stock.report.line"].search(
@@ -249,7 +117,7 @@ ORDER BY product_id, data
             left join res_partner rp on rp.id=sm.partner_id
         where sm.state = 'done' AND
             sm.company_id = %(company)s AND
-            sm.product_id = %(product)s AND
+            sm.product_id in %(product)s AND
             date_trunc('day',sm.date) <  %(date_from)s AND
             (sm.location_id = %(location)s OR sm.location_dest_id = %(location)s)
         GROUP BY sm.product_id, date_trunc('day',sm.date), sm.reference, rp.name
@@ -296,7 +164,7 @@ ORDER BY product_id, data
         where
             sm.state = 'done' AND
             sm.company_id = %(company)s AND
-            sm.product_id = %(product)s AND
+            sm.product_id in %(product)s AND
             date_trunc('day',sm.date) >= %(date_from)s  AND
             date_trunc('day',sm.date) <= %(date_to)s  AND
             (sm.location_id = %(location)s OR sm.location_dest_id = %(location)s)
@@ -307,7 +175,7 @@ ORDER BY product_id, data
 
         params = {
             "location": self.location_id.id,
-            "product": self.product_id.id,
+            "product": tuple(product_list),
             "company": self.company_id.id,
             "date_from": fields.Date.to_string(self.date_from),
             "date_to": fields.Date.to_string(self.date_to),
@@ -388,14 +256,19 @@ ORDER BY product_id, data
                     "referinta": "FINALA",
                 }
             )
-
         if self.mode == "product":
             line_model = "stock.daily.stock.report.line"
 
-        self.env[line_model].create(sold_stock_init)
+        lines_report=self.env[line_model].create(sold_stock_init)
+
+        for line_report in lines_report:
+            if line_report.data :
+                if line_report.product_id  not in self.product_ids:
+                    self.write({'product_ids': [(4, line_report.product_id.id)]})
+        self.line_product_ids = lines_report.mapped("id")
 
     def button_show(self):
-        self.do_compute()
+        self.do_compute_product()
         if self.mode == "product":
             action = self.env.ref(
                 "l10n_ro_stock_report.action_daily_stock_report_line"
@@ -416,6 +289,11 @@ ORDER BY product_id, data
         action["target"] = "main"
         return action
 
+    def get_pdf(self):
+        self.do_compute_product()
+
+        return self.env.ref('l10n_ro_stock_report.action_report_stock_card').report_action(self, config=False)
+
 
 class DailyStockReportLine(models.TransientModel):
     _name = "stock.daily.stock.report.line"
@@ -431,6 +309,6 @@ class DailyStockReportLine(models.TransientModel):
     cantitate_iesita = fields.Float()
     valoare_finala = fields.Float()
     cantitate_finala = fields.Float()
-    data = fields.Date()
+    data = fields.Datetime()
     referinta = fields.Char()
     partener = fields.Char()
