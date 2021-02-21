@@ -61,10 +61,7 @@ class DailyStockReport(models.TransientModel):
             self.date_from = self.date_range_id.date_start
             self.date_to = self.date_range_id.date_end
 
-
-
     def do_compute_product(self):
-
         if self.product_id:
             product_list = [self.product_id.id]
         else:
@@ -187,7 +184,7 @@ class DailyStockReport(models.TransientModel):
             key = "product_id"
 
         res = self.env.cr.fetchall()
-
+#
         for row in res:
             values = {
                 key: row[0],
@@ -205,6 +202,9 @@ class DailyStockReport(models.TransientModel):
                 "partener": row[11],
             }
             stock_init += [values]
+        #The records from stock_init are converted for in  stock card. That are, a record  with the stock
+        # and the initial value, and other with the stock and the final value.
+        # The rest of the records are those with stock movements from the selected period.
 
         products = {prod[key] for prod in stock_init}
         stoc_init_total = {}
@@ -289,7 +289,7 @@ class DailyStockReport(models.TransientModel):
         action["target"] = "main"
         return action
 
-    def get_pdf(self):
+    def button_show_card_pdf(self):
         self.do_compute_product()
 
         return self.env.ref('l10n_ro_stock_report.action_report_stock_card').report_action(self, config=False)
