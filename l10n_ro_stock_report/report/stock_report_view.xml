@@ -8,7 +8,8 @@
                 <group name="filters">
                     <group>
                         <field name="location_id" />
-                        <field name="mode" />
+                        <field name="mode" invisible="1" />
+                        <field name="product_ids" widget="many2many_tags" />
                     </group>
                     <group name="date_range">
                         <field
@@ -42,7 +43,7 @@
                 <group name="filters">
                     <group>
                         <field name="location_id" />
-                        <field name="mode" />
+                        <field name="mode" invisible="1"/>
                         <field name="product_id" />
                     </group>
                     <group name="date_range">

@@ -21,10 +21,12 @@ class DailyStockReport(models.TransientModel):
         domain="[('usage','=','internal'),('company_id','=',company_id)]",
         required=True,
     )
-    product_id = fields.Many2one("product.product")
+    product_id = fields.Many2one(
+        comodel_name="product.product",domain=[('type','=','product')]
+    )
 
     product_ids = fields.Many2many(
-        comodel_name="product.product"
+        comodel_name="product.product", string="Only for products",domain=[('type','=','product')]
     )
 
     date_range_id = fields.Many2one("date.range", string="Date range")
@@ -62,8 +64,8 @@ class DailyStockReport(models.TransientModel):
             self.date_to = self.date_range_id.date_end
 
     def do_compute_product(self):
-        if self.product_id:
-            product_list = [self.product_id.id]
+        if self.product_ids:
+            product_list = self.product_ids.ids
         else:
             product_list = self.env["product.product"].search([('type','=','product')]).ids
             _logger.warning(product_list)
