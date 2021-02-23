@@ -65,7 +65,7 @@ class DailyStockReport(models.TransientModel):
         if self.product_id:
             product_list = [self.product_id.id]
         else:
-            product_list = self.env["product.product"].search([]).mapped("id")
+            product_list = self.env["product.product"].search([('type','=','product')]).ids
             _logger.warning(product_list)
         self.env["account.move.line"].check_access_rights("read")
 
@@ -177,6 +177,7 @@ class DailyStockReport(models.TransientModel):
             "date_from": fields.Date.to_string(self.date_from),
             "date_to": fields.Date.to_string(self.date_to),
         }
+        print(query%params)
 
         self.env.cr.execute(query, params=params)
 
