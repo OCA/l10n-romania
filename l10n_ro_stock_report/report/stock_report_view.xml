@@ -9,7 +9,7 @@
                     <group>
                         <field name="location_id" />
                         <field name="mode" invisible="1" />
-                        <field name="found_product_ids" widget="many2many_tags" />
+                        <field name="product_ids" widget="many2many_tags" />
                     </group>
                     <group name="date_range">
                         <field
@@ -151,12 +151,13 @@
                         <div class="act_as_cell">
                             INITIAL
                         </div>
-
+                        <div class="act_as_cell" />
+                        <div class="act_as_cell" />
                         <div class="act_as_cell right">
-                            <t t-esc="'{0:,.3f}'.format(initial.cantitate_initiala)" />
+                            <t t-esc="'{0:,.1f}'.format(initial.cantitate_initiala)" />
                         </div>
                          <div class="act_as_cell right">
-                            <t t-esc="'{0:,.3f}'.format(initial.valoare_initiala)" />
+                            <t t-esc="'{0:,.2f}'.format(initial.valoare_initiala)" />
                         </div>
                     </div>
                     <t
@@ -174,10 +175,10 @@
                         <div class="act_as_cell" />
                         <div class="act_as_cell" />
                         <div class="act_as_cell right">
-                            <t t-esc="'{0:,.3f}'.format(finala.cantitate_finala)" />
+                            <t t-esc="'{0:,.1f}'.format(finala.cantitate_finala)" />
                         </div>
                          <div class="act_as_cell right">
-                            <t t-esc="'{0:,.3f}'.format(finala.valoare_finala)" />
+                            <t t-esc="'{0:,.2f}'.format(finala.valoare_finala)" />
                         </div>
                     </div>
                  </div>
@@ -196,16 +197,16 @@
                 <t t-esc="line_product.referinta" />
             </div>
             <div class="act_as_cell right">
-                <t t-esc="'{0:,.3f}'.format(line_product.cantitate_intrata)" />
+                <t t-esc="'{0:,.1f}'.format(line_product.cantitate_intrata)" />
             </div>
                <div class="act_as_cell right">
-                <t t-esc="'{0:,.3f}'.format(line_product.valoare_intrata)" />
+                <t t-esc="'{0:,.2f}'.format(line_product.valoare_intrata)" />
             </div>
                <div class="act_as_cell right">
-                <t t-esc="'{0:,.3f}'.format(line_product.cantitate_iesita)" />
+                <t t-esc="'{0:,.1f}'.format(line_product.cantitate_iesita)" />
             </div>
                <div class="act_as_cell right">
-                <t t-esc="'{0:,.3f}'.format(line_product.valoare_iesita)" />
+                <t t-esc="'{0:,.2f}'.format(line_product.valoare_iesita)" />
             </div>
         </div>
      </template>

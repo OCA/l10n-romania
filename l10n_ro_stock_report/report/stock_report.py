@@ -22,12 +22,17 @@ class DailyStockReport(models.TransientModel):
         required=True,
     )
 
-    found_product_ids = fields.Many2many(
-        comodel_name="product.product",
+    product_ids = fields.Many2many(
+        "product.product",
+        "select_products",
+        "product_id",
+        "select_id",
         string="Only for products",
         domain=[("type", "=", "product")],
     )
-    # found_product_ids = fields.Many2many("product.product")
+    found_product_ids = fields.Many2many(
+        "product.product", "found_products", "product_id", "found_id"
+    )
 
     date_range_id = fields.Many2one("date.range", string="Date range")
     date_from = fields.Date("Start Date", required=True, default=fields.Date.today)
@@ -64,8 +69,8 @@ class DailyStockReport(models.TransientModel):
             self.date_to = self.date_range_id.date_end
 
     def do_compute_product(self):
-        if self.found_product_ids:
-            product_list = self.found_product_ids.ids
+        if self.product_ids:
+            product_list = self.product_ids.ids
         else:
             product_list = (
                 self.env["product.product"].search([("type", "=", "product")]).ids
@@ -270,6 +275,10 @@ class DailyStockReport(models.TransientModel):
             if line_report.data:
                 if line_report.product_id not in self.found_product_ids:
                     self.write({"found_product_ids": [(4, line_report.product_id.id)]})
+            else:
+                if line_report.product_id.id in self.product_ids.ids:
+                    self.write({"found_product_ids": [(4, line_report.product_id.id)]})
+
         self.line_product_ids = lines_report.mapped("id")
 
     def button_show(self):
