@@ -23,9 +23,7 @@ class DailyStockReport(models.TransientModel):
     )
     product_id = fields.Many2one("product.product")
 
-    product_ids = fields.Many2many(
-        comodel_name="product.product"
-    )
+    product_ids = fields.Many2many(comodel_name="product.product")
 
     date_range_id = fields.Many2one("date.range", string="Date range")
     date_from = fields.Date("Start Date", required=True, default=fields.Date.today)
@@ -184,7 +182,7 @@ class DailyStockReport(models.TransientModel):
             key = "product_id"
 
         res = self.env.cr.fetchall()
-#
+        #
         for row in res:
             values = {
                 key: row[0],
@@ -202,7 +200,7 @@ class DailyStockReport(models.TransientModel):
                 "partener": row[11],
             }
             stock_init += [values]
-        #The records from stock_init are converted for in  stock card. That are, a record  with the stock
+        # The records from stock_init are converted for in  stock card. That are, a record  with the stock
         # and the initial value, and other with the stock and the final value.
         # The rest of the records are those with stock movements from the selected period.
 
@@ -259,12 +257,12 @@ class DailyStockReport(models.TransientModel):
         if self.mode == "product":
             line_model = "stock.daily.stock.report.line"
 
-        lines_report=self.env[line_model].create(sold_stock_init)
+        lines_report = self.env[line_model].create(sold_stock_init)
 
         for line_report in lines_report:
-            if line_report.data :
-                if line_report.product_id  not in self.product_ids:
-                    self.write({'product_ids': [(4, line_report.product_id.id)]})
+            if line_report.data:
+                if line_report.product_id not in self.product_ids:
+                    self.write({"product_ids": [(4, line_report.product_id.id)]})
         self.line_product_ids = lines_report.mapped("id")
 
     def button_show(self):
@@ -292,7 +290,9 @@ class DailyStockReport(models.TransientModel):
     def button_show_card_pdf(self):
         self.do_compute_product()
 
-        return self.env.ref('l10n_ro_stock_report.action_report_stock_card').report_action(self, config=False)
+        return self.env.ref(
+            "l10n_ro_stock_report.action_report_stock_card"
+        ).report_action(self, config=False)
 
 
 class DailyStockReportLine(models.TransientModel):
