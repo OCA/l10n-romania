@@ -21,9 +21,13 @@ class DailyStockReport(models.TransientModel):
         domain="[('usage','=','internal'),('company_id','=',company_id)]",
         required=True,
     )
-    product_id = fields.Many2one("product.product")
 
-    product_ids = fields.Many2many(comodel_name="product.product")
+    found_product_ids = fields.Many2many(
+        comodel_name="product.product",
+        string="Only for products",
+        domain=[("type", "=", "product")],
+    )
+    # found_product_ids = fields.Many2many("product.product")
 
     date_range_id = fields.Many2one("date.range", string="Date range")
     date_from = fields.Date("Start Date", required=True, default=fields.Date.today)
@@ -60,10 +64,12 @@ class DailyStockReport(models.TransientModel):
             self.date_to = self.date_range_id.date_end
 
     def do_compute_product(self):
-        if self.product_id:
-            product_list = [self.product_id.id]
+        if self.found_product_ids:
+            product_list = self.found_product_ids.ids
         else:
-            product_list = self.env["product.product"].search([]).mapped("id")
+            product_list = (
+                self.env["product.product"].search([("type", "=", "product")]).ids
+            )
             _logger.warning(product_list)
         self.env["account.move.line"].check_access_rights("read")
 
@@ -175,6 +181,7 @@ class DailyStockReport(models.TransientModel):
             "date_from": fields.Date.to_string(self.date_from),
             "date_to": fields.Date.to_string(self.date_to),
         }
+        # print(query % params)
 
         self.env.cr.execute(query, params=params)
 
@@ -261,8 +268,8 @@ class DailyStockReport(models.TransientModel):
 
         for line_report in lines_report:
             if line_report.data:
-                if line_report.product_id not in self.product_ids:
-                    self.write({"product_ids": [(4, line_report.product_id.id)]})
+                if line_report.product_id not in self.found_product_ids:
+                    self.write({"found_product_ids": [(4, line_report.product_id.id)]})
         self.line_product_ids = lines_report.mapped("id")
 
     def button_show(self):

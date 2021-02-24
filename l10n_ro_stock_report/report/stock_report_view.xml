@@ -8,7 +8,8 @@
                 <group name="filters">
                     <group>
                         <field name="location_id" />
-                        <field name="mode" />
+                        <field name="mode" invisible="1" />
+                        <field name="found_product_ids" widget="many2many_tags" />
                     </group>
                     <group name="date_range">
                         <field
@@ -42,8 +43,8 @@
                 <group name="filters">
                     <group>
                         <field name="location_id" />
-                        <field name="mode" />
-                        <field name="product_id" />
+                        <field name="mode" invisible="1" />
+                        <field name="found_product_ids" widget="many2many_tags" />
                     </group>
                     <group name="date_range">
                         <field
@@ -147,37 +148,37 @@
         />
     </record>
 
-    <record id="view_daily_stock_report_line_search" model="ir.ui.view">
-        <field name="name">stock.daily.stock.report.line.search</field>
-        <field name="model">stock.daily.stock.report.line</field>
-        <field name="arch" type="xml">
-            <search string="Stock Report">
-                <field name="product_id" />
-                <field name="data" />
-                <field name="referinta" />
-                <field name="partener" />
-                <filter string="Date" name="filter_date" date="data" />
-                <group expand="1" string="Group By">
-                    <filter
-                        string="Product"
-                        name="product"
-                        context="{'group_by':'product_id'}"
-                    />
-                    <filter string="Data" name="data" context="{'group_by':'data'}" />
-                    <filter
-                        string="Partner"
-                        name="partener"
-                        context="{'group_by':'partener'}"
-                    />
-                    <filter
-                        string="Referinta"
-                        name="referinta"
-                        context="{'group_by':'referinta'}"
-                    />
-                </group>
-            </search>
-        </field>
-    </record>
+<!--    <record id="view_daily_stock_report_line_search" model="ir.ui.view">-->
+<!--        <field name="name">stock.daily.stock.report.line.search</field>-->
+<!--        <field name="model">stock.daily.stock.report.line</field>-->
+<!--        <field name="arch" type="xml">-->
+<!--            <search string="Stock Report">-->
+<!--                <field name="product_ids" />-->
+<!--                <field name="data" />-->
+<!--                <field name="referinta" />-->
+<!--                <field name="partener" />-->
+<!--                <filter string="Date" name="filter_date" date="data" />-->
+<!--                <group expand="1" string="Group By">-->
+<!--                    <filter-->
+<!--                        string="Product"-->
+<!--                        name="product"-->
+<!--                        context="{'group_by':'product_id'}"-->
+<!--                    />-->
+<!--                    <filter string="Data" name="data" context="{'group_by':'data'}" />-->
+<!--                    <filter-->
+<!--                        string="Partner"-->
+<!--                        name="partener"-->
+<!--                        context="{'group_by':'partener'}"-->
+<!--                    />-->
+<!--                    <filter-->
+<!--                        string="Referinta"-->
+<!--                        name="referinta"-->
+<!--                        context="{'group_by':'referinta'}"-->
+<!--                    />-->
+<!--                </group>-->
+<!--            </search>-->
+<!--        </field>-->
+<!--    </record>-->
 
     <record id="view_daily_stock_report_line_tree" model="ir.ui.view">
         <field name="name">stock.daily.stock.report.line</field>
@@ -233,7 +234,7 @@
     </template>
 
      <template id="report_stock_card_report_base">
-        <t t-foreach="o.product_ids" t-as="product">
+        <t t-foreach="o.found_product_ids" t-as="product">
             <div class="page">
                 <div class="row">
                     <t t-set="title">Stock Card - <t t-raw="product.name" /></t>
