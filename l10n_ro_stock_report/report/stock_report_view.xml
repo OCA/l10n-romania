@@ -1,40 +1,5 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <odoo>
-    <record id="view_daily_stock_report_form" model="ir.ui.view">
-        <field name="name">stock.daily.stock.report</field>
-        <field name="model">stock.daily.stock.report</field>
-        <field name="arch" type="xml">
-            <form string="Report Options">
-                <group name="filters">
-                    <group>
-                        <field name="location_id" />
-                        <field name="mode" invisible="1" />
-                        <field name="found_product_ids" widget="many2many_tags" />
-                    </group>
-                    <group name="date_range">
-                        <field
-                            name="date_range_id"
-                            domain="['|',('company_id','=',company_id), ('company_id','=',False)]"
-                        />
-                        <field name="date_from" />
-                        <field name="date_to" />
-                        <field name="company_id" invisible="1" />
-                    </group>
-                </group>
-                <footer>
-                    <button
-                        name="button_show"
-                        string="Show"
-                        type="object"
-                        default_focus="1"
-                        class="oe_highlight"
-                    />
-                    or
-                    <button string="Cancel" class="oe_link" special="cancel" />
-                </footer>
-            </form>
-        </field>
-    </record>
     <record id="view_stock_card_report_form" model="ir.ui.view">
         <field name="name">stock.daily.card.stock.report</field>
         <field name="model">stock.daily.stock.report</field>
@@ -99,16 +64,8 @@
         </field>
     </record>
 
-    <record id="action_daily_stock_report" model="ir.actions.act_window">
-        <field name="name">Stock Report</field>
-        <field name="res_model">stock.daily.stock.report</field>
-        <field name="view_mode">form</field>
-         <field
-            name="view_id"
-            ref="l10n_ro_stock_report.view_daily_stock_report_form"
-        />
-        <field name="target">new</field>
-    </record>
+
+
     <record id="action_card_stock_report" model="ir.actions.act_window">
         <field name="name">Stock Card Report</field>
         <field name="res_model">stock.daily.stock.report</field>
@@ -116,26 +73,16 @@
         <field name="view_id" ref="l10n_ro_stock_report.view_stock_card_report_form" />
          <field name="target">new</field>
     </record>
-    <menuitem
-        id="menu_daily_stock_report"
-        name="Stock Report"
-        action="action_daily_stock_report"
-        parent="stock.menu_warehouse_report"
-        groups="account.group_account_user"
-    />
+
+
      <menuitem
         id="menu_card_stock_report"
         name="Stock Card Report"
         action="action_card_stock_report"
         parent="stock.menu_warehouse_report"
-        groups="account.group_account_user"
+        groups="stock.group_stock_user"
     />
-    <record id="action_daily_stock_report_line" model="ir.actions.act_window">
-        <field name="name">Stock Report</field>
-        <field name="res_model">stock.daily.stock.report.line</field>
-        <field name="view_mode">tree,form</field>
-        <field name="domain">[('report_id','=',active_id)]</field>
-    </record>
+
 
      <record id="action_card_stock_report_line" model="ir.actions.act_window">
          <field name="name">Stock Card Report</field>
@@ -146,59 +93,6 @@
             name="view_id"
             ref="l10n_ro_stock_report.view_card_stock_report_line_tree"
         />
-    </record>
-
-<!--    <record id="view_daily_stock_report_line_search" model="ir.ui.view">-->
-<!--        <field name="name">stock.daily.stock.report.line.search</field>-->
-<!--        <field name="model">stock.daily.stock.report.line</field>-->
-<!--        <field name="arch" type="xml">-->
-<!--            <search string="Stock Report">-->
-<!--                <field name="product_ids" />-->
-<!--                <field name="data" />-->
-<!--                <field name="referinta" />-->
-<!--                <field name="partener" />-->
-<!--                <filter string="Date" name="filter_date" date="data" />-->
-<!--                <group expand="1" string="Group By">-->
-<!--                    <filter-->
-<!--                        string="Product"-->
-<!--                        name="product"-->
-<!--                        context="{'group_by':'product_id'}"-->
-<!--                    />-->
-<!--                    <filter string="Data" name="data" context="{'group_by':'data'}" />-->
-<!--                    <filter-->
-<!--                        string="Partner"-->
-<!--                        name="partener"-->
-<!--                        context="{'group_by':'partener'}"-->
-<!--                    />-->
-<!--                    <filter-->
-<!--                        string="Referinta"-->
-<!--                        name="referinta"-->
-<!--                        context="{'group_by':'referinta'}"-->
-<!--                    />-->
-<!--                </group>-->
-<!--            </search>-->
-<!--        </field>-->
-<!--    </record>-->
-
-    <record id="view_daily_stock_report_line_tree" model="ir.ui.view">
-        <field name="name">stock.daily.stock.report.line</field>
-        <field name="model">stock.daily.stock.report.line</field>
-        <field name="arch" type="xml">
-            <tree edit="0" create="0" import="0">
-                <field name="product_id" />
-                <field name="data" />
-                <field name="cantitate_initiala" sum="1" />
-                <field name="valoare_initiala" sum="1" />
-                <field name="cantitate_intrata" sum="1" />
-                <field name="valoare_intrata" sum="1" />
-                <field name="cantitate_iesita" sum="1" />
-                <field name="valoare_iesita" sum="1" />
-                <field name="cantitate_finala" sum="1" />
-                <field name="valoare_finala" sum="1" />
-                <field name="referinta" />
-                <field name="partener" />
-            </tree>
-        </field>
     </record>
 
      <template id="internal_layout">
