@@ -148,16 +148,24 @@
                     <!-- Display initial lines -->
                      <div class="act_as_row lines">
                         <div class="act_as_cell" />
-                        <div class="act_as_cell">
+                        <div class="act_as_cell sold">
                             INITIAL
                         </div>
                         <div class="act_as_cell" />
                         <div class="act_as_cell" />
-                        <div class="act_as_cell right">
-                            <t t-esc="'{0:,.1f}'.format(initial.cantitate_initiala)" />
+                        <div class="act_as_cell sold">
+                             <div style="font-style: italic; font-weight: bold;">
+                                <t
+                                    t-esc="'{0:,.1f}'.format(initial.cantitate_initiala)"
+                                />
+                             </div>
                         </div>
-                         <div class="act_as_cell right">
-                            <t t-esc="'{0:,.2f}'.format(initial.valoare_initiala)" />
+                         <div class="act_as_cell sold">
+                              <div style="font-style: italic; font-weight: bold;">
+                                 <t
+                                    t-esc="'{0:,.2f}'.format(initial.valoare_initiala)"
+                                />
+                              </div>
                         </div>
                     </div>
                     <t
@@ -174,11 +182,18 @@
                         </div>
                         <div class="act_as_cell" />
                         <div class="act_as_cell" />
-                        <div class="act_as_cell right">
-                            <t t-esc="'{0:,.1f}'.format(finala.cantitate_finala)" />
+                        <div class="act_as_cell">
+                           <div style="font-style: italic; font-weight: bold;">
+                                <t t-esc="'{0:,.1f}'.format(finala.cantitate_finala)" />
+                           </div>
                         </div>
-                         <div class="act_as_cell right">
-                            <t t-esc="'{0:,.2f}'.format(finala.valoare_finala)" />
+
+                         <div class="act_as_cell sold">
+                              <div style="font-style: italic; font-weight: bold;">
+                                    <t
+                                    t-esc="'{0:,.2f}'.format(finala.valoare_finala)"
+                                />
+                              </div>
                         </div>
                     </div>
                  </div>
