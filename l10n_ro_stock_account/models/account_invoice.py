@@ -34,7 +34,11 @@ class AccountMove(models.Model):
                         for line_vals in lines_vals_list:
                             if line_vals["account_id"] != account_id.id:
                                 line_vals["account_id"] = rec_account.id
-                for line in invoice.invoice_line_ids:
+
+                invoice_lines = invoice.invoice_line_ids.filtered(
+                    lambda l: not l.display_type
+                )
+                for line in invoice_lines:
                     add_diff = False
                     if line.product_id.cost_method != "standard":
                         add_diff = not invoice.company_id.stock_acc_price_diff
