@@ -103,6 +103,23 @@
         </field>
     </record>
 
+    <record id="view_card_stock_report_line_search" model="ir.ui.view">
+        <field name="name">stock.card.stock.report.line</field>
+        <field name="model">stock.daily.stock.report.line</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="product_id" />
+                <group expand="1" string="Group by">
+                    <filter
+                        string="Product"
+                        name="group_by_product"
+                        context="{'group_by': 'product_id'}"
+                    />
+                </group>
+            </search>
+        </field>
+    </record>
+
 
     <record id="action_card_stock_report" model="ir.actions.act_window">
         <field name="name">Stock Card Report</field>

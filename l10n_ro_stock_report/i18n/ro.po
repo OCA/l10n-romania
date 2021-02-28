@@ -107,10 +107,15 @@ msgid "Initial Amount"
 msgstr "Valoare inițială"
 
 #. module: l10n_ro_stock_report
-#: model:ir.model.fields,field_description:l10n_ro_stock_report.field_stock_daily_stock_report_line__quantity_in
 #: model:ir.model.fields,field_description:l10n_ro_stock_report.field_stock_daily_stock_report_line__quantity_initial
 msgid "Initial Quantity"
 msgstr "Cantitate inițială"
+
+#. module: l10n_ro_stock_report
+#: model:ir.model.fields,field_description:l10n_ro_stock_report.field_stock_daily_stock_report_line__quantity_in
+msgid "Input Quantity"
+msgstr "Cantitate intrată"
+
 
 #. module: l10n_ro_stock_report
 #: model_terms:ir.ui.view,arch_db:l10n_ro_stock_report.report_stock_card_lines_header
