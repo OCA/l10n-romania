@@ -146,7 +146,6 @@ class TestStockReport(TransactionCase):
         )
 
         wizard.location_id = self.location
-        wizard.product_id = self.product_1
         wizard.mode = "product"
         wizard = wizard.save()
         wizard.button_show_card_pdf()

@@ -21,14 +21,19 @@ class DailyStockReport(models.TransientModel):
         domain="[('usage','=','internal'),('company_id','=',company_id)]",
         required=True,
     )
-    product_id = fields.Many2one(
-        comodel_name="product.product", domain=[("type", "=", "product")]
-    )
 
     product_ids = fields.Many2many(
-        comodel_name="product.product",
+        "product.product",
+        "select_products",
+        "product_id",
+        "select_id",
         string="Only for products",
         domain=[("type", "=", "product")],
+        help="will show report only for this products. if nothing selected will show only products that have moves in period"
+    )
+    found_product_ids = fields.Many2many(
+        "product.product", "found_products", "product_id", "found_id",
+        help="this are products that have moves in period, used not to show products that do not have moves "
     )
 
     date_range_id = fields.Many2one("date.range", string="Date range")
@@ -183,7 +188,7 @@ class DailyStockReport(models.TransientModel):
             "date_from": fields.Date.to_string(self.date_from),
             "date_to": fields.Date.to_string(self.date_to),
         }
-        _logger.debug(query % params)
+        #print(query % params)
 
         self.env.cr.execute(query, params=params)
 
@@ -268,11 +273,19 @@ class DailyStockReport(models.TransientModel):
 
         lines_report = self.env[line_model].create(sold_stock_init)
 
-        for line_report in lines_report:
-            if line_report.data:
-                if line_report.product_id not in self.product_ids:
-                    self.write({"product_ids": [(4, line_report.product_id.id)]})
-        self.line_product_ids = lines_report.mapped("id")
+        #for line_report in lines_report:
+        #    if line_report.data:
+        #        if line_report.product_id not in self.found_product_ids:
+        #            self.write({"found_product_ids": [(4, line_report.product_id.id)]})
+        #    else:
+        #        if line_report.product_id.id in self.product_ids.ids:
+        #            self.write({"found_product_ids": [(4, line_report.product_id.id)]})
+        
+        #rewrite : in found products: all the products that are selected for the report as product_ids  and the products that have some movment in that preiod ( have date)
+        found_products = list(set( self.product_ids.ids +[x.product_id.id for x in lines_report if x.data]))
+        self.write({'found_product_ids':found_products})
+
+        self.line_product_ids = lines_report.ids
 
     def button_show(self):
         self.do_compute_product()

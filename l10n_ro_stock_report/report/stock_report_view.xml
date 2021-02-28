@@ -1,40 +1,5 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <odoo>
-    <record id="view_daily_stock_report_form" model="ir.ui.view">
-        <field name="name">stock.daily.stock.report</field>
-        <field name="model">stock.daily.stock.report</field>
-        <field name="arch" type="xml">
-            <form string="Report Options">
-                <group name="filters">
-                    <group>
-                        <field name="location_id" />
-                        <field name="mode" invisible="1" />
-                        <field name="product_ids" widget="many2many_tags" />
-                    </group>
-                    <group name="date_range">
-                        <field
-                            name="date_range_id"
-                            domain="['|',('company_id','=',company_id), ('company_id','=',False)]"
-                        />
-                        <field name="date_from" />
-                        <field name="date_to" />
-                        <field name="company_id" invisible="1" />
-                    </group>
-                </group>
-                <footer>
-                    <button
-                        name="button_show"
-                        string="Show"
-                        type="object"
-                        default_focus="1"
-                        class="oe_highlight"
-                    />
-                    or
-                    <button string="Cancel" class="oe_link" special="cancel" />
-                </footer>
-            </form>
-        </field>
-    </record>
     <record id="view_stock_card_report_form" model="ir.ui.view">
         <field name="name">stock.daily.card.stock.report</field>
         <field name="model">stock.daily.stock.report</field>
@@ -44,7 +9,7 @@
                     <group>
                         <field name="location_id" />
                         <field name="mode" invisible="1" />
-                        <field name="product_id" />
+                        <field name="product_ids" widget="many2many_tags" />
                     </group>
                     <group name="date_range">
                         <field
@@ -78,7 +43,7 @@
         </field>
     </record>
 
-     <record id="view_card_stock_report_line_tree" model="ir.ui.view">
+    <record id="view_card_stock_report_line_tree" model="ir.ui.view">
         <field name="name">stock.card.stock.report.line</field>
         <field name="model">stock.daily.stock.report.line</field>
         <field name="arch" type="xml">
@@ -99,16 +64,8 @@
         </field>
     </record>
 
-    <record id="action_daily_stock_report" model="ir.actions.act_window">
-        <field name="name">Stock Report</field>
-        <field name="res_model">stock.daily.stock.report</field>
-        <field name="view_mode">form</field>
-         <field
-            name="view_id"
-            ref="l10n_ro_stock_report.view_daily_stock_report_form"
-        />
-        <field name="target">new</field>
-    </record>
+
+
     <record id="action_card_stock_report" model="ir.actions.act_window">
         <field name="name">Stock Card Report</field>
         <field name="res_model">stock.daily.stock.report</field>
@@ -116,26 +73,16 @@
         <field name="view_id" ref="l10n_ro_stock_report.view_stock_card_report_form" />
          <field name="target">new</field>
     </record>
-    <menuitem
-        id="menu_daily_stock_report"
-        name="Stock Report"
-        action="action_daily_stock_report"
-        parent="stock.menu_warehouse_report"
-        groups="account.group_account_user"
-    />
+
+
      <menuitem
         id="menu_card_stock_report"
         name="Stock Card Report"
         action="action_card_stock_report"
         parent="stock.menu_warehouse_report"
-        groups="account.group_account_user"
+        groups="stock.group_stock_user"
     />
-    <record id="action_daily_stock_report_line" model="ir.actions.act_window">
-        <field name="name">Stock Report</field>
-        <field name="res_model">stock.daily.stock.report.line</field>
-        <field name="view_mode">tree,form</field>
-        <field name="domain">[('report_id','=',active_id)]</field>
-    </record>
+
 
      <record id="action_card_stock_report_line" model="ir.actions.act_window">
          <field name="name">Stock Card Report</field>
@@ -146,59 +93,6 @@
             name="view_id"
             ref="l10n_ro_stock_report.view_card_stock_report_line_tree"
         />
-    </record>
-
-    <record id="view_daily_stock_report_line_search" model="ir.ui.view">
-        <field name="name">stock.daily.stock.report.line.search</field>
-        <field name="model">stock.daily.stock.report.line</field>
-        <field name="arch" type="xml">
-            <search string="Stock Report">
-                <field name="product_id" />
-                <field name="data" />
-                <field name="referinta" />
-                <field name="partener" />
-                <filter string="Date" name="filter_date" date="data" />
-                <group expand="1" string="Group By">
-                    <filter
-                        string="Product"
-                        name="product"
-                        context="{'group_by':'product_id'}"
-                    />
-                    <filter string="Data" name="data" context="{'group_by':'data'}" />
-                    <filter
-                        string="Partner"
-                        name="partener"
-                        context="{'group_by':'partener'}"
-                    />
-                    <filter
-                        string="Referinta"
-                        name="referinta"
-                        context="{'group_by':'referinta'}"
-                    />
-                </group>
-            </search>
-        </field>
-    </record>
-
-    <record id="view_daily_stock_report_line_tree" model="ir.ui.view">
-        <field name="name">stock.daily.stock.report.line</field>
-        <field name="model">stock.daily.stock.report.line</field>
-        <field name="arch" type="xml">
-            <tree edit="0" create="0" import="0">
-                <field name="product_id" />
-                <field name="data" />
-                <field name="cantitate_initiala" sum="1" />
-                <field name="valoare_initiala" sum="1" />
-                <field name="cantitate_intrata" sum="1" />
-                <field name="valoare_intrata" sum="1" />
-                <field name="cantitate_iesita" sum="1" />
-                <field name="valoare_iesita" sum="1" />
-                <field name="cantitate_finala" sum="1" />
-                <field name="valoare_finala" sum="1" />
-                <field name="referinta" />
-                <field name="partener" />
-            </tree>
-        </field>
     </record>
 
      <template id="internal_layout">
@@ -234,7 +128,7 @@
     </template>
 
      <template id="report_stock_card_report_base">
-        <t t-foreach="o.product_ids" t-as="product">
+        <t t-foreach="o.found_product_ids" t-as="product">
             <div class="page">
                 <div class="row">
                     <t t-set="title">Stock Card - <t t-raw="product.name" /></t>
@@ -254,15 +148,24 @@
                     <!-- Display initial lines -->
                      <div class="act_as_row lines">
                         <div class="act_as_cell" />
-                        <div class="act_as_cell">
+                        <div class="act_as_cell sold">
                             INITIAL
                         </div>
-
-                        <div class="act_as_cell right">
-                            <t t-esc="'{0:,.3f}'.format(initial.cantitate_initiala)" />
+                        <div class="act_as_cell" />
+                        <div class="act_as_cell" />
+                        <div class="act_as_cell sold">
+                             <div style="font-style: italic; font-weight: bold;">
+                                <t
+                                    t-esc="'{0:,.1f}'.format(initial.cantitate_initiala)"
+                                />
+                             </div>
                         </div>
-                         <div class="act_as_cell right">
-                            <t t-esc="'{0:,.3f}'.format(initial.valoare_initiala)" />
+                         <div class="act_as_cell sold">
+                              <div style="font-style: italic; font-weight: bold;">
+                                 <t
+                                    t-esc="'{0:,.2f}'.format(initial.valoare_initiala)"
+                                />
+                              </div>
                         </div>
                     </div>
                     <t
@@ -279,11 +182,18 @@
                         </div>
                         <div class="act_as_cell" />
                         <div class="act_as_cell" />
-                        <div class="act_as_cell right">
-                            <t t-esc="'{0:,.3f}'.format(finala.cantitate_finala)" />
+                        <div class="act_as_cell">
+                           <div style="font-style: italic; font-weight: bold;">
+                                <t t-esc="'{0:,.1f}'.format(finala.cantitate_finala)" />
+                           </div>
                         </div>
-                         <div class="act_as_cell right">
-                            <t t-esc="'{0:,.3f}'.format(finala.valoare_finala)" />
+
+                         <div class="act_as_cell sold">
+                              <div style="font-style: italic; font-weight: bold;">
+                                    <t
+                                    t-esc="'{0:,.2f}'.format(finala.valoare_finala)"
+                                />
+                              </div>
                         </div>
                     </div>
                  </div>
@@ -302,16 +212,16 @@
                 <t t-esc="line_product.referinta" />
             </div>
             <div class="act_as_cell right">
-                <t t-esc="'{0:,.3f}'.format(line_product.cantitate_intrata)" />
+                <t t-esc="'{0:,.1f}'.format(line_product.cantitate_intrata)" />
             </div>
                <div class="act_as_cell right">
-                <t t-esc="'{0:,.3f}'.format(line_product.valoare_intrata)" />
+                <t t-esc="'{0:,.2f}'.format(line_product.valoare_intrata)" />
             </div>
                <div class="act_as_cell right">
-                <t t-esc="'{0:,.3f}'.format(line_product.cantitate_iesita)" />
+                <t t-esc="'{0:,.1f}'.format(line_product.cantitate_iesita)" />
             </div>
                <div class="act_as_cell right">
-                <t t-esc="'{0:,.3f}'.format(line_product.valoare_iesita)" />
+                <t t-esc="'{0:,.2f}'.format(line_product.valoare_iesita)" />
             </div>
         </div>
      </template>
