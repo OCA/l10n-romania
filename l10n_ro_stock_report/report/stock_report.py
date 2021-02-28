@@ -29,11 +29,14 @@ class DailyStockReport(models.TransientModel):
         "select_id",
         string="Only for products",
         domain=[("type", "=", "product")],
-        help="will show report only for this products. if nothing selected will show only products that have moves in period"
+        help="will show report only for this products. if nothing selected will show only products that have moves in period",
     )
     found_product_ids = fields.Many2many(
-        "product.product", "found_products", "product_id", "found_id",
-        help="this are products that have moves in period, used not to show products that do not have moves "
+        "product.product",
+        "found_products",
+        "product_id",
+        "found_id",
+        help="this are products that have moves in period, used not to show products that do not have moves ",
     )
 
     date_range_id = fields.Many2one("date.range", string="Date range")
@@ -188,7 +191,7 @@ class DailyStockReport(models.TransientModel):
             "date_from": fields.Date.to_string(self.date_from),
             "date_to": fields.Date.to_string(self.date_to),
         }
-        #print(query % params)
+        # print(query % params)
 
         self.env.cr.execute(query, params=params)
 
@@ -273,17 +276,22 @@ class DailyStockReport(models.TransientModel):
 
         lines_report = self.env[line_model].create(sold_stock_init)
 
-        #for line_report in lines_report:
+        # for line_report in lines_report:
         #    if line_report.data:
         #        if line_report.product_id not in self.found_product_ids:
         #            self.write({"found_product_ids": [(4, line_report.product_id.id)]})
         #    else:
         #        if line_report.product_id.id in self.product_ids.ids:
         #            self.write({"found_product_ids": [(4, line_report.product_id.id)]})
-        
-        #rewrite : in found products: all the products that are selected for the report as product_ids  and the products that have some movment in that preiod ( have date)
-        found_products = list(set( self.product_ids.ids +[x.product_id.id for x in lines_report if x.data]))
-        self.write({'found_product_ids':found_products})
+
+        # rewrite : in found products: all the products that are selected for the report
+        # as product_ids  and the products that have some movment in that preiod ( have date)
+        found_products = list(
+            set(
+                self.product_ids.ids + [x.product_id.id for x in lines_report if x.data]
+            )
+        )
+        self.write({"found_product_ids": found_products})
 
         self.line_product_ids = lines_report.ids
 
@@ -323,14 +331,19 @@ class DailyStockReportLine(models.TransientModel):
 
     report_id = fields.Many2one("stock.daily.stock.report")
     product_id = fields.Many2one("product.product")
-    valoare_initiala = fields.Float()
-    cantitate_initiala = fields.Float()
-    valoare_intrata = fields.Float()
-    cantitate_intrata = fields.Float()
-    valoare_iesita = fields.Float()
-    cantitate_iesita = fields.Float()
-    valoare_finala = fields.Float()
-    cantitate_finala = fields.Float()
+    valoare_initiala = fields.Monetary(currency_field="currency_id")
+    cantitate_initiala = fields.Float(digits="Product Unit of Measure")
+    valoare_intrata = fields.Monetary(currency_field="currency_id")
+    cantitate_intrata = fields.Float(digits="Product Unit of Measure")
+    valoare_iesita = fields.Monetary(currency_field="currency_id")
+    cantitate_iesita = fields.Float(digits="Product Unit of Measure")
+    valoare_finala = fields.Monetary(currency_field="currency_id")
+    cantitate_finala = fields.Float(digits="Product Unit of Measure")
     data = fields.Datetime()
     referinta = fields.Char()
     partener = fields.Char()
+    currency_id = fields.Many2one(
+        "res.currency",
+        string="Currency",
+        default=lambda self: self.env.company.currency_id,
+    )
