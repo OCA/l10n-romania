@@ -22,11 +22,13 @@ class DailyStockReport(models.TransientModel):
         required=True,
     )
     product_id = fields.Many2one(
-        comodel_name="product.product",domain=[('type','=','product')]
+        comodel_name="product.product", domain=[("type", "=", "product")]
     )
 
     product_ids = fields.Many2many(
-        comodel_name="product.product", string="Only for products",domain=[('type','=','product')]
+        comodel_name="product.product",
+        string="Only for products",
+        domain=[("type", "=", "product")],
     )
 
     date_range_id = fields.Many2one("date.range", string="Date range")
@@ -67,7 +69,9 @@ class DailyStockReport(models.TransientModel):
         if self.product_ids:
             product_list = self.product_ids.ids
         else:
-            product_list = self.env["product.product"].search([('type','=','product')]).ids
+            product_list = (
+                self.env["product.product"].search([("type", "=", "product")]).ids
+            )
             _logger.warning(product_list)
         self.env["account.move.line"].check_access_rights("read")
 
@@ -179,7 +183,7 @@ class DailyStockReport(models.TransientModel):
             "date_from": fields.Date.to_string(self.date_from),
             "date_to": fields.Date.to_string(self.date_to),
         }
-        print(query%params)
+        _logger.debug(query % params)
 
         self.env.cr.execute(query, params=params)
 
@@ -187,7 +191,7 @@ class DailyStockReport(models.TransientModel):
             key = "product_id"
 
         res = self.env.cr.fetchall()
-#
+        #
         for row in res:
             values = {
                 key: row[0],
@@ -205,7 +209,7 @@ class DailyStockReport(models.TransientModel):
                 "partener": row[11],
             }
             stock_init += [values]
-        #The records from stock_init are converted for in  stock card. That are, a record  with the stock
+        # The records from stock_init are converted for in  stock card. That are, a record  with the stock
         # and the initial value, and other with the stock and the final value.
         # The rest of the records are those with stock movements from the selected period.
 
@@ -262,12 +266,12 @@ class DailyStockReport(models.TransientModel):
         if self.mode == "product":
             line_model = "stock.daily.stock.report.line"
 
-        lines_report=self.env[line_model].create(sold_stock_init)
+        lines_report = self.env[line_model].create(sold_stock_init)
 
         for line_report in lines_report:
-            if line_report.data :
-                if line_report.product_id  not in self.product_ids:
-                    self.write({'product_ids': [(4, line_report.product_id.id)]})
+            if line_report.data:
+                if line_report.product_id not in self.product_ids:
+                    self.write({"product_ids": [(4, line_report.product_id.id)]})
         self.line_product_ids = lines_report.mapped("id")
 
     def button_show(self):
@@ -295,7 +299,9 @@ class DailyStockReport(models.TransientModel):
     def button_show_card_pdf(self):
         self.do_compute_product()
 
-        return self.env.ref('l10n_ro_stock_report.action_report_stock_card').report_action(self, config=False)
+        return self.env.ref(
+            "l10n_ro_stock_report.action_report_stock_card"
+        ).report_action(self, config=False)
 
 
 class DailyStockReportLine(models.TransientModel):
