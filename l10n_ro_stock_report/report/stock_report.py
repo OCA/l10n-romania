@@ -90,31 +90,32 @@ class DailyStockReport(models.TransientModel):
         stock_init = []
         if self.mode == "product":
             query = """
-    SELECT product_id,valoare_initiala,cantitate_initiala,
-            valoare_intrata,cantitate_intrata,valoare_iesita,
-            cantitate_iesita,valoare_finala,cantitate_finala,
-            data,reference,partner
+    SELECT product_id,amount_initial,quantity_initial,
+            amount_in,quantity_in,amount_out,
+            quantity_out,amount_final,quantity_final,
+            date,reference,partner_id
     FROM
         (SELECT sm.product_id as product_id,
             COALESCE(sum(svl.value),
                     sum(svl2.value),
-                    sum(svl3.value), 0) as valoare_initiala,
+                    sum(svl3.value), 0) as amount_initial,
             COALESCE(sum(svl.quantity),
                     sum(svl2.quantity),
-                    sum(svl3.quantity), 0) as cantitate_initiala,
-            0 as valoare_intrata,
-            0 as cantitate_intrata,
-            0 as valoare_iesita,
-            0 as cantitate_iesita,
+                    sum(svl3.quantity),
+                    0) as quantity_initial,
+            0 as amount_in,
+            0 as quantity_in,
+            0 as amount_out,
+            0 as quantity_out,
             COALESCE(sum(svl.value),
                     sum(svl2.value),
-                    sum(svl3.value), 0) as valoare_finala,
+                    sum(svl3.value), 0) as amount_final,
             COALESCE(sum(svl.quantity),
                     sum(svl2.quantity),
-                    sum(svl3.quantity), 0) as cantitate_finala,
-            date_trunc('day',sm.date) as data,
+                    sum(svl3.quantity), 0) as quantity_final,
+            date_trunc('day',sm.date) as date,
             sm.reference as reference,
-            rp.name as partner
+            sm.partner_id
         from stock_move as sm
             left join (select * from stock_valuation_layer
                         where valued_type !='internal_transfer' or valued_type is Null)
@@ -125,35 +126,34 @@ class DailyStockReport(models.TransientModel):
             left join (select * from stock_valuation_layer
                         where valued_type ='internal_transfer' and quantity>0) as svl3
                         on svl3.stock_move_id = sm.id and sm.location_dest_id=%(location)s
-            left join res_partner rp on rp.id=sm.partner_id
         where sm.state = 'done' AND
             sm.company_id = %(company)s AND
             sm.product_id in %(product)s AND
             date_trunc('day',sm.date) <  %(date_from)s AND
             (sm.location_id = %(location)s OR sm.location_dest_id = %(location)s)
-        GROUP BY sm.product_id, date_trunc('day',sm.date), sm.reference, rp.name
+        GROUP BY sm.product_id, date_trunc('day',sm.date), sm.reference, sm.partner_id
         order by sm.product_id, date_trunc('day',sm.date)) initial
     union
-        (SELECT sm.product_id as product_id, 0 as valoare_initiala, 0 as cantitate_initiala,
+        (SELECT sm.product_id as product_id, 0 as amount_initial, 0 as quantity_initial,
             COALESCE(sum(svl.value),
-                    sum(svl3.value), 0) as valoare_intrata,
+                    sum(svl3.value), 0) as amount_in,
             COALESCE(sum(svl.quantity),
-                    sum(svl3.quantity) ,0) as cantitate_intrata,
+                    sum(svl3.quantity) ,0) as quantity_in,
             COALESCE(sum(svl1.value),
-                    sum(svl2.value), 0) as valoare_iesita,
+                    sum(svl2.value), 0) as amount_out,
             COALESCE(sum(svl1.quantity),
-                    sum(svl2.quantity), 0) as cantitate_iesita,
+                    sum(svl2.quantity), 0) as quantity_out,
             COALESCE(sum(svl.value),
                     sum(svl1.value),
                     sum(svl2.value),
-                    sum(svl3.value), 0) as valoare_finala,
+                    sum(svl3.value), 0) as amount_final,
             COALESCE(sum(svl.quantity),
                     sum(svl1.quantity),
                     sum(svl2.quantity),
-                    sum(svl3.quantity), 0) as cantitate_finala,
-            date_trunc('day',sm.date) as data,
+                    sum(svl3.quantity), 0) as quantity_final,
+            date_trunc('day',sm.date) as date,
             sm.reference as reference,
-            rp.name as partner
+            sm.partner_id
         from stock_move as sm
             left join (select * from stock_valuation_layer
                         where valued_type !='internal_transfer' or valued_type is Null)
@@ -171,7 +171,6 @@ class DailyStockReport(models.TransientModel):
                         where valued_type ='internal_transfer' and quantity>0) as svl3
                         on svl3.stock_move_id = sm.id and
                         sm.location_dest_id=%(location)s
-            left join res_partner rp on rp.id=sm.partner_id
         where
             sm.state = 'done' AND
             sm.company_id = %(company)s AND
@@ -179,9 +178,9 @@ class DailyStockReport(models.TransientModel):
             date_trunc('day',sm.date) >= %(date_from)s  AND
             date_trunc('day',sm.date) <= %(date_to)s  AND
             (sm.location_id = %(location)s OR sm.location_dest_id = %(location)s)
-        GROUP BY sm.product_id, date_trunc('day',sm.date),  sm.reference, rp.name
+        GROUP BY sm.product_id, date_trunc('day',sm.date),  sm.reference, sm.partner_id
         order by sm.product_id, date_trunc('day',sm.date))
-    ORDER BY product_id, data
+    ORDER BY product_id, date
                 """
 
         params = {
@@ -204,17 +203,17 @@ class DailyStockReport(models.TransientModel):
             values = {
                 key: row[0],
                 "report_id": self.id,
-                "valoare_initiala": row[1],
-                "cantitate_initiala": row[2],
-                "valoare_intrata": row[3],
-                "cantitate_intrata": row[4],
-                "valoare_iesita": row[5],
-                "cantitate_iesita": row[6],
-                "valoare_finala": row[7],
-                "cantitate_finala": row[8],
-                "data": row[9],
-                "referinta": row[10],
-                "partener": row[11],
+                "amount_initial": row[1],
+                "quantity_initial": row[2],
+                "amount_in": row[3],
+                "quantity_in": row[4],
+                "amount_out": row[5],
+                "quantity_out": row[6],
+                "amount_final": row[7],
+                "quantity_final": row[8],
+                "date": row[9],
+                "reference": row[10],
+                "partner_id": row[11],
             }
             stock_init += [values]
         # The records from stock_init are converted for in  stock card. That are, a record  with the stock
@@ -234,10 +233,10 @@ class DailyStockReport(models.TransientModel):
             val_final_total[product] = 0
 
         for line in stock_init:
-            stoc_init_total[line[key]] += line["cantitate_initiala"]
-            val_init_total[line[key]] += line["valoare_initiala"]
-            stoc_final_total[line[key]] += line["cantitate_finala"]
-            val_final_total[line[key]] += line["valoare_finala"]
+            stoc_init_total[line[key]] += line["quantity_initial"]
+            val_init_total[line[key]] += line["amount_initial"]
+            stoc_final_total[line[key]] += line["quantity_final"]
+            val_final_total[line[key]] += line["amount_final"]
 
         sold_stock_init = []
         for product in products:
@@ -245,30 +244,30 @@ class DailyStockReport(models.TransientModel):
                 {
                     key: product,
                     "report_id": self.id,
-                    "cantitate_initiala": stoc_init_total[product],
-                    "valoare_initiala": val_init_total[product],
-                    "cantitate_finala": None,
-                    "valoare_finala": None,
-                    "referinta": "INITIALA",
+                    "quantity_initial": stoc_init_total[product],
+                    "amount_initial": val_init_total[product],
+                    "quantity_final": None,
+                    "amount_final": None,
+                    "reference": "INITIALA",
                 }
             )
             for line in stock_init:
                 if line[key] == product:
-                    if line["data"].date() >= self.date_from:
-                        line["valoare_iesita"] = -line["valoare_iesita"]
-                        line["cantitate_iesita"] = -line["cantitate_iesita"]
-                        line["valoare_finala"] = 0
-                        line["cantitate_finala"] = 0
+                    if line["date"].date() >= self.date_from:
+                        line["amount_out"] = -line["amount_out"]
+                        line["quantity_out"] = -line["quantity_out"]
+                        line["amount_final"] = 0
+                        line["quantity_final"] = 0
                         sold_stock_init.append(line)
             sold_stock_init.append(
                 {
                     key: product,
                     "report_id": self.id,
-                    "cantitate_initiala": None,
-                    "valoare_initiala": None,
-                    "cantitate_finala": stoc_final_total[product],
-                    "valoare_finala": val_final_total[product],
-                    "referinta": "FINALA",
+                    "quantity_initial": None,
+                    "amount_initial": None,
+                    "quantity_final": stoc_final_total[product],
+                    "amount_final": val_final_total[product],
+                    "reference": "FINALA",
                 }
             )
         if self.mode == "product":
@@ -277,7 +276,7 @@ class DailyStockReport(models.TransientModel):
         lines_report = self.env[line_model].create(sold_stock_init)
 
         # for line_report in lines_report:
-        #    if line_report.data:
+        #    if line_report.date:
         #        if line_report.product_id not in self.found_product_ids:
         #            self.write({"found_product_ids": [(4, line_report.product_id.id)]})
         #    else:
@@ -288,7 +287,7 @@ class DailyStockReport(models.TransientModel):
         # as product_ids  and the products that have some movment in that preiod ( have date)
         found_products = list(
             set(
-                self.product_ids.ids + [x.product_id.id for x in lines_report if x.data]
+                self.product_ids.ids + [x.product_id.id for x in lines_report if x.date]
             )
         )
         self.write({"found_product_ids": found_products})
@@ -330,18 +329,28 @@ class DailyStockReportLine(models.TransientModel):
     _description = "DailyStockReportLine"
 
     report_id = fields.Many2one("stock.daily.stock.report")
-    product_id = fields.Many2one("product.product")
-    valoare_initiala = fields.Monetary(currency_field="currency_id")
-    cantitate_initiala = fields.Float(digits="Product Unit of Measure")
-    valoare_intrata = fields.Monetary(currency_field="currency_id")
-    cantitate_intrata = fields.Float(digits="Product Unit of Measure")
-    valoare_iesita = fields.Monetary(currency_field="currency_id")
-    cantitate_iesita = fields.Float(digits="Product Unit of Measure")
-    valoare_finala = fields.Monetary(currency_field="currency_id")
-    cantitate_finala = fields.Float(digits="Product Unit of Measure")
-    data = fields.Date()
-    referinta = fields.Char()
-    partener = fields.Char()
+    product_id = fields.Many2one("product.product", string="Product")
+    amount_initial = fields.Monetary(
+        currency_field="currency_id", string="Initial Amount"
+    )
+    quantity_initial = fields.Float(
+        digits="Product Unit of Measure", string="Initial Quantity"
+    )
+    amount_in = fields.Monetary(currency_field="currency_id", string="Input Amount")
+    quantity_in = fields.Float(
+        digits="Product Unit of Measure", string="Input Quantity"
+    )
+    amount_out = fields.Monetary(currency_field="currency_id", string="Output Amount")
+    quantity_out = fields.Float(
+        digits="Product Unit of Measure", string="Output Quantity"
+    )
+    amount_final = fields.Monetary(currency_field="currency_id", string="Final Amount")
+    quantity_final = fields.Float(
+        digits="Product Unit of Measure", string="Final Quantity"
+    )
+    date = fields.Date(string="Date")
+    reference = fields.Char()
+    partner_id = fields.Many2one("res.partner")
     currency_id = fields.Many2one(
         "res.currency",
         string="Currency",

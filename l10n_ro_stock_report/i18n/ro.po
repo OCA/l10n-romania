@@ -1,0 +1,226 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* l10n_ro_stock_report
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 14.0+e\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2021-02-28 08:56+0000\n"
+"PO-Revision-Date: 2021-02-28 08:56+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: l10n_ro_stock_report
+#: model:ir.actions.report,print_report_name:l10n_ro_stock_report.action_report_stock_card
+msgid "'Card'"
+msgstr "Fișă"
+
+#. module: l10n_ro_stock_report
+#: model_terms:ir.ui.view,arch_db:l10n_ro_stock_report.report_stock_card_lines_header
+msgid "Amount Input"
+msgstr "Valoare intrată"
+
+#. module: l10n_ro_stock_report
+#: model_terms:ir.ui.view,arch_db:l10n_ro_stock_report.report_stock_card_lines_header
+msgid "Amount Output"
+msgstr "Valoare iesită"
+
+#. module: l10n_ro_stock_report
+#: model_terms:ir.ui.view,arch_db:l10n_ro_stock_report.view_stock_card_report_form
+msgid "Cancel"
+msgstr "Renunțare"
+
+#. module: l10n_ro_stock_report
+#: model:ir.model.fields,field_description:l10n_ro_stock_report.field_stock_daily_stock_report__company_id
+msgid "Company"
+msgstr "Companie"
+
+
+
+
+#. module: l10n_ro_stock_report
+#: model:ir.model.fields,field_description:l10n_ro_stock_report.field_stock_daily_stock_report_line__currency_id
+msgid "Currency"
+msgstr "Moneda"
+
+
+
+#. module: l10n_ro_stock_report
+#: model:ir.model.fields,field_description:l10n_ro_stock_report.field_stock_daily_stock_report_line__date
+msgid "Date"
+msgstr "Data"
+
+#. module: l10n_ro_stock_report
+#: model_terms:ir.ui.view,arch_db:l10n_ro_stock_report.report_stock_card_report_filters
+msgid "Date From"
+msgstr "Din data"
+
+#. module: l10n_ro_stock_report
+#: model_terms:ir.ui.view,arch_db:l10n_ro_stock_report.report_stock_card_report_filters
+msgid "Date To"
+msgstr "Până la data"
+
+#. module: l10n_ro_stock_report
+#: model:ir.model.fields,field_description:l10n_ro_stock_report.field_stock_daily_stock_report__date_range_id
+msgid "Date range"
+msgstr "Interval"
+
+#. module: l10n_ro_stock_report
+#: model:ir.model.fields,field_description:l10n_ro_stock_report.field_stock_daily_stock_report__mode
+msgid "Detail mode"
+msgstr "Mod detaliere"
+
+
+
+#. module: l10n_ro_stock_report
+#: model:ir.model.fields,field_description:l10n_ro_stock_report.field_stock_daily_stock_report__date_to
+msgid "End Date"
+msgstr "Dată final"
+
+
+
+#. module: l10n_ro_stock_report
+#: model:ir.model.fields,field_description:l10n_ro_stock_report.field_stock_daily_stock_report_line__amount_final
+msgid "Final Amount"
+msgstr "Valoare finală"
+
+#. module: l10n_ro_stock_report
+#: model:ir.model.fields,field_description:l10n_ro_stock_report.field_stock_daily_stock_report_line__quantity_final
+msgid "Final Quantity"
+msgstr "Cantitate finală"
+
+#. module: l10n_ro_stock_report
+#: model:ir.model.fields,field_description:l10n_ro_stock_report.field_stock_daily_stock_report__found_product_ids
+msgid "Found Product"
+msgstr "Produse găsite"
+
+
+
+#. module: l10n_ro_stock_report
+#: model:ir.model.fields,field_description:l10n_ro_stock_report.field_stock_daily_stock_report_line__amount_initial
+msgid "Initial Amount"
+msgstr "Valoare inițială"
+
+#. module: l10n_ro_stock_report
+#: model:ir.model.fields,field_description:l10n_ro_stock_report.field_stock_daily_stock_report_line__quantity_in
+#: model:ir.model.fields,field_description:l10n_ro_stock_report.field_stock_daily_stock_report_line__quantity_initial
+msgid "Initial Quantity"
+msgstr "Cantitate inițială"
+
+#. module: l10n_ro_stock_report
+#: model_terms:ir.ui.view,arch_db:l10n_ro_stock_report.report_stock_card_lines_header
+msgid "Input"
+msgstr "Intrare"
+
+#. module: l10n_ro_stock_report
+#: model:ir.model.fields,field_description:l10n_ro_stock_report.field_stock_daily_stock_report_line__amount_in
+msgid "Input Amount"
+msgstr "Valoare intrare"
+
+
+
+
+
+#. module: l10n_ro_stock_report
+#: model:ir.model.fields,field_description:l10n_ro_stock_report.field_stock_daily_stock_report__location_id
+#: model_terms:ir.ui.view,arch_db:l10n_ro_stock_report.report_stock_card_report_filters
+msgid "Location"
+msgstr "Locație"
+
+#. module: l10n_ro_stock_report
+#: model:ir.model.fields,field_description:l10n_ro_stock_report.field_stock_daily_stock_report__product_ids
+msgid "Only for products"
+msgstr "Numai pentru produsele"
+
+#. module: l10n_ro_stock_report
+#: model_terms:ir.ui.view,arch_db:l10n_ro_stock_report.report_stock_card_lines_header
+msgid "Output"
+msgstr "Ieșire"
+
+#. module: l10n_ro_stock_report
+#: model:ir.model.fields,field_description:l10n_ro_stock_report.field_stock_daily_stock_report_line__amount_out
+msgid "Output Amount"
+msgstr "Valoare ieșire"
+
+#. module: l10n_ro_stock_report
+#: model:ir.model.fields,field_description:l10n_ro_stock_report.field_stock_daily_stock_report_line__quantity_out
+msgid "Output Quantity"
+msgstr "Catitate ieșită"
+
+#. module: l10n_ro_stock_report
+#: model:ir.model.fields,field_description:l10n_ro_stock_report.field_stock_daily_stock_report_line__partner_id
+msgid "Partner"
+msgstr "Partener"
+
+#. module: l10n_ro_stock_report
+#: model:ir.model.fields,field_description:l10n_ro_stock_report.field_stock_daily_stock_report_line__product_id
+#: model:ir.model.fields.selection,name:l10n_ro_stock_report.selection__stock_daily_stock_report__mode__product
+msgid "Product"
+msgstr "Produs"
+
+#. module: l10n_ro_stock_report
+#: model:ir.model.fields,field_description:l10n_ro_stock_report.field_stock_daily_stock_report_line__reference
+#: model_terms:ir.ui.view,arch_db:l10n_ro_stock_report.report_stock_card_lines_header
+msgid "Reference"
+msgstr "Referință"
+
+#. module: l10n_ro_stock_report
+#: model:ir.model.fields,field_description:l10n_ro_stock_report.field_stock_daily_stock_report_line__report_id
+msgid "Report"
+msgstr "Raport"
+
+#. module: l10n_ro_stock_report
+#: model_terms:ir.ui.view,arch_db:l10n_ro_stock_report.view_stock_card_report_form
+msgid "Report Options"
+msgstr "Opțiuni raport"
+
+#. module: l10n_ro_stock_report
+#: model_terms:ir.ui.view,arch_db:l10n_ro_stock_report.view_stock_card_report_form
+msgid "Show Card"
+msgstr "Afișare fișă"
+
+#. module: l10n_ro_stock_report
+#: model_terms:ir.ui.view,arch_db:l10n_ro_stock_report.view_stock_card_report_form
+msgid "Show Card Pdf"
+msgstr "Tipărire fișă"
+
+#. module: l10n_ro_stock_report
+#: model:ir.model.fields,field_description:l10n_ro_stock_report.field_stock_daily_stock_report__date_from
+msgid "Start Date"
+msgstr "Dată început"
+
+#. module: l10n_ro_stock_report
+#: model:ir.actions.report,name:l10n_ro_stock_report.action_report_stock_card
+msgid "Stock Card"
+msgstr "Fișă de magazie"
+
+#. module: l10n_ro_stock_report
+#: model_terms:ir.ui.view,arch_db:l10n_ro_stock_report.report_stock_card_report_base
+msgid "Stock Card -"
+msgstr "Fișă de magazie -"
+
+#. module: l10n_ro_stock_report
+#: model:ir.actions.act_window,name:l10n_ro_stock_report.action_card_stock_report
+#: model:ir.actions.act_window,name:l10n_ro_stock_report.action_card_stock_report_line
+#: model:ir.ui.menu,name:l10n_ro_stock_report.menu_card_stock_report
+msgid "Stock Card Report"
+msgstr "Raport Fișă de magazie"
+
+#. module: l10n_ro_stock_report
+#: code:addons/l10n_ro_stock_report/report/daily_stock_report.py:0
+#: code:addons/l10n_ro_stock_report/report/daily_stock_report.py:0
+#: code:addons/l10n_ro_stock_report/report/storage_sheet_report.py:0
+#, python-format
+msgid "Valuation"
+msgstr "Evaluare"
+
+#. module: l10n_ro_stock_report
+#: model_terms:ir.ui.view,arch_db:l10n_ro_stock_report.view_stock_card_report_form
+msgid "or"
+msgstr "sau"
+

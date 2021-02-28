@@ -49,21 +49,59 @@
         <field name="arch" type="xml">
             <tree edit="0" create="0" import="0">
                 <field name="product_id" />
-                <field name="data" />
-                <field name="referinta" />
-                <field name="cantitate_initiala" />
-                <field name="valoare_initiala" />
-                <field name="cantitate_intrata" />
-                <field name="valoare_intrata" />
-                <field name="cantitate_iesita" />
-                <field name="valoare_iesita" />
-                <field name="cantitate_finala" />
-                <field name="valoare_finala" />
-                <field name="partener" />
+                <field name="date" />
+                <field name="reference" />
+                <field name="quantity_initial" />
+                <field name="amount_initial" />
+                <field name="quantity_in" />
+                <field name="amount_in" />
+                <field name="quantity_out" />
+                <field name="amount_out" />
+                <field name="quantity_final" />
+                <field name="amount_final" />
+                <field name="partner_id" />
             </tree>
         </field>
     </record>
 
+
+    <record id="view_card_stock_report_line_form" model="ir.ui.view">
+        <field name="name">stock.card.stock.report.line</field>
+        <field name="model">stock.daily.stock.report.line</field>
+        <field name="arch" type="xml">
+            <form edit="0" create="0" import="0">
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="product_id" />
+                            <field name="date" />
+                        </group>
+                        <group>
+                            <field name="reference" />
+                            <field name="partner_id" />
+                        </group>
+                        <group>
+                            <field name="quantity_initial" />
+                            <field name="amount_initial" />
+                        </group>
+                        <group>
+                            <field name="quantity_in" />
+                            <field name="amount_in" />
+                        </group>
+                        <group>
+                            <field name="quantity_out" />
+                            <field name="amount_out" />
+                        </group>
+                        <group>
+                            <field name="quantity_final" />
+                            <field name="amount_final" />
+                        </group>
+                    </group>
+
+                </sheet>
+            </form>
+        </field>
+    </record>
 
 
     <record id="action_card_stock_report" model="ir.actions.act_window">
@@ -71,11 +109,11 @@
         <field name="res_model">stock.daily.stock.report</field>
         <field name="view_mode">form</field>
         <field name="view_id" ref="l10n_ro_stock_report.view_stock_card_report_form" />
-         <field name="target">new</field>
+        <field name="target">new</field>
     </record>
 
 
-     <menuitem
+    <menuitem
         id="menu_card_stock_report"
         name="Stock Card Report"
         action="action_card_stock_report"
@@ -84,19 +122,16 @@
     />
 
 
-     <record id="action_card_stock_report_line" model="ir.actions.act_window">
-         <field name="name">Stock Card Report</field>
-         <field name="res_model">stock.daily.stock.report.line</field>
-         <field name="view_mode">tree,form</field>
-         <field name="domain">[('report_id','=',active_id)]</field>
-         <field
+    <record id="action_card_stock_report_line" model="ir.actions.act_window">
+        <field name="name">Stock Card Report</field>
+        <field name="res_model">stock.daily.stock.report.line</field>
+        <field name="view_mode">tree,form</field>
+        <field name="domain">[('report_id','=',active_id)]</field>
+        <field
             name="view_id"
             ref="l10n_ro_stock_report.view_card_stock_report_line_tree"
         />
     </record>
-
-
-
 
 
 </odoo>

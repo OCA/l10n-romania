@@ -48,11 +48,11 @@
                 <div class="act_as_table data_table mt4" style="width: 100%;">
                     <t
                         t-set="initial"
-                        t-value="o.line_product_ids.filtered(lambda l: l.product_id == product and l.referinta =='INITIALA')"
+                        t-value="o.line_product_ids.filtered(lambda l: l.product_id == product and l.reference =='INITIALA')"
                     />
                     <t
-                        t-set="finala"
-                        t-value="o.line_product_ids.filtered(lambda l: l.product_id == product and l.referinta =='FINALA')"
+                        t-set="final"
+                        t-value="o.line_product_ids.filtered(lambda l: l.product_id == product and l.reference =='FINALA')"
                     />
                     <t t-call="l10n_ro_stock_report.report_stock_card_lines_header" />
                     <!-- Display initial lines -->
@@ -65,17 +65,17 @@
                         <div class="act_as_cell" />
                         <div class="act_as_cell sold">
                             <div style="font-style: italic; font-weight: bold;">
-                                <span t-field="initial.cantitate_initiala" />
+                                <span t-field="initial.quantity_initial" />
                             </div>
                         </div>
                         <div class="act_as_cell sold">
                             <div style="font-style: italic; font-weight: bold;">
-                                <span t-field="initial.valoare_initiala" />
+                                <span t-field="initial.amount_initial" />
                             </div>
                         </div>
                     </div>
                     <t
-                        t-foreach="o.line_product_ids.filtered(lambda l: l.product_id == product and l.data)"
+                        t-foreach="o.line_product_ids.filtered(lambda l: l.product_id == product and l.date)"
                         t-as="line_product"
                     >
                         <t t-call="l10n_ro_stock_report.report_stock_card_lines" />
@@ -90,13 +90,13 @@
                         <div class="act_as_cell" />
                         <div class="act_as_cell">
                             <div style="font-style: italic; font-weight: bold;">
-                                <span t-field="finala.cantitate_finala" />
+                                <span t-field="final.quantity_final" />
                             </div>
                         </div>
 
                         <div class="act_as_cell sold">
                             <div style="font-style: italic; font-weight: bold;">
-                                <span t-field="finala.valoare_finala" />
+                                <span t-field="final.amount_final" />
                             </div>
                         </div>
                     </div>
@@ -110,22 +110,22 @@
     <template id="report_stock_card_lines">
         <div class="act_as_row lines">
             <div class="act_as_cell left">
-                <span t-field="line_product.data" t-options='{"widget": "date"}' />
+                <span t-field="line_product.date" t-options='{"widget": "date"}' />
             </div>
             <div class="act_as_cell left">
-                <span t-esc="line_product.referinta" />
+                <span t-esc="line_product.reference" />
             </div>
             <div class="act_as_cell right">
-                <span t-field="line_product.cantitate_intrata" />
+                <span t-field="line_product.quantity_in" />
             </div>
             <div class="act_as_cell right">
-                <span t-field="line_product.valoare_intrata" />
+                <span t-field="line_product.amount_in" />
             </div>
             <div class="act_as_cell right">
-                <span t-field="line_product.cantitate_iesita" />
+                <span t-field="line_product.quantity_out" />
             </div>
             <div class="act_as_cell right">
-                <span t-field="line_product.valoare_iesita" />
+                <span t-field="line_product.amount_out" />
             </div>
         </div>
     </template>
@@ -135,10 +135,10 @@
             <div class="act_as_row labels">
                 <div class="act_as_cell">Data</div>
                 <div class="act_as_cell">Reference</div>
-                <div class="act_as_cell">Intrari</div>
-                <div class="act_as_cell">Valoare Intrari</div>
-                <div class="act_as_cell">Iesiri</div>
-                <div class="act_as_cell">Valoare Iesiri</div>
+                <div class="act_as_cell">Input</div>
+                <div class="act_as_cell">Amount Input</div>
+                <div class="act_as_cell">Output</div>
+                <div class="act_as_cell">Amount Output</div>
             </div>
         </div>
     </template>
