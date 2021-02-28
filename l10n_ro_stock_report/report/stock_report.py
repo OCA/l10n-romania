@@ -319,10 +319,10 @@ class DailyStockReport(models.TransientModel):
 
     def button_show_card_pdf(self):
         self.do_compute_product()
-
-        return self.env.ref(
+        action_report_stock_card = self.env.ref(
             "l10n_ro_stock_report.action_report_stock_card"
-        ).report_action(self, config=False)
+        )
+        return action_report_stock_card.report_action(self, config=False)
 
 
 class DailyStockReportLine(models.TransientModel):
@@ -339,7 +339,7 @@ class DailyStockReportLine(models.TransientModel):
     cantitate_iesita = fields.Float(digits="Product Unit of Measure")
     valoare_finala = fields.Monetary(currency_field="currency_id")
     cantitate_finala = fields.Float(digits="Product Unit of Measure")
-    data = fields.Datetime()
+    data = fields.Date()
     referinta = fields.Char()
     partener = fields.Char()
     currency_id = fields.Many2one(

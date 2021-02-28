@@ -9,6 +9,7 @@
     "depends": ["l10n_ro_stock_account", "date_range"],
     "data": [
         "report/stock_report_view.xml",
+        "report/stock_report_template.xml",
         "security/ir.model.access.csv",
     ],
     "installable": True,
