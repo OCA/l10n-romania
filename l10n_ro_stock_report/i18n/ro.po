@@ -17,8 +17,9 @@ msgstr ""
 
 #. module: l10n_ro_stock_report
 #: model:ir.actions.report,print_report_name:l10n_ro_stock_report.action_report_stock_card
-msgid "'Card'"
+msgid "Card"
 msgstr "Fișă"
+
 
 #. module: l10n_ro_stock_report
 #: model_terms:ir.ui.view,arch_db:l10n_ro_stock_report.report_stock_card_lines_header
@@ -227,5 +228,5 @@ msgstr "Evaluare"
 #. module: l10n_ro_stock_report
 #: model_terms:ir.ui.view,arch_db:l10n_ro_stock_report.view_stock_card_report_form
 msgid "or"
-msgstr "sau"
+msgstr "or"
 
