@@ -28,32 +28,40 @@
     <template id="report_stock_card">
         <t t-call="web.html_container">
             <t t-foreach="docs" t-as="o">
-                <t t-call="l10n_ro_stock_report.internal_layout">
+
+
                     <t t-call="l10n_ro_stock_report.report_stock_card_report_base" />
                 </t>
             </t>
-        </t>
     </template>
 
     <template id="report_stock_card_report_base">
         <t t-foreach="o.found_product_ids" t-as="product">
-            <div class="page">
-                <div class="row">
-                    <t t-set="title">Stock Card -
-                        <t t-raw="product.name" />
-                    </t>
+            <t t-call="web.external_layout">
+
+                    <link
+                    href="/l10n_ro_stock_report/static/src/css/report.css"
+                    rel="stylesheet"
+                />
+                <t t-raw="0" />
+
+                <div class="page">
+                    <div class="row">
+                        <t t-set="title">Stock Card -
+                            <t t-raw="product.name" />
+                        </t>
                     <h4 class="mt0" t-esc="title" style="text-align: center;" />
                 </div>
                 <t t-call="l10n_ro_stock_report.report_stock_card_report_filters" />
                 <div class="act_as_table data_table mt4" style="width: 100%;">
                     <t
-                        t-set="initial"
-                        t-value="o.line_product_ids.filtered(lambda l: l.product_id == product and l.reference =='INITIALA')"
-                    />
+                            t-set="initial"
+                            t-value="o.line_product_ids.filtered(lambda l: l.product_id == product and l.reference =='INITIALA')"
+                        />
                     <t
-                        t-set="final"
-                        t-value="o.line_product_ids.filtered(lambda l: l.product_id == product and l.reference =='FINALA')"
-                    />
+                            t-set="final"
+                            t-value="o.line_product_ids.filtered(lambda l: l.product_id == product and l.reference =='FINALA')"
+                        />
                     <t t-call="l10n_ro_stock_report.report_stock_card_lines_header" />
                     <!-- Display initial lines -->
                     <div class="act_as_row lines">
@@ -64,20 +72,24 @@
                         <div class="act_as_cell" />
                         <div class="act_as_cell" />
                         <div class="act_as_cell sold">
-                            <div style="font-style: italic; font-weight: bold;">
+                            <div
+                                    style="font-style: italic; font-weight: bold; padding: 5px 7px"
+                                >
                                 <span t-field="initial.quantity_initial" />
                             </div>
                         </div>
                         <div class="act_as_cell sold">
-                            <div style="font-style: italic; font-weight: bold;">
+                            <div
+                                    style="font-style: italic; font-weight: bold; padding: 5px 7px"
+                                >
                                 <span t-field="initial.amount_initial" />
                             </div>
                         </div>
                     </div>
                     <t
-                        t-foreach="o.line_product_ids.filtered(lambda l: l.product_id == product and l.date)"
-                        t-as="line_product"
-                    >
+                            t-foreach="o.line_product_ids.filtered(lambda l: l.product_id == product and l.date)"
+                            t-as="line_product"
+                        >
                         <t t-call="l10n_ro_stock_report.report_stock_card_lines" />
                     </t>
                     <!-- Display header line-->
@@ -89,20 +101,25 @@
                         <div class="act_as_cell" />
                         <div class="act_as_cell" />
                         <div class="act_as_cell">
-                            <div style="font-style: italic; font-weight: bold;">
-                                <span t-field="final.quantity_final" />
+                                <div
+                                    style="font-style: italic; font-weight: bold; padding: 5px 7px"
+                                >
+                                    <span t-field="final.quantity_final" />
+                                </div>
                             </div>
-                        </div>
 
-                        <div class="act_as_cell sold">
-                            <div style="font-style: italic; font-weight: bold;">
-                                <span t-field="final.amount_final" />
+                            <div class="act_as_cell sold">
+                                <div
+                                    style="font-style: italic; font-weight: bold; padding: 5px 7px"
+                                >
+                                    <span t-field="final.amount_final" />
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
                 <p style="page-break-before:always;" />
-            </div>
+                </div>
+            </t>
         </t>
     </template>
 

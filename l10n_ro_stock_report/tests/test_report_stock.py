@@ -146,7 +146,24 @@ class TestStockReport(TransactionCase):
         )
 
         wizard.location_id = self.location
-        wizard.mode = "product"
+
+        wizard = wizard.save()
+        wizard.button_show_card_pdf()
+        line = self.env["stock.daily.stock.report.line"].search(
+            [("report_id", "=", wizard.id)], limit=1
+        )
+        self.assertTrue(line)
+
+    def test_report_daily_stock_product(self):
+        self.create_po()
+        self.create_invoice()
+
+        wizard = Form(
+            self.env["stock.daily.stock.report"].with_context(default_mode="product")
+        )
+
+        wizard.location_id = self.location
+        wizard.product_ids.add(self.product_1)
         wizard = wizard.save()
         wizard.button_show_card_pdf()
         line = self.env["stock.daily.stock.report.line"].search(

@@ -29,7 +29,8 @@ class DailyStockReport(models.TransientModel):
         "select_id",
         string="Only for products",
         domain=[("type", "=", "product")],
-        help="will show report only for this products. if nothing selected will show only products that have moves in period",
+        help="will show report only for this products.\
+         If nothing selected will show only products that have moves in period",
     )
     found_product_ids = fields.Many2many(
         "product.product",
@@ -45,25 +46,24 @@ class DailyStockReport(models.TransientModel):
     company_id = fields.Many2one(
         "res.company", string="Company", default=lambda self: self.env.company
     )
-    mode = fields.Selection(
-        [("product", "Product")], default="product", string="Detail mode", required=1
-    )
+    # mode = fields.Selection(
+    #     [("product", "Product")], default="product", string="Detail mode", required=1
+    # )
 
     line_product_ids = fields.Many2many(comodel_name="stock.daily.stock.report.line")
 
     @api.model
     def default_get(self, fields_list):
         res = super(DailyStockReport, self).default_get(fields_list)
-        mode = res.get("mode", "product")
-        if mode == "product":
-            today = fields.Date.context_today(self)
-            today = fields.Date.from_string(today)
 
-            from_date = today + relativedelta(day=1, months=0, days=0)
-            to_date = today + relativedelta(day=1, months=1, days=-1)
+        today = fields.Date.context_today(self)
+        today = fields.Date.from_string(today)
 
-            res["date_from"] = fields.Date.to_string(from_date)
-            res["date_to"] = fields.Date.to_string(to_date)
+        from_date = today + relativedelta(day=1, months=0, days=0)
+        to_date = today + relativedelta(day=1, months=1, days=-1)
+
+        res["date_from"] = fields.Date.to_string(from_date)
+        res["date_to"] = fields.Date.to_string(to_date)
         return res
 
     @api.onchange("date_range_id")
@@ -88,8 +88,8 @@ class DailyStockReport(models.TransientModel):
         )
         lines.unlink()
         stock_init = []
-        if self.mode == "product":
-            query = """
+
+        query = """
     SELECT product_id,amount_initial,quantity_initial,
             amount_in,quantity_in,amount_out,
             quantity_out,amount_final,quantity_final,
@@ -190,18 +190,13 @@ class DailyStockReport(models.TransientModel):
             "date_from": fields.Date.to_string(self.date_from),
             "date_to": fields.Date.to_string(self.date_to),
         }
-        # print(query % params)
 
         self.env.cr.execute(query, params=params)
-
-        if self.mode == "product":
-            key = "product_id"
-
         res = self.env.cr.fetchall()
-        #
+
         for row in res:
             values = {
-                key: row[0],
+                "product_id": row[0],
                 "report_id": self.id,
                 "amount_initial": row[1],
                 "quantity_initial": row[2],
@@ -220,7 +215,7 @@ class DailyStockReport(models.TransientModel):
         # and the initial value, and other with the stock and the final value.
         # The rest of the records are those with stock movements from the selected period.
 
-        products = {prod[key] for prod in stock_init}
+        products = {prod["product_id"] for prod in stock_init}
         stoc_init_total = {}
         val_init_total = {}
         stoc_final_total = {}
@@ -233,16 +228,16 @@ class DailyStockReport(models.TransientModel):
             val_final_total[product] = 0
 
         for line in stock_init:
-            stoc_init_total[line[key]] += line["quantity_initial"]
-            val_init_total[line[key]] += line["amount_initial"]
-            stoc_final_total[line[key]] += line["quantity_final"]
-            val_final_total[line[key]] += line["amount_final"]
+            stoc_init_total[line["product_id"]] += line["quantity_initial"]
+            val_init_total[line["product_id"]] += line["amount_initial"]
+            stoc_final_total[line["product_id"]] += line["quantity_final"]
+            val_final_total[line["product_id"]] += line["amount_final"]
 
         sold_stock_init = []
         for product in products:
             sold_stock_init.append(
                 {
-                    key: product,
+                    "product_id": product,
                     "report_id": self.id,
                     "quantity_initial": stoc_init_total[product],
                     "amount_initial": val_init_total[product],
@@ -252,7 +247,7 @@ class DailyStockReport(models.TransientModel):
                 }
             )
             for line in stock_init:
-                if line[key] == product:
+                if line["product_id"] == product:
                     if line["date"].date() >= self.date_from:
                         line["amount_out"] = -line["amount_out"]
                         line["quantity_out"] = -line["quantity_out"]
@@ -261,7 +256,7 @@ class DailyStockReport(models.TransientModel):
                         sold_stock_init.append(line)
             sold_stock_init.append(
                 {
-                    key: product,
+                    "product_id": product,
                     "report_id": self.id,
                     "quantity_initial": None,
                     "amount_initial": None,
@@ -270,8 +265,8 @@ class DailyStockReport(models.TransientModel):
                     "reference": "FINALA",
                 }
             )
-        if self.mode == "product":
-            line_model = "stock.daily.stock.report.line"
+
+        line_model = "stock.daily.stock.report.line"
 
         lines_report = self.env[line_model].create(sold_stock_init)
 
@@ -296,10 +291,9 @@ class DailyStockReport(models.TransientModel):
 
     def button_show(self):
         self.do_compute_product()
-        if self.mode == "product":
-            action = self.env.ref(
-                "l10n_ro_stock_report.action_daily_stock_report_line"
-            ).read()[0]
+        action = self.env.ref(
+            "l10n_ro_stock_report.action_daily_stock_report_line"
+        ).read()[0]
         action["domain"] = [("report_id", "=", self.id)]
         action["context"] = {"active_id": self.id}
         action["target"] = "main"
@@ -307,10 +301,9 @@ class DailyStockReport(models.TransientModel):
 
     def button_show_card(self):
         self.do_compute_product()
-        if self.mode == "product":
-            action = self.env.ref(
-                "l10n_ro_stock_report.action_card_stock_report_line"
-            ).read()[0]
+        action = self.env.ref(
+            "l10n_ro_stock_report.action_card_stock_report_line"
+        ).read()[0]
         action["domain"] = [("report_id", "=", self.id)]
         action["context"] = {"active_id": self.id}
         action["target"] = "main"

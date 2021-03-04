@@ -41,9 +41,11 @@
 }
 .act_as_cell.left {
     text-align: left;
+    padding: 5px 7px;
 }
 .act_as_cell.right {
     text-align: right;
+    padding: 5px 7px;
 }
 .act_as_cell.sold {
     font-style: italic;
