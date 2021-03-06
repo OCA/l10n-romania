@@ -5,7 +5,8 @@ import logging
 
 from dateutil.relativedelta import relativedelta
 
-from odoo import api, fields, models
+from odoo import _, api, fields, models
+from odoo.exceptions import UserError
 
 _logger = logging.getLogger(__name__)
 
@@ -24,21 +25,24 @@ class DailyStockReport(models.TransientModel):
 
     product_ids = fields.Many2many(
         "product.product",
-        "select_products",
+        "stock_daily_select_products",
         "product_id",
-        "select_id",
+        "report_id",
         string="Only for products",
         domain=[("type", "=", "product")],
         help="will show report only for this products.\
          If nothing selected will show only products that have moves in period",
     )
-    found_product_ids = fields.Many2many(
-        "product.product",
-        "found_products",
-        "product_id",
-        "found_id",
-        help="this are products that have moves in period, used not to show products that do not have moves ",
-    )
+
+    products_with_move = fields.Boolean(default=True)
+
+    # found_product_ids = fields.Many2many(
+    #     "product.product",
+    #     "stock_daily_found_products",
+    #     "product_id",
+    #     "report_id",
+    #     help="this are products that have moves in period, used not to show products that do not have moves ",
+    # )
 
     date_range_id = fields.Many2one("date.range", string="Date range")
     date_from = fields.Date("Start Date", required=True, default=fields.Date.today)
@@ -51,6 +55,10 @@ class DailyStockReport(models.TransientModel):
     # )
 
     line_product_ids = fields.Many2many(comodel_name="stock.daily.stock.report.line")
+
+    def _get_report_base_filename(self):
+        self.ensure_one()
+        return "Card %s" % (self.location_id.name)
 
     @api.model
     def default_get(self, fields_list):
@@ -73,14 +81,42 @@ class DailyStockReport(models.TransientModel):
             self.date_from = self.date_range_id.date_start
             self.date_to = self.date_range_id.date_end
 
+    def get_products_with_move(self):
+        query = """
+                                SELECT product_id from stock_move as sm
+                                 WHERE
+                                  sm.company_id = %(company)s AND
+                                    (sm.location_id = %(location)s OR sm.location_dest_id = %(location)s) AND
+                                    date_trunc('day',sm.date) >= %(date_from)s  AND
+                                    date_trunc('day',sm.date) <= %(date_to)s
+                                GROUP BY  product_id
+                        """
+        params = {
+            "date_from": fields.Date.to_string(self.date_from),
+            "date_to": fields.Date.to_string(self.date_to),
+            "location": self.location_id.id,
+            "company": self.company_id.id,
+        }
+        self.env.cr.execute(query, params=params)
+        product_list = [r["product_id"] for r in self.env.cr.dictfetchall()]
+        return product_list
+
     def do_compute_product(self):
         if self.product_ids:
             product_list = self.product_ids.ids
+            all_products = False
         else:
-            product_list = (
-                self.env["product.product"].search([("type", "=", "product")]).ids
-            )
-            _logger.warning(product_list)
+            if self.products_with_move:
+                product_list = self.get_products_with_move()
+                all_products = False
+                if not product_list:
+                    raise UserError(
+                        _("There are no stock movements in the selected period")
+                    )
+            else:
+                product_list = [-1]  # dummy list
+                all_products = True
+
         self.env["account.move.line"].check_access_rights("read")
 
         lines = self.env["stock.daily.stock.report.line"].search(
@@ -128,7 +164,7 @@ class DailyStockReport(models.TransientModel):
                         on svl3.stock_move_id = sm.id and sm.location_dest_id=%(location)s
         where sm.state = 'done' AND
             sm.company_id = %(company)s AND
-            sm.product_id in %(product)s AND
+            ( %(all_products)s  or sm.product_id in %(product)s ) AND
             date_trunc('day',sm.date) <  %(date_from)s AND
             (sm.location_id = %(location)s OR sm.location_dest_id = %(location)s)
         GROUP BY sm.product_id, date_trunc('day',sm.date), sm.reference, sm.partner_id
@@ -174,7 +210,7 @@ class DailyStockReport(models.TransientModel):
         where
             sm.state = 'done' AND
             sm.company_id = %(company)s AND
-            sm.product_id in %(product)s AND
+            ( %(all_products)s  or sm.product_id in %(product)s ) AND
             date_trunc('day',sm.date) >= %(date_from)s  AND
             date_trunc('day',sm.date) <= %(date_to)s  AND
             (sm.location_id = %(location)s OR sm.location_dest_id = %(location)s)
@@ -186,6 +222,7 @@ class DailyStockReport(models.TransientModel):
         params = {
             "location": self.location_id.id,
             "product": tuple(product_list),
+            "all_products": all_products,
             "company": self.company_id.id,
             "date_from": fields.Date.to_string(self.date_from),
             "date_to": fields.Date.to_string(self.date_to),
@@ -239,6 +276,7 @@ class DailyStockReport(models.TransientModel):
                 {
                     "product_id": product,
                     "report_id": self.id,
+                    "date": self.date_from,
                     "quantity_initial": stoc_init_total[product],
                     "amount_initial": val_init_total[product],
                     "quantity_final": None,
@@ -258,6 +296,7 @@ class DailyStockReport(models.TransientModel):
                 {
                     "product_id": product,
                     "report_id": self.id,
+                    "date": self.date_to,
                     "quantity_initial": None,
                     "amount_initial": None,
                     "quantity_final": stoc_final_total[product],
@@ -280,24 +319,24 @@ class DailyStockReport(models.TransientModel):
 
         # rewrite : in found products: all the products that are selected for the report
         # as product_ids  and the products that have some movment in that preiod ( have date)
-        found_products = list(
-            set(
-                self.product_ids.ids + [x.product_id.id for x in lines_report if x.date]
-            )
-        )
-        self.write({"found_product_ids": found_products})
+        # found_products = list(
+        #     set(
+        #         self.product_ids.ids + [x.product_id.id for x in lines_report if x.date]
+        #     )
+        # )
+        # self.write({"found_product_ids": found_products})
 
         self.line_product_ids = lines_report.ids
 
-    def button_show(self):
-        self.do_compute_product()
-        action = self.env.ref(
-            "l10n_ro_stock_report.action_daily_stock_report_line"
-        ).read()[0]
-        action["domain"] = [("report_id", "=", self.id)]
-        action["context"] = {"active_id": self.id}
-        action["target"] = "main"
-        return action
+    def get_found_products(self):
+        found_products = self.product_ids
+        product_list = self.get_products_with_move()
+        found_products |= self.env["product.product"].browse(product_list)
+        # for line in self.line_product_ids:
+        #     if line.reference not in ["INITIALA", "FINALA"]:
+        #         found_products |= line.product_id
+
+        return found_products
 
     def button_show_card(self):
         self.do_compute_product()
@@ -320,6 +359,7 @@ class DailyStockReport(models.TransientModel):
 class DailyStockReportLine(models.TransientModel):
     _name = "stock.daily.stock.report.line"
     _description = "DailyStockReportLine"
+    _order = "report_id, product_id, date"
 
     report_id = fields.Many2one("stock.daily.stock.report")
     product_id = fields.Many2one("product.product", string="Product")

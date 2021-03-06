@@ -11,7 +11,9 @@
         "report/stock_report_view.xml",
         "report/stock_report_template.xml",
         "security/ir.model.access.csv",
+        "views/assets.xml",
     ],
+    "qweb": ["static/src/xml/stock_sheet.xml"],
     "installable": True,
     "maintainers": ["dhongu", "feketemihai"],
 }

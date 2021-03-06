@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+
+    <template
+        id="transaction_assets_backend"
+        name="stock card assets"
+        inherit_id="web.assets_backend"
+    >
+        <xpath expr="." position="inside">
+            <script
+                type="text/javascript"
+                src="/l10n_ro_stock_report/static/src/js/stock_card_report_button_controller.js"
+            />
+            <script
+                type="text/javascript"
+                src="/l10n_ro_stock_report/static/src/js/stock_card_report_button_view.js"
+            />
+        </xpath>
+    </template>
+</odoo>

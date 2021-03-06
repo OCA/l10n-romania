@@ -9,6 +9,7 @@
                     <group>
                         <field name="location_id" />
                         <field name="product_ids" widget="many2many_tags" />
+                        <field name="products_with_move" />
                     </group>
                     <group name="date_range">
                         <field
@@ -46,7 +47,7 @@
         <field name="name">stock.card.stock.report.line</field>
         <field name="model">stock.daily.stock.report.line</field>
         <field name="arch" type="xml">
-            <tree edit="0" create="0" import="0">
+            <tree edit="0" create="0" import="0" js_class="stock_card_button">
                 <field name="product_id" />
                 <field name="date" />
                 <field name="reference" />
