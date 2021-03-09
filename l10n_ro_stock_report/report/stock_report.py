@@ -54,6 +54,7 @@ class DailyStockReport(models.TransientModel):
     #     [("product", "Product")], default="product", string="Detail mode", required=1
     # )
 
+    one_product = fields.Boolean("One product per page")
     line_product_ids = fields.Many2many(comodel_name="stock.daily.stock.report.line")
 
     def _get_report_base_filename(self):
@@ -344,15 +345,28 @@ class DailyStockReport(models.TransientModel):
             "l10n_ro_stock_report.action_card_stock_report_line"
         ).read()[0]
         action["domain"] = [("report_id", "=", self.id)]
-        action["context"] = {"active_id": self.id}
+        action["context"] = {
+            "active_id": self.id,
+            "general_buttons": self.env[
+                "stock.daily.stock.report.line"
+            ].get_general_buttons(),
+        }
         action["target"] = "main"
         return action
 
     def button_show_card_pdf(self):
         self.do_compute_product()
-        action_report_stock_card = self.env.ref(
-            "l10n_ro_stock_report.action_report_stock_card"
-        )
+        self.print_pdf()
+
+    def print_pdf(self):
+        if self.one_product:
+            action_report_stock_card = self.env.ref(
+                "l10n_ro_stock_report.action_report_stock_card"
+            )
+        else:
+            action_report_stock_card = self.env.ref(
+                "l10n_ro_stock_report.action_report_stock_card_all"
+            )
         return action_report_stock_card.report_action(self, config=False)
 
 
@@ -389,3 +403,12 @@ class DailyStockReportLine(models.TransientModel):
         string="Currency",
         default=lambda self: self.env.company.currency_id,
     )
+
+    def get_general_buttons(self):
+        return [
+            {
+                "action": "print_pdf",
+                "name": "Print Preview",
+                "model": "stock.daily.stock.report",
+            }
+        ]

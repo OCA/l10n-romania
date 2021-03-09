@@ -47,7 +47,7 @@
         <field name="name">stock.card.stock.report.line</field>
         <field name="model">stock.daily.stock.report.line</field>
         <field name="arch" type="xml">
-            <tree edit="0" create="0" import="0" js_class="stock_card_button">
+            <tree edit="0" create="0" import="0">
                 <field name="product_id" />
                 <field name="date" />
                 <field name="reference" />
@@ -144,6 +144,7 @@
         <field name="res_model">stock.daily.stock.report.line</field>
         <field name="view_mode">tree,form</field>
         <field name="domain">[('report_id','=',active_id)]</field>
+        <field name="context">{'general_buttons':'get_general_buttons'}</field>
         <field
             name="view_id"
             ref="l10n_ro_stock_report.view_card_stock_report_line_tree"
