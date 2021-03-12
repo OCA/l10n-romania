@@ -36,30 +36,19 @@ class DailyStockReport(models.TransientModel):
 
     products_with_move = fields.Boolean(default=True)
 
-    # found_product_ids = fields.Many2many(
-    #     "product.product",
-    #     "stock_daily_found_products",
-    #     "product_id",
-    #     "report_id",
-    #     help="this are products that have moves in period, used not to show products that do not have moves ",
-    # )
-
     date_range_id = fields.Many2one("date.range", string="Date range")
     date_from = fields.Date("Start Date", required=True, default=fields.Date.today)
     date_to = fields.Date("End Date", required=True, default=fields.Date.today)
     company_id = fields.Many2one(
         "res.company", string="Company", default=lambda self: self.env.company
     )
-    # mode = fields.Selection(
-    #     [("product", "Product")], default="product", string="Detail mode", required=1
-    # )
 
     one_product = fields.Boolean("One product per page")
     line_product_ids = fields.Many2many(comodel_name="stock.daily.stock.report.line")
 
     def _get_report_base_filename(self):
         self.ensure_one()
-        return "Card %s" % (self.location_id.name)
+        return "Stock Sheet %s" % (self.location_id.name)
 
     @api.model
     def default_get(self, fields_list):
@@ -84,14 +73,14 @@ class DailyStockReport(models.TransientModel):
 
     def get_products_with_move(self):
         query = """
-                                SELECT product_id from stock_move as sm
-                                 WHERE
-                                  sm.company_id = %(company)s AND
-                                    (sm.location_id = %(location)s OR sm.location_dest_id = %(location)s) AND
-                                    date_trunc('day',sm.date) >= %(date_from)s  AND
-                                    date_trunc('day',sm.date) <= %(date_to)s
-                                GROUP BY  product_id
-                        """
+                    SELECT product_id
+                    FROM stock_move as sm
+                    WHERE sm.company_id = %(company)s AND
+                          (sm.location_id = %(location)s OR sm.location_dest_id = %(location)s) AND
+                          date_trunc('day',sm.date) >= %(date_from)s  AND
+                          date_trunc('day',sm.date) <= %(date_to)s
+                    GROUP BY  product_id
+                    """
         params = {
             "date_from": fields.Date.to_string(self.date_from),
             "date_to": fields.Date.to_string(self.date_to),
@@ -249,7 +238,7 @@ class DailyStockReport(models.TransientModel):
                 "partner_id": row[11],
             }
             stock_init += [values]
-        # The records from stock_init are converted for in  stock card. That are, a record  with the stock
+        # The records from stock_init are converted for in stock sheet. That are, a record  with the stock
         # and the initial value, and other with the stock and the final value.
         # The rest of the records are those with stock movements from the selected period.
 
@@ -310,39 +299,19 @@ class DailyStockReport(models.TransientModel):
 
         lines_report = self.env[line_model].create(sold_stock_init)
 
-        # for line_report in lines_report:
-        #    if line_report.date:
-        #        if line_report.product_id not in self.found_product_ids:
-        #            self.write({"found_product_ids": [(4, line_report.product_id.id)]})
-        #    else:
-        #        if line_report.product_id.id in self.product_ids.ids:
-        #            self.write({"found_product_ids": [(4, line_report.product_id.id)]})
-
-        # rewrite : in found products: all the products that are selected for the report
-        # as product_ids  and the products that have some movment in that preiod ( have date)
-        # found_products = list(
-        #     set(
-        #         self.product_ids.ids + [x.product_id.id for x in lines_report if x.date]
-        #     )
-        # )
-        # self.write({"found_product_ids": found_products})
-
         self.line_product_ids = lines_report.ids
 
     def get_found_products(self):
         found_products = self.product_ids
         product_list = self.get_products_with_move()
         found_products |= self.env["product.product"].browse(product_list)
-        # for line in self.line_product_ids:
-        #     if line.reference not in ["INITIALA", "FINALA"]:
-        #         found_products |= line.product_id
 
         return found_products
 
-    def button_show_card(self):
+    def button_show_sheet(self):
         self.do_compute_product()
         action = self.env.ref(
-            "l10n_ro_stock_report.action_card_stock_report_line"
+            "l10n_ro_stock_report.action_sheet_stock_report_line"
         ).read()[0]
         action["domain"] = [("report_id", "=", self.id)]
         action["context"] = {
@@ -354,20 +323,20 @@ class DailyStockReport(models.TransientModel):
         action["target"] = "main"
         return action
 
-    def button_show_card_pdf(self):
+    def button_show_sheet_pdf(self):
         self.do_compute_product()
         self.print_pdf()
 
     def print_pdf(self):
         if self.one_product:
-            action_report_stock_card = self.env.ref(
-                "l10n_ro_stock_report.action_report_stock_card"
+            action_report_stock_sheet = self.env.ref(
+                "l10n_ro_stock_report.action_report_stock_sheet"
             )
         else:
-            action_report_stock_card = self.env.ref(
-                "l10n_ro_stock_report.action_report_stock_card_all"
+            action_report_stock_sheet = self.env.ref(
+                "l10n_ro_stock_report.action_report_stock_sheet_all"
             )
-        return action_report_stock_card.report_action(self, config=False)
+        return action_report_stock_sheet.report_action(self, config=False)
 
 
 class DailyStockReportLine(models.TransientModel):
