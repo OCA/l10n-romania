@@ -336,7 +336,7 @@ class DailyStockReport(models.TransientModel):
 
     def button_show_sheet_pdf(self):
         self.do_compute_product()
-        self.print_pdf()
+        return self.print_pdf()
 
     def print_pdf(self):
         if self.one_product:
