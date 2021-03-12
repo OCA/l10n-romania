@@ -148,7 +148,7 @@ class TestStockReport(TransactionCase):
         wizard.location_id = self.location
 
         wizard = wizard.save()
-        wizard.button_show_card_pdf()
+        wizard.button_show_sheet_pdf()
         line = self.env["stock.daily.stock.report.line"].search(
             [("report_id", "=", wizard.id)], limit=1
         )
@@ -165,7 +165,7 @@ class TestStockReport(TransactionCase):
         wizard.location_id = self.location
         wizard.product_ids.add(self.product_1)
         wizard = wizard.save()
-        wizard.button_show_card_pdf()
+        wizard.button_show_sheet_pdf()
         line = self.env["stock.daily.stock.report.line"].search(
             [("report_id", "=", wizard.id)], limit=1
         )

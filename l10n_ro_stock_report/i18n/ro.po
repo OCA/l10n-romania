@@ -16,23 +16,23 @@ msgstr ""
 "Plural-Forms: \n"
 
 #. module: l10n_ro_stock_report
-#: model:ir.actions.report,print_report_name:l10n_ro_stock_report.action_report_stock_card
-msgid "Card"
+#: model:ir.actions.report,print_report_name:l10n_ro_stock_report.action_report_stock_sheet
+msgid "Sheet"
 msgstr "Fișă"
 
 
 #. module: l10n_ro_stock_report
-#: model_terms:ir.ui.view,arch_db:l10n_ro_stock_report.report_stock_card_lines_header
+#: model_terms:ir.ui.view,arch_db:l10n_ro_stock_report.report_stock_sheet_lines_header
 msgid "Amount Input"
 msgstr "Valoare intrată"
 
 #. module: l10n_ro_stock_report
-#: model_terms:ir.ui.view,arch_db:l10n_ro_stock_report.report_stock_card_lines_header
+#: model_terms:ir.ui.view,arch_db:l10n_ro_stock_report.report_stock_sheet_lines_header
 msgid "Amount Output"
 msgstr "Valoare iesită"
 
 #. module: l10n_ro_stock_report
-#: model_terms:ir.ui.view,arch_db:l10n_ro_stock_report.view_stock_card_report_form
+#: model_terms:ir.ui.view,arch_db:l10n_ro_stock_report.view_stock_sheet_report_form
 msgid "Cancel"
 msgstr "Renunțare"
 
@@ -57,12 +57,12 @@ msgid "Date"
 msgstr "Data"
 
 #. module: l10n_ro_stock_report
-#: model_terms:ir.ui.view,arch_db:l10n_ro_stock_report.report_stock_card_report_filters
+#: model_terms:ir.ui.view,arch_db:l10n_ro_stock_report.report_stock_sheet_report_filters
 msgid "Date From"
 msgstr "Din data"
 
 #. module: l10n_ro_stock_report
-#: model_terms:ir.ui.view,arch_db:l10n_ro_stock_report.report_stock_card_report_filters
+#: model_terms:ir.ui.view,arch_db:l10n_ro_stock_report.report_stock_sheet_report_filters
 msgid "Date To"
 msgstr "Până la data"
 
@@ -119,7 +119,7 @@ msgstr "Cantitate intrată"
 
 
 #. module: l10n_ro_stock_report
-#: model_terms:ir.ui.view,arch_db:l10n_ro_stock_report.report_stock_card_lines_header
+#: model_terms:ir.ui.view,arch_db:l10n_ro_stock_report.report_stock_sheet_lines_header
 msgid "Input"
 msgstr "Intrare"
 
@@ -134,7 +134,7 @@ msgstr "Valoare intrare"
 
 #. module: l10n_ro_stock_report
 #: model:ir.model.fields,field_description:l10n_ro_stock_report.field_stock_daily_stock_report__location_id
-#: model_terms:ir.ui.view,arch_db:l10n_ro_stock_report.report_stock_card_report_filters
+#: model_terms:ir.ui.view,arch_db:l10n_ro_stock_report.report_stock_sheet_report_filters
 msgid "Location"
 msgstr "Locație"
 
@@ -144,7 +144,7 @@ msgid "Only for products"
 msgstr "Numai pentru produsele"
 
 #. module: l10n_ro_stock_report
-#: model_terms:ir.ui.view,arch_db:l10n_ro_stock_report.report_stock_card_lines_header
+#: model_terms:ir.ui.view,arch_db:l10n_ro_stock_report.report_stock_sheet_lines_header
 msgid "Output"
 msgstr "Ieșire"
 
@@ -171,7 +171,7 @@ msgstr "Produs"
 
 #. module: l10n_ro_stock_report
 #: model:ir.model.fields,field_description:l10n_ro_stock_report.field_stock_daily_stock_report_line__reference
-#: model_terms:ir.ui.view,arch_db:l10n_ro_stock_report.report_stock_card_lines_header
+#: model_terms:ir.ui.view,arch_db:l10n_ro_stock_report.report_stock_sheet_lines_header
 msgid "Reference"
 msgstr "Referință"
 
@@ -181,18 +181,18 @@ msgid "Report"
 msgstr "Raport"
 
 #. module: l10n_ro_stock_report
-#: model_terms:ir.ui.view,arch_db:l10n_ro_stock_report.view_stock_card_report_form
+#: model_terms:ir.ui.view,arch_db:l10n_ro_stock_report.view_stock_sheet_report_form
 msgid "Report Options"
 msgstr "Opțiuni raport"
 
 #. module: l10n_ro_stock_report
-#: model_terms:ir.ui.view,arch_db:l10n_ro_stock_report.view_stock_card_report_form
-msgid "Show Card"
+#: model_terms:ir.ui.view,arch_db:l10n_ro_stock_report.view_stock_sheet_report_form
+msgid "Show Sheet"
 msgstr "Afișare fișă"
 
 #. module: l10n_ro_stock_report
-#: model_terms:ir.ui.view,arch_db:l10n_ro_stock_report.view_stock_card_report_form
-msgid "Show Card Pdf"
+#: model_terms:ir.ui.view,arch_db:l10n_ro_stock_report.view_stock_sheet_report_form
+msgid "Show Sheet Pdf"
 msgstr "Tipărire fișă"
 
 #. module: l10n_ro_stock_report
@@ -201,20 +201,20 @@ msgid "Start Date"
 msgstr "Dată început"
 
 #. module: l10n_ro_stock_report
-#: model:ir.actions.report,name:l10n_ro_stock_report.action_report_stock_card
-msgid "Stock Card"
+#: model:ir.actions.report,name:l10n_ro_stock_report.action_report_stock_sheet
+msgid "Stock Sheet"
 msgstr "Fișă de magazie"
 
 #. module: l10n_ro_stock_report
-#: model_terms:ir.ui.view,arch_db:l10n_ro_stock_report.report_stock_card_report_base
-msgid "Stock Card -"
+#: model_terms:ir.ui.view,arch_db:l10n_ro_stock_report.report_stock_sheet_report_base
+msgid "Stock Sheet -"
 msgstr "Fișă de magazie -"
 
 #. module: l10n_ro_stock_report
-#: model:ir.actions.act_window,name:l10n_ro_stock_report.action_card_stock_report
-#: model:ir.actions.act_window,name:l10n_ro_stock_report.action_card_stock_report_line
-#: model:ir.ui.menu,name:l10n_ro_stock_report.menu_card_stock_report
-msgid "Stock Card Report"
+#: model:ir.actions.act_window,name:l10n_ro_stock_report.action_sheet_stock_report
+#: model:ir.actions.act_window,name:l10n_ro_stock_report.action_sheet_stock_report_line
+#: model:ir.ui.menu,name:l10n_ro_stock_report.menu_sheet_stock_report
+msgid "Stock Sheet Report"
 msgstr "Raport Fișă de magazie"
 
 #. module: l10n_ro_stock_report
@@ -226,7 +226,7 @@ msgid "Valuation"
 msgstr "Evaluare"
 
 #. module: l10n_ro_stock_report
-#: model_terms:ir.ui.view,arch_db:l10n_ro_stock_report.view_stock_card_report_form
+#: model_terms:ir.ui.view,arch_db:l10n_ro_stock_report.view_stock_sheet_report_form
 msgid "or"
 msgstr "or"
 
