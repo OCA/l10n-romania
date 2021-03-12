@@ -314,5 +314,4 @@
         <field name="print_report_name">(object._get_report_base_filename())</field>
     </record>
 
-
 </odoo>

@@ -36,12 +36,23 @@ class DailyStockReport(models.TransientModel):
 
     products_with_move = fields.Boolean(default=True)
 
+    # found_product_ids = fields.Many2many(
+    #     "product.product",
+    #     "stock_daily_found_products",
+    #     "product_id",
+    #     "report_id",
+    #     help="this are products that have moves in period, used not to show products that do not have moves ",
+    # )
+
     date_range_id = fields.Many2one("date.range", string="Date range")
     date_from = fields.Date("Start Date", required=True, default=fields.Date.today)
     date_to = fields.Date("End Date", required=True, default=fields.Date.today)
     company_id = fields.Many2one(
         "res.company", string="Company", default=lambda self: self.env.company
     )
+    # mode = fields.Selection(
+    #     [("product", "Product")], default="product", string="Detail mode", required=1
+    # )
 
     one_product = fields.Boolean("One product per page")
     line_product_ids = fields.Many2many(comodel_name="stock.daily.stock.report.line")
@@ -73,14 +84,14 @@ class DailyStockReport(models.TransientModel):
 
     def get_products_with_move(self):
         query = """
-                                SELECT product_id from stock_move as sm
-                                 WHERE
-                                  sm.company_id = %(company)s AND
-                                    (sm.location_id = %(location)s OR sm.location_dest_id = %(location)s) AND
-                                    date_trunc('day',sm.date) >= %(date_from)s  AND
-                                    date_trunc('day',sm.date) <= %(date_to)s
-                                GROUP BY  product_id
-                        """
+                    SELECT product_id
+                    FROM stock_move as sm
+                    WHERE sm.company_id = %(company)s AND
+                          (sm.location_id = %(location)s OR sm.location_dest_id = %(location)s) AND
+                          date_trunc('day',sm.date) >= %(date_from)s  AND
+                          date_trunc('day',sm.date) <= %(date_to)s
+                    GROUP BY  product_id
+                    """
         params = {
             "date_from": fields.Date.to_string(self.date_from),
             "date_to": fields.Date.to_string(self.date_to),
@@ -238,7 +249,7 @@ class DailyStockReport(models.TransientModel):
                 "partner_id": row[11],
             }
             stock_init += [values]
-        # The records from stock_init are converted for in  stock sheet. That are, a record  with the stock
+        # The records from stock_init are converted for in stock sheet. That are, a record  with the stock
         # and the initial value, and other with the stock and the final value.
         # The rest of the records are those with stock movements from the selected period.
 
@@ -305,9 +316,6 @@ class DailyStockReport(models.TransientModel):
         found_products = self.product_ids
         product_list = self.get_products_with_move()
         found_products |= self.env["product.product"].browse(product_list)
-        # for line in self.line_product_ids:
-        #     if line.reference not in ["INITIALA", "FINALA"]:
-        #         found_products |= line.product_id
 
         return found_products
 
