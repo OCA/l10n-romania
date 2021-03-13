@@ -12,7 +12,7 @@ from odoo.addons.account.tests.common import AccountTestInvoicingCommon
 
 
 @tagged("post_install", "-at_install")
-class TestCurrencyReevaluation(AccountTestInvoicingCommon):
+class TestPeriodClosing(AccountTestInvoicingCommon):
     @classmethod
     def setUpClass(cls, chart_template_ref=None):
         super().setUpClass(chart_template_ref=chart_template_ref)
@@ -202,7 +202,99 @@ class TestCurrencyReevaluation(AccountTestInvoicingCommon):
         )
         cls.test_move.action_post()
 
-    def test_period_closing(self):
+    def test_period_closing_onchange_type(self):
+        inc_accounts = exp_accounts = self.env["account.account"]
+        acc_type = self.env.ref("account.data_account_type_expenses").id
+        if acc_type:
+            exp_accounts = self.env["account.account"].search(
+                [
+                    ("user_type_id", "=", acc_type),
+                    ("company_id", "=", self.company.id),
+                ]
+            )
+        acc_type = self.env.ref("account.data_account_type_revenue").id
+        if acc_type:
+            inc_accounts = self.env["account.account"].search(
+                [
+                    ("user_type_id", "=", acc_type),
+                    ("company_id", "=", self.company.id),
+                ]
+            )
+        self.exp_closing._onchange_type()
+        self.assertEqual(self.exp_closing.account_ids, exp_accounts)
+        self.inc_closing._onchange_type()
+        self.assertEqual(self.inc_closing.account_ids, inc_accounts)
+
+    def test_period_closing_get_accounts(self):
+        expected_exp_account = [
+            {
+                "credit": 0.0,
+                "debit": 100.0,
+                "balance": 100.0,
+                "id": self.company_data["default_account_expense"].id,
+                "code": "600000",
+                "name": "Expenses",
+            }
+        ]
+        expected_inc_account = [
+            {
+                "credit": 1000.0,
+                "debit": 0.0,
+                "balance": -1000.0,
+                "id": self.company_data["default_account_revenue"].id,
+                "code": "400000",
+                "name": "Product Sales",
+            }
+        ]
+        expected_vat_account = [
+            {
+                "credit": 150.0,
+                "debit": 0.0,
+                "balance": -150.0,
+                "id": self.company.account_sale_tax_id.mapped(
+                    "invoice_repartition_line_ids.account_id"
+                ).id,
+                "code": "251000",
+                "name": "Tax Received",
+            },
+            {
+                "credit": 0.0,
+                "debit": 15.0,
+                "balance": 15.0,
+                "id": self.company.account_purchase_tax_id.mapped(
+                    "invoice_repartition_line_ids.account_id"
+                ).id,
+                "code": "131000",
+                "name": "Tax Paid",
+            },
+        ]
+        self.exp_closing._onchange_type()
+        self.inc_closing._onchange_type()
+        date_from = fields.Date.from_string(time.strftime("%Y-%m") + "-01")
+        date_to = fields.Date.from_string(time.strftime("%Y-%m") + "-28")
+        ctx = self.env.context.copy()
+        ctx.update(
+            {
+                "strict_range": True,
+                "state": "posted",
+                "date_from": date_from,
+                "date_to": date_to,
+            }
+        )
+        exp_account_res = self.exp_closing.with_context(ctx)._get_accounts(
+            self.exp_closing.account_ids, "not_zero"
+        )
+        inc_account_res = self.inc_closing.with_context(ctx)._get_accounts(
+            self.inc_closing.account_ids, "not_zero"
+        )
+        vat_account_res = self.vat_closing.with_context(ctx)._get_accounts(
+            self.vat_closing.account_ids, "all"
+        )
+        self.assertEqual(expected_exp_account, exp_account_res)
+        self.assertEqual(expected_inc_account, inc_account_res)
+        self.assertEqual(expected_vat_account, vat_account_res)
+
+    def test_period_closing_move_ids(self):
         self.exp_closing._onchange_type()
         self.inc_closing._onchange_type()
         date_from = time.strftime("%Y-%m") + "-01"
@@ -212,7 +304,7 @@ class TestCurrencyReevaluation(AccountTestInvoicingCommon):
         self.inc_closing.close(date_from, date_to)
         self.assertEqual(len(self.exp_closing.move_ids), 1)
 
-    def test_period_closing_wizard(self):
+    def test_period_closing_wizard_date_range(self):
         self.exp_closing._onchange_type()
         self.inc_closing._onchange_type()
         date_range = self.env["date.range"]
@@ -242,11 +334,14 @@ class TestCurrencyReevaluation(AccountTestInvoicingCommon):
         self.assertEqual(wizard.date_to.strftime("%Y-%m-%d"), time.strftime("%Y-%m-28"))
         wizard.do_close()
 
-    def test_wizard_defaults(self):
+    def test_period_closing_wizard_defaults(self):
         today = fields.Date.from_string(fields.Date.today())
         date_from = today + relativedelta(day=1, months=-1)
         date_to = today + relativedelta(day=1, days=-1)
         wizard = self.wiz_close_model.create({"closing_id": self.vat_closing.id})
+        self.assertEqual(wizard._get_default_date_from(), date_from)
+        self.assertEqual(wizard._get_default_date_to(), date_to)
+
         self.assertEqual(
             wizard.date_from.strftime("%Y-%m-%d"), fields.Date.to_string(date_from)
         )
