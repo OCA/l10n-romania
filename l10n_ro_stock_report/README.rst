@@ -25,11 +25,7 @@ Romania - Stock Report
 
 |badge1| |badge2| |badge3| |badge4| |badge5| 
 
-This module adds stock reports:
- - Daily stock report
- - Storage Sheet
-
-Some of the modules will load data at install.
+This module adds a stock report according to Romanian requirements.
 
 **Table of contents**
 
@@ -41,7 +37,7 @@ Installation
 
 To install this module, you need to:
 
-* clone the branch 13.0 of the repository https://github.com/OCA/l10n-romania
+* clone the branch 14.0 of the repository https://github.com/OCA/l10n-romania
 * add the path to this repository in your configuration (addons-path)
 * update the module list
 * search for "Romania - Stock Report" in your addons
@@ -64,12 +60,20 @@ Authors
 ~~~~~~~
 
 * Terrabit
+* NextERP Romania
 
 Contributors
 ~~~~~~~~~~~~
 
-* Dorin Hongu <dhongu@gmail.com>
+* `Terrabit <https://www.terrabit.ro>`_:
 
+  * Dorin Hongu <dhongu@gmail.com>
+
+* `NextERP Romania <https://www.nexterp.ro>`_:
+
+  * Fekete Mihai <feketemihai@nexterp.ro>
+  * Alexandru Teodor <teodoralexandru@nexterp.ro>
+  * Musat Natanaela <musatnatanaela@nexterp.ro>
 
 Do not contact contributors directly about support or help with technical issues.
 
@@ -85,6 +89,17 @@ This module is maintained by the OCA.
 OCA, or the Odoo Community Association, is a nonprofit organization whose
 mission is to support the collaborative development of Odoo features and
 promote its widespread use.
+
+.. |maintainer-dhongu| image:: https://github.com/dhongu.png?size=40px
+    :target: https://github.com/dhongu
+    :alt: dhongu
+.. |maintainer-feketemihai| image:: https://github.com/feketemihai.png?size=40px
+    :target: https://github.com/feketemihai
+    :alt: feketemihai
+
+Current `maintainers <https://odoo-community.org/page/maintainer-role>`__:
+
+|maintainer-dhongu| |maintainer-feketemihai| 
 
 This module is part of the `OCA/l10n-romania <https://github.com/OCA/l10n-romania/tree/13.0/l10n_ro_stock_report>`_ project on GitHub.
 

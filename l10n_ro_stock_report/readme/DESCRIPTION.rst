@@ -1,5 +1,1 @@
-This module adds stock reports:
- - Daily stock report
- - Storage Sheet
-
-Some of the modules will load data at install.
+This module adds a stock report according to Romanian requirements.

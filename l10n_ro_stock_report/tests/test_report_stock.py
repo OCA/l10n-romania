@@ -1,7 +1,6 @@
 # Copyright (C) 2020 Terrabit
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html)
 
-
 import logging
 import time
 
@@ -11,24 +10,32 @@ from odoo.tests.common import TransactionCase
 _logger = logging.getLogger(__name__)
 
 
-class TestStorageSheet(TransactionCase):
+class TestStockReport(TransactionCase):
     def setUp(self):
-        super(TestStorageSheet, self).setUp()
-
+        super(TestStockReport, self).setUp()
+        self.env.company.write(
+            {
+                "romanian_accounting": True,
+                "anglo_saxon_accounting": True,
+                "stock_acc_price_diff": True,
+            }
+        )
         self.account_difference = self.env["account.account"].search(
-            [("code", "=", "348000")]
+            [("code", "=", "348000"), ("company_id", "=", self.env.company.id)]
         )
         self.account_expense = self.env["account.account"].search(
-            [("code", "=", "607000")]
+            [("code", "=", "607000"), ("company_id", "=", self.env.company.id)]
         )
         self.account_income = self.env["account.account"].search(
-            [("code", "=", "707000")]
+            [("code", "=", "707000"), ("company_id", "=", self.env.company.id)]
         )
         self.account_valuation = self.env["account.account"].search(
-            [("code", "=", "371000")]
+            [("code", "=", "371000"), ("company_id", "=", self.env.company.id)]
         )
 
-        stock_journal = self.env["account.journal"].search([("code", "=", "STJ")])
+        stock_journal = self.env["account.journal"].search(
+            [("code", "=", "STJ"), ("company_id", "=", self.env.company.id)]
+        )
         if not stock_journal:
             stock_journal = self.env["account.journal"].create(
                 {"name": "Stock Journal", "code": "STJ", "type": "general"}
@@ -43,8 +50,8 @@ class TestStorageSheet(TransactionCase):
             property_diff: self.account_difference.id,
             "property_account_income_categ_id": self.account_income.id,
             "property_account_expense_categ_id": self.account_expense.id,
-            "property_stock_account_input_categ_id": self.account_expense.id,
-            "property_stock_account_output_categ_id": self.account_income.id,
+            "property_stock_account_input_categ_id": self.account_valuation.id,
+            "property_stock_account_output_categ_id": self.account_valuation.id,
             "property_stock_valuation_account_id": self.account_valuation.id,
             "property_stock_journal": stock_journal.id,
         }
@@ -130,50 +137,17 @@ class TestStorageSheet(TransactionCase):
         invoice.post()
         _logger.info("Factura introdusa")
 
-    def test_report_storage_sheet(self):
+    def test_report_storeage_sheet(self):
         self.create_po()
         self.create_invoice()
 
-        wizard = Form(self.env["stock.storage.sheet.report"])
-        wizard.product_id = self.product_1
-        wizard.location_id = self.location
-        wizard.date_range_id = self.dt
-        wizard = wizard.save()
-        wizard.do_compute()
-        wizard.button_show()
-        wizard.button_print()
-
-        line = self.env["stock.storage.sheet.report.line"].search(
-            [("report_id", "=", wizard.id)], limit=1
-        )
-        line.action_valuation_at_date_details()
-
-    def test_report_daily_stock(self):
-        self.create_po()
-        self.create_invoice()
-
-        wizard = Form(
-            self.env["stock.daily.stock.report"].with_context(default_mode="product")
-        )
+        wizard = Form(self.env["stock.storage.sheet"])
 
         wizard.location_id = self.location
-        wizard.mode = "product"
-        wizard = wizard.save()
-        wizard.button_show()
-        wizard.button_print()
-        line = self.env["stock.daily.stock.report.line"].search(
-            [("report_id", "=", wizard.id)], limit=1
-        )
-        line.action_valuation_at_date_details()
 
-        wizard = Form(self.env["stock.daily.stock.report"])
-        wizard.date_range_id = self.dt
-        wizard.location_id = self.location
-        wizard.mode = "ref"
         wizard = wizard.save()
-        wizard.button_show()
-        wizard.button_print()
-        line = self.env["stock.daily.stock.report.ref"].search(
+        wizard.button_show_sheet_pdf()
+        line = self.env["stock.storage.sheet.line"].search(
             [("report_id", "=", wizard.id)], limit=1
         )
-        line.action_valuation_at_date_details()
+        self.assertTrue(line)

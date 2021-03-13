@@ -374,7 +374,8 @@
                                     groups="base.group_multi_company"
                                 />
                                 <div class="text-muted">
-                                    Registration of accounting move according to Romanian legislation
+                                    Registration of accounting move according to
+                                    Romanian legislation
                                 </div>
                             </div>
                             <div class="o_setting_left_pane">
@@ -389,7 +390,8 @@
                                     aria-label="Values set here are company-specific."
                                 />
                                 <div class="text-muted">
-                                    Update stock valuation in case of currency rate difference between reception and bill
+                                    Update stock valuation in case of currency rate
+                                    difference between reception and bill
                                 </div>
                             </div>
                         </div>
@@ -402,9 +404,8 @@
                             </div>
                             <div class="o_setting_right_pane">
                                 <label for="module_l10n_ro_stock" />
-                                <div
-                                    class="text-muted"
-                                >Adds location in_custody, usage_giving,consume
+                                <div class="text-muted">
+                                    Adds location in_custody, usage_giving,consume
                                     *merchandise_type:store,warehouse
                                 </div>
                             </div>
@@ -575,6 +576,7 @@
                                 </div>
                                 <div class="content-group">
                                     <div class="mt16">
+
                                     </div>
                                 </div>
                             </div>
