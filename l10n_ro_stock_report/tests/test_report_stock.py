@@ -137,36 +137,17 @@ class TestStockReport(TransactionCase):
         invoice.post()
         _logger.info("Factura introdusa")
 
-    def test_report_daily_stock(self):
+    def test_report_storeage_sheet(self):
         self.create_po()
         self.create_invoice()
 
-        wizard = Form(
-            self.env["stock.daily.stock.report"].with_context(default_mode="product")
-        )
+        wizard = Form(self.env["stock.storage.sheet"])
 
         wizard.location_id = self.location
 
         wizard = wizard.save()
         wizard.button_show_sheet_pdf()
-        line = self.env["stock.daily.stock.report.line"].search(
-            [("report_id", "=", wizard.id)], limit=1
-        )
-        self.assertTrue(line)
-
-    def test_report_daily_stock_product(self):
-        self.create_po()
-        self.create_invoice()
-
-        wizard = Form(
-            self.env["stock.daily.stock.report"].with_context(default_mode="product")
-        )
-
-        wizard.location_id = self.location
-        wizard.product_ids.add(self.product_1)
-        wizard = wizard.save()
-        wizard.button_show_sheet_pdf()
-        line = self.env["stock.daily.stock.report.line"].search(
+        line = self.env["stock.storage.sheet.line"].search(
             [("report_id", "=", wizard.id)], limit=1
         )
         self.assertTrue(line)

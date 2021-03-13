@@ -6,6 +6,6 @@
 
   * Fekete Mihai <feketemihai@nexterp.ro>
   * Alexandru Teodor <teodoralexandru@nexterp.ro>
-  * Musat Natanael <musatnatanaela@nexterp.ro>
+  * Musat Natanaela <musatnatanaela@nexterp.ro>
 
 Do not contact contributors directly about support or help with technical issues.

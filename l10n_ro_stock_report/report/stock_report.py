@@ -11,9 +11,9 @@ from odoo.exceptions import UserError
 _logger = logging.getLogger(__name__)
 
 
-class DailyStockReport(models.TransientModel):
-    _name = "stock.daily.stock.report"
-    _description = "DailyStockReport"
+class StorageSheet(models.TransientModel):
+    _name = "stock.storage.sheet"
+    _description = "StorageSheet"
 
     # Filters fields, used for data computation
 
@@ -25,9 +25,6 @@ class DailyStockReport(models.TransientModel):
 
     product_ids = fields.Many2many(
         "product.product",
-        "stock_daily_select_products",
-        "product_id",
-        "report_id",
         string="Only for products",
         domain=[("type", "=", "product")],
         help="will show report only for this products.\
@@ -36,26 +33,15 @@ class DailyStockReport(models.TransientModel):
 
     products_with_move = fields.Boolean(default=True)
 
-    # found_product_ids = fields.Many2many(
-    #     "product.product",
-    #     "stock_daily_found_products",
-    #     "product_id",
-    #     "report_id",
-    #     help="this are products that have moves in period, used not to show products that do not have moves ",
-    # )
-
     date_range_id = fields.Many2one("date.range", string="Date range")
     date_from = fields.Date("Start Date", required=True, default=fields.Date.today)
     date_to = fields.Date("End Date", required=True, default=fields.Date.today)
     company_id = fields.Many2one(
         "res.company", string="Company", default=lambda self: self.env.company
     )
-    # mode = fields.Selection(
-    #     [("product", "Product")], default="product", string="Detail mode", required=1
-    # )
 
     one_product = fields.Boolean("One product per page")
-    line_product_ids = fields.Many2many(comodel_name="stock.daily.stock.report.line")
+    line_product_ids = fields.Many2many(comodel_name="stock.storage.sheet.line")
 
     def _get_report_base_filename(self):
         self.ensure_one()
@@ -63,7 +49,7 @@ class DailyStockReport(models.TransientModel):
 
     @api.model
     def default_get(self, fields_list):
-        res = super(DailyStockReport, self).default_get(fields_list)
+        res = super(StorageSheet, self).default_get(fields_list)
 
         today = fields.Date.context_today(self)
         today = fields.Date.from_string(today)
@@ -120,7 +106,7 @@ class DailyStockReport(models.TransientModel):
 
         self.env["account.move.line"].check_access_rights("read")
 
-        lines = self.env["stock.daily.stock.report.line"].search(
+        lines = self.env["stock.storage.sheet.line"].search(
             [("report_id", "=", self.id)]
         )
         lines.unlink()
@@ -322,7 +308,7 @@ class DailyStockReport(models.TransientModel):
                 }
             )
 
-        line_model = "stock.daily.stock.report.line"
+        line_model = "stock.storage.sheet.line"
 
         lines_report = self.env[line_model].create(sold_stock_init)
 
@@ -362,7 +348,7 @@ class DailyStockReport(models.TransientModel):
         action["context"] = {
             "active_id": self.id,
             "general_buttons": self.env[
-                "stock.daily.stock.report.line"
+                "stock.storage.sheet.line"
             ].get_general_buttons(),
         }
         action["target"] = "main"
@@ -374,23 +360,23 @@ class DailyStockReport(models.TransientModel):
 
     def print_pdf(self):
         if self.one_product:
-            action_report_stock_sheet = self.env.ref(
-                "l10n_ro_stock_report.action_report_stock_sheet"
+            action_report_storage_sheet = self.env.ref(
+                "l10n_ro_stock_report.action_report_storage_sheet"
             )
         else:
-            action_report_stock_sheet = self.env.ref(
-                "l10n_ro_stock_report.action_report_stock_sheet_all"
+            action_report_storage_sheet = self.env.ref(
+                "l10n_ro_stock_report.action_report_storage_sheet_all"
             )
-        return action_report_stock_sheet.report_action(self, config=False)
+        return action_report_storage_sheet.report_action(self, config=False)
 
 
-class DailyStockReportLine(models.TransientModel):
-    _name = "stock.daily.stock.report.line"
-    _description = "DailyStockReportLine"
+class StorageSheetLine(models.TransientModel):
+    _name = "stock.storage.sheet.line"
+    _description = "StorageSheetLine"
     _order = "report_id, product_id, date"
     _rec_name = "product_id"
 
-    report_id = fields.Many2one("stock.daily.stock.report")
+    report_id = fields.Many2one("stock.storage.sheet")
     product_id = fields.Many2one("product.product", string="Product")
     amount_initial = fields.Monetary(
         currency_field="currency_id", string="Initial Amount"
@@ -425,7 +411,7 @@ class DailyStockReportLine(models.TransientModel):
         return [
             {
                 "action": "print_pdf",
-                "name": "Print Preview",
-                "model": "stock.daily.stock.report",
+                "name": _("Print Preview"),
+                "model": "stock.storage.sheet",
             }
         ]
