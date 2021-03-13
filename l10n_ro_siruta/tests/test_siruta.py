@@ -40,8 +40,8 @@ class TestSiruta(TestSirutaBase):
         self.env["res.city"].name_search("bc")
 
     def test_onchange_city(self):
-        """ Check onchange city_id on partner and check if all the fields
-            from main partner are changed."""
+        """Check onchange city_id on partner and check if all the fields
+        from main partner are changed."""
 
         mainpartner_form = Form(self.mainpartner)
         # User change city of main partner
@@ -63,8 +63,8 @@ class TestSiruta(TestSirutaBase):
         self.assertEqual(self.mainpartner.country_id.id, self.city1.country_id.id)
 
     def test_write_city(self):
-        """ Check write city_id on partner and check if all the fields
-            from contacts are changed."""
+        """Check write city_id on partner and check if all the fields
+        from contacts are changed."""
         self.partner1.write({"city_id": self.city1.id})
         self.partner1._onchange_city_id()
 
