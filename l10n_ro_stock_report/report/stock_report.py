@@ -190,7 +190,7 @@ class DailyStockReport(models.TransientModel):
                     sum(svl3.quantity), 0) as quantity_final,
             date_trunc('day',sm.date) as date,
             sm.reference as reference,
-            sm.partner_id
+            sp.partner_id
         from stock_move as sm
             left join (select * from stock_valuation_layer
                         where valued_type !='internal_transfer' or valued_type is Null)
@@ -208,6 +208,7 @@ class DailyStockReport(models.TransientModel):
                         where valued_type ='internal_transfer' and quantity>0) as svl3
                         on svl3.stock_move_id = sm.id and
                         sm.location_dest_id=%(location)s
+            left join stock_picking as sp on sm.picking_id = sp.id
         where
             sm.state = 'done' AND
             sm.company_id = %(company)s AND
@@ -215,7 +216,7 @@ class DailyStockReport(models.TransientModel):
             date_trunc('day',sm.date) >= %(date_from)s  AND
             date_trunc('day',sm.date) <= %(date_to)s  AND
             (sm.location_id = %(location)s OR sm.location_dest_id = %(location)s)
-        GROUP BY sm.product_id, date_trunc('day',sm.date),  sm.reference, sm.partner_id
+        GROUP BY sm.product_id, date_trunc('day',sm.date),  sm.reference, sp.partner_id
         order by sm.product_id, date_trunc('day',sm.date))
     ORDER BY product_id, date
                 """
@@ -312,6 +313,18 @@ class DailyStockReport(models.TransientModel):
 
         self.line_product_ids = lines_report.ids
 
+        if self.location_id.property_stock_valuation_account_id:
+            self.line_product_ids.write(
+                {"account_id": self.location_id.property_stock_valuation_account_id.id}
+            )
+        else:
+            for line in self.line_product_ids:
+                line.write(
+                    {
+                        "account_id": line.product_id.categ_id.property_stock_valuation_account_id.id
+                    }
+                )
+
     def get_found_products(self):
         found_products = self.product_ids
         product_list = self.get_products_with_move()
@@ -324,6 +337,12 @@ class DailyStockReport(models.TransientModel):
         action = self.env.ref(
             "l10n_ro_stock_report.action_sheet_stock_report_line"
         ).read()[0]
+        action["name"] = "{} {} ({}-{})".format(
+            action["name"],
+            self.location_id.name,
+            self.date_from,
+            self.date_to,
+        )
         action["domain"] = [("report_id", "=", self.id)]
         action["context"] = {
             "active_id": self.id,
@@ -354,6 +373,7 @@ class DailyStockReportLine(models.TransientModel):
     _name = "stock.daily.stock.report.line"
     _description = "DailyStockReportLine"
     _order = "report_id, product_id, date"
+    _rec_name = "product_id"
 
     report_id = fields.Many2one("stock.daily.stock.report")
     product_id = fields.Many2one("product.product", string="Product")
@@ -383,6 +403,8 @@ class DailyStockReportLine(models.TransientModel):
         string="Currency",
         default=lambda self: self.env.company.currency_id,
     )
+    categ_id = fields.Many2one("product.category", related="product_id.categ_id")
+    account_id = fields.Many2one("account.account")
 
     def get_general_buttons(self):
         return [

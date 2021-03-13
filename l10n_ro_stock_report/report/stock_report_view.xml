@@ -52,15 +52,22 @@
                 <field name="product_id" />
                 <field name="date" />
                 <field name="reference" />
+                <field name="account_id" optional="hide" />
+                <field name="partner_id" optional="hide" />
+                <field name="categ_id" optional="hide" />
+
                 <field name="quantity_initial" />
                 <field name="amount_initial" />
                 <field name="quantity_in" />
                 <field name="amount_in" />
                 <field name="quantity_out" />
                 <field name="amount_out" />
-                <field name="quantity_final" />
-                <field name="amount_final" />
-                <field name="partner_id" />
+                <field
+                    name="quantity_final"
+                    decoration-danger="quantity_final &lt; 0"
+                />
+                <field name="amount_final" decoration-danger="amount_final &lt; 0" />
+
             </tree>
         </field>
     </record>
@@ -104,6 +111,26 @@
         </field>
     </record>
 
+
+    <record id="view_sheet_stock_report_line_pivot" model="ir.ui.view">
+        <field name="name">stock.sheet.stock.report.line.pivot</field>
+        <field name="model">stock.daily.stock.report.line</field>
+        <field name="arch" type="xml">
+            <pivot string="Stock Analysis" disable_linking="True" sample="1">
+                <field name="product_id" type="row" />
+                <field name="quantity_initial" type="measure" />
+                <field name="amount_initial" type="measure" />
+                <field name="quantity_in" type="measure" />
+                <field name="amount_in" type="measure" />
+                <field name="quantity_out" type="measure" />
+                <field name="amount_out" type="measure" />
+                <field name="quantity_final" type="measure" />
+                <field name="amount_final" type="measure" />
+            </pivot>
+        </field>
+    </record>
+
+
     <record id="view_sheet_stock_report_line_search" model="ir.ui.view">
         <field name="name">stock.sheet.stock.report.line</field>
         <field name="model">stock.daily.stock.report.line</field>
@@ -143,7 +170,7 @@
     <record id="action_sheet_stock_report_line" model="ir.actions.act_window">
         <field name="name">Stock Sheet Report</field>
         <field name="res_model">stock.daily.stock.report.line</field>
-        <field name="view_mode">tree,form</field>
+        <field name="view_mode">tree,form,pivot</field>
         <field name="domain">[('report_id','=',active_id)]</field>
         <field name="context">{'general_buttons':'get_general_buttons'}</field>
         <field
