@@ -5,8 +5,8 @@ from odoo import models
 
 
 class AbstractReportXslx(models.AbstractModel):
-    _name = 'report.romania.trial.balance.abstract_report_xlsx'
-    _inherit = 'report.report_xlsx.abstract'
+    _name = "report.romania.trial.balance.abstract_report_xlsx"
+    _inherit = "report.report_xlsx.abstract"
 
     def __init__(self, pool, cr):
         # main sheet which will contains report
@@ -19,7 +19,7 @@ class AbstractReportXslx(models.AbstractModel):
         self.row_pos = None
 
     def get_workbook_options(self):
-        return {'constant_memory': True}
+        return {"constant_memory": True}
 
     def generate_xlsx_report(self, workbook, data, objects):
         report = objects
@@ -45,7 +45,7 @@ class AbstractReportXslx(models.AbstractModel):
         self._generate_report_content(workbook, report)
 
     def _define_formats(self, workbook):
-        """ Add cell formats to current workbook.
+        """Add cell formats to current workbook.
         Those formats can be used on all cell.
 
         Available formats are :
@@ -59,43 +59,37 @@ class AbstractReportXslx(models.AbstractModel):
          * format_amount
          * format_percent_bold_italic
         """
-        self.format_bold = workbook.add_format({'bold': True})
-        self.format_right = workbook.add_format({'align': 'right'})
+        self.format_bold = workbook.add_format({"bold": True})
+        self.format_right = workbook.add_format({"align": "right"})
         self.format_right_bold_italic = workbook.add_format(
-            {'align': 'right', 'bold': True, 'italic': True}
+            {"align": "right", "bold": True, "italic": True}
         )
         self.format_header_left = workbook.add_format(
-            {'bold': True,
-             'border': True,
-             'bg_color': '#FFFFCC'})
-        self.format_header_center = workbook.add_format(
-            {'bold': True,
-             'align': 'center',
-             'border': True,
-             'bg_color': '#FFFFCC'})
-        self.format_header_right = workbook.add_format(
-            {'bold': True,
-             'align': 'right',
-             'border': True,
-             'bg_color': '#FFFFCC'})
-        self.format_header_amount = workbook.add_format(
-            {'bold': True,
-             'border': True,
-             'bg_color': '#FFFFCC'})
-        self.format_header_amount.set_num_format('#,##0.00')
-        self.format_amount = workbook.add_format()
-        self.format_amount.set_num_format('#,##0.00')
-        self.format_percent_bold_italic = workbook.add_format(
-            {'bold': True, 'italic': True}
+            {"bold": True, "border": True, "bg_color": "#FFFFCC"}
         )
-        self.format_percent_bold_italic.set_num_format('#,##0.00%')
+        self.format_header_center = workbook.add_format(
+            {"bold": True, "align": "center", "border": True, "bg_color": "#FFFFCC"}
+        )
+        self.format_header_right = workbook.add_format(
+            {"bold": True, "align": "right", "border": True, "bg_color": "#FFFFCC"}
+        )
+        self.format_header_amount = workbook.add_format(
+            {"bold": True, "border": True, "bg_color": "#FFFFCC"}
+        )
+        self.format_header_amount.set_num_format("#,##0.00")
+        self.format_amount = workbook.add_format()
+        self.format_amount.set_num_format("#,##0.00")
+        self.format_percent_bold_italic = workbook.add_format(
+            {"bold": True, "italic": True}
+        )
+        self.format_percent_bold_italic.set_num_format("#,##0.00%")
 
     def _set_column_width(self):
         """Set width for all defined columns.
         Columns are defined with `_get_report_columns` method.
         """
         for position, column in self.columns.items():
-            self.sheet.set_column(position, position, column['width'])
+            self.sheet.set_column(position, position, column["width"])
 
     def _write_report_company_data(self, workbook, company_name):
         """Write report title on current line using all defined columns width.
@@ -103,8 +97,12 @@ class AbstractReportXslx(models.AbstractModel):
         """
         for line in company_name.splitlines():
             self.sheet.merge_range(
-                self.row_pos, 0, self.row_pos, len(self.columns) - 1,
-                line, workbook.add_format({'bold': True})
+                self.row_pos,
+                0,
+                self.row_pos,
+                len(self.columns) - 1,
+                line,
+                workbook.add_format({"bold": True}),
             )
             self.row_pos += 1
         self.row_pos += 1
@@ -114,8 +112,12 @@ class AbstractReportXslx(models.AbstractModel):
         Columns are defined with `_get_report_columns` method.
         """
         self.sheet.merge_range(
-            self.row_pos, 0, self.row_pos, len(self.columns) - 1,
-            title, workbook.add_format({'bold': True})
+            self.row_pos,
+            0,
+            self.row_pos,
+            len(self.columns) - 1,
+            title,
+            workbook.add_format({"bold": True}),
         )
         self.row_pos += 3
 
@@ -132,16 +134,22 @@ class AbstractReportXslx(models.AbstractModel):
         col_value = col_name + col_count_filter_name + 1
         for title, value in filters:
             self.sheet.merge_range(
-                self.row_pos, col_name,
-                self.row_pos, col_name + col_count_filter_name - 1,
-                title, workbook.add_format(
-                    {'bold': True,
-                     'border': True,
-                     'bg_color': '#FFFFCC'}))
+                self.row_pos,
+                col_name,
+                self.row_pos,
+                col_name + col_count_filter_name - 1,
+                title,
+                workbook.add_format(
+                    {"bold": True, "border": True, "bg_color": "#FFFFCC"}
+                ),
+            )
             self.sheet.merge_range(
-                self.row_pos, col_value,
-                self.row_pos, col_value + col_count_filter_value - 1,
-                value)
+                self.row_pos,
+                col_value,
+                self.row_pos,
+                col_value + col_count_filter_value - 1,
+                value,
+            )
             self.row_pos += 1
         self.row_pos += 2
 
@@ -150,8 +158,12 @@ class AbstractReportXslx(models.AbstractModel):
         Columns are defined with `_get_report_columns` method.
         """
         self.sheet.merge_range(
-            self.row_pos, 0, self.row_pos, len(self.columns) - 1,
-            title, workbook.add_format({'bold': True})
+            self.row_pos,
+            0,
+            self.row_pos,
+            len(self.columns) - 1,
+            title,
+            workbook.add_format({"bold": True}),
         )
         self.row_pos += 1
 
@@ -160,12 +172,19 @@ class AbstractReportXslx(models.AbstractModel):
         Columns are defined with `_get_report_columns` method.
         """
         for col_pos, column in self.columns.items():
-            self.sheet.write(self.row_pos, col_pos, column['header'],
-                             workbook.add_format(
-                                 {'bold': True,
-                                  'align': 'center',
-                                  'border': True,
-                                  'bg_color': '#FFFFCC'}))
+            self.sheet.write(
+                self.row_pos,
+                col_pos,
+                column["header"],
+                workbook.add_format(
+                    {
+                        "bold": True,
+                        "align": "center",
+                        "border": True,
+                        "bg_color": "#FFFFCC",
+                    }
+                ),
+            )
         self.row_pos += 1
 
     def write_line(self, workbook, line_object, formats):
@@ -173,15 +192,15 @@ class AbstractReportXslx(models.AbstractModel):
         Columns are defined with `_get_report_columns` method.
         """
         for col_pos, column in self.columns.items():
-            value = getattr(line_object, column['field'])
-            cell_type = column.get('type', 'string')
-            if cell_type == 'string':
-                self.sheet.write_string(self.row_pos, col_pos, value or '',
-                                        workbook.add_format(formats))
-            elif cell_type == 'amount':
+            value = getattr(line_object, column["field"])
+            cell_type = column.get("type", "string")
+            if cell_type == "string":
+                self.sheet.write_string(
+                    self.row_pos, col_pos, value or "", workbook.add_format(formats)
+                )
+            elif cell_type == "amount":
                 self.sheet.write_number(
-                    self.row_pos, col_pos, float(value),
-                    workbook.add_format(formats)
+                    self.row_pos, col_pos, float(value), workbook.add_format(formats)
                 )
         self.row_pos += 1
 
@@ -190,64 +209,64 @@ class AbstractReportXslx(models.AbstractModel):
 
     def _get_report_company_name(self, report):
         """
-            Allow to define the report company data.
-            Company data will be printed in columns A1.
+        Allow to define the report company data.
+        Company data will be printed in columns A1.
 
-            :return: the company data
+        :return: the company data
         """
         raise NotImplementedError()
 
     def _get_report_name(self):
         """
-            Allow to define the report name.
-            Report name will be used as sheet name and as report title.
+        Allow to define the report name.
+        Report name will be used as sheet name and as report title.
 
-            :return: the report name
+        :return: the report name
         """
         raise NotImplementedError()
 
     def _get_report_columns(self, report):
         """
-            Allow to define the report columns
-            which will be used to generate report.
+        Allow to define the report columns
+        which will be used to generate report.
 
-            :return: the report columns as dict
+        :return: the report columns as dict
 
-            :Example:
+        :Example:
 
-            {
-                0: {'header': 'Simple column',
-                    'field': 'field_name_on_my_object',
-                    'width': 11},
-                1: {'header': 'Amount column',
-                     'field': 'field_name_on_my_object',
-                     'type': 'amount',
-                     'width': 14},
-            }
+        {
+            0: {'header': 'Simple column',
+                'field': 'field_name_on_my_object',
+                'width': 11},
+            1: {'header': 'Amount column',
+                 'field': 'field_name_on_my_object',
+                 'type': 'amount',
+                 'width': 14},
+        }
         """
         raise NotImplementedError()
 
     def _get_report_filters(self, report):
         """
-            :return: the report filters as list
+        :return: the report filters as list
 
-            :Example:
+        :Example:
 
-            [
-                ['first_filter_name', 'first_filter_value'],
-                ['second_filter_name', 'second_filter_value']
-            ]
+        [
+            ['first_filter_name', 'first_filter_value'],
+            ['second_filter_name', 'second_filter_value']
+        ]
         """
         raise NotImplementedError()
 
     def _get_col_count_filter_name(self):
         """
-            :return: the columns number used for filter names.
+        :return: the columns number used for filter names.
         """
         raise NotImplementedError()
 
     def _get_col_count_filter_value(self):
         """
-            :return: the columns number used for filter values.
+        :return: the columns number used for filter values.
         """
         raise NotImplementedError()

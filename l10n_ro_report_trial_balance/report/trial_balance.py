@@ -2,11 +2,12 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
 from dateutil.relativedelta import relativedelta
+
 from odoo import api, fields, models
 
 
 class RomaniaTrialBalanceReport(models.TransientModel):
-    """ Here, we just define class fields.
+    """Here, we just define class fields.
     For methods, go more bottom at this file.
 
     The class hierarchy is :
@@ -14,7 +15,7 @@ class RomaniaTrialBalanceReport(models.TransientModel):
     ** RomaniaTrialBalanceReportAccount
     """
 
-    _name = 'l10n_ro_report_trial_balance'
+    _name = "l10n_ro_report_trial_balance"
 
     # Filters fields, used for data computation
     date_from = fields.Date()
@@ -22,36 +23,27 @@ class RomaniaTrialBalanceReport(models.TransientModel):
     only_posted_moves = fields.Boolean()
     hide_account_balance_at_0 = fields.Boolean()
     with_special_accounts = fields.Boolean()
-    company_id = fields.Many2one(comodel_name='res.company')
-    account_ids = fields.Many2many(comodel_name='account.account')
+    company_id = fields.Many2one(comodel_name="res.company")
+    account_ids = fields.Many2many(comodel_name="account.account")
 
     # Data fields, used to browse report data
     line_account_ids = fields.One2many(
-        comodel_name='l10n_ro_report_trial_balance_account',
-        inverse_name='report_id'
+        comodel_name="l10n_ro_report_trial_balance_account", inverse_name="report_id"
     )
 
 
 class RomaniaTrialBalanceAccountReport(models.TransientModel):
-    _name = 'l10n_ro_report_trial_balance_account'
-    _order = 'code ASC, name ASC'
+    _name = "l10n_ro_report_trial_balance_account"
+    _order = "code ASC, name ASC"
 
     report_id = fields.Many2one(
-        comodel_name='l10n_ro_report_trial_balance',
-        ondelete='cascade',
-        index=True
+        comodel_name="l10n_ro_report_trial_balance", ondelete="cascade", index=True
     )
 
     # Data fields, used to keep link with real object
-    account_id = fields.Many2one(
-        'account.account',
-        index=True
-    )
+    account_id = fields.Many2one("account.account", index=True)
 
-    account_group_id = fields.Many2one(
-        'account.group',
-        index=True
-    )
+    account_group_id = fields.Many2one("account.group", index=True)
 
     # Data fields, used for report display
     code = fields.Char()
@@ -69,42 +61,42 @@ class RomaniaTrialBalanceAccountReport(models.TransientModel):
     credit_balance = fields.Float(digits=(16, 2))
 
     # Data fields, used to browse report data
-    account_ids = fields.Many2many(comodel_name='account.account')
+    account_ids = fields.Many2many(comodel_name="account.account")
 
 
 class RomaniaTrialBalanceComputeReport(models.TransientModel):
-    """ Here, we just define methods.
+    """Here, we just define methods.
     For class fields, go more top at this file.
     """
 
-    _inherit = 'l10n_ro_report_trial_balance'
+    _inherit = "l10n_ro_report_trial_balance"
 
     @api.multi
-    def print_report(self, report_type='qweb'):
+    def print_report(self, report_type="qweb"):
         self.ensure_one()
         context = dict(self.env.context)
-        if report_type == 'xlsx':
-            report_name = 'l10n_ro_report_trial_balance_xlsx'
+        if report_type == "xlsx":
+            report_name = "l10n_ro_report_trial_balance_xlsx"
         else:
-            report_name = \
-                'l10n_ro_report_trial_balance.' \
-                'l10n_ro_report_trial_balance_qweb'
-        action = self.env['ir.actions.report'].search(
-            [('report_name', '=', report_name),
-             ('report_type', '=', report_type)], limit=1)
+            report_name = (
+                "l10n_ro_report_trial_balance." "l10n_ro_report_trial_balance_qweb"
+            )
+        action = self.env["ir.actions.report"].search(
+            [("report_name", "=", report_name), ("report_type", "=", report_type)],
+            limit=1,
+        )
         return action.with_context(context).report_action(self)
 
     def _get_html(self):
         result = {}
         rcontext = {}
         context = dict(self.env.context)
-        report = self.browse(context.get('active_id'))
+        report = self.browse(context.get("active_id"))
         if report:
-            rcontext['o'] = report
-            result['html'] = self.env.ref(
-                'l10n_ro_report_trial_balance.'
-                'l10n_ro_report_trial_balance').render(
-                    rcontext)
+            rcontext["o"] = report
+            result["html"] = self.env.ref(
+                "l10n_ro_report_trial_balance." "l10n_ro_report_trial_balance"
+            ).render(rcontext)
         return result
 
     @api.model
@@ -122,8 +114,7 @@ class RomaniaTrialBalanceComputeReport(models.TransientModel):
     def _inject_account_lines(self):
         """Inject report values for report_trial_balance_account"""
         date_from = fields.Date.from_string(self.date_from)
-        fy_start_date = fields.Date.to_string(
-            date_from + relativedelta(day=1, month=1))
+        fy_start_date = fields.Date.to_string(date_from + relativedelta(day=1, month=1))
         if self.only_posted_moves:
             states = "'posted'"
         else:
@@ -131,14 +122,15 @@ class RomaniaTrialBalanceComputeReport(models.TransientModel):
         if self.account_ids:
             accounts = self.account_ids
         else:
-            accounts = self.env['account.account'].search(
-                [('company_id', '=', self.company_id.id)])
+            accounts = self.env["account.account"].search(
+                [("company_id", "=", self.company_id.id)]
+            )
         if not self.with_special_accounts:
-            sp_acc_type = self.env.ref(
-                'l10n_ro.data_account_type_not_classified')
+            sp_acc_type = self.env.ref("l10n_ro.data_account_type_not_classified")
             if sp_acc_type:
                 accounts = accounts.filtered(
-                    lambda a: a.user_type_id.id != sp_acc_type.id)
+                    lambda a: a.user_type_id.id != sp_acc_type.id
+                )
         query_inject_account = """
 INSERT INTO
     l10n_ro_report_trial_balance_account
@@ -208,8 +200,10 @@ FROM
             self.id,
             self.env.uid,
             fy_start_date,
-            fy_start_date, self.date_from,
-            self.date_from, self.date_to,
+            fy_start_date,
+            self.date_from,
+            self.date_from,
+            self.date_to,
             states,
             states,
             states,
@@ -220,42 +214,30 @@ FROM
     def _compute_account_group_values(self):
         if not self.account_ids:
             acc_res = self.line_account_ids
-            groups = self.env['account.group'].search(
-                [('code_prefix', '!=', False)])
+            groups = self.env["account.group"].search([("code_prefix", "!=", False)])
             for group in groups:
                 accounts = acc_res.filtered(
-                    lambda a: a.account_id.id in
-                    group.compute_account_ids.ids)
+                    lambda a: a.account_id.id in group.compute_account_ids.ids
+                )
                 if self.hide_account_balance_at_0:
                     accounts = accounts.filtered(
-                        lambda a: a.debit_balance != 0 or
-                        a.credit_balance != 0)
+                        lambda a: a.debit_balance != 0 or a.credit_balance != 0
+                    )
                 if accounts:
                     newdict = {
-                        'report_id': self.id,
-                        'account_group_id': group.id,
-                        'code': group.code_prefix,
-                        'name': group.name,
-                        'debit_opening': sum(
-                            acc.debit_opening for acc in accounts),
-                        'credit_opening': sum(
-                            acc.credit_opening for acc in accounts),
-                        'debit_initial': sum(
-                            acc.debit_initial for acc in accounts),
-                        'credit_initial': sum(
-                            acc.credit_initial for acc in accounts),
-                        'debit': sum(
-                            acc.debit for acc in accounts),
-                        'credit': sum(
-                            acc.credit for acc in accounts),
-                        'debit_total': sum(
-                            acc.debit_total for acc in accounts),
-                        'credit_total': sum(
-                            acc.credit_total for acc in accounts),
-                        'debit_balance': sum(
-                            acc.debit_balance for acc in accounts),
-                        'credit_balance': sum(
-                            acc.credit_balance for acc in accounts),
+                        "report_id": self.id,
+                        "account_group_id": group.id,
+                        "code": group.code_prefix,
+                        "name": group.name,
+                        "debit_opening": sum(acc.debit_opening for acc in accounts),
+                        "credit_opening": sum(acc.credit_opening for acc in accounts),
+                        "debit_initial": sum(acc.debit_initial for acc in accounts),
+                        "credit_initial": sum(acc.credit_initial for acc in accounts),
+                        "debit": sum(acc.debit for acc in accounts),
+                        "credit": sum(acc.credit for acc in accounts),
+                        "debit_total": sum(acc.debit_total for acc in accounts),
+                        "credit_total": sum(acc.credit_total for acc in accounts),
+                        "debit_balance": sum(acc.debit_balance for acc in accounts),
+                        "credit_balance": sum(acc.credit_balance for acc in accounts),
                     }
-                    self.env['l10n_ro_report_trial_balance_account'].create(
-                        newdict)
+                    self.env["l10n_ro_report_trial_balance_account"].create(newdict)
