@@ -22,10 +22,13 @@ class AccountJournal(models.Model):
         return result
 
     @api.model_create_multi
-    def create(self, vals):
-        journal = super(AccountJournal, self).create(vals)
-        if "print_report" in vals and journal.bank_account_id:
-            journal.bank_account_id.print_report = vals.get("print_report")
-        return journal
+    def create(self, vals_list):
+        journals = self
+        for vals in vals_list:
+            journal = super(AccountJournal, self).create(vals)
+            if "print_report" in vals and journal.bank_account_id:
+                journal.bank_account_id.print_report = vals.get("print_report")
+            journals |= journal
+        return journals
 
     print_report = fields.Boolean(related="bank_account_id.print_report")
