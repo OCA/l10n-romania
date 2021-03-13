@@ -60,11 +60,8 @@
                 <field name="amount_in" />
                 <field name="quantity_out" />
                 <field name="amount_out" />
-                <field
-                    name="quantity_final"
-                    decoration-danger="quantity_final &lt; 0"
-                />
-                <field name="amount_final" decoration-danger="amount_final &lt; 0" />
+                <field name="quantity_final" />
+                <field name="amount_final" />
             </tree>
         </field>
     </record>
