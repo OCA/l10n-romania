@@ -21,16 +21,15 @@ class ResPartner(models.Model):
 
     @api.model
     def _address_fields(self):
-        """ Extends list of address fields with city_id, commune_id, zone_id
+        """Extends list of address fields with city_id, commune_id, zone_id
         to be synced from the parent when the `use_parent_address`
-        flag is set. """
+        flag is set."""
         new_list = ["city_id", "commune_id", "zone_id"]
         return super(ResPartner, self)._address_fields() + new_list
 
     @api.model
     def _install_l10n_ro_siruta(self):
-        """Update commune and zone fields for partners.
-        """
+        """Update commune and zone fields for partners."""
         # Find records with city_id completed but not the commune
         records = self.search([("city_id", "!=", False), ("commune_id", "=", False)])
 
