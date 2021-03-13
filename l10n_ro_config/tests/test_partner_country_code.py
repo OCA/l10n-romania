@@ -5,14 +5,14 @@
 from odoo.tests import common
 
 
-class TestartnerVATSubjected(common.SavepointCase):
+class TestPartnerVATSubjected(common.SavepointCase):
     @classmethod
     def setUpClass(cls):
-        super(TestartnerVATSubjected, cls).setUpClass()
+        super(TestPartnerVATSubjected, cls).setUpClass()
         cls.mainpartner = cls.env.ref("base.res_partner_1")
 
 
-class TestPartnerVAT(TestartnerVATSubjected):
+class TestPartnerVAT(TestPartnerVATSubjected):
     def test_onchange_vat_subjected(self):
         """ Check onchange vat subjected and country."""
         # test setting vat_subjected as True
