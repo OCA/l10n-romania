@@ -110,119 +110,9 @@ class StorageSheet(models.TransientModel):
             [("report_id", "=", self.id)]
         )
         lines.unlink()
-        stock_init = []
-
-        query = """
-    SELECT product_id,amount_initial,quantity_initial,
-            amount_in,quantity_in,amount_out,
-            quantity_out,amount_final,quantity_final,
-            date,reference,partner_id
-    FROM
-        (SELECT sm.product_id as product_id,
-            COALESCE(sum(svl.value),
-                    sum(svl2.value),
-                    sum(svl3.value), 0) as amount_initial,
-            COALESCE(sum(svl.quantity),
-                    sum(svl2.quantity),
-                    sum(svl3.quantity),
-                    0) as quantity_initial,
-            0 as amount_in,
-            0 as quantity_in,
-            0 as amount_out,
-            0 as quantity_out,
-            COALESCE(sum(svl.value),
-                    sum(svl2.value),
-                    sum(svl3.value), 0) as amount_final,
-            COALESCE(sum(svl.quantity),
-                    sum(svl2.quantity),
-                    sum(svl3.quantity), 0) as quantity_final,
-            date_trunc('day',sm.date) as date,
-            sm.reference as reference,
-            sm.partner_id
-        from stock_move as sm
-            left join (select * from stock_valuation_layer
-                        where valued_type !='internal_transfer' or valued_type is Null)
-                        as svl on svl.stock_move_id = sm.id
-            left join (select * from stock_valuation_layer
-                        where valued_type ='internal_transfer' and quantity<0) as svl2
-                        on svl2.stock_move_id = sm.id and sm.location_id=%(location)s
-            left join (select * from stock_valuation_layer
-                        where valued_type ='internal_transfer' and quantity>0) as svl3
-                        on svl3.stock_move_id = sm.id and sm.location_dest_id=%(location)s
-        where sm.state = 'done' AND
-            sm.company_id = %(company)s AND
-            ( %(all_products)s  or sm.product_id in %(product)s ) AND
-            date_trunc('day',sm.date) <  %(date_from)s AND
-            (sm.location_id = %(location)s OR sm.location_dest_id = %(location)s)
-        GROUP BY sm.product_id, date_trunc('day',sm.date), sm.reference, sm.partner_id
-        order by sm.product_id, date_trunc('day',sm.date)) initial
-    union
-        (SELECT sm.product_id as product_id, 0 as amount_initial, 0 as quantity_initial,
-            COALESCE(sum(svl_in.value),  sum(svl_tr_in.value),  sum(svl_in_r.value), 0) as amount_in,
-            COALESCE(sum(svl_in.quantity), sum(svl_tr_in.quantity), sum(svl_in_r.quantity), 0) as quantity_in,
-
-            COALESCE(sum(svl_out.value), sum(svl_tr_out.value), sum(svl_out_r.value), 0) as amount_out,
-            COALESCE(sum(svl_out.quantity),  sum(svl_tr_out.quantity), sum(svl_out_r.quantity),  0) as quantity_out,
-
-            COALESCE(sum(svl_in.value), sum(svl_in_r.value),
-                    sum(svl_out.value), sum(svl_out_r.value),
-                    sum(svl_tr_in.value), sum(svl_tr_out.value), 0) as amount_final,
-            COALESCE(sum(svl_in.quantity), sum(svl_in_r.quantity),
-                    sum(svl_out.quantity), sum(svl_out_r.quantity),
-                    sum(svl_tr_in.quantity),  sum(svl_tr_out.quantity), 0) as quantity_final,
-
-            date_trunc('day',sm.date) as date,
-            sm.reference as reference,
-            sp.partner_id
-        from stock_move as sm
-            -- intrare in stoc
-            left join (select * from stock_valuation_layer
-                        where (valued_type !='internal_transfer' or valued_type is Null) and valued_type not like '%%return')
-                        as svl_in on svl_in.stock_move_id = sm.id and
-                        sm.location_dest_id=%(location)s
-            -- iesire din stoc
-            left join (select * from stock_valuation_layer
-                        where (valued_type !='internal_transfer' or valued_type is Null) and valued_type not like '%%return')
-                        as svl_out on svl_out.stock_move_id = sm.id and
-                        sm.location_id=%(location)s
-
-
-            -- retur intrare in stoc
-            left join (select * from stock_valuation_layer
-                        where valued_type  like '%%return')
-                        as svl_in_r on svl_in_r.stock_move_id = sm.id and
-                        sm.location_id=%(location)s
-
-            -- return iesire din stoc
-            left join (select * from stock_valuation_layer
-                        where  valued_type  like '%%return')
-                        as svl_out_r on svl_out_r.stock_move_id = sm.id and
-                        sm.location_dest_id=%(location)s
-
-            -- iesire din transfer
-            left join (select * from stock_valuation_layer
-                        where valued_type ='internal_transfer' and quantity<0) as svl_tr_out
-                        on svl_tr_out.stock_move_id = sm.id and
-                        sm.location_id=%(location)s
-            -- intrare din transfer
-            left join (select * from stock_valuation_layer
-                        where valued_type ='internal_transfer' and quantity>0) as svl_tr_in
-                        on svl_tr_in.stock_move_id = sm.id and
-                        sm.location_dest_id=%(location)s
-            left join stock_picking as sp on sm.picking_id = sp.id
-        where
-            sm.state = 'done' AND
-            sm.company_id = %(company)s AND
-            ( %(all_products)s  or sm.product_id in %(product)s ) AND
-            date_trunc('day',sm.date) >= %(date_from)s  AND
-            date_trunc('day',sm.date) <= %(date_to)s  AND
-            (sm.location_id = %(location)s OR sm.location_dest_id = %(location)s)
-        GROUP BY sm.product_id, date_trunc('day',sm.date),  sm.reference, sp.partner_id
-        order by sm.product_id, date_trunc('day',sm.date))
-    ORDER BY product_id, date
-                """
 
         params = {
+            "report": self.id,
             "location": self.location_id.id,
             "product": tuple(product_list),
             "all_products": all_products,
@@ -231,88 +121,146 @@ class StorageSheet(models.TransientModel):
             "date_to": fields.Date.to_string(self.date_to),
         }
 
+        query_select_sold_init = """
+            SELECT %(report)s as report_id, sm.product_id as product_id,
+                COALESCE(sum(svl.value),0) +
+                COALESCE(sum(svl2.value),0)+
+                COALESCE(sum(svl3.value),0) as amount_initial,
+                COALESCE(sum(svl.quantity),0) +
+                COALESCE(sum(svl2.quantity),0) +
+                COALESCE(sum(svl3.quantity), 0) as quantity_initial,
+                %(date_from)s as date,
+                %(reference)s as reference
+            from stock_move as sm
+                left join (select * from stock_valuation_layer
+                            where valued_type !='internal_transfer' or valued_type is Null)
+                            as svl on svl.stock_move_id = sm.id
+                left join (select * from stock_valuation_layer
+                            where valued_type ='internal_transfer' and quantity<0) as svl2
+                            on svl2.stock_move_id = sm.id and sm.location_id=%(location)s
+                left join (select * from stock_valuation_layer
+                            where valued_type ='internal_transfer' and quantity>0) as svl3
+                            on svl3.stock_move_id = sm.id and sm.location_dest_id=%(location)s
+            where sm.state = 'done' AND
+                sm.company_id = %(company)s AND
+                ( %(all_products)s  or sm.product_id in %(product)s ) AND
+                date_trunc('day',sm.date) <  %(date_from)s AND
+                (sm.location_id = %(location)s OR sm.location_dest_id = %(location)s)
+            GROUP BY sm.product_id
+        """
+
+        params.update({"reference": "INITIALA"})
+        self.env.cr.execute(query_select_sold_init, params=params)
+        res = self.env.cr.dictfetchall()
+        self.line_product_ids.create(res)
+
+        query_select_sold_final = """
+            SELECT %(report)s as report_id, sm.product_id as product_id,
+                COALESCE(sum(svl.value),0) +
+               COALESCE(sum(svl2.value),0) +
+                COALESCE(sum(svl3.value), 0) as amount_final,
+                COALESCE(sum(svl.quantity),0) +
+                COALESCE(sum(svl2.quantity),0) +
+                COALESCE(sum(svl3.quantity),0) as quantity_final,
+                %(date_to)s as date,
+                %(reference)s as reference
+            from stock_move as sm
+                left join (select * from stock_valuation_layer
+                            where valued_type !='internal_transfer' or valued_type is Null)
+                            as svl on svl.stock_move_id = sm.id
+                left join (select * from stock_valuation_layer
+                            where valued_type ='internal_transfer' and quantity<0) as svl2
+                            on svl2.stock_move_id = sm.id and sm.location_id=%(location)s
+                left join (select * from stock_valuation_layer
+                            where valued_type ='internal_transfer' and quantity>0) as svl3
+                            on svl3.stock_move_id = sm.id and sm.location_dest_id=%(location)s
+            where sm.state = 'done' AND
+                sm.company_id = %(company)s AND
+                ( %(all_products)s  or sm.product_id in %(product)s ) AND
+                date_trunc('day',sm.date) <=  %(date_to)s AND
+                (sm.location_id = %(location)s OR sm.location_dest_id = %(location)s)
+            GROUP BY sm.product_id
+        """
+
+        params.update({"reference": "FINALA"})
+        self.env.cr.execute(query_select_sold_final, params=params)
+        res = self.env.cr.dictfetchall()
+        self.line_product_ids.create(res)
+
+        query = """
+
+
+        SELECT  %(report)s as report_id, sm.product_id as product_id,
+                COALESCE(sum(svl_in.value),0) +
+                COALESCE(sum(svl_tr_in.value), 0) +
+                COALESCE(sum(svl_in_r.value), 0) as amount_in,
+
+                COALESCE(sum(svl_in.quantity), 0) +
+                COALESCE(sum(svl_tr_in.quantity), 0) +
+                COALESCE(sum(svl_in_r.quantity), 0) as quantity_in,
+
+                -1*(  COALESCE(sum(svl_out.value),0) +
+                COALESCE(sum(svl_tr_out.value),0) +
+                COALESCE(sum(svl_out_r.value), 0)) as amount_out,
+
+                -1*(  COALESCE(sum(svl_out.quantity),0) +
+                 COALESCE(sum(svl_tr_out.quantity),0) +
+                 COALESCE(sum(svl_out_r.quantity),  0)) as quantity_out,
+
+                date_trunc('day',sm.date) as date,
+                sm.reference as reference,
+                sp.partner_id
+            from stock_move as sm
+                -- intrare in stoc
+                left join (select * from stock_valuation_layer
+                            where (valued_type !='internal_transfer'and valued_type not like '%%return')
+                            or valued_type is Null)
+                            as svl_in on svl_in.stock_move_id = sm.id and
+                            sm.location_dest_id=%(location)s
+                -- iesire din stoc
+                left join (select * from stock_valuation_layer
+                            where (valued_type !='internal_transfer' and valued_type not like '%%return')
+                            or valued_type is Null)
+                            as svl_out on svl_out.stock_move_id = sm.id and
+                            sm.location_id=%(location)s
+
+
+                -- retur intrare in stoc
+                left join (select * from stock_valuation_layer
+                            where valued_type  like '%%return')
+                            as svl_in_r on svl_in_r.stock_move_id = sm.id and
+                            sm.location_id=%(location)s
+
+                -- return iesire din stoc
+                left join (select * from stock_valuation_layer
+                            where  valued_type  like '%%return')
+                            as svl_out_r on svl_out_r.stock_move_id = sm.id and
+                            sm.location_dest_id=%(location)s
+
+                -- iesire din transfer
+                left join (select * from stock_valuation_layer
+                            where valued_type ='internal_transfer' and quantity<0) as svl_tr_out
+                            on svl_tr_out.stock_move_id = sm.id and
+                            sm.location_id=%(location)s
+                -- intrare din transfer
+                left join (select * from stock_valuation_layer
+                            where valued_type ='internal_transfer' and quantity>0) as svl_tr_in
+                            on svl_tr_in.stock_move_id = sm.id and
+                            sm.location_dest_id=%(location)s
+                left join stock_picking as sp on sm.picking_id = sp.id
+            where
+                sm.state = 'done' AND
+                sm.company_id = %(company)s AND
+                ( %(all_products)s  or sm.product_id in %(product)s ) AND
+                date_trunc('day',sm.date) >= %(date_from)s  AND
+                date_trunc('day',sm.date) <= %(date_to)s  AND
+                (sm.location_id = %(location)s OR sm.location_dest_id = %(location)s)
+            GROUP BY sm.product_id, date_trunc('day',sm.date),  sm.reference, sp.partner_id
+            """
+
         self.env.cr.execute(query, params=params)
-        res = self.env.cr.fetchall()
-
-        for row in res:
-            values = {
-                "product_id": row[0],
-                "report_id": self.id,
-                "amount_initial": row[1],
-                "quantity_initial": row[2],
-                "amount_in": row[3],
-                "quantity_in": row[4],
-                "amount_out": row[5],
-                "quantity_out": row[6],
-                "amount_final": row[7],
-                "quantity_final": row[8],
-                "date": row[9],
-                "reference": row[10],
-                "partner_id": row[11],
-            }
-            stock_init += [values]
-        # The records from stock_init are converted for in stock sheet. That are, a record  with the stock
-        # and the initial value, and other with the stock and the final value.
-        # The rest of the records are those with stock movements from the selected period.
-
-        products = {prod["product_id"] for prod in stock_init}
-        stoc_init_total = {}
-        val_init_total = {}
-        stoc_final_total = {}
-        val_final_total = {}
-
-        for product in products:
-            stoc_init_total[product] = 0
-            val_init_total[product] = 0
-            stoc_final_total[product] = 0
-            val_final_total[product] = 0
-
-        for line in stock_init:
-            stoc_init_total[line["product_id"]] += line["quantity_initial"]
-            val_init_total[line["product_id"]] += line["amount_initial"]
-            stoc_final_total[line["product_id"]] += line["quantity_final"]
-            val_final_total[line["product_id"]] += line["amount_final"]
-
-        sold_stock_init = []
-        for product in products:
-            sold_stock_init.append(
-                {
-                    "product_id": product,
-                    "report_id": self.id,
-                    "date": self.date_from,
-                    "quantity_initial": stoc_init_total[product],
-                    "amount_initial": val_init_total[product],
-                    "quantity_final": None,
-                    "amount_final": None,
-                    "reference": "INITIALA",
-                }
-            )
-            for line in stock_init:
-                if line["product_id"] == product:
-                    if line["date"].date() >= self.date_from:
-                        line["amount_out"] = -line["amount_out"]
-                        line["quantity_out"] = -line["quantity_out"]
-                        line["amount_final"] = 0
-                        line["quantity_final"] = 0
-                        sold_stock_init.append(line)
-            sold_stock_init.append(
-                {
-                    "product_id": product,
-                    "report_id": self.id,
-                    "date": self.date_to,
-                    "quantity_initial": None,
-                    "amount_initial": None,
-                    "quantity_final": stoc_final_total[product],
-                    "amount_final": val_final_total[product],
-                    "reference": "FINALA",
-                }
-            )
-
-        line_model = "stock.storage.sheet.line"
-
-        lines_report = self.env[line_model].create(sold_stock_init)
-
-        self.line_product_ids = lines_report.ids
+        res = self.env.cr.dictfetchall()
+        self.line_product_ids.create(res)
 
         if self.location_id.property_stock_valuation_account_id:
             self.line_product_ids.write(
