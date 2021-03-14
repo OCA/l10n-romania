@@ -31,8 +31,10 @@ class StockValuationLayer(models.Model):
     @api.model_create_multi
     def create(self, vals_list):
         for values in vals_list:
-            if 'valued_type' not in values and 'stock_valuation_layer_id' in values:
-                svl = self.env['stock.valuation.layer'].browse(values['stock_valuation_layer_id'])
+            if "valued_type" not in values and "stock_valuation_layer_id" in values:
+                svl = self.env["stock.valuation.layer"].browse(
+                    values["stock_valuation_layer_id"]
+                )
                 if svl:
-                    values['valued_type'] = svl.valued_type
+                    values["valued_type"] = svl.valued_type
         return super(StockValuationLayer, self).create(vals_list)
