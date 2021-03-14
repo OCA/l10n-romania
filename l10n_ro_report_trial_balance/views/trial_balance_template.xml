@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <odoo>
 
-    <template id="l10n_ro_report_trial_balance.l10n_ro_report_trial_balance_qweb">
+    <template id="l10n_ro_report_trial_balance.trial_balance">
         <t t-call="web.html_container">
             <t t-foreach="docs" t-as="o">
-                <t t-call="l10n_ro_report_trial_balance.internal_layout">
+                <t t-call="account_financial_report.internal_layout">
                     <t
                         t-call="l10n_ro_report_trial_balance.l10n_ro_report_trial_balance_base"
                     />
@@ -14,14 +14,24 @@
     </template>
 
     <template id="l10n_ro_report_trial_balance.l10n_ro_report_trial_balance_base">
+        <!-- Saved flag fields into variables, used to define columns display -->
+        <t t-set="show_partner_details" t-value="show_partner_details" />
+        <t t-set="foreign_currency" t-value="foreign_currency" />
+        <t t-set="show_hierarchy_level" t-value="show_hierarchy_level" />
+        <t t-set="limit_hierarchy_level" t-value="limit_hierarchy_level" />
         <!-- Defines global variables used by internal layout -->
         <t t-set="title">Trial Balance</t>
-        <t t-set="company_name" t-value="o.company_id.name" />
+        <t t-set="company_name" t-value="Company_Name" />
         <div class="page data_table">
+            <div class="row">
+                <h4
+                    class="mt0"
+                    t-esc="title or 'Odoo Report'"
+                    style="text-align: center;"
+                />
+            </div>
             <!-- Display filters -->
-            <t
-                t-call="l10n_ro_report_trial_balance.l10n_ro_report_trial_balance_filters"
-            />
+            <t t-call="account_financial_report.report_trial_balance_filters" />
             <div class="page_break" />
 
             <!-- Display account lines -->
@@ -31,61 +41,55 @@
                     t-call="l10n_ro_report_trial_balance.l10n_ro_report_trial_balance_lines_header"
                 />
                 <!-- Display each lines -->
-                <t t-set="padding" t-value="0" />
-                <t
-                    t-set="firstdate"
-                    t-value="time.strftime('%Y-01-01', time.strptime(o.date_from, '%Y-%m-%d'))"
-                />
-                <t t-if="o.line_account_ids">
-                    <t t-set="level" t-value="0" />
-                    <t t-foreach="o.line_account_ids" t-as="line">
-                        <t t-set="style" t-value="'font-size:8px;'" />
-                        <t t-if="line.account_group_id">
-                            <t t-set="level" t-value="line.account_group_id.level" />
-                        </t>
-                        <t t-set="padding" t-value="level * 4" />
-                        <t
-                            t-set="style"
-                            t-value="'font-size: ' + str(14 - level) + 'px; margin-left: ' + str(level * 4) + 'px;'"
-                        />
-                        <t t-if="line.account_group_id">
-                            <t
-                                t-set="style"
-                                t-value="style + 'font-weight: bold; color: blue;'"
-                            />
-                        </t>
-
-                        <!-- Display account group lines -->
+                <t t-foreach="trial_balance" t-as="balance">
+                    <!-- Adapt -->
+                    <t t-set="style" t-value="'font-size:12px;  padding: 1px'" />
+                    <t t-if="hierarchy_on == 'none'">
                         <t
                             t-call="l10n_ro_report_trial_balance.l10n_ro_report_trial_balance_line"
                         />
                     </t>
+                    <t t-if="hierarchy_on == 'computed'">
+                        <t t-if="balance['type'] == 'group_type'">
+                            <t
+                                t-set="style"
+                                t-value="'font-size:14px; padding:7px; text-align:center; font-weight: bold; color: blue;'"
+                            />
+                            <t
+                                t-call="l10n_ro_report_trial_balance.l10n_ro_report_trial_balance_line"
+                            />
+                        </t>
+                        <t t-if="balance['type'] == 'account_type'">
+                            <t
+                                t-call="l10n_ro_report_trial_balance.l10n_ro_report_trial_balance_line"
+                            />
+                        </t>
+                    </t><t t-if="hierarchy_on == 'relation'">
+                        <t t-if="balance['type'] == 'group_type'">
+                            <t
+                                t-set="style"
+                                t-value="'font-size:14px; padding:7px; text-align:center; color: blue;'"
+                            />
+                            <t
+                                t-call="l10n_ro_report_trial_balance.l10n_ro_report_trial_balance_line"
+                            />
+                        </t>
+                        <t t-if="balance['type'] == 'account_type'">
+                            <t t-if="limit_hierarchy_level">
+                                <t t-if="show_hierarchy_level > balance['level']">
+                                    <t
+                                        t-call="l10n_ro_report_trial_balance.l10n_ro_report_trial_balance_line"
+                                    />
+                                </t>
+                            </t>
+                            <t t-if="not limit_hierarchy_level">
+                                <t
+                                    t-call="l10n_ro_report_trial_balance.l10n_ro_report_trial_balance_line"
+                                />
+                            </t>
+                        </t>
+                    </t>
                 </t>
-            </div>
-        </div>
-    </template>
-
-    <template id="l10n_ro_report_trial_balance.l10n_ro_report_trial_balance_filters">
-        <div class="act_as_table data_table" style="width: 100% !important;">
-            <div class="act_as_row labels">
-                <div class="act_as_cell">Date range filter</div>
-                <div class="act_as_cell">Target moves filter</div>
-                <div class="act_as_cell">With Special Accounts</div>
-            </div>
-            <div class="act_as_row">
-                <div class="act_as_cell">
-                    From: <span t-field="o.date_from" /> To: <span
-                        t-field="o.date_to"
-                    />
-                </div>
-                <div class="act_as_cell">
-                    <t t-if="o.only_posted_moves">All posted entries</t>
-                    <t t-if="not o.only_posted_moves">All entries</t>
-                </div>
-                <div class="act_as_cell">
-                    <t t-if="o.with_special_accounts">Yes</t>
-                    <t t-if="not o.with_special_accounts">No</t>
-                </div>
             </div>
         </div>
     </template>
@@ -95,7 +99,7 @@
     >
         <!-- Display table headers for lines -->
         <div class="act_as_thead">
-            <div class="act_as_row labels" style="font-size:12px; font-weight: bold;">
+            <div class="act_as_row labels">
                 <!--## Code-->
                 <div class="act_as_cell" style="width: 5%;">Code</div>
                 <!--## Account-->
@@ -126,19 +130,20 @@
 
     <template id="l10n_ro_report_trial_balance.l10n_ro_report_trial_balance_line">
         <!-- # line -->
+
         <div class="act_as_row lines">
-            <t t-if="line.account_id">
+            <t t-if="balance['type'] == 'group_type'">
                 <t t-set="res_model" t-value="'account.account'" />
-                <t t-set="res_id" t-value="line.account_id.id" />
-                <t t-set="accounts" t-value="line.account_id._ids" />
+                <t t-set="res_id" t-value="balance['id']" />
+                <t t-set="accounts" t-value="[balance['id']]" />
             </t>
-            <t t-if="line.account_group_id">
+            <t t-if="balance['type'] == 'group_type'">
                 <t t-set="res_model" t-value="'account.group'" />
-                <t t-set="res_id" t-value="line.account_group_id.id" />
-                <t
-                    t-set="accounts"
-                    t-value="line.account_group_id.compute_account_ids._ids"
-                />
+                <t t-set="res_id" t-value="balance['id']" />
+                <t t-set="accounts" t-value="balance['account_ids']" />
+            </t>
+            <t t-if="len(balance['code']) == 1">
+                <t t-set="style" t-value="style +'font-weight: bold'" />
             </t>
             <!--## Code-->
             <div class="act_as_cell left">
@@ -146,10 +151,10 @@
                     <a
                         t-att-data-active-id="res_id"
                         t-att-data-res-model="res_model"
-                        class="o_l10n_ro_report_trial_balance_web_action"
+                        class="o_account_financial_reports_web_action_monetary_multi"
                         t-att-style="style"
                     >
-                        <t t-att-style="style" t-raw="line.code" /></a>
+                        <t t-att-style="style" t-raw="balance['code']" /></a>
                 </span>
             </div>
             <!--## Account-->
@@ -158,10 +163,10 @@
                     <a
                         t-att-data-active-id="res_id"
                         t-att-data-res-model="res_model"
-                        class="o_l10n_ro_report_trial_balance_web_action"
+                        class="o_account_financial_reports_web_action_monetary_multi"
                         t-att-style="style"
                     >
-                        <t t-att-style="style" t-raw="line.name" /></a>
+                        <t t-att-style="style" t-raw="balance['name']" /></a>
                 </span>
             </div>
             <!--## Opening Debit-->
@@ -169,19 +174,19 @@
                 <t
                     t-set="domain"
                     t-value="[('account_id', 'in', accounts),
-                                            ('date', '&lt;', firstdate),
-                                            ('debit', '&lt;&gt;', 0)]"
+                              ('date', '&lt;', firstdate),
+                              ('debit', '&lt;&gt;', 0)]"
                 />
                 <span>
                     <a
                         t-att-data-res-model="'account.move.line'"
                         t-att-data-domain="domain"
                         t-att-style="style"
-                        class="o_l10n_ro_report_trial_balance_web_action_multi"
+                        class="o_account_financial_reports_web_action_monetary_multi"
                     >
                     <t
                             t-att-style="style"
-                            t-raw="line.debit_opening"
+                            t-raw="balance['debit_opening']"
                             t-options="{'widget': 'monetary', 'display_currency': res_company.currency_id}"
                         /></a>
                 </span>
@@ -191,19 +196,19 @@
                 <t
                     t-set="domain"
                     t-value="[('account_id', 'in', accounts),
-                                            ('date', '&lt;', firstdate),
-                                            ('credit', '&lt;&gt;', 0)]"
+                                ('date', '&lt;', firstdate),
+                                ('credit', '&lt;&gt;', 0)]"
                 />
                 <span>
                     <a
                         t-att-data-res-model="'account.move.line'"
                         t-att-data-domain="domain"
                         t-att-style="style"
-                        class="o_l10n_ro_report_trial_balance_web_action_multi"
+                        class=""
                     >
                     <t
                             t-att-style="style"
-                            t-raw="line.credit_opening"
+                            t-raw="balance['credit_opening']"
                             t-options="{'widget': 'monetary', 'display_currency': res_company.currency_id}"
                         /></a>
                 </span>
@@ -214,7 +219,7 @@
                     t-set="domain"
                     t-value="[('account_id', 'in', accounts),
                                             ('date', '&gt;=', firstdate),
-                                            ('date', '&lt;', line.report_id.date_from),
+                                            ('date', '&lt;', date_from),
                                             ('debit', '&lt;&gt;', 0)]"
                 />
                 <span>
@@ -222,11 +227,11 @@
                         t-att-data-res-model="'account.move.line'"
                         t-att-data-domain="domain"
                         t-att-style="style"
-                        class="o_l10n_ro_report_trial_balance_web_action_multi"
+                        class="o_account_financial_reports_web_action_monetary_multi"
                     >
                     <t
                             t-att-style="style"
-                            t-raw="line.debit_initial"
+                            t-raw="balance['debit_initial']"
                             t-options="{'widget': 'monetary', 'display_currency': res_company.currency_id}"
                         /></a>
                 </span>
@@ -237,7 +242,7 @@
                     t-set="domain"
                     t-value="[('account_id', 'in', accounts),
                                             ('date', '&gt;=', firstdate),
-                                            ('date', '&lt;', line.report_id.date_from),
+                                            ('date', '&lt;', date_from),
                                             ('credit', '&lt;&gt;', 0)]"
                 />
                 <span>
@@ -245,11 +250,11 @@
                         t-att-data-res-model="'account.move.line'"
                         t-att-data-domain="domain"
                         t-att-style="style"
-                        class="o_l10n_ro_report_trial_balance_web_action_multi"
+                        class="o_account_financial_reports_web_action_monetary_multi"
                     >
                     <t
                             t-att-style="style"
-                            t-raw="line.credit_initial"
+                            t-raw="balance['credit_initial']"
                             t-options="{'widget': 'monetary', 'display_currency': res_company.currency_id}"
                         /></a>
                 </span>
@@ -259,8 +264,8 @@
                 <t
                     t-set="domain"
                     t-value="[('account_id', 'in', accounts),
-                                            ('date', '&gt;=', line.report_id.date_from),
-                                            ('date', '&lt;=', line.report_id.date_to),
+                                            ('date', '&gt;=', date_from),
+                                            ('date', '&lt;=', date_to),
                                             ('debit', '&lt;&gt;', 0)]"
                 />
                 <span>
@@ -268,11 +273,11 @@
                         t-att-data-res-model="'account.move.line'"
                         t-att-data-domain="domain"
                         t-att-style="style"
-                        class="o_l10n_ro_report_trial_balance_web_action_multi"
+                        class="o_account_financial_reports_web_action_monetary_multi"
                     >
                     <t
                             t-att-style="style"
-                            t-raw="line.debit"
+                            t-raw="balance['debit']"
                             t-options="{'widget': 'monetary', 'display_currency': res_company.currency_id}"
                         /></a>
                 </span>
@@ -282,8 +287,8 @@
                 <t
                     t-set="domain"
                     t-value="[('account_id', 'in', accounts),
-                                            ('date', '&gt;=', line.report_id.date_from),
-                                            ('date', '&lt;=', line.report_id.date_to),
+                                            ('date', '&gt;=', date_from),
+                                            ('date', '&lt;=', date_to),
                                             ('credit', '&lt;&gt;', 0)]"
                 />
                 <span>
@@ -291,11 +296,11 @@
                         t-att-data-res-model="'account.move.line'"
                         t-att-data-domain="domain"
                         t-att-style="style"
-                        class="o_l10n_ro_report_trial_balance_web_action_multi"
+                        class="o_account_financial_reports_web_action_monetary_multi"
                     >
                     <t
                             t-att-style="style"
-                            t-raw="line.credit"
+                            t-raw="balance['credit']"
                             t-options="{'widget': 'monetary', 'display_currency': res_company.currency_id}"
                         /></a>
                 </span>
@@ -305,18 +310,18 @@
                 <t
                     t-set="domain"
                     t-value="[('account_id', 'in', accounts),
-                                            ('debit', '&lt;&gt;', 0)]"
+                                ('debit', '&lt;&gt;', 0)]"
                 />
                 <span>
                     <a
                         t-att-data-res-model="'account.move.line'"
                         t-att-data-domain="domain"
                         t-att-style="style"
-                        class="o_l10n_ro_report_trial_balance_web_action_multi"
+                        class="o_account_financial_reports_web_action_monetary_multi"
                     >
                     <t
                             t-att-style="style"
-                            t-raw="line.debit_total"
+                            t-raw="balance['debit_total']"
                             t-options="{'widget': 'monetary', 'display_currency': res_company.currency_id}"
                         /></a>
                 </span>
@@ -326,18 +331,18 @@
                 <t
                     t-set="domain"
                     t-value="[('account_id', 'in', accounts),
-                                            ('credit', '&lt;&gt;', 0)]"
+                                ('credit', '&lt;&gt;', 0)]"
                 />
                 <span>
                     <a
                         t-att-data-res-model="'account.move.line'"
                         t-att-data-domain="domain"
                         t-att-style="style"
-                        class="o_l10n_ro_report_trial_balance_web_action_multi"
+                        class="o_account_financial_reports_web_action_monetary_multi"
                     >
                     <t
                             t-att-style="style"
-                            t-raw="line.credit_total"
+                            t-raw="balance['credit_total']"
                             t-options="{'widget': 'monetary', 'display_currency': res_company.currency_id}"
                         /></a>
                 </span>
@@ -350,30 +355,28 @@
                         t-att-data-res-model="'account.move.line'"
                         t-att-data-domain="domain"
                         t-att-style="style"
-                        class="o_l10n_ro_report_trial_balance_web_action_multi"
+                        class="o_account_financial_reports_web_action_monetary_multi"
                     >
                     <t
                             t-att-style="style"
-                            t-raw="line.debit_balance"
+                            t-raw="balance['debit_balance']"
                             t-options="{'widget': 'monetary', 'display_currency': res_company.currency_id}"
                         /></a>
                 </span>
             </div>
             <!--## Balance Credit-->
-            <div class="act_as_cell amount"><t
-                    t-set="domain"
-                    t-value="[('account_id', 'in', accounts)]"
-                />
+            <div class="act_as_cell amount">
+                <t t-set="domain" t-value="[('account_id', 'in', accounts)]" />
                 <span>
                     <a
                         t-att-data-res-model="'account.move.line'"
                         t-att-data-domain="domain"
                         t-att-style="style"
-                        class="o_l10n_ro_report_trial_balance_web_action_multi"
+                        class="o_account_financial_reports_web_action_monetary_multi"
                     >
                     <t
                             t-att-style="style"
-                            t-raw="line.credit_balance"
+                            t-raw="balance['credit_balance']"
                             t-options="{'widget': 'monetary', 'display_currency': res_company.currency_id}"
                         /></a>
                 </span>

@@ -1,16 +1,8 @@
-.body,
-.table,
-.td,
-.span,
-.div {
-    font-family: Helvetica, Arial;
-}
 .act_as_table {
-    width: 100% !important;
     display: table !important;
+    background-color: white;
 }
 .act_as_row {
-    width: 100% !important;
     display: table-row !important;
     page-break-inside: avoid;
 }
@@ -28,7 +20,6 @@
 .data_table,
 .totals_table {
     width: 100% !important;
-    table-layout: fixed !important;
 }
 .act_as_row.labels {
     background-color: #f0f0f0 !important;
@@ -39,7 +30,7 @@
 .list_table .act_as_row {
     border-left: 0px;
     border-right: 0px;
-    text-align: left;
+    text-align: center;
     font-size: 10px;
     padding-right: 3px;
     padding-left: 3px;
@@ -91,7 +82,6 @@
     text-align: right;
 }
 .list_table .act_as_cell {
-    padding-left: 5px;
     /*    border-right:1px solid lightGrey;  uncomment to active column lines */
 }
 .list_table .act_as_cell.first_column {
@@ -114,11 +104,10 @@
     padding-bottom: 10px;
 }
 
-.o_l10n_ro_report_trial_balance_page {
-    background-color: @odoo-view-background-color;
-    color: @odoo-main-text-color;
+.o_account_financial_reports_page {
     padding-top: 10px;
-    width: 100%;
+    width: 90%;
     margin-right: auto;
     margin-left: auto;
+    font-family: Helvetica, Arial;
 }

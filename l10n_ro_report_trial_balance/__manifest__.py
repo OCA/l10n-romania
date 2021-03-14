@@ -4,17 +4,15 @@
     "name": "Romania - Account Trial Balance Report",
     "category": "Localization",
     "summary": "Romania - Account Trial Balance Report",
-    "depends": ["account", "account_financial_report", "l10n_ro"],
+    "depends": ["account_financial_report", "l10n_ro"],
     "data": [
-        "views/layouts.xml",
-        "views/report_template.xml",
-        "views/report_trial_balance.xml",
-        "views/trial_balance.xml",
-        "views/trial_balance_view.xml",
+        "security/ir.model.access.csv",
+        "views/trial_balance_report.xml",
+        "views/trial_balance_template.xml",
         "wizards/trial_balance_wizard_view.xml",
     ],
     "license": "AGPL-3",
-    "version": "11.0.1.0.0",
+    "version": "14.0.1.0.0",
     "author": "NextERP Romania,"
     "Forest and Biomass Romania,"
     "Odoo Community Association (OCA)",

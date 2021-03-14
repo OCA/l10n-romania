@@ -1,28 +1,17 @@
 # Copyright  2018 Forest and Biomass Romania
+# Copyright (C) 2021 NextERP Romania SRL
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
+import logging
 
 from odoo import _, models
+
+_logger = logging.getLogger(__name__)
 
 
 class RomaniaReportTrialBalanceXslx(models.AbstractModel):
     _name = "report.l10n_ro_report_trial_balance_xlsx"
-    _inherit = "report.romania.trial.balance.abstract_report_xlsx"
-
-    def _get_report_company_name(self, report):
-        comp_data = report.company_id.name.upper() + "\n"
-        comp_data += (
-            report.company_id.partner_id._display_address(without_company=True) + "\n"
-        )
-        comp_data += report.company_id.vat + "\n" if report.company_id.vat else ""
-        comp_data += (
-            report.company_id.partner_id.nrc + "\n"
-            if report.company_id.partner_id.nrc
-            else ""
-        )
-        return comp_data
-
-    def _get_report_name(self):
-        return _("Trial Balance")
+    _description = "Romania - Trial Balance XLSX Report"
+    _inherit = "report.a_f_r.report_trial_balance_xlsx"
 
     def _get_report_columns(self, report):
         return {
@@ -91,35 +80,139 @@ class RomaniaReportTrialBalanceXslx(models.AbstractModel):
         }
 
     def _get_report_filters(self, report):
-        return [
-            [_("Date from"), report.date_from],
-            [_("Date to"), report.date_to],
-            [_("All posted entries"), report.only_posted_moves],
-            [_("Hide accounts with 0 balance"), report.hide_account_balance_at_0],
-            [_("With special accounts"), report.with_special_accounts],
-        ]
 
-    def _get_col_count_filter_name(self):
-        return 2
+        return [
+            [
+                _("Date range filter"),
+                _("From: %s To: %s") % (report.date_from, report.date_to),
+            ],
+            [
+                _("Target moves filter"),
+                _("All posted entries")
+                if report.target_move == "all"
+                else _("All entries"),
+            ],
+            [
+                _("Account at 0 filter"),
+                _("Hide") if report.hide_account_at_0 else _("Show"),
+            ],
+            [
+                _("Show foreign currency"),
+                _("Yes") if report.foreign_currency else _("No"),
+            ],
+            [
+                _("Limit hierarchy levels"),
+                _("Level %s" % report.show_hierarchy_level)
+                if report.limit_hierarchy_level
+                else _("No limit"),
+            ],
+        ]
 
     def _get_col_count_filter_value(self):
         return 2
 
-    def _generate_report_content(self, workbook, report):
-        # For each line
-        self.write_array_header(workbook)
-        for line in report.line_account_ids:
-            style = {"font_size": 7}
-            if line.account_group_id and len(line.code) == 1:
-                style = {"font_size": 11, "bold": True, "font_color": "blue"}
-            if line.account_group_id and len(line.code) == 2:
-                style = {"font_size": 10, "bold": True, "font_color": "blue"}
-            if line.account_group_id and len(line.code) == 3:
-                style = {"font_size": 9, "bold": True, "font_color": "blue"}
-            if line.account_group_id and len(line.code) == 4:
-                style = {"font_size": 9, "bold": True, "font_color": "blue"}
-            if line.account_group_id and len(line.code) == 5:
-                style = {"font_size": 8, "bold": True, "font_color": "blue"}
-            style.update({"num_format": "#,##0.00"})
-            # Write line
-            self.write_line(workbook, line, dict(style))
+    def _generate_report_content(self, workbook, report, data, report_data):
+        res_data = self.env[
+            "report.l10n_ro_report_trial_balance.trial_balance"
+        ]._get_report_values(report, data)
+        trial_balance = res_data["trial_balance"]
+        # total_amount = res_data["total_amount"]
+
+        # accounts_data = res_data["accounts_data"]
+        hierarchy_on = res_data["hierarchy_on"]
+
+        show_hierarchy_level = res_data["show_hierarchy_level"]
+        # foreign_currency = res_data["foreign_currency"]
+        limit_hierarchy_level = res_data["limit_hierarchy_level"]
+
+        # Display array header for account lines
+        self.write_array_header(report_data)
+
+        # For each account
+
+        for balance in trial_balance:
+            if hierarchy_on == "relation":
+                if limit_hierarchy_level:
+                    if show_hierarchy_level > balance["level"]:
+                        # Display account lines
+                        self.write_line_from_dict_custom(balance, report_data, workbook)
+                else:
+                    self.write_line_from_dict_custom(balance, report_data, workbook)
+            elif hierarchy_on == "computed":
+                if balance["type"] == "account_type":
+                    if limit_hierarchy_level:
+                        if show_hierarchy_level > balance["level"]:
+                            # Display account lines
+                            self.write_line_from_dict_custom(
+                                balance, report_data, workbook
+                            )
+                    else:
+                        self.write_line_from_dict_custom(balance, report_data, workbook)
+            else:
+                self.write_line_from_dict_custom(balance, report_data, workbook)
+
+    def write_line_from_dict_custom(self, line_dict, report_data, workbook):
+        """Set the format of the xlsx lines for the groups of accounts according to their level"""
+
+        if line_dict["type"] == "group_type":
+            if line_dict["level"] == 0:
+                report_data["formats"]["custom"] = workbook.add_format(
+                    {"bold": True, "bg_color": "#f2f2f2"}
+                )
+                report_data["formats"]["custom_amount"] = workbook.add_format(
+                    {"bold": True, "bg_color": "#f2f2f2"}
+                )
+            elif line_dict["level"] == 1:
+                report_data["formats"]["custom"] = workbook.add_format(
+                    {"bold": True, "italic": True}
+                )
+                report_data["formats"]["custom_amount"] = workbook.add_format(
+                    {"bold": True, "italic": True}
+                )
+            elif line_dict["level"] == 2:
+                report_data["formats"]["custom"] = workbook.add_format(
+                    {"bold": False, "italic": True}
+                )
+                report_data["formats"]["custom_amount"] = workbook.add_format(
+                    {"italic": True}
+                )
+
+        self.write_line_from_dict(line_dict, report_data)
+
+    def write_line_from_dict(self, line_dict, report_data):
+        """Write a line on current line"""
+        for col_pos, column in report_data["columns"].items():
+            value = line_dict.get(column["field"], False)
+            cell_type = column.get("type", "string")
+            if cell_type == "string":
+                if "custom" in report_data["formats"].keys():
+                    cell_format = report_data["formats"]["custom"]
+                else:
+                    cell_format = ""
+                if (
+                    not isinstance(value, str)
+                    and not isinstance(value, bool)
+                    and not isinstance(value, int)
+                ):
+                    value = value and value.strftime("%d/%m/%Y")
+                    report_data["sheet"].write_string(
+                        report_data["row_pos"], col_pos, value or "", cell_format
+                    )
+                else:
+                    report_data["sheet"].write_string(
+                        report_data["row_pos"], col_pos, value or "", cell_format
+                    )
+            elif cell_type == "amount":
+                if "custom_amount" in report_data["formats"].keys():
+                    cell_format = report_data["formats"]["custom_amount"]
+                else:
+                    cell_format = report_data["formats"]["format_amount"]
+                report_data["sheet"].write_number(
+                    report_data["row_pos"], col_pos, float(value), cell_format
+                )
+
+        if "custom_amount" in report_data["formats"].keys():
+            report_data["formats"].pop("custom_amount")
+        if "custom" in report_data["formats"].keys():
+            report_data["formats"].pop("custom")
+        report_data["row_pos"] += 1

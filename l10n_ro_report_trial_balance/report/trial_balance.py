@@ -1,243 +1,641 @@
 # Copyright (C) 2018 FOREST AND BIOMASS ROMANIA SA
+# Copyright (C) 2021 NextERP Romania SRL
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
-from dateutil.relativedelta import relativedelta
-
-from odoo import api, fields, models
+from odoo import api, models
 
 
 class RomaniaTrialBalanceReport(models.TransientModel):
-    """Here, we just define class fields.
-    For methods, go more bottom at this file.
+    _name = "report.l10n_ro_report_trial_balance.trial_balance"
+    _inherit = "report.account_financial_report.trial_balance"
+    _description = "Romania - Trial Balance Report"
 
-    The class hierarchy is :
-    * RomaniaTrialBalanceReport
-    ** RomaniaTrialBalanceReportAccount
-    """
-
-    _name = "l10n_ro_report_trial_balance"
-
-    # Filters fields, used for data computation
-    date_from = fields.Date()
-    date_to = fields.Date()
-    only_posted_moves = fields.Boolean()
-    hide_account_balance_at_0 = fields.Boolean()
-    with_special_accounts = fields.Boolean()
-    company_id = fields.Many2one(comodel_name="res.company")
-    account_ids = fields.Many2many(comodel_name="account.account")
-
-    # Data fields, used to browse report data
-    line_account_ids = fields.One2many(
-        comodel_name="l10n_ro_report_trial_balance_account", inverse_name="report_id"
-    )
-
-
-class RomaniaTrialBalanceAccountReport(models.TransientModel):
-    _name = "l10n_ro_report_trial_balance_account"
-    _order = "code ASC, name ASC"
-
-    report_id = fields.Many2one(
-        comodel_name="l10n_ro_report_trial_balance", ondelete="cascade", index=True
-    )
-
-    # Data fields, used to keep link with real object
-    account_id = fields.Many2one("account.account", index=True)
-
-    account_group_id = fields.Many2one("account.group", index=True)
-
-    # Data fields, used for report display
-    code = fields.Char()
-    name = fields.Char()
-
-    debit_opening = fields.Float(digits=(16, 2))
-    credit_opening = fields.Float(digits=(16, 2))
-    debit_initial = fields.Float(digits=(16, 2))
-    credit_initial = fields.Float(digits=(16, 2))
-    debit = fields.Float(digits=(16, 2))
-    credit = fields.Float(digits=(16, 2))
-    debit_total = fields.Float(digits=(16, 2))
-    credit_total = fields.Float(digits=(16, 2))
-    debit_balance = fields.Float(digits=(16, 2))
-    credit_balance = fields.Float(digits=(16, 2))
-
-    # Data fields, used to browse report data
-    account_ids = fields.Many2many(comodel_name="account.account")
-
-
-class RomaniaTrialBalanceComputeReport(models.TransientModel):
-    """Here, we just define methods.
-    For class fields, go more top at this file.
-    """
-
-    _inherit = "l10n_ro_report_trial_balance"
-
-    @api.multi
-    def print_report(self, report_type="qweb"):
-        self.ensure_one()
-        context = dict(self.env.context)
-        if report_type == "xlsx":
-            report_name = "l10n_ro_report_trial_balance_xlsx"
-        else:
-            report_name = (
-                "l10n_ro_report_trial_balance." "l10n_ro_report_trial_balance_qweb"
-            )
-        action = self.env["ir.actions.report"].search(
-            [("report_name", "=", report_name), ("report_type", "=", report_type)],
-            limit=1,
-        )
-        return action.with_context(context).report_action(self)
-
-    def _get_html(self):
-        result = {}
-        rcontext = {}
-        context = dict(self.env.context)
-        report = self.browse(context.get("active_id"))
-        if report:
-            rcontext["o"] = report
-            result["html"] = self.env.ref(
-                "l10n_ro_report_trial_balance." "l10n_ro_report_trial_balance"
-            ).render(rcontext)
-        return result
+    # def _get_html(self):
+    #     result = {}
+    #     rcontext = {}
+    #     context = dict(self.env.context)
+    #     rcontext.update(context.get("data"))
+    #     active_id = context.get("active_id")
+    #     wiz = self.env["open.items.report.wizard"].browse(active_id)
+    #     rcontext["o"] = wiz
+    #     result["html"] = self.env.ref(
+    #         "l10n_ro_report_trial_balance.report_trial_balance"
+    #     ).render(rcontext)
+    #     return result
 
     @api.model
-    def get_html(self, given_context=None):
-        return self.with_context(given_context)._get_html()
-
-    @api.multi
-    def compute_data_for_report(self):
-        self.ensure_one()
-        self._inject_account_lines()
-        self._compute_account_group_values()
-        # Refresh cache because all data are computed with SQL requests
-        self.refresh()
-
-    def _inject_account_lines(self):
-        """Inject report values for report_trial_balance_account"""
-        date_from = fields.Date.from_string(self.date_from)
-        fy_start_date = fields.Date.to_string(date_from + relativedelta(day=1, month=1))
-        if self.only_posted_moves:
-            states = "'posted'"
-        else:
-            states = "'draft', 'posted'"
-        if self.account_ids:
-            accounts = self.account_ids
-        else:
-            accounts = self.env["account.account"].search(
-                [("company_id", "=", self.company_id.id)]
+    def _compute_account_amount(
+        self,
+        total_amount,
+        tb_initial_acc,
+        opening_domain_acc,
+        initial_domain_acc,
+        period_domain_acc,
+        total_domain_acc,
+    ):
+        for tb in tb_initial_acc:
+            acc_id = tb["account_id"]
+            total_amount[acc_id] = {}
+            opening_element = list(
+                filter(
+                    lambda acc_dict: acc_dict["account_id"][0] == acc_id,
+                    opening_domain_acc,
+                )
             )
-        if not self.with_special_accounts:
-            sp_acc_type = self.env.ref("l10n_ro.data_account_type_not_classified")
-            if sp_acc_type:
-                accounts = accounts.filtered(
-                    lambda a: a.user_type_id.id != sp_acc_type.id
+            initial_element = list(
+                filter(
+                    lambda acc_dict: acc_dict["account_id"][0] == acc_id,
+                    initial_domain_acc,
                 )
-        query_inject_account = """
-INSERT INTO
-    l10n_ro_report_trial_balance_account
-    (
-    report_id,
-    create_uid,
-    create_date,
-    account_id,
-    code,
-    name,
-    debit_opening,
-    credit_opening,
-    debit_initial,
-    credit_initial,
-    debit,
-    credit,
-    debit_total,
-    credit_total,
-    debit_balance,
-    credit_balance)
-SELECT
-    %s AS report_id,
-    %s AS create_uid,
-    NOW() AS create_date,
-    accounts.*,
-    CASE WHEN accounts.debit_total > accounts.credit_total
-        THEN accounts.debit_total - accounts.credit_total
-        ELSE 0
-    END AS debit_balance,
-    CASE WHEN accounts.credit_total > accounts.debit_total
-        THEN accounts.credit_total - accounts.debit_total
-        ELSE 0
-    END AS credit_balance
-FROM
-    (
-    SELECT
-        acc.id, acc.code, acc.name,
-        coalesce(sum(open.debit),0) AS debit_opening,
-        coalesce(sum(open.credit),0) AS credit_opening,
-        coalesce(sum(init.debit),0) AS debit_initial,
-        coalesce(sum(init.credit),0) AS credit_initial,
-        coalesce(sum(current.debit),0) AS debit,
-        coalesce(sum(current.credit),0) AS credit,
-        coalesce(sum(open.debit),0) + coalesce(sum(init.debit),0) +
-            coalesce(sum(current.debit),0) AS debit_total,
-        coalesce(sum(open.credit),0) + coalesce(sum(init.credit),0) +
-            coalesce(sum(current.credit),0) AS credit_total
-    FROM
-        account_account acc
-        LEFT OUTER JOIN account_move_line AS open
-            ON open.account_id = acc.id AND open.date < %s
-        LEFT OUTER JOIN account_move_line AS init
-            ON init.account_id = acc.id AND init.date >= %s AND init.date < %s
-        LEFT OUTER JOIN account_move_line AS current
-            ON current.account_id = acc.id AND current.date >= %s
-                AND current.date <= %s
-        LEFT JOIN account_move AS move
-            ON open.move_id = move.id AND move.state in (%s)
-        LEFT JOIN account_move AS init_move
-            ON init.move_id = init_move.id AND init_move.state in (%s)
-        LEFT JOIN account_move AS current_move
-            ON current.move_id = current_move.id AND current_move.state in (%s)
-    WHERE acc.id in %s
-    GROUP BY acc.id
-    ORDER BY acc.code) as accounts"""
-        query_inject_account_params = (
-            self.id,
-            self.env.uid,
-            fy_start_date,
-            fy_start_date,
-            self.date_from,
-            self.date_from,
-            self.date_to,
-            states,
-            states,
-            states,
-            accounts._ids,
-        )
-        self.env.cr.execute(query_inject_account, query_inject_account_params)
+            )
+            period_element = list(
+                filter(
+                    lambda acc_dict: acc_dict["account_id"][0] == acc_id,
+                    period_domain_acc,
+                )
+            )
+            total_element = list(
+                filter(
+                    lambda acc_dict: acc_dict["account_id"][0] == acc_id,
+                    total_domain_acc,
+                )
+            )
+            balance = (
+                (total_element[0]["debit"] - total_element[0]["credit"])
+                if total_element
+                else 0
+            )
+            total_amount[acc_id]["credit_opening"] = (
+                -1 * opening_element[0]["balance"]
+                if opening_element and opening_element[0]["balance"] < 0
+                else 0
+            )
+            total_amount[acc_id]["debit_opening"] = (
+                opening_element[0]["balance"]
+                if opening_element and opening_element[0]["balance"] > 0
+                else 0
+            )
+            total_amount[acc_id]["credit_initial"] = (
+                initial_element[0]["credit"] if initial_element else 0
+            )
+            total_amount[acc_id]["debit_initial"] = (
+                initial_element[0]["debit"] if initial_element else 0
+            )
+            total_amount[acc_id]["credit"] = (
+                period_element[0]["credit"] if period_element else 0
+            )
+            total_amount[acc_id]["debit"] = (
+                period_element[0]["debit"] if period_element else 0
+            )
+            total_amount[acc_id]["credit_total"] = (
+                total_element[0]["credit"] if total_element else 0
+            )
+            total_amount[acc_id]["debit_total"] = (
+                total_element[0]["debit"] if total_element else 0
+            )
+            total_amount[acc_id]["credit_balance"] = -balance if balance < 0 else 0
+            total_amount[acc_id]["debit_balance"] = balance if balance > 0 else 0
 
-    def _compute_account_group_values(self):
-        if not self.account_ids:
-            acc_res = self.line_account_ids
-            groups = self.env["account.group"].search([("code_prefix", "!=", False)])
-            for group in groups:
-                accounts = acc_res.filtered(
-                    lambda a: a.account_id.id in group.compute_account_ids.ids
+        for tb in tb_initial_acc:
+            acc_id = tb["account_id"]
+            if acc_id not in total_amount.keys():
+                total_amount[acc_id] = {}
+                total_amount[acc_id]["credit_opening"] = 0.0
+                total_amount[acc_id]["debit_opening"] = 0.0
+                total_amount[acc_id]["credit_initial"] = 0.0
+                total_amount[acc_id]["debit_initial"] = 0.0
+                total_amount[acc_id]["credit"] = 0.0
+                total_amount[acc_id]["debit"] = 0.0
+                total_amount[acc_id]["credit_total"] = 0.0
+                total_amount[acc_id]["debit_total"] = 0.0
+                total_amount[acc_id]["credit_balance"] = 0.0
+                total_amount[acc_id]["debit_balance"] = 0.0
+
+        return total_amount
+
+    def _get_balances_at_date_ml_domain(
+        self,
+        account_ids,
+        journal_ids,
+        company_id,
+        date_from,
+        only_posted_moves,
+        include_date=False,
+    ):
+        accounts_domain = [
+            ("company_id", "=", company_id),
+        ]
+        if account_ids:
+            accounts_domain += [("id", "in", account_ids)]
+        if include_date:
+            domain = [("date", "<=", date_from)]
+        else:
+            domain = [("date", "<", date_from)]
+
+        accounts = self.env["account.account"].search(accounts_domain)
+        domain += [("account_id", "in", accounts.ids)]
+        if company_id:
+            domain += [("company_id", "=", company_id)]
+        if journal_ids:
+            domain += [("journal_id", "in", journal_ids)]
+        if only_posted_moves:
+            domain += [("move_id.state", "=", "posted")]
+        return domain
+
+    @api.model
+    def _get_data(
+        self,
+        account_ids,
+        journal_ids,
+        company_id,
+        date_to,
+        date_from,
+        only_posted_moves,
+        hide_account_at_0,
+        unaffected_earnings_account,
+        fy_start_date,
+        show_off_balance_accounts,
+    ):
+        accounts_domain = [("company_id", "=", company_id)]
+        if account_ids:
+            accounts_domain += [("id", "in", account_ids)]
+        if not show_off_balance_accounts:
+            off_balance_type = self.env.ref("account.data_account_off_sheet")
+            if off_balance_type:
+                accounts_domain += [("user_type_id", "!=", off_balance_type.id)]
+        accounts = self.env["account.account"].search(accounts_domain)
+        tb_initial_acc = []
+        for account in accounts:
+            tb_initial_acc.append(
+                {
+                    "account_id": account.id,
+                    "credit_opening": 0.0,
+                    "debit_opening": 0.0,
+                    "credit_initial": 0.0,
+                    "debit_initial": 0.0,
+                    "credit": 0.0,
+                    "debit": 0.0,
+                    "credit_total": 0.0,
+                    "debit_total": 0.0,
+                    "credit_balance": 0.0,
+                    "debit_balance": 0.0,
+                    "amount_currency": 0.0,
+                }
+            )
+        opening_domain = self._get_balances_at_date_ml_domain(
+            account_ids,
+            journal_ids,
+            company_id,
+            fy_start_date,
+            only_posted_moves,
+        )
+        opening_domain_acc = self.env["account.move.line"].read_group(
+            domain=opening_domain,
+            fields=["account_id", "balance", "amount_currency"],
+            groupby=["account_id"],
+        )
+
+        initial_domain = self._get_period_ml_domain(
+            account_ids,
+            journal_ids,
+            None,
+            company_id,
+            date_from,
+            fy_start_date,
+            only_posted_moves,
+            None,
+        )
+        initial_domain_acc = self.env["account.move.line"].read_group(
+            domain=initial_domain,
+            fields=["account_id", "debit", "credit", "balance", "amount_currency"],
+            groupby=["account_id"],
+        )
+
+        period_domain = self._get_period_ml_domain(
+            account_ids,
+            journal_ids,
+            None,
+            company_id,
+            date_to,
+            date_from,
+            only_posted_moves,
+            None,
+        )
+        period_domain_acc = self.env["account.move.line"].read_group(
+            domain=period_domain,
+            fields=["account_id", "debit", "credit", "balance", "amount_currency"],
+            groupby=["account_id"],
+        )
+
+        total_domain = self._get_balances_at_date_ml_domain(
+            account_ids,
+            journal_ids,
+            company_id,
+            date_to,
+            only_posted_moves,
+            include_date=True,
+        )
+        total_domain_acc = self.env["account.move.line"].read_group(
+            domain=total_domain,
+            fields=["account_id", "debit", "credit", "balance", "amount_currency"],
+            groupby=["account_id"],
+        )
+
+        for account_rg in tb_initial_acc:
+            element = list(
+                filter(
+                    lambda acc_dict: acc_dict["account_id"] == account_rg["account_id"],
+                    total_domain_acc,
                 )
-                if self.hide_account_balance_at_0:
-                    accounts = accounts.filtered(
-                        lambda a: a.debit_balance != 0 or a.credit_balance != 0
-                    )
-                if accounts:
-                    newdict = {
-                        "report_id": self.id,
-                        "account_group_id": group.id,
-                        "code": group.code_prefix,
+            )
+            if element:
+                element[0]["amount_currency"] += account_rg["amount_currency"]
+        total_amount = {}
+
+        total_amount = self._compute_account_amount(
+            total_amount,
+            tb_initial_acc,
+            opening_domain_acc,
+            initial_domain_acc,
+            period_domain_acc,
+            total_domain_acc,
+        )
+        if hide_account_at_0:
+            new_total_amount = {}
+            for key, value in total_amount.items():
+                if (
+                    value["debit_opening"] != 0
+                    or value["credit_opening"] != 0
+                    or value["debit_initial"] != 0
+                    or value["credit_initial"] != 0
+                    or value["debit"] != 0
+                    or value["credit"] != 0
+                    or value["debit_total"] != 0
+                    or value["credit_total"] != 0
+                    or value["debit_balance"] != 0
+                    or value["credit_balance"] != 0
+                ):
+                    new_total_amount[key] = value
+            total_amount = new_total_amount
+
+        accounts_ids = list(total_amount.keys())
+        unaffected_id = unaffected_earnings_account
+        if unaffected_id not in accounts_ids:
+            accounts_ids.append(unaffected_id)
+            total_amount[unaffected_id] = {}
+            total_amount[unaffected_id]["debit_opening"] = 0.0
+            total_amount[unaffected_id]["credit_opening"] = 0.0
+            total_amount[unaffected_id]["debit_initial"] = 0.0
+            total_amount[unaffected_id]["credit_initial"] = 0.0
+            total_amount[unaffected_id]["debit"] = 0.0
+            total_amount[unaffected_id]["credit"] = 0.0
+            total_amount[unaffected_id]["debit_total"] = 0.0
+            total_amount[unaffected_id]["credit_total"] = 0.0
+            total_amount[unaffected_id]["debit_balance"] = 0.0
+            total_amount[unaffected_id]["credit_balance"] = 0.0
+
+        accounts_data = self._get_accounts_data(accounts_ids)
+        # pl_initial_balance, pl_initial_currency_balance = self._get_pl_initial_balance(
+        #     account_ids,
+        #     journal_ids,
+        #     None,
+        #     company_id,
+        #     fy_start_date,
+        #     only_posted_moves,
+        #     None,
+        #     None,
+        # )
+        # if foreign_currency:
+        #     total_amount[unaffected_id][
+        #         "ending_currency_balance"
+        #     ] += pl_initial_currency_balance
+        #     total_amount[unaffected_id][
+        #         "initial_currency_balance"
+        #     ] += pl_initial_currency_balance
+        return (
+            total_amount,
+            accounts_data,
+        )
+
+    def _get_hierarchy_groups(
+        self, group_ids, groups_data, old_groups_ids, foreign_currency
+    ):
+        new_parents = False
+        for group_id in group_ids:
+            if groups_data[group_id]["parent_id"]:
+                new_parents = True
+                nw_id = groups_data[group_id]["parent_id"]
+                if nw_id in groups_data.keys():
+                    groups_data[nw_id]["debit_opening"] += groups_data[group_id][
+                        "debit_opening"
+                    ]
+                    groups_data[nw_id]["credit_opening"] += groups_data[group_id][
+                        "credit_opening"
+                    ]
+                    groups_data[nw_id]["debit_initial"] += groups_data[group_id][
+                        "debit_initial"
+                    ]
+                    groups_data[nw_id]["credit_initial"] += groups_data[group_id][
+                        "credit_initial"
+                    ]
+                    groups_data[nw_id]["debit"] += groups_data[group_id]["debit"]
+                    groups_data[nw_id]["credit"] += groups_data[group_id]["credit"]
+                    groups_data[nw_id]["debit_total"] += groups_data[group_id][
+                        "debit_total"
+                    ]
+                    groups_data[nw_id]["credit_total"] += groups_data[group_id][
+                        "credit_total"
+                    ]
+                    groups_data[nw_id]["debit_balance"] += groups_data[group_id][
+                        "debit_balance"
+                    ]
+                    groups_data[nw_id]["credit_balance"] += groups_data[group_id][
+                        "credit_balance"
+                    ]
+                else:
+                    groups_data[nw_id] = {}
+                    groups_data[nw_id]["debit_opening"] = groups_data[group_id][
+                        "debit_opening"
+                    ]
+                    groups_data[nw_id]["credit_opening"] = groups_data[group_id][
+                        "credit_opening"
+                    ]
+                    groups_data[nw_id]["debit_initial"] = groups_data[group_id][
+                        "debit_initial"
+                    ]
+                    groups_data[nw_id]["credit_initial"] = groups_data[group_id][
+                        "credit_initial"
+                    ]
+                    groups_data[nw_id]["debit"] = groups_data[group_id]["debit"]
+                    groups_data[nw_id]["credit"] = groups_data[group_id]["credit"]
+                    groups_data[nw_id]["debit_total"] = groups_data[group_id][
+                        "debit_total"
+                    ]
+                    groups_data[nw_id]["credit_total"] = groups_data[group_id][
+                        "credit_total"
+                    ]
+                    groups_data[nw_id]["debit_balance"] = groups_data[group_id][
+                        "debit_balance"
+                    ]
+                    groups_data[nw_id]["credit_balance"] = groups_data[group_id][
+                        "credit_balance"
+                    ]
+
+        if new_parents:
+            nw_groups_ids = []
+            for group_id in list(groups_data.keys()):
+                if group_id not in old_groups_ids:
+                    nw_groups_ids.append(group_id)
+                    old_groups_ids.append(group_id)
+            groups = self.env["account.group"].browse(nw_groups_ids)
+            for group in groups:
+                groups_data[group.id].update(
+                    {
+                        "id": group.id,
+                        "code": group.code_prefix_start,
                         "name": group.name,
-                        "debit_opening": sum(acc.debit_opening for acc in accounts),
-                        "credit_opening": sum(acc.credit_opening for acc in accounts),
-                        "debit_initial": sum(acc.debit_initial for acc in accounts),
-                        "credit_initial": sum(acc.credit_initial for acc in accounts),
-                        "debit": sum(acc.debit for acc in accounts),
-                        "credit": sum(acc.credit for acc in accounts),
-                        "debit_total": sum(acc.debit_total for acc in accounts),
-                        "credit_total": sum(acc.credit_total for acc in accounts),
-                        "debit_balance": sum(acc.debit_balance for acc in accounts),
-                        "credit_balance": sum(acc.credit_balance for acc in accounts),
+                        "parent_id": group.parent_id.id,
+                        "parent_path": group.parent_path,
+                        "complete_code": group.complete_code,
+                        "account_ids": group.compute_account_ids.ids,
+                        "type": "group_type",
                     }
-                    self.env["l10n_ro_report_trial_balance_account"].create(newdict)
+                )
+            groups_data = self._get_hierarchy_groups(
+                nw_groups_ids, groups_data, old_groups_ids, None
+            )
+        return groups_data
+
+    def _get_groups_data(self, accounts_data, total_amount, foreign_currency):
+        accounts_ids = list(accounts_data.keys())
+        accounts = self.env["account.account"].browse(accounts_ids)
+        account_group_relation = {}
+        for account in accounts:
+            accounts_data[account.id]["complete_code"] = (
+                account.group_id.complete_code if account.group_id.id else ""
+            )
+            if account.group_id.id:
+                if account.group_id.id not in account_group_relation.keys():
+                    account_group_relation.update({account.group_id.id: [account.id]})
+                else:
+                    account_group_relation[account.group_id.id].append(account.id)
+        groups = self.env["account.group"].browse(account_group_relation.keys())
+        groups_data = {}
+        for group in groups:
+            groups_data.update(
+                {
+                    group.id: {
+                        "id": group.id,
+                        "code": group.code_prefix_start,
+                        "name": group.name,
+                        "parent_id": group.parent_id.id,
+                        "parent_path": group.parent_path,
+                        "type": "group_type",
+                        "complete_code": group.complete_code,
+                        "account_ids": group.compute_account_ids.ids,
+                        "credit_opening": 0.0,
+                        "debit_opening": 0.0,
+                        "credit_initial": 0.0,
+                        "debit_initial": 0.0,
+                        "credit": 0.0,
+                        "debit": 0.0,
+                        "credit_total": 0.0,
+                        "debit_total": 0.0,
+                        "credit_balance": 0.0,
+                        "debit_balance": 0.0,
+                    }
+                }
+            )
+
+        for group_id in account_group_relation.keys():
+            for account_id in account_group_relation[group_id]:
+                groups_data[group_id]["debit_opening"] += total_amount[account_id][
+                    "debit_opening"
+                ]
+                groups_data[group_id]["credit_opening"] += total_amount[account_id][
+                    "credit_opening"
+                ]
+                groups_data[group_id]["debit_initial"] += total_amount[account_id][
+                    "debit_initial"
+                ]
+                groups_data[group_id]["credit_initial"] += total_amount[account_id][
+                    "credit_initial"
+                ]
+                groups_data[group_id]["debit"] += total_amount[account_id]["debit"]
+                groups_data[group_id]["credit"] += total_amount[account_id]["credit"]
+                groups_data[group_id]["debit_total"] += total_amount[account_id][
+                    "debit_total"
+                ]
+                groups_data[group_id]["credit_total"] += total_amount[account_id][
+                    "credit_total"
+                ]
+                groups_data[group_id]["debit_balance"] += total_amount[account_id][
+                    "debit_balance"
+                ]
+                groups_data[group_id]["credit_balance"] += total_amount[account_id][
+                    "credit_balance"
+                ]
+
+        group_ids = list(groups_data.keys())
+        old_group_ids = list(groups_data.keys())
+        groups_data = self._get_hierarchy_groups(
+            group_ids, groups_data, old_group_ids, foreign_currency
+        )
+        return groups_data
+
+    def _get_computed_groups_data(self, accounts_data, total_amount, foreign_currency):
+        groups = self.env["account.group"].search([("id", "!=", False)])
+        groups_data = {}
+        for group in groups:
+            if group.code_prefix_start:
+                len_group_code = len(group.code_prefix_start)
+                groups_data.update(
+                    {
+                        group.id: {
+                            "id": group.id,
+                            "code": group.code_prefix_start,
+                            "name": group.name,
+                            "parent_id": group.parent_id.id,
+                            "parent_path": group.parent_path,
+                            "type": "group_type",
+                            "complete_code": group.complete_code,
+                            "account_ids": group.compute_account_ids.ids,
+                            "credit_opening": 0.0,
+                            "debit_opening": 0.0,
+                            "credit_initial": 0.0,
+                            "debit_initial": 0.0,
+                            "credit": 0.0,
+                            "debit": 0.0,
+                            "credit_total": 0.0,
+                            "debit_total": 0.0,
+                            "credit_balance": 0.0,
+                            "debit_balance": 0.0,
+                            "initial_balance": 0.0,
+                            "ending_balance": 0.0,
+                        }
+                    }
+                )
+
+                for account in accounts_data.values():
+                    if group.code_prefix_start == account["code"][:len_group_code]:
+                        acc_id = account["id"]
+                        group_id = group.id
+                        groups_data[group_id]["debit_opening"] += total_amount[acc_id][
+                            "debit_opening"
+                        ]
+                        groups_data[group_id]["credit_opening"] += total_amount[acc_id][
+                            "credit_opening"
+                        ]
+                        groups_data[group_id]["debit_initial"] += total_amount[acc_id][
+                            "debit_initial"
+                        ]
+                        groups_data[group_id]["credit_initial"] += total_amount[acc_id][
+                            "credit_initial"
+                        ]
+                        groups_data[group_id]["debit"] += total_amount[acc_id]["debit"]
+                        groups_data[group_id]["credit"] += total_amount[acc_id][
+                            "credit"
+                        ]
+                        groups_data[group_id]["debit_total"] += total_amount[acc_id][
+                            "debit_total"
+                        ]
+                        groups_data[group_id]["credit_total"] += total_amount[acc_id][
+                            "credit_total"
+                        ]
+                        groups_data[group_id]["debit_balance"] += total_amount[acc_id][
+                            "debit_balance"
+                        ]
+                        groups_data[group_id]["credit_balance"] += total_amount[acc_id][
+                            "credit_balance"
+                        ]
+
+        return groups_data
+
+    def _get_report_values(self, docids, data):
+
+        wizard_id = data["wizard_id"]
+        company = self.env["res.company"].browse(data["company_id"])
+        company_id = data["company_id"]
+
+        journal_ids = data["journal_ids"]
+        account_ids = data["account_ids"]
+        date_to = data["date_to"]
+        date_from = data["date_from"]
+        hide_account_at_0 = data["hide_account_at_0"]
+        hierarchy_on = data["hierarchy_on"]
+        show_hierarchy_level = data["show_hierarchy_level"]
+        # foreign_currency = data["foreign_currency"]
+        only_posted_moves = data["only_posted_moves"]
+        unaffected_earnings_account = data["unaffected_earnings_account"]
+        fy_start_date = data["fy_start_date"]
+        show_off_balance_accounts = data["show_off_balance_accounts"]
+        total_amount, accounts_data = self._get_data(
+            account_ids,
+            journal_ids,
+            company_id,
+            date_to,
+            date_from,
+            only_posted_moves,
+            hide_account_at_0,
+            unaffected_earnings_account,
+            fy_start_date,
+            show_off_balance_accounts,
+        )
+        trial_balance = []
+
+        for account_id in accounts_data.keys():
+            accounts_data[account_id].update(
+                {
+                    "debit_opening": total_amount[account_id]["debit_opening"],
+                    "credit_opening": total_amount[account_id]["credit_opening"],
+                    "debit_initial": total_amount[account_id]["debit_initial"],
+                    "credit_initial": total_amount[account_id]["credit_initial"],
+                    "debit": total_amount[account_id]["debit"],
+                    "credit": total_amount[account_id]["credit"],
+                    "debit_total": total_amount[account_id]["debit_total"],
+                    "credit_total": total_amount[account_id]["credit_total"],
+                    "debit_balance": total_amount[account_id]["debit_balance"],
+                    "credit_balance": total_amount[account_id]["credit_balance"],
+                    "type": "account_type",
+                }
+            )
+
+        if hierarchy_on == "relation":
+            groups_data = self._get_groups_data(accounts_data, total_amount, None)
+            trial_balance = list(groups_data.values())
+            trial_balance += list(accounts_data.values())
+            trial_balance = sorted(trial_balance, key=lambda k: k["complete_code"])
+            for trial in trial_balance:
+                counter = trial["complete_code"].count("/")
+                trial["level"] = counter
+        if hierarchy_on == "computed":
+            groups_data = self._get_computed_groups_data(
+                accounts_data, total_amount, None
+            )
+            trial_balance = list(groups_data.values())
+            trial_balance += list(accounts_data.values())
+            trial_balance = sorted(trial_balance, key=lambda k: k["code"])
+        if hierarchy_on == "none":
+            trial_balance = list(accounts_data.values())
+            trial_balance = sorted(trial_balance, key=lambda k: k["code"])
+
+        return {
+            "doc_ids": [wizard_id],
+            "doc_model": "trial.balance.report.wizard",
+            "docs": self.env["trial.balance.report.wizard"].browse(wizard_id),
+            "foreign_currency": data["foreign_currency"],
+            "company_name": company.display_name,
+            "company_currency": company.currency_id,
+            "currency_name": company.currency_id.name,
+            "fy_start_date": data["fy_start_date"],
+            "date_from": data["date_from"],
+            "date_to": data["date_to"],
+            "only_posted_moves": data["only_posted_moves"],
+            "hide_account_at_0": data["hide_account_at_0"],
+            "limit_hierarchy_level": data["limit_hierarchy_level"],
+            "hierarchy_on": hierarchy_on,
+            "trial_balance": trial_balance,
+            "total_amount": total_amount,
+            "accounts_data": accounts_data,
+            "show_hierarchy_level": show_hierarchy_level,
+        }
