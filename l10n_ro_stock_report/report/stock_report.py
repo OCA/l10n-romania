@@ -31,7 +31,7 @@ class StorageSheet(models.TransientModel):
          If nothing selected will show only products that have moves in period",
     )
 
-    products_with_move = fields.Boolean(default=True)
+    products_with_move = fields.Boolean(default=False)
 
     date_range_id = fields.Many2one("date.range", string="Date range")
     date_from = fields.Date("Start Date", required=True, default=fields.Date.today)
@@ -152,7 +152,7 @@ class StorageSheet(models.TransientModel):
         params.update({"reference": "INITIALA"})
         self.env.cr.execute(query_select_sold_init, params=params)
         res = self.env.cr.dictfetchall()
-        self.line_product_ids.create(res)
+        initial = self.line_product_ids.create(res)
 
         query_select_sold_final = """
             SELECT %(report)s as report_id, sm.product_id as product_id,
@@ -185,7 +185,7 @@ class StorageSheet(models.TransientModel):
         params.update({"reference": "FINALA"})
         self.env.cr.execute(query_select_sold_final, params=params)
         res = self.env.cr.dictfetchall()
-        self.line_product_ids.create(res)
+        final = self.line_product_ids.create(res)
 
         query = """
 
@@ -260,18 +260,22 @@ class StorageSheet(models.TransientModel):
 
         self.env.cr.execute(query, params=params)
         res = self.env.cr.dictfetchall()
-        self.line_product_ids.create(res)
+        current = self.line_product_ids.create(res)
+
+        line_product_ids = initial + current + final
 
         if self.location_id.property_stock_valuation_account_id:
-            self.line_product_ids.write(
+            line_product_ids.write(
                 {"account_id": self.location_id.property_stock_valuation_account_id.id}
             )
         else:
-            for line in self.line_product_ids:
-                line.write(
-                    {
-                        "account_id": line.product_id.categ_id.property_stock_valuation_account_id.id
-                    }
+            categories = self.env["product.category"].search([])
+            for category in categories:
+                lines = self.env["stock.storage.sheet.line"].search(
+                    [("categ_id", "=", category.id)]
+                )
+                lines.write(
+                    {"account_id": category.property_stock_valuation_account_id.id}
                 )
 
     def get_found_products(self):
@@ -352,7 +356,7 @@ class StorageSheetLine(models.TransientModel):
         string="Currency",
         default=lambda self: self.env.company.currency_id,
     )
-    categ_id = fields.Many2one("product.category", related="product_id.categ_id")
+    categ_id = fields.Many2one("product.category", related="product_id.categ_id",  index=True, store=True)
     account_id = fields.Many2one("account.account")
 
     def get_general_buttons(self):
