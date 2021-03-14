@@ -106,7 +106,7 @@
         <field name="model">stock.storage.sheet.line</field>
         <field name="arch" type="xml">
             <pivot string="Stock Analysis" disable_linking="True">
-                <field name="product_id" type="row" />
+                <field name="account_id" type="row" />
                 <field name="quantity_initial" type="measure" />
                 <field name="amount_initial" type="measure" />
                 <field name="quantity_in" type="measure" />
