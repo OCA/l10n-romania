@@ -157,6 +157,7 @@ class AccountPeriodClosing(models.Model):
                     "state": "posted",
                     "date_from": date_from,
                     "date_to": date_to,
+                    "company_id": closing.company_id.id,
                 }
             )
             account_res = self.with_context(ctx)._get_accounts(
