@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 14.0\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2021-01-22 09:40+0000\n"
+"PO-Revision-Date: 2021-03-16 11:46+0000\n"
 "Last-Translator: Dorin Hongu <dhongu@gmail.com>\n"
 "Language-Team: none\n"
 "Language: ro\n"
@@ -24,6 +24,9 @@ msgid ""
 "specific.\" role=\"img\" aria-label=\"Values set here are company-"
 "specific.\" groups=\"base.group_multi_company\"/>"
 msgstr ""
+"<span class=\"fa fa-lg fa-building-o\" title=\"Valoarea este specifică "
+"companiei\" role=\"img\" aria-label=\"Valoarea este specifică companiei\" "
+"groups=\"base.group_multi_company\"/>"
 
 #. module: l10n_ro_config
 #: model_terms:ir.ui.view,arch_db:l10n_ro_config.res_config_settings_view_form
@@ -32,6 +35,8 @@ msgid ""
 "specific.\" role=\"img\" aria-label=\"Values set here are company-"
 "specific.\"/>"
 msgstr ""
+"<span class=\"fa fa-lg fa-building-o\" title=\"Valoarea este specifică "
+"companiei\" role=\"img\" aria-label=\"Valoarea este specifică companiei\"/>"
 
 #. module: l10n_ro_config
 #: model_terms:ir.ui.view,arch_db:l10n_ro_config.banks
@@ -67,27 +72,27 @@ msgstr "<strong>Capital social:</strong>"
 #. module: l10n_ro_config
 #: model:ir.model.fields,field_description:l10n_ro_config.field_res_config_settings__module_l10n_ro_account_report_balance_sheet
 msgid "Account Balance Sheet Report"
-msgstr ""
+msgstr "Raport Bilant"
 
 #. module: l10n_ro_config
 #: model:ir.model.fields,field_description:l10n_ro_config.field_res_config_settings__module_l10n_ro_account_report_D300
 msgid "Account D300 Report"
-msgstr ""
+msgstr "Declarația D300"
 
 #. module: l10n_ro_config
 #: model:ir.model.fields,field_description:l10n_ro_config.field_res_config_settings__module_l10n_ro_account_report_D390
 msgid "Account D390 Report"
-msgstr ""
+msgstr "Declarația D390"
 
 #. module: l10n_ro_config
 #: model:ir.model.fields,field_description:l10n_ro_config.field_res_config_settings__module_l10n_ro_account_report_D394
 msgid "Account D394 Report"
-msgstr ""
+msgstr "Declarația D394"
 
 #. module: l10n_ro_config
 #: model:ir.model.fields,field_description:l10n_ro_config.field_res_config_settings__module_l10n_ro_intrastat
 msgid "Account Intrastat Report"
-msgstr ""
+msgstr "Rpoart intrastat"
 
 #. module: l10n_ro_config
 #: model:ir.model.fields,field_description:l10n_ro_config.field_res_config_settings__module_l10n_ro_account_report_inventory_sheet
@@ -117,12 +122,12 @@ msgstr ""
 #. module: l10n_ro_config
 #: model:ir.model.fields,field_description:l10n_ro_config.field_res_config_settings__module_l10n_ro_account_report_trial_balance
 msgid "Account Trial Balance Report"
-msgstr ""
+msgstr "Raport balantă de verificare"
 
 #. module: l10n_ro_config
 #: model_terms:ir.ui.view,arch_db:l10n_ro_config.res_config_settings_view_form
 msgid "Accounting"
-msgstr ""
+msgstr "Contabilitate"
 
 #. module: l10n_ro_config
 #: model_terms:ir.ui.view,arch_db:l10n_ro_config.res_config_settings_view_form
@@ -134,7 +139,7 @@ msgstr ""
 #. module: l10n_ro_config
 #: model_terms:ir.ui.view,arch_db:l10n_ro_config.res_config_settings_view_form
 msgid "Adresses"
-msgstr ""
+msgstr "Adrese"
 
 #. module: l10n_ro_config
 #: model:ir.model.fields,field_description:l10n_ro_config.field_res_config_settings__use_anglo_saxon
@@ -149,7 +154,7 @@ msgstr ""
 #. module: l10n_ro_config
 #: model:ir.model,name:l10n_ro_config.model_res_company
 msgid "Companies"
-msgstr ""
+msgstr "Companii"
 
 #. module: l10n_ro_config
 #: model:ir.model.fields,field_description:l10n_ro_config.field_res_company__property_stock_transfer_account_id
@@ -184,7 +189,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_ro_config.field_res_partner__display_name
 #: model:ir.model.fields,field_description:l10n_ro_config.field_res_partner_bank__display_name
 msgid "Display Name"
-msgstr ""
+msgstr "Nume afișat"
 
 #. module: l10n_ro_config
 #: model:ir.model.fields,help:l10n_ro_config.field_res_config_settings__module_l10n_ro_address_extended
@@ -237,7 +242,7 @@ msgstr ""
 #. module: l10n_ro_config
 #: model:ir.model,name:l10n_ro_config.model_account_journal
 msgid "Journal"
-msgstr ""
+msgstr "Jurnal"
 
 #. module: l10n_ro_config
 #: model:ir.model.fields,field_description:l10n_ro_config.field_account_journal____last_update
@@ -262,7 +267,7 @@ msgstr ""
 #. module: l10n_ro_config
 #: model_terms:ir.ui.view,arch_db:l10n_ro_config.res_config_settings_view_form
 msgid "Partners"
-msgstr ""
+msgstr "Parteneri"
 
 #. module: l10n_ro_config
 #: model:ir.model.fields,field_description:l10n_ro_config.field_res_config_settings__module_l10n_ro_fiscal_validation
