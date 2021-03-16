@@ -356,7 +356,9 @@ class StorageSheetLine(models.TransientModel):
         string="Currency",
         default=lambda self: self.env.company.currency_id,
     )
-    categ_id = fields.Many2one("product.category", related="product_id.categ_id",  index=True, store=True)
+    categ_id = fields.Many2one(
+        "product.category", related="product_id.categ_id", index=True, store=True
+    )
     account_id = fields.Many2one("account.account")
 
     def get_general_buttons(self):
