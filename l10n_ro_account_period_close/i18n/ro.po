@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 13.0\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2020-09-04 12:09+0000\n"
+"PO-Revision-Date: 2021-03-16 11:46+0000\n"
 "Last-Translator: Dorin Hongu <dhongu@gmail.com>\n"
 "Language-Team: none\n"
 "Language: ro\n"
@@ -15,7 +15,7 @@ msgstr ""
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=3; plural=n==1 ? 0 : (n==0 || (n%100 > 0 && n%100 < "
 "20)) ? 1 : 2;\n"
-"X-Generator: Weblate 3.10\n"
+"X-Generator: Weblate 4.3.2\n"
 
 #. module: l10n_ro_account_period_close
 #: model:ir.model,name:l10n_ro_account_period_close.model_account_account
@@ -84,7 +84,7 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:l10n_ro_account_period_close.view_account_period_closing_form
 #: model_terms:ir.ui.view,arch_db:l10n_ro_account_period_close.view_account_period_closing_tree
 msgid "Closing"
-msgstr ""
+msgstr "Închidere"
 
 #. module: l10n_ro_account_period_close
 #: model:ir.model.fields,field_description:l10n_ro_account_period_close.field_account_period_closing_wizard__closing_id
@@ -94,7 +94,7 @@ msgstr ""
 #. module: l10n_ro_account_period_close
 #: model:ir.model.fields,field_description:l10n_ro_account_period_close.field_account_period_closing__move_ids
 msgid "Closing Moves"
-msgstr ""
+msgstr "Mișcări închidere"
 
 #. module: l10n_ro_account_period_close
 #: model:ir.model.fields,field_description:l10n_ro_account_period_close.field_account_period_closing__credit_account_id
@@ -110,7 +110,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_ro_account_period_close.field_account_period_closing__company_id
 #: model:ir.model.fields,field_description:l10n_ro_account_period_close.field_account_period_closing_wizard__company_id
 msgid "Company"
-msgstr ""
+msgstr "Companie"
 
 #. module: l10n_ro_account_period_close
 #: model_terms:ir.ui.view,arch_db:l10n_ro_account_period_close.view_account_period_closing_form
@@ -132,7 +132,7 @@ msgstr ""
 #. module: l10n_ro_account_period_close
 #: model:ir.model.fields,field_description:l10n_ro_account_period_close.field_account_period_closing_wizard__date_range_id
 msgid "Date range"
-msgstr ""
+msgstr "Interval"
 
 #. module: l10n_ro_account_period_close
 #: model:ir.model.fields,field_description:l10n_ro_account_period_close.field_account_period_closing__display_name
@@ -143,12 +143,12 @@ msgstr ""
 #. module: l10n_ro_account_period_close
 #: model:ir.model.fields,field_description:l10n_ro_account_period_close.field_account_period_closing_wizard__date_to
 msgid "End Date"
-msgstr ""
+msgstr "Dată final"
 
 #. module: l10n_ro_account_period_close
 #: model:ir.model.fields.selection,name:l10n_ro_account_period_close.selection__account_period_closing__type__expense
 msgid "Expenses"
-msgstr ""
+msgstr "Cheltuieli"
 
 #. module: l10n_ro_account_period_close
 #: model:ir.model.fields,field_description:l10n_ro_account_period_close.field_account_period_closing__id
@@ -159,13 +159,13 @@ msgstr ""
 #. module: l10n_ro_account_period_close
 #: model:ir.model.fields.selection,name:l10n_ro_account_period_close.selection__account_period_closing__type__income
 msgid "Incomes"
-msgstr ""
+msgstr "Venituri"
 
 #. module: l10n_ro_account_period_close
 #: model:ir.model.fields,field_description:l10n_ro_account_period_close.field_account_period_closing__journal_id
 #: model:ir.model.fields,field_description:l10n_ro_account_period_close.field_account_period_closing_wizard__journal_id
 msgid "Journal"
-msgstr ""
+msgstr "Jurnal"
 
 #. module: l10n_ro_account_period_close
 #: model:ir.model,name:l10n_ro_account_period_close.model_account_move
@@ -193,12 +193,12 @@ msgstr ""
 #. module: l10n_ro_account_period_close
 #: model_terms:ir.ui.view,arch_db:l10n_ro_account_period_close.view_account_period_closing_form
 msgid "Moves"
-msgstr ""
+msgstr "Mișcări"
 
 #. module: l10n_ro_account_period_close
 #: model:ir.model.fields,field_description:l10n_ro_account_period_close.field_account_period_closing__name
 msgid "Name"
-msgstr ""
+msgstr "Nume"
 
 #. module: l10n_ro_account_period_close
 #: model:ir.model.fields.selection,name:l10n_ro_account_period_close.selection__account_period_closing__type__selected
@@ -208,12 +208,12 @@ msgstr ""
 #. module: l10n_ro_account_period_close
 #: model:ir.model.fields,field_description:l10n_ro_account_period_close.field_account_period_closing_wizard__date_from
 msgid "Start Date"
-msgstr ""
+msgstr "Dată start"
 
 #. module: l10n_ro_account_period_close
 #: model:ir.model.fields,field_description:l10n_ro_account_period_close.field_account_period_closing__type
 msgid "Type"
-msgstr ""
+msgstr "Tip"
 
 #. module: l10n_ro_account_period_close
 #: model:ir.model,name:l10n_ro_account_period_close.model_account_period_closing_wizard
