@@ -279,6 +279,7 @@ class TestPeriodClosing(AccountTestInvoicingCommon):
                 "state": "posted",
                 "date_from": date_from,
                 "date_to": date_to,
+                "company_id": self.company.id,
             }
         )
         exp_account_res = self.exp_closing.with_context(ctx)._get_accounts(
