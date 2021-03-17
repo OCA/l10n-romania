@@ -15,6 +15,8 @@ from odoo.addons.account.tests.common import AccountTestInvoicingCommon
 class TestPeriodClosing(AccountTestInvoicingCommon):
     @classmethod
     def setUpClass(cls, chart_template_ref=None):
+        if not chart_template_ref:
+            chart_template_ref = "l10n_ro.ro_chart_template"
         super().setUpClass(chart_template_ref=chart_template_ref)
         cls.per_close_model = cls.env["account.period.closing"]
         cls.wiz_close_model = cls.env["account.period.closing.wizard"]
@@ -226,46 +228,51 @@ class TestPeriodClosing(AccountTestInvoicingCommon):
         self.assertEqual(self.inc_closing.account_ids, inc_accounts)
 
     def test_period_closing_get_accounts(self):
+
+        account_expense = self.company_data["default_account_expense"]
         expected_exp_account = [
             {
                 "credit": 0.0,
                 "debit": 100.0,
                 "balance": 100.0,
-                "id": self.company_data["default_account_expense"].id,
-                "code": "600000",
-                "name": "Expenses",
+                "id": account_expense.id,
+                "code": account_expense.code,
+                "name": account_expense.name,
             }
         ]
+        account_revenue = self.company_data["default_account_revenue"]
         expected_inc_account = [
             {
                 "credit": 1000.0,
                 "debit": 0.0,
                 "balance": -1000.0,
-                "id": self.company_data["default_account_revenue"].id,
-                "code": "400000",
-                "name": "Product Sales",
+                "id": account_revenue.id,
+                "code": account_revenue.code,
+                "name": account_revenue.name,
             }
         ]
+        account_sale_tax = self.company.account_sale_tax_id.mapped(
+            "invoice_repartition_line_ids.account_id"
+        )
+        account_purchase_tax = self.company.account_purchase_tax_id.mapped(
+            "invoice_repartition_line_ids.account_id"
+        )
         expected_vat_account = [
             {
                 "credit": 150.0,
                 "debit": 0.0,
                 "balance": -150.0,
-                "id": self.company.account_sale_tax_id.mapped(
-                    "invoice_repartition_line_ids.account_id"
-                ).id,
-                "code": "251000",
-                "name": "Tax Received",
+                "id": account_sale_tax.id,
+                "code": account_sale_tax.code,
+                "name": account_sale_tax.name,
             },
             {
                 "credit": 0.0,
                 "debit": 15.0,
                 "balance": 15.0,
-                "id": self.company.account_purchase_tax_id.mapped(
-                    "invoice_repartition_line_ids.account_id"
-                ).id,
-                "code": "131000",
-                "name": "Tax Paid",
+                "id": account_purchase_tax.id,
+                "code": account_purchase_tax.code,
+                "name": account_purchase_tax.name,
             },
         ]
         self.exp_closing._onchange_type()
