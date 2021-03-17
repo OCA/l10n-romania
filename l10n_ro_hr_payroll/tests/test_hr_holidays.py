@@ -39,13 +39,37 @@ class TestHrHolidays(TestHrEmployee):
              'disease_id': self.disease1.id,
              'number_of_days_temp': 4
              })
+        daily_base = leave1.employee_id._get_holiday_base(
+            date=leave1.date_from, month_no=6)
+        daily_base = daily_base * leave1.holiday_status_id.percentage / 100
 
-        gross = leave1.employee_id.contract_id.wage
+        self.assertAlmostEqual(leave1.daily_base, daily_base)
+        self.assertEqual(leave1.employer_days, 4)
+        self.assertAlmostEqual(leave1.employer_amount, 4 * daily_base)
+        self.assertEqual(leave1.budget_amount, 0)
+        self.assertEqual(leave1.budget_days, 0)
+        self.assertAlmostEqual(leave1.total_amount, 4 * daily_base)
+
+        leave2 = self.env['hr.holidays'].create(
+            {'name': 'Med1',
+             'holiday_status_id': self.leave01.id,
+             'date_from': datetime.strftime(
+                 date_from + relativedelta(months=-25),
+                 '%Y-%m-%d'),
+             'date_to': (date_from +
+                         relativedelta(day=4, months=-25)).strftime(
+                 '%Y-%m-%d 18:00:00'),
+             'type': 'remove',
+             'employee_id': self.test_employee_1.id,
+             'disease_id': self.disease1.id,
+             'number_of_days_temp': 4
+             })
+        gross = leave2.employee_id.contract_id.wage
         date_from = \
-            datetime.strptime(leave1.date_from[:10], "%Y-%m-%d") + \
+            datetime.strptime(leave2.date_from[:10], "%Y-%m-%d") + \
             relativedelta(day=1)
         last_day = \
-            datetime.strptime(leave1.date_from[:10], "%Y-%m-%d") + \
+            datetime.strptime(leave2.date_from[:10], "%Y-%m-%d") + \
             relativedelta(day=1, months=1, days=-1)
         nb_of_days = last_day.day
         total = 0
@@ -57,9 +81,9 @@ class TestHrHolidays(TestHrEmployee):
                 total += 1
         daily_base = (gross / total) * self.leave01.percentage / 100
 
-        self.assertAlmostEqual(leave1.daily_base, daily_base)
-        self.assertEqual(leave1.employer_days, 4)
-        self.assertAlmostEqual(leave1.employer_amount, 4 * daily_base)
-        self.assertEqual(leave1.budget_amount, 0)
-        self.assertEqual(leave1.budget_days, 0)
-        self.assertAlmostEqual(leave1.total_amount, 4 * daily_base)
+        self.assertAlmostEqual(leave2.daily_base, daily_base)
+        self.assertEqual(leave2.employer_days, 4)
+        self.assertAlmostEqual(leave2.employer_amount, 4 * daily_base)
+        self.assertEqual(leave2.budget_amount, 0)
+        self.assertEqual(leave2.budget_days, 0)
+        self.assertAlmostEqual(leave2.total_amount, 4 * daily_base)
