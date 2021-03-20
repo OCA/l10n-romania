@@ -184,6 +184,9 @@ class AccountMoveLine(models.Model):
         line = self
         move = line.move_id
         # Retrieve stock valuation moves.
+        if not line.purchase_line_id:
+            return 0.0
+
         valuation_stock_moves = self.env["stock.move"].search(
             [
                 ("purchase_line_id", "=", line.purchase_line_id.id),
@@ -245,6 +248,8 @@ class AccountMoveLine(models.Model):
 
     def modify_stock_valuation(self, price_unit_val_dif):
         # se adauga la evaluarea miscarii de stoc
+        if not self.purchase_line_id:
+            return
         valuation_stock_move = self.env["stock.move"].search(
             [
                 ("purchase_line_id", "=", self.purchase_line_id.id),
