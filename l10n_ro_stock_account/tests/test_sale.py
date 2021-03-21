@@ -55,7 +55,7 @@ class TestStockSale(TestStockCommon):
 
         invoice = invoice.save()
 
-        invoice.post()
+        invoice.action_post()
 
     def test_sale_and_invoice_standard(self):
         """
