@@ -12,5 +12,5 @@ class Partner(models.Model):
 
     @api.onchange("state_id")
     def onchange_state(self):
-        res = {"domain": {"city_id": [("state_id", "=", self.state_id.id)]}}
-        return res
+        if self.city_id and self.city_id.state_id != self.state_id:
+            self.city_id = None
