@@ -68,8 +68,8 @@ class AccountMove(models.Model):
             AccountMove, invoices
         )._stock_account_prepare_anglo_saxon_out_lines_vals()
 
-    def post(self):
-        res = super(AccountMove, self).post()
+    def action_post(self):
+        res = super(AccountMove, self).action_post()
         for move in self:
             for line in move.line_ids:
                 _logger.info(
