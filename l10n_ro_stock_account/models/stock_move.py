@@ -344,6 +344,9 @@ class StockMove(models.Model):
         valued_type = self.env.context.get("valued_type")
         if valued_type:
             vals["valued_type"] = valued_type
+        vals[
+            "account_id"
+        ] = self.product_id.categ_id.property_stock_valuation_account_id.id
         return vals
 
     def _get_company(self, svl):
@@ -562,3 +565,42 @@ class StockMove(models.Model):
             ]:
                 acc_src = location_to.property_account_expense_location_id.id or acc_src
         return journal_id, acc_src, acc_dest, acc_valuation
+
+
+class StockMoveLine(models.Model):
+    _inherit = "stock.move.line"
+
+    @api.model
+    def _create_correction_svl(self, move, diff):
+        super(StockMoveLine, self)._create_correction_svl(move, diff)
+        if not self.company_id.romanian_accounting:
+            return
+
+        stock_valuation_layers = self.env["stock.valuation.layer"]
+
+        for valued_type in move._get_valued_types():
+            if getattr(move, "_is_%s" % valued_type)():
+
+                if diff < 0 and "_return" not in valued_type:
+                    valued_type = valued_type + "_return"
+                if diff > 0 and "_return" in valued_type:
+                    valued_type = valued_type.replace("_return", "")
+
+                if valued_type == "plus_inventory_return":
+                    valued_type = "minus_inventory"
+                elif valued_type == "minus_inventory_return":
+                    valued_type = "plus_inventory"
+                elif valued_type == "internal_transfer_return":
+                    valued_type = "internal_transfer"
+
+                if hasattr(move, "_create_%s_svl" % valued_type):
+                    stock_valuation_layers |= getattr(
+                        move, "_create_%s_svl" % valued_type
+                    )(forced_quantity=abs(diff))
+
+        for svl in stock_valuation_layers:
+            if not svl.product_id.valuation == "real_time":
+                continue
+            svl.stock_move_id._account_entry_move(
+                svl.quantity, svl.description, svl.id, svl.value
+            )
