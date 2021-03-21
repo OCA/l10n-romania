@@ -303,7 +303,7 @@ class TestStockCommon(ValuationReconciliationTestCommon):
 
         invoice = invoice.save()
 
-        invoice.post()
+        invoice.action_post()
 
         _logger.info("Factura introdusa")
 
