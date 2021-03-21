@@ -4,7 +4,7 @@
     "name": "Romania - Account Period Closing",
     "category": "Localization",
     "summary": "Romania - Account Period Closing",
-    "depends": ["account", "date_range"],
+    "depends": ["account", "date_range", "l10n_ro"],
     "data": [
         "views/account_period_close_view.xml",
         "wizards/wizard_account_period_closing_view.xml",
@@ -19,6 +19,6 @@
     "website": "https://github.com/OCA/l10n-romania",
     "installable": True,
     "development_status": "Mature",
-    "external_dependencies": {"python": ["dateutil"]},
+    "external_dependencies": {"python": ["python-dateutil"]},
     "maintainers": ["feketemihai"],
 }
