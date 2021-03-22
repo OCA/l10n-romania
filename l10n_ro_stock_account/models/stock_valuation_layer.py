@@ -20,10 +20,25 @@ class StockValuationLayer(models.Model):
                 svl.account_id = (
                     svl.product_id.categ_id.property_stock_valuation_account_id
                 )
+                if (
+                    svl.value > 0
+                    and svl.stock_move_id.location_dest_id.property_stock_valuation_account_id
+                ):
+                    svl.account_id = (
+                        svl.stock_move_id.location_dest_id.property_stock_valuation_account_id
+                    )
+                if (
+                    svl.value < 0
+                    and svl.stock_move_id.location_id.property_stock_valuation_account_id
+                ):
+                    svl.account_id = (
+                        svl.stock_move_id.location_id.property_stock_valuation_account_id
+                    )
             else:
                 for aml in svl.account_move_id.line_ids:
                     if aml.credit > 0 and svl.value < 0:
                         svl.account_id = aml.account_id
+                        break
                     if aml.debit > 0 and svl.value > 0:
                         svl.account_id = aml.account_id
                         break
