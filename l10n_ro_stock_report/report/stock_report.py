@@ -252,10 +252,11 @@ class StorageSheet(models.TransientModel):
 
     def button_show_sheet(self):
         self.do_compute_product()
-        action = self.env.ref(
+        action = self.env["ir.actions.actions"]._for_xml_id(
             "l10n_ro_stock_report.action_sheet_stock_report_line"
-        ).read()[0]
-        action["name"] = "{} {} ({}-{})".format(
+        )
+
+        action["display_name"] = "{} {} ({}-{})".format(
             action["name"],
             self.location_id.name,
             self.date_from,
