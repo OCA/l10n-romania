@@ -3,6 +3,7 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 import logging
 
+import pytz
 from dateutil.relativedelta import relativedelta
 
 from odoo import _, api, fields, models
@@ -111,6 +112,16 @@ class StorageSheet(models.TransientModel):
         )
         lines.unlink()
 
+        datetime_from = fields.Datetime.to_datetime(self.date_from)
+        datetime_from = fields.Datetime.context_timestamp(self, datetime_from)
+        datetime_from = datetime_from.replace(hour=0)
+        datetime_from = datetime_from.astimezone(pytz.utc)
+
+        datetime_to = fields.Datetime.to_datetime(self.date_to)
+        datetime_to = fields.Datetime.context_timestamp(self, datetime_to)
+        datetime_to = datetime_to.replace(hour=23, minute=59, second=59)
+        datetime_to = datetime_to.astimezone(pytz.utc)
+
         params = {
             "report": self.id,
             "location": self.location_id.id,
@@ -119,6 +130,9 @@ class StorageSheet(models.TransientModel):
             "company": self.company_id.id,
             "date_from": fields.Date.to_string(self.date_from),
             "date_to": fields.Date.to_string(self.date_to),
+            "datetime_from": fields.Datetime.to_string(datetime_from),
+            "datetime_to": fields.Datetime.to_string(datetime_to),
+            "tz": self._context.get("tz") or self.env.user.tz,
         }
 
         query_select_sold_init = """
@@ -138,7 +152,7 @@ class StorageSheet(models.TransientModel):
             where sm.state = 'done' AND
                 sm.company_id = %(company)s AND
                 ( %(all_products)s  or sm.product_id in %(product)s ) AND
-                date_trunc('day',sm.date) <  %(date_from)s AND
+                 sm.date <  %(datetime_from)s AND
                 (sm.location_id = %(location)s OR sm.location_dest_id = %(location)s)
             GROUP BY sm.product_id, svl.account_id
         """
@@ -163,7 +177,7 @@ class StorageSheet(models.TransientModel):
             where sm.state = 'done' AND
                 sm.company_id = %(company)s AND
                 ( %(all_products)s  or sm.product_id in %(product)s ) AND
-                date_trunc('day',sm.date) <=  %(date_to)s AND
+                sm.date <=  %(datetime_to)s AND
                 (sm.location_id = %(location)s OR sm.location_dest_id = %(location)s)
             GROUP BY sm.product_id, svl.account_id
         """
@@ -179,7 +193,7 @@ class StorageSheet(models.TransientModel):
         SELECT  %(report)s as report_id, sm.product_id as product_id,
                 COALESCE(sum(svl_in.value),0)   as amount_in,
                 COALESCE(sum(svl_in.quantity), 0)   as quantity_in,
-                date_trunc('day',sm.date) as date,
+                date_trunc('day',sm.date at time zone 'utc' at time zone %(tz)s) as date,
                  svl_in.account_id,
                 sm.reference as reference,
                 sp.partner_id
@@ -197,10 +211,10 @@ class StorageSheet(models.TransientModel):
                 sm.state = 'done' AND
                 sm.company_id = %(company)s AND
                 ( %(all_products)s  or sm.product_id in %(product)s ) AND
-                date_trunc('day',sm.date) >= %(date_from)s  AND
-                date_trunc('day',sm.date) <= %(date_to)s  AND
+                sm.date >= %(datetime_from)s  AND  sm.date <= %(datetime_to)s  AND
                 (sm.location_id = %(location)s OR sm.location_dest_id = %(location)s)
-            GROUP BY sm.product_id, date_trunc('day',sm.date),  sm.reference, sp.partner_id, account_id
+            GROUP BY sm.product_id, date_trunc('day',sm.date at time zone 'utc' at time zone %(tz)s),
+             sm.reference, sp.partner_id, account_id
             """
 
         self.env.cr.execute(query_in, params=params)
@@ -233,8 +247,7 @@ class StorageSheet(models.TransientModel):
                 sm.state = 'done' AND
                 sm.company_id = %(company)s AND
                 ( %(all_products)s  or sm.product_id in %(product)s ) AND
-                date_trunc('day',sm.date) >= %(date_from)s  AND
-                date_trunc('day',sm.date) <= %(date_to)s  AND
+                sm.date >= %(datetime_from)s  AND  sm.date <= %(datetime_to)s  AND
                 (sm.location_id = %(location)s OR sm.location_dest_id = %(location)s)
             GROUP BY sm.product_id, date_trunc('day',sm.date),  sm.reference, sp.partner_id, account_id
             """
