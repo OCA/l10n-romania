@@ -76,10 +76,20 @@ class AccountMove(models.Model):
         res = super(AccountMove, self).action_post()
         for move in self:
             for line in move.line_ids:
-                _logger.info(
+                _logger.debug(
                     "%s\t\t%s\t\t%s"
                     % (line.debit, line.credit, line.account_id.display_name)
                 )
+            invoice_lines = move.invoice_line_ids.filtered(lambda l: not l.display_type)
+            for line in invoice_lines:
+                valuation_stock_moves = line._get_valuation_stock_moves()
+                if valuation_stock_moves:
+                    svls = valuation_stock_moves.mapped("stock_valuation_layer_ids")
+                    svls = svls.filtered(lambda l: not l.invoice_line_id)
+                    svls.write(
+                        {"invoice_line_id": line.id, "invoice_id": line.move_id.id}
+                    )
+
         return res
 
     def is_reception_notice(self):
@@ -127,6 +137,30 @@ class AccountMove(models.Model):
 
 class AccountMoveLine(models.Model):
     _inherit = "account.move.line"
+
+    def _get_valuation_stock_moves(self):
+        valuation_stock_moves = False
+        if self.purchase_line_id or self.sale_line_ids:
+            domain = [
+                ("state", "=", "done"),
+                ("product_qty", "!=", 0.0),
+            ]
+            if self.purchase_line_id:
+                domain += [("purchase_line_id", "=", self.purchase_line_id.id)]
+            if self.sale_line_ids:
+                domain += [("sale_line_id", "in", self.sale_line_ids.ids)]
+
+            valuation_stock_moves = self.env["stock.move"].search(domain)
+            if self.move_id.move_type in ("in_refund", "out_invoice"):
+                valuation_stock_moves = valuation_stock_moves.filtered(
+                    lambda sm: sm._is_out()
+                )
+            else:
+                valuation_stock_moves = valuation_stock_moves.filtered(
+                    lambda sm: sm._is_in()
+                )
+
+        return valuation_stock_moves
 
     def _get_computed_account(self):
         if (
@@ -187,21 +221,7 @@ class AccountMoveLine(models.Model):
         if not line.purchase_line_id:
             return 0.0
 
-        valuation_stock_moves = self.env["stock.move"].search(
-            [
-                ("purchase_line_id", "=", line.purchase_line_id.id),
-                ("state", "=", "done"),
-                ("product_qty", "!=", 0.0),
-            ]
-        )
-        if move.move_type == "in_refund":
-            valuation_stock_moves = valuation_stock_moves.filtered(
-                lambda stock_move: stock_move._is_out()
-            )
-        else:
-            valuation_stock_moves = valuation_stock_moves.filtered(
-                lambda stock_move: stock_move._is_in()
-            )
+        valuation_stock_moves = self._get_valuation_stock_moves()
 
         if not valuation_stock_moves:
             return 0.0
@@ -276,5 +296,7 @@ class AccountMoveLine(models.Model):
                 "stock_move_id": valuation_stock_move.id,
                 "product_id": self.product_id.id,
                 "company_id": self.move_id.company_id.id,
+                "invoice_line_id": self.id,
+                "invoice_id": self.move_id.id,
             }
         )
