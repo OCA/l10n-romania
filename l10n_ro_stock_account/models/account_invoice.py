@@ -151,7 +151,7 @@ class AccountMoveLine(models.Model):
                 domain += [("sale_line_id", "in", self.sale_line_ids.ids)]
 
             valuation_stock_moves = self.env["stock.move"].search(domain)
-            if self.move_id.move_type in ("in_refund", "out_invoice"):
+            if self.move_id.type in ("in_refund", "out_invoice"):
                 valuation_stock_moves = valuation_stock_moves.filtered(
                     lambda sm: sm._is_out()
                 )
