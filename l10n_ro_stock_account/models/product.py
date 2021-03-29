@@ -160,6 +160,10 @@ class ProductTemplate(models.Model):
             "plus_inventory",
         ]:
             accounts["stock_input"] = accounts["stock_output"] = accounts["expense"]
+        elif valued_type == "dropshipped":
+            if stock_picking_payable_account_id:
+                accounts["stock_input"] = stock_picking_payable_account_id
+            accounts["stock_output"] = accounts["expense"]
 
         # suplimentar la darea in consum mai face o nota contabila
         elif valued_type == "usage_giving_secondary":
