@@ -13,6 +13,23 @@ class ResConfigSettings(models.TransientModel):
         related="company_id.romanian_accounting",
         readonly=False,
     )
+    serv_sale_tax_id = fields.Many2one(
+        "account.tax",
+        string="Default Services Sale Tax",
+        related="company_id.account_serv_sale_tax_id",
+        readonly=False,
+    )
+    serv_purchase_tax_id = fields.Many2one(
+        "account.tax",
+        string="Default Services Purchase Tax",
+        related="company_id.account_serv_purchase_tax_id",
+        readonly=False,
+    )
+    caen_code = fields.Char(
+        string="CAEN Code",
+        related="company_id.caen_code",
+        readonly=False,
+    )
     module_currency_rate_update_RO_BNR = fields.Boolean(
         "Currency Rate Update BNR",
         help="This option allows you to manage the update of currency "
@@ -74,38 +91,6 @@ class ResConfigSettings(models.TransientModel):
     module_l10n_ro_account_report_trial_balance = fields.Boolean(
         "Account Trial Balance Report",
         help="This module will add the Trial Balance report " "with multiple columns.",
-    )
-    module_l10n_ro_account_report_journal = fields.Boolean(
-        "Account Journal Reports",
-        help="This module will add the Sale and Purchase Reports.",
-    )
-    module_l10n_ro_account_report_pl = fields.Boolean(
-        "Account Profit and Loss Report",
-        help="This module will add the Profit and Loss report.",
-    )
-    module_l10n_ro_account_report_balance_sheet = fields.Boolean(
-        "Account Balance Sheet Report",
-        help="This module will add the Balance Sheet report " "fetched from ANAF.",
-    )
-    module_l10n_ro_account_report_sheet = fields.Boolean(
-        "Account Sheet Report", help="This module will add the Account Sheet report."
-    )
-    module_l10n_ro_account_report_journal_sheet = fields.Boolean(
-        "Account Journal Sheet Report",
-        help="This module will add the Journal Sheet report.",
-    )
-    module_l10n_ro_account_report_inventory_sheet = fields.Boolean(
-        "Account Inventory Sheet Report",
-        help="This module will add the Inventory Sheet report.",
-    )
-    module_l10n_ro_account_report_D300 = fields.Boolean(
-        "Account D300 Report", help="This module will add the D300 report."
-    )
-    module_l10n_ro_account_report_D390 = fields.Boolean(
-        "Account D390 Report", help="This module will add the D390 report."
-    )
-    module_l10n_ro_account_report_D394 = fields.Boolean(
-        "Account D394 Report", help="This module will add the D394 report."
     )
     module_l10n_ro_intrastat = fields.Boolean(
         "Account Intrastat Report", help="This module will add the Intrastat report."
