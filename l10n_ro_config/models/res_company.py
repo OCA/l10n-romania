@@ -8,8 +8,15 @@ from odoo import fields, models
 class ResCompany(models.Model):
     _inherit = "res.company"
 
+    account_serv_sale_tax_id = fields.Many2one(
+        "account.tax", string="Default Services Sale Tax"
+    )
+    account_serv_purchase_tax_id = fields.Many2one(
+        "account.tax", string="Default Services Purchase Tax"
+    )
     share_capital = fields.Float(string="Share Capital", digits="Account", default=200)
     company_registry = fields.Char(related="partner_id.nrc", readonly=False)
+    caen_code = fields.Char(default="0000")
     romanian_accounting = fields.Boolean(string="Use Romanian Accounting")
     stock_acc_price_diff = fields.Boolean(
         string="Stock Valuation Update",
