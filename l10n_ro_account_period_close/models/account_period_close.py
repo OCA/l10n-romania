@@ -169,6 +169,7 @@ class AccountPeriodClosing(models.Model):
                     "journal_id": journal_id,
                     "close_id": closing.id,
                     "company_id": closing.company_id.id,
+                    "l10n_ro_closing_move": True,
                 }
             )
             amount = 0.0
