@@ -21,3 +21,4 @@ class AccountMove(models.Model):
     _inherit = "account.move"
 
     close_id = fields.Many2one("account.period.closing", "Closed Account Period")
+    l10n_ro_closing_move = fields.Boolean("Is Closing Move")
