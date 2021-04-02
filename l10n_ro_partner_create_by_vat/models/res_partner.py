@@ -61,12 +61,12 @@ class ResPartner(models.Model):
             if field[2] == "over_all_the_time":
                 res[field[0]] = anaf_value
             elif field[2] == "if_empty+date" and anaf_value:
-                if not eval(
-                    f"self.{field[0]}"
+                if not getattr(
+                    self, field[0], None
                 ):  # we are only writing if is not already a value
                     res[field[0]] = f"UTC: {fields.datetime.now()}: " + anaf_value
             elif field[2] == "if_empty" and anaf_value:
-                if not eval(f"self.{field[0]}"):
+                if not getattr(self, field[0], None):
                     res[field[0]] = anaf_value
 
         addr = city = ""
