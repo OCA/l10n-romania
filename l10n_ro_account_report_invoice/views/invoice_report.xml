@@ -57,7 +57,7 @@
         <div id="total" position="inside">
             <div
                 t-if="o.currency_id != o.company_id.currency_id"
-                class="col-xs-4 pull-left"
+                class="col-xs-4 pull-left" style="margin-right: 15px;"
             >
                 <table
                     class="table table-condensed"
