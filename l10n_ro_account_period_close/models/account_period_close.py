@@ -43,11 +43,11 @@ class AccountPeriodClosing(models.Model):
         acc_type = False
         accounts = self.env["account.account"]
         if self.type == "income":
-            acc_type = self.env.ref("account.data_account_type_revenue").id
+            acc_type = self.env.ref("account.data_account_type_revenue").exists()
             if acc_type:
                 accounts = self.env["account.account"].search(
                     [
-                        ("user_type_id", "=", acc_type),
+                        ("user_type_id", "=", acc_type.id),
                         ("company_id", "=", self.company_id.id),
                     ]
                 )
@@ -59,11 +59,11 @@ class AccountPeriodClosing(models.Model):
                     ]
                 )
         elif self.type == "expense":
-            acc_type = self.env.ref("account.data_account_type_expenses").id
+            acc_type = self.env.ref("account.data_account_type_expenses").exists()
             if acc_type:
                 accounts = self.env["account.account"].search(
                     [
-                        ("user_type_id", "=", acc_type),
+                        ("user_type_id", "=", acc_type.id),
                         ("company_id", "=", self.company_id.id),
                     ]
                 )
