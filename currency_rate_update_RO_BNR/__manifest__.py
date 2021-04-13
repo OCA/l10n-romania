@@ -13,4 +13,5 @@
     "installable": True,
     "development_status": "Mature",
     "maintainers": ["feketemihai"],
+    "data": ["views/res_currency_rate.xml"],
 }
