@@ -70,6 +70,7 @@ class ResPartner(models.Model):
                     res[field[0]] = anaf_value
 
         addr = city = ""
+        state = False
         if result.get("adresa"):
             sector = False
             address = result["adresa"].replace("NR,", "NR.").upper()
@@ -113,29 +114,39 @@ class ResPartner(models.Model):
                 .search([("state_id", "=", state.id), ("name", "ilike", city)], limit=1)
                 .id
             )
-        return res
+        return res, result.get("scpTVA")
 
     @api.onchange("vat", "country_id")
     def ro_vat_change(self):
         for partner in self:
+            ret = {}
             if not partner.vat:
-                return {}
+                return ret
             res = {}
             vat = partner.vat.strip().upper()
-            vat_country, vat_number = partner._split_vat(vat)
+            original_vat_country, vat_number = partner._split_vat(vat)
+            vat_country = original_vat_country.upper()
             if not vat_country and partner.country_id:
                 vat_country = self._map_vat_country_code(
                     partner.country_id.code.upper()
-                ).lower()
+                )
                 if not vat_number:
                     vat_number = partner.vat
-            if vat_country == "ro":
+            if vat_country == "RO":
+                # at_country=='' is for Romania companies that did not applied for vat tax
                 try:
                     result = partner._get_Anaf(vat_number)
                     if result:
-                        res = partner._Anaf_to_Odoo(result)
-                except Exception:
-                    _logger.info("ANAF Webservice not working.")
+                        res, scopTVA = partner._Anaf_to_Odoo(result)
+                except Exception as ex:
+                    warning = f"ANAF Webservice not working. Or exception={ex}."
+                    _logger.info(warning)
+                    ret["warning"] = {"message": warning}
+                if scopTVA != (original_vat_country == "ro"):
+                    ret["warning"] = {
+                        "message": f"On ANAF this cui/cif has scopTVA={scopTVA},\
+                                    but you gave us a code with wrong VAT marking (RO). "
+                    }
                 if res:
                     res["country_id"] = (
                         self.env["res.country"]
@@ -143,4 +154,4 @@ class ResPartner(models.Model):
                         .id
                     )
                     partner.with_context(skip_ro_vat_change=True).update(res)
-        return {}
+        return ret
