@@ -7,7 +7,23 @@ from collections import defaultdict
 from datetime import timedelta
 from urllib.request import urlopen
 
-from odoo import fields, models
+from odoo import api, fields, models
+
+
+class ResCurrencyRate(models.Model):
+    _inherit = "res.currency.rate"
+
+    @api.depends("rate")
+    def _compute_invese_rate(self):
+        for rec in self:
+            rec.inverse_rate = 1 / rec.rate if rec.rate else 1.0
+
+    inverse_rate = fields.Float(
+        store=1,
+        digits=(16, 4),
+        compute=_compute_invese_rate,
+        help="Inverse rate computed as 1/rate. If you want to change this, change the rate ( write =1/desired_inverse_value)",
+    )
 
 
 class ResCurrencyRateProviderROBNR(models.Model):
