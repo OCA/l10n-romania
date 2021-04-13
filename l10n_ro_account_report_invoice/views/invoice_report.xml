@@ -2,7 +2,8 @@
 <odoo>
     <template
         id="l10n_ro_report_invoice_document"
-        inherit_id="account.report_invoice_document"  >
+        inherit_id="account.report_invoice_document"
+    >
         <div t-if="o.partner_id.vat" position="replace">
             <div t-if="o.partner_id.vat" class="mt16">
                 <t
@@ -41,7 +42,7 @@
                 </t>
             </div>
         </div>
-    
+
         <table name="invoice_line_table" position="before">
             <div
                 t-if="o.currency_id != o.company_currency_id and o.currency_rate"
@@ -54,40 +55,44 @@
                 <span t-esc="o.company_id.currency_id.symbol" />
             </div>
         </table>
-   
-   
-	<span t-field="o.amount_untaxed"  position="before">
-                            <span  t-if="o.currency_id != o.company_id.currency_id" >
-                            <spam    t-field="o.amount_untaxed_signed"
-                                t-options='{"widget": "monetary", "display_currency": o.company_currency_id}'
-                            /> | </span>
+
+
+    <span t-field="o.amount_untaxed" position="before">
+                            <span t-if="o.currency_id != o.company_id.currency_id">
+                            <spam
+                    t-field="o.amount_untaxed_signed"
+                    t-options='{"widget": "monetary", "display_currency": o.company_currency_id}'
+                /> | </span>
     </span>
-	<span  t-field="o.amount_total" position="before">
+    <span t-field="o.amount_total" position="before">
                             <span t-if="o.currency_id != o.company_id.currency_id">
-                             <span   t-field="o.amount_total_signed"
-                                t-options='{"widget": "monetary", "display_currency": o.company_currency_id}'
-                            /> | </span>
-	</span>   
-	<span t-esc="amount_by_group[3]" position="before"> 
+                             <span
+                    t-field="o.amount_total_signed"
+                    t-options='{"widget": "monetary", "display_currency": o.company_currency_id}'
+                /> | </span>
+    </span>
+    <span t-esc="amount_by_group[3]" position="before">
                             <span t-if="o.currency_id != o.company_id.currency_id">
-                            <span    t-field="o.amount_tax_signed"
-                                t-options='{"widget": "monetary", "display_currency": o.company_currency_id}'
-                            /> |</span>
-	</span>	   
-	<xpath expr="(//span[@t-esc='amount_by_group[3]'])[2]" position="before"> 
+                            <span
+                    t-field="o.amount_tax_signed"
+                    t-options='{"widget": "monetary", "display_currency": o.company_currency_id}'
+                /> |</span>
+    </span>
+    <xpath expr="(//span[@t-esc='amount_by_group[3]'])[2]" position="before">
                             <span t-if="o.currency_id != o.company_id.currency_id">
-                            <span    t-field="o.amount_tax_signed"
-                                t-options='{"widget": "monetary", "display_currency": o.company_currency_id}'
-                            /> |</span>
-	</xpath>	
-	
-	
+                            <span
+                    t-field="o.amount_tax_signed"
+                    t-options='{"widget": "monetary", "display_currency": o.company_currency_id}'
+                /> |</span>
+    </xpath>
+
+
      <xpath expr="//p[@name='note']" position="after">
             <p t-if="o.company_id.invoice_no_signature_text" id="sign_info">
                 <span t-field="o.company_id.invoice_no_signature_text" />
             </p>
         </xpath>
-    
-    
+
+
     </template>
 </odoo>
