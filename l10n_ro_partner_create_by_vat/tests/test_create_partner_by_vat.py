@@ -9,20 +9,25 @@ class TestCreatePartnerBase(common.SavepointCase):
     @classmethod
     def setUpClass(cls):
         super(TestCreatePartnerBase, cls).setUpClass()
-        cls.mainpartner = cls.env.ref("base.res_partner_1")
+        cls.mainpartner = cls.env["res.partner"].create({"name": "Test partner"})
 
 
 class TestCreatePartner(TestCreatePartnerBase):
     def test_vat_anaf(self):
         """ Check methods vat from ANAF."""
-        # Test retrive information from ANAF
+        # Test retrieve information from ANAF
         result = self.mainpartner._get_Anaf("30834857")
         if result:
             res = self.mainpartner._Anaf_to_Odoo(result)
             self.assertEqual(res["name"], "FOREST AND BIOMASS ROMÂNIA S.A.")
+            self.assertEqual(res["vat_subjected"], True)
+            self.assertEqual(res["company_type"], "company")
+            self.assertEqual(res["nrc"], "J35/2622/2012")
             self.assertEqual(res["street"], "Ciprian Porumbescu Nr.12 Zona Nr.3 Etaj 1")
-            self.assertEqual(res["state_id"], self.env.ref("base.RO_TM").id)
+            self.assertEqual(res["state_id"], self.env.ref("base.RO_TM"))
             self.assertEqual(res["city"], "Timișoara")
+            self.assertEqual(res["zip"], "307225")
+            self.assertEqual(res["phone"], "0356179038")
 
     def test_onchange_vat_anaf(self):
         """ Check onchange vat from ANAF."""
