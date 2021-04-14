@@ -28,9 +28,41 @@ class ResPartner(models.Model):
 
     @api.model
     def _get_Anaf(self, cod, data=False):
-        # Function to get datas from ANAF Webservice
-        # cod = vat number without country code
-        # data = date of the interogation
+        """
+        Function to retrieve data from ANAF for one vat number
+        at certain date
+
+        :param str cod:  vat number without country code
+        :param date data: date of the interogation
+        :return dict result: cost of the body's operation
+        {'cui': 30834857,
+        'data': '2021-04-14',
+        'denumire': 'FOREST AND BIOMASS ROMÂNIA S.A.',
+        'adresa': 'JUD. TIMIŞ, MUN. TIMIŞOARA, STR. CIPRIAN PORUMBESCU, NR.12, ZONA NR.3, ETAJ 1',
+        'nrRegCom': 'J35/2622/2012',
+        'telefon': '0356179038',
+        'codPostal': '307225',
+        'stare_inregistrare': 'INREGISTRAT din data 26.10.2012',
+        'scpTVA': True,
+        'data_inceput_ScpTVA': '2012-12-04',
+        'data_sfarsit_ScpTVA': ' ',
+        'data_anul_imp_ScpTVA': ' ',
+        'mesaj_ScpTVA': 'platitor IN SCOPURI de TVA la data cautata',
+        'dataInceputTvaInc': '2013-02-01',
+        'dataSfarsitTvaInc': '2013-08-01',
+        'dataActualizareTvaInc': '2013-07-11',
+        'dataPublicareTvaInc': '2013-07-12',
+        'tipActTvaInc': 'Radiere',
+        'statusTvaIncasare': False,
+        'dataInactivare': ' ',
+        'dataReactivare': ' ',
+        'dataPublicare': ' ',
+        'dataRadiere': ' ',
+        'statusInactivi': False,
+        'dataInceputSplitTVA': '',
+        'dataAnulareSplitTVA': '',
+        'statusSplitTVA': False, 'iban': ''}
+        """
         if not data:
             data = fields.Date.to_string(fields.Date.today())
         res = requests.post(
@@ -69,6 +101,23 @@ class ResPartner(models.Model):
                 if not getattr(self, field[0], None):
                     res[field[0]] = anaf_value
 
+        res = self.get_result_address(result, res)
+
+        if "city_id" in self._fields and res["state_id"] and res["city"]:
+            res["city_id"] = (
+                self.env["res.city"]
+                .search(
+                    [
+                        ("state_id", "=", res["state_id"].id),
+                        ("name", "ilike", res["city"]),
+                    ],
+                    limit=1,
+                )
+                .id
+            )
+        return res
+
+    def get_result_address(self, result, res):
         addr = city = ""
         state = False
         if result.get("adresa"):
@@ -81,18 +130,16 @@ class ResPartner(models.Model):
                 line = line.encode("utf8").translate(CEDILLATRANS).decode("utf8")
                 if "JUD." in line:
                     state = self.env["res.country.state"].search(
-                        [("name", "=", line.replace("JUD.", "").strip().title())]
+                        [("name", "=", line.replace("JUD.", "").strip().title())],
+                        limit=1,
                     )
-                    if state:
-                        res["state_id"] = state[0].id
                 elif "MUN." in line:
                     city = line.replace("MUN.", "").strip().title()
                 elif sector and "MUNICIPIUL" in line:
                     state = self.env["res.country.state"].search(
-                        [("name", "=", line.replace("MUNICIPIUL", "").strip().title())]
+                        [("name", "=", line.replace("MUNICIPIUL", "").strip().title())],
+                        limit=1,
                     )
-                    if state:
-                        res["state_id"] = state[0].id
                 elif not sector and "MUNICIPIUL" in line:
                     city = line.replace("MUNICIPIUL", "").strip().title()
                 elif sector and "SECTOR " in line:
@@ -105,16 +152,10 @@ class ResPartner(models.Model):
                     city += " " + line.strip().title()
                 else:
                     addr += line.replace("STR.", "").strip().title() + " "
-            if city:
-                res["city"] = city.replace("-", " ").title().strip()
+        res["city"] = city.replace("-", " ").title().strip()
+        res["state_id"] = state
         res["street"] = addr.strip()
-        if "city_id" in self._fields and state and city:
-            res["city_id"] = (
-                self.env["res.city"]
-                .search([("state_id", "=", state.id), ("name", "ilike", city)], limit=1)
-                .id
-            )
-        return res, result.get("scpTVA")
+        return res
 
     @api.onchange("vat", "country_id")
     def ro_vat_change(self):
@@ -133,20 +174,14 @@ class ResPartner(models.Model):
                 if not vat_number:
                     vat_number = partner.vat
             if vat_country == "RO":
-                # at_country=='' is for Romania companies that did not applied for vat tax
                 try:
                     result = partner._get_Anaf(vat_number)
                     if result:
-                        res, scopTVA = partner._Anaf_to_Odoo(result)
+                        res = partner._Anaf_to_Odoo(result)
                 except Exception as ex:
                     warning = f"ANAF Webservice not working. Or exception={ex}."
                     _logger.info(warning)
                     ret["warning"] = {"message": warning}
-                if scopTVA != (original_vat_country == "ro"):
-                    ret["warning"] = {
-                        "message": f"On ANAF this cui/cif has scopTVA={scopTVA},\
-                                    but you gave us a code with wrong VAT marking (RO). "
-                    }
                 if res:
                     res["country_id"] = (
                         self.env["res.country"]
