@@ -5,7 +5,7 @@
 
 import logging
 
-from odoo import _, models
+from odoo import _, fields, models
 from odoo.tools.float_utils import float_is_zero
 
 _logger = logging.getLogger(__name__)
@@ -260,7 +260,7 @@ class AccountMoveLine(models.Model):
             price_unit,
             move.company_currency_id,
             move.company_id,
-            move.invoice_date,
+            move.invoice_date or fields.Date.context_today(self),
             round=False,
         )
         price_unit_val_dif = price_unit - valuation_price_unit
