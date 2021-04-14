@@ -15,13 +15,7 @@ def post_init_hook(cr, registry):
     for file in files:
         with tools.file_open(path + "/" + file, mode="rb") as fp:
             tools.convert_csv_import(
-                cr,
-                "base",
-                file,
-                fp.read(),
-                {},
-                mode="init",
-                noupdate=True,
+                cr, "base", file, fp.read(), {}, mode="init", noupdate=True,
             )
     with api.Environment.manage():
         env = api.Environment(cr, SUPERUSER_ID, {})
