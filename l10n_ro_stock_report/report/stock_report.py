@@ -269,10 +269,7 @@ class StorageSheet(models.TransientModel):
             "l10n_ro_stock_report.action_sheet_stock_report_line"
         ).read()[0]
         action["display_name"] = "{} {} ({}-{})".format(
-            action["name"],
-            self.location_id.name,
-            self.date_from,
-            self.date_to,
+            action["name"], self.location_id.name, self.date_from, self.date_to
         )
         action["domain"] = [("report_id", "=", self.id)]
         action["context"] = {
