@@ -9,8 +9,6 @@
             </xpath>
             <xpath expr="//field[@name='account_move_id']" position="after">
                 <field name="account_id" />
-                <field name="invoice_line_id" />
-                <field name="invoice_id" />
             </xpath>
         </field>
     </record>
