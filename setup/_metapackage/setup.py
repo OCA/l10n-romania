@@ -21,6 +21,7 @@ setuptools.setup(
         'odoo13-addon-l10n_ro_siruta',
         'odoo13-addon-l10n_ro_stock',
         'odoo13-addon-l10n_ro_stock_account',
+        'odoo13-addon-l10n_ro_stock_report',
         'odoo13-addon-l10n_ro_vat_on_payment',
     ],
     classifiers=[

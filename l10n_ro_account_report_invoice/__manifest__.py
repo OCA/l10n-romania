@@ -7,7 +7,7 @@
     "version": "13.0.1.1.0",
     "category": "Localization",
     "author": "NextERP Romania," "Odoo Community Association (OCA)",
-    "website": "https://odoo-community.org",
+    "website": "https://github.com/OCA/l10n-romania",
     "license": "AGPL-3",
     "installable": True,
     "depends": ["l10n_ro_config"],
