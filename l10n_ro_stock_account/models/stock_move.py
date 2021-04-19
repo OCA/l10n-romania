@@ -344,6 +344,9 @@ class StockMove(models.Model):
         valued_type = self.env.context.get("valued_type")
         if valued_type:
             vals["valued_type"] = valued_type
+        vals[
+            "account_id"
+        ] = self.product_id.categ_id.property_stock_valuation_account_id.id
         return vals
 
     def _get_company(self, svl):
