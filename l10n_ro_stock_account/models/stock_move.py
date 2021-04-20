@@ -40,7 +40,7 @@ class StockMove(models.Model):
 
     # nu se mai face in mod automat evaluarea la intrare in stoc
     def _create_in_svl(self, forced_quantity=None):
-        _logger.info("SVL:%s" % self.env.context.get("valued_type", ""))
+        _logger.debug("SVL:%s" % self.env.context.get("valued_type", ""))
         if self.env.context.get("standard") or not self.company_id.romanian_accounting:
             svl = super(StockMove, self)._create_in_svl(forced_quantity)
         else:
@@ -49,7 +49,7 @@ class StockMove(models.Model):
 
     # nu se mai face in mod automat evaluarea la iserirea din stoc
     def _create_out_svl(self, forced_quantity=None):
-        _logger.info("SVL:%s" % self.env.context.get("valued_type", ""))
+        _logger.debug("SVL:%s" % self.env.context.get("valued_type", ""))
         if self.env.context.get("standard") or not self.company_id.romanian_accounting:
             svl = super(StockMove, self)._create_out_svl(forced_quantity)
         else:
@@ -348,6 +348,11 @@ class StockMove(models.Model):
             "account_id"
         ] = self.product_id.categ_id.property_stock_valuation_account_id.id
         return vals
+
+    def _create_dropshipped_svl(self, forced_quantity=None):
+        valued_type = "dropshipped"
+        self = self.with_context(valued_type=valued_type)
+        return super(StockMove, self)._create_dropshipped_svl(forced_quantity)
 
     def _get_company(self, svl):
         self.ensure_one()
