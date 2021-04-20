@@ -212,6 +212,7 @@ class StockMove(models.Model):
             self.company_id.romanian_accounting
             and self._is_out()
             and self.location_dest_id.usage == "production"
+            and self.origin_returned_move_id
         )
         return it_is
 
@@ -224,7 +225,7 @@ class StockMove(models.Model):
         it_is = (
             self.company_id.romanian_accounting
             and self._is_out()
-            and self.location_dest_id.usage == "consume"
+            and self.location_dest_id.usage in ["consume", "production"]
             and not self.origin_returned_move_id
         )
         return it_is
@@ -238,7 +239,7 @@ class StockMove(models.Model):
         it_is = (
             self.company_id.romanian_accounting
             and self._is_in()
-            and self.location_id.usage == "consume"
+            and self.location_id.usage in ["consume", "production"]
             and self.origin_returned_move_id
         )
         return it_is
