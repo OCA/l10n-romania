@@ -1,0 +1,16 @@
+[1mdiff --git a/l10n_ro_stock_account/models/stock_move.py b/l10n_ro_stock_account/models/stock_move.py[m
+[1mindex 05919a4..bbea619 100644[m
+[1m--- a/l10n_ro_stock_account/models/stock_move.py[m
+[1m+++ b/l10n_ro_stock_account/models/stock_move.py[m
+[36m@@ -570,7 +570,10 @@[m [mclass StockMoveLine(models.Model):[m
+     @api.model[m
+     def _create_correction_svl(self, move, diff):[m
+         super(StockMoveLine, self)._create_correction_svl(move, diff)[m
+[31m-        if not self.company_id.romanian_accounting:[m
+[32m+[m[32m        company_id = self.company_id[m
+[32m+[m[32m        if not self.company_id and self._context.get('default_company_id'):[m
+[32m+[m[32m            company_id = self.env['res.company'].browse(self._context['default_company_id'])[m
+[32m+[m[32m        if not company_id.romanian_accounting:[m
+             return[m
+ [m
+         stock_valuation_layers = self.env["stock.valuation.layer"][m
