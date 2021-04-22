@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- # Copyright 2020 NextERP Romania SRL
+     # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl). -->
+<odoo>
+    <record id="l10n_ro_picking_out_down" model="base.comment.template">
+        <field name="name">Romania - Comment for Delivery After Lines</field>
+        <field name="position">after_lines</field>
+        <field
+            name="model_id"
+            search="[('model','=','stock.picking')]"
+            model="ir.model"
+        />
+        <field name="model">stock.picking</field>
+        <field
+            name="domain"
+        >['|',['picking_type_code', '=', 'outgoing'],['picking_type_code', '=', 'internal']]</field>
+        <field name="default" eval="True" />
+        <field
+            name="text"
+        ><![CDATA[
+            <p>
+                <br/>
+            </p>
+            <table class="table table-bordered mb32" style="table-layout:auto"
+                <thead>
+                    <tr>
+                        <th width="40%">Elaborate</th>
+                        <th width="40%">Information for delivery</th>
+                        <th width="20%">Signature reception</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>
+                            <span>Name:  ${user.name}</span>
+                        </td>
+                        <td>
+                            <div><span>Delegate: .....................................................................</span><br/></div>
+                            <div><span>B.I./C.I.: ........................................................................</span><br/></div>
+                            <div><span>Mean Transport: .......................................................</span><br/></div>
+                            <div><span>Date: ................................. Hour: ..............................</span><br/></div>
+                        </td>
+                        <td>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>]]>
+        </field>
+    </record>
+    <record id="l10n_ro_picking_in_up" model="base.comment.template">
+        <field name="name">Romania - Comment for Reception Before Lines</field>
+        <field name="position">before_lines</field>
+        <field
+            name="model_id"
+            search="[('model','=','stock.picking')]"
+            model="ir.model"
+        />
+        <field name="model">stock.picking</field>
+        <field name="domain">[['picking_type_code', '=', 'incoming']]</field>
+        <field name="default" eval="True" />
+        <field
+            name="text"
+        ><![CDATA[
+            <p>
+                <span>RECEPTION NOTE AND DIFFERENCES</span>
+            </p>
+            <span>The undersigned, members of the reception commission, I received the material values provided by: ${object.partner_id.name}, delegate: ................................................,
+                car no.: ................................, based on the accompanying documents: ${object.purchase_id.partner_ref or (object.purchase_id.invoice_ids and (object.purchase_id.invoice_ids[0].ref or object.purchase_id.invoice_ids[0].name) or '...............................................')  or '...............................................'}, noting:
+            </span>]]>
+        </field>
+    </record>
+    <record id="l10n_ro_picking_in_down" model="base.comment.template">
+        <field name="name">Romania - Comment for Reception After Lines</field>
+        <field name="position">after_lines</field>
+        <field
+            name="model_id"
+            search="[('model','=','stock.picking')]"
+            model="ir.model"
+        />
+        <field name="model">stock.picking</field>
+        <field name="domain">[['picking_type_code', '=', 'incoming']]</field>
+        <field name="default" eval="True" />
+        <field
+            name="text"
+        ><![CDATA[
+            <p>
+                <br/>
+            </p>
+            <table class="table table-sm o_main_table table-bordered">
+                <thead>
+                    <tr>
+                        <th width="35%">Members of the reception commission</th>
+                        <th width="15%">Signature</th>
+                        <th width="35%">Stock responsible</th>
+                        <th width="15%">Signature</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>
+                            <p>
+                                <br/><br/><br/>
+                            </p>
+                        </td>
+                        <td>
+                            <p>
+                                <br/><br/><br/>
+                            </p>
+                        </td>
+                        <td>
+                            <span>${user.name}</span>
+                        </td>
+                        <td>
+                            <p>
+                                <br/><br/><br/>
+                            </p>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>]]>
+        </field>
+    </record>
+</odoo>
