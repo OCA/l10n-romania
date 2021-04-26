@@ -6,6 +6,7 @@
 import logging
 import random
 
+from odoo import fields
 from odoo.tests import Form, tagged
 
 from odoo.addons.stock_account.tests.test_anglo_saxon_valuation_reconciliation_common import (
@@ -291,7 +292,9 @@ class TestStockCommon(ValuationReconciliationTestCommon):
 
     def create_invoice(self, diff_p1=0, diff_p2=0):
         invoice = Form(
-            self.env["account.move"].with_context(default_move_type="in_invoice")
+            self.env["account.move"].with_context(
+                default_move_type="in_invoice", default_invoice_date=fields.Date.today()
+            )
         )
         invoice.partner_id = self.vendor
         invoice.purchase_id = self.po
