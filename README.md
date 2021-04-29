@@ -30,7 +30,7 @@ addon | version | summary
 [l10n_ro_partner_unique](l10n_ro_partner_unique/) | 14.0.1.0.0 | Creates a rule for vat and nrc unique for partners.
 [l10n_ro_payment_to_statement](l10n_ro_payment_to_statement/) | 14.0.1.0.2 | Add payment to cash statement
 [l10n_ro_stock](l10n_ro_stock/) | 14.0.1.0.0 | Romania - Stock
-[l10n_ro_stock_account](l10n_ro_stock_account/) | 14.0.2.0.0 | Romania - Stock Accounting
+[l10n_ro_stock_account](l10n_ro_stock_account/) | 14.0.2.0.1 | Romania - Stock Accounting
 [l10n_ro_stock_report](l10n_ro_stock_report/) | 14.0.1.0.0 | Romania - Stock Report
 [l10n_ro_vat_on_payment](l10n_ro_vat_on_payment/) | 14.0.1.0.0 | Romania - VAT on Payment
 
