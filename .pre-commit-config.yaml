@@ -18,24 +18,6 @@ default_language_version:
   python: python3
   node: "14.13.0"
 repos:
-  - repo: https://github.com/OCA/maintainer-tools
-    rev: 7343658665924c0763f6578f27749c274c4206b7 # This is just an example; you must use a tag/commit instead!
-    hooks:
-      # Use each script's `--help` to understand the args
-      - id: oca-gen-addon-readme
-        args:
-          - --addons-dir=.
-          - --org-name=OCA
-          - --repo-name=l10n-romania
-          - --branch=14.0
-
-      # This job could easily produce conflicts when it runs on every commit,
-      # so it's added as a manual job. If you automate it, beware.
-      # See https://pre-commit.com/#confining-hooks-to-run-at-certain-stages
-      # pre-commit run --hook-stage manual oca-gen-addons-table
-      - id: oca-gen-addons-table
-        stages: [manual]
-
   - repo: local
     hooks:
       # These files are most likely copier diff rejection junks; if found,
@@ -46,7 +28,7 @@ repos:
         language: fail
         files: "\\.rej$"
   - repo: https://github.com/oca/maintainer-tools
-    rev: 7343658665924c0763f6578f27749c274c4206b7
+    rev: ab1d7f6
     hooks:
       # update the NOT INSTALLABLE ADDONS section above
       - id: oca-update-pre-commit-excluded-addons
