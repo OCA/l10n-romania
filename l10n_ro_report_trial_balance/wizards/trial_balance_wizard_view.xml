@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+
+    <record id="trial_balance_wizard" model="ir.ui.view">
+        <field name="name">Trial Balance</field>
+        <field name="model">l10n.ro.report.trial.balance.wizard</field>
+        <field name="inherit_id" ref="account_financial_report.trial_balance_wizard" />
+        <field name="arch" type="xml">
+            <field name="show_partner_details" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </field>
+            <field name="foreign_currency" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </field>
+        </field>
+    </record>
+
+    <record id="action_trial_balance_wizard" model="ir.actions.act_window">
+        <field name="name">Romania - Trial Balance</field>
+        <field name="res_model">l10n.ro.report.trial.balance.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="trial_balance_wizard" />
+        <field name="target">new</field>
+    </record>
+
+    <menuitem
+        id="menu_action_l10n_ro_report_trial_balance"
+        name="Trial Balance"
+        action="action_trial_balance_wizard"
+        parent="l10n_ro.account_reports_ro_statements_menu"
+        groups="account.group_account_user"
+    />
+
+
+</odoo>

@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+
+    <record id="report_trial_balance_qweb_paperformat" model="report.paperformat">
+        <field name="name">Romania - Trial Balance Qweb paperformat</field>
+        <field name="default" eval="True" />
+        <field name="format">custom</field>
+        <field name="page_height">297</field>
+        <field name="page_width">210</field>
+        <field name="orientation">Landscape</field>
+        <field name="margin_top">30</field>
+        <field name="margin_bottom">12</field>
+        <field name="margin_left">5</field>
+        <field name="margin_right">5</field>
+        <field name="header_line" eval="True" />
+        <field name="header_spacing">30</field>
+        <field name="dpi">110</field>
+    </record>
+
+    <record id="action_l10n_ro_report_trial_balance_qweb" model="ir.actions.report">
+        <field name="name">Romania - Trial Balance</field>
+        <field name="model">l10n.ro.report.trial.balance.wizard</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">l10n_ro_report_trial_balance.trial_balance</field>
+        <field name="report_file">l10n_ro_report_trial_balance.trial_balance</field>
+        <field
+            name="paperformat_id"
+            ref="l10n_ro_report_trial_balance.report_trial_balance_qweb_paperformat"
+        />
+    </record>
+    <record id="action_l10n_ro_report_trial_balance_html" model="ir.actions.report">
+        <field name="name">Romania - Trial Balance</field>
+        <field name="model">l10n.ro.report.trial.balance.wizard</field>
+        <field name="report_type">qweb-html</field>
+        <field name="report_name">l10n_ro_report_trial_balance.trial_balance</field>
+        <field name="report_file">l10n_ro_report_trial_balance.trial_balance</field>
+    </record>
+
+    <record id="action_l10n_ro_report_trial_balance_xlsx" model="ir.actions.report">
+        <field name="name">Trial Balance XLSX</field>
+        <field name="model">l10n.ro.report.trial.balance.wizard</field>
+        <field name="type">ir.actions.report</field>
+        <field name="report_name">l10n_ro_report_trial_balance_xlsx</field>
+        <field name="report_type">xlsx</field>
+        <field name="report_file">report_trial_balance</field>
+    </record>
+
+</odoo>
