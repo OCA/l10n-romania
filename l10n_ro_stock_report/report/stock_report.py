@@ -160,7 +160,7 @@ class StorageSheet(models.TransientModel):
         params.update({"reference": "INITIALA"})
         self.env.cr.execute(query_select_sold_init, params=params)
         res = self.env.cr.dictfetchall()
-        self.line_product_ids.create(res)
+        lines = self.env["stock.storage.sheet.line"].create(res)
 
         query_select_sold_final = """
             SELECT %(report)s as report_id, sm.product_id as product_id,
@@ -185,7 +185,7 @@ class StorageSheet(models.TransientModel):
         params.update({"reference": "FINALA"})
         self.env.cr.execute(query_select_sold_final, params=params)
         res = self.env.cr.dictfetchall()
-        self.line_product_ids.create(res)
+        lines += self.env["stock.storage.sheet.line"].create(res)
 
         query_in = """
 
@@ -219,7 +219,7 @@ class StorageSheet(models.TransientModel):
 
         self.env.cr.execute(query_in, params=params)
         res = self.env.cr.dictfetchall()
-        self.line_product_ids.create(res)
+        lines += self.env["stock.storage.sheet.line"].create(res)
 
         query_out = """
 
@@ -254,12 +254,14 @@ class StorageSheet(models.TransientModel):
 
         self.env.cr.execute(query_out, params=params)
         res = self.env.cr.dictfetchall()
-        self.line_product_ids.create(res)
+        lines += self.env["stock.storage.sheet.line"].create(res)
+        self.line_product_ids = [(6, 0, lines.ids)]
 
     def get_found_products(self):
         found_products = self.product_ids
-        product_list = self.get_products_with_move()
-        found_products |= self.env["product.product"].browse(product_list)
+        if not found_products:
+            product_list = self.get_products_with_move()
+            found_products |= self.env["product.product"].browse(product_list)
 
         return found_products
 
