@@ -95,7 +95,7 @@
         </t>
     </template>
     <template id="report_storage_sheet_lines">
-        <div class="act_as_row lines">
+        <div class="act_as_row lines" style="line-height:0.5">
             <div class="act_as_cell left">
                 <span t-field="line_product.date" t-options='{"widget": "date"}' />
             </div>
