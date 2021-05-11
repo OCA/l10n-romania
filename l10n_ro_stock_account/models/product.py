@@ -188,7 +188,6 @@ class ProductProduct(models.Model):
             .sudo()
             .browse(self._context["origin_return_candidates"])
         )
-
         qty_to_take_on_candidates = quantity
         new_standard_price = 0
         tmp_value = 0  # to accumulate the value taken on the candidates
