@@ -42,7 +42,9 @@ class StorageSheet(models.TransientModel):
     )
 
     one_product = fields.Boolean("One product per page")
-    line_product_ids = fields.Many2many(comodel_name="stock.storage.sheet.line")
+    line_product_ids = fields.One2many(
+        comodel_name="stock.storage.sheet.line", inverse_name="report_id"
+    )
 
     def _get_report_base_filename(self):
         self.ensure_one()
