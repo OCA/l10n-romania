@@ -242,7 +242,7 @@ class AccountMoveLine(models.Model):
             return 0.0
 
         valuation_price_unit = valuation_price_unit_total / valuation_total_qty
-        price_unit = line.balance / line.quantity
+        price_unit = abs(line.balance / line.quantity)
         price_unit_val_dif = price_unit - valuation_price_unit
         return price_unit_val_dif
 
