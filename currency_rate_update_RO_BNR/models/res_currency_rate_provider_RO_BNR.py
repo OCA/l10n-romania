@@ -22,7 +22,8 @@ class ResCurrencyRate(models.Model):
         store=1,
         digits=(16, 4),
         compute=_compute_invese_rate,
-        help="Inverse rate computed as 1/rate. If you want to change this, change the rate ( write =1/desired_inverse_value)",
+        help="Inverse rate computed as 1/rate. If you want to change this, "
+        "change the rate ( write =1/desired_inverse_value)",
     )
 
 
