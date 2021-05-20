@@ -216,7 +216,6 @@ class AccountMoveLine(models.Model):
     def get_stock_valuation_difference(self):
         """ Se obtine diferenta dintre evaloarea stocului si valoarea din factura"""
         line = self
-        move = line.move_id
         # Retrieve stock valuation moves.
         if not line.purchase_line_id:
             return 0.0
@@ -243,26 +242,7 @@ class AccountMoveLine(models.Model):
             return 0.0
 
         valuation_price_unit = valuation_price_unit_total / valuation_total_qty
-        price_unit = line.price_unit * (1 - (line.discount or 0.0) / 100.0)
-        if line.tax_ids:
-            price_unit = line.tax_ids.compute_all(
-                price_unit,
-                currency=move.currency_id,
-                quantity=1.0,
-                is_refund=move.type == "in_refund",
-            )["total_excluded"]
-
-        price_unit = line.product_uom_id._compute_price(
-            price_unit, line.product_id.uom_id
-        )
-
-        price_unit = move.currency_id._convert(
-            price_unit,
-            move.company_currency_id,
-            move.company_id,
-            move.invoice_date,
-            round=False,
-        )
+        price_unit = abs(line.balance / line.quantity)
         price_unit_val_dif = price_unit - valuation_price_unit
         return price_unit_val_dif
 
