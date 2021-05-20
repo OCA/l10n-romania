@@ -34,4 +34,5 @@ class TestStockPurchaseReturn(TestStockCommon):
         self.make_return(pick, 2)
 
         stock_value_final_p1 = stock_value_final_p1 - round(2 * self.price_p1, 2)
+        stock_value_final_p2 = stock_value_final_p2 - round(2 * self.price_p2, 2)
         self.check_stock_valuation(stock_value_final_p1, stock_value_final_p2)
