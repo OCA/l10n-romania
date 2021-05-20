@@ -30,7 +30,7 @@ addon | version | summary
 [l10n_ro_partner_unique](l10n_ro_partner_unique/) | 13.0.1.0.2 | Creates a rule for vat and nrc unique for partners.
 [l10n_ro_siruta](l10n_ro_siruta/) | 13.0.1.0.0 | Romania - Siruta
 [l10n_ro_stock](l10n_ro_stock/) | 13.0.1.0.1 | Romania - Stock
-[l10n_ro_stock_account](l10n_ro_stock_account/) | 13.0.1.1.1 | Romania - Stock Accounting
+[l10n_ro_stock_account](l10n_ro_stock_account/) | 13.0.1.2.0 | Romania - Stock Accounting
 [l10n_ro_stock_report](l10n_ro_stock_report/) | 13.0.1.2.0 | Romania - Stock Report
 [l10n_ro_vat_on_payment](l10n_ro_vat_on_payment/) | 13.0.1.0.3 | Romania - VAT on Payment
 
