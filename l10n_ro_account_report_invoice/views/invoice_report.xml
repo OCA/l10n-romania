@@ -57,37 +57,53 @@
         </table>
 
 
-    <span t-field="o.amount_untaxed" position="before">
-                            <span t-if="o.currency_id != o.company_id.currency_id">
-                            <spam
+        <xpath
+            expr="//div[@id='total']/div/table/tr[hasclass('o_subtotal')]/td[1]"
+            position="after"
+        >
+            <td class="text-right" t-if="o.currency_id != o.company_id.currency_id">
+                <span
                     t-field="o.amount_untaxed_signed"
                     t-options='{"widget": "monetary", "display_currency": o.company_currency_id}'
-                /> | </span>
-    </span>
-    <span t-field="o.amount_total" position="before">
-                            <span t-if="o.currency_id != o.company_id.currency_id">
-                             <span
+                />
+            </td>
+        </xpath>
+        <xpath expr="//t[@t-foreach='o.amount_by_group']/tr/t/td[1]" position="after">
+            <td class="text-right" t-if="o.currency_id != o.company_id.currency_id">
+                <span
+                    t-field="o.amount_tax_signed"
+                    t-options='{"widget": "monetary", "display_currency": o.company_currency_id}'
+                />
+            </td>
+        </xpath>
+        <xpath
+            expr="//t[@t-foreach='o.amount_by_group']/tr/t[@t-else='']/td[1]"
+            position="after"
+        >
+            <td class="text-right" t-if="o.currency_id != o.company_id.currency_id">
+                <t t-if="amount_by_group == o.amount_by_group[0]">
+                    <span
+                        t-field="o.amount_tax_signed"
+                        t-options='{"widget": "monetary", "display_currency": o.company_currency_id}'
+                    />
+                </t>
+                <t t-else="" />
+            </td>
+        </xpath>
+        <xpath
+            expr="//div[@id='total']/div/table/tr[hasclass('o_total')]/td[1]"
+            position="after"
+        >
+            <td class="text-right" t-if="o.currency_id != o.company_id.currency_id">
+                <span
                     t-field="o.amount_total_signed"
                     t-options='{"widget": "monetary", "display_currency": o.company_currency_id}'
-                /> | </span>
-    </span>
-    <span t-esc="amount_by_group[3]" position="before">
-                            <span t-if="o.currency_id != o.company_id.currency_id">
-                            <span
-                    t-field="o.amount_tax_signed"
-                    t-options='{"widget": "monetary", "display_currency": o.company_currency_id}'
-                /> |</span>
-    </span>
-    <xpath expr="(//span[@t-esc='amount_by_group[3]'])[2]" position="before">
-                            <span t-if="o.currency_id != o.company_id.currency_id">
-                            <span
-                    t-field="o.amount_tax_signed"
-                    t-options='{"widget": "monetary", "display_currency": o.company_currency_id}'
-                /> |</span>
-    </xpath>
+                />
+            </td>
+        </xpath>
 
 
-     <xpath expr="//p[@name='note']" position="after">
+        <xpath expr="//p[@name='note']" position="after">
             <p t-if="o.company_id.invoice_no_signature_text" id="sign_info">
                 <span t-field="o.company_id.invoice_no_signature_text" />
             </p>
