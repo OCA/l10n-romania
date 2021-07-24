@@ -20,11 +20,8 @@
                     name="cash_in_sequence_id"
                     attrs="{'invisible': [('type', '!=', 'cash')]}"
                 />
-                <field
-                    name="cash_out_sequence_id"
-                    attrs="{'invisible': [('type', '!=', 'cash')]}"
-                />
-            </xpath>
+<!--                <field name="cash_out_sequence_id" attrs="{'invisible': [('type', '!=', 'cash')]}"/>
+-->            </xpath>
         </field>
     </record>
 

@@ -33,6 +33,8 @@ Features:
  payment with bank statement direct through payment menu or customer/supplier invoices register payment option.
  After selecting and validating payment, module will add bank statement line on selected bank statement.
 
+v0.3 on cache journal possibility to have out account_payments sequences
+
 **Table of contents**
 
 .. contents::
