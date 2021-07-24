@@ -18,11 +18,14 @@ class AccountJournal(models.Model):
         "ir.sequence", string="Sequence Journal", copy=False
     )
     cash_in_sequence_id = fields.Many2one(
-        "ir.sequence", string="Sequence cash in", copy=False, help="just for cache journal and for payment with partner_type =customer. This are the invoices that are emitted to clients" 
+        "ir.sequence",
+        string="Sequence cash in",
+        copy=False,
+        help="just for cache journal and for payment with partner_type =customer. This are the invoices that are emitted to clients",
     )
-#    cash_out_sequence_id = fields.Many2one(
-#        "ir.sequence", string="Sequence cash out", copy=False, help="just for cache journal and for payment with partner_type =customer"
-#    )
+    #    cash_out_sequence_id = fields.Many2one(
+    #        "ir.sequence", string="Sequence cash out", copy=False, help="just for cache journal and for payment with partner_type =customer"
+    #    )
 
     def get_journal_dashboard_datas(self):
         currency = self.currency_id or self.company_id.currency_id

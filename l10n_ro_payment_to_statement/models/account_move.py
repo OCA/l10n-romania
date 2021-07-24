@@ -2,7 +2,7 @@
 # See README.rst file on addons root folder for license details
 
 
-from odoo import models,api
+from odoo import models
 
 
 class AccountMove(models.Model):
@@ -18,4 +18,3 @@ class AccountMove(models.Model):
                     super(AccountMove, move).write({"name": new_number})
 
         return super(AccountMove, self).write(vals)
-

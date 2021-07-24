@@ -40,23 +40,22 @@ class AccountPayment(models.Model):
                 )
 
     def action_post(self):
-        not_posted_before = self.env['account.payment']
+        not_posted_before = self.env["account.payment"]
         for rec in self:
             if not rec.posted_before:
                 not_posted_before |= rec
         res = super(AccountPayment, self).action_post()
         # here the payments have name form account.move sequence_mixin
-        # if type is customer and type cash we are going to give them name from choosen sequences 
+        # if type is customer and type cash we are going to give them name from choosen sequences
         for rec in not_posted_before:
             if rec.partner_type == "customer" and rec.journal_id.type == "cash":
                 if rec.journal_id.cash_in_sequence_id and rec.payment_type == "inbound":
                     rec.name = rec.journal_id.cash_in_sequence_id.next_by_id()
-#                if rec.journal_id.cash_out_sequence_id and rec.payment_type == "outbound":
-#                    rec.name = rec.journal_id.cash_out_sequence_id.next_by_id()
+        #                if rec.journal_id.cash_out_sequence_id and rec.payment_type == "outbound":
+        #                    rec.name = rec.journal_id.cash_out_sequence_id.next_by_id()
         self.add_statement_line()
 
         return res
-
 
     def get_reconciled_statement_line(self):
         for payment in self:
