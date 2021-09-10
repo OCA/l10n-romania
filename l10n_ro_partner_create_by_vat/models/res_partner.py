@@ -109,7 +109,7 @@ class ResPartner(models.Model):
                 self.env["res.city"]
                 .search(
                     [
-                        ("state_id", "=", res["state_id"].id),
+                        ("state_id", "=", res["state_id"]),
                         ("name", "ilike", res["city"]),
                     ],
                     limit=1,
@@ -154,7 +154,7 @@ class ResPartner(models.Model):
                 else:
                     addr += line.replace("STR.", "").strip().title() + " "
         res["city"] = city.replace("-", " ").title().strip()
-        res["state_id"] = state
+        res["state_id"] = state.id
         res["street"] = addr.strip()
         return res
 
