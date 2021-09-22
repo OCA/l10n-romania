@@ -1,12 +1,5 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <odoo noupdate="1">
-    <record id="id" model="res.country.commune">
-        <field name="name">name</field>
-        <field name="siruta">siruta</field>
-        <field name="country_id" ref="country_id/id" />
-        <field name="zone" ref="zone_id/id" />
-        <field name="state_id" ref="state_id/id" />
-    </record>
     <record id="RO_1151" model="res.country.commune">
         <field name="name">Abrud</field>
         <field name="siruta">1151</field>
