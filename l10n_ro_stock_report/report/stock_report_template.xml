@@ -31,11 +31,11 @@
                     <div class="act_as_table data_table mt4" style="width: 100%;">
                         <t
                             t-set="initial"
-                            t-value="o.line_product_ids.filtered(lambda l: l.product_id == product and l.reference =='INITIALA')"
+                            t-value="o.line_product_ids.filtered(lambda l: l.product_id == product and l.reference =='INITIAL')"
                         />
                         <t
                             t-set="final"
-                            t-value="o.line_product_ids.filtered(lambda l: l.product_id == product and l.reference =='FINALA')"
+                            t-value="o.line_product_ids.filtered(lambda l: l.product_id == product and l.reference =='FINAL')"
                         />
                         <t
                             t-call="l10n_ro_stock_report.report_storage_sheet_lines_header"
@@ -64,7 +64,7 @@
                             </div>
                         </div>
                         <t
-                            t-foreach="o.line_product_ids.filtered(lambda l: l.product_id == product and l.reference not in ['INITIALA','FINALA'] )"
+                            t-foreach="o.line_product_ids.filtered(lambda l: l.product_id == product and l.reference not in ['INITIAL','FINAL'] )"
                             t-as="line_product"
                         >
                             <t
