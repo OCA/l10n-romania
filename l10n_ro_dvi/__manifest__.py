@@ -5,7 +5,7 @@
     "license": "AGPL-3",
     "version": "13.0.1.0.0",
     "author": "Terrabit," "Odoo Community Association (OCA)",
-    "website": "http://www.terrabit.ro",
+    "website": "https://github.com/OCA/l10n-romania",
     "category": "Warehouse",
     "depends": [
         "stock_account",
