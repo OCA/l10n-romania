@@ -4,6 +4,7 @@
 import logging
 import time
 
+from odoo.exceptions import UserError
 from odoo.tests import Form
 from odoo.tests.common import TransactionCase
 
@@ -41,13 +42,11 @@ class TestStockReport(TransactionCase):
                 {"name": "Stock Journal", "code": "STJ", "type": "general"}
             )
 
-        property_diff = "property_account_creditor_price_difference_categ"
-
         category_value = {
             "name": "TEST Marfa",
             "property_cost_method": "fifo",
             "property_valuation": "real_time",
-            property_diff: self.account_difference.id,
+            "property_account_creditor_price_difference_categ": self.account_difference.id,
             "property_account_income_categ_id": self.account_income.id,
             "property_account_expense_categ_id": self.account_expense.id,
             "property_stock_account_input_categ_id": self.account_valuation.id,
@@ -134,7 +133,7 @@ class TestStockReport(TransactionCase):
         invoice.partner_id = self.vendor
         invoice.purchase_id = self.po
         invoice = invoice.save()
-        invoice.post()
+        invoice.action_post()
         _logger.info("Factura introdusa")
 
     def test_report_storeage_sheet(self):
@@ -142,12 +141,55 @@ class TestStockReport(TransactionCase):
         self.create_invoice()
 
         wizard = Form(self.env["stock.storage.sheet"])
-
         wizard.location_id = self.location
-
         wizard = wizard.save()
+
         wizard.button_show_sheet_pdf()
         line = self.env["stock.storage.sheet.line"].search(
             [("report_id", "=", wizard.id)], limit=1
         )
         self.assertTrue(line)
+
+    def test_get_products_with_move(self):
+        product_obj = self.env["product.product"]
+        stock_move_obj = self.env["stock.move"]
+        products = product_obj.search([("type", "=", "product")])
+        prod_with_moves = stock_move_obj.search(
+            [
+                ("state", "=", "done"),
+                "|",
+                ("location_id", "=", self.location.id),
+                ("location_dest_id", "=", self.location.id),
+            ]
+        ).mapped("product_id")
+        wizard = Form(self.env["stock.storage.sheet"])
+        wizard.location_id = self.location
+        wizard = wizard.save()
+        exp_prod_list = wizard.get_products_with_move()
+        self.assertEqual(exp_prod_list, [])
+        exp_found_prod = wizard.get_found_products()
+        self.assertEqual(exp_found_prod, prod_with_moves)
+
+        wizard_no_moves = Form(self.env["stock.storage.sheet"])
+        wizard_no_moves.location_id = self.location
+        wizard_no_moves.products_with_move = False
+        wizard_no_moves = wizard_no_moves.save()
+        exp_found_prod = wizard_no_moves.get_found_products()
+        self.assertEqual(exp_found_prod, products)
+
+        exp_product = products[0]
+        wizard_product = Form(self.env["stock.storage.sheet"])
+        wizard_product.location_id = self.location
+        wizard_product.products_with_move = False
+        wizard_product = wizard_product.save()
+        wizard_product.product_ids = [(6, 0, exp_product.ids)]
+        exp_found_prod = wizard_product.get_found_products()
+        self.assertEqual(exp_found_prod, exp_product)
+
+        exp_product = products[0]
+        wizard_product = Form(self.env["stock.storage.sheet"])
+        wizard_product.location_id = self.location
+        wizard_product = wizard_product.save()
+        wizard_product.product_ids = [(6, 0, exp_product.ids)]
+        with self.assertRaises(UserError):
+            wizard_product.get_found_products()
