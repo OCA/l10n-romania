@@ -82,8 +82,20 @@ class StockMove(models.Model):
         return it_is
 
     def _create_reception_return_svl(self, forced_quantity=None):
-        move = self.with_context(standard=True, valued_type="reception_return")
-        return move._create_out_svl(forced_quantity)
+        svl = self.env["stock.valuation.layer"]
+        for move in self:
+            move = move.with_context(standard=True, valued_type="reception_return")
+            if (
+                move.origin_returned_move_id
+                and move.origin_returned_move_id.sudo().stock_valuation_layer_ids
+            ):
+                move = move.with_context(
+                    origin_return_candidates=move.origin_returned_move_id.sudo()
+                    .stock_valuation_layer_ids.filtered(lambda sv: sv.remaining_qty > 0)
+                    .ids
+                )
+            svl += move._create_out_svl(forced_quantity)
+        return svl
 
     def _is_reception_notice(self):
         """ Este receptie in stoc cu aviz"""
@@ -110,8 +122,22 @@ class StockMove(models.Model):
         return it_is
 
     def _create_reception_notice_return_svl(self, forced_quantity=None):
-        move = self.with_context(standard=True, valued_type="reception_notice_return")
-        return move._create_out_svl(forced_quantity)
+        svl = self.env["stock.valuation.layer"]
+        for move in self:
+            move = move.with_context(
+                standard=True, valued_type="reception_notice_return"
+            )
+            if (
+                move.origin_returned_move_id
+                and move.origin_returned_move_id.sudo().stock_valuation_layer_ids
+            ):
+                move = move.with_context(
+                    origin_return_candidates=move.origin_returned_move_id.sudo()
+                    .stock_valuation_layer_ids.filtered(lambda sv: sv.remaining_qty > 0)
+                    .ids
+                )
+            svl += move._create_out_svl(forced_quantity)
+        return svl
 
     def _is_delivery(self):
         """ Este livrare din stoc fara aviz"""
@@ -579,7 +605,12 @@ class StockMoveLine(models.Model):
     @api.model
     def _create_correction_svl(self, move, diff):
         super(StockMoveLine, self)._create_correction_svl(move, diff)
-        if not self.company_id.romanian_accounting:
+        company_id = self.company_id
+        if not self.company_id and self._context.get("default_company_id"):
+            company_id = self.env["res.company"].browse(
+                self._context["default_company_id"]
+            )
+        if not company_id.romanian_accounting:
             return
 
         stock_valuation_layers = self.env["stock.valuation.layer"]
