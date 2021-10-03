@@ -1,2 +1,0 @@
-odoo14-addon-currency_rate_update @ git+https://github.com/OCA/currency@refs/pull/88/head#subdirectory=setup/currency_rate_update
-odoo14-addon-web_list_view_general_buttons @ git+https://github.com/OCA/web@refs/pull/1846/head#subdirectory=setup/web_list_view_general_buttons
