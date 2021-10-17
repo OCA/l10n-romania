@@ -101,10 +101,11 @@ class StockWarehouse(models.Model):
         return sequences
 
     def _update_name_and_code(self, new_name=False, new_code=False):
-        super(StockWarehouse, self)._update_name_and_code(new_name, new_code)
+        res = super(StockWarehouse, self)._update_name_and_code(new_name, new_code)
         for warehouse in self:
             sequence_data = warehouse._get_sequence_values()
             warehouse.consume_type_id.sequence_id.write(
                 sequence_data["consume_type_id"]
             )
             warehouse.usage_type_id.sequence_id.write(sequence_data["usage_type_id"])
+        return res
