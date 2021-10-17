@@ -7,7 +7,7 @@
             <xpath expr="//field[@name='stock_move_id']" position="after">
                 <field name="valued_type" />
             </xpath>
-            <xpath expr="/git /field[@name='account_move_id']" position="after">
+            <xpath expr="//field[@name='account_move_id']" position="after">
                 <field name="account_id" />
                 <field name="invoice_line_id" />
                 <field name="invoice_id" />
