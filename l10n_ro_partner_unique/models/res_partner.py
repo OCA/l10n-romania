@@ -28,6 +28,11 @@ class ResPartner(models.Model):
                 found = self.env["res.partner"].search(domain)
                 if len(found) > 1:
                     raise ValidationError(
-                        _("The VAT and NRC pair (%s, %s) must be unique ids=%s!")
-                        % (record.vat, record.nrc, found.ids)
+                        _(
+                            "The VAT and NRC pair: %(vat)s - %(nrc)s must "
+                            "be unique ids=%(ids)s!",
+                            vat=record.vat,
+                            nrc=record.nrc,
+                            ids=found.ids,
+                        )
                     )
