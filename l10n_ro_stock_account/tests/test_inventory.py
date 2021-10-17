@@ -12,17 +12,15 @@ class TestStockSale(TestStockCommon):
     def _plus_inventory(self):
         self.make_puchase()
 
-        inventory = self.env["stock.inventory"].create(
+        inventory_obj = self.env["stock.quant"].with_context(inventory_mode=True)
+        inventory = inventory_obj.create(
             {
-                "location_ids": [(4, self.location_warehouse.id)],
-                "product_ids": [(4, self.product_1.id)],
+                "location_id": self.location_warehouse.id,
+                "product_id": self.product_1.id,
+                "inventory_quantity": self.qty_po_p1 + 10,
             }
         )
-        inventory.action_start()
-
-        inventory.line_ids.product_qty = self.qty_po_p1 + 10
-        _logger.info("start plus inventory")
-        inventory.action_validate()
+        inventory._apply_inventory()
 
     def test_plus_inventory(self):
         self._plus_inventory()
@@ -38,17 +36,15 @@ class TestStockSale(TestStockCommon):
     def _minus_inventory(self):
         self.make_puchase()
 
-        inventory = self.env["stock.inventory"].create(
+        inventory_obj = self.env["stock.quant"].with_context(inventory_mode=True)
+        inventory = inventory_obj.create(
             {
-                "location_ids": [(4, self.location_warehouse.id)],
-                "product_ids": [(4, self.product_1.id)],
+                "location_id": self.location_warehouse.id,
+                "product_id": self.product_1.id,
+                "inventory_quantity": self.qty_po_p1 - 10,
             }
         )
-        inventory.action_start()
-
-        inventory.line_ids.product_qty = self.qty_po_p1 - 10
-        _logger.info("start minus inventory")
-        inventory.action_validate()
+        inventory._apply_inventory()
 
     def test_minus_inventory(self):
         self._minus_inventory()
