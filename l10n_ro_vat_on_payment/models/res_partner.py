@@ -113,7 +113,7 @@ class ResPartner(models.Model):
         ctx.update({"check_date": date.today()})
 
         for partner in self:
-            partner.vat_on_payment = partner.with_context(ctx)._check_vat_on_payment()
+            partner.vat_on_payment = partner.with_context(**ctx)._check_vat_on_payment()
 
     @api.model
     def update_vat_payment_all(self):
