@@ -48,7 +48,7 @@ class ResPartner(models.Model):
 
     @api.model
     def _insert_relevant_anaf_data(self):
-        """ Load VAT on payment lines for specified partners."""
+        """Load VAT on payment lines for specified partners."""
 
         def format_date(strdate):
             if strdate != "":
