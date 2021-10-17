@@ -15,6 +15,5 @@ class StockLocation(models.Model):
     )
     merchandise_type = fields.Selection(
         [("store", _("Store")), ("warehouse", _("Warehouse"))],
-        string="Merchandise type",
         default="warehouse",
     )
