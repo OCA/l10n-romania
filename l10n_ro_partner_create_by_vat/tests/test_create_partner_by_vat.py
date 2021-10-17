@@ -2,10 +2,10 @@
 # Copyright (C) 2020 NextERP Romania
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
-from odoo.tests import common
+from odoo.tests.common import Transactioncase
 
 
-class TestCreatePartnerBase(common.SavepointCase):
+class TestCreatePartnerBase(Transactioncase):
     @classmethod
     def setUpClass(cls):
         super(TestCreatePartnerBase, cls).setUpClass()
