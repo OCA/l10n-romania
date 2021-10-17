@@ -51,11 +51,12 @@ class ProductCategory(models.Model):
                         _(
                             "For Romanian Stock Accounting the stock_input, "
                             "stock_output and stock_valuation accounts must "
-                            "bethe same for category %s" % record.name
+                            "bethe same for category %s"
                         )
+                        % record.name
                     )
         else:
-            super(ProductCategory, self)._check_valuation_accouts()
+            return super(ProductCategory, self)._check_valuation_accouts()
 
     @api.onchange(
         "property_stock_valuation_account_id",
