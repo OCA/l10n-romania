@@ -9,7 +9,7 @@ class ProductTemplate(models.Model):
 
     @api.onchange("type")
     def _onchange_type(self):
-        """ Force values to stay consistent with integrity constraints """
+        """Force values to stay consistent with integrity constraints"""
         res = super(ProductTemplate, self)._onchange_type()
         if self.type == "service":
             # Update taxes with the default service taxes defined in company
