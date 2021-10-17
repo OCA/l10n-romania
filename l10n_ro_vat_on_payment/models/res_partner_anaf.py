@@ -19,14 +19,14 @@ class ResPartnerAnaf(models.Model):
     _description = "ANAF History about VAT on Payment"
     _order = "vat, operation_date DESC, end_date, start_date"
 
-    anaf_id = fields.Char("ANAF ID", index=True)
-    vat = fields.Char("VAT", index=True)
-    start_date = fields.Date("Start Date", index=True)
-    end_date = fields.Date("End Date", index=True)
-    publish_date = fields.Date("Publish Date")
-    operation_date = fields.Date("Operation Date")
+    anaf_id = fields.Char(index=True)
+    vat = fields.Char(index=True)
+    start_date = fields.Date(index=True)
+    end_date = fields.Date(index=True)
+    publish_date = fields.Date()
+    operation_date = fields.Date()
     operation_type = fields.Selection(
-        [("I", "Register"), ("E", "Fix error"), ("D", "Removal")], "Operation Type"
+        [("I", "Register"), ("E", "Fix error"), ("D", "Removal")],
     )
 
     @api.model
