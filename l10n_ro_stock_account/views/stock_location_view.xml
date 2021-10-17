@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <odoo>
-    <data>
         <record id="view_location_form_inherit" model="ir.ui.view">
             <field name="name">view_location_romania_form</field>
             <field name="model">stock.location</field>
@@ -9,29 +8,28 @@
                 <xpath expr="//group[@name='additional_info']" position="after">
                     <group string="Accounting Information">
                         <field
-                            name="valuation_in_account_id"
-                            options="{'no_create': True}"
-                        />
+                        name="valuation_in_account_id"
+                        options="{'no_create': True}"
+                    />
                         <field
-                            name="valuation_out_account_id"
-                            options="{'no_create': True}"
-                        />
+                        name="valuation_out_account_id"
+                        options="{'no_create': True}"
+                    />
                         <separator string="Only for Romania" />
                         <field
-                            name="property_account_income_location_id"
-                            options="{'no_create': True}"
-                        />
+                        name="property_account_income_location_id"
+                        options="{'no_create': True}"
+                    />
                         <field
-                            name="property_account_expense_location_id"
-                            options="{'no_create': True}"
-                        />
+                        name="property_account_expense_location_id"
+                        options="{'no_create': True}"
+                    />
                         <field
-                            name="property_stock_valuation_account_id"
-                            options="{'no_create': True}"
-                        />
+                        name="property_stock_valuation_account_id"
+                        options="{'no_create': True}"
+                    />
                     </group>
                 </xpath>
             </field>
         </record>
-    </data>
 </odoo>

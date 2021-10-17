@@ -398,6 +398,7 @@ class StockMove(models.Model):
         location_from = self.location_id
         location_to = self.location_dest_id
         svl = self.env["stock.valuation.layer"]
+        account_move_obj = self.env["account.move"]
         if self._is_delivery_notice():
             # inregistrare valoare vanzare
             sale_cost = self._get_sale_amount()
@@ -409,8 +410,16 @@ class StockMove(models.Model):
                 acc_dest,
                 acc_valuation,
             ) = move._get_accounting_data_for_valuation()
-            move._create_account_move_line(
-                acc_valuation, acc_dest, journal_id, qty, description, svl, sale_cost
+            account_move_obj.create(
+                move._prepare_account_move_vals(
+                    acc_valuation,
+                    acc_dest,
+                    journal_id,
+                    qty,
+                    description,
+                    svl,
+                    sale_cost,
+                )
             )
 
         if self._is_delivery_notice_return():
@@ -424,8 +433,16 @@ class StockMove(models.Model):
                 acc_dest,
                 acc_valuation,
             ) = move._get_accounting_data_for_valuation()
-            move._create_account_move_line(
-                acc_dest, acc_valuation, journal_id, qty, description, svl_id, sale_cost
+            account_move_obj.create(
+                move._prepare_account_move_vals(
+                    acc_dest,
+                    acc_valuation,
+                    journal_id,
+                    qty,
+                    description,
+                    svl_id,
+                    sale_cost,
+                )
             )
 
         if self._is_usage_giving() or self._is_usage_giving_return():
@@ -437,8 +454,10 @@ class StockMove(models.Model):
                 acc_dest,
                 acc_valuation,
             ) = move._get_accounting_data_for_valuation()
-            move._create_account_move_line(
-                acc_src, acc_dest, journal_id, qty, description, svl, cost
+            account_move_obj.create(
+                move._prepare_account_move_vals(
+                    acc_src, acc_dest, journal_id, qty, description, svl, cost
+                )
             )
 
         if self._is_internal_transfer():
@@ -450,12 +469,28 @@ class StockMove(models.Model):
                 acc_valuation,
             ) = move._get_accounting_data_for_valuation()
             if location_to.property_stock_valuation_account_id and cost < 0:
-                move._create_account_move_line(
-                    acc_dest, acc_valuation, journal_id, qty, description, svl_id, cost
+                account_move_obj.create(
+                    move._prepare_account_move_vals(
+                        acc_dest,
+                        acc_valuation,
+                        journal_id,
+                        qty,
+                        description,
+                        svl_id,
+                        cost,
+                    )
                 )
             if location_from.property_stock_valuation_account_id and cost > 0:
-                move._create_account_move_line(
-                    acc_src, acc_valuation, journal_id, qty, description, svl_id, cost
+                account_move_obj.create(
+                    move._prepare_account_move_vals(
+                        acc_src,
+                        acc_valuation,
+                        journal_id,
+                        qty,
+                        description,
+                        svl_id,
+                        cost,
+                    )
                 )
 
     def _get_sale_amount(self):
