@@ -6,11 +6,11 @@ import io
 import os
 
 from odoo import tools
-from odoo.tests import common
+from odoo.tests.common import TransactionCase
 from odoo.tools import pycompat
 
 
-class TestPartnerUpdateVatSubjectedBase(common.SavepointCase):
+class TestPartnerUpdateVatSubjectedBase(TransactionCase):
     @classmethod
     def setUpClass(cls):
         super(TestPartnerUpdateVatSubjectedBase, cls).setUpClass()
@@ -30,7 +30,7 @@ class TestPartnerUpdateVatSubjectedBase(common.SavepointCase):
         lines = [line for line in csvdata if any(line)]
         cls.env.user.company_id.write({"vat_check_vies": False})
         for line in lines:
-            cls.partner_model.with_context(context).create(
+            cls.partner_model.with_context(**context).create(
                 {
                     "id": line[0],
                     "name": line[1],

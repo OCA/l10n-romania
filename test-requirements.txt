@@ -1,0 +1,3 @@
+odoo-addon-l10n_ro_config @ git+https://github.com/OCA/l10n-romania@refs/pull/170/head#subdirectory=setup/l10n_ro_config
+odoo-addon-l10n_ro_partner_create_by_vat @ git+https://github.com/OCA/l10n-romania@refs/pull/172/head#subdirectory=setup/l10n_ro_partner_create_by_vat
+odoo-addon-l10n_ro_vat_on_payment @ git+https://github.com/OCA/l10n-romania@refs/pull/173/head#subdirectory=setup/l10n_ro_vat_on_payment
