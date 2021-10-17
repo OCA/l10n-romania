@@ -3,4 +3,4 @@ VAT number. It will complete the name, address of the partner from ANAF
 webservice.
 
 ANAF
-https://webservicesp.anaf.ro/PlatitorTvaRest/api/v4/
+https://webservicesp.anaf.ro/PlatitorTvaRest/api/v5/
