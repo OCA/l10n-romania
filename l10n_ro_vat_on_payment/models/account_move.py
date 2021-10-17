@@ -26,10 +26,10 @@ class AccountMove(models.Model):
         if self.invoice_date:
             ctx.update({"check_date": self.invoice_date})
         if "out" in self.move_type:
-            vatp = company.partner_id.with_context(ctx)._check_vat_on_payment()
+            vatp = company.partner_id.with_context(**ctx)._check_vat_on_payment()
         else:
             if partner:
-                vatp = partner.with_context(ctx)._check_vat_on_payment()
+                vatp = partner.with_context(**ctx)._check_vat_on_payment()
         if vatp:
             fptvainc = fp_model.search(
                 [
