@@ -23,10 +23,9 @@ class ResCountryZone(models.Model):
                 ("name", operator, name),
                 ("country_id.code", operator, name),
             ]
-        rec = self._search(
+        return self._search(
             expression.AND([domain, args]), limit=limit, access_rights_uid=name_get_uid
         )
-        return models.lazy_name_get(self.browse(rec).with_user(name_get_uid))
 
     name = fields.Char("Name", required=True, index=True)
     country_id = fields.Many2one("res.country", string="Country")
@@ -46,10 +45,9 @@ class ResCountryState(models.Model):
             domain = []
         else:
             domain = ["|", ("name", operator, name), ("zone_id.name", operator, name)]
-        rec = self._search(
+        return self._search(
             expression.AND([domain, args]), limit=limit, access_rights_uid=name_get_uid
         )
-        return models.lazy_name_get(self.browse(rec).with_user(name_get_uid))
 
     @api.onchange("zone_id")
     def _onchange_zone_id(self):
@@ -77,10 +75,9 @@ class ResCountryCommune(models.Model):
             domain = []
         else:
             domain = ["|", ("name", operator, name), ("state_id.code", operator, name)]
-        rec = self._search(
+        return self._search(
             expression.AND([domain, args]), limit=limit, access_rights_uid=name_get_uid
         )
-        return models.lazy_name_get(self.browse(rec).with_user(name_get_uid))
 
     @api.onchange("state_id")
     def _onchange_state_id(self):
@@ -118,11 +115,9 @@ class ResCity(models.Model):
                 ("name", operator, name),
                 ("commune_id.name", operator, name),
             ]
-        rec = self._search(
+        return self._search(
             expression.AND([domain, args]), limit=limit, access_rights_uid=name_get_uid
         )
-
-        return models.lazy_name_get(self.browse(rec).with_user(name_get_uid))
 
     @api.onchange("commune_id")
     def _onchange_commune_id(self):
