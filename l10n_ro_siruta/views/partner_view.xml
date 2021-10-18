@@ -29,7 +29,7 @@
         <record model="ir.ui.view" id="partners_short_form_address">
             <field name="name">partners.short.form.address</field>
             <field name="model">res.partner</field>
-            <field name="inherit_id" ref="base.view_partner_short_form" />
+            <field name="inherit_id" ref="base.view_partner_address_form" />
             <field eval="18" name="priority" />
             <field name="arch" type="xml">
                 <field name="state_id" position="before">
