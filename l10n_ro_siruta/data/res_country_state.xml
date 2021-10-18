@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo noupdate="1">
+    <record id="base.RO_AB" model="res.country.state">
+        <field name="zone_id" ref="l10n_ro_siruta.RO_C" />
+        <field name="siruta">10</field>
+    </record>
+    <record id="base.RO_AR" model="res.country.state">
+        <field name="zone_id" ref="l10n_ro_siruta.RO_V" />
+        <field name="siruta">29</field>
+    </record>
+    <record id="base.RO_AG" model="res.country.state">
+        <field name="zone_id" ref="l10n_ro_siruta.RO_SM" />
+        <field name="siruta">38</field>
+    </record>
+    <record id="base.RO_BC" model="res.country.state">
+        <field name="zone_id" ref="l10n_ro_siruta.RO_NE" />
+        <field name="siruta">47</field>
+    </record>
+    <record id="base.RO_BH" model="res.country.state">
+        <field name="zone_id" ref="l10n_ro_siruta.RO_NV" />
+        <field name="siruta">56</field>
+    </record>
+    <record id="base.RO_BN" model="res.country.state">
+        <field name="zone_id" ref="l10n_ro_siruta.RO_NV" />
+        <field name="siruta">65</field>
+    </record>
+    <record id="base.RO_BT" model="res.country.state">
+        <field name="zone_id" ref="l10n_ro_siruta.RO_NE" />
+        <field name="siruta">74</field>
+    </record>
+    <record id="base.RO_BV" model="res.country.state">
+        <field name="zone_id" ref="l10n_ro_siruta.RO_C" />
+        <field name="siruta">83</field>
+    </record>
+    <record id="base.RO_BR" model="res.country.state">
+        <field name="zone_id" ref="l10n_ro_siruta.RO_SE" />
+        <field name="siruta">92</field>
+    </record>
+    <record id="base.RO_BZ" model="res.country.state">
+        <field name="zone_id" ref="l10n_ro_siruta.RO_SE" />
+        <field name="siruta">109</field>
+    </record>
+    <record id="base.RO_CS" model="res.country.state">
+        <field name="zone_id" ref="l10n_ro_siruta.RO_V" />
+        <field name="siruta">118</field>
+    </record>
+    <record id="base.RO_CJ" model="res.country.state">
+        <field name="zone_id" ref="l10n_ro_siruta.RO_NV" />
+        <field name="siruta">127</field>
+    </record>
+    <record id="base.RO_CT" model="res.country.state">
+        <field name="zone_id" ref="l10n_ro_siruta.RO_SE" />
+        <field name="siruta">136</field>
+    </record>
+    <record id="base.RO_CV" model="res.country.state">
+        <field name="zone_id" ref="l10n_ro_siruta.RO_C" />
+        <field name="siruta">145</field>
+    </record>
+    <record id="base.RO_DB" model="res.country.state">
+        <field name="zone_id" ref="l10n_ro_siruta.RO_SM" />
+        <field name="siruta">154</field>
+    </record>
+    <record id="base.RO_DJ" model="res.country.state">
+        <field name="zone_id" ref="l10n_ro_siruta.RO_SVO" />
+        <field name="siruta">163</field>
+    </record>
+    <record id="base.RO_GL" model="res.country.state">
+        <field name="zone_id" ref="l10n_ro_siruta.RO_SE" />
+        <field name="siruta">172</field>
+    </record>
+    <record id="base.RO_GJ" model="res.country.state">
+        <field name="zone_id" ref="l10n_ro_siruta.RO_SVO" />
+        <field name="siruta">181</field>
+    </record>
+    <record id="base.RO_HR" model="res.country.state">
+        <field name="zone_id" ref="l10n_ro_siruta.RO_C" />
+        <field name="siruta">190</field>
+    </record>
+    <record id="base.RO_HD" model="res.country.state">
+        <field name="zone_id" ref="l10n_ro_siruta.RO_V" />
+        <field name="siruta">207</field>
+    </record>
+    <record id="base.RO_IL" model="res.country.state">
+        <field name="zone_id" ref="l10n_ro_siruta.RO_SM" />
+        <field name="siruta">216</field>
+    </record>
+    <record id="base.RO_IS" model="res.country.state">
+        <field name="zone_id" ref="l10n_ro_siruta.RO_NE" />
+        <field name="siruta">225</field>
+    </record>
+    <record id="base.RO_IF" model="res.country.state">
+        <field name="zone_id" ref="l10n_ro_siruta.RO_BI" />
+        <field name="siruta">234</field>
+    </record>
+    <record id="base.RO_MM" model="res.country.state">
+        <field name="zone_id" ref="l10n_ro_siruta.RO_NV" />
+        <field name="siruta">243</field>
+    </record>
+    <record id="base.RO_MH" model="res.country.state">
+        <field name="zone_id" ref="l10n_ro_siruta.RO_SVO" />
+        <field name="siruta">252</field>
+    </record>
+    <record id="base.RO_MS" model="res.country.state">
+        <field name="zone_id" ref="l10n_ro_siruta.RO_C" />
+        <field name="siruta">261</field>
+    </record>
+    <record id="base.RO_NT" model="res.country.state">
+        <field name="zone_id" ref="l10n_ro_siruta.RO_NE" />
+        <field name="siruta">270</field>
+    </record>
+    <record id="base.RO_OT" model="res.country.state">
+        <field name="zone_id" ref="l10n_ro_siruta.RO_SVO" />
+        <field name="siruta">289</field>
+    </record>
+    <record id="base.RO_PH" model="res.country.state">
+        <field name="zone_id" ref="l10n_ro_siruta.RO_SM" />
+        <field name="siruta">298</field>
+    </record>
+    <record id="base.RO_SM" model="res.country.state">
+        <field name="zone_id" ref="l10n_ro_siruta.RO_NV" />
+        <field name="siruta">305</field>
+    </record>
+    <record id="base.RO_SJ" model="res.country.state">
+        <field name="zone_id" ref="l10n_ro_siruta.RO_NV" />
+        <field name="siruta">314</field>
+    </record>
+    <record id="base.RO_SB" model="res.country.state">
+        <field name="zone_id" ref="l10n_ro_siruta.RO_C" />
+        <field name="siruta">323</field>
+    </record>
+    <record id="base.RO_SV" model="res.country.state">
+        <field name="zone_id" ref="l10n_ro_siruta.RO_NE" />
+        <field name="siruta">332</field>
+    </record>
+    <record id="base.RO_TR" model="res.country.state">
+        <field name="zone_id" ref="l10n_ro_siruta.RO_SM" />
+        <field name="siruta">341</field>
+    </record>
+    <record id="base.RO_TM" model="res.country.state">
+        <field name="zone_id" ref="l10n_ro_siruta.RO_V" />
+        <field name="siruta">350</field>
+    </record>
+    <record id="base.RO_TL" model="res.country.state">
+        <field name="zone_id" ref="l10n_ro_siruta.RO_SE" />
+        <field name="siruta">369</field>
+    </record>
+    <record id="base.RO_VS" model="res.country.state">
+        <field name="zone_id" ref="l10n_ro_siruta.RO_NE" />
+        <field name="siruta">378</field>
+    </record>
+    <record id="base.RO_VL" model="res.country.state">
+        <field name="zone_id" ref="l10n_ro_siruta.RO_SVO" />
+        <field name="siruta">387</field>
+    </record>
+    <record id="base.RO_VN" model="res.country.state">
+        <field name="zone_id" ref="l10n_ro_siruta.RO_SE" />
+        <field name="siruta">396</field>
+    </record>
+    <record id="base.RO_B" model="res.country.state">
+        <field name="zone_id" ref="l10n_ro_siruta.RO_BI" />
+        <field name="siruta">403</field>
+    </record>
+    <record id="base.RO_CL" model="res.country.state">
+        <field name="zone_id" ref="l10n_ro_siruta.RO_SM" />
+        <field name="siruta">519</field>
+    </record>
+    <record id="base.RO_GR" model="res.country.state">
+        <field name="zone_id" ref="l10n_ro_siruta.RO_SM" />
+        <field name="siruta">528</field>
+    </record>
+</odoo>
