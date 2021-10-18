@@ -8,9 +8,9 @@ from odoo.tests.common import Form, TransactionCase
 class TestRoCity(TransactionCase):
     def setUp(self):
         super(TestRoCity, self).setUp()
-        self.city_1 = self.env.ref("base.RO_22585")
-        self.city_2 = self.env.ref("base.RO_21588")
-        self.city_3 = self.env.ref("base.RO_6734")
+        self.city_1 = self.env.ref("l10n_ro_city.RO_22585")
+        self.city_2 = self.env.ref("l10n_ro_city.RO_21588")
+        self.city_3 = self.env.ref("l10n_ro_city.RO_6734")
         self.state_bc = self.env.ref("base.RO_BC")
 
     def test_city(self):
