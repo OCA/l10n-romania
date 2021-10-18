@@ -55,7 +55,7 @@
             <page name="accounting" position="inside">
                 <separator string="ANAF - VAT on Payment" />
                 <field name="anaf_history">
-                    <tree>
+                    <tree string="ANAF History">
                         <field name="start_date" />
                         <field name="end_date" />
                         <field name="publish_date" />
