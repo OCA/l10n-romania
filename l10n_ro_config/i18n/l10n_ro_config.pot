@@ -4,7 +4,7 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 14.0\n"
+"Project-Id-Version: Odoo Server 15.0\n"
 "Report-Msgid-Bugs-To: \n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -27,6 +27,13 @@ msgid ""
 "<span class=\"fa fa-lg fa-building-o\" title=\"Values set here are company-"
 "specific.\" role=\"img\" aria-label=\"Values set here are company-"
 "specific.\"/>"
+msgstr ""
+
+#. module: l10n_ro_config
+#: model_terms:ir.ui.view,arch_db:l10n_ro_config.res_config_settings_account_view_form
+msgid ""
+"<span class=\"o_form_label\">Default Services Taxes</span>\n"
+"                        <span class=\"fa fa-lg fa-building-o\" title=\"Values set here are company-specific.\" aria-label=\"Values set here are company-specific.\" groups=\"base.group_multi_company\" role=\"img\"/>"
 msgstr ""
 
 #. module: l10n_ro_config
@@ -60,53 +67,8 @@ msgid "<strong>Share Capital:</strong>"
 msgstr ""
 
 #. module: l10n_ro_config
-#: model:ir.model.fields,field_description:l10n_ro_config.field_res_config_settings__module_l10n_ro_account_report_balance_sheet
-msgid "Account Balance Sheet Report"
-msgstr ""
-
-#. module: l10n_ro_config
-#: model:ir.model.fields,field_description:l10n_ro_config.field_res_config_settings__module_l10n_ro_account_report_D300
-msgid "Account D300 Report"
-msgstr ""
-
-#. module: l10n_ro_config
-#: model:ir.model.fields,field_description:l10n_ro_config.field_res_config_settings__module_l10n_ro_account_report_D390
-msgid "Account D390 Report"
-msgstr ""
-
-#. module: l10n_ro_config
-#: model:ir.model.fields,field_description:l10n_ro_config.field_res_config_settings__module_l10n_ro_account_report_D394
-msgid "Account D394 Report"
-msgstr ""
-
-#. module: l10n_ro_config
 #: model:ir.model.fields,field_description:l10n_ro_config.field_res_config_settings__module_l10n_ro_intrastat
 msgid "Account Intrastat Report"
-msgstr ""
-
-#. module: l10n_ro_config
-#: model:ir.model.fields,field_description:l10n_ro_config.field_res_config_settings__module_l10n_ro_account_report_inventory_sheet
-msgid "Account Inventory Sheet Report"
-msgstr ""
-
-#. module: l10n_ro_config
-#: model:ir.model.fields,field_description:l10n_ro_config.field_res_config_settings__module_l10n_ro_account_report_journal
-msgid "Account Journal Reports"
-msgstr ""
-
-#. module: l10n_ro_config
-#: model:ir.model.fields,field_description:l10n_ro_config.field_res_config_settings__module_l10n_ro_account_report_journal_sheet
-msgid "Account Journal Sheet Report"
-msgstr ""
-
-#. module: l10n_ro_config
-#: model:ir.model.fields,field_description:l10n_ro_config.field_res_config_settings__module_l10n_ro_account_report_pl
-msgid "Account Profit and Loss Report"
-msgstr ""
-
-#. module: l10n_ro_config
-#: model:ir.model.fields,field_description:l10n_ro_config.field_res_config_settings__module_l10n_ro_account_report_sheet
-msgid "Account Sheet Report"
 msgstr ""
 
 #. module: l10n_ro_config
@@ -142,6 +104,16 @@ msgid "Bank Accounts"
 msgstr ""
 
 #. module: l10n_ro_config
+#: model:ir.model.fields,field_description:l10n_ro_config.field_res_config_settings__caen_code
+msgid "CAEN Code"
+msgstr ""
+
+#. module: l10n_ro_config
+#: model:ir.model.fields,field_description:l10n_ro_config.field_res_company__caen_code
+msgid "Caen Code"
+msgstr ""
+
+#. module: l10n_ro_config
 #: model:ir.model,name:l10n_ro_config.model_res_company
 msgid "Companies"
 msgstr ""
@@ -173,12 +145,20 @@ msgid "Currency Rate Update BNR"
 msgstr ""
 
 #. module: l10n_ro_config
-#: model:ir.model.fields,field_description:l10n_ro_config.field_account_journal__display_name
-#: model:ir.model.fields,field_description:l10n_ro_config.field_res_company__display_name
-#: model:ir.model.fields,field_description:l10n_ro_config.field_res_config_settings__display_name
-#: model:ir.model.fields,field_description:l10n_ro_config.field_res_partner__display_name
-#: model:ir.model.fields,field_description:l10n_ro_config.field_res_partner_bank__display_name
-msgid "Display Name"
+#: model:ir.model.fields,field_description:l10n_ro_config.field_res_company__account_serv_purchase_tax_id
+#: model:ir.model.fields,field_description:l10n_ro_config.field_res_config_settings__serv_purchase_tax_id
+msgid "Default Services Purchase Tax"
+msgstr ""
+
+#. module: l10n_ro_config
+#: model:ir.model.fields,field_description:l10n_ro_config.field_res_company__account_serv_sale_tax_id
+#: model:ir.model.fields,field_description:l10n_ro_config.field_res_config_settings__serv_sale_tax_id
+msgid "Default Services Sale Tax"
+msgstr ""
+
+#. module: l10n_ro_config
+#: model_terms:ir.ui.view,arch_db:l10n_ro_config.res_config_settings_account_view_form
+msgid "Default taxes applied to local transactions"
 msgstr ""
 
 #. module: l10n_ro_config
@@ -194,15 +174,6 @@ msgstr ""
 #. module: l10n_ro_config
 #: model:ir.model.fields,field_description:l10n_ro_config.field_res_company__property_vat_on_payment_position_id
 msgid "Fiscal Position for VAT on Payment"
-msgstr ""
-
-#. module: l10n_ro_config
-#: model:ir.model.fields,field_description:l10n_ro_config.field_account_journal__id
-#: model:ir.model.fields,field_description:l10n_ro_config.field_res_company__id
-#: model:ir.model.fields,field_description:l10n_ro_config.field_res_config_settings__id
-#: model:ir.model.fields,field_description:l10n_ro_config.field_res_partner__id
-#: model:ir.model.fields,field_description:l10n_ro_config.field_res_partner_bank__id
-msgid "ID"
 msgstr ""
 
 #. module: l10n_ro_config
@@ -232,15 +203,6 @@ msgstr ""
 #. module: l10n_ro_config
 #: model:ir.model,name:l10n_ro_config.model_account_journal
 msgid "Journal"
-msgstr ""
-
-#. module: l10n_ro_config
-#: model:ir.model.fields,field_description:l10n_ro_config.field_account_journal____last_update
-#: model:ir.model.fields,field_description:l10n_ro_config.field_res_company____last_update
-#: model:ir.model.fields,field_description:l10n_ro_config.field_res_config_settings____last_update
-#: model:ir.model.fields,field_description:l10n_ro_config.field_res_partner____last_update
-#: model:ir.model.fields,field_description:l10n_ro_config.field_res_partner_bank____last_update
-msgid "Last Modified on"
 msgstr ""
 
 #. module: l10n_ro_config
@@ -292,6 +254,11 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_ro_config.field_account_setup_bank_manual_config__print_report
 #: model:ir.model.fields,field_description:l10n_ro_config.field_res_partner_bank__print_report
 msgid "Print in Report"
+msgstr ""
+
+#. module: l10n_ro_config
+#: model:ir.model,name:l10n_ro_config.model_product_template
+msgid "Product Template"
 msgstr ""
 
 #. module: l10n_ro_config
@@ -377,6 +344,16 @@ msgid "Select 8035"
 msgstr ""
 
 #. module: l10n_ro_config
+#: model_terms:ir.ui.view,arch_db:l10n_ro_config.res_config_settings_account_view_form
+msgid "Services Purchase Tax"
+msgstr ""
+
+#. module: l10n_ro_config
+#: model_terms:ir.ui.view,arch_db:l10n_ro_config.res_config_settings_account_view_form
+msgid "Services Sales Tax"
+msgstr ""
+
+#. module: l10n_ro_config
 #: model:ir.model.fields,field_description:l10n_ro_config.field_res_company__share_capital
 msgid "Share Capital"
 msgstr ""
@@ -400,6 +377,11 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_ro_config.field_res_company__stock_acc_price_diff
 #: model:ir.model.fields,field_description:l10n_ro_config.field_res_config_settings__stock_acc_price_diff
 msgid "Stock Valuation Update"
+msgstr ""
+
+#. module: l10n_ro_config
+#: model_terms:ir.ui.view,arch_db:l10n_ro_config.res_config_settings_account_view_form
+msgid "These taxes are set in any new service product created."
 msgstr ""
 
 #. module: l10n_ro_config
@@ -530,53 +512,8 @@ msgid "This module add possibility to register tax declaration on imports"
 msgstr ""
 
 #. module: l10n_ro_config
-#: model:ir.model.fields,help:l10n_ro_config.field_res_config_settings__module_l10n_ro_account_report_sheet
-msgid "This module will add the Account Sheet report."
-msgstr ""
-
-#. module: l10n_ro_config
-#: model:ir.model.fields,help:l10n_ro_config.field_res_config_settings__module_l10n_ro_account_report_balance_sheet
-msgid "This module will add the Balance Sheet report fetched from ANAF."
-msgstr ""
-
-#. module: l10n_ro_config
-#: model:ir.model.fields,help:l10n_ro_config.field_res_config_settings__module_l10n_ro_account_report_D300
-msgid "This module will add the D300 report."
-msgstr ""
-
-#. module: l10n_ro_config
-#: model:ir.model.fields,help:l10n_ro_config.field_res_config_settings__module_l10n_ro_account_report_D390
-msgid "This module will add the D390 report."
-msgstr ""
-
-#. module: l10n_ro_config
-#: model:ir.model.fields,help:l10n_ro_config.field_res_config_settings__module_l10n_ro_account_report_D394
-msgid "This module will add the D394 report."
-msgstr ""
-
-#. module: l10n_ro_config
 #: model:ir.model.fields,help:l10n_ro_config.field_res_config_settings__module_l10n_ro_intrastat
 msgid "This module will add the Intrastat report."
-msgstr ""
-
-#. module: l10n_ro_config
-#: model:ir.model.fields,help:l10n_ro_config.field_res_config_settings__module_l10n_ro_account_report_inventory_sheet
-msgid "This module will add the Inventory Sheet report."
-msgstr ""
-
-#. module: l10n_ro_config
-#: model:ir.model.fields,help:l10n_ro_config.field_res_config_settings__module_l10n_ro_account_report_journal_sheet
-msgid "This module will add the Journal Sheet report."
-msgstr ""
-
-#. module: l10n_ro_config
-#: model:ir.model.fields,help:l10n_ro_config.field_res_config_settings__module_l10n_ro_account_report_pl
-msgid "This module will add the Profit and Loss report."
-msgstr ""
-
-#. module: l10n_ro_config
-#: model:ir.model.fields,help:l10n_ro_config.field_res_config_settings__module_l10n_ro_account_report_journal
-msgid "This module will add the Sale and Purchase Reports."
 msgstr ""
 
 #. module: l10n_ro_config
