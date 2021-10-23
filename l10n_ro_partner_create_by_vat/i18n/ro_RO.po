@@ -1,0 +1,29 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# * l10n_ro_partner_create_by_vat
+#
+# Translators:
+# Fekete Mihai <mihai.fekete@forestandbiomass.ro>, 2018
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 11.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2018-01-27 01:43+0000\n"
+"PO-Revision-Date: 2018-01-27 01:43+0000\n"
+"Last-Translator: Fekete Mihai <mihai.fekete@forestandbiomass.ro>, 2018\n"
+"Language-Team: Romanian (Romania) (https://www.transifex.com/oca/teams/23907/"
+"ro_RO/)\n"
+"Language: ro_RO\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: nplurals=3; plural=(n==1?0:(((n%100>19)||((n%100==0)&&(n!=0)))?"
+"2:1));\n"
+
+#. module: l10n_ro_partner_create_by_vat
+#: model:ir.model,name:l10n_ro_partner_create_by_vat.model_res_partner
+msgid "Contact"
+msgstr "Contact"
+
+#~ msgid "VAT Legal Statement"
+#~ msgstr "Platitor de TVA"
