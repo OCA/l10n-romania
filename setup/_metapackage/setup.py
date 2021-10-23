@@ -18,6 +18,7 @@ setuptools.setup(
         'odoo14-addon-l10n_ro_partner_create_by_vat',
         'odoo14-addon-l10n_ro_partner_unique',
         'odoo14-addon-l10n_ro_payment_to_statement',
+        'odoo14-addon-l10n_ro_siruta',
         'odoo14-addon-l10n_ro_stock',
         'odoo14-addon-l10n_ro_stock_account',
         'odoo14-addon-l10n_ro_stock_report',
