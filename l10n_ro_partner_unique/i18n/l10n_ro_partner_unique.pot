@@ -4,7 +4,7 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 14.0\n"
+"Project-Id-Version: Odoo Server 15.0\n"
 "Report-Msgid-Bugs-To: \n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -19,22 +19,7 @@ msgid "Contact"
 msgstr ""
 
 #. module: l10n_ro_partner_unique
-#: model:ir.model.fields,field_description:l10n_ro_partner_unique.field_res_partner__display_name
-msgid "Display Name"
-msgstr ""
-
-#. module: l10n_ro_partner_unique
-#: model:ir.model.fields,field_description:l10n_ro_partner_unique.field_res_partner__id
-msgid "ID"
-msgstr ""
-
-#. module: l10n_ro_partner_unique
-#: model:ir.model.fields,field_description:l10n_ro_partner_unique.field_res_partner____last_update
-msgid "Last Modified on"
-msgstr ""
-
-#. module: l10n_ro_partner_unique
 #: code:addons/l10n_ro_partner_unique/models/res_partner.py:0
 #, python-format
-msgid "The VAT and NRC pair (%s, %s) must be unique!"
+msgid "The VAT and NRC pair: %(vat)s - %(nrc)s must be unique ids=%(ids)s!"
 msgstr ""
