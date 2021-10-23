@@ -1,0 +1,240 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<openerp>
+    <data>
+        <!--State-->
+        <record model="ir.ui.view" id="view_country_state_tree">
+            <field name="name">view_country_state_tree</field>
+            <field name="model">res.country.state</field>
+            <field name="inherit_id" ref="base.view_country_state_tree" />
+            <field name="arch" type="xml">
+                <field name="country_id" position="before">
+                    <field name="siruta" />
+                    <field name="zone_id" />
+                </field>
+            </field>
+        </record>
+        <record model="ir.ui.view" id="view_country_state_form">
+            <field name="name">view_country_state_form</field>
+            <field name="model">res.country.state</field>
+            <field name="inherit_id" ref="base.view_country_state_form" />
+            <field name="arch" type="xml">
+                <field name="country_id" position="before">
+                    <field name="siruta" />
+                    <field name="zone_id" options='{"no_open": True}' />
+                </field>
+            </field>
+        </record>
+        <!--Communes-->
+        <record model="ir.ui.view" id="view_commune_search">
+            <field name="name">res.country.commune.search</field>
+            <field name="model">res.country.commune</field>
+            <field name="arch" type="xml">
+                <search string="Communes">
+                    <field name="name" />
+                    <field name="siruta" />
+                    <field name="state_id" />
+                    <field name="zone_id" />
+                    <field name="country_id" />
+                </search>
+            </field>
+        </record>
+        <record model="ir.ui.view" id="view_commune_tree">
+            <field name="name">res.country.commune.tree</field>
+            <field name="model">res.country.commune</field>
+            <field name="arch" type="xml">
+                <tree string="Communes">
+                    <field name="name" />
+                    <field name="siruta" />
+                    <field name="state_id" />
+                    <field name="zone_id" />
+                    <field name="country_id" />
+                </tree>
+            </field>
+        </record>
+        <record model="ir.ui.view" id="view_commune_form">
+            <field name="name">res.country.commune.form</field>
+            <field name="model">res.country.commune</field>
+            <field name="arch" type="xml">
+                <form string="Commune">
+                    <div class="oe_title">
+                        <div class="oe_edit_only">
+                            <label for="name" />
+                        </div>
+                        <h1>
+                            <field name="name" default_focus="1" placeholder="Name" />
+                        </h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="siruta" />
+                            <field name="state_id" />
+                            <field name="zone_id" />
+                            <field name="country_id" />
+                        </group>
+                        <group>
+
+                        </group>
+                    </group>
+                    <field name="city_ids" />
+                </form>
+            </field>
+        </record>
+        <record model="ir.actions.act_window" id="action_commune">
+            <field name="name">Communes</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">res.country.commune</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_id" ref="view_commune_form" />
+            <field name="search_view_id" ref="view_commune_search" />
+        </record>
+        <record id="action_commune_view1" model="ir.actions.act_window.view">
+            <field eval="10" name="sequence" />
+            <field name="view_mode">tree</field>
+            <field name="view_id" ref="view_commune_tree" />
+            <field name="act_window_id" ref="action_commune" />
+        </record>
+        <record id="action_commune_view2" model="ir.actions.act_window.view">
+            <field eval="20" name="sequence" />
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="view_commune_form" />
+            <field name="act_window_id" ref="action_commune" />
+        </record>
+        <menuitem
+            name="Communes"
+            groups="base.group_user,base.group_partner_manager"
+            action="action_commune"
+            parent="contacts.menu_localisation"
+            id="menu_commune"
+        />
+        <!--City-->
+        <record model="ir.ui.view" id="view_city_search">
+            <field name="name">res.city.search</field>
+            <field name="model">res.city</field>
+            <field name="inherit_id" ref="base_address_city.view_city_filter" />
+            <field name="arch" type="xml">
+                <field name="country_id" position="before">
+                    <field name="siruta" />
+                    <field name="commune_id" />
+                    <field name="state_id" />
+                    <field name="zone_id" />
+                </field>
+            </field>
+        </record>
+        <record model="ir.ui.view" id="view_city_tree">
+            <field name="name">res.city.tree</field>
+            <field name="model">res.city</field>
+            <field name="inherit_id" ref="l10n_ro_city.view_city_tree" />
+            <field name="arch" type="xml">
+                <field name="siruta" position="after">
+                    <field name="commune_id" />
+                    <field name="zone_id" />
+                </field>
+                <field name="municipality" invisible="1" />
+            </field>
+        </record>
+        <record model="ir.ui.view" id="view_city_form">
+            <field name="name">res.city.form</field>
+            <field name="model">res.city</field>
+            <field name="arch" type="xml">
+                <form string="City">
+                    <div class="oe_title">
+                        <div class="oe_edit_only">
+                            <label for="name" />
+                        </div>
+                        <h1>
+                            <field name="name" default_focus="1" placeholder="Name" />
+                        </h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="siruta" />
+                            <field name="commune_id" />
+                            <field name="state_id" />
+                            <field name="zone_id" />
+                            <field name="country_id" />
+                        </group>
+                        <group>
+
+                        </group>
+                    </group>
+                </form>
+            </field>
+        </record>
+        <!--Zones-->
+        <record model="ir.ui.view" id="view_zone_search">
+            <field name="name">res.country.zone.search</field>
+            <field name="model">res.country.zone</field>
+            <field name="arch" type="xml">
+                <search string="Zones">
+                    <field name="name" />
+                    <field name="siruta" />
+                    <field name="country_id" />
+                </search>
+            </field>
+        </record>
+        <record model="ir.ui.view" id="view_zone_tree">
+            <field name="name">res.country.zone.tree</field>
+            <field name="model">res.country.zone</field>
+            <field name="arch" type="xml">
+                <tree string="Zones">
+                    <field name="name" />
+                    <field name="siruta" />
+                    <field name="country_id" />
+                </tree>
+            </field>
+        </record>
+        <record model="ir.ui.view" id="view_zone_form">
+            <field name="name">res.country.zone.form</field>
+            <field name="model">res.country.zone</field>
+            <field name="arch" type="xml">
+                <form string="Zone">
+                    <div class="oe_title">
+                        <div class="oe_edit_only">
+                            <label for="name" />
+                        </div>
+                        <h1>
+                            <field name="name" default_focus="1" placeholder="Name" />
+                        </h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="siruta" />
+                            <field name="country_id" />
+                            <field name="state_ids" />
+                        </group>
+                        <group>
+
+                        </group>
+                    </group>
+                </form>
+            </field>
+        </record>
+        <record model="ir.actions.act_window" id="action_zone">
+            <field name="name">Zones</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">res.country.zone</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_id" ref="view_zone_form" />
+            <field name="search_view_id" ref="view_zone_search" />
+        </record>
+        <record id="action_zone_view1" model="ir.actions.act_window.view">
+            <field eval="10" name="sequence" />
+            <field name="view_mode">tree</field>
+            <field name="view_id" ref="view_zone_tree" />
+            <field name="act_window_id" ref="action_zone" />
+        </record>
+        <record id="action_zone_view2" model="ir.actions.act_window.view">
+            <field eval="20" name="sequence" />
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="view_zone_form" />
+            <field name="act_window_id" ref="action_zone" />
+        </record>
+        <menuitem
+            name="Zones"
+            groups="base.group_user,base.group_partner_manager"
+            action="action_zone"
+            parent="contacts.menu_localisation"
+            id="menu_zone"
+        />
+    </data>
+</openerp>
