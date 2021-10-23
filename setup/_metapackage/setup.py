@@ -9,6 +9,7 @@ setuptools.setup(
     version=version,
     install_requires=[
         'odoo-addon-l10n_ro_config>=15.0dev,<15.1dev',
+        'odoo-addon-l10n_ro_partner_create_by_vat>=15.0dev,<15.1dev',
         'odoo-addon-l10n_ro_partner_unique>=15.0dev,<15.1dev',
     ],
     classifiers=[
