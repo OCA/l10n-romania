@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="view_partner_bank_form" model="ir.ui.view">
+        <field name="name">res.partner.bank.form</field>
+        <field name="model">res.partner.bank</field>
+        <field name="inherit_id" ref="base.view_partner_bank_form" />
+        <field name="arch" type="xml">
+            <field name="company_id" position="after">
+                <field name="print_report" />
+            </field>
+        </field>
+    </record>
+    <record id="view_partner_bank_tree" model="ir.ui.view">
+        <field name="name">res.partner.bank.tree</field>
+        <field name="model">res.partner.bank</field>
+        <field name="inherit_id" ref="base.view_partner_bank_tree" />
+        <field name="arch" type="xml">
+            <field name="company_id" position="after">
+                <field name="print_report" />
+            </field>
+        </field>
+    </record>
+    <record id="view_partner_bank_search" model="ir.ui.view">
+        <field name="name">res.partner.bank.search</field>
+        <field name="model">res.partner.bank</field>
+        <field name="inherit_id" ref="base.view_partner_bank_search" />
+        <field name="arch" type="xml">
+            <field name="company_id" position="after">
+                <field name="print_report" />
+            </field>
+        </field>
+    </record>
+    <record id="view_account_bank_journal_tree" model="ir.ui.view">
+        <field name="name">account.bank.journal.tree</field>
+        <field name="model">account.journal</field>
+        <field name="inherit_id" ref="account.view_account_journal_tree" />
+        <field name="arch" type="xml">
+            <field name="company_id" position="after">
+                <field name="print_report" />
+            </field>
+        </field>
+    </record>
+    <record id="view_account_bank_journal_form" model="ir.ui.view">
+        <field name="name">account.bank.journal.form</field>
+        <field name="model">account.journal</field>
+        <field name="inherit_id" ref="account.view_account_journal_form" />
+        <field name="arch" type="xml">
+            <field name="company_id" position="after">
+                <field name="print_report" readonly="False" />
+            </field>
+        </field>
+    </record>
+</odoo>
