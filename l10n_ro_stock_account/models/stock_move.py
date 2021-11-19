@@ -285,32 +285,39 @@ class StockMove(models.Model):
                 )
             svl_vals["description"] += svl_vals.pop("rounding_adjustment", "")
             svl_vals_list.append(svl_vals)
+            new_svl_vals = svl_vals.copy()
+            new_svl_vals.update({
+                "quantity": abs(svl_vals.get('quantity', 0)),
+                "unit_cost": abs(svl_vals.get('unit_cost', 0)),
+                "value": abs(svl_vals.get('value', 0)),
+                })
+            svl_vals_list.append(new_svl_vals)
 
-        for move in self.with_context(standard=True, valued_type="internal_transfer"):
-            move = move.with_company(move.company_id.id)
-            valued_move_lines = move.move_line_ids
-            valued_quantity = 0
-            for valued_move_line in valued_move_lines:
-                valued_quantity += valued_move_line.product_uom_id._compute_quantity(
-                    valued_move_line.qty_done, move.product_id.uom_id
-                )
-            unit_cost = abs(
-                move._get_price_unit()
-            )  # May be negative (i.e. decrease an out move).
-            if move.product_id.cost_method == "standard":
-                unit_cost = move.product_id.standard_price
-            svl_vals = move.product_id._prepare_in_svl_vals(
-                forced_quantity or valued_quantity, unit_cost
-            )
-            svl_vals.update(move._prepare_common_svl_vals())
-            if forced_quantity:
-                svl_vals["description"] = (
-                    "Correction of %s (modification of past move)"
-                    % move.picking_id.name
-                    or move.name
-                )
-            svl_vals["description"] += svl_vals.pop("rounding_adjustment", "")
-            svl_vals_list.append(svl_vals)
+#         for move in self.with_context(standard=True, valued_type="internal_transfer"):
+#             move = move.with_company(move.company_id.id)
+#             valued_move_lines = move.move_line_ids
+#             valued_quantity = 0
+#             for valued_move_line in valued_move_lines:
+#                 valued_quantity += valued_move_line.product_uom_id._compute_quantity(
+#                     valued_move_line.qty_done, move.product_id.uom_id
+#                 )
+#             unit_cost = abs(
+#                 move._get_price_unit()
+#             )  # May be negative (i.e. decrease an out move).
+#             if move.product_id.cost_method == "standard":
+#                 unit_cost = move.product_id.standard_price
+#             svl_vals = move.product_id._prepare_in_svl_vals(
+#                 forced_quantity or valued_quantity, unit_cost
+#             )
+#             svl_vals.update(move._prepare_common_svl_vals())
+#             if forced_quantity:
+#                 svl_vals["description"] = (
+#                     "Correction of %s (modification of past move)"
+#                     % move.picking_id.name
+#                     or move.name
+#                 )
+#             svl_vals["description"] += svl_vals.pop("rounding_adjustment", "")
+#             svl_vals_list.append(svl_vals)
 
         return self.env["stock.valuation.layer"].sudo().create(svl_vals_list)
 
