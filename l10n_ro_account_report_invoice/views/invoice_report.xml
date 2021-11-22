@@ -88,7 +88,7 @@
         </xpath>
         <xpath expr="//t/tr/t[@t-else='']/td[1]" position="after">
             <td class="text-right" t-if="o.currency_id != o.company_id.currency_id">
-                <t t-if="amount_by_group == o.amount_by_group[0]">
+                <t t-if="tax_totals['groups_by_subtotal'][subtotal_to_show] and amount_by_group == tax_totals['groups_by_subtotal'][subtotal_to_show][0]">
                     <span
                         t-field="o.amount_tax_signed"
                         t-options='{"widget": "monetary", "display_currency": o.company_currency_id}'
