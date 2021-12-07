@@ -12,7 +12,7 @@ class ResPartner(models.Model):
     @api.model
     def _get_vat_nrc_constrain_domain(self):
         domain = [
-            ("company_id", "=", self.company_id),
+            ("company_id", "=", self.company_id.id if self.company_id else False),
             ("parent_id", "=", False),
             ("vat", "=", self.vat),
             "|",
