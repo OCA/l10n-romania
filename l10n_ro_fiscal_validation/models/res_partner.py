@@ -18,8 +18,8 @@ headers = {
     "Content-Type": "application/json;",
 }
 
-ANAF_BULK_URL = "https://webservicesp.anaf.ro/AsynchWebService/api/v5/ws/tva"
-ANAF_CORR = "https://webservicesp.anaf.ro/AsynchWebService/api/v5/ws/tva?id=%s"
+ANAF_BULK_URL = "https://webservicesp.anaf.ro/AsynchWebService/api/v6/ws/tva"
+ANAF_CORR = "https://webservicesp.anaf.ro/AsynchWebService/api/v6/ws/tva?id=%s"
 
 
 class ResPartner(models.Model):
