@@ -20,7 +20,7 @@ headers = {
     "Content-Type": "application/json;",
 }
 
-ANAF_URL = "https://webservicesp.anaf.ro/PlatitorTvaRest/api/v5/ws/tva"
+ANAF_URL = "https://webservicesp.anaf.ro/PlatitorTvaRest/api/v6/ws/tva"
 
 
 class ResPartner(models.Model):
