@@ -18,8 +18,8 @@ headers = {
     "Content-Type": "application/json;",
 }
 
-ANAF_BULK_URL = "https://webservicesp.anaf.ro/AsynchWebService/api/v5/ws/tva"
-ANAF_CORR = "https://webservicesp.anaf.ro/AsynchWebService/api/v5/ws/tva?id=%s"
+ANAF_BULK_URL = "https://webservicesp.anaf.ro/AsynchWebService/api/v6/ws/tva"
+ANAF_CORR = "https://webservicesp.anaf.ro/AsynchWebService/api/v6/ws/tva?id=%s"
 
 
 class ResPartner(models.Model):
@@ -52,13 +52,13 @@ class ResPartner(models.Model):
                     if resp.status_code == 200:
                         resp = resp.json()
                         for res in resp["found"] + resp["notfound"]:
-                            partner = self.search(
+                            partners = self.search(
                                 [
                                     ("vat_number", "=", res["cui"]),
                                     ("is_company", "=", True),
                                 ]
                             )
-                            if partner:
+                            for partner in partners:
                                 data = partner._Anaf_to_Odoo(res)
                                 partner.update(data)
 

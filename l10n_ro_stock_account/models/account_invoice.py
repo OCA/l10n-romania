@@ -54,7 +54,7 @@ class AccountMove(models.Model):
                         # se reevalueaza stocul
                         price_diff = line.get_stock_valuation_difference()
                         if price_diff:
-                            line.modify_stock_valuation(price_diff)
+                            line.sudo().modify_stock_valuation(price_diff)
 
                 if not invoice.is_reception_notice():
                     lines_vals_list = super(
@@ -84,7 +84,9 @@ class AccountMove(models.Model):
             for line in invoice_lines:
                 valuation_stock_moves = line._get_valuation_stock_moves()
                 if valuation_stock_moves:
-                    svls = valuation_stock_moves.mapped("stock_valuation_layer_ids")
+                    svls = valuation_stock_moves.sudo().mapped(
+                        "stock_valuation_layer_ids"
+                    )
                     svls = svls.filtered(lambda l: not l.invoice_line_id)
                     svls.write(
                         {"invoice_line_id": line.id, "invoice_id": line.move_id.id}
@@ -229,8 +231,10 @@ class AccountMoveLine(models.Model):
         valuation_price_unit_total = 0
         valuation_total_qty = 0
         for val_stock_move in valuation_stock_moves:
-            svl = val_stock_move.mapped("stock_valuation_layer_ids").filtered(
-                lambda l: l.quantity
+            svl = (
+                val_stock_move.sudo()
+                .mapped("stock_valuation_layer_ids")
+                .filtered(lambda l: l.quantity)
             )
             layers_qty = sum(svl.mapped("quantity"))
             layers_values = sum(svl.mapped("value"))
