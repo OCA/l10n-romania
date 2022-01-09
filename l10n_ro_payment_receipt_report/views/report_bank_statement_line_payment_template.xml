@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+
+    <template id="report_bank_statement_line_payment_document">
+        <t t-call="web.external_layout">
+            <t t-set="o" t-value="o.with_context(lang=lang)" />
+            <div class="page">
+                <div class="row mt64 pull-right">
+                    <div>
+                        <t t-if="o.amount&gt;0">
+                            <strong>Payment Reception:
+                                <span t-field="o.name" />
+                            </strong>
+                        </t>
+                        <t t-if="o.amount&lt;0">
+                            <strong>Payment Disposal:
+                                <span t-field="o.name" />
+                            </strong>
+                        </t>
+                        <br />
+                        <t t-if="o.date">
+                            <strong>Date:
+                                <span t-field="o.date" />
+                            </strong>
+                        </t>
+                    </div>
+                </div>
+                <br />
+                <br />
+                <div class="row">
+                    <div class="col-12">
+                        <span>Name:
+                            <strong>
+                                <span t-field="o.partner_id.name" />
+                            </strong>
+                        </span>
+                        <br />
+                        <span>Function:
+                            <strong>
+                                <span t-field="o.partner_id.function" />
+                            </strong>
+                        </span>
+                        <br />
+                        <span>amount of
+                            <span
+                                t-field="o.amount"
+                                t-options="{'widget': 'monetary', 'display_currency': o.currency_id}"
+                            />
+                        </span>
+                        (<span t-esc="o.currency_id.amount_to_text(o.amount)" />)
+                        <br />
+                        <span>Reason:
+                            <strong>
+                                <span t-field="o.payment_ref" />
+                            </strong>
+                        </span>
+                    </div>
+                </div>
+                <br />
+                <br />
+                <div class="row">
+                    <div class="col-12">
+                        <table
+                            class="table table-bordered"
+                            style="table-layout: fixed"
+                            id="signatures_table"
+                        >
+                            <thead style="display: table-row-group">
+                                <tr>
+                                    <th colspan="12">Signatures</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <th
+                                        rowspan="3"
+                                        class="text-center"
+                                        style="width: 30%"
+                                        scope="col"
+                                    >Unit Manager</th>
+                                    <th
+                                        rowspan="3"
+                                        class="text-center"
+                                        style="width: 40%"
+                                        scope="col"
+                                    >Preventive Financial Control
+                                        Visa
+                                    </th>
+                                    <th
+                                        rowspan="3"
+                                        class="text-center"
+                                        style="width: 30%"
+                                        scope="col"
+                                    >Financial - Accounting
+                                        Department
+                                    </th>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <br />
+                <br />
+                <div class="clearfix">
+                    <div id="total" class="row">
+                        <div
+                            t-attf-class="#{'col-4' if report_type != 'html' else 'col-sm-9 col-md-4'} ml-auto"
+                        >
+                            <span>Signature and stamp</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </t>
+    </template>
+
+    <template id="report_bank_statement_line_payment_template">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="o">
+                <t t-set="lang" t-value="o.partner_id.lang" />
+                <t
+                    t-call="l10n_ro_payment_receipt_report.report_bank_statement_line_payment_document"
+                    t-lang="lang"
+                />
+            </t>
+        </t>
+    </template>
+
+
+
+
+
+</odoo>
