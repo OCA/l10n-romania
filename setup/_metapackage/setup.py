@@ -17,6 +17,7 @@ setuptools.setup(
         'odoo14-addon-l10n_ro_fiscal_validation',
         'odoo14-addon-l10n_ro_partner_create_by_vat',
         'odoo14-addon-l10n_ro_partner_unique',
+        'odoo14-addon-l10n_ro_payment_receipt_report',
         'odoo14-addon-l10n_ro_payment_to_statement',
         'odoo14-addon-l10n_ro_siruta',
         'odoo14-addon-l10n_ro_stock',
