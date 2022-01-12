@@ -1,0 +1,73 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* l10n_ro_address_extended
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 14.0\n"
+"Report-Msgid-Bugs-To: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: l10n_ro_address_extended
+#: model:ir.model,name:l10n_ro_address_extended.model_res_company
+msgid "Companies"
+msgstr ""
+
+#. module: l10n_ro_address_extended
+#: model:ir.model,name:l10n_ro_address_extended.model_res_partner
+msgid "Contact"
+msgstr ""
+
+#. module: l10n_ro_address_extended
+#: model:ir.model.fields,field_description:l10n_ro_address_extended.field_res_company__display_name
+#: model:ir.model.fields,field_description:l10n_ro_address_extended.field_res_partner__display_name
+msgid "Display Name"
+msgstr ""
+
+#. module: l10n_ro_address_extended
+#: model_terms:ir.ui.view,arch_db:l10n_ro_address_extended.view_partner_address_structured_form
+#: model_terms:ir.ui.view,arch_db:l10n_ro_address_extended.view_partner_structured_form
+#: model_terms:ir.ui.view,arch_db:l10n_ro_address_extended.view_res_company_extended_form
+msgid "Door Number"
+msgstr ""
+
+#. module: l10n_ro_address_extended
+#: model_terms:ir.ui.view,arch_db:l10n_ro_address_extended.view_partner_address_structured_form
+#: model_terms:ir.ui.view,arch_db:l10n_ro_address_extended.view_partner_structured_form
+#: model_terms:ir.ui.view,arch_db:l10n_ro_address_extended.view_res_company_extended_form
+msgid "Home Number"
+msgstr ""
+
+#. module: l10n_ro_address_extended
+#: model:ir.model.fields,field_description:l10n_ro_address_extended.field_res_company__id
+#: model:ir.model.fields,field_description:l10n_ro_address_extended.field_res_partner__id
+msgid "ID"
+msgstr ""
+
+#. module: l10n_ro_address_extended
+#: model:ir.model.fields,field_description:l10n_ro_address_extended.field_res_company____last_update
+#: model:ir.model.fields,field_description:l10n_ro_address_extended.field_res_partner____last_update
+msgid "Last Modified on"
+msgstr ""
+
+#. module: l10n_ro_address_extended
+#: model:ir.model.fields,field_description:l10n_ro_address_extended.field_res_company__street_staircase
+#: model:ir.model.fields,field_description:l10n_ro_address_extended.field_res_partner__street_staircase
+#: model:ir.model.fields,field_description:l10n_ro_address_extended.field_res_users__street_staircase
+#: model_terms:ir.ui.view,arch_db:l10n_ro_address_extended.view_partner_address_structured_form
+#: model_terms:ir.ui.view,arch_db:l10n_ro_address_extended.view_partner_structured_form
+#: model_terms:ir.ui.view,arch_db:l10n_ro_address_extended.view_res_company_extended_form
+msgid "Staircase Number"
+msgstr ""
+
+#. module: l10n_ro_address_extended
+#: code:addons/l10n_ro_address_extended/models/res_partner.py:0
+#: code:addons/l10n_ro_address_extended/models/res_partner.py:0
+#, python-format
+msgid "Unrecognized field %s in street format."
+msgstr ""
