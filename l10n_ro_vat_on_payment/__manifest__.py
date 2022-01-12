@@ -1,24 +1,22 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
 {
-    "name": "Romania - Account Period Closing",
+    "name": "Romania - VAT on Payment",
     "category": "Localization",
-    "summary": "Romania - Account Period Closing",
-    "depends": ["account", "date_range"],
+    "summary": "Romania - VAT on Payment",
     "data": [
-        "views/account_period_close_view.xml",
-        "wizards/wizard_account_period_closing_view.xml",
-        "security/account_security.xml",
+        "views/res_partner_view.xml",
         "security/ir.model.access.csv",
+        "data/res_partner_anaf_cron.xml",
     ],
+    "depends": ["account", "l10n_ro"],
     "license": "AGPL-3",
-    "version": "14.0.1.0.0",
+    "version": "15.0.1.0.0",
     "author": "NextERP Romania,"
     "Forest and Biomass Romania,"
     "Odoo Community Association (OCA)",
     "website": "https://github.com/OCA/l10n-romania",
     "installable": True,
     "development_status": "Mature",
-    "external_dependencies": {"python": ["python-dateutil"]},
     "maintainers": ["feketemihai"],
 }

@@ -52,13 +52,13 @@ class ResPartner(models.Model):
                     if resp.status_code == 200:
                         resp = resp.json()
                         for res in resp["found"] + resp["notfound"]:
-                            partners = self.search(
+                            partner = self.search(
                                 [
                                     ("vat_number", "=", res["cui"]),
                                     ("is_company", "=", True),
                                 ]
                             )
-                            for partner in partners:
+                            if partner:
                                 data = partner._Anaf_to_Odoo(res)
                                 partner.update(data)
 

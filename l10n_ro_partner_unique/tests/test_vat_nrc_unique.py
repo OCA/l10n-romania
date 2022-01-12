@@ -3,10 +3,10 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
 from odoo.exceptions import ValidationError
-from odoo.tests.common import SavepointCase
+from odoo.tests.common import TransactionCase
 
 
-class TestVatUnique(SavepointCase):
+class TestVatUnique(TransactionCase):
     @classmethod
     def setUpClass(cls):
         super(TestVatUnique, cls).setUpClass()
@@ -15,14 +15,14 @@ class TestVatUnique(SavepointCase):
         )
 
     def test_duplicated_vat_creation(self):
-        """ Test creation of partner."""
+        """Test creation of partner."""
         with self.assertRaises(ValidationError):
             self.env["res.partner"].create(
                 {"name": "Second partner", "vat": "RO30834857", "nrc": "J35/2622/2012"}
             )
 
     def test_contact_vat_creation(self):
-        """ Test creation of partner contacs."""
+        """Test creation of partner contacs."""
         self.env["res.partner"].create(
             {
                 "name": "Test partner 1 - child",
