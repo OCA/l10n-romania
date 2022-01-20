@@ -18,6 +18,7 @@
         "views/report_payment_receipt_template.xml",
         "views/report_bank_statement_line_payment_template.xml",
     ],
+    "uninstall_hook": "uninstall_hook",
     "development_status": "Mature",
     "maintainers": ["dhongu", "feketemihai"],
 }
