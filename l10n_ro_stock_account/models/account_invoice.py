@@ -304,3 +304,4 @@ class AccountMoveLine(models.Model):
                 "invoice_id": self.move_id.id,
             }
         )
+        linked_layer.remaining_value += value
