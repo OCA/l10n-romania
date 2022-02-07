@@ -107,14 +107,14 @@ class ResPartner(models.Model):
         if "city_id" in self._fields and res["state_id"] and res["city"]:
             res["city_id"] = (
                 self.env["res.city"]
-                .search(
+                    .search(
                     [
                         ("state_id", "=", res["state_id"].id),
                         ("name", "ilike", res["city"]),
                     ],
                     limit=1,
                 )
-                .id
+                    .id
             )
         return res
 
@@ -160,6 +160,8 @@ class ResPartner(models.Model):
 
     @api.onchange("vat", "country_id")
     def ro_vat_change(self):
+        if self.env.context.get("skip_ro_vat_change"):
+            return
         for partner in self:
             ret = {}
             if not partner.vat:
@@ -186,8 +188,16 @@ class ResPartner(models.Model):
                 if res:
                     res["country_id"] = (
                         self.env["res.country"]
-                        .search([("code", "ilike", vat_country)])[0]
-                        .id
+                            .search([("code", "ilike", vat_country)])[0]
+                            .id
                     )
+
+                    if not res['vat_subjected']:
+                        partner.vat = vat_number
+
                     partner.with_context(skip_ro_vat_change=True).update(res)
+
         return ret
+
+    def button_get_partner_data(self):
+        pass
