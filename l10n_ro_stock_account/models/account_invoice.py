@@ -66,7 +66,7 @@ class AccountMove(models.Model):
         # nu se mai face descarcarea de gestiune la facturare
         invoices = self
         for move in self:
-            if self.company_id.romanian_accounting:
+            if move.company_id.romanian_accounting:
                 invoices -= move
         return super(
             AccountMove, invoices
