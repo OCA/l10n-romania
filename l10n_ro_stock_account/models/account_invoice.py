@@ -264,7 +264,7 @@ class AccountMoveLine(models.Model):
             return 0.0
         return abs(line.balance) - valuation_total
 
-    def modify_stock_valuation(self, price_unit_val_dif):
+    def modify_stock_valuation(self, price_val_dif):
         # se adauga la evaluarea miscarii de stoc
         if not self.purchase_line_id:
             return 0.0
@@ -277,7 +277,7 @@ class AccountMoveLine(models.Model):
             limit=1,
         )
         linked_layer = valuation_stock_move.stock_valuation_layer_ids[:1]
-        value = price_unit_val_dif * self.quantity
+        value = price_val_dif
         # trebuie cantitate din factura in unitatea produsului si apoi
         value = self.product_uom_id._compute_price(value, self.product_id.uom_id)
 
