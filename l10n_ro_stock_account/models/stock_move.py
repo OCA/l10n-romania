@@ -56,6 +56,11 @@ class StockMove(models.Model):
             svl = self.env["stock.valuation.layer"]
         return svl
 
+    def _is_returned(self, valued_type):
+        """Este tot timpul False deoarece noi tratam fiecare caz in parte
+        de retur si fxam conturile"""
+        return False
+
     # evaluare la receptie - in mod normal nu se
     def _is_reception(self):
         """ Este receptie in stoc fara aviz"""
