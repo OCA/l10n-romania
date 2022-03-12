@@ -22,6 +22,7 @@
         "views/stock_location_view.xml",
         "views/stock_picking_view.xml",
         "views/stock_valuation_layer_views.xml",
+        "wizard/stock_picking_return_views.xml",
     ],
     "installable": True,
     "maintainers": ["dhongu", "feketemihai"],
