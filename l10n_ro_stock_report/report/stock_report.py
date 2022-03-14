@@ -75,26 +75,26 @@ class StorageSheet(models.TransientModel):
         if not product_list:
             product_list = []
         if product_list:
-            query = """
-                SELECT product_id
-                FROM stock_move as sm
-                WHERE sm.state = 'done' AND sm.product_id IN %(products)s AND
-                      sm.company_id = %(company)s AND
-                      (sm.location_id = %(location)s OR
-                       sm.location_dest_id = %(location)s) AND
-                      date_trunc('day',sm.date) >= %(date_from)s  AND
-                      date_trunc('day',sm.date) <= %(date_to)s
-                GROUP BY  product_id
-                """
-            params = {
-                "products": tuple(product_list),
-                "date_from": fields.Date.to_string(self.date_from),
-                "date_to": fields.Date.to_string(self.date_to),
-                "location": self.location_id.id,
-                "company": self.company_id.id,
-            }
-            self.env.cr.execute(query, params=params)
-            product_list = [r["product_id"] for r in self.env.cr.dictfetchall()]
+            products_with_moves = (
+                self.env["stock.move"]
+                .search(
+                    [
+                        ("state", "=", "done"),
+                        ("date", ">=", self.date_from),
+                        ("date", "<=", self.date_to),
+                        ("product_id", "in", product_list),
+                        "|",
+                        ("company_id", "=", self.company_id.id),
+                        ("company_id", "=", False),
+                        "|",
+                        ("location_id", "=", self.location_id.id),
+                        ("location_dest_id", "=", self.location_id.id),
+                    ]
+                )
+                .mapped("product_id")
+                .filtered(lambda p: p.type == "product")
+            )
+            product_list = products_with_moves.ids
         return product_list
 
     def do_compute_product(self):
@@ -272,7 +272,16 @@ class StorageSheet(models.TransientModel):
             all_products = False
         else:
             product_list = (
-                self.env["product.product"].search([("type", "=", "product")]).ids
+                self.env["product.product"]
+                .search(
+                    [
+                        ("type", "=", "product"),
+                        "|",
+                        ("company_id", "=", self.company_id.id),
+                        ("company_id", "=", False),
+                    ]
+                )
+                .ids
             )
             all_products = True
         if self.products_with_move:
