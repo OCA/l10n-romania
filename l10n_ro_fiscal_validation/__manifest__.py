@@ -7,7 +7,7 @@
     "depends": ["l10n_ro_partner_create_by_vat", "l10n_ro_vat_on_payment"],
     "data": ["data/res_partner_vat_cron.xml"],
     "license": "AGPL-3",
-    "version": "14.0.1.1.0",
+    "version": "14.0.1.2.0",
     "author": "NextERP Romania,"
     "Forest and Biomass Romania,"
     "Odoo Community Association (OCA)",
