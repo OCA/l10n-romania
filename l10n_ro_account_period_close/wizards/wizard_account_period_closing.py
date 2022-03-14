@@ -41,5 +41,7 @@ class WizardAccountPeriodClosing(models.TransientModel):
 
     def do_close(self):
         for wizard in self:
-            wizard.closing_id.close(wizard.date_from, wizard.date_to)
+            wizard.closing_id.close(
+                wizard.journal_id.id, wizard.date_from, wizard.date_to
+            )
         return {"type": "ir.actions.act_window_close"}
