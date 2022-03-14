@@ -307,9 +307,9 @@ class TestPeriodClosing(AccountTestInvoicingCommon):
         self.inc_closing._onchange_type()
         date_from = time.strftime("%Y-%m") + "-01"
         date_to = time.strftime("%Y-%m") + "-28"
-        self.exp_closing.close(date_from, date_to)
+        self.exp_closing.close(date_from=date_from, date_to=date_to)
         self.assertEqual(len(self.exp_closing.move_ids), 1)
-        self.inc_closing.close(date_from, date_to)
+        self.inc_closing.close(date_from=date_from, date_to=date_to)
         self.assertEqual(len(self.exp_closing.move_ids), 1)
 
     def test_period_closing_wizard_date_range(self):
