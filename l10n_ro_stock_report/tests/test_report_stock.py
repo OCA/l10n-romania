@@ -151,11 +151,18 @@ class TestStockReport(TransactionCase):
         self.assertTrue(line)
 
     def test_get_products_with_move(self):
-        product_obj = self.env["product.product"]
         stock_move_obj = self.env["stock.move"]
-        products = product_obj.search([("type", "=", "product")])
+        products = self.env["product.product"].search(
+            [
+                ("type", "=", "product"),
+                "|",
+                ("company_id", "=", self.env.company.id),
+                ("company_id", "=", False),
+            ]
+        )
         wizard = Form(self.env["stock.storage.sheet"])
         wizard.location_id = self.location
+        wizard.products_with_move = True
         wizard = wizard.save()
 
         prod_with_moves = (
@@ -164,7 +171,7 @@ class TestStockReport(TransactionCase):
                     ("state", "=", "done"),
                     ("date", ">=", wizard.date_from),
                     ("date", "<=", wizard.date_to),
-                    ("company_id", "=", wizard.company_id.id),
+                    ("product_id", "in", products.ids),
                     "|",
                     ("location_id", "=", self.location.id),
                     ("location_dest_id", "=", self.location.id),
