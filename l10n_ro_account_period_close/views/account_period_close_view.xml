@@ -84,6 +84,7 @@
     />
     <record id="act_account_period_closing_wizard" model="ir.actions.act_window">
         <field name="name">Close Period</field>
+        <field name="view_mode">form,tree</field>
         <field name="res_model">account.period.closing.wizard</field>
         <field name="context">
             {'search_default_closing_id':[active_id], 'default_closing_id': active_id}
