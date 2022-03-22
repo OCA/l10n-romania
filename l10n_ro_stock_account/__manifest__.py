@@ -19,6 +19,7 @@
     "license": "AGPL-3",
     "data": [
         "views/product_category_view.xml",
+        "views/product_template_view.xml",
         "views/stock_location_view.xml",
         "views/stock_picking_view.xml",
         "views/stock_valuation_layer_views.xml",
