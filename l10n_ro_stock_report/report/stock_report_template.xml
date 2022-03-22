@@ -20,82 +20,94 @@
 
                 <div class="page">
                     <div class="row">
-                        <t t-set="title">Stock Sheet -
-                            <t t-raw="product.name" />
-                        </t>
-                        <h4 class="mt0" t-esc="title" style="text-align: center;" />
+                        <t t-set="title">Stock Sheet - <t t-raw="product.name" /></t>
+                        <h4
+                            class="mt0"
+                            t-esc="title"
+                            style="text-align: center;width: 100%"
+                        />
                     </div>
                     <t
                         t-call="l10n_ro_stock_report.report_storage_sheet_report_filters"
                     />
-                    <div class="act_as_table data_table mt4" style="width: 100%;">
+                    <t
+                        t-foreach="o.line_product_ids.filtered(lambda l: l.product_id == product).mapped('account_id')"
+                        t-as="account"
+                    >
                         <t
-                            t-set="initial"
-                            t-value="o.line_product_ids.filtered(lambda l: l.product_id == product and l.reference =='INITIAL')"
+                            t-set="prod_acc_lines"
+                            t-value="o.line_product_ids.filtered(lambda l: l.product_id == product and l.account_id == account)"
                         />
-                        <t
-                            t-set="final"
-                            t-value="o.line_product_ids.filtered(lambda l: l.product_id == product and l.reference =='FINAL')"
-                        />
-                        <t
-                            t-call="l10n_ro_stock_report.report_storage_sheet_lines_header"
-                        />
-                        <!-- Display initial lines -->
-                        <div class="act_as_row lines">
-                            <div class="act_as_cell" />
-                            <div class="act_as_cell sold">
-                                INITIAL
-                            </div>
-                            <div class="act_as_cell" />
-                            <div class="act_as_cell" />
-                            <div class="act_as_cell sold">
-                                <div
-                                    style="font-style: italic; font-weight: bold; padding: 5px 7px"
-                                >
-                                    <span t-field="initial.quantity_initial" />
-                                </div>
-                            </div>
-                            <div class="act_as_cell sold">
-                                <div
-                                    style="font-style: italic; font-weight: bold; padding: 5px 7px"
-                                >
-                                    <span t-field="initial.amount_initial" />
-                                </div>
-                            </div>
-                        </div>
-                        <t
-                            t-foreach="o.line_product_ids.filtered(lambda l: l.product_id == product and l.reference not in ['INITIAL','FINAL'] )"
-                            t-as="line_product"
-                        >
+                        <t t-esc="account.code" /> - <t t-esc="account.name" />
+                        <div class="act_as_table data_table mt4" style="width: 100%;">
                             <t
-                                t-call="l10n_ro_stock_report.report_storage_sheet_lines"
+                                t-set="initial"
+                                t-value="prod_acc_lines.filtered(lambda l: l.reference =='INITIAL')"
                             />
-                        </t>
-                        <!-- Display header line-->
-                        <div class="act_as_row lines">
-                            <div class="act_as_cell" />
-                            <div class="act_as_cell">
-                                FINAL
-                            </div>
-                            <div class="act_as_cell" />
-                            <div class="act_as_cell" />
-                            <div class="act_as_cell">
-                                <div
-                                    style="font-style: italic; font-weight: bold; padding: 5px 7px"
-                                >
-                                    <span t-field="final.quantity_final" />
+                            <t
+                                t-set="final"
+                                t-value="prod_acc_lines.filtered(lambda l: l.reference =='FINAL')"
+                            />
+                            <t
+                                t-call="l10n_ro_stock_report.report_storage_sheet_lines_header"
+                            />
+                            <!-- Display initial lines -->
+                            <div class="act_as_row lines">
+                                <div class="act_as_cell" />
+                                <div class="act_as_cell sold">
+                                    INITIAL
+                                </div>
+                                <div class="act_as_cell" />
+                                <div class="act_as_cell" />
+                                <div class="act_as_cell sold">
+                                    <div
+                                        style="font-style: italic; font-weight: bold; padding: 5px 7px"
+                                    >
+                                        <span t-field="initial.quantity_initial" />
+                                    </div>
+                                </div>
+                                <div class="act_as_cell sold">
+                                    <div
+                                        style="font-style: italic; font-weight: bold; padding: 5px 7px"
+                                    >
+                                        <span t-field="initial.amount_initial" />
+                                    </div>
                                 </div>
                             </div>
+                            <t
+                                t-foreach="prod_acc_lines.filtered(lambda l: l.reference not in ['INITIAL','FINAL'] )"
+                                t-as="line_product"
+                            >
+                                <t
+                                    t-call="l10n_ro_stock_report.report_storage_sheet_lines"
+                                />
+                            </t>
+                            <!-- Display header line-->
+                            <div class="act_as_row lines">
+                                <div class="act_as_cell" />
+                                <div class="act_as_cell">
+                                    FINAL
+                                </div>
+                                <div class="act_as_cell" />
+                                <div class="act_as_cell" />
+                                <div class="act_as_cell">
+                                    <div
+                                        style="font-style: italic; font-weight: bold; padding: 5px 7px"
+                                    >
+                                        <span t-field="final.quantity_final" />
+                                    </div>
+                                </div>
 
-                            <div class="act_as_cell sold">
-                                <div
-                                    style="font-style: italic; font-weight: bold; padding: 5px 7px"
-                                >
-                                    <span t-field="final.amount_final" />
+                                <div class="act_as_cell sold">
+                                    <div
+                                        style="font-style: italic; font-weight: bold; padding: 5px 7px"
+                                    >
+                                        <span t-field="final.amount_final" />
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </t>
                     <p style="page-break-before:always;" />
                 </div>
             </t>

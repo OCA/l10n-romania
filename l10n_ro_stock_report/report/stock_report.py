@@ -80,7 +80,6 @@ class StorageSheet(models.TransientModel):
                 .search(
                     [
                         ("state", "=", "done"),
-                        ("date", ">=", self.date_from),
                         ("date", "<=", self.date_to),
                         ("product_id", "in", product_list),
                         "|",
@@ -200,22 +199,14 @@ class StorageSheet(models.TransientModel):
             from stock_move as sm
                 inner join stock_valuation_layer as svl_in
                         on svl_in.stock_move_id = sm.id and
-                    (
-                    (((svl_in.valued_type !='internal_transfer' and
-                       svl_in.valued_type not like '%%return')
-                       or svl_in.valued_type is Null) and
-                       sm.location_dest_id=%(location)s) or
-                      (svl_in.valued_type ='internal_transfer' and
-                       svl_in.quantity>0 and sm.location_dest_id=%(location)s) or
-                      (svl_in.valued_type  like '%%return' and sm.location_id=%(location)s)
-                    )
+                    (sm.location_dest_id=%(location)s and svl_in.quantity>0)
                 left join stock_picking as sp on sm.picking_id = sp.id
             where
                 sm.state = 'done' AND
                 sm.company_id = %(company)s AND
                 ( %(all_products)s  or sm.product_id in %(product)s ) AND
                 sm.date >= %(datetime_from)s  AND  sm.date <= %(datetime_to)s  AND
-                (sm.location_id = %(location)s OR sm.location_dest_id = %(location)s)
+                sm.location_dest_id = %(location)s
             GROUP BY sm.product_id, sm.date,
              sm.reference, sp.partner_id, account_id
             """
@@ -238,25 +229,14 @@ class StorageSheet(models.TransientModel):
 
                 inner join stock_valuation_layer as svl_out
                         on svl_out.stock_move_id = sm.id and
-                    ((((svl_out.valued_type !='internal_transfer' and
-                        svl_out.valued_type not like '%%return') or
-                        svl_out.valued_type is Null) and
-                        sm.location_id=%(location)s) or
-                     (svl_out.valued_type ='internal_transfer' and
-                      svl_out.quantity<0 and
-                      sm.location_id=%(location)s) or
-                     (svl_out.valued_type  like '%%return' and
-                      sm.location_dest_id=%(location)s)
-                    )
-
-
+                    (sm.location_id=%(location)s and svl_out.quantity<0 )
                 left join stock_picking as sp on sm.picking_id = sp.id
             where
                 sm.state = 'done' AND
                 sm.company_id = %(company)s AND
                 ( %(all_products)s  or sm.product_id in %(product)s ) AND
                 sm.date >= %(datetime_from)s  AND  sm.date <= %(datetime_to)s  AND
-                (sm.location_id = %(location)s OR sm.location_dest_id = %(location)s)
+                sm.location_id = %(location)s
             GROUP BY sm.product_id, sm.date,
                      sm.reference, sp.partner_id, account_id
             """
