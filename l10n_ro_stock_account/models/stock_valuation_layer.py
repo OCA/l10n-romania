@@ -33,7 +33,7 @@ class StockValuationLayer(models.Model):
             else:
                 for aml in svl.account_move_id.line_ids:
                     if aml.account_id.code[0] in ["2", "3"]:
-                        if aml.balance < 0 and svl.value < 0:
+                        if aml.balance <= 0 and svl.value <= 0:
                             account = aml.account_id
                             break
                         if aml.balance > 0 and svl.value > 0:
