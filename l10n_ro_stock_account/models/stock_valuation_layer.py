@@ -42,7 +42,7 @@ class StockValuationLayer(models.Model):
             svl.account_id = account
 
     def init(self):
-        """ This method will compute values for valuation layer valued_type"""
+        """This method will compute values for valuation layer valued_type"""
         val_layers = self.search(
             ["|", ("valued_type", "=", False), ("valued_type", "=", "")]
         )
