@@ -9,8 +9,8 @@ import requests
 from odoo import api, fields, models
 
 CEDILLATRANS = bytes.maketrans(
-    u"\u015f\u0163\u015e\u0162".encode("utf8"),
-    u"\u0219\u021b\u0218\u021a".encode("utf8"),
+    "\u015f\u0163\u015e\u0162".encode("utf8"),
+    "\u0219\u021b\u0218\u021a".encode("utf8"),
 )
 
 headers = {
