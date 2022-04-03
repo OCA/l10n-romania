@@ -20,7 +20,9 @@
 
                 <div class="page">
                     <div class="row">
-                        <t t-set="title">Stock Sheet - <t t-raw="product.name" /></t>
+                        <t t-set="title">Stock Sheet -
+                            <t t-raw="product.name" />
+                        </t>
                         <h4
                             class="mt0"
                             t-esc="title"
@@ -43,8 +45,15 @@
                                 t-value="o.line_product_ids.filtered(lambda l: l.product_id == product and l.account_id == account
                                             and l.location_id == location)"
                             />
-                            <t t-esc="account.code" /> - <t t-esc="account.name" /> - <t t-esc="location.display_name" />
-                            <div class="act_as_table data_table mt4" style="width: 100%;">
+                            <t t-esc="account.code" />
+                            -
+                            <t t-esc="account.name" />
+                            -
+                            <t t-esc="location.display_name" />
+                            <div
+                                class="act_as_table data_table mt4"
+                                style="width: 100%;"
+                            >
                                 <t
                                     t-set="initial"
                                     t-value="prod_acc_lines.filtered(lambda l: l.reference =='INITIAL')"
@@ -52,6 +61,15 @@
                                 <t
                                     t-set="final"
                                     t-value="prod_acc_lines.filtered(lambda l: l.reference =='FINAL')"
+                                />
+
+                                <t
+                                    t-set="quantity"
+                                    t-value="sum(initial.mapped('quantity_initial'))"
+                                />
+                                <t
+                                    t-set="amount"
+                                    t-value="sum(initial.mapped('amount_initial'))"
                                 />
                                 <t
                                     t-call="l10n_ro_stock_report.report_storage_sheet_lines_header"
@@ -70,21 +88,55 @@
                                         <div
                                             style="font-style: italic; font-weight: bold; padding: 5px 7px"
                                         >
-                                            <span t-field="initial.quantity_initial" />
+                                            <span
+                                                t-esc="quantity"
+                                                t-options='{"widget": "float", "precision": 2}'
+                                            />
                                         </div>
                                     </div>
                                     <div class="act_as_cell sold">
                                         <div
                                             style="font-style: italic; font-weight: bold; padding: 5px 7px"
                                         >
-                                            <span t-field="initial.amount_initial" />
+                                            <span
+                                                t-esc="amount"
+                                                t-options='{"widget": "float", "precision": 2}'
+                                            />
                                         </div>
                                     </div>
+
                                 </div>
                                 <t
                                     t-foreach="prod_acc_lines.filtered(lambda l: l.reference not in ['INITIAL','FINAL'] )"
                                     t-as="line_product"
                                 >
+                                    <t t-if="product!=line_product.product_id">
+                                        <div>
+                                            <span>
+                                                <strong
+                                                    t-field="line_product.product_id"
+                                                />
+                                            </span>
+                                            <t
+                                                t-set="quantity"
+                                                t-value="line_product.quantity_final or 0"
+                                            />
+                                            <t
+                                                t-set="amount"
+                                                t-value="line_product.amount_final or 0"
+                                            />
+                                        </div>
+                                    </t>
+                                    <t t-else="">
+                                        <t
+                                            t-set="quantity"
+                                            t-value="quantity+(line_product.quantity_initial or 0)+line_product.quantity_in-line_product.quantity_out"
+                                        />
+                                        <t
+                                            t-set="amount"
+                                            t-value="amount+(line_product.amount_initial or 0)+line_product.amount_in-line_product.amount_out"
+                                        />
+                                    </t>
                                     <t
                                         t-call="l10n_ro_stock_report.report_storage_sheet_lines"
                                     />
@@ -103,7 +155,10 @@
                                         <div
                                             style="font-style: italic; font-weight: bold; padding: 5px 7px"
                                         >
-                                            <span t-field="final.quantity_final" />
+                                            <span
+                                                t-field="final.quantity_final"
+                                                t-options='{"widget": "float", "precision": 2}'
+                                            />
                                         </div>
                                     </div>
 
@@ -111,7 +166,10 @@
                                         <div
                                             style="font-style: italic; font-weight: bold; padding: 5px 7px"
                                         >
-                                            <span t-field="final.amount_final" />
+                                            <span
+                                                t-field="final.amount_final"
+                                                t-options='{"widget": "float", "precision": 2}'
+                                            />
                                         </div>
                                     </div>
                                 </div>
@@ -127,14 +185,6 @@
 
     <template id="report_storage_sheet_lines">
         <div class="act_as_row lines">
-            <t
-                t-set="quantity"
-                t-value="quantity+(line_product.quantity_initial or 0)+line_product.quantity_in-line_product.quantity_out"
-            />
-                <t
-                t-set="amount"
-                t-value="amount+(line_product.amount_initial or 0)+line_product.amount_in-line_product.amount_out"
-            />
             <div class="act_as_cell left">
                 <span t-field="line_product.date" t-options='{"widget": "date"}' />
             </div>
@@ -142,16 +192,28 @@
                 <span t-esc="line_product.reference" />
             </div>
             <div class="act_as_cell right">
-                <span t-field="line_product.quantity_in" />
+                <span
+                    t-field="line_product.quantity_in"
+                    t-options='{"widget": "float", "precision": 2}'
+                />
             </div>
             <div class="act_as_cell right">
-                <span t-field="line_product.amount_in" />
+                <span
+                    t-field="line_product.amount_in"
+                    t-options='{"widget": "float", "precision": 2}'
+                />
             </div>
             <div class="act_as_cell right">
-                <span t-field="line_product.quantity_out" />
+                <span
+                    t-field="line_product.quantity_out"
+                    t-options='{"widget": "float", "precision": 2}'
+                />
             </div>
             <div class="act_as_cell right">
-                <span t-field="line_product.amount_out" />
+                <span
+                    t-field="line_product.amount_out"
+                    t-options='{"widget": "float", "precision": 2}'
+                />
             </div>
             <div class="act_as_cell right">
                 <span
@@ -160,10 +222,7 @@
                 />
             </div>
             <div class="act_as_cell right">
-                <span
-                    t-esc="amount"
-                    t-options='{"widget": "float", "precision": 2}'
-                />
+                <span t-esc="amount" t-options='{"widget": "float", "precision": 2}' />
             </div>
         </div>
     </template>
@@ -244,34 +303,81 @@
                 </div>
 
                 <div class="act_as_table data_table mt4" style="width: 100%;">
-                    <t t-call="l10n_ro_stock_report.report_storage_sheet_lines_header" />
-                        <t t-foreach="o.line_product_ids.mapped('location_id')" t-as="location">
-
-                            <t
-                                t-foreach="o.line_product_ids.filtered(lambda l: l.location_id == location).mapped('product_id')"
-                                t-as="product"
+                    <t
+                        t-call="l10n_ro_stock_report.report_storage_sheet_lines_header"
+                    />
+                    <t
+                        t-foreach="o.line_product_ids.mapped('location_id')"
+                        t-as="location"
+                    >
+                        <div
+                            class="act_as_row labels"
+                            style="width: 100%; font-weight: bold;"
+                        >
+                            <t t-esc="location.display_name" />
+                        </div>
+                        <t
+                            t-foreach="o.line_product_ids.filtered(lambda l: l.location_id == location).mapped('product_id')"
+                            t-as="product"
+                        >
+                            <div
+                                class="act_as_row labels"
+                                style="width: 100%; font-weight: bold;"
                             >
-
-                            <t t-set="quantity" t-value="0" />
-                            <t t-set="amount" t-value="0" />
-                            <t t-foreach="o.line_product_ids.filtered(lambda l: l.location_id == location and l.product_id == product )" t-as="line_product">
-                                <t t-if="product!=line_product.product_id">
-                                    <div>
-                                        <span>
-                                            <strong t-field="line_product.product_id" />
-                                        </span>
+                                <t t-esc="product.display_name" />
+                            </div>
+                            <t
+                                t-foreach="o.line_product_ids.filtered(lambda l: l.product_id == product).mapped('account_id')"
+                                t-as="account"
+                            >
+                                <t
+                                    t-set="prod_acc_lines"
+                                    t-value="o.line_product_ids.filtered(lambda l: l.product_id == product and l.account_id == account
+                                            and l.location_id == location)"
+                                />
+                                <div
+                                    class="act_as_row labels"
+                                    style="width: 100%; font-weight: bold;"
+                                >
+                                    <t t-esc="account.code" />
+                                    -
+                                    <t t-esc="account.name" />
+                                </div>
+                                <t t-set="quantity" t-value="0" />
+                                <t t-set="amount" t-value="0" />
+                                <t t-foreach="prod_acc_lines" t-as="line_product">
+                                    <t t-if="product!=line_product.product_id">
+                                        <div>
+                                            <span>
+                                                <strong
+                                                    t-field="line_product.product_id"
+                                                />
+                                            </span>
+                                            <t
+                                                t-set="quantity"
+                                                t-value="line_product.quantity_final or 0"
+                                            />
+                                            <t
+                                                t-set="amount"
+                                                t-value="line_product.amount_final or 0"
+                                            />
+                                        </div>
+                                    </t>
+                                    <t t-else="">
                                         <t
                                             t-set="quantity"
-                                            t-value="line_product.quantity_final or 0"
+                                            t-value="quantity+(line_product.quantity_initial or 0)+line_product.quantity_in-line_product.quantity_out"
                                         />
                                         <t
                                             t-set="amount"
-                                            t-value="line_product.amount_final or 0"
+                                            t-value="amount+(line_product.amount_initial or 0)+line_product.amount_in-line_product.amount_out"
                                         />
-                                    </div>
+                                    </t>
+                                    <t
+                                        t-call="l10n_ro_stock_report.report_storage_sheet_lines"
+                                    />
                                 </t>
-                                <t t-call="l10n_ro_stock_report.report_storage_sheet_lines"/>
-                             </t>
+                            </t>
                         </t>
                     </t>
                 </div>

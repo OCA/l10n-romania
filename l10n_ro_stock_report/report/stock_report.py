@@ -47,15 +47,13 @@ class StorageSheet(models.TransientModel):
     )
     sublocation = fields.Boolean("Sublocation")
     location_ids = fields.Many2many(
-        "stock.location",
-        string="Only for locations",
-        compute="_compute_location_ids"
+        "stock.location", string="Only for locations", compute="_compute_location_ids"
     )
 
     @api.depends("sublocation", "location_id")
     def _compute_location_ids(self):
         if self.sublocation:
-            self.location_ids = self.env["stock.location"].search([("location_id", "=", self.location_id.id)])
+            self.location_ids = self.location_id + self.location_id.child_ids
         else:
             self.location_ids = self.location_id
 
