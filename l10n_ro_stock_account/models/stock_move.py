@@ -321,8 +321,10 @@ class StockMove(models.Model):
             new_svl_vals.update(
                 {
                     "quantity": abs(svl_vals.get("quantity", 0)),
+                    "remaining_qty": abs(svl_vals.get("quantity", 0)),
                     "unit_cost": abs(svl_vals.get("unit_cost", 0)),
                     "value": abs(svl_vals.get("value", 0)),
+                    "remaining_value": abs(svl_vals.get("value", 0)),
                 }
             )
             svl_vals_list.append(new_svl_vals)
