@@ -310,22 +310,20 @@
                         t-foreach="o.line_product_ids.mapped('location_id')"
                         t-as="location"
                     >
-                        <div
-                            class="act_as_row labels"
-                            style="width: 100%; font-weight: bold;"
+                        <div style="position:absolute; font-size:16px; font-weight: bold;"
                         >
-                            <t t-esc="location.display_name" />
+                            <t  t-esc="location.name" />
                         </div>
+                        <br/>
                         <t
                             t-foreach="o.line_product_ids.filtered(lambda l: l.location_id == location).mapped('product_id')"
                             t-as="product"
                         >
-                            <div
-                                class="act_as_row labels"
-                                style="width: 100%; font-weight: bold;"
+                            <div style="position:absolute; font-size:14px; font-weight: bold; padding-left:10px;"
                             >
                                 <t t-esc="product.display_name" />
                             </div>
+                            <br/>
                             <t
                                 t-foreach="o.line_product_ids.filtered(lambda l: l.product_id == product).mapped('account_id')"
                                 t-as="account"
@@ -335,14 +333,13 @@
                                     t-value="o.line_product_ids.filtered(lambda l: l.product_id == product and l.account_id == account
                                             and l.location_id == location)"
                                 />
-                                <div
-                                    class="act_as_row labels"
-                                    style="width: 100%; font-weight: bold;"
+                                <div style="position:absolute; font-size:14px; font-weight: bold; padding-left:15px;"
                                 >
                                     <t t-esc="account.code" />
                                     -
                                     <t t-esc="account.name" />
                                 </div>
+                                <br/><br/>
                                 <t t-set="quantity" t-value="0" />
                                 <t t-set="amount" t-value="0" />
                                 <t t-foreach="prod_acc_lines" t-as="line_product">
