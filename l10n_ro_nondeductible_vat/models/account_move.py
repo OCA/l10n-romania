@@ -9,7 +9,7 @@ class AccountMove(models.Model):
     _inherit = "account.move"
 
     def _preprocess_taxes_map(self, taxes_map):
-        """ In case of stock not deductible, remove the line set to be excluded """
+        """In case of stock not deductible, remove the line set to be excluded"""
         new_taxes_map = {}
         res = super()._preprocess_taxes_map(taxes_map)
         for key, vals in res.items():

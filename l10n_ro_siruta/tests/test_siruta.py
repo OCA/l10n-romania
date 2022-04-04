@@ -78,7 +78,7 @@ class TestSiruta(TestSirutaBase):
         self.assertEqual(self.partner1.country_id.id, self.mainpartner.country_id.id)
 
     def test_onchange_state(self):
-        """ Check onchange zone_id on states."""
+        """Check onchange zone_id on states."""
         state1_form = Form(self.state1)
         # User change zone of country state
         state1_form.zone_id = self.zone2
@@ -89,7 +89,7 @@ class TestSiruta(TestSirutaBase):
         self.assertEqual(self.state1.country_id.id, self.zone2.country_id.id)
 
     def test_onchange_commune(self):
-        """ Check onchange state and zone on communes."""
+        """Check onchange state and zone on communes."""
         commune1_form = Form(self.commune1)
         # User change zone of country commune
         commune1_form.zone_id = self.zone2
@@ -111,7 +111,7 @@ class TestSiruta(TestSirutaBase):
         self.assertEqual(self.commune1.country_id.id, self.state2.country_id.id)
 
     def test_onchange_city_fields(self):
-        """ Check onchange state and zone on cities."""
+        """Check onchange state and zone on cities."""
         # User change zone of country city
         city1_form = Form(self.city1)
         city1_form.zone_id = self.zone2

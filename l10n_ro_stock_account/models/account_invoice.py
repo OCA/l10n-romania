@@ -233,7 +233,7 @@ class AccountMoveLine(models.Model):
         return res
 
     def get_stock_valuation_difference(self):
-        """ Se obtine diferenta dintre evaloarea stocului si valoarea din factura"""
+        """Se obtine diferenta dintre evaloarea stocului si valoarea din factura"""
         line = self
 
         # Retrieve stock valuation moves.
