@@ -1,23 +1,23 @@
 .act_as_table {
-    display: table !important;
+    display: table;
     background-color: white;
 }
 .act_as_row {
-    display: table-row !important;
+    display: table-row;
     page-break-inside: avoid;
 }
 .act_as_cell {
-    display: table-cell !important;
+    display: table-cell;
     page-break-inside: avoid;
 }
 .act_as_thead {
-    display: table-header-group !important;
+    display: table-header-group;
 }
 .act_as_row.labels {
-    background-color: #f0f0f0 !important;
+    background-color: #f0f0f0;
 }
 .data_table {
-    width: 100% !important;
+    width: 100%;
     border-left: 0px;
     border-right: 0px;
     text-align: center;
@@ -64,4 +64,7 @@
     margin-right: auto;
     margin-left: auto;
     font-family: Helvetica, Arial, serif;
+}
+.act_as_caption {
+    display: run-in;
 }
