@@ -9,7 +9,7 @@
     "depends": ["base_address_extended"],
     "data": ["views/res_company_view.xml", "views/res_partner_view.xml"],
     "license": "AGPL-3",
-    "version": "14.0.1.0.0",
+    "version": "14.0.1.1.0",
     "author": "NextERP Romania,"
     "Forest and Biomass Romania,"
     "Odoo Community Association (OCA)",

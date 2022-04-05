@@ -2,15 +2,18 @@
 # Copyright (C) 2020 NextERP Romania
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
+import logging
 import time
 
 import requests
 
 from odoo import api, fields, models
 
+_logger = logging.getLogger(__name__)
+
 CEDILLATRANS = bytes.maketrans(
-    u"\u015f\u0163\u015e\u0162".encode("utf8"),
-    u"\u0219\u021b\u0218\u021a".encode("utf8"),
+    "\u015f\u0163\u015e\u0162".encode("utf8"),
+    "\u0219\u021b\u0218\u021a".encode("utf8"),
 )
 
 headers = {
@@ -45,21 +48,25 @@ class ResPartner(models.Model):
                 anaf_ask.append({"cui": int(item), "data": check_date})
             res = requests.post(ANAF_BULK_URL, json=anaf_ask, headers=headers)
             if res.status_code == 200:
-                res = res.json()
-                if res["correlationId"]:
+                result = {}
+                try:
+                    result = res.json()
+                except Exception:
+                    _logger.warning("ANAF sync not working: " % res.content)
+                if result.get("correlationId"):
                     time.sleep(3)
-                    resp = requests.get(ANAF_CORR % res["correlationId"])
+                    resp = requests.get(ANAF_CORR % result["correlationId"])
                     if resp.status_code == 200:
                         resp = resp.json()
-                        for res in resp["found"] + resp["notfound"]:
+                        for result_partner in resp["found"] + resp["notfound"]:
                             partners = self.search(
                                 [
-                                    ("vat_number", "=", res["cui"]),
+                                    ("vat_number", "=", result_partner["cui"]),
                                     ("is_company", "=", True),
                                 ]
                             )
                             for partner in partners:
-                                data = partner._Anaf_to_Odoo(res)
+                                data = partner._Anaf_to_Odoo(result_partner)
                                 partner.update(data)
 
     @api.model

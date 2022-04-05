@@ -144,11 +144,12 @@ class AccountPeriodClosing(models.Model):
                 account_res.append(res)
         return account_res
 
-    def close(self, date_from=None, date_to=None):
+    def close(self, journal_id=None, date_from=None, date_to=None):
         """This method will create the closing move for the
         date interval selected."""
         account_obj = self.env["account.account"]
-        journal_id = self.journal_id.id
+        if not journal_id:
+            journal_id = self.journal_id.id
         for closing in self:
             ctx = self.env.context.copy()
             ctx.update(
