@@ -8,7 +8,7 @@
                 <group name="main_info">
                     <field name="closing_id" options="{'no_create': True}" />
                     <field name="company_id" readonly="1" />
-                    <field name="journal_id" readonly="1" />
+                    <field name="journal_id" options="{'no_create': True}" />
                 </group>
                 <group name="filters">
                     <group name="date_range">
