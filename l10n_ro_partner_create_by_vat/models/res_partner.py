@@ -79,9 +79,9 @@ class ResPartner(models.Model):
                     result = {}
                     anaf_error = f"Anaf didn't find any compnay with VAT={cod}!"
             else:
-                anaf_error = "Anaf response:"+str(res)
+                anaf_error = "Anaf response:" + str(res)
         elif res:
-            anaf_error= "Anaf request error:"+str(res)+res.reason
+            anaf_error= "Anaf request error:" + str(res) + res.reason
         return anaf_error, result
 
     @api.model
