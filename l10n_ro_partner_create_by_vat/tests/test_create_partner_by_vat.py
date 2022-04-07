@@ -14,7 +14,7 @@ class TestCreatePartnerBase(common.SavepointCase):
 
 class TestCreatePartner(TestCreatePartnerBase):
     def test_vat_anaf(self):
-        """Check methods vat from ANAF."""
+        """ Check methods vat from ANAF."""
         # Test retrieve information from ANAF
         result = self.mainpartner._get_Anaf("30834857")
         if result:
@@ -30,7 +30,7 @@ class TestCreatePartner(TestCreatePartnerBase):
             self.assertEqual(res["phone"], "0356179038")
 
     def test_onchange_vat_anaf(self):
-        """Check onchange vat from ANAF."""
+        """ Check onchange vat from ANAF."""
         # Test onchange from ANAF
         self.mainpartner.vat = "RO30834857"
         self.mainpartner.ro_vat_change()

@@ -70,11 +70,19 @@ class ResPartner(models.Model):
             ANAF_URL, json=[{"cui": cod, "data": data}], headers=headers
         )
         result = {}
+        anaf_error = ""
         if res.status_code == 200:
             res = res.json()
             if res.get("found") and res["found"][0]:
                 result = res["found"][0]
-        return result
+                if not (result.get("denumire") and result.get("adresa")):
+                    result = {}
+                    anaf_error = f"Anaf didn't find any compnay with VAT={cod}!"
+            else:
+                anaf_error = "Anaf response:"+str(res)
+        elif res:
+            anaf_error= "Anaf request error:"+str(res)+res.reason
+        return anaf_error, result
 
     @api.model
     def _Anaf_to_Odoo(self, result):
@@ -175,15 +183,18 @@ class ResPartner(models.Model):
                 if not vat_number:
                     vat_number = partner.vat
             if vat_country == "RO":
+                anaf_error = ""
                 try:
-                    result = partner._get_Anaf(vat_number)
+                    anaf_error, result = partner._get_Anaf(vat_number)
                     if result:
                         res = partner._Anaf_to_Odoo(result)
                 except Exception as ex:
                     warning = f"ANAF Webservice not working. Or exception={ex}."
                     _logger.info(warning)
                     ret["warning"] = {"message": warning}
-                if res:
+                if anaf_error:
+                    ret["warning"] = {"message": anaf_error}
+                elif res:
                     res["country_id"] = (
                         self.env["res.country"]
                         .search([("code", "ilike", vat_country)])[0]

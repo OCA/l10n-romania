@@ -42,7 +42,7 @@ Installation
 
 To install this module, you need to:
 
-* clone the branch 13.0 of the repository https://github.com/OCA/l10n-romania
+* clone the branch 14.0 of the repository https://github.com/OCA/l10n-romania
 * add the path to this repository in your configuration (addons-path)
 * update the module list
 * search for "Romania - Partner Create by VAT" in your addons
@@ -53,6 +53,10 @@ Usage
 
 Put the VAT number in the partner's form and if it's a romanian company,
 it will fetch data available on ANAF website.
+If you want to function also for romanian companies that do not have RO in their CIF, you must put the country;
+Without country and RO in cif is not knowing that is a romanian vat and will not do the search.
+v1.2.1  - shows also erros from anaf request 
+
 
 Bug Tracker
 ===========
