@@ -19,6 +19,7 @@ class StockValuationLayer(models.Model):
     def _compute_account(self):
         for svl in self:
             account = self.env["account.account"]
+            svl = svl.with_company(svl.stock_move_id.company_id)
             if not svl.account_move_id:
                 loc_dest = svl.stock_move_id.location_dest_id
                 loc_scr = svl.stock_move_id.location_id
