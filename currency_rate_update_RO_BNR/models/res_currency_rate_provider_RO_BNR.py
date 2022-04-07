@@ -80,7 +80,8 @@ class ResCurrencyRateProviderROBNR(models.Model):
                 base_currency, currencies, date_from, date_to
             )  # pragma: no cover
 
-        if date_from == date_to:
+        if date_from == date_to and date_from == fields.date.today():
+            # this url is only giving today rates
             url = "https://www.bnr.ro/nbrfxrates.xml"
         else:
             year = date_from.year
