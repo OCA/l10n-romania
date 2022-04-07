@@ -81,7 +81,7 @@ class ResPartner(models.Model):
             else:
                 anaf_error = "Anaf response:" + str(res)
         elif res:
-            anaf_error= "Anaf request error:" + str(res) + res.reason
+            anaf_error = "Anaf request error:" + str(res) + res.reason
         return anaf_error, result
 
     @api.model
