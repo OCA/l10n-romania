@@ -2,11 +2,9 @@
 # Copyright (C) 2020 NextERP Romania
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
-import logging
-
-import requests
-
 from odoo import api, fields, models
+import logging
+import requests
 
 _logger = logging.getLogger(__name__)
 
@@ -72,14 +70,15 @@ class ResPartner(models.Model):
         result = {}
         anaf_error = ""
         if res.status_code == 200:
-            res = res.json()
-            if res.get("found") and res["found"][0]:
-                result = res["found"][0]
-                if not (result.get("denumire") and result.get("adresa")):
-                    result = {}
-                    anaf_error = f"Anaf didn't find any compnay with VAT={cod}!"
-            else:
-                anaf_error = "Anaf response:" + str(res)
+            try:
+                resjson = res.json()
+                if resjson.get("found") and resjson["found"][0]:
+                    result = resjson["found"][0]
+                    if not (result.get("denumire") and result.get("adresa")):
+                        result = {}
+                        anaf_error = f"Anaf didn't find any company with VAT={cod}!"
+            except:
+                anaf_error = "Anaf response:" + str(res.content)
         elif res:
             anaf_error = "Anaf request error:" + str(res) + res.reason
         return anaf_error, result
@@ -197,6 +196,6 @@ class ResPartner(models.Model):
                     else:
                         ret["warning"] = {"message": anaf_error}
                 except Exception as ex:
-                    warning = f"ANAF Webservice not working. Or exception={ex}."
+                    warning = f"ANAF Webservice not working. Or vat exception={ex}."
                     ret["warning"] = {"message": warning}
         return ret
