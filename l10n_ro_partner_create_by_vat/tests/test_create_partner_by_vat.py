@@ -38,7 +38,6 @@ class TestCreatePartner(TestCreatePartnerBase):
             anaf_error = f"Anaf didn't find any compnay with VAT={cod}!"
             self.assertEqual(anaf_error, anaf_error)
 
-
     def test_onchange_vat_anaf(self):
         """Check onchange vat from ANAF."""
         # Test onchange from ANAF
