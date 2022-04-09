@@ -186,19 +186,17 @@ class ResPartner(models.Model):
                 anaf_error = ""
                 try:
                     anaf_error, result = partner._get_Anaf(vat_number)
-                    if result:
+                    if not anaf_error:
                         res = partner._Anaf_to_Odoo(result)
+                        res["country_id"] = (
+                            self.env["res.country"]
+                            .search([("code", "ilike", vat_country)])[0]
+                            .id
+                        )
+                        partner.with_context(skip_ro_vat_change=True).update(res)
+                    else:
+                        ret["warning"] = {"message": anaf_error}
                 except Exception as ex:
                     warning = f"ANAF Webservice not working. Or exception={ex}."
-                    _logger.info(warning)
                     ret["warning"] = {"message": warning}
-                if anaf_error:
-                    ret["warning"] = {"message": anaf_error}
-                elif res:
-                    res["country_id"] = (
-                        self.env["res.country"]
-                        .search([("code", "ilike", vat_country)])[0]
-                        .id
-                    )
-                    partner.with_context(skip_ro_vat_change=True).update(res)
         return ret
