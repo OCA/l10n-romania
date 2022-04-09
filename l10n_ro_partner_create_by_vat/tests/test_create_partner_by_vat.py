@@ -16,8 +16,8 @@ class TestCreatePartner(TestCreatePartnerBase):
     def test_vat_anaf(self):
         """Check methods vat from ANAF."""
         # Test retrieve information from ANAF
-        result = self.mainpartner._get_Anaf("30834857")
-        if result:
+        error, result = self.mainpartner._get_Anaf("30834857")
+        if not error:
             res = self.mainpartner._Anaf_to_Odoo(result)
             self.assertEqual(res["name"], "FOREST AND BIOMASS ROMÂNIA S.A.")
             self.assertEqual(res["vat_subjected"], True)
