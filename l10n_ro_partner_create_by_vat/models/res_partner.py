@@ -19,6 +19,12 @@ headers = {
 }
 
 ANAF_URL = "https://webservicesp.anaf.ro/PlatitorTvaRest/api/v6/ws/tva"
+AnafFiled_OdooField_Overwrite = [
+    ("nrc", "nrRegCom", "over_all_the_time"),
+    ("zip", "codPostal", "over_all_the_time"),
+    ("comment", "stare_inregistrare", "write_if_empty&add_date"),
+    ("phone", "telefon", "write_if_empty"),
+]
 
 
 class ResPartner(models.Model):
@@ -40,27 +46,37 @@ class ResPartner(models.Model):
         NR.12, ZONA NR.3, ETAJ 1',
         'nrRegCom': 'J35/2622/2012',
         'telefon': '0356179038',
+        "fax": "-- Fax --",
         'codPostal': '307225',
-        'stare_inregistrare': 'INREGISTRAT din data 26.10.2012',
-        'scpTVA': True,
-        'data_inceput_ScpTVA': '2012-12-04',
-        'data_sfarsit_ScpTVA': ' ',
-        'data_anul_imp_ScpTVA': ' ',
-        'mesaj_ScpTVA': 'platitor IN SCOPURI de TVA la data cautata',
-        'dataInceputTvaInc': '2013-02-01',
-        'dataSfarsitTvaInc': '2013-08-01',
-        'dataActualizareTvaInc': '2013-07-11',
-        'dataPublicareTvaInc': '2013-07-12',
-        'tipActTvaInc': 'Radiere',
-        'statusTvaIncasare': False,
-        'dataInactivare': ' ',
-        'dataReactivare': ' ',
-        'dataPublicare': ' ',
-        'dataRadiere': ' ',
-        'statusInactivi': False,
-        'dataInceputSplitTVA': '',
-        'dataAnulareSplitTVA': '',
-        'statusSplitTVA': False, 'iban': ''}
+        "act": "-- Act autorizare --",
+        "stare_inregistrare": "-- Stare Societate --", 'INREGISTRAT din data 26.10.2012',
+        "scpTVA": true -pentru platitor in scopuri de tva / false in cazul in care nu
+                    e platitor  in scopuri de TVA la data cautata
+        "data_inceput_ScpTVA": " ", --Data înregistrării în scopuri de TVA anterioară
+                '2012-12-04'
+        "data_sfarsit_ScpTVA": " ", --Data anulării înregistrării în scopuri de TVA
+        "data_anul_imp_ScpTVA": " ",--Data operarii anularii înregistrării în scopuri de TVA
+        "mesaj_ScpTVA": "---MESAJ:(ne)platitor de TVA la data cautata---",
+        "dataInceputTvaInc": " ", --Data de la care aplică sistemul TVA la încasare
+        "dataSfarsitTvaInc": " ", --Data până la care aplică sistemul TVA la încasare
+        "dataActualizareTvaInc": " ", --Data actualizarii
+        "dataPublicareTvaInc": " ", --Data publicarii
+        "tipActTvaInc": " ", --Tip actualizare    'Radiere',
+        "statusTvaIncasare":  true -pentru platitor TVA la incasare/ false in cazul in
+                         care nu e platitor de TVA la incasare la data cautata
+        "dataInactivare": " ",
+        "dataReactivare": " ",
+        "dataPublicare": " ",
+        "dataRadiere": " ",
+        "statusInactivi": true -pentru inactiv / false in cazul in care nu este inactiv
+                             la data cautata
+        "dataInceputSplitTVA": " ",
+        "dataAnulareSplitTVA": " ",
+        "statusSplitTVA": true -aplica plata defalcata a Tva / false - nu aplica plata
+                         defalcata a Tva la data cautata
+        "iban": "--- contul IBAN ---"
+        "statusRO_e_Factura": true - figureaza in Registrul RO e-Factura / false
+                        - nu figureaza in Registrul RO e-Factura la data cautata
         """
         if not data:
             data = fields.Date.to_string(fields.Date.today())
@@ -85,12 +101,6 @@ class ResPartner(models.Model):
 
     @api.model
     def _Anaf_to_Odoo(self, result):
-        AnafFiled_OdooField_Overwrite = [
-            ("nrc", "nrRegCom", "over_all_the_time"),
-            ("zip", "codPostal", "over_all_the_time"),
-            ("comment", "stare_inregistrare", "if_empty+date"),
-            ("phone", "telefon", "if_empty"),
-        ]
         res = {
             "name": result["denumire"].upper(),
             "vat_subjected": result["scpTVA"],
@@ -100,12 +110,12 @@ class ResPartner(models.Model):
             anaf_value = result.get(field[1], "")
             if field[2] == "over_all_the_time":
                 res[field[0]] = anaf_value
-            elif field[2] == "if_empty+date" and anaf_value:
+            elif field[2] == "write_if_empty&add_date" and anaf_value:
                 if not getattr(
                     self, field[0], None
                 ):  # we are only writing if is not already a value
                     res[field[0]] = f"UTC: {fields.datetime.now()}: " + anaf_value
-            elif field[2] == "if_empty" and anaf_value:
+            elif field[2] == "write_if_empty" and anaf_value:
                 if not getattr(self, field[0], None):
                     res[field[0]] = anaf_value
 
