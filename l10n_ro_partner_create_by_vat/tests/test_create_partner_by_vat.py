@@ -116,7 +116,7 @@ class TestCreatePartner(TestCreatePartnerBase):
         """if a invalid vat will return a empty dictionary."""
         error, res = self.mainpartner._get_Anaf("30834857111")
         self.assertEqual(res, {})
-        self.assertTrue("Anaf response" in str(error))
+        self.assertTrue("Anaf didn't find any company" in str(error))
 
     def test_anaf_exception(self):
         """Check anaf exception."""

@@ -82,25 +82,26 @@ class ResPartner(models.Model):
         """
         if not data:
             data = fields.Date.to_string(fields.Date.today())
-        res = requests.post(
-            ANAF_URL, json=[{"cui": cod, "data": data}], headers=headers
-        )
+        try:
+            res = requests.post(
+                ANAF_URL, json=[{"cui": cod, "data": data}], headers=headers
+            )
+        except Exception as ex:
+            return f"ANAF Webservice not working. Exeption={ex}.", {}
+
         result = {}
         anaf_error = ""
-        if res.status_code == 200:
-            try:
-                resjson = res.json()
-                if resjson.get("found") and resjson["found"][0]:
-                    result = resjson["found"][0]
-                    if not (result.get("denumire") and result.get("adresa")):
-                        result = {}
-                        anaf_error = f"Anaf didn't find any company with VAT={cod}!"
-                else:
-                    anaf_error = "Anaf response:" + str(res.content)
-            except ValueError:
-                anaf_error = "Anaf response:" + str(res.content)
+        if (
+            res.status_code == 200
+            and res.headers.get("content-type") == "application/json"
+        ):
+            resjson = res.json()
+            if resjson.get("found") and resjson["found"][0]:
+                result = resjson["found"][0]
+            if not result or not result.get("denumire"):
+                anaf_error = f"Anaf didn't find any company with VAT={cod}!"
         else:
-            anaf_error = "Anaf request error:" + str(res) + res.reason
+            anaf_error = f"Anaf request error: \nresponse={res} \nreason={res.reason} \ntext={res.text}"
         return anaf_error, result
 
     @api.model
@@ -196,20 +197,15 @@ class ResPartner(models.Model):
                 if not vat_number:
                     vat_number = partner.vat
             if vat_country == "RO":
-                anaf_error = ""
-                try:
-                    anaf_error, result = partner._get_Anaf(vat_number)
-                    if not anaf_error:
-                        res = partner._Anaf_to_Odoo(result)
-                        res["country_id"] = (
-                            self.env["res.country"]
-                            .search([("code", "ilike", vat_country)])[0]
-                            .id
-                        )
-                        partner.with_context(skip_ro_vat_change=True).update(res)
-                    else:
-                        ret["warning"] = {"message": anaf_error}
-                except Exception as ex:
-                    warning = f"ANAF Webservice not working. Or vat exception={ex}."
-                    ret["warning"] = {"message": warning}
+                anaf_error, result = partner._get_Anaf(vat_number)
+                if not anaf_error:
+                    res = partner._Anaf_to_Odoo(result)
+                    res["country_id"] = (
+                        self.env["res.country"]
+                        .search([("code", "ilike", vat_country)])[0]
+                        .id
+                    )
+                    partner.with_context(skip_ro_vat_change=True).update(res)
+                else:
+                    ret["warning"] = {"message": anaf_error}
         return ret
