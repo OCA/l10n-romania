@@ -3,6 +3,7 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
 from odoo.tests import common
+
 from odoo.addons.l10n_ro_partner_create_by_vat.models import res_partner
 
 
