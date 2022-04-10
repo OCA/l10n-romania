@@ -3,6 +3,7 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
 from odoo.tests import common
+from odoo.addons.l10n_ro_partner_create_by_vat.models import res_partner
 
 
 class TestCreatePartnerBase(common.SavepointCase):
@@ -17,7 +18,7 @@ class TestCreatePartner(TestCreatePartnerBase):
         """Check methods vat from ANAF."""
         # Test retrieve information from ANAF
         error, result = self.mainpartner._get_Anaf("30834857")
-        if not error:
+        if not error and result:
             res = self.mainpartner._Anaf_to_Odoo(result)
             self.assertEqual(res["name"], "FOREST AND BIOMASS ROMÂNIA S.A.")
             self.assertEqual(res["vat_subjected"], True)
@@ -109,3 +110,14 @@ class TestCreatePartner(TestCreatePartnerBase):
         self.mainpartner.onchange_vat_subjected()
         self.mainpartner.ro_vat_change()
         self.assertEqual(self.mainpartner.vat_subjected, False)
+
+    def test_anaf_exeption(self):
+        """Check anaf exception."""
+        orgiginal_anaf_url = res_partner.ANAF_URL
+        res_partner.ANAF_URL = (
+            "https://webservicesp.anaf.ro/PlatitorTvaRest/api/v6/ws/tvaERROR"
+        )
+        error, res = self.mainpartner._get_Anaf("30834857")
+        self.assertEqual(res, {})
+        self.assertTrue("Anaf request error" in error)
+        res_partner.ANAF_URL = orgiginal_anaf_url

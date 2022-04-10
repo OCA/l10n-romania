@@ -95,7 +95,7 @@ class ResPartner(models.Model):
                         anaf_error = f"Anaf didn't find any company with VAT={cod}!"
             except ValueError:
                 anaf_error = "Anaf response:" + str(res.content)
-        elif res:
+        else:
             anaf_error = "Anaf request error:" + str(res) + res.reason
         return anaf_error, result
 
