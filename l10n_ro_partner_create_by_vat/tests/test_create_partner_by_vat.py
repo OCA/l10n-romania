@@ -112,6 +112,12 @@ class TestCreatePartner(TestCreatePartnerBase):
         self.mainpartner.ro_vat_change()
         self.assertEqual(self.mainpartner.vat_subjected, False)
 
+    def test_anaf_no_data(self):
+        """if a invalid vat will return a empty dictionary."""
+        error, res = self.mainpartner._get_Anaf("30834857111")
+        self.assertEqual(res, {})
+        self.assertTrue("Anaf response" in str(error))
+
     def test_anaf_exception(self):
         """Check anaf exception."""
         original_anaf_url = res_partner.ANAF_URL
