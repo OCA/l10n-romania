@@ -112,13 +112,16 @@ class TestCreatePartner(TestCreatePartnerBase):
         self.mainpartner.ro_vat_change()
         self.assertEqual(self.mainpartner.vat_subjected, False)
 
-    def test_anaf_exeption(self):
+    def test_anaf_exception(self):
         """Check anaf exception."""
-        orgiginal_anaf_url = res_partner.ANAF_URL
+        original_anaf_url = res_partner.ANAF_URL
         res_partner.ANAF_URL = (
             "https://webservicesp.anaf.ro/PlatitorTvaRest/api/v6/ws/tvaERROR"
         )
         error, res = self.mainpartner._get_Anaf("30834857")
         self.assertEqual(res, {})
         self.assertTrue("Anaf request error" in error)
-        res_partner.ANAF_URL = orgiginal_anaf_url
+        self.mainpartner.vat = "RO30834857"
+        res = self.mainpartner.ro_vat_change()
+        self.assertTrue(res.get("warning"))
+        res_partner.ANAF_URL = original_anaf_url
