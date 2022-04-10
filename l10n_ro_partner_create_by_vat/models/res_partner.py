@@ -101,8 +101,10 @@ class ResPartner(models.Model):
             if not result or not result.get("denumire"):
                 anaf_error = f"Anaf didn't find any company with VAT={cod}!"
         else:
-            anaf_error = (f"Anaf request error: \nresponse={res} \nreason={res.reason}"
-                         f" \ntext={res.text}")
+            anaf_error = (
+                f"Anaf request error: \nresponse={res} \nreason={res.reason}"
+                f" \ntext={res.text}"
+            )
         return anaf_error, result
 
     @api.model
