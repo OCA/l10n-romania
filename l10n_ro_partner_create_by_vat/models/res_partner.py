@@ -93,7 +93,7 @@ class ResPartner(models.Model):
                     if not (result.get("denumire") and result.get("adresa")):
                         result = {}
                         anaf_error = f"Anaf didn't find any company with VAT={cod}!"
-            except:
+            except ValueError:
                 anaf_error = "Anaf response:" + str(res.content)
         elif res:
             anaf_error = "Anaf request error:" + str(res) + res.reason
