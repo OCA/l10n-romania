@@ -36,9 +36,11 @@ class TestCreatePartner(TestCreatePartnerBase):
         # Test retrieve information from ANAF
         cod = "3083485711"
         error, result = self.mainpartner._get_Anaf(cod)
-        if error:
-            anaf_error = f"Anaf didn't find any compnay with VAT={cod}!"
-            self.assertEqual(anaf_error, anaf_error)
+        self.assertTrue(len(error) > 3)
+        cod = ["30834857", "3083485711"]
+        error, result = self.mainpartner._get_Anaf(cod)
+        if result:
+            self.assertTrue(result.get("cod"))
 
     def test_onchange_vat_anaf(self):
         """Check onchange vat from ANAF."""
@@ -116,7 +118,7 @@ class TestCreatePartner(TestCreatePartnerBase):
         """if a invalid vat will return a empty dictionary."""
         error, res = self.mainpartner._get_Anaf("30834857111")
         self.assertEqual(res, {})
-        self.assertTrue("Anaf didn't find any company" in str(error))
+        self.assertTrue(len(error) > 2)
 
     def test_anaf_exception(self):
         """Check anaf exception."""
@@ -126,7 +128,7 @@ class TestCreatePartner(TestCreatePartnerBase):
         )
         error, res = self.mainpartner._get_Anaf("30834857")
         self.assertEqual(res, {})
-        self.assertTrue("Anaf request error" in error)
+        self.assertTrue(len(error) > 3)
         self.mainpartner.vat = "RO30834857"
         res = self.mainpartner.ro_vat_change()
         self.assertTrue(res.get("warning"))

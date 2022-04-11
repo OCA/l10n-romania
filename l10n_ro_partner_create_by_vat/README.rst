@@ -55,7 +55,7 @@ Put the VAT number in the partner's form and if it's a romanian company,
 it will fetch data available on ANAF website.
 If you want to function also for romanian companies that do not have RO in their CIF, you must put the country;
 Without country and RO in cif is not knowing that is a romanian vat and will not do the search.
-v1.2.1  - shows also erros from anaf request 
+v1.4.0  - shows also erros from anaf request
 
 
 Bug Tracker

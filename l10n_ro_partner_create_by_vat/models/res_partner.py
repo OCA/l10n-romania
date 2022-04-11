@@ -6,7 +6,7 @@ import logging
 
 import requests
 
-from odoo import api, fields, models
+from odoo import _, api, fields, models
 
 _logger = logging.getLogger(__name__)
 
@@ -20,7 +20,10 @@ headers = {
     "Content-Type": "application/json;",
 }
 
+# anaf syncron url https://static.anaf.ro/static/10/Anaf/Informatii_R/doc_WS_V5.txt
 ANAF_URL = "https://webservicesp.anaf.ro/PlatitorTvaRest/api/v6/ws/tva"
+
+
 AnafFiled_OdooField_Overwrite = [
     ("nrc", "nrRegCom", "over_all_the_time"),
     ("zip", "codPostal", "over_all_the_time"),
@@ -38,7 +41,7 @@ class ResPartner(models.Model):
         Function to retrieve data from ANAF for one vat number
         at certain date
 
-        :param str cod:  vat number without country code
+        :param str cod:  vat number without country code or a list of codes
         :param date data: date of the interogation
         :return dict result: cost of the body's operation
         {'cui': 30834857,
@@ -82,12 +85,14 @@ class ResPartner(models.Model):
         """
         if not data:
             data = fields.Date.to_string(fields.Date.today())
+        if type(cod) in [list, tuple]:
+            json_data = [{"cui": x, "data": data} for x in cod]
+        else:
+            json_data = [{"cui": cod, "data": data}]
         try:
-            res = requests.post(
-                ANAF_URL, json=[{"cui": cod, "data": data}], headers=headers
-            )
+            res = requests.post(ANAF_URL, json=json_data, headers=headers)
         except Exception as ex:
-            return f"ANAF Webservice not working. Exeption={ex}.", {}
+            return _("ANAF Webservice not working. Exeption=%s." % ex), {}
 
         result = {}
         anaf_error = ""
@@ -96,19 +101,25 @@ class ResPartner(models.Model):
             and res.headers.get("content-type") == "application/json"
         ):
             resjson = res.json()
-            if resjson.get("found") and resjson["found"][0]:
-                result = resjson["found"][0]
-            if not result or not result.get("denumire"):
-                anaf_error = f"Anaf didn't find any company with VAT={cod}!"
+            if type(cod) in [list, tuple]:
+                result = resjson
+            else:
+                if resjson.get("found") and resjson["found"][0]:
+                    result = resjson["found"][0]
+                if not result or not result.get("denumire"):
+                    anaf_error = _("Anaf didn't find any company with VAT=%s !" % cod)
         else:
-            anaf_error = (
-                f"Anaf request error: \nresponse={res} \nreason={res.reason}"
-                f" \ntext={res.text}"
+            anaf_error = _(
+                "Anaf request error: \nresponse=%s \nreason=%s"
+                " \ntext=%s" % (res, res.reason, res.text)
             )
         return anaf_error, result
 
     @api.model
     def _Anaf_to_Odoo(self, result):
+        if not result.get("denumire"):
+            # if no name means that anaf didn't return anything
+            return {}
         res = {
             "name": result["denumire"].upper(),
             "vat_subjected": result["scpTVA"],
@@ -122,7 +133,7 @@ class ResPartner(models.Model):
                 if not getattr(
                     self, field[0], None
                 ):  # we are only writing if is not already a value
-                    res[field[0]] = f"UTC: {fields.datetime.now()}: " + anaf_value
+                    res[field[0]] = ("UTC %s:" % fields.datetime.now()) + anaf_value
             elif field[2] == "write_if_empty" and anaf_value:
                 if not getattr(self, field[0], None):
                     res[field[0]] = anaf_value
