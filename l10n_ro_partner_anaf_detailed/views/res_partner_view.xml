@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="view_partner_form" model="ir.ui.view">
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_form" />
+        <field name="arch" type="xml">
+            <page name="accounting" position="after">
+                <page string="Anaf Data" name="accounting" attrs="{'invisible': ['|','&amp;',('is_company','=',False),('parent_id','!=',False),('country_name','!=','Romania')]}" groups="account.group_account_invoice,account.group_account_readonly">
+                    <group string="Today/last update values">
+                        <group string="Company">
+                            <button name="refresh_anaf_data" string="Refresh Anaf Datas" type="object" class="oe_highlight"/>
+                            <field name="country_name" readonly="1" invisible="1"/>
+                            <field name="anaf_data" readonly="1" force_save="1"/>
+                            <field name="act" readonly="1" force_save="1"/>
+                            <field name="stare_inregistrare" readonly="1" force_save="1"/>
+                            <field name="dataInactivare" readonly="1" force_save="1"/>
+                            <field name="dataReactivare" readonly="1" force_save="1"/>
+                            <field name="dataPublicare" readonly="1" force_save="1"/>
+                            <field name="dataRadiere" readonly="1" force_save="1"/>
+                            <field name="statusInactivi" readonly="1" force_save="1"/>
+                        </group>
+                        <group string="Has VAT" readonly="1" force_save="1">
+                            <field name="scpTVA" readonly="1" force_save="1"/>
+                            <field name="data_inceput_ScpTVA" readonly="1" force_save="1"/>
+                            <field name="data_sfarsit_ScpTVA" readonly="1" force_save="1"/>
+                            <field name="data_anul_imp_ScpTVA" readonly="1" force_save="1"/>
+                            <field name="mesaj_ScpTVA" readonly="1" force_save="1"/>
+                        </group>
+<!--                        <group string="VAT on payment">
+                            <field name="dataInceputTvaInc" readonly="1" force_save="1"/>
+                            <field name="dataSfarsitTvaInc" readonly="1" force_save="1"/>
+                            <field name="dataActualizareTvaInc" readonly="1" force_save="1"/>
+                            <field name="dataPublicareTvaInc" readonly="1" force_save="1"/>
+                            <field name="tipActTvaInc" readonly="1" force_save="1"/>
+                            <field name="statusTvaIncasare" readonly="1" force_save="1"/>
+                        </group>-->
+
+                        <group string="E-Invoice">
+                            <field name="statusRO_e_Factura" readonly="1" force_save="1"/>
+                            <field name="iban" readonly="1" force_save="1"/>
+                        </group>
+                    </group>
+                    <group string="Computed history values">
+                        <field name="anaf_status_ids"/>
+                    </group>
+
+                </page>
+            </page>
+        </field>
+    </record>
+</odoo>
+
+
