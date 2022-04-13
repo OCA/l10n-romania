@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="view_res_partner_anaf_scptva_tree" model="ir.ui.view">
+        <field name="name">view.res.partner.anaf.scptva.tree</field>
+        <field name="model">res.partner.anaf.scptva</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="id" optional="hide"/>
+                <field name="cui" optional="hide"/>
+                <field name="data" decoration-bf="1"/>
+                <field name="data_inceput_ScpTVA"/>
+                <field name="data_sfarsit_ScpTVA"/>
+                <field name="data_anul_imp_ScpTVA"/>
+                <field name="mesaj_ScpTVA"/>
+                <field name="scpTVA" decoration-bf="1"/>
+            </tree>
+        </field>
+    </record>
+</odoo>
+
+

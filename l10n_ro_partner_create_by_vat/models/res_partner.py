@@ -127,6 +127,9 @@ class ResPartner(models.Model):
         }
         for field in AnafFiled_OdooField_Overwrite:
             anaf_value = result.get(field[1], "")
+            if type(self._fields[field[0]]) in  [fields.Date, fields.Datetime]: 
+                if not  anaf_value.strip():
+                    anaf_value = False
             if field[2] == "over_all_the_time":
                 res[field[0]] = anaf_value
             elif field[2] == "write_if_empty&add_date" and anaf_value:
@@ -194,6 +197,19 @@ class ResPartner(models.Model):
         res["street"] = addr.strip()
         return res
 
+    def get_vatcounty_vatnumber(self):
+        vat = self.vat.strip().upper()
+        original_vat_country, vat_number = self._split_vat(vat)
+        vat_country = original_vat_country.upper()
+        if not vat_country and self.country_id:
+            vat_country = self._map_vat_country_code(
+                self.country_id.code.upper()
+            )
+            if not vat_number:
+                vat_number = self.vat
+        return vat_country, vat_number
+
+
     @api.onchange("vat", "country_id")
     def ro_vat_change(self):
         for partner in self:
@@ -201,9 +217,7 @@ class ResPartner(models.Model):
             if not partner.vat:
                 return ret
             res = {}
-            vat = partner.vat.strip().upper()
-            original_vat_country, vat_number = partner._split_vat(vat)
-            vat_country = original_vat_country.upper()
+            vat_country, vat_number = partner.get_vatcounty_vatnumber()
             if not vat_country and partner.country_id:
                 vat_country = self._map_vat_country_code(
                     partner.country_id.code.upper()

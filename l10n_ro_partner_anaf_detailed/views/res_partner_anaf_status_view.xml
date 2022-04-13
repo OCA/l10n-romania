@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="view_res_partner_anaf_status_tree" model="ir.ui.view">
+        <field name="name">view.res.partner.anaf.status.tree</field>
+        <field name="model">res.partner.anaf.status</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="id" optional="hide"/>
+                <field name="cui" optional="hide"/>
+                <field name="data" decoration-bf="1"/>
+                <field name="act" optional="hide"/>
+                <field name="stare_inregistrare"/>
+                <field name="dataInactivare"/>
+                <field name="dataReactivare"/>
+                <field name="dataPublicare"/>
+                <field name="dataRadiere"/>
+                <field name="statusInactivi" decoration-bf="1"/>
+            </tree>
+        </field>
+    </record>
+</odoo>
+
+

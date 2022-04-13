@@ -8,7 +8,9 @@
                 <page string="Anaf Data" name="accounting" attrs="{'invisible': ['|','&amp;',('is_company','=',False),('parent_id','!=',False),('country_name','!=','Romania')]}" groups="account.group_account_invoice,account.group_account_readonly">
                     <group string="Today/last update values">
                         <group string="Company">
-                            <button name="refresh_anaf_data" string="Refresh Anaf Datas" type="object" class="oe_highlight"/>
+                            <button name="get_anaf_status_at_date" string="get_anaf_status_at_date" type="object" class="oe_highlight"/>
+
+                            <button name="refresh_anaf_data" string="Refresh Anaf Datas Today" type="object" class="oe_highlight"/>
                             <field name="country_name" readonly="1" invisible="1"/>
                             <field name="anaf_data" readonly="1" force_save="1"/>
                             <field name="act" readonly="1" force_save="1"/>
@@ -42,6 +44,7 @@
                     </group>
                     <group string="Computed history values">
                         <field name="anaf_status_ids"/>
+                        <field name="anaf_scpTVA_ids"/>
                     </group>
 
                 </page>
