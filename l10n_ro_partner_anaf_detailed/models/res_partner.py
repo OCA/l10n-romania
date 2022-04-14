@@ -46,13 +46,13 @@ _logger = logging.getLogger(__name__)
 class ResPartner(models.Model):
     _inherit = "res.partner"
 
+    @api.depends("vat", "country_id")
     def _compute_anaf_status(self):
         for partner in self:
             if partner.vat_number and (
                 partner.country_id.name == "Romania" or partner.vat[:2].upper() == "RO"
             ):
-                # is a romanian company
-                # status inactive
+                # is a romanian company  compute anaf status
                 anaf_status_ids = self.env["res.partner.anaf.status"].search(
                     [("cui", "=", partner.vat_number)]
                 )
@@ -62,7 +62,8 @@ class ResPartner(models.Model):
                 anaf_statusInactivi = True
                 if anaf_status_ids:
                     if self._context.get("anaf_date"):
-                        # this field with context is used if we do not want to have resutls from what we have in database
+                        # this field with context is used if we do not want to have
+                        #       resutls from what we have in database
                         last_status = anaf_status_ids.filtered(
                             lambda r: r.data <= self._context.get("anaf_date")
                         )
@@ -80,7 +81,6 @@ class ResPartner(models.Model):
                 anaf_scpTVA = False
                 if anaf_scpTVA_ids:
                     if self._context.get("anaf_date"):
-                        # this field with context is used if we do not want to have resutls from what we have in database
                         last_status = anaf_scpTVA_ids.filtered(
                             lambda r: r.data <= self._context.get("anaf_date")
                         )
@@ -98,7 +98,8 @@ class ResPartner(models.Model):
     anaf_statusInactivi = fields.Boolean(
         string="Anaf Status Inactive",
         compute="_compute_anaf_status",
-        help="Computed field Company Is Inactive by anaf website at this date, or at date given in context as anaf_date",
+        help="Computed field Company Is Inactive by anaf website at this date,"
+        " or at date given in context as anaf_date",
         readonly=True,
     )
 
@@ -106,13 +107,16 @@ class ResPartner(models.Model):
         "res.partner.anaf.status",
         compute="_compute_anaf_status",
         string="Anaf Company Status Records",
+        help="will add entries only if differs as statusInactivi from previos"
+        " or after entries",
         readonly=True,
     )
 
     anaf_scpTVA = fields.Boolean(
         string="Anaf Status Inactive",
         compute="_compute_anaf_status",
-        help="Computed field Company Is Inactive by anaf website at this date, or at date given in context as anaf_date",
+        help="Computed field Company Is Inactive by anaf website at this date, "
+        "or at date given in context as anaf_date",
         readonly=True,
     )
 
@@ -120,6 +124,7 @@ class ResPartner(models.Model):
         "res.partner.anaf.scptva",
         compute="_compute_anaf_status",
         string="Anaf Company scpTVA Records",
+        help="will add entries only if differs as scpTVA from previos or after entries",
         readonly=True,
     )
 
@@ -153,13 +158,13 @@ class ResPartner(models.Model):
     )
 
     # are in module l10n_ro_vat_on_payment
-    # dataInceputTvaInc = fields.Date( help= "Data de la care aplică sistemul TVA la încasare",)
-    # dataSfarsitTvaInc = fields.Date(help="Data până la care aplică sistemul TVA la încasare",)
+    # dataInceputTvaInc = fields.Date( help= "Data de la care aplică TVA la încasare",)
+    # dataSfarsitTvaInc = fields.Date(help="Data până la care aplică TVA la încasare",)
     # dataActualizareTvaInc = fields.Date(help="Data actualizarii tva incasare",)
     # dataPublicareTvaInc = fields.Date(help="Data publicarii tva incasare",)
     # tipActTvaInc = fields.Char(help="Tip actualizare  tva incasare  'Radiere'",)
-    # statusTvaIncasare = fields.Char(help="true -pentru platitor TVA la incasare/ false in"
-    # " cazul in care nu e platitor de TVA la incasare la data cautata",)
+    # statusTvaIncasare = fields.Char(help="true -pentru platitor TVA la incasare/
+    # false in" " cazul in care nu e platitor de TVA la incasare la data cautata",)
 
     dataInactivare = fields.Date()
     dataReactivare = fields.Date()
@@ -181,7 +186,8 @@ class ResPartner(models.Model):
 
     def _Anaf_to_Odoo(self, result):
         res = super(ResPartner, self)._Anaf_to_Odoo(result)
-        # at a anaf partner update or creation of a partner we are going to see if we need to create also anaf status history
+        # at a anaf partner update or creation of a partner we are going to see
+        #        if we need to create also anaf status history
         self._update_anaf_status(res, result)
         self._update_anaf_scptva(res, result)
         return res
@@ -217,7 +223,8 @@ class ResPartner(models.Model):
                         "data": result["data"],
                         "act": result.get("act", ""),
                         "stare_inregistrare": result.get("stare_inregistrare", ""),
-                        # we try to see if if something like a date - is pobable if it has a digit in it
+                        # we try to see if if something like a date
+                        #     - is pobable if it has a digit in it
                         "dataInactivare": result["dataInactivare"]
                         if any([c.isdigit() for c in result.get("dataInactivare", "")])
                         else False,
@@ -287,9 +294,10 @@ class ResPartner(models.Model):
                 )
 
     def get_anaf_status_at_date(self):
-        """will return a dictionary with the key statusInactivi,mesaj_ScpTVA  and value at date
-        and if is the case also key error
-        will alo create on partner the history ( model res.partner.anaf.status and res.partner.anaf.scptva)
+        """will return a dictionary with the key statusInactivi,mesaj_ScpTVA
+        and value at date  and if is the case also key error
+        will also create on partner the history ( model res.partner.anaf.status
+            and res.partner.anaf.scptva)
 
         this function should be use at onchange or verification of a vedor receipt
         """
