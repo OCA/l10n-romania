@@ -102,7 +102,7 @@ class ResPartner(models.Model):
                 if lines:
                     vat_on_payment = True
             else:
-                if self.anaf_history[0].operation_type == 'I':
+                if self.anaf_history[0].operation_type == "I":
                     vat_on_payment = True
         return vat_on_payment
 
