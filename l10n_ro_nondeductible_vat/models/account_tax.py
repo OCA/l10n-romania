@@ -27,3 +27,4 @@ class AccountTaxRepartitionLineExtend(models.Model):
 
     nondeductible = fields.Boolean()
     exclude_from_stock = fields.Boolean()
+    exclude_from_invoice = fields.Boolean()

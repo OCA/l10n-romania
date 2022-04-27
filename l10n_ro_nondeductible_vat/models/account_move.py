@@ -17,7 +17,7 @@ class AccountMove(models.Model):
                 new_taxes_map[key] = taxes_map[key]
             else:
                 group = vals.get("grouping_dict")
-                if not group.get("exlude_from_stock"):
+                if not (group.get("exlude_from_stock") or group.get('exclude_from_invoice')) :
                     new_taxes_map[key] = taxes_map[key]
         return new_taxes_map
 
@@ -33,6 +33,8 @@ class AccountMove(models.Model):
         res = super()._get_tax_grouping_key_from_base_line(base_line, tax_vals)
         if is_from_stock and tax_repartition_line.exclude_from_stock:
             res["exlude_from_stock"] = tax_repartition_line.exclude_from_stock
+        if tax_repartition_line.exclude_from_invoice:
+            res["exclude_from_invoice"] = tax_repartition_line.exclude_from_invoice
         tax_repartition_line = self.env["account.tax.repartition.line"].browse(
             tax_vals["tax_repartition_line_id"]
         )
