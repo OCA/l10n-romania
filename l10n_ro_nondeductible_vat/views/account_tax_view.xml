@@ -36,6 +36,10 @@
                     name="exclude_from_stock"
                     attrs="{'invisible': [('repartition_type', '=', 'base')]}"
                 />
+                <field
+                    name="exclude_from_invoice"
+                    attrs="{'invisible': [('repartition_type', '=', 'base')]}"
+                />                
             </field>
         </field>
     </record>
