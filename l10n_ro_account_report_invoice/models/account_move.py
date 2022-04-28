@@ -21,6 +21,6 @@ class AccountMove(models.Model):
     currency_rate = fields.Float(
         string="Currency Rate",
         store=True,
-        readonly=False,
+        readonly=True,
         compute="_compute_currency_rate",
     )
