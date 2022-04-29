@@ -26,11 +26,11 @@ Romania - Partner Create by VAT
 |badge1| |badge2| |badge3| |badge4| |badge5| 
 
 This module allows you to create the partners (companies) based on their
-VAT number. It will complete the name, address of the partner from ANAF
+VAT number. It will complete the name, address, phone .. vat_subjected of the partner from ANAF
 webservice.
 
 ANAF
-https://webservicesp.anaf.ro/PlatitorTvaRest/api/v4/
+https://webservicesp.anaf.ro/PlatitorTvaRest/api/v6/ws/tva
 
 **Table of contents**
 
@@ -42,7 +42,7 @@ Installation
 
 To install this module, you need to:
 
-* clone the branch 13.0 of the repository https://github.com/OCA/l10n-romania
+* clone the branch 14.0 of the repository https://github.com/OCA/l10n-romania
 * add the path to this repository in your configuration (addons-path)
 * update the module list
 * search for "Romania - Partner Create by VAT" in your addons
@@ -51,7 +51,7 @@ To install this module, you need to:
 Usage
 =====
 
-Put the VAT number in the partner's form and if it's a romanian company,
+Put the VAT number in the partner's form and if it's a romanian company (has RO in vat or country Romania),
 it will fetch data available on ANAF website.
 
 Bug Tracker

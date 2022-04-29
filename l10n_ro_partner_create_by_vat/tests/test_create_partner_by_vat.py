@@ -4,6 +4,8 @@
 
 from odoo.tests import common
 
+from odoo.addons.l10n_ro_partner_create_by_vat.models import res_partner
+
 
 class TestCreatePartnerBase(common.SavepointCase):
     @classmethod
@@ -16,8 +18,8 @@ class TestCreatePartner(TestCreatePartnerBase):
     def test_vat_anaf(self):
         """Check methods vat from ANAF."""
         # Test retrieve information from ANAF
-        result = self.mainpartner._get_Anaf("30834857")
-        if result:
+        error, result = self.mainpartner._get_Anaf("30834857")
+        if not error and result:
             res = self.mainpartner._Anaf_to_Odoo(result)
             self.assertEqual(res["name"], "FOREST AND BIOMASS ROMÂNIA S.A.")
             self.assertEqual(res["vat_subjected"], True)
@@ -28,6 +30,17 @@ class TestCreatePartner(TestCreatePartnerBase):
             self.assertEqual(res["city"], "Timișoara")
             self.assertEqual(res["zip"], "307225")
             self.assertEqual(res["phone"], "0356179038")
+
+    def test_vat_anaf_error(self):
+        """Check methods vat from ANAF."""
+        # Test retrieve information from ANAF
+        cod = "3083485711"
+        error, result = self.mainpartner._get_Anaf(cod)
+        self.assertTrue(len(error) > 3)
+        cod = ["30834857", "3083485711"]
+        error, result = self.mainpartner._get_Anaf(cod)
+        if result:
+            self.assertTrue(result.get("cod"))
 
     def test_onchange_vat_anaf(self):
         """Check onchange vat from ANAF."""
@@ -100,3 +113,23 @@ class TestCreatePartner(TestCreatePartnerBase):
         self.mainpartner.onchange_vat_subjected()
         self.mainpartner.ro_vat_change()
         self.assertEqual(self.mainpartner.vat_subjected, False)
+
+    def test_anaf_no_data(self):
+        """if a invalid vat will return a empty dictionary."""
+        error, res = self.mainpartner._get_Anaf("30834857111")
+        self.assertEqual(res, {})
+        self.assertTrue(len(error) > 2)
+
+    def test_anaf_exception(self):
+        """Check anaf exception."""
+        original_anaf_url = res_partner.ANAF_URL
+        res_partner.ANAF_URL = (
+            "https://webservicesp.anaf.ro/PlatitorTvaRest/api/v6/ws/tvaERROR"
+        )
+        error, res = self.mainpartner._get_Anaf("30834857")
+        self.assertEqual(res, {})
+        self.assertTrue(len(error) > 3)
+        self.mainpartner.vat = "RO30834857"
+        res = self.mainpartner.ro_vat_change()
+        self.assertTrue(res.get("warning"))
+        res_partner.ANAF_URL = original_anaf_url

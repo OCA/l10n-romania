@@ -98,10 +98,13 @@ class ResPartner(models.Model):
                     [
                         ("id", "in", [rec.id for rec in self.anaf_history]),
                         ("start_date", "<=", ctx["check_date"]),
+                        "|",
                         ("end_date", ">=", ctx["check_date"]),
-                    ]
+                        ("end_date", "=", False),
+                    ],
+                    limit=1,
                 )
-                if lines and lines[0].operation_type == "D":
+                if lines:
                     vat_on_payment = True
             else:
                 if self.anaf_history[0].operation_type == "I":
