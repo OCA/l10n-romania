@@ -21,12 +21,12 @@ Available addons
 addon | version | maintainers | summary
 --- | --- | --- | ---
 [currency_rate_update_RO_BNR](currency_rate_update_RO_BNR/) | 14.0.1.2.0 | [![feketemihai](https://github.com/feketemihai.png?size=30px)](https://github.com/feketemihai) | Currency Rate Update National Bank of Romania service
-[l10n_ro_account_edit_currency_rate](l10n_ro_account_edit_currency_rate/) | 14.0.1.1.0 |  | Romania - Invoice Edit Currency Rate
+[l10n_ro_account_edit_currency_rate](l10n_ro_account_edit_currency_rate/) | 14.0.1.2.0 |  | Romania - Invoice Edit Currency Rate
 [l10n_ro_account_period_close](l10n_ro_account_period_close/) | 14.0.1.2.0 | [![feketemihai](https://github.com/feketemihai.png?size=30px)](https://github.com/feketemihai) | Romania - Account Period Closing
 [l10n_ro_account_report_invoice](l10n_ro_account_report_invoice/) | 14.0.1.1.0 |  | Romania - Invoice Report
 [l10n_ro_address_extended](l10n_ro_address_extended/) | 14.0.1.1.0 | [![feketemihai](https://github.com/feketemihai.png?size=30px)](https://github.com/feketemihai) | Romania - Extended Addresses
 [l10n_ro_city](l10n_ro_city/) | 14.0.2.1.0 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Romania - City
-[l10n_ro_config](l10n_ro_config/) | 14.0.1.1.0 | [![feketemihai](https://github.com/feketemihai.png?size=30px)](https://github.com/feketemihai) | Romania - Localization Install and Config Applications
+[l10n_ro_config](l10n_ro_config/) | 14.0.1.2.0 | [![feketemihai](https://github.com/feketemihai.png?size=30px)](https://github.com/feketemihai) | Romania - Localization Install and Config Applications
 [l10n_ro_fiscal_validation](l10n_ro_fiscal_validation/) | 14.0.1.3.0 | [![feketemihai](https://github.com/feketemihai.png?size=30px)](https://github.com/feketemihai) | Romania - Fiscal Validation
 [l10n_ro_nondeductible_vat](l10n_ro_nondeductible_vat/) | 14.0.1.2.0 | [![adrian-dks](https://github.com/adrian-dks.png?size=30px)](https://github.com/adrian-dks) [![feketemihai](https://github.com/feketemihai.png?size=30px)](https://github.com/feketemihai) | Romania - Nondeductible VAT
 [l10n_ro_partner_create_by_vat](l10n_ro_partner_create_by_vat/) | 14.0.1.4.0 | [![feketemihai](https://github.com/feketemihai.png?size=30px)](https://github.com/feketemihai) | Romania - Partner Create by VAT
