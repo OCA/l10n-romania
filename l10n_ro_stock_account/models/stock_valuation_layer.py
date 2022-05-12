@@ -82,7 +82,9 @@ class StockValuationLayer(models.Model):
 
             if len(invoice_lines) == 1:
                 svl.invoice_line_id = invoice_lines
+                svl.invoice_id = invoice_lines.move_id
             else:
                 for line in invoice_lines:
                     if stock_move.date.date() == line.move_id.date:
                         svl.invoice_line_id = line
+                        svl.invoice_id = line.move_id
