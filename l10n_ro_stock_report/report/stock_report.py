@@ -210,6 +210,7 @@ class StorageSheet(models.TransientModel):
                     COALESCE(sum(svl_in.value),0)   as amount_in,
                     COALESCE(sum(svl_in.quantity), 0)   as quantity_in,
                      svl_in.account_id,
+                     svl_in.invoice_id,
                     sm.date as date_time,
                     date_trunc('day', sm.date at time zone 'utc' at time zone %(tz)s) as date,
                     sm.reference as reference,
@@ -227,7 +228,7 @@ class StorageSheet(models.TransientModel):
                     sm.date >= %(datetime_from)s  AND  sm.date <= %(datetime_to)s  AND
                     sm.location_dest_id = %(location)s
                 GROUP BY sm.product_id, sm.date,
-                 sm.reference, sp.partner_id, account_id)
+                 sm.reference, sp.partner_id, account_id, svl_in.invoice_id)
             a where a.amount_in!=0 and a.quantity_in!=0
                 """
 
@@ -242,6 +243,7 @@ class StorageSheet(models.TransientModel):
                     -1*COALESCE(sum(svl_out.value),0)   as amount_out,
                     -1*COALESCE(sum(svl_out.quantity),0)   as quantity_out,
                     svl_out.account_id,
+                    svl_out.invoice_id,
                     sm.date as date_time,
                     date_trunc('day', sm.date at time zone 'utc' at time zone %(tz)s) as date,
                     sm.reference as reference,
@@ -260,7 +262,7 @@ class StorageSheet(models.TransientModel):
                     sm.date >= %(datetime_from)s  AND  sm.date <= %(datetime_to)s  AND
                     sm.location_id = %(location)s
                 GROUP BY sm.product_id, sm.date,
-                         sm.reference, sp.partner_id, account_id)
+                         sm.reference, sp.partner_id, account_id, svl_out.invoice_id)
             a where a.amount_out!=0 and a.quantity_out!=0
                 """
 
@@ -345,8 +347,8 @@ class StorageSheetLine(models.TransientModel):
     _order = "report_id, product_id, date_time"
     _rec_name = "product_id"
 
-    report_id = fields.Many2one("stock.storage.sheet")
-    product_id = fields.Many2one("product.product", string="Product")
+    report_id = fields.Many2one("stock.storage.sheet", index=True)
+    product_id = fields.Many2one("product.product", string="Product", index=True)
     amount_initial = fields.Monetary(
         currency_field="currency_id", string="Initial Amount"
     )
@@ -368,17 +370,19 @@ class StorageSheetLine(models.TransientModel):
     date_time = fields.Datetime(string="Datetime")
     date = fields.Date(string="Date")
     reference = fields.Char()
-    partner_id = fields.Many2one("res.partner")
+    partner_id = fields.Many2one("res.partner", index=True)
     currency_id = fields.Many2one(
         "res.currency",
         string="Currency",
         default=lambda self: self.env.company.currency_id,
+        index=True,
     )
     categ_id = fields.Many2one(
         "product.category", related="product_id.categ_id", index=True, store=True
     )
-    account_id = fields.Many2one("account.account")
-    location_id = fields.Many2one("stock.location")
+    account_id = fields.Many2one("account.account", index=True)
+    location_id = fields.Many2one("stock.location", index=True)
+    invoice_id = fields.Many2one("account.move", index=True)
 
     def get_general_buttons(self):
         return [
