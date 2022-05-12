@@ -75,6 +75,8 @@ class StockValuationLayer(models.Model):
         for svl in self:
             invoice_lines = self.env["account.move.line"]
             stock_move = svl.stock_move_id
+            if not svl.valued_type:
+                continue
             if "reception" in svl.valued_type:
                 invoice_lines = stock_move.purchase_line_id.invoice_lines
             if "delivery" in svl.valued_type:
@@ -82,7 +84,9 @@ class StockValuationLayer(models.Model):
 
             if len(invoice_lines) == 1:
                 svl.invoice_line_id = invoice_lines
+                svl.invoice_id = invoice_lines.move_id
             else:
                 for line in invoice_lines:
                     if stock_move.date.date() == line.move_id.date:
                         svl.invoice_line_id = line
+                        svl.invoice_id = line.move_id
