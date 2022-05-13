@@ -149,6 +149,7 @@ class StorageSheet(models.TransientModel):
                     %(date_from)s || ' 00:00:00' as date_time,
                     %(date_from)s as date,
                     %(reference)s as reference,
+                    %(reference)s as document,
                     %(location)s as location_id
                 from product_product as prod
                 left join stock_move as sm ON sm.product_id = prod.id AND sm.state = 'done' AND
@@ -180,6 +181,7 @@ class StorageSheet(models.TransientModel):
                     %(date_to)s || ' 23:59:59' as date_time,
                     %(date_to)s as date,
                     %(reference)s as reference,
+                    %(reference)s as document,
                     %(location)s as location_id
                 from stock_move as sm
                 inner join  stock_valuation_layer as svl on svl.stock_move_id = sm.id and
@@ -215,12 +217,14 @@ class StorageSheet(models.TransientModel):
                     date_trunc('day', sm.date at time zone 'utc' at time zone %(tz)s) as date,
                     sm.reference as reference,
                     %(location)s as location_id,
-                    sp.partner_id
+                    sp.partner_id,
+                    COALESCE(am.name, sm.reference) as document
                 from stock_move as sm
                     inner join stock_valuation_layer as svl_in
                             on svl_in.stock_move_id = sm.id and
                         (sm.location_dest_id = %(location)s and svl_in.quantity>=0)
                     left join stock_picking as sp on sm.picking_id = sp.id
+                    left join account_move am on svl_in.invoice_id = am.id
                 where
                     sm.state = 'done' AND
                     sm.company_id = %(company)s AND
@@ -228,7 +232,7 @@ class StorageSheet(models.TransientModel):
                     sm.date >= %(datetime_from)s  AND  sm.date <= %(datetime_to)s  AND
                     sm.location_dest_id = %(location)s
                 GROUP BY sm.product_id, sm.date,
-                 sm.reference, sp.partner_id, account_id, svl_in.invoice_id)
+                 sm.reference, sp.partner_id, account_id, svl_in.invoice_id, am.name)
             a --where a.amount_in!=0 and a.quantity_in!=0
                 """
 
@@ -248,13 +252,15 @@ class StorageSheet(models.TransientModel):
                     date_trunc('day', sm.date at time zone 'utc' at time zone %(tz)s) as date,
                     sm.reference as reference,
                     %(location)s as location_id,
-                    sp.partner_id
+                    sp.partner_id,
+                    COALESCE(am.name, sm.reference) as document
                 from stock_move as sm
 
                     inner join stock_valuation_layer as svl_out
                             on svl_out.stock_move_id = sm.id and
                         (sm.location_id = %(location)s and svl_out.quantity<=0 )
                     left join stock_picking as sp on sm.picking_id = sp.id
+                    left join account_move am on svl_out.invoice_id = am.id
                 where
                     sm.state = 'done' AND
                     sm.company_id = %(company)s AND
@@ -262,7 +268,7 @@ class StorageSheet(models.TransientModel):
                     sm.date >= %(datetime_from)s  AND  sm.date <= %(datetime_to)s  AND
                     sm.location_id = %(location)s
                 GROUP BY sm.product_id, sm.date,
-                         sm.reference, sp.partner_id, account_id, svl_out.invoice_id)
+                         sm.reference, sp.partner_id, account_id, svl_out.invoice_id, am.name)
             a --where a.amount_out!=0 and a.quantity_out!=0
                 """
 
@@ -384,6 +390,7 @@ class StorageSheetLine(models.TransientModel):
     account_id = fields.Many2one("account.account", index=True)
     location_id = fields.Many2one("stock.location", index=True)
     invoice_id = fields.Many2one("account.move", index=True)
+    document = fields.Char()
 
     def get_general_buttons(self):
         return [
