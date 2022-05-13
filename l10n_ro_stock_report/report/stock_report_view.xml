@@ -55,6 +55,7 @@
                 <field name="date" />
                 <field name="reference" />
                 <field name="invoice_id" />
+                <field name="document" />
                 <field name="account_id" optional="hide" />
                 <field name="partner_id" optional="hide" />
                 <field name="categ_id" optional="hide" />
