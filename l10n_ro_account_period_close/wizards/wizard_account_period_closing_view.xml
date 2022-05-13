@@ -21,7 +21,7 @@
                     </group>
                 </group>
                 <footer>
-                    <button name="do_close" string="Close" type="object" />
+                    <button name="do_close" string="Close Period" type="object" />
                     <button string="Cancel" class="oe_link" special="cancel" />
                 </footer>
             </form>
