@@ -12,6 +12,19 @@
             </field>
         </field>
     </record>
+        <record id="act_account_period_closing_wizard" model="ir.actions.act_window">
+        <field name="name">Close Period</field>
+        <field name="view_mode">form,tree</field>
+        <field name="res_model">account.period.closing.wizard</field>
+        <field name="context">
+            {'search_default_closing_id':[active_id], 'default_closing_id': active_id}
+        </field>
+        <field
+            name="binding_model_id"
+            ref="l10n_ro_account_period_close.model_account_period_closing"
+        />
+        <field name="binding_view_types">Null</field>
+    </record>
     <record id="view_account_period_closing_tree" model="ir.ui.view">
         <field name="name">account.period.closing.tree</field>
         <field name="model">account.period.closing</field>
@@ -36,6 +49,13 @@
                     <h1>
                         <field name="name" />
                     </h1>
+                </div>
+                <div>
+                    <button
+                        name="%(act_account_period_closing_wizard)d"
+                        string="Close Period"
+                        type="action"
+                    />
                 </div>
                 <notebook>
                     <page string="Config">
@@ -82,17 +102,4 @@
         id="menu_action_account_period_closing"
         parent="account.menu_finance_entries_actions"
     />
-    <record id="act_account_period_closing_wizard" model="ir.actions.act_window">
-        <field name="name">Close Period</field>
-        <field name="view_mode">form,tree</field>
-        <field name="res_model">account.period.closing.wizard</field>
-        <field name="context">
-            {'search_default_closing_id':[active_id], 'default_closing_id': active_id}
-        </field>
-        <field
-            name="binding_model_id"
-            ref="l10n_ro_account_period_close.model_account_period_closing"
-        />
-        <field name="binding_view_types">form</field>
-    </record>
 </odoo>
