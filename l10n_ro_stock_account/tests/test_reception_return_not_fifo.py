@@ -4,11 +4,14 @@
 # Generare note contabile la achizitie
 import logging
 
+from odoo.tests import tagged
+
 from .common import TestStockCommon
 
 _logger = logging.getLogger(__name__)
 
 
+@tagged("post_install", "-at_install")
 class TestStockPurchaseReturn(TestStockCommon):
     def test_not_fifo_return(self):
         po1 = self.create_po(notice=False)

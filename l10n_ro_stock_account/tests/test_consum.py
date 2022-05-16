@@ -3,6 +3,8 @@
 
 import logging
 
+from odoo.tests import tagged
+
 from .common import TestStockCommon
 
 _logger = logging.getLogger(__name__)
@@ -11,6 +13,7 @@ _logger = logging.getLogger(__name__)
 # Generare note contabile la achizitie
 
 
+@tagged("post_install", "-at_install")
 class TestStockConsumn(TestStockCommon):
     def set_stock(self, product, qty):
         inventory = self.env["stock.inventory"].create(
