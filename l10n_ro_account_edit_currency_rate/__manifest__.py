@@ -10,6 +10,8 @@
     "website": "https://github.com/OCA/l10n-romania",
     "license": "AGPL-3",
     "installable": True,
+    "development_status": "Mature",
+    "maintainers": ["mcojocaru"],
     "depends": ["l10n_ro_account_report_invoice"],
     "data": [],
 }
