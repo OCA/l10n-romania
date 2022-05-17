@@ -42,23 +42,24 @@ class StockValuationLayer(models.Model):
                             break
             svl.account_id = account
 
-    def init(self):
-        """This method will compute values for valuation layer valued_type"""
-        val_layers = self.search(
-            ["|", ("valued_type", "=", False), ("valued_type", "=", "")]
-        )
-        val_types = self.env["stock.move"]._get_valued_types()
-        val_types = [
-            val
-            for val in val_types
-            if val not in ["in", "out", "dropshipped", "dropshipped_returned"]
-        ]
-        for layer in val_layers:
-            if layer.stock_move_id:
-                for valued_type in val_types:
-                    if getattr(layer.stock_move_id, "_is_%s" % valued_type)():
-                        layer.valued_type = valued_type
-                        continue
+    # metoda dureaza foarte mult
+    # def init(self):
+    #     """ This method will compute values for valuation layer valued_type"""
+    #     val_layers = self.search(
+    #         ["|", ("valued_type", "=", False), ("valued_type", "=", "")]
+    #     )
+    #     val_types = self.env["stock.move"]._get_valued_types()
+    #     val_types = [
+    #         val
+    #         for val in val_types
+    #         if val not in ["in", "out", "dropshipped", "dropshipped_returned"]
+    #     ]
+    #     for layer in val_layers:
+    #         if layer.stock_move_id:
+    #             for valued_type in val_types:
+    #                 if getattr(layer.stock_move_id, "_is_%s" % valued_type)():
+    #                     layer.valued_type = valued_type
+    #                     continue
 
     @api.model_create_multi
     def create(self, vals_list):
