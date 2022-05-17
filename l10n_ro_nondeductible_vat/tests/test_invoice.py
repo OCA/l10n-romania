@@ -3,11 +3,14 @@
 
 import logging
 
+from odoo.tests import tagged
+
 from .common import TestNondeductibleCommon
 
 _logger = logging.getLogger(__name__)
 
 
+@tagged("post_install", "-at_install")
 class TestNonDeductibleInvoice(TestNondeductibleCommon):
     def test_invoice(self):
         self.make_purchase_notdeductible()
