@@ -27,4 +27,8 @@ class AccountTaxRepartitionLineExtend(models.Model):
 
     nondeductible = fields.Boolean()
     exclude_from_stock = fields.Boolean()
-    exclude_from_invoice = fields.Boolean()
+    skip_cash_basis_account_switch = fields.Boolean(
+        help="If checked, then it doesn't change expense account"
+        " in the tax line for invoices, and it set 44283 instead of expense"
+        " account for the journal entry created at payment reconciliation"
+    )
