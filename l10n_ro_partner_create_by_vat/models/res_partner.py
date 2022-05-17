@@ -196,8 +196,6 @@ class ResPartner(models.Model):
 
     @api.onchange("vat", "country_id")
     def ro_vat_change(self):
-        if self.env.context.get("skip_ro_vat_change"):
-            return
         for partner in self:
             ret = {}
             if not partner.vat:
@@ -221,14 +219,7 @@ class ResPartner(models.Model):
                         .search([("code", "ilike", vat_country)])[0]
                         .id
                     )
-
-                    if not res['vat_subjected']:
-                        partner.vat = vat_number
-
                     partner.with_context(skip_ro_vat_change=True).update(res)
                 else:
                     ret["warning"] = {"message": anaf_error}
         return ret
-
-    def button_get_partner_data(self):
-        pass

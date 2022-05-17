@@ -195,28 +195,32 @@ class ProductProduct(models.Model):
             qty_taken_on_candidate = min(
                 qty_to_take_on_candidates, candidate.remaining_qty
             )
+            if candidate.remaining_qty:
+                candidate_unit_cost = (
+                    candidate.remaining_value / candidate.remaining_qty
+                )
+                new_standard_price = candidate_unit_cost
+                value_taken_on_candidate = qty_taken_on_candidate * candidate_unit_cost
+                value_taken_on_candidate = candidate.currency_id.round(
+                    value_taken_on_candidate
+                )
+                new_remaining_value = (
+                    candidate.remaining_value - value_taken_on_candidate
+                )
 
-            candidate_unit_cost = candidate.remaining_value / candidate.remaining_qty
-            new_standard_price = candidate_unit_cost
-            value_taken_on_candidate = qty_taken_on_candidate * candidate_unit_cost
-            value_taken_on_candidate = candidate.currency_id.round(
-                value_taken_on_candidate
-            )
-            new_remaining_value = candidate.remaining_value - value_taken_on_candidate
+                candidate_vals = {
+                    "remaining_qty": candidate.remaining_qty - qty_taken_on_candidate,
+                    "remaining_value": new_remaining_value,
+                }
 
-            candidate_vals = {
-                "remaining_qty": candidate.remaining_qty - qty_taken_on_candidate,
-                "remaining_value": new_remaining_value,
-            }
+                candidate.write(candidate_vals)
 
-            candidate.write(candidate_vals)
-
-            qty_to_take_on_candidates -= qty_taken_on_candidate
-            tmp_value += value_taken_on_candidate
-            if float_is_zero(
-                qty_to_take_on_candidates, precision_rounding=self.uom_id.rounding
-            ):
-                break
+                qty_to_take_on_candidates -= qty_taken_on_candidate
+                tmp_value += value_taken_on_candidate
+                if float_is_zero(
+                    qty_to_take_on_candidates, precision_rounding=self.uom_id.rounding
+                ):
+                    break
 
         # Update the standard price with the price of the last used candidate, if any.
         if new_standard_price and self.cost_method == "fifo":
