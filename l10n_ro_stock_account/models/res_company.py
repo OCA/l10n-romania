@@ -9,7 +9,7 @@ class ResCompany(models.Model):
     _inherit = "res.company"
 
     def init(self):
-        """This method will set romanian companies correctly"""
+        """ This method will set romanian companies correctly"""
         ro_comp = self.sudo().search(
             [("partner_id.country_id", "=", self.env.ref("base.ro").id)]
         )

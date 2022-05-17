@@ -58,7 +58,7 @@ class StockMove(models.Model):
 
     # evaluare la receptie - in mod normal nu se
     def _is_reception(self):
-        """Este receptie in stoc fara aviz"""
+        """ Este receptie in stoc fara aviz"""
         it_is = (
             self.company_id.romanian_accounting
             and not self.picking_id.notice
@@ -72,7 +72,7 @@ class StockMove(models.Model):
         return move._create_in_svl(forced_quantity)
 
     def _is_reception_return(self):
-        """Este un retur la o receptie in stoc fara aviz"""
+        """ Este un retur la o receptie in stoc fara aviz"""
         it_is = (
             self.company_id.romanian_accounting
             and not self.picking_id.notice
@@ -86,7 +86,7 @@ class StockMove(models.Model):
         return move._create_out_svl(forced_quantity)
 
     def _is_reception_notice(self):
-        """Este receptie in stoc cu aviz"""
+        """ Este receptie in stoc cu aviz"""
         it_is = (
             self.company_id.romanian_accounting
             and self.picking_id.notice
@@ -100,7 +100,7 @@ class StockMove(models.Model):
         return move._create_in_svl(forced_quantity)
 
     def _is_reception_notice_return(self):
-        """Este un retur la receptie in stoc cu aviz"""
+        """ Este un retur la receptie in stoc cu aviz"""
         it_is = (
             self.company_id.romanian_accounting
             and self.picking_id.notice
@@ -114,7 +114,7 @@ class StockMove(models.Model):
         return move._create_out_svl(forced_quantity)
 
     def _is_delivery(self):
-        """Este livrare din stoc fara aviz"""
+        """ Este livrare din stoc fara aviz"""
         return (
             self.company_id.romanian_accounting
             and not self.picking_id.notice
@@ -127,7 +127,7 @@ class StockMove(models.Model):
         return move._create_out_svl(forced_quantity)
 
     def _is_delivery_return(self):
-        """Este retur la o livrare din stoc fara aviz"""
+        """ Este retur la o livrare din stoc fara aviz"""
         it_is = (
             self.company_id.romanian_accounting
             and not self.picking_id.notice
@@ -141,7 +141,7 @@ class StockMove(models.Model):
         return move._create_in_svl(forced_quantity)
 
     def _is_delivery_notice(self):
-        """Este livrare cu aviz"""
+        """ Este livrare cu aviz"""
         it_is = (
             self.company_id.romanian_accounting
             and self.picking_id.notice
@@ -155,7 +155,7 @@ class StockMove(models.Model):
         return move._create_out_svl(forced_quantity)
 
     def _is_delivery_notice_return(self):
-        """Este retur livrare cu aviz"""
+        """ Este retur livrare cu aviz"""
         it_is = (
             self.company_id.romanian_accounting
             and self.picking_id.notice
@@ -194,7 +194,7 @@ class StockMove(models.Model):
         return move._create_out_svl(forced_quantity)
 
     def _is_production(self):
-        """Este inregistrare intrare produse finite prin productie"""
+        """ Este inregistrare intrare produse finite prin productie"""
         it_is = (
             self.company_id.romanian_accounting
             and self._is_in()
@@ -207,7 +207,7 @@ class StockMove(models.Model):
         return move._create_in_svl(forced_quantity)
 
     def _is_production_return(self):
-        """Este retur inregistrare produse finite prin productie"""
+        """ Este retur inregistrare produse finite prin productie"""
         it_is = (
             self.company_id.romanian_accounting
             and self._is_out()
@@ -234,7 +234,7 @@ class StockMove(models.Model):
         return move._create_out_svl(forced_quantity)
 
     def _is_consumption_return(self):
-        """Este un conusm de materiale in productie"""
+        """ Este un conusm de materiale in productie"""
         it_is = (
             self.company_id.romanian_accounting
             and self._is_in()
@@ -248,7 +248,7 @@ class StockMove(models.Model):
         return move._create_in_svl(forced_quantity)
 
     def _is_internal_transfer(self):
-        """Este transfer intern"""
+        """ Este transfer intern"""
         it_is = (
             self.company_id.romanian_accounting
             and self.location_dest_id.usage == "internal"
@@ -315,7 +315,7 @@ class StockMove(models.Model):
         return self.env["stock.valuation.layer"].sudo().create(svl_vals_list)
 
     def _is_usage_giving(self):
-        """Este dare in folosinta"""
+        """ Este dare in folosinta"""
         it_is = (
             self.company_id.romanian_accounting
             and self.location_dest_id.usage == "usage_giving"
@@ -329,7 +329,7 @@ class StockMove(models.Model):
         return move._create_out_svl(forced_quantity)
 
     def _is_usage_giving_return(self):
-        """Este return dare in folosinta"""
+        """ Este return dare in folosinta"""
         it_is = (
             self.company_id.romanian_accounting
             and self.location_id.usage == "usage_giving"
@@ -378,7 +378,7 @@ class StockMove(models.Model):
         return self.env.company
 
     def _account_entry_move(self, qty, description, svl_id, cost):
-        """Accounting Valuation Entries"""
+        """ Accounting Valuation Entries """
         svl = self.env["stock.valuation.layer"].browse(svl_id)
         company = self._get_company(svl)
         self = company and self.with_company(company.id) or self
