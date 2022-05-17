@@ -196,13 +196,17 @@ class ProductProduct(models.Model):
                 qty_to_take_on_candidates, candidate.remaining_qty
             )
             if candidate.remaining_qty:
-                candidate_unit_cost = candidate.remaining_value / candidate.remaining_qty
+                candidate_unit_cost = (
+                    candidate.remaining_value / candidate.remaining_qty
+                )
                 new_standard_price = candidate_unit_cost
                 value_taken_on_candidate = qty_taken_on_candidate * candidate_unit_cost
                 value_taken_on_candidate = candidate.currency_id.round(
                     value_taken_on_candidate
                 )
-                new_remaining_value = candidate.remaining_value - value_taken_on_candidate
+                new_remaining_value = (
+                    candidate.remaining_value - value_taken_on_candidate
+                )
 
                 candidate_vals = {
                     "remaining_qty": candidate.remaining_qty - qty_taken_on_candidate,
