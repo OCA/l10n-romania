@@ -37,9 +37,10 @@
                     attrs="{'invisible': [('repartition_type', '=', 'base')]}"
                 />
                 <field
-                    name="exclude_from_invoice"
+                    name="skip_cash_basis_account_switch"
+                    string="Skip Account Switch (Cash Basis)"
                     attrs="{'invisible': [('repartition_type', '=', 'base')]}"
-                />                
+                />
             </field>
         </field>
     </record>

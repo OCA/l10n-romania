@@ -17,7 +17,7 @@ class AccountMove(models.Model):
                 new_taxes_map[key] = taxes_map[key]
             else:
                 group = vals.get("grouping_dict")
-                if not (group.get("exlude_from_stock") or group.get('exclude_from_invoice')) :
+                if not group.get("exlude_from_stock"):
                     new_taxes_map[key] = taxes_map[key]
         return new_taxes_map
 
@@ -33,8 +33,6 @@ class AccountMove(models.Model):
         res = super()._get_tax_grouping_key_from_base_line(base_line, tax_vals)
         if is_from_stock and tax_repartition_line.exclude_from_stock:
             res["exlude_from_stock"] = tax_repartition_line.exclude_from_stock
-        if tax_repartition_line.exclude_from_invoice:
-            res["exclude_from_invoice"] = tax_repartition_line.exclude_from_invoice
         tax_repartition_line = self.env["account.tax.repartition.line"].browse(
             tax_vals["tax_repartition_line_id"]
         )
@@ -56,3 +54,19 @@ class AccountMove(models.Model):
                     True, True
                 )
         return moves
+
+
+class AccountMoveLine(models.Model):
+    _inherit = "account.move.line"
+
+    @api.model
+    def _get_default_tax_account(self, repartition_line):
+        tax = repartition_line.invoice_tax_id or repartition_line.refund_tax_id
+        if (
+            tax.tax_exigibility == "on_payment"
+            and not repartition_line.skip_cash_basis_account_switch
+        ):
+            account = tax.cash_basis_transition_account_id
+        else:
+            account = repartition_line.account_id
+        return account
