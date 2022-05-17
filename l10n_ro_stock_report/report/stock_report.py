@@ -354,7 +354,7 @@ class StorageSheetLine(models.TransientModel):
         digits="Product Unit of Measure", string="Final Quantity"
     )
     date_time = fields.Datetime(string="Datetime")
-    date = fields.Date(string="Date")
+    date = fields.Date()
     reference = fields.Char()
     partner_id = fields.Many2one("res.partner")
     currency_id = fields.Many2one(
