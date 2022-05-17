@@ -89,6 +89,16 @@ class ResCurrencyRateProviderROBNR(models.Model):
         handler = ROBNRRatesHandler(currencies, date_from, date_to)
         with urlopen(url) as response:
             xml.sax.parse(response, handler)
+        if handler.content:
+            return handler.content
+        elif date_from == date_to:
+            # date_from can be in past and first url is giving only one date
+            # we must try to take the date from whole year list
+            year = date_from.year
+            url = "http://www.bnr.ro/files/xml/years/nbrfxrates" + str(year) + ".xml"
+            handler = ROBNRRatesHandler(currencies, date_from, date_to)
+            with urlopen(url) as response:
+                xml.sax.parse(response, handler)
         return handler.content or {}
 
 
