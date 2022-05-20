@@ -163,7 +163,7 @@ class StorageSheet(models.TransientModel):
                           sm.location_dest_id = %(location)s))
                 where prod.id in %(product)s
                 GROUP BY prod.id, svl.account_id)
-            a where a.amount_initial!=0 and a.quantity_initial!=0
+            a --where a.amount_initial!=0 and a.quantity_initial!=0
             """
 
             params.update({"reference": "INITIAL"})
@@ -194,7 +194,7 @@ class StorageSheet(models.TransientModel):
                     sm.date <=  %(datetime_to)s AND
                     (sm.location_id = %(location)s OR sm.location_dest_id = %(location)s)
                 GROUP BY sm.product_id, svl.account_id)
-            a where a.amount_final!=0 and a.quantity_final!=0
+            a --where a.amount_final!=0 and a.quantity_final!=0
             """
 
             params.update({"reference": "FINAL"})
@@ -219,7 +219,7 @@ class StorageSheet(models.TransientModel):
                 from stock_move as sm
                     inner join stock_valuation_layer as svl_in
                             on svl_in.stock_move_id = sm.id and
-                        (sm.location_dest_id = %(location)s and svl_in.quantity>0)
+                        (sm.location_dest_id = %(location)s and svl_in.quantity>=0)
                     left join stock_picking as sp on sm.picking_id = sp.id
                 where
                     sm.state = 'done' AND
@@ -229,7 +229,7 @@ class StorageSheet(models.TransientModel):
                     sm.location_dest_id = %(location)s
                 GROUP BY sm.product_id, sm.date,
                  sm.reference, sp.partner_id, account_id, svl_in.invoice_id)
-            a where a.amount_in!=0 and a.quantity_in!=0
+            a --where a.amount_in!=0 and a.quantity_in!=0
                 """
 
             self.env.cr.execute(query_in, params=params)
@@ -253,7 +253,7 @@ class StorageSheet(models.TransientModel):
 
                     inner join stock_valuation_layer as svl_out
                             on svl_out.stock_move_id = sm.id and
-                        (sm.location_id = %(location)s and svl_out.quantity<0 )
+                        (sm.location_id = %(location)s and svl_out.quantity<=0 )
                     left join stock_picking as sp on sm.picking_id = sp.id
                 where
                     sm.state = 'done' AND
@@ -263,7 +263,7 @@ class StorageSheet(models.TransientModel):
                     sm.location_id = %(location)s
                 GROUP BY sm.product_id, sm.date,
                          sm.reference, sp.partner_id, account_id, svl_out.invoice_id)
-            a where a.amount_out!=0 and a.quantity_out!=0
+            a --where a.amount_out!=0 and a.quantity_out!=0
                 """
 
             self.env.cr.execute(query_out, params=params)
