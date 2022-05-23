@@ -93,19 +93,20 @@ class ResPartner(models.Model):
         self._insert_relevant_anaf_data()
         self._compute_anaf_history()
         if self.anaf_history:
-            if len(self.anaf_history) > 1 and ctx.get("check_date", False):
-                lines = self.env["res.partner.anaf"].search(
+            if ctx.get("check_date", False):
+                line = self.env["res.partner.anaf"].search(
                     [
                         ("id", "in", [rec.id for rec in self.anaf_history]),
                         ("start_date", "<=", ctx["check_date"]),
-                        ("end_date", ">=", ctx["check_date"]),
-                    ]
+                    ],
+                    limit=1,
                 )
-                if lines and lines[0].operation_type == "D":
-                    vat_on_payment = True
             else:
-                if self.anaf_history[0].operation_type == "I":
-                    vat_on_payment = True
+                line = self.anaf_history[0]
+            if line:
+                vat_on_payment = True
+                if line.end_date and line.end_date <= ctx.get("check_date", False):
+                    vat_on_payment = False
         return vat_on_payment
 
     def check_vat_on_payment(self):
