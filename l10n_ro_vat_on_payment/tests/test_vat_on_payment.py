@@ -73,7 +73,7 @@ class TestVATonpayment(TransactionCase):
         """Test download file and partner link."""
         self.partner_model._update_vat_payment_all()
         self.assertEqual(len(self.fbr_partner.anaf_history), 2)
-        self.assertEqual(self.fbr_partner.vat_on_payment, False)
+        self.assertEqual(self.fbr_partner.vat_on_payment, True)
         self.assertEqual(len(self.lxt_partner.anaf_history), 1)
         self.assertEqual(self.lxt_partner.vat_on_payment, True)
 
