@@ -74,6 +74,18 @@ class TestVATonpayment(TransactionCase):
         self.partner_model._update_vat_payment_all()
         self.assertEqual(len(self.fbr_partner.anaf_history), 2)
         self.assertEqual(self.fbr_partner.vat_on_payment, False)
+        self.assertEqual(
+            self.fbr_partner.with_context(
+                check_date=date(2013, 4, 23)
+            )._check_vat_on_payment(),
+            True,
+        )
+        self.assertEqual(
+            self.fbr_partner.with_context(
+                check_date=date(2013, 8, 1)
+            )._check_vat_on_payment(),
+            False,
+        )
         self.assertEqual(len(self.lxt_partner.anaf_history), 1)
         self.assertEqual(self.lxt_partner.vat_on_payment, True)
 
