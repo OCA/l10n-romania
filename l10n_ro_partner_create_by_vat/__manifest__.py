@@ -5,7 +5,6 @@
     "category": "Localization",
     "summary": "Romania - Partner Create by VAT",
     "depends": ["l10n_ro_config"],
-    "data": [],
     "license": "AGPL-3",
     "version": "14.0.1.4.0",
     "author": "NextERP Romania,"
@@ -14,5 +13,6 @@
     "website": "https://github.com/OCA/l10n-romania",
     "installable": True,
     "development_status": "Mature",
+    "data": ["views/partner_view.xml"],
     "maintainers": ["feketemihai"],
 }
