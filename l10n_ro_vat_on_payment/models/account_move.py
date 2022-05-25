@@ -3,6 +3,7 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
 from odoo import api, models
+from datetime import date
 
 
 class AccountMove(models.Model):
@@ -25,6 +26,8 @@ class AccountMove(models.Model):
         )
         if self.invoice_date:
             ctx.update({"check_date": self.invoice_date})
+        else:
+            ctx.update({"check_date": date.today()})
         if "out" in self.move_type:
             vatp = company.partner_id.with_context(ctx)._check_vat_on_payment()
         else:
