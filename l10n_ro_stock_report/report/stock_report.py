@@ -88,6 +88,7 @@ class StorageSheet(models.TransientModel):
         if product_list:
             products_with_moves = (
                 self.env["stock.move"]
+                .with_context(active_test=False)
                 .search(
                     [
                         ("state", "=", "done"),
@@ -126,7 +127,7 @@ class StorageSheet(models.TransientModel):
         datetime_to = fields.Datetime.context_timestamp(self, datetime_to)
         datetime_to = datetime_to.replace(hour=23, minute=59, second=59)
         datetime_to = datetime_to.astimezone(pytz.utc)
-        for location in self.location_ids.ids:
+        for location in self.with_context(active_test=False).location_ids.ids:
             params = {
                 "report": self.id,
                 "location": location,
@@ -265,7 +266,6 @@ class StorageSheet(models.TransientModel):
                          sm.reference, sp.partner_id, account_id, svl_out.invoice_id)
             a --where a.amount_out!=0 and a.quantity_out!=0
                 """
-
             self.env.cr.execute(query_out, params=params)
             res = self.env.cr.dictfetchall()
             self.line_product_ids.create(res)
@@ -302,7 +302,11 @@ class StorageSheet(models.TransientModel):
     def get_found_products(self):
         self.ensure_one()
         product_list, _all_products = self.get_report_products()
-        return self.env["product.product"].browse(product_list)
+        return (
+            self.env["product.product"]
+            .with_context(active_test=False)
+            .browse(product_list)
+        )
 
     def button_show_sheet(self):
         self.do_compute_product()
