@@ -278,6 +278,7 @@ class StorageSheet(models.TransientModel):
         else:
             product_list = (
                 self.env["product.product"]
+                .with_context(active_test=False)
                 .search(
                     [
                         ("type", "=", "product"),
