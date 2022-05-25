@@ -9,10 +9,7 @@
             <field eval="100" name="priority" />
             <field name="arch" type="xml">
                 <field name="name" position="after">
-                    <field
-                        name="old_name"
-                        placeholder="Old Name"
-                    />
+                    <field name="old_name" placeholder="Old Name" />
                 </field>
             </field>
         </record>
@@ -23,10 +20,7 @@
             <field eval="18" name="priority" />
             <field name="arch" type="xml">
                 <field name="name" position="after">
-                    <field
-                        name="old_name"
-                        placeholder="Old Name"
-                    />
+                    <field name="old_name" placeholder="Old Name" />
                 </field>
             </field>
         </record>
