@@ -65,3 +65,6 @@
     margin-left: auto;
     font-family: Helvetica, Arial, serif;
 }
+.act_as_caption {
+    display: run-in;
+}
