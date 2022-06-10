@@ -198,7 +198,8 @@ class TestStockReport(TransactionCase):
         wizard = wizard.save()
 
         prod_with_moves = (
-            stock_move_obj.search(
+            stock_move_obj.with_context(active_test=False)
+            .search(
                 [
                     ("state", "=", "done"),
                     ("date", ">=", wizard.date_from),
