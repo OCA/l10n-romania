@@ -227,7 +227,7 @@ class StorageSheet(models.TransientModel):
                     ( %(all_products)s  or sm.product_id in %(product)s ) AND
                     sm.date >= %(datetime_from)s  AND  sm.date <= %(datetime_to)s  AND
                     sm.location_dest_id = %(location)s
-                GROUP BY sm.product_id, date_trunc('day',sm.date at time zone 'utc' at time zone %(tz)s),
+                GROUP BY sm.product_id, sm.date,
                  sm.reference, sp.partner_id, account_id, svl_in.invoice_id)
             a where a.amount_in!=0 and a.quantity_in!=0
                 """
@@ -261,7 +261,7 @@ class StorageSheet(models.TransientModel):
                     ( %(all_products)s  or sm.product_id in %(product)s ) AND
                     sm.date >= %(datetime_from)s  AND  sm.date <= %(datetime_to)s  AND
                     sm.location_id = %(location)s
-                GROUP BY sm.product_id, date_trunc('day',sm.date at time zone 'utc' at time zone %(tz)s),
+                GROUP BY sm.product_id, sm.date,
                          sm.reference, sp.partner_id, account_id, svl_out.invoice_id)
             a where a.amount_out!=0 and a.quantity_out!=0
                 """
