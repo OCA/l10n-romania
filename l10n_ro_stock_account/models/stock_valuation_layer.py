@@ -32,7 +32,9 @@ class StockValuationLayer(models.Model):
             if svl.value < 0 and loc_scr.property_stock_valuation_account_id:
                 account = loc_scr.property_stock_valuation_account_id
             if svl.account_move_id:
-                for aml in svl.account_move_id.line_ids.sorted(lambda l: l.account_id.code):
+                for aml in svl.account_move_id.line_ids.sorted(
+                    lambda l: l.account_id.code
+                ):
                     if aml.account_id.code[0] in ["2", "3"]:
                         if round(aml.balance, 2) == round(svl.value, 2):
                             account = aml.account_id
@@ -43,7 +45,10 @@ class StockValuationLayer(models.Model):
                         # if aml.balance > 0 and svl.value > 0:
                         #     account = aml.account_id
                         #     break
-            if svl.valued_type in ('reception', 'reception_return') and svl.invoice_line_id:
+            if (
+                svl.valued_type in ("reception", "reception_return")
+                and svl.invoice_line_id
+            ):
                 account = svl.invoice_line_id.account_id
             svl.account_id = account
 
