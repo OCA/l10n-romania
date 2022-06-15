@@ -53,8 +53,11 @@ class StorageSheet(models.TransientModel):
     @api.depends("sublocation", "location_id")
     def _compute_location_ids(self):
         if self.sublocation:
-            children_location = self.env['stock.location'].with_context(active_test=False).search(
-                [('id', 'child_of', self.location_id.ids)])
+            children_location = (
+                self.env["stock.location"]
+                .with_context(active_test=False)
+                .search([("id", "child_of", self.location_id.ids)])
+            )
             self.location_ids = self.location_id + children_location
         else:
             self.location_ids = self.location_id
