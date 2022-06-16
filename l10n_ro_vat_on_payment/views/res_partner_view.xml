@@ -24,6 +24,7 @@
         <field name="name">partners_form_add_vat_payment</field>
         <field name="model">res.partner</field>
         <field name="inherit_id" ref="base.view_partner_form" />
+        <field name="priority">100</field>
         <field name="arch" type="xml">
             <field name="nrc" position="replace" />
             <field name="vat" position="after">

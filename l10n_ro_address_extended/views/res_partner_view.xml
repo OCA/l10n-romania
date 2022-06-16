@@ -3,6 +3,7 @@
     <record id="view_partner_structured_form" model="ir.ui.view">
         <field name="name">view_partner_structured_form</field>
         <field name="model">res.partner</field>
+        <field name="priority" eval="100" />
         <field
             name="inherit_id"
             ref="base_address_extended.view_partner_structured_form"
@@ -28,6 +29,7 @@
     <record id="view_partner_address_structured_form" model="ir.ui.view">
         <field name="name">view_partner_address_structured_form</field>
         <field name="model">res.partner</field>
+        <field name="priority" eval="100" />
         <field
             name="inherit_id"
             ref="base_address_extended.view_partner_address_structured_form"

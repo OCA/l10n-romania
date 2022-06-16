@@ -62,9 +62,9 @@ class TestVATonpayment(TransactionCase):
         prev_day = date.today() - timedelta(1)
         self.partner_anaf_model._download_anaf_data(prev_day)
         istoric = os.path.join(data_dir, "istoric.txt")
-        self.assertEquals(os.path.exists(istoric), True)
+        self.assertEqual(os.path.exists(istoric), True)
         self.partner_anaf_model._download_anaf_data()
-        self.assertEquals(os.path.exists(istoric), True)
+        self.assertEqual(os.path.exists(istoric), True)
 
     def test_update_partner_data(self):
         """Test download file and partner link."""

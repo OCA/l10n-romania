@@ -14,7 +14,7 @@ class TestartnerVATSubjected(common.SavepointCase):
 
 class TestPartnerVAT(TestartnerVATSubjected):
     def test_onchange_vat_subjected(self):
-        """ Check onchange vat subjected and country."""
+        """Check onchange vat subjected and country."""
         # test setting vat_subjected as True
         self.mainpartner.vat = "4264242"
         self.mainpartner.country_id = self.env.ref("base.ro")
