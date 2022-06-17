@@ -70,3 +70,20 @@ class AccountMoveLine(models.Model):
         else:
             account = repartition_line.account_id
         return account
+
+    @api.onchange("tax_ids")
+    def onchange_tax_ids(self):
+        if not self.display_type:
+            partner = (
+                self.env["res.partner"]._find_accounting_partner(self.partner_id)
+                or self.partner_id
+            )
+            if partner.vat_on_payment:
+                taxes = self.tax_ids
+
+                if taxes and self.move_id.fiscal_position_id:
+                    taxes = self.move_id.fiscal_position_id.map_tax(
+                        taxes, partner=partner
+                    )
+
+                self.tax_ids = taxes
