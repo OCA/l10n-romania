@@ -13,7 +13,7 @@
         "views/stock_inventory_line_view.xml",
         "views/stock_picking_view.xml",
     ],
-    "depends": ["l10n_ro_stock_account"],
+    "depends": ["l10n_ro_stock_account", "l10n_ro_vat_on_payment"],
     "author": "Dakai Soft SRL," "NextERP Romania," "Odoo Community Association (OCA)",
     "website": "https://github.com/OCA/l10n-romania",
     "installable": True,
