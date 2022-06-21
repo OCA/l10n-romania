@@ -9,13 +9,11 @@
             ref="base_address_extended.view_res_company_extended_form"
         />
         <field name="arch" type="xml">
-            <label for="street_number" position="replace" />
-            <label for="street_number2" position="replace" />
-            <field name="street_number" position="replace">
-                <field name="street_number" placeholder="Home Number" />
+            <field name="street_number" position="attributes">
+                 <attribute name="placeholder">Home Number</attribute>
             </field>
-            <field name="street_number2" position="replace">
-                <field name="street_number2" placeholder="Door Number" />
+            <field name="street_number2" position="attributes">
+                 <attribute name="placeholder">Door Number</attribute>
             </field>
             <xpath expr="//field[@name='street_number']" position="after">
                 <field name="street_staircase" placeholder="Staircase Number" />

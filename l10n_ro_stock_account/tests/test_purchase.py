@@ -1,12 +1,14 @@
 # Copyright (C) 2020 Terrabit
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
+from odoo.tests import tagged
 
 from .common import TestStockCommon
 
 # Generare note contabile la achizitie
 
 
+@tagged("post_install", "-at_install")
 class TestStockPurchase(TestStockCommon):
     def test_nir_with_invoice_standard(self):
 
