@@ -184,13 +184,17 @@ class TestStockReport(TransactionCase):
 
     def test_get_products_with_move(self):
         stock_move_obj = self.env["stock.move"]
-        products = self.env["product.product"].search(
-            [
-                ("type", "=", "product"),
-                "|",
-                ("company_id", "=", self.env.company.id),
-                ("company_id", "=", False),
-            ]
+        products = (
+            self.env["product.product"]
+            .with_context(active_test=False)
+            .search(
+                [
+                    ("type", "=", "product"),
+                    "|",
+                    ("company_id", "=", self.env.company.id),
+                    ("company_id", "=", False),
+                ]
+            )
         )
         wizard = Form(self.env["stock.storage.sheet"])
         wizard.location_id = self.location
@@ -198,7 +202,8 @@ class TestStockReport(TransactionCase):
         wizard = wizard.save()
 
         prod_with_moves = (
-            stock_move_obj.search(
+            stock_move_obj.with_context(active_test=False)
+            .search(
                 [
                     ("state", "=", "done"),
                     ("date", ">=", wizard.date_from),
@@ -224,7 +229,7 @@ class TestStockReport(TransactionCase):
         exp_found_prod = wizard_no_moves.get_found_products()
         self.assertEqual(exp_found_prod, products)
 
-        exp_product = products[0]
+        exp_product = products[1]  # index 0 is archived
         wizard_product = Form(self.env["stock.storage.sheet"])
         wizard_product.location_id = self.location
         wizard_product.products_with_move = False
