@@ -19,17 +19,3 @@ class StockPicking(models.Model):
         help="With this field the reception/delivery is set as a notice. "
         "The generated account move will contain accounts 408/418.",
     )
-
-    def _is_dropshipped(self):
-        self.ensure_one()
-        return (
-            self.location_id.usage == "supplier"
-            and self.location_dest_id.usage == "customer"
-        )
-
-    def _is_dropshipped_returned(self):
-        self.ensure_one()
-        return (
-            self.location_id.usage == "customer"
-            and self.location_dest_id.usage == "supplier"
-        )
