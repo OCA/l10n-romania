@@ -155,6 +155,15 @@ class ResPartner(models.Model):
                 .id
             )
         return res
+    
+    #Match romanian VAT on RO123456 & 123456
+    def _split_vat_ro(self, vat):
+        vat_country, vat_number = super(ResPartner, self)._split_vat(vat)
+        if (vat_country.isdigit() or vat_country=='') and vat.isdigit():
+            vat_country = 'RO'
+            vat_number = vat
+        return vat_country, vat_number
+
 
     def get_result_address(self, result, res):
         addr = city = ""
@@ -191,11 +200,13 @@ class ResPartner(models.Model):
                     city += " " + line.strip().title()
                 else:
                     addr += line.replace("STR.", "").strip().title() + " "
+                    
+        res['vat'] = "%s%s" % (result.get('scpTVA', False) and "RO" or "", result.get('cui'))
         res["city"] = city.replace("-", " ").title().strip()
         res["state_id"] = state
         res["street"] = addr.strip()
         return res
-
+    
     @api.onchange("vat", "country_id")
     def ro_vat_change(self):
         for partner in self:
@@ -204,7 +215,7 @@ class ResPartner(models.Model):
                 return ret
             res = {}
             vat = partner.vat.strip().upper()
-            original_vat_country, vat_number = partner._split_vat(vat)
+            original_vat_country, vat_number = partner._split_vat_ro(vat)
             vat_country = original_vat_country.upper()
             if not vat_country and partner.country_id:
                 vat_country = self._map_vat_country_code(
@@ -221,7 +232,9 @@ class ResPartner(models.Model):
                         .search([("code", "ilike", vat_country)])[0]
                         .id
                     )
-                    partner.with_context(skip_ro_vat_change=True).update(res)
+                    
+                    #partner.with_context(skip_ro_vat_change=True).update(res)
+                    partner.update(res)
                 else:
                     ret["warning"] = {"message": anaf_error}
         return ret
