@@ -26,16 +26,12 @@ class ResCompany(models.Model):
         readonly=1,
         tracking=1,
     )
-    client_token_response = fields.Char(
-        help="date when is going to exprire - 90 days from when was generated",
-        readonly=1,
-        tracking=1,
-    )
+
     response_secret = fields.Char(
         help="A generated secret to know that the response is ok", readonly=1
     )
-    response_secret_duration = fields.Datetime(
-        help="Time till when will wait for a reponse from anaf with the secret (1 minute after request)",
+    anaf_request_datetime = fields.Datetime(
+        help="Time when was last time pressed the Get Token From Anaf Website. It waits for anaf request for maximum 1 minute",
         readonly=1,
     )
     other_responses = fields.Text(

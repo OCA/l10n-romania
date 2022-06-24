@@ -8,17 +8,17 @@
                 <page string="Anaf e-invoice/transfer">
                     <group>
                         <separator string="This should be on anaf website"/>
+                        <button class="btn btn-primary"
+                        string="Get Token_From Anaf Website" name="get_token_from_anaf_website" type="object" help="At this step you need a digital certified signature and a browser that recongnise it"/>
+
                         <field name="client_id"/>
                         <field name="anaf_callback_url"/>
                         <field name="client_secret"/>
+
                         <separator string="This are obtain with data from upper fields"/>
                         <field name="client_received_token" readonly="1"/>
                         <field name="client_token_valability"/>
-                        <field name="client_token_response"/>
-                        <field name="response_secret_duration"/>
-                        
-                        <button class="btn btn-primary"
-                        string="get_token_from_anaf_website" name="get_token_from_anaf_website" type="object"/>
+                        <field name="anaf_request_datetime"/>
                         <field name="other_responses"/>
                     </group>
                 </page>

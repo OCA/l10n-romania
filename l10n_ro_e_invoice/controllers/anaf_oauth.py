@@ -2,6 +2,10 @@ from odoo import http
 from odoo.http import request
 import secrets
 from datetime import datetime, timedelta
+import requests
+# Authorization Endpoint https://logincert.anaf.ro/anaf-oauth2/v1/authorize
+# Token Issuance Endpoint https://logincert.anaf.ro/anaf-oauth2/v1/token
+# Token Revocation Endpoint https://logincert.anaf.ro/anaf-oauth2/v1/revoke
 
 
 class WebsitePageDepositKpi(http.Controller):
@@ -27,7 +31,7 @@ class WebsitePageDepositKpi(http.Controller):
         company.write(
             {
                 "response_secret": secret,
-                "response_secret_duration": datetime.now() + timedelta(minutes=1),
+                "anaf_request_datetime": datetime.now(),
             }
         )
         anafOauth = (
@@ -36,19 +40,45 @@ class WebsitePageDepositKpi(http.Controller):
             f"&client_secret={company.client_secret}"
             "&response_type=code"
             f"&redirect_uri={user.get_base_url()+'/anaf_oauth'}"
-            "&grant_type=authorization_code"  # not necessary?
             f"&scope={secret}"  # is not giving it back in Oauth they should
+       #     "&grant_type=authorization_code"  # not necessary?
         )
-        response = request.redirect(anafOauth, code=302, local=False)
+# alex: here should be POST and not get, but is another redirect
+#        response = request.redirect(anafOauth, code=302, local=False)
+        try:
+            response = requests.post(f"{user.get_base_url()}/redirect_anaf_post", 
+                    json={
+                "client_id":f"{company.client_id}",
+                "client_secret":f"{company.client_secret}",
+                "response_type":"code",
+                "redirect_uri":f"{user.get_base_url()+'/anaf_oauth'}",
+                "scope":f"{secret}"  # is not giving it back in Oauth they should
+                    }, 
+                    #headers = {"Content-type": "application/x-www-form-urlencoded"},
+                    headers={'Content-Type': 'multipart/form-data'},
+                    timeout = 30,
+                    )
+            response.raise_for_status()
+        except Exception as ex:
+            return f"Something went wrong during post  ex={ex}"
+            
+
         return response
 
-    # The following example shows an HTTP request that is sent to the revocation endpoint:
-    # POST /revoke HTTP/1.1
-    # Host: server.example.com
-    # Content-Type: application/x-www-form-urlencoded
-    # Authorization: Basic czZCaGRSa3F0MzpnWDFmQmF0M2JW
-    # token=45ghiukldjahdnhzdauz&token_type_hint=access_token
-
+    @http.route(
+        ["/redirect_anaf_post"],
+        type="http",
+        auth="public",
+        csrf=False,
+        website=True,
+        sitemap=False,
+    )
+    def redirect_anaf_post(self,  **kw):
+        response = request.redirect("https://logincert.anaf.ro/anaf-oauth2/v1/authorize", code=302, local=False)
+        return response
+        
+        
+        
     @http.route(
         ["/anaf_oauth"],
         type="http",
@@ -62,8 +92,7 @@ class WebsitePageDepositKpi(http.Controller):
         now = datetime.now()
         Companies = request.env["res.company"].sudo()
         company = Companies.search(
-            [("client_id", "!=", "")]
-        )  # , ('response_secret_duration',">",now)])
+            [("client_id", "!=", ""), ('anaf_request_datetime',">",now-timedelta(minutes=1))])
         error = ""
         if len(company) > 1:
             ret = f"UTC{str(now)[:19]} found {company} that have done request to anaf. We can not set to more than one at a time. Rreponse was {kw}\n"
@@ -75,14 +104,15 @@ class WebsitePageDepositKpi(http.Controller):
             return f"You can not modify anything, the reponse is to late.\nkw={kw}"
         code = kw.get("code")
         if code:
+            ret= f"UTC{str(now)[:19]} All is OK reponse kw={kw}\n"
             company.write(
                 {
-                    "client_token_response": code,
+                    "client_received_token": code,
                     "client_token_valability": now + timedelta(days=89),
-                    "other_responses": f"UTC{str(now)[:19]} OK reponse kw={kw}\n",
+                    "other_responses": ret,
                 }
             )
-            return f"put code form kw={kw} in {company}"
+            return ret
         else:
             error = f"UTC{str(now)[:19]} BAD reponse no code in reponse kw={kw}\n"
             company.write({"other_responses": error})
