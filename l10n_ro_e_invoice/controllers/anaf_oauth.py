@@ -30,7 +30,7 @@ class WebsitePageDepositKpi(http.Controller):
 
         secret = secrets.token_urlsafe(16)
         now = datetime.now()
-        if company.anaf_request_datetime + timedelta(minutes=1)> now :
+        if company.anaf_request_datetime + timedelta(seconds=30)> now :
             return "You can make only one request per minute"
         company.write(
             {
@@ -40,59 +40,26 @@ class WebsitePageDepositKpi(http.Controller):
         )
         anafOauth = (
             "https://logincert.anaf.ro/anaf-oauth2/v1/authorize"
-            f"?client_id={company.client_id}"
+            "?response_type=code" 
+            f"&client_id={company.client_id}"
             f"&client_secret={company.client_secret}"
-            "&response_type=code"
             f"&redirect_uri={user.get_base_url()+'/anaf_oauth'}"
-            f"&scope={secret}"  # is not giving it back in Oauth they should
-       #     "&grant_type=authorization_code"  # not necessary?
+            f"&scope={secret}"  
+            "&grant_type=authorization_code"  # not necessary?
+
         )
 # ************ working**********
 # alex: here should be POST and not get, I try them in comments below, but did not work
         anaf_request_from_redirect = request.redirect(anafOauth, code=302, local=False)
+        """
+This is the default for Authorization Code grant. A successful response is 302 Found which triggers a redirect to the redirect_uri. The response parameters are embedded in the query component (the part after ?) of the redirect_uri in the Location header.
+For example:
+HTTP/1.1 302 Found
+Location: https://my-redirect-uri.callback?code=js89p2x1 where the authorization code is js89p21.
+"""
+
+
         return anaf_request_from_redirect
-#************ /working**********
-
-# try 1 post 
-#        response = requests.get(anafOauth,timeout=80)
-#  givers {'error': 'access_denied'}
-# and calls continues this function 
-       
-# try 2 same like 1      
-#        response = requests.get(
-         # "https://logincert.anaf.ro/anaf-oauth2/v1/authorize",
-
-# try 3 with get another page    that is going to anaf  
-#try 3 with post
-        # response = requests.post(
-           # # "https://logincert.anaf.ro/anaf-oauth2/v1/authorize",
-# # reponse b'{\n  "error":"invalid_request",\n  "error_description":"Failed to parse request"\n}\n'
-            # f"{user.get_base_url()}/redirect_anaf_post", 
-                # data=json.dumps({
-            # "client_id":f"{company.client_id}",
-            # "client_secret":f"{company.client_secret}",
-            # "response_type":"code",
-            # "redirect_uri":f"{user.get_base_url()+'/anaf_oauth'}",
-                # }), 
-                # #headers = {"Content-type": "application/x-www-form-urlencoded"},
-                # #headers={'Content-Type': 'multipart/form-data'},
-                # headers={'Content-Type': 'application/json'},            
-                # timeout = 80,
-                # allow_redirects=True
-                # )
-        # return f"{response.content=}\n{response.headers=}"
-        #
-    # @http.route(
-        # ["/redirect_anaf_post"],
-        # type="json",
-        # auth="public",
-        # csrf=False,
-        # website=True,
-        # sitemap=False,
-    # )
-    # def redirect_anaf_post(self,  **kw):
-        # response = request.redirect("https://logincert.anaf.ro/anaf-oauth2/v1/authorize", code=302, local=False)
-        # return response
         
     @http.route(
         ["/anaf_oauth"],
@@ -123,15 +90,35 @@ class WebsitePageDepositKpi(http.Controller):
         code = kw.get("code")
         if code:
             ret= f"UTC{str(now)[:19]} All is OK reponse kw={kw}\n" 
+
+            headers = { 'content-type': 'application/x-www-form-urlencoded' }
+            data={ "grant_type": 'authorization_code',
+                  "client_id": f"{company.client_id}",
+                  "client_secret": f"{company.client_secret}",
+                  "code": f'{code}',
+                  "redirect_uri": f"{user.get_base_url()+'/anaf_oauth'}" }
+        
+            response = requests.post("https://logincert.anaf.ro/anaf-oauth2/v1/token",
+                         data=data,
+                         headers=headers)
+            response_json = response.json()
+            ret += f" {response_json=}\n\n"
             company.write(
                 {
-                    "client_received_token": code,
+                    "code": code,
                     "client_token_valability": now + timedelta(days=89),
                     "other_responses": ret + (company.other_responses or ""),
-                }
-            )
+                    "access_token":response_json.get("access_token",""),
+                    "refresh_token":response_json.get("refresh_token",""),
+                })
             return ret
         else:
             error = f"UTC{str(now)[:19]} BAD reponse no code in reponse kw={kw}\n" 
             company.write({"other_responses": error  + (company.other_responses or "")})
             return f"UTC{str(now)[:19]} BAD reponse no 'code' in reponse kw={kw}\n"
+
+# post request to refresh the token must be
+# grant_type=refresh_token
+# &refresh_token=xxxxxxxxxxx
+# &client_id=xxxxxxxxxx
+# &client_secret=xxxxxxxxxx

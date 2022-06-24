@@ -19,9 +19,17 @@ class ResCompany(models.Model):
     client_secret = fields.Char(
         help="From anaf site the Oauth id - view the readme", tracking=1
     )
-    client_received_token = fields.Char(
-        help="Recived from ANAF if called with right data and usb signature", tracking=1
+    code = fields.Char(
+        help="Recived from ANAF with this you can take access toekn and refresh_token", tracking=1
     )
+
+    access_token = fields.Char(
+        help="Recived from ANAF ", tracking=1,readonly=1
+    )
+    refresh_token = fields.Char(
+        help="Recived from ANAF ", tracking=1,readonly=1
+    )
+
     client_token_valability = fields.Date(
         help="date when is going to exprire - 90 days from when was generated",
         readonly=1,
@@ -59,22 +67,30 @@ class ResCompany(models.Model):
             # "code":f"{self.client_received_token}",
             # "key":f"{self.client_received_token}",
             # "access_token":f"{self.client_received_token}",
-            "name":"xx",
+           # "name":"xx",
             }
-        url = 'https://api.anaf.ro/TestOauth/jaxrs/hello'
+        # it should work, but is giving 403 Forbidden
+        url = 'https://api.anaf.ro/TestOauth/jaxrs/hello?name=yy'
+#        url = "https://api.anaf.ro/test/FCTEL/rest/listaMesajeFactura"
+#        url = "https://api.anaf.ro/test/FCTEL/rest/descarcare" # id = index descarare factura
+#        url = "https://api.anaf.ro/test/ETRANSPORT/ws/v1/lista/{1}/{}" 
         response = requests.get(url,
-                params=param, 
-                #headers = {"Content-type": "application/x-www-form-urlencoded"
-                #headers={'Content-Type': 'multipart/form-data',
+#        response = requests.post(url,
+#                                data={"id":1},
+               # json=json.dumps(param), 
                 headers={#'Content-Type': 'application/json',
-                         'Content-Type': 'application/xml',
-                         "Authorization": f"Bearer {self.client_received_token}"
+                         'Content-Type': 'multipart/form-data',
+                         #'Accept': 'application/json',
+                         #"client_id": self.client_id,
+                         "Authorization": f"Bearer {self.access_token}"
                          },            
                 timeout = 80,
-                allow_redirects=True
+#                allow_redirects=True
                 )
         # return f"{response.content=}\n{response.headers=}"
-        print(f"{response.url=}\n{response.reason=}\n{response.content=}\n{response.status_code=}\n{response.headers=}\n")
+        anaf_hello_test = f"UTC{str(fields.datetime.now())[:19]}{response.url=}\n{response.reason=}\n{response.content=}\n{response.status_code=}\n{response.headers=}\n{response.request.headers=}\n{response.request.method=}\n"
+        print(anaf_hello_test)
+        self.write({"other_responses":anaf_hello_test + self.other_responses})
         return 
         # for a popup in future, or put in a text field?
         return {
