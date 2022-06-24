@@ -18,4 +18,8 @@ put put your username and password and code that came on email
     If on anaf website is not asking for pin you must open and close your broser to ask you again the signature token pin
 6. If you do not have errors press the test button and all should be ok.
 7. In companies you have a check if is_romanian_goverment ( to send only invoices to this partners)
-   
+
+https://mfinante.gov.ro/web/efactura/informatii-tehnice
+
+https://www.anaf.ro/anaf/internet/ANAF/servicii_online/servicii_web_anaf/!ut/p/a1/hY9NC4JAEIZ_SwevzqRp1k2h3CQojUj3Eiv4FbYrq-nfT8NDRNncZnge3nmBQgiUs7bIWFMIzsphp-aVzIlJNEvzMNAt9A1nu3FWJ3QPyx6IegB_jI0fPvFx8HeB4R4R3cXoTwB_8i9AJyPQHIGJFz2gWSniV93I5rFuZUBlkiYykepD9ue8aap6raCCXdepjLNUlULBb3wu6gbCNwyq-znEm1G2e3v2BHB2faQ!/dl5/d5/L2dBISEvZ0FBIS9nQSEh/
+   https://docs.peppol.eu/poacc/billing/3.0/syntax/ubl-invoice/

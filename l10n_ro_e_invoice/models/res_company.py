@@ -2,7 +2,8 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
 from odoo import _, fields, models
-
+import requests
+import json        
 
 class ResCompany(models.Model):
     _inherit = ["mail.thread", "res.company"]
@@ -49,3 +50,40 @@ class ResCompany(models.Model):
             "url": f"/redirect_anaf/{self.id}",
             "target": "new",
         }
+
+    def test_anaf_api(self):
+        self.ensure_one()
+        param = {
+            # "client_id":f"{self.client_id}",
+            # "token":f"{self.client_received_token}",
+            # "code":f"{self.client_received_token}",
+            # "key":f"{self.client_received_token}",
+            # "access_token":f"{self.client_received_token}",
+            "name":"xx",
+            }
+        url = 'https://api.anaf.ro/TestOauth/jaxrs/hello'
+        response = requests.get(url,
+                params=param, 
+                #headers = {"Content-type": "application/x-www-form-urlencoded"
+                #headers={'Content-Type': 'multipart/form-data',
+                headers={#'Content-Type': 'application/json',
+                         'Content-Type': 'application/xml',
+                         "Authorization": f"Bearer {self.client_received_token}"
+                         },            
+                timeout = 80,
+                allow_redirects=True
+                )
+        # return f"{response.content=}\n{response.headers=}"
+        print(f"{response.url=}\n{response.reason=}\n{response.content=}\n{response.status_code=}\n{response.headers=}\n")
+        return 
+        # for a popup in future, or put in a text field?
+        return {
+                'name': 'My Window',
+                'domain': [],
+                'res_model': 'my.model',
+                'type': 'ir.actions.act_window',
+                'view_mode': 'form',
+                'view_type': 'form',
+                'context': {},
+                'target': 'new',
+            }

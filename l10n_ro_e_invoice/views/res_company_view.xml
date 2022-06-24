@@ -16,11 +16,15 @@
                         <field name="client_secret"/>
 
                         <separator string="This are obtain with data from upper fields"/>
+                        <button class="btn btn-primary"
+                        string="Test anaf api" name="test_anaf_api" type="object" help="https://api.anaf.ro/TestOauth/jaxrs/hello"/>
                         <field name="client_received_token" readonly="1"/>
                         <field name="client_token_valability"/>
                         <field name="anaf_request_datetime"/>
-                        <field name="other_responses"/>
                     </group>
+                        <separator string="This are obtain with data from upper fields"/>
+                        <field name="other_responses" string="Anaf Responses"/>
+
                 </page>
             </notebook>
             <sheet position="after">
