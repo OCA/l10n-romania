@@ -9,7 +9,7 @@
                     <group>
                         <separator string="This should be on anaf website"/>
                         <button class="btn btn-primary"
-                        string="Get Token_From Anaf Website" name="get_token_from_anaf_website" type="object" help="At this step you need a digital certified signature and a browser that recongnise it"/>
+                        string="Get Token From Anaf Website (with usb token inserted)" name="get_token_from_anaf_website" type="object" help="At this step you need a digital certified signature and a browser that recongnise it"/>
 
                         <field name="client_id"/>
                         <field name="anaf_callback_url"/>
