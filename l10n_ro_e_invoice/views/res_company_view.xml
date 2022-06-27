@@ -5,36 +5,50 @@
         <field name="inherit_id" ref="base.view_company_form" />
         <field name="arch" type="xml">
             <notebook position="inside">
-                <page string="Anaf e-invoice/transfer">
+                <page string="ANAF e-invoice/transfer">
                     <group>
-                        <separator string="This should be on anaf website"/>
-                        <button class="btn btn-primary"
-                        string="Get Token From Anaf Website (with usb token inserted)" name="get_token_from_anaf_website" type="object" help="At this step you need a digital certified signature and a browser that recongnise it"/>
+                        <separator string="This should be on anaf website" />
+                        <button
+                            class="btn btn-primary"
+                            string="Get Token From ANAF Website (with usb token inserted)"
+                            name="get_token_from_anaf_website"
+                            type="object"
+                            help="At this step you need a digital certified signature and a browser that recognize it"
+                        />
 
-                        <field name="client_id"/>
-                        <field name="anaf_callback_url"/>
-                        <field name="client_secret"/>
+                        <field name="client_id" />
+                        <field name="anaf_callback_url" />
+                        <field name="client_secret" />
 
-                        <separator string="This are obtain with data from upper fields"/>
-                        <button class="btn btn-primary"
-                        string="Test anaf api" name="test_anaf_api" type="object" help="https://api.anaf.ro/TestOauth/jaxrs/hello"/>
-                        <field name="code" readonly="1"/>
-                        <field name="access_token" readonly="1"/>
-                        <field name="refresh_token" readonly="1"/>
-                        
-                        <field name="client_token_valability"/>
-                        <field name="anaf_request_datetime"/>
+                        <separator
+                            string="This are obtain with data from upper fields"
+                        />
+                        <button
+                            class="btn btn-primary"
+                            string="Test anaf api"
+                            name="test_anaf_api"
+                            type="object"
+                            help="https://api.anaf.ro/TestOauth/jaxrs/hello"
+                        />
+                        <field name="code" readonly="1" />
+                        <field name="access_token" readonly="1" />
+                        <field name="refresh_token" readonly="1" />
+
+                        <field name="client_token_valability" />
+                        <field name="anaf_request_datetime" />
                     </group>
-                        <separator string="This are obtain with data from upper fields"/>
-                        <field name="other_responses" string="Anaf Responses"/>
+                        <separator
+                        string="This are obtain with data from upper fields"
+                    />
+                        <field name="other_responses" string="Anaf Responses" />
 
                 </page>
             </notebook>
             <sheet position="after">
                 <div class="oe_chatter">
-                    <field name="message_follower_ids"/>
-                    <field name="message_ids"/>
-                </div>                
+                    <field name="message_follower_ids" />
+                    <field name="message_ids" />
+                </div>
             </sheet>
         </field>
     </record>
