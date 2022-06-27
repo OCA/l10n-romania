@@ -3,7 +3,7 @@ from datetime import datetime, timedelta
 
 import requests
 
-from odoo import http
+from odoo import _, http
 from odoo.http import request
 
 # Authorization Endpoint https://logincert.anaf.ro/anaf-oauth2/v1/authorize
@@ -22,13 +22,16 @@ class WebsitePageDepositKpi(http.Controller):
     def redirect_anaf(self, company_id, **kw):
         uid = request.uid
         user = request.env["res.users"].browse(uid)
+        error = False
         if user.share:
-            return "This page is only for internal users!"
+            return request.not_found(_("This page is only for internal users!"))
+
         company = request.env["res.company"].browse(company_id)
         if not company.exists():
-            return "Error, this company does not exist!"
+            return request.not_found(_("Error, this company does not exist!"))
+
         elif not company.client_id or not company.client_secret:
-            return (
+            error = (
                 f"Error, on company {company.name} you does not have a "
                 f"Oauth client_id or client_secret for anaf.ro!"
             )
@@ -39,7 +42,12 @@ class WebsitePageDepositKpi(http.Controller):
             company.anaf_request_datetime
             and company.anaf_request_datetime + timedelta(seconds=30) > now
         ):
-            return "You can make only one request per minute"
+            error = _("You can make only one request per minute")
+
+        if error:
+            values = {"error": error}
+            return request.render("l10n_ro_e_invoice.redirect_anaf", values)
+
         company.write(
             {
                 "response_secret": secret,
@@ -47,11 +55,10 @@ class WebsitePageDepositKpi(http.Controller):
             }
         )
         anafOauth = (
-            "https://logincert.anaf.ro/anaf-oauth2/v1/authorize"
-            "?response_type=code"
+            "https://logincert.anaf.ro/anaf-oauth2/v1/authorize?response_type=code"
             f"&client_id={company.client_id}"
             f"&client_secret={company.client_secret}"
-            f"&redirect_uri={user.get_base_url()+'/anaf_oauth'}"
+            f"&redirect_uri={user.get_base_url() + '/anaf_oauth'}"
             f"&scope={secret}"
             "&grant_type=authorization_code"  # not necessary?
         )
@@ -74,7 +81,7 @@ class WebsitePageDepositKpi(http.Controller):
         ["/anaf_oauth"], type="http", auth="public", website=True, sitemap=False
     )
     def get_anaf_oauth_code(self, **kw):
-        "returns a text with the result of anaf request from redirect"
+        "Returns a text with the result of anaf request from redirect"
         uid = request.uid
         user = request.env["res.users"].browse(uid)
         now = datetime.now()
@@ -86,24 +93,29 @@ class WebsitePageDepositKpi(http.Controller):
             ],
             limit=1,
         )
-        error = ""
+        message = ""
         if len(company) > 1:
-            ret = (
+            message = (
                 f"UTC{str(now)[:19]} found {company} that have done request to anaf."
                 f" We can not set to more than one at a time. response was {kw}\n"
             )
             for comp in company:
-                resp = ret
+                resp = message
                 comp.write({"other_responses": resp + (company.other_responses or "")})
-            return ret
+
         elif not company:
-            return (
+            message = (
                 f"You can not modify anything, the response is to late.\n"
                 f" Response was: kw={kw}"
             )
+
+        if message:
+            values = {"message": message}
+            return request.render("l10n_ro_e_invoice.redirect_anaf", values)
+
         code = kw.get("code")
         if code:
-            ret = f"UTC{str(now)[:19]} All is OK response kw={kw}\n"
+            message = f"UTC{str(now)[:19]} All is OK response kw={kw}\n"
 
             headers = {"content-type": "application/x-www-form-urlencoded"}
             data = {
@@ -111,7 +123,7 @@ class WebsitePageDepositKpi(http.Controller):
                 "client_id": f"{company.client_id}",
                 "client_secret": f"{company.client_secret}",
                 "code": f"{code}",
-                "redirect_uri": f"{user.get_base_url()+'/anaf_oauth'}",
+                "redirect_uri": f"{user.get_base_url() + '/anaf_oauth'}",
             }
 
             response = requests.post(
@@ -120,21 +132,24 @@ class WebsitePageDepositKpi(http.Controller):
                 headers=headers,
             )
             response_json = response.json()
-            ret += f" {response_json=}\n\n"
+            message += f" {response_json=}\n\n"
             company.write(
                 {
                     "code": code,
                     "client_token_valability": now + timedelta(days=89),
-                    "other_responses": ret + (company.other_responses or ""),
+                    "other_responses": message + (company.other_responses or ""),
                     "access_token": response_json.get("access_token", ""),
                     "refresh_token": response_json.get("refresh_token", ""),
                 }
             )
-            return ret
+            message = "All is OK response."
         else:
             error = f"UTC{str(now)[:19]} BAD response no code in response kw={kw}\n"
             company.write({"other_responses": error + (company.other_responses or "")})
-            return f"UTC{str(now)[:19]} BAD response no 'code' in response kw={kw}\n"
+            message = f"UTC{str(now)[:19]} BAD response no 'code' in response kw={kw}\n"
+
+        values = {"message": message}
+        return request.render("l10n_ro_e_invoice.redirect_anaf", values)
 
 
 # post request to refresh the token must be

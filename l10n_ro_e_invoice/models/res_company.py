@@ -30,13 +30,13 @@ class ResCompany(models.Model):
         tracking=1,
     )
 
-    access_token = fields.Char(help="Received from ANAF", tracking=1, readonly=1)
-    refresh_token = fields.Char(help="Received from ANAF", tracking=1, readonly=1)
+    access_token = fields.Char(help="Received from ANAF", tracking=1)
+    refresh_token = fields.Char(help="Received from ANAF", tracking=1)
 
     client_token_valability = fields.Date(
         help="Date when is going to expire - 90 days from when was generated",
         readonly=1,
-        tracking=1
+        tracking=1,
     )
 
     response_secret = fields.Char(
@@ -45,7 +45,7 @@ class ResCompany(models.Model):
     anaf_request_datetime = fields.Datetime(
         help="Time when was last time pressed the Get Token From Anaf Website."
         " It waits for ANAF request for maximum 1 minute",
-        readonly=1
+        readonly=1,
     )
     other_responses = fields.Text(
         help="This are request to the page /anaf_oauth that are not finished"
@@ -104,7 +104,9 @@ class ResCompany(models.Model):
         )
 
         _logger.info(anaf_hello_test)
-        self.write({"other_responses": anaf_hello_test + self.other_responses})
+        self.write(
+            {"other_responses": "%s %s" % (anaf_hello_test, self.other_responses)}
+        )
         return
         # for a popup in future, or put in a text field?
         # return {

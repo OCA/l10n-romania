@@ -34,6 +34,12 @@ repos:
       - id: oca-update-pre-commit-excluded-addons
       - id: oca-fix-manifest-website
         args: ["https://github.com/OCA/l10n-romania"]
+      - id: oca-gen-addon-readme
+        args:
+          - --addons-dir=.
+          - --org-name=OCA
+          - --repo-name=l10n-romania
+          - --branch=15.0
   - repo: https://github.com/myint/autoflake
     rev: v1.4
     hooks:

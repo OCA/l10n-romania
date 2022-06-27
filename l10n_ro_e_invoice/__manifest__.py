@@ -8,7 +8,7 @@
     "author": "NextERP Romania," "Odoo Community Association (OCA)",
     "website": "https://github.com/OCA/l10n-romania",
     "depends": ["account"],
-    "data": ["views/res_company_view.xml"],
+    "data": ["views/res_company_view.xml", "views/template.xml"],
     "installable": True,
     "development_status": "Mature",
     "maintainers": ["feketemihai"],
