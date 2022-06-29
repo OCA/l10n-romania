@@ -16,7 +16,7 @@ class WebsitePageDepositKpi(http.Controller):
         ["/redirect_anaf/<int:company_id>"],
         type="http",
         auth="user",
-        website=True,
+        website=False,
         sitemap=False,
     )
     def redirect_anaf(self, company_id, **kw):

@@ -20,18 +20,19 @@ class ResCompany(models.Model):
         "( and will work if is https & accessible form internet)",
     )
     client_id = fields.Char(
-        help="From ANAF site the Oauth id - view the readme", tracking=1
+        help="From ANAF site the Oauth id - view the readme", tracking=1, default=""
     )
     client_secret = fields.Char(
-        help="From ANAF site the Oauth id - view the readme", tracking=1
+        help="From ANAF site the Oauth id - view the readme", tracking=1, default=""
     )
     code = fields.Char(
         help="Received from ANAF with this you can take access token and refresh_token",
         tracking=1,
+        default="",
     )
 
-    access_token = fields.Char(help="Received from ANAF", tracking=1)
-    refresh_token = fields.Char(help="Received from ANAF", tracking=1)
+    access_token = fields.Char(help="Received from ANAF", tracking=1, default="")
+    refresh_token = fields.Char(help="Received from ANAF", tracking=1, default="")
 
     client_token_valability = fields.Date(
         help="Date when is going to expire - 90 days from when was generated",
@@ -49,7 +50,8 @@ class ResCompany(models.Model):
     )
     other_responses = fields.Text(
         help="This are request to the page /anaf_oauth that are not finished"
-        " with a received token. Date is in UTC"
+        " with a received token. Date is in UTC",
+        default="",
     )
 
     def _compute_anaf_callback_url(self):
@@ -58,6 +60,11 @@ class ResCompany(models.Model):
 
     def get_token_from_anaf_website(self):
         self.ensure_one()
+        if self.access_token:
+            resp = f"UTC{str(fields.datetime.now())[:19]} First revoke existing Access Token"
+            to_write = {"other_responses": resp + self.other_responses}
+            self.write(to_write)
+            return
         return {
             "type": "ir.actions.act_url",
             "url": f"/redirect_anaf/{self.id}",
@@ -75,16 +82,18 @@ class ResCompany(models.Model):
         #     # "name":"xx",
         # }
         # it should work, but is giving 403 Forbidden
-        url = "https://api.anaf.ro/TestOauth/jaxrs/hello?name=yy"
+        url = "https://api.anaf.ro/TestOauth/jaxrs/hello"
+        # url = "https://api.anaf.ro/TestOauth/jaxrs/hello?name=yy"
         #  url = "https://api.anaf.ro/test/FCTEL/rest/listaMesajeFactura"
         #  url = "https://api.anaf.ro/test/FCTEL/rest/descarcare"
         #       id = index descarare factura
         #  url = "https://api.anaf.ro/test/ETRANSPORT/ws/v1/lista/{1}/{}"
 
-        response = requests.get(
+        # response = requests.get(
+        #    url,
+        response = requests.post(
             url,
-            #        response = requests.post(url,
-            #                                data={"id":1},
+            data={"name": "rr"},
             # json=json.dumps(param),
             headers={  # 'Content-Type': 'application/json',
                 "Content-Type": "multipart/form-data",
@@ -108,14 +117,50 @@ class ResCompany(models.Model):
             {"other_responses": "%s %s" % (anaf_hello_test, self.other_responses)}
         )
         return
-        # for a popup in future, or put in a text field?
-        # return {
-        #     "name": "My Window",
-        #     "domain": [],
-        #     "res_model": "my.model",
-        #     "type": "ir.actions.act_window",
-        #     "view_mode": "form",
-        #     "view_type": "form",
-        #     "context": {},
-        #     "target": "new",
-        # }
+
+    def revoke_access_token(self):
+        self.ensure_one()
+        resp = f"UTC{str(fields.datetime.now())[:19]}"
+        if not self.access_token:
+            self.write(
+                {
+                    "other_responses": resp
+                    + "Can not revoke acces token - you do not have one"
+                    + self.other_responses
+                }
+            )
+            return
+        param = {
+            "client_id": f"{self.client_id}",
+            "client_secret": f"{self.client_secret}",
+            "access_token": f"{self.access_token}",
+            "token_type_hint": "access_token",  # refresh_token  (should work without)
+        }
+        url = "https://logincert.anaf.ro/anaf-oauth2/v1/revoke"
+        response = requests.post(
+            url,
+            data=param,
+            timeout=80,
+            headers={
+                "Content-Type": "application/x-www-form-urlencoded",
+            },
+        )
+        resp += (
+            f"REVOKE TOKEN{response.url=}\n{response.reason=}\n"
+            f"{response.content=}\n{response.status_code=}\n"
+            f"{response.headers=}\n{response.request.headers=}\n"
+            f"{response.request.method=}\n"
+        )
+        to_write = {"other_responses": resp + self.other_responses}
+        if response.reason == "OK":
+            to_write.update(
+                {
+                    "code": "",
+                    "access_token": "",
+                    "refresh_token": "",
+                    "anaf_request_datetime": False,
+                    "client_token_valability": False,
+                }
+            )
+        self.write(to_write)
+        return
