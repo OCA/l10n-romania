@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+
+
+        <template
+        id="export_ubl_invoice_partner"
+        inherit_id="account_edi_ubl_bis3.export_bis3_invoice_partner"
+        primary="True"
+        priority="100"
+    >
+            <xpath expr="//*[local-name()='CountrySubentity']" position="replace">
+                <cbc:CountrySubentity
+                xmlns="urn:oasis:names:specification:ubl:schema:xsd:Invoice-2"
+                xmlns:cbc="urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2"
+                t-if="partner.state_id"
+                t-esc="partner.state_id.country_id.code +'-'+ partner.state_id.code"
+            />
+            </xpath>
+        </template>
+
+
+
+        <template
+        id="export_cirus_ro_invoice"
+        inherit_id="account_edi_ubl_bis3.export_bis3_invoice"
+        primary="True"
+        priority="100"
+    >
+
+            <xpath
+            expr="//*[local-name()='AccountingSupplierParty']"
+            position="replace"
+        >
+                <cac:AccountingSupplierParty
+                t-call="l10n_ro_edi_ubl.export_ubl_invoice_partner"
+                xmlns="urn:oasis:names:specification:ubl:schema:xsd:Invoice-2"
+                xmlns:cac="urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2"
+            >
+                    <t t-set="partner_vals" t-value="supplier_vals" />
+                </cac:AccountingSupplierParty>
+            </xpath>
+            <xpath
+            expr="//*[local-name()='AccountingCustomerParty']"
+            position="replace"
+        >
+                <cac:AccountingCustomerParty
+                t-call="l10n_ro_edi_ubl.export_ubl_invoice_partner"
+                xmlns="urn:oasis:names:specification:ubl:schema:xsd:Invoice-2"
+                xmlns:cac="urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2"
+            >
+                    <t t-set="partner_vals" t-value="customer_vals" />
+                </cac:AccountingCustomerParty>
+            </xpath>
+
+
+        </template>
+
+
+</odoo>
