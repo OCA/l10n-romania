@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+
+        <record id="edi_ubl_cirus_ro" model="account.edi.format">
+            <field name="name">CIUS-RO</field>
+            <field name="code">cirus_ro</field>
+        </record>
+
+</odoo>
