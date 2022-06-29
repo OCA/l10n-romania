@@ -1,0 +1,31 @@
+11-Nov-2021
+	- publicat versiunea J1.0.0 de validator
+
+16-Nov-2021
+	- publicat versiunea J1.0.1 de validator
+                  - modificare regula BR-CO-15, BR-CO-16
+22-Nov-2021
+        - versiune J1.0.2 0 0
+                  - modificare regul BR-CO-09, BR-CO-10,  BR-CO-13, BR-CO-17
+
+09-Dec-2021
+        - versiune J1.0.3 0 0
+                 - modificat BR-CO-15,BR-CO-11,BR-CO-12,BR-CO-16,BR-Z-08,BR-E-08,BR-AE-08,BR-IC-08,BR-G-08,BR-O-08,BR-CO-17,  BR-S-09, BR-IG-09, BR-IP-09
+
+12-Dec-2021
+        - versiune J1.0.4 0 0
+                 - modificat regului BR-S-10, BR-Z-10, lungime data la PriceAmount si BaseAmount
+
+14-Dec-2021
+	-versiune J1.0.5 0 0
+                 - modificat regula [BR-53],[BR-CO-15],[BR-CO-14]
+16-Dec-2021
+        -versiune J1.0.6 0 0
+                 - modificat regula [BR-CO-10],  BR-RO-180, BR-RO-190a si b, BR-RO-200a.
+12-Jan-2022
+        -versiune J1.0.7 0 0
+                  - modificat regula  BR-RO-200b
+
+21-Jan-2022
+        -versiune J1.0.8 0 0
+                  - modificat regula  BR-RO-200b si nomenclator /Invoice/cbc:InvoiceTypeCode BT-3, corectie R_BR-CO-15

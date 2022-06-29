@@ -1,0 +1,144 @@
+Pentru rularea programului este necesar sa aveti instalat jre 1.6 sau 1.7 (java runtime environment 1.6 sau 1.7).
+Programul functioneaza atat pe platforme Windows cat si Linux/Unix. Pe platforme Linux/Unix am testat numai validarea si crearea fisierelor PDF; nu am putut testa semnarea din lipsa de drivere.
+
+Pe sistemele Windows pe 64 biti se poate semna folosind o platforma java pe 32 biti (driverele smartCard pot fi pe 32 sau 64 biti): se decomenteaza atributul 'algorithm=mscapi' din fisierul .cfg corespunzator (se sterge '#').
+
+
+
+Programul opereaza in 2 moduri distincte (in comenzile de lansare parantezele drepte ("[", "]") indica parametri optionali):
+
+A. modul cu interfata grafica. Se lanseaza folosind comanda:
+	java -version:1.6 -jar "<cale>\dist\DUKIntegrator.jar" [-c caleConfig] [-d] [fisierXML]
+
+	- caleConfig trebuie indicata numai in situatia (putin probabila) in care programul nu poate detecta singur calea folderului "config", care contine fisierele de configurare pt. semnarea documentelor folosind smartCarduri. Acest folder, livrat odata cu kitul, se gaseste in folderul "dist".
+
+	- parametrul -d trebuie indicat daca NU se doreste lansarea facilitatii "Download", care permite actualizarea automata a ultimelor versiuni de pe site-ul ANAF (acelasi efect se obtine comentand parametrul "urlVersiuni" din fisierul config/config.properties)
+
+	- parametrul fisierXML indica un fisier XML care apare selectat in interfata grafica la pornirea programului.
+
+Atentie! Parametrul -c se poate folosi numai impreuna cu pararametrul -d.
+
+B. modul linie de comanda. Acest mod permite aceleasi operatii ca modul A. Se pot folosi comenzile:
+
+	- pt. validare declaratie:
+	java -version:1.6 -jar "<cale>\dist\DUKIntegrator.jar" [-c caleConfig] -v tipDeclaratie fisierXML [fisierRezultat] [optiuneValidare]
+
+	- pt. validare declaratie + creare fisier PDF:
+	java -version:1.6 -jar "<cale>\dist\DUKIntegrator.jar" [-c caleConfig] -p tipDeclaratie fisierXML [fisierRezultat] [optiuneValidare] [fisierZIP] [fisierPDF]
+
+	- pt. validare declaratie + creare fisier PDF semnat electronic:
+	java -version:1.6 -jar "<cale>\dist\DUKIntegrator.jar" [-c caleConfig] -s tipDeclaratie fisierXML [fisierRezultat] [optiuneValidare] [fisierZIP] [fisierPDF] pinSmartCard smartCard [selectorCertificat]
+
+unde:
+	- caleConfig trebuie indicata numai in situatia (putin probabila) in care programul nu poate detecta singur calea folderului "config" si se doreste semnarea fisierului PDF rezultat (optiunea -s) folosind smartCarduri
+	- tipDeclaratie indica numele declaratiei cuprinse in fisierul XML de validat (ex: "D112")
+	- fisierXML este chiar declaratia de prelucrat
+	- fisierRezultat va contine erorile si atentionarile obtinute in urma validarii (optiunea -v) sau "ok" daca nu exista erori/atentionari de validare (optiunea -v) sau nu exista erori de validare si crearea PDF/semnarea a decurs corect (optiunile -p/-s); daca nu exista erori la validare dar exista erori la creare/semnare PDF, fisierul de erori va contine aceste ultime erori. Prin lipsa "<fisierXML>.err.txt".
+	- optiuneValidare indica validatoarelor unor declaratii (de exemplu D112) o optiune de validare. Prin lipsa 0. In cazul D112 optiunile pot fi:
+		- 0 - angajatori uzuali, care depun D112 la ANAF
+		- 1 - angajatori unitati speciale care depun D112 la ANAF
+		- 2 - angajatori unitati speciale care nu depun D112 la ANAF
+	- fiserZIP - numele fiserului ZIP de atasat prin optiunile -p/-s. Prin lipsa "<fisierXML fara extensia .xml>.zip".
+IMPORTANT: la declaratiile fara ZIP atasat acest parametru trebuie sa fie 0.
+	- fiserPDF - numele fiserului PDF creat prin optiunile -p/-s. Prin lipsa "<fisierXML fara extensia .xml>.pdf".
+	- pinSmartCard - pinul folosit la semnarea cu smartCard
+	- smartCard - tipul smartCard-ului folosit la semnarea digitala a fisierului PDF (ex: "aladdin"). Trebuie sa existe un fisier <caleConfig>/<smartCard>.cfg care contine informatii de configurare a smartCardului
+	- selectorCertificat - este numarul de ordine pe smartCard (incepand cu 0) al certificatului cu care se doreste semnarea, in cazul unui smartCard care contine mai multe certificate digitale. Prin lipsa 0 (primul certificat de pe smartCard).
+
+Parametri optionali (cu exceptia lui -c) care nu se doresc a fi introdusi expres, dar dupa care urmeaza alti parametri vor trebui indicati prin "$", pt. a li se atribui valoarea prin lipsa corespunzatoare.
+
+Exemple:
+
+	java -version:1.6 -jar "C:\dist\DUKIntegrator.jar" -v D112 C:/D112.xml
+	java -version:1.6 -jar "C:\dist\DUKIntegrator.jar" -v D112 C:/D112.xml $ 1
+	java -version:1.6 -jar "C:\dist\DUKIntegrator.jar" -c C:\dist\config -v D112 C:/D112.xml C:/erori.txt 1
+	java -version:1.6 -jar "C:\dist\DUKIntegrator.jar" -p D112 C:/D112.xml
+	java -version:1.6 -jar "C:\dist\DUKIntegrator.jar" -p D112 C:/D112.xml $ 0 0 C:\declaratie.pdf
+	java -version:1.6 -jar "C:\dist\DUKIntegrator.jar" -s D112 C:/D112.xml $ 0 0 $ 1234 aladdin
+	java -version:1.6 -jar "C:\dist\DUKIntegrator.jar" -c C:\dist\config -s D112 C:/D112.xml C:/erori.txt 0 0 C:\declaratie.pdf 1234 aladdin 1
+
+Observatie: DUKIntegrator.jar contine acum o clasa Integrator care poate fi folosita de dezvoltatori in aplicatii. Clasa contine comentarii de utilizare la toate functiile, iar in clasa Main se poate gasi secventa care foloseste un obiect Integrator pt. realizarea modului B descris mai sus.
+
+
+
+Validare fisiere PDF
+
+Incepand cu versiunea 1.2.10.2.3 a DUKIntegrator se pot valida fisiere PDF inteligente (sau produse cu DUKIntegrator). Validarea se refera la:
+
+- existenta metadatelor obligatorii in PDF;
+- corectitudinea tipurilor de fisiere atasate;
+- verificare sumara a semnaturii (verificarile care se pot face fara consultarea unor BD exterioare);
+- validarea fisierului XML atasat;
+- compararea metadatelor obligatorii din PDF cu cele din XML.
+
+Pt. a putea valida un fisier PDF se alege din dialogul de selectie a fisierelor tipul PDF.
+
+
+
+Verificarea versiunii si descarcarea de versiuni noi
+
+La pornirea programului in modul A se incearca o conectare la site-ul ANAF prin care se verifica:
+
+- daca au aparut modificari la jar-urile principale
+- daca au aparut versiuni noi la declaratiile deja instalate
+- daca exista declaratii noi
+
+Pentru fiecare declaratie exista 2 jar-uri:
+
+- XnnnValidator.jar pentru validarea fisierului XML, cu o versiune de tip: JM.m.r
+- XnnnPdf.jar pentru crearea fisierului PDF cu XML-ul atasat, cu o versiune de tip: PM.m.r
+
+unde Xnnn este numele declaratiei (ex: D112, S1001, etc.). Fiecare jar are cate o versiune proprie.
+
+Controlul conectarii se face prin cativa parametri inscrisi in fisierul de configurare config/config.properties:
+
+1. daca introduceti in fisierul de configurare linia:
+
+urlVersiuni=http://static.anaf.ro/static/10/Anaf/declunica/versiuni.xml
+
+programul incearca la pornirea in mod A conectarea pentru verificarea versiunii.
+
+Daca veti comenta sau sterge aceasta linie nu se va face nicio verificare!
+
+2. daca conexiunea dumneavoastra Internet se face prin intermediul unui proxy server va trebui sa adaugati linia:
+
+proxy=auto
+
+pentru a incerca o detectare automata a acestuia sau liniile:
+
+proxyIP=xxx.yyy.zzz.www (adresa DNS)
+proxyPort=n
+
+pentru indicarea explicita a IP-ului sau adresei DNS/portului (prin lipsa 80) folosit de proxy server
+
+Exemplu:
+
+proxyIP=111.111.111.111
+proxyPort=80
+
+Pentru a ignora declaratiile noi puteti adauga in fisierul de configurare config/config.properties parametrul:
+	ignoraDeclaratiiNoi=D
+
+ATENTIE: Nu modificati denumirea folderelor din dist si nu stergeti fisiere/foldere. In caz contrar este posibil ca programul sa nu mai functioneze corect.
+
+Va rugam sa ne transmiteti eventualele observatii pe adresa:
+	admin.portal@mfinante.ro cu subiectul soft_J (va rugam sa puneti acest subiect NUMAI pt. problemele legate de utilizarea programului DUKIntegrator)
+Adresa d112@mfinante.ro nu mai este valabila.
+
+
+
+Actualizare manuala a declaratiilor in DUKIntegrator pt. versiuni ulterioare celei publicate pe 19-Oct-2011.
+
+1. se descarca de pe site-ul ANAF zip-ul corespunzator declaratiei, care contine urmatoarele fisiere:
+	- DxxxValidator.jar
+	- DxxxPdf.jar
+	- DxxxIstorieVersiuni.txt
+	- modInstalare.txt
+
+unde Dxxx este codul declaratiei (ex: D112, S1001)
+
+2. se copiaza cele 2 jar-uri in folderul lib (din locatia unde a fost instalat DUKIntegrator).
+
+3. se sterge fisierul config/versiuniCurente.txt
+
+4. (optional) se copiaza fisierul DxxxIstorieVersiuni.txt in folderul doc.

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <menuitem
+        name="ANAF"
+        id="menu_anaf"
+        parent="account.menu_finance_entries"
+        groups="account.group_account_manager"
+    />
+</odoo>
