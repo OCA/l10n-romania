@@ -538,8 +538,16 @@ class StockMove(models.Model):
             cost,
         )
 
-    def _prepare_account_move_vals(self, credit_account_id, debit_account_id, journal_id, qty, description, svl_id,
-                                   cost):
+    def _prepare_account_move_vals(
+        self,
+        credit_account_id,
+        debit_account_id,
+        journal_id,
+        qty,
+        description,
+        svl_id,
+        cost,
+    ):
         if (
             self.company_id.romanian_accounting
             and credit_account_id == debit_account_id
@@ -547,8 +555,15 @@ class StockMove(models.Model):
             and not self._is_usage_giving_return()
         ):
             return None
-        return super(StockMove, self)._prepare_account_move_vals(credit_account_id, debit_account_id, journal_id, qty, description, svl_id,
-                                   cost)
+        return super(StockMove, self)._prepare_account_move_vals(
+            credit_account_id,
+            debit_account_id,
+            journal_id,
+            qty,
+            description,
+            svl_id,
+            cost,
+        )
 
     def _get_accounting_data_for_valuation(self):
         journal_id, acc_src, acc_dest, acc_valuation = super(

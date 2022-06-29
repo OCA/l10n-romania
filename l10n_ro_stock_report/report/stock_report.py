@@ -45,7 +45,7 @@ class StorageSheet(models.TransientModel):
     line_product_ids = fields.One2many(
         comodel_name="stock.storage.sheet.line", inverse_name="report_id"
     )
-    sublocation = fields.Boolean("Sublocation")
+    sublocation = fields.Boolean()
     location_ids = fields.Many2many(
         "stock.location", string="Only for locations", compute="_compute_location_ids"
     )
@@ -368,7 +368,7 @@ class StorageSheetLine(models.TransientModel):
         digits="Product Unit of Measure", string="Final Quantity"
     )
     date_time = fields.Datetime(string="Datetime")
-    date = fields.Date(string="Date")
+    date = fields.Date()
     reference = fields.Char()
     partner_id = fields.Many2one("res.partner", index=True)
     currency_id = fields.Many2one(
