@@ -541,7 +541,7 @@ class StockMove(models.Model):
             and not self._is_usage_giving()
             and not self._is_usage_giving_return()
         ):
-            return None
+            return {}
         return super(StockMove, self)._prepare_account_move_vals(
             credit_account_id,
             debit_account_id,
