@@ -403,7 +403,11 @@ class StockMove(models.Model):
             self = self.with_context(
                 valued_type=svl.valued_type, is_romanian_accounting=True
             )
-
+        if (
+            self.company_id.romanian_accounting
+            and svl.valued_type in ('reception', 'reception_return')
+        ):
+            return
         res = super(StockMove, self)._account_entry_move(qty, description, svl_id, cost)
 
         if company and company.romanian_accounting:
