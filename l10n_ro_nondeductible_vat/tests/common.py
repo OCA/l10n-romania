@@ -54,7 +54,7 @@ class TestNondeductibleCommon(ValuationReconciliationTestCommon):
         cls.minus_tag_vat_nondeductible = get_account_tag("-24_2 - TVA")
 
         cls.uneligible_deductible_tax_account_id = get_account("442820")
-        cls.env.company_id.account_cash_basis_base_account_id = get_account("44283")
+        cls.env.company.account_cash_basis_base_account_id = get_account("44283")
 
         invoice_rep_lines = [
             (
