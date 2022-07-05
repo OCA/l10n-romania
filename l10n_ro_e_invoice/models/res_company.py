@@ -73,38 +73,18 @@ class ResCompany(models.Model):
 
     def test_anaf_api(self):
         self.ensure_one()
-        # param = {
-        #     # "client_id":f"{self.client_id}",
-        #     # "token":f"{self.client_received_token}",
-        #     # "code":f"{self.client_received_token}",
-        #     # "key":f"{self.client_received_token}",
-        #     # "access_token":f"{self.client_received_token}",
-        #     # "name":"xx",
-        # }
-        # it should work, but is giving 403 Forbidden
-        url = "https://api.anaf.ro/TestOauth/jaxrs/hello"
-        # url = "https://api.anaf.ro/TestOauth/jaxrs/hello?name=yy"
-        #  url = "https://api.anaf.ro/test/FCTEL/rest/listaMesajeFactura"
-        #  url = "https://api.anaf.ro/test/FCTEL/rest/descarcare"
-        #       id = index descarare factura
-        #  url = "https://api.anaf.ro/test/ETRANSPORT/ws/v1/lista/{1}/{}"
+        url = "https://api.anaf.ro/TestOauth/jaxrs/hello?name=test_from_odoo"
 
-        # response = requests.get(
-        #    url,
-        response = requests.post(
+        response = requests.get(
             url,
             data={"name": "rr"},
-            # json=json.dumps(param),
-            headers={  # 'Content-Type': 'application/json',
+            headers={ 
+                 # 'Content-Type': 'application/json',
                 "Content-Type": "multipart/form-data",
-                # 'Accept': 'application/json',
-                # "client_id": self.client_id,
                 "Authorization": f"Bearer {self.access_token}",
             },
             timeout=80,
-            #                allow_redirects=True
         )
-        # return f"{response.content=}\n{response.headers=}"
         anaf_hello_test = (
             f"UTC{str(fields.datetime.now())[:19]}{response.url=}\n"
             f"{response.reason=}\n{response.content=}\n"
@@ -112,7 +92,7 @@ class ResCompany(models.Model):
             f"{response.request.headers=}\n{response.request.method=}\n"
         )
 
-        _logger.info(anaf_hello_test)
+#        _logger.info(anaf_hello_test)
         self.write(
             {"other_responses": "%s %s" % (anaf_hello_test, self.other_responses)}
         )
@@ -134,6 +114,7 @@ class ResCompany(models.Model):
             "client_id": f"{self.client_id}",
             "client_secret": f"{self.client_secret}",
             "access_token": f"{self.access_token}",
+#            "refresh_token": should function for refresh function
             "token_type_hint": "access_token",  # refresh_token  (should work without)
         }
         url = "https://logincert.anaf.ro/anaf-oauth2/v1/revoke"

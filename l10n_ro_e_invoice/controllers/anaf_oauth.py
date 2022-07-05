@@ -55,17 +55,13 @@ class WebsitePageDepositKpi(http.Controller):
             }
         )
         anafOauth = (
-            "https://logincert.anaf.ro/anaf-oauth2/v1/authorize?response_type=code"
+            "https://logincert.anaf.ro/anaf-oauth2/v1/authorize?"
+            "response_type=code"
             f"&client_id={company.client_id}"
-            f"&client_secret={company.client_secret}"
             f"&redirect_uri={user.get_base_url() + '/anaf_oauth'}"
-            f"&scope={secret}"
-            "&grant_type=authorization_code"  # not necessary?
+           # f"&scope={secret}"
         )
-        # ************ working**********
-        # alex: here should be POST and not get, I try them in comments below, but did not work
         anaf_request_from_redirect = request.redirect(anafOauth, code=302, local=False)
-
         # This is the default for Authorization Code grant.
         # A successful response is 302 Found which triggers a redirect to the redirect_uri.
         # The response parameters are embedded in the query component (the part after ?)
@@ -78,7 +74,7 @@ class WebsitePageDepositKpi(http.Controller):
         return anaf_request_from_redirect
 
     @http.route(
-        ["/anaf_oauth"], type="http", auth="public", website=True, sitemap=False
+        ["/anaf_oauth"], type="http", auth="public", website=False, sitemap=False
     )
     def get_anaf_oauth_code(self, **kw):
         "Returns a text with the result of anaf request from redirect"
@@ -88,8 +84,8 @@ class WebsitePageDepositKpi(http.Controller):
         Companies = request.env["res.company"].sudo()
         company = Companies.search(
             [
-                ("client_id", "!=", "")
-                # , ('anaf_request_datetime',">",now-timedelta(minutes=1))
+                ("client_id", "!=", ""),
+                ('anaf_request_datetime',">",now-timedelta(minutes=1))
             ],
             limit=1,
         )
@@ -117,15 +113,18 @@ class WebsitePageDepositKpi(http.Controller):
         if code:
             message = f"UTC{str(now)[:19]} All is OK response kw={kw}\n"
 
-            headers = {"content-type": "application/x-www-form-urlencoded"}
+            headers = {"content-type": "application/x-www-form-urlencoded",
+                       "accept":"application/json",
+                       "user-agent":"PostmanRuntime/7.29.2",
+                       }
             data = {
                 "grant_type": "authorization_code",
                 "client_id": f"{company.client_id}",
                 "client_secret": f"{company.client_secret}",
                 "code": f"{code}",
+                "access_key":  f"{code}",
                 "redirect_uri": f"{user.get_base_url() + '/anaf_oauth'}",
             }
-
             response = requests.post(
                 "https://logincert.anaf.ro/anaf-oauth2/v1/token",
                 data=data,
@@ -149,11 +148,6 @@ class WebsitePageDepositKpi(http.Controller):
             message = f"UTC{str(now)[:19]} BAD response no 'code' in response kw={kw}\n"
 
         values = {"message": message}
-        return request.render("l10n_ro_e_invoice.redirect_anaf", values)
-
-
-# post request to refresh the token must be
-# grant_type=refresh_token
-# &refresh_token=xxxxxxxxxxx
-# &client_id=xxxxxxxxxx
-# &client_secret=xxxxxxxxxx
+# does not have a user and language, and is a error does not matter
+#        return request.render("l10n_ro_e_invoice.redirect_anaf", values)
+        return str(values)
