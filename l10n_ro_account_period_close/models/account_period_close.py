@@ -36,7 +36,9 @@ class AccountPeriodClosing(models.Model):
         required=True,
         domain="[('company_id', '=', company_id)]",
     )
-    move_ids = fields.One2many("account.move", "close_id", "Closing Moves")
+    move_ids = fields.One2many(
+        "account.move", "close_id", "Closing Moves", domain=[("state", "!=", "cancel")]
+    )
 
     @api.onchange("company_id", "type")
     def _onchange_type(self):
