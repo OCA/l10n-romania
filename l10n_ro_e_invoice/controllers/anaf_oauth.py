@@ -59,7 +59,7 @@ class WebsitePageDepositKpi(http.Controller):
             "response_type=code"
             f"&client_id={company.client_id}"
             f"&redirect_uri={user.get_base_url() + '/anaf_oauth'}"
-           # f"&scope={secret}"
+            # f"&scope={secret}"
         )
         anaf_request_from_redirect = request.redirect(anafOauth, code=302, local=False)
         # This is the default for Authorization Code grant.
@@ -85,7 +85,7 @@ class WebsitePageDepositKpi(http.Controller):
         company = Companies.search(
             [
                 ("client_id", "!=", ""),
-                ('anaf_request_datetime',">",now-timedelta(minutes=1))
+                ("anaf_request_datetime", ">", now - timedelta(minutes=1)),
             ],
             limit=1,
         )
@@ -113,16 +113,17 @@ class WebsitePageDepositKpi(http.Controller):
         if code:
             message = f"UTC{str(now)[:19]} All is OK response kw={kw}\n"
 
-            headers = {"content-type": "application/x-www-form-urlencoded",
-                       "accept":"application/json",
-                       "user-agent":"PostmanRuntime/7.29.2",
-                       }
+            headers = {
+                "content-type": "application/x-www-form-urlencoded",
+                "accept": "application/json",
+                "user-agent": "PostmanRuntime/7.29.2",
+            }
             data = {
                 "grant_type": "authorization_code",
                 "client_id": f"{company.client_id}",
                 "client_secret": f"{company.client_secret}",
                 "code": f"{code}",
-                "access_key":  f"{code}",
+                "access_key": f"{code}",
                 "redirect_uri": f"{user.get_base_url() + '/anaf_oauth'}",
             }
             response = requests.post(
@@ -148,6 +149,6 @@ class WebsitePageDepositKpi(http.Controller):
             message = f"UTC{str(now)[:19]} BAD response no 'code' in response kw={kw}\n"
 
         values = {"message": message}
-# does not have a user and language, and is a error does not matter
-#        return request.render("l10n_ro_e_invoice.redirect_anaf", values)
+        # does not have a user and language, and is a error does not matter
+        #        return request.render("l10n_ro_e_invoice.redirect_anaf", values)
         return str(values)

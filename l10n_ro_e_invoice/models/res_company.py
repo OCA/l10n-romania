@@ -78,8 +78,8 @@ class ResCompany(models.Model):
         response = requests.get(
             url,
             data={"name": "rr"},
-            headers={ 
-                 # 'Content-Type': 'application/json',
+            headers={
+                # 'Content-Type': 'application/json',
                 "Content-Type": "multipart/form-data",
                 "Authorization": f"Bearer {self.access_token}",
             },
@@ -92,7 +92,7 @@ class ResCompany(models.Model):
             f"{response.request.headers=}\n{response.request.method=}\n"
         )
 
-#        _logger.info(anaf_hello_test)
+        #        _logger.info(anaf_hello_test)
         self.write(
             {"other_responses": "%s %s" % (anaf_hello_test, self.other_responses)}
         )
@@ -114,7 +114,7 @@ class ResCompany(models.Model):
             "client_id": f"{self.client_id}",
             "client_secret": f"{self.client_secret}",
             "access_token": f"{self.access_token}",
-#            "refresh_token": should function for refresh function
+            #            "refresh_token": should function for refresh function
             "token_type_hint": "access_token",  # refresh_token  (should work without)
         }
         url = "https://logincert.anaf.ro/anaf-oauth2/v1/revoke"
