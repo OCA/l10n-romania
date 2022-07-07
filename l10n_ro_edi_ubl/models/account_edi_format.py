@@ -100,7 +100,7 @@ class AccountEdiFormat(models.Model):
 
     def _l10n_ro_post_invoice_step_1(self, invoice):
         attachment = self._export_cirus_ro(invoice)
-        access_token = invoice.company_id.l10n_ro_edi_token
+        access_token = invoice.company_id.l10n_ro_edi_access_token
         if invoice.company_id.l10n_ro_edi_test_mode:
             url = "https://api.anaf.ro/test/FCTEL/rest/upload?standard=UBL"
         else:
@@ -129,7 +129,7 @@ class AccountEdiFormat(models.Model):
     def _l10n_ro_post_invoice_step_2(self, invoice):
 
         access_token = invoice.company_id.l10n_ro_edi_token
-        if invoice.company_id.l10n_ro_edi_test_mode:
+        if invoice.company_id.l10n_ro_edi_access_token:
             url = "https://api.anaf.ro/test/FCTEL/rest/stareMesaj"
         else:
             url = "https://api.anaf.ro/prod/FCTEL/rest/stareMesaj"

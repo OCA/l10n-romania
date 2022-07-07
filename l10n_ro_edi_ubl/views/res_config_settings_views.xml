@@ -28,10 +28,10 @@
                                 <div class="content-group">
                                     <div class="row mt16">
                                         <label
-                                        for="l10n_ro_edi_token"
+                                        for="l10n_ro_edi_access_token"
                                         class="col-lg-3 o_light_label"
                                     />
-                                        <field name="l10n_ro_edi_token" />
+                                        <field name="l10n_ro_edi_access_token" />
                                     </div>
 
                                     <div class="row">

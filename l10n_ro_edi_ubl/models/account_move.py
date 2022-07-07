@@ -33,10 +33,10 @@ class AccountMove(models.Model):
             if move.l10n_ro_edi_transaction:
                 raise UserError(
                     _(
-                        "You can't edit the following journal entry %s because an"
-                        " electronic document has already been "
-                        "sent to ANAF. To edit this entry, you need to create "
-                        "a Credit Note for the invoice and "
+                        "You can't edit the following journal entry %s "
+                        "because an electronic document has already been "
+                        "sent to ANAF. To edit this entry, you need to "
+                        "create a Credit Note for the invoice and "
                         "create a new invoice.",
                         move.display_name,
                     )
