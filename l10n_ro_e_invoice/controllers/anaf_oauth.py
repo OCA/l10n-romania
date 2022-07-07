@@ -30,7 +30,7 @@ class WebsitePageDepositKpi(http.Controller):
         if not company.exists():
             return request.not_found(_("Error, this company does not exist!"))
 
-        elif not company.client_id or not company.client_secret:
+        elif not company.l10n_ro_edi_client_id or not company.l10n_ro_edi_client_secret:
             error = (
                 f"Error, on company {company.name} you does not have a "
                 f"Oauth client_id or client_secret for anaf.ro!"
@@ -57,7 +57,7 @@ class WebsitePageDepositKpi(http.Controller):
         anafOauth = (
             "https://logincert.anaf.ro/anaf-oauth2/v1/authorize?"
             "response_type=code"
-            f"&client_id={company.client_id}"
+            f"&client_id={company.l10n_ro_edi_client_id}"
             f"&redirect_uri={user.get_base_url() + '/anaf_oauth'}"
             # f"&scope={secret}"
         )
@@ -84,7 +84,7 @@ class WebsitePageDepositKpi(http.Controller):
         Companies = request.env["res.company"].sudo()
         company = Companies.search(
             [
-                ("client_id", "!=", ""),
+                ("l10n_ro_edi_client_id", "!=", ""),
                 ("anaf_request_datetime", ">", now - timedelta(minutes=1)),
             ],
             limit=1,
@@ -120,8 +120,8 @@ class WebsitePageDepositKpi(http.Controller):
             }
             data = {
                 "grant_type": "authorization_code",
-                "client_id": f"{company.client_id}",
-                "client_secret": f"{company.client_secret}",
+                "client_id": f"{company.l10n_ro_edi_client_id}",
+                "client_secret": f"{company.l10n_ro_edi_client_secret}",
                 "code": f"{code}",
                 "access_key": f"{code}",
                 "redirect_uri": f"{user.get_base_url() + '/anaf_oauth'}",
@@ -138,8 +138,8 @@ class WebsitePageDepositKpi(http.Controller):
                     "code": code,
                     "client_token_valability": now + timedelta(days=89),
                     "other_responses": message + (company.other_responses or ""),
-                    "access_token": response_json.get("access_token", ""),
-                    "refresh_token": response_json.get("refresh_token", ""),
+                    "l10n_ro_edi_access_token": response_json.get("access_token", ""),
+                    "l10n_ro_edi_refresh_token": response_json.get("refresh_token", ""),
                 }
             )
             message = "All is OK response."

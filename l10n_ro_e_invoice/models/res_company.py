@@ -19,20 +19,23 @@ class ResCompany(models.Model):
         help="This is the address to set in anaf_portal_url "
         "( and will work if is https & accessible form internet)",
     )
-    client_id = fields.Char(
+    l10n_ro_edi_client_id = fields.Char(
+        string='Client ID',
         help="From ANAF site the Oauth id - view the readme", tracking=1, default=""
     )
-    client_secret = fields.Char(
+    l10n_ro_edi_client_secret = fields.Char(
+        string='Client Secret',
         help="From ANAF site the Oauth id - view the readme", tracking=1, default=""
     )
-    code = fields.Char(
+    l10n_ro_edi_code = fields.Char(
+        string="Code",
         help="Received from ANAF with this you can take access token and refresh_token",
         tracking=1,
         default="",
     )
 
-    access_token = fields.Char(help="Received from ANAF", tracking=1, default="")
-    refresh_token = fields.Char(help="Received from ANAF", tracking=1, default="")
+    l10n_ro_edi_access_token = fields.Char(string="Access Token", help="Received from ANAF", tracking=1, default="")
+    l10n_ro_edi_refresh_token = fields.Char(string="Refresh Token", help="Received from ANAF", tracking=1, default="")
 
     client_token_valability = fields.Date(
         help="Date when is going to expire - 90 days from when was generated",
@@ -60,7 +63,7 @@ class ResCompany(models.Model):
 
     def get_token_from_anaf_website(self):
         self.ensure_one()
-        if self.access_token:
+        if self.l10n_ro_edi_access_token:
             resp = f"UTC{str(fields.datetime.now())[:19]} First revoke existing Access Token"
             to_write = {"other_responses": resp + self.other_responses}
             self.write(to_write)
@@ -81,7 +84,7 @@ class ResCompany(models.Model):
             headers={
                 # 'Content-Type': 'application/json',
                 "Content-Type": "multipart/form-data",
-                "Authorization": f"Bearer {self.access_token}",
+                "Authorization": f"Bearer {self.l10n_ro_edi_access_token}",
             },
             timeout=80,
         )
@@ -101,7 +104,7 @@ class ResCompany(models.Model):
     def revoke_access_token(self):
         self.ensure_one()
         resp = f"UTC{str(fields.datetime.now())[:19]}"
-        if not self.access_token:
+        if not self.l10n_ro_edi_access_token:
             self.write(
                 {
                     "other_responses": resp
@@ -111,9 +114,9 @@ class ResCompany(models.Model):
             )
             return
         param = {
-            "client_id": f"{self.client_id}",
-            "client_secret": f"{self.client_secret}",
-            "access_token": f"{self.access_token}",
+            "client_id": f"{self.l10n_ro_edi_client_id}",
+            "client_secret": f"{self.l10n_ro_edi_client_secret}",
+            "access_token": f"{self.l10n_ro_edi_access_token}",
             #            "refresh_token": should function for refresh function
             "token_type_hint": "access_token",  # refresh_token  (should work without)
         }
@@ -137,8 +140,8 @@ class ResCompany(models.Model):
             to_write.update(
                 {
                     "code": "",
-                    "access_token": "",
-                    "refresh_token": "",
+                    "l10n_ro_edi_access_token": "",
+                    "l10n_ro_edi_refresh_token": "",
                     "anaf_request_datetime": False,
                     "client_token_valability": False,
                 }

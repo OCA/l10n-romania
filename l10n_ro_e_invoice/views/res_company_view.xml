@@ -12,18 +12,18 @@
                             class="btn btn-primary"
                             string="Get Token From Anaf Website (with usb token inserted)"
                             name="get_token_from_anaf_website"
-                            attrs="{'invisible':[('access_token','!=','')]}"
+                            attrs="{'invisible':[('l10n_ro_edi_access_token','!=','')]}"
                             type="object"
-                            help="At this step you need a digital certified signature and a browser that recongnise it"
+                            help="At this step you need a digital certified signature and a browser that recognise it"
                         />
                         <field
-                            name="client_id"
-                            attrs="{'readonly':[('access_token','not in',['',False])]}"
+                            name="l10n_ro_edi_client_id"
+                            attrs="{'readonly':[('l10n_ro_edi_access_token','not in',['',False])]}"
                         />
                         <field name="anaf_callback_url" />
                         <field
-                            name="client_secret"
-                            attrs="{'readonly':[('access_token','not in',['',False])]}"
+                            name="l10n_ro_edi_client_secret"
+                            attrs="{'readonly':[('l10n_ro_edi_access_token','not in',['',False])]}"
                         />
 
                         <separator
@@ -35,11 +35,11 @@
                             name="test_anaf_api"
                             type="object"
                             help="https://api.anaf.ro/TestOauth/jaxrs/hello"
-                            attrs="{'invisible':['|', ('access_token','=',''), ('access_token','=',False)]}"
+                            attrs="{'invisible':['|', ('l10n_ro_edi_access_token','=',''), ('l10n_ro_edi_access_token','=',False)]}"
                         />
-                        <field name="code" readonly="1" />
-                        <field name="access_token" readonly="1" />
-                        <field name="refresh_token" readonly="1" />
+                        <field name="l10n_ro_edi_code" readonly="1" />
+                        <field name="l10n_ro_edi_access_token" readonly="1" />
+                        <field name="l10n_ro_edi_refresh_token" readonly="1" />
 
                         <field name="client_token_valability" />
                         <field name="anaf_request_datetime" />
@@ -48,7 +48,7 @@
                             string="Revoke Access Token"
                             name="revoke_access_token"
                             type="object"
-                            attrs="{'invisible':['|', ('access_token','=',''), ('access_token','=',False)]}"
+                            attrs="{'invisible':['|', ('l10n_ro_edi_access_token','=',''), ('l10n_ro_edi_access_token','=',False)]}"
                         />
 
                     </group>
