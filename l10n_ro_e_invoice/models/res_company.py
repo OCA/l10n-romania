@@ -20,12 +20,16 @@ class ResCompany(models.Model):
         "( and will work if is https & accessible form internet)",
     )
     l10n_ro_edi_client_id = fields.Char(
-        string='Client ID',
-        help="From ANAF site the Oauth id - view the readme", tracking=1, default=""
+        string="Client ID",
+        help="From ANAF site the Oauth id - view the readme",
+        tracking=1,
+        default="",
     )
     l10n_ro_edi_client_secret = fields.Char(
-        string='Client Secret',
-        help="From ANAF site the Oauth id - view the readme", tracking=1, default=""
+        string="Client Secret",
+        help="From ANAF site the Oauth id - view the readme",
+        tracking=1,
+        default="",
     )
     l10n_ro_edi_code = fields.Char(
         string="Code",
@@ -34,8 +38,12 @@ class ResCompany(models.Model):
         default="",
     )
 
-    l10n_ro_edi_access_token = fields.Char(string="Access Token", help="Received from ANAF", tracking=1, default="")
-    l10n_ro_edi_refresh_token = fields.Char(string="Refresh Token", help="Received from ANAF", tracking=1, default="")
+    l10n_ro_edi_access_token = fields.Char(
+        string="Access Token", help="Received from ANAF", tracking=1, default=""
+    )
+    l10n_ro_edi_refresh_token = fields.Char(
+        string="Refresh Token", help="Received from ANAF", tracking=1, default=""
+    )
 
     client_token_valability = fields.Date(
         help="Date when is going to expire - 90 days from when was generated",
