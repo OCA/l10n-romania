@@ -1,4 +1,7 @@
 Ro E Invoice UBL
 
 
-Nu functionaza daca este instalat modulul
+- Generare XML - Done
+- Transmitere automata XML - OK
+- Citire raspuns XML - OK
+- Transmitere manaula XML -

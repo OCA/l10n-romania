@@ -1,8 +1,14 @@
 # ©  2008-2022 Dorin Hongu <dhongu(@)gmail(.)com
 # See README.rst file on addons root folder for license details
 
+import logging
 
-from odoo import models
+import requests
+from lxml import etree
+
+from odoo import _, models
+
+_logger = logging.getLogger(__name__)
 
 
 class AccountEdiFormat(models.Model):
@@ -73,13 +79,126 @@ class AccountEdiFormat(models.Model):
             return super()._is_compatible_with_journal(journal)
         return journal.type == "sale" and journal.country_code == "RO"
 
-    #
+    def _is_required_for_invoice(self, invoice):
+        if self.code != "cirus_ro" or self._is_account_edi_ubl_cii_available():
+            return super()._is_required_for_invoice(invoice)
+        return invoice.commercial_partner_id.l10n_ro_e_invoice
+
     def _post_invoice_edi(self, invoices, test_mode=False):
         self.ensure_one()
         if self.code != "cirus_ro" or self._is_account_edi_ubl_cii_available():
             return super()._post_invoice_edi(invoices, test_mode)
         res = {}
         for invoice in invoices:
-            attachment = self._export_cirus_ro(invoice)
-            res[invoice] = {"success": True, "attachment": attachment}
+            attachment = invoice._get_edi_attachment(self)
+            if not attachment:
+                attachment = self._export_cirus_ro(invoice)
+            res[invoice] = {"attachment": attachment}
+            if invoice.company_id.l10n_ro_edi_manual and not self.env.context.get(
+                "edi_manual_action", False
+            ):
+                res[invoice] = {
+                    "error": _("Automatic transmission is disabled"),
+                    "blocking_level": "info",
+                    "attachment": attachment,
+                }
+            else:
+                if not invoice.l10n_ro_edi_transaction:
+                    res[invoice] = self._l10n_ro_post_invoice_step_1(
+                        invoice, attachment, test_mode
+                    )
+                else:
+                    res[invoice] = self._l10n_ro_post_invoice_step_2(invoice, test_mode)
+
+        return res
+
+    def _cancel_invoice_edi(self, invoices, test_mode=False):
+        self.ensure_one()
+        if self.code != "cirus_ro" or self._is_account_edi_ubl_cii_available():
+            return super()._cancel_invoice_edi(invoices, test_mode)
+        return {invoice: {"success": False} for invoice in invoices}
+
+    def _needs_web_services(self):
+        self.ensure_one()
+        return self.code == "cirus_ro" or super()._needs_web_services()
+
+    def _l10n_ro_post_invoice_step_1(self, invoice, attachment, test_mode=False):
+
+        access_token = invoice.company_id.l10n_ro_edi_access_token
+        if invoice.company_id.l10n_ro_edi_test_mode or test_mode:
+            url = "https://api.anaf.ro/test/FCTEL/rest/upload"
+        else:
+            url = "https://api.anaf.ro/prod/FCTEL/rest/upload"
+
+        headers = {
+            "Content-Type": "application/xml",
+            "Authorization": f"Bearer {access_token}",
+        }
+        params = {
+            "standard": "UBL",
+            "cif": invoice.company_id.partner_id.vat.replace("RO", ""),
+        }
+        response = requests.post(
+            url, params=params, data=attachment.raw, headers=headers, timeout=80
+        )
+
+        _logger.info(response.content)
+
+        if response.status_code == 200:
+            res = {"attachment": attachment}
+            doc = etree.fromstring(response.content)
+            # header_element = doc.find('header')
+            transaction = doc.get("index_incarcare")
+            invoice.write({"l10n_ro_edi_transaction": transaction})
+        else:
+            res = {"success": False, "error": _("Access error")}
+
+        return res
+
+    def _l10n_ro_post_invoice_step_2(self, invoice, test_mode=False):
+
+        access_token = invoice.company_id.l10n_ro_edi_access_token
+        if invoice.company_id.l10n_ro_edi_test_mode or test_mode:
+            url = "https://api.anaf.ro/test/FCTEL/rest/listaMesajeFactura"
+        else:
+            url = "https://api.anaf.ro/prod/FCTEL/rest/listaMesajeFactura"
+
+        headers = {
+            "Content-Type": "application/xml",
+            "Authorization": f"Bearer {access_token}",
+        }
+        params = {
+            "zile": 50,
+            "cif": invoice.company_id.partner_id.vat.replace("RO", ""),
+        }
+        response = requests.get(url, params=params, headers=headers)
+
+        _logger.info(response.content)
+
+        access_token = invoice.company_id.l10n_ro_edi_access_token
+        if invoice.company_id.l10n_ro_edi_test_mode:
+            url = "https://api.anaf.ro/test/FCTEL/rest/stareMesaj"
+        else:
+            url = "https://api.anaf.ro/prod/FCTEL/rest/stareMesaj"
+
+        headers = {
+            "Content-Type": "application/xml",
+            "Authorization": f"Bearer {access_token}",
+        }
+        params = {"id_incarcare": invoice.l10n_ro_edi_transaction}
+        response = requests.get(url, params=params, headers=headers)
+
+        _logger.info(response.content)
+
+        if response.status_code == 200:
+            res = {"success": True}
+            doc = etree.fromstring(response.content)
+            stare = doc.get("stare")
+            if stare != "ok":
+                res = {"success": False}
+                if stare == "in prelucrare":
+                    res.update({"error": stare, "blocking_level": "info"})
+        else:
+            res = {"success": False, "error": _("Access error")}
+
         return res
