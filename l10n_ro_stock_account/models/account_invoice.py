@@ -222,10 +222,10 @@ class AccountMoveLine(models.Model):
                         res = location.property_stock_valuation_account_id
             if self.move_id.is_sale_document():
                 sales = self.sale_line_ids.filtered(lambda s: s.move_ids)
-                for sale in sales:
-                    for stock_move in sale.move_ids.filtered(
-                        lambda m: not m.picking_id.notice and m.state == "done"
-                    ):
+                for stock_move in sales.move_ids.filtered(
+                    lambda m: not m.picking_id.notice and m.state == "done"
+                ):
+                    if stock_move.location_id.property_account_income_location_id:
                         location = stock_move.location_id
                         res = location.property_account_income_location_id
             if fiscal_position:
