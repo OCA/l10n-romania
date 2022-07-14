@@ -2,24 +2,24 @@
 <openerp>
     <data>
         <!-- Partner -->
-        <record model="ir.ui.view" id="partners_form_address">
+        <record id="partners_form_address" model="ir.ui.view">
             <field name="name">partners.form.address</field>
             <field name="model">res.partner</field>
             <field name="inherit_id" ref="base.view_partner_form" />
             <field eval="100" name="priority" />
             <field name="arch" type="xml">
-                <field name="name" position="after">
+                <field name="ref" position="after">
                     <field name="old_name" placeholder="Old Name" />
                 </field>
             </field>
         </record>
-        <record model="ir.ui.view" id="partners_short_form_address">
+        <record id="partners_short_form_address" model="ir.ui.view">
             <field name="name">partners.short.form.address</field>
             <field name="model">res.partner</field>
             <field name="inherit_id" ref="base.view_partner_address_form" />
             <field eval="18" name="priority" />
             <field name="arch" type="xml">
-                <field name="name" position="after">
+                <field name="website" position="after">
                     <field name="old_name" placeholder="Old Name" />
                 </field>
             </field>

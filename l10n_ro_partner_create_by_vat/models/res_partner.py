@@ -154,6 +154,12 @@ class ResPartner(models.Model):
                 )
                 .id
             )
+        if not res["city"]:
+            res.pop("city")
+
+        if not res["street"]:
+            res.pop("street")
+
         return res
 
     def get_result_address(self, result, res):
@@ -167,7 +173,8 @@ class ResPartner(models.Model):
             lines = [x for x in address.split(",") if x]
             for line in lines:
                 line = line.encode("utf8").translate(CEDILLATRANS).decode("utf8")
-                if "JUD." in line:
+
+                if "JUD." in line.upper():
                     state = self.env["res.country.state"].search(
                         [("name", "=", line.replace("JUD.", "").strip().title())],
                         limit=1,
@@ -185,8 +192,8 @@ class ResPartner(models.Model):
                     city = line.strip().title()
                 elif "ORȘ." in line:
                     city = line.replace("ORȘ.", "").strip().title()
-                elif "COM." in line:
-                    city += " " + line.strip().title()
+                elif "COM." in line.upper():
+                    city += line.replace("COM.", "").strip().title()
                 elif " SAT " in line:
                     city += " " + line.strip().title()
                 else:
@@ -194,6 +201,7 @@ class ResPartner(models.Model):
         res["city"] = city.replace("-", " ").title().strip()
         res["state_id"] = state
         res["street"] = addr.strip()
+
         return res
 
     @api.onchange("vat", "country_id")
