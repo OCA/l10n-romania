@@ -12,6 +12,7 @@ class ResPartner(models.Model):
     @api.model
     def _get_vat_nrc_constrain_domain(self):
         domain = [
+            ("company_id", "=", self.company_id.id if self.company_id else False),
             ("parent_id", "=", False),
             ("vat", "=", self.vat),
             "|",
@@ -29,8 +30,8 @@ class ResPartner(models.Model):
                 if len(found) > 1:
                     raise ValidationError(
                         _(
-                            "The VAT and NRC pair: %(vat)s - %(nrc)s must "
-                            "be unique ids=%(ids)s!",
+                            "The VAT and NRC pair (%(vat)s, %(nrc)s) must be "
+                            "unique ids=%(ids)s!",
                             vat=record.vat,
                             nrc=record.nrc,
                             ids=found.ids,
