@@ -196,6 +196,11 @@ msgid "Inverse Taxation"
 msgstr ""
 
 #. module: l10n_ro_config
+#: model:ir.model.fields,field_description:l10n_ro_config.field_res_config_settings__module_l10n_ro_account_edit_currency_rate
+msgid "Invoice Edit Currency Rate"
+msgstr ""
+
+#. module: l10n_ro_config
 #: model:ir.model.fields,field_description:l10n_ro_config.field_res_config_settings__module_l10n_ro_account_report_invoice
 msgid "Invoice Report"
 msgstr ""
@@ -498,6 +503,11 @@ msgstr ""
 #. module: l10n_ro_config
 #: model:ir.model.fields,help:l10n_ro_config.field_res_config_settings__module_l10n_ro_partner_unique
 msgid "This allows you to set unique partners by company, VAT and NRC."
+msgstr ""
+
+#. module: l10n_ro_config
+#: model:ir.model.fields,help:l10n_ro_config.field_res_config_settings__module_l10n_ro_account_edit_currency_rate
+msgid "This allows you to the currency rate in invoices.\n"
 msgstr ""
 
 #. module: l10n_ro_config
