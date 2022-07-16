@@ -120,9 +120,24 @@ msgid ""
 msgstr ""
 
 #. module: l10n_ro_stock_account
+#: model:ir.model.fields,field_description:l10n_ro_stock_account.field_stock_return_picking_line__origin_ret_move_qty
+msgid "Origin Ret Move Qty"
+msgstr ""
+
+#. module: l10n_ro_stock_account
+#: model:ir.model.fields,field_description:l10n_ro_stock_account.field_stock_return_picking_line__origin_ret_move_qty_check
+msgid "Origin Ret Move Qty Check"
+msgstr ""
+
+#. module: l10n_ro_stock_account
 #: code:addons/l10n_ro_stock_account/models/account_invoice.py:0
 #, python-format
 msgid "Price difference"
+msgstr ""
+
+#. module: l10n_ro_stock_account
+#: model:ir.model,name:l10n_ro_stock_account.model_product_product
+msgid "Product"
 msgstr ""
 
 #. module: l10n_ro_stock_account
@@ -138,6 +153,22 @@ msgstr ""
 #. module: l10n_ro_stock_account
 #: model:ir.model,name:l10n_ro_stock_account.model_product_template
 msgid "Product Template"
+msgstr ""
+
+#. module: l10n_ro_stock_account
+#: model_terms:ir.ui.view,arch_db:l10n_ro_stock_account.view_stock_return_picking_form
+msgid ""
+"Quantity more than existing. You will return different stock valuations."
+msgstr ""
+
+#. module: l10n_ro_stock_account
+#: model_terms:ir.ui.view,arch_db:l10n_ro_stock_account.view_stock_return_picking_form
+msgid "Remaining Qty"
+msgstr ""
+
+#. module: l10n_ro_stock_account
+#: model:ir.model,name:l10n_ro_stock_account.model_stock_return_picking_line
+msgid "Return Picking Line"
 msgstr ""
 
 #. module: l10n_ro_stock_account
