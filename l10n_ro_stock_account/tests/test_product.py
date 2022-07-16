@@ -3,13 +3,14 @@
 
 import logging
 
-from odoo.tests import Form
+from odoo.tests import Form, tagged
 
 from .common import TestStockCommon
 
 _logger = logging.getLogger(__name__)
 
 
+@tagged("post_install", "-at_install")
 class TestStockSale(TestStockCommon):
     def test_product_category(self):
 

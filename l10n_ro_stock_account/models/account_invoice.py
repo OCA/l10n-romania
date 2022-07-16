@@ -5,7 +5,7 @@
 
 import logging
 
-from odoo import _, fields, models
+from odoo import _, models
 from odoo.tools.float_utils import float_is_zero
 
 _logger = logging.getLogger(__name__)
@@ -54,7 +54,7 @@ class AccountMove(models.Model):
                         # se reevalueaza stocul
                         price_diff = line.get_stock_valuation_difference()
                         if price_diff:
-                            line.modify_stock_valuation(price_diff)
+                            line.sudo().modify_stock_valuation(price_diff)
 
                 if not invoice.is_reception_notice():
                     lines_vals_list = super(
@@ -66,7 +66,7 @@ class AccountMove(models.Model):
         # nu se mai face descarcarea de gestiune la facturare
         invoices = self
         for move in self:
-            if self.company_id.romanian_accounting:
+            if move.company_id.romanian_accounting:
                 invoices -= move
         return super(
             AccountMove, invoices
@@ -84,7 +84,9 @@ class AccountMove(models.Model):
             for line in invoice_lines:
                 valuation_stock_moves = line._get_valuation_stock_moves()
                 if valuation_stock_moves:
-                    svls = valuation_stock_moves.mapped("stock_valuation_layer_ids")
+                    svls = valuation_stock_moves.sudo().mapped(
+                        "stock_valuation_layer_ids"
+                    )
                     svls = svls.filtered(lambda l: not l.invoice_line_id)
                     svls.write(
                         {"invoice_line_id": line.id, "invoice_id": line.move_id.id}
@@ -133,6 +135,23 @@ class AccountMove(models.Model):
             if lines_diff_acc:
                 account = lines_diff_acc[0]
         return account
+
+    def fix_price_difference_svl(self):
+        for invoice in self:
+            if invoice.move_type in ["in_invoice", "in_refund"]:
+                invoice_lines = invoice.invoice_line_ids.filtered(
+                    lambda l: not l.display_type
+                )
+                for line in invoice_lines:
+                    add_diff = False
+                    if line.product_id.cost_method != "standard":
+                        add_diff = not invoice.company_id.stock_acc_price_diff
+
+                    if not add_diff:
+                        # se reevalueaza stocul
+                        price_diff = line.get_stock_valuation_difference()
+                        if price_diff:
+                            line.modify_stock_valuation(price_diff)
 
 
 class AccountMoveLine(models.Model):
@@ -203,10 +222,10 @@ class AccountMoveLine(models.Model):
                         res = location.property_stock_valuation_account_id
             if self.move_id.is_sale_document():
                 sales = self.sale_line_ids.filtered(lambda s: s.move_ids)
-                for sale in sales:
-                    for stock_move in sale.move_ids.filtered(
-                        lambda m: not m.picking_id.notice and m.state == "done"
-                    ):
+                for stock_move in sales.move_ids.filtered(
+                    lambda m: not m.picking_id.notice and m.state == "done"
+                ):
+                    if stock_move.location_id.property_account_income_location_id:
                         location = stock_move.location_id
                         res = location.property_account_income_location_id
             if fiscal_position:
@@ -216,7 +235,7 @@ class AccountMoveLine(models.Model):
     def get_stock_valuation_difference(self):
         """Se obtine diferenta dintre evaloarea stocului si valoarea din factura"""
         line = self
-        move = line.move_id
+
         # Retrieve stock valuation moves.
         if not line.purchase_line_id:
             return 0.0
@@ -226,50 +245,29 @@ class AccountMoveLine(models.Model):
         if not valuation_stock_moves:
             return 0.0
 
-        valuation_price_unit_total = 0
+        valuation_total = 0
         valuation_total_qty = 0
         for val_stock_move in valuation_stock_moves:
-            svl = val_stock_move.mapped("stock_valuation_layer_ids").filtered(
-                lambda l: l.quantity
+            svl = (
+                val_stock_move.sudo()
+                .mapped("stock_valuation_layer_ids")
+                .filtered(lambda l: l.quantity)
             )
             layers_qty = sum(svl.mapped("quantity"))
             layers_values = sum(svl.mapped("value"))
 
-            valuation_price_unit_total += layers_values
+            valuation_total += layers_values
             valuation_total_qty += layers_qty
 
         precision = line.product_uom_id.rounding or line.product_id.uom_id.rounding
         if float_is_zero(valuation_total_qty, precision_rounding=precision):
             return 0.0
+        return abs(line.balance) - valuation_total
 
-        valuation_price_unit = valuation_price_unit_total / valuation_total_qty
-        price_unit = line.price_unit * (1 - (line.discount or 0.0) / 100.0)
-        if line.tax_ids:
-            price_unit = line.tax_ids.compute_all(
-                price_unit,
-                currency=move.currency_id,
-                quantity=1.0,
-                is_refund=move.move_type == "in_refund",
-            )["total_excluded"]
-
-        price_unit = line.product_uom_id._compute_price(
-            price_unit, line.product_id.uom_id
-        )
-
-        price_unit = move.currency_id._convert(
-            price_unit,
-            move.company_currency_id,
-            move.company_id,
-            move.invoice_date or fields.Date.context_today(self),
-            round=False,
-        )
-        price_unit_val_dif = price_unit - valuation_price_unit
-        return price_unit_val_dif
-
-    def modify_stock_valuation(self, price_unit_val_dif):
+    def modify_stock_valuation(self, price_val_dif):
         # se adauga la evaluarea miscarii de stoc
         if not self.purchase_line_id:
-            return
+            return 0.0
         valuation_stock_move = self.env["stock.move"].search(
             [
                 ("purchase_line_id", "=", self.purchase_line_id.id),
@@ -279,7 +277,7 @@ class AccountMoveLine(models.Model):
             limit=1,
         )
         linked_layer = valuation_stock_move.stock_valuation_layer_ids[:1]
-        value = price_unit_val_dif * self.quantity
+        value = price_val_dif
         # trebuie cantitate din factura in unitatea produsului si apoi
         value = self.product_uom_id._compute_price(value, self.product_id.uom_id)
 

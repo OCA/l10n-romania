@@ -18,41 +18,58 @@ class StockValuationLayer(models.Model):
     @api.depends("product_id", "account_move_id")
     def _compute_account(self):
         for svl in self:
-            if not svl.account_move_id:
-                loc_dest = svl.stock_move_id.location_dest_id
-                loc_scr = svl.stock_move_id.location_id
-                categ = svl.product_id.categ_id
-                svl.account_id = categ.property_stock_valuation_account_id
-                if svl.value > 0 and loc_dest.property_stock_valuation_account_id:
-                    svl.account_id = loc_dest.property_stock_valuation_account_id
-                if svl.value < 0 and loc_scr.property_stock_valuation_account_id:
-                    svl.account_id = loc_scr.property_stock_valuation_account_id
-            else:
-                for aml in svl.account_move_id.line_ids:
-                    if aml.credit > 0 and svl.value < 0:
-                        svl.account_id = aml.account_id
-                        break
-                    if aml.debit > 0 and svl.value > 0:
-                        svl.account_id = aml.account_id
-                        break
+            account = self.env["account.account"]
+            svl = svl.with_company(svl.stock_move_id.company_id)
 
-    def init(self):
-        """This method will compute values for valuation layer valued_type"""
-        val_layers = self.search(
-            ["|", ("valued_type", "=", False), ("valued_type", "=", "")]
-        )
-        val_types = self.env["stock.move"]._get_valued_types()
-        val_types = [
-            val
-            for val in val_types
-            if val not in ["in", "out", "dropshipped", "dropshipped_returned"]
-        ]
-        for layer in val_layers:
-            if layer.stock_move_id:
-                for valued_type in val_types:
-                    if getattr(layer.stock_move_id, "_is_%s" % valued_type)():
-                        layer.valued_type = valued_type
-                        continue
+            loc_dest = svl.stock_move_id.location_dest_id
+            loc_scr = svl.stock_move_id.location_id
+            account = (
+                svl.product_id.property_stock_valuation_account_id
+                or svl.product_id.categ_id.property_stock_valuation_account_id
+            )
+            if svl.value > 0 and loc_dest.property_stock_valuation_account_id:
+                account = loc_dest.property_stock_valuation_account_id
+            if svl.value < 0 and loc_scr.property_stock_valuation_account_id:
+                account = loc_scr.property_stock_valuation_account_id
+            if svl.account_move_id:
+                for aml in svl.account_move_id.line_ids.sorted(
+                    lambda l: l.account_id.code
+                ):
+                    if aml.account_id.code[0] in ["2", "3"]:
+                        if round(aml.balance, 2) == round(svl.value, 2):
+                            account = aml.account_id
+                            break
+                        # if aml.balance <= 0 and svl.value <= 0:
+                        #     account = aml.account_id
+                        #     break
+                        # if aml.balance > 0 and svl.value > 0:
+                        #     account = aml.account_id
+                        #     break
+            if (
+                svl.valued_type in ("reception", "reception_return")
+                and svl.invoice_line_id
+            ):
+                account = svl.invoice_line_id.account_id
+            svl.account_id = account
+
+    # metoda dureaza foarte mult
+    # def init(self):
+    #     """ This method will compute values for valuation layer valued_type"""
+    #     val_layers = self.search(
+    #         ["|", ("valued_type", "=", False), ("valued_type", "=", "")]
+    #     )
+    #     val_types = self.env["stock.move"]._get_valued_types()
+    #     val_types = [
+    #         val
+    #         for val in val_types
+    #         if val not in ["in", "out", "dropshipped", "dropshipped_returned"]
+    #     ]
+    #     for layer in val_layers:
+    #         if layer.stock_move_id:
+    #             for valued_type in val_types:
+    #                 if getattr(layer.stock_move_id, "_is_%s" % valued_type)():
+    #                     layer.valued_type = valued_type
+    #                     continue
 
     @api.model_create_multi
     def create(self, vals_list):
@@ -69,6 +86,8 @@ class StockValuationLayer(models.Model):
         for svl in self:
             invoice_lines = self.env["account.move.line"]
             stock_move = svl.stock_move_id
+            if not svl.valued_type:
+                continue
             if "reception" in svl.valued_type:
                 invoice_lines = stock_move.purchase_line_id.invoice_lines
             if "delivery" in svl.valued_type:
@@ -76,7 +95,9 @@ class StockValuationLayer(models.Model):
 
             if len(invoice_lines) == 1:
                 svl.invoice_line_id = invoice_lines
+                svl.invoice_id = invoice_lines.move_id
             else:
                 for line in invoice_lines:
                     if stock_move.date.date() == line.move_id.date:
                         svl.invoice_line_id = line
+                        svl.invoice_id = line.move_id

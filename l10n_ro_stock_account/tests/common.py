@@ -195,6 +195,14 @@ class TestStockCommon(ValuationReconciliationTestCommon):
         cls.val_stock_out_so_p1 = round(cls.qty_so_p1 * cls.price_p1, 2)
         cls.val_stock_out_so_p2 = round(cls.qty_so_p2 * cls.price_p2, 2)
 
+        # valoarea descarcari de gestiune incluzand si diferentele
+        cls.val_stock_out_so_p1_diff = round(
+            cls.qty_so_p1 * (cls.price_p1 + cls.diff_p1), 2
+        )
+        cls.val_stock_out_so_p2_diff = round(
+            cls.qty_so_p2 * (cls.price_p2 + cls.diff_p2), 2
+        )
+
         # valoarea vanzarii
         cls.val_so_p1 = round(cls.qty_so_p1 * cls.list_price_p1, 2)
         cls.val_so_p2 = round(cls.qty_so_p2 * cls.list_price_p2, 2)
