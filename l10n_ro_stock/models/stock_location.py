@@ -16,4 +16,5 @@ class StockLocation(models.Model):
     merchandise_type = fields.Selection(
         [("store", _("Store")), ("warehouse", _("Warehouse"))],
         default="warehouse",
+        ondelete={"store": "set default", "warehouse": "set default"},
     )
