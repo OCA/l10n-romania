@@ -88,6 +88,10 @@ class ResConfigSettings(models.TransientModel):
         "Invoice Report",
         help="This allows you to print invoice report based on " "romanian layout.\n",
     )
+    module_l10n_ro_account_edit_currency_rate = fields.Boolean(
+        "Invoice Edit Currency Rate",
+        help="This allows you to the currency rate in invoices.\n",
+    )
     module_l10n_ro_account_report_trial_balance = fields.Boolean(
         "Account Trial Balance Report",
         help="This module will add the Trial Balance report " "with multiple columns.",
