@@ -407,12 +407,14 @@ class StockMove(models.Model):
             "reception",
             "reception_return",
         ):
-            return
-        res = super(StockMove, self)._account_entry_move(qty, description, svl_id, cost)
+            res = []
+        else:
+            res = super(StockMove, self)._account_entry_move(
+                qty, description, svl_id, cost
+            )
 
         if company and company.romanian_accounting:
             self._romanian_account_entry_move(qty, description, svl_id, cost)
-
         return res
 
     def _romanian_account_entry_move(self, qty, description, svl_id, cost):
@@ -545,7 +547,7 @@ class StockMove(models.Model):
             and not self._is_usage_giving()
             and not self._is_usage_giving_return()
         ):
-            return {}
+            return []
         return super(StockMove, self)._prepare_account_move_vals(
             credit_account_id,
             debit_account_id,
