@@ -4,13 +4,14 @@
 # Generare note contabile la achizitie
 import logging
 
-from odoo.tests import Form
+from odoo.tests import Form, tagged
 
 from .common import TestStockCommon
 
 _logger = logging.getLogger(__name__)
 
 
+@tagged("post_install", "-at_install")
 class TestStockSale(TestStockCommon):
     def create_so(self, notice=False):
         _logger.info("Start sale")

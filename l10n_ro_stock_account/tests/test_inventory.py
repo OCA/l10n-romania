@@ -3,11 +3,14 @@
 
 import logging
 
+from odoo.tests import tagged
+
 from .common import TestStockCommon
 
 _logger = logging.getLogger(__name__)
 
 
+@tagged("post_install", "-at_install")
 class TestStockSale(TestStockCommon):
     def _plus_inventory(self):
         self.make_puchase()
