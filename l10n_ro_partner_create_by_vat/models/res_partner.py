@@ -191,6 +191,11 @@ class ResPartner(models.Model):
                     city += " " + line.strip().title()
                 else:
                     addr += line.replace("STR.", "").strip().title() + " "
+
+        res["vat"] = "%s%s" % (
+            result.get("scpTVA", False) and "RO" or "",
+            result.get("cui"),
+        )
         res["city"] = city.replace("-", " ").title().strip()
         res["state_id"] = state
         res["street"] = addr.strip()
