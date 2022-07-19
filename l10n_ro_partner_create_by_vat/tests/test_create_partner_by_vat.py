@@ -89,13 +89,13 @@ class TestCreatePartner(TestCreatePartnerBase):
         self.assertEqual(self.mainpartner.state_id, self.env.ref("base.RO_B"))
         self.assertEqual(self.mainpartner.city, "Sector 3")
         self.assertEqual(self.mainpartner.country_id, self.env.ref("base.ro"))
-        self.assertEqual(self.mainpartner.vat, "4264242")
+        self.assertEqual(self.mainpartner.vat, "RO4264242")
         self.mainpartner.onchange_vat_subjected()
         self.assertEqual(self.mainpartner.vat, "RO4264242")
         self.assertEqual(self.mainpartner.vat_subjected, True)
         # Check address from vat without country code - no vat subjected
         self.mainpartner.vat_subjected = False
-        self.mainpartner.vat = "36525532"
+        self.mainpartner.vat = "RO36525532"
         self.mainpartner.ro_vat_change()
         self.mainpartner.onchange_vat_subjected()
         self.assertEqual(self.mainpartner.name, "COLOR 4 YOU S.R.L.")
@@ -103,6 +103,7 @@ class TestCreatePartner(TestCreatePartnerBase):
         self.assertEqual(self.mainpartner.state_id, self.env.ref("base.RO_AR"))
         self.assertEqual(self.mainpartner.city, "Arad")
         self.assertEqual(self.mainpartner.country_id, self.env.ref("base.ro"))
+        self.assertEqual(self.mainpartner.vat, "36525532")
         self.assertEqual(self.mainpartner.vat_subjected, False)
         # Check split vat with no country code in vat
         vat_country, vat_number = self.mainpartner._split_vat(self.mainpartner.vat)
