@@ -35,6 +35,8 @@ AnafFiled_OdooField_Overwrite = [
 class ResPartner(models.Model):
     _inherit = "res.partner"
 
+    old_name = fields.Char(string="Old Name", default="")
+
     @api.model
     def _get_Anaf(self, cod, data=False):
         """
@@ -117,7 +119,7 @@ class ResPartner(models.Model):
 
     @api.model
     def _Anaf_to_Odoo(self, result):
-        if not result.get("denumire"):
+        if not result.get("denumire") or result["denumire"].upper() == self.old_name:
             # if no name means that anaf didn't return anything
             return {}
         res = {
@@ -192,6 +194,11 @@ class ResPartner(models.Model):
                     city += " " + line.strip().title()
                 else:
                     addr += line.replace("STR.", "").strip().title() + " "
+
+        res["vat"] = "%s%s" % (
+            result.get("scpTVA", False) and "RO" or "",
+            result.get("cui"),
+        )
         res["city"] = city.replace("-", " ").title().strip()
         res["state_id"] = state
         res["street"] = addr.strip()

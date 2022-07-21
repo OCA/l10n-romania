@@ -34,11 +34,11 @@ class TestStockReport(TransactionCase):
             [("code", "=", "371000"), ("company_id", "=", self.env.company.id)]
         )
 
-        stock_journal = self.env["account.journal"].search(
+        self.stock_journal = self.env["account.journal"].search(
             [("code", "=", "STJ"), ("company_id", "=", self.env.company.id)]
         )
-        if not stock_journal:
-            stock_journal = self.env["account.journal"].create(
+        if not self.stock_journal:
+            self.stock_journal = self.env["account.journal"].create(
                 {"name": "Stock Journal", "code": "STJ", "type": "general"}
             )
 
@@ -52,7 +52,7 @@ class TestStockReport(TransactionCase):
             "property_stock_account_input_categ_id": self.account_valuation.id,
             "property_stock_account_output_categ_id": self.account_valuation.id,
             "property_stock_valuation_account_id": self.account_valuation.id,
-            "property_stock_journal": stock_journal.id,
+            "property_stock_journal": self.stock_journal.id,
         }
 
         self.category = self.env["product.category"].search(
@@ -68,6 +68,10 @@ class TestStockReport(TransactionCase):
         # cantitatea din PO
         self.qty_po_p1 = 20.0
 
+        self.price_p2 = 40.0
+        self.list_price_p2 = 60.0
+        self.qty_po_p2 = 30.0
+
         self.product_1 = self.env["product.product"].create(
             {
                 "name": "Product A",
@@ -79,6 +83,19 @@ class TestStockReport(TransactionCase):
                 "standard_price": self.price_p1,
             }
         )
+
+        self.product_2 = self.env["product.product"].create(
+            {
+                "name": "Product B",
+                "type": "product",
+                "categ_id": self.category.id,
+                "invoice_policy": "delivery",
+                "purchase_method": "receive",
+                "list_price": self.list_price_p1,
+                "standard_price": self.price_p1,
+            }
+        )
+
         Partner = self.env["res.partner"]
         self.vendor = Partner.search([("name", "=", "TEST Vendor")], limit=1)
         if not self.vendor:
@@ -90,6 +107,13 @@ class TestStockReport(TransactionCase):
 
         picking_type_in = self.env.ref("stock.picking_type_in")
         self.location = picking_type_in.default_location_dest_id
+        self.location_2 = self.env["stock.location"].create(
+            {
+                "name": "Location2",
+                "usage": "internal",
+                "location_id": self.location.id,
+            }
+        )
 
         date_range = self.env["date.range"]
         self.type = self.env["date.range.type"].create(
@@ -112,6 +136,10 @@ class TestStockReport(TransactionCase):
             po_line.product_id = self.product_1
             po_line.product_qty = self.qty_po_p1
             po_line.price_unit = self.price_p1
+        with po.order_line.new() as po_line:
+            po_line.product_id = self.product_2
+            po_line.product_qty = self.qty_po_p2
+            po_line.price_unit = self.price_p2
 
         po = po.save()
         po.button_confirm()
@@ -120,6 +148,10 @@ class TestStockReport(TransactionCase):
         for move_line in self.picking.move_line_ids:
             if move_line.product_id == self.product_1:
                 move_line.write({"qty_done": self.qty_po_p1})
+            if move_line.product_id == self.product_2:
+                move_line.write(
+                    {"qty_done": self.qty_po_p2, "location_dest_id": self.location_2}
+                )
 
         self.picking.button_validate()
         _logger.info("Receptie facuta")
@@ -152,13 +184,17 @@ class TestStockReport(TransactionCase):
 
     def test_get_products_with_move(self):
         stock_move_obj = self.env["stock.move"]
-        products = self.env["product.product"].search(
-            [
-                ("type", "=", "product"),
-                "|",
-                ("company_id", "=", self.env.company.id),
-                ("company_id", "=", False),
-            ]
+        products = (
+            self.env["product.product"]
+            .with_context(active_test=False)
+            .search(
+                [
+                    ("type", "=", "product"),
+                    "|",
+                    ("company_id", "=", self.env.company.id),
+                    ("company_id", "=", False),
+                ]
+            )
         )
         wizard = Form(self.env["stock.storage.sheet"])
         wizard.location_id = self.location
@@ -166,7 +202,8 @@ class TestStockReport(TransactionCase):
         wizard = wizard.save()
 
         prod_with_moves = (
-            stock_move_obj.search(
+            stock_move_obj.with_context(active_test=False)
+            .search(
                 [
                     ("state", "=", "done"),
                     ("date", ">=", wizard.date_from),
@@ -192,7 +229,7 @@ class TestStockReport(TransactionCase):
         exp_found_prod = wizard_no_moves.get_found_products()
         self.assertEqual(exp_found_prod, products)
 
-        exp_product = products[0]
+        exp_product = products[1]  # index 0 is archived
         wizard_product = Form(self.env["stock.storage.sheet"])
         wizard_product.location_id = self.location
         wizard_product.products_with_move = False
@@ -208,3 +245,65 @@ class TestStockReport(TransactionCase):
         wizard_product.product_ids = [(6, 0, exp_product.ids)]
         with self.assertRaises(UserError):
             wizard_product.get_found_products()
+
+    def test_report_storeage_sheet_sublocation(self):
+        self.create_po()
+        self.create_invoice()
+
+        wizard = Form(self.env["stock.storage.sheet"])
+        wizard.location_id = self.location
+        wizard.sublocation = True
+        wizard = wizard.save()
+
+        wizard.button_show_sheet_pdf()
+        line = self.env["stock.storage.sheet.line"].search(
+            [("report_id", "=", wizard.id), ("location_id", "=", self.location_2.id)],
+            limit=1,
+        )
+        self.assertTrue(line)
+
+    def test_report_with_stock_landed_costs(self):
+        self.env.company.anglo_saxon_accounting = True
+        # Create PO with Product A
+        po_form = Form(self.env["purchase.order"])
+        po_form.partner_id = self.vendor
+        with po_form.order_line.new() as po_line:
+            po_line.product_id = self.product_1
+            po_line.product_qty = 1
+            po_line.price_unit = 70.0
+        po_form = po_form.save()
+        po_form.button_confirm()
+
+        # Receive the goods
+        receipt = po_form.picking_ids[0]
+        receipt.move_line_ids.qty_done = 1
+        receipt.button_validate()
+
+        # Check SVL
+        svl = self.env["stock.valuation.layer"].search(
+            [("stock_move_id", "=", receipt.move_lines.id)]
+        )
+        self.assertAlmostEqual(svl.value, 70)
+
+        # copy svl dand modify the quantity
+        svl2 = svl.copy()
+        svl2.quantity = 0
+        svl2.unit_cost = 0
+        svl2.value = 20
+
+        wizard = Form(self.env["stock.storage.sheet"])
+        wizard.location_id = self.location
+        wizard = wizard.save()
+
+        wizard.button_show_sheet_pdf()
+        line = self.env["stock.storage.sheet.line"].search(
+            [("report_id", "=", wizard.id), ("product_id", "=", self.product_1.id)]
+        )
+        self.assertEqual(sum(line.mapped("amount_initial")), 0)
+        self.assertEqual(sum(line.mapped("quantity_initial")), 0)
+        self.assertEqual(sum(line.mapped("amount_in")), 90)
+        self.assertEqual(sum(line.mapped("quantity_in")), 1)
+        self.assertEqual(sum(line.mapped("amount_out")), 0)
+        self.assertEqual(sum(line.mapped("quantity_out")), 0)
+        self.assertEqual(sum(line.mapped("amount_final")), 90)
+        self.assertEqual(sum(line.mapped("quantity_final")), 1)

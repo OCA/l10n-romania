@@ -53,7 +53,12 @@ class StorageSheet(models.TransientModel):
     @api.depends("sublocation", "location_id")
     def _compute_location_ids(self):
         if self.sublocation:
-            self.location_ids = self.location_id + self.location_id.child_ids
+            children_location = (
+                self.env["stock.location"]
+                .with_context(active_test=False)
+                .search([("id", "child_of", self.location_id.ids)])
+            )
+            self.location_ids = self.location_id + children_location
         else:
             self.location_ids = self.location_id
 
@@ -88,6 +93,7 @@ class StorageSheet(models.TransientModel):
         if product_list:
             products_with_moves = (
                 self.env["stock.move"]
+                .with_context(active_test=False)
                 .search(
                     [
                         ("state", "=", "done"),
@@ -126,7 +132,7 @@ class StorageSheet(models.TransientModel):
         datetime_to = fields.Datetime.context_timestamp(self, datetime_to)
         datetime_to = datetime_to.replace(hour=23, minute=59, second=59)
         datetime_to = datetime_to.astimezone(pytz.utc)
-        for location in self.location_ids.ids:
+        for location in self.with_context(active_test=False).location_ids.ids:
             params = {
                 "report": self.id,
                 "location": location,
@@ -149,6 +155,7 @@ class StorageSheet(models.TransientModel):
                     %(date_from)s || ' 00:00:00' as date_time,
                     %(date_from)s as date,
                     %(reference)s as reference,
+                    %(reference)s as document,
                     %(location)s as location_id
                 from product_product as prod
                 left join stock_move as sm ON sm.product_id = prod.id AND sm.state = 'done' AND
@@ -163,7 +170,7 @@ class StorageSheet(models.TransientModel):
                           sm.location_dest_id = %(location)s))
                 where prod.id in %(product)s
                 GROUP BY prod.id, svl.account_id)
-            a where a.amount_initial!=0 and a.quantity_initial!=0
+            a --where a.amount_initial!=0 and a.quantity_initial!=0
             """
 
             params.update({"reference": "INITIAL"})
@@ -180,6 +187,7 @@ class StorageSheet(models.TransientModel):
                     %(date_to)s || ' 23:59:59' as date_time,
                     %(date_to)s as date,
                     %(reference)s as reference,
+                    %(reference)s as document,
                     %(location)s as location_id
                 from stock_move as sm
                 inner join  stock_valuation_layer as svl on svl.stock_move_id = sm.id and
@@ -194,7 +202,7 @@ class StorageSheet(models.TransientModel):
                     sm.date <=  %(datetime_to)s AND
                     (sm.location_id = %(location)s OR sm.location_dest_id = %(location)s)
                 GROUP BY sm.product_id, svl.account_id)
-            a where a.amount_final!=0 and a.quantity_final!=0
+            a --where a.amount_final!=0 and a.quantity_final!=0
             """
 
             params.update({"reference": "FINAL"})
@@ -210,16 +218,19 @@ class StorageSheet(models.TransientModel):
                     COALESCE(sum(svl_in.value),0)   as amount_in,
                     COALESCE(sum(svl_in.quantity), 0)   as quantity_in,
                      svl_in.account_id,
+                     svl_in.invoice_id,
                     sm.date as date_time,
                     date_trunc('day', sm.date at time zone 'utc' at time zone %(tz)s) as date,
                     sm.reference as reference,
                     %(location)s as location_id,
-                    sp.partner_id
+                    sp.partner_id,
+                    COALESCE(am.name, sm.reference) as document
                 from stock_move as sm
                     inner join stock_valuation_layer as svl_in
                             on svl_in.stock_move_id = sm.id and
-                        (sm.location_dest_id = %(location)s and svl_in.quantity>0)
+                        (sm.location_dest_id = %(location)s and svl_in.quantity>=0)
                     left join stock_picking as sp on sm.picking_id = sp.id
+                    left join account_move am on svl_in.invoice_id = am.id
                 where
                     sm.state = 'done' AND
                     sm.company_id = %(company)s AND
@@ -227,8 +238,8 @@ class StorageSheet(models.TransientModel):
                     sm.date >= %(datetime_from)s  AND  sm.date <= %(datetime_to)s  AND
                     sm.location_dest_id = %(location)s
                 GROUP BY sm.product_id, sm.date,
-                 sm.reference, sp.partner_id, account_id)
-            a where a.amount_in!=0 and a.quantity_in!=0
+                 sm.reference, sp.partner_id, account_id, svl_in.invoice_id, am.name)
+            a --where a.amount_in!=0 and a.quantity_in!=0
                 """
 
             self.env.cr.execute(query_in, params=params)
@@ -242,17 +253,20 @@ class StorageSheet(models.TransientModel):
                     -1*COALESCE(sum(svl_out.value),0)   as amount_out,
                     -1*COALESCE(sum(svl_out.quantity),0)   as quantity_out,
                     svl_out.account_id,
+                    svl_out.invoice_id,
                     sm.date as date_time,
                     date_trunc('day', sm.date at time zone 'utc' at time zone %(tz)s) as date,
                     sm.reference as reference,
                     %(location)s as location_id,
-                    sp.partner_id
+                    sp.partner_id,
+                    COALESCE(am.name, sm.reference) as document
                 from stock_move as sm
 
                     inner join stock_valuation_layer as svl_out
                             on svl_out.stock_move_id = sm.id and
-                        (sm.location_id = %(location)s and svl_out.quantity<0 )
+                        (sm.location_id = %(location)s and svl_out.quantity<=0 )
                     left join stock_picking as sp on sm.picking_id = sp.id
+                    left join account_move am on svl_out.invoice_id = am.id
                 where
                     sm.state = 'done' AND
                     sm.company_id = %(company)s AND
@@ -260,10 +274,9 @@ class StorageSheet(models.TransientModel):
                     sm.date >= %(datetime_from)s  AND  sm.date <= %(datetime_to)s  AND
                     sm.location_id = %(location)s
                 GROUP BY sm.product_id, sm.date,
-                         sm.reference, sp.partner_id, account_id)
-            a where a.amount_out!=0 and a.quantity_out!=0
+                         sm.reference, sp.partner_id, account_id, svl_out.invoice_id, am.name)
+            a --where a.amount_out!=0 and a.quantity_out!=0
                 """
-
             self.env.cr.execute(query_out, params=params)
             res = self.env.cr.dictfetchall()
             self.line_product_ids.create(res)
@@ -276,6 +289,7 @@ class StorageSheet(models.TransientModel):
         else:
             product_list = (
                 self.env["product.product"]
+                .with_context(active_test=False)
                 .search(
                     [
                         ("type", "=", "product"),
@@ -299,7 +313,11 @@ class StorageSheet(models.TransientModel):
     def get_found_products(self):
         self.ensure_one()
         product_list, _all_products = self.get_report_products()
-        return self.env["product.product"].browse(product_list)
+        return (
+            self.env["product.product"]
+            .with_context(active_test=False)
+            .browse(product_list)
+        )
 
     def button_show_sheet(self):
         self.do_compute_product()
@@ -345,8 +363,8 @@ class StorageSheetLine(models.TransientModel):
     _order = "report_id, product_id, date_time"
     _rec_name = "product_id"
 
-    report_id = fields.Many2one("stock.storage.sheet")
-    product_id = fields.Many2one("product.product", string="Product")
+    report_id = fields.Many2one("stock.storage.sheet", index=True)
+    product_id = fields.Many2one("product.product", string="Product", index=True)
     amount_initial = fields.Monetary(
         currency_field="currency_id", string="Initial Amount"
     )
@@ -368,17 +386,20 @@ class StorageSheetLine(models.TransientModel):
     date_time = fields.Datetime(string="Datetime")
     date = fields.Date(string="Date")
     reference = fields.Char()
-    partner_id = fields.Many2one("res.partner")
+    partner_id = fields.Many2one("res.partner", index=True)
     currency_id = fields.Many2one(
         "res.currency",
         string="Currency",
         default=lambda self: self.env.company.currency_id,
+        index=True,
     )
     categ_id = fields.Many2one(
         "product.category", related="product_id.categ_id", index=True, store=True
     )
-    account_id = fields.Many2one("account.account")
-    location_id = fields.Many2one("stock.location")
+    account_id = fields.Many2one("account.account", index=True)
+    location_id = fields.Many2one("stock.location", index=True)
+    invoice_id = fields.Many2one("account.move", index=True)
+    document = fields.Char()
 
     def get_general_buttons(self):
         return [
