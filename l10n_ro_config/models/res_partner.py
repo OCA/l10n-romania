@@ -8,6 +8,21 @@ class ResPartner(models.Model):
     _inherit = "res.partner"
 
     vat_subjected = fields.Boolean("VAT Legal Statement")
+    vat_number = fields.Char(
+        "VAT number",
+        compute="_compute_vat_number",
+        store=True,
+        help="VAT number without country code.",
+    )
+    caen_code = fields.Char(default="0000")
+
+    @api.depends("vat")
+    def _compute_vat_number(self):
+        for partner in self:
+            if partner.vat:
+                partner.vat_number = self._split_vat(partner.vat)[1]
+            else:
+                partner.vat_number = ""
 
     def _map_vat_country_code(self, country_code):
         country_code_map = {
