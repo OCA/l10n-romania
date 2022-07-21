@@ -14,4 +14,32 @@
             </xpath>
         </field>
     </record>
+    
+    <record id="stock_valuation_layer_pivot" model="ir.ui.view">
+        <field name="name">stock.valuation.layer.pivot</field>
+        <field name="model">stock.valuation.layer</field>
+        <field name="arch" type="xml">
+        	<pivot>
+        		<field name="account_id" type="col"/>
+        		<field name="valued_type" type="row"/>
+        		<field name="quantity" type="measure"/>
+        		<field name="value" type="measure"/>
+        	</pivot>
+        </field>
+    </record>
+    
+    <record id="stock_account.stock_valuation_layer_action" model="ir.actions.act_window">
+        <field name="name">Stock Valuation</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">stock.valuation.layer</field>
+        <field name="view_mode">tree,pivot,form</field>
+        <field name="view_id" ref="stock_account.stock_valuation_layer_tree"/>
+        <field name="domain">[('product_id.type', '=', 'product')]</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face"/>
+            <p>
+                There is no valuation layers. Valuation layers are created when some product moves should impact the valuation of the stock.
+            </p>
+        </field>
+    </record>
 </odoo>

@@ -14,6 +14,12 @@ _logger = logging.getLogger(__name__)
 class AccountMove(models.Model):
     _inherit = "account.move"
 
+    def _stock_account_prepare_ro_line_vals(self, account_id=None, lines_vals_list = [], call_sequence=0):
+        #TODO: Nu sunt tare multumit cu abordarea asta call_sequence,
+        # De motificat intr-o forma mai viabila.
+        return lines_vals_list
+
+
     def _stock_account_prepare_anglo_saxon_in_lines_vals(self):
         # inainte de a genera liniile de diferenta de pret
 
@@ -22,18 +28,13 @@ class AccountMove(models.Model):
             account_id = invoice.company_id.property_stock_picking_payable_account_id
             if invoice.move_type in ["in_invoice", "in_refund"]:
                 # Add new account moves for difference between reception
-                # with notice and invoice values. The price difference account
-                # will be changes with the first one available in the reception
-                # notice move lines
-                if invoice.is_reception_notice():
-                    lines_vals_list = super(
-                        AccountMove, invoice
+                # with notice and invoice values.
+                lines_vals_list = super(
+                        AccountMove, self
                     )._stock_account_prepare_anglo_saxon_in_lines_vals()
-                    rec_account = invoice.get_reception_account()
-                    if rec_account:
-                        for line_vals in lines_vals_list:
-                            if line_vals["account_id"] != account_id.id:
-                                line_vals["account_id"] = rec_account.id
+
+
+                lines_vals_list = invoice._stock_account_prepare_ro_line_vals(account_id=account_id, lines_vals_list = lines_vals_list, call_sequence=0)
 
                 invoice_lines = invoice.invoice_line_ids.filtered(
                     lambda l: not l.display_type
@@ -49,17 +50,17 @@ class AccountMove(models.Model):
                     #     # trebuie sa adaug diferenta dintre receptie pe
                     #     # baza de aviz si receptia din factura
                     #     add_diff = True
+                    # *** particularizarile au fost mutate pe un nou modul. ***
 
                     if not add_diff:
                         # se reevalueaza stocul
                         price_diff = line.get_stock_valuation_difference()
                         if price_diff:
                             line.sudo().modify_stock_valuation(price_diff)
-
-                if not invoice.is_reception_notice():
-                    lines_vals_list = super(
-                        AccountMove, invoice
-                    )._stock_account_prepare_anglo_saxon_in_lines_vals()
+                lines_vals_list = invoice._stock_account_prepare_ro_line_vals(
+                    account_id=account_id, 
+                    lines_vals_list = lines_vals_list or super(AccountMove, self)._stock_account_prepare_anglo_saxon_in_lines_vals(), 
+                    call_sequence=100)
         return lines_vals_list
 
     def _stock_account_prepare_anglo_saxon_out_lines_vals(self):
@@ -93,48 +94,6 @@ class AccountMove(models.Model):
                     )
 
         return res
-
-    def is_reception_notice(self):
-        self.ensure_one()
-        purchases = self.line_ids.mapped("purchase_line_id.order_id")
-        picking_notice = self.env["stock.picking"].search(
-            [
-                ("id", "in", purchases.mapped("picking_ids").ids),
-                ("state", "=", "done"),
-                ("notice", "=", True),
-            ]
-        )
-        if picking_notice:
-            return True
-        return False
-
-    def get_reception_account(self):
-        self.ensure_one()
-        account = self.env["account.account"]
-        acc_payable = self.company_id.property_stock_picking_payable_account_id
-        valuation_stock_moves = self.env["stock.move"].search(
-            [
-                (
-                    "purchase_line_id",
-                    "in",
-                    self.line_ids.mapped("purchase_line_id").ids,
-                ),
-                ("state", "=", "done"),
-                ("picking_id.notice", "=", True),
-                ("product_qty", "!=", 0.0),
-            ]
-        )
-        if valuation_stock_moves:
-            acc_moves = valuation_stock_moves.mapped("account_move_ids")
-            lines = self.env["account.move.line"].search(
-                [("move_id", "in", acc_moves.ids)]
-            )
-            lines_diff_acc = lines.mapped("account_id").filtered(
-                lambda a: a != acc_payable
-            )
-            if lines_diff_acc:
-                account = lines_diff_acc[0]
-        return account
 
     def fix_price_difference_svl(self):
         for invoice in self:
@@ -186,23 +145,9 @@ class AccountMoveLine(models.Model):
             self.product_id.type == "product"
             and self.move_id.company_id.anglo_saxon_accounting
         ):
-            if self.move_id.is_purchase_document():
-                purchase = self.purchase_order_id
-                if purchase and self.product_id.purchase_method == "receive":
-                    # Control bills based on received quantities
-                    if any(
-                        [p.notice or p._is_dropshipped() for p in purchase.picking_ids]
-                    ):
-                        self = self.with_context(valued_type="invoice_in_notice")
-            if self.move_id.is_sale_document():
-                sales = self.sale_line_ids
-                if sales and self.product_id.invoice_policy == "delivery":
-                    # Control bills based on received quantities
-                    sale = self.sale_line_ids[0].order_id
-                    if any(
-                        [p.notice and not p._is_dropshipped() for p in sale.picking_ids]
-                    ):
-                        self = self.with_context(valued_type="invoice_out_notice")
+            self = self.\
+                _get_computed_account_purchase_context().\
+                _get_computed_account_sale_context()
         res = super(AccountMoveLine, self)._get_computed_account()
         # Take accounts from stock location in case the category allow changinc
         # accounts and the picking is not notice
@@ -213,24 +158,21 @@ class AccountMoveLine(models.Model):
         ):
             fiscal_position = self.move_id.fiscal_position_id
             if self.move_id.is_purchase_document():
-                stock_moves = self.purchase_line_id.move_ids.filtered(
-                    lambda sm: not sm.picking_id.notice
-                )
+                stock_moves = self.purchase_line_id.move_ids._filter_move_for_account_move_line()
                 for stock_move in stock_moves.filtered(lambda m: m.state == "done"):
                     if stock_move.location_dest_id.property_stock_valuation_account_id:
                         location = stock_move.location_dest_id
                         res = location.property_stock_valuation_account_id
             if self.move_id.is_sale_document():
                 sales = self.sale_line_ids.filtered(lambda s: s.move_ids)
-                for stock_move in sales.move_ids.filtered(
-                    lambda m: not m.picking_id.notice and m.state == "done"
-                ):
+                for stock_move in sales.move_ids._filter_move_for_account_move_line():
                     if stock_move.location_id.property_account_income_location_id:
                         location = stock_move.location_id
                         res = location.property_account_income_location_id
             if fiscal_position:
                 res = fiscal_position.map_account(res)
         return res
+
 
     def get_stock_valuation_difference(self):
         """Se obtine diferenta dintre evaloarea stocului si valoarea din factura"""

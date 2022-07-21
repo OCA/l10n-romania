@@ -41,26 +41,6 @@ class TestStockCommon(ValuationReconciliationTestCommon):
             cls.uneligible_tax_account_id
         )
 
-        cls.stock_picking_payable_account_id = (
-            cls.env.user.company_id.property_stock_picking_payable_account_id
-        )
-        if not cls.stock_picking_payable_account_id:
-            cls.stock_picking_payable_account_id = get_account("408000")
-
-        cls.env.user.company_id.property_stock_picking_payable_account_id = (
-            cls.stock_picking_payable_account_id
-        )
-
-        cls.stock_picking_receivable_account_id = (
-            cls.env.user.company_id.property_stock_picking_receivable_account_id
-        )
-        if not cls.stock_picking_receivable_account_id:
-            cls.stock_picking_receivable_account_id = get_account("418000")
-
-        cls.env.user.company_id.property_stock_picking_receivable_account_id = (
-            cls.stock_picking_receivable_account_id
-        )
-
         cls.stock_usage_giving_account_id = (
             cls.env.user.company_id.property_stock_usage_giving_account_id
         )
@@ -261,8 +241,11 @@ class TestStockCommon(ValuationReconciliationTestCommon):
                 "valuation_out_account_id": self.account_valuation_mp.id,
             }
         )
+        
+    def writeOnPicking(self, **kwargs):
+        self.picking.write(kwargs)
 
-    def create_po(self, notice=False, picking_type_in=None):
+    def create_po(self, picking_type_in=None, **kwargs):
 
         if not picking_type_in:
             picking_type_in = self.picking_type_in_warehouse
@@ -284,7 +267,7 @@ class TestStockCommon(ValuationReconciliationTestCommon):
         po = po.save()
         po.button_confirm()
         self.picking = po.picking_ids[0]
-        self.picking.write({"notice": notice})
+        self.writeOnPicking(kwargs.get('picking', {}))
         for move_line in self.picking.move_line_ids:
             if move_line.product_id == self.product_1:
                 move_line.write({"qty_done": self.qty_po_p1})

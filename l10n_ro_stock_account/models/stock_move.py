@@ -1,6 +1,7 @@
 # Copyright (C) 2014 Forest and Biomass Romania
 # Copyright (C) 2020 NextERP Romania
 # Copyright (C) 2020 Terrabit
+# Copyright (C) 2022 Dakai SOFT
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
 import logging
@@ -14,18 +15,17 @@ _logger = logging.getLogger(__name__)
 class StockMove(models.Model):
     _inherit = "stock.move"
 
+    def _filter_move_for_account_move_line(self):
+        return self
+
     @api.model
     def _get_valued_types(self):
         valued_types = super(StockMove, self)._get_valued_types()
         valued_types += [
             "reception",  # receptie de la furnizor fara aviz
             "reception_return",  # retur la o receptie de la funizor fara aviz
-            "reception_notice",  # receptie de la furnizor cu aviz
-            "reception_notice_return",  # retur receptie de la furnizor cu aviz
             "delivery",  # livrare din stoc fara aviz
             "delivery_return",  # storno livrare
-            "delivery_notice",
-            "delivery_notice_return",
             "plus_inventory",
             "minus_inventory",
             "consumption",  # consum in productie
@@ -63,10 +63,8 @@ class StockMove(models.Model):
 
     # evaluare la receptie - in mod normal nu se
     def _is_reception(self):
-        """Este receptie in stoc fara aviz"""
         it_is = (
             self.company_id.romanian_accounting
-            and not self.picking_id.notice
             and self.location_id.usage == "supplier"
             and self._is_in()
         )
@@ -80,7 +78,6 @@ class StockMove(models.Model):
         """Este un retur la o receptie in stoc fara aviz"""
         it_is = (
             self.company_id.romanian_accounting
-            and not self.picking_id.notice
             and self.location_dest_id.usage == "supplier"
             and self._is_out()
         )
@@ -102,53 +99,11 @@ class StockMove(models.Model):
             svl += move._create_out_svl(forced_quantity)
         return svl
 
-    def _is_reception_notice(self):
-        """Este receptie in stoc cu aviz"""
-        it_is = (
-            self.company_id.romanian_accounting
-            and self.picking_id.notice
-            and self.location_id.usage == "supplier"
-            and self._is_in()
-        )
-        return it_is
-
-    def _create_reception_notice_svl(self, forced_quantity=None):
-        move = self.with_context(standard=True, valued_type="reception_notice")
-        return move._create_in_svl(forced_quantity)
-
-    def _is_reception_notice_return(self):
-        """Este un retur la receptie in stoc cu aviz"""
-        it_is = (
-            self.company_id.romanian_accounting
-            and self.picking_id.notice
-            and self.location_dest_id.usage == "supplier"
-            and self._is_out()
-        )
-        return it_is
-
-    def _create_reception_notice_return_svl(self, forced_quantity=None):
-        svl = self.env["stock.valuation.layer"]
-        for move in self:
-            move = move.with_context(
-                standard=True, valued_type="reception_notice_return"
-            )
-            if (
-                move.origin_returned_move_id
-                and move.origin_returned_move_id.sudo().stock_valuation_layer_ids
-            ):
-                move = move.with_context(
-                    origin_return_candidates=move.origin_returned_move_id.sudo()
-                    .stock_valuation_layer_ids.filtered(lambda sv: sv.remaining_qty > 0)
-                    .ids
-                )
-            svl += move._create_out_svl(forced_quantity)
-        return svl
 
     def _is_delivery(self):
         """Este livrare din stoc fara aviz"""
         return (
             self.company_id.romanian_accounting
-            and not self.picking_id.notice
             and self.location_dest_id.usage == "customer"
             and self._is_out()
         )
@@ -161,7 +116,6 @@ class StockMove(models.Model):
         """Este retur la o livrare din stoc fara aviz"""
         it_is = (
             self.company_id.romanian_accounting
-            and not self.picking_id.notice
             and self.location_id.usage == "customer"
             and self._is_in()
         )
@@ -169,34 +123,6 @@ class StockMove(models.Model):
 
     def _create_delivery_return_svl(self, forced_quantity=None):
         move = self.with_context(standard=True, valued_type="delivery_return")
-        return move._create_in_svl(forced_quantity)
-
-    def _is_delivery_notice(self):
-        """Este livrare cu aviz"""
-        it_is = (
-            self.company_id.romanian_accounting
-            and self.picking_id.notice
-            and self.location_dest_id.usage == "customer"
-            and self._is_out()
-        )
-        return it_is
-
-    def _create_delivery_notice_svl(self, forced_quantity=None):
-        move = self.with_context(standard=True, valued_type="delivery_notice")
-        return move._create_out_svl(forced_quantity)
-
-    def _is_delivery_notice_return(self):
-        """Este retur livrare cu aviz"""
-        it_is = (
-            self.company_id.romanian_accounting
-            and self.picking_id.notice
-            and self.location_id.usage == "customer"
-            and self._is_in()
-        )
-        return it_is
-
-    def _create_delivery_notice_return_svl(self, forced_quantity=None):
-        move = self.with_context(standard=True, valued_type="delivery_notice_return")
         return move._create_in_svl(forced_quantity)
 
     def _is_plus_inventory(self):
@@ -415,36 +341,6 @@ class StockMove(models.Model):
         location_from = self.location_id
         location_to = self.location_dest_id
         svl = self.env["stock.valuation.layer"]
-        if self._is_delivery_notice():
-            # inregistrare valoare vanzare
-            sale_cost = self._get_sale_amount()
-            move = self.with_context(valued_type="invoice_out_notice")
-
-            (
-                journal_id,
-                acc_src,
-                acc_dest,
-                acc_valuation,
-            ) = move._get_accounting_data_for_valuation()
-            move._create_account_move_line(
-                acc_valuation, acc_dest, journal_id, qty, description, svl, sale_cost
-            )
-
-        if self._is_delivery_notice_return():
-            # inregistrare valoare vanzare
-            sale_cost = -1 * self._get_sale_amount()
-            move = self.with_context(valued_type="invoice_out_notice")
-
-            (
-                journal_id,
-                acc_src,
-                acc_dest,
-                acc_valuation,
-            ) = move._get_accounting_data_for_valuation()
-            move._create_account_move_line(
-                acc_dest, acc_valuation, journal_id, qty, description, svl_id, sale_cost
-            )
-
         if self._is_usage_giving() or self._is_usage_giving_return():
             # inregistrare dare in folosinta 8035
             move = self.with_context(valued_type="usage_giving_secondary")
@@ -474,21 +370,6 @@ class StockMove(models.Model):
                 move._create_account_move_line(
                     acc_src, acc_valuation, journal_id, qty, description, svl_id, cost
                 )
-
-    def _get_sale_amount(self):
-        valuation_amount = 0
-        sale_line = self.sale_line_id
-        if sale_line and sale_line.product_uom_qty:
-            price_invoice = sale_line.price_subtotal / sale_line.product_uom_qty
-            price_invoice = sale_line.product_uom._compute_price(
-                price_invoice, self.product_uom
-            )
-            valuation_amount = price_invoice * abs(self.product_qty)
-            company = self.location_id.company_id or self.env.company
-            valuation_amount = sale_line.order_id.currency_id._convert(
-                valuation_amount, company.currency_id, company, self.date
-            )
-        return valuation_amount
 
     def _create_account_move_line(
         self,
@@ -550,27 +431,10 @@ class StockMove(models.Model):
                 else:
                     acc_valuation = location_from.property_stock_valuation_account_id.id
 
-            # in nir si factura se ca utiliza 408
-            if valued_type == "invoice_in_notice":
-                if location_to.property_account_expense_location_id:
-                    acc_dest = (
-                        acc_valuation
-                    ) = location_to.property_account_expense_location_id.id
-                # if location_to.property_account_expense_location_id:
-                #     acc_dest = (
-                #         acc_valuation
-                #     ) = location_to.property_account_expense_location_id.id
-            elif valued_type == "invoice_out_notice":
-                if location_to.property_account_income_location_id:
-                    acc_valuation = acc_dest
-                    acc_dest = location_to.property_account_income_location_id.id
-                if location_from.property_account_income_location_id:
-                    acc_valuation = location_from.property_account_income_location_id.id
 
             # in Romania iesirea din stoc de face de regula pe contul de cheltuiala
             elif valued_type in [
                 "delivery",
-                "delivery_notice",
                 "consumption",
                 "usage_giving",
                 "production_return",
@@ -582,7 +446,6 @@ class StockMove(models.Model):
             elif valued_type in [
                 "production",
                 "delivery_return",
-                "delivery_notice_return",
                 "consumption_return",
                 "usage_giving_return",
                 "plus_inventory",

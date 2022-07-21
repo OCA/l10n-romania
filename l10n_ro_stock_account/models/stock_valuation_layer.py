@@ -14,6 +14,9 @@ class StockValuationLayer(models.Model):
     account_id = fields.Many2one(
         "account.account", compute="_compute_account", store=True
     )
+    picking_id = fields.Many2one(
+        "stock.picking", related="stock_move_id.picking_id", store=True
+    )
 
     @api.depends("product_id", "account_move_id")
     def _compute_account(self):

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="sale_advance_payment_inv_form" model="ir.ui.view">
+        <field name="name">sale_advance_payment_inv_inherit_form</field>
+        <field name="model">sale.advance.payment.inv</field>
+        <field name="inherit_id" ref="sale.view_sale_advance_payment_inv" />
+        <field eval="30" name="priority" />
+        <field name="arch" type="xml">
+            <xpath expr="//group" position="inside">
+                <field name="picking_notice_count" invisible="1" />
+                <field name="picking_notice" attrs="{'invisible': [('picking_notice_count','=',0)]}" />
+                <field name="picking_notice_ids" widget="many2many_tags" attrs="{'invisible': ['|',('picking_notice_count','=',0), ('picking_notice','=',False)]}" />
+            </xpath>
+        </field>
+    </record>
+</odoo>
