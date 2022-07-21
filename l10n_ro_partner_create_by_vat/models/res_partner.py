@@ -43,7 +43,6 @@ class ResPartner(models.Model):
         "if the name received is the old name set, than the partner will not be updated.",
     )
     l10n_ro_einvoice_state = fields.Boolean(string="Ro E-Invoicing", copy=False)
-    l10n_ro_einvoice_state = fields.Boolean(string="Ro E-Invoicing", copy=False)
     active_anaf_line_ids = fields.One2many(
         "res.partner.anaf.status",
         "partner_id",
@@ -241,23 +240,15 @@ class ResPartner(models.Model):
         res["street"] = addr.strip()
         return res
 
-    def get_vatcounty_vatnumber(self):
-        vat = self.vat.strip().upper()
-        original_vat_country, vat_number = self._split_vat(vat)
-        vat_country = original_vat_country.upper()
-        if not vat_country and self.country_id:
-            vat_country = self._map_vat_country_code(self.country_id.code.upper())
-            if not vat_number:
-                vat_number = self.vat
-        return vat_country, vat_number
-
     @api.onchange("vat")
     def ro_vat_change(self):
         res = {}
         if not self.env.context.get("skip_ro_vat_change"):
             if not self.vat:
                 return res
-            vat_country, vat_number = self.get_vatcounty_vatnumber()
+            vat = self.vat.strip().upper()
+            original_vat_country, vat_number = self._split_vat(vat)
+            vat_country = original_vat_country.upper()
             if not vat_country and self.country_id:
                 vat_country = self._map_vat_country_code(self.country_id.code.upper())
                 if not vat_number:
