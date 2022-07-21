@@ -35,7 +35,13 @@ AnafFiled_OdooField_Overwrite = [
 class ResPartner(models.Model):
     _inherit = "res.partner"
 
-    old_name = fields.Char(string="Old Name", default="")
+    old_name = fields.Char(
+        string="Old Name",
+        default="",
+        help="To be completed manually with previous name of the company in case on change."
+        "If the field in completed, when fetching the datas from ANAF website,"
+        "if the name received is the old name set, than the partner will not be updated.",
+    )
     l10n_ro_einvoice_state = fields.Boolean(string="Ro E-Invoicing", copy=False)
     l10n_ro_einvoice_state = fields.Boolean(string="Ro E-Invoicing", copy=False)
     active_anaf_line_ids = fields.One2many(
