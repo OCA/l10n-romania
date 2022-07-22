@@ -25,18 +25,18 @@ class ResPartnerAnafStatus(models.Model):
     delete_date = fields.Date()
     active_status = fields.Boolean()
 
-    def create(self, vals):
-        res = super().create(vals)
-        for record in res:
-            if record.vat_number:
-                record.partner_id = self.env["res.partner"].search(
-                    [("vat_number", "=", record.vat_number)]
-                )
-        return res
+    # def create(self, vals):
+    #     res = super().create(vals)
+    #     for record in res:
+    #         if record.vat_number:
+    #             record.partner_id = self.env["res.partner"].search(
+    #                 [("vat_number", "=", record.vat_number)]
+    #             )
+    #     return res
 
     def write(self, vals):
         res = super().write(vals)
-        for record in res:
+        for record in self:
             if record.vat_number:
                 record.partner_id = self.env["res.partner"].search(
                     [("vat_number", "=", record.vat_number)]
