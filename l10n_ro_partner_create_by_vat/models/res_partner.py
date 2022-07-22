@@ -27,10 +27,13 @@ AnafFiled_OdooField_Overwrite = [
     ("nrc", "nrRegCom", "over_all_the_time"),
     ("zip", "codPostal", "over_all_the_time"),
     ("phone", "telefon", "write_if_empty"),
-    ("city", "city", "write_if_empty"),
+    ("city", "city", "over_all_the_time"),
+    ("state_id", "state_id", "over_all_the_time"),
+    ("street", "street", "over_all_the_time"),
     ("city_id", "city_id", "write_if_empty"),
     ("caen_code", "cod_CAEN", "over_all_the_time"),
     ("l10n_ro_e_invoice", "statusRO_e_Factura", "over_all_the_time"),
+    ("vat", "vat", "over_all_the_time"),
 ]
 
 
@@ -177,6 +180,8 @@ class ResPartner(models.Model):
 
         for field in AnafFiled_OdooField_Overwrite:
             anaf_value = result.get(field[1], "")
+            if not anaf_value:
+                continue
             if type(self._fields[field[0]]) in [fields.Date, fields.Datetime]:
                 if not anaf_value.strip():
                     anaf_value = False
