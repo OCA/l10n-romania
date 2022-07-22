@@ -242,7 +242,7 @@ class ResPartner(models.Model):
         result["street"] = addr.strip()
         return result
 
-    @api.onchange("vat")
+    @api.onchange("vat", "country_id")
     def ro_vat_change(self):
         res = {}
         if not self.env.context.get("skip_ro_vat_change"):
@@ -286,6 +286,11 @@ class ResPartner(models.Model):
             same_date_record = self.active_anaf_line_ids.filtered(
                 lambda r: str(r.date) == self.get_date_from_anaf(result.get("data", ""))
             )
+            if not same_date_record and self.active_anaf_line_ids:
+                # Check if we have lines already added NewId
+                for line in self.active_anaf_line_ids:
+                    if isinstance(line.id, models.NewId):
+                        same_date_record = True
             if not same_date_record and not res.get("active_anaf_line_ids"):
                 res["active_anaf_line_ids"] = [
                     (
@@ -322,6 +327,11 @@ class ResPartner(models.Model):
             same_date_record = self.vat_subjected_anaf_line_ids.filtered(
                 lambda r: str(r.date) == self.get_date_from_anaf(result.get("data", ""))
             )
+            if not same_date_record and self.vat_subjected_anaf_line_ids:
+                # Check if we have lines already added NewId
+                for line in self.vat_subjected_anaf_line_ids:
+                    if isinstance(line.id, models.NewId):
+                        same_date_record = True
             if not same_date_record and not res.get("vat_subjected_anaf_line_ids"):
                 res["vat_subjected_anaf_line_ids"] = [
                     (

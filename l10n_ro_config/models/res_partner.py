@@ -39,12 +39,12 @@ class ResPartner(models.Model):
         # Allowing setting the vat without country code
         vat_country = vat_number = ""
         if vat and vat.isdigit():
+            vat_number = vat
             partner = self.search([("vat", "=", vat)], limit=1)
             if partner and partner.country_id:
                 vat_country = self._map_vat_country_code(
                     partner.country_id.code.upper()
                 ).lower()
-                vat_number = vat
         else:
             vat_country, vat_number = super(ResPartner, self)._split_vat(vat)
         return vat_country, vat_number
