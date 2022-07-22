@@ -23,7 +23,7 @@ Romania - Stock Accounting Price Difference
     :target: https://runbot.odoo-community.org/runbot/177/14.0
     :alt: Try me on Runbot
 
-|badge1| |badge2| |badge3| |badge4| |badge5|
+|badge1| |badge2| |badge3| |badge4| |badge5| 
 
 The module is managing price diferences between invoices and receptions. It will create a landed cost with a "Price Difference" product available in the configuration.
 
@@ -92,8 +92,8 @@ promote its widespread use.
 
 Current `maintainers <https://odoo-community.org/page/maintainer-role>`__:
 
-|maintainer-feketemihai| |maintainer-mcojocaru| |maintainer-dhongu|
+|maintainer-feketemihai| |maintainer-mcojocaru| |maintainer-dhongu| 
 
-This module is part of the `OCA/l10n-romania <https://github.com/OCA/l10n-romania/tree/14.0/l10n_ro_stock_account>`_ project on GitHub.
+This module is part of the `OCA/l10n-romania <https://github.com/OCA/l10n-romania/tree/14.0/l10n_ro_stock_price_difference>`_ project on GitHub.
 
 You are welcome to contribute. To learn how please visit https://odoo-community.org/page/Contribute.
