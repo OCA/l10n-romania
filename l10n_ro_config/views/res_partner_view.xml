@@ -9,10 +9,20 @@
                 <attribute name="invisible">1</attribute>
             </field>
             <field name="vat" position="after">
-                <field name="nrc" />
-                <field name="caen_code" />
-                <label for="vat_subjected" />
-                <div name="vat_subjected_info" class="o_row">
+                <field name="nrc" attrs="{'invisible': [('is_company','=', False)]}" />
+                <field
+                    name="caen_code"
+                    attrs="{'invisible': [('is_company','=', False)]}"
+                />
+                <label
+                    for="vat_subjected"
+                    attrs="{'invisible': [('is_company','=', False)]}"
+                />
+                <div
+                    name="vat_subjected_info"
+                    class="o_row"
+                    attrs="{'invisible': [('is_company','=', False)]}"
+                >
                     <field
                         name="vat_subjected"
                         attrs="{'invisible': [
@@ -20,6 +30,10 @@
                             ('company_type', '=', 'company')]}"
                     />
                 </div>
+                <field
+                    name="l10n_ro_e_invoice"
+                    attrs="{'invisible': [('is_company','=', False)]}"
+                />
             </field>
         </field>
     </record>

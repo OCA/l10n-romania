@@ -27,8 +27,10 @@ AnafFiled_OdooField_Overwrite = [
     ("nrc", "nrRegCom", "over_all_the_time"),
     ("zip", "codPostal", "over_all_the_time"),
     ("phone", "telefon", "write_if_empty"),
+    ("city", "city", "write_if_empty"),
+    ("city_id", "city_id", "write_if_empty"),
     ("caen_code", "cod_CAEN", "over_all_the_time"),
-    ("l10n_ro_einvoice_state", "statusRO_e_Factura", "over_all_the_time"),
+    ("l10n_ro_e_invoice", "statusRO_e_Factura", "over_all_the_time"),
 ]
 
 
@@ -42,7 +44,7 @@ class ResPartner(models.Model):
         "If the field in completed, when fetching the datas from ANAF website,"
         "if the name received is the old name set, than the partner will not be updated.",
     )
-    l10n_ro_einvoice_state = fields.Boolean(string="Ro E-Invoicing", copy=False)
+    # l10n_ro_einvoice_state = fields.Boolean(string="Ro E-Invoicing", copy=False)
     active_anaf_line_ids = fields.One2many(
         "res.partner.anaf.status",
         "partner_id",
@@ -163,6 +165,16 @@ class ResPartner(models.Model):
             "vat_subjected": result["scpTVA"],
             "company_type": "company",
         }
+
+        result = self.get_result_address(result)
+
+        if "city_id" in self._fields and result["state_id"] and result["city"]:
+            domain = [
+                ("state_id", "=", result["state_id"].id),
+                ("name", "ilike", result["city"]),
+            ]
+            result["city_id"] = self.env["res.city"].search(domain, limit=1).id
+
         for field in AnafFiled_OdooField_Overwrite:
             anaf_value = result.get(field[1], "")
             if type(self._fields[field[0]]) in [fields.Date, fields.Datetime]:
@@ -179,23 +191,9 @@ class ResPartner(models.Model):
                 if not getattr(self, field[0], None):
                     res[field[0]] = anaf_value
 
-        res = self.get_result_address(result, res)
-
-        if "city_id" in self._fields and res["state_id"] and res["city"]:
-            res["city_id"] = (
-                self.env["res.city"]
-                .search(
-                    [
-                        ("state_id", "=", res["state_id"].id),
-                        ("name", "ilike", res["city"]),
-                    ],
-                    limit=1,
-                )
-                .id
-            )
         return res
 
-    def get_result_address(self, result, res):
+    def get_result_address(self, result):
         addr = city = ""
         state = False
         if result.get("adresa"):
@@ -222,23 +220,23 @@ class ResPartner(models.Model):
                     city = line.replace("MUNICIPIUL", "").strip().title()
                 elif sector and "SECTOR " in line:
                     city = line.strip().title()
-                elif "ORȘ." in line:
+                elif "ORȘ." in line.upper():
                     city = line.replace("ORȘ.", "").strip().title()
-                elif "COM." in line:
+                elif "COM." in line.upper():
                     city += " " + line.strip().title()
-                elif " SAT " in line:
+                elif " SAT " in line.upper():
                     city += " " + line.strip().title()
                 else:
                     addr += line.replace("STR.", "").strip().title() + " "
 
-        res["vat"] = "%s%s" % (
+        result["vat"] = "%s%s" % (
             result.get("scpTVA", False) and "RO" or "",
             result.get("cui"),
         )
-        res["city"] = city.replace("-", " ").title().strip()
-        res["state_id"] = state
-        res["street"] = addr.strip()
-        return res
+        result["city"] = city.replace("-", " ").title().strip()
+        result["state_id"] = state
+        result["street"] = addr.strip()
+        return result
 
     @api.onchange("vat")
     def ro_vat_change(self):

@@ -9,17 +9,12 @@
             <field name="inherit_id" ref="l10n_ro_config.view_partner_create_by_vat" />
             <field name="arch" type="xml">
                 <div name="vat_subjected_info" position="after">
-                <label for="l10n_ro_einvoice_state" />
-                <div name="l10n_ro_einvoice_state_info" class="o_row">
-                     <field
-                            name="l10n_ro_einvoice_state"
-                            attrs="{'invisible': [
-                            ('vat', '=', False),
-                            ('company_type', '=', 'company')]}"
-                        />
+                    <field
+                        name="old_name"
+                        placeholder="Old Name"
+                        attrs="{'invisible': [('is_company','=', False)]}"
+                    />
                 </div>
-                <field name="old_name" placeholder="Old Name" />
-            </div>
             </field>
         </record>
 

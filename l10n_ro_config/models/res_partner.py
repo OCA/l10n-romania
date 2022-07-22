@@ -15,6 +15,7 @@ class ResPartner(models.Model):
         help="VAT number without country code.",
     )
     caen_code = fields.Char(default="0000")
+    l10n_ro_e_invoice = fields.Boolean(string="Ro E-Invoicing", copy=False)
 
     @api.depends("vat")
     def _compute_vat_number(self):
