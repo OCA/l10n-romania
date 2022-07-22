@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo noupdate="1">
+
+    <record id="tax_scheme_vat" model="unece.code.list">
+        <field name="type">tax_scheme</field>
+        <field name="code">VAT</field>
+        <field name="name">Partner tax scheme VAT</field>
+        <field name="description">
+            Partner is VAT 
+        </field>
+    </record>
+    
+    <record id="tax_scheme_nonvat" model="unece.code.list">
+        <field name="type">tax_scheme</field>
+        <field name="code">NON-VAT</field>
+        <field name="name">Partner tax scheme NON-VAT</field>
+        <field name="description">
+            Partner is NON-VAT 
+        </field>
+    </record>   
+    
+</odoo>

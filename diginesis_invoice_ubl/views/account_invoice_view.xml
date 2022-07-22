@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+        <record id="diubl_invoice_form" model="ir.ui.view">
+            <field name="name">diubl.account.invoice.form</field>
+            <field name="model">account.invoice</field>
+            <field name="inherit_id" ref="account.invoice_form"/>
+            <field name="arch" type="xml">
+            	<field name="fiscal_position_id" position="after">
+            		<field name="is_state_institution" readonly="1" force_save="1" />
+            		<field name="ubl_number" />
+            	</field>
+            	
+            	<xpath expr="//header/button[@name='action_invoice_sent'][2]" position="after">
+            		<button type="object" name="attach_ubl_xml_file_button"
+                    attrs="{'invisible': ['|', ('type', 'not in', ['out_invoice', 'out_refund']), ('state', 'not in', ('open', 'paid'))]}"
+                    string="Generate UBL XML File" />
+            	</xpath>            	
+            </field>
+        </record>       
+        
+        <record id="diubl_invoice_tree" model="ir.ui.view">
+            <field name="name">diubl.account.invoice.tree</field>
+            <field name="model">account.invoice</field>
+            <field name="inherit_id" ref="account.invoice_tree"/>
+            <field name="arch" type="xml">
+            	<field name="type" position="after">
+            		<field name="is_state_institution"  />
+            		<field name="ubl_number" invisible="1"  />
+            	</field>            	
+            </field>
+        </record>
+
+    </data>
+</openerp>
