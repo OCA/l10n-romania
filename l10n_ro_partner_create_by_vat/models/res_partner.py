@@ -33,6 +33,7 @@ AnafFiled_OdooField_Overwrite = [
     ("city_id", "city_id", "over_all_the_time"),
     ("caen_code", "cod_CAEN", "over_all_the_time"),
     ("l10n_ro_e_invoice", "statusRO_e_Factura", "over_all_the_time"),
+    ("vat", "vat", "over_all_the_time"),
 ]
 
 
@@ -169,7 +170,10 @@ class ResPartner(models.Model):
         }
 
         result = self.get_result_address(result)
-
+        result["vat"] = "%s%s" % (
+            result.get("scpTVA", False) and "RO" or "",
+            result.get("cui"),
+        )
         if "city_id" in self._fields and result["state_id"] and result["city"]:
             domain = [
                 ("state_id", "=", result["state_id"].id),
@@ -233,10 +237,6 @@ class ResPartner(models.Model):
                 else:
                     addr += line.replace("STR.", "").strip().title() + " "
 
-        result["vat"] = "%s%s" % (
-            result.get("scpTVA", False) and "RO" or "",
-            result.get("cui"),
-        )
         result["city"] = city.replace("-", " ").title().strip()
         result["state_id"] = state
         result["street"] = addr.strip()
