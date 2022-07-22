@@ -20,22 +20,49 @@ headers = {
     "Content-Type": "application/json;",
 }
 
-# anaf syncron url https://static.anaf.ro/static/10/Anaf/Informatii_R/doc_WS_V5.txt
+# anaf syncron url https://static.anaf.ro/static/10/Anaf/Informatii_R/doc_WS_V6.txt
 ANAF_URL = "https://webservicesp.anaf.ro/PlatitorTvaRest/api/v6/ws/tva"
-
 
 AnafFiled_OdooField_Overwrite = [
     ("nrc", "nrRegCom", "over_all_the_time"),
     ("zip", "codPostal", "over_all_the_time"),
-    ("comment", "stare_inregistrare", "write_if_empty&add_date"),
     ("phone", "telefon", "write_if_empty"),
+    ("city", "city", "over_all_the_time"),
+    ("state_id", "state_id", "over_all_the_time"),
+    ("street", "street", "over_all_the_time"),
+    ("city_id", "city_id", "over_all_the_time"),
+    ("caen_code", "cod_CAEN", "over_all_the_time"),
+    ("l10n_ro_e_invoice", "statusRO_e_Factura", "over_all_the_time"),
+    ("vat", "vat", "over_all_the_time"),
 ]
 
 
 class ResPartner(models.Model):
     _inherit = "res.partner"
 
-    old_name = fields.Char(string="Old Name", default="")
+    old_name = fields.Char(
+        string="Old Name",
+        default="",
+        help="To be completed manually with previous name of the company in case on change."
+        "If the field in completed, when fetching the datas from ANAF website,"
+        "if the name received is the old name set, than the partner will not be updated.",
+    )
+    # l10n_ro_einvoice_state = fields.Boolean(string="Ro E-Invoicing", copy=False)
+    active_anaf_line_ids = fields.One2many(
+        "res.partner.anaf.status",
+        "partner_id",
+        string="Partner Active Anaf Status",
+        help="will add entries only if differs as statusInactivi from previos"
+        " or after entries",
+        copy=False,
+    )
+    vat_subjected_anaf_line_ids = fields.One2many(
+        "res.partner.anaf.scptva",
+        "partner_id",
+        string="Anaf Company scpTVA Records",
+        help="will add entries only if differs as scpTVA from previos or after entries",
+        copy=False,
+    )
 
     @api.model
     def _get_Anaf(self, cod, data=False):
@@ -46,44 +73,58 @@ class ResPartner(models.Model):
         :param str cod:  vat number without country code or a list of codes
         :param date data: date of the interogation
         :return dict result: cost of the body's operation
-        {'cui': 30834857,
-        'data': '2021-04-14',
+        {
+        'cui': 30834857,
+        'data': '2022-07-21',
         'denumire': 'FOREST AND BIOMASS ROMÂNIA S.A.',
         'adresa': 'JUD. TIMIŞ, MUN. TIMIŞOARA, STR. CIPRIAN PORUMBESCU,
-        NR.12, ZONA NR.3, ETAJ 1',
+                   NR.12, ZONA NR.3, ETAJ 1',
         'nrRegCom': 'J35/2622/2012',
         'telefon': '0356179038',
-        "fax": "-- Fax --",
         'codPostal': '307225',
-        "act": "-- Act autorizare --",
-        "stare_inregistrare": "-- Stare Societate --", 'INREGISTRAT din data 26.10.2012',
-        "scpTVA": true -pentru platitor in scopuri de tva / false in cazul in care nu
-                    e platitor  in scopuri de TVA la data cautata
-        "data_inceput_ScpTVA": " ", --Data înregistrării în scopuri de TVA anterioară
-                '2012-12-04'
-        "data_sfarsit_ScpTVA": " ", --Data anulării înregistrării în scopuri de TVA
-        "data_anul_imp_ScpTVA": " ",--Data operarii anularii înregistrării în scopuri de TVA
-        "mesaj_ScpTVA": "---MESAJ:(ne)platitor de TVA la data cautata---",
-        "dataInceputTvaInc": " ", --Data de la care aplică sistemul TVA la încasare
-        "dataSfarsitTvaInc": " ", --Data până la care aplică sistemul TVA la încasare
-        "dataActualizareTvaInc": " ", --Data actualizarii
-        "dataPublicareTvaInc": " ", --Data publicarii
-        "tipActTvaInc": " ", --Tip actualizare    'Radiere',
-        "statusTvaIncasare":  true -pentru platitor TVA la incasare/ false in cazul in
-                         care nu e platitor de TVA la incasare la data cautata
-        "dataInactivare": " ",
-        "dataReactivare": " ",
-        "dataPublicare": " ",
-        "dataRadiere": " ",
-        "statusInactivi": true -pentru inactiv / false in cazul in care nu este inactiv
-                             la data cautata
-        "dataInceputSplitTVA": " ",
-        "dataAnulareSplitTVA": " ",
-        "statusSplitTVA": true -aplica plata defalcata a Tva / false - nu aplica plata
-                         defalcata a Tva la data cautata
-        "iban": "--- contul IBAN ---"
-        "statusRO_e_Factura": true - figureaza in Registrul RO e-Factura / false
-                        - nu figureaza in Registrul RO e-Factura la data cautata
+        'stare_inregistrare': 'INREGISTRAT din data 26.10.2012',
+        'scpTVA': True,
+        'data_inceput_ScpTVA': '2012-12-04',
+        'data_sfarsit_ScpTVA': ' ',
+        'data_anul_imp_ScpTVA': ' ',
+        'mesaj_ScpTVA': 'platitor IN SCOPURI de TVA la data cautata',
+        'dataInceputTvaInc': '2013-02-01',
+        'dataSfarsitTvaInc': '2013-08-01',
+        'dataActualizareTvaInc': '2013-07-11',
+        'dataPublicareTvaInc': '2013-07-12',
+        'tipActTvaInc': 'Radiere',
+        'statusTvaIncasare': False,
+        'dataInactivare': ' ',
+        'dataReactivare': ' ',
+        'dataPublicare': ' ',
+        'dataRadiere': ' ',
+        'statusInactivi': False,
+        'dataInceputSplitTVA': '',
+        'dataAnulareSplitTVA': '',
+        'statusSplitTVA': False,
+        'iban': '',
+        'statusRO_e_Factura': False,
+        'sdenumire_Strada': ' ',
+        'snumar_Strada': ' ',
+        'sdenumire_Localitate': 'Sat Giulvăz Com. Giulvăz',
+        'scod_Localitate': '170',
+        'sdenumire_Judet': 'TIMIŞ',
+        'scod_Judet': '35',
+        'stara': ' ',
+        'sdetalii_Adresa': 'FERMA 5-6',
+        'scod_Postal': '307225',
+        'ddenumire_Strada': 'Str. Ciprian Porumbescu',
+        'dnumar_Strada': '12',
+        'ddenumire_Localitate': 'Mun. Timişoara',
+        'dcod_Localitate': '355',
+        'ddenumire_Judet': 'TIMIŞ',
+        'dcod_Judet': '35',
+        'dtara': ' ',
+        'ddetalii_Adresa': 'ZONA NR.3, Etaj 1',
+        'dcod_Postal': ' ',
+        'data_inregistrare': '2012-10-26',
+        'cod_CAEN': '119'}
+        }
         """
         if not data:
             data = fields.Date.to_string(fields.Date.today())
@@ -127,8 +168,26 @@ class ResPartner(models.Model):
             "vat_subjected": result["scpTVA"],
             "company_type": "company",
         }
+
+        result = self.get_result_address(result)
+        result["vat"] = "%s%s" % (
+            result.get("scpTVA", False) and "RO" or "",
+            result.get("cui"),
+        )
+        if "city_id" in self._fields and result["state_id"] and result["city"]:
+            domain = [
+                ("state_id", "=", result["state_id"].id),
+                ("name", "ilike", result["city"]),
+            ]
+            result["city_id"] = self.env["res.city"].search(domain, limit=1).id
+
         for field in AnafFiled_OdooField_Overwrite:
             anaf_value = result.get(field[1], "")
+            if not anaf_value:
+                continue
+            if type(self._fields[field[0]]) in [fields.Date, fields.Datetime]:
+                if not anaf_value.strip():
+                    anaf_value = False
             if field[2] == "over_all_the_time":
                 res[field[0]] = anaf_value
             elif field[2] == "write_if_empty&add_date" and anaf_value:
@@ -140,23 +199,9 @@ class ResPartner(models.Model):
                 if not getattr(self, field[0], None):
                     res[field[0]] = anaf_value
 
-        res = self.get_result_address(result, res)
-
-        if "city_id" in self._fields and res["state_id"] and res["city"]:
-            res["city_id"] = (
-                self.env["res.city"]
-                .search(
-                    [
-                        ("state_id", "=", res["state_id"].id),
-                        ("name", "ilike", res["city"]),
-                    ],
-                    limit=1,
-                )
-                .id
-            )
         return res
 
-    def get_result_address(self, result, res):
+    def get_result_address(self, result):
         addr = city = ""
         state = False
         if result.get("adresa"):
@@ -183,50 +228,130 @@ class ResPartner(models.Model):
                     city = line.replace("MUNICIPIUL", "").strip().title()
                 elif sector and "SECTOR " in line:
                     city = line.strip().title()
-                elif "ORȘ." in line:
+                elif "ORȘ." in line.upper():
                     city = line.replace("ORȘ.", "").strip().title()
-                elif "COM." in line:
+                elif "COM." in line.upper():
                     city += " " + line.strip().title()
-                elif " SAT " in line:
+                elif " SAT " in line.upper():
                     city += " " + line.strip().title()
                 else:
                     addr += line.replace("STR.", "").strip().title() + " "
 
-        res["vat"] = "%s%s" % (
-            result.get("scpTVA", False) and "RO" or "",
-            result.get("cui"),
-        )
-        res["city"] = city.replace("-", " ").title().strip()
-        res["state_id"] = state
-        res["street"] = addr.strip()
-        return res
+        result["city"] = city.replace("-", " ").title().strip()
+        result["state_id"] = state
+        result["street"] = addr.strip()
+        return result
 
     @api.onchange("vat", "country_id")
     def ro_vat_change(self):
-        for partner in self:
-            ret = {}
-            if not partner.vat:
-                return ret
-            res = {}
-            vat = partner.vat.strip().upper()
-            original_vat_country, vat_number = partner._split_vat(vat)
+        res = {}
+        if not self.env.context.get("skip_ro_vat_change"):
+            if not self.vat:
+                return res
+            vat = self.vat.strip().upper()
+            original_vat_country, vat_number = self._split_vat(vat)
             vat_country = original_vat_country.upper()
-            if not vat_country and partner.country_id:
-                vat_country = self._map_vat_country_code(
-                    partner.country_id.code.upper()
-                )
+            if not vat_country and self.country_id:
+                vat_country = self._map_vat_country_code(self.country_id.code.upper())
                 if not vat_number:
-                    vat_number = partner.vat
+                    vat_number = self.vat
             if vat_country == "RO":
-                anaf_error, result = partner._get_Anaf(vat_number)
+                anaf_error, result = self._get_Anaf(vat_number)
                 if not anaf_error:
-                    res = partner._Anaf_to_Odoo(result)
+                    res = self._Anaf_to_Odoo(result)
                     res["country_id"] = (
                         self.env["res.country"]
                         .search([("code", "ilike", vat_country)])[0]
                         .id
                     )
-                    partner.with_context(skip_ro_vat_change=True).update(res)
+                    # Update ANAF history for vat_subjected and active status
+                    res = self._update_anaf_status(res, result)
+                    res = self._update_anaf_scptva(res, result)
+                    self.with_context(skip_ro_vat_change=True).update(res)
                 else:
-                    ret["warning"] = {"message": anaf_error}
-        return ret
+                    res["warning"] = {"message": anaf_error}
+        return res
+
+    def get_date_from_anaf(self, date_string):
+        date_str = date_string.strip()
+        if date_str:
+            return fields.Date.from_string(date_str)
+        return False
+
+    def _update_anaf_status(self, res, result):
+        self.ensure_one()
+        if not res:
+            res = {}
+        if result:
+            same_date_record = self.active_anaf_line_ids.filtered(
+                lambda r: str(r.date) == self.get_date_from_anaf(result.get("data", ""))
+            )
+            if not same_date_record and self.active_anaf_line_ids:
+                # Check if we have lines already added NewId
+                for line in self.active_anaf_line_ids:
+                    if isinstance(line.id, models.NewId):
+                        same_date_record = True
+            if not same_date_record and not res.get("active_anaf_line_ids"):
+                res["active_anaf_line_ids"] = [
+                    (
+                        0,
+                        0,
+                        {
+                            "vat_number": result.get("cui"),
+                            "date": self.get_date_from_anaf(result.get("data", "")),
+                            "act": result.get("act"),
+                            "status": result.get("stare_inregistrare"),
+                            "start_date": self.get_date_from_anaf(
+                                result.get("dataReactivare", "")
+                            ),
+                            "end_date": self.get_date_from_anaf(
+                                result.get("dataInactivare", "")
+                            ),
+                            "publish_date": self.get_date_from_anaf(
+                                result.get("dataPublicare", "")
+                            ),
+                            "delete_date": self.get_date_from_anaf(
+                                result.get("dataRadiere", "")
+                            ),
+                            "active_status": result.get("statusInactivi"),
+                        },
+                    )
+                ]
+        return res
+
+    def _update_anaf_scptva(self, res, result):
+        self.ensure_one()
+        if not res:
+            res = {}
+        if result:
+            same_date_record = self.vat_subjected_anaf_line_ids.filtered(
+                lambda r: str(r.date) == self.get_date_from_anaf(result.get("data", ""))
+            )
+            if not same_date_record and self.vat_subjected_anaf_line_ids:
+                # Check if we have lines already added NewId
+                for line in self.vat_subjected_anaf_line_ids:
+                    if isinstance(line.id, models.NewId):
+                        same_date_record = True
+            if not same_date_record and not res.get("vat_subjected_anaf_line_ids"):
+                res["vat_subjected_anaf_line_ids"] = [
+                    (
+                        0,
+                        0,
+                        {
+                            "vat_number": result.get("cui"),
+                            "date": self.get_date_from_anaf(result.get("data", "")),
+                            "start_date": self.get_date_from_anaf(
+                                result.get("data_inceput_ScpTVA", "")
+                            ),
+                            "end_date": self.get_date_from_anaf(
+                                result.get("data_sfarsit_ScpTVA", "")
+                            ),
+                            "year_date": self.get_date_from_anaf(
+                                result.get("data_anul_imp_ScpTVA", "")
+                            ),
+                            "message": result.get("mesaj_ScpTVA"),
+                            "vat_subjected": result.get("scpTVA"),
+                        },
+                    )
+                ]
+        return res
