@@ -124,16 +124,20 @@ class ProductTemplate(models.Model):
             )
 
         valued_type = self.env.context.get("valued_type", "indefinite")
-        _logger.info(valued_type)
+        _logger.debug(valued_type)
 
         # in nir si factura se ca utiliza 408
         if valued_type in [
             "reception_notice",
             "invoice_in_notice",
-            "reception_notice_return",
         ]:
             if stock_picking_payable_account_id:
                 accounts["stock_input"] = stock_picking_payable_account_id
+        # in aviz si factura furnizor se va utiliza 408
+        elif valued_type == "reception_notice_return":
+            if stock_picking_payable_account_id:
+                accounts["stock_output"] = stock_picking_payable_account_id
+
         # in aviz si factura client se va utiliza 418
         elif valued_type == "invoice_out_notice":
             if stock_picking_receivable_account_id:
@@ -157,6 +161,7 @@ class ProductTemplate(models.Model):
             "production",
             "consumption_return",
             "delivery_return",
+            "delivery_notice_return",
             "usage_giving_return",
             "plus_inventory",
         ]:

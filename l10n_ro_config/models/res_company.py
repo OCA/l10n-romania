@@ -81,3 +81,10 @@ class ResCompany(models.Model):
     property_inverse_taxation_position_id = fields.Many2one(
         "account.fiscal.position", "Fiscal Position for Inverse Taxation"
     )
+    property_stock_price_difference_product_id = fields.Many2one(
+        "product.product",
+        string="Price Difference Landed Cost Product",
+        domain="[('type', '=', 'service')]",
+        help="This product will be used to create the landed cost"
+        "for the price difference between picking and bill",
+    )
