@@ -30,10 +30,9 @@ AnafFiled_OdooField_Overwrite = [
     ("city", "city", "over_all_the_time"),
     ("state_id", "state_id", "over_all_the_time"),
     ("street", "street", "over_all_the_time"),
-    ("city_id", "city_id", "write_if_empty"),
+    ("city_id", "city_id", "over_all_the_time"),
     ("caen_code", "cod_CAEN", "over_all_the_time"),
     ("l10n_ro_e_invoice", "statusRO_e_Factura", "over_all_the_time"),
-    ("vat", "vat", "over_all_the_time"),
 ]
 
 

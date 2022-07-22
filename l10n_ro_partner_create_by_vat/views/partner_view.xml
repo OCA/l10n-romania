@@ -8,7 +8,7 @@
             <field name="model">res.partner</field>
             <field name="inherit_id" ref="l10n_ro_config.view_partner_create_by_vat" />
             <field name="arch" type="xml">
-                <div name="vat_subjected_info" position="after">
+                <div name="l10n_ro_e_invoice" position="after">
                     <field
                         name="old_name"
                         placeholder="Old Name"
