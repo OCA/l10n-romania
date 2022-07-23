@@ -215,9 +215,18 @@ class ResPartner(models.Model):
 
     def get_result_address(self, result):
         # Take address from domiciliu fiscal
+        # "ddenumire_Strada": -- Denumire strada domiciliu fiscal - -",
+        # "dnumar_Strada": "-- Numar strada domiciliu fiscal --",
+        # "ddenumire_Localitate": "-- Denumire localitate domiciliu fiscal --",
+        # "dcod_Localitate": "-- Cod localitate domiciliu fiscal --",
+        # "ddenumire_Judet": "-- Denumire judet domiciliu fiscal --",
+        # "dcod_Judet": "-- Cod judet domiciliu fiscal --",
+        # "dtara": "-- Denumire tara domiciliu fiscal --",
+        # "ddetalii_Adresa": "-- Detalii adresa domiciliu fiscal --",
+        # "dcod_Postal": "-- Cod postal domiciliu fiscal --",
         def get_city(text):
             city = text.replace(".", "").upper()
-            remove_str = ["JUD", "MUN", "MUNICIPIUL", "ORȘ"]
+            remove_str = ["MUNICIPIUL", "MUN", "ORȘ", "JUD"]
             if "SECTOR" in city and "MUN" in city:
                 city = city.split("MUN")[0]
             for tag in remove_str:
@@ -234,7 +243,11 @@ class ResPartner(models.Model):
                 "ddenumire_Judet",
             ]:
                 result[tag] = (
-                    result[tag].encode("utf8").translate(CEDILLATRANS).decode("utf8")
+                    result[tag]
+                    .encode("utf8")
+                    .translate(CEDILLATRANS)
+                    .decode("utf8")
+                    .strip()
                 )
             result["street"] = result.get("ddenumire_Strada")
             if result.get("dnumar_Strada"):

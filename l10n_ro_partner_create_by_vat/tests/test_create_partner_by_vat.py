@@ -97,7 +97,7 @@ class TestCreatePartner(TestCreatePartnerBase):
         self.mainpartner.ro_vat_change()
         self.mainpartner.onchange_vat_subjected()
         self.assertEqual(self.mainpartner.name, "COLOR 4 YOU S.R.L.")
-        self.assertEqual(self.mainpartner.street, "Voinicilor Bl.1C Ap.18")
+        self.assertEqual(self.mainpartner.street, "Str. Voinicilor")
         self.assertEqual(self.mainpartner.state_id, self.env.ref("base.RO_AR"))
         self.assertEqual(self.mainpartner.city, "Arad")
         self.assertEqual(self.mainpartner.country_id, self.env.ref("base.ro"))
