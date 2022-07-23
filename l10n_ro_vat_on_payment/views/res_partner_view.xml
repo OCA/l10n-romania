@@ -25,11 +25,7 @@
         <field name="model">res.partner</field>
         <field name="inherit_id" ref="base.view_partner_form" />
         <field name="arch" type="xml">
-            <field name="nrc" position="attributes">
-                <attribute name="invisible">1</attribute>
-            </field>
-            <field name="vat" position="after">
-                <field name="nrc" />
+            <div name="vat_subjected_info" position="after">
                 <label for="vat_on_payment" />
                 <div name="vat_on_payment_info" class="o_row">
                     <field
@@ -48,7 +44,7 @@
                         class="oe_highlight"
                     />
                 </div>
-            </field>
+            </div>
         </field>
     </record>
     <record id="view_partner_anaf_form" model="ir.ui.view">
