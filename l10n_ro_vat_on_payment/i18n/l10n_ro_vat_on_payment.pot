@@ -82,6 +82,11 @@ msgid "Journal Entry"
 msgstr ""
 
 #. module: l10n_ro_vat_on_payment
+#: model:ir.model,name:l10n_ro_vat_on_payment.model_account_move_line
+msgid "Journal Item"
+msgstr ""
+
+#. module: l10n_ro_vat_on_payment
 #: model:ir.model.fields,field_description:l10n_ro_vat_on_payment.field_res_partner_anaf____last_update
 msgid "Last Modified on"
 msgstr ""
@@ -136,18 +141,6 @@ msgstr ""
 #. module: l10n_ro_vat_on_payment
 #: model_terms:ir.ui.view,arch_db:l10n_ro_vat_on_payment.partners_form_add_vat_payment
 msgid "Update VAT on Payment"
-msgstr ""
-
-#. module: l10n_ro_vat_on_payment
-#: model:ir.model.fields,field_description:l10n_ro_vat_on_payment.field_res_partner__vat_number
-#: model:ir.model.fields,field_description:l10n_ro_vat_on_payment.field_res_users__vat_number
-msgid "VAT number"
-msgstr ""
-
-#. module: l10n_ro_vat_on_payment
-#: model:ir.model.fields,help:l10n_ro_vat_on_payment.field_res_partner__vat_number
-#: model:ir.model.fields,help:l10n_ro_vat_on_payment.field_res_users__vat_number
-msgid "VAT number without country code."
 msgstr ""
 
 #. module: l10n_ro_vat_on_payment
