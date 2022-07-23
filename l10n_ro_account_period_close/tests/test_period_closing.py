@@ -289,13 +289,13 @@ class TestPeriodClosing(AccountTestInvoicingCommon):
                 "company_id": self.company.id,
             }
         )
-        exp_account_res = self.exp_closing.with_context(ctx)._get_accounts(
+        exp_account_res = self.exp_closing.with_context(**ctx)._get_accounts(
             self.exp_closing.account_ids, "not_zero"
         )
-        inc_account_res = self.inc_closing.with_context(ctx)._get_accounts(
+        inc_account_res = self.inc_closing.with_context(**ctx)._get_accounts(
             self.inc_closing.account_ids, "not_zero"
         )
-        vat_account_res = self.vat_closing.with_context(ctx)._get_accounts(
+        vat_account_res = self.vat_closing.with_context(**ctx)._get_accounts(
             self.vat_closing.account_ids, "all"
         )
         self.assertEqual(expected_exp_account, exp_account_res)
