@@ -120,6 +120,7 @@ class StockMove(models.Model):
     def _romanian_account_entry_move(self, qty, description, svl_id, cost):
         res = super()._romanian_account_entry_move(qty, description, svl_id, cost)
         svl = self.env["stock.valuation.layer"]
+        account_move_obj = self.env["account.move"]
         if self._is_delivery_notice():
             # inregistrare valoare vanzare
             sale_cost = self._get_sale_amount()
@@ -131,8 +132,16 @@ class StockMove(models.Model):
                 acc_dest,
                 acc_valuation,
             ) = move._get_accounting_data_for_valuation()
-            move._create_account_move_line(
-                acc_valuation, acc_dest, journal_id, qty, description, svl, sale_cost
+            account_move_obj.create(
+                move._prepare_account_move_vals(
+                    acc_valuation,
+                    acc_dest,
+                    journal_id,
+                    qty,
+                    description,
+                    svl,
+                    sale_cost,
+                )
             )
 
         if self._is_delivery_notice_return():
@@ -146,8 +155,16 @@ class StockMove(models.Model):
                 acc_dest,
                 acc_valuation,
             ) = move._get_accounting_data_for_valuation()
-            move._create_account_move_line(
-                acc_dest, acc_valuation, journal_id, qty, description, svl_id, sale_cost
+            account_move_obj.create(
+                move._prepare_account_move_vals(
+                    acc_dest,
+                    acc_valuation,
+                    journal_id,
+                    qty,
+                    description,
+                    svl_id,
+                    sale_cost,
+                )
             )
         return res
 
