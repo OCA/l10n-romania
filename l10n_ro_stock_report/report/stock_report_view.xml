@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="view_stock_sheet_report_form" model="ir.ui.view">
+        <field name="name">stock.storage.sheet.form</field>
+        <field name="model">stock.storage.sheet</field>
+        <field name="arch" type="xml">
+            <form string="Report Options">
+                <group name="filters">
+                    <group>
+                        <field name="location_id" />
+                        <field name="product_ids" widget="many2many_tags" />
+                        <field name="products_with_move" />
+                        <field name="one_product" />
+                        <field name="sublocation" />
+                        <field name="location_ids" />
+                    </group>
+                    <group name="date_range">
+                        <field
+                            name="date_range_id"
+                            domain="['|',('company_id','=',company_id), ('company_id','=',False)]"
+                        />
+                        <field name="date_from" />
+                        <field name="date_to" />
+                        <field name="company_id" invisible="1" />
+                    </group>
+                </group>
+                <footer>
+                    <button
+                        name="button_show_sheet"
+                        string="Show Sheet"
+                        type="object"
+                        default_focus="1"
+                        class="oe_highlight"
+                    />
+                    <button
+                        name="button_show_sheet_pdf"
+                        string="Show Sheet Pdf"
+                        type="object"
+                        default_focus="1"
+                        class="oe_highlight"
+                    />
+                    or
+                    <button string="Cancel" class="oe_link" special="cancel" />
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_sheet_stock_report_line_tree" model="ir.ui.view">
+        <field name="name">stock.sheet.stock.report.line</field>
+        <field name="model">stock.storage.sheet.line</field>
+        <field name="arch" type="xml">
+            <tree edit="0" create="0" import="0">
+                <field name="product_id" />
+                <field name="date" />
+                <field name="reference" />
+                <field name="invoice_id" />
+                <field name="document" />
+                <field name="account_id" optional="hide" />
+                <field name="partner_id" optional="hide" />
+                <field name="categ_id" optional="hide" />
+                <field name="location_id" optional="hide" />
+
+                <field name="quantity_initial" />
+                <field name="amount_initial" />
+                <field name="quantity_in" />
+                <field name="amount_in" />
+                <field name="quantity_out" />
+                <field name="amount_out" />
+                <field
+                    name="quantity_final"
+                    decoration-danger="quantity_final &lt; 0"
+                />
+                <field name="amount_final" decoration-danger="amount_final &lt; 0" />
+
+            </tree>
+        </field>
+    </record>
+
+
+    <record id="view_sheet_stock_report_line_form" model="ir.ui.view">
+        <field name="name">stock.sheet.stock.report.line</field>
+        <field name="model">stock.storage.sheet.line</field>
+        <field name="arch" type="xml">
+            <form edit="0" create="0" import="0">
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="product_id" />
+                            <field name="date" />
+                            <field name="location_id" />
+                        </group>
+                        <group>
+                            <field name="reference" />
+                            <field name="partner_id" />
+                        </group>
+                        <group>
+                            <field name="quantity_initial" />
+                            <field name="amount_initial" />
+                        </group>
+                        <group>
+                            <field name="quantity_in" />
+                            <field name="amount_in" />
+                        </group>
+                        <group>
+                            <field name="quantity_out" />
+                            <field name="amount_out" />
+                        </group>
+                        <group>
+                            <field name="quantity_final" />
+                            <field name="amount_final" />
+                        </group>
+                    </group>
+
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+
+    <record id="view_sheet_stock_report_line_pivot" model="ir.ui.view">
+        <field name="name">stock.sheet.stock.report.line.pivot</field>
+        <field name="model">stock.storage.sheet.line</field>
+        <field name="arch" type="xml">
+            <pivot string="Stock Analysis" disable_linking="True" sample="1">
+                <field name="product_id" type="row" />
+                <field name="quantity_initial" type="measure" />
+                <field name="amount_initial" type="measure" />
+                <field name="quantity_in" type="measure" />
+                <field name="amount_in" type="measure" />
+                <field name="quantity_out" type="measure" />
+                <field name="amount_out" type="measure" />
+                <field name="quantity_final" type="measure" />
+                <field name="amount_final" type="measure" />
+            </pivot>
+        </field>
+    </record>
+
+
+    <record id="view_sheet_stock_report_line_search" model="ir.ui.view">
+        <field name="name">stock.sheet.stock.report.line</field>
+        <field name="model">stock.storage.sheet.line</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="product_id" />
+                <field name="location_id" />
+                <group expand="1" string="Group by">
+                    <filter
+                        string="Product"
+                        name="group_by_product"
+                        context="{'group_by': 'product_id'}"
+                    />
+                    <filter
+                        string="Location"
+                        name="group_by_location"
+                        context="{'group_by': 'location_id'}"
+                    />
+                </group>
+            </search>
+        </field>
+    </record>
+
+
+    <record id="action_sheet_stock_report" model="ir.actions.act_window">
+        <field name="name">Stock Sheet Report</field>
+        <field name="res_model">stock.storage.sheet</field>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="l10n_ro_stock_report.view_stock_sheet_report_form" />
+        <field name="target">new</field>
+    </record>
+
+
+    <menuitem
+        id="menu_sheet_stock_report"
+        name="Stock Sheet Report"
+        action="action_sheet_stock_report"
+        parent="stock.menu_warehouse_report"
+        groups="stock.group_stock_user"
+    />
+
+
+    <record id="action_sheet_stock_report_line" model="ir.actions.act_window">
+        <field name="name">Stock Sheet Report</field>
+        <field name="res_model">stock.storage.sheet.line</field>
+        <field name="view_mode">tree,form,pivot</field>
+        <field name="domain">[('report_id','=',active_id)]</field>
+        <field name="context">{'general_buttons':'get_general_buttons'}</field>
+        <field
+            name="view_id"
+            ref="l10n_ro_stock_report.view_sheet_stock_report_line_tree"
+        />
+    </record>
+
+
+</odoo>
