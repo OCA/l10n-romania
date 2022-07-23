@@ -25,7 +25,8 @@ class TestCreatePartner(TestCreatePartnerBase):
             self.assertEqual(res["vat_subjected"], True)
             self.assertEqual(res["company_type"], "company")
             self.assertEqual(res["nrc"], "J35/2622/2012")
-            self.assertEqual(res["street"], "Ciprian Porumbescu Nr.12 Zona Nr.3 Etaj 1")
+            self.assertEqual(res["street"], "Str. Ciprian Porumbescu Nr. 12")
+            self.assertEqual(res["street2"], "Zona Nr.3, Etaj 1")
             self.assertEqual(res["state_id"], self.env.ref("base.RO_TM"))
             self.assertEqual(res["city"], "Timișoara")
             self.assertEqual(res["zip"], "307225")
@@ -48,9 +49,8 @@ class TestCreatePartner(TestCreatePartnerBase):
         self.mainpartner.vat = "RO30834857"
         self.mainpartner.ro_vat_change()
         self.assertEqual(self.mainpartner.name, "FOREST AND BIOMASS ROMÂNIA S.A.")
-        self.assertEqual(
-            self.mainpartner.street, "Ciprian Porumbescu Nr.12 Zona Nr.3 Etaj 1"
-        )
+        self.assertEqual(self.mainpartner.street, "Str. Ciprian Porumbescu Nr. 12")
+        self.assertEqual(self.mainpartner.street2, "Zona Nr.3, Etaj 1")
         self.assertEqual(self.mainpartner.state_id, self.env.ref("base.RO_TM"))
         self.assertEqual(self.mainpartner.city, "Timișoara")
         self.assertEqual(self.mainpartner.country_id, self.env.ref("base.ro"))
@@ -60,9 +60,8 @@ class TestCreatePartner(TestCreatePartnerBase):
         self.assertEqual(
             self.mainpartner.name, "FOREST AND BIOMASS SERVICES ROMANIA S.A."
         )
-        self.assertEqual(
-            self.mainpartner.street, "Cal. Buziașului Nr.11 A Corp B Zona Nr.1 Etaj 3"
-        )
+        self.assertEqual(self.mainpartner.street, "Cal. Buziașului Nr. 11 A")
+        self.assertEqual(self.mainpartner.street2, "Corp B, Zona Nr.1, Etaj 3")
         self.assertEqual(self.mainpartner.state_id, self.env.ref("base.RO_TM"))
         self.assertEqual(self.mainpartner.city, "Timișoara")
         self.assertEqual(self.mainpartner.country_id, self.env.ref("base.ro"))
@@ -70,9 +69,9 @@ class TestCreatePartner(TestCreatePartnerBase):
         self.mainpartner.vat = "RO8235738"
         self.mainpartner.ro_vat_change()
         self.assertEqual(self.mainpartner.name, "HOLZINDUSTRIE ROMANESTI S.R.L.")
-        self.assertEqual(self.mainpartner.street, "Românești Nr.69/A")
+        self.assertEqual(self.mainpartner.street, "Românești Nr. 69/A")
         self.assertEqual(self.mainpartner.state_id, self.env.ref("base.RO_TM"))
-        self.assertEqual(self.mainpartner.city, "Sat Românești Com. Tomești")
+        self.assertEqual(self.mainpartner.city, "Sat Românești Com Tomești")
         self.assertEqual(self.mainpartner.country_id, self.env.ref("base.ro"))
         # Check address from vat without country code - vat subjected
         self.mainpartner.vat = "4264242"
@@ -83,9 +82,8 @@ class TestCreatePartner(TestCreatePartnerBase):
         self.mainpartner.country_id = self.env.ref("base.ro")
         self.mainpartner.ro_vat_change()
         self.assertEqual(self.mainpartner.name, "CUMPANA 1993 SRL")
-        self.assertEqual(
-            self.mainpartner.street, "Alexander Von Humboldt Nr.10 Et.Parter"
-        )
+        self.assertEqual(self.mainpartner.street, "Str. Alexander Von Humboldt Nr. 10")
+        self.assertEqual(self.mainpartner.street2, "")
         self.assertEqual(self.mainpartner.state_id, self.env.ref("base.RO_B"))
         self.assertEqual(self.mainpartner.city, "Sector 3")
         self.assertEqual(self.mainpartner.country_id, self.env.ref("base.ro"))
@@ -99,7 +97,7 @@ class TestCreatePartner(TestCreatePartnerBase):
         self.mainpartner.ro_vat_change()
         self.mainpartner.onchange_vat_subjected()
         self.assertEqual(self.mainpartner.name, "COLOR 4 YOU S.R.L.")
-        self.assertEqual(self.mainpartner.street, "Voinicilor Bl.1C Ap.18")
+        self.assertEqual(self.mainpartner.street, "Str. Voinicilor")
         self.assertEqual(self.mainpartner.state_id, self.env.ref("base.RO_AR"))
         self.assertEqual(self.mainpartner.city, "Arad")
         self.assertEqual(self.mainpartner.country_id, self.env.ref("base.ro"))
