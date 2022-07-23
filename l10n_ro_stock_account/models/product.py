@@ -105,12 +105,6 @@ class ProductTemplate(models.Model):
             self.property_stock_valuation_account_id
             or self.categ_id.property_stock_valuation_account_id
         )
-        stock_picking_payable_account_id = (
-            company.property_stock_picking_payable_account_id
-        )
-        stock_picking_receivable_account_id = (
-            company.property_stock_picking_receivable_account_id
-        )
         property_stock_usage_giving_account_id = (
             company.property_stock_usage_giving_account_id
         )
@@ -124,27 +118,11 @@ class ProductTemplate(models.Model):
             )
 
         valued_type = self.env.context.get("valued_type", "indefinite")
-        _logger.info(valued_type)
-
-        # in nir si factura se ca utiliza 408
-        if valued_type in [
-            "reception_notice",
-            "invoice_in_notice",
-            "reception_notice_return",
-        ]:
-            if stock_picking_payable_account_id:
-                accounts["stock_input"] = stock_picking_payable_account_id
-        # in aviz si factura client se va utiliza 418
-        elif valued_type == "invoice_out_notice":
-            if stock_picking_receivable_account_id:
-                accounts["stock_output"] = stock_picking_receivable_account_id
-                accounts["stock_valuation"] = accounts["income"]
-                accounts["income"] = stock_picking_receivable_account_id
+        _logger.debug(valued_type)
 
         # in Romania iesirea din stoc de face de regula pe contul de cheltuiala
-        elif valued_type in [
+        if valued_type in [
             "delivery",
-            "delivery_notice",
             "consumption",
             "production_return",
             "minus_inventory",
@@ -162,8 +140,6 @@ class ProductTemplate(models.Model):
         ]:
             accounts["stock_input"] = accounts["stock_output"] = accounts["expense"]
         elif valued_type == "dropshipped":
-            if stock_picking_payable_account_id:
-                accounts["stock_input"] = stock_picking_payable_account_id
             accounts["stock_output"] = accounts["expense"]
 
         # suplimentar la darea in consum mai face o nota contabila

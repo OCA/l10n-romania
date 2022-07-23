@@ -16,7 +16,7 @@ class ResCompany(models.Model):
     )
     share_capital = fields.Float(string="Share Capital", digits="Account", default=200)
     company_registry = fields.Char(related="partner_id.nrc", readonly=False)
-    caen_code = fields.Char(default="0000")
+    caen_code = fields.Char(related="partner_id.caen_code", readonly=False)
     romanian_accounting = fields.Boolean(string="Use Romanian Accounting")
     stock_acc_price_diff = fields.Boolean(
         string="Stock Valuation Update",
@@ -80,4 +80,11 @@ class ResCompany(models.Model):
     )
     property_inverse_taxation_position_id = fields.Many2one(
         "account.fiscal.position", "Fiscal Position for Inverse Taxation"
+    )
+    property_stock_price_difference_product_id = fields.Many2one(
+        "product.product",
+        string="Price Difference Landed Cost Product",
+        domain="[('type', '=', 'service')]",
+        help="This product will be used to create the landed cost"
+        "for the price difference between picking and bill",
     )
