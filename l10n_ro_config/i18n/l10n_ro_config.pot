@@ -110,6 +110,8 @@ msgstr ""
 
 #. module: l10n_ro_config
 #: model:ir.model.fields,field_description:l10n_ro_config.field_res_company__caen_code
+#: model:ir.model.fields,field_description:l10n_ro_config.field_res_partner__caen_code
+#: model:ir.model.fields,field_description:l10n_ro_config.field_res_users__caen_code
 msgid "Caen Code"
 msgstr ""
 
@@ -281,6 +283,12 @@ msgstr ""
 msgid ""
 "Registration of accounting move according to\n"
 "                                    Romanian legislation"
+msgstr ""
+
+#. module: l10n_ro_config
+#: model:ir.model.fields,field_description:l10n_ro_config.field_res_partner__l10n_ro_e_invoice
+#: model:ir.model.fields,field_description:l10n_ro_config.field_res_users__l10n_ro_e_invoice
+msgid "Ro E-Invoicing"
 msgstr ""
 
 #. module: l10n_ro_config
@@ -580,6 +588,18 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_ro_config.field_res_partner__vat_subjected
 #: model:ir.model.fields,field_description:l10n_ro_config.field_res_users__vat_subjected
 msgid "VAT Legal Statement"
+msgstr ""
+
+#. module: l10n_ro_config
+#: model:ir.model.fields,field_description:l10n_ro_config.field_res_partner__vat_number
+#: model:ir.model.fields,field_description:l10n_ro_config.field_res_users__vat_number
+msgid "VAT number"
+msgstr ""
+
+#. module: l10n_ro_config
+#: model:ir.model.fields,help:l10n_ro_config.field_res_partner__vat_number
+#: model:ir.model.fields,help:l10n_ro_config.field_res_users__vat_number
+msgid "VAT number without country code."
 msgstr ""
 
 #. module: l10n_ro_config
