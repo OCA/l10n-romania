@@ -45,3 +45,17 @@ class AccountMove(models.Model):
             if fptvainc:
                 self.fiscal_position_id = fptvainc
         return result
+
+
+class AccountMoveLine(models.Model):
+    _inherit = "account.move.line"
+
+    def _create_exchange_difference_move(self):
+        """Inherit Odoo method to not do exchange differences for
+        invoices with the same currency as company
+        """
+        if not self:
+            return self.env["account.move"]
+        company_currency = self[0].company_id.currency_id
+        currency_lines = self.filtered(lambda l: l.currency_id != company_currency)
+        super(AccountMoveLine, currency_lines)._create_exchange_difference_move()
