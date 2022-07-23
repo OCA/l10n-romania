@@ -13,14 +13,6 @@ from odoo.tools import DEFAULT_SERVER_DATE_FORMAT as DATE_FORMAT
 class ResPartner(models.Model):
     _inherit = "res.partner"
 
-    @api.depends("vat")
-    def _compute_vat_number(self):
-        for partner in self:
-            if partner.vat:
-                partner.vat_number = self._split_vat(partner.vat)[1]
-            else:
-                partner.vat_number = ""
-
     @api.depends("vat_number")
     def _compute_anaf_history(self):
         for partner in self:
@@ -33,12 +25,6 @@ class ResPartner(models.Model):
                 partner.anaf_history = [(6, 0, [])]
 
     vat_on_payment = fields.Boolean("VAT on Payment")
-    vat_number = fields.Char(
-        "VAT number",
-        compute="_compute_vat_number",
-        store=True,
-        help="VAT number without country code.",
-    )
     anaf_history = fields.One2many(
         "res.partner.anaf",
         compute="_compute_anaf_history",
