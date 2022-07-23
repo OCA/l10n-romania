@@ -36,6 +36,11 @@
                     name="exclude_from_stock"
                     attrs="{'invisible': [('repartition_type', '=', 'base')]}"
                 />
+                <field
+                    name="skip_cash_basis_account_switch"
+                    string="Skip Account Switch (Cash Basis)"
+                    attrs="{'invisible': [('repartition_type', '=', 'base')]}"
+                />
             </field>
         </field>
     </record>

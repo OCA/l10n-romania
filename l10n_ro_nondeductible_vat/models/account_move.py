@@ -2,6 +2,8 @@
 # Copyright (C) 2021 NextERP Romania
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
+from datetime import date
+
 from odoo import api, models
 
 
@@ -33,9 +35,6 @@ class AccountMove(models.Model):
         res = super()._get_tax_grouping_key_from_base_line(base_line, tax_vals)
         if is_from_stock and tax_repartition_line.exclude_from_stock:
             res["exlude_from_stock"] = tax_repartition_line.exclude_from_stock
-        tax_repartition_line = self.env["account.tax.repartition.line"].browse(
-            tax_vals["tax_repartition_line_id"]
-        )
         if (
             base_line.account_id.nondeductible_account_id
             and tax_repartition_line.nondeductible
@@ -54,3 +53,47 @@ class AccountMove(models.Model):
                     True, True
                 )
         return moves
+
+
+class AccountMoveLine(models.Model):
+    _inherit = "account.move.line"
+
+    @api.model
+    def _get_default_tax_account(self, repartition_line):
+        tax = repartition_line.invoice_tax_id or repartition_line.refund_tax_id
+        if (
+            tax.tax_exigibility == "on_payment"
+            and not repartition_line.skip_cash_basis_account_switch
+        ):
+            account = tax.cash_basis_transition_account_id
+        else:
+            account = repartition_line.account_id
+        return account
+
+    @api.onchange("tax_ids")
+    def onchange_tax_ids(self):
+        if not self.display_type and "in" in self.move_id.move_type:
+            partner = (
+                self.env["res.partner"]._find_accounting_partner(self.partner_id)
+                or self.partner_id
+            )
+            ctx = dict(self._context)
+            vatp = False
+
+            if self.move_id.invoice_date:
+                ctx.update({"check_date": self.move_id.invoice_date})
+            else:
+                ctx.update({"check_date": date.today()})
+
+            if partner:
+                vatp = partner.with_context(ctx)._check_vat_on_payment()
+
+            if vatp:
+                taxes = self.tax_ids
+
+                if taxes and self.move_id.fiscal_position_id:
+                    taxes = self.move_id.fiscal_position_id.map_tax(
+                        taxes, partner=partner
+                    )
+
+                self.tax_ids = taxes
