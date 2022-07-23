@@ -4,7 +4,6 @@
 # Generare note contabile la achizitie
 
 import logging
-import random
 
 from odoo import fields
 from odoo.tests import Form, tagged
@@ -24,7 +23,7 @@ class TestStockCommon(ValuationReconciliationTestCommon):
             account = cls.env["account.account"].search([("code", "=", code)], limit=1)
             return account
 
-        cls.account_difference = get_account("348000")
+        cls.account_difference = get_account("378000")
         cls.account_expense = get_account("607000")
         cls.account_expense_mp = get_account("601000")
         cls.account_income = get_account("707000")
@@ -124,9 +123,9 @@ class TestStockCommon(ValuationReconciliationTestCommon):
         )
 
         cls.price_p1 = 50.0
-        cls.price_p2 = round(random.random() * 100, 2)
+        cls.price_p2 = 50.0
         cls.list_price_p1 = 70.0
-        cls.list_price_p2 = round(cls.price_p2 + random.random() * 50, 2)
+        cls.list_price_p2 = 70.0
 
         cls.product_1 = cls.env["product.product"].create(
             {
@@ -262,34 +261,43 @@ class TestStockCommon(ValuationReconciliationTestCommon):
             }
         )
 
-    def create_po(self, notice=False, picking_type_in=None):
+    def writeOnPicking(self, vals=False):
+        if not vals:
+            vals = {}
+        self.picking.write(vals)
+
+    def create_po(self, picking_type_in=None, partial=None, vals=False):
 
         if not picking_type_in:
             picking_type_in = self.picking_type_in_warehouse
+        if not partial or (partial and not hasattr(self, "po")):
+            po = Form(self.env["purchase.order"])
+            po.partner_id = self.vendor
+            po.picking_type_id = picking_type_in
 
-        po = Form(self.env["purchase.order"])
-        po.partner_id = self.vendor
-        po.picking_type_id = picking_type_in
+            with po.order_line.new() as po_line:
+                po_line.product_id = self.product_1
+                po_line.product_qty = self.qty_po_p1
+                po_line.price_unit = self.price_p1
 
-        with po.order_line.new() as po_line:
-            po_line.product_id = self.product_1
-            po_line.product_qty = self.qty_po_p1
-            po_line.price_unit = self.price_p1
+            with po.order_line.new() as po_line:
+                po_line.product_id = self.product_2
+                po_line.product_qty = self.qty_po_p2
+                po_line.price_unit = self.price_p2
 
-        with po.order_line.new() as po_line:
-            po_line.product_id = self.product_2
-            po_line.product_qty = self.qty_po_p2
-            po_line.price_unit = self.price_p2
-
-        po = po.save()
-        po.button_confirm()
-        self.picking = po.picking_ids[0]
-        self.picking.write({"notice": notice})
+            po = po.save()
+            po.button_confirm()
+        else:
+            po = self.po
+        self.picking = po.picking_ids.filtered(lambda pick: pick.state != "done")
+        self.writeOnPicking(vals)
+        qty_po_p1 = self.qty_po_p1 if not partial else self.qty_po_p1 / 2
+        qty_po_p2 = self.qty_po_p2 if not partial else self.qty_po_p2 / 2
         for move_line in self.picking.move_line_ids:
             if move_line.product_id == self.product_1:
-                move_line.write({"qty_done": self.qty_po_p1})
+                move_line.write({"qty_done": qty_po_p1})
             if move_line.product_id == self.product_2:
-                move_line.write({"qty_done": self.qty_po_p2})
+                move_line.write({"qty_done": qty_po_p2})
 
         self.picking.button_validate()
         self.picking._action_done()
@@ -298,7 +306,7 @@ class TestStockCommon(ValuationReconciliationTestCommon):
         self.po = po
         return po
 
-    def create_invoice(self, diff_p1=0, diff_p2=0):
+    def create_invoice(self, diff_p1=0, diff_p2=0, quant_p1=0, quant_p2=0):
         invoice = Form(
             self.env["account.move"].with_context(
                 default_move_type="in_invoice", default_invoice_date=fields.Date.today()
@@ -308,14 +316,17 @@ class TestStockCommon(ValuationReconciliationTestCommon):
         invoice.purchase_id = self.po
 
         with invoice.invoice_line_ids.edit(0) as line_form:
+            line_form.quantity += quant_p1
             line_form.price_unit += diff_p1
         with invoice.invoice_line_ids.edit(1) as line_form:
+            line_form.quantity += quant_p2
             line_form.price_unit += diff_p2
 
         invoice = invoice.save()
 
         invoice.action_post()
 
+        self.invoice = invoice
         _logger.info("Factura introdusa")
 
     def make_puchase(self):
@@ -342,9 +353,55 @@ class TestStockCommon(ValuationReconciliationTestCommon):
                 move_line.write({"quantity_done": move_line.product_uom_qty})
         return_pick._action_done()
 
+    def create_so(self, vals=False):
+        _logger.info("Start sale")
+        so = Form(self.env["sale.order"])
+        so.partner_id = self.client
+
+        with so.order_line.new() as so_line:
+            so_line.product_id = self.product_1
+            so_line.product_uom_qty = self.qty_so_p1
+            # so_line.price_unit = self.p
+
+        with so.order_line.new() as so_line:
+            so_line.product_id = self.product_2
+            so_line.product_uom_qty = self.qty_so_p2
+
+        self.so = so.save()
+        self.so.action_confirm()
+
+        self.picking = self.so.picking_ids
+        self.writeOnPicking(vals)
+        self.picking.action_assign()  # verifica disponibilitate
+
+        for move_line in self.picking.move_lines:
+            if move_line.product_uom_qty > 0 and move_line.quantity_done == 0:
+                move_line.write({"quantity_done": move_line.product_uom_qty})
+
+        # self.picking.move_lines.write({'quantity_done': 2})
+        # self.picking.button_validate()
+        self.picking._action_done()
+        _logger.info("Livrare facuta")
+
+    def create_sale_invoice(self, diff_p1=0, diff_p2=0):
+        # invoice on order
+        invoice = self.so._create_invoices()
+
+        invoice = Form(invoice)
+
+        with invoice.invoice_line_ids.edit(0) as line_form:
+            line_form.price_unit += diff_p1
+        with invoice.invoice_line_ids.edit(1) as line_form:
+            line_form.price_unit += diff_p2
+
+        invoice = invoice.save()
+
+        invoice.action_post()
+
     def trasfer(self, location, location_dest, product=None):
 
         self.PickingObj = self.env["stock.picking"]
+        self.MoveObj = self.env["stock.move"]
         self.MoveObj = self.env["stock.move"]
 
         if not product:
@@ -388,10 +445,10 @@ class TestStockCommon(ValuationReconciliationTestCommon):
         for valuation in valuations:
             val = round(valuation["value"], 2)
             if valuation["product_id"][0] == self.product_1.id:
-                _logger.info("Check stoc P1 {} = {}".format(val, val_p1))
+                _logger.info("Check stock P1 {} = {}".format(val, val_p1))
                 self.assertAlmostEqual(val, val_p1)
             if valuation["product_id"][0] == self.product_2.id:
-                _logger.info("Check SVL P2 {} = {}".format(val, val_p2))
+                _logger.info("Check stock P2 {} = {}".format(val, val_p2))
                 self.assertAlmostEqual(val, val_p2)
 
     def check_account_valuation(self, val_p1, val_p2, account=None):
