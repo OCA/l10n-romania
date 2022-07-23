@@ -22,8 +22,8 @@ class TestStockConsumNondeductible(TestNondeductibleCommon):
         _logger.info("Consum facut")
 
         _logger.info("Start verificare balanta consum")
-        self.check_account_valuation(19, self.account_vat_deductible)
+        self.check_account_valuation(18.5, self.account_vat_deductible)
         self.check_account_valuation(90, self.account_valuation)
-        self.check_account_valuation(-0.5, self.account_vat_colected)
         self.check_account_valuation(5, self.account_expense)
-        self.check_account_valuation(5.5, self.account_expense_nondeductible)
+        self.check_account_valuation(5, self.account_expense_nondeductible)
+        self.check_account_valuation(0.5, self.account_expense_vat_nondeductible)

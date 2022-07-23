@@ -35,9 +35,6 @@ class AccountMove(models.Model):
         res = super()._get_tax_grouping_key_from_base_line(base_line, tax_vals)
         if is_from_stock and tax_repartition_line.exclude_from_stock:
             res["exlude_from_stock"] = tax_repartition_line.exclude_from_stock
-        tax_repartition_line = self.env["account.tax.repartition.line"].browse(
-            tax_vals["tax_repartition_line_id"]
-        )
         if (
             base_line.account_id.nondeductible_account_id
             and tax_repartition_line.nondeductible

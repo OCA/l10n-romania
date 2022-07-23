@@ -30,11 +30,12 @@ class TestNondeductibleCommon(ValuationReconciliationTestCommon):
             return account
 
         cls.account_vat_deductible = get_account("442600")
-        cls.account_vat_colected = get_account("442700")
         cls.account_income = get_account("707000")
         cls.account_valuation = get_account("371000")
-        cls.account_difference = get_account("348000")
-        cls.account_expense_vat_nondeductible = get_account("635001")
+        cls.account_difference = get_account("378000")
+        cls.account_expense_vat_nondeductible = get_account("635200")
+        if not cls.account_expense_vat_nondeductible:
+            cls.account_expense_vat_nondeductible = get_account("635100")
         cls.account_expense = get_account("607000")
         cls.account_expense_nondeductible = cls.account_expense.copy(
             {
@@ -54,7 +55,17 @@ class TestNondeductibleCommon(ValuationReconciliationTestCommon):
         cls.minus_tag_vat_nondeductible = get_account_tag("-24_2 - TVA")
 
         cls.uneligible_deductible_tax_account_id = get_account("442820")
-        cls.env.company.account_cash_basis_base_account_id = get_account("44283")
+        cls.account_cash_basis_base_account_id = (
+            cls.uneligible_deductible_tax_account_id.copy(
+                {
+                    "name": "Baza TVA neexigibila",
+                    "code": "442830",
+                }
+            )
+        )
+        cls.env.company.account_cash_basis_base_account_id = (
+            cls.account_cash_basis_base_account_id
+        )
 
         invoice_rep_lines = [
             (
@@ -70,11 +81,21 @@ class TestNondeductibleCommon(ValuationReconciliationTestCommon):
                 0,
                 0,
                 {
+                    "factor_percent": 100,
+                    "repartition_type": "tax",
+                    "account_id": cls.account_vat_deductible.id,
+                    "tag_ids": [(6, 0, [cls.tag_vat.id])],
+                    "exclude_from_stock": True,
+                },
+            ),
+            (
+                0,
+                0,
+                {
                     "factor_percent": 50,
                     "repartition_type": "tax",
                     "account_id": cls.account_expense_vat_nondeductible.id,
                     "tag_ids": [(6, 0, [cls.tag_vat_nondeductible.id])],
-                    "nondeductible": True,
                 },
             ),
             (
@@ -83,7 +104,7 @@ class TestNondeductibleCommon(ValuationReconciliationTestCommon):
                 {
                     "factor_percent": -50,
                     "repartition_type": "tax",
-                    "account_id": cls.account_vat_colected.id,
+                    "account_id": cls.account_vat_deductible.id,
                     "tag_ids": [(6, 0, [cls.tag_vat.id])],
                 },
             ),
@@ -107,17 +128,6 @@ class TestNondeductibleCommon(ValuationReconciliationTestCommon):
                     "tag_ids": [(6, 0, [cls.tag_base.id])],
                 },
             ),
-            (
-                0,
-                0,
-                {
-                    "factor_percent": 100,
-                    "repartition_type": "tax",
-                    "account_id": cls.account_vat_deductible.id,
-                    "tag_ids": [(6, 0, [cls.tag_vat.id])],
-                    "exclude_from_stock": True,
-                },
-            ),
         ]
 
         refund_rep_lines = [
@@ -134,11 +144,21 @@ class TestNondeductibleCommon(ValuationReconciliationTestCommon):
                 0,
                 0,
                 {
+                    "factor_percent": 100,
+                    "repartition_type": "tax",
+                    "account_id": cls.account_vat_deductible.id,
+                    "tag_ids": [(6, 0, [cls.minus_tag_vat.id])],
+                    "exclude_from_stock": True,
+                },
+            ),
+            (
+                0,
+                0,
+                {
                     "factor_percent": 50,
                     "repartition_type": "tax",
                     "account_id": cls.account_expense_vat_nondeductible.id,
                     "tag_ids": [(6, 0, [cls.minus_tag_vat_nondeductible.id])],
-                    "nondeductible": True,
                 },
             ),
             (
@@ -147,7 +167,7 @@ class TestNondeductibleCommon(ValuationReconciliationTestCommon):
                 {
                     "factor_percent": -50,
                     "repartition_type": "tax",
-                    "account_id": cls.account_vat_colected.id,
+                    "account_id": cls.account_vat_deductible.id,
                     "tag_ids": [(6, 0, [cls.minus_tag_vat.id])],
                 },
             ),
@@ -171,17 +191,6 @@ class TestNondeductibleCommon(ValuationReconciliationTestCommon):
                     "tag_ids": [(6, 0, [cls.minus_tag_base.id])],
                 },
             ),
-            (
-                0,
-                0,
-                {
-                    "factor_percent": 100,
-                    "repartition_type": "tax",
-                    "account_id": cls.account_vat_deductible.id,
-                    "tag_ids": [(6, 0, [cls.minus_tag_vat.id])],
-                    "exclude_from_stock": True,
-                },
-            ),
         ]
 
         cls.tax_10_nondeductible = cls.env["account.tax"].create(
@@ -197,151 +206,169 @@ class TestNondeductibleCommon(ValuationReconciliationTestCommon):
         )
 
         # CASH BASIS
-        # TODO uncomment
-        # invoice_rep_lines_cash_basis = [
-        #     (
-        #         0,
-        #         0,
-        #         {
-        #             "factor_percent": 100,
-        #             "repartition_type": "base",
-        #             "tag_ids": [(6, 0, [cls.tag_base.id])],
-        #         },
-        #     ),
-        #     (
-        #         0,
-        #         0,
-        #         {
-        #             "factor_percent": 100,
-        #             "repartition_type": "tax",
-        #             "account_id": cls.account_vat_deductible.id,
-        #             "tag_ids": [(6, 0, [cls.tag_vat.id])],
-        #             "exclude_from_stock": True,
-        #         },
-        #     ),
-        #     (
-        #         0,
-        #         0,
-        #         {
-        #             "factor_percent": 50,
-        #             "repartition_type": "tax",
-        #             "account_id": cls.account_expense_vat_nondeductible.id,
-        #             "tag_ids": [(6, 0, [cls.tag_vat_nondeductible.id])],
-        #             "nondeductible": True,
-        #         },
-        #     ),
-        #     (
-        #         0,
-        #         0,
-        #         {
-        #             "factor_percent": -50,
-        #             "repartition_type": "tax",
-        #             "account_id": cls.account_vat_deductible.id,
-        #             "tag_ids": [(6, 0, [cls.tag_vat.id])],
-        #         },
-        #     ),
-        #     (
-        #         0,
-        #         0,
-        #         {
-        #             "factor_percent": 500,
-        #             "repartition_type": "tax",
-        #             "account_id": cls.account_expense_vat_nondeductible.id,
-        #             "tag_ids": [(6, 0, [cls.tag_base_nondeductible.id])],
-        #             "nondeductible": True,
-        #             "skip_cash_basis_account_switch": True,
-        #         },
-        #     ),
-        #     (
-        #         0,
-        #         0,
-        #         {
-        #             "factor_percent": -500,
-        #             "repartition_type": "tax",
-        #             "tag_ids": [(6, 0, [cls.tag_base.id])],
-        #             "skip_cash_basis_account_switch": True,
-        #         },
-        #     ),
-        # ]
+        invoice_rep_lines_cash_basis = [
+            (
+                0,
+                0,
+                {
+                    "factor_percent": 100,
+                    "repartition_type": "base",
+                    "tag_ids": [(6, 0, [cls.tag_base.id])],
+                },
+            ),
+            (
+                0,
+                0,
+                {
+                    "factor_percent": 100,
+                    "repartition_type": "tax",
+                    "account_id": cls.account_vat_deductible.id,
+                    "tag_ids": [(6, 0, [cls.tag_vat.id])],
+                    "exclude_from_stock": True,
+                },
+            ),
+            (
+                0,
+                0,
+                {
+                    "factor_percent": 50,
+                    "repartition_type": "tax",
+                    "account_id": cls.account_expense_vat_nondeductible.id,
+                    "tag_ids": [(6, 0, [cls.tag_vat_nondeductible.id])],
+                },
+            ),
+            (
+                0,
+                0,
+                {
+                    "factor_percent": -50,
+                    "repartition_type": "tax",
+                    "account_id": cls.account_vat_deductible.id,
+                    "tag_ids": [(6, 0, [cls.tag_vat.id])],
+                },
+            ),
+            (
+                0,
+                0,
+                {
+                    "factor_percent": 500,
+                    "repartition_type": "tax",
+                    "account_id": cls.account_expense_vat_nondeductible.id,
+                    "tag_ids": [(6, 0, [cls.tag_base_nondeductible.id])],
+                    "nondeductible": True,
+                    "skip_cash_basis_account_switch": True,
+                },
+            ),
+            (
+                0,
+                0,
+                {
+                    "factor_percent": -500,
+                    "repartition_type": "tax",
+                    "tag_ids": [(6, 0, [cls.tag_base.id])],
+                    "skip_cash_basis_account_switch": True,
+                },
+            ),
+        ]
 
-        # TODO - uncomment
-        # refund_rep_lines_cash_basis = [
-        #     (
-        #         0,
-        #         0,
-        #         {
-        #             "factor_percent": 100,
-        #             "repartition_type": "base",
-        #             "tag_ids": [(6, 0, [cls.minus_tag_base.id])],
-        #         },
-        #     ),
-        #     (
-        #         0,
-        #         0,
-        #         {
-        #             "factor_percent": 100,
-        #             "repartition_type": "tax",
-        #             "account_id": cls.account_vat_deductible.id,
-        #             "tag_ids": [(6, 0, [cls.minus_tag_vat.id])],
-        #             "exclude_from_stock": True,
-        #         },
-        #     ),
-        #     (
-        #         0,
-        #         0,
-        #         {
-        #             "factor_percent": 50,
-        #             "repartition_type": "tax",
-        #             "account_id": cls.account_expense_vat_nondeductible.id,
-        #             "tag_ids": [(6, 0, [cls.minus_tag_vat_nondeductible.id])],
-        #             "nondeductible": True,
-        #         },
-        #     ),
-        #     (
-        #         0,
-        #         0,
-        #         {
-        #             "factor_percent": -50,
-        #             "repartition_type": "tax",
-        #             "account_id": cls.account_vat_deductible.id,
-        #             "tag_ids": [(6, 0, [cls.minus_tag_vat.id])],
-        #         },
-        #     ),
-        #     (
-        #         0,
-        #         0,
-        #         {
-        #             "factor_percent": 500,
-        #             "repartition_type": "tax",
-        #             "account_id": cls.account_expense_vat_nondeductible.id,
-        #             "tag_ids": [(6, 0, [cls.minus_tag_base_nondeductible.id])],
-        #             "nondeductible": True,
-        #             "skip_cash_basis_account_switch": True,
-        #         },
-        #     ),
-        #     (
-        #         0,
-        #         0,
-        #         {
-        #             "factor_percent": -500,
-        #             "repartition_type": "tax",
-        #             "tag_ids": [(6, 0, [cls.minus_tag_base.id])],
-        #             "skip_cash_basis_account_switch": True,
-        #         },
-        #     ),
-        # ]
+        refund_rep_lines_cash_basis = [
+            (
+                0,
+                0,
+                {
+                    "factor_percent": 100,
+                    "repartition_type": "base",
+                    "tag_ids": [(6, 0, [cls.minus_tag_base.id])],
+                },
+            ),
+            (
+                0,
+                0,
+                {
+                    "factor_percent": 100,
+                    "repartition_type": "tax",
+                    "account_id": cls.account_vat_deductible.id,
+                    "tag_ids": [(6, 0, [cls.minus_tag_vat.id])],
+                    "exclude_from_stock": True,
+                },
+            ),
+            (
+                0,
+                0,
+                {
+                    "factor_percent": 50,
+                    "repartition_type": "tax",
+                    "account_id": cls.account_expense_vat_nondeductible.id,
+                    "tag_ids": [(6, 0, [cls.minus_tag_vat_nondeductible.id])],
+                },
+            ),
+            (
+                0,
+                0,
+                {
+                    "factor_percent": -50,
+                    "repartition_type": "tax",
+                    "account_id": cls.account_vat_deductible.id,
+                    "tag_ids": [(6, 0, [cls.minus_tag_vat.id])],
+                },
+            ),
+            (
+                0,
+                0,
+                {
+                    "factor_percent": 500,
+                    "repartition_type": "tax",
+                    "account_id": cls.account_expense_vat_nondeductible.id,
+                    "tag_ids": [(6, 0, [cls.minus_tag_base_nondeductible.id])],
+                    "nondeductible": True,
+                    "skip_cash_basis_account_switch": True,
+                },
+            ),
+            (
+                0,
+                0,
+                {
+                    "factor_percent": -500,
+                    "repartition_type": "tax",
+                    "tag_ids": [(6, 0, [cls.minus_tag_base.id])],
+                    "skip_cash_basis_account_switch": True,
+                },
+            ),
+        ]
 
         cls.tax_10_nondeductible_cash_basis = cls.env["account.tax"].create(
             {
-                "name": "Tax 10% Non Deductible 50% ",
+                "name": "Tax 10% Non Deductible Cash Basis 50% ",
                 "amount": 10.0,
                 "amount_type": "percent",
                 "type_tax_use": "purchase",
                 "company_id": cls.env.company.id,
-                "invoice_repartition_line_ids": invoice_rep_lines,
-                "refund_repartition_line_ids": refund_rep_lines,
+                "invoice_repartition_line_ids": invoice_rep_lines_cash_basis,
+                "refund_repartition_line_ids": refund_rep_lines_cash_basis,
                 "tax_exigibility": "on_payment",
-                "cash_basis_transition_account": cls.uneligible_deductible_tax_account_id.id,
+                "cash_basis_transition_account_id": cls.uneligible_deductible_tax_account_id.id,
+            }
+        )
+
+        cls.fp_model = cls.env["account.fiscal.position"]
+        cls.fptvainc = cls.fp_model.search(
+            [
+                ("name", "ilike", "Regim TVA la Incasare"),
+                ("company_id", "=", cls.env.company.id),
+            ]
+        )
+        cls.fptvainc.write(
+            {
+                "tax_ids": [
+                    (
+                        0,
+                        0,
+                        {
+                            "tax_src_id": cls.tax_10_nondeductible.id,
+                            "tax_dest_id": cls.tax_10_nondeductible_cash_basis.id,
+                        },
+                    )
+                ]
             }
         )
 
@@ -438,7 +465,7 @@ class TestNondeductibleCommon(ValuationReconciliationTestCommon):
         self.po = po
         return po
 
-    def create_invoice_notdeductible(self):
+    def create_invoice_notdeductible(self, fiscal_position=False):
         invoice = Form(
             self.env["account.move"].with_context(
                 default_move_type="in_invoice", default_invoice_date=fields.Date.today()
@@ -446,12 +473,27 @@ class TestNondeductibleCommon(ValuationReconciliationTestCommon):
         )
         invoice.partner_id = self.vendor
         invoice.purchase_id = self.po
+        if fiscal_position:
+            self.vendor.vat = "RO39187746"
+            self.env["res.partner.anaf"].create(
+                {
+                    "anaf_id": "1",
+                    "vat": self.vendor.vat_number,
+                    "start_date": fields.Date.today(),
+                    "publish_date": fields.Date.today(),
+                    "operation_date": fields.Date.today(),
+                    "operation_type": "I",
+                }
+            )
+            invoice.fiscal_position_id = fiscal_position
         with invoice.invoice_line_ids.edit(0) as invoice_line_form:
             invoice_line_form.account_id = self.account_expense
             invoice_line_form.tax_ids.clear()
             invoice_line_form.tax_ids.add(self.tax_10_nondeductible)
+
         invoice = invoice.save()
         invoice.action_post()
+        self.invoice = invoice
 
         _logger.info("Factura introdusa")
 
@@ -472,9 +514,9 @@ class TestNondeductibleCommon(ValuationReconciliationTestCommon):
         self.create_po()
         self.create_invoice()
 
-    def make_purchase_notdeductible(self):
+    def make_purchase_notdeductible(self, fiscal_position=False):
         self.create_po()
-        self.create_invoice_notdeductible()
+        self.create_invoice_notdeductible(fiscal_position=fiscal_position)
 
     def make_consume(self):
         consume_type = self.warehouse.consume_type_id
@@ -515,8 +557,19 @@ class TestNondeductibleCommon(ValuationReconciliationTestCommon):
         account_valuations = self.env["account.move.line"].read_group(
             domain, ["debit:sum", "credit:sum"], ["account_id"]
         )
+        self.assertNotEqual(account_valuations, [])
         for valuation in account_valuations:
             val = round(valuation["debit"] - valuation["credit"], 2)
             if valuation["account_id"][0] == account.id:
                 _logger.info("Check account {} = {}".format(val, balance))
                 self.assertAlmostEqual(val, balance)
+
+    def check_no_move_lines(self, account=None):
+        if not account:
+            account = self.account_valuation
+
+        domain = [("account_id", "=", account.id)]
+        account_valuations = self.env["account.move.line"].read_group(
+            domain, ["debit:sum", "credit:sum"], ["account_id"]
+        )
+        self.assertEqual(account_valuations, [])
