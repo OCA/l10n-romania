@@ -6,33 +6,28 @@ import logging
 
 from odoo.tests import Form, tagged
 
-from .common import TestStockCommon
+from odoo.addons.l10n_ro_stock_account.tests.common import TestStockCommon
 
 _logger = logging.getLogger(__name__)
 
 
 @tagged("post_install", "-at_install")
 class TestStockSale(TestStockCommon):
-    def test_sale_and_invoice_standard(self):
+    def test_sale_notice_and_invoice(self):
         """
-        Vanzare si facturare
-             - initial in stoc si contabilitate este valoarea din achizitie
-             - dupa vanzare valoarea stocului trebuie sa scada cu valoarea stocului
-             vandut
-             - valoarea din stoc trebuie sa fie egala cu valoarea din contabilitate
-             - in contul de venituri trebuie sa fie inregistrata valoarea de vanzare
+        - initial in stoc si contabilitate este valoarea din achizitie
+        - dupa vanzare valoarea stocului trebuie sa scada cu valoarea stocului
+        vandut
+        - valoarea din stoc trebuie sa fie egala cu valoarea din contabilitate
+        - in contul de venituri trebuie sa fie inregistrata valoarea de vanzare
         """
 
-        self.env.company.romanian_accounting = False
-
-        #  intrare in stoc
         self.make_puchase()
 
         self.check_stock_valuation(self.val_p1_i, self.val_p2_i)
         self.check_account_valuation(self.val_p1_i, self.val_p2_i)
 
-        # iesire din stoc prin vanzare
-        self.create_so()
+        self.create_so(vals={"notice": True})
 
         # valoarea de stoc dupa vanzarea produselor
         val_stock_p1 = round(self.val_p1_i - self.val_stock_out_so_p1, 2)
@@ -40,41 +35,7 @@ class TestStockSale(TestStockCommon):
 
         self.check_stock_valuation(val_stock_p1, val_stock_p2)
 
-        self.create_sale_invoice()
-
-        _logger.info("Verifcare valoare ramas in stoc")
-        self.check_stock_valuation(val_stock_p1, val_stock_p2)
-        self.check_account_valuation(val_stock_p1, val_stock_p2)
-
-        _logger.info("Verifcare valoare vanduta")
-        self.check_account_valuation(
-            -self.val_so_p1, -self.val_so_p2, self.account_income
-        )
-
-    def test_sale_and_invoice(self):
-        """
-        Vanzare si facturare
-             - initial in stoc si contabilitate este valoarea din achizitie
-             - dupa vanzare valoarea stocului trebuie sa scada cu valoarea stocului
-             vandut
-             - valoarea din stoc trebuie sa fie egala cu valoarea din contabilitate
-             - in contul de venituri trebuie sa fie inregistrata valoarea de vanzare
-        """
-
-        #  intrare in stoc
-        self.make_puchase()
-
-        self.check_stock_valuation(self.val_p1_i, self.val_p2_i)
-        self.check_account_valuation(self.val_p1_i, self.val_p2_i)
-
-        # iesire din stoc prin vanzare
-        self.create_so()
-
-        # valoarea de stoc dupa vanzarea produselor
-        val_stock_p1 = round(self.val_p1_i - self.val_stock_out_so_p1, 2)
-        val_stock_p2 = round(self.val_p2_i - self.val_stock_out_so_p2, 2)
-
-        self.check_stock_valuation(val_stock_p1, val_stock_p2)
+        # inca nu se face si descaracarea contabila de gestiune!
         self.check_account_valuation(val_stock_p1, val_stock_p2)
 
         self.create_sale_invoice()
@@ -88,20 +49,22 @@ class TestStockSale(TestStockCommon):
             -self.val_so_p1, -self.val_so_p2, self.account_income
         )
 
-    def test_sale_and_invoice_and_retur(self):
+    def test_sale_notice_and_invoice_and_retur(self):
         """
         Vanzare si facturare
          - initial in stoc si contabilitate este valoarea din achizitie
-         - dupa vanzare valoarea stocului trebuie sa scada cu valoarea stocului vandut
+         - dupa livrare valoarea stocului trebuie sa scada cu valoarea stocului vandut
+         - trebuie sa se inregistreze in contul 418 valoare de vanzare
          - valoarea din stoc trebuie sa fie egala cu valoarea din contabilitate
          - in contul de venituri trebuie sa fie inregistrata valoarea de vanzare
+         - dupa facturare soldul contului 418 trebuie sa fie zero
         """
 
         #  intrare in stoc
         self.make_puchase()
 
         # iesire din stoc prin vanzare
-        self.create_so()
+        self.create_so(vals={"notice": True})
         pick = self.so.picking_ids
 
         stock_return_picking_form = Form(
@@ -118,7 +81,7 @@ class TestStockSale(TestStockCommon):
 
         # Validate picking
         return_pick.move_line_ids.write({"qty_done": 2})
-
+        return_pick.notice = True
         return_pick.button_validate()
 
         self.create_sale_invoice()

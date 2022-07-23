@@ -261,7 +261,12 @@ class TestStockCommon(ValuationReconciliationTestCommon):
             }
         )
 
-    def create_po(self, notice=False, picking_type_in=None, partial=None):
+    def writeOnPicking(self, vals=False):
+        if not vals:
+            vals = {}
+        self.picking.write(vals)
+
+    def create_po(self, picking_type_in=None, partial=None, vals=False):
 
         if not picking_type_in:
             picking_type_in = self.picking_type_in_warehouse
@@ -285,7 +290,7 @@ class TestStockCommon(ValuationReconciliationTestCommon):
         else:
             po = self.po
         self.picking = po.picking_ids.filtered(lambda pick: pick.state != "done")
-        self.picking.write({"notice": notice})
+        self.writeOnPicking(vals)
         qty_po_p1 = self.qty_po_p1 if not partial else self.qty_po_p1 / 2
         qty_po_p2 = self.qty_po_p2 if not partial else self.qty_po_p2 / 2
         for move_line in self.picking.move_line_ids:
@@ -348,7 +353,7 @@ class TestStockCommon(ValuationReconciliationTestCommon):
                 move_line.write({"quantity_done": move_line.product_uom_qty})
         return_pick._action_done()
 
-    def create_so(self, notice=False):
+    def create_so(self, vals=False):
         _logger.info("Start sale")
         so = Form(self.env["sale.order"])
         so.partner_id = self.client
@@ -366,7 +371,7 @@ class TestStockCommon(ValuationReconciliationTestCommon):
         self.so.action_confirm()
 
         self.picking = self.so.picking_ids
-        self.picking.write({"notice": notice})
+        self.writeOnPicking(vals)
         self.picking.action_assign()  # verifica disponibilitate
 
         for move_line in self.picking.move_lines:
