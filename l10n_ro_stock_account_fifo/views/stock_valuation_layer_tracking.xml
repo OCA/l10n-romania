@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <data>
+        <record model="ir.ui.view" id="stock_valuation_layer_stock_move_line">
+            <field name="name">stock.valuation.layer.tracking.form.view</field>
+            <field name="model">stock.valuation.layer</field>
+            <field name="inherit_id" ref="stock_account.stock_valuation_layer_form"/>
+            <field name="arch" type="xml">
+            	<xpath expr="//field[@name='stock_move_id']" position="after">
+            		<field name="stock_move_line_id" attrs="{'invisible': [('stock_move_line_id', '=', False)]}"/>
+            	</xpath>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="stock_valuation_layer_tracking">
+            <field name="name">stock.valuation.layer.tracking.form.view</field>
+            <field name="model">stock.valuation.layer</field>
+            <field name="inherit_id" ref="stock_account.stock_valuation_layer_form"/>
+            <field name="arch" type="xml">
+            	<xpath expr="//page[@name='other_info']" position="after">
+            		<page string="Source SVL" name="source_svl">
+                        <label for="svl_track_src_ids"/>
+            			<field name="svl_track_src_ids" readonly="1">
+            				<tree>
+            					<field name="create_date"/>
+            					<field name="svl_src_id"/>
+            					<field name="quantity" sum="Total Quantity"/>
+            				</tree>
+            			</field>
+                        <label for="svl_src_ids"/>
+            			<field name="svl_src_ids" readonly="1">
+            				<tree>
+            					<field name="create_date"/>
+            					<field name="valued_type"/>
+            					<field name="quantity" sum="Total Quantity"/>
+            					<field name="unit_cost"/>
+            					<field name="value" sum="Total Value"/>
+            				</tree>
+            			</field>
+            		</page>
+            		<page string="Destination SVL" name="destination_svl">
+                        <label for="svl_track_dest_ids"/>
+            			<field name="svl_track_dest_ids" readonly="1">
+            				<tree>
+            					<field name="create_date"/>
+            					<field name="svl_dest_id"/>
+            					<field name="quantity" sum="Total Quantity"/>
+            				</tree>
+            			</field>
+                        <label for="svl_dest_ids"/>
+            			<field name="svl_dest_ids" readonly="1">
+            				<tree>
+            					<field name="create_date"/>
+            					<field name="valued_type"/>
+            					<field name="quantity" sum="Total Quantity"/>
+            					<field name="unit_cost"/>
+            					<field name="value" sum="Total Value"/>
+            				</tree>
+            			</field>
+            		</page>
+            	</xpath>
+            </field>
+        </record>
+    </data>
+</odoo>
