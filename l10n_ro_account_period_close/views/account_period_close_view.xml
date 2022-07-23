@@ -30,7 +30,7 @@
         <field name="model">account.period.closing</field>
         <field name="type">form</field>
         <field name="arch" type="xml">
-            <tree string="Closing">
+            <tree>
                 <field name="name" />
                 <field name="type" />
                 <field name="debit_account_id" />
