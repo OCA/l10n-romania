@@ -32,7 +32,7 @@ class AccountMove(models.Model):
         for invoice in self:
             if invoice.move_type in ["in_invoice", "in_refund"]:
                 invoice_lines = invoice.invoice_line_ids.filtered(
-                    lambda l: not l.display_type
+                    lambda l: not l.display_type and l.purchase_line_id
                 )
                 for line in invoice_lines:
                     add_diff = False
@@ -103,7 +103,7 @@ class AccountMove(models.Model):
         for invoice in self:
             if invoice.move_type in ["in_invoice", "in_refund"]:
                 invoice_lines = invoice.invoice_line_ids.filtered(
-                    lambda l: not l.display_type
+                    lambda l: not l.display_type and l.purchase_line_id
                 )
                 for line in invoice_lines:
                     add_diff = False
