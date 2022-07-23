@@ -18,3 +18,16 @@ def migrate(cr, version):
                 [("name", "=", "l10n_ro_stock_account_notice")]
             )
             stock_account_notice_module.button_install()
+        # Delete views
+        view_list = [
+            "view_picking_add_notice_form",
+            "view_picking_add_notice_tree",
+            "view_picking_internal_add_notice_search",
+            "stock_picking_kanban",
+        ]
+        for view in view_list:
+            if env.ref("l10n_ro_stock_account." + view).exists():
+                env.cr.execute(
+                    "DELETE FROM ir_ui_view WHERE id = %s"
+                    % env.ref("l10n_ro_stock_account." + view).id
+                )
