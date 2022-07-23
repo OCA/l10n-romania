@@ -9,7 +9,7 @@ class AccountPeriodClosing(models.Model):
     _name = "account.period.closing"
     _description = "Account Period Closing"
 
-    name = fields.Char("Name", required=True)
+    name = fields.Char(required=True)
     company_id = fields.Many2one(
         "res.company",
         string="Company",
@@ -18,7 +18,6 @@ class AccountPeriodClosing(models.Model):
     )
     type = fields.Selection(
         [("income", "Incomes"), ("expense", "Expenses"), ("selected", "Selected")],
-        string="Type",
         required=True,
     )
     close_result = fields.Boolean("Close debit and credit accounts")
@@ -163,7 +162,7 @@ class AccountPeriodClosing(models.Model):
                     "company_id": closing.company_id.id,
                 }
             )
-            account_res = self.with_context(ctx)._get_accounts(
+            account_res = self.with_context(**ctx)._get_accounts(
                 closing.account_ids, "not_zero"
             )
             move = self.env["account.move"].create(
@@ -229,7 +228,7 @@ class AccountPeriodClosing(models.Model):
                 accounts = account_obj.browse(
                     [closing.debit_account_id.id, closing.credit_account_id.id]
                 )
-                account_res = self.with_context(ctx1)._get_accounts(accounts, "all")
+                account_res = self.with_context(**ctx1)._get_accounts(accounts, "all")
                 for acc in account_res:
                     if acc["id"] == closing.debit_account_id.id:
                         debit = acc["balance"]
