@@ -15,6 +15,11 @@ CEDILLATRANS = bytes.maketrans(
     "\u0219\u021b\u0218\u021a".encode("utf8"),
 )
 
+CEDILLATRANS = bytes.maketrans(
+    "\u015f\u0163\u015e\u0162\u00e2\u00c2\u00ee\u00ce\u0103\u0102".encode("utf8"),
+    "\u0219\u021b\u0218\u021a\u00e2\u00c2\u00ee\u00ce\u0103\u0102".encode("utf8"),
+)
+
 headers = {
     "User-Agent": "Mozilla/5.0 (compatible; MSIE 7.01; Windows NT 5.0)",
     "Content-Type": "application/json;",
@@ -24,16 +29,17 @@ headers = {
 ANAF_URL = "https://webservicesp.anaf.ro/PlatitorTvaRest/api/v6/ws/tva"
 
 AnafFiled_OdooField_Overwrite = [
+    ("vat", "vat", "over_all_the_time"),
     ("nrc", "nrRegCom", "over_all_the_time"),
+    ("street", "street", "over_all_the_time"),
+    ("street2", "street2", "over_all_the_time"),
+    ("city", "city", "over_all_the_time"),
+    ("city_id", "city_id", "over_all_the_time"),
+    ("state_id", "state_id", "over_all_the_time"),
     ("zip", "codPostal", "over_all_the_time"),
     ("phone", "telefon", "write_if_empty"),
-    ("city", "city", "over_all_the_time"),
-    ("state_id", "state_id", "over_all_the_time"),
-    ("street", "street", "over_all_the_time"),
-    ("city_id", "city_id", "over_all_the_time"),
     ("caen_code", "cod_CAEN", "over_all_the_time"),
     ("l10n_ro_e_invoice", "statusRO_e_Factura", "over_all_the_time"),
-    ("vat", "vat", "over_all_the_time"),
 ]
 
 
@@ -74,57 +80,64 @@ class ResPartner(models.Model):
         :param date data: date of the interogation
         :return dict result: cost of the body's operation
         {
-        'cui': 30834857,
-        'data': '2022-07-21',
-        'denumire': 'FOREST AND BIOMASS ROMÂNIA S.A.',
-        'adresa': 'JUD. TIMIŞ, MUN. TIMIŞOARA, STR. CIPRIAN PORUMBESCU,
-                   NR.12, ZONA NR.3, ETAJ 1',
-        'nrRegCom': 'J35/2622/2012',
-        'telefon': '0356179038',
-        'codPostal': '307225',
-        'stare_inregistrare': 'INREGISTRAT din data 26.10.2012',
-        'scpTVA': True,
-        'data_inceput_ScpTVA': '2012-12-04',
-        'data_sfarsit_ScpTVA': ' ',
-        'data_anul_imp_ScpTVA': ' ',
-        'mesaj_ScpTVA': 'platitor IN SCOPURI de TVA la data cautata',
-        'dataInceputTvaInc': '2013-02-01',
-        'dataSfarsitTvaInc': '2013-08-01',
-        'dataActualizareTvaInc': '2013-07-11',
-        'dataPublicareTvaInc': '2013-07-12',
-        'tipActTvaInc': 'Radiere',
-        'statusTvaIncasare': False,
-        'dataInactivare': ' ',
-        'dataReactivare': ' ',
-        'dataPublicare': ' ',
-        'dataRadiere': ' ',
-        'statusInactivi': False,
-        'dataInceputSplitTVA': '',
-        'dataAnulareSplitTVA': '',
-        'statusSplitTVA': False,
-        'iban': '',
-        'statusRO_e_Factura': False,
-        'sdenumire_Strada': ' ',
-        'snumar_Strada': ' ',
-        'sdenumire_Localitate': 'Sat Giulvăz Com. Giulvăz',
-        'scod_Localitate': '170',
-        'sdenumire_Judet': 'TIMIŞ',
-        'scod_Judet': '35',
-        'stara': ' ',
-        'sdetalii_Adresa': 'FERMA 5-6',
-        'scod_Postal': '307225',
-        'ddenumire_Strada': 'Str. Ciprian Porumbescu',
-        'dnumar_Strada': '12',
-        'ddenumire_Localitate': 'Mun. Timişoara',
-        'dcod_Localitate': '355',
-        'ddenumire_Judet': 'TIMIŞ',
-        'dcod_Judet': '35',
-        'dtara': ' ',
-        'ddetalii_Adresa': 'ZONA NR.3, Etaj 1',
-        'dcod_Postal': ' ',
-        'data_inregistrare': '2012-10-26',
-        'cod_CAEN': '119'}
-        }
+        "cui": "-- codul fiscal --",
+        "data": "-- data pentru care se efectueaza cautarea --",
+        "denumire": "-- denumire --",
+        "adresa": "-- adresa --",
+        "nrRegCom": "-- numar de inmatriculare la Registrul Comertului --",
+        "telefon": "-- Telefon --",
+        "fax": "-- Fax --",
+        "codPostal": "-- Codul Postal --",
+        "act": "-- Act autorizare --",
+        "stare_inregistrare": "-- Stare Societate --",
+        "scpTVA": " -- true -pentru platitor in scopuri de tva / false in cazul in
+                       care nu e platitor  in scopuri de TVA la data cautata  --",
+        "data_inceput_ScpTVA": " -- Data înregistrării în scopuri de TVA anterioară --",
+        "data_sfarsit_ScpTVA": " -- Data anulării înregistrării în scopuri de TVA --",
+        "data_anul_imp_ScpTVA": "-- Data operarii anularii înregistrării în scopuri de TVA --",
+        "mesaj_ScpTVA": "-- MESAJ:(ne)platitor de TVA la data cautata --",
+        "dataInceputTvaInc": " -- Data de la care aplică sistemul TVA la încasare -- ",
+        "dataSfarsitTvaInc": " -- Data până la care aplică sistemul TVA la încasare --",
+        "dataActualizareTvaInc": "-- Data actualizarii --",
+        "dataPublicareTvaInc": "-- Data publicarii --""
+        "tipActTvaInc": " --Tip actualizare --",
+        "statusTvaIncasare": " -- true -pentru platitor TVA la incasare/ false in
+                               cazul in care nu e platitor de TVA la incasare la
+                               data cautata --",
+        "dataInactivare": " --     -- ",
+        "dataReactivare": " --     -- ",
+        "dataPublicare": " --     -- ",
+        "dataRadiere": " -- Data radiere -- ",
+        "statusInactivi": " -- true -pentru inactiv / false in cazul in care nu este
+                               inactiv la data cautata -- ",
+        "dataInceputSplitTVA": "--     --",
+        "dataAnulareSplitTVA": "--     --",
+        "statusSplitTVA": "-- true -aplica plata defalcata a Tva / false - nu aplica
+                             plata defalcata a Tva la data cautata  --",
+        "iban": "-- contul IBAN --",
+        "statusRO_e_Factura": "-- true - figureaza in Registrul RO e-Factura / false
+                             - nu figureaza in Registrul RO e-Factura la data cautata  --",
+        "sdenumire_Strada": "-- Denumire strada sediu --",
+        "snumar_Strada": "-- Numar strada sediu --",
+        "sdenumire_Localitate": "-- Denumire localitate sediu --",
+        "scod_Localitate": "-- Cod localitate sediu --",
+        "sdenumire_Judet": "-- Denumire judet sediu --",
+        "scod_Judet": "-- Cod judet sediu --",
+        "stara": "-- Denumire tara sediu -- ",
+        "sdetalii_Adresa": "-- Detalii adresa sediu --",
+        "scod_Postal": "-- Cod postal sediu --",
+        "ddenumire_Strada":  -- Denumire strada domiciliu fiscal --",
+        "dnumar_Strada": "-- Numar strada domiciliu fiscal --",
+        "ddenumire_Localitate": "-- Denumire localitate domiciliu fiscal --",
+        "dcod_Localitate": "-- Cod localitate domiciliu fiscal --",
+        "ddenumire_Judet": "-- Denumire judet domiciliu fiscal --",
+        "dcod_Judet": "-- Cod judet domiciliu fiscal --",
+        "dtara": "-- Denumire tara domiciliu fiscal --",
+        "ddetalii_Adresa": "-- Detalii adresa domiciliu fiscal --",
+        "dcod_Postal": "-- Cod postal domiciliu fiscal --",
+        "data_inregistrare": "-- Data inregistrare -- ",
+        "cod_CAEN": "-- Cod CAEN --",
+                          }
         """
         if not data:
             data = fields.Date.to_string(fields.Date.today())
@@ -180,11 +193,10 @@ class ResPartner(models.Model):
                 ("name", "ilike", result["city"]),
             ]
             result["city_id"] = self.env["res.city"].search(domain, limit=1).id
-
         for field in AnafFiled_OdooField_Overwrite:
-            anaf_value = result.get(field[1], "")
-            if not anaf_value:
+            if field[1] not in result:
                 continue
+            anaf_value = result.get(field[1], "")
             if type(self._fields[field[0]]) in [fields.Date, fields.Datetime]:
                 if not anaf_value.strip():
                     anaf_value = False
@@ -202,44 +214,41 @@ class ResPartner(models.Model):
         return res
 
     def get_result_address(self, result):
-        addr = city = ""
+        # Take address from domiciliu fiscal
+        def get_city(text):
+            city = text.replace(".", "").upper()
+            remove_str = ["JUD", "MUN", "MUNICIPIUL", "ORȘ"]
+            if "SECTOR" in city and "MUN" in city:
+                city = city.split("MUN")[0]
+            for tag in remove_str:
+                city = city.replace(tag, "")
+            return city.strip().title()
+
         state = False
         if result.get("adresa"):
-            sector = False
-            address = result["adresa"].replace("NR,", "NR.").upper()
-            if "SECTOR " in address and "BUCUREŞTI" in address:
-                sector = True
-            lines = [x for x in address.split(",") if x]
-            for line in lines:
-                line = line.encode("utf8").translate(CEDILLATRANS).decode("utf8")
-                if "JUD." in line:
-                    state = self.env["res.country.state"].search(
-                        [("name", "=", line.replace("JUD.", "").strip().title())],
-                        limit=1,
-                    )
-                elif "MUN." in line:
-                    city = line.replace("MUN.", "").strip().title()
-                elif sector and "MUNICIPIUL" in line:
-                    state = self.env["res.country.state"].search(
-                        [("name", "=", line.replace("MUNICIPIUL", "").strip().title())],
-                        limit=1,
-                    )
-                elif not sector and "MUNICIPIUL" in line:
-                    city = line.replace("MUNICIPIUL", "").strip().title()
-                elif sector and "SECTOR " in line:
-                    city = line.strip().title()
-                elif "ORȘ." in line.upper():
-                    city = line.replace("ORȘ.", "").strip().title()
-                elif "COM." in line.upper():
-                    city += " " + line.strip().title()
-                elif " SAT " in line.upper():
-                    city += " " + line.strip().title()
-                else:
-                    addr += line.replace("STR.", "").strip().title() + " "
-
-        result["city"] = city.replace("-", " ").title().strip()
+            for tag in [
+                "ddenumire_Strada",
+                "dnumar_Strada",
+                "ddetalii_Adresa",
+                "ddenumire_Localitate",
+                "ddenumire_Judet",
+            ]:
+                result[tag] = (
+                    result[tag].encode("utf8").translate(CEDILLATRANS).decode("utf8")
+                )
+            result["street"] = result.get("ddenumire_Strada")
+            if result.get("dnumar_Strada"):
+                result["street"] += " Nr. " + result.get("dnumar_Strada")
+            result["street"] = result["street"].strip().title()
+            result["street2"] = result.get("ddetalii_Adresa", " ").strip().title()
+            result["city"] = get_city(result.get("ddenumire_Localitate"))
+            state_name = get_city(result.get("ddenumire_Judet"))
+            if state_name:
+                state = self.env["res.country.state"].search(
+                    [("name", "=", state_name)],
+                    limit=1,
+                )
         result["state_id"] = state
-        result["street"] = addr.strip()
         return result
 
     @api.onchange("vat", "country_id")
