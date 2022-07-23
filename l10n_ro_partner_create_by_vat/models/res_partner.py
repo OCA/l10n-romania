@@ -215,15 +215,6 @@ class ResPartner(models.Model):
 
     def get_result_address(self, result):
         # Take address from domiciliu fiscal
-        # "ddenumire_Strada": -- Denumire strada domiciliu fiscal - -",
-        # "dnumar_Strada": "-- Numar strada domiciliu fiscal --",
-        # "ddenumire_Localitate": "-- Denumire localitate domiciliu fiscal --",
-        # "dcod_Localitate": "-- Cod localitate domiciliu fiscal --",
-        # "ddenumire_Judet": "-- Denumire judet domiciliu fiscal --",
-        # "dcod_Judet": "-- Cod judet domiciliu fiscal --",
-        # "dtara": "-- Denumire tara domiciliu fiscal --",
-        # "ddetalii_Adresa": "-- Detalii adresa domiciliu fiscal --",
-        # "dcod_Postal": "-- Cod postal domiciliu fiscal --",
         def get_city(text):
             city = text.replace(".", "").upper()
             remove_str = ["MUNICIPIUL", "MUN", "ORȘ", "JUD"]
