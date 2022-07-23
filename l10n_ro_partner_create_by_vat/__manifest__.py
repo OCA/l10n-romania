@@ -13,6 +13,9 @@
     "website": "https://github.com/OCA/l10n-romania",
     "installable": True,
     "development_status": "Mature",
-    "data": ["views/partner_view.xml"],
+    "data": [
+        "views/partner_view.xml",
+        "security/ir.model.access.csv",
+    ],
     "maintainers": ["feketemihai"],
 }
