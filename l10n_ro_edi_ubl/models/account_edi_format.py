@@ -18,7 +18,7 @@ class AccountEdiFormat(models.Model):
     # Export
     ####################################################
 
-    def _get_cirus_ro_values(self, invoice):
+    def _get_cius_ro_values(self, invoice):
         values = super()._get_bis3_values(invoice)
         values.update(
             {
@@ -29,14 +29,14 @@ class AccountEdiFormat(models.Model):
 
         return values
 
-    def _export_cirus_ro(self, invoice):
+    def _export_cius_ro(self, invoice):
         self.ensure_one()
         # Create file content.
         xml_content = b"<?xml version='1.0' encoding='UTF-8'?>"
-        xml_content += self.env.ref("l10n_ro_edi_ubl.export_cirus_ro_invoice")._render(
-            self._get_cirus_ro_values(invoice)
+        xml_content += self.env.ref("l10n_ro_edi_ubl.export_cius_ro_invoice")._render(
+            self._get_cius_ro_values(invoice)
         )
-        xml_name = "%s.xml" % invoice._get_cirus_ro_name()
+        xml_name = "%s.xml" % invoice._get_cius_ro_name()
         return self.env["ir.attachment"].create(
             {
                 "name": xml_name,
@@ -55,7 +55,7 @@ class AccountEdiFormat(models.Model):
     def _create_invoice_from_xml_tree(self, filename, tree, journal=None):
         self.ensure_one()
         if (
-            self.code == "cirus_ro"
+            self.code == "cius_ro"
             and self._is_ubl(filename, tree)
             and not self._is_account_edi_ubl_cii_available()
         ):
@@ -65,7 +65,7 @@ class AccountEdiFormat(models.Model):
     def _update_invoice_from_xml_tree(self, filename, tree, invoice):
         self.ensure_one()
         if (
-            self.code == "cirus_ro"
+            self.code == "cius_ro"
             and self._is_ubl(filename, tree)
             and not self._is_account_edi_ubl_cii_available()
         ):
@@ -75,24 +75,24 @@ class AccountEdiFormat(models.Model):
     #
     def _is_compatible_with_journal(self, journal):
         self.ensure_one()
-        if self.code != "cirus_ro" or self._is_account_edi_ubl_cii_available():
+        if self.code != "cius_ro" or self._is_account_edi_ubl_cii_available():
             return super()._is_compatible_with_journal(journal)
         return journal.type == "sale" and journal.country_code == "RO"
 
     def _is_required_for_invoice(self, invoice):
-        if self.code != "cirus_ro" or self._is_account_edi_ubl_cii_available():
+        if self.code != "cus_ro" or self._is_account_edi_ubl_cii_available():
             return super()._is_required_for_invoice(invoice)
         return invoice.commercial_partner_id.l10n_ro_e_invoice
 
     def _post_invoice_edi(self, invoices, test_mode=False):
         self.ensure_one()
-        if self.code != "cirus_ro" or self._is_account_edi_ubl_cii_available():
+        if self.code != "cius_ro" or self._is_account_edi_ubl_cii_available():
             return super()._post_invoice_edi(invoices, test_mode)
         res = {}
         for invoice in invoices:
             attachment = invoice._get_edi_attachment(self)
             if not attachment:
-                attachment = self._export_cirus_ro(invoice)
+                attachment = self._export_cius_ro(invoice)
             res[invoice] = {"attachment": attachment}
             if invoice.company_id.l10n_ro_edi_manual and not self.env.context.get(
                 "edi_manual_action", False
@@ -114,13 +114,13 @@ class AccountEdiFormat(models.Model):
 
     def _cancel_invoice_edi(self, invoices, test_mode=False):
         self.ensure_one()
-        if self.code != "cirus_ro" or self._is_account_edi_ubl_cii_available():
+        if self.code != "cius_ro" or self._is_account_edi_ubl_cii_available():
             return super()._cancel_invoice_edi(invoices, test_mode)
         return {invoice: {"success": False} for invoice in invoices}
 
     def _needs_web_services(self):
         self.ensure_one()
-        return self.code == "cirus_ro" or super()._needs_web_services()
+        return self.code == "cius_ro" or super()._needs_web_services()
 
     def _l10n_ro_post_invoice_step_1(self, invoice, attachment, test_mode=False):
 
@@ -202,3 +202,33 @@ class AccountEdiFormat(models.Model):
             res = {"success": False, "error": _("Access error")}
 
         return res
+
+    def _check_move_configuration(self, move):
+        self.ensure_one()
+        if self.code != "cius_ro" or self._is_account_edi_ubl_cii_available():
+            return super()._check_move_configuration(move)
+        partner = move.commercial_partner_id
+        errors = []
+        if not partner.street:
+            errors += [_("Partenerul %s nu are completata strada") % partner.name]
+
+        state_bucuresti = self.env.ref("base.RO_B")
+        if partner.state_id == state_bucuresti:
+            if "sector" not in partner.city.lower():
+                errors += [
+                    _("localitatea pertenerului %s trebuie sa fie de forma SectorX ")
+                    % partner.name
+                ]
+        return errors
+
+    def _get_invoice_edi_content(self, move):
+
+        if self.code != "cius_ro":
+            return super(AccountEdiFormat, self)._get_invoice_edi_content(move)
+
+        attachment = move._get_edi_attachment(self)
+        if not attachment:
+            attachment = self._export_cius_ro(move)
+            doc = move._get_edi_document(self)
+            doc.write({"attachment_id": attachment.id})
+        return attachment.raw

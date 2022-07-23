@@ -16,12 +16,44 @@
                 t-esc="partner.state_id.country_id.code +'-'+ partner.state_id.code"
             />
             </xpath>
+
+
+            <xpath expr="//*[local-name()='CityName']" position="replace">
+                <t t-set="city" t-value="partner.city" />
+                <t t-if="partner.state_id.code == 'B'">
+                     <t t-set="city" t-value="partner.city.upper().replace(' ','')" />
+                </t>
+               <cbc:CityName
+                xmlns="urn:oasis:names:specification:ubl:schema:xsd:Invoice-2"
+                xmlns:cbc="urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2"
+                t-if="city"
+                t-esc="city"
+            />
+            </xpath>
+
+            <xpath expr="//*[local-name()='PartyTaxScheme']" position="replace">
+                <cac:PartyTaxScheme
+                t-if="partner.vat"
+                xmlns="urn:oasis:names:specification:ubl:schema:xsd:Invoice-2"
+                xmlns:cac="urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2"
+                xmlns:cbc="urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2"
+            >
+                    <cbc:CompanyID
+                    t-esc="partner.country_id.code+partner.vat.replace(partner.country_id.code,'')"
+                />
+                    <cac:TaxScheme>
+                        <cbc:ID>VAT</cbc:ID>
+                    </cac:TaxScheme>
+                </cac:PartyTaxScheme>
+
+
+            </xpath>
         </template>
 
 
 
         <template
-        id="export_cirus_ro_invoice"
+        id="export_cius_ro_invoice"
         inherit_id="account_edi_ubl_bis3.export_bis3_invoice"
         primary="True"
         priority="100"
