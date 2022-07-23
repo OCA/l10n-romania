@@ -16,7 +16,7 @@ class ResCompany(models.Model):
     )
     share_capital = fields.Float(digits="Account", default=200)
     company_registry = fields.Char(related="partner_id.nrc", readonly=False)
-    caen_code = fields.Char(default="0000")
+    caen_code = fields.Char(related="partner_id.caen_code", readonly=False)
     romanian_accounting = fields.Boolean(string="Use Romanian Accounting")
     stock_acc_price_diff = fields.Boolean(
         string="Stock Valuation Update",
