@@ -18,6 +18,7 @@ setuptools.setup(
         'odoo-addon-l10n_ro_partner_unique>=15.0dev,<15.1dev',
         'odoo-addon-l10n_ro_stock>=15.0dev,<15.1dev',
         'odoo-addon-l10n_ro_stock_account>=15.0dev,<15.1dev',
+        'odoo-addon-l10n_ro_stock_account_notice>=15.0dev,<15.1dev',
         'odoo-addon-l10n_ro_stock_report>=15.0dev,<15.1dev',
         'odoo-addon-l10n_ro_vat_on_payment>=15.0dev,<15.1dev',
     ],
