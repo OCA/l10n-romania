@@ -257,6 +257,12 @@ msgid "Picking Account Receivable"
 msgstr ""
 
 #. module: l10n_ro_config
+#: model:ir.model.fields,field_description:l10n_ro_config.field_res_company__property_stock_price_difference_product_id
+#: model:ir.model.fields,field_description:l10n_ro_config.field_res_config_settings__property_stock_price_difference_product_id
+msgid "Price Difference Landed Cost Product"
+msgstr ""
+
+#. module: l10n_ro_config
 #: model:ir.model.fields,field_description:l10n_ro_config.field_account_journal__print_report
 #: model:ir.model.fields,field_description:l10n_ro_config.field_account_setup_bank_manual_config__print_report
 #: model:ir.model.fields,field_description:l10n_ro_config.field_res_partner_bank__print_report
@@ -337,6 +343,11 @@ msgid "Romanian Stock Accounting - Store"
 msgstr ""
 
 #. module: l10n_ro_config
+#: model:ir.model.fields,field_description:l10n_ro_config.field_res_config_settings__module_l10n_ro_stock_price_difference
+msgid "Romanian Stock Accounting Price Difference"
+msgstr ""
+
+#. module: l10n_ro_config
 #: model_terms:ir.ui.view,arch_db:l10n_ro_config.res_config_settings_view_form
 msgid "Select 408"
 msgstr ""
@@ -354,6 +365,11 @@ msgstr ""
 #. module: l10n_ro_config
 #: model_terms:ir.ui.view,arch_db:l10n_ro_config.res_config_settings_view_form
 msgid "Select 8035"
+msgstr ""
+
+#. module: l10n_ro_config
+#: model_terms:ir.ui.view,arch_db:l10n_ro_config.res_config_settings_view_form
+msgid "Select a product"
 msgstr ""
 
 #. module: l10n_ro_config
@@ -460,6 +476,13 @@ msgid ""
 msgstr ""
 
 #. module: l10n_ro_config
+#: model:ir.model.fields,help:l10n_ro_config.field_res_config_settings__module_l10n_ro_stock_price_difference
+msgid ""
+"This allows you to manage price differences between receptions and invoices.\n"
+"It will be done by using landed cost, to also threat deliveries between reception and supplier invoice confirmation.\n"
+msgstr ""
+
+#. module: l10n_ro_config
 #: model:ir.model.fields,help:l10n_ro_config.field_res_config_settings__module_l10n_ro_city
 msgid ""
 "This allows you to manage the Romanian Cities:\n"
@@ -554,6 +577,14 @@ msgid ""
 msgstr ""
 
 #. module: l10n_ro_config
+#: model:ir.model.fields,help:l10n_ro_config.field_res_company__property_stock_price_difference_product_id
+#: model:ir.model.fields,help:l10n_ro_config.field_res_config_settings__property_stock_price_difference_product_id
+msgid ""
+"This product will be used to create the landed costfor the price difference "
+"between picking and bill"
+msgstr ""
+
+#. module: l10n_ro_config
 #: model:ir.model.fields,field_description:l10n_ro_config.field_res_company__property_trade_discount_granted_account_id
 #: model:ir.model.fields,field_description:l10n_ro_config.field_res_config_settings__property_trade_discount_granted_account_id
 msgid "Trade discounts granted"
@@ -568,8 +599,8 @@ msgstr ""
 #. module: l10n_ro_config
 #: model_terms:ir.ui.view,arch_db:l10n_ro_config.res_config_settings_view_form
 msgid ""
-"Update stock valuation in case of currency rate\n"
-"                                    difference between reception and bill"
+"Update stock valuation in case of price difference\n"
+"                                            between reception and bill"
 msgstr ""
 
 #. module: l10n_ro_config
