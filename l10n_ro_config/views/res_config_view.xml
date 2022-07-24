@@ -281,22 +281,6 @@
                                     Romanian legislation
                                 </div>
                             </div>
-                            <div class="o_setting_left_pane">
-                                <field name="stock_acc_price_diff" />
-                            </div>
-                            <div class="o_setting_right_pane">
-                                <label for="stock_acc_price_diff" />
-                                <span
-                                    class="fa fa-lg fa-building-o"
-                                    title="Values set here are company-specific."
-                                    role="img"
-                                    aria-label="Values set here are company-specific."
-                                />
-                                <div class="text-muted">
-                                    Update stock valuation in case of currency rate
-                                    difference between reception and bill
-                                </div>
-                            </div>
                         </div>
                         <div
                             class="col-xs-12 col-md-6 o_setting_box"
@@ -404,6 +388,50 @@
                                             name="property_trade_discount_granted_account_id"
                                         />
                                     </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div
+                            class="col-12 col-lg-6 o_setting_box"
+                            id="module_l10n_ro_stock_price_difference"
+                        >
+                            <div class="o_setting_left_pane">
+                                <field name="module_l10n_ro_stock_price_difference" />
+                            </div>
+                            <div class="o_setting_right_pane">
+                                <label for="module_l10n_ro_stock_price_difference" />
+                                <div
+                                    class="content-group"
+                                    attrs="{'invisible': [('module_l10n_ro_stock_price_difference', '=', False)]}"
+                                >
+                                    <div class="o_setting_left_pane">
+                                        <field name="stock_acc_price_diff" />
+                                    </div>
+                                    <div class="o_setting_right_pane">
+                                        <label for="stock_acc_price_diff" />
+                                        <span
+                                            class="fa fa-lg fa-building-o"
+                                            title="Values set here are company-specific."
+                                            role="img"
+                                            aria-label="Values set here are company-specific."
+                                        />
+                                        <div class="text-muted">
+                                            Update stock valuation in case of price difference
+                                            between reception and bill
+                                        </div>
+                                    </div>
+
+                                    <div class="row mt16">
+                                        <label
+                                            for="property_stock_price_difference_product_id"
+                                            class="col-lg-3 o_light_label"
+                                        />
+                                        <field
+                                            name="property_stock_price_difference_product_id"
+                                            placeholder="Select a product"
+                                        />
+                                    </div>
+
                                 </div>
                             </div>
                         </div>
