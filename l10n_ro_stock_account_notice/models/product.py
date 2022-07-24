@@ -37,10 +37,14 @@ class ProductTemplate(models.Model):
         if valued_type in [
             "reception_notice",
             "invoice_in_notice",
-            "reception_notice_return",
         ]:
             if stock_picking_payable_account_id:
                 accounts["stock_input"] = stock_picking_payable_account_id
+        elif valued_type in [
+            "reception_notice_return",
+        ]:
+            if stock_picking_payable_account_id:
+                accounts["stock_output"] = stock_picking_payable_account_id
         # in aviz si factura client se va utiliza 418
         elif valued_type == "invoice_out_notice":
             if stock_picking_receivable_account_id:
