@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+
+    <template
+        id="report_delivery_document_comments"
+        inherit_id="stock.report_delivery_document"
+    >
+        <xpath expr="//table[@name='stock_move_table']" position="before">
+            <p
+                t-raw="o.get_comment_template('before_lines', o.company_id.id, o.partner_id and o.partner_id.id or False)"
+            />
+        </xpath>
+        <xpath expr="//div[hasclass('page')]" position="inside">
+            <p
+                t-raw="o.get_comment_template('after_lines', o.company_id.id, o.partner_id and o.partner_id.id or False)"
+            />
+        </xpath>
+    </template>
+
+    <template id="report_deliveryslip" inherit_id="stock.report_deliveryslip">
+        <xpath expr="//t[@t-foreach='docs']" position="replace">
+            <t t-foreach="docs" t-as="o">
+                <t
+                    t-set="lang"
+                    t-value="user.sudo().lang if o.picking_type_code != 'outgoing' else o.partner_id.lang"
+                />
+                <t t-call="stock.report_delivery_document" t-lang="lang" />
+            </t>
+        </xpath>
+    </template>
+
+
+</odoo>

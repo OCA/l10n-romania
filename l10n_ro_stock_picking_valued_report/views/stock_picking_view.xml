@@ -1,0 +1,20 @@
+<?xml version="1.0" ?>
+<odoo>
+    <record id="view_picking_add_delegate_form" model="ir.ui.view">
+        <field name="name">view_picking_add_delegate_form</field>
+        <field name="model">stock.picking</field>
+        <field name="inherit_id" ref="stock.view_picking_form" />
+        <field name="arch" type="xml">
+            <field name="group_id" position="after">
+                <field
+                    name="delegate_id"
+                    domain="[('type','=','contact'),('is_company','=',False)]"
+                    context="{'simple_form':True, 'parent_partner_id':partner_id } "
+                />
+                <field name="mean_transp" />
+            </field>
+        </field>
+
+    </record>
+
+</odoo>
