@@ -26,7 +26,7 @@ def migrate(cr, version):
             "stock_picking_kanban",
         ]
         for view in view_list:
-            if env.ref("l10n_ro_stock_account." + view).exists():
+            if env.ref("l10n_ro_stock_account." + view, raise_if_not_found=False):
                 env.cr.execute(
                     "DELETE FROM ir_ui_view WHERE id = %s"
                     % env.ref("l10n_ro_stock_account." + view).id
