@@ -46,8 +46,11 @@ class StockMoveLine(models.Model):
     @api.depends(
         "sale_line_id",
         "purchase_line_id",
+        "qty_done",
+        "picking_id.state",
         "move_id",
         "move_id.stock_valuation_layer_ids",
+        "move_id.stock_valuation_layer_ids.value",
     )
     def _compute_valued_fields(self):
         for line in self:
@@ -89,14 +92,19 @@ class StockMoveLine(models.Model):
                 line.price_unit = price_unit
                 line.price_subtotal = move_qty * line.price_unit
                 line.price_tax = 0
-                if line.purchase_line_id:
+                if line.purchase_line_id and svls:
                     price_tax = (
                         line.purchase_line_id.price_tax
                         / line.purchase_line_id.product_uom_qty
                         if line.purchase_line_id.product_uom_qty
                         else line.purchase_line_id.price_tax
+                    ) * move_qty
+                    line.price_tax = line.purchase_line_id.currency_id._convert(
+                        price_tax,
+                        line.company_id.currency_id,
+                        line.company_id,
+                        line.date,
                     )
-                    line.price_tax = price_tax
                 line.price_total = line.price_subtotal + line.price_tax
 
     def _get_aggregated_product_quantities(self, **kwargs):

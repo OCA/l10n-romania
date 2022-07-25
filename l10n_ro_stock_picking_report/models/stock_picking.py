@@ -41,7 +41,11 @@ class StockPicking(models.Model):
             )
 
     @api.depends(
-        "move_line_ids", "move_line_ids.price_subtotal", "move_line_ids.price_total"
+        "state",
+        "move_line_ids",
+        "move_line_ids.qty_done",
+        "move_line_ids.price_subtotal",
+        "move_line_ids.price_total",
     )
     def _compute_valued_fields(self):
         for pick in self:
@@ -50,6 +54,9 @@ class StockPicking(models.Model):
                 if pick.move_line_ids
                 else pick.company_id.currency_id
             )
+            pick.amount_untaxed = 0
+            pick.amount_tax = 0
+            pick.amount_total = 0
             for line in pick.move_line_ids:
                 pick.amount_untaxed += line.price_subtotal
                 pick.amount_tax += line.price_tax

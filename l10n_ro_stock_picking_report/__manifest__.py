@@ -11,7 +11,9 @@
         "sale_stock",
         "purchase_stock",
         "l10n_ro_stock_account",
+        "stock_landed_costs",
     ],
+    "excludes": ["stock_picking_report_valued"],
     "license": "AGPL-3",
     "data": [
         "report/stock_picking_report_valued.xml",
