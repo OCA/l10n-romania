@@ -5,6 +5,7 @@
 import logging
 
 from odoo import _, models
+from odoo.tools import float_round
 
 _logger = logging.getLogger(__name__)
 
@@ -48,8 +49,11 @@ class AccountMove(models.Model):
                                 (
                                     valuation_stock_moves.mapped("product_id"),
                                     valuation_stock_moves.mapped("picking_id"),
-                                    price_diff,
-                                    qty_diff,
+                                    line.currency_id.round(price_diff),
+                                    float_round(
+                                        line.qty_diff,
+                                        precision_rounding=line.product_uom_id.rounding,
+                                    ),
                                 )
                             )
 
