@@ -24,6 +24,8 @@ setuptools.setup(
         'odoo14-addon-l10n_ro_siruta',
         'odoo14-addon-l10n_ro_stock',
         'odoo14-addon-l10n_ro_stock_account',
+        'odoo14-addon-l10n_ro_stock_account_date',
+        'odoo14-addon-l10n_ro_stock_account_date_wizard',
         'odoo14-addon-l10n_ro_stock_account_notice',
         'odoo14-addon-l10n_ro_stock_picking_comment_template',
         'odoo14-addon-l10n_ro_stock_price_difference',
