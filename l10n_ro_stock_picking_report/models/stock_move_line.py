@@ -18,9 +18,7 @@ class StockMoveLine(models.Model):
     currency_id = fields.Many2one(
         "res.currency", compute="_compute_valued_fields", readonly=True
     )
-    price_unit = fields.Float(
-        compute="_compute_valued_fields", readonly=True
-    )
+    price_unit = fields.Float(compute="_compute_valued_fields", readonly=True)
     price_subtotal = fields.Monetary(
         compute="_compute_valued_fields",
         readonly=True,
