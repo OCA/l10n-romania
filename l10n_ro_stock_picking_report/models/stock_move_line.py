@@ -16,26 +16,23 @@ class StockMoveLine(models.Model):
         string="Related purchase line",
     )
     currency_id = fields.Many2one(
-        "res.currency", compute="_compute_valued_fields", store=True, readonly=True
+        "res.currency", compute="_compute_valued_fields", readonly=True
     )
     price_unit = fields.Float(
-        compute="_compute_valued_fields", store=True, readonly=True
+        compute="_compute_valued_fields", readonly=True
     )
     price_subtotal = fields.Monetary(
         compute="_compute_valued_fields",
-        store=True,
         readonly=True,
         currency_field="currency_id",
     )
     price_tax = fields.Monetary(
         compute="_compute_valued_fields",
-        store=True,
         readonly=True,
         currency_field="currency_id",
     )
     price_total = fields.Monetary(
         compute="_compute_valued_fields",
-        store=True,
         readonly=True,
         currency_field="currency_id",
     )
