@@ -19,15 +19,15 @@ class AccountMoveLine(models.Model):
 
         # Retrieve stock valuation moves.
         if not line.purchase_line_id:
-            return 0.0
+            return 0.0, 0.0
 
         if line.purchase_line_id.product_id.purchase_method != "receive":
-            return 0.0
+            return 0.0, 0.0
 
         valuation_stock_moves = self._get_valuation_stock_moves()
 
         if not valuation_stock_moves:
-            return 0.0
+            return 0.0, 0.0
 
         valuation_total = 0
         valuation_total_qty = 0
@@ -45,7 +45,7 @@ class AccountMoveLine(models.Model):
 
         precision = line.product_uom_id.rounding or line.product_id.uom_id.rounding
         if float_is_zero(valuation_total_qty, precision_rounding=precision):
-            return 0.0
+            return 0.0, 0.0
 
         lines = self.search(
             [
