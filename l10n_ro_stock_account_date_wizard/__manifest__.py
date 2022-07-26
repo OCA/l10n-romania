@@ -7,7 +7,7 @@
     "summary": "Romania - Stock Accounting Date Wizard",
     "author": "NextERP Romania," "Odoo Community Association (OCA)",
     "website": "https://github.com/OCA/l10n-romania",
-    "depends": ["l10n_ro_stock_account"],
+    "depends": ["l10n_ro_stock_account_date"],
     "license": "AGPL-3",
     "data": [
         "wizard/stock_backorder_confirmation_views.xml",
