@@ -25,6 +25,7 @@ setuptools.setup(
         'odoo14-addon-l10n_ro_stock',
         'odoo14-addon-l10n_ro_stock_account',
         'odoo14-addon-l10n_ro_stock_account_notice',
+        'odoo14-addon-l10n_ro_stock_picking_comment_template',
         'odoo14-addon-l10n_ro_stock_price_difference',
         'odoo14-addon-l10n_ro_stock_report',
         'odoo14-addon-l10n_ro_vat_on_payment',
