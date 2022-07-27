@@ -18,7 +18,10 @@
             <xpath expr="//label[@for='scheduled_date']" position="before">
                 <label for="accounting_date" />
                 <div class="o_row">
-                    <field name="accounting_date" />
+                    <field
+                        name="accounting_date"
+                        attrs="{'readonly': [('state', '=', 'done')]}"
+                    />
                 </div>
             </xpath>
         </field>
