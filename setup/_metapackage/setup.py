@@ -15,6 +15,7 @@ setuptools.setup(
         'odoo13-addon-l10n_ro_city',
         'odoo13-addon-l10n_ro_config',
         'odoo13-addon-l10n_ro_dvi',
+        'odoo13-addon-l10n_ro_edi_ubl',
         'odoo13-addon-l10n_ro_fiscal_validation',
         'odoo13-addon-l10n_ro_partner_create_by_vat',
         'odoo13-addon-l10n_ro_partner_statement',
