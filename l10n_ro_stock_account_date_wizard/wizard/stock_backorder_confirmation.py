@@ -36,8 +36,8 @@ class StockBackorderConfirmation(models.TransientModel):
                 raise ValidationError(
                     _(
                         "You can not have a Accounting date=%s for picking bigger than today!"
-                        % self.accounting_date.date()
                     )
+                    % self.accounting_date.date()
                 )
             self.pick_ids.write(
                 {
@@ -54,8 +54,8 @@ class StockBackorderConfirmation(models.TransientModel):
                 raise ValidationError(
                     _(
                         "You can not have a Accounting date=%s for picking bigger than today!"
-                        % self.accounting_date.date()
                     )
+                    % self.accounting_date.date()
                 )
             self.env["stock.picking"].browse(pickings_to_validate).write(
                 {

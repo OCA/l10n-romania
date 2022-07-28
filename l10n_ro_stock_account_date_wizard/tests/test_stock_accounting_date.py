@@ -74,7 +74,7 @@ class TestStockReport(TestStockCommon):
         action_data = picking.button_validate()
         backorder_wizard = Form(
             self.env["stock.backorder.confirmation"].with_context(
-                action_data.get("context", {})
+                **action_data.get("context", {})
             )
         ).save()
         backorder_wizard.accounting_date = acc_date
@@ -103,7 +103,7 @@ class TestStockReport(TestStockCommon):
         action_data = picking.button_validate()
         backorder_wizard = Form(
             self.env["stock.backorder.confirmation"].with_context(
-                action_data.get("context", {})
+                **action_data.get("context", {})
             )
         ).save()
         backorder_wizard.accounting_date = acc_date
@@ -137,7 +137,7 @@ class TestStockReport(TestStockCommon):
 
         wiz = picking.button_validate()
         wiz = Form(
-            self.env["stock.immediate.transfer"].with_context(wiz["context"])
+            self.env["stock.immediate.transfer"].with_context(**wiz["context"])
         ).save()
         wiz.accounting_date = acc_date
         wiz.process()
