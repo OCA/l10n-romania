@@ -7,6 +7,7 @@ import logging
 
 from odoo import _, api, fields, models
 from odoo.exceptions import UserError
+from odoo.tools import float_is_zero
 
 _logger = logging.getLogger(__name__)
 
@@ -94,19 +95,16 @@ class ProductTemplate(models.Model):
     def _get_product_accounts(self):
         accounts = super(ProductTemplate, self)._get_product_accounts()
 
-        company = self.env.company
+        company = (
+            self.env["res.company"].browse(self._context.get("force_company"))
+            or self.env.company
+        )
         if not company.romanian_accounting:
             return accounts
 
         property_stock_valuation_account_id = (
             self.property_stock_valuation_account_id
             or self.categ_id.property_stock_valuation_account_id
-        )
-        stock_picking_payable_account_id = (
-            company.property_stock_picking_payable_account_id
-        )
-        stock_picking_receivable_account_id = (
-            company.property_stock_picking_receivable_account_id
         )
         property_stock_usage_giving_account_id = (
             company.property_stock_usage_giving_account_id
@@ -121,27 +119,11 @@ class ProductTemplate(models.Model):
             )
 
         valued_type = self.env.context.get("valued_type", "indefinite")
-        _logger.info(valued_type)
-
-        # in nir si factura se ca utiliza 408
-        if valued_type in [
-            "reception_notice",
-            "invoice_in_notice",
-            "reception_notice_return",
-        ]:
-            if stock_picking_payable_account_id:
-                accounts["stock_input"] = stock_picking_payable_account_id
-        # in aviz si factura client se va utiliza 418
-        elif valued_type == "invoice_out_notice":
-            if stock_picking_receivable_account_id:
-                accounts["stock_output"] = stock_picking_receivable_account_id
-                accounts["stock_valuation"] = accounts["income"]
-                accounts["income"] = stock_picking_receivable_account_id
+        _logger.debug(valued_type)
 
         # in Romania iesirea din stoc de face de regula pe contul de cheltuiala
-        elif valued_type in [
+        if valued_type in [
             "delivery",
-            "delivery_notice",
             "consumption",
             "production_return",
             "minus_inventory",
@@ -159,8 +141,6 @@ class ProductTemplate(models.Model):
         ]:
             accounts["stock_input"] = accounts["stock_output"] = accounts["expense"]
         elif valued_type == "dropshipped":
-            if stock_picking_payable_account_id:
-                accounts["stock_input"] = stock_picking_payable_account_id
             accounts["stock_output"] = accounts["expense"]
 
         # suplimentar la darea in consum mai face o nota contabila
@@ -169,3 +149,84 @@ class ProductTemplate(models.Model):
             accounts["stock_input"] = property_stock_usage_giving_account_id
             accounts["stock_valuation"] = property_stock_usage_giving_account_id
         return accounts
+
+
+class ProductProduct(models.Model):
+    _inherit = "product.product"
+
+    def _run_fifo(self, quantity, company):
+        self.ensure_one()
+
+        if not self._context.get("origin_return_candidates"):
+            return super(ProductProduct, self)._run_fifo(quantity, company)
+
+        candidates = (
+            self.env["stock.valuation.layer"]
+            .sudo()
+            .browse(self._context["origin_return_candidates"])
+        )
+        qty_to_take_on_candidates = quantity
+        new_standard_price = 0
+        tmp_value = 0  # to accumulate the value taken on the candidates
+        for candidate in candidates:
+            qty_taken_on_candidate = min(
+                qty_to_take_on_candidates, candidate.remaining_qty
+            )
+            if candidate.remaining_qty:
+                candidate_unit_cost = (
+                    candidate.remaining_value / candidate.remaining_qty
+                )
+                new_standard_price = candidate_unit_cost
+                value_taken_on_candidate = qty_taken_on_candidate * candidate_unit_cost
+                value_taken_on_candidate = candidate.currency_id.round(
+                    value_taken_on_candidate
+                )
+                new_remaining_value = (
+                    candidate.remaining_value - value_taken_on_candidate
+                )
+
+                candidate_vals = {
+                    "remaining_qty": candidate.remaining_qty - qty_taken_on_candidate,
+                    "remaining_value": new_remaining_value,
+                }
+
+                candidate.write(candidate_vals)
+
+                qty_to_take_on_candidates -= qty_taken_on_candidate
+                tmp_value += value_taken_on_candidate
+                if float_is_zero(
+                    qty_to_take_on_candidates, precision_rounding=self.uom_id.rounding
+                ):
+                    break
+
+        # Update the standard price with the price of the last used candidate, if any.
+        if new_standard_price and self.cost_method == "fifo":
+            self.sudo().with_company(company.id).standard_price = new_standard_price
+
+        # If there's still quantity to value but we're out of candidates, we fall in the
+        # negative stock use case. We chose to value the out move at the price of the
+        # last out and a correction entry will be made once `_fifo_vacuum` is called.
+        vals = {}
+        if float_is_zero(
+            qty_to_take_on_candidates, precision_rounding=self.uom_id.rounding
+        ):
+            vals = {
+                "value": -tmp_value,
+                "unit_cost": tmp_value / quantity,
+            }
+        else:
+            self = self.with_context(origin_return_candidates=None)
+            vals_rest = super(ProductProduct, self)._run_fifo(
+                qty_to_take_on_candidates, company
+            )
+            value = -(tmp_value + abs(vals_rest["value"]))
+            unit_cost = abs(value) / (quantity - abs(vals_rest.get("remaining_qty", 0)))
+            if "remaining_qty" in vals_rest:
+                vals.update(
+                    value=value,
+                    unit_cost=unit_cost,
+                    remaining_qty=vals_rest["remaining_qty"],
+                )
+            else:
+                vals.update(value=value, unit_cost=unit_cost)
+        return vals

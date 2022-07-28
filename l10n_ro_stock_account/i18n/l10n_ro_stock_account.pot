@@ -80,17 +80,6 @@ msgid "Invoice Line"
 msgstr ""
 
 #. module: l10n_ro_stock_account
-#: model:ir.model.fields,field_description:l10n_ro_stock_account.field_stock_picking__notice
-msgid "Is a notice"
-msgstr ""
-
-#. module: l10n_ro_stock_account
-#: model_terms:ir.ui.view,arch_db:l10n_ro_stock_account.stock_picking_kanban
-#: model_terms:ir.ui.view,arch_db:l10n_ro_stock_account.view_picking_internal_add_notice_search
-msgid "Is notice"
-msgstr ""
-
-#. module: l10n_ro_stock_account
 #: model:ir.model,name:l10n_ro_stock_account.model_account_move
 msgid "Journal Entry"
 msgstr ""
@@ -120,9 +109,18 @@ msgid ""
 msgstr ""
 
 #. module: l10n_ro_stock_account
-#: code:addons/l10n_ro_stock_account/models/account_invoice.py:0
-#, python-format
-msgid "Price difference"
+#: model:ir.model.fields,field_description:l10n_ro_stock_account.field_stock_return_picking_line__origin_ret_move_qty
+msgid "Origin Ret Move Qty"
+msgstr ""
+
+#. module: l10n_ro_stock_account
+#: model:ir.model.fields,field_description:l10n_ro_stock_account.field_stock_return_picking_line__origin_ret_move_qty_check
+msgid "Origin Ret Move Qty Check"
+msgstr ""
+
+#. module: l10n_ro_stock_account
+#: model:ir.model,name:l10n_ro_stock_account.model_product_product
+msgid "Product"
 msgstr ""
 
 #. module: l10n_ro_stock_account
@@ -138,6 +136,22 @@ msgstr ""
 #. module: l10n_ro_stock_account
 #: model:ir.model,name:l10n_ro_stock_account.model_product_template
 msgid "Product Template"
+msgstr ""
+
+#. module: l10n_ro_stock_account
+#: model_terms:ir.ui.view,arch_db:l10n_ro_stock_account.view_stock_return_picking_form
+msgid ""
+"Quantity more than existing. You will return different stock valuations."
+msgstr ""
+
+#. module: l10n_ro_stock_account
+#: model_terms:ir.ui.view,arch_db:l10n_ro_stock_account.view_stock_return_picking_form
+msgid "Remaining Qty"
+msgstr ""
+
+#. module: l10n_ro_stock_account
+#: model:ir.model,name:l10n_ro_stock_account.model_stock_return_picking_line
+msgid "Return Picking Line"
 msgstr ""
 
 #. module: l10n_ro_stock_account
@@ -177,11 +191,4 @@ msgstr ""
 #. module: l10n_ro_stock_account
 #: model:ir.model.fields,field_description:l10n_ro_stock_account.field_stock_valuation_layer__valued_type
 msgid "Valued Type"
-msgstr ""
-
-#. module: l10n_ro_stock_account
-#: model:ir.model.fields,help:l10n_ro_stock_account.field_stock_picking__notice
-msgid ""
-"With this field the reception/delivery is set as a notice. The generated "
-"account move will contain accounts 408/418."
 msgstr ""

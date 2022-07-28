@@ -88,6 +88,10 @@ class ResConfigSettings(models.TransientModel):
         "Invoice Report",
         help="This allows you to print invoice report based on " "romanian layout.\n",
     )
+    module_l10n_ro_account_edit_currency_rate = fields.Boolean(
+        "Invoice Edit Currency Rate",
+        help="This allows you to the currency rate in invoices.\n",
+    )
     module_l10n_ro_account_report_trial_balance = fields.Boolean(
         "Account Trial Balance Report",
         help="This module will add the Trial Balance report " "with multiple columns.",
@@ -125,6 +129,13 @@ class ResConfigSettings(models.TransientModel):
         "stock quant, link with the generated account move lines on the "
         "picking\n"
         "Inventory account move lines...",
+    )
+    module_l10n_ro_stock_price_difference = fields.Boolean(
+        "Romanian Stock Accounting Price Difference",
+        help="This allows you to manage price differences between "
+        "receptions and invoices.\n"
+        "It will be done by using landed cost, to also threat "
+        "deliveries between reception and supplier invoice confirmation.\n",
     )
     module_l10n_ro_stock_account_store = fields.Boolean(
         "Romanian Stock Accounting - Store",
@@ -199,5 +210,11 @@ class ResConfigSettings(models.TransientModel):
         "account.fiscal.position",
         string="Inverse Taxation",
         related="company_id.property_inverse_taxation_position_id",
+        readonly=False,
+    )
+    property_stock_price_difference_product_id = fields.Many2one(
+        "product.product",
+        string="Price Difference Landed Cost Product",
+        related="company_id.property_stock_price_difference_product_id",
         readonly=False,
     )
