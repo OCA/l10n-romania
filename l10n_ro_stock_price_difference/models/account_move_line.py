@@ -105,6 +105,7 @@ class AccountMoveLine(models.Model):
         stock_journal_id = self.product_id.categ_id.property_stock_journal or False
         return dict(
             account_journal_id=stock_journal_id and stock_journal_id.id,
+            l10n_ro_price_difference=True,
             cost_lines=[
                 (
                     0,
