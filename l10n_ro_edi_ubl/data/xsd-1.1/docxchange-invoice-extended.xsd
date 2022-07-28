@@ -1,0 +1,530 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<!--
+  ~ Copyright (c) Docprocess S.R.L. 2013. All Rights Reserved.
+  ~
+  ~ No part of software may be distributed or reproduced without
+  ~ Docprocess S.R.L.'s express consent.
+  -->
+<xs:schema
+  xmlns:commons="http://www.doc-process.com/schema/extended/commons"
+  xmlns:invoice="http://www.doc-process.com/schema/extended/invoice"
+  targetNamespace="http://www.doc-process.com/schema/extended/invoice"
+  version="1.1"
+  id="invoice"
+  xmlns:xs="http://www.w3.org/2001/XMLSchema"
+>
+  <xs:import
+    schemaLocation="docxchange-commons.xsd"
+    id="commons"
+    namespace="http://www.doc-process.com/schema/extended/commons"
+  />
+  <xs:element name="DXInvoice">
+    <xs:annotation>
+      <xs:documentation>The invoice itself</xs:documentation>
+    </xs:annotation>
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="Invoice" type="invoice:InvoiceType">
+          <xs:annotation>
+            <xs:documentation>Invoice data</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element name="InvoiceLine" type="invoice:InvoiceLineType" maxOccurs="unbounded">
+          <xs:annotation>
+            <xs:documentation>Invoice line data</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:complexType name="InvoiceType">
+    <xs:annotation>
+      <xs:documentation>Invoice Type</xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element name="CustomizationID" type="xs:string" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>DocProcess internal field used for client customisation profiles</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="ProfileID" type="xs:string" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>DocProcess internal field used for client profiles</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="ID" type="xs:string">
+        <xs:annotation>
+          <xs:documentation>Invoice number</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="CopyIndicator">
+        <xs:annotation>
+          <xs:documentation>
+            False if original invoice, true if duplicate. The value is "FALSE" in the format issued by the supplier and
+            "TRUE" in the DX format and Client format.
+          </xs:documentation>
+        </xs:annotation>
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:enumeration value="TRUE" />
+            <xs:enumeration value="FALSE" />
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+      <xs:element name="UUID" type="xs:string" minOccurs="0" maxOccurs="1">
+        <xs:annotation>
+          <xs:documentation>DocXchange internal use for unique identification of invoices</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="IssueDate" type="xs:date">
+        <xs:annotation>
+          <xs:documentation>Invoice Release Date</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="IssueTime" type="xs:time" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>Invoice release time</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="InvoiceTypeCode" type="xs:string" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            Conform UNCEFACT d13a http://www.unece.org/trade/untdid/d13a/tred/tred1001.htm
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="Note" type="xs:string" minOccurs="0" maxOccurs="unbounded">
+        <xs:annotation>
+          <xs:documentation>Comments. Example: "Plata la incasare"</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="DocumentCurrencyCode" type="commons:CurrencyType" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>Invoice Currency</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="TaxCurrencyCode" type="commons:CurrencyType" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>The currency used for tax amounts in the Invoice.</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="PricingCurrencyCode" type="commons:CurrencyType" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>The currency used for prices in the Invoice.</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="PaymentCurrencyCode" type="commons:CurrencyType" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>The currency used for payment in the Invoice.</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="PaymentAlternativeCurrencyCode" type="commons:CurrencyType" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>The alternative currency used for payment in the Invoice.</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="LineCountNumeric">
+        <xs:annotation>
+          <xs:documentation>Invoice lines number</xs:documentation>
+        </xs:annotation>
+        <xs:simpleType>
+          <xs:restriction base="xs:int">
+            <xs:minInclusive value="1" />
+            <xs:maxInclusive value="9999" />
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+      <xs:element name="OrderReference" type="commons:DocumentReference" minOccurs="0" maxOccurs="unbounded">
+        <xs:annotation>
+          <xs:documentation>Original order reference</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="BillingReference" type="commons:DocumentReference" minOccurs="0" maxOccurs="unbounded">
+        <xs:annotation>
+          <xs:documentation>Original invoice reference</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="DespatchDocumentReference" type="commons:DocumentReference" minOccurs="0" maxOccurs="unbounded">
+        <xs:annotation>
+          <xs:documentation>Original delivery reference (Supplier delivery reference)</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="ReceiptDocumentReference" type="commons:DocumentReference" minOccurs="0" maxOccurs="unbounded">
+        <xs:annotation>
+          <xs:documentation>
+            An associative reference to Receipt Advice (Supplier delivery associative reference)
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element
+        name="StatementDocumentReference"
+        type="commons:DocumentReference"
+        minOccurs="0"
+        maxOccurs="unbounded"
+      >
+        <xs:annotation>
+          <xs:documentation>A reference to a Statement associated with this document.</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element
+        name="OriginatorDocumentReference"
+        type="commons:DocumentReference"
+        minOccurs="0"
+        maxOccurs="unbounded"
+      >
+        <xs:annotation>
+          <xs:documentation>A reference to an originator document associated with this document.</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="ContractDocumentReference" type="commons:DocumentReference" minOccurs="0" maxOccurs="unbounded">
+        <xs:annotation>
+          <xs:documentation>An associative reference to Contract</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element
+        name="AdditionalDocumentReference"
+        type="commons:DocumentReference"
+        minOccurs="0"
+        maxOccurs="unbounded"
+      >
+        <xs:annotation>
+          <xs:documentation>An associative reference to Additional Document</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="AccountingSupplierParty">
+        <xs:annotation>
+          <xs:documentation>Supplier identification</xs:documentation>
+        </xs:annotation>
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="CustomerAssignedAccountID" type="xs:string" minOccurs="0">
+              <xs:annotation>
+                <xs:documentation>An identifier for this supplier party, assigned by the customer.</xs:documentation>
+              </xs:annotation>
+            </xs:element>
+            <xs:element name="AdditionalAccountID" type="xs:string" minOccurs="0" maxOccurs="unbounded">
+              <xs:annotation>
+                <xs:documentation>An additional identifier for this supplier party.</xs:documentation>
+              </xs:annotation>
+            </xs:element>
+            <xs:element name="Party" type="commons:PartyType">
+              <xs:annotation>
+                <xs:documentation>Issuer description</xs:documentation>
+              </xs:annotation>
+            </xs:element>
+            <xs:element name="DespatchContact" type="commons:PersonType" minOccurs="0">
+              <xs:annotation>
+                <xs:documentation>A contact at the supplier party for despatches (pickups).</xs:documentation>
+              </xs:annotation>
+            </xs:element>
+            <xs:element name="AccountingContact" type="commons:PersonType" minOccurs="0">
+              <xs:annotation>
+                <xs:documentation>Party accounting service main contact</xs:documentation>
+              </xs:annotation>
+            </xs:element>
+            <xs:element name="SellerContact" type="commons:PersonType" minOccurs="0">
+              <xs:annotation>
+                <xs:documentation>An association to Seller Contact.</xs:documentation>
+              </xs:annotation>
+            </xs:element>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="AccountingCustomerParty">
+        <xs:annotation>
+          <xs:documentation>Invoice receiver description</xs:documentation>
+        </xs:annotation>
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="CustomerAssignedAccountID" type="xs:string" minOccurs="0">
+              <xs:annotation>
+                <xs:documentation>
+                  An identifier for the customer's account, assigned by the customer itself.
+                </xs:documentation>
+              </xs:annotation>
+            </xs:element>
+            <xs:element name="SupplierAssignedAccountID" type="xs:string" minOccurs="0">
+              <xs:annotation>
+                <xs:documentation>
+                  Account Identifier. An identifier for the customer's account, assigned by the supplier.
+                </xs:documentation>
+              </xs:annotation>
+            </xs:element>
+            <xs:element name="AdditionalAccountID" type="xs:string" minOccurs="0" maxOccurs="unbounded">
+              <xs:annotation>
+                <xs:documentation>
+                  An identifier for the customer's account, assigned by a third party.
+                </xs:documentation>
+              </xs:annotation>
+            </xs:element>
+            <xs:element name="Party" type="commons:PartyType">
+              <xs:annotation>
+                <xs:documentation>The customer party itself.</xs:documentation>
+              </xs:annotation>
+            </xs:element>
+            <xs:element name="DeliveryContact" type="commons:PersonType" minOccurs="0" maxOccurs="1">
+              <xs:annotation>
+                <xs:documentation>A customer contact for deliveries.</xs:documentation>
+              </xs:annotation>
+            </xs:element>
+            <xs:element name="AccountingContact" type="commons:PersonType" minOccurs="0" maxOccurs="1">
+              <xs:annotation>
+                <xs:documentation>A customer contact for accounting.</xs:documentation>
+              </xs:annotation>
+            </xs:element>
+            <xs:element name="BuyerContact" type="commons:PersonType" minOccurs="0" maxOccurs="1">
+              <xs:annotation>
+                <xs:documentation>An association to Buyer Contact.</xs:documentation>
+              </xs:annotation>
+            </xs:element>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="Delivery" type="commons:DeliveryType" minOccurs="0" maxOccurs="unbounded">
+        <xs:annotation>
+          <xs:documentation>Deliveries description</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="PaymentMeans" type="commons:PaymentMeansType" minOccurs="0" maxOccurs="unbounded">
+        <xs:annotation>
+          <xs:documentation>Expected means of payment.</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="PaymentTerms" type="commons:PaymentTermsType" minOccurs="0" maxOccurs="unbounded">
+        <xs:annotation>
+          <xs:documentation>A set of payment terms associated with this document.</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="PrepaidPayment" minOccurs="0" maxOccurs="unbounded">
+        <xs:annotation>
+          <xs:documentation>A prepaid payment.</xs:documentation>
+        </xs:annotation>
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="ID" type="xs:string" minOccurs="0" maxOccurs="1">
+              <xs:annotation>
+                <xs:documentation>Advance no</xs:documentation>
+              </xs:annotation>
+            </xs:element>
+            <xs:element name="PaidAmount" type="commons:AmountType" minOccurs="0" maxOccurs="1">
+              <xs:annotation>
+                <xs:documentation>Amount of the advance</xs:documentation>
+              </xs:annotation>
+            </xs:element>
+            <xs:element name="ReceivedDate" type="xs:date" minOccurs="0" maxOccurs="1">
+              <xs:annotation>
+                <xs:documentation>Reception date of the advance</xs:documentation>
+              </xs:annotation>
+            </xs:element>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="AllowanceCharge" type="commons:AllowanceChargeType" minOccurs="0" maxOccurs="unbounded">
+        <xs:annotation>
+          <xs:documentation>A discount or charge that applies to a price component.</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="TaxExchangeRate" type="commons:ExchangeRateType" minOccurs="0" maxOccurs="1">
+        <xs:annotation>
+          <xs:documentation>
+            An association to Exchange Rate between the Document Currency and the Tax Currency.
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="PricingExchangeRate" type="commons:ExchangeRateType" minOccurs="0" maxOccurs="1">
+        <xs:annotation>
+          <xs:documentation>
+            An association to Exchange Rate between the Document Currency and the Pricing Currency
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="PaymentExchangeRate" type="commons:ExchangeRateType" minOccurs="0" maxOccurs="1">
+        <xs:annotation>
+          <xs:documentation>
+            An association to Exchange Rate between the Document Currency and the Payment Currency.
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="PaymentAlternativeExchangeRate" type="commons:ExchangeRateType" minOccurs="0" maxOccurs="1">
+        <xs:annotation>
+          <xs:documentation>
+            An association to Exchange Rate between the Document Currency and the Payment Alternative Currency.
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="TaxTotal" type="commons:TaxTotalType" minOccurs="0" maxOccurs="unbounded">
+        <xs:annotation>
+          <xs:documentation>VAT bases and taxes</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="LegalMonetaryTotal">
+        <xs:annotation>
+          <xs:documentation>Data about the amounts of the invoice</xs:documentation>
+        </xs:annotation>
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="LineExtensionAmount" type="commons:AmountType" minOccurs="0" maxOccurs="1">
+              <xs:annotation>
+                <xs:documentation>Total without taxes before discounts</xs:documentation>
+              </xs:annotation>
+            </xs:element>
+            <xs:element name="TaxExclusiveAmount" type="commons:AmountType" minOccurs="0">
+              <xs:annotation>
+                <xs:documentation>
+                  The monetary amount of an extended transaction line, exclusive of taxes.
+                </xs:documentation>
+              </xs:annotation>
+            </xs:element>
+            <xs:element name="TaxInclusiveAmount" type="commons:AmountType" minOccurs="0">
+              <xs:annotation>
+                <xs:documentation>
+                  The monetary amount including taxes; the sum of payable amount and prepaid amount.
+                </xs:documentation>
+              </xs:annotation>
+            </xs:element>
+            <xs:element name="AllowanceTotalAmount" type="commons:AmountType" minOccurs="0" maxOccurs="1">
+              <xs:annotation>
+                <xs:documentation>The total monetary amount of all allowances.</xs:documentation>
+              </xs:annotation>
+            </xs:element>
+            <xs:element name="ChargeTotalAmount" type="commons:AmountType" minOccurs="0" maxOccurs="1">
+              <xs:annotation>
+                <xs:documentation>The total monetary amount of all charges.</xs:documentation>
+              </xs:annotation>
+            </xs:element>
+            <xs:element name="PrepaidAmount" type="commons:AmountType" minOccurs="0" maxOccurs="1">
+              <xs:annotation>
+                <xs:documentation>The total prepaid monetary amount.</xs:documentation>
+              </xs:annotation>
+            </xs:element>
+            <xs:element name="PayableRoundingAmount" type="commons:AmountType" minOccurs="0" maxOccurs="1">
+              <xs:annotation>
+                <xs:documentation>
+                  The rounding amount (positive or negative) added to produce the line extension amount.
+                </xs:documentation>
+              </xs:annotation>
+            </xs:element>
+            <xs:element name="PayableAmount" type="commons:AmountType" minOccurs="0">
+              <xs:annotation>
+                <xs:documentation>
+                  Amount net to be payed (Total with all taxes included - Total advances)
+                </xs:documentation>
+              </xs:annotation>
+            </xs:element>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="InvoiceLineType">
+    <xs:annotation>
+      <xs:documentation>Invoice line type</xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element name="ID">
+        <xs:annotation>
+          <xs:documentation>An identifier for the invoice line.</xs:documentation>
+        </xs:annotation>
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:minLength value="1" />
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+      <xs:element name="Note" type="xs:string" minOccurs="0" maxOccurs="unbounded" />
+      <xs:element name="InvoicedQuantity" type="commons:QuantityType">
+        <xs:annotation>
+          <xs:documentation>The quantity (of items) on this invoice line.</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="LineExtensionAmount" type="xs:string">
+        <xs:annotation>
+          <xs:documentation>
+            The total amount for this invoice line, including allowance charges but net of taxes.
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="TaxInclusiveAmount" type="xs:string" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>Invoice line total amount including taxes</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="TaxPointDate" type="xs:date" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            The date of this invoice line, used to indicate the point at which tax becomes applicable.
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="AccountingCostCode" type="xs:string" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            The buyer's accounting cost centre for this invoice line, expressed as a code.
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="AccountingCost" type="xs:string" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            The buyer's accounting cost centre for this invoice line, expressed as text.
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="FreeOfChargeIndicator" type="xs:string" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            An indicator that this invoice line is free of charge (true) or not (false). The default is false.
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="OrderLineReference" type="commons:DocumentReference" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>A reference to an order line associated with this invoice line.</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="DispatchLineReference" type="commons:DocumentReference" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>A reference to a despatch line associated with this invoice line.</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="ReceiptLineReference" type="commons:DocumentReference" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>A reference to a receipt line associated with this invoice line.</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="BillingReference" type="commons:DocumentReference" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>A reference to a billing document associated with this invoice line.</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="DocumentReference" type="commons:DocumentReference" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>A reference to a document associated with this invoice line.</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="AllowanceCharge" type="commons:AllowanceChargeType" minOccurs="0" maxOccurs="unbounded">
+        <xs:annotation>
+          <xs:documentation>An allowance or charge associated with this invoice line.</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="Delivery" type="commons:DeliveryType" minOccurs="0" maxOccurs="unbounded" />
+      <xs:element name="TaxTotal" type="commons:TaxTotalType" minOccurs="0" maxOccurs="unbounded">
+        <xs:annotation>
+          <xs:documentation>
+            A total amount of taxes of a particular kind applicable to this invoice line.
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="Item" type="commons:ItemType" minOccurs="0" maxOccurs="1">
+        <xs:annotation>
+          <xs:documentation>Product/service description</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="Price" type="commons:PriceType" minOccurs="0" maxOccurs="1">
+        <xs:annotation>
+          <xs:documentation>The price of the item associated with this invoice line.</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+</xs:schema>
