@@ -5,13 +5,18 @@
 
 import logging
 
-from odoo import models
+from odoo import api, models
 
 _logger = logging.getLogger(__name__)
 
 
 class AccountMove(models.Model):
     _inherit = "account.move"
+
+    @api.model_create_multi
+    def create(self, vals_list):
+        vals_list = [value for value in vals_list if value != []]
+        return super(AccountMove, self).create(vals_list)
 
     def _stock_account_prepare_anglo_saxon_out_lines_vals(self):
         # nu se mai face descarcarea de gestiune la facturare
