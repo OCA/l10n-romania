@@ -34,15 +34,10 @@ class ProductTemplate(models.Model):
         _logger.info(valued_type)
 
         # in nir si factura se ca utiliza 408
-        if valued_type in [
-            "reception_notice",
-            "invoice_in_notice",
-        ]:
+        if valued_type in ["reception_notice", "invoice_in_notice"]:
             if stock_picking_payable_account_id:
                 accounts["stock_input"] = stock_picking_payable_account_id
-        elif valued_type in [
-            "reception_notice_return",
-        ]:
+        elif valued_type in ["reception_notice_return"]:
             if stock_picking_payable_account_id:
                 accounts["stock_output"] = stock_picking_payable_account_id
         # in aviz si factura client se va utiliza 418
@@ -53,12 +48,12 @@ class ProductTemplate(models.Model):
                 accounts["income"] = stock_picking_receivable_account_id
 
         # in Romania iesirea din stoc de face de regula pe contul de cheltuiala
-        elif valued_type in [
-            "delivery_notice",
-        ]:
+        elif valued_type in ["delivery_notice"]:
             accounts["stock_output"] = accounts["expense"]
-        elif valued_type in [
-            "delivery_notice_return",
-        ]:
+        elif valued_type in ["delivery_notice_return"]:
             accounts["stock_input"] = accounts["stock_output"] = accounts["expense"]
+        elif valued_type in ["dropshipped"]:
+            if stock_picking_payable_account_id:
+                accounts["stock_input"] = stock_picking_payable_account_id
+            accounts["stock_output"] = accounts["expense"]
         return accounts
