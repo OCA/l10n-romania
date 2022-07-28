@@ -6,5 +6,6 @@ from odoo import fields, models
 class ResCompany(models.Model):
     _inherit = "res.company"
 
-    l10n_ro_edi_access_token = fields.Char(string="Token")
+    l10n_ro_edi_access_token = fields.Char(string="Access Token")
     l10n_ro_edi_test_mode = fields.Boolean(string="Test mode", default=True)
+    l10n_ro_edi_manual = fields.Boolean(string="Manual submission", default=True)
