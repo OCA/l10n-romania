@@ -3,7 +3,7 @@
 {
     "name": "Romania - EDI UBL",
     "license": "AGPL-3",
-    "version": "13.0.0.0.1",
+    "version": "13.0.0.1.0",
     "author": "Terrabit," "Odoo Community Association (OCA)",
     "website": "https://github.com/OCA/l10n-romania",
     "category": "Tools",
