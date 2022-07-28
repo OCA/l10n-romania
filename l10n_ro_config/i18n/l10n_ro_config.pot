@@ -83,14 +83,14 @@ msgstr ""
 
 #. module: l10n_ro_config
 #: model_terms:ir.ui.view,arch_db:l10n_ro_config.res_config_settings_view_form
-msgid ""
-"Adds location in_custody, usage_giving,consume\n"
-"                                    *merchandise_type:store,warehouse"
+msgid "Addresses"
 msgstr ""
 
 #. module: l10n_ro_config
 #: model_terms:ir.ui.view,arch_db:l10n_ro_config.res_config_settings_view_form
-msgid "Adresses"
+msgid ""
+"Adds location in_custody, usage_giving,consume\n"
+"                                    *merchandise_type:store,warehouse"
 msgstr ""
 
 #. module: l10n_ro_config
