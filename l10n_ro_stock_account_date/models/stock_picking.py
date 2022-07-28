@@ -9,7 +9,6 @@ class StockPicking(models.Model):
     _inherit = "stock.picking"
 
     accounting_date = fields.Datetime(
-        "Accounting Date",
         copy=False,
         help="If this field is set, the svl and accounting entiries will "
         "have this date, If not will have the today date as it should be",
@@ -25,8 +24,9 @@ class StockPicking(models.Model):
                     raise ValidationError(
                         _(
                             "You can not have a Accounting date=%s for picking "
-                            "bigger than today!" % picking.accounting_date.date()
+                            "bigger than today!"
                         )
+                        % picking.accounting_date.date()
                     )
                 picking.write(
                     {
