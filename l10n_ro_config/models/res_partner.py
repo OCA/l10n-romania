@@ -41,7 +41,7 @@ class ResPartner(models.Model):
         if vat and vat.isdigit():
             vat_number = vat
             partner = self.search([("vat", "=", vat)], limit=1)
-            if partner and partner.country_id:
+            if partner and partner.country_id and partner.country_id.code:
                 vat_country = self._map_vat_country_code(
                     partner.country_id.code.upper()
                 ).lower()
