@@ -250,8 +250,8 @@ class AccountPeriodClosing(models.Model):
                     "name": "Closing " + closing.name + " " + str(debit_acc.code),
                     "move_id": move.id,
                     "account_id": debit_acc.id,
-                    "credit": new_amount,
-                    "debit": 0.0,
+                    "credit": new_amount if new_amount > 0 else 0,
+                    "debit": -new_amount if new_amount < 0 else 0,
                 }
 
                 line_values += [diff_line]
@@ -260,8 +260,8 @@ class AccountPeriodClosing(models.Model):
                     "name": "Closing " + closing.name + " " + str(credit_acc.code),
                     "move_id": move.id,
                     "account_id": credit_acc.id,
-                    "credit": 0.0,
-                    "debit": new_amount,
+                    "credit": 0.0 - new_amount if new_amount < 0 else 0,
+                    "debit": new_amount if new_amount > 0 else 0,
                 }
 
                 line_values += [diff_line]
