@@ -25,6 +25,7 @@
             					<field name="create_date"/>
             					<field name="svl_src_id"/>
             					<field name="quantity" sum="Total Quantity"/>
+            					<field name="value" sum="Total Value"/>
             				</tree>
             			</field>
                         <label for="svl_src_ids"/>
@@ -45,6 +46,7 @@
             					<field name="create_date"/>
             					<field name="svl_dest_id"/>
             					<field name="quantity" sum="Total Quantity"/>
+            					<field name="value" sum="Total Value"/>
             				</tree>
             			</field>
                         <label for="svl_dest_ids"/>

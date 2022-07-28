@@ -7,21 +7,7 @@ from odoo.tools import float_is_zero, float_repr
 class ProductFifo(models.Model):
     _inherit = "product.product"
     
-    def _prepare_out_svl_vals(self, quantity, company):
-        return super(ProductFifo, self)._prepare_out_svl_vals(quantity, company)
-
-    def _prepare_in_svl_vals(self, quantity, unit_cost):
-        """Prepare the values for a stock valuation layer created by a receipt."""
-        return super(ProductFifo, self)._prepare_in_svl_vals(quantity, unit_cost)
-
-    # pentru simetrie si uniformitate, ave, ambele metode in/out de prepare
-    def _prepare_in_svl_vals_ro(self, quantity, unit_cost):
-        return [self._prepare_in_svl_vals(quantity, unit_cost)]
-
-
     # Adaptare din odoo.addons.stock_account.models.product
-    # din pacate  poetul nu a permis inherit in functie
-    # trebuie sa o suprascriem, pentur adaptare de la dict vals la list dict_vals
     def _prepare_out_svl_vals_ro(self, quantity, company):
         """Prepare the values for a stock valuation layer created by a delivery.
 
@@ -63,6 +49,7 @@ class ProductFifo(models.Model):
                 if self.cost_method == 'fifo':
                     vals.update(fifo_vals)
                     # Blocam remaining quantity pe 0, astfel fifo_vacum nu mai reevalueaza
+                    # TODO: de verificat
                     vals['remaining_qty'] = 0
                 vals_list.append(vals)
         else:
@@ -113,7 +100,7 @@ class ProductFifo(models.Model):
         for candidate in candidates:
             qty_taken_on_candidate = min(qty_to_take_on_candidates, candidate.remaining_qty)
 
-            candidate_unit_cost = candidate.unit_cost #candidate.remaining_value / candidate.remaining_qty
+            candidate_unit_cost = candidate.remaining_value / candidate.remaining_qty
             new_standard_price = candidate_unit_cost
             value_taken_on_candidate = qty_taken_on_candidate * candidate_unit_cost
             value_taken_on_candidate = candidate.currency_id.round(value_taken_on_candidate)
@@ -125,7 +112,7 @@ class ProductFifo(models.Model):
             }
 
             candidate.write(candidate_vals)
-            track_svl = [(candidate.id, qty_taken_on_candidate)]
+            track_svl = [(candidate.id, qty_taken_on_candidate, value_taken_on_candidate)]
 
             qty_to_take_on_candidates -= qty_taken_on_candidate
             tmp_value += value_taken_on_candidate

@@ -37,10 +37,11 @@ class StockValuationLayer(models.Model):
         if value.get('tracking', None):
             self._create_tracking(value.get('tracking'))
 
-    def _tracking_merge_value(self, svl_id, quantity):
+    def _tracking_merge_value(self, svl_id, quantity, value):
         return {
             'svl_src_id': svl_id,
             'quantity': quantity,
+            'value': value,
             }
 
     def _prepare_tracking_value(self, source_svl_qty):
