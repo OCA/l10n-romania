@@ -13,19 +13,21 @@ class TestPartnerVATSubjected(common.SavepointCase):
 
 
 class TestPartnerVAT(TestPartnerVATSubjected):
-    def test_onchange_vat_subjected(self):
+    def test_onchange_l10n_ro_vat_subjected(self):
         """Check onchange vat subjected and country."""
-        # test setting vat_subjected as True
+        # test setting l10n_ro_vat_subjected as True
         self.mainpartner.vat = "4264242"
         self.mainpartner.country_id = self.env.ref("base.ro")
-        self.mainpartner.vat_subjected = True
-        self.mainpartner.onchange_vat_subjected()
-        # Test setting vat_subjected as False
+        self.mainpartner.l10n_ro_vat_subjected = True
+        self.mainpartner.onchange_l10n_ro_vat_subjected()
+        # Test setting l10n_ro_vat_subjected as False
         self.assertEqual(self.mainpartner.vat, "RO4264242")
-        self.mainpartner.vat_subjected = False
-        self.mainpartner.onchange_vat_subjected()
-        self.assertEqual(self.mainpartner.vat, "4264242")
+        self.mainpartner.l10n_ro_vat_subjected = False
+        self.mainpartner.onchange_l10n_ro_vat_subjected()
+        self.assertEqual(self.mainpartner.vat, "RO4264242")
         # Check split vat with no country code in vat
-        vat_country, vat_number = self.mainpartner._split_vat(self.mainpartner.vat)
+        vat_country, l10n_ro_vat_number = self.mainpartner._split_vat(
+            self.mainpartner.vat
+        )
         self.assertEqual(vat_country, "ro")
-        self.assertEqual(vat_number, "4264242")
+        self.assertEqual(l10n_ro_vat_number, "4264242")

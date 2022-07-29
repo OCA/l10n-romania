@@ -132,7 +132,9 @@ class AccountMoveLine(models.Model):
         return self.env["stock.landed.cost"].create(vals)
 
     def _get_or_create_price_difference_product(self):
-        price_diff_product = self.company_id.property_stock_price_difference_product_id
+        price_diff_product = (
+            self.company_id.l10n_ro_property_stock_price_difference_product_id
+        )
         if not price_diff_product:
             serv_acc = self.env["account.account"].search(
                 [
@@ -152,7 +154,7 @@ class AccountMoveLine(models.Model):
                 }
             )
 
-            self.company_id.property_stock_price_difference_product_id = (
+            self.company_id.l10n_ro_property_stock_price_difference_product_id = (
                 price_diff_product
             )
 

@@ -1,0 +1,24 @@
+# Copyright 2022 NextERP Romania
+# License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html)
+
+from odoo import fields, models
+
+
+class L10nRoMixin(models.AbstractModel):
+    _name = "l10n.ro.mixin"
+    _description = (
+        "Mixin model for applying to any object that use " "Romanian Accounting"
+    )
+
+    is_l10n_ro_record = fields.Boolean(
+        string="Is Romanian Record",
+        compute="_compute_is_l10n_ro_record",
+        readonly=False,
+    )
+
+    def _compute_is_l10n_ro_record(self):
+        self.ensure_one()
+        has_company = "company_id" in self.env[self._name]._fields
+        has_company = has_company and self.company_id
+        company = self.company_id if has_company else self.env.company
+        return company.l10n_ro_accounting

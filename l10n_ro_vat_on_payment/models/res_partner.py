@@ -13,12 +13,12 @@ from odoo.tools import DEFAULT_SERVER_DATE_FORMAT as DATE_FORMAT
 class ResPartner(models.Model):
     _inherit = "res.partner"
 
-    @api.depends("vat_number")
+    @api.depends("l10n_ro_vat_number")
     def _compute_anaf_history(self):
         for partner in self:
-            if partner.vat_number:
+            if partner.l10n_ro_vat_number:
                 history = self.env["res.partner.anaf"].search(
-                    [("vat", "=", partner.vat_number)]
+                    [("vat", "=", partner.l10n_ro_vat_number)]
                 )
                 partner.anaf_history = [(6, 0, [line.id for line in history])]
             else:
@@ -40,17 +40,17 @@ class ResPartner(models.Model):
             if strdate != "":
                 return datetime.strptime(str(strdate), "%Y%m%d").strftime(DATE_FORMAT)
 
-        vat_numbers = [
-            p.vat_number
+        l10n_ro_vat_numbers = [
+            p.l10n_ro_vat_number
             for p in self
             if p.vat and p.vat.lower().startswith("ro") and p.vat[2:].isnumeric()
         ]
-        if vat_numbers == []:
+        if l10n_ro_vat_numbers == []:
             return
         anaf_obj = self.env["res.partner.anaf"]
         data_dir = tools.config["data_dir"]
         istoric = os.path.join(data_dir, "istoric.txt")
-        vat_regex = "^[0-9]+#(%s)#" % "|".join(vat_numbers)
+        vat_regex = "^[0-9]+#(%s)#" % "|".join(l10n_ro_vat_numbers)
         anaf_data = Popen(["egrep", vat_regex, istoric], stdout=PIPE)
         (process_lines, _) = anaf_data.communicate()
         process_lines = [x.split("#") for x in process_lines.decode().strip().split()]

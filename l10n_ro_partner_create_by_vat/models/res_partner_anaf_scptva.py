@@ -24,9 +24,9 @@ class ResPartnerAnafScptva(models.Model):
     # def create(self, vals):
     #     res = super().create(vals)
     #     for record in res:
-    #         if record.vat_number:
+    #         if record.l10n_ro_vat_number:
     #             record.partner_id = self.env["res.partner"].search(
-    #                 [("vat_number", "=", record.vat_number)]
+    #                 [("l10n_ro_vat_number", "=", record.l10n_ro_vat_number)]
     #             )
     #     return res
 
@@ -35,6 +35,6 @@ class ResPartnerAnafScptva(models.Model):
         for record in self:
             if record.vat_number:
                 record.partner_id = self.env["res.partner"].search(
-                    [("vat_number", "=", record.vat_number)]
+                    [("l10n_ro_vat_number", "=", record.vat_number)], limit=1
                 )
         return res

@@ -22,7 +22,7 @@ class TestCreatePartner(TestCreatePartnerBase):
         if not error and result:
             res = self.mainpartner._Anaf_to_Odoo(result)
             self.assertEqual(res["name"], "FOREST AND BIOMASS ROMÂNIA S.A.")
-            self.assertEqual(res["vat_subjected"], True)
+            self.assertEqual(res["l10n_ro_vat_subjected"], True)
             self.assertEqual(res["company_type"], "company")
             self.assertEqual(res["nrc"], "J35/2622/2012")
             self.assertEqual(res["street"], "Str. Ciprian Porumbescu Nr. 12")
@@ -88,30 +88,32 @@ class TestCreatePartner(TestCreatePartnerBase):
         self.assertEqual(self.mainpartner.city, "Sector 3")
         self.assertEqual(self.mainpartner.country_id, self.env.ref("base.ro"))
         self.assertEqual(self.mainpartner.vat, "RO4264242")
-        self.mainpartner.onchange_vat_subjected()
+        self.mainpartner.onchange_l10n_ro_vat_subjected()
         self.assertEqual(self.mainpartner.vat, "RO4264242")
-        self.assertEqual(self.mainpartner.vat_subjected, True)
+        self.assertEqual(self.mainpartner.l10n_ro_vat_subjected, True)
         # Check address from vat without country code - no vat subjected
-        self.mainpartner.vat_subjected = False
+        self.mainpartner.l10n_ro_vat_subjected = False
         self.mainpartner.vat = "RO36525532"
         self.mainpartner.ro_vat_change()
-        self.mainpartner.onchange_vat_subjected()
+        self.mainpartner.onchange_l10n_ro_vat_subjected()
         self.assertEqual(self.mainpartner.name, "COLOR 4 YOU S.R.L.")
         self.assertEqual(self.mainpartner.street, "Str. Voinicilor")
         self.assertEqual(self.mainpartner.state_id, self.env.ref("base.RO_AR"))
         self.assertEqual(self.mainpartner.city, "Arad")
         self.assertEqual(self.mainpartner.country_id, self.env.ref("base.ro"))
         self.assertEqual(self.mainpartner.vat, "36525532")
-        self.assertEqual(self.mainpartner.vat_subjected, False)
+        self.assertEqual(self.mainpartner.l10n_ro_vat_subjected, False)
         # Check split vat with no country code in vat
-        vat_country, vat_number = self.mainpartner._split_vat(self.mainpartner.vat)
+        vat_country, l10n_ro_vat_number = self.mainpartner._split_vat(
+            self.mainpartner.vat
+        )
         self.assertEqual(vat_country, "ro")
-        self.assertEqual(vat_number, "36525532")
+        self.assertEqual(l10n_ro_vat_number, "36525532")
         # Check vat subjected onchange
-        self.mainpartner.vat_subjected = True
-        self.mainpartner.onchange_vat_subjected()
+        self.mainpartner.l10n_ro_vat_subjected = True
+        self.mainpartner.onchange_l10n_ro_vat_subjected()
         self.mainpartner.ro_vat_change()
-        self.assertEqual(self.mainpartner.vat_subjected, False)
+        self.assertEqual(self.mainpartner.l10n_ro_vat_subjected, False)
 
     def test_anaf_no_data(self):
         """if a invalid vat will return a empty dictionary."""

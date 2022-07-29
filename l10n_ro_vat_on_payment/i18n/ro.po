@@ -154,14 +154,14 @@ msgid "VAT"
 msgstr "TVA"
 
 #. module: l10n_ro_vat_on_payment
-#: model:ir.model.fields,field_description:l10n_ro_vat_on_payment.field_res_partner__vat_number
-#: model:ir.model.fields,field_description:l10n_ro_vat_on_payment.field_res_users__vat_number
+#: model:ir.model.fields,field_description:l10n_ro_vat_on_payment.field_res_partner__l10n_ro_vat_number
+#: model:ir.model.fields,field_description:l10n_ro_vat_on_payment.field_res_users__l10n_ro_vat_number
 msgid "VAT number"
 msgstr "Număr TVA"
 
 #. module: l10n_ro_vat_on_payment
-#: model:ir.model.fields,help:l10n_ro_vat_on_payment.field_res_partner__vat_number
-#: model:ir.model.fields,help:l10n_ro_vat_on_payment.field_res_users__vat_number
+#: model:ir.model.fields,help:l10n_ro_vat_on_payment.field_res_partner__l10n_ro_vat_number
+#: model:ir.model.fields,help:l10n_ro_vat_on_payment.field_res_users__l10n_ro_vat_number
 msgid "VAT number without country code."
 msgstr "Număr TVA fără cod ţară."
 

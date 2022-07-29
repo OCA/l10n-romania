@@ -38,7 +38,7 @@ AnafFiled_OdooField_Overwrite = [
     ("state_id", "state_id", "over_all_the_time"),
     ("zip", "codPostal", "over_all_the_time"),
     ("phone", "telefon", "write_if_empty"),
-    ("caen_code", "cod_CAEN", "over_all_the_time"),
+    ("l10n_ro_caen_code", "cod_CAEN", "over_all_the_time"),
     ("l10n_ro_e_invoice", "statusRO_e_Factura", "over_all_the_time"),
 ]
 
@@ -178,7 +178,7 @@ class ResPartner(models.Model):
             return {}
         res = {
             "name": result["denumire"].upper(),
-            "vat_subjected": result["scpTVA"],
+            "l10n_ro_vat_subjected": result["scpTVA"],
             "company_type": "company",
         }
 
@@ -262,14 +262,14 @@ class ResPartner(models.Model):
             if not self.vat:
                 return res
             vat = self.vat.strip().upper()
-            original_vat_country, vat_number = self._split_vat(vat)
+            original_vat_country, l10n_ro_vat_number = self._split_vat(vat)
             vat_country = original_vat_country.upper()
             if not vat_country and self.country_id:
                 vat_country = self._map_vat_country_code(self.country_id.code.upper())
-                if not vat_number:
-                    vat_number = self.vat
+                if not l10n_ro_vat_number:
+                    l10n_ro_vat_number = self.vat
             if vat_country == "RO":
-                anaf_error, result = self._get_Anaf(vat_number)
+                anaf_error, result = self._get_Anaf(l10n_ro_vat_number)
                 if not anaf_error:
                     res = self._Anaf_to_Odoo(result)
                     res["country_id"] = (
@@ -277,7 +277,7 @@ class ResPartner(models.Model):
                         .search([("code", "ilike", vat_country)])[0]
                         .id
                     )
-                    # Update ANAF history for vat_subjected and active status
+                    # Update ANAF history for l10n_ro_vat_subjected and active status
                     res = self._update_anaf_status(res, result)
                     res = self._update_anaf_scptva(res, result)
                     self.with_context(skip_ro_vat_change=True).update(res)
