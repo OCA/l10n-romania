@@ -5,6 +5,7 @@
 import logging
 
 from odoo import _, models
+from odoo.tools import float_round
 
 _logger = logging.getLogger(__name__)
 
@@ -32,7 +33,7 @@ class AccountMove(models.Model):
         for invoice in self:
             if invoice.move_type in ["in_invoice", "in_refund"]:
                 invoice_lines = invoice.invoice_line_ids.filtered(
-                    lambda l: not l.display_type
+                    lambda l: not l.display_type and l.purchase_line_id
                 )
                 for line in invoice_lines:
                     add_diff = False
@@ -48,8 +49,11 @@ class AccountMove(models.Model):
                                 (
                                     valuation_stock_moves.mapped("product_id"),
                                     valuation_stock_moves.mapped("picking_id"),
-                                    price_diff,
-                                    qty_diff,
+                                    line.currency_id.round(price_diff),
+                                    float_round(
+                                        qty_diff,
+                                        precision_rounding=line.product_uom_id.rounding,
+                                    ),
                                 )
                             )
 
@@ -103,7 +107,7 @@ class AccountMove(models.Model):
         for invoice in self:
             if invoice.move_type in ["in_invoice", "in_refund"]:
                 invoice_lines = invoice.invoice_line_ids.filtered(
-                    lambda l: not l.display_type
+                    lambda l: not l.display_type and l.purchase_line_id
                 )
                 for line in invoice_lines:
                     add_diff = False
