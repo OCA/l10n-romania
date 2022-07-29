@@ -58,10 +58,10 @@ class AccountMoveLine(models.Model):
         )
         inv_qty = 0
         for line in lines:
-            quantity =  line.product_uom_id._compute_quantity(line.quantity, self.product_id.uom_id )
-            inv_qty += (
-                -1 if line.move_id.move_type == "in_refund" else 1
-            ) * quantity
+            quantity = line.product_uom_id._compute_quantity(
+                line.quantity, self.product_id.uom_id
+            )
+            inv_qty += (-1 if line.move_id.move_type == "in_refund" else 1) * quantity
         if inv_qty * valuation_total_qty:
             accc_balance = sum(lines.mapped("balance")) / inv_qty * valuation_total_qty
         else:
