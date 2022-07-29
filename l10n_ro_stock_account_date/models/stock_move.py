@@ -13,8 +13,8 @@ class StockMove(models.Model):
         if self.picking_id:
             if self.picking_id.accounting_date:
                 new_date = self.picking_id.accounting_date
-        elif self.inventory_id:
-            new_date = self.inventory_id.accounting_date
+        elif self.is_inventory and self.date:
+            new_date = self.date
         elif "raw_material_production_id" in self._fields:
             if self.raw_material_production_id:
                 new_date = self.raw_material_production_id.date_planned_start
@@ -25,15 +25,24 @@ class StockMove(models.Model):
         return new_date
 
     def _action_done(self, cancel_backorder=False):
+        move_dates = {}
+        for move in self.filtered(lambda m: m.is_inventory and m.date):
+            move_dates[move.id] = move.date
         moves_todo = super()._action_done(cancel_backorder=cancel_backorder)
         for move in moves_todo:
-            move.date = move.get_move_date()
+            if not move.is_inventory:
+                move.date = move.get_move_date()
+            if move_dates.get(move.id):
+                move.date = move_dates[move.id]
+            move.stock_valuation_layer_ids.sudo().write({"create_date": move.date})
+            move.account_move_ids.sudo().write({"date": move.date})
         return moves_todo
 
     def _trigger_assign(self):
         res = super()._trigger_assign()
         for move in self:
-            move.date = move.get_move_date()
+            if not move.is_inventory:
+                move.date = move.get_move_date()
         return res
 
     def _get_price_unit(self):
@@ -74,7 +83,7 @@ class StockMove(models.Model):
 
     def _account_entry_move(self, qty, description, svl_id, cost):
         self.ensure_one()
-        val_date = self.get_move_date()
+        val_date = self.get_move_date() or self.date
         self = self.with_context(force_period_date=val_date)
         return super(StockMove, self)._account_entry_move(
             qty, description, svl_id, cost
