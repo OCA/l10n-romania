@@ -25,6 +25,7 @@ class AccountMoveLine(models.Model):
             return diff, qty_diff
 
         valuation_stock_moves = self._get_valuation_stock_moves()
+
         if not valuation_stock_moves:
             return diff, qty_diff
 
