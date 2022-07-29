@@ -10,6 +10,5 @@ class StockMoveLine(models.Model):
     def _action_done(self):
         res = super()._action_done()
         for move_line in self.exists():
-            if move_line.move_id:
-                move_line.date = move_line.move_id.get_move_date()
+            move_line.date = move_line.move_id.get_move_date()
         return res
