@@ -15,16 +15,15 @@ _logger = logging.getLogger(__name__)
 @tagged("post_install", "-at_install")
 class TestStockReport(TestStockCommon):
     def set_stock(self, product, qty):
-        inventory = self.env["stock.inventory"].create(
+        inventory_obj = self.env["stock.quant"].with_context(inventory_mode=True)
+        inventory = inventory_obj.create(
             {
-                "location_ids": [(4, self.location_warehouse.id)],
-                "product_ids": [(4, product.id)],
+                "location_id": self.location_warehouse.id,
+                "product_id": product.id,
+                "inventory_quantity": qty,
             }
         )
-        inventory.action_start()
-
-        inventory.line_ids.product_qty = qty
-        inventory.action_validate()
+        inventory._apply_inventory()
 
     def trasfer(self, location, location_dest, product=None, accounting_date=False):
         self.PickingObj = self.env["stock.picking"]
