@@ -15,13 +15,13 @@ class AccountMoveLine(models.Model):
 
     def get_stock_valuation_difference(self):
         """Se obtine diferenta dintre evaloarea stocului si valoarea din factura"""
-        line = self
+        currency = self.currency_id or self.env.company.currency_id
         diff, qty_diff = 0.0, 0.0
         # Retrieve stock valuation moves.
-        if not line.purchase_line_id:
+        if not self.purchase_line_id:
             return diff, qty_diff
 
-        if line.purchase_line_id.product_id.purchase_method != "receive":
+        if self.purchase_line_id.product_id.purchase_method != "receive":
             return diff, qty_diff
 
         valuation_stock_moves = self._get_valuation_stock_moves()
@@ -46,26 +46,28 @@ class AccountMoveLine(models.Model):
             valuation_total += layers_values
             valuation_total_qty += layers_qty
 
-        precision = line.product_uom_id.rounding or line.product_id.uom_id.rounding
+        precision = self.product_uom_id.rounding or self.product_id.uom_id.rounding
         if float_is_zero(valuation_total_qty, precision_rounding=precision):
             return diff, qty_diff
 
         lines = self.search(
             [
-                ("purchase_line_id", "=", line.purchase_line_id.id),
+                ("purchase_line_id", "=", self.purchase_line_id.id),
                 ("move_id.state", "!=", "cancel"),
             ]
         )
         inv_qty = 0
         for line in lines:
+            quantity =  line.product_uom_id._compute_quantity(line.quantity, self.product_id.uom_id )
             inv_qty += (
                 -1 if line.move_id.move_type == "in_refund" else 1
-            ) * line.quantity
+            ) * quantity
         if inv_qty * valuation_total_qty:
             accc_balance = sum(lines.mapped("balance")) / inv_qty * valuation_total_qty
         else:
             accc_balance = 0
         diff = abs(accc_balance) - valuation_total
+        diff = currency.round(diff)
         qty_diff = inv_qty - valuation_total_qty
         return diff, qty_diff
 
