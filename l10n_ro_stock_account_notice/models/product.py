@@ -53,12 +53,12 @@ class ProductTemplate(models.Model):
                 accounts["income"] = stock_picking_receivable_account_id
 
         # in Romania iesirea din stoc de face de regula pe contul de cheltuiala
-        elif valued_type in [
-            "delivery_notice",
-        ]:
+        elif valued_type in ["delivery_notice"]:
             accounts["stock_output"] = accounts["expense"]
-        elif valued_type in [
-            "delivery_notice_return",
-        ]:
+        elif valued_type in ["delivery_notice_return"]:
             accounts["stock_input"] = accounts["stock_output"] = accounts["expense"]
+        elif valued_type in ["dropshipped"]:
+            if stock_picking_payable_account_id:
+                accounts["stock_input"] = stock_picking_payable_account_id
+            accounts["stock_output"] = accounts["expense"]
         return accounts

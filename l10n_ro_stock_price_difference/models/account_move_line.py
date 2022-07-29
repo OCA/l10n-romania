@@ -16,18 +16,17 @@ class AccountMoveLine(models.Model):
     def get_stock_valuation_difference(self):
         """Se obtine diferenta dintre evaloarea stocului si valoarea din factura"""
         line = self
-
+        diff, qty_diff = 0.0, 0.0
         # Retrieve stock valuation moves.
         if not line.purchase_line_id:
-            return 0.0, 0.0
+            return diff, qty_diff
 
         if line.purchase_line_id.product_id.purchase_method != "receive":
-            return 0.0, 0.0
+            return diff, qty_diff
 
         valuation_stock_moves = self._get_valuation_stock_moves()
-
         if not valuation_stock_moves:
-            return 0.0, 0.0
+            return diff, qty_diff
 
         valuation_total = 0
         valuation_total_qty = 0
@@ -48,7 +47,7 @@ class AccountMoveLine(models.Model):
 
         precision = line.product_uom_id.rounding or line.product_id.uom_id.rounding
         if float_is_zero(valuation_total_qty, precision_rounding=precision):
-            return 0.0, 0.0
+            return diff, qty_diff
 
         lines = self.search(
             [
@@ -66,6 +65,8 @@ class AccountMoveLine(models.Model):
         else:
             accc_balance = 0
         diff = abs(accc_balance) - valuation_total
+        currency = line.currency_id or self.env.company.currency_id
+        diff = currency.round(diff)
         qty_diff = inv_qty - valuation_total_qty
         return diff, qty_diff
 
