@@ -1,15 +1,14 @@
 # Copyright (C) 2022 NextERP Romania SRL
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
-from odoo import _, api, fields, models
-from odoo.exceptions import ValidationError
+from odoo import api, fields, models
 
 
 class StockBackorderConfirmation(models.TransientModel):
     _inherit = "stock.backorder.confirmation"
 
     accounting_date = fields.Datetime(
-        help="If this field is set, the svl and accounting entiries will "
+        help="If this field is set, the svl and accounting entries will "
         "have this date, If not will have the today date as it should be",
         default=fields.Datetime.now(),
     )
@@ -32,13 +31,7 @@ class StockBackorderConfirmation(models.TransientModel):
 
     def process(self):
         if self.accounting_date:
-            if self.accounting_date.date() > fields.date.today():
-                raise ValidationError(
-                    _(
-                        "You can not have a Accounting date=%s for picking bigger than today!"
-                        % self.accounting_date.date()
-                    )
-                )
+            self.check_accounting_date()
             self.pick_ids.write(
                 {
                     "accounting_date": self.accounting_date,
@@ -50,13 +43,7 @@ class StockBackorderConfirmation(models.TransientModel):
     def process_cancel_backorder(self):
         pickings_to_validate = self.env.context.get("button_validate_picking_ids")
         if pickings_to_validate and self.accounting_date:
-            if self.accounting_date.date() > fields.date.today():
-                raise ValidationError(
-                    _(
-                        "You can not have a Accounting date=%s for picking bigger than today!"
-                        % self.accounting_date.date()
-                    )
-                )
+            self.env["stock.picking"].check_accounting_date(self.accounting_date)
             self.env["stock.picking"].browse(pickings_to_validate).write(
                 {
                     "accounting_date": self.accounting_date,
