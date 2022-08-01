@@ -17,8 +17,8 @@ class L10nRoMixin(models.AbstractModel):
     )
 
     def _compute_is_l10n_ro_record(self):
-        self.ensure_one()
-        has_company = "company_id" in self.env[self._name]._fields
-        has_company = has_company and self.company_id
-        company = self.company_id if has_company else self.env.company
-        return company.l10n_ro_accounting
+        for obj in self:
+            has_company = "company_id" in self.env[obj._name]._fields
+            has_company = has_company and obj.company_id
+            company = obj.company_id if has_company else obj.env.company
+            obj.is_l10n_ro_record = company.l10n_ro_accounting
