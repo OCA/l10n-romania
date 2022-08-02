@@ -23,7 +23,6 @@ def pre_init_hook(cr):
 
 
 def store_field_l10n_ro_vat_number(cr):
-
     cr.execute(
         """SELECT column_name
            FROM information_schema.columns
@@ -32,7 +31,7 @@ def store_field_l10n_ro_vat_number(cr):
     if not cr.fetchone():
         cr.execute(
             """
-            ALTER TABLE res_partner ADD COLUMN l10n_ro_vat_number integer;
+            ALTER TABLE res_partner ADD COLUMN l10n_ro_vat_number varchar;
             COMMENT ON COLUMN res_partner.l10n_ro_vat_number IS 'VAT number digits';
             """
         )
