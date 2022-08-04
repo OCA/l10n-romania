@@ -97,4 +97,6 @@ class ResCompany(models.Model):
         self.ensure_one()
         if not company:
             company = self
+        else:
+            company = self.browse(company)
         return company.l10n_ro_accounting
