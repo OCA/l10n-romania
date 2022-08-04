@@ -92,3 +92,9 @@ class ResCompany(models.Model):
         help="This product will be used to create the landed cost"
         "for the price difference between picking and bill",
     )
+
+    def _check_is_l10n_ro_record(self, company=False):
+        self.ensure_one()
+        if not company:
+            company = self
+        return company.l10n_ro_accounting
