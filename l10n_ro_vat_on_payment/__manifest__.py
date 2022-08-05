@@ -9,7 +9,7 @@
         "security/ir.model.access.csv",
         "data/res_partner_anaf_cron.xml",
     ],
-    "depends": ["account", "l10n_ro"],
+    "depends": ["l10n_ro_config"],
     "license": "AGPL-3",
     "version": "14.0.1.3.0",
     "author": "NextERP Romania,"

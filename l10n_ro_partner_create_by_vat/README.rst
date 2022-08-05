@@ -23,10 +23,10 @@ Romania - Partner Create by VAT
     :target: https://runbot.odoo-community.org/runbot/177/14.0
     :alt: Try me on Runbot
 
-|badge1| |badge2| |badge3| |badge4| |badge5| 
+|badge1| |badge2| |badge3| |badge4| |badge5|
 
 This module allows you to create the partners (companies) based on their
-VAT number. It will complete the name, address, phone .. vat_subjected of the partner from ANAF
+VAT number. It will complete the name, address, phone .. l10n_ro_vat_subjected of the partner from ANAF
 webservice.
 
 ANAF
@@ -104,7 +104,7 @@ promote its widespread use.
 
 Current `maintainer <https://odoo-community.org/page/maintainer-role>`__:
 
-|maintainer-feketemihai| 
+|maintainer-feketemihai|
 
 This module is part of the `OCA/l10n-romania <https://github.com/OCA/l10n-romania/tree/14.0/l10n_ro_partner_create_by_vat>`_ project on GitHub.
 

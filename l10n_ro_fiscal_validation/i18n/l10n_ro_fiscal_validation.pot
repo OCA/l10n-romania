@@ -19,8 +19,8 @@ msgid "Contact"
 msgstr ""
 
 #. module: l10n_ro_fiscal_validation
-#: model:ir.actions.server,name:l10n_ro_fiscal_validation.ir_cron_res_partner_vat_subjected_update_every_day_ir_actions_server
-#: model:ir.cron,cron_name:l10n_ro_fiscal_validation.ir_cron_res_partner_vat_subjected_update_every_day
-#: model:ir.cron,name:l10n_ro_fiscal_validation.ir_cron_res_partner_vat_subjected_update_every_day
+#: model:ir.actions.server,name:l10n_ro_fiscal_validation.ir_cron_res_partner_l10n_ro_vat_subjected_update_every_day_ir_actions_server
+#: model:ir.cron,cron_name:l10n_ro_fiscal_validation.ir_cron_res_partner_l10n_ro_vat_subjected_update_every_day
+#: model:ir.cron,name:l10n_ro_fiscal_validation.ir_cron_res_partner_l10n_ro_vat_subjected_update_every_day
 msgid "Update Partner VAT Subjected"
 msgstr ""

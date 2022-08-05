@@ -6,11 +6,21 @@ import os
 from datetime import date, timedelta
 
 from odoo import tools
-from odoo.tests.common import TransactionCase
+from odoo.tests import tagged
+
+from odoo.addons.account.tests.common import AccountTestInvoicingCommon
 
 
-class TestVATonpayment(TransactionCase):
+@tagged("post_install", "-at_install")
+class TestVATonpayment(AccountTestInvoicingCommon):
     """Run test for VAT on payment."""
+
+    @classmethod
+    def setUpClass(cls):
+        ro_template_ref = "l10n_ro.ro_chart_template"
+        super(TestVATonpayment, cls).setUpClass(chart_template_ref=ro_template_ref)
+        cls.env.company.anglo_saxon_accounting = True
+        cls.env.company.l10n_ro_accounting = True
 
     def setUp(self):
         super(TestVATonpayment, self).setUp()
