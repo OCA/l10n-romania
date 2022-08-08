@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <odoo>
     <record id="paperformat_A5_landscape" model="report.paperformat">
-        <field name="name">A5 Landscape</field>
+        <field name="name">L10n RO A5 Landscape</field>
         <field name="default" eval="True" />
         <field name="format">A5</field>
         <field name="page_height">0</field>
