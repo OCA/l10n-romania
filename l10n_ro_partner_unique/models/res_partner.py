@@ -9,22 +9,25 @@ from odoo.exceptions import ValidationError
 class ResPartner(models.Model):
     _inherit = "res.partner"
 
-    @api.model
     def _get_vat_nrc_constrain_domain(self):
-        domain = [
-            ("company_id", "=", self.company_id.id if self.company_id else False),
-            ("parent_id", "=", False),
-            ("vat", "=", self.vat),
-            "|",
-            ("nrc", "=", self.nrc),
-            ("nrc", "=", False),
-        ]
+        self.ensure_one()
+        if self.is_l10n_ro_record:
+            domain = [
+                ("company_id", "=", self.company_id.id if self.company_id else False),
+                ("parent_id", "=", False),
+                ("vat", "=", self.vat),
+                "|",
+                ("nrc", "=", self.nrc),
+                ("nrc", "=", False),
+            ]
+        else:
+            domain = []
         return domain
 
     @api.constrains("vat", "nrc")
     def _check_vat_nrc_unique(self):
         for record in self:
-            if record.vat:
+            if record.vat and record.is_l10n_ro_record:
                 domain = record._get_vat_nrc_constrain_domain()
                 found = self.env["res.partner"].search(domain)
                 if len(found) > 1:
