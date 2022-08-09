@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <!--Communes-->
+    <record model="ir.ui.view" id="view_commune_search">
+        <field name="name">l10n.ro.res.country.commune.search</field>
+        <field name="model">l10n.ro.res.country.commune</field>
+        <field name="arch" type="xml">
+            <search string="Communes">
+                <field name="name" />
+                <field name="siruta" />
+                <field name="state_id" />
+                <field name="zone_id" />
+                <field name="country_id" />
+            </search>
+        </field>
+    </record>
+    <record model="ir.ui.view" id="view_commune_tree">
+        <field name="name">l10n.ro.res.country.commune.tree</field>
+        <field name="model">l10n.ro.res.country.commune</field>
+        <field name="arch" type="xml">
+            <tree string="Communes">
+                <field name="name" />
+                <field name="siruta" />
+                <field name="state_id" />
+                <field name="zone_id" />
+                <field name="country_id" />
+            </tree>
+        </field>
+    </record>
+    <record model="ir.ui.view" id="view_commune_form">
+        <field name="name">l10n.ro.res.country.commune.form</field>
+        <field name="model">l10n.ro.res.country.commune</field>
+        <field name="arch" type="xml">
+            <form string="Commune">
+                <div class="oe_title">
+                    <div class="oe_edit_only">
+                        <label for="name" />
+                    </div>
+                    <h1>
+                        <field name="name" default_focus="1" placeholder="Name" />
+                    </h1>
+                </div>
+                <group>
+                    <group>
+                        <field name="siruta" />
+                        <field name="state_id" />
+                        <field name="zone_id" />
+                        <field name="country_id" />
+                    </group>
+                    <group>
+
+                    </group>
+                </group>
+                <field name="city_ids" />
+            </form>
+        </field>
+    </record>
+    <record model="ir.actions.act_window" id="action_commune">
+        <field name="name">Communes</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">l10n.ro.res.country.commune</field>
+        <field name="view_mode">tree,form</field>
+        <field name="view_id" ref="view_commune_form" />
+        <field name="search_view_id" ref="view_commune_search" />
+    </record>
+    <record id="action_commune_view1" model="ir.actions.act_window.view">
+        <field eval="10" name="sequence" />
+        <field name="view_mode">tree</field>
+        <field name="view_id" ref="view_commune_tree" />
+        <field name="act_window_id" ref="action_commune" />
+    </record>
+    <record id="action_commune_view2" model="ir.actions.act_window.view">
+        <field eval="20" name="sequence" />
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="view_commune_form" />
+        <field name="act_window_id" ref="action_commune" />
+    </record>
+    <record id="menu_commune" model="ir.ui.menu">
+        <field name="name">Communes</field>
+        <field name="action" ref="action_commune" />
+        <field name="parent_id" ref="contacts.menu_localisation" />
+        <field
+            name="groups_id"
+            eval="[(4, ref('base.group_user')),(4, ref('base.group_partner_manager'))]"
+        />
+        <field name="is_l10n_ro_record" eval="True" />
+    </record>
+</odoo>

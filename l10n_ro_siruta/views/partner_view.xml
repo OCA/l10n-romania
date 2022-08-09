@@ -3,49 +3,51 @@
     <data>
         <!-- Partner -->
         <record model="ir.ui.view" id="partners_form_address">
-            <field name="name">partners.form.address</field>
+            <field name="name">l10n.ro.partners.form.address</field>
             <field name="model">res.partner</field>
             <field name="inherit_id" ref="base.view_partner_form" />
             <field eval="100" name="priority" />
             <field name="arch" type="xml">
                 <field name="state_id" position="before">
+                    <field name="is_l10n_ro_record" invisible="1" />
                     <field
-                        name="commune_id"
+                        name="l10n_ro_commune_id"
                         class="o_address_commune"
                         placeholder="City/Commune"
                         options='{"no_open": True}'
-                        attrs="{'readonly': [('type', '=', 'contact'),('parent_id', '!=', False)]}"
+                        attrs="{'readonly': [('type', '=', 'contact'),('parent_id', '!=', False)], 'invisible': [('is_l10n_ro_record','=',False)]}"
                     />
                     <field
-                        name="zone_id"
+                        name="l10n_ro_zone_id"
                         class="o_address_zone"
                         placeholder="Zone"
                         options='{"no_open": True}'
-                        attrs="{'readonly': [('type', '=', 'contact'),('parent_id', '!=', False)]}"
+                        attrs="{'readonly': [('type', '=', 'contact'),('parent_id', '!=', False)], 'invisible': [('is_l10n_ro_record','=',False)]}"
                     />
                 </field>
             </field>
         </record>
         <record model="ir.ui.view" id="partners_short_form_address">
-            <field name="name">partners.short.form.address</field>
+            <field name="name">l10n.ro.partners.short.form.address</field>
             <field name="model">res.partner</field>
             <field name="inherit_id" ref="base.view_partner_address_form" />
             <field eval="18" name="priority" />
             <field name="arch" type="xml">
                 <field name="state_id" position="before">
+                    <field name="is_l10n_ro_record" invisible="1" />
                     <field
-                        name="commune_id"
+                        name="l10n_ro_commune_id"
                         class="o_address_commune"
                         placeholder="City/Commune"
                         options='{"no_open": True}'
-                        attrs="{'readonly': [('type', '=', 'contact'),('parent_id', '!=', False)]}"
+                        attrs="{'readonly': [('type', '=', 'contact'),('parent_id', '!=', False)], 'invisible': [('is_l10n_ro_record','=',False)]}"
                     />
                     <field
-                        name="zone_id"
+                        name="l10n_ro_zone_id"
                         class="o_address_zone"
                         placeholder="Zone"
                         options='{"no_open": True}'
-                        attrs="{'readonly': [('type', '=', 'contact'),('parent_id', '!=', False)]}"
+                        attrs="{'readonly': [('type', '=', 'contact'),('parent_id', '!=', False)], 'invisible': [('is_l10n_ro_record','=',False)]}"
                     />
                 </field>
             </field>
