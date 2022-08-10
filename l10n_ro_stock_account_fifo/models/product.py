@@ -124,6 +124,7 @@ class ProductFifo(models.Model):
                     'value': -value_taken_on_candidate,
                     'unit_cost': new_standard_price,
                     'remaining_qty': -qty_taken_on_candidate,
+                    'quantity': -qty_taken_on_candidate,
                 }
             vals.update({'tracking':track_svl})
             candidate_list.append(vals)

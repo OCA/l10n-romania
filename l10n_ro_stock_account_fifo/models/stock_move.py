@@ -93,7 +93,7 @@ class StockMove(models.Model):
                     tracking = []
                     if move.origin_returned_move_id and move.origin_returned_move_id.sudo().stock_valuation_layer_ids:
                         move_with_context = move.with_context(stock_move_line_id=valued_move_line)
-                        origin_domain = move_with_context.product_id._prepare_domain_fifo([('product_id', '=', self.product_id.id)])
+                        origin_domain = move_with_context.product_id._prepare_domain_fifo([('product_id', '=', valued_move_line.product_id.id)])
                         origin_domain = [
                             ('stock_move_line_id', 'in', move.origin_returned_move_id._get_in_move_lines().ids)
                             ] + origin_domain
