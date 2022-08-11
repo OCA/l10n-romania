@@ -24,6 +24,9 @@ def migrate(cr, version):
             )
             price_diff_module.button_install()
             if hasattr(
-                env["account.move.line"], "_get_or_create_price_difference_product"
+                env["account.move.line"],
+                "_l10n_ro_get_or_create_price_difference_product",
             ):
-                env["account.move.line"]._get_or_create_price_difference_product()
+                env[
+                    "account.move.line"
+                ].l10n_ro_get_or_create_price_difference_product()

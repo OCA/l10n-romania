@@ -24,7 +24,7 @@ class TestStockCommon(TestStockCommon):
         cls.env.company.l10n_ro_accounting = True
         cls.env.company.l10n_ro_stock_acc_price_diff = True
 
-        cls.env["account.move.line"]._get_or_create_price_difference_product()
+        cls.env["account.move.line"]._l10n_ro_get_or_create_price_difference_product()
 
     def create_invoice(self, diff_p1=0, diff_p2=0, quant_p1=0, quant_p2=0):
         invoice = Form(

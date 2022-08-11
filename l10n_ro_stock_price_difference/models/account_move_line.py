@@ -11,9 +11,10 @@ _logger = logging.getLogger(__name__)
 
 
 class AccountMoveLine(models.Model):
-    _inherit = "account.move.line"
+    _name = "account.move.line"
+    _inherit = ["account.move.line", "l10n.ro.mixin"]
 
-    def get_stock_valuation_difference(self):
+    def l10n_ro_get_stock_valuation_difference(self):
         """Se obtine diferenta dintre evaloarea stocului si valoarea din factura"""
         line = self
         diff, qty_diff = 0.0, 0.0
@@ -70,7 +71,7 @@ class AccountMoveLine(models.Model):
         qty_diff = inv_qty - valuation_total_qty
         return diff, qty_diff
 
-    def modify_stock_valuation(self, price_val_dif):
+    def l10n_ro_modify_stock_valuation(self, price_val_dif):
         # se adauga la evaluarea miscarii de stoc
         if not self.purchase_line_id:
             return 0.0
@@ -87,7 +88,7 @@ class AccountMoveLine(models.Model):
         # trebuie cantitate din factura in unitatea produsului si apoi
         value = self.product_uom_id._compute_price(value, self.product_id.uom_id)
 
-        lc = self._create_price_difference_landed_cost(value)
+        lc = self._l10n_ro_create_price_difference_landed_cost(value)
         lc.compute_landed_cost()
         lc.with_context(
             l10n_ro_price_difference_move_ids=valuation_stock_move
@@ -107,8 +108,8 @@ class AccountMoveLine(models.Model):
             }
         )
 
-    def prepare_price_difference_landed_cost(self, value):
-        price_diff_product = self._get_or_create_price_difference_product()
+    def l10n_ro_prepare_price_difference_landed_cost(self, value):
+        price_diff_product = self._l10n_ro_get_or_create_price_difference_product()
         stock_journal_id = self.product_id.categ_id.property_stock_journal or False
         return dict(
             account_journal_id=stock_journal_id and stock_journal_id.id,
@@ -127,11 +128,11 @@ class AccountMoveLine(models.Model):
             ],
         )
 
-    def _create_price_difference_landed_cost(self, value):
-        vals = self.prepare_price_difference_landed_cost(value)
+    def _l10n_ro_create_price_difference_landed_cost(self, value):
+        vals = self.l10n_ro_prepare_price_difference_landed_cost(value)
         return self.env["stock.landed.cost"].create(vals)
 
-    def _get_or_create_price_difference_product(self):
+    def _l10n_ro_get_or_create_price_difference_product(self):
         price_diff_product = (
             self.company_id.l10n_ro_property_stock_price_difference_product_id
         )
