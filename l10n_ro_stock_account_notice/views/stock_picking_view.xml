@@ -25,11 +25,13 @@
                 <field name="is_l10n_ro_record" invisible="0" />
                 <field name="picking_code" invisible="0" />
                 <field name="picking_id"  />
+                <field name="l10n_ro_notice"/>
                 <field
                     name="price_unit"
-                    attrs="{'invisible': ['|', 
+                    attrs="{'invisible': ['|', '|',
                     ('picking_code','!=','incoming'),
-                     ('is_l10n_ro_record', '=', False)
+                     ('is_l10n_ro_record', '=', False),
+                     ('l10n_ro_notice', '=', False)
                      ]}"
                 />
             </xpath>

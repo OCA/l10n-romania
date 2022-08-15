@@ -5,7 +5,7 @@
 
 import logging
 
-from odoo import api, models
+from odoo import api, fields, models
 
 _logger = logging.getLogger(__name__)
 
@@ -13,6 +13,10 @@ _logger = logging.getLogger(__name__)
 class StockMove(models.Model):
     _name = "stock.move"
     _inherit = ["stock.move", "l10n.ro.mixin"]
+
+    l10n_ro_notice = fields.Boolean(related="picking_id.l10n_ro_notice", 
+        help="field form picking, just to be used in view") 
+
 
     @api.model
     def _get_valued_types(self):
