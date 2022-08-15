@@ -7,7 +7,23 @@ from odoo import api, fields, models
 
 class StockValuationLayer(models.Model):
     _name = "stock.valuation.layer"
-    _inherit = ["stock.valuation.layer", "l10n.ro.mixin"]
+    _inherit = ["stock.valuation.layer"]
+    # we do not inherit , "l10n.ro.mixin" because is not woking with dpends= name and funciton is not working
+
+    is_l10n_ro_record = fields.Boolean(
+        string="Is Romanian Record",
+        compute="_compute_is_l10n_ro_record",
+        readonly=False,
+    )
+        
+    @api.depends("value")
+    def _compute_is_l10n_ro_record(self):
+        for obj in self:
+            has_company = "company_id" in self.env[obj._name]._fields
+            has_company = has_company and obj.company_id
+            company = obj.company_id if has_company else obj.env.company
+            obj.is_l10n_ro_record = company._check_is_l10n_ro_record()
+
 
     l10n_ro_valued_type = fields.Char()
 

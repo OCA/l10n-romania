@@ -1,7 +1,7 @@
 # Copyright 2022 NextERP Romania
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html)
 
-from odoo import fields, models
+from odoo import api, fields, models
 
 
 class L10nRoMixin(models.AbstractModel):
@@ -14,6 +14,9 @@ class L10nRoMixin(models.AbstractModel):
         readonly=False,
     )
 
+    # without depends is not being computed or fired in onchange
+    # in models without name like svl we must copy the code
+    @api.depends("name")
     def _compute_is_l10n_ro_record(self):
         for obj in self:
             has_company = "company_id" in self.env[obj._name]._fields
