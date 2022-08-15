@@ -10,14 +10,26 @@ class StockValuationLayer(models.Model):
     _inherit = ["stock.valuation.layer", "l10n.ro.mixin"]
 
     l10n_ro_valued_type = fields.Char()
+
+# alex 20220813 why the hell do we need them?
+#  l10n_ro_invoice_id is used in a report, but l10n_ro_invoice_line_id nowhere
+# and why not using account_move_id ?  
+
+# we should use account_move_id   to be able to compare the validity of svl and 3xx acount
+# also to see what hapends when we modify the account_move_id or set it to draft  (in another module) 
     l10n_ro_invoice_line_id = fields.Many2one(
         "account.move.line", string="Invoice Line"
     )
     l10n_ro_invoice_id = fields.Many2one("account.move", string="Invoice")
+
+# and what is the need for l10n_ro_account_id?
+# if you want l10n_ro_invoice_line_id    you can have related also the account
     l10n_ro_account_id = fields.Many2one(
         "account.account", compute="_compute_account", store=True
     )
 
+
+############### alex ce dracu face compute account ???  adica mai jos???
     @api.depends("product_id", "account_move_id")
     def _compute_account(self):
         for svl in self.filtered(lambda sv: sv.stock_move_id.is_l10n_ro_record):
@@ -91,22 +103,23 @@ class StockValuationLayer(models.Model):
                         values["l10n_ro_valued_type"] = svl.l10n_ro_valued_type
         return super(StockValuationLayer, self).create(vals_list)
 
-    def _l10n_ro_compute_invoice_line_id(self):
-        for svl in self:
-            invoice_lines = self.env["account.move.line"]
-            stock_move = svl.stock_move_id
-            if not svl.l10n_ro_valued_type:
-                continue
-            if "reception" in svl.l10n_ro_valued_type:
-                invoice_lines = stock_move.purchase_line_id.invoice_lines
-            if "delivery" in svl.l10n_ro_valued_type:
-                invoice_lines = stock_move.sale_line_id.invoice_lines
-
-            if len(invoice_lines) == 1:
-                svl.l10n_ro_invoice_line_id = invoice_lines
-                svl.l10n_ro_invoice_id = invoice_lines.move_id
-            else:
-                for line in invoice_lines:
-                    if stock_move.date.date() == line.move_id.date:
-                        svl.l10n_ro_invoice_line_id = line
-                        svl.l10n_ro_invoice_id = line.move_id
+#alex 20220813 not used
+    # def _l10n_ro_compute_invoice_line_id(self):
+        # for svl in self:
+            # invoice_lines = self.env["account.move.line"]
+            # stock_move = svl.stock_move_id
+            # if not svl.l10n_ro_valued_type:
+                # continue
+            # if "reception" in svl.l10n_ro_valued_type:
+                # invoice_lines = stock_move.purchase_line_id.invoice_lines
+            # if "delivery" in svl.l10n_ro_valued_type:
+                # invoice_lines = stock_move.sale_line_id.invoice_lines
+                #
+            # if len(invoice_lines) == 1:
+                # svl.l10n_ro_invoice_line_id = invoice_lines
+                # svl.l10n_ro_invoice_id = invoice_lines.move_id
+            # else:
+                # for line in invoice_lines:
+                    # if stock_move.date.date() == line.move_id.date:
+                        # svl.l10n_ro_invoice_line_id = line
+                        # svl.l10n_ro_invoice_id = line.move_id

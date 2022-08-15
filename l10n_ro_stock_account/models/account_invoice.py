@@ -25,6 +25,16 @@ class AccountMove(models.Model):
         )._stock_account_prepare_anglo_saxon_out_lines_vals()
 
     def action_post(self):
+        # alex 20220813 why the hell do we need l10n_ro_invoice_line_id and l10n_ro_invoice_id??
+        # and why not to use the existing account_move_id   insted of l10n_ro_invoice_id ??
+        # and is wrong if exist more than 1 svl ( dvi, landed cost, delivery before invoice)
+        
+        # ok at delivery because we make a journel entry with value out of stock.
+        # if we have one invoice form this delivery is setting the inovice - but with a value that has nothing to do with stock
+        # if we are making 2 invoices for a reception, we are going to have only the first one
+        # => also in this case has no sense
+        # if we have 2 deliveries and 3 receipts is not good => wihout is better
+        
         res = super(AccountMove, self).action_post()
         for move in self.filtered("is_l10n_ro_record"):
             for line in move.line_ids:
@@ -67,7 +77,7 @@ class AccountMoveLine(models.Model):
                 domain += [("sale_line_id", "in", self.sale_line_ids.ids)]
 
             valuation_stock_moves = self.env["stock.move"].search(domain)
-            if self.move_id.move_type in ("in_refund", "out_invoice"):
+            if self.move_id.move_type in ("in_refund", "out_invoice", "out_receipt"):
                 valuation_stock_moves = valuation_stock_moves.filtered(
                     lambda sm: sm._is_out()
                 )

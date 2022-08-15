@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <odoo>
-    <record id="view_picking_add_price_unit_form" model="ir.ui.view">
+<!-- alex 20220813 this is moved from here because has no sense if is not a notice; moved there -->
+ <!--   <record id="view_picking_add_price_unit_form" model="ir.ui.view">
         <field name="name">view_picking_add_price_unit_form</field>
         <field name="model">stock.picking</field>
         <field name="inherit_id" ref="stock.view_picking_form" />
@@ -15,5 +16,5 @@
             </xpath>
         </field>
     </record>
-
+-->
 </odoo>

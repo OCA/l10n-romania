@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <odoo>
+    
     <record id="view_picking_add_notice_form" model="ir.ui.view">
         <field name="name">view_picking_add_note_form</field>
         <field name="model">stock.picking</field>
         <field name="inherit_id" ref="stock.view_picking_form" />
         <field name="arch" type="xml">
             <field name="backorder_id" position="after">
-                <field name="is_l10n_ro_record" invisible="1" />
+                <field name="is_l10n_ro_record" invisible="0" />
                 <field
                     name="l10n_ro_notice"
                     attrs="{'invisible': [('is_l10n_ro_record', '=', False)]}"
@@ -18,6 +19,23 @@
                     name="attrs"
                 >{'required':[('l10n_ro_notice','=',True)]}</attribute>
             </field>
+
+            <!--alex 20220813  from l10n_ro_stock_account because there has no sense-->
+            <xpath expr="//button[@name='action_show_details']" position="after">
+                <field name="is_l10n_ro_record" invisible="0" />
+                <field name="picking_code" invisible="0" />
+                <field name="picking_id"  />
+                <field
+                    name="price_unit"
+                    attrs="{'invisible': ['|', 
+                    ('picking_code','!=','incoming'),
+                     ('is_l10n_ro_record', '=', False)
+                     ]}"
+                />
+            </xpath>
+
+
+
         </field>
     </record>
     <record id="view_picking_add_notice_tree" model="ir.ui.view">

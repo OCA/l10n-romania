@@ -1,7 +1,7 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 {
     "name": "Romania - Stock Accounting",
-    "version": "14.0.2.10.1",
+    "version": "14.0.2.11.1", # without fields should ve 3.0.0
     "category": "Localization",
     "summary": "Romania - Stock Accounting",
     "author": "NextERP Romania,"
@@ -13,7 +13,7 @@
         "stock_account",
         "sale_stock",
         "purchase_stock",
-        "l10n_ro_config",
+#        "l10n_ro_config",  not necesary because in l10n_ro_stock
         "l10n_ro_stock",
     ],
     "license": "AGPL-3",
