@@ -4,8 +4,8 @@
 from odoo import fields, models
 
 
-class ResPartnerAnafScptva(models.Model):
-    _name = "res.partner.anaf.scptva"
+class L10nROResPartnerAnafScptva(models.Model):
+    _name = "l10n.ro.res.partner.anaf.scptva"
     _description = "Partner Vat Subjected ANAF History"
     _order = "date desc"
 
@@ -35,6 +35,6 @@ class ResPartnerAnafScptva(models.Model):
         for record in self:
             if record.vat_number:
                 record.partner_id = self.env["res.partner"].search(
-                    [("vat_number", "=", record.vat_number)]
+                    [("l10n_ro_vat_number", "=", record.vat_number)]
                 )
         return res
