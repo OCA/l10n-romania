@@ -5,7 +5,7 @@ from odoo import fields, models
 
 
 class ResPartnerAnafStatus(models.Model):
-    _name = "res.partner.anaf.status"
+    _name = "l10n.ro.res.partner.anaf.status"
     _description = "Partner Activation ANAF History"
     _order = "date desc"
 
@@ -39,6 +39,6 @@ class ResPartnerAnafStatus(models.Model):
         for record in self:
             if record.vat_number:
                 record.partner_id = self.env["res.partner"].search(
-                    [("vat_number", "=", record.vat_number)]
+                    [("l10n_ro_vat_number", "=", record.vat_number)]
                 )
         return res
