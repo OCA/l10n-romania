@@ -5,7 +5,12 @@
         <field name="inherit_id" ref="stock.vpicktree" />
         <field name="arch" type="xml">
             <field name="scheduled_date" position="before">
-                <field name="accounting_date" readonly="1" />
+                <field name="is_l10n_ro_record" invisible="1" />
+                <field
+                    name="l10n_ro_accounting_date"
+                    readonly="1"
+                    attrs="{'invisible': [('is_l10n_ro_record', '=', False)]}"
+                />
             </field>
         </field>
     </record>
@@ -16,10 +21,17 @@
         <field name="inherit_id" ref="stock.view_picking_form" />
         <field name="arch" type="xml">
             <xpath expr="//label[@for='scheduled_date']" position="before">
-                <label for="accounting_date" />
-                <div class="o_row">
+                <field name="is_l10n_ro_record" invisible="1" />
+                <label
+                    for="l10n_ro_accounting_date"
+                    attrs="{'invisible': [('is_l10n_ro_record', '=', False)]}"
+                />
+                <div
+                    class="o_row"
+                    attrs="{'invisible': [('is_l10n_ro_record', '=', False)]}"
+                >
                     <field
-                        name="accounting_date"
+                        name="l10n_ro_accounting_date"
                         attrs="{'readonly': [('state', '=', 'done')]}"
                     />
                 </div>
@@ -33,11 +45,13 @@
         <field name="inherit_id" ref="stock.view_picking_internal_search" />
         <field name="arch" type="xml">
             <filter name="expected_date" position="before">
+                <field name="is_l10n_ro_record" invisible="1" />
                 <filter
                     string="Accounting Date"
                     name="accounting_date"
                     domain="[]"
-                    context="{'group_by': 'accounting_date'}"
+                    context="{'group_by': 'l10n_ro_accounting_date'}"
+                    attrs="{'invisible': [('is_l10n_ro_record', '=', False)]}"
                 />
             </filter>
 

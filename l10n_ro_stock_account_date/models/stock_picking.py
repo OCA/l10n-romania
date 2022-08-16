@@ -6,9 +6,10 @@ from odoo.exceptions import ValidationError
 
 
 class StockPicking(models.Model):
-    _inherit = "stock.picking"
+    _name = "stock.picking"
+    _inherit = ["stock.picking", "l10n.ro.mixin"]
 
-    accounting_date = fields.Datetime(
+    l10n_ro_accounting_date = fields.Datetime(
         "Accounting Date",
         copy=False,
         help="If this field is set, the svl and accounting entiries will "
@@ -19,18 +20,19 @@ class StockPicking(models.Model):
     def _action_done(self):
         """Update date_done from accounting_date field"""
         res = super()._action_done()
-        for picking in self:
-            if picking.accounting_date:
-                if picking.accounting_date.date() > fields.date.today():
+        for picking in self.filtered("is_l10n_ro_record"):
+            if picking.l10n_ro_accounting_date:
+                if picking.l10n_ro_accounting_date.date() > fields.date.today():
                     raise ValidationError(
                         _(
                             "You can not have a Accounting date=%s for picking "
-                            "bigger than today!" % picking.accounting_date.date()
+                            "bigger than today!"
+                            % picking.l10n_ro_accounting_date.date()
                         )
                     )
                 picking.write(
                     {
-                        "date_done": picking.accounting_date,
+                        "date_done": picking.l10n_ro_accounting_date,
                     }
                 )
         return res
