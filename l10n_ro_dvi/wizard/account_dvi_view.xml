@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="view_account_invoice_dvi_form" model="ir.ui.view">
+        <field name="name">DVI</field>
+        <field name="model">account.invoice.dvi</field>
+        <field name="arch" type="xml">
+            <form>
+                <group>
+                    <group>
+                        <field name="date" />
+                        <field name="currency_id" />
+                        <field name="total_tax_value" />
+                    </group>
+
+                    <group string="custom_duty">
+                        <field name="custom_duty_product" />
+                        <field name="custom_duty_tax_id" />
+                        <field name="custom_duty_value" decoration-primary="1" />
+                        <field name="custom_duty_tax_value" />
+                    </group>
+
+
+                    <group string="custom_commission">
+                        <field name="custom_commision_product" />
+                        <field name="custom_commission_value" decoration-primary="1" />
+
+                    </group>
+
+                   <group string="Invoice">
+                        <field name="invoice_value" />
+                        <field name="invoice_tax_id" />
+                        <field name="invoice_tax_value" decoration-primary="1" />
+                    </group>
+                </group>
+                <footer>
+                    <button
+                        name="do_create_dvi"
+                        string="_Apply"
+                        type="object"
+                        class="oe_highlight"
+                    />
+                    or
+                    <button string="Cancel" class="oe_link" special="cancel" />
+                </footer>
+            </form>
+        </field>
+    </record>
+    <record id="action_account_invoice_dvi" model="ir.actions.act_window">
+        <field name="name">DVI</field>
+        <field name="res_model">account.invoice.dvi</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+</odoo>
