@@ -2,18 +2,23 @@
 # Copyright (C) 2020 NextERP Romania
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
-from odoo.tests import common
+from odoo.tests import tagged
 
+from odoo.addons.account.tests.common import AccountTestInvoicingCommon
 from odoo.addons.l10n_ro_partner_create_by_vat.models import res_partner
 
 
-class TestCreatePartnerBase(common.SavepointCase):
+@tagged("post_install", "-at_install")
+class TestCreatePartnerBase(AccountTestInvoicingCommon):
     @classmethod
     def setUpClass(cls):
-        super(TestCreatePartnerBase, cls).setUpClass()
+        ro_template_ref = "l10n_ro.ro_chart_template"
+        super(TestCreatePartnerBase, cls).setUpClass(chart_template_ref=ro_template_ref)
+        cls.env.company.l10n_ro_accounting = True
         cls.mainpartner = cls.env["res.partner"].create({"name": "Test partner"})
 
 
+@tagged("post_install", "-at_install")
 class TestCreatePartner(TestCreatePartnerBase):
     def test_vat_anaf(self):
         """Check methods vat from ANAF."""
@@ -95,7 +100,7 @@ class TestCreatePartner(TestCreatePartnerBase):
         self.mainpartner.l10n_ro_vat_subjected = False
         self.mainpartner.vat = "RO36525532"
         self.mainpartner.ro_vat_change()
-        self.mainpartner.onchange_vat_subjected()
+        self.mainpartner.onchange_l10n_ro_vat_subjected()
         self.assertEqual(self.mainpartner.name, "COLOR 4 YOU S.R.L.")
         self.assertEqual(self.mainpartner.street, "Str. Voinicilor")
         self.assertEqual(self.mainpartner.state_id, self.env.ref("base.RO_AR"))
