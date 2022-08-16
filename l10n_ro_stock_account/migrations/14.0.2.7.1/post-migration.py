@@ -13,7 +13,7 @@ def migrate(cr, version):
         IrModule.update_list()
 
         ro_comps = env["res.company"].search(
-            [("romanian_accounting", "=", True), ("stock_acc_price_diff", "=", True)]
+            [("l10n_ro_accounting", "=", True), ("stock_acc_price_diff", "=", True)]
         )
         if ro_comps:
             price_diff_module = IrModule.search(

@@ -16,7 +16,7 @@ class TestStockReport(TransactionCase):
         super(TestStockReport, self).setUp()
         self.env.company.write(
             {
-                "romanian_accounting": True,
+                "l10n_ro_accounting": True,
                 "anglo_saxon_accounting": True,
                 "stock_acc_price_diff": True,
             }

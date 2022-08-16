@@ -23,9 +23,9 @@
     <record model="ir.ui.view" id="partners_form_add_vat_payment">
         <field name="name">partners_form_add_vat_payment</field>
         <field name="model">res.partner</field>
-        <field name="inherit_id" ref="base.view_partner_form" />
+        <field name="inherit_id" ref="l10n_ro_config.view_partner_create_by_vat" />
         <field name="arch" type="xml">
-            <div name="vat_subjected_info" position="after">
+            <div name="l10n_ro_vat_subjected_info" position="after">
                 <label for="vat_on_payment" />
                 <div name="vat_on_payment_info" class="o_row">
                     <field

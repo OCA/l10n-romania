@@ -12,7 +12,7 @@ def migrate(cr, version):
         IrModule = env["ir.module.module"]
         IrModule.update_list()
 
-        ro_comps = env["res.company"].search([("romanian_accounting", "=", True)])
+        ro_comps = env["res.company"].search([("l10n_ro_accounting", "=", True)])
         if ro_comps:
             stock_account_notice_module = IrModule.search(
                 [("name", "=", "l10n_ro_stock_account_notice")]

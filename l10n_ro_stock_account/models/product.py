@@ -29,7 +29,7 @@ class ProductCategory(models.Model):
     @api.depends("name")
     def _compute_hide_accounts(self):
         for record in self:
-            record.hide_stock_in_out_account = self.env.company.romanian_accounting
+            record.hide_stock_in_out_account = self.env.company.l10n_ro_accounting
 
     @api.constrains(
         "property_stock_valuation_account_id",
@@ -41,7 +41,7 @@ class ProductCategory(models.Model):
         stock_valuation, stock_output and stock_input
         are the same
         """
-        if self.env.company.romanian_accounting:
+        if self.env.company.l10n_ro_accounting:
             # is a romanian company:
             for record in self:
                 stock_input = record.property_stock_account_input_categ_id
@@ -98,7 +98,7 @@ class ProductTemplate(models.Model):
             self.env["res.company"].browse(self._context.get("force_company"))
             or self.env.company
         )
-        if not company.romanian_accounting:
+        if not company.l10n_ro_accounting:
             return accounts
 
         property_stock_valuation_account_id = (

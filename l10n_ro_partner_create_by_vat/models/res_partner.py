@@ -38,7 +38,7 @@ AnafFiled_OdooField_Overwrite = [
     ("state_id", "state_id", "over_all_the_time"),
     ("zip", "codPostal", "over_all_the_time"),
     ("phone", "telefon", "write_if_empty"),
-    ("caen_code", "cod_CAEN", "over_all_the_time"),
+    ("l10n_ro_caen_code", "cod_CAEN", "over_all_the_time"),
     ("l10n_ro_e_invoice", "statusRO_e_Factura", "over_all_the_time"),
 ]
 
@@ -178,7 +178,7 @@ class ResPartner(models.Model):
             return {}
         res = {
             "name": result["denumire"].upper(),
-            "vat_subjected": result["scpTVA"],
+            "l10n_ro_vat_subjected": result["scpTVA"],
             "company_type": "company",
         }
 

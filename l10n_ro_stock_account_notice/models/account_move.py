@@ -55,6 +55,6 @@ class AccountMove(models.Model):
         return account
 
     def _stock_account_prepare_anglo_saxon_in_lines_vals(self):
-        if self.company_id.romanian_accounting:
+        if self.company_id.l10n_ro_accounting:
             return []
         return super()._stock_account_prepare_anglo_saxon_in_lines_vals()

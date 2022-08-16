@@ -1,16 +1,22 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <odoo>
     <record id="res_config_settings_view_form" model="ir.ui.view">
-        <field name="name">res.config.settings.view.form.inherit.account</field>
+        <field name="name">res.config.settings.view.form.inherit</field>
         <field name="model">res.config.settings</field>
         <field name="priority" eval="41" />
         <field name="inherit_id" ref="base.res_config_settings_view_form" />
         <field name="arch" type="xml">
+            <xpath expr="//div[hasclass('settings')]" position="inside">
+                <field name="is_l10n_ro_record" invisible="1" />
+            </xpath>
             <xpath
                 expr="//div[@data-key='account']//field[@name='module_currency_rate_live']/../.."
                 position="after"
             >
-                <div class="col-12 col-lg-6 o_setting_box">
+                <div
+                    class="col-12 col-lg-6 o_setting_box"
+                    attrs="{'invisible': [('is_l10n_ro_record','=',False)]}"
+                >
                     <div class="o_setting_left_pane">
                         <field name="module_currency_rate_update_RO_BNR" />
                     </div>
@@ -39,6 +45,7 @@
                     string="Romania"
                     data-key="l10n_ro_config"
                     groups="account.group_account_manager"
+                    attrs="{'invisible': [('country_code', '!=', 'RO')]}"
                 >
                     <h2>Adresses</h2>
                     <div class="row mt16 o_settings_container">
@@ -161,10 +168,7 @@
                             </div>
                             <div class="o_setting_right_pane">
                                 <label for="module_l10n_ro_account_report_invoice" />
-                                <div
-                                    class="text-muted"
-                                    id="module_currency_rate_update"
-                                />
+                                <div class="text-muted" />
                             </div>
                         </div>
                         <div
@@ -183,34 +187,6 @@
                                 <div class="text-muted" />
                             </div>
                         </div>
-                        <div
-                            class="col-xs-12 col-md-6 o_setting_box"
-                            id="module_l10n_ro_account_report_trial_balance"
-                        >
-                            <div class="o_setting_left_pane">
-                                <field
-                                    name="module_l10n_ro_account_report_trial_balance"
-                                />
-                            </div>
-                            <div class="o_setting_right_pane">
-                                <label
-                                    for="module_l10n_ro_account_report_trial_balance"
-                                />
-                                <div class="text-muted" />
-                            </div>
-                        </div>
-                        <div
-                            class="col-xs-12 col-md-6 o_setting_box"
-                            id="module_l10n_ro_intrastat"
-                        >
-                            <div class="o_setting_left_pane">
-                                <field name="module_l10n_ro_intrastat" />
-                            </div>
-                            <div class="o_setting_right_pane">
-                                <label for="module_l10n_ro_intrastat" />
-                                <div class="text-muted" />
-                            </div>
-                        </div>
                         <div class="col-xs-12 col-md-6 o_setting_box">
                             <div class="o_setting_left_pane">
 
@@ -218,25 +194,27 @@
                             <div class="o_setting_right_pane">
                                 <div class="row mt16">
                                     <label
-                                        for="caen_code"
+                                        for="l10n_ro_caen_code"
                                         class="col-lg-3 o_light_label"
                                     />
-                                    <field name="caen_code" />
+                                    <field name="l10n_ro_caen_code" />
                                 </div>
                                 <div class="row mt16">
                                     <label
-                                        for="property_vat_on_payment_position_id"
-                                        class="col-lg-3 o_light_label"
-                                    />
-                                    <field name="property_vat_on_payment_position_id" />
-                                </div>
-                                <div class="row mt16">
-                                    <label
-                                        for="property_inverse_taxation_position_id"
+                                        for="l10n_ro_property_vat_on_payment_position_id"
                                         class="col-lg-3 o_light_label"
                                     />
                                     <field
-                                        name="property_inverse_taxation_position_id"
+                                        name="l10n_ro_property_vat_on_payment_position_id"
+                                    />
+                                </div>
+                                <div class="row mt16">
+                                    <label
+                                        for="l10n_ro_property_inverse_taxation_position_id"
+                                        class="col-lg-3 o_light_label"
+                                    />
+                                    <field
+                                        name="l10n_ro_property_inverse_taxation_position_id"
                                     />
                                 </div>
                             </div>
@@ -265,10 +243,10 @@
                                 </div>
                             </div>
                             <div class="o_setting_left_pane">
-                                <field name="use_romanian_accounting" />
+                                <field name="l10n_ro_accounting" />
                             </div>
                             <div class="o_setting_right_pane">
-                                <label for="use_romanian_accounting" />
+                                <label for="l10n_ro_accounting" />
                                 <span
                                     class="fa fa-lg fa-building-o"
                                     title="Values set here are company-specific."
@@ -312,80 +290,80 @@
                                 >
                                     <div class="row mt16">
                                         <label
-                                            for="property_stock_picking_payable_account_id"
+                                            for="l10n_ro_property_stock_picking_payable_account_id"
                                             class="col-lg-3 o_light_label"
                                         />
                                         <field
-                                            name="property_stock_picking_payable_account_id"
+                                            name="l10n_ro_property_stock_picking_payable_account_id"
                                             placeholder="Select 408"
                                         />
                                     </div>
                                     <div class="row mt16">
                                         <label
-                                            for="property_stock_picking_receivable_account_id"
+                                            for="l10n_ro_property_stock_picking_receivable_account_id"
                                             class="col-lg-3 o_light_label"
                                         />
                                         <field
-                                            name="property_stock_picking_receivable_account_id"
+                                            name="l10n_ro_property_stock_picking_receivable_account_id"
                                             placeholder="Select 418"
                                         />
                                     </div>
                                     <div class="row mt16">
                                         <label
-                                            for="property_stock_usage_giving_account_id"
+                                            for="l10n_ro_property_stock_usage_giving_account_id"
                                             class="col-lg-3 o_light_label"
                                         />
                                         <field
-                                            name="property_stock_usage_giving_account_id"
+                                            name="l10n_ro_property_stock_usage_giving_account_id"
                                             placeholder="Select 8035"
                                         />
                                     </div>
                                     <div class="row mt16">
                                         <label
-                                            for="property_stock_picking_custody_account_id"
+                                            for="l10n_ro_property_stock_picking_custody_account_id"
                                             class="col-lg-3 o_light_label"
                                         />
                                         <field
-                                            name="property_stock_picking_custody_account_id"
+                                            name="l10n_ro_property_stock_picking_custody_account_id"
                                             placeholder="cont stock marfa primita in custodie (creeat nou extrabilantier)"
                                         />
                                     </div>
                                     <div class="row mt16">
                                         <label
-                                            for="property_uneligible_tax_account_id"
+                                            for="l10n_ro_property_uneligible_tax_account_id"
                                             class="col-lg-3 o_light_label"
                                         />
                                         <field
-                                            name="property_uneligible_tax_account_id"
+                                            name="l10n_ro_property_uneligible_tax_account_id"
                                             placeholder="use 4428 cont pentru tva neexigibil in notele facute pentru 'Marfa in magazin'"
                                         />
                                     </div>
                                     <div class="row mt16">
                                         <label
-                                            for="property_stock_transfer_account_id"
+                                            for="l10n_ro_property_stock_transfer_account_id"
                                             class="col-lg-3 o_light_label"
                                         />
                                         <field
-                                            name="property_stock_transfer_account_id"
+                                            name="l10n_ro_property_stock_transfer_account_id"
                                             placeholder="Select 482"
                                         />
                                     </div>
                                     <div class="row mt16">
                                         <label
-                                            for="property_trade_discount_received_account_id"
+                                            for="l10n_ro_property_trade_discount_received_account_id"
                                             class="col-lg-3 o_light_label"
                                         />
                                         <field
-                                            name="property_trade_discount_received_account_id"
+                                            name="l10n_ro_property_trade_discount_received_account_id"
                                         />
                                     </div>
                                     <div class="row mt16">
                                         <label
-                                            for="property_trade_discount_granted_account_id"
+                                            for="l10n_ro_property_trade_discount_granted_account_id"
                                             class="col-lg-3 o_light_label"
                                         />
                                         <field
-                                            name="property_trade_discount_granted_account_id"
+                                            name="l10n_ro_property_trade_discount_granted_account_id"
                                         />
                                     </div>
                                 </div>
@@ -405,10 +383,10 @@
                                     attrs="{'invisible': [('module_l10n_ro_stock_price_difference', '=', False)]}"
                                 >
                                     <div class="o_setting_left_pane">
-                                        <field name="stock_acc_price_diff" />
+                                        <field name="l10n_ro_stock_acc_price_diff" />
                                     </div>
                                     <div class="o_setting_right_pane">
-                                        <label for="stock_acc_price_diff" />
+                                        <label for="l10n_ro_stock_acc_price_diff" />
                                         <span
                                             class="fa fa-lg fa-building-o"
                                             title="Values set here are company-specific."
@@ -423,11 +401,11 @@
 
                                     <div class="row mt16">
                                         <label
-                                            for="property_stock_price_difference_product_id"
+                                            for="l10n_ro_property_stock_price_difference_product_id"
                                             class="col-lg-3 o_light_label"
                                         />
                                         <field
-                                            name="property_stock_price_difference_product_id"
+                                            name="l10n_ro_property_stock_price_difference_product_id"
                                             placeholder="Select a product"
                                         />
                                     </div>
@@ -474,59 +452,6 @@
                                 <div class="text-muted" />
                             </div>
                         </div>
-                        <div
-                            class="col-xs-12 col-md-6 o_setting_box"
-                            id="module_l10n_ro_stock_account_store"
-                        >
-                            <div class="o_setting_left_pane">
-                                <field name="module_l10n_ro_stock_account_store" />
-                            </div>
-                            <div class="o_setting_right_pane">
-                                <label for="module_l10n_ro_stock_account_store" />
-                                <div class="text-muted" />
-                            </div>
-                        </div>
-                        <div
-                            class="col-xs-12 col-md-6 o_setting_box"
-                            id="module_l10n_ro_stock_picking_report_store"
-                        >
-                            <div class="o_setting_left_pane">
-                                <field
-                                    name="module_l10n_ro_stock_picking_report_store"
-                                />
-                            </div>
-                            <div class="o_setting_right_pane">
-                                <label
-                                    for="module_l10n_ro_stock_picking_report_store"
-                                />
-                                <div class="text-muted" />
-                            </div>
-                        </div>
-                        <div
-                            class="col-xs-12 col-md-6 o_setting_box"
-                            id="module_l10n_ro_dvi"
-                        >
-                            <div class="o_setting_left_pane">
-                                <field name="module_l10n_ro_dvi" />
-                            </div>
-                            <div class="o_setting_right_pane">
-                                <label for="module_l10n_ro_dvi" />
-                                <div class="text-muted" />
-                            </div>
-                        </div>
-                        <div class="col-12 col-lg-6 o_setting_box">
-                            <div class="o_setting_left_pane" />
-                            <div class="o_setting_right_pane">
-                                <div class="text-muted">
-
-                                </div>
-                                <div class="content-group">
-                                    <div class="mt16">
-
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
                     </div>
                 </div>
             </xpath>
@@ -543,6 +468,7 @@
                     class="col-12 col-lg-6 o_setting_box"
                     id="default_services_taxes"
                     title="These taxes are set in any new service product created."
+                    attrs="{'invisible': [('is_l10n_ro_record','=',False)]}"
                 >
                     <div class="o_setting_left_pane" />
                     <div class="o_setting_right_pane">
@@ -561,22 +487,22 @@
                             <div class="row mt16">
                                 <label
                                     string="Services Sales Tax"
-                                    for="serv_sale_tax_id"
+                                    for="l10n_ro_serv_sale_tax_id"
                                     class="col-lg-3 o_light_label"
                                 />
                                 <field
-                                    name="serv_sale_tax_id"
+                                    name="l10n_ro_serv_sale_tax_id"
                                     domain="[('type_tax_use', 'in', ('sale', 'all')), ('company_id', '=', company_id)]"
                                 />
                             </div>
                             <div class="row">
                                 <label
                                     string="Services Purchase Tax"
-                                    for="serv_purchase_tax_id"
+                                    for="l10n_ro_serv_purchase_tax_id"
                                     class="col-lg-3 o_light_label"
                                 />
                                 <field
-                                    name="serv_purchase_tax_id"
+                                    name="l10n_ro_serv_purchase_tax_id"
                                     domain="[('type_tax_use', 'in', ('purchase', 'all')), ('company_id', '=', company_id)]"
                                 />
                             </div>
