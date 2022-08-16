@@ -46,23 +46,23 @@ AnafFiled_OdooField_Overwrite = [
 class ResPartner(models.Model):
     _inherit = "res.partner"
 
-    old_name = fields.Char(
+    l10n_ro_old_name = fields.Char(
+        string="Old Name",
         default="",
         help="To be completed manually with previous name of the company in case on change."
         "If the field in completed, when fetching the datas from ANAF website,"
         "if the name received is the old name set, than the partner will not be updated.",
     )
-    # l10n_ro_einvoice_state = fields.Boolean(string="Ro E-Invoicing", copy=False)
-    active_anaf_line_ids = fields.One2many(
-        "res.partner.anaf.status",
+    l10n_ro_active_anaf_line_ids = fields.One2many(
+        "l10n.ro.res.partner.anaf.status",
         "partner_id",
         string="Partner Active Anaf Status",
         help="will add entries only if differs as statusInactivi from previos"
         " or after entries",
         copy=False,
     )
-    vat_subjected_anaf_line_ids = fields.One2many(
-        "res.partner.anaf.scptva",
+    l10n_ro_vat_subjected_anaf_line_ids = fields.One2many(
+        "l10n.ro.res.partner.anaf.scptva",
         "partner_id",
         string="Anaf Company scpTVA Records",
         help="will add entries only if differs as scpTVA from previos or after entries",
@@ -175,7 +175,10 @@ class ResPartner(models.Model):
 
     @api.model
     def _Anaf_to_Odoo(self, result):
-        if not result.get("denumire") or result["denumire"].upper() == self.old_name:
+        if (
+            not result.get("denumire")
+            or result["denumire"].upper() == self.l10n_ro_old_name
+        ):
             # if no name means that anaf didn't return anything
             return {}
         res = {
@@ -260,31 +263,34 @@ class ResPartner(models.Model):
     @api.onchange("vat", "country_id")
     def ro_vat_change(self):
         res = {}
-        if not self.env.context.get("skip_ro_vat_change"):
-            if not self.vat:
-                return res
-            vat = self.vat.strip().upper()
-            original_vat_country, vat_number = self._split_vat(vat)
-            vat_country = original_vat_country.upper()
-            if not vat_country and self.country_id:
-                vat_country = self._map_vat_country_code(self.country_id.code.upper())
-                if not vat_number:
-                    vat_number = self.vat
-            if vat_country == "RO":
-                anaf_error, result = self._get_Anaf(vat_number)
-                if not anaf_error:
-                    res = self._Anaf_to_Odoo(result)
-                    res["country_id"] = (
-                        self.env["res.country"]
-                        .search([("code", "ilike", vat_country)])[0]
-                        .id
+        if self.is_l10n_ro_record:
+            if not self.env.context.get("skip_ro_vat_change"):
+                if not self.vat:
+                    return res
+                vat = self.vat.strip().upper()
+                original_vat_country, vat_number = self._split_vat(vat)
+                vat_country = original_vat_country.upper()
+                if not vat_country and self.country_id:
+                    vat_country = self._map_vat_country_code(
+                        self.country_id.code.upper()
                     )
-                    # Update ANAF history for vat_subjected and active status
-                    res = self._update_anaf_status(res, result)
-                    res = self._update_anaf_scptva(res, result)
-                    self.with_context(skip_ro_vat_change=True).update(res)
-                else:
-                    res["warning"] = {"message": anaf_error}
+                    if not vat_number:
+                        vat_number = self.vat
+                if vat_country == "RO":
+                    anaf_error, result = self._get_Anaf(vat_number)
+                    if not anaf_error:
+                        res = self._Anaf_to_Odoo(result)
+                        res["country_id"] = (
+                            self.env["res.country"]
+                            .search([("code", "ilike", vat_country)])[0]
+                            .id
+                        )
+                        # Update ANAF history for vat_subjected and active status
+                        res = self._update_l10n_ro_anaf_status(res, result)
+                        res = self._update_l10n_ro_anaf_scptva(res, result)
+                        self.with_context(skip_ro_vat_change=True).update(res)
+                    else:
+                        res["warning"] = {"message": anaf_error}
         return res
 
     def get_date_from_anaf(self, date_string):
@@ -293,21 +299,21 @@ class ResPartner(models.Model):
             return fields.Date.from_string(date_str)
         return False
 
-    def _update_anaf_status(self, res, result):
+    def _update_l10n_ro_anaf_status(self, res, result):
         self.ensure_one()
         if not res:
             res = {}
         if result:
-            same_date_record = self.active_anaf_line_ids.filtered(
+            same_date_record = self.l10n_ro_active_anaf_line_ids.filtered(
                 lambda r: str(r.date) == self.get_date_from_anaf(result.get("data", ""))
             )
-            if not same_date_record and self.active_anaf_line_ids:
+            if not same_date_record and self.l10n_ro_active_anaf_line_ids:
                 # Check if we have lines already added NewId
-                for line in self.active_anaf_line_ids:
+                for line in self.l10n_ro_active_anaf_line_ids:
                     if isinstance(line.id, models.NewId):
                         same_date_record = True
-            if not same_date_record and not res.get("active_anaf_line_ids"):
-                res["active_anaf_line_ids"] = [
+            if not same_date_record and not res.get("l10n_ro_active_anaf_line_ids"):
+                res["l10n_ro_active_anaf_line_ids"] = [
                     (
                         0,
                         0,
@@ -334,21 +340,23 @@ class ResPartner(models.Model):
                 ]
         return res
 
-    def _update_anaf_scptva(self, res, result):
+    def _update_l10n_ro_anaf_scptva(self, res, result):
         self.ensure_one()
         if not res:
             res = {}
         if result:
-            same_date_record = self.vat_subjected_anaf_line_ids.filtered(
+            same_date_record = self.l10n_ro_vat_subjected_anaf_line_ids.filtered(
                 lambda r: str(r.date) == self.get_date_from_anaf(result.get("data", ""))
             )
-            if not same_date_record and self.vat_subjected_anaf_line_ids:
+            if not same_date_record and self.l10n_ro_vat_subjected_anaf_line_ids:
                 # Check if we have lines already added NewId
-                for line in self.vat_subjected_anaf_line_ids:
+                for line in self.l10n_ro_vat_subjected_anaf_line_ids:
                     if isinstance(line.id, models.NewId):
                         same_date_record = True
-            if not same_date_record and not res.get("vat_subjected_anaf_line_ids"):
-                res["vat_subjected_anaf_line_ids"] = [
+            if not same_date_record and not res.get(
+                "l10n_ro_vat_subjected_anaf_line_ids"
+            ):
+                res["l10n_ro_vat_subjected_anaf_line_ids"] = [
                     (
                         0,
                         0,
