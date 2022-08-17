@@ -2,7 +2,7 @@
 <odoo>
 
     <record model="ir.actions.act_window" id="action_stock_picking_comment_template">
-        <field name="name">Stock Picking Comment Templates</field>
+        <field name="name">Romanian Stock Picking Comments</field>
         <field name="type">ir.actions.act_window</field>
         <field name="res_model">base.comment.template</field>
         <field name="view_mode">tree,form</field>
@@ -16,11 +16,11 @@
         />
     </record>
 
-    <menuitem
-        name="Document Comments"
-        id="menu_base_comment_template_picking"
-        action="l10n_ro_stock_picking_comment_template.action_stock_picking_comment_template"
-        parent="stock.menu_stock_config_settings"
-    />
+    <record id="menu_base_comment_template_picking" model="ir.ui.menu">
+        <field name="name">Romanian Stock Picking Comments</field>
+        <field name="action" ref="action_stock_picking_comment_template" />
+        <field name="parent_id" ref="stock.menu_stock_config_settings" />
+        <field name="is_l10n_ro_record" eval="True" />
+    </record>
 
 </odoo>
