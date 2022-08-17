@@ -4,14 +4,15 @@
 <odoo>
     <!-- Delivery -->
     <record id="l10n_ro_picking_delivery_internTransfer" model="base.comment.template">
-        <field
-            name="name"
-        >Romania - Comment for Delivery + Internal Transfer Before Lines</field>
+        <field name="name">
+            Romania - Comment for Delivery + Internal Transfer Before Lines
+        </field>
         <field name="position">before_lines</field>
         <field name="model_ids" eval="[(6, 0,  [ref('stock.model_stock_picking')]) ]" />
         <field name="domain">
             [['location_dest_id.usage','not in',['usage_giving','consume','production']],
-              '|',['picking_type_code', '=', 'outgoing'],['picking_type_code', '=', 'internal']]
+            ['is_l10n_ro_record', '=', True],
+            '|',['picking_type_code', '=', 'outgoing'],['picking_type_code', '=', 'internal']]
         </field>
         <field
             name="text"
@@ -55,7 +56,8 @@
         <field
             name="domain"
         >[['location_dest_id.usage','not in',['usage_giving','consume','production','internal']],
-           '|',['picking_type_code', '=','outgoing'],['picking_type_code', '=', 'internal']]
+            ['is_l10n_ro_record', '=', True],
+            '|',['picking_type_code', '=','outgoing'],['picking_type_code', '=', 'internal']]
         </field>
         <field
             name="text"
@@ -77,9 +79,9 @@
                             <span>Name:  ${user.name}</span>
                         </td>
                         <td>
-                            <div><span>Delegate: ${object.delegate_id.name if object.delegate_id else '.'*100 }</span><br/></div>
+                            <div><span>Delegate: ${object.l10n_ro_delegate_id.name if object.l10n_ro_delegate_id else '.'*100 }</span><br/></div>
                             <div><span>B.I./C.I.: ${'.'*100}</span><br/></div>
-                            <div><span>Mean Transport:  ${object.mean_transp or "."*50}</span><br/></div>
+                            <div><span>Mean Transport:  ${object.l10n_ro_mean_transp or "."*50}</span><br/></div>
                             <div><span>Date: ${'.'*40} Hour: ${'.'*20}</span><br/></div>
                         </td>
                         <td> </td>
@@ -94,15 +96,17 @@
         <field name="name">Romania - Comment for Reception Before Lines</field>
         <field name="position">before_lines</field>
         <field name="model_ids" eval="[(6, 0,  [ref('stock.model_stock_picking')]) ]" />
-        <field name="domain">[['picking_type_code', '=', 'incoming']]</field>
+        <field name="domain">
+            [['picking_type_code', '=', 'incoming'], ['is_l10n_ro_record', '=', True]]
+        </field>
         <field
             name="text"
         ><![CDATA[
             <h2><span>Reception Note and Differences</span></h2>
             <span>The undersigned, members of the reception commission, I received the material values provided by:
             ${object.partner_id.name},
-            delegate: ${object.delegate_id.name if object.delegate_id else '.'*60 },
-            car no.: ${object.mean_transp or "."*32},
+            delegate: ${object.l10n_ro_delegate_id.name if object.l10n_ro_delegate_id else '.'*60 },
+            car no.: ${object.l10n_ro_mean_transp or "."*32},
             based on the accompanying documents:  ${object.purchase_id.partner_ref+'; ' if object.purchase_id.partner_ref else  ''}
                                                  ${object.purchase_id.invoice_ids[0].name if object.purchase_id.invoice_ids else  ''}
                                                  ${'' if  object.purchase_id.invoice_ids or  object.purchase_id.partner_ref else  '.'*60} , noting:
@@ -113,7 +117,9 @@
         <field name="name">Romania - Comment for Reception After Lines</field>
         <field name="position">after_lines</field>
         <field name="model_ids" eval="[(6, 0,  [ref('stock.model_stock_picking')]) ]" />
-        <field name="domain">[['picking_type_code', '=', 'incoming']]</field>
+        <field
+            name="domain"
+        >[['picking_type_code', '=', 'incoming'], ['is_l10n_ro_record', '=', True]]</field>
         <field
             name="text"
         ><![CDATA[
@@ -161,7 +167,8 @@
         <field name="position">before_lines</field>
         <field name="model_ids" eval="[(6, 0,  [ref('stock.model_stock_picking')]) ]" />
         <field name="domain">
-            [['location_id.usage','=','internal'],['location_dest_id.usage','in',['consume','production']]]
+            [['location_id.usage','=','internal'],['location_dest_id.usage','in',['consume','production']],
+            ['is_l10n_ro_record', '=', True]]
         </field>
         <field
             name="text"
@@ -179,7 +186,8 @@
         <field name="position">before_lines</field>
         <field name="model_ids" eval="[(6, 0,  [ref('stock.model_stock_picking')]) ]" />
         <field name="domain">
-            [['location_id.usage','=','internal'],['location_dest_id.usage','=','usage_giving']]
+            [['location_id.usage','=','internal'],['location_dest_id.usage','=','usage_giving'], ['is_l10n_ro_record',
+            '=', True]]
         </field>
         <field
             name="text"
@@ -195,7 +203,8 @@
         <field name="position">after_lines</field>
         <field name="model_ids" eval="[(6, 0,  [ref('stock.model_stock_picking')]) ]" />
         <field name="domain">
-            [['location_id.usage','=','internal'],['location_dest_id.usage','in',['consume','production']]]
+            [['location_id.usage','=','internal'],['location_dest_id.usage','in',['consume','production']],
+            ['is_l10n_ro_record', '=', True]]
         </field>
         <field
             name="text"
@@ -226,14 +235,15 @@
     </record>
 
     <record id="l10n_ro_picking_internTransfer_down" model="base.comment.template">
-        <field
-            name="name"
-        >Romania - Comment for Internal Transfer Voucher After Lines</field>
+        <field name="name">Romania - Comment for Internal Transfer Voucher After Lines
+        </field>
         <field name="position">after_lines</field>
         <field name="model_ids" eval="[(6, 0,  [ref('stock.model_stock_picking')]) ]" />
         <field
             name="domain"
-        >[['location_id.usage','=','internal'],['location_dest_id.usage','in',['usage_giving','internal']] ]</field>
+        >[['location_id.usage','=','internal'],['location_dest_id.usage','in',['usage_giving','internal']],
+            ['is_l10n_ro_record', '=', True]]
+        </field>
         <field
             name="text"
         ><![CDATA[

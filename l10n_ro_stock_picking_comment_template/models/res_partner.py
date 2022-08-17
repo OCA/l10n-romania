@@ -6,7 +6,7 @@ from odoo import fields, models
 class ResPartner(models.Model):
     _inherit = "res.partner"
 
-    mean_transp = fields.Char(
+    l10n_ro_mean_transp = fields.Char(
         string="Mean transport",
         help="Visible only in pickings, and can be modify only from there;"
         "is keeping all the time the last not null value",
