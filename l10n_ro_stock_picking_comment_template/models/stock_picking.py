@@ -11,24 +11,27 @@ class StockPicking(models.Model):
     _inherit = ["stock.picking", "comment.template"]
     _name = "stock.picking"
 
-    delegate_id = fields.Many2one("res.partner", string="Delegate")
-    mean_transp = fields.Char(string="Mean transport")
+    l10n_ro_delegate_id = fields.Many2one("res.partner", string="Delegate")
+    l10n_ro_mean_transp = fields.Char(string="Mean transport")
 
-    @api.onchange("delegate_id")
+    @api.onchange("l10n_ro_delegate_id")
     def on_change_delegate_id(self):
-        if self.delegate_id:
-            self.mean_transp = self.delegate_id.mean_transp
+        if self.l10n_ro_delegate_id:
+            self.l10n_ro_mean_transp = self.l10n_ro_delegate_id.l10n_ro_mean_transp
 
     def write(self, vals):
-        "if modified the mean_transp will write into delegate"
-        mean_transp = vals.get("mean_transp", False)
-        delegate_id = vals.get("delegate_id", False)
-        if mean_transp and delegate_id:
+        "if modified the l10n_ro_mean_transp will write into delegate"
+        l10n_ro_mean_transp = vals.get("l10n_ro_mean_transp", False)
+        l10n_ro_delegate_id = vals.get("l10n_ro_delegate_id", False)
+        if l10n_ro_mean_transp and l10n_ro_delegate_id:
             if (
-                mean_transp
-                != self.env["res.partner"].sudo().browse(delegate_id).mean_transp
+                l10n_ro_mean_transp
+                != self.env["res.partner"]
+                .sudo()
+                .browse(l10n_ro_delegate_id)
+                .l10n_ro_mean_transp
             ):
-                self.env["res.partner"].sudo().browse(delegate_id).write(
-                    {"mean_transp": mean_transp}
+                self.env["res.partner"].sudo().browse(l10n_ro_delegate_id).write(
+                    {"l10n_ro_mean_transp": l10n_ro_mean_transp}
                 )
         return super().write(vals)
