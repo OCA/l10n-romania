@@ -12,17 +12,11 @@ For consumable products we are not going to make stock_valuation_entries at move
     and vhen we use/sell them we just make income, 
 
 
-!!! In this module, is suposed that the value of purchase product is the same also in invoice 
-    ( the modification of svl based on invoice is not in in another module)
-    If is a diffrence of values between purchase_order value and invoice_value, in 3xx will be the right value
-    and the diffrence will be default_cash_difference_income_account_id  or 999002 Cash Difference Gain with debit or credit
-    If the invoice qty is less than what is to invoice will compute for that qty and adding cash difference
-    If the inoivced qty is bigger is jut creating the entry wihtout any difference
+In Romania, the products get into stock with supplier invoice/bill ( and svl is created based on the values from bill).
+Another case is when the products are geting into stock with a value (picking type notice) and after a time is coming the bill - is covered in l10n_ro_stock_notice module
 
-In Romania, when the sockable product gets into deposit is increasing the stock_value ( and account 3xx), at invoice we are setting the right value of stock and 3xx 
-    when the product is getting out of stock is crating expense 6xx and is decresing the stock_value ( and account 3xx) at sale invoice we are making revenue 7xx
-     
-At reception, the price put into svl is taken from purchase order, 
+To make the svl and accouting entries for stock account, the procurments and deliveries must be done from pucase/sales.
+
 
 
 On companies that have partner_id.country= romania is setting 
@@ -38,27 +32,15 @@ l10n_ro_property_stock_valuation_account_id
  
  Contraint on product to have stock_input = stock_output = stock_val
  
- Account_move_line
- method _l10n_ro_get_valuation_stock_moves, if move is from self.purchase_line_id or self.sale_line_ids
- retuns stock_moves that are should be valuated. for  self.move_id.move_type in ("in_refund", "out_invoice", "out_receipt"):
- retuns stock_moves that are considered out sm._is_out()
-  else that are considered out sm._is_in()
-    !!!! If the account_move is entry, will retun only in
     
-At posting of a invoice that is from puchse/sale will set the l10n_ro_invoice_line_id and l10n_ro_invoice 
-    on coreponding stock_moves.stock_valuation_layer_ids 
-
 In stock_valuation_layer we are adding
-    l10n_ro_valued_type = fields.Char()  reception ...
-    l10n_ro_invoice_line_id -> account.move.id
-    l10n_ro_invoice_id -> account.move
-    l10n_ro_account_id -> account.account compute based on product and location form move
+    l10n_ro_valued_type   # just a name we can live also without
+    l10n_ro_bill_accounting_date  This is the date from billing accounting date. The bill that generate this svl
+    l10n_ro_draft_history  text each time, the bill that generated this was set to draft 
 
 in stock_move_line
     mthod _create_correction_svl    
     
 in stock_move
-    
-At purchase return will show atention if in svl does not exist retuned qty. In this case will take what is in stock at whatever svl value.
-The problem can be be at the value of 3xx at Vendor Credit Note 
+
      

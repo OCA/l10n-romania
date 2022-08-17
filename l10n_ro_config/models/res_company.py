@@ -93,6 +93,17 @@ class ResCompany(models.Model):
         "for the price difference between picking and bill",
     )
 
+    l10n_ro_property_bill_to_receive = fields.Many2one(
+        "account.account",
+        string="Bills to recive normally 408",
+        readonly=False,
+    )
+    l10n_ro_property_invoice_to_create = fields.Many2one(
+        "account.account",
+        string="Invoices to create normally 418",
+        readonly=False,
+    )
+
     def _check_is_l10n_ro_record(self, company=False):
         if not company:
             company = self

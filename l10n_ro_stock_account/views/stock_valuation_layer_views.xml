@@ -4,16 +4,25 @@
         <field name="inherit_id" ref="stock_account.stock_valuation_layer_form" />
         <field name="arch" type="xml">
             <notebook position="inside">
-                <page string="Romania fields" name="l10n_ro" attrs="{'invisible': [('is_l10n_ro_record', '=', False)]}">
+                <page string="Romania fields" name="l10n_ro" >
                     <group>
-                        <field name="is_l10n_ro_record" invisible="1" />
                         <field name="l10n_ro_valued_type" />
-                        <field name="l10n_ro_account_id"/>
-                        <field name="l10n_ro_invoice_line_id"/>
-                        <field name="l10n_ro_invoice_id"/>
+                        <field name="l10n_ro_draft_history" />
+                        <field name="l10n_ro_bill_accounting_date" />
                     </group>
                 </page>
             </notebook>
         </field>
     </record>
+    <record id="stock_valuation_layer_tree" model="ir.ui.view">
+        <field name="model">stock.valuation.layer</field>
+        <field name="inherit_id" ref="stock_account.stock_valuation_layer_tree" />
+        <field name="arch" type="xml">
+            <field name="create_date" position="after">
+                  <field name="l10n_ro_bill_accounting_date" optional="show" />
+                  <field name="l10n_ro_valued_type" optional="show" />
+            </field>
+        </field>
+    </record>
+
 </odoo>

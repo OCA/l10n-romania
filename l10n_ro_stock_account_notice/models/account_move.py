@@ -12,7 +12,7 @@ _logger = logging.getLogger(__name__)
 class AccountMove(models.Model):
     _name = "account.move"
     _inherit = ["account.move", "l10n.ro.mixin"]
-    
+
     def is_reception_notice(self):
         self.ensure_one()
         if not self.is_l10n_ro_record:

@@ -14,8 +14,11 @@ class AccountMoveLine(models.Model):
     _inherit = ["account.move.line", "l10n.ro.mixin"]
 
     def _get_computed_account(self):
-        if self.product_id.type == "product" and self.is_l10n_ro_record \
-                    and self.product_id.valuation == 'real_time':
+        if (
+            self.product_id.type == "product"
+            and self.is_l10n_ro_record
+            and self.product_id.valuation == "real_time"
+        ):
             if self.move_id.is_purchase_document():
                 purchase = self.purchase_order_id
                 if purchase and self.product_id.purchase_method == "receive":

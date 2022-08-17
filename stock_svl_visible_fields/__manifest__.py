@@ -11,6 +11,7 @@
         "views/stock_valuation_layer_views.xml",
         "views/stock_move_views.xml",
         "views/account_move_views.xml",
+        "views/stock_picking_views.xml",
     ],
     "author": "NextERP Romania",
     "website": "https://github.com/OCA/l10n-romania",

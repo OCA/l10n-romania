@@ -9,13 +9,10 @@
             </field>
             <field name="account_move_id" position="after">
                 <field name="account_move_state" />
-            </field>
-            <field name="l10n_ro_invoice_id" position="after">
-<!--                 <field name="invoice_state" />
- -->                  <field name="stock_valuation_layer_id" />
+                  <field name="stock_valuation_layer_id" />
                   <field name="stock_valuation_layer_id_id" />
-
             </field>
+
             <field name="create_date" position="before">
                 <field name="id" />
             </field>
@@ -41,30 +38,14 @@
                   <field name="remaining_value" optional="show" />
                   <field name="unit_cost" optional="hide" />
 
-                  <field name="account_move_id" optional="hide" />
                   <field name="stock_move_id" optional="hide" />
                 <field name="stock_landed_cost_id" optional="hide" />
 
 <!--                   <field name="stock_move_state" optional="hide"/> is not store=1 field-->
                   <field name="stock_valuation_layer_id_id" optional="hide" />
-                    <field name="l10n_ro_invoice_id" optional="hide" />
-<!--                     <field name="invoice_state" />  is not store=1 field-->
                   <field name="description" optional="hide" />
 
             </field>
-        </field>
-    </record>
-<!-- view in picking svl witout debug=1  -->
-    <record id="stock_valuation_layer_picking_view" model="ir.ui.view">
-        <field name="model">stock.picking</field>
-        <field name="inherit_id" ref="stock_account.stock_valuation_layer_picking" />
-        <field name="arch" type="xml">
-            <xpath
-                expr="//button[@name='action_view_stock_valuation_layers']"
-                position="attributes"
-            >
-                <attribute name="groups">account.group_account_invoice</attribute>
-            </xpath>
         </field>
     </record>
 </odoo>

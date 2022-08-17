@@ -104,6 +104,17 @@ class ResConfigSettings(models.TransientModel):
         readonly=False,
     )
 
+    l10n_ro_property_bill_to_receive = fields.Many2one(
+        "account.account",
+        related="company_id.l10n_ro_property_bill_to_receive",
+        readonly=False,
+    )
+    l10n_ro_property_invoice_to_create = fields.Many2one(
+        "account.account",
+        related="company_id.l10n_ro_property_invoice_to_create",
+        readonly=False,
+    )
+
     module_currency_rate_update_RO_BNR = fields.Boolean(
         "Currency Rate Update BNR",
         help="This option allows you to manage the update of currency "

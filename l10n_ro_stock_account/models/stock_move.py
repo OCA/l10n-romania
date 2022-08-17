@@ -19,7 +19,7 @@ class StockMove(models.Model):
     def _get_valued_types(self):
         valued_types = super(StockMove, self)._get_valued_types()
         if self.filtered("is_l10n_ro_record"):
-            valued_types.remove('out') # we have delivery, and we do need aditional svl
+            valued_types.remove("out")  # we have delivery, and we do need aditional svl
             valued_types += [
                 "reception",  # receptie de la furnizor fara aviz
                 "reception_return",  # retur la o receptie de la funizor fara aviz
@@ -46,16 +46,6 @@ class StockMove(models.Model):
             svl = self.env["stock.valuation.layer"]
         return svl
 
-    # 20220813 alex we have solved this problem not having out as valued_type
-    # nu se mai face in mod automat evaluarea la iserirea din stoc
-    # def _create_out_svl(self, forced_quantity=None):
-        # _logger.debug("SVL:%s" % self.env.context.get("valued_type", ""))
-        # if self.env.context.get("standard") or not self.filtered("is_l10n_ro_record"):
-            # svl = super(StockMove, self)._create_out_svl(forced_quantity)
-        # else:
-            # svl = self.env["stock.valuation.layer"]
-        # return svl
-
     def _is_returned(self, valued_type):
         """Este tot timpul False deoarece noi tratam fiecare caz in parte
         de retur si fxam conturile"""
@@ -65,17 +55,8 @@ class StockMove(models.Model):
 
     # evaluare la receptie - in mod normal nu se
     def _is_reception(self):
-        """Este receptie in stoc fara aviz"""
-        it_is = (
-            self.is_l10n_ro_record
-            and self.location_id.usage == "supplier"
-            and self._is_in()
-            # alex 20220813 we do not create svl lines for consumable 
-            # or valuation manual(periodic)
-            and self.product_id.type == "product"
-            and self.product_id.valuation == 'real_time'
-        )
-        return it_is
+        "Este receptie in stoc fara aviz. We are making the svl at invoice"
+        return False
 
     def _create_reception_svl(self, forced_quantity=None):
         move = self.with_context(standard=True, valued_type="reception")
@@ -88,7 +69,7 @@ class StockMove(models.Model):
             and self.location_dest_id.usage == "supplier"
             and self._is_out()
             and self.product_id.type == "product"
-            and self.product_id.valuation == 'real_time'
+            and self.product_id.valuation == "real_time"
         )
         return it_is
 
@@ -115,7 +96,7 @@ class StockMove(models.Model):
             and self.location_dest_id.usage == "customer"
             and self._is_out()
             and self.product_id.type == "product"
-            and self.product_id.valuation == 'real_time'
+            and self.product_id.valuation == "real_time"
         )
 
     def _create_delivery_svl(self, forced_quantity=None):
@@ -129,7 +110,7 @@ class StockMove(models.Model):
             and self.location_id.usage == "customer"
             and self._is_in()
             and self.product_id.type == "product"
-            and self.product_id.valuation == 'real_time'
+            and self.product_id.valuation == "real_time"
         )
         return it_is
 
@@ -143,7 +124,7 @@ class StockMove(models.Model):
             and self.location_id.usage == "inventory"
             and self.location_dest_id.usage == "internal"
             and self.product_id.type == "product"
-            and self.product_id.valuation == 'real_time'
+            and self.product_id.valuation == "real_time"
         )
         return it_is
 
@@ -158,7 +139,7 @@ class StockMove(models.Model):
             and self.location_id.usage == "internal"
             and self.location_dest_id.usage == "inventory"
             and self.product_id.type == "product"
-            and self.product_id.valuation == 'real_time'
+            and self.product_id.valuation == "real_time"
         )
         return it_is
 
@@ -173,7 +154,7 @@ class StockMove(models.Model):
             and self._is_in()
             and self.location_id.usage == "production"
             and self.product_id.type == "product"
-            and self.product_id.valuation == 'real_time'
+            and self.product_id.valuation == "real_time"
         )
         return it_is
 
@@ -188,7 +169,7 @@ class StockMove(models.Model):
             and self._is_out()
             and self.location_dest_id.usage == "production"
             and self.product_id.type == "product"
-            and self.product_id.valuation == 'real_time'
+            and self.product_id.valuation == "real_time"
         )
         return it_is
 
@@ -204,7 +185,7 @@ class StockMove(models.Model):
             and self.location_dest_id.usage == "consume"
             and not self.origin_returned_move_id
             and self.product_id.type == "product"
-            and self.product_id.valuation == 'real_time'
+            and self.product_id.valuation == "real_time"
         )
         return it_is
 
@@ -220,7 +201,7 @@ class StockMove(models.Model):
             and self.location_id.usage == "consume"
             and self.origin_returned_move_id
             and self.product_id.type == "product"
-            and self.product_id.valuation == 'real_time'
+            and self.product_id.valuation == "real_time"
         )
         return it_is
 
@@ -235,7 +216,7 @@ class StockMove(models.Model):
             and self.location_dest_id.usage == "internal"
             and self.location_id.usage == "internal"
             and self.product_id.type == "product"
-            and self.product_id.valuation == 'real_time'
+            and self.product_id.valuation == "real_time"
         )
         return it_is
 
@@ -290,7 +271,7 @@ class StockMove(models.Model):
             and self.location_dest_id.usage == "usage_giving"
             and self._is_out()
             and self.product_id.type == "product"
-            and self.product_id.valuation == 'real_time'
+            and self.product_id.valuation == "real_time"
         )
 
         return it_is
@@ -306,7 +287,7 @@ class StockMove(models.Model):
             and self.location_id.usage == "usage_giving"
             and self._is_in()
             and self.product_id.type == "product"
-            and self.product_id.valuation == 'real_time'
+            and self.product_id.valuation == "real_time"
         )
         return it_is
 
@@ -320,9 +301,9 @@ class StockMove(models.Model):
             valued_type = self.env.context.get("valued_type")
             if valued_type:
                 vals["l10n_ro_valued_type"] = valued_type
-            vals[
-                "l10n_ro_account_id"
-            ] = self.product_id.categ_id.property_stock_valuation_account_id.id
+            # vals[
+            # "l10n_ro_account_id"
+            # ] = self.product_id.categ_id.property_stock_valuation_account_id.id
         return vals
 
     def _create_dropshipped_svl(self, forced_quantity=None):

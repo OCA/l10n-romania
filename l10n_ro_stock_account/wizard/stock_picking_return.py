@@ -13,7 +13,13 @@ class StockReturnPickingLine(models.TransientModel):
     def _compute_origin_ret_move_qty(self):
         for line in self:
             mv = line.move_id.sudo()
-            if mv.stock_valuation_layer_ids:
+            if (
+                mv.is_l10n_ro_record
+                and mv.stock_valuation_layer_ids
+                and (
+                    not mv._is_delivery()  # delivery can be returned with same svl value
+                )
+            ):
                 vls = mv.stock_valuation_layer_ids.filtered(
                     lambda sv: sv.remaining_qty > 0
                 )

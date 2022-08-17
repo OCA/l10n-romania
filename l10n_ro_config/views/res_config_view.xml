@@ -360,6 +360,44 @@
                                         />
                                     </div>
                                 </div>
+
+                                    <div class="row mt16">
+                                        <label
+                                            for="l10n_ro_property_stock_price_difference_product_id"
+                                            class="col-lg-3 o_light_label"
+                                        />
+                                        <field
+                                            name="l10n_ro_property_stock_price_difference_product_id"
+                                            placeholder="Select a product"
+                                        />
+                                    </div>
+
+
+                                    <div class="row mt16">
+                                        <label
+                                            for="l10n_ro_property_bill_to_receive"
+                                            class="col-lg-3 o_light_label"
+                                        />
+                                        <field
+                                            name="l10n_ro_property_bill_to_receive"
+                                            placeholder="Select a account 408"
+                                        />
+                                    </div>
+                                    
+                                    <div class="row mt16">
+                                        <label
+                                            for="l10n_ro_property_invoice_to_create"
+                                            class="col-lg-3 o_light_label"
+                                        />
+                                        <field
+                                            name="l10n_ro_property_invoice_to_create"
+                                            placeholder="Select a account 418"
+                                        />
+                                    </div>
+
+                                    
+
+                                
                             </div>
                         </div>
                         <div
@@ -391,18 +429,6 @@
                                             between reception and bill
                                         </div>
                                     </div>
-
-                                    <div class="row mt16">
-                                        <label
-                                            for="l10n_ro_property_stock_price_difference_product_id"
-                                            class="col-lg-3 o_light_label"
-                                        />
-                                        <field
-                                            name="l10n_ro_property_stock_price_difference_product_id"
-                                            placeholder="Select a product"
-                                        />
-                                    </div>
-
                                 </div>
                             </div>
                         </div>

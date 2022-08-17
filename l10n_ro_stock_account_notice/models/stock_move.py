@@ -5,7 +5,8 @@
 
 import logging
 
-from odoo import api, fields, models
+from odoo import _, api, fields, models
+from odoo.exceptions import ValidationError
 
 _logger = logging.getLogger(__name__)
 
@@ -14,9 +15,10 @@ class StockMove(models.Model):
     _name = "stock.move"
     _inherit = ["stock.move", "l10n.ro.mixin"]
 
-    l10n_ro_notice = fields.Boolean(related="picking_id.l10n_ro_notice", 
-        help="field form picking, just to be used in view") 
-
+    l10n_ro_notice = fields.Boolean(
+        related="picking_id.l10n_ro_notice",
+        help="field form picking, just to be used in view",
+    )
 
     @api.model
     def _get_valued_types(self):
@@ -68,8 +70,87 @@ class StockMove(models.Model):
         return it_is
 
     def _create_reception_notice_svl(self, forced_quantity=None):
-        move = self.with_context(standard=True, valued_type="reception_notice")
-        return move._create_in_svl(forced_quantity)
+        # 2022 alex: at notice reception we need to make a journal entry
+        # with the value from notice
+        created_svl_ids = self.env["stock.valuation.layer"]
+        for move in self.with_context(standard=True, valued_type="reception_notice"):
+
+            if (
+                move.product_id.type != "product"
+                or move.product_id.valuation != "real_time"
+            ):
+                continue
+            picking = move.picking_id
+            date = picking.l10n_ro_accounting_date or picking.date
+            price_unit = move.price_unit
+            qty = move.quantity_done
+            value = qty * price_unit
+            product = move.product_id
+
+            accounts = move.with_context(
+                valued_type="invoice_in_notice"
+            )._get_accounting_data_for_valuation()
+            bill_to_recieve = move.company_id.l10n_ro_property_bill_to_receive.id
+            if not bill_to_recieve:
+                raise ValidationError(
+                    _(
+                        "Go to Settings/config/romania and set the property bill to receive to 408."
+                    )
+                )
+            account_move = self.env["account.move"].create(
+                {
+                    "date": date,
+                    "ref": f"Reception Notice for picking=({picking.name},{picking.id}), product={product.id,product.name}",
+                    "journal_id": accounts[0],
+                    "line_ids": [
+                        (
+                            0,
+                            0,
+                            {
+                                "account_id": accounts[3],  # 3xx
+                                "product_id": product.id,
+                                "name": product.name + f" ({price_unit}x{qty}={value})",
+                                "quantity": qty,
+                                "debit": value,
+                                "credit": 0,
+                            },
+                        ),
+                        (
+                            0,
+                            0,
+                            {
+                                "account_id": bill_to_recieve,
+                                "product_id": product.id,
+                                "name": product.name + f" ({price_unit}x{qty}={value})",
+                                "quantity": qty,
+                                "debit": 0,
+                                "credit": value,
+                            },
+                        ),
+                    ],
+                }
+            )
+            account_move.action_post()
+            svl = self.env["stock.valuation.layer"].create(
+                {
+                    "description": f"Notce reception picking=({picking.name},{picking.id})",
+                    "account_move_id": account_move.id,
+                    "stock_move_id": move.id,
+                    "product_id": move.product_id.id,
+                    "company_id": move.company_id.id,
+                    "value": value,
+                    "remaining_value": value,
+                    "l10n_ro_bill_accounting_date": date,
+                    "quantity": qty,
+                    "remaining_qty": qty,
+                    "unit_cost": price_unit,
+                    "l10n_ro_valued_type": "reception_notice",
+                }
+            )
+
+            created_svl_ids |= svl
+
+        return created_svl_ids
 
     def _is_reception_notice_return(self):
         """Este un retur la receptie in stoc cu aviz"""

@@ -20,3 +20,10 @@ class StockPicking(models.Model):
         help="With this field the reception/delivery is set as a notice. "
         "The generated account move will contain accounts 408/418.",
     )
+    l10n_ro_accounting_date = fields.Datetime(
+        "Accounting Date",
+        copy=False,
+        help="If this field is set, the svl and accounting entiries will "
+        "have this date for notice, If not will have the today date as it should be",
+        tracking=True,
+    )
