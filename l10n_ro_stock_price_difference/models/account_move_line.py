@@ -24,7 +24,7 @@ class AccountMoveLine(models.Model):
         if line.purchase_line_id.product_id.purchase_method != "receive":
             return diff, qty_diff
 
-        valuation_stock_moves = self._get_valuation_stock_moves()
+        valuation_stock_moves = self._l10n_ro_get_valuation_stock_moves()
         if not valuation_stock_moves:
             return diff, qty_diff
 
