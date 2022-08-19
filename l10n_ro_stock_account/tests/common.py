@@ -459,6 +459,7 @@ class TestStockCommon(ValuationReconciliationTestCommon):
         domain = [
             ("product_id", "in", [self.product_1.id, self.product_2.id]),
             ("account_id", "=", account.id),
+            ("parent_state", "=", "posted"),
         ]
         account_valuations = self.env["account.move.line"].read_group(
             domain, ["debit:sum", "credit:sum", "quantity:sum"], ["product_id"]
