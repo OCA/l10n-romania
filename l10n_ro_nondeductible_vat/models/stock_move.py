@@ -6,23 +6,29 @@ from odoo import api, fields, models
 
 
 class StockMove(models.Model):
-    _inherit = "stock.move"
+    _name = "stock.move"
+    _inherit = ["stock.move", "l10n.ro.mixin"]
 
-    nondeductible_tax_id = fields.Many2one(
-        "account.tax", domain=[("is_nondeductible", "=", True)], copy=False
+    l10n_ro_nondeductible_tax_id = fields.Many2one(
+        "account.tax", domain=[("l10n_ro_is_nondeductible", "=", True)], copy=False
     )
-    nondeductible_usage = fields.Boolean(compute="_compute_nondeductible_usage")
+    l10n_ro_nondeductible_usage = fields.Boolean(
+        compute="_compute_l10n_ro_nondeductible_usage"
+    )
 
-    def _checkUsageLocation(self, listUsageLocation):
+    def _l10n_ro_checkUsageLocation(self, listUsageLocation):
         permit_location_usage = ["usage_giving", "consume", "inventory"]
         return any([u in permit_location_usage for u in listUsageLocation])
 
     @api.depends("location_dest_id", "location_id")
-    def _compute_nondeductible_usage(self):
+    def _compute_l10n_ro_nondeductible_usage(self):
         for s in self:
-            s.nondeductible_usage = self._checkUsageLocation(
-                [s.location_dest_id.usage, s.location_id.usage]
-            )
+            if s.is_l10n_ro_record:
+                s.l10n_ro_nondeductible_usage = self._l10n_ro_checkUsageLocation(
+                    [s.location_dest_id.usage, s.location_id.usage]
+                )
+            else:
+                s.l10n_ro_nondeductible_usage = False
 
     def _generate_valuation_lines_data(
         self,
@@ -43,11 +49,12 @@ class StockMove(models.Model):
             credit_account_id,
             description,
         )
-        if self.nondeductible_tax_id:
-            if res.get("debit_line_vals"):
-                res["debit_line_vals"].update(
-                    {
-                        "tax_ids": [(6, 0, [self.nondeductible_tax_id.id])],
-                    }
-                )
+        if self.is_l10n_ro_record:
+            if self.l10n_ro_nondeductible_tax_id:
+                if res.get("debit_line_vals"):
+                    res["debit_line_vals"].update(
+                        {
+                            "tax_ids": [(6, 0, [self.l10n_ro_nondeductible_tax_id.id])],
+                        }
+                    )
         return res
