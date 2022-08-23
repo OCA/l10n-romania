@@ -8,7 +8,7 @@
             </t>
             <t t-set="counts" t-value="0" />
             <div
-                t-foreach="partner_id.bank_ids.filtered(lambda r: r.print_report)"
+                t-foreach="partner_id.bank_ids.filtered(lambda r: r.l10n_ro_print_report)"
                 t-as="bank"
             >
                 <t
@@ -56,20 +56,23 @@
         </div>
         <div>
             <div>
-                <div t-if="res_company.partner_id.vat">
-                    <strong>
-                        <t t-esc="res_company.country_id.vat_label or 'Tax ID'" />
-                        :
-                    </strong>
-                    <span t-field="res_company.partner_id.vat" />
-                </div>
-                <div t-if="res_company.partner_id.nrc">
-                    <strong>NRC:</strong>
-                    <span t-field="res_company.partner_id.nrc" />
-                </div>
-                <div i-if="res_company.share_capital">
-                    <strong>Share Capital:</strong>
-                    <span t-esc="int(res_company.share_capital)" />
+
+                <div>
+                    <div t-if="res_company.partner_id.vat">
+                        <strong>
+                            <t t-esc="res_company.country_id.vat_label or 'Tax ID'" />
+                            :
+                        </strong>
+                        <span t-field="res_company.partner_id.vat" />
+                    </div>
+                    <div t-if="res_company.partner_id.nrc">
+                        <strong>NRC:</strong>
+                        <span t-field="res_company.partner_id.nrc" />
+                    </div>
+                    <div i-if="res_company.l10n_ro_share_capital">
+                        <strong>Share Capital:</strong>
+                        <span t-esc="int(res_company.l10n_ro_share_capital)" />
+                    </div>
                 </div>
             </div>
         </div>
