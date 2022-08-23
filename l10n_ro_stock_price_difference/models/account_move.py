@@ -17,7 +17,7 @@ class AccountMove(models.Model):
         if (
             len(self) == 1
             and self.move_type in ["in_invoice", "in_refund"]
-            and self.company_id.romanian_accounting
+            and self.company_id.l10n_ro_accounting
             and not self.env.context.get("l10n_ro_approved_price_difference")
         ):
             action = self._get_price_difference_check_action()
@@ -38,7 +38,7 @@ class AccountMove(models.Model):
                 for line in invoice_lines:
                     add_diff = False
                     if line.product_id.cost_method != "standard":
-                        add_diff = invoice.company_id.stock_acc_price_diff
+                        add_diff = invoice.company_id.l10n_ro_stock_acc_price_diff
 
                     if add_diff:
                         # se reevalueaza stocul
@@ -112,7 +112,7 @@ class AccountMove(models.Model):
                 for line in invoice_lines:
                     add_diff = False
                     if line.product_id.cost_method != "standard":
-                        add_diff = not invoice.company_id.stock_acc_price_diff
+                        add_diff = not invoice.company_id.l10n_ro_stock_acc_price_diff
 
                     if not add_diff:
                         # se reevalueaza stocul
@@ -121,6 +121,6 @@ class AccountMove(models.Model):
                             line.modify_stock_valuation(price_diff)
 
     def _stock_account_prepare_anglo_saxon_in_lines_vals(self):
-        if self.company_id.romanian_accounting:
+        if self.company_id.l10n_ro_accounting:
             return []
         return super()._stock_account_prepare_anglo_saxon_in_lines_vals()
