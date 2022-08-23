@@ -129,7 +129,7 @@ class AccountMoveLine(models.Model):
 
     def _create_price_difference_landed_cost(self, value):
         vals = self.prepare_price_difference_landed_cost(value)
-        return self.env["stock.landed.cost"].create(vals)
+        return self.env["stock.landed.cost"].sudo().create(vals)
 
     def _get_or_create_price_difference_product(self):
         price_diff_product = self.company_id.property_stock_price_difference_product_id
@@ -152,7 +152,7 @@ class AccountMoveLine(models.Model):
                 }
             )
 
-            self.company_id.property_stock_price_difference_product_id = (
+            self.sudo().company_id.property_stock_price_difference_product_id = (
                 price_diff_product
             )
 

@@ -26,7 +26,9 @@ class TestStockCommon(TestStockCommon):
 
         cls.env["account.move.line"]._get_or_create_price_difference_product()
 
-    def create_invoice(self, diff_p1=0, diff_p2=0, quant_p1=0, quant_p2=0):
+    def create_invoice(
+        self, diff_p1=0, diff_p2=0, quant_p1=0, quant_p2=0, auto_post=True
+    ):
         invoice = Form(
             self.env["account.move"].with_context(
                 default_move_type="in_invoice",
@@ -46,7 +48,8 @@ class TestStockCommon(TestStockCommon):
 
         invoice = invoice.save()
 
-        invoice.action_post()
+        if auto_post:
+            invoice.action_post()
 
         self.invoice = invoice
         _logger.info("Factura introdusa")
