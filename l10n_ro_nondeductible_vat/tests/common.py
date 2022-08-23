@@ -380,8 +380,8 @@ class TestNondeductibleCommon(ValuationReconciliationTestCommon):
         )
 
         cls.env.company.anglo_saxon_accounting = True
-        cls.env.company.romanian_accounting = True
-        cls.env.company.stock_acc_price_diff = True
+        cls.env.company.l10n_ro_accounting = True
+        cls.env.company.l10n_ro_stock_acc_price_diff = True
 
         cls.setUpTax()
 
@@ -478,7 +478,7 @@ class TestNondeductibleCommon(ValuationReconciliationTestCommon):
             self.env["res.partner.anaf"].create(
                 {
                     "anaf_id": "1",
-                    "vat": self.vendor.vat_number,
+                    "vat": self.vendor.l10n_ro_vat_number,
                     "start_date": fields.Date.today(),
                     "publish_date": fields.Date.today(),
                     "operation_date": fields.Date.today(),
