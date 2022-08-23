@@ -29,7 +29,7 @@ class AccountMove(models.Model):
     def get_reception_account(self):
         self.ensure_one()
         account = self.env["account.account"]
-        acc_payable = self.company_id.property_stock_picking_payable_account_id
+        acc_payable = self.company_id.l10n_ro_property_stock_picking_payable_account_id
         valuation_stock_moves = self.env["stock.move"].search(
             [
                 (
@@ -55,6 +55,6 @@ class AccountMove(models.Model):
         return account
 
     def _stock_account_prepare_anglo_saxon_in_lines_vals(self):
-        if self.company_id.romanian_accounting:
+        if self.company_id.l10n_ro_accounting:
             return []
         return super()._stock_account_prepare_anglo_saxon_in_lines_vals()

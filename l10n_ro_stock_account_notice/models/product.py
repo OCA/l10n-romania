@@ -20,14 +20,14 @@ class ProductTemplate(models.Model):
             self.env["res.company"].browse(self._context.get("force_company"))
             or self.env.company
         )
-        if not company.romanian_accounting:
+        if not company.l10n_ro_accounting:
             return accounts
 
         stock_picking_payable_account_id = (
-            company.property_stock_picking_payable_account_id
+            company.l10n_ro_property_stock_picking_payable_account_id
         )
         stock_picking_receivable_account_id = (
-            company.property_stock_picking_receivable_account_id
+            company.l10n_ro_property_stock_picking_receivable_account_id
         )
 
         valued_type = self.env.context.get("valued_type", "indefinite")
