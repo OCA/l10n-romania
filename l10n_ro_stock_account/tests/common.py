@@ -102,7 +102,7 @@ class TestStockCommon(ValuationReconciliationTestCommon):
             "property_stock_account_output_categ_id": cls.account_valuation.id,
             "property_stock_valuation_account_id": cls.account_valuation.id,
             "property_stock_journal": stock_journal.id,
-            "stock_account_change": True,
+            "l10n_ro_stock_account_change": True,
         }
 
         cls.category = cls.env["product.category"].search(
@@ -254,8 +254,8 @@ class TestStockCommon(ValuationReconciliationTestCommon):
     def set_warehouse_as_mp(self):
         self.location_warehouse.write(
             {
-                "property_stock_valuation_account_id": self.account_valuation_mp.id,
-                "property_account_expense_location_id": self.account_expense_mp.id,
+                "l10n_ro_property_stock_valuation_account_id": self.account_valuation_mp.id,
+                "l10n_ro_property_account_expense_location_id": self.account_expense_mp.id,
                 "valuation_in_account_id": self.account_valuation_mp.id,
                 "valuation_out_account_id": self.account_valuation_mp.id,
             }
