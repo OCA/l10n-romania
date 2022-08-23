@@ -39,7 +39,7 @@ class StockMove(models.Model):
     def _is_reception_notice(self):
         """Este receptie in stoc cu aviz"""
         it_is = (
-            self.company_id.romanian_accounting
+            self.company_id.l10n_ro_accounting
             and self.picking_id.notice
             and self.location_id.usage == "supplier"
             and self._is_in()
@@ -53,7 +53,7 @@ class StockMove(models.Model):
     def _is_reception_notice_return(self):
         """Este un retur la receptie in stoc cu aviz"""
         it_is = (
-            self.company_id.romanian_accounting
+            self.company_id.l10n_ro_accounting
             and self.picking_id.notice
             and self.location_dest_id.usage == "supplier"
             and self._is_out()
@@ -92,7 +92,7 @@ class StockMove(models.Model):
     def _is_delivery_notice(self):
         """Este livrare cu aviz"""
         it_is = (
-            self.company_id.romanian_accounting
+            self.company_id.l10n_ro_accounting
             and self.picking_id.notice
             and self.location_dest_id.usage == "customer"
             and self._is_out()
@@ -106,7 +106,7 @@ class StockMove(models.Model):
     def _is_delivery_notice_return(self):
         """Este retur livrare cu aviz"""
         it_is = (
-            self.company_id.romanian_accounting
+            self.company_id.l10n_ro_accounting
             and self.picking_id.notice
             and self.location_id.usage == "customer"
             and self._is_in()
@@ -188,7 +188,7 @@ class StockMove(models.Model):
             StockMove, self
         )._get_accounting_data_for_valuation()
         if (
-            self.company_id.romanian_accounting
+            self.company_id.l10n_ro_accounting
             and self.product_id.categ_id.stock_account_change
         ):
             location_from = self.location_id
