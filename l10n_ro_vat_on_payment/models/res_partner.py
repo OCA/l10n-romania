@@ -13,12 +13,12 @@ from odoo.tools import DEFAULT_SERVER_DATE_FORMAT as DATE_FORMAT
 class ResPartner(models.Model):
     _inherit = "res.partner"
 
-    @api.depends("vat_number")
+    @api.depends("l10n_ro_vat_number")
     def _compute_anaf_history(self):
         for partner in self:
-            if partner.vat_number:
+            if partner.l10n_ro_vat_number:
                 history = self.env["res.partner.anaf"].search(
-                    [("vat", "=", partner.vat_number)]
+                    [("vat", "=", partner.l10n_ro_vat_number)]
                 )
                 partner.anaf_history = [(6, 0, [line.id for line in history])]
             else:
@@ -41,7 +41,7 @@ class ResPartner(models.Model):
                 return datetime.strptime(str(strdate), "%Y%m%d").strftime(DATE_FORMAT)
 
         vat_numbers = [
-            p.vat_number
+            p.l10n_ro_vat_number
             for p in self
             if p.vat and p.vat.lower().startswith("ro") and p.vat[2:].isnumeric()
         ]
