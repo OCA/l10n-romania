@@ -15,8 +15,8 @@ class ResCompany(models.Model):
         )
         ro_comp.write(
             {
-                "romanian_accounting": True,
+                "l10n_ro_accounting": True,
                 "anglo_saxon_accounting": True,
-                "stock_acc_price_diff": True,
+                "l10n_ro_stock_acc_price_diff": True,
             }
         )
