@@ -37,7 +37,7 @@ class StockMove(models.Model):
     # nu se mai face in mod automat evaluarea la intrare in stoc
     def _create_in_svl(self, forced_quantity=None):
         _logger.debug("SVL:%s" % self.env.context.get("valued_type", ""))
-        if self.env.context.get("standard") or not self.company_id.romanian_accounting:
+        if self.env.context.get("standard") or not self.company_id.l10n_ro_accounting:
             svl = super(StockMove, self)._create_in_svl(forced_quantity)
         else:
             svl = self.env["stock.valuation.layer"]
@@ -46,7 +46,7 @@ class StockMove(models.Model):
     # nu se mai face in mod automat evaluarea la iserirea din stoc
     def _create_out_svl(self, forced_quantity=None):
         _logger.debug("SVL:%s" % self.env.context.get("valued_type", ""))
-        if self.env.context.get("standard") or not self.company_id.romanian_accounting:
+        if self.env.context.get("standard") or not self.company_id.l10n_ro_accounting:
             svl = super(StockMove, self)._create_out_svl(forced_quantity)
         else:
             svl = self.env["stock.valuation.layer"]
@@ -61,7 +61,7 @@ class StockMove(models.Model):
     def _is_reception(self):
         """Este receptie in stoc fara aviz"""
         it_is = (
-            self.company_id.romanian_accounting
+            self.company_id.l10n_ro_accounting
             and self.location_id.usage == "supplier"
             and self._is_in()
         )
@@ -74,7 +74,7 @@ class StockMove(models.Model):
     def _is_reception_return(self):
         """Este un retur la o receptie in stoc fara aviz"""
         it_is = (
-            self.company_id.romanian_accounting
+            self.company_id.l10n_ro_accounting
             and self.location_dest_id.usage == "supplier"
             and self._is_out()
         )
@@ -99,7 +99,7 @@ class StockMove(models.Model):
     def _is_delivery(self):
         """Este livrare din stoc fara aviz"""
         return (
-            self.company_id.romanian_accounting
+            self.company_id.l10n_ro_accounting
             and self.location_dest_id.usage == "customer"
             and self._is_out()
         )
@@ -111,7 +111,7 @@ class StockMove(models.Model):
     def _is_delivery_return(self):
         """Este retur la o livrare din stoc fara aviz"""
         it_is = (
-            self.company_id.romanian_accounting
+            self.company_id.l10n_ro_accounting
             and self.location_id.usage == "customer"
             and self._is_in()
         )
@@ -123,7 +123,7 @@ class StockMove(models.Model):
 
     def _is_plus_inventory(self):
         it_is = (
-            self.company_id.romanian_accounting
+            self.company_id.l10n_ro_accounting
             and self.location_id.usage == "inventory"
             and self.location_dest_id.usage == "internal"
         )
@@ -136,7 +136,7 @@ class StockMove(models.Model):
 
     def _is_minus_inventory(self):
         it_is = (
-            self.company_id.romanian_accounting
+            self.company_id.l10n_ro_accounting
             and self.location_id.usage == "internal"
             and self.location_dest_id.usage == "inventory"
         )
@@ -149,7 +149,7 @@ class StockMove(models.Model):
     def _is_production(self):
         """Este inregistrare intrare produse finite prin productie"""
         it_is = (
-            self.company_id.romanian_accounting
+            self.company_id.l10n_ro_accounting
             and self._is_in()
             and self.location_id.usage == "production"
         )
@@ -162,7 +162,7 @@ class StockMove(models.Model):
     def _is_production_return(self):
         """Este retur inregistrare produse finite prin productie"""
         it_is = (
-            self.company_id.romanian_accounting
+            self.company_id.l10n_ro_accounting
             and self._is_out()
             and self.location_dest_id.usage == "production"
         )
@@ -175,7 +175,7 @@ class StockMove(models.Model):
     def _is_consumption(self):
         """Este un conusm de materiale in productie"""
         it_is = (
-            self.company_id.romanian_accounting
+            self.company_id.l10n_ro_accounting
             and self._is_out()
             and self.location_dest_id.usage == "consume"
             and not self.origin_returned_move_id
@@ -189,7 +189,7 @@ class StockMove(models.Model):
     def _is_consumption_return(self):
         """Este un conusm de materiale in productie"""
         it_is = (
-            self.company_id.romanian_accounting
+            self.company_id.l10n_ro_accounting
             and self._is_in()
             and self.location_id.usage == "consume"
             and self.origin_returned_move_id
@@ -203,7 +203,7 @@ class StockMove(models.Model):
     def _is_internal_transfer(self):
         """Este transfer intern"""
         it_is = (
-            self.company_id.romanian_accounting
+            self.company_id.l10n_ro_accounting
             and self.location_dest_id.usage == "internal"
             and self.location_id.usage == "internal"
         )
@@ -256,7 +256,7 @@ class StockMove(models.Model):
     def _is_usage_giving(self):
         """Este dare in folosinta"""
         it_is = (
-            self.company_id.romanian_accounting
+            self.company_id.l10n_ro_accounting
             and self.location_dest_id.usage == "usage_giving"
             and self._is_out()
         )
@@ -270,7 +270,7 @@ class StockMove(models.Model):
     def _is_usage_giving_return(self):
         """Este return dare in folosinta"""
         it_is = (
-            self.company_id.romanian_accounting
+            self.company_id.l10n_ro_accounting
             and self.location_id.usage == "usage_giving"
             and self._is_in()
         )
@@ -321,11 +321,11 @@ class StockMove(models.Model):
         svl = self.env["stock.valuation.layer"].browse(svl_id)
         company = self._get_company(svl)
         self = company and self.with_company(company.id) or self
-        if company and company.romanian_accounting:
+        if company and company.l10n_ro_accounting:
             self = self.with_context(
-                valued_type=svl.valued_type, is_romanian_accounting=True
+                valued_type=svl.valued_type, is_l10n_ro_accounting=True
             )
-        if self.company_id.romanian_accounting and svl.valued_type in (
+        if self.company_id.l10n_ro_accounting and svl.valued_type in (
             "reception",
             "reception_return",
         ):
@@ -335,7 +335,7 @@ class StockMove(models.Model):
                 qty, description, svl_id, cost
             )
 
-        if company and company.romanian_accounting:
+        if company and company.l10n_ro_accounting:
             self._romanian_account_entry_move(qty, description, svl_id, cost)
         return res
 
@@ -404,7 +404,7 @@ class StockMove(models.Model):
         cost,
     ):
         if (
-            self.company_id.romanian_accounting
+            self.company_id.l10n_ro_accounting
             and credit_account_id == debit_account_id
             and not self._is_usage_giving()
             and not self._is_usage_giving_return()
@@ -425,7 +425,7 @@ class StockMove(models.Model):
             StockMove, self
         )._get_accounting_data_for_valuation()
         if (
-            self.company_id.romanian_accounting
+            self.company_id.l10n_ro_accounting
             and self.product_id.categ_id.stock_account_change
         ):
             location_from = self.location_id
@@ -484,7 +484,7 @@ class StockMoveLine(models.Model):
             company_id = self.env["res.company"].browse(
                 self._context["default_company_id"]
             )
-        if not company_id.romanian_accounting:
+        if not company_id.l10n_ro_accounting:
             return
 
         stock_valuation_layers = self.env["stock.valuation.layer"]
