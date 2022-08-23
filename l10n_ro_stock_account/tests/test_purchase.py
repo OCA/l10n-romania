@@ -12,7 +12,7 @@ from .common import TestStockCommon
 class TestStockPurchase(TestStockCommon):
     def test_nir_with_invoice_standard(self):
 
-        self.env.company.romanian_accounting = False
+        self.env.company.l10n_ro_accounting = False
 
         self.create_po()
 
