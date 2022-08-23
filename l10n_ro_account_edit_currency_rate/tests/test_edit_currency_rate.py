@@ -50,7 +50,7 @@ class TestInvoiceCurrencyRateEdit(AccountTestInvoicingCommon):
         self.assertEqual(self.invoice.amount_total_signed, -1000)
 
         # edit currency rate
-        move_form.currency_rate = 5
+        move_form.l10n_ro_currency_rate = 5
 
         move_form.save()
         self.assertEqual(self.invoice.amount_total_signed, -500)
@@ -69,7 +69,7 @@ class TestInvoiceCurrencyRateEdit(AccountTestInvoicingCommon):
 
         move_form.invoice_date = date_to
         move_form.save()
-        self.assertEqual(self.invoice.currency_rate, 5)
+        self.assertEqual(self.invoice.l10n_ro_currency_rate, 5)
         self.assertEqual(self.invoice.amount_total_signed, -500)
 
     def test_invoice_currency_rate_with_tax_line(self):
@@ -87,7 +87,7 @@ class TestInvoiceCurrencyRateEdit(AccountTestInvoicingCommon):
         move_form.invoice_date = today
         move_form.currency_id = self.ron_currency
         move_form.save()
-        self.assertEqual(self.invoice.currency_rate, 5)
+        self.assertEqual(self.invoice.l10n_ro_currency_rate, 5)
 
         with move_form.invoice_line_ids.edit(0) as line_form:
             line_form.quantity = 1
@@ -100,6 +100,6 @@ class TestInvoiceCurrencyRateEdit(AccountTestInvoicingCommon):
         with move_form.invoice_line_ids.edit(0) as line_form:
             line_form.quantity = 2
             line_form.price_unit = 100
-        move_form.currency_rate = 10
+        move_form.l10n_ro_currency_rate = 10
         move_form.save()
         self.assertEqual(self.invoice.amount_total_signed, -2300)
