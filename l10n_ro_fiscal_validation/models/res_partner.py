@@ -34,7 +34,7 @@ class ResPartner(models.Model):
         check_date = fields.Date.to_string(fields.Date.today())
         # Build list of vat numbers to be checked on ANAF
         for partner in self:
-            anaf_dict.append(partner.vat_number)
+            anaf_dict.append(partner.l10n_ro_vat_number)
         chunk = []
         chunks = []
         # Process 500 vat numbers once
@@ -61,7 +61,7 @@ class ResPartner(models.Model):
                         for result_partner in resp["found"] + resp["notfound"]:
                             partners = self.search(
                                 [
-                                    ("vat_number", "=", result_partner["cui"]),
+                                    ("l10n_ro_vat_number", "=", result_partner["cui"]),
                                     ("is_company", "=", True),
                                 ]
                             )
