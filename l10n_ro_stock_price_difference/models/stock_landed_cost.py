@@ -10,7 +10,8 @@ from odoo.tools.float_utils import float_is_zero
 
 
 class StockLandedCost(models.Model):
-    _inherit = "stock.landed.cost"
+    _name = "stock.landed.cost"
+    _inherit = ["stock.landed.cost", "l10n.ro.mixin"]
 
     def _get_targeted_move_ids(self):
         if not self._context.get("l10n_ro_price_difference_move_ids"):
@@ -18,7 +19,7 @@ class StockLandedCost(models.Model):
 
         return self._context["l10n_ro_price_difference_move_ids"]
 
-    def create_valuation_layer(self, line, linked_layer, amount):
+    def l10n_ro_create_valuation_layer(self, line, linked_layer, amount):
         valuation_layer = self.env["stock.valuation.layer"].create(
             {
                 "value": amount,
@@ -36,7 +37,7 @@ class StockLandedCost(models.Model):
         return valuation_layer
 
     def button_validate(self):
-        if not self.company_id.l10n_ro_accounting:
+        if not self.is_l10n_ro_record:
             return super().button_validate()
         self._check_can_validate()
         cost_without_adjusment_lines = self.filtered(
@@ -80,13 +81,13 @@ class StockLandedCost(models.Model):
                 # Romania change to create separate valuation layer for price difference
                 # and for the quantity out difference
                 if not cost.company_id.currency_id.is_zero(cost_to_add):
-                    valuation_layer = cost.create_valuation_layer(
+                    valuation_layer = cost.l10n_ro_create_valuation_layer(
                         line, linked_layer, line.additional_landed_cost
                     )
                     linked_layer.remaining_value += cost_to_add
                     valuation_layer_ids.append(valuation_layer.id)
                     if cost_to_add - line.additional_landed_cost != 0:
-                        valuation_layer_out = cost.create_valuation_layer(
+                        valuation_layer_out = cost.l10n_ro_create_valuation_layer(
                             line,
                             linked_layer,
                             cost_to_add - line.additional_landed_cost,
@@ -157,7 +158,8 @@ class StockLandedCost(models.Model):
 
 
 class AdjustmentLines(models.Model):
-    _inherit = "stock.valuation.adjustment.lines"
+    _name = "stock.valuation.adjustment.lines"
+    _inherit = ["stock.valuation.adjustment.lines", "l10n.ro.mixin"]
 
     def _create_account_move_line(
         self, move, credit_account_id, debit_account_id, qty_out, already_out_account_id
@@ -165,7 +167,7 @@ class AdjustmentLines(models.Model):
         res = super()._create_account_move_line(
             move, credit_account_id, debit_account_id, qty_out, already_out_account_id
         )
-        if self.cost_id.company_id.l10n_ro_accounting:
+        if self.is_l10n_ro_record:
             # Remove account move lines generated for the same account
             if credit_account_id == debit_account_id:
                 res = res[2:]
