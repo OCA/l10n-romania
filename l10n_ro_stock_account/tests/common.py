@@ -41,31 +41,31 @@ class TestStockCommon(ValuationReconciliationTestCommon):
         )
 
         cls.stock_picking_payable_account_id = (
-            cls.env.user.company_id.property_stock_picking_payable_account_id
+            cls.env.user.company_id.l10n_ro_property_stock_picking_payable_account_id
         )
         if not cls.stock_picking_payable_account_id:
             cls.stock_picking_payable_account_id = get_account("408000")
 
-        cls.env.user.company_id.property_stock_picking_payable_account_id = (
+        cls.env.user.company_id.l10n_ro_property_stock_picking_payable_account_id = (
             cls.stock_picking_payable_account_id
         )
 
         cls.stock_picking_receivable_account_id = (
-            cls.env.user.company_id.property_stock_picking_receivable_account_id
+            cls.env.user.company_id.l10n_ro_property_stock_picking_receivable_account_id
         )
         if not cls.stock_picking_receivable_account_id:
             cls.stock_picking_receivable_account_id = get_account("418000")
 
-        cls.env.user.company_id.property_stock_picking_receivable_account_id = (
+        cls.env.user.company_id.l10n_ro_property_stock_picking_receivable_account_id = (
             cls.stock_picking_receivable_account_id
         )
 
         cls.stock_usage_giving_account_id = (
-            cls.env.user.company_id.property_stock_usage_giving_account_id
+            cls.env.user.company_id.l10n_ro_property_stock_usage_giving_account_id
         )
         if not cls.stock_usage_giving_account_id:
             cls.stock_usage_giving_account_id = get_account("803500")
-            cls.env.user.company_id.property_stock_usage_giving_account_id = (
+            cls.env.user.company_id.l10n_ro_property_stock_usage_giving_account_id = (
                 cls.stock_usage_giving_account_id
             )
 
@@ -75,8 +75,8 @@ class TestStockCommon(ValuationReconciliationTestCommon):
         super(TestStockCommon, cls).setUpClass(chart_template_ref=ro_template_ref)
 
         cls.env.company.anglo_saxon_accounting = True
-        cls.env.company.romanian_accounting = True
-        cls.env.company.stock_acc_price_diff = True
+        cls.env.company.l10n_ro_accounting = True
+        cls.env.company.l10n_ro_stock_acc_price_diff = True
 
         cls.setUpAccounts()
 

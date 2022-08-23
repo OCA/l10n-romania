@@ -23,7 +23,7 @@ class TestStockSale(TestStockCommon):
              - in contul de venituri trebuie sa fie inregistrata valoarea de vanzare
         """
 
-        self.env.company.romanian_accounting = False
+        self.env.company.l10n_ro_accounting = False
 
         #  intrare in stoc
         self.make_puchase()
