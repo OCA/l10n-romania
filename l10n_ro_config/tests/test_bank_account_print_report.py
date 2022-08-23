@@ -5,7 +5,7 @@
 from odoo.tests import common
 
 
-class TestBankAccount(common.SavepointCase):
+class TestBankAccount(common.TransactionCase):
     @classmethod
     def setUpClass(cls):
         super(TestBankAccount, cls).setUpClass()
@@ -19,22 +19,22 @@ class TestBankAccount(common.SavepointCase):
         )
 
     def test_journal_bank_creation(self):
-        self.assertEqual(self.bank.print_report, False)
+        self.assertEqual(self.bank.l10n_ro_print_report, False)
         journal = self.env["account.journal"].create(
             {
                 "name": "Bank Journal",
                 "code": "TBNKCAMT",
                 "type": "bank",
                 "bank_account_id": self.bank.id,
-                "print_report": True,
+                "l10n_ro_print_report": True,
             }
         )
         self.assertEqual(journal.bank_account_id.id, self.bank.id)
-        self.assertEqual(self.bank.print_report, True)
-        self.assertEqual(journal.print_report, True)
+        self.assertEqual(self.bank.l10n_ro_print_report, True)
+        self.assertEqual(journal.l10n_ro_print_report, True)
 
     def test_journal_bank_write(self):
-        self.assertEqual(self.bank.print_report, False)
+        self.assertEqual(self.bank.l10n_ro_print_report, False)
         journal = self.env["account.journal"].create(
             {
                 "name": "Bank Journal",
@@ -43,8 +43,8 @@ class TestBankAccount(common.SavepointCase):
                 "bank_account_id": self.bank.id,
             }
         )
-        self.assertEqual(self.bank.print_report, False)
-        journal.write({"print_report": True})
+        self.assertEqual(self.bank.l10n_ro_print_report, False)
+        journal.write({"l10n_ro_print_report": True})
         self.assertEqual(journal.bank_account_id.id, self.bank.id)
-        self.assertEqual(journal.print_report, True)
-        self.assertEqual(self.bank.print_report, True)
+        self.assertEqual(journal.l10n_ro_print_report, True)
+        self.assertEqual(self.bank.l10n_ro_print_report, True)

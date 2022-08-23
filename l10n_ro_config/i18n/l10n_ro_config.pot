@@ -121,8 +121,8 @@ msgid "Companies"
 msgstr ""
 
 #. module: l10n_ro_config
-#: model:ir.model.fields,field_description:l10n_ro_config.field_res_company__property_stock_transfer_account_id
-#: model:ir.model.fields,field_description:l10n_ro_config.field_res_config_settings__property_stock_transfer_account_id
+#: model:ir.model.fields,field_description:l10n_ro_config.field_res_company__l10n_ro_property_stock_transfer_account_id
+#: model:ir.model.fields,field_description:l10n_ro_config.field_res_config_settings__l10n_ro_property_stock_transfer_account_id
 msgid "Company Stock Trabnsfer Account"
 msgstr ""
 
@@ -169,18 +169,18 @@ msgid "Extend the  partner addres field with flat number, staircase.."
 msgstr ""
 
 #. module: l10n_ro_config
-#: model:ir.model.fields,field_description:l10n_ro_config.field_res_company__property_inverse_taxation_position_id
+#: model:ir.model.fields,field_description:l10n_ro_config.field_res_company__l10n_ro_property_inverse_taxation_position_id
 msgid "Fiscal Position for Inverse Taxation"
 msgstr ""
 
 #. module: l10n_ro_config
-#: model:ir.model.fields,field_description:l10n_ro_config.field_res_company__property_vat_on_payment_position_id
+#: model:ir.model.fields,field_description:l10n_ro_config.field_res_company__l10n_ro_property_vat_on_payment_position_id
 msgid "Fiscal Position for VAT on Payment"
 msgstr ""
 
 #. module: l10n_ro_config
-#: model:ir.model.fields,help:l10n_ro_config.field_res_company__stock_acc_price_diff
-#: model:ir.model.fields,help:l10n_ro_config.field_res_config_settings__stock_acc_price_diff
+#: model:ir.model.fields,help:l10n_ro_config.field_res_company__l10n_ro_stock_acc_price_diff
+#: model:ir.model.fields,help:l10n_ro_config.field_res_config_settings__l10n_ro_stock_acc_price_diff
 msgid ""
 "If this field is checked and the company use Romanian Accounting,the "
 "currency rate differences between reception and invoice will be reflected in"
@@ -193,7 +193,7 @@ msgid "Install BNR update rates"
 msgstr ""
 
 #. module: l10n_ro_config
-#: model:ir.model.fields,field_description:l10n_ro_config.field_res_config_settings__property_inverse_taxation_position_id
+#: model:ir.model.fields,field_description:l10n_ro_config.field_res_config_settings__l10n_ro_property_inverse_taxation_position_id
 msgid "Inverse Taxation"
 msgstr ""
 
@@ -218,8 +218,8 @@ msgid "NRC"
 msgstr ""
 
 #. module: l10n_ro_config
-#: model:ir.model.fields,field_description:l10n_ro_config.field_res_company__property_uneligible_tax_account_id
-#: model:ir.model.fields,field_description:l10n_ro_config.field_res_config_settings__property_uneligible_tax_account_id
+#: model:ir.model.fields,field_description:l10n_ro_config.field_res_company__l10n_ro_property_uneligible_tax_account_id
+#: model:ir.model.fields,field_description:l10n_ro_config.field_res_config_settings__l10n_ro_property_uneligible_tax_account_id
 msgid "Not Eligible Tax Account"
 msgstr ""
 
@@ -239,20 +239,20 @@ msgid "Partners unique by Company, VAT, NRC"
 msgstr ""
 
 #. module: l10n_ro_config
-#: model:ir.model.fields,field_description:l10n_ro_config.field_res_company__property_stock_picking_custody_account_id
-#: model:ir.model.fields,field_description:l10n_ro_config.field_res_config_settings__property_stock_picking_custody_account_id
+#: model:ir.model.fields,field_description:l10n_ro_config.field_res_company__l10n_ro_property_stock_picking_custody_account_id
+#: model:ir.model.fields,field_description:l10n_ro_config.field_res_config_settings__l10n_ro_property_stock_picking_custody_account_id
 msgid "Picking Account Custody"
 msgstr ""
 
 #. module: l10n_ro_config
-#: model:ir.model.fields,field_description:l10n_ro_config.field_res_company__property_stock_picking_payable_account_id
-#: model:ir.model.fields,field_description:l10n_ro_config.field_res_config_settings__property_stock_picking_payable_account_id
+#: model:ir.model.fields,field_description:l10n_ro_config.field_res_company__l10n_ro_property_stock_picking_payable_account_id
+#: model:ir.model.fields,field_description:l10n_ro_config.field_res_config_settings__l10n_ro_property_stock_picking_payable_account_id
 msgid "Picking Account Payable"
 msgstr ""
 
 #. module: l10n_ro_config
-#: model:ir.model.fields,field_description:l10n_ro_config.field_res_company__property_stock_picking_receivable_account_id
-#: model:ir.model.fields,field_description:l10n_ro_config.field_res_config_settings__property_stock_picking_receivable_account_id
+#: model:ir.model.fields,field_description:l10n_ro_config.field_res_company__l10n_ro_property_stock_picking_receivable_account_id
+#: model:ir.model.fields,field_description:l10n_ro_config.field_res_config_settings__l10n_ro_property_stock_picking_receivable_account_id
 msgid "Picking Account Receivable"
 msgstr ""
 
@@ -413,8 +413,8 @@ msgid "Stock Picking Report - Store"
 msgstr ""
 
 #. module: l10n_ro_config
-#: model:ir.model.fields,field_description:l10n_ro_config.field_res_company__stock_acc_price_diff
-#: model:ir.model.fields,field_description:l10n_ro_config.field_res_config_settings__stock_acc_price_diff
+#: model:ir.model.fields,field_description:l10n_ro_config.field_res_company__l10n_ro_stock_acc_price_diff
+#: model:ir.model.fields,field_description:l10n_ro_config.field_res_config_settings__l10n_ro_stock_acc_price_diff
 msgid "Stock Valuation Update"
 msgstr ""
 
@@ -424,48 +424,48 @@ msgid "These taxes are set in any new service product created."
 msgstr ""
 
 #. module: l10n_ro_config
-#: model:ir.model.fields,help:l10n_ro_config.field_res_company__property_stock_transfer_account_id
-#: model:ir.model.fields,help:l10n_ro_config.field_res_config_settings__property_stock_transfer_account_id
+#: model:ir.model.fields,help:l10n_ro_config.field_res_company__l10n_ro_property_stock_transfer_account_id
+#: model:ir.model.fields,help:l10n_ro_config.field_res_config_settings__l10n_ro_property_stock_transfer_account_id
 msgid ""
 "This account will be used as an intermediary account for account move line "
 "generated from internal moves between company stores."
 msgstr ""
 
 #. module: l10n_ro_config
-#: model:ir.model.fields,help:l10n_ro_config.field_res_company__property_stock_picking_custody_account_id
-#: model:ir.model.fields,help:l10n_ro_config.field_res_config_settings__property_stock_picking_custody_account_id
+#: model:ir.model.fields,help:l10n_ro_config.field_res_company__l10n_ro_property_stock_picking_custody_account_id
+#: model:ir.model.fields,help:l10n_ro_config.field_res_config_settings__l10n_ro_property_stock_picking_custody_account_id
 msgid ""
 "This account will be used as the extra trial balance payable account for the"
 " current partner on stock picking received in custody."
 msgstr ""
 
 #. module: l10n_ro_config
-#: model:ir.model.fields,help:l10n_ro_config.field_res_company__property_uneligible_tax_account_id
-#: model:ir.model.fields,help:l10n_ro_config.field_res_config_settings__property_uneligible_tax_account_id
+#: model:ir.model.fields,help:l10n_ro_config.field_res_company__l10n_ro_property_uneligible_tax_account_id
+#: model:ir.model.fields,help:l10n_ro_config.field_res_config_settings__l10n_ro_property_uneligible_tax_account_id
 msgid ""
 "This account will be used as the not eligible tax account for account move line.\n"
 "Used in especially in inventory losses."
 msgstr ""
 
 #. module: l10n_ro_config
-#: model:ir.model.fields,help:l10n_ro_config.field_res_company__property_stock_picking_payable_account_id
-#: model:ir.model.fields,help:l10n_ro_config.field_res_config_settings__property_stock_picking_payable_account_id
+#: model:ir.model.fields,help:l10n_ro_config.field_res_company__l10n_ro_property_stock_picking_payable_account_id
+#: model:ir.model.fields,help:l10n_ro_config.field_res_config_settings__l10n_ro_property_stock_picking_payable_account_id
 msgid ""
 "This account will be used as the payable account for the current partner on "
 "stock picking notice."
 msgstr ""
 
 #. module: l10n_ro_config
-#: model:ir.model.fields,help:l10n_ro_config.field_res_company__property_stock_picking_receivable_account_id
-#: model:ir.model.fields,help:l10n_ro_config.field_res_config_settings__property_stock_picking_receivable_account_id
+#: model:ir.model.fields,help:l10n_ro_config.field_res_company__l10n_ro_property_stock_picking_receivable_account_id
+#: model:ir.model.fields,help:l10n_ro_config.field_res_config_settings__l10n_ro_property_stock_picking_receivable_account_id
 msgid ""
 "This account will be used as the receivable account for the current partner "
 "on stock picking notice."
 msgstr ""
 
 #. module: l10n_ro_config
-#: model:ir.model.fields,help:l10n_ro_config.field_res_company__property_stock_usage_giving_account_id
-#: model:ir.model.fields,help:l10n_ro_config.field_res_config_settings__property_stock_usage_giving_account_id
+#: model:ir.model.fields,help:l10n_ro_config.field_res_company__l10n_ro_property_stock_usage_giving_account_id
+#: model:ir.model.fields,help:l10n_ro_config.field_res_config_settings__l10n_ro_property_stock_usage_giving_account_id
 msgid ""
 "This account will be used as the usage giving account in account move line."
 msgstr ""
@@ -607,14 +607,14 @@ msgid ""
 msgstr ""
 
 #. module: l10n_ro_config
-#: model:ir.model.fields,field_description:l10n_ro_config.field_res_company__property_trade_discount_granted_account_id
-#: model:ir.model.fields,field_description:l10n_ro_config.field_res_config_settings__property_trade_discount_granted_account_id
+#: model:ir.model.fields,field_description:l10n_ro_config.field_res_company__l10n_ro_property_trade_discount_granted_account_id
+#: model:ir.model.fields,field_description:l10n_ro_config.field_res_config_settings__l10n_ro_property_trade_discount_granted_account_id
 msgid "Trade discounts granted"
 msgstr ""
 
 #. module: l10n_ro_config
-#: model:ir.model.fields,field_description:l10n_ro_config.field_res_company__property_trade_discount_received_account_id
-#: model:ir.model.fields,field_description:l10n_ro_config.field_res_config_settings__property_trade_discount_received_account_id
+#: model:ir.model.fields,field_description:l10n_ro_config.field_res_company__l10n_ro_property_trade_discount_received_account_id
+#: model:ir.model.fields,field_description:l10n_ro_config.field_res_config_settings__l10n_ro_property_trade_discount_received_account_id
 msgid "Trade discounts received"
 msgstr ""
 
@@ -626,27 +626,21 @@ msgid ""
 msgstr ""
 
 #. module: l10n_ro_config
-#: model:ir.model.fields,field_description:l10n_ro_config.field_res_company__property_stock_usage_giving_account_id
-#: model:ir.model.fields,field_description:l10n_ro_config.field_res_config_settings__property_stock_usage_giving_account_id
+#: model:ir.model.fields,field_description:l10n_ro_config.field_res_company__l10n_ro_property_stock_usage_giving_account_id
+#: model:ir.model.fields,field_description:l10n_ro_config.field_res_config_settings__l10n_ro_property_stock_usage_giving_account_id
 msgid "Usage Giving Account"
 msgstr ""
 
 #. module: l10n_ro_config
-#: model:ir.model.fields,field_description:l10n_ro_config.field_res_company__romanian_accounting
-#: model:ir.model.fields,field_description:l10n_ro_config.field_res_config_settings__use_romanian_accounting
+#: model:ir.model.fields,field_description:l10n_ro_config.field_res_company__l10n_ro_accounting
+#: model:ir.model.fields,field_description:l10n_ro_config.field_res_config_settings__use_l10n_ro_accounting
 msgid "Use Romanian Accounting"
 msgstr ""
 
 #. module: l10n_ro_config
-#: model:ir.model.fields,field_description:l10n_ro_config.field_res_partner__vat_subjected
-#: model:ir.model.fields,field_description:l10n_ro_config.field_res_users__vat_subjected
+#: model:ir.model.fields,field_description:l10n_ro_config.field_res_partner__l10n_ro_vat_subjected
+#: model:ir.model.fields,field_description:l10n_ro_config.field_res_users__l10n_ro_vat_subjected
 msgid "VAT Legal Statement"
-msgstr ""
-
-#. module: l10n_ro_config
-#: model:ir.model.fields,field_description:l10n_ro_config.field_res_partner__vat_number
-#: model:ir.model.fields,field_description:l10n_ro_config.field_res_users__vat_number
-msgid "VAT number"
 msgstr ""
 
 #. module: l10n_ro_config
@@ -656,7 +650,7 @@ msgid "VAT number without country code."
 msgstr ""
 
 #. module: l10n_ro_config
-#: model:ir.model.fields,field_description:l10n_ro_config.field_res_config_settings__property_vat_on_payment_position_id
+#: model:ir.model.fields,field_description:l10n_ro_config.field_res_config_settings__l10n_ro_property_vat_on_payment_position_id
 msgid "VAT on Payment"
 msgstr ""
 
