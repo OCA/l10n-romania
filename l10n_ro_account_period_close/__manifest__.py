@@ -4,7 +4,7 @@
     "name": "Romania - Account Period Closing",
     "category": "Localization",
     "summary": "Romania - Account Period Closing",
-    "depends": ["account", "date_range", "l10n_ro"],
+    "depends": ["l10n_ro_config"],
     "data": [
         "views/account_period_close_view.xml",
         "wizards/wizard_account_period_closing_view.xml",
@@ -12,7 +12,7 @@
         "security/ir.model.access.csv",
     ],
     "license": "AGPL-3",
-    "version": "14.0.2.2.0",
+    "version": "14.0.2.2.1",
     "author": "NextERP Romania,"
     "Forest and Biomass Romania,"
     "Odoo Community Association (OCA)",
