@@ -13,7 +13,7 @@ _logger = logging.getLogger(__name__)
 
 
 class StorageSheet(models.TransientModel):
-    _name = "stock.storage.sheet"
+    _name = "l10n.ro.stock.storage.sheet"
     _description = "StorageSheet"
 
     # Filters fields, used for data computation
@@ -34,7 +34,6 @@ class StorageSheet(models.TransientModel):
 
     products_with_move = fields.Boolean(default=True)
 
-    date_range_id = fields.Many2one("date.range", string="Date range")
     date_from = fields.Date("Start Date", required=True, default=fields.Date.today)
     date_to = fields.Date("End Date", required=True, default=fields.Date.today)
     company_id = fields.Many2one(
@@ -43,7 +42,7 @@ class StorageSheet(models.TransientModel):
 
     one_product = fields.Boolean("One product per page")
     line_product_ids = fields.One2many(
-        comodel_name="stock.storage.sheet.line", inverse_name="report_id"
+        comodel_name="l10n.ro.stock.storage.sheet.line", inverse_name="report_id"
     )
     sublocation = fields.Boolean("Sublocation")
     location_ids = fields.Many2many(
@@ -80,13 +79,6 @@ class StorageSheet(models.TransientModel):
         res["date_to"] = fields.Date.to_string(to_date)
         return res
 
-    @api.onchange("date_range_id")
-    def onchange_date_range_id(self):
-        """Handle date range change."""
-        if self.date_range_id:
-            self.date_from = self.date_range_id.date_start
-            self.date_to = self.date_range_id.date_end
-
     def get_products_with_move(self, product_list=False):
         if not product_list:
             product_list = []
@@ -118,7 +110,7 @@ class StorageSheet(models.TransientModel):
 
         self.env["account.move.line"].check_access_rights("read")
 
-        lines = self.env["stock.storage.sheet.line"].search(
+        lines = self.env["l10n.ro.stock.storage.sheet.line"].search(
             [("report_id", "=", self.id)]
         )
         lines.unlink()
@@ -340,7 +332,7 @@ class StorageSheet(models.TransientModel):
         action["context"] = {
             "active_id": self.id,
             "general_buttons": self.env[
-                "stock.storage.sheet.line"
+                "l10n.ro.stock.storage.sheet.line"
             ].get_general_buttons(),
         }
         action["target"] = "main"
@@ -363,12 +355,12 @@ class StorageSheet(models.TransientModel):
 
 
 class StorageSheetLine(models.TransientModel):
-    _name = "stock.storage.sheet.line"
+    _name = "l10n.ro.stock.storage.sheet.line"
     _description = "StorageSheetLine"
     _order = "report_id, product_id, date_time"
     _rec_name = "product_id"
 
-    report_id = fields.Many2one("stock.storage.sheet", index=True)
+    report_id = fields.Many2one("l10n.ro.stock.storage.sheet", index=True)
     product_id = fields.Many2one("product.product", string="Product", index=True)
     amount_initial = fields.Monetary(
         currency_field="currency_id", string="Initial Amount"
