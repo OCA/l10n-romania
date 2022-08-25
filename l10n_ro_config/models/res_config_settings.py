@@ -130,10 +130,26 @@ class ResConfigSettings(models.TransientModel):
         "picking\n"
         "Inventory account move lines...",
     )
+    module_l10n_ro_stock_price_difference = fields.Boolean(
+        "Romanian Stock Accounting Price Difference",
+        help="This allows you to manage price differences between "
+        "receptions and invoices.\n"
+        "It will be done by using landed cost, to also threat "
+        "deliveries between reception and supplier invoice confirmation.\n",
+    )
     module_l10n_ro_stock_account_store = fields.Boolean(
         "Romanian Stock Accounting - Store",
         help="This allows you to manage the Romanian Stock Accounting, "
         "for locations with store merchandise",
+    )
+    module_l10n_ro_stock_account_date = fields.Boolean(
+        "Romanian Stock Accounting Date",
+        help="This allows you to set up the Accounting Date on stock operation",
+    )
+    module_l10n_ro_stock_account_date_wizard = fields.Boolean(
+        "Romanian Stock Accounting Date Wizard",
+        help="This allows you to set up the Accounting Date on stock operation."
+        "The Accounting Date will be showed up in confirmation wizards.",
     )
     module_l10n_ro_stock_picking_report = fields.Boolean(
         "Stock Picking Report",
@@ -203,5 +219,11 @@ class ResConfigSettings(models.TransientModel):
         "account.fiscal.position",
         string="Inverse Taxation",
         related="company_id.property_inverse_taxation_position_id",
+        readonly=False,
+    )
+    property_stock_price_difference_product_id = fields.Many2one(
+        "product.product",
+        string="Price Difference Landed Cost Product",
+        related="company_id.property_stock_price_difference_product_id",
         readonly=False,
     )
