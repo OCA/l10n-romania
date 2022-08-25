@@ -54,7 +54,7 @@ class AccountMove(models.Model):
         self, recompute_all_taxes=False, recompute_tax_base_amount=False
     ):
         self = self._update_context_with_currency_rate()
-        super()._recompute_dynamic_lines(
+        return super()._recompute_dynamic_lines(
             recompute_all_taxes=recompute_all_taxes,
             recompute_tax_base_amount=recompute_tax_base_amount,
         )
