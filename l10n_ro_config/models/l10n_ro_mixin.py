@@ -50,4 +50,23 @@ class L10nRoMixin(models.AbstractModel):
                         modifiers["column_invisible"] = True
                 field.set("modifiers", json.dumps(modifiers))
             result["arch"] = etree.tostring(doc)
+        if view_type == "search":
+            doc = etree.fromstring(result["arch"])
+            # Hide filters
+            for field in doc.xpath('//filter[contains(@domain,"l10n_ro")]'):
+                modifiers = json.loads(field.get("modifiers", "{}"))
+                if self.env.company._check_is_l10n_ro_record():
+                    modifiers["invisible"] = False
+                else:
+                    modifiers["invisible"] = True
+                field.set("modifiers", json.dumps(modifiers))
+            # Hide groups by
+            for field in doc.xpath('//filter[contains(@context,"l10n_ro")]'):
+                modifiers = json.loads(field.get("modifiers", "{}"))
+                if self.env.company._check_is_l10n_ro_record():
+                    modifiers["invisible"] = False
+                else:
+                    modifiers["invisible"] = True
+                field.set("modifiers", json.dumps(modifiers))
+            result["arch"] = etree.tostring(doc)
         return result

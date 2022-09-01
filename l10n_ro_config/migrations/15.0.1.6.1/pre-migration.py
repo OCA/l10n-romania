@@ -226,6 +226,9 @@ def migrate(env, version):
             ("res.partner", "res_partner", "vat_number", "l10n_ro_vat_number"),
             ("res.partner", "res_partner", "caen_code", "l10n_ro_caen_code"),
             ("res.users", "res_users", "vat_number", "l10n_ro_vat_number"),
+            ("res.users", "res_users", "caen_code", "l10n_ro_caen_code"),
+            ("res.users", "res_users", "vat_subjected", "l10n_ro_vat_subjected"),
+            ("res.users", "res_users", "vat_on_payment", "l10n_ro_vat_on_payment"),
         ],
     )
     openupgrade.drop_columns(
@@ -242,6 +245,8 @@ def migrate(env, version):
     views = [
         "l10n_ro_config.res_config_settings_view_form",
         "l10n_ro_config.res_config_settings_account_view_form",
+        "l10n_ro_config.view_account_bank_journal_form",
+        "l10n_ro_config.view_partner_create_by_vat",
     ]
     openupgrade.delete_records_safely_by_xml_id(env, views)
 
@@ -256,3 +261,30 @@ def migrate(env, version):
             ALTER TABLE ir_ui_menu ADD COLUMN is_l10n_ro_record boolean;
             """
         )
+
+    env.cr.execute(
+        """
+    DO $$
+    DECLARE
+        _view_ids int[];
+        _view_ids_tmp int[];
+    BEGIN
+        _view_ids := ARRAY(
+            SELECT res_id
+            FROM ir_model_data
+            WHERE module like 'l10n_ro_%' AND model = 'ir.ui.view');
+        _view_ids_tmp := _view_ids;
+        LOOP
+            _view_ids_tmp := ARRAY(
+                SELECT id
+                FROM ir_ui_view
+                WHERE inherit_id = ANY( _view_ids_tmp));
+            EXIT WHEN cardinality(_view_ids_tmp) = 0;
+            _view_ids := _view_ids || _view_ids_tmp;
+        END LOOP;
+        DELETE FROM ir_model_data
+        WHERE model = 'ir.ui.view' AND res_id = ANY(_view_ids);
+        DELETE FROM ir_ui_view WHERE id = ANY(_view_ids);
+    END$$;
+    """
+    )
