@@ -33,6 +33,8 @@
                         name="l10n_ro_active_anaf_line_ids"
                         readonly="1"
                         force_save="1"
+                        nolabel="1"
+                        colspan="4"
                     >
                             <tree>
                                 <field name="partner_id" invisible="1" />
@@ -51,6 +53,8 @@
                         name="l10n_ro_vat_subjected_anaf_line_ids"
                         readonly="1"
                         force_save="1"
+                        nolabel="1"
+                        colspan="4"
                     >
                             <tree>
                                 <field name="partner_id" invisible="1" />
