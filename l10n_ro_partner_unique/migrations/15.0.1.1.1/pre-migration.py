@@ -3,12 +3,12 @@
 from odoo import SUPERUSER_ID, api
 
 
-def migrate(env, version):
+def migrate(cr, version):
     if not version:
         return
     # Install l10n_ro_config if needed
     with api.Environment.manage():
-        env = api.Environment(env.cr, SUPERUSER_ID, {})
+        env = api.Environment(cr, SUPERUSER_ID, {})
         IrModule = env["ir.module.module"]
         IrModule.update_list()
 
