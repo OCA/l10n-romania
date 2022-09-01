@@ -34,6 +34,8 @@
                             name="l10n_ro_active_anaf_line_ids"
                             readonly="1"
                             force_save="1"
+                            nolabel="1"
+                            colspan="4"
                         >
                             <tree string="ANAF - Active State History">
                                 <field name="partner_id" invisible="1" />
@@ -52,6 +54,8 @@
                             name="l10n_ro_vat_subjected_anaf_line_ids"
                             readonly="1"
                             force_save="1"
+                            nolabel="1"
+                            colspan="4"
                         >
                             <tree string="ANAF - VAT Subjected History">
                                 <field name="partner_id" invisible="1" />
