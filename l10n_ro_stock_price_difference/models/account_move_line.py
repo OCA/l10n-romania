@@ -15,16 +15,17 @@ class AccountMoveLine(models.Model):
 
     def get_stock_valuation_difference(self):
         """Se obtine diferenta dintre evaloarea stocului si valoarea din factura"""
-        line = self
+        currency = self.currency_id or self.env.company.currency_id
         diff, qty_diff = 0.0, 0.0
         # Retrieve stock valuation moves.
-        if not line.purchase_line_id:
+        if not self.purchase_line_id:
             return diff, qty_diff
 
-        if line.purchase_line_id.product_id.purchase_method != "receive":
+        if self.purchase_line_id.product_id.purchase_method != "receive":
             return diff, qty_diff
 
         valuation_stock_moves = self._get_valuation_stock_moves()
+
         if not valuation_stock_moves:
             return diff, qty_diff
 
@@ -45,27 +46,27 @@ class AccountMoveLine(models.Model):
             valuation_total += layers_values
             valuation_total_qty += layers_qty
 
-        precision = line.product_uom_id.rounding or line.product_id.uom_id.rounding
+        precision = self.product_uom_id.rounding or self.product_id.uom_id.rounding
         if float_is_zero(valuation_total_qty, precision_rounding=precision):
             return diff, qty_diff
 
         lines = self.search(
             [
-                ("purchase_line_id", "=", line.purchase_line_id.id),
+                ("purchase_line_id", "=", self.purchase_line_id.id),
                 ("move_id.state", "!=", "cancel"),
             ]
         )
         inv_qty = 0
         for line in lines:
-            inv_qty += (
-                -1 if line.move_id.move_type == "in_refund" else 1
-            ) * line.quantity
+            quantity = line.product_uom_id._compute_quantity(
+                line.quantity, self.product_id.uom_id
+            )
+            inv_qty += (-1 if line.move_id.move_type == "in_refund" else 1) * quantity
         if inv_qty * valuation_total_qty:
             accc_balance = sum(lines.mapped("balance")) / inv_qty * valuation_total_qty
         else:
             accc_balance = 0
         diff = abs(accc_balance) - valuation_total
-        currency = line.currency_id or self.env.company.currency_id
         diff = currency.round(diff)
         qty_diff = inv_qty - valuation_total_qty
         return diff, qty_diff
@@ -84,8 +85,6 @@ class AccountMoveLine(models.Model):
             limit=1,
         )
         value = price_val_dif
-        # trebuie cantitate din factura in unitatea produsului si apoi
-        value = self.product_uom_id._compute_price(value, self.product_id.uom_id)
 
         lc = self._create_price_difference_landed_cost(value)
         lc.compute_landed_cost()

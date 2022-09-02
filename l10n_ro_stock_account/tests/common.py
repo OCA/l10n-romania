@@ -266,7 +266,29 @@ class TestStockCommon(ValuationReconciliationTestCommon):
             vals = {}
         self.picking.write(vals)
 
-    def create_po(self, picking_type_in=None, partial=None, vals=False):
+    def po_receive_products(self, qty_done_p1, qty_done_p2, partial=None, vals=False):
+        self.picking = self.po.picking_ids.filtered(lambda pick: pick.state != "done")
+        self.writeOnPicking(vals)
+        qty_po_p1 = qty_done_p1 if not partial else qty_done_p1 / 2
+        qty_po_p2 = qty_done_p2 if not partial else qty_done_p2 / 2
+        for move_line in self.picking.move_line_ids:
+            if move_line.product_id == self.product_1:
+                move_line.write({"qty_done": qty_po_p1})
+            if move_line.product_id == self.product_2:
+                move_line.write({"qty_done": qty_po_p2})
+
+        self.picking.button_validate()
+        self.picking._action_done()
+        _logger.info("Receptie facuta")
+
+    def create_po(
+        self,
+        picking_type_in=None,
+        partial=None,
+        vals=False,
+        uom_id=False,
+        receive_products=True,
+    ):
 
         if not picking_type_in:
             picking_type_in = self.picking_type_in_warehouse
@@ -279,31 +301,28 @@ class TestStockCommon(ValuationReconciliationTestCommon):
                 po_line.product_id = self.product_1
                 po_line.product_qty = self.qty_po_p1
                 po_line.price_unit = self.price_p1
+                if uom_id:
+                    po_line.product_uom = uom_id
 
             with po.order_line.new() as po_line:
                 po_line.product_id = self.product_2
                 po_line.product_qty = self.qty_po_p2
                 po_line.price_unit = self.price_p2
+                if uom_id:
+                    po_line.product_uom = uom_id
 
             po = po.save()
             po.button_confirm()
         else:
             po = self.po
-        self.picking = po.picking_ids.filtered(lambda pick: pick.state != "done")
-        self.writeOnPicking(vals)
-        qty_po_p1 = self.qty_po_p1 if not partial else self.qty_po_p1 / 2
-        qty_po_p2 = self.qty_po_p2 if not partial else self.qty_po_p2 / 2
-        for move_line in self.picking.move_line_ids:
-            if move_line.product_id == self.product_1:
-                move_line.write({"qty_done": qty_po_p1})
-            if move_line.product_id == self.product_2:
-                move_line.write({"qty_done": qty_po_p2})
-
-        self.picking.button_validate()
-        self.picking._action_done()
-        _logger.info("Receptie facuta")
 
         self.po = po
+
+        if receive_products:
+            self.po_receive_products(
+                self.qty_po_p1, self.qty_po_p2, partial=partial, vals=vals
+            )
+
         return po
 
     def create_invoice(self, diff_p1=0, diff_p2=0, quant_p1=0, quant_p2=0):

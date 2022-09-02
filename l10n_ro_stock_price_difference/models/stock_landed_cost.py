@@ -67,15 +67,21 @@ class StockLandedCost(models.Model):
             for line in cost.valuation_adjustment_lines.filtered(
                 lambda line: line.move_id
             ):
+                product = line.move_id.product_id
                 remaining_qty = sum(
                     line.move_id.stock_valuation_layer_ids.mapped("remaining_qty")
                 )
                 linked_layer = line.move_id.stock_valuation_layer_ids[:1]
 
                 # Prorate the value at what's still in stock
-                cost_to_add = (
-                    remaining_qty / line.move_id.product_qty
-                ) * line.additional_landed_cost
+                if not float_is_zero(
+                    remaining_qty, precision_rounding=product.uom_id.rounding
+                ):
+                    cost_to_add = (
+                        remaining_qty / line.move_id.product_qty
+                    ) * line.additional_landed_cost
+                else:
+                    cost_to_add = line.additional_landed_cost
 
                 # Romania change to create separate valuation layer for price difference
                 # and for the quantity out difference
@@ -95,7 +101,6 @@ class StockLandedCost(models.Model):
                 # End Romania change
 
                 # Update the AVCO
-                product = line.move_id.product_id
                 if product.cost_method == "average":
                     cost_to_add_byproduct[product] += cost_to_add
                 # Products with manual inventory valuation are ignored because
