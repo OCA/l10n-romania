@@ -142,6 +142,15 @@ class ResConfigSettings(models.TransientModel):
         help="This allows you to manage the Romanian Stock Accounting, "
         "for locations with store merchandise",
     )
+    module_l10n_ro_stock_account_date = fields.Boolean(
+        "Romanian Stock Accounting Date",
+        help="This allows you to set up the Accounting Date on stock operation",
+    )
+    module_l10n_ro_stock_account_date_wizard = fields.Boolean(
+        "Romanian Stock Accounting Date Wizard",
+        help="This allows you to set up the Accounting Date on stock operation."
+        "The Accounting Date will be showed up in confirmation wizards.",
+    )
     module_l10n_ro_stock_picking_report = fields.Boolean(
         "Stock Picking Report",
         help="This allows you to print Reports for Reception and Delivery",
