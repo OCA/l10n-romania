@@ -343,6 +343,16 @@ msgid "Romanian Stock Accounting - Store"
 msgstr ""
 
 #. module: l10n_ro_config
+#: model:ir.model.fields,field_description:l10n_ro_config.field_res_config_settings__module_l10n_ro_stock_account_date
+msgid "Romanian Stock Accounting Date"
+msgstr ""
+
+#. module: l10n_ro_config
+#: model:ir.model.fields,field_description:l10n_ro_config.field_res_config_settings__module_l10n_ro_stock_account_date_wizard
+msgid "Romanian Stock Accounting Date Wizard"
+msgstr ""
+
+#. module: l10n_ro_config
 #: model:ir.model.fields,field_description:l10n_ro_config.field_res_config_settings__module_l10n_ro_stock_price_difference
 msgid "Romanian Stock Accounting Price Difference"
 msgstr ""
@@ -534,6 +544,18 @@ msgstr ""
 #. module: l10n_ro_config
 #: model:ir.model.fields,help:l10n_ro_config.field_res_config_settings__module_l10n_ro_partner_unique
 msgid "This allows you to set unique partners by company, VAT and NRC."
+msgstr ""
+
+#. module: l10n_ro_config
+#: model:ir.model.fields,help:l10n_ro_config.field_res_config_settings__module_l10n_ro_stock_account_date
+msgid "This allows you to set up the Accounting Date on stock operation"
+msgstr ""
+
+#. module: l10n_ro_config
+#: model:ir.model.fields,help:l10n_ro_config.field_res_config_settings__module_l10n_ro_stock_account_date_wizard
+msgid ""
+"This allows you to set up the Accounting Date on stock operation.The "
+"Accounting Date will be showed up in confirmation wizards."
 msgstr ""
 
 #. module: l10n_ro_config
