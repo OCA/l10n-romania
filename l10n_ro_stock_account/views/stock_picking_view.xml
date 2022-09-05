@@ -1,18 +1,20 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <odoo>
-    <record id="view_picking_add_price_unit_form" model="ir.ui.view">
+<!-- alex 20220813 this is moved from here because has no sense if is not a notice; moved there -->
+ <!--   <record id="view_picking_add_price_unit_form" model="ir.ui.view">
         <field name="name">view_picking_add_price_unit_form</field>
         <field name="model">stock.picking</field>
         <field name="inherit_id" ref="stock.view_picking_form" />
         <field name="arch" type="xml">
             <xpath expr="//button[@name='action_show_details']" position="after">
+                <field name="is_l10n_ro_record" invisible="1" />
                 <field name="picking_code" invisible="1" />
                 <field
                     name="price_unit"
-                    attrs="{'invisible': [('picking_code','!=','incoming')]}"
+                    attrs="{'invisible': ['|', ('picking_code','!=','incoming'), ('is_l10n_ro_record', '=', False)]}"
                 />
             </xpath>
         </field>
     </record>
-
+-->
 </odoo>

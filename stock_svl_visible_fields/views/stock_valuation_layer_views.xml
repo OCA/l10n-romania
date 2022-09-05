@@ -1,0 +1,52 @@
+<odoo>
+    <record id="stock_valuation_layer_form" model="ir.ui.view">
+        <field name="model">stock.valuation.layer</field>
+        <field name="inherit_id" ref="stock_account.stock_valuation_layer_form" />
+        <field name="arch" type="xml">
+            <field name="stock_move_id" position="after">
+                <field name="stock_move_state" />
+<!--                 <field name="stock_landed_cost_id" />
+if for stock_landed_cost
+ -->            </field>
+            <field name="account_move_id" position="after">
+                <field name="account_move_state" />
+                  <field name="stock_valuation_layer_id" />
+                  <field name="stock_valuation_layer_id_id" />
+            </field>
+
+            <field name="create_date" position="before">
+                <field name="id" />
+            </field>
+             <field name="account_move_id" position="attributes">
+                <attribute name="attrs" />
+             </field>
+             <field name="remaining_qty" position="after" >
+                  <field name="remaining_value" />
+             </field>
+        </field>
+    </record>
+
+    <record id="stock_valuation_layer_tree" model="ir.ui.view">
+        <field name="model">stock.valuation.layer</field>
+        <field name="inherit_id" ref="stock_account.stock_valuation_layer_tree" />
+        <field name="arch" type="xml">
+            <field name="create_date" position="before">
+                <field name="id" />
+            </field>
+
+            <field name="company_id" position="after">
+                  <field name="remaining_qty" optional="show" />
+                  <field name="remaining_value" optional="show" />
+                  <field name="unit_cost" optional="hide" />
+
+                  <field name="stock_move_id" optional="hide" />
+<!--                 <field name="stock_landed_cost_id" optional="hide" />
+ -->
+<!--                   <field name="stock_move_state" optional="hide"/> is not store=1 field-->
+                  <field name="stock_valuation_layer_id_id" optional="hide" />
+                  <field name="description" optional="hide" />
+
+            </field>
+        </field>
+    </record>
+</odoo>

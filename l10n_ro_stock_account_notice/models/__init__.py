@@ -1,5 +1,8 @@
-from . import account_move
-from . import account_move_line
-from . import product
-from . import stock_move
-from . import stock_picking
+from . import (
+    account_move,
+    account_move_cancel_svl,
+    account_move_line,
+    product,
+    stock_move,
+    stock_picking,
+)

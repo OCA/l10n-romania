@@ -41,31 +41,31 @@ class TestStockCommon(ValuationReconciliationTestCommon):
         )
 
         cls.stock_picking_payable_account_id = (
-            cls.env.user.company_id.property_stock_picking_payable_account_id
+            cls.env.user.company_id.l10n_ro_property_stock_picking_payable_account_id
         )
         if not cls.stock_picking_payable_account_id:
             cls.stock_picking_payable_account_id = get_account("408000")
 
-        cls.env.user.company_id.property_stock_picking_payable_account_id = (
+        cls.env.user.company_id.l10n_ro_property_stock_picking_payable_account_id = (
             cls.stock_picking_payable_account_id
         )
 
         cls.stock_picking_receivable_account_id = (
-            cls.env.user.company_id.property_stock_picking_receivable_account_id
+            cls.env.user.company_id.l10n_ro_property_stock_picking_receivable_account_id
         )
         if not cls.stock_picking_receivable_account_id:
             cls.stock_picking_receivable_account_id = get_account("418000")
 
-        cls.env.user.company_id.property_stock_picking_receivable_account_id = (
+        cls.env.user.company_id.l10n_ro_property_stock_picking_receivable_account_id = (
             cls.stock_picking_receivable_account_id
         )
 
         cls.stock_usage_giving_account_id = (
-            cls.env.user.company_id.property_stock_usage_giving_account_id
+            cls.env.user.company_id.l10n_ro_property_stock_usage_giving_account_id
         )
         if not cls.stock_usage_giving_account_id:
             cls.stock_usage_giving_account_id = get_account("803500")
-            cls.env.user.company_id.property_stock_usage_giving_account_id = (
+            cls.env.user.company_id.l10n_ro_property_stock_usage_giving_account_id = (
                 cls.stock_usage_giving_account_id
             )
 
@@ -75,8 +75,8 @@ class TestStockCommon(ValuationReconciliationTestCommon):
         super(TestStockCommon, cls).setUpClass(chart_template_ref=ro_template_ref)
 
         cls.env.company.anglo_saxon_accounting = True
-        cls.env.company.romanian_accounting = True
-        cls.env.company.stock_acc_price_diff = True
+        cls.env.company.l10n_ro_accounting = True
+        cls.env.company.l10n_ro_stock_acc_price_diff = True
 
         cls.setUpAccounts()
 
@@ -102,7 +102,7 @@ class TestStockCommon(ValuationReconciliationTestCommon):
             "property_stock_account_output_categ_id": cls.account_valuation.id,
             "property_stock_valuation_account_id": cls.account_valuation.id,
             "property_stock_journal": stock_journal.id,
-            "stock_account_change": True,
+            "l10n_ro_stock_account_change": True,
         }
 
         cls.category = cls.env["product.category"].search(
@@ -226,7 +226,7 @@ class TestStockCommon(ValuationReconciliationTestCommon):
         location = picking_type_in.default_location_dest_id
 
         cls.location_warehouse = location.copy(
-            {"merchandise_type": "warehouse", "name": "TEST warehouse"}
+            {"l10n_ro_merchandise_type": "warehouse", "name": "TEST warehouse"}
         )
         cls.picking_type_in_warehouse = picking_type_in.copy(
             {
@@ -254,8 +254,8 @@ class TestStockCommon(ValuationReconciliationTestCommon):
     def set_warehouse_as_mp(self):
         self.location_warehouse.write(
             {
-                "property_stock_valuation_account_id": self.account_valuation_mp.id,
-                "property_account_expense_location_id": self.account_expense_mp.id,
+                "l10n_ro_property_stock_valuation_account_id": self.account_valuation_mp.id,
+                "l10n_ro_property_account_expense_location_id": self.account_expense_mp.id,
                 "valuation_in_account_id": self.account_valuation_mp.id,
                 "valuation_out_account_id": self.account_valuation_mp.id,
             }
@@ -459,7 +459,6 @@ class TestStockCommon(ValuationReconciliationTestCommon):
         domain = [
             ("product_id", "in", [self.product_1.id, self.product_2.id]),
             ("account_id", "=", account.id),
-            ("parent_state", "=", "posted"),
         ]
         account_valuations = self.env["account.move.line"].read_group(
             domain, ["debit:sum", "credit:sum", "quantity:sum"], ["product_id"]

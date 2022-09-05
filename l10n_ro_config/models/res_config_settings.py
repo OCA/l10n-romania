@@ -8,28 +8,144 @@ from odoo import fields, models
 class ResConfigSettings(models.TransientModel):
     _inherit = "res.config.settings"
 
-    use_romanian_accounting = fields.Boolean(
+    l10n_ro_accounting = fields.Boolean(
         string="Romanian Accounting",
-        related="company_id.romanian_accounting",
+        related="company_id.l10n_ro_accounting",
         readonly=False,
     )
-    serv_sale_tax_id = fields.Many2one(
+    use_anglo_saxon = fields.Boolean(
+        string="Anglo-Saxon Accounting",
+        related="company_id.anglo_saxon_accounting",
+        readonly=False,
+    )
+    l10n_ro_caen_code = fields.Char(
+        string="CAEN Code",
+        related="company_id.l10n_ro_caen_code",
+        readonly=False,
+    )
+    l10n_ro_serv_sale_tax_id = fields.Many2one(
         "account.tax",
         string="Default Services Sale Tax",
-        related="company_id.account_serv_sale_tax_id",
+        related="company_id.l10n_ro_account_serv_sale_tax_id",
         readonly=False,
     )
-    serv_purchase_tax_id = fields.Many2one(
+    l10n_ro_serv_purchase_tax_id = fields.Many2one(
         "account.tax",
         string="Default Services Purchase Tax",
-        related="company_id.account_serv_purchase_tax_id",
+        related="company_id.l10n_ro_account_serv_purchase_tax_id",
         readonly=False,
     )
-    caen_code = fields.Char(
-        string="CAEN Code",
-        related="company_id.caen_code",
+
+    l10n_ro_property_vat_on_payment_position_id = fields.Many2one(
+        "account.fiscal.position",
+        string="VAT on Payment",
+        related="company_id.l10n_ro_property_vat_on_payment_position_id",
         readonly=False,
     )
+
+    l10n_ro_property_inverse_taxation_position_id = fields.Many2one(
+        "account.fiscal.position",
+        string="Inverse Taxation",
+        related="company_id.l10n_ro_property_inverse_taxation_position_id",
+        readonly=False,
+    )
+
+    l10n_ro_property_stock_picking_payable_account_id = fields.Many2one(
+        "account.account",
+        related="company_id.l10n_ro_property_stock_picking_payable_account_id",
+        readonly=False,
+    )
+    l10n_ro_property_stock_picking_receivable_account_id = fields.Many2one(
+        "account.account",
+        related="company_id.l10n_ro_property_stock_picking_receivable_account_id",
+        readonly=False,
+    )
+    l10n_ro_property_stock_usage_giving_account_id = fields.Many2one(
+        "account.account",
+        related="company_id.l10n_ro_property_stock_usage_giving_account_id",
+        readonly=False,
+    )
+    l10n_ro_property_stock_picking_custody_account_id = fields.Many2one(
+        "account.account",
+        related="company_id.l10n_ro_property_stock_picking_custody_account_id",
+        readonly=False,
+    )
+    l10n_ro_property_uneligible_tax_account_id = fields.Many2one(
+        "account.account",
+        related="company_id.l10n_ro_property_uneligible_tax_account_id",
+        readonly=False,
+    )
+    l10n_ro_property_stock_transfer_account_id = fields.Many2one(
+        "account.account",
+        related="company_id.l10n_ro_property_stock_transfer_account_id",
+        readonly=False,
+    )
+
+    l10n_ro_property_trade_discount_received_account_id = fields.Many2one(
+        "account.account",
+        string="Trade discounts received",
+        related="company_id.l10n_ro_property_trade_discount_received_account_id",
+        readonly=False,
+    )
+    l10n_ro_property_trade_discount_granted_account_id = fields.Many2one(
+        "account.account",
+        string="Trade discounts granted",
+        related="company_id.l10n_ro_property_trade_discount_granted_account_id",
+        readonly=False,
+    )
+
+    l10n_ro_stock_acc_price_diff = fields.Boolean(
+        related="company_id.l10n_ro_stock_acc_price_diff", readonly=False
+    )
+    l10n_ro_property_stock_price_difference_product_id = fields.Many2one(
+        "product.product",
+        string="Price Difference Landed Cost Product",
+        related="company_id.l10n_ro_property_stock_price_difference_product_id",
+        readonly=False,
+    )
+    # cbssolutions.ro
+    l10n_ro_property_bill_to_receive = fields.Many2one(
+        "account.account",
+        related="company_id.l10n_ro_property_bill_to_receive",
+        readonly=False,
+    )
+    l10n_ro_property_invoice_to_create = fields.Many2one(
+        "account.account",
+        related="company_id.l10n_ro_property_invoice_to_create",
+        readonly=False,
+    )
+    l10n_ro_property_notice_bill_positive = fields.Many2one(
+        "account.account",
+        related="company_id.l10n_ro_property_notice_bill_positive",
+        readonly=False,
+    )
+    l10n_ro_property_notice_bill_negative = fields.Many2one(
+        "account.account",
+        related="company_id.l10n_ro_property_notice_bill_negative",
+        readonly=False,
+    )
+    l10n_ro_property_notice_invoice_positive = fields.Many2one(
+        "account.account",
+        related="company_id.l10n_ro_property_notice_invoice_positive",
+        readonly=False,
+    )
+    l10n_ro_property_notice_invoice_negative = fields.Many2one(
+        "account.account",
+        related="company_id.l10n_ro_property_notice_invoice_negative",
+        readonly=False,
+    )
+    l10n_ro_property_revenues_from_exchange_rate = fields.Many2one(
+        "account.account",
+        related="company_id.l10n_ro_property_revenues_from_exchange_rate",
+        readonly=False,
+    )
+    l10n_ro_property_expensed_from_exchange_rate = fields.Many2one(
+        "account.account",
+        related="company_id.l10n_ro_property_expensed_from_exchange_rate",
+        readonly=False,
+    )
+    # /cbssolutions.ro
+
     module_currency_rate_update_RO_BNR = fields.Boolean(
         "Currency Rate Update BNR",
         help="This option allows you to manage the update of currency "
@@ -49,8 +165,6 @@ class ResConfigSettings(models.TransientModel):
         help="This allows you to manage the Romanian Zones, Communes\n "
         "The address fields will contain new many2one to communes and zones.",
     )
-
-    # Partners creation and Validations
     module_l10n_ro_partner_unique = fields.Boolean(
         "Partners unique by Company, VAT, NRC",
         help="This allows you to set unique partners by " "company, VAT and NRC.",
@@ -69,8 +183,6 @@ class ResConfigSettings(models.TransientModel):
         "For Romanian partners based on ANAF webservice.\n"
         "For European partners based on VIES data.",
     )
-
-    # Accounting Modules
     module_l10n_ro_vat_on_payment = fields.Boolean(
         "VAT on payment",
         help="This module will download data from ANAF site and when you "
@@ -82,8 +194,6 @@ class ResConfigSettings(models.TransientModel):
         help="This allows you to close accounts on periods based on "
         "templates: Income, Expense, VAT...",
     )
-
-    # Accounting Reports
     module_l10n_ro_account_report_invoice = fields.Boolean(
         "Invoice Report",
         help="This allows you to print invoice report based on " "romanian layout.\n",
@@ -91,28 +201,6 @@ class ResConfigSettings(models.TransientModel):
     module_l10n_ro_account_edit_currency_rate = fields.Boolean(
         "Invoice Edit Currency Rate",
         help="This allows you to the currency rate in invoices.\n",
-    )
-    module_l10n_ro_account_report_trial_balance = fields.Boolean(
-        "Account Trial Balance Report",
-        help="This module will add the Trial Balance report " "with multiple columns.",
-    )
-    module_l10n_ro_intrastat = fields.Boolean(
-        "Account Intrastat Report", help="This module will add the Intrastat report."
-    )
-
-    # stock section
-    use_anglo_saxon = fields.Boolean(
-        string="Anglo-Saxon Accounting",
-        related="company_id.anglo_saxon_accounting",
-        readonly=False,
-    )
-    use_romanian_accounting = fields.Boolean(
-        string="Use Romanian Accounting",
-        related="company_id.romanian_accounting",
-        readonly=False,
-    )
-    stock_acc_price_diff = fields.Boolean(
-        related="company_id.stock_acc_price_diff", readonly=False
     )
     module_l10n_ro_stock = fields.Boolean(
         "Romanian Stock",
@@ -137,11 +225,6 @@ class ResConfigSettings(models.TransientModel):
         "It will be done by using landed cost, to also threat "
         "deliveries between reception and supplier invoice confirmation.\n",
     )
-    module_l10n_ro_stock_account_store = fields.Boolean(
-        "Romanian Stock Accounting - Store",
-        help="This allows you to manage the Romanian Stock Accounting, "
-        "for locations with store merchandise",
-    )
     module_l10n_ro_stock_account_date = fields.Boolean(
         "Romanian Stock Accounting Date",
         help="This allows you to set up the Accounting Date on stock operation",
@@ -154,76 +237,4 @@ class ResConfigSettings(models.TransientModel):
     module_l10n_ro_stock_picking_report = fields.Boolean(
         "Stock Picking Report",
         help="This allows you to print Reports for Reception and Delivery",
-    )
-    module_l10n_ro_stock_picking_report_store = fields.Boolean(
-        "Stock Picking Report - Store",
-        help="This allows you to print Reports for Reception and Delivery",
-    )
-    module_l10n_ro_dvi = fields.Boolean(
-        "Romanian Customs Tax Declaration",
-        help="This module add possibility to register tax declaration on imports",
-    )
-    property_stock_picking_payable_account_id = fields.Many2one(
-        "account.account",
-        related="company_id.property_stock_picking_payable_account_id",
-        readonly=False,
-    )
-    property_stock_picking_receivable_account_id = fields.Many2one(
-        "account.account",
-        related="company_id.property_stock_picking_receivable_account_id",
-        readonly=False,
-    )
-    property_stock_usage_giving_account_id = fields.Many2one(
-        "account.account",
-        related="company_id.property_stock_usage_giving_account_id",
-        readonly=False,
-    )
-    property_stock_picking_custody_account_id = fields.Many2one(
-        "account.account",
-        related="company_id.property_stock_picking_custody_account_id",
-        readonly=False,
-    )
-    property_uneligible_tax_account_id = fields.Many2one(
-        "account.account",
-        related="company_id.property_uneligible_tax_account_id",
-        readonly=False,
-    )
-    property_stock_transfer_account_id = fields.Many2one(
-        "account.account",
-        related="company_id.property_stock_transfer_account_id",
-        readonly=False,
-    )
-
-    property_trade_discount_received_account_id = fields.Many2one(
-        "account.account",
-        string="Trade discounts received",
-        related="company_id.property_trade_discount_received_account_id",
-        readonly=False,
-    )
-
-    property_trade_discount_granted_account_id = fields.Many2one(
-        "account.account",
-        string="Trade discounts granted",
-        related="company_id.property_trade_discount_granted_account_id",
-        readonly=False,
-    )
-
-    property_vat_on_payment_position_id = fields.Many2one(
-        "account.fiscal.position",
-        string="VAT on Payment",
-        related="company_id.property_vat_on_payment_position_id",
-        readonly=False,
-    )
-
-    property_inverse_taxation_position_id = fields.Many2one(
-        "account.fiscal.position",
-        string="Inverse Taxation",
-        related="company_id.property_inverse_taxation_position_id",
-        readonly=False,
-    )
-    property_stock_price_difference_product_id = fields.Many2one(
-        "product.product",
-        string="Price Difference Landed Cost Product",
-        related="company_id.property_stock_price_difference_product_id",
-        readonly=False,
     )

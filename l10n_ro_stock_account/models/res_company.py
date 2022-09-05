@@ -1,3 +1,4 @@
+# Copyright (C) 2022 cbssolutions.ro
 # Copyright (C) 2015 Forest and Biomass Romania
 # Copyright (C) 2020 NextERP Romania
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
@@ -15,8 +16,8 @@ class ResCompany(models.Model):
         )
         ro_comp.write(
             {
-                "romanian_accounting": True,
+                "l10n_ro_accounting": True,
                 "anglo_saxon_accounting": True,
-                "stock_acc_price_diff": True,
+                "l10n_ro_stock_acc_price_diff": True,
             }
         )

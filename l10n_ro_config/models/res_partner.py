@@ -5,27 +5,29 @@ from odoo import api, fields, models
 
 
 class ResPartner(models.Model):
-    _inherit = "res.partner"
+    _name = "res.partner"
+    _inherit = ["res.partner", "l10n.ro.mixin"]
 
-    vat_subjected = fields.Boolean("VAT Legal Statement")
-    vat_number = fields.Char(
-        "VAT number",
-        compute="_compute_vat_number",
+    l10n_ro_vat_subjected = fields.Boolean("VAT Legal Statement")
+    # TO-DO Add migration script
+    l10n_ro_vat_number = fields.Char(
+        "VAT number digits",
+        compute="_compute_l10n_ro_vat_number",
         store=True,
         help="VAT number without country code.",
     )
-    caen_code = fields.Char(default="0000")
+    l10n_ro_caen_code = fields.Char(default="0000")
     l10n_ro_e_invoice = fields.Boolean(string="Ro E-Invoicing", copy=False)
 
     @api.depends("vat")
-    def _compute_vat_number(self):
+    def _compute_l10n_ro_vat_number(self):
         for partner in self:
+            l10n_ro_vat_number = ""
             if partner.vat:
-                partner.vat_number = self._split_vat(partner.vat)[1]
-            else:
-                partner.vat_number = ""
+                l10n_ro_vat_number = self._split_vat(partner.vat)[1]
+            partner.l10n_ro_vat_number = l10n_ro_vat_number
 
-    def _map_vat_country_code(self, country_code):
+    def _l10n_ro_map_vat_country_code(self, country_code):
         country_code_map = {
             "RE": "FR",
             "GP": "FR",
@@ -37,24 +39,31 @@ class ResPartner(models.Model):
 
     def _split_vat(self, vat):
         # Allowing setting the vat without country code
-        vat_country = vat_number = ""
+        vat_country = l10n_ro_vat_number = ""
         if vat and vat.isdigit():
-            vat_number = vat
+            l10n_ro_vat_number = vat
             partner = self.search([("vat", "=", vat)], limit=1)
             if partner and partner.country_id and partner.country_id.code:
-                vat_country = self._map_vat_country_code(
+                vat_country = self._l10n_ro_map_vat_country_code(
                     partner.country_id.code.upper()
                 ).lower()
         else:
-            vat_country, vat_number = super(ResPartner, self)._split_vat(vat)
-        return vat_country, vat_number
+            vat_country, l10n_ro_vat_number = super(ResPartner, self)._split_vat(vat)
+        return vat_country, l10n_ro_vat_number
 
-    @api.onchange("vat_subjected")
-    def onchange_vat_subjected(self):
-        if not self.env.context.get("skip_ro_vat_change"):
-            if self.vat and self.vat.isdigit() and self.vat_subjected:
-                vat_country = self._map_vat_country_code(self.country_id.code.upper())
-                self.vat = vat_country + self.vat
-            elif self.vat and not self.vat.isdigit() and not self.vat_subjected:
-                vat_country, vat_number = self._split_vat(self.vat)
-                self.vat = vat_number
+    @api.onchange("l10n_ro_vat_subjected")
+    def onchange_l10n_ro_vat_subjected(self):
+        if self.is_l10n_ro_record:
+            if not self.env.context.get("skip_ro_vat_change"):
+                if self.vat and self.vat.isdigit() and self.l10n_ro_vat_subjected:
+                    vat_country = self._l10n_ro_map_vat_country_code(
+                        self.country_id.code.upper()
+                    )
+                    self.vat = vat_country + self.vat
+                elif (
+                    self.vat
+                    and not self.vat.isdigit()
+                    and not self.l10n_ro_vat_subjected
+                ):
+                    vat_country, l10n_ro_vat_number = self._split_vat(self.vat)
+                    self.vat = l10n_ro_vat_number

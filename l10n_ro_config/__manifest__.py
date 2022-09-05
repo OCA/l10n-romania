@@ -1,3 +1,4 @@
+# Copyright (C) 2022 cbssolutions.ro
 # Copyright (C) 2014 Forest and Biomass Romania
 # Copyright (C) 2020 NextERP Romania
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
@@ -6,7 +7,7 @@
     "name": "Romania - Localization Config",
     "summary": "Romania - Localization Install and Config Applications",
     "license": "AGPL-3",
-    "version": "14.0.1.5.0",
+    "version": "14.0.1.6.1",
     "author": "NextERP Romania,"
     "Forest and Biomass Romania,"
     "Odoo Community Association (OCA)",
@@ -18,6 +19,7 @@
         "views/res_config_view.xml",
         "views/res_bank_view.xml",
     ],
+    "pre_init_hook": "pre_init_hook",
     "development_status": "Mature",
     "maintainers": ["feketemihai"],
     "installable": True,

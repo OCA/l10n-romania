@@ -1,3 +1,4 @@
+# Copyright (C) 2022 cbssolutions.ro
 # Copyright (C) 2014 Forest and Biomass Romania
 # Copyright (C) 2020 NextERP Romania
 # Copyright (C) 2020 Terrabit
@@ -20,14 +21,14 @@ class ProductTemplate(models.Model):
             self.env["res.company"].browse(self._context.get("force_company"))
             or self.env.company
         )
-        if not company.romanian_accounting:
+        if not self.env["res.company"]._check_is_l10n_ro_record(company.id):
             return accounts
 
         stock_picking_payable_account_id = (
-            company.property_stock_picking_payable_account_id
+            company.l10n_ro_property_stock_picking_payable_account_id
         )
         stock_picking_receivable_account_id = (
-            company.property_stock_picking_receivable_account_id
+            company.l10n_ro_property_stock_picking_receivable_account_id
         )
 
         valued_type = self.env.context.get("valued_type", "indefinite")

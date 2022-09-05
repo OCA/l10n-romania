@@ -6,7 +6,7 @@
         <field name="inherit_id" ref="base.view_partner_bank_form" />
         <field name="arch" type="xml">
             <field name="company_id" position="after">
-                <field name="print_report" />
+                <field name="l10n_ro_print_report" />
             </field>
         </field>
     </record>
@@ -16,7 +16,7 @@
         <field name="inherit_id" ref="base.view_partner_bank_tree" />
         <field name="arch" type="xml">
             <field name="company_id" position="after">
-                <field name="print_report" />
+                <field name="l10n_ro_print_report" />
             </field>
         </field>
     </record>
@@ -26,7 +26,7 @@
         <field name="inherit_id" ref="base.view_partner_bank_search" />
         <field name="arch" type="xml">
             <field name="company_id" position="after">
-                <field name="print_report" />
+                <field name="l10n_ro_print_report" />
             </field>
         </field>
     </record>
@@ -36,7 +36,7 @@
         <field name="inherit_id" ref="account.view_account_journal_tree" />
         <field name="arch" type="xml">
             <field name="company_id" position="after">
-                <field name="print_report" />
+                <field name="l10n_ro_print_report" />
             </field>
         </field>
     </record>
@@ -46,7 +46,7 @@
         <field name="inherit_id" ref="account.view_account_journal_form" />
         <field name="arch" type="xml">
             <field name="company_id" position="after">
-                <field name="print_report" readonly="False" />
+                <field name="l10n_ro_print_report" readonly="False" />
             </field>
         </field>
     </record>
