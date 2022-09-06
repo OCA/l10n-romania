@@ -2,19 +2,16 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
 {
-    "name": "Romania - Invoice Report",
-    "summary": "Romania - Invoice Report",
-    "version": "15.0.1.1.0",
+    "name": "Romania - Invoice Edit Currency Rate",
+    "summary": "Romania - Invoice Edit Currency Rate",
+    "version": "15.0.1.2.0",
     "category": "Localization",
     "author": "NextERP Romania," "Odoo Community Association (OCA)",
     "website": "https://github.com/OCA/l10n-romania",
     "license": "AGPL-3",
     "installable": True,
     "development_status": "Mature",
-    "depends": ["l10n_ro_config"],
-    "data": [
-        "views/account_invoice_view.xml",
-        "views/invoice_report.xml",
-        "views/res_config_settings_view.xml",
-    ],
+    "maintainers": ["mcojocaru"],
+    "depends": ["l10n_ro_account_report_invoice"],
+    "data": [],
 }
