@@ -86,14 +86,12 @@ class AccountMoveLine(models.Model):
                 ctx.update({"check_date": date.today()})
 
             if partner:
-                vatp = partner.with_context(ctx)._check_vat_on_payment()
+                vatp = partner.with_context(**ctx)._check_vat_on_payment()
 
             if vatp:
                 taxes = self.tax_ids
 
                 if taxes and self.move_id.fiscal_position_id:
-                    taxes = self.move_id.fiscal_position_id.map_tax(
-                        taxes, partner=partner
-                    )
+                    taxes = self.move_id.fiscal_position_id.map_tax(taxes)
 
                 self.tax_ids = taxes

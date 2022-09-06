@@ -43,6 +43,7 @@ class StockMove(models.Model):
             credit_account_id,
             description,
         )
+
         if self.nondeductible_tax_id:
             if res.get("debit_line_vals"):
                 res["debit_line_vals"].update(

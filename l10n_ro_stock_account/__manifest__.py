@@ -17,6 +17,7 @@
         "l10n_ro_stock",
     ],
     "license": "AGPL-3",
+    "development_status": "Mature",
     "data": [
         "views/product_category_view.xml",
         "views/product_template_view.xml",

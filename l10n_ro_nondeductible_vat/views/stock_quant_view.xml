@@ -3,13 +3,13 @@
 
     <record id="view_inventory_line_add_nondeductible_vat_tree" model="ir.ui.view">
         <field name="name">view_inventory_line_add_nondeductible_vat_tree</field>
-        <field name="model">stock.inventory.line</field>
-        <field name="inherit_id" ref="stock.stock_inventory_line_tree" />
+        <field name="model">stock.quant</field>
+        <field name="inherit_id" ref="stock.view_stock_quant_tree_inventory_editable" />
         <field name="arch" type="xml">
-            <xpath expr="//field[@name='state']" position="after">
+            <xpath expr="//field[@name='inventory_diff_quantity']" position="after">
                 <field
                     name="nondeductible_tax_id"
-                    attrs="{'invisible': [('difference_qty','&gt;=',0.00)]}"
+                    attrs="{'invisible': [('inventory_diff_quantity','&gt;=',0.00)]}"
                 />
             </xpath>
         </field>

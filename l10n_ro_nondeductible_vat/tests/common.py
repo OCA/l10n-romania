@@ -534,19 +534,20 @@ class TestNondeductibleCommon(ValuationReconciliationTestCommon):
         stock_picking.button_validate()
 
     def make_inventory(self):
-        inventory = self.env["stock.inventory"].create(
+        stock_quant = self.env["stock.quant"].search(
+            [
+                ("product_id", "=", self.product_1.id),
+                ("location_id", "=", self.warehouse.lot_stock_id.id),
+            ]
+        )
+        stock_quant = stock_quant.with_context(inventory_mode=True)
+        stock_quant.write(
             {
-                "name": "test minus inventar nedeductibil",
-                "location_ids": [(4, self.warehouse.lot_stock_id.id)],
-                "product_ids": [(4, self.product_1.id)],
-                "prefill_counted_quantity": "counted",
+                "inventory_quantity": 50,
+                "nondeductible_tax_id": self.tax_10_nondeductible.id,
             }
         )
-        inventory.action_start()
-        inventory_line = inventory.line_ids[0]
-        inventory_line.product_qty = 50
-        inventory_line.nondeductible_tax_id = self.tax_10_nondeductible.id
-        inventory.action_validate()
+        stock_quant.action_apply_inventory()
 
     def check_account_valuation(self, balance, account=None):
         balance = round(balance, 2)
