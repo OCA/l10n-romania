@@ -66,7 +66,7 @@ class TestStockReport(TestStockCommon):
         acc_date = fields.Date.today() - timedelta(days=1)
         location_id = self.picking_type_transfer.default_location_src_id
         location_dest_id = self.picking_type_transfer.default_location_dest_id.copy(
-            {"property_stock_valuation_account_id": self.account_valuation.id}
+            {"l10n_ro_property_stock_valuation_account_id": self.account_valuation.id}
         )
         _logger.info("Start transfer")
         picking = self.trasfer(location_id, location_dest_id)
@@ -95,7 +95,7 @@ class TestStockReport(TestStockCommon):
         acc_date = fields.Date.today() - timedelta(days=1)
         location_id = self.picking_type_transfer.default_location_src_id
         location_dest_id = self.picking_type_transfer.default_location_dest_id.copy(
-            {"property_stock_valuation_account_id": self.account_valuation.id}
+            {"l10n_ro_property_stock_valuation_account_id": self.account_valuation.id}
         )
         _logger.info("Start transfer")
         picking = self.trasfer(location_id, location_dest_id)

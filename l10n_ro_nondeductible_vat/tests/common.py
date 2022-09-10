@@ -407,7 +407,7 @@ class TestNondeductibleCommon(ValuationReconciliationTestCommon):
             "property_stock_account_output_categ_id": cls.account_valuation.id,
             "property_stock_valuation_account_id": cls.account_valuation.id,
             "property_stock_journal": stock_journal.id,
-            "stock_account_change": True,
+            "l10n_ro_stock_account_change": True,
         }
 
         cls.category = cls.env["product.category"].search(

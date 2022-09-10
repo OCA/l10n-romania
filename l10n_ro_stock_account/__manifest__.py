@@ -25,6 +25,7 @@
         "views/stock_valuation_layer_views.xml",
         "wizard/stock_picking_return_views.xml",
     ],
+    "pre_init_hook": "pre_init_hook",
     "installable": True,
     "maintainers": ["dhongu", "feketemihai"],
 }
