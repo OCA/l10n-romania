@@ -34,12 +34,12 @@ msgid "Contact"
 msgstr "Contact"
 
 #. module: l10n_ro_city
-#: model:ir.model.fields,field_description:l10n_ro_city.field_res_city__municipality
+#: model:ir.model.fields,field_description:l10n_ro_city.field_res_city__l10n_ro_municipality
 msgid "Municipality"
 msgstr "Unitate administrativ teritorială"
 
 #. module: l10n_ro_city
-#: model:ir.model.fields,field_description:l10n_ro_city.field_res_city__siruta
+#: model:ir.model.fields,field_description:l10n_ro_city.field_res_city__l10n_ro_siruta
 msgid "Siruta"
 msgstr "Siruta"
 

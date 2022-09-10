@@ -2,13 +2,19 @@
 # Copyright (C) 2020 Terrabit
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
-from odoo.tests import Form, common
+from odoo.tests import Form, tagged
+
+from odoo.addons.account.tests.common import AccountTestInvoicingCommon
 
 
-class TestSirutaBase(common.SavepointCase):
+@tagged("post_install", "-at_install")
+class TestSirutaBase(AccountTestInvoicingCommon):
     @classmethod
     def setUpClass(cls):
-        super(TestSirutaBase, cls).setUpClass()
+        ro_template_ref = "l10n_ro.ro_chart_template"
+        super(TestSirutaBase, cls).setUpClass(chart_template_ref=ro_template_ref)
+        cls.env.company.anglo_saxon_accounting = True
+        cls.env.company.l10n_ro_accounting = True
         cls.mainpartner = cls.env["res.partner"].create({"name": "TEST mainpartner"})
 
         cls.partner1 = cls.env["res.partner"].create(
@@ -24,17 +30,18 @@ class TestSirutaBase(common.SavepointCase):
         cls.zone2 = cls.env.ref("l10n_ro_siruta.RO_NV")
 
 
+@tagged("post_install", "-at_install")
 class TestSiruta(TestSirutaBase):
     def test_name_search(self):
         # Ar trebui sa avem si ceva asserturi aici
-        self.env["res.country.zone"].name_search("")
-        self.env["res.country.zone"].name_search("Centru")
+        self.env["l10n.ro.res.country.zone"].name_search("")
+        self.env["l10n.ro.res.country.zone"].name_search("Centru")
         self.env["res.country.state"].name_search("")
         self.env["res.country.state"].name_search("centru")
         self.env["res.country.state"].name_search("bc")
 
-        self.env["res.country.commune"].name_search("")
-        self.env["res.country.commune"].name_search("bc")
+        self.env["l10n.ro.res.country.commune"].name_search("")
+        self.env["l10n.ro.res.country.commune"].name_search("bc")
 
         self.env["res.city"].name_search("")
         self.env["res.city"].name_search("bc")
@@ -46,10 +53,10 @@ class TestSiruta(TestSirutaBase):
         mainpartner_form = Form(self.mainpartner)
         # User change city of main partner
         mainpartner_form.city_id = self.city1
-        mainpartner_form.commune_id = self.commune2
+        mainpartner_form.l10n_ro_commune_id = self.commune2
         mainpartner_form.city_id = self.city1
 
-        mainpartner_form.commune_id = self.commune1
+        mainpartner_form.l10n_ro_commune_id = self.commune1
         mainpartner_form.city_id = self.city2
         mainpartner_form.state_id = self.state1
         mainpartner_form.city_id = self.city1
@@ -57,9 +64,13 @@ class TestSiruta(TestSirutaBase):
 
         # Check main partner changed fields
         self.assertEqual(self.mainpartner.city, self.city1.name)
-        self.assertEqual(self.mainpartner.commune_id.id, self.city1.commune_id.id)
+        self.assertEqual(
+            self.mainpartner.l10n_ro_commune_id.id, self.city1.l10n_ro_commune_id.id
+        )
         self.assertEqual(self.mainpartner.state_id.id, self.city1.state_id.id)
-        self.assertEqual(self.mainpartner.zone_id.id, self.city1.zone_id.id)
+        self.assertEqual(
+            self.mainpartner.l10n_ro_zone_id.id, self.city1.l10n_ro_zone_id.id
+        )
         self.assertEqual(self.mainpartner.country_id.id, self.city1.country_id.id)
 
     def test_write_city(self):
@@ -72,16 +83,20 @@ class TestSiruta(TestSirutaBase):
         self.mainpartner._onchange_city_id()
         # Check contact changed fields from inheritance
         self.assertEqual(self.partner1.city_id.id, self.mainpartner.city_id.id)
-        self.assertEqual(self.partner1.commune_id.id, self.mainpartner.commune_id.id)
+        self.assertEqual(
+            self.partner1.l10n_ro_commune_id.id, self.mainpartner.l10n_ro_commune_id.id
+        )
         self.assertEqual(self.partner1.state_id.id, self.mainpartner.state_id.id)
-        self.assertEqual(self.partner1.zone_id.id, self.mainpartner.zone_id.id)
+        self.assertEqual(
+            self.partner1.l10n_ro_zone_id.id, self.mainpartner.l10n_ro_zone_id.id
+        )
         self.assertEqual(self.partner1.country_id.id, self.mainpartner.country_id.id)
 
     def test_onchange_state(self):
         """Check onchange zone_id on states."""
         state1_form = Form(self.state1)
         # User change zone of country state
-        state1_form.zone_id = self.zone2
+        state1_form.l10n_ro_zone_id = self.zone2
         self.state1 = state1_form.save()
         # self.state1._onchange_zone_id()
 
@@ -107,36 +122,36 @@ class TestSiruta(TestSirutaBase):
         self.commune1 = commune1_form.save()
 
         # Check country commune changed fields
-        self.assertEqual(self.commune1.zone_id.id, self.state2.zone_id.id)
+        self.assertEqual(self.commune1.zone_id.id, self.state2.l10n_ro_zone_id.id)
         self.assertEqual(self.commune1.country_id.id, self.state2.country_id.id)
 
     def test_onchange_city_fields(self):
         """Check onchange state and zone on cities."""
         # User change zone of country city
         city1_form = Form(self.city1)
-        city1_form.zone_id = self.zone2
+        city1_form.l10n_ro_zone_id = self.zone2
         # self.city1._onchange_zone_id()
         self.city1 = city1_form.save()
 
         # Check country commune changed fields
         self.assertEqual(self.city1.country_id.id, self.zone2.country_id.id)
         self.assertFalse(self.city1.state_id)
-        self.assertFalse(self.city1.commune_id)
+        self.assertFalse(self.city1.l10n_ro_commune_id)
 
         # User change state of country city
         self.city1.state_id = self.state2.id
-        self.city1._onchange_state_id()
+        self.city1._onchange_l10n_ro_state_id()
 
         # Check country commune changed fields
-        self.assertEqual(self.city1.zone_id.id, self.state2.zone_id.id)
+        self.assertEqual(self.city1.l10n_ro_zone_id.id, self.state2.l10n_ro_zone_id.id)
         self.assertEqual(self.city1.country_id.id, self.state2.country_id.id)
-        self.assertFalse(self.city1.commune_id)
+        self.assertFalse(self.city1.l10n_ro_commune_id)
 
         # User change commune of country city
-        self.city1.commune_id = self.commune2.id
-        self.city1._onchange_commune_id()
+        self.city1.l10n_ro_commune_id = self.commune2.id
+        self.city1._onchange_l10n_ro_commune_id()
 
         # Check country commune changed fields
         self.assertEqual(self.city1.state_id.id, self.commune2.state_id.id)
-        self.assertEqual(self.city1.zone_id.id, self.commune2.zone_id.id)
+        self.assertEqual(self.city1.l10n_ro_zone_id.id, self.commune2.zone_id.id)
         self.assertEqual(self.city1.country_id.id, self.commune2.country_id.id)

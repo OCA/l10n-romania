@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <!--State-->
+    <record model="ir.ui.view" id="view_country_state_tree">
+        <field name="name">l10n_ro_view_country_state_tree</field>
+        <field name="model">res.country.state</field>
+        <field name="inherit_id" ref="base.view_country_state_tree" />
+        <field name="arch" type="xml">
+            <field name="country_id" position="before">
+                <field name="is_l10n_ro_record" invisible="1" />
+                <field
+                    name="l10n_ro_siruta"
+                    attrs="{'invisible': [('is_l10n_ro_record','=',False)]}"
+                />
+                <field
+                    name="l10n_ro_zone_id"
+                    attrs="{'invisible': [('is_l10n_ro_record','=',False)]}"
+                />
+            </field>
+        </field>
+    </record>
+    <record model="ir.ui.view" id="view_country_state_form">
+        <field name="name">l10n_ro_view_country_state_form</field>
+        <field name="model">res.country.state</field>
+        <field name="inherit_id" ref="base.view_country_state_form" />
+        <field name="arch" type="xml">
+            <field name="country_id" position="before">
+                <field name="is_l10n_ro_record" invisible="1" />
+                <field
+                    name="l10n_ro_siruta"
+                    attrs="{'invisible': [('is_l10n_ro_record','=',False)]}"
+                />
+                <field
+                    name="l10n_ro_zone_id"
+                    options='{"no_open": True}'
+                    attrs="{'invisible': [('is_l10n_ro_record','=',False)]}"
+                />
+            </field>
+        </field>
+    </record>
+
+</odoo>
