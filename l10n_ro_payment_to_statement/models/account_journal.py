@@ -12,7 +12,7 @@ class AccountJournal(models.Model):
     statement_sequence_id = fields.Many2one(
         "ir.sequence", string="Statement Sequence", copy=False
     )
-    auto_statement = fields.Boolean("Auto Statement")
+    auto_statement = fields.Boolean()
 
     journal_sequence_id = fields.Many2one(
         "ir.sequence", string="Sequence Journal", copy=False
