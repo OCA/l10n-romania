@@ -27,10 +27,10 @@ class ResCountryZone(models.Model):
             expression.AND([domain, args]), limit=limit, access_rights_uid=name_get_uid
         )
 
-    name = fields.Char("Name", required=True, index=True)
+    name = fields.Char(required=True, index=True)
     country_id = fields.Many2one("res.country", string="Country")
     state_ids = fields.One2many("res.country.state", "zone_id", string="State")
-    siruta = fields.Char("Siruta")
+    siruta = fields.Char()
 
 
 class ResCountryState(models.Model):
@@ -59,7 +59,7 @@ class ResCountryState(models.Model):
         "res.country.commune", "state_id", string="Cities/Communes"
     )
     city_ids = fields.One2many("res.city", "state_id", string="Cities")
-    siruta = fields.Char("Siruta")
+    siruta = fields.Char()
 
 
 class ResCountryCommune(models.Model):
@@ -91,11 +91,11 @@ class ResCountryCommune(models.Model):
             self.state_id = False
             self.country_id = self.zone_id.country_id.id
 
-    name = fields.Char("Name", required=True, index=True)
+    name = fields.Char(required=True, index=True)
     state_id = fields.Many2one("res.country.state", string="State")
     zone_id = fields.Many2one("res.country.zone", string="Zone")
     country_id = fields.Many2one("res.country", string="Country")
-    siruta = fields.Char("Siruta")
+    siruta = fields.Char()
     city_ids = fields.One2many("res.city", "state_id", string="Cities")
 
 

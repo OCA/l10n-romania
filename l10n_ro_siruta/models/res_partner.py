@@ -13,11 +13,12 @@ class ResPartner(models.Model):
 
     @api.onchange("city_id")
     def _onchange_city_id(self):
-        super(ResPartner, self)._onchange_city_id()
+        res = super(ResPartner, self)._onchange_city_id()
         if self.city_id:
             self.commune_id = self.city_id.commune_id.id
             self.zone_id = self.city_id.zone_id.id
             self.country_id = self.city_id.country_id.id
+        return res
 
     @api.model
     def _address_fields(self):

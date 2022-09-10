@@ -11,12 +11,14 @@
         "data/res_country_commune.xml",
         "views/partner_view.xml",
         "views/siruta_view.xml",
-        "views/assets.xml",
         "security/ir.model.access.csv",
     ],
     "demo": ["demo/demo_siruta.xml"],
+    "qweb": [
+        "static/src/xml/assets.xml",
+    ],
     "license": "AGPL-3",
-    "version": "14.0.1.2.0",
+    "version": "15.0.1.2.0",
     "author": "NextERP Romania,"
     "Forest and Biomass Romania,"
     "Terrabit,"
