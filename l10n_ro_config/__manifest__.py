@@ -6,7 +6,7 @@
     "name": "Romania - Localization Config",
     "summary": "Romania - Localization Install and Config Applications",
     "license": "AGPL-3",
-    "version": "14.0.1.5.1",
+    "version": "14.0.2.0.0",
     "author": "NextERP Romania,"
     "Forest and Biomass Romania,"
     "Odoo Community Association (OCA)",

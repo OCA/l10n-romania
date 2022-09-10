@@ -409,7 +409,7 @@ class TestNondeductibleCommon(ValuationReconciliationTestCommon):
             "property_stock_account_output_categ_id": cls.account_valuation.id,
             "property_stock_valuation_account_id": cls.account_valuation.id,
             "property_stock_journal": stock_journal.id,
-            "stock_account_change": True,
+            "l10n_ro_stock_account_change": True,
         }
 
         cls.category = cls.env["product.category"].search(
@@ -438,7 +438,13 @@ class TestNondeductibleCommon(ValuationReconciliationTestCommon):
         if not cls.vendor:
             cls.vendor = cls.env["res.partner"].create({"name": "TEST Vendor"})
 
-        cls.warehouse = cls.company_data["default_warehouse"]
+        cls.warehouse = cls.env["stock.warehouse"].create(
+            {
+                "name": "Warehouse Romania",
+                "code": "ROW",
+                "company_id": cls.env.company.id,
+            }
+        )
 
     def create_po(self, picking_type_in=None):
 
@@ -521,7 +527,7 @@ class TestNondeductibleCommon(ValuationReconciliationTestCommon):
         self.create_invoice_notdeductible(fiscal_position=fiscal_position)
 
     def make_consume(self):
-        consume_type = self.warehouse.consume_type_id
+        consume_type = self.warehouse.l10n_ro_consume_type_id
         stock_picking_form = Form(self.env["stock.picking"])
         stock_picking_form.picking_type_id = consume_type
         with stock_picking_form.move_ids_without_package.new() as line:

@@ -6,19 +6,26 @@ from odoo import fields, models
 
 
 class Company(models.Model):
-    _inherit = "res.company"
+    _name = "res.company"
+    _inherit = ["res.company", "l10n.ro.mixin"]
 
-    street_staircase = fields.Char(
+    l10n_ro_street_staircase = fields.Char(
         "Staircase Number",
         compute="_compute_address",
-        inverse="_inverse_street_staircase",
+        inverse="_inverse_l10n_ro_street_staircase",
     )
 
     def _get_company_address_fields(self, partner):
         address_fields = super(Company, self)._get_company_address_fields(partner)
-        address_fields.update({"street_staircase": partner.street_staircase})
+        if self.l10n_ro_accounting:
+            address_fields.update(
+                {"l10n_ro_street_staircase": partner.l10n_ro_street_staircase}
+            )
         return address_fields
 
-    def _inverse_street_staircase(self):
+    def _inverse_l10n_ro_street_staircase(self):
         for company in self:
-            company.partner_id.street_staircase = company.street_staircase
+            if company.l10n_ro_accounting:
+                company.partner_id.l10n_ro_street_staircase = (
+                    company.l10n_ro_street_staircase
+                )
