@@ -8,7 +8,6 @@
     "category": "Warehouse",
     "depends": [
         "l10n_ro_stock_account",
-        "date_range",
         # "web_list_view_general_buttons"
     ],
     "data": [
