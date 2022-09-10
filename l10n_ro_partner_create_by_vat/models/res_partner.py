@@ -268,7 +268,7 @@ class ResPartner(models.Model):
                 original_vat_country, vat_number = self._split_vat(vat)
                 vat_country = original_vat_country.upper()
                 if not vat_country and self.country_id:
-                    vat_country = self._map_vat_country_code(
+                    vat_country = self._l10n_ro_map_vat_country_code(
                         self.country_id.code.upper()
                     )
                     if not vat_number:

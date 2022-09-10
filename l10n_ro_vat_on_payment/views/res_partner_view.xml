@@ -28,31 +28,36 @@
         <field name="model">res.partner</field>
         <field name="inherit_id" ref="l10n_ro_config.view_partner_create_by_vat" />
         <field name="arch" type="xml">
-            <div name="l10n_ro_vat_subjected_info" position="after">
+            <field name="l10n_ro_e_invoice" position="before">
                 <field name="is_l10n_ro_record" invisible="1" />
+                <label
+                    for="l10n_ro_vat_on_payment"
+                    attrs="{'invisible': [
+                            '|', ('vat', '=', False),
+                            ('company_type', '!=', 'company')]}"
+                />
                 <div
                     name="vat_on_payment_info"
                     class="o_row"
                     attrs="{'invisible': [('is_l10n_ro_record','=',False)]}"
                 >
-                    <label for="l10n_ro_vat_on_payment" />
                     <field
                         name="l10n_ro_vat_on_payment"
                         attrs="{'invisible': [
-                            ('vat', '=', False),
-                            ('company_type', '=', 'company')]}"
+                            '|', ('vat', '=', False),
+                            ('company_type', '!=', 'company')]}"
                     />
                     <button
                         name="check_vat_on_payment"
                         attrs="{'invisible': [
-                            ('vat', '=', False),
-                            ('is_company', '=', False )]}"
+                            '|', ('vat', '=', False),
+                            ('company_type', '!=', 'company')]}"
                         string="Update VAT on Payment"
                         type="object"
                         class="oe_highlight"
                     />
                 </div>
-            </div>
+            </field>
         </field>
     </record>
     <record id="view_partner_anaf_form" model="ir.ui.view">
@@ -62,12 +67,9 @@
         <field name="arch" type="xml">
             <page name="accounting" position="inside">
                 <field name="is_l10n_ro_record" invisible="1" />
-                <group
-                    string="ANAF - VAT on Payment"
-                    attrs="{'invisible': [('is_l10n_ro_record', '=', False)]}"
-                >
+                <group attrs="{'invisible': [('is_l10n_ro_record', '=', False)]}">
                     <separator string="ANAF - VAT on Payment" />
-                    <field name="l10n_ro_anaf_history">
+                    <field name="l10n_ro_anaf_history" nolabel="1" colspan="4">
                         <tree string="ANAF History">
                             <field name="start_date" />
                             <field name="end_date" />
