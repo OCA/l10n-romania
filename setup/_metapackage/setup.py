@@ -24,6 +24,7 @@ setuptools.setup(
         'odoo-addon-l10n_ro_stock_account_date>=15.0dev,<15.1dev',
         'odoo-addon-l10n_ro_stock_account_date_wizard>=15.0dev,<15.1dev',
         'odoo-addon-l10n_ro_stock_account_notice>=15.0dev,<15.1dev',
+        'odoo-addon-l10n_ro_stock_picking_valued_report>=15.0dev,<15.1dev',
         'odoo-addon-l10n_ro_stock_price_difference>=15.0dev,<15.1dev',
         'odoo-addon-l10n_ro_stock_report>=15.0dev,<15.1dev',
         'odoo-addon-l10n_ro_vat_on_payment>=15.0dev,<15.1dev',
