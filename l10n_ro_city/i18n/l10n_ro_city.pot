@@ -30510,11 +30510,6 @@ msgid "Munești"
 msgstr ""
 
 #. module: l10n_ro_city
-#: model:ir.model.fields,field_description:l10n_ro_city.field_res_city__municipality
-msgid "Municipality"
-msgstr ""
-
-#. module: l10n_ro_city
 #: model:res.city,name:l10n_ro_city.RO_3636
 msgid "Muntari"
 msgstr ""
@@ -31812,6 +31807,11 @@ msgstr ""
 #. module: l10n_ro_city
 #: model:res.city,name:l10n_ro_city.RO_161008
 msgid "Nalbant"
+msgstr ""
+
+#. module: l10n_ro_city
+#: model:ir.model.fields,field_description:l10n_ro_city.field_res_city__municipality
+msgid "Name"
 msgstr ""
 
 #. module: l10n_ro_city
