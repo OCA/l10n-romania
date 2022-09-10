@@ -6,15 +6,20 @@ import os
 from datetime import date, timedelta
 
 from odoo import tools
-from odoo.tests.common import TransactionCase
+from odoo.tests import tagged
+
+from odoo.addons.account.tests.common import AccountTestInvoicingCommon
 
 
-class TestVATonpayment(TransactionCase):
+@tagged("post_install", "-at_install")
+class TestVATonpayment(AccountTestInvoicingCommon):
     """Run test for VAT on payment."""
 
     def setUp(self):
-        super(TestVATonpayment, self).setUp()
-        self.partner_anaf_model = self.env["res.partner.anaf"]
+        ro_template_ref = "l10n_ro.ro_chart_template"
+        super(TestVATonpayment, self).setUp(chart_template_ref=ro_template_ref)
+        self.env.company.l10n_ro_accounting = True
+        self.partner_anaf_model = self.env["l10n.ro.res.partner.anaf"]
         self.partner_model = self.env["res.partner"]
         self.invoice_model = self.env["account.move"]
         self.fbr_partner = self.partner_model.create(
@@ -72,8 +77,8 @@ class TestVATonpayment(TransactionCase):
     def test_update_partner_data(self):
         """Test download file and partner link."""
         self.partner_model._update_vat_payment_all()
-        self.assertEqual(len(self.fbr_partner.anaf_history), 2)
-        self.assertEqual(self.fbr_partner.vat_on_payment, False)
+        self.assertEqual(len(self.fbr_partner.l10n_ro_anaf_history), 2)
+        self.assertEqual(self.fbr_partner.l10n_ro_vat_on_payment, False)
         self.assertEqual(
             self.fbr_partner.with_context(
                 check_date=date(2013, 4, 23)
@@ -86,8 +91,8 @@ class TestVATonpayment(TransactionCase):
             )._check_vat_on_payment(),
             False,
         )
-        self.assertEqual(len(self.lxt_partner.anaf_history), 1)
-        self.assertEqual(self.lxt_partner.vat_on_payment, True)
+        self.assertEqual(len(self.lxt_partner.l10n_ro_anaf_history), 1)
+        self.assertEqual(self.lxt_partner.l10n_ro_vat_on_payment, True)
 
     def test_invoice_fp(self):
         """Test download file and partner link."""
