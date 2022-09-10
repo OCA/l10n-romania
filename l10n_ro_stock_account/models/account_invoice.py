@@ -17,7 +17,7 @@ class AccountMove(models.Model):
         # nu se mai face descarcarea de gestiune la facturare
         invoices = self
         for move in self:
-            if move.company_id.romanian_accounting:
+            if move.company_id.l10n_ro_accounting:
                 invoices -= move
         return super(
             AccountMove, invoices
@@ -72,7 +72,7 @@ class AccountMoveLine(models.Model):
         if (
             self.product_id.categ_id.stock_account_change
             and self.product_id.type == "product"
-            and self.move_id.company_id.romanian_accounting
+            and self.move_id.company_id.l10n_ro_accounting
         ):
             fiscal_position = self.move_id.fiscal_position_id
             if self.move_id.is_purchase_document():
