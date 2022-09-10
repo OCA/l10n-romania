@@ -1,10 +1,10 @@
 # Copyright (C) 2022 NextERP Romania
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 {
-    "name": "Romania - Stock Picking Report",
-    "version": "14.0.1.0.0",
+    "name": "Romania - Stock Picking Valued Report",
+    "version": "15.0.1.0.0",
     "category": "Localization",
-    "summary": "Romania -  Stock Picking Report",
+    "summary": "Romania -  Stock Picking Valued Report",
     "author": "NextERP Romania," "Odoo Community Association (OCA)",
     "website": "https://github.com/OCA/l10n-romania",
     "depends": [
