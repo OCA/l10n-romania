@@ -7,12 +7,13 @@ from odoo import fields, models
 
 
 class StockPicking(models.Model):
-    _inherit = "stock.picking"
+    _name = "stock.picking"
+    _inherit = ["stock.picking", "l10n.ro.mixin"]
 
     # Prin acest camp se indica daca un produs care e stocabil trece prin
     # contul 408 / 418 la achizitie sau vanzare
     # receptie/ livrare in baza de aviz
-    notice = fields.Boolean(
+    l10n_ro_notice = fields.Boolean(
         "Is a notice",
         states={"done": [("readonly", True)], "cancel": [("readonly", True)]},
         default=False,
