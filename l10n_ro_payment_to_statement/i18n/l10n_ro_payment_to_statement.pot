@@ -1,0 +1,99 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* l10n_ro_payment_to_statement
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 15.0\n"
+"Report-Msgid-Bugs-To: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: l10n_ro_payment_to_statement
+#: model_terms:ir.ui.view,arch_db:l10n_ro_payment_to_statement.account_journal_dashboard_kanban_view
+msgid "<span title=\"Transfer\">Transfer</span>"
+msgstr ""
+
+#. module: l10n_ro_payment_to_statement
+#: model_terms:ir.ui.view,arch_db:l10n_ro_payment_to_statement.view_account_payment_form
+msgid "Add to statement"
+msgstr ""
+
+#. module: l10n_ro_payment_to_statement
+#: model:ir.model.fields,field_description:l10n_ro_payment_to_statement.field_account_journal__auto_statement
+msgid "Auto Statement"
+msgstr ""
+
+#. module: l10n_ro_payment_to_statement
+#: model:ir.model,name:l10n_ro_payment_to_statement.model_account_bank_statement
+msgid "Bank Statement"
+msgstr ""
+
+#. module: l10n_ro_payment_to_statement
+#: model:ir.model,name:l10n_ro_payment_to_statement.model_account_bank_statement_line
+msgid "Bank Statement Line"
+msgstr ""
+
+#. module: l10n_ro_payment_to_statement
+#: model:ir.model,name:l10n_ro_payment_to_statement.model_cash_box_out
+msgid "Cash Box Out"
+msgstr ""
+
+#. module: l10n_ro_payment_to_statement
+#: model_terms:ir.ui.view,arch_db:l10n_ro_payment_to_statement.view_account_payment_form
+msgid "Get statement"
+msgstr ""
+
+#. module: l10n_ro_payment_to_statement
+#: model:ir.model,name:l10n_ro_payment_to_statement.model_account_journal
+msgid "Journal"
+msgstr ""
+
+#. module: l10n_ro_payment_to_statement
+#: model:ir.model,name:l10n_ro_payment_to_statement.model_account_move
+msgid "Journal Entry"
+msgstr ""
+
+#. module: l10n_ro_payment_to_statement
+#: model:ir.model.fields,field_description:l10n_ro_payment_to_statement.field_account_bank_statement_line__payment_id
+msgid "Payment"
+msgstr ""
+
+#. module: l10n_ro_payment_to_statement
+#: model:ir.model,name:l10n_ro_payment_to_statement.model_account_payment
+msgid "Payments"
+msgstr ""
+
+#. module: l10n_ro_payment_to_statement
+#: model:ir.model.fields,field_description:l10n_ro_payment_to_statement.field_account_journal__journal_sequence_id
+msgid "Sequence Journal"
+msgstr ""
+
+#. module: l10n_ro_payment_to_statement
+#: model:ir.model.fields,field_description:l10n_ro_payment_to_statement.field_account_journal__cash_in_sequence_id
+msgid "Sequence cash in"
+msgstr ""
+
+#. module: l10n_ro_payment_to_statement
+#: model:ir.model.fields,field_description:l10n_ro_payment_to_statement.field_account_journal__cash_out_sequence_id
+msgid "Sequence cash out"
+msgstr ""
+
+#. module: l10n_ro_payment_to_statement
+#: model:ir.model.fields,field_description:l10n_ro_payment_to_statement.field_account_payment__statement_id
+msgid "Statement"
+msgstr ""
+
+#. module: l10n_ro_payment_to_statement
+#: model:ir.model.fields,field_description:l10n_ro_payment_to_statement.field_account_payment__statement_line_id
+msgid "Statement Line"
+msgstr ""
+
+#. module: l10n_ro_payment_to_statement
+#: model:ir.model.fields,field_description:l10n_ro_payment_to_statement.field_account_journal__statement_sequence_id
+msgid "Statement Sequence"
+msgstr ""
