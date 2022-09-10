@@ -10,6 +10,6 @@ def _set_auto_auto_statement(cr, registry):
     cr.execute(
         """
         UPDATE account_journal
-        SET auto_statement = True
+        SET l10n_ro_auto_statement = True
         WHERE  type  = 'cash';"""
     )
