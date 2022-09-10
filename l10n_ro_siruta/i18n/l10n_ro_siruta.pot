@@ -4,7 +4,7 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 13.0\n"
+"Project-Id-Version: Odoo Server 15.0\n"
 "Report-Msgid-Bugs-To: \n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -53,7 +53,6 @@ msgstr ""
 #: model:ir.actions.act_window,name:l10n_ro_siruta.action_commune
 #: model:ir.ui.menu,name:l10n_ro_siruta.menu_commune
 #: model_terms:ir.ui.view,arch_db:l10n_ro_siruta.view_commune_search
-#: model_terms:ir.ui.view,arch_db:l10n_ro_siruta.view_commune_tree
 msgid "Communes"
 msgstr ""
 
@@ -127,10 +126,6 @@ msgstr ""
 
 #. module: l10n_ro_siruta
 #: model:ir.model.fields,field_description:l10n_ro_siruta.field_res_city__municipality
-msgid "Municipality"
-msgstr ""
-
-#. module: l10n_ro_siruta
 #: model:ir.model.fields,field_description:l10n_ro_siruta.field_res_country_commune__name
 #: model:ir.model.fields,field_description:l10n_ro_siruta.field_res_country_zone__name
 #: model_terms:ir.ui.view,arch_db:l10n_ro_siruta.view_city_form
@@ -173,6 +168,5 @@ msgstr ""
 #: model:ir.actions.act_window,name:l10n_ro_siruta.action_zone
 #: model:ir.ui.menu,name:l10n_ro_siruta.menu_zone
 #: model_terms:ir.ui.view,arch_db:l10n_ro_siruta.view_zone_search
-#: model_terms:ir.ui.view,arch_db:l10n_ro_siruta.view_zone_tree
 msgid "Zones"
 msgstr ""
