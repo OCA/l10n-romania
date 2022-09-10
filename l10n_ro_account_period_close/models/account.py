@@ -6,9 +6,10 @@ from odoo import fields, models
 
 
 class Account(models.Model):
-    _inherit = "account.account"
+    _name = "account.account"
+    _inherit = ["account.account", "l10n.ro.mixin"]
 
-    close_check = fields.Boolean(
+    l10n_ro_close_check = fields.Boolean(
         "Bypass Closing Side Check",
         help="By checking this when you close a period, it will not respect "
         "the side of closing, meaning: expenses closed on credit side, "
@@ -18,7 +19,10 @@ class Account(models.Model):
 
 
 class AccountMove(models.Model):
-    _inherit = "account.move"
+    _name = "account.move"
+    _inherit = ["account.move", "l10n.ro.mixin"]
 
-    close_id = fields.Many2one("account.period.closing", "Closed Account Period")
+    l10n_ro_close_id = fields.Many2one(
+        "l10n.ro.account.period.closing", "Closed Account Period"
+    )
     l10n_ro_closing_move = fields.Boolean("Is Closing Move")
