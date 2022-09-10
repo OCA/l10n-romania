@@ -36,7 +36,7 @@ class TestPurchaseStockPickingValued(TestStockPickingValued):
         for picking in self.purchase_order.picking_ids:
             action = picking.button_validate()
             wizard = Form(
-                self.env[action["res_model"]].with_context(action["context"])
+                self.env[action["res_model"]].with_context(**action["context"])
             ).save()
             wizard.process()
             self.assertEqual(picking.amount_untaxed, 100.0)
@@ -102,7 +102,7 @@ class TestPurchaseStockPickingValued(TestStockPickingValued):
             + "_"
             + name
             + (description or "")
-            + "uom "
+            + "__"
             + str(uom.id)
         )
         exp = {
@@ -111,6 +111,7 @@ class TestPurchaseStockPickingValued(TestStockPickingValued):
                 "name": move_line.product_id.name,
                 "description": False,
                 "qty_done": 2.0,
+                "qty_ordered": 2.0,
                 "product_uom": move_line.product_id.uom_id.name,
                 "product_uom_rec": move_line.product_id.uom_id,
                 "product": move_line.product_id,
