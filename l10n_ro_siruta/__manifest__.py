@@ -19,7 +19,7 @@
     ],
     "demo": ["demo/demo_siruta.xml"],
     "license": "AGPL-3",
-    "version": "14.0.1.2.1",
+    "version": "14.0.2.0.0",
     "author": "NextERP Romania,"
     "Forest and Biomass Romania,"
     "Terrabit,"
