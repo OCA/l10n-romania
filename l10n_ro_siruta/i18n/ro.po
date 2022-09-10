@@ -4,10 +4,10 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 11.0\n"
+"Project-Id-Version: Odoo Server 14.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-10-20 09:53+0000\n"
-"PO-Revision-Date: 2017-10-20 09:53+0000\n"
+"POT-Creation-Date: 2022-08-01 09:53+0000\n"
+"PO-Revision-Date: 202-08-01 09:53+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "Language: \n"
@@ -17,13 +17,13 @@ msgstr ""
 "Plural-Forms: \n"
 
 #. module: l10n_ro_siruta
-#: model:ir.model.fields,field_description:l10n_ro_siruta.field_res_country_commune__city_ids
+#: model:ir.model.fields,field_description:l10n_ro_siruta.field_l10n_ro_res_country_commune__city_ids
 #: model:ir.model.fields,field_description:l10n_ro_siruta.field_res_country_state__city_ids
 msgid "Cities"
 msgstr "Orașe"
 
 #. module: l10n_ro_siruta
-#: model:ir.model.fields,field_description:l10n_ro_siruta.field_res_country_state__commune_ids
+#: model:ir.model.fields,field_description:l10n_ro_siruta.field_res_country_state__l10n_ro_commune_ids
 msgid "Cities/Communes"
 msgstr "Orașe/Comune"
 
@@ -34,9 +34,9 @@ msgid "City"
 msgstr "Oraș"
 
 #. module: l10n_ro_siruta
-#: model:ir.model.fields,field_description:l10n_ro_siruta.field_res_city__commune_id
-#: model:ir.model.fields,field_description:l10n_ro_siruta.field_res_partner__commune_id
-#: model:ir.model.fields,field_description:l10n_ro_siruta.field_res_users__commune_id
+#: model:ir.model.fields,field_description:l10n_ro_siruta.field_res_city__l10n_ro_commune_id
+#: model:ir.model.fields,field_description:l10n_ro_siruta.field_res_partner__l10n_ro_commune_id
+#: model:ir.model.fields,field_description:l10n_ro_siruta.field_res_users__l10n_ro_commune_id
 #: model_terms:ir.ui.view,arch_db:l10n_ro_siruta.partners_form_address
 #: model_terms:ir.ui.view,arch_db:l10n_ro_siruta.partners_short_form_address
 msgid "City/Commune"
@@ -66,18 +66,18 @@ msgid "Contact"
 msgstr "Contact"
 
 #. module: l10n_ro_siruta
-#: model:ir.model.fields,field_description:l10n_ro_siruta.field_res_country_commune__country_id
-#: model:ir.model.fields,field_description:l10n_ro_siruta.field_res_country_zone__country_id
+#: model:ir.model.fields,field_description:l10n_ro_siruta.field_l10n_ro_res_country_commune__country_id
+#: model:ir.model.fields,field_description:l10n_ro_siruta.field_l10n_ro_res_country_zone__country_id
 msgid "Country"
 msgstr "Țară"
 
 #. module: l10n_ro_siruta
-#: model:ir.model,name:l10n_ro_siruta.model_res_country_commune
+#: model:ir.model,name:l10n_ro_siruta.model_l10n_ro_res_country_commune
 msgid "Country Cities/Communes"
 msgstr "Orașele/Comunele Țării"
 
 #. module: l10n_ro_siruta
-#: model:ir.model,name:l10n_ro_siruta.model_res_country_zone
+#: model:ir.model,name:l10n_ro_siruta.model_l10n_ro_res_country_zone
 msgid "Country Zones"
 msgstr "Zonele Țării"
 
@@ -87,55 +87,55 @@ msgid "Country state"
 msgstr "Tara"
 
 #. module: l10n_ro_siruta
-#: model:ir.model.fields,field_description:l10n_ro_siruta.field_res_country_commune__create_uid
-#: model:ir.model.fields,field_description:l10n_ro_siruta.field_res_country_zone__create_uid
+#: model:ir.model.fields,field_description:l10n_ro_siruta.field_l10n_ro_res_country_commune__create_uid
+#: model:ir.model.fields,field_description:l10n_ro_siruta.field_l10n_ro_res_country_zone__create_uid
 msgid "Created by"
 msgstr "Creat de"
 
 #. module: l10n_ro_siruta
-#: model:ir.model.fields,field_description:l10n_ro_siruta.field_res_country_commune__create_date
-#: model:ir.model.fields,field_description:l10n_ro_siruta.field_res_country_zone__create_date
+#: model:ir.model.fields,field_description:l10n_ro_siruta.field_l10n_ro_res_country_commune__create_date
+#: model:ir.model.fields,field_description:l10n_ro_siruta.field_l10n_ro_res_country_zone__create_date
 msgid "Created on"
 msgstr "Creat în"
 
 #. module: l10n_ro_siruta
-#: model:ir.model.fields,field_description:l10n_ro_siruta.field_res_country_commune__display_name
-#: model:ir.model.fields,field_description:l10n_ro_siruta.field_res_country_zone__display_name
+#: model:ir.model.fields,field_description:l10n_ro_siruta.field_l10n_ro_res_country_commune__display_name
+#: model:ir.model.fields,field_description:l10n_ro_siruta.field_l10n_ro_res_country_zone__display_name
 msgid "Display Name"
 msgstr "Nume afișat"
 
 #. module: l10n_ro_siruta
-#: model:ir.model.fields,field_description:l10n_ro_siruta.field_res_country_commune__id
-#: model:ir.model.fields,field_description:l10n_ro_siruta.field_res_country_zone__id
+#: model:ir.model.fields,field_description:l10n_ro_siruta.field_l10n_ro_res_country_commune__id
+#: model:ir.model.fields,field_description:l10n_ro_siruta.field_l10n_ro_res_country_zone__id
 msgid "ID"
 msgstr "ID"
 
 #. module: l10n_ro_siruta
-#: model:ir.model.fields,field_description:l10n_ro_siruta.field_res_country_commune____last_update
-#: model:ir.model.fields,field_description:l10n_ro_siruta.field_res_country_zone____last_update
+#: model:ir.model.fields,field_description:l10n_ro_siruta.field_l10n_ro_res_country_commune____last_update
+#: model:ir.model.fields,field_description:l10n_ro_siruta.field_l10n_ro_res_country_zone____last_update
 msgid "Last Modified on"
 msgstr "Ultima modificare la"
 
 #. module: l10n_ro_siruta
-#: model:ir.model.fields,field_description:l10n_ro_siruta.field_res_country_commune__write_uid
-#: model:ir.model.fields,field_description:l10n_ro_siruta.field_res_country_zone__write_uid
+#: model:ir.model.fields,field_description:l10n_ro_siruta.field_l10n_ro_res_country_commune__write_uid
+#: model:ir.model.fields,field_description:l10n_ro_siruta.field_l10n_ro_res_country_zone__write_uid
 msgid "Last Updated by"
 msgstr "Ultima actualizare făcută de"
 
 #. module: l10n_ro_siruta
-#: model:ir.model.fields,field_description:l10n_ro_siruta.field_res_country_commune__write_date
-#: model:ir.model.fields,field_description:l10n_ro_siruta.field_res_country_zone__write_date
+#: model:ir.model.fields,field_description:l10n_ro_siruta.field_l10n_ro_res_country_commune__write_date
+#: model:ir.model.fields,field_description:l10n_ro_siruta.field_l10n_ro_res_country_zone__write_date
 msgid "Last Updated on"
 msgstr "Ultima actualizare pe"
 
 #. module: l10n_ro_siruta
-#: model:ir.model.fields,field_description:l10n_ro_siruta.field_res_city__municipality
+#: model:ir.model.fields,field_description:l10n_ro_siruta.field_res_city__l10n_ro_municipality
 msgid "Municipality"
 msgstr ""
 
 #. module: l10n_ro_siruta
-#: model:ir.model.fields,field_description:l10n_ro_siruta.field_res_country_commune__name
-#: model:ir.model.fields,field_description:l10n_ro_siruta.field_res_country_zone__name
+#: model:ir.model.fields,field_description:l10n_ro_siruta.field_l10n_ro_res_country_commune__name
+#: model:ir.model.fields,field_description:l10n_ro_siruta.field_l10n_ro_res_country_zone__name
 #: model_terms:ir.ui.view,arch_db:l10n_ro_siruta.view_city_form
 #: model_terms:ir.ui.view,arch_db:l10n_ro_siruta.view_commune_form
 #: model_terms:ir.ui.view,arch_db:l10n_ro_siruta.view_zone_form
@@ -143,15 +143,15 @@ msgid "Name"
 msgstr "Nume"
 
 #. module: l10n_ro_siruta
-#: model:ir.model.fields,field_description:l10n_ro_siruta.field_res_country_commune__siruta
-#: model:ir.model.fields,field_description:l10n_ro_siruta.field_res_country_state__siruta
-#: model:ir.model.fields,field_description:l10n_ro_siruta.field_res_country_zone__siruta
+#: model:ir.model.fields,field_description:l10n_ro_siruta.field_l10n_ro_res_country_commune__siruta
+#: model:ir.model.fields,field_description:l10n_ro_siruta.field_res_country_state__l10n_ro_siruta
+#: model:ir.model.fields,field_description:l10n_ro_siruta.field_l10n_ro_res_country_zone__siruta
 msgid "Siruta"
 msgstr "Siruta"
 
 #. module: l10n_ro_siruta
-#: model:ir.model.fields,field_description:l10n_ro_siruta.field_res_country_commune__state_id
-#: model:ir.model.fields,field_description:l10n_ro_siruta.field_res_country_zone__state_ids
+#: model:ir.model.fields,field_description:l10n_ro_siruta.field_l10n_ro_res_country_commune__state_id
+#: model:ir.model.fields,field_description:l10n_ro_siruta.field_l10n_ro_res_country_zone__state_ids
 msgid "State"
 msgstr "Județ"
 
@@ -161,11 +161,11 @@ msgid "Timisoara"
 msgstr ""
 
 #. module: l10n_ro_siruta
-#: model:ir.model.fields,field_description:l10n_ro_siruta.field_res_city__zone_id
-#: model:ir.model.fields,field_description:l10n_ro_siruta.field_res_country_commune__zone_id
-#: model:ir.model.fields,field_description:l10n_ro_siruta.field_res_country_state__zone_id
-#: model:ir.model.fields,field_description:l10n_ro_siruta.field_res_partner__zone_id
-#: model:ir.model.fields,field_description:l10n_ro_siruta.field_res_users__zone_id
+#: model:ir.model.fields,field_description:l10n_ro_siruta.field_res_city__l10n_ro_zone_id
+#: model:ir.model.fields,field_description:l10n_ro_siruta.field_l10n_ro_res_country_commune__zone_id
+#: model:ir.model.fields,field_description:l10n_ro_siruta.field_res_country_state__l10n_ro_zone_id
+#: model:ir.model.fields,field_description:l10n_ro_siruta.field_res_partner__l10n_ro_zone_id
+#: model:ir.model.fields,field_description:l10n_ro_siruta.field_res_users__l10n_ro_zone_id
 #: model_terms:ir.ui.view,arch_db:l10n_ro_siruta.partners_form_address
 #: model_terms:ir.ui.view,arch_db:l10n_ro_siruta.partners_short_form_address
 #: model_terms:ir.ui.view,arch_db:l10n_ro_siruta.view_zone_form

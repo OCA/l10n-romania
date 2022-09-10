@@ -8,23 +8,24 @@ from odoo.tests.common import TransactionCase
 class TestStreetFields(TransactionCase):
     def setUp(self):
         super(TestStreetFields, self).setUp()
+        self.env.company.l10n_ro_accounting = True
         self.Partner = self.env["res.partner"]
         self.env.ref("base.be").write(
             {
                 "street_format": "%(street_name)s, %(street_number)s/"
-                "%(street_staircase)s/%(street_number2)s"
+                "%(l10n_ro_street_staircase)s/%(street_number2)s"
             }
         )
         self.env.ref("base.us").write(
             {
-                "street_format": "%(street_number)s/%(street_staircase)s/"
+                "street_format": "%(street_number)s/%(l10n_ro_street_staircase)s/"
                 "%(street_number2)s %(street_name)s"
             }
         )
         self.env.ref("base.ch").write(
             {
                 "street_format": "header %(street_name)s, %(street_number)s "
-                "- %(street_staircase)s - %(street_number2)s "
+                "- %(l10n_ro_street_staircase)s - %(street_number2)s "
                 "trailer"
             }
         )
@@ -36,7 +37,7 @@ class TestStreetFields(TransactionCase):
         street,
         street_name,
         street_number,
-        street_staircase,
+        l10n_ro_street_staircase,
         street_number2,
     ):
         partner = self.Partner.create(
@@ -53,10 +54,10 @@ class TestStreetFields(TransactionCase):
             "wrong house number for {}: {}".format(partner_name, partner.street_number),
         )
         self.assertEqual(
-            partner.street_staircase or "",
-            street_staircase,
+            partner.l10n_ro_street_staircase or "",
+            l10n_ro_street_staircase,
             "wrong house staircase for {}: {}".format(
-                partner_name, partner.street_staircase
+                partner_name, partner.l10n_ro_street_staircase
             ),
         )
         self.assertEqual(
@@ -69,7 +70,7 @@ class TestStreetFields(TransactionCase):
                 "name": partner_name + "-2",
                 "street_name": street_name,
                 "street_number": street_number,
-                "street_staircase": street_staircase,
+                "l10n_ro_street_staircase": l10n_ro_street_staircase,
                 "street_number2": street_number2,
                 "country_id": country_id,
             }
@@ -88,7 +89,7 @@ class TestStreetFields(TransactionCase):
         street,
         street_name,
         street_number,
-        street_staircase,
+        l10n_ro_street_staircase,
         street_number2,
     ):
         partner.write(vals)
@@ -103,9 +104,9 @@ class TestStreetFields(TransactionCase):
             "wrong house number: %s" % partner.street_number,
         )
         self.assertEqual(
-            partner.street_staircase or "",
-            street_staircase,
-            "wrong house staircase: %s" % partner.street_staircase,
+            partner.l10n_ro_street_staircase or "",
+            l10n_ro_street_staircase,
+            "wrong house staircase: %s" % partner.l10n_ro_street_staircase,
         )
         self.assertEqual(
             partner.street_number2 or "",
@@ -222,7 +223,7 @@ class TestStreetFields(TransactionCase):
         )
         self.write_and_assert(
             p1,
-            {"street_staircase": "A1", "street_number2": "4"},
+            {"l10n_ro_street_staircase": "A1", "street_number2": "4"},
             "Chee de Namur, 40/A1/4",
             "Chee de Namur",
             "40",
