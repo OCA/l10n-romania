@@ -18,7 +18,7 @@ msgstr ""
 
 #. module: l10n_ro_siruta
 #: model:ir.model.fields,field_description:l10n_ro_siruta.field_l10n_ro_res_country_commune__city_ids
-#: model:ir.model.fields,field_description:l10n_ro_siruta.field_l10n_ro_res_country_state__l10n_ro_city_ids
+#: model:ir.model.fields,field_description:l10n_ro_siruta.field_res_country_state__city_ids
 msgid "Cities"
 msgstr "Orașe"
 
