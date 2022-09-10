@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo noupdate="1">
+    <record id="RO_NE" model="res.country.zone">
+        <field name="name">Nord - Est</field>
+        <field name="siruta">813</field>
+        <field name="country_id" ref="base.ro" />
+    </record>
+    <record id="RO_SE" model="res.country.zone">
+        <field name="name">Sud - Est</field>
+        <field name="siruta">822</field>
+        <field name="country_id" ref="base.ro" />
+    </record>
+    <record id="RO_SM" model="res.country.zone">
+        <field name="name">Sud - Muntenia</field>
+        <field name="siruta">831</field>
+        <field name="country_id" ref="base.ro" />
+    </record>
+    <record id="RO_SVO" model="res.country.zone">
+        <field name="name">Sud - Vest - Oltenia</field>
+        <field name="siruta">840</field>
+        <field name="country_id" ref="base.ro" />
+    </record>
+    <record id="RO_V" model="res.country.zone">
+        <field name="name">Vest</field>
+        <field name="siruta">859</field>
+        <field name="country_id" ref="base.ro" />
+    </record>
+    <record id="RO_NV" model="res.country.zone">
+        <field name="name">Nord - Vest</field>
+        <field name="siruta">868</field>
+        <field name="country_id" ref="base.ro" />
+    </record>
+    <record id="RO_C" model="res.country.zone">
+        <field name="name">Centru</field>
+        <field name="siruta">877</field>
+        <field name="country_id" ref="base.ro" />
+    </record>
+    <record id="RO_BI" model="res.country.zone">
+        <field name="name">București - Ilfov</field>
+        <field name="siruta">886</field>
+        <field name="country_id" ref="base.ro" />
+    </record>
+</odoo>
