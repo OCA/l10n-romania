@@ -481,7 +481,7 @@ class TestNondeductibleCommon(ValuationReconciliationTestCommon):
         invoice.purchase_id = self.po
         if fiscal_position:
             self.vendor.vat = "RO39187746"
-            self.env["res.partner.anaf"].create(
+            self.env["l10n.ro.res.partner.anaf"].create(
                 {
                     "anaf_id": "1",
                     "vat": self.vendor.l10n_ro_vat_number,
