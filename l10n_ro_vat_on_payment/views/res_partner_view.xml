@@ -41,7 +41,6 @@
                     class="o_row"
                     attrs="{'invisible': [('is_l10n_ro_record','=',False)]}"
                 >
-
                     <field
                         name="l10n_ro_vat_on_payment"
                         attrs="{'invisible': [
