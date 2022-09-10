@@ -13,16 +13,30 @@ _logger = logging.getLogger(__name__)
 @tagged("post_install", "-at_install")
 class TestStockConsumn(TestStockPickingValued):
     def set_stock(self, product, qty):
-        inventory = self.env["stock.inventory"].create(
-            {
-                "location_ids": [(4, self.location_warehouse.id)],
-                "product_ids": [(4, product.id)],
-            }
+        stock_quant = self.env["stock.quant"].search(
+            [
+                ("product_id", "=", product.id),
+                ("location_id", "=", self.location_warehouse.id),
+            ]
         )
-        inventory.action_start()
-
-        inventory.line_ids.product_qty = qty
-        inventory.action_validate()
+        if not stock_quant:
+            stock_quant_obj = self.env["stock.quant"].with_context(inventory_mode=True)
+            inventory = stock_quant_obj.create(
+                {
+                    "location_id": self.location_warehouse.id,
+                    "product_id": product.id,
+                    "inventory_quantity": qty,
+                }
+            )
+            inventory._apply_inventory()
+        else:
+            stock_quant = stock_quant.with_context(inventory_mode=True)
+            stock_quant.write(
+                {
+                    "inventory_quantity": qty,
+                }
+            )
+            stock_quant._apply_inventory()
 
     def test_transfer(self):
         self.set_stock(self.product_mp, 1000)
