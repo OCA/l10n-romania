@@ -6,6 +6,9 @@ from odoo import fields, models
 
 
 class AccountTaxExtend(models.Model):
-    _inherit = "account.account"
+    _name = "account.account"
+    _inherit = ["account.account", "l10n.ro.mixin"]
 
-    nondeductible_account_id = fields.Many2one("account.account")
+    l10n_ro_nondeductible_account_id = fields.Many2one(
+        "account.account", string="RO Nondeductible Account"
+    )
