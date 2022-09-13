@@ -13,7 +13,7 @@ class CommentTemplate(models.AbstractModel):
         for record in self.filtered(lambda r: not r.comment_template_ids):
             templates = self.env["base.comment.template"].search(
                 [
-                    ("partner_id", "=", False),
+                    ("partner_ids", "=", False),
                     ("model_ids.model", "=", self._name),
                 ]
             )
