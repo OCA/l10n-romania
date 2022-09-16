@@ -132,6 +132,6 @@ class AccountMove(models.Model):
                             line.l10n_ro_modify_stock_valuation(price_diff)
 
     def _stock_account_prepare_anglo_saxon_in_lines_vals(self):
-        if self.is_l10n_ro_record:
+        if self.filtered("is_l10n_ro_record"):
             return []
         return super()._stock_account_prepare_anglo_saxon_in_lines_vals()
