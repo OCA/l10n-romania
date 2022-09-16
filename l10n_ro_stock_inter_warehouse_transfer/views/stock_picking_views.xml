@@ -1,0 +1,28 @@
+<odoo>
+
+    <record id="view_picking_add_inter_wh_dest_loc" model="ir.ui.view">
+        <field name="name">view_picking_add_inter_wh_dest_loc</field>
+        <field name="model">stock.picking</field>
+        <field
+            name="inherit_id"
+            ref="l10n_ro_stock_account.view_picking_add_price_unit_form"
+        />
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='location_dest_id']" position="after">
+                <separator />
+                <field name="l10n_ro_transit_location" invisible="1" />
+                <field name="is_l10n_ro_record" invisible="1" />
+                <field name="l10n_ro_inter_wh_location_dest_visible" invisible="1" />
+                <field
+                    name="l10n_ro_inter_wh_location_dest_id"
+                    attrs="{
+                            'required': [('l10n_ro_inter_wh_location_dest_visible', '=', True)],
+                            'invisible': [('l10n_ro_inter_wh_location_dest_visible', '=', False)],
+                    }"
+                    domain="[('company_id', 'child_of', company_id)]"
+                />
+            </xpath>
+        </field>
+    </record>
+
+</odoo>

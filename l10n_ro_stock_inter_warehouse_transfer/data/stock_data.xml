@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <data>
+        <record id="stock_location_inter_wh" model="stock.location">
+            <field name="name">RO Transit</field>
+            <field name="usage">internal</field>
+            <field name="company_id" />
+        </record>
+    </data>
+</odoo>

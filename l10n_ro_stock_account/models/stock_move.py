@@ -230,6 +230,13 @@ class StockMove(models.Model):
                 precision_rounding=move.product_id.uom_id.rounding,
             ):
                 continue
+
+            if move.move_orig_ids:
+                move = move.with_context(
+                    origin_return_candidates=move.move_orig_ids.sudo()
+                    .stock_valuation_layer_ids.filtered(lambda sv: sv.remaining_qty > 0)
+                    .ids
+                )
             svl_vals = move.product_id._prepare_out_svl_vals(
                 forced_quantity or valued_quantity, move.company_id
             )

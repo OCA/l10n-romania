@@ -237,3 +237,17 @@ class ProductProduct(models.Model):
             else:
                 vals.update(value=value, unit_cost=unit_cost)
         return vals
+
+    def _prepare_out_svl_vals(self, quantity, company):
+        vals = super()._prepare_out_svl_vals(quantity, company)
+        if self.is_l10n_ro_record:
+            if self._context.get("origin_return_candidates"):
+                candidates = (
+                    self.env["stock.valuation.layer"]
+                    .sudo()
+                    .browse(self._context["origin_return_candidates"])
+                )
+                if candidates:
+                    vals["unit_cost"] = candidates[0].unit_cost
+                    vals["value"] = vals["quantity"] * candidates[0].unit_cost
+        return vals
