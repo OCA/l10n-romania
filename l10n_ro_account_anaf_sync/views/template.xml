@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <template id="redirect_anaf">
+       <t t-call="web.frontend_layout">
+            <t t-set="title">ANAF Response</t>
+            <body>
+                <div class="container">
+                    <t t-if="error">
+                        <div class="alert alert-danger text-center" role="alert">
+                            <p class="d-inline"><t t-esc="error" /></p>
+                            <i
+                                class="fa fa-2x  fa-exclamation-triangle pull-right"
+                                style="margin-top:-3px"
+                            />
+                        </div>
+                    </t>
+                    <t t-else="">
+                        <div class="alert alert-success text-center" role="alert">
+                            <p class="d-inline"><t t-esc="message" /></p>
+                            <i
+                                class="fa fa-2x fa-check-circle pull-right"
+                                style="margin-top:-3px"
+                            />
+                        </div>
+                    </t>
+
+                </div>
+            </body>
+        </t>
+    </template>
+</odoo>
