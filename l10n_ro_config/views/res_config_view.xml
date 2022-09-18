@@ -330,6 +330,20 @@
                                 </div>
                             </div>
                         </div>
+                        <div
+                            class="col-xs-12 col-md-6 o_setting_box"
+                            id="module_l10n_ro_account_anaf_sync"
+                        >
+                            <div class="o_setting_left_pane">
+                                <field name="module_l10n_ro_account_anaf_sync" />
+                            </div>
+                            <div class="o_setting_right_pane">
+                                <label for="module_l10n_ro_account_anaf_sync" />
+                                <div class="text-muted">
+                                    Register sync oAuth with ANAF website.
+                                </div>
+                            </div>
+                        </div>
                     </div>
                     <h2>Stock</h2>
                     <div class="row mt16 o_settings_container">
