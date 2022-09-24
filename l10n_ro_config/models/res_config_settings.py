@@ -151,6 +151,10 @@ class ResConfigSettings(models.TransientModel):
     )
     module_l10n_ro_nondeductible_vat = fields.Boolean("Romania Non Deductible VAT")
     module_l10n_ro_payment_to_statement = fields.Boolean("Romania Payment to Statement")
+    module_l10n_ro_account_anaf_sync = fields.Boolean(
+        "Account ANAF Sync",
+        help="This option allows you to manage the sync to ANAF website.",
+    )
     module_l10n_ro_account_report_invoice = fields.Boolean(
         "Invoice Report",
         help="This allows you to print invoice report based on " "romanian layout.\n",

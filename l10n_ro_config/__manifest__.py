@@ -13,10 +13,11 @@
     "website": "https://github.com/OCA/l10n-romania",
     "depends": ["l10n_ro", "base_vat"],
     "data": [
-        "views/res_partner_view.xml",
+        "views/account_journal.xml",
         "views/common_report.xml",
         "views/res_config_view.xml",
         "views/res_bank_view.xml",
+        "views/res_partner_view.xml",
     ],
     "pre_init_hook": "pre_init_hook",
     "development_status": "Mature",
