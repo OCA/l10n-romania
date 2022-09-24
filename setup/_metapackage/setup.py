@@ -9,6 +9,7 @@ setuptools.setup(
     version=version,
     install_requires=[
         'odoo14-addon-currency_rate_update_RO_BNR',
+        'odoo14-addon-l10n_ro_account_anaf_sync',
         'odoo14-addon-l10n_ro_account_edit_currency_rate',
         'odoo14-addon-l10n_ro_account_period_close',
         'odoo14-addon-l10n_ro_account_report_invoice',
