@@ -1,0 +1,2 @@
+- Go to Statement from bank or cash Journal.
+- Print from tree or form view report "Romania - Cash - Bank Register"
