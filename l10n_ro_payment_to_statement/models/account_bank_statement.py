@@ -30,4 +30,3 @@ class AccountBankStatement(models.Model):
             if record.is_l10n_ro_record and record.name == "/":
                 result_dict[record.id] = fields.Date.to_string(record.date)
         return list(result_dict.items())
-
