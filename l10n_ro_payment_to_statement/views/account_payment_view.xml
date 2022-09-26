@@ -29,7 +29,7 @@
                     attrs="{'invisible': [('is_l10n_ro_record','=',False)]}"
                 />
                 <field
-                    name="l10n_ro_statement_line_id"
+                    name="statement_line_id"
                     attrs="{'invisible': [('is_l10n_ro_record','=',False)]}"
                 />
             </xpath>

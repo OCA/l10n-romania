@@ -30,10 +30,3 @@ class AccountBankStatement(models.Model):
             if record.is_l10n_ro_record and record.name == "/":
                 result_dict[record.id] = fields.Date.to_string(record.date)
         return list(result_dict.items())
-
-
-class AccountBankStatementLine(models.Model):
-    _name = "account.bank.statement.line"
-    _inherit = ["account.bank.statement.line", "l10n.ro.mixin"]
-
-    l10n_ro_payment_id = fields.Many2one("account.payment")

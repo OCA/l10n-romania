@@ -15,7 +15,7 @@ class AccountPayment(models.Model):
         domain="[('journal_id','=',journal_id)]",
     )
 
-    l10n_ro_statement_line_id = fields.Many2one(
+    statement_line_id = fields.Many2one(
         "account.bank.statement.line",
         string="Statement Line",
         readonly=True,
@@ -77,7 +77,7 @@ class AccountPayment(models.Model):
                     payment.write(
                         {
                             "l10n_ro_statement_id": move_line.statement_id.id,
-                            "l10n_ro_statement_line_id": move_line.statement_line_id.id,
+                            "statement_line_id": move_line.statement_line_id.id,
                         }
                     )
 
@@ -107,7 +107,7 @@ class AccountPayment(models.Model):
 
             if (
                 payment.state == "posted"
-                and not payment.l10n_ro_statement_line_id
+                and not payment.statement_line_id
                 and payment.l10n_ro_statement_id
             ):
                 ref = ""
@@ -130,13 +130,13 @@ class AccountPayment(models.Model):
 
                 line = payment.env["account.bank.statement.line"].create(values)
                 lines |= line
-                payment.write({"l10n_ro_statement_line_id": line.id})
+                payment.write({"statement_line_id": line.id})
 
     def unlink(self):
         statement_line_ids = self.env["account.bank.statement.line"]
         for payment in self:
             if payment.is_l10n_ro_record:
-                statement_line_ids |= payment.l10n_ro_statement_line_id
+                statement_line_ids |= payment.statement_line_id
         res = super().unlink()
         statement_line_ids.unlink()
         return res
