@@ -28,12 +28,6 @@ def migrate(env, version):
         env,
         [
             (
-                "account.bank.statement.line",
-                "account_bank_statement_line",
-                "payment_id",
-                "l10n_ro_payment_id",
-            ),
-            (
                 "account.journal",
                 "account_journal",
                 "statement_sequence_id",
@@ -68,12 +62,6 @@ def migrate(env, version):
                 "account_payment",
                 "statement_id",
                 "l10n_ro_statement_id",
-            ),
-            (
-                "account.payment",
-                "account_payment",
-                "statement_line_id",
-                "l10n_ro_statement_line_id",
             ),
         ],
     )
