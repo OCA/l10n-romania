@@ -14,7 +14,7 @@ class Partner(models.Model):
 
     # Compute and Inverse taken from Odoo base.
     l10n_ro_street_staircase = fields.Char(
-        "Staircase Number",
+        string="Romania - Staircase Number",
         compute="_compute_street_data",  # pylint: disable=method-compute
         inverse="_inverse_street_data",  # pylint: disable=method-inverse
         store=True,

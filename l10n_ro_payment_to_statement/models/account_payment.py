@@ -11,7 +11,7 @@ class AccountPayment(models.Model):
 
     l10n_ro_statement_id = fields.Many2one(
         "account.bank.statement",
-        string="Statement",
+        string="Romania - Statement",
         domain="[('journal_id','=',journal_id)]",
     )
 

@@ -28,7 +28,9 @@ class Currency(models.Model):
 class AccountMove(models.Model):
     _inherit = "account.move"
 
-    l10n_ro_currency_rate = fields.Float(readonly=False)
+    l10n_ro_currency_rate = fields.Float(
+        string="Romania - Currency Rate", readonly=False
+    )
 
     def _update_context_with_currency_rate(self, context_record=None):
         if context_record is None:

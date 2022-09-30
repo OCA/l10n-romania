@@ -24,11 +24,11 @@ class ResPartner(models.Model):
             else:
                 partner.l10n_ro_anaf_history = [(6, 0, [])]
 
-    l10n_ro_vat_on_payment = fields.Boolean("VAT on Payment")
+    l10n_ro_vat_on_payment = fields.Boolean(string="Romania - VAT on Payment")
     l10n_ro_anaf_history = fields.One2many(
         "l10n.ro.res.partner.anaf",
         compute="_compute_l10n_ro_anaf_history",
-        string="ANAF History",
+        string="Romania - ANAF History",
         readonly=True,
     )
 

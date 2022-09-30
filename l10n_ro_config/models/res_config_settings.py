@@ -77,13 +77,11 @@ class ResConfigSettings(models.TransientModel):
 
     l10n_ro_property_trade_discount_received_account_id = fields.Many2one(
         "account.account",
-        string="Trade discounts received",
         related="company_id.l10n_ro_property_trade_discount_received_account_id",
         readonly=False,
     )
     l10n_ro_property_trade_discount_granted_account_id = fields.Many2one(
         "account.account",
-        string="Trade discounts granted",
         related="company_id.l10n_ro_property_trade_discount_granted_account_id",
         readonly=False,
     )
@@ -93,7 +91,6 @@ class ResConfigSettings(models.TransientModel):
     )
     l10n_ro_property_stock_price_difference_product_id = fields.Many2one(
         "product.product",
-        string="Price Difference Landed Cost Product",
         related="company_id.l10n_ro_property_stock_price_difference_product_id",
         readonly=False,
     )

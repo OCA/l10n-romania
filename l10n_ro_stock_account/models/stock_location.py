@@ -12,7 +12,7 @@ class StockLocation(models.Model):
     l10n_ro_property_account_income_location_id = fields.Many2one(
         "account.account",
         company_dependent=True,
-        string="Income Account",
+        string="Romania - Income Account",
         domain="['&', ('deprecated', '=', False),"
         "('company_id', '=', current_company_id)]",
         help="This account will overwrite the income accounts from product "
@@ -21,7 +21,7 @@ class StockLocation(models.Model):
     l10n_ro_property_account_expense_location_id = fields.Many2one(
         "account.account",
         company_dependent=True,
-        string="Expense Account",
+        string="Romania - Expense Account",
         domain="['&', ('deprecated', '=', False),"
         "('company_id', '=', current_company_id)]",
         help="This account will overwrite the expense accounts from product "
@@ -33,7 +33,7 @@ class StockLocation(models.Model):
 
     l10n_ro_property_stock_valuation_account_id = fields.Many2one(
         "account.account",
-        string="Stock Valuation Account",
+        string="Romania - Stock Valuation Account",
         company_dependent=True,
         domain="[('company_id', '=', current_company_id),"
         "('deprecated', '=', False)]",

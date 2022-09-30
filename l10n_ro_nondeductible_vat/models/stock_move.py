@@ -10,10 +10,14 @@ class StockMove(models.Model):
     _inherit = ["stock.move", "l10n.ro.mixin"]
 
     l10n_ro_nondeductible_tax_id = fields.Many2one(
-        "account.tax", domain=[("l10n_ro_is_nondeductible", "=", True)], copy=False
+        "account.tax",
+        string="Romania - Non Deductible Tax",
+        domain=[("l10n_ro_is_nondeductible", "=", True)],
+        copy=False,
     )
     l10n_ro_nondeductible_usage = fields.Boolean(
-        compute="_compute_l10n_ro_nondeductible_usage"
+        compute="_compute_l10n_ro_nondeductible_usage",
+        string="Romania - Allow Non Deductible",
     )
 
     def _l10n_ro_checkUsageLocation(self, listUsageLocation):

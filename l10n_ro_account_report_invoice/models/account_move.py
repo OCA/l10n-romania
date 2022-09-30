@@ -22,7 +22,7 @@ class AccountMove(models.Model):
             invoice.l10n_ro_currency_rate = currency_rate
 
     l10n_ro_currency_rate = fields.Float(
-        string="Ro Currency Rate",
+        string="Romania - Currency Rate",
         store=True,
         readonly=True,
         compute="_compute_l10n_ro_currency_rate",

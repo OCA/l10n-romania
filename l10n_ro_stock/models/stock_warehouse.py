@@ -10,10 +10,18 @@ class StockWarehouse(models.Model):
     _name = "stock.warehouse"
     _inherit = ["stock.warehouse", "l10n.ro.mixin"]
 
-    l10n_ro_wh_consume_loc_id = fields.Many2one("stock.location", "Consume Location")
-    l10n_ro_wh_usage_loc_id = fields.Many2one("stock.location", "Usage Giving Location")
-    l10n_ro_consume_type_id = fields.Many2one("stock.picking.type", "Consume Type")
-    l10n_ro_usage_type_id = fields.Many2one("stock.picking.type", "Usage Giving Type")
+    l10n_ro_wh_consume_loc_id = fields.Many2one(
+        "stock.location", string="Romania - Consume Location"
+    )
+    l10n_ro_wh_usage_loc_id = fields.Many2one(
+        "stock.location", string="Romania - Usage Giving Location"
+    )
+    l10n_ro_consume_type_id = fields.Many2one(
+        "stock.picking.type", string="Romania - Consume Type"
+    )
+    l10n_ro_usage_type_id = fields.Many2one(
+        "stock.picking.type", string="Romania - Usage Giving Type"
+    )
 
     def _get_locations_values(self, vals, code=False):
         sub_locations = super(StockWarehouse, self)._get_locations_values(vals, code)
