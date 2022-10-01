@@ -6,7 +6,7 @@ from odoo.tools import float_is_zero, float_repr
 
 class ProductFifo(models.Model):
     _inherit = "product.product"
-    
+
     # Adaptare din odoo.addons.stock_account.models.product
     def _prepare_out_svl_vals_ro(self, quantity, company):
         """Prepare the values for a stock valuation layer created by a delivery.
@@ -61,34 +61,37 @@ class ProductFifo(models.Model):
         lot_id = loc_id = None
         if self._context.get('stock_move_line_id', None):
             stock_move_line = self._context.get('stock_move_line_id', None)
-            
+
             if stock_move_line:
                 if isinstance(stock_move_line, int):
                     stock_move_line = self.env['stock.move.line'].browse(stock_move_line)
                 if isinstance(stock_move_line, models.Model):
                     loc_id =  stock_move_line.location_id
                     lot_id = stock_move_line.lot_id
-        if loc_id:
-            domain += [('stock_move_line_id.location_dest_id','child_of', loc_id.id)]
         if self.tracking in ['lot','serial'] and lot_id:
             domain += [('stock_move_line_id.lot_id','=',lot_id.id)]
+        if loc_id:
+            domain += [
+                ('stock_move_line_id.location_dest_id','child_of', loc_id.id)
+                ]
         return domain
 
     # adaptare _run_fifo, de la return dict la return list dict_value.
-    # pentru trasabilitate, pastram un cheia tracking sursa (int id) si cantitatea 
+    # pentru trasabilitate, pastram un cheia tracking sursa (int id) si cantitatea
     # e safe sa avem aceste date cand se scad cantitatile luate din candidat..
     def _run_fifo_ro(self, quantity, company):
         self.ensure_one()
 
         # Find back incoming stock valuation layers (called candidates here) to value `quantity`.
         qty_to_take_on_candidates = quantity
-        
+
         # folosim domeniul returnat de _prepare_domain_fifo
         # daca avem in context stock_move_line, atunci va filtra si dupa location si lot.
         domain = self._prepare_domain_fifo([
             ('product_id', '=', self.id),
             ]) + [
             ('remaining_qty', '>', 0),
+            ('remaining_value', '>', 0),
             ('company_id', '=', company.id),
         ]
         models._logger.debug(f"Domeniu de cautare: {domain}")

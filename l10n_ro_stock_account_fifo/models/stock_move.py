@@ -70,7 +70,9 @@ class StockMove(models.Model):
                     new_svl_vals = svl_vals.copy()
                     new_svl_vals.update(
                         {
+                            "stock_move_line_id": valued_move_line.id,
                             "quantity": abs(svl_vals.get("quantity", 0)),
+                            "stock_move_line_id": valued_move_line.id,
                             "remaining_qty": abs(svl_vals.get("quantity", 0)),
                             "unit_cost": abs(svl_vals.get("unit_cost", 0)),
                             "value": abs(svl_vals.get("value", 0)),
@@ -88,12 +90,12 @@ class StockMove(models.Model):
                 move = move.with_company(move.company_id)
                 valued_move_lines = move._get_in_move_lines()
                 for valued_move_line in valued_move_lines:
+                    valued_move_line.with_context(stock_move_line_id=valued_move_line)
                     valued_quantity = valued_move_line.product_uom_id._compute_quantity(valued_move_line.qty_done, move.product_id.uom_id)
                     origin_unit_cost = None
                     tracking = []
                     if move.origin_returned_move_id and move.origin_returned_move_id.sudo().stock_valuation_layer_ids:
-                        move_with_context = move.with_context(stock_move_line_id=valued_move_line)
-                        origin_domain = move_with_context.product_id._prepare_domain_fifo([('product_id', '=', valued_move_line.product_id.id)])
+                        origin_domain = move.product_id._prepare_domain_fifo([('product_id', '=', valued_move_line.product_id.id)])
                         origin_domain = [
                             ('stock_move_line_id', 'in', move.origin_returned_move_id._get_in_move_lines().ids)
                             ] + origin_domain
@@ -118,16 +120,20 @@ class StockMove(models.Model):
             return super(StockMove, self)._create_in_svl(forced_quantity=forced_quantity)
 
     def _create_out_svl(self, forced_quantity=None):
+        _logger.debug(f"SVL-OUT:{forced_quantity, self.company_id.romanian_accounting, self.env.context.get('standard')}")
         if self.env.context.get("standard") and self.company_id.romanian_accounting:
             svls = self.env['stock.valuation.layer']
             for move in self:
                 move = move.with_company(move.company_id)
                 valued_move_lines = move._get_out_move_lines()
                 for valued_move_line in valued_move_lines:
+                    valued_move_line = valued_move_line.with_context(stock_move_line_id=valued_move_line)
                     valued_quantity = valued_move_line.product_uom_id._compute_quantity(valued_move_line.qty_done, move.product_id.uom_id)
+                    _logger.debug(f"SVL-OUT:{self.env.context.get('valued_type', ''), valued_move_line, valued_quantity}")
                     if float_is_zero(forced_quantity or valued_quantity, precision_rounding=move.product_id.uom_id.rounding):
                         continue
                     svl_vals_list = valued_move_line.product_id._prepare_out_svl_vals_ro(forced_quantity or valued_quantity, valued_move_line.company_id)
+                    _logger.debug(f"SVL-LIST:{svl_vals_list}")
                     for svl_vals in svl_vals_list:
                         svl_vals.update(move._prepare_common_svl_vals())
                         svl_vals.update({
