@@ -18,6 +18,7 @@
     ],
     "license": "AGPL-3",
     "data": [
+        "views/account_account_view.xml",
         "views/product_category_view.xml",
         "views/product_template_view.xml",
         "views/stock_location_view.xml",

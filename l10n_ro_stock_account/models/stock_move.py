@@ -343,7 +343,34 @@ class StockMove(models.Model):
         location_from = self.location_id
         location_to = self.location_dest_id
         svl = self.env["stock.valuation.layer"]
-
+        if self._is_usage_giving() or self._is_consumption():
+            (
+                journal_id,
+                acc_src,
+                acc_dest,
+                acc_valuation,
+            ) = self._get_accounting_data_for_valuation()
+            acc_valuation_rec = self.env["account.account"].browse(acc_valuation)
+            if acc_valuation_rec and acc_valuation_rec.l10n_ro_stock_consume_account_id:
+                acc_valuation = acc_valuation_rec.l10n_ro_stock_consume_account_id.id
+            if acc_src != acc_valuation:
+                self._create_account_move_line(
+                    acc_valuation, acc_src, journal_id, qty, description, svl, cost
+                )
+        if self._is_usage_giving_return() or self._is_consumption_return():
+            (
+                journal_id,
+                acc_src,
+                acc_dest,
+                acc_valuation,
+            ) = self._get_accounting_data_for_valuation()
+            acc_valuation_rec = self.env["account.account"].browse(acc_valuation)
+            if acc_valuation_rec and acc_valuation_rec.l10n_ro_stock_consume_account_id:
+                acc_valuation = acc_valuation_rec.l10n_ro_stock_consume_account_id.id
+            if acc_dest != acc_valuation:
+                self._create_account_move_line(
+                    acc_dest, acc_valuation, journal_id, qty, description, svl, cost
+                )
         if self._is_usage_giving() or self._is_usage_giving_return():
             # inregistrare dare in folosinta 8035
             move = self.with_context(valued_type="usage_giving_secondary")
@@ -407,13 +434,13 @@ class StockMove(models.Model):
         journal_id, acc_src, acc_dest, acc_valuation = super(
             StockMove, self
         )._get_accounting_data_for_valuation()
+        valued_type = self.env.context.get("valued_type", "indefinite")
         if (
             self.is_l10n_ro_record
             and self.product_id.categ_id.l10n_ro_stock_account_change
         ):
             location_from = self.location_id
             location_to = self.location_dest_id
-            valued_type = self.env.context.get("valued_type", "indefinite")
             # produsele din aceasta locatia folosesc pentru evaluare contul
             if location_to.l10n_ro_property_stock_valuation_account_id:
                 # in cazul unui transfer intern se va face contare dintre
@@ -465,6 +492,27 @@ class StockMove(models.Model):
                     location_to.l10n_ro_property_account_expense_location_id.id
                     or acc_src
                 )
+
+        if self.is_l10n_ro_record and valued_type in (
+            "consumption",
+            "usage_giving",
+        ):
+            acc_dest_rec = self.env["account.account"].browse(acc_dest)
+            if acc_dest_rec and acc_dest_rec.l10n_ro_stock_consume_account_id:
+                acc_dest = acc_dest_rec.l10n_ro_stock_consume_account_id.id
+            acc_valuation_rec = self.env["account.account"].browse(acc_valuation)
+            if acc_valuation_rec and acc_valuation_rec.l10n_ro_stock_consume_account_id:
+                acc_valuation = acc_valuation_rec.l10n_ro_stock_consume_account_id.id
+        if self.is_l10n_ro_record and valued_type in (
+            "consumption_return",
+            "usage_giving_return",
+        ):
+            acc_src_rec = self.env["account.account"].browse(acc_src)
+            if acc_src_rec and acc_src_rec.l10n_ro_stock_consume_account_id:
+                acc_src = acc_src_rec.l10n_ro_stock_consume_account_id.id
+            acc_valuation_rec = self.env["account.account"].browse(acc_valuation)
+            if acc_valuation_rec and acc_valuation_rec.l10n_ro_stock_consume_account_id:
+                acc_valuation = acc_valuation_rec.l10n_ro_stock_consume_account_id.id
         return journal_id, acc_src, acc_dest, acc_valuation
 
 
