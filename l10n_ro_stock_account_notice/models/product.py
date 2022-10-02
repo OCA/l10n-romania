@@ -32,7 +32,6 @@ class ProductTemplate(models.Model):
         )
 
         valued_type = self.env.context.get("valued_type", "indefinite")
-        _logger.info(valued_type)
 
         # in nir si factura se ca utiliza 408
         if valued_type in [

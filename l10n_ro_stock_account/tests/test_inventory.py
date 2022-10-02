@@ -11,7 +11,7 @@ _logger = logging.getLogger(__name__)
 
 
 @tagged("post_install", "-at_install")
-class TestStockSale(TestStockCommon):
+class TestStockInventory(TestStockCommon):
     def _plus_inventory(self):
         self.make_puchase()
 
@@ -22,15 +22,16 @@ class TestStockSale(TestStockCommon):
             }
         )
         inventory.action_start()
-
-        inventory.line_ids.product_qty = self.qty_po_p1 + 10
-        _logger.info("start plus inventory")
+        inventory.line_ids.product_qty = self.qty_po_p1 + 20
+        _logger.debug("start plus inventory")
         inventory.action_validate()
 
     def test_plus_inventory(self):
         self._plus_inventory()
-        val_stock_p1 = round((self.qty_po_p1 + 10) * self.price_p1, 2)
-        val_stock_p2 = round((self.qty_po_p2) * self.price_p2, 2)
+        val_stock_p1 = round(
+            self.qty_po_p1 * self.price_p1 + (self.qty_po_p1 + 10) * self.price_p1_2, 2
+        )
+        val_stock_p2 = self.val_p2_i
         self.check_stock_valuation(val_stock_p1, val_stock_p2)
         self.check_account_valuation(val_stock_p1, val_stock_p2)
 
@@ -49,15 +50,15 @@ class TestStockSale(TestStockCommon):
         )
         inventory.action_start()
 
-        inventory.line_ids.product_qty = self.qty_po_p1 - 10
-        _logger.info("start minus inventory")
+        inventory.line_ids.product_qty = self.qty_po_p1
+        _logger.debug("start minus inventory")
         inventory.action_validate()
 
     def test_minus_inventory(self):
         self._minus_inventory()
 
-        val_stock_p1 = round((self.qty_po_p1 - 10) * self.price_p1, 2)
-        val_stock_p2 = round((self.qty_po_p2) * self.price_p2, 2)
+        val_stock_p1 = round((self.qty_po_p1) * self.price_p1_2, 2)
+        val_stock_p2 = self.val_p2_i
 
         self.check_stock_valuation(val_stock_p1, val_stock_p2)
         self.check_account_valuation(val_stock_p1, val_stock_p2)

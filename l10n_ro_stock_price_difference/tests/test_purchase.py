@@ -26,7 +26,6 @@ class TestStockPurchase(TestStockCommonPriceDiff):
         self.check_account_valuation(0, 0)
 
         self.create_invoice(self.diff_p1, self.diff_p2)
-
         # in stocul  are valoarea cu diferenta de pret inregistrata
         self.check_stock_valuation(self.val_p1_f, self.val_p2_f)
 
@@ -56,7 +55,27 @@ class TestStockPurchase(TestStockCommonPriceDiff):
 
         # in stoc produsele sunt la valoarea din factura
         self.check_stock_valuation(self.val_p1_f, self.val_p2_f)
-
+        for svl in self.env["stock.valuation.layer"].search(
+            [("product_id", "=", self.product_1.id)]
+        ):
+            print(
+                svl.stock_move_id.name,
+                svl.quantity,
+                svl.value,
+                svl.remaining_qty,
+                svl.remaining_value,
+            )
+        for aml in self.env["account.move.line"].search(
+            [("product_id", "=", self.product_1.id)]
+        ):
+            print(
+                aml.move_id.name,
+                aml.parent_state,
+                aml.account_id.code,
+                aml.name,
+                aml.debit,
+                aml.credit,
+            )
         # in contabilitate stocul are valoarea din factura
         self.check_account_valuation(self.val_p1_f, self.val_p2_f)
 

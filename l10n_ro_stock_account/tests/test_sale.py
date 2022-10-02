@@ -21,6 +21,8 @@ class TestStockSale(TestStockCommon):
              vandut
              - valoarea din stoc trebuie sa fie egala cu valoarea din contabilitate
              - in contul de venituri trebuie sa fie inregistrata valoarea de vanzare
+        Fara l10n_ro_accounting descarcarea de gestiune se face pe factura,
+        anglo-saxon standard
         """
 
         self.env.company.l10n_ro_accounting = False
@@ -42,11 +44,11 @@ class TestStockSale(TestStockCommon):
 
         self.create_sale_invoice()
 
-        _logger.info("Verifcare valoare ramas in stoc")
+        _logger.debug("Verifcare valoare ramas in stoc")
         self.check_stock_valuation(val_stock_p1, val_stock_p2)
         self.check_account_valuation(val_stock_p1, val_stock_p2)
 
-        _logger.info("Verifcare valoare vanduta")
+        _logger.debug("Verifcare valoare vanduta")
         self.check_account_valuation(
             -self.val_so_p1, -self.val_so_p2, self.account_income
         )
@@ -79,11 +81,11 @@ class TestStockSale(TestStockCommon):
 
         self.create_sale_invoice()
 
-        _logger.info("Verifcare valoare ramas in stoc")
+        _logger.debug("Verifcare valoare ramas in stoc")
         self.check_stock_valuation(val_stock_p1, val_stock_p2)
         self.check_account_valuation(val_stock_p1, val_stock_p2)
 
-        _logger.info("Verifcare valoare vanduta")
+        _logger.debug("Verifcare valoare vanduta")
         self.check_account_valuation(
             -self.val_so_p1, -self.val_so_p2, self.account_income
         )

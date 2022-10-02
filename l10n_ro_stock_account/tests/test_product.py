@@ -11,7 +11,7 @@ _logger = logging.getLogger(__name__)
 
 
 @tagged("post_install", "-at_install")
-class TestStockSale(TestStockCommon):
+class TestProductCategory(TestStockCommon):
     def test_product_category(self):
 
         category = Form(self.category.copy())

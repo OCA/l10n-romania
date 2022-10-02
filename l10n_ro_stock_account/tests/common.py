@@ -123,7 +123,9 @@ class TestStockCommon(ValuationReconciliationTestCommon):
         )
 
         cls.price_p1 = 50.0
+        cls.price_p1_2 = 60.0
         cls.price_p2 = 50.0
+        cls.price_p2_2 = 60.0
         cls.list_price_p1 = 70.0
         cls.list_price_p2 = 70.0
 
@@ -178,22 +180,29 @@ class TestStockCommon(ValuationReconciliationTestCommon):
         cls.diff_p2 = -1
 
         # cantitatea din PO
-        cls.qty_po_p1 = 20.0
-        cls.qty_po_p2 = 20.0
+        cls.qty_po_p1 = 10.0
+        cls.qty_po_p2 = 10.0
 
         # cantitata din SO
-        cls.qty_so_p1 = 5.0
-        cls.qty_so_p2 = 5.0
+        cls.qty_so_p1 = 15.0
+        cls.qty_so_p2 = 15.0
 
-        cls.val_p1_i = round(cls.qty_po_p1 * cls.price_p1, 2)
-        cls.val_p2_i = round(cls.qty_po_p2 * cls.price_p2, 2)
-        cls.val_p1_f = round(cls.qty_po_p1 * (cls.price_p1 + cls.diff_p1), 2)
-        cls.val_p2_f = round(cls.qty_po_p2 * (cls.price_p2 + cls.diff_p2), 2)
+        cls.val_p1_i = round(cls.qty_po_p1 * (cls.price_p1 + cls.price_p1_2), 2)
+        cls.val_p2_i = round(cls.qty_po_p2 * (cls.price_p2 + cls.price_p2_2), 2)
+        cls.val_p1_f = round(
+            cls.qty_po_p1 * (cls.price_p1 + cls.price_p1_2 + 2 * cls.diff_p1), 2
+        )
+        cls.val_p2_f = round(
+            cls.qty_po_p2 * (cls.price_p2 + cls.price_p2_2 + 2 * cls.diff_p2), 2
+        )
 
         # valoarea descarcari de gestiune
-        cls.val_stock_out_so_p1 = round(cls.qty_so_p1 * cls.price_p1, 2)
-        cls.val_stock_out_so_p2 = round(cls.qty_so_p2 * cls.price_p2, 2)
-
+        cls.val_stock_out_so_p1 = round(
+            cls.qty_po_p1 * cls.price_p1 + cls.qty_po_p1 / 2 * cls.price_p1_2, 2
+        )
+        cls.val_stock_out_so_p2 = round(
+            cls.qty_po_p2 * cls.price_p2 + cls.qty_po_p2 / 2 * cls.price_p2_2, 2
+        )
         # valoarea descarcari de gestiune incluzand si diferentele
         cls.val_stock_out_so_p1_diff = round(
             cls.qty_so_p1 * (cls.price_p1 + cls.diff_p1), 2
@@ -224,9 +233,14 @@ class TestStockCommon(ValuationReconciliationTestCommon):
 
         picking_type_in = warehouse.in_type_id
         location = picking_type_in.default_location_dest_id
-
+        # Locatia trebuie sa fie child la Stock, altfel la livrari
+        # foloseste location Stock implicita
         cls.location_warehouse = location.copy(
-            {"l10n_ro_merchandise_type": "warehouse", "name": "TEST warehouse"}
+            {
+                "l10n_ro_merchandise_type": "warehouse",
+                "name": "TEST warehouse",
+                "location_id": location.id,
+            }
         )
         cls.picking_type_in_warehouse = picking_type_in.copy(
             {
@@ -235,7 +249,14 @@ class TestStockCommon(ValuationReconciliationTestCommon):
                 "sequence_code": "IN_test",
             }
         )
-
+        picking_type_out = warehouse.out_type_id
+        cls.picking_type_out_warehouse = picking_type_out.copy(
+            {
+                "default_location_src_id": cls.location_warehouse.id,
+                "name": "TEST Livrare in Depozit",
+                "sequence_code": "OUT_test",
+            }
+        )
         picking_type_transfer = warehouse.int_type_id
         cls.picking_type_transfer = picking_type_transfer.copy(
             {
@@ -281,16 +302,25 @@ class TestStockCommon(ValuationReconciliationTestCommon):
                 po_line.product_id = self.product_1
                 po_line.product_qty = self.qty_po_p1
                 po_line.price_unit = self.price_p1
+            with po.order_line.new() as po_line:
+                po_line.product_id = self.product_1
+                po_line.product_qty = self.qty_po_p1
+                po_line.price_unit = self.price_p1_2
 
             with po.order_line.new() as po_line:
                 po_line.product_id = self.product_2
                 po_line.product_qty = self.qty_po_p2
                 po_line.price_unit = self.price_p2
+            with po.order_line.new() as po_line:
+                po_line.product_id = self.product_2
+                po_line.product_qty = self.qty_po_p2
+                po_line.price_unit = self.price_p2_2
 
             po = po.save()
             po.button_confirm()
         else:
             po = self.po
+
         if validate_picking:
             self.picking = po.picking_ids.filtered(lambda pick: pick.state != "done")
             self.writeOnPicking(vals)
@@ -324,6 +354,12 @@ class TestStockCommon(ValuationReconciliationTestCommon):
             line_form.quantity += quant_p1
             line_form.price_unit += diff_p1
         with invoice.invoice_line_ids.edit(1) as line_form:
+            line_form.quantity += quant_p1
+            line_form.price_unit += diff_p1
+        with invoice.invoice_line_ids.edit(2) as line_form:
+            line_form.quantity += quant_p2
+            line_form.price_unit += diff_p2
+        with invoice.invoice_line_ids.edit(3) as line_form:
             line_form.quantity += quant_p2
             line_form.price_unit += diff_p2
 
@@ -336,7 +372,7 @@ class TestStockCommon(ValuationReconciliationTestCommon):
             invoice.action_post()
 
         self.invoice = invoice
-        _logger.info("Factura introdusa")
+        _logger.debug("Factura introdusa")
 
     def make_puchase(self):
         self.create_po()
@@ -363,7 +399,7 @@ class TestStockCommon(ValuationReconciliationTestCommon):
         return_pick._action_done()
 
     def create_so(self, vals=False):
-        _logger.info("Start sale")
+        _logger.debug("Start sale")
         so = Form(self.env["sale.order"])
         so.partner_id = self.client
 
@@ -378,7 +414,6 @@ class TestStockCommon(ValuationReconciliationTestCommon):
 
         self.so = so.save()
         self.so.action_confirm()
-
         self.picking = self.so.picking_ids
         self.writeOnPicking(vals)
         self.picking.action_assign()  # verifica disponibilitate
@@ -390,7 +425,7 @@ class TestStockCommon(ValuationReconciliationTestCommon):
         # self.picking.move_lines.write({'quantity_done': 2})
         # self.picking.button_validate()
         self.picking._action_done()
-        _logger.info("Livrare facuta")
+        _logger.debug("Livrare facuta")
 
     def create_sale_invoice(self, diff_p1=0, diff_p2=0):
         # invoice on order
@@ -453,10 +488,10 @@ class TestStockCommon(ValuationReconciliationTestCommon):
         for valuation in valuations:
             val = round(valuation["value"], 2)
             if valuation["product_id"][0] == self.product_1.id:
-                _logger.info("Check stock P1 {} = {}".format(val, val_p1))
+                _logger.debug("Check stock P1 {} = {}".format(val, val_p1))
                 self.assertAlmostEqual(val, val_p1)
             if valuation["product_id"][0] == self.product_2.id:
-                _logger.info("Check stock P2 {} = {}".format(val, val_p2))
+                _logger.debug("Check stock P2 {} = {}".format(val, val_p2))
                 self.assertAlmostEqual(val, val_p2)
 
     def check_account_valuation(self, val_p1, val_p2, account=None):
@@ -476,10 +511,10 @@ class TestStockCommon(ValuationReconciliationTestCommon):
         for valuation in account_valuations:
             val = round(valuation["debit"] - valuation["credit"], 2)
             if valuation["product_id"][0] == self.product_1.id:
-                _logger.info("Check account P1 {} = {}".format(val, val_p1))
+                _logger.debug("Check account P1 {} = {}".format(val, val_p1))
                 self.assertAlmostEqual(val, val_p1)
             if valuation["product_id"][0] == self.product_2.id:
-                _logger.info("Check account P2 {} = {}".format(val, val_p2))
+                _logger.debug("Check account P2 {} = {}".format(val, val_p2))
                 self.assertAlmostEqual(val, val_p2)
 
     def check_account_diff(self, val_p1, val_p2):
