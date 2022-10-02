@@ -7,4 +7,6 @@ from odoo import fields, models
 class ResCompany(models.Model):
     _inherit = "res.company"
 
-    l10n_ro_no_signature_text = fields.Text("Ro No Signature Text", translate=True)
+    l10n_ro_no_signature_text = fields.Text(
+        string="Romania - No Signature Text", translate=True
+    )

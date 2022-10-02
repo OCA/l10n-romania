@@ -10,7 +10,7 @@ class Company(models.Model):
     _inherit = ["res.company", "l10n.ro.mixin"]
 
     l10n_ro_street_staircase = fields.Char(
-        "Staircase Number",
+        string="Romania - Staircase Number",
         compute="_compute_address",
         inverse="_inverse_l10n_ro_street_staircase",
     )

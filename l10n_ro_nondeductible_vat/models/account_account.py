@@ -10,5 +10,5 @@ class AccountTaxExtend(models.Model):
     _inherit = ["account.account", "l10n.ro.mixin"]
 
     l10n_ro_nondeductible_account_id = fields.Many2one(
-        "account.account", string="RO Nondeductible Account"
+        "account.account", string="Romania - Nondeductible Account"
     )

@@ -9,13 +9,16 @@ class StockValuationLayer(models.Model):
     _name = "stock.valuation.layer"
     _inherit = ["stock.valuation.layer", "l10n.ro.mixin"]
 
-    l10n_ro_valued_type = fields.Char()
+    l10n_ro_valued_type = fields.Char(string="Romania - Valued Type")
     l10n_ro_invoice_line_id = fields.Many2one(
-        "account.move.line", string="Invoice Line"
+        "account.move.line", string="Romania - Invoice Line"
     )
-    l10n_ro_invoice_id = fields.Many2one("account.move", string="Invoice")
+    l10n_ro_invoice_id = fields.Many2one("account.move", string="Romania - Invoice")
     l10n_ro_account_id = fields.Many2one(
-        "account.account", compute="_compute_account", store=True
+        "account.account",
+        compute="_compute_account",
+        store=True,
+        string="Romania - Valuation Account",
     )
 
     @api.depends("product_id", "account_move_id")

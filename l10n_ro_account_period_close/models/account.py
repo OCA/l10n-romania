@@ -10,7 +10,7 @@ class Account(models.Model):
     _inherit = ["account.account", "l10n.ro.mixin"]
 
     l10n_ro_close_check = fields.Boolean(
-        "Bypass Closing Side Check",
+        string="Romania - Bypass Closing Side Check",
         help="By checking this when you close a period, it will not respect "
         "the side of closing, meaning: expenses closed on credit side, "
         "incomed closed on debit side. \n You should check the 711xxx "
@@ -23,6 +23,6 @@ class AccountMove(models.Model):
     _inherit = ["account.move", "l10n.ro.mixin"]
 
     l10n_ro_close_id = fields.Many2one(
-        "l10n.ro.account.period.closing", "Closed Account Period"
+        "l10n.ro.account.period.closing", string="Romania - Closed Account Period"
     )
-    l10n_ro_closing_move = fields.Boolean("Is Closing Move")
+    l10n_ro_closing_move = fields.Boolean(string="Romania - Is Closing Move")

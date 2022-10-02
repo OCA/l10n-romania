@@ -8,8 +8,8 @@ class CountryCity(models.Model):
     _name = "res.city"
     _inherit = ["res.city", "l10n.ro.mixin"]
 
-    l10n_ro_siruta = fields.Char()
-    l10n_ro_municipality = fields.Char("Municipality")
+    l10n_ro_siruta = fields.Char(string="Romania - Siruta")
+    l10n_ro_municipality = fields.Char(string="Romania - Municipality")
     zipcode = fields.Char(index=True)
 
     def name_get(self):

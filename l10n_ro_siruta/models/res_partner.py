@@ -44,10 +44,13 @@ class ResPartner(models.Model):
 
     l10n_ro_commune_id = fields.Many2one(
         "l10n.ro.res.country.commune",
-        string="City/Commune",
+        string="Romania - City/Commune",
         ondelete="set null",
         index=True,
     )
     l10n_ro_zone_id = fields.Many2one(
-        "l10n.ro.res.country.zone", string="Zone", ondelete="set null", index=True
+        "l10n.ro.res.country.zone",
+        string="Romania - Zone",
+        ondelete="set null",
+        index=True,
     )

@@ -16,7 +16,7 @@ class StockLocation(models.Model):
     )
     l10n_ro_merchandise_type = fields.Selection(
         [("store", _("Store")), ("warehouse", _("Warehouse"))],
-        string="Merchandise type",
+        string="Romania - Merchandise type",
         default="warehouse",
         ondelete={"store": "set default", "warehouse": "set default"},
     )
