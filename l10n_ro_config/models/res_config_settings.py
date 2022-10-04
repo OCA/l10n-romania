@@ -94,6 +94,16 @@ class ResConfigSettings(models.TransientModel):
         related="company_id.l10n_ro_property_stock_price_difference_product_id",
         readonly=False,
     )
+    l10n_ro_property_customs_duty_product_id = fields.Many2one(
+        "product.product",
+        related="company_id.l10n_ro_property_customs_duty_product_id",
+        readonly=False,
+    )
+    l10n_ro_property_customs_commision_product_id = fields.Many2one(
+        "product.product",
+        related="company_id.l10n_ro_property_customs_commision_product_id",
+        readonly=False,
+    )
 
     module_currency_rate_update_RO_BNR = fields.Boolean(
         "Currency Rate Update BNR",
@@ -204,3 +214,4 @@ class ResConfigSettings(models.TransientModel):
     module_l10n_ro_stock_picking_comment_template = fields.Boolean(
         "Romanian Stock Picking Comment Template"
     )
+    module_l10n_ro_dvi = fields.Boolean("Romanian DVI")

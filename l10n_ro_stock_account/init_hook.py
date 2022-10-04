@@ -26,7 +26,7 @@ def store_field_l10n_ro_vat_number(cr):
     cr.execute(
         """SELECT column_name
            FROM information_schema.columns
-           WHERE table_name='stock_valuation_layer' AND column_name='account_id'"""
+           WHERE table_name='stock_valuation_layer' AND column_name='l10n_ro_account_id'"""
     )
     if not cr.fetchone():
         cr.execute(
@@ -46,7 +46,7 @@ def store_field_l10n_ro_vat_number(cr):
             """
         )
 
-    logger.info("Computing field l10n_ro_account_id on stock.valuation.leyer")
+    logger.info("Computing field l10n_ro_account_id on stock.valuation.layer")
 
     # do res.company.init()
 

@@ -93,6 +93,20 @@ class ResCompany(models.Model):
         help="This product will be used to create the landed cost"
         "for the price difference between picking and bill",
     )
+    l10n_ro_property_customs_duty_product_id = fields.Many2one(
+        "product.product",
+        string="Romania - Customs Duty Landed Cost Product",
+        domain="[('type', '=', 'service')]",
+        help="This product will be used in create the DVI landed cost"
+        "for the duty tax",
+    )
+    l10n_ro_property_customs_commision_product_id = fields.Many2one(
+        "product.product",
+        string="Romania - Customs Commission Landed Cost Product",
+        domain="[('type', '=', 'service')]",
+        help="This product will be used in create the DVI landed cost"
+        "for the duty commissions.",
+    )
 
     def _check_is_l10n_ro_record(self, company=False):
         if not company:
