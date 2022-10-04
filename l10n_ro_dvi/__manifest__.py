@@ -3,22 +3,20 @@
 {
     "name": "Romania - DVI",
     "license": "AGPL-3",
-    "version": "13.0.1.1.0",
-    "author": "Terrabit," "Odoo Community Association (OCA)",
+    "version": "14.0.1.1.0",
+    "author": "Terrabit," "NextERP Romania," "Odoo Community Association (OCA)",
     "website": "https://github.com/OCA/l10n-romania",
-    "category": "Warehouse",
+    "category": "Localization",
     "depends": [
-        "stock_account",
-        "account",
-        "sale",
-        "l10n_ro",  # pentru determinare de conturi 446. 447
-        "purchase_stock",
-        "stock_landed_costs",
+        "l10n_ro_stock_account",
     ],
     "data": [
+        "security/ir.model.access.csv",
         "views/account_invoice_view.xml",
         "views/stock_landed_cost_view.xml",
-        "wizard/account_dvi_view.xml",
+        "views/account_dvi_view.xml",
     ],
     "installable": True,
+    "development_status": "Mature",
+    "maintainers": ["dhongu", "feketemihai"],
 }
