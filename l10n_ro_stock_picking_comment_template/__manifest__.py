@@ -26,6 +26,6 @@
     "author": "NextERP Romania," "Odoo Community Association (OCA)",
     "website": "https://github.com/OCA/l10n-romania",
     "installable": True,
-    "development_status": "Mature",
+    "development_status": "Beta",
     "maintainers": ["feketemihai"],
 }
