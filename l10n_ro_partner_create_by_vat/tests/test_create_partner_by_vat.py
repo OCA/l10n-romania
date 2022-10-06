@@ -101,7 +101,10 @@ class TestCreatePartner(TestCreatePartnerBase):
         self.mainpartner.vat = "RO42078234"
         self.mainpartner.ro_vat_change()
         self.mainpartner.onchange_l10n_ro_vat_subjected()
-        self.assertEqual(self.mainpartner.name, "COJOCARU AURELIAN-MARCEL SOFTWARE PERSOANĂ FIZICĂ AUTORIZATĂ")
+        self.assertEqual(
+            self.mainpartner.name,
+            "COJOCARU AURELIAN-MARCEL SOFTWARE PERSOANĂ FIZICĂ AUTORIZATĂ",
+        )
         self.assertEqual(self.mainpartner.street, "Str. Holdelor Nr. 11")
         self.assertEqual(self.mainpartner.state_id, self.env.ref("base.RO_TM"))
         self.assertEqual(self.mainpartner.city, "Timișoara")
