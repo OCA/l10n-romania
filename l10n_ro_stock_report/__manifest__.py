@@ -17,5 +17,6 @@
     ],
     "qweb": ["static/src/xml/stock_sheet.xml"],
     "installable": True,
+    "development_status": "Mature",
     "maintainers": ["dhongu", "feketemihai"],
 }
