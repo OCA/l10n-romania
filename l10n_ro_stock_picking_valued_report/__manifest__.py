@@ -17,5 +17,6 @@
         "report/stock_picking_report_valued.xml",
     ],
     "installable": True,
+    "development_status": "Mature",
     "maintainers": ["feketemihai"],
 }

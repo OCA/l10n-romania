@@ -28,5 +28,6 @@
     ],
     "pre_init_hook": "pre_init_hook",
     "installable": True,
+    "development_status": "Mature",
     "maintainers": ["dhongu", "feketemihai"],
 }
