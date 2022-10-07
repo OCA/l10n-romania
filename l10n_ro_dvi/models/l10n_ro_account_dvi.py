@@ -176,6 +176,7 @@ class AccountInvoiceDVI(models.Model):
                 for invoice in dvi.invoice_ids:
                     invoice_lines = invoice.invoice_line_ids.filtered(
                         lambda line: not line.display_type
+                        and line.product_id.type == "product"
                     )
                     for inv_line in invoice_lines:
                         new_lines.append(
@@ -202,6 +203,7 @@ class AccountInvoiceDVI(models.Model):
             for invoice in dvi.invoice_ids:
                 invoice_lines = invoice.invoice_line_ids.filtered(
                     lambda line: not line.display_type
+                    and line.product_id.type == "product"
                 )
                 for inv_line in invoice_lines:
                     new_lines.append(
