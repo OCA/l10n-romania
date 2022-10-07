@@ -40,10 +40,9 @@ class AccountMove(models.Model):
                     lambda l: not l.display_type and l.purchase_line_id
                 )
                 for line in invoice_lines:
-                    add_diff = False
-                    if line.product_id.cost_method != "standard":
-                        add_diff = invoice.company_id.l10n_ro_stock_acc_price_diff
-
+                    add_diff = invoice.company_id.l10n_ro_stock_acc_price_diff
+                    if line.product_id.cost_method == "standard":
+                        add_diff = False
                     if add_diff:
                         # se reevalueaza stocul
                         (
@@ -119,11 +118,11 @@ class AccountMove(models.Model):
                     lambda l: not l.display_type and l.purchase_line_id
                 )
                 for line in invoice_lines:
-                    add_diff = False
-                    if line.product_id.cost_method != "standard":
-                        add_diff = not invoice.company_id.l10n_ro_stock_acc_price_diff
+                    add_diff = invoice.company_id.l10n_ro_stock_acc_price_diff
+                    if line.product_id.cost_method == "standard":
+                        add_diff = False
 
-                    if not add_diff:
+                    if add_diff:
                         # se reevalueaza stocul
                         (
                             price_diff,

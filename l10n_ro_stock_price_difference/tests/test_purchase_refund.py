@@ -4,11 +4,11 @@
 from odoo import fields
 from odoo.tests import tagged
 
-from .common import TestStockCommon
+from .common import TestStockCommonPriceDiff
 
 
 @tagged("post_install", "-at_install")
-class TestStockPurchaseRefund(TestStockCommon):
+class TestStockPurchaseRefund(TestStockCommonPriceDiff):
     def test_nir_with_invoice_and_refund_partial_no_difference(self):
         po = self.create_po()
 
