@@ -10,19 +10,20 @@ class StockMove(models.Model):
 
     def l10n_ro_get_move_date(self):
         self.ensure_one()
-        new_date = False
-        if self.picking_id:
-            if self.picking_id.l10n_ro_accounting_date:
-                new_date = self.picking_id.l10n_ro_accounting_date
-        elif self.inventory_id:
-            new_date = self.inventory_id.accounting_date
-        elif "raw_material_production_id" in self._fields:
-            if self.raw_material_production_id:
-                new_date = self.raw_material_production_id.date_planned_start
-            elif self.production_id:
-                new_date = self.production_id.date_planned_start
+        new_date = self._context.get("force_period_date")
         if not new_date:
-            new_date = fields.datetime.now()
+            if self.picking_id:
+                if self.picking_id.l10n_ro_accounting_date:
+                    new_date = self.picking_id.l10n_ro_accounting_date
+            elif self.inventory_id:
+                new_date = self.inventory_id.accounting_date
+            elif "raw_material_production_id" in self._fields:
+                if self.raw_material_production_id:
+                    new_date = self.raw_material_production_id.date_planned_start
+                elif self.production_id:
+                    new_date = self.production_id.date_planned_start
+            if not new_date:
+                new_date = fields.datetime.now()
         return new_date
 
     def _action_done(self, cancel_backorder=False):
