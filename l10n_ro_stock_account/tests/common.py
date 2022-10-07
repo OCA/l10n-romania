@@ -306,7 +306,9 @@ class TestStockCommon(ValuationReconciliationTestCommon):
         self.po = po
         return po
 
-    def create_invoice(self, diff_p1=0, diff_p2=0, quant_p1=0, quant_p2=0):
+    def create_invoice(
+        self, diff_p1=0, diff_p2=0, quant_p1=0, quant_p2=0, auto_post=True
+    ):
         invoice = Form(
             self.env["account.move"].with_context(
                 default_move_type="in_invoice", default_invoice_date=fields.Date.today()
@@ -323,8 +325,12 @@ class TestStockCommon(ValuationReconciliationTestCommon):
             line_form.price_unit += diff_p2
 
         invoice = invoice.save()
-
-        invoice.action_post()
+        if invoice.amount_total < 0:
+            invoice.action_switch_invoice_into_refund_credit_note()
+        if quant_p1 or quant_p2 or diff_p1 or diff_p2:
+            invoice = invoice.with_context(l10n_ro_approved_price_difference=True)
+        if auto_post:
+            invoice.action_post()
 
         self.invoice = invoice
         _logger.info("Factura introdusa")

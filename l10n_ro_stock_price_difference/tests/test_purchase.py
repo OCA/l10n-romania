@@ -3,11 +3,11 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 from odoo.tests import tagged
 
-from .common import TestStockCommon
+from .common import TestStockCommonPriceDiff
 
 
 @tagged("post_install", "-at_install")
-class TestStockPurchase(TestStockCommon):
+class TestStockPurchase(TestStockCommonPriceDiff):
     def test_nir_with_invoice_and_diff(self):
         """
         Receptie produse in baza facturii cu inregistrare diferente dintre

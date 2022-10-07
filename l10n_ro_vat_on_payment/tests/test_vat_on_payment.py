@@ -15,52 +15,51 @@ from odoo.addons.account.tests.common import AccountTestInvoicingCommon
 class TestVATonpayment(AccountTestInvoicingCommon):
     """Run test for VAT on payment."""
 
-    def setUp(self):
+    @classmethod
+    def setUpClass(cls, chart_template_ref=None):
         ro_template_ref = "l10n_ro.ro_chart_template"
-        super(TestVATonpayment, self).setUp(chart_template_ref=ro_template_ref)
-        self.env.company.l10n_ro_accounting = True
-        self.partner_anaf_model = self.env["l10n.ro.res.partner.anaf"]
-        self.partner_model = self.env["res.partner"]
-        self.invoice_model = self.env["account.move"]
-        self.fbr_partner = self.partner_model.create(
-            {"name": "FBR", "vat": "RO30834857"}
-        )
-        self.lxt_partner = self.partner_model.create(
+        super().setUpClass(chart_template_ref=ro_template_ref)
+        cls.env.company.l10n_ro_accounting = True
+        cls.partner_anaf_model = cls.env["l10n.ro.res.partner.anaf"]
+        cls.partner_model = cls.env["res.partner"]
+        cls.invoice_model = cls.env["account.move"]
+        cls.fbr_partner = cls.partner_model.create({"name": "FBR", "vat": "RO30834857"})
+        cls.lxt_partner = cls.partner_model.create(
             {"name": "Luxmet", "vat": "RO16507426"}
         )
-        default_line_account = self.env["account.account"].search(
+        default_line_account = cls.env["account.account"].search(
             [
                 ("internal_type", "=", "other"),
                 ("deprecated", "=", False),
-                ("company_id", "=", self.env.company.id),
+                ("company_id", "=", cls.env.company.id),
             ],
             limit=1,
         )
-        self.invoice_line = [
+        cls.invoice_line = [
             (
                 0,
                 False,
                 {
                     "name": "Test description #1",
-                    "product_id": self.env.ref("product.product_delivery_01").id,
+                    "product_id": cls.env.ref("product.product_delivery_01").id,
                     "account_id": default_line_account.id,
                     "quantity": 1.0,
                     "price_unit": 100.0,
                 },
             )
         ]
-        self.invoice = self.invoice_model.create(
+        cls.invoice = cls.invoice_model.create(
             {
-                "partner_id": self.lxt_partner.id,
+                "partner_id": cls.lxt_partner.id,
                 "move_type": "in_invoice",
-                "invoice_line_ids": self.invoice_line,
+                "invoice_line_ids": cls.invoice_line,
             }
         )
-        self.fp_model = self.env["account.fiscal.position"]
-        self.fptvainc = self.fp_model.search(
+        cls.fp_model = cls.env["account.fiscal.position"]
+        cls.fptvainc = cls.fp_model.search(
             [
                 ("name", "ilike", "Regim TVA la Incasare"),
-                ("company_id", "=", self.env.company.id),
+                ("company_id", "=", cls.env.company.id),
             ]
         )
 
