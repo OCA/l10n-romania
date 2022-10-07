@@ -42,9 +42,10 @@ class AccountPayment(models.Model):
 
     def action_post(self):
         res = super(AccountPayment, self).action_post()
-        if self.is_l10n_ro_record:
-            self.l10n_ro_add_statement_line()
-            self.l10n_ro_force_cash_sequence()
+        l10n_ro_records = self.filtered(lambda p: p.is_l10n_ro_record)
+        if l10n_ro_records:
+            l10n_ro_records.l10n_ro_add_statement_line()
+            l10n_ro_records.l10n_ro_force_cash_sequence()
         return res
 
     def l10n_ro_force_cash_sequence(self):

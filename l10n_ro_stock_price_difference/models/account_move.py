@@ -15,7 +15,8 @@ class AccountMove(models.Model):
     _inherit = ["account.move", "l10n.ro.mixin"]
 
     def action_post(self):
-        if not self.is_l10n_ro_record:
+        l10n_ro_records = self.filtered("is_l10n_ro_record")
+        if not l10n_ro_records:
             return super().action_post()
 
         if (
@@ -26,7 +27,7 @@ class AccountMove(models.Model):
             action = self._l10n_ro_get_price_difference_check_action()
             if action:
                 return action
-        self.l10n_ro_fix_price_difference_svl()
+        l10n_ro_records.l10n_ro_fix_price_difference_svl()
         res = super().action_post()
         return res
 
