@@ -83,9 +83,10 @@ class StockMoveLine(models.Model):
                         svls = svls.filtered(lambda s: s.quantity > 0)
                     if svls[0].stock_move_id._is_in():
                         svls = svls.filtered(lambda s: not s.stock_landed_cost_id)
-                    price_unit = sum(svls.mapped("value")) / sum(
-                        svls.mapped("quantity")
-                    )
+                    if sum(svls.mapped("quantity")):
+                        price_unit = sum(svls.mapped("value")) / sum(
+                            svls.mapped("quantity")
+                        )
                 line.l10n_ro_currency_id = line.company_id.currency_id
                 line.l10n_ro_price_unit = price_unit
                 line.l10n_ro_price_subtotal = move_qty * line.l10n_ro_price_unit

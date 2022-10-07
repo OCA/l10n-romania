@@ -40,15 +40,18 @@ class StockMove(models.Model):
     def _create_in_svl(self, forced_quantity=None):
         _logger.debug("SVL:%s" % self.env.context.get("valued_type", ""))
         svls = self.env["stock.valuation.layer"]
-        if not self.filtered("is_l10n_ro_record"):
-            svls = super(StockMove, self)._create_in_svl(forced_quantity)
-        elif not self.env.context.get("standard"):
+        l10n_ro_records = self.filtered("is_l10n_ro_record")
+        if self - l10n_ro_records:
+            svls = super(StockMove, self - l10n_ro_records)._create_in_svl(
+                forced_quantity
+            )
+        if l10n_ro_records and self.env.context.get("standard"):
             # For Romania, create a valuation layer for each stock move line
-            for move in self:
+            for move in l10n_ro_records:
                 move = move.with_company(move.company_id)
                 valued_move_lines = move._get_in_move_lines()
                 for valued_move_line in valued_move_lines:
-                    valued_move_line.with_context(stock_move_line_id=valued_move_line)
+                    move = move.with_context(stock_move_line_id=valued_move_line)
                     valued_quantity = valued_move_line.product_uom_id._compute_quantity(
                         valued_move_line.qty_done, move.product_id.uom_id
                     )
@@ -108,9 +111,12 @@ class StockMove(models.Model):
     def _create_out_svl(self, forced_quantity=None):
         _logger.debug("SVL:%s" % self.env.context.get("valued_type", ""))
         svls = self.env["stock.valuation.layer"]
-        if not self.filtered("is_l10n_ro_record"):
-            svls = super(StockMove, self)._create_out_svl(forced_quantity)
-        elif not self.env.context.get("standard"):
+        l10n_ro_records = self.filtered("is_l10n_ro_record")
+        if self - l10n_ro_records:
+            svls = super(StockMove, self - l10n_ro_records)._create_out_svl(
+                forced_quantity
+            )
+        if l10n_ro_records and self.env.context.get("standard"):
             # For Romania get a list of valuation layers, to keep traceability
             # for each incoming price
             for move in self:
@@ -231,7 +237,6 @@ class StockMove(models.Model):
         return it_is
 
     def _create_plus_inventory_svl(self, forced_quantity=None):
-
         move = self.with_context(standard=True, valued_type="plus_inventory")
         return move._create_in_svl(forced_quantity)
 
@@ -313,11 +318,13 @@ class StockMove(models.Model):
     # cred ca este mai bine sa generam doua svl - o intrare si o iesire
     def _create_internal_transfer_svl(self, forced_quantity=None):
         svls = self.env["stock.valuation.layer"]
-        for move in self.with_context(standard=True, valued_type="internal_transfer"):
+        for move in self:
+            move = move.with_context(standard=True, valued_type="internal_transfer")
             move = move.with_company(move.company_id.id)
 
             valued_move_lines = move.move_line_ids
             for valued_move_line in valued_move_lines:
+                move = move.with_context(stock_move_line_id=valued_move_line)
                 valued_quantity = valued_move_line.product_uom_id._compute_quantity(
                     valued_move_line.qty_done, move.product_id.uom_id
                 )
@@ -358,7 +365,6 @@ class StockMove(models.Model):
                         }
                     )
                     svls |= self._l10n_ro_create_track_svl([new_svl_vals])
-
         return svls
 
     def _is_usage_giving(self):
@@ -433,7 +439,7 @@ class StockMove(models.Model):
             self = company and self.with_company(company.id) or self
             if company and company.l10n_ro_accounting:
                 self = self.with_context(
-                    valued_type=svl.l10n_ro_valued_type, is_l10n_ro_accounting=True
+                    valued_type=svl.l10n_ro_valued_type, standard=True
                 )
 
         res = super(StockMove, self)._account_entry_move(qty, description, svl_id, cost)
@@ -635,6 +641,7 @@ class StockMove(models.Model):
 
     def _l10n_ro_create_track_svl(self, value_list, **kwargs):
         sudo_svl = self.env["stock.valuation.layer"].sudo()
+
         for _index, value in enumerate(value_list):
             svl_value = sudo_svl._l10n_ro_pre_process_value(
                 value
@@ -643,47 +650,3 @@ class StockMove(models.Model):
             new_svl._l10n_ro_post_process(value)  # executam post create pentru tracking
             sudo_svl |= new_svl
         return sudo_svl
-
-
-class StockMoveLine(models.Model):
-    _inherit = "stock.move.line"
-
-    @api.model
-    def _create_correction_svl(self, move, diff):
-        super(StockMoveLine, self)._create_correction_svl(move, diff)
-        company_id = self.company_id
-        if not self.company_id and self._context.get("default_company_id"):
-            company_id = self.env["res.company"].browse(
-                self._context["default_company_id"]
-            )
-        if not self.env["res.company"]._check_is_l10n_ro_record(company_id.id):
-            return
-
-        stock_valuation_layers = self.env["stock.valuation.layer"]
-
-        for valued_type in move._get_valued_types():
-            if getattr(move, "_is_%s" % valued_type)():
-
-                if diff < 0 and "_return" not in valued_type:
-                    valued_type = valued_type + "_return"
-                if diff > 0 and "_return" in valued_type:
-                    valued_type = valued_type.replace("_return", "")
-
-                if valued_type == "plus_inventory_return":
-                    valued_type = "minus_inventory"
-                elif valued_type == "minus_inventory_return":
-                    valued_type = "plus_inventory"
-                elif valued_type == "internal_transfer_return":
-                    valued_type = "internal_transfer"
-
-                if hasattr(move, "_create_%s_svl" % valued_type):
-                    stock_valuation_layers |= getattr(
-                        move, "_create_%s_svl" % valued_type
-                    )(forced_quantity=abs(diff))
-
-        for svl in stock_valuation_layers:
-            if not svl.product_id.valuation == "real_time":
-                continue
-            svl.stock_move_id._account_entry_move(
-                svl.quantity, svl.description, svl.id, svl.value
-            )

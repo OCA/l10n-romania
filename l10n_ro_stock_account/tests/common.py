@@ -205,10 +205,10 @@ class TestStockCommon(ValuationReconciliationTestCommon):
         )
         # valoarea descarcari de gestiune incluzand si diferentele
         cls.val_stock_out_so_p1_diff = round(
-            cls.qty_so_p1 * (cls.price_p1 + cls.diff_p1), 2
+            cls.val_stock_out_so_p1 + (cls.qty_so_p1 * cls.diff_p1), 2
         )
         cls.val_stock_out_so_p2_diff = round(
-            cls.qty_so_p2 * (cls.price_p2 + cls.diff_p2), 2
+            cls.val_stock_out_so_p2 + (cls.qty_so_p2 * cls.diff_p2), 2
         )
 
         # valoarea vanzarii
@@ -442,7 +442,9 @@ class TestStockCommon(ValuationReconciliationTestCommon):
 
         invoice.action_post()
 
-    def trasfer(self, location, location_dest, product=None):
+    def transfer(
+        self, location, location_dest, product=False, accounting_date=False, post=True
+    ):
 
         self.PickingObj = self.env["stock.picking"]
         self.MoveObj = self.env["stock.move"]
@@ -469,14 +471,16 @@ class TestStockCommon(ValuationReconciliationTestCommon):
                 "location_dest_id": location_dest.id,
             }
         )
+        if accounting_date:
+            picking.l10n_ro_accounting_date = accounting_date
         picking.action_confirm()
         picking.action_assign()
-        for move_line in picking.move_lines:
-            if move_line.product_uom_qty > 0 and move_line.quantity_done == 0:
-                move_line.write({"quantity_done": move_line.product_uom_qty})
-        picking._action_done()
-
-        return picking
+        if post:
+            for move_line in picking.move_lines:
+                if move_line.product_uom_qty > 0 and move_line.quantity_done == 0:
+                    move_line.write({"quantity_done": move_line.product_uom_qty})
+            picking._action_done()
+        self.picking = picking
 
     def check_stock_valuation(self, val_p1, val_p2):
         val_p1 = round(val_p1, 2)
@@ -538,3 +542,15 @@ class TestStockCommon(ValuationReconciliationTestCommon):
             if valuation["product_id"][0] == self.product_mp.id:
                 _logger.info("Check account P1 {} = {}".format(val, val_p1))
                 self.assertAlmostEqual(val, val_p1)
+
+    def set_stock(self, product, qty, location=None):
+        if not location:
+            location = self.location_warehouse
+        self.env["stock.quant"].with_context(inventory_mode=True).create(
+            {
+                "product_id": product.id,
+                "inventory_quantity": qty,
+                "location_id": location.id,
+            }
+        )
+

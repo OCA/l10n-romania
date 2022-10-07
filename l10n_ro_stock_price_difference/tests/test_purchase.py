@@ -55,27 +55,6 @@ class TestStockPurchase(TestStockCommonPriceDiff):
 
         # in stoc produsele sunt la valoarea din factura
         self.check_stock_valuation(self.val_p1_f, self.val_p2_f)
-        for svl in self.env["stock.valuation.layer"].search(
-            [("product_id", "=", self.product_1.id)]
-        ):
-            print(
-                svl.stock_move_id.name,
-                svl.quantity,
-                svl.value,
-                svl.remaining_qty,
-                svl.remaining_value,
-            )
-        for aml in self.env["account.move.line"].search(
-            [("product_id", "=", self.product_1.id)]
-        ):
-            print(
-                aml.move_id.name,
-                aml.parent_state,
-                aml.account_id.code,
-                aml.name,
-                aml.debit,
-                aml.credit,
-            )
         # in contabilitate stocul are valoarea din factura
         self.check_account_valuation(self.val_p1_f, self.val_p2_f)
 
@@ -107,8 +86,8 @@ class TestStockPurchase(TestStockCommonPriceDiff):
         location_dest_id = self.picking_type_transfer.default_location_dest_id.copy(
             {"usage": "consume"}
         )
-        self.trasfer(location_id, location_dest_id, self.product_1)
-        self.trasfer(location_id, location_dest_id, self.product_2)
+        self.transfer(location_id, location_dest_id, self.product_1)
+        self.transfer(location_id, location_dest_id, self.product_2)
 
         # Validare factura pret 51 pt product1, 49 pt product2
         self.create_invoice(self.diff_p1, self.diff_p2)
@@ -206,7 +185,7 @@ class TestStockPurchase(TestStockCommonPriceDiff):
         self.check_account_valuation(0, 0)
 
         # Validare factura pret 51 pt product1, 49 pt product2
-        self.create_invoice(self.diff_p1, self.diff_p2, 10, 10)
+        self.create_invoice(self.diff_p1, self.diff_p2, 5, 5)
 
         # in stoc produsele sunt la valoarea din factura
         self.check_stock_valuation(self.val_p1_f / 2, self.val_p2_f / 2)
