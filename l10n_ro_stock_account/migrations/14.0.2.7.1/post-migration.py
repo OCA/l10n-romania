@@ -13,7 +13,10 @@ def migrate(cr, version):
         IrModule.update_list()
 
         ro_comps = env["res.company"].search(
-            [("romanian_accounting", "=", True), ("stock_acc_price_diff", "=", True)]
+            [
+                ("l10n_ro_accounting", "=", True),
+                ("l10n_ro_stock_acc_price_diff", "=", True),
+            ]
         )
         if ro_comps:
             price_diff_module = IrModule.search(
@@ -21,6 +24,9 @@ def migrate(cr, version):
             )
             price_diff_module.button_install()
             if hasattr(
-                env["account.move.line"], "_get_or_create_price_difference_product"
+                env["account.move.line"],
+                "_l10n_ro_get_or_create_price_difference_product",
             ):
-                env["account.move.line"]._get_or_create_price_difference_product()
+                env[
+                    "account.move.line"
+                ].l10n_ro_get_or_create_price_difference_product()

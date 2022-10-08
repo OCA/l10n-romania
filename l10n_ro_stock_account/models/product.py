@@ -13,15 +13,17 @@ _logger = logging.getLogger(__name__)
 
 
 class ProductCategory(models.Model):
-    _inherit = "product.category"
+    _name = "product.category"
+    _inherit = ["product.category", "l10n.ro.mixin"]
 
-    hide_stock_in_out_account = fields.Boolean(
+    l10n_ro_hide_stock_in_out_account = fields.Boolean(
         compute="_compute_hide_accounts",
+        string="Romania - Hide Odoo Stock In/Out Accounts",
         help="Only for Romania, to hide stock_input and stock_output "
         "accounts because they are the same as stock_valuation account",
     )
-    stock_account_change = fields.Boolean(
-        string="Allow stock account change from locations",
+    l10n_ro_stock_account_change = fields.Boolean(
+        string="Romania - Allow stock account change from locations",
         help="Only for Romania, to change the accounts to the ones defined "
         "on stock locations",
     )
@@ -29,7 +31,9 @@ class ProductCategory(models.Model):
     @api.depends("name")
     def _compute_hide_accounts(self):
         for record in self:
-            record.hide_stock_in_out_account = self.env.company.romanian_accounting
+            record.l10n_ro_hide_stock_in_out_account = (
+                self.env.company.l10n_ro_accounting
+            )
 
     @api.constrains(
         "property_stock_valuation_account_id",
@@ -41,9 +45,9 @@ class ProductCategory(models.Model):
         stock_valuation, stock_output and stock_input
         are the same
         """
-        if self.env.company.romanian_accounting:
+        if self.env.company.l10n_ro_accounting:
             # is a romanian company:
-            for record in self:
+            for record in self.filtered("is_l10n_ro_record"):
                 stock_input = record.property_stock_account_input_categ_id
                 stock_output = record.property_stock_account_output_categ_id
                 stock_val = record.property_stock_valuation_account_id
@@ -65,8 +69,8 @@ class ProductCategory(models.Model):
     )
     def _onchange_stock_accounts(self):
         """only for Romania, stock_valuation output and input are the same"""
-        for record in self:
-            if record.hide_stock_in_out_account:
+        for record in self.filtered("is_l10n_ro_record"):
+            if record.l10n_ro_hide_stock_in_out_account:
                 # is a romanian company:
                 record.property_stock_account_input_categ_id = (
                     record.property_stock_valuation_account_id
@@ -77,11 +81,12 @@ class ProductCategory(models.Model):
 
 
 class ProductTemplate(models.Model):
-    _inherit = "product.template"
+    _name = "product.template"
+    _inherit = ["product.template", "l10n.ro.mixin"]
 
-    property_stock_valuation_account_id = fields.Many2one(
+    l10n_ro_property_stock_valuation_account_id = fields.Many2one(
         "account.account",
-        "Stock Valuation Account",
+        string="Romania - Stock Valuation Account",
         company_dependent=True,
         domain="[('company_id', '=', allowed_company_ids[0]),"
         "('deprecated', '=', False)]",
@@ -98,15 +103,15 @@ class ProductTemplate(models.Model):
             self.env["res.company"].browse(self._context.get("force_company"))
             or self.env.company
         )
-        if not company.romanian_accounting:
+        if not company.l10n_ro_accounting:
             return accounts
 
         property_stock_valuation_account_id = (
-            self.property_stock_valuation_account_id
+            self.l10n_ro_property_stock_valuation_account_id
             or self.categ_id.property_stock_valuation_account_id
         )
         property_stock_usage_giving_account_id = (
-            company.property_stock_usage_giving_account_id
+            company.l10n_ro_property_stock_usage_giving_account_id
         )
         if property_stock_valuation_account_id:
             accounts.update(
@@ -151,9 +156,13 @@ class ProductTemplate(models.Model):
 
 
 class ProductProduct(models.Model):
-    _inherit = "product.product"
+    _name = "product.product"
+    _inherit = ["product.product", "l10n.ro.mixin"]
 
     def _run_fifo(self, quantity, company):
+        if not self.env["res.company"]._check_is_l10n_ro_record(company.id):
+            return super(ProductProduct, self)._run_fifo(quantity, company)
+
         self.ensure_one()
 
         if not self._context.get("origin_return_candidates"):

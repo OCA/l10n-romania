@@ -10,10 +10,14 @@ _logger = logging.getLogger(__name__)
 
 
 class AccountMove(models.Model):
-    _inherit = "account.move"
+    _name = "account.move"
+    _inherit = ["account.move", "l10n.ro.mixin"]
 
     def is_reception_notice(self):
         self.ensure_one()
+        if not self.is_l10n_ro_record:
+            return False
+
         purchases = self.line_ids.mapped("purchase_line_id.order_id")
         picking_notice = self.env["stock.picking"].search(
             [
@@ -26,10 +30,13 @@ class AccountMove(models.Model):
             return True
         return False
 
-    def get_reception_account(self):
+    def l10n_ro_get_reception_account(self):
         self.ensure_one()
         account = self.env["account.account"]
-        acc_payable = self.company_id.property_stock_picking_payable_account_id
+        if not self.is_l10n_ro_record:
+            return account
+
+        acc_payable = self.company_id.l10n_ro_property_stock_picking_payable_account_id
         valuation_stock_moves = self.env["stock.move"].search(
             [
                 (
@@ -55,6 +62,9 @@ class AccountMove(models.Model):
         return account
 
     def _stock_account_prepare_anglo_saxon_in_lines_vals(self):
-        if self.company_id.romanian_accounting:
+        l10n_ro_records = self.filtered("is_l10n_ro_record")
+        if l10n_ro_records == self:
             return []
-        return super()._stock_account_prepare_anglo_saxon_in_lines_vals()
+        return super(
+            AccountMove, self - l10n_ro_records
+        )._stock_account_prepare_anglo_saxon_in_lines_vals()

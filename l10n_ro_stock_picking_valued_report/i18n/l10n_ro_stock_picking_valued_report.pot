@@ -1,0 +1,133 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* l10n_ro_stock_picking_valued_report
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 14.0\n"
+"Report-Msgid-Bugs-To: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: l10n_ro_stock_picking_valued_report
+#: model_terms:ir.ui.view,arch_db:l10n_ro_stock_picking_valued_report.report_delivery_document
+msgid "<strong>Qty Reserved</strong>"
+msgstr ""
+
+#. module: l10n_ro_stock_picking_valued_report
+#: model_terms:ir.ui.view,arch_db:l10n_ro_stock_picking_valued_report.report_delivery_document
+msgid "<strong>Subtotal</strong>"
+msgstr ""
+
+#. module: l10n_ro_stock_picking_valued_report
+#: model_terms:ir.ui.view,arch_db:l10n_ro_stock_picking_valued_report.report_delivery_document
+msgid "<strong>Taxes</strong>"
+msgstr ""
+
+#. module: l10n_ro_stock_picking_valued_report
+#: model_terms:ir.ui.view,arch_db:l10n_ro_stock_picking_valued_report.report_delivery_document
+msgid "<strong>Total</strong>"
+msgstr ""
+
+#. module: l10n_ro_stock_picking_valued_report
+#: model_terms:ir.ui.view,arch_db:l10n_ro_stock_picking_valued_report.report_delivery_document
+msgid "<strong>Unit Price</strong>"
+msgstr ""
+
+#. module: l10n_ro_stock_picking_valued_report
+#: model:ir.model.fields,field_description:l10n_ro_stock_picking_valued_report.field_stock_picking__l10n_ro_currency_id
+msgid "Currency"
+msgstr ""
+
+#. module: l10n_ro_stock_picking_valued_report
+#: model:ir.model.fields,field_description:l10n_ro_stock_picking_valued_report.field_stock_move_line__display_name
+#: model:ir.model.fields,field_description:l10n_ro_stock_picking_valued_report.field_stock_picking__display_name
+msgid "Display Name"
+msgstr ""
+
+#. module: l10n_ro_stock_picking_valued_report
+#: model:ir.model.fields,field_description:l10n_ro_stock_picking_valued_report.field_stock_move_line__id
+#: model:ir.model.fields,field_description:l10n_ro_stock_picking_valued_report.field_stock_picking__id
+msgid "ID"
+msgstr ""
+
+#. module: l10n_ro_stock_picking_valued_report
+#: model:ir.model.fields,field_description:l10n_ro_stock_picking_valued_report.field_stock_move_line__is_l10n_ro_record
+#: model:ir.model.fields,field_description:l10n_ro_stock_picking_valued_report.field_stock_picking__is_l10n_ro_record
+msgid "Is Romanian Record"
+msgstr ""
+
+#. module: l10n_ro_stock_picking_valued_report
+#: model:ir.model.fields,field_description:l10n_ro_stock_picking_valued_report.field_stock_move_line__l10n_ro_currency_id
+msgid "L10N Ro Currency"
+msgstr ""
+
+#. module: l10n_ro_stock_picking_valued_report
+#: model:ir.model.fields,field_description:l10n_ro_stock_picking_valued_report.field_stock_picking__l10n_ro_is_internal
+msgid "L10N Ro Is Internal"
+msgstr ""
+
+#. module: l10n_ro_stock_picking_valued_report
+#: model:ir.model.fields,field_description:l10n_ro_stock_picking_valued_report.field_stock_move_line__l10n_ro_price_subtotal
+msgid "L10N Ro Price Subtotal"
+msgstr ""
+
+#. module: l10n_ro_stock_picking_valued_report
+#: model:ir.model.fields,field_description:l10n_ro_stock_picking_valued_report.field_stock_move_line__l10n_ro_price_tax
+msgid "L10N Ro Price Tax"
+msgstr ""
+
+#. module: l10n_ro_stock_picking_valued_report
+#: model:ir.model.fields,field_description:l10n_ro_stock_picking_valued_report.field_stock_move_line__l10n_ro_price_total
+msgid "L10N Ro Price Total"
+msgstr ""
+
+#. module: l10n_ro_stock_picking_valued_report
+#: model:ir.model.fields,field_description:l10n_ro_stock_picking_valued_report.field_stock_move_line__l10n_ro_price_unit
+msgid "L10N Ro Price Unit"
+msgstr ""
+
+#. module: l10n_ro_stock_picking_valued_report
+#: model:ir.model.fields,field_description:l10n_ro_stock_picking_valued_report.field_stock_move_line____last_update
+#: model:ir.model.fields,field_description:l10n_ro_stock_picking_valued_report.field_stock_picking____last_update
+msgid "Last Modified on"
+msgstr ""
+
+#. module: l10n_ro_stock_picking_valued_report
+#: model:ir.model,name:l10n_ro_stock_picking_valued_report.model_stock_move_line
+msgid "Product Moves (Stock Move Line)"
+msgstr ""
+
+#. module: l10n_ro_stock_picking_valued_report
+#: model:ir.model.fields,field_description:l10n_ro_stock_picking_valued_report.field_stock_move_line__l10n_ro_sale_line_id
+msgid "Related order line"
+msgstr ""
+
+#. module: l10n_ro_stock_picking_valued_report
+#: model:ir.model.fields,field_description:l10n_ro_stock_picking_valued_report.field_stock_move_line__l10n_ro_purchase_line_id
+msgid "Related purchase line"
+msgstr ""
+
+#. module: l10n_ro_stock_picking_valued_report
+#: model:ir.model.fields,field_description:l10n_ro_stock_picking_valued_report.field_stock_picking__l10n_ro_amount_tax
+msgid "Taxes"
+msgstr ""
+
+#. module: l10n_ro_stock_picking_valued_report
+#: model:ir.model.fields,field_description:l10n_ro_stock_picking_valued_report.field_stock_picking__l10n_ro_amount_total
+msgid "Total"
+msgstr ""
+
+#. module: l10n_ro_stock_picking_valued_report
+#: model:ir.model,name:l10n_ro_stock_picking_valued_report.model_stock_picking
+msgid "Transfer"
+msgstr ""
+
+#. module: l10n_ro_stock_picking_valued_report
+#: model:ir.model.fields,field_description:l10n_ro_stock_picking_valued_report.field_stock_picking__l10n_ro_amount_untaxed
+msgid "Untaxed Amount"
+msgstr ""

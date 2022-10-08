@@ -1,0 +1,116 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* l10n_ro_stock_account_date
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 14.0\n"
+"Report-Msgid-Bugs-To: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: l10n_ro_stock_account_date
+#: model:ir.model.fields,field_description:l10n_ro_stock_account_date.field_stock_picking__l10n_ro_accounting_date
+#: model_terms:ir.ui.view,arch_db:l10n_ro_stock_account_date.view_picking_internal_search
+msgid "Accounting Date"
+msgstr ""
+
+#. module: l10n_ro_stock_account_date
+#: model:ir.model.fields,field_description:l10n_ro_stock_account_date.field_stock_valuation_layer__create_uid
+msgid "Created by"
+msgstr ""
+
+#. module: l10n_ro_stock_account_date
+#: model:ir.model.fields,field_description:l10n_ro_stock_account_date.field_stock_valuation_layer__create_date
+msgid "Created on"
+msgstr ""
+
+#. module: l10n_ro_stock_account_date
+#: model:ir.model.fields,field_description:l10n_ro_stock_account_date.field_stock_move__display_name
+#: model:ir.model.fields,field_description:l10n_ro_stock_account_date.field_stock_move_line__display_name
+#: model:ir.model.fields,field_description:l10n_ro_stock_account_date.field_stock_picking__display_name
+#: model:ir.model.fields,field_description:l10n_ro_stock_account_date.field_stock_valuation_layer__display_name
+msgid "Display Name"
+msgstr ""
+
+#. module: l10n_ro_stock_account_date
+#: model:ir.model.fields,field_description:l10n_ro_stock_account_date.field_stock_move__id
+#: model:ir.model.fields,field_description:l10n_ro_stock_account_date.field_stock_move_line__id
+#: model:ir.model.fields,field_description:l10n_ro_stock_account_date.field_stock_picking__id
+#: model:ir.model.fields,field_description:l10n_ro_stock_account_date.field_stock_valuation_layer__id
+msgid "ID"
+msgstr ""
+
+#. module: l10n_ro_stock_account_date
+#: model:ir.model.fields,help:l10n_ro_stock_account_date.field_stock_picking__l10n_ro_accounting_date
+msgid ""
+"If this field is set, the svl and accounting entiries will have this date, "
+"If not will have the today date as it should be"
+msgstr ""
+
+#. module: l10n_ro_stock_account_date
+#: model:ir.model.fields,field_description:l10n_ro_stock_account_date.field_stock_move__is_l10n_ro_record
+#: model:ir.model.fields,field_description:l10n_ro_stock_account_date.field_stock_move_line__is_l10n_ro_record
+#: model:ir.model.fields,field_description:l10n_ro_stock_account_date.field_stock_picking__is_l10n_ro_record
+msgid "Is Romanian Record"
+msgstr ""
+
+#. module: l10n_ro_stock_account_date
+#: model:ir.model.fields,field_description:l10n_ro_stock_account_date.field_stock_valuation_layer__l10n_ro_date_done
+msgid "L10N Ro Date Done"
+msgstr ""
+
+#. module: l10n_ro_stock_account_date
+#: model:ir.model.fields,field_description:l10n_ro_stock_account_date.field_stock_move____last_update
+#: model:ir.model.fields,field_description:l10n_ro_stock_account_date.field_stock_move_line____last_update
+#: model:ir.model.fields,field_description:l10n_ro_stock_account_date.field_stock_picking____last_update
+#: model:ir.model.fields,field_description:l10n_ro_stock_account_date.field_stock_valuation_layer____last_update
+msgid "Last Modified on"
+msgstr ""
+
+#. module: l10n_ro_stock_account_date
+#: model:ir.model.fields,field_description:l10n_ro_stock_account_date.field_stock_valuation_layer__write_uid
+msgid "Last Updated by"
+msgstr ""
+
+#. module: l10n_ro_stock_account_date
+#: model:ir.model.fields,field_description:l10n_ro_stock_account_date.field_stock_valuation_layer__write_date
+msgid "Last Updated on"
+msgstr ""
+
+#. module: l10n_ro_stock_account_date
+#: model:ir.model,name:l10n_ro_stock_account_date.model_stock_move_line
+msgid "Product Moves (Stock Move Line)"
+msgstr ""
+
+#. module: l10n_ro_stock_account_date
+#: model:ir.model,name:l10n_ro_stock_account_date.model_stock_move
+msgid "Stock Move"
+msgstr ""
+
+#. module: l10n_ro_stock_account_date
+#: model:ir.model,name:l10n_ro_stock_account_date.model_stock_valuation_layer
+msgid "Stock Valuation Layer"
+msgstr ""
+
+#. module: l10n_ro_stock_account_date
+#: model:ir.model.fields,help:l10n_ro_stock_account_date.field_stock_valuation_layer__l10n_ro_date_done
+msgid ""
+"This is the date when this recod was created. Original create_date is writen"
+" at reception by module nexterp_stock_date"
+msgstr ""
+
+#. module: l10n_ro_stock_account_date
+#: model:ir.model,name:l10n_ro_stock_account_date.model_stock_picking
+msgid "Transfer"
+msgstr ""
+
+#. module: l10n_ro_stock_account_date
+#: code:addons/l10n_ro_stock_account_date/models/stock_picking.py:0
+#, python-format
+msgid "You can not have a Accounting date=%s for picking bigger than today!"
+msgstr ""

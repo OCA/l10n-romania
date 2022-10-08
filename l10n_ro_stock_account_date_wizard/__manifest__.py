@@ -2,7 +2,7 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 {
     "name": "Romania - Stock Accounting Date Wizard",
-    "version": "14.0.1.3.0",
+    "version": "14.0.3.1.0",
     "category": "Localization",
     "summary": "Romania - Stock Accounting Date Wizard",
     "author": "NextERP Romania," "Odoo Community Association (OCA)",
@@ -14,5 +14,6 @@
         "wizard/stock_immediate_transfer_views.xml",
     ],
     "installable": True,
+    "development_status": "Mature",
     "maintainers": ["feketemihai"],
 }

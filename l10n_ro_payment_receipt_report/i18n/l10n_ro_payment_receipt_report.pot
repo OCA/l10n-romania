@@ -1,0 +1,111 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* l10n_ro_payment_receipt_report
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 14.0\n"
+"Report-Msgid-Bugs-To: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: l10n_ro_payment_receipt_report
+#: model_terms:ir.ui.view,arch_db:l10n_ro_payment_receipt_report.report_payment_receipt_document
+msgid "<span>NRC:</span>"
+msgstr ""
+
+#. module: l10n_ro_payment_receipt_report
+#: model_terms:ir.ui.view,arch_db:l10n_ro_payment_receipt_report.report_bank_statement_line_payment_document
+#: model_terms:ir.ui.view,arch_db:l10n_ro_payment_receipt_report.report_payment_receipt_document
+msgid "<span>Signature and stamp</span>"
+msgstr ""
+
+#. module: l10n_ro_payment_receipt_report
+#: model_terms:ir.ui.view,arch_db:l10n_ro_payment_receipt_report.report_bank_statement_line_payment_document
+#: model_terms:ir.ui.view,arch_db:l10n_ro_payment_receipt_report.report_payment_receipt_document
+msgid "Date:"
+msgstr ""
+
+#. module: l10n_ro_payment_receipt_report
+#: model_terms:ir.ui.view,arch_db:l10n_ro_payment_receipt_report.report_bank_statement_line_payment_document
+msgid ""
+"Financial - Accounting\n"
+"                                        Department"
+msgstr ""
+
+#. module: l10n_ro_payment_receipt_report
+#: model_terms:ir.ui.view,arch_db:l10n_ro_payment_receipt_report.report_bank_statement_line_payment_document
+msgid "Function:"
+msgstr ""
+
+#. module: l10n_ro_payment_receipt_report
+#: model_terms:ir.ui.view,arch_db:l10n_ro_payment_receipt_report.report_bank_statement_line_payment_document
+msgid "Name:"
+msgstr ""
+
+#. module: l10n_ro_payment_receipt_report
+#: model_terms:ir.ui.view,arch_db:l10n_ro_payment_receipt_report.report_bank_statement_line_payment_document
+msgid "Payment Disposal:"
+msgstr ""
+
+#. module: l10n_ro_payment_receipt_report
+#: model_terms:ir.ui.view,arch_db:l10n_ro_payment_receipt_report.report_payment_receipt_document
+msgid "Payment Receipt:"
+msgstr ""
+
+#. module: l10n_ro_payment_receipt_report
+#: model_terms:ir.ui.view,arch_db:l10n_ro_payment_receipt_report.report_bank_statement_line_payment_document
+msgid "Payment Reception:"
+msgstr ""
+
+#. module: l10n_ro_payment_receipt_report
+#: model:ir.actions.report,name:l10n_ro_payment_receipt_report.action_report_bank_statement_line_payment
+msgid "Payment disposal / collection"
+msgstr ""
+
+#. module: l10n_ro_payment_receipt_report
+#: model_terms:ir.ui.view,arch_db:l10n_ro_payment_receipt_report.report_bank_statement_line_payment_document
+msgid ""
+"Preventive Financial Control\n"
+"                                        Visa"
+msgstr ""
+
+#. module: l10n_ro_payment_receipt_report
+#: model_terms:ir.ui.view,arch_db:l10n_ro_payment_receipt_report.report_bank_statement_line_payment_document
+msgid "Reason:"
+msgstr ""
+
+#. module: l10n_ro_payment_receipt_report
+#: model_terms:ir.ui.view,arch_db:l10n_ro_payment_receipt_report.report_bank_statement_line_payment_document
+msgid "Signatures"
+msgstr ""
+
+#. module: l10n_ro_payment_receipt_report
+#: model_terms:ir.ui.view,arch_db:l10n_ro_payment_receipt_report.report_bank_statement_line_payment_document
+msgid "Unit Manager"
+msgstr ""
+
+#. module: l10n_ro_payment_receipt_report
+#: model_terms:ir.ui.view,arch_db:l10n_ro_payment_receipt_report.report_payment_receipt_document
+msgid "We received from:"
+msgstr ""
+
+#. module: l10n_ro_payment_receipt_report
+#: model_terms:ir.ui.view,arch_db:l10n_ro_payment_receipt_report.report_bank_statement_line_payment_document
+#: model_terms:ir.ui.view,arch_db:l10n_ro_payment_receipt_report.report_payment_receipt_document
+msgid "amount of"
+msgstr ""
+
+#. module: l10n_ro_payment_receipt_report
+#: model_terms:ir.ui.view,arch_db:l10n_ro_payment_receipt_report.report_payment_receipt_document
+msgid "for payment of:"
+msgstr ""
+
+#. module: l10n_ro_payment_receipt_report
+#: model_terms:ir.ui.view,arch_db:l10n_ro_payment_receipt_report.report_payment_receipt_document
+msgid "with address:"
+msgstr ""

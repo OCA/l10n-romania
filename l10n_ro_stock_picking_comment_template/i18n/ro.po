@@ -10,6 +10,7 @@ msgstr ""
 "PO-Revision-Date: 2021-06-17 14:29+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
+"Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
@@ -116,28 +117,39 @@ msgstr ""
 
 #. module: l10n_ro_stock_picking_comment_template
 #: model:base.comment.template,text:l10n_ro_stock_picking_comment_template.l10n_ro_picking_in_up
+#, fuzzy
 msgid ""
 "\n"
 "            <h2><span>Reception Note and Differences</span></h2>\n"
-"            <span>The undersigned, members of the reception commission, I received the material values provided by:\n"
+"            <span>The undersigned, members of the reception commission, I "
+"received the material values provided by:\n"
 "            ${object.partner_id.name},\n"
-"            delegate: ${object.delegate_id.name if object.delegate_id else '.'*60 },\n"
-"            car no.: ${object.mean_transp or \".\"*32},\n"
-"            based on the accompanying documents:  ${object.purchase_id.partner_ref+'; ' if object.purchase_id.partner_ref else  ''}\n"
-"                                                 ${object.purchase_id.invoice_ids[0].name if object.purchase_id.invoice_ids else  ''}\n"
-"                                                 ${'' if  object.purchase_id.invoice_ids or  object.purchase_id.partner_ref else  '.'*60} , noting:\n"
+"            delegate: ${object.l10n_ro_delegate_id.name if object."
+"l10n_ro_delegate_id else '.'*60 },\n"
+"            car no.: ${object.l10n_ro_mean_transp or \".\"*32},\n"
+"            based on the accompanying documents:  ${object.purchase_id."
+"partner_ref+'; ' if object.purchase_id.partner_ref else  ''}\n"
+"                                                 ${object.purchase_id."
+"invoice_ids[0].name if object.purchase_id.invoice_ids else  ''}\n"
+"                                                 ${'' if  object.purchase_id."
+"invoice_ids or  object.purchase_id.partner_ref else  '.'*60} , noting:\n"
 "                                    </span>\n"
 "        "
 msgstr ""
 "\n"
 "            <h2><span>Nota de Recepție si Constatare Diferențe</span></h2>\n"
-"            <span>Subsemnații, membrii ai comisiei de recepție, am primit valorile materiale furnizate de:\n"
+"            <span>Subsemnații, membrii ai comisiei de recepție, am primit "
+"valorile materiale furnizate de:\n"
 "            ${object.partner_id.name},\n"
-"            delegat: ${object.delegate_id.name if object.delegate_id else '.'*60 },\n"
+"            delegat: ${object.delegate_id.name if object.delegate_id else "
+"'.'*60 },\n"
 "            auto nr.: ${object.mean_transp or \".\"*32},\n"
-"            pe baza documentelor insoțitoare:  ${object.purchase_id.partner_ref+'; ' if object.purchase_id.partner_ref else  ''}\n"
-"                                                 ${object.purchase_id.invoice_ids[0].name if object.purchase_id.invoice_ids else  ''}\n"
-"                                                 ${'' if  object.purchase_id.invoice_ids or  object.purchase_id.partner_ref else  '.'*60} , constatand:\n"
+"            pe baza documentelor insoțitoare:  ${object.purchase_id."
+"partner_ref+'; ' if object.purchase_id.partner_ref else  ''}\n"
+"                                                 ${object.purchase_id."
+"invoice_ids[0].name if object.purchase_id.invoice_ids else  ''}\n"
+"                                                 ${'' if  object.purchase_id."
+"invoice_ids or  object.purchase_id.partner_ref else  '.'*60} , constatand:\n"
 "                                    </span>\n"
 "        "
 
@@ -148,7 +160,8 @@ msgid ""
 "            <p>\n"
 "                <br/>\n"
 "            </p>\n"
-"            <table class=\"table table-bordered mb32\" style=\"table-layout:auto\"\n"
+"            <table class=\"table table-bordered mb32\" style=\"table-layout:"
+"auto\"\n"
 "                <thead>\n"
 "                    <tr>\n"
 "                        <th width=\"40%\">Elaborate</th>\n"
@@ -173,7 +186,8 @@ msgstr ""
 "            <p>\n"
 "                <br/>\n"
 "            </p>\n"
-"            <table class=\"table table-bordered mb32\" style=\"table-layout:auto\"\n"
+"            <table class=\"table table-bordered mb32\" style=\"table-layout:"
+"auto\"\n"
 "                <thead>\n"
 "                    <tr>\n"
 "                        <th width=\"40%\">Intocmit de</th>\n"
@@ -201,7 +215,8 @@ msgid ""
 "            <p>\n"
 "                <br/>\n"
 "            </p>\n"
-"            <table class=\"table table-bordered mb32\" style=\"table-layout:auto\"\n"
+"            <table class=\"table table-bordered mb32\" style=\"table-layout:"
+"auto\"\n"
 "                <thead>\n"
 "                    <tr>\n"
 "                        <th width=\"40%\">Elaborate</th>\n"
@@ -226,7 +241,8 @@ msgstr ""
 "            <p>\n"
 "                <br/>\n"
 "            </p>\n"
-"            <table class=\"table table-bordered mb32\" style=\"table-layout:auto\"\n"
+"            <table class=\"table table-bordered mb32\" style=\"table-layout:"
+"auto\"\n"
 "                <thead>\n"
 "                    <tr>\n"
 "                        <th width=\"40%\">Intocmit de</th>\n"
@@ -249,12 +265,14 @@ msgstr ""
 
 #. module: l10n_ro_stock_picking_comment_template
 #: model:base.comment.template,text:l10n_ro_stock_picking_comment_template.l10n_ro_picking_out_down
+#, fuzzy
 msgid ""
 "\n"
 "            <p>\n"
 "                <br/>\n"
 "            </p>\n"
-"            <table class=\"table table-bordered mb32\" style=\"table-layout:auto\"\n"
+"            <table class=\"table table-bordered mb32\" style=\"table-layout:"
+"auto\"\n"
 "                <thead>\n"
 "                    <tr>\n"
 "                        <th width=\"40%\">Elaborate</th>\n"
@@ -268,10 +286,15 @@ msgid ""
 "                            <span>Name:  ${user.name}</span>\n"
 "                        </td>\n"
 "                        <td>\n"
-"                            <div><span>Delegate: ${object.delegate_id.name if object.delegate_id else '.'*100 }</span><br/></div>\n"
-"                            <div><span>B.I./C.I.: ${'.'*100}</span><br/></div>\n"
-"                            <div><span>Mean Transport:  ${object.mean_transp or \".\"*50}</span><br/></div>\n"
-"                            <div><span>Date: ${'.'*40} Hour: ${'.'*20}</span><br/></div>\n"
+"                            <div><span>Delegate: ${object."
+"l10n_ro_delegate_id.name if object.l10n_ro_delegate_id else '.'*100 }</"
+"span><br/></div>\n"
+"                            <div><span>B.I./C.I.: ${'.'*100}</span><br/></"
+"div>\n"
+"                            <div><span>Mean Transport:  ${object."
+"l10n_ro_mean_transp or \".\"*50}</span><br/></div>\n"
+"                            <div><span>Date: ${'.'*40} Hour: ${'.'*20}</"
+"span><br/></div>\n"
 "                        </td>\n"
 "                        <td> </td>\n"
 "                    </tr>\n"
@@ -283,7 +306,8 @@ msgstr ""
 "            <p>\n"
 "                <br/>\n"
 "            </p>\n"
-"            <table class=\"table table-bordered mb32\" style=\"table-layout:auto\"\n"
+"            <table class=\"table table-bordered mb32\" style=\"table-layout:"
+"auto\"\n"
 "                <thead>\n"
 "                    <tr>\n"
 "                        <th width=\"40%\">Intocmit de</th>\n"
@@ -297,10 +321,14 @@ msgstr ""
 "                            <span>Nume:  ${user.name}</span>\n"
 "                        </td>\n"
 "                        <td>\n"
-"                            <div><span>Delegat: ${object.delegate_id.name if object.delegate_id else '.'*100 }</span><br/></div>\n"
-"                            <div><span>B.I./C.I.: ${'.'*100}</span><br/></div>\n"
-"                            <div><span>Mijloc Transport:  ${object.mean_transp or \".\"*50}</span><br/></div>\n"
-"                            <div><span>Data: ${'.'*40} Ora: ${'.'*20}</span><br/></div>\n"
+"                            <div><span>Delegat: ${object.delegate_id.name if "
+"object.delegate_id else '.'*100 }</span><br/></div>\n"
+"                            <div><span>B.I./C.I.: ${'.'*100}</span><br/></"
+"div>\n"
+"                            <div><span>Mijloc Transport:  ${object."
+"mean_transp or \".\"*50}</span><br/></div>\n"
+"                            <div><span>Data: ${'.'*40} Ora: ${'.'*20}</"
+"span><br/></div>\n"
 "                        </td>\n"
 "                        <td> </td>\n"
 "                    </tr>\n"
@@ -318,7 +346,8 @@ msgid ""
 "            <table class=\"table table-sm o_main_table table-bordered\">\n"
 "                <thead>\n"
 "                    <tr>\n"
-"                        <th width=\"35%\">Members of the reception commission</th>\n"
+"                        <th width=\"35%\">Members of the reception "
+"commission</th>\n"
 "                        <th width=\"15%\">Signature</th>\n"
 "                        <th width=\"35%\">Stock responsible</th>\n"
 "                        <th width=\"15%\">Signature</th>\n"
@@ -356,7 +385,8 @@ msgstr ""
 "            <table class=\"table table-sm o_main_table table-bordered\">\n"
 "                <thead>\n"
 "                    <tr>\n"
-"                        <th width=\"35%\">Membrii ai comisiei de receptie</th>\n"
+"                        <th width=\"35%\">Membrii ai comisiei de receptie</"
+"th>\n"
 "                        <th width=\"15%\">Semnatura</th>\n"
 "                        <th width=\"35%\">Gestionar</th>\n"
 "                        <th width=\"15%\">Semnatura</th>\n"
@@ -388,14 +418,58 @@ msgstr ""
 "        "
 
 #. module: l10n_ro_stock_picking_comment_template
-#: model:ir.model.fields,field_description:l10n_ro_stock_picking_comment_template.field_stock_picking__delegate_id
+#: model:base.comment.template,name:l10n_ro_stock_picking_comment_template.l10n_ro_picking_delivery_internTransfer
+msgid ""
+"\n"
+"            Romania - Comment for Delivery + Internal Transfer Before Lines\n"
+"        "
+msgstr ""
+
+#. module: l10n_ro_stock_picking_comment_template
+#: model:ir.model.fields,field_description:l10n_ro_stock_picking_comment_template.field_stock_picking__comment_template_ids
+msgid "Comment Template"
+msgstr ""
+
+#. module: l10n_ro_stock_picking_comment_template
+#: model_terms:ir.ui.view,arch_db:l10n_ro_stock_picking_comment_template.stock_picking_form_add_comment
+msgid "Comments"
+msgstr ""
+
+#. module: l10n_ro_stock_picking_comment_template
+#: model:ir.model,name:l10n_ro_stock_picking_comment_template.model_res_partner
+msgid "Contact"
+msgstr ""
+
+#. module: l10n_ro_stock_picking_comment_template
+#: model:ir.model.fields,field_description:l10n_ro_stock_picking_comment_template.field_stock_picking__l10n_ro_delegate_id
 msgid "Delegate"
 msgstr "Delegat"
 
 #. module: l10n_ro_stock_picking_comment_template
-#: model:ir.model.fields,field_description:l10n_ro_stock_picking_comment_template.field_res_partner__mean_transp
-#: model:ir.model.fields,field_description:l10n_ro_stock_picking_comment_template.field_res_users__mean_transp
-#: model:ir.model.fields,field_description:l10n_ro_stock_picking_comment_template.field_stock_picking__mean_transp
+#: model:ir.model.fields,field_description:l10n_ro_stock_picking_comment_template.field_comment_template__display_name
+#: model:ir.model.fields,field_description:l10n_ro_stock_picking_comment_template.field_res_partner__display_name
+#: model:ir.model.fields,field_description:l10n_ro_stock_picking_comment_template.field_stock_picking__display_name
+msgid "Display Name"
+msgstr ""
+
+#. module: l10n_ro_stock_picking_comment_template
+#: model:ir.model.fields,field_description:l10n_ro_stock_picking_comment_template.field_comment_template__id
+#: model:ir.model.fields,field_description:l10n_ro_stock_picking_comment_template.field_res_partner__id
+#: model:ir.model.fields,field_description:l10n_ro_stock_picking_comment_template.field_stock_picking__id
+msgid "ID"
+msgstr ""
+
+#. module: l10n_ro_stock_picking_comment_template
+#: model:ir.model.fields,field_description:l10n_ro_stock_picking_comment_template.field_comment_template____last_update
+#: model:ir.model.fields,field_description:l10n_ro_stock_picking_comment_template.field_res_partner____last_update
+#: model:ir.model.fields,field_description:l10n_ro_stock_picking_comment_template.field_stock_picking____last_update
+msgid "Last Modified on"
+msgstr ""
+
+#. module: l10n_ro_stock_picking_comment_template
+#: model:ir.model.fields,field_description:l10n_ro_stock_picking_comment_template.field_res_partner__l10n_ro_mean_transp
+#: model:ir.model.fields,field_description:l10n_ro_stock_picking_comment_template.field_res_users__l10n_ro_mean_transp
+#: model:ir.model.fields,field_description:l10n_ro_stock_picking_comment_template.field_stock_picking__l10n_ro_mean_transp
 msgid "Mean transport"
 msgstr "Mijloc de Transport"
 
@@ -410,18 +484,15 @@ msgid "Romania - Comment for Consume Voucher Before Lines"
 msgstr ""
 
 #. module: l10n_ro_stock_picking_comment_template
-#: model:base.comment.template,name:l10n_ro_stock_picking_comment_template.l10n_ro_picking_delivery_internTransfer
-msgid "Romania - Comment for Delivery + Internal Transfer Before Lines"
-msgstr ""
-
-#. module: l10n_ro_stock_picking_comment_template
 #: model:base.comment.template,name:l10n_ro_stock_picking_comment_template.l10n_ro_picking_out_down
 msgid "Romania - Comment for Delivery After Lines"
 msgstr ""
 
 #. module: l10n_ro_stock_picking_comment_template
 #: model:base.comment.template,name:l10n_ro_stock_picking_comment_template.l10n_ro_picking_internTransfer_down
-msgid "Romania - Comment for Internal Transfer Voucher After Lines"
+msgid ""
+"Romania - Comment for Internal Transfer Voucher After Lines\n"
+"        "
 msgstr ""
 
 #. module: l10n_ro_stock_picking_comment_template
@@ -441,7 +512,8 @@ msgstr ""
 
 #. module: l10n_ro_stock_picking_comment_template
 #: model:ir.actions.act_window,name:l10n_ro_stock_picking_comment_template.action_stock_picking_comment_template
-msgid "Stock Picking Comment Templates"
+#: model:ir.ui.menu,name:l10n_ro_stock_picking_comment_template.menu_base_comment_template_picking
+msgid "Romanian Stock Picking Comments"
 msgstr ""
 
 #. module: l10n_ro_stock_picking_comment_template
@@ -450,9 +522,16 @@ msgid "Transfer"
 msgstr ""
 
 #. module: l10n_ro_stock_picking_comment_template
-#: model:ir.model.fields,help:l10n_ro_stock_picking_comment_template.field_res_partner__mean_transp
-#: model:ir.model.fields,help:l10n_ro_stock_picking_comment_template.field_res_users__mean_transp
+#: model:ir.model.fields,help:l10n_ro_stock_picking_comment_template.field_res_partner__l10n_ro_mean_transp
+#: model:ir.model.fields,help:l10n_ro_stock_picking_comment_template.field_res_users__l10n_ro_mean_transp
 msgid ""
 "Visible only in pickings, and can be modify only from there;is keeping all "
 "the time the last not null value"
+msgstr ""
+
+#. module: l10n_ro_stock_picking_comment_template
+#: model:ir.model,name:l10n_ro_stock_picking_comment_template.model_comment_template
+msgid ""
+"base.comment.template to put header and footer in reports based on created "
+"comment templates"
 msgstr ""

@@ -44,7 +44,9 @@ class TestNondeductibleCommon(ValuationReconciliationTestCommon):
             }
         )
 
-        cls.account_expense.nondeductible_account_id = cls.account_expense_nondeductible
+        cls.account_expense.l10n_ro_nondeductible_account_id = (
+            cls.account_expense_nondeductible
+        )
         cls.tag_base = get_account_tag("+24_1 - BAZA")
         cls.tag_base_nondeductible = get_account_tag("+24_2 - BAZA")
         cls.tag_vat = get_account_tag("+24_1 - TVA")
@@ -85,7 +87,7 @@ class TestNondeductibleCommon(ValuationReconciliationTestCommon):
                     "repartition_type": "tax",
                     "account_id": cls.account_vat_deductible.id,
                     "tag_ids": [(6, 0, [cls.tag_vat.id])],
-                    "exclude_from_stock": True,
+                    "l10n_ro_exclude_from_stock": True,
                 },
             ),
             (
@@ -116,7 +118,7 @@ class TestNondeductibleCommon(ValuationReconciliationTestCommon):
                     "repartition_type": "tax",
                     "account_id": cls.account_expense_vat_nondeductible.id,
                     "tag_ids": [(6, 0, [cls.tag_base_nondeductible.id])],
-                    "nondeductible": True,
+                    "l10n_ro_nondeductible": True,
                 },
             ),
             (
@@ -148,7 +150,7 @@ class TestNondeductibleCommon(ValuationReconciliationTestCommon):
                     "repartition_type": "tax",
                     "account_id": cls.account_vat_deductible.id,
                     "tag_ids": [(6, 0, [cls.minus_tag_vat.id])],
-                    "exclude_from_stock": True,
+                    "l10n_ro_exclude_from_stock": True,
                 },
             ),
             (
@@ -179,7 +181,7 @@ class TestNondeductibleCommon(ValuationReconciliationTestCommon):
                     "repartition_type": "tax",
                     "account_id": cls.account_expense_vat_nondeductible.id,
                     "tag_ids": [(6, 0, [cls.minus_tag_base_nondeductible.id])],
-                    "nondeductible": True,
+                    "l10n_ro_nondeductible": True,
                 },
             ),
             (
@@ -224,7 +226,7 @@ class TestNondeductibleCommon(ValuationReconciliationTestCommon):
                     "repartition_type": "tax",
                     "account_id": cls.account_vat_deductible.id,
                     "tag_ids": [(6, 0, [cls.tag_vat.id])],
-                    "exclude_from_stock": True,
+                    "l10n_ro_exclude_from_stock": True,
                 },
             ),
             (
@@ -255,8 +257,8 @@ class TestNondeductibleCommon(ValuationReconciliationTestCommon):
                     "repartition_type": "tax",
                     "account_id": cls.account_expense_vat_nondeductible.id,
                     "tag_ids": [(6, 0, [cls.tag_base_nondeductible.id])],
-                    "nondeductible": True,
-                    "skip_cash_basis_account_switch": True,
+                    "l10n_ro_nondeductible": True,
+                    "l10n_ro_skip_cash_basis_account_switch": True,
                 },
             ),
             (
@@ -266,7 +268,7 @@ class TestNondeductibleCommon(ValuationReconciliationTestCommon):
                     "factor_percent": -500,
                     "repartition_type": "tax",
                     "tag_ids": [(6, 0, [cls.tag_base.id])],
-                    "skip_cash_basis_account_switch": True,
+                    "l10n_ro_skip_cash_basis_account_switch": True,
                 },
             ),
         ]
@@ -289,7 +291,7 @@ class TestNondeductibleCommon(ValuationReconciliationTestCommon):
                     "repartition_type": "tax",
                     "account_id": cls.account_vat_deductible.id,
                     "tag_ids": [(6, 0, [cls.minus_tag_vat.id])],
-                    "exclude_from_stock": True,
+                    "l10n_ro_exclude_from_stock": True,
                 },
             ),
             (
@@ -320,8 +322,8 @@ class TestNondeductibleCommon(ValuationReconciliationTestCommon):
                     "repartition_type": "tax",
                     "account_id": cls.account_expense_vat_nondeductible.id,
                     "tag_ids": [(6, 0, [cls.minus_tag_base_nondeductible.id])],
-                    "nondeductible": True,
-                    "skip_cash_basis_account_switch": True,
+                    "l10n_ro_nondeductible": True,
+                    "l10n_ro_skip_cash_basis_account_switch": True,
                 },
             ),
             (
@@ -331,7 +333,7 @@ class TestNondeductibleCommon(ValuationReconciliationTestCommon):
                     "factor_percent": -500,
                     "repartition_type": "tax",
                     "tag_ids": [(6, 0, [cls.minus_tag_base.id])],
-                    "skip_cash_basis_account_switch": True,
+                    "l10n_ro_skip_cash_basis_account_switch": True,
                 },
             ),
         ]
@@ -380,8 +382,8 @@ class TestNondeductibleCommon(ValuationReconciliationTestCommon):
         )
 
         cls.env.company.anglo_saxon_accounting = True
-        cls.env.company.romanian_accounting = True
-        cls.env.company.stock_acc_price_diff = True
+        cls.env.company.l10n_ro_accounting = True
+        cls.env.company.l10n_ro_stock_acc_price_diff = True
 
         cls.setUpTax()
 
@@ -407,7 +409,7 @@ class TestNondeductibleCommon(ValuationReconciliationTestCommon):
             "property_stock_account_output_categ_id": cls.account_valuation.id,
             "property_stock_valuation_account_id": cls.account_valuation.id,
             "property_stock_journal": stock_journal.id,
-            "stock_account_change": True,
+            "l10n_ro_stock_account_change": True,
         }
 
         cls.category = cls.env["product.category"].search(
@@ -436,7 +438,13 @@ class TestNondeductibleCommon(ValuationReconciliationTestCommon):
         if not cls.vendor:
             cls.vendor = cls.env["res.partner"].create({"name": "TEST Vendor"})
 
-        cls.warehouse = cls.company_data["default_warehouse"]
+        cls.warehouse = cls.env["stock.warehouse"].create(
+            {
+                "name": "Warehouse Romania",
+                "code": "ROW",
+                "company_id": cls.env.company.id,
+            }
+        )
 
     def create_po(self, picking_type_in=None):
 
@@ -475,10 +483,10 @@ class TestNondeductibleCommon(ValuationReconciliationTestCommon):
         invoice.purchase_id = self.po
         if fiscal_position:
             self.vendor.vat = "RO39187746"
-            self.env["res.partner.anaf"].create(
+            self.env["l10n.ro.res.partner.anaf"].create(
                 {
                     "anaf_id": "1",
-                    "vat": self.vendor.vat_number,
+                    "vat": self.vendor.l10n_ro_vat_number,
                     "start_date": fields.Date.today(),
                     "publish_date": fields.Date.today(),
                     "operation_date": fields.Date.today(),
@@ -519,13 +527,13 @@ class TestNondeductibleCommon(ValuationReconciliationTestCommon):
         self.create_invoice_notdeductible(fiscal_position=fiscal_position)
 
     def make_consume(self):
-        consume_type = self.warehouse.consume_type_id
+        consume_type = self.warehouse.l10n_ro_consume_type_id
         stock_picking_form = Form(self.env["stock.picking"])
         stock_picking_form.picking_type_id = consume_type
         with stock_picking_form.move_ids_without_package.new() as line:
             line.product_id = self.product_1
             line.product_uom_qty = 10
-            line.nondeductible_tax_id = self.tax_10_nondeductible
+            line.l10n_ro_nondeductible_tax_id = self.tax_10_nondeductible
         stock_picking = stock_picking_form.save()
         stock_picking.action_confirm()
         stock_picking.action_assign()
@@ -545,7 +553,7 @@ class TestNondeductibleCommon(ValuationReconciliationTestCommon):
         inventory.action_start()
         inventory_line = inventory.line_ids[0]
         inventory_line.product_qty = 50
-        inventory_line.nondeductible_tax_id = self.tax_10_nondeductible.id
+        inventory_line.l10n_ro_nondeductible_tax_id = self.tax_10_nondeductible.id
         inventory.action_validate()
 
     def check_account_valuation(self, balance, account=None):

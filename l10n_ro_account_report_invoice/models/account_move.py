@@ -5,22 +5,25 @@ from odoo import api, fields, models
 
 
 class AccountMove(models.Model):
-    _inherit = "account.move"
+    _name = "account.move"
+    _inherit = ["account.move", "l10n.ro.mixin"]
 
     @api.depends("currency_id", "invoice_date")
-    def _compute_currency_rate(self):
+    def _compute_l10n_ro_currency_rate(self):
         for invoice in self:
-            if self.currency_id:
-                invoice.currency_rate = self.env["res.currency"]._get_conversion_rate(
+            currency_rate = 1
+            if invoice.is_l10n_ro_record and invoice.currency_id:
+                currency_rate = self.env["res.currency"]._get_conversion_rate(
                     invoice.currency_id,
                     invoice.company_currency_id,
                     invoice.company_id or self.env.company,
                     invoice.invoice_date or fields.Date.today(),
                 )
+            invoice.l10n_ro_currency_rate = currency_rate
 
-    currency_rate = fields.Float(
-        string="Currency Rate",
+    l10n_ro_currency_rate = fields.Float(
+        string="Romania - Currency Rate",
         store=True,
         readonly=True,
-        compute="_compute_currency_rate",
+        compute="_compute_l10n_ro_currency_rate",
     )

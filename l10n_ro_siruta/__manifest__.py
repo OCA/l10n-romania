@@ -10,13 +10,16 @@
         "data/res_country_state.xml",
         "data/res_country_commune.xml",
         "views/partner_view.xml",
-        "views/siruta_view.xml",
+        "views/l10n_ro_res_country_commune_views.xml",
+        "views/l10n_ro_res_country_zone_views.xml",
+        "views/res_city_views.xml",
+        "views/res_country_state_views.xml",
         "views/assets.xml",
         "security/ir.model.access.csv",
     ],
     "demo": ["demo/demo_siruta.xml"],
     "license": "AGPL-3",
-    "version": "14.0.1.2.0",
+    "version": "14.0.2.1.0",
     "author": "NextERP Romania,"
     "Forest and Biomass Romania,"
     "Terrabit,"

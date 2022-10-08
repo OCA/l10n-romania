@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+
+    <record id="view_l10n_ro_account_anaf_sync_tree" model="ir.ui.view">
+        <field name="name">l10n.ro.account.anaf.sync.tree</field>
+        <field name="model">l10n.ro.account.anaf.sync</field>
+        <field name="type">tree</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="company_id" />
+                <field name="client_id" />
+                <field name="client_token_valability" />
+                <field name="state" />
+            </tree>
+        </field>
+    </record>
+    <record id="view_l10n_ro_account_anaf_sync_form" model="ir.ui.view">
+        <field name="name">l10n.ro.account.anaf.sync.form</field>
+        <field name="model">l10n.ro.account.anaf.sync</field>
+        <field name="type">form</field>
+        <field name="arch" type="xml">
+            <form string="Account ANAF Sync">
+                <header>
+                    <button
+                        class="btn btn-primary"
+                        string="Get Token From Anaf Website (with usb token inserted)"
+                        name="get_token_from_anaf_website"
+                        attrs="{'invisible':[('access_token','!=',''),('access_token','!=',False)]}"
+                        type="object"
+                        help="At this step you need a digital certified signature and a browser that recognise it"
+                    />
+                    <button
+                        class="btn btn-primary"
+                        string="Revoke Access Token"
+                        name="revoke_access_token"
+                        type="object"
+                        attrs="{'invisible':['|', ('access_token','=',''), ('access_token','=',False)]}"
+                    />
+                </header>
+                <sheet>
+                    <div>
+                        <label for="company_id" />
+                        <h1>
+                            <field name="company_id" />
+                        </h1>
+                    </div>
+                    <group string="Config">
+                        <group name="main_info">
+                            <field name="state" />
+                            <field name="anaf_einvoice_sync_url" />
+                            <field name="client_id" />
+                            <field name="client_secret" />
+                            <field name="anaf_oauth_url" />
+                            <field name="anaf_callback_url" />
+                            <field name="code" />
+                        </group>
+                        <group name="token">
+                            <field name="access_token" />
+                            <field name="refresh_token" />
+                            <field name="client_token_valability" />
+                            <field name="last_request_datetime" />
+                        </group>
+                    </group>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids" />
+                    <field name="message_ids" />
+                </div>
+            </form>
+        </field>
+    </record>
+    <record id="action_account_anaf_sync" model="ir.actions.act_window">
+        <field name="name">Account ANAF Sync</field>
+            <field name="type">ir.actions.act_window</field>
+        <field name="res_model">l10n.ro.account.anaf.sync</field>
+        <field name="view_mode">tree,form</field>
+        <field name="view_id" ref="view_l10n_ro_account_anaf_sync_tree" />
+    </record>
+</odoo>

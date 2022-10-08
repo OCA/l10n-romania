@@ -11,23 +11,27 @@ _logger = logging.getLogger(__name__)
 
 
 class AccountMove(models.Model):
-    _inherit = "account.move"
+    _name = "account.move"
+    _inherit = ["account.move", "l10n.ro.mixin"]
 
     def action_post(self):
+        l10n_ro_records = self.filtered("is_l10n_ro_record")
+        if not l10n_ro_records:
+            return super().action_post()
+
         if (
             len(self) == 1
             and self.move_type in ["in_invoice", "in_refund"]
-            and self.company_id.romanian_accounting
             and not self.env.context.get("l10n_ro_approved_price_difference")
         ):
-            action = self._get_price_difference_check_action()
+            action = self._l10n_ro_get_price_difference_check_action()
             if action:
                 return action
-        self.fix_price_difference_svl()
+        l10n_ro_records.l10n_ro_fix_price_difference_svl()
         res = super().action_post()
         return res
 
-    def _get_price_difference_check_action(self):
+    def _l10n_ro_get_price_difference_check_action(self):
         self.ensure_one()
         price_diffs = []  # list of (product, picking)
         for invoice in self:
@@ -36,15 +40,19 @@ class AccountMove(models.Model):
                     lambda l: not l.display_type and l.purchase_line_id
                 )
                 for line in invoice_lines:
-                    add_diff = False
-                    if line.product_id.cost_method != "standard":
-                        add_diff = invoice.company_id.stock_acc_price_diff
-
+                    add_diff = invoice.company_id.l10n_ro_stock_acc_price_diff
+                    if line.product_id.cost_method == "standard":
+                        add_diff = False
                     if add_diff:
                         # se reevalueaza stocul
-                        price_diff, qty_diff = line.get_stock_valuation_difference()
+                        (
+                            price_diff,
+                            qty_diff,
+                        ) = line.l10n_ro_get_stock_valuation_difference()
                         if price_diff:
-                            valuation_stock_moves = line._get_valuation_stock_moves()
+                            valuation_stock_moves = (
+                                line._l10n_ro_get_valuation_stock_moves()
+                            )
                             price_diffs.append(
                                 (
                                     valuation_stock_moves.mapped("product_id"),
@@ -103,24 +111,31 @@ class AccountMove(models.Model):
             }
         return False
 
-    def fix_price_difference_svl(self):
+    def l10n_ro_fix_price_difference_svl(self):
         for invoice in self:
             if invoice.move_type in ["in_invoice", "in_refund"]:
                 invoice_lines = invoice.invoice_line_ids.filtered(
                     lambda l: not l.display_type and l.purchase_line_id
                 )
                 for line in invoice_lines:
-                    add_diff = False
-                    if line.product_id.cost_method != "standard":
-                        add_diff = not invoice.company_id.stock_acc_price_diff
+                    add_diff = invoice.company_id.l10n_ro_stock_acc_price_diff
+                    if line.product_id.cost_method == "standard":
+                        add_diff = False
 
-                    if not add_diff:
+                    if add_diff:
                         # se reevalueaza stocul
-                        price_diff, _qty_diff = line.get_stock_valuation_difference()
+                        (
+                            price_diff,
+                            _qty_diff,
+                        ) = line.l10n_ro_get_stock_valuation_difference()
                         if price_diff:
-                            line.modify_stock_valuation(price_diff)
+                            line.l10n_ro_modify_stock_valuation(price_diff)
 
     def _stock_account_prepare_anglo_saxon_in_lines_vals(self):
-        if self.company_id.romanian_accounting:
-            return []
-        return super()._stock_account_prepare_anglo_saxon_in_lines_vals()
+        lines_vals_list = []
+        l10n_ro_records = self.filtered(lambda m: m.is_l10n_ro_record)
+        if self - l10n_ro_records:
+            lines_vals_list = super(
+                AccountMove, self - l10n_ro_records
+            )._stock_account_prepare_anglo_saxon_in_lines_vals()
+        return lines_vals_list

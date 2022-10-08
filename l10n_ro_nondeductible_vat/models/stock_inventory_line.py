@@ -6,17 +6,24 @@ from odoo import fields, models
 
 
 class InventoryLine(models.Model):
-    _inherit = "stock.inventory.line"
+    _name = "stock.inventory.line"
+    _inherit = ["stock.inventory.line", "l10n.ro.mixin"]
 
-    nondeductible_tax_id = fields.Many2one(
-        "account.tax", domain=[("is_nondeductible", "=", True)], copy=False
+    l10n_ro_nondeductible_tax_id = fields.Many2one(
+        "account.tax",
+        string="Romania - Non Deductible Tax",
+        domain=[("is_nondeductible", "=", True)],
+        copy=False,
     )
 
     def _get_move_values(self, qty, location_id, location_dest_id, out):
         res = super(InventoryLine, self)._get_move_values(
             qty, location_id, location_dest_id, out
         )
-        res["nondeductible_tax_id"] = (
-            self.nondeductible_tax_id and self.nondeductible_tax_id.id or None
-        )
+        if self.is_l10n_ro_record:
+            res["l10n_ro_nondeductible_tax_id"] = (
+                self.l10n_ro_nondeductible_tax_id
+                and self.l10n_ro_nondeductible_tax_id.id
+                or None
+            )
         return res
