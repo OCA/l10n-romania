@@ -94,7 +94,7 @@ class StockMove(models.Model):
                     svl_vals.update(move._prepare_common_svl_vals())
                     svl_vals.update(
                         {
-                            "stock_move_line_id": valued_move_line.id,
+                            "l10n_ro_stock_move_line_id": valued_move_line.id,
                             "tracking": tracking,
                         }
                     )
@@ -123,9 +123,7 @@ class StockMove(models.Model):
                 move = move.with_company(move.company_id)
                 valued_move_lines = move._get_out_move_lines()
                 for valued_move_line in valued_move_lines:
-                    valued_move_line = valued_move_line.with_context(
-                        stock_move_line_id=valued_move_line
-                    )
+                    move = move.with_context(stock_move_line_id=valued_move_line)
                     valued_quantity = valued_move_line.product_uom_id._compute_quantity(
                         valued_move_line.qty_done, move.product_id.uom_id
                     )
@@ -142,7 +140,7 @@ class StockMove(models.Model):
                         svl_vals.update(move._prepare_common_svl_vals())
                         svl_vals.update(
                             {
-                                "stock_move_line_id": valued_move_line.id,
+                                "l10n_ro_stock_move_line_id": valued_move_line.id,
                             }
                         )
                         if forced_quantity:
@@ -154,7 +152,7 @@ class StockMove(models.Model):
                         svl_vals["description"] += svl_vals.pop(
                             "rounding_adjustment", ""
                         )
-                        svls |= self._l10n_ro_create_track_svl([svl_vals])
+                        svls |= move._l10n_ro_create_track_svl([svl_vals])
         return svls
 
     def _is_returned(self, valued_type):
