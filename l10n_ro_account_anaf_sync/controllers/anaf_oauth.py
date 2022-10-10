@@ -49,7 +49,7 @@ class AccountANAFSyncWeb(http.Controller):
         if error:
             values = {"error": error}
             return request.render(
-                "l10n_ro_account_anaf_sync.l10n_ro_redirect_anaf", values
+                "l10n_ro_account_anaf_sync.redirect_anaf", values
             )
 
         anaf_config.write(
