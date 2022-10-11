@@ -15,7 +15,7 @@ ANAF_URL = "http://static.anaf.ro/static/10/Anaf/TVA_incasare/ultim_%s.zip"
 
 
 class ResPartnerAnaf(models.Model):
-    _name = "res.partner.anaf"
+    _name = "l10n.ro.res.partner.anaf"
     _description = "ANAF History about VAT on Payment"
     _order = "vat, operation_date DESC, end_date, start_date"
 
