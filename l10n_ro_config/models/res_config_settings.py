@@ -77,13 +77,11 @@ class ResConfigSettings(models.TransientModel):
 
     l10n_ro_property_trade_discount_received_account_id = fields.Many2one(
         "account.account",
-        string="Trade discounts received",
         related="company_id.l10n_ro_property_trade_discount_received_account_id",
         readonly=False,
     )
     l10n_ro_property_trade_discount_granted_account_id = fields.Many2one(
         "account.account",
-        string="Trade discounts granted",
         related="company_id.l10n_ro_property_trade_discount_granted_account_id",
         readonly=False,
     )
@@ -93,8 +91,17 @@ class ResConfigSettings(models.TransientModel):
     )
     l10n_ro_property_stock_price_difference_product_id = fields.Many2one(
         "product.product",
-        string="Price Difference Landed Cost Product",
         related="company_id.l10n_ro_property_stock_price_difference_product_id",
+        readonly=False,
+    )
+    l10n_ro_property_customs_duty_product_id = fields.Many2one(
+        "product.product",
+        related="company_id.l10n_ro_property_customs_duty_product_id",
+        readonly=False,
+    )
+    l10n_ro_property_customs_commision_product_id = fields.Many2one(
+        "product.product",
+        related="company_id.l10n_ro_property_customs_commision_product_id",
         readonly=False,
     )
 
@@ -151,6 +158,10 @@ class ResConfigSettings(models.TransientModel):
     )
     module_l10n_ro_nondeductible_vat = fields.Boolean("Romania Non Deductible VAT")
     module_l10n_ro_payment_to_statement = fields.Boolean("Romania Payment to Statement")
+    module_l10n_ro_account_anaf_sync = fields.Boolean(
+        "Account ANAF Sync",
+        help="This option allows you to manage the sync to ANAF website.",
+    )
     module_l10n_ro_account_report_invoice = fields.Boolean(
         "Invoice Report",
         help="This allows you to print invoice report based on " "romanian layout.\n",
@@ -203,3 +214,4 @@ class ResConfigSettings(models.TransientModel):
     module_l10n_ro_stock_picking_comment_template = fields.Boolean(
         "Romanian Stock Picking Comment Template"
     )
+    module_l10n_ro_dvi = fields.Boolean("Romanian DVI")

@@ -47,6 +47,7 @@
                     groups="account.group_account_manager"
                     attrs="{'invisible': [('country_code', '!=', 'RO')]}"
                 >
+
                     <h2>Partners and Addresses</h2>
                     <div
                         class="row mt16 o_settings_container"
@@ -329,6 +330,20 @@
                                 </div>
                             </div>
                         </div>
+                        <div
+                            class="col-xs-12 col-md-6 o_setting_box"
+                            id="module_l10n_ro_account_anaf_sync"
+                        >
+                            <div class="o_setting_left_pane">
+                                <field name="module_l10n_ro_account_anaf_sync" />
+                            </div>
+                            <div class="o_setting_right_pane">
+                                <label for="module_l10n_ro_account_anaf_sync" />
+                                <div class="text-muted">
+                                    Register sync oAuth with ANAF website.
+                                </div>
+                            </div>
+                        </div>
                     </div>
                     <h2>Stock</h2>
                     <div class="row mt16 o_settings_container">
@@ -413,6 +428,74 @@
                                             Select a service product that will be used in landed cost to register price
                                             differences.
                                             An expense account needs to be set on product or product category.
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                        <div
+                            class="col-12 col-lg-6 o_setting_box"
+                            id="module_l10n_ro_dvi"
+                        >
+                            <div class="o_setting_left_pane">
+                                <field name="module_l10n_ro_dvi" />
+                            </div>
+                            <div class="o_setting_right_pane">
+                                <label for="module_l10n_ro_dvi" />
+                                <div class="text-muted">
+                                    Record DVI directly from invoices.
+                                </div>
+                            </div>
+                        </div>
+                        <div
+                            class="col-12 col-lg-6 o_setting_box"
+                            id="module_l10n_ro_dvi_config"
+                        >
+                            <div
+                                class="content-group"
+                                attrs="{'invisible': [('module_l10n_ro_dvi', '=', False)]}"
+                            >
+                                <div class="o_setting_left_pane" />
+                                <div class="o_setting_right_pane">
+                                    <label
+                                        for="l10n_ro_property_customs_duty_product_id"
+                                    />
+                                    <span
+                                        class="fa fa-lg fa-building-o"
+                                        title="Values set here are company-specific."
+                                        role="img"
+                                        aria-label="Values set here are company-specific."
+                                    />
+
+                                    <div>
+                                        <field
+                                            name="l10n_ro_property_customs_duty_product_id"
+                                            placeholder="Select a product"
+                                        />
+
+                                        <div class="text-muted">
+                                            Select a service product that will be used in customs duty registration in landed cost.
+                                        </div>
+                                    </div>
+                                    <label
+                                        for="l10n_ro_property_customs_commision_product_id"
+                                    />
+                                    <span
+                                        class="fa fa-lg fa-building-o"
+                                        title="Values set here are company-specific."
+                                        role="img"
+                                        aria-label="Values set here are company-specific."
+                                    />
+
+                                    <div>
+                                        <field
+                                            name="l10n_ro_property_customs_commision_product_id"
+                                            placeholder="Select a product"
+                                        />
+
+                                        <div class="text-muted">
+                                            Select a service product that will be used in customs commission registration in landed cost.
                                         </div>
                                     </div>
                                 </div>

@@ -16,7 +16,7 @@ class ProductTemplate(models.Model):
         if self.type == "service" and self.is_l10n_ro_record:
             company = self.company_id or self.env.company
             if company.l10n_ro_account_serv_sale_tax_id:
-                res["taxes_id"] = company.l10n_ro_account_serv_sale_tax_id
+                self.taxes_id = company.l10n_ro_account_serv_sale_tax_id
             if company.l10n_ro_account_serv_purchase_tax_id:
-                res["supplier_taxes_id"] = company.account_serv_purchase_tax_id
+                self.supplier_taxes_id = company.l10n_ro_account_serv_purchase_tax_id
         return res
