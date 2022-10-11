@@ -47,7 +47,7 @@ class ResPartner(models.Model):
     _inherit = "res.partner"
 
     l10n_ro_old_name = fields.Char(
-        string="Old Name",
+        string="Romania - Old Name",
         default="",
         help="To be completed manually with previous name of the company in case on change."
         "If the field in completed, when fetching the datas from ANAF website,"
@@ -56,7 +56,7 @@ class ResPartner(models.Model):
     l10n_ro_active_anaf_line_ids = fields.One2many(
         "l10n.ro.res.partner.anaf.status",
         "partner_id",
-        string="Partner Active Anaf Status",
+        string="Romania - Partner Active Anaf Status",
         help="will add entries only if differs as statusInactivi from previos"
         " or after entries",
         copy=False,
@@ -64,7 +64,7 @@ class ResPartner(models.Model):
     l10n_ro_vat_subjected_anaf_line_ids = fields.One2many(
         "l10n.ro.res.partner.anaf.scptva",
         "partner_id",
-        string="Anaf Company scpTVA Records",
+        string="Romania - Anaf Company scpTVA Records",
         help="will add entries only if differs as scpTVA from previos or after entries",
         copy=False,
     )
