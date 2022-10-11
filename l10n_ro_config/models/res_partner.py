@@ -8,16 +8,16 @@ class ResPartner(models.Model):
     _name = "res.partner"
     _inherit = ["res.partner", "l10n.ro.mixin"]
 
-    l10n_ro_vat_subjected = fields.Boolean("Ro VAT Subjected")
+    l10n_ro_vat_subjected = fields.Boolean(string="Romania - VAT Subjected")
     # TO-DO Add migration script
     l10n_ro_vat_number = fields.Char(
-        "Ro VAT number digits",
+        string="Romania - VAT number digits",
         compute="_compute_l10n_ro_vat_number",
         store=True,
         help="VAT number without country code.",
     )
-    l10n_ro_caen_code = fields.Char(string="Ro CAEN Code", default="0000")
-    l10n_ro_e_invoice = fields.Boolean(string="Ro E-Invoicing", copy=False)
+    l10n_ro_caen_code = fields.Char(string="Romania - CAEN Code", default="0000")
+    l10n_ro_e_invoice = fields.Boolean(string="Romania - E-Invoicing", copy=False)
 
     @api.depends("vat")
     def _compute_l10n_ro_vat_number(self):
