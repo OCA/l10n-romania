@@ -45,4 +45,4 @@ class TestUpdatePartner(TestPartnerUpdateVatSubjectedBase):
     def test_vat_subjected_cron(self):
         """Check methods vat from ANAF."""
         # Test cron update vat subjected from ANAF
-        self.partner_model._update_vat_subjected_all()
+        self.partner_model._update_l10n_ro_vat_subjected_all()

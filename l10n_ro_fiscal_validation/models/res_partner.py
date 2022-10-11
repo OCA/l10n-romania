@@ -29,7 +29,7 @@ class ResPartner(models.Model):
     _inherit = "res.partner"
 
     @api.model
-    def update_vat_subjected(self):
+    def update_l10n_ro_vat_subjected(self):
         anaf_dict = []
         check_date = fields.Date.to_string(fields.Date.today())
         # Build list of vat numbers to be checked on ANAF
@@ -70,7 +70,7 @@ class ResPartner(models.Model):
                                 partner.update(data)
 
     @api.model
-    def update_vat_subjected_all(self):
+    def update_l10n_ro_vat_subjected_all(self):
         partners = self.search(
             [
                 ("vat", "!=", False),
@@ -78,8 +78,8 @@ class ResPartner(models.Model):
                 ("is_company", "=", True),
             ]
         )
-        partners.update_vat_subjected()
+        partners.update_l10n_ro_vat_subjected()
 
     @api.model
-    def _update_vat_subjected_all(self):
-        self.update_vat_subjected_all()
+    def _update_l10n_ro_vat_subjected_all(self):
+        self.update_l10n_ro_vat_subjected_all()
