@@ -8,64 +8,65 @@ from odoo import fields, models
 class ResCompany(models.Model):
     _inherit = "res.company"
 
-    l10n_ro_accounting = fields.Boolean(string="Use Romanian Accounting")
+    l10n_ro_accounting = fields.Boolean(string="Romania - Use Romanian Accounting")
     l10n_ro_share_capital = fields.Float(
-        string="Ro Share Capital", digits="Account", default=200
+        string="Romania - Share Capital", digits="Account", default=200
     )
     l10n_ro_caen_code = fields.Char(
         related="partner_id.l10n_ro_caen_code", readonly=False
     )
     l10n_ro_account_serv_sale_tax_id = fields.Many2one(
-        "account.tax", string="Ro Default Services Sale Tax"
+        "account.tax", string="Romania - Default Services Sale Tax"
     )
     l10n_ro_account_serv_purchase_tax_id = fields.Many2one(
-        "account.tax", string="Ro Default Services Purchase Tax"
+        "account.tax", string="Romania - Default Services Purchase Tax"
     )
     l10n_ro_property_vat_on_payment_position_id = fields.Many2one(
-        "account.fiscal.position", "Ro Fiscal Position for VAT on Payment"
+        "account.fiscal.position", string="Romania - Fiscal Position for VAT on Payment"
     )
     l10n_ro_property_inverse_taxation_position_id = fields.Many2one(
-        "account.fiscal.position", "Ro Fiscal Position for Inverse Taxation"
+        "account.fiscal.position",
+        string="Romania - Fiscal Position for Inverse Taxation",
     )
 
     l10n_ro_property_stock_picking_payable_account_id = fields.Many2one(
         "account.account",
-        string="Ro Picking Account Payable",
+        string="Romania - Picking Account Payable",
         domain="[('internal_type', 'in', ['payable','other'])]",
         help="This account will be used as the payable account for the "
         "current partner on stock picking notice.",
     )
     l10n_ro_property_stock_picking_receivable_account_id = fields.Many2one(
         "account.account",
-        string="Ro Picking Account Receivable",
+        string="Romania - Picking Account Receivable",
         domain="[('internal_type', 'in', ['receivable','other'])]",
         help="This account will be used as the receivable account for the "
         "current partner on stock picking notice.",
     )
     l10n_ro_property_stock_usage_giving_account_id = fields.Many2one(
         "account.account",
-        string="Ro Usage Giving Account",
+        string="Romania - Usage Giving Account",
         domain="[('internal_type', '=', 'other')]",
         help="This account will be used as the usage giving "
         "account in account move line.",
     )
     l10n_ro_property_stock_picking_custody_account_id = fields.Many2one(
         "account.account",
-        string="Ro Picking Account Custody",
+        string="Romania - Picking Account Custody",
         help="This account will be used as the extra trial balance payable "
         "account for the current partner on stock picking received "
         "in custody.",
     )
     l10n_ro_property_uneligible_tax_account_id = fields.Many2one(
         "account.account",
-        string="Ro Not Eligible Tax Account",
+        string="Romania - Not Eligible Tax Account",
         domain="[('internal_type', '=', 'other')]",
         help="This account will be used as the not eligible tax account for "
         "account move line.\nUsed in especially in inventory losses.",
     )
     l10n_ro_property_stock_transfer_account_id = fields.Many2one(
         "account.account",
-        string="Ro Company Stock Transfer Account",
+        string="Romania - Company Stock Transfer Account",
         domain="[('internal_type', '=', 'other')]",
         help="This account will be used as an intermediary account for "
         "account move line generated from internal moves between company "
@@ -73,24 +74,38 @@ class ResCompany(models.Model):
     )
 
     l10n_ro_property_trade_discount_received_account_id = fields.Many2one(
-        "account.account", string="Ro Trade discounts received"
+        "account.account", string="Romania - Trade discounts received"
     )
     l10n_ro_property_trade_discount_granted_account_id = fields.Many2one(
-        "account.account", string="Ro Trade discounts granted"
+        "account.account", string="Romania - Trade discounts granted"
     )
 
     l10n_ro_stock_acc_price_diff = fields.Boolean(
-        string="Ro Stock Valuation Update",
+        string="Romania - Stock Valuation Update",
         help="If this field is checked and the company use Romanian Accounting,"
         "the currency rate differences between reception and invoice "
         "will be reflected in the stock valuation.",
     )
     l10n_ro_property_stock_price_difference_product_id = fields.Many2one(
         "product.product",
-        string="Ro Price Difference Landed Cost Product",
+        string="Romania - Price Difference Landed Cost Product",
         domain="[('type', '=', 'service')]",
         help="This product will be used to create the landed cost"
         "for the price difference between picking and bill",
+    )
+    l10n_ro_property_customs_duty_product_id = fields.Many2one(
+        "product.product",
+        string="Romania - Customs Duty Landed Cost Product",
+        domain="[('type', '=', 'service')]",
+        help="This product will be used in create the DVI landed cost"
+        "for the duty tax",
+    )
+    l10n_ro_property_customs_commision_product_id = fields.Many2one(
+        "product.product",
+        string="Romania - Customs Commission Landed Cost Product",
+        domain="[('type', '=', 'service')]",
+        help="This product will be used in create the DVI landed cost"
+        "for the duty commissions.",
     )
 
     def _check_is_l10n_ro_record(self, company=False):

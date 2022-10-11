@@ -41,6 +41,6 @@ def store_field_l10n_ro_vat_number(cr):
     cr.execute(
         r"""
         UPDATE res_partner partner
-        SET l10n_ro_vat_number = NULLIF(regexp_replace(vat, '[^\.\d]', '', 'g'), '')::integer
+        SET l10n_ro_vat_number = NULLIF(regexp_replace(vat, '[^\.\d]', '', 'g'), '')
         """
     )
