@@ -86,7 +86,7 @@
                                 options="{'no_create': True}"
                             />
                         </group>
-                        <field colspan="4" name="account_ids" />
+                        <field colspan="4" name="account_ids" widget="many2many_tags" />
                     </page>
                     <page string="Moves">
                         <field name="move_ids" />
