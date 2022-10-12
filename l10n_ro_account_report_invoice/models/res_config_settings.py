@@ -7,6 +7,6 @@ from odoo import fields, models
 class ResConfigSettings(models.TransientModel):
     _inherit = "res.config.settings"
 
-    invoice_no_signature_text = fields.Text(
-        related="company_id.invoice_no_signature_text", readonly=False
+    l10n_ro_no_signature_text = fields.Text(
+        related="company_id.l10n_ro_no_signature_text", readonly=False
     )
