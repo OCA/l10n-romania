@@ -17,7 +17,6 @@
         "views/account_journal_view.xml",
         "views/account_journal_dashboard_view.xml",
     ],
-    "post_init_hook": "_set_auto_auto_statement",
     "development_status": "Mature",
     "maintainers": ["dhongu"],
 }
