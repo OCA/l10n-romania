@@ -48,6 +48,14 @@
             </t>
         </table>
 
+        <xpath expr="//p[@name='note']" position="after">
+            <t t-if="o.is_l10n_ro_record">
+                <p t-if="o.company_id.l10n_ro_no_signature_text" id="sign_info">
+                    <span t-field="o.company_id.l10n_ro_no_signature_text" />
+                </p>
+            </t>
+        </xpath>
+
 
     </template>
     <template
@@ -78,14 +86,6 @@
                         t-options='{"widget": "monetary", "display_currency": o.company_currency_id}'
                     />
                 </td>
-            </t>
-        </xpath>
-
-        <xpath expr="//p[@name='note']" position="after">
-            <t t-if="o.is_l10n_ro_record">
-                <p t-if="o.company_id.l10n_ro_no_signature_text" id="sign_info">
-                    <span t-field="o.company_id.l10n_ro_no_signature_text" />
-                </p>
             </t>
         </xpath>
     </template>
