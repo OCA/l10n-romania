@@ -39,6 +39,3 @@ def migrate(env, version):
             ),
         ],
     )
-    invoices_with_dvi = env["account.move"].search([("dvi_id", "!=", False)])
-    for invoice in invoices_with_dvi:
-        invoice.dvi_id.l10n_ro_cost_type = "dvi"
