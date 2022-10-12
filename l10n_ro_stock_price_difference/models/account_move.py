@@ -44,7 +44,9 @@ class AccountMove(models.Model):
                         # se reevalueaza stocul
                         price_diff, qty_diff = line.get_stock_valuation_difference()
                         if price_diff:
-                            valuation_stock_moves = line._get_valuation_stock_moves()
+                            valuation_stock_moves = (
+                                line._l10n_ro_get_valuation_stock_moves()
+                            )
                             price_diffs.append(
                                 (
                                     valuation_stock_moves.mapped("product_id"),
