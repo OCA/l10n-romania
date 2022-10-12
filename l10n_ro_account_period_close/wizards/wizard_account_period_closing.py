@@ -8,7 +8,7 @@ from odoo import api, fields, models
 
 
 class WizardAccountPeriodClosing(models.TransientModel):
-    _name = "account.period.closing.wizard"
+    _name = "l10n.ro.account.period.closing.wizard"
     _description = "Wizard for Account Period Closing"
 
     def _get_default_date_from(self):
@@ -20,7 +20,10 @@ class WizardAccountPeriodClosing(models.TransientModel):
         return today + relativedelta(day=1, days=-1)
 
     closing_id = fields.Many2one(
-        "account.period.closing", "Closing Model", required=True, ondelete="cascade"
+        "l10n.ro.account.period.closing",
+        "Closing Model",
+        required=True,
+        ondelete="cascade",
     )
     company_id = fields.Many2one(
         comodel_name="res.company", related="closing_id.company_id"

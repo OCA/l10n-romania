@@ -7,27 +7,30 @@
         <field name="inherit_id" ref="account.view_account_form" />
         <field name="arch" type="xml">
             <field position="after" name="deprecated">
-                <label for="close_check" />
-                <field name="close_check" />
+                <field name="is_l10n_ro_record" invisible="1" />
+                <field
+                    name="l10n_ro_close_check"
+                    attrs="{'invisible': [('is_l10n_ro_record', '=', False)]}"
+                />
             </field>
         </field>
     </record>
-        <record id="act_account_period_closing_wizard" model="ir.actions.act_window">
+    <record id="act_account_period_closing_wizard" model="ir.actions.act_window">
         <field name="name">Close Period</field>
         <field name="view_mode">form,tree</field>
-        <field name="res_model">account.period.closing.wizard</field>
+        <field name="res_model">l10n.ro.account.period.closing.wizard</field>
         <field name="context">
             {'search_default_closing_id':[active_id], 'default_closing_id': active_id}
         </field>
         <field
             name="binding_model_id"
-            ref="l10n_ro_account_period_close.model_account_period_closing"
+            ref="l10n_ro_account_period_close.model_l10n_ro_account_period_closing"
         />
         <field name="binding_view_types">Null</field>
     </record>
-    <record id="view_account_period_closing_tree" model="ir.ui.view">
-        <field name="name">account.period.closing.tree</field>
-        <field name="model">account.period.closing</field>
+    <record id="view_l10n_ro_account_period_closing_tree" model="ir.ui.view">
+        <field name="name">l10n.ro.account.period.closing.tree</field>
+        <field name="model">l10n.ro.account.period.closing</field>
         <field name="type">form</field>
         <field name="arch" type="xml">
             <tree>
@@ -38,9 +41,9 @@
             </tree>
         </field>
     </record>
-    <record id="view_account_period_closing_form" model="ir.ui.view">
-        <field name="name">account.period.closing.form</field>
-        <field name="model">account.period.closing</field>
+    <record id="view_l10n_ro_account_period_closing_form" model="ir.ui.view">
+        <field name="name">l10n.ro.account.period.closing.form</field>
+        <field name="model">l10n.ro.account.period.closing</field>
         <field name="type">form</field>
         <field name="arch" type="xml">
             <form string="Closing">
@@ -83,7 +86,7 @@
                                 options="{'no_create': True}"
                             />
                         </group>
-                        <field colspan="4" name="account_ids" />
+                        <field colspan="4" name="account_ids" widget="many2many_tags" />
                     </page>
                     <page string="Moves">
                         <field name="move_ids" />
@@ -94,12 +97,13 @@
     </record>
     <record id="action_account_period_closing" model="ir.actions.act_window">
         <field name="name">Account Period Closing</field>
-        <field name="res_model">account.period.closing</field>
+        <field name="res_model">l10n.ro.account.period.closing</field>
         <field name="view_mode">tree,form</field>
     </record>
-    <menuitem
-        action="action_account_period_closing"
-        id="menu_action_account_period_closing"
-        parent="account.menu_finance_entries_actions"
-    />
+    <record id="menu_action_account_period_closing" model="ir.ui.menu">
+        <field name="name">Account Period Closing</field>
+        <field name="action" ref="action_account_period_closing" />
+        <field name="parent_id" ref="account.menu_finance_entries_actions" />
+        <field name="is_l10n_ro_record" eval="True" />
+    </record>
 </odoo>

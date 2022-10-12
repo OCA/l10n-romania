@@ -6,7 +6,7 @@ from odoo import api, fields, models
 
 
 class AccountPeriodClosing(models.Model):
-    _name = "account.period.closing"
+    _name = "l10n.ro.account.period.closing"
     _description = "Account Period Closing"
 
     name = fields.Char(required=True)
@@ -36,7 +36,10 @@ class AccountPeriodClosing(models.Model):
         domain="[('company_id', '=', company_id)]",
     )
     move_ids = fields.One2many(
-        "account.move", "close_id", "Closing Moves", domain=[("state", "!=", "cancel")]
+        "account.move",
+        "l10n_ro_close_id",
+        "Closing Moves",
+        domain=[("state", "!=", "cancel")],
     )
 
     @api.onchange("company_id", "type")
@@ -169,7 +172,7 @@ class AccountPeriodClosing(models.Model):
                 {
                     "date": date_to,
                     "journal_id": journal_id,
-                    "close_id": closing.id,
+                    "l10n_ro_close_id": closing.id,
                     "company_id": closing.company_id.id,
                     "l10n_ro_closing_move": True,
                 }
@@ -179,7 +182,7 @@ class AccountPeriodClosing(models.Model):
             for account in account_res:
                 if account["balance"] != 0.0:
                     balance = account["balance"]
-                    check = account_obj.browse(account["id"]).close_check
+                    check = account_obj.browse(account["id"]).l10n_ro_close_check
                     if closing.type == "expense" and not check:
                         val = {
                             "name": "Closing " + closing.name,
