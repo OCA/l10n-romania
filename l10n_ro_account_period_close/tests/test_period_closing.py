@@ -18,8 +18,8 @@ class TestPeriodClosing(AccountTestInvoicingCommon):
         if not chart_template_ref:
             chart_template_ref = "l10n_ro.ro_chart_template"
         super().setUpClass(chart_template_ref=chart_template_ref)
-        cls.per_close_model = cls.env["account.period.closing"]
-        cls.wiz_close_model = cls.env["account.period.closing.wizard"]
+        cls.per_close_model = cls.env["l10n.ro.account.period.closing"]
+        cls.wiz_close_model = cls.env["l10n.ro.account.period.closing.wizard"]
         cls.company = company = cls.env.company
 
         default_account_revenue = cls.company_data["default_account_revenue"]
@@ -311,36 +311,6 @@ class TestPeriodClosing(AccountTestInvoicingCommon):
         self.assertEqual(len(self.exp_closing.move_ids), 1)
         self.inc_closing.close(date_from=date_from, date_to=date_to)
         self.assertEqual(len(self.exp_closing.move_ids), 1)
-
-    def test_period_closing_wizard_date_range(self):
-        self.exp_closing._onchange_type()
-        self.inc_closing._onchange_type()
-        date_range = self.env["date.range"]
-        self.type = self.env["date.range.type"].create(
-            {"name": "Month", "company_id": False, "allow_overlap": False}
-        )
-        dt = date_range.create(
-            {
-                "name": "FS2016",
-                "date_start": time.strftime("%Y-%m-01"),
-                "date_end": time.strftime("%Y-%m-28"),
-                "type_id": self.type.id,
-            }
-        )
-        wizard = self.wiz_close_model.create(
-            {
-                "closing_id": self.vat_closing.id,
-                "date_range_id": dt.id,
-                "date_from": time.strftime("%Y-%m-28"),
-                "date_to": time.strftime("%Y-%m-01"),
-            }
-        )
-        wizard.onchange_date_range_id()
-        self.assertEqual(
-            wizard.date_from.strftime("%Y-%m-%d"), time.strftime("%Y-%m-01")
-        )
-        self.assertEqual(wizard.date_to.strftime("%Y-%m-%d"), time.strftime("%Y-%m-28"))
-        wizard.do_close()
 
     def test_period_closing_wizard_defaults(self):
         today = fields.Date.from_string(fields.Date.today())
