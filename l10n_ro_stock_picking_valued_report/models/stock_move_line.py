@@ -76,7 +76,7 @@ class StockMoveLine(models.Model):
                 svls = line.move_id.stock_valuation_layer_ids
                 price_unit = 0
                 if svls:
-                    if svls[0].valued_type == "internal_transfer":
+                    if svls[0].l10n_ro_valued_type == "internal_transfer":
                         svls = svls.filtered(lambda s: s.quantity > 0)
                     if svls[0].stock_move_id._is_in():
                         svls = svls.filtered(lambda s: not s.stock_landed_cost_id)
