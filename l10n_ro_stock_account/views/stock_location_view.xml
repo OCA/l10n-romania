@@ -15,18 +15,25 @@
                         name="valuation_out_account_id"
                         options="{'no_create': True}"
                     />
-                        <separator string="Only for Romania" />
-                        <field
-                        name="property_account_income_location_id"
-                        options="{'no_create': True}"
+                        <field name="is_l10n_ro_record" invisible="1" />
+                        <separator
+                        string="Only for Romania"
+                        attrs="{'invisible': [('is_l10n_ro_record', '=', False)]}"
                     />
                         <field
-                        name="property_account_expense_location_id"
+                        name="l10n_ro_property_account_income_location_id"
                         options="{'no_create': True}"
+                        attrs="{'invisible': [('is_l10n_ro_record', '=', False)]}"
                     />
                         <field
-                        name="property_stock_valuation_account_id"
+                        name="l10n_ro_property_account_expense_location_id"
                         options="{'no_create': True}"
+                        attrs="{'invisible': [('is_l10n_ro_record', '=', False)]}"
+                    />
+                        <field
+                        name="l10n_ro_property_stock_valuation_account_id"
+                        options="{'no_create': True}"
+                        attrs="{'invisible': [('is_l10n_ro_record', '=', False)]}"
                     />
                     </group>
                 </xpath>
