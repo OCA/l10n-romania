@@ -93,8 +93,8 @@
         id="l10n_ro_report_invoice_tax_groups_totals"
         inherit_id="account.tax_groups_totals"
     >
-        <t t-if="o.is_l10n_ro_record">
-            <xpath expr="//t/tr/t/td[1]" position="after">
+        <xpath expr="//t/tr/t/td[1]" position="after">
+            <t t-if="o.is_l10n_ro_record">
                 <td
                     class="text-right"
                     t-if="o and o.currency_id != o.company_id.currency_id"
@@ -104,8 +104,10 @@
                         t-options='{"widget": "monetary", "display_currency": o.company_currency_id}'
                     />
                 </td>
-            </xpath>
-            <xpath expr="//t/tr/t[@t-else='']/td[1]" position="after">
+            </t>
+        </xpath>
+        <xpath expr="//t/tr/t[@t-else='']/td[1]" position="after">
+            <t t-if="o.is_l10n_ro_record">
                 <td
                     class="text-right"
                     t-if="o and o.currency_id != o.company_id.currency_id"
@@ -120,9 +122,7 @@
                     </t>
                     <t t-else="" />
                 </td>
-            </xpath>
-        </t>
-
-
+            </t>
+        </xpath>
     </template>
 </odoo>
