@@ -5,11 +5,11 @@
 {
     "name": "Romania - Payment to Statement",
     "summary": "Add payment to cash statement",
-    "version": "15.0.1.1.0",
+    "version": "15.0.1.1.1",
     "author": "Terrabit," "Odoo Community Association (OCA)",
     "website": "https://github.com/OCA/l10n-romania",
     "category": "Accounting",
-    "depends": ["account"],
+    "depends": ["account", "l10n_ro_config"],
     "license": "AGPL-3",
     "data": [
         "security/ir.model.access.csv",
