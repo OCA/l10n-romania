@@ -102,7 +102,7 @@ class TestStockCommon(ValuationReconciliationTestCommon):
             "property_stock_account_output_categ_id": cls.account_valuation.id,
             "property_stock_valuation_account_id": cls.account_valuation.id,
             "property_stock_journal": stock_journal.id,
-            "stock_account_change": True,
+            "l10n_ro_stock_account_change": True,
         }
 
         cls.category = cls.env["product.category"].search(
@@ -226,7 +226,7 @@ class TestStockCommon(ValuationReconciliationTestCommon):
         location = picking_type_in.default_location_dest_id
 
         cls.location_warehouse = location.copy(
-            {"merchandise_type": "warehouse", "name": "TEST warehouse"}
+            {"l10n_ro_merchandise_type": "warehouse", "name": "TEST warehouse"}
         )
         cls.picking_type_in_warehouse = picking_type_in.copy(
             {
@@ -254,8 +254,8 @@ class TestStockCommon(ValuationReconciliationTestCommon):
     def set_warehouse_as_mp(self):
         self.location_warehouse.write(
             {
-                "property_stock_valuation_account_id": self.account_valuation_mp.id,
-                "property_account_expense_location_id": self.account_expense_mp.id,
+                "l10n_ro_property_stock_valuation_account_id": self.account_valuation_mp.id,
+                "l10n_ro_property_account_expense_location_id": self.account_expense_mp.id,
                 "valuation_in_account_id": self.account_valuation_mp.id,
                 "valuation_out_account_id": self.account_valuation_mp.id,
             }
@@ -306,7 +306,9 @@ class TestStockCommon(ValuationReconciliationTestCommon):
         self.po = po
         return po
 
-    def create_invoice(self, diff_p1=0, diff_p2=0, quant_p1=0, quant_p2=0):
+    def create_invoice(
+        self, diff_p1=0, diff_p2=0, quant_p1=0, quant_p2=0, auto_post=True
+    ):
         invoice = Form(
             self.env["account.move"].with_context(
                 default_move_type="in_invoice", default_invoice_date=fields.Date.today()
@@ -323,8 +325,12 @@ class TestStockCommon(ValuationReconciliationTestCommon):
             line_form.price_unit += diff_p2
 
         invoice = invoice.save()
-
-        invoice.action_post()
+        if invoice.amount_total < 0:
+            invoice.action_switch_invoice_into_refund_credit_note()
+        if quant_p1 or quant_p2 or diff_p1 or diff_p2:
+            invoice = invoice.with_context(l10n_ro_approved_price_difference=True)
+        if auto_post:
+            invoice.action_post()
 
         self.invoice = invoice
         _logger.info("Factura introdusa")
@@ -460,6 +466,7 @@ class TestStockCommon(ValuationReconciliationTestCommon):
         domain = [
             ("product_id", "in", [self.product_1.id, self.product_2.id]),
             ("account_id", "=", account.id),
+            ("parent_state", "=", "posted"),
         ]
         account_valuations = self.env["account.move.line"].read_group(
             domain, ["debit:sum", "credit:sum", "quantity:sum"], ["product_id"]
