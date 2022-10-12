@@ -519,7 +519,7 @@ class TestNondeductibleCommon(ValuationReconciliationTestCommon):
         self.create_invoice_notdeductible(fiscal_position=fiscal_position)
 
     def make_consume(self):
-        consume_type = self.warehouse.consume_type_id
+        consume_type = self.warehouse.l10n_ro_consume_type_id
         stock_picking_form = Form(self.env["stock.picking"])
         stock_picking_form.picking_type_id = consume_type
         with stock_picking_form.move_ids_without_package.new() as line:
