@@ -7,6 +7,7 @@ from odoo import api, fields, models
 class Currency(models.Model):
     _inherit = "res.currency"
 
+    # pylint: disable=W0622
     def _convert(self, from_amount, to_currency, company, date, round=True):
         if self._context.get("l10n_ro_force_currency_rate"):
             self, to_currency = self or to_currency, to_currency or self
@@ -27,7 +28,9 @@ class Currency(models.Model):
 class AccountMove(models.Model):
     _inherit = "account.move"
 
-    currency_rate = fields.Float(readonly=False)
+    l10n_ro_currency_rate = fields.Float(
+        string="Romania - Currency Rate", readonly=False
+    )
 
     def _update_context_with_currency_rate(self, context_record=None):
         if context_record is None:
@@ -39,15 +42,15 @@ class AccountMove(models.Model):
                 self.company_id or self.env.company,
                 self.invoice_date or fields.Date.today(),
             )
-            if self.currency_rate != default_currency_rate:
+            if self.l10n_ro_currency_rate != default_currency_rate:
                 return context_record.with_context(
-                    l10n_ro_force_currency_rate=self.currency_rate
+                    l10n_ro_force_currency_rate=self.l10n_ro_currency_rate
                 )
         return context_record
 
-    @api.onchange("currency_rate")
-    def onchange_currency_rate(self):
-        self = self.with_context(l10n_ro_force_currency_rate=self.currency_rate)
+    @api.onchange("l10n_ro_currency_rate")
+    def onchange_l10n_ro_currency_rate(self):
+        self = self.with_context(l10n_ro_force_currency_rate=self.l10n_ro_currency_rate)
         self.line_ids._onchange_amount_currency()
 
     def _recompute_dynamic_lines(
