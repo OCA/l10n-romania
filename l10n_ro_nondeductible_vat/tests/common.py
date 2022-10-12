@@ -407,7 +407,7 @@ class TestNondeductibleCommon(ValuationReconciliationTestCommon):
             "property_stock_account_output_categ_id": cls.account_valuation.id,
             "property_stock_valuation_account_id": cls.account_valuation.id,
             "property_stock_journal": stock_journal.id,
-            "stock_account_change": True,
+            "l10n_ro_stock_account_change": True,
         }
 
         cls.category = cls.env["product.category"].search(
@@ -437,6 +437,8 @@ class TestNondeductibleCommon(ValuationReconciliationTestCommon):
             cls.vendor = cls.env["res.partner"].create({"name": "TEST Vendor"})
 
         cls.warehouse = cls.company_data["default_warehouse"]
+        cls.warehouse.reception_steps = "two_steps"
+        cls.warehouse.reception_steps = "one_step"
 
     def create_po(self, picking_type_in=None):
 
