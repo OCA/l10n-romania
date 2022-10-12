@@ -226,7 +226,7 @@ class TestStockCommon(ValuationReconciliationTestCommon):
         location = picking_type_in.default_location_dest_id
 
         cls.location_warehouse = location.copy(
-            {"merchandise_type": "warehouse", "name": "TEST warehouse"}
+            {"l10n_ro_merchandise_type": "warehouse", "name": "TEST warehouse"}
         )
         cls.picking_type_in_warehouse = picking_type_in.copy(
             {
