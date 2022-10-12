@@ -8,6 +8,8 @@ from odoo.tests.common import Form, TransactionCase
 class TestRoCity(TransactionCase):
     def setUp(self):
         super(TestRoCity, self).setUp()
+        self.env.company.anglo_saxon_accounting = True
+        self.env.company.l10n_ro_accounting = True
         self.city_1 = self.env.ref("l10n_ro_city.RO_22585")
         self.city_2 = self.env.ref("l10n_ro_city.RO_21588")
         self.city_3 = self.env.ref("l10n_ro_city.RO_6734")
