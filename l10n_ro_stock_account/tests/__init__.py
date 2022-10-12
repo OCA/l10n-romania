@@ -8,3 +8,4 @@ from . import test_sale
 from . import test_inventory
 
 from . import test_consum
+from . import test_reception_return_not_fifo

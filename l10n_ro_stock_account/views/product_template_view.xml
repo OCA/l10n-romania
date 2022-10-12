@@ -6,10 +6,11 @@
         <field name="inherit_id" ref="account.product_template_form_view" />
         <field name="arch" type="xml">
             <field name="property_account_expense_id" position="after">
+                <field name="is_l10n_ro_record" invisible="1" />
                 <field
-                    name="property_stock_valuation_account_id"
+                    name="l10n_ro_property_stock_valuation_account_id"
                     domain="[('deprecated','=',False)]"
-                    attrs="{'readonly':[('purchase_ok', '=', 0)]}"
+                    attrs="{'readonly':[('purchase_ok', '=', 0)], 'invisible': [('is_l10n_ro_record', '=', False)]}"
                     groups="account.group_account_readonly"
                 />
             </field>
