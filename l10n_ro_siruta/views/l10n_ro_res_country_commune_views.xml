@@ -18,7 +18,7 @@
         <field name="name">l10n.ro.res.country.commune.tree</field>
         <field name="model">l10n.ro.res.country.commune</field>
         <field name="arch" type="xml">
-            <tree string="Communes">
+            <tree>
                 <field name="name" />
                 <field name="siruta" />
                 <field name="state_id" />
