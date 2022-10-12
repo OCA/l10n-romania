@@ -331,7 +331,7 @@ class StockMove(models.Model):
                 self = self.with_context(
                     valued_type=svl.l10n_ro_valued_type, is_l10n_ro_accounting=True
                 )
-        if self.company_id.l10n_ro_accounting and svl.valued_type in (
+        if self.company_id.l10n_ro_accounting and svl.l10n_ro_valued_type in (
             "reception",
             "reception_return",
         ):
@@ -351,23 +351,8 @@ class StockMove(models.Model):
         location_to = self.location_dest_id
         svl = self.env["stock.valuation.layer"]
         account_move_obj = self.env["account.move"]
-        if self._is_usage_giving() or self._is_consumption():
-            (
-                journal_id,
-                acc_src,
-                acc_dest,
-                acc_valuation,
-            ) = self._get_accounting_data_for_valuation()
-            acc_valuation_rec = self.env["account.account"].browse(acc_valuation)
-            if acc_valuation_rec and acc_valuation_rec.l10n_ro_stock_consume_account_id:
-                acc_valuation = acc_valuation_rec.l10n_ro_stock_consume_account_id.id
-            if acc_src != acc_valuation:
-                account_move_obj.create(
-                    self._prepare_account_move_vals(
-                        acc_valuation, acc_src, journal_id, qty, description, svl, cost
-                    )
-                )
-            if self._is_usage_giving_return() or self._is_consumption_return():
+        if self._is_consumption() or self._is_consumption_return():
+            if self._is_consumption():
                 (
                     journal_id,
                     acc_src,
@@ -382,12 +367,47 @@ class StockMove(models.Model):
                     acc_valuation = (
                         acc_valuation_rec.l10n_ro_stock_consume_account_id.id
                     )
-            if acc_dest != acc_valuation:
-                account_move_obj.create(
-                    self._prepare_account_move_vals(
-                        acc_dest, acc_valuation, journal_id, qty, description, svl, cost
+                if acc_src and acc_valuation and acc_src != acc_valuation:
+                    move = self.with_context(valued_type="consume_switch_accounts")
+                    account_move_obj.create(
+                        move._prepare_account_move_vals(
+                            acc_valuation,
+                            acc_src,
+                            journal_id,
+                            qty,
+                            description,
+                            svl,
+                            cost,
+                        )
                     )
-                )
+            if self._is_consumption_return():
+                (
+                    journal_id,
+                    acc_src,
+                    acc_dest,
+                    acc_valuation,
+                ) = self._get_accounting_data_for_valuation()
+                acc_valuation_rec = self.env["account.account"].browse(acc_valuation)
+                if (
+                    acc_valuation_rec
+                    and acc_valuation_rec.l10n_ro_stock_consume_account_id
+                ):
+                    acc_valuation = (
+                        acc_valuation_rec.l10n_ro_stock_consume_account_id.id
+                    )
+                if acc_dest and acc_valuation and acc_dest != acc_valuation:
+                    move = self.with_context(valued_type="consume_switch_accounts")
+                    account_move_obj.create(
+                        move._prepare_account_move_vals(
+                            acc_dest,
+                            acc_valuation,
+                            journal_id,
+                            qty,
+                            description,
+                            svl,
+                            cost,
+                        )
+                    )
         if self._is_usage_giving() or self._is_usage_giving_return():
             # inregistrare dare in folosinta 8035
             move = self.with_context(valued_type="usage_giving_secondary")
@@ -455,7 +475,7 @@ class StockMove(models.Model):
             and not self._is_usage_giving_return()
         ):
             return []
-        return super(StockMove, self)._create_account_move_line(
+        return super(StockMove, self)._prepare_account_move_vals(
             credit_account_id,
             debit_account_id,
             journal_id,
