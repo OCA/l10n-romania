@@ -7,12 +7,18 @@
         <field name="inherit_id" ref="account.view_move_form" />
         <field name="arch" type="xml">
             <field name="currency_id" position="after">
-                <field name="currency_rate" digits="[16, 4]" />
+                <field name="is_l10n_ro_record" invisible="1" />
+                <field
+                    name="l10n_ro_currency_rate"
+                    digits="[16, 4]"
+                    attrs="{'invisible': [('is_l10n_ro_record','=',False)]}"
+                />
             </field>
             <group name="accounting_info_group" position="after">
                 <group
                     string="Amounts in company currency"
                     groups="base.group_multi_currency"
+                    attrs="{'invisible': [('is_l10n_ro_record','=',False)]}"
                 >
                     <field name="amount_untaxed_signed" string="Tax Excluded" />
                     <field name="amount_tax_signed" string="Tax" />
