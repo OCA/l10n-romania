@@ -87,8 +87,8 @@ class TestStockConsumn(TestStockCommon):
         _logger.info("Start Consum in productie din locatie cu alta evaluare")
         location_id = self.picking_type_transfer.default_location_src_id.copy(
             {
-                "property_stock_valuation_account_id": self.account_valuation_mp.id,
-                "property_account_expense_location_id": self.account_expense_mp.id,
+                "l10n_ro_property_stock_valuation_account_id": self.account_valuation_mp.id,
+                "l10n_ro_property_account_expense_location_id": self.account_expense_mp.id,
             }
         )
 
