@@ -63,8 +63,8 @@ class AccountEdiXmlCIUSRO(models.Model):
         is_required = invoice.commercial_partner_id.l10n_ro_e_invoice
         if not is_required:
             # Check if it contains high risk products
-            invoice_nc_codes = invoice.invoice_line_ids.mapped(
-                "product_id.l10n_ro_nc_code"
+            invoice_nc_codes = list(
+                set(invoice.invoice_line_ids.mapped("product_id.l10n_ro_nc_code"))
             )
             high_risk_nc_codes = invoice.get_l10n_ro_high_risk_nc_codes()
             if invoice_nc_codes and invoice_nc_codes != [False]:
