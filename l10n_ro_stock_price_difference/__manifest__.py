@@ -15,5 +15,6 @@
     ],
     "installable": True,
     "auto_install": True,
+    "development_status": "Mature",
     "maintainers": ["feketemihai", "mcojocaru", "dhongu"],
 }

@@ -6,13 +6,13 @@ import logging
 
 from odoo.tests import tagged
 
-from .common import TestStockCommon
+from .common import TestStockCommonPriceDiff
 
 _logger = logging.getLogger(__name__)
 
 
 @tagged("post_install", "-at_install")
-class TestStockSale(TestStockCommon):
+class TestStockSale(TestStockCommonPriceDiff):
     def test_sale_and_invoice_price_difference(self):
         """
                 Receptie produse in baza facturii cu inregistrare diferente dintre

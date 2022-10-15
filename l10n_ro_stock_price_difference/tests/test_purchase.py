@@ -3,11 +3,11 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 from odoo.tests import tagged
 
-from .common import TestStockCommon
+from .common import TestStockCommonPriceDiff
 
 
 @tagged("post_install", "-at_install")
-class TestStockPurchase(TestStockCommon):
+class TestStockPurchase(TestStockCommonPriceDiff):
     def test_nir_with_invoice_and_diff(self):
         """
         Receptie produse in baza facturii cu inregistrare diferente dintre
@@ -45,7 +45,7 @@ class TestStockPurchase(TestStockCommon):
          De fortat sa foloseasca contul de stoc la diferente de pret
 
         """
-        self.create_po(vals={"notice": True})
+        self.create_po(vals={"l10n_ro_notice": True})
 
         # in stoc produsele sunt la valoarea de achizitie
         self.check_stock_valuation(self.val_p1_i, self.val_p2_i)
@@ -76,7 +76,7 @@ class TestStockPurchase(TestStockCommon):
         dintre comanda de achizitie si factura
 
         """
-        self.create_po(vals={"notice": True})
+        self.create_po(vals={"l10n_ro_notice": True})
 
         # in stoc produsele sunt la valoarea de achizitie
         self.check_stock_valuation(self.val_p1_i, self.val_p2_i)
