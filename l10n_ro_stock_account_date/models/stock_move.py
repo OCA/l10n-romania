@@ -15,8 +15,8 @@ class StockMove(models.Model):
             if self.picking_id:
                 if self.picking_id.l10n_ro_accounting_date:
                     new_date = self.picking_id.l10n_ro_accounting_date
-            elif self.inventory_id:
-                new_date = self.inventory_id.accounting_date
+            elif self.is_inventory:
+                new_date = self.date
             elif "raw_material_production_id" in self._fields:
                 if self.raw_material_production_id:
                     new_date = self.raw_material_production_id.date_planned_start
