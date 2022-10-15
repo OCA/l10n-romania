@@ -2,7 +2,6 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html)
 
 import logging
-import time
 
 from odoo.exceptions import UserError
 from odoo.tests import Form
@@ -115,19 +114,6 @@ class TestStockReport(TransactionCase):
             }
         )
 
-        date_range = self.env["date.range"]
-        self.type = self.env["date.range.type"].create(
-            {"name": "Month", "company_id": False, "allow_overlap": False}
-        )
-        self.dt = date_range.create(
-            {
-                "name": "FS2016",
-                "date_start": time.strftime("%Y-%m-01"),
-                "date_end": time.strftime("%Y-%m-28"),
-                "type_id": self.type.id,
-            }
-        )
-
     def create_po(self, picking_type_in=None):
         po = Form(self.env["purchase.order"])
         po.partner_id = self.vendor
@@ -172,12 +158,12 @@ class TestStockReport(TransactionCase):
         self.create_po()
         self.create_invoice()
 
-        wizard = Form(self.env["stock.storage.sheet"])
+        wizard = Form(self.env["l10n.ro.stock.storage.sheet"])
         wizard.location_id = self.location
         wizard = wizard.save()
 
         wizard.button_show_sheet_pdf()
-        line = self.env["stock.storage.sheet.line"].search(
+        line = self.env["l10n.ro.stock.storage.sheet.line"].search(
             [("report_id", "=", wizard.id)], limit=1
         )
         self.assertTrue(line)
@@ -196,7 +182,7 @@ class TestStockReport(TransactionCase):
                 ]
             )
         )
-        wizard = Form(self.env["stock.storage.sheet"])
+        wizard = Form(self.env["l10n.ro.stock.storage.sheet"])
         wizard.location_id = self.location
         wizard.products_with_move = True
         wizard = wizard.save()
@@ -222,7 +208,7 @@ class TestStockReport(TransactionCase):
         exp_found_prod = wizard.get_found_products()
         self.assertEqual(exp_found_prod, prod_with_moves)
 
-        wizard_no_moves = Form(self.env["stock.storage.sheet"])
+        wizard_no_moves = Form(self.env["l10n.ro.stock.storage.sheet"])
         wizard_no_moves.location_id = self.location
         wizard_no_moves.products_with_move = False
         wizard_no_moves = wizard_no_moves.save()
@@ -230,7 +216,7 @@ class TestStockReport(TransactionCase):
         self.assertEqual(exp_found_prod, products)
 
         exp_product = products[1]  # index 0 is archived
-        wizard_product = Form(self.env["stock.storage.sheet"])
+        wizard_product = Form(self.env["l10n.ro.stock.storage.sheet"])
         wizard_product.location_id = self.location
         wizard_product.products_with_move = False
         wizard_product = wizard_product.save()
@@ -239,7 +225,7 @@ class TestStockReport(TransactionCase):
         self.assertEqual(exp_found_prod, exp_product)
 
         exp_product = [products - prod_with_moves][0]
-        wizard_product = Form(self.env["stock.storage.sheet"])
+        wizard_product = Form(self.env["l10n.ro.stock.storage.sheet"])
         wizard_product.location_id = self.location
         wizard_product = wizard_product.save()
         wizard_product.product_ids = [(6, 0, exp_product.ids)]
@@ -250,13 +236,13 @@ class TestStockReport(TransactionCase):
         self.create_po()
         self.create_invoice()
 
-        wizard = Form(self.env["stock.storage.sheet"])
+        wizard = Form(self.env["l10n.ro.stock.storage.sheet"])
         wizard.location_id = self.location
         wizard.sublocation = True
         wizard = wizard.save()
 
         wizard.button_show_sheet_pdf()
-        line = self.env["stock.storage.sheet.line"].search(
+        line = self.env["l10n.ro.stock.storage.sheet.line"].search(
             [("report_id", "=", wizard.id), ("location_id", "=", self.location_2.id)],
             limit=1,
         )
@@ -291,12 +277,12 @@ class TestStockReport(TransactionCase):
         svl2.unit_cost = 0
         svl2.value = 20
 
-        wizard = Form(self.env["stock.storage.sheet"])
+        wizard = Form(self.env["l10n.ro.stock.storage.sheet"])
         wizard.location_id = self.location
         wizard = wizard.save()
 
         wizard.button_show_sheet_pdf()
-        line = self.env["stock.storage.sheet.line"].search(
+        line = self.env["l10n.ro.stock.storage.sheet.line"].search(
             [("report_id", "=", wizard.id), ("product_id", "=", self.product_1.id)]
         )
         self.assertEqual(sum(line.mapped("amount_initial")), 0)
