@@ -6,7 +6,11 @@
         <field name="arch" type="xml">
             <xpath expr="//footer" position="before">
                 <group>
-                    <field name="accounting_date" />
+                    <field name="is_l10n_ro_record" invisible="1" />
+                    <field
+                        name="l10n_ro_accounting_date"
+                        attrs="{'invisible': [('is_l10n_ro_record', '=', False)]}"
+                    />
                 </group>
             </xpath>
         </field>
