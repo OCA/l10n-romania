@@ -13,7 +13,7 @@ _logger = logging.getLogger(__name__)
 
 
 class StorageSheet(models.TransientModel):
-    _name = "stock.storage.sheet"
+    _name = "l10n.ro.stock.storage.sheet"
     _description = "StorageSheet"
 
     # Filters fields, used for data computation
@@ -34,7 +34,6 @@ class StorageSheet(models.TransientModel):
 
     products_with_move = fields.Boolean(default=True)
 
-    date_range_id = fields.Many2one("date.range", string="Date range")
     date_from = fields.Date("Start Date", required=True, default=fields.Date.today)
     date_to = fields.Date("End Date", required=True, default=fields.Date.today)
     company_id = fields.Many2one(
@@ -43,9 +42,9 @@ class StorageSheet(models.TransientModel):
 
     one_product = fields.Boolean("One product per page")
     line_product_ids = fields.One2many(
-        comodel_name="stock.storage.sheet.line", inverse_name="report_id"
+        comodel_name="l10n.ro.stock.storage.sheet.line", inverse_name="report_id"
     )
-    sublocation = fields.Boolean()
+    sublocation = fields.Boolean("Include Sublocations")
     location_ids = fields.Many2many(
         "stock.location", string="Only for locations", compute="_compute_location_ids"
     )
@@ -118,7 +117,7 @@ class StorageSheet(models.TransientModel):
 
         self.env["account.move.line"].check_access_rights("read")
 
-        lines = self.env["stock.storage.sheet.line"].search(
+        lines = self.env["l10n.ro.stock.storage.sheet.line"].search(
             [("report_id", "=", self.id)]
         )
         lines.unlink()
@@ -164,7 +163,8 @@ class StorageSheet(models.TransientModel):
                     (sm.location_id = %(location)s OR sm.location_dest_id = %(location)s)
                 left join stock_valuation_layer as svl on svl.stock_move_id = sm.id and
                         ((l10n_ro_valued_type !='internal_transfer' or
-                          l10n_ro_valued_type is Null) or
+                            l10n_ro_valued_type is Null
+                         ) or
                          (l10n_ro_valued_type ='internal_transfer' and quantity<0 and
                           sm.location_id = %(location)s) or
                          (l10n_ro_valued_type ='internal_transfer' and quantity>0 and
@@ -193,7 +193,8 @@ class StorageSheet(models.TransientModel):
                 from stock_move as sm
                 inner join  stock_valuation_layer as svl on svl.stock_move_id = sm.id and
                         ((l10n_ro_valued_type !='internal_transfer' or
-                          l10n_ro_valued_type is Null) or
+                          l10n_ro_valued_type is Null
+                         ) or
                          (l10n_ro_valued_type ='internal_transfer' and quantity<0 and
                           sm.location_id = %(location)s) or
                          (l10n_ro_valued_type ='internal_transfer' and quantity>0 and
@@ -277,7 +278,7 @@ class StorageSheet(models.TransientModel):
                     sm.date >= %(datetime_from)s  AND  sm.date <= %(datetime_to)s  AND
                     sm.location_id = %(location)s
                 GROUP BY sm.product_id, sm.date,
-                         sm.reference, sp.partner_id, l10n_ro_account_id,
+                         sm.reference, sp.partner_id, account_id,
                          svl_out.l10n_ro_invoice_id, am.name)
             a --where a.amount_out!=0 and a.quantity_out!=0
                 """
@@ -339,7 +340,7 @@ class StorageSheet(models.TransientModel):
         action["context"] = {
             "active_id": self.id,
             "general_buttons": self.env[
-                "stock.storage.sheet.line"
+                "l10n.ro.stock.storage.sheet.line"
             ].get_general_buttons(),
         }
         action["target"] = "main"
@@ -362,12 +363,12 @@ class StorageSheet(models.TransientModel):
 
 
 class StorageSheetLine(models.TransientModel):
-    _name = "stock.storage.sheet.line"
+    _name = "l10n.ro.stock.storage.sheet.line"
     _description = "StorageSheetLine"
     _order = "report_id, product_id, date_time"
     _rec_name = "product_id"
 
-    report_id = fields.Many2one("stock.storage.sheet", index=True)
+    report_id = fields.Many2one("l10n.ro.stock.storage.sheet", index=True)
     product_id = fields.Many2one("product.product", string="Product", index=True)
     amount_initial = fields.Monetary(
         currency_field="currency_id", string="Initial Amount"
