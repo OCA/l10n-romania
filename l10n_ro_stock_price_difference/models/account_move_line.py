@@ -11,21 +11,21 @@ _logger = logging.getLogger(__name__)
 
 
 class AccountMoveLine(models.Model):
-    _inherit = "account.move.line"
+    _name = "account.move.line"
+    _inherit = ["account.move.line", "l10n.ro.mixin"]
 
-    def get_stock_valuation_difference(self):
+    def l10n_ro_get_stock_valuation_difference(self):
         """Se obtine diferenta dintre evaloarea stocului si valoarea din factura"""
-        currency = self.currency_id or self.env.company.currency_id
+        line = self
         diff, qty_diff = 0.0, 0.0
         # Retrieve stock valuation moves.
-        if not self.purchase_line_id:
+        if not line.purchase_line_id:
             return diff, qty_diff
 
-        if self.purchase_line_id.product_id.purchase_method != "receive":
+        if line.purchase_line_id.product_id.purchase_method != "receive":
             return diff, qty_diff
 
         valuation_stock_moves = self._l10n_ro_get_valuation_stock_moves()
-
         if not valuation_stock_moves:
             return diff, qty_diff
 
@@ -46,32 +46,32 @@ class AccountMoveLine(models.Model):
             valuation_total += layers_values
             valuation_total_qty += layers_qty
 
-        precision = self.product_uom_id.rounding or self.product_id.uom_id.rounding
+        precision = line.product_uom_id.rounding or line.product_id.uom_id.rounding
         if float_is_zero(valuation_total_qty, precision_rounding=precision):
             return diff, qty_diff
 
         lines = self.search(
             [
-                ("purchase_line_id", "=", self.purchase_line_id.id),
+                ("purchase_line_id", "=", line.purchase_line_id.id),
                 ("move_id.state", "!=", "cancel"),
             ]
         )
         inv_qty = 0
         for line in lines:
-            quantity = line.product_uom_id._compute_quantity(
-                line.quantity, self.product_id.uom_id
-            )
-            inv_qty += (-1 if line.move_id.move_type == "in_refund" else 1) * quantity
+            inv_qty += (
+                -1 if line.move_id.move_type == "in_refund" else 1
+            ) * line.quantity
         if inv_qty * valuation_total_qty:
             accc_balance = sum(lines.mapped("balance")) / inv_qty * valuation_total_qty
         else:
             accc_balance = 0
         diff = abs(accc_balance) - valuation_total
+        currency = line.currency_id or self.env.company.currency_id
         diff = currency.round(diff)
         qty_diff = inv_qty - valuation_total_qty
         return diff, qty_diff
 
-    def modify_stock_valuation(self, price_val_dif):
+    def l10n_ro_modify_stock_valuation(self, price_val_dif):
         # se adauga la evaluarea miscarii de stoc
         if not self.purchase_line_id:
             return 0.0
@@ -88,7 +88,7 @@ class AccountMoveLine(models.Model):
         # trebuie cantitate din factura in unitatea produsului si apoi
         value = self.product_uom_id._compute_price(value, self.product_id.uom_id)
 
-        lc = self._create_price_difference_landed_cost(value)
+        lc = self._l10n_ro_create_price_difference_landed_cost(value)
         lc.compute_landed_cost()
         lc.with_context(
             l10n_ro_price_difference_move_ids=valuation_stock_move
@@ -108,8 +108,8 @@ class AccountMoveLine(models.Model):
             }
         )
 
-    def prepare_price_difference_landed_cost(self, value):
-        price_diff_product = self._get_or_create_price_difference_product()
+    def l10n_ro_prepare_price_difference_landed_cost(self, value):
+        price_diff_product = self._l10n_ro_get_or_create_price_difference_product()
         stock_journal_id = self.product_id.categ_id.property_stock_journal or False
         return dict(
             account_journal_id=stock_journal_id and stock_journal_id.id,
@@ -128,11 +128,11 @@ class AccountMoveLine(models.Model):
             ],
         )
 
-    def _create_price_difference_landed_cost(self, value):
-        vals = self.prepare_price_difference_landed_cost(value)
+    def _l10n_ro_create_price_difference_landed_cost(self, value):
+        vals = self.l10n_ro_prepare_price_difference_landed_cost(value)
         return self.env["stock.landed.cost"].sudo().create(vals)
 
-    def _get_or_create_price_difference_product(self):
+    def _l10n_ro_get_or_create_price_difference_product(self):
         price_diff_product = (
             self.company_id.l10n_ro_property_stock_price_difference_product_id
         )
