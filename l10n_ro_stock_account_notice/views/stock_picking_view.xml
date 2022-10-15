@@ -6,11 +6,17 @@
         <field name="inherit_id" ref="stock.view_picking_form" />
         <field name="arch" type="xml">
             <field name="backorder_id" position="after">
-                <field name="notice" />
+                <field name="is_l10n_ro_record" invisible="1" />
+                <field
+                    name="l10n_ro_notice"
+                    attrs="{'invisible': [('is_l10n_ro_record', '=', False)]}"
+                />
             </field>
             <!-- if is a notice/aviz to be mandatory the partner_id -->
             <field name="partner_id" position="attributes">
-                <attribute name="attrs">{'required':[('notice','=',True)]}</attribute>
+                <attribute
+                    name="attrs"
+                >{'required':[('l10n_ro_notice','=',True)]}</attribute>
             </field>
         </field>
     </record>
@@ -20,7 +26,12 @@
         <field name="inherit_id" ref="stock.vpicktree" />
         <field name="arch" type="xml">
             <field name="origin" position="before">
-                <field name="notice" optional="show" />
+                <field name="is_l10n_ro_record" invisible="1" />
+                <field
+                    name="l10n_ro_notice"
+                    optional="show"
+                    attrs="{'invisible': [('is_l10n_ro_record', '=', False)]}"
+                />
             </field>
         </field>
     </record>
@@ -30,10 +41,12 @@
         <field name="inherit_id" ref="stock.view_picking_internal_search" />
         <field name="arch" type="xml">
             <filter name="cancel" position="after">
+                <field name="is_l10n_ro_record" invisible="1" />
                 <filter
                     name="notice"
                     string="Is notice"
-                    domain="[('notice', '=', True)]"
+                    domain="[('l10n_ro_notice', '=', True)]"
+                    attrs="{'invisible': [('is_l10n_ro_record', '=', False)]}"
                 />
             </filter>
         </field>
@@ -45,12 +58,20 @@
         <field name="inherit_id" ref="stock.stock_picking_kanban" />
         <field name="arch" type="xml">
             <field name="activity_state" position="after">
-                <field name="notice" />
+                <field name="is_l10n_ro_record" invisible="1" />
+                <field
+                    name="l10n_ro_notice"
+                    attrs="{'invisible': [('is_l10n_ro_record', '=', False)]}"
+                />
             </field>
             <xpath expr="//div[hasclass('o_kanban_record_bottom')]" position="before">
-                <div class="oe_kanban_content">
-                    <label for="notice">Is notice</label>
-                    <field name="notice" widget="boolean_toggle" />
+                <field name="is_l10n_ro_record" invisible="1" />
+                <div
+                    class="oe_kanban_content"
+                    attrs="{'invisible': [('is_l10n_ro_record', '=', False)]}"
+                >
+                    <label for="l10n_ro_notice">Is notice</label>
+                    <field name="l10n_ro_notice" widget="boolean_toggle" />
                 </div>
             </xpath>
         </field>

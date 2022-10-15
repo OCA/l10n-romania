@@ -27,7 +27,7 @@ class TestStockSale(TestStockCommon):
         self.check_stock_valuation(self.val_p1_i, self.val_p2_i)
         self.check_account_valuation(self.val_p1_i, self.val_p2_i)
 
-        self.create_so(vals={"notice": True})
+        self.create_so(vals={"l10n_ro_notice": True})
 
         # valoarea de stoc dupa vanzarea produselor
         val_stock_p1 = round(self.val_p1_i - self.val_stock_out_so_p1, 2)
@@ -64,7 +64,7 @@ class TestStockSale(TestStockCommon):
         self.make_puchase()
 
         # iesire din stoc prin vanzare
-        self.create_so(vals={"notice": True})
+        self.create_so(vals={"l10n_ro_notice": True})
         pick = self.so.picking_ids
 
         stock_return_picking_form = Form(
@@ -81,7 +81,7 @@ class TestStockSale(TestStockCommon):
 
         # Validate picking
         return_pick.move_line_ids.write({"qty_done": 2})
-        return_pick.notice = True
+        return_pick.l10n_ro_notice = True
         return_pick.button_validate()
 
         self.create_sale_invoice()
