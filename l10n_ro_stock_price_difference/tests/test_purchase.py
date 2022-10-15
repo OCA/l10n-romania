@@ -45,7 +45,7 @@ class TestStockPurchase(TestStockCommon):
          De fortat sa foloseasca contul de stoc la diferente de pret
 
         """
-        self.create_po(vals={"notice": True})
+        self.create_po(vals={"l10n_ro_notice": True})
 
         # in stoc produsele sunt la valoarea de achizitie
         self.check_stock_valuation(self.val_p1_i, self.val_p2_i)
@@ -76,7 +76,7 @@ class TestStockPurchase(TestStockCommon):
         dintre comanda de achizitie si factura
 
         """
-        self.create_po(vals={"notice": True})
+        self.create_po(vals={"l10n_ro_notice": True})
 
         # in stoc produsele sunt la valoarea de achizitie
         self.check_stock_valuation(self.val_p1_i, self.val_p2_i)
