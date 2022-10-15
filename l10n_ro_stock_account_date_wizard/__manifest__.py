@@ -14,5 +14,6 @@
         "wizard/stock_immediate_transfer_views.xml",
     ],
     "installable": True,
+    "development_status": "Mature",
     "maintainers": ["feketemihai"],
 }
