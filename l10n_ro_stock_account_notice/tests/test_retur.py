@@ -14,7 +14,7 @@ _logger = logging.getLogger(__name__)
 @tagged("post_install", "-at_install")
 class TestStockPurchaseReturn(TestStockCommon):
     def test_return_in_notice_picking(self):
-        self.create_po(vals={"notice": True})
+        self.create_po(vals={"l10n_ro_notice": True})
         _logger.info("Start generare retur")
         # Create return picking
         pick = self.po.picking_ids
@@ -33,5 +33,5 @@ class TestStockPurchaseReturn(TestStockCommon):
 
         # Validate picking
         return_pick.move_line_ids.write({"qty_done": 2})
-        return_pick.notice = True  # asta trebuia sa fie setat in mod automat
+        return_pick.l10n_ro_notice = True  # asta trebuia sa fie setat in mod automat
         return_pick.button_validate()

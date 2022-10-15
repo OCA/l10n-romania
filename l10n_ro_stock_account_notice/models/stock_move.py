@@ -11,11 +11,15 @@ _logger = logging.getLogger(__name__)
 
 
 class StockMove(models.Model):
-    _inherit = "stock.move"
+    _name = "stock.move"
+    _inherit = ["stock.move", "l10n.ro.mixin"]
 
     @api.model
     def _get_valued_types(self):
         valued_types = super(StockMove, self)._get_valued_types()
+        if not self.filtered("is_l10n_ro_record"):
+            return valued_types
+
         valued_types += [
             "reception_notice",  # receptie de la furnizor cu aviz
             "reception_notice_return",  # retur receptie de la furnizor cu aviz
@@ -26,21 +30,34 @@ class StockMove(models.Model):
 
     def _is_reception(self):
         """Este receptie in stoc fara aviz"""
-        it_is = super(StockMove, self)._is_reception() and not self.picking_id.notice
+        if not self.is_l10n_ro_record:
+            return super(StockMove, self)._is_reception()
+
+        it_is = (
+            super(StockMove, self)._is_reception()
+            and not self.picking_id.l10n_ro_notice
+        )
         return it_is
 
     def _is_reception_return(self):
         """Este un retur la o receptie in stoc fara aviz"""
+        if not self.is_l10n_ro_record:
+            return super(StockMove, self)._is_reception_return()
+
         it_is = (
-            super(StockMove, self)._is_reception_return() and not self.picking_id.notice
+            super(StockMove, self)._is_reception_return()
+            and not self.picking_id.l10n_ro_notice
         )
         return it_is
 
     def _is_reception_notice(self):
         """Este receptie in stoc cu aviz"""
+        if not self.is_l10n_ro_record:
+            return super(StockMove, self)._is_reception_return()
+
         it_is = (
             self.company_id.l10n_ro_accounting
-            and self.picking_id.notice
+            and self.picking_id.l10n_ro_notice
             and self.location_id.usage == "supplier"
             and self._is_in()
         )
@@ -52,9 +69,12 @@ class StockMove(models.Model):
 
     def _is_reception_notice_return(self):
         """Este un retur la receptie in stoc cu aviz"""
+        if not self.is_l10n_ro_record:
+            return False
+
         it_is = (
             self.company_id.l10n_ro_accounting
-            and self.picking_id.notice
+            and self.picking_id.l10n_ro_notice
             and self.location_dest_id.usage == "supplier"
             and self._is_out()
         )
@@ -80,20 +100,32 @@ class StockMove(models.Model):
 
     def _is_delivery(self):
         """Este livrare din stoc fara aviz"""
-        return super(StockMove, self)._is_delivery() and not self.picking_id.notice
+        if not self.is_l10n_ro_record:
+            return super(StockMove, self)._is_delivery()
+
+        return (
+            super(StockMove, self)._is_delivery() and not self.picking_id.l10n_ro_notice
+        )
 
     def _is_delivery_return(self):
         """Este retur la o livrare din stoc fara aviz"""
+        if not self.is_l10n_ro_record:
+            return super(StockMove, self)._is_delivery_return()
+
         it_is = (
-            super(StockMove, self)._is_delivery_return() and not self.picking_id.notice
+            super(StockMove, self)._is_delivery_return()
+            and not self.picking_id.l10n_ro_notice
         )
         return it_is
 
     def _is_delivery_notice(self):
         """Este livrare cu aviz"""
+        if not self.is_l10n_ro_record:
+            return False
+
         it_is = (
             self.company_id.l10n_ro_accounting
-            and self.picking_id.notice
+            and self.picking_id.l10n_ro_notice
             and self.location_dest_id.usage == "customer"
             and self._is_out()
         )
@@ -105,9 +137,12 @@ class StockMove(models.Model):
 
     def _is_delivery_notice_return(self):
         """Este retur livrare cu aviz"""
+        if not self.is_l10n_ro_record:
+            return False
+
         it_is = (
             self.company_id.l10n_ro_accounting
-            and self.picking_id.notice
+            and self.picking_id.l10n_ro_notice
             and self.location_id.usage == "customer"
             and self._is_in()
         )
@@ -123,7 +158,7 @@ class StockMove(models.Model):
         account_move_obj = self.env["account.move"]
         if self._is_delivery_notice():
             # inregistrare valoare vanzare
-            sale_cost = self._get_sale_amount()
+            sale_cost = self._l10n_ro_get_sale_amount()
             move = self.with_context(valued_type="invoice_out_notice")
 
             (
@@ -146,7 +181,7 @@ class StockMove(models.Model):
 
         if self._is_delivery_notice_return():
             # inregistrare valoare vanzare
-            sale_cost = -1 * self._get_sale_amount()
+            sale_cost = -1 * self._l10n_ro_get_sale_amount()
             move = self.with_context(valued_type="invoice_out_notice")
 
             (
@@ -168,7 +203,7 @@ class StockMove(models.Model):
             )
         return res
 
-    def _get_sale_amount(self):
+    def _l10n_ro_get_sale_amount(self):
         valuation_amount = 0
         sale_line = self.sale_line_id
         if sale_line and sale_line.product_uom_qty:
@@ -188,7 +223,7 @@ class StockMove(models.Model):
             StockMove, self
         )._get_accounting_data_for_valuation()
         if (
-            self.company_id.l10n_ro_accounting
+            self.is_l10n_ro_record
             and self.product_id.categ_id.l10n_ro_stock_account_change
         ):
             location_from = self.location_id
