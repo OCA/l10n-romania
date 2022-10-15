@@ -53,7 +53,7 @@ class TestStockReport(TestStockCommon):
             }
         )
         if accounting_date:
-            picking.accounting_date = accounting_date
+            picking.l10n_ro_accounting_date = accounting_date
         picking.action_confirm()
         picking.action_assign()
         for move_line in picking.move_lines:
@@ -102,10 +102,10 @@ class TestStockReport(TestStockCommon):
             {"l10n_ro_property_stock_valuation_account_id": self.account_valuation.id}
         )
         _logger.info("Start transfer")
-        picking = self.trasfer(location_id, location_dest_id, accounting_date=acc_date)
+        picking = self.transfer(location_id, location_dest_id, accounting_date=acc_date)
         stock_move = picking.move_lines
         _logger.info("Tranfer efectuat")
-        self.assertEqual(picking.accounting_date.date(), acc_date)
+        self.assertEqual(picking.l10n_ro_accounting_date.date(), acc_date)
         self.assertEqual(stock_move.date.date(), acc_date)
         self.assertEqual(stock_move.move_line_ids.date.date(), acc_date)
         self.assertEqual(
