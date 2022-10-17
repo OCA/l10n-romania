@@ -224,7 +224,11 @@ class StorageSheet(models.TransientModel):
                 from stock_move as sm
                     inner join stock_valuation_layer as svl_in
                             on svl_in.stock_move_id = sm.id and
-                        (sm.location_dest_id = %(location)s and svl_in.quantity>=0)
+                        ((sm.location_dest_id = %(location)s and
+                        svl_in.quantity>=0 and
+                        l10n_ro_valued_type != 'delivery_return') or
+                        (sm.location_id = %(location)s and
+                        (svl_in.quantity<=0 and l10n_ro_valued_type like 'reception_return')))
                     left join stock_picking as sp on sm.picking_id = sp.id
                     left join account_move am on svl_in.l10n_ro_invoice_id = am.id
                 where
@@ -232,7 +236,7 @@ class StorageSheet(models.TransientModel):
                     sm.company_id = %(company)s AND
                     ( %(all_products)s  or sm.product_id in %(product)s ) AND
                     sm.date >= %(datetime_from)s  AND  sm.date <= %(datetime_to)s  AND
-                    sm.location_dest_id = %(location)s
+                    (sm.location_dest_id = %(location)s or sm.location_id = %(location)s)
                 GROUP BY sm.product_id, sm.date,
                  sm.reference, sp.partner_id, account_id, svl_in.l10n_ro_invoice_id, am.name)
             a --where a.amount_in!=0 and a.quantity_in!=0
@@ -260,7 +264,11 @@ class StorageSheet(models.TransientModel):
 
                     inner join stock_valuation_layer as svl_out
                             on svl_out.stock_move_id = sm.id and
-                        (sm.location_id = %(location)s and svl_out.quantity<=0 )
+                        ((sm.location_id = %(location)s and
+                        svl_out.quantity<=0 and
+                        l10n_ro_valued_type != 'reception_return') or
+                        (sm.location_dest_id =  %(location)s and
+                        (svl_out.quantity>=0 and l10n_ro_valued_type like 'delivery_return')))
                     left join stock_picking as sp on sm.picking_id = sp.id
                     left join account_move am on svl_out.l10n_ro_invoice_id = am.id
                 where
@@ -268,7 +276,7 @@ class StorageSheet(models.TransientModel):
                     sm.company_id = %(company)s AND
                     ( %(all_products)s  or sm.product_id in %(product)s ) AND
                     sm.date >= %(datetime_from)s  AND  sm.date <= %(datetime_to)s  AND
-                    sm.location_id = %(location)s
+                    (sm.location_id = %(location)s or sm.location_dest_id = %(location)s)
                 GROUP BY sm.product_id, sm.date,
                          sm.reference, sp.partner_id, account_id,
                          svl_out.l10n_ro_invoice_id, am.name)
