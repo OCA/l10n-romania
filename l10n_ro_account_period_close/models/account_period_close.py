@@ -182,7 +182,7 @@ class AccountPeriodClosing(models.Model):
             line_values = []
             for account in account_res:
                 if account["balance"] != 0.0:
-                    balance = account["balance"]
+                    balance = move.currency_id.round(account["balance"])
                     check = account_obj.browse(account["id"]).l10n_ro_close_check
                     if closing.type == "expense" and not check:
                         val = {
