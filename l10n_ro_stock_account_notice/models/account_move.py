@@ -45,7 +45,7 @@ class AccountMove(models.Model):
                     self.line_ids.mapped("purchase_line_id").ids,
                 ),
                 ("state", "=", "done"),
-                ("picking_id.notice", "=", True),
+                ("picking_id.l10n_ro_notice", "=", True),
                 ("product_qty", "!=", 0.0),
             ]
         )
