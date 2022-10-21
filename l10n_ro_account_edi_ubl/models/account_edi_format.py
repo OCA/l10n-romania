@@ -69,7 +69,9 @@ class AccountEdiXmlCIUSRO(models.Model):
             high_risk_nc_codes = invoice.get_l10n_ro_high_risk_nc_codes()
             if invoice_nc_codes and invoice_nc_codes != [False]:
                 for hr_code in high_risk_nc_codes:
-                    if any(item.startswith(hr_code) for item in invoice_nc_codes):
+                    if any(
+                        item and item.startswith(hr_code) for item in invoice_nc_codes
+                    ):
                         is_required = True
                         break
         return is_required
