@@ -19,7 +19,7 @@
         "views/res_partner_view.xml",
     ],
     "license": "AGPL-3",
-    "version": "14.0.1.3.0",
+    "version": "14.0.1.4.0",
     "author": "Terrabit," "NextERP Romania," "Odoo Community Association (OCA)",
     "website": "https://github.com/OCA/l10n-romania",
     "installable": True,
