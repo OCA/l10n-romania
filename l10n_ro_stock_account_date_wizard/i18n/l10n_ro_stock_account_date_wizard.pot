@@ -14,19 +14,13 @@ msgstr ""
 "Plural-Forms: \n"
 
 #. module: l10n_ro_stock_account_date_wizard
-#: model:ir.model.fields,field_description:l10n_ro_stock_account_date_wizard.field_stock_backorder_confirmation__accounting_date
-#: model:ir.model.fields,field_description:l10n_ro_stock_account_date_wizard.field_stock_immediate_transfer__accounting_date
-msgid "Accounting Date"
-msgstr ""
-
-#. module: l10n_ro_stock_account_date_wizard
 #: model:ir.model,name:l10n_ro_stock_account_date_wizard.model_stock_backorder_confirmation
 msgid "Backorder Confirmation"
 msgstr ""
 
 #. module: l10n_ro_stock_account_date_wizard
-#: model:ir.model.fields,help:l10n_ro_stock_account_date_wizard.field_stock_backorder_confirmation__accounting_date
-#: model:ir.model.fields,help:l10n_ro_stock_account_date_wizard.field_stock_immediate_transfer__accounting_date
+#: model:ir.model.fields,help:l10n_ro_stock_account_date_wizard.field_stock_backorder_confirmation__l10n_ro_accounting_date
+#: model:ir.model.fields,help:l10n_ro_stock_account_date_wizard.field_stock_immediate_transfer__l10n_ro_accounting_date
 msgid ""
 "If this field is set, the svl and accounting entiries will have this date, "
 "If not will have the today date as it should be"
@@ -35,6 +29,18 @@ msgstr ""
 #. module: l10n_ro_stock_account_date_wizard
 #: model:ir.model,name:l10n_ro_stock_account_date_wizard.model_stock_immediate_transfer
 msgid "Immediate Transfer"
+msgstr ""
+
+#. module: l10n_ro_stock_account_date_wizard
+#: model:ir.model.fields,field_description:l10n_ro_stock_account_date_wizard.field_stock_backorder_confirmation__is_l10n_ro_record
+#: model:ir.model.fields,field_description:l10n_ro_stock_account_date_wizard.field_stock_immediate_transfer__is_l10n_ro_record
+msgid "Is Romanian Record"
+msgstr ""
+
+#. module: l10n_ro_stock_account_date_wizard
+#: model:ir.model.fields,field_description:l10n_ro_stock_account_date_wizard.field_stock_backorder_confirmation__l10n_ro_accounting_date
+#: model:ir.model.fields,field_description:l10n_ro_stock_account_date_wizard.field_stock_immediate_transfer__l10n_ro_accounting_date
+msgid "L10N Ro Accounting Date"
 msgstr ""
 
 #. module: l10n_ro_stock_account_date_wizard
