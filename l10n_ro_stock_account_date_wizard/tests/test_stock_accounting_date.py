@@ -25,7 +25,7 @@ class TestStockReport(TestStockCommon):
         )
         inventory._apply_inventory()
 
-    def trasfer(self, location, location_dest, product=None, accounting_date=False):
+    def transfer(self, location, location_dest, product=None, accounting_date=False):
         self.PickingObj = self.env["stock.picking"]
         self.MoveObj = self.env["stock.move"]
         self.MoveObj = self.env["stock.move"]
@@ -68,7 +68,7 @@ class TestStockReport(TestStockCommon):
             {"l10n_ro_property_stock_valuation_account_id": self.account_valuation.id}
         )
         _logger.info("Start transfer")
-        picking = self.trasfer(location_id, location_dest_id)
+        picking = self.transfer(location_id, location_dest_id)
         picking.move_lines[0].move_line_ids[0].qty_done = 2
         action_data = picking.button_validate()
         backorder_wizard = Form(
@@ -97,7 +97,7 @@ class TestStockReport(TestStockCommon):
             {"l10n_ro_property_stock_valuation_account_id": self.account_valuation.id}
         )
         _logger.info("Start transfer")
-        picking = self.trasfer(location_id, location_dest_id)
+        picking = self.transfer(location_id, location_dest_id)
         picking.move_lines[0].move_line_ids[0].qty_done = 2
         action_data = picking.button_validate()
         backorder_wizard = Form(
