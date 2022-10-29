@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <!--City-->
+    <record model="ir.ui.view" id="view_city_search">
+        <field name="name">l10n.ro.res.city.search</field>
+        <field name="model">res.city</field>
+        <field name="inherit_id" ref="base_address_city.view_city_filter" />
+        <field name="arch" type="xml">
+            <field name="country_id" position="before">
+                <field name="l10n_ro_siruta" />
+                <field name="l10n_ro_commune_id" />
+                <field name="state_id" />
+                <field name="l10n_ro_zone_id" />
+            </field>
+        </field>
+    </record>
+    <record model="ir.ui.view" id="view_city_tree">
+        <field name="name">l10n.ro.res.city.tree</field>
+        <field name="model">res.city</field>
+        <field name="inherit_id" ref="l10n_ro_city.view_city_tree" />
+        <field name="arch" type="xml">
+            <field name="l10n_ro_siruta" position="after">
+                <field name="is_l10n_ro_record" invisible="1" />
+                <field
+                    name="l10n_ro_commune_id"
+                    attrs="{'invisible': [('is_l10n_ro_record','=',False)]}"
+                />
+                <field
+                    name="l10n_ro_zone_id"
+                    attrs="{'invisible': [('is_l10n_ro_record','=',False)]}"
+                />
+            </field>
+            <field name="l10n_ro_municipality" invisible="1" />
+        </field>
+    </record>
+    <record model="ir.ui.view" id="view_city_form">
+        <field name="name">l10n.ro.res.city.form</field>
+        <field name="model">res.city</field>
+        <field name="arch" type="xml">
+            <form string="City">
+                <div class="oe_title">
+                    <field name="is_l10n_ro_record" invisible="1" />
+                    <div class="oe_edit_only">
+                        <label for="name" />
+                    </div>
+                    <h1>
+                        <field name="name" default_focus="1" placeholder="Name" />
+                    </h1>
+                </div>
+                <group>
+                    <group>
+                        <field
+                            name="l10n_ro_siruta"
+                            attrs="{'invisible': [('is_l10n_ro_record','=',False)]}"
+                        />
+                        <field
+                            name="l10n_ro_commune_id"
+                            attrs="{'invisible': [('is_l10n_ro_record','=',False)]}"
+                        />
+                        <field name="state_id" />
+                        <field
+                            name="l10n_ro_zone_id"
+                            attrs="{'invisible': [('is_l10n_ro_record','=',False)]}"
+                        />
+                        <field name="country_id" />
+                    </group>
+                    <group>
+
+                    </group>
+                </group>
+            </form>
+        </field>
+    </record>
+</odoo>
