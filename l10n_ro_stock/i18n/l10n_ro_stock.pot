@@ -34,18 +34,14 @@ msgid "Consume"
 msgstr ""
 
 #. module: l10n_ro_stock
-#: model:ir.model.fields,field_description:l10n_ro_stock.field_stock_warehouse__wh_consume_loc_id
-msgid "Consume Location"
-msgstr ""
-
-#. module: l10n_ro_stock
-#: model:ir.model.fields,field_description:l10n_ro_stock.field_stock_warehouse__consume_type_id
-msgid "Consume Type"
-msgstr ""
-
-#. module: l10n_ro_stock
 #: model:ir.model,name:l10n_ro_stock.model_stock_location
 msgid "Inventory Locations"
+msgstr ""
+
+#. module: l10n_ro_stock
+#: model:ir.model.fields,field_description:l10n_ro_stock.field_stock_location__is_l10n_ro_record
+#: model:ir.model.fields,field_description:l10n_ro_stock.field_stock_warehouse__is_l10n_ro_record
+msgid "Is Romanian Record"
 msgstr ""
 
 #. module: l10n_ro_stock
@@ -54,8 +50,28 @@ msgid "Location Type"
 msgstr ""
 
 #. module: l10n_ro_stock
-#: model:ir.model.fields,field_description:l10n_ro_stock.field_stock_location__merchandise_type
-msgid "Merchandise Type"
+#: model:ir.model.fields,field_description:l10n_ro_stock.field_stock_warehouse__l10n_ro_wh_consume_loc_id
+msgid "Romania - Consume Location"
+msgstr ""
+
+#. module: l10n_ro_stock
+#: model:ir.model.fields,field_description:l10n_ro_stock.field_stock_warehouse__l10n_ro_consume_type_id
+msgid "Romania - Consume Type"
+msgstr ""
+
+#. module: l10n_ro_stock
+#: model:ir.model.fields,field_description:l10n_ro_stock.field_stock_location__l10n_ro_merchandise_type
+msgid "Romania - Merchandise type"
+msgstr ""
+
+#. module: l10n_ro_stock
+#: model:ir.model.fields,field_description:l10n_ro_stock.field_stock_warehouse__l10n_ro_wh_usage_loc_id
+msgid "Romania - Usage Giving Location"
+msgstr ""
+
+#. module: l10n_ro_stock
+#: model:ir.model.fields,field_description:l10n_ro_stock.field_stock_warehouse__l10n_ro_usage_type_id
+msgid "Romania - Usage Giving Type"
 msgstr ""
 
 #. module: l10n_ro_stock
@@ -72,7 +88,7 @@ msgstr ""
 
 #. module: l10n_ro_stock
 #: code:addons/l10n_ro_stock/models/stock_location.py:0
-#: model:ir.model.fields.selection,name:l10n_ro_stock.selection__stock_location__merchandise_type__store
+#: model:ir.model.fields.selection,name:l10n_ro_stock.selection__stock_location__l10n_ro_merchandise_type__store
 #, python-format
 msgid "Store"
 msgstr ""
@@ -91,19 +107,9 @@ msgid "Usage Giving"
 msgstr ""
 
 #. module: l10n_ro_stock
-#: model:ir.model.fields,field_description:l10n_ro_stock.field_stock_warehouse__wh_usage_loc_id
-msgid "Usage Giving Location"
-msgstr ""
-
-#. module: l10n_ro_stock
-#: model:ir.model.fields,field_description:l10n_ro_stock.field_stock_warehouse__usage_type_id
-msgid "Usage Giving Type"
-msgstr ""
-
-#. module: l10n_ro_stock
 #: code:addons/l10n_ro_stock/models/stock_location.py:0
 #: model:ir.model,name:l10n_ro_stock.model_stock_warehouse
-#: model:ir.model.fields.selection,name:l10n_ro_stock.selection__stock_location__merchandise_type__warehouse
+#: model:ir.model.fields.selection,name:l10n_ro_stock.selection__stock_location__l10n_ro_merchandise_type__warehouse
 #, python-format
 msgid "Warehouse"
 msgstr ""
