@@ -15,7 +15,7 @@ class TestStockPurchase(TestStockCommon):
         Receptie produse pe baza de aviz si inregistare
         ulterioara a facturii
         """
-        self.create_po(vals={"notice": True})
+        self.create_po(vals={"l10n_ro_notice": True})
 
         self.check_stock_valuation(self.val_p1_i, self.val_p2_i)
         self.check_account_valuation(self.val_p1_i, self.val_p2_i)
