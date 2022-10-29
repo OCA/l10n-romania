@@ -24,18 +24,8 @@ msgid "Add to statement"
 msgstr ""
 
 #. module: l10n_ro_payment_to_statement
-#: model:ir.model.fields,field_description:l10n_ro_payment_to_statement.field_account_journal__auto_statement
-msgid "Auto Statement"
-msgstr ""
-
-#. module: l10n_ro_payment_to_statement
 #: model:ir.model,name:l10n_ro_payment_to_statement.model_account_bank_statement
 msgid "Bank Statement"
-msgstr ""
-
-#. module: l10n_ro_payment_to_statement
-#: model:ir.model,name:l10n_ro_payment_to_statement.model_account_bank_statement_line
-msgid "Bank Statement Line"
 msgstr ""
 
 #. module: l10n_ro_payment_to_statement
@@ -49,6 +39,15 @@ msgid "Get statement"
 msgstr ""
 
 #. module: l10n_ro_payment_to_statement
+#: model:ir.model.fields,field_description:l10n_ro_payment_to_statement.field_account_bank_statement__is_l10n_ro_record
+#: model:ir.model.fields,field_description:l10n_ro_payment_to_statement.field_account_journal__is_l10n_ro_record
+#: model:ir.model.fields,field_description:l10n_ro_payment_to_statement.field_account_move__is_l10n_ro_record
+#: model:ir.model.fields,field_description:l10n_ro_payment_to_statement.field_account_payment__is_l10n_ro_record
+#: model:ir.model.fields,field_description:l10n_ro_payment_to_statement.field_cash_box_out__is_l10n_ro_record
+msgid "Is Romanian Record"
+msgstr ""
+
+#. module: l10n_ro_payment_to_statement
 #: model:ir.model,name:l10n_ro_payment_to_statement.model_account_journal
 msgid "Journal"
 msgstr ""
@@ -59,41 +58,41 @@ msgid "Journal Entry"
 msgstr ""
 
 #. module: l10n_ro_payment_to_statement
-#: model:ir.model.fields,field_description:l10n_ro_payment_to_statement.field_account_bank_statement_line__payment_id
-msgid "Payment"
-msgstr ""
-
-#. module: l10n_ro_payment_to_statement
 #: model:ir.model,name:l10n_ro_payment_to_statement.model_account_payment
 msgid "Payments"
 msgstr ""
 
 #. module: l10n_ro_payment_to_statement
-#: model:ir.model.fields,field_description:l10n_ro_payment_to_statement.field_account_journal__journal_sequence_id
-msgid "Sequence Journal"
+#: model:ir.model.fields,field_description:l10n_ro_payment_to_statement.field_account_journal__l10n_ro_auto_statement
+msgid "Romania - Auto Statement"
 msgstr ""
 
 #. module: l10n_ro_payment_to_statement
-#: model:ir.model.fields,field_description:l10n_ro_payment_to_statement.field_account_journal__cash_in_sequence_id
-msgid "Sequence cash in"
+#: model:ir.model.fields,field_description:l10n_ro_payment_to_statement.field_account_journal__l10n_ro_journal_sequence_id
+msgid "Romania - Sequence Journal"
 msgstr ""
 
 #. module: l10n_ro_payment_to_statement
-#: model:ir.model.fields,field_description:l10n_ro_payment_to_statement.field_account_journal__cash_out_sequence_id
-msgid "Sequence cash out"
+#: model:ir.model.fields,field_description:l10n_ro_payment_to_statement.field_account_journal__l10n_ro_cash_in_sequence_id
+msgid "Romania - Sequence cash in"
 msgstr ""
 
 #. module: l10n_ro_payment_to_statement
-#: model:ir.model.fields,field_description:l10n_ro_payment_to_statement.field_account_payment__statement_id
-msgid "Statement"
+#: model:ir.model.fields,field_description:l10n_ro_payment_to_statement.field_account_journal__l10n_ro_cash_out_sequence_id
+msgid "Romania - Sequence cash out"
+msgstr ""
+
+#. module: l10n_ro_payment_to_statement
+#: model:ir.model.fields,field_description:l10n_ro_payment_to_statement.field_account_payment__l10n_ro_statement_id
+msgid "Romania - Statement"
+msgstr ""
+
+#. module: l10n_ro_payment_to_statement
+#: model:ir.model.fields,field_description:l10n_ro_payment_to_statement.field_account_journal__l10n_ro_statement_sequence_id
+msgid "Romania - Statement Sequence"
 msgstr ""
 
 #. module: l10n_ro_payment_to_statement
 #: model:ir.model.fields,field_description:l10n_ro_payment_to_statement.field_account_payment__statement_line_id
 msgid "Statement Line"
-msgstr ""
-
-#. module: l10n_ro_payment_to_statement
-#: model:ir.model.fields,field_description:l10n_ro_payment_to_statement.field_account_journal__statement_sequence_id
-msgid "Statement Sequence"
 msgstr ""
