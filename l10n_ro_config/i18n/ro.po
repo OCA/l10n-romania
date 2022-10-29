@@ -21,8 +21,8 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:l10n_ro_config.res_config_settings_view_form
 msgid ""
 "<span class=\"fa fa-lg fa-building-o\" title=\"Values set here are company-"
-"specific.\" role=\"img\" aria-label=\"Values set here are company-"
-"specific.\" groups=\"base.group_multi_company\"/>"
+"specific.\" role=\"img\" aria-label=\"Values set here are company-specific."
+"\" groups=\"base.group_multi_company\"/>"
 msgstr ""
 "<span class=\"fa fa-lg fa-building-o\" title=\"Valoarea este specifică "
 "companiei\" role=\"img\" aria-label=\"Valoarea este specifică companiei\" "
@@ -32,11 +32,20 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:l10n_ro_config.res_config_settings_view_form
 msgid ""
 "<span class=\"fa fa-lg fa-building-o\" title=\"Values set here are company-"
-"specific.\" role=\"img\" aria-label=\"Values set here are company-"
-"specific.\"/>"
+"specific.\" role=\"img\" aria-label=\"Values set here are company-specific."
+"\"/>"
 msgstr ""
 "<span class=\"fa fa-lg fa-building-o\" title=\"Valoarea este specifică "
 "companiei\" role=\"img\" aria-label=\"Valoarea este specifică companiei\"/>"
+
+#. module: l10n_ro_config
+#: model_terms:ir.ui.view,arch_db:l10n_ro_config.res_config_settings_account_view_form
+msgid ""
+"<span class=\"o_form_label\">Default Services Taxes</span>\n"
+"                        <span class=\"fa fa-lg fa-building-o\" title="
+"\"Values set here are company-specific.\" aria-label=\"Values set here are "
+"company-specific.\" groups=\"base.group_multi_company\" role=\"img\"/>"
+msgstr ""
 
 #. module: l10n_ro_config
 #: model_terms:ir.ui.view,arch_db:l10n_ro_config.banks
@@ -70,59 +79,9 @@ msgid "<strong>Share Capital:</strong>"
 msgstr "<strong>Capital social:</strong>"
 
 #. module: l10n_ro_config
-#: model:ir.model.fields,field_description:l10n_ro_config.field_res_config_settings__module_l10n_ro_account_report_balance_sheet
-msgid "Account Balance Sheet Report"
-msgstr "Raport Bilant"
-
-#. module: l10n_ro_config
-#: model:ir.model.fields,field_description:l10n_ro_config.field_res_config_settings__module_l10n_ro_account_report_D300
-msgid "Account D300 Report"
-msgstr "Declarația D300"
-
-#. module: l10n_ro_config
-#: model:ir.model.fields,field_description:l10n_ro_config.field_res_config_settings__module_l10n_ro_account_report_D390
-msgid "Account D390 Report"
-msgstr "Declarația D390"
-
-#. module: l10n_ro_config
-#: model:ir.model.fields,field_description:l10n_ro_config.field_res_config_settings__module_l10n_ro_account_report_D394
-msgid "Account D394 Report"
-msgstr "Declarația D394"
-
-#. module: l10n_ro_config
-#: model:ir.model.fields,field_description:l10n_ro_config.field_res_config_settings__module_l10n_ro_intrastat
-msgid "Account Intrastat Report"
-msgstr "Rpoart intrastat"
-
-#. module: l10n_ro_config
-#: model:ir.model.fields,field_description:l10n_ro_config.field_res_config_settings__module_l10n_ro_account_report_inventory_sheet
-msgid "Account Inventory Sheet Report"
+#: model:ir.model.fields,field_description:l10n_ro_config.field_res_config_settings__module_l10n_ro_account_anaf_sync
+msgid "Account ANAF Sync"
 msgstr ""
-
-#. module: l10n_ro_config
-#: model:ir.model.fields,field_description:l10n_ro_config.field_res_config_settings__module_l10n_ro_account_report_journal
-msgid "Account Journal Reports"
-msgstr ""
-
-#. module: l10n_ro_config
-#: model:ir.model.fields,field_description:l10n_ro_config.field_res_config_settings__module_l10n_ro_account_report_journal_sheet
-msgid "Account Journal Sheet Report"
-msgstr ""
-
-#. module: l10n_ro_config
-#: model:ir.model.fields,field_description:l10n_ro_config.field_res_config_settings__module_l10n_ro_account_report_pl
-msgid "Account Profit and Loss Report"
-msgstr ""
-
-#. module: l10n_ro_config
-#: model:ir.model.fields,field_description:l10n_ro_config.field_res_config_settings__module_l10n_ro_account_report_sheet
-msgid "Account Sheet Report"
-msgstr ""
-
-#. module: l10n_ro_config
-#: model:ir.model.fields,field_description:l10n_ro_config.field_res_config_settings__module_l10n_ro_account_report_trial_balance
-msgid "Account Trial Balance Report"
-msgstr "Raport balantă de verificare"
 
 #. module: l10n_ro_config
 #: model_terms:ir.ui.view,arch_db:l10n_ro_config.res_config_settings_view_form
@@ -132,18 +91,45 @@ msgstr "Contabilitate"
 #. module: l10n_ro_config
 #: model_terms:ir.ui.view,arch_db:l10n_ro_config.res_config_settings_view_form
 msgid ""
-"Adds location in_custody, usage_giving,consume\n"
-"                                    *merchandise_type:store,warehouse"
+"Add a mechanism to close Incomes, Expense, VAT on a period\n"
+"                                    based."
 msgstr ""
 
 #. module: l10n_ro_config
 #: model_terms:ir.ui.view,arch_db:l10n_ro_config.res_config_settings_view_form
-msgid "Adresses"
-msgstr "Adrese"
+msgid "Add a stock sheet report for products grouped by Location, Account."
+msgstr ""
 
 #. module: l10n_ro_config
-#: model:ir.model.fields,field_description:l10n_ro_config.field_res_config_settings__use_anglo_saxon
-msgid "Anglo-Saxon Accounting"
+#: model_terms:ir.ui.view,arch_db:l10n_ro_config.res_config_settings_view_form
+msgid ""
+"Add a vat on payment field in partners, change the fiscal\n"
+"                                    position with the one defined in "
+"settings depending on the partner and invoice."
+msgstr ""
+
+#. module: l10n_ro_config
+#: model_terms:ir.ui.view,arch_db:l10n_ro_config.res_config_settings_view_form
+msgid ""
+"Add company field for no signature, update invoice report for\n"
+"                                    multi currency."
+msgstr ""
+
+#. module: l10n_ro_config
+#: model_terms:ir.ui.view,arch_db:l10n_ro_config.res_config_settings_view_form
+msgid "Add predefined layouts to stock reports."
+msgstr ""
+
+#. module: l10n_ro_config
+#: model_terms:ir.ui.view,arch_db:l10n_ro_config.res_config_settings_view_form
+msgid "Add valued reports for stock operations."
+msgstr ""
+
+#. module: l10n_ro_config
+#: model_terms:ir.ui.view,arch_db:l10n_ro_config.res_config_settings_view_form
+msgid ""
+"Adds location in_custody, usage_giving,consume\n"
+"                                    *merchandise_type:store,warehouse"
 msgstr ""
 
 #. module: l10n_ro_config
@@ -157,9 +143,8 @@ msgid "Companies"
 msgstr "Companii"
 
 #. module: l10n_ro_config
-#: model:ir.model.fields,field_description:l10n_ro_config.field_res_company__l10n_ro_property_stock_transfer_account_id
-#: model:ir.model.fields,field_description:l10n_ro_config.field_res_config_settings__l10n_ro_property_stock_transfer_account_id
-msgid "Company Stock Trabnsfer Account"
+#: model_terms:ir.ui.view,arch_db:l10n_ro_config.res_config_settings_view_form
+msgid "Complete also staircase in extended address for partners."
 msgstr ""
 
 #. module: l10n_ro_config
@@ -178,18 +163,26 @@ msgid "Create Partners by VAT"
 msgstr ""
 
 #. module: l10n_ro_config
+#: model_terms:ir.ui.view,arch_db:l10n_ro_config.res_config_settings_view_form
+msgid "Create partners based on the vat code from ANAF website."
+msgstr ""
+
+#. module: l10n_ro_config
 #: model:ir.model.fields,field_description:l10n_ro_config.field_res_config_settings__module_currency_rate_update_RO_BNR
 msgid "Currency Rate Update BNR"
 msgstr ""
 
 #. module: l10n_ro_config
-#: model:ir.model.fields,field_description:l10n_ro_config.field_account_journal__display_name
-#: model:ir.model.fields,field_description:l10n_ro_config.field_res_company__display_name
-#: model:ir.model.fields,field_description:l10n_ro_config.field_res_config_settings__display_name
-#: model:ir.model.fields,field_description:l10n_ro_config.field_res_partner__display_name
-#: model:ir.model.fields,field_description:l10n_ro_config.field_res_partner_bank__display_name
-msgid "Display Name"
-msgstr "Nume afișat"
+#: model_terms:ir.ui.view,arch_db:l10n_ro_config.res_config_settings_view_form
+msgid ""
+"Currency rate in invoice is editable, so you can use your own\n"
+"                                    currency rate."
+msgstr ""
+
+#. module: l10n_ro_config
+#: model_terms:ir.ui.view,arch_db:l10n_ro_config.res_config_settings_account_view_form
+msgid "Default taxes applied to local transactions"
+msgstr ""
 
 #. module: l10n_ro_config
 #: model:ir.model.fields,help:l10n_ro_config.field_res_config_settings__module_l10n_ro_address_extended
@@ -197,31 +190,12 @@ msgid "Extend the  partner addres field with flat number, staircase.."
 msgstr ""
 
 #. module: l10n_ro_config
-#: model:ir.model.fields,field_description:l10n_ro_config.field_res_company__l10n_ro_property_inverse_taxation_position_id
-msgid "Fiscal Position for Inverse Taxation"
-msgstr ""
-
-#. module: l10n_ro_config
-#: model:ir.model.fields,field_description:l10n_ro_config.field_res_company__l10n_ro_property_vat_on_payment_position_id
-msgid "Fiscal Position for VAT on Payment"
-msgstr ""
-
-#. module: l10n_ro_config
-#: model:ir.model.fields,field_description:l10n_ro_config.field_account_journal__id
-#: model:ir.model.fields,field_description:l10n_ro_config.field_res_company__id
-#: model:ir.model.fields,field_description:l10n_ro_config.field_res_config_settings__id
-#: model:ir.model.fields,field_description:l10n_ro_config.field_res_partner__id
-#: model:ir.model.fields,field_description:l10n_ro_config.field_res_partner_bank__id
-msgid "ID"
-msgstr ""
-
-#. module: l10n_ro_config
 #: model:ir.model.fields,help:l10n_ro_config.field_res_company__l10n_ro_stock_acc_price_diff
 #: model:ir.model.fields,help:l10n_ro_config.field_res_config_settings__l10n_ro_stock_acc_price_diff
 msgid ""
 "If this field is checked and the company use Romanian Accounting,the "
-"currency rate differences between reception and invoice will be reflected in"
-" the stock valuation."
+"currency rate differences between reception and invoice will be reflected in "
+"the stock valuation."
 msgstr ""
 
 #. module: l10n_ro_config
@@ -230,8 +204,8 @@ msgid "Install BNR update rates"
 msgstr ""
 
 #. module: l10n_ro_config
-#: model:ir.model.fields,field_description:l10n_ro_config.field_res_config_settings__l10n_ro_property_inverse_taxation_position_id
-msgid "Inverse Taxation"
+#: model:ir.model.fields,field_description:l10n_ro_config.field_res_config_settings__module_l10n_ro_account_edit_currency_rate
+msgid "Invoice Edit Currency Rate"
 msgstr ""
 
 #. module: l10n_ro_config
@@ -240,38 +214,54 @@ msgid "Invoice Report"
 msgstr ""
 
 #. module: l10n_ro_config
+#: model:ir.model.fields,field_description:l10n_ro_config.field_ir_ui_menu__is_l10n_ro_record
+msgid "Is L10N Ro Record"
+msgstr ""
+
+#. module: l10n_ro_config
+#: model:ir.model.fields,field_description:l10n_ro_config.field_account_journal__is_l10n_ro_record
+#: model:ir.model.fields,field_description:l10n_ro_config.field_account_setup_bank_manual_config__is_l10n_ro_record
+#: model:ir.model.fields,field_description:l10n_ro_config.field_l10n_ro_mixin__is_l10n_ro_record
+#: model:ir.model.fields,field_description:l10n_ro_config.field_product_product__is_l10n_ro_record
+#: model:ir.model.fields,field_description:l10n_ro_config.field_product_template__is_l10n_ro_record
+#: model:ir.model.fields,field_description:l10n_ro_config.field_res_config_settings__is_l10n_ro_record
+#: model:ir.model.fields,field_description:l10n_ro_config.field_res_partner__is_l10n_ro_record
+#: model:ir.model.fields,field_description:l10n_ro_config.field_res_partner_bank__is_l10n_ro_record
+#: model:ir.model.fields,field_description:l10n_ro_config.field_res_users__is_l10n_ro_record
+msgid "Is Romanian Record"
+msgstr ""
+
+#. module: l10n_ro_config
 #: model:ir.model,name:l10n_ro_config.model_account_journal
 msgid "Journal"
 msgstr "Jurnal"
 
 #. module: l10n_ro_config
-#: model:ir.model.fields,field_description:l10n_ro_config.field_account_journal____last_update
-#: model:ir.model.fields,field_description:l10n_ro_config.field_res_company____last_update
-#: model:ir.model.fields,field_description:l10n_ro_config.field_res_config_settings____last_update
-#: model:ir.model.fields,field_description:l10n_ro_config.field_res_partner____last_update
-#: model:ir.model.fields,field_description:l10n_ro_config.field_res_partner_bank____last_update
-msgid "Last Modified on"
-msgstr ""
-
-#. module: l10n_ro_config
-#: model:ir.model.fields,field_description:l10n_ro_config.field_res_company__company_registry
-msgid "NRC"
-msgstr ""
-
-#. module: l10n_ro_config
-#: model:ir.model.fields,field_description:l10n_ro_config.field_res_company__l10n_ro_property_uneligible_tax_account_id
-#: model:ir.model.fields,field_description:l10n_ro_config.field_res_config_settings__l10n_ro_property_uneligible_tax_account_id
-msgid "Not Eligible Tax Account"
-msgstr ""
-
-#. module: l10n_ro_config
 #: model_terms:ir.ui.view,arch_db:l10n_ro_config.res_config_settings_view_form
-msgid "Partners"
-msgstr "Parteneri"
+msgid ""
+"Mark stock operations as notice operations. Stock accounting will change to "
+"use and\n"
+"                                    accounts."
+msgstr ""
+
+#. module: l10n_ro_config
+#: model:ir.model,name:l10n_ro_config.model_ir_ui_menu
+msgid "Menu"
+msgstr ""
+
+#. module: l10n_ro_config
+#: model:ir.model,name:l10n_ro_config.model_l10n_ro_mixin
+msgid "Mixin model for applying to any object that use Romanian Accounting"
+msgstr ""
 
 #. module: l10n_ro_config
 #: model:ir.model.fields,field_description:l10n_ro_config.field_res_config_settings__module_l10n_ro_fiscal_validation
 msgid "Partners Fiscal Validation"
+msgstr ""
+
+#. module: l10n_ro_config
+#: model_terms:ir.ui.view,arch_db:l10n_ro_config.res_config_settings_view_form
+msgid "Partners and Addresses"
 msgstr ""
 
 #. module: l10n_ro_config
@@ -280,28 +270,18 @@ msgid "Partners unique by Company, VAT, NRC"
 msgstr ""
 
 #. module: l10n_ro_config
-#: model:ir.model.fields,field_description:l10n_ro_config.field_res_company__l10n_ro_property_stock_picking_custody_account_id
-#: model:ir.model.fields,field_description:l10n_ro_config.field_res_config_settings__l10n_ro_property_stock_picking_custody_account_id
-msgid "Picking Account Custody"
+#: model_terms:ir.ui.view,arch_db:l10n_ro_config.res_config_settings_view_form
+msgid "Print custom receipt report for Romanian companies."
 msgstr ""
 
 #. module: l10n_ro_config
-#: model:ir.model.fields,field_description:l10n_ro_config.field_res_company__l10n_ro_property_stock_picking_payable_account_id
-#: model:ir.model.fields,field_description:l10n_ro_config.field_res_config_settings__l10n_ro_property_stock_picking_payable_account_id
-msgid "Picking Account Payable"
+#: model:ir.model,name:l10n_ro_config.model_product_template
+msgid "Product Template"
 msgstr ""
 
 #. module: l10n_ro_config
-#: model:ir.model.fields,field_description:l10n_ro_config.field_res_company__l10n_ro_property_stock_picking_receivable_account_id
-#: model:ir.model.fields,field_description:l10n_ro_config.field_res_config_settings__l10n_ro_property_stock_picking_receivable_account_id
-msgid "Picking Account Receivable"
-msgstr ""
-
-#. module: l10n_ro_config
-#: model:ir.model.fields,field_description:l10n_ro_config.field_account_journal__print_report
-#: model:ir.model.fields,field_description:l10n_ro_config.field_account_setup_bank_manual_config__print_report
-#: model:ir.model.fields,field_description:l10n_ro_config.field_res_partner_bank__print_report
-msgid "Print in Report"
+#: model_terms:ir.ui.view,arch_db:l10n_ro_config.res_config_settings_view_form
+msgid "Record DVI directly from invoices."
 msgstr ""
 
 #. module: l10n_ro_config
@@ -310,15 +290,39 @@ msgid "Record cost of goods sold in your journal entries"
 msgstr ""
 
 #. module: l10n_ro_config
-#: model:ir.model.fields,help:l10n_ro_config.field_res_company__company_registry
-msgid "Registration number at the Registry of Commerce"
+#: model_terms:ir.ui.view,arch_db:l10n_ro_config.res_config_settings_view_form
+msgid ""
+"Record price differences between bills and reception through Landed Costs."
 msgstr ""
 
 #. module: l10n_ro_config
 #: model_terms:ir.ui.view,arch_db:l10n_ro_config.res_config_settings_view_form
 msgid ""
-"Registration of accounting move according to\n"
+"Record the payment directly to bank or cash statement.\n"
+"                                    Set up different sequences for cash "
+"operations."
+msgstr ""
+
+#. module: l10n_ro_config
+#: model_terms:ir.ui.view,arch_db:l10n_ro_config.res_config_settings_view_form
+msgid "Register non deductible VAT in accoutning and stock operations."
+msgstr ""
+
+#. module: l10n_ro_config
+#: model_terms:ir.ui.view,arch_db:l10n_ro_config.res_config_settings_view_form
+msgid "Register sync oAuth with ANAF website."
+msgstr ""
+
+#. module: l10n_ro_config
+#: model_terms:ir.ui.view,arch_db:l10n_ro_config.res_config_settings_view_form
+msgid ""
+"Registration of accounting moves according to\n"
 "                                    Romanian legislation"
+msgstr ""
+
+#. module: l10n_ro_config
+#: model:ir.model.fields,field_description:l10n_ro_config.field_account_journal__l10n_ro_print_report
+msgid "Ro Print in Report"
 msgstr ""
 
 #. module: l10n_ro_config
@@ -327,8 +331,162 @@ msgid "Romania"
 msgstr ""
 
 #. module: l10n_ro_config
+#: model:ir.model.fields,field_description:l10n_ro_config.field_res_company__l10n_ro_caen_code
+#: model:ir.model.fields,field_description:l10n_ro_config.field_res_config_settings__l10n_ro_caen_code
+#: model:ir.model.fields,field_description:l10n_ro_config.field_res_partner__l10n_ro_caen_code
+#: model:ir.model.fields,field_description:l10n_ro_config.field_res_users__l10n_ro_caen_code
+msgid "Romania - CAEN Code"
+msgstr ""
+
+#. module: l10n_ro_config
+#: model:ir.model.fields,field_description:l10n_ro_config.field_res_company__l10n_ro_property_stock_transfer_account_id
+#: model:ir.model.fields,field_description:l10n_ro_config.field_res_config_settings__l10n_ro_property_stock_transfer_account_id
+msgid "Romania - Company Stock Transfer Account"
+msgstr ""
+
+#. module: l10n_ro_config
+#: model:ir.model.fields,field_description:l10n_ro_config.field_res_company__l10n_ro_property_customs_commision_product_id
+#: model:ir.model.fields,field_description:l10n_ro_config.field_res_config_settings__l10n_ro_property_customs_commision_product_id
+msgid "Romania - Customs Commission Landed Cost Product"
+msgstr ""
+
+#. module: l10n_ro_config
+#: model:ir.model.fields,field_description:l10n_ro_config.field_res_company__l10n_ro_property_customs_duty_product_id
+#: model:ir.model.fields,field_description:l10n_ro_config.field_res_config_settings__l10n_ro_property_customs_duty_product_id
+msgid "Romania - Customs Duty Landed Cost Product"
+msgstr ""
+
+#. module: l10n_ro_config
+#: model:ir.model.fields,field_description:l10n_ro_config.field_res_company__l10n_ro_account_serv_purchase_tax_id
+#: model:ir.model.fields,field_description:l10n_ro_config.field_res_config_settings__l10n_ro_serv_purchase_tax_id
+msgid "Romania - Default Services Purchase Tax"
+msgstr ""
+
+#. module: l10n_ro_config
+#: model:ir.model.fields,field_description:l10n_ro_config.field_res_company__l10n_ro_account_serv_sale_tax_id
+#: model:ir.model.fields,field_description:l10n_ro_config.field_res_config_settings__l10n_ro_serv_sale_tax_id
+msgid "Romania - Default Services Sale Tax"
+msgstr ""
+
+#. module: l10n_ro_config
+#: model:ir.model.fields,field_description:l10n_ro_config.field_res_partner__l10n_ro_e_invoice
+#: model:ir.model.fields,field_description:l10n_ro_config.field_res_users__l10n_ro_e_invoice
+msgid "Romania - E-Invoicing"
+msgstr ""
+
+#. module: l10n_ro_config
+#: model:ir.model.fields,field_description:l10n_ro_config.field_res_company__l10n_ro_property_inverse_taxation_position_id
+#: model:ir.model.fields,field_description:l10n_ro_config.field_res_config_settings__l10n_ro_property_inverse_taxation_position_id
+msgid "Romania - Fiscal Position for Inverse Taxation"
+msgstr ""
+
+#. module: l10n_ro_config
+#: model:ir.model.fields,field_description:l10n_ro_config.field_res_company__l10n_ro_property_vat_on_payment_position_id
+#: model:ir.model.fields,field_description:l10n_ro_config.field_res_config_settings__l10n_ro_property_vat_on_payment_position_id
+msgid "Romania - Fiscal Position for VAT on Payment"
+msgstr ""
+
+#. module: l10n_ro_config
+#: model:ir.model.fields,field_description:l10n_ro_config.field_res_company__l10n_ro_property_uneligible_tax_account_id
+#: model:ir.model.fields,field_description:l10n_ro_config.field_res_config_settings__l10n_ro_property_uneligible_tax_account_id
+msgid "Romania - Not Eligible Tax Account"
+msgstr ""
+
+#. module: l10n_ro_config
+#: model:ir.model.fields,field_description:l10n_ro_config.field_res_company__l10n_ro_property_stock_picking_custody_account_id
+#: model:ir.model.fields,field_description:l10n_ro_config.field_res_config_settings__l10n_ro_property_stock_picking_custody_account_id
+msgid "Romania - Picking Account Custody"
+msgstr ""
+
+#. module: l10n_ro_config
+#: model:ir.model.fields,field_description:l10n_ro_config.field_res_company__l10n_ro_property_stock_picking_payable_account_id
+#: model:ir.model.fields,field_description:l10n_ro_config.field_res_config_settings__l10n_ro_property_stock_picking_payable_account_id
+msgid "Romania - Picking Account Payable"
+msgstr ""
+
+#. module: l10n_ro_config
+#: model:ir.model.fields,field_description:l10n_ro_config.field_res_company__l10n_ro_property_stock_picking_receivable_account_id
+#: model:ir.model.fields,field_description:l10n_ro_config.field_res_config_settings__l10n_ro_property_stock_picking_receivable_account_id
+msgid "Romania - Picking Account Receivable"
+msgstr ""
+
+#. module: l10n_ro_config
+#: model:ir.model.fields,field_description:l10n_ro_config.field_res_company__l10n_ro_property_stock_price_difference_product_id
+#: model:ir.model.fields,field_description:l10n_ro_config.field_res_config_settings__l10n_ro_property_stock_price_difference_product_id
+msgid "Romania - Price Difference Landed Cost Product"
+msgstr ""
+
+#. module: l10n_ro_config
+#: model:ir.model.fields,field_description:l10n_ro_config.field_account_setup_bank_manual_config__l10n_ro_print_report
+#: model:ir.model.fields,field_description:l10n_ro_config.field_res_partner_bank__l10n_ro_print_report
+msgid "Romania - Print in Report"
+msgstr ""
+
+#. module: l10n_ro_config
+#: model:ir.model.fields,field_description:l10n_ro_config.field_res_company__l10n_ro_share_capital
+msgid "Romania - Share Capital"
+msgstr ""
+
+#. module: l10n_ro_config
+#: model:ir.model.fields,field_description:l10n_ro_config.field_res_company__l10n_ro_stock_acc_price_diff
+#: model:ir.model.fields,field_description:l10n_ro_config.field_res_config_settings__l10n_ro_stock_acc_price_diff
+msgid "Romania - Stock Valuation Update"
+msgstr ""
+
+#. module: l10n_ro_config
+#: model:ir.model.fields,field_description:l10n_ro_config.field_res_company__l10n_ro_property_trade_discount_granted_account_id
+#: model:ir.model.fields,field_description:l10n_ro_config.field_res_config_settings__l10n_ro_property_trade_discount_granted_account_id
+msgid "Romania - Trade discounts granted"
+msgstr ""
+
+#. module: l10n_ro_config
+#: model:ir.model.fields,field_description:l10n_ro_config.field_res_company__l10n_ro_property_trade_discount_received_account_id
+#: model:ir.model.fields,field_description:l10n_ro_config.field_res_config_settings__l10n_ro_property_trade_discount_received_account_id
+msgid "Romania - Trade discounts received"
+msgstr ""
+
+#. module: l10n_ro_config
+#: model:ir.model.fields,field_description:l10n_ro_config.field_res_company__l10n_ro_property_stock_usage_giving_account_id
+#: model:ir.model.fields,field_description:l10n_ro_config.field_res_config_settings__l10n_ro_property_stock_usage_giving_account_id
+msgid "Romania - Usage Giving Account"
+msgstr ""
+
+#. module: l10n_ro_config
+#: model:ir.model.fields,field_description:l10n_ro_config.field_res_company__l10n_ro_accounting
+#: model:ir.model.fields,field_description:l10n_ro_config.field_res_config_settings__l10n_ro_accounting
+msgid "Romania - Use Romanian Accounting"
+msgstr ""
+
+#. module: l10n_ro_config
+#: model:ir.model.fields,field_description:l10n_ro_config.field_res_partner__l10n_ro_vat_subjected
+#: model:ir.model.fields,field_description:l10n_ro_config.field_res_users__l10n_ro_vat_subjected
+msgid "Romania - VAT Subjected"
+msgstr ""
+
+#. module: l10n_ro_config
+#: model:ir.model.fields,field_description:l10n_ro_config.field_res_partner__l10n_ro_vat_number
+#: model:ir.model.fields,field_description:l10n_ro_config.field_res_users__l10n_ro_vat_number
+msgid "Romania - VAT number digits"
+msgstr ""
+
+#. module: l10n_ro_config
 #: model:ir.model.fields,field_description:l10n_ro_config.field_res_config_settings__module_l10n_ro_account_period_close
 msgid "Romania Account Period Close"
+msgstr ""
+
+#. module: l10n_ro_config
+#: model:ir.model.fields,field_description:l10n_ro_config.field_res_config_settings__module_l10n_ro_nondeductible_vat
+msgid "Romania Non Deductible VAT"
+msgstr ""
+
+#. module: l10n_ro_config
+#: model:ir.model.fields,field_description:l10n_ro_config.field_res_config_settings__module_l10n_ro_payment_receipt_report
+msgid "Romania Payment Receipt Report"
+msgstr ""
+
+#. module: l10n_ro_config
+#: model:ir.model.fields,field_description:l10n_ro_config.field_res_config_settings__module_l10n_ro_payment_to_statement
+msgid "Romania Payment to Statement"
 msgstr ""
 
 #. module: l10n_ro_config
@@ -338,7 +496,7 @@ msgstr ""
 
 #. module: l10n_ro_config
 #: model:ir.model.fields,field_description:l10n_ro_config.field_res_config_settings__module_l10n_ro_dvi
-msgid "Romanian Customs Tax Declaration"
+msgid "Romanian DVI"
 msgstr ""
 
 #. module: l10n_ro_config
@@ -357,13 +515,43 @@ msgid "Romanian Stock"
 msgstr ""
 
 #. module: l10n_ro_config
+#: model:ir.model.fields,field_description:l10n_ro_config.field_res_config_settings__module_l10n_ro_stock_account_notice
+msgid "Romanian Stock Account Notice"
+msgstr ""
+
+#. module: l10n_ro_config
 #: model:ir.model.fields,field_description:l10n_ro_config.field_res_config_settings__module_l10n_ro_stock_account
 msgid "Romanian Stock Accounting"
 msgstr ""
 
 #. module: l10n_ro_config
-#: model:ir.model.fields,field_description:l10n_ro_config.field_res_config_settings__module_l10n_ro_stock_account_store
-msgid "Romanian Stock Accounting - Store"
+#: model:ir.model.fields,field_description:l10n_ro_config.field_res_config_settings__module_l10n_ro_stock_account_date
+msgid "Romanian Stock Accounting Date"
+msgstr ""
+
+#. module: l10n_ro_config
+#: model:ir.model.fields,field_description:l10n_ro_config.field_res_config_settings__module_l10n_ro_stock_account_date_wizard
+msgid "Romanian Stock Accounting Date Wizard"
+msgstr ""
+
+#. module: l10n_ro_config
+#: model:ir.model.fields,field_description:l10n_ro_config.field_res_config_settings__module_l10n_ro_stock_price_difference
+msgid "Romanian Stock Accounting Price Difference"
+msgstr ""
+
+#. module: l10n_ro_config
+#: model:ir.model.fields,field_description:l10n_ro_config.field_res_config_settings__module_l10n_ro_stock_picking_comment_template
+msgid "Romanian Stock Picking Comment Template"
+msgstr ""
+
+#. module: l10n_ro_config
+#: model:ir.model.fields,field_description:l10n_ro_config.field_res_config_settings__module_l10n_ro_stock_picking_valued_report
+msgid "Romanian Stock Picking Valued Report"
+msgstr ""
+
+#. module: l10n_ro_config
+#: model:ir.model.fields,field_description:l10n_ro_config.field_res_config_settings__module_l10n_ro_stock_report
+msgid "Romanian Stock Sheet Report"
 msgstr ""
 
 #. module: l10n_ro_config
@@ -387,8 +575,66 @@ msgid "Select 8035"
 msgstr ""
 
 #. module: l10n_ro_config
-#: model:ir.model.fields,field_description:l10n_ro_config.field_res_company__share_capital
-msgid "Share Capital"
+#: model_terms:ir.ui.view,arch_db:l10n_ro_config.res_config_settings_view_form
+msgid "Select Accounting Date in stock operations wizard."
+msgstr ""
+
+#. module: l10n_ro_config
+#: model_terms:ir.ui.view,arch_db:l10n_ro_config.res_config_settings_view_form
+msgid ""
+"Select Accounting Date in stock operations.\n"
+"                                    All transactions will have the "
+"Accounting Date as the used date in stock."
+msgstr ""
+
+#. module: l10n_ro_config
+#: model_terms:ir.ui.view,arch_db:l10n_ro_config.res_config_settings_view_form
+msgid "Select a product"
+msgstr ""
+
+#. module: l10n_ro_config
+#: model_terms:ir.ui.view,arch_db:l10n_ro_config.res_config_settings_view_form
+msgid ""
+"Select a service product that will be used in customs commission "
+"registration in landed cost."
+msgstr ""
+
+#. module: l10n_ro_config
+#: model_terms:ir.ui.view,arch_db:l10n_ro_config.res_config_settings_view_form
+msgid ""
+"Select a service product that will be used in customs duty registration in "
+"landed cost."
+msgstr ""
+
+#. module: l10n_ro_config
+#: model_terms:ir.ui.view,arch_db:l10n_ro_config.res_config_settings_view_form
+msgid ""
+"Select a service product that will be used in landed cost to register price\n"
+"                                            differences.\n"
+"                                            An expense account needs to be "
+"set on product or product category."
+msgstr ""
+
+#. module: l10n_ro_config
+#: model_terms:ir.ui.view,arch_db:l10n_ro_config.res_config_settings_view_form
+msgid "Select also the commune and zone in partner addresses."
+msgstr ""
+
+#. module: l10n_ro_config
+#: model_terms:ir.ui.view,arch_db:l10n_ro_config.res_config_settings_account_view_form
+msgid "Services Purchase Tax"
+msgstr ""
+
+#. module: l10n_ro_config
+#: model_terms:ir.ui.view,arch_db:l10n_ro_config.res_config_settings_account_view_form
+msgid "Services Sales Tax"
+msgstr ""
+
+#. module: l10n_ro_config
+#: model_terms:ir.ui.view,arch_db:l10n_ro_config.res_config_settings_view_form
+msgid ""
+"Set up a rule for unique partners based on vat, nrc and\n"
+"                                    company"
 msgstr ""
 
 #. module: l10n_ro_config
@@ -397,19 +643,8 @@ msgid "Stock"
 msgstr ""
 
 #. module: l10n_ro_config
-#: model:ir.model.fields,field_description:l10n_ro_config.field_res_config_settings__module_l10n_ro_stock_picking_report
-msgid "Stock Picking Report"
-msgstr ""
-
-#. module: l10n_ro_config
-#: model:ir.model.fields,field_description:l10n_ro_config.field_res_config_settings__module_l10n_ro_stock_picking_report_store
-msgid "Stock Picking Report - Store"
-msgstr ""
-
-#. module: l10n_ro_config
-#: model:ir.model.fields,field_description:l10n_ro_config.field_res_company__l10n_ro_stock_acc_price_diff
-#: model:ir.model.fields,field_description:l10n_ro_config.field_res_config_settings__l10n_ro_stock_acc_price_diff
-msgid "Stock Valuation Update"
+#: model_terms:ir.ui.view,arch_db:l10n_ro_config.res_config_settings_account_view_form
+msgid "These taxes are set in any new service product created."
 msgstr ""
 
 #. module: l10n_ro_config
@@ -424,15 +659,16 @@ msgstr ""
 #: model:ir.model.fields,help:l10n_ro_config.field_res_company__l10n_ro_property_stock_picking_custody_account_id
 #: model:ir.model.fields,help:l10n_ro_config.field_res_config_settings__l10n_ro_property_stock_picking_custody_account_id
 msgid ""
-"This account will be used as the extra trial balance payable account for the"
-" current partner on stock picking received in custody."
+"This account will be used as the extra trial balance payable account for the "
+"current partner on stock picking received in custody."
 msgstr ""
 
 #. module: l10n_ro_config
 #: model:ir.model.fields,help:l10n_ro_config.field_res_company__l10n_ro_property_uneligible_tax_account_id
 #: model:ir.model.fields,help:l10n_ro_config.field_res_config_settings__l10n_ro_property_uneligible_tax_account_id
 msgid ""
-"This account will be used as the not eligible tax account for account move line.\n"
+"This account will be used as the not eligible tax account for account move "
+"line.\n"
 "Used in especially in inventory losses."
 msgstr ""
 
@@ -471,7 +707,17 @@ msgstr ""
 msgid ""
 "This allows you to create partners based on VAT:\n"
 "Romanian partners will be create based on ANAF webservice.\n"
-"European partners will be create based on VIES webservice (for countries that allow). \n"
+"European partners will be create based on VIES webservice (for countries "
+"that allow). \n"
+msgstr ""
+
+#. module: l10n_ro_config
+#: model:ir.model.fields,help:l10n_ro_config.field_res_config_settings__module_l10n_ro_stock_price_difference
+msgid ""
+"This allows you to manage price differences between receptions and "
+"invoices.\n"
+"It will be done by using landed cost, to also threat deliveries between "
+"reception and supplier invoice confirmation.\n"
 msgstr ""
 
 #. module: l10n_ro_config
@@ -482,18 +728,14 @@ msgid ""
 msgstr ""
 
 #. module: l10n_ro_config
-#: model:ir.model.fields,help:l10n_ro_config.field_res_config_settings__module_l10n_ro_stock_account_store
-msgid ""
-"This allows you to manage the Romanian Stock Accounting, for locations with "
-"store merchandise"
-msgstr ""
-
-#. module: l10n_ro_config
 #: model:ir.model.fields,help:l10n_ro_config.field_res_config_settings__module_l10n_ro_stock_account
 msgid ""
-"This allows you to manage the Romanian Stock Accounting, for locations with warehouse merchandise, including:\n"
-"New stock accounts on location to allow moving entry in accounting based on the stock move.\n"
-"The account entry will be generated from stock move instead of stock quant, link with the generated account move lines on the picking\n"
+"This allows you to manage the Romanian Stock Accounting, for locations with "
+"warehouse merchandise, including:\n"
+"New stock accounts on location to allow moving entry in accounting based on "
+"the stock move.\n"
+"The account entry will be generated from stock move instead of stock quant, "
+"link with the generated account move lines on the picking\n"
 "Inventory account move lines..."
 msgstr ""
 
@@ -507,15 +749,10 @@ msgstr ""
 #. module: l10n_ro_config
 #: model:ir.model.fields,help:l10n_ro_config.field_res_config_settings__module_l10n_ro_fiscal_validation
 msgid ""
-"This allows you to manage the vat subjected and vat on payment fields update:\n"
+"This allows you to manage the vat subjected and vat on payment fields "
+"update:\n"
 "For Romanian partners based on ANAF webservice.\n"
 "For European partners based on VIES data."
-msgstr ""
-
-#. module: l10n_ro_config
-#: model:ir.model.fields,help:l10n_ro_config.field_res_config_settings__module_l10n_ro_stock_picking_report
-#: model:ir.model.fields,help:l10n_ro_config.field_res_config_settings__module_l10n_ro_stock_picking_report_store
-msgid "This allows you to print Reports for Reception and Delivery"
 msgstr ""
 
 #. module: l10n_ro_config
@@ -529,76 +766,38 @@ msgid "This allows you to set unique partners by company, VAT and NRC."
 msgstr ""
 
 #. module: l10n_ro_config
+#: model:ir.model.fields,help:l10n_ro_config.field_res_config_settings__module_l10n_ro_stock_account_date
+msgid "This allows you to set up the Accounting Date on stock operation"
+msgstr ""
+
+#. module: l10n_ro_config
+#: model:ir.model.fields,help:l10n_ro_config.field_res_config_settings__module_l10n_ro_stock_account_date_wizard
+msgid ""
+"This allows you to set up the Accounting Date on stock operation.The "
+"Accounting Date will be showed up in confirmation wizards."
+msgstr ""
+
+#. module: l10n_ro_config
+#: model:ir.model.fields,help:l10n_ro_config.field_res_config_settings__module_l10n_ro_account_edit_currency_rate
+msgid "This allows you to the currency rate in invoices.\n"
+msgstr ""
+
+#. module: l10n_ro_config
 #: model:ir.model.fields,help:l10n_ro_config.field_res_config_settings__module_l10n_ro_stock
 msgid ""
 "This module add on each warehouse methods of usage giving and consumption"
 msgstr ""
 
 #. module: l10n_ro_config
-#: model:ir.model.fields,help:l10n_ro_config.field_res_config_settings__module_l10n_ro_dvi
-msgid "This module add possibility to register tax declaration on imports"
-msgstr ""
-
-#. module: l10n_ro_config
-#: model:ir.model.fields,help:l10n_ro_config.field_res_config_settings__module_l10n_ro_account_report_sheet
-msgid "This module will add the Account Sheet report."
-msgstr ""
-
-#. module: l10n_ro_config
-#: model:ir.model.fields,help:l10n_ro_config.field_res_config_settings__module_l10n_ro_account_report_balance_sheet
-msgid "This module will add the Balance Sheet report fetched from ANAF."
-msgstr ""
-
-#. module: l10n_ro_config
-#: model:ir.model.fields,help:l10n_ro_config.field_res_config_settings__module_l10n_ro_account_report_D300
-msgid "This module will add the D300 report."
-msgstr ""
-
-#. module: l10n_ro_config
-#: model:ir.model.fields,help:l10n_ro_config.field_res_config_settings__module_l10n_ro_account_report_D390
-msgid "This module will add the D390 report."
-msgstr ""
-
-#. module: l10n_ro_config
-#: model:ir.model.fields,help:l10n_ro_config.field_res_config_settings__module_l10n_ro_account_report_D394
-msgid "This module will add the D394 report."
-msgstr ""
-
-#. module: l10n_ro_config
-#: model:ir.model.fields,help:l10n_ro_config.field_res_config_settings__module_l10n_ro_intrastat
-msgid "This module will add the Intrastat report."
-msgstr ""
-
-#. module: l10n_ro_config
-#: model:ir.model.fields,help:l10n_ro_config.field_res_config_settings__module_l10n_ro_account_report_inventory_sheet
-msgid "This module will add the Inventory Sheet report."
-msgstr ""
-
-#. module: l10n_ro_config
-#: model:ir.model.fields,help:l10n_ro_config.field_res_config_settings__module_l10n_ro_account_report_journal_sheet
-msgid "This module will add the Journal Sheet report."
-msgstr ""
-
-#. module: l10n_ro_config
-#: model:ir.model.fields,help:l10n_ro_config.field_res_config_settings__module_l10n_ro_account_report_pl
-msgid "This module will add the Profit and Loss report."
-msgstr ""
-
-#. module: l10n_ro_config
-#: model:ir.model.fields,help:l10n_ro_config.field_res_config_settings__module_l10n_ro_account_report_journal
-msgid "This module will add the Sale and Purchase Reports."
-msgstr ""
-
-#. module: l10n_ro_config
-#: model:ir.model.fields,help:l10n_ro_config.field_res_config_settings__module_l10n_ro_account_report_trial_balance
-msgid "This module will add the Trial Balance report with multiple columns."
-msgstr ""
-
-#. module: l10n_ro_config
 #: model:ir.model.fields,help:l10n_ro_config.field_res_config_settings__module_l10n_ro_vat_on_payment
 msgid ""
-"This module will download data from ANAF site and when you give or receive a"
-" invoice will set fiscal position for VAT on payment"
+"This module will download data from ANAF site and when you give or receive a "
+"invoice will set fiscal position for VAT on payment"
+msgstr ""
+
+#. module: l10n_ro_config
+#: model:ir.model.fields,help:l10n_ro_config.field_res_config_settings__module_l10n_ro_account_anaf_sync
+msgid "This option allows you to manage the sync to ANAF website."
 msgstr ""
 
 #. module: l10n_ro_config
@@ -609,45 +808,61 @@ msgid ""
 msgstr ""
 
 #. module: l10n_ro_config
-#: model:ir.model.fields,field_description:l10n_ro_config.field_res_company__l10n_ro_property_trade_discount_granted_account_id
-#: model:ir.model.fields,field_description:l10n_ro_config.field_res_config_settings__l10n_ro_property_trade_discount_granted_account_id
-msgid "Trade discounts granted"
+#: model:ir.model.fields,help:l10n_ro_config.field_res_company__l10n_ro_property_customs_commision_product_id
+#: model:ir.model.fields,help:l10n_ro_config.field_res_config_settings__l10n_ro_property_customs_commision_product_id
+msgid ""
+"This product will be used in create the DVI landed costfor the duty "
+"commissions."
 msgstr ""
 
 #. module: l10n_ro_config
-#: model:ir.model.fields,field_description:l10n_ro_config.field_res_company__l10n_ro_property_trade_discount_received_account_id
-#: model:ir.model.fields,field_description:l10n_ro_config.field_res_config_settings__l10n_ro_property_trade_discount_received_account_id
-msgid "Trade discounts received"
+#: model:ir.model.fields,help:l10n_ro_config.field_res_company__l10n_ro_property_customs_duty_product_id
+#: model:ir.model.fields,help:l10n_ro_config.field_res_config_settings__l10n_ro_property_customs_duty_product_id
+msgid "This product will be used in create the DVI landed costfor the duty tax"
+msgstr ""
+
+#. module: l10n_ro_config
+#: model:ir.model.fields,help:l10n_ro_config.field_res_company__l10n_ro_property_stock_price_difference_product_id
+#: model:ir.model.fields,help:l10n_ro_config.field_res_config_settings__l10n_ro_property_stock_price_difference_product_id
+msgid ""
+"This product will be used to create the landed costfor the price difference "
+"between picking and bill"
 msgstr ""
 
 #. module: l10n_ro_config
 #: model_terms:ir.ui.view,arch_db:l10n_ro_config.res_config_settings_view_form
 msgid ""
-"Update stock valuation in case of currency rate\n"
-"                                    difference between reception and bill"
+"Update partners data based on the vat code from ANAF website in\n"
+"                                    cron job."
 msgstr ""
 
 #. module: l10n_ro_config
-#: model:ir.model.fields,field_description:l10n_ro_config.field_res_company__l10n_ro_property_stock_usage_giving_account_id
-#: model:ir.model.fields,field_description:l10n_ro_config.field_res_config_settings__l10n_ro_property_stock_usage_giving_account_id
-msgid "Usage Giving Account"
+#: model_terms:ir.ui.view,arch_db:l10n_ro_config.res_config_settings_view_form
+msgid ""
+"Update stock valuation in case of price difference\n"
+"                                        between reception and bill. Value is "
+"company specific."
 msgstr ""
 
 #. module: l10n_ro_config
-#: model:ir.model.fields,field_description:l10n_ro_config.field_res_company__l10n_ro_accounting
-#: model:ir.model.fields,field_description:l10n_ro_config.field_res_config_settings__use_l10n_ro_accounting
-msgid "Use Romanian Accounting"
+#: model_terms:ir.ui.view,arch_db:l10n_ro_config.res_config_settings_view_form
+msgid "Updates stock accounting according to Romanian Legislation."
 msgstr ""
 
 #. module: l10n_ro_config
-#: model:ir.model.fields,field_description:l10n_ro_config.field_res_partner__l10n_ro_vat_subjected
-#: model:ir.model.fields,field_description:l10n_ro_config.field_res_users__l10n_ro_vat_subjected
-msgid "VAT Legal Statement"
+#: model_terms:ir.ui.view,arch_db:l10n_ro_config.res_config_settings_view_form
+msgid "Upload Romanian cities, so you can select them more easily."
 msgstr ""
 
 #. module: l10n_ro_config
-#: model:ir.model.fields,field_description:l10n_ro_config.field_res_config_settings__l10n_ro_property_vat_on_payment_position_id
-msgid "VAT on Payment"
+#: model:ir.model.fields,field_description:l10n_ro_config.field_res_config_settings__use_anglo_saxon
+msgid "Use anglo-saxon accounting"
+msgstr ""
+
+#. module: l10n_ro_config
+#: model:ir.model.fields,help:l10n_ro_config.field_res_partner__l10n_ro_vat_number
+#: model:ir.model.fields,help:l10n_ro_config.field_res_users__l10n_ro_vat_number
+msgid "VAT number without country code."
 msgstr ""
 
 #. module: l10n_ro_config
@@ -673,3 +888,30 @@ msgid ""
 "use 4428 cont pentru tva neexigibil in notele facute pentru 'Marfa in "
 "magazin'"
 msgstr ""
+
+#~ msgid "Account Balance Sheet Report"
+#~ msgstr "Raport Bilant"
+
+#~ msgid "Account D300 Report"
+#~ msgstr "Declarația D300"
+
+#~ msgid "Account D390 Report"
+#~ msgstr "Declarația D390"
+
+#~ msgid "Account D394 Report"
+#~ msgstr "Declarația D394"
+
+#~ msgid "Account Intrastat Report"
+#~ msgstr "Rpoart intrastat"
+
+#~ msgid "Account Trial Balance Report"
+#~ msgstr "Raport balantă de verificare"
+
+#~ msgid "Adresses"
+#~ msgstr "Adrese"
+
+#~ msgid "Display Name"
+#~ msgstr "Nume afișat"
+
+#~ msgid "Partners"
+#~ msgstr "Parteneri"
