@@ -21,7 +21,7 @@
         "static/src/xml/assets.xml",
     ],
     "license": "AGPL-3",
-    "version": "15.0.1.3.1",
+    "version": "15.0.2.0.0",
     "author": "NextERP Romania,"
     "Forest and Biomass Romania,"
     "Terrabit,"
