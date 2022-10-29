@@ -64,7 +64,7 @@ class StockBackorderConfirmation(models.TransientModel):
                     )
                 self.env["stock.picking"].browse(pickings_to_validate).write(
                     {
-                        "accounting_date": self.l10n_ro_accounting_date,
+                        "l10n_ro_accounting_date": self.l10n_ro_accounting_date,
                         "date_done": self.l10n_ro_accounting_date,
                     }
                 )
