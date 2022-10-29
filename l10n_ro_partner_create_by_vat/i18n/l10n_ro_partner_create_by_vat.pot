@@ -24,25 +24,24 @@ msgid "ANAF - VAT Subjected History"
 msgstr ""
 
 #. module: l10n_ro_partner_create_by_vat
+#: model_terms:ir.ui.view,arch_db:l10n_ro_partner_create_by_vat.view_partner_anaf_status_form
+msgid "ANAF History"
+msgstr ""
+
+#. module: l10n_ro_partner_create_by_vat
 #: code:addons/l10n_ro_partner_create_by_vat/models/res_partner.py:0
 #, python-format
 msgid "ANAF Webservice not working. Exeption=%s."
 msgstr ""
 
 #. module: l10n_ro_partner_create_by_vat
-#: model:ir.model.fields,field_description:l10n_ro_partner_create_by_vat.field_res_partner_anaf_status__act
+#: model:ir.model.fields,field_description:l10n_ro_partner_create_by_vat.field_l10n_ro_res_partner_anaf_status__act
 msgid "Act autorizare"
 msgstr ""
 
 #. module: l10n_ro_partner_create_by_vat
-#: model:ir.model.fields,field_description:l10n_ro_partner_create_by_vat.field_res_partner_anaf_status__active_status
+#: model:ir.model.fields,field_description:l10n_ro_partner_create_by_vat.field_l10n_ro_res_partner_anaf_status__active_status
 msgid "Active Status"
-msgstr ""
-
-#. module: l10n_ro_partner_create_by_vat
-#: model:ir.model.fields,field_description:l10n_ro_partner_create_by_vat.field_res_partner__vat_subjected_anaf_line_ids
-#: model:ir.model.fields,field_description:l10n_ro_partner_create_by_vat.field_res_users__vat_subjected_anaf_line_ids
-msgid "Anaf Company scpTVA Records"
 msgstr ""
 
 #. module: l10n_ro_partner_create_by_vat
@@ -67,123 +66,133 @@ msgid "Contact"
 msgstr ""
 
 #. module: l10n_ro_partner_create_by_vat
-#: model:ir.model.fields,field_description:l10n_ro_partner_create_by_vat.field_res_partner_anaf_scptva__create_uid
-#: model:ir.model.fields,field_description:l10n_ro_partner_create_by_vat.field_res_partner_anaf_status__create_uid
+#: model:ir.model.fields,field_description:l10n_ro_partner_create_by_vat.field_l10n_ro_res_partner_anaf_scptva__create_uid
+#: model:ir.model.fields,field_description:l10n_ro_partner_create_by_vat.field_l10n_ro_res_partner_anaf_status__create_uid
 msgid "Created by"
 msgstr ""
 
 #. module: l10n_ro_partner_create_by_vat
-#: model:ir.model.fields,field_description:l10n_ro_partner_create_by_vat.field_res_partner_anaf_scptva__create_date
-#: model:ir.model.fields,field_description:l10n_ro_partner_create_by_vat.field_res_partner_anaf_status__create_date
+#: model:ir.model.fields,field_description:l10n_ro_partner_create_by_vat.field_l10n_ro_res_partner_anaf_scptva__create_date
+#: model:ir.model.fields,field_description:l10n_ro_partner_create_by_vat.field_l10n_ro_res_partner_anaf_status__create_date
 msgid "Created on"
 msgstr ""
 
 #. module: l10n_ro_partner_create_by_vat
-#: model:ir.model.fields,field_description:l10n_ro_partner_create_by_vat.field_res_partner_anaf_scptva__date
-#: model:ir.model.fields,field_description:l10n_ro_partner_create_by_vat.field_res_partner_anaf_status__date
+#: model:ir.model.fields,field_description:l10n_ro_partner_create_by_vat.field_l10n_ro_res_partner_anaf_scptva__date
+#: model:ir.model.fields,field_description:l10n_ro_partner_create_by_vat.field_l10n_ro_res_partner_anaf_status__date
 msgid "Date"
 msgstr ""
 
 #. module: l10n_ro_partner_create_by_vat
-#: model:ir.model.fields,field_description:l10n_ro_partner_create_by_vat.field_res_partner_anaf_status__delete_date
+#: model:ir.model.fields,field_description:l10n_ro_partner_create_by_vat.field_l10n_ro_res_partner_anaf_status__delete_date
 msgid "Delete Date"
 msgstr ""
 
 #. module: l10n_ro_partner_create_by_vat
-#: model:ir.model.fields,field_description:l10n_ro_partner_create_by_vat.field_res_partner_anaf_scptva__display_name
-#: model:ir.model.fields,field_description:l10n_ro_partner_create_by_vat.field_res_partner_anaf_status__display_name
+#: model:ir.model.fields,field_description:l10n_ro_partner_create_by_vat.field_l10n_ro_res_partner_anaf_scptva__display_name
+#: model:ir.model.fields,field_description:l10n_ro_partner_create_by_vat.field_l10n_ro_res_partner_anaf_status__display_name
 msgid "Display Name"
 msgstr ""
 
 #. module: l10n_ro_partner_create_by_vat
-#: model:ir.model.fields,field_description:l10n_ro_partner_create_by_vat.field_res_partner_anaf_scptva__end_date
-#: model:ir.model.fields,field_description:l10n_ro_partner_create_by_vat.field_res_partner_anaf_status__end_date
+#: model:ir.model.fields,field_description:l10n_ro_partner_create_by_vat.field_l10n_ro_res_partner_anaf_scptva__end_date
+#: model:ir.model.fields,field_description:l10n_ro_partner_create_by_vat.field_l10n_ro_res_partner_anaf_status__end_date
 msgid "End Date"
 msgstr ""
 
 #. module: l10n_ro_partner_create_by_vat
-#: model:ir.model.fields,field_description:l10n_ro_partner_create_by_vat.field_res_partner_anaf_scptva__id
-#: model:ir.model.fields,field_description:l10n_ro_partner_create_by_vat.field_res_partner_anaf_status__id
+#: model:ir.model.fields,field_description:l10n_ro_partner_create_by_vat.field_l10n_ro_res_partner_anaf_scptva__id
+#: model:ir.model.fields,field_description:l10n_ro_partner_create_by_vat.field_l10n_ro_res_partner_anaf_status__id
 msgid "ID"
 msgstr ""
 
 #. module: l10n_ro_partner_create_by_vat
-#: model:ir.model.fields,field_description:l10n_ro_partner_create_by_vat.field_res_partner_anaf_scptva____last_update
-#: model:ir.model.fields,field_description:l10n_ro_partner_create_by_vat.field_res_partner_anaf_status____last_update
+#: model:ir.model.fields,field_description:l10n_ro_partner_create_by_vat.field_l10n_ro_res_partner_anaf_scptva____last_update
+#: model:ir.model.fields,field_description:l10n_ro_partner_create_by_vat.field_l10n_ro_res_partner_anaf_status____last_update
 msgid "Last Modified on"
 msgstr ""
 
 #. module: l10n_ro_partner_create_by_vat
-#: model:ir.model.fields,field_description:l10n_ro_partner_create_by_vat.field_res_partner_anaf_scptva__write_uid
-#: model:ir.model.fields,field_description:l10n_ro_partner_create_by_vat.field_res_partner_anaf_status__write_uid
+#: model:ir.model.fields,field_description:l10n_ro_partner_create_by_vat.field_l10n_ro_res_partner_anaf_scptva__write_uid
+#: model:ir.model.fields,field_description:l10n_ro_partner_create_by_vat.field_l10n_ro_res_partner_anaf_status__write_uid
 msgid "Last Updated by"
 msgstr ""
 
 #. module: l10n_ro_partner_create_by_vat
-#: model:ir.model.fields,field_description:l10n_ro_partner_create_by_vat.field_res_partner_anaf_scptva__write_date
-#: model:ir.model.fields,field_description:l10n_ro_partner_create_by_vat.field_res_partner_anaf_status__write_date
+#: model:ir.model.fields,field_description:l10n_ro_partner_create_by_vat.field_l10n_ro_res_partner_anaf_scptva__write_date
+#: model:ir.model.fields,field_description:l10n_ro_partner_create_by_vat.field_l10n_ro_res_partner_anaf_status__write_date
 msgid "Last Updated on"
 msgstr ""
 
 #. module: l10n_ro_partner_create_by_vat
-#: model:ir.model.fields,field_description:l10n_ro_partner_create_by_vat.field_res_partner_anaf_scptva__message
+#: model:ir.model.fields,field_description:l10n_ro_partner_create_by_vat.field_l10n_ro_res_partner_anaf_scptva__message
 msgid "Message"
 msgstr ""
 
 #. module: l10n_ro_partner_create_by_vat
-#: model:ir.model.fields,field_description:l10n_ro_partner_create_by_vat.field_res_partner__old_name
-#: model:ir.model.fields,field_description:l10n_ro_partner_create_by_vat.field_res_users__old_name
 #: model_terms:ir.ui.view,arch_db:l10n_ro_partner_create_by_vat.view_partner_create_by_vat_einvoice
 msgid "Old Name"
 msgstr ""
 
 #. module: l10n_ro_partner_create_by_vat
-#: model:ir.model.fields,field_description:l10n_ro_partner_create_by_vat.field_res_partner_anaf_scptva__partner_id
-#: model:ir.model.fields,field_description:l10n_ro_partner_create_by_vat.field_res_partner_anaf_status__partner_id
+#: model:ir.model.fields,field_description:l10n_ro_partner_create_by_vat.field_l10n_ro_res_partner_anaf_scptva__partner_id
+#: model:ir.model.fields,field_description:l10n_ro_partner_create_by_vat.field_l10n_ro_res_partner_anaf_status__partner_id
 msgid "Partner"
 msgstr ""
 
 #. module: l10n_ro_partner_create_by_vat
-#: model:ir.model,name:l10n_ro_partner_create_by_vat.model_res_partner_anaf_status
+#: model:ir.model,name:l10n_ro_partner_create_by_vat.model_l10n_ro_res_partner_anaf_status
 msgid "Partner Activation ANAF History"
 msgstr ""
 
 #. module: l10n_ro_partner_create_by_vat
-#: model:ir.model.fields,field_description:l10n_ro_partner_create_by_vat.field_res_partner__active_anaf_line_ids
-#: model:ir.model.fields,field_description:l10n_ro_partner_create_by_vat.field_res_users__active_anaf_line_ids
-msgid "Partner Active Anaf Status"
-msgstr ""
-
-#. module: l10n_ro_partner_create_by_vat
-#: model:ir.model.fields,field_description:l10n_ro_partner_create_by_vat.field_res_partner_anaf_status__status
+#: model:ir.model.fields,field_description:l10n_ro_partner_create_by_vat.field_l10n_ro_res_partner_anaf_status__status
 msgid "Partner Status"
 msgstr ""
 
 #. module: l10n_ro_partner_create_by_vat
-#: model:ir.model,name:l10n_ro_partner_create_by_vat.model_res_partner_anaf_scptva
+#: model:ir.model,name:l10n_ro_partner_create_by_vat.model_l10n_ro_res_partner_anaf_scptva
 msgid "Partner Vat Subjected ANAF History"
 msgstr ""
 
 #. module: l10n_ro_partner_create_by_vat
-#: model:ir.model.fields,field_description:l10n_ro_partner_create_by_vat.field_res_partner_anaf_status__publish_date
+#: model:ir.model.fields,field_description:l10n_ro_partner_create_by_vat.field_l10n_ro_res_partner_anaf_status__publish_date
 msgid "Publish Date"
 msgstr ""
 
 #. module: l10n_ro_partner_create_by_vat
-#: model:ir.model.fields,field_description:l10n_ro_partner_create_by_vat.field_res_partner_anaf_scptva__start_date
-#: model:ir.model.fields,field_description:l10n_ro_partner_create_by_vat.field_res_partner_anaf_status__start_date
+#: model:ir.model.fields,field_description:l10n_ro_partner_create_by_vat.field_res_partner__l10n_ro_vat_subjected_anaf_line_ids
+#: model:ir.model.fields,field_description:l10n_ro_partner_create_by_vat.field_res_users__l10n_ro_vat_subjected_anaf_line_ids
+msgid "Romania - Anaf Company scpTVA Records"
+msgstr ""
+
+#. module: l10n_ro_partner_create_by_vat
+#: model:ir.model.fields,field_description:l10n_ro_partner_create_by_vat.field_res_partner__l10n_ro_old_name
+#: model:ir.model.fields,field_description:l10n_ro_partner_create_by_vat.field_res_users__l10n_ro_old_name
+msgid "Romania - Old Name"
+msgstr ""
+
+#. module: l10n_ro_partner_create_by_vat
+#: model:ir.model.fields,field_description:l10n_ro_partner_create_by_vat.field_res_partner__l10n_ro_active_anaf_line_ids
+#: model:ir.model.fields,field_description:l10n_ro_partner_create_by_vat.field_res_users__l10n_ro_active_anaf_line_ids
+msgid "Romania - Partner Active Anaf Status"
+msgstr ""
+
+#. module: l10n_ro_partner_create_by_vat
+#: model:ir.model.fields,field_description:l10n_ro_partner_create_by_vat.field_l10n_ro_res_partner_anaf_scptva__start_date
+#: model:ir.model.fields,field_description:l10n_ro_partner_create_by_vat.field_l10n_ro_res_partner_anaf_status__start_date
 msgid "Start Date"
 msgstr ""
 
 #. module: l10n_ro_partner_create_by_vat
-#: model:ir.model.fields,help:l10n_ro_partner_create_by_vat.field_res_partner_anaf_scptva__date
-#: model:ir.model.fields,help:l10n_ro_partner_create_by_vat.field_res_partner_anaf_status__date
+#: model:ir.model.fields,help:l10n_ro_partner_create_by_vat.field_l10n_ro_res_partner_anaf_scptva__date
+#: model:ir.model.fields,help:l10n_ro_partner_create_by_vat.field_l10n_ro_res_partner_anaf_status__date
 msgid "The date for ANAF interogation."
 msgstr ""
 
 #. module: l10n_ro_partner_create_by_vat
-#: model:ir.model.fields,help:l10n_ro_partner_create_by_vat.field_res_partner__old_name
-#: model:ir.model.fields,help:l10n_ro_partner_create_by_vat.field_res_users__old_name
+#: model:ir.model.fields,help:l10n_ro_partner_create_by_vat.field_res_partner__l10n_ro_old_name
+#: model:ir.model.fields,help:l10n_ro_partner_create_by_vat.field_res_users__l10n_ro_old_name
 msgid ""
 "To be completed manually with previous name of the company in case on "
 "change.If the field in completed, when fetching the datas from ANAF "
@@ -192,37 +201,37 @@ msgid ""
 msgstr ""
 
 #. module: l10n_ro_partner_create_by_vat
-#: model:ir.model.fields,help:l10n_ro_partner_create_by_vat.field_res_partner_anaf_scptva__vat_number
-#: model:ir.model.fields,help:l10n_ro_partner_create_by_vat.field_res_partner_anaf_status__vat_number
+#: model:ir.model.fields,help:l10n_ro_partner_create_by_vat.field_l10n_ro_res_partner_anaf_scptva__vat_number
+#: model:ir.model.fields,help:l10n_ro_partner_create_by_vat.field_l10n_ro_res_partner_anaf_status__vat_number
 msgid "VAT Number without country code."
 msgstr ""
 
 #. module: l10n_ro_partner_create_by_vat
-#: model:ir.model.fields,field_description:l10n_ro_partner_create_by_vat.field_res_partner_anaf_scptva__vat_number
-#: model:ir.model.fields,field_description:l10n_ro_partner_create_by_vat.field_res_partner_anaf_status__vat_number
+#: model:ir.model.fields,field_description:l10n_ro_partner_create_by_vat.field_l10n_ro_res_partner_anaf_scptva__vat_number
+#: model:ir.model.fields,field_description:l10n_ro_partner_create_by_vat.field_l10n_ro_res_partner_anaf_status__vat_number
 msgid "Vat Number"
 msgstr ""
 
 #. module: l10n_ro_partner_create_by_vat
-#: model:ir.model.fields,field_description:l10n_ro_partner_create_by_vat.field_res_partner_anaf_scptva__vat_subjected
+#: model:ir.model.fields,field_description:l10n_ro_partner_create_by_vat.field_l10n_ro_res_partner_anaf_scptva__vat_subjected
 msgid "Vat Subjected"
 msgstr ""
 
 #. module: l10n_ro_partner_create_by_vat
-#: model:ir.model.fields,field_description:l10n_ro_partner_create_by_vat.field_res_partner_anaf_scptva__year_date
+#: model:ir.model.fields,field_description:l10n_ro_partner_create_by_vat.field_l10n_ro_res_partner_anaf_scptva__year_date
 msgid "Year Date"
 msgstr ""
 
 #. module: l10n_ro_partner_create_by_vat
-#: model:ir.model.fields,help:l10n_ro_partner_create_by_vat.field_res_partner__vat_subjected_anaf_line_ids
-#: model:ir.model.fields,help:l10n_ro_partner_create_by_vat.field_res_users__vat_subjected_anaf_line_ids
+#: model:ir.model.fields,help:l10n_ro_partner_create_by_vat.field_res_partner__l10n_ro_vat_subjected_anaf_line_ids
+#: model:ir.model.fields,help:l10n_ro_partner_create_by_vat.field_res_users__l10n_ro_vat_subjected_anaf_line_ids
 msgid ""
 "will add entries only if differs as scpTVA from previos or after entries"
 msgstr ""
 
 #. module: l10n_ro_partner_create_by_vat
-#: model:ir.model.fields,help:l10n_ro_partner_create_by_vat.field_res_partner__active_anaf_line_ids
-#: model:ir.model.fields,help:l10n_ro_partner_create_by_vat.field_res_users__active_anaf_line_ids
+#: model:ir.model.fields,help:l10n_ro_partner_create_by_vat.field_res_partner__l10n_ro_active_anaf_line_ids
+#: model:ir.model.fields,help:l10n_ro_partner_create_by_vat.field_res_users__l10n_ro_active_anaf_line_ids
 msgid ""
 "will add entries only if differs as statusInactivi from previos or after "
 "entries"
