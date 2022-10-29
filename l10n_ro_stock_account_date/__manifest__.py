@@ -14,5 +14,6 @@
         "views/stock_valuation_layer_views.xml",
     ],
     "installable": True,
+    "development_status": "Mature",
     "maintainers": ["feketemihai"],
 }

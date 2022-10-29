@@ -25,7 +25,7 @@ class TestStockReport(TestStockCommon):
         )
         inventory._apply_inventory()
 
-    def trasfer(self, location, location_dest, product=None, accounting_date=False):
+    def transfer(self, location, location_dest, product=None, accounting_date=False):
         self.PickingObj = self.env["stock.picking"]
         self.MoveObj = self.env["stock.move"]
         self.MoveObj = self.env["stock.move"]
@@ -52,7 +52,7 @@ class TestStockReport(TestStockCommon):
             }
         )
         if accounting_date:
-            picking.accounting_date = accounting_date
+            picking.l10n_ro_accounting_date = accounting_date
         picking.action_confirm()
         picking.action_assign()
         for move_line in picking.move_lines:
@@ -68,7 +68,7 @@ class TestStockReport(TestStockCommon):
             {"l10n_ro_property_stock_valuation_account_id": self.account_valuation.id}
         )
         _logger.info("Start transfer")
-        picking = self.trasfer(location_id, location_dest_id)
+        picking = self.transfer(location_id, location_dest_id)
         picking.move_lines[0].move_line_ids[0].qty_done = 2
         action_data = picking.button_validate()
         backorder_wizard = Form(
@@ -76,11 +76,11 @@ class TestStockReport(TestStockCommon):
                 **action_data.get("context", {})
             )
         ).save()
-        backorder_wizard.accounting_date = acc_date
+        backorder_wizard.l10n_ro_accounting_date = acc_date
         backorder_wizard.process()
         stock_move = picking.move_lines
         _logger.info("Tranfer efectuat")
-        self.assertEqual(picking.accounting_date.date(), acc_date)
+        self.assertEqual(picking.l10n_ro_accounting_date.date(), acc_date)
         self.assertEqual(stock_move.date.date(), acc_date)
         self.assertEqual(stock_move.move_line_ids.date.date(), acc_date)
         self.assertEqual(
@@ -97,7 +97,7 @@ class TestStockReport(TestStockCommon):
             {"l10n_ro_property_stock_valuation_account_id": self.account_valuation.id}
         )
         _logger.info("Start transfer")
-        picking = self.trasfer(location_id, location_dest_id)
+        picking = self.transfer(location_id, location_dest_id)
         picking.move_lines[0].move_line_ids[0].qty_done = 2
         action_data = picking.button_validate()
         backorder_wizard = Form(
@@ -105,11 +105,11 @@ class TestStockReport(TestStockCommon):
                 **action_data.get("context", {})
             )
         ).save()
-        backorder_wizard.accounting_date = acc_date
+        backorder_wizard.l10n_ro_accounting_date = acc_date
         backorder_wizard.process_cancel_backorder()
         stock_move = picking.move_lines.filtered(lambda m: m.state == "done")
         _logger.info("Tranfer efectuat")
-        self.assertEqual(picking.accounting_date.date(), acc_date)
+        self.assertEqual(picking.l10n_ro_accounting_date.date(), acc_date)
         self.assertEqual(stock_move.date.date(), acc_date)
         self.assertEqual(stock_move.move_line_ids.date.date(), acc_date)
         self.assertEqual(
@@ -138,12 +138,12 @@ class TestStockReport(TestStockCommon):
         wiz = Form(
             self.env["stock.immediate.transfer"].with_context(**wiz["context"])
         ).save()
-        wiz.accounting_date = acc_date
+        wiz.l10n_ro_accounting_date = acc_date
         wiz.process()
 
         stock_move = picking.move_lines
         _logger.info("Tranfer efectuat")
-        self.assertEqual(picking.accounting_date.date(), acc_date)
+        self.assertEqual(picking.l10n_ro_accounting_date.date(), acc_date)
         self.assertEqual(stock_move.date.date(), acc_date)
         self.assertEqual(stock_move.move_line_ids.date.date(), acc_date)
         self.assertEqual(
