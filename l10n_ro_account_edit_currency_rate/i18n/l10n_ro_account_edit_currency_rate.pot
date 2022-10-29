@@ -19,13 +19,6 @@ msgid "Currency"
 msgstr ""
 
 #. module: l10n_ro_account_edit_currency_rate
-#: model:ir.model.fields,field_description:l10n_ro_account_edit_currency_rate.field_account_bank_statement_line__currency_rate
-#: model:ir.model.fields,field_description:l10n_ro_account_edit_currency_rate.field_account_move__currency_rate
-#: model:ir.model.fields,field_description:l10n_ro_account_edit_currency_rate.field_account_payment__currency_rate
-msgid "Currency Rate"
-msgstr ""
-
-#. module: l10n_ro_account_edit_currency_rate
 #: model:ir.model,name:l10n_ro_account_edit_currency_rate.model_account_move
 msgid "Journal Entry"
 msgstr ""
@@ -33,4 +26,11 @@ msgstr ""
 #. module: l10n_ro_account_edit_currency_rate
 #: model:ir.model,name:l10n_ro_account_edit_currency_rate.model_account_move_line
 msgid "Journal Item"
+msgstr ""
+
+#. module: l10n_ro_account_edit_currency_rate
+#: model:ir.model.fields,field_description:l10n_ro_account_edit_currency_rate.field_account_bank_statement_line__l10n_ro_currency_rate
+#: model:ir.model.fields,field_description:l10n_ro_account_edit_currency_rate.field_account_move__l10n_ro_currency_rate
+#: model:ir.model.fields,field_description:l10n_ro_account_edit_currency_rate.field_account_payment__l10n_ro_currency_rate
+msgid "Romania - Currency Rate"
 msgstr ""
