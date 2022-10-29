@@ -14,8 +14,12 @@ msgstr ""
 "Plural-Forms: \n"
 
 #. module: l10n_ro_stock_account_notice
-#: model:ir.model.fields,field_description:l10n_ro_stock_account_notice.field_stock_picking__notice
-msgid "Is a notice"
+#: model:ir.model.fields,field_description:l10n_ro_stock_account_notice.field_account_move__is_l10n_ro_record
+#: model:ir.model.fields,field_description:l10n_ro_stock_account_notice.field_account_move_line__is_l10n_ro_record
+#: model:ir.model.fields,field_description:l10n_ro_stock_account_notice.field_product_template__is_l10n_ro_record
+#: model:ir.model.fields,field_description:l10n_ro_stock_account_notice.field_stock_move__is_l10n_ro_record
+#: model:ir.model.fields,field_description:l10n_ro_stock_account_notice.field_stock_picking__is_l10n_ro_record
+msgid "Is Romanian Record"
 msgstr ""
 
 #. module: l10n_ro_stock_account_notice
@@ -40,6 +44,11 @@ msgid "Product Template"
 msgstr ""
 
 #. module: l10n_ro_stock_account_notice
+#: model:ir.model.fields,field_description:l10n_ro_stock_account_notice.field_stock_picking__l10n_ro_notice
+msgid "Romania - Is a notice"
+msgstr ""
+
+#. module: l10n_ro_stock_account_notice
 #: model:ir.model,name:l10n_ro_stock_account_notice.model_stock_move
 msgid "Stock Move"
 msgstr ""
@@ -50,7 +59,7 @@ msgid "Transfer"
 msgstr ""
 
 #. module: l10n_ro_stock_account_notice
-#: model:ir.model.fields,help:l10n_ro_stock_account_notice.field_stock_picking__notice
+#: model:ir.model.fields,help:l10n_ro_stock_account_notice.field_stock_picking__l10n_ro_notice
 msgid ""
 "With this field the reception/delivery is set as a notice. The generated "
 "account move will contain accounts 408/418."
