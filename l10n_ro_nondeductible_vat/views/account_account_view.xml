@@ -7,7 +7,11 @@
         <field name="inherit_id" ref="account.view_account_form" />
         <field name="arch" type="xml">
             <field name="tax_ids" position="before">
-                <field name="nondeductible_account_id" />
+                <field name="is_l10n_ro_record" invisible="1" />
+                <field
+                    name="l10n_ro_nondeductible_account_id"
+                    attrs="{'invisible': [('is_l10n_ro_record','=',False)]}"
+                />
             </field>
         </field>
     </record>
