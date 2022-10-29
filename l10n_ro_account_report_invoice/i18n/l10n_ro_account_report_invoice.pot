@@ -52,13 +52,6 @@ msgid "Config Settings"
 msgstr ""
 
 #. module: l10n_ro_account_report_invoice
-#: model:ir.model.fields,field_description:l10n_ro_account_report_invoice.field_account_bank_statement_line__currency_rate
-#: model:ir.model.fields,field_description:l10n_ro_account_report_invoice.field_account_move__currency_rate
-#: model:ir.model.fields,field_description:l10n_ro_account_report_invoice.field_account_payment__currency_rate
-msgid "Currency Rate"
-msgstr ""
-
-#. module: l10n_ro_account_report_invoice
 #: model_terms:ir.ui.view,arch_db:l10n_ro_account_report_invoice.l10n_ro_report_invoice_document
 msgid "Currency rate: 1"
 msgstr ""
@@ -74,19 +67,31 @@ msgid "Invoices without stamp text"
 msgstr ""
 
 #. module: l10n_ro_account_report_invoice
+#: model:ir.model.fields,field_description:l10n_ro_account_report_invoice.field_account_move__is_l10n_ro_record
+msgid "Is Romanian Record"
+msgstr ""
+
+#. module: l10n_ro_account_report_invoice
 #: model:ir.model,name:l10n_ro_account_report_invoice.model_account_move
 msgid "Journal Entry"
 msgstr ""
 
 #. module: l10n_ro_account_report_invoice
-#: model:ir.model.fields,field_description:l10n_ro_account_report_invoice.field_res_company__invoice_no_signature_text
-#: model:ir.model.fields,field_description:l10n_ro_account_report_invoice.field_res_config_settings__invoice_no_signature_text
-msgid "Legal Invoice Text"
+#: model_terms:ir.ui.view,arch_db:l10n_ro_account_report_invoice.l10n_ro_report_invoice_document
+msgid "NRC:"
 msgstr ""
 
 #. module: l10n_ro_account_report_invoice
-#: model_terms:ir.ui.view,arch_db:l10n_ro_account_report_invoice.l10n_ro_report_invoice_document
-msgid "NRC:"
+#: model:ir.model.fields,field_description:l10n_ro_account_report_invoice.field_account_bank_statement_line__l10n_ro_currency_rate
+#: model:ir.model.fields,field_description:l10n_ro_account_report_invoice.field_account_move__l10n_ro_currency_rate
+#: model:ir.model.fields,field_description:l10n_ro_account_report_invoice.field_account_payment__l10n_ro_currency_rate
+msgid "Romania - Currency Rate"
+msgstr ""
+
+#. module: l10n_ro_account_report_invoice
+#: model:ir.model.fields,field_description:l10n_ro_account_report_invoice.field_res_company__l10n_ro_no_signature_text
+#: model:ir.model.fields,field_description:l10n_ro_account_report_invoice.field_res_config_settings__l10n_ro_no_signature_text
+msgid "Romania - No Signature Text"
 msgstr ""
 
 #. module: l10n_ro_account_report_invoice
