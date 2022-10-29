@@ -25,7 +25,7 @@ class TestStockReport(TestStockCommon):
         )
         inventory._apply_inventory()
 
-    def trasfer(self, location, location_dest, product=None, accounting_date=False):
+    def transfer(self, location, location_dest, product=None, accounting_date=False):
 
         self.PickingObj = self.env["stock.picking"]
         self.MoveObj = self.env["stock.move"]
