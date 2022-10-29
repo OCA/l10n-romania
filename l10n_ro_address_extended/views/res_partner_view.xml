@@ -1,49 +1,39 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <odoo>
     <record id="view_partner_structured_form" model="ir.ui.view">
-        <field name="name">view_partner_structured_form</field>
+        <field name="name">l10n_ro_view_partner_structured_form</field>
         <field name="model">res.partner</field>
-        <field name="priority">100</field>
         <field
             name="inherit_id"
             ref="base_address_extended.view_partner_structured_form"
         />
         <field name="arch" type="xml">
-            <field name="street_number" position="attributes">
-                 <attribute name="placeholder">Home Number</attribute>
-            </field>
-            <field name="street_number2" position="attributes">
-                 <attribute name="placeholder">Door Number</attribute>
-            </field>
             <xpath expr="//field[@name='street_number']" position="after">
+                <field name="is_l10n_ro_record" invisible="True" />
                 <field
-                    name="street_staircase"
+                    name="l10n_ro_street_staircase"
                     placeholder="Staircase Number"
-                    attrs="{'readonly': [('type', '=', 'contact'),('parent_id', '!=', False)]}"
+                    attrs="{'readonly': [('type', '=', 'contact'),('parent_id', '!=', False)],
+                            'invisible': [('is_l10n_ro_record','=',False)]}"
                 />
             </xpath>
         </field>
     </record>
     <record id="view_partner_address_structured_form" model="ir.ui.view">
-        <field name="name">view_partner_address_structured_form</field>
+        <field name="name">l10n_ro_view_partner_address_structured_form</field>
         <field name="model">res.partner</field>
-        <field name="priority">100</field>
         <field
             name="inherit_id"
             ref="base_address_extended.view_partner_address_structured_form"
         />
         <field name="arch" type="xml">
-            <field name="street_number" position="attributes">
-                 <attribute name="placeholder">Home Number</attribute>
-            </field>
-            <field name="street_number2" position="attributes">
-                 <attribute name="placeholder">Door Number</attribute>
-            </field>
             <xpath expr="//field[@name='street_number']" position="after">
+                <field name="is_l10n_ro_record" invisible="True" />
                 <field
-                    name="street_staircase"
+                    name="l10n_ro_street_staircase"
                     placeholder="Staircase Number"
-                    attrs="{'readonly': [('type', '=', 'contact'),('parent_id', '!=', False)]}"
+                    attrs="{'readonly': [('type', '=', 'contact'),('parent_id', '!=', False)],
+                            'invisible': [('is_l10n_ro_record','=',False)]}"
                 />
             </xpath>
         </field>
