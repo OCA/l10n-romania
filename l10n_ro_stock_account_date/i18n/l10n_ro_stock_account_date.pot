@@ -14,7 +14,7 @@ msgstr ""
 "Plural-Forms: \n"
 
 #. module: l10n_ro_stock_account_date
-#: model:ir.model.fields,field_description:l10n_ro_stock_account_date.field_stock_picking__accounting_date
+#: model:ir.model.fields,field_description:l10n_ro_stock_account_date.field_stock_picking__l10n_ro_accounting_date
 #: model_terms:ir.ui.view,arch_db:l10n_ro_stock_account_date.view_picking_internal_search
 msgid "Accounting Date"
 msgstr ""
@@ -30,15 +30,22 @@ msgid "Created on"
 msgstr ""
 
 #. module: l10n_ro_stock_account_date
-#: model:ir.model.fields,field_description:l10n_ro_stock_account_date.field_stock_valuation_layer__date_done
-msgid "Date Done"
-msgstr ""
-
-#. module: l10n_ro_stock_account_date
-#: model:ir.model.fields,help:l10n_ro_stock_account_date.field_stock_picking__accounting_date
+#: model:ir.model.fields,help:l10n_ro_stock_account_date.field_stock_picking__l10n_ro_accounting_date
 msgid ""
 "If this field is set, the svl and accounting entiries will have this date, "
 "If not will have the today date as it should be"
+msgstr ""
+
+#. module: l10n_ro_stock_account_date
+#: model:ir.model.fields,field_description:l10n_ro_stock_account_date.field_stock_move__is_l10n_ro_record
+#: model:ir.model.fields,field_description:l10n_ro_stock_account_date.field_stock_move_line__is_l10n_ro_record
+#: model:ir.model.fields,field_description:l10n_ro_stock_account_date.field_stock_picking__is_l10n_ro_record
+msgid "Is Romanian Record"
+msgstr ""
+
+#. module: l10n_ro_stock_account_date
+#: model:ir.model.fields,field_description:l10n_ro_stock_account_date.field_stock_valuation_layer__l10n_ro_date_done
+msgid "L10N Ro Date Done"
 msgstr ""
 
 #. module: l10n_ro_stock_account_date
@@ -72,7 +79,7 @@ msgid "Stock Valuation Layer"
 msgstr ""
 
 #. module: l10n_ro_stock_account_date
-#: model:ir.model.fields,help:l10n_ro_stock_account_date.field_stock_valuation_layer__date_done
+#: model:ir.model.fields,help:l10n_ro_stock_account_date.field_stock_valuation_layer__l10n_ro_date_done
 msgid ""
 "This is the date when this recod was created. Original create_date is writen"
 " at reception by module nexterp_stock_date"
