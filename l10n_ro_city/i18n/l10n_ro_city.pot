@@ -25279,6 +25279,12 @@ msgid "Irina"
 msgstr ""
 
 #. module: l10n_ro_city
+#: model:ir.model.fields,field_description:l10n_ro_city.field_res_city__is_l10n_ro_record
+#: model:ir.model.fields,field_description:l10n_ro_city.field_res_partner__is_l10n_ro_record
+msgid "Is Romanian Record"
+msgstr ""
+
+#. module: l10n_ro_city
 #: model:res.city,name:l10n_ro_city.RO_159696
 msgid "Isaccea"
 msgstr ""
@@ -31807,11 +31813,6 @@ msgstr ""
 #. module: l10n_ro_city
 #: model:res.city,name:l10n_ro_city.RO_161008
 msgid "Nalbant"
-msgstr ""
-
-#. module: l10n_ro_city
-#: model:ir.model.fields,field_description:l10n_ro_city.field_res_city__municipality
-msgid "Name"
 msgstr ""
 
 #. module: l10n_ro_city
@@ -39545,6 +39546,16 @@ msgid "Romanești"
 msgstr ""
 
 #. module: l10n_ro_city
+#: model:ir.model.fields,field_description:l10n_ro_city.field_res_city__l10n_ro_municipality
+msgid "Romania - Municipality"
+msgstr ""
+
+#. module: l10n_ro_city
+#: model:ir.model.fields,field_description:l10n_ro_city.field_res_city__l10n_ro_siruta
+msgid "Romania - Siruta"
+msgstr ""
+
+#. module: l10n_ro_city
 #: model:res.city,name:l10n_ro_city.RO_168087
 msgid "Romanii de Jos"
 msgstr ""
@@ -42517,11 +42528,6 @@ msgstr ""
 #. module: l10n_ro_city
 #: model:res.city,name:l10n_ro_city.RO_99110
 msgid "Sirețel"
-msgstr ""
-
-#. module: l10n_ro_city
-#: model:ir.model.fields,field_description:l10n_ro_city.field_res_city__siruta
-msgid "Siruta"
 msgstr ""
 
 #. module: l10n_ro_city
