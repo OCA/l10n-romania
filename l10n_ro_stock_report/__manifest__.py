@@ -2,7 +2,7 @@
 {
     "name": "Romania - Stock Report",
     "license": "AGPL-3",
-    "version": "15.0.3.4.0",
+    "version": "15.0.4.0.0",
     "author": "Terrabit,NextERP Romania,Odoo Community Association (OCA)",
     "website": "https://github.com/OCA/l10n-romania",
     "category": "Warehouse",
