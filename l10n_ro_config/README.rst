@@ -25,15 +25,57 @@ Romania - Localization Config
 
 |badge1| |badge2| |badge3| |badge4| |badge5| 
 
-This module allows you to install and configure all the localization modules
-related to Romania.
-
+This module allows you to install and configure all the localization modules related to Romania.
 Some of the modules will load data at install.
+
+For Romanian companies, you will have a dedicated page in Configuration, from where you cna install rest of the modules, or set up some added fields for localization.
+
+\* All changes added by the Romanian localization will only apply for companies that have the "Use Romanian Accounting" checkbox set.
+
+\* All menus and fields are visible in the interface if you are working on a Romanian company, otherwise the are hidden.
 
 **Table of contents**
 
 .. contents::
    :local:
+
+Installation
+============
+
+To install this module, you need to:
+
+* clone the branch 14.0 of the repository https://github.com/OCA/l10n-romania
+* add the path to this repository in your configuration (addons-path)
+* update the module list
+* search for "Romania - Localization Config" in your addons
+* install the module
+
+Usage
+=====
+
+Companies
+=========
+
+- You can complete dedicated fields for Romanian companies, like "Share Capital", "CAEN Code".
+- From Romanian page from Configuration, you can define new properties for your company, depending on the modules that you have installed.
+
+Partners
+=========
+
+- You can complete dedicated fields for Romanian partners, like "VAT Subjected", "CAEN Code", "E-invoicing".
+- You can input also partners without VAT country code, but you need to select also the country.
+
+Products
+========
+
+- Use different taxes for "Service" products, they are defined in the Chart of Accounts, but here we set up the default taxes used.
+
+Bank Accounts
+=============
+
+- Tick the "Ro Print in Report" fields if you want the bank account to be printed in reports (not all reports are updated but you can use the example from the Invoice Report to change the other report where you want to print the bank accounts).
+
+  ** This applies also for company bank accounts, there you can use also the related field from Account Journal to mark them.
 
 Bug Tracker
 ===========
