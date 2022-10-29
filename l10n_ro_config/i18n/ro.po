@@ -79,6 +79,11 @@ msgid "<strong>Share Capital:</strong>"
 msgstr "<strong>Capital social:</strong>"
 
 #. module: l10n_ro_config
+#: model:ir.model.fields,field_description:l10n_ro_config.field_res_config_settings__module_l10n_ro_account_anaf_sync
+msgid "Account ANAF Sync"
+msgstr ""
+
+#. module: l10n_ro_config
 #: model_terms:ir.ui.view,arch_db:l10n_ro_config.res_config_settings_view_form
 msgid "Accounting"
 msgstr "Contabilitate"
@@ -265,11 +270,6 @@ msgid "Partners unique by Company, VAT, NRC"
 msgstr ""
 
 #. module: l10n_ro_config
-#: model:ir.model.fields,field_description:l10n_ro_config.field_res_config_settings__l10n_ro_property_stock_price_difference_product_id
-msgid "Price Difference Landed Cost Product"
-msgstr ""
-
-#. module: l10n_ro_config
 #: model_terms:ir.ui.view,arch_db:l10n_ro_config.res_config_settings_view_form
 msgid "Print custom receipt report for Romanian companies."
 msgstr ""
@@ -277,6 +277,11 @@ msgstr ""
 #. module: l10n_ro_config
 #: model:ir.model,name:l10n_ro_config.model_product_template
 msgid "Product Template"
+msgstr ""
+
+#. module: l10n_ro_config
+#: model_terms:ir.ui.view,arch_db:l10n_ro_config.res_config_settings_view_form
+msgid "Record DVI directly from invoices."
 msgstr ""
 
 #. module: l10n_ro_config
@@ -305,9 +310,24 @@ msgstr ""
 
 #. module: l10n_ro_config
 #: model_terms:ir.ui.view,arch_db:l10n_ro_config.res_config_settings_view_form
+msgid "Register sync oAuth with ANAF website."
+msgstr ""
+
+#. module: l10n_ro_config
+#: model_terms:ir.ui.view,arch_db:l10n_ro_config.res_config_settings_view_form
 msgid ""
 "Registration of accounting moves according to\n"
 "                                    Romanian legislation"
+msgstr ""
+
+#. module: l10n_ro_config
+#: model:ir.model.fields,field_description:l10n_ro_config.field_account_journal__l10n_ro_print_report
+msgid "Ro Print in Report"
+msgstr ""
+
+#. module: l10n_ro_config
+#: model_terms:ir.ui.view,arch_db:l10n_ro_config.res_config_settings_view_form
+msgid "Romania"
 msgstr ""
 
 #. module: l10n_ro_config
@@ -315,123 +335,138 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_ro_config.field_res_config_settings__l10n_ro_caen_code
 #: model:ir.model.fields,field_description:l10n_ro_config.field_res_partner__l10n_ro_caen_code
 #: model:ir.model.fields,field_description:l10n_ro_config.field_res_users__l10n_ro_caen_code
-msgid "Ro CAEN Code"
+msgid "Romania - CAEN Code"
 msgstr ""
 
 #. module: l10n_ro_config
 #: model:ir.model.fields,field_description:l10n_ro_config.field_res_company__l10n_ro_property_stock_transfer_account_id
 #: model:ir.model.fields,field_description:l10n_ro_config.field_res_config_settings__l10n_ro_property_stock_transfer_account_id
-msgid "Ro Company Stock Transfer Account"
+msgid "Romania - Company Stock Transfer Account"
+msgstr ""
+
+#. module: l10n_ro_config
+#: model:ir.model.fields,field_description:l10n_ro_config.field_res_company__l10n_ro_property_customs_commision_product_id
+#: model:ir.model.fields,field_description:l10n_ro_config.field_res_config_settings__l10n_ro_property_customs_commision_product_id
+msgid "Romania - Customs Commission Landed Cost Product"
+msgstr ""
+
+#. module: l10n_ro_config
+#: model:ir.model.fields,field_description:l10n_ro_config.field_res_company__l10n_ro_property_customs_duty_product_id
+#: model:ir.model.fields,field_description:l10n_ro_config.field_res_config_settings__l10n_ro_property_customs_duty_product_id
+msgid "Romania - Customs Duty Landed Cost Product"
 msgstr ""
 
 #. module: l10n_ro_config
 #: model:ir.model.fields,field_description:l10n_ro_config.field_res_company__l10n_ro_account_serv_purchase_tax_id
 #: model:ir.model.fields,field_description:l10n_ro_config.field_res_config_settings__l10n_ro_serv_purchase_tax_id
-msgid "Ro Default Services Purchase Tax"
+msgid "Romania - Default Services Purchase Tax"
 msgstr ""
 
 #. module: l10n_ro_config
 #: model:ir.model.fields,field_description:l10n_ro_config.field_res_company__l10n_ro_account_serv_sale_tax_id
 #: model:ir.model.fields,field_description:l10n_ro_config.field_res_config_settings__l10n_ro_serv_sale_tax_id
-msgid "Ro Default Services Sale Tax"
+msgid "Romania - Default Services Sale Tax"
 msgstr ""
 
 #. module: l10n_ro_config
 #: model:ir.model.fields,field_description:l10n_ro_config.field_res_partner__l10n_ro_e_invoice
 #: model:ir.model.fields,field_description:l10n_ro_config.field_res_users__l10n_ro_e_invoice
-msgid "Ro E-Invoicing"
+msgid "Romania - E-Invoicing"
 msgstr ""
 
 #. module: l10n_ro_config
 #: model:ir.model.fields,field_description:l10n_ro_config.field_res_company__l10n_ro_property_inverse_taxation_position_id
 #: model:ir.model.fields,field_description:l10n_ro_config.field_res_config_settings__l10n_ro_property_inverse_taxation_position_id
-msgid "Ro Fiscal Position for Inverse Taxation"
+msgid "Romania - Fiscal Position for Inverse Taxation"
 msgstr ""
 
 #. module: l10n_ro_config
 #: model:ir.model.fields,field_description:l10n_ro_config.field_res_company__l10n_ro_property_vat_on_payment_position_id
 #: model:ir.model.fields,field_description:l10n_ro_config.field_res_config_settings__l10n_ro_property_vat_on_payment_position_id
-msgid "Ro Fiscal Position for VAT on Payment"
+msgid "Romania - Fiscal Position for VAT on Payment"
 msgstr ""
 
 #. module: l10n_ro_config
 #: model:ir.model.fields,field_description:l10n_ro_config.field_res_company__l10n_ro_property_uneligible_tax_account_id
 #: model:ir.model.fields,field_description:l10n_ro_config.field_res_config_settings__l10n_ro_property_uneligible_tax_account_id
-msgid "Ro Not Eligible Tax Account"
+msgid "Romania - Not Eligible Tax Account"
 msgstr ""
 
 #. module: l10n_ro_config
 #: model:ir.model.fields,field_description:l10n_ro_config.field_res_company__l10n_ro_property_stock_picking_custody_account_id
 #: model:ir.model.fields,field_description:l10n_ro_config.field_res_config_settings__l10n_ro_property_stock_picking_custody_account_id
-msgid "Ro Picking Account Custody"
+msgid "Romania - Picking Account Custody"
 msgstr ""
 
 #. module: l10n_ro_config
 #: model:ir.model.fields,field_description:l10n_ro_config.field_res_company__l10n_ro_property_stock_picking_payable_account_id
 #: model:ir.model.fields,field_description:l10n_ro_config.field_res_config_settings__l10n_ro_property_stock_picking_payable_account_id
-msgid "Ro Picking Account Payable"
+msgid "Romania - Picking Account Payable"
 msgstr ""
 
 #. module: l10n_ro_config
 #: model:ir.model.fields,field_description:l10n_ro_config.field_res_company__l10n_ro_property_stock_picking_receivable_account_id
 #: model:ir.model.fields,field_description:l10n_ro_config.field_res_config_settings__l10n_ro_property_stock_picking_receivable_account_id
-msgid "Ro Picking Account Receivable"
+msgid "Romania - Picking Account Receivable"
 msgstr ""
 
 #. module: l10n_ro_config
 #: model:ir.model.fields,field_description:l10n_ro_config.field_res_company__l10n_ro_property_stock_price_difference_product_id
-msgid "Ro Price Difference Landed Cost Product"
+#: model:ir.model.fields,field_description:l10n_ro_config.field_res_config_settings__l10n_ro_property_stock_price_difference_product_id
+msgid "Romania - Price Difference Landed Cost Product"
 msgstr ""
 
 #. module: l10n_ro_config
-#: model:ir.model.fields,field_description:l10n_ro_config.field_account_journal__l10n_ro_print_report
 #: model:ir.model.fields,field_description:l10n_ro_config.field_account_setup_bank_manual_config__l10n_ro_print_report
 #: model:ir.model.fields,field_description:l10n_ro_config.field_res_partner_bank__l10n_ro_print_report
-msgid "Ro Print in Report"
+msgid "Romania - Print in Report"
 msgstr ""
 
 #. module: l10n_ro_config
 #: model:ir.model.fields,field_description:l10n_ro_config.field_res_company__l10n_ro_share_capital
-msgid "Ro Share Capital"
+msgid "Romania - Share Capital"
 msgstr ""
 
 #. module: l10n_ro_config
 #: model:ir.model.fields,field_description:l10n_ro_config.field_res_company__l10n_ro_stock_acc_price_diff
 #: model:ir.model.fields,field_description:l10n_ro_config.field_res_config_settings__l10n_ro_stock_acc_price_diff
-msgid "Ro Stock Valuation Update"
+msgid "Romania - Stock Valuation Update"
 msgstr ""
 
 #. module: l10n_ro_config
 #: model:ir.model.fields,field_description:l10n_ro_config.field_res_company__l10n_ro_property_trade_discount_granted_account_id
-msgid "Ro Trade discounts granted"
+#: model:ir.model.fields,field_description:l10n_ro_config.field_res_config_settings__l10n_ro_property_trade_discount_granted_account_id
+msgid "Romania - Trade discounts granted"
 msgstr ""
 
 #. module: l10n_ro_config
 #: model:ir.model.fields,field_description:l10n_ro_config.field_res_company__l10n_ro_property_trade_discount_received_account_id
-msgid "Ro Trade discounts received"
+#: model:ir.model.fields,field_description:l10n_ro_config.field_res_config_settings__l10n_ro_property_trade_discount_received_account_id
+msgid "Romania - Trade discounts received"
 msgstr ""
 
 #. module: l10n_ro_config
 #: model:ir.model.fields,field_description:l10n_ro_config.field_res_company__l10n_ro_property_stock_usage_giving_account_id
 #: model:ir.model.fields,field_description:l10n_ro_config.field_res_config_settings__l10n_ro_property_stock_usage_giving_account_id
-msgid "Ro Usage Giving Account"
+msgid "Romania - Usage Giving Account"
+msgstr ""
+
+#. module: l10n_ro_config
+#: model:ir.model.fields,field_description:l10n_ro_config.field_res_company__l10n_ro_accounting
+#: model:ir.model.fields,field_description:l10n_ro_config.field_res_config_settings__l10n_ro_accounting
+msgid "Romania - Use Romanian Accounting"
 msgstr ""
 
 #. module: l10n_ro_config
 #: model:ir.model.fields,field_description:l10n_ro_config.field_res_partner__l10n_ro_vat_subjected
 #: model:ir.model.fields,field_description:l10n_ro_config.field_res_users__l10n_ro_vat_subjected
-msgid "Ro VAT Subjected"
+msgid "Romania - VAT Subjected"
 msgstr ""
 
 #. module: l10n_ro_config
 #: model:ir.model.fields,field_description:l10n_ro_config.field_res_partner__l10n_ro_vat_number
 #: model:ir.model.fields,field_description:l10n_ro_config.field_res_users__l10n_ro_vat_number
-msgid "Ro VAT number digits"
-msgstr ""
-
-#. module: l10n_ro_config
-#: model_terms:ir.ui.view,arch_db:l10n_ro_config.res_config_settings_view_form
-msgid "Romania"
+msgid "Romania - VAT number digits"
 msgstr ""
 
 #. module: l10n_ro_config
@@ -457,6 +492,11 @@ msgstr ""
 #. module: l10n_ro_config
 #: model:ir.model.fields,field_description:l10n_ro_config.field_res_config_settings__module_l10n_ro_city
 msgid "Romanian Cities"
+msgstr ""
+
+#. module: l10n_ro_config
+#: model:ir.model.fields,field_description:l10n_ro_config.field_res_config_settings__module_l10n_ro_dvi
+msgid "Romanian DVI"
 msgstr ""
 
 #. module: l10n_ro_config
@@ -550,6 +590,20 @@ msgstr ""
 #. module: l10n_ro_config
 #: model_terms:ir.ui.view,arch_db:l10n_ro_config.res_config_settings_view_form
 msgid "Select a product"
+msgstr ""
+
+#. module: l10n_ro_config
+#: model_terms:ir.ui.view,arch_db:l10n_ro_config.res_config_settings_view_form
+msgid ""
+"Select a service product that will be used in customs commission "
+"registration in landed cost."
+msgstr ""
+
+#. module: l10n_ro_config
+#: model_terms:ir.ui.view,arch_db:l10n_ro_config.res_config_settings_view_form
+msgid ""
+"Select a service product that will be used in customs duty registration in "
+"landed cost."
 msgstr ""
 
 #. module: l10n_ro_config
@@ -742,10 +796,29 @@ msgid ""
 msgstr ""
 
 #. module: l10n_ro_config
+#: model:ir.model.fields,help:l10n_ro_config.field_res_config_settings__module_l10n_ro_account_anaf_sync
+msgid "This option allows you to manage the sync to ANAF website."
+msgstr ""
+
+#. module: l10n_ro_config
 #: model:ir.model.fields,help:l10n_ro_config.field_res_config_settings__module_currency_rate_update_RO_BNR
 msgid ""
 "This option allows you to manage the update of currency rate based from BNR "
 "site."
+msgstr ""
+
+#. module: l10n_ro_config
+#: model:ir.model.fields,help:l10n_ro_config.field_res_company__l10n_ro_property_customs_commision_product_id
+#: model:ir.model.fields,help:l10n_ro_config.field_res_config_settings__l10n_ro_property_customs_commision_product_id
+msgid ""
+"This product will be used in create the DVI landed costfor the duty "
+"commissions."
+msgstr ""
+
+#. module: l10n_ro_config
+#: model:ir.model.fields,help:l10n_ro_config.field_res_company__l10n_ro_property_customs_duty_product_id
+#: model:ir.model.fields,help:l10n_ro_config.field_res_config_settings__l10n_ro_property_customs_duty_product_id
+msgid "This product will be used in create the DVI landed costfor the duty tax"
 msgstr ""
 
 #. module: l10n_ro_config
@@ -754,16 +827,6 @@ msgstr ""
 msgid ""
 "This product will be used to create the landed costfor the price difference "
 "between picking and bill"
-msgstr ""
-
-#. module: l10n_ro_config
-#: model:ir.model.fields,field_description:l10n_ro_config.field_res_config_settings__l10n_ro_property_trade_discount_granted_account_id
-msgid "Trade discounts granted"
-msgstr ""
-
-#. module: l10n_ro_config
-#: model:ir.model.fields,field_description:l10n_ro_config.field_res_config_settings__l10n_ro_property_trade_discount_received_account_id
-msgid "Trade discounts received"
 msgstr ""
 
 #. module: l10n_ro_config
@@ -789,12 +852,6 @@ msgstr ""
 #. module: l10n_ro_config
 #: model_terms:ir.ui.view,arch_db:l10n_ro_config.res_config_settings_view_form
 msgid "Upload Romanian cities, so you can select them more easily."
-msgstr ""
-
-#. module: l10n_ro_config
-#: model:ir.model.fields,field_description:l10n_ro_config.field_res_company__l10n_ro_accounting
-#: model:ir.model.fields,field_description:l10n_ro_config.field_res_config_settings__l10n_ro_accounting
-msgid "Use Romanian Accounting"
 msgstr ""
 
 #. module: l10n_ro_config
