@@ -28,7 +28,7 @@ class StockPicking(models.Model):
                             "You can not have a Accounting date=%s for picking "
                             "bigger than today!"
                         )
-                        % picking.accounting_date.date()
+                        % picking.l10n_ro_accounting_date.date()
                     )
                 picking.write(
                     {
