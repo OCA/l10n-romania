@@ -36,7 +36,7 @@ class StockLandedCost(models.Model):
         return valuation_layer
 
     def button_validate(self):
-        if not self.company_id.romanian_accounting:
+        if not self.company_id.l10n_ro_accounting:
             return super().button_validate()
         self._check_can_validate()
         cost_without_adjusment_lines = self.filtered(
@@ -165,7 +165,7 @@ class AdjustmentLines(models.Model):
         res = super()._create_account_move_line(
             move, credit_account_id, debit_account_id, qty_out, already_out_account_id
         )
-        if self.cost_id.company_id.romanian_accounting:
+        if self.cost_id.company_id.l10n_ro_accounting:
             # Remove account move lines generated for the same account
             if credit_account_id == debit_account_id:
                 res = res[2:]
