@@ -25,20 +25,13 @@ msgid "ANAF - VAT on Payment"
 msgstr ""
 
 #. module: l10n_ro_vat_on_payment
-#: model:ir.model.fields,field_description:l10n_ro_vat_on_payment.field_res_partner__anaf_history
-#: model:ir.model.fields,field_description:l10n_ro_vat_on_payment.field_res_users__anaf_history
-#: model_terms:ir.ui.view,arch_db:l10n_ro_vat_on_payment.view_partner_anaf_form
-msgid "ANAF History"
-msgstr ""
-
-#. module: l10n_ro_vat_on_payment
-#: model:ir.model,name:l10n_ro_vat_on_payment.model_res_partner_anaf
+#: model:ir.model,name:l10n_ro_vat_on_payment.model_l10n_ro_res_partner_anaf
 msgid "ANAF History about VAT on Payment"
 msgstr ""
 
 #. module: l10n_ro_vat_on_payment
-#: model:ir.model.fields,field_description:l10n_ro_vat_on_payment.field_res_partner_anaf__anaf_id
-msgid "ANAF ID"
+#: model:ir.model.fields,field_description:l10n_ro_vat_on_payment.field_l10n_ro_res_partner_anaf__anaf_id
+msgid "Anaf"
 msgstr ""
 
 #. module: l10n_ro_vat_on_payment
@@ -47,17 +40,17 @@ msgid "Contact"
 msgstr ""
 
 #. module: l10n_ro_vat_on_payment
-#: model:ir.model.fields,field_description:l10n_ro_vat_on_payment.field_res_partner_anaf__create_uid
+#: model:ir.model.fields,field_description:l10n_ro_vat_on_payment.field_l10n_ro_res_partner_anaf__create_uid
 msgid "Created by"
 msgstr "Nork sortua"
 
 #. module: l10n_ro_vat_on_payment
-#: model:ir.model.fields,field_description:l10n_ro_vat_on_payment.field_res_partner_anaf__create_date
+#: model:ir.model.fields,field_description:l10n_ro_vat_on_payment.field_l10n_ro_res_partner_anaf__create_date
 msgid "Created on"
 msgstr "Created on"
 
 #. module: l10n_ro_vat_on_payment
-#: model:ir.model.fields,field_description:l10n_ro_vat_on_payment.field_res_partner_anaf__display_name
+#: model:ir.model.fields,field_description:l10n_ro_vat_on_payment.field_l10n_ro_res_partner_anaf__display_name
 msgid "Display Name"
 msgstr "Izena erakutsi"
 
@@ -69,67 +62,90 @@ msgid "Download Partner ANAF Data"
 msgstr ""
 
 #. module: l10n_ro_vat_on_payment
-#: model:ir.model.fields,field_description:l10n_ro_vat_on_payment.field_res_partner_anaf__end_date
+#: model:ir.model.fields,field_description:l10n_ro_vat_on_payment.field_l10n_ro_res_partner_anaf__end_date
 msgid "End Date"
 msgstr ""
 
 #. module: l10n_ro_vat_on_payment
-#: model:ir.model.fields.selection,name:l10n_ro_vat_on_payment.selection__res_partner_anaf__operation_type__e
+#: model:ir.model.fields.selection,name:l10n_ro_vat_on_payment.selection__l10n_ro_res_partner_anaf__operation_type__e
 msgid "Fix error"
 msgstr ""
 
 #. module: l10n_ro_vat_on_payment
-#: model:ir.model.fields,field_description:l10n_ro_vat_on_payment.field_res_partner_anaf__id
+#: model:ir.model.fields,field_description:l10n_ro_vat_on_payment.field_l10n_ro_res_partner_anaf__id
 msgid "ID"
 msgstr "ID"
 
 #. module: l10n_ro_vat_on_payment
-#: model:ir.model,name:l10n_ro_vat_on_payment.model_account_move
-msgid "Journal Entries"
+#: model:ir.model.fields,field_description:l10n_ro_vat_on_payment.field_account_move__is_l10n_ro_record
+#: model:ir.model.fields,field_description:l10n_ro_vat_on_payment.field_account_move_line__is_l10n_ro_record
+msgid "Is Romanian Record"
 msgstr ""
 
 #. module: l10n_ro_vat_on_payment
-#: model:ir.model.fields,field_description:l10n_ro_vat_on_payment.field_res_partner_anaf____last_update
+#: model:ir.model,name:l10n_ro_vat_on_payment.model_account_move
+msgid "Journal Entry"
+msgstr ""
+
+#. module: l10n_ro_vat_on_payment
+#: model:ir.model,name:l10n_ro_vat_on_payment.model_account_move_line
+msgid "Journal Item"
+msgstr ""
+
+#. module: l10n_ro_vat_on_payment
+#: model:ir.model.fields,field_description:l10n_ro_vat_on_payment.field_l10n_ro_res_partner_anaf____last_update
 msgid "Last Modified on"
 msgstr ""
 
 #. module: l10n_ro_vat_on_payment
-#: model:ir.model.fields,field_description:l10n_ro_vat_on_payment.field_res_partner_anaf__write_uid
+#: model:ir.model.fields,field_description:l10n_ro_vat_on_payment.field_l10n_ro_res_partner_anaf__write_uid
 msgid "Last Updated by"
 msgstr "Last Updated by"
 
 #. module: l10n_ro_vat_on_payment
-#: model:ir.model.fields,field_description:l10n_ro_vat_on_payment.field_res_partner_anaf__write_date
+#: model:ir.model.fields,field_description:l10n_ro_vat_on_payment.field_l10n_ro_res_partner_anaf__write_date
 msgid "Last Updated on"
 msgstr "Last Updated on"
 
 #. module: l10n_ro_vat_on_payment
-#: model:ir.model.fields,field_description:l10n_ro_vat_on_payment.field_res_partner_anaf__operation_date
+#: model:ir.model.fields,field_description:l10n_ro_vat_on_payment.field_l10n_ro_res_partner_anaf__operation_date
 msgid "Operation Date"
 msgstr ""
 
 #. module: l10n_ro_vat_on_payment
-#: model:ir.model.fields,field_description:l10n_ro_vat_on_payment.field_res_partner_anaf__operation_type
+#: model:ir.model.fields,field_description:l10n_ro_vat_on_payment.field_l10n_ro_res_partner_anaf__operation_type
 msgid "Operation Type"
 msgstr ""
 
 #. module: l10n_ro_vat_on_payment
-#: model:ir.model.fields,field_description:l10n_ro_vat_on_payment.field_res_partner_anaf__publish_date
+#: model:ir.model.fields,field_description:l10n_ro_vat_on_payment.field_l10n_ro_res_partner_anaf__publish_date
 msgid "Publish Date"
 msgstr ""
 
 #. module: l10n_ro_vat_on_payment
-#: model:ir.model.fields.selection,name:l10n_ro_vat_on_payment.selection__res_partner_anaf__operation_type__i
+#: model:ir.model.fields.selection,name:l10n_ro_vat_on_payment.selection__l10n_ro_res_partner_anaf__operation_type__i
 msgid "Register"
 msgstr ""
 
 #. module: l10n_ro_vat_on_payment
-#: model:ir.model.fields.selection,name:l10n_ro_vat_on_payment.selection__res_partner_anaf__operation_type__d
+#: model:ir.model.fields.selection,name:l10n_ro_vat_on_payment.selection__l10n_ro_res_partner_anaf__operation_type__d
 msgid "Removal"
 msgstr ""
 
 #. module: l10n_ro_vat_on_payment
-#: model:ir.model.fields,field_description:l10n_ro_vat_on_payment.field_res_partner_anaf__start_date
+#: model:ir.model.fields,field_description:l10n_ro_vat_on_payment.field_res_partner__l10n_ro_anaf_history
+#: model:ir.model.fields,field_description:l10n_ro_vat_on_payment.field_res_users__l10n_ro_anaf_history
+msgid "Romania - ANAF History"
+msgstr ""
+
+#. module: l10n_ro_vat_on_payment
+#: model:ir.model.fields,field_description:l10n_ro_vat_on_payment.field_res_partner__l10n_ro_vat_on_payment
+#: model:ir.model.fields,field_description:l10n_ro_vat_on_payment.field_res_users__l10n_ro_vat_on_payment
+msgid "Romania - VAT on Payment"
+msgstr ""
+
+#. module: l10n_ro_vat_on_payment
+#: model:ir.model.fields,field_description:l10n_ro_vat_on_payment.field_l10n_ro_res_partner_anaf__start_date
 msgid "Start Date"
 msgstr ""
 
@@ -146,26 +162,8 @@ msgid "Update VAT on Payment"
 msgstr ""
 
 #. module: l10n_ro_vat_on_payment
-#: model:ir.model.fields,field_description:l10n_ro_vat_on_payment.field_res_partner_anaf__vat
-msgid "VAT"
-msgstr ""
-
-#. module: l10n_ro_vat_on_payment
-#: model:ir.model.fields,field_description:l10n_ro_vat_on_payment.field_res_partner__vat_number
-#: model:ir.model.fields,field_description:l10n_ro_vat_on_payment.field_res_users__vat_number
-msgid "VAT number"
-msgstr ""
-
-#. module: l10n_ro_vat_on_payment
-#: model:ir.model.fields,help:l10n_ro_vat_on_payment.field_res_partner__vat_number
-#: model:ir.model.fields,help:l10n_ro_vat_on_payment.field_res_users__vat_number
-msgid "VAT number without country code."
-msgstr ""
-
-#. module: l10n_ro_vat_on_payment
-#: model:ir.model.fields,field_description:l10n_ro_vat_on_payment.field_res_partner__vat_on_payment
-#: model:ir.model.fields,field_description:l10n_ro_vat_on_payment.field_res_users__vat_on_payment
-msgid "VAT on Payment"
+#: model:ir.model.fields,field_description:l10n_ro_vat_on_payment.field_l10n_ro_res_partner_anaf__vat
+msgid "Vat"
 msgstr ""
 
 #~ msgid "Partner"
