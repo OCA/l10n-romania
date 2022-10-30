@@ -8,8 +8,6 @@
     "author": "NextERP Romania," "Odoo Community Association (OCA)",
     "website": "https://github.com/OCA/l10n-romania",
     "depends": [
-        "sale_stock",
-        "purchase_stock",
         "l10n_ro_stock_account",
         "stock_landed_costs",
     ],
@@ -19,5 +17,6 @@
         "report/stock_picking_report_valued.xml",
     ],
     "installable": True,
+    "development_status": "Mature",
     "maintainers": ["feketemihai"],
 }
