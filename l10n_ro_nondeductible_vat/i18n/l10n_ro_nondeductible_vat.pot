@@ -19,12 +19,7 @@ msgid "Account"
 msgstr ""
 
 #. module: l10n_ro_nondeductible_vat
-#: model:ir.model.fields,field_description:l10n_ro_nondeductible_vat.field_account_tax_repartition_line__exclude_from_stock
-msgid "Exclude From Stock"
-msgstr ""
-
-#. module: l10n_ro_nondeductible_vat
-#: model:ir.model.fields,help:l10n_ro_nondeductible_vat.field_account_tax_repartition_line__skip_cash_basis_account_switch
+#: model:ir.model.fields,help:l10n_ro_nondeductible_vat.field_account_tax_repartition_line__l10n_ro_skip_cash_basis_account_switch
 msgid ""
 "If checked, then it doesn't change expense account in the tax line for "
 "invoices, and it set 44283 instead of expense account for the journal entry "
@@ -32,8 +27,15 @@ msgid ""
 msgstr ""
 
 #. module: l10n_ro_nondeductible_vat
-#: model:ir.model.fields,field_description:l10n_ro_nondeductible_vat.field_account_tax__is_nondeductible
-msgid "Is Nondeductible"
+#: model:ir.model.fields,field_description:l10n_ro_nondeductible_vat.field_account_account__is_l10n_ro_record
+#: model:ir.model.fields,field_description:l10n_ro_nondeductible_vat.field_account_move__is_l10n_ro_record
+#: model:ir.model.fields,field_description:l10n_ro_nondeductible_vat.field_account_move_line__is_l10n_ro_record
+#: model:ir.model.fields,field_description:l10n_ro_nondeductible_vat.field_account_partial_reconcile__is_l10n_ro_record
+#: model:ir.model.fields,field_description:l10n_ro_nondeductible_vat.field_account_tax__is_l10n_ro_record
+#: model:ir.model.fields,field_description:l10n_ro_nondeductible_vat.field_account_tax_repartition_line__is_l10n_ro_record
+#: model:ir.model.fields,field_description:l10n_ro_nondeductible_vat.field_stock_move__is_l10n_ro_record
+#: model:ir.model.fields,field_description:l10n_ro_nondeductible_vat.field_stock_quant__is_l10n_ro_record
+msgid "Is Romanian Record"
 msgstr ""
 
 #. module: l10n_ro_nondeductible_vat
@@ -47,25 +49,8 @@ msgid "Journal Item"
 msgstr ""
 
 #. module: l10n_ro_nondeductible_vat
-#: model:ir.model.fields,field_description:l10n_ro_nondeductible_vat.field_account_tax_repartition_line__nondeductible
-msgid "Nondeductible"
-msgstr ""
-
-#. module: l10n_ro_nondeductible_vat
-#: model:ir.model.fields,field_description:l10n_ro_nondeductible_vat.field_account_account__nondeductible_account_id
-msgid "Nondeductible Account"
-msgstr ""
-
-#. module: l10n_ro_nondeductible_vat
-#: model:ir.model.fields,field_description:l10n_ro_nondeductible_vat.field_account_tax__nondeductible_tax_id
-#: model:ir.model.fields,field_description:l10n_ro_nondeductible_vat.field_stock_move__nondeductible_tax_id
-#: model:ir.model.fields,field_description:l10n_ro_nondeductible_vat.field_stock_quant__nondeductible_tax_id
-msgid "Nondeductible Tax"
-msgstr ""
-
-#. module: l10n_ro_nondeductible_vat
-#: model:ir.model.fields,field_description:l10n_ro_nondeductible_vat.field_stock_move__nondeductible_usage
-msgid "Nondeductible Usage"
+#: model:ir.model.fields,field_description:l10n_ro_nondeductible_vat.field_stock_quant__l10n_ro_nondeductible_tax_id
+msgid "L10N Ro Nondeductible Tax"
 msgstr ""
 
 #. module: l10n_ro_nondeductible_vat
@@ -79,13 +64,43 @@ msgid "Quants"
 msgstr ""
 
 #. module: l10n_ro_nondeductible_vat
-#: model_terms:ir.ui.view,arch_db:l10n_ro_nondeductible_vat.account_tax_repartition_line_tree
-msgid "Skip Account Switch (Cash Basis)"
+#: model:ir.model.fields,field_description:l10n_ro_nondeductible_vat.field_stock_move__l10n_ro_nondeductible_usage
+msgid "Romania - Allow Non Deductible"
 msgstr ""
 
 #. module: l10n_ro_nondeductible_vat
-#: model:ir.model.fields,field_description:l10n_ro_nondeductible_vat.field_account_tax_repartition_line__skip_cash_basis_account_switch
-msgid "Skip Cash Basis Account Switch"
+#: model:ir.model.fields,field_description:l10n_ro_nondeductible_vat.field_account_tax_repartition_line__l10n_ro_exclude_from_stock
+msgid "Romania - Exclude From Stock"
+msgstr ""
+
+#. module: l10n_ro_nondeductible_vat
+#: model:ir.model.fields,field_description:l10n_ro_nondeductible_vat.field_account_tax__l10n_ro_is_nondeductible
+msgid "Romania - Is Nondeductible"
+msgstr ""
+
+#. module: l10n_ro_nondeductible_vat
+#: model:ir.model.fields,field_description:l10n_ro_nondeductible_vat.field_stock_move__l10n_ro_nondeductible_tax_id
+msgid "Romania - Non Deductible Tax"
+msgstr ""
+
+#. module: l10n_ro_nondeductible_vat
+#: model:ir.model.fields,field_description:l10n_ro_nondeductible_vat.field_account_tax_repartition_line__l10n_ro_nondeductible
+msgid "Romania - Nondeductible"
+msgstr ""
+
+#. module: l10n_ro_nondeductible_vat
+#: model:ir.model.fields,field_description:l10n_ro_nondeductible_vat.field_account_account__l10n_ro_nondeductible_account_id
+msgid "Romania - Nondeductible Account"
+msgstr ""
+
+#. module: l10n_ro_nondeductible_vat
+#: model:ir.model.fields,field_description:l10n_ro_nondeductible_vat.field_account_tax__l10n_ro_nondeductible_tax_id
+msgid "Romania - Nondeductible Tax"
+msgstr ""
+
+#. module: l10n_ro_nondeductible_vat
+#: model:ir.model.fields,field_description:l10n_ro_nondeductible_vat.field_account_tax_repartition_line__l10n_ro_skip_cash_basis_account_switch
+msgid "Romania - Skip Account Switch (Cash Basis)"
 msgstr ""
 
 #. module: l10n_ro_nondeductible_vat
