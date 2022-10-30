@@ -39,34 +39,44 @@ msgid "<strong>Unit Price</strong>"
 msgstr ""
 
 #. module: l10n_ro_stock_picking_valued_report
-#: model:ir.model.fields,field_description:l10n_ro_stock_picking_valued_report.field_stock_move_line__currency_id
-#: model:ir.model.fields,field_description:l10n_ro_stock_picking_valued_report.field_stock_picking__currency_id
+#: model:ir.model.fields,field_description:l10n_ro_stock_picking_valued_report.field_stock_picking__l10n_ro_currency_id
 msgid "Currency"
 msgstr ""
 
 #. module: l10n_ro_stock_picking_valued_report
-#: model:ir.model.fields,field_description:l10n_ro_stock_picking_valued_report.field_stock_picking__is_internal
-msgid "Is Internal"
+#: model:ir.model.fields,field_description:l10n_ro_stock_picking_valued_report.field_stock_move_line__is_l10n_ro_record
+#: model:ir.model.fields,field_description:l10n_ro_stock_picking_valued_report.field_stock_picking__is_l10n_ro_record
+msgid "Is Romanian Record"
 msgstr ""
 
 #. module: l10n_ro_stock_picking_valued_report
-#: model:ir.model.fields,field_description:l10n_ro_stock_picking_valued_report.field_stock_move_line__price_subtotal
-msgid "Price Subtotal"
+#: model:ir.model.fields,field_description:l10n_ro_stock_picking_valued_report.field_stock_move_line__l10n_ro_currency_id
+msgid "L10N Ro Currency"
 msgstr ""
 
 #. module: l10n_ro_stock_picking_valued_report
-#: model:ir.model.fields,field_description:l10n_ro_stock_picking_valued_report.field_stock_move_line__price_tax
-msgid "Price Tax"
+#: model:ir.model.fields,field_description:l10n_ro_stock_picking_valued_report.field_stock_picking__l10n_ro_is_internal
+msgid "L10N Ro Is Internal"
 msgstr ""
 
 #. module: l10n_ro_stock_picking_valued_report
-#: model:ir.model.fields,field_description:l10n_ro_stock_picking_valued_report.field_stock_move_line__price_total
-msgid "Price Total"
+#: model:ir.model.fields,field_description:l10n_ro_stock_picking_valued_report.field_stock_move_line__l10n_ro_price_subtotal
+msgid "L10N Ro Price Subtotal"
 msgstr ""
 
 #. module: l10n_ro_stock_picking_valued_report
-#: model:ir.model.fields,field_description:l10n_ro_stock_picking_valued_report.field_stock_move_line__price_unit
-msgid "Price Unit"
+#: model:ir.model.fields,field_description:l10n_ro_stock_picking_valued_report.field_stock_move_line__l10n_ro_price_tax
+msgid "L10N Ro Price Tax"
+msgstr ""
+
+#. module: l10n_ro_stock_picking_valued_report
+#: model:ir.model.fields,field_description:l10n_ro_stock_picking_valued_report.field_stock_move_line__l10n_ro_price_total
+msgid "L10N Ro Price Total"
+msgstr ""
+
+#. module: l10n_ro_stock_picking_valued_report
+#: model:ir.model.fields,field_description:l10n_ro_stock_picking_valued_report.field_stock_move_line__l10n_ro_price_unit
+msgid "L10N Ro Price Unit"
 msgstr ""
 
 #. module: l10n_ro_stock_picking_valued_report
@@ -75,22 +85,22 @@ msgid "Product Moves (Stock Move Line)"
 msgstr ""
 
 #. module: l10n_ro_stock_picking_valued_report
-#: model:ir.model.fields,field_description:l10n_ro_stock_picking_valued_report.field_stock_move_line__sale_line_id
+#: model:ir.model.fields,field_description:l10n_ro_stock_picking_valued_report.field_stock_move_line__l10n_ro_sale_line_id
 msgid "Related order line"
 msgstr ""
 
 #. module: l10n_ro_stock_picking_valued_report
-#: model:ir.model.fields,field_description:l10n_ro_stock_picking_valued_report.field_stock_move_line__purchase_line_id
+#: model:ir.model.fields,field_description:l10n_ro_stock_picking_valued_report.field_stock_move_line__l10n_ro_purchase_line_id
 msgid "Related purchase line"
 msgstr ""
 
 #. module: l10n_ro_stock_picking_valued_report
-#: model:ir.model.fields,field_description:l10n_ro_stock_picking_valued_report.field_stock_picking__amount_tax
+#: model:ir.model.fields,field_description:l10n_ro_stock_picking_valued_report.field_stock_picking__l10n_ro_amount_tax
 msgid "Taxes"
 msgstr ""
 
 #. module: l10n_ro_stock_picking_valued_report
-#: model:ir.model.fields,field_description:l10n_ro_stock_picking_valued_report.field_stock_picking__amount_total
+#: model:ir.model.fields,field_description:l10n_ro_stock_picking_valued_report.field_stock_picking__l10n_ro_amount_total
 msgid "Total"
 msgstr ""
 
@@ -100,6 +110,6 @@ msgid "Transfer"
 msgstr ""
 
 #. module: l10n_ro_stock_picking_valued_report
-#: model:ir.model.fields,field_description:l10n_ro_stock_picking_valued_report.field_stock_picking__amount_untaxed
+#: model:ir.model.fields,field_description:l10n_ro_stock_picking_valued_report.field_stock_picking__l10n_ro_amount_untaxed
 msgid "Untaxed Amount"
 msgstr ""
