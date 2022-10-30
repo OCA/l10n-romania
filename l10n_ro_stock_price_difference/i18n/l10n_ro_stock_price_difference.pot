@@ -30,14 +30,6 @@ msgid "Confirm Price Difference ?"
 msgstr ""
 
 #. module: l10n_ro_stock_price_difference
-#: code:addons/l10n_ro_stock_price_difference/models/stock_landed_cost.py:0
-#, python-format
-msgid ""
-"Cost and adjustments lines do not match. You should maybe recompute the "
-"landed costs."
-msgstr ""
-
-#. module: l10n_ro_stock_price_difference
 #: model:ir.model.fields,field_description:l10n_ro_stock_price_difference.field_l10n_ro_price_difference_confirm_dialog__create_uid
 msgid "Created by"
 msgstr ""
@@ -60,6 +52,12 @@ msgstr ""
 #. module: l10n_ro_stock_price_difference
 #: model:ir.model.fields,field_description:l10n_ro_stock_price_difference.field_l10n_ro_price_difference_confirm_dialog__invoice_id
 msgid "Invoice"
+msgstr ""
+
+#. module: l10n_ro_stock_price_difference
+#: model:ir.model.fields,field_description:l10n_ro_stock_price_difference.field_account_move__is_l10n_ro_record
+#: model:ir.model.fields,field_description:l10n_ro_stock_price_difference.field_account_move_line__is_l10n_ro_record
+msgid "Is Romanian Record"
 msgstr ""
 
 #. module: l10n_ro_stock_price_difference
@@ -93,8 +91,18 @@ msgid "Message"
 msgstr ""
 
 #. module: l10n_ro_stock_price_difference
+#: model:ir.model.fields.selection,name:l10n_ro_stock_price_difference.selection__stock_landed_cost__l10n_ro_cost_type__price_diff
+msgid "Price Difference"
+msgstr ""
+
+#. module: l10n_ro_stock_price_difference
 #: model_terms:ir.ui.view,arch_db:l10n_ro_stock_price_difference.view_price_difference_confirmation_form
 msgid "Price Difference Confirmation"
+msgstr ""
+
+#. module: l10n_ro_stock_price_difference
+#: model:ir.model.fields,field_description:l10n_ro_stock_price_difference.field_stock_landed_cost__l10n_ro_cost_type
+msgid "Romania - Landed Cost Type"
 msgstr ""
 
 #. module: l10n_ro_stock_price_difference
@@ -105,11 +113,6 @@ msgstr ""
 #. module: l10n_ro_stock_price_difference
 #: model_terms:ir.ui.view,arch_db:l10n_ro_stock_price_difference.view_price_difference_confirmation_form
 msgid "There are price differences between reception pickings and this bill !"
-msgstr ""
-
-#. module: l10n_ro_stock_price_difference
-#: model:ir.model,name:l10n_ro_stock_price_difference.model_stock_valuation_adjustment_lines
-msgid "Valuation Adjustment Lines"
 msgstr ""
 
 #. module: l10n_ro_stock_price_difference
