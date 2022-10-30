@@ -6,9 +6,10 @@ from odoo import api, fields, models
 
 
 class StockQuant(models.Model):
-    _inherit = "stock.quant"
+    _name = "stock.quant"
+    _inherit = ["stock.quant", "l10n.ro.mixin"]
 
-    nondeductible_tax_id = fields.Many2one(
+    l10n_ro_nondeductible_tax_id = fields.Many2one(
         "account.tax", domain=[("is_nondeductible", "=", True)], copy=False
     )
 
@@ -16,22 +17,24 @@ class StockQuant(models.Model):
         res = super()._get_inventory_move_values(
             qty, location_id, location_dest_id, out
         )
-        res["nondeductible_tax_id"] = (
-            self.nondeductible_tax_id and self.nondeductible_tax_id.id or None
+        res["l10n_ro_nondeductible_tax_id"] = (
+            self.l10n_ro_nondeductible_tax_id
+            and self.l10n_ro_nondeductible_tax_id.id
+            or None
         )
         return res
 
     @api.model
     def _get_inventory_fields_create(self):
         fields = super()._get_inventory_fields_create()
-        return fields + ["nondeductible_tax_id"]
+        return fields + ["l10n_ro_nondeductible_tax_id"]
 
     @api.model
     def _get_inventory_fields_write(self):
         fields = super()._get_inventory_fields_write()
-        return fields + ["nondeductible_tax_id"]
+        return fields + ["l10n_ro_nondeductible_tax_id"]
 
     def _apply_inventory(self):
         res = super()._apply_inventory()
-        self.nondeductible_tax_id = False
+        self.l10n_ro_nondeductible_tax_id = False
         return res
