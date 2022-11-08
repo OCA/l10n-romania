@@ -105,7 +105,7 @@ class AccountANAFSyncWeb(http.Controller):
                 "Please request them in order, waiting for 2 minutes between requests."
             )
         elif not anaf_config:
-            message = _("The response was done too late.\nResponse was: kw=%s" % kw)
+            message = _("The response was done too late.\nResponse was: kw=%s") % kw
 
         if message:
             anaf_config.message_post(body=message)
@@ -141,7 +141,7 @@ class AccountANAFSyncWeb(http.Controller):
             )
             response_json = response.json()
 
-            message = _("The response was finished.\nResponse was: %s" % response_json)
+            message = _("The response was finished.\nResponse was: %s") % response_json
             anaf_config.write(
                 {
                     "code": code,
@@ -151,7 +151,7 @@ class AccountANAFSyncWeb(http.Controller):
                 }
             )
         else:
-            message = _("No code was found in the response.\nResponse was: %s" % kw)
+            message = _("No code was found in the response.\nResponse was: %s") % kw
 
         anaf_config.message_post(body=message)
         values = {"message": message}
