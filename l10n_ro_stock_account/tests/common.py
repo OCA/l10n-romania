@@ -266,7 +266,9 @@ class TestStockCommon(ValuationReconciliationTestCommon):
             vals = {}
         self.picking.write(vals)
 
-    def create_po(self, picking_type_in=None, partial=None, vals=False):
+    def create_po(
+        self, picking_type_in=None, partial=None, vals=False, validate_picking=True
+    ):
 
         if not picking_type_in:
             picking_type_in = self.picking_type_in_warehouse
@@ -289,19 +291,20 @@ class TestStockCommon(ValuationReconciliationTestCommon):
             po.button_confirm()
         else:
             po = self.po
-        self.picking = po.picking_ids.filtered(lambda pick: pick.state != "done")
-        self.writeOnPicking(vals)
-        qty_po_p1 = self.qty_po_p1 if not partial else self.qty_po_p1 / 2
-        qty_po_p2 = self.qty_po_p2 if not partial else self.qty_po_p2 / 2
-        for move_line in self.picking.move_line_ids:
-            if move_line.product_id == self.product_1:
-                move_line.write({"qty_done": qty_po_p1})
-            if move_line.product_id == self.product_2:
-                move_line.write({"qty_done": qty_po_p2})
+        if validate_picking:
+            self.picking = po.picking_ids.filtered(lambda pick: pick.state != "done")
+            self.writeOnPicking(vals)
+            qty_po_p1 = self.qty_po_p1 if not partial else self.qty_po_p1 / 2
+            qty_po_p2 = self.qty_po_p2 if not partial else self.qty_po_p2 / 2
+            for move_line in self.picking.move_line_ids:
+                if move_line.product_id == self.product_1:
+                    move_line.write({"qty_done": qty_po_p1})
+                if move_line.product_id == self.product_2:
+                    move_line.write({"qty_done": qty_po_p2})
 
-        self.picking.button_validate()
-        self.picking._action_done()
-        _logger.info("Receptie facuta")
+            self.picking.button_validate()
+            self.picking._action_done()
+            _logger.info("Receptie facuta")
 
         self.po = po
         return po
