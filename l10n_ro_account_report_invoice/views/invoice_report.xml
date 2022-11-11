@@ -63,6 +63,7 @@
         inherit_id="account.document_tax_totals"
     >
         <xpath expr="//tr[hasclass('o_subtotal')]/td[1]" position="after">
+            <t t-set="o" t-value="o or sale_order or doc" />
             <t t-if="o.is_l10n_ro_record">
                 <td
                     class="text-right"
@@ -76,6 +77,7 @@
             </t>
         </xpath>
         <xpath expr="//tr[hasclass('o_total')]/td[1]" position="after">
+            <t t-set="o" t-value="o or sale_order or doc" />
             <t t-if="o.is_l10n_ro_record">
                 <td
                     class="text-right"
