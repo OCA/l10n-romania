@@ -4,7 +4,7 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 14.0\n"
+"Project-Id-Version: Odoo Server 15.0\n"
 "Report-Msgid-Bugs-To: \n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -134,7 +134,6 @@ msgstr ""
 
 #. module: l10n_ro_account_anaf_sync
 #: model:ir.model.fields,field_description:l10n_ro_account_anaf_sync.field_l10n_ro_account_anaf_sync__display_name
-#: model:ir.model.fields,field_description:l10n_ro_account_anaf_sync.field_res_company__display_name
 msgid "Display Name"
 msgstr ""
 
@@ -147,11 +146,6 @@ msgstr ""
 #. module: l10n_ro_account_anaf_sync
 #: model:ir.model.fields,field_description:l10n_ro_account_anaf_sync.field_l10n_ro_account_anaf_sync__message_follower_ids
 msgid "Followers"
-msgstr ""
-
-#. module: l10n_ro_account_anaf_sync
-#: model:ir.model.fields,field_description:l10n_ro_account_anaf_sync.field_l10n_ro_account_anaf_sync__message_channel_ids
-msgid "Followers (Channels)"
 msgstr ""
 
 #. module: l10n_ro_account_anaf_sync
@@ -171,8 +165,12 @@ msgid "Get Token From Anaf Website (with usb token inserted)"
 msgstr ""
 
 #. module: l10n_ro_account_anaf_sync
+#: model:ir.model.fields,field_description:l10n_ro_account_anaf_sync.field_l10n_ro_account_anaf_sync__has_message
+msgid "Has Message"
+msgstr ""
+
+#. module: l10n_ro_account_anaf_sync
 #: model:ir.model.fields,field_description:l10n_ro_account_anaf_sync.field_l10n_ro_account_anaf_sync__id
-#: model:ir.model.fields,field_description:l10n_ro_account_anaf_sync.field_res_company__id
 msgid "ID"
 msgstr ""
 
@@ -200,7 +198,6 @@ msgstr ""
 
 #. module: l10n_ro_account_anaf_sync
 #: model:ir.model.fields,field_description:l10n_ro_account_anaf_sync.field_l10n_ro_account_anaf_sync____last_update
-#: model:ir.model.fields,field_description:l10n_ro_account_anaf_sync.field_res_company____last_update
 msgid "Last Modified on"
 msgstr ""
 
