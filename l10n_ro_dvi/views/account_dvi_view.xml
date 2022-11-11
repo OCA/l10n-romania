@@ -162,8 +162,7 @@
     <menuitem
         id="menu_action_account_dvi"
         action="action_account_dvi"
-        groups="base.group_no_one"
-        parent="account.menu_finance_entries_actions"
+        parent="account.menu_finance_payables"
         sequence="45"
     />
 </odoo>

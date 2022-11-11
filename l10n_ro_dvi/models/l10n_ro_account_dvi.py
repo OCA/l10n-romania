@@ -66,8 +66,9 @@ class AccountInvoiceDVI(models.Model):
         "This must be the tax value that you have on dvi",
     )
     total_tax_value = fields.Monetary(
-        compute="_compute_total_tax_value",
-        readonly=1,
+        # compute="_compute_total_tax_value",
+        # readonly=1,
+        string="VAT paid at customs",
         help="Is readonly sum of product tax and custom tax."
         "This must be the tax value that you have on dvi",
     )
@@ -158,6 +159,11 @@ class AccountInvoiceDVI(models.Model):
             else:
                 rec.customs_duty_tax_value = 0
             rec.total_base_tax_value = rec.invoice_base_value + rec.customs_duty_value
+            rec.total_tax_value = rec.invoice_tax_value + rec.customs_duty_tax_value
+
+    @api.onchange("invoice_tax_value", "customs_duty_tax_value")
+    def _onchange_tax(self):
+        for rec in self:
             rec.total_tax_value = rec.invoice_tax_value + rec.customs_duty_tax_value
 
     @api.depends("line_ids.base_amount", "line_ids.vat_amount")
