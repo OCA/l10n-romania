@@ -81,8 +81,10 @@
                 <field name="amount_initial" />
                 <field name="quantity_in" />
                 <field name="amount_in" />
+                <field name="unit_price_in" />
                 <field name="quantity_out" />
                 <field name="amount_out" />
+                <field name="unit_price_out" />
                 <field
                     name="quantity_final"
                     decoration-danger="quantity_final &lt; 0"
@@ -117,10 +119,12 @@
                         <group>
                             <field name="quantity_in" />
                             <field name="amount_in" />
+                            <field name="unit_price_in" />
                         </group>
                         <group>
                             <field name="quantity_out" />
                             <field name="amount_out" />
+                            <field name="unit_price_out" />
                         </group>
                         <group>
                             <field name="quantity_final" />
@@ -144,8 +148,10 @@
                 <field name="amount_initial" type="measure" />
                 <field name="quantity_in" type="measure" />
                 <field name="amount_in" type="measure" />
+                <field name="unit_price_in" type="measure" />
                 <field name="quantity_out" type="measure" />
                 <field name="amount_out" type="measure" />
+                <field name="unit_price_out" type="measure" />
                 <field name="quantity_final" type="measure" />
                 <field name="amount_final" type="measure" />
             </pivot>
