@@ -4,6 +4,7 @@
         id="ubl_20_TaxTotalType"
         inherit_id="account_edi_ubl_cii.ubl_20_TaxTotalType"
         primary="True"
+        priority="100"
     >
         <xpath
             expr="//*[local-name()='TaxSubtotal']/*[local-name()='Percent']"
