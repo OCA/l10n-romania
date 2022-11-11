@@ -74,10 +74,10 @@ class AccountEdiXmlCIUSRO(models.Model):
                         break
         return is_required
 
-    def _post_invoice_edi(self, invoices, test_mode=False):
+    def _post_invoice_edi(self, invoices):
         self.ensure_one()
         if self.code != "cius_ro":
-            return super()._post_invoice_edi(invoices, test_mode)
+            return super()._post_invoice_edi(invoices)
         res = {}
         for invoice in invoices:
             attachment = invoice._get_edi_attachment(self)
@@ -98,10 +98,10 @@ class AccountEdiXmlCIUSRO(models.Model):
 
         return res
 
-    def _cancel_invoice_edi(self, invoices, test_mode=False):
+    def _cancel_invoice_edi(self, invoices):
         self.ensure_one()
         if self.code != "cius_ro":
-            return super()._cancel_invoice_edi(invoices, test_mode)
+            return super()._cancel_invoice_edi(invoices)
         return {
             invoice: {"success": False if invoice.l10n_ro_edi_transaction else True}
             for invoice in invoices
