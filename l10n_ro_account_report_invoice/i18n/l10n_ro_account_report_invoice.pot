@@ -68,6 +68,7 @@ msgstr ""
 
 #. module: l10n_ro_account_report_invoice
 #: model:ir.model.fields,field_description:l10n_ro_account_report_invoice.field_account_move__is_l10n_ro_record
+#: model:ir.model.fields,field_description:l10n_ro_account_report_invoice.field_sale_order__is_l10n_ro_record
 msgid "Is Romanian Record"
 msgstr ""
 
@@ -92,6 +93,11 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_ro_account_report_invoice.field_res_company__l10n_ro_no_signature_text
 #: model:ir.model.fields,field_description:l10n_ro_account_report_invoice.field_res_config_settings__l10n_ro_no_signature_text
 msgid "Romania - No Signature Text"
+msgstr ""
+
+#. module: l10n_ro_account_report_invoice
+#: model:ir.model,name:l10n_ro_account_report_invoice.model_sale_order
+msgid "Sales Order"
 msgstr ""
 
 #. module: l10n_ro_account_report_invoice
