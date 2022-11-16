@@ -111,4 +111,4 @@ class AccountMoveLine(models.Model):
 
     def _get_account_change_stock_moves_sale(self):
         sales = self.sale_line_ids.filtered(lambda s: s.move_ids)
-        return sales.move_ids
+        return sales.move_ids.filtered(lambda m: m.state == "done")
