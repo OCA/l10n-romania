@@ -1,6 +1,9 @@
 # Copyright (C) 2022 NextERP Romania
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
+import logging
 import sys
+
+_logger = logging.getLogger(__name__)
 
 
 def install(package):
@@ -22,8 +25,7 @@ except ImportError:
 
 @openupgrade.migrate(use_env=True)
 def migrate(env, version):
-    openupgrade.rename_fields(
-        env,
+    fields_to_rename = (
         [
             (
                 "account.journal",
@@ -231,6 +233,14 @@ def migrate(env, version):
             ("res.users", "res_users", "vat_on_payment", "l10n_ro_vat_on_payment"),
         ],
     )
+
+    for field_to_rename in fields_to_rename:
+        try:
+            openupgrade.rename_fields(env, [field_to_rename])
+        except Exception as e:
+            _logger.error(str(e))
+            continue
+
     openupgrade.drop_columns(
         env.cr,
         [
