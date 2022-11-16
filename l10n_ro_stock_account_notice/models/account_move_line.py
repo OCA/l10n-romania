@@ -41,13 +41,9 @@ class AccountMoveLine(models.Model):
         return super(AccountMoveLine, self)._get_computed_account()
 
     def _get_account_change_stock_moves_purchase(self):
-        stock_moves = self.purchase_line_id.move_ids.filtered(
-            lambda sm: not sm.picking_id.l10n_ro_notice
-        )
-        return stock_moves.filtered(lambda m: m.state == "done")
+        stock_moves = super()._get_account_change_stock_moves_purchase()
+        return stock_moves.filtered(lambda sm: not sm.picking_id.l10n_ro_notice)
 
     def _get_account_change_stock_moves_sale(self):
-        sales = self.sale_line_ids.filtered(lambda s: s.move_ids)
-        return sales.move_ids.filtered(
-            lambda m: not m.picking_id.l10n_ro_notice and m.state == "done"
-        )
+        stock_moves = super()._get_account_change_stock_moves_sale()
+        return stock_moves.filtered(lambda m: not m.picking_id.l10n_ro_notice)
