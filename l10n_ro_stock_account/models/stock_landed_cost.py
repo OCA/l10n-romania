@@ -66,8 +66,10 @@ class StockLandedCost(models.Model):
                 "ref": cost.name,
                 "line_ids": [],
                 "move_type": "entry",
+                "partner_id": cost.vendor_bill_id.commercial_partner_id.id,
             }
             valuation_layer_ids = []
+            valuation_layers = self.env["stock.valuation.layer"]
             cost_to_add_byproduct = defaultdict(lambda: 0.0)
             for line in cost.valuation_adjustment_lines.filtered(
                 lambda line: line.move_id
@@ -89,6 +91,7 @@ class StockLandedCost(models.Model):
                     )
                     linked_layer.remaining_value += cost_to_add
                     valuation_layer_ids.append(new_valuation_layers.ids)
+                    valuation_layers += new_valuation_layers
                 # End Romania change
 
                 # Update the AVCO
@@ -132,10 +135,12 @@ class StockLandedCost(models.Model):
             if move_vals.get("line_ids"):
                 move = move.create(move_vals)
                 cost_vals.update({"account_move_id": move.id})
+                move.line_ids.write({"partner_id": move.partner_id.id})
+
             cost.write(cost_vals)
             if cost.account_move_id:
                 move._post()
-
+                valuation_layers.write({"account_move_id": cost.account_move_id.id})
             if (
                 cost.vendor_bill_id
                 and cost.vendor_bill_id.state == "posted"
