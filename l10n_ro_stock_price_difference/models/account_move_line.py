@@ -89,7 +89,7 @@ class AccountMoveLine(models.Model):
         # trebuie cantitate din factura in unitatea produsului si apoi
         value = self.product_uom_id._compute_price(value, self.product_id.uom_id)
 
-        lc = self._l10n_ro_create_price_difference_landed_cost(value)
+        lc = self._l10n_ro_create_price_difference_landed_cost(value, self.move_id)
         lc.compute_landed_cost()
         lc.with_context(
             l10n_ro_price_difference_move_ids=valuation_stock_move
@@ -109,11 +109,13 @@ class AccountMoveLine(models.Model):
             }
         )
 
-    def l10n_ro_prepare_price_difference_landed_cost(self, value):
+    def l10n_ro_prepare_price_difference_landed_cost(self, value, account_move):
         price_diff_product = self._l10n_ro_get_or_create_price_difference_product()
         stock_journal_id = self.product_id.categ_id.property_stock_journal or False
         return dict(
             account_journal_id=stock_journal_id and stock_journal_id.id,
+            l10n_ro_cost_type="price_diff",
+            vendor_bill_id=account_move.id,
             cost_lines=[
                 (
                     0,
@@ -129,8 +131,8 @@ class AccountMoveLine(models.Model):
             ],
         )
 
-    def _l10n_ro_create_price_difference_landed_cost(self, value):
-        vals = self.l10n_ro_prepare_price_difference_landed_cost(value)
+    def _l10n_ro_create_price_difference_landed_cost(self, value, account_move):
+        vals = self.l10n_ro_prepare_price_difference_landed_cost(value, account_move)
         return self.env["stock.landed.cost"].sudo().create(vals)
 
     def _l10n_ro_get_or_create_price_difference_product(self):
