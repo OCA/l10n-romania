@@ -5,7 +5,7 @@
 
 import logging
 
-from odoo import models
+from odoo import api, fields, models
 from odoo.tools import float_is_zero, float_repr
 
 _logger = logging.getLogger(__name__)
@@ -14,6 +14,44 @@ _logger = logging.getLogger(__name__)
 class ProductProduct(models.Model):
     _name = "product.product"
     _inherit = ["product.product", "l10n.ro.mixin"]
+
+    @api.depends("stock_valuation_layer_ids")
+    @api.depends_context("to_date", "company", "location_id")
+    def _compute_value_svl(self):
+        """Compute `value_svl` and `quantity_svl`.
+        Overwrite to allow multiple prices per location
+        """
+        l10n_ro_records = self.filtered("is_l10n_ro_record")
+        if self - l10n_ro_records:
+            super(ProductProduct, self - l10n_ro_records)._compute_value_svl()
+
+        if l10n_ro_records and self.env.context.get("location_id"):
+            company_id = self.env.company.id
+            domain = [
+                ("product_id", "in", l10n_ro_records.ids),
+                ("company_id", "=", company_id),
+                ("remaining_qty", ">", 0),
+                ("l10n_ro_location_dest_id", "=", self.env.context.get("location_id")),
+            ]
+            if self.env.context.get("to_date"):
+                to_date = fields.Datetime.to_datetime(self.env.context["to_date"])
+                domain.append(("create_date", "<=", to_date))
+            groups = self.env["stock.valuation.layer"].read_group(
+                domain, ["remaining_value:sum", "remaining_qty:sum"], ["product_id"]
+            )
+            products = self.browse()
+            for group in groups:
+                product = self.browse(group["product_id"][0])
+                product.value_svl = self.env.company.currency_id.round(
+                    group["remaining_value"]
+                )
+                product.quantity_svl = group["remaining_qty"]
+                products |= product
+            remaining = l10n_ro_records - products
+            remaining.value_svl = 0
+            remaining.quantity_svl = 0
+        else:
+            super()._compute_value_svl()
 
     def _prepare_out_svl_vals(self, quantity, company):
         # FOr Romania, prepare a svl vals list for each svl reserved
