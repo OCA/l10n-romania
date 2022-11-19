@@ -20,6 +20,10 @@ class AccountEdiXmlCIUSRO(models.Model):
         # Create file content.
         builder = self._get_xml_builder(invoice.company_id)
         xml_content, errors = builder._export_invoice(invoice)
+        xml_content = xml_content.decode()
+        xml_content = xml_content.replace("CreditNoteLine", "InvoiceLine")
+        xml_content = xml_content.replace("CreditedQuantity", "InvoicedQuantity")
+        xml_content = xml_content.encode()
         xml_name = builder._export_invoice_filename(invoice)
         return self.env["ir.attachment"].create(
             {
