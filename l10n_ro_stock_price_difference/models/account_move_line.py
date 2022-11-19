@@ -66,7 +66,7 @@ class AccountMoveLine(models.Model):
             accc_balance = sum(lines.mapped("balance")) / inv_qty * valuation_total_qty
         else:
             accc_balance = 0
-        diff = abs(accc_balance) - valuation_total
+        diff = accc_balance - valuation_total
         currency = line.currency_id or self.env.company.currency_id
         diff = currency.round(diff)
         qty_diff = inv_qty - valuation_total_qty
