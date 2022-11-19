@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <template
+        id="ubl_20_TaxTotalType"
+        inherit_id="account_edi_ubl_cii.ubl_20_TaxTotalType"
+        primary="True"
+        priority="100"
+    >
+        <xpath
+            expr="//*[local-name()='TaxSubtotal']/*[local-name()='Percent']"
+            position="replace"
+        >
+        </xpath>
+    </template>
+</odoo>
