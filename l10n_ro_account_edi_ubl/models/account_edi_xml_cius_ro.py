@@ -80,12 +80,13 @@ class AccountEdiXmlCIUSRO(models.Model):
         for val in vals_list["vals"]["invoice_line_vals"]:
             val["id"] = index
             index += 1
-        amount = 0
-        tax_subtotal_vals = vals_list["vals"]["tax_total_vals"][0]["tax_subtotal_vals"]
-        for tax in tax_subtotal_vals:
-            for tax_group in invoice.amount_by_group:
-                if tax_group[0] == tax["tax_id"].tax_group_id.name:
-                    tax["tax_amount"] = tax_group[1]
-                    amount += tax_group[1]
-        vals_list["vals"]["tax_total_vals"][0]["tax_amount"] = amount
+        # amount = 0
+        # tax_subtotal_vals = vals_list["vals"]["tax_total_vals"][0]["tax_subtotal_vals"]
+        # for tax in tax_subtotal_vals:
+        #     invoice_totals = json.loads(invoice.tax_totals_json)
+        #     for tax_group in invoice_totals['groups_by_subtotal'].values():
+        #         if tax_group[0] == tax["tax_id"].tax_group_id.name:
+        #             tax["tax_amount"] = tax_group[1]
+        #             amount += tax_group[1]
+        # vals_list["vals"]["tax_total_vals"][0]["tax_amount"] = amount
         return vals_list
