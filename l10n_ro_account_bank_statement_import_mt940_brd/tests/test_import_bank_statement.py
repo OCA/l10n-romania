@@ -61,9 +61,9 @@ class TestImport(TestMT940BankStatementImport):
         espected_res = {
             "20": ["Plata           "],
             "30": ["302410000"],
-            "31": ["RO89RZBR0000060003480121\n"],
+            "31": ["RO89RZBR0000060003480121"],
             "32": ["NEXTERP ROMANIA SRL"],
-            "33": ["/\n"],
+            "33": ["/"],
             "23": ["PLATA FACT 4603309"],
         }
 
