@@ -74,9 +74,17 @@ class StockLandedCost(models.Model):
             for line in cost.valuation_adjustment_lines.filtered(
                 lambda line: line.move_id
             ):
-                remaining_qty = sum(
-                    line.move_id.stock_valuation_layer_ids.mapped("remaining_qty")
+
+                quantity = sum(
+                    line.move_id.stock_valuation_layer_ids.mapped("quantity")
                 )
+                if quantity > 0:
+                    remaining_qty = sum(
+                        line.move_id.stock_valuation_layer_ids.mapped("remaining_qty")
+                    )
+                else:
+                    # daca am o receptie negativa - (retur de paleti)
+                    remaining_qty = -1 * quantity
                 linked_layer = line.move_id.stock_valuation_layer_ids[:1]
 
                 # Prorate the value at what's still in stock
