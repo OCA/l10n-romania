@@ -1,7 +1,8 @@
-# Copyright 2019 ACSONE SA/NV <thomas.binsfeld@acsone.eu>
-# License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
+# Copyright (C) 2016 Forest and Biomass Romania
+# Copyright (C) 2022 NextERP Romania
+# License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
-from odoo import _, models
+from odoo import models
 
 
 class AccountJournal(models.Model):
