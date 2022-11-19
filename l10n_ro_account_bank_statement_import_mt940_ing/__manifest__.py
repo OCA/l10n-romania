@@ -7,14 +7,14 @@
     "name": "MT940 ING Format Bank Statements Import",
     "version": "14.0.1.0.0",
     "license": "AGPL-3",
-    "author": "Terrabit," "NextERP Romania SRL,"
-              "Forest and Biomass Romania, " "Odoo Community Association (OCA)",
+    "author": "Terrabit,"
+    "NextERP Romania SRL,"
+    "Forest and Biomass Romania, "
+    "Odoo Community Association (OCA)",
     "website": "https://github.com/OCA/l10n-romania",
-    "category": "Banking addons",
+    "category": "Localization",
     "depends": ["l10n_ro_account_bank_statement_import_mt940_base"],
-    "data": ["views/account_bank_statement_import_view.xml"],
-    "demo": ["demo/demo_data.xml"],
     "installable": True,
-    'development_status': 'Mature',
-    'maintainers': ['feketemihai', 'dhongu'],
+    "development_status": "Mature",
+    "maintainers": ["feketemihai", "dhongu"],
 }
