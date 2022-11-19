@@ -2,7 +2,9 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
 import base64
+
 from odoo.tests.common import SavepointCase
+
 
 class TestMT940BankStatementImport(SavepointCase):
     @classmethod
@@ -32,10 +34,10 @@ class TestMT940BankStatementImport(SavepointCase):
         )
         return journal
 
-    def _load_statement(self, testfile):
+    def _load_statement(self, testfile, mt940_type="mt940_general"):
         with open(testfile, "rb") as datafile:
             stmt_file = base64.b64encode(datafile.read())
-            self.env["account.statement.import"].create(
+            self.env["account.statement.import"].with_context(type=mt940_type).create(
                 {
                     "statement_filename": "test import",
                     "statement_file": stmt_file,
