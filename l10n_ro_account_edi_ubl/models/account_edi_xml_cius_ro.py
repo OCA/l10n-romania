@@ -88,4 +88,25 @@ class AccountEdiXmlCIUSRO(models.Model):
                     tax["tax_amount"] = tax_group[1]
                     amount += tax_group[1]
         vals_list["vals"]["tax_total_vals"][0]["tax_amount"] = amount
+
+        if invoice.move_type == "out_refund":
+            vals_list["main_template"] = "account_edi_ubl_cii.ubl_20_Invoice"
+            vals_list["vals"]["invoice_type_code"] = 380
+            vals_list["vals"].pop("credit_note_type_code")
+            for line in vals_list["vals"]["invoice_line_vals"]:
+                line["invoiced_quantity"] = -1 * line["invoiced_quantity"]
+                line["line_extension_amount"] = -1 * line["line_extension_amount"]
+            total_vals = vals_list["vals"]["legal_monetary_total_vals"]
+            total_vals["line_extension_amount"] = (
+                -1 * total_vals["line_extension_amount"]
+            )
+            total_vals["tax_exclusive_amount"] = -1 * total_vals["tax_exclusive_amount"]
+            total_vals["tax_inclusive_amount"] = -1 * total_vals["tax_inclusive_amount"]
+            total_vals["payable_amount"] = -1 * total_vals["payable_amount"]
+            for tax in vals_list["vals"]["tax_total_vals"]:
+                tax["tax_amount"] = -1 * tax["tax_amount"]
+                for subtax in tax["tax_subtotal_vals"]:
+                    subtax["taxable_amount"] = -1 * subtax["taxable_amount"]
+                    subtax["tax_amount"] = -1 * subtax["tax_amount"]
+
         return vals_list
