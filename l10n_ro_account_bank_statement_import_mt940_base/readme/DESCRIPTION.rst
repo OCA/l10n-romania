@@ -3,5 +3,3 @@ non-open non-standard of pure evil in the way that every bank cooks up its own
 interpretation of it, this addon alone won't help you much. It is rather
 intended to be used by other addons to implement the dialect specific to a
 certain bank.
-
-See bank_statement_parse_nl_ing_mt940 for an example on how to use it.
