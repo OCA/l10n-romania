@@ -388,5 +388,4 @@ class MT940Parser(models.AbstractModel):
             codewords = self.get_codewords()
             subfields = self.get_subfields(data, codewords)
             self.handle_common_subfields(transaction, subfields)
-        # print(result)
         return result
