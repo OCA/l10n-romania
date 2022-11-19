@@ -42,7 +42,7 @@ class TestImport(TestMT940BankStatementImport):
             {
                 "account_number": "NL66RABO0160878799",
                 "amount": 400.00,
-                "payment_ref": "Test money paid by other partner:",
+                "payment_ref": "Test/money/paid/by/other/partner:",
                 "ref": "NONREF",
             },
         ]
@@ -64,7 +64,7 @@ class TestImport(TestMT940BankStatementImport):
         espected_res = {
             "BENM": [""],
             "NAME": ["Cost"],
-            "REMI": ["Period 01-10-2013 t", "m 31-12-2013"],
+            "REMI": ["Period", "01-10-2013", "t", "m", "31-12-2013"],
             "ISDT": ["20"],
         }
         self.assertTrue(res == espected_res)
@@ -95,7 +95,6 @@ class TestImport(TestMT940BankStatementImport):
         statement = bank_statements[1]
         transact = self.transactions[0]
         for line in statement.line_ids:
-            # de vazut de ce nu pune contul, ramane in payment ref
             self.assertTrue(line.account_number == transact["account_number"])
             self.assertTrue(line.amount == transact["amount"])
             self.assertTrue(line.date == fields.Date.from_string("2014-01-02"))
