@@ -213,6 +213,11 @@ class StorageSheet(models.TransientModel):
             SELECT  %(report)s as report_id, sm.product_id as product_id,
                     COALESCE(sum(svl_in.value),0)   as amount_in,
                     COALESCE(sum(svl_in.quantity), 0)   as quantity_in,
+                    CASE
+                        WHEN COALESCE(sum(svl_in.quantity), 0) != 0
+                            THEN COALESCE(sum(svl_in.value),0) / sum(svl_in.quantity)
+                        ELSE 0
+                    END as unit_price_in,
                      svl_in.l10n_ro_account_id as account_id,
                      svl_in.l10n_ro_invoice_id as invoice_id,
                     sm.date as date_time,
@@ -252,6 +257,11 @@ class StorageSheet(models.TransientModel):
             SELECT  %(report)s as report_id, sm.product_id as product_id,
                     -1*COALESCE(sum(svl_out.value),0)   as amount_out,
                     -1*COALESCE(sum(svl_out.quantity),0)   as quantity_out,
+                    CASE
+                        WHEN COALESCE(sum(svl_out.quantity), 0) != 0
+                            THEN COALESCE(sum(svl_out.value),0) / sum(svl_out.quantity)
+                        ELSE 0
+                    END as unit_price_out,
                     svl_out.l10n_ro_account_id as account_id,
                     svl_out.l10n_ro_invoice_id as invoice_id,
                     sm.date as date_time,
@@ -380,9 +390,15 @@ class StorageSheetLine(models.TransientModel):
     quantity_in = fields.Float(
         digits="Product Unit of Measure", string="Input Quantity"
     )
+    unit_price_in = fields.Monetary(
+        currency_field="currency_id", string="Unit Price In"
+    )
     amount_out = fields.Monetary(currency_field="currency_id", string="Output Amount")
     quantity_out = fields.Float(
         digits="Product Unit of Measure", string="Output Quantity"
+    )
+    unit_price_out = fields.Monetary(
+        currency_field="currency_id", string="Unit Price Out"
     )
     amount_final = fields.Monetary(currency_field="currency_id", string="Final Amount")
     quantity_final = fields.Float(
