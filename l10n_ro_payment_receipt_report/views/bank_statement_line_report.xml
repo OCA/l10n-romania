@@ -16,9 +16,5 @@
             ref="account.model_account_bank_statement_line"
         />
         <field name="binding_type">report</field>
-        <field
-            name="paperformat_id"
-            ref="l10n_ro_payment_receipt_report.paperformat_A5_landscape"
-        />
     </record>
 </odoo>
