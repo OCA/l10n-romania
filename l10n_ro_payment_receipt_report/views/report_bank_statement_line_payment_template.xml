@@ -6,7 +6,7 @@
             <t t-set="o" t-value="o.with_context(lang=lang)" />
             <div class="page">
                 <div class="row mt64 pull-right">
-                    <div>
+                    <div class="col-12">
                         <t t-if="o.amount&gt;0">
                             <strong>Payment Reception:
                                 <span t-field="o.name" />
@@ -25,38 +25,70 @@
                         </t>
                     </div>
                 </div>
-                <br />
-                <br />
                 <div class="row">
-                    <div class="col-12">
-                        <span>Name:
+                    <div class="col-8">
+                        <span>
                             <strong>
-                                <span t-field="o.partner_id.name" />
+                                Name: <span t-field="o.partner_id.name" />
                             </strong>
                         </span>
                         <br />
-                        <span>Function:
+                        <span>
                             <strong>
-                                <span t-field="o.partner_id.function" />
+                                Function: <span t-field="o.partner_id.function" />
                             </strong>
                         </span>
                         <br />
-                        <span>amount of
-                            <span
-                                t-field="o.amount"
-                                t-options="{'widget': 'monetary', 'display_currency': o.currency_id}"
-                            />
+                        <span>
+                            <strong>
+                                Amount:
+                                <table style="width: 100%">
+                                    <tr>
+                                        <td>
+                                            <span
+                                                t-field="o.amount"
+                                                t-options="{'widget': 'monetary', 'display_currency': o.currency_id}"
+                                            />
+                                        </td>
+                                        <td>
+                                             (<span
+                                                t-esc="o.currency_id.amount_to_text(o.amount)"
+                                            />)
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            (in numbers)
+                                        </td>
+                                        <td>
+                                             (in letters)
+                                        </td>
+                                    </tr>
+                                </table>
+                            </strong>
                         </span>
-                        (<span t-esc="o.currency_id.amount_to_text(o.amount)" />)
                         <br />
-                        <span>Reason:
+                        <span>
+                            <strong>
+                                Reason <span
+                                    t-if="o.amount&gt;0"
+                                    style="text-decoration: underline;"
+                                >reception</span><span
+                                    t-if="o.amount&lt;0"
+                                >reception</span> / <span
+                                    t-if="o.amount&lt;0"
+                                    style="text-decoration: underline;"
+                                >disposal</span><span
+                                    t-if="o.amount&gt;0"
+                                >disposal</span>:
+                            </strong>
+
                             <strong>
                                 <span t-field="o.payment_ref" />
                             </strong>
                         </span>
                     </div>
                 </div>
-                <br />
                 <br />
                 <div class="row">
                     <div class="col-12">
@@ -65,49 +97,76 @@
                             style="table-layout: fixed"
                             id="signatures_table"
                         >
-                            <thead style="display: table-row-group">
-                                <tr>
-                                    <th colspan="12">Signatures</th>
-                                </tr>
-                            </thead>
                             <tbody>
                                 <tr>
-                                    <th
-                                        rowspan="3"
-                                        class="text-center"
-                                        style="width: 30%"
-                                        scope="col"
-                                    >Unit Manager</th>
-                                    <th
-                                        rowspan="3"
-                                        class="text-center"
-                                        style="width: 40%"
-                                        scope="col"
-                                    >Preventive Financial Control
-                                        Visa
-                                    </th>
-                                    <th
-                                        rowspan="3"
-                                        class="text-center"
-                                        style="width: 30%"
-                                        scope="col"
-                                    >Financial - Accounting
-                                        Department
-                                    </th>
+                                    <td rowspan="3" colspan="4"><strong
+                                        >Signatures</strong></td>
+                                    <td rowspan="1" colspan="4"><strong
+                                        >Unit Manager</strong></td>
+                                    <td rowspan="1" colspan="4"><strong
+                                        >Financial-Accounting Department</strong></td>
                                 </tr>
+                                <tr>
+                                    <td rowspan="2" colspan="4">
+                                        <br />
+                                        <br />
+                                    </td>
+                                    <td rowspan="2" colspan="4">
+                                        <br />
+                                        <br />
+                                    </td>
+                                </tr>
+                                <tr />
                             </tbody>
                         </table>
                     </div>
                 </div>
                 <br />
-                <br />
-                <div class="clearfix">
-                    <div id="total" class="row">
-                        <div
-                            t-attf-class="#{'col-4' if report_type != 'html' else 'col-sm-9 col-md-4'} ml-auto"
+                <div class="row">
+                    <div class="col-12">
+                        <table
+                            class="table table-bordered"
+                            style="table-layout: fixed"
+                            id="details_table"
                         >
-                            <span>Signature and stamp</span>
-                        </div>
+                            <tbody>
+                                <tr>
+                                    <td rowspan="10" colspan="2">
+                                        <span
+                                            style="
+                                                text-transform: uppercase;
+                                                text-align: center;
+                                                font-weight: bold; line-height: 20px;
+                                                -webkit-transform:rotate(270deg);
+                                                width: 100px; display: block;"
+                                        >
+                                            <strong
+                                            >To be completed only for disposals</strong>
+                                        </span>
+                                    </td>
+                                    <td rowspan="10" colspan="10">
+                                        <strong
+                                        >ADDITIONAL DATA REGARDING THE BENEFICIARY OF THE AMOUNT:</strong>
+                                        <br />
+                                        <br />
+                                        <span
+                                        >Identity document …… Series ……. No. …………………...…………….</span>
+                                        <br />
+                                        <span
+                                        >I received the amount of ……………...……………………………….. lei</span>
+                                        <br />
+                                        <span
+                                        >                                         (in figures)</span>
+                                        <br />
+                                        <span
+                                        >                       Date .........................</span>
+                                        <br />
+                                        <span
+                                        >                       Signature ....................</span>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
                     </div>
                 </div>
             </div>
