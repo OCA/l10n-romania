@@ -76,31 +76,55 @@
                     >
                         <thead>
                             <tr>
-                                <th width="5%">Nr. Crt</th>
-                                <th width="10%">Date</th>
-                                <th width="15%">Transaction No</th>
-                                <th width="25%">Appendix No</th>
-                                <th width="15%">Explanation</th>
-                                <th width="10%">Receipts</th>
-                                <th width="10%">Payments</th>
+                                <th
+                                    style="border: 1px solid black;"
+                                    width="5%"
+                                >Nr. Crt</th>
+                                <th
+                                    style="border: 1px solid black;"
+                                    width="10%"
+                                >Date</th>
+                                <th
+                                    style="border: 1px solid black;"
+                                    width="15%"
+                                >Partner</th>
+                                <th
+                                    style="border: 1px solid black;"
+                                    width="15%"
+                                >Transaction No</th>
+                                <th
+                                    style="border: 1px solid black;"
+                                    width="25%"
+                                >Explanation</th>
+                                <th
+                                    style="border: 1px solid black;"
+                                    width="10%"
+                                >Receipts</th>
+                                <th
+                                    style="border: 1px solid black;"
+                                    width="10%"
+                                >Payments</th>
                                 <t t-if="with_currency">
-                                    <th width="10%">Currency Amount</th>
+                                    <th
+                                        style="border: 1px solid black;"
+                                        width="10%"
+                                    >Currency Amount</th>
                                 </t>
                             </tr>
                         </thead>
                         <tbody>
                             <tr>
-                                <td colspan="3" />
-                                <td colspan="2">
+                                <td style="border: 1px solid black;" colspan="3" />
+                                <td style="border: 1px solid black;" colspan="2">
                                     <strong>Starting Balance
                                     </strong>
                                 </td>
-                                <td class="text-right">
+                                <td style="border: 1px solid black;" class="text-right">
                                     <strong>
                                         <span t-field="statements[0].balance_start" />
                                     </strong>
                                 </td>
-                                <td />
+                                <td style="border: 1px solid black;" />
                             </tr>
                         </tbody>
                     </table>
@@ -116,38 +140,66 @@
 
                             <tbody>
                                 <tr>
-                                    <td colspan="3" />
-                                    <td colspan="2">
+                                    <td style="border: 1px solid black;" colspan="3" />
+                                    <td style="border: 1px solid black;" colspan="2">
                                         <strong>Starting Balance
                                             <span t-field="s.date" />
                                         </strong>
                                     </td>
-                                    <td class="text-right">
+                                    <td
+                                        style="border: 1px solid black;"
+                                        class="text-right"
+                                    >
                                         <strong>
                                             <span t-field="s.balance_start" />
                                         </strong>
                                     </td>
-                                    <td />
+                                    <td style="border: 1px solid black;" />
                                 </tr>
                                 <tr t-foreach="s.line_ids" t-as="line">
                                     <tr>
-                                        <td width="5%">
+                                        <td style="border: 1px solid black;" width="5%">
                                             <span t-esc="nr_crt" />
                                             <t t-set="nr_crt" t-value="nr_crt + 1" />
                                         </td>
-                                        <td width="10%">
+                                        <td
+                                            style="border: 1px solid black;"
+                                            width="10%"
+                                        >
                                             <span t-field="line.date" />
                                         </td>
-                                        <td width="15%">
+                                        <td
+                                            style="border: 1px solid black;"
+                                            width="15%"
+                                        >
+                                            <t t-if="line.partner_id">
+                                                <span t-field="line.partner_id" />
+                                                <t
+                                                    t-if="line.partner_id.country_id.code == 'RO'"
+                                                >
+                                                    (<span
+                                                        t-field="line.partner_id.vat"
+                                                    />)
+                                                </t>
+                                            </t>
+                                        </td>
+                                        <td
+                                            style="border: 1px solid black;"
+                                            width="15%"
+                                        >
                                             <span t-field="line.payment_ref" />
                                         </td>
-                                        <td width="25%">
-                                            <span t-field="line.narration" />
-                                        </td>
-                                        <td width="15%">
+                                        <td
+                                            style="border: 1px solid black;"
+                                            width="25%"
+                                        >
                                             <span t-field="line.ref" />
                                         </td>
-                                        <td width="10%" class="text-right">
+                                        <td
+                                            style="border: 1px solid black;"
+                                            width="10%"
+                                            class="text-right"
+                                        >
                                             <t t-if="line.amount&gt;0">
                                                 <span
                                                     t-field="line.amount"
@@ -165,7 +217,11 @@
                                                 />
                                             </t>
                                         </td>
-                                        <td width="10%" class="text-right">
+                                        <td
+                                            style="border: 1px solid black;"
+                                            width="10%"
+                                            class="text-right"
+                                        >
                                             <t t-if="line.amount&lt;0">
                                                 <span
                                                     t-esc="-1 * line.amount"
@@ -184,6 +240,7 @@
                                             </t>
                                         </td>
                                         <td
+                                            style="border: 1px solid black;"
                                             width="10%"
                                             class="text-right"
                                             t-if="with_currency"
@@ -196,18 +253,21 @@
                                     </tr>
                                 </tr>
                                 <tr>
-                                    <td colspan="3" />
-                                    <td colspan="2">
+                                    <td style="border: 1px solid black;" colspan="3" />
+                                    <td style="border: 1px solid black;" colspan="2">
                                         <strong>Ending Balance
                                             <span t-field="s.date" />
                                         </strong>
                                     </td>
-                                    <td class="text-right">
+                                    <td
+                                        style="border: 1px solid black;"
+                                        class="text-right"
+                                    >
                                         <strong>
                                             <span t-field="s.balance_end_real" />
                                         </strong>
                                     </td>
-                                    <td />
+                                    <td style="border: 1px solid black;" />
                                 </tr>
 
                             </tbody>
@@ -219,31 +279,31 @@
                     >
                         <thead>
                             <tr>
-                                <th width="5%" />
-                                <th width="10%" />
-                                <th width="15%" />
-                                <th width="25%" />
-                                <th width="15%" />
-                                <th width="10%" />
-                                <th width="10%" />
+                                <th style="border: 1px solid black;" width="5%" />
+                                <th style="border: 1px solid black;" width="10%" />
+                                <th style="border: 1px solid black;" width="15%" />
+                                <th style="border: 1px solid black;" width="25%" />
+                                <th style="border: 1px solid black;" width="15%" />
+                                <th style="border: 1px solid black;" width="10%" />
+                                <th style="border: 1px solid black;" width="10%" />
                                 <t t-if="with_currency">
-                                    <th width="10%" />
+                                    <th style="border: 1px solid black;" width="10%" />
                                 </t>
                             </tr>
                         </thead>
                         <tbody>
                             <tr>
-                                <td colspan="3" />
-                                <td colspan="2">
+                                <td style="border: 1px solid black;" colspan="3" />
+                                <td style="border: 1px solid black;" colspan="2">
                                     <strong>Total Balance</strong>
                                 </td>
-                                <td class="text-right">
+                                <td style="border: 1px solid black;" class="text-right">
                                     <strong
                                         t-esc="total_received"
                                         t-options='{"widget": "monetary", "display_currency": journal_currency}'
                                     />
                                 </td>
-                                <td class="text-right">
+                                <td style="border: 1px solid black;" class="text-right">
                                     <strong
                                         t-esc="total_paid"
                                         t-options='{"widget": "monetary", "display_currency": journal_currency}'
@@ -258,10 +318,10 @@
                     >
                         <tbody>
                             <tr>
-                                <td width="50%">
+                                <td style="border: 1px solid black;" width="50%">
                                     <center><strong>Cashier</strong></center>
                                 </td>
-                                <td width="50%">
+                                <td style="border: 1px solid black;" width="50%">
                                     <center><strong
                                         >Financial-accounting department</strong></center>
                                 </td>
