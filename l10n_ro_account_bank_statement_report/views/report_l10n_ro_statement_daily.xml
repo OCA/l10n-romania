@@ -16,7 +16,8 @@
                             <div class="col-4">
                                 <div>
                                     <strong>
-                                    <span t-esc="o.company_id.name" /></strong>
+                                        <span t-esc="o.company_id.name" />
+                                    </strong>
                                 </div>
                                 <div>
                                     <address
@@ -37,7 +38,8 @@
                                 <h4 class="text-center">
                                     <span
                                         t-if="o.journal_id.type == 'bank'"
-                                    >Bank Statement</span>
+                                    >Bank Statement
+                                    </span>
                                     <span t-else="">Cash Statement</span>
                                 </h4>
                                 <h5>
@@ -63,147 +65,164 @@
                         <div style="border-top: 1px solid #000000;" />
                     </div>
                 </div>
-                <div class="article">
-                    <div class="page">
-                        <table
-                            class="table table-sm table table-bordered"
-                            style="width: 100%"
-                        >
-                            <thead>
+                <div class="page">
+                    <table
+                        class="table table-sm table table-bordered"
+                        style="width: 100%;"
+                    >
+                        <thead>
+                            <tr>
+                                <th style="border: 1px solid black;">Nr. Crt</th>
+                                <th style="border: 1px solid black;">Date</th>
+                                <th style="border: 1px solid black;">Partner</th>
+                                <th style="border: 1px solid black;">Transaction No</th>
+                                <th style="border: 1px solid black;">Explanation</th>
+                                <th style="border: 1px solid black;">Receipts</th>
+                                <th style="border: 1px solid black;">Payments</th>
+                                <t t-if="with_currency">
+                                    <th
+                                        style="border: 1px solid black;"
+                                    >Currency Amount</th>
+                                </t>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <t t-set="nr_crt" t-value="1" />
+                            <t t-set="total_received" t-value="0.0" />
+                            <t t-set="total_paid" t-value="0.0" />
+                            <tr>
+                                <td style="border: 1px solid black;" colspan="3" />
+                                <td style="border: 1px solid black;" colspan="2">
+                                    <strong>Starting Balance</strong>
+                                </td>
+                                <td style="border: 1px solid black;" class="text-right">
+                                    <strong>
+                                        <span t-field="o.balance_start" />
+                                    </strong>
+                                </td>
+                                <td style="border: 1px solid black;" />
+                            </tr>
+                            <tr t-foreach="o.line_ids" t-as="line">
                                 <tr>
-                                    <th>Nr. Crt</th>
-                                    <th>Date</th>
-                                    <th>Transaction No</th>
-                                    <th>Appendix No</th>
-                                    <th>Explanation</th>
-                                    <th>Receipts</th>
-                                    <th>Payments</th>
-                                    <t t-if="with_currency">
-                                        <th>Currency Amount</th>
-                                    </t>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <t t-set="nr_crt" t-value="1" />
-                                <t t-set="total_received" t-value="0.0" />
-                                <t t-set="total_paid" t-value="0.0" />
-                                <tr>
-                                    <td colspan="3" />
-                                    <td colspan="2">
-                                        <strong>Starting Balance</strong>
+                                    <td style="border: 1px solid black;">
+                                        <span t-esc="nr_crt" />
+                                        <t t-set="nr_crt" t-value="nr_crt + 1" />
                                     </td>
-                                    <td class="text-right">
-                                        <strong>
-                                            <span t-field="o.balance_start" />
-                                        </strong>
+                                    <td style="border: 1px solid black;">
+                                        <span t-field="line.date" />
                                     </td>
-                                    <td />
-                                </tr>
-                                <tr t-foreach="o.line_ids" t-as="line">
-                                    <tr>
-                                        <td>
-                                            <span t-esc="nr_crt" />
-                                            <t t-set="nr_crt" t-value="nr_crt + 1" />
-                                        </td>
-                                        <td>
-                                            <span t-field="line.date" />
-                                        </td>
-                                        <td>
-                                            <span t-field="line.payment_ref" />
-                                        </td>
-                                        <td>
-                                            <span t-field="line.narration" />
-                                        </td>
-                                        <td>
-                                            <span t-field="line.ref" />
-                                        </td>
-                                        <td class="text-right">
-                                            <t t-if="line.amount&gt;0">
-                                                <span
-                                                    t-field="line.amount"
-                                                    t-options='{"widget": "monetary", "display_currency": o.currency_id}'
-                                                />
-                                                <t
-                                                    t-set="total_received"
-                                                    t-value="total_received+line.amount"
-                                                />
+                                    <td style="border: 1px solid black;">
+                                        <t t-if="line.partner_id">
+                                            <span t-field="line.partner_id" />
+                                            <t
+                                                t-if="line.partner_id.country_id.code == 'RO'"
+                                            >
+                                                (<span t-field="line.partner_id.vat" />)
                                             </t>
-                                            <t t-else="">
-                                                <span
-                                                    t-esc="0.0"
-                                                    t-options='{"widget": "monetary", "display_currency": o.currency_id}'
-                                                />
-                                            </t>
-                                        </td>
-                                        <td class="text-right">
-                                            <t t-if="line.amount&lt;0">
-                                                <span
-                                                    t-esc="-1 * line.amount"
-                                                    t-options='{"widget": "monetary", "display_currency": o.currency_id}'
-                                                />
-                                                <t
-                                                    t-set="total_paid"
-                                                    t-value="total_paid-line.amount"
-                                                />
-                                            </t>
-                                            <t t-else="">
-                                                <span
-                                                    t-esc="0.0"
-                                                    t-options='{"widget": "monetary", "display_currency": o.currency_id}'
-                                                />
-                                            </t>
-                                        </td>
-                                        <td class="text-right" t-if="with_currency">
+                                        </t>
+                                    </td>
+                                    <td style="border: 1px solid black;">
+                                        <span t-field="line.payment_ref" />
+                                    </td>
+                                    <td style="border: 1px solid black;">
+                                        <span t-field="line.ref" />
+                                    </td>
+                                    <td
+                                        style="border: 1px solid black;"
+                                        class="text-right"
+                                    >
+                                        <t t-if="line.amount&gt;0">
                                             <span
-                                                t-esc="line.total_signed"
+                                                t-field="line.amount"
                                                 t-options='{"widget": "monetary", "display_currency": o.currency_id}'
                                             />
-                                        </td>
-                                    </tr>
-                                </tr>
-                                <tr>
-                                    <td colspan="3" />
-                                    <td colspan="2">
-                                        <strong>Total Balance</strong>
+                                            <t
+                                                t-set="total_received"
+                                                t-value="total_received+line.amount"
+                                            />
+                                        </t>
+                                        <t t-else="">
+                                            <span
+                                                t-esc="0.0"
+                                                t-options='{"widget": "monetary", "display_currency": o.currency_id}'
+                                            />
+                                        </t>
                                     </td>
-                                    <td class="text-right">
-                                        <strong
-                                            t-esc="total_received"
+                                    <td
+                                        style="border: 1px solid black;"
+                                        class="text-right"
+                                    >
+                                        <t t-if="line.amount&lt;0">
+                                            <span
+                                                t-esc="-1 * line.amount"
+                                                t-options='{"widget": "monetary", "display_currency": o.currency_id}'
+                                            />
+                                            <t
+                                                t-set="total_paid"
+                                                t-value="total_paid-line.amount"
+                                            />
+                                        </t>
+                                        <t t-else="">
+                                            <span
+                                                t-esc="0.0"
+                                                t-options='{"widget": "monetary", "display_currency": o.currency_id}'
+                                            />
+                                        </t>
+                                    </td>
+                                    <td
+                                        style="border: 1px solid black;"
+                                        class="text-right"
+                                        t-if="with_currency"
+                                    >
+                                        <span
+                                            t-esc="line.total_signed"
                                             t-options='{"widget": "monetary", "display_currency": o.currency_id}'
                                         />
                                     </td>
-                                    <td class="text-right">
-                                        <strong
-                                            t-esc="total_paid"
-                                            t-options='{"widget": "monetary", "display_currency": o.currency_id}'
-                                        />
-                                    </td>
                                 </tr>
-                                <tr>
-                                    <td colspan="3" />
-                                    <td colspan="2">
-                                        <strong>Ending Balance</strong>
-                                    </td>
-                                    <td class="text-right">
-                                        <strong>
-                                            <span t-field="o.balance_end_real" />
-                                        </strong>
-                                    </td>
-                                    <td />
-                                </tr>
-                                <tr>
-                                    <td colspan="3">
-                                        <strong>Cashier</strong>
-                                    </td>
-                                    <td colspan="1">
-                                    </td>
-                                    <td colspan="3">
-                                        <strong>Financial-accounting department</strong>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
+                            </tr>
+                            <tr>
+                                <td style="border: 1px solid black;" colspan="3" />
+                                <td style="border: 1px solid black;" colspan="2">
+                                    <strong>Total Balance</strong>
+                                </td>
+                                <td style="border: 1px solid black;" class="text-right">
+                                    <strong
+                                        t-esc="total_received"
+                                        t-options='{"widget": "monetary", "display_currency": o.currency_id}'
+                                    />
+                                </td>
+                                <td style="border: 1px solid black;" class="text-right">
+                                    <strong
+                                        t-esc="total_paid"
+                                        t-options='{"widget": "monetary", "display_currency": o.currency_id}'
+                                    />
+                                </td>
+                            </tr>
+                            <tr style="border: 1px solid black;">
+                                <td style="border: 1px solid black;" colspan="3" />
+                                <td style="border: 1px solid black;" colspan="2">
+                                    <strong>Ending Balance</strong>
+                                </td>
+                                <td style="border: 1px solid black;" class="text-right">
+                                    <strong>
+                                        <span t-field="o.balance_end_real" />
+                                    </strong>
+                                </td>
+                                <td style="border: 1px solid black;" />
+                            </tr>
+                            <tr>
+                                <td style="border: 1px solid black;" colspan="3">
+                                    <strong>Cashier</strong>
+                                </td>
+                                <td style="border: 1px solid black;" colspan="1">
+                                </td>
+                                <td style="border: 1px solid black;" colspan="3">
+                                    <strong>Financial-accounting department</strong>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </div>
                 <div class="footer">
                     <div>
