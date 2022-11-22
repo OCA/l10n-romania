@@ -1,0 +1,118 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* l10n_ro_account_report_invoice
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 15.0\n"
+"Report-Msgid-Bugs-To: \n"
+"Last-Translator: Automatically generated\n"
+"Language-Team: none\n"
+"Language: ro\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: nplurals=3; plural=n==1 ? 0 : (n==0 || (n%100 > 0 && n%100 < "
+"20)) ? 1 : 2;\n"
+
+#. module: l10n_ro_account_report_invoice
+#: model_terms:ir.ui.view,arch_db:l10n_ro_account_report_invoice.res_config_settings_view_form
+msgid ""
+"<span class=\"fa fa-lg fa-building-o\" title=\"Values set here are company-"
+"specific.\" aria-label=\"Values set here are company-specific.\" "
+"groups=\"base.group_multi_company\" role=\"img\"/>"
+msgstr ""
+
+#. module: l10n_ro_account_report_invoice
+#: model_terms:ir.ui.view,arch_db:l10n_ro_account_report_invoice.l10n_ro_report_invoice_document
+msgid "<strong>Account:</strong>"
+msgstr ""
+
+#. module: l10n_ro_account_report_invoice
+#: model_terms:ir.ui.view,arch_db:l10n_ro_account_report_invoice.l10n_ro_report_invoice_document
+msgid "<strong>Bank:</strong>"
+msgstr ""
+
+#. module: l10n_ro_account_report_invoice
+#: model_terms:ir.ui.view,arch_db:l10n_ro_account_report_invoice.l10n_ro_view_move_form
+msgid "Amount Due"
+msgstr ""
+
+#. module: l10n_ro_account_report_invoice
+#: model_terms:ir.ui.view,arch_db:l10n_ro_account_report_invoice.l10n_ro_view_move_form
+msgid "Amounts in company currency"
+msgstr ""
+
+#. module: l10n_ro_account_report_invoice
+#: model:ir.model,name:l10n_ro_account_report_invoice.model_res_company
+msgid "Companies"
+msgstr ""
+
+#. module: l10n_ro_account_report_invoice
+#: model:ir.model,name:l10n_ro_account_report_invoice.model_res_config_settings
+msgid "Config Settings"
+msgstr ""
+
+#. module: l10n_ro_account_report_invoice
+#: model_terms:ir.ui.view,arch_db:l10n_ro_account_report_invoice.l10n_ro_report_invoice_document
+msgid "Currency rate: 1"
+msgstr ""
+
+#. module: l10n_ro_account_report_invoice
+#: model_terms:ir.ui.view,arch_db:l10n_ro_account_report_invoice.res_config_settings_view_form
+msgid "Insert your invoice without stamp text here..."
+msgstr ""
+
+#. module: l10n_ro_account_report_invoice
+#: model_terms:ir.ui.view,arch_db:l10n_ro_account_report_invoice.res_config_settings_view_form
+msgid "Invoices without stamp text"
+msgstr ""
+
+#. module: l10n_ro_account_report_invoice
+#: model:ir.model.fields,field_description:l10n_ro_account_report_invoice.field_account_move__is_l10n_ro_record
+#: model:ir.model.fields,field_description:l10n_ro_account_report_invoice.field_sale_order__is_l10n_ro_record
+msgid "Is Romanian Record"
+msgstr ""
+
+#. module: l10n_ro_account_report_invoice
+#: model:ir.model,name:l10n_ro_account_report_invoice.model_account_move
+msgid "Journal Entry"
+msgstr ""
+
+#. module: l10n_ro_account_report_invoice
+#: model_terms:ir.ui.view,arch_db:l10n_ro_account_report_invoice.l10n_ro_report_invoice_document
+msgid "NRC:"
+msgstr ""
+
+#. module: l10n_ro_account_report_invoice
+#: model:ir.model.fields,field_description:l10n_ro_account_report_invoice.field_account_bank_statement_line__l10n_ro_currency_rate
+#: model:ir.model.fields,field_description:l10n_ro_account_report_invoice.field_account_move__l10n_ro_currency_rate
+#: model:ir.model.fields,field_description:l10n_ro_account_report_invoice.field_account_payment__l10n_ro_currency_rate
+msgid "Romania - Currency Rate"
+msgstr ""
+
+#. module: l10n_ro_account_report_invoice
+#: model:ir.model.fields,field_description:l10n_ro_account_report_invoice.field_res_company__l10n_ro_no_signature_text
+#: model:ir.model.fields,field_description:l10n_ro_account_report_invoice.field_res_config_settings__l10n_ro_no_signature_text
+msgid "Romania - No Signature Text"
+msgstr ""
+
+#. module: l10n_ro_account_report_invoice
+#: model:ir.model,name:l10n_ro_account_report_invoice.model_sale_order
+msgid "Sales Order"
+msgstr ""
+
+#. module: l10n_ro_account_report_invoice
+#: model_terms:ir.ui.view,arch_db:l10n_ro_account_report_invoice.l10n_ro_view_move_form
+msgid "Tax"
+msgstr ""
+
+#. module: l10n_ro_account_report_invoice
+#: model_terms:ir.ui.view,arch_db:l10n_ro_account_report_invoice.l10n_ro_view_move_form
+msgid "Tax Excluded"
+msgstr ""
+
+#. module: l10n_ro_account_report_invoice
+#: model_terms:ir.ui.view,arch_db:l10n_ro_account_report_invoice.l10n_ro_view_move_form
+msgid "Total"
+msgstr ""
