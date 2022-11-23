@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 13.0\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2020-09-04 12:09+0000\n"
+"PO-Revision-Date: 2022-11-23 09:45+0000\n"
 "Last-Translator: Dorin Hongu <dhongu@gmail.com>\n"
 "Language-Team: none\n"
 "Language: ro\n"
@@ -15,13 +15,13 @@ msgstr ""
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=3; plural=n==1 ? 0 : (n==0 || (n%100 > 0 && n%100 < "
 "20)) ? 1 : 2;\n"
-"X-Generator: Weblate 3.10\n"
+"X-Generator: Weblate 4.14.1\n"
 
 #. module: l10n_ro_city
 #: model:res.city,name:l10n_ro_city.RO_102552
 #: model:res.city,name:l10n_ro_city.RO_162318
 msgid "1 Decembrie"
-msgstr ""
+msgstr "1 Decembrie"
 
 #. module: l10n_ro_city
 #: model:res.city,name:l10n_ro_city.RO_60669
