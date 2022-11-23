@@ -1,5 +1,6 @@
-# ©  2015-2020 Deltatech
-# See README.rst file on addons root folder for license details
+# Copyright (C) 2015-2020 Deltatech
+# Copyright (C) 2022 NextERP Romania
+# License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
 
 from odoo import api, fields, models
@@ -141,25 +142,3 @@ class AccountPayment(models.Model):
         res = super().unlink()
         statement_line_ids.unlink()
         return res
-
-
-class PosBoxOut(models.TransientModel):
-    _name = "cash.box.out"
-    _inherit = ["cash.box.out", "l10n.ro.mixin"]
-
-    def _calculate_values_for_statement_line(self, record):
-        values = super(PosBoxOut, self)._calculate_values_for_statement_line(
-            record=record
-        )
-        if record.is_l10n_ro_record:
-            if values["amount"] > 0:
-                if record.journal_id.l10n_ro_cash_in_sequence_id:
-                    values[
-                        "name"
-                    ] = record.journal_id.l10n_ro_cash_in_sequence_id.next_by_id()
-            else:
-                if record.journal_id.l10n_ro_cash_out_sequence_id:
-                    values[
-                        "name"
-                    ] = record.journal_id.l10n_ro_cash_out_sequence_id.next_by_id()
-        return values

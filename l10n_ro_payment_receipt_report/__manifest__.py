@@ -13,6 +13,7 @@
     "license": "AGPL-3",
     "data": [
         "data/report_paperformat.xml",
+        "views/account_bank_statement_view.xml",
         "views/payment_receipt_report.xml",
         "views/bank_statement_line_report.xml",
         "views/report_payment_receipt_template.xml",
