@@ -17,14 +17,14 @@
                     string="Print Receipt"
                     class="btn btn-link"
                     type="object"
-                    attrs="{'invisible': ['|', ('is_l10n_ro_record', '=', False),('payment_id', '=', False)]}"
+                    attrs="{'invisible': ['|', ('is_l10n_ro_record', '=', False), ('payment_id', '=', False)]}"
                 />
                 <button
                     name="%(action_report_bank_statement_line_payment)d"
                     string="Print Disposal"
                     class="btn btn-link"
                     type="action"
-                    attrs="{'invisible': ['|', ('is_l10n_ro_record', '=', False),('is_l10n_ro_payment_disposal', '=', False)]}"
+                    attrs="{'invisible': ['|', ('is_l10n_ro_record', '=', False), ('is_l10n_ro_payment_disposal', '=', False)]}"
                 />
             </button>
         </field>
