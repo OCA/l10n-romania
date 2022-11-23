@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <odoo>
-
     <template id="report_bank_statement_line_payment_document">
         <t t-call="web.external_layout">
             <t t-set="o" t-value="o.with_context(lang=lang)" />
@@ -45,20 +44,20 @@
                                 <table style="width: 100%">
                                     <tr>
                                         <td>
-                                            <span
-                                                t-field="o.amount"
+                                             <span
+                                                t-esc="abs(o.amount)"
                                                 t-options="{'widget': 'monetary', 'display_currency': o.currency_id}"
                                             />
                                         </td>
                                         <td>
                                              (<span
-                                                t-esc="o.currency_id.amount_to_text(o.amount)"
+                                                t-esc="o.currency_id.amount_to_text(abs(o.amount))"
                                             />)
                                         </td>
                                     </tr>
                                     <tr>
                                         <td>
-                                            (in numbers)
+                                            (in figures)
                                         </td>
                                         <td>
                                              (in letters)
@@ -70,15 +69,13 @@
                         <br />
                         <span>
                             <strong>
-                                Reason <span
-                                    t-if="o.amount&gt;0"
-                                    style="text-decoration: underline;"
-                                >reception</span><span
+                                Reason <span t-if="o.amount&gt;0">reception</span><span
+                                    style="text-decoration: line-through;"
                                     t-if="o.amount&lt;0"
                                 >reception</span> / <span
                                     t-if="o.amount&lt;0"
-                                    style="text-decoration: underline;"
                                 >disposal</span><span
+                                    style="text-decoration: line-through;"
                                     t-if="o.amount&gt;0"
                                 >disposal</span>:
                             </strong>
@@ -131,38 +128,142 @@
                         >
                             <tbody>
                                 <tr>
-                                    <td rowspan="10" colspan="2">
-                                        <span
-                                            style="
-                                                text-transform: uppercase;
-                                                text-align: center;
-                                                font-weight: bold; line-height: 20px;
-                                                -webkit-transform:rotate(270deg);
-                                                width: 100px; display: block;"
-                                        >
+                                    <td rowspan="10" colspan="3">
+                                        <span>
                                             <strong
                                             >To be completed only for disposals</strong>
                                         </span>
                                     </td>
-                                    <td rowspan="10" colspan="10">
+                                    <td rowspan="10" colspan="9">
                                         <strong
                                         >ADDITIONAL DATA REGARDING THE BENEFICIARY OF THE AMOUNT:</strong>
                                         <br />
                                         <br />
                                         <span
-                                        >Identity document …… Series ……. No. …………………...…………….</span>
+                                        >Identity document ........ Series ........... No. .........................</span>
+                                        <br />
+                                        <span>
+                                            I received the amount of
+                                            <t t-if="o.amount&lt;0">
+                                                <span
+                                                    style="padding-left:140px;"
+                                                    t-esc="abs(o.amount)"
+                                                    t-options="{'widget': 'monetary', 'display_currency': o.currency_id}"
+                                                />
+                                            </t>
+                                            <t t-else="">
+                                                ................................................. lei
+                                            </t>
+                                        </span>
+                                        <br />
+                                        <span style="padding-left:100px;">
+                                            <t t-if="o.amount&lt;0">
+                                                <span style="padding-left:150px;">(<t
+                                                        t-esc="o.currency_id.amount_to_text(abs(o.amount))"
+                                                    />)</span>
+                                            </t>
+                                            <t t-else="">
+                                                 <span
+                                                    style="padding-left:300px;"
+                                                >(in figures)</span>
+                                            </t>
+                                        </span>
+                                        <br />
+                                        <span style="padding-left:100px;">Date
+                                            <t t-if="o.amount&lt;0">
+                                                <span
+                                                    style="padding-left:100px;"
+                                                    t-field="o.date"
+                                                />
+                                            </t>
+                                            <t t-else="">
+                                                .............................................
+                                            </t>
+                                        </span>
                                         <br />
                                         <span
-                                        >I received the amount of ……………...……………………………….. lei</span>
+                                            style="padding-left:100px;"
+                                        >Signature ..........................................</span>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <table
+                            class="table table-bordered"
+                            style="table-layout: fixed"
+                            id="details_table"
+                        >
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        <span>
+                                            <strong>CASHIER</strong>
+                                        </span>
+                                    </td>
+                                </tr>
+                                <tr>
+
+                                    <td>
+                                        <br />
+                                        <span>
+                                            <span t-if="o.amount&lt;0">
+                                                Paid
+                                            </span>
+                                            <span
+                                                t-if="o.amount&gt;0"
+                                                style="text-decoration: line-through;"
+                                            >
+                                                Paid
+                                            </span>
+                                            /
+                                            <span t-if="o.amount&gt;0">
+                                                Received
+                                            </span>
+                                            <span
+                                                t-if="o.amount&lt;0"
+                                                style="text-decoration: line-through;"
+                                            >
+                                                Received
+                                            </span> the amount of
+                                            <t t-if="o.amount&lt;0">
+                                                <span
+                                                    style="padding-left:140px;"
+                                                    t-esc="abs(o.amount)"
+                                                    t-options="{'widget': 'monetary', 'display_currency': o.currency_id}"
+                                                />
+                                            </t>
+                                            <t t-else="">
+                                                ................................................. lei
+                                            </t>
+                                        </span>
+                                        <br />
+                                        <span style="padding-left:150px;">
+                                            <t t-if="o.amount&lt;0">
+                                                <span style="padding-left:150px;">(<t
+                                                        t-esc="o.currency_id.amount_to_text(abs(o.amount))"
+                                                    />)</span>
+                                            </t>
+                                            <t t-else="">
+                                                 <span
+                                                    style="padding-left:300px;"
+                                                >(in figures)</span>
+                                            </t>
+                                        </span>
+                                        <br />
+                                        <span>Date
+                                            <t t-if="o.amount&lt;0">
+                                                <span
+                                                    style="padding-left:100px;"
+                                                    t-field="o.date"
+                                                />
+                                            </t>
+                                            <t t-else="">
+                                                .............................................
+                                            </t>
+                                        </span>
                                         <br />
                                         <span
-                                        >                                         (in figures)</span>
-                                        <br />
-                                        <span
-                                        >                       Date .........................</span>
-                                        <br />
-                                        <span
-                                        >                       Signature ....................</span>
+                                        >Signature .........................................</span>
                                     </td>
                                 </tr>
                             </tbody>
