@@ -27,5 +27,6 @@
     "website": "https://github.com/OCA/l10n-romania",
     "installable": True,
     "development_status": "Mature",
+    "post_init_hook": "post_init_hook",
     "maintainers": ["feketemihai", "dhongu"],
 }
