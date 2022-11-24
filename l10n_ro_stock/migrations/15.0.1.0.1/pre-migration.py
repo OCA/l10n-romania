@@ -65,15 +65,10 @@ def migrate(env, version):
         except Exception as e:
             _logger.info("Error %s." % e)
 
-    # Install l10n_ro_config if needed
+    env = api.Environment(env.cr, SUPERUSER_ID, {})
+    IrModule = env["ir.module.module"]
+    IrModule.update_list()
 
-    try:
-        env = api.Environment(env.cr, SUPERUSER_ID, {})
-        IrModule = env["ir.module.module"]
-        IrModule.update_list()
-
-        l10n_ro_config_module = IrModule.search([("name", "=", "l10n_ro_config")])
-        if l10n_ro_config_module.state != "installed":
-            l10n_ro_config_module.button_immediate_install()
-    except Exception as e:
-        _logger.info("Error %s." % e)
+    l10n_ro_config_module = IrModule.search([("name", "=", "l10n_ro_config")])
+    if l10n_ro_config_module.state != "installed":
+        l10n_ro_config_module.button_immediate_install()
