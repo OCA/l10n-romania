@@ -52,10 +52,7 @@ class AccountPayment(models.Model):
     def l10n_ro_force_cash_sequence(self):
         # force cash in/out sequence. Called from related account move
         for payment in self:
-            if (
-                payment.partner_type == "customer"
-                and payment.journal_id.type == "cash"
-            ):
+            if payment.partner_type == "customer" and payment.journal_id.type == "cash":
                 if (
                     payment.journal_id.l10n_ro_cash_in_sequence_id
                     and payment.payment_type == "inbound"

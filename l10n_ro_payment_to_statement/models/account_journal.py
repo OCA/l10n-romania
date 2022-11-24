@@ -12,7 +12,9 @@ class AccountJournal(models.Model):
     _inherit = ["account.journal", "l10n.ro.mixin"]
 
     l10n_ro_statement_sequence_id = fields.Many2one(
-        "ir.sequence", string="Romania - Statement Sequence", copy=False,
+        "ir.sequence",
+        string="Romania - Statement Sequence",
+        copy=False,
         help="Sequence used for statement name"
     )
     l10n_ro_auto_statement = fields.Boolean(
@@ -20,19 +22,27 @@ class AccountJournal(models.Model):
         help="Automatically add payments with this journal to a statement",
     )
     l10n_ro_journal_sequence_id = fields.Many2one(
-        "ir.sequence", string="Romania - Sequence Journal", copy=False,
+        "ir.sequence",
+        string="Romania - Sequence Journal",
+        copy=False,
         help="Sequence used for other (closing, line) account move names"
     )
     l10n_ro_cash_in_sequence_id = fields.Many2one(
-        "ir.sequence", string="Romania - Sequence cash in", copy=False,
+        "ir.sequence",
+        string="Romania - Sequence cash in",
+        copy=False,
         help="Sequence used for cash in operations"
     )
     l10n_ro_cash_out_sequence_id = fields.Many2one(
-        "ir.sequence", string="Romania - Sequence cash out", copy=False,
+        "ir.sequence",
+        string="Romania - Sequence cash out",
+        copy=False,
         help="Sequence used for cash out operations"
     )
     l10n_ro_customer_cash_in_sequence_id = fields.Many2one(
-        "ir.sequence", string="Romania - Customer sequence cash in", copy=False,
+        "ir.sequence",
+        string="Romania - Customer sequence cash in",
+        copy=False,
         help="Sequence used for customer cash in operations (customer payments)"
     )
 

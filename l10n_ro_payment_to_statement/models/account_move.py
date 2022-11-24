@@ -26,16 +26,17 @@ class AccountMove(models.Model):
             payment_id = self.env["account.payment"].browse(vals.get("payment_id"))
             for move in self:
                 if move.is_l10n_ro_record:
-                    if (
-                        not move.name or move.name == "/"
-                    ) and payment_id:
+                    if (not move.name or move.name == "/") and payment_id:
                         payment_id.l10n_ro_force_cash_sequence()
 
         if "statement_line_id" in vals and vals.get("statement_line_id"):
-            statement_line = self.env["account.bank.statement.line"].browse(vals.get("statement_line_id"))
+            statement_line = self.env["account.bank.statement.line"].browse(
+                vals.get("statement_line_id")
+            )
             for move in self:
                 if (
-                    not move.name or move.name == "/"
+                    not move.name
+                    or move.name == "/"
                     and statement_line.is_l10n_ro_payment_disposal
                 ):
                     if (
