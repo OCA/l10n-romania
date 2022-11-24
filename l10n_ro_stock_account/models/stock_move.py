@@ -468,6 +468,9 @@ class StockMove(models.Model):
                     acc_valuation = (
                         location_from.l10n_ro_property_stock_valuation_account_id.id
                     )
+                    acc_src = (
+                        location_from.l10n_ro_property_stock_valuation_account_id.id
+                    )
 
             # in Romania iesirea din stoc de face de regula pe contul de cheltuiala
             if valued_type in [

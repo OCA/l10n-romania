@@ -219,3 +219,53 @@ class TestStockConsumn(TestStockCommon):
         self.check_account_valuation(val_stock_p1, 0)
         self.check_account_valuation(0, 0, acc_3028)
         self.check_account_valuation(0, 0, acc_6028)
+
+    def test_consume_extra_location_accounts(self):
+        acc_3028 = self.env["account.account"].search(
+            [("code", "=", "302800")], limit=1
+        )
+        acc_6028 = self.env["account.account"].search(
+            [("code", "=", "602800")], limit=1
+        )
+        acc_3026 = self.env["account.account"].search(
+            [("code", "=", "302600")], limit=1
+        )
+        acc_6026 = self.env["account.account"].search(
+            [("code", "=", "602600")], limit=1
+        )
+        _logger.info("Start consum produse cand exista conturi pe locatia consume")
+        self.account_valuation_mp.l10n_ro_stock_consume_account_id = acc_3028
+        self.account_expense_mp.l10n_ro_stock_consume_account_id = acc_6028
+        self.product_mp.standard_price = self.price_p1
+        self.product_mp.categ_id.l10n_ro_stock_account_change = True
+        val_stock_p1 = -1 * round(4 * self.price_p1, 2)
+
+        self.set_stock(self.product_mp, 4)
+        self.check_stock_valuation(val_stock_p1, 0)
+        self.check_account_valuation(val_stock_p1, 0, self.account_valuation_mp)
+        self.check_account_valuation(0, 0, acc_3028)
+        self.check_account_valuation(0, 0, acc_6028)
+
+        _logger.info("Start consum produse")
+        location_id = self.picking_type_transfer.default_location_src_id
+        location_dest_id = self.picking_type_transfer.default_location_dest_id.copy(
+            {
+                "usage": "consume",
+                "l10n_ro_property_account_expense_location_id": acc_6026,
+                "l10n_ro_property_stock_valuation_account_id": acc_3026,
+            }
+        )
+        picking = self.trasfer(location_id, location_dest_id)
+        _logger.info("Consum facut")
+
+        self.check_stock_valuation(val_stock_p1 / 2, 0)
+        self.check_account_valuation(val_stock_p1 / 2, 0, self.account_valuation_mp)
+        self.check_account_valuation(0, 0, acc_3028)
+        self.check_account_valuation(val_stock_p1 / 2, 0, acc_6028)
+
+        _logger.info("Start retur consum")
+        self.make_return(picking, 1)
+        self.check_stock_valuation(val_stock_p1, 0)
+        self.check_account_valuation(val_stock_p1, 0, self.account_valuation_mp)
+        self.check_account_valuation(0, 0, acc_3028)
+        self.check_account_valuation(0, 0, acc_6028)
