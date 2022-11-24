@@ -39,3 +39,11 @@ class AccountMoveLine(models.Model):
                     ):
                         self = self.with_context(valued_type="invoice_out_notice")
         return super(AccountMoveLine, self)._get_computed_account()
+
+    def _get_account_change_stock_moves_purchase(self):
+        stock_moves = super()._get_account_change_stock_moves_purchase()
+        return stock_moves.filtered(lambda sm: not sm.picking_id.l10n_ro_notice)
+
+    def _get_account_change_stock_moves_sale(self):
+        stock_moves = super()._get_account_change_stock_moves_sale()
+        return stock_moves.filtered(lambda m: not m.picking_id.l10n_ro_notice)
