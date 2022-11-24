@@ -74,4 +74,3 @@ def migrate(env, version):
     l10n_ro_config_module = IrModule.search([("name", "=", "l10n_ro_config")])
     if l10n_ro_config_module.state != "installed":
         l10n_ro_config_module.button_immediate_install()
-
