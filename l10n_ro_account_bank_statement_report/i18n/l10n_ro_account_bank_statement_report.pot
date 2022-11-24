@@ -67,12 +67,6 @@ msgid "<strong>Total Balance</strong>"
 msgstr ""
 
 #. module: l10n_ro_account_bank_statement_report
-#: model_terms:ir.ui.view,arch_db:l10n_ro_account_bank_statement_report.report_l10n_ro_statement_daily
-#: model_terms:ir.ui.view,arch_db:l10n_ro_account_bank_statement_report.report_l10n_ro_statement_period
-msgid "Appendix No"
-msgstr ""
-
-#. module: l10n_ro_account_bank_statement_report
 #: model:ir.model,name:l10n_ro_account_bank_statement_report.model_account_bank_statement
 #: model_terms:ir.ui.view,arch_db:l10n_ro_account_bank_statement_report.report_l10n_ro_statement_daily
 #: model_terms:ir.ui.view,arch_db:l10n_ro_account_bank_statement_report.report_l10n_ro_statement_period
@@ -132,6 +126,12 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:l10n_ro_account_bank_statement_report.report_l10n_ro_statement_daily
 #: model_terms:ir.ui.view,arch_db:l10n_ro_account_bank_statement_report.report_l10n_ro_statement_period
 msgid "Nr. Crt"
+msgstr ""
+
+#. module: l10n_ro_account_bank_statement_report
+#: model_terms:ir.ui.view,arch_db:l10n_ro_account_bank_statement_report.report_l10n_ro_statement_daily
+#: model_terms:ir.ui.view,arch_db:l10n_ro_account_bank_statement_report.report_l10n_ro_statement_period
+msgid "Partner"
 msgstr ""
 
 #. module: l10n_ro_account_bank_statement_report
