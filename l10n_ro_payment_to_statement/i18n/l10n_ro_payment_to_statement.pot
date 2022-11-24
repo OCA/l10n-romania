@@ -4,8 +4,10 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 14.0\n"
+"Project-Id-Version: Odoo Server 14.0+e\n"
 "Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2022-11-24 14:16+0000\n"
+"PO-Revision-Date: 2022-11-24 14:16+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -24,19 +26,25 @@ msgid "Add to statement"
 msgstr ""
 
 #. module: l10n_ro_payment_to_statement
+#: model:ir.model.fields,help:l10n_ro_payment_to_statement.field_account_bank_statement_import_journal_creation__l10n_ro_auto_statement
+#: model:ir.model.fields,help:l10n_ro_payment_to_statement.field_account_journal__l10n_ro_auto_statement
+msgid "Automatically add payments with this journal to a statement"
+msgstr "Adaugă automat plățile pe acest jurnal la un extras sau registru de casă"
+
+#. module: l10n_ro_payment_to_statement
 #: model:ir.model,name:l10n_ro_payment_to_statement.model_account_bank_statement
 msgid "Bank Statement"
-msgstr ""
+msgstr "Extras bancă"
 
 #. module: l10n_ro_payment_to_statement
 #: model:ir.model,name:l10n_ro_payment_to_statement.model_account_bank_statement_line
 msgid "Bank Statement Line"
-msgstr ""
+msgstr "Linie extras bacă"
 
 #. module: l10n_ro_payment_to_statement
 #: model:ir.model,name:l10n_ro_payment_to_statement.model_cash_box_out
 msgid "Cash Box Out"
-msgstr ""
+msgstr "Retrage"
 
 #. module: l10n_ro_payment_to_statement
 #: model:ir.model.fields,field_description:l10n_ro_payment_to_statement.field_cash_box_out__company_partner_ids
@@ -51,7 +59,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_ro_payment_to_statement.field_account_payment__display_name
 #: model:ir.model.fields,field_description:l10n_ro_payment_to_statement.field_cash_box_out__display_name
 msgid "Display Name"
-msgstr ""
+msgstr "Nume afișat"
 
 #. module: l10n_ro_payment_to_statement
 #: model_terms:ir.ui.view,arch_db:l10n_ro_payment_to_statement.view_account_payment_form
@@ -86,12 +94,12 @@ msgstr ""
 #. module: l10n_ro_payment_to_statement
 #: model:ir.model,name:l10n_ro_payment_to_statement.model_account_journal
 msgid "Journal"
-msgstr ""
+msgstr "Jurnal"
 
 #. module: l10n_ro_payment_to_statement
 #: model:ir.model,name:l10n_ro_payment_to_statement.model_account_move
 msgid "Journal Entry"
-msgstr ""
+msgstr "Notă contabilă"
 
 #. module: l10n_ro_payment_to_statement
 #: model:ir.model.fields,field_description:l10n_ro_payment_to_statement.field_account_bank_statement____last_update
@@ -101,17 +109,24 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_ro_payment_to_statement.field_account_payment____last_update
 #: model:ir.model.fields,field_description:l10n_ro_payment_to_statement.field_cash_box_out____last_update
 msgid "Last Modified on"
-msgstr ""
+msgstr "Ultima modificare la"
 
 #. module: l10n_ro_payment_to_statement
 #: model:ir.model,name:l10n_ro_payment_to_statement.model_account_payment
 msgid "Payments"
-msgstr ""
+msgstr "Plăți"
 
 #. module: l10n_ro_payment_to_statement
+#: model:ir.model.fields,field_description:l10n_ro_payment_to_statement.field_account_bank_statement_import_journal_creation__l10n_ro_auto_statement
 #: model:ir.model.fields,field_description:l10n_ro_payment_to_statement.field_account_journal__l10n_ro_auto_statement
 msgid "Romania - Auto Statement"
 msgstr ""
+
+#. module: l10n_ro_payment_to_statement
+#: model:ir.model.fields,field_description:l10n_ro_payment_to_statement.field_account_bank_statement_import_journal_creation__l10n_ro_customer_cash_in_sequence_id
+#: model:ir.model.fields,field_description:l10n_ro_payment_to_statement.field_account_journal__l10n_ro_customer_cash_in_sequence_id
+msgid "Romania - Customer sequence cash in"
+msgstr "Secvență chitanțe"
 
 #. module: l10n_ro_payment_to_statement
 #: model:ir.model.fields,field_description:l10n_ro_payment_to_statement.field_cash_box_out__l10n_ro_partner_id
@@ -119,36 +134,70 @@ msgid "Romania - Partner"
 msgstr ""
 
 #. module: l10n_ro_payment_to_statement
+#: model:ir.model.fields,field_description:l10n_ro_payment_to_statement.field_account_bank_statement_import_journal_creation__l10n_ro_journal_sequence_id
 #: model:ir.model.fields,field_description:l10n_ro_payment_to_statement.field_account_journal__l10n_ro_journal_sequence_id
 msgid "Romania - Sequence Journal"
-msgstr ""
+msgstr "Secvență jurnal"
 
 #. module: l10n_ro_payment_to_statement
+#: model:ir.model.fields,field_description:l10n_ro_payment_to_statement.field_account_bank_statement_import_journal_creation__l10n_ro_cash_in_sequence_id
 #: model:ir.model.fields,field_description:l10n_ro_payment_to_statement.field_account_journal__l10n_ro_cash_in_sequence_id
 msgid "Romania - Sequence cash in"
-msgstr ""
+msgstr "Secvență dispoziții încasare"
 
 #. module: l10n_ro_payment_to_statement
+#: model:ir.model.fields,field_description:l10n_ro_payment_to_statement.field_account_bank_statement_import_journal_creation__l10n_ro_cash_out_sequence_id
 #: model:ir.model.fields,field_description:l10n_ro_payment_to_statement.field_account_journal__l10n_ro_cash_out_sequence_id
 msgid "Romania - Sequence cash out"
-msgstr ""
+msgstr "Secvență dispoziții plată"
 
 #. module: l10n_ro_payment_to_statement
 #: model:ir.model.fields,field_description:l10n_ro_payment_to_statement.field_account_payment__l10n_ro_statement_id
 msgid "Romania - Statement"
-msgstr ""
+msgstr "Extras / Reg. casă"
 
 #. module: l10n_ro_payment_to_statement
+#: model:ir.model.fields,field_description:l10n_ro_payment_to_statement.field_account_bank_statement_import_journal_creation__l10n_ro_statement_sequence_id
 #: model:ir.model.fields,field_description:l10n_ro_payment_to_statement.field_account_journal__l10n_ro_statement_sequence_id
 msgid "Romania - Statement Sequence"
-msgstr ""
+msgstr "Secvență extras / Reg. casă"
+
+#. module: l10n_ro_payment_to_statement
+#: model:ir.model.fields,help:l10n_ro_payment_to_statement.field_account_bank_statement_import_journal_creation__l10n_ro_cash_in_sequence_id
+#: model:ir.model.fields,help:l10n_ro_payment_to_statement.field_account_journal__l10n_ro_cash_in_sequence_id
+msgid "Sequence used for cash in operations"
+msgstr "Secvența folosită pentru dispoziții de plată (către angajați de obicei)"
+
+#. module: l10n_ro_payment_to_statement
+#: model:ir.model.fields,help:l10n_ro_payment_to_statement.field_account_bank_statement_import_journal_creation__l10n_ro_cash_out_sequence_id
+#: model:ir.model.fields,help:l10n_ro_payment_to_statement.field_account_journal__l10n_ro_cash_out_sequence_id
+msgid "Sequence used for cash out operations"
+msgstr "Secvența folosită pentru dispoziții de încasare (de la angajați de obicei)"
+
+#. module: l10n_ro_payment_to_statement
+#: model:ir.model.fields,help:l10n_ro_payment_to_statement.field_account_bank_statement_import_journal_creation__l10n_ro_customer_cash_in_sequence_id
+#: model:ir.model.fields,help:l10n_ro_payment_to_statement.field_account_journal__l10n_ro_customer_cash_in_sequence_id
+msgid "Sequence used for customer cash in operations (customer payments)"
+msgstr "Secvența folosită pentru chitanțe clienți"
+
+#. module: l10n_ro_payment_to_statement
+#: model:ir.model.fields,help:l10n_ro_payment_to_statement.field_account_bank_statement_import_journal_creation__l10n_ro_journal_sequence_id
+#: model:ir.model.fields,help:l10n_ro_payment_to_statement.field_account_journal__l10n_ro_journal_sequence_id
+msgid "Sequence used for other (closing, line) account move names"
+msgstr "Secvența folosită pentru alte note contabile (închidere etc)"
+
+#. module: l10n_ro_payment_to_statement
+#: model:ir.model.fields,help:l10n_ro_payment_to_statement.field_account_bank_statement_import_journal_creation__l10n_ro_statement_sequence_id
+#: model:ir.model.fields,help:l10n_ro_payment_to_statement.field_account_journal__l10n_ro_statement_sequence_id
+msgid "Sequence used for statement name"
+msgstr "Secvența folosită pentru numele extrasului sau registrului de casă"
 
 #. module: l10n_ro_payment_to_statement
 #: model:ir.model.fields,field_description:l10n_ro_payment_to_statement.field_account_payment__statement_line_id
 msgid "Statement Line"
-msgstr ""
+msgstr "Linie a Extrasului de cont"
 
 #. module: l10n_ro_payment_to_statement
 #: model:ir.model.fields,help:l10n_ro_payment_to_statement.field_cash_box_out__l10n_ro_partner_id
 msgid "The partner defined in payment disposal must be set as an employee."
-msgstr ""
+msgstr "Partenerul din dispoyiția de plată/încasare trebuie sa fie configurat ca angajat"
