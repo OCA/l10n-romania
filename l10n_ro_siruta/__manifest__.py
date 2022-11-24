@@ -19,7 +19,7 @@
     ],
     "demo": ["demo/demo_siruta.xml"],
     "license": "AGPL-3",
-    "version": "14.0.2.1.0",
+    "version": "14.0.2.2.0",
     "author": "NextERP Romania,"
     "Forest and Biomass Romania,"
     "Terrabit,"
@@ -27,5 +27,6 @@
     "website": "https://github.com/OCA/l10n-romania",
     "installable": True,
     "development_status": "Mature",
+    "post_init_hook": "post_init_hook",
     "maintainers": ["feketemihai", "dhongu"],
 }

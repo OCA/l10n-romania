@@ -1,11 +1,12 @@
-# ©  2018 Deltatech
-# See README.rst file on addons root folder for license details
+# Copyright (C) 2015-2020 Deltatech
+# Copyright (C) 2022 NextERP Romania
+# License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
 
 {
     "name": "Romania - Payment to Statement",
     "summary": "Add payment to cash statement",
-    "version": "14.0.2.3.0",
+    "version": "14.0.2.4.0",
     "author": "Terrabit," "Odoo Community Association (OCA)",
     "website": "https://github.com/OCA/l10n-romania",
     "category": "Accounting",
@@ -16,6 +17,7 @@
         "views/account_payment_view.xml",
         "views/account_journal_view.xml",
         "views/account_journal_dashboard_view.xml",
+        "views/cash_box_out.xml",
     ],
     "post_init_hook": "_set_auto_auto_statement",
     "development_status": "Mature",

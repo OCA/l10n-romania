@@ -29,12 +29,23 @@ msgid "Bank Statement"
 msgstr ""
 
 #. module: l10n_ro_payment_to_statement
+#: model:ir.model,name:l10n_ro_payment_to_statement.model_account_bank_statement_line
+msgid "Bank Statement Line"
+msgstr ""
+
+#. module: l10n_ro_payment_to_statement
 #: model:ir.model,name:l10n_ro_payment_to_statement.model_cash_box_out
 msgid "Cash Box Out"
 msgstr ""
 
 #. module: l10n_ro_payment_to_statement
+#: model:ir.model.fields,field_description:l10n_ro_payment_to_statement.field_cash_box_out__company_partner_ids
+msgid "Company Partner"
+msgstr ""
+
+#. module: l10n_ro_payment_to_statement
 #: model:ir.model.fields,field_description:l10n_ro_payment_to_statement.field_account_bank_statement__display_name
+#: model:ir.model.fields,field_description:l10n_ro_payment_to_statement.field_account_bank_statement_line__display_name
 #: model:ir.model.fields,field_description:l10n_ro_payment_to_statement.field_account_journal__display_name
 #: model:ir.model.fields,field_description:l10n_ro_payment_to_statement.field_account_move__display_name
 #: model:ir.model.fields,field_description:l10n_ro_payment_to_statement.field_account_payment__display_name
@@ -49,6 +60,7 @@ msgstr ""
 
 #. module: l10n_ro_payment_to_statement
 #: model:ir.model.fields,field_description:l10n_ro_payment_to_statement.field_account_bank_statement__id
+#: model:ir.model.fields,field_description:l10n_ro_payment_to_statement.field_account_bank_statement_line__id
 #: model:ir.model.fields,field_description:l10n_ro_payment_to_statement.field_account_journal__id
 #: model:ir.model.fields,field_description:l10n_ro_payment_to_statement.field_account_move__id
 #: model:ir.model.fields,field_description:l10n_ro_payment_to_statement.field_account_payment__id
@@ -57,7 +69,13 @@ msgid "ID"
 msgstr ""
 
 #. module: l10n_ro_payment_to_statement
+#: model:ir.model.fields,field_description:l10n_ro_payment_to_statement.field_account_bank_statement_line__is_l10n_ro_payment_disposal
+msgid "Is L10N Ro Payment Disposal"
+msgstr ""
+
+#. module: l10n_ro_payment_to_statement
 #: model:ir.model.fields,field_description:l10n_ro_payment_to_statement.field_account_bank_statement__is_l10n_ro_record
+#: model:ir.model.fields,field_description:l10n_ro_payment_to_statement.field_account_bank_statement_line__is_l10n_ro_record
 #: model:ir.model.fields,field_description:l10n_ro_payment_to_statement.field_account_journal__is_l10n_ro_record
 #: model:ir.model.fields,field_description:l10n_ro_payment_to_statement.field_account_move__is_l10n_ro_record
 #: model:ir.model.fields,field_description:l10n_ro_payment_to_statement.field_account_payment__is_l10n_ro_record
@@ -77,6 +95,7 @@ msgstr ""
 
 #. module: l10n_ro_payment_to_statement
 #: model:ir.model.fields,field_description:l10n_ro_payment_to_statement.field_account_bank_statement____last_update
+#: model:ir.model.fields,field_description:l10n_ro_payment_to_statement.field_account_bank_statement_line____last_update
 #: model:ir.model.fields,field_description:l10n_ro_payment_to_statement.field_account_journal____last_update
 #: model:ir.model.fields,field_description:l10n_ro_payment_to_statement.field_account_move____last_update
 #: model:ir.model.fields,field_description:l10n_ro_payment_to_statement.field_account_payment____last_update
@@ -92,6 +111,11 @@ msgstr ""
 #. module: l10n_ro_payment_to_statement
 #: model:ir.model.fields,field_description:l10n_ro_payment_to_statement.field_account_journal__l10n_ro_auto_statement
 msgid "Romania - Auto Statement"
+msgstr ""
+
+#. module: l10n_ro_payment_to_statement
+#: model:ir.model.fields,field_description:l10n_ro_payment_to_statement.field_cash_box_out__l10n_ro_partner_id
+msgid "Romania - Partner"
 msgstr ""
 
 #. module: l10n_ro_payment_to_statement
@@ -122,4 +146,9 @@ msgstr ""
 #. module: l10n_ro_payment_to_statement
 #: model:ir.model.fields,field_description:l10n_ro_payment_to_statement.field_account_payment__statement_line_id
 msgid "Statement Line"
+msgstr ""
+
+#. module: l10n_ro_payment_to_statement
+#: model:ir.model.fields,help:l10n_ro_payment_to_statement.field_cash_box_out__l10n_ro_partner_id
+msgid "The partner defined in payment disposal must be set as an employee."
 msgstr ""
