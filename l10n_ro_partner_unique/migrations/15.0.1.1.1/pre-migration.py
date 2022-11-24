@@ -7,6 +7,7 @@ def migrate(cr, version):
     if not version:
         return
     # Install l10n_ro_config if needed
+
     env = api.Environment(cr, SUPERUSER_ID, {})
     IrModule = env["ir.module.module"]
     IrModule.update_list()

@@ -60,6 +60,7 @@ def migrate(env, version):
     openupgrade.delete_records_safely_by_xml_id(env, views)
 
     # Install l10n_ro_config if needed
+
     env = api.Environment(env.cr, SUPERUSER_ID, {})
     IrModule = env["ir.module.module"]
     IrModule.update_list()
