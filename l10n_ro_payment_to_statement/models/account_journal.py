@@ -15,7 +15,7 @@ class AccountJournal(models.Model):
         "ir.sequence",
         string="Romania - Statement Sequence",
         copy=False,
-        help="Sequence used for statement name"
+        help="Sequence used for statement name",
     )
     l10n_ro_auto_statement = fields.Boolean(
         string="Romania - Auto Statement",
@@ -25,25 +25,25 @@ class AccountJournal(models.Model):
         "ir.sequence",
         string="Romania - Sequence Journal",
         copy=False,
-        help="Sequence used for other (closing, line) account move names"
+        help="Sequence used for other (closing, line) account move names",
     )
     l10n_ro_cash_in_sequence_id = fields.Many2one(
         "ir.sequence",
         string="Romania - Sequence cash in",
         copy=False,
-        help="Sequence used for cash in operations"
+        help="Sequence used for cash in operations",
     )
     l10n_ro_cash_out_sequence_id = fields.Many2one(
         "ir.sequence",
         string="Romania - Sequence cash out",
         copy=False,
-        help="Sequence used for cash out operations"
+        help="Sequence used for cash out operations",
     )
     l10n_ro_customer_cash_in_sequence_id = fields.Many2one(
         "ir.sequence",
         string="Romania - Customer sequence cash in",
         copy=False,
-        help="Sequence used for customer cash in operations (customer payments)"
+        help="Sequence used for customer cash in operations (customer payments)",
     )
 
     def get_journal_dashboard_datas(self):
