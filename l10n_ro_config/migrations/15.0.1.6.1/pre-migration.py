@@ -238,7 +238,7 @@ def migrate(env, version):
         try:
             openupgrade.rename_fields(env, [field_to_rename])
         except Exception as e:
-            _logger.error(str(e))
+            _logger.info("Error %s." % e)
             continue
 
     openupgrade.drop_columns(
