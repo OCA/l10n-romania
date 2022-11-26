@@ -169,6 +169,7 @@ class StockMove(models.Model):
             self.company_id.l10n_ro_accounting
             and self._is_out()
             and self.location_dest_id.usage == "production"
+            and self.origin_returned_move_id
         )
         return it_is
 
@@ -181,7 +182,7 @@ class StockMove(models.Model):
         it_is = (
             self.is_l10n_ro_record
             and self._is_out()
-            and self.location_dest_id.usage == "consume"
+            and self.location_dest_id.usage in ("consume", "production")
             and not self.origin_returned_move_id
         )
         return it_is
@@ -195,7 +196,7 @@ class StockMove(models.Model):
         it_is = (
             self.is_l10n_ro_record
             and self._is_in()
-            and self.location_id.usage == "consume"
+            and self.location_id.usage in ("consume", "production")
             and self.origin_returned_move_id
         )
         return it_is
@@ -610,6 +611,9 @@ class StockMoveLine(models.Model):
         for svl in stock_valuation_layers:
             if not svl.product_id.valuation == "real_time":
                 continue
-            svl.stock_move_id._account_entry_move(
+            am_vals = svl.stock_move_id._account_entry_move(
                 svl.quantity, svl.description, svl.id, svl.value
             )
+            if am_vals:
+                account_moves = self.env["account.move"].sudo().create(am_vals)
+                account_moves._post()
