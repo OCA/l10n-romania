@@ -8,7 +8,8 @@
             <button name="action_create_invoice" position="after">
                 <button
                     name="action_create_reception_in_progress_invoice"
-                    string="Create Reception in Progress Bill"
+                    string="Reception in Progress"
+                    help="Create Reception in Progress Bill"
                     type="object"
                     class="oe_highlight"
                     context="{'create_bill':True}"
