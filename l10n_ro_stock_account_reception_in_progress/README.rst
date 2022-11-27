@@ -23,7 +23,7 @@ Romania - Stock Accounting Reception In progress
     :target: https://runbot.odoo-community.org/runbot/177/14.0
     :alt: Try me on Runbot
 
-|badge1| |badge2| |badge3| |badge4| |badge5|
+|badge1| |badge2| |badge3| |badge4| |badge5| 
 
 The module is allows to register Receptions in Progress.
 As restrictions, you cannot change the quantity in invoices linked with purchase order marked as receptions in progress.
@@ -77,9 +77,9 @@ promote its widespread use.
     :target: https://github.com/feketemihai
     :alt: feketemihai
 
-Current `maintainers <https://odoo-community.org/page/maintainer-role>`__:
+Current `maintainer <https://odoo-community.org/page/maintainer-role>`__:
 
-|maintainer-feketemihai|
+|maintainer-feketemihai| 
 
 This module is part of the `OCA/l10n-romania <https://github.com/OCA/l10n-romania/tree/14.0/l10n_ro_stock_account_reception_in_progress>`_ project on GitHub.
 
