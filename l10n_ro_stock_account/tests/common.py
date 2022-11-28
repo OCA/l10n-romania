@@ -484,3 +484,22 @@ class TestStockCommon(ValuationReconciliationTestCommon):
 
     def check_account_diff(self, val_p1, val_p2):
         self.check_account_valuation(val_p1, val_p2, self.account_difference)
+
+    def check_account_valuation_mp(self, val_p1, account=None):
+        val_p1 = round(val_p1, 2)
+        if not account:
+            account = self.account_valuation
+
+        domain = [
+            ("product_id", "=", self.product_mp.id),
+            ("account_id", "=", account.id),
+            ("parent_state", "=", "posted"),
+        ]
+        account_valuations = self.env["account.move.line"].read_group(
+            domain, ["debit:sum", "credit:sum", "quantity:sum"], ["product_id"]
+        )
+        for valuation in account_valuations:
+            val = round(valuation["debit"] - valuation["credit"], 2)
+            if valuation["product_id"][0] == self.product_mp.id:
+                _logger.info("Check account P1 {} = {}".format(val, val_p1))
+                self.assertAlmostEqual(val, val_p1)
