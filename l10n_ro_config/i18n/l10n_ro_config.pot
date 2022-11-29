@@ -409,6 +409,7 @@ msgstr ""
 
 #. module: l10n_ro_config
 #: model:ir.model.fields,field_description:l10n_ro_config.field_res_company__l10n_ro_share_capital
+#: model:ir.model.fields,field_description:l10n_ro_config.field_res_config_settings__l10n_ro_share_capital
 msgid "Romania - Share Capital"
 msgstr ""
 
