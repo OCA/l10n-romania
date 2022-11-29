@@ -98,7 +98,8 @@ msgstr ""
 #. module: l10n_ro_config
 #: model_terms:ir.ui.view,arch_db:l10n_ro_config.res_config_settings_view_form
 msgid "Add a stock sheet report for products grouped by Location, Account."
-msgstr "Adăugați un raport de stoc pentru produsele grupate după Locație, Cont."
+msgstr ""
+"Adăugați un raport de stoc pentru produsele grupate după Locație, Cont."
 
 #. module: l10n_ro_config
 #: model_terms:ir.ui.view,arch_db:l10n_ro_config.res_config_settings_view_form
@@ -434,6 +435,7 @@ msgstr "Tipărit  în raport"
 
 #. module: l10n_ro_config
 #: model:ir.model.fields,field_description:l10n_ro_config.field_res_company__l10n_ro_share_capital
+#: model:ir.model.fields,field_description:l10n_ro_config.field_res_config_settings__l10n_ro_share_capital
 msgid "Romania - Share Capital"
 msgstr "Capital social"
 
