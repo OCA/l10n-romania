@@ -215,3 +215,8 @@ class ResConfigSettings(models.TransientModel):
         "Romanian Stock Picking Comment Template"
     )
     module_l10n_ro_dvi = fields.Boolean("Romanian DVI")
+
+    l10n_ro_share_capital = fields.Float(
+        related="company_id.l10n_ro_share_capital",
+        readonly=False,
+    )
