@@ -194,6 +194,20 @@
                             <div class="o_setting_right_pane">
                                 <div class="row mt16">
                                     <label
+                                        for="l10n_ro_share_capital"
+                                        class="col-lg-3 o_light_label"
+                                    />
+                                    <field name="l10n_ro_share_capital" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xs-12 col-md-6 o_setting_box">
+                            <div class="o_setting_left_pane">
+
+                            </div>
+                            <div class="o_setting_right_pane">
+                                <div class="row mt16">
+                                    <label
                                         for="l10n_ro_caen_code"
                                         class="col-lg-3 o_light_label"
                                     />
