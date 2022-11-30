@@ -5,7 +5,7 @@
     "name": "Romania - Account ANAF Sync",
     "category": "Localization",
     "summary": "Romania - Account ANAF Sync",
-    "depends": ["l10n_ro_config"],
+    "depends": ["l10n_ro_config", "website_sale_stock"],
     "data": [
         "security/account_security.xml",
         "security/ir.model.access.csv",
