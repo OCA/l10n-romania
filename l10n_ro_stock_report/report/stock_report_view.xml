@@ -12,6 +12,7 @@
                         <field name="products_with_move" />
                         <field name="one_product" />
                         <field name="sublocation" />
+                        <field name="detailed_locations" />
                         <field name="show_locations" />
                         <field name="company_id" invisible="1" />
                     </group>

@@ -66,6 +66,7 @@ class StorageSheet(models.TransientModel):
         comodel_name="l10n.ro.stock.storage.sheet.line", inverse_name="report_id"
     )
     sublocation = fields.Boolean("Include Sublocations", default=True)
+    detailed_locations = fields.Boolean("Detailed by locations", default=False)
     show_locations = fields.Boolean("Show location")
     location_ids = fields.Many2many(
         "stock.location", string="Only for locations", compute="_compute_location_ids"
@@ -182,10 +183,20 @@ class StorageSheet(models.TransientModel):
         datetime_to = fields.Datetime.context_timestamp(self, datetime_to)
         datetime_to = datetime_to.replace(hour=23, minute=59, second=59)
         datetime_to = datetime_to.astimezone(pytz.utc)
-        for location in self.with_context(active_test=False).location_ids.ids:
+
+        if self.detailed_locations:
+            all_locations = self.with_context(active_test=False).location_ids
+        else:
+            all_locations = self.location_id
+            locations = self.location_ids
+
+        for location in all_locations:
+            if self.detailed_locations:
+                locations = location
             params = {
                 "report": self.id,
-                "location": location,
+                "location": location.id,
+                "locations": tuple(locations.ids),
                 "product": tuple(product_list),
                 "all_products": all_products,
                 "company": self.company_id.id,
@@ -195,7 +206,7 @@ class StorageSheet(models.TransientModel):
                 "datetime_to": fields.Datetime.to_string(datetime_to),
                 "tz": self._context.get("tz") or self.env.user.tz or "UTC",
             }
-            _logger.info("start query_select_sold_init")
+            _logger.info("start query_select_sold_init %s", location.name)
             query_select_sold_init = """
              insert into l10n_ro_stock_storage_sheet_line
               (report_id, product_id, amount_initial, quantity_initial,
@@ -215,15 +226,15 @@ class StorageSheet(models.TransientModel):
                 left join stock_move as sm ON sm.product_id = prod.id AND sm.state = 'done' AND
                     sm.company_id = %(company)s AND
                      sm.date <  %(datetime_from)s AND
-                    (sm.location_id = %(location)s OR sm.location_dest_id = %(location)s)
+                    (sm.location_id in %(locations)s OR sm.location_dest_id in %(locations)s)
                 left join stock_valuation_layer as svl on svl.stock_move_id = sm.id and
                         ((l10n_ro_valued_type !='internal_transfer' or
                             l10n_ro_valued_type is Null
                          ) or
                          (l10n_ro_valued_type ='internal_transfer' and quantity<0 and
-                          sm.location_id = %(location)s) or
+                          sm.location_id in %(locations)s) or
                          (l10n_ro_valued_type ='internal_transfer' and quantity>0 and
-                          sm.location_dest_id = %(location)s))
+                          sm.location_dest_id in %(locations)s))
                 where
                     ( %(all_products)s  or sm.product_id in %(product)s )
                 GROUP BY prod.id, svl.l10n_ro_account_id)
@@ -234,7 +245,7 @@ class StorageSheet(models.TransientModel):
             self.env.cr.execute(query_select_sold_init, params=params)
             # res = self.env.cr.dictfetchall()
             # self.env["l10n.ro.stock.storage.sheet.line"].create(res)
-            _logger.info("start query_select_sold_final")
+            _logger.info("start query_select_sold_final %s", location.name)
             query_select_sold_final = """
             insert into l10n_ro_stock_storage_sheet_line
               (report_id, product_id, amount_final, quantity_final,
@@ -255,14 +266,14 @@ class StorageSheet(models.TransientModel):
                           l10n_ro_valued_type is Null
                          ) or
                          (l10n_ro_valued_type ='internal_transfer' and quantity<0 and
-                          sm.location_id = %(location)s) or
+                          sm.location_id in %(locations)s) or
                          (l10n_ro_valued_type ='internal_transfer' and quantity>0 and
-                          sm.location_dest_id = %(location)s))
+                          sm.location_dest_id in %(locations)s))
                 where sm.state = 'done' AND
                     sm.company_id = %(company)s AND
                     ( %(all_products)s  or sm.product_id in %(product)s ) AND
                     sm.date <=  %(datetime_to)s AND
-                    (sm.location_id = %(location)s OR sm.location_dest_id = %(location)s)
+                    (sm.location_id in %(locations)s OR sm.location_dest_id in %(locations)s)
                 GROUP BY sm.product_id, svl.l10n_ro_account_id)
             a --where a.amount_final!=0 and a.quantity_final!=0
             """
@@ -271,7 +282,7 @@ class StorageSheet(models.TransientModel):
             self.env.cr.execute(query_select_sold_final, params=params)
             # res = self.env.cr.dictfetchall()
             # self.env["l10n.ro.stock.storage.sheet.line"].create(res)
-            _logger.info("start query_in")
+            _logger.info("start query_in %s", location.name)
             query_in = """
             insert into l10n_ro_stock_storage_sheet_line
               (report_id, product_id, amount_in, quantity_in, unit_price_in,
@@ -301,7 +312,7 @@ class StorageSheet(models.TransientModel):
                 from stock_move as sm
                     inner join stock_valuation_layer as svl_in
                             on svl_in.stock_move_id = sm.id and
-                        (sm.location_dest_id = %(location)s and svl_in.quantity>=0)
+                        (sm.location_dest_id in %(locations)s and svl_in.quantity>=0)
                     left join stock_picking as sp on sm.picking_id = sp.id
                     left join account_move am on svl_in.l10n_ro_invoice_id = am.id
                 where
@@ -309,7 +320,7 @@ class StorageSheet(models.TransientModel):
                     sm.company_id = %(company)s AND
                     ( %(all_products)s  or sm.product_id in %(product)s ) AND
                     sm.date >= %(datetime_from)s  AND  sm.date <= %(datetime_to)s  AND
-                    sm.location_dest_id = %(location)s
+                    sm.location_dest_id in %(locations)s
                 GROUP BY sm.product_id, sm.date,
                  sm.reference, sp.partner_id, l10n_ro_account_id,
                  svl_in.l10n_ro_invoice_id, am.name, svl_in.l10n_ro_valued_type)
@@ -319,7 +330,7 @@ class StorageSheet(models.TransientModel):
             self.env.cr.execute(query_in, params=params)
             # res = self.env.cr.dictfetchall()
             # self.env["l10n.ro.stock.storage.sheet.line"].create(res)
-            _logger.info("start query_out")
+            _logger.info("start query_out %s", location.name)
             query_out = """
                         insert into l10n_ro_stock_storage_sheet_line
               (report_id, product_id, amount_out, quantity_out, unit_price_out,
@@ -350,7 +361,7 @@ class StorageSheet(models.TransientModel):
 
                     inner join stock_valuation_layer as svl_out
                             on svl_out.stock_move_id = sm.id and
-                        (sm.location_id = %(location)s and svl_out.quantity<=0 )
+                        (sm.location_id in %(locations)s and svl_out.quantity<=0 )
                     left join stock_picking as sp on sm.picking_id = sp.id
                     left join account_move am on svl_out.l10n_ro_invoice_id = am.id
                 where
@@ -358,7 +369,7 @@ class StorageSheet(models.TransientModel):
                     sm.company_id = %(company)s AND
                     ( %(all_products)s  or sm.product_id in %(product)s ) AND
                     sm.date >= %(datetime_from)s  AND  sm.date <= %(datetime_to)s  AND
-                    sm.location_id = %(location)s
+                    sm.location_id in %(locations)s
                 GROUP BY sm.product_id, sm.date,
                          sm.reference, sp.partner_id, account_id,
                          svl_out.l10n_ro_invoice_id, am.name, svl_out.l10n_ro_valued_type)
