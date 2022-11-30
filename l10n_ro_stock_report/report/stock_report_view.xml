@@ -12,7 +12,8 @@
                         <field name="products_with_move" />
                         <field name="one_product" />
                         <field name="sublocation" />
-                        <field name="location_ids" />
+                        <field name="detailed_locations" />
+                        <field name="show_locations" />
                         <field name="company_id" invisible="1" />
                     </group>
                     <group name="date_range">
@@ -39,6 +40,13 @@
                             />
                         </div>
                     </group>
+
+                </group>
+                <group
+                    name="locations"
+                    attrs="{'invisible': [  ('show_locations','=',False)]}"
+                >
+                    <field name="location_ids" />
                 </group>
                 <footer>
                     <button
@@ -81,8 +89,10 @@
                 <field name="amount_initial" />
                 <field name="quantity_in" />
                 <field name="amount_in" />
+                <field name="unit_price_in" />
                 <field name="quantity_out" />
                 <field name="amount_out" />
+                <field name="unit_price_out" />
                 <field
                     name="quantity_final"
                     decoration-danger="quantity_final &lt; 0"
@@ -117,10 +127,12 @@
                         <group>
                             <field name="quantity_in" />
                             <field name="amount_in" />
+                            <field name="unit_price_in" />
                         </group>
                         <group>
                             <field name="quantity_out" />
                             <field name="amount_out" />
+                            <field name="unit_price_out" />
                         </group>
                         <group>
                             <field name="quantity_final" />
@@ -139,13 +151,15 @@
         <field name="model">l10n.ro.stock.storage.sheet.line</field>
         <field name="arch" type="xml">
             <pivot string="Stock Analysis" disable_linking="True" sample="1">
-                <field name="product_id" type="row" />
+                <field name="account_id" type="row" />
                 <field name="quantity_initial" type="measure" />
                 <field name="amount_initial" type="measure" />
                 <field name="quantity_in" type="measure" />
                 <field name="amount_in" type="measure" />
+                <field name="unit_price_in" type="measure" />
                 <field name="quantity_out" type="measure" />
                 <field name="amount_out" type="measure" />
+                <field name="unit_price_out" type="measure" />
                 <field name="quantity_final" type="measure" />
                 <field name="amount_final" type="measure" />
             </pivot>
@@ -160,6 +174,7 @@
             <search>
                 <field name="product_id" />
                 <field name="location_id" />
+                <field name="account_id" />
                 <group expand="1" string="Group by">
                     <filter
                         string="Product"
@@ -170,6 +185,16 @@
                         string="Location"
                         name="group_by_location"
                         context="{'group_by': 'location_id'}"
+                    />
+                    <filter
+                        string="Account"
+                        name="group_by_account"
+                        context="{'group_by': 'account_id'}"
+                    />
+                    <filter
+                        string="Valued Type"
+                        name="group_by_valued_type"
+                        context="{'group_by': 'valued_type'}"
                     />
                 </group>
             </search>
@@ -196,7 +221,7 @@
     <record id="action_sheet_stock_report_line" model="ir.actions.act_window">
         <field name="name">Stock Sheet Report</field>
         <field name="res_model">l10n.ro.stock.storage.sheet.line</field>
-        <field name="view_mode">tree,form,pivot</field>
+        <field name="view_mode">pivot,tree,form</field>
         <field name="domain">[('report_id','=',active_id)]</field>
         <field name="context">{'general_buttons':'get_general_buttons'}</field>
         <field
