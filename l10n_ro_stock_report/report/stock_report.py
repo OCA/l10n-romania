@@ -11,6 +11,27 @@ from odoo.exceptions import UserError
 
 _logger = logging.getLogger(__name__)
 
+VALUED_TYPE = [
+    ("reception", "Reception"),
+    ("reception_return", "Return reception"),
+    ("reception_notice", "Reception with notice"),
+    ("reception_notice_return", "Return reception with notice"),
+    ("delivery", "Delivery"),
+    ("delivery_return", "Return delivery"),
+    ("delivery_notice", "Delivery with notice"),
+    ("delivery_notice_return", "Return delivery with notice"),
+    ("plus_inventory", "Plus inventory"),
+    ("minus_inventory", "Minus inventory"),
+    ("consumption", "Consumption"),
+    ("consumption_return", "Return Consumption"),
+    ("production", "Production"),
+    ("production_return", "Return Production"),
+    ("internal_transfer", "Internal Transfer"),
+    ("usage_giving", "Usage Giving"),
+    ("usage_giving_return", "Return Usage Giving"),
+    ("indefinite", "Indefinite"),
+]
+
 
 class StorageSheet(models.TransientModel):
     _name = "l10n.ro.stock.storage.sheet"
@@ -32,7 +53,7 @@ class StorageSheet(models.TransientModel):
          If nothing selected will show only products that have moves in period",
     )
 
-    products_with_move = fields.Boolean(default=True)
+    products_with_move = fields.Boolean(default=False)
 
     date_from = fields.Date("Start Date", required=True, default=fields.Date.today)
     date_to = fields.Date("End Date", required=True, default=fields.Date.today)
@@ -44,7 +65,8 @@ class StorageSheet(models.TransientModel):
     line_product_ids = fields.One2many(
         comodel_name="l10n.ro.stock.storage.sheet.line", inverse_name="report_id"
     )
-    sublocation = fields.Boolean("Include Sublocations")
+    sublocation = fields.Boolean("Include Sublocations", default=True)
+    show_locations = fields.Boolean("Show location")
     location_ids = fields.Many2many(
         "stock.location", string="Only for locations", compute="_compute_location_ids"
     )
@@ -79,12 +101,28 @@ class StorageSheet(models.TransientModel):
         res["date_to"] = fields.Date.to_string(to_date)
         return res
 
-    @api.onchange("date_range_id")
-    def onchange_date_range_id(self):
-        """Handle date range change."""
-        if self.date_range_id:
-            self.date_from = self.date_range_id.date_start
-            self.date_to = self.date_range_id.date_end
+    def get_products_with_move_sql(self):
+
+        locations = self.location_ids
+
+        query = """
+            SELECT product_id
+            FROM stock_move as sm
+            WHERE sm.company_id = %(company)s AND
+                  (sm.location_id in %(locations)s OR sm.location_dest_id in %(locations)s) AND
+                  date_trunc('day',sm.date) >= %(date_from)s  AND
+                  date_trunc('day',sm.date) <= %(date_to)s
+            GROUP BY  product_id
+                    """
+        params = {
+            "date_from": fields.Date.to_string(self.date_from),
+            "date_to": fields.Date.to_string(self.date_to),
+            "locations": tuple(locations.ids),
+            "company": self.company_id.id,
+        }
+        self.env.cr.execute(query, params=params)
+        product_list = [r["product_id"] for r in self.env.cr.dictfetchall()]
+        return product_list
 
     def get_products_with_move(self, product_list=False):
         if not product_list:
@@ -113,7 +151,20 @@ class StorageSheet(models.TransientModel):
         return product_list
 
     def do_compute_product(self):
-        product_list, all_products = self.get_report_products()
+        if self.product_ids:
+            product_list = self.product_ids.ids
+            all_products = False
+        else:
+            if self.products_with_move:
+                product_list = self.get_products_with_move_sql()
+                all_products = False
+                if not product_list:
+                    raise UserError(
+                        _("There are no stock movements in the selected period")
+                    )
+            else:
+                product_list = [-1]  # dummy list
+                all_products = True
 
         self.env["account.move.line"].check_access_rights("read")
 
@@ -144,15 +195,19 @@ class StorageSheet(models.TransientModel):
                 "datetime_to": fields.Datetime.to_string(datetime_to),
                 "tz": self._context.get("tz") or self.env.user.tz or "UTC",
             }
-
+            _logger.info("start query_select_sold_init")
             query_select_sold_init = """
+             insert into l10n_ro_stock_storage_sheet_line
+              (report_id, product_id, amount_initial, quantity_initial,
+               account_id, date_time, date, reference, document, location_id  )
+
             select * from(
                 SELECT %(report)s as report_id, prod.id as product_id,
                     COALESCE(sum(svl.value), 0)  as amount_initial,
                     COALESCE(sum(svl.quantity), 0)  as quantity_initial,
                     COALESCE(svl.l10n_ro_account_id, Null) as account_id,
-                    %(date_from)s || ' 00:00:00' as date_time,
-                    %(date_from)s as date,
+                    %(datetime_from)s::timestamp without time zone  as date_time,
+                    %(date_from)s::date as date,
                     %(reference)s as reference,
                     %(reference)s as document,
                     %(location)s as location_id
@@ -169,24 +224,28 @@ class StorageSheet(models.TransientModel):
                           sm.location_id = %(location)s) or
                          (l10n_ro_valued_type ='internal_transfer' and quantity>0 and
                           sm.location_dest_id = %(location)s))
-                where prod.id in %(product)s
+                where
+                    ( %(all_products)s  or sm.product_id in %(product)s )
                 GROUP BY prod.id, svl.l10n_ro_account_id)
             a --where a.amount_initial!=0 and a.quantity_initial!=0
             """
 
             params.update({"reference": "INITIAL"})
             self.env.cr.execute(query_select_sold_init, params=params)
-            res = self.env.cr.dictfetchall()
-            self.line_product_ids.create(res)
-
+            # res = self.env.cr.dictfetchall()
+            # self.env["l10n.ro.stock.storage.sheet.line"].create(res)
+            _logger.info("start query_select_sold_final")
             query_select_sold_final = """
+            insert into l10n_ro_stock_storage_sheet_line
+              (report_id, product_id, amount_final, quantity_final,
+               account_id, date_time, date, reference, document, location_id)
             select * from(
                 SELECT %(report)s as report_id, sm.product_id as product_id,
                     COALESCE(sum(svl.value),0)  as amount_final,
                     COALESCE(sum(svl.quantity),0)  as quantity_final,
                     COALESCE(svl.l10n_ro_account_id, Null) as account_id,
-                    %(date_to)s || ' 23:59:59' as date_time,
-                    %(date_to)s as date,
+                    %(datetime_to)s::timestamp without time zone as date_time,
+                    %(date_to)s::date as date,
                     %(reference)s as reference,
                     %(reference)s as document,
                     %(location)s as location_id
@@ -210,16 +269,25 @@ class StorageSheet(models.TransientModel):
 
             params.update({"reference": "FINAL"})
             self.env.cr.execute(query_select_sold_final, params=params)
-            res = self.env.cr.dictfetchall()
-            self.line_product_ids.create(res)
-
+            # res = self.env.cr.dictfetchall()
+            # self.env["l10n.ro.stock.storage.sheet.line"].create(res)
+            _logger.info("start query_in")
             query_in = """
+            insert into l10n_ro_stock_storage_sheet_line
+              (report_id, product_id, amount_in, quantity_in, unit_price_in,
+               account_id, invoice_id, date_time, date, reference,  location_id,
+               partner_id, document, valued_type )
             select * from(
 
 
             SELECT  %(report)s as report_id, sm.product_id as product_id,
                     COALESCE(sum(svl_in.value),0)   as amount_in,
                     COALESCE(sum(svl_in.quantity), 0)   as quantity_in,
+                    CASE
+                        WHEN COALESCE(sum(svl_in.quantity), 0) != 0
+                            THEN COALESCE(sum(svl_in.value),0) / sum(svl_in.quantity)
+                        ELSE 0
+                    END as unit_price_in,
                      svl_in.l10n_ro_account_id as account_id,
                      svl_in.l10n_ro_invoice_id as invoice_id,
                     sm.date as date_time,
@@ -227,7 +295,9 @@ class StorageSheet(models.TransientModel):
                     sm.reference as reference,
                     %(location)s as location_id,
                     sp.partner_id,
-                    COALESCE(am.name, sm.reference) as document
+                    COALESCE(am.name, sm.reference) as document,
+                    COALESCE(svl_in.l10n_ro_valued_type, 'indefinite') as valued_type
+
                 from stock_move as sm
                     inner join stock_valuation_layer as svl_in
                             on svl_in.stock_move_id = sm.id and
@@ -242,20 +312,30 @@ class StorageSheet(models.TransientModel):
                     sm.location_dest_id = %(location)s
                 GROUP BY sm.product_id, sm.date,
                  sm.reference, sp.partner_id, l10n_ro_account_id,
-                 svl_in.l10n_ro_invoice_id, am.name)
+                 svl_in.l10n_ro_invoice_id, am.name, svl_in.l10n_ro_valued_type)
             a --where a.amount_in!=0 and a.quantity_in!=0
                 """
 
             self.env.cr.execute(query_in, params=params)
-            res = self.env.cr.dictfetchall()
-            self.line_product_ids.create(res)
-
+            # res = self.env.cr.dictfetchall()
+            # self.env["l10n.ro.stock.storage.sheet.line"].create(res)
+            _logger.info("start query_out")
             query_out = """
+                        insert into l10n_ro_stock_storage_sheet_line
+              (report_id, product_id, amount_out, quantity_out, unit_price_out,
+               account_id, invoice_id, date_time, date, reference,  location_id,
+               partner_id, document, valued_type )
+
             select * from(
 
             SELECT  %(report)s as report_id, sm.product_id as product_id,
                     -1*COALESCE(sum(svl_out.value),0)   as amount_out,
                     -1*COALESCE(sum(svl_out.quantity),0)   as quantity_out,
+                    CASE
+                        WHEN COALESCE(sum(svl_out.quantity), 0) != 0
+                            THEN COALESCE(sum(svl_out.value),0) / sum(svl_out.quantity)
+                        ELSE 0
+                    END as unit_price_out,
                     svl_out.l10n_ro_account_id as account_id,
                     svl_out.l10n_ro_invoice_id as invoice_id,
                     sm.date as date_time,
@@ -263,7 +343,9 @@ class StorageSheet(models.TransientModel):
                     sm.reference as reference,
                     %(location)s as location_id,
                     sp.partner_id,
-                    COALESCE(am.name, sm.reference) as document
+                    COALESCE(am.name, sm.reference) as document,
+                    COALESCE(svl_out.l10n_ro_valued_type, 'indefinite') as valued_type
+
                 from stock_move as sm
 
                     inner join stock_valuation_layer as svl_out
@@ -279,12 +361,13 @@ class StorageSheet(models.TransientModel):
                     sm.location_id = %(location)s
                 GROUP BY sm.product_id, sm.date,
                          sm.reference, sp.partner_id, account_id,
-                         svl_out.l10n_ro_invoice_id, am.name)
+                         svl_out.l10n_ro_invoice_id, am.name, svl_out.l10n_ro_valued_type)
             a --where a.amount_out!=0 and a.quantity_out!=0
                 """
             self.env.cr.execute(query_out, params=params)
-            res = self.env.cr.dictfetchall()
-            self.line_product_ids.create(res)
+            # res = self.env.cr.dictfetchall()
+            # self.line_product_ids.create(res)
+        _logger.info("end select ")
 
     def get_report_products(self):
         self.ensure_one()
@@ -368,28 +451,42 @@ class StorageSheetLine(models.TransientModel):
     _order = "report_id, product_id, date_time"
     _rec_name = "product_id"
 
-    report_id = fields.Many2one("l10n.ro.stock.storage.sheet", index=True)
+    report_id = fields.Many2one(
+        "l10n.ro.stock.storage.sheet", index=True, ondelete="cascade"
+    )
     product_id = fields.Many2one("product.product", string="Product", index=True)
     amount_initial = fields.Monetary(
-        currency_field="currency_id", string="Initial Amount"
+        currency_field="currency_id", string="Initial Amount", default=0.0
     )
     quantity_initial = fields.Float(
-        digits="Product Unit of Measure", string="Initial Quantity"
+        digits="Product Unit of Measure", string="Initial Quantity", default=0.0
     )
-    amount_in = fields.Monetary(currency_field="currency_id", string="Input Amount")
+    amount_in = fields.Monetary(
+        currency_field="currency_id", string="Input Amount", default=0.0
+    )
     quantity_in = fields.Float(
-        digits="Product Unit of Measure", string="Input Quantity"
+        digits="Product Unit of Measure", string="Input Quantity", default=0.0
     )
-    amount_out = fields.Monetary(currency_field="currency_id", string="Output Amount")
+    unit_price_in = fields.Monetary(
+        currency_field="currency_id", string="Unit Price In", default=0.0
+    )
+    amount_out = fields.Monetary(
+        currency_field="currency_id", default=0.0, string="Output Amount"
+    )
     quantity_out = fields.Float(
-        digits="Product Unit of Measure", string="Output Quantity"
+        digits="Product Unit of Measure", string="Output Quantity", default=0.0
     )
-    amount_final = fields.Monetary(currency_field="currency_id", string="Final Amount")
+    unit_price_out = fields.Monetary(
+        currency_field="currency_id", string="Unit Price Out", default=0.0
+    )
+    amount_final = fields.Monetary(
+        currency_field="currency_id", default=0.0, string="Final Amount"
+    )
     quantity_final = fields.Float(
-        digits="Product Unit of Measure", string="Final Quantity"
+        digits="Product Unit of Measure", string="Final Quantity", default=0.0
     )
     date_time = fields.Datetime(string="Datetime")
-    date = fields.Date()
+    date = fields.Date(string="Date")
     reference = fields.Char()
     partner_id = fields.Many2one("res.partner", index=True)
     currency_id = fields.Many2one(
@@ -404,6 +501,7 @@ class StorageSheetLine(models.TransientModel):
     account_id = fields.Many2one("account.account", index=True)
     location_id = fields.Many2one("stock.location", index=True)
     invoice_id = fields.Many2one("account.move", index=True)
+    valued_type = fields.Selection(VALUED_TYPE, "Valued Type")
     document = fields.Char()
 
     def get_general_buttons(self):
