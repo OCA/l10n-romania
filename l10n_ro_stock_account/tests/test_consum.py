@@ -219,3 +219,40 @@ class TestStockConsumn(TestStockCommon):
         self.check_account_valuation(val_stock_p1, 0)
         self.check_account_valuation(0, 0, acc_3028)
         self.check_account_valuation(0, 0, acc_6028)
+
+    def test_consume_extra_location_accounts(self):
+        acc_3026 = self.env["account.account"].search(
+            [("code", "=", "302600")], limit=1
+        )
+        acc_6026 = self.env["account.account"].search(
+            [("code", "=", "602600")], limit=1
+        )
+        acc_707 = self.env["account.account"].search([("code", "=", "707000")], limit=1)
+        _logger.info(
+            "Start consum produse cand conturile de pe categorie difera de cele de pe locatie"
+        )
+        self.product_mp.standard_price = self.price_p1
+        self.product_mp.categ_id.write({"l10n_ro_stock_account_change": True})
+        val_stock_p1 = 1 * round(4 * self.price_p1, 2)
+
+        self.set_stock(self.product_mp, 4)
+        self.check_account_valuation_mp(val_stock_p1, self.account_valuation_mp)
+        self.check_stock_valuation(val_stock_p1, 0)
+
+        _logger.info("Start consum produse")
+        location_id = self.picking_type_transfer.default_location_src_id
+        location_id.write(
+            {
+                "l10n_ro_property_account_income_location_id": acc_707,
+                "l10n_ro_property_account_expense_location_id": acc_6026,
+                "l10n_ro_property_stock_valuation_account_id": acc_3026,
+            }
+        )
+        location_dest_id = self.picking_type_transfer.default_location_dest_id.copy(
+            {"usage": "consume"}
+        )
+
+        self.trasfer(location_id, location_dest_id, self.product_mp)
+        _logger.info("Consum facut")
+        self.check_account_valuation_mp(-val_stock_p1 / 2, acc_3026)
+        self.check_account_valuation_mp(val_stock_p1 / 2, acc_6026)
