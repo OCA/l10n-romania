@@ -3,7 +3,6 @@
 
 import logging
 
-from odoo.exceptions import UserError
 from odoo.tests import Form
 from odoo.tests.common import TransactionCase
 
@@ -192,12 +191,11 @@ class TestStockReport(TransactionCase):
             .search(
                 [
                     ("state", "=", "done"),
-                    ("date", ">=", wizard.date_from),
                     ("date", "<=", wizard.date_to),
                     ("product_id", "in", products.ids),
                     "|",
-                    ("location_id", "=", self.location.id),
-                    ("location_dest_id", "=", self.location.id),
+                    ("location_id", "in", wizard.location_ids.ids),
+                    ("location_dest_id", "in", wizard.location_ids.ids),
                 ]
             )
             .mapped("product_id")
@@ -229,8 +227,8 @@ class TestStockReport(TransactionCase):
         wizard_product.location_id = self.location
         wizard_product = wizard_product.save()
         wizard_product.product_ids = [(6, 0, exp_product.ids)]
-        with self.assertRaises(UserError):
-            wizard_product.get_found_products()
+        # with self.assertRaises(UserError):
+        #     wizard_product.get_found_products()
 
     def test_report_storeage_sheet_sublocation(self):
         self.create_po()
@@ -239,11 +237,29 @@ class TestStockReport(TransactionCase):
         wizard = Form(self.env["l10n.ro.stock.storage.sheet"])
         wizard.location_id = self.location
         wizard.sublocation = True
+        wizard.detailed_locations = True
         wizard = wizard.save()
 
         wizard.button_show_sheet_pdf()
         line = self.env["l10n.ro.stock.storage.sheet.line"].search(
             [("report_id", "=", wizard.id), ("location_id", "=", self.location_2.id)],
+            limit=1,
+        )
+        self.assertTrue(line)
+
+    def test_report_storeage_sheet_sublocation2(self):
+        self.create_po()
+        self.create_invoice()
+
+        wizard = Form(self.env["l10n.ro.stock.storage.sheet"])
+        wizard.location_id = self.location
+        wizard.sublocation = True
+        wizard.detailed_locations = False
+        wizard = wizard.save()
+
+        wizard.button_show_sheet_pdf()
+        line = self.env["l10n.ro.stock.storage.sheet.line"].search(
+            [("report_id", "=", wizard.id), ("location_id", "=", self.location.id)],
             limit=1,
         )
         self.assertTrue(line)
