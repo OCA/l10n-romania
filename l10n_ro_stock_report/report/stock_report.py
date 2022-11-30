@@ -102,23 +102,42 @@ class StorageSheet(models.TransientModel):
         res["date_to"] = fields.Date.to_string(to_date)
         return res
 
-    def get_products_with_move_sql(self):
+    def get_products_with_move_sql(self, product_list=False):
 
         locations = self.location_ids
 
-        query = """
-            SELECT product_id
-            FROM stock_move as sm
-            WHERE sm.company_id = %(company)s AND
-                  (sm.location_id in %(locations)s OR sm.location_dest_id in %(locations)s) AND
-                  date_trunc('day',sm.date) >= %(date_from)s  AND
-                  date_trunc('day',sm.date) <= %(date_to)s
-            GROUP BY  product_id
-                    """
+        if product_list:
+            query = """
+                SELECT product_id
+                FROM stock_move as sm
+                WHERE
+                        sm.product_id in %(product_list)s and
+                        sm.state = 'done' AND
+                        sm.company_id = %(company)s AND
+                      (sm.location_id in %(locations)s OR
+                      sm.location_dest_id in %(locations)s) AND
+                      date_trunc('day',sm.date) >= %(date_from)s  AND
+                      date_trunc('day',sm.date) <= %(date_to)s
+                GROUP BY  product_id
+                        """
+        else:
+            query = """
+                SELECT product_id
+                FROM stock_move as sm
+                WHERE
+                        sm.state = 'done' AND
+                        sm.company_id = %(company)s AND
+                      (sm.location_id in %(locations)s OR
+                      sm.location_dest_id in %(locations)s) AND
+                      date_trunc('day',sm.date) >= %(date_from)s  AND
+                      date_trunc('day',sm.date) <= %(date_to)s
+                GROUP BY  product_id
+                        """
         params = {
             "date_from": fields.Date.to_string(self.date_from),
             "date_to": fields.Date.to_string(self.date_to),
             "locations": tuple(locations.ids),
+            "product_list": tuple(product_list or []),
             "company": self.company_id.id,
         }
         self.env.cr.execute(query, params=params)
@@ -401,7 +420,7 @@ class StorageSheet(models.TransientModel):
             )
             all_products = True
         if self.products_with_move:
-            product_list = self.get_products_with_move(product_list)
+            product_list = self.get_products_with_move_sql(product_list)
             all_products = False
             if not product_list:
                 raise UserError(
