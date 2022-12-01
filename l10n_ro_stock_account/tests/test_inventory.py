@@ -13,7 +13,7 @@ _logger = logging.getLogger(__name__)
 @tagged("post_install", "-at_install")
 class TestStockInventory(TestStockCommon):
     def _plus_inventory(self):
-        self.make_puchase()
+        self.make_purchase()
 
         inventory = self.env["stock.inventory"].create(
             {
@@ -40,7 +40,7 @@ class TestStockInventory(TestStockCommon):
         self._plus_inventory()
 
     def _minus_inventory(self):
-        self.make_puchase()
+        self.make_purchase()
 
         inventory = self.env["stock.inventory"].create(
             {

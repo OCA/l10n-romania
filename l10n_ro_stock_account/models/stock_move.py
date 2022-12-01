@@ -36,6 +36,32 @@ class StockMove(models.Model):
             ]
         return valued_types
 
+    def _get_price_unit(self):
+        # La fel ca in baza, doar ca nu mai face rotunjire de price_unit
+        self.ensure_one()
+        price_unit = self.price_unit
+        precision = self.env["decimal.precision"].precision_get("Product Price")
+        # If the move is a return, use the original move's price unit.
+        if (
+            self.origin_returned_move_id
+            and self.origin_returned_move_id.sudo().stock_valuation_layer_ids
+        ):
+            layers = self.origin_returned_move_id.sudo().stock_valuation_layer_ids
+            quantity = sum(layers.mapped("quantity"))
+            return (
+                sum(layers.mapped("value")) / quantity
+                if not float_is_zero(
+                    quantity, precision_rounding=layers.uom_id.rounding
+                )
+                else 0
+            )
+        return (
+            price_unit
+            if not float_is_zero(price_unit, precision)
+            or self._should_force_price_unit()
+            else self.product_id.standard_price
+        )
+
     # nu se mai face in mod automat evaluarea la intrare in stoc
     def _create_in_svl(self, forced_quantity=None):
         _logger.debug("SVL:%s" % self.env.context.get("valued_type", ""))
@@ -123,6 +149,9 @@ class StockMove(models.Model):
                 move = move.with_company(move.company_id)
                 valued_move_lines = move._get_out_move_lines()
                 for valued_move_line in valued_move_lines:
+                    valued_move_line = valued_move_line.with_context(
+                        stock_move_line_id=valued_move_line
+                    )
                     move = move.with_context(stock_move_line_id=valued_move_line)
                     valued_quantity = valued_move_line.product_uom_id._compute_quantity(
                         valued_move_line.qty_done, move.product_id.uom_id
@@ -269,11 +298,22 @@ class StockMove(models.Model):
             self.company_id.l10n_ro_accounting
             and self._is_out()
             and self.location_dest_id.usage == "production"
+            and self.origin_returned_move_id
         )
         return it_is
 
     def _create_production_return_svl(self, forced_quantity=None):
         move = self.with_context(standard=True, valued_type="production_return")
+        if (
+            move.origin_returned_move_id
+            and move.origin_returned_move_id.sudo().stock_valuation_layer_ids
+        ):
+            move = move.with_context(
+                origin_return_candidates=move.origin_returned_move_id.sudo()
+                .stock_valuation_layer_ids.filtered(lambda sv: sv.remaining_qty > 0)
+                .ids
+            )
+
         return move._create_out_svl(forced_quantity)
 
     def _is_consumption(self):
@@ -281,7 +321,7 @@ class StockMove(models.Model):
         it_is = (
             self.is_l10n_ro_record
             and self._is_out()
-            and self.location_dest_id.usage == "consume"
+            and self.location_dest_id.usage in ("consume", "production")
             and not self.origin_returned_move_id
         )
         return it_is
@@ -295,7 +335,7 @@ class StockMove(models.Model):
         it_is = (
             self.is_l10n_ro_record
             and self._is_in()
-            and self.location_id.usage == "consume"
+            and self.location_id.usage in ("consume", "production")
             and self.origin_returned_move_id
         )
         return it_is

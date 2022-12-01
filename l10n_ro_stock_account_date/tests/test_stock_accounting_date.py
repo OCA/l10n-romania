@@ -19,7 +19,7 @@ class TestStockAccountDate(TestStockCommon):
         super().setUpClass()
 
     def test_inventory(self):
-        self.make_puchase()
+        self.make_purchase()
         acc_date = fields.Date.today() - timedelta(days=1)
         inventory = self.env["stock.inventory"].create(
             {

@@ -344,7 +344,9 @@ class TestStockCommon(ValuationReconciliationTestCommon):
     ):
         invoice = Form(
             self.env["account.move"].with_context(
-                default_move_type="in_invoice", default_invoice_date=fields.Date.today()
+                default_move_type="in_invoice",
+                default_invoice_date=fields.Date.today(),
+                active_model="accoun.move",
             )
         )
         invoice.partner_id = self.vendor
@@ -374,7 +376,7 @@ class TestStockCommon(ValuationReconciliationTestCommon):
         self.invoice = invoice
         _logger.debug("Factura introdusa")
 
-    def make_puchase(self):
+    def make_purchase(self):
         self.create_po()
         self.create_invoice()
 
@@ -554,3 +556,18 @@ class TestStockCommon(ValuationReconciliationTestCommon):
             }
         )
 
+    def _get_stock_valuation_move_lines(self):
+        return self.env["account.move.line"].search(
+            [
+                ("account_id", "=", self.account_valuation.id),
+            ],
+            order="date, id",
+        )
+
+    def _get_stock_output_move_lines(self):
+        return self.env["account.move.line"].search(
+            [
+                ("account_id", "=", self.account_expense.id),
+            ],
+            order="date, id",
+        )

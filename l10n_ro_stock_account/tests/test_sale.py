@@ -28,7 +28,7 @@ class TestStockSale(TestStockCommon):
         self.env.company.l10n_ro_accounting = False
 
         #  intrare in stoc
-        self.make_puchase()
+        self.make_purchase()
 
         self.check_stock_valuation(self.val_p1_i, self.val_p2_i)
         self.check_account_valuation(self.val_p1_i, self.val_p2_i)
@@ -64,7 +64,7 @@ class TestStockSale(TestStockCommon):
         """
 
         #  intrare in stoc
-        self.make_puchase()
+        self.make_purchase()
 
         self.check_stock_valuation(self.val_p1_i, self.val_p2_i)
         self.check_account_valuation(self.val_p1_i, self.val_p2_i)
@@ -100,7 +100,7 @@ class TestStockSale(TestStockCommon):
         """
 
         #  intrare in stoc
-        self.make_puchase()
+        self.make_purchase()
 
         # iesire din stoc prin vanzare
         self.create_so()

@@ -130,7 +130,7 @@ class TestStockConsum(TestStockCommon):
         _logger.debug("Consum facuta")
 
         _logger.debug("Start retur consum")
-        self.make_return(picking, 1)
+        self.make_return(self.picking, 1)
 
     def test_consume_extra_accounts(self):
         acc_3028 = self.env["account.account"].search(
@@ -155,7 +155,7 @@ class TestStockConsum(TestStockCommon):
         location_dest_id = self.picking_type_transfer.default_location_dest_id.copy(
             {"usage": "consume"}
         )
-        picking = self.trasfer(location_id, location_dest_id)
+        self.transfer(location_id, location_dest_id)
         _logger.info("Consum facuta")
 
         self.check_stock_valuation(val_stock_p1 / 2, 0)
@@ -164,7 +164,7 @@ class TestStockConsum(TestStockCommon):
         self.check_account_valuation(val_stock_p1 / 2, 0, acc_6028)
 
         _logger.info("Start retur consum")
-        self.make_return(picking, 1)
+        self.make_return(self.picking, 1)
         self.check_stock_valuation(val_stock_p1, 0)
         self.check_account_valuation(val_stock_p1, 0, self.account_valuation_mp)
         self.check_account_valuation(0, 0, acc_3028)
@@ -193,7 +193,7 @@ class TestStockConsum(TestStockCommon):
         location_dest_id = self.picking_type_transfer.default_location_dest_id.copy(
             {"usage": "usage_giving"}
         )
-        picking = self.trasfer(location_id, location_dest_id)
+        self.transfer(location_id, location_dest_id)
         _logger.info("Dare in folosinta facuta")
 
         self.check_stock_valuation(val_stock_p1 / 2, 0)
@@ -202,7 +202,7 @@ class TestStockConsum(TestStockCommon):
         self.check_account_valuation(val_stock_p1 / 2, 0, acc_6028)
 
         _logger.info("Start retur dare in folosinta")
-        self.make_return(picking, 1)
+        self.make_return(self.picking, 1)
         self.check_stock_valuation(val_stock_p1, 0)
         self.check_account_valuation(val_stock_p1, 0)
         self.check_account_valuation(0, 0, acc_3028)
@@ -240,7 +240,7 @@ class TestStockConsum(TestStockCommon):
             {"usage": "consume"}
         )
 
-        self.trasfer(location_id, location_dest_id, self.product_mp)
+        self.transfer(location_id, location_dest_id, self.product_mp)
         _logger.info("Consum facut")
         self.check_account_valuation_mp(-val_stock_p1 / 2, acc_3026)
         self.check_account_valuation_mp(val_stock_p1 / 2, acc_6026)

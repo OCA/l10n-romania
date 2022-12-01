@@ -21,7 +21,7 @@ class AccountMove(models.Model):
         if (
             len(self) == 1
             and self.move_type in ["in_invoice", "in_refund"]
-            and self.company_id.l10n_ro_accounting            
+            and self.company_id.l10n_ro_accounting
             and not self.env.context.get("l10n_ro_approved_price_difference")
         ):
             action = self._l10n_ro_get_price_difference_check_action()
