@@ -46,8 +46,23 @@ class TestPayment(TransactionCase):
             }
         )
 
+        payment_3 = self.env["account.payment"].create(
+            {
+                "amount": 250.0,
+                "payment_type": "outbound",
+                "partner_type": "customer",
+                "date": "2015-01-02",
+                "journal_id": cash_journal.id,
+                "partner_id": self.partner_a.id,
+                "payment_method_id": self.env.ref(
+                    "account.account_payment_method_manual_out"
+                ).id,
+            }
+        )
+
         payment_1.action_post()
         payment_2.action_post()
+        payment_3.action_post()
 
         cash_journal.get_journal_dashboard_datas()
 
@@ -55,7 +70,7 @@ class TestPayment(TransactionCase):
         cash_journal = self.env["account.journal"].search(
             [("type", "=", "cash")], limit=1
         )
-        payment_3 = self.env["account.payment"].create(
+        payment_4 = self.env["account.payment"].create(
             {
                 "amount": 150.0,
                 "payment_type": "inbound",
@@ -68,5 +83,5 @@ class TestPayment(TransactionCase):
                 ).id,
             }
         )
-        payment_form = Form(payment_3)
+        payment_form = Form(payment_4)
         payment_form.date = "2015-02-02"

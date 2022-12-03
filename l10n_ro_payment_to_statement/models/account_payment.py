@@ -46,23 +46,19 @@ class AccountPayment(models.Model):
         l10n_ro_records = self.filtered(lambda p: p.is_l10n_ro_record)
         if l10n_ro_records:
             l10n_ro_records.l10n_ro_add_statement_line()
-            l10n_ro_records.l10n_ro_force_cash_sequence()
+            # l10n_ro_records.l10n_ro_force_cash_sequence()
         return res
 
     def l10n_ro_force_cash_sequence(self):
-        # force cash in/out sequence
+        # force cash in/out sequence. Called from related account move
         for payment in self:
-            if (
-                not payment.name
-                and payment.partner_type == "customer"
-                and payment.journal_id.type == "cash"
-            ):
+            if payment.partner_type == "customer" and payment.journal_id.type == "cash":
                 if (
                     payment.journal_id.l10n_ro_cash_in_sequence_id
                     and payment.payment_type == "inbound"
                 ):
                     payment.name = (
-                        payment.journal_id.l10n_ro_cash_in_sequence_id.next_by_id()
+                        payment.journal_id.l10n_ro_customer_cash_in_sequence_id.next_by_id()
                     )
                 if (
                     payment.journal_id.l10n_ro_cash_out_sequence_id
@@ -71,6 +67,16 @@ class AccountPayment(models.Model):
                     payment.name = (
                         payment.journal_id.l10n_ro_cash_out_sequence_id.next_by_id()
                     )
+            # if supplier cash out, get name from journal sequence
+            elif (
+                payment.partner_type == "supplier"
+                and payment.journal_id.type == "cash"
+                and payment.payment_type == "outbound"
+                and payment.journal_id.l10n_ro_journal_sequence_id
+            ):
+                payment.name = (
+                    payment.journal_id.l10n_ro_journal_sequence_id.next_by_id()
+                )
 
     def l10n_ro_get_reconciled_statement_line(self):
         for payment in self:
@@ -125,7 +131,7 @@ class AccountPayment(models.Model):
                     "amount": payment.amount,
                     "payment_id": payment.id,
                     "ref": ref,
-                    "payment_ref": payment.name,
+                    "payment_ref": payment.ref or payment.name,
                 }
                 if payment.payment_type == "outbound":
                     values["amount"] = -1 * payment.amount
