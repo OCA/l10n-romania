@@ -123,9 +123,7 @@ class TestStockCommon(ValuationReconciliationTestCommon):
         )
 
         cls.price_p1 = 50.0
-        cls.price_p1_2 = 60.0
         cls.price_p2 = 50.0
-        cls.price_p2_2 = 60.0
         cls.list_price_p1 = 70.0
         cls.list_price_p2 = 70.0
 
@@ -184,25 +182,18 @@ class TestStockCommon(ValuationReconciliationTestCommon):
         cls.qty_po_p2 = 10.0
 
         # cantitata din SO
-        cls.qty_so_p1 = 15.0
-        cls.qty_so_p2 = 15.0
+        cls.qty_so_p1 = 5.0
+        cls.qty_so_p2 = 5.0
 
-        cls.val_p1_i = round(cls.qty_po_p1 * (cls.price_p1 + cls.price_p1_2), 2)
-        cls.val_p2_i = round(cls.qty_po_p2 * (cls.price_p2 + cls.price_p2_2), 2)
-        cls.val_p1_f = round(
-            cls.qty_po_p1 * (cls.price_p1 + cls.price_p1_2 + 2 * cls.diff_p1), 2
-        )
-        cls.val_p2_f = round(
-            cls.qty_po_p2 * (cls.price_p2 + cls.price_p2_2 + 2 * cls.diff_p2), 2
-        )
+        cls.val_p1_i = round(cls.qty_po_p1 * cls.price_p1, 2)
+        cls.val_p2_i = round(cls.qty_po_p2 * cls.price_p2, 2)
+        cls.val_p1_f = round(cls.qty_po_p1 * (cls.price_p1 + cls.diff_p1), 2)
+        cls.val_p2_f = round(cls.qty_po_p2 * (cls.price_p2 + cls.diff_p2), 2)
 
         # valoarea descarcari de gestiune
-        cls.val_stock_out_so_p1 = round(
-            cls.qty_po_p1 * cls.price_p1 + cls.qty_po_p1 / 2 * cls.price_p1_2, 2
-        )
-        cls.val_stock_out_so_p2 = round(
-            cls.qty_po_p2 * cls.price_p2 + cls.qty_po_p2 / 2 * cls.price_p2_2, 2
-        )
+        cls.val_stock_out_so_p1 = round(cls.qty_so_p1 * cls.price_p1, 2)
+        cls.val_stock_out_so_p2 = round(cls.qty_so_p2 * cls.price_p2, 2)
+
         # valoarea descarcari de gestiune incluzand si diferentele
         cls.val_stock_out_so_p1_diff = round(
             cls.val_stock_out_so_p1 + (cls.qty_so_p1 * cls.diff_p1), 2
@@ -302,19 +293,11 @@ class TestStockCommon(ValuationReconciliationTestCommon):
                 po_line.product_id = self.product_1
                 po_line.product_qty = self.qty_po_p1
                 po_line.price_unit = self.price_p1
-            with po.order_line.new() as po_line:
-                po_line.product_id = self.product_1
-                po_line.product_qty = self.qty_po_p1
-                po_line.price_unit = self.price_p1_2
 
             with po.order_line.new() as po_line:
                 po_line.product_id = self.product_2
                 po_line.product_qty = self.qty_po_p2
                 po_line.price_unit = self.price_p2
-            with po.order_line.new() as po_line:
-                po_line.product_id = self.product_2
-                po_line.product_qty = self.qty_po_p2
-                po_line.price_unit = self.price_p2_2
 
             po = po.save()
             po.button_confirm()
@@ -356,12 +339,6 @@ class TestStockCommon(ValuationReconciliationTestCommon):
             line_form.quantity += quant_p1
             line_form.price_unit += diff_p1
         with invoice.invoice_line_ids.edit(1) as line_form:
-            line_form.quantity += quant_p1
-            line_form.price_unit += diff_p1
-        with invoice.invoice_line_ids.edit(2) as line_form:
-            line_form.quantity += quant_p2
-            line_form.price_unit += diff_p2
-        with invoice.invoice_line_ids.edit(3) as line_form:
             line_form.quantity += quant_p2
             line_form.price_unit += diff_p2
 

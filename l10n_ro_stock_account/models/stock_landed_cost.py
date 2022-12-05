@@ -76,24 +76,28 @@ class StockLandedCost(models.Model):
                 remaining_qty = sum(
                     line.move_id.stock_valuation_layer_ids.mapped("remaining_qty")
                 )
+                linked_layer = line.move_id.stock_valuation_layer_ids[:1]
+
                 # Prorate the value at what's still in stock
                 cost_to_add = (
                     remaining_qty / line.move_id.product_qty
                 ) * line.additional_landed_cost
-                # Romania change: extract method to create valuation layer
-                for svl in line.move_id.stock_valuation_layer_ids.filtered(
-                    lambda s: s.remaining_qty > 0
-                ):
-                    svl_cost_to_add = (
-                        svl.remaining_qty / line.move_id.product_qty
-                    ) * line.additional_landed_cost
-                    linked_layer = svl
-                    if not cost.company_id.currency_id.is_zero(svl_cost_to_add):
-                        new_valuation_layers = cost.l10n_ro_create_valuation_layer(
-                            line, linked_layer, svl_cost_to_add
+
+                # Romania change to create separate valuation layer for price difference
+                # and for the quantity out difference
+                if not cost.company_id.currency_id.is_zero(cost_to_add):
+                    valuation_layer = cost.l10n_ro_create_valuation_layer(
+                        line, linked_layer, line.additional_landed_cost
+                    )
+                    linked_layer.remaining_value += cost_to_add
+                    valuation_layer_ids.append(valuation_layer.id)
+                    if cost_to_add - line.additional_landed_cost != 0:
+                        valuation_layer_out = cost.l10n_ro_create_valuation_layer(
+                            line,
+                            linked_layer,
+                            cost_to_add - line.additional_landed_cost,
                         )
-                        linked_layer.remaining_value += svl_cost_to_add
-                        valuation_layer_ids.append(new_valuation_layers.ids)
+                        valuation_layer_ids.append(valuation_layer_out.id)
                 # End Romania change
 
                 # Update the AVCO

@@ -18,29 +18,29 @@ class TestStockPurchaseReturn(TestStockCommon):
         self.create_invoice()
         _logger.debug("PO1: %s" % po1.amount_total)
         _logger.debug("Product1 price: %s" % self.product_1.standard_price)
-        stock_value_p1 = self.val_p1_i
-        stock_value_p2 = self.val_p2_i
+
+        stock_value_p1 = round(self.qty_po_p1 * self.price_p1, 2)
+        stock_value_p2 = round(self.qty_po_p2 * self.price_p2, 2)
+
         self.check_stock_valuation(stock_value_p1, stock_value_p2)
         self.check_account_valuation(stock_value_p1, stock_value_p2)
 
         self.price_p1 = 55.0
-        self.price_p1_2 = 65.0
         self.price_p2 = 55.0
-        self.price_p2_2 = 65.0
         po2 = self.create_po()
         self.create_invoice()
         _logger.debug("PO2: %s" % po2.amount_total)
         _logger.debug("Product1 price: %s" % self.product_1.standard_price)
 
-        stock_value_final_p1 = 2 * stock_value_p1 + 10 * self.qty_po_p1
-        stock_value_final_p2 = 2 * stock_value_p2 + 10 * self.qty_po_p2
+        stock_value_final_p1 = stock_value_p1 + round(self.qty_po_p1 * self.price_p1, 2)
+        stock_value_final_p2 = stock_value_p2 + round(self.qty_po_p2 * self.price_p2, 2)
         self.check_stock_valuation(stock_value_final_p1, stock_value_final_p2)
         self.check_account_valuation(stock_value_final_p1, stock_value_final_p2)
         pick = po2.picking_ids
         self.make_return(pick, 2)
 
-        stock_value_final_p1 -= round(2 * (self.price_p1 + self.price_p1_2), 2)
-        stock_value_final_p2 -= round(2 * (self.price_p2 + self.price_p2_2), 2)
+        stock_value_final_p1 = stock_value_final_p1 - round(2 * self.price_p1, 2)
+        stock_value_final_p2 = stock_value_final_p2 - round(2 * self.price_p2, 2)
         self.check_stock_valuation(stock_value_final_p1, stock_value_final_p2)
 
         self.create_invoice()

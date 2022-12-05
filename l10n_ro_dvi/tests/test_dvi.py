@@ -2,14 +2,13 @@
 # Copyright (C) 2022 NextERP Romania
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html)
 
-
 from odoo.tests import Form, tagged
 
-from odoo.addons.l10n_ro_stock_account.tests.common import TestStockCommon
+from odoo.addons.l10n_ro_stock_account.tests.common2 import TestStockCommon2
 
 
 @tagged("post_install", "-at_install")
-class TestDVI(TestStockCommon):
+class TestDVI(TestStockCommon2):
     @classmethod
     def setUpClass(cls):
         super(TestDVI, cls).setUpClass()

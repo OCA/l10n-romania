@@ -20,7 +20,6 @@ class TestStockCommonPriceDiff(TestStockCommon):
         self.product_1.uom_po_id = self.env.ref("uom.product_uom_dozen")
         self.qty_po_p1 = 1
         self.price_p1 = 12
-        self.price_p1_2 = 12
 
         self.diff_p1 = 0
         self.diff_p2 = 0
@@ -28,14 +27,9 @@ class TestStockCommonPriceDiff(TestStockCommon):
         self.product_2.uom_po_id = self.env.ref("uom.product_uom_dozen")
         self.qty_po_p2 = 1
         self.price_p2 = 12
-        self.price_p2_2 = 12
 
-        self.val_p1_i = round(self.qty_po_p1 * (self.price_p1 + self.price_p1_2), 2)
-        self.val_p2_i = round(self.qty_po_p2 * (self.price_p2 + self.price_p2_2), 2)
+        self.val_p1_i = round(self.qty_po_p1 * self.price_p1, 2)
+        self.val_p2_i = round(self.qty_po_p2 * self.price_p2, 2)
 
-        self.val_p1_f = round(
-            self.qty_po_p1 * (self.price_p1 + self.price_p1_2 + 2 * self.diff_p1), 2
-        )
-        self.val_p2_f = round(
-            self.qty_po_p2 * (self.price_p2 + self.price_p2_2 + 2 * self.diff_p2), 2
-        )
+        self.val_p1_f = round(self.qty_po_p1 * (self.price_p1 + self.diff_p1), 2)
+        self.val_p2_f = round(self.qty_po_p2 * (self.price_p2 + self.diff_p2), 2)
