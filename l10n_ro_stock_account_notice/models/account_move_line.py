@@ -26,6 +26,8 @@ class AccountMoveLine(models.Model):
                         ]
                     ):
                         self = self.with_context(valued_type="invoice_in_notice")
+                    else:
+                        self = self.with_context(valued_type="invoice_in")
             if self.move_id.is_sale_document():
                 sales = self.sale_line_ids
                 if sales and self.product_id.invoice_policy == "delivery":
@@ -38,6 +40,8 @@ class AccountMoveLine(models.Model):
                         ]
                     ):
                         self = self.with_context(valued_type="invoice_out_notice")
+                    else:
+                        self = self.with_context(valued_type="invoice_out")
         return super(AccountMoveLine, self)._get_computed_account()
 
     def _get_account_change_stock_moves_purchase(self):
