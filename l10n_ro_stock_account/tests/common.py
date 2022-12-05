@@ -221,7 +221,7 @@ class TestStockCommon(ValuationReconciliationTestCommon):
         cls.adaos_p2_f = round(cls.val_p2_store - cls.val_p2_f, 2)
 
         warehouse = cls.company_data["default_warehouse"]
-
+        cls.warehouse = warehouse
         picking_type_in = warehouse.in_type_id
         location = picking_type_in.default_location_dest_id
 
@@ -367,6 +367,7 @@ class TestStockCommon(ValuationReconciliationTestCommon):
         so = Form(self.env["sale.order"])
         so.partner_id = self.client
 
+        so.warehouse_id = self.warehouse
         with so.order_line.new() as so_line:
             so_line.product_id = self.product_1
             so_line.product_uom_qty = self.qty_so_p1
