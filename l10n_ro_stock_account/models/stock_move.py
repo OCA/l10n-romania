@@ -289,6 +289,10 @@ class StockMove(models.Model):
         vals = super(StockMove, self)._prepare_common_svl_vals()
         if self.is_l10n_ro_record:
             valued_type = self.env.context.get("valued_type")
+            if valued_type == "indefinite":
+                _logger.warning(valued_type)
+            else:
+                _logger.info(valued_type)
             if valued_type:
                 vals["l10n_ro_valued_type"] = valued_type
             vals[
