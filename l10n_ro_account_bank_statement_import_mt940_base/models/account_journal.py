@@ -21,9 +21,7 @@ class AccountJournal(models.Model):
         searching data for each statement line).
         The goal is to improve performances.
         """
-        self.ensure_one()
-        super()._statement_line_import_speeddict()
-        speeddict = {"account_number": {}}
+        speeddict = super()._statement_line_import_speeddict()
         partner_banks = self.env["res.partner.bank"].search_read(
             [("company_id", "in", (False, self.company_id.id))],
             ["sanitized_acc_number", "partner_id"],
