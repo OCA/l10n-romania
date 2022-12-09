@@ -4,10 +4,11 @@
 
 
 from odoo.tests import Form
-from odoo.tests.common import TransactionCase
+
+from .common import TestPaymenttoStatement
 
 
-class TestPayment(TransactionCase):
+class TestPayment(TestPaymenttoStatement):
     def setUp(self):
         super(TestPayment, self).setUp()
         self.partner_a = self.env["res.partner"].create({"name": "test"})
