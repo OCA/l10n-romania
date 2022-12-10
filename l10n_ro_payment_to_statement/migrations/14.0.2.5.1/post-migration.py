@@ -14,15 +14,4 @@ def migrate(cr, version):
                 [("type", "=", "cash"), ("company_id", "in", ro_comps.ids)]
             )
             for journal in cash_journals:
-                new_vals = {
-                    "name": journal.name,
-                    "code": journal.code,
-                    "company_id": journal.company_id.id,
-                    "l10n_ro_auto_statement": True,
-                    "l10n_ro_statement_sequence_id": journal.l10n_ro_statement_sequence_id.id,
-                    "l10n_ro_cash_in_sequence_id": journal.l10n_ro_cash_in_sequence_id.id,
-                    "l10n_ro_cash_out_sequence_id": journal.l10n_ro_cash_out_sequence_id.id,
-                    "l10n_ro_customer_cash_in_sequence_id": journal.l10n_ro_customer_cash_in_sequence_id.id,
-                }
-                journal._fill_missing_values(new_vals)
-                journal.write(new_vals)
+                journal.l10n_ro_update_cash_vals()
