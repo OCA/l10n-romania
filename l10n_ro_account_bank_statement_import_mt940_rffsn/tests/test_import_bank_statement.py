@@ -35,7 +35,6 @@ RGER LOGISTICS ROU"""
             "61",
             "62",
         ]
-
         self.transactions = [
             {
                 "account_number": "RO05RZBR0000060003144073",
