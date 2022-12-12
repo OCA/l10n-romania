@@ -55,6 +55,7 @@ Authors
 ~~~~~~~
 
 * Terrabit
+* NextERP Romania
 
 Maintainers
 ~~~~~~~~~~~
