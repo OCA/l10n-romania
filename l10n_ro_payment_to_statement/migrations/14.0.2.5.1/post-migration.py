@@ -1,9 +1,11 @@
-from . import models
+# Copyright (C) 2022 NextERP Romania
+# License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
 from odoo import SUPERUSER_ID, api
 
 
-def pre_init_hook(cr, registry):
+def migrate(cr, version):
+    # Create cash journals sequences if not set already
     with api.Environment.manage():
         env = api.Environment(cr, SUPERUSER_ID, {})
         ro_comps = env["res.company"].search([("l10n_ro_accounting", "=", True)])

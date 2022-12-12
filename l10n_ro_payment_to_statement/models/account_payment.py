@@ -54,7 +54,7 @@ class AccountPayment(models.Model):
         for payment in self:
             if payment.partner_type == "customer" and payment.journal_id.type == "cash":
                 if (
-                    payment.journal_id.l10n_ro_cash_in_sequence_id
+                    payment.journal_id.l10n_ro_customer_cash_in_sequence_id
                     and payment.payment_type == "inbound"
                 ):
                     payment.name = (

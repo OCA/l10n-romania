@@ -22,13 +22,6 @@ class AccountMove(models.Model):
                         )
                         super(AccountMove, move).write({"name": new_number})
 
-        if "payment_id" in vals and vals.get("payment_id"):
-            payment_id = self.env["account.payment"].browse(vals.get("payment_id"))
-            for move in self:
-                if move.is_l10n_ro_record:
-                    if (not move.name or move.name == "/") and payment_id:
-                        payment_id.l10n_ro_force_cash_sequence()
-
         if "statement_line_id" in vals and vals.get("statement_line_id"):
             statement_line = self.env["account.bank.statement.line"].browse(
                 vals.get("statement_line_id")
@@ -57,3 +50,9 @@ class AccountMove(models.Model):
                         super(AccountMove, move).write({"name": new_number})
 
         return super(AccountMove, self).write(vals)
+
+    def _post(self, soft=True):
+        for move in self:
+            if move.payment_id and move.is_l10n_ro_record:
+                move.payment_id.l10n_ro_force_cash_sequence()
+        return super()._post(soft)
