@@ -498,7 +498,7 @@ class StorageSheetLine(models.TransientModel):
         digits="Product Unit of Measure", string="Input Quantity", default=0.0
     )
     unit_price_in = fields.Monetary(
-        currency_field="currency_id", string="Unit Price In", default=0.0
+        currency_field="currency_id", string="Price Unit In", default=0.0
     )
     amount_out = fields.Monetary(
         currency_field="currency_id", default=0.0, string="Output Amount"
@@ -507,7 +507,7 @@ class StorageSheetLine(models.TransientModel):
         digits="Product Unit of Measure", string="Output Quantity", default=0.0
     )
     unit_price_out = fields.Monetary(
-        currency_field="currency_id", string="Unit Price Out", default=0.0
+        currency_field="currency_id", string="Price Unit Out", default=0.0
     )
     amount_final = fields.Monetary(
         currency_field="currency_id", default=0.0, string="Final Amount"
@@ -516,7 +516,7 @@ class StorageSheetLine(models.TransientModel):
         digits="Product Unit of Measure", string="Final Quantity", default=0.0
     )
     date_time = fields.Datetime(string="Datetime")
-    date = fields.Date(string="Date")
+    date = fields.Date()
     reference = fields.Char()
     partner_id = fields.Many2one("res.partner", index=True)
     currency_id = fields.Many2one(
@@ -531,7 +531,7 @@ class StorageSheetLine(models.TransientModel):
     account_id = fields.Many2one("account.account", index=True)
     location_id = fields.Many2one("stock.location", index=True)
     invoice_id = fields.Many2one("account.move", index=True)
-    valued_type = fields.Selection(VALUED_TYPE, "Valued Type")
+    valued_type = fields.Selection(VALUED_TYPE)
     document = fields.Char()
 
     def get_general_buttons(self):
