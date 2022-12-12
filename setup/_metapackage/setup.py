@@ -15,6 +15,7 @@ setuptools.setup(
         'odoo14-addon-l10n_ro_account_bank_statement_import_mt940_bcr',
         'odoo14-addon-l10n_ro_account_bank_statement_import_mt940_brd',
         'odoo14-addon-l10n_ro_account_bank_statement_import_mt940_ing',
+        'odoo14-addon-l10n_ro_account_bank_statement_import_mt940_rffsn',
         'odoo14-addon-l10n_ro_account_bank_statement_report',
         'odoo14-addon-l10n_ro_account_edi_ubl',
         'odoo14-addon-l10n_ro_account_edit_currency_rate',
