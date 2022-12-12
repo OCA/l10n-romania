@@ -21,6 +21,8 @@ EN BANK S.A.^31RO05RZBR0000060003144073^32QUEHENBE
 RGER LOGISTICS ROU"""
         self.codewords = [
             "20",
+            "21",
+            "22",
             "23",
             "24",
             "25",
@@ -33,6 +35,7 @@ RGER LOGISTICS ROU"""
             "61",
             "62",
         ]
+
         self.transactions = [
             {
                 "account_number": "RO05RZBR0000060003144073",
