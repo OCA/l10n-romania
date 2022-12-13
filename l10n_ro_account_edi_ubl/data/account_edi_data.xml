@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<odoo>
+<odoo noupdate="1">
 
         <record id="edi_ubl_cius_ro" model="account.edi.format">
             <field name="name">UBL 2.1 (CIUS-RO)</field>
