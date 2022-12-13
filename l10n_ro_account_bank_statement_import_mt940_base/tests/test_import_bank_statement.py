@@ -3,10 +3,12 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 from odoo import fields
 from odoo.modules.module import get_module_resource
+from odoo.tests import tagged
 
 from .common import TestMT940BankStatementImport
 
 
+@tagged("post_install", "-at_install")
 class TestImport(TestMT940BankStatementImport):
     def setUp(self):
         super(TestImport, self).setUp()
