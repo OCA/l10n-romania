@@ -10,7 +10,7 @@
     "author": "NextERP Romania," "Odoo Community Association (OCA)," "Therp BV",
     "website": "https://github.com/OCA/l10n-romania",
     "category": "Localization",
-    "depends": ["account_statement_import"],
+    "depends": ["account_statement_import", "l10n_ro_config"],
     "installable": True,
     "development_status": "Mature",
     "maintainers": ["feketemihai", "dhongu"],
