@@ -39,12 +39,12 @@ class MT940Parser(models.AbstractModel):
         return super().get_footer_regex()
 
     def get_subfield_split_text(self):
-        if self.env.context.get("type") == "mt940_ro_alpha":
+        if self.get_mt940_type() == "mt940_ro_alpha":
             return " "
         return super().get_subfield_split_text()
 
     def get_codewords(self):
-        if self.env.context.get("type") == "mt940_ro_alpha":
+        if self.get_mt940_type() == "mt940_ro_alpha":
             return ["BENEFICIAR", "PLATITOR", "DETALII", "CUST"]
         return super().get_codewords()
 
@@ -57,12 +57,13 @@ class MT940Parser(models.AbstractModel):
 
     def handle_tag_28(self, data, result):
         """Sequence number within batch - normally only zeroes."""
-        if result["statement"]:
+        if result["statement"] and self.get_mt940_type() == "mt940_ro_alpha":
             if result["statement"]["name"]:
                 result["statement"]["name"] += data.replace(".", "").strip()
             else:
                 result["statement"]["name"] = data
-        return result
+            return result
+        return super().handle_tag_28(data, result)
 
     def handle_tag_62F(self, data, result):
         """Get ending balance, statement date and id.
@@ -151,5 +152,4 @@ class MT940Parser(models.AbstractModel):
 
                     transaction["ref"] = parsed_data.get("ref")
             return result
-        else:
-            return super().handle_tag_86(data, result)
+        return super().handle_tag_86(data, result)
