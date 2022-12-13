@@ -14,27 +14,27 @@ class MT940Parser(models.AbstractModel):
     _inherit = "l10n.ro.account.bank.statement.import.mt940.parser"
 
     def get_header_lines(self):
-        if self.env.context.get("type") == "mt940_ro_bcr":
+        if self.get_mt940_type() == "mt940_ro_bcr":
             return 1
         return super().get_header_lines()
 
     def get_header_regex(self):
-        if self.env.context.get("type") == "mt940_ro_bcr":
+        if self.get_mt940_type() == "mt940_ro_bcr":
             return ":20:"
         return super().get_header_regex()
 
     def get_subfield_split_text(self):
-        if self.env.context.get("type") == "mt940_ro_bcr":
+        if self.get_mt940_type() == "mt940_ro_bcr":
             return "-"
         return super().get_subfield_split_text()
 
     def get_codewords(self):
-        if self.env.context.get("type") == "mt940_ro_bcr":
+        if self.get_mt940_type() == "mt940_ro_bcr":
             return ["Referinta", "Platitor", "Beneficiar", "Detalii", "CODFISC"]
         return super().get_codewords()
 
     def get_tag_61_regex(self):
-        if self.env.context.get("type") == "mt940_ro_bcr":
+        if self.get_mt940_type() == "mt940_ro_bcr":
             return re.compile(
                 r"(?P<date>\d{6})(?P<line_date>\d{0,4})(?P<sign>[CD])"
                 + r"(?P<amount>\d+,\d{2})N(?P<type>.{3})"
@@ -47,7 +47,7 @@ class MT940Parser(models.AbstractModel):
 
         Counterpart is often stored in subfield of tag 86. The subfield
         can be 31, 32, 33"""
-        if self.env.context.get("type") == "mt940_ro_bcr":
+        if self.get_mt940_type() == "mt940_ro_bcr":
             if not subfield:
                 return  # subfield is empty
             if len(subfield) >= 1 and subfield[0]:
@@ -61,13 +61,13 @@ class MT940Parser(models.AbstractModel):
         return super().get_counterpart(transaction, subfield)
 
     def handle_tag_28(self, data, result):
-        if self.env.context.get("type") == "mt940_ro_bcr":
+        if self.get_mt940_type() == "mt940_ro_bcr":
             result["statement"]["name"] = data.replace(".", "").strip()
-        else:
-            super().handle_tag_28(data, result)
+            return result
+        return super().handle_tag_28(data, result)
 
     def handle_tag_86(self, data, result):
-        if self.env.context.get("type") == "mt940_ro_bcr":
+        if self.get_mt940_type() == "mt940_ro_bcr":
             if result["statement"]["transactions"]:
                 transaction = result["statement"]["transactions"][-1]
 
@@ -121,7 +121,7 @@ class MT940Parser(models.AbstractModel):
                         vat = parsed_data.get("codfis_b")
                     if vat:
                         domain = [
-                            ("l10n_ro_vat_number", "=", vat),
+                            ("vat", "=", vat),
                             ("is_company", "=", True),
                         ]
                         partner = self.env["res.partner"].search(domain, limit=1)
@@ -133,5 +133,4 @@ class MT940Parser(models.AbstractModel):
 
                     transaction["ref"] = parsed_data.get("ref")
             return result
-        else:
-            return super().handle_tag_86(data, result)
+        return super().handle_tag_86(data, result)
