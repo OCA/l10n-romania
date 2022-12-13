@@ -80,12 +80,8 @@ class MT940Parser(models.AbstractModel):
     def is_mt940(self, line):
         """determine if a line is the header of a statement"""
         if not bool(re.match(self.get_header_regex(), line)):
-            if not bool(line.startswith(self.get_header_regex())):
-                raise ValueError(
-                    "File starting with %s does not seem to be a"
-                    " valid %s MT940 format bank statement."
-                    % (line[: len(self.get_header_regex())], self.get_mt940_type())
-                )
+            return False
+        return True
 
     def is_mt940_statement(self, line):
         """determine if line is the start of a statement"""
@@ -121,7 +117,7 @@ class MT940Parser(models.AbstractModel):
         """
         subfields = {}
         current_codeword = None
-        data = data.replace("\n", "")
+        data = data.replace("\n", " ")
         for words in data.split(self.get_subfield_split_text()):
             for word in words.split(" "):
                 if not word and not current_codeword:
@@ -181,19 +177,20 @@ class MT940Parser(models.AbstractModel):
 
     def pre_process_data(self, data):
         matches = []
-        self.is_mt940(line=data)
-        data = data.replace("-}", "}").replace("}{", "}\r\n{").replace("\r\n", "\n")
-        header_regex = self.get_header_regex()
-        if data.startswith(header_regex):
-            if header_regex != ":20:":
-                data = data.replace(header_regex, "")
-            for statement in data.split(":20:"):
-                match = "{4:\n:20:" + statement + "}"
-                matches.append(match)
-        else:
-            tag_re = re.compile(r"(\{4:[^{}]+\})", re.MULTILINE)
-            matches = tag_re.findall(data)
-        return matches
+        if self.is_mt940(line=data):
+            data = data.replace("-}", "}").replace("}{", "}\r\n{").replace("\r\n", "\n")
+            header_regex = self.get_header_regex()
+            if data.startswith(header_regex):
+                if header_regex != ":20:":
+                    data = data.replace(header_regex, "")
+                for statement in data.split(":20:"):
+                    match = "{4:\n:20:" + statement + "}"
+                    matches.append(match)
+            else:
+                tag_re = re.compile(r"(\{4:[^{}]+\})", re.MULTILINE)
+                matches = tag_re.findall(data)
+            return matches
+        return []
 
     def parse(self, data, header_lines=None):
         """Parse mt940 bank statement file contents."""
@@ -201,43 +198,46 @@ class MT940Parser(models.AbstractModel):
         data = "".join([str(x) for x in data if str(x) in printable])
 
         matches = self.pre_process_data(data)
-        statements = []
-        result = {
-            "currency": None,
-            "account_number": None,
-            "statement": None,
-        }
-        if not header_lines:
-            header_lines = self.get_header_lines()
-        for match in matches:
-            self.is_mt940_statement(line=match)
-            iterator = "\n".join(match.split("\n")[1:]).split("\n").__iter__()
-            line = None
-            record_line = ""
-            try:
-                while True:
-                    if not result["statement"]:
-                        result["statement"] = self.handle_header(iterator, header_lines)
-                    line = next(iterator)
-                    if not self.is_tag(line) and not self.is_footer(line):
-                        record_line = self.add_record_line(line, record_line)
-                        continue
+        if matches:
+            statements = []
+            result = {
+                "currency": None,
+                "account_number": None,
+                "statement": None,
+            }
+            if not header_lines:
+                header_lines = self.get_header_lines()
+            for match in matches:
+                self.is_mt940_statement(line=match)
+                iterator = "\n".join(match.split("\n")[1:]).split("\n").__iter__()
+                line = None
+                record_line = ""
+                try:
+                    while True:
+                        if not result["statement"]:
+                            result["statement"] = self.handle_header(
+                                iterator, header_lines
+                            )
+                        line = next(iterator)
+                        if not self.is_tag(line) and not self.is_footer(line):
+                            record_line = self.add_record_line(line, record_line)
+                            continue
+                        if record_line:
+                            self.handle_record(record_line, result)
+                        if self.is_footer(line):
+                            statements.append(result["statement"])
+                            result["statement"] = None
+                            record_line = ""
+                            continue
+                        record_line = line
+                except StopIteration:
+                    pass
+                if result["statement"]:
                     if record_line:
                         self.handle_record(record_line, result)
-                    if self.is_footer(line):
-                        statements.append(result["statement"])
-                        result["statement"] = None
-                        record_line = ""
-                        continue
-                    record_line = line
-            except StopIteration:
-                pass
-            if result["statement"]:
-                if record_line:
-                    self.handle_record(record_line, result)
-                statements.append(result["statement"])
-                result["statement"] = None
-        return result["currency"], result["account_number"], statements
+                    statements.append(result["statement"])
+                    result["statement"] = None
+            return result["currency"], result["account_number"], statements
 
     def add_record_line(self, line, record_line):
         record_line += line
