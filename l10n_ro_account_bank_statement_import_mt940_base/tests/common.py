@@ -3,20 +3,26 @@
 
 import base64
 
-from odoo.tests.common import SavepointCase
+from odoo.tests import tagged
+
+from odoo.addons.account.tests.common import AccountTestInvoicingCommon
 
 
-class TestMT940BankStatementImport(SavepointCase):
+@tagged("post_install", "-at_install")
+class TestMT940BankStatementImport(AccountTestInvoicingCommon):
     @classmethod
     def setUpClass(cls):
-        super().setUpClass()
+        ro_template_ref = "l10n_ro.ro_chart_template"
+        super(TestMT940BankStatementImport, cls).setUpClass(
+            chart_template_ref=ro_template_ref
+        )
 
     def create_partner_bank(self, bank_acc):
         bank = self.env["res.partner.bank"].create(
             {
                 "acc_number": bank_acc,
-                "partner_id": self.env.ref("base.main_partner").id,
-                "company_id": self.env.ref("base.main_company").id,
+                "partner_id": self.env.company.partner_id.id,
+                "company_id": self.env.company.id,
                 "bank_id": self.env.ref("base.res_bank_1").id,
             }
         )
