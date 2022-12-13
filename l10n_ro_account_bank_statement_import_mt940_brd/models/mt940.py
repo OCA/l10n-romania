@@ -22,7 +22,7 @@ class MT940Parser(models.AbstractModel):
         return super().get_tag_61_regex()
 
     def get_header_lines(self):
-        if self.env.context.get("type") == "mt940_ro_brd":
+        if self.get_mt940_type() == "mt940_ro_brd":
             return 1
         return super().get_header_lines()
 
@@ -51,7 +51,7 @@ class MT940Parser(models.AbstractModel):
         return super().get_codewords()
 
     def get_subfield_split_text(self):
-        if self.env.context.get("type") == "mt940_ro_brd":
+        if self.get_mt940_type() == "mt940_ro_brd":
             return "+"
         return super().get_subfield_split_text()
 
@@ -59,7 +59,7 @@ class MT940Parser(models.AbstractModel):
         if self.get_mt940_type() == "mt940_ro_brd":
             subfields = {}
             current_codeword = None
-            data = data.replace("\n", "")
+            data = data.replace("\n", " ")
             for word in data.split(self.get_subfield_split_text()):
                 if not word and not current_codeword:
                     continue
@@ -100,12 +100,13 @@ class MT940Parser(models.AbstractModel):
 
     def handle_tag_28(self, data, result):
         """Sequence number within batch - normally only zeroes."""
-        if result["statement"]:
+        if result["statement"] and self.get_mt940_type() == "mt940_ro_brd":
             if result["statement"]["name"]:
                 result["statement"]["name"] += " - " + data
             else:
                 result["statement"]["name"] = data
-        return result
+            return result
+        return super().handle_tag_28(data, result)
 
     def handle_tag_62F(self, data, result):
         """Get ending balance, statement date and id.
@@ -121,7 +122,7 @@ class MT940Parser(models.AbstractModel):
         Depending on the bank, there might be multiple 62F tags in the import
         file. The last one counts.
         """
-        if result["statement"]:
+        if result["statement"] and self.get_mt940_type() == "mt940_ro_brd":
             result["statement"]["balance_end_real"] = self.parse_amount(
                 data[0], data[10:]
             )
@@ -140,4 +141,5 @@ class MT940Parser(models.AbstractModel):
                     result["statement"]["name"] += " - " + result["statement"][
                         "date"
                     ].strftime("%Y-%m-%d")
-        return result
+            return result
+        return super().handle_tag_62F(data, result)
