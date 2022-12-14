@@ -10,15 +10,16 @@ class AccountBankStatementImport(models.TransientModel):
     _inherit = "account.statement.import"
 
     def _parse_file(self, data_file):
-        parser = self.env["l10n.ro.account.bank.statement.import.mt940.parser"]
-        parser = parser.with_context(type="mt940_ro_ing")
-        data = parser.parse(data_file)
-        if data:
-            account_number = data[1].split("/")[1]
-            bank = self.env.company.bank_ids.filtered(
-                lambda b: account_number in b.sanitized_acc_number
-            )
-            if bank:
-                return (data[0], bank.sanitized_acc_number, data[2])
-            return data
+        if self._context.get("type", "") == "mt940_ro_ing":
+            parser = self.env["l10n.ro.account.bank.statement.import.mt940.parser"]
+            parser = parser.with_context(type="mt940_ro_ing")
+            data = parser.parse(data_file)
+            if data:
+                account_number = data[1].split("/")[1]
+                bank = self.env.company.bank_ids.filtered(
+                    lambda b: account_number in b.sanitized_acc_number
+                )
+                if bank:
+                    return (data[0], bank.sanitized_acc_number, data[2])
+                return data
         return super(AccountBankStatementImport, self)._parse_file(data_file)
