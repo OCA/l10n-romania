@@ -9,11 +9,12 @@ class AccountBankStatementImport(models.TransientModel):
     _inherit = "account.statement.import"
 
     def _parse_file(self, data_file):
-        parser = self.env["l10n.ro.account.bank.statement.import.mt940.parser"]
-        parser = parser.with_context(type="mt940_ro_bcr")
-        data = parser.parse(data_file)
-        if data:
-            return self._post_parse_file(data)
+        if self._context.get("type", "") == "mt940_ro_bcr":
+            parser = self.env["l10n.ro.account.bank.statement.import.mt940.parser"]
+            parser = parser.with_context(type="mt940_ro_bcr")
+            data = parser.parse(data_file)
+            if data:
+                return self._post_parse_file(data)
         return super(AccountBankStatementImport, self)._parse_file(data_file)
 
     def _post_parse_file(self, data):
