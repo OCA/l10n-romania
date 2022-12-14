@@ -64,12 +64,11 @@ RGER LOGISTICS ROU"""
         res = parser.get_subfields(self.data, self.codewords)
         espected_res = {
             "20": ["F.2059628"],
-            "30": ["RAIFFEISEN BANK S.A."],
-            "31": ["RO05RZBR0000060003144073"],
-            "32": ["QUEHENBERGER LOGISTICS ROU"],
             "24": ["Ref.Doc 2268/OPMC"],
+            "30": ["RAIFFEIS EN BANK S.A."],
+            "31": ["RO05RZBR0000060003144073"],
+            "32": ["QUEHENBE RGER LOGISTICS ROU"],
         }
-
         self.assertTrue(res == espected_res)
 
     def test_handle_common_subfields(self):
