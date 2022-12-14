@@ -49,9 +49,7 @@ class TestImport(TestMT940BankStatementImport):
                 "account_number": "RO25INGB0014000031948911",
                 "partner_name": "NEXTERP ROMANIA SRL",
                 "amount": 1000.0,
-                "payment_ref": "/                                                "
-                "                         CVF 2020/0060 . 344944869"
-                "                                           ",
+                "payment_ref": "/AMT RCD RON 1000,00CVF 2020/0060 . 344944869",
                 "ref": "NONREF",
             },
         ]
@@ -72,20 +70,19 @@ class TestImport(TestMT940BankStatementImport):
         parser = parser.with_context(type="mt940_ro_ing")
         res = parser.get_subfields(self.data, self.codewords)
         espected_res = {
-            "20": ["AMT RCD RON 1000,00        "],
-            "21": ["                           "],
-            "22": ["                           "],
-            "32": ["NEXTERP ROMANIA SRL    "],
-            "33": ["RO25INGB0014000031948911   "],
-            "23": ["                           "],
-            "24": ["                   "],
-            "25": ["CVF 2020/0060 . 344944869  "],
-            "26": ["              "],
-            "27": ["                           "],
-            "28": ["         "],
-            "29": ["                           ", "     ", "              ", ""],
+            "20": ["AMT RCD RON 1000,00"],
+            "21": [""],
+            "22": [""],
+            "32": ["NEXTERP ROMANIA SRL"],
+            "33": ["RO25INGB0014000031948911"],
+            "23": [""],
+            "24": [""],
+            "25": ["CVF 2020/0060 . 344944869"],
+            "26": [""],
+            "27": [""],
+            "28": [""],
+            "29": ["", "", "", ""],
         }
-
         self.assertTrue(res == espected_res)
 
     def test_handle_common_subfields(self):

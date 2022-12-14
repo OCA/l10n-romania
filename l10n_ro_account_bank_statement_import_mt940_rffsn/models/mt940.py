@@ -63,7 +63,12 @@ class MT940Parser(models.AbstractModel):
             subfields = {}
             current_codeword = None
             data = data.replace("\n", " ")
+
+            # pentru eliminarea spatiilor din codewords (in data)
+            data = self._clean_codewords(data, codewords)
+
             for word in data.split(self.get_subfield_split_text()):
+                word = word.strip()
                 if not word and not current_codeword:
                     continue
                 if word[:2] in codewords:
@@ -82,6 +87,10 @@ class MT940Parser(models.AbstractModel):
             counterpart_fields = []
             for counterpart_field in ["31", "32", "33"]:
                 if counterpart_field in subfields:
+                    if counterpart_field == "31":
+                        subfields[counterpart_field][0] = subfields[counterpart_field][
+                            0
+                        ].replace(" ", "")
                     new_value = subfields[counterpart_field][0].replace("CUI/CNP", "")
                     counterpart_fields.append(new_value)
                 else:

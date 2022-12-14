@@ -60,7 +60,6 @@ class TestImport(TestMT940BankStatementImport):
                 "10",
                 "2022,",
                 "Decontare",
-                "",
             ],
             "Platitor": [
                 "",
@@ -92,7 +91,6 @@ class TestImport(TestMT940BankStatementImport):
                 "/RFB/31/20221028/20221031",
             ],
         }
-
         self.assertTrue(res == espected_res)
 
     def test_handle_common_subfields(self):
