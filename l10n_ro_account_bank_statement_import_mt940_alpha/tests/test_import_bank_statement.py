@@ -3,12 +3,14 @@
 
 from odoo import fields
 from odoo.modules.module import get_module_resource
+from odoo.tests import tagged
 
 from odoo.addons.l10n_ro_account_bank_statement_import_mt940_base.tests.common import (
     TestMT940BankStatementImport,
 )
 
 
+@tagged("post_install", "-at_install")
 class TestImport(TestMT940BankStatementImport):
     def setUp(self):
         super(TestImport, self).setUp()
@@ -56,6 +58,7 @@ R  NEXTERP ROMANIA SRL BUCUROBU RO65BUCU078823522511RO01 DETALII
                 "RO65BUCU078823522511RO01",
             ],
             "DETALII": [
+                "",
                 "PLATA",
                 "",
                 "105IBAB22300004T",
@@ -72,7 +75,6 @@ R  NEXTERP ROMANIA SRL BUCUROBU RO65BUCU078823522511RO01 DETALII
                 "",
             ],
         }
-
         self.assertTrue(res == espected_res)
 
     def test_handle_common_subfields(self):
