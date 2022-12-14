@@ -6,6 +6,7 @@
 import logging
 import re
 from datetime import datetime
+from itertools import repeat, zip_longest
 from string import printable
 
 from odoo import models
@@ -101,6 +102,16 @@ class MT940Parser(models.AbstractModel):
     def get_subfield_split_text(self):
         return "/"
 
+    def _clean_codewords(self, data, codewords):
+        for cw in codewords:
+            regex_spaces = list(repeat(r"[\s]?", len(cw) - 1))
+            pattern = ""
+            for item in zip_longest(cw, regex_spaces):
+                pattern += "".join([item[0], item[1] or ""])
+            data = re.sub(pattern, cw, data)
+
+        return data
+
     def get_subfields(self, data, codewords):
         """Return dictionary with value array for each codeword in data.
 
@@ -118,7 +129,12 @@ class MT940Parser(models.AbstractModel):
         subfields = {}
         current_codeword = None
         data = data.replace("\n", " ")
+
+        # pentru eliminarea spatiilor din codewords (in data)
+        data = self._clean_codewords(data, codewords)
+
         for words in data.split(self.get_subfield_split_text()):
+            words = words.strip()
             for word in words.split(" "):
                 if not word and not current_codeword:
                     continue
@@ -238,6 +254,7 @@ class MT940Parser(models.AbstractModel):
                     statements.append(result["statement"])
                     result["statement"] = None
             return result["currency"], result["account_number"], statements
+        return False
 
     def add_record_line(self, line, record_line):
         record_line += line
@@ -318,19 +335,18 @@ class MT940Parser(models.AbstractModel):
         """get transaction values"""
         tag_61_regex = self.get_tag_61_regex()
         re_61 = tag_61_regex.match(data)
-        if not re_61:
-            raise ValueError("Cannot parse %s" % data)
-        parsed_data = re_61.groupdict()
-        if parsed_data and result["statement"]:
-            result["statement"]["transactions"].append({})
-            transaction = result["statement"]["transactions"][-1]
-            transaction["date"] = datetime.strptime(data[:6], "%y%m%d")
-            transaction["amount"] = self.parse_amount(
-                parsed_data["sign"], parsed_data["amount"]
-            )
-            transaction["ref"] = parsed_data["reference"]
-            if parsed_data.get("account_number"):
-                transaction["account_number"] = parsed_data["account_number"]
+        if re_61:
+            parsed_data = re_61.groupdict()
+            if parsed_data and result["statement"]:
+                result["statement"]["transactions"].append({})
+                transaction = result["statement"]["transactions"][-1]
+                transaction["date"] = datetime.strptime(data[:6], "%y%m%d")
+                transaction["amount"] = self.parse_amount(
+                    parsed_data["sign"], parsed_data["amount"]
+                )
+                transaction["ref"] = parsed_data["reference"]
+                if parsed_data.get("account_number"):
+                    transaction["account_number"] = parsed_data["account_number"]
         return result
 
     def handle_tag_62M(self, data, result):

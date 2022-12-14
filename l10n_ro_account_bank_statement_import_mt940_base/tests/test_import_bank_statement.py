@@ -113,5 +113,4 @@ class TestImport(TestMT940BankStatementImport):
         parser = self.env["l10n.ro.account.bank.statement.import.mt940.parser"]
         parser = parser.with_context(type="mt940_general")
         datafile = open(testfile, "rb").read()
-        with self.assertRaises(ValueError):
-            parser.parse(datafile, header_lines=1)
+        self.assertFalse(parser.parse(datafile, header_lines=1))
