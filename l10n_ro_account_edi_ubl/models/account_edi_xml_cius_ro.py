@@ -104,6 +104,7 @@ class AccountEdiXmlCIUSRO(models.Model):
             total_vals["tax_exclusive_amount"] = -1 * total_vals["tax_exclusive_amount"]
             total_vals["tax_inclusive_amount"] = -1 * total_vals["tax_inclusive_amount"]
             total_vals["payable_amount"] = -1 * total_vals["payable_amount"]
+            total_vals["prepaid_amount"] = -1 * total_vals["prepaid_amount"]
             for tax in vals_list["vals"]["tax_total_vals"]:
                 tax["tax_amount"] = -1 * tax["tax_amount"]
                 for subtax in tax["tax_subtotal_vals"]:
