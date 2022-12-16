@@ -146,6 +146,12 @@ class MT940Parser(models.AbstractModel):
             return transaction
         return super().handle_common_subfields(transaction, subfields)
 
+    def handle_tag_25(self, data, result):
+        if self.get_mt940_type() == "mt940_ro_ing":
+            result["account_number"] = data.replace("/", "").strip()
+            return result
+        return super().handle_tag_25(data, result)
+
     def handle_tag_28(self, data, result):
         """Sequence number within batch - normally only zeroes."""
         if result["statement"] and self.get_mt940_type() == "mt940_ro_ing":
