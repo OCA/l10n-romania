@@ -48,6 +48,16 @@ class AccountMove(models.Model):
                     self.fiscal_position_id = fptvainc
         return result
 
+    @api.depends("line_ids.account_id.internal_type")
+    def _compute_always_tax_exigible(self):
+        self_ro = self.filtered(lambda l: l.is_l10n_ro_record)
+        self_no_ro = self - self_ro
+        for record in self_ro:
+            record.always_tax_exigible = (
+                record.is_invoice(True) and record._collect_tax_cash_basis_values()
+            )
+        return super(AccountMove, self_no_ro)._compute_always_tax_exigible()
+
 
 class AccountMoveLine(models.Model):
     _name = "account.move.line"
