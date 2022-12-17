@@ -128,7 +128,7 @@ class AccountEdiXmlCIUSRO(models.Model):
         errors = []
         if not partner.street:
             errors += [
-                _("The partner doesn't have the street completed.") % partner.name
+                _("The partner %s doesn't have the street completed.") % partner.name
             ]
 
         state_bucuresti = self.env.ref("base.RO_B")
