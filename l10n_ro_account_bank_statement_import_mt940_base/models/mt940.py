@@ -6,6 +6,7 @@
 import logging
 import re
 from datetime import datetime
+from itertools import repeat, zip_longest
 from string import printable
 
 from odoo import models
@@ -80,12 +81,8 @@ class MT940Parser(models.AbstractModel):
     def is_mt940(self, line):
         """determine if a line is the header of a statement"""
         if not bool(re.match(self.get_header_regex(), line)):
-            if not bool(line.startswith(self.get_header_regex())):
-                raise ValueError(
-                    "File starting with %s does not seem to be a"
-                    " valid %s MT940 format bank statement."
-                    % (line[: len(self.get_header_regex())], self.get_mt940_type())
-                )
+            return False
+        return True
 
     def is_mt940_statement(self, line):
         """determine if line is the start of a statement"""
@@ -105,6 +102,16 @@ class MT940Parser(models.AbstractModel):
     def get_subfield_split_text(self):
         return "/"
 
+    def _clean_codewords(self, data, codewords):
+        for cw in codewords:
+            regex_spaces = list(repeat(r"[\s]?", len(cw) - 1))
+            pattern = ""
+            for item in zip_longest(cw, regex_spaces):
+                pattern += "".join([item[0], item[1] or ""])
+            data = re.sub(pattern, cw, data)
+
+        return data
+
     def get_subfields(self, data, codewords):
         """Return dictionary with value array for each codeword in data.
 
@@ -121,8 +128,13 @@ class MT940Parser(models.AbstractModel):
         """
         subfields = {}
         current_codeword = None
-        data = data.replace("\n", "")
+        data = data.replace("\n", " ")
+
+        # pentru eliminarea spatiilor din codewords (in data)
+        data = self._clean_codewords(data, codewords)
+
         for words in data.split(self.get_subfield_split_text()):
+            words = words.strip()
             for word in words.split(" "):
                 if not word and not current_codeword:
                     continue
@@ -181,19 +193,20 @@ class MT940Parser(models.AbstractModel):
 
     def pre_process_data(self, data):
         matches = []
-        self.is_mt940(line=data)
-        data = data.replace("-}", "}").replace("}{", "}\r\n{").replace("\r\n", "\n")
-        header_regex = self.get_header_regex()
-        if data.startswith(header_regex):
-            if header_regex != ":20:":
-                data = data.replace(header_regex, "")
-            for statement in data.split(":20:"):
-                match = "{4:\n:20:" + statement + "}"
-                matches.append(match)
-        else:
-            tag_re = re.compile(r"(\{4:[^{}]+\})", re.MULTILINE)
-            matches = tag_re.findall(data)
-        return matches
+        if self.is_mt940(line=data):
+            data = data.replace("-}", "}").replace("}{", "}\r\n{").replace("\r\n", "\n")
+            header_regex = self.get_header_regex()
+            if data.startswith(header_regex):
+                if header_regex != ":20:":
+                    data = data.replace(header_regex, "")
+                for statement in data.split(":20:"):
+                    match = "{4:\n:20:" + statement + "}"
+                    matches.append(match)
+            else:
+                tag_re = re.compile(r"(\{4:[^{}]+\})", re.MULTILINE)
+                matches = tag_re.findall(data)
+            return matches
+        return []
 
     def parse(self, data, header_lines=None):
         """Parse mt940 bank statement file contents."""
@@ -201,43 +214,47 @@ class MT940Parser(models.AbstractModel):
         data = "".join([str(x) for x in data if str(x) in printable])
 
         matches = self.pre_process_data(data)
-        statements = []
-        result = {
-            "currency": None,
-            "account_number": None,
-            "statement": None,
-        }
-        if not header_lines:
-            header_lines = self.get_header_lines()
-        for match in matches:
-            self.is_mt940_statement(line=match)
-            iterator = "\n".join(match.split("\n")[1:]).split("\n").__iter__()
-            line = None
-            record_line = ""
-            try:
-                while True:
-                    if not result["statement"]:
-                        result["statement"] = self.handle_header(iterator, header_lines)
-                    line = next(iterator)
-                    if not self.is_tag(line) and not self.is_footer(line):
-                        record_line = self.add_record_line(line, record_line)
-                        continue
+        if matches:
+            statements = []
+            result = {
+                "currency": None,
+                "account_number": None,
+                "statement": None,
+            }
+            if not header_lines:
+                header_lines = self.get_header_lines()
+            for match in matches:
+                self.is_mt940_statement(line=match)
+                iterator = "\n".join(match.split("\n")[1:]).split("\n").__iter__()
+                line = None
+                record_line = ""
+                try:
+                    while True:
+                        if not result["statement"]:
+                            result["statement"] = self.handle_header(
+                                iterator, header_lines
+                            )
+                        line = next(iterator)
+                        if not self.is_tag(line) and not self.is_footer(line):
+                            record_line = self.add_record_line(line, record_line)
+                            continue
+                        if record_line:
+                            self.handle_record(record_line, result)
+                        if self.is_footer(line):
+                            statements.append(result["statement"])
+                            result["statement"] = None
+                            record_line = ""
+                            continue
+                        record_line = line
+                except StopIteration:
+                    pass
+                if result["statement"]:
                     if record_line:
                         self.handle_record(record_line, result)
-                    if self.is_footer(line):
-                        statements.append(result["statement"])
-                        result["statement"] = None
-                        record_line = ""
-                        continue
-                    record_line = line
-            except StopIteration:
-                pass
-            if result["statement"]:
-                if record_line:
-                    self.handle_record(record_line, result)
-                statements.append(result["statement"])
-                result["statement"] = None
-        return result["currency"], result["account_number"], statements
+                    statements.append(result["statement"])
+                    result["statement"] = None
+            return result["currency"], result["account_number"], statements
+        return False
 
     def add_record_line(self, line, record_line):
         record_line += line
@@ -318,19 +335,18 @@ class MT940Parser(models.AbstractModel):
         """get transaction values"""
         tag_61_regex = self.get_tag_61_regex()
         re_61 = tag_61_regex.match(data)
-        if not re_61:
-            raise ValueError("Cannot parse %s" % data)
-        parsed_data = re_61.groupdict()
-        if parsed_data and result["statement"]:
-            result["statement"]["transactions"].append({})
-            transaction = result["statement"]["transactions"][-1]
-            transaction["date"] = datetime.strptime(data[:6], "%y%m%d")
-            transaction["amount"] = self.parse_amount(
-                parsed_data["sign"], parsed_data["amount"]
-            )
-            transaction["ref"] = parsed_data["reference"]
-            if parsed_data.get("account_number"):
-                transaction["account_number"] = parsed_data["account_number"]
+        if re_61:
+            parsed_data = re_61.groupdict()
+            if parsed_data and result["statement"]:
+                result["statement"]["transactions"].append({})
+                transaction = result["statement"]["transactions"][-1]
+                transaction["date"] = datetime.strptime(data[:6], "%y%m%d")
+                transaction["amount"] = self.parse_amount(
+                    parsed_data["sign"], parsed_data["amount"]
+                )
+                transaction["ref"] = parsed_data["reference"]
+                if parsed_data.get("account_number"):
+                    transaction["account_number"] = parsed_data["account_number"]
         return result
 
     def handle_tag_62M(self, data, result):

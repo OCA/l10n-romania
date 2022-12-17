@@ -3,12 +3,14 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 from odoo import fields
 from odoo.modules.module import get_module_resource
+from odoo.tests import tagged
 
 from odoo.addons.l10n_ro_account_bank_statement_import_mt940_base.tests.common import (
     TestMT940BankStatementImport,
 )
 
 
+@tagged("post_install", "-at_install")
 class TestImport(TestMT940BankStatementImport):
     def setUp(self):
         super(TestImport, self).setUp()
@@ -58,7 +60,6 @@ class TestImport(TestMT940BankStatementImport):
                 "10",
                 "2022,",
                 "Decontare",
-                "",
             ],
             "Platitor": [
                 "",
@@ -90,7 +91,6 @@ class TestImport(TestMT940BankStatementImport):
                 "/RFB/31/20221028/20221031",
             ],
         }
-
         self.assertTrue(res == espected_res)
 
     def test_handle_common_subfields(self):

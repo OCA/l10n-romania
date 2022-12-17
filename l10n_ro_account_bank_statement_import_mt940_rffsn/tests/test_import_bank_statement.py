@@ -3,12 +3,14 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 from odoo import fields
 from odoo.modules.module import get_module_resource
+from odoo.tests import tagged
 
 from odoo.addons.l10n_ro_account_bank_statement_import_mt940_base.tests.common import (
     TestMT940BankStatementImport,
 )
 
 
+@tagged("post_install", "-at_install")
 class TestImport(TestMT940BankStatementImport):
     def setUp(self):
         super(TestImport, self).setUp()
@@ -62,12 +64,11 @@ RGER LOGISTICS ROU"""
         res = parser.get_subfields(self.data, self.codewords)
         espected_res = {
             "20": ["F.2059628"],
-            "30": ["RAIFFEISEN BANK S.A."],
-            "31": ["RO05RZBR0000060003144073"],
-            "32": ["QUEHENBERGER LOGISTICS ROU"],
             "24": ["Ref.Doc 2268/OPMC"],
+            "30": ["RAIFFEIS EN BANK S.A."],
+            "31": ["RO05RZBR0000060003144073"],
+            "32": ["QUEHENBE RGER LOGISTICS ROU"],
         }
-
         self.assertTrue(res == espected_res)
 
     def test_handle_common_subfields(self):

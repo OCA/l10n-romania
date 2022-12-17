@@ -3,10 +3,12 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 from odoo import fields
 from odoo.modules.module import get_module_resource
+from odoo.tests import tagged
 
 from .common import TestMT940BankStatementImport
 
 
+@tagged("post_install", "-at_install")
 class TestImport(TestMT940BankStatementImport):
     def setUp(self):
         super(TestImport, self).setUp()
@@ -111,5 +113,4 @@ class TestImport(TestMT940BankStatementImport):
         parser = self.env["l10n.ro.account.bank.statement.import.mt940.parser"]
         parser = parser.with_context(type="mt940_general")
         datafile = open(testfile, "rb").read()
-        with self.assertRaises(ValueError):
-            parser.parse(datafile, header_lines=1)
+        self.assertFalse(parser.parse(datafile, header_lines=1))

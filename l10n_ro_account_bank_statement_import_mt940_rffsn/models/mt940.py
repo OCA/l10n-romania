@@ -23,7 +23,7 @@ class MT940Parser(models.AbstractModel):
         return super().get_tag_61_regex()
 
     def get_header_lines(self):
-        if self.env.context.get("type") == "mt940_ro_rffsn":
+        if self.get_mt940_type() == "mt940_ro_rffsn":
             return 1
         return super().get_header_lines()
 
@@ -54,7 +54,7 @@ class MT940Parser(models.AbstractModel):
         return super().get_codewords()
 
     def get_subfield_split_text(self):
-        if self.env.context.get("type") == "mt940_ro_rffsn":
+        if self.get_mt940_type() == "mt940_ro_rffsn":
             return "^"
         return super().get_subfield_split_text()
 
@@ -62,8 +62,13 @@ class MT940Parser(models.AbstractModel):
         if self.get_mt940_type() == "mt940_ro_rffsn":
             subfields = {}
             current_codeword = None
-            data = data.replace("\n", "")
+            data = data.replace("\n", " ")
+
+            # pentru eliminarea spatiilor din codewords (in data)
+            data = self._clean_codewords(data, codewords)
+
             for word in data.split(self.get_subfield_split_text()):
+                word = word.strip()
                 if not word and not current_codeword:
                     continue
                 if word[:2] in codewords:
@@ -82,6 +87,10 @@ class MT940Parser(models.AbstractModel):
             counterpart_fields = []
             for counterpart_field in ["31", "32", "33"]:
                 if counterpart_field in subfields:
+                    if counterpart_field == "31":
+                        subfields[counterpart_field][0] = subfields[counterpart_field][
+                            0
+                        ].replace(" ", "")
                     new_value = subfields[counterpart_field][0].replace("CUI/CNP", "")
                     counterpart_fields.append(new_value)
                 else:
@@ -103,12 +112,13 @@ class MT940Parser(models.AbstractModel):
 
     def handle_tag_28C(self, data, result):
         """Sequence number within batch - normally only zeroes."""
-        if result["statement"]:
+        if result["statement"] and self.get_mt940_type() == "mt940_ro_rffsn":
             if result["statement"]["name"]:
                 result["statement"]["name"] += " - " + data
             else:
                 result["statement"]["name"] = data
-        return result
+            return result
+        return super().handle_tag_28C(data, result)
 
     def handle_tag_62F(self, data, result):
         """Get ending balance, statement date and id.
@@ -124,7 +134,7 @@ class MT940Parser(models.AbstractModel):
         Depending on the bank, there might be multiple 62F tags in the import
         file. The last one counts.
         """
-        if result["statement"]:
+        if result["statement"] and self.get_mt940_type() == "mt940_ro_rffsn":
             result["statement"]["balance_end_real"] = self.parse_amount(
                 data[0], data[10:]
             )
@@ -143,4 +153,5 @@ class MT940Parser(models.AbstractModel):
                     result["statement"]["name"] += " - " + result["statement"][
                         "date"
                     ].strftime("%Y-%m-%d")
-        return result
+            return result
+        return super().handle_tag_62F(data, result)
