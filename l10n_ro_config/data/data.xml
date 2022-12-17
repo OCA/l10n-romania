@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="l10n_ro.ro_chart_template" model="account.chart.template">
+        <field name="property_stock_account_input_categ_id" ref="l10n_ro.pcg_371" />
+        <field name="property_stock_account_output_categ_id" ref="l10n_ro.pcg_371" />
+        <field name="property_stock_valuation_account_id" ref="l10n_ro.pcg_371" />
+    </record>
+</odoo>
