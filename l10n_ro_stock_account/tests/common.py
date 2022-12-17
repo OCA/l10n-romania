@@ -221,7 +221,7 @@ class TestStockCommon(ValuationReconciliationTestCommon):
         cls.adaos_p2_f = round(cls.val_p2_store - cls.val_p2_f, 2)
 
         warehouse = cls.company_data["default_warehouse"]
-
+        cls.warehouse = warehouse
         picking_type_in = warehouse.in_type_id
         location = picking_type_in.default_location_dest_id
 
@@ -367,14 +367,16 @@ class TestStockCommon(ValuationReconciliationTestCommon):
         so = Form(self.env["sale.order"])
         so.partner_id = self.client
 
+        so.warehouse_id = self.warehouse
         with so.order_line.new() as so_line:
             so_line.product_id = self.product_1
             so_line.product_uom_qty = self.qty_so_p1
-            # so_line.price_unit = self.p
+            so_line.price_unit = self.list_price_p1
 
         with so.order_line.new() as so_line:
             so_line.product_id = self.product_2
             so_line.product_uom_qty = self.qty_so_p2
+            so_line.price_unit = self.list_price_p2
 
         self.so = so.save()
         self.so.action_confirm()
@@ -482,6 +484,30 @@ class TestStockCommon(ValuationReconciliationTestCommon):
             if valuation["product_id"][0] == self.product_2.id:
                 _logger.info("Check account P2 {} = {}".format(val, val_p2))
                 self.assertAlmostEqual(val, val_p2)
+
+    def show_account_valuation(self, account):
+        domain = [
+            ("product_id", "in", [self.product_1.id, self.product_2.id]),
+            ("account_id", "=", account.id),
+            ("parent_state", "=", "posted"),
+        ]
+        account_valuations = self.env["account.move.line"].read_group(
+            domain, ["debit:sum", "credit:sum", "quantity:sum"], ["product_id"]
+        )
+        for valuation in account_valuations:
+            val = round(valuation["debit"] - valuation["credit"], 2)
+            if valuation["product_id"][0] == self.product_1.id:
+                _logger.info("Show account P1 {}  ".format(val))
+            if valuation["product_id"][0] == self.product_2.id:
+                _logger.info("Show account P2 {}  ".format(val))
+
+        account_valuations = self.env["account.move.line"].search(domain)
+        for line in account_valuations:
+            _logger.info(
+                "move line:  {} {} {}".format(
+                    line.account_id.name, line.debit, line.credit
+                )
+            )
 
     def check_account_diff(self, val_p1, val_p2):
         self.check_account_valuation(val_p1, val_p2, self.account_difference)
