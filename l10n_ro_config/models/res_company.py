@@ -108,6 +108,17 @@ class ResCompany(models.Model):
         "for the duty commissions.",
     )
 
+    l10n_ro_stock_account_svl_lot_allocation = fields.Boolean(
+        string="Romania - Stock Accounting Valuation Lot/Serial allocation",
+        help="If this field is checked and the company use Romanian Accounting,"
+        "the value used for stock out operations will be the value recorded at the "
+        "reception of the lot/serial, ignoring FIFO rule;"
+        "If this field is NOT checked and the company use Romanian Accounting,"
+        "the value used for stock out operations will be the value provided by FIFO rule, "
+        "applied strictly on a location level (including its children)",
+        default=False,
+    )
+
     def _check_is_l10n_ro_record(self, company=False):
         if not company:
             company = self

@@ -16,23 +16,28 @@ class ProductProduct(models.Model):
     _inherit = ["product.product", "l10n.ro.mixin"]
 
     @api.depends("stock_valuation_layer_ids")
-    @api.depends_context("to_date", "company", "location_id")
+    @api.depends_context("to_date", "company", "location_id", "lot_id")
     def _compute_value_svl(self):
         """Compute `value_svl` and `quantity_svl`.
         Overwrite to allow multiple prices per location
         """
         l10n_ro_records = self.filtered("is_l10n_ro_record")
-        if self - l10n_ro_records:
-            super(ProductProduct, self - l10n_ro_records)._compute_value_svl()
+        super(ProductProduct, self - l10n_ro_records)._compute_value_svl()
 
-        if l10n_ro_records and self.env.context.get("location_id"):
-            company_id = self.env.company.id
+        if l10n_ro_records:
+            company = self.env.company
+            use_svl_lot_config = company.l10n_ro_stock_account_svl_lot_allocation
+            domain_ctx = [
+                ("l10n_ro_location_dest_id", "=", self.env.context.get("location_id"))
+            ]
+            if use_svl_lot_config:
+                domain_ctx += ("l10n_ro_lot_id", "=", self.env.context.get("lot_id"))
             domain = [
                 ("product_id", "in", l10n_ro_records.ids),
-                ("company_id", "=", company_id),
+                ("company_id", "=", company.id),
                 ("remaining_qty", ">", 0),
-                ("l10n_ro_location_dest_id", "=", self.env.context.get("location_id")),
-            ]
+            ] + domain_ctx
+
             if self.env.context.get("to_date"):
                 to_date = fields.Datetime.to_datetime(self.env.context["to_date"])
                 domain.append(("create_date", "<=", to_date))
@@ -50,8 +55,6 @@ class ProductProduct(models.Model):
             remaining = l10n_ro_records - products
             remaining.value_svl = 0
             remaining.quantity_svl = 0
-        else:
-            super()._compute_value_svl()
 
     def _prepare_out_svl_vals(self, quantity, company):
         # FOr Romania, prepare a svl vals list for each svl reserved
@@ -107,7 +110,10 @@ class ProductProduct(models.Model):
             vals_list = [vals_tpl]
         return vals_list
 
-    def _l10n_ro_prepare_domain_fifo(self, domain=None):
+    def _l10n_ro_prepare_domain_fifo(self, company, domain=None):
+        if company is None:
+            company = self.env.company
+
         if not domain:
             domain = []
         lot_id = loc_id = None
@@ -122,7 +128,9 @@ class ProductProduct(models.Model):
                 if isinstance(stock_move_line, models.Model):
                     loc_id = stock_move_line.location_id
                     lot_id = stock_move_line.lot_id
-        if self.tracking in ["lot", "serial"] and lot_id:
+
+        use_svl_lot_config = company.l10n_ro_stock_account_svl_lot_allocation
+        if self.tracking in ["lot", "serial"] and lot_id and use_svl_lot_config:
             domain += [("l10n_ro_lot_ids", "in", lot_id.id)]
         if loc_id:
             domain += [("l10n_ro_location_dest_id", "child_of", loc_id.id)]
@@ -133,9 +141,10 @@ class ProductProduct(models.Model):
             return super(ProductProduct, self)._run_fifo(quantity, company)
 
         self.ensure_one()
-        domain = self._l10n_ro_prepare_domain_fifo([("product_id", "=", self.id)]) + [
+        domain = self._l10n_ro_prepare_domain_fifo(
+            company, [("product_id", "=", self.id)]
+        ) + [
             ("remaining_qty", ">", 0),
-            ("remaining_value", ">", 0),
             ("company_id", "=", company.id),
         ]
         if self.env.context.get("origin_return_candidates"):
@@ -223,7 +232,7 @@ class ProductProduct(models.Model):
         self.ensure_one()
 
         domain_svls_to_vacum = self._l10n_ro_prepare_domain_fifo(
-            [("product_id", "=", self.id)]
+            company, [("product_id", "=", self.id)]
         ) + [
             ("remaining_qty", "<", 0),
             ("stock_move_id", "!=", False),
@@ -238,7 +247,9 @@ class ProductProduct(models.Model):
         if not svls_to_vacuum:
             return
 
-        domain = self._l10n_ro_prepare_domain_fifo([("product_id", "=", self.id)]) + [
+        domain = self._l10n_ro_prepare_domain_fifo(
+            company, [("product_id", "=", self.id)]
+        ) + [
             ("company_id", "=", company.id),
             ("remaining_qty", ">", 0),
             ("create_date", ">=", svls_to_vacuum[0].create_date),

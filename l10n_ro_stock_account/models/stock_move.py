@@ -39,28 +39,31 @@ class StockMove(models.Model):
     def _get_price_unit(self):
         # La fel ca in baza, doar ca nu mai face rotunjire de price_unit
         self.ensure_one()
-        price_unit = self.price_unit
-        precision = self.env["decimal.precision"].precision_get("Product Price")
-        # If the move is a return, use the original move's price unit.
-        if (
-            self.origin_returned_move_id
-            and self.origin_returned_move_id.sudo().stock_valuation_layer_ids
-        ):
-            layers = self.origin_returned_move_id.sudo().stock_valuation_layer_ids
-            quantity = sum(layers.mapped("quantity"))
-            return (
-                sum(layers.mapped("value")) / quantity
-                if not float_is_zero(
-                    quantity, precision_rounding=layers.uom_id.rounding
+        if self.is_l10n_ro_record:
+            price_unit = self.price_unit
+            precision = self.env["decimal.precision"].precision_get("Product Price")
+            # If the move is a return, use the original move's price unit.
+            if (
+                self.origin_returned_move_id
+                and self.origin_returned_move_id.sudo().stock_valuation_layer_ids
+            ):
+                layers = self.origin_returned_move_id.sudo().stock_valuation_layer_ids
+                quantity = sum(layers.mapped("quantity"))
+                return (
+                    sum(layers.mapped("value")) / quantity
+                    if not float_is_zero(
+                        quantity, precision_rounding=layers.uom_id.rounding
+                    )
+                    else 0
                 )
-                else 0
+            return (
+                price_unit
+                if not float_is_zero(price_unit, precision)
+                or self._should_force_price_unit()
+                else self.product_id.standard_price
             )
-        return (
-            price_unit
-            if not float_is_zero(price_unit, precision)
-            or self._should_force_price_unit()
-            else self.product_id.standard_price
-        )
+        else:
+            return super()._get_price_unit()
 
     # nu se mai face in mod automat evaluarea la intrare in stoc
     def _create_in_svl(self, forced_quantity=None):
@@ -88,7 +91,8 @@ class StockMove(models.Model):
                         and move.origin_returned_move_id.sudo().stock_valuation_layer_ids
                     ):
                         origin_domain = move.product_id._l10n_ro_prepare_domain_fifo(
-                            [("product_id", "=", valued_move_line.product_id.id)]
+                            move.company_id,
+                            [("product_id", "=", valued_move_line.product_id.id)],
                         )
                         origin_domain = [
                             (

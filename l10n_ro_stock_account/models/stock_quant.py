@@ -11,13 +11,18 @@ _logger = logging.getLogger(__name__)
 
 
 class StockQuant(models.Model):
-    _inherit = "stock.quant"
+    _name = "stock.quant"
+    _inherit = ["stock.quant", "l10n.ro.mixin"]
 
-    @api.depends("company_id", "location_id", "owner_id", "product_id", "quantity")
+    @api.depends(
+        "company_id", "location_id", "owner_id", "product_id", "quantity", "lot_id"
+    )
     def _compute_value(self):
-        quants_with_loc = self.filtered(lambda q: q.location_id)
+        ro_quants = self.filtered(lambda quant: quant.is_l10n_ro_record)
+        super(StockQuant, self - ro_quants)._compute_value()
+        quants_with_loc = ro_quants.filtered(lambda q: q.location_id)
         for quant in quants_with_loc:
-            super(
-                StockQuant, quant.with_context(location_id=quant.location_id.id)
-            )._compute_value()
-        return super(StockQuant, self - quants_with_loc)._compute_value()
+            quant = quant.with_context(
+                location_id=quant.location_id.id, lot_id=self.lot_id
+            )
+            super(StockQuant, quant)._compute_value()
