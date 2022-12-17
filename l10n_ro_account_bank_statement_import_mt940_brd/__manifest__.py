@@ -8,7 +8,7 @@
     "summary": "Romania - Import bank statements from BRD",
     "depends": ["l10n_ro_account_bank_statement_import_mt940_base"],
     "license": "AGPL-3",
-    "version": "14.0.1.1.0",
+    "version": "14.0.1.2.0",
     "author": "NextERP Romania,"
     "Forest and Biomass Romania,"
     "Odoo Community Association (OCA)",
