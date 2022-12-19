@@ -19,7 +19,7 @@ class TestStockSaleLandedCost(TestStockCommon):
             chart_template_ref=chart_template_ref
         )
 
-    def create_lc(self, picking):
+    def create_lc(self, picking, lc_p1, lc_p2):
         default_vals = self.env["stock.landed.cost"].default_get(
             list(self.env["stock.landed.cost"].fields_get())
         )
@@ -34,7 +34,7 @@ class TestStockSaleLandedCost(TestStockCommon):
         cost_lines_values = {
             "name": ["equal split"],
             "split_method": ["equal"],
-            "price_unit": [20],  # 10 pt product_1 + 10 pt product_2
+            "price_unit": [lc_p1 + lc_p2],
         }
         stock_landed_cost_1 = self.env["stock.landed.cost"].new(default_vals)
         for index, cost_line in enumerate(stock_landed_cost_1.cost_lines):
@@ -56,9 +56,11 @@ class TestStockSaleLandedCost(TestStockCommon):
 
         # iesire din stoc prin vanzare 2 buc p1
         self.qty_so_p1 = 2
+
+        # iesire din stock prin vanzare 10 buc p2
         self.qty_so_p2 = self.qty_po_p2
         out_ship = self.create_so()
-        self.create_lc(income_ship)
+        self.create_lc(income_ship, 10, 10)
 
         # verificare SVLs reception
         move_po_p1 = income_ship.move_lines.filtered(
@@ -74,16 +76,21 @@ class TestStockSaleLandedCost(TestStockCommon):
         svls_in_p2 = move_po_p2.stock_valuation_layer_ids
         self.assertEqual(len(svls_in_p2), 2)
 
-        # 10 * 50 este primul svl in (create de PO)
+        # 10 * 50 este primul svl reception (create de PO)
         # 10 este SVL creat de LC, si atasat de move-ul de receptie
-        # 10 * 50 + 8 = 508 (p1_in_final)
-        p1_in_final = self.qty_po_p1 * self.price_p1 + 10
-        self.assertEqual(sum(svls_in_p1.mapped("value")), p1_in_final)
-        self.assertEqual(svls_in_p1[0].remaining_value, p1_in_final - (2 * 50) - 2)
+        # 10 * 50 + 10 = 510 (p1_in_val)
+        p1_in_val = self.qty_po_p1 * self.price_p1 + 10
+        self.assertEqual(sum(svls_in_p1.mapped("value")), p1_in_val)
 
-        p2_in_final = self.qty_po_p2 * self.price_p2 + 10
-        self.assertEqual(sum(svls_in_p2.mapped("value")), p2_in_final)
-        self.assertEqual(svls_in_p2[0].remaining_value, 0)
+        p1_in_remaining_val = p1_in_val - (self.qty_so_p1 * self.price_p1) - 2  # 408
+        self.assertEqual(svls_in_p1[0].remaining_value, p1_in_remaining_val)
+
+        p2_in_val = self.qty_po_p2 * self.price_p2 + 10
+        self.assertEqual(sum(svls_in_p2.mapped("value")), p2_in_val)
+
+        p2_in_remaining_val = p2_in_val - (self.qty_so_p2 * self.price_p2) - 10  # = 0
+        self.assertEqual(p2_in_remaining_val, 0)
+        self.assertEqual(svls_in_p2[0].remaining_value, p2_in_remaining_val)
 
         # verificare SVLs delivery
         move_so_p1 = out_ship.move_lines.filtered(
@@ -96,15 +103,16 @@ class TestStockSaleLandedCost(TestStockCommon):
         svls_out_p1 = move_so_p1.stock_valuation_layer_ids
         self.assertEqual(len(svls_out_p1), 2)
 
-        svls_out_p2 = move_so_p2.stock_valuation_layer_ids
-        # LC nu a creat nici un SVL in plus pentru product_2
-        self.assertEqual(len(svls_out_p2), 2)
-
         # -(-2) * 50 este primul svl delivery (create de SO)
         # -2 este SVL creat de LC, si atasat de move-ul de delivery
         # (-2) * 50 - 2 = -102 (p1_out_final)
         p1_out_final = (-1) * self.qty_so_p1 * self.price_p1 - 2
         self.assertEqual(sum(svls_out_p1.mapped("value")), p1_out_final)
 
+        svls_out_p2 = move_so_p2.stock_valuation_layer_ids
+        # LC nu a creat nici un SVL in plus pentru product_2
+        self.assertEqual(len(svls_out_p2), 2)
+
+        # -10 este SVL creat de LC, si atasat de move-ul de delivery
         p2_out_final = (-1) * self.qty_so_p2 * self.price_p2 - 10
         self.assertEqual(sum(svls_out_p2.mapped("value")), p2_out_final)
