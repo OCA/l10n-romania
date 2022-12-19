@@ -20,6 +20,13 @@ class StockLandedCost(models.Model):
     )
 
     def _prepare_landed_cost_svl_vals(self, line, linked_layer, amount):
+        if line:
+            stock_move_id = line.move_id
+            product_id = line.move_id.product_id
+        else:
+            stock_move_id = linked_layer.stock_move_id
+            product_id = linked_layer.stock_move_id.product_id
+
         return {
             "value": amount,
             "unit_cost": 0,
@@ -27,9 +34,9 @@ class StockLandedCost(models.Model):
             "remaining_qty": 0,
             "stock_valuation_layer_id": linked_layer.id,
             "description": self.name,
-            "stock_move_id": line.move_id.id,
+            "stock_move_id": stock_move_id.id,
             "l10n_ro_stock_move_line_id": linked_layer.l10n_ro_stock_move_line_id.id,
-            "product_id": line.move_id.product_id.id,
+            "product_id": product_id.id,
             "stock_landed_cost_id": self.id,
             "company_id": self.company_id.id,
         }
@@ -38,6 +45,45 @@ class StockLandedCost(models.Model):
         vals = self._prepare_landed_cost_svl_vals(line, linked_layer, amount)
         valuation_layer = self.env["stock.valuation.layer"].create(vals)
         return valuation_layer
+
+    def l10n_ro_create_diff_valuation_layer(self, line, linked_layer, amount):
+        """
+        Aici sunt in cazul in care s-au facut deja niste livrari inainte
+        sa se inregistreze landed cost.
+
+        Va trebui ca noul landed cost cu valoarea <amount> sa fie legat
+        de svl-ul de iesire (de obicei acesta o sa aiba
+        valued_type = delivery). Daca sunt mai multe svl-uri, atunci
+        trebuie sa se distribuie <amount> proportional pt fiecare svl out
+
+        Totodata nu trebuie luate in calcul retururile la furnizor
+        (care sunt tot out-uri)
+        """
+        valuation_layer_ids = []
+        out_svls = linked_layer.l10n_ro_svl_dest_ids.filtered(
+            lambda svl: "_return" not in svl.l10n_ro_valued_type
+        )
+        if out_svls:
+            qty_out_total = abs(sum(out_svls.mapped("quantity")))
+            if qty_out_total > 0:
+                for out_svl in out_svls:
+                    amount_ratio = abs(out_svl.quantity / qty_out_total)
+                    am = amount_ratio * amount
+                    valuation_layer_out = self.l10n_ro_create_valuation_layer(
+                        None,
+                        out_svl,
+                        am,
+                    )
+                    valuation_layer_ids.append(valuation_layer_out.id)
+
+        else:
+            valuation_layer_out = self.l10n_ro_create_valuation_layer(
+                line,
+                linked_layer,
+                amount,
+            )
+            valuation_layer_ids.append(valuation_layer_out.id)
+        return valuation_layer_ids
 
     def button_validate(self):
         # Overwrite method for Romania to extract stock valuation layer
@@ -85,19 +131,19 @@ class StockLandedCost(models.Model):
 
                 # Romania change to create separate valuation layer for price difference
                 # and for the quantity out difference
-                if not cost.company_id.currency_id.is_zero(cost_to_add):
-                    valuation_layer = cost.l10n_ro_create_valuation_layer(
-                        line, linked_layer, line.additional_landed_cost
+                valuation_layer = cost.l10n_ro_create_valuation_layer(
+                    line, linked_layer, line.additional_landed_cost
+                )
+                linked_layer.remaining_value += cost_to_add
+                valuation_layer_ids.append(valuation_layer.id)
+                if cost_to_add - line.additional_landed_cost != 0:
+                    valuation_layer_out = cost.l10n_ro_create_diff_valuation_layer(
+                        line,
+                        linked_layer,
+                        cost_to_add - line.additional_landed_cost,
                     )
-                    linked_layer.remaining_value += cost_to_add
-                    valuation_layer_ids.append(valuation_layer.id)
-                    if cost_to_add - line.additional_landed_cost != 0:
-                        valuation_layer_out = cost.l10n_ro_create_valuation_layer(
-                            line,
-                            linked_layer,
-                            cost_to_add - line.additional_landed_cost,
-                        )
-                        valuation_layer_ids.append(valuation_layer_out.id)
+                    valuation_layer_ids += valuation_layer_out
+
                 # End Romania change
 
                 # Update the AVCO

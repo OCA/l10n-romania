@@ -405,6 +405,7 @@ class TestStockCommon(ValuationReconciliationTestCommon):
         # self.picking.button_validate()
         self.picking._action_done()
         _logger.debug("Livrare facuta")
+        return self.picking
 
     def create_sale_invoice(self, diff_p1=0, diff_p2=0):
         # invoice on order
