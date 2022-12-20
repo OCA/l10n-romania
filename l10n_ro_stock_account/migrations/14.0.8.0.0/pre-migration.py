@@ -30,7 +30,7 @@ def migrate(cr, version):
         )
 
     if not openupgrade.column_exists(
-        "stock_valuation_layer", "l10n_ro_stock_move_line_id"
+        cr, "stock_valuation_layer", "l10n_ro_stock_move_line_id"
     ):
         # initializare svl.l10n_ro_stock_move_line_id
         openupgrade.logged_query(
@@ -55,7 +55,9 @@ def migrate(cr, version):
             """,
         )
 
-    if not openupgrade.column_exists("stock_valuation_layer", "l10n_ro_location_id"):
+    if not openupgrade.column_exists(
+        cr, "stock_valuation_layer", "l10n_ro_location_id"
+    ):
         # initializare svl.l10n_ro_location_id, svl.l10n_ro_location_dest_id
         openupgrade.logged_query(
             cr,
