@@ -30,8 +30,12 @@ class ProductProduct(models.Model):
             domain_ctx = [
                 ("l10n_ro_location_dest_id", "=", self.env.context.get("location_id"))
             ]
-            if use_svl_lot_config:
-                domain_ctx += ("l10n_ro_lot_id", "=", self.env.context.get("lot_id"))
+            if use_svl_lot_config and self.env.context.get("lot_id"):
+                domain_ctx += (
+                    "l10n_ro_lot_ids",
+                    "in",
+                    [self.env.context.get("lot_id")],
+                )
             domain = [
                 ("product_id", "in", l10n_ro_records.ids),
                 ("company_id", "=", company.id),
@@ -131,7 +135,7 @@ class ProductProduct(models.Model):
 
         use_svl_lot_config = company.l10n_ro_stock_account_svl_lot_allocation
         if self.tracking in ["lot", "serial"] and lot_id and use_svl_lot_config:
-            domain += [("l10n_ro_lot_ids", "in", lot_id.id)]
+            domain += [("l10n_ro_lot_ids", "in", [lot_id.id])]
         if loc_id:
             domain += [("l10n_ro_location_dest_id", "child_of", loc_id.id)]
         return domain
