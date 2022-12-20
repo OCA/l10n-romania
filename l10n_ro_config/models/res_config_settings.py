@@ -109,6 +109,7 @@ class ResConfigSettings(models.TransientModel):
         related="company_id.l10n_ro_stock_account_svl_lot_allocation",
         readonly=False,
     )
+    l10n_ro_stock_account_svl_lot_allocation_visible = fields.Boolean(default=False)
 
     module_currency_rate_update_RO_BNR = fields.Boolean(
         "Currency Rate Update BNR",
@@ -244,3 +245,14 @@ class ResConfigSettings(models.TransientModel):
 
         if warning:
             return {"warning": {"title": _("Notification !"), "message": warning}}
+
+    @api.model
+    def default_get(self, fields):
+        res = super().default_get(fields)
+
+        IrModule = self.env["ir.module.module"]
+        stock_mod = IrModule.search([("name", "=", "stock")])
+        res["l10n_ro_stock_account_svl_lot_allocation_visible"] = (
+            stock_mod.state == "installed"
+        )
+        return res

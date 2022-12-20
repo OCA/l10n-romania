@@ -377,9 +377,14 @@
                                 </div>
                             </div>
                         </div>
+                        <field
+                            name="l10n_ro_stock_account_svl_lot_allocation_visible"
+                            invisible="1"
+                        />
                         <div
                             class="col-12 col-lg-6 o_setting_box"
                             id="module_l10n_ro_stock_account_svl_allocation_config"
+                            attrs="{'invisible': [('l10n_ro_stock_account_svl_lot_allocation_visible', '=', False)]}"
                         >
                             <div
                                 class="content-group"
