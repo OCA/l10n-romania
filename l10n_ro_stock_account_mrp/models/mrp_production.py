@@ -2,11 +2,14 @@ from odoo import models
 
 
 class MrpProduction(models.Model):
-    _inherit = "mrp.production"
+    _name = "mrp.production"
+    _inherit = ["mrp.production", "l10n.ro.mixin"]
 
     def _cal_price(self, consumed_moves):
-        """Set a price unit on the finished move according to `consumed_moves`."""
-        super(MrpProduction, self)._cal_price(consumed_moves)
+        self.ensure_one()
+        if not self.is_l10n_ro_record:
+            return super()._cal_price(consumed_moves)
+
         work_center_cost = 0
         finished_move = self.move_finished_ids.filtered(
             lambda x: x.product_id == self.product_id
