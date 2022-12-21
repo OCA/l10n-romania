@@ -14,53 +14,6 @@ _logger = logging.getLogger(__name__)
 
 @tagged("post_install", "-at_install")
 class TestStockReport(TestStockCommon):
-    def set_stock(self, product, qty):
-        inventory = self.env["stock.inventory"].create(
-            {
-                "location_ids": [(4, self.location_warehouse.id)],
-                "product_ids": [(4, product.id)],
-            }
-        )
-        inventory.action_start()
-
-        inventory.line_ids.product_qty = qty
-        inventory.action_validate()
-
-    def trasfer(self, location, location_dest, product=None, accounting_date=False):
-        self.PickingObj = self.env["stock.picking"]
-        self.MoveObj = self.env["stock.move"]
-        self.MoveObj = self.env["stock.move"]
-
-        if not product:
-            product = self.product_mp
-
-        picking = self.PickingObj.create(
-            {
-                "picking_type_id": self.picking_type_transfer.id,
-                "location_id": location.id,
-                "location_dest_id": location_dest.id,
-            }
-        )
-        self.MoveObj.create(
-            {
-                "name": product.name,
-                "product_id": product.id,
-                "product_uom_qty": 10,
-                "product_uom": product.uom_id.id,
-                "picking_id": picking.id,
-                "location_id": location.id,
-                "location_dest_id": location_dest.id,
-            }
-        )
-        if accounting_date:
-            picking.l10n_ro_accounting_date = accounting_date
-        picking.action_confirm()
-        picking.action_assign()
-        for move_line in picking.move_lines:
-            if move_line.product_uom_qty > 0 and move_line.quantity_done == 0:
-                move_line.write({"quantity_done": move_line.product_uom_qty})
-        return picking
-
     def test_transfer_backorder(self):
         self.set_stock(self.product_mp, 1000)
         acc_date = fields.Date.today() - timedelta(days=1)
@@ -69,9 +22,9 @@ class TestStockReport(TestStockCommon):
             {"l10n_ro_property_stock_valuation_account_id": self.account_valuation.id}
         )
         _logger.info("Start transfer")
-        picking = self.trasfer(location_id, location_dest_id)
-        picking.move_lines[0].move_line_ids[0].qty_done = 2
-        action_data = picking.button_validate()
+        self.transfer(location_id, location_dest_id, post=False)
+        self.picking.move_lines[0].move_line_ids[0].qty_done = 1
+        action_data = self.picking.button_validate()
         backorder_wizard = Form(
             self.env["stock.backorder.confirmation"].with_context(
                 action_data.get("context", {})
@@ -79,9 +32,9 @@ class TestStockReport(TestStockCommon):
         ).save()
         backorder_wizard.l10n_ro_accounting_date = acc_date
         backorder_wizard.process()
-        stock_move = picking.move_lines
+        stock_move = self.picking.move_lines
         _logger.info("Tranfer efectuat")
-        self.assertEqual(picking.l10n_ro_accounting_date.date(), acc_date)
+        self.assertEqual(self.picking.l10n_ro_accounting_date.date(), acc_date)
         self.assertEqual(stock_move.date.date(), acc_date)
         self.assertEqual(stock_move.move_line_ids.date.date(), acc_date)
         self.assertEqual(
@@ -98,9 +51,9 @@ class TestStockReport(TestStockCommon):
             {"l10n_ro_property_stock_valuation_account_id": self.account_valuation.id}
         )
         _logger.info("Start transfer")
-        picking = self.trasfer(location_id, location_dest_id)
-        picking.move_lines[0].move_line_ids[0].qty_done = 2
-        action_data = picking.button_validate()
+        self.transfer(location_id, location_dest_id, post=False)
+        self.picking.move_lines[0].move_line_ids[0].qty_done = 1
+        action_data = self.picking.button_validate()
         backorder_wizard = Form(
             self.env["stock.backorder.confirmation"].with_context(
                 action_data.get("context", {})
@@ -108,9 +61,9 @@ class TestStockReport(TestStockCommon):
         ).save()
         backorder_wizard.l10n_ro_accounting_date = acc_date
         backorder_wizard.process_cancel_backorder()
-        stock_move = picking.move_lines.filtered(lambda m: m.state == "done")
+        stock_move = self.picking.move_lines.filtered(lambda m: m.state == "done")
         _logger.info("Tranfer efectuat")
-        self.assertEqual(picking.l10n_ro_accounting_date.date(), acc_date)
+        self.assertEqual(self.picking.l10n_ro_accounting_date.date(), acc_date)
         self.assertEqual(stock_move.date.date(), acc_date)
         self.assertEqual(stock_move.move_line_ids.date.date(), acc_date)
         self.assertEqual(

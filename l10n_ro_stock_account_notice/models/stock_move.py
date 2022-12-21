@@ -157,7 +157,7 @@ class StockMove(models.Model):
         svl = self.env["stock.valuation.layer"]
         if self._is_delivery_notice():
             # inregistrare valoare vanzare
-            sale_cost = self._l10n_ro_get_sale_amount()
+            sale_price = -1 * self._l10n_ro_get_sale_price()
             move = self.with_context(valued_type="invoice_out_notice")
 
             (
@@ -167,12 +167,18 @@ class StockMove(models.Model):
                 acc_valuation,
             ) = move._get_accounting_data_for_valuation()
             move._create_account_move_line(
-                acc_valuation, acc_dest, journal_id, qty, description, svl, sale_cost
+                acc_valuation,
+                acc_dest,
+                journal_id,
+                qty,
+                description,
+                svl,
+                qty * sale_price,
             )
 
         if self._is_delivery_notice_return():
             # inregistrare valoare vanzare
-            sale_cost = -1 * self._l10n_ro_get_sale_amount()
+            sale_price = self._l10n_ro_get_sale_price()
             move = self.with_context(valued_type="invoice_out_notice")
 
             (
@@ -182,11 +188,17 @@ class StockMove(models.Model):
                 acc_valuation,
             ) = move._get_accounting_data_for_valuation()
             move._create_account_move_line(
-                acc_dest, acc_valuation, journal_id, qty, description, svl_id, sale_cost
+                acc_dest,
+                acc_valuation,
+                journal_id,
+                qty,
+                description,
+                svl_id,
+                qty * sale_price,
             )
         return res
 
-    def _l10n_ro_get_sale_amount(self):
+    def _l10n_ro_get_sale_price(self):
         valuation_amount = 0
         sale_line = self.sale_line_id
         if sale_line and sale_line.product_uom_qty:
@@ -194,7 +206,7 @@ class StockMove(models.Model):
             price_invoice = sale_line.product_uom._compute_price(
                 price_invoice, self.product_uom
             )
-            valuation_amount = price_invoice * abs(self.product_qty)
+            valuation_amount = price_invoice
             company = self.location_id.company_id or self.env.company
             valuation_amount = sale_line.order_id.currency_id._convert(
                 valuation_amount, company.currency_id, company, self.date

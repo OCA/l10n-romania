@@ -11,8 +11,7 @@ _logger = logging.getLogger(__name__)
 
 
 class AccountMove(models.Model):
-    _name = "account.move"
-    _inherit = ["account.move", "l10n.ro.mixin"]
+    _inherit = "account.move"
 
     def action_post(self):
         l10n_ro_records = self.filtered("is_l10n_ro_record")
@@ -22,6 +21,7 @@ class AccountMove(models.Model):
         if (
             len(self) == 1
             and self.move_type in ["in_invoice", "in_refund"]
+            and self.company_id.l10n_ro_accounting
             and not self.env.context.get("l10n_ro_approved_price_difference")
         ):
             action = self._l10n_ro_get_price_difference_check_action()
@@ -132,10 +132,9 @@ class AccountMove(models.Model):
                             line.l10n_ro_modify_stock_valuation(price_diff)
 
     def _stock_account_prepare_anglo_saxon_in_lines_vals(self):
-        lines_vals_list = []
-        l10n_ro_records = self.filtered(lambda m: m.is_l10n_ro_record)
-        if self - l10n_ro_records:
-            lines_vals_list = super(
-                AccountMove, self - l10n_ro_records
-            )._stock_account_prepare_anglo_saxon_in_lines_vals()
-        return lines_vals_list
+        l10n_ro_moves = self.filtered(lambda m: m.company_id.l10n_ro_accounting)
+        if l10n_ro_moves == self:
+            return []
+        return super(
+            AccountMove, self - l10n_ro_moves
+        )._stock_account_prepare_anglo_saxon_in_lines_vals()

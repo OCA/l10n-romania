@@ -11,9 +11,9 @@ _logger = logging.getLogger(__name__)
 
 
 @tagged("post_install", "-at_install")
-class TestStockSale(TestStockCommon):
+class TestStockInventory(TestStockCommon):
     def _plus_inventory(self):
-        self.make_puchase()
+        self.make_purchase()
 
         inventory = self.env["stock.inventory"].create(
             {
@@ -22,9 +22,8 @@ class TestStockSale(TestStockCommon):
             }
         )
         inventory.action_start()
-
         inventory.line_ids.product_qty = self.qty_po_p1 + 10
-        _logger.info("start plus inventory")
+        _logger.debug("start plus inventory")
         inventory.action_validate()
 
     def test_plus_inventory(self):
@@ -39,7 +38,7 @@ class TestStockSale(TestStockCommon):
         self._plus_inventory()
 
     def _minus_inventory(self):
-        self.make_puchase()
+        self.make_purchase()
 
         inventory = self.env["stock.inventory"].create(
             {
@@ -50,7 +49,7 @@ class TestStockSale(TestStockCommon):
         inventory.action_start()
 
         inventory.line_ids.product_qty = self.qty_po_p1 - 10
-        _logger.info("start minus inventory")
+        _logger.debug("start minus inventory")
         inventory.action_validate()
 
     def test_minus_inventory(self):

@@ -377,6 +377,45 @@
                                 </div>
                             </div>
                         </div>
+                        <field
+                            name="l10n_ro_stock_account_svl_lot_allocation_visible"
+                            invisible="1"
+                        />
+                        <div
+                            class="col-12 col-lg-6 o_setting_box"
+                            id="module_l10n_ro_stock_account_svl_allocation_config"
+                            attrs="{'invisible': [('l10n_ro_stock_account_svl_lot_allocation_visible', '=', False)]}"
+                        >
+                            <div
+                                class="content-group"
+                                attrs="{'invisible': [('module_l10n_ro_stock_account', '=', False)]}"
+                            >
+                                <div class="o_setting_left_pane">
+                                    <field
+                                        name="l10n_ro_stock_account_svl_lot_allocation"
+                                    />
+                                </div>
+                                <div class="o_setting_right_pane">
+                                    <label
+                                        for="l10n_ro_stock_account_svl_lot_allocation"
+                                    />
+                                    <span
+                                        class="fa fa-lg fa-building-o"
+                                        title="Values set here are company-specific."
+                                        role="img"
+                                        aria-label="Values set here are company-specific."
+                                    />
+                                    <div class="text-muted">
+                                        If this field is checked and the company use Romanian Accounting,
+                                        the value used for stock out operations will be the value recorded at the
+                                        reception of the lot/serial, ignoring FIFO rule;
+                                        If this field is NOT checked and the company use Romanian Accounting,
+                                        the value used for stock out operations will be the value provided by FIFO rule,
+                                        applied strictly on a location level (including its children)
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                         <div
                             class="col-12 col-lg-6 o_setting_box"
                             id="module_l10n_ro_stock_price_difference"
