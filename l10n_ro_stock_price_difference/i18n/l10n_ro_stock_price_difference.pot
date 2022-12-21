@@ -61,7 +61,6 @@ msgid "Invoice"
 msgstr ""
 
 #. module: l10n_ro_stock_price_difference
-#: model:ir.model.fields,field_description:l10n_ro_stock_price_difference.field_account_move__is_l10n_ro_record
 #: model:ir.model.fields,field_description:l10n_ro_stock_price_difference.field_account_move_line__is_l10n_ro_record
 msgid "Is Romanian Record"
 msgstr ""
