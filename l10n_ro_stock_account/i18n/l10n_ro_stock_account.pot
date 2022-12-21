@@ -42,9 +42,25 @@ msgid ""
 msgstr ""
 
 #. module: l10n_ro_stock_account
+#: model:ir.model.fields,field_description:l10n_ro_stock_account.field_l10n_ro_stock_valuation_layer_tracking__create_uid
+msgid "Created by"
+msgstr ""
+
+#. module: l10n_ro_stock_account
+#: model:ir.model.fields,field_description:l10n_ro_stock_account.field_l10n_ro_stock_valuation_layer_tracking__create_date
+msgid "Created on"
+msgstr ""
+
+#. module: l10n_ro_stock_account
+#: model_terms:ir.ui.view,arch_db:l10n_ro_stock_account.stock_valuation_layer_form
+msgid "Destination SVL"
+msgstr ""
+
+#. module: l10n_ro_stock_account
 #: model:ir.model.fields,field_description:l10n_ro_stock_account.field_account_account__display_name
 #: model:ir.model.fields,field_description:l10n_ro_stock_account.field_account_move__display_name
 #: model:ir.model.fields,field_description:l10n_ro_stock_account.field_account_move_line__display_name
+#: model:ir.model.fields,field_description:l10n_ro_stock_account.field_l10n_ro_stock_valuation_layer_tracking__display_name
 #: model:ir.model.fields,field_description:l10n_ro_stock_account.field_product_category__display_name
 #: model:ir.model.fields,field_description:l10n_ro_stock_account.field_product_product__display_name
 #: model:ir.model.fields,field_description:l10n_ro_stock_account.field_product_template__display_name
@@ -57,11 +73,12 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_ro_stock_account.field_stock_return_picking_line__display_name
 #: model:ir.model.fields,field_description:l10n_ro_stock_account.field_stock_valuation_adjustment_lines__display_name
 #: model:ir.model.fields,field_description:l10n_ro_stock_account.field_stock_valuation_layer__display_name
+#: model:ir.model.fields,field_description:l10n_ro_stock_account.field_stock_valuation_layer_revaluation__display_name
 msgid "Display Name"
 msgstr ""
 
 #. module: l10n_ro_stock_account
-#: code:addons/l10n_ro_stock_account/models/product.py:0
+#: code:addons/l10n_ro_stock_account/models/product_category.py:0
 #, python-format
 msgid ""
 "For Romanian Stock Accounting the stock_input, stock_output and "
@@ -72,6 +89,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_ro_stock_account.field_account_account__id
 #: model:ir.model.fields,field_description:l10n_ro_stock_account.field_account_move__id
 #: model:ir.model.fields,field_description:l10n_ro_stock_account.field_account_move_line__id
+#: model:ir.model.fields,field_description:l10n_ro_stock_account.field_l10n_ro_stock_valuation_layer_tracking__id
 #: model:ir.model.fields,field_description:l10n_ro_stock_account.field_product_category__id
 #: model:ir.model.fields,field_description:l10n_ro_stock_account.field_product_product__id
 #: model:ir.model.fields,field_description:l10n_ro_stock_account.field_product_template__id
@@ -84,6 +102,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_ro_stock_account.field_stock_return_picking_line__id
 #: model:ir.model.fields,field_description:l10n_ro_stock_account.field_stock_valuation_adjustment_lines__id
 #: model:ir.model.fields,field_description:l10n_ro_stock_account.field_stock_valuation_layer__id
+#: model:ir.model.fields,field_description:l10n_ro_stock_account.field_stock_valuation_layer_revaluation__id
 msgid "ID"
 msgstr ""
 
@@ -112,6 +131,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_ro_stock_account.field_stock_picking__is_l10n_ro_record
 #: model:ir.model.fields,field_description:l10n_ro_stock_account.field_stock_valuation_adjustment_lines__is_l10n_ro_record
 #: model:ir.model.fields,field_description:l10n_ro_stock_account.field_stock_valuation_layer__is_l10n_ro_record
+#: model:ir.model.fields,field_description:l10n_ro_stock_account.field_stock_valuation_layer_revaluation__is_l10n_ro_record
 msgid "Is Romanian Record"
 msgstr ""
 
@@ -126,9 +146,15 @@ msgid "Journal Item"
 msgstr ""
 
 #. module: l10n_ro_stock_account
+#: model:ir.model.fields,field_description:l10n_ro_stock_account.field_stock_valuation_layer_revaluation__l10n_ro_location_id
+msgid "L10N Ro Location"
+msgstr ""
+
+#. module: l10n_ro_stock_account
 #: model:ir.model.fields,field_description:l10n_ro_stock_account.field_account_account____last_update
 #: model:ir.model.fields,field_description:l10n_ro_stock_account.field_account_move____last_update
 #: model:ir.model.fields,field_description:l10n_ro_stock_account.field_account_move_line____last_update
+#: model:ir.model.fields,field_description:l10n_ro_stock_account.field_l10n_ro_stock_valuation_layer_tracking____last_update
 #: model:ir.model.fields,field_description:l10n_ro_stock_account.field_product_category____last_update
 #: model:ir.model.fields,field_description:l10n_ro_stock_account.field_product_product____last_update
 #: model:ir.model.fields,field_description:l10n_ro_stock_account.field_product_template____last_update
@@ -141,7 +167,23 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_ro_stock_account.field_stock_return_picking_line____last_update
 #: model:ir.model.fields,field_description:l10n_ro_stock_account.field_stock_valuation_adjustment_lines____last_update
 #: model:ir.model.fields,field_description:l10n_ro_stock_account.field_stock_valuation_layer____last_update
+#: model:ir.model.fields,field_description:l10n_ro_stock_account.field_stock_valuation_layer_revaluation____last_update
 msgid "Last Modified on"
+msgstr ""
+
+#. module: l10n_ro_stock_account
+#: model:ir.model.fields,field_description:l10n_ro_stock_account.field_l10n_ro_stock_valuation_layer_tracking__write_uid
+msgid "Last Updated by"
+msgstr ""
+
+#. module: l10n_ro_stock_account
+#: model:ir.model.fields,field_description:l10n_ro_stock_account.field_l10n_ro_stock_valuation_layer_tracking__write_date
+msgid "Last Updated on"
+msgstr ""
+
+#. module: l10n_ro_stock_account
+#: model_terms:ir.ui.view,arch_db:l10n_ro_stock_account.stock_valuation_layer_revaluation_form_view
+msgid "Location"
 msgstr ""
 
 #. module: l10n_ro_stock_account
@@ -199,6 +241,11 @@ msgid "Product Template"
 msgstr ""
 
 #. module: l10n_ro_stock_account
+#: model:ir.model.fields,field_description:l10n_ro_stock_account.field_l10n_ro_stock_valuation_layer_tracking__quantity
+msgid "Quantity"
+msgstr ""
+
+#. module: l10n_ro_stock_account
 #: model_terms:ir.ui.view,arch_db:l10n_ro_stock_account.view_stock_return_picking_form
 msgid ""
 "Quantity more than existing. You will return different stock valuations."
@@ -222,6 +269,21 @@ msgstr ""
 #. module: l10n_ro_stock_account
 #: model:ir.model.fields,field_description:l10n_ro_stock_account.field_account_account__l10n_ro_stock_consume_account_id
 msgid "Romania - Consume Account"
+msgstr ""
+
+#. module: l10n_ro_stock_account
+#: model:ir.model.fields,field_description:l10n_ro_stock_account.field_stock_valuation_layer__l10n_ro_location_dest_id
+msgid "Romania - Destination Location"
+msgstr ""
+
+#. module: l10n_ro_stock_account
+#: model:ir.model.fields,field_description:l10n_ro_stock_account.field_stock_valuation_layer__l10n_ro_svl_track_src_ids
+msgid "Romania - Destination Tracking"
+msgstr ""
+
+#. module: l10n_ro_stock_account
+#: model:ir.model.fields,field_description:l10n_ro_stock_account.field_stock_valuation_layer__l10n_ro_svl_src_ids
+msgid "Romania - Destination Valuation"
 msgstr ""
 
 #. module: l10n_ro_stock_account
@@ -255,10 +317,40 @@ msgid "Romania - Landed Cost Type"
 msgstr ""
 
 #. module: l10n_ro_stock_account
+#: model:ir.model.fields,field_description:l10n_ro_stock_account.field_stock_valuation_layer__l10n_ro_lot_ids
+msgid "Romania - Serial Numbers"
+msgstr ""
+
+#. module: l10n_ro_stock_account
+#: model:ir.model.fields,field_description:l10n_ro_stock_account.field_stock_valuation_layer__l10n_ro_location_id
+msgid "Romania - Source Location"
+msgstr ""
+
+#. module: l10n_ro_stock_account
+#: model:ir.model.fields,field_description:l10n_ro_stock_account.field_stock_valuation_layer__l10n_ro_svl_track_dest_ids
+msgid "Romania - Source Tracking"
+msgstr ""
+
+#. module: l10n_ro_stock_account
+#: model:ir.model.fields,field_description:l10n_ro_stock_account.field_stock_valuation_layer__l10n_ro_svl_dest_ids
+msgid "Romania - Source Valuation"
+msgstr ""
+
+#. module: l10n_ro_stock_account
+#: model:ir.model.fields,field_description:l10n_ro_stock_account.field_stock_valuation_layer__l10n_ro_stock_move_line_id
+msgid "Romania - Stock Move Line"
+msgstr ""
+
+#. module: l10n_ro_stock_account
 #: model:ir.model.fields,field_description:l10n_ro_stock_account.field_product_product__l10n_ro_property_stock_valuation_account_id
 #: model:ir.model.fields,field_description:l10n_ro_stock_account.field_product_template__l10n_ro_property_stock_valuation_account_id
 #: model:ir.model.fields,field_description:l10n_ro_stock_account.field_stock_location__l10n_ro_property_stock_valuation_account_id
 msgid "Romania - Stock Valuation Account"
+msgstr ""
+
+#. module: l10n_ro_stock_account
+#: model:ir.model,name:l10n_ro_stock_account.model_l10n_ro_stock_valuation_layer_tracking
+msgid "Romania - Tracking layer stock valuation"
 msgstr ""
 
 #. module: l10n_ro_stock_account
@@ -272,6 +364,11 @@ msgid "Romania - Valued Type"
 msgstr ""
 
 #. module: l10n_ro_stock_account
+#: model_terms:ir.ui.view,arch_db:l10n_ro_stock_account.stock_valuation_layer_form
+msgid "Source SVL"
+msgstr ""
+
+#. module: l10n_ro_stock_account
 #: model:ir.model,name:l10n_ro_stock_account.model_stock_landed_cost
 msgid "Stock Landed Cost"
 msgstr ""
@@ -282,8 +379,23 @@ msgid "Stock Move"
 msgstr ""
 
 #. module: l10n_ro_stock_account
+#: model:ir.model.fields,field_description:l10n_ro_stock_account.field_stock_move_line__stock_valuation_ids
+msgid "Stock Valuation"
+msgstr ""
+
+#. module: l10n_ro_stock_account
 #: model:ir.model,name:l10n_ro_stock_account.model_stock_valuation_layer
 msgid "Stock Valuation Layer"
+msgstr ""
+
+#. module: l10n_ro_stock_account
+#: model:ir.model.fields,field_description:l10n_ro_stock_account.field_l10n_ro_stock_valuation_layer_tracking__svl_dest_id
+msgid "Svl Dest"
+msgstr ""
+
+#. module: l10n_ro_stock_account
+#: model:ir.model.fields,field_description:l10n_ro_stock_account.field_l10n_ro_stock_valuation_layer_tracking__svl_src_id
+msgid "Svl Src"
 msgstr ""
 
 #. module: l10n_ro_stock_account
@@ -299,6 +411,16 @@ msgid ""
 msgstr ""
 
 #. module: l10n_ro_stock_account
+#: model_terms:ir.ui.view,arch_db:l10n_ro_stock_account.stock_valuation_layer_form
+msgid "Total Quantity"
+msgstr ""
+
+#. module: l10n_ro_stock_account
+#: model_terms:ir.ui.view,arch_db:l10n_ro_stock_account.stock_valuation_layer_form
+msgid "Total Value"
+msgstr ""
+
+#. module: l10n_ro_stock_account
 #: model:ir.model,name:l10n_ro_stock_account.model_stock_picking
 msgid "Transfer"
 msgstr ""
@@ -306,4 +428,14 @@ msgstr ""
 #. module: l10n_ro_stock_account
 #: model:ir.model,name:l10n_ro_stock_account.model_stock_valuation_adjustment_lines
 msgid "Valuation Adjustment Lines"
+msgstr ""
+
+#. module: l10n_ro_stock_account
+#: model:ir.model.fields,field_description:l10n_ro_stock_account.field_l10n_ro_stock_valuation_layer_tracking__value
+msgid "Value"
+msgstr ""
+
+#. module: l10n_ro_stock_account
+#: model:ir.model,name:l10n_ro_stock_account.model_stock_valuation_layer_revaluation
+msgid "Wizard model to reavaluate a stock inventory for a product"
 msgstr ""
