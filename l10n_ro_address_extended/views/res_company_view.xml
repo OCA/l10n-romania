@@ -1,24 +1,20 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <odoo>
     <record id="view_res_company_extended_form" model="ir.ui.view">
-        <field name="name">view_res_company_extended_form</field>
+        <field name="name">l10n_ro_view_res_company_extended_form</field>
         <field name="model">res.company</field>
-        <field name="priority">100</field>
         <field
             name="inherit_id"
             ref="base_address_extended.view_res_company_extended_form"
         />
         <field name="arch" type="xml">
-            <label for="street_number" position="replace" />
-            <label for="street_number2" position="replace" />
-            <field name="street_number" position="replace">
-                <field name="street_number" placeholder="Home Number" />
-            </field>
-            <field name="street_number2" position="replace">
-                <field name="street_number2" placeholder="Door Number" />
-            </field>
             <xpath expr="//field[@name='street_number']" position="after">
-                <field name="street_staircase" placeholder="Staircase Number" />
+                <field name="is_l10n_ro_record" invisible="True" />
+                <field
+                    name="l10n_ro_street_staircase"
+                    placeholder="Staircase Number"
+                    attrs="{'invisible': [('is_l10n_ro_record', '=', False)]}"
+                />
             </xpath>
         </field>
     </record>

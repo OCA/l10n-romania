@@ -4,7 +4,6 @@
 # Generare note contabile la achizitie
 
 import logging
-import random
 
 from odoo import fields
 from odoo.tests import Form, tagged
@@ -24,7 +23,7 @@ class TestStockCommon(ValuationReconciliationTestCommon):
             account = cls.env["account.account"].search([("code", "=", code)], limit=1)
             return account
 
-        cls.account_difference = get_account("348000")
+        cls.account_difference = get_account("378000")
         cls.account_expense = get_account("607000")
         cls.account_expense_mp = get_account("601000")
         cls.account_income = get_account("707000")
@@ -42,31 +41,31 @@ class TestStockCommon(ValuationReconciliationTestCommon):
         )
 
         cls.stock_picking_payable_account_id = (
-            cls.env.user.company_id.property_stock_picking_payable_account_id
+            cls.env.user.company_id.l10n_ro_property_stock_picking_payable_account_id
         )
         if not cls.stock_picking_payable_account_id:
             cls.stock_picking_payable_account_id = get_account("408000")
 
-        cls.env.user.company_id.property_stock_picking_payable_account_id = (
+        cls.env.user.company_id.l10n_ro_property_stock_picking_payable_account_id = (
             cls.stock_picking_payable_account_id
         )
 
         cls.stock_picking_receivable_account_id = (
-            cls.env.user.company_id.property_stock_picking_receivable_account_id
+            cls.env.user.company_id.l10n_ro_property_stock_picking_receivable_account_id
         )
         if not cls.stock_picking_receivable_account_id:
             cls.stock_picking_receivable_account_id = get_account("418000")
 
-        cls.env.user.company_id.property_stock_picking_receivable_account_id = (
+        cls.env.user.company_id.l10n_ro_property_stock_picking_receivable_account_id = (
             cls.stock_picking_receivable_account_id
         )
 
         cls.stock_usage_giving_account_id = (
-            cls.env.user.company_id.property_stock_usage_giving_account_id
+            cls.env.user.company_id.l10n_ro_property_stock_usage_giving_account_id
         )
         if not cls.stock_usage_giving_account_id:
             cls.stock_usage_giving_account_id = get_account("803500")
-            cls.env.user.company_id.property_stock_usage_giving_account_id = (
+            cls.env.user.company_id.l10n_ro_property_stock_usage_giving_account_id = (
                 cls.stock_usage_giving_account_id
             )
 
@@ -76,8 +75,8 @@ class TestStockCommon(ValuationReconciliationTestCommon):
         super(TestStockCommon, cls).setUpClass(chart_template_ref=ro_template_ref)
 
         cls.env.company.anglo_saxon_accounting = True
-        cls.env.company.romanian_accounting = True
-        cls.env.company.stock_acc_price_diff = True
+        cls.env.company.l10n_ro_accounting = True
+        cls.env.company.l10n_ro_stock_acc_price_diff = True
 
         cls.setUpAccounts()
 
@@ -103,7 +102,7 @@ class TestStockCommon(ValuationReconciliationTestCommon):
             "property_stock_account_output_categ_id": cls.account_valuation.id,
             "property_stock_valuation_account_id": cls.account_valuation.id,
             "property_stock_journal": stock_journal.id,
-            "stock_account_change": True,
+            "l10n_ro_stock_account_change": True,
         }
 
         cls.category = cls.env["product.category"].search(
@@ -124,9 +123,9 @@ class TestStockCommon(ValuationReconciliationTestCommon):
         )
 
         cls.price_p1 = 50.0
-        cls.price_p2 = round(random.random() * 100, 2)
+        cls.price_p2 = 50.0
         cls.list_price_p1 = 70.0
-        cls.list_price_p2 = round(cls.price_p2 + random.random() * 50, 2)
+        cls.list_price_p2 = 70.0
 
         cls.product_1 = cls.env["product.product"].create(
             {
@@ -195,6 +194,14 @@ class TestStockCommon(ValuationReconciliationTestCommon):
         cls.val_stock_out_so_p1 = round(cls.qty_so_p1 * cls.price_p1, 2)
         cls.val_stock_out_so_p2 = round(cls.qty_so_p2 * cls.price_p2, 2)
 
+        # valoarea descarcari de gestiune incluzand si diferentele
+        cls.val_stock_out_so_p1_diff = round(
+            cls.qty_so_p1 * (cls.price_p1 + cls.diff_p1), 2
+        )
+        cls.val_stock_out_so_p2_diff = round(
+            cls.qty_so_p2 * (cls.price_p2 + cls.diff_p2), 2
+        )
+
         # valoarea vanzarii
         cls.val_so_p1 = round(cls.qty_so_p1 * cls.list_price_p1, 2)
         cls.val_so_p2 = round(cls.qty_so_p2 * cls.list_price_p2, 2)
@@ -214,12 +221,12 @@ class TestStockCommon(ValuationReconciliationTestCommon):
         cls.adaos_p2_f = round(cls.val_p2_store - cls.val_p2_f, 2)
 
         warehouse = cls.company_data["default_warehouse"]
-
+        cls.warehouse = warehouse
         picking_type_in = warehouse.in_type_id
         location = picking_type_in.default_location_dest_id
 
         cls.location_warehouse = location.copy(
-            {"merchandise_type": "warehouse", "name": "TEST warehouse"}
+            {"l10n_ro_merchandise_type": "warehouse", "name": "TEST warehouse"}
         )
         cls.picking_type_in_warehouse = picking_type_in.copy(
             {
@@ -247,50 +254,64 @@ class TestStockCommon(ValuationReconciliationTestCommon):
     def set_warehouse_as_mp(self):
         self.location_warehouse.write(
             {
-                "property_stock_valuation_account_id": self.account_valuation_mp.id,
-                "property_account_expense_location_id": self.account_expense_mp.id,
+                "l10n_ro_property_stock_valuation_account_id": self.account_valuation_mp.id,
+                "l10n_ro_property_account_expense_location_id": self.account_expense_mp.id,
                 "valuation_in_account_id": self.account_valuation_mp.id,
                 "valuation_out_account_id": self.account_valuation_mp.id,
             }
         )
 
-    def create_po(self, notice=False, picking_type_in=None):
+    def writeOnPicking(self, vals=False):
+        if not vals:
+            vals = {}
+        self.picking.write(vals)
+
+    def create_po(
+        self, picking_type_in=None, partial=None, vals=False, validate_picking=True
+    ):
 
         if not picking_type_in:
             picking_type_in = self.picking_type_in_warehouse
+        if not partial or (partial and not hasattr(self, "po")):
+            po = Form(self.env["purchase.order"])
+            po.partner_id = self.vendor
+            po.picking_type_id = picking_type_in
 
-        po = Form(self.env["purchase.order"])
-        po.partner_id = self.vendor
-        po.picking_type_id = picking_type_in
+            with po.order_line.new() as po_line:
+                po_line.product_id = self.product_1
+                po_line.product_qty = self.qty_po_p1
+                po_line.price_unit = self.price_p1
 
-        with po.order_line.new() as po_line:
-            po_line.product_id = self.product_1
-            po_line.product_qty = self.qty_po_p1
-            po_line.price_unit = self.price_p1
+            with po.order_line.new() as po_line:
+                po_line.product_id = self.product_2
+                po_line.product_qty = self.qty_po_p2
+                po_line.price_unit = self.price_p2
 
-        with po.order_line.new() as po_line:
-            po_line.product_id = self.product_2
-            po_line.product_qty = self.qty_po_p2
-            po_line.price_unit = self.price_p2
+            po = po.save()
+            po.button_confirm()
+        else:
+            po = self.po
+        if validate_picking:
+            self.picking = po.picking_ids.filtered(lambda pick: pick.state != "done")
+            self.writeOnPicking(vals)
+            qty_po_p1 = self.qty_po_p1 if not partial else self.qty_po_p1 / 2
+            qty_po_p2 = self.qty_po_p2 if not partial else self.qty_po_p2 / 2
+            for move_line in self.picking.move_line_ids:
+                if move_line.product_id == self.product_1:
+                    move_line.write({"qty_done": qty_po_p1})
+                if move_line.product_id == self.product_2:
+                    move_line.write({"qty_done": qty_po_p2})
 
-        po = po.save()
-        po.button_confirm()
-        self.picking = po.picking_ids[0]
-        self.picking.write({"notice": notice})
-        for move_line in self.picking.move_line_ids:
-            if move_line.product_id == self.product_1:
-                move_line.write({"qty_done": self.qty_po_p1})
-            if move_line.product_id == self.product_2:
-                move_line.write({"qty_done": self.qty_po_p2})
-
-        self.picking.button_validate()
-        self.picking._action_done()
-        _logger.info("Receptie facuta")
+            self.picking.button_validate()
+            self.picking._action_done()
+            _logger.info("Receptie facuta")
 
         self.po = po
         return po
 
-    def create_invoice(self, diff_p1=0, diff_p2=0):
+    def create_invoice(
+        self, diff_p1=0, diff_p2=0, quant_p1=0, quant_p2=0, auto_post=True
+    ):
         invoice = Form(
             self.env["account.move"].with_context(
                 default_move_type="in_invoice", default_invoice_date=fields.Date.today()
@@ -300,14 +321,21 @@ class TestStockCommon(ValuationReconciliationTestCommon):
         invoice.purchase_id = self.po
 
         with invoice.invoice_line_ids.edit(0) as line_form:
+            line_form.quantity += quant_p1
             line_form.price_unit += diff_p1
         with invoice.invoice_line_ids.edit(1) as line_form:
+            line_form.quantity += quant_p2
             line_form.price_unit += diff_p2
 
         invoice = invoice.save()
+        if invoice.amount_total < 0:
+            invoice.action_switch_invoice_into_refund_credit_note()
+        if quant_p1 or quant_p2 or diff_p1 or diff_p2:
+            invoice = invoice.with_context(l10n_ro_approved_price_difference=True)
+        if auto_post:
+            invoice.action_post()
 
-        invoice.action_post()
-
+        self.invoice = invoice
         _logger.info("Factura introdusa")
 
     def make_puchase(self):
@@ -334,9 +362,57 @@ class TestStockCommon(ValuationReconciliationTestCommon):
                 move_line.write({"quantity_done": move_line.product_uom_qty})
         return_pick._action_done()
 
+    def create_so(self, vals=False):
+        _logger.info("Start sale")
+        so = Form(self.env["sale.order"])
+        so.partner_id = self.client
+
+        so.warehouse_id = self.warehouse
+        with so.order_line.new() as so_line:
+            so_line.product_id = self.product_1
+            so_line.product_uom_qty = self.qty_so_p1
+            so_line.price_unit = self.list_price_p1
+
+        with so.order_line.new() as so_line:
+            so_line.product_id = self.product_2
+            so_line.product_uom_qty = self.qty_so_p2
+            so_line.price_unit = self.list_price_p2
+
+        self.so = so.save()
+        self.so.action_confirm()
+
+        self.picking = self.so.picking_ids
+        self.writeOnPicking(vals)
+        self.picking.action_assign()  # verifica disponibilitate
+
+        for move_line in self.picking.move_lines:
+            if move_line.product_uom_qty > 0 and move_line.quantity_done == 0:
+                move_line.write({"quantity_done": move_line.product_uom_qty})
+
+        # self.picking.move_lines.write({'quantity_done': 2})
+        # self.picking.button_validate()
+        self.picking._action_done()
+        _logger.info("Livrare facuta")
+
+    def create_sale_invoice(self, diff_p1=0, diff_p2=0):
+        # invoice on order
+        invoice = self.so._create_invoices()
+
+        invoice = Form(invoice)
+
+        with invoice.invoice_line_ids.edit(0) as line_form:
+            line_form.price_unit += diff_p1
+        with invoice.invoice_line_ids.edit(1) as line_form:
+            line_form.price_unit += diff_p2
+
+        invoice = invoice.save()
+
+        invoice.action_post()
+
     def trasfer(self, location, location_dest, product=None):
 
         self.PickingObj = self.env["stock.picking"]
+        self.MoveObj = self.env["stock.move"]
         self.MoveObj = self.env["stock.move"]
 
         if not product:
@@ -380,10 +456,10 @@ class TestStockCommon(ValuationReconciliationTestCommon):
         for valuation in valuations:
             val = round(valuation["value"], 2)
             if valuation["product_id"][0] == self.product_1.id:
-                _logger.info("Check stoc P1 {} = {}".format(val, val_p1))
+                _logger.info("Check stock P1 {} = {}".format(val, val_p1))
                 self.assertAlmostEqual(val, val_p1)
             if valuation["product_id"][0] == self.product_2.id:
-                _logger.info("Check SVL P2 {} = {}".format(val, val_p2))
+                _logger.info("Check stock P2 {} = {}".format(val, val_p2))
                 self.assertAlmostEqual(val, val_p2)
 
     def check_account_valuation(self, val_p1, val_p2, account=None):
@@ -395,6 +471,7 @@ class TestStockCommon(ValuationReconciliationTestCommon):
         domain = [
             ("product_id", "in", [self.product_1.id, self.product_2.id]),
             ("account_id", "=", account.id),
+            ("parent_state", "=", "posted"),
         ]
         account_valuations = self.env["account.move.line"].read_group(
             domain, ["debit:sum", "credit:sum", "quantity:sum"], ["product_id"]
@@ -407,6 +484,30 @@ class TestStockCommon(ValuationReconciliationTestCommon):
             if valuation["product_id"][0] == self.product_2.id:
                 _logger.info("Check account P2 {} = {}".format(val, val_p2))
                 self.assertAlmostEqual(val, val_p2)
+
+    def show_account_valuation(self, account):
+        domain = [
+            ("product_id", "in", [self.product_1.id, self.product_2.id]),
+            ("account_id", "=", account.id),
+            ("parent_state", "=", "posted"),
+        ]
+        account_valuations = self.env["account.move.line"].read_group(
+            domain, ["debit:sum", "credit:sum", "quantity:sum"], ["product_id"]
+        )
+        for valuation in account_valuations:
+            val = round(valuation["debit"] - valuation["credit"], 2)
+            if valuation["product_id"][0] == self.product_1.id:
+                _logger.info("Show account P1 {}  ".format(val))
+            if valuation["product_id"][0] == self.product_2.id:
+                _logger.info("Show account P2 {}  ".format(val))
+
+        account_valuations = self.env["account.move.line"].search(domain)
+        for line in account_valuations:
+            _logger.info(
+                "move line:  {} {} {}".format(
+                    line.account_id.name, line.debit, line.credit
+                )
+            )
 
     def check_account_diff(self, val_p1, val_p2):
         self.check_account_valuation(val_p1, val_p2, self.account_difference)

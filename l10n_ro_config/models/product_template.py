@@ -5,16 +5,18 @@ from odoo import api, models
 
 
 class ProductTemplate(models.Model):
-    _inherit = "product.template"
+    _name = "product.template"
+    _inherit = ["product.template", "l10n.ro.mixin"]
 
     @api.onchange("type")
     def _onchange_type(self):
-        """Force values to stay consistent with integrity constraints"""
+        # Update service products with the default service
+        # taxes defined in company
         res = super(ProductTemplate, self)._onchange_type()
-        if self.type == "service":
-            # Update taxes with the default service taxes defined in company
-            if self.env.company.account_serv_sale_tax_id:
-                res["taxes_id"] = self.env.company.account_serv_sale_tax_id
-            if self.env.company.account_serv_purchase_tax_id:
-                res["supplier_taxes_id"] = self.env.company.account_serv_purchase_tax_id
+        if self.type == "service" and self.is_l10n_ro_record:
+            company = self.company_id or self.env.company
+            if company.l10n_ro_account_serv_sale_tax_id:
+                self.taxes_id = company.l10n_ro_account_serv_sale_tax_id
+            if company.l10n_ro_account_serv_purchase_tax_id:
+                self.supplier_taxes_id = company.l10n_ro_account_serv_purchase_tax_id
         return res

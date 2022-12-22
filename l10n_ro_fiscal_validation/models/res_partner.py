@@ -2,11 +2,14 @@
 # Copyright (C) 2020 NextERP Romania
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
+import logging
 import time
 
 import requests
 
 from odoo import api, fields, models
+
+_logger = logging.getLogger(__name__)
 
 CEDILLATRANS = bytes.maketrans(
     "\u015f\u0163\u015e\u0162".encode("utf8"),
@@ -26,12 +29,12 @@ class ResPartner(models.Model):
     _inherit = "res.partner"
 
     @api.model
-    def update_vat_subjected(self):
+    def update_l10n_ro_vat_subjected(self):
         anaf_dict = []
         check_date = fields.Date.to_string(fields.Date.today())
         # Build list of vat numbers to be checked on ANAF
         for partner in self:
-            anaf_dict.append(partner.vat_number)
+            anaf_dict.append(partner.l10n_ro_vat_number)
         chunk = []
         chunks = []
         # Process 500 vat numbers once
@@ -45,25 +48,29 @@ class ResPartner(models.Model):
                 anaf_ask.append({"cui": int(item), "data": check_date})
             res = requests.post(ANAF_BULK_URL, json=anaf_ask, headers=headers)
             if res.status_code == 200:
-                res = res.json()
-                if res["correlationId"]:
+                result = {}
+                try:
+                    result = res.json()
+                except Exception:
+                    _logger.warning("ANAF sync not working: " % res.content)
+                if result.get("correlationId"):
                     time.sleep(3)
-                    resp = requests.get(ANAF_CORR % res["correlationId"])
+                    resp = requests.get(ANAF_CORR % result["correlationId"])
                     if resp.status_code == 200:
                         resp = resp.json()
-                        for res in resp["found"] + resp["notfound"]:
-                            partner = self.search(
+                        for result_partner in resp["found"] + resp["notfound"]:
+                            partners = self.search(
                                 [
-                                    ("vat_number", "=", res["cui"]),
+                                    ("l10n_ro_vat_number", "=", result_partner["cui"]),
                                     ("is_company", "=", True),
                                 ]
                             )
-                            if partner:
-                                data = partner._Anaf_to_Odoo(res)
+                            for partner in partners:
+                                data = partner._Anaf_to_Odoo(result_partner)
                                 partner.update(data)
 
     @api.model
-    def update_vat_subjected_all(self):
+    def update_l10n_ro_vat_subjected_all(self):
         partners = self.search(
             [
                 ("vat", "!=", False),
@@ -71,8 +78,8 @@ class ResPartner(models.Model):
                 ("is_company", "=", True),
             ]
         )
-        partners.update_vat_subjected()
+        partners.update_l10n_ro_vat_subjected()
 
     @api.model
-    def _update_vat_subjected_all(self):
-        self.update_vat_subjected_all()
+    def _update_l10n_ro_vat_subjected_all(self):
+        self.update_l10n_ro_vat_subjected_all()

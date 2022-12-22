@@ -7,13 +7,16 @@ from odoo import _, fields, models
 
 
 class StockLocation(models.Model):
-    _inherit = "stock.location"
+    _name = "stock.location"
+    _inherit = ["stock.location", "l10n.ro.mixin"]
 
     usage = fields.Selection(
         selection_add=[("usage_giving", "Usage Giving"), ("consume", "Consume")],
         ondelete={"usage_giving": "set default", "consume": "set default"},
     )
-    merchandise_type = fields.Selection(
+    l10n_ro_merchandise_type = fields.Selection(
         [("store", _("Store")), ("warehouse", _("Warehouse"))],
+        string="Romania - Merchandise type",
         default="warehouse",
+        ondelete={"store": "set default", "warehouse": "set default"},
     )

@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+
+    <record id="account_tax_form" model="ir.ui.view">
+        <field name="name">account.tax Form</field>
+        <field name="model">account.tax</field>
+        <field name="type">form</field>
+        <field name="inherit_id" ref="account.view_tax_form" />
+        <field name="arch" type="xml">
+            <field name="cash_basis_transition_account_id" position="after">
+                <field name="is_l10n_ro_record" invisible="1" />
+                <field name="l10n_ro_is_nondeductible" invisible="1" />
+                <field
+                    name="l10n_ro_nondeductible_tax_id"
+                    attrs="{'invisible':['|', ('l10n_ro_is_nondeductible','=',True), ('is_l10n_ro_record', '=', False)]}"
+                    domain="[('l10n_ro_is_nondeductible','=',True)]"
+                />
+            </field>
+        </field>
+    </record>
+
+    <record
+        id="account_tax_repartition_line_tree"
+        model="ir.ui.view"
+    > <!-- Aceastra structura trebuie stearsa sau reglata -->
+        <field name="name">account.tax.repartition.line Tree</field>
+        <field name="model">account.tax.repartition.line</field>
+        <field name="type">tree</field>
+        <field name="inherit_id" ref="account.tax_repartition_line_tree" />
+        <field name="arch" type="xml">
+            <field name="repartition_type" position="after">
+                <field name="is_l10n_ro_record" invisible="1" />
+
+                <field
+                    name="l10n_ro_nondeductible"
+                    attrs="{'column_invisible': [('parent.is_l10n_ro_record', '=', False)], 'invisible': [('repartition_type', '=', 'base')]}"
+                />
+                <field
+                    name="l10n_ro_exclude_from_stock"
+                    attrs="{'column_invisible': [('parent.is_l10n_ro_record', '=', False)], 'invisible': [('repartition_type', '=', 'base')]}"
+                />
+                <field
+                    name="l10n_ro_skip_cash_basis_account_switch"
+                    attrs="{'column_invisible': [('parent.is_l10n_ro_record', '=', False)], 'invisible': [('repartition_type', '=', 'base')]}"
+                />
+            </field>
+        </field>
+    </record>
+
+</odoo>

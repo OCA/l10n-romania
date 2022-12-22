@@ -13,36 +13,22 @@ from odoo.tools import DEFAULT_SERVER_DATE_FORMAT as DATE_FORMAT
 class ResPartner(models.Model):
     _inherit = "res.partner"
 
-    @api.depends("vat")
-    def _compute_vat_number(self):
+    @api.depends("l10n_ro_vat_number")
+    def _compute_l10n_ro_anaf_history(self):
         for partner in self:
-            if partner.vat:
-                partner.vat_number = self._split_vat(partner.vat)[1]
-            else:
-                partner.vat_number = ""
-
-    @api.depends("vat_number")
-    def _compute_anaf_history(self):
-        for partner in self:
-            if partner.vat_number:
-                history = self.env["res.partner.anaf"].search(
-                    [("vat", "=", partner.vat_number)]
+            if partner.l10n_ro_vat_number:
+                history = self.env["l10n.ro.res.partner.anaf"].search(
+                    [("vat", "=", partner.l10n_ro_vat_number)]
                 )
-                partner.anaf_history = [(6, 0, [line.id for line in history])]
+                partner.l10n_ro_anaf_history = [(6, 0, [line.id for line in history])]
             else:
-                partner.anaf_history = [(6, 0, [])]
+                partner.l10n_ro_anaf_history = [(6, 0, [])]
 
-    vat_on_payment = fields.Boolean("VAT on Payment")
-    vat_number = fields.Char(
-        "VAT number",
-        compute="_compute_vat_number",
-        store=True,
-        help="VAT number without country code.",
-    )
-    anaf_history = fields.One2many(
-        "res.partner.anaf",
-        compute="_compute_anaf_history",
-        string="ANAF History",
+    l10n_ro_vat_on_payment = fields.Boolean(string="Romania - VAT on Payment")
+    l10n_ro_anaf_history = fields.One2many(
+        "l10n.ro.res.partner.anaf",
+        compute="_compute_l10n_ro_anaf_history",
+        string="Romania - ANAF History",
         readonly=True,
     )
 
@@ -55,20 +41,20 @@ class ResPartner(models.Model):
                 return datetime.strptime(str(strdate), "%Y%m%d").strftime(DATE_FORMAT)
 
         vat_numbers = [
-            p.vat_number
+            p.l10n_ro_vat_number
             for p in self
             if p.vat and p.vat.lower().startswith("ro") and p.vat[2:].isnumeric()
         ]
         if vat_numbers == []:
             return
-        anaf_obj = self.env["res.partner.anaf"]
+        anaf_obj = self.env["l10n.ro.res.partner.anaf"]
         data_dir = tools.config["data_dir"]
         istoric = os.path.join(data_dir, "istoric.txt")
         vat_regex = "^[0-9]+#(%s)#" % "|".join(vat_numbers)
         anaf_data = Popen(["egrep", vat_regex, istoric], stdout=PIPE)
         (process_lines, _) = anaf_data.communicate()
         process_lines = [x.split("#") for x in process_lines.decode().strip().split()]
-        lines = self.env["res.partner.anaf"].search(
+        lines = self.env["l10n.ro.res.partner.anaf"].search(
             [("anaf_id", "in", [x[0] for x in process_lines])]
         )
         line_ids = [newline.anaf_id for newline in lines]
@@ -91,18 +77,18 @@ class ResPartner(models.Model):
         ctx = dict(self._context)
         vat_on_payment = False
         self._insert_relevant_anaf_data()
-        self._compute_anaf_history()
-        if self.anaf_history:
+        self._compute_l10n_ro_anaf_history()
+        if self.l10n_ro_anaf_history:
             if ctx.get("check_date", False):
-                line = self.env["res.partner.anaf"].search(
+                line = self.env["l10n.ro.res.partner.anaf"].search(
                     [
-                        ("id", "in", [rec.id for rec in self.anaf_history]),
+                        ("id", "in", [rec.id for rec in self.l10n_ro_anaf_history]),
                         ("start_date", "<=", ctx["check_date"]),
                     ],
                     limit=1,
                 )
             else:
-                line = self.anaf_history[0]
+                line = self.l10n_ro_anaf_history[0]
             if line:
                 vat_on_payment = True
                 if line.end_date and line.end_date <= ctx.get("check_date", False):
@@ -114,11 +100,13 @@ class ResPartner(models.Model):
         ctx.update({"check_date": date.today()})
 
         for partner in self:
-            partner.vat_on_payment = partner.with_context(**ctx)._check_vat_on_payment()
+            partner.l10n_ro_vat_on_payment = partner.with_context(
+                **ctx
+            )._check_vat_on_payment()
 
     @api.model
     def update_vat_payment_all(self):
-        self.env["res.partner.anaf"]._download_anaf_data()
+        self.env["l10n.ro.res.partner.anaf"]._download_anaf_data()
         partners = self.search([("vat", "!=", False)])
         partners.check_vat_on_payment()
 

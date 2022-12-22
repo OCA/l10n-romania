@@ -1,3 +1,4 @@
+
 [MASTER]
 load-plugins=pylint_odoo
 score=n
@@ -57,7 +58,6 @@ enable=anomalous-backslash-in-string,
     use-vim-comment,
     wrong-tabs-instead-of-spaces,
     xml-syntax-error,
-    attribute-string-redundant,
     character-not-valid-in-resource-link,
     consider-merging-classes-inherited,
     context-overridden,
