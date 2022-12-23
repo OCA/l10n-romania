@@ -52,11 +52,15 @@ class ResPartner(models.Model):
                 try:
                     result = res.json()
                 except Exception:
-                    _logger.warning("ANAF sync not working: " % res.content)
+                    _logger.warning("ANAF sync not working: %s" % res.content)
                 if result.get("correlationId"):
                     time.sleep(3)
-                    resp = requests.get(ANAF_CORR % result["correlationId"])
-                    if resp.status_code == 200:
+                    resp = False
+                    try:
+                        resp = requests.get(ANAF_CORR % result["correlationId"])
+                    except Exception as e:
+                        _logger.warning("ANAF sync not working: %s" % e)
+                    if resp and resp.status_code == 200:
                         resp = resp.json()
                         for result_partner in resp["found"] + resp["notfound"]:
                             partners = self.search(
