@@ -428,17 +428,17 @@ msgstr ""
 #. module: l10n_ro_stock_picking_comment_template
 #: model:ir.model.fields,field_description:l10n_ro_stock_picking_comment_template.field_stock_picking__comment_template_ids
 msgid "Comment Template"
-msgstr ""
+msgstr "Șablon comentariu"
 
 #. module: l10n_ro_stock_picking_comment_template
 #: model_terms:ir.ui.view,arch_db:l10n_ro_stock_picking_comment_template.stock_picking_form_add_comment
 msgid "Comments"
-msgstr ""
+msgstr "Comentarii"
 
 #. module: l10n_ro_stock_picking_comment_template
 #: model:ir.model,name:l10n_ro_stock_picking_comment_template.model_res_partner
 msgid "Contact"
-msgstr ""
+msgstr "Contact"
 
 #. module: l10n_ro_stock_picking_comment_template
 #: model:ir.model.fields,field_description:l10n_ro_stock_picking_comment_template.field_stock_picking__l10n_ro_delegate_id
@@ -450,21 +450,21 @@ msgstr "Delegat"
 #: model:ir.model.fields,field_description:l10n_ro_stock_picking_comment_template.field_res_partner__display_name
 #: model:ir.model.fields,field_description:l10n_ro_stock_picking_comment_template.field_stock_picking__display_name
 msgid "Display Name"
-msgstr ""
+msgstr "Nume afișat"
 
 #. module: l10n_ro_stock_picking_comment_template
 #: model:ir.model.fields,field_description:l10n_ro_stock_picking_comment_template.field_comment_template__id
 #: model:ir.model.fields,field_description:l10n_ro_stock_picking_comment_template.field_res_partner__id
 #: model:ir.model.fields,field_description:l10n_ro_stock_picking_comment_template.field_stock_picking__id
 msgid "ID"
-msgstr ""
+msgstr "ID"
 
 #. module: l10n_ro_stock_picking_comment_template
 #: model:ir.model.fields,field_description:l10n_ro_stock_picking_comment_template.field_comment_template____last_update
 #: model:ir.model.fields,field_description:l10n_ro_stock_picking_comment_template.field_res_partner____last_update
 #: model:ir.model.fields,field_description:l10n_ro_stock_picking_comment_template.field_stock_picking____last_update
 msgid "Last Modified on"
-msgstr ""
+msgstr "Ultima modificare pe"
 
 #. module: l10n_ro_stock_picking_comment_template
 #: model:ir.model.fields,field_description:l10n_ro_stock_picking_comment_template.field_res_partner__l10n_ro_mean_transp
@@ -476,17 +476,17 @@ msgstr "Mijloc de Transport"
 #. module: l10n_ro_stock_picking_comment_template
 #: model:base.comment.template,name:l10n_ro_stock_picking_comment_template.l10n_ro_picking_consume_down
 msgid "Romania - Comment for Consume Voucher After Lines"
-msgstr ""
+msgstr "Comentariu pentru bonuri de consum dupa linii"
 
 #. module: l10n_ro_stock_picking_comment_template
 #: model:base.comment.template,name:l10n_ro_stock_picking_comment_template.l10n_ro_picking_consume_up
 msgid "Romania - Comment for Consume Voucher Before Lines"
-msgstr ""
+msgstr "Comentariu pentru bonuri de consum inainte de linii"
 
 #. module: l10n_ro_stock_picking_comment_template
 #: model:base.comment.template,name:l10n_ro_stock_picking_comment_template.l10n_ro_picking_out_down
 msgid "Romania - Comment for Delivery After Lines"
-msgstr ""
+msgstr "Comentariu pentru avize de livrare dupa linii"
 
 #. module: l10n_ro_stock_picking_comment_template
 #: model:base.comment.template,name:l10n_ro_stock_picking_comment_template.l10n_ro_picking_internTransfer_down
@@ -494,6 +494,8 @@ msgid ""
 "Romania - Comment for Internal Transfer Voucher After Lines\n"
 "        "
 msgstr ""
+"Comentariu pentru transferuri interne dupa linii\n"
+"        "
 
 #. module: l10n_ro_stock_picking_comment_template
 #: model:base.comment.template,name:l10n_ro_stock_picking_comment_template.l10n_ro_picking_in_down
@@ -503,23 +505,23 @@ msgstr ""
 #. module: l10n_ro_stock_picking_comment_template
 #: model:base.comment.template,name:l10n_ro_stock_picking_comment_template.l10n_ro_picking_in_up
 msgid "Romania - Comment for Reception Before Lines"
-msgstr ""
+msgstr "Comentariu pentru receptii inainte de linii"
 
 #. module: l10n_ro_stock_picking_comment_template
 #: model:base.comment.template,name:l10n_ro_stock_picking_comment_template.l10n_ro_picking_usage_giving_up
 msgid "Romania - Comment for Usage Giving Before Lines"
-msgstr ""
+msgstr "Comentariu pentru proces dare in folosinta inainte de linii"
 
 #. module: l10n_ro_stock_picking_comment_template
 #: model:ir.actions.act_window,name:l10n_ro_stock_picking_comment_template.action_stock_picking_comment_template
 #: model:ir.ui.menu,name:l10n_ro_stock_picking_comment_template.menu_base_comment_template_picking
 msgid "Romanian Stock Picking Comments"
-msgstr ""
+msgstr "Comentarii Transferuri Stoc"
 
 #. module: l10n_ro_stock_picking_comment_template
 #: model:ir.model,name:l10n_ro_stock_picking_comment_template.model_stock_picking
 msgid "Transfer"
-msgstr ""
+msgstr "Transfer"
 
 #. module: l10n_ro_stock_picking_comment_template
 #: model:ir.model.fields,help:l10n_ro_stock_picking_comment_template.field_res_partner__l10n_ro_mean_transp
@@ -528,6 +530,8 @@ msgid ""
 "Visible only in pickings, and can be modify only from there;is keeping all "
 "the time the last not null value"
 msgstr ""
+"Vizibil doar în transferuri stoc, și poate fi modificat doar de acolo; isi păstreaza "
+"ultima valoare nenulă"
 
 #. module: l10n_ro_stock_picking_comment_template
 #: model:ir.model,name:l10n_ro_stock_picking_comment_template.model_comment_template
@@ -535,3 +539,5 @@ msgid ""
 "base.comment.template to put header and footer in reports based on created "
 "comment templates"
 msgstr ""
+"base.comment.template pentru a pune antet și subsol în rapoartele bazate pe "
+"modele de comentarii"
