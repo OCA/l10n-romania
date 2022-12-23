@@ -47,92 +47,92 @@ msgstr "Consum"
 #: model:ir.model.fields,field_description:l10n_ro_stock.field_stock_location__display_name
 #: model:ir.model.fields,field_description:l10n_ro_stock.field_stock_warehouse__display_name
 msgid "Display Name"
-msgstr ""
+msgstr "Nume afișat"
 
 #. module: l10n_ro_stock
 #: model:ir.model.fields,field_description:l10n_ro_stock.field_stock_location__id
 #: model:ir.model.fields,field_description:l10n_ro_stock.field_stock_warehouse__id
 msgid "ID"
-msgstr ""
+msgstr "ID"
 
 #. module: l10n_ro_stock
 #: model:ir.model,name:l10n_ro_stock.model_stock_location
 msgid "Inventory Locations"
-msgstr ""
+msgstr "Locații de inventar"
 
 #. module: l10n_ro_stock
 #: model:ir.model.fields,field_description:l10n_ro_stock.field_stock_location__is_l10n_ro_record
 #: model:ir.model.fields,field_description:l10n_ro_stock.field_stock_warehouse__is_l10n_ro_record
 msgid "Is Romanian Record"
-msgstr ""
+msgstr "Inregistrare Romania"
 
 #. module: l10n_ro_stock
 #: model:ir.model.fields,field_description:l10n_ro_stock.field_stock_location____last_update
 #: model:ir.model.fields,field_description:l10n_ro_stock.field_stock_warehouse____last_update
 msgid "Last Modified on"
-msgstr ""
+msgstr "Ultima modificare pe"
 
 #. module: l10n_ro_stock
 #: model:ir.model.fields,field_description:l10n_ro_stock.field_stock_location__usage
 msgid "Location Type"
-msgstr ""
+msgstr "Tip locație"
 
 #. module: l10n_ro_stock
 #: model:ir.model.fields,field_description:l10n_ro_stock.field_stock_warehouse__l10n_ro_wh_consume_loc_id
 msgid "Romania - Consume Location"
-msgstr ""
+msgstr "Locație Consum"
 
 #. module: l10n_ro_stock
 #: model:ir.model.fields,field_description:l10n_ro_stock.field_stock_warehouse__l10n_ro_consume_type_id
 msgid "Romania - Consume Type"
-msgstr ""
+msgstr "Operatie Tip consum"
 
 #. module: l10n_ro_stock
 #: model:ir.model.fields,field_description:l10n_ro_stock.field_stock_location__l10n_ro_merchandise_type
 msgid "Romania - Merchandise type"
-msgstr ""
+msgstr "Tip marfa"
 
 #. module: l10n_ro_stock
 #: model:ir.model.fields,field_description:l10n_ro_stock.field_stock_warehouse__l10n_ro_wh_usage_loc_id
 msgid "Romania - Usage Giving Location"
-msgstr ""
+msgstr "Locație Dare in Folosinta"
 
 #. module: l10n_ro_stock
 #: model:ir.model.fields,field_description:l10n_ro_stock.field_stock_warehouse__l10n_ro_usage_type_id
 msgid "Romania - Usage Giving Type"
-msgstr ""
+msgstr "Operatie Tip Dare in Folosinta"
 
 #. module: l10n_ro_stock
 #: code:addons/l10n_ro_stock/models/stock_warehouse.py:0
 #, python-format
 msgid "Sequence Consume"
-msgstr ""
+msgstr "Secvență Consum"
 
 #. module: l10n_ro_stock
 #: code:addons/l10n_ro_stock/models/stock_warehouse.py:0
 #, python-format
 msgid "Sequence Usage Giving"
-msgstr ""
+msgstr "Secvență Dare in Folosinta"
 
 #. module: l10n_ro_stock
 #: code:addons/l10n_ro_stock/models/stock_location.py:0
 #: model:ir.model.fields.selection,name:l10n_ro_stock.selection__stock_location__l10n_ro_merchandise_type__store
 #, python-format
 msgid "Store"
-msgstr ""
+msgstr "Magazin"
 
 #. module: l10n_ro_stock
 #: code:addons/l10n_ro_stock/models/stock_warehouse.py:0
 #, python-format
 msgid "Usage"
-msgstr ""
+msgstr "Dare in Folosinta"
 
 #. module: l10n_ro_stock
 #: code:addons/l10n_ro_stock/models/stock_warehouse.py:0
 #: model:ir.model.fields.selection,name:l10n_ro_stock.selection__stock_location__usage__usage_giving
 #, python-format
 msgid "Usage Giving"
-msgstr ""
+msgstr "Dare in Folosinta"
 
 #. module: l10n_ro_stock
 #: code:addons/l10n_ro_stock/models/stock_location.py:0
@@ -140,7 +140,4 @@ msgstr ""
 #: model:ir.model.fields.selection,name:l10n_ro_stock.selection__stock_location__l10n_ro_merchandise_type__warehouse
 #, python-format
 msgid "Warehouse"
-msgstr ""
-
-#~ msgid "Consume Location"
-#~ msgstr "Locație consum"
+msgstr "Depozit"
