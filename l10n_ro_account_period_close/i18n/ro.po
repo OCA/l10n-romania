@@ -197,7 +197,7 @@ msgstr "Ultima modificare de"
 #: model:ir.model.fields,field_description:l10n_ro_account_period_close.field_l10n_ro_account_period_closing__write_date
 #: model:ir.model.fields,field_description:l10n_ro_account_period_close.field_l10n_ro_account_period_closing_wizard__write_date
 msgid "Last Updated on"
-msgstr ""Ultima modificare la"
+msgstr "Ultima modificare la"
 
 #. module: l10n_ro_account_period_close
 #: model_terms:ir.ui.view,arch_db:l10n_ro_account_period_close.view_l10n_ro_account_period_closing_form
