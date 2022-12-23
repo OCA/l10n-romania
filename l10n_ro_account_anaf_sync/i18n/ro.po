@@ -159,7 +159,7 @@ msgstr "Următori (Canale)"
 #. module: l10n_ro_account_anaf_sync
 #: model:ir.model.fields,field_description:l10n_ro_account_anaf_sync.field_l10n_ro_account_anaf_sync__message_partner_ids
 msgid "Followers (Partners)"
-msgstr "Urmaritori (Parteneri)
+msgstr "Urmaritori (Parteneri)"
 
 #. module: l10n_ro_account_anaf_sync
 #: model:ir.model.fields,help:l10n_ro_account_anaf_sync.field_l10n_ro_account_anaf_sync__client_id
