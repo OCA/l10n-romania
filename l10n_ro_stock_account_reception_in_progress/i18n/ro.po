@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 14.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-11-27 07:55+0000\n"
-"PO-Revision-Date: 2022-11-27 07:55+0000\n"
+"POT-Creation-Date: 2022-12-23 07:54+0000\n"
+"PO-Revision-Date: 2022-12-23 07:54+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -43,7 +43,7 @@ msgstr "Nume afișat"
 #: model:ir.model.fields,field_description:l10n_ro_stock_account_reception_in_progress.field_stock_move__id
 #: model:ir.model.fields,field_description:l10n_ro_stock_account_reception_in_progress.field_stock_picking__id
 msgid "ID"
-msgstr ""
+msgstr "ID"
 
 #. module: l10n_ro_stock_account_reception_in_progress
 #: model:ir.model.fields,field_description:l10n_ro_stock_account_reception_in_progress.field_account_account__is_l10n_ro_record
@@ -52,7 +52,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_ro_stock_account_reception_in_progress.field_stock_move__is_l10n_ro_record
 #: model:ir.model.fields,field_description:l10n_ro_stock_account_reception_in_progress.field_stock_picking__is_l10n_ro_record
 msgid "Is Romanian Record"
-msgstr ""
+msgstr "Inregistrare Romania"
 
 #. module: l10n_ro_stock_account_reception_in_progress
 #: model:ir.model,name:l10n_ro_stock_account_reception_in_progress.model_account_move_line
@@ -106,8 +106,8 @@ msgid ""
 "There is no invoiceable line. If a product has a control policy based on "
 "received quantity, please make sure that a quantity has been received."
 msgstr ""
-"Nu există nicio linie facturabilă. Dacă un produs are o politică de control "
-"bazată pe cantitatea primită, vă rugăm să vă asigurați că a fost facută recepția cantitativă."
+"Nu există nici o linie facturabilă. Dacă un produs are o politică de control bazată pe"
+"cantitate primită, vă rugăm să vă asigurați că a fost primită o cantitate."
 
 #. module: l10n_ro_stock_account_reception_in_progress
 #: model:ir.model,name:l10n_ro_stock_account_reception_in_progress.model_stock_picking
@@ -121,8 +121,8 @@ msgid ""
 "You cannot change the quantity on invoice line linked with a purchase order "
 "marked as Reception in Progress."
 msgstr ""
-"Nu puteți modifica cantitatea de pe linia de factură asociată cu o comandă"
-"de achiziție marcată ca Recepție în curs."
+"Nu puteți modifica cantitatea de pe linia de factură asociată cu o comandăde"
+" achiziție marcată ca Recepție în curs."
 
 #. module: l10n_ro_stock_account_reception_in_progress
 #: code:addons/l10n_ro_stock_account_reception_in_progress/models/stock_picking.py:0
@@ -131,5 +131,5 @@ msgid ""
 "You cannot have 2 invoices on one purchase order marked as Reception in "
 "Progress."
 msgstr ""
-"Nu puteți avea 2 facturi pe o comandă de achiziție marcată cu Recepție în curs."
-
+"Nu puteți avea 2 facturi pe o comandă de achiziție marcată cu Recepție în "
+"curs."
