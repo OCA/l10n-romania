@@ -243,17 +243,22 @@ def store_svl_lot_and_locations(cr):
         """CREATE TABLE stock_production_lot_stock_valuation_layer_rel
         (stock_valuation_layer_id INTEGER, stock_production_lot_id INTEGER)""",
     )
-    cr.execute(
-        """
-        INSERT INTO stock_production_lot_stock_valuation_layer_rel (
-            stock_valuation_layer_id, stock_production_lot_id)
-        SELECT svl.id, sml.lot_id
-        FROM stock_valuation_layer svl
-        LEFT JOIN stock_move sm ON svl.stock_move_id = sm.id
-        LEFT JOIN stock_move_line sml ON sml.move_id = sm.id
-        WHERE sml.lot_id != null
-        """,
-    )
+    if not cr.fetchone():
+        cr.execute(
+            """CREATE TABLE stock_production_lot_stock_valuation_layer_rel
+            (stock_valuation_layer_id INTEGER, stock_production_lot_id INTEGER)""",
+        )
+        cr.execute(
+            """
+            INSERT INTO stock_production_lot_stock_valuation_layer_rel (
+                stock_valuation_layer_id, stock_production_lot_id)
+            SELECT svl.id, sml.lot_id
+            FROM stock_valuation_layer svl
+            LEFT JOIN stock_move sm ON svl.stock_move_id = sm.id
+            LEFT JOIN stock_move_line sml ON sml.move_id = sm.id
+            WHERE sml.lot_id is not null
+            """,
+        )
 
     # initializare svl.l10n_ro_stock_move_line_id
     cr.execute(
