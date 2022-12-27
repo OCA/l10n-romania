@@ -4,8 +4,10 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 14.0\n"
+"Project-Id-Version: Odoo Server 14.0+e\n"
 "Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2022-12-23 07:55+0000\n"
+"PO-Revision-Date: 2022-12-23 07:55+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -16,28 +18,29 @@ msgstr ""
 #. module: l10n_ro_stock_price_difference
 #: model_terms:ir.ui.view,arch_db:l10n_ro_stock_price_difference.view_price_difference_confirmation_form
 msgid "Cancel"
-msgstr ""
+msgstr "Anulare"
 
 #. module: l10n_ro_stock_price_difference
 #: model_terms:ir.ui.view,arch_db:l10n_ro_stock_price_difference.view_price_difference_confirmation_form
 msgid "Confirm"
-msgstr ""
+msgstr "Confirma"
 
 #. module: l10n_ro_stock_price_difference
 #: code:addons/l10n_ro_stock_price_difference/models/account_move.py:0
+#: code:addons/l10n_ro_stock_price_difference/models/account_move.py:0
 #, python-format
 msgid "Confirm Price Difference ?"
-msgstr ""
+msgstr "Confirmați diferența de preț?"
 
 #. module: l10n_ro_stock_price_difference
 #: model:ir.model.fields,field_description:l10n_ro_stock_price_difference.field_l10n_ro_price_difference_confirm_dialog__create_uid
 msgid "Created by"
-msgstr ""
+msgstr "Creat de"
 
 #. module: l10n_ro_stock_price_difference
 #: model:ir.model.fields,field_description:l10n_ro_stock_price_difference.field_l10n_ro_price_difference_confirm_dialog__create_date
 msgid "Created on"
-msgstr ""
+msgstr "Creat in"
 
 #. module: l10n_ro_stock_price_difference
 #: model:ir.model.fields,field_description:l10n_ro_stock_price_difference.field_account_move__display_name
@@ -45,7 +48,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_ro_stock_price_difference.field_l10n_ro_price_difference_confirm_dialog__display_name
 #: model:ir.model.fields,field_description:l10n_ro_stock_price_difference.field_stock_landed_cost__display_name
 msgid "Display Name"
-msgstr ""
+msgstr "Nume afișat"
 
 #. module: l10n_ro_stock_price_difference
 #: model:ir.model.fields,field_description:l10n_ro_stock_price_difference.field_account_move__id
@@ -53,27 +56,27 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_ro_stock_price_difference.field_l10n_ro_price_difference_confirm_dialog__id
 #: model:ir.model.fields,field_description:l10n_ro_stock_price_difference.field_stock_landed_cost__id
 msgid "ID"
-msgstr ""
+msgstr "ID"
 
 #. module: l10n_ro_stock_price_difference
 #: model:ir.model.fields,field_description:l10n_ro_stock_price_difference.field_l10n_ro_price_difference_confirm_dialog__invoice_id
 msgid "Invoice"
-msgstr ""
+msgstr "Factură"
 
 #. module: l10n_ro_stock_price_difference
 #: model:ir.model.fields,field_description:l10n_ro_stock_price_difference.field_account_move_line__is_l10n_ro_record
 msgid "Is Romanian Record"
-msgstr ""
+msgstr "Inregistrare Romania"
 
 #. module: l10n_ro_stock_price_difference
 #: model:ir.model,name:l10n_ro_stock_price_difference.model_account_move
 msgid "Journal Entry"
-msgstr ""
+msgstr "Notă contabilă"
 
 #. module: l10n_ro_stock_price_difference
 #: model:ir.model,name:l10n_ro_stock_price_difference.model_account_move_line
 msgid "Journal Item"
-msgstr ""
+msgstr "Element jurnal"
 
 #. module: l10n_ro_stock_price_difference
 #: model:ir.model.fields,field_description:l10n_ro_stock_price_difference.field_account_move____last_update
@@ -81,49 +84,49 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_ro_stock_price_difference.field_l10n_ro_price_difference_confirm_dialog____last_update
 #: model:ir.model.fields,field_description:l10n_ro_stock_price_difference.field_stock_landed_cost____last_update
 msgid "Last Modified on"
-msgstr ""
+msgstr "Ultima modificare la"
 
 #. module: l10n_ro_stock_price_difference
 #: model:ir.model.fields,field_description:l10n_ro_stock_price_difference.field_l10n_ro_price_difference_confirm_dialog__write_uid
 msgid "Last Updated by"
-msgstr ""
+msgstr "Ultima actualizare de către"
 
 #. module: l10n_ro_stock_price_difference
 #: model:ir.model.fields,field_description:l10n_ro_stock_price_difference.field_l10n_ro_price_difference_confirm_dialog__write_date
 msgid "Last Updated on"
-msgstr ""
+msgstr "Ultima actualizare pe"
 
 #. module: l10n_ro_stock_price_difference
 #: model:ir.model.fields,field_description:l10n_ro_stock_price_difference.field_l10n_ro_price_difference_confirm_dialog__message
 msgid "Message"
-msgstr ""
+msgstr "Mesaj"
 
 #. module: l10n_ro_stock_price_difference
 #: model:ir.model.fields.selection,name:l10n_ro_stock_price_difference.selection__stock_landed_cost__l10n_ro_cost_type__price_diff
 msgid "Price Difference"
-msgstr ""
+msgstr "Diferenta de pret"
 
 #. module: l10n_ro_stock_price_difference
 #: model_terms:ir.ui.view,arch_db:l10n_ro_stock_price_difference.view_price_difference_confirmation_form
 msgid "Price Difference Confirmation"
-msgstr ""
+msgstr "Confirmarea diferenței de preț"
 
 #. module: l10n_ro_stock_price_difference
 #: model:ir.model.fields,field_description:l10n_ro_stock_price_difference.field_stock_landed_cost__l10n_ro_cost_type
 msgid "Romania - Landed Cost Type"
-msgstr ""
+msgstr "Tip Repartizare Cost"
 
 #. module: l10n_ro_stock_price_difference
 #: model:ir.model,name:l10n_ro_stock_price_difference.model_stock_landed_cost
 msgid "Stock Landed Cost"
-msgstr ""
+msgstr "Costuri Adiționale Stoc"
 
 #. module: l10n_ro_stock_price_difference
 #: model_terms:ir.ui.view,arch_db:l10n_ro_stock_price_difference.view_price_difference_confirmation_form
 msgid "There are price differences between reception pickings and this bill !"
-msgstr ""
+msgstr "Există diferențe de preț între recepție și această factură!"
 
 #. module: l10n_ro_stock_price_difference
 #: model:ir.model,name:l10n_ro_stock_price_difference.model_l10n_ro_price_difference_confirm_dialog
 msgid "Wizard to show price differences between invoice and reception"
-msgstr ""
+msgstr "Asistent pentru a afișa diferențele de preț între factură și recepție"

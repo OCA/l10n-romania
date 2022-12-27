@@ -93,17 +93,17 @@ msgstr "ID"
 #: model:ir.model.fields,field_description:l10n_ro_vat_on_payment.field_account_move__is_l10n_ro_record
 #: model:ir.model.fields,field_description:l10n_ro_vat_on_payment.field_account_move_line__is_l10n_ro_record
 msgid "Is Romanian Record"
-msgstr ""
+msgstr "Inregistrare Romania"
 
 #. module: l10n_ro_vat_on_payment
 #: model:ir.model,name:l10n_ro_vat_on_payment.model_account_move
 msgid "Journal Entry"
-msgstr ""
+msgstr "Nota Contabila"
 
 #. module: l10n_ro_vat_on_payment
 #: model:ir.model,name:l10n_ro_vat_on_payment.model_account_move_line
 msgid "Journal Item"
-msgstr ""
+msgstr "Element jurnal"
 
 #. module: l10n_ro_vat_on_payment
 #: model:ir.model.fields,field_description:l10n_ro_vat_on_payment.field_account_move____last_update
@@ -152,13 +152,13 @@ msgstr "Ştergere"
 #: model:ir.model.fields,field_description:l10n_ro_vat_on_payment.field_res_partner__l10n_ro_anaf_history
 #: model:ir.model.fields,field_description:l10n_ro_vat_on_payment.field_res_users__l10n_ro_anaf_history
 msgid "Romania - ANAF History"
-msgstr ""
+msgstr "Istoric ANAF"
 
 #. module: l10n_ro_vat_on_payment
 #: model:ir.model.fields,field_description:l10n_ro_vat_on_payment.field_res_partner__l10n_ro_vat_on_payment
 #: model:ir.model.fields,field_description:l10n_ro_vat_on_payment.field_res_users__l10n_ro_vat_on_payment
 msgid "Romania - VAT on Payment"
-msgstr ""
+msgstr "TVA la Incasare"
 
 #. module: l10n_ro_vat_on_payment
 #: model:ir.model.fields,field_description:l10n_ro_vat_on_payment.field_l10n_ro_res_partner_anaf__start_date
@@ -182,34 +182,3 @@ msgstr "Actualizează TVA la Încasare"
 #: model:ir.model.fields,field_description:l10n_ro_vat_on_payment.field_l10n_ro_res_partner_anaf__vat
 msgid "VAT"
 msgstr "TVA"
-
-#~ msgid "Journal Entries"
-#~ msgstr "Intrări jurnal"
-
-#~ msgid "VAT number"
-#~ msgstr "Număr TVA"
-
-#~ msgid "VAT number without country code."
-#~ msgstr "Număr TVA fără cod ţară."
-
-#~ msgid "VAT on Payment"
-#~ msgstr "TVA la Încasare"
-
-#~ msgid "Invoice"
-#~ msgstr "Factură"
-
-#~ msgid "Accounting"
-#~ msgstr "Contabilitate"
-
-#~ msgid "Is a Fiscal Receipt"
-#~ msgstr "Este Bon Fiscal"
-
-#~ msgid "Partner"
-#~ msgstr "Partener"
-
-#~ msgid ""
-#~ "onchange_partner_id(type, partner_id, date_invoice, payment_term, "
-#~ "partner_bank_id, company_id, context)"
-#~ msgstr ""
-#~ "onchange_partner_id(type, partner_id, date_invoice, payment_term, "
-#~ "partner_bank_id, company_id, context)"
