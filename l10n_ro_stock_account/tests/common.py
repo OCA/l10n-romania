@@ -462,6 +462,22 @@ class TestStockCommon(ValuationReconciliationTestCommon):
             picking._action_done()
         self.picking = picking
 
+    def _make_mo(self, bom, quantity=1):
+        mo_form = Form(self.env["mrp.production"])
+        mo_form.product_id = bom.product_id
+        mo_form.bom_id = bom
+        mo_form.product_qty = quantity
+        mo = mo_form.save()
+        mo.action_confirm()
+        return mo
+
+    def _produce(self, mo, quantity=0):
+        mo_form = Form(mo)
+        if not quantity:
+            quantity = mo.product_qty - mo.qty_produced
+        mo_form.qty_producing += quantity
+        mo = mo_form.save()
+
     def check_stock_valuation(self, val_p1, val_p2):
         val_p1 = round(val_p1, 2)
         val_p2 = round(val_p2, 2)

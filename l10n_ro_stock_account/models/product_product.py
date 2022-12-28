@@ -27,9 +27,15 @@ class ProductProduct(models.Model):
         if l10n_ro_records:
             company = self.env.company
             use_svl_lot_config = company.l10n_ro_stock_account_svl_lot_allocation
-            domain_ctx = [
-                ("l10n_ro_location_dest_id", "=", self.env.context.get("location_id"))
-            ]
+            domain_ctx = []
+            if self.env.context.get("location_id"):
+                domain_ctx = [
+                    (
+                        "l10n_ro_location_dest_id",
+                        "=",
+                        self.env.context.get("location_id"),
+                    )
+                ]
             if use_svl_lot_config and self.env.context.get("lot_id"):
                 domain_ctx += (
                     "l10n_ro_lot_ids",
@@ -82,7 +88,10 @@ class ProductProduct(models.Model):
             fifo_vals_list = self._run_fifo(abs(quantity), company)
             for fifo_vals in fifo_vals_list:
                 vals = vals_tpl.copy()
+                vals["quantity"] = fifo_vals.get("quantity") or vals_tpl["quantity"]
+                vals["value"] = fifo_vals.get("value") or vals_tpl["value"]
                 vals["remaining_qty"] = fifo_vals.get("remaining_qty")
+
                 # In case of AVCO, fix rounding issue of standard price when needed.
                 if self.cost_method == "average":
                     rounding_error = currency.round(
