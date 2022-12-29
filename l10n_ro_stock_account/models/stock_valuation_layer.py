@@ -61,9 +61,8 @@ class StockValuationLayer(models.Model):
     @api.model_create_multi
     def create(self, vals_list):
         for values in vals_list:
-            if self.env["res.company"]._check_is_l10n_ro_record(
-                values.get("company_id")
-            ):
+            company = values.get("company_id") or self.env.company.id
+            if self.env["res.company"]._check_is_l10n_ro_record(company):
                 if (
                     "l10n_ro_valued_type" not in values
                     and "stock_valuation_layer_id" in values
