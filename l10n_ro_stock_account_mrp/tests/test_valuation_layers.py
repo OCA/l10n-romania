@@ -2,7 +2,7 @@
 
 """ Implementation of "INVENTORY VALUATION TESTS (With valuation layers)" spreadsheet. """
 
-from odoo.tests import tagged
+from odoo.tests import Form, tagged
 
 from odoo.addons.l10n_ro_stock_account.tests.common import TestStockCommon
 
@@ -40,6 +40,22 @@ class TestMrpValuationStandardL10nRo(TestStockCommon):
                 ],
             }
         )
+
+    def _make_mo(self, bom, quantity=1):
+        mo_form = Form(self.env["mrp.production"])
+        mo_form.product_id = bom.product_id
+        mo_form.bom_id = bom
+        mo_form.product_qty = quantity
+        mo = mo_form.save()
+        mo.action_confirm()
+        return mo
+
+    def _produce(self, mo, quantity=0):
+        mo_form = Form(mo)
+        if not quantity:
+            quantity = mo.product_qty - mo.qty_produced
+        mo_form.qty_producing += quantity
+        mo = mo_form.save()
 
     def test_fifo(self):
         self.fin_product.product_tmpl_id.categ_id.property_cost_method = "fifo"
