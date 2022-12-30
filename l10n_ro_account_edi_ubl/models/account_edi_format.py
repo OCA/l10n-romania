@@ -45,7 +45,7 @@ class AccountEdiXmlCIUSRO(models.Model):
         vals["vals"].update(
             {
                 "customization_id": "urn:cen.eu:en16931:2017#compliant#"
-                "urn:efactura.mfinante.ro:CIUS-RO:1.0.0",
+                "urn:efactura.mfinante.ro:CIUS-RO:1.0.1",
             }
         )
         return vals
