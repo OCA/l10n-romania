@@ -10,6 +10,7 @@ msgstr ""
 "PO-Revision-Date: 2022-12-23 07:26+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
+"Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
@@ -37,14 +38,13 @@ msgstr "Companii"
 
 #. module: l10n_ro_stock_account
 #: code:addons/l10n_ro_stock_account/models/stock_landed_cost.py:0
-#: code:addons/l10n_ro_stock_account/models/stock_landed_cost.py:0
 #, python-format
 msgid ""
 "Cost and adjustments lines do not match. You should maybe recompute the "
 "landed costs."
 msgstr ""
-"Liniile de cost și de ajustări nu se potrivesc. Poate ar trebui să recalculați "
-"costurile repartizate."
+"Liniile de cost și de ajustări nu se potrivesc. Poate ar trebui să "
+"recalculați costurile repartizate."
 
 #. module: l10n_ro_stock_account
 #: model:ir.model.fields,field_description:l10n_ro_stock_account.field_l10n_ro_stock_valuation_layer_tracking__create_uid
@@ -84,14 +84,13 @@ msgstr "Nume afișat"
 
 #. module: l10n_ro_stock_account
 #: code:addons/l10n_ro_stock_account/models/product_category.py:0
-#: code:addons/l10n_ro_stock_account/models/product_category.py:0
 #, python-format
 msgid ""
 "For Romanian Stock Accounting the stock_input, stock_output and "
 "stock_valuation accounts must bethe same for category %s"
 msgstr ""
-"Pentru Contabilitatea stocurilor românești, conturile stocul_input, stoc_output și"
-"stock_valuation trebuie să fie aceleași pentru categoria %s"
+"Pentru Contabilitatea stocurilor românești, conturile stocul_input, "
+"stoc_output șistock_valuation trebuie să fie aceleași pentru categoria %s"
 
 #. module: l10n_ro_stock_account
 #: model:ir.model.fields,field_description:l10n_ro_stock_account.field_account_account__id
@@ -121,8 +120,9 @@ msgid ""
 "In Romania accounting is only one account for valuation/input/output. If "
 "this value is set, we will use it, otherwise will use the category value. "
 msgstr ""
-"În contabilitatea română este un singur cont pentru evaluare/intrare/ieșire. Dacă "
-"această valoare este setată, o vom folosi, în caz contrar vom folosi valoarea categoriei."
+"În contabilitatea română este un singur cont pentru evaluare/intrare/ieșire. "
+"Dacă această valoare este setată, o vom folosi, în caz contrar vom folosi "
+"valoarea categoriei."
 
 #. module: l10n_ro_stock_account
 #: model:ir.model,name:l10n_ro_stock_account.model_stock_location
@@ -146,6 +146,11 @@ msgid "Is Romanian Record"
 msgstr "Inregistrare Romania"
 
 #. module: l10n_ro_stock_account
+#: model:ir.actions.act_window,name:l10n_ro_stock_account.l10n_ro_stock_account_move_action
+msgid "Journal Entries"
+msgstr ""
+
+#. module: l10n_ro_stock_account
 #: model:ir.model,name:l10n_ro_stock_account.model_account_move
 msgid "Journal Entry"
 msgstr "Notă contabilă"
@@ -154,6 +159,11 @@ msgstr "Notă contabilă"
 #: model:ir.model,name:l10n_ro_stock_account.model_account_move_line
 msgid "Journal Item"
 msgstr "Element jurnal"
+
+#. module: l10n_ro_stock_account
+#: model_terms:ir.ui.view,arch_db:l10n_ro_stock_account.view_picking_add_price_unit_form
+msgid "Journal Items"
+msgstr ""
 
 #. module: l10n_ro_stock_account
 #: model:ir.model.fields,field_description:l10n_ro_stock_account.field_stock_valuation_layer_revaluation__l10n_ro_location_id
@@ -212,16 +222,17 @@ msgid ""
 "Only for Romania, to change the accounts to the ones defined on stock "
 "locations"
 msgstr ""
-"Doar pentru Romania, sa schimbe conturile in cele definite pe locatiile dee stoc"
+"Doar pentru Romania, sa schimbe conturile in cele definite pe locatiile dee "
+"stoc"
 
 #. module: l10n_ro_stock_account
 #: model:ir.model.fields,help:l10n_ro_stock_account.field_product_category__l10n_ro_hide_stock_in_out_account
 msgid ""
-"Only for Romania, to hide stock_input and stock_output accounts because they"
-" are the same as stock_valuation account"
+"Only for Romania, to hide stock_input and stock_output accounts because they "
+"are the same as stock_valuation account"
 msgstr ""
-"Doar pentru Romania, sa ascunda conturile stock_input si stock_output pentru ca acestea"
-" sunt identice cu contul stock_valuation"
+"Doar pentru Romania, sa ascunda conturile stock_input si stock_output pentru "
+"ca acestea sunt identice cu contul stock_valuation"
 
 #. module: l10n_ro_stock_account
 #: model:ir.model.fields,field_description:l10n_ro_stock_account.field_stock_return_picking_line__origin_ret_move_qty
@@ -263,7 +274,8 @@ msgstr "Cantitate"
 msgid ""
 "Quantity more than existing. You will return different stock valuations."
 msgstr ""
-"Cantitate mai mare decât cea existentă. Veți returna diferite evaluări ale stocurilor."
+"Cantitate mai mare decât cea existentă. Veți returna diferite evaluări ale "
+"stocurilor."
 
 #. module: l10n_ro_stock_account
 #: model_terms:ir.ui.view,arch_db:l10n_ro_stock_account.view_stock_return_picking_form
@@ -423,8 +435,7 @@ msgstr ""
 #: model:ir.model.fields,help:l10n_ro_stock_account.field_stock_location__l10n_ro_property_account_income_location_id
 msgid ""
 "This account will overwrite the income accounts from product or category."
-msgstr ""
-"Acest cont va suprascrie conturile de venit din produs sau categorie."
+msgstr "Acest cont va suprascrie conturile de venit din produs sau categorie."
 
 #. module: l10n_ro_stock_account
 #: model_terms:ir.ui.view,arch_db:l10n_ro_stock_account.stock_valuation_layer_form
@@ -454,5 +465,4 @@ msgstr "Valoare"
 #. module: l10n_ro_stock_account
 #: model:ir.model,name:l10n_ro_stock_account.model_stock_valuation_layer_revaluation
 msgid "Wizard model to reavaluate a stock inventory for a product"
-msgstr ""
-"Model wizard de reevaluare a unui inventar de stocuri pentru un produs"
+msgstr "Model wizard de reevaluare a unui inventar de stocuri pentru un produs"
