@@ -257,7 +257,7 @@ def store_svl_lot_and_locations(cr):
             FROM stock_valuation_layer svl
             LEFT JOIN stock_move sm ON svl.stock_move_id = sm.id
             LEFT JOIN stock_move_line sml ON sml.move_id = sm.id
-            WHERE sml.lot_id != null
+            WHERE sml.lot_id is not null
             """,
         )
 
@@ -268,6 +268,7 @@ def store_svl_lot_and_locations(cr):
            WHERE table_name='stock_valuation_layer' AND
            column_name='l10n_ro_stock_move_line_id'"""
     )
+
     if not cr.fetchone():
         cr.execute(
             """

@@ -387,6 +387,7 @@ class StockMove(models.Model):
                             or move.name
                         )
                     svl_vals["description"] += svl_vals.pop("rounding_adjustment", "")
+                    svl_vals["l10n_ro_stock_move_line_id"] = valued_move_line.id
                     svls |= self._l10n_ro_create_track_svl([svl_vals])
 
                     new_svl_vals = svl_vals.copy()
