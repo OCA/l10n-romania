@@ -136,6 +136,11 @@ msgid "Is Romanian Record"
 msgstr ""
 
 #. module: l10n_ro_stock_account
+#: model:ir.actions.act_window,name:l10n_ro_stock_account.l10n_ro_stock_account_move_action
+msgid "Journal Entries"
+msgstr ""
+
+#. module: l10n_ro_stock_account
 #: model:ir.model,name:l10n_ro_stock_account.model_account_move
 msgid "Journal Entry"
 msgstr ""
@@ -143,6 +148,11 @@ msgstr ""
 #. module: l10n_ro_stock_account
 #: model:ir.model,name:l10n_ro_stock_account.model_account_move_line
 msgid "Journal Item"
+msgstr ""
+
+#. module: l10n_ro_stock_account
+#: model_terms:ir.ui.view,arch_db:l10n_ro_stock_account.view_picking_add_price_unit_form
+msgid "Journal Items"
 msgstr ""
 
 #. module: l10n_ro_stock_account
