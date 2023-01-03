@@ -9,6 +9,14 @@
                 ref="l10n_ro_stock_account.view_stock_landed_cost_form"
             />
             <field name="arch" type="xml">
+                <group name="l10n_ro_general" position="before">
+                    <field name="is_l10n_ro_record" invisible="1" />
+                </group>
+                <group name="l10n_ro_general" position="attributes">
+                    <attribute
+                        name="attrs"
+                    >{'invisible': [('is_l10n_ro_record', '=', False)]}</attribute>
+                </group>
                 <group name="l10n_ro_general" position="inside">
                     <field
                         name="l10n_ro_account_dvi_id"
@@ -23,7 +31,7 @@
                 <group name="l10n_ro_general" position="after">
                     <group
                         name="l10n_ro_dvi"
-                        attrs="{'invisible': [('l10n_ro_cost_type','!=','dvi')]}"
+                        attrs="{'invisible': ['|', ('l10n_ro_cost_type','!=','dvi'), ('is_l10n_ro_record', '=', False)]}"
                     >
                         <field name="l10n_ro_tax_id" />
                         <field name="l10n_ro_base_tax_value" />

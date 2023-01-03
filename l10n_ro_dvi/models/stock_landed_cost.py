@@ -11,7 +11,8 @@ _logger = logging.getLogger(__name__)
 
 
 class LandedCost(models.Model):
-    _inherit = "stock.landed.cost"
+    _name = "stock.landed.cost"
+    _inherit = ["stock.landed.cost", "l10n.ro.mixin"]
 
     l10n_ro_cost_type = fields.Selection(
         selection_add=[("dvi", "DVI")], ondelete={"dvi": "set default"}
@@ -48,7 +49,10 @@ class LandedCost(models.Model):
 
     def button_validate(self):
         res = super(LandedCost, self).button_validate()
-        for cost in self.filtered(lambda c: c.l10n_ro_tax_value and c.l10n_ro_tax_id):
+        ro_recs = self.filtered(lambda rec: rec.is_l10n_ro_record)
+        for cost in ro_recs.filtered(
+            lambda c: c.l10n_ro_tax_value and c.l10n_ro_tax_id
+        ):
             if (
                 cost.l10n_ro_cost_type == "dvi"
                 and not cost.l10n_ro_account_dvi_id.invoice_ids
@@ -121,6 +125,15 @@ class AdjustmentLines(models.Model):
     def _create_account_move_line(
         self, move, credit_account_id, debit_account_id, qty_out, already_out_account_id
     ):
+        if not self.cost_id.is_l10n_ro_record:
+            return super()._create_account_move_line(
+                move,
+                credit_account_id,
+                debit_account_id,
+                qty_out,
+                already_out_account_id,
+            )
+
         if self._context.get("dvi_revert"):
             return []
         else:
