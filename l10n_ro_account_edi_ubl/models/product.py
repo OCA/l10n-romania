@@ -24,7 +24,7 @@ class ProductTemplate(models.Model):
         for template in unique_variants:
             template.l10n_ro_nc_code = template.product_variant_ids.l10n_ro_nc_code
         for template in self - unique_variants:
-            template.default_code = False
+            template.l10n_ro_nc_code = False
 
     def _inverse_l10n_ro_nc_code(self):
         for template in self:
