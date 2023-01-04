@@ -91,6 +91,7 @@ class ProductProduct(models.Model):
                 vals["quantity"] = fifo_vals.get("quantity") or vals_tpl["quantity"]
                 vals["value"] = fifo_vals.get("value") or vals_tpl["value"]
                 vals["remaining_qty"] = fifo_vals.get("remaining_qty")
+                vals["l10n_ro_tracking"] = fifo_vals.get("l10n_ro_tracking")
 
                 # In case of AVCO, fix rounding issue of standard price when needed.
                 if self.cost_method == "average":
@@ -192,6 +193,9 @@ class ProductProduct(models.Model):
                 track_svl = [
                     (candidate.id, qty_taken_on_candidate, value_taken_on_candidate)
                 ]
+                for linked_svl in candidate.stock_valuation_layer_ids:
+                    track_svl += [(linked_svl.id, 0, 0)]
+
                 qty_to_take_on_candidates -= qty_taken_on_candidate
                 # If there's still quantity to value but we're out of candidates, we fall in the
                 # negative stock use case. We chose to value the out move at the price of the
