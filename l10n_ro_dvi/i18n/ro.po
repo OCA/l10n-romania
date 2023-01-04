@@ -23,9 +23,10 @@ msgid ""
 "Journal entry for duty will be with this product & default vat for custom "
 "duty and invoice - to find it in declaration based on tags"
 msgstr ""
-"Un produs de tip serviciu cu l10n_ro_custom_duty bifat (in pagina de cumpărare). "
-"Înregistrarea în jurnal pentru taxe va folosi acest produs și TVA implicit pentru "
-"taxe vamale și factură -pentru a o găsi în declarație bazată pe etichete"
+"Un produs de tip serviciu cu l10n_ro_custom_duty bifat (in pagina de "
+"cumpărare). Înregistrarea în jurnal pentru taxe va folosi acest produs și "
+"TVA implicit pentru taxe vamale și factură -pentru a o găsi în declarație "
+"bazată pe etichete"
 
 #. module: l10n_ro_dvi
 #: model:ir.model.fields,field_description:l10n_ro_dvi.field_l10n_ro_account_dvi_line__price_subtotal
@@ -43,7 +44,8 @@ msgstr "Suma de bază"
 msgid ""
 "Base VAT amount, calculated from invoice base amount, customs and commision."
 msgstr ""
-"Valoarea bază TVA, calculată din valoarea de bază a facturii, vamă și comision."
+"Valoarea bază TVA, calculată din valoarea de bază a facturii, vamă și "
+"comision."
 
 #. module: l10n_ro_dvi
 #: model:ir.model,name:l10n_ro_dvi.model_res_company
@@ -224,14 +226,20 @@ msgid "Invoices value without taxes"
 msgstr "Valoarea facturilor fără taxe"
 
 #. module: l10n_ro_dvi
+#: model:ir.model.fields,field_description:l10n_ro_dvi.field_account_move__is_l10n_ro_record
+#: model:ir.model.fields,field_description:l10n_ro_dvi.field_stock_landed_cost__is_l10n_ro_record
+msgid "Is Romanian Record"
+msgstr ""
+
+#. module: l10n_ro_dvi
 #: model:ir.model.fields,help:l10n_ro_dvi.field_l10n_ro_account_dvi__total_base_tax_value
 #: model:ir.model.fields,help:l10n_ro_dvi.field_l10n_ro_account_dvi__total_tax_value
 msgid ""
 "Is readonly sum of product tax and custom tax.This must be the tax value "
 "that you have on dvi"
 msgstr ""
-"Este suma din valoarea taxei pe produs și a taxei vamale. Aceasta trebuie "
-"să fie valoarea taxei pe care o aveți pe dvi"
+"Este suma din valoarea taxei pe produs și a taxei vamale. Aceasta trebuie să "
+"fie valoarea taxei pe care o aveți pe dvi"
 
 #. module: l10n_ro_dvi
 #: model:ir.model.fields,help:l10n_ro_dvi.field_l10n_ro_account_dvi__tax_id
@@ -240,8 +248,9 @@ msgid ""
 "Is the vat that is paid in custom for products. default is taken from custom "
 "duty tax. will put this vat tag in journal entry to find it in reports"
 msgstr ""
-"Este tva care se plătește in vama pentru produse. implicit este luat din taxa "
-"vamală. va pune această etichetă în înregistrarea jurnalului pentru a o găsi în rapoarte"
+"Este tva care se plătește in vama pentru produse. implicit este luat din "
+"taxa vamală. va pune această etichetă în înregistrarea jurnalului pentru a o "
+"găsi în rapoarte"
 
 #. module: l10n_ro_dvi
 #: model:ir.model.fields,field_description:l10n_ro_dvi.field_l10n_ro_account_dvi__journal_id
@@ -326,8 +335,8 @@ msgid ""
 "Product type service with l10n_ro_custom_commision checed (in purchase tab). "
 "Journal entry for commision will be with this product"
 msgstr ""
-"Produs de tip serviciu cu l10n_ro_custom_commision bifat (în fila de achiziții). "
-"Înregistrarea în jurnal pentru comision va fi cu acest produs"
+"Produs de tip serviciu cu l10n_ro_custom_commision bifat (în fila de "
+"achiziții). Înregistrarea în jurnal pentru comision va fi cu acest produs"
 
 #. module: l10n_ro_dvi
 #: model:ir.model.fields,field_description:l10n_ro_dvi.field_l10n_ro_account_dvi_line__qty
@@ -405,8 +414,8 @@ msgid ""
 "Technical field holding the debit - credit in order to open meaningful graph "
 "views from reports"
 msgstr ""
-"Total debit - credit pentru a deschide vizualizări grafice "
-"semnificative din rapoarte"
+"Total debit - credit pentru a deschide vizualizări grafice semnificative din "
+"rapoarte"
 
 #. module: l10n_ro_dvi
 #: model:ir.model.fields,help:l10n_ro_dvi.field_l10n_ro_account_dvi_line__qty
@@ -414,8 +423,9 @@ msgid ""
 "The optional quantity expressed by this line, eg: number of product sold. "
 "The quantity is not a legal requirement but is very useful for some reports."
 msgstr ""
-"Cantitatea opțională exprimată de această linie, de exemplu: numărul de produse vândute. "
-"Cantitatea nu este o cerință legală dar este foarte utilă pentru unele rapoarte."
+"Cantitatea opțională exprimată de această linie, de exemplu: numărul de "
+"produse vândute. Cantitatea nu este o cerință legală dar este foarte utilă "
+"pentru unele rapoarte."
 
 #. module: l10n_ro_dvi
 #: code:addons/l10n_ro_dvi/models/stock_landed_cost.py:0
@@ -523,8 +533,8 @@ msgid ""
 "default is computed as tax_id from product; is not recomputed based on "
 "selected vat"
 msgstr ""
-"implicit este calculat ca tax_id din produs; nu se recalculează pe "
-"baza tva selectată"
+"implicit este calculat ca tax_id din produs; nu se recalculează pe baza tva "
+"selectată"
 
 #. module: l10n_ro_dvi
 #: model_terms:ir.ui.view,arch_db:l10n_ro_dvi.view_account_dvi_form
