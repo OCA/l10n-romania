@@ -209,6 +209,12 @@ msgid "Invoices value without taxes"
 msgstr ""
 
 #. module: l10n_ro_dvi
+#: model:ir.model.fields,field_description:l10n_ro_dvi.field_account_move__is_l10n_ro_record
+#: model:ir.model.fields,field_description:l10n_ro_dvi.field_stock_landed_cost__is_l10n_ro_record
+msgid "Is Romanian Record"
+msgstr ""
+
+#. module: l10n_ro_dvi
 #: model:ir.model.fields,help:l10n_ro_dvi.field_l10n_ro_account_dvi__total_base_tax_value
 #: model:ir.model.fields,help:l10n_ro_dvi.field_l10n_ro_account_dvi__total_tax_value
 msgid ""
