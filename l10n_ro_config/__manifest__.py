@@ -18,6 +18,7 @@
         "views/res_config_view.xml",
         "views/res_bank_view.xml",
         "views/res_partner_view.xml",
+        "views/webclient_templates.xml",
     ],
     "pre_init_hook": "pre_init_hook",
     "development_status": "Mature",
