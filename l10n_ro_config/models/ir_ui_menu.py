@@ -13,7 +13,7 @@ BaseIrUiMenu._visible_menu_ids = BaseIrUiMenu._visible_menu_ids.__wrapped__
 class L10nRoIrUiMenu(models.Model):
     _inherit = "ir.ui.menu"
 
-    _menus_country_code = "ro_RO"
+    _menus_country_code = "RO"
     is_l10n_ro_record = fields.Boolean()
 
     @api.model
@@ -65,6 +65,7 @@ class L10nRoIrUiMenu(models.Model):
             .env["res.company"]
             .browse(self._context["menus_current_company"])
         )
+
         if L10nRoIrUiMenu._menus_country_code != current_company.country_id.code:
             return False
 
