@@ -27,6 +27,7 @@ function makeFetchLoadMenus() {
     };
 }
 
+/* eslint-disable no-param-reassign */
 function makeMenus(env, menusData, fetchLoadMenus) {
     let currentAppId = false;
     return {
@@ -79,6 +80,7 @@ function makeMenus(env, menusData, fetchLoadMenus) {
     };
 }
 
+/* eslint-disable no-param-reassign */
 async function start(env) {
     const fetchLoadMenus = makeFetchLoadMenus();
     const menusData = await fetchLoadMenus();
