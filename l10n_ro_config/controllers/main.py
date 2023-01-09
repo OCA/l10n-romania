@@ -13,7 +13,8 @@ class L10nRoHome(Home):
         ctx = {**request.context}
         ctx.update(menus_current_company="")
         if request.params.get("company"):
-            comp = int(request.params["company"])
+            comp_str = request.params["company"].split(",")[0]
+            comp = int(comp_str)
             ctx.update(menus_current_company=comp)
         request.context = ctx
         return super().web_load_menus(unique)
