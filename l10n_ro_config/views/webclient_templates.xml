@@ -8,15 +8,23 @@
     >
         <xpath expr="//t[@t-set='head_web']/script" position="replace">
             <script type="text/javascript">
-                    odoo.session_info = <t t-raw="json.dumps(session_info)" />;
+                    odoo.__session_info__ = <t t-out="json.dumps(session_info)" />;
                     odoo.reloadMenus = function() {
                                             var hash = $.bbq.getState();
                                             var cids = (hash &amp;&amp; hash.cids) || '';
-                                            var url = `/web/webclient/load_menus/${odoo.session_info.cache_hashes.load_menus}`;
+                                            var url = `/web/webclient/load_menus/${odoo.__session_info__.cache_hashes.load_menus}`;
                                             url += '/?company=' + cids;
                                             return fetch(url).then(res => res.json());
                                       };
                     odoo.loadMenusPromise = false;
+                    odoo.loadTemplatesPromise = fetch(`/web/webclient/qweb/${odoo.__session_info__.cache_hashes.qweb}?bundle=web.assets_qweb`).then(doc => doc.text());
+                    // Block to avoid leaking variables in the script scope
+                    {
+                        const { user_context,  cache_hashes } = odoo.__session_info__;
+                        // Prefetch translations to speedup webclient. This is done in JS because link rel="prefetch"
+                        // is not yet supported on safari.
+                        fetch(`/web/webclient/translations/${cache_hashes.translations}?lang=${user_context.lang}`);
+                    }
             </script>
         </xpath>
     </template>
