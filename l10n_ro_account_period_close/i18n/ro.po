@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 13.0\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2021-03-16 11:46+0000\n"
+"PO-Revision-Date: 2023-01-09 19:45+0000\n"
 "Last-Translator: Dorin Hongu <dhongu@gmail.com>\n"
 "Language-Team: none\n"
 "Language: ro\n"
@@ -15,7 +15,7 @@ msgstr ""
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=3; plural=n==1 ? 0 : (n==0 || (n%100 > 0 && n%100 < "
 "20)) ? 1 : 2;\n"
-"X-Generator: Weblate 4.3.2\n"
+"X-Generator: Weblate 4.14.1\n"
 
 #. module: l10n_ro_account_period_close
 #: model_terms:ir.ui.view,arch_db:l10n_ro_account_period_close.view_account_period_closing_wizard
@@ -74,7 +74,7 @@ msgstr "Închide perioadă"
 #. module: l10n_ro_account_period_close
 #: model:ir.model.fields,field_description:l10n_ro_account_period_close.field_l10n_ro_account_period_closing__close_result
 msgid "Close debit and credit accounts"
-msgstr ""
+msgstr "Închide conturile de debit și credit"
 
 #. module: l10n_ro_account_period_close
 #: model_terms:ir.ui.view,arch_db:l10n_ro_account_period_close.view_l10n_ro_account_period_closing_form
@@ -84,7 +84,7 @@ msgstr "Închidere"
 #. module: l10n_ro_account_period_close
 #: model:ir.model.fields,field_description:l10n_ro_account_period_close.field_l10n_ro_account_period_closing_wizard__closing_id
 msgid "Closing Model"
-msgstr ""
+msgstr "Model închidere"
 
 #. module: l10n_ro_account_period_close
 #: model:ir.model.fields,field_description:l10n_ro_account_period_close.field_l10n_ro_account_period_closing__move_ids
@@ -94,12 +94,12 @@ msgstr "Mișcări închidere"
 #. module: l10n_ro_account_period_close
 #: model:ir.model.fields,field_description:l10n_ro_account_period_close.field_l10n_ro_account_period_closing__credit_account_id
 msgid "Closing account, credit"
-msgstr ""
+msgstr "Cont închidere, credit"
 
 #. module: l10n_ro_account_period_close
 #: model:ir.model.fields,field_description:l10n_ro_account_period_close.field_l10n_ro_account_period_closing__debit_account_id
 msgid "Closing account, debit"
-msgstr ""
+msgstr "Cont închidere, debit"
 
 #. module: l10n_ro_account_period_close
 #: model:ir.model.fields,field_description:l10n_ro_account_period_close.field_l10n_ro_account_period_closing__company_id
@@ -110,24 +110,24 @@ msgstr "Companie"
 #. module: l10n_ro_account_period_close
 #: model_terms:ir.ui.view,arch_db:l10n_ro_account_period_close.view_l10n_ro_account_period_closing_form
 msgid "Config"
-msgstr ""
+msgstr "Configurare"
 
 #. module: l10n_ro_account_period_close
 #: model:ir.model.fields,field_description:l10n_ro_account_period_close.field_l10n_ro_account_period_closing__create_uid
 #: model:ir.model.fields,field_description:l10n_ro_account_period_close.field_l10n_ro_account_period_closing_wizard__create_uid
 msgid "Created by"
-msgstr ""
+msgstr "Creat de"
 
 #. module: l10n_ro_account_period_close
 #: model:ir.model.fields,field_description:l10n_ro_account_period_close.field_l10n_ro_account_period_closing__create_date
 #: model:ir.model.fields,field_description:l10n_ro_account_period_close.field_l10n_ro_account_period_closing_wizard__create_date
 msgid "Created on"
-msgstr ""
+msgstr "Creat la"
 
 #. module: l10n_ro_account_period_close
 #: model_terms:ir.ui.view,arch_db:l10n_ro_account_period_close.view_account_period_closing_wizard
 msgid "Date"
-msgstr ""
+msgstr "Dată"
 
 #. module: l10n_ro_account_period_close
 #: model:ir.model.fields,field_description:l10n_ro_account_period_close.field_l10n_ro_account_period_closing_wizard__date_range_id
@@ -138,7 +138,7 @@ msgstr "Interval"
 #: model:ir.model.fields,field_description:l10n_ro_account_period_close.field_l10n_ro_account_period_closing__display_name
 #: model:ir.model.fields,field_description:l10n_ro_account_period_close.field_l10n_ro_account_period_closing_wizard__display_name
 msgid "Display Name"
-msgstr ""
+msgstr "Nume afișat"
 
 #. module: l10n_ro_account_period_close
 #: model:ir.model.fields,field_description:l10n_ro_account_period_close.field_l10n_ro_account_period_closing_wizard__date_to
@@ -154,7 +154,7 @@ msgstr "Cheltuieli"
 #: model:ir.model.fields,field_description:l10n_ro_account_period_close.field_l10n_ro_account_period_closing__id
 #: model:ir.model.fields,field_description:l10n_ro_account_period_close.field_l10n_ro_account_period_closing_wizard__id
 msgid "ID"
-msgstr ""
+msgstr "ID"
 
 #. module: l10n_ro_account_period_close
 #: model:ir.model.fields.selection,name:l10n_ro_account_period_close.selection__l10n_ro_account_period_closing__type__income
@@ -165,7 +165,7 @@ msgstr "Venituri"
 #: model:ir.model.fields,field_description:l10n_ro_account_period_close.field_account_account__is_l10n_ro_record
 #: model:ir.model.fields,field_description:l10n_ro_account_period_close.field_account_move__is_l10n_ro_record
 msgid "Is Romanian Record"
-msgstr ""
+msgstr "Este înregistrare românească"
 
 #. module: l10n_ro_account_period_close
 #: model:ir.model.fields,field_description:l10n_ro_account_period_close.field_l10n_ro_account_period_closing__journal_id
@@ -176,25 +176,25 @@ msgstr "Jurnal"
 #. module: l10n_ro_account_period_close
 #: model:ir.model,name:l10n_ro_account_period_close.model_account_move
 msgid "Journal Entry"
-msgstr ""
+msgstr "Înregistrare jurnal"
 
 #. module: l10n_ro_account_period_close
 #: model:ir.model.fields,field_description:l10n_ro_account_period_close.field_l10n_ro_account_period_closing____last_update
 #: model:ir.model.fields,field_description:l10n_ro_account_period_close.field_l10n_ro_account_period_closing_wizard____last_update
 msgid "Last Modified on"
-msgstr ""
+msgstr "Ultima modificare la"
 
 #. module: l10n_ro_account_period_close
 #: model:ir.model.fields,field_description:l10n_ro_account_period_close.field_l10n_ro_account_period_closing__write_uid
 #: model:ir.model.fields,field_description:l10n_ro_account_period_close.field_l10n_ro_account_period_closing_wizard__write_uid
 msgid "Last Updated by"
-msgstr ""
+msgstr "Ultima actualizare de"
 
 #. module: l10n_ro_account_period_close
 #: model:ir.model.fields,field_description:l10n_ro_account_period_close.field_l10n_ro_account_period_closing__write_date
 #: model:ir.model.fields,field_description:l10n_ro_account_period_close.field_l10n_ro_account_period_closing_wizard__write_date
 msgid "Last Updated on"
-msgstr ""
+msgstr "Ultima actualizare la"
 
 #. module: l10n_ro_account_period_close
 #: model_terms:ir.ui.view,arch_db:l10n_ro_account_period_close.view_l10n_ro_account_period_closing_form
@@ -209,26 +209,26 @@ msgstr "Nume"
 #. module: l10n_ro_account_period_close
 #: model:ir.model.fields,field_description:l10n_ro_account_period_close.field_account_account__l10n_ro_close_check
 msgid "Romania - Bypass Closing Side Check"
-msgstr ""
+msgstr "Ignoră verificarea închiderii"
 
 #. module: l10n_ro_account_period_close
 #: model:ir.model.fields,field_description:l10n_ro_account_period_close.field_account_bank_statement_line__l10n_ro_close_id
 #: model:ir.model.fields,field_description:l10n_ro_account_period_close.field_account_move__l10n_ro_close_id
 #: model:ir.model.fields,field_description:l10n_ro_account_period_close.field_account_payment__l10n_ro_close_id
 msgid "Romania - Closed Account Period"
-msgstr ""
+msgstr "Perioadă închisă"
 
 #. module: l10n_ro_account_period_close
 #: model:ir.model.fields,field_description:l10n_ro_account_period_close.field_account_bank_statement_line__l10n_ro_closing_move
 #: model:ir.model.fields,field_description:l10n_ro_account_period_close.field_account_move__l10n_ro_closing_move
 #: model:ir.model.fields,field_description:l10n_ro_account_period_close.field_account_payment__l10n_ro_closing_move
 msgid "Romania - Is Closing Move"
-msgstr ""
+msgstr "Este înregistrare de închidere"
 
 #. module: l10n_ro_account_period_close
 #: model:ir.model.fields.selection,name:l10n_ro_account_period_close.selection__l10n_ro_account_period_closing__type__selected
 msgid "Selected"
-msgstr ""
+msgstr "Selectat"
 
 #. module: l10n_ro_account_period_close
 #: model:ir.model.fields,field_description:l10n_ro_account_period_close.field_l10n_ro_account_period_closing_wizard__date_from
@@ -243,7 +243,7 @@ msgstr "Tip"
 #. module: l10n_ro_account_period_close
 #: model:ir.model,name:l10n_ro_account_period_close.model_l10n_ro_account_period_closing_wizard
 msgid "Wizard for Account Period Closing"
-msgstr ""
+msgstr "Asistent pentru închiderea perioadei contabile"
 
 #~ msgid "Close"
 #~ msgstr "Închide"
