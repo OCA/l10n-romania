@@ -117,7 +117,6 @@ msgstr ""
 #. module: l10n_ro_dvi
 #: model:ir.actions.act_window,name:l10n_ro_dvi.action_account_dvi
 #: model:ir.model.fields.selection,name:l10n_ro_dvi.selection__stock_landed_cost__l10n_ro_cost_type__dvi
-#: model:ir.ui.menu,name:l10n_ro_dvi.menu_action_account_dvi
 #: model_terms:ir.ui.view,arch_db:l10n_ro_dvi.view_account_dvi_tree
 #: model_terms:ir.ui.view,arch_db:l10n_ro_dvi.view_move_form
 msgid "DVI"
@@ -360,6 +359,11 @@ msgstr ""
 #. module: l10n_ro_dvi
 #: model:ir.model.fields,field_description:l10n_ro_dvi.field_stock_landed_cost__l10n_ro_tax_value
 msgid "Romania - VAT amount paid at customs"
+msgstr ""
+
+#. module: l10n_ro_dvi
+#: model:ir.ui.menu,name:l10n_ro_dvi.menu_action_account_dvi
+msgid "Romanian DVI"
 msgstr ""
 
 #. module: l10n_ro_dvi
