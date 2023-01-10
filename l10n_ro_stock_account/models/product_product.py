@@ -282,9 +282,7 @@ class ProductProduct(models.Model):
             # We don't use search to avoid executing _flush_search and
             # to decrease interaction with DB
             candidates = all_candidates.filtered(
-                lambda r: r.create_date > svl_to_vacuum.create_date
-                or r.create_date == svl_to_vacuum.create_date
-                and r.id > svl_to_vacuum.id
+                lambda r: r.id > svl_to_vacuum.id
             )
             if not candidates:
                 break
