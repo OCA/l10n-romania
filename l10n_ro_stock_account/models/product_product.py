@@ -281,9 +281,7 @@ class ProductProduct(models.Model):
         for svl_to_vacuum in svls_to_vacuum:
             # We don't use search to avoid executing _flush_search and
             # to decrease interaction with DB
-            candidates = all_candidates.filtered(
-                lambda r: r.id > svl_to_vacuum.id
-            )
+            candidates = all_candidates.filtered(lambda r: r.id > svl_to_vacuum.id)
             if not candidates:
                 break
             qty_to_take_on_candidates = abs(svl_to_vacuum.remaining_qty)
