@@ -26,7 +26,7 @@ headers = {
 }
 
 # anaf syncron url https://static.anaf.ro/static/10/Anaf/Informatii_R/doc_WS_V6.txt
-ANAF_URL = "https://webservicesp.anaf.ro/PlatitorTvaRest/api/v6/ws/tva"
+ANAF_URL = "https://webservicesp.anaf.ro/PlatitorTvaRest/api/v7/ws/tva"
 
 AnafFiled_OdooField_Overwrite = [
     ("vat", "vat", "over_all_the_time"),
@@ -138,6 +138,7 @@ class ResPartner(models.Model):
         "cod_CAEN": "-- Cod CAEN --",
                           }
         """
+
         if not data:
             data = fields.Date.to_string(fields.Date.today())
         if type(cod) in [list, tuple]:
@@ -161,7 +162,7 @@ class ResPartner(models.Model):
             else:
                 if resjson.get("found") and resjson["found"][0]:
                     result = resjson["found"][0]
-                if not result or not result.get("denumire"):
+                if not result or not result.get("date_generale"):
                     anaf_error = _("Anaf didn't find any company with VAT=%s !" % cod)
         else:
             anaf_error = _(
@@ -172,33 +173,45 @@ class ResPartner(models.Model):
 
     @api.model
     def _Anaf_to_Odoo(self, result):
+        # From ANAf API v7 the structure changed with the following fields:
+        odoo_result = result.get("date_generale", {})
+        odoo_result.update(result.get("inregistrare_scop_Tva", {}))
+        odoo_result.update(result.get("inregistrare_RTVAI", {}))
+        odoo_result.update(result.get("stare_inactiv", {}))
+        odoo_result.update(result.get("inregistrare_SplitTVA", {}))
+        odoo_result.update(result.get("adresa_sediu_social", {}))
+        odoo_result.update(result.get("adresa_domiciliu_fiscal", {}))
         if (
-            not result.get("denumire")
-            or result["denumire"].upper() == self.l10n_ro_old_name
+            not odoo_result.get("denumire")
+            or odoo_result["denumire"].upper() == self.l10n_ro_old_name
         ):
             # if no name means that anaf didn't return anything
             return {}
         res = {
-            "name": result["denumire"].upper(),
-            "l10n_ro_vat_subjected": result["scpTVA"],
+            "name": odoo_result["denumire"].upper(),
+            "l10n_ro_vat_subjected": odoo_result.get("scpTVA"),
             "company_type": "company",
         }
 
-        result = self.get_result_address(result)
-        result["vat"] = "%s%s" % (
-            result.get("scpTVA", False) and "RO" or "",
-            result.get("cui"),
+        odoo_result = self.get_result_address(odoo_result)
+        odoo_result["vat"] = "%s%s" % (
+            odoo_result.get("scpTVA", False) and "RO" or "",
+            odoo_result.get("cui"),
         )
-        if "city_id" in self._fields and result["state_id"] and result["city"]:
+        if (
+            "city_id" in self._fields
+            and odoo_result["state_id"]
+            and odoo_result["city"]
+        ):
             domain = [
-                ("state_id", "=", result["state_id"].id),
-                ("name", "ilike", result["city"]),
+                ("state_id", "=", odoo_result["state_id"].id),
+                ("name", "ilike", odoo_result["city"]),
             ]
-            result["city_id"] = self.env["res.city"].search(domain, limit=1).id
+            odoo_result["city_id"] = self.env["res.city"].search(domain, limit=1).id
         for field in AnafFiled_OdooField_Overwrite:
-            if field[1] not in result:
+            if field[1] not in odoo_result:
                 continue
-            anaf_value = result.get(field[1], "")
+            anaf_value = odoo_result.get(field[1], "")
             if type(self._fields[field[0]]) in [fields.Date, fields.Datetime]:
                 if not anaf_value.strip():
                     anaf_value = False
