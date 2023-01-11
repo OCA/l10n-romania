@@ -10,6 +10,7 @@ msgstr ""
 "PO-Revision-Date: 2022-12-23 07:59+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
+"Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
@@ -24,11 +25,11 @@ msgstr "(object._get_report_base_filename())"
 #. module: l10n_ro_stock_report
 #: model_terms:ir.ui.view,arch_db:l10n_ro_stock_report.view_stock_sheet_report_form
 msgid ""
-"<i class=\"fa fa-long-arrow-right mx-2\" aria-label=\"Arrow icon\" "
-"title=\"Arrow\"/>"
+"<i class=\"fa fa-long-arrow-right mx-2\" aria-label=\"Arrow icon\" title="
+"\"Arrow\"/>"
 msgstr ""
-"<i class=\"fa fa-long-arrow-right mx-2\" aria-label=\"Arrow icon\" "
-"title=\"Arrow\"/>"
+"<i class=\"fa fa-long-arrow-right mx-2\" aria-label=\"Arrow icon\" title="
+"\"Arrow\"/>"
 
 #. module: l10n_ro_stock_report
 #: model_terms:ir.ui.view,arch_db:l10n_ro_stock_report.report_storage_sheet_report_all_base
@@ -481,26 +482,21 @@ msgid "StorageSheetLine"
 msgstr "Linie Fișă Magazie"
 
 #. module: l10n_ro_stock_report
-#: model:ir.model.fields,field_description:l10n_ro_stock_report.field_l10n_ro_stock_storage_sheet__sublocation
-msgid "Sublocation"
-msgstr "Locație"
-
-#. module: l10n_ro_stock_report
-#: code:addons/l10n_ro_stock_report/report/stock_report.py:0
 #: code:addons/l10n_ro_stock_report/report/stock_report.py:0
 #, python-format
 msgid "There are no stock movements in the selected period"
 msgstr "Nu există mișcări ale stocurilor în perioada selectată"
 
 #. module: l10n_ro_stock_report
-#: model:ir.model.fields,field_description:l10n_ro_stock_report.field_l10n_ro_stock_storage_sheet_line__unit_price_in
-msgid "Unit Price In"
-msgstr "Preț unitar intrare"
+#: model:ir.model.fields.selection,name:l10n_ro_stock_report.selection__l10n_ro_stock_storage_sheet_line__valued_type__usage_giving
+msgid "Usage Giving"
+msgstr ""
 
 #. module: l10n_ro_stock_report
-#: model:ir.model.fields,field_description:l10n_ro_stock_report.field_l10n_ro_stock_storage_sheet_line__unit_price_out
-msgid "Unit Price Out"
-msgstr "Preț unitar iesire"
+#: model:ir.model.fields,field_description:l10n_ro_stock_report.field_l10n_ro_stock_storage_sheet_line__valued_type
+#: model_terms:ir.ui.view,arch_db:l10n_ro_stock_report.view_sheet_stock_report_line_search
+msgid "Valued Type"
+msgstr ""
 
 #. module: l10n_ro_stock_report
 #: model_terms:ir.ui.view,arch_db:l10n_ro_stock_report.view_stock_sheet_report_form
@@ -513,5 +509,14 @@ msgid ""
 "will show report only for this products.         If nothing selected will "
 "show only products that have moves in period"
 msgstr ""
-"Va afișa raportul numai pentru aceste produse.     Dacă nimic nu va fi selectat"
-"arata numai produsele care au miscari de stoc in perioada"
+"Va afișa raportul numai pentru aceste produse.     Dacă nimic nu va fi "
+"selectatarata numai produsele care au miscari de stoc in perioada"
+
+#~ msgid "Sublocation"
+#~ msgstr "Locație"
+
+#~ msgid "Unit Price In"
+#~ msgstr "Preț unitar intrare"
+
+#~ msgid "Unit Price Out"
+#~ msgstr "Preț unitar iesire"
