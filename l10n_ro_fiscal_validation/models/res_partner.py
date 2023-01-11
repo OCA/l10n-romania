@@ -63,15 +63,17 @@ class ResPartner(models.Model):
                     if resp and resp.status_code == 200:
                         resp = resp.json()
                         for result_partner in resp["found"] + resp["notfound"]:
-                            partners = self.search(
-                                [
-                                    ("l10n_ro_vat_number", "=", result_partner["cui"]),
-                                    ("is_company", "=", True),
-                                ]
-                            )
-                            for partner in partners:
-                                data = partner._Anaf_to_Odoo(result_partner)
-                                partner.update(data)
+                            vat = result_partner.get("date_generale").get("cui")
+                            if vat:
+                                partners = self.search(
+                                    [
+                                        ("l10n_ro_vat_number", "=", vat),
+                                        ("is_company", "=", True),
+                                    ]
+                                )
+                                for partner in partners:
+                                    data = partner._Anaf_to_Odoo(result_partner)
+                                    partner.update(data)
 
     @api.model
     def update_l10n_ro_vat_subjected_all(self):
