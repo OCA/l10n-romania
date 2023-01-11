@@ -7,7 +7,8 @@ from odoo import api, fields, models
 
 
 class ProductTemplate(models.Model):
-    _inherit = "product.template"
+    _name = "product.template"
+    _inherit = ["product.template", "l10n.ro.mixin"]
 
     l10n_ro_nc_code = fields.Char(
         "Romania - NC Code",
