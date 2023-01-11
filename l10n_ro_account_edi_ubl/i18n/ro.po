@@ -8,6 +8,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: \n"
 "Last-Translator: \n"
 "Language-Team: \n"
+"Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
@@ -17,15 +18,14 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:l10n_ro_account_edi_ubl.res_config_settings_view_form
 msgid ""
 "<span class=\"fa fa-lg fa-building-o\" title=\"Values set here are company-"
-"specific.\" role=\"img\" aria-label=\"Values set here are company-"
-"specific.\" groups=\"base.group_multi_company\"/>"
+"specific.\" role=\"img\" aria-label=\"Values set here are company-specific."
+"\" groups=\"base.group_multi_company\"/>"
 msgstr ""
-"<span class=\"fa fa-lg fa-building-o\" title=\"Valorile stabilite aici sunt specifice "
-"companiei.\" role=\"img\" aria-label=\"Valorile stabilite aici sunt specifice "
-"companiei.\" groups=\"base.group_multi_company\"/>"
+"<span class=\"fa fa-lg fa-building-o\" title=\"Valorile stabilite aici sunt "
+"specifice companiei.\" role=\"img\" aria-label=\"Valorile stabilite aici "
+"sunt specifice companiei.\" groups=\"base.group_multi_company\"/>"
 
 #. module: l10n_ro_account_edi_ubl
-#: code:addons/l10n_ro_account_edi_ubl/models/account_edi_format.py:0
 #: code:addons/l10n_ro_account_edi_ubl/models/account_edi_format.py:0
 #, python-format
 msgid "Access error"
@@ -116,7 +116,8 @@ msgstr "ID"
 msgid ""
 "If country state of partner %s is Bucharest, the city must be as SectorX "
 msgstr ""
-"Dacă judetul partenerului %s este București, orașul trebuie să fie ca SectorX "
+"Dacă judetul partenerului %s este București, orașul trebuie să fie ca "
+"SectorX "
 
 #. module: l10n_ro_account_edi_ubl
 #: model:ir.model.fields,field_description:l10n_ro_account_edi_ubl.field_account_bank_statement_line__l10n_ro_send_state
@@ -132,8 +133,13 @@ msgid ""
 "Invoices with this document type always need to be cancelled through a "
 "credit note. There is no possibility to cancel."
 msgstr ""
-"Facturile cu acest tip de document trebuie întotdeauna anulate printr-o "
-"notă de credit. Nu există posibilitatea de a anula."
+"Facturile cu acest tip de document trebuie întotdeauna anulate printr-o notă "
+"de credit. Nu există posibilitatea de a anula."
+
+#. module: l10n_ro_account_edi_ubl
+#: model:ir.model.fields,field_description:l10n_ro_account_edi_ubl.field_product_template__is_l10n_ro_record
+msgid "Is Romanian Record"
+msgstr ""
 
 #. module: l10n_ro_account_edi_ubl
 #: model:ir.model,name:l10n_ro_account_edi_ubl.model_account_move
@@ -253,10 +259,11 @@ msgstr "ID tranzacție (RO)"
 #: code:addons/l10n_ro_account_edi_ubl/models/account_move.py:0
 #, python-format
 msgid ""
-"You can't edit the following journal entry %s because an electronic document"
-" has already been sent to ANAF. To edit this entry, you need to create a "
+"You can't edit the following journal entry %s because an electronic document "
+"has already been sent to ANAF. To edit this entry, you need to create a "
 "Credit Note for the invoice and create a new invoice."
 msgstr ""
 "Nu puteți edita următoarea înregistrare de jurnal %s deoarece un document "
 "electronic a fost deja trimis către ANAF. Pentru a edita această intrare, "
-"trebuie să creați o notă de credit pentru factură și să creați o nouă factură."
+"trebuie să creați o notă de credit pentru factură și să creați o nouă "
+"factură."
