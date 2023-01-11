@@ -203,7 +203,6 @@ class ProductProduct(models.Model):
                 vals = {
                     "value": -value_taken_on_candidate,
                     "unit_cost": new_standard_price,
-                    "remaining_qty": -qty_taken_on_candidate,
                     "quantity": -qty_taken_on_candidate,
                 }
                 vals.update({"l10n_ro_tracking": track_svl})
@@ -264,24 +263,25 @@ class ProductProduct(models.Model):
         if not svls_to_vacuum:
             return
 
+        # for romanian with l10n_ro_stock_account_date we can override
+        # the create_date of the svl
         domain = self._l10n_ro_prepare_domain_fifo(
             company, [("product_id", "=", self.id)]
         ) + [
             ("company_id", "=", company.id),
             ("remaining_qty", ">", 0),
-            ("create_date", ">=", svls_to_vacuum[0].create_date),
         ]
 
-        all_candidates = self.env["stock.valuation.layer"].sudo().search(domain)
+        all_candidates = (
+            self.env["stock.valuation.layer"]
+            .sudo()
+            .search(domain, order="create_date, id")
+        )
 
         for svl_to_vacuum in svls_to_vacuum:
             # We don't use search to avoid executing _flush_search and
             # to decrease interaction with DB
-            candidates = all_candidates.filtered(
-                lambda r: r.create_date > svl_to_vacuum.create_date
-                or r.create_date == svl_to_vacuum.create_date
-                and r.id > svl_to_vacuum.id
-            )
+            candidates = all_candidates.filtered(lambda r: r.id > svl_to_vacuum.id)
             if not candidates:
                 break
             qty_to_take_on_candidates = abs(svl_to_vacuum.remaining_qty)
