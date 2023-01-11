@@ -131,7 +131,7 @@ class TestCreatePartner(TestCreatePartnerBase):
         """Check anaf exception."""
         original_anaf_url = res_partner.ANAF_URL
         res_partner.ANAF_URL = (
-            "https://webservicesp.anaf.ro/PlatitorTvaRest/api/v6/ws/tvaERROR"
+            "https://webservicesp.anaf.ro/PlatitorTvaRest/api/v7/ws/tvaERROR"
         )
         error, res = self.mainpartner._get_Anaf("30834857")
         self.assertEqual(res, {})
