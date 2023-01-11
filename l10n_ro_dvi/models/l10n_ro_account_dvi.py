@@ -8,6 +8,7 @@ from odoo.exceptions import UserError, ValidationError
 
 class AccountInvoiceDVI(models.Model):
     _name = "l10n.ro.account.dvi"
+    _inherit = "mail.thread"  # pentru tracking pe state
     _description = "Create DVI for invoices"
 
     name = fields.Char(required=True)
