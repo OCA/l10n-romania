@@ -18,7 +18,13 @@
         "views/res_config_view.xml",
         "views/res_bank_view.xml",
         "views/res_partner_view.xml",
+        "views/webclient_templates.xml",
     ],
+    "assets": {
+        "web.assets_backend": [
+            "l10n_ro_config/static/src/js/webclient/*.js",
+        ]
+    },
     "pre_init_hook": "pre_init_hook",
     "development_status": "Mature",
     "maintainers": ["feketemihai"],
