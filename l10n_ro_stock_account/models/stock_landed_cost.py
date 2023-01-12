@@ -74,6 +74,9 @@ class StockLandedCost(models.Model):
                         out_svl,
                         am,
                     )
+                    valuation_layer_out.description += (
+                        " - Price Difference (already out)"
+                    )
                     valuation_layer_ids.append(valuation_layer_out.id)
 
         else:

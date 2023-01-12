@@ -88,9 +88,9 @@ class ProductProduct(models.Model):
             fifo_vals_list = self._run_fifo(abs(quantity), company)
             for fifo_vals in fifo_vals_list:
                 vals = vals_tpl.copy()
-                vals["quantity"] = fifo_vals.get("quantity") or vals_tpl["quantity"]
-                vals["value"] = fifo_vals.get("value") or vals_tpl["value"]
-                vals["remaining_qty"] = fifo_vals.get("remaining_qty")
+                vals["quantity"] = fifo_vals.get("quantity", 0)
+                vals["value"] = fifo_vals.get("value", 0)
+                vals["remaining_qty"] = fifo_vals.get("remaining_qty", 0)
                 vals["l10n_ro_tracking"] = fifo_vals.get("l10n_ro_tracking")
 
                 # In case of AVCO, fix rounding issue of standard price when needed.

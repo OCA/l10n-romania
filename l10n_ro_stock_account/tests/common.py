@@ -467,16 +467,27 @@ class TestStockCommon(ValuationReconciliationTestCommon):
         val_p2 = round(val_p2, 2)
         domain = [("product_id", "in", [self.product_1.id, self.product_2.id])]
         valuations = self.env["stock.valuation.layer"].read_group(
-            domain, ["value:sum", "quantity:sum"], ["product_id"]
+            domain,
+            ["value:sum", "quantity:sum", "remaining_value:sum", "remaining_qty:sum"],
+            ["product_id"],
         )
         for valuation in valuations:
             val = round(valuation["value"], 2)
+            rem_val = round(valuation["remaining_value"], 2)
+
             if valuation["product_id"][0] == self.product_1.id:
                 _logger.debug("Check stock P1 {} = {}".format(val, val_p1))
                 self.assertAlmostEqual(val, val_p1)
+                self.assertAlmostEqual(rem_val, val_p1)
+
             if valuation["product_id"][0] == self.product_2.id:
                 _logger.debug("Check stock P2 {} = {}".format(val, val_p2))
                 self.assertAlmostEqual(val, val_p2)
+                self.assertAlmostEqual(rem_val, val_p2)
+
+            qty = round(valuation["quantity"], 2)
+            rem_qty = round(valuation["remaining_qty"], 2)
+            self.assertAlmostEqual(qty, rem_qty)
 
     def check_account_valuation(self, val_p1, val_p2, account=None):
         val_p1 = round(val_p1, 2)
