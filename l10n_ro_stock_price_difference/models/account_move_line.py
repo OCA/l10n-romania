@@ -98,13 +98,14 @@ class AccountMoveLine(models.Model):
 
         lc.stock_valuation_layer_ids.mapped("account_move_id")
 
-        # svl-ul creat trebuie sa aiba quantity diferit de 0,
+        # !!!! svl-ul creat trebuie sa aiba QUANTITY DIFERIT de 0,
         # pentru a fi inclus data viitoare in get_stock_valuation_difference
         lc.stock_valuation_layer_ids.filtered(
             lambda svl: svl.value == lc.amount_total
         ).write(
             {
                 "quantity": 1e-50,
+                "remaining_qty": 0,
                 "description": "Price Difference",
                 "stock_landed_cost_id": None,
             }
@@ -115,6 +116,7 @@ class AccountMoveLine(models.Model):
         stock_journal_id = self.product_id.categ_id.property_stock_journal or False
         return dict(
             account_journal_id=stock_journal_id and stock_journal_id.id,
+            l10n_ro_cost_type="price_diff",
             cost_lines=[
                 (
                     0,
