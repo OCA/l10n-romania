@@ -89,10 +89,10 @@
                 <field name="amount_initial" />
                 <field name="quantity_in" />
                 <field name="amount_in" />
-                <field name="unit_price_in" />
+                <field name="unit_price_in" optional="hide" />
                 <field name="quantity_out" />
                 <field name="amount_out" />
-                <field name="unit_price_out" />
+                <field name="unit_price_out" optional="hide" />
                 <field
                     name="quantity_final"
                     decoration-danger="quantity_final &lt; 0"
