@@ -42,7 +42,6 @@ class StorageSheet(models.TransientModel):
     location_id = fields.Many2one(
         "stock.location",
         domain="[('usage','=','internal'),('company_id','=',company_id)]",
-        required=True,
     )
 
     product_ids = fields.Many2many(
@@ -74,19 +73,21 @@ class StorageSheet(models.TransientModel):
 
     @api.depends("sublocation", "location_id")
     def _compute_location_ids(self):
+        location = self.location_id or self.env["stock.location"].search(
+            [("usage", "=", "internal")]
+        )
+        self.location_ids = location
         if self.sublocation:
             children_location = (
                 self.env["stock.location"]
                 .with_context(active_test=False)
-                .search([("id", "child_of", self.location_id.ids)])
+                .search([("id", "child_of", location.ids)])
             )
-            self.location_ids = self.location_id + children_location
-        else:
-            self.location_ids = self.location_id
+            self.location_ids |= children_location
 
     def _get_report_base_filename(self):
         self.ensure_one()
-        return "Stock Sheet %s" % (self.location_id.name)
+        return "Stock Sheet %s" % (self.location_id.name or "All")
 
     @api.model
     def default_get(self, fields_list):
@@ -206,7 +207,7 @@ class StorageSheet(models.TransientModel):
         if self.detailed_locations:
             all_locations = self.with_context(active_test=False).location_ids
         else:
-            all_locations = self.location_id
+            all_locations = self.location_id or self.location_ids[0]
             locations = self.location_ids
 
         for location in all_locations:
@@ -398,6 +399,15 @@ class StorageSheet(models.TransientModel):
             # res = self.env.cr.dictfetchall()
             # self.line_product_ids.create(res)
         _logger.info("end select ")
+        if not self.location_id:
+            self.env.cr.execute(
+                """
+                update l10n_ro_stock_storage_sheet_line
+                set location_id = null
+                where report_id = %(report)s
+                """,
+                params=params,
+            )
 
     def get_report_products(self):
         self.ensure_one()
