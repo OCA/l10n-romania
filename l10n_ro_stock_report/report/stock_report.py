@@ -228,13 +228,18 @@ class StorageSheet(models.TransientModel):
             _logger.info("start query_select_sold_init %s", location.name)
             query_select_sold_init = """
              insert into l10n_ro_stock_storage_sheet_line
-              (report_id, product_id, amount_initial, quantity_initial,
+              (report_id, product_id, amount_initial, quantity_initial, unit_price_in,
                account_id, date_time, date, reference, document, location_id  )
 
             select * from(
                 SELECT %(report)s as report_id, prod.id as product_id,
                     COALESCE(sum(svl.value), 0)  as amount_initial,
                     COALESCE(sum(svl.quantity), 0)  as quantity_initial,
+                    CASE
+                        WHEN ROUND(COALESCE(sum(svl.quantity), 0), 5) != 0
+                            THEN ROUND(COALESCE(sum(svl.value),0) / sum(svl.quantity), 2)
+                        ELSE 0
+                    END as unit_price_in,
                     COALESCE(svl.l10n_ro_account_id, Null) as account_id,
                     %(datetime_from)s::timestamp without time zone  as date_time,
                     %(date_from)s::date as date,
@@ -267,12 +272,17 @@ class StorageSheet(models.TransientModel):
             _logger.info("start query_select_sold_final %s", location.name)
             query_select_sold_final = """
             insert into l10n_ro_stock_storage_sheet_line
-              (report_id, product_id, amount_final, quantity_final,
+              (report_id, product_id, amount_final, quantity_final, unit_price_out,
                account_id, date_time, date, reference, document, location_id)
             select * from(
                 SELECT %(report)s as report_id, sm.product_id as product_id,
                     COALESCE(sum(svl.value),0)  as amount_final,
                     COALESCE(sum(svl.quantity),0)  as quantity_final,
+                    CASE
+                        WHEN ROUND(COALESCE(sum(svl.quantity), 0), 5) != 0
+                            THEN ROUND(COALESCE(sum(svl.value),0) / sum(svl.quantity), 2)
+                        ELSE 0
+                    END as unit_price_out,
                     COALESCE(svl.l10n_ro_account_id, Null) as account_id,
                     %(datetime_to)s::timestamp without time zone as date_time,
                     %(date_to)s::date as date,
@@ -312,9 +322,9 @@ class StorageSheet(models.TransientModel):
 
             SELECT  %(report)s as report_id, sm.product_id as product_id,
                     COALESCE(sum(svl_in.value),0)   as amount_in,
-                    COALESCE(sum(svl_in.quantity), 0)   as quantity_in,
+                    COALESCE(ROUND(sum(svl_in.quantity), 5), 0)   as quantity_in,
                     CASE
-                        WHEN COALESCE(sum(svl_in.quantity), 0) != 0
+                        WHEN ROUND(COALESCE(sum(svl_in.quantity), 0), 5) != 0
                             THEN COALESCE(sum(svl_in.value),0) / sum(svl_in.quantity)
                         ELSE 0
                     END as unit_price_in,
@@ -365,9 +375,9 @@ class StorageSheet(models.TransientModel):
 
             SELECT  %(report)s as report_id, sm.product_id as product_id,
                     -1*COALESCE(sum(svl_out.value),0)   as amount_out,
-                    -1*COALESCE(sum(svl_out.quantity),0)   as quantity_out,
+                    -1*COALESCE(ROUND(sum(svl_out.quantity), 5),0) as quantity_out,
                     CASE
-                        WHEN COALESCE(sum(svl_out.quantity), 0) != 0
+                        WHEN ROUND(COALESCE(sum(svl_out.quantity), 0), 5) != 0
                             THEN COALESCE(sum(svl_out.value),0) / sum(svl_out.quantity)
                         ELSE 0
                     END as unit_price_out,
