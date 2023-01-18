@@ -210,7 +210,9 @@ class ProductProduct(models.Model):
 
         # Update the standard price with the price of the last used candidate, if any.
         if new_standard_price and self.cost_method == "fifo":
-            self.sudo().with_company(company.id).standard_price = new_standard_price
+            self.sudo().with_company(company.id).with_context(
+                disable_auto_svl=True
+            ).standard_price = new_standard_price
 
         # If there's still quantity to value but we're out of candidates, we fall in the
         # negative stock use case. We chose to value the out move at the price of the
