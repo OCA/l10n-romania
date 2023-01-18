@@ -247,7 +247,7 @@ class StorageSheet(models.TransientModel):
                     %(reference)s as document,
                     %(location)s as location_id
                 from product_product as prod
-                left join stock_move as sm ON sm.product_id = prod.id AND sm.state = 'done' AND
+                join stock_move as sm ON sm.product_id = prod.id AND sm.state = 'done' AND
                     sm.company_id = %(company)s AND
                      sm.date <  %(datetime_from)s AND
                     (sm.location_id in %(locations)s OR sm.location_dest_id in %(locations)s)
