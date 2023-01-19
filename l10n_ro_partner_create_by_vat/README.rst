@@ -30,7 +30,7 @@ VAT number. It will complete the name, address of the partner from ANAF
 webservice.
 
 ANAF
-https://webservicesp.anaf.ro/PlatitorTvaRest/api/v5/
+https://webservicesp.anaf.ro/PlatitorTvaRest/api/v7/ws/tva
 
 **Table of contents**
 
