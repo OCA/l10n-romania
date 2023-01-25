@@ -79,7 +79,8 @@ class ResPartner(models.Model):
     def update_l10n_ro_vat_subjected_all(self):
         partners = self.search(
             [
-                ("vat", "!=", False),
+                ("l10n_ro_vat_number", "!=", False),
+                ("l10n_ro_vat_number", "!=", ""),
                 ("country_id", "=", self.env.ref("base.ro").id),
                 ("is_company", "=", True),
             ]
