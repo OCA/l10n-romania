@@ -43,7 +43,6 @@ class TestImport(TestMT940BankStatementImport):
             "61",
             "110",
             "NAME ACCOUNT OWNER",
-            "ACCOUNT DESCRIPTION",
             "IBAN NO",
         ]
 
@@ -52,7 +51,7 @@ class TestImport(TestMT940BankStatementImport):
                 "account_number": "RO25INGB0014000031948911",
                 "partner_name": "NEXTERP ROMANIA SRL",
                 "amount": 1000.0,
-                "payment_ref": "/AMT RCD RON 1000,00CVF 2020/0060 . 344944869",
+                "payment_ref": "/AMT RCD RON 1000,0024CVF 2020/0060 . 344944869",
                 "ref": "NONREF",
             },
         ]
@@ -114,6 +113,7 @@ class TestImport(TestMT940BankStatementImport):
         statement = bank_statements[0]
         transact = self.transactions[0]
         line = statement.line_ids[0]
+
         self.assertTrue(line.account_number == transact["account_number"])
         self.assertTrue(line.partner_name == transact["partner_name"])
         self.assertTrue(line.amount == transact["amount"])
