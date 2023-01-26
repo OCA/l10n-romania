@@ -48,7 +48,6 @@ class MT940Parser(models.AbstractModel):
                 "61",
                 "110",
                 "NAME ACCOUNT OWNER",
-                "ACCOUNT DESCRIPTION",
                 "IBAN NO",
             ]
         return super().get_codewords()
@@ -91,7 +90,7 @@ class MT940Parser(models.AbstractModel):
                     continue
 
                 cw_found = False
-                for cw in codewords:
+                for cw in codewords[:-2]:
                     len_cw = len(cw)
                     if word[:len_cw] == cw:
                         current_codeword = cw
@@ -118,11 +117,10 @@ class MT940Parser(models.AbstractModel):
                 "32",
                 "33",
                 "NAME ACCOUNT OWNER",
-                "ACCOUNT DESCRIPTION",
                 "IBAN NO",
             ]:
                 if counterpart_field in subfields:
-                    if counterpart_field == "31":
+                    if counterpart_field == "31" and counterpart_field in subfields:
                         subfields[counterpart_field][0] = subfields[counterpart_field][
                             0
                         ].replace(" ", "")
