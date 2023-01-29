@@ -87,9 +87,8 @@ class StockLandedCost(models.Model):
                 ):
 
                     cost_to_add = (
-                        svl.quantity / line.move_id.product_qty
+                        svl.quantity / line.move_id.quantity_done
                     ) * line.additional_landed_cost
-
                     valuation_layer = cost.l10n_ro_create_valuation_layer(
                         line, svl, cost_to_add
                     )
