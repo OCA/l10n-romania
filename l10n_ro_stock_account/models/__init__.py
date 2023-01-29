@@ -1,5 +1,5 @@
 from . import account_account
-from . import account_invoice
+from . import account_move
 from . import l10n_ro_stock_valuation_layer_tracking
 from . import product_category
 from . import product_product

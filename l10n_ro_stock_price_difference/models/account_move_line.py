@@ -104,10 +104,9 @@ class AccountMoveLine(models.Model):
             lambda svl: svl.value == lc.amount_total
         ).write(
             {
-                "quantity": 1e-50,
+                "quantity": 0,
                 "remaining_qty": 0,
                 "description": "Price Difference",
-                "stock_landed_cost_id": None,
             }
         )
 
