@@ -17,7 +17,7 @@ class AccountMove(models.Model):
         res = super().action_post()
         l10n_ro_records = self.filtered("is_l10n_ro_record")
         if not l10n_ro_records:
-            return super().action_post()
+            return res
 
         if (
             len(self) == 1
