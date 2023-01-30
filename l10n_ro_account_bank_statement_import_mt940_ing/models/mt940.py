@@ -88,12 +88,22 @@ class MT940Parser(models.AbstractModel):
                 word = word.strip()
                 if not word and not current_codeword:
                     continue
-                if word[:2] in codewords:
-                    current_codeword = word[:2]
-                    subfields[current_codeword] = [word[2:]]
+
+                cw_found = False
+                for cw in codewords[:-2]:
+                    len_cw = len(cw)
+                    if word[:len_cw] == cw:
+                        current_codeword = cw
+                        subfields[cw] = [word[len_cw:]]
+                        cw_found = True
+                        break
+
+                if cw_found:
                     continue
+
                 if current_codeword in subfields:
-                    subfields[current_codeword].append(word[2:])
+                    len_cw = 0 if not cw_found else len(current_codeword)
+                    subfields[current_codeword].append(word[len_cw:])
             return subfields
         return super().get_subfields(data, codewords)
 
@@ -110,7 +120,7 @@ class MT940Parser(models.AbstractModel):
                 "IBAN NO",
             ]:
                 if counterpart_field in subfields:
-                    if counterpart_field == "31":
+                    if counterpart_field == "31" and counterpart_field in subfields:
                         subfields[counterpart_field][0] = subfields[counterpart_field][
                             0
                         ].replace(" ", "")

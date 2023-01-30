@@ -27,29 +27,31 @@ class TestImport(TestMT940BankStatementImport):
               ~27                           ~28
          ~29                           ~60     ~61              ~"""
         self.codewords = [
-            "6",
             "20",
             "21",
             "22",
             "23",
-            "24",
             "25",
             "26",
             "27",
             "28",
             "29",
+            "31",
             "32",
             "33",
-            "37",
-            "50",
-            "92",
+            "60",
+            "61",
+            "110",
+            "NAME ACCOUNT OWNER",
+            "IBAN NO",
         ]
+
         self.transactions = [
             {
                 "account_number": "RO25INGB0014000031948911",
                 "partner_name": "NEXTERP ROMANIA SRL",
                 "amount": 1000.0,
-                "payment_ref": "/AMT RCD RON 1000,00CVF 2020/0060 . 344944869",
+                "payment_ref": "/AMT RCD RON 1000,0024CVF 2020/0060 . 344944869",
                 "ref": "NONREF",
             },
         ]
@@ -75,13 +77,14 @@ class TestImport(TestMT940BankStatementImport):
             "22": [""],
             "32": ["NEXTERP ROMANIA SRL"],
             "33": ["RO25INGB0014000031948911"],
-            "23": [""],
-            "24": [""],
+            "23": ["", "24"],
             "25": ["CVF 2020/0060 . 344944869"],
             "26": [""],
             "27": [""],
             "28": [""],
-            "29": ["", "", "", ""],
+            "29": [""],
+            "60": [""],
+            "61": ["", ""],
         }
         self.assertTrue(res == espected_res)
 
@@ -110,6 +113,7 @@ class TestImport(TestMT940BankStatementImport):
         statement = bank_statements[0]
         transact = self.transactions[0]
         line = statement.line_ids[0]
+
         self.assertTrue(line.account_number == transact["account_number"])
         self.assertTrue(line.partner_name == transact["partner_name"])
         self.assertTrue(line.amount == transact["amount"])
