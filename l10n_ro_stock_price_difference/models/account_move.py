@@ -14,9 +14,10 @@ class AccountMove(models.Model):
     _inherit = "account.move"
 
     def action_post(self):
+        res = super().action_post()
         l10n_ro_records = self.filtered("is_l10n_ro_record")
         if not l10n_ro_records:
-            return super().action_post()
+            return res
 
         if (
             len(self) == 1
@@ -28,7 +29,6 @@ class AccountMove(models.Model):
             if action:
                 return action
         l10n_ro_records.l10n_ro_fix_price_difference_svl()
-        res = super().action_post()
         return res
 
     def _l10n_ro_get_price_difference_check_action(self):
@@ -113,7 +113,10 @@ class AccountMove(models.Model):
 
     def l10n_ro_fix_price_difference_svl(self):
         for invoice in self:
-            if invoice.move_type in ["in_invoice", "in_refund"]:
+            if invoice.state == "posted" and invoice.move_type in [
+                "in_invoice",
+                "in_refund",
+            ]:
                 invoice_lines = invoice.invoice_line_ids.filtered(
                     lambda l: not l.display_type and l.purchase_line_id
                 )
