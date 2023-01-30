@@ -7,11 +7,18 @@
             <form string="Report Options">
                 <group name="filters">
                     <group>
-                        <field name="location_id" />
+                        <field
+                            name="location_id"
+                            attrs="{'required': [('detailed_locations', '=', True)]}"
+                        />
+
                         <field name="product_ids" widget="many2many_tags" />
                         <field name="products_with_move" />
                         <field name="one_product" />
-                        <field name="sublocation" />
+                        <field
+                            name="sublocation"
+                            attrs="{'required': [('location_id', '=', False)]}"
+                        />
                         <field name="detailed_locations" />
                         <field name="show_locations" />
                         <field name="company_id" invisible="1" />
