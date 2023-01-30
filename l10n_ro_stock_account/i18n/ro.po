@@ -17,6 +17,12 @@ msgstr ""
 "Plural-Forms: \n"
 
 #. module: l10n_ro_stock_account
+#: code:addons/l10n_ro_stock_account/models/stock_landed_cost.py:0
+#, python-format
+msgid " already out"
+msgstr ""
+
+#. module: l10n_ro_stock_account
 #: model:ir.model,name:l10n_ro_stock_account.model_account_account
 msgid "Account"
 msgstr "Cont"
@@ -243,6 +249,12 @@ msgstr "Cantitate Miscare Origine Retur"
 #: model:ir.model.fields,field_description:l10n_ro_stock_account.field_stock_return_picking_line__origin_ret_move_qty_check
 msgid "Origin Ret Move Qty Check"
 msgstr "Verifica Cantitate Miscare Origine Retur"
+
+#. module: l10n_ro_stock_account
+#: code:addons/l10n_ro_stock_account/models/stock_landed_cost.py:0
+#, python-format
+msgid "Please configure Stock Expense Account for product: %s."
+msgstr ""
 
 #. module: l10n_ro_stock_account
 #: model:ir.model,name:l10n_ro_stock_account.model_product_product
