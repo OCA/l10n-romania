@@ -8,7 +8,8 @@ from odoo.exceptions import UserError
 
 
 class PurchaseOrder(models.Model):
-    _inherit = "purchase.order"
+    _name = "purchase.order"
+    _inherit = ["purchase.order", "l10n.ro.mixin"]
 
     l10n_ro_reception_in_progress = fields.Boolean(
         string="Romania - Reception in progress"
