@@ -81,6 +81,7 @@ msgstr "SVL Destinație"
 #: model:ir.model.fields,field_description:l10n_ro_stock_account.field_stock_move__display_name
 #: model:ir.model.fields,field_description:l10n_ro_stock_account.field_stock_move_line__display_name
 #: model:ir.model.fields,field_description:l10n_ro_stock_account.field_stock_picking__display_name
+#: model:ir.model.fields,field_description:l10n_ro_stock_account.field_stock_quant__display_name
 #: model:ir.model.fields,field_description:l10n_ro_stock_account.field_stock_return_picking_line__display_name
 #: model:ir.model.fields,field_description:l10n_ro_stock_account.field_stock_valuation_adjustment_lines__display_name
 #: model:ir.model.fields,field_description:l10n_ro_stock_account.field_stock_valuation_layer__display_name
@@ -112,6 +113,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_ro_stock_account.field_stock_move__id
 #: model:ir.model.fields,field_description:l10n_ro_stock_account.field_stock_move_line__id
 #: model:ir.model.fields,field_description:l10n_ro_stock_account.field_stock_picking__id
+#: model:ir.model.fields,field_description:l10n_ro_stock_account.field_stock_quant__id
 #: model:ir.model.fields,field_description:l10n_ro_stock_account.field_stock_return_picking_line__id
 #: model:ir.model.fields,field_description:l10n_ro_stock_account.field_stock_valuation_adjustment_lines__id
 #: model:ir.model.fields,field_description:l10n_ro_stock_account.field_stock_valuation_layer__id
@@ -145,6 +147,7 @@ msgstr "Locații inventar"
 #: model:ir.model.fields,field_description:l10n_ro_stock_account.field_stock_landed_cost__is_l10n_ro_record
 #: model:ir.model.fields,field_description:l10n_ro_stock_account.field_stock_move__is_l10n_ro_record
 #: model:ir.model.fields,field_description:l10n_ro_stock_account.field_stock_picking__is_l10n_ro_record
+#: model:ir.model.fields,field_description:l10n_ro_stock_account.field_stock_quant__is_l10n_ro_record
 #: model:ir.model.fields,field_description:l10n_ro_stock_account.field_stock_valuation_adjustment_lines__is_l10n_ro_record
 #: model:ir.model.fields,field_description:l10n_ro_stock_account.field_stock_valuation_layer__is_l10n_ro_record
 #: model:ir.model.fields,field_description:l10n_ro_stock_account.field_stock_valuation_layer_revaluation__is_l10n_ro_record
@@ -190,6 +193,7 @@ msgstr "Locatie Sursa"
 #: model:ir.model.fields,field_description:l10n_ro_stock_account.field_stock_move____last_update
 #: model:ir.model.fields,field_description:l10n_ro_stock_account.field_stock_move_line____last_update
 #: model:ir.model.fields,field_description:l10n_ro_stock_account.field_stock_picking____last_update
+#: model:ir.model.fields,field_description:l10n_ro_stock_account.field_stock_quant____last_update
 #: model:ir.model.fields,field_description:l10n_ro_stock_account.field_stock_return_picking_line____last_update
 #: model:ir.model.fields,field_description:l10n_ro_stock_account.field_stock_valuation_adjustment_lines____last_update
 #: model:ir.model.fields,field_description:l10n_ro_stock_account.field_stock_valuation_layer____last_update
@@ -288,6 +292,11 @@ msgid ""
 msgstr ""
 "Cantitate mai mare decât cea existentă. Veți returna diferite evaluări ale "
 "stocurilor."
+
+#. module: l10n_ro_stock_account
+#: model:ir.model,name:l10n_ro_stock_account.model_stock_quant
+msgid "Quants"
+msgstr ""
 
 #. module: l10n_ro_stock_account
 #: model_terms:ir.ui.view,arch_db:l10n_ro_stock_account.view_stock_return_picking_form
