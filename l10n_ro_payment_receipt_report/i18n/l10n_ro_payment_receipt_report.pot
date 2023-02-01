@@ -195,6 +195,11 @@ msgid "Received"
 msgstr ""
 
 #. module: l10n_ro_payment_receipt_report
+#: model:ir.actions.report,name:l10n_ro_payment_receipt_report.l10n_ro_action_report_payment_receipt
+msgid "Romania Payment Receipt"
+msgstr ""
+
+#. module: l10n_ro_payment_receipt_report
 #: model_terms:ir.ui.view,arch_db:l10n_ro_payment_receipt_report.report_payment_receipt_document
 msgid "We received from:"
 msgstr ""
