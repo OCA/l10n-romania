@@ -68,6 +68,7 @@ class MT940Parser(models.AbstractModel):
 
     def handle_tag_86(self, data, result):
         if self.get_mt940_type() == "mt940_ro_bcr":
+            transaction = {}
             if result["statement"]["transactions"]:
                 transaction = result["statement"]["transactions"][-1]
 
