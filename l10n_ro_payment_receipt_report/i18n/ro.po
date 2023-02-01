@@ -10,6 +10,7 @@ msgstr ""
 "PO-Revision-Date: 2022-12-23 05:37+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
+"Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
@@ -34,17 +35,23 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:l10n_ro_payment_receipt_report.report_bank_statement_line_payment_document
 msgid ""
 "<br/>\n"
-"                                        <span style=\"padding-left:100px;\">Signature ..........................................</span>"
-msgstr "<br/>\n"
-"                                        <span style=\"padding-left:100px;\">Semnătură ..........................................</span>"
+"                                        <span style=\"padding-left:100px;"
+"\">Signature ..........................................</span>"
+msgstr ""
+"<br/>\n"
+"                                        <span style=\"padding-left:100px;"
+"\">Semnătură ..........................................</span>"
 
 #. module: l10n_ro_payment_receipt_report
 #: model_terms:ir.ui.view,arch_db:l10n_ro_payment_receipt_report.report_bank_statement_line_payment_document
 msgid ""
 "<br/>\n"
-"                                        <span>Signature .........................................</span>"
-msgstr "<br/>\n"
-"                                        <span>Semnătură .........................................</span>"
+"                                        <span>Signature ........................................."
+"</span>"
+msgstr ""
+"<br/>\n"
+"                                        <span>Semnătură ........................................."
+"</span>"
 
 #. module: l10n_ro_payment_receipt_report
 #: model_terms:ir.ui.view,arch_db:l10n_ro_payment_receipt_report.report_bank_statement_line_payment_document
@@ -66,11 +73,13 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:l10n_ro_payment_receipt_report.report_bank_statement_line_payment_document
 msgid ""
 "<span>\n"
-"                                            <strong>To be completed only for disposals</strong>\n"
+"                                            <strong>To be completed only for "
+"disposals</strong>\n"
 "                                        </span>"
 msgstr ""
 "<span>\n"
-"                                            <strong>A se completa numai pentru plăți</strong>\n"
+"                                            <strong>A se completa numai "
+"pentru plăți</strong>\n"
 "                                        </span>"
 
 #. module: l10n_ro_payment_receipt_report
@@ -89,13 +98,15 @@ msgid ""
 "<strong>ADDITIONAL DATA REGARDING THE BENEFICIARY OF THE AMOUNT:</strong>\n"
 "                                        <br/>\n"
 "                                        <br/>\n"
-"                                        <span>Identity document ........ Series ........... No. .........................</span>\n"
+"                                        <span>Identity document ........ "
+"Series ........... No. .........................</span>\n"
 "                                        <br/>"
 msgstr ""
 "<strong>DATE SUPLIMENTARE PRIVIND BENEFICIARUL SUMEI:</strong>\n"
 "                                        <br/>\n"
 "                                        <br/>\n"
-"                                        <span>Document de identitate ........ Seria ........... Nr. .........................</span>\n"
+"                                        <span>Document de "
+"identitate ........ Seria ........... Nr. .........................</span>\n"
 "                                        <br/>"
 
 #. module: l10n_ro_payment_receipt_report
@@ -208,6 +219,11 @@ msgstr "Motiv"
 #: model_terms:ir.ui.view,arch_db:l10n_ro_payment_receipt_report.report_bank_statement_line_payment_document
 msgid "Received"
 msgstr "Primit"
+
+#. module: l10n_ro_payment_receipt_report
+#: model:ir.actions.report,name:l10n_ro_payment_receipt_report.l10n_ro_action_report_payment_receipt
+msgid "Romania Payment Receipt"
+msgstr ""
 
 #. module: l10n_ro_payment_receipt_report
 #: model_terms:ir.ui.view,arch_db:l10n_ro_payment_receipt_report.report_payment_receipt_document
