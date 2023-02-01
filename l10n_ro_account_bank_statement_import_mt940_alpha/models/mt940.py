@@ -111,6 +111,7 @@ class MT940Parser(models.AbstractModel):
 
     def handle_tag_86(self, data, result):
         if self.env.context.get("type") == "mt940_ro_alpha":
+            transaction = {}
             if result["statement"]["transactions"]:
                 transaction = result["statement"]["transactions"][-1]
             if not transaction.get("payment_ref", False):
