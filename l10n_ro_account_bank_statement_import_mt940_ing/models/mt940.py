@@ -112,6 +112,35 @@ class MT940Parser(models.AbstractModel):
         # Get counterpart from 31, 32 or 33 subfields:
         if self.get_mt940_type() == "mt940_ro_ing":
             counterpart_fields = []
+            if "110" in subfields:
+                # tag 86 nestructurat
+                journal = self.env["account.journal"].browse(
+                    self._context["journal_id"]
+                )
+                patterns = journal.bank_account_id.l10n_ro_unstructured_tag86.split(
+                    "\n"
+                )
+
+                data = "".join(subfields["110"])
+                result = None
+                for pattern in patterns:
+                    pattern = re.compile(pattern)
+                    result = pattern.match(data)
+                    if result:
+                        result = result.groupdict()
+                        break
+
+                if result:
+                    if result.get("vat"):
+                        partner = self.env["res.partner"].search(
+                            [("l10n_ro_vat_number", "like", result["vat"])], limit=1
+                        )
+                        if partner:
+                            transaction.update({"partner_id": partner.id})
+                    if result.get("partner_name"):
+                        transaction.update({"partner_name": result["partner_name"]})
+                    if result.get("account_number"):
+                        transaction.update({"account_number": result["account_number"]})
             for counterpart_field in [
                 "31",
                 "32",
