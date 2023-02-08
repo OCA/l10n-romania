@@ -104,6 +104,7 @@
         <field name="name">Account Period Closing</field>
         <field name="action" ref="action_account_period_closing" />
         <field name="parent_id" ref="account.menu_finance_entries_actions" />
+        <field name="groups_id" eval="[(4, ref('l10n_ro_config.group_ro_menus'))]" />
         <field name="is_l10n_ro_record" eval="True" />
     </record>
 </odoo>
