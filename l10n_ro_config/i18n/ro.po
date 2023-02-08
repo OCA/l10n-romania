@@ -294,7 +294,8 @@ msgstr "Parteneri unici după Companie, TVA, NRC"
 #. module: l10n_ro_config
 #: model_terms:ir.ui.view,arch_db:l10n_ro_config.res_config_settings_view_form
 msgid "Print custom receipt report for Romanian companies."
-msgstr "Imprimați raportul de primire personalizat pentru companiile românești."
+msgstr ""
+"Imprimați raportul de primire personalizat pentru companiile românești."
 
 #. module: l10n_ro_config
 #: model:ir.model,name:l10n_ro_config.model_product_template
@@ -502,6 +503,11 @@ msgstr "Cifrele numărului de TVA"
 #: model:ir.model.fields,field_description:l10n_ro_config.field_res_config_settings__module_l10n_ro_account_period_close
 msgid "Romania Account Period Close"
 msgstr "Închidere perioadă contabilă"
+
+#. module: l10n_ro_config
+#: model:res.groups,name:l10n_ro_config.group_ro_menus
+msgid "Romania Menus"
+msgstr ""
 
 #. module: l10n_ro_config
 #: model:ir.model.fields,field_description:l10n_ro_config.field_res_config_settings__module_l10n_ro_nondeductible_vat
@@ -753,8 +759,8 @@ msgid ""
 "This allows you to close accounts on periods based on templates: Income, "
 "Expense, VAT..."
 msgstr ""
-"Acest lucru vă permite să închideți conturile pe perioade bazate pe șabloane:"
-" Income, Expense, VAT..."
+"Acest lucru vă permite să închideți conturile pe perioade bazate pe "
+"șabloane: Income, Expense, VAT..."
 
 #. module: l10n_ro_config
 #: model:ir.model.fields,help:l10n_ro_config.field_res_config_settings__module_l10n_ro_partner_create_by_vat
@@ -885,7 +891,8 @@ msgstr ""
 #. module: l10n_ro_config
 #: model:ir.model.fields,help:l10n_ro_config.field_res_config_settings__module_l10n_ro_account_anaf_sync
 msgid "This option allows you to manage the sync to ANAF website."
-msgstr "Această opțiune vă permite să gestionați sincronizarea cu site-ul ANAF."
+msgstr ""
+"Această opțiune vă permite să gestionați sincronizarea cu site-ul ANAF."
 
 #. module: l10n_ro_config
 #: model:ir.model.fields,help:l10n_ro_config.field_res_config_settings__module_currency_rate_update_RO_BNR
@@ -910,7 +917,8 @@ msgstr ""
 #: model:ir.model.fields,help:l10n_ro_config.field_res_company__l10n_ro_property_customs_duty_product_id
 #: model:ir.model.fields,help:l10n_ro_config.field_res_config_settings__l10n_ro_property_customs_duty_product_id
 msgid "This product will be used in create the DVI landed costfor the duty tax"
-msgstr "Acest produs va fi utilizat pentru a crea costurile de teren DVI pentru"
+msgstr ""
+"Acest produs va fi utilizat pentru a crea costurile de teren DVI pentru"
 
 #. module: l10n_ro_config
 #: model:ir.model.fields,help:l10n_ro_config.field_res_company__l10n_ro_property_stock_price_difference_product_id
