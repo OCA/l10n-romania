@@ -461,6 +461,11 @@ msgid "Romania Account Period Close"
 msgstr ""
 
 #. module: l10n_ro_config
+#: model:res.groups,name:l10n_ro_config.group_ro_menus
+msgid "Romania Menus"
+msgstr ""
+
+#. module: l10n_ro_config
 #: model:ir.model.fields,field_description:l10n_ro_config.field_res_config_settings__module_l10n_ro_nondeductible_vat
 msgid "Romania Non Deductible VAT"
 msgstr ""
