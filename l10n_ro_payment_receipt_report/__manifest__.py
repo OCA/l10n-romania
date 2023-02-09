@@ -5,7 +5,7 @@
 {
     "name": "Romania - Payment Receipt Report",
     "summary": "Romania - Payment Receipt Report",
-    "version": "14.0.2.3.0",
+    "version": "14.0.2.4.0",
     "author": "Terrabit," "NextERP Romania," "Odoo Community Association (OCA)",
     "website": "https://github.com/OCA/l10n-romania",
     "category": "Accounting",
