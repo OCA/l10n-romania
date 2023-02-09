@@ -225,7 +225,7 @@
                                             >
                                                 Received
                                             </span> the amount of
-                                            <t t-if="o.amount&lt;0">
+                                            <t t-if="o.amount">
                                                 <span
                                                     style="padding-left:140px;"
                                                     t-esc="abs(o.amount)"
@@ -238,7 +238,7 @@
                                         </span>
                                         <br />
                                         <span style="padding-left:150px;">
-                                            <t t-if="o.amount&lt;0">
+                                            <t t-if="o.amount">
                                                 <span style="padding-left:150px;">(<t
                                                         t-esc="o.currency_id.amount_to_text(abs(o.amount))"
                                                     />)</span>
@@ -246,12 +246,12 @@
                                             <t t-else="">
                                                  <span
                                                     style="padding-left:300px;"
-                                                >(in figures)</span>
+                                                >............................................</span>
                                             </t>
                                         </span>
                                         <br />
                                         <span>Date
-                                            <t t-if="o.amount&lt;0">
+                                            <t t-if="o.amount">
                                                 <span
                                                     style="padding-left:100px;"
                                                     t-field="o.date"
