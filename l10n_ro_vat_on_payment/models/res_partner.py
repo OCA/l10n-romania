@@ -107,7 +107,7 @@ class ResPartner(models.Model):
     @api.model
     def update_vat_payment_all(self):
         self.env["l10n.ro.res.partner.anaf"]._download_anaf_data()
-        partners = self.search([("vat", "!=", False)])
+        partners = self.search([("vat", "!=", False), ("country_id.code", "=", "RO")])
         partners.check_vat_on_payment()
 
     @api.model

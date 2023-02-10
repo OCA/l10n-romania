@@ -152,7 +152,7 @@ class TestPayment(TestPaymenttoStatement):
             }
         )
         payment_7.action_post()
-        self.assertEqual(payment_7.name, cash_journal.code + "-000001")
+        self.assertEqual(payment_7.name, cash_journal.code + "-000002")
 
         vals_seq = {
             "name": "Seq",
@@ -191,7 +191,7 @@ class TestPayment(TestPaymenttoStatement):
                 "line_ids": [(0, 0, {"payment_ref": "/", "amount": 100.0})],
             }
         )
-        self.assertEqual(bnk_out.line_ids.move_id.name, "CSH1/2022/12/0001")
+        self.assertEqual(bnk_out.line_ids.move_id.name, "CSH1-000001")
 
     def test_get_journal_dashboard_datas(self):
         payment_debit_account_id = self.env.company.transfer_account_id

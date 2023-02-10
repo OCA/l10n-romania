@@ -3,9 +3,7 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
 
-from odoo import _, fields, models
-from odoo.exceptions import ValidationError
-from odoo.tools.misc import format_date
+from odoo import models
 
 
 class AccountMove(models.Model):
@@ -13,64 +11,55 @@ class AccountMove(models.Model):
     _inherit = ["account.move", "l10n.ro.mixin"]
 
     def _constrains_date_sequence(self):
-        constraint_date = fields.Date.to_date(
-            self.env["ir.config_parameter"]
-            .sudo()
-            .get_param("sequence.mixin.constraint_start_date", "1970-01-01")
-        )
-        for record in self:
-            date = fields.Date.to_date(record[record._sequence_date_field])
-            sequence = record[record._sequence_field]
-            if sequence and date and date > constraint_date:
-                format_values = record._get_sequence_format_param(sequence)[1]
-                if (
-                    format_values["year"]
-                    and format_values["year"]
-                    != date.year % 10 ** len(str(format_values["year"]))
-                    or format_values["month"]
-                    and format_values["month"] != date.month
-                ) and not record.journal_id.l10n_ro_journal_sequence_id:
-                    raise ValidationError(
-                        _(
-                            "The %(date_field)s (%(date)s) doesn't match "
-                            "the %(sequence_field)s (%(sequence)s).\n"
-                            "You might want to clear the field %(sequence_field)s "
-                            "before proceeding with the change of the date.",
-                            date=format_date(self.env, date),
-                            sequence=sequence,
-                            date_field=record._fields[
-                                record._sequence_date_field
-                            ]._description_string(self.env),
-                            sequence_field=record._fields[
-                                record._sequence_field
-                            ]._description_string(self.env),
-                        )
-                    )
+        l10n_ro_record = self.filtered("is_l10n_ro_record")
+        l10n_ro_not_record = self - l10n_ro_record
+        if l10n_ro_not_record:
+            return super(AccountMove, l10n_ro_not_record)._constrains_date_sequence()
+        if (
+            l10n_ro_record
+            and not self.journal_id.l10n_ro_journal_sequence_id
+            and self.journal_id.type != "cash"
+        ):
+            return super(AccountMove, l10n_ro_record)._constrains_date_sequence()
 
     def _set_next_sequence(self):
         self.ensure_one()
-        last_sequence = self._get_last_sequence()
-        new = not last_sequence
-        if new:
-            last_sequence = (
-                self._get_last_sequence(relaxed=True) or self._get_starting_sequence()
-            )
-        format, format_values = self._get_sequence_format_param(last_sequence)
-        new_number = ""
-        if new:
-            if self.journal_id.l10n_ro_journal_sequence_id:
-                new_number = self.journal_id.l10n_ro_journal_sequence_id.next_by_id()
-            format_values["seq"] = 0
-            format_values["year"] = self[self._sequence_date_field].year % (
-                10 ** format_values["year_length"]
-            )
-            format_values["month"] = self[self._sequence_date_field].month
-        format_values["seq"] = format_values["seq"] + 1
-        if not new_number:
-            self[self._sequence_field] = format.format(**format_values)
+        l10n_ro_record = self.filtered("is_l10n_ro_record")
+        l10n_ro_not_record = self - l10n_ro_record
+        if l10n_ro_not_record:
+            return super(AccountMove, l10n_ro_not_record)._set_next_sequence()
+        if (
+            l10n_ro_record
+            and self.journal_id.l10n_ro_journal_sequence_id
+            and self.journal_id.type == "cash"
+        ):
+            last_sequence = self._get_last_sequence()
+            new = not last_sequence
+            if new:
+                last_sequence = (
+                    self._get_last_sequence(relaxed=True)
+                    or self._get_starting_sequence()
+                )
+            format, format_values = self._get_sequence_format_param(last_sequence)
+            new_number = ""
+            if new:
+                if self.journal_id.l10n_ro_journal_sequence_id:
+                    new_number = (
+                        self.journal_id.l10n_ro_journal_sequence_id.next_by_id()
+                    )
+                format_values["seq"] = 0
+                format_values["year"] = self[self._sequence_date_field].year % (
+                    10 ** format_values["year_length"]
+                )
+                format_values["month"] = self[self._sequence_date_field].month
+            format_values["seq"] = format_values["seq"] + 1
+            if not new_number:
+                self[self._sequence_field] = format.format(**format_values)
+            else:
+                self[self._sequence_field] = new_number
+            self._compute_split_sequence()
         else:
-            self[self._sequence_field] = new_number
-        self._compute_split_sequence()
+            return super(AccountMove, self)._set_next_sequence()
 
     def write(self, vals):
         if "state" in vals and vals.get("state") == "posted":
