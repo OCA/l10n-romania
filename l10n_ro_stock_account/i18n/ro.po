@@ -180,6 +180,16 @@ msgid "L10N Ro Location"
 msgstr "Locatie Sursa"
 
 #. module: l10n_ro_stock_account
+#: model:ir.model.fields,field_description:l10n_ro_stock_account.field_stock_return_picking_line__l10n_ro_origin_ret_move_qty
+msgid "L10N Ro Origin Ret Move Qty"
+msgstr ""
+
+#. module: l10n_ro_stock_account
+#: model:ir.model.fields,field_description:l10n_ro_stock_account.field_stock_return_picking_line__l10n_ro_origin_ret_move_qty_warn
+msgid "L10N Ro Origin Ret Move Qty Warn"
+msgstr ""
+
+#. module: l10n_ro_stock_account
 #: model:ir.model.fields,field_description:l10n_ro_stock_account.field_account_account____last_update
 #: model:ir.model.fields,field_description:l10n_ro_stock_account.field_account_move____last_update
 #: model:ir.model.fields,field_description:l10n_ro_stock_account.field_account_move_line____last_update
@@ -243,16 +253,6 @@ msgid ""
 msgstr ""
 "Doar pentru Romania, sa ascunda conturile stock_input si stock_output pentru "
 "ca acestea sunt identice cu contul stock_valuation"
-
-#. module: l10n_ro_stock_account
-#: model:ir.model.fields,field_description:l10n_ro_stock_account.field_stock_return_picking_line__origin_ret_move_qty
-msgid "Origin Ret Move Qty"
-msgstr "Cantitate Miscare Origine Retur"
-
-#. module: l10n_ro_stock_account
-#: model:ir.model.fields,field_description:l10n_ro_stock_account.field_stock_return_picking_line__origin_ret_move_qty_check
-msgid "Origin Ret Move Qty Check"
-msgstr "Verifica Cantitate Miscare Origine Retur"
 
 #. module: l10n_ro_stock_account
 #: code:addons/l10n_ro_stock_account/models/stock_landed_cost.py:0
@@ -487,3 +487,9 @@ msgstr "Valoare"
 #: model:ir.model,name:l10n_ro_stock_account.model_stock_valuation_layer_revaluation
 msgid "Wizard model to reavaluate a stock inventory for a product"
 msgstr "Model wizard de reevaluare a unui inventar de stocuri pentru un produs"
+
+#~ msgid "Origin Ret Move Qty"
+#~ msgstr "Cantitate Miscare Origine Retur"
+
+#~ msgid "Origin Ret Move Qty Check"
+#~ msgstr "Verifica Cantitate Miscare Origine Retur"
