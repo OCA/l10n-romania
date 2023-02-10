@@ -116,7 +116,6 @@ class ResCompany(models.Model):
         "If this field is NOT checked and the company use Romanian Accounting,"
         "the value used for stock out operations will be the value provided by FIFO rule, "
         "applied strictly on a location level (including its children)",
-        default=False,
     )
 
     def _check_is_l10n_ro_record(self, company=False):
