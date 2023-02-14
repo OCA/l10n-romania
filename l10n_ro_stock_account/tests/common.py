@@ -161,6 +161,16 @@ class TestStockCommon(ValuationReconciliationTestCommon):
                 "standard_price": cls.price_p1,
             }
         )
+        cls.landed_cost = cls.env["product.product"].create(
+            {
+                "name": "Landed Cost",
+                "type": "service",
+                "purchase_method": "purchase",
+                "invoice_policy": "order",
+                "property_account_expense_id": cls.account_expense.id,
+                "l10n_ro_property_stock_valuation_account_id": cls.account_valuation.id,
+            }
+        )
 
         cls.vendor = cls.env["res.partner"].search(
             [("name", "=", "TEST Vendor")], limit=1
@@ -561,7 +571,7 @@ class TestStockCommon(ValuationReconciliationTestCommon):
             order="date, id",
         )
 
-    def create_lc(self, picking, lc_p1, lc_p2):
+    def create_lc(self, picking, lc_p1, lc_p2, vendor_bill=False):
         default_vals = self.env["stock.landed.cost"].default_get(
             list(self.env["stock.landed.cost"].fields_get())
         )
@@ -571,6 +581,7 @@ class TestStockCommon(ValuationReconciliationTestCommon):
                 "account_journal_id": self.company_data["default_journal_misc"],
                 "cost_lines": [(0, 0, {"product_id": self.product_1.id})],
                 "valuation_adjustment_lines": [],
+                "vendor_bill_id": vendor_bill and vendor_bill.id or False,
             }
         )
         cost_lines_values = {
@@ -589,3 +600,4 @@ class TestStockCommon(ValuationReconciliationTestCommon):
 
         stock_landed_cost_1.compute_landed_cost()
         stock_landed_cost_1.button_validate()
+        return stock_landed_cost_1

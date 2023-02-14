@@ -37,6 +37,7 @@ class TestStockLandedCostSale(TestStockCommon):
         po = self.create_po()
         income_ship = po.picking_ids
         self.create_lc(income_ship, 10, 10)
+        self.create_invoice()
 
         # verificare SVLs reception
         move_po_p1 = income_ship.move_lines.filtered(

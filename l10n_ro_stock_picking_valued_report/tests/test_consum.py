@@ -19,7 +19,7 @@ class TestStockConsumn(TestStockPickingValued):
         _logger.info("Start transfer")
         self.transfer(location_id, location_dest_id)
         picking = self.picking
-        _logger.info("Tranfer efectuat")
+        _logger.info("Transfer efectuat")
         self.assertEqual(picking.l10n_ro_amount_untaxed, 100.0)
         self.assertEqual(picking.l10n_ro_amount_tax, 0.0)
         self.assertEqual(picking.l10n_ro_amount_total, 100.0)
