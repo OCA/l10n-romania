@@ -23,9 +23,19 @@ class TestVATonpayment(AccountTestInvoicingCommon):
         cls.partner_anaf_model = cls.env["l10n.ro.res.partner.anaf"]
         cls.partner_model = cls.env["res.partner"]
         cls.invoice_model = cls.env["account.move"]
-        cls.fbr_partner = cls.partner_model.create({"name": "FBR", "vat": "RO30834857"})
+        cls.fbr_partner = cls.partner_model.create(
+            {
+                "name": "FBR",
+                "vat": "RO30834857",
+                "country_id": cls.env.ref("base.ro").id,
+            }
+        )
         cls.lxt_partner = cls.partner_model.create(
-            {"name": "Luxmet", "vat": "RO16507426"}
+            {
+                "name": "Luxmet",
+                "vat": "RO16507426",
+                "country_id": cls.env.ref("base.ro").id,
+            }
         )
         default_line_account = cls.env["account.account"].search(
             [
