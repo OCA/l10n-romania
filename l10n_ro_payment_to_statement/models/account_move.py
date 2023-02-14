@@ -10,51 +10,41 @@ class AccountMove(models.Model):
     _name = "account.move"
     _inherit = ["account.move", "l10n.ro.mixin"]
 
-    def _constrains_date_sequence(self):
-        l10n_ro_record = self.filtered("is_l10n_ro_record")
-        l10n_ro_not_record = self - l10n_ro_record
-        if l10n_ro_not_record:
-            return super(AccountMove, l10n_ro_not_record)._constrains_date_sequence()
-        if (
-            l10n_ro_record
-            and not self.journal_id.l10n_ro_journal_sequence_id
-            and self.journal_id.type != "cash"
-        ):
-            return super(AccountMove, l10n_ro_record)._constrains_date_sequence()
+    def get_l10n_ro_sequence(self):
+        self.ensure_one()
+        sequence = self.journal_id.l10n_ro_journal_sequence_id
+        if self.is_l10n_ro_record and self.journal_id.type == "cash":
+            partner_type = self._context.get(
+                "l10n_ro_partner_type", self.payment_id.partner_type
+            )
+            payment_type = self._context.get(
+                "l10n_ro_payment_type", self.payment_id.payment_type
+            )
+            if partner_type == "customer":
+                if payment_type == "inbound":
+                    sequence = self.journal_id.l10n_ro_customer_cash_in_sequence_id
+                if payment_type == "outbound":
+                    sequence = self.journal_id.l10n_ro_cash_out_sequence_id
+
+        return sequence
 
     def _set_next_sequence(self):
         self.ensure_one()
-        l10n_ro_record = self.filtered("is_l10n_ro_record")
-        l10n_ro_not_record = self - l10n_ro_record
-        if l10n_ro_not_record:
-            return super(AccountMove, l10n_ro_not_record)._set_next_sequence()
-        if (
-            l10n_ro_record
-            and self.journal_id.l10n_ro_journal_sequence_id
-            and self.journal_id.type == "cash"
-        ):
-            last_sequence = self._get_last_sequence()
-            new = not last_sequence
-            if new:
-                last_sequence = (
-                    self._get_last_sequence(relaxed=True)
-                    or self._get_starting_sequence()
-                )
-            format, format_values = self._get_sequence_format_param(last_sequence)
-            new_number = ""
-            if new:
-                if self.journal_id.l10n_ro_journal_sequence_id:
-                    new_number = (
-                        self.journal_id.l10n_ro_journal_sequence_id.next_by_id()
-                    )
-                format_values["seq"] = 0
-                format_values["year"] = self[self._sequence_date_field].year % (
-                    10 ** format_values["year_length"]
-                )
-                format_values["month"] = self[self._sequence_date_field].month
-            format_values["seq"] = format_values["seq"] + 1
+        last_sequence = self._get_last_sequence()
+        cash_sequence = self.get_l10n_ro_sequence()
+        if cash_sequence and not last_sequence:
+            last_sequence = (
+                self._get_last_sequence(relaxed=True) or self._get_starting_sequence()
+            )
+            format_seq, format_values = self._get_sequence_format_param(last_sequence)
+            new_number = cash_sequence.next_by_id()
+            format_values["seq"] = 1
+            format_values["year"] = self[self._sequence_date_field].year % (
+                10 ** format_values["year_length"]
+            )
+            format_values["month"] = self[self._sequence_date_field].month
             if not new_number:
-                self[self._sequence_field] = format.format(**format_values)
+                self[self._sequence_field] = format_seq.format(**format_values)
             else:
                 self[self._sequence_field] = new_number
             self._compute_split_sequence()
@@ -104,6 +94,7 @@ class AccountMove(models.Model):
 
     def _post(self, soft=True):
         for move in self:
-            if move.payment_id and move.is_l10n_ro_record:
+            last_sequence = move._get_last_sequence()
+            if last_sequence and move.payment_id and move.is_l10n_ro_record:
                 move.payment_id.l10n_ro_force_cash_sequence()
         return super()._post(soft)

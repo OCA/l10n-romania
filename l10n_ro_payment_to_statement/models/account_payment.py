@@ -23,8 +23,8 @@ class AccountPayment(models.Model):
         domain="[('l10n_ro_statement_id','=',statement_id)]",
     )
 
-    @api.onchange("date", "journal_id")
-    def onchange_l10n_ro_date_journal(self):
+    def _get_l10n_ro_bank_statement(self):
+        self.ensure_one()
         domain = [("date", "=", self.date), ("journal_id", "=", self.journal_id.id)]
         statement = self.env["account.bank.statement"].search(domain, limit=1)
         if statement:
@@ -41,57 +41,9 @@ class AccountPayment(models.Model):
                     self.env["account.bank.statement"].sudo().create(values)
                 )
 
-    def action_post(self):
-        res = super(AccountPayment, self).action_post()
-        l10n_ro_records = self.filtered(lambda p: p.is_l10n_ro_record)
-        if l10n_ro_records:
-            l10n_ro_records.l10n_ro_add_statement_line()
-            # l10n_ro_records.l10n_ro_force_cash_sequence()
-        return res
-
-    def l10n_ro_force_cash_sequence(self):
-        # force cash in/out sequence. Called from related account move
-        for payment in self:
-            if payment.partner_type == "customer" and payment.journal_id.type == "cash":
-                if (
-                    payment.journal_id.l10n_ro_customer_cash_in_sequence_id
-                    and payment.payment_type == "inbound"
-                ):
-                    payment.name = (
-                        payment.journal_id.l10n_ro_customer_cash_in_sequence_id.next_by_id()
-                    )
-                if (
-                    payment.journal_id.l10n_ro_cash_out_sequence_id
-                    and payment.payment_type == "outbound"
-                ):
-                    payment.name = (
-                        payment.journal_id.l10n_ro_cash_out_sequence_id.next_by_id()
-                    )
-            # if supplier cash out, get name from journal sequence
-            elif (
-                payment.partner_type == "supplier"
-                and payment.journal_id.type == "cash"
-                and payment.payment_type == "outbound"
-                and payment.journal_id.l10n_ro_journal_sequence_id
-            ):
-                payment.name = (
-                    payment.journal_id.l10n_ro_journal_sequence_id.next_by_id()
-                )
-
-    def l10n_ro_get_reconciled_statement_line(self):
-        for payment in self:
-            for move_line in payment.reconciled_statement_ids:
-                if move_line.statement_id and move_line.statement_line_id:
-                    payment.write(
-                        {
-                            "l10n_ro_statement_id": move_line.statement_id.id,
-                            "statement_line_id": move_line.statement_line_id.id,
-                        }
-                    )
-
-    def l10n_ro_add_statement_line(self):
+    def get_l10n_ro_statement_line(self):
         lines = self.env["account.bank.statement.line"]
-        self.l10n_ro_get_reconciled_statement_line()
+        self.get_l10n_ro_reconciled_statement_line()
         for payment in self:
             auto_statement = payment.journal_id.l10n_ro_auto_statement
             if (
@@ -140,6 +92,36 @@ class AccountPayment(models.Model):
                 lines |= line
                 payment.write({"statement_line_id": line.id})
 
+    def get_l10n_ro_reconciled_statement_line(self):
+        for payment in self:
+            for move_line in payment.reconciled_statement_ids:
+                if move_line.statement_id and move_line.statement_line_id:
+                    payment.write(
+                        {
+                            "l10n_ro_statement_id": move_line.statement_id.id,
+                            "statement_line_id": move_line.statement_line_id.id,
+                        }
+                    )
+
+    def action_post(self):
+        res = super(AccountPayment, self).action_post()
+        l10n_ro_records = self.filtered(lambda p: p.is_l10n_ro_record)
+        if l10n_ro_records:
+            for payment in l10n_ro_records:
+                payment._get_l10n_ro_bank_statement()
+            l10n_ro_records.get_l10n_ro_statement_line()
+        return res
+
+    def l10n_ro_force_cash_sequence(self):
+        # force cash in/out sequence. Called from related account move
+        for payment in self:
+            cash_sequence = payment.move_id.with_context(
+                l10n_ro_payment_type=payment.payment_type,
+                l10n_ro_partner_type=payment.partner_type,
+            ).get_l10n_ro_sequence()
+            if cash_sequence:
+                payment.name = cash_sequence.next_by_id()
+
     def unlink(self):
         statement_line_ids = self.env["account.bank.statement.line"]
         for payment in self:
@@ -147,4 +129,19 @@ class AccountPayment(models.Model):
                 statement_line_ids |= payment.statement_line_id
         res = super().unlink()
         statement_line_ids.unlink()
+        return res
+
+    @api.model_create_multi
+    def create(self, vals_list):
+        res = self.env["account.payment"]
+        for vals in vals_list:
+            new_context = dict(self.env.context)
+            new_context.pop("l10n_ro_payment_type", None)
+            new_context.pop("l10n_ro_partner_type", None)
+            if vals.get("payment_type"):
+                new_context["l10n_ro_payment_type"] = vals.get("payment_type")
+            if vals.get("partner_type"):
+                new_context["l10n_ro_partner_type"] = vals.get("partner_type")
+            self = self.with_context(new_context)
+            res |= super(AccountPayment, self).create([vals])
         return res

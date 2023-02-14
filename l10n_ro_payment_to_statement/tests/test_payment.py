@@ -137,6 +137,7 @@ class TestPayment(TestPaymenttoStatement):
         cash_journal = self.env["account.journal"].search(
             [("type", "=", "cash"), ("company_id", "=", self.env.company.id)], limit=1
         )
+        # import ipdb; ipdb.set_trace()
         payment_7 = self.env["account.payment"].create(
             {
                 "amount": 150.0,
@@ -152,7 +153,7 @@ class TestPayment(TestPaymenttoStatement):
             }
         )
         payment_7.action_post()
-        self.assertEqual(payment_7.name, cash_journal.code + "-000002")
+        self.assertEqual(payment_7.name, cash_journal.code + "-000001")
 
         vals_seq = {
             "name": "Seq",
