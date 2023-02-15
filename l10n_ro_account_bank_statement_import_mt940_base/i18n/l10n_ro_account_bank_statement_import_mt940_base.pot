@@ -19,9 +19,15 @@ msgid "Account Bank Statement Import MT940 Parser"
 msgstr ""
 
 #. module: l10n_ro_account_bank_statement_import_mt940_base
+#: model:ir.model,name:l10n_ro_account_bank_statement_import_mt940_base.model_res_partner_bank
+msgid "Bank Accounts"
+msgstr ""
+
+#. module: l10n_ro_account_bank_statement_import_mt940_base
 #: model:ir.model.fields,field_description:l10n_ro_account_bank_statement_import_mt940_base.field_account_journal__display_name
 #: model:ir.model.fields,field_description:l10n_ro_account_bank_statement_import_mt940_base.field_account_statement_import__display_name
 #: model:ir.model.fields,field_description:l10n_ro_account_bank_statement_import_mt940_base.field_l10n_ro_account_bank_statement_import_mt940_parser__display_name
+#: model:ir.model.fields,field_description:l10n_ro_account_bank_statement_import_mt940_base.field_res_partner_bank__display_name
 msgid "Display Name"
 msgstr ""
 
@@ -29,12 +35,18 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_ro_account_bank_statement_import_mt940_base.field_account_journal__id
 #: model:ir.model.fields,field_description:l10n_ro_account_bank_statement_import_mt940_base.field_account_statement_import__id
 #: model:ir.model.fields,field_description:l10n_ro_account_bank_statement_import_mt940_base.field_l10n_ro_account_bank_statement_import_mt940_parser__id
+#: model:ir.model.fields,field_description:l10n_ro_account_bank_statement_import_mt940_base.field_res_partner_bank__id
 msgid "ID"
 msgstr ""
 
 #. module: l10n_ro_account_bank_statement_import_mt940_base
 #: model:ir.model,name:l10n_ro_account_bank_statement_import_mt940_base.model_account_statement_import
 msgid "Import Bank Statement Files"
+msgstr ""
+
+#. module: l10n_ro_account_bank_statement_import_mt940_base
+#: model:ir.model.fields,field_description:l10n_ro_account_bank_statement_import_mt940_base.field_res_partner_bank__is_l10n_ro_record
+msgid "Is Romanian Record"
 msgstr ""
 
 #. module: l10n_ro_account_bank_statement_import_mt940_base
@@ -46,5 +58,12 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_ro_account_bank_statement_import_mt940_base.field_account_journal____last_update
 #: model:ir.model.fields,field_description:l10n_ro_account_bank_statement_import_mt940_base.field_account_statement_import____last_update
 #: model:ir.model.fields,field_description:l10n_ro_account_bank_statement_import_mt940_base.field_l10n_ro_account_bank_statement_import_mt940_parser____last_update
+#: model:ir.model.fields,field_description:l10n_ro_account_bank_statement_import_mt940_base.field_res_partner_bank____last_update
 msgid "Last Modified on"
+msgstr ""
+
+#. module: l10n_ro_account_bank_statement_import_mt940_base
+#: model:ir.model.fields,field_description:l10n_ro_account_bank_statement_import_mt940_base.field_account_setup_bank_manual_config__l10n_ro_unstructured_tag86
+#: model:ir.model.fields,field_description:l10n_ro_account_bank_statement_import_mt940_base.field_res_partner_bank__l10n_ro_unstructured_tag86
+msgid "Romania - MT940 Unstructured Tag 86 Pattern"
 msgstr ""
