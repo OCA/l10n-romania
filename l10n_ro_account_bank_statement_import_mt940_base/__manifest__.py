@@ -5,7 +5,7 @@
 {
     "name": "Romania - MT940 Bank Statements Import",
     "summary": "Romania - MT940 Bank Statements Import",
-    "version": "14.0.1.3.1",
+    "version": "14.0.1.4.0",
     "license": "AGPL-3",
     "author": "NextERP Romania," "Odoo Community Association (OCA)," "Therp BV",
     "website": "https://github.com/OCA/l10n-romania",
