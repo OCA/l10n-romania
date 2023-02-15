@@ -17,7 +17,12 @@ class StockReturnPickingLine(models.TransientModel):
     def _compute_l10n_ro_origin_ret_move_qty(self):
         for line in self:
             mv = line.move_id.sudo()
-            if mv.is_l10n_ro_record and mv._is_in() and mv.stock_valuation_layer_ids:
+            if (
+                mv.is_l10n_ro_record
+                and mv.product_id.cost_method in ("average", "fifo")
+                and mv._is_in()
+                and mv.stock_valuation_layer_ids
+            ):
                 svls = mv.stock_valuation_layer_ids.filtered(
                     lambda sv: sv.remaining_qty > 0
                 )
