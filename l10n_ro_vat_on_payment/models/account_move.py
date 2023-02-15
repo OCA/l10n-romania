@@ -63,4 +63,6 @@ class AccountMoveLine(models.Model):
         currency_lines = self.filtered(
             lambda l: l.is_l10n_ro_record and l.currency_id == company_currency
         )
-        super(AccountMoveLine, self - currency_lines)._create_exchange_difference_move()
+        return super(
+            AccountMoveLine, self - currency_lines
+        )._create_exchange_difference_move()
