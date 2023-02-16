@@ -88,6 +88,16 @@ msgid "Journal Item"
 msgstr ""
 
 #. module: l10n_ro_stock_account
+#: model:ir.model.fields,field_description:l10n_ro_stock_account.field_stock_return_picking_line__l10n_ro_origin_ret_move_qty
+msgid "L10N Ro Origin Ret Move Qty"
+msgstr ""
+
+#. module: l10n_ro_stock_account
+#: model:ir.model.fields,field_description:l10n_ro_stock_account.field_stock_return_picking_line__l10n_ro_origin_ret_move_qty_warn
+msgid "L10N Ro Origin Ret Move Qty Warn"
+msgstr ""
+
+#. module: l10n_ro_stock_account
 #: model:ir.model.fields.selection,name:l10n_ro_stock_account.selection__stock_landed_cost__l10n_ro_cost_type__normal
 msgid "Normal"
 msgstr ""
@@ -109,16 +119,6 @@ msgstr ""
 msgid ""
 "Only for Romania, to hide stock_input and stock_output accounts because they"
 " are the same as stock_valuation account"
-msgstr ""
-
-#. module: l10n_ro_stock_account
-#: model:ir.model.fields,field_description:l10n_ro_stock_account.field_stock_return_picking_line__origin_ret_move_qty
-msgid "Origin Ret Move Qty"
-msgstr ""
-
-#. module: l10n_ro_stock_account
-#: model:ir.model.fields,field_description:l10n_ro_stock_account.field_stock_return_picking_line__origin_ret_move_qty_check
-msgid "Origin Ret Move Qty Check"
 msgstr ""
 
 #. module: l10n_ro_stock_account
