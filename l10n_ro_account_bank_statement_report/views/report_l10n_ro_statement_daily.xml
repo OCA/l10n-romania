@@ -175,7 +175,7 @@
                                         t-if="with_currency"
                                     >
                                         <span
-                                            t-esc="line.total_signed"
+                                            t-esc="line.amount_total_signed"
                                             t-options='{"widget": "monetary", "display_currency": o.currency_id}'
                                         />
                                     </td>
