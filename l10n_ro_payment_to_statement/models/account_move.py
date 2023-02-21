@@ -30,23 +30,27 @@ class AccountMove(models.Model):
 
     def _set_next_sequence(self):
         self.ensure_one()
-        last_sequence = self._get_last_sequence()
         cash_sequence = self.get_l10n_ro_sequence()
-        if cash_sequence and not last_sequence:
+        if cash_sequence:
             last_sequence = (
                 self._get_last_sequence(relaxed=True) or self._get_starting_sequence()
             )
             format_seq, format_values = self._get_sequence_format_param(last_sequence)
-            new_number = cash_sequence.next_by_id()
-            format_values["seq"] = 1
-            format_values["year"] = self[self._sequence_date_field].year % (
-                10 ** format_values["year_length"]
-            )
-            format_values["month"] = self[self._sequence_date_field].month
-            if not new_number:
-                self[self._sequence_field] = format_seq.format(**format_values)
+            if format_values["seq"] != 0:
+                new_number = cash_sequence.next_by_id()
             else:
-                self[self._sequence_field] = new_number
+                # aici sunt in cazul in care s-a dat create(),
+                # insa nu exista nimic in baza de date
+                # deci vreau doar sa citesc ultima valoare din secventa,
+                #
+                # nu incrementez deoarece daca se da discard, nu vreau sa
+                # se incrementeze secventa
+                new_number = cash_sequence.get_next_char(
+                    cash_sequence.number_next_actual
+                )
+
+            self[self._sequence_field] = new_number
+
             self._compute_split_sequence()
         else:
             return super(AccountMove, self)._set_next_sequence()
@@ -55,13 +59,24 @@ class AccountMove(models.Model):
         if "state" in vals and vals.get("state") == "posted":
             for move in self:
                 if move.is_l10n_ro_record:
-                    if (
-                        not move.name or move.name == "/"
-                    ) and move.journal_id.l10n_ro_journal_sequence_id:
-                        new_number = (
-                            move.journal_id.l10n_ro_journal_sequence_id.next_by_id()
-                        )
-                        super(AccountMove, move).write({"name": new_number})
+                    if move.journal_id.l10n_ro_journal_sequence_id:
+                        if not move.name or move.name == "/":
+                            new_number = (
+                                move.journal_id.l10n_ro_journal_sequence_id.next_by_id()
+                            )
+                            super(AccountMove, move).write({"name": new_number})
+                        else:
+                            last_sequence = self[0]._get_last_sequence()
+                            if not last_sequence:
+                                # trebuie incrementata secventa deoarece sunt in cazul
+                                # in care nu a existat nici o factura/nota in baza de date
+                                #
+                                # si in _set_next_sequence de mai sus new_number
+                                # a fost initializat cu
+                                # cash_sequence.get_next_char(number_next_actual),
+                                #
+                                # deci fara sa se dea next_by_id()
+                                move.journal_id.l10n_ro_journal_sequence_id.next_by_id()
 
         if "statement_line_id" in vals and vals.get("statement_line_id"):
             statement_line = self.env["account.bank.statement.line"].browse(
