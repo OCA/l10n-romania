@@ -14,12 +14,8 @@ class AccountMove(models.Model):
         self.ensure_one()
         sequence = self.journal_id.l10n_ro_journal_sequence_id
         if self.is_l10n_ro_record and self.journal_id.type == "cash":
-            partner_type = self._context.get(
-                "l10n_ro_partner_type", self.payment_id.partner_type
-            )
-            payment_type = self._context.get(
-                "l10n_ro_payment_type", self.payment_id.payment_type
-            )
+            partner_type = self._context.get("l10n_ro_partner_type", "")
+            payment_type = self._context.get("l10n_ro_payment_type", "")
             if partner_type == "customer":
                 if payment_type == "inbound":
                     sequence = self.journal_id.l10n_ro_customer_cash_in_sequence_id
@@ -60,7 +56,9 @@ class AccountMove(models.Model):
             for move in self:
                 if move.is_l10n_ro_record:
                     cash_sequence = move.get_l10n_ro_sequence()
-                    if cash_sequence:
+                    if cash_sequence and (
+                        not move.payment_id or move.payment_id.state == "posted"
+                    ):
                         if not move.name or move.name == "/":
                             new_number = cash_sequence.next_by_id()
                             super(AccountMove, move).write({"name": new_number})
@@ -108,7 +106,7 @@ class AccountMove(models.Model):
 
     def _post(self, soft=True):
         for move in self:
-            last_sequence = move._get_last_sequence()
-            if last_sequence and move.payment_id and move.is_l10n_ro_record:
-                move.payment_id.l10n_ro_force_cash_sequence()
+            if move.is_l10n_ro_record:
+                if move.payment_id and move.payment_id.state != "posted":
+                    move.payment_id.l10n_ro_force_cash_sequence()
         return super()._post(soft)
