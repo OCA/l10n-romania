@@ -59,14 +59,13 @@ class AccountMove(models.Model):
         if "state" in vals and vals.get("state") == "posted":
             for move in self:
                 if move.is_l10n_ro_record:
-                    if move.journal_id.l10n_ro_journal_sequence_id:
+                    cash_sequence = move.get_l10n_ro_sequence()
+                    if cash_sequence:
                         if not move.name or move.name == "/":
-                            new_number = (
-                                move.journal_id.l10n_ro_journal_sequence_id.next_by_id()
-                            )
+                            new_number = cash_sequence.next_by_id()
                             super(AccountMove, move).write({"name": new_number})
                         else:
-                            last_sequence = self[0]._get_last_sequence()
+                            last_sequence = move._get_last_sequence()
                             if not last_sequence:
                                 # trebuie incrementata secventa deoarece sunt in cazul
                                 # in care nu a existat nici o factura/nota in baza de date
@@ -76,7 +75,7 @@ class AccountMove(models.Model):
                                 # cash_sequence.get_next_char(number_next_actual),
                                 #
                                 # deci fara sa se dea next_by_id()
-                                move.journal_id.l10n_ro_journal_sequence_id.next_by_id()
+                                cash_sequence.next_by_id()
 
         if "statement_line_id" in vals and vals.get("statement_line_id"):
             statement_line = self.env["account.bank.statement.line"].browse(

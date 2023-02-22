@@ -84,8 +84,6 @@ class AccountPayment(models.Model):
                     "payment_id": payment.id,
                     "ref": ref,
                     "payment_ref": payment.ref or payment.name,
-                    "move_id": payment.move_id.id,
-                    "line_ids": [(6, 0, payment.move_id.line_ids.ids)],
                 }
                 if payment.payment_type == "outbound":
                     values["amount"] = -1 * payment.amount
