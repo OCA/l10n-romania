@@ -60,7 +60,7 @@ msgstr ""
 
 #. module: l10n_ro_payment_to_statement
 #: model_terms:ir.ui.view,arch_db:l10n_ro_payment_to_statement.view_account_payment_form
-msgid "Get statement"
+msgid "Get statement Line"
 msgstr ""
 
 #. module: l10n_ro_payment_to_statement
