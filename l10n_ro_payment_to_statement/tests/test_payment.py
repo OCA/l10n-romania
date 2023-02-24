@@ -137,6 +137,7 @@ class TestPayment(TestPaymenttoStatement):
         cash_journal = self.env["account.journal"].search(
             [("type", "=", "cash"), ("company_id", "=", self.env.company.id)], limit=1
         )
+        # import ipdb; ipdb.set_trace()
         payment_7 = self.env["account.payment"].create(
             {
                 "amount": 150.0,
@@ -191,7 +192,7 @@ class TestPayment(TestPaymenttoStatement):
                 "line_ids": [(0, 0, {"payment_ref": "/", "amount": 100.0})],
             }
         )
-        self.assertEqual(bnk_out.line_ids.move_id.name, "CSH1/2022/12/0001")
+        self.assertEqual(bnk_out.line_ids.move_id.name, "CSH1-000001")
 
     def test_get_journal_dashboard_datas(self):
         payment_debit_account_id = self.env.company.transfer_account_id
