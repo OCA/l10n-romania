@@ -53,6 +53,9 @@ class StockMove(models.Model):
                 po_line = self.purchase_line_id
                 order = po_line.order_id
                 price_unit = po_line.price_unit
+                if po_line.product_qty != 0.0:
+                    price_unit = po_line.price_subtotal / po_line.product_qty
+
                 if po_line.taxes_id:
                     price_unit = po_line.taxes_id.with_context(round=False).compute_all(
                         price_unit,
