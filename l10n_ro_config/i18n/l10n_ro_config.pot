@@ -72,6 +72,14 @@ msgid "Account ANAF Sync"
 msgstr ""
 
 #. module: l10n_ro_config
+#: code:addons/l10n_ro_config/models/res_bank.py:0
+#: code:addons/l10n_ro_config/models/res_bank.py:0
+#: model:ir.model.constraint,message:l10n_ro_config.constraint_res_partner_bank_unique_number
+#, python-format
+msgid "Account Number must be unique"
+msgstr ""
+
+#. module: l10n_ro_config
 #: model_terms:ir.ui.view,arch_db:l10n_ro_config.res_config_settings_view_form
 msgid "Accounting"
 msgstr ""
