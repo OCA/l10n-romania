@@ -102,6 +102,9 @@ class AccountJournal(models.Model):
             journal_code = vals.get("code") or ""
             journal_name = vals.get("name") or ""
             company = vals.get("company_id") or self.env.company.id
+            vals[
+                "sequence_override_regex"
+            ] = r"^(?P<prefix1>.*?)(?P<seq>\d*)(?P<suffix>\D*?)$"
             for seq_field, code in l10n_ro_sequnce_fields.items():
                 if not vals.get(seq_field):
                     vals_seq = {
