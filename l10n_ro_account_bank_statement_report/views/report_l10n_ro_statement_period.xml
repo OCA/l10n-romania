@@ -125,6 +125,9 @@
                                     </strong>
                                 </td>
                                 <td style="border: 1px solid black;" />
+                                <t t-if="with_currency">
+                                    <td style="border: 1px solid black;" />
+                                </t>
                             </tr>
                         </tbody>
                     </table>
@@ -155,6 +158,9 @@
                                         </strong>
                                     </td>
                                     <td style="border: 1px solid black;" />
+                                    <t t-if="with_currency">
+                                        <td style="border: 1px solid black;" />
+                                    </t>
                                 </tr>
                                 <tr t-foreach="s.line_ids" t-as="line">
                                     <tr>
@@ -247,7 +253,7 @@
                                         >
                                             <span
                                                 t-esc="line.amount_total_signed"
-                                                t-options='{"widget": "monetary", "display_currency": s.currency_id}'
+                                                t-options='{"widget": "monetary", "display_currency": line.foreign_currency_id or s.company_id.currency_id or s.currency_id}'
                                             />
                                         </td>
                                     </tr>
@@ -268,6 +274,9 @@
                                         </strong>
                                     </td>
                                     <td style="border: 1px solid black;" />
+                                    <t t-if="with_currency">
+                                        <td style="border: 1px solid black;" />
+                                    </t>
                                 </tr>
 
                             </tbody>
@@ -309,6 +318,9 @@
                                         t-options='{"widget": "monetary", "display_currency": journal_currency}'
                                     />
                                 </td>
+                                <t t-if="with_currency">
+                                    <td style="border: 1px solid black;" />
+                                </t>
                             </tr>
                         </tbody>
                     </table>
