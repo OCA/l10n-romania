@@ -101,6 +101,9 @@
                                     </strong>
                                 </td>
                                 <td style="border: 1px solid black;" />
+                                <t t-if="with_currency">
+                                    <td style="border: 1px solid black;" />
+                                </t>
                             </tr>
                             <tr t-foreach="o.line_ids" t-as="line">
                                 <tr>
@@ -176,7 +179,7 @@
                                     >
                                         <span
                                             t-esc="line.amount_total_signed"
-                                            t-options='{"widget": "monetary", "display_currency": o.currency_id}'
+                                            t-options='{"widget": "monetary", "display_currency": line.foreign_currency_id or o.company_id.currency_id or o.currency_id}'
                                         />
                                     </td>
                                 </tr>
@@ -198,6 +201,9 @@
                                         t-options='{"widget": "monetary", "display_currency": o.currency_id}'
                                     />
                                 </td>
+                                <t t-if="with_currency">
+                                    <td style="border: 1px solid black;" />
+                                </t>
                             </tr>
                             <tr style="border: 1px solid black;">
                                 <td style="border: 1px solid black;" colspan="3" />
@@ -210,6 +216,9 @@
                                     </strong>
                                 </td>
                                 <td style="border: 1px solid black;" />
+                                <t t-if="with_currency">
+                                    <td style="border: 1px solid black;" />
+                                </t>
                             </tr>
                             <tr>
                                 <td style="border: 1px solid black;" colspan="3">
@@ -220,6 +229,9 @@
                                 <td style="border: 1px solid black;" colspan="3">
                                     <strong>Financial-accounting department</strong>
                                 </td>
+                                <t t-if="with_currency">
+                                    <td style="border: 1px solid black;" />
+                                </t>
                             </tr>
                         </tbody>
                     </table>
