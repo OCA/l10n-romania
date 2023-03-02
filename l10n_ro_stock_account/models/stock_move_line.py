@@ -11,17 +11,15 @@ class StockMoveLine(models.Model):
 
     @api.model
     def _create_correction_svl(self, move, diff):
-        super(StockMoveLine, self)._create_correction_svl(move, diff)
         company_id = self.company_id
         if not self.company_id and self._context.get("default_company_id"):
             company_id = self.env["res.company"].browse(
                 self._context["default_company_id"]
             )
         if not self.env["res.company"]._check_is_l10n_ro_record(company_id.id):
-            return
+            super(StockMoveLine, self)._create_correction_svl(move, diff)
 
         stock_valuation_layers = self.env["stock.valuation.layer"]
-
         for valued_type in move._get_valued_types():
             if getattr(move, "_is_%s" % valued_type)():
 

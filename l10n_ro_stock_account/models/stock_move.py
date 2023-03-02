@@ -79,6 +79,23 @@ class StockMove(models.Model):
             for move in l10n_ro_records:
                 move = move.with_company(move.company_id)
                 valued_move_lines = move._get_in_move_lines()
+                if not valued_move_lines and forced_quantity:
+                    unit_cost = abs(
+                        move._get_price_unit()
+                    )  # May be negative (i.e. decrease an out move).
+                    if move.product_id.cost_method == "standard":
+                        unit_cost = move.product_id.standard_price
+                    svl_vals = move.product_id._prepare_in_svl_vals(
+                        forced_quantity, unit_cost
+                    )
+                    svl_vals.update(move._prepare_common_svl_vals())
+                    if forced_quantity:
+                        svl_vals["description"] = (
+                            "Correction of %s (modification of past move)"
+                            % move.picking_id.name
+                            or move.name
+                        )
+                    svls = self.env["stock.valuation.layer"].sudo().create(svl_vals)
                 for valued_move_line in valued_move_lines:
                     move = move.with_context(stock_move_line_id=valued_move_line)
                     valued_quantity = valued_move_line.product_uom_id._compute_quantity(
