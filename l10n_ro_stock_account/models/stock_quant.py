@@ -26,3 +26,5 @@ class StockQuant(models.Model):
                 location_id=quant.location_id.id, lot_id=quant.lot_id
             )
             super(StockQuant, quant)._compute_value()
+        ro_quants_no_loc = ro_quants - quants_with_loc
+        super(StockQuant, ro_quants_no_loc)._compute_value()
