@@ -21,8 +21,11 @@ class StockQuant(models.Model):
         ro_quants = self.filtered(lambda quant: quant.is_l10n_ro_record)
         super(StockQuant, self - ro_quants)._compute_value()
         quants_with_loc = ro_quants.filtered(lambda q: q.location_id)
-        for quant in quants_with_loc:
-            quant = quant.with_context(
-                location_id=quant.location_id.id, lot_id=quant.lot_id
-            )
-            super(StockQuant, quant)._compute_value()
+        if quants_with_loc:
+            for quant in quants_with_loc:
+                quant = quant.with_context(
+                    location_id=quant.location_id.id, lot_id=quant.lot_id
+                )
+                super(StockQuant, quant)._compute_value()
+        else:
+            super(StockQuant, ro_quants)._compute_value()
