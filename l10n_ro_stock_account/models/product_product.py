@@ -26,7 +26,10 @@ class ProductProduct(models.Model):
 
         if l10n_ro_records:
             company = self.env.company
-            use_svl_lot_config = company.l10n_ro_stock_account_svl_lot_allocation
+            use_svl_lot_config = (
+                company.l10n_ro_stock_account_svl_lot_allocation
+                or self.env.context.get("force_svl_lot_config", False)
+            )
             domain_ctx = []
             if self.env.context.get("location_id"):
                 domain_ctx = [
@@ -37,11 +40,13 @@ class ProductProduct(models.Model):
                     )
                 ]
             if use_svl_lot_config and self.env.context.get("lot_id"):
-                domain_ctx += (
-                    "l10n_ro_lot_ids",
-                    "in",
-                    [self.env.context.get("lot_id")],
-                )
+                domain_ctx += [
+                    (
+                        "l10n_ro_lot_ids",
+                        "in",
+                        [self.env.context.get("lot_id")],
+                    )
+                ]
             domain = [
                 ("product_id", "in", l10n_ro_records.ids),
                 ("company_id", "=", company.id),
