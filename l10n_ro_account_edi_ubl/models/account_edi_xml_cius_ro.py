@@ -69,6 +69,9 @@ class AccountEdiXmlCIUSRO(models.Model):
 
     def _export_invoice_vals(self, invoice):
         vals_list = super()._export_invoice_vals(invoice)
+        vals_list["vals"]["buyer_reference"] = (
+            invoice.commercial_partner_id.ref or invoice.commercial_partner_id.name
+        )
         vals_list["vals"]["order_reference"] = (invoice.ref or invoice.name)[:30]
         vals_list[
             "TaxTotalType_template"
