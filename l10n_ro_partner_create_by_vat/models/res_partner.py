@@ -208,7 +208,7 @@ class ResPartner(models.Model):
         ):
             domain = [
                 ("state_id", "=", odoo_result["state_id"].id),
-                ("name", "ilike", odoo_result["city"]),
+                ("name", "=ilike", odoo_result["city"]),
             ]
             odoo_result["city_id"] = self.env["res.city"].search(domain, limit=1).id
         for field in AnafFiled_OdooField_Overwrite:
