@@ -37,7 +37,7 @@ class TestAccountEdiUbl(AccountEdiTestCommon):
         cls.partner = cls.env["res.partner"].create(
             {
                 "name": "SCOALA GIMNAZIALA COMUNA FOENI",
-                "vat": "29152430",
+                "vat": "RO29152430",
                 "country_id": cls.env.ref("base.ro").id,
                 "l10n_ro_vat_subjected": True,
                 "street": "Foeni Nr. 383",
