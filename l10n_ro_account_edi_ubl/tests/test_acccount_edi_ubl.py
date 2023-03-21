@@ -37,6 +37,7 @@ class TestAccountEdiUbl(AccountEdiTestCommon):
         cls.partner = cls.env["res.partner"].create(
             {
                 "name": "SCOALA GIMNAZIALA COMUNA FOENI",
+                "ref": "SCOALA GIMNAZIALA COMUNA FOENI",
                 "vat": "RO29152430",
                 "country_id": cls.env.ref("base.ro").id,
                 "l10n_ro_vat_subjected": True,
@@ -130,6 +131,7 @@ class TestAccountEdiUbl(AccountEdiTestCommon):
                 <cbc:DueDate>2022-09-01</cbc:DueDate>
                 <cbc:InvoiceTypeCode>380</cbc:InvoiceTypeCode>
                 <cbc:DocumentCurrencyCode>RON</cbc:DocumentCurrencyCode>
+                <cbc:BuyerReference>SCOALA GIMNAZIALA COMUNA FOENI</cbc:BuyerReference>
                 <cac:OrderReference>
                     <cbc:ID>FBRAO2092</cbc:ID>
                 </cac:OrderReference>
