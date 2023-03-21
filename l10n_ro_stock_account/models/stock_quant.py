@@ -23,6 +23,10 @@ class StockQuant(models.Model):
         quants_with_loc = ro_quants.filtered(lambda q: q.location_id)
         for quant in quants_with_loc:
             quant = quant.with_context(
-                location_id=quant.location_id.id, lot_id=quant.lot_id
+                location_id=quant.location_id.id,
+                lot_id=quant.lot_id.id,
+                force_svl_lot_config=True,
             )
             super(StockQuant, quant)._compute_value()
+        ro_quants_no_loc = ro_quants - quants_with_loc
+        super(StockQuant, ro_quants_no_loc)._compute_value()
