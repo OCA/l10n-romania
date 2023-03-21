@@ -130,7 +130,6 @@ class TestAccountEdiUbl(AccountEdiTestCommon):
                 <cbc:DueDate>2022-09-01</cbc:DueDate>
                 <cbc:InvoiceTypeCode>380</cbc:InvoiceTypeCode>
                 <cbc:DocumentCurrencyCode>RON</cbc:DocumentCurrencyCode>
-                <cbc:BuyerReference>SCOALA GIMNAZIALA COMUNA FOENI</cbc:BuyerReference>
                 <cac:OrderReference>
                     <cbc:ID>FBRAO2092</cbc:ID>
                 </cac:OrderReference>
@@ -168,7 +167,7 @@ class TestAccountEdiUbl(AccountEdiTestCommon):
                 </cac:AccountingSupplierParty>
                 <cac:AccountingCustomerParty>
                     <cac:Party>
-                        <cbc:EndpointID schemeID="9947">29152430</cbc:EndpointID>
+                        <cbc:EndpointID schemeID="9947">RO29152430</cbc:EndpointID>
                         <cac:PartyName>
                             <cbc:Name>SCOALA GIMNAZIALA COMUNA FOENI</cbc:Name>
                         </cac:PartyName>
@@ -182,16 +181,16 @@ class TestAccountEdiUbl(AccountEdiTestCommon):
                             </cac:Country>
                         </cac:PostalAddress>
                         <cac:PartyTaxScheme>
-                            <cbc:CompanyID>29152430</cbc:CompanyID>
+                            <cbc:CompanyID>RO29152430</cbc:CompanyID>
                             <cac:TaxScheme>
-                                <cbc:ID>!= VAT</cbc:ID>
+                                <cbc:ID>VAT</cbc:ID>
                             </cac:TaxScheme>
                         </cac:PartyTaxScheme>
                         <cac:PartyLegalEntity>
                             <cbc:RegistrationName>
                             SCOALA GIMNAZIALA COMUNA FOENI
                             </cbc:RegistrationName>
-                            <cbc:CompanyID>29152430</cbc:CompanyID>
+                            <cbc:CompanyID>RO29152430</cbc:CompanyID>
                         </cac:PartyLegalEntity>
                         <cac:Contact>
                             <cbc:Name>SCOALA GIMNAZIALA COMUNA FOENI</cbc:Name>
