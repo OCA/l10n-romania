@@ -122,7 +122,7 @@ class ROBNRRatesHandler(xml.sax.ContentHandler):
         elif name == "Rate" and all([x in attrs for x in ["currency"]]):
             currency = attrs["currency"]
             self.currency = currency
-            self.multiplier = attrs.get("multiplier", 1)
+            self.multiplier = float(attrs.get("multiplier", 1))
             self.rate = 1
         self.tags.append(name)
 
