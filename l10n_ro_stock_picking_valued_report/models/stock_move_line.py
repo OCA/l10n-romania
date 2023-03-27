@@ -37,6 +37,11 @@ class StockMoveLine(models.Model):
         readonly=True,
         currency_field="l10n_ro_currency_id",
     )
+    l10n_ro_additional_charges = fields.Monetary(
+        compute="_compute_l10n_ro_valued_fields",
+        readonly=True,
+        currency_field="l10n_ro_currency_id",
+    )
 
     def _get_move_line_quantity(self):
         return self.qty_done or self.product_qty
@@ -53,6 +58,7 @@ class StockMoveLine(models.Model):
     def _compute_l10n_ro_valued_fields(self):
         for line in self:
             move_qty = line._get_move_line_quantity()
+            line.l10n_ro_additional_charges = 0
             if line.l10n_ro_sale_line_id:
                 sale_line = line.l10n_ro_sale_line_id
                 line.l10n_ro_currency_id = sale_line.currency_id
@@ -77,17 +83,32 @@ class StockMoveLine(models.Model):
                 )
             else:
                 svls = line.move_id.stock_valuation_layer_ids
+                svls_lc_not_same_invoice = self.env["stock.valuation.layer"]
                 price_unit = 0
                 if svls:
                     if svls[0].l10n_ro_valued_type == "internal_transfer":
                         svls = svls.filtered(lambda s: s.quantity > 0)
                     if svls[0].stock_move_id._is_in():
-                        svls = svls.filtered(lambda s: not s.stock_landed_cost_id)
-                    price_unit = sum(svls.mapped("value")) / sum(
-                        svls.mapped("quantity")
-                    )
+                        svls_lc_not_same_invoice = svls.filtered(
+                            lambda s: (
+                                s.stock_landed_cost_id
+                                and s.stock_landed_cost_id.l10n_ro_cost_type == "normal"
+                                and s.stock_landed_cost_id.vendor_bill_id
+                                and s.stock_landed_cost_id.vendor_bill_id
+                                != svls[0].l10n_ro_invoice_id
+                            )
+                        )
+                        svls = svls - svls_lc_not_same_invoice
+
+                    if sum(svls.mapped("quantity")):
+                        price_unit = sum(svls.mapped("value")) / sum(
+                            svls.mapped("quantity")
+                        )
                 line.l10n_ro_currency_id = line.company_id.currency_id
                 line.l10n_ro_price_unit = price_unit
+                line.l10n_ro_additional_charges = sum(
+                    svls_lc_not_same_invoice.mapped("value")
+                )
                 line.l10n_ro_price_subtotal = move_qty * line.l10n_ro_price_unit
                 line.l10n_ro_price_tax = 0
                 if line.l10n_ro_purchase_line_id and svls:
@@ -110,32 +131,32 @@ class StockMoveLine(models.Model):
                 )
 
     def _get_aggregated_product_quantities(self, **kwargs):
-        def get_aggregated_properties(move_line=False, move=False):
-            move = move or move_line.move_id
-            uom = move.product_uom or move_line.product_uom_id
-            name = move.product_id.display_name
-            description = move.description_picking
-            if description == name or description == move.product_id.name:
-                description = False
-            product = move.product_id
-            line_key = (
-                f'{product.id}_{product.display_name}_{description or ""}_{uom.id}'
-            )
-            return (line_key, name, description, uom)
-
         aggregated_move_lines = super()._get_aggregated_product_quantities(**kwargs)
         for aggregated_move_line in aggregated_move_lines:
             aggregated_move_lines[aggregated_move_line][
                 "currency"
             ] = self.env.company.currency_id.id
             aggregated_move_lines[aggregated_move_line]["l10n_ro_price_unit"] = 0
+            aggregated_move_lines[aggregated_move_line][
+                "l10n_ro_additional_charges"
+            ] = 0
             aggregated_move_lines[aggregated_move_line]["l10n_ro_price_subtotal"] = 0
             aggregated_move_lines[aggregated_move_line]["l10n_ro_price_tax"] = 0
             aggregated_move_lines[aggregated_move_line]["l10n_ro_price_total"] = 0
 
         for move_line in self:
-            line_key, name, description, uom = get_aggregated_properties(
-                move_line=move_line
+            name = move_line.product_id.display_name
+            description = move_line.move_id.description_picking
+            if description == name or description == move_line.product_id.name:
+                description = False
+            uom = move_line.product_uom_id
+            line_key = (
+                str(move_line.product_id.id)
+                + "_"
+                + name
+                + (description or "")
+                + "uom "
+                + str(uom.id)
             )
             aggregated_move_lines[line_key][
                 "l10n_ro_currency_id"
@@ -143,6 +164,9 @@ class StockMoveLine(models.Model):
             aggregated_move_lines[line_key][
                 "l10n_ro_price_unit"
             ] += move_line.l10n_ro_price_unit
+            aggregated_move_lines[line_key][
+                "l10n_ro_additional_charges"
+            ] += move_line.l10n_ro_additional_charges
             aggregated_move_lines[line_key][
                 "l10n_ro_price_subtotal"
             ] += move_line.l10n_ro_price_subtotal
