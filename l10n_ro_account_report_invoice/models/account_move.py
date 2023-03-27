@@ -8,7 +8,7 @@ class AccountMove(models.Model):
     _name = "account.move"
     _inherit = ["account.move", "l10n.ro.mixin"]
 
-    @api.depends("currency_id", "invoice_date")
+    @api.depends("currency_id", "invoice_date", "date")
     def _compute_l10n_ro_currency_rate(self):
         for invoice in self:
             currency_rate = 1
@@ -17,7 +17,7 @@ class AccountMove(models.Model):
                     invoice.currency_id,
                     invoice.company_currency_id,
                     invoice.company_id or self.env.company,
-                    invoice.invoice_date or fields.Date.today(),
+                    invoice.invoice_date or invoice.date or fields.Date.today(),
                 )
             invoice.l10n_ro_currency_rate = currency_rate
 
