@@ -17,10 +17,9 @@ class TestStockPurchaseRefund(TestStockCommonPriceDiff):
         self.create_invoice(auto_post=False)
 
         pick = po.picking_ids
-        self.make_return(pick, 10)
-
-        stock_value_final_p1 = self.val_p1_i - round(10 * self.price_p1, 2)
-        stock_value_final_p2 = self.val_p1_i - round(10 * self.price_p2, 2)
+        self.make_return(pick, 5)
+        stock_value_final_p1 = self.val_p1_i / 2
+        stock_value_final_p2 = self.val_p2_i / 2
         self.check_stock_valuation(stock_value_final_p1, stock_value_final_p2)
 
         self.check_account_valuation(0.0, 0.0)
@@ -51,7 +50,7 @@ class TestStockPurchaseRefund(TestStockCommonPriceDiff):
         self.create_invoice()
 
         pick = po.picking_ids
-        self.make_return(pick, 20)
+        self.make_return(pick, 10)
 
         self.check_stock_valuation(0.0, 0.0)
 
