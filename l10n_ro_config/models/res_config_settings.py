@@ -2,7 +2,8 @@
 # Copyright (C) 2020 NextERP Romania
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
-from odoo import fields, models
+from odoo import _, api, fields, models
+from odoo.exceptions import ValidationError
 
 
 class ResConfigSettings(models.TransientModel):
@@ -104,6 +105,11 @@ class ResConfigSettings(models.TransientModel):
         related="company_id.l10n_ro_property_customs_commision_product_id",
         readonly=False,
     )
+    l10n_ro_stock_account_svl_lot_allocation = fields.Boolean(
+        related="company_id.l10n_ro_stock_account_svl_lot_allocation",
+        readonly=False,
+    )
+    l10n_ro_stock_account_svl_lot_allocation_visible = fields.Boolean(default=False)
 
     module_currency_rate_update_RO_BNR = fields.Boolean(
         "Currency Rate Update BNR",
@@ -216,7 +222,37 @@ class ResConfigSettings(models.TransientModel):
     )
     module_l10n_ro_dvi = fields.Boolean("Romanian DVI")
 
-    l10n_ro_share_capital = fields.Float(
-        related="company_id.l10n_ro_share_capital",
-        readonly=False,
-    )
+    @api.onchange("l10n_ro_stock_account_svl_lot_allocation")
+    def onchange_svl_lot_allocation(self):
+        warning = ""
+        if (
+            self.company_id.l10n_ro_stock_account_svl_lot_allocation is False
+            and self.l10n_ro_stock_account_svl_lot_allocation is True
+        ):
+            warning += _(
+                "The values used for stock out operations will not follow FIFO rule!"
+            )
+
+            no_tracking_products = self.env["product.template"].search(
+                [("tracking", "=", "none"), ("type", "!=", "service")]
+            )
+            if no_tracking_products.exists():
+                error = _(
+                    "Tracking (Lot/Serial) has to be enabled first "
+                    "for all stockable and consumable products !"
+                )
+                raise ValidationError(error)
+
+        if warning:
+            return {"warning": {"title": _("Notification !"), "message": warning}}
+
+    @api.model
+    def default_get(self, fields):
+        res = super().default_get(fields)
+
+        IrModule = self.env["ir.module.module"]
+        stock_mod = IrModule.search([("name", "=", "stock")])
+        res["l10n_ro_stock_account_svl_lot_allocation_visible"] = (
+            stock_mod.state == "installed"
+        )
+        return res
