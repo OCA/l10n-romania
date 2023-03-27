@@ -45,7 +45,7 @@ class TestStockSale(TestStockCommonPriceDiff):
 
         self.create_sale_invoice()
 
-        _logger.info("Verifcare valoare ramas in stoc")
+        _logger.info("Verificare valoare ramas in stoc")
         self.check_stock_valuation(val_stock_p1, val_stock_p2)
         self.check_account_valuation(val_stock_p1, val_stock_p2)
 
