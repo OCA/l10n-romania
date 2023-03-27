@@ -42,10 +42,20 @@ class StockMove(models.Model):
         # Update price unit for purchases in different currencies with the
         # reception date.
         if self.is_l10n_ro_record:
+            if (
+                self.origin_returned_move_id
+                and self.origin_returned_move_id.sudo().stock_valuation_layer_ids
+            ):
+                # in acest caz trebuie sa se execute din l10n_ro_stock_account
+                return super()._get_price_unit()
+
             if self.picking_id.date and self.purchase_line_id:
                 po_line = self.purchase_line_id
                 order = po_line.order_id
                 price_unit = po_line.price_unit
+                if po_line.product_qty != 0.0:
+                    price_unit = po_line.price_subtotal / po_line.product_qty
+
                 if po_line.taxes_id:
                     price_unit = po_line.taxes_id.with_context(round=False).compute_all(
                         price_unit,
