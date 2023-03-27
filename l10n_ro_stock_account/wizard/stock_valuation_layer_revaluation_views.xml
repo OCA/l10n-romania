@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+
+    <record id="stock_valuation_layer_revaluation_form_view" model="ir.ui.view">
+        <field name="name">stock.valuation.layer.revaluation.form</field>
+        <field name="model">stock.valuation.layer.revaluation</field>
+        <field
+            name="inherit_id"
+            ref="stock_account.stock_valuation_layer_revaluation_form_view"
+        />
+        <field name="arch" type="xml">
+            <xpath expr="//group[1]" position="before">
+                <field name="is_l10n_ro_record" invisible="1" />
+                <group attrs="{'invisible': [('is_l10n_ro_record', '=', False)]}">
+                    <label for="l10n_ro_location_id" string="Location" />
+                    <div class="o_row">
+                        <field name="l10n_ro_location_id" />
+                    </div>
+                </group>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>
