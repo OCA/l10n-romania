@@ -11,9 +11,9 @@ _logger = logging.getLogger(__name__)
 
 
 @tagged("post_install", "-at_install")
-class TestStockSale(TestStockCommon):
+class TestStockInventory(TestStockCommon):
     def _plus_inventory(self):
-        self.make_puchase()
+        self.make_purchase()
 
         inventory_obj = self.env["stock.quant"].with_context(inventory_mode=True)
         inventory = inventory_obj.create(
@@ -37,7 +37,7 @@ class TestStockSale(TestStockCommon):
         self._plus_inventory()
 
     def _minus_inventory(self):
-        self.make_puchase()
+        self.make_purchase()
 
         inventory_obj = self.env["stock.quant"].with_context(inventory_mode=True)
         inventory = inventory_obj.create(
