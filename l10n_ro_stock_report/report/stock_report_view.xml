@@ -7,18 +7,11 @@
             <form string="Report Options">
                 <group name="filters">
                     <group>
-                        <field
-                            name="location_id"
-                            attrs="{'required': [('detailed_locations', '=', True)]}"
-                        />
-
+                        <field name="location_id" />
                         <field name="product_ids" widget="many2many_tags" />
                         <field name="products_with_move" />
                         <field name="one_product" />
-                        <field
-                            name="sublocation"
-                            attrs="{'required': [('location_id', '=', False)]}"
-                        />
+                        <field name="sublocation" />
                         <field name="detailed_locations" />
                         <field name="show_locations" />
                         <field name="company_id" invisible="1" />
@@ -96,10 +89,10 @@
                 <field name="amount_initial" />
                 <field name="quantity_in" />
                 <field name="amount_in" />
-                <field name="unit_price_in" />
+                <field name="unit_price_in" optional="hide" />
                 <field name="quantity_out" />
                 <field name="amount_out" />
-                <field name="unit_price_out" />
+                <field name="unit_price_out" optional="hide" />
                 <field
                     name="quantity_final"
                     decoration-danger="quantity_final &lt; 0"
@@ -221,7 +214,7 @@
         <field name="name">Romanian Stock Sheet Report</field>
         <field name="action" ref="action_sheet_stock_report" />
         <field name="parent_id" ref="stock.menu_warehouse_report" />
-        <field name="groups_id" eval="[(4, ref('l10n_ro_config.group_ro_menus'))]" />
+        <field name="groups_id" eval="[(4, ref('stock.group_stock_user'))]" />
         <field name="is_l10n_ro_record" eval="True" />
     </record>
 

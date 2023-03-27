@@ -22,6 +22,9 @@
                             <strong>Unit Price</strong>
                         </th>
                         <th class="text-right">
+                            <strong>Additional Charges</strong>
+                        </th>
+                        <th class="text-right">
                             <strong>Subtotal</strong>
                         </th>
                         <th class="text-right">
@@ -137,6 +140,11 @@
                         </td>
                         <td class="text-right">
                             <span
+                                t-esc="'%.2f' % aggregated_lines[line]['l10n_ro_additional_charges']"
+                            />
+                        </td>
+                        <td class="text-right">
+                            <span
                                 t-esc="'%.2f' % aggregated_lines[line]['l10n_ro_price_subtotal']"
                             />
                         </td>
@@ -176,6 +184,9 @@
                     <t t-else="">
                     <td class="text-right">
                         <span t-esc="'%.2f' % move_line.l10n_ro_price_unit" />
+                    </td>
+                    <td class="text-right">
+                        <span t-esc="'%.2f' % move_line.l10n_ro_additional_charges" />
                     </td>
                     <td class="text-right">
                         <span t-esc="'%.2f' % move_line.l10n_ro_price_subtotal" />

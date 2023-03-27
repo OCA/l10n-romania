@@ -26,8 +26,6 @@ class AccountMoveLine(models.Model):
                         ]
                     ):
                         self = self.with_context(valued_type="invoice_in_notice")
-                    else:
-                        self = self.with_context(valued_type="invoice_in")
             if self.move_id.is_sale_document():
                 sales = self.sale_line_ids
                 if sales and self.product_id.invoice_policy == "delivery":
@@ -40,14 +38,16 @@ class AccountMoveLine(models.Model):
                         ]
                     ):
                         self = self.with_context(valued_type="invoice_out_notice")
-                    else:
-                        self = self.with_context(valued_type="invoice_out")
         return super(AccountMoveLine, self)._get_computed_account()
 
     def _get_account_change_stock_moves_purchase(self):
-        stock_moves = super()._get_account_change_stock_moves_purchase()
-        return stock_moves.filtered(lambda sm: not sm.picking_id.l10n_ro_notice)
+        stock_moves = self.purchase_line_id.move_ids.filtered(
+            lambda sm: not sm.picking_id.l10n_ro_notice
+        )
+        return stock_moves.filtered(lambda m: m.state == "done")
 
     def _get_account_change_stock_moves_sale(self):
-        stock_moves = super()._get_account_change_stock_moves_sale()
-        return stock_moves.filtered(lambda m: not m.picking_id.l10n_ro_notice)
+        sales = self.sale_line_ids.filtered(lambda s: s.move_ids)
+        return sales.move_ids.filtered(
+            lambda m: not m.picking_id.l10n_ro_notice and m.state == "done"
+        )

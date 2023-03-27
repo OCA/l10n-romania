@@ -45,7 +45,8 @@ class ResPartner(models.Model):
         for chunk in chunks:
             anaf_ask = []
             for item in chunk:
-                anaf_ask.append({"cui": int(item), "data": check_date})
+                if item:
+                    anaf_ask.append({"cui": int(item), "data": check_date})
             res = requests.post(ANAF_BULK_URL, json=anaf_ask, headers=headers)
             if res.status_code == 200:
                 result = {}
@@ -79,7 +80,8 @@ class ResPartner(models.Model):
     def update_l10n_ro_vat_subjected_all(self):
         partners = self.search(
             [
-                ("vat", "!=", False),
+                ("l10n_ro_vat_number", "!=", False),
+                ("l10n_ro_vat_number", "!=", ""),
                 ("country_id", "=", self.env.ref("base.ro").id),
                 ("is_company", "=", True),
             ]
