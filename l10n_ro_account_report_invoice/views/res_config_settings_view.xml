@@ -12,7 +12,6 @@
                     attrs="{'invisible': [('is_l10n_ro_record','=',False)]}"
                 >
                     <div class="o_setting_left_pane">
-
                     </div>
                     <div class="o_setting_right_pane">
                         <label for="l10n_ro_no_signature_text" />
