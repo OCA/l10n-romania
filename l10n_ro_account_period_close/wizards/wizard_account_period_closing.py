@@ -29,7 +29,6 @@ class WizardAccountPeriodClosing(models.TransientModel):
         comodel_name="res.company", related="closing_id.company_id"
     )
     journal_id = fields.Many2one(comodel_name="account.journal")
-    date_range_id = fields.Many2one(comodel_name="date.range", string="Date range")
     date_from = fields.Date("Start Date", required=True, default=_get_default_date_from)
     date_to = fields.Date("End Date", required=True, default=_get_default_date_to)
 
@@ -38,13 +37,6 @@ class WizardAccountPeriodClosing(models.TransientModel):
         """Handle closing_id change."""
         if self.closing_id:
             self.journal_id = self.closing_id.journal_id
-
-    @api.onchange("date_range_id")
-    def onchange_date_range_id(self):
-        """Handle date range change."""
-        if self.date_range_id:
-            self.date_from = self.date_range_id.date_start
-            self.date_to = self.date_range_id.date_end
 
     def do_close(self):
         for wizard in self:
