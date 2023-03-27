@@ -88,3 +88,14 @@ class TestStockPurchase(TestStockCommon):
 
         # verificare inregistrare diferenta de pret
         self.check_account_diff(0, 0)
+
+    def test_two_nirs_average(self):
+        self.product_1.product_tmpl_id.categ_id.property_cost_method = "average"
+        self.product_2.product_tmpl_id.categ_id.property_cost_method = "average"
+        self.create_po()
+
+        self.price_p1 = 60.0
+        self.create_po()
+
+        self.assertEqual(self.product_1.standard_price, 55)
+        self.assertEqual(self.product_2.standard_price, 50)
