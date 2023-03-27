@@ -22,6 +22,10 @@ class ResConfigSettings(models.TransientModel):
         related="company_id.l10n_ro_caen_code",
         readonly=False,
     )
+    l10n_ro_share_capital = fields.Char(
+        related="company_id.l10n_ro_share_capital",
+        readonly=False,
+    )
     l10n_ro_serv_sale_tax_id = fields.Many2one(
         "account.tax",
         related="company_id.l10n_ro_account_serv_sale_tax_id",
