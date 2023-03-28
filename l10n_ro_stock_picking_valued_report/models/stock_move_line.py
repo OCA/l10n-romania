@@ -131,6 +131,19 @@ class StockMoveLine(models.Model):
                 )
 
     def _get_aggregated_product_quantities(self, **kwargs):
+        def get_aggregated_properties(move_line=False, move=False):
+            move = move or move_line.move_id
+            uom = move.product_uom or move_line.product_uom_id
+            name = move.product_id.display_name
+            description = move.description_picking
+            if description == name or description == move.product_id.name:
+                description = False
+            product = move.product_id
+            line_key = (
+                f'{product.id}_{product.display_name}_{description or ""}_{uom.id}'
+            )
+            return (line_key, name, description, uom)
+
         aggregated_move_lines = super()._get_aggregated_product_quantities(**kwargs)
         for aggregated_move_line in aggregated_move_lines:
             aggregated_move_lines[aggregated_move_line][
@@ -140,23 +153,16 @@ class StockMoveLine(models.Model):
             aggregated_move_lines[aggregated_move_line][
                 "l10n_ro_additional_charges"
             ] = 0
+            aggregated_move_lines[aggregated_move_line][
+                "l10n_ro_additional_charges"
+            ] = 0
             aggregated_move_lines[aggregated_move_line]["l10n_ro_price_subtotal"] = 0
             aggregated_move_lines[aggregated_move_line]["l10n_ro_price_tax"] = 0
             aggregated_move_lines[aggregated_move_line]["l10n_ro_price_total"] = 0
 
         for move_line in self:
-            name = move_line.product_id.display_name
-            description = move_line.move_id.description_picking
-            if description == name or description == move_line.product_id.name:
-                description = False
-            uom = move_line.product_uom_id
-            line_key = (
-                str(move_line.product_id.id)
-                + "_"
-                + name
-                + (description or "")
-                + "uom "
-                + str(uom.id)
+            line_key, _name, _description, _uom = get_aggregated_properties(
+                move_line=move_line
             )
             aggregated_move_lines[line_key][
                 "l10n_ro_currency_id"
