@@ -502,8 +502,15 @@ class StockMove(models.Model):
                     valued_type=svl.l10n_ro_valued_type, standard=True
                 )
 
-        res = super(StockMove, self)._account_entry_move(qty, description, svl_id, cost)
-
+        if self.company_id.l10n_ro_accounting and svl.l10n_ro_valued_type in (
+            "reception",
+            "reception_return",
+        ):
+            res = []
+        else:
+            res = super(StockMove, self)._account_entry_move(
+                qty, description, svl_id, cost
+            )
         if self.is_l10n_ro_record:
             self._romanian_account_entry_move(qty, description, svl_id, cost)
 
@@ -590,14 +597,18 @@ class StockMove(models.Model):
             and not self._is_usage_giving_return()
         ):
             return []
-        return super(StockMove, self)._create_account_move_line(
-            credit_account_id,
-            debit_account_id,
-            journal_id,
-            qty,
-            description,
-            svl_id,
-            cost,
+        if isinstance(svl_id, models.BaseModel):
+            svl_id = svl_id.id
+        return self.env["account.move"].create(
+            self.with_company(self.company_id)._prepare_account_move_vals(
+                credit_account_id,
+                debit_account_id,
+                journal_id,
+                qty,
+                description,
+                svl_id,
+                cost,
+            )
         )
 
     def _get_accounting_data_for_valuation(self):
