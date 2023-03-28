@@ -21,19 +21,27 @@ class TestStockAccountDate(TestStockCommon):
     def test_inventory(self):
         self.make_purchase()
         acc_date = fields.Date.today() - timedelta(days=1)
-        inventory = self.env["stock.inventory"].create(
+        inventory_obj = self.env["stock.quant"].with_context(inventory_mode=True)
+        inventory = inventory_obj.create(
             {
-                "location_ids": [(4, self.location_warehouse.id)],
-                "product_ids": [(4, self.product_1.id)],
-                "accounting_date": acc_date,
+                "location_id": self.location_warehouse.id,
+                "product_id": self.product_1.id,
+                "inventory_quantity": self.qty_po_p1 + 10,
             }
         )
-        inventory.action_start()
-        inventory.line_ids.product_qty = self.qty_po_p1 + 20
-        _logger.info("start inventory")
-        inventory.action_validate()
-        stock_move = inventory.move_ids
-        self.assertEqual(inventory.accounting_date, acc_date)
+        inventory.accounting_date = acc_date
+        inventory._apply_inventory()
+        stock_move = self.env["stock.move"].search(
+            [
+                (
+                    "location_id",
+                    "=",
+                    inventory.product_id.with_company(
+                        inventory.company_id
+                    ).property_stock_inventory.id,
+                )
+            ]
+        )
         self.assertEqual(stock_move.date.date(), acc_date)
         self.assertEqual(stock_move.move_line_ids.date.date(), acc_date)
         self.assertEqual(

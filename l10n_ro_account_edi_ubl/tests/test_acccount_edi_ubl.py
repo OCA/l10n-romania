@@ -54,7 +54,6 @@ class TestAccountEdiUbl(AccountEdiTestCommon):
             {
                 "name": "Bec P21/5W",
                 "default_code": "00000623",
-                "type": "product",
                 "uom_id": uom_id,
                 "uom_po_id": uom_id,
             }
@@ -63,7 +62,6 @@ class TestAccountEdiUbl(AccountEdiTestCommon):
             {
                 "name": "Bec P21/10W",
                 "default_code": "00000624",
-                "type": "product",
                 "uom_id": uom_id,
                 "uom_po_id": uom_id,
             }

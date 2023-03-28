@@ -39,7 +39,7 @@ class TestSVLVacuumLocation(RoTestStockCommon):
         # ---------------------------------------------------------------------
         move_in_loc2 = self.env["stock.move"].create(
             {
-                "name": "40 in @15",
+                "name": "40 in @8",
                 "location_id": self.supplier_location.id,
                 "location_dest_id": self.stock_location2.id,
                 "product_id": self.product_1.id,
@@ -139,7 +139,6 @@ class TestSVLVacuumLocation(RoTestStockCommon):
         self.assertEqual(move_in_loc1.stock_valuation_layer_ids.value, 600.0)
         self.assertEqual(move_in_loc1.stock_valuation_layer_ids.remaining_qty, 0)
         self.assertEqual(move_in_loc1.stock_valuation_layer_ids.unit_cost, 15.0)
-
         # ---------------------------------------------------------------------
         # The vacuum ran
         # ---------------------------------------------------------------------
