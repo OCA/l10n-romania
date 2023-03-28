@@ -207,8 +207,6 @@ class TestPayment(TestPaymenttoStatement):
                 "name": "Test cash",
                 "type": "cash",
                 "company_id": self.env.company.id,
-                "payment_debit_account_id": payment_debit_account_id.id,
-                "payment_credit_account_id": payment_debit_account_id.id,
             }
         )
         payment = self.env["account.payment"].create(
