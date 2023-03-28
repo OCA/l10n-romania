@@ -137,5 +137,5 @@ class TestBankAccount(common.TransactionCase):
                 "acc_type": "iban",
             }
         )
-        with self.assertRaises(ValidationError):
+        with self.assertRaises(ValidationError), self.cr.savepoint():
             bank_account_22._check_sanitized_acc_number()
