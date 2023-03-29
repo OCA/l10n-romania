@@ -26,44 +26,6 @@ class TestSVLVacuumLocation(RoTestStockCommon):
             limit=1,
         )
 
-        # Stock Location 2
-        self.stock_location2 = self.env["stock.location"].create(
-            {
-                "name": "Stock Location 2",
-                "location_id": self.warehouse_1.view_location_id.id,
-            }
-        )
-
-        # ---------------------------------------------------------------------
-        # Receive 40 units @ 8, in stock location 2
-        # ---------------------------------------------------------------------
-        move_in_loc2 = self.env["stock.move"].create(
-            {
-                "name": "40 in @8",
-                "location_id": self.supplier_location.id,
-                "location_dest_id": self.stock_location2.id,
-                "product_id": self.product_1.id,
-                "product_uom": self.uom_unit.id,
-                "product_uom_qty": 40.0,
-                "price_unit": 8.0,
-                "move_line_ids": [
-                    (
-                        0,
-                        0,
-                        {
-                            "product_id": self.product_1.id,
-                            "location_id": self.supplier_location.id,
-                            "location_dest_id": self.stock_location2.id,
-                            "product_uom_id": self.uom_unit.id,
-                            "qty_done": 40.0,
-                        },
-                    )
-                ],
-            }
-        )
-        move_in_loc2._action_confirm()
-        move_in_loc2._action_done()
-
         # ---------------------------------------------------------------------
         # Send 50 units you don't have from main stock location
         # ---------------------------------------------------------------------

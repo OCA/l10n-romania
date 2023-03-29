@@ -367,12 +367,10 @@ class ProductProduct(models.Model):
             # Create the account move.
             if self.valuation != "real_time":
                 continue
-            vacuum_svl.stock_move_id._account_entry_move(
-                vacuum_svl.quantity,
-                vacuum_svl.description,
-                vacuum_svl.id,
-                vacuum_svl.value,
-            )
+
+            # aici se creaza nota contabila
+            vacuum_svl._validate_accounting_entries()
+
             # Create the related expense entry
             self._create_fifo_vacuum_anglo_saxon_expense_entry(
                 vacuum_svl, svl_to_vacuum
