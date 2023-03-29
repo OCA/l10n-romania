@@ -128,14 +128,14 @@ class TestBankAccount(common.TransactionCase):
         validate1 = bank_account_12._check_sanitized_acc_number()
         self.assertEqual(validate1, True)
 
-        bank_account_22 = self.env["res.partner.bank"].create(
-            {
-                "acc_number": "NL46ABNA0499998749",
-                "partner_id": self.partner1.id,
-                "company_id": company2.id,
-                "bank_id": self.bank_test.id,
-                "acc_type": "iban",
-            }
-        )
-        with self.assertRaises(ValidationError), self.cr.savepoint():
+        with self.assertRaises(ValidationError):
+            bank_account_22 = self.env["res.partner.bank"].create(
+                {
+                    "acc_number": "NL46ABNA0499998749",
+                    "partner_id": self.partner1.id,
+                    "company_id": company2.id,
+                    "bank_id": self.bank_test.id,
+                    "acc_type": "iban",
+                }
+            )
             bank_account_22._check_sanitized_acc_number()
