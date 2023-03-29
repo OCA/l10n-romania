@@ -208,7 +208,6 @@ class StorageSheet(models.TransientModel):
         else:
             all_locations = self.location_id
             locations = self.location_ids
-
         for location in all_locations:
             if self.detailed_locations:
                 locations = location
