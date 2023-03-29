@@ -232,6 +232,7 @@ class ProductProduct(models.Model):
             negative_stock_value = last_fifo_price * -qty_to_take_on_candidates
             tmp_value = abs(negative_stock_value)
             vals = {
+                # "quantity": -qty_to_take_on_candidates,
                 "remaining_qty": -qty_to_take_on_candidates,
                 "value": -tmp_value,
                 "unit_cost": last_fifo_price,
