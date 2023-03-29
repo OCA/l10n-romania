@@ -196,6 +196,9 @@ class TestPayment(TestPaymenttoStatement):
 
     def test_get_journal_dashboard_datas(self):
         payment_debit_account_id = self.env.company.transfer_account_id
+        self.env.company.account_journal_payment_debit_account_id = (
+            payment_debit_account_id
+        )
         account_type = (
             self.env["account.account.type"]
             .search([("name", "=", "Current Assets")])

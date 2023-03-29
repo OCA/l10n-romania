@@ -721,3 +721,12 @@ class StockMove(models.Model):
             new_svl._l10n_ro_post_process(value)  # executam post create pentru tracking
             sudo_svl |= new_svl
         return sudo_svl
+
+    # In case of single move line update locations of the stock move
+    def _action_done(self, cancel_backorder=False):
+        moves = super()._action_done(cancel_backorder=cancel_backorder)
+        for mv in moves:
+            if len(mv.move_line_ids) == 1:
+                mv.location_id = mv.move_line_ids[0].location_id
+                mv.location_dest_id = mv.move_line_ids[0].location_dest_id
+        return moves
