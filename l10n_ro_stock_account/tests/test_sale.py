@@ -124,3 +124,25 @@ class TestStockSale(TestStockCommon):
         return_pick.button_validate()
 
         self.create_sale_invoice()
+
+    def test_sale_average(self):
+        self.product_1.product_tmpl_id.categ_id.property_cost_method = "average"
+        self.product_2.product_tmpl_id.categ_id.property_cost_method = "average"
+
+        # price p1 = 50, qty p1 = 10
+        self.create_po()
+
+        self.price_p1 = 60.0
+        self.create_po()
+
+        self.assertEqual(self.product_1.standard_price, 55)
+
+        self.qty_so_p1 = 1.0
+        self.create_so()
+
+        # valoarea de stoc dupa vanzarea produselor
+        val_stock_p1 = round(self.qty_po_p1 * 50 + self.qty_po_p1 * 60 - 55, 2)
+        val_stock_p2 = round(self.qty_po_p2 * 50 + self.qty_po_p2 * 60, 2)
+
+        self.check_stock_valuation(val_stock_p1, val_stock_p2)
+        self.check_account_valuation(val_stock_p1, val_stock_p2)
