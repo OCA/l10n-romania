@@ -100,6 +100,9 @@ class ProductProduct(models.Model):
 
                 # In case of AVCO, fix rounding issue of standard price when needed.
                 if self.cost_method == "average":
+                    vals["value"] = currency.round(
+                        vals["quantity"] * self.standard_price
+                    )
                     rounding_error = currency.round(
                         self.standard_price * self.quantity_svl - self.value_svl
                     )
