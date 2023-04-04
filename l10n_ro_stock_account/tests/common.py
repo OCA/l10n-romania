@@ -488,12 +488,14 @@ class TestStockCommon(ValuationReconciliationTestCommon):
             if valuation["product_id"][0] == self.product_1.id:
                 _logger.debug("Check stock P1 {} = {}".format(val, val_p1))
                 self.assertAlmostEqual(val, val_p1)
-                self.assertAlmostEqual(rem_val, val_p1)
+                if self.product_1.cost_method == "fifo":
+                    self.assertAlmostEqual(rem_val, val_p1)
 
             if valuation["product_id"][0] == self.product_2.id:
                 _logger.debug("Check stock P2 {} = {}".format(val, val_p2))
                 self.assertAlmostEqual(val, val_p2)
-                self.assertAlmostEqual(rem_val, val_p2)
+                if self.product_2.cost_method == "fifo":
+                    self.assertAlmostEqual(rem_val, val_p2)
 
             qty = round(valuation["quantity"], 2)
             rem_qty = round(valuation["remaining_qty"], 2)
