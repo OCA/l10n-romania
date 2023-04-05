@@ -1,0 +1,28 @@
+:20:2211012304
+:25:RO48RNCB0090000506460001
+:28C:22304/1
+:60F:C221031RON1000,00
+:61:2210311031C1000,00NTRF.//2022103180931993
+Test Partner BCR
+:86:Referinta 221031S029321541, data valutei 31-10-2022, Decontare -P
+latitor  Test Partner BCR  RO24BREL0002002472400100  CO
+DFISC 0-Beneficiar  NEXTERP ROMANIA SRL  RO48RNCB0
+090000506460001  CODFISC RO39187746-Detalii  /ROC/SERIA BTLAM NR 2
+1036843 . . /RFB/31/20221028/20221031
+:61:2210311031D4,00NCOM.//2022103180931993
+:86:Operatiuni fara numerar - In sistem interbancar  - Incasari perso
+ane juridice - Regim uzual - com CR pentru tranzactia cu voucheru
+l 2022103180931993
+:61:2210311031D2,00NCOMNONREF//2022103182691836
+:86:Operatiuni fara numerar - In sistem intrabancar  - Incasari perso
+ane juridice - Regim uzual - com CR pentru tranzactia cu voucheru
+l 2022103182691836
+:61:2210311031D243836,22NTRF2022103138179396//2022103186234559
+:86:Alimentare cont depozit OVN 2531.A03.0.50646.0090.ROL.280
+:62F:C221031RON0,00
+:64:C221101RON1998,00
+:65:C221031RON0,00
+:86:Va informam ca depozitul se incadreaza in categoria depozitelor e
+ligibile. Informatii privind garantarea depozitelor regasiti in F
+ormularul Pentru Informatii Oferite Deponentilor comunicat de Ban
+ca.
