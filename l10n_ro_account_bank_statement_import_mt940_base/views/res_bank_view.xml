@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="view_partner_bank_form" model="ir.ui.view">
+        <field name="name">res.partner.bank.form</field>
+        <field name="model">res.partner.bank</field>
+        <field name="inherit_id" ref="l10n_ro_config.view_partner_bank_form" />
+        <field name="arch" type="xml">
+            <xpath expr="//group" position="after">
+                <group
+                    name="l10n_ro_unstructured_tag86_ing"
+                    attrs="{'invisible': [('is_l10n_ro_record','=',False)]}"
+                >
+                    <div class="row mt16" id="l10n_ro_unstructured_tag86">
+                        <div class="col-xs-4 col-md-4">
+                            <strong><label for="l10n_ro_unstructured_tag86" /></strong>
+                        </div>
+                        <div class="col-xs-8 col-md-8">
+                            <field name="l10n_ro_unstructured_tag86" widget="text" />
+                        </div>
+                    </div>
+                </group>
+            </xpath>
+        </field>
+    </record>
+</odoo>
