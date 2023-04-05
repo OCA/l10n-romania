@@ -3,7 +3,7 @@
 
 {
     "name": "MT940 Alpha Format Bank Statements Import",
-    "version": "14.0.1.2.0",
+    "version": "15.0.1.0.0",
     "license": "AGPL-3",
     "author": "NextERP Romania SRL," "Odoo Community Association (OCA)",
     "website": "https://github.com/OCA/l10n-romania",
