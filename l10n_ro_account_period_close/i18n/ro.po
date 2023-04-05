@@ -130,11 +130,6 @@ msgid "Date"
 msgstr "Dată"
 
 #. module: l10n_ro_account_period_close
-#: model:ir.model.fields,field_description:l10n_ro_account_period_close.field_l10n_ro_account_period_closing_wizard__date_range_id
-msgid "Date range"
-msgstr "Interval"
-
-#. module: l10n_ro_account_period_close
 #: model:ir.model.fields,field_description:l10n_ro_account_period_close.field_l10n_ro_account_period_closing__display_name
 #: model:ir.model.fields,field_description:l10n_ro_account_period_close.field_l10n_ro_account_period_closing_wizard__display_name
 msgid "Display Name"
@@ -244,6 +239,9 @@ msgstr "Tip"
 #: model:ir.model,name:l10n_ro_account_period_close.model_l10n_ro_account_period_closing_wizard
 msgid "Wizard for Account Period Closing"
 msgstr "Asistent pentru închiderea perioadei contabile"
+
+#~ msgid "Date range"
+#~ msgstr "Interval"
 
 #~ msgid "Close"
 #~ msgstr "Închide"
