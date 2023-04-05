@@ -23,12 +23,13 @@ def store_field_l10n_ro_street_staircase(cr):
             """
         )
 
-    logger.info("Computing field l10n_ro_street_staircase on res.partner")
+        logger.info("Computing field l10n_ro_street_staircase on res.partner")
 
-    cr.execute(
-        r"""
-        UPDATE res_partner partner
-        SET l10n_ro_street_staircase = split_part(split_part(upper(street), 'SC.', 2), ',',1)
-        WHERE country_id=(SELECT id FROM res_country WHERE code='RO')
-        """
-    )
+        cr.execute(
+            r"""
+            UPDATE res_partner partner
+            SET l10n_ro_street_staircase =
+                split_part(split_part(upper(street), 'SC.', 2), ',',1)
+            WHERE country_id=(SELECT id FROM res_country WHERE code='RO')
+            """
+        )

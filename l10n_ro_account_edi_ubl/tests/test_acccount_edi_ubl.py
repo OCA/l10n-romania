@@ -21,18 +21,35 @@ class TestAccountEdiUbl(AccountEdiTestCommon):
         cls.country_state = cls.env["res.country.state"].search(
             [("name", "=", "Timiș")]
         )
-        cls.env.company.write(
-            {
-                "vat": "RO30834857",
-                "name": "FOREST AND BIOMASS ROMANIA S.A.",
-                "country_id": cls.env.ref("base.ro").id,
-                "currency_id": cls.currency.id,
-                "street": "Ferma 5-6",
-                "city": "Giulvaz",
-                "state_id": cls.country_state.id,
-                "zip": "300011",
-            }
+        l10n_ro_address_extend = cls.env["ir.module.module"].search(
+            [("name", "=", "l10n_ro_address_extended")]
         )
+        if l10n_ro_address_extend.state != "installed":
+            cls.env.company.write(
+                {
+                    "vat": "RO30834857",
+                    "name": "FOREST AND BIOMASS ROMANIA S.A.",
+                    "country_id": cls.env.ref("base.ro").id,
+                    "currency_id": cls.currency.id,
+                    "street": "Ferma 5-6",
+                    "city": "Giulvaz",
+                    "state_id": cls.country_state.id,
+                    "zip": "300011",
+                }
+            )
+        else:
+            cls.env.company.write(
+                {
+                    "vat": "RO30834857",
+                    "name": "FOREST AND BIOMASS ROMANIA S.A.",
+                    "country_id": cls.env.ref("base.ro").id,
+                    "currency_id": cls.currency.id,
+                    "street_name": "Ferma 5-6",
+                    "city": "Giulvaz",
+                    "state_id": cls.country_state.id,
+                    "zip": "300011",
+                }
+            )
 
         cls.partner = cls.env["res.partner"].create(
             {
@@ -54,7 +71,6 @@ class TestAccountEdiUbl(AccountEdiTestCommon):
             {
                 "name": "Bec P21/5W",
                 "default_code": "00000623",
-                "type": "product",
                 "uom_id": uom_id,
                 "uom_po_id": uom_id,
             }
@@ -63,7 +79,6 @@ class TestAccountEdiUbl(AccountEdiTestCommon):
             {
                 "name": "Bec P21/10W",
                 "default_code": "00000624",
-                "type": "product",
                 "uom_id": uom_id,
                 "uom_po_id": uom_id,
             }

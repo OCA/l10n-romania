@@ -8,16 +8,16 @@
             <xpath expr="//header" position="inside">
                 <field name="is_l10n_ro_record" invisible="1" />
                 <button
-                    name="l10n_ro_add_statement_line"
+                    name="get_l10n_ro_statement_line"
                     states="posted"
                     string="Add to statement"
                     type="object"
                     attrs="{'invisible': [('is_l10n_ro_record','=',False)]}"
                 />
                 <button
-                    name="l10n_ro_get_reconciled_statement_line"
+                    name="get_l10n_ro_reconciled_statement_line"
                     states="posted,reconciled"
-                    string="Get statement"
+                    string="Get statement Line"
                     type="object"
                     attrs="{'invisible': [('is_l10n_ro_record','=',False)]}"
                 />
