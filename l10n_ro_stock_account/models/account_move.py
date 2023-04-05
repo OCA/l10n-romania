@@ -90,7 +90,10 @@ class AccountMoveLine(models.Model):
             and self.is_landed_costs_line
         ):
             accounts = self.product_id.product_tmpl_id._get_product_accounts()
-            self.account_id = accounts["expense"]
+            if self.move_id.move_type not in ("out_invoice", "out_refund"):
+                self.account_id = accounts["expense"]
+            else:
+                self.account_id = accounts["income"]
         return res
 
     def _l10n_ro_get_valuation_stock_moves(self):
