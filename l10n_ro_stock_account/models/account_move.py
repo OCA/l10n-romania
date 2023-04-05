@@ -81,6 +81,17 @@ class AccountMoveLine(models.Model):
     _name = "account.move.line"
     _inherit = ["account.move.line", "l10n.ro.mixin"]
 
+    def _get_landed_costs_account(self, accounts):
+        if (
+            self.move_id.is_l10n_ro_record
+            and self.product_type == "service"
+            and self.is_landed_costs_line
+            and self.move_id.move_type in ("out_invoice", "out_refund")
+        ):
+            return accounts["income"]
+
+        return super()._get_landed_costs_account(accounts)
+
     @api.onchange("is_landed_costs_line")
     def _onchange_is_landed_costs_line(self):
         res = super()._onchange_is_landed_costs_line()
@@ -90,7 +101,10 @@ class AccountMoveLine(models.Model):
             and self.is_landed_costs_line
         ):
             accounts = self.product_id.product_tmpl_id._get_product_accounts()
-            self.account_id = accounts["expense"]
+            if self.move_id.move_type not in ("out_invoice", "out_refund"):
+                self.account_id = accounts["expense"]
+            else:
+                self.account_id = accounts["income"]
         return res
 
     def _l10n_ro_get_valuation_stock_moves(self):
