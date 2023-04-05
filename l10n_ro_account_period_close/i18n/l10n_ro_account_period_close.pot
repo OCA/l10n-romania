@@ -120,11 +120,6 @@ msgid "Date"
 msgstr ""
 
 #. module: l10n_ro_account_period_close
-#: model:ir.model.fields,field_description:l10n_ro_account_period_close.field_l10n_ro_account_period_closing_wizard__date_range_id
-msgid "Date range"
-msgstr ""
-
-#. module: l10n_ro_account_period_close
 #: model:ir.model.fields,field_description:l10n_ro_account_period_close.field_l10n_ro_account_period_closing__display_name
 #: model:ir.model.fields,field_description:l10n_ro_account_period_close.field_l10n_ro_account_period_closing_wizard__display_name
 msgid "Display Name"
