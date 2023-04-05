@@ -9,6 +9,7 @@ setuptools.setup(
     version=version,
     install_requires=[
         'odoo-addon-l10n_ro_account_anaf_sync>=15.0dev,<15.1dev',
+        'odoo-addon-l10n_ro_account_bank_statement_import_mt940_alpha>=15.0dev,<15.1dev',
         'odoo-addon-l10n_ro_account_bank_statement_import_mt940_base>=15.0dev,<15.1dev',
         'odoo-addon-l10n_ro_account_bank_statement_import_mt940_bcr>=15.0dev,<15.1dev',
         'odoo-addon-l10n_ro_account_bank_statement_import_mt940_brd>=15.0dev,<15.1dev',
