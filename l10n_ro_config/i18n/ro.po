@@ -88,6 +88,13 @@ msgid "Account ANAF Sync"
 msgstr "Cont Sincronizare ANAF"
 
 #. module: l10n_ro_config
+#: code:addons/l10n_ro_config/models/res_bank.py:0
+#: model:ir.model.constraint,message:l10n_ro_config.constraint_res_partner_bank_unique_number
+#, python-format
+msgid "Account Number must be unique"
+msgstr ""
+
+#. module: l10n_ro_config
 #: model_terms:ir.ui.view,arch_db:l10n_ro_config.res_config_settings_view_form
 msgid "Accounting"
 msgstr "Contabilitate"
@@ -205,6 +212,22 @@ msgstr ""
 "Extindeți câmpul de adresa a partenerului cu numărul apartamentului, scării.."
 
 #. module: l10n_ro_config
+#: model_terms:ir.ui.view,arch_db:l10n_ro_config.res_config_settings_view_form
+msgid ""
+"If this field is checked and the company use Romanian Accounting,\n"
+"                                        the value used for stock out "
+"operations will be the value recorded at the\n"
+"                                        reception of the lot/serial, "
+"ignoring FIFO rule;\n"
+"                                        If this field is NOT checked and the "
+"company use Romanian Accounting,\n"
+"                                        the value used for stock out "
+"operations will be the value provided by FIFO rule,\n"
+"                                        applied strictly on a location level "
+"(including its children)"
+msgstr ""
+
+#. module: l10n_ro_config
 #: model:ir.model.fields,help:l10n_ro_config.field_res_company__l10n_ro_stock_acc_price_diff
 #: model:ir.model.fields,help:l10n_ro_config.field_res_config_settings__l10n_ro_stock_acc_price_diff
 msgid ""
@@ -215,6 +238,18 @@ msgstr ""
 "Dacă acest câmp este bifat și compania utilizează Contabilitatea Românească, "
 "diferențele de curs valutar dintre recepție și factură se vor reflecta în "
 "evaluarea stocului."
+
+#. module: l10n_ro_config
+#: model:ir.model.fields,help:l10n_ro_config.field_res_company__l10n_ro_stock_account_svl_lot_allocation
+#: model:ir.model.fields,help:l10n_ro_config.field_res_config_settings__l10n_ro_stock_account_svl_lot_allocation
+msgid ""
+"If this field is checked and the company use Romanian Accounting,the value "
+"used for stock out operations will be the value recorded at the reception of "
+"the lot/serial, ignoring FIFO rule;If this field is NOT checked and the "
+"company use Romanian Accounting,the value used for stock out operations will "
+"be the value provided by FIFO rule, applied strictly on a location level "
+"(including its children)"
+msgstr ""
 
 #. module: l10n_ro_config
 #: model_terms:ir.ui.view,arch_db:l10n_ro_config.res_config_settings_view_form
@@ -255,6 +290,11 @@ msgid "Journal"
 msgstr "Jurnal"
 
 #. module: l10n_ro_config
+#: model:ir.model.fields,field_description:l10n_ro_config.field_res_config_settings__l10n_ro_stock_account_svl_lot_allocation_visible
+msgid "L10N Ro Stock Account Svl Lot Allocation Visible"
+msgstr ""
+
+#. module: l10n_ro_config
 #: model_terms:ir.ui.view,arch_db:l10n_ro_config.res_config_settings_view_form
 msgid ""
 "Mark stock operations as notice operations. Stock accounting will change to "
@@ -275,6 +315,12 @@ msgid "Mixin model for applying to any object that use Romanian Accounting"
 msgstr ""
 "Model Mixin pentru aplicarea oricărui obiect care utilizează Contabilitatea "
 "Română"
+
+#. module: l10n_ro_config
+#: code:addons/l10n_ro_config/models/res_config_settings.py:0
+#, python-format
+msgid "Notification !"
+msgstr ""
 
 #. module: l10n_ro_config
 #: model:ir.model.fields,field_description:l10n_ro_config.field_res_config_settings__module_l10n_ro_fiscal_validation
@@ -456,6 +502,12 @@ msgstr "Tipărit  în raport"
 #: model:ir.model.fields,field_description:l10n_ro_config.field_res_config_settings__l10n_ro_share_capital
 msgid "Romania - Share Capital"
 msgstr "Capital social"
+
+#. module: l10n_ro_config
+#: model:ir.model.fields,field_description:l10n_ro_config.field_res_company__l10n_ro_stock_account_svl_lot_allocation
+#: model:ir.model.fields,field_description:l10n_ro_config.field_res_config_settings__l10n_ro_stock_account_svl_lot_allocation
+msgid "Romania - Stock Accounting Valuation Lot/Serial allocation"
+msgstr ""
 
 #. module: l10n_ro_config
 #: model:ir.model.fields,field_description:l10n_ro_config.field_res_company__l10n_ro_stock_acc_price_diff
@@ -688,6 +740,12 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:l10n_ro_config.res_config_settings_view_form
 msgid "Stock"
 msgstr "Stoc"
+
+#. module: l10n_ro_config
+#: code:addons/l10n_ro_config/models/res_config_settings.py:0
+#, python-format
+msgid "The values used for stock out operations will not follow FIFO rule!"
+msgstr ""
 
 #. module: l10n_ro_config
 #: model_terms:ir.ui.view,arch_db:l10n_ro_config.res_config_settings_account_view_form
@@ -929,6 +987,14 @@ msgid ""
 msgstr ""
 "Acest produs va fi utilizat pentru a crea costurile de teren DVI pentru "
 "diferența de preț între ridicarea și factură"
+
+#. module: l10n_ro_config
+#: code:addons/l10n_ro_config/models/res_config_settings.py:0
+#, python-format
+msgid ""
+"Tracking (Lot/Serial) has to be enabled first for all stockable and "
+"consumable products !"
+msgstr ""
 
 #. module: l10n_ro_config
 #: model_terms:ir.ui.view,arch_db:l10n_ro_config.res_config_settings_view_form
