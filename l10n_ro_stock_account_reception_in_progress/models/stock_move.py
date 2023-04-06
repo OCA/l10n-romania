@@ -20,3 +20,11 @@ class StockMove(models.Model):
             if account.l10n_ro_reception_in_progress_account_id:
                 acc_src = account.l10n_ro_reception_in_progress_account_id.id
         return journal_id, acc_src, acc_dest, acc_valuation
+
+    def _account_entry_move(self, qty, description, svl_id, cost):
+        if self.is_l10n_ro_record and self.picking_id.purchase_id.l10n_ro_reception_in_progress:
+            self = self.with_context(l10n_ro_reception_in_progress=True)
+        res = super(StockMove, self)._account_entry_move(
+            qty, description, svl_id, cost
+        )
+        return res
