@@ -12,7 +12,7 @@
         "security/ir.model.access.csv",
     ],
     "license": "AGPL-3",
-    "version": "15.0.3.2.0",
+    "version": "15.0.3.2.1",
     "author": "NextERP Romania,"
     "Forest and Biomass Romania,"
     "Odoo Community Association (OCA)",
