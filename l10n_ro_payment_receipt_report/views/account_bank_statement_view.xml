@@ -27,7 +27,15 @@
                     attrs="{'invisible': ['|', ('is_l10n_ro_record', '=', False), ('is_l10n_ro_payment_disposal', '=', False)]}"
                 />
             </button>
+            <button name="button_reprocess" position="after">
+                <button
+                    name="%(action_l10n_ro_cash_box_out)d"
+                    string="Take Money In/Out"
+                    type="action"
+                    class="oe_highlight"
+                    attrs="{'invisible': [('journal_type','!=','cash')]}"
+                />
+            </button>
         </field>
     </record>
-
 </odoo>
