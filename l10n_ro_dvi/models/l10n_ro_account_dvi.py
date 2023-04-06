@@ -12,7 +12,7 @@ class AccountInvoiceDVI(models.Model):
     _description = "Create DVI for invoices"
 
     name = fields.Char(required=True)
-    date = fields.Date("Date", required=True)
+    date = fields.Date(required=True)
 
     state = fields.Selection(
         string="Status",
@@ -371,7 +371,7 @@ class AccountDVILine(models.Model):
         digits="Product Unit of Measure",
         help="The quantity declared in the DVI.",
     )
-    base_amount = fields.Float(string="Base Amount", compute="_compute_base_vat_amount")
+    base_amount = fields.Float(compute="_compute_base_vat_amount")
     vat_amount = fields.Float(string="VAT Amount", compute="_compute_base_vat_amount")
 
     @api.depends("line_qty")
