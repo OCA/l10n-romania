@@ -34,10 +34,8 @@ class MrpProduction(models.Model):
                 extra_cost = self.extra_cost * qty_done
                 finished_move.price_unit = (
                     sum(
-                        [
-                            -sum(m.stock_valuation_layer_ids.mapped("value"))
-                            for m in consumed_moves.sudo()
-                        ]
+                        -sum(m.stock_valuation_layer_ids.mapped("value"))
+                        for m in consumed_moves.sudo()
                     )
                     + work_center_cost
                     + extra_cost
