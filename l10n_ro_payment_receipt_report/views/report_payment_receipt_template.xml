@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+
+    <template id="report_payment_receipt_document">
+        <t t-call="web.external_layout">
+            <t t-set="o" t-value="o.with_context(lang=lang)" />
+            <div class="page">
+                <!-- DO NOT remove the 3 <br/> from below because the next row won't be visible anymore-->
+                <br /><br /><br />
+                <div class="row mt64 pull-right">
+                    <div class="col-12">
+                        <t t-if="o.reconciled_invoice_ids">
+                            <strong>Payment Receipt:
+                                <span t-field="o.name" />
+                            </strong>
+                        </t>
+                        <t
+                            t-if="not o.reconciled_invoice_ids and o.payment_type=='inbound'"
+                        >
+                            <strong>Payment Receipt:
+                                <span t-field="o.name" />
+                            </strong>
+                        </t>
+                        <br />
+                        <t t-if="o.date">
+                            <strong>Date:
+                                <span t-field="o.date" />
+                            </strong>
+                        </t>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-8" t-if="o.partner_type">
+                        <span>We received from:
+                            <strong>
+                                <span t-field="o.partner_id.name" />
+                            </strong>
+                            with address:
+                        </span>
+                        <span
+                            t-field="o.partner_id"
+                            t-options='{"widget": "contact", "fields": ["address", ], "no_marker": True, "no_tag_br": True}'
+                        />
+                        <t t-if="o.partner_id.vat">
+                            <t t-esc="o.partner_id.country_id.vat_label or 'TIN'" />
+                            <span t-field="o.partner_id.vat" />,
+                        </t>
+                        <t t-if="o.partner_id.nrc">
+                            <span>NRC:</span>
+                            <span t-field="o.partner_id.nrc" />,
+                        </t>
+                        <br />
+                        <span>amount of
+                            <span
+                                t-field="o.amount"
+                                t-options="{'widget': 'monetary', 'display_currency': o.currency_id}"
+                            />
+                        </span>
+                        (<span t-esc="o.currency_id.amount_to_text(o.amount)" />)
+                        <br />
+                        <span>for payment of:
+                            <span
+                                t-esc="','.join(o.reconciled_invoice_ids.mapped('name'))"
+                            />
+                        </span>
+                        .
+                    </div>
+                </div>
+                <div class="clearfix">
+                    <div id="total" class="row">
+                        <div
+                            t-attf-class="#{'col-4' if report_type != 'html' else 'col-sm-9 col-md-4'} ml-auto"
+                        >
+                            <span>Signature and stamp</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </t>
+    </template>
+
+    <template id="report_payment_receipt">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="o">
+                <t t-if="o.is_l10n_ro_record">
+                    <t t-set="lang" t-value="o.partner_id.lang" />
+                    <t
+                        t-call="l10n_ro_payment_receipt_report.report_payment_receipt_document"
+                        t-lang="lang"
+                    />
+                </t>
+                <t t-if="not o.is_l10n_ro_record">
+                    <t t-set="lang" t-value="o.partner_id.lang" />
+                    <t t-call="account.report_payment_receipt" t-lang="lang" />
+                </t>
+            </t>
+        </t>
+    </template>
+
+</odoo>

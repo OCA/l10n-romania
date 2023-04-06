@@ -1,0 +1,261 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* l10n_ro_payment_receipt_report
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 14.0+e\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2022-12-23 05:37+0000\n"
+"PO-Revision-Date: 2022-12-23 05:37+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: l10n_ro_payment_receipt_report
+#: model_terms:ir.ui.view,arch_db:l10n_ro_payment_receipt_report.report_bank_statement_line_payment_document
+msgid "(in figures)"
+msgstr "(în cifre)"
+
+#. module: l10n_ro_payment_receipt_report
+#: model_terms:ir.ui.view,arch_db:l10n_ro_payment_receipt_report.report_bank_statement_line_payment_document
+msgid "(in letters)"
+msgstr "(în litere)"
+
+#. module: l10n_ro_payment_receipt_report
+#: model_terms:ir.ui.view,arch_db:l10n_ro_payment_receipt_report.report_bank_statement_line_payment_document
+msgid "................................................. lei"
+msgstr ""
+
+#. module: l10n_ro_payment_receipt_report
+#: model_terms:ir.ui.view,arch_db:l10n_ro_payment_receipt_report.report_bank_statement_line_payment_document
+msgid ""
+"<br/>\n"
+"                                        <span style=\"padding-left:100px;"
+"\">Signature ..........................................</span>"
+msgstr ""
+"<br/>\n"
+"                                        <span style=\"padding-left:100px;"
+"\">Semnătură ..........................................</span>"
+
+#. module: l10n_ro_payment_receipt_report
+#: model_terms:ir.ui.view,arch_db:l10n_ro_payment_receipt_report.report_bank_statement_line_payment_document
+msgid ""
+"<br/>\n"
+"                                        <span>Signature ........................................."
+"</span>"
+msgstr ""
+"<br/>\n"
+"                                        <span>Semnătură ........................................."
+"</span>"
+
+#. module: l10n_ro_payment_receipt_report
+#: model_terms:ir.ui.view,arch_db:l10n_ro_payment_receipt_report.report_bank_statement_line_payment_document
+msgid "<span style=\"padding-left:300px;\">(in figures)</span>"
+msgstr "<span style=\"padding-left:300px;\">(în cifre)</span>"
+
+#. module: l10n_ro_payment_receipt_report
+#: model_terms:ir.ui.view,arch_db:l10n_ro_payment_receipt_report.report_bank_statement_line_payment_document
+msgid ""
+"<span>\n"
+"                                            <strong>CASHIER</strong>\n"
+"                                        </span>"
+msgstr ""
+"<span>\n"
+"                                            <strong>CASIER</strong>\n"
+"                                        </span>"
+
+#. module: l10n_ro_payment_receipt_report
+#: model_terms:ir.ui.view,arch_db:l10n_ro_payment_receipt_report.report_bank_statement_line_payment_document
+msgid ""
+"<span>\n"
+"                                            <strong>To be completed only for "
+"disposals</strong>\n"
+"                                        </span>"
+msgstr ""
+"<span>\n"
+"                                            <strong>A se completa numai "
+"pentru plăți</strong>\n"
+"                                        </span>"
+
+#. module: l10n_ro_payment_receipt_report
+#: model_terms:ir.ui.view,arch_db:l10n_ro_payment_receipt_report.report_payment_receipt_document
+msgid "<span>NRC:</span>"
+msgstr "<span>NRC:</span>"
+
+#. module: l10n_ro_payment_receipt_report
+#: model_terms:ir.ui.view,arch_db:l10n_ro_payment_receipt_report.report_payment_receipt_document
+msgid "<span>Signature and stamp</span>"
+msgstr "<span>Semnătura și ștampila</span>"
+
+#. module: l10n_ro_payment_receipt_report
+#: model_terms:ir.ui.view,arch_db:l10n_ro_payment_receipt_report.report_bank_statement_line_payment_document
+msgid ""
+"<strong>ADDITIONAL DATA REGARDING THE BENEFICIARY OF THE AMOUNT:</strong>\n"
+"                                        <br/>\n"
+"                                        <br/>\n"
+"                                        <span>Identity document ........ "
+"Series ........... No. .........................</span>\n"
+"                                        <br/>"
+msgstr ""
+"<strong>DATE SUPLIMENTARE PRIVIND BENEFICIARUL SUMEI:</strong>\n"
+"                                        <br/>\n"
+"                                        <br/>\n"
+"                                        <span>Document de "
+"identitate ........ Seria ........... Nr. .........................</span>\n"
+"                                        <br/>"
+
+#. module: l10n_ro_payment_receipt_report
+#: model_terms:ir.ui.view,arch_db:l10n_ro_payment_receipt_report.report_bank_statement_line_payment_document
+msgid "<strong>Financial-Accounting Department</strong>"
+msgstr "<strong>Departamentul Financiar-Contabil</strong>"
+
+#. module: l10n_ro_payment_receipt_report
+#: model_terms:ir.ui.view,arch_db:l10n_ro_payment_receipt_report.report_bank_statement_line_payment_document
+msgid "<strong>Signatures</strong>"
+msgstr "<strong>Semnături</strong>"
+
+#. module: l10n_ro_payment_receipt_report
+#: model_terms:ir.ui.view,arch_db:l10n_ro_payment_receipt_report.report_bank_statement_line_payment_document
+msgid "<strong>Unit Manager</strong>"
+msgstr "<strong>Conducatorul Unitatii</strong>"
+
+#. module: l10n_ro_payment_receipt_report
+#: model_terms:ir.ui.view,arch_db:l10n_ro_payment_receipt_report.report_bank_statement_line_payment_document
+msgid "Amount:"
+msgstr "Suma:"
+
+#. module: l10n_ro_payment_receipt_report
+#: model:ir.model,name:l10n_ro_payment_receipt_report.model_account_bank_statement_line
+msgid "Bank Statement Line"
+msgstr "Linie extras bacă"
+
+#. module: l10n_ro_payment_receipt_report
+#: model_terms:ir.ui.view,arch_db:l10n_ro_payment_receipt_report.report_bank_statement_line_payment_document
+msgid "Date"
+msgstr "Data"
+
+#. module: l10n_ro_payment_receipt_report
+#: model_terms:ir.ui.view,arch_db:l10n_ro_payment_receipt_report.report_bank_statement_line_payment_document
+#: model_terms:ir.ui.view,arch_db:l10n_ro_payment_receipt_report.report_payment_receipt_document
+msgid "Date:"
+msgstr "Data:"
+
+#. module: l10n_ro_payment_receipt_report
+#: model:ir.model.fields,field_description:l10n_ro_payment_receipt_report.field_account_bank_statement_line__display_name
+msgid "Display Name"
+msgstr "Nume afișat"
+
+#. module: l10n_ro_payment_receipt_report
+#: model_terms:ir.ui.view,arch_db:l10n_ro_payment_receipt_report.report_bank_statement_line_payment_document
+msgid "Function:"
+msgstr "Funcție:"
+
+#. module: l10n_ro_payment_receipt_report
+#: model_terms:ir.ui.view,arch_db:l10n_ro_payment_receipt_report.report_bank_statement_line_payment_document
+msgid "I received the amount of"
+msgstr "Am primit suma de"
+
+#. module: l10n_ro_payment_receipt_report
+#: model:ir.model.fields,field_description:l10n_ro_payment_receipt_report.field_account_bank_statement_line__id
+msgid "ID"
+msgstr ""
+
+#. module: l10n_ro_payment_receipt_report
+#: model:ir.model.fields,field_description:l10n_ro_payment_receipt_report.field_account_bank_statement_line____last_update
+msgid "Last Modified on"
+msgstr "Ultima modificare la"
+
+#. module: l10n_ro_payment_receipt_report
+#: model_terms:ir.ui.view,arch_db:l10n_ro_payment_receipt_report.report_bank_statement_line_payment_document
+msgid "Name:"
+msgstr "Nume:"
+
+#. module: l10n_ro_payment_receipt_report
+#: model_terms:ir.ui.view,arch_db:l10n_ro_payment_receipt_report.report_bank_statement_line_payment_document
+msgid "Paid"
+msgstr "Plătit"
+
+#. module: l10n_ro_payment_receipt_report
+#: model_terms:ir.ui.view,arch_db:l10n_ro_payment_receipt_report.report_bank_statement_line_payment_document
+msgid "Payment Disposal:"
+msgstr "Dispoziție de Plată:"
+
+#. module: l10n_ro_payment_receipt_report
+#: model_terms:ir.ui.view,arch_db:l10n_ro_payment_receipt_report.report_payment_receipt_document
+msgid "Payment Receipt:"
+msgstr "Chitanța:"
+
+#. module: l10n_ro_payment_receipt_report
+#: model_terms:ir.ui.view,arch_db:l10n_ro_payment_receipt_report.report_bank_statement_line_payment_document
+msgid "Payment Reception:"
+msgstr "Dispoziție de Încasare:"
+
+#. module: l10n_ro_payment_receipt_report
+#: model:ir.actions.report,name:l10n_ro_payment_receipt_report.action_report_bank_statement_line_payment
+msgid "Payment disposal / collection"
+msgstr "Dispoziție de Plată / Încasare"
+
+#. module: l10n_ro_payment_receipt_report
+#: model_terms:ir.ui.view,arch_db:l10n_ro_payment_receipt_report.view_bank_statement_form
+msgid "Print Disposal"
+msgstr "Tipărește Dispoziția"
+
+#. module: l10n_ro_payment_receipt_report
+#: model_terms:ir.ui.view,arch_db:l10n_ro_payment_receipt_report.view_bank_statement_form
+msgid "Print Receipt"
+msgstr "Tipărește Chitanța"
+
+#. module: l10n_ro_payment_receipt_report
+#: model_terms:ir.ui.view,arch_db:l10n_ro_payment_receipt_report.report_bank_statement_line_payment_document
+msgid "Reason"
+msgstr "Motiv"
+
+#. module: l10n_ro_payment_receipt_report
+#: model_terms:ir.ui.view,arch_db:l10n_ro_payment_receipt_report.report_bank_statement_line_payment_document
+msgid "Received"
+msgstr "Primit"
+
+#. module: l10n_ro_payment_receipt_report
+#: model:ir.actions.report,name:l10n_ro_payment_receipt_report.l10n_ro_action_report_payment_receipt
+msgid "Romania Payment Receipt"
+msgstr ""
+
+#. module: l10n_ro_payment_receipt_report
+#: model_terms:ir.ui.view,arch_db:l10n_ro_payment_receipt_report.report_payment_receipt_document
+msgid "We received from:"
+msgstr "Am primti de la:"
+
+#. module: l10n_ro_payment_receipt_report
+#: model_terms:ir.ui.view,arch_db:l10n_ro_payment_receipt_report.report_payment_receipt_document
+msgid "amount of"
+msgstr "suma de"
+
+#. module: l10n_ro_payment_receipt_report
+#: model_terms:ir.ui.view,arch_db:l10n_ro_payment_receipt_report.report_bank_statement_line_payment_document
+msgid "disposal"
+msgstr "dispoziția"
+
+#. module: l10n_ro_payment_receipt_report
+#: model_terms:ir.ui.view,arch_db:l10n_ro_payment_receipt_report.report_payment_receipt_document
+msgid "for payment of:"
+msgstr "pentru plata:"
+
+#. module: l10n_ro_payment_receipt_report
+#: model_terms:ir.ui.view,arch_db:l10n_ro_payment_receipt_report.report_bank_statement_line_payment_document
+msgid "reception"
+msgstr "incasare"
+
+#. module: l10n_ro_payment_receipt_report
+#: model_terms:ir.ui.view,arch_db:l10n_ro_payment_receipt_report.report_bank_statement_line_payment_document
+msgid "the amount of"
+msgstr "suma de"
+
+#. module: l10n_ro_payment_receipt_report
+#: model_terms:ir.ui.view,arch_db:l10n_ro_payment_receipt_report.report_payment_receipt_document
+msgid "with address:"
+msgstr "cu adresa:"
