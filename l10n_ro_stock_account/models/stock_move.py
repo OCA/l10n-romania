@@ -507,6 +507,10 @@ class StockMove(models.Model):
             "reception_return",
         ):
             res = []
+            if self.env.context.get("l10n_ro_reception_in_progress"):
+                res = super(StockMove, self)._account_entry_move(
+                    qty, description, svl_id, cost
+                )
         else:
             res = super(StockMove, self)._account_entry_move(
                 qty, description, svl_id, cost
