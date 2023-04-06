@@ -13,6 +13,7 @@ setuptools.setup(
         'odoo-addon-l10n_ro_account_bank_statement_import_mt940_base>=15.0dev,<15.1dev',
         'odoo-addon-l10n_ro_account_bank_statement_import_mt940_bcr>=15.0dev,<15.1dev',
         'odoo-addon-l10n_ro_account_bank_statement_import_mt940_brd>=15.0dev,<15.1dev',
+        'odoo-addon-l10n_ro_account_bank_statement_import_mt940_ing>=15.0dev,<15.1dev',
         'odoo-addon-l10n_ro_account_bank_statement_import_mt940_rffsn>=15.0dev,<15.1dev',
         'odoo-addon-l10n_ro_account_bank_statement_report>=15.0dev,<15.1dev',
         'odoo-addon-l10n_ro_account_edi_ubl>=15.0dev,<15.1dev',
