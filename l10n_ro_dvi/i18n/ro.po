@@ -143,7 +143,6 @@ msgstr "Taxă vamală"
 #. module: l10n_ro_dvi
 #: model:ir.actions.act_window,name:l10n_ro_dvi.action_account_dvi
 #: model:ir.model.fields.selection,name:l10n_ro_dvi.selection__stock_landed_cost__l10n_ro_cost_type__dvi
-#: model_terms:ir.ui.view,arch_db:l10n_ro_dvi.view_account_dvi_tree
 #: model_terms:ir.ui.view,arch_db:l10n_ro_dvi.view_move_form
 msgid "DVI"
 msgstr "DVI"
@@ -183,12 +182,8 @@ msgid "Date"
 msgstr "Data"
 
 #. module: l10n_ro_dvi
-#: model:ir.model.fields,field_description:l10n_ro_dvi.field_account_move__display_name
 #: model:ir.model.fields,field_description:l10n_ro_dvi.field_l10n_ro_account_dvi__display_name
 #: model:ir.model.fields,field_description:l10n_ro_dvi.field_l10n_ro_account_dvi_line__display_name
-#: model:ir.model.fields,field_description:l10n_ro_dvi.field_res_company__display_name
-#: model:ir.model.fields,field_description:l10n_ro_dvi.field_stock_landed_cost__display_name
-#: model:ir.model.fields,field_description:l10n_ro_dvi.field_stock_valuation_adjustment_lines__display_name
 msgid "Display Name"
 msgstr "Nume afișat"
 
@@ -203,22 +198,18 @@ msgid "Followers"
 msgstr ""
 
 #. module: l10n_ro_dvi
-#: model:ir.model.fields,field_description:l10n_ro_dvi.field_l10n_ro_account_dvi__message_channel_ids
-msgid "Followers (Channels)"
-msgstr ""
-
-#. module: l10n_ro_dvi
 #: model:ir.model.fields,field_description:l10n_ro_dvi.field_l10n_ro_account_dvi__message_partner_ids
 msgid "Followers (Partners)"
 msgstr ""
 
 #. module: l10n_ro_dvi
-#: model:ir.model.fields,field_description:l10n_ro_dvi.field_account_move__id
+#: model:ir.model.fields,field_description:l10n_ro_dvi.field_l10n_ro_account_dvi__has_message
+msgid "Has Message"
+msgstr ""
+
+#. module: l10n_ro_dvi
 #: model:ir.model.fields,field_description:l10n_ro_dvi.field_l10n_ro_account_dvi__id
 #: model:ir.model.fields,field_description:l10n_ro_dvi.field_l10n_ro_account_dvi_line__id
-#: model:ir.model.fields,field_description:l10n_ro_dvi.field_res_company__id
-#: model:ir.model.fields,field_description:l10n_ro_dvi.field_stock_landed_cost__id
-#: model:ir.model.fields,field_description:l10n_ro_dvi.field_stock_valuation_adjustment_lines__id
 msgid "ID"
 msgstr "ID"
 
@@ -323,12 +314,8 @@ msgid "Landed Costs"
 msgstr "Costuri Adiționale Stoc"
 
 #. module: l10n_ro_dvi
-#: model:ir.model.fields,field_description:l10n_ro_dvi.field_account_move____last_update
 #: model:ir.model.fields,field_description:l10n_ro_dvi.field_l10n_ro_account_dvi____last_update
 #: model:ir.model.fields,field_description:l10n_ro_dvi.field_l10n_ro_account_dvi_line____last_update
-#: model:ir.model.fields,field_description:l10n_ro_dvi.field_res_company____last_update
-#: model:ir.model.fields,field_description:l10n_ro_dvi.field_stock_landed_cost____last_update
-#: model:ir.model.fields,field_description:l10n_ro_dvi.field_stock_valuation_adjustment_lines____last_update
 msgid "Last Modified on"
 msgstr "Ultima modificare pe"
 
