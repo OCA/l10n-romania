@@ -27,6 +27,13 @@ msgid "(in letters)"
 msgstr "(în litere)"
 
 #. module: l10n_ro_payment_receipt_report
+#: model_terms:ir.ui.view,arch_db:l10n_ro_payment_receipt_report.report_payment_receipt_document
+msgid ""
+")\n"
+"                        <br/>"
+msgstr ""
+
+#. module: l10n_ro_payment_receipt_report
 #: model_terms:ir.ui.view,arch_db:l10n_ro_payment_receipt_report.report_bank_statement_line_payment_document
 msgid "................................................. lei"
 msgstr ""
@@ -57,6 +64,13 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:l10n_ro_payment_receipt_report.report_bank_statement_line_payment_document
 msgid "<span style=\"padding-left:300px;\">(in figures)</span>"
 msgstr "<span style=\"padding-left:300px;\">(în cifre)</span>"
+
+#. module: l10n_ro_payment_receipt_report
+#: model_terms:ir.ui.view,arch_db:l10n_ro_payment_receipt_report.report_bank_statement_line_payment_document
+msgid ""
+"<span style=\"padding-left:300px;"
+"\">............................................</span>"
+msgstr ""
 
 #. module: l10n_ro_payment_receipt_report
 #: model_terms:ir.ui.view,arch_db:l10n_ro_payment_receipt_report.report_bank_statement_line_payment_document
@@ -146,11 +160,6 @@ msgid "Date:"
 msgstr "Data:"
 
 #. module: l10n_ro_payment_receipt_report
-#: model:ir.model.fields,field_description:l10n_ro_payment_receipt_report.field_account_bank_statement_line__display_name
-msgid "Display Name"
-msgstr "Nume afișat"
-
-#. module: l10n_ro_payment_receipt_report
 #: model_terms:ir.ui.view,arch_db:l10n_ro_payment_receipt_report.report_bank_statement_line_payment_document
 msgid "Function:"
 msgstr "Funcție:"
@@ -159,16 +168,6 @@ msgstr "Funcție:"
 #: model_terms:ir.ui.view,arch_db:l10n_ro_payment_receipt_report.report_bank_statement_line_payment_document
 msgid "I received the amount of"
 msgstr "Am primit suma de"
-
-#. module: l10n_ro_payment_receipt_report
-#: model:ir.model.fields,field_description:l10n_ro_payment_receipt_report.field_account_bank_statement_line__id
-msgid "ID"
-msgstr ""
-
-#. module: l10n_ro_payment_receipt_report
-#: model:ir.model.fields,field_description:l10n_ro_payment_receipt_report.field_account_bank_statement_line____last_update
-msgid "Last Modified on"
-msgstr "Ultima modificare la"
 
 #. module: l10n_ro_payment_receipt_report
 #: model_terms:ir.ui.view,arch_db:l10n_ro_payment_receipt_report.report_bank_statement_line_payment_document
@@ -226,6 +225,12 @@ msgid "Romania Payment Receipt"
 msgstr ""
 
 #. module: l10n_ro_payment_receipt_report
+#: model:ir.actions.act_window,name:l10n_ro_payment_receipt_report.action_l10n_ro_cash_box_out
+#: model_terms:ir.ui.view,arch_db:l10n_ro_payment_receipt_report.view_bank_statement_form
+msgid "Take Money In/Out"
+msgstr ""
+
+#. module: l10n_ro_payment_receipt_report
 #: model_terms:ir.ui.view,arch_db:l10n_ro_payment_receipt_report.report_payment_receipt_document
 msgid "We received from:"
 msgstr "Am primti de la:"
@@ -259,3 +264,9 @@ msgstr "suma de"
 #: model_terms:ir.ui.view,arch_db:l10n_ro_payment_receipt_report.report_payment_receipt_document
 msgid "with address:"
 msgstr "cu adresa:"
+
+#~ msgid "Display Name"
+#~ msgstr "Nume afișat"
+
+#~ msgid "Last Modified on"
+#~ msgstr "Ultima modificare la"
