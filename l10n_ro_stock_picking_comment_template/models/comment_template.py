@@ -9,7 +9,7 @@ class CommentTemplate(models.AbstractModel):
     _inherit = "comment.template"
 
     def _compute_comment_template_ids(self):
-        super()._compute_comment_template_ids()
+        res = super()._compute_comment_template_ids()
         for record in self.filtered(lambda r: not r.comment_template_ids):
             templates = self.env["base.comment.template"].search(
                 [
@@ -21,3 +21,4 @@ class CommentTemplate(models.AbstractModel):
                 domain = safe_eval(template.domain)
                 if not domain or record.filtered_domain(domain):
                     record.comment_template_ids = [(4, template.id)]
+        return res

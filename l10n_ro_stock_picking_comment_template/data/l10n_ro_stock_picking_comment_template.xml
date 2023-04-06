@@ -8,6 +8,7 @@
             Romania - Comment for Delivery + Internal Transfer Before Lines
         </field>
         <field name="position">before_lines</field>
+        <field name="models">stock.picking</field>
         <field name="model_ids" eval="[(6, 0,  [ref('stock.model_stock_picking')]) ]" />
         <field name="domain">
             [['location_dest_id.usage','not in',['usage_giving','consume','production']],
@@ -52,6 +53,7 @@
     <record id="l10n_ro_picking_out_down" model="base.comment.template">
         <field name="name">Romania - Comment for Delivery After Lines</field>
         <field name="position">after_lines</field>
+        <field name="models">stock.picking</field>
         <field name="model_ids" eval="[(6, 0,  [ref('stock.model_stock_picking')]) ]" />
         <field
             name="domain"
@@ -95,6 +97,7 @@
     <record id="l10n_ro_picking_in_up" model="base.comment.template">
         <field name="name">Romania - Comment for Reception Before Lines</field>
         <field name="position">before_lines</field>
+        <field name="models">stock.picking</field>
         <field name="model_ids" eval="[(6, 0,  [ref('stock.model_stock_picking')]) ]" />
         <field name="domain">
             [['picking_type_code', '=', 'incoming'], ['is_l10n_ro_record', '=', True]]
@@ -116,6 +119,7 @@
     <record id="l10n_ro_picking_in_down" model="base.comment.template">
         <field name="name">Romania - Comment for Reception After Lines</field>
         <field name="position">after_lines</field>
+        <field name="models">stock.picking</field>
         <field name="model_ids" eval="[(6, 0,  [ref('stock.model_stock_picking')]) ]" />
         <field
             name="domain"
@@ -165,6 +169,7 @@
     <record id="l10n_ro_picking_consume_up" model="base.comment.template">
         <field name="name">Romania - Comment for Consume Voucher Before Lines</field>
         <field name="position">before_lines</field>
+        <field name="models">stock.picking</field>
         <field name="model_ids" eval="[(6, 0,  [ref('stock.model_stock_picking')]) ]" />
         <field name="domain">
             [['location_id.usage','=','internal'],['location_dest_id.usage','in',['consume','production']],
@@ -184,6 +189,7 @@
     <record id="l10n_ro_picking_usage_giving_up" model="base.comment.template">
         <field name="name">Romania - Comment for Usage Giving Before Lines</field>
         <field name="position">before_lines</field>
+        <field name="models">stock.picking</field>
         <field name="model_ids" eval="[(6, 0,  [ref('stock.model_stock_picking')]) ]" />
         <field name="domain">
             [['location_id.usage','=','internal'],['location_dest_id.usage','=','usage_giving'], ['is_l10n_ro_record',
@@ -201,6 +207,7 @@
     <record id="l10n_ro_picking_consume_down" model="base.comment.template">
         <field name="name">Romania - Comment for Consume Voucher After Lines</field>
         <field name="position">after_lines</field>
+        <field name="models">stock.picking</field>
         <field name="model_ids" eval="[(6, 0,  [ref('stock.model_stock_picking')]) ]" />
         <field name="domain">
             [['location_id.usage','=','internal'],['location_dest_id.usage','in',['consume','production']],
@@ -238,6 +245,7 @@
         <field name="name">Romania - Comment for Internal Transfer Voucher After Lines
         </field>
         <field name="position">after_lines</field>
+        <field name="models">stock.picking</field>
         <field name="model_ids" eval="[(6, 0,  [ref('stock.model_stock_picking')]) ]" />
         <field
             name="domain"
