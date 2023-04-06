@@ -27,26 +27,6 @@ msgid "Create Reception in Progress Bill"
 msgstr "Creare factură pentru recepție în curs"
 
 #. module: l10n_ro_stock_account_reception_in_progress
-#: model:ir.model.fields,field_description:l10n_ro_stock_account_reception_in_progress.field_account_account__display_name
-#: model:ir.model.fields,field_description:l10n_ro_stock_account_reception_in_progress.field_account_move_line__display_name
-#: model:ir.model.fields,field_description:l10n_ro_stock_account_reception_in_progress.field_product_template__display_name
-#: model:ir.model.fields,field_description:l10n_ro_stock_account_reception_in_progress.field_purchase_order__display_name
-#: model:ir.model.fields,field_description:l10n_ro_stock_account_reception_in_progress.field_stock_move__display_name
-#: model:ir.model.fields,field_description:l10n_ro_stock_account_reception_in_progress.field_stock_picking__display_name
-msgid "Display Name"
-msgstr "Nume afișat"
-
-#. module: l10n_ro_stock_account_reception_in_progress
-#: model:ir.model.fields,field_description:l10n_ro_stock_account_reception_in_progress.field_account_account__id
-#: model:ir.model.fields,field_description:l10n_ro_stock_account_reception_in_progress.field_account_move_line__id
-#: model:ir.model.fields,field_description:l10n_ro_stock_account_reception_in_progress.field_product_template__id
-#: model:ir.model.fields,field_description:l10n_ro_stock_account_reception_in_progress.field_purchase_order__id
-#: model:ir.model.fields,field_description:l10n_ro_stock_account_reception_in_progress.field_stock_move__id
-#: model:ir.model.fields,field_description:l10n_ro_stock_account_reception_in_progress.field_stock_picking__id
-msgid "ID"
-msgstr "ID"
-
-#. module: l10n_ro_stock_account_reception_in_progress
 #: model:ir.model.fields,field_description:l10n_ro_stock_account_reception_in_progress.field_account_account__is_l10n_ro_record
 #: model:ir.model.fields,field_description:l10n_ro_stock_account_reception_in_progress.field_account_move_line__is_l10n_ro_record
 #: model:ir.model.fields,field_description:l10n_ro_stock_account_reception_in_progress.field_product_template__is_l10n_ro_record
@@ -60,16 +40,6 @@ msgstr "Inregistrare Romania"
 #: model:ir.model,name:l10n_ro_stock_account_reception_in_progress.model_account_move_line
 msgid "Journal Item"
 msgstr "Element jurnal"
-
-#. module: l10n_ro_stock_account_reception_in_progress
-#: model:ir.model.fields,field_description:l10n_ro_stock_account_reception_in_progress.field_account_account____last_update
-#: model:ir.model.fields,field_description:l10n_ro_stock_account_reception_in_progress.field_account_move_line____last_update
-#: model:ir.model.fields,field_description:l10n_ro_stock_account_reception_in_progress.field_product_template____last_update
-#: model:ir.model.fields,field_description:l10n_ro_stock_account_reception_in_progress.field_purchase_order____last_update
-#: model:ir.model.fields,field_description:l10n_ro_stock_account_reception_in_progress.field_stock_move____last_update
-#: model:ir.model.fields,field_description:l10n_ro_stock_account_reception_in_progress.field_stock_picking____last_update
-msgid "Last Modified on"
-msgstr "Ultima modificare la"
 
 #. module: l10n_ro_stock_account_reception_in_progress
 #: model:ir.model,name:l10n_ro_stock_account_reception_in_progress.model_product_template
@@ -136,3 +106,12 @@ msgid ""
 msgstr ""
 "Nu puteți avea 2 facturi pe o comandă de achiziție marcată cu Recepție în "
 "curs."
+
+#~ msgid "Display Name"
+#~ msgstr "Nume afișat"
+
+#~ msgid "ID"
+#~ msgstr "ID"
+
+#~ msgid "Last Modified on"
+#~ msgstr "Ultima modificare la"
