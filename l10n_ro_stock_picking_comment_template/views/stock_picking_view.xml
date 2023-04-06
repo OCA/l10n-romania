@@ -1,0 +1,43 @@
+<?xml version="1.0" ?>
+<odoo>
+    <record id="view_picking_add_delegate_form" model="ir.ui.view">
+        <field name="name">view_picking_add_delegate_form</field>
+        <field name="model">stock.picking</field>
+        <field name="inherit_id" ref="stock.view_picking_form" />
+        <field name="arch" type="xml">
+            <field name="group_id" position="after">
+                <field name="is_l10n_ro_record" invisible="1" />
+                <field
+                    name="l10n_ro_delegate_id"
+                    domain="[('type','=','contact'),('is_company','=',False)]"
+                    context="{'simple_form':True, 'parent_partner_id':partner_id } "
+                    attrs="{'invisible': [('is_l10n_ro_record', '=', False)]}"
+                />
+                <field
+                    name="l10n_ro_mean_transp"
+                    attrs="{'invisible': [('is_l10n_ro_record', '=', False)]}"
+                />
+            </field>
+        </field>
+
+    </record>
+
+    <record model="ir.ui.view" id="stock_picking_form_add_comment">
+        <field name="name">comment_template.stock.picking.form</field>
+        <field name="model">stock.picking</field>
+        <field name="inherit_id" ref="stock.view_picking_form" />
+        <field name="arch" type="xml">
+            <xpath expr="//notebook" position="inside">
+                <field name="is_l10n_ro_record" invisible="1" />
+                <page
+                    string="Comments"
+                    name="comments"
+                    attrs="{'invisible': [('is_l10n_ro_record', '=', False)]}"
+                >
+                    <field name="comment_template_ids" />
+                </page>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>
