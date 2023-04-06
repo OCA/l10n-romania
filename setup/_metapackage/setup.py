@@ -23,6 +23,7 @@ setuptools.setup(
         'odoo-addon-l10n_ro_address_extended>=15.0dev,<15.1dev',
         'odoo-addon-l10n_ro_city>=15.0dev,<15.1dev',
         'odoo-addon-l10n_ro_config>=15.0dev,<15.1dev',
+        'odoo-addon-l10n_ro_dvi>=15.0dev,<15.1dev',
         'odoo-addon-l10n_ro_fiscal_validation>=15.0dev,<15.1dev',
         'odoo-addon-l10n_ro_nondeductible_vat>=15.0dev,<15.1dev',
         'odoo-addon-l10n_ro_partner_create_by_vat>=15.0dev,<15.1dev',
