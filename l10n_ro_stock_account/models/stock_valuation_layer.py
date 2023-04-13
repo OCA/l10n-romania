@@ -77,10 +77,17 @@ class StockValuationLayer(models.Model):
                 svl.product_id.l10n_ro_property_stock_valuation_account_id
                 or svl.product_id.categ_id.property_stock_valuation_account_id
             )
-            if svl.value > 0 and loc_dest.l10n_ro_property_stock_valuation_account_id:
-                account = loc_dest.l10n_ro_property_stock_valuation_account_id
-            if svl.value < 0 and loc_scr.l10n_ro_property_stock_valuation_account_id:
-                account = loc_scr.l10n_ro_property_stock_valuation_account_id
+            if svl.product_id.categ_id.l10n_ro_stock_account_change:
+                if (
+                    svl.value > 0
+                    and loc_dest.l10n_ro_property_stock_valuation_account_id
+                ):
+                    account = loc_dest.l10n_ro_property_stock_valuation_account_id
+                if (
+                    svl.value < 0
+                    and loc_scr.l10n_ro_property_stock_valuation_account_id
+                ):
+                    account = loc_scr.l10n_ro_property_stock_valuation_account_id
             if svl.account_move_id:
                 for aml in svl.account_move_id.line_ids.sorted(
                     lambda l: l.account_id.code

@@ -99,3 +99,27 @@ class TestStockPurchase(TestStockCommon):
 
         self.assertEqual(self.product_1.standard_price, 55)
         self.assertEqual(self.product_2.standard_price, 50)
+
+    def test_nir_with_account_mp(self):
+        self.product_1.product_tmpl_id.categ_id = self.category_mp
+        self.product_2.product_tmpl_id.categ_id = self.category_mp
+
+        self.create_po()
+
+        self.check_stock_valuation(
+            self.val_p1_i, self.val_p2_i, self.account_valuation_mp
+        )
+
+        self.check_account_valuation(0, 0, self.account_valuation_mp)
+
+        self.create_invoice()
+
+        self.check_stock_valuation(
+            self.val_p1_i, self.val_p2_i, self.account_valuation_mp
+        )
+
+        self.check_account_valuation(
+            self.val_p1_i, self.val_p2_i, self.account_valuation_mp
+        )
+
+        self.check_account_diff(0, 0)
