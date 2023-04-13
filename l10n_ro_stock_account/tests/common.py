@@ -472,10 +472,16 @@ class TestStockCommon(ValuationReconciliationTestCommon):
             picking._action_done()
         self.picking = picking
 
-    def check_stock_valuation(self, val_p1, val_p2):
+    def check_stock_valuation(self, val_p1, val_p2, account=None):
         val_p1 = round(val_p1, 2)
         val_p2 = round(val_p2, 2)
-        domain = [("product_id", "in", [self.product_1.id, self.product_2.id])]
+        if not account:
+            account = self.account_valuation
+
+        domain = [
+            ("product_id", "in", [self.product_1.id, self.product_2.id]),
+            ("l10n_ro_account_id", "=", account.id),
+        ]
         valuations = self.env["stock.valuation.layer"].read_group(
             domain,
             ["value:sum", "quantity:sum", "remaining_value:sum", "remaining_qty:sum"],
