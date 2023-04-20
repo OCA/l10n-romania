@@ -1,6 +1,6 @@
 To install this module, you need to:
 
-#. Clone the branch 15.0 of the repository https://github.com/OCA/l10n-romania
+#. Clone the branch 16.0 of the repository https://github.com/OCA/l10n-romania
 #. Add the path to this repository in your configuration (addons-path)
 #. Update the module list
 #. Search for "Romania - Partners Unique" in your addons
