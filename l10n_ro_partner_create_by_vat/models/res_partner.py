@@ -146,7 +146,7 @@ class ResPartner(models.Model):
         else:
             json_data = [{"cui": cod, "data": data}]
         try:
-            res = requests.post(ANAF_URL, json=json_data, headers=headers)
+            res = requests.post(ANAF_URL, json=json_data, headers=headers, timeout=30)
         except Exception as ex:
             return _("ANAF Webservice not working. Exeption=%s.") % ex, {}
 
