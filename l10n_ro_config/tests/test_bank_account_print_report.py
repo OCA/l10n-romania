@@ -2,7 +2,8 @@
 # Copyright (C) 2020 NextERP Romania
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
-from odoo.exceptions import ValidationError
+import psycopg2
+
 from odoo.tests import common
 
 
@@ -83,7 +84,7 @@ class TestBankAccount(common.TransactionCase):
                 "l10n_ro_accounting": True,
             }
         )
-        bank_account_1 = self.env["res.partner.bank"].create(
+        self.env["res.partner.bank"].create(
             {
                 "acc_number": "NL46ABNA0499998749",
                 "partner_id": self.partner1.id,
@@ -92,9 +93,7 @@ class TestBankAccount(common.TransactionCase):
                 "acc_type": "iban",
             }
         )
-        validate1 = bank_account_1._check_sanitized_acc_number()
-        self.assertEqual(validate1, True)
-        bank_account_2 = self.env["res.partner.bank"].create(
+        self.env["res.partner.bank"].create(
             {
                 "acc_number": "NL46ABNA0499998749",
                 "partner_id": self.partner2.id,
@@ -103,8 +102,6 @@ class TestBankAccount(common.TransactionCase):
                 "acc_type": "iban",
             }
         )
-        validate2 = bank_account_2._check_sanitized_acc_number()
-        self.assertEqual(validate2, True)
 
     def test_create_bank_account_ro2(self):
         company2 = self.env["res.company"].create(
@@ -116,7 +113,7 @@ class TestBankAccount(common.TransactionCase):
                 "l10n_ro_accounting": False,
             }
         )
-        bank_account_12 = self.env["res.partner.bank"].create(
+        self.env["res.partner.bank"].create(
             {
                 "acc_number": "NL46ABNA0499998749",
                 "partner_id": self.partner1.id,
@@ -125,11 +122,9 @@ class TestBankAccount(common.TransactionCase):
                 "acc_type": "iban",
             }
         )
-        validate1 = bank_account_12._check_sanitized_acc_number()
-        self.assertEqual(validate1, True)
 
-        with self.assertRaises(ValidationError):
-            bank_account_22 = self.env["res.partner.bank"].create(
+        with self.assertRaises(psycopg2.errors.UniqueViolation):
+            self.env["res.partner.bank"].create(
                 {
                     "acc_number": "NL46ABNA0499998749",
                     "partner_id": self.partner1.id,
@@ -138,4 +133,3 @@ class TestBankAccount(common.TransactionCase):
                     "acc_type": "iban",
                 }
             )
-            bank_account_22._check_sanitized_acc_number()
