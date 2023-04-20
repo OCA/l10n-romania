@@ -212,3 +212,12 @@ class StockValuationLayer(models.Model):
         )
         svl_tracking_ids.write({"svl_dest_id": self.id})
         return svl_tracking_ids
+
+    def _validate_accounting_entries(self):
+        res = super()._validate_accounting_entries()
+        account_moves = self.mapped("account_move_id")
+        account_moves = account_moves.filtered(lambda m: m.state == "draft")
+        if account_moves:
+            account_moves._post()
+
+        return res
