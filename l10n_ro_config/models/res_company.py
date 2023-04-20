@@ -32,21 +32,21 @@ class ResCompany(models.Model):
     l10n_ro_property_stock_picking_payable_account_id = fields.Many2one(
         "account.account",
         string="Romania - Picking Account Payable",
-        domain="[('internal_type', 'in', ['payable','other'])]",
+        domain="[('account_type', 'in', ['payable','other'])]",
         help="This account will be used as the payable account for the "
         "current partner on stock picking notice.",
     )
     l10n_ro_property_stock_picking_receivable_account_id = fields.Many2one(
         "account.account",
         string="Romania - Picking Account Receivable",
-        domain="[('internal_type', 'in', ['receivable','other'])]",
+        domain="[('account_type', 'in', ['receivable','other'])]",
         help="This account will be used as the receivable account for the "
         "current partner on stock picking notice.",
     )
     l10n_ro_property_stock_usage_giving_account_id = fields.Many2one(
         "account.account",
         string="Romania - Usage Giving Account",
-        domain="[('internal_type', '=', 'other')]",
+        domain="[('account_type', '=', 'other')]",
         help="This account will be used as the usage giving "
         "account in account move line.",
     )
@@ -60,14 +60,14 @@ class ResCompany(models.Model):
     l10n_ro_property_uneligible_tax_account_id = fields.Many2one(
         "account.account",
         string="Romania - Not Eligible Tax Account",
-        domain="[('internal_type', '=', 'other')]",
+        domain="[('account_type', '=', 'other')]",
         help="This account will be used as the not eligible tax account for "
         "account move line.\nUsed in especially in inventory losses.",
     )
     l10n_ro_property_stock_transfer_account_id = fields.Many2one(
         "account.account",
         string="Romania - Company Stock Transfer Account",
-        domain="[('internal_type', '=', 'other')]",
+        domain="[('account_type', '=', 'other')]",
         help="This account will be used as an intermediary account for "
         "account move line generated from internal moves between company "
         "stores.",
