@@ -1,0 +1,41 @@
+<svg
+  xmlns="http://www.w3.org/2000/svg"
+  xmlns:xlink="http://www.w3.org/1999/xlink"
+  width="140"
+  height="140"
+  viewBox="0 0 70 70"
+>
+  <defs>
+    <path id="a" d="M4 0h61c4 0 5 1 5 5v60c0 4-1 5-5 5H4c-3 0-4-1-4-5V5c0-4 1-5 4-5z" />
+    <linearGradient id="c" x1="100%" x2="0%" y1="0%" y2="100%">
+      <!--    <stop offset="0%" stop-color="#DA956B"/>
+            <stop offset="100%" stop-color="#CC7039"/>-->
+      <stop offset="0%" stop-color="#C2DFFF" />
+      <stop offset="100%" stop-color="#6698FF" />
+      -
+    </linearGradient>
+  </defs>
+  <g fill="none" fill-rule="evenodd">
+    <mask id="b" fill="#fff">
+      <use xlink:href="#a" />
+    </mask>
+    <g mask="url(#b)">
+      <path fill="url(#c)" d="M0 0H70V70H0z" />
+      <path
+        fill="#FFF"
+        fill-opacity=".383"
+        d="M4 1h61c2.667 0 4.333.667 5 2V0H0v3c.667-1.333 2-2 4-2z"
+      />
+      <path
+        fill="#000"
+        fill-opacity=".383"
+        d="M4 69h61c2.667 0 4.333-1 5-3v4H0v-4c.667 2 2 3 4 3z"
+      />
+      <svg x="10" y="11" width="50" height="50" viewBox="0 0 3 2">
+        <rect width="3" height="2" x="0" y="0" fill="#002B7F" />
+        <rect width="2" height="2" x="1" y="0" fill="#FCD116" />
+        <rect width="1" height="2" x="2" y="0" fill="#CE1126" />
+      </svg>
+    </g>
+  </g>
+</svg>

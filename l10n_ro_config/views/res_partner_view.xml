@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="view_partner_create_by_vat" model="ir.ui.view">
+        <field name="name">res.partner.create.by.vat</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_form" />
+        <field name="arch" type="xml">
+            <field name="active" position="after">
+                <field name="is_l10n_ro_record" invisible="1" />
+            </field>
+            <field name="nrc" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </field>
+            <field name="vat" position="after">
+                <field
+                    name="nrc"
+                    attrs="{'invisible': ['|',('is_company','=', False),('is_l10n_ro_record','=',False)]}"
+                />
+                <field
+                    name="l10n_ro_caen_code"
+                    attrs="{'invisible': ['|',('is_company','=', False),('is_l10n_ro_record','=',False)]}"
+                />
+                <label
+                    for="l10n_ro_vat_subjected"
+                    attrs="{'invisible': ['|',('is_company','=', False),('is_l10n_ro_record','=',False)]}"
+                />
+                <div
+                    name="l10n_ro_vat_subjected_info"
+                    class="o_row"
+                    attrs="{'invisible': ['|',('is_company','=', False),('is_l10n_ro_record','=',False)]}"
+                >
+                    <field name="l10n_ro_vat_subjected" />
+                </div>
+                <field
+                    name="l10n_ro_e_invoice"
+                    attrs="{'invisible': ['|',('is_company','=', False),('is_l10n_ro_record','=',False)]}"
+                />
+            </field>
+        </field>
+    </record>
+</odoo>
