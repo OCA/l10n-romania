@@ -31,12 +31,10 @@ class AccountMove(models.Model):
                 ctx.update({"check_date": self.invoice_date})
             else:
                 ctx.update({"check_date": date.today()})
-            if "out" in self.move_type:
-                vatp = company.partner_id.with_context(**ctx)._check_vat_on_payment()
-            else:
-                if partner:
-                    vatp = partner.with_context(**ctx)._check_vat_on_payment()
-            if vatp:
+            vatp = company.partner_id.with_context(**ctx)._check_vat_on_payment()
+            if not vatp and self.is_purchase_document() and partner:
+                vatp = partner.with_context(**ctx)._check_vat_on_payment()
+            if vatp and self.move_type != "entry":
                 fptvainc = fp_model.search(
                     [
                         ("name", "ilike", "Regim TVA la Incasare"),
@@ -48,7 +46,7 @@ class AccountMove(models.Model):
                     self.fiscal_position_id = fptvainc
         return result
 
-    @api.depends("line_ids.account_id.internal_type")
+    @api.depends("line_ids.account_id.account_type")
     def _compute_always_tax_exigible(self):
         self_ro = self.filtered(lambda l: l.is_l10n_ro_record)
         self_no_ro = self - self_ro

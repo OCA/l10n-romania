@@ -39,7 +39,7 @@ class TestVATonpayment(AccountTestInvoicingCommon):
         )
         default_line_account = cls.env["account.account"].search(
             [
-                ("internal_type", "=", "other"),
+                ("account_type", "=", "expense"),
                 ("deprecated", "=", False),
                 ("company_id", "=", cls.env.company.id),
             ],
