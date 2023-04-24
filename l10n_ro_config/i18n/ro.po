@@ -88,13 +88,6 @@ msgid "Account ANAF Sync"
 msgstr "Cont Sincronizare ANAF"
 
 #. module: l10n_ro_config
-#: code:addons/l10n_ro_config/models/res_bank.py:0
-#: model:ir.model.constraint,message:l10n_ro_config.constraint_res_partner_bank_unique_number
-#, python-format
-msgid "Account Number must be unique"
-msgstr ""
-
-#. module: l10n_ro_config
 #: model_terms:ir.ui.view,arch_db:l10n_ro_config.res_config_settings_view_form
 msgid "Accounting"
 msgstr "Contabilitate"
@@ -103,10 +96,8 @@ msgstr "Contabilitate"
 #: model_terms:ir.ui.view,arch_db:l10n_ro_config.res_config_settings_view_form
 msgid ""
 "Add a mechanism to close Incomes, Expense, VAT on a period\n"
-"                                    based."
+"                                        based."
 msgstr ""
-"Adaugă un mecanism pentru închiderea veniturilor, cheltuielilor, TVA pe o "
-"perioadă."
 
 #. module: l10n_ro_config
 #: model_terms:ir.ui.view,arch_db:l10n_ro_config.res_config_settings_view_form
@@ -118,21 +109,16 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:l10n_ro_config.res_config_settings_view_form
 msgid ""
 "Add a vat on payment field in partners, change the fiscal\n"
-"                                    position with the one defined in "
+"                                        position with the one defined in "
 "settings depending on the partner and invoice."
 msgstr ""
-"Adăugați un câmp de TVA la plată în parteneri, \n"
-"modificați poziția fiscală cu cea definită în setări în funcție de partener "
-"și de factură."
 
 #. module: l10n_ro_config
 #: model_terms:ir.ui.view,arch_db:l10n_ro_config.res_config_settings_view_form
 msgid ""
 "Add company field for no signature, update invoice report for\n"
-"                                    multi currency."
+"                                        multi currency."
 msgstr ""
-"Adăugați câmpul companiei fără semnătură, \n"
-"actualizați raportul de factură pentru mai multe valute."
 
 #. module: l10n_ro_config
 #: model_terms:ir.ui.view,arch_db:l10n_ro_config.res_config_settings_view_form
@@ -148,7 +134,7 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:l10n_ro_config.res_config_settings_view_form
 msgid ""
 "Adds location in_custody, usage_giving,consume\n"
-"                                    *merchandise_type:store,warehouse"
+"                                        *merchandise_type:store,warehouse"
 msgstr ""
 
 #. module: l10n_ro_config
@@ -195,10 +181,8 @@ msgstr "Actualizare curs valutar BNR"
 #: model_terms:ir.ui.view,arch_db:l10n_ro_config.res_config_settings_view_form
 msgid ""
 "Currency rate in invoice is editable, so you can use your own\n"
-"                                    currency rate."
+"                                        currency rate."
 msgstr ""
-"Cursul valutar în factură este editabil, astfel încât puteți utiliza cursul "
-"valutar propriu."
 
 #. module: l10n_ro_config
 #: model_terms:ir.ui.view,arch_db:l10n_ro_config.res_config_settings_account_view_form
@@ -215,16 +199,16 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:l10n_ro_config.res_config_settings_view_form
 msgid ""
 "If this field is checked and the company use Romanian Accounting,\n"
-"                                        the value used for stock out "
+"                                            the value used for stock out "
 "operations will be the value recorded at the\n"
-"                                        reception of the lot/serial, "
+"                                            reception of the lot/serial, "
 "ignoring FIFO rule;\n"
-"                                        If this field is NOT checked and the "
-"company use Romanian Accounting,\n"
-"                                        the value used for stock out "
+"                                            If this field is NOT checked and "
+"the company use Romanian Accounting,\n"
+"                                            the value used for stock out "
 "operations will be the value provided by FIFO rule,\n"
-"                                        applied strictly on a location level "
-"(including its children)"
+"                                            applied strictly on a location "
+"level (including its children)"
 msgstr ""
 
 #. module: l10n_ro_config
@@ -299,10 +283,8 @@ msgstr ""
 msgid ""
 "Mark stock operations as notice operations. Stock accounting will change to "
 "use and\n"
-"                                    accounts."
+"                                        accounts."
 msgstr ""
-"Marcați operațiunile de stoc ca operațiuni de notificare. Contabilitatea "
-"stocului se va schimba pentru a utiliza și conturi."
 
 #. module: l10n_ro_config
 #: model:ir.model,name:l10n_ro_config.model_ir_ui_menu
@@ -317,6 +299,7 @@ msgstr ""
 "Română"
 
 #. module: l10n_ro_config
+#. odoo-python
 #: code:addons/l10n_ro_config/models/res_config_settings.py:0
 #, python-format
 msgid "Notification !"
@@ -345,8 +328,8 @@ msgstr ""
 
 #. module: l10n_ro_config
 #: model:ir.model,name:l10n_ro_config.model_product_template
-msgid "Product Template"
-msgstr "Șablon produs"
+msgid "Product"
+msgstr ""
 
 #. module: l10n_ro_config
 #: model_terms:ir.ui.view,arch_db:l10n_ro_config.res_config_settings_view_form
@@ -370,11 +353,9 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:l10n_ro_config.res_config_settings_view_form
 msgid ""
 "Record the payment directly to bank or cash statement.\n"
-"                                    Set up different sequences for cash "
+"                                        Set up different sequences for cash "
 "operations."
 msgstr ""
-"Înregistrați plata directă la declarația bancară sau numerară.\n"
-"Setați secvențe diferite pentru operațiuni de numerar."
 
 #. module: l10n_ro_config
 #: model_terms:ir.ui.view,arch_db:l10n_ro_config.res_config_settings_view_form
@@ -390,10 +371,8 @@ msgstr "Înregistrați sincronizarea oAuth cu site-ul ANAF."
 #: model_terms:ir.ui.view,arch_db:l10n_ro_config.res_config_settings_view_form
 msgid ""
 "Registration of accounting moves according to\n"
-"                                    Romanian legislation"
+"                                        Romanian legislation"
 msgstr ""
-"Înregistrarea mișcărilor contabile \n"
-"conform legislației române"
 
 #. module: l10n_ro_config
 #: model:ir.model.fields,field_description:l10n_ro_config.field_account_journal__l10n_ro_print_report
@@ -670,12 +649,9 @@ msgstr "Selectați data contabilă în asistentul operațiunilor de stoc."
 #: model_terms:ir.ui.view,arch_db:l10n_ro_config.res_config_settings_view_form
 msgid ""
 "Select Accounting Date in stock operations.\n"
-"                                    All transactions will have the "
+"                                        All transactions will have the "
 "Accounting Date as the used date in stock."
 msgstr ""
-"Selectați data contabilă în operațiunile de stoc.\n"
-"                                    Toate tranzacțiile vor avea data "
-"contabilă ca data utilizată în stoc."
 
 #. module: l10n_ro_config
 #: model_terms:ir.ui.view,arch_db:l10n_ro_config.res_config_settings_view_form
@@ -704,13 +680,10 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:l10n_ro_config.res_config_settings_view_form
 msgid ""
 "Select a service product that will be used in landed cost to register price\n"
-"                                            differences.\n"
-"                                            An expense account needs to be "
-"set on product or product category."
+"                                                differences.\n"
+"                                                An expense account needs to "
+"be set on product or product category."
 msgstr ""
-"Selectați un produs de tip serviciu care va fi utilizat în costul adițional\n"
-" pentru a înregistra diferențele de preț.\n"
-" Trebuie setat un cont de cheltuieli pentru produs sau categorie de produs."
 
 #. module: l10n_ro_config
 #: model_terms:ir.ui.view,arch_db:l10n_ro_config.res_config_settings_view_form
@@ -731,10 +704,8 @@ msgstr "Taxă vânzare servicii"
 #: model_terms:ir.ui.view,arch_db:l10n_ro_config.res_config_settings_view_form
 msgid ""
 "Set up a rule for unique partners based on vat, nrc and\n"
-"                                    company"
+"                                        company"
 msgstr ""
-"Setați o regulă pentru parteneri unici bazată pe vat, nrc și\n"
-"                                    companie"
 
 #. module: l10n_ro_config
 #: model_terms:ir.ui.view,arch_db:l10n_ro_config.res_config_settings_view_form
@@ -742,6 +713,7 @@ msgid "Stock"
 msgstr "Stoc"
 
 #. module: l10n_ro_config
+#. odoo-python
 #: code:addons/l10n_ro_config/models/res_config_settings.py:0
 #, python-format
 msgid "The values used for stock out operations will not follow FIFO rule!"
@@ -989,6 +961,7 @@ msgstr ""
 "diferența de preț între ridicarea și factură"
 
 #. module: l10n_ro_config
+#. odoo-python
 #: code:addons/l10n_ro_config/models/res_config_settings.py:0
 #, python-format
 msgid ""
@@ -1000,21 +973,16 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:l10n_ro_config.res_config_settings_view_form
 msgid ""
 "Update partners data based on the vat code from ANAF website in\n"
-"                                    cron job."
+"                                        cron job."
 msgstr ""
-"Actualizați datele partenerilor pe baza codului TVA de pe site-ul ANAF în\n"
-"                                    cron job."
 
 #. module: l10n_ro_config
 #: model_terms:ir.ui.view,arch_db:l10n_ro_config.res_config_settings_view_form
 msgid ""
 "Update stock valuation in case of price difference\n"
-"                                        between reception and bill. Value is "
-"company specific."
+"                                            between reception and bill. "
+"Value is company specific."
 msgstr ""
-"Actualizați evaluarea stocului în cazul diferenței de preț\n"
-"                                        între primire și factură. Valoarea "
-"este specifică companiei."
 
 #. module: l10n_ro_config
 #: model_terms:ir.ui.view,arch_db:l10n_ro_config.res_config_settings_view_form
@@ -1065,6 +1033,108 @@ msgid ""
 msgstr ""
 "utilizați contul 4428 pentru tva neexigibil în notele făcute pentru 'Marfă "
 "în magazin'"
+
+#~ msgid ""
+#~ "Add a mechanism to close Incomes, Expense, VAT on a period\n"
+#~ "                                    based."
+#~ msgstr ""
+#~ "Adaugă un mecanism pentru închiderea veniturilor, cheltuielilor, TVA pe o "
+#~ "perioadă."
+
+#~ msgid ""
+#~ "Add a vat on payment field in partners, change the fiscal\n"
+#~ "                                    position with the one defined in "
+#~ "settings depending on the partner and invoice."
+#~ msgstr ""
+#~ "Adăugați un câmp de TVA la plată în parteneri, \n"
+#~ "modificați poziția fiscală cu cea definită în setări în funcție de "
+#~ "partener și de factură."
+
+#~ msgid ""
+#~ "Add company field for no signature, update invoice report for\n"
+#~ "                                    multi currency."
+#~ msgstr ""
+#~ "Adăugați câmpul companiei fără semnătură, \n"
+#~ "actualizați raportul de factură pentru mai multe valute."
+
+#~ msgid ""
+#~ "Currency rate in invoice is editable, so you can use your own\n"
+#~ "                                    currency rate."
+#~ msgstr ""
+#~ "Cursul valutar în factură este editabil, astfel încât puteți utiliza "
+#~ "cursul valutar propriu."
+
+#~ msgid ""
+#~ "Mark stock operations as notice operations. Stock accounting will change "
+#~ "to use and\n"
+#~ "                                    accounts."
+#~ msgstr ""
+#~ "Marcați operațiunile de stoc ca operațiuni de notificare. Contabilitatea "
+#~ "stocului se va schimba pentru a utiliza și conturi."
+
+#~ msgid "Product Template"
+#~ msgstr "Șablon produs"
+
+#~ msgid ""
+#~ "Record the payment directly to bank or cash statement.\n"
+#~ "                                    Set up different sequences for cash "
+#~ "operations."
+#~ msgstr ""
+#~ "Înregistrați plata directă la declarația bancară sau numerară.\n"
+#~ "Setați secvențe diferite pentru operațiuni de numerar."
+
+#~ msgid ""
+#~ "Registration of accounting moves according to\n"
+#~ "                                    Romanian legislation"
+#~ msgstr ""
+#~ "Înregistrarea mișcărilor contabile \n"
+#~ "conform legislației române"
+
+#~ msgid ""
+#~ "Select Accounting Date in stock operations.\n"
+#~ "                                    All transactions will have the "
+#~ "Accounting Date as the used date in stock."
+#~ msgstr ""
+#~ "Selectați data contabilă în operațiunile de stoc.\n"
+#~ "                                    Toate tranzacțiile vor avea data "
+#~ "contabilă ca data utilizată în stoc."
+
+#~ msgid ""
+#~ "Select a service product that will be used in landed cost to register "
+#~ "price\n"
+#~ "                                            differences.\n"
+#~ "                                            An expense account needs to "
+#~ "be set on product or product category."
+#~ msgstr ""
+#~ "Selectați un produs de tip serviciu care va fi utilizat în costul "
+#~ "adițional\n"
+#~ " pentru a înregistra diferențele de preț.\n"
+#~ " Trebuie setat un cont de cheltuieli pentru produs sau categorie de "
+#~ "produs."
+
+#~ msgid ""
+#~ "Set up a rule for unique partners based on vat, nrc and\n"
+#~ "                                    company"
+#~ msgstr ""
+#~ "Setați o regulă pentru parteneri unici bazată pe vat, nrc și\n"
+#~ "                                    companie"
+
+#~ msgid ""
+#~ "Update partners data based on the vat code from ANAF website in\n"
+#~ "                                    cron job."
+#~ msgstr ""
+#~ "Actualizați datele partenerilor pe baza codului TVA de pe site-ul ANAF "
+#~ "în\n"
+#~ "                                    cron job."
+
+#~ msgid ""
+#~ "Update stock valuation in case of price difference\n"
+#~ "                                        between reception and bill. Value "
+#~ "is company specific."
+#~ msgstr ""
+#~ "Actualizați evaluarea stocului în cazul diferenței de preț\n"
+#~ "                                        între primire și factură. "
+#~ "Valoarea este specifică companiei."
 
 #~ msgid "Account Balance Sheet Report"
 #~ msgstr "Raport Bilant"
