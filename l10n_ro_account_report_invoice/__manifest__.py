@@ -12,7 +12,7 @@
     "installable": True,
     "development_status": "Mature",
     "maintainers": ["feketemihai"],
-    "depends": ["l10n_ro_config"],
+    "depends": ["l10n_ro_config", "sale"],
     "pre_init_hook": "pre_init_hook",
     "data": [
         "views/account_invoice_view.xml",
