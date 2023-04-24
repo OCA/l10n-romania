@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="res_config_settings_view_form" model="ir.ui.view">
+        <field name="name">res.config.settings.view.form.inherit.account</field>
+        <field name="model">res.config.settings</field>
+        <field name="inherit_id" ref="account.res_config_settings_view_form" />
+        <field name="arch" type="xml">
+            <div id="invoicing_settings" position="inside">
+                <field name="is_l10n_ro_record" invisible="1" />
+                <div
+                    class="col-12 col-lg-6 o_setting_box"
+                    attrs="{'invisible': [('is_l10n_ro_record','=',False)]}"
+                >
+                    <div class="o_setting_left_pane">
+                    </div>
+                    <div class="o_setting_right_pane">
+                        <label for="l10n_ro_no_signature_text" />
+                        <span
+                            class="fa fa-lg fa-building-o"
+                            title="Values set here are company-specific."
+                            aria-label="Values set here are company-specific."
+                            groups="base.group_multi_company"
+                            role="img"
+                        />
+                        <div class="text-muted">Invoices without stamp text</div>
+                        <div class="content-group">
+                            <div class="mt16">
+                                <field
+                                    name="l10n_ro_no_signature_text"
+                                    placeholder="Insert your invoice without stamp text here..."
+                                />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </field>
+    </record>
+</odoo>
