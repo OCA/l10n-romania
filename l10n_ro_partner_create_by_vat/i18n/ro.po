@@ -34,6 +34,7 @@ msgid "ANAF History"
 msgstr ""
 
 #. module: l10n_ro_partner_create_by_vat
+#. odoo-python
 #: code:addons/l10n_ro_partner_create_by_vat/models/res_partner.py:0
 #, python-format
 msgid "ANAF Webservice not working. Exeption=%s."
@@ -50,12 +51,14 @@ msgid "Active Status"
 msgstr ""
 
 #. module: l10n_ro_partner_create_by_vat
+#. odoo-python
 #: code:addons/l10n_ro_partner_create_by_vat/models/res_partner.py:0
 #, python-format
 msgid "Anaf didn't find any company with VAT=%s !"
 msgstr ""
 
 #. module: l10n_ro_partner_create_by_vat
+#. odoo-python
 #: code:addons/l10n_ro_partner_create_by_vat/models/res_partner.py:0
 #, python-format
 msgid ""
