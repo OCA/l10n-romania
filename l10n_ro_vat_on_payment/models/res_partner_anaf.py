@@ -43,7 +43,7 @@ class ResPartnerAnaf(models.Model):
         if not file_date:
             file_date = date.today()
         if bool(file_date - modify):
-            result = requests.get(ANAF_URL % file_date.strftime("%Y%m%d"))
+            result = requests.get(ANAF_URL % file_date.strftime("%Y%m%d"), timeout=30)
             if result.status_code == requests.codes.ok:
                 files = ZipFile(BytesIO(result.content))
                 files.extractall(path=str(data_dir))
