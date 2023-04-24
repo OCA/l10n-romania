@@ -4,7 +4,7 @@
 {
     "name": "Romania - Invoice Report",
     "summary": "Romania - Invoice Report",
-    "version": "16.0.1.0.0",
+    "version": "16.0.1.1.0",
     "category": "Localization",
     "author": "NextERP Romania," "Odoo Community Association (OCA)",
     "website": "https://github.com/OCA/l10n-romania",
