@@ -58,7 +58,6 @@ msgstr "Prikazani naziv"
 #. module: l10n_ro_vat_on_payment
 #: model:ir.actions.server,name:l10n_ro_vat_on_payment.ir_cron_res_partner_anaf_update_every_day_ir_actions_server
 #: model:ir.cron,cron_name:l10n_ro_vat_on_payment.ir_cron_res_partner_anaf_update_every_day
-#: model:ir.cron,name:l10n_ro_vat_on_payment.ir_cron_res_partner_anaf_update_every_day
 msgid "Download Partner ANAF Data"
 msgstr ""
 
@@ -153,7 +152,6 @@ msgstr "Začetni datum"
 #. module: l10n_ro_vat_on_payment
 #: model:ir.actions.server,name:l10n_ro_vat_on_payment.ir_cron_res_partner_vat_payment_update_every_day_ir_actions_server
 #: model:ir.cron,cron_name:l10n_ro_vat_on_payment.ir_cron_res_partner_vat_payment_update_every_day
-#: model:ir.cron,name:l10n_ro_vat_on_payment.ir_cron_res_partner_vat_payment_update_every_day
 msgid "Update Partner VAT on Payment"
 msgstr ""
 
