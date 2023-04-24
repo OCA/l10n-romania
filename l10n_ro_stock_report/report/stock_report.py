@@ -42,6 +42,7 @@ class StorageSheet(models.TransientModel):
     location_id = fields.Many2one(
         "stock.location",
         domain="[('usage','=','internal'),('company_id','=',company_id)]",
+        required=True,
     )
 
     product_ids = fields.Many2many(
@@ -73,21 +74,19 @@ class StorageSheet(models.TransientModel):
 
     @api.depends("sublocation", "location_id")
     def _compute_location_ids(self):
-        location = self.location_id or self.env["stock.location"].search(
-            [("usage", "=", "internal")]
-        )
-        self.location_ids = location
         if self.sublocation:
             children_location = (
                 self.env["stock.location"]
                 .with_context(active_test=False)
-                .search([("id", "child_of", location.ids)])
+                .search([("id", "child_of", self.location_id.ids)])
             )
-            self.location_ids |= children_location
+            self.location_ids = self.location_id + children_location
+        else:
+            self.location_ids = self.location_id
 
     def _get_report_base_filename(self):
         self.ensure_one()
-        return "Stock Sheet %s" % (self.location_id.name or "All")
+        return "Stock Sheet %s" % (self.location_id.name)
 
     @api.model
     def default_get(self, fields_list):
@@ -207,9 +206,8 @@ class StorageSheet(models.TransientModel):
         if self.detailed_locations:
             all_locations = self.with_context(active_test=False).location_ids
         else:
-            all_locations = self.location_id or self.location_ids[0]
+            all_locations = self.location_id
             locations = self.location_ids
-
         for location in all_locations:
             if self.detailed_locations:
                 locations = location
@@ -229,13 +227,18 @@ class StorageSheet(models.TransientModel):
             _logger.info("start query_select_sold_init %s", location.name)
             query_select_sold_init = """
              insert into l10n_ro_stock_storage_sheet_line
-              (report_id, product_id, amount_initial, quantity_initial,
+              (report_id, product_id, amount_initial, quantity_initial, unit_price_in,
                account_id, date_time, date, reference, document, location_id  )
 
             select * from(
                 SELECT %(report)s as report_id, prod.id as product_id,
                     COALESCE(sum(svl.value), 0)  as amount_initial,
                     COALESCE(sum(svl.quantity), 0)  as quantity_initial,
+                    CASE
+                        WHEN ROUND(COALESCE(sum(svl.quantity), 0), 5) != 0
+                            THEN ROUND(COALESCE(sum(svl.value),0) / sum(svl.quantity), 2)
+                        ELSE 0
+                    END as unit_price_in,
                     COALESCE(svl.l10n_ro_account_id, Null) as account_id,
                     %(datetime_from)s::timestamp without time zone  as date_time,
                     %(date_from)s::date as date,
@@ -243,7 +246,7 @@ class StorageSheet(models.TransientModel):
                     %(reference)s as document,
                     %(location)s as location_id
                 from product_product as prod
-                left join stock_move as sm ON sm.product_id = prod.id AND sm.state = 'done' AND
+                join stock_move as sm ON sm.product_id = prod.id AND sm.state = 'done' AND
                     sm.company_id = %(company)s AND
                      sm.date <  %(datetime_from)s AND
                     (sm.location_id in %(locations)s OR sm.location_dest_id in %(locations)s)
@@ -268,12 +271,17 @@ class StorageSheet(models.TransientModel):
             _logger.info("start query_select_sold_final %s", location.name)
             query_select_sold_final = """
             insert into l10n_ro_stock_storage_sheet_line
-              (report_id, product_id, amount_final, quantity_final,
+              (report_id, product_id, amount_final, quantity_final, unit_price_out,
                account_id, date_time, date, reference, document, location_id)
             select * from(
                 SELECT %(report)s as report_id, sm.product_id as product_id,
                     COALESCE(sum(svl.value),0)  as amount_final,
                     COALESCE(sum(svl.quantity),0)  as quantity_final,
+                    CASE
+                        WHEN ROUND(COALESCE(sum(svl.quantity), 0), 5) != 0
+                            THEN ROUND(COALESCE(sum(svl.value),0) / sum(svl.quantity), 2)
+                        ELSE 0
+                    END as unit_price_out,
                     COALESCE(svl.l10n_ro_account_id, Null) as account_id,
                     %(datetime_to)s::timestamp without time zone as date_time,
                     %(date_to)s::date as date,
@@ -313,9 +321,9 @@ class StorageSheet(models.TransientModel):
 
             SELECT  %(report)s as report_id, sm.product_id as product_id,
                     COALESCE(sum(svl_in.value),0)   as amount_in,
-                    COALESCE(sum(svl_in.quantity), 0)   as quantity_in,
+                    COALESCE(ROUND(sum(svl_in.quantity), 5), 0)   as quantity_in,
                     CASE
-                        WHEN COALESCE(sum(svl_in.quantity), 0) != 0
+                        WHEN ROUND(COALESCE(sum(svl_in.quantity), 0), 5) != 0
                             THEN COALESCE(sum(svl_in.value),0) / sum(svl_in.quantity)
                         ELSE 0
                     END as unit_price_in,
@@ -331,8 +339,14 @@ class StorageSheet(models.TransientModel):
 
                 from stock_move as sm
                     inner join stock_valuation_layer as svl_in
-                            on svl_in.stock_move_id = sm.id and
-                        (sm.location_dest_id in %(locations)s and svl_in.quantity>=0)
+                        on svl_in.stock_move_id = sm.id and
+                        (
+                         (sm.location_dest_id in %(locations)s and svl_in.quantity>=0 and
+                          l10n_ro_valued_type not like '%%_return')
+                        or
+                         (sm.location_id in %(locations)s and (svl_in.quantity<=0 and
+                         l10n_ro_valued_type='reception_return'))
+                        )
                     left join stock_picking as sp on sm.picking_id = sp.id
                     left join account_move am on svl_in.l10n_ro_invoice_id = am.id
                 where
@@ -340,13 +354,12 @@ class StorageSheet(models.TransientModel):
                     sm.company_id = %(company)s AND
                     ( %(all_products)s  or sm.product_id in %(product)s ) AND
                     sm.date >= %(datetime_from)s  AND  sm.date <= %(datetime_to)s  AND
-                    sm.location_dest_id in %(locations)s
+                    (sm.location_dest_id in %(locations)s or sm.location_id in %(locations)s)
                 GROUP BY sm.product_id, sm.date,
                  sm.reference, sp.partner_id, l10n_ro_account_id,
                  svl_in.l10n_ro_invoice_id, am.name, svl_in.l10n_ro_valued_type)
             a --where a.amount_in!=0 and a.quantity_in!=0
                 """
-
             self.env.cr.execute(query_in, params=params)
             # res = self.env.cr.dictfetchall()
             # self.env["l10n.ro.stock.storage.sheet.line"].create(res)
@@ -361,9 +374,9 @@ class StorageSheet(models.TransientModel):
 
             SELECT  %(report)s as report_id, sm.product_id as product_id,
                     -1*COALESCE(sum(svl_out.value),0)   as amount_out,
-                    -1*COALESCE(sum(svl_out.quantity),0)   as quantity_out,
+                    -1*COALESCE(ROUND(sum(svl_out.quantity), 5),0) as quantity_out,
                     CASE
-                        WHEN COALESCE(sum(svl_out.quantity), 0) != 0
+                        WHEN ROUND(COALESCE(sum(svl_out.quantity), 0), 5) != 0
                             THEN COALESCE(sum(svl_out.value),0) / sum(svl_out.quantity)
                         ELSE 0
                     END as unit_price_out,
@@ -380,8 +393,14 @@ class StorageSheet(models.TransientModel):
                 from stock_move as sm
 
                     inner join stock_valuation_layer as svl_out
-                            on svl_out.stock_move_id = sm.id and
-                        (sm.location_id in %(locations)s and svl_out.quantity<=0 )
+                        on svl_out.stock_move_id = sm.id and
+                         (
+                          (sm.location_id in %(locations)s and svl_out.quantity<=0 and
+                            l10n_ro_valued_type != 'reception_return')
+                         or
+                          (sm.location_dest_id in  %(locations)s and (svl_out.quantity>=0 and
+                           l10n_ro_valued_type like '%%_return'))
+                         )
                     left join stock_picking as sp on sm.picking_id = sp.id
                     left join account_move am on svl_out.l10n_ro_invoice_id = am.id
                 where
@@ -389,7 +408,7 @@ class StorageSheet(models.TransientModel):
                     sm.company_id = %(company)s AND
                     ( %(all_products)s  or sm.product_id in %(product)s ) AND
                     sm.date >= %(datetime_from)s  AND  sm.date <= %(datetime_to)s  AND
-                    sm.location_id in %(locations)s
+                    (sm.location_id in %(locations)s or sm.location_dest_id in %(locations)s)
                 GROUP BY sm.product_id, sm.date,
                          sm.reference, sp.partner_id, account_id,
                          svl_out.l10n_ro_invoice_id, am.name, svl_out.l10n_ro_valued_type)
@@ -399,15 +418,6 @@ class StorageSheet(models.TransientModel):
             # res = self.env.cr.dictfetchall()
             # self.line_product_ids.create(res)
         _logger.info("end select ")
-        if not self.location_id:
-            self.env.cr.execute(
-                """
-                update l10n_ro_stock_storage_sheet_line
-                set location_id = null
-                where report_id = %(report)s
-                """,
-                params=params,
-            )
 
     def get_report_products(self):
         self.ensure_one()

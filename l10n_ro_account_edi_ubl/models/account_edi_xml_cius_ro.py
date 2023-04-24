@@ -69,13 +69,16 @@ class AccountEdiXmlCIUSRO(models.Model):
 
     def _export_invoice_vals(self, invoice):
         vals_list = super()._export_invoice_vals(invoice)
+        vals_list["vals"]["buyer_reference"] = (
+            invoice.commercial_partner_id.ref or invoice.commercial_partner_id.name
+        )
         vals_list["vals"]["order_reference"] = (invoice.ref or invoice.name)[:30]
         vals_list[
             "TaxTotalType_template"
         ] = "l10n_ro_account_edi_ubl.ubl_20_TaxTotalType"
         vals_list["vals"][
             "customization_id"
-        ] = "urn:cen.eu:en16931:2017#compliant#urn:efactura.mfinante.ro:CIUS-RO:1.0.0"
+        ] = "urn:cen.eu:en16931:2017#compliant#urn:efactura.mfinante.ro:CIUS-RO:1.0.1"
         index = 1
         for val in vals_list["vals"]["invoice_line_vals"]:
             val["id"] = index

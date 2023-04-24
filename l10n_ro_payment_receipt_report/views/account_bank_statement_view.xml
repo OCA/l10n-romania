@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+
+    <record id="view_bank_statement_form" model="ir.ui.view">
+        <field name="name">account.bank.statement.form</field>
+        <field name="model">account.bank.statement</field>
+        <field name="inherit_id" ref="account.view_bank_statement_form" />
+        <field name="arch" type="xml">
+            <field name="transaction_type" position="after">
+                <field name="payment_id" invisible="1" />
+                <field name="is_l10n_ro_record" invisible="1" />
+                <field name="is_l10n_ro_payment_disposal" invisible="1" />
+            </field>
+            <button name="button_undo_reconciliation" position="before">
+                <button
+                    name="action_l10n_ro_receipt_print"
+                    string="Print Receipt"
+                    class="btn btn-link"
+                    type="object"
+                    attrs="{'invisible': ['|', ('is_l10n_ro_record', '=', False), ('payment_id', '=', False)]}"
+                />
+                <button
+                    name="%(action_report_bank_statement_line_payment)d"
+                    string="Print Disposal"
+                    class="btn btn-link"
+                    type="action"
+                    attrs="{'invisible': ['|', ('is_l10n_ro_record', '=', False), ('is_l10n_ro_payment_disposal', '=', False)]}"
+                />
+            </button>
+            <button name="button_reprocess" position="after">
+                <button
+                    name="%(action_l10n_ro_cash_box_out)d"
+                    string="Take Money In/Out"
+                    type="action"
+                    class="oe_highlight"
+                    attrs="{'invisible': [('journal_type','!=','cash')]}"
+                />
+            </button>
+        </field>
+    </record>
+</odoo>

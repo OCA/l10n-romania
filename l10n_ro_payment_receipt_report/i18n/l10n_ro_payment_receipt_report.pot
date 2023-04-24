@@ -1,0 +1,240 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* l10n_ro_payment_receipt_report
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 15.0\n"
+"Report-Msgid-Bugs-To: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: l10n_ro_payment_receipt_report
+#: model_terms:ir.ui.view,arch_db:l10n_ro_payment_receipt_report.report_bank_statement_line_payment_document
+msgid "(in figures)"
+msgstr ""
+
+#. module: l10n_ro_payment_receipt_report
+#: model_terms:ir.ui.view,arch_db:l10n_ro_payment_receipt_report.report_bank_statement_line_payment_document
+msgid "(in letters)"
+msgstr ""
+
+#. module: l10n_ro_payment_receipt_report
+#: model_terms:ir.ui.view,arch_db:l10n_ro_payment_receipt_report.report_payment_receipt_document
+msgid ""
+")\n"
+"                        <br/>"
+msgstr ""
+
+#. module: l10n_ro_payment_receipt_report
+#: model_terms:ir.ui.view,arch_db:l10n_ro_payment_receipt_report.report_bank_statement_line_payment_document
+msgid "................................................. lei"
+msgstr ""
+
+#. module: l10n_ro_payment_receipt_report
+#: model_terms:ir.ui.view,arch_db:l10n_ro_payment_receipt_report.report_bank_statement_line_payment_document
+msgid ""
+"<br/>\n"
+"                                        <span style=\"padding-left:100px;\">Signature ..........................................</span>"
+msgstr ""
+
+#. module: l10n_ro_payment_receipt_report
+#: model_terms:ir.ui.view,arch_db:l10n_ro_payment_receipt_report.report_bank_statement_line_payment_document
+msgid ""
+"<br/>\n"
+"                                        <span>Signature .........................................</span>"
+msgstr ""
+
+#. module: l10n_ro_payment_receipt_report
+#: model_terms:ir.ui.view,arch_db:l10n_ro_payment_receipt_report.report_bank_statement_line_payment_document
+msgid "<span style=\"padding-left:300px;\">(in figures)</span>"
+msgstr ""
+
+#. module: l10n_ro_payment_receipt_report
+#: model_terms:ir.ui.view,arch_db:l10n_ro_payment_receipt_report.report_bank_statement_line_payment_document
+msgid ""
+"<span style=\"padding-"
+"left:300px;\">............................................</span>"
+msgstr ""
+
+#. module: l10n_ro_payment_receipt_report
+#: model_terms:ir.ui.view,arch_db:l10n_ro_payment_receipt_report.report_bank_statement_line_payment_document
+msgid ""
+"<span>\n"
+"                                            <strong>CASHIER</strong>\n"
+"                                        </span>"
+msgstr ""
+
+#. module: l10n_ro_payment_receipt_report
+#: model_terms:ir.ui.view,arch_db:l10n_ro_payment_receipt_report.report_bank_statement_line_payment_document
+msgid ""
+"<span>\n"
+"                                            <strong>To be completed only for disposals</strong>\n"
+"                                        </span>"
+msgstr ""
+
+#. module: l10n_ro_payment_receipt_report
+#: model_terms:ir.ui.view,arch_db:l10n_ro_payment_receipt_report.report_payment_receipt_document
+msgid "<span>NRC:</span>"
+msgstr ""
+
+#. module: l10n_ro_payment_receipt_report
+#: model_terms:ir.ui.view,arch_db:l10n_ro_payment_receipt_report.report_payment_receipt_document
+msgid "<span>Signature and stamp</span>"
+msgstr ""
+
+#. module: l10n_ro_payment_receipt_report
+#: model_terms:ir.ui.view,arch_db:l10n_ro_payment_receipt_report.report_bank_statement_line_payment_document
+msgid ""
+"<strong>ADDITIONAL DATA REGARDING THE BENEFICIARY OF THE AMOUNT:</strong>\n"
+"                                        <br/>\n"
+"                                        <br/>\n"
+"                                        <span>Identity document ........ Series ........... No. .........................</span>\n"
+"                                        <br/>"
+msgstr ""
+
+#. module: l10n_ro_payment_receipt_report
+#: model_terms:ir.ui.view,arch_db:l10n_ro_payment_receipt_report.report_bank_statement_line_payment_document
+msgid "<strong>Financial-Accounting Department</strong>"
+msgstr ""
+
+#. module: l10n_ro_payment_receipt_report
+#: model_terms:ir.ui.view,arch_db:l10n_ro_payment_receipt_report.report_bank_statement_line_payment_document
+msgid "<strong>Signatures</strong>"
+msgstr ""
+
+#. module: l10n_ro_payment_receipt_report
+#: model_terms:ir.ui.view,arch_db:l10n_ro_payment_receipt_report.report_bank_statement_line_payment_document
+msgid "<strong>Unit Manager</strong>"
+msgstr ""
+
+#. module: l10n_ro_payment_receipt_report
+#: model_terms:ir.ui.view,arch_db:l10n_ro_payment_receipt_report.report_bank_statement_line_payment_document
+msgid "Amount:"
+msgstr ""
+
+#. module: l10n_ro_payment_receipt_report
+#: model:ir.model,name:l10n_ro_payment_receipt_report.model_account_bank_statement_line
+msgid "Bank Statement Line"
+msgstr ""
+
+#. module: l10n_ro_payment_receipt_report
+#: model_terms:ir.ui.view,arch_db:l10n_ro_payment_receipt_report.report_bank_statement_line_payment_document
+msgid "Date"
+msgstr ""
+
+#. module: l10n_ro_payment_receipt_report
+#: model_terms:ir.ui.view,arch_db:l10n_ro_payment_receipt_report.report_bank_statement_line_payment_document
+#: model_terms:ir.ui.view,arch_db:l10n_ro_payment_receipt_report.report_payment_receipt_document
+msgid "Date:"
+msgstr ""
+
+#. module: l10n_ro_payment_receipt_report
+#: model_terms:ir.ui.view,arch_db:l10n_ro_payment_receipt_report.report_bank_statement_line_payment_document
+msgid "Function:"
+msgstr ""
+
+#. module: l10n_ro_payment_receipt_report
+#: model_terms:ir.ui.view,arch_db:l10n_ro_payment_receipt_report.report_bank_statement_line_payment_document
+msgid "I received the amount of"
+msgstr ""
+
+#. module: l10n_ro_payment_receipt_report
+#: model_terms:ir.ui.view,arch_db:l10n_ro_payment_receipt_report.report_bank_statement_line_payment_document
+msgid "Name:"
+msgstr ""
+
+#. module: l10n_ro_payment_receipt_report
+#: model_terms:ir.ui.view,arch_db:l10n_ro_payment_receipt_report.report_bank_statement_line_payment_document
+msgid "Paid"
+msgstr ""
+
+#. module: l10n_ro_payment_receipt_report
+#: model_terms:ir.ui.view,arch_db:l10n_ro_payment_receipt_report.report_bank_statement_line_payment_document
+msgid "Payment Disposal:"
+msgstr ""
+
+#. module: l10n_ro_payment_receipt_report
+#: model_terms:ir.ui.view,arch_db:l10n_ro_payment_receipt_report.report_payment_receipt_document
+msgid "Payment Receipt:"
+msgstr ""
+
+#. module: l10n_ro_payment_receipt_report
+#: model_terms:ir.ui.view,arch_db:l10n_ro_payment_receipt_report.report_bank_statement_line_payment_document
+msgid "Payment Reception:"
+msgstr ""
+
+#. module: l10n_ro_payment_receipt_report
+#: model:ir.actions.report,name:l10n_ro_payment_receipt_report.action_report_bank_statement_line_payment
+msgid "Payment disposal / collection"
+msgstr ""
+
+#. module: l10n_ro_payment_receipt_report
+#: model_terms:ir.ui.view,arch_db:l10n_ro_payment_receipt_report.view_bank_statement_form
+msgid "Print Disposal"
+msgstr ""
+
+#. module: l10n_ro_payment_receipt_report
+#: model_terms:ir.ui.view,arch_db:l10n_ro_payment_receipt_report.view_bank_statement_form
+msgid "Print Receipt"
+msgstr ""
+
+#. module: l10n_ro_payment_receipt_report
+#: model_terms:ir.ui.view,arch_db:l10n_ro_payment_receipt_report.report_bank_statement_line_payment_document
+msgid "Reason"
+msgstr ""
+
+#. module: l10n_ro_payment_receipt_report
+#: model_terms:ir.ui.view,arch_db:l10n_ro_payment_receipt_report.report_bank_statement_line_payment_document
+msgid "Received"
+msgstr ""
+
+#. module: l10n_ro_payment_receipt_report
+#: model:ir.actions.report,name:l10n_ro_payment_receipt_report.l10n_ro_action_report_payment_receipt
+msgid "Romania Payment Receipt"
+msgstr ""
+
+#. module: l10n_ro_payment_receipt_report
+#: model:ir.actions.act_window,name:l10n_ro_payment_receipt_report.action_l10n_ro_cash_box_out
+#: model_terms:ir.ui.view,arch_db:l10n_ro_payment_receipt_report.view_bank_statement_form
+msgid "Take Money In/Out"
+msgstr ""
+
+#. module: l10n_ro_payment_receipt_report
+#: model_terms:ir.ui.view,arch_db:l10n_ro_payment_receipt_report.report_payment_receipt_document
+msgid "We received from:"
+msgstr ""
+
+#. module: l10n_ro_payment_receipt_report
+#: model_terms:ir.ui.view,arch_db:l10n_ro_payment_receipt_report.report_payment_receipt_document
+msgid "amount of"
+msgstr ""
+
+#. module: l10n_ro_payment_receipt_report
+#: model_terms:ir.ui.view,arch_db:l10n_ro_payment_receipt_report.report_bank_statement_line_payment_document
+msgid "disposal"
+msgstr ""
+
+#. module: l10n_ro_payment_receipt_report
+#: model_terms:ir.ui.view,arch_db:l10n_ro_payment_receipt_report.report_payment_receipt_document
+msgid "for payment of:"
+msgstr ""
+
+#. module: l10n_ro_payment_receipt_report
+#: model_terms:ir.ui.view,arch_db:l10n_ro_payment_receipt_report.report_bank_statement_line_payment_document
+msgid "reception"
+msgstr ""
+
+#. module: l10n_ro_payment_receipt_report
+#: model_terms:ir.ui.view,arch_db:l10n_ro_payment_receipt_report.report_bank_statement_line_payment_document
+msgid "the amount of"
+msgstr ""
+
+#. module: l10n_ro_payment_receipt_report
+#: model_terms:ir.ui.view,arch_db:l10n_ro_payment_receipt_report.report_payment_receipt_document
+msgid "with address:"
+msgstr ""

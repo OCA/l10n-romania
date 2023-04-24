@@ -21,23 +21,41 @@ class TestAccountEdiUbl(AccountEdiTestCommon):
         cls.country_state = cls.env["res.country.state"].search(
             [("name", "=", "Timiș")]
         )
-        cls.env.company.write(
-            {
-                "vat": "RO30834857",
-                "name": "FOREST AND BIOMASS ROMANIA S.A.",
-                "country_id": cls.env.ref("base.ro").id,
-                "currency_id": cls.currency.id,
-                "street": "Ferma 5-6",
-                "city": "Giulvaz",
-                "state_id": cls.country_state.id,
-                "zip": "300011",
-            }
+        l10n_ro_address_extend = cls.env["ir.module.module"].search(
+            [("name", "=", "l10n_ro_address_extended")]
         )
+        if l10n_ro_address_extend.state != "installed":
+            cls.env.company.write(
+                {
+                    "vat": "RO30834857",
+                    "name": "FOREST AND BIOMASS ROMANIA S.A.",
+                    "country_id": cls.env.ref("base.ro").id,
+                    "currency_id": cls.currency.id,
+                    "street": "Ferma 5-6",
+                    "city": "Giulvaz",
+                    "state_id": cls.country_state.id,
+                    "zip": "300011",
+                }
+            )
+        else:
+            cls.env.company.write(
+                {
+                    "vat": "RO30834857",
+                    "name": "FOREST AND BIOMASS ROMANIA S.A.",
+                    "country_id": cls.env.ref("base.ro").id,
+                    "currency_id": cls.currency.id,
+                    "street_name": "Ferma 5-6",
+                    "city": "Giulvaz",
+                    "state_id": cls.country_state.id,
+                    "zip": "300011",
+                }
+            )
 
         cls.partner = cls.env["res.partner"].create(
             {
                 "name": "SCOALA GIMNAZIALA COMUNA FOENI",
-                "vat": "29152430",
+                "ref": "SCOALA GIMNAZIALA COMUNA FOENI",
+                "vat": "RO29152430",
                 "country_id": cls.env.ref("base.ro").id,
                 "l10n_ro_vat_subjected": True,
                 "street": "Foeni Nr. 383",
@@ -53,7 +71,6 @@ class TestAccountEdiUbl(AccountEdiTestCommon):
             {
                 "name": "Bec P21/5W",
                 "default_code": "00000623",
-                "type": "product",
                 "uom_id": uom_id,
                 "uom_po_id": uom_id,
             }
@@ -62,7 +79,6 @@ class TestAccountEdiUbl(AccountEdiTestCommon):
             {
                 "name": "Bec P21/10W",
                 "default_code": "00000624",
-                "type": "product",
                 "uom_id": uom_id,
                 "uom_po_id": uom_id,
             }
@@ -120,9 +136,8 @@ class TestAccountEdiUbl(AccountEdiTestCommon):
             xmlns="urn:oasis:names:specification:ubl:schema:xsd:Invoice-2"
             xmlns:cac=
             "urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2">
-                <cbc:UBLVersionID>2.1</cbc:UBLVersionID>
                 <cbc:CustomizationID>
-                    urn:cen.eu:en16931:2017#compliant#urn:efactura.mfinante.ro:CIUS-RO:1.0.0
+                    urn:cen.eu:en16931:2017#compliant#urn:efactura.mfinante.ro:CIUS-RO:1.0.1
                 </cbc:CustomizationID>
                 <cbc:ProfileID>urn:fdc:peppol.eu:2017:poacc:billing:01:1.0</cbc:ProfileID>
                 <cbc:ID>FBRAO2092</cbc:ID>
@@ -168,7 +183,7 @@ class TestAccountEdiUbl(AccountEdiTestCommon):
                 </cac:AccountingSupplierParty>
                 <cac:AccountingCustomerParty>
                     <cac:Party>
-                        <cbc:EndpointID schemeID="9947">29152430</cbc:EndpointID>
+                        <cbc:EndpointID schemeID="9947">RO29152430</cbc:EndpointID>
                         <cac:PartyName>
                             <cbc:Name>SCOALA GIMNAZIALA COMUNA FOENI</cbc:Name>
                         </cac:PartyName>
@@ -182,16 +197,16 @@ class TestAccountEdiUbl(AccountEdiTestCommon):
                             </cac:Country>
                         </cac:PostalAddress>
                         <cac:PartyTaxScheme>
-                            <cbc:CompanyID>29152430</cbc:CompanyID>
+                            <cbc:CompanyID>RO29152430</cbc:CompanyID>
                             <cac:TaxScheme>
-                                <cbc:ID>!= VAT</cbc:ID>
+                                <cbc:ID>VAT</cbc:ID>
                             </cac:TaxScheme>
                         </cac:PartyTaxScheme>
                         <cac:PartyLegalEntity>
                             <cbc:RegistrationName>
                             SCOALA GIMNAZIALA COMUNA FOENI
                             </cbc:RegistrationName>
-                            <cbc:CompanyID>29152430</cbc:CompanyID>
+                            <cbc:CompanyID>RO29152430</cbc:CompanyID>
                         </cac:PartyLegalEntity>
                         <cac:Contact>
                             <cbc:Name>SCOALA GIMNAZIALA COMUNA FOENI</cbc:Name>

@@ -50,17 +50,22 @@ class AccountMove(models.Model):
 
     @api.onchange("l10n_ro_currency_rate")
     def onchange_l10n_ro_currency_rate(self):
-        self = self.with_context(l10n_ro_force_currency_rate=self.l10n_ro_currency_rate)
+        if self.is_l10n_ro_record:
+            self = self.with_context(
+                l10n_ro_force_currency_rate=self.l10n_ro_currency_rate
+            )
         self.line_ids._onchange_amount_currency()
 
     def _recompute_dynamic_lines(
         self, recompute_all_taxes=False, recompute_tax_base_amount=False
     ):
-        self = self._update_context_with_currency_rate()
-        return super()._recompute_dynamic_lines(
+        if self.is_l10n_ro_record:
+            self = self._update_context_with_currency_rate()
+        res = super()._recompute_dynamic_lines(
             recompute_all_taxes=recompute_all_taxes,
             recompute_tax_base_amount=recompute_tax_base_amount,
         )
+        return res
 
 
 class AccountMoveLine(models.Model):
@@ -68,10 +73,12 @@ class AccountMoveLine(models.Model):
 
     @api.onchange("quantity", "discount", "price_unit", "tax_ids")
     def _onchange_price_subtotal(self):
-        self = self.move_id._update_context_with_currency_rate(context_record=self)
+        if self.move_id.is_l10n_ro_record:
+            self = self.move_id._update_context_with_currency_rate(context_record=self)
         return super(AccountMoveLine, self)._onchange_price_subtotal()
 
     @api.onchange("amount_currency")
     def _onchange_amount_currency(self):
-        self = self.move_id._update_context_with_currency_rate(context_record=self)
+        if self.move_id.is_l10n_ro_record:
+            self = self.move_id._update_context_with_currency_rate(context_record=self)
         return super(AccountMoveLine, self)._onchange_amount_currency()

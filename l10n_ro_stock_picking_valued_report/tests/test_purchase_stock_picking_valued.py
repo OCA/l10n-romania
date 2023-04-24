@@ -117,6 +117,7 @@ class TestPurchaseStockPickingValued(TestStockPickingValued):
                 "product": move_line.product_id,
                 "currency": move_line.company_id.currency_id.id,
                 "l10n_ro_price_unit": 50.0,
+                "l10n_ro_additional_charges": 0.0,
                 "l10n_ro_price_subtotal": 100.0,
                 "l10n_ro_price_tax": 19.0,
                 "l10n_ro_price_total": 119.0,

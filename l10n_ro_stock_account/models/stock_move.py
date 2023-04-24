@@ -36,23 +36,171 @@ class StockMove(models.Model):
             ]
         return valued_types
 
+    def _get_price_unit(self):
+        # se caculeaza preturl cu functia standard
+        price_unit = super()._get_price_unit()
+
+        self.ensure_one()
+        if self.is_l10n_ro_record:
+
+            self.env["decimal.precision"].precision_get("Product Price")
+            # If the move is a return, use the original move's price unit.
+            if (
+                self.origin_returned_move_id
+                and self.origin_returned_move_id.sudo().stock_valuation_layer_ids
+            ):
+
+                layers = self.origin_returned_move_id.sudo().stock_valuation_layer_ids
+                quantity = sum(layers.mapped("quantity"))
+                price_unit = (
+                    sum(layers.mapped("value")) / quantity
+                    if not float_is_zero(
+                        quantity, precision_rounding=layers.uom_id.rounding
+                    )
+                    else 0
+                )
+
+        return price_unit
+
     # nu se mai face in mod automat evaluarea la intrare in stoc
     def _create_in_svl(self, forced_quantity=None):
         _logger.debug("SVL:%s" % self.env.context.get("valued_type", ""))
-        if self.env.context.get("standard") or not self.filtered("is_l10n_ro_record"):
-            svl = super(StockMove, self)._create_in_svl(forced_quantity)
-        else:
-            svl = self.env["stock.valuation.layer"]
-        return svl
+        svls = self.env["stock.valuation.layer"]
+        l10n_ro_records = self.filtered("is_l10n_ro_record")
+        if self - l10n_ro_records:
+            svls = super(StockMove, self - l10n_ro_records)._create_in_svl(
+                forced_quantity
+            )
+        if l10n_ro_records and self.env.context.get("standard"):
+            # For Romania, create a valuation layer for each stock move line
+            for move in l10n_ro_records:
+                move = move.with_company(move.company_id)
+                valued_move_lines = move._get_in_move_lines()
+                if not valued_move_lines and forced_quantity:
+                    unit_cost = abs(
+                        move._get_price_unit()
+                    )  # May be negative (i.e. decrease an out move).
+                    if move.product_id.cost_method == "standard":
+                        unit_cost = move.product_id.standard_price
+                    svl_vals = move.product_id._prepare_in_svl_vals(
+                        forced_quantity, unit_cost
+                    )
+                    svl_vals.update(move._prepare_common_svl_vals())
+                    if forced_quantity:
+                        svl_vals["description"] = (
+                            "Correction of %s (modification of past move)"
+                            % move.picking_id.name
+                            or move.name
+                        )
+                    svls = self.env["stock.valuation.layer"].sudo().create(svl_vals)
+                for valued_move_line in valued_move_lines:
+                    move = move.with_context(stock_move_line_id=valued_move_line)
+                    valued_quantity = valued_move_line.product_uom_id._compute_quantity(
+                        valued_move_line.qty_done, move.product_id.uom_id
+                    )
+                    origin_unit_cost = None
+                    tracking = []
+                    if (
+                        move.origin_returned_move_id
+                        and move.origin_returned_move_id.sudo().stock_valuation_layer_ids
+                    ):
+                        origin_domain = move.product_id._l10n_ro_prepare_domain_fifo(
+                            move.company_id,
+                            [("product_id", "=", valued_move_line.product_id.id)],
+                        )
+                        origin_domain = [
+                            (
+                                "stock_move_line_id",
+                                "in",
+                                move.origin_returned_move_id._get_in_move_lines().ids,
+                            )
+                        ] + origin_domain
+                        origin_svls = move._l10n_ro_filter_svl_on_move_line(
+                            origin_domain
+                        )
+                        if origin_svls:
+                            origin_unit_cost = origin_svls[0].unit_cost
+                            tracking = [
+                                (
+                                    origin_svls[0].id,
+                                    valued_quantity,
+                                    origin_unit_cost * valued_quantity,
+                                )
+                            ]
+                    unit_cost = abs(
+                        origin_unit_cost or move._get_price_unit()
+                    )  # May be negative (i.e. decrease an out move).
+                    if move.product_id.cost_method == "standard":
+                        unit_cost = move.product_id.standard_price
+                    svl_vals = move.product_id._prepare_in_svl_vals(
+                        forced_quantity or valued_quantity, unit_cost
+                    )
+                    svl_vals.update(move._prepare_common_svl_vals())
+                    svl_vals.update(
+                        {
+                            "l10n_ro_stock_move_line_id": valued_move_line.id,
+                            "tracking": tracking,
+                        }
+                    )
+                    if forced_quantity:
+                        svl_vals["description"] = (
+                            "Correction of %s (modification of past move)"
+                            % move.picking_id.name
+                            or move.name
+                        )
+                    svls |= self._l10n_ro_create_track_svl([svl_vals])
+        return svls
 
     # nu se mai face in mod automat evaluarea la iserirea din stoc
     def _create_out_svl(self, forced_quantity=None):
         _logger.debug("SVL:%s" % self.env.context.get("valued_type", ""))
-        if self.env.context.get("standard") or not self.filtered("is_l10n_ro_record"):
-            svl = super(StockMove, self)._create_out_svl(forced_quantity)
-        else:
-            svl = self.env["stock.valuation.layer"]
-        return svl
+        svls = self.env["stock.valuation.layer"]
+        l10n_ro_records = self.filtered("is_l10n_ro_record")
+        if self - l10n_ro_records:
+            svls = super(StockMove, self - l10n_ro_records)._create_out_svl(
+                forced_quantity
+            )
+        if l10n_ro_records and self.env.context.get("standard"):
+            # For Romania get a list of valuation layers, to keep traceability
+            # for each incoming price
+            for move in self:
+                move = move.with_company(move.company_id)
+                valued_move_lines = move._get_out_move_lines()
+                for valued_move_line in valued_move_lines:
+                    valued_move_line = valued_move_line.with_context(
+                        stock_move_line_id=valued_move_line
+                    )
+                    move = move.with_context(stock_move_line_id=valued_move_line)
+                    valued_quantity = valued_move_line.product_uom_id._compute_quantity(
+                        valued_move_line.qty_done, move.product_id.uom_id
+                    )
+                    if float_is_zero(
+                        forced_quantity or valued_quantity,
+                        precision_rounding=move.product_id.uom_id.rounding,
+                    ):
+                        continue
+                    svl_vals_list = valued_move_line.product_id._prepare_out_svl_vals(
+                        forced_quantity or valued_quantity,
+                        valued_move_line.company_id,
+                    )
+                    for svl_vals in svl_vals_list:
+                        svl_vals.update(move._prepare_common_svl_vals())
+                        svl_vals.update(
+                            {
+                                "l10n_ro_stock_move_line_id": valued_move_line.id,
+                            }
+                        )
+                        if forced_quantity:
+                            svl_vals["description"] = (
+                                "Correction of %s (modification of past move)"
+                                % valued_move_line.picking_id.name
+                                or valued_move_line.name
+                            )
+                        svl_vals["description"] += svl_vals.pop(
+                            "rounding_adjustment", ""
+                        )
+                        svls |= move._l10n_ro_create_track_svl([svl_vals])
+        return svls
 
     def _is_returned(self, valued_type):
         """Este tot timpul False deoarece noi tratam fiecare caz in parte
@@ -134,7 +282,6 @@ class StockMove(models.Model):
         return it_is
 
     def _create_plus_inventory_svl(self, forced_quantity=None):
-
         move = self.with_context(standard=True, valued_type="plus_inventory")
         return move._create_in_svl(forced_quantity)
 
@@ -175,6 +322,16 @@ class StockMove(models.Model):
 
     def _create_production_return_svl(self, forced_quantity=None):
         move = self.with_context(standard=True, valued_type="production_return")
+        if (
+            move.origin_returned_move_id
+            and move.origin_returned_move_id.sudo().stock_valuation_layer_ids
+        ):
+            move = move.with_context(
+                origin_return_candidates=move.origin_returned_move_id.sudo()
+                .stock_valuation_layer_ids.filtered(lambda sv: sv.remaining_qty > 0)
+                .ids
+            )
+
         return move._create_out_svl(forced_quantity)
 
     def _is_consumption(self):
@@ -216,47 +373,56 @@ class StockMove(models.Model):
 
     # cred ca este mai bine sa generam doua svl - o intrare si o iesire
     def _create_internal_transfer_svl(self, forced_quantity=None):
-        svl_vals_list = []
-        for move in self.with_context(standard=True, valued_type="internal_transfer"):
+        svls = self.env["stock.valuation.layer"]
+        for move in self:
+            move = move.with_context(standard=True, valued_type="internal_transfer")
             move = move.with_company(move.company_id.id)
 
             valued_move_lines = move.move_line_ids
-            valued_quantity = 0
             for valued_move_line in valued_move_lines:
-                valued_quantity += valued_move_line.product_uom_id._compute_quantity(
+                move = move.with_context(stock_move_line_id=valued_move_line)
+                valued_quantity = valued_move_line.product_uom_id._compute_quantity(
                     valued_move_line.qty_done, move.product_id.uom_id
                 )
-            if float_is_zero(
-                forced_quantity or valued_quantity,
-                precision_rounding=move.product_id.uom_id.rounding,
-            ):
-                continue
-            svl_vals = move.product_id._prepare_out_svl_vals(
-                forced_quantity or valued_quantity, move.company_id
-            )
-            svl_vals.update(move._prepare_common_svl_vals())
-            if forced_quantity:
-                svl_vals["description"] = (
-                    "Correction of %s (modification of past move)"
-                    % move.picking_id.name
-                    or move.name
+                if float_is_zero(
+                    forced_quantity or valued_quantity,
+                    precision_rounding=move.product_id.uom_id.rounding,
+                ):
+                    continue
+                svl_vals_list = move.product_id._prepare_out_svl_vals(
+                    forced_quantity or valued_quantity, move.company_id
                 )
-            svl_vals["description"] += svl_vals.pop("rounding_adjustment", "")
-            svl_vals_list.append(svl_vals)
+                for svl_vals in svl_vals_list:
+                    svl_vals.update(move._prepare_common_svl_vals())
+                    if forced_quantity:
+                        svl_vals["description"] = (
+                            "Correction of %s (modification of past move)"
+                            % move.picking_id.name
+                            or move.name
+                        )
+                    svl_vals["description"] += svl_vals.pop("rounding_adjustment", "")
+                    svl_vals["l10n_ro_stock_move_line_id"] = valued_move_line.id
+                    svls |= self._l10n_ro_create_track_svl([svl_vals])
 
-            new_svl_vals = svl_vals.copy()
-            new_svl_vals.update(
-                {
-                    "quantity": abs(svl_vals.get("quantity", 0)),
-                    "remaining_qty": abs(svl_vals.get("quantity", 0)),
-                    "unit_cost": abs(svl_vals.get("unit_cost", 0)),
-                    "value": abs(svl_vals.get("value", 0)),
-                    "remaining_value": abs(svl_vals.get("value", 0)),
-                }
-            )
-            svl_vals_list.append(new_svl_vals)
-
-        return self.env["stock.valuation.layer"].sudo().create(svl_vals_list)
+                    new_svl_vals = svl_vals.copy()
+                    new_svl_vals.update(
+                        {
+                            "quantity": abs(svl_vals.get("quantity", 0)),
+                            "remaining_qty": abs(svl_vals.get("quantity", 0)),
+                            "unit_cost": abs(svl_vals.get("unit_cost", 0)),
+                            "value": abs(svl_vals.get("value", 0)),
+                            "remaining_value": abs(svl_vals.get("value", 0)),
+                            "tracking": [
+                                (
+                                    svls[-1].id,
+                                    abs(svl_vals.get("quantity", 0)),
+                                    abs(svl_vals.get("value", 0)),
+                                )
+                            ],
+                        }
+                    )
+                    svls |= self._l10n_ro_create_track_svl([new_svl_vals])
+        return svls
 
     def _is_usage_giving(self):
         """Este dare in folosinta"""
@@ -289,10 +455,6 @@ class StockMove(models.Model):
         vals = super(StockMove, self)._prepare_common_svl_vals()
         if self.is_l10n_ro_record:
             valued_type = self.env.context.get("valued_type")
-            if valued_type == "indefinite":
-                _logger.warning(valued_type)
-            else:
-                _logger.info(valued_type)
             if valued_type:
                 vals["l10n_ro_valued_type"] = valued_type
             vals[
@@ -334,18 +496,22 @@ class StockMove(models.Model):
             self = company and self.with_company(company.id) or self
             if company and company.l10n_ro_accounting:
                 self = self.with_context(
-                    valued_type=svl.l10n_ro_valued_type, is_l10n_ro_accounting=True
+                    valued_type=svl.l10n_ro_valued_type, standard=True
                 )
+
         if self.company_id.l10n_ro_accounting and svl.l10n_ro_valued_type in (
             "reception",
             "reception_return",
         ):
             res = []
+            if self.env.context.get("l10n_ro_reception_in_progress"):
+                res = super(StockMove, self)._account_entry_move(
+                    qty, description, svl_id, cost
+                )
         else:
             res = super(StockMove, self)._account_entry_move(
                 qty, description, svl_id, cost
             )
-
         if self.is_l10n_ro_record:
             self._romanian_account_entry_move(qty, description, svl_id, cost)
 
@@ -355,64 +521,34 @@ class StockMove(models.Model):
         location_from = self.location_id
         location_to = self.location_dest_id
         svl = self.env["stock.valuation.layer"]
-        account_move_obj = self.env["account.move"]
-        if self._is_consumption() or self._is_consumption_return():
-            if self._is_consumption():
-                (
-                    journal_id,
-                    acc_src,
-                    acc_dest,
-                    acc_valuation,
-                ) = self._get_accounting_data_for_valuation()
-                acc_valuation_rec = self.env["account.account"].browse(acc_valuation)
-                if (
-                    acc_valuation_rec
-                    and acc_valuation_rec.l10n_ro_stock_consume_account_id
-                ):
-                    acc_valuation = (
-                        acc_valuation_rec.l10n_ro_stock_consume_account_id.id
-                    )
-                if acc_src and acc_valuation and acc_src != acc_valuation:
-                    move = self.with_context(valued_type="consume_switch_accounts")
-                    account_move_obj.create(
-                        move._prepare_account_move_vals(
-                            acc_valuation,
-                            acc_src,
-                            journal_id,
-                            qty,
-                            description,
-                            svl,
-                            cost,
-                        )
-                    )
-            if self._is_consumption_return():
-                (
-                    journal_id,
-                    acc_src,
-                    acc_dest,
-                    acc_valuation,
-                ) = self._get_accounting_data_for_valuation()
-                acc_valuation_rec = self.env["account.account"].browse(acc_valuation)
-                if (
-                    acc_valuation_rec
-                    and acc_valuation_rec.l10n_ro_stock_consume_account_id
-                ):
-                    acc_valuation = (
-                        acc_valuation_rec.l10n_ro_stock_consume_account_id.id
-                    )
-                if acc_dest and acc_valuation and acc_dest != acc_valuation:
-                    move = self.with_context(valued_type="consume_switch_accounts")
-                    account_move_obj.create(
-                        move._prepare_account_move_vals(
-                            acc_dest,
-                            acc_valuation,
-                            journal_id,
-                            qty,
-                            description,
-                            svl,
-                            cost,
-                        )
-                    )
+        if self._is_usage_giving() or self._is_consumption():
+            (
+                journal_id,
+                acc_src,
+                acc_dest,
+                acc_valuation,
+            ) = self._get_accounting_data_for_valuation()
+            acc_valuation_rec = self.env["account.account"].browse(acc_valuation)
+            if acc_valuation_rec and acc_valuation_rec.l10n_ro_stock_consume_account_id:
+                acc_valuation = acc_valuation_rec.l10n_ro_stock_consume_account_id.id
+            if acc_src != acc_valuation:
+                self._create_account_move_line(
+                    acc_valuation, acc_src, journal_id, qty, description, svl, cost
+                )
+        if self._is_usage_giving_return() or self._is_consumption_return():
+            (
+                journal_id,
+                acc_src,
+                acc_dest,
+                acc_valuation,
+            ) = self._get_accounting_data_for_valuation()
+            acc_valuation_rec = self.env["account.account"].browse(acc_valuation)
+            if acc_valuation_rec and acc_valuation_rec.l10n_ro_stock_consume_account_id:
+                acc_valuation = acc_valuation_rec.l10n_ro_stock_consume_account_id.id
+            if acc_dest != acc_valuation:
+                self._create_account_move_line(
+                    acc_dest, acc_valuation, journal_id, qty, description, svl, cost
+                )
         if self._is_usage_giving() or self._is_usage_giving_return():
             # inregistrare dare in folosinta 8035
             move = self.with_context(valued_type="usage_giving_secondary")
@@ -422,10 +558,8 @@ class StockMove(models.Model):
                 acc_dest,
                 acc_valuation,
             ) = move._get_accounting_data_for_valuation()
-            account_move_obj.create(
-                move._prepare_account_move_vals(
-                    acc_src, acc_dest, journal_id, qty, description, svl, cost
-                )
+            move._create_account_move_line(
+                acc_src, acc_dest, journal_id, qty, description, svl, cost
             )
 
         if self._is_internal_transfer():
@@ -437,31 +571,15 @@ class StockMove(models.Model):
                 acc_valuation,
             ) = move._get_accounting_data_for_valuation()
             if location_to.l10n_ro_property_stock_valuation_account_id and cost < 0:
-                account_move_obj.create(
-                    move._prepare_account_move_vals(
-                        acc_dest,
-                        acc_valuation,
-                        journal_id,
-                        qty,
-                        description,
-                        svl_id,
-                        cost,
-                    )
+                move._create_account_move_line(
+                    acc_dest, acc_valuation, journal_id, qty, description, svl_id, cost
                 )
             if location_from.l10n_ro_property_stock_valuation_account_id and cost > 0:
-                account_move_obj.create(
-                    move._prepare_account_move_vals(
-                        acc_src,
-                        acc_valuation,
-                        journal_id,
-                        qty,
-                        description,
-                        svl_id,
-                        cost,
-                    )
+                move._create_account_move_line(
+                    acc_src, acc_valuation, journal_id, qty, description, svl_id, cost
                 )
 
-    def _prepare_account_move_vals(
+    def _create_account_move_line(
         self,
         credit_account_id,
         debit_account_id,
@@ -480,14 +598,18 @@ class StockMove(models.Model):
             and not self._is_usage_giving_return()
         ):
             return []
-        return super(StockMove, self)._prepare_account_move_vals(
-            credit_account_id,
-            debit_account_id,
-            journal_id,
-            qty,
-            description,
-            svl_id,
-            cost,
+        if isinstance(svl_id, models.BaseModel):
+            svl_id = svl_id.id
+        return self.env["account.move"].create(
+            self.with_company(self.company_id)._prepare_account_move_vals(
+                credit_account_id,
+                debit_account_id,
+                journal_id,
+                qty,
+                description,
+                svl_id,
+                cost,
+            )
         )
 
     def _get_accounting_data_for_valuation(self):
@@ -528,7 +650,17 @@ class StockMove(models.Model):
                     acc_valuation = (
                         location_from.l10n_ro_property_stock_valuation_account_id.id
                     )
-
+                    acc_src = (
+                        location_from.l10n_ro_property_stock_valuation_account_id.id
+                    )
+            # in cazul transferului intern se va face o singura nota
+            if (
+                location_from.l10n_ro_property_stock_valuation_account_id
+                and location_to.l10n_ro_property_stock_valuation_account_id
+            ):
+                acc_valuation = (
+                    location_from.l10n_ro_property_stock_valuation_account_id.id
+                )
             # in Romania iesirea din stoc de face de regula pe contul de cheltuiala
             if valued_type in [
                 "delivery",
@@ -575,49 +707,27 @@ class StockMove(models.Model):
                 acc_valuation = acc_valuation_rec.l10n_ro_stock_consume_account_id.id
         return journal_id, acc_src, acc_dest, acc_valuation
 
+    def _l10n_ro_filter_svl_on_move_line(self, domain):
+        origin_svls = self.env["stock.valuation.layer"].search(domain)
+        return origin_svls
 
-class StockMoveLine(models.Model):
-    _inherit = "stock.move.line"
+    def _l10n_ro_create_track_svl(self, value_list, **kwargs):
+        sudo_svl = self.env["stock.valuation.layer"].sudo()
 
-    @api.model
-    def _create_correction_svl(self, move, diff):
-        super(StockMoveLine, self)._create_correction_svl(move, diff)
-        company_id = self.company_id
-        if not self.company_id and self._context.get("default_company_id"):
-            company_id = self.env["res.company"].browse(
-                self._context["default_company_id"]
-            )
-        if not self.env["res.company"]._check_is_l10n_ro_record(company_id.id):
-            return
+        for _index, value in enumerate(value_list):
+            svl_value = sudo_svl._l10n_ro_pre_process_value(
+                value
+            )  # eliminam datele de tracking, filtram valorile SVL
+            new_svl = sudo_svl.create(svl_value)
+            new_svl._l10n_ro_post_process(value)  # executam post create pentru tracking
+            sudo_svl |= new_svl
+        return sudo_svl
 
-        stock_valuation_layers = self.env["stock.valuation.layer"]
-
-        for valued_type in move._get_valued_types():
-            if getattr(move, "_is_%s" % valued_type)():
-
-                if diff < 0 and "_return" not in valued_type:
-                    valued_type = valued_type + "_return"
-                if diff > 0 and "_return" in valued_type:
-                    valued_type = valued_type.replace("_return", "")
-
-                if valued_type == "plus_inventory_return":
-                    valued_type = "minus_inventory"
-                elif valued_type == "minus_inventory_return":
-                    valued_type = "plus_inventory"
-                elif valued_type == "internal_transfer_return":
-                    valued_type = "internal_transfer"
-
-                if hasattr(move, "_create_%s_svl" % valued_type):
-                    stock_valuation_layers |= getattr(
-                        move, "_create_%s_svl" % valued_type
-                    )(forced_quantity=abs(diff))
-
-        for svl in stock_valuation_layers:
-            if not svl.product_id.valuation == "real_time":
-                continue
-            am_vals = svl.stock_move_id._account_entry_move(
-                svl.quantity, svl.description, svl.id, svl.value
-            )
-            if am_vals:
-                account_moves = self.env["account.move"].sudo().create(am_vals)
-                account_moves._post()
+    # In case of single move line update locations of the stock move
+    def _action_done(self, cancel_backorder=False):
+        moves = super()._action_done(cancel_backorder=cancel_backorder)
+        for mv in moves:
+            if len(mv.move_line_ids) == 1:
+                mv.location_id = mv.move_line_ids[0].location_id
+                mv.location_dest_id = mv.move_line_ids[0].location_dest_id
+        return moves

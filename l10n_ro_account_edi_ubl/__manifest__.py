@@ -20,10 +20,11 @@
         "views/cius_template.xml",
     ],
     "license": "AGPL-3",
-    "version": "15.0.1.7.0",
+    "version": "15.0.1.10.0",
     "author": "Terrabit," "NextERP Romania," "Odoo Community Association (OCA)",
     "website": "https://github.com/OCA/l10n-romania",
     "installable": True,
     "development_status": "Mature",
+    "pre_init_hook": "pre_init_hook",
     "maintainers": ["dhongu", "feketemihai"],
 }

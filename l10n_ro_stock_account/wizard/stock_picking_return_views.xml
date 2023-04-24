@@ -9,20 +9,20 @@
                 expr="//field[@name='product_return_moves']/tree/field[@name='quantity']"
                 position="after"
             >
-                <field name="origin_ret_move_qty_check" invisible="1" />
+                <field name="l10n_ro_origin_ret_move_qty_warn" invisible="1" />
                 <button
                     readonly="True"
                     width="2"
                     style="color: red; position: relative; left: -6px;"
                     string="Quantity more than existing. You will return different stock valuations."
                     icon="fa-exclamation-triangle"
-                    attrs="{'invisible': [('origin_ret_move_qty_check', '=', True)]}"
+                    attrs="{'invisible': [('l10n_ro_origin_ret_move_qty_warn', '=', False)]}"
                 >
 
                 </button>
                 <field
-                    name="origin_ret_move_qty"
-                    attrs="{'invisible': [('origin_ret_move_qty_check', '=', True)]}"
+                    name="l10n_ro_origin_ret_move_qty"
+                    attrs="{'invisible': [('l10n_ro_origin_ret_move_qty_warn', '=', False)]}"
                     string="Remaining Qty"
                     style="color: red;"
                 />
