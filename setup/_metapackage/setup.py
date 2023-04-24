@@ -12,6 +12,7 @@ setuptools.setup(
         'odoo-addon-l10n_ro_config>=16.0dev,<16.1dev',
         'odoo-addon-l10n_ro_partner_create_by_vat>=16.0dev,<16.1dev',
         'odoo-addon-l10n_ro_partner_unique>=16.0dev,<16.1dev',
+        'odoo-addon-l10n_ro_vat_on_payment>=16.0dev,<16.1dev',
     ],
     classifiers=[
         'Programming Language :: Python',
