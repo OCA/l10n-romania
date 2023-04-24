@@ -52,7 +52,8 @@ class AccountMove(models.Model):
     def onchange_l10n_ro_currency_rate(self):
         if self.is_l10n_ro_record:
             self = self.with_context(
-                l10n_ro_force_currency_rate=self.l10n_ro_currency_rate
+                l10n_ro_force_currency_rate=self.l10n_ro_currency_rate,
+                check_move_validity=False
             )
         self.line_ids._onchange_amount_currency()
 
