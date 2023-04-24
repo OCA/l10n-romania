@@ -4,7 +4,7 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 15.0\n"
+"Project-Id-Version: Odoo Server 16.0\n"
 "Report-Msgid-Bugs-To: \n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -72,14 +72,6 @@ msgid "Account ANAF Sync"
 msgstr ""
 
 #. module: l10n_ro_config
-#: code:addons/l10n_ro_config/models/res_bank.py:0
-#: code:addons/l10n_ro_config/models/res_bank.py:0
-#: model:ir.model.constraint,message:l10n_ro_config.constraint_res_partner_bank_unique_number
-#, python-format
-msgid "Account Number must be unique"
-msgstr ""
-
-#. module: l10n_ro_config
 #: model_terms:ir.ui.view,arch_db:l10n_ro_config.res_config_settings_view_form
 msgid "Accounting"
 msgstr ""
@@ -88,7 +80,7 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:l10n_ro_config.res_config_settings_view_form
 msgid ""
 "Add a mechanism to close Incomes, Expense, VAT on a period\n"
-"                                    based."
+"                                        based."
 msgstr ""
 
 #. module: l10n_ro_config
@@ -100,14 +92,14 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:l10n_ro_config.res_config_settings_view_form
 msgid ""
 "Add a vat on payment field in partners, change the fiscal\n"
-"                                    position with the one defined in settings depending on the partner and invoice."
+"                                        position with the one defined in settings depending on the partner and invoice."
 msgstr ""
 
 #. module: l10n_ro_config
 #: model_terms:ir.ui.view,arch_db:l10n_ro_config.res_config_settings_view_form
 msgid ""
 "Add company field for no signature, update invoice report for\n"
-"                                    multi currency."
+"                                        multi currency."
 msgstr ""
 
 #. module: l10n_ro_config
@@ -124,7 +116,7 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:l10n_ro_config.res_config_settings_view_form
 msgid ""
 "Adds location in_custody, usage_giving,consume\n"
-"                                    *merchandise_type:store,warehouse"
+"                                        *merchandise_type:store,warehouse"
 msgstr ""
 
 #. module: l10n_ro_config
@@ -171,7 +163,7 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:l10n_ro_config.res_config_settings_view_form
 msgid ""
 "Currency rate in invoice is editable, so you can use your own\n"
-"                                    currency rate."
+"                                        currency rate."
 msgstr ""
 
 #. module: l10n_ro_config
@@ -188,11 +180,11 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:l10n_ro_config.res_config_settings_view_form
 msgid ""
 "If this field is checked and the company use Romanian Accounting,\n"
-"                                        the value used for stock out operations will be the value recorded at the\n"
-"                                        reception of the lot/serial, ignoring FIFO rule;\n"
-"                                        If this field is NOT checked and the company use Romanian Accounting,\n"
-"                                        the value used for stock out operations will be the value provided by FIFO rule,\n"
-"                                        applied strictly on a location level (including its children)"
+"                                            the value used for stock out operations will be the value recorded at the\n"
+"                                            reception of the lot/serial, ignoring FIFO rule;\n"
+"                                            If this field is NOT checked and the company use Romanian Accounting,\n"
+"                                            the value used for stock out operations will be the value provided by FIFO rule,\n"
+"                                            applied strictly on a location level (including its children)"
 msgstr ""
 
 #. module: l10n_ro_config
@@ -263,7 +255,7 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:l10n_ro_config.res_config_settings_view_form
 msgid ""
 "Mark stock operations as notice operations. Stock accounting will change to use and\n"
-"                                    accounts."
+"                                        accounts."
 msgstr ""
 
 #. module: l10n_ro_config
@@ -277,6 +269,7 @@ msgid "Mixin model for applying to any object that use Romanian Accounting"
 msgstr ""
 
 #. module: l10n_ro_config
+#. odoo-python
 #: code:addons/l10n_ro_config/models/res_config_settings.py:0
 #, python-format
 msgid "Notification !"
@@ -304,7 +297,7 @@ msgstr ""
 
 #. module: l10n_ro_config
 #: model:ir.model,name:l10n_ro_config.model_product_template
-msgid "Product Template"
+msgid "Product"
 msgstr ""
 
 #. module: l10n_ro_config
@@ -327,7 +320,7 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:l10n_ro_config.res_config_settings_view_form
 msgid ""
 "Record the payment directly to bank or cash statement.\n"
-"                                    Set up different sequences for cash operations."
+"                                        Set up different sequences for cash operations."
 msgstr ""
 
 #. module: l10n_ro_config
@@ -344,7 +337,7 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:l10n_ro_config.res_config_settings_view_form
 msgid ""
 "Registration of accounting moves according to\n"
-"                                    Romanian legislation"
+"                                        Romanian legislation"
 msgstr ""
 
 #. module: l10n_ro_config
@@ -622,7 +615,7 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:l10n_ro_config.res_config_settings_view_form
 msgid ""
 "Select Accounting Date in stock operations.\n"
-"                                    All transactions will have the Accounting Date as the used date in stock."
+"                                        All transactions will have the Accounting Date as the used date in stock."
 msgstr ""
 
 #. module: l10n_ro_config
@@ -648,8 +641,8 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:l10n_ro_config.res_config_settings_view_form
 msgid ""
 "Select a service product that will be used in landed cost to register price\n"
-"                                            differences.\n"
-"                                            An expense account needs to be set on product or product category."
+"                                                differences.\n"
+"                                                An expense account needs to be set on product or product category."
 msgstr ""
 
 #. module: l10n_ro_config
@@ -671,7 +664,7 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:l10n_ro_config.res_config_settings_view_form
 msgid ""
 "Set up a rule for unique partners based on vat, nrc and\n"
-"                                    company"
+"                                        company"
 msgstr ""
 
 #. module: l10n_ro_config
@@ -680,6 +673,7 @@ msgid "Stock"
 msgstr ""
 
 #. module: l10n_ro_config
+#. odoo-python
 #: code:addons/l10n_ro_config/models/res_config_settings.py:0
 #, python-format
 msgid "The values used for stock out operations will not follow FIFO rule!"
@@ -866,6 +860,7 @@ msgid ""
 msgstr ""
 
 #. module: l10n_ro_config
+#. odoo-python
 #: code:addons/l10n_ro_config/models/res_config_settings.py:0
 #, python-format
 msgid ""
@@ -877,14 +872,14 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:l10n_ro_config.res_config_settings_view_form
 msgid ""
 "Update partners data based on the vat code from ANAF website in\n"
-"                                    cron job."
+"                                        cron job."
 msgstr ""
 
 #. module: l10n_ro_config
 #: model_terms:ir.ui.view,arch_db:l10n_ro_config.res_config_settings_view_form
 msgid ""
 "Update stock valuation in case of price difference\n"
-"                                        between reception and bill. Value is company specific."
+"                                            between reception and bill. Value is company specific."
 msgstr ""
 
 #. module: l10n_ro_config
