@@ -64,7 +64,7 @@
     >
         <xpath expr="//tr[hasclass('o_subtotal')]/td[1]" position="after">
             <t t-set="o" t-value="o or sale_order or doc" />
-            <t t-if="o.is_l10n_ro_record">
+            <t t-if="o._name == 'account.move' and o.is_l10n_ro_record">
                 <td
                     class="text-right"
                     t-if="o and o.currency_id != o.company_id.currency_id"
@@ -78,7 +78,7 @@
         </xpath>
         <xpath expr="//tr[hasclass('o_total')]/td[1]" position="after">
             <t t-set="o" t-value="o or sale_order or doc" />
-            <t t-if="o.is_l10n_ro_record">
+            <t t-if="o._name == 'account.move' and o.is_l10n_ro_record">
                 <td
                     class="text-right"
                     t-if="o and o.currency_id != o.company_id.currency_id"
@@ -96,7 +96,8 @@
         inherit_id="account.tax_groups_totals"
     >
         <xpath expr="//t/tr/t/td[1]" position="after">
-            <t t-if="o.is_l10n_ro_record">
+            <t t-set="o" t-value="o or sale_order or doc" />
+            <t t-if="o._name == 'account.move' and o.is_l10n_ro_record">
                 <td
                     class="text-right"
                     t-if="o and o.currency_id != o.company_id.currency_id"
