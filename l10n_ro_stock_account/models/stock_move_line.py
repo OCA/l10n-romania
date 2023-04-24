@@ -1,5 +1,6 @@
 # Copyright (C) 2022 Dakai Soft
-from odoo import api, fields, models
+from odoo import _, api, fields, models
+from odoo.exceptions import ValidationError
 
 
 class StockMoveLine(models.Model):
@@ -17,28 +18,22 @@ class StockMoveLine(models.Model):
                 self._context["default_company_id"]
             )
         if not self.env["res.company"]._check_is_l10n_ro_record(company_id.id):
-            super(StockMoveLine, self)._create_correction_svl(move, diff)
+            return super(StockMoveLine, self)._create_correction_svl(move, diff)
 
+        if diff < 0:
+            raise ValidationError(
+                _(
+                    "You cannot decrease the quantity of a move line. "
+                    "Please create a return."
+                )
+            )
         stock_valuation_layers = self.env["stock.valuation.layer"]
         for valued_type in move._get_valued_types():
             if getattr(move, "_is_%s" % valued_type)():
-
-                if diff < 0 and "_return" not in valued_type:
-                    valued_type = valued_type + "_return"
-                if diff > 0 and "_return" in valued_type:
-                    valued_type = valued_type.replace("_return", "")
-
-                if valued_type == "plus_inventory_return":
-                    valued_type = "minus_inventory"
-                elif valued_type == "minus_inventory_return":
-                    valued_type = "plus_inventory"
-                elif valued_type == "internal_transfer_return":
-                    valued_type = "internal_transfer"
-
                 if hasattr(move, "_create_%s_svl" % valued_type):
                     stock_valuation_layers |= getattr(
                         move, "_create_%s_svl" % valued_type
-                    )(forced_quantity=abs(diff))
+                    )(forced_quantity=diff)
 
         for svl in stock_valuation_layers:
             if not svl.product_id.valuation == "real_time":
