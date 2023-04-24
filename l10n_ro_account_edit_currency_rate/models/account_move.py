@@ -32,53 +32,39 @@ class AccountMove(models.Model):
         string="Romania - Currency Rate", readonly=False
     )
 
-    def _update_context_with_currency_rate(self, context_record=None):
-        if context_record is None:
-            context_record = self
-        if self.currency_id:
-            default_currency_rate = self.env["res.currency"]._get_conversion_rate(
-                self.currency_id,
-                self.company_currency_id,
-                self.company_id or self.env.company,
-                self.invoice_date or fields.Date.today(),
-            )
-            if self.l10n_ro_currency_rate != default_currency_rate:
-                return context_record.with_context(
-                    l10n_ro_force_currency_rate=self.l10n_ro_currency_rate
-                )
-        return context_record
-
     @api.onchange("l10n_ro_currency_rate")
     def onchange_l10n_ro_currency_rate(self):
         if self.is_l10n_ro_record:
             self = self.with_context(
                 l10n_ro_force_currency_rate=self.l10n_ro_currency_rate
             )
-        self.line_ids._onchange_amount_currency()
-
-    def _recompute_dynamic_lines(
-        self, recompute_all_taxes=False, recompute_tax_base_amount=False
-    ):
-        if self.is_l10n_ro_record:
-            self = self._update_context_with_currency_rate()
-        res = super()._recompute_dynamic_lines(
-            recompute_all_taxes=recompute_all_taxes,
-            recompute_tax_base_amount=recompute_tax_base_amount,
-        )
-        return res
+        self.line_ids._compute_currency_rate()
+        self.line_ids._inverse_amount_currency()
 
 
 class AccountMoveLine(models.Model):
     _inherit = "account.move.line"
 
-    @api.onchange("quantity", "discount", "price_unit", "tax_ids")
-    def _onchange_price_subtotal(self):
-        if self.move_id.is_l10n_ro_record:
-            self = self.move_id._update_context_with_currency_rate(context_record=self)
-        return super(AccountMoveLine, self)._onchange_price_subtotal()
+    @api.depends("currency_id", "company_id", "move_id.date")
+    def _compute_currency_rate(self):
+        res = super()._compute_currency_rate()
+        for line in self:
+            if line.move_id.is_l10n_ro_record and self._context.get(
+                "l10n_ro_force_currency_rate"
+            ):
+                line.currency_rate = 1 / line.move_id.l10n_ro_currency_rate
+        return res
 
-    @api.onchange("amount_currency")
-    def _onchange_amount_currency(self):
-        if self.move_id.is_l10n_ro_record:
-            self = self.move_id._update_context_with_currency_rate(context_record=self)
-        return super(AccountMoveLine, self)._onchange_amount_currency()
+    @api.onchange("amount_currency", "currency_id", "currency_rate")
+    def _inverse_amount_currency(self):
+        res = super()._inverse_amount_currency()
+        for line in self:
+            if (
+                line.currency_id != line.company_id.currency_id
+                and line.move_id.is_l10n_ro_record
+                and self._context.get("l10n_ro_force_currency_rate")
+            ):
+                line.balance = line.company_id.currency_id.round(
+                    line.amount_currency / line.currency_rate
+                )
+        return res
