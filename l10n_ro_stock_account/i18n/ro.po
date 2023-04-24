@@ -488,6 +488,13 @@ msgstr "Valoare"
 msgid "Wizard model to reavaluate a stock inventory for a product"
 msgstr "Model wizard de reevaluare a unui inventar de stocuri pentru un produs"
 
+#. module: l10n_ro_stock_account
+#: code:addons/l10n_ro_stock_account/models/stock_move_line.py:0
+#, python-format
+msgid ""
+"You cannot decrease the quantity of a move line. Please create a return."
+msgstr ""
+
 #~ msgid "Origin Ret Move Qty"
 #~ msgstr "Cantitate Miscare Origine Retur"
 
