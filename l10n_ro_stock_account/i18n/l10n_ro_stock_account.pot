@@ -420,3 +420,10 @@ msgstr ""
 #: model:ir.model,name:l10n_ro_stock_account.model_stock_valuation_layer_revaluation
 msgid "Wizard model to reavaluate a stock inventory for a product"
 msgstr ""
+
+#. module: l10n_ro_stock_account
+#: code:addons/l10n_ro_stock_account/models/stock_move_line.py:0
+#, python-format
+msgid ""
+"You cannot decrease the quantity of a move line. Please create a return."
+msgstr ""
