@@ -153,6 +153,7 @@ class StockMove(models.Model):
         return move._create_in_svl(forced_quantity)
 
     def _romanian_account_entry_move(self, qty, description, svl_id, cost):
+        # TODO nu posteaza nota cu 418=707
         res = super()._romanian_account_entry_move(qty, description, svl_id, cost)
         svl = self.env["stock.valuation.layer"]
         if self._is_delivery_notice():
