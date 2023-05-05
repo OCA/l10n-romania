@@ -25,8 +25,8 @@ headers = {
     "Content-Type": "application/json;",
 }
 
-# anaf syncron url https://static.anaf.ro/static/10/Anaf/Informatii_R/doc_WS_V6.txt
-ANAF_URL = "https://webservicesp.anaf.ro/PlatitorTvaRest/api/v7/ws/tva"
+# anaf syncron url https://static.anaf.ro/static/10/Anaf/Informatii_R/Servicii_web/doc_WS_V8.txt
+ANAF_URL = "https://webservicesp.anaf.ro/PlatitorTvaRest/api/v8/ws/tva"
 
 AnafFiled_OdooField_Overwrite = [
     ("vat", "vat", "over_all_the_time"),
