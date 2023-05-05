@@ -17,9 +17,10 @@ class StockQuant(models.Model):
     @api.depends(
         "company_id", "location_id", "owner_id", "product_id", "quantity", "lot_id"
     )
+    # pylint: disable=W8110
     def _compute_value(self):
         ro_quants = self.filtered(lambda quant: quant.is_l10n_ro_record)
-        res = super(StockQuant, self - ro_quants)._compute_value()
+        super(StockQuant, self - ro_quants)._compute_value()
         quants_with_loc = ro_quants.filtered(lambda q: q.location_id)
         for quant in quants_with_loc:
             quant = quant.with_context(
@@ -27,7 +28,6 @@ class StockQuant(models.Model):
                 lot_id=quant.lot_id.id,
                 force_svl_lot_config=True,
             )
-            res |= super(StockQuant, quant)._compute_value()
+            super(StockQuant, quant)._compute_value()
         ro_quants_no_loc = ro_quants - quants_with_loc
-        res |= super(StockQuant, ro_quants_no_loc)._compute_value()
-        return res
+        super(StockQuant, ro_quants_no_loc)._compute_value()
