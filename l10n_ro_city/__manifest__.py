@@ -5,7 +5,7 @@
     "name": "Romania - City",
     "summary": "Romania - City",
     "license": "AGPL-3",
-    "version": "15.0.3.2.0",
+    "version": "16.0.3.2.0",
     "author": "Terrabit,Odoo Community Association (OCA)",
     "website": "https://github.com/OCA/l10n-romania",
     "category": "Localization",
