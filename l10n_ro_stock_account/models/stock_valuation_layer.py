@@ -38,7 +38,7 @@ class StockValuationLayer(models.Model):
         string="Romania - Destination Location",
     )
     l10n_ro_lot_ids = fields.Many2many(
-        "stock.production.lot",
+        "stock.lot",
         compute="_compute_l10n_ro_svl_locations_lot",
         store=True,
         index=True,
