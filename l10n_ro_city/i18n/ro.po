@@ -10461,8 +10461,8 @@ msgstr "Localitate"
 #. module: l10n_ro_city
 #: model:ir.model.fields,field_description:l10n_ro_city.field_res_partner__city_id
 #: model:ir.model.fields,field_description:l10n_ro_city.field_res_users__city_id
-msgid "City of Address"
-msgstr "Localitatea"
+msgid "City ID"
+msgstr ""
 
 #. module: l10n_ro_city
 #: model:res.city,name:l10n_ro_city.RO_59167
@@ -54855,6 +54855,9 @@ msgstr ""
 #: model:res.city,name:l10n_ro_city.RO_153758
 msgid "Țăvârlău"
 msgstr ""
+
+#~ msgid "City of Address"
+#~ msgstr "Localitatea"
 
 #~ msgid "Municipality"
 #~ msgstr "Unitate administrativ teritorială"
