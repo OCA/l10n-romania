@@ -40,10 +40,10 @@ class TestStockLandedCostSale(TestStockCommon):
         self.create_invoice()
 
         # verificare SVLs reception
-        move_po_p1 = income_ship.move_lines.filtered(
+        move_po_p1 = income_ship.move_ids.filtered(
             lambda mv: mv.product_id == self.product_1
         )
-        move_po_p2 = income_ship.move_lines.filtered(
+        move_po_p2 = income_ship.move_ids.filtered(
             lambda mv: mv.product_id == self.product_2
         )
 
@@ -71,10 +71,10 @@ class TestStockLandedCostSale(TestStockCommon):
         out_ship = self.create_so()
 
         # verificare SVLs delivery
-        move_so_p1 = out_ship.move_lines.filtered(
+        move_so_p1 = out_ship.move_ids.filtered(
             lambda mv: mv.product_id == self.product_1
         )
-        move_so_p2 = out_ship.move_lines.filtered(
+        move_so_p2 = out_ship.move_ids.filtered(
             lambda mv: mv.product_id == self.product_2
         )
 
