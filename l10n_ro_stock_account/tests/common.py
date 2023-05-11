@@ -80,6 +80,10 @@ class TestStockCommon(ValuationReconciliationTestCommon):
 
         cls.setUpAccounts()
 
+        # Add multi location group to user
+        grp_multi_loc = cls.env.ref("stock.group_stock_multi_locations")
+        cls.env.user.write({"groups_id": [(4, grp_multi_loc.id, 0)]})
+
         stock_journal = cls.env["account.journal"].search(
             [("code", "=", "STJ"), ("company_id", "=", cls.env.company.id)],
             limit=1,
@@ -342,8 +346,11 @@ class TestStockCommon(ValuationReconciliationTestCommon):
                 active_model="accoun.move",
             )
         )
+        bill_union = self.env["purchase.bill.union"].search(
+            [("purchase_order_id", "=", self.po.id)]
+        )
         invoice.partner_id = self.vendor
-        invoice.purchase_id = self.po
+        invoice.purchase_vendor_bill_id = bill_union
 
         with invoice.invoice_line_ids.edit(0) as line_form:
             line_form.quantity += quant_p1
@@ -382,7 +389,7 @@ class TestStockCommon(ValuationReconciliationTestCommon):
         # Validate picking
         return_pick.action_confirm()
         return_pick.action_assign()
-        for move_line in return_pick.move_lines:
+        for move_line in return_pick.move_ids:
             if move_line.product_uom_qty > 0 and move_line.quantity_done == 0:
                 move_line.write({"quantity_done": move_line.product_uom_qty})
         return_pick._action_done()
@@ -407,12 +414,10 @@ class TestStockCommon(ValuationReconciliationTestCommon):
         self.writeOnPicking(vals)
         self.picking.action_assign()  # verifica disponibilitate
 
-        for move_line in self.picking.move_lines:
+        for move_line in self.picking.move_ids:
             if move_line.product_uom_qty > 0 and move_line.quantity_done == 0:
                 move_line.write({"quantity_done": move_line.product_uom_qty})
 
-        # self.picking.move_lines.write({'quantity_done': 2})
-        # self.picking.button_validate()
         self.picking._action_done()
         _logger.debug("Livrare facuta")
         return self.picking
@@ -437,7 +442,6 @@ class TestStockCommon(ValuationReconciliationTestCommon):
     ):
 
         self.PickingObj = self.env["stock.picking"]
-        self.MoveObj = self.env["stock.move"]
         self.MoveObj = self.env["stock.move"]
 
         if not product:
@@ -466,7 +470,7 @@ class TestStockCommon(ValuationReconciliationTestCommon):
         picking.action_confirm()
         picking.action_assign()
         if post:
-            for move_line in picking.move_lines:
+            for move_line in picking.move_ids:
                 if move_line.product_uom_qty > 0 and move_line.quantity_done == 0:
                     move_line.write({"quantity_done": move_line.product_uom_qty})
             picking._action_done()

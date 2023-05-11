@@ -98,8 +98,11 @@ class TestStockCommon2(TestStockCommon):
                 active_model="accoun.move",
             )
         )
+        bill_union = self.env["purchase.bill.union"].search(
+            [("purchase_order_id", "=", self.po.id)]
+        )
         invoice.partner_id = self.vendor
-        invoice.purchase_id = self.po
+        invoice.purchase_vendor_bill_id = bill_union
 
         with invoice.invoice_line_ids.edit(0) as line_form:
             line_form.quantity += quant_p1
