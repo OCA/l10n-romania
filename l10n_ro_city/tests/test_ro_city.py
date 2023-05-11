@@ -28,6 +28,7 @@ class TestRoCity(TransactionCase):
         city_obj = self.env["res.city"]
         with Form(self.env["res.partner"]) as partner_form:
             partner_form.name = "Test State Onchange"
+            partner_form.country_id = self.env.ref("base.ro")
             partner_form.city_id = self.city_3
 
             # Changes state, which triggers onchange
