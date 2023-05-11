@@ -94,8 +94,10 @@ class StockWarehouse(models.Model):
             max_sequence += 2
         return create_data, max_sequence
 
-    def _get_sequence_values(self):
-        sequences = super(StockWarehouse, self)._get_sequence_values()
+    def _get_sequence_values(self, name=False, code=False):
+        sequences = super(StockWarehouse, self)._get_sequence_values(
+            name=name, code=code
+        )
         if self.is_l10n_ro_record:
             sequences.update(
                 {
