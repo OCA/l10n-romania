@@ -60,7 +60,7 @@ class TestStockAccountDate(TestStockCommon):
         _logger.info("Start transfer")
         self.transfer(location_id, location_dest_id, accounting_date=acc_date)
         picking = self.picking
-        stock_move = picking.move_lines
+        stock_move = picking.move_ids
         _logger.info("Tranfer efectuat")
         self.assertEqual(picking.l10n_ro_accounting_date.date(), acc_date)
         self.assertEqual(stock_move.date.date(), acc_date)
