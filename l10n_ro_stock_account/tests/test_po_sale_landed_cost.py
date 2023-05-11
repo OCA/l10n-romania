@@ -44,10 +44,10 @@ class TestStockSaleLandedCost(TestStockCommon):
         self.create_lc(income_ship, 10, 10)
 
         # verificare SVLs reception
-        move_po_p1 = income_ship.move_lines.filtered(
+        move_po_p1 = income_ship.move_ids.filtered(
             lambda mv: mv.product_id == self.product_1
         )
-        move_po_p2 = income_ship.move_lines.filtered(
+        move_po_p2 = income_ship.move_ids.filtered(
             lambda mv: mv.product_id == self.product_2
         )
 
@@ -74,10 +74,10 @@ class TestStockSaleLandedCost(TestStockCommon):
         self.assertEqual(svls_in_p2[0].remaining_value, p2_in_remaining_val)
 
         # verificare SVLs delivery
-        move_so_p1 = out_ship.move_lines.filtered(
+        move_so_p1 = out_ship.move_ids.filtered(
             lambda mv: mv.product_id == self.product_1
         )
-        move_so_p2 = out_ship.move_lines.filtered(
+        move_so_p2 = out_ship.move_ids.filtered(
             lambda mv: mv.product_id == self.product_2
         )
 
