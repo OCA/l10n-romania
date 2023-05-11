@@ -47,7 +47,9 @@ class ResPartner(models.Model):
             for item in chunk:
                 if item:
                     anaf_ask.append({"cui": int(item), "data": check_date})
-            res = requests.post(ANAF_BULK_URL, json=anaf_ask, headers=headers)
+            res = requests.post(
+                ANAF_BULK_URL, json=anaf_ask, headers=headers, timeout=30
+            )
             if res.status_code == 200:
                 result = {}
                 try:
@@ -58,7 +60,9 @@ class ResPartner(models.Model):
                     time.sleep(3)
                     resp = False
                     try:
-                        resp = requests.get(ANAF_CORR % result["correlationId"])
+                        resp = requests.get(
+                            ANAF_CORR % result["correlationId"], timeout=30
+                        )
                     except Exception as e:
                         _logger.warning("ANAF sync not working: %s" % e)
                     if resp and resp.status_code == 200:
