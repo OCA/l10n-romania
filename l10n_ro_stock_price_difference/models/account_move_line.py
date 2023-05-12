@@ -132,6 +132,7 @@ class AccountMoveLine(models.Model):
 
     def _l10n_ro_create_price_difference_landed_cost(self, value):
         vals = self.l10n_ro_prepare_price_difference_landed_cost(value)
+        # TODO
         return self.env["stock.landed.cost"].sudo().create(vals)
 
     def _l10n_ro_get_or_create_price_difference_product(self):
