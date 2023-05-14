@@ -15,9 +15,36 @@ class MT940Parser(models.AbstractModel):
         if self.get_mt940_type() == "mt940_ro_ing":
             return re.compile(
                 r"^(?P<date>\d{6})(?P<sign>[CD])[CDNR](?P<amount>\d+,\d{2})N(?P<type>.{3})"
-                r"(?P<reference>\w{0,16})//(?P<ingid>\w{0,14})-(?P<ingtranscode>\w{0,34})"
+                r"(?P<reference>\w[\w\s]{0,16})//(?P<ingid>\w{0,14})-(?P<ingtranscode>\w{0,34})"
             )
         return super().get_tag_61_regex()
+
+    def handle_tag_61(self, data, result):
+        """get transaction values"""
+        if self.get_mt940_type() != "mt940_ro_ing":
+            return super().handle_tag_61(data, result)
+
+        tag_61_regex = self.get_tag_61_regex()
+        re_61 = tag_61_regex.match(data)
+        if re_61:
+            parsed_data = re_61.groupdict()
+            if parsed_data and result["statement"]:
+                result["statement"]["transactions"].append({})
+                transaction = result["statement"]["transactions"][-1]
+                transaction["date"] = datetime.strptime(data[:6], "%y%m%d")
+                transaction["amount"] = self.parse_amount(
+                    parsed_data["sign"], parsed_data["amount"]
+                )
+                if parsed_data["reference"] != "NONREF":
+                    transaction["ref"] = parsed_data["reference"]
+                else:
+                    transaction["ref"] = "%s-%s" % (
+                        parsed_data.get("ingid", ""),
+                        parsed_data.get("ingtranscode", ""),
+                    )
+                if parsed_data.get("account_number"):
+                    transaction["account_number"] = parsed_data["account_number"]
+        return result
 
     def get_header_lines(self):
         if self.get_mt940_type() == "mt940_ro_ing":
@@ -113,34 +140,17 @@ class MT940Parser(models.AbstractModel):
         if self.get_mt940_type() == "mt940_ro_ing":
             counterpart_fields = []
             if "110" in subfields:
-                # tag 86 nestructurat
-                journal = self.env["account.journal"].browse(
-                    self._context["journal_id"]
-                )
-                patterns = journal.bank_account_id.l10n_ro_unstructured_tag86.split(
-                    "\n"
-                )
+                self.handle_common_subfields_100(transaction, subfields)
 
-                data = "".join(subfields["110"])
-                result = None
-                for pattern in patterns:
-                    pattern = re.compile(pattern)
-                    result = pattern.match(data)
-                    if result:
-                        result = result.groupdict()
-                        break
-
-                if result:
-                    if result.get("vat"):
-                        partner = self.env["res.partner"].search(
-                            [("l10n_ro_vat_number", "like", result["vat"])], limit=1
-                        )
-                        if partner:
-                            transaction.update({"partner_id": partner.id})
-                    if result.get("partner_name"):
-                        transaction.update({"partner_name": result["partner_name"]})
-                    if result.get("account_number"):
-                        transaction.update({"account_number": result["account_number"]})
+            if "32" in subfields:
+                partner_name = subfields["32"][0]
+                transaction.update({"partner_name": partner_name})
+                if not transaction.get("partner_id"):
+                    partner = self.env["res.partner"].search(
+                        [("name", "=ilike", partner_name)], limit=1
+                    )
+                    if partner:
+                        transaction.update({"partner_id": partner.id})
             for counterpart_field in [
                 "31",
                 "32",
@@ -162,7 +172,7 @@ class MT940Parser(models.AbstractModel):
             if not transaction.get("payment_ref"):
                 transaction["payment_ref"] = "/"
             for counterpart_field in [
-                "20",
+                # "20",
                 "21",
                 "22",
                 "23",
@@ -173,7 +183,8 @@ class MT940Parser(models.AbstractModel):
                 "29",
                 "60",
                 "61",
-                "110",
+                "32"
+                # "110",
             ]:
                 if counterpart_field in subfields:
                     transaction["payment_ref"] += "/".join(
@@ -184,6 +195,32 @@ class MT940Parser(models.AbstractModel):
                 transaction["ref"] = "".join(subfields[transaction["ref"]])
             return transaction
         return super().handle_common_subfields(transaction, subfields)
+
+    def handle_common_subfields_100(self, transaction, subfields):
+        # tag 86 nestructurat
+        journal = self.env["account.journal"].browse(self._context["journal_id"])
+        patterns = journal.bank_account_id.l10n_ro_unstructured_tag86.split("\n")
+
+        data = "".join(subfields["110"])
+        result = None
+        for pattern in patterns:
+            pattern = re.compile(pattern)
+            result = pattern.match(data)
+            if result:
+                result = result.groupdict()
+                break
+
+        if result:
+            if result.get("vat"):
+                partner = self.env["res.partner"].search(
+                    [("l10n_ro_vat_number", "like", result["vat"])], limit=1
+                )
+                if partner:
+                    transaction.update({"partner_id": partner.id})
+            if result.get("partner_name"):
+                transaction.update({"partner_name": result["partner_name"]})
+            if result.get("account_number"):
+                transaction.update({"account_number": result["account_number"]})
 
     def handle_tag_25(self, data, result):
         if self.get_mt940_type() == "mt940_ro_ing":
