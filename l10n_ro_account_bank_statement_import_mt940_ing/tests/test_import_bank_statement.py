@@ -51,8 +51,8 @@ class TestImport(TestMT940BankStatementImport):
                 "account_number": "RO25INGB0014000031948911",
                 "partner_name": "NEXTERP ROMANIA SRL",
                 "amount": 1000.0,
-                "payment_ref": "/AMT RCD RON 1000,0024CVF 2020/0060 . 344944869",
-                "ref": "NONREF",
+                "payment_ref": "/24CVF 2020/0060 . 344944869NEXTERP ROMANIA SRL",
+                "ref": "RE20200211-7523",
             },
         ]
 
