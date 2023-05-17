@@ -120,3 +120,28 @@ class TestImport(TestMT940BankStatementImport):
         self.assertTrue(line.date == fields.Date.from_string("2020-02-11"))
         self.assertTrue(line.payment_ref == transact["payment_ref"])
         self.assertTrue(line.ref == transact["ref"])
+
+    def test_statement_unstructured_import(self):
+        """Test correct creation of single unstructured statement BCR."""
+        testfile = get_module_resource(
+            "l10n_ro_account_bank_statement_import_mt940_ing",
+            "test_files",
+            "test_ing_940n.txt",
+        )
+        parser = self.env["l10n.ro.account.bank.statement.import.mt940.parser"]
+        parser = parser.with_context(type="mt940_ro_ing", journal_id=self.journal.id)
+        datafile = open(testfile, "rb").read()
+        statements = parser.parse(datafile, header_lines=1)
+        self._prepare_statement_lines(statements)
+        self._load_statement(testfile, mt940_type="mt940_ro_ing")
+        bank_statements = self.get_statements(self.journal.id)
+        statement = bank_statements[0]
+        transact = self.transactions[0]
+        line = statement.line_ids[0]
+
+        self.assertTrue(line.account_number == transact["account_number"])
+        self.assertTrue(line.partner_name == transact["partner_name"])
+        self.assertTrue(line.amount == transact["amount"])
+        self.assertTrue(line.date == fields.Date.from_string("2020-02-11"))
+        self.assertTrue(line.payment_ref == transact["payment_ref"])
+        self.assertTrue(line.ref == transact["ref"])
