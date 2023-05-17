@@ -198,8 +198,15 @@ class MT940Parser(models.AbstractModel):
 
     def handle_common_subfields_100(self, transaction, subfields):
         # tag 86 nestructurat
-        journal = self.env["account.journal"].browse(self._context["journal_id"])
-        patterns = journal.bank_account_id.l10n_ro_unstructured_tag86.split("\n")
+        journal = self.env["account.journal"].browse(self._context.get("journal_id", 0))
+        if journal.bank_account_id.l10n_ro_unstructured_tag86:
+            patterns = journal.bank_account_id.l10n_ro_unstructured_tag86.split("\n")
+        else:
+            patterns = [
+                "INCASARE[\n]?[ ]*(?P<partner_name>.*)[ ](?P<vat>[A-Z]{0,}[0-9]{8})?[ ]"
+                "(?P<account_number>[A-Z]{2}[0-9]{2}[A-Z]{4}\\w{16}).*",
+                r"(.*)(?P<account_number>[A-Z]{2}[0-9]{2}[A-Z]{4}\w{16}).*",
+            ]
 
         data = "".join(subfields["110"])
         result = None
