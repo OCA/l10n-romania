@@ -196,6 +196,12 @@ class AdjustmentLines(models.Model):
             )
         already_out_account_id = accounts["stock_output"].id
 
+        if (
+            debit_account_id == credit_account_id
+            and credit_account_id == already_out_account_id
+        ):
+            return False
+
         if not credit_account_id:
             raise UserError(
                 _("Please configure Stock Expense Account for product: %s.")
