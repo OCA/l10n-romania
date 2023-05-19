@@ -84,3 +84,5 @@ Current `maintainer <https://odoo-community.org/page/maintainer-role>`__:
 This module is part of the `OCA/l10n-romania <https://github.com/OCA/l10n-romania/tree/16.0/l10n_ro_city>`_ project on GitHub.
 
 You are welcome to contribute. To learn how please visit https://odoo-community.org/page/Contribute.
+
+
