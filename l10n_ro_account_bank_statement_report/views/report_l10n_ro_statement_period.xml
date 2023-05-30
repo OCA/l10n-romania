@@ -1,0 +1,372 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <template id="report_l10n_ro_statement_period">
+        <t t-call="web.html_container">
+            <t t-set="data_report_margin_top" t-value="12" />
+            <t t-set="data_report_header_spacing" t-value="9" />
+            <t t-set="data_report_dpi" t-value="110" />
+            <t t-set="journals" t-value="docs.mapped('journal_id')" />
+            <t t-foreach="journals" t-as="j">
+                <div class="header">
+                    <div>
+                        <div class="row">
+                            <div class="col-4">
+                                <div>
+                                    <strong>
+                                        <span t-esc="j.company_id.name" />
+                                    </strong>
+                                </div>
+                                <div>
+                                    <address
+                                        t-field="j.company_id.partner_id"
+                                        t-options='{"widget": "contact", "fields": ["address"], "no_marker": true, "no_tag_br": true}'
+                                    />
+                                </div>
+                                <div t-if="j.company_id.partner_id.vat">
+                                    <strong>CIF:</strong>
+                                    <span t-field="j.company_id.partner_id.vat" />
+                                </div>
+                                <div t-if="j.company_id.partner_id.nrc">
+                                    <strong>NRC:</strong>
+                                    <span t-field="j.company_id.partner_id.nrc" />
+                                </div>
+                            </div>
+                            <div class="col-6 text-center">
+                                <h4 class="text-center">
+                                    <span t-if="j.type == 'bank'">Bank Statement</span>
+                                    <span t-else="">Cash Statement</span>
+                                </h4>
+                                <h5>
+                                    <strong>
+                                        <span t-field="j.name" />
+                                        <t t-if="j.currency_id">-
+                                            <span t-field="j.currency_id.name" />
+                                        </t>
+                                    </strong>
+                                </h5>
+                            </div>
+                            <div class="col-2 text-right">
+                                <div class="row">
+                                    <span>Account</span>
+                                </div>
+                                <div class="row">
+                                    <span t-esc="j.default_account_id.code" />
+                                </div>
+                            </div>
+                        </div>
+                        <div style="border-top: 1px solid #000000;" />
+                    </div>
+                </div>
+                <t
+                    t-set="journal_currency"
+                    t-value="j.currency_id or j.company_id.currency_id"
+                />
+                <t
+                    t-set="with_currency"
+                    t-value="journal_currency != j.company_id.currency_id"
+                />
+                <t
+                    t-set="statements"
+                    t-value="docs.filtered(lambda d: d.journal_id == j).sorted('date')"
+                />
+                <div class="page">
+                    <table
+                        class="table table-sm table table-bordered"
+                        style="width: 100%"
+                    >
+                        <thead>
+                            <tr>
+                                <th
+                                    style="border: 1px solid black;"
+                                    width="5%"
+                                >Nr. Crt</th>
+                                <th
+                                    style="border: 1px solid black;"
+                                    width="10%"
+                                >Date</th>
+                                <th
+                                    style="border: 1px solid black;"
+                                    width="15%"
+                                >Partner</th>
+                                <th
+                                    style="border: 1px solid black;"
+                                    width="15%"
+                                >Transaction No</th>
+                                <th
+                                    style="border: 1px solid black;"
+                                    width="25%"
+                                >Explanation</th>
+                                <th
+                                    style="border: 1px solid black;"
+                                    width="10%"
+                                >Receipts</th>
+                                <th
+                                    style="border: 1px solid black;"
+                                    width="10%"
+                                >Payments</th>
+                                <t t-if="with_currency">
+                                    <th
+                                        style="border: 1px solid black;"
+                                        width="10%"
+                                    >Currency Amount</th>
+                                </t>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td style="border: 1px solid black;" colspan="3" />
+                                <td style="border: 1px solid black;" colspan="2">
+                                    <strong>Starting Balance
+                                    </strong>
+                                </td>
+                                <td style="border: 1px solid black;" class="text-right">
+                                    <strong>
+                                        <span t-field="statements[0].balance_start" />
+                                    </strong>
+                                </td>
+                                <td style="border: 1px solid black;" />
+                                <t t-if="with_currency">
+                                    <td style="border: 1px solid black;" />
+                                </t>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <t t-set="nr_crt" t-value="1" />
+                    <t t-set="total_received" t-value="0.0" />
+                    <t t-set="total_paid" t-value="0.0" />
+                    <t t-foreach="statements" t-as="s">
+
+                        <table
+                            class="table table-sm table table-bordered"
+                            style="width: 100%"
+                        >
+
+                            <tbody>
+                                <tr>
+                                    <td style="border: 1px solid black;" colspan="3" />
+                                    <td style="border: 1px solid black;" colspan="2">
+                                        <strong>Starting Balance
+                                            <span t-field="s.date" />
+                                        </strong>
+                                    </td>
+                                    <td
+                                        style="border: 1px solid black;"
+                                        class="text-right"
+                                    >
+                                        <strong>
+                                            <span t-field="s.balance_start" />
+                                        </strong>
+                                    </td>
+                                    <td style="border: 1px solid black;" />
+                                    <t t-if="with_currency">
+                                        <td style="border: 1px solid black;" />
+                                    </t>
+                                </tr>
+                                <tr t-foreach="s.line_ids" t-as="line">
+                                    <tr>
+                                        <td style="border: 1px solid black;" width="5%">
+                                            <span t-esc="nr_crt" />
+                                            <t t-set="nr_crt" t-value="nr_crt + 1" />
+                                        </td>
+                                        <td
+                                            style="border: 1px solid black;"
+                                            width="10%"
+                                        >
+                                            <span t-field="line.date" />
+                                        </td>
+                                        <td
+                                            style="border: 1px solid black;"
+                                            width="15%"
+                                        >
+                                            <t t-if="line.partner_id">
+                                                <span t-field="line.partner_id" />
+                                                <t
+                                                    t-if="line.partner_id.country_id.code == 'RO'"
+                                                >
+                                                    (<span
+                                                        t-field="line.partner_id.vat"
+                                                    />)
+                                                </t>
+                                            </t>
+                                        </td>
+                                        <td
+                                            style="border: 1px solid black;"
+                                            width="15%"
+                                        >
+                                            <span t-field="line.payment_ref" />
+                                        </td>
+                                        <td
+                                            style="border: 1px solid black;"
+                                            width="25%"
+                                        >
+                                            <span t-field="line.ref" />
+                                        </td>
+                                        <td
+                                            style="border: 1px solid black;"
+                                            width="10%"
+                                            class="text-right"
+                                        >
+                                            <t t-if="line.amount&gt;0">
+                                                <span
+                                                    t-field="line.amount"
+                                                    t-options='{"widget": "monetary", "display_currency": s.currency_id}'
+                                                />
+                                                <t
+                                                    t-set="total_received"
+                                                    t-value="total_received+line.amount"
+                                                />
+                                            </t>
+                                            <t t-else="">
+                                                <span
+                                                    t-esc="0.0"
+                                                    t-options='{"widget": "monetary", "display_currency": s.currency_id}'
+                                                />
+                                            </t>
+                                        </td>
+                                        <td
+                                            style="border: 1px solid black;"
+                                            width="10%"
+                                            class="text-right"
+                                        >
+                                            <t t-if="line.amount&lt;0">
+                                                <span
+                                                    t-esc="-1 * line.amount"
+                                                    t-options='{"widget": "monetary", "display_currency": s.currency_id}'
+                                                />
+                                                <t
+                                                    t-set="total_paid"
+                                                    t-value="total_paid-line.amount"
+                                                />
+                                            </t>
+                                            <t t-else="">
+                                                <span
+                                                    t-esc="0.0"
+                                                    t-options='{"widget": "monetary", "display_currency": s.currency_id}'
+                                                />
+                                            </t>
+                                        </td>
+                                        <td
+                                            style="border: 1px solid black;"
+                                            width="10%"
+                                            class="text-right"
+                                            t-if="with_currency"
+                                        >
+                                            <span
+                                                t-esc="line.amount_total_signed"
+                                                t-options='{"widget": "monetary", "display_currency": line.foreign_currency_id or s.company_id.currency_id or s.currency_id}'
+                                            />
+                                        </td>
+                                    </tr>
+                                </tr>
+                                <tr>
+                                    <td style="border: 1px solid black;" colspan="3" />
+                                    <td style="border: 1px solid black;" colspan="2">
+                                        <strong>Ending Balance
+                                            <span t-field="s.date" />
+                                        </strong>
+                                    </td>
+                                    <td
+                                        style="border: 1px solid black;"
+                                        class="text-right"
+                                    >
+                                        <strong>
+                                            <span t-field="s.balance_end_real" />
+                                        </strong>
+                                    </td>
+                                    <td style="border: 1px solid black;" />
+                                    <t t-if="with_currency">
+                                        <td style="border: 1px solid black;" />
+                                    </t>
+                                </tr>
+
+                            </tbody>
+                        </table>
+                    </t>
+                    <table
+                        class="table table-sm table table-bordered"
+                        style="width: 100%"
+                    >
+                        <thead>
+                            <tr>
+                                <th style="border: 1px solid black;" width="5%" />
+                                <th style="border: 1px solid black;" width="10%" />
+                                <th style="border: 1px solid black;" width="15%" />
+                                <th style="border: 1px solid black;" width="25%" />
+                                <th style="border: 1px solid black;" width="15%" />
+                                <th style="border: 1px solid black;" width="10%" />
+                                <th style="border: 1px solid black;" width="10%" />
+                                <t t-if="with_currency">
+                                    <th style="border: 1px solid black;" width="10%" />
+                                </t>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td style="border: 1px solid black;" colspan="3" />
+                                <td style="border: 1px solid black;" colspan="2">
+                                    <strong>Total Balance</strong>
+                                </td>
+                                <td style="border: 1px solid black;" class="text-right">
+                                    <strong
+                                        t-esc="total_received"
+                                        t-options='{"widget": "monetary", "display_currency": journal_currency}'
+                                    />
+                                </td>
+                                <td style="border: 1px solid black;" class="text-right">
+                                    <strong
+                                        t-esc="total_paid"
+                                        t-options='{"widget": "monetary", "display_currency": journal_currency}'
+                                    />
+                                </td>
+                                <t t-if="with_currency">
+                                    <td style="border: 1px solid black;" />
+                                </t>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <table
+                        class="table table-sm table table-bordered"
+                        style="width: 100%"
+                    >
+                        <tbody>
+                            <tr>
+                                <td style="border: 1px solid black;" width="50%">
+                                    <center><strong>Cashier</strong></center>
+                                </td>
+                                <td style="border: 1px solid black;" width="50%">
+                                    <center><strong
+                                        >Financial-accounting department</strong></center>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="footer">
+                    <div>
+                        <div class="row">
+                            <div class="col-4">
+                                <span
+                                    t-esc="context_timestamp(datetime.datetime.now()).strftime('%Y-%m-%d %H:%M')"
+                                />
+                            </div>
+                            <div class="col-6 text-center">
+                            </div>
+                            <div class="col-2 text-right">
+                                <ul class="list-inline">
+                                    <li class="list-inline-item">
+                                        <span class="page" />
+                                    </li>
+                                    <li class="list-inline-item">/</li>
+                                    <li class="list-inline-item">
+                                        <span class="topage" />
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div style="border-top: 1px solid #000000;" />
+                    </div>
+                </div>
+            </t>
+        </t>
+    </template>
+</odoo>
