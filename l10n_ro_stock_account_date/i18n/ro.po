@@ -95,6 +95,7 @@ msgid "Transfer"
 msgstr ""
 
 #. module: l10n_ro_stock_account_date
+#. odoo-python
 #: code:addons/l10n_ro_stock_account_date/models/stock_picking.py:0
 #, python-format
 msgid "You can not have a Accounting date=%s for picking bigger than today!"
