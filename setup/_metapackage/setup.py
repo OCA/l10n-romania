@@ -19,6 +19,7 @@ setuptools.setup(
         'odoo-addon-l10n_ro_stock>=16.0dev,<16.1dev',
         'odoo-addon-l10n_ro_stock_account>=16.0dev,<16.1dev',
         'odoo-addon-l10n_ro_stock_account_date>=16.0dev,<16.1dev',
+        'odoo-addon-l10n_ro_stock_account_date_wizard>=16.0dev,<16.1dev',
         'odoo-addon-l10n_ro_vat_on_payment>=16.0dev,<16.1dev',
     ],
     classifiers=[
