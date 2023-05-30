@@ -17,6 +17,7 @@ msgstr ""
 "Plural-Forms: \n"
 
 #. module: l10n_ro_stock_account
+#. odoo-python
 #: code:addons/l10n_ro_stock_account/models/stock_landed_cost.py:0
 #, python-format
 msgid " already out"
@@ -43,6 +44,7 @@ msgid "Companies"
 msgstr "Companii"
 
 #. module: l10n_ro_stock_account
+#. odoo-python
 #: code:addons/l10n_ro_stock_account/models/stock_landed_cost.py:0
 #, python-format
 msgid ""
@@ -71,6 +73,7 @@ msgid "Display Name"
 msgstr "Nume afișat"
 
 #. module: l10n_ro_stock_account
+#. odoo-python
 #: code:addons/l10n_ro_stock_account/models/product_category.py:0
 #, python-format
 msgid ""
@@ -194,13 +197,14 @@ msgid ""
 msgstr ""
 
 #. module: l10n_ro_stock_account
+#. odoo-python
 #: code:addons/l10n_ro_stock_account/models/stock_landed_cost.py:0
 #, python-format
 msgid "Please configure Stock Expense Account for product: %s."
 msgstr ""
 
 #. module: l10n_ro_stock_account
-#: model:ir.model,name:l10n_ro_stock_account.model_product_product
+#: model:ir.model,name:l10n_ro_stock_account.model_product_template
 msgid "Product"
 msgstr ""
 
@@ -215,9 +219,9 @@ msgid "Product Moves (Stock Move Line)"
 msgstr ""
 
 #. module: l10n_ro_stock_account
-#: model:ir.model,name:l10n_ro_stock_account.model_product_template
-msgid "Product Template"
-msgstr "Șablon produs"
+#: model:ir.model,name:l10n_ro_stock_account.model_product_product
+msgid "Product Variant"
+msgstr ""
 
 #. module: l10n_ro_stock_account
 #: model:ir.model.fields,field_description:l10n_ro_stock_account.field_l10n_ro_stock_valuation_layer_tracking__quantity
@@ -425,11 +429,15 @@ msgid "Wizard model to reavaluate a stock inventory for a product"
 msgstr ""
 
 #. module: l10n_ro_stock_account
+#. odoo-python
 #: code:addons/l10n_ro_stock_account/models/stock_move_line.py:0
 #, python-format
 msgid ""
 "You cannot decrease the quantity of a move line. Please create a return."
 msgstr ""
+
+#~ msgid "Product Template"
+#~ msgstr "Șablon produs"
 
 #, python-format
 #~ msgid ""
