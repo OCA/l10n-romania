@@ -68,6 +68,11 @@ msgid "Cancel"
 msgstr ""
 
 #. module: l10n_ro_stock_report
+#: model:ir.model.fields,field_description:l10n_ro_stock_report.field_l10n_ro_stock_storage_sheet_line__categ_id
+msgid "Categ"
+msgstr ""
+
+#. module: l10n_ro_stock_report
 #: model:ir.model.fields,field_description:l10n_ro_stock_report.field_l10n_ro_stock_storage_sheet__company_id
 msgid "Company"
 msgstr ""
@@ -316,11 +321,6 @@ msgid "Product"
 msgstr ""
 
 #. module: l10n_ro_stock_report
-#: model:ir.model.fields,field_description:l10n_ro_stock_report.field_l10n_ro_stock_storage_sheet_line__categ_id
-msgid "Product Category"
-msgstr ""
-
-#. module: l10n_ro_stock_report
 #: model:ir.model.fields.selection,name:l10n_ro_stock_report.selection__l10n_ro_stock_storage_sheet_line__valued_type__production
 msgid "Production"
 msgstr ""
@@ -409,11 +409,6 @@ msgstr ""
 #. module: l10n_ro_stock_report
 #: model:ir.ui.menu,name:l10n_ro_stock_report.menu_sheet_stock_report
 msgid "Romanian Stock Sheet Report"
-msgstr ""
-
-#. module: l10n_ro_stock_report
-#: model:ir.model.fields,help:l10n_ro_stock_report.field_l10n_ro_stock_storage_sheet_line__categ_id
-msgid "Select category for the current product"
 msgstr ""
 
 #. module: l10n_ro_stock_report
