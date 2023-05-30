@@ -26,8 +26,10 @@ class ResPartner(models.Model):
 
     @api.constrains("vat", "nrc")
     def _check_vat_nrc_unique(self):
+        if self.env.context.get("no_vat_validation"):
+            return
         for record in self:
-            if record.vat and record.is_l10n_ro_record:
+            if record.vat and record.is_company and record.is_l10n_ro_record:
                 domain = record._get_vat_nrc_constrain_domain()
                 found = self.env["res.partner"].search(domain)
                 if len(found) > 1:
