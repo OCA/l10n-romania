@@ -24,6 +24,10 @@ except ImportError:
 
 @openupgrade.migrate(use_env=True)
 def migrate(env, version):
+
+    if openupgrade.table_exists(env.cr, "l10n_ro_stock_storage_sheet"):
+        return
+
     openupgrade.rename_tables(
         env.cr,
         [
