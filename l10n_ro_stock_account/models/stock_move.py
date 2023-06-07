@@ -142,7 +142,7 @@ class StockMove(models.Model):
                     svl_vals.update(
                         {
                             "l10n_ro_stock_move_line_id": valued_move_line.id,
-                            "tracking": tracking,
+                            "l10n_ro_tracking": tracking,
                         }
                     )
                     if forced_quantity:
@@ -415,7 +415,7 @@ class StockMove(models.Model):
                             "unit_cost": abs(svl_vals.get("unit_cost", 0)),
                             "value": abs(svl_vals.get("value", 0)),
                             "remaining_value": abs(svl_vals.get("value", 0)),
-                            "tracking": [
+                            "l10n_ro_tracking": [
                                 (
                                     svls[-1].id,
                                     abs(svl_vals.get("quantity", 0)),
