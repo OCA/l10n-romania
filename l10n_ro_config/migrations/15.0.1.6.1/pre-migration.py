@@ -256,7 +256,7 @@ def migrate(env, version):
         "l10n_ro_config.res_config_settings_view_form",
         "l10n_ro_config.res_config_settings_account_view_form",
         "l10n_ro_config.view_account_bank_journal_form",
-        "l10n_ro_config.view_partner_create_by_vat",
+        # "l10n_ro_config.view_partner_create_by_vat",
     ]
     openupgrade.delete_records_safely_by_xml_id(env, views)
 
