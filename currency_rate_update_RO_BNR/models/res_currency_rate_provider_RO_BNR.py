@@ -85,7 +85,9 @@ class ResCurrencyRateProviderROBNR(models.Model):
                 url = "https://www.bnr.ro/nbrfxrates.xml"
             else:
                 year = date_from.year
-                url = "http://www.bnr.ro/files/xml/years/nbrfxrates" + str(year) + ".xml"
+                url = (
+                    "http://www.bnr.ro/files/xml/years/nbrfxrates" + str(year) + ".xml"
+                )
 
             handler = ROBNRRatesHandler(currencies, date_from, date_to)
             with urlopen(url) as response:
@@ -96,16 +98,18 @@ class ResCurrencyRateProviderROBNR(models.Model):
                 # date_from can be in past and first url is giving only one date
                 # we must try to take the date from whole year list
                 year = date_from.year
-                url = "http://www.bnr.ro/files/xml/years/nbrfxrates" + str(year) + ".xml"
+                url = (
+                    "http://www.bnr.ro/files/xml/years/nbrfxrates" + str(year) + ".xml"
+                )
                 handler = ROBNRRatesHandler(currencies, date_from, date_to)
                 with urlopen(url) as response:
                     xml.sax.parse(response, handler)
             return handler.content or {}
-        except BaseException as e:
+        except BaseException:
             is_scheduled = self.env.context.get("scheduled")
             if is_scheduled:
-                provider._schedule_next_run()  
-            raise e          
+                self._schedule_next_run()
+            raise
 
 
 class ROBNRRatesHandler(xml.sax.ContentHandler):
