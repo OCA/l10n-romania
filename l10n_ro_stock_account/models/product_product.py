@@ -22,8 +22,8 @@ class ProductProduct(models.Model):
         Overwrite to allow multiple prices per location
         """
         l10n_ro_records = self.filtered("is_l10n_ro_record")
-        res = super(ProductProduct, self - l10n_ro_records)._compute_value_svl()
-
+        res = super(ProductProduct, self)._compute_value_svl()
+    
         if l10n_ro_records:
             company = self.env.company
             use_svl_lot_config = (
@@ -52,7 +52,7 @@ class ProductProduct(models.Model):
                 ("company_id", "=", company.id),
                 ("remaining_qty", ">", 0),
             ] + domain_ctx
-
+    
             if self.env.context.get("to_date"):
                 to_date = fields.Datetime.to_datetime(self.env.context["to_date"])
                 domain.append(("create_date", "<=", to_date))
