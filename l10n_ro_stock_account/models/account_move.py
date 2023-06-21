@@ -69,6 +69,8 @@ class AccountMove(models.Model):
                     svls = svls.filtered(lambda l: not l.l10n_ro_invoice_line_id)
                     svls.write(
                         {
+                            "account_move_line_id": line.id,
+                            "accoutn_move_id": line.move_id.id,
                             "l10n_ro_invoice_line_id": line.id,
                             "l10n_ro_invoice_id": line.move_id.id,
                         }
@@ -149,3 +151,6 @@ class AccountMoveLine(models.Model):
     def _get_account_change_stock_moves_sale(self):
         sales = self.sale_line_ids.filtered(lambda s: s.move_ids)
         return sales.move_ids
+    
+    def l10n_ro_action_post_from_svl(self):
+        return self.filtered(lambda x: x.state!='post')._post()

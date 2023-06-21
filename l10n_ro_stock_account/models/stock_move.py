@@ -521,6 +521,7 @@ class StockMove(models.Model):
         location_from = self.location_id
         location_to = self.location_dest_id
         svl = self.env["stock.valuation.layer"]
+        account_moves = self.env['account.move']
         if self._is_usage_giving() or self._is_consumption():
             (
                 journal_id,
@@ -532,7 +533,7 @@ class StockMove(models.Model):
             if acc_valuation_rec and acc_valuation_rec.l10n_ro_stock_consume_account_id:
                 acc_valuation = acc_valuation_rec.l10n_ro_stock_consume_account_id.id
             if acc_src != acc_valuation:
-                self._create_account_move_line(
+                account_moves |= self._create_account_move_line(
                     acc_valuation, acc_src, journal_id, qty, description, svl, cost
                 )
         if self._is_usage_giving_return() or self._is_consumption_return():
@@ -546,7 +547,7 @@ class StockMove(models.Model):
             if acc_valuation_rec and acc_valuation_rec.l10n_ro_stock_consume_account_id:
                 acc_valuation = acc_valuation_rec.l10n_ro_stock_consume_account_id.id
             if acc_dest != acc_valuation:
-                self._create_account_move_line(
+                account_moves |= self._create_account_move_line(
                     acc_dest, acc_valuation, journal_id, qty, description, svl, cost
                 )
         if self._is_usage_giving() or self._is_usage_giving_return():
@@ -558,7 +559,7 @@ class StockMove(models.Model):
                 acc_dest,
                 acc_valuation,
             ) = move._get_accounting_data_for_valuation()
-            move._create_account_move_line(
+            account_moves |= move._create_account_move_line(
                 acc_src, acc_dest, journal_id, qty, description, svl, cost
             )
 
@@ -571,13 +572,15 @@ class StockMove(models.Model):
                 acc_valuation,
             ) = move._get_accounting_data_for_valuation()
             if location_to.l10n_ro_property_stock_valuation_account_id and cost < 0:
-                move._create_account_move_line(
+                account_moves |= move._create_account_move_line(
                     acc_dest, acc_valuation, journal_id, qty, description, svl_id, cost
                 )
             if location_from.l10n_ro_property_stock_valuation_account_id and cost > 0:
-                move._create_account_move_line(
+                account_moves |= move._create_account_move_line(
                     acc_src, acc_valuation, journal_id, qty, description, svl_id, cost
                 )
+        if account_moves:
+            account_moves.l10n_ro_action_post_from_svl()
 
     def _create_account_move_line(
         self,

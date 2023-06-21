@@ -15,6 +15,7 @@
         "purchase_stock",
         "l10n_ro_config",
         "l10n_ro_stock",
+        "account_invoice_extract"
     ],
     "license": "AGPL-3",
     "data": [

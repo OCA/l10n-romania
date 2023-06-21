@@ -166,7 +166,7 @@ class StockMove(models.Model):
                 acc_dest,
                 acc_valuation,
             ) = move._get_accounting_data_for_valuation()
-            move._create_account_move_line(
+            notice_move = move._create_account_move_line(
                 acc_valuation,
                 acc_dest,
                 journal_id,
@@ -175,6 +175,7 @@ class StockMove(models.Model):
                 svl,
                 qty * sale_price,
             )
+            notice_move._post()
 
         if self._is_delivery_notice_return():
             # inregistrare valoare vanzare
@@ -187,7 +188,7 @@ class StockMove(models.Model):
                 acc_dest,
                 acc_valuation,
             ) = move._get_accounting_data_for_valuation()
-            move._create_account_move_line(
+            notice_move = move._create_account_move_line(
                 acc_dest,
                 acc_valuation,
                 journal_id,
@@ -196,6 +197,7 @@ class StockMove(models.Model):
                 svl_id,
                 qty * sale_price,
             )
+            notice_move._post()
         return res
 
     def _l10n_ro_get_sale_price(self):
