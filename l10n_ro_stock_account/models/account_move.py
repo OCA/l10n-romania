@@ -78,6 +78,8 @@ class AccountMove(models.Model):
 
         return res
 
+    def l10n_ro_action_post_from_svl(self):
+        return self.filtered(lambda x: x.state!='post')._post()
 
 class AccountMoveLine(models.Model):
     _name = "account.move.line"
@@ -151,6 +153,4 @@ class AccountMoveLine(models.Model):
     def _get_account_change_stock_moves_sale(self):
         sales = self.sale_line_ids.filtered(lambda s: s.move_ids)
         return sales.move_ids
-    
-    def l10n_ro_action_post_from_svl(self):
-        return self.filtered(lambda x: x.state!='post')._post()
+
