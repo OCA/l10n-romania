@@ -61,7 +61,7 @@ class AccountMoveLine(models.Model):
     _name = "account.move.line"
     _inherit = ["account.move.line", "l10n.ro.mixin"]
 
-    def _create_exchange_difference_move(self):
+    def _create_exchange_difference_move(self, exchange_diff_vals):
         """Inherit Odoo method to not do exchange differences for
         invoices with the same currency as company
         """
@@ -73,4 +73,4 @@ class AccountMoveLine(models.Model):
         )
         return super(
             AccountMoveLine, self - currency_lines
-        )._create_exchange_difference_move()
+        )._create_exchange_difference_move(exchange_diff_vals)
