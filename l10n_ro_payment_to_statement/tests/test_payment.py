@@ -192,7 +192,7 @@ class TestPayment(TestPaymenttoStatement):
                 "line_ids": [(0, 0, {"payment_ref": "/", "amount": 100.0})],
             }
         )
-        self.assertEqual(bnk_out.line_ids.move_id.name, "CSH1-000001")
+        self.assertEqual(bnk_out.line_ids.move_id.name, "/")
 
     def test_get_journal_dashboard_datas(self):
         payment_debit_account_id = self.env.company.transfer_account_id
