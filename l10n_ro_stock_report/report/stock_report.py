@@ -225,20 +225,17 @@ class StorageSheet(models.TransientModel):
                 "tz": self._context.get("tz") or self.env.user.tz or "UTC",
             }
             _logger.info("start query_select_sold_init %s", location.name)
+            # defalcare sold initial pe preturi
             query_select_sold_init = """
              insert into l10n_ro_stock_storage_sheet_line
-              (report_id, product_id, amount_initial, quantity_initial, unit_price_in,
+              (report_id, product_id, amount_initial, quantity_initial,
                account_id, date_time, date, reference, document, location_id, categ_id  )
 
             select * from(
                 SELECT %(report)s as report_id, prod.id as product_id,
                     COALESCE(sum(svl.value), 0)  as amount_initial,
                     COALESCE(sum(svl.quantity), 0)  as quantity_initial,
-                    CASE
-                        WHEN ROUND(COALESCE(sum(svl.quantity), 0), 5) != 0
-                            THEN ROUND(COALESCE(sum(svl.value),0) / sum(svl.quantity), 2)
-                        ELSE 0
-                    END as unit_price_in,
+
                     COALESCE(svl.l10n_ro_account_id, Null) as account_id,
                     %(datetime_from)s::timestamp without time zone  as date_time,
                     %(date_from)s::date as date,
@@ -273,17 +270,13 @@ class StorageSheet(models.TransientModel):
             _logger.info("start query_select_sold_final %s", location.name)
             query_select_sold_final = """
             insert into l10n_ro_stock_storage_sheet_line
-              (report_id, product_id, amount_final, quantity_final, unit_price_out,
+              (report_id, product_id, amount_final, quantity_final,
                account_id, date_time, date, reference, document, location_id, categ_id)
             select * from(
                 SELECT %(report)s as report_id, sm.product_id as product_id,
                     COALESCE(sum(svl.value),0)  as amount_final,
                     COALESCE(sum(svl.quantity),0)  as quantity_final,
-                    CASE
-                        WHEN ROUND(COALESCE(sum(svl.quantity), 0), 5) != 0
-                            THEN ROUND(COALESCE(sum(svl.value),0) / sum(svl.quantity), 2)
-                        ELSE 0
-                    END as unit_price_out,
+
                     COALESCE(svl.l10n_ro_account_id, Null) as account_id,
                     %(datetime_to)s::timestamp without time zone as date_time,
                     %(date_to)s::date as date,
@@ -530,7 +523,10 @@ class StorageSheetLine(models.TransientModel):
         digits="Product Unit of Measure", string="Input Quantity", default=0.0
     )
     unit_price_in = fields.Monetary(
-        currency_field="currency_id", string="Price Unit In", default=0.0
+        currency_field="currency_id",
+        string="Price Unit In",
+        default=0.0,
+        group_operator="avg",
     )
     amount_out = fields.Monetary(
         currency_field="currency_id", default=0.0, string="Output Amount"
@@ -539,7 +535,10 @@ class StorageSheetLine(models.TransientModel):
         digits="Product Unit of Measure", string="Output Quantity", default=0.0
     )
     unit_price_out = fields.Monetary(
-        currency_field="currency_id", string="Price Unit Out", default=0.0
+        currency_field="currency_id",
+        string="Price Unit Out",
+        default=0.0,
+        group_operator="avg",
     )
     amount_final = fields.Monetary(
         currency_field="currency_id", default=0.0, string="Final Amount"
