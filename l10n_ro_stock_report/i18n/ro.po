@@ -505,7 +505,7 @@ msgid ""
 "show only products that have moves in period"
 msgstr ""
 "Va afișa raportul numai pentru aceste produse.     Dacă nimic nu va fi "
-"selectatarata numai produsele care au miscari de stoc in perioada"
+"selectat arata numai produsele care au miscari de stoc in perioada"
 
 #~ msgid "Product Category"
 #~ msgstr "Categorie produs"
