@@ -24,6 +24,36 @@ class AccountMove(models.Model):
 
         return sequence
 
+    def _get_last_sequence(self, relaxed=False, lock=True):
+        cash_sequence = self.get_l10n_ro_sequence()
+        if cash_sequence:
+            # acest cod asigura ca se da continue cand se apeleaza din
+            #
+            # @api.depends('posted_before', 'state', 'journal_id', 'date')
+            # def _compute_name(self):
+            #    ....
+            #
+            #   for move in self:
+            #       ...
+            #        move_has_name = move.name and move.name != '/'
+            #        if move_has_name or move.state != 'posted':
+            #           try:
+            #               ...
+            #               if (
+            #                   move_has_name and move.posted_before
+            #                   or not move_has_name and move._get_last_sequence(lock=False)
+            #                   or not move.date
+            #               ):
+            #                   continue
+            #
+            # in felul acesta, move.name ramane '/' (setat la finalul metodei _compute_name)
+
+            move_has_name = self.name and self.name != "/"
+            if not move_has_name and self.state != "posted":
+                return True
+
+        return super()._get_last_sequence(relaxed=relaxed, lock=lock)
+
     def _set_next_sequence(self):
         self.ensure_one()
         cash_sequence = self.get_l10n_ro_sequence()
@@ -37,17 +67,15 @@ class AccountMove(models.Model):
             else:
                 # aici sunt in cazul in care s-a dat create(),
                 # insa nu exista nimic in baza de date
-                # deci vreau doar sa citesc ultima valoare din secventa,
-                #
+
                 # nu incrementez deoarece daca se da discard, nu vreau sa
                 # se incrementeze secventa
-                new_number = cash_sequence.get_next_char(
-                    cash_sequence.number_next_actual
-                )
+                new_number = False
 
-            self[self._sequence_field] = new_number
+            if new_number:
+                self[self._sequence_field] = new_number
 
-            self._compute_split_sequence()
+                self._compute_split_sequence()
         else:
             return super(AccountMove, self)._set_next_sequence()
 
