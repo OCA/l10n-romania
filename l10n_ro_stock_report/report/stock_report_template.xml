@@ -45,11 +45,13 @@
                                 t-value="o.line_product_ids.filtered(lambda l: l.product_id == product and l.account_id == account
                                             and l.location_id == location)"
                             />
-                            <t t-esc="account.code" />
-                            -
-                            <t t-esc="account.name" />
-                            -
-                            <t t-esc="location.display_name" />
+                            <div class="row">
+                                <t t-esc="account.code" />
+                                -
+                                <t t-esc="account.name" />
+                                -
+                                <t t-esc="location.display_name" />
+                            </div>
                             <div
                                 class="act_as_table data_table mt4"
                                 style="width: 100%;"
@@ -80,6 +82,8 @@
                                     <div class="act_as_cell sold">
                                         INITIAL
                                     </div>
+                                    <div class="act_as_cell" />
+                                    <div class="act_as_cell" />
                                     <div class="act_as_cell" />
                                     <div class="act_as_cell" />
                                     <div class="act_as_cell" />
@@ -151,6 +155,8 @@
                                     <div class="act_as_cell" />
                                     <div class="act_as_cell" />
                                     <div class="act_as_cell" />
+                                    <div class="act_as_cell" />
+                                    <div class="act_as_cell" />
                                     <div class="act_as_cell">
                                         <div
                                             style="font-style: italic; font-weight: bold; padding: 5px 7px"
@@ -190,6 +196,10 @@
             </div>
             <div class="act_as_cell left">
                 <span t-esc="line_product.reference" />
+                <t t-if="line_product.invoice_id">
+                    <span t-field="line_product.invoice_id" />
+                </t>
+
             </div>
             <div class="act_as_cell right">
                 <span
@@ -205,6 +215,12 @@
             </div>
             <div class="act_as_cell right">
                 <span
+                    t-field="line_product.unit_price_in"
+                    t-options='{"widget": "float", "precision": 2}'
+                />
+            </div>
+            <div class="act_as_cell right">
+                <span
                     t-field="line_product.quantity_out"
                     t-options='{"widget": "float", "precision": 2}'
                 />
@@ -212,6 +228,12 @@
             <div class="act_as_cell right">
                 <span
                     t-field="line_product.amount_out"
+                    t-options='{"widget": "float", "precision": 2}'
+                />
+            </div>
+              <div class="act_as_cell right">
+                <span
+                    t-field="line_product.unit_price_out"
                     t-options='{"widget": "float", "precision": 2}'
                 />
             </div>
@@ -234,8 +256,10 @@
                 <div class="act_as_cell">Reference</div>
                 <div class="act_as_cell">Quantity Input</div>
                 <div class="act_as_cell">Amount Input</div>
+                <div class="act_as_cell">Price Input</div>
                 <div class="act_as_cell">Quantity Output</div>
                 <div class="act_as_cell">Amount Output</div>
+                <div class="act_as_cell">Price Output</div>
                 <div class="act_as_cell">Quantity Total</div>
                 <div class="act_as_cell">Amount Total</div>
             </div>
