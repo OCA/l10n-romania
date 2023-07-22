@@ -172,7 +172,7 @@ class StockValuationLayer(models.Model):
     def _l10n_ro_pre_process_value(self, value):
         """
         Pentru a mapa tracking pe SVL in value pastram o cheie
-        'tracking': [(svl_id, qty).....]
+        'l10n_ro_tracking': [(svl_id, qty).....]
         inainte sa executam .create() curatam dictionarul.
         """
         fields_dict = self._fields.keys()
@@ -184,8 +184,8 @@ class StockValuationLayer(models.Model):
 
     def _l10n_ro_post_process(self, value):
         """
-        Pentru a mapa tracking pe SVL in value pastram o cheie
-        'tracking': [(svl_id, qty).....]
+        Pentru a mapa l10n_ro_tracking pe SVL in value pastram o cheie
+        'l10n_ro_tracking': [(svl_id, qty).....]
         acum este momentul sa mapam sursa, destinatia si cantitatea.
         """
 
