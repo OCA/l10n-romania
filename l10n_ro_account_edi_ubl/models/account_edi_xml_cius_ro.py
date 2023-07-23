@@ -41,7 +41,7 @@ class AccountEdiXmlCIUSRO(models.Model):
         return vals_list
 
     def _get_invoice_tax_totals_vals_list(self, invoice, taxes_vals):
-        balance_sign = -1 if invoice.is_inbound() else 1
+        balance_sign = 1 if invoice.is_inbound() else -1
         return [
             {
                 "currency": invoice.currency_id,
@@ -55,7 +55,8 @@ class AccountEdiXmlCIUSRO(models.Model):
                         "tax_amount": balance_sign * vals["tax_amount_currency"],
                         "percent": vals["_tax_category_vals_"]["percent"],
                         "tax_category_vals": vals["_tax_category_vals_"],
-                        "tax_id": vals["group_tax_details"][0]["tax_id"],
+                        # "tax_id": vals["group_tax_details"][0]["tax_id"],
+                        "tax_ids": vals["group_tax_details"][0]["tax_ids"],
                     }
                     for vals in taxes_vals["tax_details"].values()
                 ],

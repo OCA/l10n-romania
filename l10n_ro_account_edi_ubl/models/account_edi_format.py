@@ -195,7 +195,7 @@ class AccountEdiXmlCIUSRO(models.Model):
             "zile": 50,
             "cif": invoice.company_id.partner_id.vat.replace("RO", ""),
         }
-        response = requests.get(url, params=params, headers=headers)
+        response = requests.get(url, params=params, headers=headers, timeout=80)
 
         _logger.info(response.content)
 
@@ -205,7 +205,7 @@ class AccountEdiXmlCIUSRO(models.Model):
             "Authorization": f"Bearer {access_token}",
         }
         params = {"id_incarcare": invoice.l10n_ro_edi_transaction}
-        response = requests.get(url, params=params, headers=headers)
+        response = requests.get(url, params=params, headers=headers, timeout=80)
 
         _logger.info(response.content)
 
