@@ -141,7 +141,7 @@ class AccountMoveLine(models.Model):
         if not price_diff_product:
             serv_acc = self.env["account.account"].search(
                 [
-                    ("user_type_id.name", "=", "Expense"),
+                    ("account_type", "=", "expense"),
                     ("company_id", "=", self.company_id.id),
                 ],
                 limit=1,

@@ -26,7 +26,7 @@ class TestStockPurchase(TestStockCommonPriceDiff):
         self.check_account_valuation(0, 0)
 
         self.create_invoice(self.diff_p1, self.diff_p2)
-        # in stocul  are valoarea cu diferenta de pret inregistrata
+        # in stoc e valoarea cu diferenta de pret inregistrata
         self.check_stock_valuation(self.val_p1_f, self.val_p2_f)
 
         # in contabilitate stocul are acceasi valoare

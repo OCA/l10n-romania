@@ -37,7 +37,7 @@ class AccountMove(models.Model):
         for invoice in self:
             if invoice.move_type in ["in_invoice", "in_refund"]:
                 invoice_lines = invoice.invoice_line_ids.filtered(
-                    lambda l: not l.display_type and l.purchase_line_id
+                    lambda l: l.display_type == "product" and l.purchase_line_id
                 )
                 for line in invoice_lines:
                     add_diff = invoice.company_id.l10n_ro_stock_acc_price_diff
