@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="res_config_settings_view_form" model="ir.ui.view">
+        <field name="name">res.config.settings.view.form.inherit</field>
+        <field name="model">res.config.settings</field>
+        <field name="inherit_id" ref="l10n_ro_config.res_config_settings_view_form" />
+        <field name="arch" type="xml">
+            <div id="module_l10n_ro_account_anaf_sync" position="inside">
+                <button
+                    name="%(l10n_ro_account_anaf_sync.action_account_anaf_sync)d"
+                    icon="fa-arrow-right"
+                    type="action"
+                    string="Configure ANAF sync"
+                    class="btn-link o_web_settings_more"
+                />
+            </div>
+        </field>
+    </record>
+</odoo>
