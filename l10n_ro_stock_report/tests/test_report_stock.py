@@ -140,7 +140,7 @@ class TestStockReport(TransactionCase):
                 )
 
         self.picking.button_validate()
-        _logger.info("Receptie facuta")
+        _logger.debug("Receptie facuta")
 
         self.po = po
         return po
