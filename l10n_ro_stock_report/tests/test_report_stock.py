@@ -3,6 +3,7 @@
 
 import logging
 
+from odoo import fields
 from odoo.tests import Form
 from odoo.tests.common import TransactionCase
 
@@ -145,11 +146,9 @@ class TestStockReport(TransactionCase):
         return po
 
     def create_invoice(self):
-        AccountMove = self.env["account.move"]
-        invoice = Form(AccountMove.with_context(default_type="in_invoice"))
-        invoice.partner_id = self.vendor
-        invoice.purchase_id = self.po
-        invoice = invoice.save()
+        action = self.po.action_create_invoice()
+        invoice = self.env["account.move"].browse(action["res_id"])
+        invoice.invoice_date = fields.Date.today()
         invoice.action_post()
         _logger.info("Factura introdusa")
 
@@ -283,7 +282,7 @@ class TestStockReport(TransactionCase):
 
         # Check SVL
         svl = self.env["stock.valuation.layer"].search(
-            [("stock_move_id", "=", receipt.move_lines.id)]
+            [("stock_move_id", "in", receipt.move_ids.ids)]
         )
         self.assertAlmostEqual(svl.value, 70)
 
