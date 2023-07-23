@@ -327,6 +327,7 @@ msgid "Price Unit Out"
 msgstr ""
 
 #. module: l10n_ro_stock_report
+#. odoo-python
 #: code:addons/l10n_ro_stock_report/report/stock_report.py:0
 #, python-format
 msgid "Print Preview"
@@ -489,6 +490,7 @@ msgid "StorageSheetLine"
 msgstr "Linie Fișă Magazie"
 
 #. module: l10n_ro_stock_report
+#. odoo-python
 #: code:addons/l10n_ro_stock_report/report/stock_report.py:0
 #, python-format
 msgid "There are no stock movements in the selected period"
