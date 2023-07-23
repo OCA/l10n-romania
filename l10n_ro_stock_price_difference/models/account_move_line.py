@@ -14,6 +14,18 @@ class AccountMoveLine(models.Model):
     _name = "account.move.line"
     _inherit = ["account.move.line", "l10n.ro.mixin"]
 
+    def _apply_price_difference(self):
+        l10n_ro_records = self.filtered("is_l10n_ro_record")
+        res = super(AccountMoveLine, self - l10n_ro_records)._apply_price_difference()
+        return res
+
+    def _generate_price_difference_vals(self, layers):
+        l10n_ro_records = self.filtered("is_l10n_ro_record")
+        svl_vals_list, aml_vals_list = super(
+            AccountMoveLine, self - l10n_ro_records
+        )._generate_price_difference_vals(layers)
+        return svl_vals_list, aml_vals_list
+
     def l10n_ro_get_stock_valuation_difference(self):
         """Se obtine diferenta dintre evaloarea stocului si valoarea din factura"""
         line = self
@@ -99,9 +111,11 @@ class AccountMoveLine(models.Model):
 
         lc.stock_valuation_layer_ids.mapped("account_move_id")
 
-        lc.stock_valuation_layer_ids.filtered(
+        svl = lc.stock_valuation_layer_ids.filtered(
             lambda svl: svl.value == lc.amount_total
-        ).write(
+        )
+
+        svl.write(
             {
                 "quantity": 0,
                 "remaining_qty": 0,
