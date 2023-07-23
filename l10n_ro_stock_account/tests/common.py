@@ -331,7 +331,7 @@ class TestStockCommon(ValuationReconciliationTestCommon):
 
             self.picking.button_validate()
             self.picking._action_done()
-            _logger.info("Receptie facuta")
+            _logger.debug("Receptie facuta")
 
         self.po = po
         return po
