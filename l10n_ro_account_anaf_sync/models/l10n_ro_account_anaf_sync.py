@@ -105,15 +105,15 @@ class AccountANAFSync(models.Model):
 
     def revoke_access_token(self):
         self.ensure_one()
-        if self.access_token:
+        if not self.access_token:
             raise UserError(_("You don't have ANAF access token. Please get it first."))
         param = {
-            "client_id": "%s",
-            "client_secret": "%s",
-            "access_token": "%s",
+            "client_id": self.client_id,
+            "client_secret": self.client_secret,
+            "access_token": self.access_token,
             # "refresh_token": should function for refresh function
             "token_type_hint": "access_token",  # refresh_token  (should work without)
-        } % (self.client_id, self.client_secret, self.access_token)
+        }
         url = self.anaf_oauth_url + "/revoke"
         response = requests.post(
             url,
@@ -123,9 +123,12 @@ class AccountANAFSync(models.Model):
                 "Content-Type": "application/x-www-form-urlencoded",
             },
         )
-        message = _("Revoke token response: %s") % response.json()
+        if response.status_code == 200:
+            message = _("Revoke token response: %s") % response.json()
+        else:
+            message = _("Revoke token response: %s") % response.reason
         self.message_post(body=message)
-        if response.reason == "OK":
+        if response.status_code == 200:
             self.write(
                 {
                     "code": "",
@@ -149,7 +152,10 @@ class AccountANAFSync(models.Model):
             },
             timeout=80,
         )
-        message = _("Test token response: %s") % response.json()
+        if response.status_code == 200:
+            message = _("Test token response: %s") % response.json()
+        else:
+            message = _("Test token response: %s") % response.reason
         self.message_post(body=message)
 
     @api.onchange("state")
