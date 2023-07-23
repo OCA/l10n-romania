@@ -51,7 +51,6 @@ class AccountMoveLine(models.Model):
         if float_is_zero(valuation_total_qty, precision_rounding=precision):
             return diff, qty_diff
 
-
         lines = self.search(
             [
                 ("purchase_line_id", "=", line.purchase_line_id.id),
