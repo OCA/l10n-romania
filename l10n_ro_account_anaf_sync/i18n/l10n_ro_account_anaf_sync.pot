@@ -4,7 +4,7 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 15.0\n"
+"Project-Id-Version: Odoo Server 16.0\n"
 "Report-Msgid-Bugs-To: \n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -138,6 +138,7 @@ msgid "Display Name"
 msgstr ""
 
 #. module: l10n_ro_account_anaf_sync
+#. odoo-python
 #: code:addons/l10n_ro_account_anaf_sync/controllers/anaf_oauth.py:0
 #, python-format
 msgid "Error, this ANAF config does not exist!"
@@ -176,7 +177,6 @@ msgstr ""
 
 #. module: l10n_ro_account_anaf_sync
 #: model:ir.model.fields,help:l10n_ro_account_anaf_sync.field_l10n_ro_account_anaf_sync__message_needaction
-#: model:ir.model.fields,help:l10n_ro_account_anaf_sync.field_l10n_ro_account_anaf_sync__message_unread
 msgid "If checked, new messages require your attention."
 msgstr ""
 
@@ -237,6 +237,7 @@ msgid "Messages"
 msgstr ""
 
 #. module: l10n_ro_account_anaf_sync
+#. odoo-python
 #: code:addons/l10n_ro_account_anaf_sync/controllers/anaf_oauth.py:0
 #, python-format
 msgid ""
@@ -246,6 +247,7 @@ msgid ""
 msgstr ""
 
 #. module: l10n_ro_account_anaf_sync
+#. odoo-python
 #: code:addons/l10n_ro_account_anaf_sync/controllers/anaf_oauth.py:0
 #, python-format
 msgid ""
@@ -271,11 +273,6 @@ msgstr ""
 #. module: l10n_ro_account_anaf_sync
 #: model:ir.model.fields,help:l10n_ro_account_anaf_sync.field_l10n_ro_account_anaf_sync__message_has_error_counter
 msgid "Number of messages with delivery error"
-msgstr ""
-
-#. module: l10n_ro_account_anaf_sync
-#: model:ir.model.fields,help:l10n_ro_account_anaf_sync.field_l10n_ro_account_anaf_sync__message_unread_counter
-msgid "Number of unread messages"
 msgstr ""
 
 #. module: l10n_ro_account_anaf_sync
@@ -306,6 +303,8 @@ msgid "Revoke Access Token"
 msgstr ""
 
 #. module: l10n_ro_account_anaf_sync
+#. odoo-python
+#: code:addons/l10n_ro_account_anaf_sync/models/l10n_ro_account_anaf_sync.py:0
 #: code:addons/l10n_ro_account_anaf_sync/models/l10n_ro_account_anaf_sync.py:0
 #, python-format
 msgid "Revoke token response: %s"
@@ -332,12 +331,15 @@ msgid "Test"
 msgstr ""
 
 #. module: l10n_ro_account_anaf_sync
+#. odoo-python
+#: code:addons/l10n_ro_account_anaf_sync/models/l10n_ro_account_anaf_sync.py:0
 #: code:addons/l10n_ro_account_anaf_sync/models/l10n_ro_account_anaf_sync.py:0
 #, python-format
 msgid "Test token response: %s"
 msgstr ""
 
 #. module: l10n_ro_account_anaf_sync
+#. odoo-python
 #: code:addons/l10n_ro_account_anaf_sync/controllers/anaf_oauth.py:0
 #, python-format
 msgid ""
@@ -346,6 +348,7 @@ msgid ""
 msgstr ""
 
 #. module: l10n_ro_account_anaf_sync
+#. odoo-python
 #: code:addons/l10n_ro_account_anaf_sync/controllers/anaf_oauth.py:0
 #, python-format
 msgid ""
@@ -361,6 +364,7 @@ msgid ""
 msgstr ""
 
 #. module: l10n_ro_account_anaf_sync
+#. odoo-python
 #: code:addons/l10n_ro_account_anaf_sync/controllers/anaf_oauth.py:0
 #, python-format
 msgid "This page is only for internal users!"
@@ -374,16 +378,6 @@ msgid ""
 msgstr ""
 
 #. module: l10n_ro_account_anaf_sync
-#: model:ir.model.fields,field_description:l10n_ro_account_anaf_sync.field_l10n_ro_account_anaf_sync__message_unread
-msgid "Unread Messages"
-msgstr ""
-
-#. module: l10n_ro_account_anaf_sync
-#: model:ir.model.fields,field_description:l10n_ro_account_anaf_sync.field_l10n_ro_account_anaf_sync__message_unread_counter
-msgid "Unread Messages Counter"
-msgstr ""
-
-#. module: l10n_ro_account_anaf_sync
 #: model:ir.model.fields,field_description:l10n_ro_account_anaf_sync.field_l10n_ro_account_anaf_sync__website_message_ids
 msgid "Website Messages"
 msgstr ""
@@ -394,18 +388,21 @@ msgid "Website communication history"
 msgstr ""
 
 #. module: l10n_ro_account_anaf_sync
+#. odoo-python
 #: code:addons/l10n_ro_account_anaf_sync/models/l10n_ro_account_anaf_sync.py:0
 #, python-format
 msgid "You already have ANAF access token. Please revolke it first."
 msgstr ""
 
 #. module: l10n_ro_account_anaf_sync
+#. odoo-python
 #: code:addons/l10n_ro_account_anaf_sync/controllers/anaf_oauth.py:0
 #, python-format
 msgid "You can make only one request per minute"
 msgstr ""
 
 #. module: l10n_ro_account_anaf_sync
+#. odoo-python
 #: code:addons/l10n_ro_account_anaf_sync/models/l10n_ro_account_anaf_sync.py:0
 #, python-format
 msgid ""
@@ -414,6 +411,7 @@ msgid ""
 msgstr ""
 
 #. module: l10n_ro_account_anaf_sync
+#. odoo-python
 #: code:addons/l10n_ro_account_anaf_sync/models/l10n_ro_account_anaf_sync.py:0
 #, python-format
 msgid "You don't have ANAF access token. Please get it first."
