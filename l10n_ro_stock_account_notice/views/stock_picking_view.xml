@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="view_picking_add_notice_form" model="ir.ui.view">
+        <field name="name">view_picking_add_note_form</field>
+        <field name="model">stock.picking</field>
+        <field name="inherit_id" ref="stock.view_picking_form" />
+        <field name="arch" type="xml">
+            <field name="backorder_id" position="after">
+                <field name="is_l10n_ro_record" invisible="1" />
+                <field
+                    name="l10n_ro_notice"
+                    attrs="{'invisible': [('is_l10n_ro_record', '=', False)]}"
+                />
+            </field>
+            <!-- if is a notice/aviz to be mandatory the partner_id -->
+            <field name="partner_id" position="attributes">
+                <attribute
+                    name="attrs"
+                >{'required':[('l10n_ro_notice','=',True)]}</attribute>
+            </field>
+        </field>
+    </record>
+    <record id="view_picking_add_notice_tree" model="ir.ui.view">
+        <field name="name">view_picking_add_notice_tree</field>
+        <field name="model">stock.picking</field>
+        <field name="inherit_id" ref="stock.vpicktree" />
+        <field name="arch" type="xml">
+            <field name="origin" position="before">
+                <field name="is_l10n_ro_record" invisible="1" />
+                <field
+                    name="l10n_ro_notice"
+                    optional="show"
+                    attrs="{'invisible': [('is_l10n_ro_record', '=', False)]}"
+                />
+            </field>
+        </field>
+    </record>
+    <record id="view_picking_internal_add_notice_search" model="ir.ui.view">
+        <field name="name">view_picking_internal_add_notice_search</field>
+        <field name="model">stock.picking</field>
+        <field name="inherit_id" ref="stock.view_picking_internal_search" />
+        <field name="arch" type="xml">
+            <filter name="cancel" position="after">
+                <field name="is_l10n_ro_record" invisible="1" />
+                <filter
+                    name="notice"
+                    string="Is notice"
+                    domain="[('l10n_ro_notice', '=', True)]"
+                    attrs="{'invisible': [('is_l10n_ro_record', '=', False)]}"
+                />
+            </filter>
+        </field>
+    </record>
+
+    <record id="stock_picking_kanban" model="ir.ui.view">
+        <field name="name">stock.picking.kanban</field>
+        <field name="model">stock.picking</field>
+        <field name="inherit_id" ref="stock.stock_picking_kanban" />
+        <field name="arch" type="xml">
+            <field name="activity_state" position="after">
+                <field name="is_l10n_ro_record" invisible="1" />
+                <field
+                    name="l10n_ro_notice"
+                    attrs="{'invisible': [('is_l10n_ro_record', '=', False)]}"
+                />
+            </field>
+            <xpath expr="//div[hasclass('o_kanban_record_bottom')]" position="before">
+                <field name="is_l10n_ro_record" invisible="1" />
+                <div
+                    class="oe_kanban_content"
+                    attrs="{'invisible': [('is_l10n_ro_record', '=', False)]}"
+                >
+                    <label for="l10n_ro_notice">Is notice</label>
+                    <field name="l10n_ro_notice" widget="boolean_toggle" />
+                </div>
+            </xpath>
+        </field>
+    </record>
+
+
+</odoo>
