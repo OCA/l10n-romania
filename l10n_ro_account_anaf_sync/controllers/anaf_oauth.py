@@ -138,6 +138,7 @@ class AccountANAFSyncWeb(http.Controller):
                 anaf_config.anaf_oauth_url + "/token",
                 data=data,
                 headers=headers,
+                timeout=1.5,
             )
             response_json = response.json()
 
