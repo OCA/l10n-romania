@@ -28,8 +28,8 @@ class TestStockSaleReturn(TestStockCommon):
         self.create_so()
 
         # valoarea de stoc dupa vanzarea produselor
-        stock_value_final_p1 += round(self.qty_po_p1 * self.price_p1, 2)
-        stock_value_final_p2 += round(self.qty_po_p2 * self.price_p2, 2)
+        stock_value_final_p1 -= self.val_stock_out_so_p1
+        stock_value_final_p2 -= self.val_stock_out_so_p2
 
         price_p1 = self.price_p1
         price_p2 = self.price_p2
