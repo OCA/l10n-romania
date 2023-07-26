@@ -294,7 +294,12 @@ class StockMove(models.Model):
             move = move.with_company(move.company_id)
 
             out_svls = []
-            for svl in move.origin_returned_move_id.sudo().stock_valuation_layer_ids:
+            origin_svls = (
+                move.origin_returned_move_id.sudo().stock_valuation_layer_ids.sorted(
+                    lambda l: l.create_date, reverse=True
+                )
+            )
+            for svl in origin_svls:
                 out_svls.append(
                     {
                         "product_id": svl.product_id.id,

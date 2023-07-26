@@ -133,3 +133,74 @@ class TestStockSaleReturn(TestStockCommon):
 
         self.check_stock_valuation(stock_value_final_p1, stock_value_final_p2)
         self.check_account_valuation(stock_value_final_p1, stock_value_final_p2)
+
+
+    def test_not_fifo_return3(self):
+        """
+        Test FIFO valuation method for stock accounting in case of return from sale
+
+        Test case vanzare
+        Achizitie 2 buc la 3 lei
+        Achizitie 3 buc la 4 lei
+        Vanzare 5 buc
+        Retur partial 3 buc
+            Rezultat asteptat - revin 2 cu 3 lei si una cu 4 lei.
+        Retur partial 1 buc
+            Rezultat asteptat - revine 1 buc cu 4 lei pe stoc
+
+
+
+
+
+        """
+
+        self.qty_po_p1 = 2.0
+        self.qty_po_p2 = 2.0
+
+        self.price_p1 = 3.0
+        self.price_p2 = 3.0
+
+        self.make_purchase()
+
+        stock_value_final_p1 = round(self.qty_po_p1 * self.price_p1, 2)
+        stock_value_final_p2 = round(self.qty_po_p2 * self.price_p2, 2)
+
+        self.qty_po_p1 = 3
+        self.qty_po_p2 = 3
+        self.price_p1 = 4.0
+        self.price_p2 = 4.0
+        self.make_purchase()
+        stock_value_final_p1 += round(self.qty_po_p1 * self.price_p1, 2)
+        stock_value_final_p2 += round(self.qty_po_p2 * self.price_p2, 2)
+
+        self.qty_so_p1 = 5.0
+        self.qty_so_p2 = 5.0
+
+        # iesire din stoc prin vanzare
+        self.create_so()
+
+        # valoarea de stoc dupa vanzarea produselor
+        stock_value_final_p1 = 0.0
+        stock_value_final_p2 = 0.0
+
+        self.check_stock_valuation(stock_value_final_p1, stock_value_final_p2)
+        self.check_account_valuation(stock_value_final_p1, stock_value_final_p2)
+
+        pick = self.so.picking_ids
+        self.make_return(pick, 3)
+
+        self.create_sale_invoice()
+
+        stock_value_final_p1 += round(2 * 3 + 1 * 4, 2)
+        stock_value_final_p2 += round(2 * 3 + 1 * 4, 2)
+
+        self.check_stock_valuation(stock_value_final_p1, stock_value_final_p2)
+        self.check_account_valuation(stock_value_final_p1, stock_value_final_p2)
+
+        self.make_return(pick, 1)
+
+        stock_value_final_p1 += round(4, 2)
+        stock_value_final_p2 += round(4, 2)
+
+        self.check_stock_valuation(stock_value_final_p1, stock_value_final_p2)
+        self.check_account_valuation(stock_value_final_p1, stock_value_final_p2)
