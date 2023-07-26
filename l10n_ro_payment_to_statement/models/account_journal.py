@@ -116,7 +116,7 @@ class AccountJournal(models.Model):
                         "padding": 6,
                         "company_id": company,
                     }
-                    seq = self.env["ir.sequence"].create(vals_seq)
+                    seq = self.env["ir.sequence"].sudo().create(vals_seq)
                     vals[seq_field] = seq.id
 
     def l10n_ro_update_cash_vals(self):
