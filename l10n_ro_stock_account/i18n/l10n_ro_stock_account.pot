@@ -180,6 +180,11 @@ msgid "L10N Ro Origin Ret Move Qty Warn"
 msgstr ""
 
 #. module: l10n_ro_stock_account
+#: model:ir.model.fields,field_description:l10n_ro_stock_account.field_stock_valuation_layer__l10n_ro_qty_returned
+msgid "L10N Ro Qty Returned"
+msgstr ""
+
+#. module: l10n_ro_stock_account
 #: model:ir.model.fields,field_description:l10n_ro_stock_account.field_account_account____last_update
 #: model:ir.model.fields,field_description:l10n_ro_stock_account.field_account_move____last_update
 #: model:ir.model.fields,field_description:l10n_ro_stock_account.field_account_move_line____last_update
