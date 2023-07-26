@@ -64,6 +64,8 @@ class StockValuationLayer(models.Model):
         compute="_compute_l10n_ro_svl_tracking",
         string="Romania - Destination Valuation",
     )
+    # cantitate returnata dintr-o iesire
+    l10n_ro_qty_returned = fields.Float()
 
     @api.depends("product_id", "account_move_id")
     def _compute_account(self):

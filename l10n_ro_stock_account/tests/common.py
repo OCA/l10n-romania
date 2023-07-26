@@ -327,7 +327,7 @@ class TestStockCommon(ValuationReconciliationTestCommon):
 
             self.picking.button_validate()
             self.picking._action_done()
-            _logger.info("Receptie facuta")
+            _logger.debug("Receptie facuta")
 
         self.po = po
         return po
@@ -379,7 +379,9 @@ class TestStockCommon(ValuationReconciliationTestCommon):
         res = return_wiz.create_returns()
         return_pick = self.env["stock.picking"].browse(res["res_id"])
 
+        return_pick.button_validate()
         # Validate picking
+        # return_pick.button_validate()
         return_pick.action_confirm()
         return_pick.action_assign()
         for move_line in return_pick.move_lines:

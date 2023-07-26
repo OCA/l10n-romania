@@ -298,7 +298,7 @@ class StockMove(models.Model):
                 out_svls.append(
                     {
                         "product_id": svl.product_id.id,
-                        "quantity": -1 * svl.quantity,
+                        "quantity": -1 * svl.quantity - svl.l10n_ro_qty_returned,
                         "unit_cost": abs(svl.unit_cost),
                         "svl_id": svl.id,
                         "svl": svl,
@@ -328,6 +328,7 @@ class StockMove(models.Model):
                         quantity = valued_quantity
 
                     out_svl["quantity"] -= quantity
+                    out_svl["svl"].l10n_ro_qty_returned += quantity
                     valued_quantity -= quantity
 
                     unit_cost = out_svl["unit_cost"]
