@@ -134,7 +134,6 @@ class TestStockSaleReturn(TestStockCommon):
         self.check_stock_valuation(stock_value_final_p1, stock_value_final_p2)
         self.check_account_valuation(stock_value_final_p1, stock_value_final_p2)
 
-
     def test_not_fifo_return3(self):
         """
         Test FIFO valuation method for stock accounting in case of return from sale
