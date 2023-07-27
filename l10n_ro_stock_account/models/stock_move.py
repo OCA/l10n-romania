@@ -296,7 +296,7 @@ class StockMove(models.Model):
             out_svls = []
             origin_svls = (
                 move.origin_returned_move_id.sudo().stock_valuation_layer_ids.sorted(
-                    lambda l: l.create_date, reverse=True
+                    lambda l: l.create_date
                 )
             )
             for svl in origin_svls:
