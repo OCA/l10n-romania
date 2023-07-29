@@ -113,6 +113,8 @@ class TestStockCommon(ValuationReconciliationTestCommon):
         else:
             cls.category_fifo.write(category_value)
 
+        cls.category = cls.category_fifo
+
         category_value.update(
             {
                 "name": "TEST Marfa ",
