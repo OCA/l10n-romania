@@ -387,3 +387,7 @@ class ProductProduct(models.Model):
             product.sudo().with_context(disable_auto_svl=True).write(
                 {"standard_price": product.value_svl / product.quantity_svl}
             )
+
+    # _svl_empty_stock din 15.0 ?
+
+    # _svl_replenish_stock din 15.0 ?
