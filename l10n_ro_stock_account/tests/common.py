@@ -148,7 +148,7 @@ class TestStockCommon(ValuationReconciliationTestCommon):
             {
                 "name": "Product A",
                 "type": "product",
-                "categ_id": cls.category.id,
+                "categ_id": cls.category_fifo.id,
                 "invoice_policy": "delivery",
                 "purchase_method": "receive",
                 "list_price": cls.list_price_p1,
@@ -160,7 +160,7 @@ class TestStockCommon(ValuationReconciliationTestCommon):
                 "name": "Product B",
                 "type": "product",
                 "purchase_method": "receive",
-                "categ_id": cls.category.id,
+                "categ_id": cls.category_average.id,
                 "invoice_policy": "delivery",
                 "list_price": cls.list_price_p2,
                 "standard_price": cls.price_p2,

@@ -452,7 +452,6 @@ class ProductProduct(models.Model):
                         product.value_svl / product.quantity_svl,
                     )
                 ]
-
             for vals in svsl_vals:
                 vals["description"] = description + vals.pop("rounding_adjustment", "")
                 vals["company_id"] = self.env.company.id
