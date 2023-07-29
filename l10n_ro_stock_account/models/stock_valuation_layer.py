@@ -64,6 +64,8 @@ class StockValuationLayer(models.Model):
         compute="_compute_l10n_ro_svl_tracking",
         string="Romania - Destination Valuation",
     )
+    # cantitate returnata dintr-o iesire
+    l10n_ro_qty_returned = fields.Float()
 
     @api.depends("product_id", "account_move_id")
     def _compute_account(self):
@@ -172,7 +174,7 @@ class StockValuationLayer(models.Model):
     def _l10n_ro_pre_process_value(self, value):
         """
         Pentru a mapa tracking pe SVL in value pastram o cheie
-        'tracking': [(svl_id, qty).....]
+        'l10n_ro_tracking': [(svl_id, qty).....]
         inainte sa executam .create() curatam dictionarul.
         """
         fields_dict = self._fields.keys()
@@ -184,8 +186,8 @@ class StockValuationLayer(models.Model):
 
     def _l10n_ro_post_process(self, value):
         """
-        Pentru a mapa tracking pe SVL in value pastram o cheie
-        'tracking': [(svl_id, qty).....]
+        Pentru a mapa l10n_ro_tracking pe SVL in value pastram o cheie
+        'l10n_ro_tracking': [(svl_id, qty).....]
         acum este momentul sa mapam sursa, destinatia si cantitatea.
         """
 
