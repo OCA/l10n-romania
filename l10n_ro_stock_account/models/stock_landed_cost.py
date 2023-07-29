@@ -64,6 +64,7 @@ class StockLandedCost(models.Model):
                     "You should maybe recompute the landed costs."
                 )
             )
+
         for cost in self:
             cost = cost.with_company(cost.company_id)
             move = self.env["account.move"]
@@ -84,6 +85,7 @@ class StockLandedCost(models.Model):
                 for svl in line.move_id.stock_valuation_layer_ids.filtered(
                     lambda s: s.quantity != 0
                 ):
+
                     cost_to_add = (
                         svl.quantity / line.move_id.quantity_done
                     ) * line.additional_landed_cost
@@ -193,6 +195,7 @@ class AdjustmentLines(models.Model):
                 accounts.get("expense") and accounts["expense"].id or False
             )
         already_out_account_id = accounts["stock_output"].id
+
         if (
             debit_account_id == credit_account_id
             and credit_account_id == already_out_account_id
