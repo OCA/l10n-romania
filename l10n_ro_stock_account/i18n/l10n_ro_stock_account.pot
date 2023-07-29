@@ -88,8 +88,9 @@ msgstr ""
 #: code:addons/l10n_ro_stock_account/models/product_category.py:0
 #, python-format
 msgid ""
-"For Romanian Stock Accounting the stock_input, stock_output and "
-"stock_valuation accounts must bethe same for category %s"
+"For Romanian Stock Accounting the stock_input,\n"
+"                          stock_output and stock_valuation accounts must be\n"
+"                          the same for category %s"
 msgstr ""
 
 #. module: l10n_ro_stock_account
