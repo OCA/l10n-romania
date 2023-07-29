@@ -105,15 +105,32 @@ class TestStockCommon(ValuationReconciliationTestCommon):
             "l10n_ro_stock_account_change": True,
         }
 
-        cls.category = cls.env["product.category"].search(
+        cls.category_fifo = cls.env["product.category"].search(
             [("name", "=", "TEST Marfa")], limit=1
         )
-        if not cls.category:
-            cls.category = cls.env["product.category"].create(category_value)
+        if not cls.category_fifo:
+            cls.category_fifo = cls.env["product.category"].create(category_value)
         else:
-            cls.category.write(category_value)
+            cls.category_fifo.write(category_value)
 
-        cls.category_mp = cls.category.copy(
+        cls.category = cls.category_fifo
+
+        category_value.update(
+            {
+                "name": "TEST Marfa ",
+                "property_cost_method": "average",
+            }
+        )
+
+        cls.category_average = cls.env["product.category"].search(
+            [("name", "=", "TEST Marfa Average")], limit=1
+        )
+        if not cls.category_average:
+            cls.category_average = cls.env["product.category"].create(category_value)
+        else:
+            cls.category_average.write(category_value)
+
+        cls.category_mp = cls.category_fifo.copy(
             {
                 "property_account_expense_categ_id": cls.account_expense_mp.id,
                 "property_stock_account_input_categ_id": cls.account_valuation_mp.id,
