@@ -47,38 +47,41 @@ class ResPartner(models.Model):
             for item in chunk:
                 if item:
                     anaf_ask.append({"cui": int(item), "data": check_date})
-            res = requests.post(
-                ANAF_BULK_URL, json=anaf_ask, headers=headers, timeout=30
-            )
-            if res.status_code == 200:
-                result = {}
-                try:
-                    result = res.json()
-                except Exception:
-                    _logger.warning("ANAF sync not working: %s" % res.content)
-                if result.get("correlationId"):
-                    time.sleep(3)
-                    resp = False
+            try:
+                res = requests.post(
+                    ANAF_BULK_URL, json=anaf_ask, headers=headers, timeout=30
+                )
+                if res.status_code == 200:
+                    result = {}
                     try:
-                        resp = requests.get(
-                            ANAF_CORR % result["correlationId"], timeout=30
-                        )
-                    except Exception as e:
-                        _logger.warning("ANAF sync not working: %s" % e)
-                    if resp and resp.status_code == 200:
-                        resp = resp.json()
-                        for result_partner in resp["found"] + resp["notfound"]:
-                            vat = result_partner.get("date_generale").get("cui")
-                            if vat:
-                                partners = self.search(
-                                    [
-                                        ("l10n_ro_vat_number", "=", vat),
-                                        ("is_company", "=", True),
-                                    ]
-                                )
-                                for partner in partners:
-                                    data = partner._Anaf_to_Odoo(result_partner)
-                                    partner.update(data)
+                        result = res.json()
+                    except Exception:
+                        _logger.warning("ANAF sync not working: %s" % res.content)
+                    if result.get("correlationId"):
+                        time.sleep(3)
+                        resp = False
+                        try:
+                            resp = requests.get(
+                                ANAF_CORR % result["correlationId"], timeout=30
+                            )
+                        except Exception as e:
+                            _logger.warning("ANAF sync not working: %s" % e)
+                        if resp and resp.status_code == 200:
+                            resp = resp.json()
+                            for result_partner in resp["found"] + resp["notfound"]:
+                                vat = result_partner.get("date_generale").get("cui")
+                                if vat:
+                                    partners = self.search(
+                                        [
+                                            ("l10n_ro_vat_number", "=", vat),
+                                            ("is_company", "=", True),
+                                        ]
+                                    )
+                                    for partner in partners:
+                                        data = partner._Anaf_to_Odoo(result_partner)
+                                        partner.update(data)
+            except Exception:
+                _logger.warning("ANAF sync not working: %s" % res.content)
 
     @api.model
     def update_l10n_ro_vat_subjected_all(self):
