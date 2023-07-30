@@ -85,7 +85,7 @@ class TestStockSaleReturn(TestStockCommon):
         """
 
         self.qty_po_p1 = 5.0
-        self.qty_po_p2 = 10.0
+        self.qty_po_p2 = 5.0
 
         self.price_p1 = 50.0
         self.price_p2 = 50.0
@@ -110,7 +110,9 @@ class TestStockSaleReturn(TestStockCommon):
 
         # valoarea de stoc dupa vanzarea produselor
         stock_value_final_p1 -= round(5 * 50 + 10 * 75, 2)
-        stock_value_final_p2 -= round(10 * 50 + 5 * 75, 2)
+
+        price_p2 = (5 * 50 + 20 * 75) / (5 + 20)
+        stock_value_final_p2 -= round(15 * price_p2, 2)
 
         self.check_stock_valuation(stock_value_final_p1, stock_value_final_p2)
         self.check_account_valuation(stock_value_final_p1, stock_value_final_p2)
@@ -121,7 +123,7 @@ class TestStockSaleReturn(TestStockCommon):
         self.create_sale_invoice()
 
         stock_value_final_p1 += round(5 * 50 + 2 * 75, 2)
-        stock_value_final_p2 += round(7 * 50, 2)
+        stock_value_final_p2 += round(7 * price_p2, 2)
 
         self.check_stock_valuation(stock_value_final_p1, stock_value_final_p2)
         self.check_account_valuation(stock_value_final_p1, stock_value_final_p2)
@@ -129,7 +131,7 @@ class TestStockSaleReturn(TestStockCommon):
         self.make_return(pick, 1)
 
         stock_value_final_p1 += round(75, 2)
-        stock_value_final_p2 += round(50, 2)
+        stock_value_final_p2 += round(price_p2, 2)
 
         self.check_stock_valuation(stock_value_final_p1, stock_value_final_p2)
         self.check_account_valuation(stock_value_final_p1, stock_value_final_p2)
@@ -175,6 +177,7 @@ class TestStockSaleReturn(TestStockCommon):
         self.qty_so_p1 = 5.0
         self.qty_so_p2 = 5.0
 
+        price_p2 = (2 * 3 + 3 * 4) / (2 + 3)
         # iesire din stoc prin vanzare
         self.create_so()
 
@@ -191,7 +194,7 @@ class TestStockSaleReturn(TestStockCommon):
         self.create_sale_invoice()
 
         stock_value_final_p1 += round(2 * 3 + 1 * 4, 2)
-        stock_value_final_p2 += round(2 * 3 + 1 * 4, 2)
+        stock_value_final_p2 += round(3 * price_p2, 2)
 
         self.check_stock_valuation(stock_value_final_p1, stock_value_final_p2)
         self.check_account_valuation(stock_value_final_p1, stock_value_final_p2)
@@ -199,7 +202,7 @@ class TestStockSaleReturn(TestStockCommon):
         self.make_return(pick, 1)
 
         stock_value_final_p1 += round(4, 2)
-        stock_value_final_p2 += round(4, 2)
+        stock_value_final_p2 += round(price_p2, 2)
 
         self.check_stock_valuation(stock_value_final_p1, stock_value_final_p2)
         self.check_account_valuation(stock_value_final_p1, stock_value_final_p2)

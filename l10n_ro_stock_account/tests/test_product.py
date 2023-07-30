@@ -14,7 +14,7 @@ _logger = logging.getLogger(__name__)
 class TestProductCategory(TestStockCommon):
     def test_product_category(self):
 
-        category = Form(self.category.copy())
+        category = Form(self.category_fifo.copy())
         category.property_stock_valuation_account_id = self.account_valuation_mp
 
         category = category.save()
