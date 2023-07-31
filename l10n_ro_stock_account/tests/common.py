@@ -403,6 +403,7 @@ class TestStockCommon(ValuationReconciliationTestCommon):
             if move_line.product_uom_qty > 0 and move_line.quantity_done == 0:
                 move_line.write({"quantity_done": move_line.product_uom_qty})
         return_pick._action_done()
+        return return_pick
 
     def create_so(self, vals=False):
         _logger.debug("Start sale")
@@ -450,7 +451,13 @@ class TestStockCommon(ValuationReconciliationTestCommon):
         invoice.action_post()
 
     def transfer(
-        self, location, location_dest, product=False, accounting_date=False, post=True
+        self,
+        location,
+        location_dest,
+        product=False,
+        accounting_date=False,
+        post=True,
+        qty=2,
     ):
 
         self.PickingObj = self.env["stock.picking"]
@@ -471,7 +478,7 @@ class TestStockCommon(ValuationReconciliationTestCommon):
             {
                 "name": product.name,
                 "product_id": product.id,
-                "product_uom_qty": 2,
+                "product_uom_qty": qty,
                 "product_uom": product.uom_id.id,
                 "picking_id": picking.id,
                 "location_id": location.id,
@@ -488,6 +495,20 @@ class TestStockCommon(ValuationReconciliationTestCommon):
                     move_line.write({"quantity_done": move_line.product_uom_qty})
             picking._action_done()
         self.picking = picking
+        return picking
+
+    def check_picking_value(self, picking, product, value, valued_type):
+        stock_move = picking.move_lines.filtered(lambda m: m.product_id == product)
+        svl = stock_move.stock_valuation_layer_ids.filtered(
+            lambda l: l.l10n_ro_valued_type == valued_type
+        )
+        if "internal_transfer" in valued_type:
+            svl = stock_move.stock_valuation_layer_ids.filtered(
+                lambda l: l.quantity >= 0
+            )
+
+        svl_value = sum(svl.mapped("value"))
+        self.assertEqual(svl_value, value)
 
     def check_stock_valuation(self, val_p1, val_p2, account=None):
         val_p1 = round(val_p1, 2)

@@ -27,6 +27,7 @@ VALUED_TYPE = [
     ("production", "Production"),
     ("production_return", "Return Production"),
     ("internal_transfer", "Internal Transfer"),
+    ("internal_transfer_return", "Return Internal Transfer"),
     ("usage_giving", "Usage Giving"),
     ("usage_giving_return", "Return Usage Giving"),
     ("indefinite", "Indefinite"),
@@ -42,7 +43,6 @@ class StorageSheet(models.TransientModel):
     location_id = fields.Many2one(
         "stock.location",
         domain="[('usage','=','internal'),('company_id','=',company_id)]",
-        required=True,
     )
 
     product_ids = fields.Many2many(
@@ -74,7 +74,7 @@ class StorageSheet(models.TransientModel):
 
     @api.depends("sublocation", "location_id")
     def _compute_location_ids(self):
-        if self.sublocation:
+        if self.sublocation and self.location_id:
             children_location = (
                 self.env["stock.location"]
                 .with_context(active_test=False)
@@ -83,6 +83,17 @@ class StorageSheet(models.TransientModel):
             self.location_ids = self.location_id + children_location
         else:
             self.location_ids = self.location_id
+
+        if not self.location_id:
+            domain = [
+                ("usage", "=", "internal"),
+                ("company_id", "=", self.company_id.id),
+            ]
+            self.location_ids = (
+                self.env["stock.location"]
+                .with_context(active_test=False)
+                .search(domain)
+            )
 
     def _get_report_base_filename(self):
         self.ensure_one()
@@ -250,12 +261,12 @@ class StorageSheet(models.TransientModel):
                     (sm.location_id in %(locations)s OR sm.location_dest_id in %(locations)s)
                 left join product_template pt on pt.id = prod.product_tmpl_id
                 left join stock_valuation_layer as svl on svl.stock_move_id = sm.id and
-                        ((l10n_ro_valued_type !='internal_transfer' or
+                        ((l10n_ro_valued_type not like 'internal_transfer%%' or
                             l10n_ro_valued_type is Null
                          ) or
-                         (l10n_ro_valued_type ='internal_transfer' and quantity<0 and
+                         (l10n_ro_valued_type like 'internal_transfer%%' and quantity<0 and
                           sm.location_id in %(locations)s) or
-                         (l10n_ro_valued_type ='internal_transfer' and quantity>0 and
+                         (l10n_ro_valued_type like 'internal_transfer%%' and quantity>0 and
                           sm.location_dest_id in %(locations)s))
                 where
                     ( %(all_products)s  or sm.product_id in %(product)s )
@@ -288,12 +299,12 @@ class StorageSheet(models.TransientModel):
                 left join product_product prod on prod.id = sm.product_id
                 left join product_template pt on pt.id = prod.product_tmpl_id
                 inner join  stock_valuation_layer as svl on svl.stock_move_id = sm.id and
-                        ((l10n_ro_valued_type !='internal_transfer' or
+                        ((l10n_ro_valued_type not like 'internal_transfer%%' or
                           l10n_ro_valued_type is Null
                          ) or
-                         (l10n_ro_valued_type ='internal_transfer' and quantity<0 and
+                         (l10n_ro_valued_type like 'internal_transfer%%' and quantity<0 and
                           sm.location_id in %(locations)s) or
-                         (l10n_ro_valued_type ='internal_transfer' and quantity>0 and
+                         (l10n_ro_valued_type like 'internal_transfe%%r' and quantity>0 and
                           sm.location_dest_id in %(locations)s))
                 where sm.state = 'done' AND
                     sm.company_id = %(company)s AND

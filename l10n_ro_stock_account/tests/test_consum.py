@@ -99,7 +99,6 @@ class TestStockConsum(TestStockCommon):
         self.make_return(self.picking, 1)
 
     def test_usage_giving(self):
-
         self.set_stock(self.product_mp, 1000)
         _logger.debug("Start dare in folosinta")
 
@@ -116,7 +115,6 @@ class TestStockConsum(TestStockCommon):
         self.make_return(self.picking, 1)
 
     def test_consume(self):
-
         self.set_stock(self.product_mp, 1000)
         _logger.debug("Start consum produse")
 
@@ -244,3 +242,98 @@ class TestStockConsum(TestStockCommon):
         _logger.info("Consum facut")
         self.check_account_valuation_mp(-val_stock_p1 / 2, acc_3026)
         self.check_account_valuation_mp(val_stock_p1 / 2, acc_6026)
+
+    def test_trasnfer_consum_return(self):
+        """ """
+        self.qty_po_p1 = 2.0
+        self.qty_po_p2 = 2.0
+        self.price_p1 = 3.0
+        self.price_p2 = 3.0
+
+        self.make_purchase()
+
+        stock_value_final_p1 = round(self.qty_po_p1 * self.price_p1, 2)
+        stock_value_final_p2 = round(self.qty_po_p2 * self.price_p2, 2)
+
+        self.qty_po_p1 = 3
+        self.qty_po_p2 = 3
+        self.price_p1 = 4.0
+        self.price_p2 = 4.0
+        self.make_purchase()
+        stock_value_final_p1 += round(self.qty_po_p1 * self.price_p1, 2)
+        stock_value_final_p2 += round(self.qty_po_p2 * self.price_p2, 2)
+
+        self.qty_so_p1 = 5.0
+        self.qty_so_p2 = 5.0
+
+        price_p2 = (2 * 3 + 3 * 4) / (2 + 3)  # = 3,6
+
+        location1_id = self.picking_type_transfer.default_location_src_id
+        location2_id = self.picking_type_transfer.default_location_dest_id
+
+        _logger.debug("Start transfer 2 buc la pret 3 si 1 bc la pret 4")
+        picking_t_1 = self.transfer(
+            location1_id, location2_id, product=self.product_1, qty=3
+        )
+        self.check_picking_value(
+            picking=picking_t_1,
+            product=self.product_1,
+            value=2 * 3 + 1 * 4,
+            valued_type="internal_transfer",
+        )
+
+        _logger.debug("Start transfer 3 buc la pret 3,6")
+        picking_t_2 = self.transfer(
+            location1_id, location2_id, product=self.product_2, qty=3
+        )
+
+        self.check_picking_value(
+            picking=picking_t_2,
+            product=self.product_2,
+            value=3 * price_p2,
+            valued_type="internal_transfer",
+        )
+
+        _logger.debug("Transfer 2 buc")
+        self.transfer(location1_id, location2_id, product=self.product_1)
+        self.transfer(location1_id, location2_id, product=self.product_2)
+
+        # se consuma in productie 2 buc
+        picking_c_1 = self.transfer(
+            location2_id, self.location_production, product=self.product_1, qty=2
+        )
+
+        self.check_picking_value(
+            picking=picking_c_1,
+            product=self.product_1,
+            value=-2 * 3,
+            valued_type="consumption",
+        )
+
+        picking_c_2 = self.transfer(
+            location2_id, self.location_production, product=self.product_2, qty=2
+        )
+        self.check_picking_value(
+            picking=picking_c_2,
+            product=self.product_2,
+            value=-2 * price_p2,
+            valued_type="consumption",
+        )
+
+        # se face retur la consum in productie
+        self.make_return(picking_c_1, 2)
+        self.make_return(picking_c_2, 2)
+
+        # se face retur la transfer la valoarea cu care a fost transferat
+        # return_pick = self.make_return(picking_t_1, 3)
+        # self.check_picking_value(
+        #     return_pick, self.product_1, 2 * 3 + 1 * 4, "internal_transfer_return"
+        # )
+        #
+        # return_pick = self.make_return(picking_t_2, 3)
+        # self.check_picking_value(
+        #     return_pick, self.product_2, 2 * price_p2, "internal_transfer_return"
+        # )
+
+        self.check_stock_valuation(stock_value_final_p1, stock_value_final_p2)
+        self.check_account_valuation(stock_value_final_p1, stock_value_final_p2)
