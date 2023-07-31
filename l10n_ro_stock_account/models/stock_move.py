@@ -524,6 +524,15 @@ class StockMove(models.Model):
 
     def _create_internal_transfer_return_svl(self, forced_quantity=None):
         move = self.with_context(standard=True, valued_type="internal_transfer_return")
+        if (
+            move.origin_returned_move_id
+            and move.origin_returned_move_id.sudo().stock_valuation_layer_ids
+        ):
+            move = move.with_context(
+                origin_return_candidates=move.origin_returned_move_id.sudo()
+                .stock_valuation_layer_ids.filtered(lambda sv: sv.remaining_qty > 0)
+                .ids
+            )
         return move.__create_internal_transfer_svl(forced_quantity)
 
     def _is_usage_giving(self):

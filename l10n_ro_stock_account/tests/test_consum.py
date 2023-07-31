@@ -303,37 +303,38 @@ class TestStockConsum(TestStockCommon):
             location2_id, self.location_production, product=self.product_1, qty=2
         )
 
-        self.check_picking_value(
-            picking=picking_c_1,
-            product=self.product_1,
-            value=-2 * 3,
-            valued_type="consumption",
-        )
+        self.check_picking_value(picking_c_1, self.product_1, -2 * 3, "consumption")
 
         picking_c_2 = self.transfer(
             location2_id, self.location_production, product=self.product_2, qty=2
         )
         self.check_picking_value(
-            picking=picking_c_2,
-            product=self.product_2,
-            value=-2 * price_p2,
-            valued_type="consumption",
+            picking_c_2, self.product_2, -2 * price_p2, "consumption"
         )
 
         # se face retur la consum in productie
-        self.make_return(picking_c_1, 2)
-        self.make_return(picking_c_2, 2)
+        return_pick = self.make_return(picking_c_1, 2)
+
+        self.check_picking_value(
+            return_pick, self.product_1, 2 * 3, "consumption_return"
+        )
+
+        return_pick = self.make_return(picking_c_2, 2)
+
+        self.check_picking_value(
+            return_pick, self.product_2, 2 * price_p2, "consumption_return"
+        )
 
         # se face retur la transfer la valoarea cu care a fost transferat
-        # return_pick = self.make_return(picking_t_1, 3)
-        # self.check_picking_value(
-        #     return_pick, self.product_1, 2 * 3 + 1 * 4, "internal_transfer_return"
-        # )
-        #
-        # return_pick = self.make_return(picking_t_2, 3)
-        # self.check_picking_value(
-        #     return_pick, self.product_2, 2 * price_p2, "internal_transfer_return"
-        # )
+        return_pick = self.make_return(picking_t_1, 3)
+        self.check_picking_value(
+            return_pick, self.product_1, 2 * 3 + 1 * 4, "internal_transfer_return"
+        )
+
+        return_pick = self.make_return(picking_t_2, 3)
+        self.check_picking_value(
+            return_pick, self.product_2, 2 * price_p2, "internal_transfer_return"
+        )
 
         self.check_stock_valuation(stock_value_final_p1, stock_value_final_p2)
         self.check_account_valuation(stock_value_final_p1, stock_value_final_p2)
