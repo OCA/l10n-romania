@@ -26,6 +26,8 @@ class ProductProduct(models.Model):
 
         if l10n_ro_records:
             company = self.env.company
+            # company_currency_id are compute method _compute_value_svl
+            l10n_ro_records.company_currency_id = company.currency_id
             use_svl_lot_config = (
                 company.l10n_ro_stock_account_svl_lot_allocation
                 or self.env.context.get("force_svl_lot_config", False)
