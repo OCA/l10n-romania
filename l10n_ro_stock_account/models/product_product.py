@@ -59,19 +59,37 @@ class ProductProduct(models.Model):
                 to_date = fields.Datetime.to_datetime(self.env.context["to_date"])
                 domain.append(("create_date", "<=", to_date))
             groups = self.env["stock.valuation.layer"].read_group(
-                domain, ["remaining_value:sum", "remaining_qty:sum"], ["product_id"]
+                domain,
+                [
+                    "value:sum",
+                    "quantity:sum",
+                    "remaining_value:sum",
+                    "remaining_qty:sum",
+                ],
+                ["product_id"],
             )
             products = self.browse()
+            # Browse all products and compute products' quantities_dict in batch.
+            self.env["product.product"].browse(
+                [group["product_id"][0] for group in groups]
+            ).sudo(False).mapped("qty_available")
             for group in groups:
                 product = self.browse(group["product_id"][0])
                 product.value_svl = self.env.company.currency_id.round(
                     group["remaining_value"]
                 )
                 product.quantity_svl = group["remaining_qty"]
+                value_svl = company.currency_id.round(group["value"])
+                avg_cost = value_svl / group["quantity"] if group["quantity"] else 0
+                product.avg_cost = avg_cost
+                product.total_value = avg_cost * product.sudo(False).qty_available
                 products |= product
             remaining = l10n_ro_records - products
             remaining.value_svl = 0
             remaining.quantity_svl = 0
+            remaining.avg_cost = 0
+            remaining.total_value = 0
+
         return res
 
     def _prepare_out_svl_vals(self, quantity, company):
