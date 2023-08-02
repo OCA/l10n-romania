@@ -305,6 +305,16 @@ msgid "Plus inventory"
 msgstr ""
 
 #. module: l10n_ro_stock_report
+#: model_terms:ir.ui.view,arch_db:l10n_ro_stock_report.report_storage_sheet_lines_header
+msgid "Price Input"
+msgstr ""
+
+#. module: l10n_ro_stock_report
+#: model_terms:ir.ui.view,arch_db:l10n_ro_stock_report.report_storage_sheet_lines_header
+msgid "Price Output"
+msgstr ""
+
+#. module: l10n_ro_stock_report
 #: model:ir.model.fields,field_description:l10n_ro_stock_report.field_l10n_ro_stock_storage_sheet_line__unit_price_in
 msgid "Price Unit In"
 msgstr ""
@@ -505,7 +515,7 @@ msgid ""
 "show only products that have moves in period"
 msgstr ""
 "Va afișa raportul numai pentru aceste produse.     Dacă nimic nu va fi "
-"selectatarata numai produsele care au miscari de stoc in perioada"
+"selectat arata numai produsele care au miscari de stoc in perioada"
 
 #~ msgid "Product Category"
 #~ msgstr "Categorie produs"

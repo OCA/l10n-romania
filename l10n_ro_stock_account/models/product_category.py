@@ -53,10 +53,11 @@ class ProductCategory(models.Model):
                 if not (stock_input == stock_output == stock_val):
                     raise UserError(
                         _(
-                            "For Romanian Stock Accounting the stock_input, "
-                            "stock_output and stock_valuation accounts must "
-                            "bethe same for category %s" % record.name
+                            """For Romanian Stock Accounting the stock_input,
+                          stock_output and stock_valuation accounts must be
+                          the same for category %s"""
                         )
+                        % record.name
                     )
         else:
             super(ProductCategory, self)._check_valuation_accouts()
