@@ -7,7 +7,7 @@ from odoo.exceptions import ValidationError
 class StockReturnPicking(models.TransientModel):
     _inherit = "stock.return.picking"
 
-    #Limit return by SVL Return
+    # Limit return by SVL Return
     def _create_returns(self):
         for svl in self.picking_id.mapped("move_lines.stock_valuation_layer_ids"):
             is_available, message = svl.check_return_available()
@@ -46,4 +46,3 @@ class StockReturnPickingLine(models.TransientModel):
             else:
                 line.l10n_ro_origin_ret_move_qty = line.quantity
                 line.l10n_ro_origin_ret_move_qty_warn = False
-        
