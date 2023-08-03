@@ -31,6 +31,7 @@ class StockMove(models.Model):
                 "production",  # inregistrare produse finite/semifabricate prin productie
                 "production_return",  # storno productie
                 "internal_transfer",  # transfer intern
+                "internal_transfer_return",  # transfer intern
                 "usage_giving",
                 "usage_giving_return",
             ]
@@ -451,14 +452,24 @@ class StockMove(models.Model):
             self.is_l10n_ro_record
             and self.location_dest_id.usage == "internal"
             and self.location_id.usage == "internal"
+            and not self.origin_returned_move_id
+        )
+        return it_is
+
+    def _is_internal_transfer_return(self):
+        """Este transfer intern"""
+        it_is = (
+            self.is_l10n_ro_record
+            and self.location_dest_id.usage == "internal"
+            and self.location_id.usage == "internal"
+            and self.origin_returned_move_id
         )
         return it_is
 
     # cred ca este mai bine sa generam doua svl - o intrare si o iesire
-    def _create_internal_transfer_svl(self, forced_quantity=None):
+    def __create_internal_transfer_svl(self, forced_quantity=None):
         svls = self.env["stock.valuation.layer"]
         for move in self:
-            move = move.with_context(standard=True, valued_type="internal_transfer")
             move = move.with_company(move.company_id.id)
 
             valued_move_lines = move.move_line_ids
@@ -506,6 +517,23 @@ class StockMove(models.Model):
                     )
                     svls |= self._l10n_ro_create_track_svl([new_svl_vals])
         return svls
+
+    def _create_internal_transfer_svl(self, forced_quantity=None):
+        move = self.with_context(standard=True, valued_type="internal_transfer")
+        return move.__create_internal_transfer_svl(forced_quantity)
+
+    def _create_internal_transfer_return_svl(self, forced_quantity=None):
+        move = self.with_context(standard=True, valued_type="internal_transfer_return")
+        if (
+            move.origin_returned_move_id
+            and move.origin_returned_move_id.sudo().stock_valuation_layer_ids
+        ):
+            move = move.with_context(
+                origin_return_candidates=move.origin_returned_move_id.sudo()
+                .stock_valuation_layer_ids.filtered(lambda sv: sv.remaining_qty > 0)
+                .ids
+            )
+        return move.__create_internal_transfer_svl(forced_quantity)
 
     def _is_usage_giving(self):
         """Este dare in folosinta"""
