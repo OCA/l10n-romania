@@ -194,11 +194,14 @@ class StockValuationLayer(models.Model):
         if value.get("l10n_ro_tracking", None):
             self._l10n_ro_create_tracking(value.get("l10n_ro_tracking"))
 
-    def _l10n_ro_tracking_merge_value(self, svl_id, quantity, value):
+    def _l10n_ro_tracking_merge_value(
+        self, svl_id, quantity, value, track_svl_src_id=None
+    ):
         return {
             "svl_src_id": svl_id,
             "quantity": quantity,
             "value": value,
+            "svl_return_id": track_svl_src_id,
         }
 
     def _l10n_ro_prepare_tracking_value(self, source_svl_qty):

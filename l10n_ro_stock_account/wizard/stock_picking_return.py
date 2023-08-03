@@ -1,6 +1,20 @@
 # Copyright (C) 2021 NextERP Romania
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 from odoo import api, fields, models
+from odoo.exceptions import ValidationError
+
+
+class StockReturnPicking(models.TransientModel):
+    _inherit = "stock.return.picking"
+
+    # Limit return by SVL Return
+    def _create_returns(self):
+        for svl in self.picking_id.mapped("move_lines.stock_valuation_layer_ids"):
+            is_available, message = svl.check_return_available()
+            if is_available:
+                continue
+            raise ValidationError(message)
+        return super(StockReturnPicking, self)._create_returns()
 
 
 class StockReturnPickingLine(models.TransientModel):
