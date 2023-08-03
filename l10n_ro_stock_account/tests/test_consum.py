@@ -244,7 +244,7 @@ class TestStockConsum(TestStockCommon):
         self.check_account_valuation_mp(val_stock_p1 / 2, acc_6026)
 
     def test_trasnfer_consum_return(self):
-        """ """
+
         self.qty_po_p1 = 2.0
         self.qty_po_p2 = 2.0
         self.price_p1 = 3.0

@@ -3,13 +3,6 @@ from odoo import api, fields, models
 from odoo.exceptions import ValidationError
 
 
-class SvlReturn(models.Model):
-    _inherit = "l10n.ro.stock.valuation.layer.tracking"
-
-    # Source SVL returned
-    svl_return_id = fields.Many2one("stock.valuation.layer")
-
-
 class StockValuationLayer(models.Model):
     _inherit = "stock.valuation.layer"
 

@@ -239,13 +239,10 @@ class StockMove(models.Model):
         svl = self.env["stock.valuation.layer"]
         for move in self:
             move = move.with_context(standard=True, valued_type="reception_return")
-            if (
-                move.origin_returned_move_id
-                and move.origin_returned_move_id.sudo().stock_valuation_layer_ids
-            ):
+            orm = move.origin_returned_move_id.sudo()
+            if orm.stock_valuation_layer_ids:
                 move = move.with_context(
-                    origin_return_candidates=move.origin_returned_move_id.sudo()
-                    .stock_valuation_layer_ids.ids
+                    origin_return_candidates=orm.stock_valuation_layer_ids.ids
                 )
             svl += move._create_out_svl(forced_quantity)
         return svl
@@ -408,13 +405,10 @@ class StockMove(models.Model):
 
     def _create_production_return_svl(self, forced_quantity=None):
         move = self.with_context(standard=True, valued_type="production_return")
-        if (
-            move.origin_returned_move_id
-            and move.origin_returned_move_id.sudo().stock_valuation_layer_ids
-        ):
+        orm = move.origin_returned_move_id.sudo()
+        if orm.stock_valuation_layer_ids:
             move = move.with_context(
-                origin_return_candidates=move.origin_returned_move_id.sudo()
-                .stock_valuation_layer_ids.ids
+                origin_return_candidates=orm.stock_valuation_layer_ids.ids
             )
 
         return move._create_out_svl(forced_quantity)
@@ -445,13 +439,10 @@ class StockMove(models.Model):
 
     def _create_consumption_return_svl(self, forced_quantity=None):
         move = self.with_context(standard=True, valued_type="consumption_return")
-        if (
-            move.origin_returned_move_id
-            and move.origin_returned_move_id.sudo().stock_valuation_layer_ids
-        ):
+        orm = move.origin_returned_move_id.sudo()
+        if orm.stock_valuation_layer_ids:
             move = move.with_context(
-                origin_return_candidates=move.origin_returned_move_id.sudo()
-                .stock_valuation_layer_ids.ids
+                origin_return_candidates=orm.stock_valuation_layer_ids.ids
             )
         return move._create_in_svl(forced_quantity)
 
@@ -541,13 +532,10 @@ class StockMove(models.Model):
 
     def _create_internal_transfer_return_svl(self, forced_quantity=None):
         move = self.with_context(standard=True, valued_type="internal_transfer_return")
-        if (
-            move.origin_returned_move_id
-            and move.origin_returned_move_id.sudo().stock_valuation_layer_ids
-        ):
+        orm = move.origin_returned_move_id.sudo()
+        if orm.stock_valuation_layer_ids:
             move = move.with_context(
-                origin_return_candidates=move.origin_returned_move_id.sudo()
-                .stock_valuation_layer_ids.ids
+                origin_return_candidates=orm.stock_valuation_layer_ids.ids
             )
         return move.__create_internal_transfer_svl(forced_quantity)
 
@@ -576,13 +564,10 @@ class StockMove(models.Model):
 
     def _create_usage_giving_return_svl(self, forced_quantity=None):
         move = self.with_context(standard=True, valued_type="usage_giving_return")
-        if (
-            move.origin_returned_move_id
-            and move.origin_returned_move_id.sudo().stock_valuation_layer_ids
-        ):
+        orm = move.origin_returned_move_id.sudo()
+        if orm.stock_valuation_layer_ids:
             move = move.with_context(
-                origin_return_candidates=move.origin_returned_move_id.sudo()
-                .stock_valuation_layer_ids.ids
+                origin_return_candidates=orm.stock_valuation_layer_ids.ids
             )
         return move._create_in_svl(forced_quantity)
 

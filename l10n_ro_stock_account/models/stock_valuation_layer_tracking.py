@@ -11,3 +11,4 @@ class SVLTracking(models.Model):
     svl_src_id = fields.Many2one("stock.valuation.layer")
     quantity = fields.Float()
     value = fields.Float()
+    svl_return_id = fields.Many2one("stock.valuation.layer")
