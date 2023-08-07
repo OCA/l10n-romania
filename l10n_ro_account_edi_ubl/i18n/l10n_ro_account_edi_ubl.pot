@@ -155,6 +155,7 @@ msgstr ""
 
 #. module: l10n_ro_account_edi_ubl
 #: model:ir.model,name:l10n_ro_account_edi_ubl.model_product_product
+
 msgid "Product"
 msgstr ""
 

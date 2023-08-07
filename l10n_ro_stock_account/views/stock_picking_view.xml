@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="view_picking_add_price_unit_form" model="ir.ui.view">
+        <field name="name">view_picking_add_price_unit_form</field>
+        <field name="model">stock.picking</field>
+        <field name="inherit_id" ref="stock.view_picking_form" />
+        <field name="arch" type="xml">
+            <xpath expr="//button[@name='action_show_details']" position="after">
+                <field name="is_l10n_ro_record" invisible="1" />
+                <field name="picking_code" invisible="1" />
+                <field
+                    name="price_unit"
+                    attrs="{'invisible': ['|', ('picking_code','!=','incoming'), ('is_l10n_ro_record', '=', False)]}"
+                />
+            </xpath>
+            <xpath expr="//div[@name='button_box']" position="inside">
+                <field name="is_l10n_ro_record" invisible="1" />
+                <button
+                    string="Journal Items"
+                    type="object"
+                    name="action_l10n_ro_view_account_moves"
+                    class="oe_stat_button"
+                    icon="fa-dollar"
+                    groups="base.group_no_one"
+                    attrs="{'invisible': ['|', ('state', 'not in', ['done']), ('is_l10n_ro_record', '=', False)]}"
+                />
+            </xpath>
+        </field>
+    </record>
+
+    <record id="l10n_ro_stock_account_move_action" model="ir.actions.act_window">
+        <field name="name">Journal Entries</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">account.move.line</field>
+        <field name="view_mode">tree,form</field>
+        <field name="view_id" ref="account.view_move_line_tree" />
+        <field name="context">{'search_default_group_by_account': 1}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face" />
+            <p>
+            </p>
+        </field>
+    </record>
+
+</odoo>

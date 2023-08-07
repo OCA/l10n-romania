@@ -41,12 +41,14 @@ class AccountEdiXmlCIUSRO(models.Model):
         return vals_list
 
     def _get_invoice_tax_totals_vals_list(self, invoice, taxes_vals):
+
         # see:  def _export_invoice_vals(self, invoice): credit notes (out_refund) will
         # be converted to negative values;
         # why use balance sign here?
         # balance_sign = -1 if invoice.is_inbound() else 1
 
         balance_sign = 1
+
         return [
             {
                 "currency": invoice.currency_id,
@@ -61,6 +63,7 @@ class AccountEdiXmlCIUSRO(models.Model):
                         "percent": vals["_tax_category_vals_"]["percent"],
                         "tax_category_vals": vals["_tax_category_vals_"],
                         "tax_id": vals["group_tax_details"][0]["id"],
+
                     }
                     for vals in taxes_vals["tax_details"].values()
                 ],

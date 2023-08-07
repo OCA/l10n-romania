@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="view_backorder_confirmation" model="ir.ui.view">
+        <field name="model">stock.backorder.confirmation</field>
+        <field name="inherit_id" ref="stock.view_backorder_confirmation" />
+        <field name="arch" type="xml">
+            <xpath expr="//footer" position="before">
+                <group>
+                    <field name="is_l10n_ro_record" invisible="1" />
+                    <field
+                        name="l10n_ro_accounting_date"
+                        attrs="{'invisible': [('is_l10n_ro_record', '=', False)]}"
+                    />
+                </group>
+            </xpath>
+        </field>
+    </record>
+</odoo>

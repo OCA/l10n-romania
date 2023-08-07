@@ -101,6 +101,7 @@ class TestAccountEdiUbl(AccountEdiTestCommon):
                     "name": "FBRAO2092",
                     "partner_id": cls.partner.id,
                     "invoice_date": fields.Date.from_string("2022-09-01"),
+                    "invoice_date_due": fields.Date.from_string("2022-09-01"),
                     "currency_id": cls.currency.id,
                     "invoice_line_ids": [
                         (

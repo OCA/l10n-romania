@@ -1,0 +1,418 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* l10n_ro_account_anaf_sync
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 16.0\n"
+"Report-Msgid-Bugs-To: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: l10n_ro_account_anaf_sync
+#: model:ir.model.fields,help:l10n_ro_account_anaf_sync.field_l10n_ro_account_anaf_sync__response_secret
+msgid "A generated secret to know that the response is ok"
+msgstr ""
+
+#. module: l10n_ro_account_anaf_sync
+#: model_terms:ir.ui.view,arch_db:l10n_ro_account_anaf_sync.redirect_anaf
+msgid "ANAF Response"
+msgstr ""
+
+#. module: l10n_ro_account_anaf_sync
+#: model:ir.model.fields,field_description:l10n_ro_account_anaf_sync.field_l10n_ro_account_anaf_sync__access_token
+msgid "Access Token"
+msgstr ""
+
+#. module: l10n_ro_account_anaf_sync
+#: model:ir.actions.act_window,name:l10n_ro_account_anaf_sync.action_account_anaf_sync
+#: model:ir.model,name:l10n_ro_account_anaf_sync.model_l10n_ro_account_anaf_sync
+#: model_terms:ir.ui.view,arch_db:l10n_ro_account_anaf_sync.view_l10n_ro_account_anaf_sync_form
+msgid "Account ANAF Sync"
+msgstr ""
+
+#. module: l10n_ro_account_anaf_sync
+#: model:ir.model.fields,field_description:l10n_ro_account_anaf_sync.field_l10n_ro_account_anaf_sync__message_needaction
+msgid "Action Needed"
+msgstr ""
+
+#. module: l10n_ro_account_anaf_sync
+#: model:ir.model.fields,field_description:l10n_ro_account_anaf_sync.field_l10n_ro_account_anaf_sync__anaf_callback_url
+msgid "Anaf Callback Url"
+msgstr ""
+
+#. module: l10n_ro_account_anaf_sync
+#: model:ir.model.fields,field_description:l10n_ro_account_anaf_sync.field_l10n_ro_account_anaf_sync__anaf_einvoice_sync_url
+msgid "Anaf Einvoice Sync Url"
+msgstr ""
+
+#. module: l10n_ro_account_anaf_sync
+#: model:ir.model.fields,field_description:l10n_ro_account_anaf_sync.field_l10n_ro_account_anaf_sync__anaf_oauth_url
+msgid "Anaf Oauth Url"
+msgstr ""
+
+#. module: l10n_ro_account_anaf_sync
+#: model:ir.model.constraint,message:l10n_ro_account_anaf_sync.constraint_l10n_ro_account_anaf_sync_company_id_uniq
+msgid "Another ANAF sync for this company already exists!"
+msgstr ""
+
+#. module: l10n_ro_account_anaf_sync
+#: model_terms:ir.ui.view,arch_db:l10n_ro_account_anaf_sync.view_l10n_ro_account_anaf_sync_form
+msgid ""
+"At this step you need a digital certified signature and a browser that "
+"recognise it"
+msgstr ""
+
+#. module: l10n_ro_account_anaf_sync
+#: model:ir.model.fields,field_description:l10n_ro_account_anaf_sync.field_l10n_ro_account_anaf_sync__message_attachment_count
+msgid "Attachment Count"
+msgstr ""
+
+#. module: l10n_ro_account_anaf_sync
+#: model:ir.model.fields.selection,name:l10n_ro_account_anaf_sync.selection__l10n_ro_account_anaf_sync__state__automatic
+msgid "Automatic"
+msgstr ""
+
+#. module: l10n_ro_account_anaf_sync
+#: model:ir.model.fields,field_description:l10n_ro_account_anaf_sync.field_l10n_ro_account_anaf_sync__client_id
+msgid "Client"
+msgstr ""
+
+#. module: l10n_ro_account_anaf_sync
+#: model:ir.model.fields,field_description:l10n_ro_account_anaf_sync.field_l10n_ro_account_anaf_sync__client_secret
+msgid "Client Secret"
+msgstr ""
+
+#. module: l10n_ro_account_anaf_sync
+#: model:ir.model.fields,field_description:l10n_ro_account_anaf_sync.field_l10n_ro_account_anaf_sync__client_token_valability
+msgid "Client Token Valability"
+msgstr ""
+
+#. module: l10n_ro_account_anaf_sync
+#: model:ir.model.fields,field_description:l10n_ro_account_anaf_sync.field_l10n_ro_account_anaf_sync__code
+msgid "Code"
+msgstr ""
+
+#. module: l10n_ro_account_anaf_sync
+#: model:ir.model,name:l10n_ro_account_anaf_sync.model_res_company
+msgid "Companies"
+msgstr ""
+
+#. module: l10n_ro_account_anaf_sync
+#: model:ir.model.fields,field_description:l10n_ro_account_anaf_sync.field_l10n_ro_account_anaf_sync__company_id
+msgid "Company"
+msgstr ""
+
+#. module: l10n_ro_account_anaf_sync
+#: model_terms:ir.ui.view,arch_db:l10n_ro_account_anaf_sync.view_l10n_ro_account_anaf_sync_form
+msgid "Config"
+msgstr ""
+
+#. module: l10n_ro_account_anaf_sync
+#: model_terms:ir.ui.view,arch_db:l10n_ro_account_anaf_sync.res_config_settings_view_form
+msgid "Configure ANAF sync"
+msgstr ""
+
+#. module: l10n_ro_account_anaf_sync
+#: model:ir.model.fields,field_description:l10n_ro_account_anaf_sync.field_l10n_ro_account_anaf_sync__create_uid
+msgid "Created by"
+msgstr ""
+
+#. module: l10n_ro_account_anaf_sync
+#: model:ir.model.fields,field_description:l10n_ro_account_anaf_sync.field_l10n_ro_account_anaf_sync__create_date
+msgid "Created on"
+msgstr ""
+
+#. module: l10n_ro_account_anaf_sync
+#: model:ir.model.fields,help:l10n_ro_account_anaf_sync.field_l10n_ro_account_anaf_sync__client_token_valability
+msgid "Date when is going to expire - 90 days from when was generated"
+msgstr ""
+
+#. module: l10n_ro_account_anaf_sync
+#: model:ir.model.fields,field_description:l10n_ro_account_anaf_sync.field_l10n_ro_account_anaf_sync__display_name
+msgid "Display Name"
+msgstr ""
+
+#. module: l10n_ro_account_anaf_sync
+#. odoo-python
+#: code:addons/l10n_ro_account_anaf_sync/controllers/anaf_oauth.py:0
+#, python-format
+msgid "Error, this ANAF config does not exist!"
+msgstr ""
+
+#. module: l10n_ro_account_anaf_sync
+#: model:ir.model.fields,field_description:l10n_ro_account_anaf_sync.field_l10n_ro_account_anaf_sync__message_follower_ids
+msgid "Followers"
+msgstr ""
+
+#. module: l10n_ro_account_anaf_sync
+#: model:ir.model.fields,field_description:l10n_ro_account_anaf_sync.field_l10n_ro_account_anaf_sync__message_partner_ids
+msgid "Followers (Partners)"
+msgstr ""
+
+#. module: l10n_ro_account_anaf_sync
+#: model:ir.model.fields,help:l10n_ro_account_anaf_sync.field_l10n_ro_account_anaf_sync__client_id
+#: model:ir.model.fields,help:l10n_ro_account_anaf_sync.field_l10n_ro_account_anaf_sync__client_secret
+msgid "From ANAF site the Oauth id - view the readme"
+msgstr ""
+
+#. module: l10n_ro_account_anaf_sync
+#: model_terms:ir.ui.view,arch_db:l10n_ro_account_anaf_sync.view_l10n_ro_account_anaf_sync_form
+msgid "Get Token From Anaf Website (with usb token inserted)"
+msgstr ""
+
+#. module: l10n_ro_account_anaf_sync
+#: model:ir.model.fields,field_description:l10n_ro_account_anaf_sync.field_l10n_ro_account_anaf_sync__has_message
+msgid "Has Message"
+msgstr ""
+
+#. module: l10n_ro_account_anaf_sync
+#: model:ir.model.fields,field_description:l10n_ro_account_anaf_sync.field_l10n_ro_account_anaf_sync__id
+msgid "ID"
+msgstr ""
+
+#. module: l10n_ro_account_anaf_sync
+#: model:ir.model.fields,help:l10n_ro_account_anaf_sync.field_l10n_ro_account_anaf_sync__message_needaction
+msgid "If checked, new messages require your attention."
+msgstr ""
+
+#. module: l10n_ro_account_anaf_sync
+#: model:ir.model.fields,help:l10n_ro_account_anaf_sync.field_l10n_ro_account_anaf_sync__message_has_error
+#: model:ir.model.fields,help:l10n_ro_account_anaf_sync.field_l10n_ro_account_anaf_sync__message_has_sms_error
+msgid "If checked, some messages have a delivery error."
+msgstr ""
+
+#. module: l10n_ro_account_anaf_sync
+#: model:ir.model.fields,field_description:l10n_ro_account_anaf_sync.field_l10n_ro_account_anaf_sync__message_is_follower
+msgid "Is Follower"
+msgstr ""
+
+#. module: l10n_ro_account_anaf_sync
+#: model:ir.model.fields,field_description:l10n_ro_account_anaf_sync.field_l10n_ro_account_anaf_sync__is_l10n_ro_record
+msgid "Is Romanian Record"
+msgstr ""
+
+#. module: l10n_ro_account_anaf_sync
+#: model:ir.model.fields,field_description:l10n_ro_account_anaf_sync.field_l10n_ro_account_anaf_sync____last_update
+msgid "Last Modified on"
+msgstr ""
+
+#. module: l10n_ro_account_anaf_sync
+#: model:ir.model.fields,field_description:l10n_ro_account_anaf_sync.field_l10n_ro_account_anaf_sync__last_request_datetime
+msgid "Last Request Datetime"
+msgstr ""
+
+#. module: l10n_ro_account_anaf_sync
+#: model:ir.model.fields,field_description:l10n_ro_account_anaf_sync.field_l10n_ro_account_anaf_sync__write_uid
+msgid "Last Updated by"
+msgstr ""
+
+#. module: l10n_ro_account_anaf_sync
+#: model:ir.model.fields,field_description:l10n_ro_account_anaf_sync.field_l10n_ro_account_anaf_sync__write_date
+msgid "Last Updated on"
+msgstr ""
+
+#. module: l10n_ro_account_anaf_sync
+#: model:ir.model.fields,field_description:l10n_ro_account_anaf_sync.field_l10n_ro_account_anaf_sync__message_main_attachment_id
+msgid "Main Attachment"
+msgstr ""
+
+#. module: l10n_ro_account_anaf_sync
+#: model:ir.model.fields.selection,name:l10n_ro_account_anaf_sync.selection__l10n_ro_account_anaf_sync__state__manual
+msgid "Manual"
+msgstr ""
+
+#. module: l10n_ro_account_anaf_sync
+#: model:ir.model.fields,field_description:l10n_ro_account_anaf_sync.field_l10n_ro_account_anaf_sync__message_has_error
+msgid "Message Delivery error"
+msgstr ""
+
+#. module: l10n_ro_account_anaf_sync
+#: model:ir.model.fields,field_description:l10n_ro_account_anaf_sync.field_l10n_ro_account_anaf_sync__message_ids
+msgid "Messages"
+msgstr ""
+
+#. module: l10n_ro_account_anaf_sync
+#. odoo-python
+#: code:addons/l10n_ro_account_anaf_sync/controllers/anaf_oauth.py:0
+#, python-format
+msgid ""
+"More than one ANAF config requested authentification in the last "
+"minutes.Please request them in order, waiting for 2 minutes between "
+"requests."
+msgstr ""
+
+#. module: l10n_ro_account_anaf_sync
+#. odoo-python
+#: code:addons/l10n_ro_account_anaf_sync/controllers/anaf_oauth.py:0
+#, python-format
+msgid ""
+"No code was found in the response.\n"
+"Response was: %s"
+msgstr ""
+
+#. module: l10n_ro_account_anaf_sync
+#: model:ir.model.fields,field_description:l10n_ro_account_anaf_sync.field_l10n_ro_account_anaf_sync__message_needaction_counter
+msgid "Number of Actions"
+msgstr ""
+
+#. module: l10n_ro_account_anaf_sync
+#: model:ir.model.fields,field_description:l10n_ro_account_anaf_sync.field_l10n_ro_account_anaf_sync__message_has_error_counter
+msgid "Number of errors"
+msgstr ""
+
+#. module: l10n_ro_account_anaf_sync
+#: model:ir.model.fields,help:l10n_ro_account_anaf_sync.field_l10n_ro_account_anaf_sync__message_needaction_counter
+msgid "Number of messages which requires an action"
+msgstr ""
+
+#. module: l10n_ro_account_anaf_sync
+#: model:ir.model.fields,help:l10n_ro_account_anaf_sync.field_l10n_ro_account_anaf_sync__message_has_error_counter
+msgid "Number of messages with delivery error"
+msgstr ""
+
+#. module: l10n_ro_account_anaf_sync
+#: model:ir.model.fields,help:l10n_ro_account_anaf_sync.field_l10n_ro_account_anaf_sync__access_token
+#: model:ir.model.fields,help:l10n_ro_account_anaf_sync.field_l10n_ro_account_anaf_sync__refresh_token
+msgid "Received from ANAF"
+msgstr ""
+
+#. module: l10n_ro_account_anaf_sync
+#: model:ir.model.fields,help:l10n_ro_account_anaf_sync.field_l10n_ro_account_anaf_sync__code
+msgid ""
+"Received from ANAF with this you can take access token and refresh_token"
+msgstr ""
+
+#. module: l10n_ro_account_anaf_sync
+#: model:ir.model.fields,field_description:l10n_ro_account_anaf_sync.field_l10n_ro_account_anaf_sync__refresh_token
+msgid "Refresh Token"
+msgstr ""
+
+#. module: l10n_ro_account_anaf_sync
+#: model:ir.model.fields,field_description:l10n_ro_account_anaf_sync.field_l10n_ro_account_anaf_sync__response_secret
+msgid "Response Secret"
+msgstr ""
+
+#. module: l10n_ro_account_anaf_sync
+#: model_terms:ir.ui.view,arch_db:l10n_ro_account_anaf_sync.view_l10n_ro_account_anaf_sync_form
+msgid "Revoke Access Token"
+msgstr ""
+
+#. module: l10n_ro_account_anaf_sync
+#. odoo-python
+#: code:addons/l10n_ro_account_anaf_sync/models/l10n_ro_account_anaf_sync.py:0
+#: code:addons/l10n_ro_account_anaf_sync/models/l10n_ro_account_anaf_sync.py:0
+#, python-format
+msgid "Revoke token response: %s"
+msgstr ""
+
+#. module: l10n_ro_account_anaf_sync
+#: model:ir.model.fields,field_description:l10n_ro_account_anaf_sync.field_res_company__l10n_ro_account_anaf_sync_id
+msgid "Romania - Account ANAF Sync"
+msgstr ""
+
+#. module: l10n_ro_account_anaf_sync
+#: model:ir.model.fields,field_description:l10n_ro_account_anaf_sync.field_l10n_ro_account_anaf_sync__message_has_sms_error
+msgid "SMS Delivery error"
+msgstr ""
+
+#. module: l10n_ro_account_anaf_sync
+#: model:ir.model.fields,field_description:l10n_ro_account_anaf_sync.field_l10n_ro_account_anaf_sync__state
+msgid "State"
+msgstr ""
+
+#. module: l10n_ro_account_anaf_sync
+#: model:ir.model.fields.selection,name:l10n_ro_account_anaf_sync.selection__l10n_ro_account_anaf_sync__state__test
+msgid "Test"
+msgstr ""
+
+#. module: l10n_ro_account_anaf_sync
+#. odoo-python
+#: code:addons/l10n_ro_account_anaf_sync/models/l10n_ro_account_anaf_sync.py:0
+#: code:addons/l10n_ro_account_anaf_sync/models/l10n_ro_account_anaf_sync.py:0
+#, python-format
+msgid "Test token response: %s"
+msgstr ""
+
+#. module: l10n_ro_account_anaf_sync
+#. odoo-python
+#: code:addons/l10n_ro_account_anaf_sync/controllers/anaf_oauth.py:0
+#, python-format
+msgid ""
+"The response was done too late.\n"
+"Response was: kw=%s"
+msgstr ""
+
+#. module: l10n_ro_account_anaf_sync
+#. odoo-python
+#: code:addons/l10n_ro_account_anaf_sync/controllers/anaf_oauth.py:0
+#, python-format
+msgid ""
+"The response was finished.\n"
+"Response was: %s"
+msgstr ""
+
+#. module: l10n_ro_account_anaf_sync
+#: model:ir.model.fields,help:l10n_ro_account_anaf_sync.field_l10n_ro_account_anaf_sync__anaf_callback_url
+msgid ""
+"This is the address to set in anaf_portal_url (and will work if is https & "
+"accessible form internet)"
+msgstr ""
+
+#. module: l10n_ro_account_anaf_sync
+#. odoo-python
+#: code:addons/l10n_ro_account_anaf_sync/controllers/anaf_oauth.py:0
+#, python-format
+msgid "This page is only for internal users!"
+msgstr ""
+
+#. module: l10n_ro_account_anaf_sync
+#: model:ir.model.fields,help:l10n_ro_account_anaf_sync.field_l10n_ro_account_anaf_sync__last_request_datetime
+msgid ""
+"Time when was last time pressed the Get Token From Anaf Website. It waits "
+"for ANAF request for maximum 1 minute"
+msgstr ""
+
+#. module: l10n_ro_account_anaf_sync
+#: model:ir.model.fields,field_description:l10n_ro_account_anaf_sync.field_l10n_ro_account_anaf_sync__website_message_ids
+msgid "Website Messages"
+msgstr ""
+
+#. module: l10n_ro_account_anaf_sync
+#: model:ir.model.fields,help:l10n_ro_account_anaf_sync.field_l10n_ro_account_anaf_sync__website_message_ids
+msgid "Website communication history"
+msgstr ""
+
+#. module: l10n_ro_account_anaf_sync
+#. odoo-python
+#: code:addons/l10n_ro_account_anaf_sync/models/l10n_ro_account_anaf_sync.py:0
+#, python-format
+msgid "You already have ANAF access token. Please revolke it first."
+msgstr ""
+
+#. module: l10n_ro_account_anaf_sync
+#. odoo-python
+#: code:addons/l10n_ro_account_anaf_sync/controllers/anaf_oauth.py:0
+#, python-format
+msgid "You can make only one request per minute"
+msgstr ""
+
+#. module: l10n_ro_account_anaf_sync
+#. odoo-python
+#: code:addons/l10n_ro_account_anaf_sync/models/l10n_ro_account_anaf_sync.py:0
+#, python-format
+msgid ""
+"You cannot change the company.Please delete the config and create another "
+"one."
+msgstr ""
+
+#. module: l10n_ro_account_anaf_sync
+#. odoo-python
+#: code:addons/l10n_ro_account_anaf_sync/models/l10n_ro_account_anaf_sync.py:0
+#, python-format
+msgid "You don't have ANAF access token. Please get it first."
+msgstr ""
