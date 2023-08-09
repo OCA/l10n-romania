@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="view_account_payment_form" model="ir.ui.view">
+        <field name="name">l10n.ro.account.payment.form</field>
+        <field name="model">account.payment</field>
+        <field name="inherit_id" ref="account.view_account_payment_form" />
+        <field name="arch" type="xml">
+            <xpath expr="//header" position="inside">
+                <field name="is_l10n_ro_record" invisible="1" />
+                <button
+                    name="get_l10n_ro_statement_line"
+                    states="posted"
+                    string="Add to statement"
+                    type="object"
+                    attrs="{'invisible': [('is_l10n_ro_record','=',False)]}"
+                />
+                <button
+                    name="get_l10n_ro_reconciled_statement_line"
+                    states="posted,reconciled"
+                    string="Get statement Line"
+                    type="object"
+                    attrs="{'invisible': [('is_l10n_ro_record','=',False)]}"
+                />
+            </xpath>
+            <xpath expr="//group[@name='group2']" position="inside">
+                <field name="is_l10n_ro_record" invisible="1" />
+                <field
+                    name="l10n_ro_statement_id"
+                    attrs="{'invisible': [('is_l10n_ro_record','=',False)]}"
+                />
+                <field
+                    name="statement_line_id"
+                    attrs="{'invisible': [('is_l10n_ro_record','=',False)]}"
+                />
+            </xpath>
+        </field>
+    </record>
+
+</odoo>
