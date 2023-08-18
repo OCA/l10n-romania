@@ -16,6 +16,10 @@ class TestReportPoSOrder(AccountTestInvoicingCommon):
         wizard = self.env["pos.details.wizard"].create({})
         wizard.generate_report()
 
+    def test_report_saledetails(self):
+        report_saledetails = self.env["report.point_of_sale.report_saledetails"]
+        report_saledetails.get_sale_details()
+
     def test_report_invoice(self):
         report_invoice = self.env["report.point_of_sale.report_invoice"].sudo()
         report_invoice._get_report_values([], {})
