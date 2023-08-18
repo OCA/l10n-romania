@@ -63,7 +63,6 @@ class AccountEdiXmlCIUSRO(models.Model):
                         "percent": vals["_tax_category_vals_"]["percent"],
                         "tax_category_vals": vals["_tax_category_vals_"],
                         "tax_id": vals["group_tax_details"][0]["id"],
-
                     }
                     for vals in taxes_vals["tax_details"].values()
                 ],
