@@ -1,7 +1,12 @@
 # Copyright (C) 2022 NextERP Romania SRL
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
-from odoo import fields, models
+from datetime import date, timedelta
+
+from dateutil.relativedelta import relativedelta
+
+from odoo import _, fields, models
+from odoo.exceptions import UserError
 
 
 class StockMove(models.Model):
@@ -30,6 +35,36 @@ class StockMove(models.Model):
         moves_todo = super()._action_done(cancel_backorder=cancel_backorder)
         for move in moves_todo.filtered("is_l10n_ro_record"):
             move.date = move.l10n_ro_get_move_date()
+            restrict_date = move.company_id.l10n_ro_restrict_stock_move_date_last_month
+            restrict_date_future = (
+                move.company_id.l10n_ro_restrict_stock_move_date_future
+            )
+
+            if restrict_date:
+                # se verifica daca data este in intervalul permis
+                last_day_of_prev_month = date.today().replace(day=1) - timedelta(days=1)
+                start_day_of_prev_month = date.today().replace(day=1) - timedelta(
+                    days=last_day_of_prev_month.day
+                )
+                if restrict_date_future:
+                    end_day_of_current_month = date.today()
+                else:
+                    end_day_of_current_month = (
+                        date.today().replace(day=1)
+                        + relativedelta(months=1)
+                        - relativedelta(days=1)
+                    )
+
+                if not (
+                    start_day_of_prev_month
+                    <= move.date.date()
+                    <= end_day_of_current_month
+                ):
+                    raise UserError(
+                        _("Cannot validate stock move due to date restriction.")
+                    )
+                move.check_lock_date(move.date)
+
         return moves_todo
 
     def _trigger_assign(self):
@@ -95,3 +130,10 @@ class StockMove(models.Model):
         return super(StockMove, self)._account_entry_move(
             qty, description, svl_id, cost
         )
+
+    def check_lock_date(self, move_date):
+        lock_date = self.env.user.company_id._get_user_fiscal_lock_date()
+        if move_date.date() < lock_date:
+            raise UserError(
+                _("Cannot validate stock move due to account date restriction.")
+            )

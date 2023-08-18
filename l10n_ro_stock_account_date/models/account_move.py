@@ -28,7 +28,7 @@ class AccountMove(models.Model):
                 stock_moves = line._l10n_ro_get_valuation_stock_moves()
                 for stock_move in stock_moves:
                     has_notice = getattr(stock_move.picking_id, "l10n_ro_notice", False)
-                    if has_notice and move.picking_id.l10n_ro_notice:
+                    if has_notice and stock_move.picking_id.l10n_ro_notice:
                         ok = True
                         break
                     if stock_move.date.date() == move.date:
@@ -41,7 +41,7 @@ class AccountMove(models.Model):
                     product=product.name,
                 )
 
-                _logger.error(message)
+                _logger.warning(message)
                 move.sudo().activity_schedule(
                     "mail.mail_activity_data_warning",
                     summary=_("Incorrect Date"),
