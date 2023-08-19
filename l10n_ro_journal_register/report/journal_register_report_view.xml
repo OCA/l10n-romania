@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+
+    <record id="view_journal_register_report_form" model="ir.ui.view">
+        <field name="name">Journal Register Report</field>
+        <field name="model">l10n.ro.journal.register.report</field>
+        <field name="arch" type="xml">
+            <form string="Journal Register">
+                <group>
+                    <group name="date_range">
+                        <label for="date_from" string="Date" />
+                        <div class="o_row">
+                            <field
+                                name="date_from"
+                                widget="daterange"
+                                nolabel="1"
+                                class="oe_inline"
+                                options="{'related_end_date': 'date_to'}"
+                            />
+                            <i
+                                class="fa fa-long-arrow-right mx-2"
+                                aria-label="Arrow icon"
+                                title="Arrow"
+                            />
+                            <field
+                                name="date_to"
+                                widget="daterange"
+                                nolabel="1"
+                                class="oe_inline"
+                                options="{'related_start_date': 'date_from'}"
+                            />
+                        </div>
+                    </group>
+                    <group>
+                        <field name="journal_ids" widget="many2many_tags" />
+                        <field name="in_red" />
+                    </group>
+
+                </group>
+
+                <footer>
+                    <button
+                        name="button_show"
+                        string="_Apply"
+                        type="object"
+                        class="oe_highlight"
+                    />
+                    or
+                    <button string="_Cancel" class="oe_link" special="cancel" />
+                </footer>
+            </form>
+        </field>
+    </record>
+    <record id="action_journal_register_report" model="ir.actions.act_window">
+        <field name="name">Journal Register</field>
+        <field name="res_model">l10n.ro.journal.register.report</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+    <menuitem
+        name="Journal Register"
+        id="menu_journal_register_report"
+        action="action_journal_register_report"
+        parent="account.menu_finance_entries"
+        groups="account.group_account_manager"
+    />
+
+
+    <record id="view_journal_register_report_line_tree" model="ir.ui.view">
+        <field name="name">l10n.ro.journal.register.report.line</field>
+        <field name="model">l10n.ro.journal.register.report.line</field>
+        <field name="arch" type="xml">
+            <tree edit="0" create="0" import="0" sample="1">
+                <field name="journal_id" optional="hide" />
+                <field name="move_id" />
+                <field name="date" />
+                <field name="debit_code" optional="show" />
+                <field name="debit_account_id" optional="hide" />
+                <field name="credit_code" optional="show" />
+                <field name="credit_account_id" optional="hide" />
+                <field name="debit" optional="hide" />
+                <field name="credit" optional="hide" />
+                <field name="balance" optional="show" />
+                <field name="product_id" optional="hide" />
+                <field name="partner_id" optional="hide" />
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_journal_register_report_line_form" model="ir.ui.view">
+        <field name="name">l10n.ro.journal.register.report.line</field>
+        <field name="model">l10n.ro.journal.register.report.line</field>
+        <field name="arch" type="xml">
+            <form edit="0" create="0" import="0">
+                <sheet>
+                    <group>
+                        <field name="journal_id" />
+                        <field name="move_id" />
+                        <field name="date" />
+                    </group>
+                    <group>
+                        <field name="debit_account_id" />
+                        <field name="credit_account_id" />
+                    </group>
+                    <group>
+                        <field name="debit" />
+                        <field name="credit" />
+                        <field name="balance" />
+                    </group>
+                    <group>
+                        <field name="product_id" />
+                        <field name="partner_id" />
+                    </group>
+
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_journal_register_report_line_pivot" model="ir.ui.view">
+        <field name="name">l10n.ro.journal.register.report.line</field>
+        <field name="model">l10n.ro.journal.register.report.line</field>
+        <field name="arch" type="xml">
+            <pivot string="Journal Analysis" sample="1">
+                <field name="debit_account_id" type="row" />
+                <field name="credit_account_id" type="col" />
+                <field name="debit" type="measure" />
+                <field name="credit" type="measure" />
+                <field name="balance" type="measure" />
+            </pivot>
+        </field>
+    </record>
+
+    <record id="action_journal_register_report_line" model="ir.actions.act_window">
+        <field name="name">Journal Report</field>
+        <field name="res_model">l10n.ro.journal.register.report.line</field>
+        <field name="view_mode">tree,pivot,form</field>
+        <field name="domain">[('report_id','=',active_id)]</field>
+    </record>
+
+
+</odoo>
