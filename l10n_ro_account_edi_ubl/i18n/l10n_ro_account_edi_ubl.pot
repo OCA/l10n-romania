@@ -22,6 +22,7 @@ msgid ""
 msgstr ""
 
 #. module: l10n_ro_account_edi_ubl
+#. odoo-python
 #: code:addons/l10n_ro_account_edi_ubl/models/account_edi_format.py:0
 #: code:addons/l10n_ro_account_edi_ubl/models/account_edi_format.py:0
 #, python-format
@@ -92,6 +93,7 @@ msgid "ID"
 msgstr ""
 
 #. module: l10n_ro_account_edi_ubl
+#. odoo-python
 #: code:addons/l10n_ro_account_edi_ubl/models/account_edi_format.py:0
 #, python-format
 msgid ""
@@ -106,6 +108,7 @@ msgid "Invoice XML Send State"
 msgstr ""
 
 #. module: l10n_ro_account_edi_ubl
+#. odoo-python
 #: code:addons/l10n_ro_account_edi_ubl/models/account_move.py:0
 #, python-format
 msgid ""
@@ -154,14 +157,13 @@ msgid "Other"
 msgstr ""
 
 #. module: l10n_ro_account_edi_ubl
-#: model:ir.model,name:l10n_ro_account_edi_ubl.model_product_product
-
+#: model:ir.model,name:l10n_ro_account_edi_ubl.model_product_template
 msgid "Product"
 msgstr ""
 
 #. module: l10n_ro_account_edi_ubl
-#: model:ir.model,name:l10n_ro_account_edi_ubl.model_product_template
-msgid "Product Template"
+#: model:ir.model,name:l10n_ro_account_edi_ubl.model_product_product
+msgid "Product Variant"
 msgstr ""
 
 #. module: l10n_ro_account_edi_ubl
@@ -209,6 +211,7 @@ msgid "Technical field used to track the status of a submission."
 msgstr ""
 
 #. module: l10n_ro_account_edi_ubl
+#. odoo-python
 #: code:addons/l10n_ro_account_edi_ubl/models/account_edi_format.py:0
 #, python-format
 msgid "The partner %s doesn't have the street completed."
@@ -227,6 +230,7 @@ msgid "Transaction ID (RO)"
 msgstr ""
 
 #. module: l10n_ro_account_edi_ubl
+#. odoo-python
 #: code:addons/l10n_ro_account_edi_ubl/models/account_move.py:0
 #, python-format
 msgid ""
