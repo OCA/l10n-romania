@@ -161,7 +161,6 @@ class TestStockSale(TestStockCommon):
             -1 * 2 * self.qty_po_p1 * 55, -1 * 2 * self.qty_po_p2 * 55
         )
 
-
     def test_salve_negative(self):
 
         self.qty_po_p1 = 70.0
