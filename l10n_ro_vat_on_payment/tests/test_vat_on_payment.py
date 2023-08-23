@@ -82,7 +82,7 @@ class TestVATonpayment(AccountTestInvoicingCommon):
         prev_day = date.today() - timedelta(1)
         try:
             self.partner_anaf_model._download_anaf_data(prev_day)
-        except ConnectionResetError or ConnectionError:
+        except Exception:
             _logger.warning("Server ANAF is down.")
             return True
 
@@ -90,7 +90,7 @@ class TestVATonpayment(AccountTestInvoicingCommon):
         self.assertEqual(os.path.exists(istoric), True)
         try:
             self.partner_anaf_model._download_anaf_data()
-        except ConnectionResetError or ConnectionError:
+        except Exception:
             _logger.warning("Server ANAF is down.")
             return True
         self.assertEqual(os.path.exists(istoric), True)

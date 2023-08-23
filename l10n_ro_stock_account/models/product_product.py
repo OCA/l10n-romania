@@ -243,6 +243,7 @@ class ProductProduct(models.Model):
                 "remaining_qty": -qty_to_take_on_candidates,
                 "value": -tmp_value,
                 "unit_cost": last_fifo_price,
+                "quantity": -qty_to_take_on_candidates,
             }
             candidate_list.append(vals)
         return candidate_list
