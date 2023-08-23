@@ -14,7 +14,7 @@
         "views/purchase_order_view.xml",
     ],
     "installable": True,
-    "auto_install": True,
+    "auto_install": False,
     "development_status": "Mature",
     "maintainers": ["feketemihai"],
 }
