@@ -159,5 +159,11 @@ msgstr ""
 #. module: l10n_ro_account_bank_statement_report
 #: model_terms:ir.ui.view,arch_db:l10n_ro_account_bank_statement_report.report_l10n_ro_statement_daily
 #: model_terms:ir.ui.view,arch_db:l10n_ro_account_bank_statement_report.report_l10n_ro_statement_period
-msgid "Transaction No"
+msgid "Transaction No /<br/>Explanation"
+msgstr ""
+
+#. module: l10n_ro_account_bank_statement_report
+#: model_terms:ir.ui.view,arch_db:l10n_ro_account_bank_statement_report.report_l10n_ro_statement_daily
+#: model_terms:ir.ui.view,arch_db:l10n_ro_account_bank_statement_report.report_l10n_ro_statement_period
+msgid "Counterpart"
 msgstr ""
