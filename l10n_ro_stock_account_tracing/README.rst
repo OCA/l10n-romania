@@ -86,13 +86,13 @@ OCA, or the Odoo Community Association, is a nonprofit organization whose
 mission is to support the collaborative development of Odoo features and
 promote its widespread use.
 
-.. |maintainer adrian-dks
+.. |maintainer-adrian
     :target: https://github.com/adrian-dks
     :alt: adrian-dks
 
 Current `maintainer <https://odoo-community.org/page/maintainer-role>`__:
 
-|maintainer adrian-dks|
+|maintainer-adrian|
 
 This module is part of the `OCA/l10n-romania <https://github.com/OCA/l10n-romania/tree/14.0/l10n_ro_stock_account_tracing>`_ project on GitHub.
 
