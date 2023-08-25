@@ -79,8 +79,10 @@ class StockValuationLayer(models.Model):
                 svl.product_id.l10n_ro_property_stock_valuation_account_id
                 or svl.product_id.categ_id.property_stock_valuation_account_id
             )
-            price_diff_account = (svl.product_id.property_account_creditor_price_difference
-                             or svl.product_id.categ_id.property_account_creditor_price_difference_categ)
+            price_diff_account = (
+                svl.product_id.property_account_creditor_price_difference
+                or svl.product_id.categ_id.property_account_creditor_price_difference_categ
+            )
             if svl.product_id.categ_id.l10n_ro_stock_account_change:
                 if (
                     svl.value > 0
@@ -96,7 +98,10 @@ class StockValuationLayer(models.Model):
                 for aml in svl.account_move_id.line_ids.sorted(
                     lambda l: l.account_id.code
                 ):
-                    if aml.account_id.code[0] in ["2", "3"] and aml.account_id != price_diff_account:
+                    if (
+                        aml.account_id.code[0] in ["2", "3"]
+                        and aml.account_id != price_diff_account
+                    ):
                         if round(aml.balance, 2) == round(svl.value, 2):
                             account = aml.account_id
                             break

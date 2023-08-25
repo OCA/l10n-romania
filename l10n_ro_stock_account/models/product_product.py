@@ -454,7 +454,7 @@ class ProductProduct(models.Model):
                     )
                 ]
             for vals in svsl_vals:
-                if 'l10n_ro_tracking' in vals:
+                if "l10n_ro_tracking" in vals:
                     vals.pop("l10n_ro_tracking")
                 vals["description"] = description + vals.pop("rounding_adjustment", "")
                 vals["company_id"] = self.env.company.id
