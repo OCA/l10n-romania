@@ -43,7 +43,6 @@ class StockMove(models.Model):
         self.ensure_one()
         if self.is_l10n_ro_record:
 
-            self.env["decimal.precision"].precision_get("Product Price")
             # If the move is a return, use the original move's price unit.
             if (
                 self.origin_returned_move_id
