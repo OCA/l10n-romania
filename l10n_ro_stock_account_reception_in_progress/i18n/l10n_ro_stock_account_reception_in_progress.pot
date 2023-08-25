@@ -20,6 +20,13 @@ msgstr ""
 
 #. module: l10n_ro_stock_account_reception_in_progress
 #: model_terms:ir.ui.view,arch_db:l10n_ro_stock_account_reception_in_progress.purchase_order_form
+msgid ""
+"Are you sure you want to create reception in progress from the purchase "
+"order?"
+msgstr ""
+
+#. module: l10n_ro_stock_account_reception_in_progress
+#: model_terms:ir.ui.view,arch_db:l10n_ro_stock_account_reception_in_progress.purchase_order_form
 msgid "Create Reception in Progress Bill"
 msgstr ""
 
@@ -102,7 +109,7 @@ msgstr ""
 #: code:addons/l10n_ro_stock_account_reception_in_progress/models/purchase_order.py:0
 #, python-format
 msgid ""
-"There is no invoiceable line. If a product has a control policy based on "
+"There is no billable line. If a product has a control policy based on "
 "received quantity, please make sure that a quantity has been received."
 msgstr ""
 
