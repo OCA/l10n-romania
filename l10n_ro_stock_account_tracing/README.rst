@@ -48,14 +48,14 @@ Credits
 Authors
 ~~~~~~~
 
-* NextERP Romania
+* Dakai Soft
 
 Contributors
 ~~~~~~~~~~~~
 
-* `NextERP Romania <https://www.nexterp.ro>`_:
+* `Dakai Soft <https://www.dakai.ro>`_:
 
-  * Fekete Mihai <feketemihai@nexterp.ro>
+  * Adrian Vacaru <adrian.vacaru@dakai.ro>
 
 Do not contact contributors directly about support or help with technical issues.
 
@@ -72,14 +72,14 @@ OCA, or the Odoo Community Association, is a nonprofit organization whose
 mission is to support the collaborative development of Odoo features and
 promote its widespread use.
 
-.. |maintainer-feketemihai| image:: https://github.com/feketemihai.png?size=40px
-    :target: https://github.com/feketemihai
-    :alt: feketemihai
+.. |maintainer-adrian-dks| image::
+    :target: https://github.com/adrian-dks
+    :alt: adrian-dks
 
 Current `maintainer <https://odoo-community.org/page/maintainer-role>`__:
 
-|maintainer-feketemihai|
+|maintainer-adrian-dks|
 
-This module is part of the `OCA/l10n-romania <https://github.com/OCA/l10n-romania/tree/14.0/l10n_ro_stock_account_reception_in_progress>`_ project on GitHub.
+This module is part of the `OCA/l10n-romania <https://github.com/OCA/l10n-romania/tree/14.0/l10n_ro_stock_account_tracing>`_ project on GitHub.
 
 You are welcome to contribute. To learn how please visit https://odoo-community.org/page/Contribute.
