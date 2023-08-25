@@ -92,7 +92,7 @@ promote its widespread use.
 
 Current `maintainer <https://odoo-community.org/page/maintainer-role>`__:
 
-|maintainer-adrian-dks|
+|maintainer adrian-dks|
 
 This module is part of the `OCA/l10n-romania <https://github.com/OCA/l10n-romania/tree/14.0/l10n_ro_stock_account_tracing>`_ project on GitHub.
 
