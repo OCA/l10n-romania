@@ -97,6 +97,11 @@ msgid "Date"
 msgstr "Data"
 
 #. module: l10n_ro_account_bank_statement_report
+#: model:ir.model.fields,field_description:l10n_ro_account_bank_statement_report.field_account_bank_statement__display_name
+msgid "Display Name"
+msgstr "Nume afișat"
+
+#. module: l10n_ro_account_bank_statement_report
 #: model_terms:ir.ui.view,arch_db:l10n_ro_account_bank_statement_report.report_l10n_ro_statement_period
 msgid "Ending Balance"
 msgstr "Sold Final"
@@ -108,9 +113,19 @@ msgid "Explanation"
 msgstr "Explicații"
 
 #. module: l10n_ro_account_bank_statement_report
+#: model:ir.model.fields,field_description:l10n_ro_account_bank_statement_report.field_account_bank_statement__id
+msgid "ID"
+msgstr "ID"
+
+#. module: l10n_ro_account_bank_statement_report
 #: model:ir.model.fields,field_description:l10n_ro_account_bank_statement_report.field_account_bank_statement__is_l10n_ro_record
 msgid "Is Romanian Record"
 msgstr "Inregistrare Romania"
+
+#. module: l10n_ro_account_bank_statement_report
+#: model:ir.model.fields,field_description:l10n_ro_account_bank_statement_report.field_account_bank_statement____last_update
+msgid "Last Modified on"
+msgstr "Ultima modificare la"
 
 #. module: l10n_ro_account_bank_statement_report
 #: model_terms:ir.ui.view,arch_db:l10n_ro_account_bank_statement_report.report_l10n_ro_statement_daily
@@ -149,14 +164,11 @@ msgstr "Sold inițial"
 #. module: l10n_ro_account_bank_statement_report
 #: model_terms:ir.ui.view,arch_db:l10n_ro_account_bank_statement_report.report_l10n_ro_statement_daily
 #: model_terms:ir.ui.view,arch_db:l10n_ro_account_bank_statement_report.report_l10n_ro_statement_period
-msgid "Transaction No"
-msgstr "Nr Tranzacție"
+msgid "Transaction No /<br/>Explanation"
+msgstr "Nr Tranzacție /<br/>Explicații"
 
-#~ msgid "Display Name"
-#~ msgstr "Nume afișat"
-
-#~ msgid "ID"
-#~ msgstr "ID"
-
-#~ msgid "Last Modified on"
-#~ msgstr "Ultima modificare la"
+#. module: l10n_ro_account_bank_statement_report
+#: model_terms:ir.ui.view,arch_db:l10n_ro_account_bank_statement_report.report_l10n_ro_statement_daily
+#: model_terms:ir.ui.view,arch_db:l10n_ro_account_bank_statement_report.report_l10n_ro_statement_period
+msgid "Counterpart"
+msgstr "Cont Corespondent"
