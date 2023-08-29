@@ -466,8 +466,8 @@ class StockMove(models.Model):
 
     def _create_internal_transit_in_svl(self, forced_quantity=None):
         """
-            - Se creaza SVL prin metoda _create_out_svl, dar pastram remaining
-            - SVL vor fi inregistrare cu - pe contul de gestiune de origine.
+        - Se creaza SVL prin metoda _create_out_svl, dar pastram remaining
+        - SVL vor fi inregistrare cu - pe contul de gestiune de origine.
         """
         move = self.with_context(standard=True, valued_type="internal_transit_in")
         svls = move._create_out_svl(forced_quantity)
@@ -491,9 +491,9 @@ class StockMove(models.Model):
 
     def _create_internal_transit_out_svl(self, forced_quantity=None):
         """
-            - Se creaza SVL prin copiere, pastram remaining
-            - Daca nu avem o inlantuire, si transportul este manual, iesirea de face fifo.
-            - SVL vor fi inregistrare cu + pe contul de gestiune de destinatie.
+        - Se creaza SVL prin copiere, pastram remaining
+        - Daca nu avem o inlantuire, si transportul este manual, iesirea de face fifo.
+        - SVL vor fi inregistrare cu + pe contul de gestiune de destinatie.
         """
         move = self.with_context(standard=True, valued_type="internal_transit_out")
         sudo_svl = self.env["stock.valuation.layer"].sudo()
