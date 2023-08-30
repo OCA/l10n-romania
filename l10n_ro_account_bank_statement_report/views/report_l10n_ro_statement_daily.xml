@@ -66,17 +66,20 @@
                     </div>
                 </div>
                 <div class="page">
+                    <br />
+                    <br />
                     <table
                         class="table table-sm table table-bordered"
-                        style="width: 100%;"
+                        style="width: 100%;border-collapse: collapse; padding: 3px;"
                     >
                         <thead>
                             <tr>
                                 <th style="border: 1px solid black;">Nr. Crt</th>
                                 <th style="border: 1px solid black;">Date</th>
                                 <th style="border: 1px solid black;">Partner</th>
-                                <th style="border: 1px solid black;">Transaction No</th>
-                                <th style="border: 1px solid black;">Explanation</th>
+                                <th style="border: 1px solid black;">Transaction No /<br
+                                    />Explanation</th>
+                                <th style="border: 1px solid black;">Counterpart</th>
                                 <th style="border: 1px solid black;">Receipts</th>
                                 <th style="border: 1px solid black;">Payments</th>
                                 <t t-if="with_currency">
@@ -126,9 +129,15 @@
                                     </td>
                                     <td style="border: 1px solid black;">
                                         <span t-field="line.payment_ref" />
+                                        <t t-if="line.ref">
+                                            <br /> /
+                                            <span t-field="line.ref" />
+                                        </t>
                                     </td>
                                     <td style="border: 1px solid black;">
-                                        <span t-field="line.ref" />
+                                        <span
+                                            t-esc="line.move_id.line_ids.filtered(lambda l:l.account_id.id!=o.journal_id.default_account_id.id)[0].account_id.code"
+                                        />
                                     </td>
                                     <td
                                         style="border: 1px solid black;"
