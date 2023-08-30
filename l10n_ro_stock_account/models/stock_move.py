@@ -756,18 +756,6 @@ class StockMove(models.Model):
                     acc_src, acc_valuation, journal_id, qty, description, svl_id, cost
                 )
 
-        if self._is_internal_transit_in():
-            move = self.with_context(valued_type="internal_transit_in")
-            (
-                journal_id,
-                acc_src,
-                acc_dest,
-                acc_valuation,
-            ) = move._get_accounting_data_for_valuation()
-            move._create_account_move_line(
-                acc_dest, acc_valuation, journal_id, qty, description, svl_id, cost
-            )
-
         if self._is_internal_transit_out():
             move = self.with_context(valued_type="internal_transit_out")
             (
