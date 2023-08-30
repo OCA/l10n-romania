@@ -907,7 +907,10 @@ class StockMove(models.Model):
             if acc_valuation_rec and acc_valuation_rec.l10n_ro_stock_consume_account_id:
                 acc_valuation = acc_valuation_rec.l10n_ro_stock_consume_account_id.id
         if self.is_l10n_ro_record and valued_type in ("internal_transit_out",):
-            acc_valuation = acc_dest
+            acc_valuation = (
+                location_to.l10n_ro_property_stock_valuation_account_id.id
+                or acc_dest
+                )
         return journal_id, acc_src, acc_dest, acc_valuation
 
     def _l10n_ro_filter_svl_on_move_line(self, domain):
