@@ -15,6 +15,11 @@ msgstr ""
 
 #. module: l10n_ro_account_bank_statement_report
 #: model_terms:ir.ui.view,arch_db:l10n_ro_account_bank_statement_report.report_l10n_ro_statement_daily
+msgid "<br/> /"
+msgstr ""
+
+#. module: l10n_ro_account_bank_statement_report
+#: model_terms:ir.ui.view,arch_db:l10n_ro_account_bank_statement_report.report_l10n_ro_statement_daily
 #: model_terms:ir.ui.view,arch_db:l10n_ro_account_bank_statement_report.report_l10n_ro_statement_period
 msgid "<span>Account</span>"
 msgstr ""
@@ -98,29 +103,13 @@ msgid "Date"
 msgstr ""
 
 #. module: l10n_ro_account_bank_statement_report
-#: model:ir.model.fields,field_description:l10n_ro_account_bank_statement_report.field_account_bank_statement__display_name
-msgid "Display Name"
-msgstr ""
-
-#. module: l10n_ro_account_bank_statement_report
 #: model_terms:ir.ui.view,arch_db:l10n_ro_account_bank_statement_report.report_l10n_ro_statement_period
 msgid "Ending Balance"
 msgstr ""
 
 #. module: l10n_ro_account_bank_statement_report
-#: model_terms:ir.ui.view,arch_db:l10n_ro_account_bank_statement_report.report_l10n_ro_statement_daily
-#: model_terms:ir.ui.view,arch_db:l10n_ro_account_bank_statement_report.report_l10n_ro_statement_period
-msgid "ID"
-msgstr ""
-
-#. module: l10n_ro_account_bank_statement_report
 #: model:ir.model.fields,field_description:l10n_ro_account_bank_statement_report.field_account_bank_statement__is_l10n_ro_record
 msgid "Is Romanian Record"
-msgstr ""
-
-#. module: l10n_ro_account_bank_statement_report
-#: model:ir.model.fields,field_description:l10n_ro_account_bank_statement_report.field_account_bank_statement____last_update
-msgid "Last Modified on"
 msgstr ""
 
 #. module: l10n_ro_account_bank_statement_report
