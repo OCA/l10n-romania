@@ -451,7 +451,8 @@ class StockMove(models.Model):
         move_lines = super(StockMove, self)._get_out_move_lines()
         if not move_lines:
             move_lines = self.move_line_ids.filtered(
-                lambda x: "transit" in (x.location_dest_id | x.location_id).mapped("usage")
+                lambda x: "transit"
+                in (x.location_dest_id | x.location_id).mapped("usage")
             )
         return move_lines
 
