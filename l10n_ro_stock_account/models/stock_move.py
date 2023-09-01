@@ -451,7 +451,7 @@ class StockMove(models.Model):
         move_lines = super(StockMove, self)._get_out_move_lines()
         if not move_lines:
             move_lines = self.move_line_ids.filtered(
-                lambda x: x.location_dest_id.usage == "transit"
+                lambda x: "transit" in (x.location_dest_id | x.location_id).mapped("usage")
             )
         return move_lines
 
@@ -495,50 +495,10 @@ class StockMove(models.Model):
         - Daca nu avem o inlantuire, si transportul este manual, iesirea de face fifo.
         - SVL vor fi inregistrare cu + pe contul de gestiune de destinatie.
         """
-        move = self.with_context(standard=True, valued_type="internal_transit_out")
-        sudo_svl = self.env["stock.valuation.layer"].sudo()
-        svls = self.env["stock.valuation.layer"]
-        if self.move_orig_ids:
-            svls_orig = sudo_svl
-            for svl_orig in self.move_orig_ids.stock_valuation_layer_ids:
-                valued_quantity = abs(svl_orig.quantity)
-                valued_value = abs(svl_orig.value)
-                value = self._prepare_common_svl_vals()
-                value.update(
-                    sudo_svl._l10n_ro_pre_process_value(
-                        {
-                            "stock_move_id": self.id,
-                            "account_move_id": None,
-                            "l10n_ro_valued_type": "internal_transit_out",
-                            "remaining_qty": valued_quantity,
-                            "remaining_value": valued_value,
-                        }
-                    )
-                )
-                if "l10n_ro_tracking" in value:
-                    value.pop("l10n_ro_tracking")
-                sudoSvl = sudo_svl.create(sudo_svl.create_from_origin(svl_orig, value))
-                value.update(
-                    {
-                        "l10n_ro_tracking": [
-                            (
-                                svl_orig.id,
-                                valued_quantity,
-                                valued_value,
-                            )
-                        ],
-                    }
-                )
-                sudoSvl._l10n_ro_post_process(value)
-                svls_orig.write(
-                    {
-                        "remaining_qty": 0,
-                        "remaining_value": 0,
-                    }
-                )
-                svls |= sudoSvl
-        else:
-            svls = move._create_out_svl(forced_quantity)
+        svls = self.env["stock.valuation.layer"].sudo()
+        moves = self.with_context(standard=True, valued_type="internal_transit_out")
+        for move in moves:
+            svls |= move._create_out_svl(forced_quantity)
             for _svl in svls:
                 _svl.write(
                     {
@@ -755,7 +715,6 @@ class StockMove(models.Model):
                 move._create_account_move_line(
                     acc_src, acc_valuation, journal_id, qty, description, svl_id, cost
                 )
-
         if self._is_internal_transit_out():
             move = self.with_context(valued_type="internal_transit_out")
             (
@@ -895,6 +854,9 @@ class StockMove(models.Model):
             if acc_valuation_rec and acc_valuation_rec.l10n_ro_stock_consume_account_id:
                 acc_valuation = acc_valuation_rec.l10n_ro_stock_consume_account_id.id
         if self.is_l10n_ro_record and valued_type in ("internal_transit_out",):
+            acc_dest = (
+                location_to.l10n_ro_property_stock_valuation_account_id.id or acc_dest
+            )
             acc_valuation = (
                 location_to.l10n_ro_property_stock_valuation_account_id.id or acc_dest
             )
