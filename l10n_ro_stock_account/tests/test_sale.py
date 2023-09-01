@@ -160,3 +160,29 @@ class TestStockSale(TestStockCommon):
         self.check_account_valuation(
             -1 * 2 * self.qty_po_p1 * 55, -1 * 2 * self.qty_po_p2 * 55
         )
+
+    def test_sale_negative(self):
+
+        self.qty_po_p1 = 70.0
+        self.qty_po_p2 = 70.0
+        self.price_p1 = 200
+        self.price_p2 = 200
+        self.create_po()
+
+        self.qty_po_p1 = 70.0
+        self.qty_po_p2 = 70.0
+        self.price_p1 = 180
+        self.price_p2 = 180
+        self.create_po()
+
+        self.qty_so_p1 = 200
+        self.qty_so_p2 = 200
+        self.create_so()
+
+        self.qty_po_p1 = 60.0
+        self.qty_po_p2 = 60.0
+        self.price_p1 = 200
+        self.price_p2 = 200
+        self.create_po()
+
+        self.check_stock_valuation(0.0, 0.0)
