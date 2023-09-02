@@ -196,6 +196,11 @@ msgstr ""
 "Extindeți câmpul de adresa a partenerului cu numărul apartamentului, scării.."
 
 #. module: l10n_ro_config
+#: model:ir.model.fields,field_description:l10n_ro_config.field_account_journal__l10n_ro_fiscal_receipt
+msgid "Fiscal Receipts Journal"
+msgstr ""
+
+#. module: l10n_ro_config
 #: model_terms:ir.ui.view,arch_db:l10n_ro_config.res_config_settings_view_form
 msgid ""
 "If this field is checked and the company use Romanian Accounting,\n"
