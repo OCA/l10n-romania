@@ -78,9 +78,9 @@
                 <field name="debit_account_id" optional="hide" />
                 <field name="credit_code" optional="show" />
                 <field name="credit_account_id" optional="hide" />
-                <field name="debit" optional="hide" />
-                <field name="credit" optional="hide" />
-                <field name="balance" optional="show" />
+                <field name="debit" optional="hide" sum="1" />
+                <field name="credit" optional="hide" sum="1" />
+                <field name="balance" optional="show" sum="1" />
                 <field name="product_id" optional="hide" />
                 <field name="partner_id" optional="hide" />
             </tree>
