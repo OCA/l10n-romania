@@ -125,6 +125,7 @@ class StockValuationLayer(models.Model):
                     )
                     if svl:
                         values["l10n_ro_valued_type"] = svl.l10n_ro_valued_type
+            values.pop("l10n_ro_tracking", None)
         return super(StockValuationLayer, self).create(vals_list)
 
     def _l10n_ro_compute_invoice_line_id(self):
