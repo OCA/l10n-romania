@@ -8,9 +8,7 @@
             <field name="arch" type="xml">
                 <xpath expr="//group[@name='additional_info']" position="after">
                     <group string="Accounting Information">
-                        <field
-                            name="l10n_ro_accounting_location"
-                        />
+                        <field name="l10n_ro_accounting_location" />
                         <field
                             name="l10n_ro_accounting_location_id"
                             options="{'no_create': True}"
