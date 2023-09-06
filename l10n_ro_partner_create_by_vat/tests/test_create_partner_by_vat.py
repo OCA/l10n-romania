@@ -90,9 +90,7 @@ class TestCreatePartner(TestCreatePartnerBase):
         self.mainpartner.country_id = self.env.ref("base.ro")
         self.mainpartner.ro_vat_change()
         self.assertEqual(self.mainpartner.name, "CUMPANA 1993 SRL")
-        self.assertEqual(
-            self.mainpartner.street, "Str. Alexander Von Humboldt Nr. 10"
-        )
+        self.assertEqual(self.mainpartner.street, "Str. Alexander Von Humboldt Nr. 10")
         self.assertEqual(self.mainpartner.street2, "")
         self.assertEqual(self.mainpartner.state_id, self.env.ref("base.RO_B"))
         self.assertEqual(self.mainpartner.city, "Sector 3")
