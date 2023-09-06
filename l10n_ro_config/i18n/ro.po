@@ -401,6 +401,32 @@ msgstr ""
 "conform legislației române"
 
 #. module: l10n_ro_config
+#: model:ir.model.fields,field_description:l10n_ro_config.field_res_company__l10n_ro_restrict_stock_move_date_future
+#: model:ir.model.fields,field_description:l10n_ro_config.field_res_config_settings__l10n_ro_restrict_stock_move_date_future
+msgid "Restrict Stock Move Date Future"
+msgstr ""
+
+#. module: l10n_ro_config
+#: model:ir.model.fields,field_description:l10n_ro_config.field_res_company__l10n_ro_restrict_stock_move_date_last_month
+#: model:ir.model.fields,field_description:l10n_ro_config.field_res_config_settings__l10n_ro_restrict_stock_move_date_last_month
+msgid "Restrict Stock Move Date Last Month"
+msgstr ""
+
+#. module: l10n_ro_config
+#: model:ir.model.fields,help:l10n_ro_config.field_res_company__l10n_ro_restrict_stock_move_date_last_month
+#: model:ir.model.fields,help:l10n_ro_config.field_res_config_settings__l10n_ro_restrict_stock_move_date_last_month
+#: model_terms:ir.ui.view,arch_db:l10n_ro_config.res_config_settings_view_form
+msgid "Restrict stock move posting with at most one month ago."
+msgstr ""
+
+#. module: l10n_ro_config
+#: model:ir.model.fields,help:l10n_ro_config.field_res_company__l10n_ro_restrict_stock_move_date_future
+#: model:ir.model.fields,help:l10n_ro_config.field_res_config_settings__l10n_ro_restrict_stock_move_date_future
+#: model_terms:ir.ui.view,arch_db:l10n_ro_config.res_config_settings_view_form
+msgid "Restrict stock move posting with future date."
+msgstr ""
+
+#. module: l10n_ro_config
 #: model:ir.model.fields,field_description:l10n_ro_config.field_account_journal__l10n_ro_print_report
 msgid "Ro Print in Report"
 msgstr "Ro Imprimare în raport"
