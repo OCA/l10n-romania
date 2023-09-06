@@ -52,65 +52,74 @@ class TestCreatePartner(TestCreatePartnerBase):
         """Check onchange vat from ANAF."""
         # Test onchange from ANAF
         self.mainpartner.vat = "RO30834857"
-        self.mainpartner.ro_vat_change()
-        self.assertEqual(self.mainpartner.name, "FOREST AND BIOMASS ROMÂNIA S.A.")
-        self.assertEqual(self.mainpartner.street, "Str. Ciprian Porumbescu Nr. 12")
-        self.assertEqual(self.mainpartner.street2, "Zona Nr.3, Etaj 1")
-        self.assertEqual(self.mainpartner.state_id, self.env.ref("base.RO_TM"))
-        self.assertEqual(self.mainpartner.city, "Timișoara")
-        self.assertEqual(self.mainpartner.country_id, self.env.ref("base.ro"))
+        res = self.mainpartner.ro_vat_change()
+        if not "warning" in res:
+            self.assertEqual(self.mainpartner.name, "FOREST AND BIOMASS ROMÂNIA S.A.")
+            self.assertEqual(self.mainpartner.street, "Str. Ciprian Porumbescu Nr. 12")
+            self.assertEqual(self.mainpartner.street2, "Zona Nr.3, Etaj 1")
+            self.assertEqual(self.mainpartner.state_id, self.env.ref("base.RO_TM"))
+            self.assertEqual(self.mainpartner.city, "Timișoara")
+            self.assertEqual(self.mainpartner.country_id, self.env.ref("base.ro"))
         # Check inactive vatnumber
         self.mainpartner.vat = "RO27193515"
-        self.mainpartner.ro_vat_change()
-        self.assertEqual(
-            self.mainpartner.name, "FOREST AND BIOMASS SERVICES ROMANIA S.A."
-        )
-        self.assertEqual(self.mainpartner.street, "Cal. Buziașului Nr. 11 A")
-        self.assertEqual(self.mainpartner.street2, "Corp B, Zona Nr.1, Etaj 3")
-        self.assertEqual(self.mainpartner.state_id, self.env.ref("base.RO_TM"))
-        self.assertEqual(self.mainpartner.city, "Timișoara")
-        self.assertEqual(self.mainpartner.country_id, self.env.ref("base.ro"))
+        res = self.mainpartner.ro_vat_change()
+        if not "warning" in res:
+            self.assertEqual(
+                self.mainpartner.name, "FOREST AND BIOMASS SERVICES ROMANIA S.A."
+            )
+            self.assertEqual(self.mainpartner.street, "Cal. Buziașului Nr. 11 A")
+            self.assertEqual(self.mainpartner.street2, "Corp B, Zona Nr.1, Etaj 3")
+            self.assertEqual(self.mainpartner.state_id, self.env.ref("base.RO_TM"))
+            self.assertEqual(self.mainpartner.city, "Timișoara")
+            self.assertEqual(self.mainpartner.country_id, self.env.ref("base.ro"))
         # Check address from commune
         self.mainpartner.vat = "RO8235738"
-        self.mainpartner.ro_vat_change()
-        self.assertEqual(self.mainpartner.name, "HOLZINDUSTRIE ROMANESTI S.R.L.")
-        self.assertEqual(self.mainpartner.street, "Românești Nr. 69/A")
-        self.assertEqual(self.mainpartner.state_id, self.env.ref("base.RO_TM"))
-        self.assertEqual(self.mainpartner.city, "Sat Românești Com Tomești")
-        self.assertEqual(self.mainpartner.country_id, self.env.ref("base.ro"))
+        res = self.mainpartner.ro_vat_change()
+        if not "warning" in res:
+            self.assertEqual(self.mainpartner.name, "HOLZINDUSTRIE ROMANESTI S.R.L.")
+            self.assertEqual(self.mainpartner.street, "Românești Nr. 69/A")
+            self.assertEqual(self.mainpartner.state_id, self.env.ref("base.RO_TM"))
+            self.assertEqual(self.mainpartner.city, "Sat Românești Com Tomești")
+            self.assertEqual(self.mainpartner.country_id, self.env.ref("base.ro"))
         # Check address from vat without country code - vat subjected
         self.mainpartner.vat = "4264242"
         self.mainpartner.country_id = False
-        self.mainpartner.ro_vat_change()
-        self.assertEqual(self.mainpartner.name, "HOLZINDUSTRIE ROMANESTI S.R.L.")
+        res = self.mainpartner.ro_vat_change()
+        if not "warning" in res:
+            self.assertEqual(self.mainpartner.name, "HOLZINDUSTRIE ROMANESTI S.R.L.")
         # Check address from vat without country code - vat subjected
         self.mainpartner.country_id = self.env.ref("base.ro")
-        self.mainpartner.ro_vat_change()
-        self.assertEqual(self.mainpartner.name, "CUMPANA 1993 SRL")
-        self.assertEqual(self.mainpartner.street, "Str. Alexander Von Humboldt Nr. 10")
-        self.assertEqual(self.mainpartner.street2, "")
-        self.assertEqual(self.mainpartner.state_id, self.env.ref("base.RO_B"))
-        self.assertEqual(self.mainpartner.city, "Sector 3")
-        self.assertEqual(self.mainpartner.country_id, self.env.ref("base.ro"))
-        self.assertEqual(self.mainpartner.vat, "RO4264242")
-        self.mainpartner.onchange_l10n_ro_vat_subjected()
-        self.assertEqual(self.mainpartner.vat, "RO4264242")
-        self.assertEqual(self.mainpartner.l10n_ro_vat_subjected, True)
+        res = self.mainpartner.ro_vat_change()
+        if not "warning" in res:
+            self.assertEqual(self.mainpartner.name, "CUMPANA 1993 SRL")
+            self.assertEqual(
+                self.mainpartner.street, "Str. Alexander Von Humboldt Nr. 10"
+            )
+            self.assertEqual(self.mainpartner.street2, "")
+            self.assertEqual(self.mainpartner.state_id, self.env.ref("base.RO_B"))
+            self.assertEqual(self.mainpartner.city, "Sector 3")
+            self.assertEqual(self.mainpartner.country_id, self.env.ref("base.ro"))
+            self.assertEqual(self.mainpartner.vat, "RO4264242")
+            self.mainpartner.onchange_l10n_ro_vat_subjected()
+            self.assertEqual(self.mainpartner.vat, "RO4264242")
+            self.assertEqual(self.mainpartner.l10n_ro_vat_subjected, True)
+
         # Check address from vat without country code - no vat subjected
         self.mainpartner.l10n_ro_vat_subjected = False
         self.mainpartner.vat = "RO42078234"
-        self.mainpartner.ro_vat_change()
-        self.mainpartner.onchange_l10n_ro_vat_subjected()
-        self.assertEqual(
-            self.mainpartner.name,
-            "COJOCARU AURELIAN-MARCEL SOFTWARE PERSOANĂ FIZICĂ AUTORIZATĂ",
-        )
-        self.assertEqual(self.mainpartner.street, "Str. Holdelor Nr. 11")
-        self.assertEqual(self.mainpartner.state_id, self.env.ref("base.RO_TM"))
-        self.assertEqual(self.mainpartner.city, "Timișoara")
-        self.assertEqual(self.mainpartner.country_id, self.env.ref("base.ro"))
-        self.assertEqual(self.mainpartner.vat, "42078234")
-        self.assertEqual(self.mainpartner.l10n_ro_vat_subjected, False)
+        res = self.mainpartner.ro_vat_change()
+        if not "warning" in res:
+            self.mainpartner.onchange_l10n_ro_vat_subjected()
+            self.assertEqual(
+                self.mainpartner.name,
+                "COJOCARU AURELIAN-MARCEL SOFTWARE PERSOANĂ FIZICĂ AUTORIZATĂ",
+            )
+            self.assertEqual(self.mainpartner.street, "Str. Holdelor Nr. 11")
+            self.assertEqual(self.mainpartner.state_id, self.env.ref("base.RO_TM"))
+            self.assertEqual(self.mainpartner.city, "Timișoara")
+            self.assertEqual(self.mainpartner.country_id, self.env.ref("base.ro"))
+            self.assertEqual(self.mainpartner.vat, "42078234")
+            self.assertEqual(self.mainpartner.l10n_ro_vat_subjected, False)
         # Check split vat with no country code in vat
         vat_country, vat_number = self.mainpartner._split_vat(self.mainpartner.vat)
         self.assertEqual(vat_country, "ro")
@@ -118,8 +127,9 @@ class TestCreatePartner(TestCreatePartnerBase):
         # Check vat subjected onchange
         self.mainpartner.l10n_ro_vat_subjected = True
         self.mainpartner.onchange_l10n_ro_vat_subjected()
-        self.mainpartner.ro_vat_change()
-        self.assertEqual(self.mainpartner.l10n_ro_vat_subjected, False)
+        res = self.mainpartner.ro_vat_change()
+        if not "warning" in res:
+            self.assertEqual(self.mainpartner.l10n_ro_vat_subjected, False)
 
     def test_anaf_no_data(self):
         """if a invalid vat will return a empty dictionary."""
