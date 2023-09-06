@@ -53,7 +53,7 @@ class TestCreatePartner(TestCreatePartnerBase):
         # Test onchange from ANAF
         self.mainpartner.vat = "RO30834857"
         res = self.mainpartner.ro_vat_change()
-        if not "warning" in res:
+        if "warning" not in res:
             self.assertEqual(self.mainpartner.name, "FOREST AND BIOMASS ROMÂNIA S.A.")
             self.assertEqual(self.mainpartner.street, "Str. Ciprian Porumbescu Nr. 12")
             self.assertEqual(self.mainpartner.street2, "Zona Nr.3, Etaj 1")
@@ -63,7 +63,7 @@ class TestCreatePartner(TestCreatePartnerBase):
         # Check inactive vatnumber
         self.mainpartner.vat = "RO27193515"
         res = self.mainpartner.ro_vat_change()
-        if not "warning" in res:
+        if "warning" not in res:
             self.assertEqual(
                 self.mainpartner.name, "FOREST AND BIOMASS SERVICES ROMANIA S.A."
             )
@@ -75,7 +75,7 @@ class TestCreatePartner(TestCreatePartnerBase):
         # Check address from commune
         self.mainpartner.vat = "RO8235738"
         res = self.mainpartner.ro_vat_change()
-        if not "warning" in res:
+        if "warning" not in res:
             self.assertEqual(self.mainpartner.name, "HOLZINDUSTRIE ROMANESTI S.R.L.")
             self.assertEqual(self.mainpartner.street, "Românești Nr. 69/A")
             self.assertEqual(self.mainpartner.state_id, self.env.ref("base.RO_TM"))
@@ -85,12 +85,12 @@ class TestCreatePartner(TestCreatePartnerBase):
         self.mainpartner.vat = "4264242"
         self.mainpartner.country_id = False
         res = self.mainpartner.ro_vat_change()
-        if not "warning" in res:
+        if "warning" not in res:
             self.assertEqual(self.mainpartner.name, "HOLZINDUSTRIE ROMANESTI S.R.L.")
         # Check address from vat without country code - vat subjected
         self.mainpartner.country_id = self.env.ref("base.ro")
         res = self.mainpartner.ro_vat_change()
-        if not "warning" in res:
+        if "warning" not in res:
             self.assertEqual(self.mainpartner.name, "CUMPANA 1993 SRL")
             self.assertEqual(
                 self.mainpartner.street, "Str. Alexander Von Humboldt Nr. 10"
@@ -108,7 +108,7 @@ class TestCreatePartner(TestCreatePartnerBase):
         self.mainpartner.l10n_ro_vat_subjected = False
         self.mainpartner.vat = "RO42078234"
         res = self.mainpartner.ro_vat_change()
-        if not "warning" in res:
+        if "warning" not in res:
             self.mainpartner.onchange_l10n_ro_vat_subjected()
             self.assertEqual(
                 self.mainpartner.name,
@@ -128,7 +128,7 @@ class TestCreatePartner(TestCreatePartnerBase):
         self.mainpartner.l10n_ro_vat_subjected = True
         self.mainpartner.onchange_l10n_ro_vat_subjected()
         res = self.mainpartner.ro_vat_change()
-        if not "warning" in res:
+        if "warning" not in res:
             self.assertEqual(self.mainpartner.l10n_ro_vat_subjected, False)
 
     def test_anaf_no_data(self):
