@@ -18,6 +18,11 @@ msgstr ""
 
 #. module: l10n_ro_account_bank_statement_report
 #: model_terms:ir.ui.view,arch_db:l10n_ro_account_bank_statement_report.report_l10n_ro_statement_daily
+msgid "<br/> /"
+msgstr ""
+
+#. module: l10n_ro_account_bank_statement_report
+#: model_terms:ir.ui.view,arch_db:l10n_ro_account_bank_statement_report.report_l10n_ro_statement_daily
 #: model_terms:ir.ui.view,arch_db:l10n_ro_account_bank_statement_report.report_l10n_ro_statement_period
 msgid "<span>Account</span>"
 msgstr "<span>Cont</span>"
@@ -87,6 +92,12 @@ msgstr "Registru Numerar"
 #. module: l10n_ro_account_bank_statement_report
 #: model_terms:ir.ui.view,arch_db:l10n_ro_account_bank_statement_report.report_l10n_ro_statement_daily
 #: model_terms:ir.ui.view,arch_db:l10n_ro_account_bank_statement_report.report_l10n_ro_statement_period
+msgid "Counterpart"
+msgstr "Cont Corespondent"
+
+#. module: l10n_ro_account_bank_statement_report
+#: model_terms:ir.ui.view,arch_db:l10n_ro_account_bank_statement_report.report_l10n_ro_statement_daily
+#: model_terms:ir.ui.view,arch_db:l10n_ro_account_bank_statement_report.report_l10n_ro_statement_period
 msgid "Currency Amount"
 msgstr "Suma in valuta"
 
@@ -100,12 +111,6 @@ msgstr "Data"
 #: model_terms:ir.ui.view,arch_db:l10n_ro_account_bank_statement_report.report_l10n_ro_statement_period
 msgid "Ending Balance"
 msgstr "Sold Final"
-
-#. module: l10n_ro_account_bank_statement_report
-#: model_terms:ir.ui.view,arch_db:l10n_ro_account_bank_statement_report.report_l10n_ro_statement_daily
-#: model_terms:ir.ui.view,arch_db:l10n_ro_account_bank_statement_report.report_l10n_ro_statement_period
-msgid "Explanation"
-msgstr "Explicații"
 
 #. module: l10n_ro_account_bank_statement_report
 #: model:ir.model.fields,field_description:l10n_ro_account_bank_statement_report.field_account_bank_statement__is_l10n_ro_record
@@ -149,11 +154,14 @@ msgstr "Sold inițial"
 #. module: l10n_ro_account_bank_statement_report
 #: model_terms:ir.ui.view,arch_db:l10n_ro_account_bank_statement_report.report_l10n_ro_statement_daily
 #: model_terms:ir.ui.view,arch_db:l10n_ro_account_bank_statement_report.report_l10n_ro_statement_period
-msgid "Transaction No"
-msgstr "Nr Tranzacție"
+msgid "Transaction No /<br/>Explanation"
+msgstr "Nr Tranzacție /<br/>Explicații"
 
 #~ msgid "Display Name"
 #~ msgstr "Nume afișat"
+
+#~ msgid "Explanation"
+#~ msgstr "Explicații"
 
 #~ msgid "ID"
 #~ msgstr "ID"
