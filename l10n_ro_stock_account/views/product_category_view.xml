@@ -1,5 +1,21 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <odoo>
+    <record id="view_product_category_stock_add_romania_form" model="ir.ui.view">
+        <field name="name">view_product_category_stock_add_romania_form</field>
+        <field name="model">product.category</field>
+        <field name="inherit_id" ref="stock.product_category_form_view_inherit" />
+        <field name="priority" eval="51" />
+        <field name="arch" type="xml">
+            <xpath expr="//group[@name='first']" position="inside">
+            	<group string="Accounting Category">
+            		<field name="l10n_ro_accounting_category"/>
+            		<field name="l10n_ro_accounting_category_id" attrs="{'invisible':[('l10n_ro_accounting_category','=',True)],'required':[('l10n_ro_accounting_category','=',False)]}"/>
+            		<button string="Fix Accounting Product Category" name="l10n_ro_fixProductCategory_accounting" type="object" attrs="{'invisible':[('l10n_ro_accounting_category','=',False)]}"/>
+            	</group>
+            </xpath>
+        </field>
+    </record>
+            
     <record id="view_product_category_add_romania_form" model="ir.ui.view">
         <field name="name">view_product_category_add_romania_form</field>
         <field name="model">product.category</field>
