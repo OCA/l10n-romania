@@ -23,7 +23,7 @@ class AccountMove(models.Model):
             [
                 ("id", "in", purchases.mapped("picking_ids").ids),
                 ("state", "=", "done"),
-                ("notice", "=", True),
+                ("l10n_ro_notice", "=", True),
             ]
         )
         if picking_notice:

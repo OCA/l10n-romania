@@ -118,6 +118,15 @@ class ResCompany(models.Model):
         "applied strictly on a location level (including its children)",
     )
 
+    l10n_ro_restrict_stock_move_date_last_month = fields.Boolean(
+        string="Restrict Stock Move Date Last Month",
+        help="Restrict stock move posting with at most one month ago.",
+    )
+    l10n_ro_restrict_stock_move_date_future = fields.Boolean(
+        string="Restrict Stock Move Date Future",
+        help="Restrict stock move posting with future date.",
+    )
+
     def _check_is_l10n_ro_record(self, company=False):
         if not company:
             company = self

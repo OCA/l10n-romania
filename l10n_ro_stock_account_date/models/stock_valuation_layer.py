@@ -17,7 +17,7 @@ class StockValuationLayer(models.Model):
     l10n_ro_date_done = fields.Datetime(
         readonly=True,
         help="This is the date when this record was created. Original create_date is writen"
-        " at reception by module nexterp_stock_date",
+        " at reception by module l10n_ro_stock_account_date",
     )
 
     @api.model_create_multi
