@@ -1,11 +1,3 @@
-.pos {
-    font-family: "Roboto", "Lucida Grande", Helvetica, Verdana, Arial;
-}
-
-.pos .modal-dialog .popup {
-    font-family: "Roboto", "Lucida Grande", Helvetica, Verdana, Arial;
-}
-
 .pos .limit-error {
     background-color: #f3bbbb;
     color: rgb(168, 89, 89);

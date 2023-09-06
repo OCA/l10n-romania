@@ -21,8 +21,3 @@ class PosOrder(models.Model):
         return super(
             PosOrder, self.with_context(allowed_change_product=True)
         ).action_pos_order_invoice()
-
-    def _prepare_invoice_line(self, order_line):
-        res = super(PosOrder, self)._prepare_invoice_line(order_line)
-        # se va determina contul de venituri in functie de produs si de locatie
-        return res
