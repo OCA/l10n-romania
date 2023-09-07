@@ -8,13 +8,21 @@
             <field name="arch" type="xml">
                 <xpath expr="//group[@name='additional_info']" position="after">
                     <group string="Accounting Information">
+                        <field name="l10n_ro_accounting_location" />
+                        <field
+                            name="l10n_ro_accounting_location_id"
+                            options="{'no_create': True}"
+                            attrs="{'invisible': [('l10n_ro_accounting_location','=',True)],'required': [('l10n_ro_accounting_location','=',False)]}"
+                        />
                         <field
                             name="valuation_in_account_id"
                             options="{'no_create': True}"
+                            attrs="{'readonly': [('l10n_ro_accounting_location','=',False)]}"
                         />
                         <field
                             name="valuation_out_account_id"
                             options="{'no_create': True}"
+                            attrs="{'readonly': [('l10n_ro_accounting_location','=',False)]}"
                         />
                         <field name="is_l10n_ro_record" invisible="1" />
                         <separator
@@ -24,17 +32,17 @@
                         <field
                             name="l10n_ro_property_account_income_location_id"
                             options="{'no_create': True}"
-                            attrs="{'invisible': [('is_l10n_ro_record', '=', False)]}"
+                            attrs="{'invisible': [('is_l10n_ro_record', '=', False)],'readonly': [('l10n_ro_accounting_location','=',False)]}"
                         />
                         <field
                             name="l10n_ro_property_account_expense_location_id"
                             options="{'no_create': True}"
-                            attrs="{'invisible': [('is_l10n_ro_record', '=', False)]}"
+                            attrs="{'invisible': [('is_l10n_ro_record', '=', False)],'readonly': [('l10n_ro_accounting_location','=',False)]}"
                         />
                         <field
                             name="l10n_ro_property_stock_valuation_account_id"
                             options="{'no_create': True}"
-                            attrs="{'invisible': [('is_l10n_ro_record', '=', False)]}"
+                            attrs="{'invisible': [('is_l10n_ro_record', '=', False)], 'readonly': [('l10n_ro_accounting_location','=',False)]}"
                         />
                     </group>
                 </xpath>
