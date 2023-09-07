@@ -10,7 +10,7 @@
                 expr="//field[@name='property_account_creditor_price_difference_categ']"
                 position="attributes"
             >
-            	<attribute
+                <attribute
                     name="attrs"
                 >{'readonly':[('l10n_ro_accounting_category','=',False)]}</attribute>
             </xpath>
@@ -41,7 +41,7 @@
                 expr=".//field[@name='property_account_income_categ_id']"
                 position="attributes"
             >
-            	<attribute
+                <attribute
                     name="attrs"
                 >{'readonly':[('l10n_ro_accounting_category','=',False)]}</attribute>
             </xpath>
@@ -49,17 +49,17 @@
                 expr=".//field[@name='property_account_expense_categ_id']"
                 position="attributes"
             >
-            	<attribute
+                <attribute
                     name="attrs"
                 >{'readonly':[('l10n_ro_accounting_category','=',False)]}</attribute>
             </xpath>
             <xpath expr=".//field[@name='property_valuation']" position="attributes">
-            	<attribute
+                <attribute
                     name="attrs"
                 >{'readonly':[('l10n_ro_accounting_category','=',False)]}</attribute>
             </xpath>
             <xpath expr=".//field[@name='property_cost_method']" position="attributes">
-            	<attribute
+                <attribute
                     name="attrs"
                 >{'readonly':[('l10n_ro_accounting_category','=',False)]}</attribute>
             </xpath>
@@ -67,7 +67,7 @@
                 expr=".//field[@name='property_stock_journal']"
                 position="attributes"
             >
-            	<attribute
+                <attribute
                     name="attrs"
                 >{'readonly':[('l10n_ro_accounting_category','=',False)]}</attribute>
             </xpath>
@@ -75,7 +75,7 @@
                 expr=".//field[@name='property_stock_account_input_categ_id']"
                 position="attributes"
             >
-            	<attribute
+                <attribute
                     name="attrs"
                 >{'readonly':[('l10n_ro_accounting_category','=',False)]}</attribute>
             </xpath>
@@ -83,7 +83,7 @@
                 expr=".//field[@name='property_stock_account_output_categ_id']"
                 position="attributes"
             >
-            	<attribute
+                <attribute
                     name="attrs"
                 >{'readonly':[('l10n_ro_accounting_category','=',False)]}</attribute>
             </xpath>
@@ -91,7 +91,7 @@
                 expr=".//field[@name='property_stock_valuation_account_id']"
                 position="attributes"
             >
-            	<attribute
+                <attribute
                     name="attrs"
                 >{'readonly':[('l10n_ro_accounting_category','=',False)]}</attribute>
             </xpath>
@@ -99,7 +99,7 @@
                 expr=".//field[@name='l10n_ro_hide_stock_in_out_account']"
                 position="attributes"
             >
-            	<attribute
+                <attribute
                     name="attrs"
                 >{'readonly':[('l10n_ro_accounting_category','=',False)]}</attribute>
             </xpath>
@@ -107,7 +107,7 @@
                 expr=".//field[@name='l10n_ro_stock_account_change']"
                 position="attributes"
             >
-            	<attribute
+                <attribute
                     name="attrs"
                 >{'readonly':[('l10n_ro_accounting_category','=',False)]}</attribute>
             </xpath>

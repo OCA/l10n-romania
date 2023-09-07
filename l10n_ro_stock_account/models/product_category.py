@@ -100,7 +100,8 @@ class ProductCategory(models.Model):
         accouning_category = self.browse(value.get("l10n_ro_accounting_category_id"))
         return accouning_category._l10n_ro_copy_value(value)
 
-    def _l10n_ro_copy_value(self, value={}):
+    def _l10n_ro_copy_value(self, value=None):
+        value = value or {}
         value.update(
             {
                 "property_valuation": (
@@ -167,7 +168,7 @@ class ProductCategory(models.Model):
         if "l10n_ro_accounting_category" in value and not self.env.user.has_group(
             "account.group_account_manager"
         ):
-            raise UserError("Non-Accountant User have no access on this field")
+            raise UserError(_("Non-Accountant User have no access on this field"))
 
         if value.get("l10n_ro_accounting_category_id", None):
             value = self._l10n_ro_prepare_copy_value(value)

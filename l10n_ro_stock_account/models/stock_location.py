@@ -3,7 +3,7 @@
 # Copyright (C) 2020 Terrabit
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
-from odoo import api, fields, models
+from odoo import _, api, fields, models
 from odoo.exceptions import UserError
 
 
@@ -60,7 +60,8 @@ class StockLocation(models.Model):
         accouning_category = self.browse(value.get("l10n_ro_accounting_location_id"))
         return accouning_category._l10n_ro_copy_value(value)
 
-    def _l10n_ro_copy_value(self, value={}):
+    def _l10n_ro_copy_value(self, value=None):
+        value = value or {}
         value.update(
             {
                 "l10n_ro_property_account_income_location_id": (
@@ -94,7 +95,7 @@ class StockLocation(models.Model):
         if "l10n_ro_accounting_location" in value and not self.env.user.has_group(
             "account.group_account_manager"
         ):
-            raise UserError("Non-Accountant User have no access on this field")
+            raise UserError(_("Non-Accountant User have no access on this field"))
 
         if value.get("l10n_ro_accounting_location_id", None):
             value = self._l10n_ro_prepare_copy_value(value)
