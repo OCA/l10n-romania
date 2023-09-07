@@ -3,10 +3,10 @@
     <record id="view_product_category_stock_add_romania_form" model="ir.ui.view">
         <field name="name">view_product_category_stock_add_romania_form</field>
         <field name="model">product.category</field>
-        <field name="inherit_id" ref="stock.product_category_form_view_inherit" />
+        <field name="inherit_id" ref="stock_account.view_category_property_form" />
         <field name="priority" eval="51" />
         <field name="arch" type="xml">
-            <xpath expr="//group[@name='first']" position="inside">
+            <xpath expr="//group[@name='account_stock_property']" position="before">
                 <group string="Accounting Category">
                     <field name="l10n_ro_accounting_category" />
                     <field
