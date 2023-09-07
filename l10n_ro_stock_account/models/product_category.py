@@ -27,6 +27,15 @@ class ProductCategory(models.Model):
         "on stock locations",
     )
 
+    l10n_ro_accounting_category = fields.Boolean(
+        string="Romania - Is Accounting Category",
+        help="Only for Romania, this define a category " "as accounting category",
+    )
+    l10n_ro_accounting_category_id = fields.Many2one(
+        string="Romania - Parent Accounting Category",
+        help="Only for Romania, link a category " "on accounting category",
+    )
+
     @api.depends("name")
     def _compute_hide_accounts(self):
         for record in self:
@@ -79,3 +88,53 @@ class ProductCategory(models.Model):
                     record.property_stock_account_output_categ_id = (
                         record.property_stock_valuation_account_id
                     )
+
+    def _l10n_ro_prepare_copy_values(self, values):
+        for value in values:
+            if "l10n_ro_accounting_category_id" in value:
+                value.update(self._l10n_ro_prepare_copy_value(value))
+        return values
+
+    def _l10n_ro_prepare_copy_value(self, value):
+        accouning_category = self.browse(value.get("l10n_ro_accounting_category_id"))
+        return accouning_category._l10n_ro_copy_value(value)
+
+    def _l10n_ro_copy_value(self, value):
+        value.update(
+            {
+                "property_valuation": self.property_valuation,
+                "property_cost_method": self.property_cost_method,
+                "property_stock_journal": self.property_stock_journal.id,
+                "property_stock_account_input_categ_id": (
+                    self.property_stock_account_input_categ_id.id
+                ),
+                "property_stock_account_output_categ_id": (
+                    self.property_stock_account_output_categ_id.id
+                ),
+                "property_stock_valuation_account_id": (
+                    self.property_stock_valuation_account_id.id
+                ),
+                "l10n_ro_hide_stock_in_out_account": (
+                    self.l10n_ro_hide_stock_in_out_account
+                ),
+                "l10n_ro_stock_account_change": (self.l10n_ro_stock_account_change),
+            }
+        )
+        return value
+
+    @api.multi
+    def write(self, value):
+        if "l10n_ro_accounting_category_id" in value:
+            value = self._l10n_ro_prepare_copy_value(value)
+        return super(ProductCategory, self).write(value)
+
+    @api.model
+    def create(self, values):
+        values = self._l10n_ro_prepare_copy_values(values)
+        return super(ProductCategory, self).create(values)
+
+    @api.multi
+    def l10n_ro_fixProductCategory_accounting(self):
+        for s in self:
+            value = s._l10n_ro_copy_value({})
+            self.search([("l10n_ro_accounting_category_id", "=", s.id)]).write(value)

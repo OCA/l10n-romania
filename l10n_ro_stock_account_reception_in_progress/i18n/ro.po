@@ -23,6 +23,13 @@ msgstr "Cont"
 
 #. module: l10n_ro_stock_account_reception_in_progress
 #: model_terms:ir.ui.view,arch_db:l10n_ro_stock_account_reception_in_progress.purchase_order_form
+msgid ""
+"Are you sure you want to create reception in progress from the purchase "
+"order?"
+msgstr ""
+
+#. module: l10n_ro_stock_account_reception_in_progress
+#: model_terms:ir.ui.view,arch_db:l10n_ro_stock_account_reception_in_progress.purchase_order_form
 msgid "Create Reception in Progress Bill"
 msgstr "Creare factură pentru recepție în curs"
 
@@ -124,8 +131,8 @@ msgid ""
 "You cannot change the quantity on invoice line linked with a purchase order "
 "marked as Reception in Progress."
 msgstr ""
-"Nu puteți modifica cantitatea de pe linia de factură asociată cu o comandă de "
-"achiziție marcată ca Recepție în curs."
+"Nu puteți modifica cantitatea de pe linia de factură asociată cu o comandă "
+"de achiziție marcată ca Recepție în curs."
 
 #. module: l10n_ro_stock_account_reception_in_progress
 #: code:addons/l10n_ro_stock_account_reception_in_progress/models/stock_picking.py:0
