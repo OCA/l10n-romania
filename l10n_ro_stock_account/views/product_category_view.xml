@@ -1,28 +1,120 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <odoo>
+    <record id="view_product_category_purchase_add_romania_form" model="ir.ui.view">
+        <field name="name">view_product_category_purchase_add_romania_form</field>
+        <field name="model">product.category</field>
+        <field name="inherit_id" ref="purchase.view_category_property_form" />
+        <field name="priority" eval="52" />
+        <field name="arch" type="xml">
+            <xpath
+                expr="//field[@name='property_account_creditor_price_difference_categ']"
+                position="attributes"
+            >
+            	<attribute
+                    name="attrs"
+                >{'readonly':[('l10n_ro_accounting_category','=',False)]}</attribute>
+            </xpath>
+        </field>
+    </record>
+
     <record id="view_product_category_stock_add_romania_form" model="ir.ui.view">
         <field name="name">view_product_category_stock_add_romania_form</field>
         <field name="model">product.category</field>
         <field name="inherit_id" ref="stock_account.view_category_property_form" />
         <field name="priority" eval="51" />
         <field name="arch" type="xml">
-            <xpath expr="//group[@name='account_stock_property']" position="before">
+            <xpath
+                expr="//field[@name='property_cost_method']/parent::group"
+                position="after"
+            >
                 <group string="Accounting Category">
                     <field name="l10n_ro_accounting_category" />
                     <field
                         name="l10n_ro_accounting_category_id"
+                        context="{'default_l10n_ro_accounting_category':True}"
+                        domain="[('l10n_ro_accounting_category','=',True)]"
                         attrs="{'invisible':[('l10n_ro_accounting_category','=',True)],'required':[('l10n_ro_accounting_category','=',False)]}"
-                    />
-                    <button
-                        string="Fix Accounting Product Category"
-                        name="l10n_ro_fixProductCategory_accounting"
-                        type="object"
-                        attrs="{'invisible':[('l10n_ro_accounting_category','=',False)]}"
                     />
                  </group>
             </xpath>
+            <xpath
+                expr=".//field[@name='property_account_income_categ_id']"
+                position="attributes"
+            >
+            	<attribute
+                    name="attrs"
+                >{'readonly':[('l10n_ro_accounting_category','=',False)]}</attribute>
+            </xpath>
+            <xpath
+                expr=".//field[@name='property_account_expense_categ_id']"
+                position="attributes"
+            >
+            	<attribute
+                    name="attrs"
+                >{'readonly':[('l10n_ro_accounting_category','=',False)]}</attribute>
+            </xpath>
+            <xpath expr=".//field[@name='property_valuation']" position="attributes">
+            	<attribute
+                    name="attrs"
+                >{'readonly':[('l10n_ro_accounting_category','=',False)]}</attribute>
+            </xpath>
+            <xpath expr=".//field[@name='property_cost_method']" position="attributes">
+            	<attribute
+                    name="attrs"
+                >{'readonly':[('l10n_ro_accounting_category','=',False)]}</attribute>
+            </xpath>
+            <xpath
+                expr=".//field[@name='property_stock_journal']"
+                position="attributes"
+            >
+            	<attribute
+                    name="attrs"
+                >{'readonly':[('l10n_ro_accounting_category','=',False)]}</attribute>
+            </xpath>
+            <xpath
+                expr=".//field[@name='property_stock_account_input_categ_id']"
+                position="attributes"
+            >
+            	<attribute
+                    name="attrs"
+                >{'readonly':[('l10n_ro_accounting_category','=',False)]}</attribute>
+            </xpath>
+            <xpath
+                expr=".//field[@name='property_stock_account_output_categ_id']"
+                position="attributes"
+            >
+            	<attribute
+                    name="attrs"
+                >{'readonly':[('l10n_ro_accounting_category','=',False)]}</attribute>
+            </xpath>
+            <xpath
+                expr=".//field[@name='property_stock_valuation_account_id']"
+                position="attributes"
+            >
+            	<attribute
+                    name="attrs"
+                >{'readonly':[('l10n_ro_accounting_category','=',False)]}</attribute>
+            </xpath>
+            <xpath
+                expr=".//field[@name='l10n_ro_hide_stock_in_out_account']"
+                position="attributes"
+            >
+            	<attribute
+                    name="attrs"
+                >{'readonly':[('l10n_ro_accounting_category','=',False)]}</attribute>
+            </xpath>
+            <xpath
+                expr=".//field[@name='l10n_ro_stock_account_change']"
+                position="attributes"
+            >
+            	<attribute
+                    name="attrs"
+                >{'readonly':[('l10n_ro_accounting_category','=',False)]}</attribute>
+            </xpath>
         </field>
     </record>
+
+    account.view_category_property_form
 
     <record id="view_product_category_add_romania_form" model="ir.ui.view">
         <field name="name">view_product_category_add_romania_form</field>
