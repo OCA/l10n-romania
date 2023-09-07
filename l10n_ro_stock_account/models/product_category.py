@@ -29,11 +29,12 @@ class ProductCategory(models.Model):
 
     l10n_ro_accounting_category = fields.Boolean(
         string="Romania - Is Accounting Category",
-        help="Only for Romania, this define a category " "as accounting category",
+        help="Only for Romania, this define a category as accounting category",
     )
     l10n_ro_accounting_category_id = fields.Many2one(
+        "product.category",
         string="Romania - Parent Accounting Category",
-        help="Only for Romania, link a category " "on accounting category",
+        help="Only for Romania, link a category on accounting category",
     )
 
     @api.depends("name")
@@ -91,7 +92,7 @@ class ProductCategory(models.Model):
 
     def _l10n_ro_prepare_copy_values(self, values):
         for value in values:
-            if "l10n_ro_accounting_category_id" in value:
+            if value.get("l10n_ro_accounting_category_id", None):
                 value.update(self._l10n_ro_prepare_copy_value(value))
         return values
 
@@ -99,42 +100,90 @@ class ProductCategory(models.Model):
         accouning_category = self.browse(value.get("l10n_ro_accounting_category_id"))
         return accouning_category._l10n_ro_copy_value(value)
 
-    def _l10n_ro_copy_value(self, value):
+    def _l10n_ro_copy_value(self, value=None):
+        value = value or {}
         value.update(
             {
-                "property_valuation": self.property_valuation,
-                "property_cost_method": self.property_cost_method,
-                "property_stock_journal": self.property_stock_journal.id,
+                "property_valuation": (
+                    self.property_valuation or value.get("property_valuation")
+                ),
+                "property_cost_method": (
+                    self.property_cost_method or value.get("property_cost_method")
+                ),
+                "property_stock_journal": (
+                    self.property_stock_journal.id
+                    or value.get("property_stock_journal")
+                ),
+                "property_account_income_categ_id": (
+                    self.property_account_income_categ_id.id
+                    or value.get("property_account_income_categ_id")
+                ),
+                "property_account_expense_categ_id": (
+                    self.property_account_expense_categ_id.id
+                    or value.get("property_account_expense_categ_id")
+                ),
+                "property_account_creditor_price_difference_categ": (
+                    self.property_account_creditor_price_difference_categ.id
+                    or value.get("property_account_creditor_price_difference_categ")
+                ),
                 "property_stock_account_input_categ_id": (
                     self.property_stock_account_input_categ_id.id
+                    or value.get("property_stock_account_input_categ_id")
                 ),
                 "property_stock_account_output_categ_id": (
                     self.property_stock_account_output_categ_id.id
+                    or value.get("property_stock_account_output_categ_id")
                 ),
                 "property_stock_valuation_account_id": (
                     self.property_stock_valuation_account_id.id
+                    or value.get("property_stock_valuation_account_id")
                 ),
                 "l10n_ro_hide_stock_in_out_account": (
                     self.l10n_ro_hide_stock_in_out_account
+                    or value.get("l10n_ro_hide_stock_in_out_account")
                 ),
-                "l10n_ro_stock_account_change": (self.l10n_ro_stock_account_change),
+                "l10n_ro_stock_account_change": (
+                    self.l10n_ro_stock_account_change
+                    or value.get("l10n_ro_stock_account_change")
+                ),
             }
         )
         return value
 
-    @api.multi
-    def write(self, value):
-        if "l10n_ro_accounting_category_id" in value:
-            value = self._l10n_ro_prepare_copy_value(value)
-        return super(ProductCategory, self).write(value)
+    def _l10n_ro_check_value_is_different(self, value):
+        value2 = self._l10n_ro_copy_value()
+        res = False
+        for key, val in value.items():
+            if value2.get(key) != val:
+                res = True
+                break
+        return res
 
-    @api.model
+    def _l10n_ro_pushProductCategory_accounting(self):
+        for s in self:
+            value = s._l10n_ro_copy_value()
+            self.search([("l10n_ro_accounting_category_id", "=", s.id)]).write(value)
+
+    def write(self, value):
+        if "l10n_ro_accounting_category" in value and not self.env.user.has_group(
+            "account.group_account_manager"
+        ):
+            raise UserError(_("Non-Accountant User have no access on this field"))
+
+        if value.get("l10n_ro_accounting_category_id", None):
+            value = self._l10n_ro_prepare_copy_value(value)
+        reset_accounting_categories = self.filtered(
+            lambda x: (
+                x.l10n_ro_accounting_category
+                and x._l10n_ro_check_value_is_different(value)
+            )
+        )
+        res = super(ProductCategory, self).write(value)
+        if res and reset_accounting_categories:
+            reset_accounting_categories._l10n_ro_pushProductCategory_accounting()
+        return res
+
+    @api.model_create_multi
     def create(self, values):
         values = self._l10n_ro_prepare_copy_values(values)
         return super(ProductCategory, self).create(values)
-
-    @api.multi
-    def l10n_ro_fixProductCategory_accounting(self):
-        for s in self:
-            value = s._l10n_ro_copy_value({})
-            self.search([("l10n_ro_accounting_category_id", "=", s.id)]).write(value)
