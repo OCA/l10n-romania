@@ -8,6 +8,12 @@
         <field name="arch" type="xml">
             <xpath
                 expr="//field[@name='property_account_creditor_price_difference_categ']"
+                position="inside"
+            >
+                <field name="l10n_ro_accounting_category" invisible="1" />
+            </xpath>
+            <xpath
+                expr="//field[@name='property_account_creditor_price_difference_categ']"
                 position="attributes"
             >
                 <attribute
@@ -95,22 +101,6 @@
                     name="attrs"
                 >{'readonly':[('l10n_ro_accounting_category','=',False)]}</attribute>
             </xpath>
-            <xpath
-                expr=".//field[@name='l10n_ro_hide_stock_in_out_account']"
-                position="attributes"
-            >
-                <attribute
-                    name="attrs"
-                >{'readonly':[('l10n_ro_accounting_category','=',False)]}</attribute>
-            </xpath>
-            <xpath
-                expr=".//field[@name='l10n_ro_stock_account_change']"
-                position="attributes"
-            >
-                <attribute
-                    name="attrs"
-                >{'readonly':[('l10n_ro_accounting_category','=',False)]}</attribute>
-            </xpath>
         </field>
     </record>
 
@@ -124,20 +114,21 @@
         <field name="arch" type="xml">
             <field name="property_stock_valuation_account_id" position="after">
                 <field name="is_l10n_ro_record" invisible="1" />
+                <field name="l10n_ro_accounting_category" invisible="1" />
                 <field
                     name="l10n_ro_stock_account_change"
-                    attrs="{'invisible': [('is_l10n_ro_record', '=', False)]}"
+                    attrs="{'invisible': [('is_l10n_ro_record', '=', False)],'readonly':[('l10n_ro_accounting_category','=',False)]}"
                 />
                 <field name="l10n_ro_hide_stock_in_out_account" invisible="1" />
             </field>
             <field name="property_stock_account_input_categ_id" position="attributes">
                 <attribute name="attrs">
-                    {'invisible':[('l10n_ro_hide_stock_in_out_account','=',True)]}
+                    {'invisible':[('l10n_ro_hide_stock_in_out_account','=',True)],'readonly':[('l10n_ro_accounting_category','=',False)]}
                 </attribute>
             </field>
             <field name="property_stock_account_output_categ_id" position="attributes">
                 <attribute name="attrs">
-                    {'invisible':[('l10n_ro_hide_stock_in_out_account','=',True)]}
+                    {'invisible':[('l10n_ro_hide_stock_in_out_account','=',True)],'readonly':[('l10n_ro_accounting_category','=',False)]}
                 </attribute>
             </field>
         </field>
