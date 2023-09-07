@@ -75,28 +75,30 @@ class TestVATonpayment(AccountTestInvoicingCommon):
                 ("company_id", "=", cls.env.company.id),
             ]
         )
+        prev_day = date.today() - timedelta(1)
+        cls.server_anaf_is_down = False
+        try:
+            cls.partner_anaf_model._download_anaf_data(prev_day)
+        except Exception:
+            _logger.warning("Server ANAF is down.")
+            cls.server_anaf_is_down = True
 
     def test_download_data(self):
         """Test download file and partner link."""
+        if self.server_anaf_is_down:
+            return True
         data_dir = tools.config["data_dir"]
         prev_day = date.today() - timedelta(1)
-        try:
-            self.partner_anaf_model._download_anaf_data(prev_day)
-        except Exception:
-            _logger.warning("Server ANAF is down.")
-            return True
-
+        self.partner_anaf_model._download_anaf_data(prev_day)
         istoric = os.path.join(data_dir, "istoric.txt")
         self.assertEqual(os.path.exists(istoric), True)
-        try:
-            self.partner_anaf_model._download_anaf_data()
-        except Exception:
-            _logger.warning("Server ANAF is down.")
-            return True
+        self.partner_anaf_model._download_anaf_data()
         self.assertEqual(os.path.exists(istoric), True)
 
     def test_update_partner_data(self):
         """Test download file and partner link."""
+        if self.server_anaf_is_down:
+            return True
         self.partner_model._update_vat_payment_all()
         self.assertEqual(len(self.fbr_partner.l10n_ro_anaf_history), 2)
         self.assertEqual(self.fbr_partner.l10n_ro_vat_on_payment, False)
@@ -117,5 +119,7 @@ class TestVATonpayment(AccountTestInvoicingCommon):
 
     def test_invoice_fp(self):
         """Test download file and partner link."""
+        if self.server_anaf_is_down:
+            return True
         self.invoice._onchange_partner_id()
         self.assertEqual(self.invoice.fiscal_position_id, self.fptvainc)
