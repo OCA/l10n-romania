@@ -61,9 +61,15 @@ class StockLocation(models.Model):
     def _l10n_ro_copy_value(self, value):
         value.update(
             {
-                "l10n_ro_property_account_income_location_id": self.l10n_ro_property_account_income_location_id.id,
-                "l10n_ro_property_account_expense_location_id": self.l10n_ro_property_account_expense_location_id.id,
-                "l10n_ro_property_stock_valuation_account_id": self.l10n_ro_property_stock_valuation_account_id.id,
+                "l10n_ro_property_account_income_location_id": (
+                    self.l10n_ro_property_account_income_location_id.id
+                ),
+                "l10n_ro_property_account_expense_location_id": (
+                    self.l10n_ro_property_account_expense_location_id.id
+                ),
+                "l10n_ro_property_stock_valuation_account_id": (
+                    self.l10n_ro_property_stock_valuation_account_id.id
+                ),
             }
         )
         return value

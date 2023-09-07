@@ -105,11 +105,19 @@ class ProductCategory(models.Model):
                 "property_valuation": self.property_valuation,
                 "property_cost_method": self.property_cost_method,
                 "property_stock_journal": self.property_stock_journal.id,
-                "property_stock_account_input_categ_id": self.property_stock_account_input_categ_id.id,
-                "property_stock_account_output_categ_id": self.property_stock_account_output_categ_id.id,
-                "property_stock_valuation_account_id": self.property_stock_valuation_account_id.id,
-                "l10n_ro_hide_stock_in_out_account": self.l10n_ro_hide_stock_in_out_account,
-                "l10n_ro_stock_account_change": self.l10n_ro_stock_account_change,
+                "property_stock_account_input_categ_id": (
+                    self.property_stock_account_input_categ_id.id
+                ),
+                "property_stock_account_output_categ_id": (
+                    self.property_stock_account_output_categ_id.id
+                ),
+                "property_stock_valuation_account_id": (
+                    self.property_stock_valuation_account_id.id
+                ),
+                "l10n_ro_hide_stock_in_out_account": (
+                    self.l10n_ro_hide_stock_in_out_account
+                ),
+                "l10n_ro_stock_account_change": (self.l10n_ro_stock_account_change),
             }
         )
         return value
