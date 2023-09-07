@@ -110,7 +110,7 @@ class StockLocation(models.Model):
             reset_accounting_location._l10n_ro_pushStockLocation_accounting()
         return res
 
-    @api.model
+    @api.model_create_multi
     def create(self, values):
         values = self._l10n_ro_prepare_copy_values(values)
         return super(StockLocation, self).create(values)
