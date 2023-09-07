@@ -100,52 +100,51 @@ class ProductCategory(models.Model):
         accouning_category = self.browse(value.get("l10n_ro_accounting_category_id"))
         return accouning_category._l10n_ro_copy_value(value)
 
-    def _l10n_ro_copy_value(self, value={}):
+    def _l10n_ro_copy_value(self, value=None):
+        value = value or {}
         value.update(
             {
                 "property_valuation": (
-                    self.property_valuation
-                    or value.get('property_valuation')
+                    self.property_valuation or value.get("property_valuation")
                 ),
                 "property_cost_method": (
-                    self.property_cost_method
-                    or value.get('property_cost_method')
+                    self.property_cost_method or value.get("property_cost_method")
                 ),
                 "property_stock_journal": (
                     self.property_stock_journal.id
-                    or value.get('property_stock_journal')
+                    or value.get("property_stock_journal")
                 ),
                 "property_account_income_categ_id": (
                     self.property_account_income_categ_id.id
-                    or value.get('property_account_income_categ_id')
+                    or value.get("property_account_income_categ_id")
                 ),
                 "property_account_expense_categ_id": (
                     self.property_account_expense_categ_id.id
-                    or value.get('property_account_expense_categ_id')
+                    or value.get("property_account_expense_categ_id")
                 ),
                 "property_account_creditor_price_difference_categ": (
                     self.property_account_creditor_price_difference_categ.id
-                    or value.get('property_account_creditor_price_difference_categ')
+                    or value.get("property_account_creditor_price_difference_categ")
                 ),
                 "property_stock_account_input_categ_id": (
                     self.property_stock_account_input_categ_id.id
-                    or value.get('property_stock_account_input_categ_id')
+                    or value.get("property_stock_account_input_categ_id")
                 ),
                 "property_stock_account_output_categ_id": (
                     self.property_stock_account_output_categ_id.id
-                    or value.get('property_stock_account_output_categ_id')
+                    or value.get("property_stock_account_output_categ_id")
                 ),
                 "property_stock_valuation_account_id": (
                     self.property_stock_valuation_account_id.id
-                    or value.get('property_stock_valuation_account_id')
+                    or value.get("property_stock_valuation_account_id")
                 ),
                 "l10n_ro_hide_stock_in_out_account": (
                     self.l10n_ro_hide_stock_in_out_account
-                    or value.get('l10n_ro_hide_stock_in_out_account')
+                    or value.get("l10n_ro_hide_stock_in_out_account")
                 ),
                 "l10n_ro_stock_account_change": (
                     self.l10n_ro_stock_account_change
-                    or value.get('l10n_ro_stock_account_change')
+                    or value.get("l10n_ro_stock_account_change")
                 ),
             }
         )
@@ -166,18 +165,18 @@ class ProductCategory(models.Model):
             self.search([("l10n_ro_accounting_category_id", "=", s.id)]).write(value)
 
     def write(self, value):
-        if ('l10n_ro_accounting_category' in value 
-            and not self.env.user.has_group('account.group_account_manager')
-            ):
-            raise UserError("Non-Accountant User have no access on this field")
-        
+        if "l10n_ro_accounting_category" in value and not self.env.user.has_group(
+            "account.group_account_manager"
+        ):
+            raise UserError(_("Non-Accountant User have no access on this field"))
+
         if value.get("l10n_ro_accounting_category_id", None):
             value = self._l10n_ro_prepare_copy_value(value)
         reset_accounting_categories = self.filtered(
             lambda x: (
                 x.l10n_ro_accounting_category
                 and x._l10n_ro_check_value_is_different(value)
-                )
+            )
         )
         res = super(ProductCategory, self).write(value)
         if res and reset_accounting_categories:
