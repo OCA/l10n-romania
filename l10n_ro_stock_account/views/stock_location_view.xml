@@ -23,6 +23,13 @@
                             string="Only for Romania"
                             attrs="{'invisible': [('is_l10n_ro_record', '=', False)]}"
                         />
+                        <field name="l10n_ro_accounting_location" attrs="{'invisible': [('is_l10n_ro_record', '=', False)]}"/>
+                        <field
+                            name="l10n_ro_accounting_location_id"
+                            domain="[('l10n_ro_accounting_location','=',True)]"
+                            options="{'no_create': True}"
+                            attrs="{'invisible': ['|', ('is_l10n_ro_record', '=', False), ('l10n_ro_accounting_location','=',True)],'required': [('l10n_ro_accounting_location','=',False)]}"
+                        />
                         <field
                             name="l10n_ro_accounting_location"
                             attrs="{'invisible': [('is_l10n_ro_record', '=', False)]}"
