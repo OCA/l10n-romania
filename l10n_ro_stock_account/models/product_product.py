@@ -350,7 +350,8 @@ class ProductProduct(models.Model):
                     "remaining_qty": new_remaining_qty,
                 }
             )
-            svl_to_vacuum._l10n_ro_post_process({"l10n_ro_tracking": track_svl})
+            # svl_to_vacuum._l10n_ro_post_process({"l10n_ro_tracking": track_svl})
+            svl_to_vacuum._l10n_ro_create_tracking(track_svl)
 
             # Don't create a layer or an accounting entry if the corrected value is zero.
             if svl_to_vacuum.currency_id.is_zero(corrected_value):
