@@ -8,10 +8,6 @@
             <field name="l10n_ro_accounting_category" eval="True" />
             <field name="property_valuation">real_time</field>
             <field name="property_stock_valuation_account_id" ref="l10n_ro.pcg_301" />
-            <field
-                name="property_stock_account_output_categ_id"
-                ref="l10n_ro.pcg_301"
-            />
             <field name="property_stock_account_input_categ_id" ref="l10n_ro.pcg_301" />
             <field
                 name="property_stock_account_output_categ_id"
