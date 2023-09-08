@@ -53,6 +53,12 @@ msgid "Account"
 msgstr "Cont"
 
 #. module: l10n_ro_stock_report
+#: code:addons/l10n_ro_stock_report/report/stock_report.py:0
+#, python-format
+msgid "All Locations"
+msgstr ""
+
+#. module: l10n_ro_stock_report
 #: model_terms:ir.ui.view,arch_db:l10n_ro_stock_report.report_storage_sheet_lines_header
 msgid "Amount Input"
 msgstr "Valoare intrată"
