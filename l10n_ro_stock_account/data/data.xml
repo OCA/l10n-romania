@@ -1,34 +1,103 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <odoo>
-    <data noupdate="1">
 
-        <record id="account_product_category_material" model="product.category">
-            <field name="name">Materii Prime</field>
+    <data noupdate="0">
+
+        <record id="account_product_category_raw_materials" model="product.category">
+            <field name="name">Raw materials</field>
             <field name="l10n_ro_accounting_category" eval="True" />
+            <field name="property_valuation">real_time</field>
+            <field name="property_stock_valuation_account_id" ref="l10n_ro.pcg_301" />
+            <field
+                name="property_stock_account_output_categ_id"
+                ref="l10n_ro.pcg_301"
+            />
+            <field name="property_stock_account_input_categ_id" ref="l10n_ro.pcg_301" />
+            <field name="property_account_income_categ_id" />
+            <field name="property_account_expense_categ_id" ref="l10n_ro.pcg_601" />
         </record>
 
-        <record id="account_product_category_stock" model="product.category">
-            <field name="name">Marfa</field>
+        <record id="account_product_category_goods" model="product.category">
+            <field name="name">Goods</field>
             <field name="l10n_ro_accounting_category" eval="True" />
+            <field name="property_valuation">real_time</field>
+            <field name="property_stock_valuation_account_id" ref="l10n_ro.pcg_371" />
+            <field
+                name="property_stock_account_output_categ_id"
+                ref="l10n_ro.pcg_371"
+            />
+            <field name="property_stock_account_input_categ_id" ref="l10n_ro.pcg_371" />
+            <field name="property_account_income_categ_id" ref="l10n_ro.ro_pcg_sale" />
+            <field
+                name="property_account_expense_categ_id"
+                ref="l10n_ro.ro_pcg_expense"
+            />
         </record>
 
         <record id="account_product_category_finished" model="product.category">
-            <field name="name">Produse Finite</field>
+            <field name="name">Finished products</field>
             <field name="l10n_ro_accounting_category" eval="True" />
+            <field name="property_valuation">real_time</field>
+            <field name="property_stock_valuation_account_id" ref="l10n_ro.pcg_345" />
+            <field
+                name="property_stock_account_output_categ_id"
+                ref="l10n_ro.pcg_345"
+            />
+            <field name="property_stock_account_input_categ_id" ref="l10n_ro.pcg_345" />
+            <field name="property_account_income_categ_id" ref="l10n_ro.pcg_7015" />
+            <field name="property_account_expense_categ_id" />
         </record>
 
-        <record id="account_product_category_packing" model="product.category">
-            <field name="name">Ambalaje</field>
+        <record id="account_product_category_packaging" model="product.category">
+            <field name="name">Packaging</field>
             <field name="l10n_ro_accounting_category" eval="True" />
+            <field name="property_valuation">real_time</field>
+            <field name="property_stock_valuation_account_id" ref="l10n_ro.pcg_381" />
+            <field
+                name="property_stock_account_output_categ_id"
+                ref="l10n_ro.pcg_381"
+            />
+            <field name="property_stock_account_input_categ_id" ref="l10n_ro.pcg_381" />
+            <field name="property_account_income_categ_id" ref="l10n_ro.pcg_708" />
+            <field name="property_account_expense_categ_id" ref="l10n_ro.pcg_608" />
+        </record>
+
+        <record id="account_product_category_fuel" model="product.category">
+            <field name="name">Fuel</field>
+            <field name="l10n_ro_accounting_category" eval="True" />
+            <field name="property_valuation">real_time</field>
+            <field name="property_stock_valuation_account_id" ref="l10n_ro.pcg_3022" />
+            <field
+                name="property_stock_account_output_categ_id"
+                ref="l10n_ro.pcg_3022"
+            />
+            <field
+                name="property_stock_account_input_categ_id"
+                ref="l10n_ro.pcg_3022"
+            />
+            <field name="property_account_income_categ_id" />
+            <field name="property_account_expense_categ_id" ref="l10n_ro.pcg_6022" />
         </record>
 
         <record id="account_product_category_consume" model="product.category">
             <field name="name">Consumabile</field>
             <field name="l10n_ro_accounting_category" eval="True" />
+            <field name="property_valuation">real_time</field>
+            <field name="property_stock_valuation_account_id" ref="l10n_ro.pcg_3028" />
+            <field
+                name="property_stock_account_output_categ_id"
+                ref="l10n_ro.pcg_3028"
+            />
+            <field
+                name="property_stock_account_input_categ_id"
+                ref="l10n_ro.pcg_3028"
+            />
+            <field name="property_account_income_categ_id" />
+            <field name="property_account_expense_categ_id" ref="l10n_ro.pcg_6028" />
         </record>
 
         <record id="account_stock_location_main" model="stock.location">
-            <field name="name">Gestiunea Principala</field>
+            <field name="name">Main Accounting Location</field>
             <field name="usage">view</field>
             <field name="l10n_ro_accounting_location" eval="True" />
         </record>
