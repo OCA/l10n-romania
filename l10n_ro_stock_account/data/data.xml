@@ -13,6 +13,10 @@
                 ref="l10n_ro.pcg_301"
             />
             <field name="property_stock_account_input_categ_id" ref="l10n_ro.pcg_301" />
+            <field
+                name="property_stock_account_output_categ_id"
+                ref="l10n_ro.pcg_301"
+            />
             <field name="property_account_income_categ_id" />
             <field name="property_account_expense_categ_id" ref="l10n_ro.pcg_601" />
         </record>
@@ -22,11 +26,11 @@
             <field name="l10n_ro_accounting_category" eval="True" />
             <field name="property_valuation">real_time</field>
             <field name="property_stock_valuation_account_id" ref="l10n_ro.pcg_371" />
+            <field name="property_stock_account_input_categ_id" ref="l10n_ro.pcg_371" />
             <field
                 name="property_stock_account_output_categ_id"
                 ref="l10n_ro.pcg_371"
             />
-            <field name="property_stock_account_input_categ_id" ref="l10n_ro.pcg_371" />
             <field name="property_account_income_categ_id" ref="l10n_ro.ro_pcg_sale" />
             <field
                 name="property_account_expense_categ_id"
@@ -39,11 +43,11 @@
             <field name="l10n_ro_accounting_category" eval="True" />
             <field name="property_valuation">real_time</field>
             <field name="property_stock_valuation_account_id" ref="l10n_ro.pcg_345" />
+            <field name="property_stock_account_input_categ_id" ref="l10n_ro.pcg_345" />
             <field
                 name="property_stock_account_output_categ_id"
                 ref="l10n_ro.pcg_345"
             />
-            <field name="property_stock_account_input_categ_id" ref="l10n_ro.pcg_345" />
             <field name="property_account_income_categ_id" ref="l10n_ro.pcg_7015" />
             <field name="property_account_expense_categ_id" />
         </record>
@@ -53,11 +57,11 @@
             <field name="l10n_ro_accounting_category" eval="True" />
             <field name="property_valuation">real_time</field>
             <field name="property_stock_valuation_account_id" ref="l10n_ro.pcg_381" />
+            <field name="property_stock_account_input_categ_id" ref="l10n_ro.pcg_381" />
             <field
                 name="property_stock_account_output_categ_id"
                 ref="l10n_ro.pcg_381"
             />
-            <field name="property_stock_account_input_categ_id" ref="l10n_ro.pcg_381" />
             <field name="property_account_income_categ_id" ref="l10n_ro.pcg_708" />
             <field name="property_account_expense_categ_id" ref="l10n_ro.pcg_608" />
         </record>
@@ -68,11 +72,11 @@
             <field name="property_valuation">real_time</field>
             <field name="property_stock_valuation_account_id" ref="l10n_ro.pcg_3022" />
             <field
-                name="property_stock_account_output_categ_id"
+                name="property_stock_account_input_categ_id"
                 ref="l10n_ro.pcg_3022"
             />
             <field
-                name="property_stock_account_input_categ_id"
+                name="property_stock_account_output_categ_id"
                 ref="l10n_ro.pcg_3022"
             />
             <field name="property_account_income_categ_id" />
@@ -84,12 +88,14 @@
             <field name="l10n_ro_accounting_category" eval="True" />
             <field name="property_valuation">real_time</field>
             <field name="property_stock_valuation_account_id" ref="l10n_ro.pcg_3028" />
-            <field
-                name="property_stock_account_output_categ_id"
-                ref="l10n_ro.pcg_3028"
-            />
+
             <field
                 name="property_stock_account_input_categ_id"
+                ref="l10n_ro.pcg_3028"
+            />
+
+            <field
+                name="property_stock_account_output_categ_id"
                 ref="l10n_ro.pcg_3028"
             />
             <field name="property_account_income_categ_id" />
