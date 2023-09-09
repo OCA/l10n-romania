@@ -148,7 +148,7 @@ class StockMove(models.Model):
                             % move.picking_id.name
                             or move.name
                         )
-                    svls |= self._l10n_ro_create_track_svl([svl_vals])
+                    svls |= self.env["stock.valuation.layer"].sudo().create(svl_vals)
         return svls
 
     # nu se mai face in mod automat evaluarea la iserirea din stoc
@@ -199,7 +199,9 @@ class StockMove(models.Model):
                         svl_vals["description"] += svl_vals.pop(
                             "rounding_adjustment", ""
                         )
-                        svls |= move._l10n_ro_create_track_svl([svl_vals])
+                        svls |= (
+                            self.env["stock.valuation.layer"].sudo().create(svl_vals)
+                        )
         return svls
 
     def _is_returned(self, valued_type):
@@ -353,7 +355,7 @@ class StockMove(models.Model):
                         }
                     )
 
-                    svls |= self._l10n_ro_create_track_svl([svl_vals])
+                    svls |= self.env["stock.valuation.layer"].sudo().create(svl_vals)
         return svls
 
     def _is_plus_inventory(self):
@@ -485,7 +487,7 @@ class StockMove(models.Model):
                         )
                     svl_vals["description"] += svl_vals.pop("rounding_adjustment", "")
                     svl_vals["l10n_ro_stock_move_line_id"] = valued_move_line.id
-                    svls |= self._l10n_ro_create_track_svl([svl_vals])
+                    svls |= self.env["stock.valuation.layer"].sudo().create(svl_vals)
 
                     new_svl_vals = svl_vals.copy()
                     new_svl_vals.update(
@@ -504,7 +506,9 @@ class StockMove(models.Model):
                             ],
                         }
                     )
-                    svls |= self._l10n_ro_create_track_svl([new_svl_vals])
+                    svls |= (
+                        self.env["stock.valuation.layer"].sudo().create(new_svl_vals)
+                    )
         return svls
 
     def _is_usage_giving(self):
@@ -793,18 +797,6 @@ class StockMove(models.Model):
     def _l10n_ro_filter_svl_on_move_line(self, domain):
         origin_svls = self.env["stock.valuation.layer"].search(domain)
         return origin_svls
-
-    def _l10n_ro_create_track_svl(self, value_list, **kwargs):
-        sudo_svl = self.env["stock.valuation.layer"].sudo()
-
-        for _index, value in enumerate(value_list):
-            svl_value = sudo_svl._l10n_ro_pre_process_value(
-                value
-            )  # eliminam datele de tracking, filtram valorile SVL
-            new_svl = sudo_svl.create(svl_value)
-            new_svl._l10n_ro_post_process(value)  # executam post create pentru tracking
-            sudo_svl |= new_svl
-        return sudo_svl
 
     # In case of single move line update locations of the stock move
     def _action_done(self, cancel_backorder=False):
