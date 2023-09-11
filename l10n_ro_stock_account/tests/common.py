@@ -166,6 +166,19 @@ class TestStockCommon(ValuationReconciliationTestCommon):
                 "standard_price": cls.price_p2,
             }
         )
+        cls.product_kg = cls.env["product.product"].create(
+            {
+                "name": "Product A",
+                "type": "product",
+                "categ_id": cls.category_fifo.id,
+                "invoice_policy": "delivery",
+                "purchase_method": "receive",
+                "list_price": cls.list_price_p1,
+                "standard_price": cls.price_p1,
+                "uom_id": cls.env.ref("uom.product_uom_kgm").id,  # kg
+                "uom_po_id": cls.env.ref("uom.product_uom_ton").id,  # tone
+            }
+        )
 
         cls.product_mp = cls.env["product.product"].create(
             {
