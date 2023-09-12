@@ -81,6 +81,19 @@
                             />
                             <field name="total_base_tax_value" decoration-primary="1" />
                             <field name="total_tax_value" decoration-primary="1" />
+                            <field
+                                name="vat_price_difference"
+                                attrs="{'readonly': [('state', '!=', 'draft')]}"
+                            />
+                            <field
+                                name="product_vat_price_difference"
+                                attrs="{'invisible':[('vat_price_difference', '=', 0.0)],
+                                'readonly':[('state', '!=', 'draft')]}"
+                            />
+                            <field
+                                name="move_vat_price_difference"
+                                attrs="{'invisible':[('vat_price_difference', '=', 0.0)]}"
+                            />
                         </group>
                         <group string="Invoices">
                             <field

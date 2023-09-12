@@ -62,13 +62,11 @@ class AccountInvoiceDVI(models.Model):
     )
     total_base_tax_value = fields.Monetary(
         compute="_compute_total_tax_value",
-        readonly=1,
         help="Is readonly sum of product tax and custom tax."
         "This must be the tax value that you have on dvi",
     )
     total_tax_value = fields.Monetary(
         compute="_compute_total_tax_value",
-        readonly=1,
         help="Is readonly sum of product tax and custom tax."
         "This must be the tax value that you have on dvi",
     )
@@ -112,6 +110,15 @@ class AccountInvoiceDVI(models.Model):
 
     landed_cost_ids = fields.One2many(
         "stock.landed.cost", "l10n_ro_account_dvi_id", readonly=True
+    )
+    vat_price_difference = fields.Monetary(
+        help="VAT price difference",
+    )
+    product_vat_price_difference = fields.Many2one(
+        "product.product", help="Product for vat price difference"
+    )
+    move_vat_price_difference = fields.Many2one(
+        "account.move", readonly=1, help="Move for vat price difference"
     )
 
     @api.model
@@ -197,6 +204,41 @@ class AccountInvoiceDVI(models.Model):
                 dvi.line_ids = new_lines
         return res
 
+    def create_account_move_dvi(self):
+        account1 = self.product_vat_price_difference.property_account_expense_id.id
+        account2 = self.customs_duty_product_id.property_account_expense_id.id
+        vals = {
+            "ref": self.name,
+            "journal_id": self.journal_id.id,
+            "move_type": "entry",
+            "date": self.date,
+            "line_ids": [
+                (
+                    0,
+                    0,
+                    {
+                        "account_id": account1,
+                        "currency_id": self.currency_id.id,
+                        "debit": self.vat_price_difference,
+                        "credit": 0.0,
+                        "amount_currency": self.vat_price_difference,
+                    },
+                ),
+                (
+                    0,
+                    0,
+                    {
+                        "account_id": account2,
+                        "currency_id": self.currency_id.id,
+                        "debit": 0.0,
+                        "credit": self.vat_price_difference,
+                        "amount_currency": -self.vat_price_difference,
+                    },
+                ),
+            ],
+        }
+        return vals
+
     @api.model
     def create(self, vals):
         dvi = super().create(vals)
@@ -231,11 +273,16 @@ class AccountInvoiceDVI(models.Model):
         self.ensure_one()
         if self.state != "draft":
             raise ValidationError(_("You can only post DVI from 'draft' state."))
-
         values = self.prepare_dvi_landed_cost_values()
         landed_cost = self.env["stock.landed.cost"].create(values)
         action = self.env.ref("stock_landed_costs.action_stock_landed_cost")
         action = action.read()[0]
+
+        if self.product_vat_price_difference and self.vat_price_difference:
+            values_move = self.create_account_move_dvi()
+            move = self.env["account.move"].create(values_move)
+            move.action_post()
+            self.move_vat_price_difference = move.id
 
         action["views"] = [(False, "form")]
         action["res_id"] = landed_cost.id
@@ -266,6 +313,9 @@ class AccountInvoiceDVI(models.Model):
 
         action["views"] = [(False, "form")]
         action["res_id"] = landed_cost.id
+        if self.move_vat_price_difference:
+            self.move_vat_price_difference.button_cancel()
+
         self.state = "reversed"
         return action
 
