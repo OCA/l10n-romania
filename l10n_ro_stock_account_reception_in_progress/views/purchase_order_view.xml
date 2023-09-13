@@ -12,7 +12,7 @@
                     string="Reception in Progress"
                     help="Create Reception in Progress Bill"
                     type="object"
-                    class="oe_highlight"
+                    confirm="Are you sure you want to create reception in progress from the purchase order?"
                     context="{'create_bill':True}"
                     attrs="{'invisible': ['|', '|', ('is_l10n_ro_record','=',False), ('state', '!=', 'purchase'), ('invoice_status', '!=', 'no')]}"
                 />

@@ -37,33 +37,29 @@ class StockMove(models.Model):
         return valued_types
 
     def _get_price_unit(self):
-        # La fel ca in baza, doar ca nu mai face rotunjire de price_unit
+        # se caculeaza preturl cu functia standard
+        price_unit = super()._get_price_unit()
+
         self.ensure_one()
         if self.is_l10n_ro_record:
-            price_unit = self.price_unit
-            precision = self.env["decimal.precision"].precision_get("Product Price")
+
             # If the move is a return, use the original move's price unit.
             if (
                 self.origin_returned_move_id
                 and self.origin_returned_move_id.sudo().stock_valuation_layer_ids
             ):
+
                 layers = self.origin_returned_move_id.sudo().stock_valuation_layer_ids
                 quantity = sum(layers.mapped("quantity"))
-                return (
+                price_unit = (
                     sum(layers.mapped("value")) / quantity
                     if not float_is_zero(
                         quantity, precision_rounding=layers.uom_id.rounding
                     )
                     else 0
                 )
-            return (
-                price_unit
-                if not float_is_zero(price_unit, precision)
-                or self._should_force_price_unit()
-                else self.product_id.standard_price
-            )
-        else:
-            return super()._get_price_unit()
+
+        return price_unit
 
     # nu se mai face in mod automat evaluarea la intrare in stoc
     def _create_in_svl(self, forced_quantity=None):
@@ -142,7 +138,7 @@ class StockMove(models.Model):
                     svl_vals.update(
                         {
                             "l10n_ro_stock_move_line_id": valued_move_line.id,
-                            "tracking": tracking,
+                            "l10n_ro_tracking": tracking,
                         }
                     )
                     if forced_quantity:
@@ -151,7 +147,7 @@ class StockMove(models.Model):
                             % move.picking_id.name
                             or move.name
                         )
-                    svls |= self._l10n_ro_create_track_svl([svl_vals])
+                    svls |= self.env["stock.valuation.layer"].sudo().create(svl_vals)
         return svls
 
     # nu se mai face in mod automat evaluarea la iserirea din stoc
@@ -202,7 +198,9 @@ class StockMove(models.Model):
                         svl_vals["description"] += svl_vals.pop(
                             "rounding_adjustment", ""
                         )
-                        svls |= move._l10n_ro_create_track_svl([svl_vals])
+                        svls |= (
+                            self.env["stock.valuation.layer"].sudo().create(svl_vals)
+                        )
         return svls
 
     def _is_returned(self, valued_type):
@@ -273,8 +271,91 @@ class StockMove(models.Model):
         return it_is
 
     def _create_delivery_return_svl(self, forced_quantity=None):
+        # move = self.with_context(standard=True, valued_type="delivery_return")
+        # return move._create_in_svl(forced_quantity)
+
         move = self.with_context(standard=True, valued_type="delivery_return")
-        return move._create_in_svl(forced_quantity)
+
+        if not move.origin_returned_move_id.sudo().stock_valuation_layer_ids:
+            return move._create_in_svl(forced_quantity)
+
+        _logger.debug("SVL:delivery_return")
+        svls = self.env["stock.valuation.layer"]
+        l10n_ro_records = move.filtered("is_l10n_ro_record")
+        if self - l10n_ro_records:
+            svls = super(StockMove, self - l10n_ro_records)._create_in_svl(
+                forced_quantity
+            )
+
+        # For Romania, create a valuation layer for each stock move line
+        for move in l10n_ro_records:
+            move = move.with_company(move.company_id)
+
+            out_svls = []
+            origin_svls = (
+                move.origin_returned_move_id.sudo().stock_valuation_layer_ids.sorted(
+                    lambda l: l.create_date, reverse=False
+                )
+            )
+            for svl in origin_svls:
+                out_svls.append(
+                    {
+                        "product_id": svl.product_id.id,
+                        "quantity": -1 * svl.quantity - svl.l10n_ro_qty_returned,
+                        "unit_cost": abs(svl.unit_cost),
+                        "svl_id": svl.id,
+                        "svl": svl,
+                    }
+                )
+
+            valued_move_lines = move._get_in_move_lines()
+            if not valued_move_lines and forced_quantity:
+                svls |= move._create_in_svl(forced_quantity)
+                continue
+
+            for valued_move_line in valued_move_lines:
+                move = move.with_context(stock_move_line_id=valued_move_line)
+                valued_quantity = valued_move_line.product_uom_id._compute_quantity(
+                    valued_move_line.qty_done, move.product_id.uom_id
+                )
+
+                for out_svl in out_svls:
+                    if out_svl["quantity"] <= 0:
+                        continue
+                    if valued_quantity <= 0:
+                        break
+
+                    if valued_quantity > out_svl["quantity"]:
+                        quantity = out_svl["quantity"]
+                    else:
+                        quantity = valued_quantity
+
+                    out_svl["quantity"] -= quantity
+                    out_svl["svl"].l10n_ro_qty_returned += quantity
+                    valued_quantity -= quantity
+
+                    unit_cost = out_svl["unit_cost"]
+                    tracking = [
+                        (
+                            out_svl["svl_id"],
+                            quantity,
+                            unit_cost * quantity,
+                        )
+                    ]
+
+                    if move.product_id.cost_method == "standard":
+                        unit_cost = move.product_id.standard_price
+                    svl_vals = move.product_id._prepare_in_svl_vals(quantity, unit_cost)
+                    svl_vals.update(move._prepare_common_svl_vals())
+                    svl_vals.update(
+                        {
+                            "l10n_ro_stock_move_line_id": valued_move_line.id,
+                            "l10n_ro_tracking": tracking,
+                        }
+                    )
+
+                    svls |= self.env["stock.valuation.layer"].sudo().create(svl_vals)
+        return svls
 
     def _is_plus_inventory(self):
         it_is = (
@@ -405,7 +486,7 @@ class StockMove(models.Model):
                         )
                     svl_vals["description"] += svl_vals.pop("rounding_adjustment", "")
                     svl_vals["l10n_ro_stock_move_line_id"] = valued_move_line.id
-                    svls |= self._l10n_ro_create_track_svl([svl_vals])
+                    svls |= self.env["stock.valuation.layer"].sudo().create(svl_vals)
 
                     new_svl_vals = svl_vals.copy()
                     new_svl_vals.update(
@@ -415,7 +496,7 @@ class StockMove(models.Model):
                             "unit_cost": abs(svl_vals.get("unit_cost", 0)),
                             "value": abs(svl_vals.get("value", 0)),
                             "remaining_value": abs(svl_vals.get("value", 0)),
-                            "tracking": [
+                            "l10n_ro_tracking": [
                                 (
                                     svls[-1].id,
                                     abs(svl_vals.get("quantity", 0)),
@@ -424,7 +505,9 @@ class StockMove(models.Model):
                             ],
                         }
                     )
-                    svls |= self._l10n_ro_create_track_svl([new_svl_vals])
+                    svls |= (
+                        self.env["stock.valuation.layer"].sudo().create(new_svl_vals)
+                    )
         return svls
 
     def _is_usage_giving(self):
@@ -698,15 +781,3 @@ class StockMove(models.Model):
     def _l10n_ro_filter_svl_on_move_line(self, domain):
         origin_svls = self.env["stock.valuation.layer"].search(domain)
         return origin_svls
-
-    def _l10n_ro_create_track_svl(self, value_list, **kwargs):
-        sudo_svl = self.env["stock.valuation.layer"].sudo()
-
-        for _index, value in enumerate(value_list):
-            svl_value = sudo_svl._l10n_ro_pre_process_value(
-                value
-            )  # eliminam datele de tracking, filtram valorile SVL
-            new_svl = sudo_svl.create(svl_value)
-            new_svl._l10n_ro_post_process(value)  # executam post create pentru tracking
-            sudo_svl |= new_svl
-        return sudo_svl

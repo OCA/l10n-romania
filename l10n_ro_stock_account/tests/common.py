@@ -105,15 +105,32 @@ class TestStockCommon(ValuationReconciliationTestCommon):
             "l10n_ro_stock_account_change": True,
         }
 
-        cls.category = cls.env["product.category"].search(
+        cls.category_fifo = cls.env["product.category"].search(
             [("name", "=", "TEST Marfa")], limit=1
         )
-        if not cls.category:
-            cls.category = cls.env["product.category"].create(category_value)
+        if not cls.category_fifo:
+            cls.category_fifo = cls.env["product.category"].create(category_value)
         else:
-            cls.category.write(category_value)
+            cls.category_fifo.write(category_value)
 
-        cls.category_mp = cls.category.copy(
+        cls.category = cls.category_fifo
+
+        category_value.update(
+            {
+                "name": "TEST Marfa ",
+                "property_cost_method": "average",
+            }
+        )
+
+        cls.category_average = cls.env["product.category"].search(
+            [("name", "=", "TEST Marfa Average")], limit=1
+        )
+        if not cls.category_average:
+            cls.category_average = cls.env["product.category"].create(category_value)
+        else:
+            cls.category_average.write(category_value)
+
+        cls.category_mp = cls.category_fifo.copy(
             {
                 "property_account_expense_categ_id": cls.account_expense_mp.id,
                 "property_stock_account_input_categ_id": cls.account_valuation_mp.id,
@@ -131,7 +148,7 @@ class TestStockCommon(ValuationReconciliationTestCommon):
             {
                 "name": "Product A",
                 "type": "product",
-                "categ_id": cls.category.id,
+                "categ_id": cls.category_fifo.id,
                 "invoice_policy": "delivery",
                 "purchase_method": "receive",
                 "list_price": cls.list_price_p1,
@@ -143,7 +160,7 @@ class TestStockCommon(ValuationReconciliationTestCommon):
                 "name": "Product B",
                 "type": "product",
                 "purchase_method": "receive",
-                "categ_id": cls.category.id,
+                "categ_id": cls.category_average.id,
                 "invoice_policy": "delivery",
                 "list_price": cls.list_price_p2,
                 "standard_price": cls.price_p2,
@@ -327,7 +344,7 @@ class TestStockCommon(ValuationReconciliationTestCommon):
 
             self.picking.button_validate()
             self.picking._action_done()
-            _logger.info("Receptie facuta")
+            _logger.debug("Receptie facuta")
 
         self.po = po
         return po
@@ -379,7 +396,9 @@ class TestStockCommon(ValuationReconciliationTestCommon):
         res = return_wiz.create_returns()
         return_pick = self.env["stock.picking"].browse(res["res_id"])
 
+        return_pick.button_validate()
         # Validate picking
+        # return_pick.button_validate()
         return_pick.action_confirm()
         return_pick.action_assign()
         for move_line in return_pick.move_lines:

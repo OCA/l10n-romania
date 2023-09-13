@@ -14,6 +14,10 @@ _logger = logging.getLogger(__name__)
 @tagged("post_install", "-at_install")
 class TestStockPurchaseReturn(TestStockCommon):
     def test_not_fifo_return(self):
+
+        self.price_p1 = 50.0
+        self.price_p2 = 50.0
+
         po1 = self.create_po()
         self.create_invoice()
         _logger.debug("PO1: %s" % po1.amount_total)

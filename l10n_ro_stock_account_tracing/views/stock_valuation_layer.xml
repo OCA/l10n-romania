@@ -1,0 +1,22 @@
+<odoo>
+    <record id="stock_valuation_layer_pivot" model="ir.ui.view">
+        <field name="name">stock.valuation.layer.pivot</field>
+        <field name="model">stock.valuation.layer</field>
+        <field name="arch" type="xml">
+            <pivot default_order="value ASC">
+                <field name="l10n_ro_account_id" type="col" />
+                <field name="l10n_ro_direction" type="row" />
+                <field name="l10n_ro_valued_type" type="row" />
+                <field name="quantity" type="measure" />
+                <field name="value" type="measure" />
+            </pivot>
+        </field>
+    </record>
+
+    <record
+        id="stock_account.stock_valuation_layer_action"
+        model="ir.actions.act_window"
+    >
+        <field name="view_mode">tree,pivot,graph,form</field>
+    </record>
+</odoo>

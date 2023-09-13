@@ -10,6 +10,7 @@ msgstr ""
 "PO-Revision-Date: 2022-12-23 06:01+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
+"Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
@@ -86,6 +87,12 @@ msgstr "Registru Numerar"
 #. module: l10n_ro_account_bank_statement_report
 #: model_terms:ir.ui.view,arch_db:l10n_ro_account_bank_statement_report.report_l10n_ro_statement_daily
 #: model_terms:ir.ui.view,arch_db:l10n_ro_account_bank_statement_report.report_l10n_ro_statement_period
+msgid "Counterpart"
+msgstr "Cont Corespondent"
+
+#. module: l10n_ro_account_bank_statement_report
+#: model_terms:ir.ui.view,arch_db:l10n_ro_account_bank_statement_report.report_l10n_ro_statement_daily
+#: model_terms:ir.ui.view,arch_db:l10n_ro_account_bank_statement_report.report_l10n_ro_statement_period
 msgid "Currency Amount"
 msgstr "Suma in valuta"
 
@@ -104,12 +111,6 @@ msgstr "Nume afișat"
 #: model_terms:ir.ui.view,arch_db:l10n_ro_account_bank_statement_report.report_l10n_ro_statement_period
 msgid "Ending Balance"
 msgstr "Sold Final"
-
-#. module: l10n_ro_account_bank_statement_report
-#: model_terms:ir.ui.view,arch_db:l10n_ro_account_bank_statement_report.report_l10n_ro_statement_daily
-#: model_terms:ir.ui.view,arch_db:l10n_ro_account_bank_statement_report.report_l10n_ro_statement_period
-msgid "Explanation"
-msgstr "Explicații"
 
 #. module: l10n_ro_account_bank_statement_report
 #: model:ir.model.fields,field_description:l10n_ro_account_bank_statement_report.field_account_bank_statement__id
@@ -163,5 +164,8 @@ msgstr "Sold inițial"
 #. module: l10n_ro_account_bank_statement_report
 #: model_terms:ir.ui.view,arch_db:l10n_ro_account_bank_statement_report.report_l10n_ro_statement_daily
 #: model_terms:ir.ui.view,arch_db:l10n_ro_account_bank_statement_report.report_l10n_ro_statement_period
-msgid "Transaction No"
-msgstr "Nr Tranzacție"
+msgid "Transaction No /<br/>Explanation"
+msgstr "Nr Tranzacție /<br/>Explicații"
+
+#~ msgid "Explanation"
+#~ msgstr "Explicații"

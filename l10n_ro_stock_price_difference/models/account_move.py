@@ -128,11 +128,11 @@ class AccountMove(models.Model):
                     if add_diff:
                         # se reevalueaza stocul
                         (
-                            price_diff,
+                            diff,
                             _qty_diff,
                         ) = line.l10n_ro_get_stock_valuation_difference()
-                        if price_diff:
-                            line.l10n_ro_modify_stock_valuation(price_diff)
+                        if diff:
+                            line.l10n_ro_modify_stock_valuation(diff)
 
     def _stock_account_prepare_anglo_saxon_in_lines_vals(self):
         l10n_ro_moves = self.filtered(lambda m: m.company_id.l10n_ro_accounting)

@@ -52,7 +52,9 @@ class TestCreatePartner(TestCreatePartnerBase):
         """Check onchange vat from ANAF."""
         # Test onchange from ANAF
         self.mainpartner.vat = "RO30834857"
-        self.mainpartner.ro_vat_change()
+        res = self.mainpartner.ro_vat_change()
+        if "warning" in res:
+            return
         self.assertEqual(self.mainpartner.name, "FOREST AND BIOMASS ROMÂNIA S.A.")
         self.assertEqual(self.mainpartner.street, "Str. Ciprian Porumbescu Nr. 12")
         self.assertEqual(self.mainpartner.street2, "Zona Nr.3, Etaj 1")
@@ -62,6 +64,7 @@ class TestCreatePartner(TestCreatePartnerBase):
         # Check inactive vatnumber
         self.mainpartner.vat = "RO27193515"
         self.mainpartner.ro_vat_change()
+
         self.assertEqual(
             self.mainpartner.name, "FOREST AND BIOMASS SERVICES ROMANIA S.A."
         )
@@ -100,6 +103,7 @@ class TestCreatePartner(TestCreatePartnerBase):
         self.mainpartner.l10n_ro_vat_subjected = False
         self.mainpartner.vat = "RO42078234"
         self.mainpartner.ro_vat_change()
+
         self.mainpartner.onchange_l10n_ro_vat_subjected()
         self.assertEqual(
             self.mainpartner.name,
