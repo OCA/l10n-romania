@@ -127,6 +127,7 @@ class StockLandedCost(models.Model):
                             cost_to_add_byproduct[product] += out_cost_to_add
                         # Create separate account move for each put svl
                         if product.valuation == "real_time":
+                            move_vals.update(date=svl_out.create_date)
                             svl_move_vals = move_vals
                             amls = line._l10n_ro_prepare_accounting_entries(
                                 valuation_layer_out,
