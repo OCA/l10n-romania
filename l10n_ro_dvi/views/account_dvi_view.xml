@@ -86,12 +86,12 @@
                                 attrs="{'readonly': [('state', '!=', 'draft')]}"
                             />
                             <field
-                                name="product_vat_price_difference"
+                                name="vat_price_difference_product_id"
                                 attrs="{'invisible':[('vat_price_difference', '=', 0.0)],
                                 'readonly':[('state', '!=', 'draft')]}"
                             />
                             <field
-                                name="move_vat_price_difference"
+                                name="vat_price_difference_move_id"
                                 attrs="{'invisible':[('vat_price_difference', '=', 0.0)]}"
                             />
                         </group>
