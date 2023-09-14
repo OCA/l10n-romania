@@ -103,3 +103,63 @@ class TestDVI(TestStockCommon2):
         self.assertEqual(revert_lc.l10n_ro_account_dvi_id, dvi)
         self.assertEqual(revert_lc.l10n_ro_dvi_bill_ids, dvi.invoice_ids)
         self.assertEqual(lc.account_move_id.state, "cancel")
+
+    def test_vat_price_difference(self):
+        # pentru valoare pozitiva
+        self.create_po()
+        self.create_invoice()
+        self.account_expense = self.env["account.account"].search(
+            [("code", "=", "635100")], limit=1
+        )
+        if not self.account_expense:
+            self.account_expense = self.env["account.account"].create(
+                {
+                    "code": "635100",
+                    "name": "Cheltuieli cu alte impozite, taxe și vărsăminte asimilate",
+                    "user_type_id": self.env.ref(
+                        "account.data_account_type_expenses"
+                    ).id,
+                }
+            )
+        self.vat_product_id = self.env["product.product"].create(
+            {
+                "name": "VAT Price Difference",
+                "type": "service",
+                "purchase_method": "purchase",
+                "invoice_policy": "order",
+                "property_account_expense_id": self.account_expense.id,
+            }
+        )
+        dvi = Form(self.env["l10n.ro.account.dvi"])
+        dvi.name = "DVI test vat difference"
+        dvi.tax_id = self.tax_id
+        dvi.journal_id = self.journal_id
+        dvi.customs_duty_value = 100
+        dvi.customs_commission_value = 50
+        dvi.vat_price_difference_product_id = self.vat_product_id
+        dvi.vat_price_difference = 10
+        dvi = dvi.save()
+        dvi.button_post()
+        for line in dvi.vat_price_difference_move_id.line_ids:
+            if line.account_id.id == self.account_expense.id:
+                self.assertEqual(line.debit, 10)
+            else:
+                self.assertEqual(line.credit, 10)
+        # pentru valoare negativa
+        self.create_po()
+        self.create_invoice()
+        dvi = Form(self.env["l10n.ro.account.dvi"])
+        dvi.name = "DVI test vat difference"
+        dvi.tax_id = self.tax_id
+        dvi.journal_id = self.journal_id
+        dvi.customs_duty_value = 100
+        dvi.customs_commission_value = 50
+        dvi.vat_price_difference_product_id = self.vat_product_id
+        dvi.vat_price_difference = -10
+        dvi = dvi.save()
+        dvi.button_post()
+        for line in dvi.vat_price_difference_move_id.line_ids:
+            if line.account_id.id == self.account_expense.id:
+                self.assertEqual(line.debit, -10)
+            else:
+                self.assertEqual(line.credit, -10)
