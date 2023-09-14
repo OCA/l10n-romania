@@ -160,6 +160,6 @@ class TestDVI(TestStockCommon2):
         dvi.button_post()
         for line in dvi.vat_price_difference_move_id.line_ids:
             if line.account_id.id == self.account_expense.id:
-                self.assertEqual(line.debit, -10)
+                self.assertEqual(line.credit, 10)
             else:
-                self.assertEqual(line.credit, -10)
+                self.assertEqual(line.debit, 10)

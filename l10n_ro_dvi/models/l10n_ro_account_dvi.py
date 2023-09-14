@@ -222,6 +222,7 @@ class AccountInvoiceDVI(models.Model):
         if not account1:
             raise ValidationError(msg % (self, self.customs_duty_product_id.name))
         if account1 and account2:
+            amount = self.vat_price_difference
             vals = {
                 "ref": "VAT Price Difference " + self.name,
                 "journal_id": self.journal_id.id,
@@ -234,9 +235,9 @@ class AccountInvoiceDVI(models.Model):
                         {
                             "account_id": account1,
                             "currency_id": self.currency_id.id,
-                            "debit": self.vat_price_difference,
-                            "credit": 0.0,
-                            "amount_currency": self.vat_price_difference,
+                            "debit": amount if amount > 0 else 0.0,
+                            "credit": -amount if amount < 0 else 0.0,
+                            "amount_currency": amount,
                         },
                     ),
                     (
@@ -245,9 +246,9 @@ class AccountInvoiceDVI(models.Model):
                         {
                             "account_id": account2,
                             "currency_id": self.currency_id.id,
-                            "debit": 0.0,
-                            "credit": self.vat_price_difference,
-                            "amount_currency": -self.vat_price_difference,
+                            "debit": -amount if amount < 0 else 0.0,
+                            "credit": amount if amount > 0 else 0.0,
+                            "amount_currency": -amount,
                         },
                     ),
                 ],
