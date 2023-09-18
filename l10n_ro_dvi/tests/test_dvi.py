@@ -2,6 +2,7 @@
 # Copyright (C) 2022 NextERP Romania
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html)
 
+from odoo.exceptions import ValidationError
 from odoo.tests import Form, tagged
 
 from odoo.addons.l10n_ro_stock_account.tests.common2 import TestStockCommon2
@@ -163,3 +164,87 @@ class TestDVI(TestStockCommon2):
                 self.assertEqual(line.credit, 10)
             else:
                 self.assertEqual(line.debit, 10)
+
+        # cand da reverse move-ul trebuie sa fie in cancel
+        self.create_po()
+        self.create_invoice()
+        self.vat_product_id = self.env["product.product"].create(
+            {
+                "name": "VAT Price Difference",
+                "type": "service",
+                "purchase_method": "purchase",
+                "invoice_policy": "order",
+            }
+        )
+        dvi = Form(self.env["l10n.ro.account.dvi"])
+        dvi.name = "DVI test vat difference"
+        dvi.tax_id = self.tax_id
+        dvi.journal_id = self.journal_id
+        dvi.customs_duty_value = 100
+        dvi.customs_commission_value = 50
+        dvi.vat_price_difference_product_id = self.vat_product_id
+        dvi.vat_price_difference = -10
+        dvi = dvi.save()
+        dvi.invoice_ids = [(6, 0, self.invoice.ids)]
+        for dvi_line in dvi.line_ids:
+            dvi_line.line_qty = dvi_line.qty
+        dvi.button_post()
+        lc = dvi.landed_cost_ids
+        lc.button_validate()
+        dvi.button_reverse()
+        self.assertEqual(dvi.vat_price_difference_move_id.state, "cancel")
+
+        # daca nu exista cont pe produsul vat_product_id
+        self.create_po()
+        self.create_invoice()
+        self.vat_product_id = self.env["product.product"].create(
+            {
+                "name": "VAT Price Difference",
+                "type": "service",
+                "purchase_method": "purchase",
+                "invoice_policy": "order",
+            }
+        )
+        self.vat_product_id.categ_id.property_account_expense_categ_id = False
+        dvi = Form(self.env["l10n.ro.account.dvi"])
+        dvi.name = "DVI test vat difference"
+        dvi.tax_id = self.tax_id
+        dvi.journal_id = self.journal_id
+        dvi.customs_duty_value = 100
+        dvi.customs_commission_value = 50
+        dvi.vat_price_difference_product_id = self.vat_product_id
+        dvi.vat_price_difference = -10
+        dvi = dvi.save()
+        with self.assertRaises(
+            ValidationError,
+            msg="Expense account is not set on product VAT Price Difference",
+        ):
+            dvi.button_post()
+
+        # daca nu exista cont pe produsul vat_product_id
+        self.create_po()
+        self.create_invoice()
+        self.vat_product_id = self.env["product.product"].create(
+            {
+                "name": "VAT Price Difference",
+                "type": "service",
+                "purchase_method": "purchase",
+                "invoice_policy": "order",
+                "property_account_expense_id": self.account_expense.id,
+            }
+        )
+        dvi = Form(self.env["l10n.ro.account.dvi"])
+        dvi.name = "DVI test vat difference"
+        dvi.tax_id = self.tax_id
+        dvi.journal_id = self.journal_id
+        dvi.customs_duty_value = 100
+        dvi.customs_commission_value = 50
+        dvi.vat_price_difference_product_id = self.vat_product_id
+        dvi.vat_price_difference = -10
+        dvi.customs_duty_product_id.categ_id.property_account_expense_categ_id = False
+        dvi.customs_duty_product_id.property_account_expense_id = False
+        dvi = dvi.save()
+        with self.assertRaises(
+            ValidationError, msg="Expense account is not set on product Custom Duty"
+        ):
+            dvi.button_post()

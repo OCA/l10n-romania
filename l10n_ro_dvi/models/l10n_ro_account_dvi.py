@@ -216,11 +216,9 @@ class AccountInvoiceDVI(models.Model):
         vals = {}
         msg = "Expense account is not set on product %s."
         if not account1:
-            raise ValidationError(
-                msg % (self, self.vat_price_difference_product_id.name)
-            )
-        if not account1:
-            raise ValidationError(msg % (self, self.customs_duty_product_id.name))
+            raise ValidationError(_(msg % self.vat_price_difference_product_id.name))
+        if not account2:
+            raise ValidationError(_(msg % self.customs_duty_product_id.name))
         if account1 and account2:
             amount = self.vat_price_difference
             vals = {
@@ -296,7 +294,11 @@ class AccountInvoiceDVI(models.Model):
 
         if self.vat_price_difference_product_id and self.vat_price_difference:
             values_move = self.create_account_move_dvi()
-            move = self.env["account.move"].create(values_move)
+            move_object = self.env["account.move"]
+            if self.vat_price_difference < 0:
+                move_object = move_object.with_context(is_dvi_storno=True)
+            move = move_object.create(values_move)
+
             move.action_post()
             self.vat_price_difference_move_id = move.id
 
@@ -330,7 +332,7 @@ class AccountInvoiceDVI(models.Model):
         action["views"] = [(False, "form")]
         action["res_id"] = landed_cost.id
         if self.vat_price_difference_move_id:
-            if self.vat_price_difference_move_id == "posted":
+            if self.vat_price_difference_move_id.state == "posted":
                 self.vat_price_difference_move_id.button_draft()
             if self.vat_price_difference_move_id.state == "draft":
                 self.vat_price_difference_move_id.button_cancel()
