@@ -67,6 +67,7 @@ class AccountPayment(models.Model):
 
             if (
                 payment.state == "posted"
+                and auto_statement
                 and not payment.statement_line_id
                 and payment.l10n_ro_statement_id
             ):

@@ -197,7 +197,7 @@ class TestPayment(TestPaymenttoStatement):
     def test_get_journal_dashboard_datas(self):
         payment_debit_account_id = self.env.company.transfer_account_id
         self.env.company.account_journal_payment_debit_account_id = (
-            payment_debit_account_id
+            payment_debit_account_id.id
         )
         account_type = (
             self.env["account.account.type"]
@@ -205,12 +205,31 @@ class TestPayment(TestPaymenttoStatement):
             .id
         )
         payment_debit_account_id.user_type_id = account_type
+        payment_method = (
+            self.env["account.payment.method"]
+            .sudo()
+            .create({"name": "inbound", "code": "inbound", "payment_type": "inbound"})
+        )
         journal = self.env["account.journal"].create(
             {
                 "name": "Test cash",
                 "type": "cash",
                 "company_id": self.env.company.id,
+                "inbound_payment_method_line_ids": [
+                    (
+                        0,
+                        0,
+                        {
+                            "payment_method_id": payment_method.id,
+                            "name": "Manual",
+                            "payment_account_id": payment_debit_account_id.id,
+                        },
+                    )
+                ],
             }
+        )
+        self.env["account.payment.method"].sudo().create(
+            {"name": "Multi method", "code": "multi", "payment_type": "inbound"}
         )
         payment = self.env["account.payment"].create(
             {
