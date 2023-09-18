@@ -93,6 +93,8 @@ class ResPartner(models.Model):
                 vat_on_payment = True
                 if line.end_date and line.end_date <= ctx.get("check_date", False):
                     vat_on_payment = False
+        elif self.l10n_ro_vat_on_payment:
+            vat_on_payment = True
         return vat_on_payment
 
     def check_vat_on_payment(self):
