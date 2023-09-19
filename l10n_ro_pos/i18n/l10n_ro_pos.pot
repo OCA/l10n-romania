@@ -4,7 +4,7 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 15.0\n"
+"Project-Id-Version: Odoo Server 16.0\n"
 "Report-Msgid-Bugs-To: \n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -19,7 +19,7 @@ msgid "<strong>Totals</strong>"
 msgstr ""
 
 #. module: l10n_ro_pos
-#. openerp-web
+#. odoo-javascript
 #: code:addons/l10n_ro_pos/static/src/xml/pos.xml:0
 #, python-format
 msgid "A cash sale of more than 10,000 lei cannot be made."
@@ -46,7 +46,7 @@ msgid "Point of Sale Session"
 msgstr ""
 
 #. module: l10n_ro_pos
-#. openerp-web
+#. odoo-javascript
 #: code:addons/l10n_ro_pos/static/src/xml/pos.xml:0
 #, python-format
 msgid "Sale to individuals only.."
