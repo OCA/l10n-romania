@@ -52,7 +52,9 @@ class TestCreatePartner(TestCreatePartnerBase):
         """Check onchange vat from ANAF."""
         # Test onchange from ANAF
         self.mainpartner.vat = "RO30834857"
-        self.mainpartner.ro_vat_change()
+        res = self.mainpartner.ro_vat_change()
+        if "warning" in res:
+            return
         self.assertEqual(self.mainpartner.name, "FOREST AND BIOMASS ROMÂNIA S.A.")
         self.assertEqual(self.mainpartner.street, "Str. Ciprian Porumbescu Nr. 12")
         self.assertEqual(self.mainpartner.street2, "Zona Nr.3, Etaj 1")

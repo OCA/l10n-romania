@@ -64,6 +64,8 @@ class StockValuationLayer(models.Model):
         compute="_compute_l10n_ro_svl_tracking",
         string="Romania - Destination Valuation",
     )
+    # cantitate returnata dintr-o iesire
+    l10n_ro_qty_returned = fields.Float()
 
     @api.depends("product_id", "account_move_id")
     def _compute_account(self):
@@ -111,8 +113,10 @@ class StockValuationLayer(models.Model):
 
     @api.model_create_multi
     def create(self, vals_list):
+        svls = self.env["stock.valuation.layer"]
         for values in vals_list:
             company = values.get("company_id") or self.env.company.id
+            l10n_ro_tracking = values.pop("l10n_ro_tracking", None)
             if self.env["res.company"]._check_is_l10n_ro_record(company):
                 if (
                     "l10n_ro_valued_type" not in values
@@ -123,7 +127,11 @@ class StockValuationLayer(models.Model):
                     )
                     if svl:
                         values["l10n_ro_valued_type"] = svl.l10n_ro_valued_type
-        return super(StockValuationLayer, self).create(vals_list)
+            svl = super(StockValuationLayer, self).create(values)
+            if l10n_ro_tracking:
+                svl._l10n_ro_create_tracking(l10n_ro_tracking)
+            svls |= svl
+        return svls
 
     def _l10n_ro_compute_invoice_line_id(self):
         for svl in self:
@@ -167,30 +175,6 @@ class StockValuationLayer(models.Model):
             s.l10n_ro_svl_src_ids = [
                 (6, 0, s.l10n_ro_svl_track_src_ids.mapped("svl_src_id").ids)
             ]
-
-    @api.model
-    def _l10n_ro_pre_process_value(self, value):
-        """
-        Pentru a mapa tracking pe SVL in value pastram o cheie
-        'tracking': [(svl_id, qty).....]
-        inainte sa executam .create() curatam dictionarul.
-        """
-        fields_dict = self._fields.keys()
-        return {
-            svl_key: svl_value
-            for svl_key, svl_value in value.items()
-            if svl_key in fields_dict
-        }
-
-    def _l10n_ro_post_process(self, value):
-        """
-        Pentru a mapa tracking pe SVL in value pastram o cheie
-        'tracking': [(svl_id, qty).....]
-        acum este momentul sa mapam sursa, destinatia si cantitatea.
-        """
-
-        if value.get("l10n_ro_tracking", None):
-            self._l10n_ro_create_tracking(value.get("l10n_ro_tracking"))
 
     def _l10n_ro_tracking_merge_value(self, svl_id, quantity, value):
         return {

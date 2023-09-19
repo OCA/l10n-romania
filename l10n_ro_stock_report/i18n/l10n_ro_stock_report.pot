@@ -48,6 +48,12 @@ msgid "Account"
 msgstr ""
 
 #. module: l10n_ro_stock_report
+#: code:addons/l10n_ro_stock_report/report/stock_report.py:0
+#, python-format
+msgid "All Locations"
+msgstr ""
+
+#. module: l10n_ro_stock_report
 #: model_terms:ir.ui.view,arch_db:l10n_ro_stock_report.report_storage_sheet_lines_header
 msgid "Amount Input"
 msgstr ""
@@ -65,6 +71,11 @@ msgstr ""
 #. module: l10n_ro_stock_report
 #: model_terms:ir.ui.view,arch_db:l10n_ro_stock_report.view_stock_sheet_report_form
 msgid "Cancel"
+msgstr ""
+
+#. module: l10n_ro_stock_report
+#: model:ir.model.fields,field_description:l10n_ro_stock_report.field_l10n_ro_stock_storage_sheet_line__categ_id
+msgid "Categ"
 msgstr ""
 
 #. module: l10n_ro_stock_report
@@ -294,6 +305,16 @@ msgid "Plus inventory"
 msgstr ""
 
 #. module: l10n_ro_stock_report
+#: model_terms:ir.ui.view,arch_db:l10n_ro_stock_report.report_storage_sheet_lines_header
+msgid "Price Input"
+msgstr ""
+
+#. module: l10n_ro_stock_report
+#: model_terms:ir.ui.view,arch_db:l10n_ro_stock_report.report_storage_sheet_lines_header
+msgid "Price Output"
+msgstr ""
+
+#. module: l10n_ro_stock_report
 #: model:ir.model.fields,field_description:l10n_ro_stock_report.field_l10n_ro_stock_storage_sheet_line__unit_price_in
 msgid "Price Unit In"
 msgstr ""
@@ -313,11 +334,6 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_ro_stock_report.field_l10n_ro_stock_storage_sheet_line__product_id
 #: model_terms:ir.ui.view,arch_db:l10n_ro_stock_report.view_sheet_stock_report_line_search
 msgid "Product"
-msgstr ""
-
-#. module: l10n_ro_stock_report
-#: model:ir.model.fields,field_description:l10n_ro_stock_report.field_l10n_ro_stock_storage_sheet_line__categ_id
-msgid "Product Category"
 msgstr ""
 
 #. module: l10n_ro_stock_report
@@ -409,11 +425,6 @@ msgstr ""
 #. module: l10n_ro_stock_report
 #: model:ir.ui.menu,name:l10n_ro_stock_report.menu_sheet_stock_report
 msgid "Romanian Stock Sheet Report"
-msgstr ""
-
-#. module: l10n_ro_stock_report
-#: model:ir.model.fields,help:l10n_ro_stock_report.field_l10n_ro_stock_storage_sheet_line__categ_id
-msgid "Select category for the current product"
 msgstr ""
 
 #. module: l10n_ro_stock_report
