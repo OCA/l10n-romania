@@ -334,6 +334,11 @@ msgid "Messages"
 msgstr ""
 
 #. module: l10n_ro_dvi
+#: model:ir.model.fields,help:l10n_ro_dvi.field_l10n_ro_account_dvi__vat_price_difference_move_id
+msgid "Move for vat price difference"
+msgstr ""
+
+#. module: l10n_ro_dvi
 #: model:ir.model.fields,field_description:l10n_ro_dvi.field_l10n_ro_account_dvi__name
 msgid "Name"
 msgstr ""
@@ -382,6 +387,11 @@ msgstr ""
 #. module: l10n_ro_dvi
 #: model:ir.model.fields,field_description:l10n_ro_dvi.field_l10n_ro_account_dvi_line__product_id
 msgid "Product"
+msgstr ""
+
+#. module: l10n_ro_dvi
+#: model:ir.model.fields,help:l10n_ro_dvi.field_l10n_ro_account_dvi__vat_price_difference_product_id
+msgid "Product for vat price difference"
 msgstr ""
 
 #. module: l10n_ro_dvi
@@ -558,6 +568,11 @@ msgid "VAT paid at customs expense"
 msgstr ""
 
 #. module: l10n_ro_dvi
+#: model:ir.model.fields,help:l10n_ro_dvi.field_l10n_ro_account_dvi__vat_price_difference
+msgid "VAT price difference"
+msgstr ""
+
+#. module: l10n_ro_dvi
 #: model:ir.model.fields,help:l10n_ro_dvi.field_stock_landed_cost__l10n_ro_tax_id
 msgid "VAT tax for products and customs cost"
 msgstr ""
@@ -565,6 +580,21 @@ msgstr ""
 #. module: l10n_ro_dvi
 #: model:ir.model,name:l10n_ro_dvi.model_stock_valuation_adjustment_lines
 msgid "Valuation Adjustment Lines"
+msgstr ""
+
+#. module: l10n_ro_dvi
+#: model:ir.model.fields,field_description:l10n_ro_dvi.field_l10n_ro_account_dvi__vat_price_difference
+msgid "Vat Price Difference"
+msgstr ""
+
+#. module: l10n_ro_dvi
+#: model:ir.model.fields,field_description:l10n_ro_dvi.field_l10n_ro_account_dvi__vat_price_difference_move_id
+msgid "Vat Price Difference Move"
+msgstr ""
+
+#. module: l10n_ro_dvi
+#: model:ir.model.fields,field_description:l10n_ro_dvi.field_l10n_ro_account_dvi__vat_price_difference_product_id
+msgid "Vat Price Difference Product"
 msgstr ""
 
 #. module: l10n_ro_dvi
