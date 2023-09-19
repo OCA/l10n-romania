@@ -18,6 +18,7 @@ setuptools.setup(
         'odoo-addon-l10n_ro_fiscal_validation>=16.0dev,<16.1dev',
         'odoo-addon-l10n_ro_partner_create_by_vat>=16.0dev,<16.1dev',
         'odoo-addon-l10n_ro_partner_unique>=16.0dev,<16.1dev',
+        'odoo-addon-l10n_ro_pos>=16.0dev,<16.1dev',
         'odoo-addon-l10n_ro_stock>=16.0dev,<16.1dev',
         'odoo-addon-l10n_ro_stock_account>=16.0dev,<16.1dev',
         'odoo-addon-l10n_ro_stock_account_date>=16.0dev,<16.1dev',
