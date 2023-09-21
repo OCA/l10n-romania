@@ -19,7 +19,7 @@ class AccountANAFSyncWeb(http.Controller):
         ["/l10n_ro_account_anaf_sync/redirect_anaf/<int:anaf_config_id>"],
         type="http",
         auth="user",
-        website=False,
+        website=True,
         sitemap=False,
     )
     def redirect_anaf(self, anaf_config_id, **kw):
@@ -64,9 +64,7 @@ class AccountANAFSyncWeb(http.Controller):
             client_id,
             odoo_oauth_url,
         )
-        anaf_request_from_redirect = request.redirect(
-            redirect_url, code=302, local=False
-        )
+        anaf_request_from_redirect = request.redirect(redirect_url, code=302)
 
         # This is the default for Authorization Code grant.
         # A successful response is 302 Found which triggers a redirect to the redirect_uri.
@@ -83,7 +81,7 @@ class AccountANAFSyncWeb(http.Controller):
         ["/l10n_ro_account_anaf_sync/anaf_oauth"],
         type="http",
         auth="public",
-        website=False,
+        website=True,
         sitemap=False,
     )
     def get_anaf_oauth_code(self, **kw):
@@ -105,7 +103,7 @@ class AccountANAFSyncWeb(http.Controller):
                 "Please request them in order, waiting for 2 minutes between requests."
             )
         elif not anaf_config:
-            message = _("The response was done too late.\nResponse was: kw=%s" % kw)
+            message = _("The response was done too late.\nResponse was: kw=%s") % kw
 
         if message:
             anaf_config.message_post(body=message)
@@ -141,7 +139,7 @@ class AccountANAFSyncWeb(http.Controller):
             )
             response_json = response.json()
 
-            message = _("The response was finished.\nResponse was: %s" % response_json)
+            message = _("The response was finished.\nResponse was: %s") % response_json
             anaf_config.write(
                 {
                     "code": code,
@@ -151,7 +149,7 @@ class AccountANAFSyncWeb(http.Controller):
                 }
             )
         else:
-            message = _("No code was found in the response.\nResponse was: %s" % kw)
+            message = _("No code was found in the response.\nResponse was: %s") % kw
 
         anaf_config.message_post(body=message)
         values = {"message": message}
