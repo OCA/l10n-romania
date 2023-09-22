@@ -5,6 +5,9 @@ import secrets
 from datetime import datetime, timedelta
 
 import requests
+import werkzeug
+import werkzeug.urls as urls
+from werkzeug.wrappers import Response
 
 from odoo import _, http
 from odoo.http import request
@@ -12,6 +15,19 @@ from odoo.http import request
 # Authorization Endpoint https://logincert.anaf.ro/anaf-oauth2/v1/authorize
 # Token Issuance Endpoint https://logincert.anaf.ro/anaf-oauth2/v1/token
 # Token Revocation Endpoint https://logincert.anaf.ro/anaf-oauth2/v1/revoke
+
+
+def redirect(self, location, code=303, local=True):
+    # compatibility, Werkzeug support URL as location
+    if isinstance(location, urls.URL):
+        location = location.to_url()
+    if local:
+        location = "/" + urls.url_parse(location).replace(
+            scheme="", netloc=""
+        ).to_url().lstrip("/")
+    if request and request.db:
+        return request.registry["ir.http"]._redirect(location, code)
+    return werkzeug.utils.redirect(location, code, Response=Response)
 
 
 class AccountANAFSyncWeb(http.Controller):
@@ -64,7 +80,7 @@ class AccountANAFSyncWeb(http.Controller):
             client_id,
             odoo_oauth_url,
         )
-        anaf_request_from_redirect = request.redirect(redirect_url, code=302)
+        anaf_request_from_redirect = redirect(redirect_url, code=302, local=False)
 
         # This is the default for Authorization Code grant.
         # A successful response is 302 Found which triggers a redirect to the redirect_uri.
