@@ -19,7 +19,17 @@ class TestAccountBankStatement(TestPaymenttoStatement):
                 "date": "2022-12-01",
                 "journal_id": self.company_data["default_journal_cash"].id,
                 "company_id": self.env.company.id,
-                "line_ids": [(0, 0, {"payment_ref": "/", "amount": 100.0})],
+                "line_ids": [
+                    (
+                        0,
+                        0,
+                        {
+                            "payment_ref": "/",
+                            "amount": 100.0,
+                            "journal_id": self.company_data["default_journal_cash"].id,
+                        },
+                    )
+                ],
             }
         )
         self.assertEqual(bnk1.name, "CSH1RC-000001")
@@ -32,7 +42,13 @@ class TestAccountBankStatement(TestPaymenttoStatement):
                 "date": "2022-12-01",
                 "journal_id": journal.id,
                 "company_id": self.env.company.id,
-                "line_ids": [(0, 0, {"payment_ref": "/", "amount": 100.0})],
+                "line_ids": [
+                    (
+                        0,
+                        0,
+                        {"payment_ref": "/", "amount": 100.0, "journal_id": journal.id},
+                    )
+                ],
             }
         )
         self.assertEqual(bnk2.name, fields.Date.to_string(fields.Date.today()))
@@ -44,7 +60,17 @@ class TestAccountBankStatement(TestPaymenttoStatement):
                 "date": "2022-12-01",
                 "journal_id": self.company_data["default_journal_bank"].id,
                 "company_id": self.env.company.id,
-                "line_ids": [(0, 0, {"payment_ref": "/", "amount": 100.0})],
+                "line_ids": [
+                    (
+                        0,
+                        0,
+                        {
+                            "payment_ref": "/",
+                            "amount": 100.0,
+                            "journal_id": self.company_data["default_journal_bank"].id,
+                        },
+                    )
+                ],
             }
         )
         self.assertEqual(bnk3.name, fields.Date.to_string(fields.Date.today()))
@@ -59,7 +85,13 @@ class TestAccountBankStatement(TestPaymenttoStatement):
                 "date": "2022-12-01",
                 "journal_id": journal.id,
                 "company_id": self.env.company.id,
-                "line_ids": [(0, 0, {"payment_ref": "/", "amount": 100.0})],
+                "line_ids": [
+                    (
+                        0,
+                        0,
+                        {"payment_ref": "/", "amount": 100.0, "journal_id": journal.id},
+                    )
+                ],
             }
         )
         self.assertEqual(bnk4.name, "Test")
