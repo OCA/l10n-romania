@@ -12,8 +12,17 @@ class AccountMove(models.Model):
 
     def get_l10n_ro_sequence(self):
         self.ensure_one()
+        if self.payment_id:
+            self = self.with_context(
+                l10n_ro_payment_type=self.payment_id.payment_type,
+                l10n_ro_partner_type=self.payment_id.partner_type,
+            )
         sequence = self.journal_id.l10n_ro_journal_sequence_id
-        if self.is_l10n_ro_record and self.journal_id.type == "cash":
+        if (
+            self.payment_id
+            and self.is_l10n_ro_record
+            and self.journal_id.type == "cash"
+        ):
             partner_type = self._context.get("l10n_ro_partner_type", "")
             payment_type = self._context.get("l10n_ro_payment_type", "")
             if partner_type == "customer":
@@ -21,7 +30,11 @@ class AccountMove(models.Model):
                     sequence = self.journal_id.l10n_ro_customer_cash_in_sequence_id
                 if payment_type == "outbound":
                     sequence = self.journal_id.l10n_ro_cash_out_sequence_id
-
+            if partner_type == "supplier":
+                if payment_type == "inbound":
+                    sequence = self.journal_id.l10n_ro_cash_in_sequence_id
+                if payment_type == "outbound":
+                    sequence = self.journal_id.l10n_ro_journal_sequence_id
         return sequence
 
     def _set_next_sequence(self):
@@ -32,22 +45,23 @@ class AccountMove(models.Model):
                 self._get_last_sequence(relaxed=True) or self._get_starting_sequence()
             )
             format_seq, format_values = self._get_sequence_format_param(last_sequence)
-            if format_values["seq"] != 0:
-                new_number = cash_sequence.next_by_id()
-            else:
-                # aici sunt in cazul in care s-a dat create(),
-                # insa nu exista nimic in baza de date
-                # deci vreau doar sa citesc ultima valoare din secventa,
-                #
-                # nu incrementez deoarece daca se da discard, nu vreau sa
-                # se incrementeze secventa
-                new_number = cash_sequence.get_next_char(
-                    cash_sequence.number_next_actual
-                )
+            if not self.payment_id:
+                if format_values["seq"] != 0:
+                    new_number = cash_sequence.next_by_id()
+                else:
+                    # aici sunt in cazul in care s-a dat create(),
+                    # insa nu exista nimic in baza de date
+                    # deci vreau doar sa citesc ultima valoare din secventa,
+                    #
+                    # nu incrementez deoarece daca se da discard, nu vreau sa
+                    # se incrementeze secventa
+                    new_number = cash_sequence.get_next_char(
+                        cash_sequence.number_next_actual
+                    )
 
-            self[self._sequence_field] = new_number
+                self[self._sequence_field] = new_number
 
-            self._compute_split_sequence()
+                self._compute_split_sequence()
         else:
             return super(AccountMove, self)._set_next_sequence()
 
@@ -101,12 +115,15 @@ class AccountMove(models.Model):
                             move.journal_id.l10n_ro_cash_out_sequence_id.next_by_id()
                         )
                         super(AccountMove, move).write({"name": new_number})
-
         return super(AccountMove, self).write(vals)
 
     def _post(self, soft=True):
         for move in self:
             if move.is_l10n_ro_record:
-                if move.payment_id and move.payment_id.state != "posted":
+                if (
+                    move.payment_id
+                    and move.payment_id.state != "posted"
+                    and (not move.name or move.name == "/")
+                ):
                     move.payment_id.l10n_ro_force_cash_sequence()
         return super()._post(soft)

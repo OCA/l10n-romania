@@ -3,7 +3,8 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
 
-from odoo import api, fields, models
+from odoo import _, api, fields, models
+from odoo.exceptions import UserError
 
 
 class AccountPayment(models.Model):
@@ -49,7 +50,7 @@ class AccountPayment(models.Model):
             if (
                 auto_statement
                 and not payment.l10n_ro_statement_id
-                and not payment.reconciled_statement_ids
+                and not payment.reconciled_statement_line_ids
             ):
                 domain = [
                     ("date", "=", payment.date),
@@ -67,7 +68,6 @@ class AccountPayment(models.Model):
 
             if (
                 payment.state == "posted"
-                and auto_statement
                 and not payment.statement_line_id
                 and payment.l10n_ro_statement_id
             ):
@@ -77,14 +77,13 @@ class AccountPayment(models.Model):
                 for invoice in payment.reconciled_invoice_ids:
                     ref += invoice.name
                 values = {
-                    # "name": payment.communication or payment.name,
                     "statement_id": payment.l10n_ro_statement_id.id,
                     "date": payment.date,
                     "partner_id": payment.partner_id.id,
                     "amount": payment.amount,
-                    "payment_id": payment.id,
                     "ref": ref,
                     "payment_ref": payment.ref or payment.name,
+                    "journal_id": payment.journal_id.id,
                 }
                 if payment.payment_type == "outbound":
                     values["amount"] = -1 * payment.amount
@@ -95,7 +94,7 @@ class AccountPayment(models.Model):
 
     def get_l10n_ro_reconciled_statement_line(self):
         for payment in self:
-            for move_line in payment.reconciled_statement_ids:
+            for move_line in payment.reconciled_statement_line_ids:
                 if move_line.statement_id and move_line.statement_line_id:
                     payment.write(
                         {
@@ -126,8 +125,19 @@ class AccountPayment(models.Model):
     def unlink(self):
         statement_line_ids = self.env["account.bank.statement.line"]
         for payment in self:
-            if payment.is_l10n_ro_record:
-                statement_line_ids |= payment.statement_line_id
+            # forbid deleting if has a number
+            if (
+                payment.is_l10n_ro_record
+                and payment.name
+                and payment.name != "/"
+                and payment.journal_id.type == "cash"
+            ):
+                raise UserError(
+                    _(
+                        "You cannot delete the payment %s, as it already consumed a number."
+                    )
+                    % payment.name
+                )
         res = super().unlink()
         statement_line_ids.unlink()
         return res
@@ -143,6 +153,6 @@ class AccountPayment(models.Model):
                 new_context["l10n_ro_payment_type"] = vals.get("payment_type")
             if vals.get("partner_type"):
                 new_context["l10n_ro_partner_type"] = vals.get("partner_type")
-            self = self.with_context(**new_context)
+            res = self.with_context(**new_context)
             res |= super(AccountPayment, self).create([vals])
         return res
