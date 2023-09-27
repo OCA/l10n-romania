@@ -82,8 +82,8 @@ class AccountJournal(models.Model):
         return datas
 
     @api.model
-    def _fill_missing_values(self, vals):
-        res = super()._fill_missing_values(vals)
+    def _fill_missing_values(self, vals, protected_codes=False):
+        res = super()._fill_missing_values(vals, protected_codes)
         if not vals:
             vals = {}
         if (
@@ -132,9 +132,7 @@ class AccountJournal(models.Model):
             "l10n_ro_statement_sequence_id": self.l10n_ro_statement_sequence_id.id,
             "l10n_ro_cash_in_sequence_id": self.l10n_ro_cash_in_sequence_id.id,
             "l10n_ro_cash_out_sequence_id": self.l10n_ro_cash_out_sequence_id.id,
+            "l10n_ro_customer_cash_in_sequence_id": self.l10n_ro_customer_cash_in_sequence_id.id,
         }
-        new_vals[
-            "l10n_ro_customer_cash_in_sequence_id"
-        ] = self.l10n_ro_customer_cash_in_sequence_id.id
         self._fill_missing_values(new_vals)
         self.write(new_vals)
