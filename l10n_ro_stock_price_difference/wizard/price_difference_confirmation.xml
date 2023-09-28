@@ -12,7 +12,6 @@
                     </div>
 
                 <field name="invoice_id" invisible="1" />
-                <field name="message" readonly="1" />
                 <field name="item_ids" mode="tree,kanban">
                     <tree>
                         <field name="product_id" />
