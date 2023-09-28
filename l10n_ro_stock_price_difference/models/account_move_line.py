@@ -27,7 +27,7 @@ class AccountMoveLine(models.Model):
         return svl_vals_list, aml_vals_list
 
     def l10n_ro_get_stock_valuation_difference(self):
-        """Se obtine diferenta dintre evaloarea stocului si valoarea din factura"""
+        """Se obtine diferenta dintre valoarea stocului si valoarea din factura"""
         line = self
         diff, qty_diff = 0.0, 0.0
         # Retrieve stock valuation moves.
@@ -86,7 +86,7 @@ class AccountMoveLine(models.Model):
         qty_diff = inv_qty - valuation_total_qty
         return diff, qty_diff
 
-    def l10n_ro_modify_stock_valuation(self, price_val_dif):
+    def l10n_ro_modify_stock_valuation(self, val_dif):
         # se adauga la evaluarea miscarii de stoc
         if not self.purchase_line_id:
             return 0.0
@@ -99,9 +99,9 @@ class AccountMoveLine(models.Model):
             order="id desc",
             limit=1,
         )
-        value = price_val_dif
+        value = val_dif
         # trebuie cantitate din factura in unitatea produsului si apoi
-        value = self.product_uom_id._compute_price(value, self.product_id.uom_id)
+        # value = self.product_uom_id._compute_price(value, self.product_id.uom_id)
 
         lc = self._l10n_ro_create_price_difference_landed_cost(value)
         lc.compute_landed_cost()
