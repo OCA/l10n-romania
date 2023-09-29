@@ -157,11 +157,12 @@ msgstr "Sold inițial"
 msgid "Transaction No"
 msgstr "Nr Tranzacție"
 
-#~ msgid "Display Name"
-#~ msgstr "Nume afișat"
+#. module: l10n_ro_account_bank_statement_report
+#: model:ir.model.fields,field_description:l10n_ro_account_bank_statement_report.field_account_bank_statement__id
+msgid "ID"
+msgstr "ID"
 
-#~ msgid "ID"
-#~ msgstr "ID"
-
-#~ msgid "Last Modified on"
-#~ msgstr "Ultima modificare la"
+#. module: l10n_ro_account_bank_statement_report
+#: model:ir.model.fields,field_description:l10n_ro_account_bank_statement_report.field_account_bank_statement____last_update
+msgid "Last Modified on"
+msgstr "Ultima modificare la"
