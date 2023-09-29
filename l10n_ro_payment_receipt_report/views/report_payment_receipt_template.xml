@@ -6,7 +6,9 @@
             <t t-set="o" t-value="o.with_context(lang=lang)" />
             <div class="page">
                 <!-- DO NOT remove the 3 <br/> from below because the next row won't be visible anymore-->
-                <br /><br /><br />
+                <br />
+                <br />
+                <br />
                 <div class="row mt64 pull-right">
                     <div class="col-12">
                         <t t-if="o.reconciled_invoice_ids">
@@ -30,13 +32,23 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-8" t-if="o.partner_type">
-                        <span>We received from:
+                    <div class="col-8">
+
+                        <span t-if="o.payment_type=='inbound'">We received from:
                             <strong>
                                 <span t-field="o.partner_id.name" />
                             </strong>
                             with address:
                         </span>
+
+                        <span t-if="o.payment_type=='outbound'">We send to:
+                            <strong>
+                                <span t-field="o.partner_id.name" />
+                            </strong>
+                            with address:
+                        </span>
+
+
                         <span
                             t-field="o.partner_id"
                             t-options='{"widget": "contact", "fields": ["address", ], "no_marker": True, "no_tag_br": True}'

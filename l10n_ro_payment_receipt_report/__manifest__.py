@@ -17,9 +17,13 @@
         "views/bank_statement_line_report.xml",
         "views/report_payment_receipt_template.xml",
         "views/report_bank_statement_line_payment_template.xml",
-        "views/pos_box.xml",
-        "views/account_bank_statement_view.xml",
+        # "views/account_bank_statement_view.xml",
     ],
+    "external_dependencies": {
+        "python": [
+            "num2words>=0.5.8",
+        ],
+    },
     "uninstall_hook": "uninstall_hook",
     "development_status": "Mature",
     "maintainers": ["dhongu", "feketemihai"],
