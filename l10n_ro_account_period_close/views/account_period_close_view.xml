@@ -68,15 +68,12 @@
                                 options="{'no_create': True}"
                                 groups="base.group_multi_company"
                             />
-                            <field
-                                name="journal_id"
-                                options="{'no_create': True}"
-                                domain="[('company_id','=',company_id)]"
-                            />
+                            <field name="journal_id" options="{'no_create': True}" />
                             <field name="type" />
                             <field name="close_result" />
                         </group>
                         <group name="accounts">
+                            <field name="company_id" invisible="1" />
                             <field
                                 name="debit_account_id"
                                 options="{'no_create': True}"

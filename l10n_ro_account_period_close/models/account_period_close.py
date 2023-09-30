@@ -44,40 +44,24 @@ class AccountPeriodClosing(models.Model):
 
     @api.onchange("company_id", "type")
     def _onchange_type(self):
-        acc_type = False
+
         accounts = self.env["account.account"]
         if self.type == "income":
-            acc_type = self.env.ref("account.data_account_type_revenue").exists()
-            if acc_type:
-                accounts = self.env["account.account"].search(
-                    [
-                        ("user_type_id", "=", acc_type.id),
-                        ("company_id", "=", self.company_id.id),
-                    ]
-                )
-            if not accounts:
-                accounts = self.env["account.account"].search(
-                    [
-                        ("user_type_id.name", "=", "Income"),
-                        ("company_id", "=", self.company_id.id),
-                    ]
-                )
+            accounts = self.env["account.account"].search(
+                [
+                    ("account_type", "=", "revenue"),
+                    ("company_id", "=", self.company_id.id),
+                ]
+            )
+
         elif self.type == "expense":
-            acc_type = self.env.ref("account.data_account_type_expenses").exists()
-            if acc_type:
-                accounts = self.env["account.account"].search(
-                    [
-                        ("user_type_id", "=", acc_type.id),
-                        ("company_id", "=", self.company_id.id),
-                    ]
-                )
-            if not accounts:
-                accounts = self.env["account.account"].search(
-                    [
-                        ("user_type_id.name", "=", "Expense"),
-                        ("company_id", "=", self.company_id.id),
-                    ]
-                )
+            accounts = self.env["account.account"].search(
+                [
+                    ("account_type", "=", "expense"),
+                    ("company_id", "=", self.company_id.id),
+                ]
+            )
+
         self.account_ids = accounts
 
     def _get_accounts(self, accounts, display_account):
