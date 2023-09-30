@@ -31,12 +31,14 @@ class AccountPaymentRegister(models.TransientModel):
                         )
 
     def action_create_payments(self):
+        res = super().action_create_payments()
         self._check_amount()
-        return super().action_create_payments()
+        return res
 
 
 class AccountPayment(models.Model):
-    _inherit = "account.payment"
+    _name = "account.payment"
+    _inherit = ["account.payment", "l10n.ro.mixin"]
 
     def _check_amount(self):
         for payment in self:
@@ -64,13 +66,13 @@ class AccountPayment(models.Model):
         self._check_amount()
 
     def write(self, vals):
+        res = super().write(vals)
         if "amount" in vals:
             self._check_amount()
-        return super().write(vals)
+        return res
 
     @api.model_create_multi
     def create(self, vals_list):
-        for vals in vals_list:
-            if "amount" in vals:
-                self._check_amount()
-        return super().create(vals_list)
+        payments = super().create(vals_list)
+        payments._check_amount()
+        return payments
