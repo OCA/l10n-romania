@@ -4,7 +4,7 @@
 
 import logging
 
-from odoo import _, models
+from odoo import models
 from odoo.tools import float_round
 
 _logger = logging.getLogger(__name__)
@@ -43,72 +43,50 @@ class AccountMove(models.Model):
                     add_diff = invoice.company_id.l10n_ro_stock_acc_price_diff
                     if line.product_id.cost_method == "standard":
                         add_diff = False
-                    if add_diff:
-                        # se reevalueaza stocul
-                        (
-                            price_diff,
-                            qty_diff,
-                        ) = line.l10n_ro_get_stock_valuation_difference()
-                        if price_diff:
-                            valuation_stock_moves = (
-                                line._l10n_ro_get_valuation_stock_moves()
-                            )
-                            price_diffs.append(
-                                (
-                                    valuation_stock_moves.mapped("product_id"),
-                                    valuation_stock_moves.mapped("picking_id"),
-                                    line.currency_id.round(price_diff),
-                                    float_round(
-                                        qty_diff,
-                                        precision_rounding=line.product_uom_id.rounding,
-                                    ),
-                                )
-                            )
+                    if not add_diff:
+                        continue
+
+                    # se reevalueaza stocul
+                    price_diff, qty_diff = line.l10n_ro_get_stock_valuation_difference()
+                    if price_diff:
+                        valuation_stock_moves = (
+                            line._l10n_ro_get_valuation_stock_moves()
+                        )
+                        price_diffs.append(
+                            {
+                                "invoice_id": self.id,
+                                "product_id": valuation_stock_moves.mapped(
+                                    "product_id"
+                                ).id,
+                                "picking_id": valuation_stock_moves.mapped(
+                                    "picking_id"
+                                ).id,
+                                "amount_difference": line.currency_id.round(price_diff),
+                                "quantity_difference": float_round(
+                                    qty_diff,
+                                    precision_rounding=line.product_uom_id.rounding,
+                                ),
+                            }
+                        )
 
         if price_diffs:
-            tbody = ""
-            for pd in price_diffs:
-                tbody += (
-                    "<tr>"
-                    f"<td>{pd[0].name_get()[0][1]}</td>"
-                    f"<td>{', '.join(pd[1].mapped('name'))}</td>"
-                    f"<td>{pd[2]}</td>"
-                    f"<td>{pd[3]}</td>"
-                    "</tr>"
-                )
-
-            message = """
-            <table class="small table table-bordered text-center">
-                <tr>
-                    <th>Product</th>
-                    <th>Pickings</th>
-                    <th>Price Difference</th>
-                    <th>Quantity Difference</th>
-                </tr>
-                {}
-            </table>
-
-            """.format(
-                tbody
-            )
-            wizard = self.env["l10n_ro.price_difference_confirm_dialog"].create(
-                {"invoice_id": self.id, "message": message}
-            )
-
-            view = self.env.ref(
-                "l10n_ro_stock_price_difference.view_price_difference_confirmation_form"
-            )
-            return {
-                "name": _("Confirm Price Difference ?"),
-                "type": "ir.actions.act_window",
-                "view_mode": "form",
-                "res_model": "l10n_ro.price_difference_confirm_dialog",
-                "res_id": wizard.id,
-                "views": [(view.id, "form")],
-                "view_id": view.id,
-                "target": "new",
-                "context": dict(self.env.context),
+            difference_confirm_dialog_value = {
+                "invoice_id": self.id,
+                "item_ids": [],
             }
+            for pd in price_diffs:
+                difference_confirm_dialog_value["item_ids"].append([0, 0, pd])
+
+            wizard = self.env["l10n_ro.price_difference_confirm_dialog"].create(
+                difference_confirm_dialog_value
+            )
+
+            action = self.env["ir.actions.actions"]._for_xml_id(
+                "l10n_ro_stock_price_difference.action_price_difference_confirmation"
+            )
+            action["res_id"] = wizard.id
+
+            return action
         return False
 
     def l10n_ro_fix_price_difference_svl(self):
@@ -128,11 +106,11 @@ class AccountMove(models.Model):
                     if add_diff:
                         # se reevalueaza stocul
                         (
-                            price_diff,
+                            diff,
                             _qty_diff,
                         ) = line.l10n_ro_get_stock_valuation_difference()
-                        if price_diff:
-                            line.l10n_ro_modify_stock_valuation(price_diff)
+                        if diff:
+                            line.l10n_ro_modify_stock_valuation(diff)
 
     def _stock_account_prepare_anglo_saxon_in_lines_vals(self):
         l10n_ro_moves = self.filtered(lambda m: m.company_id.l10n_ro_accounting)

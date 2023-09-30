@@ -8,7 +8,9 @@ setuptools.setup(
     description="Meta package for oca-l10n-romania Odoo addons",
     version=version,
     install_requires=[
+        'odoo-addon-l10n_ro_account>=16.0dev,<16.1dev',
         'odoo-addon-l10n_ro_account_anaf_sync>=16.0dev,<16.1dev',
+        'odoo-addon-l10n_ro_account_bank_statement_import_mt940_base>=16.0dev,<16.1dev',
         'odoo-addon-l10n_ro_account_bank_statement_report>=16.0dev,<16.1dev',
         'odoo-addon-l10n_ro_account_edi_ubl>=16.0dev,<16.1dev',
         'odoo-addon-l10n_ro_account_edit_currency_rate>=16.0dev,<16.1dev',
@@ -18,6 +20,7 @@ setuptools.setup(
         'odoo-addon-l10n_ro_fiscal_validation>=16.0dev,<16.1dev',
         'odoo-addon-l10n_ro_partner_create_by_vat>=16.0dev,<16.1dev',
         'odoo-addon-l10n_ro_partner_unique>=16.0dev,<16.1dev',
+        'odoo-addon-l10n_ro_payment_receipt_report>=16.0dev,<16.1dev',
         'odoo-addon-l10n_ro_payment_to_statement>=16.0dev,<16.1dev',
         'odoo-addon-l10n_ro_pos>=16.0dev,<16.1dev',
         'odoo-addon-l10n_ro_stock>=16.0dev,<16.1dev',

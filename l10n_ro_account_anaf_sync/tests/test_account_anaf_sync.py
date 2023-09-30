@@ -8,11 +8,13 @@ from odoo.tests.common import TransactionCase
 class TestAccountANAFSync(TransactionCase):
     def setUp(self):
         super(TestAccountANAFSync, self).setUp()
+        self.test_company = self.env["res.company"].create({"name": "Test Sync"})
 
     def test_anaf_api(self):
+
         sync = self.env["l10n.ro.account.anaf.sync"].create(
             {
-                "company_id": self.env.ref("base.main_company").id,
+                "company_id": self.test_company.id,
                 "client_id": "123",
                 "client_secret": "123",
                 "access_token": "123",
@@ -23,7 +25,7 @@ class TestAccountANAFSync(TransactionCase):
     def test_revoke_access_token(self):
         sync = self.env["l10n.ro.account.anaf.sync"].create(
             {
-                "company_id": self.env.ref("base.main_company").id,
+                "company_id": self.test_company.id,
                 "client_id": "123",
                 "client_secret": "123",
                 "access_token": "123",
@@ -34,7 +36,7 @@ class TestAccountANAFSync(TransactionCase):
     def test_get_access_token(self):
         sync = self.env["l10n.ro.account.anaf.sync"].create(
             {
-                "company_id": self.env.ref("base.main_company").id,
+                "company_id": self.test_company.id,
                 "client_id": "123",
                 "client_secret": "123",
             }

@@ -97,6 +97,11 @@ msgid "Date"
 msgstr "Data"
 
 #. module: l10n_ro_account_bank_statement_report
+#: model:ir.model.fields,field_description:l10n_ro_account_bank_statement_report.field_account_bank_statement__display_name
+msgid "Display Name"
+msgstr "Nume afișat"
+
+#. module: l10n_ro_account_bank_statement_report
 #: model_terms:ir.ui.view,arch_db:l10n_ro_account_bank_statement_report.report_l10n_ro_statement_period
 msgid "Ending Balance"
 msgstr "Sold Final"
@@ -152,11 +157,12 @@ msgstr "Sold inițial"
 msgid "Transaction No"
 msgstr "Nr Tranzacție"
 
-#~ msgid "Display Name"
-#~ msgstr "Nume afișat"
+#. module: l10n_ro_account_bank_statement_report
+#: model:ir.model.fields,field_description:l10n_ro_account_bank_statement_report.field_account_bank_statement__id
+msgid "ID"
+msgstr "ID"
 
-#~ msgid "ID"
-#~ msgstr "ID"
-
-#~ msgid "Last Modified on"
-#~ msgstr "Ultima modificare la"
+#. module: l10n_ro_account_bank_statement_report
+#: model:ir.model.fields,field_description:l10n_ro_account_bank_statement_report.field_account_bank_statement____last_update
+msgid "Last Modified on"
+msgstr "Ultima modificare la"

@@ -19,7 +19,7 @@ class AccountANAFSyncWeb(http.Controller):
         ["/l10n_ro_account_anaf_sync/redirect_anaf/<int:anaf_config_id>"],
         type="http",
         auth="user",
-        website=False,
+        website=True,
         sitemap=False,
     )
     def redirect_anaf(self, anaf_config_id, **kw):
@@ -83,7 +83,7 @@ class AccountANAFSyncWeb(http.Controller):
         ["/l10n_ro_account_anaf_sync/anaf_oauth"],
         type="http",
         auth="public",
-        website=False,
+        website=True,
         sitemap=False,
     )
     def get_anaf_oauth_code(self, **kw):

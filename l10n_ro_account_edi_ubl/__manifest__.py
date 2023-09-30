@@ -2,9 +2,9 @@
 # Copyright (C) 2022 NextERP Romania
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 {
-    "name": "Romania - Account EDI UBL",
+    "name": "Romania - eFactura Account EDI UBL",
     "category": "Localization",
-    "summary": "Romania - Account EDI UBL",
+    "summary": "Romania - eFactura - Account EDI UBL",
     "depends": [
         "l10n_ro_account_anaf_sync",
         "account_edi_ubl_cii",
@@ -20,7 +20,7 @@
         "views/cius_template.xml",
     ],
     "license": "AGPL-3",
-    "version": "16.0.1.12.0",
+    "version": "16.0.1.13.0",
     "author": "Terrabit," "NextERP Romania," "Odoo Community Association (OCA)",
     "website": "https://github.com/OCA/l10n-romania",
     "installable": True,

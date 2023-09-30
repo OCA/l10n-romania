@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+
+    <record id="action_report_bank_statement_line_payment" model="ir.actions.report">
+        <field name="name">Payment disposal / collection</field>
+        <field name="model">account.bank.statement.line</field>
+        <field name="report_type">qweb-pdf</field>
+        <field
+            name="report_name"
+        >l10n_ro_payment_receipt_report.report_bank_statement_line_payment_template</field>
+        <field
+            name="report_file"
+        >l10n_ro_payment_receipt_report.report_bank_statement_line_payment_template</field>
+        <field
+            name="binding_model_id"
+            ref="account.model_account_bank_statement_line"
+        />
+        <field name="binding_type">report</field>
+    </record>
+</odoo>

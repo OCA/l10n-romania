@@ -1,2 +1,4 @@
 # generated from manifests external_dependencies
 python-dateutil
+num2words>=0.5.8
+
