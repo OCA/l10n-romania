@@ -94,7 +94,7 @@ class TestImport(TestMT940BankStatementImport):
         self._prepare_statement_lines(statements)
         self._load_statement(testfile)
         bank_statements = self.get_statements(self.journal.id)
-        statement = bank_statements[1]
+        statement = bank_statements[0]
         transact = self.transactions[0]
         for line in statement.line_ids:
             self.assertTrue(line.account_number == transact["account_number"])
