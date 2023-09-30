@@ -4,7 +4,7 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 15.0\n"
+"Project-Id-Version: Odoo Server 16.0\n"
 "Report-Msgid-Bugs-To: \n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -174,16 +174,6 @@ msgid "Payment disposal / collection"
 msgstr ""
 
 #. module: l10n_ro_payment_receipt_report
-#: model_terms:ir.ui.view,arch_db:l10n_ro_payment_receipt_report.view_bank_statement_form
-msgid "Print Disposal"
-msgstr ""
-
-#. module: l10n_ro_payment_receipt_report
-#: model_terms:ir.ui.view,arch_db:l10n_ro_payment_receipt_report.view_bank_statement_form
-msgid "Print Receipt"
-msgstr ""
-
-#. module: l10n_ro_payment_receipt_report
 #: model_terms:ir.ui.view,arch_db:l10n_ro_payment_receipt_report.report_bank_statement_line_payment_document
 msgid "Reason"
 msgstr ""
@@ -199,14 +189,13 @@ msgid "Romania Payment Receipt"
 msgstr ""
 
 #. module: l10n_ro_payment_receipt_report
-#: model:ir.actions.act_window,name:l10n_ro_payment_receipt_report.action_l10n_ro_cash_box_out
-#: model_terms:ir.ui.view,arch_db:l10n_ro_payment_receipt_report.view_bank_statement_form
-msgid "Take Money In/Out"
+#: model_terms:ir.ui.view,arch_db:l10n_ro_payment_receipt_report.report_payment_receipt_document
+msgid "We received from:"
 msgstr ""
 
 #. module: l10n_ro_payment_receipt_report
 #: model_terms:ir.ui.view,arch_db:l10n_ro_payment_receipt_report.report_payment_receipt_document
-msgid "We received from:"
+msgid "We send to:"
 msgstr ""
 
 #. module: l10n_ro_payment_receipt_report
