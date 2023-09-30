@@ -2,9 +2,9 @@
 # Copyright (C) 2022 NextERP Romania
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 {
-    "name": "Romania - Account EDI UBL",
+    "name": "Romania - eFactura Account EDI UBL",
     "category": "Localization",
-    "summary": "Romania - Account EDI UBL",
+    "summary": "Romania - eFactura - Account EDI UBL",
     "depends": [
         "l10n_ro_account_anaf_sync",
         "account_edi_ubl_cii",
