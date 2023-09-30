@@ -8,6 +8,7 @@ from odoo.tests.common import TransactionCase
 class TestAccount(TransactionCase):
     def setUp(self):
         super(TestAccount, self).setUp()
+        self.env.company.l10n_ro_accounting = True
 
         self.account = self.env["account.account"].create(
             {
