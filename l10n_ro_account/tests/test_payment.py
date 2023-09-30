@@ -9,6 +9,7 @@ from odoo.tests.common import TransactionCase
 class TestAccountPayment(TransactionCase):
     def setUp(self):
         super(TestAccountPayment, self).setUp()
+        self.env.company.l10n_ro_accounting = True
         self.partner_person = self.env["res.partner"].create(
             {
                 "name": "Test Partner",
