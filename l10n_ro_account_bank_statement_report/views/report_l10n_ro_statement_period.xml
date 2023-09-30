@@ -70,9 +70,11 @@
                     t-value="docs.filtered(lambda d: d.journal_id == j).sorted('date')"
                 />
                 <div class="page">
+                    <br />
+                    <br />
                     <table
                         class="table table-sm table table-bordered"
-                        style="width: 100%"
+                        style="width: 100%;border-collapse: collapse;"
                     >
                         <thead>
                             <tr>
@@ -84,18 +86,26 @@
                                     style="border: 1px solid black;"
                                     width="10%"
                                 >Date</th>
+                                <t t-if="with_currency">
+                                    <th
+                                        style="border: 1px solid black;"
+                                        width="25%"
+                                    >Partner</th>
+                                </t>
+                                <t t-else="">
+                                    <th
+                                        style="border: 1px solid black;"
+                                        width="35%"
+                                    >Partner</th>
+                                </t>
                                 <th
                                     style="border: 1px solid black;"
-                                    width="15%"
-                                >Partner</th>
+                                    width="20%"
+                                >Transaction No /<br />Explanation</th>
                                 <th
                                     style="border: 1px solid black;"
-                                    width="15%"
-                                >Transaction No</th>
-                                <th
-                                    style="border: 1px solid black;"
-                                    width="25%"
-                                >Explanation</th>
+                                    width="10%"
+                                >Counterpart</th>
                                 <th
                                     style="border: 1px solid black;"
                                     width="10%"
@@ -138,7 +148,7 @@
 
                         <table
                             class="table table-sm table table-bordered"
-                            style="width: 100%"
+                            style="width: 100%;border-collapse: collapse;"
                         >
 
                             <tbody>
@@ -174,32 +184,58 @@
                                         >
                                             <span t-field="line.date" />
                                         </td>
+
+                                        <t t-if="with_currency">
+                                            <td
+                                                style="border: 1px solid black;"
+                                                width="25%"
+                                            >
+                                                <t t-if="line.partner_id">
+                                                    <span t-field="line.partner_id" />
+                                                    <t
+                                                        t-if="line.partner_id.country_id.code == 'RO'"
+                                                    >
+                                                        (<span
+                                                            t-field="line.partner_id.vat"
+                                                        />)
+                                                    </t>
+                                                </t>
+                                            </td>
+                                        </t>
+                                        <t t-else="">
+                                            <td
+                                                style="border: 1px solid black;"
+                                                width="35%"
+                                            >
+                                                <t t-if="line.partner_id">
+                                                    <span t-field="line.partner_id" />
+                                                    <t
+                                                        t-if="line.partner_id.country_id.code == 'RO'"
+                                                    >
+                                                        (<span
+                                                            t-field="line.partner_id.vat"
+                                                        />)
+                                                    </t>
+                                                </t>
+                                            </td>
+                                        </t>
                                         <td
                                             style="border: 1px solid black;"
-                                            width="15%"
+                                            width="20%"
                                         >
-                                            <t t-if="line.partner_id">
-                                                <span t-field="line.partner_id" />
-                                                <t
-                                                    t-if="line.partner_id.country_id.code == 'RO'"
-                                                >
-                                                    (<span
-                                                        t-field="line.partner_id.vat"
-                                                    />)
-                                                </t>
+                                            <span t-field="line.payment_ref" />
+                                            <t t-if="line.ref">
+                                                <br />
+                                                <span t-field="line.ref" />
                                             </t>
                                         </td>
                                         <td
                                             style="border: 1px solid black;"
-                                            width="15%"
+                                            width="10%"
                                         >
-                                            <span t-field="line.payment_ref" />
-                                        </td>
-                                        <td
-                                            style="border: 1px solid black;"
-                                            width="25%"
-                                        >
-                                            <span t-field="line.ref" />
+                                            <span
+                                                t-esc="line.move_id.line_ids.filtered(lambda l:l.account_id.id!=line.move_id.journal_id.default_account_id.id)[0].account_id.code"
+                                            />
                                         </td>
                                         <td
                                             style="border: 1px solid black;"
@@ -284,19 +320,24 @@
                     </t>
                     <table
                         class="table table-sm table table-bordered"
-                        style="width: 100%"
+                        style="width: 100%;border-collapse: collapse;"
                     >
                         <thead>
                             <tr>
-                                <th style="border: 1px solid black;" width="5%" />
-                                <th style="border: 1px solid black;" width="10%" />
-                                <th style="border: 1px solid black;" width="15%" />
-                                <th style="border: 1px solid black;" width="25%" />
-                                <th style="border: 1px solid black;" width="15%" />
-                                <th style="border: 1px solid black;" width="10%" />
-                                <th style="border: 1px solid black;" width="10%" />
+                                <th width="5%" />
+                                <th width="10%" />
                                 <t t-if="with_currency">
-                                    <th style="border: 1px solid black;" width="10%" />
+                                    <th width="25%" />
+                                </t>
+                                <t t-else="">
+                                    <th width="35%" />
+                                </t>
+                                <th width="20%" />
+                                <th width="10%" />
+                                <th width="10%" />
+                                <th width="10%" />
+                                <t t-if="with_currency">
+                                    <th width="10%" />
                                 </t>
                             </tr>
                         </thead>
@@ -326,7 +367,7 @@
                     </table>
                     <table
                         class="table table-sm table table-bordered"
-                        style="width: 100%"
+                        style="width: 100%;border-collapse: collapse;"
                     >
                         <tbody>
                             <tr>
