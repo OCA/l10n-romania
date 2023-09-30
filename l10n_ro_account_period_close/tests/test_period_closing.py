@@ -38,9 +38,7 @@ class TestPeriodClosing(AccountTestInvoicingCommon):
             {
                 "name": "DEBIT ACC",
                 "code": "DEBITACC",
-                "user_type_id": cls.env.ref(
-                    "account.data_account_type_current_liabilities"
-                ).id,
+                "account_type": "liability_current",
                 "reconcile": True,
                 "company_id": cls.company.id,
             }
@@ -49,9 +47,7 @@ class TestPeriodClosing(AccountTestInvoicingCommon):
             {
                 "name": "CREDIT ACC",
                 "code": "CREDITACC",
-                "user_type_id": cls.env.ref(
-                    "account.data_account_type_current_liabilities"
-                ).id,
+                "account_type": "liability_current",
                 "reconcile": True,
                 "company_id": cls.company.id,
             }
@@ -60,9 +56,7 @@ class TestPeriodClosing(AccountTestInvoicingCommon):
             {
                 "name": "VAT CLOSE DEBIT",
                 "code": "VATCLOSEDEBIT",
-                "user_type_id": cls.env.ref(
-                    "account.data_account_type_current_assets"
-                ).id,
+                "account_type": "asset_current",
                 "company_id": cls.company.id,
             }
         )
@@ -70,9 +64,7 @@ class TestPeriodClosing(AccountTestInvoicingCommon):
             {
                 "name": "VAT CLOSE CREDIT",
                 "code": "VATCLOSECREDIT",
-                "user_type_id": cls.env.ref(
-                    "account.data_account_type_current_assets"
-                ).id,
+                "account_type": "asset_current",
                 "company_id": cls.company.id,
             }
         )
@@ -80,9 +72,7 @@ class TestPeriodClosing(AccountTestInvoicingCommon):
             {
                 "name": "TAX_BASE",
                 "code": "TBASE",
-                "user_type_id": cls.env.ref(
-                    "account.data_account_type_current_assets"
-                ).id,
+                "account_type": "asset_current",
                 "company_id": cls.company.id,
             }
         )
@@ -206,22 +196,20 @@ class TestPeriodClosing(AccountTestInvoicingCommon):
 
     def test_period_closing_onchange_type(self):
         inc_accounts = exp_accounts = self.env["account.account"]
-        acc_type = self.env.ref("account.data_account_type_expenses").id
-        if acc_type:
-            exp_accounts = self.env["account.account"].search(
-                [
-                    ("user_type_id", "=", acc_type),
-                    ("company_id", "=", self.company.id),
-                ]
-            )
-        acc_type = self.env.ref("account.data_account_type_revenue").id
-        if acc_type:
-            inc_accounts = self.env["account.account"].search(
-                [
-                    ("user_type_id", "=", acc_type),
-                    ("company_id", "=", self.company.id),
-                ]
-            )
+
+        exp_accounts = self.env["account.account"].search(
+            [
+                ("account_type", "=", "expense"),
+                ("company_id", "=", self.company.id),
+            ]
+        )
+
+        inc_accounts = self.env["account.account"].search(
+            [
+                ("account_type", "=", "revenue"),
+                ("company_id", "=", self.company.id),
+            ]
+        )
         self.exp_closing._onchange_type()
         self.assertEqual(self.exp_closing.account_ids, exp_accounts)
         self.inc_closing._onchange_type()
