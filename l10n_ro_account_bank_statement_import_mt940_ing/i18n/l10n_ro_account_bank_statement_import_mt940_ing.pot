@@ -1,0 +1,42 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* l10n_ro_account_bank_statement_import_mt940_ing
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 15.0\n"
+"Report-Msgid-Bugs-To: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: l10n_ro_account_bank_statement_import_mt940_ing
+#: model:ir.model,name:l10n_ro_account_bank_statement_import_mt940_ing.model_l10n_ro_account_bank_statement_import_mt940_parser
+msgid "Account Bank Statement Import MT940 Parser"
+msgstr ""
+
+#. module: l10n_ro_account_bank_statement_import_mt940_ing
+#: model_terms:ir.ui.view,arch_db:l10n_ro_account_bank_statement_import_mt940_ing.view_partner_bank_form
+msgid "Example:"
+msgstr ""
+
+#. module: l10n_ro_account_bank_statement_import_mt940_ing
+#: model_terms:ir.ui.view,arch_db:l10n_ro_account_bank_statement_import_mt940_ing.view_partner_bank_form
+msgid ""
+"INCASARE[\\n]?[ ]*(?P&amp;lt;<code>partner_name</code>&amp;gt;.*)[ ](?P&amp;lt;<code>vat</code>&amp;gt;[A-Z]{0,}[0-9]{8})?[ ](?P&amp;lt;<code>account_number</code>&amp;gt;[A-Z]{2}[0-9]{2}[A-Z]{4}\\w{16}).*\n"
+"                    <br/>\n"
+"                    (.*)(?P&amp;lt;<code>account_number</code>&amp;gt;[A-Z]{2}[0-9]{2}[A-Z]{4}\\w{16}).*"
+msgstr ""
+
+#. module: l10n_ro_account_bank_statement_import_mt940_ing
+#: model:ir.model,name:l10n_ro_account_bank_statement_import_mt940_ing.model_account_statement_import
+msgid "Import Bank Statement Files"
+msgstr ""
+
+#. module: l10n_ro_account_bank_statement_import_mt940_ing
+#: model:ir.model,name:l10n_ro_account_bank_statement_import_mt940_ing.model_account_journal
+msgid "Journal"
+msgstr ""
