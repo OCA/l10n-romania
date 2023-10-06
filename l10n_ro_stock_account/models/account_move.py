@@ -97,7 +97,7 @@ class AccountMoveLine(models.Model):
         return res
 
     def _l10n_ro_get_valuation_stock_moves(self):
-        valuation_stock_moves = False
+        valuation_stock_moves = self.env["stock.move"]
         if self.purchase_line_id or self.sale_line_ids:
             domain = [
                 ("state", "=", "done"),
