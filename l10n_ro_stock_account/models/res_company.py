@@ -13,10 +13,8 @@ class ResCompany(models.Model):
         ro_comp = self.sudo().search(
             [("partner_id.country_id", "=", self.env.ref("base.ro").id)]
         )
-        ro_comp.write(
-            {
-                "l10n_ro_accounting": True,
-                "anglo_saxon_accounting": True,
-                "l10n_ro_stock_acc_price_diff": True,
-            }
+        self._cr.execute(
+            "UPDATE res_company set l10n_ro_accounting = TRUE, anglo_saxon_accounting = TRUE, l10n_ro_stock_acc_price_diff = TRUE where id in %s",
+            (tuple(ro_comp.ids),),
         )
+        return super(ResCompany, self).init()
