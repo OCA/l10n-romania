@@ -47,25 +47,22 @@ class AccountANAFSync(models.Model):
     code = fields.Char(
         help="Received from ANAF with this you can take access token and refresh_token",
         tracking=1,
-        readonly=1,
     )
 
-    access_token = fields.Char(tracking=1, help="Received from ANAF", readonly=1)
-    refresh_token = fields.Char(tracking=1, help="Received from ANAF", readonly=1)
+    access_token = fields.Char(tracking=1, help="Received from ANAF")
+    refresh_token = fields.Char(tracking=1, help="Received from ANAF")
 
     client_token_valability = fields.Date(
         help="Date when is going to expire - 90 days from when was generated",
-        readonly=1,
         tracking=1,
     )
 
     response_secret = fields.Char(
-        help="A generated secret to know that the response is ok", readonly=1
+        help="A generated secret to know that the response is ok"
     )
     last_request_datetime = fields.Datetime(
         help="Time when was last time pressed the Get Token From Anaf Website."
         " It waits for ANAF request for maximum 1 minute",
-        readonly=1,
     )
     anaf_einvoice_sync_url = fields.Char(default="https://api.anaf.ro/test/FCTEL/rest")
     state = fields.Selection(
@@ -181,9 +178,12 @@ class AccountANAFSync(models.Model):
                 "Content-Type": "application/x-www-form-urlencoded",
             },
         )
-        message = _("Revoke token response: %s") % response.json()
+        if response.status_code == 200:
+            message = _("Revoke token response: %s") % response.json()
+        else:
+            message = _("Revoke token response: %s") % response.reason
         self.message_post(body=message)
-        if response.reason == "OK":
+        if response.status_code == 200:
             self.write(
                 {
                     "code": "",
@@ -207,7 +207,10 @@ class AccountANAFSync(models.Model):
             },
             timeout=80,
         )
-        message = _("Test token response: %s") % str(response.content)
+        if response.status_code == 200:
+            message = _("Test token response: %s") % response.json()
+        else:
+            message = _("Test token response: %s") % response.reason
         self.message_post(body=message)
 
     @api.onchange("state")
