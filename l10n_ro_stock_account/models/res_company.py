@@ -14,7 +14,12 @@ class ResCompany(models.Model):
             [("partner_id.country_id", "=", self.env.ref("base.ro").id)]
         )
         self._cr.execute(
-            "UPDATE res_company set l10n_ro_accounting = TRUE, anglo_saxon_accounting = TRUE, l10n_ro_stock_acc_price_diff = TRUE where id in %s",
+            """UPDATE res_company
+                SET
+                    l10n_ro_accounting = TRUE,
+                    anglo_saxon_accounting = TRUE,
+                    l10n_ro_stock_acc_price_diff = TRUE
+                WHERE id in %s""",
             (tuple(ro_comp.ids),),
         )
         return super(ResCompany, self).init()
