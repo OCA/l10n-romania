@@ -13,6 +13,7 @@ class ResCompany(models.Model):
         ro_comp = self.sudo().search(
             [("partner_id.country_id", "=", self.env.ref("base.ro").id)]
         )
+
         self._cr.execute(
             """UPDATE res_company
                 SET
