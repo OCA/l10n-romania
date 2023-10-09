@@ -8,6 +8,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: \n"
 "Last-Translator: \n"
 "Language-Team: \n"
+"Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
@@ -132,11 +133,11 @@ msgstr "Creat in"
 #. module: l10n_ro_account_anaf_sync
 #: model:ir.model.fields,help:l10n_ro_account_anaf_sync.field_l10n_ro_account_anaf_sync__client_token_valability
 msgid "Date when is going to expire - 90 days from when was generated"
-msgstr "Data la care urmează să expire -90 de zile de la data la care a fost generată"
+msgstr ""
+"Data la care urmează să expire -90 de zile de la data la care a fost generată"
 
 #. module: l10n_ro_account_anaf_sync
 #: model:ir.model.fields,field_description:l10n_ro_account_anaf_sync.field_l10n_ro_account_anaf_sync__display_name
-#: model:ir.model.fields,field_description:l10n_ro_account_anaf_sync.field_res_company__display_name
 msgid "Display Name"
 msgstr "Nume afișat"
 
@@ -150,11 +151,6 @@ msgstr "Eroare, această configurație ANAF nu există!"
 #: model:ir.model.fields,field_description:l10n_ro_account_anaf_sync.field_l10n_ro_account_anaf_sync__message_follower_ids
 msgid "Followers"
 msgstr "Urmaritori"
-
-#. module: l10n_ro_account_anaf_sync
-#: model:ir.model.fields,field_description:l10n_ro_account_anaf_sync.field_l10n_ro_account_anaf_sync__message_channel_ids
-msgid "Followers (Channels)"
-msgstr "Următori (Canale)"
 
 #. module: l10n_ro_account_anaf_sync
 #: model:ir.model.fields,field_description:l10n_ro_account_anaf_sync.field_l10n_ro_account_anaf_sync__message_partner_ids
@@ -173,8 +169,12 @@ msgid "Get Token From Anaf Website (with usb token inserted)"
 msgstr "Obțineți token de pe site-ul Anaf (cu tokenul USB inserat)"
 
 #. module: l10n_ro_account_anaf_sync
+#: model:ir.model.fields,field_description:l10n_ro_account_anaf_sync.field_l10n_ro_account_anaf_sync__has_message
+msgid "Has Message"
+msgstr ""
+
+#. module: l10n_ro_account_anaf_sync
 #: model:ir.model.fields,field_description:l10n_ro_account_anaf_sync.field_l10n_ro_account_anaf_sync__id
-#: model:ir.model.fields,field_description:l10n_ro_account_anaf_sync.field_res_company__id
 msgid "ID"
 msgstr "ID"
 
@@ -202,7 +202,6 @@ msgstr "Inregistrare Romania"
 
 #. module: l10n_ro_account_anaf_sync
 #: model:ir.model.fields,field_description:l10n_ro_account_anaf_sync.field_l10n_ro_account_anaf_sync____last_update
-#: model:ir.model.fields,field_description:l10n_ro_account_anaf_sync.field_res_company____last_update
 msgid "Last Modified on"
 msgstr "Ultima modificare pe"
 
@@ -245,12 +244,11 @@ msgstr "Mesaje"
 #: code:addons/l10n_ro_account_anaf_sync/controllers/anaf_oauth.py:0
 #, python-format
 msgid ""
-"More than one ANAF config requested authentification in the last "
-"minutes.Please request them in order, waiting for 2 minutes between "
-"requests."
+"More than one ANAF config requested authentification in the last minutes."
+"Please request them in order, waiting for 2 minutes between requests."
 msgstr ""
-"Mai mult de o configurație ANAF a cerut autentificare în ultimele minute. "
-"Vă rugăm să le solicitați în ordine, așteptând 2 minute între solicitări."
+"Mai mult de o configurație ANAF a cerut autentificare în ultimele minute. Vă "
+"rugăm să le solicitați în ordine, așteptând 2 minute între solicitări."
 
 #. module: l10n_ro_account_anaf_sync
 #: code:addons/l10n_ro_account_anaf_sync/controllers/anaf_oauth.py:0
@@ -388,8 +386,8 @@ msgid ""
 "Time when was last time pressed the Get Token From Anaf Website. It waits "
 "for ANAF request for maximum 1 minute"
 msgstr ""
-"Data când a fost apăsat ultima dată pe Get Token From Anaf Website. "
-"Asteapta cererea ANAF maxim 1 minut"
+"Data când a fost apăsat ultima dată pe Get Token From Anaf Website. Asteapta "
+"cererea ANAF maxim 1 minut"
 
 #. module: l10n_ro_account_anaf_sync
 #: model:ir.model.fields,field_description:l10n_ro_account_anaf_sync.field_l10n_ro_account_anaf_sync__message_unread
@@ -430,10 +428,14 @@ msgid ""
 "You cannot change the company.Please delete the config and create another "
 "one."
 msgstr ""
-"Nu puteți schimba compania. Vă rugăm să ștergeți configurația și să creați alta."
+"Nu puteți schimba compania. Vă rugăm să ștergeți configurația și să creați "
+"alta."
 
 #. module: l10n_ro_account_anaf_sync
 #: code:addons/l10n_ro_account_anaf_sync/models/l10n_ro_account_anaf_sync.py:0
 #, python-format
 msgid "You don't have ANAF access token. Please get it first."
 msgstr "Nu aveți un token de acces ANAF. Vă rugăm să-l generati mai întâi."
+
+#~ msgid "Followers (Channels)"
+#~ msgstr "Următori (Canale)"
