@@ -4,7 +4,11 @@
     "name": "Romania - Stock",
     "category": "Localization",
     "depends": ["stock", "l10n_ro_config"],
-    "data": ["data/l10n_ro_stock_data.xml", "views/stock_warehouse_view.xml", "views/stock_location_view.xml"],
+    "data": [
+        "data/l10n_ro_stock_data.xml",
+        "views/stock_warehouse_view.xml",
+        "views/stock_location_view.xml",
+    ],
     "license": "AGPL-3",
     "version": "16.0.0.1.0",
     "author": "NextERP Romania,"

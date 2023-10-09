@@ -3,7 +3,7 @@
 # Copyright (C) 2019 NextERP Romania
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
-from odoo import _, fields, models, api
+from odoo import _, api, fields, models
 
 
 class StockWarehouse(models.Model):
@@ -26,18 +26,32 @@ class StockWarehouse(models.Model):
     @api.model_create_multi
     def create(self, vals_list):
         for vals in vals_list:
-            vals['l10n_ro_wh_consume_loc_id'] = self.env.ref('l10n_ro_stock.consume_location').id
-            vals['l10n_ro_wh_usage_loc_id'] = self.env.ref('l10n_ro_stock.usage_giving_location').id
+            vals["l10n_ro_wh_consume_loc_id"] = self.env.ref(
+                "l10n_ro_stock.consume_location"
+            ).id
+            vals["l10n_ro_wh_usage_loc_id"] = self.env.ref(
+                "l10n_ro_stock.usage_giving_location"
+            ).id
         return super().create(vals_list)
 
     def _create_missing_locations(self, vals):
         res = super(StockWarehouse, self)._create_missing_locations(vals)
         for warehouse in self:
             missing_location = {}
-            if not warehouse.l10n_ro_wh_consume_loc_id and 'l10n_ro_wh_consume_loc_id' not in vals:
-                missing_location['l10n_ro_wh_consume_loc_id'] = self.env.ref('l10n_ro_stock.consume_location').id
-            if not warehouse.l10n_ro_wh_usage_loc_id and 'l10n_ro_wh_usage_loc_id' not in vals:
-                missing_location['l10n_ro_wh_usage_loc_id'] = self.env.ref('l10n_ro_stock.usage_giving_location').id
+            if (
+                not warehouse.l10n_ro_wh_consume_loc_id
+                and "l10n_ro_wh_consume_loc_id" not in vals
+            ):
+                missing_location["l10n_ro_wh_consume_loc_id"] = self.env.ref(
+                    "l10n_ro_stock.consume_location"
+                ).id
+            if (
+                not warehouse.l10n_ro_wh_usage_loc_id
+                and "l10n_ro_wh_usage_loc_id" not in vals
+            ):
+                missing_location["l10n_ro_wh_usage_loc_id"] = self.env.ref(
+                    "l10n_ro_stock.usage_giving_location"
+                ).id
             if missing_location:
                 warehouse.write(missing_location)
         return res
