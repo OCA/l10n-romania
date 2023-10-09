@@ -10,6 +10,7 @@ msgstr ""
 "PO-Revision-Date: 2022-12-23 06:26+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
+"Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
@@ -32,7 +33,6 @@ msgstr "Istoric ANAF"
 
 #. module: l10n_ro_partner_create_by_vat
 #: code:addons/l10n_ro_partner_create_by_vat/models/res_partner.py:0
-#: code:addons/l10n_ro_partner_create_by_vat/models/res_partner.py:0
 #, python-format
 msgid "ANAF Webservice not working. Exeption=%s."
 msgstr "Eroare la serviciul web ANAF. Exceptie=%s."
@@ -49,13 +49,11 @@ msgstr "Stare Ativ"
 
 #. module: l10n_ro_partner_create_by_vat
 #: code:addons/l10n_ro_partner_create_by_vat/models/res_partner.py:0
-#: code:addons/l10n_ro_partner_create_by_vat/models/res_partner.py:0
 #, python-format
 msgid "Anaf didn't find any company with VAT=%s !"
 msgstr "ANAF nu a gasit nici o companie cu codul TVA=%s!"
 
 #. module: l10n_ro_partner_create_by_vat
-#: code:addons/l10n_ro_partner_create_by_vat/models/res_partner.py:0
 #: code:addons/l10n_ro_partner_create_by_vat/models/res_partner.py:0
 #, python-format
 msgid ""
@@ -206,14 +204,14 @@ msgstr "Data interogarii ANAF."
 #: model:ir.model.fields,help:l10n_ro_partner_create_by_vat.field_res_partner__l10n_ro_old_name
 #: model:ir.model.fields,help:l10n_ro_partner_create_by_vat.field_res_users__l10n_ro_old_name
 msgid ""
-"To be completed manually with previous name of the company in case on "
-"change.If the field in completed, when fetching the datas from ANAF "
-"website,if the name received is the old name set, than the partner will not "
-"be updated."
+"To be completed manually with previous name of the company in case on change."
+"If the field in completed, when fetching the datas from ANAF website,if the "
+"name received is the old name set, than the partner will not be updated."
 msgstr ""
-"Sa fie completat manual cu numele anterior al companiei in cazul unui schimb. "
-"Daca acest camp este completat, atunci cand se preiau datele de pe site-ul ANAF, "
-"daca numele primit este numele vechi setat, atunci partenerul nu va fi actualizat."
+"Sa fie completat manual cu numele anterior al companiei in cazul unui "
+"schimb. Daca acest camp este completat, atunci cand se preiau datele de pe "
+"site-ul ANAF, daca numele primit este numele vechi setat, atunci partenerul "
+"nu va fi actualizat."
 
 #. module: l10n_ro_partner_create_by_vat
 #: model:ir.model.fields,help:l10n_ro_partner_create_by_vat.field_l10n_ro_res_partner_anaf_scptva__vat_number
@@ -243,8 +241,8 @@ msgstr "Anul - Data"
 msgid ""
 "will add entries only if differs as scpTVA from previos or after entries"
 msgstr ""
-"Vor adăuga intrări numai dacă scpTVA este diferit față de intrarea anterioară "
-"sau după intrări"
+"Vor adăuga intrări numai dacă scpTVA este diferit față de intrarea "
+"anterioară sau după intrări"
 
 #. module: l10n_ro_partner_create_by_vat
 #: model:ir.model.fields,help:l10n_ro_partner_create_by_vat.field_res_partner__l10n_ro_active_anaf_line_ids
