@@ -530,8 +530,8 @@ msgid ""
 "Visible only in pickings, and can be modify only from there;is keeping all "
 "the time the last not null value"
 msgstr ""
-"Vizibil doar în transferuri stoc, și poate fi modificat doar de acolo; isi păstreaza "
-"ultima valoare nenulă"
+"Vizibil doar în transferuri stoc, și poate fi modificat doar de acolo; isi "
+"păstreaza ultima valoare nenulă"
 
 #. module: l10n_ro_stock_picking_comment_template
 #: model:ir.model,name:l10n_ro_stock_picking_comment_template.model_comment_template
