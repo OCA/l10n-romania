@@ -10,6 +10,7 @@ msgstr ""
 "PO-Revision-Date: 2020-12-08 03:29+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
+"Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
@@ -31,20 +32,6 @@ msgid "Companies"
 msgstr "Companii"
 
 #. module: l10n_ro_stock_account
-#: model:ir.model.fields,field_description:l10n_ro_stock_account.field_account_account__display_name
-#: model:ir.model.fields,field_description:l10n_ro_stock_account.field_account_move__display_name
-#: model:ir.model.fields,field_description:l10n_ro_stock_account.field_account_move_line__display_name
-#: model:ir.model.fields,field_description:l10n_ro_stock_account.field_product_category__display_name
-#: model:ir.model.fields,field_description:l10n_ro_stock_account.field_product_template__display_name
-#: model:ir.model.fields,field_description:l10n_ro_stock_account.field_res_company__display_name
-#: model:ir.model.fields,field_description:l10n_ro_stock_account.field_stock_location__display_name
-#: model:ir.model.fields,field_description:l10n_ro_stock_account.field_stock_move__display_name
-#: model:ir.model.fields,field_description:l10n_ro_stock_account.field_stock_picking__display_name
-#: model:ir.model.fields,field_description:l10n_ro_stock_account.field_stock_valuation_layer__display_name
-msgid "Display Name"
-msgstr "Nume afișat"
-
-#. module: l10n_ro_stock_account
 #: model:ir.model.fields,field_description:l10n_ro_stock_account.field_stock_location__property_account_expense_location_id
 msgid "Expense Account"
 msgstr "Cont cheltuială"
@@ -55,27 +42,14 @@ msgstr "Cont cheltuială"
 msgid ""
 "For Romanian Stock Accounting the stock_input, stock_output and "
 "stock_valuation accounts must bethe same for category %s"
-msgstr "Pentru contabilitatea din România contul de intrare, contul de ieșire și contul de evaluare"
-" trebuie să fie același pentru categoria %s "
+msgstr ""
+"Pentru contabilitatea din România contul de intrare, contul de ieșire și "
+"contul de evaluare trebuie să fie același pentru categoria %s "
 
 #. module: l10n_ro_stock_account
 #: model:ir.model.fields,field_description:l10n_ro_stock_account.field_product_category__hide_stock_in_out_account
 msgid "Hide Stock In Out Account"
 msgstr ""
-
-#. module: l10n_ro_stock_account
-#: model:ir.model.fields,field_description:l10n_ro_stock_account.field_account_account__id
-#: model:ir.model.fields,field_description:l10n_ro_stock_account.field_account_move__id
-#: model:ir.model.fields,field_description:l10n_ro_stock_account.field_account_move_line__id
-#: model:ir.model.fields,field_description:l10n_ro_stock_account.field_product_category__id
-#: model:ir.model.fields,field_description:l10n_ro_stock_account.field_product_template__id
-#: model:ir.model.fields,field_description:l10n_ro_stock_account.field_res_company__id
-#: model:ir.model.fields,field_description:l10n_ro_stock_account.field_stock_location__id
-#: model:ir.model.fields,field_description:l10n_ro_stock_account.field_stock_move__id
-#: model:ir.model.fields,field_description:l10n_ro_stock_account.field_stock_picking__id
-#: model:ir.model.fields,field_description:l10n_ro_stock_account.field_stock_valuation_layer__id
-msgid "ID"
-msgstr "ID"
 
 #. module: l10n_ro_stock_account
 #: model:ir.model.fields,help:l10n_ro_stock_account.field_product_product__property_stock_valuation_account_id
@@ -101,34 +75,14 @@ msgid "Is a notice"
 msgstr "Este un aviz"
 
 #. module: l10n_ro_stock_account
-#: model_terms:ir.ui.view,arch_db:l10n_ro_stock_account.stock_picking_kanban
-#: model_terms:ir.ui.view,arch_db:l10n_ro_stock_account.view_picking_internal_add_notice_search
-msgid "Is notice"
-msgstr "Este aviz"
-
-#. module: l10n_ro_stock_account
 #: model:ir.model,name:l10n_ro_stock_account.model_account_move
-msgid "Journal Entry"
-msgstr "Notă contabilă"
+msgid "Journal Entries"
+msgstr ""
 
 #. module: l10n_ro_stock_account
 #: model:ir.model,name:l10n_ro_stock_account.model_account_move_line
 msgid "Journal Item"
 msgstr "Element jurnal"
-
-#. module: l10n_ro_stock_account
-#: model:ir.model.fields,field_description:l10n_ro_stock_account.field_account_account____last_update
-#: model:ir.model.fields,field_description:l10n_ro_stock_account.field_account_move____last_update
-#: model:ir.model.fields,field_description:l10n_ro_stock_account.field_account_move_line____last_update
-#: model:ir.model.fields,field_description:l10n_ro_stock_account.field_product_category____last_update
-#: model:ir.model.fields,field_description:l10n_ro_stock_account.field_product_template____last_update
-#: model:ir.model.fields,field_description:l10n_ro_stock_account.field_res_company____last_update
-#: model:ir.model.fields,field_description:l10n_ro_stock_account.field_stock_location____last_update
-#: model:ir.model.fields,field_description:l10n_ro_stock_account.field_stock_move____last_update
-#: model:ir.model.fields,field_description:l10n_ro_stock_account.field_stock_picking____last_update
-#: model:ir.model.fields,field_description:l10n_ro_stock_account.field_stock_valuation_layer____last_update
-msgid "Last Modified on"
-msgstr "Ultima modificare la"
 
 #. module: l10n_ro_stock_account
 #: model:ir.model.fields,help:l10n_ro_stock_account.field_product_category__stock_account_change
@@ -140,8 +94,8 @@ msgstr ""
 #. module: l10n_ro_stock_account
 #: model:ir.model.fields,help:l10n_ro_stock_account.field_product_category__hide_stock_in_out_account
 msgid ""
-"Only for Romania, to hide stock_input and stock_output accounts because they"
-" are the same as stock_valuation account"
+"Only for Romania, to hide stock_input and stock_output accounts because they "
+"are the same as stock_valuation account"
 msgstr ""
 
 #. module: l10n_ro_stock_account
@@ -205,3 +159,23 @@ msgid ""
 "With this field the reception/delivery is set as a notice. The generated "
 "account move will contain accounts 408/418."
 msgstr ""
+
+#. module: l10n_ro_stock_account
+#: model_terms:ir.ui.view,arch_db:l10n_ro_stock_account.view_picking_internal_add_notice_search
+msgid "is notice (aviz)"
+msgstr ""
+
+#~ msgid "Display Name"
+#~ msgstr "Nume afișat"
+
+#~ msgid "ID"
+#~ msgstr "ID"
+
+#~ msgid "Is notice"
+#~ msgstr "Este aviz"
+
+#~ msgid "Journal Entry"
+#~ msgstr "Notă contabilă"
+
+#~ msgid "Last Modified on"
+#~ msgstr "Ultima modificare la"
