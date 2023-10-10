@@ -22,6 +22,7 @@ msgid "Account"
 msgstr ""
 
 #. module: l10n_ro_account
+#: model:ir.model.fields,field_description:l10n_ro_account.field_account_payment__is_l10n_ro_record
 #: model:ir.model.fields,field_description:l10n_ro_account.field_account_payment_register__is_l10n_ro_record
 msgid "Is Romanian Record"
 msgstr ""
@@ -42,12 +43,14 @@ msgid "Register Payment"
 msgstr ""
 
 #. module: l10n_ro_account
+#. odoo-python
 #: code:addons/l10n_ro_account/models/account_payment.py:0
 #, python-format
 msgid "The payment amount (%s) cannot be greater than 10000"
 msgstr "Valoarea încasată (%s)  u poate să fie mai mare de 10000"
 
 #. module: l10n_ro_account
+#. odoo-python
 #: code:addons/l10n_ro_account/models/account_payment.py:0
 #, python-format
 msgid "The payment amount (%s) cannot be greater than 5000"
