@@ -200,16 +200,6 @@ msgid "Payment disposal / collection"
 msgstr "Dispoziție de Plată / Încasare"
 
 #. module: l10n_ro_payment_receipt_report
-#: model_terms:ir.ui.view,arch_db:l10n_ro_payment_receipt_report.view_bank_statement_form
-msgid "Print Disposal"
-msgstr "Tipărește Dispoziția"
-
-#. module: l10n_ro_payment_receipt_report
-#: model_terms:ir.ui.view,arch_db:l10n_ro_payment_receipt_report.view_bank_statement_form
-msgid "Print Receipt"
-msgstr "Tipărește Chitanța"
-
-#. module: l10n_ro_payment_receipt_report
 #: model_terms:ir.ui.view,arch_db:l10n_ro_payment_receipt_report.report_bank_statement_line_payment_document
 msgid "Reason"
 msgstr "Motiv"
@@ -225,15 +215,14 @@ msgid "Romania Payment Receipt"
 msgstr ""
 
 #. module: l10n_ro_payment_receipt_report
-#: model:ir.actions.act_window,name:l10n_ro_payment_receipt_report.action_l10n_ro_cash_box_out
-#: model_terms:ir.ui.view,arch_db:l10n_ro_payment_receipt_report.view_bank_statement_form
-msgid "Take Money In/Out"
-msgstr ""
-
-#. module: l10n_ro_payment_receipt_report
 #: model_terms:ir.ui.view,arch_db:l10n_ro_payment_receipt_report.report_payment_receipt_document
 msgid "We received from:"
 msgstr "Am primti de la:"
+
+#. module: l10n_ro_payment_receipt_report
+#: model_terms:ir.ui.view,arch_db:l10n_ro_payment_receipt_report.report_payment_receipt_document
+msgid "We send to:"
+msgstr ""
 
 #. module: l10n_ro_payment_receipt_report
 #: model_terms:ir.ui.view,arch_db:l10n_ro_payment_receipt_report.report_payment_receipt_document
@@ -264,6 +253,12 @@ msgstr "suma de"
 #: model_terms:ir.ui.view,arch_db:l10n_ro_payment_receipt_report.report_payment_receipt_document
 msgid "with address:"
 msgstr "cu adresa:"
+
+#~ msgid "Print Disposal"
+#~ msgstr "Tipărește Dispoziția"
+
+#~ msgid "Print Receipt"
+#~ msgstr "Tipărește Chitanța"
 
 #~ msgid "Display Name"
 #~ msgstr "Nume afișat"
