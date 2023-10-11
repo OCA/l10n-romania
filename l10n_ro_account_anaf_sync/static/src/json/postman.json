@@ -1,0 +1,98 @@
+{
+  "info": {
+    "name": "Anaf",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Teste ANAF",
+      "item": [
+        {
+          "name": "Test Hello App",
+          "request": {
+            "auth": {
+              "type": "oauth2",
+              "oauth2": [
+                {
+                  "key": "clientSecret",
+                  "value": "",
+                  "type": "string"
+                },
+                {
+                  "key": "clientId",
+                  "value": "",
+                  "type": "string"
+                },
+                {
+                  "key": "scope",
+                  "value": "",
+                  "type": "string"
+                },
+                {
+                  "key": "state",
+                  "value": "",
+                  "type": "string"
+                },
+                {
+                  "key": "useBrowser",
+                  "value": false,
+                  "type": "boolean"
+                },
+                {
+                  "key": "redirect_uri",
+                  "value": "https://www.anaf.ro",
+                  "type": "string"
+                },
+                {
+                  "key": "addTokenTo",
+                  "value": "header",
+                  "type": "string"
+                },
+                {
+                  "key": "accessTokenUrl",
+                  "value": "https://logincert.anaf.ro/anaf-oauth2/v1/token",
+                  "type": "string"
+                },
+                {
+                  "key": "authUrl",
+                  "value": "https://logincert.anaf.ro/anaf-oauth2/v1/authorize",
+                  "type": "string"
+                },
+                {
+                  "key": "tokenName",
+                  "value": "Test",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "https://api.anaf.ro/TestOauth/jaxrs/hello?name= ”Test Hello App!”",
+              "protocol": "https",
+              "host": ["api", "anaf", "ro"],
+              "path": ["TestOauth", "jaxrs", "hello"],
+              "query": [
+                {
+                  "key": "client_id",
+                  "value": "",
+                  "disabled": true
+                },
+                {
+                  "key": "client_secret",
+                  "value": "",
+                  "disabled": true
+                },
+                {
+                  "key": "name",
+                  "value": " ”Test Hello App!”"
+                }
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    }
+  ]
+}
