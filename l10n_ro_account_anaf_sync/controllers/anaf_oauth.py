@@ -101,7 +101,7 @@ class AccountANAFSyncWeb(http.Controller):
         message = ""
         if len(anaf_config) > 1:
             message = _(
-                "More than one ANAF config requested authentification in the last minutes."
+                "More than one ANAF config requested authentication in the last minutes."
                 "Please request them in order, waiting for 2 minutes between requests."
             )
         elif not anaf_config:
@@ -138,6 +138,7 @@ class AccountANAFSyncWeb(http.Controller):
                 anaf_config.anaf_oauth_url + "/token",
                 data=data,
                 headers=headers,
+                timeout=1.5,
             )
             response_json = response.json()
 
