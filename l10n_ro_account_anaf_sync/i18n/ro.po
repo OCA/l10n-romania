@@ -247,11 +247,9 @@ msgstr "Mesaje"
 #: code:addons/l10n_ro_account_anaf_sync/controllers/anaf_oauth.py:0
 #, python-format
 msgid ""
-"More than one ANAF config requested authentification in the last minutes."
+"More than one ANAF config requested authentication in the last minutes."
 "Please request them in order, waiting for 2 minutes between requests."
 msgstr ""
-"Mai mult de o configurație ANAF a cerut autentificare în ultimele minute. Vă "
-"rugăm să le solicitați în ordine, așteptând 2 minute între solicitări."
 
 #. module: l10n_ro_account_anaf_sync
 #: code:addons/l10n_ro_account_anaf_sync/controllers/anaf_oauth.py:0
@@ -415,8 +413,8 @@ msgstr "Istoricul comunicării site-ului"
 #. module: l10n_ro_account_anaf_sync
 #: code:addons/l10n_ro_account_anaf_sync/models/l10n_ro_account_anaf_sync.py:0
 #, python-format
-msgid "You already have ANAF access token. Please revolke it first."
-msgstr "Aveți deja un token de acces ANAF. Te rog, revoltă-l mai întâi."
+msgid "You already have ANAF access token. Please revoke it first."
+msgstr ""
 
 #. module: l10n_ro_account_anaf_sync
 #: code:addons/l10n_ro_account_anaf_sync/controllers/anaf_oauth.py:0
@@ -439,3 +437,15 @@ msgstr ""
 #, python-format
 msgid "You don't have ANAF access token. Please get it first."
 msgstr "Nu aveți un token de acces ANAF. Vă rugăm să-l generati mai întâi."
+
+#, python-format
+#~ msgid ""
+#~ "More than one ANAF config requested authentification in the last minutes."
+#~ "Please request them in order, waiting for 2 minutes between requests."
+#~ msgstr ""
+#~ "Mai mult de o configurație ANAF a cerut autentificare în ultimele minute. "
+#~ "Vă rugăm să le solicitați în ordine, așteptând 2 minute între solicitări."
+
+#, python-format
+#~ msgid "You already have ANAF access token. Please revolke it first."
+#~ msgstr "Aveți deja un token de acces ANAF. Te rog, revoltă-l mai întâi."
