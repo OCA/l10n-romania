@@ -50,22 +50,19 @@ class ProductProduct(models.Model):
             domain = [
                 ("product_id", "in", l10n_ro_records.ids),
                 ("company_id", "=", company.id),
-                ("remaining_qty", ">", 0),
             ] + domain_ctx
 
             if self.env.context.get("to_date"):
                 to_date = fields.Datetime.to_datetime(self.env.context["to_date"])
                 domain.append(("create_date", "<=", to_date))
             groups = self.env["stock.valuation.layer"].read_group(
-                domain, ["remaining_value:sum", "remaining_qty:sum"], ["product_id"]
+                domain, ["value:sum", "quantity:sum"], ["product_id"]
             )
             products = self.browse()
             for group in groups:
                 product = self.browse(group["product_id"][0])
-                product.value_svl = self.env.company.currency_id.round(
-                    group["remaining_value"]
-                )
-                product.quantity_svl = group["remaining_qty"]
+                product.value_svl = self.env.company.currency_id.round(group["value"])
+                product.quantity_svl = group["quantity"]
                 products |= product
             remaining = l10n_ro_records - products
             remaining.value_svl = 0
