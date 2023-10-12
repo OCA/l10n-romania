@@ -35,6 +35,16 @@ msgid "Accounting Information"
 msgstr ""
 
 #. module: l10n_ro_stock_account
+#: model:ir.model.fields,field_description:l10n_ro_stock_account.field_stock_valuation_layer__active
+msgid "Active"
+msgstr ""
+
+#. module: l10n_ro_stock_account
+#: model:res.groups,name:l10n_ro_stock_account.group_archive_svl
+msgid "Can archive SVL"
+msgstr ""
+
+#. module: l10n_ro_stock_account
 #: model:ir.model,name:l10n_ro_stock_account.model_res_company
 msgid "Companies"
 msgstr ""
@@ -431,4 +441,10 @@ msgstr ""
 #, python-format
 msgid ""
 "You cannot decrease the quantity of a move line. Please create a return."
+msgstr ""
+
+#. module: l10n_ro_stock_account
+#: code:addons/l10n_ro_stock_account/models/stock_valuation_layer.py:0
+#, python-format
+msgid "Your user cannot archive SVLs"
 msgstr ""
