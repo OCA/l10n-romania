@@ -121,11 +121,11 @@ class AccountANAFSyncWeb(http.Controller):
             redirect_uri = user.get_base_url() + "/l10n_ro_account_anaf_sync/anaf_oauth"
             data = {
                 "grant_type": "authorization_code",
-                "client_id": "{0}".format(anaf_config.client_id),
-                "client_secret": "{0}".format(anaf_config.client_secret),
-                "code": "{0}".format(code),
-                "access_key": "{0}".format(code),
-                "redirect_uri": "{0}".format(redirect_uri),
+                "client_id": "{}".format(anaf_config.client_id),
+                "client_secret": "{}".format(anaf_config.client_secret),
+                "code": "{}".format(code),
+                "access_key": "{}".format(code),
+                "redirect_uri": "{}".format(redirect_uri),
             }
             response = requests.post(
                 anaf_config.anaf_oauth_url + "/token",
