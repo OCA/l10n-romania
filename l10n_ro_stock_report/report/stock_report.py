@@ -262,6 +262,7 @@ class StorageSheet(models.TransientModel):
                          (l10n_ro_valued_type ='internal_transfer' and quantity>0 and
                           sm.location_dest_id in %(locations)s))
                 where
+                    svl.active = True AND
                     ( %(all_products)s  or sm.product_id in %(product)s )
                 GROUP BY prod.id, svl.l10n_ro_account_id, pt.categ_id)
             a --where a.amount_initial!=0 and a.quantity_initial!=0
@@ -299,7 +300,9 @@ class StorageSheet(models.TransientModel):
                           sm.location_id in %(locations)s) or
                          (l10n_ro_valued_type ='internal_transfer' and quantity>0 and
                           sm.location_dest_id in %(locations)s))
-                where sm.state = 'done' AND
+                where
+                    svl.active = True AND
+                    sm.state = 'done' AND
                     sm.company_id = %(company)s AND
                     ( %(all_products)s  or sm.product_id in %(product)s ) AND
                     sm.date <=  %(datetime_to)s AND
@@ -355,6 +358,7 @@ class StorageSheet(models.TransientModel):
                     left join stock_picking as sp on sm.picking_id = sp.id
                     left join account_move am on svl_in.l10n_ro_invoice_id = am.id
                 where
+                    svl_in.active = True AND
                     sm.state = 'done' AND
                     sm.company_id = %(company)s AND
                     ( %(all_products)s  or sm.product_id in %(product)s ) AND
@@ -412,6 +416,7 @@ class StorageSheet(models.TransientModel):
                     left join stock_picking as sp on sm.picking_id = sp.id
                     left join account_move am on svl_out.l10n_ro_invoice_id = am.id
                 where
+                    svl_out.active = True AND
                     sm.state = 'done' AND
                     sm.company_id = %(company)s AND
                     ( %(all_products)s  or sm.product_id in %(product)s ) AND
