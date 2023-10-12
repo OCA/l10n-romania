@@ -93,15 +93,6 @@ class TestStockCommon(ValuationReconciliationTestCommon):
             }
         )
 
-        cls.currency_eur.rate_ids.create(
-            {
-                "name": fields.Date.today(),
-                "rate": 4.97,
-                "company_id": cls.env.company.id,
-                "currency_id": cls.currency_ron.id,
-            }
-        )
-
         # convertesc 1 EUR in RON
         cls.rate = cls.currency_eur._convert(
             1, cls.currency_ron, cls.env.company, fields.Date.today()
