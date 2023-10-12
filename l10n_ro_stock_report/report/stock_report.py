@@ -358,7 +358,7 @@ class StorageSheet(models.TransientModel):
                     left join stock_picking as sp on sm.picking_id = sp.id
                     left join account_move am on svl_in.l10n_ro_invoice_id = am.id
                 where
-                    svl.active = True AND
+                    svl_in.active = True AND
                     sm.state = 'done' AND
                     sm.company_id = %(company)s AND
                     ( %(all_products)s  or sm.product_id in %(product)s ) AND
@@ -416,7 +416,7 @@ class StorageSheet(models.TransientModel):
                     left join stock_picking as sp on sm.picking_id = sp.id
                     left join account_move am on svl_out.l10n_ro_invoice_id = am.id
                 where
-                    svl.active = True AND
+                    svl_out.active = True AND
                     sm.state = 'done' AND
                     sm.company_id = %(company)s AND
                     ( %(all_products)s  or sm.product_id in %(product)s ) AND
