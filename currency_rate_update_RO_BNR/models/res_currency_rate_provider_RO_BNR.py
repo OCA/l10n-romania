@@ -83,7 +83,7 @@ class ResCurrencyRateProviderROBNR(models.Model):
             url = "http://www.bnr.ro/files/xml/years/nbrfxrates" + str(year) + ".xml"
 
         handler = ROBNRRatesHandler(currencies, date_from, date_to)
-        with urlopen(url) as response:
+        with urlopen(url, timeout=10) as response:
             xml.sax.parse(response, handler)
         if handler.content:
             return handler.content
@@ -93,7 +93,7 @@ class ResCurrencyRateProviderROBNR(models.Model):
             year = date_from.year
             url = "http://www.bnr.ro/files/xml/years/nbrfxrates" + str(year) + ".xml"
             handler = ROBNRRatesHandler(currencies, date_from, date_to)
-            with urlopen(url) as response:
+            with urlopen(url, timeout=10) as response:
                 xml.sax.parse(response, handler)
         return handler.content or {}
 
