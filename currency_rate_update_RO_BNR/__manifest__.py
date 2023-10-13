@@ -10,6 +10,7 @@
     "data": [
         "views/res_currency_rate.xml"
     ],
+    "license": "AGPL-3",
     "author": "SM Freelancer,"
     "NextERP Romania,"
     "Forest and Biomass Romania,"
