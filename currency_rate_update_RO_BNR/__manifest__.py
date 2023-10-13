@@ -3,13 +3,8 @@
     "category": "Financial Management/Configuration",
     "summary": "Currency Rate Update National Bank of Romania service",
     "version": "16.0.1.0.0",
-    "depends": [
-        "base",
-        "currency_rate_update"
-    ],
-    "data": [
-        "views/res_currency_rate.xml"
-    ],
+    "depends": ["base", "currency_rate_update"],
+    "data": ["views/res_currency_rate.xml"],
     "license": "AGPL-3",
     "author": "SM Freelancer,"
     "NextERP Romania,"
