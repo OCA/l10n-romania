@@ -1,0 +1,13 @@
+<odoo>
+    <record id="res_currency_rate_tree" model="ir.ui.view">
+        <field name="name">res.currency.rate.tree</field>
+        <field name="model">res.currency.rate</field>
+        <field name="type">tree</field>
+        <field name="inherit_id" ref="base.view_currency_rate_tree" />
+        <field name="arch" type="xml">
+            <field position="after" name="rate">
+                <field name="inverse_rate" />
+            </field>
+        </field>
+    </record>
+</odoo>
