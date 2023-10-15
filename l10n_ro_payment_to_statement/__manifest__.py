@@ -18,7 +18,7 @@
         "views/account_journal_view.xml",
         "views/account_journal_dashboard_view.xml",
     ],
-    "post_init_hook": "pre_init_hook",
+    # "post_init_hook": "pre_init_hook",
     "development_status": "Mature",
     "maintainers": ["dhongu"],
 }
