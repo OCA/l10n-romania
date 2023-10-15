@@ -898,6 +898,7 @@ msgid "Upload Romanian cities, so you can select them more easily."
 msgstr ""
 
 #. module: l10n_ro_config
+#: model:ir.model.fields,field_description:l10n_ro_config.field_res_company__anglo_saxon_accounting
 #: model:ir.model.fields,field_description:l10n_ro_config.field_res_config_settings__use_anglo_saxon
 msgid "Use anglo-saxon accounting"
 msgstr ""
