@@ -70,6 +70,19 @@ class TestStockCommon(ValuationReconciliationTestCommon):
             )
 
     @classmethod
+    def setup_company_data(cls, company_name, chart_template=None, **kwargs):
+        company_data = super().setup_company_data(
+            company_name, chart_template=chart_template, **kwargs
+        )
+        company_data["default_account_stock_in"] = company_data[
+            "default_account_stock_valuation"
+        ]
+        company_data["default_account_stock_out"] = company_data[
+            "default_account_stock_valuation"
+        ]
+        return company_data
+
+    @classmethod
     def setUpClass(cls, chart_template_ref=None):
         ro_template_ref = "l10n_ro.ro_chart_template"
         super(TestStockCommon, cls).setUpClass(chart_template_ref=ro_template_ref)

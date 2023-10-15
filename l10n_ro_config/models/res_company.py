@@ -2,13 +2,21 @@
 # Copyright (C) 2020 NextERP Romania
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
-from odoo import fields, models
+from odoo import api, fields, models
 
 
 class ResCompany(models.Model):
     _inherit = "res.company"
 
-    l10n_ro_accounting = fields.Boolean(string="Romania - Use Romanian Accounting")
+    l10n_ro_accounting = fields.Boolean(
+        string="Romania - Use Romanian Accounting",
+        default=True,
+        compute="_compute_l10n_ro_accounting",
+        store=True,
+    )
+    anglo_saxon_accounting = fields.Boolean(
+        string="Use anglo-saxon accounting", default=True
+    )
     l10n_ro_share_capital = fields.Float(
         string="Romania - Share Capital", digits="Account", default=200
     )
@@ -124,3 +132,10 @@ class ResCompany(models.Model):
         else:
             company = self.browse(company)
         return company.l10n_ro_accounting
+
+    @api.depends("chart_template_id")
+    def _compute_l10n_ro_accounting(self):
+        for company in self:
+            company.l10n_ro_accounting = company.chart_template_id == self.env.ref(
+                "l10n_ro.ro_chart_template"
+            )
