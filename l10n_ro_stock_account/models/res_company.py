@@ -9,7 +9,6 @@ class ResCompany(models.Model):
     _inherit = "res.company"
 
     l10n_ro_stock_acc_price_diff = fields.Boolean(default=True)
-    l10n_ro_accounting = fields.Boolean(default=True)
     anglo_saxon_accounting = fields.Boolean(default=True)
 
     # def init(self):
