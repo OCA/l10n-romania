@@ -8,7 +8,12 @@ from odoo import fields, models
 class ResCompany(models.Model):
     _inherit = "res.company"
 
-    l10n_ro_accounting = fields.Boolean(string="Romania - Use Romanian Accounting")
+    l10n_ro_accounting = fields.Boolean(
+        string="Romania - Use Romanian Accounting", default=True
+    )
+    anglo_saxon_accounting = fields.Boolean(
+        string="Use anglo-saxon accounting", default=True
+    )
     l10n_ro_share_capital = fields.Float(
         string="Romania - Share Capital", digits="Account", default=200
     )
