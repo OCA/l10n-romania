@@ -12,7 +12,7 @@ from .common import TestPaymenttoStatement
 class TestPayment(TestPaymenttoStatement):
     def setUp(self):
         super(TestPayment, self).setUp()
-        # self.env.company.l10n_ro_accounting = True
+        self.env.company.l10n_ro_accounting = True
         self.partner_a = self.env["res.partner"].create({"name": "test"})
 
     def test_payment(self):
