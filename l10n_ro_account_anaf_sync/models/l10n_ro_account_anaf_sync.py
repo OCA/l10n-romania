@@ -123,9 +123,12 @@ class AccountANAFSync(models.Model):
                 "Content-Type": "application/x-www-form-urlencoded",
             },
         )
-        message = _("Revoke token response: %s") % response.json()
+        if response.status_code == 200:
+            message = _("Revoke token response: %s") % response.json()
+        else:
+            message = _("Revoke token response: %s") % response.reason
         self.message_post(body=message)
-        if response.reason == "OK":
+        if response.status_code == 200:
             self.write(
                 {
                     "code": "",
@@ -149,7 +152,10 @@ class AccountANAFSync(models.Model):
             },
             timeout=80,
         )
-        message = _("Test token response: %s") % str(response.content)
+        if response.status_code == 200:
+            message = _("Test token response: %s") % response.json()
+        else:
+            message = _("Test token response: %s") % response.reason
         self.message_post(body=message)
 
     @api.onchange("state")
