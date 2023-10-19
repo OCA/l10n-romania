@@ -17,7 +17,7 @@ from odoo.http import request
 # Token Revocation Endpoint https://logincert.anaf.ro/anaf-oauth2/v1/revoke
 
 
-def redirect(self, location, code=303, local=True):
+def redirect(location, code=303, local=True):
     # compatibility, Werkzeug support URL as location
     if isinstance(location, urls.URL):
         location = location.to_url()
@@ -72,11 +72,10 @@ class AccountANAFSyncWeb(http.Controller):
                 "last_request_datetime": now,
             }
         )
-        anaf_oauth_url = anaf_config.anaf_oauth_url
         client_id = anaf_config.client_id
         odoo_oauth_url = user.get_base_url() + "/l10n_ro_account_anaf_sync/anaf_oauth"
         redirect_url = "%s?response_type=code&client_id=%s&redirect_uri=%s" % (
-            anaf_oauth_url,
+            anaf_config.anaf_oauth_url + "/authorize",
             client_id,
             odoo_oauth_url,
         )
@@ -136,18 +135,12 @@ class AccountANAFSyncWeb(http.Controller):
             redirect_uri = user.get_base_url() + "/l10n_ro_account_anaf_sync/anaf_oauth"
             data = {
                 "grant_type": "authorization_code",
-                "client_id": "%s",
-                "client_secret": "%s",
-                "code": "%s",
-                "access_key": "%s",
-                "redirect_uri": "%s",
-            } % (
-                anaf_config.client_id,
-                anaf_config.client_secret,
-                code,
-                code,
-                redirect_uri,
-            )
+                "client_id": "{}".format(anaf_config.client_id),
+                "client_secret": "{}".format(anaf_config.client_secret),
+                "code": "{}".format(code),
+                "access_key": "{}".format(code),
+                "redirect_uri": "{}".format(redirect_uri),
+            }
             response = requests.post(
                 anaf_config.anaf_oauth_url + "/token",
                 data=data,
