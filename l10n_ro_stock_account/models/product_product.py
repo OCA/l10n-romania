@@ -378,6 +378,7 @@ class ProductProduct(models.Model):
 
             corrected_value = svl_to_vacuum.currency_id.round(corrected_value)
             move = svl_to_vacuum.stock_move_id
+            move_line = svl_to_vacuum.l10n_ro_stock_move_line_id
             vals = {
                 "product_id": self.id,
                 "value": corrected_value,
@@ -385,6 +386,7 @@ class ProductProduct(models.Model):
                 "quantity": 0,
                 "remaining_qty": 0,
                 "stock_move_id": move.id,
+                "l10n_ro_stock_move_line_id": move_line.id,
                 "company_id": move.company_id.id,
                 "description": "Revaluation of %s (negative inventory)"
                 % move.picking_id.name
