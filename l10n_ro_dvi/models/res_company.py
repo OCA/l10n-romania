@@ -37,7 +37,7 @@ class ResCompany(models.Model):
 
     def _l10n_ro_get_or_create_customs_commission_product(self):
         self.ensure_one()
-        customs_commission_product = self.l10n_ro_property_customs_commision_product_id
+        customs_commission_product = self.l10n_ro_property_customs_commission_product_id
         if not customs_commission_product:
             account = self.env["account.account"].search(
                 [
@@ -59,7 +59,7 @@ class ResCompany(models.Model):
                 }
             )
 
-            self.sudo().l10n_ro_property_customs_commision_product_id = (
+            self.sudo().l10n_ro_property_customs_commission_product_id = (
                 customs_commission_product
             )
 
