@@ -49,7 +49,7 @@ class AccountPeriodClosing(models.Model):
         if self.type == "income":
             accounts = self.env["account.account"].search(
                 [
-                    ("account_type", "=", "revenue"),
+                    ("account_type", "=", "income"),
                     ("company_id", "=", self.company_id.id),
                 ]
             )
@@ -77,35 +77,37 @@ class AccountPeriodClosing(models.Model):
             `debit`: total amount of debit,
             `balance`: total amount of balance,
         """
+        context = dict(self._context or {})
+        domain = [("account_id", "in", accounts.ids), ("parent_state", "=", "posted")]
+
+        date_field = "date"
+        if context.get("date_to"):
+            domain += [(date_field, "<=", context["date_to"])]
+        if context.get("date_from"):
+            if not context.get("strict_range"):
+                domain += [
+                    "|",
+                    (date_field, ">=", context["date_from"]),
+                    ("account_id.include_initial_balance", "=", True),
+                ]
+            elif context.get("initial_bal"):
+                domain += [(date_field, "<", context["date_from"])]
+            else:
+                domain += [(date_field, ">=", context["date_from"])]
 
         account_result = {}
-        # Prepare sql query base on selected parameters from wizard
-        tables, where_clause, where_params = self.env["account.move.line"]._query_get()
-        tables = tables.replace('"', "")
-        if not tables:
-            tables = "account_move_line"
-        wheres = [""]
-        if where_clause.strip():
-            wheres.append(where_clause.strip())
-        filters = " AND ".join(wheres)
-        # compute the balance, debit and credit for the provided accounts
-        # pylint: disable=E8103
-        request = (
-            "SELECT account_id AS id, "
-            "SUM(debit) AS debit, "
-            "SUM(credit) AS credit, "
-            "(SUM(debit) - SUM(credit)) AS balance"
-            + " FROM "
-            + tables
-            + " WHERE account_id IN %s "
-            + filters
-            + " GROUP BY account_id"
+        result = self.env["account.move.line"]._read_group(
+            domain=domain,
+            fields=["account_id", "debit", "credit", "balance"],
+            groupby=["account_id"],
         )
-        params = (tuple(accounts.ids),) + tuple(where_params)
-        self.env.cr.execute(request, params)
-        for row in self.env.cr.dictfetchall():
-            account_result[row.pop("id")] = row
-
+        for res in result:
+            acc_vals = {
+                "debit": res["debit"],
+                "credit": res["credit"],
+                "balance": res["balance"],
+            }
+            account_result[res["account_id"][0]] = acc_vals
         account_res = []
         for account in accounts:
             res = {fn: 0.0 for fn in ["credit", "debit", "balance"]}
