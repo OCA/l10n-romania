@@ -28,7 +28,7 @@ class LandedCost(models.Model):
         "Romania - Base VAT amount",
         states={"done": [("readonly", True)]},
         copy=False,
-        help="Base VAT amount, calculated from invoice base amount, customs and commision.",
+        help="Base VAT amount, calculated from invoice base amount, customs and commission.",
     )
     l10n_ro_tax_value = fields.Float(
         "Romania - VAT amount paid at customs",

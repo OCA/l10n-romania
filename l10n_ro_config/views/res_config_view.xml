@@ -518,7 +518,7 @@
                                         </div>
                                     </div>
                                     <label
-                                        for="l10n_ro_property_customs_commision_product_id"
+                                        for="l10n_ro_property_customs_commission_product_id"
                                     />
                                     <span
                                         class="fa fa-lg fa-building-o"
@@ -529,7 +529,7 @@
 
                                     <div>
                                         <field
-                                            name="l10n_ro_property_customs_commision_product_id"
+                                            name="l10n_ro_property_customs_commission_product_id"
                                             placeholder="Select a product"
                                         />
 
