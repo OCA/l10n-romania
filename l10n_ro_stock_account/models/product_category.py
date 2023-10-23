@@ -69,12 +69,13 @@ class ProductCategory(models.Model):
     )
     def _onchange_stock_accounts(self):
         """only for Romania, stock_valuation output and input are the same"""
-        for record in self.filtered("is_l10n_ro_record"):
-            if record.l10n_ro_hide_stock_in_out_account:
-                # is a romanian company:
-                record.property_stock_account_input_categ_id = (
-                    record.property_stock_valuation_account_id
-                )
-                record.property_stock_account_output_categ_id = (
-                    record.property_stock_valuation_account_id
-                )
+        for record in self:
+            if record.is_l10n_ro_record or self.env.company.l10n_ro_accounting:
+                if record.l10n_ro_hide_stock_in_out_account:
+                    # is a romanian company:
+                    record.property_stock_account_input_categ_id = (
+                        record.property_stock_valuation_account_id
+                    )
+                    record.property_stock_account_output_categ_id = (
+                        record.property_stock_valuation_account_id
+                    )
