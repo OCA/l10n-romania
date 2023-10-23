@@ -19,6 +19,7 @@ setuptools.setup(
         'odoo-addon-l10n_ro_account_bank_statement_report>=16.0dev,<16.1dev',
         'odoo-addon-l10n_ro_account_edi_ubl>=16.0dev,<16.1dev',
         'odoo-addon-l10n_ro_account_edit_currency_rate>=16.0dev,<16.1dev',
+        'odoo-addon-l10n_ro_account_period_close>=16.0dev,<16.1dev',
         'odoo-addon-l10n_ro_account_report_invoice>=16.0dev,<16.1dev',
         'odoo-addon-l10n_ro_city>=16.0dev,<16.1dev',
         'odoo-addon-l10n_ro_config>=16.0dev,<16.1dev',
