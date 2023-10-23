@@ -37,6 +37,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_ro_stock_account_reception_in_progress.field_purchase_order__display_name
 #: model:ir.model.fields,field_description:l10n_ro_stock_account_reception_in_progress.field_stock_move__display_name
 #: model:ir.model.fields,field_description:l10n_ro_stock_account_reception_in_progress.field_stock_picking__display_name
+#: model:ir.model.fields,field_description:l10n_ro_stock_account_reception_in_progress.field_stock_valuation_layer__display_name
 msgid "Display Name"
 msgstr ""
 
@@ -47,6 +48,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_ro_stock_account_reception_in_progress.field_purchase_order__id
 #: model:ir.model.fields,field_description:l10n_ro_stock_account_reception_in_progress.field_stock_move__id
 #: model:ir.model.fields,field_description:l10n_ro_stock_account_reception_in_progress.field_stock_picking__id
+#: model:ir.model.fields,field_description:l10n_ro_stock_account_reception_in_progress.field_stock_valuation_layer__id
 msgid "ID"
 msgstr ""
 
@@ -57,6 +59,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_ro_stock_account_reception_in_progress.field_purchase_order__is_l10n_ro_record
 #: model:ir.model.fields,field_description:l10n_ro_stock_account_reception_in_progress.field_stock_move__is_l10n_ro_record
 #: model:ir.model.fields,field_description:l10n_ro_stock_account_reception_in_progress.field_stock_picking__is_l10n_ro_record
+#: model:ir.model.fields,field_description:l10n_ro_stock_account_reception_in_progress.field_stock_valuation_layer__is_l10n_ro_record
 msgid "Is Romanian Record"
 msgstr ""
 
@@ -72,6 +75,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_ro_stock_account_reception_in_progress.field_purchase_order____last_update
 #: model:ir.model.fields,field_description:l10n_ro_stock_account_reception_in_progress.field_stock_move____last_update
 #: model:ir.model.fields,field_description:l10n_ro_stock_account_reception_in_progress.field_stock_picking____last_update
+#: model:ir.model.fields,field_description:l10n_ro_stock_account_reception_in_progress.field_stock_valuation_layer____last_update
 msgid "Last Modified on"
 msgstr ""
 
@@ -103,6 +107,11 @@ msgstr ""
 #. module: l10n_ro_stock_account_reception_in_progress
 #: model:ir.model,name:l10n_ro_stock_account_reception_in_progress.model_stock_move
 msgid "Stock Move"
+msgstr ""
+
+#. module: l10n_ro_stock_account_reception_in_progress
+#: model:ir.model,name:l10n_ro_stock_account_reception_in_progress.model_stock_valuation_layer
+msgid "Stock Valuation Layer"
 msgstr ""
 
 #. module: l10n_ro_stock_account_reception_in_progress
