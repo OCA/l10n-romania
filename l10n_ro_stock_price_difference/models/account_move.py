@@ -110,7 +110,7 @@ class AccountMove(models.Model):
                             _qty_diff,
                         ) = line.l10n_ro_get_stock_valuation_difference()
                         if diff:
-                            line.l10n_ro_modify_stock_valuation(diff)
+                            line.l10n_ro_modify_stock_valuation(diff, line)
 
     def _stock_account_prepare_anglo_saxon_in_lines_vals(self):
         l10n_ro_moves = self.filtered(lambda m: m.company_id.l10n_ro_accounting)
