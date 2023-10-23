@@ -122,7 +122,7 @@
                         </group>
                         <group string="Customs Commission">
                             <field
-                                name="customs_commision_product_id"
+                                name="customs_commission_product_id"
                                 attrs="{'readonly': [('state', '!=', 'draft')]}"
                             />
                             <field

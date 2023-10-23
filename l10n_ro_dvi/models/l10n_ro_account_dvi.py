@@ -87,11 +87,11 @@ class AccountInvoiceDVI(models.Model):
         help="readonly computed tax from custom_duty_value",
     )
 
-    customs_commision_product_id = fields.Many2one(
+    customs_commission_product_id = fields.Many2one(
         "product.product",
         required=True,
-        help="Product type service with l10n_ro_custom_commision checed "
-        "(in purchase tab). Journal entry for commision will be with this product",
+        help="Product type service with l10n_ro_custom_commission checed "
+        "(in purchase tab). Journal entry for commission will be with this product",
     )
     customs_commission_value = fields.Monetary(help="taken from dvi if exists")
 
@@ -141,7 +141,7 @@ class AccountInvoiceDVI(models.Model):
             self.env.company._l10n_ro_get_or_create_customs_commission_product()
         )
         defaults["customs_duty_product_id"] = customs_duty_product.id
-        defaults["customs_commision_product_id"] = customs_commission_product.id
+        defaults["customs_commission_product_id"] = customs_commission_product.id
         return defaults
 
     def action_view_landed_costs(self):
@@ -353,9 +353,9 @@ class AccountInvoiceDVI(models.Model):
             )
 
         if self.customs_commission_value:
-            product = self.customs_commision_product_id
+            product = self.customs_commission_product_id
             accounts_data = (
-                self.customs_commision_product_id.product_tmpl_id.get_product_accounts()
+                self.customs_commission_product_id.product_tmpl_id.get_product_accounts()
             )
             values["cost_lines"] += self.prepare_dvi_landed_cost_lines(
                 product, self.customs_commission_value, accounts_data

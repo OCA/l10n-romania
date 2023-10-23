@@ -33,7 +33,7 @@ msgstr ""
 
 #. module: l10n_ro_dvi
 #: model:ir.model.fields,field_description:l10n_ro_dvi.field_l10n_ro_account_dvi_line__price_subtotal
-msgid "Balance"
+msgid "Subtotal"
 msgstr ""
 
 #. module: l10n_ro_dvi
@@ -44,7 +44,7 @@ msgstr ""
 #. module: l10n_ro_dvi
 #: model:ir.model.fields,help:l10n_ro_dvi.field_stock_landed_cost__l10n_ro_base_tax_value
 msgid ""
-"Base VAT amount, calculated from invoice base amount, customs and commision."
+"Base VAT amount, calculated from invoice base amount, customs and commission."
 msgstr ""
 
 #. module: l10n_ro_dvi
@@ -88,8 +88,8 @@ msgid "Custom Duty"
 msgstr ""
 
 #. module: l10n_ro_dvi
-#: model:ir.model.fields,field_description:l10n_ro_dvi.field_l10n_ro_account_dvi__customs_commision_product_id
-msgid "Customs Commision Product"
+#: model:ir.model.fields,field_description:l10n_ro_dvi.field_l10n_ro_account_dvi__customs_commission_product_id
+msgid "Customs Commission Product"
 msgstr ""
 
 #. module: l10n_ro_dvi
@@ -382,10 +382,10 @@ msgid "Product for vat price difference"
 msgstr ""
 
 #. module: l10n_ro_dvi
-#: model:ir.model.fields,help:l10n_ro_dvi.field_l10n_ro_account_dvi__customs_commision_product_id
+#: model:ir.model.fields,help:l10n_ro_dvi.field_l10n_ro_account_dvi__customs_commission_product_id
 msgid ""
-"Product type service with l10n_ro_custom_commision checed (in purchase tab)."
-" Journal entry for commision will be with this product"
+"Product type service with l10n_ro_custom_commission checked (in purchase tab)."
+" Journal entry for commission will be with this product"
 msgstr ""
 
 #. module: l10n_ro_dvi
