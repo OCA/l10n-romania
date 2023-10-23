@@ -206,7 +206,7 @@ class TestPeriodClosing(AccountTestInvoicingCommon):
 
         inc_accounts = self.env["account.account"].search(
             [
-                ("account_type", "=", "revenue"),
+                ("account_type", "=", "income"),
                 ("company_id", "=", self.company.id),
             ]
         )
@@ -247,17 +247,17 @@ class TestPeriodClosing(AccountTestInvoicingCommon):
         )
         expected_vat_account = [
             {
-                "credit": 150.0,
+                "credit": 340.0,
                 "debit": 0.0,
-                "balance": -150.0,
+                "balance": -340.0,
                 "id": account_sale_tax.id,
                 "code": account_sale_tax.code,
                 "name": account_sale_tax.name,
             },
             {
                 "credit": 0.0,
-                "debit": 15.0,
-                "balance": 15.0,
+                "debit": 34.0,
+                "balance": 34.0,
                 "id": account_purchase_tax.id,
                 "code": account_purchase_tax.code,
                 "name": account_purchase_tax.name,
