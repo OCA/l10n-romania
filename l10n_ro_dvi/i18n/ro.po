@@ -43,8 +43,8 @@ msgstr ""
 #. module: l10n_ro_dvi
 #: model:ir.model.fields,field_description:l10n_ro_dvi.field_l10n_ro_account_dvi_line__price_subtotal
 #, fuzzy
-msgid "Balance"
-msgstr "Abandonează"
+msgid "Subtotal"
+msgstr "Subtotal"
 
 #. module: l10n_ro_dvi
 #: model:ir.model.fields,field_description:l10n_ro_dvi.field_l10n_ro_account_dvi_line__base_amount
@@ -54,7 +54,7 @@ msgstr "Suma de bază"
 #. module: l10n_ro_dvi
 #: model:ir.model.fields,help:l10n_ro_dvi.field_stock_landed_cost__l10n_ro_base_tax_value
 msgid ""
-"Base VAT amount, calculated from invoice base amount, customs and commision."
+"Base VAT amount, calculated from invoice base amount, customs and commission."
 msgstr ""
 "Valoarea bază TVA, calculată din valoarea de bază a facturii, vamă și "
 "comision."
@@ -100,10 +100,10 @@ msgid "Custom Duty"
 msgstr "Taxă vamală"
 
 #. module: l10n_ro_dvi
-#: model:ir.model.fields,field_description:l10n_ro_dvi.field_l10n_ro_account_dvi__customs_commision_product_id
+#: model:ir.model.fields,field_description:l10n_ro_dvi.field_l10n_ro_account_dvi__customs_commission_product_id
 #, fuzzy
-msgid "Customs Commision Product"
-msgstr "Comision vamal"
+msgid "Customs Commission Product"
+msgstr "Produs Comision vamal"
 
 #. module: l10n_ro_dvi
 #: code:addons/l10n_ro_dvi/models/res_company.py:0
@@ -116,7 +116,7 @@ msgstr "Comision vamal"
 #: model:ir.model.fields,field_description:l10n_ro_dvi.field_l10n_ro_account_dvi__customs_commission_value
 #, fuzzy
 msgid "Customs Commission Value"
-msgstr "Comision vamal"
+msgstr "Valoare Comision vamal"
 
 #. module: l10n_ro_dvi
 #: model_terms:ir.ui.view,arch_db:l10n_ro_dvi.view_account_dvi_form
@@ -128,19 +128,19 @@ msgstr "Taxă vamală"
 #: model:ir.model.fields,field_description:l10n_ro_dvi.field_l10n_ro_account_dvi__customs_duty_product_id
 #, fuzzy
 msgid "Customs Duty Product"
-msgstr "Taxă vamală"
+msgstr "Produs taxa vamală"
 
 #. module: l10n_ro_dvi
 #: model:ir.model.fields,field_description:l10n_ro_dvi.field_l10n_ro_account_dvi__customs_duty_tax_value
 #, fuzzy
 msgid "Customs Duty Tax Value"
-msgstr "Taxă vamală"
+msgstr "Customs Duty Tax Value"
 
 #. module: l10n_ro_dvi
 #: model:ir.model.fields,field_description:l10n_ro_dvi.field_l10n_ro_account_dvi__customs_duty_value
 #, fuzzy
 msgid "Customs Duty Value"
-msgstr "Taxă vamală"
+msgstr "Valoare taxă vamală"
 
 #. module: l10n_ro_dvi
 #: model:ir.actions.act_window,name:l10n_ro_dvi.action_account_dvi
@@ -192,7 +192,7 @@ msgstr "Nume afișat"
 #. module: l10n_ro_dvi
 #: model:ir.model.fields.selection,name:l10n_ro_dvi.selection__l10n_ro_account_dvi__state__draft
 msgid "Draft"
-msgstr "Ciorna"
+msgstr "Ciornă"
 
 #. module: l10n_ro_dvi
 #: model:ir.model.fields,field_description:l10n_ro_dvi.field_l10n_ro_account_dvi__message_follower_ids
@@ -241,7 +241,7 @@ msgstr "Linia de factură"
 #: model:ir.model.fields,field_description:l10n_ro_dvi.field_l10n_ro_account_dvi__invoice_tax_value
 #, fuzzy
 msgid "Invoice Tax Value"
-msgstr "Valoare TVA"
+msgstr "Valoare TVA factură"
 
 #. module: l10n_ro_dvi
 #: model:ir.model.fields,field_description:l10n_ro_dvi.field_l10n_ro_account_dvi__invoice_ids
@@ -290,7 +290,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_ro_dvi.field_l10n_ro_account_dvi__journal_id
 #, fuzzy
 msgid "Journal"
-msgstr "Note contabile"
+msgstr "Jurnal"
 
 #. module: l10n_ro_dvi
 #: model:ir.model,name:l10n_ro_dvi.model_account_move
@@ -410,12 +410,12 @@ msgid "Product for vat price difference"
 msgstr ""
 
 #. module: l10n_ro_dvi
-#: model:ir.model.fields,help:l10n_ro_dvi.field_l10n_ro_account_dvi__customs_commision_product_id
+#: model:ir.model.fields,help:l10n_ro_dvi.field_l10n_ro_account_dvi__customs_commission_product_id
 msgid ""
-"Product type service with l10n_ro_custom_commision checed (in purchase tab). "
-"Journal entry for commision will be with this product"
+"Product type service with l10n_ro_custom_commission checked (in purchase tab). "
+"Journal entry for commission will be with this product"
 msgstr ""
-"Produs de tip serviciu cu l10n_ro_custom_commision bifat (în fila de "
+"Produs de tip serviciu cu l10n_ro_custom_commission bifat (în fila de "
 "achiziții). Înregistrarea în jurnal pentru comision va fi cu acest produs"
 
 #. module: l10n_ro_dvi
@@ -475,7 +475,7 @@ msgstr "TVA plătit în vamă"
 #. module: l10n_ro_dvi
 #: model:ir.ui.menu,name:l10n_ro_dvi.menu_action_account_dvi
 msgid "Romanian DVI"
-msgstr ""
+msgstr "DVI"
 
 #. module: l10n_ro_dvi
 #: model:ir.model.fields,field_description:l10n_ro_dvi.field_l10n_ro_account_dvi__message_has_sms_error
@@ -537,7 +537,7 @@ msgstr "Aceasta este o valoare de la DVI primit"
 #: model:ir.model.fields,field_description:l10n_ro_dvi.field_l10n_ro_account_dvi__total_base_tax_value
 #, fuzzy
 msgid "Total Base Tax Value"
-msgstr "Valoare TVA"
+msgstr "Valoare Baza TVA"
 
 #. module: l10n_ro_dvi
 #: model:ir.model.fields,field_description:l10n_ro_dvi.field_l10n_ro_account_dvi__total_tax_value
