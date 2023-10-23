@@ -88,6 +88,7 @@ class AccountMoveLine(models.Model):
 
     def l10n_ro_modify_stock_valuation(self, val_dif):
         # se adauga la evaluarea miscarii de stoc
+        self.ensure_one()
         if not self.purchase_line_id:
             return 0.0
         valuation_stock_move = self.env["stock.move"].search(
@@ -120,6 +121,8 @@ class AccountMoveLine(models.Model):
                 "quantity": 0,
                 "remaining_qty": 0,
                 "description": "Price Difference",
+                "l10n_ro_invoice_line_id": self.id,
+                "l10n_ro_invoice_id": self.move_id.id,
             }
         )
 
