@@ -104,9 +104,9 @@ class ResConfigSettings(models.TransientModel):
         related="company_id.l10n_ro_property_customs_duty_product_id",
         readonly=False,
     )
-    l10n_ro_property_customs_commision_product_id = fields.Many2one(
+    l10n_ro_property_customs_commission_product_id = fields.Many2one(
         "product.product",
-        related="company_id.l10n_ro_property_customs_commision_product_id",
+        related="company_id.l10n_ro_property_customs_commission_product_id",
         readonly=False,
     )
     l10n_ro_stock_account_svl_lot_allocation = fields.Boolean(
