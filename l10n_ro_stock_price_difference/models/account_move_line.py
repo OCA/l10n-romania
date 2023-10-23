@@ -74,7 +74,7 @@ class AccountMoveLine(models.Model):
         qty_diff = inv_qty - valuation_total_qty
         return diff, qty_diff
 
-    def l10n_ro_modify_stock_valuation(self, val_dif):
+    def l10n_ro_modify_stock_valuation(self, val_dif, invoice_line=None):
         # se adauga la evaluarea miscarii de stoc
         if not self.purchase_line_id:
             return 0.0
@@ -106,6 +106,8 @@ class AccountMoveLine(models.Model):
                 "quantity": 0,
                 "remaining_qty": 0,
                 "description": "Price Difference",
+                "l10n_ro_invoice_line_id": invoice_line and invoice_line.id or False,
+                "l10n_ro_invoice_id": invoice_line and invoice_line.move_id.id or False,
             }
         )
 
