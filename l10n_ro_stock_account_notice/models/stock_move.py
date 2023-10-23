@@ -199,6 +199,13 @@ class StockMove(models.Model):
         return res
 
     def _l10n_ro_get_sale_price(self):
+        mv_date = self.date
+
+        Module = self.env["ir.module.module"]
+        is_installed = Module.search([("name", "=", "l10n_ro_stock_account_date")])
+        if is_installed:
+            mv_date = self.l10n_ro_get_move_date()
+
         valuation_amount = 0
         sale_line = self.sale_line_id
         if sale_line and sale_line.product_uom_qty:
@@ -209,7 +216,7 @@ class StockMove(models.Model):
             valuation_amount = price_invoice
             company = self.location_id.company_id or self.env.company
             valuation_amount = sale_line.order_id.currency_id._convert(
-                valuation_amount, company.currency_id, company, self.date
+                valuation_amount, company.currency_id, company, mv_date
             )
         return valuation_amount
 
