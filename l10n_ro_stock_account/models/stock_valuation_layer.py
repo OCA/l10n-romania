@@ -104,12 +104,18 @@ class StockValuationLayer(models.Model):
                         # if aml.balance > 0 and svl.value > 0:
                         #     account = aml.account_id
                         #     break
-            if (
-                svl.l10n_ro_valued_type in ("reception", "reception_return")
-                and svl.l10n_ro_invoice_line_id
-            ):
-                account = svl.l10n_ro_invoice_line_id.account_id
+            if svl._l10n_ro_can_use_invoice_line_account(account):
+                if (
+                    svl.l10n_ro_valued_type in ("reception", "reception_return")
+                    and svl.l10n_ro_invoice_line_id
+                ):
+                    account = svl.l10n_ro_invoice_line_id.account_id
             svl.l10n_ro_account_id = account
+
+    # hook method for reception in progress
+    def _l10n_ro_can_use_invoice_line_account(self, account):
+        self.ensure_one()
+        return True
 
     @api.model_create_multi
     def create(self, vals_list):
