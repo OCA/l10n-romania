@@ -15,6 +15,7 @@ class TestProductCategory(TestStockCommon):
     def test_product_category(self):
 
         category = Form(self.category.copy())
+        category.l10n_ro_accounting_category = True
         category.property_stock_valuation_account_id = self.account_valuation_mp
 
         category = category.save()
