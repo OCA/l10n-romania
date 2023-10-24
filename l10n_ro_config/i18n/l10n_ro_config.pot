@@ -408,8 +408,8 @@ msgid "Romania - Company Stock Transfer Account"
 msgstr ""
 
 #. module: l10n_ro_config
-#: model:ir.model.fields,field_description:l10n_ro_config.field_res_company__l10n_ro_property_customs_commision_product_id
-#: model:ir.model.fields,field_description:l10n_ro_config.field_res_config_settings__l10n_ro_property_customs_commision_product_id
+#: model:ir.model.fields,field_description:l10n_ro_config.field_res_company__l10n_ro_property_customs_commission_product_id
+#: model:ir.model.fields,field_description:l10n_ro_config.field_res_config_settings__l10n_ro_property_customs_commission_product_id
 msgid "Romania - Customs Commission Landed Cost Product"
 msgstr ""
 
@@ -873,10 +873,10 @@ msgid ""
 msgstr ""
 
 #. module: l10n_ro_config
-#: model:ir.model.fields,help:l10n_ro_config.field_res_company__l10n_ro_property_customs_commision_product_id
-#: model:ir.model.fields,help:l10n_ro_config.field_res_config_settings__l10n_ro_property_customs_commision_product_id
+#: model:ir.model.fields,help:l10n_ro_config.field_res_company__l10n_ro_property_customs_commission_product_id
+#: model:ir.model.fields,help:l10n_ro_config.field_res_config_settings__l10n_ro_property_customs_commission_product_id
 msgid ""
-"This product will be used in create the DVI landed costfor the duty "
+"This product will be used in create the DVI landed cost for the duty "
 "commissions."
 msgstr ""
 

@@ -121,6 +121,7 @@ class AccountJournal(models.Model):
 
     def l10n_ro_update_cash_vals(self):
         self.ensure_one()
+        cash_in_sequence_id = self.l10n_ro_customer_cash_in_sequence_id.id
         new_vals = {
             "type": self.type,
             "name": self.name,
@@ -131,9 +132,7 @@ class AccountJournal(models.Model):
             "l10n_ro_statement_sequence_id": self.l10n_ro_statement_sequence_id.id,
             "l10n_ro_cash_in_sequence_id": self.l10n_ro_cash_in_sequence_id.id,
             "l10n_ro_cash_out_sequence_id": self.l10n_ro_cash_out_sequence_id.id,
+            "l10n_ro_customer_cash_in_sequence_id": cash_in_sequence_id,
         }
-        new_vals[
-            "l10n_ro_customer_cash_in_sequence_id"
-        ] = self.l10n_ro_customer_cash_in_sequence_id.id
         self._fill_missing_values(new_vals)
         self.write(new_vals)
