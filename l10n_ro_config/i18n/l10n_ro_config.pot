@@ -876,7 +876,7 @@ msgstr ""
 #: model:ir.model.fields,help:l10n_ro_config.field_res_company__l10n_ro_property_customs_commission_product_id
 #: model:ir.model.fields,help:l10n_ro_config.field_res_config_settings__l10n_ro_property_customs_commission_product_id
 msgid ""
-"This product will be used in create the DVI landed cost for the duty "
+"This product will be used in create the DVI landed costfor the duty "
 "commissions."
 msgstr ""
 
