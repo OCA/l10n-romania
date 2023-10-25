@@ -428,6 +428,11 @@ msgid "Romanian Stock Sheet Report"
 msgstr ""
 
 #. module: l10n_ro_stock_report
+#: model:ir.model.fields,field_description:l10n_ro_stock_report.field_l10n_ro_stock_storage_sheet_line__serial_number
+msgid "Serial Number"
+msgstr ""
+
+#. module: l10n_ro_stock_report
 #: model_terms:ir.ui.view,arch_db:l10n_ro_stock_report.view_stock_sheet_report_form
 msgid "Show Sheet"
 msgstr ""
