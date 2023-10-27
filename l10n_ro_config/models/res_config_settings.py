@@ -104,9 +104,9 @@ class ResConfigSettings(models.TransientModel):
         related="company_id.l10n_ro_property_customs_duty_product_id",
         readonly=False,
     )
-    l10n_ro_property_customs_commision_product_id = fields.Many2one(
+    l10n_ro_property_customs_commission_product_id = fields.Many2one(
         "product.product",
-        related="company_id.l10n_ro_property_customs_commision_product_id",
+        related="company_id.l10n_ro_property_customs_commission_product_id",
         readonly=False,
     )
     l10n_ro_stock_account_svl_lot_allocation = fields.Boolean(
@@ -114,6 +114,14 @@ class ResConfigSettings(models.TransientModel):
         readonly=False,
     )
     l10n_ro_stock_account_svl_lot_allocation_visible = fields.Boolean(default=False)
+    l10n_ro_restrict_stock_move_date_last_month = fields.Boolean(
+        related="company_id.l10n_ro_restrict_stock_move_date_last_month",
+        readonly=False,
+    )
+    l10n_ro_restrict_stock_move_date_future = fields.Boolean(
+        related="company_id.l10n_ro_restrict_stock_move_date_future",
+        readonly=False,
+    )
 
     module_currency_rate_update_RO_BNR = fields.Boolean(
         "Currency Rate Update BNR",
