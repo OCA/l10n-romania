@@ -136,7 +136,10 @@ class JournalRegisterReport(models.TransientModel):
 
             cont_p = False
             for line in invoice.line_ids:
-                if line.account_id.account_type.type in ("asset_receivable", "liability_payable"):
+                if line.account_id.account_type.type in (
+                    "asset_receivable",
+                    "liability_payable",
+                ):
                     cont_p = line.account_id
 
             for line in invoice.line_ids.filtered(lambda m: not m.display_type):
@@ -186,7 +189,10 @@ class JournalRegisterReport(models.TransientModel):
         for invoice in invoice_out_ids:
             cont_p = False
             for line in invoice.line_ids:
-                if line.account_id.account_type.type in ("asset_receivable", "liability_payable"):
+                if line.account_id.account_type.type in (
+                    "asset_receivable",
+                    "liability_payable",
+                ):
                     cont_p = line.account_id
 
             for line in invoice.line_ids.filtered(lambda m: not m.display_type):
