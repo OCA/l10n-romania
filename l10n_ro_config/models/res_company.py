@@ -108,7 +108,7 @@ class ResCompany(models.Model):
         help="This product will be used in create the DVI landed cost"
         "for the duty tax",
     )
-    l10n_ro_property_customs_commision_product_id = fields.Many2one(
+    l10n_ro_property_customs_commission_product_id = fields.Many2one(
         "product.product",
         string="Romania - Customs Commission Landed Cost Product",
         domain="[('type', '=', 'service')]",
@@ -124,6 +124,15 @@ class ResCompany(models.Model):
         "If this field is NOT checked and the company use Romanian Accounting,"
         "the value used for stock out operations will be the value provided by FIFO rule, "
         "applied strictly on a location level (including its children)",
+    )
+
+    l10n_ro_restrict_stock_move_date_last_month = fields.Boolean(
+        string="Restrict Stock Move Date Last Month",
+        help="Restrict stock move posting with at most one month ago.",
+    )
+    l10n_ro_restrict_stock_move_date_future = fields.Boolean(
+        string="Restrict Stock Move Date Future",
+        help="Restrict stock move posting with future date.",
     )
 
     def _check_is_l10n_ro_record(self, company=False):
