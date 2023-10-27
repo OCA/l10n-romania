@@ -547,7 +547,7 @@
                                             </div>
                                         </div>
                                         <label
-                                            for="l10n_ro_property_customs_commision_product_id"
+                                            for="l10n_ro_property_customs_commission_product_id"
                                         />
                                         <span
                                             class="fa fa-lg fa-building-o"
@@ -558,7 +558,7 @@
 
                                         <div>
                                             <field
-                                                name="l10n_ro_property_customs_commision_product_id"
+                                                name="l10n_ro_property_customs_commission_product_id"
                                                 placeholder="Select a product"
                                             />
 
@@ -668,6 +668,22 @@
                                     </div>
                                 </div>
                             </div>
+
+                    <div
+                                class="col-xs-12 col-md-6 o_setting_box"
+                                id="l10n_ro_restrict_stock_move_date_future"
+                            >
+                            <div class="o_setting_left_pane">
+                                <field name="l10n_ro_restrict_stock_move_date_future" />
+                            </div>
+                            <div class="o_setting_right_pane">
+                                <label for="l10n_ro_restrict_stock_move_date_future" />
+                                <div class="text-muted">
+                                    Restrict stock move posting with future date.
+                                </div>
+                            </div>
+                        </div>
+
                             <div
                                 class="col-12 col-lg-6 o_setting_box"
                                 id="module_l10n_ro_stock_account_config"
