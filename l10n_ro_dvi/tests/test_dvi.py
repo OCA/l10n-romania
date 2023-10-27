@@ -137,8 +137,9 @@ class TestDVI(TestStockCommon2):
         dvi.journal_id = self.journal_id
         dvi.customs_duty_value = 100
         dvi.customs_commission_value = 50
-        dvi.vat_price_difference_product_id = self.vat_product_id
         dvi.vat_price_difference = 10
+        dvi.vat_price_difference_product_id = self.vat_product_id
+
         dvi = dvi.save()
         dvi.button_post()
         for line in dvi.vat_price_difference_move_id.line_ids:
@@ -155,8 +156,9 @@ class TestDVI(TestStockCommon2):
         dvi.journal_id = self.journal_id
         dvi.customs_duty_value = 100
         dvi.customs_commission_value = 50
-        dvi.vat_price_difference_product_id = self.vat_product_id
         dvi.vat_price_difference = -10
+        dvi.vat_price_difference_product_id = self.vat_product_id
+
         dvi = dvi.save()
         dvi.button_post()
         for line in dvi.vat_price_difference_move_id.line_ids:
@@ -182,8 +184,9 @@ class TestDVI(TestStockCommon2):
         dvi.journal_id = self.journal_id
         dvi.customs_duty_value = 100
         dvi.customs_commission_value = 50
-        dvi.vat_price_difference_product_id = self.vat_product_id
         dvi.vat_price_difference = -10
+        dvi.vat_price_difference_product_id = self.vat_product_id
+
         dvi = dvi.save()
         dvi.invoice_ids = [(6, 0, self.invoice.ids)]
         for dvi_line in dvi.line_ids:
@@ -212,8 +215,9 @@ class TestDVI(TestStockCommon2):
         dvi.journal_id = self.journal_id
         dvi.customs_duty_value = 100
         dvi.customs_commission_value = 50
-        dvi.vat_price_difference_product_id = self.vat_product_id
         dvi.vat_price_difference = -10
+        dvi.vat_price_difference_product_id = self.vat_product_id
+
         dvi = dvi.save()
         with self.assertRaises(
             ValidationError,
@@ -239,8 +243,9 @@ class TestDVI(TestStockCommon2):
         dvi.journal_id = self.journal_id
         dvi.customs_duty_value = 100
         dvi.customs_commission_value = 50
-        dvi.vat_price_difference_product_id = self.vat_product_id
         dvi.vat_price_difference = -10
+        dvi.vat_price_difference_product_id = self.vat_product_id
+
         dvi.customs_duty_product_id.categ_id.property_account_expense_categ_id = False
         dvi.customs_duty_product_id.property_account_expense_id = False
         dvi = dvi.save()
