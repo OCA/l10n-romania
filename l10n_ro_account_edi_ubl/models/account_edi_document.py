@@ -8,11 +8,11 @@ class AccountEdiDocument(models.Model):
     _name = 'account.edi.document'
     _inherit = ['account.edi.document', 'mail.thread']
 
-    step = fields.Integer("Step", default=0, help="Current step in the flow", copy=False)
+    step = fields.Integer(default=0, help="Current step in the flow", copy=False)
     l10n_ro_edi_transaction = fields.Char(related="move_id.l10n_ro_edi_transaction")
     l10n_ro_edi_download = fields.Char(related="move_id.l10n_ro_edi_download")
-    response_state = fields.Selection([('success', 'Success'), ('error', 'Error')], "Response State", copy=False, tracking=True)
-    message_state = fields.Selection([('found_ok', 'Found - Ok'), ('missing', 'Missing'), ('found_notok', 'Found - Not Ok'), ('found_processing', 'Found - Pending')], "Message State", copy=False)
+    response_state = fields.Selection([('success', 'Success'), ('error', 'Error')], copy=False, tracking=True)
+    message_state = fields.Selection([('found_ok', 'Found - Ok'), ('missing', 'Missing'), ('found_notok', 'Found - Not Ok'), ('found_processing', 'Found - Pending')], copy=False)
     response_attachment_id = fields.Many2one('ir.attachment', "Response ZIP", copy=False, help="The file received. Contains either the original invoice or a list of error found for the invoice during processing.")
     edi_format_code = fields.Char('Format Code', related='edi_format_id.code', store=True, copy=False)
 

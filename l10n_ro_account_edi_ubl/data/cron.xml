@@ -10,7 +10,7 @@
         <field name="active">False</field>
     </record> -->
 
-   <record id="l10n_ro_account_edi_ubl.ir_cron_response_web_service" model="ir.cron">
+   <record id="ir_cron_response_web_service" model="ir.cron">
         <field name="name">EDI: Get Response (ZIP) for Documents</field>
         <field name="model_id" ref="model_account_edi_document"/>
         <field name="state">code</field>
