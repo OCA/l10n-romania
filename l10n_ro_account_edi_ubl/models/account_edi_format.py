@@ -5,6 +5,7 @@
 import logging
 
 import requests
+import json
 from lxml import etree
 
 from odoo import _, models
@@ -20,10 +21,6 @@ class AccountEdiXmlCIUSRO(models.Model):
         # Create file content.
         builder = self._get_xml_builder(invoice.company_id)
         xml_content, errors = builder._export_invoice(invoice)
-        xml_content = xml_content.decode()
-        # xml_content = xml_content.replace("CreditNoteLine", "InvoiceLine")
-        # xml_content = xml_content.replace("CreditedQuantity", "InvoicedQuantity")
-        xml_content = xml_content.encode()
         xml_name = builder._export_invoice_filename(invoice)
         return self.env["ir.attachment"].create(
             {
@@ -85,16 +82,17 @@ class AccountEdiXmlCIUSRO(models.Model):
         if self.code != "cius_ro":
             return super()._post_invoice_edi(invoices)
         res = {}
-        for invoice in invoices:
+        for invoice in invoices.filtered(lambda x: x.state == 'posted'):
             attachment = invoice._get_edi_attachment(self)
             if not attachment:
                 attachment = self._export_cius_ro(invoice)
             res[invoice] = {"attachment": attachment, "success": True}
             anaf_config = invoice.company_id.l10n_ro_account_anaf_sync_id
-            if anaf_config.state != "manual" and (
-                invoice.company_id.l10n_ro_edi_manual
-                and self.env.context.get("l10n_ro_edi_manual_action")
-            ):
+            #TODO: what's the point of this?
+            #and (
+            #    invoice.company_id.l10n_ro_edi_manual
+            #    and self.env.context.get("l10n_ro_edi_manual_action")):
+            if anaf_config.state != "manual":
                 if not invoice.l10n_ro_edi_transaction:
                     res[invoice] = self._l10n_ro_post_invoice_step_1(
                         invoice, attachment
@@ -143,6 +141,18 @@ class AccountEdiXmlCIUSRO(models.Model):
                 ]
         return errors
 
+    def _get_move_applicability(self, move):
+        # EXTENDS account.edi.format
+        self.ensure_one()
+        if self.code != "cius_ro":
+            return super()._get_move_applicability(move)
+
+        return {
+                'post': self._post_invoice_edi,
+                'cancel': self._cancel_invoice_edi,
+                'edi_content': self._get_invoice_edi_content,
+        }
+
     def _get_invoice_edi_content(self, move):
         if self.code != "cius_ro":
             return super()._get_invoice_edi_content(move)
@@ -154,6 +164,10 @@ class AccountEdiXmlCIUSRO(models.Model):
         return attachment.raw
 
     def _l10n_ro_post_invoice_step_1(self, invoice, attachment):
+        self.ensure_one()
+
+        edi_documents = invoice.edi_document_ids.filtered(lambda x: x.edi_format_id == self)
+
         anaf_config = invoice.company_id.l10n_ro_account_anaf_sync_id
         access_token = anaf_config.access_token
         url = anaf_config.anaf_einvoice_sync_url + "/upload"
@@ -171,33 +185,84 @@ class AccountEdiXmlCIUSRO(models.Model):
 
         _logger.info(response.content)
 
+        res = {"success": True, "attachment": attachment, 'blocking_level': 'info'}
         if response.status_code == 200:
-            res = {"attachment": attachment}
             doc = etree.fromstring(response.content)
-            # header_element = doc.find('header')
-            transaction = doc.get("index_incarcare")
-            invoice.write({"l10n_ro_edi_transaction": transaction})
+            execution_status = doc.get("ExecutionStatus")
+            if execution_status == "0":
+                transaction = doc.get("index_incarcare")
+                res['l10n_ro_edi_transaction'] = transaction
+                invoice.write({"l10n_ro_edi_transaction": transaction})
+            else:
+                error = []
+                for child_tag in doc: #maybe  improve
+                    if 'Errors' in child_tag.tag:
+                        error.append(child_tag.get('errorMessage'))
+
+                res.update({"success": False, "error": "<br/>".join(error)})
         else:
-            res = {"success": False, "error": _("Access error")}
+            res.update({"success": False, "error": _("Access error")})
+
+        if edi_documents:
+            if res.get('success'):
+                edi_documents.message_post(body=_('Sending successful. Transaction {0}.').format(res.get('l10n_ro_edi_transaction') or ''))
+            else:
+                edi_documents.message_post(body=_('Sending failed.'))
 
         return res
 
     def _l10n_ro_post_invoice_step_2(self, invoice, test_mode=False):
+        # anaf_config = invoice.company_id.l10n_ro_account_anaf_sync_id
+        # access_token = anaf_config.access_token
+
+        #TODO: move in own cron, if needed
+
+        # url = anaf_config.anaf_einvoice_sync_url + "/listaMesajeFactura"
+        #
+        # headers = {
+        #     "Content-Type": "application/xml",
+        #     "Authorization": f"Bearer {access_token}",
+        # }
+        # params = {
+        #     "zile": 50,
+        #     "cif": invoice.company_id.partner_id.vat.replace("RO", ""),
+        # }
+        # response = requests.get(url, params=params, headers=headers, timeout=80)
+        #
+        # _logger.info(response.content)
+
+        # url = anaf_config.anaf_einvoice_sync_url + "/stareMesaj"
+        # headers = {
+        #     "Content-Type": "application/xml",
+        #     "Authorization": f"Bearer {access_token}",
+        # }
+        # params = {"id_incarcare": invoice.l10n_ro_edi_transaction}
+        # response = requests.get(url, params=params, headers=headers, timeout=80)
+        #
+        # _logger.info(response.content)
+        #
+        # if response.status_code == 200:
+        #     res = {"success": True}
+        #     doc = etree.fromstring(response.content)
+        #     stare = doc.get("stare")
+        #     if stare != "ok":
+        #         res = {"success": False}
+        #         if stare == "in prelucrare":
+        #             res.update({"error": stare, "blocking_level": "info"})
+        # else:
+        #     res = {"success": False, "error": _("Access error")}
+
+        service_res = self._l10n_ro_get_message_state_web_service(invoice)
+        res = {"success": service_res.get('success')}
+        if service_res.get('error'):
+            res.update({"error": service_res.get('error'), "blocking_level": "info"})
+        return res
+
+    def _l10n_ro_get_message_state_web_service(self, invoice):
+        res = {}
+
         anaf_config = invoice.company_id.l10n_ro_account_anaf_sync_id
         access_token = anaf_config.access_token
-        url = anaf_config.anaf_einvoice_sync_url + "/listaMesajeFactura"
-
-        headers = {
-            "Content-Type": "application/xml",
-            "Authorization": f"Bearer {access_token}",
-        }
-        params = {
-            "zile": 50,
-            "cif": invoice.company_id.partner_id.vat.replace("RO", ""),
-        }
-        response = requests.get(url, params=params, headers=headers, timeout=80)
-
-        _logger.info(response.content)
 
         url = anaf_config.anaf_einvoice_sync_url + "/stareMesaj"
         headers = {
@@ -205,19 +270,65 @@ class AccountEdiXmlCIUSRO(models.Model):
             "Authorization": f"Bearer {access_token}",
         }
         params = {"id_incarcare": invoice.l10n_ro_edi_transaction}
-        response = requests.get(url, params=params, headers=headers, timeout=80)
+        response = False
+        try:
+            response = requests.get(url, params=params, headers=headers, timeout=80)
+        except Exception as e:
+            res = {"success": False, "error": str(e), "response": False}
 
-        _logger.info(response.content)
-
-        if response.status_code == 200:
-            res = {"success": True}
+        if response and response.status_code == 200:
             doc = etree.fromstring(response.content)
-            stare = doc.get("stare")
-            if stare != "ok":
-                res = {"success": False}
-                if stare == "in prelucrare":
-                    res.update({"error": stare, "blocking_level": "info"})
-        else:
-            res = {"success": False, "error": _("Access error")}
+            doc_state = doc.get("stare")
+            download_id = doc.get("id_descarcare")
+            res = {"state": doc_state, "download_id": download_id}
+            if doc_state == "ok":
+                res.update({"success": True, "response": "ok"})
+            elif doc_state == "in prelucrare":
+                res.update({"success": True, "response": "pending"})
+            elif doc_state == "XML cu erori nepreluat de sistem":
+                res.update({"success": False, "response": "missing", "error": _("XML with errors, not retrieved by the system")})
+            elif doc_state == 'nok':
+                res.update({"success": True, "response": "nok"})
+        elif response:
+            res = {"success": False, "error": _("Access error"), "response": False}
+
+        return res
+
+    def _l10n_ro_get_message_response_web_service(self, invoice):
+        """ Response is: - json, if request has errors
+                         - binary (zip file), if request is successful
+         """
+        res = {}
+
+        anaf_config = invoice.company_id.l10n_ro_account_anaf_sync_id
+        access_token = anaf_config.access_token
+
+        url = anaf_config.anaf_einvoice_sync_url + "/descarcare"
+        headers = {
+            "Content-Type": "application/xml",
+            "Authorization": f"Bearer {access_token}",
+        }
+        params = {"id": invoice.l10n_ro_edi_download}
+        response = False
+        try:
+            response = requests.get(url, params=params, headers=headers, timeout=80)
+        except Exception as e:
+            res = {"success": False, "error": str(e), "response": False}
+
+        if response and response.status_code == 200:
+            try:
+                content_type = response.headers and response.headers['Content-Type'] or False
+                if content_type == 'application/zip':
+                    res = {"success": True, "response": response.content}
+                elif content_type == 'application/json':
+                    answer = json.loads(response.content)
+                    if answer.get('eroare'):
+                        res = {"success": False, "error": answer.get('eroare'), "response": False}
+                    else:
+                        res = {"success": False, "error": _("Unknown response"), "response": False}
+            except Exception as e:
+                res = {"success": False, "error": str(e), "response": False}
+        elif response:
+            res = {"success": False, "error": _("Access error"), "response": False}
 
         return res

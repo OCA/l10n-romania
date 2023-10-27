@@ -15,6 +15,11 @@ class AccountMove(models.Model):
         help="Technical field used to track the status of a submission.",
         copy=False,
     )
+    l10n_ro_edi_download = fields.Char(
+        "Download ID (RO)",
+        help="Technical field used to track the status of a document.",
+        copy=False,
+    )
     l10n_ro_send_state = fields.Selection(
         [
             ("new", "New"),
