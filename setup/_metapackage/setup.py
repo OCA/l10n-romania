@@ -26,6 +26,7 @@ setuptools.setup(
         'odoo14-addon-l10n_ro_config',
         'odoo14-addon-l10n_ro_dvi',
         'odoo14-addon-l10n_ro_fiscal_validation',
+        'odoo14-addon-l10n_ro_journal_register',
         'odoo14-addon-l10n_ro_nondeductible_vat',
         'odoo14-addon-l10n_ro_partner_create_by_vat',
         'odoo14-addon-l10n_ro_partner_unique',
