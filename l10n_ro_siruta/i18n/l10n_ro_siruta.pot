@@ -51,7 +51,6 @@ msgstr ""
 #: model:ir.actions.act_window,name:l10n_ro_siruta.action_commune
 #: model:ir.ui.menu,name:l10n_ro_siruta.menu_commune
 #: model_terms:ir.ui.view,arch_db:l10n_ro_siruta.view_commune_search
-#: model_terms:ir.ui.view,arch_db:l10n_ro_siruta.view_commune_tree
 msgid "Communes"
 msgstr ""
 
@@ -197,6 +196,5 @@ msgstr ""
 #: model:ir.actions.act_window,name:l10n_ro_siruta.action_zone
 #: model:ir.ui.menu,name:l10n_ro_siruta.menu_zone
 #: model_terms:ir.ui.view,arch_db:l10n_ro_siruta.view_zone_search
-#: model_terms:ir.ui.view,arch_db:l10n_ro_siruta.view_zone_tree
 msgid "Zones"
 msgstr ""
