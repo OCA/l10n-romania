@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <odoo>
-    <data>
         <template id="banks">
             <small>
                 <t t-set="currency_id" t-value="res_company.currency_id" />
@@ -9,13 +8,13 @@
                 </t>
                 <t t-set="counts" t-value="0" />
                 <div
-                    t-foreach="partner_id.bank_ids.filtered(lambda r: r.l10n_ro_print_report)"
-                    t-as="bank"
-                >
+                t-foreach="partner_id.bank_ids.filtered(lambda r: r.l10n_ro_print_report)"
+                t-as="bank"
+            >
                     <t
-                        t-set="bank_currency"
-                        t-value="bank.currency_id or res_company.currency_id"
-                    />
+                    t-set="bank_currency"
+                    t-value="bank.currency_id or res_company.currency_id"
+                />
                     <t t-if="bank_currency == currency_id and counts&lt;3">
                         <div t-if="bank.bank_name">
                             <strong>Bank:</strong>
@@ -43,9 +42,9 @@
                     <div>
                         <strong>Address:</strong>
                         <address
-                            t-field="res_company.partner_id"
-                            t-options='{"widget": "contact", "fields": ["address","phone", "mobile", "fax"], "no_marker": false, "no_tag_br": true}'
-                        />
+                        t-field="res_company.partner_id"
+                        t-options='{"widget": "contact", "fields": ["address","phone", "mobile", "fax"], "no_marker": false, "no_tag_br": true}'
+                    />
                     </div>
                 </div>
             </div>
@@ -76,5 +75,4 @@
             </div>
             <br />
         </template>
-    </data>
 </odoo>
