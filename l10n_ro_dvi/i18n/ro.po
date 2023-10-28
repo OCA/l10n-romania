@@ -43,8 +43,8 @@ msgstr ""
 #. module: l10n_ro_dvi
 #: model:ir.model.fields,field_description:l10n_ro_dvi.field_l10n_ro_account_dvi_line__price_subtotal
 #, fuzzy
-msgid "Subtotal"
-msgstr "Subtotal"
+msgid "Balance"
+msgstr "Abandonează"
 
 #. module: l10n_ro_dvi
 #: model:ir.model.fields,field_description:l10n_ro_dvi.field_l10n_ro_account_dvi_line__base_amount
@@ -100,17 +100,17 @@ msgid "Custom Duty"
 msgstr "Taxă vamală"
 
 #. module: l10n_ro_dvi
-#: model:ir.model.fields,field_description:l10n_ro_dvi.field_l10n_ro_account_dvi__customs_commission_product_id
-#, fuzzy
-msgid "Customs Commission Product"
-msgstr "Produs Comision vamal"
-
-#. module: l10n_ro_dvi
 #: code:addons/l10n_ro_dvi/models/res_company.py:0
 #: model_terms:ir.ui.view,arch_db:l10n_ro_dvi.view_account_dvi_form
 #, python-format
 msgid "Customs Commission"
 msgstr "Comision vamal"
+
+#. module: l10n_ro_dvi
+#: model:ir.model.fields,field_description:l10n_ro_dvi.field_l10n_ro_account_dvi__customs_commission_product_id
+#, fuzzy
+msgid "Customs Commission Product"
+msgstr "Produs Comision vamal"
 
 #. module: l10n_ro_dvi
 #: model:ir.model.fields,field_description:l10n_ro_dvi.field_l10n_ro_account_dvi__customs_commission_value
@@ -408,11 +408,9 @@ msgstr ""
 #. module: l10n_ro_dvi
 #: model:ir.model.fields,help:l10n_ro_dvi.field_l10n_ro_account_dvi__customs_commission_product_id
 msgid ""
-"Product type service with l10n_ro_custom_commission checked (in purchase "
+"Product type service with l10n_ro_custom_commission checed (in purchase "
 "tab). Journal entry for commission will be with this product"
 msgstr ""
-"Produs de tip serviciu cu l10n_ro_custom_commission bifat (în fila de "
-"achiziții). Înregistrarea în jurnal pentru comision va fi cu acest produs"
 
 #. module: l10n_ro_dvi
 #: model:ir.model.fields,field_description:l10n_ro_dvi.field_l10n_ro_account_dvi_line__qty
@@ -675,30 +673,30 @@ msgstr "taxa calculată din custom_duty_value"
 msgid "taken from dvi if exists"
 msgstr "luat din DVI dacă există"
 
-#. module: l10n_ro_dvi
-#: model:ir.model.fields,field_description:l10n_ro_dvi.field_l10n_ro_account_dvi_line__price_subtotal
 #, fuzzy
-msgid "Balance"
-msgstr "Abandonează"
+#~ msgid "Subtotal"
+#~ msgstr "Subtotal"
 
-#. module: l10n_ro_dvi
-#: model:ir.model.fields,help:l10n_ro_dvi.field_stock_landed_cost__l10n_ro_base_tax_value
-msgid ""
-"Base VAT amount, calculated from invoice base amount, customs and commision."
-msgstr ""
-"Valoarea bază TVA, calculată din valoarea de bază a facturii, vamă și "
-"comision."
+#~ msgid ""
+#~ "Product type service with l10n_ro_custom_commission checked (in purchase "
+#~ "tab). Journal entry for commission will be with this product"
+#~ msgstr ""
+#~ "Produs de tip serviciu cu l10n_ro_custom_commission bifat (în fila de "
+#~ "achiziții). Înregistrarea în jurnal pentru comision va fi cu acest produs"
 
-#. module: l10n_ro_dvi
-#: model:ir.model.fields,field_description:l10n_ro_dvi.field_l10n_ro_account_dvi__customs_commision_product_id
-msgid "Customs Commision Product"
-msgstr "Produs Comision vamal"
+#~ msgid ""
+#~ "Base VAT amount, calculated from invoice base amount, customs and "
+#~ "commision."
+#~ msgstr ""
+#~ "Valoarea bază TVA, calculată din valoarea de bază a facturii, vamă și "
+#~ "comision."
 
-#. module: l10n_ro_dvi
-#: model:ir.model.fields,help:l10n_ro_dvi.field_l10n_ro_account_dvi__customs_commision_product_id
-msgid ""
-"Product type service with l10n_ro_custom_commision checed (in purchase tab). "
-"Journal entry for commision will be with this product"
-msgstr ""
-"Produs de tip serviciu cu l10n_ro_custom_commision bifat (în fila de "
-"achiziții). Înregistrarea în jurnal pentru comision va fi cu acest produs"
+#~ msgid "Customs Commision Product"
+#~ msgstr "Produs Comision vamal"
+
+#~ msgid ""
+#~ "Product type service with l10n_ro_custom_commision checed (in purchase "
+#~ "tab). Journal entry for commision will be with this product"
+#~ msgstr ""
+#~ "Produs de tip serviciu cu l10n_ro_custom_commision bifat (în fila de "
+#~ "achiziții). Înregistrarea în jurnal pentru comision va fi cu acest produs"
