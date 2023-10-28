@@ -188,7 +188,6 @@ msgstr "Dacă sunt bifate, mesajele noi necesită atenția dvs."
 
 #. module: l10n_ro_account_anaf_sync
 #: model:ir.model.fields,help:l10n_ro_account_anaf_sync.field_l10n_ro_account_anaf_sync__message_has_error
-#: model:ir.model.fields,help:l10n_ro_account_anaf_sync.field_l10n_ro_account_anaf_sync__message_has_sms_error
 msgid "If checked, some messages have a delivery error."
 msgstr "Dacă sunt bifate, unele mesaje au o eroare de livrare."
 
@@ -326,11 +325,6 @@ msgid "Romania - Account ANAF Sync"
 msgstr "Cont ANAF Sync"
 
 #. module: l10n_ro_account_anaf_sync
-#: model:ir.model.fields,field_description:l10n_ro_account_anaf_sync.field_l10n_ro_account_anaf_sync__message_has_sms_error
-msgid "SMS Delivery error"
-msgstr "Eroare de livrare prin SMS"
-
-#. module: l10n_ro_account_anaf_sync
 #: model:ir.model.fields,field_description:l10n_ro_account_anaf_sync.field_l10n_ro_account_anaf_sync__state
 msgid "State"
 msgstr "Status"
@@ -437,6 +431,9 @@ msgstr ""
 #, python-format
 msgid "You don't have ANAF access token. Please get it first."
 msgstr "Nu aveți un token de acces ANAF. Vă rugăm să-l generati mai întâi."
+
+#~ msgid "SMS Delivery error"
+#~ msgstr "Eroare de livrare prin SMS"
 
 #, python-format
 #~ msgid ""
