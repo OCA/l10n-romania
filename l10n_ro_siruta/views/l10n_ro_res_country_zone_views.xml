@@ -16,7 +16,7 @@
         <field name="name">l10n.ro.res.country.zone.tree</field>
         <field name="model">l10n.ro.res.country.zone</field>
         <field name="arch" type="xml">
-            <tree string="Zones">
+            <tree>
                 <field name="name" />
                 <field name="siruta" />
                 <field name="country_id" />

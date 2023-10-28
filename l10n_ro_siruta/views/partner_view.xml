@@ -1,6 +1,5 @@
 <?xml version="1.0" ?>
-<openerp>
-    <data>
+<odoo>
         <!-- Partner -->
         <record model="ir.ui.view" id="partners_form_address">
             <field name="name">l10n.ro.partners.form.address</field>
@@ -11,19 +10,19 @@
                 <field name="state_id" position="before">
                     <field name="is_l10n_ro_record" invisible="1" />
                     <field
-                        name="l10n_ro_commune_id"
-                        class="o_address_commune"
-                        placeholder="City/Commune"
-                        options='{"no_open": True}'
-                        attrs="{'readonly': [('type', '=', 'contact'),('parent_id', '!=', False)], 'invisible': [('is_l10n_ro_record','=',False)]}"
-                    />
+                    name="l10n_ro_commune_id"
+                    class="o_address_commune"
+                    placeholder="City/Commune"
+                    options='{"no_open": True}'
+                    attrs="{'readonly': [('type', '=', 'contact'),('parent_id', '!=', False)], 'invisible': [('is_l10n_ro_record','=',False)]}"
+                />
                     <field
-                        name="l10n_ro_zone_id"
-                        class="o_address_zone"
-                        placeholder="Zone"
-                        options='{"no_open": True}'
-                        attrs="{'readonly': [('type', '=', 'contact'),('parent_id', '!=', False)], 'invisible': [('is_l10n_ro_record','=',False)]}"
-                    />
+                    name="l10n_ro_zone_id"
+                    class="o_address_zone"
+                    placeholder="Zone"
+                    options='{"no_open": True}'
+                    attrs="{'readonly': [('type', '=', 'contact'),('parent_id', '!=', False)], 'invisible': [('is_l10n_ro_record','=',False)]}"
+                />
                 </field>
             </field>
         </record>
@@ -36,21 +35,20 @@
                 <field name="state_id" position="before">
                     <field name="is_l10n_ro_record" invisible="1" />
                     <field
-                        name="l10n_ro_commune_id"
-                        class="o_address_commune"
-                        placeholder="City/Commune"
-                        options='{"no_open": True}'
-                        attrs="{'readonly': [('type', '=', 'contact'),('parent_id', '!=', False)], 'invisible': [('is_l10n_ro_record','=',False)]}"
-                    />
+                    name="l10n_ro_commune_id"
+                    class="o_address_commune"
+                    placeholder="City/Commune"
+                    options='{"no_open": True}'
+                    attrs="{'readonly': [('type', '=', 'contact'),('parent_id', '!=', False)], 'invisible': [('is_l10n_ro_record','=',False)]}"
+                />
                     <field
-                        name="l10n_ro_zone_id"
-                        class="o_address_zone"
-                        placeholder="Zone"
-                        options='{"no_open": True}'
-                        attrs="{'readonly': [('type', '=', 'contact'),('parent_id', '!=', False)], 'invisible': [('is_l10n_ro_record','=',False)]}"
-                    />
+                    name="l10n_ro_zone_id"
+                    class="o_address_zone"
+                    placeholder="Zone"
+                    options='{"no_open": True}'
+                    attrs="{'readonly': [('type', '=', 'contact'),('parent_id', '!=', False)], 'invisible': [('is_l10n_ro_record','=',False)]}"
+                />
                 </field>
             </field>
         </record>
-    </data>
-</openerp>
+    </odoo>

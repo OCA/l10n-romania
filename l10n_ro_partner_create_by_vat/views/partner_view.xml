@@ -1,6 +1,5 @@
 <?xml version="1.0" ?>
-<openerp>
-    <data>
+<odoo>
         <!-- Partner -->
 
         <record id="view_partner_create_by_vat_einvoice" model="ir.ui.view">
@@ -10,10 +9,10 @@
             <field name="arch" type="xml">
                 <field name="l10n_ro_e_invoice" position="after">
                     <field
-                        name="l10n_ro_old_name"
-                        placeholder="Old Name"
-                        attrs="{'invisible': ['|',('is_company','=', False),('is_l10n_ro_record','=',False)]}"
-                    />
+                    name="l10n_ro_old_name"
+                    placeholder="Old Name"
+                    attrs="{'invisible': ['|',('is_company','=', False),('is_l10n_ro_record','=',False)]}"
+                />
                 </field>
             </field>
         </record>
@@ -26,18 +25,18 @@
                 <page name="accounting" position="inside">
                     <field name="is_l10n_ro_record" invisible="1" />
                     <group
-                        string="ANAF History"
-                        attrs="{'invisible': [('is_l10n_ro_record', '=', False)]}"
-                    >
+                    string="ANAF History"
+                    attrs="{'invisible': [('is_l10n_ro_record', '=', False)]}"
+                >
                         <separator string="ANAF - Active State History" />
                         <field
-                            name="l10n_ro_active_anaf_line_ids"
-                            readonly="1"
-                            force_save="1"
-                            nolabel="1"
-                            colspan="4"
-                        >
-                            <tree string="ANAF - Active State History">
+                        name="l10n_ro_active_anaf_line_ids"
+                        readonly="1"
+                        force_save="1"
+                        nolabel="1"
+                        colspan="4"
+                    >
+                            <tree>
                                 <field name="partner_id" invisible="1" />
                                 <field name="date" />
                                 <field name="act" />
@@ -51,13 +50,13 @@
                         </field>
                         <separator string="ANAF - VAT Subjected History" />
                         <field
-                            name="l10n_ro_vat_subjected_anaf_line_ids"
-                            readonly="1"
-                            force_save="1"
-                            nolabel="1"
-                            colspan="4"
-                        >
-                            <tree string="ANAF - VAT Subjected History">
+                        name="l10n_ro_vat_subjected_anaf_line_ids"
+                        readonly="1"
+                        force_save="1"
+                        nolabel="1"
+                        colspan="4"
+                    >
+                            <tree>
                                 <field name="partner_id" invisible="1" />
                                 <field name="date" />
                                 <field name="start_date" />
@@ -71,5 +70,4 @@
                 </page>
             </field>
         </record>
-    </data>
-</openerp>
+    </odoo>

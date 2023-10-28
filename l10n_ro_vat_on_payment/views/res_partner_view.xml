@@ -68,17 +68,17 @@
             <page name="accounting" position="inside">
                 <field name="is_l10n_ro_record" invisible="1" />
                 <group attrs="{'invisible': [('is_l10n_ro_record', '=', False)]}">
-                    <separator string="ANAF - VAT on Payment" />
-                    <field name="l10n_ro_anaf_history" nolabel="1" colspan="4">
-                        <tree string="ANAF History">
-                            <field name="start_date" />
-                            <field name="end_date" />
-                            <field name="publish_date" />
-                            <field name="operation_date" />
-                            <field name="operation_type" />
-                        </tree>
-                    </field>
-                </group>
+    <separator string="ANAF - VAT on Payment" />
+    <field name="l10n_ro_anaf_history" nolabel="1" colspan="4">
+        <tree>
+            <field name="start_date" />
+            <field name="end_date" />
+            <field name="publish_date" />
+            <field name="operation_date" />
+            <field name="operation_type" />
+        </tree>
+    </field>
+</group>
             </page>
         </field>
     </record>

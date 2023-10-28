@@ -128,7 +128,6 @@ msgstr ""
 #. module: l10n_ro_dvi
 #: model:ir.actions.act_window,name:l10n_ro_dvi.action_account_dvi
 #: model:ir.model.fields.selection,name:l10n_ro_dvi.selection__stock_landed_cost__l10n_ro_cost_type__dvi
-#: model_terms:ir.ui.view,arch_db:l10n_ro_dvi.view_account_dvi_tree
 #: model_terms:ir.ui.view,arch_db:l10n_ro_dvi.view_move_form
 msgid "DVI"
 msgstr ""
@@ -215,7 +214,6 @@ msgstr ""
 
 #. module: l10n_ro_dvi
 #: model:ir.model.fields,help:l10n_ro_dvi.field_l10n_ro_account_dvi__message_has_error
-#: model:ir.model.fields,help:l10n_ro_dvi.field_l10n_ro_account_dvi__message_has_sms_error
 msgid "If checked, some messages have a delivery error."
 msgstr ""
 
@@ -457,11 +455,6 @@ msgstr ""
 #. module: l10n_ro_dvi
 #: model:ir.ui.menu,name:l10n_ro_dvi.menu_action_account_dvi
 msgid "Romanian DVI"
-msgstr ""
-
-#. module: l10n_ro_dvi
-#: model:ir.model.fields,field_description:l10n_ro_dvi.field_l10n_ro_account_dvi__message_has_sms_error
-msgid "SMS Delivery error"
 msgstr ""
 
 #. module: l10n_ro_dvi
