@@ -80,7 +80,6 @@ msgstr "Închide conturile de debit și credit"
 
 #. module: l10n_ro_account_period_close
 #: model_terms:ir.ui.view,arch_db:l10n_ro_account_period_close.view_l10n_ro_account_period_closing_form
-#: model_terms:ir.ui.view,arch_db:l10n_ro_account_period_close.view_l10n_ro_account_period_closing_tree
 msgid "Closing"
 msgstr "Închidere"
 
