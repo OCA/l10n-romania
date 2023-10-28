@@ -9,7 +9,7 @@
 
 # l10n-romania
 
-TODO: add repo description.
+Romanian Localisation.
 
 <!-- /!\ do not modify below this line -->
 
