@@ -138,9 +138,13 @@ class StockMoveLine(models.Model):
             description = move.description_picking
             if description == name or description == move.product_id.name:
                 description = False
-            product = move.product_id
             line_key = (
-                f'{product.id}_{product.display_name}_{description or ""}_{uom.id}'
+                str(move_line.product_id.id)
+                + "_"
+                + name
+                + (description or "")
+                + "uom "
+                + str(uom.id)
             )
             return (line_key, name, description, uom)
 

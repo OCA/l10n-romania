@@ -88,6 +88,9 @@ class TestPurchaseStockPickingValued(TestStockPickingValued):
             self.assertEqual(picking.l10n_ro_amount_total, 238.0)
 
     def test_06_po_currency_qty(self):
+        self.env["res.currency.rate"].search(
+            [("name", "=", fields.date.today())]
+        ).unlink()
         self.env["res.currency.rate"].create(
             {
                 "currency_id": self.env.ref("base.EUR").id,
