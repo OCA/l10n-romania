@@ -61,10 +61,11 @@ class AccountMove(models.Model):
     ):
         if self.is_l10n_ro_record:
             self = self._update_context_with_currency_rate()
-        super()._recompute_dynamic_lines(
+        res = super()._recompute_dynamic_lines(
             recompute_all_taxes=recompute_all_taxes,
             recompute_tax_base_amount=recompute_tax_base_amount,
         )
+        return res
 
 
 class AccountMoveLine(models.Model):

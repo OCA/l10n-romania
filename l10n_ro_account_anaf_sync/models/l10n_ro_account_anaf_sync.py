@@ -94,7 +94,7 @@ class AccountANAFSync(models.Model):
         self.ensure_one()
         if self.access_token:
             raise UserError(
-                _("You already have ANAF access token. Please revoke it first.")
+                _("You already have an ANAF access token. Please revoke it first.")
             )
 
         # Construiește URL-ul de autorizare

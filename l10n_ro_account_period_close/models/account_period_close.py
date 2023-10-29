@@ -9,7 +9,7 @@ class AccountPeriodClosing(models.Model):
     _name = "l10n.ro.account.period.closing"
     _description = "Account Period Closing"
 
-    name = fields.Char("Name", required=True)
+    name = fields.Char(required=True)
     company_id = fields.Many2one(
         "res.company",
         string="Company",
@@ -18,7 +18,6 @@ class AccountPeriodClosing(models.Model):
     )
     type = fields.Selection(
         [("income", "Incomes"), ("expense", "Expenses"), ("selected", "Selected")],
-        string="Type",
         required=True,
     )
     close_result = fields.Boolean("Close debit and credit accounts")

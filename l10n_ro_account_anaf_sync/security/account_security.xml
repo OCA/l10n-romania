@@ -8,4 +8,5 @@
                 ['|',('company_id','=',False),('company_id','in',company_ids)]
             </field>
         </record>
+
 </odoo>

@@ -35,9 +35,9 @@ class ResCountryCommune(models.Model):
             self.state_id = False
             self.country_id = self.zone_id.country_id.id
 
-    name = fields.Char("Name", required=True, index=True)
+    name = fields.Char(required=True, index=True)
     state_id = fields.Many2one("res.country.state", string="State")
     zone_id = fields.Many2one("l10n.ro.res.country.zone", string="Zone")
     country_id = fields.Many2one("res.country", string="Country")
-    siruta = fields.Char("Siruta")
+    siruta = fields.Char()
     city_ids = fields.One2many("res.city", "state_id", string="Cities")

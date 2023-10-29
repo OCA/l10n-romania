@@ -83,7 +83,7 @@ class TestStockCommon2(TestStockCommon):
 
             self.picking.button_validate()
             self.picking._action_done()
-            _logger.debug("Receptie facuta")
+            _logger.info("Receptie facuta")
 
         self.po = po
         return po

@@ -22,7 +22,7 @@ class ProductProduct(models.Model):
         Overwrite to allow multiple prices per location
         """
         l10n_ro_records = self.filtered("is_l10n_ro_record")
-        super(ProductProduct, self - l10n_ro_records)._compute_value_svl()
+        res = super(ProductProduct, self - l10n_ro_records)._compute_value_svl()
 
         if l10n_ro_records:
             company = self.env.company
@@ -85,6 +85,7 @@ class ProductProduct(models.Model):
             remaining = l10n_ro_records - products
             remaining.value_svl = 0
             remaining.quantity_svl = 0
+        return res
 
     def _prepare_out_svl_vals(self, quantity, company):
         # FOr Romania, prepare a svl vals list for each svl reserved
@@ -255,10 +256,10 @@ class ProductProduct(models.Model):
             negative_stock_value = last_fifo_price * -qty_to_take_on_candidates
             tmp_value = abs(negative_stock_value)
             vals = {
+                "quantity": -qty_to_take_on_candidates,
                 "remaining_qty": -qty_to_take_on_candidates,
                 "value": -tmp_value,
                 "unit_cost": last_fifo_price,
-                "quantity": -qty_to_take_on_candidates,
             }
             candidate_list.append(vals)
         return candidate_list

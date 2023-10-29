@@ -11,6 +11,8 @@ from string import printable
 
 from odoo import models
 
+_logger = logging.getLogger(__name__)
+
 
 class MT940Parser(models.AbstractModel):
     _name = "l10n.ro.account.bank.statement.import.mt940.parser"
@@ -247,7 +249,7 @@ class MT940Parser(models.AbstractModel):
                             continue
                         record_line = line
                 except StopIteration:
-                    pass
+                    _logger.info("StopIteration: statement")
                 if result["statement"]:
                     if record_line:
                         self.handle_record(record_line, result)

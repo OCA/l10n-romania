@@ -1,6 +1,6 @@
 This module allows you to create the partners (companies) based on their
-VAT number. It will complete the name, address, phone .. vat_subjected of the partner from ANAF
+VAT number. It will complete the name, address of the partner from ANAF
 webservice.
 
 ANAF
-https://webservicesp.anaf.ro/PlatitorTvaRest/api/v7/ws/tva
+https://webservicesp.anaf.ro/PlatitorTvaRest/api/v8/ws/tva

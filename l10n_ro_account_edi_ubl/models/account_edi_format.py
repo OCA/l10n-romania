@@ -21,8 +21,6 @@ class AccountEdiXmlCIUSRO(models.Model):
         builder = self._get_xml_builder(invoice.company_id)
         xml_content, errors = builder._export_invoice(invoice)
         xml_content = xml_content.decode()
-        xml_content = xml_content.replace("CreditNoteLine", "InvoiceLine")
-        xml_content = xml_content.replace("CreditedQuantity", "InvoicedQuantity")
         xml_content = xml_content.encode()
         xml_name = builder._export_invoice_filename(invoice)
         return self.env["ir.attachment"].create(
@@ -128,7 +126,7 @@ class AccountEdiXmlCIUSRO(models.Model):
         errors = []
         if not partner.street:
             errors += [
-                _("The partner doesn't have the street completed.") % partner.name
+                _("The partner %s doesn't have the street completed.") % partner.name
             ]
 
         state_bucuresti = self.env.ref("base.RO_B")

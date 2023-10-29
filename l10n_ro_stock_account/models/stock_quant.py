@@ -17,6 +17,7 @@ class StockQuant(models.Model):
     @api.depends(
         "company_id", "location_id", "owner_id", "product_id", "quantity", "lot_id"
     )
+    # pylint: disable=W8110
     def _compute_value(self):
         ro_quants = self.filtered(lambda quant: quant.is_l10n_ro_record)
         super(StockQuant, self - ro_quants)._compute_value()

@@ -60,7 +60,7 @@ class ProductCategory(models.Model):
                         % record.name
                     )
         else:
-            super(ProductCategory, self)._check_valuation_accouts()
+            return super(ProductCategory, self)._check_valuation_accouts()
 
     @api.onchange(
         "property_stock_valuation_account_id",

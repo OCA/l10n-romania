@@ -12,7 +12,7 @@ class StockPicking(models.Model):
     l10n_ro_accounting_date = fields.Datetime(
         "Accounting Date",
         copy=False,
-        help="If this field is set, the svl and accounting entiries will "
+        help="If this field is set, the svl and accounting entries will "
         "have this date, If not will have the today date as it should be",
         tracking=True,
     )
@@ -27,8 +27,8 @@ class StockPicking(models.Model):
                         _(
                             "You can not have a Accounting date=%s for picking "
                             "bigger than today!"
-                            % picking.l10n_ro_accounting_date.date()
                         )
+                        % picking.l10n_ro_accounting_date.date()
                     )
                 picking.write(
                     {
