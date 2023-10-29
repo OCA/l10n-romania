@@ -2,15 +2,13 @@
 # Copyright (C) 2020 NextERP Romania
 # Copyright (C) 2020 Terrabit
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
-from odoo import _, api, fields, models
-from odoo.exceptions import UserError
+from odoo import api, fields, models
 
 
 class StockValuationLayer(models.Model):
     _name = "stock.valuation.layer"
     _inherit = ["stock.valuation.layer", "l10n.ro.mixin"]
 
-    active = fields.Boolean(default=True)
     l10n_ro_valued_type = fields.Char(string="Romania - Valued Type")
     l10n_ro_invoice_line_id = fields.Many2one(
         "account.move.line", string="Romania - Invoice Line"
@@ -81,6 +79,10 @@ class StockValuationLayer(models.Model):
                 svl.product_id.l10n_ro_property_stock_valuation_account_id
                 or svl.product_id.categ_id.property_stock_valuation_account_id
             )
+            price_diff_account = (
+                svl.product_id.property_account_creditor_price_difference
+                or svl.product_id.categ_id.property_account_creditor_price_difference_categ
+            )
             if svl.product_id.categ_id.l10n_ro_stock_account_change:
                 if (
                     svl.value > 0
@@ -96,7 +98,10 @@ class StockValuationLayer(models.Model):
                 for aml in svl.account_move_id.line_ids.sorted(
                     lambda l: l.account_id.code
                 ):
-                    if aml.account_id.code[0] in ["2", "3"]:
+                    if (
+                        aml.account_id.code[0] in ["2", "3"]
+                        and aml.account_id != price_diff_account
+                    ):
                         if round(aml.balance, 2) == round(svl.value, 2):
                             account = aml.account_id
                             break
@@ -213,8 +218,3 @@ class StockValuationLayer(models.Model):
             account_moves._post()
 
         return res
-
-    def toggle_active(self):
-        if not self.env.user.has_group("l10n_ro_stock_account.group_archive_svl"):
-            raise UserError(_("Your user cannot archive SVLs"))
-        return super().toggle_active()

@@ -479,6 +479,7 @@ class TestStockCommon(ValuationReconciliationTestCommon):
         return_pick = self.env["stock.picking"].browse(res["res_id"])
 
         # Validate picking
+        return_pick.button_validate()
         return_pick.action_confirm()
         return_pick.action_assign()
         for move_line in return_pick.move_lines:

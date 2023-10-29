@@ -62,13 +62,11 @@ class AccountInvoiceDVI(models.Model):
     )
     total_base_tax_value = fields.Monetary(
         compute="_compute_total_tax_value",
-        readonly=1,
         help="Is readonly sum of product tax and custom tax."
         "This must be the tax value that you have on dvi",
     )
     total_tax_value = fields.Monetary(
         compute="_compute_total_tax_value",
-        readonly=1,
         help="Is readonly sum of product tax and custom tax."
         "This must be the tax value that you have on dvi",
     )
@@ -446,7 +444,7 @@ class AccountDVILine(models.Model):
         help="The quantity declared in the DVI.",
     )
     base_amount = fields.Float(compute="_compute_base_vat_amount")
-    vat_amount = fields.Float(string="VAT Amount", compute="_compute_base_vat_amount")
+    vat_amount = fields.Float(compute="_compute_base_vat_amount")
 
     @api.depends("line_qty")
     def _compute_base_vat_amount(self):

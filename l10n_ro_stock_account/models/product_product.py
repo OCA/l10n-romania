@@ -55,14 +55,32 @@ class ProductProduct(models.Model):
             if self.env.context.get("to_date"):
                 to_date = fields.Datetime.to_datetime(self.env.context["to_date"])
                 domain.append(("create_date", "<=", to_date))
+            else:
+                domain.append(("remaining_qty", ">", 0))
             groups = self.env["stock.valuation.layer"].read_group(
-                domain, ["value:sum", "quantity:sum"], ["product_id"]
+                domain,
+                [
+                    "value:sum",
+                    "quantity:sum",
+                    "remaining_value:sum",
+                    "remaining_qty:sum",
+                ],
+                ["product_id"],
             )
             products = self.browse()
             for group in groups:
                 product = self.browse(group["product_id"][0])
-                product.value_svl = self.env.company.currency_id.round(group["value"])
-                product.quantity_svl = group["quantity"]
+                if self.env.context.get("to_date"):
+                    product.value_svl = self.env.company.currency_id.round(
+                        group["value"]
+                    )
+                    product.quantity_svl = group["quantity"]
+                else:
+                    product.value_svl = self.env.company.currency_id.round(
+                        group["remaining_value"]
+                    )
+                    product.quantity_svl = group["remaining_qty"]
+
                 products |= product
             remaining = l10n_ro_records - products
             remaining.value_svl = 0
@@ -453,6 +471,8 @@ class ProductProduct(models.Model):
                     )
                 ]
             for vals in svsl_vals:
+                if "l10n_ro_tracking" in vals:
+                    vals.pop("l10n_ro_tracking")
                 vals["description"] = description + vals.pop("rounding_adjustment", "")
                 vals["company_id"] = self.env.company.id
             empty_stock_svl_list.extend(svsl_vals)

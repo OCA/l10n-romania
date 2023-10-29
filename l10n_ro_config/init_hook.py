@@ -36,11 +36,11 @@ def store_field_l10n_ro_vat_number(cr):
             """
         )
 
-    logger.info("Computing field l10n_ro_vat_number on res.partner")
+        logger.info("Computing field l10n_ro_vat_number on res.partner")
 
-    cr.execute(
-        r"""
-        UPDATE res_partner partner
-        SET l10n_ro_vat_number = NULLIF(regexp_replace(vat, '[^\.\d]', '', 'g'), '')
-        """
-    )
+        cr.execute(
+            r"""
+            UPDATE res_partner partner
+            SET l10n_ro_vat_number = NULLIF(regexp_replace(vat, '[^\.\d]', '', 'g'), '')
+            """
+        )
