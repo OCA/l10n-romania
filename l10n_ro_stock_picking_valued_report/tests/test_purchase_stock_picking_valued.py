@@ -14,15 +14,8 @@ class TestPurchaseStockPickingValued(TestStockPickingValued):
         if description == name or description == move_line.product_id.name:
             description = False
         uom = move_line.product_uom_id
-        line_key = (
-            str(move_line.product_id.id)
-            + "_"
-            + name
-            + (description or "")
-            + "uom "
-            + str(uom.id)
-        )
-
+        product = move_line.product_id
+        line_key = f'{product.id}_{product.display_name}_{description or ""}_{uom.id}'
         return line_key
 
     def test_01_confirm_order(self):
@@ -88,6 +81,9 @@ class TestPurchaseStockPickingValued(TestStockPickingValued):
             self.assertEqual(picking.l10n_ro_amount_total, 238.0)
 
     def test_06_po_currency_qty(self):
+        self.env["res.currency.rate"].search(
+            [("name", "=", fields.date.today())]
+        ).unlink()
         self.env["res.currency.rate"].create(
             {
                 "currency_id": self.env.ref("base.EUR").id,
