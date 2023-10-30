@@ -23,7 +23,7 @@ class TestStockReport(TestStockCommon):
         )
         _logger.info("Start transfer")
         self.transfer(location_id, location_dest_id, post=False)
-        self.picking.move_lines[0].move_line_ids[0].qty_done = 1
+        self.picking.move_lines[0].quantity_done = 1
         action_data = self.picking.button_validate()
         backorder_wizard = Form(
             self.env["stock.backorder.confirmation"].with_context(
@@ -52,7 +52,7 @@ class TestStockReport(TestStockCommon):
         )
         _logger.info("Start transfer")
         self.transfer(location_id, location_dest_id, post=False)
-        self.picking.move_lines[0].move_line_ids[0].qty_done = 1
+        self.picking.move_lines[0].quantity_done = 1
         action_data = self.picking.button_validate()
         backorder_wizard = Form(
             self.env["stock.backorder.confirmation"].with_context(
