@@ -121,12 +121,9 @@ msgstr ""
 #: code:addons/l10n_ro_stock_account_reception_in_progress/models/purchase_order.py:0
 #, python-format
 msgid ""
-"There is no billable line. If a product has a control policy based on "
+"There is no invoiceable line. If a product has a control policy based on "
 "received quantity, please make sure that a quantity has been received."
 msgstr ""
-"Nu există nici o linie facturabilă. Dacă un produs are o politică de control "
-"bazată pecantitate primită, vă rugăm să vă asigurați că a fost primită o "
-"cantitate."
 
 #. module: l10n_ro_stock_account_reception_in_progress
 #: model:ir.model,name:l10n_ro_stock_account_reception_in_progress.model_stock_picking
@@ -152,3 +149,12 @@ msgid ""
 msgstr ""
 "Nu puteți avea 2 facturi pe o comandă de achiziție marcată cu Recepție în "
 "curs."
+
+#, python-format
+#~ msgid ""
+#~ "There is no billable line. If a product has a control policy based on "
+#~ "received quantity, please make sure that a quantity has been received."
+#~ msgstr ""
+#~ "Nu există nici o linie facturabilă. Dacă un produs are o politică de "
+#~ "control bazată pecantitate primită, vă rugăm să vă asigurați că a fost "
+#~ "primită o cantitate."
