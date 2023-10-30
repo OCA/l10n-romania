@@ -51,9 +51,9 @@ msgstr "Sesiune Punct de vânzare"
 #. module: l10n_ro_pos
 #. openerp-web
 #: code:addons/l10n_ro_pos/static/src/xml/pos.xml:0
-#, fuzzy, python-format
-msgid "Sale to individuals only.."
-msgstr "Vânzare doar către persoane fizice."
+#, python-format
+msgid "Sale to individuals only."
+msgstr ""
 
 #. module: l10n_ro_pos
 #: model_terms:ir.ui.view,arch_db:l10n_ro_pos.report_saledetails
@@ -64,6 +64,10 @@ msgstr "Valoare stoc"
 #: model_terms:ir.ui.view,arch_db:l10n_ro_pos.report_saledetails
 msgid "Stock Price Unit"
 msgstr "Preț stoc"
+
+#, fuzzy, python-format
+#~ msgid "Sale to individuals only.."
+#~ msgstr "Vânzare doar către persoane fizice."
 
 #~ msgid ""
 #~ "Account used as counterpart of the income account in the accounting entry "
