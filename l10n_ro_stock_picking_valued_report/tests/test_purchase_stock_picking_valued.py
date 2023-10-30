@@ -98,7 +98,7 @@ class TestPurchaseStockPickingValued(TestStockPickingValued):
             picking._action_done()
             self.assertEqual(picking.l10n_ro_amount_untaxed, 900.0)
             self.assertEqual(picking.l10n_ro_amount_tax, 171.0)
-            self.assertEqual(picking.l10n_ro_amount_total, 1171.0)
+            self.assertEqual(picking.l10n_ro_amount_total, 1071.0)
 
         move_line = self.purchase_order.picking_ids.move_line_ids
         agg_lines = move_line._get_aggregated_product_quantities()
