@@ -33,8 +33,8 @@ msgstr "Istoricul ANAF despre TVA la Încasare"
 
 #. module: l10n_ro_vat_on_payment
 #: model:ir.model.fields,field_description:l10n_ro_vat_on_payment.field_l10n_ro_res_partner_anaf__anaf_id
-msgid "ANAF ID"
-msgstr "ID ANAF"
+msgid "Anaf"
+msgstr ""
 
 #. module: l10n_ro_vat_on_payment
 #: model:ir.model,name:l10n_ro_vat_on_payment.model_res_partner
@@ -175,8 +175,14 @@ msgstr "Actualizează TVA la Încasare"
 
 #. module: l10n_ro_vat_on_payment
 #: model:ir.model.fields,field_description:l10n_ro_vat_on_payment.field_l10n_ro_res_partner_anaf__vat
-msgid "VAT"
-msgstr "TVA"
+msgid "Vat"
+msgstr ""
+
+#~ msgid "ANAF ID"
+#~ msgstr "ID ANAF"
+
+#~ msgid "VAT"
+#~ msgstr "TVA"
 
 #~ msgid "ANAF History"
 #~ msgstr "Istoric ANAF"
