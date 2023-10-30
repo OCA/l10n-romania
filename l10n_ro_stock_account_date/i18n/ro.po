@@ -23,6 +23,18 @@ msgid "Accounting Date"
 msgstr "Data contabilă"
 
 #. module: l10n_ro_stock_account_date
+#: code:addons/l10n_ro_stock_account_date/models/stock_move.py:0
+#, python-format
+msgid "Cannot validate stock move due to account date restriction."
+msgstr ""
+
+#. module: l10n_ro_stock_account_date
+#: code:addons/l10n_ro_stock_account_date/models/stock_move.py:0
+#, python-format
+msgid "Cannot validate stock move due to date restriction."
+msgstr ""
+
+#. module: l10n_ro_stock_account_date
 #: model:ir.model.fields,field_description:l10n_ro_stock_account_date.field_stock_valuation_layer__create_uid
 msgid "Created by"
 msgstr "Creat de"
@@ -33,6 +45,7 @@ msgid "Created on"
 msgstr "Creat în"
 
 #. module: l10n_ro_stock_account_date
+#: model:ir.model.fields,field_description:l10n_ro_stock_account_date.field_account_move__display_name
 #: model:ir.model.fields,field_description:l10n_ro_stock_account_date.field_stock_move__display_name
 #: model:ir.model.fields,field_description:l10n_ro_stock_account_date.field_stock_move_line__display_name
 #: model:ir.model.fields,field_description:l10n_ro_stock_account_date.field_stock_picking__display_name
@@ -41,6 +54,7 @@ msgid "Display Name"
 msgstr "Nume afișat"
 
 #. module: l10n_ro_stock_account_date
+#: model:ir.model.fields,field_description:l10n_ro_stock_account_date.field_account_move__id
 #: model:ir.model.fields,field_description:l10n_ro_stock_account_date.field_stock_move__id
 #: model:ir.model.fields,field_description:l10n_ro_stock_account_date.field_stock_move_line__id
 #: model:ir.model.fields,field_description:l10n_ro_stock_account_date.field_stock_picking__id
@@ -51,11 +65,15 @@ msgstr "ID"
 #. module: l10n_ro_stock_account_date
 #: model:ir.model.fields,help:l10n_ro_stock_account_date.field_stock_picking__l10n_ro_accounting_date
 msgid ""
-"If this field is set, the svl and accounting entiries will have this date, "
-"If not will have the today date as it should be"
+"If this field is set, the svl and accounting entries will have this date, If "
+"not will have the today date as it should be"
 msgstr ""
-"Dacă acest câmp este setat, evaluarile de stoc și contabile vor avea această "
-"dată,Dacă nu, va avea data de astăzi așa cum ar trebui să fie"
+
+#. module: l10n_ro_stock_account_date
+#: code:addons/l10n_ro_stock_account_date/models/account_move.py:0
+#, python-format
+msgid "Incorrect Date"
+msgstr ""
 
 #. module: l10n_ro_stock_account_date
 #: model:ir.model.fields,field_description:l10n_ro_stock_account_date.field_stock_move__is_l10n_ro_record
@@ -65,11 +83,17 @@ msgid "Is Romanian Record"
 msgstr "Inregistrare Romania"
 
 #. module: l10n_ro_stock_account_date
+#: model:ir.model,name:l10n_ro_stock_account_date.model_account_move
+msgid "Journal Entry"
+msgstr ""
+
+#. module: l10n_ro_stock_account_date
 #: model:ir.model.fields,field_description:l10n_ro_stock_account_date.field_stock_valuation_layer__l10n_ro_date_done
 msgid "L10N Ro Date Done"
 msgstr "Data Procesarii"
 
 #. module: l10n_ro_stock_account_date
+#: model:ir.model.fields,field_description:l10n_ro_stock_account_date.field_account_move____last_update
 #: model:ir.model.fields,field_description:l10n_ro_stock_account_date.field_stock_move____last_update
 #: model:ir.model.fields,field_description:l10n_ro_stock_account_date.field_stock_move_line____last_update
 #: model:ir.model.fields,field_description:l10n_ro_stock_account_date.field_stock_picking____last_update
@@ -103,13 +127,17 @@ msgid "Stock Valuation Layer"
 msgstr "Nivel evaluare stoc"
 
 #. module: l10n_ro_stock_account_date
+#: code:addons/l10n_ro_stock_account_date/models/account_move.py:0
+#, python-format
+msgid "There is no stock move with date %(date)s for product %(product)s"
+msgstr ""
+
+#. module: l10n_ro_stock_account_date
 #: model:ir.model.fields,help:l10n_ro_stock_account_date.field_stock_valuation_layer__l10n_ro_date_done
 msgid ""
-"This is the date when this recod was created. Original create_date is writen "
-"at reception by module nexterp_stock_date"
+"This is the date when this record was created. Original create_date is "
+"writen at reception by module l10n_ro_stock_account_date"
 msgstr ""
-"Aceasta este data la care a fost creată această înregistrare. Data creearii "
-"originale este scrisă la recepție."
 
 #. module: l10n_ro_stock_account_date
 #: model:ir.model,name:l10n_ro_stock_account_date.model_stock_picking
@@ -122,3 +150,17 @@ msgstr "Transfer"
 msgid "You can not have a Accounting date=%s for picking bigger than today!"
 msgstr ""
 "Nu puteți avea o dată contabilă=%s a transferului mai mare decât astăzi!"
+
+#~ msgid ""
+#~ "If this field is set, the svl and accounting entiries will have this "
+#~ "date, If not will have the today date as it should be"
+#~ msgstr ""
+#~ "Dacă acest câmp este setat, evaluarile de stoc și contabile vor avea "
+#~ "această dată,Dacă nu, va avea data de astăzi așa cum ar trebui să fie"
+
+#~ msgid ""
+#~ "This is the date when this recod was created. Original create_date is "
+#~ "writen at reception by module nexterp_stock_date"
+#~ msgstr ""
+#~ "Aceasta este data la care a fost creată această înregistrare. Data "
+#~ "creearii originale este scrisă la recepție."
