@@ -49,7 +49,7 @@ msgstr ""
 #. openerp-web
 #: code:addons/l10n_ro_pos/static/src/xml/pos.xml:0
 #, python-format
-msgid "Sale to individuals only.."
+msgid "Sale to individuals only."
 msgstr ""
 
 #. module: l10n_ro_pos
