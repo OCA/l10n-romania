@@ -528,11 +528,6 @@ msgid "Utility field to express amount currency"
 msgstr ""
 
 #. module: l10n_ro_dvi
-#: model:ir.model.fields,field_description:l10n_ro_dvi.field_l10n_ro_account_dvi_line__vat_amount
-msgid "VAT Amount"
-msgstr ""
-
-#. module: l10n_ro_dvi
 #: model:ir.model.fields,help:l10n_ro_dvi.field_stock_landed_cost__l10n_ro_tax_value
 msgid "VAT amount, calculated from invoice base amount and customs."
 msgstr ""
@@ -562,6 +557,11 @@ msgstr ""
 #. module: l10n_ro_dvi
 #: model:ir.model,name:l10n_ro_dvi.model_stock_valuation_adjustment_lines
 msgid "Valuation Adjustment Lines"
+msgstr ""
+
+#. module: l10n_ro_dvi
+#: model:ir.model.fields,field_description:l10n_ro_dvi.field_l10n_ro_account_dvi_line__vat_amount
+msgid "Vat Amount"
 msgstr ""
 
 #. module: l10n_ro_dvi
