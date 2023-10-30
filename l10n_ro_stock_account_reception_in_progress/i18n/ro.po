@@ -23,6 +23,13 @@ msgstr "Cont"
 
 #. module: l10n_ro_stock_account_reception_in_progress
 #: model_terms:ir.ui.view,arch_db:l10n_ro_stock_account_reception_in_progress.purchase_order_form
+msgid ""
+"Are you sure you want to create reception in progress from the purchase "
+"order?"
+msgstr ""
+
+#. module: l10n_ro_stock_account_reception_in_progress
+#: model_terms:ir.ui.view,arch_db:l10n_ro_stock_account_reception_in_progress.purchase_order_form
 msgid "Create Reception in Progress Bill"
 msgstr "Creare factură pentru recepție în curs"
 
