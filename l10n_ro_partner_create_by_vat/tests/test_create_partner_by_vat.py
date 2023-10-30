@@ -64,6 +64,7 @@ class TestCreatePartner(TestCreatePartnerBase):
         # Check inactive vatnumber
         self.mainpartner.vat = "RO27193515"
         self.mainpartner.ro_vat_change()
+
         self.assertEqual(
             self.mainpartner.name, "FOREST AND BIOMASS SERVICES ROMANIA S.A."
         )
@@ -102,6 +103,7 @@ class TestCreatePartner(TestCreatePartnerBase):
         self.mainpartner.l10n_ro_vat_subjected = False
         self.mainpartner.vat = "RO42078234"
         self.mainpartner.ro_vat_change()
+
         self.mainpartner.onchange_l10n_ro_vat_subjected()
         self.assertEqual(
             self.mainpartner.name,

@@ -212,6 +212,7 @@ class StorageSheet(models.TransientModel):
         else:
             all_locations = self.location_id or self.location_ids[0]
             locations = self.location_ids
+
         for location in all_locations:
             if self.detailed_locations:
                 locations = location
@@ -265,7 +266,6 @@ class StorageSheet(models.TransientModel):
                           sm.location_dest_id in %(locations)s))
                 left join stock_move_line sml on sml.id=svl.l10n_ro_stock_move_line_id
                 where
-                    svl.active = True AND
                     ( %(all_products)s  or sm.product_id in %(product)s )
                 GROUP BY prod.id, svl.l10n_ro_account_id, pt.categ_id, sml.lot_id)
             a --where a.amount_initial!=0 and a.quantity_initial!=0
@@ -307,7 +307,6 @@ class StorageSheet(models.TransientModel):
                           sm.location_dest_id in %(locations)s))
                 left join stock_move_line sml on sml.id=svl.l10n_ro_stock_move_line_id
                 where
-                    svl.active = True AND
                     sm.state = 'done' AND
                     sm.company_id = %(company)s AND
                     ( %(all_products)s  or sm.product_id in %(product)s ) AND
@@ -366,7 +365,6 @@ class StorageSheet(models.TransientModel):
                     left join account_move am on svl_in.l10n_ro_invoice_id = am.id
                     left join stock_move_line sml on sml.id=svl_in.l10n_ro_stock_move_line_id
                 where
-                    svl_in.active = True AND
                     sm.state = 'done' AND
                     sm.company_id = %(company)s AND
                     ( %(all_products)s  or sm.product_id in %(product)s ) AND
@@ -427,7 +425,6 @@ class StorageSheet(models.TransientModel):
                     left join account_move am on svl_out.l10n_ro_invoice_id = am.id
                     left join stock_move_line sml on sml.id=svl_out.l10n_ro_stock_move_line_id
                 where
-                    svl_out.active = True AND
                     sm.state = 'done' AND
                     sm.company_id = %(company)s AND
                     ( %(all_products)s  or sm.product_id in %(product)s ) AND

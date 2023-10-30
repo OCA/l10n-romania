@@ -137,6 +137,7 @@ class TestStockReport(TransactionCase):
                 move_line.write(
                     {"qty_done": self.qty_po_p2, "location_dest_id": self.location_2}
                 )
+                move_line.move_id.write({"location_dest_id": self.location_2})
 
         self.picking.button_validate()
         _logger.info("Receptie facuta")
