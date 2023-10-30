@@ -1,6 +1,5 @@
 # Copyright (C) 2022 NextERP Romania
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
-from odoo import fields
 from odoo.tests import Form, tagged
 
 from .common import TestStockPickingValued
@@ -81,16 +80,7 @@ class TestPurchaseStockPickingValued(TestStockPickingValued):
             self.assertEqual(picking.l10n_ro_amount_total, 238.0)
 
     def test_06_po_currency_qty(self):
-        self.env["res.currency.rate"].search(
-            [("name", "=", fields.date.today())]
-        ).unlink()
-        self.env["res.currency.rate"].create(
-            {
-                "currency_id": self.env.ref("base.EUR").id,
-                "name": fields.date.today(),
-                "rate": 2.0,
-            }
-        )
+        # In l10n_ro_stock_account we defined a currency rate of 4.5 for EUR
         self.purchase_order.currency_id = self.env.ref("base.EUR")
         self.purchase_order.button_confirm()
         self.assertTrue(len(self.purchase_order.picking_ids))
@@ -99,9 +89,9 @@ class TestPurchaseStockPickingValued(TestStockPickingValued):
             picking.move_line_ids.qty_done = 2.0
             picking.button_validate()
             picking._action_done()
-            self.assertEqual(picking.l10n_ro_amount_untaxed, 100.0)
-            self.assertEqual(picking.l10n_ro_amount_tax, 19.0)
-            self.assertEqual(picking.l10n_ro_amount_total, 119.0)
+            self.assertEqual(picking.l10n_ro_amount_untaxed, 900.0)
+            self.assertEqual(picking.l10n_ro_amount_tax, 171.0)
+            self.assertEqual(picking.l10n_ro_amount_total, 1071.0)
 
         move_line = self.purchase_order.picking_ids.move_line_ids
         agg_lines = move_line._get_aggregated_product_quantities()
@@ -112,15 +102,16 @@ class TestPurchaseStockPickingValued(TestStockPickingValued):
                 "name": move_line.product_id.name,
                 "description": False,
                 "qty_done": 2.0,
+                "qty_ordered": 2.0,
                 "product_uom": move_line.product_id.uom_id.name,
                 "product_uom_rec": move_line.product_id.uom_id,
                 "product": move_line.product_id,
                 "currency": move_line.company_id.currency_id.id,
-                "l10n_ro_price_unit": 50.0,
+                "l10n_ro_price_unit": 450.0,
                 "l10n_ro_additional_charges": 0.0,
-                "l10n_ro_price_subtotal": 100.0,
-                "l10n_ro_price_tax": 19.0,
-                "l10n_ro_price_total": 119.0,
+                "l10n_ro_price_subtotal": 900.0,
+                "l10n_ro_price_tax": 171.0,
+                "l10n_ro_price_total": 1071.0,
                 "l10n_ro_currency_id": move_line.company_id.currency_id.id,
             }
         }
