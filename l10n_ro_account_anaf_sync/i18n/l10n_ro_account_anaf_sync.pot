@@ -395,7 +395,7 @@ msgstr ""
 #. module: l10n_ro_account_anaf_sync
 #: code:addons/l10n_ro_account_anaf_sync/models/l10n_ro_account_anaf_sync.py:0
 #, python-format
-msgid "You already have ANAF access token. Please revoke it first."
+msgid "You already have an ANAF access token. Please revoke it first."
 msgstr ""
 
 #. module: l10n_ro_account_anaf_sync
