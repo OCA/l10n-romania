@@ -58,14 +58,10 @@ msgstr "ANAF nu a gasit nici o companie cu codul TVA=%s!"
 #, python-format
 msgid ""
 "Anaf request error: \n"
-"response=%s \n"
-"reason=%s \n"
-"text=%s"
+"response=%(response)s \n"
+"reason=%(reason)s \n"
+"text=%(text)s"
 msgstr ""
-"Eroare la cererea Anaf: \n"
-"răspunsul=%s \n"
-"motivul=%s \n"
-"textul=%s"
 
 #. module: l10n_ro_partner_create_by_vat
 #: model:ir.model,name:l10n_ro_partner_create_by_vat.model_res_partner
@@ -253,3 +249,15 @@ msgid ""
 msgstr ""
 "Vor adăuga intrări numai dacă statusInactivi este diferit față de intrarea "
 "anterioară sau după intrări"
+
+#, python-format
+#~ msgid ""
+#~ "Anaf request error: \n"
+#~ "response=%s \n"
+#~ "reason=%s \n"
+#~ "text=%s"
+#~ msgstr ""
+#~ "Eroare la cererea Anaf: \n"
+#~ "răspunsul=%s \n"
+#~ "motivul=%s \n"
+#~ "textul=%s"
