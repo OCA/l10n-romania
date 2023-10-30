@@ -240,8 +240,8 @@ msgstr "Câmp tehnic utilizat pentru a urmări starea unei trimiteri."
 #. module: l10n_ro_account_edi_ubl
 #: code:addons/l10n_ro_account_edi_ubl/models/account_edi_format.py:0
 #, python-format
-msgid "The partner doesn't have the street completed."
-msgstr "Partenerul nu are strada completata."
+msgid "The partner %s doesn't have the street completed."
+msgstr ""
 
 #. module: l10n_ro_account_edi_ubl
 #: model:ir.model.fields.selection,name:l10n_ro_account_edi_ubl.selection__account_move__l10n_ro_send_state__delivered
@@ -267,3 +267,7 @@ msgstr ""
 "electronic a fost deja trimis către ANAF. Pentru a edita această intrare, "
 "trebuie să creați o notă de credit pentru factură și să creați o nouă "
 "factură."
+
+#, python-format
+#~ msgid "The partner doesn't have the street completed."
+#~ msgstr "Partenerul nu are strada completata."
