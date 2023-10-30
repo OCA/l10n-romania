@@ -63,3 +63,34 @@ class TestStockPurchaseDozen(TestStockCommonPriceDiff):
 
         # verificare inregistrare diferenta de pret
         self.check_account_diff(0, 0)
+
+    def test_purchase_eur_dozen_uom_nir_with_invoice_and_diff(self):
+        self._setup_dozen()
+
+        self.create_po_default(
+            {
+                "currency": self.currency_eur,
+            }
+        )
+
+        ron_value1 = self.qty_po_p1 * self.price_p1 * self.rate
+        ron_value2 = self.qty_po_p2 * self.price_p2 * self.rate
+
+        ron_value_f1 = self.qty_po_p1 * (self.price_p1 + self.diff_p1) * self.rate
+        ron_value_f2 = self.qty_po_p2 * (self.price_p2 + self.diff_p2) * self.rate
+
+        self.check_stock_valuation(ron_value1, ron_value2)
+        # in contabilitate trebuie sa fie zero pentru ca la receptie nu
+        # trebuie generata nota cantabila
+        self.check_account_valuation(0, 0)
+
+        self.create_invoice(self.diff_p1, self.diff_p2)
+        # in stocul  are valoarea cu diferenta de pret inregistrata
+
+        self.check_stock_valuation(ron_value_f1, ron_value_f2)
+
+        # in contabilitate stocul este inregistrat cu diferentele de pret
+        self.check_account_valuation(ron_value_f1, ron_value_f2)
+
+        # verificare inregistrare diferenta de pret
+        self.check_account_diff(0, 0)

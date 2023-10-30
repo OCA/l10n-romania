@@ -15,6 +15,7 @@ class AccountJournal(models.Model):
         inverse="_inverse_l10n_ro_print_report",
         store=True,
     )
+    l10n_ro_fiscal_receipt = fields.Boolean("Fiscal Receipts Journal")
 
     @api.depends("bank_account_id.l10n_ro_print_report")
     def _compute_l10n_ro_print_report(self):

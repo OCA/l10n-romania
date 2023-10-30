@@ -41,3 +41,4 @@ class StockMoveLine(models.Model):
             svl.stock_move_id._account_entry_move(
                 svl.quantity, svl.description, svl.id, svl.value
             )
+        return True

@@ -148,7 +148,7 @@ class ResPartner(models.Model):
         try:
             res = requests.post(ANAF_URL, json=json_data, headers=headers)
         except Exception as ex:
-            return _("ANAF Webservice not working. Exeption=%s." % ex), {}
+            return _("ANAF Webservice not working. Exeption=%s.") % ex, {}
 
         result = {}
         anaf_error = ""
@@ -163,11 +163,14 @@ class ResPartner(models.Model):
                 if resjson.get("found") and resjson["found"][0]:
                     result = resjson["found"][0]
                 if not result or not result.get("date_generale"):
-                    anaf_error = _("Anaf didn't find any company with VAT=%s !" % cod)
+                    anaf_error = _("Anaf didn't find any company with VAT=%s !") % cod
         else:
             anaf_error = _(
-                "Anaf request error: \nresponse=%s \nreason=%s"
-                " \ntext=%s" % (res, res.reason, res.text)
+                "Anaf request error: \nresponse=%(response)s "
+                "\nreason=%(reason)s \ntext=%(text)s",
+                response=res,
+                reason=res.reason,
+                text=res.text,
             )
         return anaf_error, result
 
@@ -205,7 +208,7 @@ class ResPartner(models.Model):
         ):
             domain = [
                 ("state_id", "=", odoo_result["state_id"].id),
-                ("name", "ilike", odoo_result["city"]),
+                ("name", "=ilike", odoo_result["city"]),
             ]
             odoo_result["city_id"] = self.env["res.city"].search(domain, limit=1).id
         for field in AnafFiled_OdooField_Overwrite:
@@ -273,7 +276,7 @@ class ResPartner(models.Model):
     @api.onchange("vat", "country_id")
     def ro_vat_change(self):
         res = {}
-        if self.is_l10n_ro_record:
+        if self.is_l10n_ro_record and not self.parent_id:
             if not self.env.context.get("skip_ro_vat_change"):
                 if not self.vat:
                     return res

@@ -116,7 +116,7 @@ class StockWarehouse(models.Model):
         return sequences
 
     def _update_name_and_code(self, new_name=False, new_code=False):
-        super(StockWarehouse, self)._update_name_and_code(new_name, new_code)
+        res = super(StockWarehouse, self)._update_name_and_code(new_name, new_code)
         ro_whs = self.filtered("is_l10n_ro_record")
         for warehouse in ro_whs:
             sequence_data = warehouse._get_sequence_values()
@@ -126,3 +126,4 @@ class StockWarehouse(models.Model):
             warehouse.l10n_ro_usage_type_id.sequence_id.write(
                 sequence_data["l10n_ro_usage_type_id"]
             )
+        return res

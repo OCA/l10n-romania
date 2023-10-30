@@ -27,7 +27,7 @@ class ResCountryZone(models.Model):
             expression.AND([domain, args]), limit=limit, access_rights_uid=name_get_uid
         )
 
-    name = fields.Char("Name", required=True, index=True)
-    country_id = fields.Many2one("res.country", string="Country")
+    name = fields.Char(required=True, index=True)
+    country_id = fields.Many2one("res.country")
     state_ids = fields.One2many("res.country.state", "l10n_ro_zone_id", string="State")
-    siruta = fields.Char("Siruta")
+    siruta = fields.Char()

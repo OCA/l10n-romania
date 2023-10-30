@@ -14,7 +14,7 @@ class TestStockPurchase(TestStockCommon):
 
         self.env.company.l10n_ro_accounting = False
 
-        self.create_po()
+        self.create_po_default()
 
         self.check_stock_valuation(self.val_p1_i, self.val_p2_i)
 
@@ -39,7 +39,7 @@ class TestStockPurchase(TestStockCommon):
          - in diferente de pret zero
          - in TVA neexigibilă zero
         """
-        self.create_po()
+        self.create_po_default()
 
         self.check_stock_valuation(self.val_p1_i, self.val_p2_i)
 
@@ -68,7 +68,7 @@ class TestStockPurchase(TestStockCommon):
 
         self.set_warehouse_as_mp()
 
-        self.create_po()
+        self.create_po_default()
 
         self.check_stock_valuation(self.val_p1_i, self.val_p2_i)
 
@@ -92,10 +92,10 @@ class TestStockPurchase(TestStockCommon):
     def test_two_nirs_average(self):
         self.product_1.product_tmpl_id.categ_id.property_cost_method = "average"
         self.product_2.product_tmpl_id.categ_id.property_cost_method = "average"
-        self.create_po()
+        self.create_po_default()
 
         self.price_p1 = 60.0
-        self.create_po()
+        self.create_po_default()
 
         self.assertEqual(self.product_1.standard_price, 55)
         self.assertEqual(self.product_2.standard_price, 50)
@@ -104,7 +104,7 @@ class TestStockPurchase(TestStockCommon):
         self.product_1.product_tmpl_id.categ_id = self.category_mp
         self.product_2.product_tmpl_id.categ_id = self.category_mp
 
-        self.create_po()
+        self.create_po_default()
 
         self.check_stock_valuation(
             self.val_p1_i, self.val_p2_i, self.account_valuation_mp
@@ -123,3 +123,20 @@ class TestStockPurchase(TestStockCommon):
         )
 
         self.check_account_diff(0, 0)
+
+    def test_purchase_in_eur(self):
+        self.create_po_default(
+            {
+                "currency": self.currency_eur,
+            }
+        )
+
+        ron_value1 = self.qty_po_p1 * self.price_p1 * self.rate
+        ron_value2 = self.qty_po_p2 * self.price_p2 * self.rate
+
+        self.check_stock_valuation(ron_value1, ron_value2)
+
+        self.check_account_valuation(0, 0)
+        self.create_invoice()
+
+        self.check_stock_valuation(ron_value1, ron_value2)

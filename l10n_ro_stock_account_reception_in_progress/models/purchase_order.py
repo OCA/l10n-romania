@@ -50,7 +50,7 @@ class PurchaseOrder(models.Model):
         if not invoice_vals_list:
             raise UserError(
                 _(
-                    "There is no billable line. If a product has a control policy based "
+                    "There is no invoiceable line. If a product has a control policy based "
                     "on received quantity, please make sure that a quantity has been received."
                 )
             )

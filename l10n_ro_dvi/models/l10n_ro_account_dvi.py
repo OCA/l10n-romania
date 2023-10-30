@@ -12,7 +12,7 @@ class AccountInvoiceDVI(models.Model):
     _description = "Create DVI for invoices"
 
     name = fields.Char(required=True)
-    date = fields.Date("Date", required=True)
+    date = fields.Date(required=True)
 
     state = fields.Selection(
         string="Status",
@@ -216,9 +216,9 @@ class AccountInvoiceDVI(models.Model):
         vals = {}
         msg = "Expense account is not set on product %s."
         if not account1:
-            raise ValidationError(_(msg % self.vat_price_difference_product_id.name))
+            raise ValidationError(_(msg) % self.vat_price_difference_product_id.name)
         if not account2:
-            raise ValidationError(_(msg % self.customs_duty_product_id.name))
+            raise ValidationError(_(msg) % self.customs_duty_product_id.name)
         if account1 and account2:
             amount = self.vat_price_difference
             vals = {
@@ -287,6 +287,7 @@ class AccountInvoiceDVI(models.Model):
         self.ensure_one()
         if self.state != "draft":
             raise ValidationError(_("You can only post DVI from 'draft' state."))
+
         values = self.prepare_dvi_landed_cost_values()
         landed_cost = self.env["stock.landed.cost"].create(values)
         action = self.env.ref("stock_landed_costs.action_stock_landed_cost")
@@ -442,8 +443,8 @@ class AccountDVILine(models.Model):
         digits="Product Unit of Measure",
         help="The quantity declared in the DVI.",
     )
-    base_amount = fields.Float(string="Base Amount", compute="_compute_base_vat_amount")
-    vat_amount = fields.Float(string="VAT Amount", compute="_compute_base_vat_amount")
+    base_amount = fields.Float(compute="_compute_base_vat_amount")
+    vat_amount = fields.Float(compute="_compute_base_vat_amount")
 
     @api.depends("line_qty")
     def _compute_base_vat_amount(self):

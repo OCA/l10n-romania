@@ -22,6 +22,10 @@ class ResConfigSettings(models.TransientModel):
         related="company_id.l10n_ro_caen_code",
         readonly=False,
     )
+    l10n_ro_share_capital = fields.Float(
+        related="company_id.l10n_ro_share_capital",
+        readonly=False,
+    )
     l10n_ro_serv_sale_tax_id = fields.Many2one(
         "account.tax",
         related="company_id.l10n_ro_account_serv_sale_tax_id",
@@ -110,6 +114,14 @@ class ResConfigSettings(models.TransientModel):
         readonly=False,
     )
     l10n_ro_stock_account_svl_lot_allocation_visible = fields.Boolean(default=False)
+    l10n_ro_restrict_stock_move_date_last_month = fields.Boolean(
+        related="company_id.l10n_ro_restrict_stock_move_date_last_month",
+        readonly=False,
+    )
+    l10n_ro_restrict_stock_move_date_future = fields.Boolean(
+        related="company_id.l10n_ro_restrict_stock_move_date_future",
+        readonly=False,
+    )
 
     module_currency_rate_update_RO_BNR = fields.Boolean(
         "Currency Rate Update BNR",

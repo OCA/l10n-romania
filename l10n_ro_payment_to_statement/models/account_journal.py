@@ -83,7 +83,7 @@ class AccountJournal(models.Model):
 
     @api.model
     def _fill_missing_values(self, vals):
-        super()._fill_missing_values(vals)
+        res = super()._fill_missing_values(vals)
         if not vals:
             vals = {}
         if (
@@ -118,6 +118,7 @@ class AccountJournal(models.Model):
                     }
                     seq = self.env["ir.sequence"].sudo().create(vals_seq)
                     vals[seq_field] = seq.id
+        return res
 
     def l10n_ro_update_cash_vals(self):
         self.ensure_one()
