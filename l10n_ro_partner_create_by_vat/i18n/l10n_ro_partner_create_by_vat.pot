@@ -55,9 +55,9 @@ msgstr ""
 #, python-format
 msgid ""
 "Anaf request error: \n"
-"response=%s \n"
-"reason=%s \n"
-"text=%s"
+"response=%(response)s \n"
+"reason=%(reason)s \n"
+"text=%(text)s"
 msgstr ""
 
 #. module: l10n_ro_partner_create_by_vat
