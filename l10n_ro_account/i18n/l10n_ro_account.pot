@@ -19,6 +19,7 @@ msgid "Account"
 msgstr ""
 
 #. module: l10n_ro_account
+#: model:ir.model.fields,field_description:l10n_ro_account.field_account_payment__is_l10n_ro_record
 #: model:ir.model.fields,field_description:l10n_ro_account.field_account_payment_register__is_l10n_ro_record
 msgid "Is Romanian Record"
 msgstr ""
@@ -42,6 +43,6 @@ msgstr ""
 #: code:addons/l10n_ro_account/models/account_payment.py:0
 #: code:addons/l10n_ro_account/models/account_payment.py:0
 #, python-format
-msgid "The payment amount (%s) cannot be greater than %s"
+msgid ""
+"The payment amount (%(amount)s) cannot be greater than %(amount_limit)s"
 msgstr ""
-
