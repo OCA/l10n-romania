@@ -2,10 +2,10 @@
 # Copyright (C) 2022 NextERP Romania
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
+import json
 import logging
 
 import requests
-import json
 from lxml import etree
 
 from odoo import _, models
@@ -82,14 +82,14 @@ class AccountEdiXmlCIUSRO(models.Model):
         if self.code != "cius_ro":
             return super()._post_invoice_edi(invoices)
         res = {}
-        for invoice in invoices.filtered(lambda x: x.state == 'posted'):
+        for invoice in invoices.filtered(lambda x: x.state == "posted"):
             attachment = invoice._get_edi_attachment(self)
             if not attachment:
                 attachment = self._export_cius_ro(invoice)
             res[invoice] = {"attachment": attachment, "success": True}
             anaf_config = invoice.company_id.l10n_ro_account_anaf_sync_id
-            #TODO: what's the point of this?
-            #and (
+            # TODO: what's the point of this?
+            # and (
             #    invoice.company_id.l10n_ro_edi_manual
             #    and self.env.context.get("l10n_ro_edi_manual_action")):
             if anaf_config.state != "manual":
@@ -148,9 +148,9 @@ class AccountEdiXmlCIUSRO(models.Model):
             return super()._get_move_applicability(move)
 
         return {
-                'post': self._post_invoice_edi,
-                'cancel': self._cancel_invoice_edi,
-                'edi_content': self._get_invoice_edi_content,
+            "post": self._post_invoice_edi,
+            "cancel": self._cancel_invoice_edi,
+            "edi_content": self._get_invoice_edi_content,
         }
 
     def _get_invoice_edi_content(self, move):
@@ -166,7 +166,9 @@ class AccountEdiXmlCIUSRO(models.Model):
     def _l10n_ro_post_invoice_step_1(self, invoice, attachment):
         self.ensure_one()
 
-        edi_documents = invoice.edi_document_ids.filtered(lambda x: x.edi_format_id == self)
+        edi_documents = invoice.edi_document_ids.filtered(
+            lambda x: x.edi_format_id == self
+        )
 
         anaf_config = invoice.company_id.l10n_ro_account_anaf_sync_id
         access_token = anaf_config.access_token
@@ -185,29 +187,33 @@ class AccountEdiXmlCIUSRO(models.Model):
 
         _logger.info(response.content)
 
-        res = {"success": True, "attachment": attachment, 'blocking_level': 'info'}
+        res = {"success": True, "attachment": attachment, "blocking_level": "info"}
         if response.status_code == 200:
             doc = etree.fromstring(response.content)
             execution_status = doc.get("ExecutionStatus")
             if execution_status == "0":
                 transaction = doc.get("index_incarcare")
-                res['l10n_ro_edi_transaction'] = transaction
+                res["l10n_ro_edi_transaction"] = transaction
                 invoice.write({"l10n_ro_edi_transaction": transaction})
             else:
                 error = []
-                for child_tag in doc: #maybe  improve
-                    if 'Errors' in child_tag.tag:
-                        error.append(child_tag.get('errorMessage'))
+                for child_tag in doc:  # maybe  improve
+                    if "Errors" in child_tag.tag:
+                        error.append(child_tag.get("errorMessage"))
 
                 res.update({"success": False, "error": "<br/>".join(error)})
         else:
             res.update({"success": False, "error": _("Access error")})
 
         if edi_documents:
-            if res.get('success'):
-                edi_documents.message_post(body=_('Sending successful. Transaction {0}.').format(res.get('l10n_ro_edi_transaction') or ''))
+            if res.get("success"):
+                edi_documents.message_post(
+                    body=_("Sending successful. Transaction {0}.").format(
+                        res.get("l10n_ro_edi_transaction") or ""
+                    )
+                )
             else:
-                edi_documents.message_post(body=_('Sending failed.'))
+                edi_documents.message_post(body=_("Sending failed."))
 
         return res
 
@@ -215,7 +221,7 @@ class AccountEdiXmlCIUSRO(models.Model):
         # anaf_config = invoice.company_id.l10n_ro_account_anaf_sync_id
         # access_token = anaf_config.access_token
 
-        #TODO: move in own cron, if needed
+        # TODO: move in own cron, if needed
 
         # url = anaf_config.anaf_einvoice_sync_url + "/listaMesajeFactura"
         #
@@ -253,9 +259,9 @@ class AccountEdiXmlCIUSRO(models.Model):
         #     res = {"success": False, "error": _("Access error")}
 
         service_res = self._l10n_ro_get_message_state_web_service(invoice)
-        res = {"success": service_res.get('success')}
-        if service_res.get('error'):
-            res.update({"error": service_res.get('error'), "blocking_level": "info"})
+        res = {"success": service_res.get("success")}
+        if service_res.get("error"):
+            res.update({"error": service_res.get("error"), "blocking_level": "info"})
         return res
 
     def _l10n_ro_get_message_state_web_service(self, invoice):
@@ -286,8 +292,14 @@ class AccountEdiXmlCIUSRO(models.Model):
             elif doc_state == "in prelucrare":
                 res.update({"success": True, "response": "pending"})
             elif doc_state == "XML cu erori nepreluat de sistem":
-                res.update({"success": False, "response": "missing", "error": _("XML with errors, not retrieved by the system")})
-            elif doc_state == 'nok':
+                res.update(
+                    {
+                        "success": False,
+                        "response": "missing",
+                        "error": _("XML with errors, not retrieved by the system"),
+                    }
+                )
+            elif doc_state == "nok":
                 res.update({"success": True, "response": "nok"})
         elif response:
             res = {"success": False, "error": _("Access error"), "response": False}
@@ -295,9 +307,9 @@ class AccountEdiXmlCIUSRO(models.Model):
         return res
 
     def _l10n_ro_get_message_response_web_service(self, invoice):
-        """ Response is: - json, if request has errors
-                         - binary (zip file), if request is successful
-         """
+        """Response is: - json, if request has errors
+        - binary (zip file), if request is successful
+        """
         res = {}
 
         anaf_config = invoice.company_id.l10n_ro_account_anaf_sync_id
@@ -317,15 +329,25 @@ class AccountEdiXmlCIUSRO(models.Model):
 
         if response and response.status_code == 200:
             try:
-                content_type = response.headers and response.headers['Content-Type'] or False
-                if content_type == 'application/zip':
+                content_type = (
+                    response.headers and response.headers["Content-Type"] or False
+                )
+                if content_type == "application/zip":
                     res = {"success": True, "response": response.content}
-                elif content_type == 'application/json':
+                elif content_type == "application/json":
                     answer = json.loads(response.content)
-                    if answer.get('eroare'):
-                        res = {"success": False, "error": answer.get('eroare'), "response": False}
+                    if answer.get("eroare"):
+                        res = {
+                            "success": False,
+                            "error": answer.get("eroare"),
+                            "response": False,
+                        }
                     else:
-                        res = {"success": False, "error": _("Unknown response"), "response": False}
+                        res = {
+                            "success": False,
+                            "error": _("Unknown response"),
+                            "response": False,
+                        }
             except Exception as e:
                 res = {"success": False, "error": str(e), "response": False}
         elif response:
