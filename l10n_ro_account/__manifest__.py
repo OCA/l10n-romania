@@ -4,7 +4,7 @@
 
 {
     "name": "Romania - Account",
-    "version": "15.0.1.1.1",
+    "version": "15.0.1.2.0",
     "summary": "Romania - Account",
     "license": "AGPL-3",
     "author": "Terrabit,Odoo Community Association (OCA)",
