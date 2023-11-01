@@ -3,6 +3,7 @@
 
 from odoo import _, api, models
 from odoo.exceptions import ValidationError
+from odoo.tools.safe_eval import safe_eval
 
 
 class AccountPaymentRegister(models.TransientModel):
@@ -10,6 +11,24 @@ class AccountPaymentRegister(models.TransientModel):
     _inherit = ["account.payment.register", "l10n.ro.mixin"]
 
     def _check_amount(self):
+        def raise_error(amount, amount_limit):
+            raise ValidationError(
+                _(
+                    "The payment amount (%(amount)s) cannot be greater than %(amount_limit)s"
+                )
+                % {"amount": amount, "amount_limit": amount_limit}
+            )
+
+        get_param = self.env["ir.config_parameter"].sudo().get_param
+        amount_company_limit = get_param(
+            "l10n_ro_accounting.amount_company_limit", "5000"
+        )
+        amount_person_limit = get_param(
+            "l10n_ro_accounting.amount_person_limit", "10000"
+        )
+        amount_company_limit = safe_eval(amount_company_limit)
+        amount_person_limit = safe_eval(amount_person_limit)
+
         for payment in self:
             if (
                 payment.is_l10n_ro_record
@@ -18,22 +37,15 @@ class AccountPaymentRegister(models.TransientModel):
                 and payment.journal_id.type == "cash"
             ):
                 if payment.partner_id.is_company:
-                    if payment.amount > 5000:
-                        raise ValidationError(
-                            _("The payment amount (%s) cannot be greater than 5000")
-                            % payment.amount
-                        )
+                    if payment.amount > amount_company_limit:
+                        raise_error(payment.amount, amount_company_limit)
                 else:
-                    if payment.amount > 10000:
-                        raise ValidationError(
-                            _("The payment amount (%s) cannot be greater than 10000")
-                            % payment.amount
-                        )
+                    if payment.amount > amount_person_limit:
+                        raise_error(payment.amount, amount_person_limit)
 
     def action_create_payments(self):
-        res = super().action_create_payments()
         self._check_amount()
-        return res
+        return super().action_create_payments()
 
 
 class AccountPayment(models.Model):
@@ -41,6 +53,23 @@ class AccountPayment(models.Model):
     _inherit = ["account.payment", "l10n.ro.mixin"]
 
     def _check_amount(self):
+        def raise_error(amount, amount_limit):
+            raise ValidationError(
+                _(
+                    "The payment amount (%(amount)s) cannot be greater than %(amount_limit)s"
+                )
+                % {"amount": amount, "amount_limit": amount_limit}
+            )
+
+        get_param = self.env["ir.config_parameter"].sudo().get_param
+        amount_company_limit = get_param(
+            "l10n_ro_accounting.amount_company_limit", "5000"
+        )
+        amount_person_limit = get_param(
+            "l10n_ro_accounting.amount_person_limit", "10000"
+        )
+        amount_company_limit = safe_eval(amount_company_limit)
+        amount_person_limit = safe_eval(amount_person_limit)
         for payment in self:
             if (
                 payment.is_l10n_ro_record
@@ -49,17 +78,11 @@ class AccountPayment(models.Model):
                 and payment.journal_id.type == "cash"
             ):
                 if payment.partner_id.is_company:
-                    if payment.amount > 5000:
-                        raise ValidationError(
-                            _("The payment amount (%s) cannot be greater than 5000")
-                            % payment.amount
-                        )
+                    if payment.amount > amount_company_limit:
+                        raise_error(payment.amount, amount_company_limit)
                 else:
-                    if payment.amount > 10000:
-                        raise ValidationError(
-                            _("The payment amount (%s) cannot be greater than 10000")
-                            % payment.amount
-                        )
+                    if payment.amount > amount_person_limit:
+                        raise_error(payment.amount, amount_person_limit)
 
     @api.onchange("amount", "payment_type", "partner_type", "journal_id")
     def _onchange_amount(self):
