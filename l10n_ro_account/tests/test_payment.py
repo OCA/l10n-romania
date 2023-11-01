@@ -2,7 +2,7 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html)
 
 
-from odoo.exceptions import UserError
+from odoo.exceptions import ValidationError
 from odoo.tests.common import TransactionCase
 
 
@@ -49,7 +49,7 @@ class TestAccountPayment(TransactionCase):
         self.invoice.action_post()
 
     def test_create_payment_error(self):
-        with self.assertRaises(UserError):
+        with self.assertRaises(ValidationError):
             self.env["account.payment"].create(
                 {
                     "payment_type": "inbound",
@@ -59,7 +59,7 @@ class TestAccountPayment(TransactionCase):
                     "journal_id": self.journal.id,
                 }
             )
-        with self.assertRaises(UserError):
+        with self.assertRaises(ValidationError):
             self.env["account.payment"].create(
                 {
                     "payment_type": "inbound",
@@ -80,7 +80,7 @@ class TestAccountPayment(TransactionCase):
                 "journal_id": self.journal.id,
             }
         )
-        with self.assertRaises(UserError):
+        with self.assertRaises(ValidationError):
             payment.write({"amount": 11000})
 
     def test_create_payment_register_error(self):
@@ -97,7 +97,7 @@ class TestAccountPayment(TransactionCase):
                 "journal_id": self.journal.id,
             }
         )
-        with self.assertRaises(UserError):
+        with self.assertRaises(ValidationError):
             payment_register.action_create_payments()
 
         payment_register = register.create(
@@ -109,5 +109,5 @@ class TestAccountPayment(TransactionCase):
                 "journal_id": self.journal.id,
             }
         )
-        with self.assertRaises(UserError):
+        with self.assertRaises(ValidationError):
             payment_register.action_create_payments()
