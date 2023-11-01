@@ -9,6 +9,7 @@ setuptools.setup(
     version=version,
     install_requires=[
         'odoo14-addon-currency_rate_update_RO_BNR',
+        'odoo14-addon-l10n_ro_account',
         'odoo14-addon-l10n_ro_account_anaf_sync',
         'odoo14-addon-l10n_ro_account_bank_statement_import_mt940_alpha',
         'odoo14-addon-l10n_ro_account_bank_statement_import_mt940_base',
