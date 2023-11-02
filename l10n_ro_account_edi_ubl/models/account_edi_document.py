@@ -6,7 +6,8 @@ class AccountEdiDocument(models.Model):
     _inherit = ["account.edi.document", "mail.thread"]
 
     #   To do: retain current step in order to display in list
-    # l10n_ro_edi_step = fields.Integer("Step", default=0, help="Current step in the flow", copy=False)
+    # l10n_ro_edi_step = fields.Integer("Step", default=0,
+    # help="Current step in the flow", copy=False)
     l10n_ro_edi_transaction = fields.Char(related="move_id.l10n_ro_edi_transaction")
     l10n_ro_edi_download = fields.Char(related="move_id.l10n_ro_edi_download")
     l10n_ro_response_state = fields.Selection(
@@ -29,7 +30,10 @@ class AccountEdiDocument(models.Model):
         "ir.attachment",
         "Response ZIP",
         copy=False,
-        help="The file received. Contains either the original invoice or a list of error found for the invoice during processing.",
+        help="""The file received. 
+                Contains either 
+                    the original invoice or 
+                    a list of error found for the invoice during processing.""",
     )
     l10n_ro_format_code = fields.Char(
         "Format Code", related="edi_format_id.code", store=True, copy=False
