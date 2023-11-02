@@ -30,9 +30,9 @@ class AccountEdiDocument(models.Model):
         "ir.attachment",
         "Response ZIP",
         copy=False,
-        help="""The file received. 
-                Contains either 
-                    the original invoice or 
+        help="""The file received.
+                Contains either
+                    the original invoice or
                     a list of error found for the invoice during processing.""",
     )
     l10n_ro_format_code = fields.Char(
