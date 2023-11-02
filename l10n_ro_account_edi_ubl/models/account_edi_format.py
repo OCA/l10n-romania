@@ -118,28 +118,29 @@ class AccountEdiXmlCIUSRO(models.Model):
         anaf_config = self.env.company.l10n_ro_account_anaf_sync_id
         return anaf_config.state != "manual"
 
-    def _check_move_configuration(self, move):
-        self.ensure_one()
-        if self.code != "cius_ro":
-            return super()._check_move_configuration(move)
-        partner = move.commercial_partner_id
-        errors = []
-        if not partner.street:
-            errors += [
-                _("The partner %s doesn't have the street completed.") % partner.name
-            ]
-
-        state_bucuresti = self.env.ref("base.RO_B")
-        if partner.state_id == state_bucuresti:
-            if "sector" not in partner.city.lower():
-                errors += [
-                    _(
-                        "If country state of partner %s is Bucharest, "
-                        "the city must be as SectorX "
-                    )
-                    % partner.name
-                ]
-        return errors
+    # #Find other way to validate the entire xml
+    # def _check_move_configuration(self, move):
+    #     self.ensure_one()
+    #     if self.code != "cius_ro":
+    #         return super()._check_move_configuration(move)
+    #     partner = move.commercial_partner_id
+    #     errors = []
+    #     if not partner.street:
+    #         errors += [
+    #             _("The partner %s doesn't have the street completed.") % partner.name
+    #         ]
+    #
+    #     state_bucuresti = self.env.ref("base.RO_B")
+    #     if partner.state_id == state_bucuresti:
+    #         if "sector" not in partner.city.lower():
+    #             errors += [
+    #                 _(
+    #                     "If country state of partner %s is Bucharest, "
+    #                     "the city must be as SectorX "
+    #                 )
+    #                 % partner.name
+    #             ]
+    #     return errors
 
     def _get_move_applicability(self, move):
         # EXTENDS account.edi.format
