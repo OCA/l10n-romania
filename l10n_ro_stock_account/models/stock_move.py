@@ -487,7 +487,6 @@ class StockMove(models.Model):
                     svl_vals["description"] += svl_vals.pop("rounding_adjustment", "")
                     svl_vals["l10n_ro_stock_move_line_id"] = valued_move_line.id
                     svls |= self.env["stock.valuation.layer"].sudo().create(svl_vals)
-
                     new_svl_vals = svl_vals.copy()
                     new_svl_vals.update(
                         {
@@ -508,6 +507,7 @@ class StockMove(models.Model):
                     svls |= (
                         self.env["stock.valuation.layer"].sudo().create(new_svl_vals)
                     )
+        svls._compute_l10n_ro_svl_tracking()
         return svls
 
     def _is_usage_giving(self):
