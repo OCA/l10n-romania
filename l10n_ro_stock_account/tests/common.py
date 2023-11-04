@@ -29,6 +29,7 @@ class TestStockCommon(ValuationReconciliationTestCommon):
         cls.account_income = get_account("707000")
         cls.account_valuation = get_account("371000")
         cls.account_valuation_mp = get_account("301000")
+        cls.account_landed_cost = get_account("624000")
 
         cls.uneligible_tax_account_id = (
             cls.env.user.company_id.tax_cash_basis_journal_id.default_account_id
@@ -212,13 +213,14 @@ class TestStockCommon(ValuationReconciliationTestCommon):
                 "standard_price": cls.price_p1,
             }
         )
+
         cls.landed_cost = cls.env["product.product"].create(
             {
                 "name": "Landed Cost",
                 "type": "service",
                 "purchase_method": "purchase",
                 "invoice_policy": "order",
-                "property_account_expense_id": cls.account_expense.id,
+                "property_account_expense_id": cls.account_landed_cost.id,
                 "l10n_ro_property_stock_valuation_account_id": cls.account_valuation.id,
             }
         )
@@ -679,15 +681,19 @@ class TestStockCommon(ValuationReconciliationTestCommon):
             order="date, id",
         )
 
-    def create_lc(self, picking, lc_p1, lc_p2, vendor_bill=False):
+    def create_lc(self, picking, lc_p1, lc_p2, vendor_bill=False, product=False):
         default_vals = self.env["stock.landed.cost"].default_get(
             list(self.env["stock.landed.cost"].fields_get())
         )
+        if not product:
+            product = self.product_1
+        accounts = product.product_tmpl_id.get_product_accounts()
+        account = accounts["expense"] or self.account_expense
         default_vals.update(
             {
                 "picking_ids": [picking.id],
                 "account_journal_id": self.company_data["default_journal_misc"],
-                "cost_lines": [(0, 0, {"product_id": self.product_1.id})],
+                "cost_lines": [(0, 0, {"product_id": product.id})],
                 "valuation_adjustment_lines": [],
                 "vendor_bill_id": vendor_bill and vendor_bill.id or False,
             }
@@ -696,6 +702,7 @@ class TestStockCommon(ValuationReconciliationTestCommon):
             "name": ["equal split"],
             "split_method": ["equal"],
             "price_unit": [lc_p1 + lc_p2],
+            "account_id": account.id,
         }
         stock_landed_cost_1 = self.env["stock.landed.cost"].new(default_vals)
         for index, cost_line in enumerate(stock_landed_cost_1.cost_lines):
@@ -703,6 +710,7 @@ class TestStockCommon(ValuationReconciliationTestCommon):
             cost_line.name = cost_lines_values["name"][index]
             cost_line.split_method = cost_lines_values["split_method"][index]
             cost_line.price_unit = cost_lines_values["price_unit"][index]
+            cost_line.account_id = cost_lines_values["account_id"]
         vals = stock_landed_cost_1._convert_to_write(stock_landed_cost_1._cache)
         stock_landed_cost_1 = self.env["stock.landed.cost"].create(vals)
 
