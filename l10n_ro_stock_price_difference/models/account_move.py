@@ -59,7 +59,7 @@ class AccountMove(models.Model):
                             {
                                 "invoice_id": self.id,
                                 "product_id": stock_move.product_id.id,
-                                "picking_id": valuation_stock_moves.picking_id.id,
+                                "picking_id": stock_move.picking_id.id,
                                 "amount_difference": line.currency_id.round(
                                     price_diff / move_count
                                 ),
