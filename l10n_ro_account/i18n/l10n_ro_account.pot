@@ -44,13 +44,6 @@ msgstr ""
 #: code:addons/l10n_ro_account/models/account_payment.py:0
 #: code:addons/l10n_ro_account/models/account_payment.py:0
 #, python-format
-msgid "The payment amount (%s) cannot be greater than 10000"
-msgstr ""
-
-#. module: l10n_ro_account
-#. odoo-python
-#: code:addons/l10n_ro_account/models/account_payment.py:0
-#: code:addons/l10n_ro_account/models/account_payment.py:0
-#, python-format
-msgid "The payment amount (%s) cannot be greater than 5000"
+msgid ""
+"The payment amount (%(amount)s) cannot be greater than %(amount_limit)s"
 msgstr ""
