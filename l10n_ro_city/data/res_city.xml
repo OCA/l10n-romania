@@ -109784,14 +109784,71 @@
         <field name="zipcode">627459</field>
         <field name="l10n_ro_municipality">Vulturu</field>
     </record>
-    <record id="RO_179141" model="res.city">
+    <record id="RO_179132" model="res.city">
         <field name="name">București</field>
+        <field name="country_id" ref="base.ro" />
+        <field name="l10n_ro_siruta">179132</field>
+        <field name="state_id" ref="base.RO_B" />
+        <field name="zipcode" />
+        <field name="l10n_ro_municipality">București</field>
+    </record>
+
+     <record id="RO_179141" model="res.city">
+        <field name="name">Sector1</field>
         <field name="country_id" ref="base.ro" />
         <field name="l10n_ro_siruta">179141</field>
         <field name="state_id" ref="base.RO_B" />
         <field name="zipcode" />
         <field name="l10n_ro_municipality">București</field>
     </record>
+
+    <record id="RO_179150" model="res.city">
+        <field name="name">Sector2</field>
+        <field name="country_id" ref="base.ro" />
+        <field name="l10n_ro_siruta">179150</field>
+        <field name="state_id" ref="base.RO_B" />
+        <field name="zipcode" />
+        <field name="l10n_ro_municipality">București</field>
+    </record>
+
+        <record id="RO_179169" model="res.city">
+        <field name="name">Sector3</field>
+        <field name="country_id" ref="base.ro" />
+        <field name="l10n_ro_siruta">179169</field>
+        <field name="state_id" ref="base.RO_B" />
+        <field name="zipcode" />
+        <field name="l10n_ro_municipality">București</field>
+    </record>
+
+        <record id="RO_179178" model="res.city">
+        <field name="name">Sector4</field>
+        <field name="country_id" ref="base.ro" />
+        <field name="l10n_ro_siruta">179178</field>
+        <field name="state_id" ref="base.RO_B" />
+        <field name="zipcode" />
+        <field name="l10n_ro_municipality">București</field>
+    </record>
+
+        <record id="RO_179187" model="res.city">
+        <field name="name">Sector5</field>
+        <field name="country_id" ref="base.ro" />
+        <field name="l10n_ro_siruta">179187</field>
+        <field name="state_id" ref="base.RO_B" />
+        <field name="zipcode" />
+        <field name="l10n_ro_municipality">București</field>
+    </record>
+
+    <record id="RO_179196" model="res.city">
+        <field name="name">Sector6</field>
+        <field name="country_id" ref="base.ro" />
+        <field name="l10n_ro_siruta">179196</field>
+        <field name="state_id" ref="base.RO_B" />
+        <field name="zipcode" />
+        <field name="l10n_ro_municipality">București</field>
+    </record>
+
+
+
     <record id="RO_179230" model="res.city">
         <field name="name">Bragadiru</field>
         <field name="country_id" ref="base.ro" />
