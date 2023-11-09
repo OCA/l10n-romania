@@ -35,3 +35,13 @@ class TestRoCity(TransactionCase):
             partner_form.state_id = self.state_bc
 
         self.assertEqual(partner_form.city_id, city_obj)
+
+    def test_completare_zip(self):
+        partner_form = Form(self.env["res.partner"])
+        partner_form.country_id = self.env.ref("base.ro")
+        # competare cod postal filipesti
+        partner_form.zip = "607185"
+        self.assertEqual(partner_form.city_id.name, "Filipești")
+
+        partner_form.zip = "030011"
+        self.assertEqual(partner_form.city_id.name, "Sector3")
