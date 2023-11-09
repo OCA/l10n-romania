@@ -21,7 +21,7 @@ msgstr ""
 #: model:res.city,name:l10n_ro_city.RO_102552
 #: model:res.city,name:l10n_ro_city.RO_162318
 msgid "1 Decembrie"
-msgstr ""
+msgstr "1 Decembrie"
 
 #. module: l10n_ro_city
 #: model:res.city,name:l10n_ro_city.RO_60669
@@ -5622,7 +5622,7 @@ msgid "Bucureșci"
 msgstr ""
 
 #. module: l10n_ro_city
-#: model:res.city,name:l10n_ro_city.RO_179141
+#: model:res.city,name:l10n_ro_city.RO_179132
 msgid "București"
 msgstr ""
 
@@ -24432,12 +24432,6 @@ msgid "I.C.Brătianu"
 msgstr ""
 
 #. module: l10n_ro_city
-#: model:ir.model.fields,field_description:l10n_ro_city.field_res_city__id
-#: model:ir.model.fields,field_description:l10n_ro_city.field_res_partner__id
-msgid "ID"
-msgstr ""
-
-#. module: l10n_ro_city
 #: model:res.city,name:l10n_ro_city.RO_51822
 msgid "Iabalcea"
 msgstr ""
@@ -41943,6 +41937,36 @@ msgstr ""
 #. module: l10n_ro_city
 #: model:res.city,name:l10n_ro_city.RO_81549
 msgid "Seciurile"
+msgstr ""
+
+#. module: l10n_ro_city
+#: model:res.city,name:l10n_ro_city.RO_179141
+msgid "Sector1"
+msgstr ""
+
+#. module: l10n_ro_city
+#: model:res.city,name:l10n_ro_city.RO_179150
+msgid "Sector2"
+msgstr ""
+
+#. module: l10n_ro_city
+#: model:res.city,name:l10n_ro_city.RO_179169
+msgid "Sector3"
+msgstr ""
+
+#. module: l10n_ro_city
+#: model:res.city,name:l10n_ro_city.RO_179178
+msgid "Sector4"
+msgstr ""
+
+#. module: l10n_ro_city
+#: model:res.city,name:l10n_ro_city.RO_179187
+msgid "Sector5"
+msgstr ""
+
+#. module: l10n_ro_city
+#: model:res.city,name:l10n_ro_city.RO_179196
+msgid "Sector6"
 msgstr ""
 
 #. module: l10n_ro_city
