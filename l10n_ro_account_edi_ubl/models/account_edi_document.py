@@ -59,7 +59,7 @@ class AccountEdiDocument(models.Model):
             try:
                 delay_value = int(delay_param.value) or delay_value
             except ValueError:
-                pass
+                delay_value = delay_value
 
         edi_documents = self.search([('state', 'in', ('to_send', 'to_cancel')),
                                      ('move_id.state', '=', 'posted'),
