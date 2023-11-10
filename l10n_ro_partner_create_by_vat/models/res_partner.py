@@ -69,6 +69,18 @@ class ResPartner(models.Model):
         copy=False,
     )
 
+    @api.constrains("vat", "country_id")
+    def check_vat(self):
+        if self.env.context.get("no_vat_validation"):
+            return
+        partners = self.filtered(lambda p: p.country_id.code == "RO")
+        if partners:
+            partners._check_vat_ro()
+        super(ResPartner, self - partners).check_vat()
+
+    def _check_vat_ro(self):
+        self.ro_vat_change()
+
     @api.model
     def _get_Anaf(self, cod, data=False):
         """

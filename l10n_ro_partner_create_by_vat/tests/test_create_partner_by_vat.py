@@ -2,7 +2,8 @@
 # Copyright (C) 2020 NextERP Romania
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
-from odoo.tests import tagged
+from odoo.exceptions import ValidationError
+from odoo.tests import Form, tagged
 
 from odoo.addons.account.tests.common import AccountTestInvoicingCommon
 from odoo.addons.l10n_ro_partner_create_by_vat.models import res_partner
@@ -63,7 +64,6 @@ class TestCreatePartner(TestCreatePartnerBase):
         self.assertEqual(self.mainpartner.country_id, self.env.ref("base.ro"))
         # Check inactive vatnumber
         self.mainpartner.vat = "RO27193515"
-        self.mainpartner.ro_vat_change()
 
         self.assertEqual(
             self.mainpartner.name, "FOREST AND BIOMASS SERVICES ROMANIA S.A."
@@ -75,7 +75,7 @@ class TestCreatePartner(TestCreatePartnerBase):
         self.assertEqual(self.mainpartner.country_id, self.env.ref("base.ro"))
         # Check address from commune
         self.mainpartner.vat = "RO8235738"
-        self.mainpartner.ro_vat_change()
+
         self.assertEqual(self.mainpartner.name, "HOLZINDUSTRIE ROMANESTI S.R.L.")
         self.assertEqual(self.mainpartner.street, "Românești Nr. 69/A")
         self.assertEqual(self.mainpartner.state_id, self.env.ref("base.RO_TM"))
@@ -84,11 +84,11 @@ class TestCreatePartner(TestCreatePartnerBase):
         # Check address from vat without country code - vat subjected
         self.mainpartner.vat = "4264242"
         self.mainpartner.country_id = False
-        self.mainpartner.ro_vat_change()
+
         self.assertEqual(self.mainpartner.name, "HOLZINDUSTRIE ROMANESTI S.R.L.")
         # Check address from vat without country code - vat subjected
         self.mainpartner.country_id = self.env.ref("base.ro")
-        self.mainpartner.ro_vat_change()
+
         self.assertEqual(self.mainpartner.name, "CUMPANA 1993 SRL")
         self.assertEqual(self.mainpartner.street, "Str. Alexander Von Humboldt Nr. 10")
         self.assertEqual(self.mainpartner.street2, "")
@@ -96,15 +96,13 @@ class TestCreatePartner(TestCreatePartnerBase):
         self.assertEqual(self.mainpartner.city, "Sector 3")
         self.assertEqual(self.mainpartner.country_id, self.env.ref("base.ro"))
         self.assertEqual(self.mainpartner.vat, "RO4264242")
-        self.mainpartner.onchange_l10n_ro_vat_subjected()
+
         self.assertEqual(self.mainpartner.vat, "RO4264242")
         self.assertEqual(self.mainpartner.l10n_ro_vat_subjected, True)
         # Check address from vat without country code - no vat subjected
         self.mainpartner.l10n_ro_vat_subjected = False
         self.mainpartner.vat = "RO42078234"
-        self.mainpartner.ro_vat_change()
 
-        self.mainpartner.onchange_l10n_ro_vat_subjected()
         self.assertEqual(
             self.mainpartner.name,
             "COJOCARU AURELIAN-MARCEL SOFTWARE PERSOANĂ FIZICĂ AUTORIZATĂ",
@@ -121,8 +119,7 @@ class TestCreatePartner(TestCreatePartnerBase):
         self.assertEqual(vat_number, "42078234")
         # Check vat subjected onchange
         self.mainpartner.l10n_ro_vat_subjected = True
-        self.mainpartner.onchange_l10n_ro_vat_subjected()
-        self.mainpartner.ro_vat_change()
+
         self.assertEqual(self.mainpartner.l10n_ro_vat_subjected, False)
 
     def test_anaf_no_data(self):
@@ -144,3 +141,16 @@ class TestCreatePartner(TestCreatePartnerBase):
         res = self.mainpartner.ro_vat_change()
         self.assertTrue(res.get("warning"))
         res_partner.ANAF_URL = original_anaf_url
+
+    def test_vat_vies(self):
+        self.env.vat_check_vies = True
+        partner_odoo = Form(self.env["res.partner"])
+        partner_odoo.name = "Test partner"
+        partner_odoo.country_id = self.env.ref("base.be")
+        partner_odoo.vat = "BE0477472701"
+        partner = partner_odoo.save()
+        self.assertEqual(partner.vat, "BE0477472701")
+
+        with self.assertRaises(ValidationError):
+            partner_odoo.vat = "BE0577472701"
+            partner_odoo.save()
