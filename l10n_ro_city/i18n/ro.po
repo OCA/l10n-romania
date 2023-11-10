@@ -12676,6 +12676,11 @@ msgid "Cotârgași"
 msgstr ""
 
 #. module: l10n_ro_city
+#: model:ir.model,name:l10n_ro_city.model_res_country_state
+msgid "Country state"
+msgstr ""
+
+#. module: l10n_ro_city
 #: model:res.city,name:l10n_ro_city.RO_158680
 msgid "Covaci"
 msgstr ""
@@ -39552,6 +39557,11 @@ msgstr ""
 #. module: l10n_ro_city
 #: model:ir.model.fields,field_description:l10n_ro_city.field_res_city__l10n_ro_municipality
 msgid "Romania - Municipality"
+msgstr ""
+
+#. module: l10n_ro_city
+#: model:ir.model.fields,field_description:l10n_ro_city.field_res_country_state__l10n_ro_prefix_zip
+msgid "Romania - Prefix Zip"
 msgstr ""
 
 #. module: l10n_ro_city
