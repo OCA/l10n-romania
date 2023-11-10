@@ -79,7 +79,8 @@ class ResPartner(models.Model):
         super(ResPartner, self - partners).check_vat()
 
     def _check_vat_ro(self):
-        self.ro_vat_change()
+        for partner in self:
+            partner.ro_vat_change()
 
     @api.model
     def _get_Anaf(self, cod, data=False):
