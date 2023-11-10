@@ -17,5 +17,9 @@
             </field>
     </record>
 
+    <record id="ir_config_ubl_e_invoice_delay_days" model="ir.config_parameter">
+        <field name="key">edi_ubl.l10n_ro_e_invoice_delay_days</field>
+        <field name="value">4</field>
+    </record>
 
 </odoo>

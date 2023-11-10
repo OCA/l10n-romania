@@ -145,7 +145,7 @@ class AccountEdiXmlCIUSRO(models.Model):
     def _get_move_applicability(self, move):
         # EXTENDS account.edi.format
         self.ensure_one()
-        if self.code != "cius_ro":
+        if self.code != "cius_ro" or not move.partner_id or not move.partner_id.l10n_ro_e_invoice:
             return super()._get_move_applicability(move)
 
         return {

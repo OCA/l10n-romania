@@ -1,4 +1,5 @@
-from odoo import _, fields, models
+from datetime import datetime, timedelta
+from odoo import _, fields, models, api
 
 
 class AccountEdiDocument(models.Model):
@@ -38,6 +39,34 @@ class AccountEdiDocument(models.Model):
     l10n_ro_format_code = fields.Char(
         "Format Code", related="edi_format_id.code", store=True, copy=False
     )
+
+    def action_cancel(self):
+        self.move_id.write({'l10n_ro_edi_transaction': False,
+                            'l10n_ro_edi_download': False})
+        return self.write({'state': 'cancelled',
+                           'l10n_ro_response_attachment_id': False,
+                           'l10n_ro_response_state': False,
+                           'l10n_ro_message_state': False,
+                           })
+
+    @api.model
+    def _cron_process_documents_web_services(self, job_count=None):
+        """ override original method because we want to alter edi_document's domain """
+
+        delay_value = 4
+        delay_param = self.env['ir.config_parameter'].search([('key', '=', 'edi_ubl.l10n_ro_e_invoice_delay_days')], limit=1)
+        if delay_param:
+            try:
+                delay_value = int(delay_param.value) or delay_value
+            except:
+                pass
+
+        edi_documents = self.search([('state', 'in', ('to_send', 'to_cancel')), ('move_id.state', '=', 'posted'), ('move_id.invoice_date', '<=', fields.Date.today() - timedelta(days=delay_value))])
+        nb_remaining_jobs = edi_documents._process_documents_web_services(job_count=job_count)
+
+        # Mark the CRON to be triggered again asap since there is some remaining jobs to process.
+        if nb_remaining_jobs > 0:
+            self.env.ref('account_edi.ir_cron_edi_network')._trigger()
 
     def _cron_get_response_web_service(self):
         """Get all documents with l10n_ro_edi_transaction and without response_attachment_id"""
@@ -91,8 +120,10 @@ class AccountEdiDocument(models.Model):
             self.message_post(
                 body=_("Message state successful. Download {0}.").format(download_id)
             )
+        elif state == 'missing':
+            self.message_post(body=_("Transaction Id not found."))
         else:
-            self.message_post(body=_("Message state failed."))
+            self.message_post(body=_("Message state is processing."))
 
         return True
 
