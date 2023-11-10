@@ -1,6 +1,6 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8" ?>
 <odoo>
-   
+
         <record id="ubl_account_edi_document_tree" model="ir.ui.view">
             <field name="name">ubl.account.edi.document.tree</field>
             <field name="model">account.edi.document</field>
@@ -22,8 +22,12 @@
             <field name="arch" type="xml">
                 <form string="Account EDI Document">
                     <header>
-                        <button type="object" name="action_cancel" string="Cancel"
-                                attrs="{'invisible': ['|', ('state', 'not in', ('to_send','sent')), '&amp;', ('state', 'in', ('sent',)), ('l10n_ro_message_state', 'not in', ('missing', 'found_notok'))]}" />
+                        <button
+                        type="object"
+                        name="action_cancel"
+                        string="Cancel"
+                        attrs="{'invisible': ['|', ('state', 'not in', ('to_send','sent')), '&amp;', ('state', 'in', ('sent',)), ('l10n_ro_message_state', 'not in', ('missing', 'found_notok'))]}"
+                    />
                         <field name="state" widget="statusbar" />
                     </header>
                     <sheet>
@@ -36,48 +40,69 @@
                             <group id="header_right_group">
                                 <field name="edi_format_id" readonly="1" />
                                 <field name="attachment_id" readonly="1" />
-                                <field name="l10n_ro_response_attachment_id" readonly="1" />
+                                <field
+                                name="l10n_ro_response_attachment_id"
+                                readonly="1"
+                            />
                             </group>
                         </group>
                          <notebook>
                              <page id="state_tab" name="state_tab" string="State">
                                  <group name="state1">
                                      <group name="state1_1" string="Download">
-                                        <field name="l10n_ro_message_state" readonly="1" string="State"/>
+                                        <field
+                                        name="l10n_ro_message_state"
+                                        readonly="1"
+                                        string="State"
+                                    />
                                      </group>
                                      <group name="state1_2" string="Response">
-                                        <field name="l10n_ro_response_state" readonly="1" string="State"/>
+                                        <field
+                                        name="l10n_ro_response_state"
+                                        readonly="1"
+                                        string="State"
+                                    />
                                      </group>
                                      <group name="state1_3" string="Response">
                                         <field name="blocking_level" readonly="1" />
                                      </group>
                                  </group>
                              </page>
-                             <page id="communication_tab"
-                                  name="communication_tab"
-                                  string="Communication">
+                             <page
+                            id="communication_tab"
+                            name="communication_tab"
+                            string="Communication"
+                        >
                                 <field name="error" readonly="1" />
                              </page>
                          </notebook>
                     </sheet>
                     <!-- Chatter -->
                     <div class="oe_chatter">
-                        <field name="message_follower_ids" groups="base.group_user"/>
-                        <field name="message_ids"/>
+                        <field name="message_follower_ids" groups="base.group_user" />
+                        <field name="message_ids" />
                     </div>
                 </form>
             </field>
         </record>
 
-        <record id="action_ubl_account_edi_document_ciusro" model="ir.actions.act_window">
+        <record
+        id="action_ubl_account_edi_document_ciusro"
+        model="ir.actions.act_window"
+    >
             <field name="context">{'create':0, 'delete': 0}</field>
             <field name="name">E-invoice</field>
             <field name="res_model">account.edi.document</field>
             <field name="domain">[('l10n_ro_format_code', '=', 'cius_ro')]</field>
-            <field name="view_id" ref="ubl_account_edi_document_tree"/>
+            <field name="view_id" ref="ubl_account_edi_document_tree" />
             <field name="view_mode">tree,form</field>
         </record>
 
-        <menuitem id="menu_action_ubl_account_edi_document_ciusro" action="action_ubl_account_edi_document_ciusro" sequence="4" parent="account.menu_finance"/>
-    
+        <menuitem
+        id="menu_action_ubl_account_edi_document_ciusro"
+        action="action_ubl_account_edi_document_ciusro"
+        sequence="4"
+        parent="account.menu_finance"
+    />
+
 </odoo>

@@ -1,7 +1,7 @@
 <odoo noupdate="1">
     <record id="ir_cron_response_web_service" model="ir.cron">
         <field name="name">EDI: Get Response (ZIP) for Documents</field>
-        <field name="model_id" ref="model_account_edi_document"/>
+        <field name="model_id" ref="model_account_edi_document" />
         <field name="state">code</field>
         <field name="code">model._cron_get_response_web_service()</field>
         <field name="interval_number">1</field>
