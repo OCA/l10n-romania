@@ -31,9 +31,9 @@ class AccountEdiDocument(models.Model):
         "ir.attachment",
         "Response ZIP",
         copy=False,
-        help="""The file received.
-                Contains either
-                    the original invoice or
+        help="""The file received. 
+                Contains either 
+                    the original invoice or 
                     a list of error found for the invoice during processing.""",
     )
     l10n_ro_format_code = fields.Char(
@@ -58,13 +58,17 @@ class AccountEdiDocument(models.Model):
         if delay_param:
             try:
                 delay_value = int(delay_param.value) or delay_value
-            except:
+            except ValueError:
                 pass
 
-        edi_documents = self.search([('state', 'in', ('to_send', 'to_cancel')), ('move_id.state', '=', 'posted'), ('move_id.invoice_date', '<=', fields.Date.today() - timedelta(days=delay_value))])
+        edi_documents = self.search([('state', 'in', ('to_send', 'to_cancel')),
+                                     ('move_id.state', '=', 'posted'),
+                                        ('move_id.invoice_date', '<=',
+                                            fields.Date.today() - timedelta(days=delay_value))])
         nb_remaining_jobs = edi_documents._process_documents_web_services(job_count=job_count)
 
-        # Mark the CRON to be triggered again asap since there is some remaining jobs to process.
+        # Mark the CRON to be triggered again asap since
+        # there is some remaining jobs to process.
         if nb_remaining_jobs > 0:
             self.env.ref('account_edi.ir_cron_edi_network')._trigger()
 
