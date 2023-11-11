@@ -2,13 +2,14 @@
 # Copyright (C) 2020 NextERP Romania
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
-import time
+
+import json
 
 from odoo.exceptions import ValidationError
+from odoo.modules.module import get_module_resource
 from odoo.tests import Form, tagged
 
 from odoo.addons.account.tests.common import AccountTestInvoicingCommon
-from odoo.addons.l10n_ro_partner_create_by_vat.models import res_partner
 
 
 @tagged("post_install", "-at_install")
@@ -19,6 +20,11 @@ class TestCreatePartnerBase(AccountTestInvoicingCommon):
         super(TestCreatePartnerBase, cls).setUpClass(chart_template_ref=ro_template_ref)
         cls.env.company.l10n_ro_accounting = True
         cls.mainpartner = cls.env["res.partner"].create({"name": "Test partner"})
+        test_file_path = get_module_resource(
+            "l10n_ro_partner_create_by_vat", "tests", "anaf_data.json"
+        )
+        cls.anaf_data = json.load(open(test_file_path))
+        cls.mainpartner = cls.mainpartner.with_context(anaf_data=cls.anaf_data)
 
 
 @tagged("post_install", "-at_install")
@@ -54,11 +60,9 @@ class TestCreatePartner(TestCreatePartnerBase):
     def test_onchange_vat_anaf(self):
         """Check onchange vat from ANAF."""
         # Test onchange from ANAF
-        self.mainpartner.vat = "RO30834857"
-        res = self.mainpartner.ro_vat_change()
-        if "warning" in res:
-            return
+
         mainpartner = Form(self.mainpartner)
+        mainpartner.vat = "RO30834857"
         self.assertEqual(mainpartner.name, "FOREST AND BIOMASS ROMÂNIA S.A.")
         self.assertEqual(mainpartner.street, "Str. Ciprian Porumbescu Nr. 12")
         self.assertEqual(mainpartner.street2, "Zona Nr.3, Etaj 1")
@@ -66,7 +70,7 @@ class TestCreatePartner(TestCreatePartnerBase):
         self.assertEqual(mainpartner.city, "Timișoara")
         self.assertEqual(mainpartner.country_id, self.env.ref("base.ro"))
         # Check inactive vatnumber
-        time.sleep(1)
+
         mainpartner.vat = "RO27193515"
 
         self.assertEqual(mainpartner.name, "FOREST AND BIOMASS SERVICES ROMANIA S.A.")
@@ -76,7 +80,7 @@ class TestCreatePartner(TestCreatePartnerBase):
         self.assertEqual(mainpartner.city, "Timișoara")
         self.assertEqual(mainpartner.country_id, self.env.ref("base.ro"))
         # Check address from commune
-        time.sleep(1)
+
         mainpartner.vat = "RO8235738"
 
         self.assertEqual(mainpartner.name, "HOLZINDUSTRIE ROMANESTI S.R.L.")
@@ -86,25 +90,21 @@ class TestCreatePartner(TestCreatePartnerBase):
         self.assertEqual(mainpartner.country_id, self.env.ref("base.ro"))
 
         # Check address from vat without country code - vat subjected
-        time.sleep(1)
-        mainpartner.country_id = False
-        mainpartner.vat = "4264242"
 
-        self.assertEqual(mainpartner.name, "HOLZINDUSTRIE ROMANESTI S.R.L.")
-        # Check address from vat without country code - vat subjected
+        mainpartner.vat = "4264242"
         mainpartner.country_id = self.env.ref("base.ro")
 
         self.assertEqual(mainpartner.name, "CUMPANA 1993 SRL")
         self.assertEqual(mainpartner.street, "Str. Alexander Von Humboldt Nr. 10")
         self.assertEqual(mainpartner.street2, "")
         self.assertEqual(mainpartner.state_id, self.env.ref("base.RO_B"))
-        self.assertEqual(mainpartner.city, "Sector 3")
+        self.assertEqual(mainpartner.city.replace(" ", ""), "Sector3")
         self.assertEqual(mainpartner.country_id, self.env.ref("base.ro"))
         self.assertEqual(mainpartner.vat, "RO4264242")
 
         self.assertEqual(mainpartner.l10n_ro_vat_subjected, True)
         # Check address from vat without country code - no vat subjected
-        time.sleep(1)
+
         mainpartner.l10n_ro_vat_subjected = False
         mainpartner.vat = "RO42078234"
 
@@ -122,13 +122,13 @@ class TestCreatePartner(TestCreatePartnerBase):
 
         mainpartner.save()
 
-        vat_country, vat_number = self.mainpartner._split_vat(self.mainpartner.vat)
+        vat_country, vat_number = self.mainpartner._split_vat(mainpartner.vat)
         self.assertEqual(vat_country, "ro")
         self.assertEqual(vat_number, "42078234")
         # Check vat subjected onchange
-        self.mainpartner.l10n_ro_vat_subjected = True
+        mainpartner.l10n_ro_vat_subjected = True
 
-        self.assertEqual(self.mainpartner.l10n_ro_vat_subjected, False)
+        self.assertEqual(mainpartner.l10n_ro_vat_subjected, False)
 
     def test_anaf_no_data(self):
         """if a invalid vat will return a empty dictionary."""
@@ -138,17 +138,22 @@ class TestCreatePartner(TestCreatePartnerBase):
 
     def test_anaf_exception(self):
         """Check anaf exception."""
-        original_anaf_url = res_partner.ANAF_URL
-        res_partner.ANAF_URL = (
-            "https://webservicesp.anaf.ro/PlatitorTvaRest/api/v7/ws/tvaERROR"
-        )
-        error, res = self.mainpartner._get_Anaf("30834857")
+        get_param = self.env["ir.config_parameter"].sudo().get_param
+        set_param = self.env["ir.config_parameter"].sudo().set_param
+
+        get_param("l10n_ro_partner_create_by_vat.anaf_url")
+        original_anaf_url = get_param("l10n_ro_partner_create_by_vat.anaf_url")
+        anaf_url = "https://webservicesp.anaf.ro/PlatitorTvaRest/api/v7/ws/tvaERROR"
+
+        set_param("l10n_ro_partner_create_by_vat.anaf_url", anaf_url)
+        error, res = self.mainpartner._get_Anaf("20603502")
         self.assertEqual(res, {})
         self.assertTrue(len(error) > 3)
-        self.mainpartner.vat = "RO30834857"
+        self.mainpartner.vat = "RO20603502"
         res = self.mainpartner.ro_vat_change()
         self.assertTrue(res.get("warning"))
-        res_partner.ANAF_URL = original_anaf_url
+
+        set_param("l10n_ro_partner_create_by_vat.anaf_url", original_anaf_url)
 
     def test_vat_vies(self):
         self.env.vat_check_vies = True

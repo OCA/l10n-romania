@@ -151,6 +151,15 @@ class ResPartner(models.Model):
         "cod_CAEN": "-- Cod CAEN --",
                           }
         """
+
+        anaf_error = ""
+        if "anaf_data" in self.env.context and isinstance(cod, str):
+            test_data = self.env.context.get("anaf_data")
+            result = test_data.get(cod, {})
+            anaf_error = result.get("error", "")
+            if result:
+                return anaf_error, test_data[cod]
+
         get_param = self.env["ir.config_parameter"].sudo().get_param
         anaf_url = get_param("l10n_ro_partner_create_by_vat.anaf_url", ANAF_URL)
         if not data:
@@ -160,12 +169,13 @@ class ResPartner(models.Model):
         else:
             json_data = [{"cui": cod, "data": data}]
         try:
-            res = requests.post(anaf_url, json=json_data, headers=headers, timeout=30)
+
+            res = requests.post(anaf_url, json=json_data, headers=headers)
         except Exception as ex:
             return _("ANAF Webservice not working. Exception=%s.") % ex, {}
 
         result = {}
-        anaf_error = ""
+
         if (
             res.status_code == 200
             and res.headers.get("content-type") == "application/json"
@@ -225,6 +235,11 @@ class ResPartner(models.Model):
                 ("name", "=ilike", odoo_result["city"]),
             ]
             odoo_result["city_id"] = self.env["res.city"].search(domain, limit=1).id
+
+        if odoo_result["state_id"] == self.env.ref("base.RO_B"):
+            if odoo_result.get("codPostal") and odoo_result["codPostal"][0] != "0":
+                odoo_result["codPostal"] = "0" + odoo_result["codPostal"]
+
         for field in AnafFiled_OdooField_Overwrite:
             if field[1] not in odoo_result:
                 continue
