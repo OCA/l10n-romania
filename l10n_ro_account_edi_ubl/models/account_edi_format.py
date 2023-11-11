@@ -7,7 +7,7 @@ import logging
 import requests
 from lxml import etree
 
-from odoo import _, models
+from odoo import _, fields, models
 
 _logger = logging.getLogger(__name__)
 
@@ -89,14 +89,19 @@ class AccountEdiXmlCIUSRO(models.Model):
                 attachment = self._export_cius_ro(invoice)
             res[invoice] = {"attachment": attachment, "success": True}
             anaf_config = invoice.company_id.l10n_ro_account_anaf_sync_id
+
+            residence = invoice.company_id.l10n_ro_edi_residence
+            days = (fields.Date.today() - invoice.date_invoice).days
+
             if anaf_config.state != "manual" and (
                 invoice.company_id.l10n_ro_edi_manual
                 and self.env.context.get("l10n_ro_edi_manual_action")
             ):
                 if not invoice.l10n_ro_edi_transaction:
-                    res[invoice] = self._l10n_ro_post_invoice_step_1(
-                        invoice, attachment
-                    )
+                    if days >= residence:
+                        res[invoice] = self._l10n_ro_post_invoice_step_1(
+                            invoice, attachment
+                        )
                 else:
                     res[invoice] = self._l10n_ro_post_invoice_step_2(invoice)
 
@@ -152,6 +157,7 @@ class AccountEdiXmlCIUSRO(models.Model):
         return attachment.raw
 
     def _l10n_ro_post_invoice_step_1(self, invoice, attachment):
+
         anaf_config = invoice.company_id.l10n_ro_account_anaf_sync_id
         access_token = anaf_config.access_token
         url = anaf_config.anaf_einvoice_sync_url + "/upload"
