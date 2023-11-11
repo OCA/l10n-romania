@@ -151,7 +151,8 @@ class ResPartner(models.Model):
         "cod_CAEN": "-- Cod CAEN --",
                           }
         """
-
+        get_param = self.env["ir.config_parameter"].sudo().get_param
+        anaf_url = get_param("l10n_ro_partner_create_by_vat.anaf_url", ANAF_URL)
         if not data:
             data = fields.Date.to_string(fields.Date.today())
         if type(cod) in [list, tuple]:
@@ -159,9 +160,9 @@ class ResPartner(models.Model):
         else:
             json_data = [{"cui": cod, "data": data}]
         try:
-            res = requests.post(ANAF_URL, json=json_data, headers=headers)
+            res = requests.post(anaf_url, json=json_data, headers=headers, timeout=30)
         except Exception as ex:
-            return _("ANAF Webservice not working. Exeption=%s.") % ex, {}
+            return _("ANAF Webservice not working. Exception=%s.") % ex, {}
 
         result = {}
         anaf_error = ""
