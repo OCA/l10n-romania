@@ -20,6 +20,7 @@ class TestAccountEdiUbl(AccountEdiTestCommon):
         ro_template_ref = "l10n_ro.ro_chart_template"
         super().setUpClass(chart_template_ref=ro_template_ref)
         cls.env.company.l10n_ro_accounting = True
+
         cls.currency = cls.env["res.currency"].search([("name", "=", "RON")])
         cls.country_state = cls.env.ref("base.RO_TM")
 
@@ -35,6 +36,13 @@ class TestAccountEdiUbl(AccountEdiTestCommon):
                 "state_id": cls.country_state.id,
                 "zip": "300011",
                 "phone": "0356179038",
+            }
+        )
+        cls.bank = cls.env["res.partner.bank"].create(
+            {'acc_type': 'iban',
+                'partner_id': cls.env.company.partner_id.id,
+                'bank_id': cls.env.ref('l10n_ro.res_bank_37').id,
+                'acc_number': 'RO75TREZ0615069XXX001573',
             }
         )
 
@@ -90,6 +98,7 @@ class TestAccountEdiUbl(AccountEdiTestCommon):
             "partner_id": cls.partner.id,
             "invoice_date": fields.Date.from_string("2022-09-01"),
             "currency_id": cls.currency.id,
+            "partner_bank_id": cls.bank.id,
             "invoice_line_ids": [
                 (
                     0,

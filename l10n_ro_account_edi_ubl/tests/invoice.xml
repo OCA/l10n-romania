@@ -84,7 +84,15 @@
     </cac:AccountingCustomerParty>
     <cac:PaymentMeans>
         <cbc:PaymentMeansCode name="credit transfer">30</cbc:PaymentMeansCode>
+
         <cbc:PaymentID>FBRAO2092</cbc:PaymentID>
+          <cac:PayeeFinancialAccount>
+          <cbc:ID>RO75TREZ0615069XXX001573</cbc:ID>
+          <cac:FinancialInstitutionBranch>
+            <cbc:ID>TREZROBU</cbc:ID>
+          </cac:FinancialInstitutionBranch>
+        </cac:PayeeFinancialAccount>
+
     </cac:PaymentMeans>
     <cac:TaxTotal>
         <cbc:TaxAmount currencyID="RON">1900.00</cbc:TaxAmount>
