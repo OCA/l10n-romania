@@ -69,6 +69,19 @@ class ResPartner(models.Model):
         copy=False,
     )
 
+    @api.constrains("vat", "country_id")
+    def check_vat(self):
+        if self.env.context.get("no_vat_validation"):
+            return
+        partners = self.filtered(lambda p: p.country_id.code == "RO")
+        if partners:
+            partners._check_vat_ro()
+        super(ResPartner, self - partners).check_vat()
+
+    def _check_vat_ro(self):
+        for partner in self:
+            partner.ro_vat_change()
+
     @api.model
     def _get_Anaf(self, cod, data=False):
         """
@@ -208,7 +221,7 @@ class ResPartner(models.Model):
         ):
             domain = [
                 ("state_id", "=", odoo_result["state_id"].id),
-                ("name", "ilike", odoo_result["city"]),
+                ("name", "=ilike", odoo_result["city"]),
             ]
             odoo_result["city_id"] = self.env["res.city"].search(domain, limit=1).id
         for field in AnafFiled_OdooField_Overwrite:
