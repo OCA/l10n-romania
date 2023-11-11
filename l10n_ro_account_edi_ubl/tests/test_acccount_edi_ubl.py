@@ -39,10 +39,11 @@ class TestAccountEdiUbl(AccountEdiTestCommon):
             }
         )
         cls.bank = cls.env["res.partner.bank"].create(
-            {'acc_type': 'iban',
-                'partner_id': cls.env.company.partner_id.id,
-                'bank_id': cls.env.ref('l10n_ro.res_bank_37').id,
-                'acc_number': 'RO75TREZ0615069XXX001573',
+            {
+                "acc_type": "iban",
+                "partner_id": cls.env.company.partner_id.id,
+                "bank_id": cls.env.ref("l10n_ro.res_bank_37").id,
+                "acc_number": "RO75TREZ0615069XXX001573",
             }
         )
 
