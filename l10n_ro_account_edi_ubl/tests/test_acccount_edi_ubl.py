@@ -38,6 +38,9 @@ class TestAccountEdiUbl(AccountEdiTestCommon):
                 "phone": "0356179038",
             }
         )
+        if "street_name" in cls.env.company._fields:
+            cls.env.company.write({"street_name": "Ciprian Porumbescu Nr. 12"})
+
         cls.bank = cls.env["res.partner.bank"].create(
             {
                 "acc_type": "iban",
@@ -63,6 +66,8 @@ class TestAccountEdiUbl(AccountEdiTestCommon):
                 "l10n_ro_is_government_institution": True,
             }
         )
+        if "street_name" in cls.partner._fields:
+            cls.partner.write({"street_name": "Nr. 383"})
 
         uom_id = cls.env.ref("uom.product_uom_unit").id
         cls.product_a = cls.env["product.product"].create(
@@ -150,7 +155,7 @@ class TestAccountEdiUbl(AccountEdiTestCommon):
         invoice_xml = self.invoice.attach_ubl_xml_file_button()
         att = self.env["ir.attachment"].browse(invoice_xml["res_id"])
         xml_content = base64.b64decode(att.with_context(bin_size=False).datas)
-        _logger.info(xml_content)
+
         current_etree = self.get_xml_tree_from_string(xml_content)
         expected_etree = self.get_xml_tree_from_string(self.expected_invoice_values)
 
@@ -161,7 +166,7 @@ class TestAccountEdiUbl(AccountEdiTestCommon):
         invoice_xml = self.credit_note.attach_ubl_xml_file_button()
         att = self.env["ir.attachment"].browse(invoice_xml["res_id"])
         xml_content = base64.b64decode(att.with_context(bin_size=False).datas)
-        _logger.info(xml_content)
+
         current_etree = self.get_xml_tree_from_string(xml_content)
         expected_etree = self.get_xml_tree_from_string(self.expected_credit_note_values)
         self.assertXmlTreeEqual(current_etree, expected_etree)
