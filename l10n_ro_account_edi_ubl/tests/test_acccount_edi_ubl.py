@@ -150,7 +150,7 @@ class TestAccountEdiUbl(AccountEdiTestCommon):
         invoice_xml = self.invoice.attach_ubl_xml_file_button()
         att = self.env["ir.attachment"].browse(invoice_xml["res_id"])
         xml_content = base64.b64decode(att.with_context(bin_size=False).datas)
-
+        _logger.info(xml_content)
         current_etree = self.get_xml_tree_from_string(xml_content)
         expected_etree = self.get_xml_tree_from_string(self.expected_invoice_values)
 
@@ -161,7 +161,7 @@ class TestAccountEdiUbl(AccountEdiTestCommon):
         invoice_xml = self.credit_note.attach_ubl_xml_file_button()
         att = self.env["ir.attachment"].browse(invoice_xml["res_id"])
         xml_content = base64.b64decode(att.with_context(bin_size=False).datas)
-
+        _logger.info(xml_content)
         current_etree = self.get_xml_tree_from_string(xml_content)
         expected_etree = self.get_xml_tree_from_string(self.expected_credit_note_values)
         self.assertXmlTreeEqual(current_etree, expected_etree)
