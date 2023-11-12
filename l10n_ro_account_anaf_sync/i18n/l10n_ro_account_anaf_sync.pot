@@ -249,6 +249,13 @@ msgstr ""
 #. odoo-python
 #: code:addons/l10n_ro_account_anaf_sync/controllers/anaf_oauth.py:0
 #, python-format
+msgid "No ANAF config was found for this company."
+msgstr ""
+
+#. module: l10n_ro_account_anaf_sync
+#. odoo-python
+#: code:addons/l10n_ro_account_anaf_sync/controllers/anaf_oauth.py:0
+#, python-format
 msgid ""
 "No code was found in the response.\n"
 "Response was: %s"
@@ -266,7 +273,7 @@ msgstr ""
 
 #. module: l10n_ro_account_anaf_sync
 #: model:ir.model.fields,help:l10n_ro_account_anaf_sync.field_l10n_ro_account_anaf_sync__message_needaction_counter
-msgid "Number of messages which requires an action"
+msgid "Number of messages requiring action"
 msgstr ""
 
 #. module: l10n_ro_account_anaf_sync
@@ -337,15 +344,6 @@ msgstr ""
 #: code:addons/l10n_ro_account_anaf_sync/controllers/anaf_oauth.py:0
 #, python-format
 msgid ""
-"The response was done too late.\n"
-"Response was: kw=%s"
-msgstr ""
-
-#. module: l10n_ro_account_anaf_sync
-#. odoo-python
-#: code:addons/l10n_ro_account_anaf_sync/controllers/anaf_oauth.py:0
-#, python-format
-msgid ""
 "The response was finished.\n"
 "Response was: %s"
 msgstr ""
@@ -385,7 +383,7 @@ msgstr ""
 #. odoo-python
 #: code:addons/l10n_ro_account_anaf_sync/models/l10n_ro_account_anaf_sync.py:0
 #, python-format
-msgid "You already have an ANAF access token. Please revoke it first."
+msgid "You already have ANAF access token. Please revolke it first."
 msgstr ""
 
 #. module: l10n_ro_account_anaf_sync
