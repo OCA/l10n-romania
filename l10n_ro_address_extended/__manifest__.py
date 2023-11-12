@@ -18,4 +18,5 @@
     "installable": True,
     "development_status": "Mature",
     "maintainers": ["feketemihai"],
+    "sequence": 99,
 }
