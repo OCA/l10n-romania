@@ -7,9 +7,12 @@ import logging
 import requests
 from lxml import etree
 
-from odoo import _, models
+from odoo import _, fields, models
+from odoo.exceptions import UserError
 
 _logger = logging.getLogger(__name__)
+
+SECTOR_RO_CODES = ("SECTOR1", "SECTOR2", "SECTOR3", "SECTOR4", "SECTOR5", "SECTOR6")
 
 
 class AccountEdiXmlCIUSRO(models.Model):
@@ -20,9 +23,12 @@ class AccountEdiXmlCIUSRO(models.Model):
         # Create file content.
         builder = self._get_xml_builder(invoice.company_id)
         xml_content, errors = builder._export_invoice(invoice)
+        if errors:
+            raise UserError(
+                _("The following errors occurred while generating the " "XML file:\n%s")
+                % "\n".join(errors)
+            )
         xml_content = xml_content.decode()
-        # xml_content = xml_content.replace("CreditNoteLine", "InvoiceLine")
-        # xml_content = xml_content.replace("CreditedQuantity", "InvoicedQuantity")
         xml_content = xml_content.encode()
         xml_name = builder._export_invoice_filename(invoice)
         return self.env["ir.attachment"].create(
@@ -91,16 +97,49 @@ class AccountEdiXmlCIUSRO(models.Model):
                 attachment = self._export_cius_ro(invoice)
             res[invoice] = {"attachment": attachment, "success": True}
             anaf_config = invoice.company_id.l10n_ro_account_anaf_sync_id
-            if anaf_config.state != "manual" and (
+
+            residence = invoice.company_id.l10n_ro_edi_residence
+            days = (fields.Date.today() - invoice.invoice_date).days
+            if not invoice.company_id.l10n_ro_edi_manual and not anaf_config.state:
+                res[invoice] = {
+                    "success": False,
+                    "error": _("The ANAF configuration is not set"),
+                }
+            if anaf_config.state != "manual" or (
                 invoice.company_id.l10n_ro_edi_manual
                 and self.env.context.get("l10n_ro_edi_manual_action")
             ):
                 if not invoice.l10n_ro_edi_transaction:
-                    res[invoice] = self._l10n_ro_post_invoice_step_1(
-                        invoice, attachment
-                    )
+                    if days >= residence:
+                        res[invoice] = self._l10n_ro_post_invoice_step_1(
+                            invoice, attachment
+                        )
+                    else:
+                        res[invoice] = {
+                            "success": False,
+                            "error": _("The invoice is not older than %s days")
+                            % residence,
+                        }
+
                 else:
                     res[invoice] = self._l10n_ro_post_invoice_step_2(invoice)
+
+            if not res[invoice]["success"]:
+                body = (
+                    _(
+                        "The invoice was not sent to ANAF. "
+                        "Please check the configuration and try again."
+                        "\n\nError: %s"
+                    )
+                    % res[invoice]["error"]
+                )
+
+                invoice.activity_schedule(
+                    "mail.mail_activity_data_warning",
+                    summary=_("e-Invoice not sent to ANAF"),
+                    note=body,
+                    user_id=invoice.invoice_user_id.id,
+                )
 
         return res
 
@@ -120,28 +159,68 @@ class AccountEdiXmlCIUSRO(models.Model):
         anaf_config = self.env.company.l10n_ro_account_anaf_sync_id
         return anaf_config.state != "manual"
 
-    def _check_move_configuration(self, move):
-        self.ensure_one()
-        if self.code != "cius_ro":
-            return super()._check_move_configuration(move)
-        partner = move.commercial_partner_id
-        errors = []
-        if not partner.street:
-            errors += [
-                _("The partner %s doesn't have the street completed.") % partner.name
-            ]
+    def _export_invoice_constraints(self, invoice, vals):
+        # EXTENDS 'account_edi_ubl_cii' preluate din Odoo 17.0
+        constraints = super()._export_invoice_constraints(invoice, vals)
 
-        state_bucuresti = self.env.ref("base.RO_B")
-        if partner.state_id == state_bucuresti:
-            if "sector" not in partner.city.lower():
-                errors += [
-                    _(
-                        "If country state of partner %s is Bucharest, "
-                        "the city must be as SectorX "
-                    )
-                    % partner.name
-                ]
-        return errors
+        for partner_type in ("supplier", "customer"):
+            partner = vals[partner_type]
+
+            constraints.update(
+                {
+                    f"ciusro_{partner_type}_city_required": self._check_required_fields(
+                        partner, "city"
+                    ),
+                    f"ciusro_{partner_type}_street_required": self._check_required_fields(
+                        partner, "street"
+                    ),
+                    f"ciusro_{partner_type}_state_id_required": self._check_required_fields(
+                        partner, "state_id"
+                    ),
+                }
+            )
+
+            if not partner.vat and not partner.company_registry:
+                constraints[f"ciusro_{partner_type}_tax_identifier_required"] = _(
+                    "The following partner doesn't have a VAT nor Company ID: %s. "
+                    "At least one of them is required. ",
+                    partner.name,
+                )
+
+            if partner.vat and not partner.vat.startswith(partner.country_code):
+                constraints[f"ciusro_{partner_type}_country_code_vat_required"] = _(
+                    "The following partner's doesn't have a "
+                    "country code prefix in their VAT: %s.",
+                    partner.name,
+                )
+
+            if (
+                not partner.vat
+                and partner.company_registry
+                and not partner.company_registry.startswith(partner.country_code)
+            ):
+                constraints[
+                    f"ciusro_{partner_type}_country_code_company_registry_required"
+                ] = _(
+                    "The following partner's doesn't have a country "
+                    "code prefix in their Company ID: %s.",
+                    partner.name,
+                )
+
+            if (
+                partner.country_code == "RO"
+                and partner.state_id
+                and partner.state_id.code == "B"
+                and partner.city not in SECTOR_RO_CODES
+            ):
+                constraints[f"ciusro_{partner_type}_invalid_city_name"] = _(
+                    "The following partner's city name is invalid: %s. "
+                    "If partner's state is București, the city name must be 'SECTORX', "
+                    "where X is a number between 1-6.",
+                    partner.name,
+                )
+
+        return constraints
 
     def _get_invoice_edi_content(self, move):
         if self.code != "cius_ro":
@@ -154,6 +233,7 @@ class AccountEdiXmlCIUSRO(models.Model):
         return attachment.raw
 
     def _l10n_ro_post_invoice_step_1(self, invoice, attachment):
+
         anaf_config = invoice.company_id.l10n_ro_account_anaf_sync_id
         access_token = anaf_config.access_token
         url = anaf_config.anaf_einvoice_sync_url + "/upload"
