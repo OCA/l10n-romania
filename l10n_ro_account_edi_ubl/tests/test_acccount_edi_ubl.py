@@ -41,7 +41,8 @@ class TestAccountEdiUbl(AccountEdiTestCommon):
         if "street_name" in cls.env.company._fields:
             cls.env.company.write(
                 {
-                    "street_name": "Str. Ciprian Porumbescu Nr. 12",
+                    "street_name": "Str. Ciprian Porumbescu",
+                    "street_number": "Nr. 12",
                     "street": "Str. Ciprian Porumbescu Nr. 12",
                 }
             )
@@ -54,13 +55,16 @@ class TestAccountEdiUbl(AccountEdiTestCommon):
                 "acc_number": "RO75TREZ0615069XXX001573",
             }
         )
-
         cls.partner = cls.env["res.partner"].create(
             {
                 "name": "SCOALA GIMNAZIALA COMUNA FOENI",
                 "ref": "SCOALA GIMNAZIALA COMUNA FOENI",
                 "vat": "29152430",
                 "country_id": cls.env.ref("base.ro").id,
+            }
+        )
+        cls.partner.write(
+            {
                 "l10n_ro_vat_subjected": False,
                 "street": "Foeni Nr. 383",
                 "city": "Foeni",
@@ -72,7 +76,13 @@ class TestAccountEdiUbl(AccountEdiTestCommon):
             }
         )
         if "street_name" in cls.partner._fields:
-            cls.partner.write({"street_name": "Nr. 383", "street": "Foeni Nr. 383"})
+            cls.partner.write(
+                {
+                    "street_name": "Foeni",
+                    "street_number": "Nr. 383",
+                    "street": "Foeni Nr. 383",
+                }
+            )
 
         uom_id = cls.env.ref("uom.product_uom_unit").id
         cls.product_a = cls.env["product.product"].create(
@@ -106,6 +116,8 @@ class TestAccountEdiUbl(AccountEdiTestCommon):
             "name": "FBRAO2092",
             "partner_id": cls.partner.id,
             "invoice_date": fields.Date.from_string("2022-09-01"),
+            "date": fields.Date.from_string("2022-09-01"),
+            "invoice_date_due": fields.Date.from_string("2022-09-01"),
             "currency_id": cls.currency.id,
             "partner_bank_id": cls.bank.id,
             "invoice_line_ids": [
