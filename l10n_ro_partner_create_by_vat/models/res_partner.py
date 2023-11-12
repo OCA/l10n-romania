@@ -74,13 +74,13 @@ class ResPartner(models.Model):
         if self.env.context.get("no_vat_validation"):
             return
         partners = self.filtered(lambda p: p.country_id.code == "RO")
-        if partners:
-            partners._check_vat_ro()
+        # if partners:
+        #     partners._check_vat_ro()
         super(ResPartner, self - partners).check_vat()
 
-    def _check_vat_ro(self):
-        for partner in self:
-            partner.ro_vat_change()
+    # def _check_vat_ro(self):
+    #     for partner in self:
+    #         partner.with_context(no_vat_validation=True).ro_vat_change()
 
     @api.model
     def _get_Anaf(self, cod, data=False):
@@ -152,6 +152,16 @@ class ResPartner(models.Model):
                           }
         """
 
+        anaf_error = ""
+        if "anaf_data" in self.env.context and isinstance(cod, str):
+            test_data = self.env.context.get("anaf_data")
+            result = test_data.get(cod, {})
+            anaf_error = result.get("error", "")
+            if result:
+                return anaf_error, test_data[cod]
+
+        get_param = self.env["ir.config_parameter"].sudo().get_param
+        anaf_url = get_param("l10n_ro_partner_create_by_vat.anaf_url", ANAF_URL)
         if not data:
             data = fields.Date.to_string(fields.Date.today())
         if type(cod) in [list, tuple]:
@@ -159,12 +169,13 @@ class ResPartner(models.Model):
         else:
             json_data = [{"cui": cod, "data": data}]
         try:
-            res = requests.post(ANAF_URL, json=json_data, headers=headers)
+
+            res = requests.post(anaf_url, json=json_data, headers=headers)
         except Exception as ex:
-            return _("ANAF Webservice not working. Exeption=%s.") % ex, {}
+            return _("ANAF Webservice not working. Exception=%s.") % ex, {}
 
         result = {}
-        anaf_error = ""
+
         if (
             res.status_code == 200
             and res.headers.get("content-type") == "application/json"
@@ -224,6 +235,11 @@ class ResPartner(models.Model):
                 ("name", "=ilike", odoo_result["city"]),
             ]
             odoo_result["city_id"] = self.env["res.city"].search(domain, limit=1).id
+
+        if odoo_result["state_id"] == self.env.ref("base.RO_B"):
+            if odoo_result.get("codPostal") and odoo_result["codPostal"][0] != "0":
+                odoo_result["codPostal"] = "0" + odoo_result["codPostal"]
+
         for field in AnafFiled_OdooField_Overwrite:
             if field[1] not in odoo_result:
                 continue
