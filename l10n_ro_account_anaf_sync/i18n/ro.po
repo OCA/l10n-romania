@@ -250,6 +250,12 @@ msgstr ""
 #. module: l10n_ro_account_anaf_sync
 #: code:addons/l10n_ro_account_anaf_sync/controllers/anaf_oauth.py:0
 #, python-format
+msgid "No ANAF config was found for this company."
+msgstr ""
+
+#. module: l10n_ro_account_anaf_sync
+#: code:addons/l10n_ro_account_anaf_sync/controllers/anaf_oauth.py:0
+#, python-format
 msgid ""
 "No code was found in the response.\n"
 "Response was: %s"
@@ -341,16 +347,6 @@ msgstr "Raspuns test token: %s"
 #: code:addons/l10n_ro_account_anaf_sync/controllers/anaf_oauth.py:0
 #, python-format
 msgid ""
-"The response was done too late.\n"
-"Response was: kw=%s"
-msgstr ""
-"Răspunsul a fost dat prea târziu.\n"
-"Răspunsul a fost: kw=%s"
-
-#. module: l10n_ro_account_anaf_sync
-#: code:addons/l10n_ro_account_anaf_sync/controllers/anaf_oauth.py:0
-#, python-format
-msgid ""
 "The response was finished.\n"
 "Response was: %s"
 msgstr ""
@@ -428,6 +424,14 @@ msgstr ""
 #, python-format
 msgid "You don't have ANAF access token. Please get it first."
 msgstr "Nu aveți un token de acces ANAF. Vă rugăm să-l generati mai întâi."
+
+#, python-format
+#~ msgid ""
+#~ "The response was done too late.\n"
+#~ "Response was: kw=%s"
+#~ msgstr ""
+#~ "Răspunsul a fost dat prea târziu.\n"
+#~ "Răspunsul a fost: kw=%s"
 
 #~ msgid "SMS Delivery error"
 #~ msgstr "Eroare de livrare prin SMS"
