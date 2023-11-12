@@ -9,36 +9,20 @@ class TestAccountANAFSync(TransactionCase):
     def setUp(self):
         super(TestAccountANAFSync, self).setUp()
         self.test_company = self.env["res.company"].create({"name": "Test Sync"})
+        self.sync = self.env["l10n.ro.account.anaf.sync"].create(
+            {
+                "company_id": self.test_company.id,
+                "client_id": "123",
+                "client_secret": "123",
+            }
+        )
 
     def test_anaf_api(self):
-
-        sync = self.env["l10n.ro.account.anaf.sync"].create(
-            {
-                "company_id": self.test_company.id,
-                "client_id": "123",
-                "client_secret": "123",
-                "access_token": "123",
-            }
-        )
-        sync.test_anaf_api()
+        self.sync.test_anaf_api()
 
     def test_revoke_access_token(self):
-        sync = self.env["l10n.ro.account.anaf.sync"].create(
-            {
-                "company_id": self.test_company.id,
-                "client_id": "123",
-                "client_secret": "123",
-                "access_token": "123",
-            }
-        )
-        sync.revoke_access_token()
+        self.sync.write({"access_token": "123"})
+        self.sync.revoke_access_token()
 
     def test_get_access_token(self):
-        sync = self.env["l10n.ro.account.anaf.sync"].create(
-            {
-                "company_id": self.test_company.id,
-                "client_id": "123",
-                "client_secret": "123",
-            }
-        )
-        sync.get_token_from_anaf_website()
+        self.sync.get_token_from_anaf_website()
