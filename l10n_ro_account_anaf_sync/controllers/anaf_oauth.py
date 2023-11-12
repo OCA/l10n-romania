@@ -6,7 +6,7 @@ from datetime import datetime, timedelta
 
 import requests
 import werkzeug
-import werkzeug.urls as urls
+import werkzeug.utils
 from werkzeug.wrappers import Response
 
 from odoo import _, http
@@ -17,19 +17,6 @@ from odoo.http import request
 # Token Revocation Endpoint https://logincert.anaf.ro/anaf-oauth2/v1/revoke
 
 
-def redirect(location, code=303, local=True):
-    # compatibility, Werkzeug support URL as location
-    if isinstance(location, urls.URL):
-        location = location.to_url()
-    if local:
-        location = "/" + urls.url_parse(location).replace(
-            scheme="", netloc=""
-        ).to_url().lstrip("/")
-    if request and request.db:
-        return request.registry["ir.http"]._redirect(location, code)
-    return werkzeug.utils.redirect(location, code, Response=Response)
-
-
 class AccountANAFSyncWeb(http.Controller):
     @http.route(
         ["/l10n_ro_account_anaf_sync/redirect_anaf/<int:anaf_config_id>"],
@@ -37,6 +24,7 @@ class AccountANAFSyncWeb(http.Controller):
         auth="user",
         website=True,
         sitemap=False,
+        csrf=False,
     )
     def redirect_anaf(self, anaf_config_id, **kw):
         uid = request.uid
@@ -44,7 +32,9 @@ class AccountANAFSyncWeb(http.Controller):
         error = False
         if user.share:
             return request.not_found(_("This page is only for internal users!"))
-        anaf_config = request.env["l10n.ro.account.anaf.sync"].browse(anaf_config_id)
+        anaf_config = (
+            request.env["l10n.ro.account.anaf.sync"].sudo().browse(anaf_config_id)
+        )
         if not anaf_config.exists():
             return request.not_found(_("Error, this ANAF config does not exist!"))
         company = anaf_config.company_id
@@ -79,7 +69,10 @@ class AccountANAFSyncWeb(http.Controller):
             client_id,
             odoo_oauth_url,
         )
-        anaf_request_from_redirect = redirect(redirect_url, code=302, local=False)
+        # anaf_request_from_redirect = redirect(redirect_url, code=302, local=False)
+        anaf_request_from_redirect = werkzeug.utils.redirect(
+            redirect_url, code=302, Response=Response
+        )
 
         # This is the default for Authorization Code grant.
         # A successful response is 302 Found which triggers a redirect to the redirect_uri.
@@ -98,6 +91,7 @@ class AccountANAFSyncWeb(http.Controller):
         auth="public",
         website=True,
         sitemap=False,
+        csrf=False,
     )
     def get_anaf_oauth_code(self, **kw):
         "Returns a text with the result of anaf request from redirect"
