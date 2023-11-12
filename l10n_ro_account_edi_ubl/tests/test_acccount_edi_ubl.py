@@ -23,7 +23,7 @@ class TestAccountEdiUbl(AccountEdiTestCommon):
 
         cls.currency = cls.env["res.currency"].search([("name", "=", "RON")])
         cls.country_state = cls.env.ref("base.RO_TM")
-
+        cls.env.company.write({"vat": "RO30834857"})
         cls.env.company.write(
             {
                 "vat": "RO30834857",
@@ -39,7 +39,12 @@ class TestAccountEdiUbl(AccountEdiTestCommon):
             }
         )
         if "street_name" in cls.env.company._fields:
-            cls.env.company.write({"street_name": "Ciprian Porumbescu Nr. 12"})
+            cls.env.company.write(
+                {
+                    "street_name": "Str. Ciprian Porumbescu Nr. 12",
+                    "street": "Str. Ciprian Porumbescu Nr. 12",
+                }
+            )
 
         cls.bank = cls.env["res.partner.bank"].create(
             {
@@ -67,14 +72,13 @@ class TestAccountEdiUbl(AccountEdiTestCommon):
             }
         )
         if "street_name" in cls.partner._fields:
-            cls.partner.write({"street_name": "Nr. 383"})
+            cls.partner.write({"street_name": "Nr. 383", "street": "Foeni Nr. 383"})
 
         uom_id = cls.env.ref("uom.product_uom_unit").id
         cls.product_a = cls.env["product.product"].create(
             {
                 "name": "Bec P21/5W",
                 "default_code": "00000623",
-                "type": "product",
                 "uom_id": uom_id,
                 "uom_po_id": uom_id,
             }
@@ -83,7 +87,6 @@ class TestAccountEdiUbl(AccountEdiTestCommon):
             {
                 "name": "Bec P21/10W",
                 "default_code": "00000624",
-                "type": "product",
                 "uom_id": uom_id,
                 "uom_po_id": uom_id,
             }
