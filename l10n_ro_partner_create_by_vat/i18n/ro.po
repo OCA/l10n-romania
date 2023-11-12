@@ -37,8 +37,8 @@ msgstr "Istoric ANAF"
 #. odoo-python
 #: code:addons/l10n_ro_partner_create_by_vat/models/res_partner.py:0
 #, python-format
-msgid "ANAF Webservice not working. Exeption=%s."
-msgstr "Eroare la serviciul web ANAF. Exceptie=%s."
+msgid "ANAF Webservice not working. Exception=%s."
+msgstr ""
 
 #. module: l10n_ro_partner_create_by_vat
 #: model:ir.model.fields,field_description:l10n_ro_partner_create_by_vat.field_l10n_ro_res_partner_anaf_status__act
@@ -251,6 +251,10 @@ msgid ""
 msgstr ""
 "Vor adăuga intrări numai dacă statusInactivi este diferit față de intrarea "
 "anterioară sau după intrări"
+
+#, python-format
+#~ msgid "ANAF Webservice not working. Exeption=%s."
+#~ msgstr "Eroare la serviciul web ANAF. Exceptie=%s."
 
 #~ msgid "VAT Legal Statement"
 #~ msgstr "Plătitor de TVA"
