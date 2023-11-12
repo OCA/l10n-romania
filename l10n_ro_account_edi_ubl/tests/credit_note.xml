@@ -22,9 +22,9 @@
                 <cbc:Name>FOREST AND BIOMASS ROMÂNIA S.A.</cbc:Name>
             </cac:PartyName>
             <cac:PostalAddress>
-                <cbc:StreetName>Ferma 5-6</cbc:StreetName>
+                <cbc:StreetName>Str. Ciprian Porumbescu Nr. 12</cbc:StreetName>
                 <cbc:AdditionalStreetName>Zona Nr.3, Etaj 1</cbc:AdditionalStreetName>
-                <cbc:CityName>Giulvaz</cbc:CityName>
+                <cbc:CityName>Timișoara</cbc:CityName>
                 <cbc:PostalZone>300011</cbc:PostalZone>
                 <cbc:CountrySubentity>RO-TM</cbc:CountrySubentity>
                 <cac:Country>
@@ -56,7 +56,7 @@
             </cac:PartyName>
             <cac:PostalAddress>
                 <cbc:StreetName>Foeni Nr. 383</cbc:StreetName>
-                <cbc:CityName>Sat Foeni Com Foeni</cbc:CityName>
+                <cbc:CityName>Foeni</cbc:CityName>
                 <cbc:PostalZone>307175</cbc:PostalZone>
                 <cbc:CountrySubentity>RO-TM</cbc:CountrySubentity>
                 <cac:Country>
