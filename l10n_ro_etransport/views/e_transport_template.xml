@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <odoo>
 
-        <template id="e_transport">
-            <eTransport
+    <template id="e_transport">
+        <eTransport
             xmlns="mfp:anaf:dgti:eTransport:declaratie:v2"
             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
             xsi:schemaLocation="mfp:anaf:dgti:eTransport:declaratie:v2"
-            codDeclarant="90000650"
-            refDeclarant="OP-TTN-01"
+            t-att-codDeclarant="company.partner_id.vat"
+            t-att-refDeclarant="doc.name"
         >
-  <notificare codTipOperatiune="30">
-    <bunuriTransportate
+            <notificare codTipOperatiune="30">
+                <bunuriTransportate
                     codScopOperatiune="101"
                     codTarifar="08031010"
                     denumireMarfa="Banane calitatea I"
@@ -20,7 +20,7 @@
                     greutateBruta="2550"
                     valoareLeiFaraTva="25000.09"
                 />
-    <bunuriTransportate
+                <bunuriTransportate
                     codScopOperatiune="101"
                     codTarifar="08051024"
                     denumireMarfa="Portocale sortiment II"
@@ -30,8 +30,12 @@
                     greutateBruta="6100"
                     valoareLeiFaraTva="61234.56"
                 />
-    <partenerComercial codTara="RO" cod="90000634" denumire="TEST-90000634" />
-    <dateTransport
+                <partenerComercial
+                    codTara="RO"
+                    cod="90000634"
+                    denumire="TEST-90000634"
+                />
+                <dateTransport
                     nrVehicul="CT01ZZZ"
                     nrRemorca1="CT01RRR"
                     codTaraOrgTransport="RO"
@@ -39,17 +43,17 @@
                     denumireOrgTransport="TEST-90000669"
                     dataTransport="2023-01-06"
                 />
-  <locStartTraseuRutier>
-    <locatie
+                <locStartTraseuRutier>
+                    <locatie
                         codJudet="13"
                         denumireLocalitate="CONSTANŢA"
                         denumireStrada="STR. DEPOZITELOR"
                         numar="10"
                         alteInfo="STAND B1"
                     />
-  </locStartTraseuRutier>
-  <locFinalTraseuRutier>
-    <locatie
+                </locStartTraseuRutier>
+                <locFinalTraseuRutier>
+                    <locatie
                         codJudet="5"
                         denumireLocalitate="ORADEA"
                         denumireStrada="CALEA CLUJULUI"
@@ -57,17 +61,12 @@
                         codPostal="12345"
                         alteInfo="ZONA INDUSTRIALĂ EST"
                     />
-  </locFinalTraseuRutier>
-    <documenteTransport tipDocument="30" dataDocument="2023-01-05" />
-    <documenteTransport
-                    tipDocument="20"
-                    numarDocument="F-12345"
-                    dataDocument="2023-01-05"
-                    observatii="factura pt. întreaga partidă"
-                />
-  </notificare>
-</eTransport>
+                </locFinalTraseuRutier>
+                <documenteTransport tipDocument="30" t-att-dataDocument="doc.date" />
 
-        </template>
+            </notificare>
+        </eTransport>
+
+    </template>
 
 </odoo>

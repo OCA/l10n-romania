@@ -22,7 +22,10 @@ class StockPicking(models.Model):
         # Create file content.
         xml_declaration = markupsafe.Markup("<?xml version='1.0' encoding='UTF-8'?>\n")
 
-        render_values = {"doc": self}
+        render_values = {
+            "doc": self,
+            "company": self.company_id,
+        }
         xml_content = self.env.ref("l10n_ro_etransport.e_transport")._render(
             render_values
         )
