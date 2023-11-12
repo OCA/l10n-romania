@@ -101,14 +101,17 @@ class AccountANAFSyncWeb(http.Controller):
                 ("last_request_datetime", ">", now - timedelta(seconds=90)),
             ]
         )
+        if not anaf_config:
+            anaf_config = ANAF_Configs.search([("company_id", "=", user.company_id.id)])
         message = ""
         if len(anaf_config) > 1:
             message = _(
                 "More than one ANAF config requested authentication in the last minutes."
                 "Please request them in order, waiting for 2 minutes between requests."
             )
-        elif not anaf_config:
-            message = _("The response was done too late.\nResponse was: kw=%s") % kw
+
+        if not anaf_config:
+            message = _("No ANAF config was found for this company.")
 
         if message:
             anaf_config.message_post(body=message)
