@@ -10,7 +10,8 @@
                 <button
                     type="object"
                     name="attach_ubl_xml_file_button"
-                    string="Generate XML File"
+                    string="eFactura"
+                    help="Attach the UBL XML file to the invoice"
                     states="posted"
                 />
             </button>
