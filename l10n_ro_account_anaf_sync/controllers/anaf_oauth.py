@@ -95,8 +95,21 @@ class AccountANAFSyncWeb(http.Controller):
         user = request.env["res.users"].browse(uid)
         now = datetime.now()
         ANAF_Configs = request.env["l10n.ro.account.anaf.sync"].sudo()
-        anaf_config = ANAF_Configs.search([("company_id", "=", user.company_id.id)])
+        anaf_config = ANAF_Configs.search(
+            [
+                ("client_id", "!=", ""),
+                ("last_request_datetime", ">", now - timedelta(seconds=90)),
+            ]
+        )
+        if not anaf_config:
+            anaf_config = ANAF_Configs.search([("company_id", "=", user.company_id.id)])
         message = ""
+        if len(anaf_config) > 1:
+            message = _(
+                "More than one ANAF config requested authentication in the last minutes."
+                "Please request them in order, waiting for 2 minutes between requests."
+            )
+
         if not anaf_config:
             message = _("No ANAF config was found for this company.")
 
