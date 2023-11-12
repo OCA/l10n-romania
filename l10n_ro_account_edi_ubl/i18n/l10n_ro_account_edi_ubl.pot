@@ -29,6 +29,11 @@ msgid "Access error"
 msgstr ""
 
 #. module: l10n_ro_account_edi_ubl
+#: model_terms:ir.ui.view,arch_db:l10n_ro_account_edi_ubl.view_move_form
+msgid "Attach the UBL XML file to the invoice"
+msgstr ""
+
+#. module: l10n_ro_account_edi_ubl
 #: model:ir.model,name:l10n_ro_account_edi_ubl.model_account_edi_xml_cius_ro
 msgid "CIUS RO"
 msgstr ""
@@ -79,6 +84,7 @@ msgid "Display Name"
 msgstr ""
 
 #. module: l10n_ro_account_edi_ubl
+#: model:ir.model.fields,field_description:l10n_ro_account_edi_ubl.field_res_company__l10n_ro_edi_manual
 #: model:ir.model.fields,field_description:l10n_ro_account_edi_ubl.field_res_config_settings__l10n_ro_edi_manual
 msgid "E-Invoice Manual submission"
 msgstr ""
@@ -86,11 +92,6 @@ msgstr ""
 #. module: l10n_ro_account_edi_ubl
 #: model:ir.model,name:l10n_ro_account_edi_ubl.model_account_edi_format
 msgid "EDI format"
-msgstr ""
-
-#. module: l10n_ro_account_edi_ubl
-#: model_terms:ir.ui.view,arch_db:l10n_ro_account_edi_ubl.view_move_form
-msgid "Generate XML File"
 msgstr ""
 
 #. module: l10n_ro_account_edi_ubl
@@ -106,10 +107,9 @@ msgid "ID"
 msgstr ""
 
 #. module: l10n_ro_account_edi_ubl
-#: code:addons/l10n_ro_account_edi_ubl/models/account_edi_format.py:0
-#, python-format
+#: model:ir.model.fields,help:l10n_ro_account_edi_ubl.field_res_config_settings__l10n_ro_edi_manual
 msgid ""
-"If country state of partner %s is Bucharest, the city must be as SectorX "
+"If checked, the invoice will be submitted manually to the ANAF eInvoice."
 msgstr ""
 
 #. module: l10n_ro_account_edi_ubl
@@ -175,6 +175,17 @@ msgid "Other"
 msgstr ""
 
 #. module: l10n_ro_account_edi_ubl
+#: model:ir.model.fields,field_description:l10n_ro_account_edi_ubl.field_res_company__l10n_ro_edi_residence
+msgid "Period of Residence"
+msgstr ""
+
+#. module: l10n_ro_account_edi_ubl
+#: model_terms:ir.ui.view,arch_db:l10n_ro_account_edi_ubl.res_config_settings_view_form
+msgid ""
+"Period of residence for the e-Invoice after which it is automatically sent"
+msgstr ""
+
+#. module: l10n_ro_account_edi_ubl
 #: model:ir.model,name:l10n_ro_account_edi_ubl.model_product_product
 msgid "Product"
 msgstr ""
@@ -185,8 +196,8 @@ msgid "Product Template"
 msgstr ""
 
 #. module: l10n_ro_account_edi_ubl
-#: model:ir.model.fields,field_description:l10n_ro_account_edi_ubl.field_res_company__l10n_ro_edi_manual
-msgid "Romania - E-Invoice Manual submission"
+#: model:ir.model.fields,field_description:l10n_ro_account_edi_ubl.field_res_config_settings__l10n_ro_edi_residence
+msgid "Residence"
 msgstr ""
 
 #. module: l10n_ro_account_edi_ubl
@@ -231,7 +242,61 @@ msgstr ""
 #. module: l10n_ro_account_edi_ubl
 #: code:addons/l10n_ro_account_edi_ubl/models/account_edi_format.py:0
 #, python-format
-msgid "The partner %s doesn't have the street completed."
+msgid "The ANAF configuration is not set"
+msgstr ""
+
+#. module: l10n_ro_account_edi_ubl
+#: code:addons/l10n_ro_account_edi_ubl/models/account_edi_format.py:0
+#, python-format
+msgid ""
+"The following errors occurred while generating the XML file:\n"
+"%s"
+msgstr ""
+
+#. module: l10n_ro_account_edi_ubl
+#: code:addons/l10n_ro_account_edi_ubl/models/account_edi_format.py:0
+#, python-format
+msgid ""
+"The following partner doesn't have a VAT nor Company ID: %s. At least one of"
+" them is required. "
+msgstr ""
+
+#. module: l10n_ro_account_edi_ubl
+#: code:addons/l10n_ro_account_edi_ubl/models/account_edi_format.py:0
+#, python-format
+msgid ""
+"The following partner's city name is invalid: %s. If partner's state is "
+"București, the city name must be 'SECTORX', where X is a number between 1-6."
+msgstr ""
+
+#. module: l10n_ro_account_edi_ubl
+#: code:addons/l10n_ro_account_edi_ubl/models/account_edi_format.py:0
+#, python-format
+msgid ""
+"The following partner's doesn't have a country code prefix in their Company "
+"ID: %s."
+msgstr ""
+
+#. module: l10n_ro_account_edi_ubl
+#: code:addons/l10n_ro_account_edi_ubl/models/account_edi_format.py:0
+#, python-format
+msgid ""
+"The following partner's doesn't have a country code prefix in their VAT: %s."
+msgstr ""
+
+#. module: l10n_ro_account_edi_ubl
+#: code:addons/l10n_ro_account_edi_ubl/models/account_edi_format.py:0
+#, python-format
+msgid "The invoice is not older than %s days"
+msgstr ""
+
+#. module: l10n_ro_account_edi_ubl
+#: code:addons/l10n_ro_account_edi_ubl/models/account_edi_format.py:0
+#, python-format
+msgid ""
+"The invoice was not sent to ANAF. Please check the configuration and try again.\n"
+"\n"
+"Error: %s"
 msgstr ""
 
 #. module: l10n_ro_account_edi_ubl
@@ -253,4 +318,15 @@ msgid ""
 "You can't edit the following journal entry %s because an electronic document"
 " has already been sent to ANAF. To edit this entry, you need to create a "
 "Credit Note for the invoice and create a new invoice."
+msgstr ""
+
+#. module: l10n_ro_account_edi_ubl
+#: code:addons/l10n_ro_account_edi_ubl/models/account_edi_format.py:0
+#, python-format
+msgid "e-Invoice not sent to ANAF"
+msgstr ""
+
+#. module: l10n_ro_account_edi_ubl
+#: model_terms:ir.ui.view,arch_db:l10n_ro_account_edi_ubl.view_move_form
+msgid "eFactura"
 msgstr ""
