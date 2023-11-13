@@ -2,7 +2,9 @@
 # Copyright (C) 2022 NextERP Romania
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
-from odoo import models
+from odoo import _, models
+
+SECTOR_RO_CODES = ("SECTOR1", "SECTOR2", "SECTOR3", "SECTOR4", "SECTOR5", "SECTOR6")
 
 
 class AccountEdiXmlCIUSRO(models.Model):
@@ -85,3 +87,70 @@ class AccountEdiXmlCIUSRO(models.Model):
             index += 1
 
         return vals_list
+
+    def _export_invoice_constraints(self, invoice, vals):
+        # EXTENDS 'account_edi_ubl_cii' preluate din Odoo 17.0
+        constraints = super()._export_invoice_constraints(invoice, vals)
+
+        for partner_type in ("supplier", "customer"):
+            partner = vals[partner_type]
+
+            constraints.update(
+                {
+                    f"ciusro_{partner_type}_city_required": self._check_required_fields(
+                        partner, "city"
+                    ),
+                    f"ciusro_{partner_type}_street_required": self._check_required_fields(
+                        partner, "street"
+                    ),
+                    f"ciusro_{partner_type}_state_id_required": self._check_required_fields(
+                        partner, "state_id"
+                    ),
+                }
+            )
+
+            if not partner.vat and not partner.company_registry:
+                constraints[f"ciusro_{partner_type}_tax_identifier_required"] = _(
+                    "The following partner doesn't have a VAT nor Company ID: %s. "
+                    "At least one of them is required. ",
+                    partner.name,
+                )
+
+            if (
+                partner.l10n_ro_vat_subjected
+                and partner.vat
+                and not partner.vat.startswith(partner.country_id.code)
+            ):
+                constraints[f"ciusro_{partner_type}_country_code_vat_required"] = _(
+                    "The following partner's doesn't have a "
+                    "country code prefix in their VAT: %s.",
+                    partner.name,
+                )
+
+            # if (
+            #     not partner.vat
+            #     and partner.company_registry
+            #     and not partner.company_registry.startswith(partner.country_code)
+            # ):
+            #     constraints[
+            #         f"ciusro_{partner_type}_country_code_company_registry_required"
+            #     ] = _(
+            #         "The following partner's doesn't have a country "
+            #         "code prefix in their Company ID: %s.",
+            #         partner.name,
+            #     )
+
+            if (
+                partner.country_id.code == "RO"
+                and partner.state_id
+                and partner.state_id.code == "B"
+                and partner.city.upper() not in SECTOR_RO_CODES
+            ):
+                constraints[f"ciusro_{partner_type}_invalid_city_name"] = _(
+                    "The following partner's city name is invalid: %s. "
+                    "If partner's state is București, the city name must be 'SECTORX', "
+                    "where X is a number between 1-6.",
+                    partner.name,
+                )
+
+        return constraints
