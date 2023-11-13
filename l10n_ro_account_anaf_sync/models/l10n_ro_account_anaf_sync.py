@@ -65,6 +65,7 @@ class AccountANAFSync(models.Model):
         " It waits for ANAF request for maximum 1 minute",
     )
     anaf_einvoice_sync_url = fields.Char(default="https://api.anaf.ro/test/FCTEL/rest")
+
     state = fields.Selection(
         [("test", "Test"), ("manual", "Manual"), ("automatic", "Automatic")],
         default="test",
@@ -221,3 +222,30 @@ class AccountANAFSync(models.Model):
             else:
                 new_url = "https://api.anaf.ro/prod/FCTEL/rest"
             self.anaf_einvoice_sync_url = new_url
+
+    def _l10n_ro_einvoice_call(self, func, params, data=None, method="POST"):
+        self.ensure_one()
+        url = self.anaf_einvoice_sync_url + func
+        access_token = self.access_token
+        headers = {
+            "Content-Type": "application/xml",
+            "Authorization": f"Bearer {access_token}",
+        }
+        test_data = self.env.context.get("test_data", False)
+        if test_data:
+            content = test_data
+            status_code = 200
+        else:
+            if method == "GET":
+                response = requests.get(
+                    url, params=params, data=data, headers=headers, timeout=80
+                )
+            else:
+                response = requests.post(
+                    url, params=params, data=data, headers=headers, timeout=80
+                )
+            if response.status_code == 400:
+                return response.json()
+            content = response.content
+            status_code = response.status_code
+        return content, status_code
