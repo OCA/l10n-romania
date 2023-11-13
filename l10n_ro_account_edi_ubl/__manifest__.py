@@ -8,6 +8,7 @@
     "depends": [
         "l10n_ro_account_anaf_sync",
         "account_edi_ubl_cii",
+        "account_edi_extended",
     ],
     "data": [
         "security/ir.model.access.csv",
@@ -20,7 +21,7 @@
         "views/cius_template.xml",
     ],
     "license": "AGPL-3",
-    "version": "14.0.1.15.1",
+    "version": "14.0.1.15.2",
     "author": "Terrabit," "NextERP Romania," "Odoo Community Association (OCA)",
     "website": "https://github.com/OCA/l10n-romania",
     "installable": True,
