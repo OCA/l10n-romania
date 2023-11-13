@@ -82,6 +82,11 @@ msgid "Display Name"
 msgstr "Nume afișat"
 
 #. module: l10n_ro_account_edi_ubl
+#: model_terms:ir.ui.view,arch_db:l10n_ro_account_edi_ubl.view_move_form
+msgid "Download ZIP"
+msgstr ""
+
+#. module: l10n_ro_account_edi_ubl
 #: model:ir.model.fields,field_description:l10n_ro_account_edi_ubl.field_res_company__l10n_ro_edi_manual
 #: model:ir.model.fields,field_description:l10n_ro_account_edi_ubl.field_res_config_settings__l10n_ro_edi_manual
 msgid "E-Invoice Manual submission"
@@ -104,17 +109,29 @@ msgid "ID"
 msgstr "ID"
 
 #. module: l10n_ro_account_edi_ubl
+#: model:ir.model.fields,field_description:l10n_ro_account_edi_ubl.field_account_bank_statement_line__l10n_ro_edi_download
+#: model:ir.model.fields,field_description:l10n_ro_account_edi_ubl.field_account_move__l10n_ro_edi_download
+#: model:ir.model.fields,field_description:l10n_ro_account_edi_ubl.field_account_payment__l10n_ro_edi_download
+msgid "ID Download ANAF (RO)"
+msgstr ""
+
+#. module: l10n_ro_account_edi_ubl
+#: model_terms:ir.ui.view,arch_db:l10n_ro_account_edi_ubl.view_move_form
+msgid "ID eFactura"
+msgstr ""
+
+#. module: l10n_ro_account_edi_ubl
+#: model:ir.model.fields,help:l10n_ro_account_edi_ubl.field_account_bank_statement_line__l10n_ro_edi_download
+#: model:ir.model.fields,help:l10n_ro_account_edi_ubl.field_account_move__l10n_ro_edi_download
+#: model:ir.model.fields,help:l10n_ro_account_edi_ubl.field_account_payment__l10n_ro_edi_download
+msgid "ID used to download the ZIP file from ANAF."
+msgstr ""
+
+#. module: l10n_ro_account_edi_ubl
 #: model:ir.model.fields,help:l10n_ro_account_edi_ubl.field_res_config_settings__l10n_ro_edi_manual
 msgid ""
 "If checked, the invoice will be submitted manually to the ANAF eInvoice."
 msgstr ""
-
-#. module: l10n_ro_account_edi_ubl
-#: model:ir.model.fields,field_description:l10n_ro_account_edi_ubl.field_account_bank_statement_line__l10n_ro_send_state
-#: model:ir.model.fields,field_description:l10n_ro_account_edi_ubl.field_account_move__l10n_ro_send_state
-#: model:ir.model.fields,field_description:l10n_ro_account_edi_ubl.field_account_payment__l10n_ro_send_state
-msgid "Invoice XML Send State"
-msgstr "Starea trimiterii facturii XML"
 
 #. module: l10n_ro_account_edi_ubl
 #: code:addons/l10n_ro_account_edi_ubl/models/account_move.py:0
@@ -150,21 +167,6 @@ msgstr "Ultima actualizare de către"
 #: model:ir.model.fields,field_description:l10n_ro_account_edi_ubl.field_account_edi_xml_cius_ro__write_date
 msgid "Last Updated on"
 msgstr "Ultima actualizare pe"
-
-#. module: l10n_ro_account_edi_ubl
-#: model:ir.model.fields.selection,name:l10n_ro_account_edi_ubl.selection__account_move__l10n_ro_send_state__new
-msgid "New"
-msgstr "Nou"
-
-#. module: l10n_ro_account_edi_ubl
-#: model:ir.model.fields.selection,name:l10n_ro_account_edi_ubl.selection__account_move__l10n_ro_send_state__to_send
-msgid "Not yet send"
-msgstr "Netrimisa"
-
-#. module: l10n_ro_account_edi_ubl
-#: model:ir.model.fields.selection,name:l10n_ro_account_edi_ubl.selection__account_move__l10n_ro_send_state__other
-msgid "Other"
-msgstr "Altul"
 
 #. module: l10n_ro_account_edi_ubl
 #: model:ir.model.fields,field_description:l10n_ro_account_edi_ubl.field_res_company__l10n_ro_edi_residence
@@ -215,16 +217,6 @@ msgid "Send to ANAF E Invoice"
 msgstr "Trimite factura la ANAF"
 
 #. module: l10n_ro_account_edi_ubl
-#: model:ir.model.fields.selection,name:l10n_ro_account_edi_ubl.selection__account_move__l10n_ro_send_state__invalid
-msgid "Sent, but invalid"
-msgstr "Trimis, dar invalid"
-
-#. module: l10n_ro_account_edi_ubl
-#: model:ir.model.fields.selection,name:l10n_ro_account_edi_ubl.selection__account_move__l10n_ro_send_state__sent
-msgid "Sent, waiting for response"
-msgstr "Trimis, în așteptarea unui răspuns"
-
-#. module: l10n_ro_account_edi_ubl
 #: model:ir.model.fields,help:l10n_ro_account_edi_ubl.field_account_bank_statement_line__l10n_ro_edi_transaction
 #: model:ir.model.fields,help:l10n_ro_account_edi_ubl.field_account_move__l10n_ro_edi_transaction
 #: model:ir.model.fields,help:l10n_ro_account_edi_ubl.field_account_payment__l10n_ro_edi_transaction
@@ -235,6 +227,18 @@ msgstr "Câmp tehnic utilizat pentru a urmări starea unei trimiteri."
 #: code:addons/l10n_ro_account_edi_ubl/models/account_edi_format.py:0
 #, python-format
 msgid "The ANAF configuration is not set"
+msgstr ""
+
+#. module: l10n_ro_account_edi_ubl
+#: code:addons/l10n_ro_account_edi_ubl/models/account_move.py:0
+#, python-format
+msgid "The ANAF configuration is not set. Please set it and try again."
+msgstr ""
+
+#. module: l10n_ro_account_edi_ubl
+#: code:addons/l10n_ro_account_edi_ubl/models/account_move.py:0
+#, python-format
+msgid "The download of the ZIP file failed. Please try again."
 msgstr ""
 
 #. module: l10n_ro_account_edi_ubl
@@ -285,11 +289,6 @@ msgid ""
 msgstr ""
 
 #. module: l10n_ro_account_edi_ubl
-#: model:ir.model.fields.selection,name:l10n_ro_account_edi_ubl.selection__account_move__l10n_ro_send_state__delivered
-msgid "This invoice is delivered"
-msgstr "Aceasta factura este trimisa"
-
-#. module: l10n_ro_account_edi_ubl
 #: model:ir.model.fields,field_description:l10n_ro_account_edi_ubl.field_account_bank_statement_line__l10n_ro_edi_transaction
 #: model:ir.model.fields,field_description:l10n_ro_account_edi_ubl.field_account_move__l10n_ro_edi_transaction
 #: model:ir.model.fields,field_description:l10n_ro_account_edi_ubl.field_account_payment__l10n_ro_edi_transaction
@@ -319,6 +318,27 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:l10n_ro_account_edi_ubl.view_move_form
 msgid "eFactura"
 msgstr ""
+
+#~ msgid "Invoice XML Send State"
+#~ msgstr "Starea trimiterii facturii XML"
+
+#~ msgid "New"
+#~ msgstr "Nou"
+
+#~ msgid "Not yet send"
+#~ msgstr "Netrimisa"
+
+#~ msgid "Other"
+#~ msgstr "Altul"
+
+#~ msgid "Sent, but invalid"
+#~ msgstr "Trimis, dar invalid"
+
+#~ msgid "Sent, waiting for response"
+#~ msgstr "Trimis, în așteptarea unui răspuns"
+
+#~ msgid "This invoice is delivered"
+#~ msgstr "Aceasta factura este trimisa"
 
 #, python-format
 #~ msgid "Access error"
