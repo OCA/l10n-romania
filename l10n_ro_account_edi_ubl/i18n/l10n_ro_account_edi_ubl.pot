@@ -23,9 +23,8 @@ msgstr ""
 
 #. module: l10n_ro_account_edi_ubl
 #: code:addons/l10n_ro_account_edi_ubl/models/account_edi_format.py:0
-#: code:addons/l10n_ro_account_edi_ubl/models/account_edi_format.py:0
 #, python-format
-msgid "Access error"
+msgid "Access Error"
 msgstr ""
 
 #. module: l10n_ro_account_edi_ubl
@@ -92,6 +91,12 @@ msgstr ""
 #. module: l10n_ro_account_edi_ubl
 #: model:ir.model,name:l10n_ro_account_edi_ubl.model_account_edi_format
 msgid "EDI format"
+msgstr ""
+
+#. module: l10n_ro_account_edi_ubl
+#: code:addons/l10n_ro_account_edi_ubl/models/account_edi_format.py:0
+#, python-format
+msgid "Error %s"
 msgstr ""
 
 #. module: l10n_ro_account_edi_ubl
@@ -254,7 +259,7 @@ msgid ""
 msgstr ""
 
 #. module: l10n_ro_account_edi_ubl
-#: code:addons/l10n_ro_account_edi_ubl/models/account_edi_format.py:0
+#: code:addons/l10n_ro_account_edi_ubl/models/account_edi_xml_cius_ro.py:0
 #, python-format
 msgid ""
 "The following partner doesn't have a VAT nor Company ID: %s. At least one of"
@@ -262,7 +267,7 @@ msgid ""
 msgstr ""
 
 #. module: l10n_ro_account_edi_ubl
-#: code:addons/l10n_ro_account_edi_ubl/models/account_edi_format.py:0
+#: code:addons/l10n_ro_account_edi_ubl/models/account_edi_xml_cius_ro.py:0
 #, python-format
 msgid ""
 "The following partner's city name is invalid: %s. If partner's state is "
@@ -270,15 +275,7 @@ msgid ""
 msgstr ""
 
 #. module: l10n_ro_account_edi_ubl
-#: code:addons/l10n_ro_account_edi_ubl/models/account_edi_format.py:0
-#, python-format
-msgid ""
-"The following partner's doesn't have a country code prefix in their Company "
-"ID: %s."
-msgstr ""
-
-#. module: l10n_ro_account_edi_ubl
-#: code:addons/l10n_ro_account_edi_ubl/models/account_edi_format.py:0
+#: code:addons/l10n_ro_account_edi_ubl/models/account_edi_xml_cius_ro.py:0
 #, python-format
 msgid ""
 "The following partner's doesn't have a country code prefix in their VAT: %s."
