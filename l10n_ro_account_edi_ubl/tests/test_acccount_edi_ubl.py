@@ -17,6 +17,12 @@ _logger = logging.getLogger(__name__)
 class TestAccountEdiUbl(AccountEdiTestCommon):
     @classmethod
     def setUpClass(cls):
+        def get_file(filename):
+            test_file = get_module_resource(
+                "l10n_ro_account_edi_ubl", "tests", filename
+            )
+            return open(test_file).read().encode("utf-8")
+
         ro_template_ref = "l10n_ro.ro_chart_template"
         super().setUpClass(chart_template_ref=ro_template_ref)
         cls.env.company.l10n_ro_accounting = True
@@ -68,11 +74,13 @@ class TestAccountEdiUbl(AccountEdiTestCommon):
                 "zip": "307175",
                 "phone": "0256413409",
                 "l10n_ro_e_invoice": True,
-                "l10n_ro_is_government_institution": True,
+                "l10n_ro_is_government_institution": False,
             }
         )
         if "street_name" in cls.partner._fields:
             cls.partner.write({"street_name": "Nr. 383", "street": "Foeni Nr. 383"})
+
+        cls.partner.l10n_ro_is_government_institution = True
 
         uom_id = cls.env.ref("uom.product_uom_unit").id
         cls.product_a = cls.env["product.product"].create(
@@ -87,6 +95,7 @@ class TestAccountEdiUbl(AccountEdiTestCommon):
             {
                 "name": "Bec P21/10W",
                 "default_code": "00000624",
+                "l10n_ro_nc_code": "25050000",
                 "uom_id": uom_id,
                 "uom_po_id": uom_id,
             }
@@ -143,15 +152,15 @@ class TestAccountEdiUbl(AccountEdiTestCommon):
         )
         cls.credit_note = cls.env["account.move"].create(invoice_values)
 
-        test_file_path = get_module_resource(
-            "l10n_ro_account_edi_ubl", "tests", "invoice.xml"
+        cls.expected_invoice_values = get_file("invoice.xml")
+        cls.expected_credit_note_values = get_file("credit_note.xml")
+        cls.expected_success_values = get_file("success.xml")
+        cls.expected_error_values = get_file("error.xml")
+        cls.expected_stare_mesaj_ok = get_file("stare_mesaj_ok.xml")
+        cls.expected_stare_mesaj_not_ok = get_file("stare_mesaj_not_ok.xml")
+        cls.expected_stare_mesaj_in_prelucrare = get_file(
+            "stare_mesaj_in_prelucrare.xml"
         )
-        cls.expected_invoice_values = open(test_file_path).read().encode("utf-8")
-
-        test_file_path = get_module_resource(
-            "l10n_ro_account_edi_ubl", "tests", "credit_note.xml"
-        )
-        cls.expected_credit_note_values = open(test_file_path).read().encode("utf-8")
 
     def test_account_invoice_edi_ubl(self):
         self.invoice.action_post()
@@ -173,3 +182,56 @@ class TestAccountEdiUbl(AccountEdiTestCommon):
         current_etree = self.get_xml_tree_from_string(xml_content)
         expected_etree = self.get_xml_tree_from_string(self.expected_credit_note_values)
         self.assertXmlTreeEqual(current_etree, expected_etree)
+
+    def test_process_documents_web_services(self):
+        self.partner.l10n_ro_e_invoice = False
+        self.invoice.action_post()
+        anaf_config = self.env.company.l10n_ro_account_anaf_sync_id
+        if not anaf_config:
+            anaf_config = self.env["l10n.ro.account.anaf.sync"].create(
+                {
+                    "company_id": self.env.company.id,
+                    "client_id": "123",
+                    "client_secret": "123",
+                }
+            )
+            self.env.company.l10n_ro_account_anaf_sync_id = anaf_config
+
+        anaf_config.state = "test"
+
+        # procesare step 1 - eroare
+        data = self.expected_error_values
+        self.invoice.with_context(test_data=data).action_process_edi_web_services(
+            with_commit=False
+        )
+        docs = self.invoice.edi_document_ids.filtered(
+            lambda d: d.state == "to_send" and d.blocking_level == "error"
+        )
+        docs.blocking_level = False
+
+        # procesare step 1 - succes
+        data = self.expected_success_values
+        self.invoice.with_context(test_data=data).action_process_edi_web_services(
+            with_commit=False
+        )
+
+        # procesare step 2 - in prelucrare
+        data = self.expected_stare_mesaj_in_prelucrare
+        self.invoice.with_context(test_data=data).action_process_edi_web_services(
+            with_commit=False
+        )
+        docs.blocking_level = False
+
+        # procesare step 2 - not_ok
+        data = self.expected_stare_mesaj_not_ok
+        self.invoice.with_context(test_data=data).action_process_edi_web_services(
+            with_commit=False
+        )
+        docs.blocking_level = False
+
+        # procesare step 2 - ok
+        data = self.expected_stare_mesaj_ok
+        self.invoice.with_context(test_data=data).action_process_edi_web_services(
+            with_commit=False
+        )
+        docs.blocking_level = False
