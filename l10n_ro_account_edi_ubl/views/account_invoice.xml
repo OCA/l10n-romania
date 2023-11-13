@@ -15,6 +15,29 @@
                     states="posted"
                 />
             </button>
+            <xpath expr="//div[@name='journal_div']" position="after">
+                <label
+                    for="l10n_ro_edi_download"
+                    string="ID eFactura"
+                    attrs="{'invisible': ['|', ('edi_state', '=', False), ('state', '=', 'draft'),('move_type', '==', 'out_invoice')]}"
+                />
+                 <div
+                    name="journal_div"
+                    attrs="{'invisible': ['|', ('edi_state', '=', False), ('state', '=', 'draft'),('move_type', '==', 'out_invoice')]}"
+                    class="d-flex"
+                >
+                    <field name="l10n_ro_edi_download" />
+
+                    <button
+                        type="object"
+                        class="oe_link"
+                        icon="fa-download"
+                        name="l10n_ro_download_zip_anaf"
+                        attrs="{'invisible': [('l10n_ro_edi_download', '=', False)]}"
+                        help="Download ZIP"
+                    />
+                     </div>
+            </xpath>
         </field>
     </record>
 </odoo>

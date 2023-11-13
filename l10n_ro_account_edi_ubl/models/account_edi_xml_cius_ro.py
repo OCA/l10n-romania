@@ -109,7 +109,7 @@ class AccountEdiXmlCIUSRO(models.Model):
                 }
             )
 
-            if not partner.vat and not partner.company_registry:
+            if not partner.vat:
                 constraints[f"ciusro_{partner_type}_tax_identifier_required"] = _(
                     "The following partner doesn't have a VAT nor Company ID: %s. "
                     "At least one of them is required. ",
