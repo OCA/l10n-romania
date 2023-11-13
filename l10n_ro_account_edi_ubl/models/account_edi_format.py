@@ -12,8 +12,6 @@ from odoo.exceptions import UserError
 
 _logger = logging.getLogger(__name__)
 
-SECTOR_RO_CODES = ("SECTOR1", "SECTOR2", "SECTOR3", "SECTOR4", "SECTOR5", "SECTOR6")
-
 
 class AccountEdiXmlCIUSRO(models.Model):
     _inherit = "account.edi.format"
@@ -43,18 +41,6 @@ class AccountEdiXmlCIUSRO(models.Model):
 
     def _export_invoice_filename(self, invoice):
         return f"{invoice.name.replace('/', '_')}_cius_ro.xml"
-
-    def _export_invoice_vals(self, invoice):
-        # EXTENDS account.edi.xml.ubl_bis3
-        vals = super()._export_invoice_vals(invoice)
-
-        vals["vals"].update(
-            {
-                "customization_id": "urn:cen.eu:en16931:2017#compliant#"
-                "urn:efactura.mfinante.ro:CIUS-RO:1.0.1",
-            }
-        )
-        return vals
 
     def _get_xml_builder(self, company):
         if self.code == "cius_ro":
@@ -100,7 +86,7 @@ class AccountEdiXmlCIUSRO(models.Model):
 
             residence = invoice.company_id.l10n_ro_edi_residence
             days = (fields.Date.today() - invoice.invoice_date).days
-            if not invoice.company_id.l10n_ro_edi_manual and not anaf_config.state:
+            if not invoice.company_id.l10n_ro_edi_manual and not anaf_config:
                 res[invoice] = {
                     "success": False,
                     "error": _("The ANAF configuration is not set"),
@@ -124,7 +110,7 @@ class AccountEdiXmlCIUSRO(models.Model):
                 else:
                     res[invoice] = self._l10n_ro_post_invoice_step_2(invoice)
 
-            if not res[invoice]["success"]:
+            if res[invoice].get("error", False):
                 body = (
                     _(
                         "The invoice was not sent to ANAF. "
@@ -159,69 +145,6 @@ class AccountEdiXmlCIUSRO(models.Model):
         anaf_config = self.env.company.l10n_ro_account_anaf_sync_id
         return anaf_config.state != "manual"
 
-    def _export_invoice_constraints(self, invoice, vals):
-        # EXTENDS 'account_edi_ubl_cii' preluate din Odoo 17.0
-        constraints = super()._export_invoice_constraints(invoice, vals)
-
-        for partner_type in ("supplier", "customer"):
-            partner = vals[partner_type]
-
-            constraints.update(
-                {
-                    f"ciusro_{partner_type}_city_required": self._check_required_fields(
-                        partner, "city"
-                    ),
-                    f"ciusro_{partner_type}_street_required": self._check_required_fields(
-                        partner, "street"
-                    ),
-                    f"ciusro_{partner_type}_state_id_required": self._check_required_fields(
-                        partner, "state_id"
-                    ),
-                }
-            )
-
-            if not partner.vat and not partner.company_registry:
-                constraints[f"ciusro_{partner_type}_tax_identifier_required"] = _(
-                    "The following partner doesn't have a VAT nor Company ID: %s. "
-                    "At least one of them is required. ",
-                    partner.name,
-                )
-
-            if partner.vat and not partner.vat.startswith(partner.country_code):
-                constraints[f"ciusro_{partner_type}_country_code_vat_required"] = _(
-                    "The following partner's doesn't have a "
-                    "country code prefix in their VAT: %s.",
-                    partner.name,
-                )
-
-            if (
-                not partner.vat
-                and partner.company_registry
-                and not partner.company_registry.startswith(partner.country_code)
-            ):
-                constraints[
-                    f"ciusro_{partner_type}_country_code_company_registry_required"
-                ] = _(
-                    "The following partner's doesn't have a country "
-                    "code prefix in their Company ID: %s.",
-                    partner.name,
-                )
-
-            if (
-                partner.country_code == "RO"
-                and partner.state_id
-                and partner.state_id.code == "B"
-                and partner.city not in SECTOR_RO_CODES
-            ):
-                constraints[f"ciusro_{partner_type}_invalid_city_name"] = _(
-                    "The following partner's city name is invalid: %s. "
-                    "If partner's state is București, the city name must be 'SECTORX', "
-                    "where X is a number between 1-6.",
-                    partner.name,
-                )
-
-        return constraints
-
     def _get_invoice_edi_content(self, move):
         if self.code != "cius_ro":
             return super()._get_invoice_edi_content(move)
@@ -233,71 +156,78 @@ class AccountEdiXmlCIUSRO(models.Model):
         return attachment.raw
 
     def _l10n_ro_post_invoice_step_1(self, invoice, attachment):
-
         anaf_config = invoice.company_id.l10n_ro_account_anaf_sync_id
-        access_token = anaf_config.access_token
-        url = anaf_config.anaf_einvoice_sync_url + "/upload"
-        headers = {
-            "Content-Type": "application/xml",
-            "Authorization": f"Bearer {access_token}",
-        }
         params = {
             "standard": "UBL",
             "cif": invoice.company_id.partner_id.vat.replace("RO", ""),
         }
-        response = requests.post(
-            url, params=params, data=attachment.raw, headers=headers, timeout=80
-        )
+        res = self._l10n_ro_post_call("/upload", anaf_config, params, attachment.raw)
 
-        _logger.info(response.content)
-
-        if response.status_code == 200:
-            res = {"attachment": attachment}
-            doc = etree.fromstring(response.content)
-            # header_element = doc.find('header')
-            transaction = doc.get("index_incarcare")
-            invoice.write({"l10n_ro_edi_transaction": transaction})
-        else:
-            res = {"success": False, "error": _("Access error")}
+        if res.get("transaction", False):
+            res.update({"attachment": attachment})
+            invoice.write({"l10n_ro_edi_transaction": res.get("transaction")})
 
         return res
 
-    def _l10n_ro_post_invoice_step_2(self, invoice, test_mode=False):
+    def _l10n_ro_post_invoice_step_2(self, invoice):
         anaf_config = invoice.company_id.l10n_ro_account_anaf_sync_id
-        access_token = anaf_config.access_token
-        url = anaf_config.anaf_einvoice_sync_url + "/listaMesajeFactura"
-
-        headers = {
-            "Content-Type": "application/xml",
-            "Authorization": f"Bearer {access_token}",
-        }
-        params = {
-            "zile": 50,
-            "cif": invoice.company_id.partner_id.vat.replace("RO", ""),
-        }
-        response = requests.get(url, params=params, headers=headers)
-
-        _logger.info(response.content)
-
-        url = anaf_config.anaf_einvoice_sync_url + "/stareMesaj"
-        headers = {
-            "Content-Type": "application/xml",
-            "Authorization": f"Bearer {access_token}",
-        }
         params = {"id_incarcare": invoice.l10n_ro_edi_transaction}
-        response = requests.get(url, params=params, headers=headers)
+        res = self._l10n_ro_post_call("/stareMesaj", anaf_config, params, method="GET")
+        return res
 
-        _logger.info(response.content)
-
-        if response.status_code == 200:
-            res = {"success": True}
-            doc = etree.fromstring(response.content)
-            stare = doc.get("stare")
-            if stare != "ok":
-                res = {"success": False}
-                if stare == "in prelucrare":
-                    res.update({"error": stare, "blocking_level": "info"})
+    def _l10n_ro_post_call(self, func, anaf_config, params, data=None, method="POST"):
+        access_token = anaf_config.access_token
+        url = anaf_config.anaf_einvoice_sync_url + func
+        headers = {
+            "Content-Type": "application/xml",
+            "Authorization": f"Bearer {access_token}",
+        }
+        test_data = self.env.context.get("test_data", False)
+        if test_data:
+            content = test_data
         else:
-            res = {"success": False, "error": _("Access error")}
+            if method == "GET":
+                response = requests.get(
+                    url, params=params, data=data, headers=headers, timeout=80
+                )
+            else:
+                response = requests.post(
+                    url, params=params, data=data, headers=headers, timeout=80
+                )
+            _logger.info(response.content)
+            if response.status_code == 400:
+                # raspunsul este json
+                error = _("Error %s") % response.status_code
+                return {"success": False, "error": error, "blocking_level": "error"}
+            elif response.status_code != 200:
+                return {
+                    "success": False,
+                    "error": _("Access Error"),
+                    "blocking_level": "warning",
+                }
+
+            content = response.content
+
+        doc = etree.fromstring(content)
+        execution_status = doc.get("ExecutionStatus", "0")
+        if execution_status == "1":
+            error = doc.find(".//").get("errorMessage")
+            return {"success": False, "error": error}
+        transaction = doc.get("index_incarcare", False)
+        if transaction:
+            return {
+                "success": False,
+                "transaction": transaction,
+                "blocking_level": "info",
+            }
+
+        res = {"success": True}
+        stare = doc.get("stare", False)
+        if stare == "in prelucrare":
+            res.update({"success": False, "blocking_level": "info"})
+        elif stare == "nok":
+            res.update({"success": False, "blocking_level": "error"})
+        id_descarcare = doc.get("id_descarcare")
+        res.update({"id_descarcare": id_descarcare})
 
         return res
