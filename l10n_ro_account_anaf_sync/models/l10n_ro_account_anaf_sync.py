@@ -66,7 +66,7 @@ class AccountANAFSync(models.Model):
     )
     anaf_einvoice_sync_url = fields.Char(default="https://api.anaf.ro/test/FCTEL/rest")
     anaf_etransport_sync_url = fields.Char(
-        default="https://api.anaf.ro/test/ETRANSPORT/ws/v1/"
+        default="https://api.anaf.ro/test/ETRANSPORT/ws/v1"
     )
 
     state = fields.Selection(
@@ -222,16 +222,26 @@ class AccountANAFSync(models.Model):
         if self.state:
             if self.state in ("test", "manual"):
                 new_url_einvoice = "https://api.anaf.ro/test/FCTEL/rest"
-                new_url_etransport = "https://api.anaf.ro/test/ETRANSPORT/ws/v1/"
+                new_url_etransport = "https://api.anaf.ro/test/ETRANSPORT/ws/v1"
             else:
                 new_url_einvoice = "https://api.anaf.ro/prod/FCTEL/rest"
-                new_url_etransport = "https://api.anaf.ro/prod/ETRANSPORT/ws/v1/"
+                new_url_etransport = "https://api.anaf.ro/prod/ETRANSPORT/ws/v1"
             self.anaf_einvoice_sync_url = new_url_einvoice
             self.anaf_etransport_sync_url = new_url_etransport
 
     def _l10n_ro_einvoice_call(self, func, params, data=None, method="POST"):
         self.ensure_one()
         url = self.anaf_einvoice_sync_url + func
+        content, status_code = self._l10n_ro_anaf_call(url, params, data, method)
+        return content, status_code
+
+    def _l10n_ro_etransport_call(self, func, params, data=None, method="POST"):
+        self.ensure_one()
+        url = self.anaf_etransport_sync_url + func
+        content, status_code = self._l10n_ro_anaf_call(url, params, data, method)
+        return content, status_code
+
+    def _l10n_ro_anaf_call(self, url, params, data=None, method="POST"):
         access_token = self.access_token
         headers = {
             "Content-Type": "application/xml",
@@ -250,8 +260,10 @@ class AccountANAFSync(models.Model):
                 response = requests.post(
                     url, params=params, data=data, headers=headers, timeout=80
                 )
-            if response.status_code == 400:
-                return response.json()
             content = response.content
             status_code = response.status_code
+
+            if response.status_code == 200:
+                content = response.json()
+
         return content, status_code

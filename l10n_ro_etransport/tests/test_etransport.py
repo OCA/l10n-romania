@@ -105,4 +105,10 @@ class TestETransport(TransactionCase):
         )
         picking.action_confirm()
         picking.button_validate()
-        picking.export_e_transport_button()
+        test_data = {
+            "dateResponse": "202203071008",
+            "ExecutionStatus": 0,
+            "index_incarcare": 1234,
+            "trace_id": "cd5d99d0-2f52-4072-9ed1-4004931ccc1b",
+        }
+        picking.with_context(test_data=test_data).export_e_transport_button()

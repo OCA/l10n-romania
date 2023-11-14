@@ -7,6 +7,7 @@ import markupsafe
 from lxml import etree
 
 from odoo import _, api, fields, models
+from odoo.exceptions import UserError
 from odoo.modules.module import get_module_resource
 
 _logger = logging.getLogger(__name__)
@@ -78,8 +79,9 @@ class StockPicking(models.Model):
             render_values
         )
         xml_name = "%s_e_transport.xml" % (self.name.replace("/", "_"))
+        xml_content = xml_declaration + xml_content
 
-        xml_doc = etree.fromstring(xml_content)
+        xml_doc = etree.fromstring(xml_content.encode())
         schema_file_path = get_module_resource(
             "l10n_ro_etransport", "static/schemas", "eTransport.xsd"
         )
@@ -91,7 +93,6 @@ class StockPicking(models.Model):
             message = _("Validation Error: %s") % xml_schema.error_log.last_error
             _logger.error(message)
 
-        xml_content = xml_declaration + xml_content
         domain = [
             ("name", "=", xml_name),
             ("res_model", "=", "stock.picking"),
@@ -99,10 +100,11 @@ class StockPicking(models.Model):
         ]
         attachments = self.env["ir.attachment"].search(domain)
         attachments.unlink()
+
         return self.env["ir.attachment"].create(
             {
                 "name": xml_name,
-                "raw": xml_content.encode(),
+                "raw": xml_content,
                 "res_model": "stock.picking",
                 "res_id": self.id,
                 "mimetype": "application/xml",
@@ -120,4 +122,20 @@ class StockPicking(models.Model):
 
     @api.model
     def _export_e_transport_data(self, data):
-        self.env["ir.config_parameter"].sudo().get_param
+        anaf_config = self.company_id.l10n_ro_account_anaf_sync_id
+        params = {}
+        standard = "ETRANSP"
+        cif = self.company_id.partner_id.vat.replace("RO", "")
+
+        func = f"/upload/{standard}/{cif}/2"
+        content, status_code = anaf_config._l10n_ro_etransport_call(func, params, data)
+        if status_code != 200:
+            raise UserError(_("Error %s") % status_code)
+
+        errors = content.get("Errors", [])
+        error_message = "".join([error.get("errorMessage", "") for error in errors])
+        if error_message:
+            raise UserError(error_message)
+
+        _logger.info(content)
+        _logger.info(status_code)
