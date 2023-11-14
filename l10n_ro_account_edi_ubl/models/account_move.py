@@ -15,18 +15,10 @@ class AccountMove(models.Model):
         help="Technical field used to track the status of a submission.",
         copy=False,
     )
-    l10n_ro_send_state = fields.Selection(
-        [
-            ("new", "New"),
-            ("other", "Other"),
-            ("to_send", "Not yet send"),
-            ("sent", "Sent, waiting for response"),
-            ("invalid", "Sent, but invalid"),
-            ("delivered", "This invoice is delivered"),
-        ],
-        default="to_send",
+    l10n_ro_edi_download = fields.Char(
+        "ID Download ANAF (RO)",
+        help="ID used to download the ZIP file from ANAF.",
         copy=False,
-        string="Invoice XML Send State",
     )
 
     def button_draft(self):
@@ -106,3 +98,59 @@ class AccountMove(models.Model):
         )
         high_risk_nc_list = high_risk_nc.split(",")
         return high_risk_nc_list
+
+    def l10n_ro_download_zip_anaf(self):
+        anaf_config = self.env.company.l10n_ro_account_anaf_sync_id.sudo()
+        if not anaf_config:
+            raise UserError(
+                _("The ANAF configuration is not set. Please set it and try again.")
+            )
+        for invoice in self:
+            if not invoice.l10n_ro_edi_download:
+                continue
+
+            params = {"id": invoice.l10n_ro_edi_download}
+            file_content, status_code = anaf_config._l10n_ro_einvoice_call(
+                "/descarcare", params, method="GET"
+            )
+
+            if status_code == 200:
+                file_name = f"{invoice.l10n_ro_edi_download}.zip"
+                domain = [
+                    ("name", "=", file_name),
+                    ("res_model", "=", "account.move"),
+                    ("res_id", "=", invoice.id),
+                ]
+                attachments = self.env["ir.attachment"].search(domain)
+                attachments.unlink()
+                self.env["ir.attachment"].create(
+                    {
+                        "name": file_name,
+                        "raw": file_content,
+                        "res_model": "account.move",
+                        "res_id": invoice.id,
+                        "mimetype": "application/zip",
+                    }
+                )
+            else:
+                raise UserError(
+                    _("The download of the ZIP file failed. Error: %s")
+                    % file_content.get("eroare")
+                )
+
+            if invoice.move_type == "in_invoice":
+                invoice.l10n_ro_import_file_zip_anaf()
+        return {
+            "type": "ir.actions.client",
+            "tag": "display_notification",
+            "params": {
+                "title": "Downloaded ZIP file from ANAF",
+                "message": "The file downloaded from ANAF has been attached to the invoice.",
+                "sticky": False,
+                "next": {"type": "ir.actions.act_window_close"},
+            },
+        }
+
+    def l10n_ro_import_file_zip_anaf(self):
+        """Import the XML file from the ZIP file downloaded from ANAF."""
+        self.ensure_one()
