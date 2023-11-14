@@ -1,6 +1,7 @@
 # Copyright (C) 2022 NextERP Romania
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
+import logging
 from datetime import timedelta
 
 import requests
@@ -8,6 +9,8 @@ from werkzeug.urls import url_encode
 
 from odoo import _, api, fields, models
 from odoo.exceptions import UserError
+
+_logger = logging.getLogger(__name__)
 
 
 class AccountANAFSync(models.Model):
@@ -231,6 +234,7 @@ class AccountANAFSync(models.Model):
 
     def _l10n_ro_einvoice_call(self, func, params, data=None, method="POST"):
         self.ensure_one()
+        _logger.info("ANAF API call: %s %s" % (func, params))
         url = self.anaf_einvoice_sync_url + func
         content, status_code = self._l10n_ro_anaf_call(url, params, data, method)
         return content, status_code
@@ -260,10 +264,19 @@ class AccountANAFSync(models.Model):
                 response = requests.post(
                     url, params=params, data=data, headers=headers, timeout=80
                 )
+
             content = response.content
             status_code = response.status_code
-
-            if response.status_code == 200:
+            if response.status_code == 400:
                 content = response.json()
-
+            if response.headers.get("Content-Type") == "application/xml":
+                _logger.info("ANAF API response: %s" % response.text)
+            if "text/plain" in response.headers.get("Content-Type"):
+                try:
+                    content = response.json()
+                    if content.get("eroare"):
+                        status_code = 400
+                except Exception:
+                    _logger.info("ANAF API response: %s" % response.text)
+                    
         return content, status_code
