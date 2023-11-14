@@ -115,8 +115,7 @@ class AccountMove(models.Model):
             )
 
             if status_code == 200:
-                name = invoice.name or invoice.ref
-                file_name = f"{name.replace('/', '_')}_cius_ro.zip"
+                file_name = f"{invoice.l10n_ro_edi_download}.zip"
                 domain = [
                     ("name", "=", file_name),
                     ("res_model", "=", "account.move"),
@@ -130,10 +129,28 @@ class AccountMove(models.Model):
                         "raw": file_content,
                         "res_model": "account.move",
                         "res_id": invoice.id,
-                        "mimetype": "application/xml",
+                        "mimetype": "application/zip",
                     }
                 )
             else:
                 raise UserError(
-                    _("The download of the ZIP file failed. Please try again.")
+                    _("The download of the ZIP file failed. Error: %s")
+                    % file_content.get("eroare")
                 )
+
+            if invoice.move_type == "in_invoice":
+                invoice.l10n_ro_import_file_zip_anaf()
+        return {
+            "type": "ir.actions.client",
+            "tag": "display_notification",
+            "params": {
+                "title": "Downloaded ZIP file from ANAF",
+                "message": "The file downloaded from ANAF has been attached to the invoice.",
+                "sticky": False,
+                "next": {"type": "ir.actions.act_window_close"},
+            },
+        }
+
+    def l10n_ro_import_file_zip_anaf(self):
+        """Import the XML file from the ZIP file downloaded from ANAF."""
+        self.ensure_one()

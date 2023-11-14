@@ -19,24 +19,56 @@
                 <label
                     for="l10n_ro_edi_download"
                     string="ID eFactura"
-                    attrs="{'invisible': ['|', ('edi_state', '=', False), ('state', '=', 'draft'),('move_type', '==', 'out_invoice')]}"
+                    attrs="{'invisible': ['|',
+                     ('edi_state', '=', False),
+                     ('state', '=', 'draft'),
+                     ('move_type', 'in', ['out_invoice','out_refund'])]}"
                 />
-                 <div
+                <div
                     name="journal_div"
-                    attrs="{'invisible': ['|', ('edi_state', '=', False), ('state', '=', 'draft'),('move_type', '==', 'out_invoice')]}"
-                    class="d-flex"
+                    attrs="{'invisible': ['|',
+                    ('edi_state', '=', False),
+                    ('state', '=', 'draft'),
+                    ('move_type', 'in', ['out_invoice','out_refund'])]}"
+                    class="o_row"
                 >
-                    <field name="l10n_ro_edi_download" />
-
+                    <field
+                        name="l10n_ro_edi_download"
+                        attrs="{'readonly': ['|',
+                        ('move_type', 'in', ['out_invoice','out_refund']),
+                        ('state','==','posted')]}"
+                    />
                     <button
                         type="object"
-                        class="oe_link"
-                        icon="fa-download"
+                        class="oe_link badge bg-primary"
+                        icon="fa-cloud-download"
+                        string="Download"
                         name="l10n_ro_download_zip_anaf"
-                        attrs="{'invisible': [('l10n_ro_edi_download', '=', False)]}"
-                        help="Download ZIP"
+                        attrs="{'invisible': ['|',
+                        ('l10n_ro_edi_download', '=', False),
+                        ('move_type','not in',['in_invoice','in_refund'])
+                        ]}"
+                        help="Download ZIP with signed XML file from ANAF"
                     />
-                     </div>
+                    <button
+                        type="object"
+                        class="oe_link badge bg-danger"
+                        icon="fa-exclamation-triangle"
+                        string="Download Errors"
+                        name="l10n_ro_download_zip_anaf"
+                        attrs="{'invisible': ['|',('l10n_ro_edi_download', '=', False),('edi_state','!=','to_send')]}"
+                        help="Download ZIP with errors from ANAF"
+                    />
+                    <button
+                        type="object"
+                        class="oe_link badge bg-success"
+                        icon="fa-check-circle"
+                        string="Download Signed"
+                        name="l10n_ro_download_zip_anaf"
+                        attrs="{'invisible': ['|',('l10n_ro_edi_download', '=', False),('edi_state','!=','sent')]}"
+                        help="Download ZIP with signed XML file from ANAF"
+                    />
+                </div>
             </xpath>
         </field>
     </record>
