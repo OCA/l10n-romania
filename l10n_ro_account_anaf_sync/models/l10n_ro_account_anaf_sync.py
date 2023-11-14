@@ -65,6 +65,10 @@ class AccountANAFSync(models.Model):
         " It waits for ANAF request for maximum 1 minute",
     )
     anaf_einvoice_sync_url = fields.Char(default="https://api.anaf.ro/test/FCTEL/rest")
+    anaf_etransport_sync_url = fields.Char(
+        default="https://api.anaf.ro/test/ETRANSPORT/ws/v1/"
+    )
+
     state = fields.Selection(
         [("test", "Test"), ("manual", "Manual"), ("automatic", "Automatic")],
         default="test",
@@ -217,7 +221,10 @@ class AccountANAFSync(models.Model):
     def _onchange_state(self):
         if self.state:
             if self.state in ("test", "manual"):
-                new_url = "https://api.anaf.ro/test/FCTEL/rest"
+                new_url_einvoice = "https://api.anaf.ro/test/FCTEL/rest"
+                new_url_etransport = "https://api.anaf.ro/test/ETRANSPORT/ws/v1/"
             else:
-                new_url = "https://api.anaf.ro/prod/FCTEL/rest"
-            self.anaf_einvoice_sync_url = new_url
+                new_url_einvoice = "https://api.anaf.ro/prod/FCTEL/rest"
+                new_url_etransport = "https://api.anaf.ro/prod/ETRANSPORT/ws/v1/"
+            self.anaf_einvoice_sync_url = new_url_einvoice
+            self.anaf_etransport_sync_url = new_url_etransport

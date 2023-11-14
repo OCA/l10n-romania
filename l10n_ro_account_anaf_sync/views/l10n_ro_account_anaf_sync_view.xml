@@ -47,7 +47,6 @@
                     <group string="Config">
                         <group name="main_info">
                             <field name="state" />
-                            <field name="anaf_einvoice_sync_url" />
                             <field name="client_id" />
                             <field name="client_secret" />
                             <field name="anaf_oauth_url" />
@@ -59,6 +58,10 @@
                             <field name="refresh_token" />
                             <field name="client_token_valability" />
                             <field name="last_request_datetime" />
+                        </group>
+                        <group name="url_sync">
+                            <field name="anaf_einvoice_sync_url" />
+                            <field name="anaf_etransport_sync_url" />
                         </group>
                     </group>
                 </sheet>

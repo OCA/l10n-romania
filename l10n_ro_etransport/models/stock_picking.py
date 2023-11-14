@@ -12,50 +12,6 @@ from odoo.modules.module import get_module_resource
 _logger = logging.getLogger(__name__)
 
 
-# cod	Semnificatie	tarajudet	țara	nume	codjudet
-# 1	Alba	RO_AB	ro	Alba	AB	ADEVĂRAT
-# 2	Arad	RO_AR	ro	Arad	AR	ADEVĂRAT
-# 3	Argeș	RO_AG	ro	Argeș	AG	ADEVĂRAT
-# 4	Bacău	RO_BC	ro	Bacău	BC	ADEVĂRAT
-# 5	Bihor	RO_BH	ro	Bihor	BH	ADEVĂRAT
-# 6	Bistrița-Năsăud	RO_BN	ro	Bistrița-Năsăud	BN	ADEVĂRAT
-# 7	Botoșani	RO_BT	ro	Botoșani	BT	ADEVĂRAT
-# 8	Brașov	RO_BV	ro	Brașov	BV	ADEVĂRAT
-# 9	Brăila	RO_BR	ro	Brăila	BR	ADEVĂRAT
-# 10	Buzău	RO_BZ	ro	Buzău	BZ	ADEVĂRAT
-# 11	Caraș-Severin	RO_CS	ro	Caraș Severin	CS	FALS
-# 12	Cluj	RO_CJ	ro	Cluj	CJ	ADEVĂRAT
-# 13	Constanța	RO_CT	ro	Constanța	CT	ADEVĂRAT
-# 14	Covasna	RO_CV	ro	Covasna	CV	ADEVĂRAT
-# 15	Dâmbovița	RO_DB	ro	Dâmbovița	DB	ADEVĂRAT
-# 16	Dolj	RO_DJ	ro	Dolj	DJ	ADEVĂRAT
-# 17	Galați	RO_GL	ro	Galați	GL	ADEVĂRAT
-# 18	Gorj	RO_GJ	ro	Gorj	GJ	ADEVĂRAT
-# 19	Harghita	RO_HR	ro	Harghita	HR	ADEVĂRAT
-# 20	Hunedoara	RO_HD	ro	Hunedoara	HD	ADEVĂRAT
-# 21	Ialomița	RO_IL	ro	Ialomița	IL	ADEVĂRAT
-# 22	Iași	RO_IS	ro	Iași	IS	ADEVĂRAT
-# 23	Ilfov	RO_IF	ro	Ilfov	IF	ADEVĂRAT
-# 24	Maramureș	RO_MM	ro	Maramureș	MM	ADEVĂRAT
-# 25	Mehedinți	RO_MH	ro	Mehedinți	MH	ADEVĂRAT
-# 26	Mureș	RO_MS	ro	Mureș	MS	ADEVĂRAT
-# 27	Neamț	RO_NT	ro	Neamț	NT	ADEVĂRAT
-# 28	Olt	RO_OT	ro	Olt	OT	ADEVĂRAT
-# 29	Prahova	RO_PH	ro	Prahova	PH	ADEVĂRAT
-# 30	Satu Mare	RO_SM	ro	Satu Mare	SM	ADEVĂRAT
-# 31	Sălaj	RO_SJ	ro	Sălaj	SJ	ADEVĂRAT
-# 32	Sibiu	RO_SB	ro	Sibiu	SB	ADEVĂRAT
-# 33	Suceava	RO_SV	ro	Suceava	SV	ADEVĂRAT
-# 34	Teleorman	RO_TR	ro	Teleorman	TR	ADEVĂRAT
-# 35	Timiș	RO_TM	ro	Timiș	TM	ADEVĂRAT
-# 36	Tulcea	RO_TL	ro	Tulcea	TL	ADEVĂRAT
-# 37	Vaslui	RO_VS	ro	Vaslui	VS	ADEVĂRAT
-# 38	Vâlcea	RO_VL	ro	Vâlcea	VL	ADEVĂRAT
-# 39	Vrancea	RO_VN	ro	Vrancea	VN	ADEVĂRAT
-# 40	București	RO_B	ro	București	B	ADEVĂRAT
-# 51	Călărași	RO_CL	ro	Călărași	CL	ADEVĂRAT
-# 52	Giurgiu	RO_GR	ro	Giurgiu	GR	ADEVĂRAT
-
 STATE_CODES = {
     "AB": "1",
     "AR": "2",
@@ -105,7 +61,7 @@ STATE_CODES = {
 class StockPicking(models.Model):
     _inherit = "stock.picking"
 
-    l10n_ro_e_transport_uit = fields.Char(string="UIT")
+    l10n_ro_e_transport_uit = fields.Char(string="UIT", readonly=True)
     l10n_ro_vehicle = fields.Char(string="Vehicle")
 
     def _export_e_transport(self):
