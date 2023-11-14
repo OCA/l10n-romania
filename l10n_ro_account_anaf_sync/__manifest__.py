@@ -14,7 +14,7 @@
         "views/template.xml",
     ],
     "license": "AGPL-3",
-    "version": "15.0.1.7.0",
+    "version": "15.0.1.8.0",
     "author": "NextERP Romania," "Odoo Community Association (OCA)",
     "website": "https://github.com/OCA/l10n-romania",
     "installable": True,
