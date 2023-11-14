@@ -1,6 +1,7 @@
 # Copyright (C) 2022 NextERP Romania
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
+import json
 import logging
 from datetime import timedelta
 
@@ -243,6 +244,8 @@ class AccountANAFSync(models.Model):
         self.ensure_one()
         url = self.anaf_etransport_sync_url + func
         content, status_code = self._l10n_ro_anaf_call(url, params, data, method)
+        if status_code == 200 and not isinstance(content, dict):
+            content = json.loads(content)
         return content, status_code
 
     def _l10n_ro_anaf_call(self, url, params, data=None, method="POST"):
@@ -278,5 +281,5 @@ class AccountANAFSync(models.Model):
                         status_code = 400
                 except Exception:
                     _logger.info("ANAF API response: %s" % response.text)
-                    
+
         return content, status_code
