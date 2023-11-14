@@ -15,18 +15,10 @@ class AccountMove(models.Model):
         help="Technical field used to track the status of a submission.",
         copy=False,
     )
-    l10n_ro_send_state = fields.Selection(
-        [
-            ("new", "New"),
-            ("other", "Other"),
-            ("to_send", "Not yet send"),
-            ("sent", "Sent, waiting for response"),
-            ("invalid", "Sent, but invalid"),
-            ("delivered", "This invoice is delivered"),
-        ],
-        default="to_send",
+    l10n_ro_edi_download = fields.Char(
+        "ID Download ANAF (RO)",
+        help="ID used to download the ZIP file from ANAF.",
         copy=False,
-        string="Invoice XML Send State",
     )
 
     def button_draft(self):
@@ -100,9 +92,48 @@ class AccountMove(models.Model):
             "0713,0714,0801,0802,0803,0804,0805,0806,0807,0808,0809,0810,"
             "0811,0812,0813,0814,2201,2202,2203,2204,2205,2206,2207,2208,"
             "2505,2515,2516,2517,6401,6402,6403,6404,6405,6101,6102,6103,"
-            "6104,6105,6106,6107,6108,6109,61106111,6112,6113,5903,5906,"
+            "6104,6105,6106,6107,6108,6109,6110,6111,6112,6113,5903,5906,"
             "5907,6114,6115,6116,6117,6201,6202,6203,6204,6205,6206,6207,"
             "6208,6209,6210,6211,62126214,6215,6216,6217"
         )
         high_risk_nc_list = high_risk_nc.split(",")
         return high_risk_nc_list
+
+    def l10n_ro_download_zip_anaf(self):
+        anaf_config = self.env.company.l10n_ro_account_anaf_sync_id.sudo()
+        if not anaf_config:
+            raise UserError(
+                _("The ANAF configuration is not set. Please set it and try again.")
+            )
+        for invoice in self:
+            if not invoice.l10n_ro_edi_download:
+                continue
+
+            params = {"id": invoice.l10n_ro_edi_download}
+            file_content, status_code = anaf_config._l10n_ro_einvoice_call(
+                "/descarcare", params, method="GET"
+            )
+
+            if status_code == 200:
+                name = invoice.name or invoice.ref
+                file_name = f"{name.replace('/', '_')}_cius_ro.zip"
+                domain = [
+                    ("name", "=", file_name),
+                    ("res_model", "=", "account.move"),
+                    ("res_id", "=", invoice.id),
+                ]
+                attachments = self.env["ir.attachment"].search(domain)
+                attachments.unlink()
+                self.env["ir.attachment"].create(
+                    {
+                        "name": file_name,
+                        "raw": file_content,
+                        "res_model": "account.move",
+                        "res_id": invoice.id,
+                        "mimetype": "application/xml",
+                    }
+                )
+            else:
+                raise UserError(
+                    _("The download of the ZIP file failed. Please try again.")
+                )

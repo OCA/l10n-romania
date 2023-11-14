@@ -10,7 +10,7 @@
     "data": ["views/res_company_view.xml", "views/res_partner_view.xml"],
     "pre_init_hook": "pre_init_hook",
     "license": "AGPL-3",
-    "version": "15.0.2.3.0",
+    "version": "15.0.2.4.0",
     "author": "NextERP Romania,"
     "Forest and Biomass Romania,"
     "Odoo Community Association (OCA)",
@@ -18,4 +18,5 @@
     "installable": True,
     "development_status": "Mature",
     "maintainers": ["feketemihai"],
+    "sequence": 99,
 }

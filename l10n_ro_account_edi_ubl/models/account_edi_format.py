@@ -4,10 +4,10 @@
 
 import logging
 
-import requests
 from lxml import etree
 
-from odoo import _, models
+from odoo import _, fields, models
+from odoo.exceptions import UserError
 
 _logger = logging.getLogger(__name__)
 
@@ -20,6 +20,11 @@ class AccountEdiXmlCIUSRO(models.Model):
         # Create file content.
         builder = self._get_xml_builder(invoice.company_id)
         xml_content, errors = builder._export_invoice(invoice)
+        if errors:
+            raise UserError(
+                _("The following errors occurred while generating the " "XML file:\n%s")
+                % "\n".join(errors)
+            )
         xml_content = xml_content.decode()
         xml_content = xml_content.encode()
         xml_name = builder._export_invoice_filename(invoice)
@@ -35,18 +40,6 @@ class AccountEdiXmlCIUSRO(models.Model):
 
     def _export_invoice_filename(self, invoice):
         return f"{invoice.name.replace('/', '_')}_cius_ro.xml"
-
-    def _export_invoice_vals(self, invoice):
-        # EXTENDS account.edi.xml.ubl_bis3
-        vals = super()._export_invoice_vals(invoice)
-
-        vals["vals"].update(
-            {
-                "customization_id": "urn:cen.eu:en16931:2017#compliant#"
-                "urn:efactura.mfinante.ro:CIUS-RO:1.0.1",
-            }
-        )
-        return vals
 
     def _get_xml_builder(self, company):
         if self.code == "cius_ro":
@@ -89,16 +82,49 @@ class AccountEdiXmlCIUSRO(models.Model):
                 attachment = self._export_cius_ro(invoice)
             res[invoice] = {"attachment": attachment, "success": True}
             anaf_config = invoice.company_id.l10n_ro_account_anaf_sync_id
-            if anaf_config.state != "manual" and (
+
+            residence = invoice.company_id.l10n_ro_edi_residence
+            days = (fields.Date.today() - invoice.invoice_date).days
+            if not invoice.company_id.l10n_ro_edi_manual and not anaf_config:
+                res[invoice] = {
+                    "success": False,
+                    "error": _("The ANAF configuration is not set"),
+                }
+            if anaf_config.state != "manual" or (
                 invoice.company_id.l10n_ro_edi_manual
                 and self.env.context.get("l10n_ro_edi_manual_action")
             ):
                 if not invoice.l10n_ro_edi_transaction:
-                    res[invoice] = self._l10n_ro_post_invoice_step_1(
-                        invoice, attachment
-                    )
+                    if days >= residence:
+                        res[invoice] = self._l10n_ro_post_invoice_step_1(
+                            invoice, attachment
+                        )
+                    else:
+                        res[invoice] = {
+                            "success": False,
+                            "error": _("The invoice is not older than %s days")
+                            % residence,
+                        }
+
                 else:
                     res[invoice] = self._l10n_ro_post_invoice_step_2(invoice)
+
+            if res[invoice].get("error", False):
+                body = (
+                    _(
+                        "The invoice was not sent to ANAF. "
+                        "Please check the configuration and try again."
+                        "\n\nError: %s"
+                    )
+                    % res[invoice]["error"]
+                )
+
+                invoice.activity_schedule(
+                    "mail.mail_activity_data_warning",
+                    summary=_("e-Invoice not sent to ANAF"),
+                    note=body,
+                    user_id=invoice.invoice_user_id.id,
+                )
 
         return res
 
@@ -118,29 +144,6 @@ class AccountEdiXmlCIUSRO(models.Model):
         anaf_config = self.env.company.l10n_ro_account_anaf_sync_id
         return anaf_config.state != "manual"
 
-    def _check_move_configuration(self, move):
-        self.ensure_one()
-        if self.code != "cius_ro":
-            return super()._check_move_configuration(move)
-        partner = move.commercial_partner_id
-        errors = []
-        if not partner.street:
-            errors += [
-                _("The partner %s doesn't have the street completed.") % partner.name
-            ]
-
-        state_bucuresti = self.env.ref("base.RO_B")
-        if partner.state_id == state_bucuresti:
-            if "sector" not in partner.city.lower():
-                errors += [
-                    _(
-                        "If country state of partner %s is Bucharest, "
-                        "the city must be as SectorX "
-                    )
-                    % partner.name
-                ]
-        return errors
-
     def _get_invoice_edi_content(self, move):
         if self.code != "cius_ro":
             return super()._get_invoice_edi_content(move)
@@ -153,69 +156,61 @@ class AccountEdiXmlCIUSRO(models.Model):
 
     def _l10n_ro_post_invoice_step_1(self, invoice, attachment):
         anaf_config = invoice.company_id.l10n_ro_account_anaf_sync_id
-        access_token = anaf_config.access_token
-        url = anaf_config.anaf_einvoice_sync_url + "/upload"
-        headers = {
-            "Content-Type": "application/xml",
-            "Authorization": f"Bearer {access_token}",
-        }
         params = {
             "standard": "UBL",
             "cif": invoice.company_id.partner_id.vat.replace("RO", ""),
         }
-        response = requests.post(
-            url, params=params, data=attachment.raw, headers=headers, timeout=80
-        )
+        res = self._l10n_ro_anaf_call("/upload", anaf_config, params, attachment.raw)
 
-        _logger.info(response.content)
-
-        if response.status_code == 200:
-            res = {"attachment": attachment}
-            doc = etree.fromstring(response.content)
-            # header_element = doc.find('header')
-            transaction = doc.get("index_incarcare")
-            invoice.write({"l10n_ro_edi_transaction": transaction})
-        else:
-            res = {"success": False, "error": _("Access error")}
+        if res.get("transaction", False):
+            res.update({"attachment": attachment})
+            invoice.write({"l10n_ro_edi_transaction": res.get("transaction")})
 
         return res
 
-    def _l10n_ro_post_invoice_step_2(self, invoice, test_mode=False):
+    def _l10n_ro_post_invoice_step_2(self, invoice):
         anaf_config = invoice.company_id.l10n_ro_account_anaf_sync_id
-        access_token = anaf_config.access_token
-        url = anaf_config.anaf_einvoice_sync_url + "/listaMesajeFactura"
-
-        headers = {
-            "Content-Type": "application/xml",
-            "Authorization": f"Bearer {access_token}",
-        }
-        params = {
-            "zile": 50,
-            "cif": invoice.company_id.partner_id.vat.replace("RO", ""),
-        }
-        response = requests.get(url, params=params, headers=headers)
-
-        _logger.info(response.content)
-
-        url = anaf_config.anaf_einvoice_sync_url + "/stareMesaj"
-        headers = {
-            "Content-Type": "application/xml",
-            "Authorization": f"Bearer {access_token}",
-        }
         params = {"id_incarcare": invoice.l10n_ro_edi_transaction}
-        response = requests.get(url, params=params, headers=headers)
+        res = self._l10n_ro_anaf_call("/stareMesaj", anaf_config, params, method="GET")
+        if res.get("id_descarcare", False):
+            invoice.write({"l10n_ro_edi_download": res.get("id_descarcare")})
+        return res
 
-        _logger.info(response.content)
+    def _l10n_ro_anaf_call(self, func, anaf_config, params, data=None, method="POST"):
 
-        if response.status_code == 200:
-            res = {"success": True}
-            doc = etree.fromstring(response.content)
-            stare = doc.get("stare")
-            if stare != "ok":
-                res = {"success": False}
-                if stare == "in prelucrare":
-                    res.update({"error": stare, "blocking_level": "info"})
-        else:
-            res = {"success": False, "error": _("Access error")}
+        content, status_code = anaf_config._l10n_ro_einvoice_call(
+            func, params, data, method
+        )
+        if status_code == 400:
+            error = _("Error %s") % status_code
+            return {"success": False, "error": error, "blocking_level": "error"}
+        elif status_code != 200:
+            return {
+                "success": False,
+                "error": _("Access Error"),
+                "blocking_level": "warning",
+            }
+
+        doc = etree.fromstring(content)
+        execution_status = doc.get("ExecutionStatus", "0")
+        if execution_status == "1":
+            error = doc.find(".//").get("errorMessage")
+            return {"success": False, "error": error}
+        transaction = doc.get("index_incarcare", False)
+        if transaction:
+            return {
+                "success": False,
+                "transaction": transaction,
+                "blocking_level": "info",
+            }
+
+        res = {"success": True}
+        stare = doc.get("stare", False)
+        if stare == "in prelucrare":
+            res.update({"success": False, "blocking_level": "info"})
+        elif stare == "nok":
+            res.update({"success": False, "blocking_level": "error"})
+        id_descarcare = doc.get("id_descarcare")
+        res.update({"id_descarcare": id_descarcare})
 
         return res

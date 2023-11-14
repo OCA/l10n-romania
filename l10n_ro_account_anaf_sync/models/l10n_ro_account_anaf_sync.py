@@ -228,3 +228,30 @@ class AccountANAFSync(models.Model):
                 new_url_etransport = "https://api.anaf.ro/prod/ETRANSPORT/ws/v1/"
             self.anaf_einvoice_sync_url = new_url_einvoice
             self.anaf_etransport_sync_url = new_url_etransport
+
+    def _l10n_ro_einvoice_call(self, func, params, data=None, method="POST"):
+        self.ensure_one()
+        url = self.anaf_einvoice_sync_url + func
+        access_token = self.access_token
+        headers = {
+            "Content-Type": "application/xml",
+            "Authorization": f"Bearer {access_token}",
+        }
+        test_data = self.env.context.get("test_data", False)
+        if test_data:
+            content = test_data
+            status_code = 200
+        else:
+            if method == "GET":
+                response = requests.get(
+                    url, params=params, data=data, headers=headers, timeout=80
+                )
+            else:
+                response = requests.post(
+                    url, params=params, data=data, headers=headers, timeout=80
+                )
+            if response.status_code == 400:
+                return response.json()
+            content = response.content
+            status_code = response.status_code
+        return content, status_code
