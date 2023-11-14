@@ -162,6 +162,22 @@ class TestAccountEdiUbl(AccountEdiTestCommon):
             "stare_mesaj_in_prelucrare.xml"
         )
 
+        test_file = get_module_resource(
+            "l10n_ro_account_edi_ubl", "tests", "invoice.zip"
+        )
+        cls.invoice_zip = open(test_file, mode="rb").read()
+
+        anaf_config = cls.env.company.l10n_ro_account_anaf_sync_id
+        if not anaf_config:
+            anaf_config = cls.env["l10n.ro.account.anaf.sync"].create(
+                {
+                    "company_id": cls.env.company.id,
+                    "client_id": "123",
+                    "client_secret": "123",
+                }
+            )
+            cls.env.company.l10n_ro_account_anaf_sync_id = anaf_config
+
     def test_account_invoice_edi_ubl(self):
         self.invoice.action_post()
         invoice_xml = self.invoice.attach_ubl_xml_file_button()
@@ -187,15 +203,6 @@ class TestAccountEdiUbl(AccountEdiTestCommon):
         self.partner.l10n_ro_e_invoice = False
         self.invoice.action_post()
         anaf_config = self.env.company.l10n_ro_account_anaf_sync_id
-        if not anaf_config:
-            anaf_config = self.env["l10n.ro.account.anaf.sync"].create(
-                {
-                    "company_id": self.env.company.id,
-                    "client_id": "123",
-                    "client_secret": "123",
-                }
-            )
-            self.env.company.l10n_ro_account_anaf_sync_id = anaf_config
 
         anaf_config.state = "test"
 
@@ -225,3 +232,8 @@ class TestAccountEdiUbl(AccountEdiTestCommon):
         data = self.expected_stare_mesaj_ok
         self.invoice.with_context(test_data=data).action_process_edi_web_services()
         docs.blocking_level = False
+
+    def test_download_invoice(self):
+        data = self.invoice_zip
+        self.invoice.l10n_ro_edi_download = "1234"
+        self.invoice.with_context(test_data=data).l10n_ro_download_zip_anaf()
