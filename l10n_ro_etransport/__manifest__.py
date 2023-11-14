@@ -7,6 +7,7 @@
     "depends": [
         "l10n_ro_account_anaf_sync",
         "stock",
+        "delivery",
     ],
     "data": ["views/stock_picking_view.xml", "views/e_transport_template.xml"],
     "license": "AGPL-3",

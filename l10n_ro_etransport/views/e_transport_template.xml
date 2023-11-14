@@ -5,64 +5,60 @@
         <eTransport
             xmlns="mfp:anaf:dgti:eTransport:declaratie:v2"
             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-            xsi:schemaLocation="mfp:anaf:dgti:eTransport:declaratie:v2"
-            t-att-codDeclarant="company.partner_id.vat"
+            xsi:schemaLocation="mfp:anaf:dgti:eTransport:declaratie:v2 eTransport.xsd"
+            t-att-codDeclarant="company.vat.upper().replace('RO', '')"
             t-att-refDeclarant="doc.name"
         >
             <notificare codTipOperatiune="30">
-                <bunuriTransportate
-                    codScopOperatiune="101"
-                    codTarifar="08031010"
-                    denumireMarfa="Banane calitatea I"
-                    cantitate="2500"
-                    codUnitateMasura="KGM"
-                    greutateNeta="2500"
-                    greutateBruta="2550"
-                    valoareLeiFaraTva="25000.09"
-                />
-                <bunuriTransportate
-                    codScopOperatiune="101"
-                    codTarifar="08051024"
-                    denumireMarfa="Portocale sortiment II"
-                    cantitate="300"
-                    codUnitateMasura="XCT"
-                    greutateNeta="6000"
-                    greutateBruta="6100"
-                    valoareLeiFaraTva="61234.56"
-                />
+                <t t-foreach="doc.move_lines" t-as="move">
+                    <t t-foreach="move.move_line_ids" t-as="move_line">
+
+                        <bunuriTransportate
+                            t-att-denumireMarfa="move.product_id.name"
+                            t-att-cantitate="move_line.qty_done or move_line.product_uom_qty"
+                            t-att-codUnitateMasura="move.product_uom.name[:3].upper()"
+                            t-att-greutateBruta="move.product_id.weight or 1"
+                            t-att-codScopOperatiune="101"
+                        />
+                    </t>
+                </t>
+
                 <partenerComercial
-                    codTara="RO"
-                    cod="90000634"
-                    denumire="TEST-90000634"
+                    t-att-codTara="doc.partner_id.commercial_partner_id.country_id.code"
+                    t-att-cod="doc.partner_id.commercial_partner_id.vat"
+                    t-att-denumire="doc.partner_id.commercial_partner_id.name"
                 />
                 <dateTransport
-                    nrVehicul="CT01ZZZ"
-                    nrRemorca1="CT01RRR"
+                    t-att-nrVehicul="doc.l10n_ro_vehicle and doc.l10n_ro_vehicle.upper().replace('-', '')"
                     codTaraOrgTransport="RO"
-                    codOrgTransport="90000669"
-                    denumireOrgTransport="TEST-90000669"
-                    dataTransport="2023-01-06"
+                    t-att-denumireOrgTransport="doc.carrier_id.name or doc.partner_id.name"
+                    t-att-dataTransport="doc.date.date()"
                 />
                 <locStartTraseuRutier>
                     <locatie
-                        codJudet="13"
-                        denumireLocalitate="CONSTANŢA"
-                        denumireStrada="STR. DEPOZITELOR"
-                        numar="10"
-                        alteInfo="STAND B1"
+                        t-att-codJudet="STATE_CODES[doc.company_id.state_id.code]"
+                        t-att-denumireLocalitate="doc.company_id.city"
+                        t-att-denumireStrada="doc.company_id.street"
+                        t-att-numar="doc.company_id.street2"
+                        t-att-alteInfo="doc.company_id.street2"
                     />
                 </locStartTraseuRutier>
                 <locFinalTraseuRutier>
                     <locatie
-                        codJudet="5"
-                        denumireLocalitate="ORADEA"
-                        denumireStrada="CALEA CLUJULUI"
-                        numar="1000"
-                        codPostal="12345"
-                        alteInfo="ZONA INDUSTRIALĂ EST"
+                        t-att-codJudet="STATE_CODES[doc.partner_id.state_id.code]"
+                        t-att-denumireLocalitate="doc.partner_id.city"
+                        t-att-denumireStrada="doc.partner_id.city"
+                        t-att-codPostal="doc.partner_id.zip"
                     />
                 </locFinalTraseuRutier>
-                <documenteTransport tipDocument="30" t-att-dataDocument="doc.date" />
+
+
+                <documenteTransport
+                    tipDocument="30"
+                    t-att-numarDocument="doc.name"
+                    t-att-dataDocument="doc.date.date()"
+                />
+
 
             </notificare>
         </eTransport>
