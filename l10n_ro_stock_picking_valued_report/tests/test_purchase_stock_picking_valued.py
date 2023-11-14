@@ -115,6 +115,9 @@ class TestPurchaseStockPickingValued(TestStockPickingValued):
                 "l10n_ro_currency_id": move_line.company_id.currency_id.id,
             }
         }
+        # daca e instalat delivery aici se adauga si hs_code
+        if "hs_code" in agg_lines[line_key]:
+            exp[line_key]["hs_code"] = agg_lines[line_key]["hs_code"]
         self.assertEqual(agg_lines, exp)
 
     def test_07_move_line_additional_charges(self):
