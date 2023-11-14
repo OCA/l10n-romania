@@ -77,7 +77,27 @@ msgstr ""
 
 #. module: l10n_ro_account_edi_ubl
 #: model_terms:ir.ui.view,arch_db:l10n_ro_account_edi_ubl.view_move_form
-msgid "Download ZIP"
+msgid "Download"
+msgstr ""
+
+#. module: l10n_ro_account_edi_ubl
+#: model_terms:ir.ui.view,arch_db:l10n_ro_account_edi_ubl.view_move_form
+msgid "Download Errors"
+msgstr ""
+
+#. module: l10n_ro_account_edi_ubl
+#: model_terms:ir.ui.view,arch_db:l10n_ro_account_edi_ubl.view_move_form
+msgid "Download Signed"
+msgstr ""
+
+#. module: l10n_ro_account_edi_ubl
+#: model_terms:ir.ui.view,arch_db:l10n_ro_account_edi_ubl.view_move_form
+msgid "Download ZIP with errors from ANAF"
+msgstr ""
+
+#. module: l10n_ro_account_edi_ubl
+#: model_terms:ir.ui.view,arch_db:l10n_ro_account_edi_ubl.view_move_form
+msgid "Download ZIP with signed XML file from ANAF"
 msgstr ""
 
 #. module: l10n_ro_account_edi_ubl
@@ -230,7 +250,7 @@ msgstr ""
 #. module: l10n_ro_account_edi_ubl
 #: code:addons/l10n_ro_account_edi_ubl/models/account_move.py:0
 #, python-format
-msgid "The download of the ZIP file failed. Please try again."
+msgid "The download of the ZIP file failed. Error: %s"
 msgstr ""
 
 #. module: l10n_ro_account_edi_ubl
