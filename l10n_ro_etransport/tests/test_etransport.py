@@ -77,6 +77,16 @@ class TestETransport(TransactionCase):
                 ).id,
             }
         )
+        anaf_config = self.env.company.l10n_ro_account_anaf_sync_id
+        if not anaf_config:
+            anaf_config = self.env["l10n.ro.account.anaf.sync"].create(
+                {
+                    "company_id": self.env.company.id,
+                    "client_id": "123",
+                    "client_secret": "123",
+                }
+            )
+            self.env.company.l10n_ro_account_anaf_sync_id = anaf_config
 
     def test_e_transport(self):
         picking = self.env["stock.picking"].create(
