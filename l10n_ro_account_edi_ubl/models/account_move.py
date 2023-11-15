@@ -118,7 +118,7 @@ class AccountMove(models.Model):
             eroare = ""
             if status_code == "400":
                 eroare = response.get("message")
-            elif status_code == 200 and type(response) == "dict":
+            elif status_code == 200 and isinstance(response, dict):
                 eroare = response.get("eroare")
             cius_ro = self.env.ref("l10n_ro_account_edi_ubl.edi_ubl_cius_ro")
             edi_doc = invoice._get_edi_document(cius_ro)
