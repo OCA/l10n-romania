@@ -174,6 +174,13 @@ class AccountEdiXmlCIUSRO(models.Model):
         res = self._l10n_ro_anaf_call("/stareMesaj", anaf_config, params, method="GET")
         if res.get("id_descarcare", False):
             invoice.write({"l10n_ro_edi_download": res.get("id_descarcare")})
+        if res.get("in_processing"):
+            invoice.message_post(
+                body=_(
+                    "ANAF Validation for %s is in processing.",
+                    invoice.l10n_ro_edi_transaction,
+                )
+            )
         return res
 
     def _l10n_ro_anaf_call(self, func, anaf_config, params, data=None, method="POST"):
@@ -207,7 +214,9 @@ class AccountEdiXmlCIUSRO(models.Model):
         res = {"success": True}
         stare = doc.get("stare", False)
         if stare == "in prelucrare":
-            res.update({"success": False, "blocking_level": "info"})
+            res.update(
+                {"success": False, "blocking_level": "info", "in_processing": True}
+            )
         elif stare == "nok":
             res.update({"success": False, "blocking_level": "error"})
         id_descarcare = doc.get("id_descarcare")
