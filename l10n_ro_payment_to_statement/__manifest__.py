@@ -17,6 +17,7 @@
         "views/account_payment_view.xml",
         "views/account_journal_view.xml",
         "views/account_journal_dashboard_view.xml",
+        "views/account_bank_statement_line.xml",
     ],
     # "post_init_hook": "pre_init_hook",
     "development_status": "Mature",
