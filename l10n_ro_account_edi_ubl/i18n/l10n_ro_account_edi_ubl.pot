@@ -24,6 +24,12 @@ msgstr ""
 #. module: l10n_ro_account_edi_ubl
 #: code:addons/l10n_ro_account_edi_ubl/models/account_edi_format.py:0
 #, python-format
+msgid "ANAF Validation for %s is in processing."
+msgstr ""
+
+#. module: l10n_ro_account_edi_ubl
+#: code:addons/l10n_ro_account_edi_ubl/models/account_edi_format.py:0
+#, python-format
 msgid "Access Error"
 msgstr ""
 
@@ -266,12 +272,6 @@ msgstr ""
 #: code:addons/l10n_ro_account_edi_ubl/models/account_move.py:0
 #, python-format
 msgid "The ANAF configuration is not set. Please set it and try again."
-msgstr ""
-
-#. module: l10n_ro_account_edi_ubl
-#: code:addons/l10n_ro_account_edi_ubl/models/account_move.py:0
-#, python-format
-msgid "The download of the ZIP file failed. Error: %s"
 msgstr ""
 
 #. module: l10n_ro_account_edi_ubl
