@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+
+    <record id="view_account_bank_statement_line_tree" model="ir.ui.view">
+        <field name="name">l10n.ro.account.bank.statement.line.tree</field>
+        <field name="model">account.bank.statement.line</field>
+        <field
+            name="inherit_id"
+            ref="account_accountant.view_bank_statement_line_tree_bank_rec_widget"
+        />
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='partner_id']" position="after">
+                <field name="is_l10n_ro_payment_disposal" string="Payment Disposal" />
+            </xpath>
+        </field>
+    </record>
+
+    <record id="view_account_bank_statement_line_form" model="ir.ui.view">
+        <field name="name">l10n.ro.account.bank.statement.line.form</field>
+        <field name="model">account.bank.statement.line</field>
+        <field
+            name="inherit_id"
+            ref="account_accountant.view_bank_statement_line_form_bank_rec_widget"
+        />
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='partner_id']" position="after">
+                <field name="is_l10n_ro_payment_disposal" string="Payment Disposal" />
+            </xpath>
+        </field>
+    </record>
+</odoo>
