@@ -89,6 +89,27 @@ class MT940Parser(models.AbstractModel):
                             0
                         ].replace(" ", "")
                     new_value = subfields[counterpart_field][0].replace("CUI/CNP", "")
+
+                    if (
+                        new_value
+                        and counterpart_field == "33"
+                        and not transaction.get("partner_id")
+                    ):
+                        domain = [("vat", "ilike", new_value)]
+                        partner = self.env["res.partner"].search(domain, limit=1)
+                        if partner:
+                            transaction.update({"partner_id": partner.id})
+
+                    if (
+                        new_value
+                        and counterpart_field == "32"
+                        and not transaction.get("partner_id")
+                    ):
+                        domain = [("name", "=ilike", new_value)]
+                        partner = self.env["res.partner"].search(domain, limit=1)
+                        if partner:
+                            transaction.update({"partner_id": partner.id})
+
                     counterpart_fields.append(new_value)
                 else:
                     counterpart_fields.append("")
