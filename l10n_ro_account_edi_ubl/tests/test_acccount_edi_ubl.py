@@ -1,70 +1,97 @@
 # Copyright (C) 2020 NextERP Romania
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
-
 import base64
+import logging
 
 from odoo import fields
+from odoo.modules.module import get_module_resource
 from odoo.tests import tagged
 
 from odoo.addons.account_edi.tests.common import AccountEdiTestCommon
+
+_logger = logging.getLogger(__name__)
 
 
 @tagged("post_install", "-at_install")
 class TestAccountEdiUbl(AccountEdiTestCommon):
     @classmethod
     def setUpClass(cls):
+        def get_file(filename):
+            test_file = get_module_resource(
+                "l10n_ro_account_edi_ubl", "tests", filename
+            )
+            return open(test_file).read().encode("utf-8")
+
         ro_template_ref = "l10n_ro.ro_chart_template"
         super().setUpClass(chart_template_ref=ro_template_ref)
         cls.env.company.l10n_ro_accounting = True
+
         cls.currency = cls.env["res.currency"].search([("name", "=", "RON")])
-        cls.country_state = cls.env["res.country.state"].search(
-            [("name", "=", "Timiș")]
+        cls.country_state = cls.env.ref("base.RO_TM")
+        cls.env.company.write({"vat": "RO30834857"})
+        cls.env.company.write(
+            {
+                "vat": "RO30834857",
+                "name": "FOREST AND BIOMASS ROMÂNIA S.A.",
+                "country_id": cls.env.ref("base.ro").id,
+                "currency_id": cls.currency.id,
+                "street": "Str. Ciprian Porumbescu Nr. 12",
+                "street2": "Zona Nr.3, Etaj 1",
+                "city": "Timișoara",
+                "state_id": cls.country_state.id,
+                "zip": "300011",
+                "phone": "0356179038",
+            }
         )
-        l10n_ro_address_extend = cls.env["ir.module.module"].search(
-            [("name", "=", "l10n_ro_address_extended")]
-        )
-        if l10n_ro_address_extend.state != "installed":
+        if "street_name" in cls.env.company._fields:
             cls.env.company.write(
                 {
-                    "vat": "RO30834857",
-                    "name": "FOREST AND BIOMASS ROMANIA S.A.",
-                    "country_id": cls.env.ref("base.ro").id,
-                    "currency_id": cls.currency.id,
-                    "street": "Ferma 5-6",
-                    "city": "Giulvaz",
-                    "state_id": cls.country_state.id,
-                    "zip": "300011",
+                    "street_name": "Str. Ciprian Porumbescu",
+                    "street_number": "Nr. 12",
+                    "street": "Str. Ciprian Porumbescu Nr. 12",
                 }
             )
-        else:
-            cls.env.company.write(
-                {
-                    "vat": "RO30834857",
-                    "name": "FOREST AND BIOMASS ROMANIA S.A.",
-                    "country_id": cls.env.ref("base.ro").id,
-                    "currency_id": cls.currency.id,
-                    "street_name": "Ferma 5-6",
-                    "city": "Giulvaz",
-                    "state_id": cls.country_state.id,
-                    "zip": "300011",
-                }
-            )
+
+        cls.bank = cls.env["res.partner.bank"].create(
+            {
+                "acc_type": "iban",
+                "partner_id": cls.env.company.partner_id.id,
+                "bank_id": cls.env.ref("l10n_ro.res_bank_37").id,
+                "acc_number": "RO75TREZ0615069XXX001573",
+            }
+        )
 
         cls.partner = cls.env["res.partner"].create(
             {
                 "name": "SCOALA GIMNAZIALA COMUNA FOENI",
                 "ref": "SCOALA GIMNAZIALA COMUNA FOENI",
-                "vat": "RO29152430",
+                "vat": "29152430",
                 "country_id": cls.env.ref("base.ro").id,
-                "l10n_ro_vat_subjected": True,
-                "street": "Foeni Nr. 383",
-                "city": "Sat Foeni Com Foeni",
-                "state_id": cls.country_state.id,
-                "zip": "307175",
-                "l10n_ro_e_invoice": True,
             }
         )
+        cls.partner.write(
+            {
+                "l10n_ro_vat_subjected": False,
+                "street": "Foeni Nr. 383",
+                "city": "Foeni",
+                "state_id": cls.country_state.id,
+                "zip": "307175",
+                "phone": "0256413409",
+                "l10n_ro_e_invoice": True,
+                "l10n_ro_is_government_institution": False,
+            }
+        )
+        if "street_name" in cls.partner._fields:
+            cls.partner.write(
+                {
+                    "street_name": "Foeni",
+                    "street_number": "Nr. 383",
+                    "street": "Foeni Nr. 383",
+                }
+            )
+
+        cls.partner.l10n_ro_is_government_institution = True
 
         uom_id = cls.env.ref("uom.product_uom_unit").id
         cls.product_a = cls.env["product.product"].create(
@@ -79,6 +106,7 @@ class TestAccountEdiUbl(AccountEdiTestCommon):
             {
                 "name": "Bec P21/10W",
                 "default_code": "00000624",
+                "l10n_ro_nc_code": "25050000",
                 "uom_id": uom_id,
                 "uom_po_id": uom_id,
             }
@@ -93,208 +121,130 @@ class TestAccountEdiUbl(AccountEdiTestCommon):
                 "company_id": cls.env.company.id,
             }
         )
+        invoice_values = {
+            "move_type": "out_invoice",
+            "name": "FBRAO2092",
+            "partner_id": cls.partner.id,
+            "invoice_date": fields.Date.from_string("2022-09-01"),
+            "date": fields.Date.from_string("2022-09-01"),
+            "invoice_date_due": fields.Date.from_string("2022-09-01"),
+            "currency_id": cls.currency.id,
+            "partner_bank_id": cls.bank.id,
+            "invoice_line_ids": [
+                (
+                    0,
+                    None,
+                    {
+                        "product_id": cls.product_a.id,
+                        "name": "[00000623] Bec P21/5W",
+                        "quantity": 5,
+                        "price_unit": 1000.00,
+                        "tax_ids": [(6, 0, cls.tax_19.ids)],
+                    },
+                ),
+                (
+                    0,
+                    None,
+                    {
+                        "product_id": cls.product_b.id,
+                        "name": "[00000624] Bec P21/10W",
+                        "quantity": 5,
+                        "price_unit": 1000.00,
+                        "tax_ids": [(6, 0, cls.tax_19.ids)],
+                    },
+                ),
+            ],
+        }
+        cls.invoice = cls.env["account.move"].create(invoice_values)
 
-        cls.invoice = cls.env["account.move"].create(
-            [
-                {
-                    "move_type": "out_invoice",
-                    "name": "FBRAO2092",
-                    "partner_id": cls.partner.id,
-                    "invoice_date": fields.Date.from_string("2022-09-01"),
-                    "invoice_date_due": fields.Date.from_string("2022-09-01"),
-                    "currency_id": cls.currency.id,
-                    "invoice_line_ids": [
-                        (
-                            0,
-                            None,
-                            {
-                                "product_id": cls.product_a.id,
-                                "name": "[00000623] Bec P21/5W",
-                                "quantity": 5,
-                                "price_unit": 1000.00,
-                                "tax_ids": [(6, 0, cls.tax_19.ids)],
-                            },
-                        ),
-                        (
-                            0,
-                            None,
-                            {
-                                "product_id": cls.product_b.id,
-                                "name": "[00000624] Bec P21/10W",
-                                "quantity": 5,
-                                "price_unit": 1000.00,
-                                "tax_ids": [(6, 0, cls.tax_19.ids)],
-                            },
-                        ),
-                    ],
-                }
-            ]
+        invoice_values.update(
+            {
+                "move_type": "out_refund",
+                "name": "FBRAO2093",
+            }
+        )
+        cls.credit_note = cls.env["account.move"].create(invoice_values)
+
+        cls.expected_invoice_values = get_file("invoice.xml")
+        cls.expected_credit_note_values = get_file("credit_note.xml")
+        cls.expected_success_values = get_file("success.xml")
+        cls.expected_error_values = get_file("error.xml")
+        cls.expected_stare_mesaj_ok = get_file("stare_mesaj_ok.xml")
+        cls.expected_stare_mesaj_not_ok = get_file("stare_mesaj_not_ok.xml")
+        cls.expected_stare_mesaj_in_prelucrare = get_file(
+            "stare_mesaj_in_prelucrare.xml"
         )
 
-        cls.expected_invoice_factur_values = """
-            <Invoice
-            xmlns:cbc="urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2"
-            xmlns="urn:oasis:names:specification:ubl:schema:xsd:Invoice-2"
-            xmlns:cac=
-            "urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2">
-                <cbc:CustomizationID>
-                    urn:cen.eu:en16931:2017#compliant#urn:efactura.mfinante.ro:CIUS-RO:1.0.1
-                </cbc:CustomizationID>
-                <cbc:ProfileID>urn:fdc:peppol.eu:2017:poacc:billing:01:1.0</cbc:ProfileID>
-                <cbc:ID>FBRAO2092</cbc:ID>
-                <cbc:IssueDate>2022-09-01</cbc:IssueDate>
-                <cbc:DueDate>2022-09-01</cbc:DueDate>
-                <cbc:InvoiceTypeCode>380</cbc:InvoiceTypeCode>
-                <cbc:DocumentCurrencyCode>RON</cbc:DocumentCurrencyCode>
-                <cbc:BuyerReference>SCOALA GIMNAZIALA COMUNA FOENI</cbc:BuyerReference>
-                <cac:OrderReference>
-                    <cbc:ID>FBRAO2092</cbc:ID>
-                </cac:OrderReference>
-                <cac:AccountingSupplierParty>
-                    <cac:Party>
-                        <cbc:EndpointID schemeID="9947">RO30834857</cbc:EndpointID>
-                        <cac:PartyName>
-                            <cbc:Name>FOREST AND BIOMASS ROMANIA S.A.</cbc:Name>
-                        </cac:PartyName>
-                        <cac:PostalAddress>
-                            <cbc:StreetName>Ferma 5-6</cbc:StreetName>
-                            <cbc:CityName>Giulvaz</cbc:CityName>
-                            <cbc:PostalZone>300011</cbc:PostalZone>
-                            <cbc:CountrySubentity>RO-TM</cbc:CountrySubentity>
-                            <cac:Country>
-                                <cbc:IdentificationCode>RO</cbc:IdentificationCode>
-                            </cac:Country>
-                        </cac:PostalAddress>
-                        <cac:PartyTaxScheme>
-                            <cbc:CompanyID>RO30834857</cbc:CompanyID>
-                            <cac:TaxScheme>
-                                <cbc:ID>VAT</cbc:ID>
-                            </cac:TaxScheme>
-                        </cac:PartyTaxScheme>
-                        <cac:PartyLegalEntity>
-                            <cbc:RegistrationName>
-                            FOREST AND BIOMASS ROMANIA S.A.
-                            </cbc:RegistrationName>
-                            <cbc:CompanyID>RO30834857</cbc:CompanyID>
-                        </cac:PartyLegalEntity>
-                        <cac:Contact>
-                            <cbc:Name>FOREST AND BIOMASS ROMANIA S.A.</cbc:Name>
-                        </cac:Contact>
-                    </cac:Party>
-                </cac:AccountingSupplierParty>
-                <cac:AccountingCustomerParty>
-                    <cac:Party>
-                        <cbc:EndpointID schemeID="9947">RO29152430</cbc:EndpointID>
-                        <cac:PartyName>
-                            <cbc:Name>SCOALA GIMNAZIALA COMUNA FOENI</cbc:Name>
-                        </cac:PartyName>
-                        <cac:PostalAddress>
-                            <cbc:StreetName>Foeni Nr. 383</cbc:StreetName>
-                            <cbc:CityName>Sat Foeni Com Foeni</cbc:CityName>
-                            <cbc:PostalZone>307175</cbc:PostalZone>
-                            <cbc:CountrySubentity>RO-TM</cbc:CountrySubentity>
-                            <cac:Country>
-                                <cbc:IdentificationCode>RO</cbc:IdentificationCode>
-                            </cac:Country>
-                        </cac:PostalAddress>
-                        <cac:PartyTaxScheme>
-                            <cbc:CompanyID>RO29152430</cbc:CompanyID>
-                            <cac:TaxScheme>
-                                <cbc:ID>VAT</cbc:ID>
-                            </cac:TaxScheme>
-                        </cac:PartyTaxScheme>
-                        <cac:PartyLegalEntity>
-                            <cbc:RegistrationName>
-                            SCOALA GIMNAZIALA COMUNA FOENI
-                            </cbc:RegistrationName>
-                            <cbc:CompanyID>RO29152430</cbc:CompanyID>
-                        </cac:PartyLegalEntity>
-                        <cac:Contact>
-                            <cbc:Name>SCOALA GIMNAZIALA COMUNA FOENI</cbc:Name>
-                        </cac:Contact>
-                    </cac:Party>
-                </cac:AccountingCustomerParty>
-                <cac:PaymentMeans>
-                    <cbc:PaymentMeansCode name="credit transfer">30</cbc:PaymentMeansCode>
-                    <cbc:PaymentID>FBRAO2092</cbc:PaymentID>
-                </cac:PaymentMeans>
-                <cac:TaxTotal>
-                    <cbc:TaxAmount currencyID="RON">1900.00</cbc:TaxAmount>
-                    <cac:TaxSubtotal>
-                        <cbc:TaxableAmount currencyID="RON">10000.00</cbc:TaxableAmount>
-                        <cbc:TaxAmount currencyID="RON">1900.00</cbc:TaxAmount>
-                        <cac:TaxCategory>
-                            <cbc:ID>S</cbc:ID>
-                            <cbc:Percent>19.0</cbc:Percent>
-                            <cac:TaxScheme>
-                                <cbc:ID>VAT</cbc:ID>
-                            </cac:TaxScheme>
-                        </cac:TaxCategory>
-                    </cac:TaxSubtotal>
-                </cac:TaxTotal>
-                <cac:LegalMonetaryTotal>
-                    <cbc:LineExtensionAmount currencyID="RON">10000.00</cbc:LineExtensionAmount>
-                    <cbc:TaxExclusiveAmount currencyID="RON">10000.00</cbc:TaxExclusiveAmount>
-                    <cbc:TaxInclusiveAmount currencyID="RON">11900.00</cbc:TaxInclusiveAmount>
-                    <cbc:PrepaidAmount currencyID="RON">0.00</cbc:PrepaidAmount>
-                    <cbc:PayableAmount currencyID="RON">11900.00</cbc:PayableAmount>
-                </cac:LegalMonetaryTotal>
-                <cac:InvoiceLine>
-                    <cbc:ID>1</cbc:ID>
-                    <cbc:InvoicedQuantity unitCode="C62">5.0</cbc:InvoicedQuantity>
-                    <cbc:LineExtensionAmount currencyID="RON">5000.00</cbc:LineExtensionAmount>
-                    <cac:Item>
-                        <cbc:Description>[00000623] Bec P21/5W</cbc:Description>
-                        <cbc:Name>Bec P21/5W</cbc:Name>
-                        <cac:SellersItemIdentification>
-                        <cbc:ID>00000623</cbc:ID>
-                        </cac:SellersItemIdentification>
-                        <cac:ClassifiedTaxCategory>
-                            <cbc:ID>S</cbc:ID>
-                            <cbc:Percent>19.0</cbc:Percent>
-                            <cac:TaxScheme>
-                                <cbc:ID>VAT</cbc:ID>
-                            </cac:TaxScheme>
-                        </cac:ClassifiedTaxCategory>
-                    </cac:Item>
-                    <cac:Price>
-                        <cbc:PriceAmount currencyID="RON">1000.00</cbc:PriceAmount>
-                        <cbc:BaseQuantity unitCode="C62">5.0</cbc:BaseQuantity>
-                    </cac:Price>
-                </cac:InvoiceLine>
-                <cac:InvoiceLine>
-                    <cbc:ID>2</cbc:ID>
-                    <cbc:InvoicedQuantity unitCode="C62">5.0</cbc:InvoicedQuantity>
-                    <cbc:LineExtensionAmount currencyID="RON">5000.00</cbc:LineExtensionAmount>
-                    <cac:Item>
-                        <cbc:Description>[00000624] Bec P21/10W</cbc:Description>
-                        <cbc:Name>Bec P21/10W</cbc:Name>
-                        <cac:SellersItemIdentification>
-                            <cbc:ID>00000624</cbc:ID>
-                        </cac:SellersItemIdentification>
-                        <cac:ClassifiedTaxCategory>
-                            <cbc:ID>S</cbc:ID>
-                            <cbc:Percent>19.0</cbc:Percent>
-                            <cac:TaxScheme>
-                                <cbc:ID>VAT</cbc:ID>
-                            </cac:TaxScheme>
-                        </cac:ClassifiedTaxCategory>
-                    </cac:Item>
-                    <cac:Price>
-                        <cbc:PriceAmount currencyID="RON">1000.00</cbc:PriceAmount>
-                        <cbc:BaseQuantity unitCode="C62">5.0</cbc:BaseQuantity>
-                    </cac:Price>
-                </cac:InvoiceLine>
-            </Invoice>
-        """
-
-    def test_account_edi_ubl(self):
+    def test_account_invoice_edi_ubl(self):
         self.invoice.action_post()
         invoice_xml = self.invoice.attach_ubl_xml_file_button()
         att = self.env["ir.attachment"].browse(invoice_xml["res_id"])
         xml_content = base64.b64decode(att.with_context(bin_size=False).datas)
+
         current_etree = self.get_xml_tree_from_string(xml_content)
-        expected_etree = self.get_xml_tree_from_string(
-            self.expected_invoice_factur_values
-        )
+        expected_etree = self.get_xml_tree_from_string(self.expected_invoice_values)
+
         self.assertXmlTreeEqual(current_etree, expected_etree)
+
+    def test_account_credit_note_edi_ubl(self):
+        self.credit_note.action_post()
+        invoice_xml = self.credit_note.attach_ubl_xml_file_button()
+        att = self.env["ir.attachment"].browse(invoice_xml["res_id"])
+        xml_content = base64.b64decode(att.with_context(bin_size=False).datas)
+
+        current_etree = self.get_xml_tree_from_string(xml_content)
+        expected_etree = self.get_xml_tree_from_string(self.expected_credit_note_values)
+        self.assertXmlTreeEqual(current_etree, expected_etree)
+
+    def test_process_documents_web_services(self):
+        self.partner.l10n_ro_e_invoice = False
+        self.invoice.action_post()
+        anaf_config = self.env.company.l10n_ro_account_anaf_sync_id
+        if not anaf_config:
+            anaf_config = self.env["l10n.ro.account.anaf.sync"].create(
+                {
+                    "company_id": self.env.company.id,
+                    "client_id": "123",
+                    "client_secret": "123",
+                }
+            )
+            self.env.company.l10n_ro_account_anaf_sync_id = anaf_config
+
+        anaf_config.state = "test"
+
+        # procesare step 1 - eroare
+        data = self.expected_error_values
+        self.invoice.with_context(test_data=data).action_process_edi_web_services(
+            with_commit=False
+        )
+        docs = self.invoice.edi_document_ids.filtered(
+            lambda d: d.state == "to_send" and d.blocking_level == "error"
+        )
+        docs.blocking_level = False
+
+        # procesare step 1 - succes
+        data = self.expected_success_values
+        self.invoice.with_context(test_data=data).action_process_edi_web_services(
+            with_commit=False
+        )
+
+        # procesare step 2 - in prelucrare
+        data = self.expected_stare_mesaj_in_prelucrare
+        self.invoice.with_context(test_data=data).action_process_edi_web_services(
+            with_commit=False
+        )
+        docs.blocking_level = False
+
+        # procesare step 2 - not_ok
+        data = self.expected_stare_mesaj_not_ok
+        self.invoice.with_context(test_data=data).action_process_edi_web_services(
+            with_commit=False
+        )
+        docs.blocking_level = False
+
+        # procesare step 2 - ok
+        data = self.expected_stare_mesaj_ok
+        self.invoice.with_context(test_data=data).action_process_edi_web_services(
+            with_commit=False
+        )
+        docs.blocking_level = False

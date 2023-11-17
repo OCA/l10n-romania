@@ -5618,7 +5618,7 @@ msgid "Bucureșci"
 msgstr ""
 
 #. module: l10n_ro_city
-#: model:res.city,name:l10n_ro_city.RO_179141
+#: model:res.city,name:l10n_ro_city.RO_179132
 msgid "București"
 msgstr ""
 
@@ -12669,6 +12669,11 @@ msgstr ""
 #. module: l10n_ro_city
 #: model:res.city,name:l10n_ro_city.RO_147376
 msgid "Cotârgași"
+msgstr ""
+
+#. module: l10n_ro_city
+#: model:ir.model,name:l10n_ro_city.model_res_country_state
+msgid "Country state"
 msgstr ""
 
 #. module: l10n_ro_city
@@ -39551,6 +39556,11 @@ msgid "Romania - Municipality"
 msgstr ""
 
 #. module: l10n_ro_city
+#: model:ir.model.fields,field_description:l10n_ro_city.field_res_country_state__l10n_ro_prefix_zip
+msgid "Romania - Prefix Zip"
+msgstr ""
+
+#. module: l10n_ro_city
 #: model:ir.model.fields,field_description:l10n_ro_city.field_res_city__l10n_ro_siruta
 msgid "Romania - Siruta"
 msgstr ""
@@ -41921,6 +41931,36 @@ msgstr ""
 #. module: l10n_ro_city
 #: model:res.city,name:l10n_ro_city.RO_81549
 msgid "Seciurile"
+msgstr ""
+
+#. module: l10n_ro_city
+#: model:res.city,name:l10n_ro_city.RO_179141
+msgid "Sector1"
+msgstr ""
+
+#. module: l10n_ro_city
+#: model:res.city,name:l10n_ro_city.RO_179150
+msgid "Sector2"
+msgstr ""
+
+#. module: l10n_ro_city
+#: model:res.city,name:l10n_ro_city.RO_179169
+msgid "Sector3"
+msgstr ""
+
+#. module: l10n_ro_city
+#: model:res.city,name:l10n_ro_city.RO_179178
+msgid "Sector4"
+msgstr ""
+
+#. module: l10n_ro_city
+#: model:res.city,name:l10n_ro_city.RO_179187
+msgid "Sector5"
+msgstr ""
+
+#. module: l10n_ro_city
+#: model:res.city,name:l10n_ro_city.RO_179196
+msgid "Sector6"
 msgstr ""
 
 #. module: l10n_ro_city

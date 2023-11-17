@@ -21,6 +21,7 @@ class AccountANAFSyncWeb(http.Controller):
         auth="user",
         website=True,
         sitemap=False,
+        csrf=False,
     )
     def redirect_anaf(self, anaf_config_id, **kw):
         uid = request.uid
@@ -28,7 +29,9 @@ class AccountANAFSyncWeb(http.Controller):
         error = False
         if user.share:
             return request.not_found(_("This page is only for internal users!"))
-        anaf_config = request.env["l10n.ro.account.anaf.sync"].browse(anaf_config_id)
+        anaf_config = (
+            request.env["l10n.ro.account.anaf.sync"].sudo().browse(anaf_config_id)
+        )
         if not anaf_config.exists():
             return request.not_found(_("Error, this ANAF config does not exist!"))
         company = anaf_config.company_id
@@ -84,6 +87,7 @@ class AccountANAFSyncWeb(http.Controller):
         auth="public",
         website=True,
         sitemap=False,
+        csrf=False,
     )
     def get_anaf_oauth_code(self, **kw):
         "Returns a text with the result of anaf request from redirect"
@@ -97,14 +101,17 @@ class AccountANAFSyncWeb(http.Controller):
                 ("last_request_datetime", ">", now - timedelta(seconds=90)),
             ]
         )
+        if not anaf_config:
+            anaf_config = ANAF_Configs.search([("company_id", "=", user.company_id.id)])
         message = ""
         if len(anaf_config) > 1:
             message = _(
-                "More than one ANAF config requested authentification in the last minutes."
+                "More than one ANAF config requested authentication in the last minutes."
                 "Please request them in order, waiting for 2 minutes between requests."
             )
-        elif not anaf_config:
-            message = _("The response was done too late.\nResponse was: kw=%s") % kw
+
+        if not anaf_config:
+            message = _("No ANAF config was found for this company.")
 
         if message:
             anaf_config.message_post(body=message)

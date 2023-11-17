@@ -8,6 +8,7 @@ setuptools.setup(
     description="Meta package for oca-l10n-romania Odoo addons",
     version=version,
     install_requires=[
+        'odoo-addon-currency_rate_update_RO_BNR>=16.0dev,<16.1dev',
         'odoo-addon-l10n_ro_account>=16.0dev,<16.1dev',
         'odoo-addon-l10n_ro_account_anaf_sync>=16.0dev,<16.1dev',
         'odoo-addon-l10n_ro_account_bank_statement_import_mt940_alpha>=16.0dev,<16.1dev',

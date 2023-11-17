@@ -240,9 +240,16 @@ msgstr ""
 #: code:addons/l10n_ro_account_anaf_sync/controllers/anaf_oauth.py:0
 #, python-format
 msgid ""
-"More than one ANAF config requested authentification in the last "
+"More than one ANAF config requested authentication in the last "
 "minutes.Please request them in order, waiting for 2 minutes between "
 "requests."
+msgstr ""
+
+#. module: l10n_ro_account_anaf_sync
+#. odoo-python
+#: code:addons/l10n_ro_account_anaf_sync/controllers/anaf_oauth.py:0
+#, python-format
+msgid "No ANAF config was found for this company."
 msgstr ""
 
 #. module: l10n_ro_account_anaf_sync
@@ -330,15 +337,6 @@ msgstr ""
 #: code:addons/l10n_ro_account_anaf_sync/models/l10n_ro_account_anaf_sync.py:0
 #, python-format
 msgid "Test token response: %s"
-msgstr ""
-
-#. module: l10n_ro_account_anaf_sync
-#. odoo-python
-#: code:addons/l10n_ro_account_anaf_sync/controllers/anaf_oauth.py:0
-#, python-format
-msgid ""
-"The response was done too late.\n"
-"Response was: kw=%s"
 msgstr ""
 
 #. module: l10n_ro_account_anaf_sync
