@@ -115,3 +115,15 @@ class ResPartner(models.Model):
     @api.model
     def _update_vat_payment_all(self):
         self.update_vat_payment_all()
+
+    @api.model_create_multi
+    def create(self, vals_list):
+        partner = super().create(vals_list)
+        partner.check_vat_on_payment()
+        return partner
+
+    def write(self, vals):
+        res = super().write(vals)
+        if "vat" in vals:
+            self.check_vat_on_payment()
+        return res
