@@ -326,7 +326,7 @@ class AccountInvoiceDVI(models.Model):
             line_vals = line[2]
             line_vals["price_unit"] = -1 * line_vals["price_unit"]
         landed_cost = self.env["stock.landed.cost"].create(values)
-        landed_cost.with_context(dvi_revert=True).button_validate()
+        landed_cost.with_context(l10n_ro_revert_landed_cost=True).button_validate()
         action = self.env.ref("stock_landed_costs.action_stock_landed_cost")
         action = action.read()[0]
 

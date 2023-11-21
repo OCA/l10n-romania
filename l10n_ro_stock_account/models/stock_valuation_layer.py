@@ -180,6 +180,7 @@ class StockValuationLayer(models.Model):
                 record.lot_id if "lot_id" in record._fields else record.lot_ids
             )
 
+    @api.depends("l10n_ro_svl_track_dest_ids", "l10n_ro_svl_track_src_ids")
     def _compute_l10n_ro_svl_tracking(self):
         for s in self:
             s.l10n_ro_svl_dest_ids = [
