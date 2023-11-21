@@ -23,6 +23,12 @@ msgid " already out"
 msgstr ""
 
 #. module: l10n_ro_stock_account
+#: code:addons/l10n_ro_stock_account/models/stock_landed_cost.py:0
+#, python-format
+msgid " internal transfer"
+msgstr ""
+
+#. module: l10n_ro_stock_account
 #: model:ir.model,name:l10n_ro_stock_account.model_account_account
 msgid "Account"
 msgstr "Cont"
@@ -257,12 +263,6 @@ msgid ""
 msgstr ""
 "Doar pentru Romania, sa ascunda conturile stock_input si stock_output pentru "
 "ca acestea sunt identice cu contul stock_valuation"
-
-#. module: l10n_ro_stock_account
-#: code:addons/l10n_ro_stock_account/models/stock_landed_cost.py:0
-#, python-format
-msgid "Please configure Stock Expense Account for product: %s."
-msgstr ""
 
 #. module: l10n_ro_stock_account
 #: model:ir.model,name:l10n_ro_stock_account.model_product_product
