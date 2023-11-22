@@ -119,13 +119,15 @@ class ResPartner(models.Model):
     @api.model_create_multi
     def create(self, vals_list):
         partner = super().create(vals_list)
-        if partner.country_code == "RO" and partner.vat:
-            partner.check_vat_on_payment()
+        partner.filtered(
+            lambda p: p.country_code == "RO" and p.vat
+        ).check_vat_on_payment()
         return partner
 
     def write(self, vals):
         res = super().write(vals)
         if "vat" in vals:
-            if self.country_code == "RO":
-                self.check_vat_on_payment()
+            self.filtered(
+                lambda partner: partner.country_code == "RO"
+            ).check_vat_on_payment()
         return res
