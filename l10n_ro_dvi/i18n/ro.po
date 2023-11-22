@@ -112,11 +112,6 @@ msgstr "Produs Comision vamal"
 msgid "Customs Commission"
 msgstr "Comision vamal"
 
-#. module: l10n_ro_dvi
-#: model:ir.model.fields,field_description:l10n_ro_dvi.field_l10n_ro_account_dvi__customs_commission_product_id
-#, fuzzy
-msgid "Customs Commission Product"
-msgstr "Produs Comision vamal"
 
 #. module: l10n_ro_dvi
 #: model:ir.model.fields,field_description:l10n_ro_dvi.field_l10n_ro_account_dvi__customs_commission_value
