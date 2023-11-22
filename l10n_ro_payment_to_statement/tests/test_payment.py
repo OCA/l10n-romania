@@ -191,25 +191,15 @@ class TestPayment(TestPaymenttoStatement):
         self.assertEqual(payment_8.name, "TT000001")
 
     def test_bank_statement_line_name(self):
-        bnk_out = self.env["account.bank.statement"].create(
+        bnk_line_out = self.env["account.bank.statement.line"].create(
             {
                 "date": "2022-12-01",
+                "payment_ref": "line_1",
+                "amount": 100.0,
                 "journal_id": self.company_data["default_journal_cash"].id,
-                "company_id": self.env.company.id,
-                "line_ids": [
-                    (
-                        0,
-                        0,
-                        {
-                            "payment_ref": "/",
-                            "amount": 100.0,
-                            "journal_id": self.company_data["default_journal_cash"].id,
-                        },
-                    )
-                ],
             }
         )
-        self.assertEqual(bnk_out.line_ids.move_id.name, "CSH1-000001")
+        self.assertEqual(bnk_line_out.move_id.name, "CSH1-000001")
 
     def test_get_journal_dashboard_datas(self):
         payment_debit_account_id = self.env.company.transfer_account_id
