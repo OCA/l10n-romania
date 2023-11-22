@@ -250,6 +250,12 @@ msgstr ""
 #. module: l10n_ro_account_anaf_sync
 #: code:addons/l10n_ro_account_anaf_sync/controllers/anaf_oauth.py:0
 #, python-format
+msgid "No ANAF config was found for this company."
+msgstr ""
+
+#. module: l10n_ro_account_anaf_sync
+#: code:addons/l10n_ro_account_anaf_sync/controllers/anaf_oauth.py:0
+#, python-format
 msgid ""
 "No code was found in the response.\n"
 "Response was: %s"
