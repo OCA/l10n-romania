@@ -24,24 +24,6 @@ class AccountPayment(models.Model):
         domain="[('l10n_ro_statement_id','=',statement_id)]",
     )
 
-    def _get_l10n_ro_bank_statement(self):
-        self.ensure_one()
-        domain = [("date", "=", self.date), ("journal_id", "=", self.journal_id.id)]
-        statement = self.env["account.bank.statement"].search(domain, limit=1)
-        if statement:
-            self.l10n_ro_statement_id = statement
-        else:
-            # daca tipul este numerar trebuie generat
-            if self.journal_id.l10n_ro_auto_statement:
-                values = {
-                    "journal_id": self.journal_id.id,
-                    "date": self.date,
-                    "name": "/",
-                }
-                self.l10n_ro_statement_id = (
-                    self.env["account.bank.statement"].sudo().create(values)
-                )
-
     def get_l10n_ro_statement_line(self):
         lines = self.env["account.bank.statement.line"]
         self.get_l10n_ro_reconciled_statement_line()
@@ -108,7 +90,7 @@ class AccountPayment(models.Model):
         l10n_ro_records = self.filtered(lambda p: p.is_l10n_ro_record)
         if l10n_ro_records:
             for payment in l10n_ro_records:
-                payment._get_l10n_ro_bank_statement()
+                payment.move_id._get_l10n_ro_bank_statement()
             l10n_ro_records.get_l10n_ro_statement_line()
         return res
 
