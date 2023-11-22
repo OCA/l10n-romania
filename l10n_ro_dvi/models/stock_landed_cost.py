@@ -62,7 +62,7 @@ class LandedCost(models.Model):
                         "You cannot create a DVI landed cost without reference to an invoice."
                     )
                 )
-            if not self.env.context.get("dvi_revert"):
+            if not self.env.context.get("l10n_ro_revert_landed_cost"):
                 if not cost.account_move_id:
                     cost.account_move_id = self.env["account.move"].create(
                         {
@@ -134,7 +134,7 @@ class AdjustmentLines(models.Model):
                 already_out_account_id,
             )
 
-        if self._context.get("dvi_revert"):
+        if self._context.get("l10n_ro_revert_landed_cost"):
             return []
         else:
             res = super()._create_account_move_line(
