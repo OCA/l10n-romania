@@ -1,11 +1,19 @@
 # Copyright (C) 2022 NextERP Romania
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
-from odoo import _, models
+from odoo import _, fields, models
 
 
 class ResCompany(models.Model):
     _inherit = "res.company"
+
+    l10n_ro_property_vat_price_difference_product_id = fields.Many2one(
+        "product.product",
+        string="Romania - Vat Price Difference Product",
+        domain="[('type', '=', 'service')]",
+        help="This product will be used in create an accounting note "
+        "for the difference between customs duty and bill",
+    )
 
     def _l10n_ro_get_or_create_custom_duty_product(self):
         self.ensure_one()
@@ -64,3 +72,31 @@ class ResCompany(models.Model):
             )
 
         return customs_commission_product
+
+    def _l10n_ro_get_or_create_vat_price_difference_product(self):
+        self.ensure_one()
+        vat_price_diff_product = self.l10n_ro_property_vat_price_difference_product_id
+        if not vat_price_diff_product:
+            account = self.env["account.account"].search(
+                [
+                    ("code", "=", "658820"),
+                    ("company_id", "=", self.id),
+                ],
+                limit=1,
+            )
+            vat_price_diff_product = self.env["product.product"].create(
+                {
+                    "name": "Vat price difference",
+                    "categ_id": self.env.ref("product.product_category_all").id,
+                    "type": "service",
+                    "invoice_policy": "order",
+                    "property_account_expense_id": account if account else False,
+                    "company_id": self.id,
+                }
+            )
+
+            self.sudo().l10n_ro_property_vat_price_difference_product_id = (
+                vat_price_diff_product
+            )
+
+        return vat_price_diff_product
