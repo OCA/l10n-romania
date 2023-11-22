@@ -13,10 +13,7 @@
         "l10n_ro_stock_account",
     ],
     "license": "AGPL-3",
-    "data": [
-
-    ],
-
+    "data": [],
     "installable": True,
     "development_status": "Mature",
     "maintainers": ["dhongu", "feketemihai"],
