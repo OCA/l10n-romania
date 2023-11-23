@@ -22,12 +22,14 @@ msgid ""
 msgstr ""
 
 #. module: l10n_ro_account_edi_ubl
+#. odoo-python
 #: code:addons/l10n_ro_account_edi_ubl/models/account_edi_format.py:0
 #, python-format
 msgid "ANAF Validation for %s is in processing."
 msgstr ""
 
 #. module: l10n_ro_account_edi_ubl
+#. odoo-python
 #: code:addons/l10n_ro_account_edi_ubl/models/account_edi_format.py:0
 #, python-format
 msgid "Access Error"
@@ -155,13 +157,6 @@ msgid ""
 msgstr ""
 
 #. module: l10n_ro_account_edi_ubl
-#: model:ir.model.fields,field_description:l10n_ro_account_edi_ubl.field_account_bank_statement_line__l10n_ro_send_state
-#: model:ir.model.fields,field_description:l10n_ro_account_edi_ubl.field_account_move__l10n_ro_send_state
-#: model:ir.model.fields,field_description:l10n_ro_account_edi_ubl.field_account_payment__l10n_ro_send_state
-msgid "Invoice XML Send State"
-msgstr ""
-
-#. module: l10n_ro_account_edi_ubl
 #. odoo-python
 #: code:addons/l10n_ro_account_edi_ubl/models/account_move.py:0
 #, python-format
@@ -193,21 +188,6 @@ msgstr ""
 #. module: l10n_ro_account_edi_ubl
 #: model:ir.model.fields,field_description:l10n_ro_account_edi_ubl.field_account_edi_xml_cius_ro__write_date
 msgid "Last Updated on"
-msgstr ""
-
-#. module: l10n_ro_account_edi_ubl
-#: model:ir.model.fields.selection,name:l10n_ro_account_edi_ubl.selection__account_move__l10n_ro_send_state__new
-msgid "New"
-msgstr ""
-
-#. module: l10n_ro_account_edi_ubl
-#: model:ir.model.fields.selection,name:l10n_ro_account_edi_ubl.selection__account_move__l10n_ro_send_state__to_send
-msgid "Not yet send"
-msgstr ""
-
-#. module: l10n_ro_account_edi_ubl
-#: model:ir.model.fields.selection,name:l10n_ro_account_edi_ubl.selection__account_move__l10n_ro_send_state__other
-msgid "Other"
 msgstr ""
 
 #. module: l10n_ro_account_edi_ubl
@@ -259,16 +239,6 @@ msgid "Send to ANAF E Invoice"
 msgstr ""
 
 #. module: l10n_ro_account_edi_ubl
-#: model:ir.model.fields.selection,name:l10n_ro_account_edi_ubl.selection__account_move__l10n_ro_send_state__invalid
-msgid "Sent, but invalid"
-msgstr ""
-
-#. module: l10n_ro_account_edi_ubl
-#: model:ir.model.fields.selection,name:l10n_ro_account_edi_ubl.selection__account_move__l10n_ro_send_state__sent
-msgid "Sent, waiting for response"
-msgstr ""
-
-#. module: l10n_ro_account_edi_ubl
 #: model:ir.model.fields,help:l10n_ro_account_edi_ubl.field_account_bank_statement_line__l10n_ro_edi_transaction
 #: model:ir.model.fields,help:l10n_ro_account_edi_ubl.field_account_move__l10n_ro_edi_transaction
 #: model:ir.model.fields,help:l10n_ro_account_edi_ubl.field_account_payment__l10n_ro_edi_transaction
@@ -283,12 +253,14 @@ msgid "The ANAF configuration is not set"
 msgstr ""
 
 #. module: l10n_ro_account_edi_ubl
+#. odoo-python
 #: code:addons/l10n_ro_account_edi_ubl/models/account_move.py:0
 #, python-format
 msgid "The ANAF configuration is not set. Please set it and try again."
 msgstr ""
 
 #. module: l10n_ro_account_edi_ubl
+#. odoo-python
 #: code:addons/l10n_ro_account_edi_ubl/models/account_edi_format.py:0
 #, python-format
 msgid ""
@@ -337,11 +309,6 @@ msgid ""
 "The invoice was not sent to ANAF. Please check the configuration and try again.\n"
 "\n"
 "Error: %s"
-msgstr ""
-
-#. module: l10n_ro_account_edi_ubl
-#: model:ir.model.fields.selection,name:l10n_ro_account_edi_ubl.selection__account_move__l10n_ro_send_state__delivered
-msgid "This invoice is delivered"
 msgstr ""
 
 #. module: l10n_ro_account_edi_ubl
