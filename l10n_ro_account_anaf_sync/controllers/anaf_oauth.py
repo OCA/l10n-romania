@@ -63,7 +63,8 @@ class AccountANAFSyncWeb(http.Controller):
             }
         )
         client_id = anaf_config.client_id
-        odoo_oauth_url = user.get_base_url() + "/l10n_ro_account_anaf_sync/anaf_oauth"
+        url = user.get_base_url()
+        odoo_oauth_url = f"{url}/l10n_ro_account_anaf_sync/anaf_oauth/{anaf_config.id}"
         redirect_url = "%s?response_type=code&client_id=%s&redirect_uri=%s" % (
             anaf_config.anaf_oauth_url + "/authorize",
             client_id,
@@ -86,33 +87,22 @@ class AccountANAFSyncWeb(http.Controller):
         return anaf_request_from_redirect
 
     @http.route(
-        ["/l10n_ro_account_anaf_sync/anaf_oauth"],
+        ["/l10n_ro_account_anaf_sync/anaf_oauth/<int:anaf_config_id>"],
         type="http",
         auth="public",
         website=True,
         sitemap=False,
         csrf=False,
     )
-    def get_anaf_oauth_code(self, **kw):
+    def get_anaf_oauth_code(self, anaf_config_id, **kw):
         "Returns a text with the result of anaf request from redirect"
         uid = request.uid
         user = request.env["res.users"].browse(uid)
         now = datetime.now()
         ANAF_Configs = request.env["l10n.ro.account.anaf.sync"].sudo()
-        anaf_config = ANAF_Configs.search(
-            [
-                ("client_id", "!=", ""),
-                ("last_request_datetime", ">", now - timedelta(seconds=90)),
-            ]
-        )
-        if not anaf_config:
-            anaf_config = ANAF_Configs.search([("company_id", "=", user.company_id.id)])
+        anaf_config = ANAF_Configs.browse(anaf_config_id)
+
         message = ""
-        if len(anaf_config) > 1:
-            message = _(
-                "More than one ANAF config requested authentication in the last minutes."
-                "Please request them in order, waiting for 2 minutes between requests."
-            )
 
         if not anaf_config:
             message = _("No ANAF config was found for this company.")
@@ -129,7 +119,10 @@ class AccountANAFSyncWeb(http.Controller):
                 "accept": "application/json",
                 "user-agent": "PostmanRuntime/7.29.2",
             }
-            redirect_uri = user.get_base_url() + "/l10n_ro_account_anaf_sync/anaf_oauth"
+            url = user.get_base_url()
+            redirect_uri = (
+                f"{url}/l10n_ro_account_anaf_sync/anaf_oauth/{anaf_config_id}"
+            )
             data = {
                 "grant_type": "authorization_code",
                 "client_id": "{}".format(anaf_config.client_id),
