@@ -31,6 +31,7 @@ class TestAnafSyncControllers(HttpCase):
     def test_anaf_oauth(self):
         self.sync.write({"last_request_datetime": fields.Datetime.now()})
         response = self.url_open(
-            "/l10n_ro_account_anaf_sync/anaf_oauth", data={"code": "123"}
+            "/l10n_ro_account_anaf_sync/anaf_oauth/%s" % self.sync.id,
+            data={"code": "123"},
         )
         self.assertEqual(response.status_code, 200)

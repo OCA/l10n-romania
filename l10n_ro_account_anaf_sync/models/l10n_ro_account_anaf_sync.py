@@ -91,7 +91,9 @@ class AccountANAFSync(models.Model):
     def _compute_anaf_callback_url(self):
         for anaf_sync in self:
             url = anaf_sync.get_base_url()
-            anaf_sync.anaf_callback_url = url + "/l10n_ro_account_anaf_sync/anaf_oauth"
+            anaf_sync.anaf_callback_url = (
+                f"{url}/l10n_ro_account_anaf_sync/anaf_oauth/{anaf_sync.id}"
+            )
 
     def get_token_from_anaf_website(self):
         self.ensure_one()
@@ -147,19 +149,6 @@ class AccountANAFSync(models.Model):
                     "last_request_datetime": fields.Datetime.now(),
                 }
             )
-
-    # def get_token_from_anaf_website(self):
-    #     self.ensure_one()
-    #     if self.access_token:
-    #         raise UserError(
-    #             _("You already have ANAF access token. Please revoke it first.")
-    #         )
-    #     return_url = "/l10n_ro_account_anaf_sync/redirect_anaf/%s" % self.id
-    #     return {
-    #         "type": "ir.actions.act_url",
-    #         "url": "%s" % return_url,
-    #         "target": "new",
-    #     }
 
     def revoke_access_token(self):
         self.ensure_one()
