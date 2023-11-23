@@ -245,14 +245,6 @@ msgstr "Mesaje"
 #. module: l10n_ro_account_anaf_sync
 #: code:addons/l10n_ro_account_anaf_sync/controllers/anaf_oauth.py:0
 #, python-format
-msgid ""
-"More than one ANAF config requested authentication in the last minutes."
-"Please request them in order, waiting for 2 minutes between requests."
-msgstr ""
-
-#. module: l10n_ro_account_anaf_sync
-#: code:addons/l10n_ro_account_anaf_sync/controllers/anaf_oauth.py:0
-#, python-format
 msgid "No ANAF config was found for this company."
 msgstr ""
 
