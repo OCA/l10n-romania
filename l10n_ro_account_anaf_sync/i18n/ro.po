@@ -142,6 +142,7 @@ msgid "Display Name"
 msgstr "Nume afișat"
 
 #. module: l10n_ro_account_anaf_sync
+#. odoo-python
 #: code:addons/l10n_ro_account_anaf_sync/controllers/anaf_oauth.py:0
 #, python-format
 msgid "Error, this ANAF config does not exist!"
@@ -180,7 +181,6 @@ msgstr "ID"
 
 #. module: l10n_ro_account_anaf_sync
 #: model:ir.model.fields,help:l10n_ro_account_anaf_sync.field_l10n_ro_account_anaf_sync__message_needaction
-#: model:ir.model.fields,help:l10n_ro_account_anaf_sync.field_l10n_ro_account_anaf_sync__message_unread
 msgid "If checked, new messages require your attention."
 msgstr "Dacă sunt bifate, mesajele noi necesită atenția dvs."
 
@@ -240,20 +240,14 @@ msgid "Messages"
 msgstr "Mesaje"
 
 #. module: l10n_ro_account_anaf_sync
-#: code:addons/l10n_ro_account_anaf_sync/controllers/anaf_oauth.py:0
-#, python-format
-msgid ""
-"More than one ANAF config requested authentication in the last minutes."
-"Please request them in order, waiting for 2 minutes between requests."
-msgstr ""
-
-#. module: l10n_ro_account_anaf_sync
+#. odoo-python
 #: code:addons/l10n_ro_account_anaf_sync/controllers/anaf_oauth.py:0
 #, python-format
 msgid "No ANAF config was found for this company."
 msgstr ""
 
 #. module: l10n_ro_account_anaf_sync
+#. odoo-python
 #: code:addons/l10n_ro_account_anaf_sync/controllers/anaf_oauth.py:0
 #, python-format
 msgid ""
@@ -275,18 +269,13 @@ msgstr "Numărul de erori"
 
 #. module: l10n_ro_account_anaf_sync
 #: model:ir.model.fields,help:l10n_ro_account_anaf_sync.field_l10n_ro_account_anaf_sync__message_needaction_counter
-msgid "Number of messages which requires an action"
-msgstr "Numărul de mesaje care necesită o acțiune"
+msgid "Number of messages requiring action"
+msgstr ""
 
 #. module: l10n_ro_account_anaf_sync
 #: model:ir.model.fields,help:l10n_ro_account_anaf_sync.field_l10n_ro_account_anaf_sync__message_has_error_counter
 msgid "Number of messages with delivery error"
 msgstr "Numărul de mesaje cu eroare de livrare"
-
-#. module: l10n_ro_account_anaf_sync
-#: model:ir.model.fields,help:l10n_ro_account_anaf_sync.field_l10n_ro_account_anaf_sync__message_unread_counter
-msgid "Number of unread messages"
-msgstr "Numărul de mesaje necitite"
 
 #. module: l10n_ro_account_anaf_sync
 #: model:ir.model.fields,help:l10n_ro_account_anaf_sync.field_l10n_ro_account_anaf_sync__access_token
@@ -317,6 +306,7 @@ msgid "Revoke Access Token"
 msgstr "Revocati Access Token"
 
 #. module: l10n_ro_account_anaf_sync
+#. odoo-python
 #: code:addons/l10n_ro_account_anaf_sync/models/l10n_ro_account_anaf_sync.py:0
 #, python-format
 msgid "Revoke token response: %s"
@@ -338,22 +328,14 @@ msgid "Test"
 msgstr "Test"
 
 #. module: l10n_ro_account_anaf_sync
+#. odoo-python
 #: code:addons/l10n_ro_account_anaf_sync/models/l10n_ro_account_anaf_sync.py:0
 #, python-format
 msgid "Test token response: %s"
 msgstr "Raspuns test token: %s"
 
 #. module: l10n_ro_account_anaf_sync
-#: code:addons/l10n_ro_account_anaf_sync/controllers/anaf_oauth.py:0
-#, python-format
-msgid ""
-"The response was done too late.\n"
-"Response was: kw=%s"
-msgstr ""
-"Răspunsul a fost dat prea târziu.\n"
-"Răspunsul a fost: kw=%s"
-
-#. module: l10n_ro_account_anaf_sync
+#. odoo-python
 #: code:addons/l10n_ro_account_anaf_sync/controllers/anaf_oauth.py:0
 #, python-format
 msgid ""
@@ -373,6 +355,7 @@ msgstr ""
 "https și accesibil de pe internet)"
 
 #. module: l10n_ro_account_anaf_sync
+#. odoo-python
 #: code:addons/l10n_ro_account_anaf_sync/controllers/anaf_oauth.py:0
 #, python-format
 msgid "This page is only for internal users!"
@@ -388,16 +371,6 @@ msgstr ""
 "cererea ANAF maxim 1 minut"
 
 #. module: l10n_ro_account_anaf_sync
-#: model:ir.model.fields,field_description:l10n_ro_account_anaf_sync.field_l10n_ro_account_anaf_sync__message_unread
-msgid "Unread Messages"
-msgstr "Mesaje necitite"
-
-#. module: l10n_ro_account_anaf_sync
-#: model:ir.model.fields,field_description:l10n_ro_account_anaf_sync.field_l10n_ro_account_anaf_sync__message_unread_counter
-msgid "Unread Messages Counter"
-msgstr "Numar de mesaje necitite"
-
-#. module: l10n_ro_account_anaf_sync
 #: model:ir.model.fields,field_description:l10n_ro_account_anaf_sync.field_l10n_ro_account_anaf_sync__website_message_ids
 msgid "Website Messages"
 msgstr "Mesaje pe site"
@@ -408,18 +381,21 @@ msgid "Website communication history"
 msgstr "Istoricul comunicării site-ului"
 
 #. module: l10n_ro_account_anaf_sync
+#. odoo-python
 #: code:addons/l10n_ro_account_anaf_sync/models/l10n_ro_account_anaf_sync.py:0
 #, python-format
 msgid "You already have an ANAF access token. Please revoke it first."
 msgstr ""
 
 #. module: l10n_ro_account_anaf_sync
+#. odoo-python
 #: code:addons/l10n_ro_account_anaf_sync/controllers/anaf_oauth.py:0
 #, python-format
 msgid "You can make only one request per minute"
 msgstr "Puteți face o singură cerere pe minut"
 
 #. module: l10n_ro_account_anaf_sync
+#. odoo-python
 #: code:addons/l10n_ro_account_anaf_sync/models/l10n_ro_account_anaf_sync.py:0
 #, python-format
 msgid ""
@@ -430,10 +406,31 @@ msgstr ""
 "alta."
 
 #. module: l10n_ro_account_anaf_sync
+#. odoo-python
 #: code:addons/l10n_ro_account_anaf_sync/models/l10n_ro_account_anaf_sync.py:0
 #, python-format
 msgid "You don't have ANAF access token. Please get it first."
 msgstr "Nu aveți un token de acces ANAF. Vă rugăm să-l generati mai întâi."
+
+#~ msgid "Number of messages which requires an action"
+#~ msgstr "Numărul de mesaje care necesită o acțiune"
+
+#~ msgid "Number of unread messages"
+#~ msgstr "Numărul de mesaje necitite"
+
+#, python-format
+#~ msgid ""
+#~ "The response was done too late.\n"
+#~ "Response was: kw=%s"
+#~ msgstr ""
+#~ "Răspunsul a fost dat prea târziu.\n"
+#~ "Răspunsul a fost: kw=%s"
+
+#~ msgid "Unread Messages"
+#~ msgstr "Mesaje necitite"
+
+#~ msgid "Unread Messages Counter"
+#~ msgstr "Numar de mesaje necitite"
 
 #~ msgid "SMS Delivery error"
 #~ msgstr "Eroare de livrare prin SMS"
