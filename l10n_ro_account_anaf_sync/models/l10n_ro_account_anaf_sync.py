@@ -1,11 +1,15 @@
 # Copyright (C) 2022 NextERP Romania
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
+import logging
+from datetime import timedelta
 
 import requests
 
 from odoo import _, api, fields, models
 from odoo.exceptions import UserError
+
+_logger = logging.getLogger(__name__)
 
 
 class AccountANAFSync(models.Model):
@@ -86,13 +90,15 @@ class AccountANAFSync(models.Model):
     def _compute_anaf_callback_url(self):
         for anaf_sync in self:
             url = anaf_sync.get_base_url()
-            anaf_sync.anaf_callback_url = url + "/l10n_ro_account_anaf_sync/anaf_oauth"
+            anaf_sync.anaf_callback_url = (
+                f"{url}/l10n_ro_account_anaf_sync/anaf_oauth/{anaf_sync.id}"
+            )
 
     def get_token_from_anaf_website(self):
         self.ensure_one()
         if self.access_token:
             raise UserError(
-                _("You already have ANAF access token. Please revolke it first.")
+                _("You already have an ANAF access token. Please revoke it first.")
             )
         return_url = "/l10n_ro_account_anaf_sync/redirect_anaf/%s" % self.id
         return {
@@ -100,6 +106,37 @@ class AccountANAFSync(models.Model):
             "url": "%s" % return_url,
             "target": "new",
         }
+
+    def handle_anaf_callback(self, authorization_code):
+        # Folosește codul de autorizare pentru a obține token-ul de acces
+        token_url = f"{self.anaf_oauth_url}/token"
+        data = {
+            "grant_type": "authorization_code",
+            "code": authorization_code,
+            "client_id": self.client_id,
+            "client_secret": self.client_secret,
+            "redirect_uri": self.anaf_callback_url,
+        }
+
+        response = requests.post(
+            token_url,
+            data=data,
+            timeout=80,
+            headers={"Content-Type": "application/x-www-form-urlencoded"},
+        )
+
+        if response.status_code == 200:
+            # Extrage token-ul de acces din răspunsul JSON
+            token_data = response.json()
+            self.write(
+                {
+                    "access_token": token_data.get("access_token"),
+                    "refresh_token": token_data.get("refresh_token"),
+                    "client_token_valability": fields.Date.today()
+                    + timedelta(days=90),  # Valabilitate de 90 de zile
+                    "last_request_datetime": fields.Datetime.now(),
+                }
+            )
 
     def revoke_access_token(self):
         self.ensure_one()
@@ -164,3 +201,42 @@ class AccountANAFSync(models.Model):
             else:
                 new_url = "https://api.anaf.ro/prod/FCTEL/rest"
             self.anaf_einvoice_sync_url = new_url
+
+    def _l10n_ro_einvoice_call(self, func, params, data=None, method="POST"):
+        self.ensure_one()
+        _logger.info("ANAF API call: %s %s" % (func, params))
+        url = self.anaf_einvoice_sync_url + func
+        access_token = self.access_token
+        headers = {
+            "Content-Type": "application/xml",
+            "Authorization": f"Bearer {access_token}",
+        }
+        test_data = self.env.context.get("test_data", False)
+        if test_data:
+            content = test_data
+            status_code = 200
+        else:
+            if method == "GET":
+                response = requests.get(
+                    url, params=params, data=data, headers=headers, timeout=80
+                )
+            else:
+                response = requests.post(
+                    url, params=params, data=data, headers=headers, timeout=80
+                )
+
+            content = response.content
+            status_code = response.status_code
+            if response.status_code == 400:
+                content = response.json()
+            if response.headers.get("Content-Type") == "application/xml":
+                _logger.info("ANAF API response: %s" % response.text)
+            if "text/plain" in response.headers.get("Content-Type"):
+                try:
+                    content = response.json()
+                    if content.get("eroare"):
+                        status_code = 400
+                except Exception:
+                    _logger.info("ANAF API response: %s" % response.text)
+
+        return content, status_code
