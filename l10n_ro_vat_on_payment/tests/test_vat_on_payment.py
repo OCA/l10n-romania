@@ -4,11 +4,13 @@
 
 import logging
 import os
+import shutil
 from datetime import date, timedelta
 
 import requests
 
 from odoo import tools
+from odoo.modules.module import get_module_resource
 from odoo.tests import tagged
 
 from odoo.addons.account.tests.common import AccountTestInvoicingCommon
@@ -77,6 +79,13 @@ class TestVATonpayment(AccountTestInvoicingCommon):
                 ("company_id", "=", cls.env.company.id),
             ]
         )
+        data_dir = tools.config["data_dir"]
+        istoric_file = os.path.join(data_dir, "istoric.txt")
+
+        test_file = get_module_resource(
+            "l10n_ro_vat_on_payment", "tests", "istoric.txt"
+        )
+        shutil.copyfile(test_file, istoric_file)
 
     def test_download_data(self):
         """Test download file and partner link."""
