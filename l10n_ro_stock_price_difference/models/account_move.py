@@ -48,22 +48,23 @@ class AccountMove(models.Model):
 
                     # se reevalueaza stocul
                     price_diff, qty_diff = line.l10n_ro_get_stock_valuation_difference()
-                    if price_diff:
-                        valuation_stock_moves = (
-                            line._l10n_ro_get_valuation_stock_moves()
-                        )
+                    if not price_diff:
+                        continue
+
+                    valuation_stock_moves = line._l10n_ro_get_valuation_stock_moves()
+                    #  de regula e o singura inregistrare
+                    move_count = len(valuation_stock_moves)
+                    for stock_move in valuation_stock_moves:
                         price_diffs.append(
                             {
                                 "invoice_id": self.id,
-                                "product_id": valuation_stock_moves.mapped(
-                                    "product_id"
-                                ).id,
-                                "picking_id": valuation_stock_moves.mapped(
-                                    "picking_id"
-                                ).id,
-                                "amount_difference": line.currency_id.round(price_diff),
+                                "product_id": stock_move.product_id.id,
+                                "picking_id": stock_move.picking_id.id,
+                                "amount_difference": line.currency_id.round(
+                                    price_diff / move_count
+                                ),
                                 "quantity_difference": float_round(
-                                    qty_diff,
+                                    qty_diff / move_count,
                                     precision_rounding=line.product_uom_id.rounding,
                                 ),
                             }
