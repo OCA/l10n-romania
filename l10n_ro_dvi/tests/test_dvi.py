@@ -29,16 +29,21 @@ class TestDVI(TestStockCommon2):
         dvi.journal_id = self.journal_id
         dvi.customs_duty_value = 100
         dvi.customs_commission_value = 50
+
+        dvi.invoice_ids.add(self.invoice)
         dvi = dvi.save()
-        dvi.invoice_ids = [(6, 0, self.invoice.ids)]
+
         for dvi_line in dvi.line_ids:
             dvi_line.line_qty = dvi_line.qty
+
         self.check_stock_valuation(self.val_p1_i, self.val_p2_i)
         self.check_account_valuation(self.val_p1_i, self.val_p2_i)
         for line in dvi.line_ids:
             self.assertEqual(line.price_subtotal, line.base_amount)
             self.assertAlmostEqual(line.vat_amount, round(line.base_amount * 0.19, 2))
         inv_subtotal = -1 * dvi.invoice_ids.amount_untaxed_signed
+
+        dvi._compute_amount()
         self.assertEqual(dvi.invoice_base_value, inv_subtotal)
         self.assertEqual(dvi.invoice_tax_value, round(inv_subtotal * 0.19, 2))
         self.assertEqual(
@@ -137,8 +142,8 @@ class TestDVI(TestStockCommon2):
         dvi.journal_id = self.journal_id
         dvi.customs_duty_value = 100
         dvi.customs_commission_value = 50
-        dvi.vat_price_difference_product_id = self.vat_product_id
         dvi.vat_price_difference = 10
+        dvi.vat_price_difference_product_id = self.vat_product_id
         dvi = dvi.save()
         dvi.button_post()
         for line in dvi.vat_price_difference_move_id.line_ids:
@@ -155,8 +160,9 @@ class TestDVI(TestStockCommon2):
         dvi.journal_id = self.journal_id
         dvi.customs_duty_value = 100
         dvi.customs_commission_value = 50
-        dvi.vat_price_difference_product_id = self.vat_product_id
         dvi.vat_price_difference = -10
+        dvi.vat_price_difference_product_id = self.vat_product_id
+
         dvi = dvi.save()
         dvi.button_post()
         for line in dvi.vat_price_difference_move_id.line_ids:
@@ -182,8 +188,9 @@ class TestDVI(TestStockCommon2):
         dvi.journal_id = self.journal_id
         dvi.customs_duty_value = 100
         dvi.customs_commission_value = 50
-        dvi.vat_price_difference_product_id = self.vat_product_id
         dvi.vat_price_difference = -10
+        dvi.vat_price_difference_product_id = self.vat_product_id
+
         dvi = dvi.save()
         dvi.invoice_ids = [(6, 0, self.invoice.ids)]
         for dvi_line in dvi.line_ids:
