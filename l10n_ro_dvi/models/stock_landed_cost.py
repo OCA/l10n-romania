@@ -113,7 +113,10 @@ class LandedCost(models.Model):
                         "move_id": cost.account_move_id.id,
                     },
                 ]
-                self.env["account.move.line"].create(aml)
+                cost.account_move_id.write(
+                    {"line_ids": [(0, 0, aml[0]), (0, 0, aml[1])]}
+                )
+                # self.env["account.move.line"].create(aml)
                 if cost.account_move_id and cost.account_move_id.state != "posted":
                     cost.account_move_id._post()
         return res
