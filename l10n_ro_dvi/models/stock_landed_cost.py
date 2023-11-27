@@ -101,7 +101,7 @@ class LandedCost(models.Model):
                         "account_id": tax_values["taxes"][0]["account_id"],
                         "move_id": cost.account_move_id.id,
                         "tax_line_id": tax.id,
-                        "tax_repartition_line_id": tax_repartition_line.id,
+                        # "tax_repartition_line_id": tax_repartition_line.id,
                         "tax_tag_ids": [(6, 0, tax_repartition_line.tag_ids.ids)],
                         "tax_base_amount": cost.l10n_ro_base_tax_value,
                     },
