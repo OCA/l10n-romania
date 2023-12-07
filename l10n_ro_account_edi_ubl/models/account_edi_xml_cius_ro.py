@@ -141,3 +141,21 @@ class AccountEdiXmlCIUSRO(models.Model):
                     )
 
         return constraints
+
+    def _check_required_fields(self, record, field_names, custom_warning_message=""):
+        res = super()._check_required_fields(
+            record, field_names, custom_warning_message=custom_warning_message
+        )
+
+        if isinstance(record, models.Model):
+            if not isinstance(field_names, list):
+                field_names = [field_names]
+
+            if record and record._name == "res.partner":
+                if (
+                    len(field_names) == 1
+                    and not record.is_company
+                    and field_names[0] == "vat"
+                ):
+                    return
+        return res
