@@ -4,7 +4,7 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 15.0\n"
+"Project-Id-Version: Odoo Server 16.0\n"
 "Report-Msgid-Bugs-To: \n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -83,12 +83,14 @@ msgid "Currency"
 msgstr ""
 
 #. module: l10n_ro_dvi
+#. odoo-python
 #: code:addons/l10n_ro_dvi/models/res_company.py:0
 #, python-format
 msgid "Custom Duty"
 msgstr ""
 
 #. module: l10n_ro_dvi
+#. odoo-python
 #: code:addons/l10n_ro_dvi/models/res_company.py:0
 #: model_terms:ir.ui.view,arch_db:l10n_ro_dvi.view_account_dvi_form
 #, python-format
@@ -200,13 +202,11 @@ msgstr ""
 
 #. module: l10n_ro_dvi
 #: model:ir.model.fields,help:l10n_ro_dvi.field_l10n_ro_account_dvi__message_needaction
-#: model:ir.model.fields,help:l10n_ro_dvi.field_l10n_ro_account_dvi__message_unread
 msgid "If checked, new messages require your attention."
 msgstr ""
 
 #. module: l10n_ro_dvi
 #: model:ir.model.fields,help:l10n_ro_dvi.field_l10n_ro_account_dvi__message_has_error
-#: model:ir.model.fields,help:l10n_ro_dvi.field_l10n_ro_account_dvi__message_has_sms_error
 msgid "If checked, some messages have a delivery error."
 msgstr ""
 
@@ -343,7 +343,7 @@ msgstr ""
 
 #. module: l10n_ro_dvi
 #: model:ir.model.fields,help:l10n_ro_dvi.field_l10n_ro_account_dvi__message_needaction_counter
-msgid "Number of messages which requires an action"
+msgid "Number of messages requiring action"
 msgstr ""
 
 #. module: l10n_ro_dvi
@@ -352,11 +352,7 @@ msgid "Number of messages with delivery error"
 msgstr ""
 
 #. module: l10n_ro_dvi
-#: model:ir.model.fields,help:l10n_ro_dvi.field_l10n_ro_account_dvi__message_unread_counter
-msgid "Number of unread messages"
-msgstr ""
-
-#. module: l10n_ro_dvi
+#. odoo-python
 #: code:addons/l10n_ro_dvi/models/l10n_ro_account_dvi.py:0
 #, python-format
 msgid "Only Posted DVI can be reversed."
@@ -442,13 +438,13 @@ msgid "Romania - VAT amount paid at customs"
 msgstr ""
 
 #. module: l10n_ro_dvi
-#: model:ir.ui.menu,name:l10n_ro_dvi.menu_action_account_dvi
-msgid "Romanian DVI"
+#: model:ir.model.fields,field_description:l10n_ro_dvi.field_res_company__l10n_ro_property_vat_price_difference_product_id
+msgid "Romania - Vat Price Difference Product"
 msgstr ""
 
 #. module: l10n_ro_dvi
-#: model:ir.model.fields,field_description:l10n_ro_dvi.field_l10n_ro_account_dvi__message_has_sms_error
-msgid "SMS Delivery error"
+#: model:ir.ui.menu,name:l10n_ro_dvi.menu_action_account_dvi
+msgid "Romanian DVI"
 msgstr ""
 
 #. module: l10n_ro_dvi
@@ -468,13 +464,6 @@ msgid "Tax"
 msgstr ""
 
 #. module: l10n_ro_dvi
-#: model:ir.model.fields,help:l10n_ro_dvi.field_l10n_ro_account_dvi_line__price_subtotal
-msgid ""
-"Technical field holding the debit - credit in order to open meaningful graph"
-" views from reports"
-msgstr ""
-
-#. module: l10n_ro_dvi
 #: model:ir.model.fields,help:l10n_ro_dvi.field_l10n_ro_account_dvi_line__qty
 msgid ""
 "The optional quantity expressed by this line, eg: number of product sold. "
@@ -482,6 +471,7 @@ msgid ""
 msgstr ""
 
 #. module: l10n_ro_dvi
+#. odoo-python
 #: code:addons/l10n_ro_dvi/models/stock_landed_cost.py:0
 #, python-format
 msgid "The product Custom Duty not found"
@@ -495,6 +485,13 @@ msgstr ""
 #. module: l10n_ro_dvi
 #: model:ir.model.fields,help:l10n_ro_dvi.field_l10n_ro_account_dvi__customs_duty_value
 msgid "This is a value from received dvi"
+msgstr ""
+
+#. module: l10n_ro_dvi
+#: model:ir.model.fields,help:l10n_ro_dvi.field_res_company__l10n_ro_property_vat_price_difference_product_id
+msgid ""
+"This product will be used in create an accounting note for the difference "
+"between customs duty and bill"
 msgstr ""
 
 #. module: l10n_ro_dvi
@@ -518,16 +515,6 @@ msgid "Unit of Measure"
 msgstr ""
 
 #. module: l10n_ro_dvi
-#: model:ir.model.fields,field_description:l10n_ro_dvi.field_l10n_ro_account_dvi__message_unread
-msgid "Unread Messages"
-msgstr ""
-
-#. module: l10n_ro_dvi
-#: model:ir.model.fields,field_description:l10n_ro_dvi.field_l10n_ro_account_dvi__message_unread_counter
-msgid "Unread Messages Counter"
-msgstr ""
-
-#. module: l10n_ro_dvi
 #: model:ir.model.fields,help:l10n_ro_dvi.field_l10n_ro_account_dvi__currency_id
 #: model:ir.model.fields,help:l10n_ro_dvi.field_l10n_ro_account_dvi_line__currency_id
 msgid "Utility field to express amount currency"
@@ -544,12 +531,14 @@ msgid "VAT amount, calculated from invoice base amount and customs."
 msgstr ""
 
 #. module: l10n_ro_dvi
+#. odoo-python
 #: code:addons/l10n_ro_dvi/models/stock_landed_cost.py:0
 #, python-format
 msgid "VAT paid at customs"
 msgstr ""
 
 #. module: l10n_ro_dvi
+#. odoo-python
 #: code:addons/l10n_ro_dvi/models/stock_landed_cost.py:0
 #, python-format
 msgid "VAT paid at customs expense"
@@ -596,24 +585,28 @@ msgid "Website communication history"
 msgstr ""
 
 #. module: l10n_ro_dvi
+#. odoo-python
 #: code:addons/l10n_ro_dvi/models/l10n_ro_account_dvi.py:0
 #, python-format
 msgid "You can only post DVI from 'draft' state."
 msgstr ""
 
 #. module: l10n_ro_dvi
+#. odoo-python
 #: code:addons/l10n_ro_dvi/models/stock_landed_cost.py:0
 #, python-format
 msgid "You cannot create a DVI landed cost without reference to an invoice."
 msgstr ""
 
 #. module: l10n_ro_dvi
+#. odoo-python
 #: code:addons/l10n_ro_dvi/models/account_invoice.py:0
 #, python-format
 msgid "You do not have created DVI's for this invoice"
 msgstr ""
 
 #. module: l10n_ro_dvi
+#. odoo-python
 #: code:addons/l10n_ro_dvi/models/l10n_ro_account_dvi.py:0
 #, python-format
 msgid "You do not have created landed costs for this DVI"
