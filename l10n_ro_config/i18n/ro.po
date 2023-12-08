@@ -380,6 +380,31 @@ msgid ""
 msgstr ""
 
 #. module: l10n_ro_config
+#: model:ir.model.fields,field_description:l10n_ro_config.field_res_company__l10n_ro_restrict_stock_move_date_future
+#: model:ir.model.fields,field_description:l10n_ro_config.field_res_config_settings__l10n_ro_restrict_stock_move_date_future
+msgid "Restrict Stock Move Date Future"
+msgstr ""
+
+#. module: l10n_ro_config
+#: model:ir.model.fields,field_description:l10n_ro_config.field_res_company__l10n_ro_restrict_stock_move_date_last_month
+#: model:ir.model.fields,field_description:l10n_ro_config.field_res_config_settings__l10n_ro_restrict_stock_move_date_last_month
+msgid "Restrict Stock Move Date Last Month"
+msgstr ""
+
+#. module: l10n_ro_config
+#: model:ir.model.fields,help:l10n_ro_config.field_res_company__l10n_ro_restrict_stock_move_date_last_month
+#: model:ir.model.fields,help:l10n_ro_config.field_res_config_settings__l10n_ro_restrict_stock_move_date_last_month
+msgid "Restrict stock move posting with at most one month ago."
+msgstr ""
+
+#. module: l10n_ro_config
+#: model:ir.model.fields,help:l10n_ro_config.field_res_company__l10n_ro_restrict_stock_move_date_future
+#: model:ir.model.fields,help:l10n_ro_config.field_res_config_settings__l10n_ro_restrict_stock_move_date_future
+#: model_terms:ir.ui.view,arch_db:l10n_ro_config.res_config_settings_view_form
+msgid "Restrict stock move posting with future date."
+msgstr ""
+
+#. module: l10n_ro_config
 #: model:ir.model.fields,field_description:l10n_ro_config.field_account_journal__l10n_ro_print_report
 msgid "Ro Print in Report"
 msgstr "Ro Imprimare în raport"
@@ -404,8 +429,8 @@ msgid "Romania - Company Stock Transfer Account"
 msgstr "Contul de transfer al companiei românești"
 
 #. module: l10n_ro_config
-#: model:ir.model.fields,field_description:l10n_ro_config.field_res_company__l10n_ro_property_customs_commision_product_id
-#: model:ir.model.fields,field_description:l10n_ro_config.field_res_config_settings__l10n_ro_property_customs_commision_product_id
+#: model:ir.model.fields,field_description:l10n_ro_config.field_res_company__l10n_ro_property_customs_commission_product_id
+#: model:ir.model.fields,field_description:l10n_ro_config.field_res_config_settings__l10n_ro_property_customs_commission_product_id
 msgid "Romania - Customs Commission Landed Cost Product"
 msgstr "Produsul de costuri adiționale pentru comisionul vamal"
 
@@ -939,8 +964,8 @@ msgstr ""
 "baza site-ului BNR."
 
 #. module: l10n_ro_config
-#: model:ir.model.fields,help:l10n_ro_config.field_res_company__l10n_ro_property_customs_commision_product_id
-#: model:ir.model.fields,help:l10n_ro_config.field_res_config_settings__l10n_ro_property_customs_commision_product_id
+#: model:ir.model.fields,help:l10n_ro_config.field_res_company__l10n_ro_property_customs_commission_product_id
+#: model:ir.model.fields,help:l10n_ro_config.field_res_config_settings__l10n_ro_property_customs_commission_product_id
 msgid ""
 "This product will be used in create the DVI landed costfor the duty "
 "commissions."
