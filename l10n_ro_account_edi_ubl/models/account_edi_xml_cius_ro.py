@@ -151,7 +151,7 @@ class AccountEdiXmlCIUSRO(models.Model):
                 partner.country_code == "RO"
                 and partner.state_id
                 and partner.state_id.code == "B"
-                and partner.city.upper() not in SECTOR_RO_CODES
+                and partner.city.replace(" ", "").upper() not in SECTOR_RO_CODES
             ):
                 constraints[f"ciusro_{partner_type}_invalid_city_name"] = _(
                     "The following partner's city name is invalid: %s. "
