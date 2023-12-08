@@ -4,7 +4,6 @@
 
 import logging
 
-import requests
 from lxml import etree
 
 from odoo import _, fields, models
@@ -158,10 +157,10 @@ class AccountEdiXmlCIUSRO(models.Model):
     def _l10n_ro_post_invoice_step_1(self, invoice, attachment):
         anaf_config = invoice.company_id.l10n_ro_account_anaf_sync_id
         params = {
-            "standard": "UBL",
+            "standard": "UBL" if invoice.move_type == "out_invoice" else "CN",
             "cif": invoice.company_id.partner_id.vat.replace("RO", ""),
         }
-        res = self._l10n_ro_post_call("/upload", anaf_config, params, attachment.raw)
+        res = self._l10n_ro_anaf_call("/upload", anaf_config, params, attachment.raw)
 
         if res.get("transaction", False):
             res.update({"attachment": attachment})
@@ -172,41 +171,32 @@ class AccountEdiXmlCIUSRO(models.Model):
     def _l10n_ro_post_invoice_step_2(self, invoice):
         anaf_config = invoice.company_id.l10n_ro_account_anaf_sync_id
         params = {"id_incarcare": invoice.l10n_ro_edi_transaction}
-        res = self._l10n_ro_post_call("/stareMesaj", anaf_config, params, method="GET")
+        res = self._l10n_ro_anaf_call("/stareMesaj", anaf_config, params, method="GET")
+        if res.get("id_descarcare", False):
+            invoice.write({"l10n_ro_edi_download": res.get("id_descarcare")})
+        if res.get("in_processing"):
+            invoice.message_post(
+                body=_(
+                    "ANAF Validation for %s is in processing.",
+                    invoice.l10n_ro_edi_transaction,
+                )
+            )
         return res
 
-    def _l10n_ro_post_call(self, func, anaf_config, params, data=None, method="POST"):
-        access_token = anaf_config.access_token
-        url = anaf_config.anaf_einvoice_sync_url + func
-        headers = {
-            "Content-Type": "application/xml",
-            "Authorization": f"Bearer {access_token}",
-        }
-        test_data = self.env.context.get("test_data", False)
-        if test_data:
-            content = test_data
-        else:
-            if method == "GET":
-                response = requests.get(
-                    url, params=params, data=data, headers=headers, timeout=80
-                )
-            else:
-                response = requests.post(
-                    url, params=params, data=data, headers=headers, timeout=80
-                )
-            _logger.info(response.content)
-            if response.status_code == 400:
-                # raspunsul este json
-                error = _("Error %s") % response.status_code
-                return {"success": False, "error": error, "blocking_level": "error"}
-            elif response.status_code != 200:
-                return {
-                    "success": False,
-                    "error": _("Access Error"),
-                    "blocking_level": "warning",
-                }
+    def _l10n_ro_anaf_call(self, func, anaf_config, params, data=None, method="POST"):
 
-            content = response.content
+        content, status_code = anaf_config._l10n_ro_einvoice_call(
+            func, params, data, method
+        )
+        if status_code == 400:
+            error = _("Error %s") % status_code
+            return {"success": False, "error": error, "blocking_level": "error"}
+        elif status_code != 200:
+            return {
+                "success": False,
+                "error": _("Access Error"),
+                "blocking_level": "warning",
+            }
 
         doc = etree.fromstring(content)
         execution_status = doc.get("ExecutionStatus", "0")
@@ -224,7 +214,9 @@ class AccountEdiXmlCIUSRO(models.Model):
         res = {"success": True}
         stare = doc.get("stare", False)
         if stare == "in prelucrare":
-            res.update({"success": False, "blocking_level": "info"})
+            res.update(
+                {"success": False, "blocking_level": "info", "in_processing": True}
+            )
         elif stare == "nok":
             res.update({"success": False, "blocking_level": "error"})
         id_descarcare = doc.get("id_descarcare")
