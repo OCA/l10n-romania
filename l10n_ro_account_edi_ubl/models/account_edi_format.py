@@ -55,7 +55,9 @@ class AccountEdiXmlCIUSRO(models.Model):
     def _is_required_for_invoice(self, invoice):
         if self.code != "cius_ro":
             return super()._is_required_for_invoice(invoice)
-        is_required = invoice.commercial_partner_id.l10n_ro_e_invoice
+        is_required = (
+            invoice.partner_id.country_id.code == "RO" and invoice.partner_id.is_company
+        )
         if not is_required:
             # Check if it contains high risk products
             invoice_nc_codes = list(
