@@ -174,6 +174,88 @@ class StorageSheet(models.TransientModel):
             product_list = products_with_moves.ids
         return product_list
 
+    def do_compute_product(self):
+        if self.product_ids:
+            product_list = self.product_ids.ids
+            all_products = False
+        else:
+            if self.products_with_move:
+                product_list = self.get_products_with_move_sql()
+                all_products = False
+                if not product_list:
+                    raise UserError(
+                        _("There are no stock movements in the selected period")
+                    )
+            else:
+                product_list = [-1]  # dummy list
+                all_products = True
+
+        self.env["account.move.line"].check_access_rights("read")
+
+        lines = self.env["l10n.ro.stock.storage.sheet.line"].search(
+            [("report_id", "=", self.id)]
+        )
+        lines.unlink()
+
+        datetime_from = fields.Datetime.to_datetime(self.date_from)
+        datetime_from = fields.Datetime.context_timestamp(self, datetime_from)
+        datetime_from = datetime_from.replace(hour=0)
+        datetime_from = datetime_from.astimezone(pytz.utc)
+
+        datetime_to = fields.Datetime.to_datetime(self.date_to)
+        datetime_to = fields.Datetime.context_timestamp(self, datetime_to)
+        datetime_to = datetime_to.replace(hour=23, minute=59, second=59)
+        datetime_to = datetime_to.astimezone(pytz.utc)
+
+        if self.detailed_locations:
+            all_locations = self.with_context(active_test=False).location_ids
+        else:
+            all_locations = self.location_id or self.location_ids[0]
+            locations = self.location_ids
+
+        for location in all_locations:
+            if self.detailed_locations:
+                locations = location
+            params = {
+                "report": self.id,
+                "location": location.id,
+                "locations": tuple(locations.ids),
+                "product": tuple(product_list),
+                "all_products": all_products,
+                "company": self.company_id.id,
+                "date_from": fields.Date.to_string(self.date_from),
+                "date_to": fields.Date.to_string(self.date_to),
+                "datetime_from": fields.Datetime.to_string(datetime_from),
+                "datetime_to": fields.Datetime.to_string(datetime_to),
+                "tz": self._context.get("tz") or self.env.user.tz or "UTC",
+            }
+            _logger.info("start query_select_sold_init %s", location.name)
+            # defalcare sold initial pe preturi
+            query_select_sold_init = self._get_sql_select_sold_init()
+
+            params.update({"reference": "INITIAL"})
+            self.env.cr.execute(query_select_sold_init, params=params)
+            # res = self.env.cr.dictfetchall()
+            # self.env["l10n.ro.stock.storage.sheet.line"].create(res)
+            _logger.info("start query_select_sold_final %s", location.name)
+            query_select_sold_final = self._get_sql_select_sold_final()
+
+            params.update({"reference": "FINAL"})
+            self.env.cr.execute(query_select_sold_final, params=params)
+            # res = self.env.cr.dictfetchall()
+            # self.env["l10n.ro.stock.storage.sheet.line"].create(res)
+            _logger.info("start query_in %s", location.name)
+            query_in = self._get_sql_select_in()
+            self.env.cr.execute(query_in, params=params)
+            # res = self.env.cr.dictfetchall()
+            # self.env["l10n.ro.stock.storage.sheet.line"].create(res)
+            _logger.info("start query_out %s", location.name)
+            query_out = self._get_sql_select_out()
+            self.env.cr.execute(query_out, params=params)
+            # res = self.env.cr.dictfetchall()
+            # self.line_product_ids.create(res)
+        _logger.info("end select ")
+
     def _get_sql_select_sold_init(self):
         sql = """
              insert into l10n_ro_stock_storage_sheet_line
@@ -374,88 +456,6 @@ class StorageSheet(models.TransientModel):
             a --where a.amount_out!=0 and a.quantity_out!=0
                 """
         return sql
-
-    def do_compute_product(self):
-        if self.product_ids:
-            product_list = self.product_ids.ids
-            all_products = False
-        else:
-            if self.products_with_move:
-                product_list = self.get_products_with_move_sql()
-                all_products = False
-                if not product_list:
-                    raise UserError(
-                        _("There are no stock movements in the selected period")
-                    )
-            else:
-                product_list = [-1]  # dummy list
-                all_products = True
-
-        self.env["account.move.line"].check_access_rights("read")
-
-        lines = self.env["l10n.ro.stock.storage.sheet.line"].search(
-            [("report_id", "=", self.id)]
-        )
-        lines.unlink()
-
-        datetime_from = fields.Datetime.to_datetime(self.date_from)
-        datetime_from = fields.Datetime.context_timestamp(self, datetime_from)
-        datetime_from = datetime_from.replace(hour=0)
-        datetime_from = datetime_from.astimezone(pytz.utc)
-
-        datetime_to = fields.Datetime.to_datetime(self.date_to)
-        datetime_to = fields.Datetime.context_timestamp(self, datetime_to)
-        datetime_to = datetime_to.replace(hour=23, minute=59, second=59)
-        datetime_to = datetime_to.astimezone(pytz.utc)
-
-        if self.detailed_locations:
-            all_locations = self.with_context(active_test=False).location_ids
-        else:
-            all_locations = self.location_id or self.location_ids[0]
-            locations = self.location_ids
-
-        for location in all_locations:
-            if self.detailed_locations:
-                locations = location
-            params = {
-                "report": self.id,
-                "location": location.id,
-                "locations": tuple(locations.ids),
-                "product": tuple(product_list),
-                "all_products": all_products,
-                "company": self.company_id.id,
-                "date_from": fields.Date.to_string(self.date_from),
-                "date_to": fields.Date.to_string(self.date_to),
-                "datetime_from": fields.Datetime.to_string(datetime_from),
-                "datetime_to": fields.Datetime.to_string(datetime_to),
-                "tz": self._context.get("tz") or self.env.user.tz or "UTC",
-            }
-            _logger.info("start query_select_sold_init %s", location.name)
-            # defalcare sold initial pe preturi
-            query_select_sold_init = self._get_sql_select_sold_init()
-
-            params.update({"reference": "INITIAL"})
-            self.env.cr.execute(query_select_sold_init, params=params)
-            # res = self.env.cr.dictfetchall()
-            # self.env["l10n.ro.stock.storage.sheet.line"].create(res)
-            _logger.info("start query_select_sold_final %s", location.name)
-            query_select_sold_final = self._get_sql_select_sold_final()
-
-            params.update({"reference": "FINAL"})
-            self.env.cr.execute(query_select_sold_final, params=params)
-            # res = self.env.cr.dictfetchall()
-            # self.env["l10n.ro.stock.storage.sheet.line"].create(res)
-            _logger.info("start query_in %s", location.name)
-            query_in = self._get_sql_select_in()
-            self.env.cr.execute(query_in, params=params)
-            # res = self.env.cr.dictfetchall()
-            # self.env["l10n.ro.stock.storage.sheet.line"].create(res)
-            _logger.info("start query_out %s", location.name)
-            query_out = self._get_sql_select_out()
-            self.env.cr.execute(query_out, params=params)
-            # res = self.env.cr.dictfetchall()
-            # self.line_product_ids.create(res)
-        _logger.info("end select ")
 
     def get_report_products(self):
         self.ensure_one()
