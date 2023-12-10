@@ -247,3 +247,12 @@ class TestAccountEdiUbl(AccountEdiTestCommon):
         data = self.invoice_zip
         self.invoice.l10n_ro_edi_download = "1234"
         self.invoice.with_context(test_data=data).l10n_ro_download_zip_anaf()
+
+    def test_edi_cius_is_required(self):
+        cius_format = self.env.ref("l10n_ro_account_edi_ubl.edi_ubl_cius_ro")
+        self.assertTrue(cius_format._is_required_for_invoice(self.invoice))
+        self.invoice.partner_id.is_company = False
+        self.assertTrue(cius_format._is_required_for_invoice(self.invoice))
+        self.invoice.partner_id.is_company = True
+        self.invoice.partner_id.country_id = False
+        self.assertTrue(cius_format._is_required_for_invoice(self.invoice))
