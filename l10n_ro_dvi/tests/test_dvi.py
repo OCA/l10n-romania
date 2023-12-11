@@ -110,13 +110,13 @@ class TestDVI(TestStockCommon2):
         self.create_po()
         self.create_invoice()
         self.account_expense = self.env["account.account"].search(
-            [("code", "=", "635100")], limit=1
+            [("code", "=", "658820")], limit=1
         )
         if not self.account_expense:
             self.account_expense = self.env["account.account"].create(
                 {
-                    "code": "635100",
-                    "name": "Cheltuieli cu alte impozite, taxe și vărsăminte asimilate",
+                    "code": "658820",
+                    "name": "Alte cheltuieli de exploatare nedeductibile",
                     "user_type_id": self.env.ref(
                         "account.data_account_type_expenses"
                     ).id,
@@ -160,10 +160,13 @@ class TestDVI(TestStockCommon2):
         dvi = dvi.save()
         dvi.button_post()
         for line in dvi.vat_price_difference_move_id.line_ids:
-            if line.account_id.id == self.account_expense.id:
-                self.assertEqual(line.credit, 10)
-            else:
+            tags = self.tax_id.invoice_repartition_line_ids.filtered(
+                lambda m: m.repartition_type == "tax"
+            )[0]
+            if line.account_id.id == tags.account_id.id:
                 self.assertEqual(line.debit, 10)
+            else:
+                self.assertEqual(line.credit, 10)
 
         # cand da reverse move-ul trebuie sa fie in cancel
         self.create_po()
