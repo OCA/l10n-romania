@@ -453,6 +453,11 @@ msgid "Romania - VAT amount paid at customs"
 msgstr ""
 
 #. module: l10n_ro_dvi
+#: model:ir.model.fields,field_description:l10n_ro_dvi.field_res_company__l10n_ro_property_vat_price_difference_product_id
+msgid "Romania - Vat Price Difference Product"
+msgstr ""
+
+#. module: l10n_ro_dvi
 #: model:ir.ui.menu,name:l10n_ro_dvi.menu_action_account_dvi
 msgid "Romanian DVI"
 msgstr ""
@@ -501,6 +506,13 @@ msgstr ""
 #. module: l10n_ro_dvi
 #: model:ir.model.fields,help:l10n_ro_dvi.field_l10n_ro_account_dvi__customs_duty_value
 msgid "This is a value from received dvi"
+msgstr ""
+
+#. module: l10n_ro_dvi
+#: model:ir.model.fields,help:l10n_ro_dvi.field_res_company__l10n_ro_property_vat_price_difference_product_id
+msgid ""
+"This product will be used in create an accounting note for the difference "
+"between customs duty and bill"
 msgstr ""
 
 #. module: l10n_ro_dvi
