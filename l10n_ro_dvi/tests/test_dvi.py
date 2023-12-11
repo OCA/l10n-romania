@@ -164,9 +164,9 @@ class TestDVI(TestStockCommon2):
                 lambda m: m.repartition_type == "tax"
             )[0]
             if line.account_id.id == tags.account_id.id:
-                self.assertEqual(line.debit, 10)
-            else:
                 self.assertEqual(line.credit, 10)
+            else:
+                self.assertEqual(line.debit, 10)
 
         # cand da reverse move-ul trebuie sa fie in cancel
         self.create_po()
