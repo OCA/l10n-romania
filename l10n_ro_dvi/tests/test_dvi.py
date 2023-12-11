@@ -146,6 +146,7 @@ class TestDVI(TestStockCommon2):
         dvi.customs_commission_value = 50
         dvi.vat_price_difference = 10
         dvi.vat_price_difference_product_id = self.vat_product_id
+        dvi.vat_price_difference = 10
         dvi = dvi.save()
         dvi.button_post()
         for line in dvi.vat_price_difference_move_id.line_ids:
@@ -164,11 +165,13 @@ class TestDVI(TestStockCommon2):
         dvi.customs_commission_value = 50
         dvi.vat_price_difference = -10
         dvi.vat_price_difference_product_id = self.vat_product_id
-
         dvi = dvi.save()
         dvi.button_post()
         for line in dvi.vat_price_difference_move_id.line_ids:
-            if line.account_id.id == self.account_expense.id:
+            tags = self.tax_id.invoice_repartition_line_ids.filtered(
+                lambda m: m.repartition_type == "tax"
+            )[0]
+            if line.account_id.id == tags.account_id.id:
                 self.assertEqual(line.credit, 10)
             else:
                 self.assertEqual(line.debit, 10)
@@ -192,7 +195,6 @@ class TestDVI(TestStockCommon2):
         dvi.customs_commission_value = 50
         dvi.vat_price_difference = -10
         dvi.vat_price_difference_product_id = self.vat_product_id
-
         dvi = dvi.save()
         dvi.invoice_ids = [(6, 0, self.invoice.ids)]
         for dvi_line in dvi.line_ids:
@@ -223,7 +225,6 @@ class TestDVI(TestStockCommon2):
         dvi.customs_commission_value = 50
         dvi.vat_price_difference = -10
         dvi.vat_price_difference_product_id = self.vat_product_id
-
         dvi = dvi.save()
         with self.assertRaises(
             ValidationError,
