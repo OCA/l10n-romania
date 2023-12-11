@@ -143,9 +143,9 @@ class TestDVI(TestStockCommon2):
         dvi.button_post()
         for line in dvi.vat_price_difference_move_id.line_ids:
             if line.account_id.id == self.account_expense.id:
-                self.assertEqual(line.credit, 10)
-            else:
                 self.assertEqual(line.debit, 10)
+            else:
+                self.assertEqual(line.credit, 10)
         # pentru valoare negativa
         self.create_po()
         self.create_invoice()
@@ -164,9 +164,9 @@ class TestDVI(TestStockCommon2):
                 lambda m: m.repartition_type == "tax"
             )[0]
             if line.account_id.id == tags.account_id.id:
-                self.assertEqual(line.debit, 10)
-            else:
                 self.assertEqual(line.credit, 10)
+            else:
+                self.assertEqual(line.debit, 10)
 
         # cand da reverse move-ul trebuie sa fie in cancel
         self.create_po()
