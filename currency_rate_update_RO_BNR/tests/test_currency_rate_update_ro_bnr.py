@@ -21,28 +21,25 @@ class TestCurrencyRateUpdateRoBnr(SavepointCaseWithUserDemo):
         self.ron_currency = self.env.ref("base.RON")
         self.ron_currency.write({"active": True, "rate": 1.0})
         # Create another company.
-        self.company = self.env["res.company"].search([], limit=1)
+        self.company = self.env["res.company"].create(
+            {
+                "name": "Currency Rate Update Test Company",
+            }
+        )
         self.company.currency_id = self.ron_currency
 
         # By default, tests are run with the current user set
         # on the first company.
         self.env.user.company_id = self.company
-        self.bnr_provider = self.CurrencyRateProvider.search(
-            [
-                ("company_id", "=", self.company.id),
-                ("service", "=", "RO_BNR"),
-            ]
+        self.bnr_provider = self.CurrencyRateProvider.create(
+            {
+                "service": "RO_BNR",
+                "currency_ids": [
+                    (4, self.usd_currency.id),
+                    (4, self.ron_currency.id),
+                ],
+            }
         )
-        if not self.bnr_provider:
-            self.bnr_provider = self.CurrencyRateProvider.create(
-                {
-                    "service": "RO_BNR",
-                }
-            )
-        self.bnr_provider.currency_ids = [
-            (4, self.usd_currency.id),
-            (4, self.ron_currency.id),
-        ]
         self.CurrencyRate.search([]).unlink()
 
     def test_supported_currencies_RO_BNR(self):
