@@ -28,8 +28,8 @@ class TestCurrencyRateUpdateRoBnr(SavepointCaseWithUserDemo):
         self.env.user.company_id = self.company
         self.bnr_provider = self.CurrencyRateProvider.search(
             [
-                ('company_id', '=', self.company.id),
-                ('service', '=', 'RO_BNR'),
+                ("company_id", "=", self.company.id),
+                ("service", "=", "RO_BNR"),
             ]
         )
         if not self.bnr_provider:
