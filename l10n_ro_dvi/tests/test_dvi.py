@@ -143,9 +143,9 @@ class TestDVI(TestStockCommon2):
         dvi.button_post()
         for line in dvi.vat_price_difference_move_id.line_ids:
             if line.account_id.id == self.account_expense.id:
-                self.assertEqual(line.debit, 10)
-            else:
                 self.assertEqual(line.credit, 10)
+            else:
+                self.assertEqual(line.debit, 10)
         # pentru valoare negativa
         self.create_po()
         self.create_invoice()
