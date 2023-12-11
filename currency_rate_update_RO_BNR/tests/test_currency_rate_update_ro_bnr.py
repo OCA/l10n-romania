@@ -3,37 +3,41 @@ from datetime import date, timedelta
 from dateutil.relativedelta import relativedelta
 
 from odoo import fields
-from odoo.tests.common import SavepointCase
+from odoo.addons.base.tests.common import SavepointCaseWithUserDemo
 
 
-class TestCurrencyRateUpdateRoBnr(SavepointCase):
-    @classmethod
-    def setUpClass(cls):
-        super().setUpClass()
+class TestCurrencyRateUpdateRoBnr(SavepointCaseWithUserDemo):
+    def setUp(self):
+        super().setUp()
 
-        cls.Company = cls.env["res.company"]
-        cls.CurrencyRate = cls.env["res.currency.rate"]
-        cls.CurrencyRateProvider = cls.env["res.currency.rate.provider"]
+        self.Company = self.env["res.company"]
+        self.CurrencyRate = self.env["res.currency.rate"]
+        self.CurrencyRateProvider = self.env["res.currency.rate.provider"]
 
-        cls.today = fields.Date.today()
-        cls.eur_currency = cls.env.ref("base.EUR")
-        cls.usd_currency = cls.env.ref("base.USD")
-        cls.ron_currency = cls.env.ref("base.RON")
-        cls.ron_currency.write({"active": True, "rate": 1.0})
+        self.today = fields.Date.today()
+        self.eur_currency = self.env.ref("base.EUR")
+        self.usd_currency = self.env.ref("base.USD")
+        self.ron_currency = self.env.ref("base.RON")
+        self.ron_currency.write({"active": True, "rate": 1.0})
         # Create another company.
-        cls.company = cls.env["res.company"].search([], limit=1)
-        cls.company.currency_id = cls.ron_currency
+        self.company = self.env["res.company"].search([], limit=1)
+        self.company.currency_id = self.ron_currency
 
         # By default, tests are run with the current user set
         # on the first company.
-        cls.env.user.company_id = cls.company
-        cls.bnr_provider = cls.CurrencyRateProvider.create(
-            {
-                "service": "RO_BNR",
-                "currency_ids": [(4, cls.usd_currency.id), (4, cls.ron_currency.id)],
-            }
-        )
-        cls.CurrencyRate.search([]).unlink()
+        self.env.user.company_id = self.company
+        self.bnr_provider = self.CurrencyRateProvider.search([
+            ('company_id', '=', self.company.id),
+            ('service', '=', 'RO_BNR'),
+        ])
+        if not self.bnr_provider:
+            self.bnr_provider = self.CurrencyRateProvider.create(
+                {
+                    "service": "RO_BNR",
+                }
+            )
+        self.bnr_provider.currency_ids = [(4, self.usd_currency.id), (4, self.ron_currency.id)]
+        self.CurrencyRate.search([]).unlink()
 
     def test_supported_currencies_RO_BNR(self):
         self.bnr_provider._get_supported_currencies()
