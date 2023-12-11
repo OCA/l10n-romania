@@ -3,6 +3,7 @@ from datetime import date, timedelta
 from dateutil.relativedelta import relativedelta
 
 from odoo import fields
+
 from odoo.addons.base.tests.common import SavepointCaseWithUserDemo
 
 
