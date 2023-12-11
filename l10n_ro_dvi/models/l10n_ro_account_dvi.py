@@ -238,7 +238,9 @@ class AccountInvoiceDVI(models.Model):
                         0,
                         0,
                         {
-                            "account_id": account1,
+                            "account_id": account1
+                            if amount > 0
+                            else tags.account_id.id,
                             "currency_id": self.currency_id.id,
                             "debit": amount if amount > 0 else 0.0,
                             "credit": -amount if amount < 0 else 0.0,
