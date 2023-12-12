@@ -73,7 +73,7 @@ class AccountEdiXmlCIUSRO(models.Model):
 
     def _get_invoice_line_price_vals(self, line):
         vals = super()._get_invoice_line_price_vals(line)
-        vals["base_quantity"] = line.quantity
+        vals["base_quantity"] = 1.0
         return vals
 
     def _export_invoice_vals(self, invoice):
