@@ -80,8 +80,8 @@ class ResPartner(models.Model):
                                     for partner in partners:
                                         data = partner._Anaf_to_Odoo(result_partner)
                                         partner.update(data)
-            except Exception:
-                _logger.warning("ANAF sync not working: %s" % res.content)
+            except Exception as e:
+                _logger.warning("ANAF sync not working: %s" % e)
 
     @api.model
     def update_l10n_ro_vat_subjected_all(self):
