@@ -3,6 +3,7 @@
 
 import base64
 import logging
+import time
 
 from odoo import fields
 from odoo.modules.module import get_module_resource
@@ -17,12 +18,6 @@ _logger = logging.getLogger(__name__)
 class TestAccountEdiUbl(AccountEdiTestCommon):
     @classmethod
     def setUpClass(cls):
-        def get_file(filename):
-            test_file = get_module_resource(
-                "l10n_ro_account_edi_ubl", "tests", filename
-            )
-            return open(test_file).read().encode("utf-8")
-
         ro_template_ref = "l10n_ro.ro_chart_template"
         super().setUpClass(chart_template_ref=ro_template_ref)
         cls.env.company.l10n_ro_accounting = True
@@ -75,6 +70,7 @@ class TestAccountEdiUbl(AccountEdiTestCommon):
                 "phone": "0256413409",
                 "l10n_ro_e_invoice": True,
                 "l10n_ro_is_government_institution": False,
+                "is_company": True,
             }
         )
         if "street_name" in cls.partner._fields:
@@ -143,7 +139,9 @@ class TestAccountEdiUbl(AccountEdiTestCommon):
             ],
         }
         cls.invoice = cls.env["account.move"].create(invoice_values)
-
+        cls.invoice.journal_id.edi_format_ids = [
+            (6, 0, cls.env.ref("l10n_ro_account_edi_ubl.edi_ubl_cius_ro").ids)
+        ]
         invoice_values.update(
             {
                 "move_type": "out_refund",
@@ -151,16 +149,6 @@ class TestAccountEdiUbl(AccountEdiTestCommon):
             }
         )
         cls.credit_note = cls.env["account.move"].create(invoice_values)
-
-        cls.expected_invoice_values = get_file("invoice.xml")
-        cls.expected_credit_note_values = get_file("credit_note.xml")
-        cls.expected_success_values = get_file("success.xml")
-        cls.expected_error_values = get_file("error.xml")
-        cls.expected_stare_mesaj_ok = get_file("stare_mesaj_ok.xml")
-        cls.expected_stare_mesaj_not_ok = get_file("stare_mesaj_not_ok.xml")
-        cls.expected_stare_mesaj_in_prelucrare = get_file(
-            "stare_mesaj_in_prelucrare.xml"
-        )
 
         test_file = get_module_resource(
             "l10n_ro_account_edi_ubl", "tests", "invoice.zip"
@@ -174,9 +162,30 @@ class TestAccountEdiUbl(AccountEdiTestCommon):
                     "company_id": cls.env.company.id,
                     "client_id": "123",
                     "client_secret": "123",
+                    "access_token": "123",
                 }
             )
             cls.env.company.l10n_ro_account_anaf_sync_id = anaf_config
+
+    def get_file(self, filename):
+        test_file = get_module_resource("l10n_ro_account_edi_ubl", "tests", filename)
+        return open(test_file).read().encode("utf-8")
+
+    def check_invoice_documents(
+        self, invoice, state="to_send", error=False, blocking_level=False
+    ):
+        time.sleep(2)
+        self.assertEqual(len(invoice.edi_document_ids), 1)
+        self.assertEqual(invoice.edi_state, state)
+        self.assertEqual(invoice.edi_document_ids.state, state)
+        if error:
+            self.assertEqual(invoice.edi_document_ids.error, error)
+            self.assertIn(error, invoice.message_ids.mapped("body"))
+        if blocking_level:
+            self.assertEqual(invoice.edi_document_ids.blocking_level, blocking_level)
+            if blocking_level == "error":
+                self.assertTrue(invoice.activity_ids)
+                self.assertIn(error, invoice.message_ids.mapped("note"))
 
     def test_account_invoice_edi_ubl(self):
         self.invoice.action_post()
@@ -185,7 +194,7 @@ class TestAccountEdiUbl(AccountEdiTestCommon):
         xml_content = base64.b64decode(att.with_context(bin_size=False).datas)
 
         current_etree = self.get_xml_tree_from_string(xml_content)
-        expected_etree = self.get_xml_tree_from_string(self.expected_invoice_values)
+        expected_etree = self.get_xml_tree_from_string(self.get_file("invoice.xml"))
 
         self.assertXmlTreeEqual(current_etree, expected_etree)
 
@@ -196,42 +205,110 @@ class TestAccountEdiUbl(AccountEdiTestCommon):
         xml_content = base64.b64decode(att.with_context(bin_size=False).datas)
 
         current_etree = self.get_xml_tree_from_string(xml_content)
-        expected_etree = self.get_xml_tree_from_string(self.expected_credit_note_values)
+        expected_etree = self.get_xml_tree_from_string(self.get_file("credit_note.xml"))
         self.assertXmlTreeEqual(current_etree, expected_etree)
 
-    def test_process_documents_web_services(self):
-        self.partner.l10n_ro_e_invoice = False
+    def prepare_invoice_sent_step1(self):
         self.invoice.action_post()
-        anaf_config = self.env.company.l10n_ro_account_anaf_sync_id
-
-        anaf_config.state = "test"
-
-        # procesare step 1 - eroare
-        data = self.expected_error_values
-        self.invoice.with_context(test_data=data).action_process_edi_web_services()
-        docs = self.invoice.edi_document_ids.filtered(
-            lambda d: d.state == "to_send" and d.blocking_level == "error"
-        )
-        docs.blocking_level = False
 
         # procesare step 1 - succes
-        data = self.expected_success_values
-        self.invoice.with_context(test_data=data).action_process_edi_web_services()
+        self.invoice.with_context(
+            test_data=self.get_file("upload_success.xml")
+        ).action_process_edi_web_services()
+        self.check_invoice_documents(
+            self.invoice,
+            "to_send",
+            "<p>The invoice was sent to ANAF, awaiting validation.</p>",
+            "info",
+        )
 
-        # procesare step 2 - in prelucrare
-        data = self.expected_stare_mesaj_in_prelucrare
-        self.invoice.with_context(test_data=data).action_process_edi_web_services()
-        docs.blocking_level = False
+    def test_process_documents_web_services_step1_ok(self):
+        self.prepare_invoice_sent_step1()
 
-        # procesare step 2 - not_ok
-        data = self.expected_stare_mesaj_not_ok
-        self.invoice.with_context(test_data=data).action_process_edi_web_services()
-        docs.blocking_level = False
+    def test_process_documents_web_services_step1_error(self):
+        self.invoice.action_post()
 
-        # procesare step 2 - ok
-        data = self.expected_stare_mesaj_ok
-        self.invoice.with_context(test_data=data).action_process_edi_web_services()
-        docs.blocking_level = False
+        # procesare step 1 - eroare
+        self.invoice.with_context(
+            test_data=self.get_file("upload_standard_invalid.xml")
+        ).action_process_edi_web_services()
+        self.check_invoice_documents(
+            self.invoice,
+            "to_send",
+            "<p>Valorile acceptate pentru parametrul standard sunt UBL, CII sau RASP</p>",
+            "error",
+        )
+
+    def test_process_documents_web_services_step2_ok(self):
+        self.prepare_invoice_sent_step1()
+
+    def test_process_document_web_services_step2_not_ok(self):
+        self.prepare_invoice_sent_step1()
+        cases = [
+            (
+                self.get_file("stare_mesaj_not_ok.xml"),
+                "to_send",
+                "<p>The invoice was not validated by ANAF.</p>",
+                "warning",
+            ),
+            (
+                self.get_file("stare_mesaj_in_prelucrare.xml"),
+                "to_send",
+                "<p>The invoice is in processing at ANAF.</p>",
+                "info",
+            ),
+            (
+                self.get_file("stare_mesaj_limita_apeluri.xml"),
+                "to_send",
+                "<p>S-au facut deja 20 descarcari de mesaj in cursul zilei</p>",
+                "warning",
+            ),
+            (
+                self.get_file("stare_mesaj_xml_erori.xml"),
+                "to_send",
+                "<p>XML cu erori nepreluat de sistem</p>",
+                "error",
+            ),
+            (
+                self.get_file("stare_mesaj_drept_id_incarcare.xml"),
+                "to_send",
+                "<p>Nu aveti dreptul de inteorgare pentru id_incarcare= 18</p>",
+                "error",
+            ),
+            (
+                self.get_file("stare_mesaj_lipsa_drepturi.xml"),
+                "to_send",
+                "<p>Nu exista niciun CIF petru care sa aveti drept</p>",
+                "error",
+            ),
+            (
+                self.get_file("stare_mesaj_index_invalid.xml"),
+                "to_send",
+                "<p>Id_incarcare introdus= aaa nu este un numar intreg</p>",
+                "error",
+            ),
+            (
+                self.get_file("stare_mesaj_factura_inexistenta.xml"),
+                "to_send",
+                "<p>Nu exista factura cu id_incarcare=</p>",
+                "error",
+            ),
+        ]
+        for check_case in cases:
+            self.test_step2_not_ok(check_case)
+
+    def test_step2_not_ok(self, check_case=False):
+        if check_case:
+            if check_case[3] == "error":
+                self.invoice.edi_document_ids.write(
+                    {"state": "to_send", "blocking_level": False, "error": False}
+                )
+            self.invoice.with_context(
+                test_data=check_case[0]
+            ).action_process_edi_web_services()
+            self.check_invoice_documents(
+                self.invoice, check_case[1], check_case[2], check_case[3]
+            )
 
     def test_download_invoice(self):
         data = self.invoice_zip
@@ -242,7 +319,7 @@ class TestAccountEdiUbl(AccountEdiTestCommon):
         cius_format = self.env.ref("l10n_ro_account_edi_ubl.edi_ubl_cius_ro")
         self.assertTrue(cius_format._is_required_for_invoice(self.invoice))
         self.invoice.partner_id.is_company = False
-        self.assertTrue(cius_format._is_required_for_invoice(self.invoice))
+        self.assertFalse(cius_format._is_required_for_invoice(self.invoice))
         self.invoice.partner_id.is_company = True
         self.invoice.partner_id.country_id = False
-        self.assertTrue(cius_format._is_required_for_invoice(self.invoice))
+        self.assertFalse(cius_format._is_required_for_invoice(self.invoice))
