@@ -58,7 +58,7 @@ class AccountEdiXmlCIUSRO(models.Model):
         is_required = (
             invoice.partner_id.country_id.code == "RO" and invoice.partner_id.is_company
         )
-        if not is_required:
+        if not is_required and invoice.partner_id.is_company:
             # Check if it contains high risk products
             invoice_nc_codes = list(
                 set(invoice.invoice_line_ids.mapped("product_id.l10n_ro_nc_code"))
