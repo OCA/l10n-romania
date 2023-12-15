@@ -157,7 +157,10 @@
                             </div>
                         </div>
                         <h2>Accounting</h2>
-                        <div class="row mt16 o_settings_container">
+                        <div
+                            class="row mt16 o_settings_container"
+                            name="ro_accounting_setting_container"
+                        >
                             <div
                                 class="col-xs-12 col-md-6 o_setting_box"
                                 id="use_anglo_saxon"
@@ -355,8 +358,11 @@
                                     </div>
                                 </div>
                             </div>
+                        </div>
+                        <h2>ANAF Integration</h2>
+                        <div class="row mt16 o_settings_container">
                             <div
-                                class="col-xs-12 col-md-6 o_setting_box"
+                                class="col-xs-12 col-md-12 o_setting_box"
                                 id="module_l10n_ro_account_anaf_sync"
                             >
                                 <div class="o_setting_left_pane">
@@ -369,6 +375,15 @@
                                     </div>
                                 </div>
                             </div>
+
+                            <div
+                                class="col-12 col-lg-6 o_setting_box"
+                                id="ro_anaf_einvoice_container"
+                            />
+                            <div
+                                class="col-12 col-lg-6 o_setting_box"
+                                id="ro_anaf_etransport_container"
+                            />
                         </div>
                         <h2>Stock</h2>
                         <div class="row mt16 o_settings_container">
