@@ -85,7 +85,7 @@ class AccountANAFSync(models.Model):
                         )
                     )
             if company and len(self) == 1:
-                company.l10n_ro_account_anaf_sync_id = self
+                company.l10n_ro_account_anaf_efactura_sync_id = self
         return super().write(values)
 
     def _compute_anaf_callback_url(self):

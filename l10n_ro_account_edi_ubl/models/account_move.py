@@ -102,7 +102,7 @@ class AccountMove(models.Model):
         return high_risk_nc_list
 
     def l10n_ro_download_zip_anaf(self):
-        anaf_config = self.env.company.l10n_ro_account_anaf_sync_id.sudo()
+        anaf_config = self.env.company.l10n_ro_account_anaf_efactura_sync_id.sudo()
         if not anaf_config:
             raise UserError(
                 _("The ANAF configuration is not set. Please set it and try again.")

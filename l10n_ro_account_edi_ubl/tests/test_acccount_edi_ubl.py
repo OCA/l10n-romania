@@ -167,7 +167,7 @@ class TestAccountEdiUbl(AccountEdiTestCommon):
         )
         cls.invoice_zip = open(test_file, mode="rb").read()
 
-        anaf_config = cls.env.company.l10n_ro_account_anaf_sync_id
+        anaf_config = cls.env.company.l10n_ro_account_anaf_efactura_sync_id
         if not anaf_config:
             anaf_config = cls.env["l10n.ro.account.anaf.sync"].create(
                 {
@@ -176,7 +176,7 @@ class TestAccountEdiUbl(AccountEdiTestCommon):
                     "client_secret": "123",
                 }
             )
-            cls.env.company.l10n_ro_account_anaf_sync_id = anaf_config
+            cls.env.company.l10n_ro_account_anaf_efactura_sync_id = anaf_config
 
     def test_account_invoice_edi_ubl(self):
         self.invoice.action_post()
@@ -202,7 +202,7 @@ class TestAccountEdiUbl(AccountEdiTestCommon):
     def test_process_documents_web_services(self):
         self.partner.l10n_ro_e_invoice = False
         self.invoice.action_post()
-        anaf_config = self.env.company.l10n_ro_account_anaf_sync_id
+        anaf_config = self.env.company.l10n_ro_account_anaf_efactura_sync_id
 
         anaf_config.state = "test"
 
