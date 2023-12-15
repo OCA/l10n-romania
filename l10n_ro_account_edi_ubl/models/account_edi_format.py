@@ -97,14 +97,14 @@ class AccountEdiXmlCIUSRO(models.Model):
                         invoice, attachment
                     )
             if res[invoice].get("error", False):
-                if res.get("error"):
-                    invoice.message_post(body=res["error"])
+                invoice.message_post(body=res[invoice]["error"])
                 # Create activity if process is stoped with an error blocking level
                 if res[invoice].get("blocking_level") == "error":
                     body = (
                         _(
                             "The invoice was not send or validated by ANAF."
-                            "\n\nError: %s"
+                            "\n\nError:"
+                            "\n<p>%s</p>"
                         )
                         % res[invoice]["error"]
                     )
