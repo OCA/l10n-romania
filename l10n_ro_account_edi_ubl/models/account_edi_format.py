@@ -190,10 +190,10 @@ class AccountEdiXmlCIUSRO(models.Model):
         content, status_code = anaf_config._l10n_ro_einvoice_call(
             func, params, data, method
         )
-        if status_code == 400:
+        if status_code in [400, 401]:
             error = _("Error %s") % status_code
             return {"success": False, "error": error, "blocking_level": "error"}
-        elif status_code != 200:
+        elif status_code >= 400:
             return {
                 "success": False,
                 "error": _("Access Error"),
