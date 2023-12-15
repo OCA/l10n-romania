@@ -13,3 +13,9 @@ class ResConfigSettings(models.TransientModel):
         readonly=False,
         string="Residence",
     )
+
+    l10n_ro_download_einvoices = fields.Boolean(
+        related="company_id.l10n_ro_download_einvoices",
+        readonly=False,
+        string="Download e-invoices from ANAF",
+    )

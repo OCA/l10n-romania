@@ -101,8 +101,9 @@ class AccountMove(models.Model):
         high_risk_nc_list = high_risk_nc.split(",")
         return high_risk_nc_list
 
-    def l10n_ro_download_zip_anaf(self):
-        anaf_config = self.env.company.l10n_ro_account_anaf_sync_id.sudo()
+    def l10n_ro_download_zip_anaf(self, anaf_config=False):
+        if not anaf_config:
+            anaf_config = self.env.company.l10n_ro_account_anaf_sync_id.sudo()
         if not anaf_config:
             raise UserError(
                 _("The ANAF configuration is not set. Please set it and try again.")
@@ -116,14 +117,19 @@ class AccountMove(models.Model):
                 "/descarcare", params, method="GET"
             )
             eroare = ""
+            if type(response) == dict:
+                eroare = response.get("eroare", "")
             if status_code == "400":
                 eroare = response.get("message")
-            elif status_code == 200 and isinstance(response, dict):
+            elif status_code == 200 and type(response) == dict:
                 eroare = response.get("eroare")
             cius_ro = self.env.ref("l10n_ro_account_edi_ubl.edi_ubl_cius_ro")
             edi_doc = invoice._get_edi_document(cius_ro)
             if eroare:
-                edi_doc.write({"blocking_level": "warning", "error": eroare})
+                if edi_doc:
+                    edi_doc.write({"blocking_level": "warning", "error": eroare})
+                else:
+                    raise UserError(eroare)
             else:
                 edi_doc.write({"blocking_level": "info", "error": ""})
                 invoice.l10n_ro_process_anaf_zip_file(response)

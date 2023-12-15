@@ -150,3 +150,14 @@ class AccountEdiXmlCIUSRO(models.Model):
                         )
 
         return constraints
+
+    def _import_fill_invoice_line_taxes(
+        self, journal, tax_nodes, invoice_line_form, inv_line_vals, logs
+    ):
+        if not invoice_line_form.account_id:
+            invoice_line_form.account_id = journal.default_account_id
+        if not inv_line_vals.get("account_id"):
+            inv_line_vals["account_id"] = journal.default_account_id.id
+        return super()._import_fill_invoice_line_taxes(
+            journal, tax_nodes, invoice_line_form, inv_line_vals, logs
+        )

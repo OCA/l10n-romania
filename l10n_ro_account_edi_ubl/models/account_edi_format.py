@@ -246,3 +246,14 @@ class AccountEdiXmlCIUSRO(models.Model):
                     res.update(value)
                     break
         return res
+
+    def _infer_xml_builder_from_tree(self, tree):
+        self.ensure_one()
+        customization_id = tree.find("{*}CustomizationID")
+        if customization_id is not None:
+            if (
+                customization_id.text
+                == "urn:cen.eu:en16931:2017#compliant#urn:efactura.mfinante.ro:CIUS-RO:1.0.1"
+            ):
+                return self.env["account.edi.xml.cius_ro"]
+        return super()._infer_xml_builder_from_tree(tree)
