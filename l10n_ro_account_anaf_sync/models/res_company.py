@@ -13,7 +13,7 @@ class ResCompany(models.Model):
         compute="_compute_l10n_ro_account_anaf_efactura_sync_id",
     )
 
-    def _l10n_ro_getDomainScope(self, domain = []):
+    def _l10n_ro_getDomainScope(self, domain):
         return ["e-factura"]
 
     def _compute_l10n_ro_account_anaf_efactura_sync_id(self):
@@ -21,7 +21,8 @@ class ResCompany(models.Model):
             get_domain_scope = self._l10n_ro_getDomainScope()
             domain = [
                 ("company_id", "=", company.id),
-                ("scope", "in", get_domain_scope)]
+                ("scope", "in", get_domain_scope),
+            ]
             company.l10n_ro_account_anaf_efactura_sync_id = self.env[
                 "l10n.ro.account.anaf.sync"
             ].search(domain, limit=1)

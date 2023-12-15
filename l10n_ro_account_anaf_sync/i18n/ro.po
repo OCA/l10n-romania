@@ -225,11 +225,6 @@ msgid "Main Attachment"
 msgstr "Atașamentul principal"
 
 #. module: l10n_ro_account_anaf_sync
-#: model:ir.model.fields.selection,name:l10n_ro_account_anaf_sync.selection__l10n_ro_account_anaf_sync__state__manual
-msgid "Manual"
-msgstr "Manual"
-
-#. module: l10n_ro_account_anaf_sync
 #: model:ir.model.fields,field_description:l10n_ro_account_anaf_sync.field_l10n_ro_account_anaf_sync__message_has_error
 msgid "Message Delivery error"
 msgstr "Eroare de livrare a mesajului"
