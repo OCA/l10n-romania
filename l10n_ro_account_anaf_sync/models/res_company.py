@@ -18,7 +18,7 @@ class ResCompany(models.Model):
 
     def _compute_l10n_ro_account_anaf_efactura_sync_id(self):
         for company in self:
-            get_domain_scope = self._l10n_ro_getDomainScope()
+            get_domain_scope = self._l10n_ro_getDomainScope([])
             domain = [
                 ("company_id", "=", company.id),
                 ("scope", "in", get_domain_scope),
