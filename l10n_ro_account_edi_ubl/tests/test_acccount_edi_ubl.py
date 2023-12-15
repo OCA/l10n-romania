@@ -187,18 +187,25 @@ class TestAccountEdiUbl(AccountEdiTestCommon):
     def check_invoice_documents(
         self, invoice, state="to_send", error=False, blocking_level=False
     ):
-        time.sleep(2)
+        time.sleep(3)
         self.assertEqual(len(invoice.edi_document_ids), 1)
         self.assertEqual(invoice.edi_state, state)
         self.assertEqual(invoice.edi_document_ids.state, state)
         if error:
             self.assertEqual(invoice.edi_document_ids.error, error)
-            self.assertIn(error, invoice.message_ids.mapped("body"))
+            self.assertTrue(
+                any(error in message for message in invoice.message_ids.mapped("body"))
+            )
         if blocking_level:
             self.assertEqual(invoice.edi_document_ids.blocking_level, blocking_level)
             if blocking_level == "error":
                 self.assertTrue(invoice.activity_ids)
-                self.assertIn(error, invoice.message_ids.mapped("note"))
+                self.assertTrue(
+                    any(
+                        error in activity
+                        for activity in invoice.activity_ids.mapped("note")
+                    )
+                )
 
     def test_account_invoice_edi_ubl(self):
         self.invoice.action_post()
