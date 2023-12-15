@@ -5,7 +5,7 @@
 import io
 import zipfile
 
-from odoo import _, fields, models
+from odoo import _, api, fields, models
 from odoo.exceptions import UserError
 
 
@@ -22,6 +22,33 @@ class AccountMove(models.Model):
         help="ID used to download the ZIP file from ANAF.",
         copy=False,
     )
+    l10n_ro_edi_blocking_level = fields.Selection(
+        selection=[
+                ('success', 'Success'),
+                ('processing', 'Processing'),
+                ('info', 'Info'),
+                ('warning', 'Warning'),
+                ('error', 'Error')
+            ],
+        string="Anaf state",
+        compute='_compute_l10n_ro_edi_blocking_level',
+        help="Store blocking_level (RO)",
+        copy=False,
+        store=True,
+    )
+
+    @api.depends('edi_blocking_level')
+    def _compute_l10n_ro_edi_blocking_level(self):
+        for s in self:
+            state = None
+            if s.edi_state == "sent":
+                state = "success"
+            elif s.edi_blocking_level:
+                state = s.edi_blocking_level
+            elif s.edi_state == "processing":
+                state = "processing"
+
+            s.l10n_ro_edi_blocking_level = state
 
     def button_draft(self):
         # OVERRIDE
