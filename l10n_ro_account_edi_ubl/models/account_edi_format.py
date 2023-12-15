@@ -58,19 +58,6 @@ class AccountEdiXmlCIUSRO(models.Model):
         is_required = (
             invoice.partner_id.country_id.code == "RO" and invoice.partner_id.is_company
         )
-        if not is_required and invoice.partner_id.is_company:
-            # Check if it contains high risk products
-            invoice_nc_codes = list(
-                set(invoice.invoice_line_ids.mapped("product_id.l10n_ro_nc_code"))
-            )
-            high_risk_nc_codes = invoice.get_l10n_ro_high_risk_nc_codes()
-            if invoice_nc_codes and invoice_nc_codes != [False]:
-                for hr_code in high_risk_nc_codes:
-                    if any(
-                        item and item.startswith(hr_code) for item in invoice_nc_codes
-                    ):
-                        is_required = True
-                        break
         return is_required
 
     def _post_invoice_edi(self, invoices, test_mode=False):
@@ -87,15 +74,12 @@ class AccountEdiXmlCIUSRO(models.Model):
 
             residence = invoice.company_id.l10n_ro_edi_residence
             days = (fields.Date.today() - invoice.invoice_date).days
-            if not invoice.company_id.l10n_ro_edi_manual and not anaf_config:
-                res[invoice] = {
-                    "success": False,
-                    "error": _("The ANAF configuration is not set"),
-                }
-            if anaf_config.state != "manual" or (
-                invoice.company_id.l10n_ro_edi_manual
-                and self.env.context.get("l10n_ro_edi_manual_action")
-            ):
+            if self.env.context.get("l10n_ro_edi_manual_action"):
+                if anaf_config and not invoice.l10n_ro_edi_transaction:
+                    res[invoice] = self._l10n_ro_post_invoice_step_1(
+                        invoice, attachment
+                    )
+            else:
                 if not invoice.l10n_ro_edi_transaction:
                     if days >= residence:
                         res[invoice] = self._l10n_ro_post_invoice_step_1(
@@ -109,25 +93,36 @@ class AccountEdiXmlCIUSRO(models.Model):
                         }
 
                 else:
-                    res[invoice] = self._l10n_ro_post_invoice_step_2(invoice)
-
-            if res[invoice].get("error", False):
-                body = (
-                    _(
-                        "The invoice was not sent to ANAF. "
-                        "Please check the configuration and try again."
-                        "\n\nError: %s"
+                    res[invoice] = self._l10n_ro_post_invoice_step_2(
+                        invoice, attachment
                     )
-                    % res[invoice]["error"]
-                )
+            if res[invoice].get("error", False):
+                invoice.message_post(body=res[invoice]["error"])
+                # Create activity if process is stoped with an error blocking level
+                if res[invoice].get("blocking_level") == "error":
+                    body = (
+                        _(
+                            "The invoice was not send or validated by ANAF."
+                            "\n\nError:"
+                            "\n<p>%s</p>"
+                        )
+                        % res[invoice]["error"]
+                    )
 
-                invoice.activity_schedule(
-                    "mail.mail_activity_data_warning",
-                    summary=_("e-Invoice not sent to ANAF"),
-                    note=body,
-                    user_id=invoice.invoice_user_id.id,
-                )
-
+                    invoice.activity_schedule(
+                        "mail.mail_activity_data_warning",
+                        summary=_("The invoice was not send or validated by ANAF"),
+                        note=body,
+                        user_id=invoice.invoice_user_id.id,
+                    )
+            # If you have ANAF sync configured, but you don't have a transaction
+            # number, then the invoice is marked as not sent to ANAF
+            if (
+                anaf_config
+                and not invoice.l10n_ro_edi_transaction
+                and not res.get("transaction")
+            ):
+                res["success"] = False
         return res
 
     def _cancel_invoice_edi(self, invoices, test_mode=False):
@@ -144,7 +139,7 @@ class AccountEdiXmlCIUSRO(models.Model):
         if self.code != "cius_ro":
             return super()._needs_web_services()
         anaf_config = self.env.company.l10n_ro_account_anaf_sync_id
-        return anaf_config.state != "manual"
+        return bool(anaf_config)
 
     def _get_invoice_edi_content(self, move):
         if self.code != "cius_ro":
@@ -163,26 +158,18 @@ class AccountEdiXmlCIUSRO(models.Model):
             "cif": invoice.company_id.partner_id.vat.replace("RO", ""),
         }
         res = self._l10n_ro_anaf_call("/upload", anaf_config, params, attachment.raw)
-
         if res.get("transaction", False):
             res.update({"attachment": attachment})
             invoice.write({"l10n_ro_edi_transaction": res.get("transaction")})
-
         return res
 
-    def _l10n_ro_post_invoice_step_2(self, invoice):
+    def _l10n_ro_post_invoice_step_2(self, invoice, attachment):
         anaf_config = invoice.company_id.l10n_ro_account_anaf_sync_id
         params = {"id_incarcare": invoice.l10n_ro_edi_transaction}
         res = self._l10n_ro_anaf_call("/stareMesaj", anaf_config, params, method="GET")
         if res.get("id_descarcare", False):
+            res.update({"attachment": attachment})
             invoice.write({"l10n_ro_edi_download": res.get("id_descarcare")})
-        if res.get("in_processing"):
-            invoice.message_post(
-                body=_(
-                    "ANAF Validation for %s is in processing.",
-                    invoice.l10n_ro_edi_transaction,
-                )
-            )
         return res
 
     def _l10n_ro_anaf_call(self, func, anaf_config, params, data=None, method="POST"):
@@ -201,27 +188,61 @@ class AccountEdiXmlCIUSRO(models.Model):
             }
 
         doc = etree.fromstring(content)
-        execution_status = doc.get("ExecutionStatus", "0")
-        if execution_status == "1":
-            error = doc.find(".//").get("errorMessage")
-            return {"success": False, "error": error}
+
+        namespaces = {
+            "step1": "mfp:anaf:dgti:spv:respUploadFisier:v1",
+            "step2": "mfp:anaf:dgti:efactura:stareMesajFactura:v1",
+        }
+        errors_step1 = doc.find("step1:Errors", namespaces=namespaces)
+        error_message_step1 = (
+            errors_step1.get("errorMessage") if errors_step1 is not None else None
+        )
+        errors_step2 = doc.find("step2:Errors", namespaces=namespaces)
+        error_message_step2 = (
+            errors_step2.get("errorMessage") if errors_step2 is not None else None
+        )
+        error_message = error_message_step1 or error_message_step2
+        if error_message:
+            res = {"success": False, "error": error_message, "blocking_level": "error"}
+            if "mesaj in cursul zilei" in error_message:
+                res.update({"blocking_level": "warning"})
+            return res
+
+        # This is response ok from step 1
         transaction = doc.get("index_incarcare", False)
         if transaction:
             return {
                 "success": False,
                 "transaction": transaction,
                 "blocking_level": "info",
+                "error": "The invoice was sent to ANAF, awaiting validation.",
             }
 
+        # This is response from step 2
         res = {"success": True}
         stare = doc.get("stare", False)
-        if stare == "in prelucrare":
-            res.update(
-                {"success": False, "blocking_level": "info", "in_processing": True}
-            )
-        elif stare == "nok":
-            res.update({"success": False, "blocking_level": "error"})
-        id_descarcare = doc.get("id_descarcare")
-        res.update({"id_descarcare": id_descarcare})
-
+        stari = {
+            "in prelucrare": {
+                "success": False,
+                "blocking_level": "info",
+                "in_processing": True,
+                "error": "The invoice is in processing at ANAF.",
+            },
+            "nok": {
+                "success": False,
+                "blocking_level": "warning",
+                "error": "The invoice was not validated by ANAF.",
+            },
+            "ok": {"success": True, "id_descarcare": doc.get("id_descarcare") or ""},
+            "XML cu erori nepreluat de sistem": {
+                "success": False,
+                "blocking_level": "error",
+                "error": "XML cu erori nepreluat de sistem",
+            },
+        }
+        if stare:
+            for key, value in stari.items():
+                if key in stare:
+                    res.update(value)
+                    break
         return res
