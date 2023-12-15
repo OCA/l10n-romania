@@ -24,20 +24,20 @@ class AccountMove(models.Model):
     )
     l10n_ro_edi_blocking_level = fields.Selection(
         selection=[
-                ('success', 'Success'),
-                ('processing', 'Processing'),
-                ('info', 'Info'),
-                ('warning', 'Warning'),
-                ('error', 'Error')
-            ],
+            ("success", "Success"),
+            ("processing", "Processing"),
+            ("info", "Info"),
+            ("warning", "Warning"),
+            ("error", "Error"),
+        ],
         string="Anaf state",
-        compute='_compute_l10n_ro_edi_blocking_level',
+        compute="_compute_l10n_ro_edi_blocking_level",
         help="Store blocking_level (RO)",
         copy=False,
         store=True,
     )
 
-    @api.depends('edi_blocking_level')
+    @api.depends("edi_blocking_level")
     def _compute_l10n_ro_edi_blocking_level(self):
         for s in self:
             state = None
