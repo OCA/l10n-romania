@@ -176,12 +176,10 @@ class TestAccountEdiUbl(AccountEdiTestCommon):
     def check_invoice_documents(
         self, invoice, state="to_send", error=False, blocking_level=False
     ):
-
         sleep_time = 0
         while not invoice.edi_state and sleep_time < 30:
             time.sleep(1)
             sleep_time += 1
-
         self.assertEqual(len(invoice.edi_document_ids), 1)
         self.assertEqual(invoice.edi_state, state)
         self.assertEqual(invoice.edi_document_ids.state, state)

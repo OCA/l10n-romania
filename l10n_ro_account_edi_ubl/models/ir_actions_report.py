@@ -9,7 +9,6 @@ from lxml import etree
 
 from odoo import models
 from odoo.tools import cleanup_xml_node
-from odoo.tools.safe_eval import safe_eval
 
 
 class IrActionsReport(models.Model):
@@ -21,12 +20,8 @@ class IrActionsReport(models.Model):
         Add the pdf report in XML as base64 string.
         """
         result = super()._postprocess_pdf_report(record, buffer)
-        # citire paramentru de sistem
-        get_param = self.env["ir.config_parameter"].sudo().get_param
-        include_pdf = safe_eval(
-            get_param("l10n_ro_edi_ubl.include_pdf", default="True")
-        )
-        if not include_pdf:
+
+        if not self.company_id.l10n_ro_edi_cius_embed_pdf:
             return result
         if record._name == "account.move":
             # exclude efff because it's handled by l10n_be_edi
