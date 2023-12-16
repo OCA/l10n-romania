@@ -56,7 +56,7 @@ class AccountEdiXmlCIUSRO(models.Model):
         self.ensure_one()
         if self.code == "cius_ro":
             return {"post": self._post_invoice_edi}
-        return super()._get_move_applicability()
+        return super()._get_move_applicability(move)
 
     def _is_required_for_invoice(self, invoice):
         if self.code != "cius_ro":
