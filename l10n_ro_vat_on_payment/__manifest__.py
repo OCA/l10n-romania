@@ -17,6 +17,7 @@
     "Odoo Community Association (OCA)",
     "website": "https://github.com/OCA/l10n-romania",
     "installable": True,
+    "pre_init_hook": "pre_init_hook",
     "development_status": "Mature",
     "maintainers": ["feketemihai"],
 }
