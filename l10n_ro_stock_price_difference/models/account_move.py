@@ -52,15 +52,12 @@ class AccountMove(models.Model):
                         valuation_stock_moves = (
                             line._l10n_ro_get_valuation_stock_moves()
                         )
+                        vsm = valuation_stock_moves[0]
                         price_diffs.append(
                             {
                                 "invoice_id": self.id,
-                                "product_id": valuation_stock_moves.mapped(
-                                    "product_id"
-                                ).id,
-                                "picking_id": valuation_stock_moves.mapped(
-                                    "picking_id"
-                                ).id,
+                                "product_id": vsm.product_id.id,
+                                "picking_id": vsm.picking_id.id,
                                 "amount_difference": line.currency_id.round(price_diff),
                                 "quantity_difference": float_round(
                                     qty_diff,
