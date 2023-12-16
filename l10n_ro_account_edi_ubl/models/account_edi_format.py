@@ -52,6 +52,12 @@ class AccountEdiXmlCIUSRO(models.Model):
             return super()._is_compatible_with_journal(journal)
         return journal.type == "sale" and journal.country_code == "RO"
 
+    def _get_move_applicability(self, move):
+        self.ensure_one()
+        if self.code == "cius_ro":
+            return {"post": self._post_invoice_edi}
+        return super()._get_move_applicability(move)
+
     def _is_required_for_invoice(self, invoice):
         if self.code != "cius_ro":
             return super()._is_required_for_invoice(invoice)
