@@ -55,7 +55,11 @@ class AccountEdiXmlCIUSRO(models.Model):
     def _get_move_applicability(self, move):
         self.ensure_one()
         if self.code == "cius_ro":
-            return {"post": self._post_invoice_edi}
+            return {
+                "post": self._post_invoice_edi,
+                "cancel": self._cancel_invoice_edi,
+                "edi_content": self._get_invoice_edi_content,
+            }
         return super()._get_move_applicability(move)
 
     def _is_required_for_invoice(self, invoice):
@@ -72,11 +76,19 @@ class AccountEdiXmlCIUSRO(models.Model):
             return super()._post_invoice_edi(invoices)
         res = {}
         for invoice in invoices:
+
+            anaf_config = invoice.company_id.l10n_ro_account_anaf_sync_id
+            if not anaf_config:
+                res[invoice] = {
+                    "success": True,
+                    "error": _("ANAF sync manual"),
+                }
+                continue
+
             attachment = invoice._get_edi_attachment(self)
             if not attachment:
                 attachment = self._export_cius_ro(invoice)
             res[invoice] = {"attachment": attachment, "success": True}
-            anaf_config = invoice.company_id.l10n_ro_account_anaf_sync_id
 
             residence = invoice.company_id.l10n_ro_edi_residence
             days = (fields.Date.today() - invoice.invoice_date).days
