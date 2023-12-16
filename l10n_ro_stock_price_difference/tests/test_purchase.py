@@ -1,7 +1,9 @@
 # Copyright (C) 2020 Terrabit
 # Copyright (C) 2022 NextERP Romania
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
-from odoo.tests import tagged
+
+from odoo import fields
+from odoo.tests import Form, tagged
 
 from .common import TestStockCommonPriceDiff
 
@@ -239,3 +241,37 @@ class TestStockPurchase(TestStockCommonPriceDiff):
 
         # in contabilitate stocul are valoarea din factura
         self.check_account_valuation(self.val_p1_f, self.val_p2_f)
+
+    def test_two_receipt_and_one_invoice(self):
+        """
+        Doua receptii partiale de achizitie si o factura
+        """
+        po1 = self.create_po_default(
+            {"lines": [{"product": self.product_1, "qty": 10, "price": 10}]}
+        )
+
+        # modificare cantitate si pret in comanda
+        po1.order_line.write({"product_qty": 15, "price_unit": 11})
+        self.validate_picking(po1.picking_ids.filtered(lambda l: l.state != "done"))
+
+        PurchaseBillUnion = self.env["purchase.bill.union"]
+
+        invoice_form = Form(
+            self.env["account.move"].with_context(
+                default_move_type="in_invoice",
+                default_invoice_date=fields.Date.today(),
+                active_model="account.move",
+            )
+        )
+        invoice_form.partner_id = self.vendor
+        invoice_form.purchase_vendor_bill_id = PurchaseBillUnion.browse(-po1.id)
+
+        invoice = invoice_form.save()
+
+        invoice_form = Form(invoice)
+        with invoice_form.invoice_line_ids.edit(0) as line_form:
+            line_form.price_unit = 12
+
+        invoice = invoice_form.save()
+
+        invoice.action_post()
