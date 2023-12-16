@@ -22,7 +22,7 @@ class TestPartnerUpdateVatSubjectedBase(TransactionCase):
         data_dir = os.path.join(
             os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "examples/"
         )
-        context = {"tracking_disable": True}
+        context = {"tracking_disable": True, "no_vat_validation": True}
         fdata = tools.file_open(data_dir + "res.partner.csv")
         csvdata = pycompat.csv_reader(
             io.BytesIO(bytes(fdata.read(), "utf-8")), quotechar='"', delimiter=","
