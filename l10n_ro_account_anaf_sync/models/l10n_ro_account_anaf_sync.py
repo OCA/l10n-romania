@@ -68,7 +68,7 @@ class AccountANAFSync(models.Model):
     )
     anaf_einvoice_sync_url = fields.Char(default="https://api.anaf.ro/test/FCTEL/rest")
     state = fields.Selection(
-        [("test", "Test"), ("manual", "Manual"), ("automatic", "Automatic")],
+        [("test", "Test"), ("automatic", "Automatic")],
         default="test",
     )
 
@@ -83,8 +83,6 @@ class AccountANAFSync(models.Model):
                             "Please delete the config and create another one."
                         )
                     )
-            if company and len(self) == 1:
-                company.l10n_ro_account_anaf_sync_id = self
         return super().write(values)
 
     def _compute_anaf_callback_url(self):
@@ -196,7 +194,7 @@ class AccountANAFSync(models.Model):
     @api.onchange("state")
     def _onchange_state(self):
         if self.state:
-            if self.state in ("test", "manual"):
+            if self.state == "test":
                 new_url = "https://api.anaf.ro/test/FCTEL/rest"
             else:
                 new_url = "https://api.anaf.ro/prod/FCTEL/rest"
