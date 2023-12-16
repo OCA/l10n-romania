@@ -146,6 +146,9 @@ class AccountMove(models.Model):
 
     def l10n_ro_process_anaf_zip_file(self, zip_content):
         self.ensure_one()
+        self.l10n_ro_save_file(
+            "%s.zip" % self.l10n_ro_edi_transaction, zip_content, "application/zip"
+        )
         attachment = self.l10n_ro_save_anaf_xml_file(zip_content)
         cius_ro = self.env.ref("l10n_ro_account_edi_ubl.edi_ubl_cius_ro")
         edi_doc = self._get_edi_document(cius_ro)
@@ -165,12 +168,22 @@ class AccountMove(models.Model):
         self.ensure_one()
 
         zip_ref = zipfile.ZipFile(io.BytesIO(zip_content))
-        xml_file = [f for f in zip_ref.namelist() if "semnatura" in f]
+        if self.move_type in ["out_invoice", "out_refund"]:
+            xml_file = [f for f in zip_ref.namelist() if "semnatura" in f]
+        else:
+            xml_file = [f for f in zip_ref.namelist() if "semnatura" not in f]
         if not xml_file:
             return self.env["ir.attachment"]
 
         file_name = xml_file[0]
         xml_file = zip_ref.read(file_name)
+
+        attachment = self.l10n_ro_save_file(file_name, xml_file)
+
+        return attachment
+
+    def l10n_ro_save_file(self, file_name, file_content, mimetype="application/xml"):
+        self.ensure_one()
 
         domain = [
             ("name", "=", file_name),
@@ -183,10 +196,10 @@ class AccountMove(models.Model):
         attachment = self.env["ir.attachment"].create(
             {
                 "name": file_name,
-                "raw": xml_file,
+                "raw": file_content,
                 "res_model": "account.move",
                 "res_id": self.id,
-                "mimetype": "application/xml",
+                "mimetype": mimetype,
             }
         )
         return attachment

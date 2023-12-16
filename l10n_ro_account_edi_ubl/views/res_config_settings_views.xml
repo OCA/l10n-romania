@@ -12,7 +12,6 @@
                     id="l10n_ro_edi_residence"
                 >
                     <div class="o_setting_left_pane">
-                        <field name="l10n_ro_edi_residence" />
                     </div>
                     <div class="o_setting_right_pane">
                       <label
