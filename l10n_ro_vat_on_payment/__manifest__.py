@@ -20,4 +20,5 @@
     "pre_init_hook": "pre_init_hook",
     "development_status": "Mature",
     "maintainers": ["feketemihai"],
+    "sequence": "99",
 }
