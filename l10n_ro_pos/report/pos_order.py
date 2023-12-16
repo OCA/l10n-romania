@@ -74,7 +74,7 @@ class ReportSaleDetails(models.AbstractModel):
                 products_sold.setdefault(key, 0.0)
                 products_sold[key] += line.qty
             for picking in order.picking_ids:
-                for move in picking.move_lines:
+                for move in picking.move_ids:
                     value = 0
                     quantity = 0
                     for valuation in move.stock_valuation_layer_ids:
