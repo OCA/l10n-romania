@@ -21,14 +21,19 @@ class IrActionsReport(models.Model):
         """
         result = super()._postprocess_pdf_report(record, buffer)
 
-        if not self.company_id.l10n_ro_edi_cius_embed_pdf:
+        if not record.company_id.l10n_ro_edi_cius_embed_pdf:
             return result
         if record._name == "account.move":
             # exclude efff because it's handled by l10n_be_edi
             format_codes = ["cius_ro"]
-            edi_attachments = record.edi_document_ids.filtered(
+            cius_ro_edi_documents = record.edi_document_ids.filtered(
                 lambda d: d.edi_format_id.code in format_codes
-            ).attachment_id
+            )
+            if not cius_ro_edi_documents:
+                return result
+            record.attach_ubl_xml_file_button()
+            edi_attachments = cius_ro_edi_documents.attachment_id
+
             for edi_attachment in edi_attachments:
                 old_xml = base64.b64decode(
                     edi_attachment.with_context(bin_size=False).datas, validate=True
