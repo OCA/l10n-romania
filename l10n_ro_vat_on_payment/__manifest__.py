@@ -9,14 +9,16 @@
         "security/ir.model.access.csv",
         "data/res_partner_anaf_cron.xml",
     ],
-    "depends": ["l10n_ro_config"],
+    "depends": ["l10n_ro_config", "product"],
     "license": "AGPL-3",
-    "version": "15.0.2.8.0",
+    "version": "15.0.2.10.0",
     "author": "NextERP Romania,"
     "Forest and Biomass Romania,"
     "Odoo Community Association (OCA)",
     "website": "https://github.com/OCA/l10n-romania",
     "installable": True,
+    "pre_init_hook": "pre_init_hook",
     "development_status": "Mature",
     "maintainers": ["feketemihai"],
+    "sequence": "99",
 }

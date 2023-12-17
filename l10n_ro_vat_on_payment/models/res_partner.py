@@ -98,6 +98,8 @@ class ResPartner(models.Model):
         return vat_on_payment
 
     def check_vat_on_payment(self):
+        if self.env.context.get("no_vat_validation", False):
+            return True
         ctx = dict(self._context)
         ctx.update({"check_date": date.today()})
 
@@ -115,3 +117,19 @@ class ResPartner(models.Model):
     @api.model
     def _update_vat_payment_all(self):
         self.update_vat_payment_all()
+
+    @api.model_create_multi
+    def create(self, vals_list):
+        partner = super().create(vals_list)
+        partner.filtered(
+            lambda p: p.country_code == "RO" and p.vat
+        ).check_vat_on_payment()
+        return partner
+
+    def write(self, vals):
+        res = super().write(vals)
+        if "vat" in vals:
+            self.filtered(
+                lambda partner: partner.country_code == "RO"
+            ).check_vat_on_payment()
+        return res

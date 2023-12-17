@@ -135,11 +135,15 @@ class AccountInvoiceDVI(models.Model):
         customs_duty_product = (
             self.env.company._l10n_ro_get_or_create_custom_duty_product()
         )
+        vat_price_difference_product = (
+            self.env.company._l10n_ro_get_or_create_vat_price_difference_product()
+        )
         customs_commission_product = (
             self.env.company._l10n_ro_get_or_create_customs_commission_product()
         )
         defaults["customs_duty_product_id"] = customs_duty_product.id
         defaults["customs_commission_product_id"] = customs_commission_product.id
+        defaults["vat_price_difference_product_id"] = vat_price_difference_product.id
         return defaults
 
     def action_view_landed_costs(self):
@@ -221,6 +225,9 @@ class AccountInvoiceDVI(models.Model):
             raise ValidationError(_(msg) % self.customs_duty_product_id.name)
         if account1 and account2:
             amount = self.vat_price_difference
+            tags = self.tax_id.invoice_repartition_line_ids.filtered(
+                lambda m: m.repartition_type == "tax"
+            )[0]
             vals = {
                 "ref": "VAT Price Difference " + self.name,
                 "journal_id": self.journal_id.id,
@@ -231,11 +238,14 @@ class AccountInvoiceDVI(models.Model):
                         0,
                         0,
                         {
-                            "account_id": account1,
+                            "account_id": account1
+                            if amount > 0
+                            else tags.account_id.id,
                             "currency_id": self.currency_id.id,
                             "debit": amount if amount > 0 else 0.0,
                             "credit": -amount if amount < 0 else 0.0,
                             "amount_currency": amount,
+                            "tax_tag_ids": tags.tag_ids,
                         },
                     ),
                     (
@@ -293,7 +303,7 @@ class AccountInvoiceDVI(models.Model):
         action = self.env.ref("stock_landed_costs.action_stock_landed_cost")
         action = action.read()[0]
 
-        if self.vat_price_difference_product_id and self.vat_price_difference:
+        if self.vat_price_difference_product_id and self.vat_price_difference != 0:
             values_move = self.create_account_move_dvi()
             move_object = self.env["account.move"]
             if self.vat_price_difference < 0:
@@ -326,7 +336,7 @@ class AccountInvoiceDVI(models.Model):
             line_vals = line[2]
             line_vals["price_unit"] = -1 * line_vals["price_unit"]
         landed_cost = self.env["stock.landed.cost"].create(values)
-        landed_cost.with_context(dvi_revert=True).button_validate()
+        landed_cost.with_context(l10n_ro_revert_landed_cost=True).button_validate()
         action = self.env.ref("stock_landed_costs.action_stock_landed_cost")
         action = action.read()[0]
 

@@ -74,7 +74,7 @@ class AccountANAFSync(models.Model):
     )
 
     state = fields.Selection(
-        [("test", "Test"), ("manual", "Manual"), ("automatic", "Automatic")],
+        [("test", "Test"), ("automatic", "Automatic")],
         default="test",
     )
 
@@ -89,14 +89,14 @@ class AccountANAFSync(models.Model):
                             "Please delete the config and create another one."
                         )
                     )
-            if company and len(self) == 1:
-                company.l10n_ro_account_anaf_sync_id = self
         return super().write(values)
 
     def _compute_anaf_callback_url(self):
         for anaf_sync in self:
             url = anaf_sync.get_base_url()
-            anaf_sync.anaf_callback_url = url + "/l10n_ro_account_anaf_sync/anaf_oauth"
+            anaf_sync.anaf_callback_url = (
+                f"{url}/l10n_ro_account_anaf_sync/anaf_oauth/{anaf_sync.id}"
+            )
 
     def get_token_from_anaf_website(self):
         self.ensure_one()
@@ -152,19 +152,6 @@ class AccountANAFSync(models.Model):
                     "last_request_datetime": fields.Datetime.now(),
                 }
             )
-
-    # def get_token_from_anaf_website(self):
-    #     self.ensure_one()
-    #     if self.access_token:
-    #         raise UserError(
-    #             _("You already have ANAF access token. Please revoke it first.")
-    #         )
-    #     return_url = "/l10n_ro_account_anaf_sync/redirect_anaf/%s" % self.id
-    #     return {
-    #         "type": "ir.actions.act_url",
-    #         "url": "%s" % return_url,
-    #         "target": "new",
-    #     }
 
     def revoke_access_token(self):
         self.ensure_one()
@@ -224,7 +211,7 @@ class AccountANAFSync(models.Model):
     @api.onchange("state")
     def _onchange_state(self):
         if self.state:
-            if self.state in ("test", "manual"):
+            if self.state == "test":
                 new_url_einvoice = "https://api.anaf.ro/test/FCTEL/rest"
                 new_url_etransport = "https://api.anaf.ro/test/ETRANSPORT/ws/v1"
             else:

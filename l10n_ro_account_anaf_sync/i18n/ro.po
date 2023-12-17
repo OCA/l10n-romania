@@ -225,11 +225,6 @@ msgid "Main Attachment"
 msgstr "Atașamentul principal"
 
 #. module: l10n_ro_account_anaf_sync
-#: model:ir.model.fields.selection,name:l10n_ro_account_anaf_sync.selection__l10n_ro_account_anaf_sync__state__manual
-msgid "Manual"
-msgstr "Manual"
-
-#. module: l10n_ro_account_anaf_sync
 #: model:ir.model.fields,field_description:l10n_ro_account_anaf_sync.field_l10n_ro_account_anaf_sync__message_has_error
 msgid "Message Delivery error"
 msgstr "Eroare de livrare a mesajului"
@@ -238,14 +233,6 @@ msgstr "Eroare de livrare a mesajului"
 #: model:ir.model.fields,field_description:l10n_ro_account_anaf_sync.field_l10n_ro_account_anaf_sync__message_ids
 msgid "Messages"
 msgstr "Mesaje"
-
-#. module: l10n_ro_account_anaf_sync
-#: code:addons/l10n_ro_account_anaf_sync/controllers/anaf_oauth.py:0
-#, python-format
-msgid ""
-"More than one ANAF config requested authentication in the last minutes."
-"Please request them in order, waiting for 2 minutes between requests."
-msgstr ""
 
 #. module: l10n_ro_account_anaf_sync
 #: code:addons/l10n_ro_account_anaf_sync/controllers/anaf_oauth.py:0

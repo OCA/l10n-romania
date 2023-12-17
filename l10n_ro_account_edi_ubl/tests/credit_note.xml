@@ -130,8 +130,8 @@
             </cac:ClassifiedTaxCategory>
         </cac:Item>
         <cac:Price>
-            <cbc:PriceAmount currencyID="RON">1000.00</cbc:PriceAmount>
-            <cbc:BaseQuantity unitCode="C62">5.0</cbc:BaseQuantity>
+            <cbc:PriceAmount currencyID="RON">1000.0</cbc:PriceAmount>
+            <cbc:BaseQuantity unitCode="C62">1.0</cbc:BaseQuantity>
         </cac:Price>
     </cac:CreditNoteLine>
     <cac:CreditNoteLine>
@@ -153,8 +153,8 @@
             </cac:ClassifiedTaxCategory>
         </cac:Item>
         <cac:Price>
-            <cbc:PriceAmount currencyID="RON">1000.00</cbc:PriceAmount>
-            <cbc:BaseQuantity unitCode="C62">5.0</cbc:BaseQuantity>
+            <cbc:PriceAmount currencyID="RON">1000.0</cbc:PriceAmount>
+            <cbc:BaseQuantity unitCode="C62">1.0</cbc:BaseQuantity>
         </cac:Price>
     </cac:CreditNoteLine>
 </CreditNote>

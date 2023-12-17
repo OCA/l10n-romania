@@ -231,7 +231,33 @@ class StorageSheet(models.TransientModel):
             }
             _logger.info("start query_select_sold_init %s", location.name)
             # defalcare sold initial pe preturi
-            query_select_sold_init = """
+            query_select_sold_init = self._get_sql_select_sold_init()
+
+            params.update({"reference": "INITIAL"})
+            self.env.cr.execute(query_select_sold_init, params=params)
+            # res = self.env.cr.dictfetchall()
+            # self.env["l10n.ro.stock.storage.sheet.line"].create(res)
+            _logger.info("start query_select_sold_final %s", location.name)
+            query_select_sold_final = self._get_sql_select_sold_final()
+
+            params.update({"reference": "FINAL"})
+            self.env.cr.execute(query_select_sold_final, params=params)
+            # res = self.env.cr.dictfetchall()
+            # self.env["l10n.ro.stock.storage.sheet.line"].create(res)
+            _logger.info("start query_in %s", location.name)
+            query_in = self._get_sql_select_in()
+            self.env.cr.execute(query_in, params=params)
+            # res = self.env.cr.dictfetchall()
+            # self.env["l10n.ro.stock.storage.sheet.line"].create(res)
+            _logger.info("start query_out %s", location.name)
+            query_out = self._get_sql_select_out()
+            self.env.cr.execute(query_out, params=params)
+            # res = self.env.cr.dictfetchall()
+            # self.line_product_ids.create(res)
+        _logger.info("end select ")
+
+    def _get_sql_select_sold_init(self):
+        sql = """
              insert into l10n_ro_stock_storage_sheet_line
               (report_id, product_id, amount_initial, quantity_initial,
                account_id, date_time, date, reference, document,
@@ -270,13 +296,10 @@ class StorageSheet(models.TransientModel):
                 GROUP BY prod.id, svl.l10n_ro_account_id, pt.categ_id, sml.lot_id)
             a --where a.amount_initial!=0 and a.quantity_initial!=0
             """
+        return sql
 
-            params.update({"reference": "INITIAL"})
-            self.env.cr.execute(query_select_sold_init, params=params)
-            # res = self.env.cr.dictfetchall()
-            # self.env["l10n.ro.stock.storage.sheet.line"].create(res)
-            _logger.info("start query_select_sold_final %s", location.name)
-            query_select_sold_final = """
+    def _get_sql_select_sold_final(self):
+        sql = """
             insert into l10n_ro_stock_storage_sheet_line
               (report_id, product_id, amount_final, quantity_final,
                account_id, date_time, date, reference, document,
@@ -315,13 +338,10 @@ class StorageSheet(models.TransientModel):
                 GROUP BY sm.product_id, svl.l10n_ro_account_id, pt.categ_id, sml.lot_id)
             a --where a.amount_final!=0 and a.quantity_final!=0
             """
+        return sql
 
-            params.update({"reference": "FINAL"})
-            self.env.cr.execute(query_select_sold_final, params=params)
-            # res = self.env.cr.dictfetchall()
-            # self.env["l10n.ro.stock.storage.sheet.line"].create(res)
-            _logger.info("start query_in %s", location.name)
-            query_in = """
+    def _get_sql_select_in(self):
+        sql = """
             insert into l10n_ro_stock_storage_sheet_line
               (report_id, product_id, amount_in, quantity_in, unit_price_in,
                account_id, invoice_id, date_time, date, reference,  location_id,
@@ -376,12 +396,11 @@ class StorageSheet(models.TransientModel):
                  pt.categ_id, sml.lot_id)
             a --where a.amount_in!=0 and a.quantity_in!=0
                 """
-            self.env.cr.execute(query_in, params=params)
-            # res = self.env.cr.dictfetchall()
-            # self.env["l10n.ro.stock.storage.sheet.line"].create(res)
-            _logger.info("start query_out %s", location.name)
-            query_out = """
-                        insert into l10n_ro_stock_storage_sheet_line
+        return sql
+
+    def _get_sql_select_out(self):
+        sql = """
+            insert into l10n_ro_stock_storage_sheet_line
               (report_id, product_id, amount_out, quantity_out, unit_price_out,
                account_id, invoice_id, date_time, date, reference,  location_id,
                partner_id, document, valued_type, categ_id, serial_number )
@@ -436,10 +455,7 @@ class StorageSheet(models.TransientModel):
                          pt.categ_id, sml.lot_id)
             a --where a.amount_out!=0 and a.quantity_out!=0
                 """
-            self.env.cr.execute(query_out, params=params)
-            # res = self.env.cr.dictfetchall()
-            # self.line_product_ids.create(res)
-        _logger.info("end select ")
+        return sql
 
     def get_report_products(self):
         self.ensure_one()
