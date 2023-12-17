@@ -83,6 +83,7 @@
                 <field name="account_id" optional="hide" />
                 <field name="partner_id" optional="hide" />
                 <field name="categ_id" optional="hide" />
+                <field name="serial_number" optional="hide" />
                 <field name="location_id" optional="hide" />
 
                 <field name="quantity_initial" />
