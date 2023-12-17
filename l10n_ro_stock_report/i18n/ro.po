@@ -53,6 +53,7 @@ msgid "Account"
 msgstr "Cont"
 
 #. module: l10n_ro_stock_report
+#. odoo-python
 #: code:addons/l10n_ro_stock_report/report/stock_report.py:0
 #, python-format
 msgid "All Locations"
