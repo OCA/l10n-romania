@@ -48,6 +48,13 @@ msgid "Account"
 msgstr ""
 
 #. module: l10n_ro_stock_report
+#. odoo-python
+#: code:addons/l10n_ro_stock_report/report/stock_report.py:0
+#, python-format
+msgid "All Locations"
+msgstr ""
+
+#. module: l10n_ro_stock_report
 #: model_terms:ir.ui.view,arch_db:l10n_ro_stock_report.report_storage_sheet_lines_header
 msgid "Amount Input"
 msgstr ""
@@ -420,6 +427,11 @@ msgstr ""
 #. module: l10n_ro_stock_report
 #: model:ir.ui.menu,name:l10n_ro_stock_report.menu_sheet_stock_report
 msgid "Romanian Stock Sheet Report"
+msgstr ""
+
+#. module: l10n_ro_stock_report
+#: model:ir.model.fields,field_description:l10n_ro_stock_report.field_l10n_ro_stock_storage_sheet_line__serial_number
+msgid "Serial Number"
 msgstr ""
 
 #. module: l10n_ro_stock_report
