@@ -66,11 +66,19 @@ class AccountEdiXmlCIUSRO(models.Model):
             return super()._post_invoice_edi(invoices, test_mode)
         res = {}
         for invoice in invoices:
+
+            anaf_config = invoice.company_id.l10n_ro_account_anaf_sync_id
+            if not anaf_config:
+                res[invoice] = {
+                    "success": True,
+                    "error": _("ANAF sync manual"),
+                }
+                continue
+
             attachment = invoice._get_edi_attachment(self)
             if not attachment:
                 attachment = self._export_cius_ro(invoice)
             res[invoice] = {"attachment": attachment, "success": True}
-            anaf_config = invoice.company_id.l10n_ro_account_anaf_sync_id
 
             residence = invoice.company_id.l10n_ro_edi_residence
             days = (fields.Date.today() - invoice.invoice_date).days
@@ -168,8 +176,9 @@ class AccountEdiXmlCIUSRO(models.Model):
         params = {"id_incarcare": invoice.l10n_ro_edi_transaction}
         res = self._l10n_ro_anaf_call("/stareMesaj", anaf_config, params, method="GET")
         if res.get("id_descarcare", False):
-            res.update({"attachment": attachment})
             invoice.write({"l10n_ro_edi_download": res.get("id_descarcare")})
+            if res.get("success", False):
+                res.update({"attachment": attachment})
         return res
 
     def _l10n_ro_anaf_call(self, func, anaf_config, params, data=None, method="POST"):
@@ -246,3 +255,14 @@ class AccountEdiXmlCIUSRO(models.Model):
                     res.update(value)
                     break
         return res
+
+    def _infer_xml_builder_from_tree(self, tree):
+        self.ensure_one()
+        customization_id = tree.find("{*}CustomizationID")
+        if customization_id is not None:
+            if (
+                customization_id.text
+                == "urn:cen.eu:en16931:2017#compliant#urn:efactura.mfinante.ro:CIUS-RO:1.0.1"
+            ):
+                return self.env["account.edi.xml.cius_ro"]
+        return super()._infer_xml_builder_from_tree(tree)
