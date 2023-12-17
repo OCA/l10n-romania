@@ -44,9 +44,11 @@
                         icon="fa-cloud-download"
                         string="Download"
                         name="l10n_ro_download_zip_anaf"
-                        attrs="{'invisible': ['|',
+                        attrs="{'invisible': [
+                        ('move_type','not in',['in_invoice','in_refund']),
+                        '|',
                         ('l10n_ro_edi_download', '=', False),
-                        ('move_type','not in',['in_invoice','in_refund'])
+                        ('invoice_line_ids', '=', False),
                         ]}"
                         help="Download ZIP with signed XML file from ANAF"
                     />
