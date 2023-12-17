@@ -29,6 +29,11 @@ msgid "Access Error"
 msgstr ""
 
 #. module: l10n_ro_account_edi_ubl
+#: model_terms:ir.ui.view,arch_db:l10n_ro_account_edi_ubl.res_config_settings_view_form
+msgid "Attach PDF invoice to the e-Invoice."
+msgstr ""
+
+#. module: l10n_ro_account_edi_ubl
 #: model_terms:ir.ui.view,arch_db:l10n_ro_account_edi_ubl.view_move_form
 msgid "Attach the UBL XML file to the invoice"
 msgstr ""
@@ -54,6 +59,13 @@ msgid "Companies"
 msgstr "Companii"
 
 #. module: l10n_ro_account_edi_ubl
+#: model_terms:ir.ui.view,arch_db:l10n_ro_account_edi_ubl.res_config_settings_view_form
+msgid ""
+"Company PDF invoice report to be added to the e-Invoice XML.\n"
+"                            If not set default PDF report will be used."
+msgstr ""
+
+#. module: l10n_ro_account_edi_ubl
 #: model:ir.model,name:l10n_ro_account_edi_ubl.model_res_config_settings
 msgid "Config Settings"
 msgstr "Setări de configurare"
@@ -72,6 +84,25 @@ msgstr "Creat de"
 #: model:ir.model.fields,field_description:l10n_ro_account_edi_ubl.field_account_edi_xml_cius_ro__create_date
 msgid "Created on"
 msgstr "Creat in"
+
+#. module: l10n_ro_account_edi_ubl
+#: model:ir.model.fields,field_description:l10n_ro_account_edi_ubl.field_res_company__l10n_ro_default_cius_pdf_report
+#: model:ir.model.fields,field_description:l10n_ro_account_edi_ubl.field_res_config_settings__l10n_ro_default_cius_pdf_report
+msgid "Default PDF Report"
+msgstr ""
+
+#. module: l10n_ro_account_edi_ubl
+#: model:ir.model.fields,help:l10n_ro_account_edi_ubl.field_res_company__l10n_ro_default_cius_pdf_report
+#: model:ir.model.fields,help:l10n_ro_account_edi_ubl.field_res_config_settings__l10n_ro_default_cius_pdf_report
+msgid "Default PDF report to be attached to xml e-invoice."
+msgstr ""
+
+#. module: l10n_ro_account_edi_ubl
+#: model_terms:ir.ui.view,arch_db:l10n_ro_account_edi_ubl.res_config_settings_view_form
+msgid ""
+"Define the maximum number of days that Odoo will check supplier e-Invoices "
+"to download."
+msgstr ""
 
 #. module: l10n_ro_account_edi_ubl
 #: model:ir.model.fields,field_description:l10n_ro_account_edi_ubl.field_account_edi_xml_cius_ro__display_name
@@ -104,9 +135,34 @@ msgid "Download ZIP with signed XML file from ANAF"
 msgstr ""
 
 #. module: l10n_ro_account_edi_ubl
+#: model_terms:ir.ui.view,arch_db:l10n_ro_account_edi_ubl.res_config_settings_view_form
+msgid ""
+"Download e-Invoices automatically from ANAF website.\n"
+"                            It will create a draft invoice that you will "
+"have to check and posted afterwards."
+msgstr ""
+
+#. module: l10n_ro_account_edi_ubl
+#: model:ir.model.fields,field_description:l10n_ro_account_edi_ubl.field_res_company__l10n_ro_download_einvoices
+#: model:ir.model.fields,field_description:l10n_ro_account_edi_ubl.field_res_config_settings__l10n_ro_download_einvoices
+msgid "Download e-invoices from ANAF"
+msgstr ""
+
+#. module: l10n_ro_account_edi_ubl
+#: model_terms:ir.ui.view,arch_db:l10n_ro_account_edi_ubl.res_config_settings_view_form
+msgid "E-Invoice Settings"
+msgstr ""
+
+#. module: l10n_ro_account_edi_ubl
 #: model:ir.model,name:l10n_ro_account_edi_ubl.model_account_edi_format
 msgid "EDI format"
 msgstr "Format EDI"
+
+#. module: l10n_ro_account_edi_ubl
+#: model:ir.model.fields,field_description:l10n_ro_account_edi_ubl.field_res_company__l10n_ro_edi_cius_embed_pdf
+#: model:ir.model.fields,field_description:l10n_ro_account_edi_ubl.field_res_config_settings__l10n_ro_edi_cius_embed_pdf
+msgid "Embed PDF in CIUS"
+msgstr ""
 
 #. module: l10n_ro_account_edi_ubl
 #. odoo-python
@@ -176,6 +232,12 @@ msgid "Last Updated on"
 msgstr "Ultima actualizare pe"
 
 #. module: l10n_ro_account_edi_ubl
+#: model:ir.model.fields,field_description:l10n_ro_account_edi_ubl.field_res_company__l10n_ro_download_einvoices_days
+#: model:ir.model.fields,field_description:l10n_ro_account_edi_ubl.field_res_config_settings__l10n_ro_download_einvoices_days
+msgid "Maximum number of days to download e-invoices."
+msgstr ""
+
+#. module: l10n_ro_account_edi_ubl
 #: model:ir.model.fields,field_description:l10n_ro_account_edi_ubl.field_res_company__l10n_ro_edi_residence
 msgid "Period of Residence"
 msgstr ""
@@ -197,6 +259,11 @@ msgid "Product Variant"
 msgstr ""
 
 #. module: l10n_ro_account_edi_ubl
+#: model:ir.model,name:l10n_ro_account_edi_ubl.model_ir_actions_report
+msgid "Report Action"
+msgstr ""
+
+#. module: l10n_ro_account_edi_ubl
 #: model:ir.model.fields,field_description:l10n_ro_account_edi_ubl.field_res_config_settings__l10n_ro_edi_residence
 msgid "Residence"
 msgstr ""
@@ -214,9 +281,28 @@ msgid "Romania - NC Code"
 msgstr "Cod NC"
 
 #. module: l10n_ro_account_edi_ubl
+#: model:ir.actions.server,name:l10n_ro_account_edi_ubl.ir_cron_res_company_einvoice_download_every_day_ir_actions_server
+#: model:ir.cron,cron_name:l10n_ro_account_edi_ubl.ir_cron_res_company_einvoice_download_every_day
+msgid "Romania e-Invoicing: Download Supplier Invoiecs"
+msgstr ""
+
+#. module: l10n_ro_account_edi_ubl
 #: model:ir.actions.server,name:l10n_ro_account_edi_ubl.model_account_send_toe_invoice
 msgid "Send to ANAF E Invoice"
 msgstr "Trimite factura la ANAF"
+
+#. module: l10n_ro_account_edi_ubl
+#: model_terms:ir.ui.view,arch_db:l10n_ro_account_edi_ubl.res_config_settings_view_form
+msgid ""
+"Start date that Odoo will create supplier invoices downloaded from ANAF "
+"website."
+msgstr ""
+
+#. module: l10n_ro_account_edi_ubl
+#: model:ir.model.fields,field_description:l10n_ro_account_edi_ubl.field_res_company__l10n_ro_download_einvoices_start_date
+#: model:ir.model.fields,field_description:l10n_ro_account_edi_ubl.field_res_config_settings__l10n_ro_download_einvoices_start_date
+msgid "Start date to download e-invoices"
+msgstr ""
 
 #. module: l10n_ro_account_edi_ubl
 #: model:ir.model.fields,help:l10n_ro_account_edi_ubl.field_account_bank_statement_line__l10n_ro_edi_transaction
@@ -290,6 +376,21 @@ msgid ""
 "\n"
 "Error:\n"
 "<p>%s</p>"
+msgstr ""
+
+#. module: l10n_ro_account_edi_ubl
+#. odoo-python
+#: code:addons/l10n_ro_account_edi_ubl/models/res_company.py:0
+#, python-format
+msgid ""
+"The maximum number of days to download e-invoices must be between 0 and 60."
+msgstr ""
+
+#. module: l10n_ro_account_edi_ubl
+#. odoo-python
+#: code:addons/l10n_ro_account_edi_ubl/models/res_company.py:0
+#, python-format
+msgid "The period of residence must be between 0 and 5."
 msgstr ""
 
 #. module: l10n_ro_account_edi_ubl
