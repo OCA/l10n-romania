@@ -42,7 +42,6 @@ class StorageSheet(models.TransientModel):
     location_id = fields.Many2one(
         "stock.location",
         domain="[('usage','=','internal'),('company_id','=',company_id)]",
-        required=True,
     )
 
     product_ids = fields.Many2many(
@@ -74,19 +73,24 @@ class StorageSheet(models.TransientModel):
 
     @api.depends("sublocation", "location_id")
     def _compute_location_ids(self):
-        if self.sublocation:
-            children_location = (
-                self.env["stock.location"]
-                .with_context(active_test=False)
-                .search([("id", "child_of", self.location_id.ids)])
+        if not self.location_id:
+            self.location_ids = self.env["stock.location"].search(
+                [("usage", "=", "internal")]
             )
-            self.location_ids = self.location_id + children_location
         else:
-            self.location_ids = self.location_id
+            if self.sublocation:
+                children_location = (
+                    self.env["stock.location"]
+                    .with_context(active_test=False)
+                    .search([("id", "child_of", self.location_id.ids)])
+                )
+                self.location_ids = self.location_id + children_location
+            else:
+                self.location_ids = self.location_id
 
     def _get_report_base_filename(self):
         self.ensure_one()
-        return "Stock Sheet %s" % (self.location_id.name)
+        return "Stock Sheet %s" % (self.location_id.name or "")
 
     @api.model
     def default_get(self, fields_list):
@@ -206,8 +210,9 @@ class StorageSheet(models.TransientModel):
         if self.detailed_locations:
             all_locations = self.with_context(active_test=False).location_ids
         else:
-            all_locations = self.location_id
+            all_locations = self.location_id or self.location_ids[0]
             locations = self.location_ids
+
         for location in all_locations:
             if self.detailed_locations:
                 locations = location
@@ -226,10 +231,37 @@ class StorageSheet(models.TransientModel):
             }
             _logger.info("start query_select_sold_init %s", location.name)
             # defalcare sold initial pe preturi
-            query_select_sold_init = """
+            query_select_sold_init = self._get_sql_select_sold_init()
+
+            params.update({"reference": "INITIAL"})
+            self.env.cr.execute(query_select_sold_init, params=params)
+            # res = self.env.cr.dictfetchall()
+            # self.env["l10n.ro.stock.storage.sheet.line"].create(res)
+            _logger.info("start query_select_sold_final %s", location.name)
+            query_select_sold_final = self._get_sql_select_sold_final()
+
+            params.update({"reference": "FINAL"})
+            self.env.cr.execute(query_select_sold_final, params=params)
+            # res = self.env.cr.dictfetchall()
+            # self.env["l10n.ro.stock.storage.sheet.line"].create(res)
+            _logger.info("start query_in %s", location.name)
+            query_in = self._get_sql_select_in()
+            self.env.cr.execute(query_in, params=params)
+            # res = self.env.cr.dictfetchall()
+            # self.env["l10n.ro.stock.storage.sheet.line"].create(res)
+            _logger.info("start query_out %s", location.name)
+            query_out = self._get_sql_select_out()
+            self.env.cr.execute(query_out, params=params)
+            # res = self.env.cr.dictfetchall()
+            # self.line_product_ids.create(res)
+        _logger.info("end select ")
+
+    def _get_sql_select_sold_init(self):
+        sql = """
              insert into l10n_ro_stock_storage_sheet_line
               (report_id, product_id, amount_initial, quantity_initial,
-               account_id, date_time, date, reference, document, location_id, categ_id  )
+               account_id, date_time, date, reference, document,
+               location_id, categ_id, serial_number)
 
             select * from(
                 SELECT %(report)s as report_id, prod.id as product_id,
@@ -242,7 +274,8 @@ class StorageSheet(models.TransientModel):
                     %(reference)s as reference,
                     %(reference)s as document,
                     %(location)s as location_id,
-                    pt.categ_id as categ_id
+                    pt.categ_id as categ_id,
+                    sml.lot_id as serial_number
                 from product_product as prod
                 join stock_move as sm ON sm.product_id = prod.id AND sm.state = 'done' AND
                     sm.company_id = %(company)s AND
@@ -257,21 +290,20 @@ class StorageSheet(models.TransientModel):
                           sm.location_id in %(locations)s) or
                          (l10n_ro_valued_type ='internal_transfer' and quantity>0 and
                           sm.location_dest_id in %(locations)s))
+                left join stock_move_line sml on sml.id=svl.l10n_ro_stock_move_line_id
                 where
                     ( %(all_products)s  or sm.product_id in %(product)s )
-                GROUP BY prod.id, svl.l10n_ro_account_id, pt.categ_id)
+                GROUP BY prod.id, svl.l10n_ro_account_id, pt.categ_id, sml.lot_id)
             a --where a.amount_initial!=0 and a.quantity_initial!=0
             """
+        return sql
 
-            params.update({"reference": "INITIAL"})
-            self.env.cr.execute(query_select_sold_init, params=params)
-            # res = self.env.cr.dictfetchall()
-            # self.env["l10n.ro.stock.storage.sheet.line"].create(res)
-            _logger.info("start query_select_sold_final %s", location.name)
-            query_select_sold_final = """
+    def _get_sql_select_sold_final(self):
+        sql = """
             insert into l10n_ro_stock_storage_sheet_line
               (report_id, product_id, amount_final, quantity_final,
-               account_id, date_time, date, reference, document, location_id, categ_id)
+               account_id, date_time, date, reference, document,
+               location_id, categ_id, serial_number)
             select * from(
                 SELECT %(report)s as report_id, sm.product_id as product_id,
                     COALESCE(sum(svl.value),0)  as amount_final,
@@ -283,7 +315,8 @@ class StorageSheet(models.TransientModel):
                     %(reference)s as reference,
                     %(reference)s as document,
                     %(location)s as location_id,
-                    pt.categ_id as categ_id
+                    pt.categ_id as categ_id,
+                    sml.lot_id as serial_number
                 from stock_move as sm
                 left join product_product prod on prod.id = sm.product_id
                 left join product_template pt on pt.id = prod.product_tmpl_id
@@ -295,25 +328,24 @@ class StorageSheet(models.TransientModel):
                           sm.location_id in %(locations)s) or
                          (l10n_ro_valued_type ='internal_transfer' and quantity>0 and
                           sm.location_dest_id in %(locations)s))
-                where sm.state = 'done' AND
+                left join stock_move_line sml on sml.id=svl.l10n_ro_stock_move_line_id
+                where
+                    sm.state = 'done' AND
                     sm.company_id = %(company)s AND
                     ( %(all_products)s  or sm.product_id in %(product)s ) AND
                     sm.date <=  %(datetime_to)s AND
                     (sm.location_id in %(locations)s OR sm.location_dest_id in %(locations)s)
-                GROUP BY sm.product_id, svl.l10n_ro_account_id, pt.categ_id)
+                GROUP BY sm.product_id, svl.l10n_ro_account_id, pt.categ_id, sml.lot_id)
             a --where a.amount_final!=0 and a.quantity_final!=0
             """
+        return sql
 
-            params.update({"reference": "FINAL"})
-            self.env.cr.execute(query_select_sold_final, params=params)
-            # res = self.env.cr.dictfetchall()
-            # self.env["l10n.ro.stock.storage.sheet.line"].create(res)
-            _logger.info("start query_in %s", location.name)
-            query_in = """
+    def _get_sql_select_in(self):
+        sql = """
             insert into l10n_ro_stock_storage_sheet_line
               (report_id, product_id, amount_in, quantity_in, unit_price_in,
                account_id, invoice_id, date_time, date, reference,  location_id,
-               partner_id, document, valued_type, categ_id )
+               partner_id, document, valued_type, categ_id , serial_number)
             select * from(
 
 
@@ -334,7 +366,8 @@ class StorageSheet(models.TransientModel):
                     sp.partner_id,
                     COALESCE(am.name, sm.reference) as document,
                     COALESCE(svl_in.l10n_ro_valued_type, 'indefinite') as valued_type,
-                    pt.categ_id as categ_id
+                    pt.categ_id as categ_id,
+                    sml.lot_id as serial_number
 
                 from stock_move as sm
                     inner join stock_valuation_layer as svl_in
@@ -350,6 +383,7 @@ class StorageSheet(models.TransientModel):
                     left join product_template pt on pt.id = prod.product_tmpl_id
                     left join stock_picking as sp on sm.picking_id = sp.id
                     left join account_move am on svl_in.l10n_ro_invoice_id = am.id
+                    left join stock_move_line sml on sml.id=svl_in.l10n_ro_stock_move_line_id
                 where
                     sm.state = 'done' AND
                     sm.company_id = %(company)s AND
@@ -358,18 +392,18 @@ class StorageSheet(models.TransientModel):
                     (sm.location_dest_id in %(locations)s or sm.location_id in %(locations)s)
                 GROUP BY sm.product_id, sm.date,
                  sm.reference, sp.partner_id, l10n_ro_account_id,
-                 svl_in.l10n_ro_invoice_id, am.name, svl_in.l10n_ro_valued_type, pt.categ_id)
+                 svl_in.l10n_ro_invoice_id, am.name, svl_in.l10n_ro_valued_type,
+                 pt.categ_id, sml.lot_id)
             a --where a.amount_in!=0 and a.quantity_in!=0
                 """
-            self.env.cr.execute(query_in, params=params)
-            # res = self.env.cr.dictfetchall()
-            # self.env["l10n.ro.stock.storage.sheet.line"].create(res)
-            _logger.info("start query_out %s", location.name)
-            query_out = """
-                        insert into l10n_ro_stock_storage_sheet_line
+        return sql
+
+    def _get_sql_select_out(self):
+        sql = """
+            insert into l10n_ro_stock_storage_sheet_line
               (report_id, product_id, amount_out, quantity_out, unit_price_out,
                account_id, invoice_id, date_time, date, reference,  location_id,
-               partner_id, document, valued_type, categ_id )
+               partner_id, document, valued_type, categ_id, serial_number )
 
             select * from(
 
@@ -390,7 +424,8 @@ class StorageSheet(models.TransientModel):
                     sp.partner_id,
                     COALESCE(am.name, sm.reference) as document,
                     COALESCE(svl_out.l10n_ro_valued_type, 'indefinite') as valued_type,
-                    pt.categ_id as categ_id
+                    pt.categ_id as categ_id,
+                    sml.lot_id as serial_number
 
                 from stock_move as sm
 
@@ -407,6 +442,7 @@ class StorageSheet(models.TransientModel):
                     left join product_template pt on pt.id = prod.product_tmpl_id
                     left join stock_picking as sp on sm.picking_id = sp.id
                     left join account_move am on svl_out.l10n_ro_invoice_id = am.id
+                    left join stock_move_line sml on sml.id=svl_out.l10n_ro_stock_move_line_id
                 where
                     sm.state = 'done' AND
                     sm.company_id = %(company)s AND
@@ -416,13 +452,10 @@ class StorageSheet(models.TransientModel):
                 GROUP BY sm.product_id, sm.date,
                          sm.reference, sp.partner_id, account_id,
                          svl_out.l10n_ro_invoice_id, am.name, svl_out.l10n_ro_valued_type,
-                         pt.categ_id)
+                         pt.categ_id, sml.lot_id)
             a --where a.amount_out!=0 and a.quantity_out!=0
                 """
-            self.env.cr.execute(query_out, params=params)
-            # res = self.env.cr.dictfetchall()
-            # self.line_product_ids.create(res)
-        _logger.info("end select ")
+        return sql
 
     def get_report_products(self):
         self.ensure_one()
@@ -470,7 +503,7 @@ class StorageSheet(models.TransientModel):
 
         action["display_name"] = "{} {} ({}-{})".format(
             action["name"],
-            self.location_id.name,
+            self.location_id.name or _("All Locations"),
             self.date_from,
             self.date_to,
         )
@@ -557,6 +590,7 @@ class StorageSheetLine(models.TransientModel):
         index=True,
     )
     categ_id = fields.Many2one("product.category", index=True)
+    serial_number = fields.Many2one("stock.production.lot", index=True)
     account_id = fields.Many2one("account.account", index=True)
     location_id = fields.Many2one("stock.location", index=True)
     invoice_id = fields.Many2one("account.move", index=True)
