@@ -307,6 +307,10 @@ class TestAccountEdiUbl(AccountEdiTestCommon):
             ),
         ]
         for check_case in cases:
+            self.invoice.with_context(
+                test_data=self.get_file("upload_success.xml")
+            ).action_process_edi_web_services()
+            _logger.info("Test case: %s", check_case[2])
             self.test_step2_not_ok(check_case)
 
     def test_step2_not_ok(self, check_case=False):
