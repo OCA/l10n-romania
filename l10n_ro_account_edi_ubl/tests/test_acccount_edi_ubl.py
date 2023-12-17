@@ -383,6 +383,7 @@ class TestAccountEdiUbl(AccountEdiTestCommon):
         anaf_config = self.env.company.l10n_ro_account_anaf_sync_id
         anaf_config.access_token = "test"
         self.env.company.l10n_ro_download_einvoices = True
+        self.env.company.vat = "RO23685159"
         messages = [
             {
                 "data_creare": "202312120940",
