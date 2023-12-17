@@ -83,6 +83,11 @@ msgid "<strong>Share Capital:</strong>"
 msgstr "<strong>Capital social:</strong>"
 
 #. module: l10n_ro_config
+#: model_terms:ir.ui.view,arch_db:l10n_ro_config.res_config_settings_view_form
+msgid "ANAF Integration"
+msgstr ""
+
+#. module: l10n_ro_config
 #: model:ir.model.fields,field_description:l10n_ro_config.field_res_config_settings__module_l10n_ro_account_anaf_sync
 msgid "Account ANAF Sync"
 msgstr "Cont Sincronizare ANAF"
