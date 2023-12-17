@@ -15,6 +15,9 @@ class ResCompany(models.Model):
     _inherit = "res.company"
 
     l10n_ro_edi_residence = fields.Integer(string="Period of Residence", default=5)
+    l10n_ro_edi_cius_embed_pdf = fields.Boolean(
+        string="Embed PDF in CIUS", default=False
+    )
     l10n_ro_download_einvoices = fields.Boolean(
         string="Download e-invoices from ANAF", default=False
     )

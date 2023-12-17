@@ -176,12 +176,10 @@ class TestAccountEdiUbl(AccountEdiTestCommon):
     def check_invoice_documents(
         self, invoice, state="to_send", error=False, blocking_level=False
     ):
-
         sleep_time = 0
         while not invoice.edi_state and sleep_time < 30:
             time.sleep(1)
             sleep_time += 1
-
         self.assertEqual(len(invoice.edi_document_ids), 1)
         self.assertEqual(invoice.edi_state, state)
         self.assertEqual(invoice.edi_document_ids.state, state)
@@ -384,23 +382,37 @@ class TestAccountEdiUbl(AccountEdiTestCommon):
     def test_l10n_ro_create_anaf_efactura(self):
         anaf_config = self.env.company.l10n_ro_account_anaf_sync_id
         anaf_config.access_token = "test"
+        self.env.company.l10n_ro_download_einvoices = True
+        self.env.company.partner_id.write(
+            {
+                "vat": "RO34581625",
+                "name": "AGROAMAT COM SRL",
+                "phone": False,
+                "email": False,
+            }
+        )
+        self.env["res.partner"].create(
+            {
+                "name": "TOTAL SECURITY S.A.",
+                "vat": "RO8486152",
+                "country_id": self.env.ref("base.ro").id,
+            }
+        )
         messages = [
             {
                 "data_creare": "202312120940",
-                "cif": "23685159",
-                "id_solicitare": "5004552043",
-                "detalii": "Factura cu id_incarcare=5004552043 emisa de "
+                "cif": "34581625",
+                "id_solicitare": "5004879752",
+                "detalii": "Factura cu id_incarcare=5004879752 emisa de "
                 "cif_emitent=8486152 pentru "
-                "cif_beneficiar=23685159",
+                "cif_beneficiar=34581625",
                 "tip": "FACTURA PRIMITA",
-                "id": "3006372781",
+                "id": "3006850898",
             }
         ]
 
         signed_zip_file = open(
-            get_module_resource(
-                "l10n_ro_account_edi_ubl", "tests", "semnatura_5004552043.zip"
-            ),
+            get_module_resource("l10n_ro_account_edi_ubl", "tests", "5004879752.zip"),
             mode="rb",
         ).read()
         with patch(
@@ -414,28 +426,28 @@ class TestAccountEdiUbl(AccountEdiTestCommon):
         ):
             self.env.company._l10n_ro_create_anaf_efactura()
             invoice = self.env["account.move"].search(
-                [("l10n_ro_edi_download", "=", "3006372781")]
+                [("l10n_ro_edi_download", "=", "3006850898")]
             )
             self.assertEqual(len(invoice), 1)
-            self.assertEqual(invoice.l10n_ro_edi_download, "3006372781")
-            self.assertEqual(invoice.l10n_ro_edi_transaction, "5004552043")
+            self.assertEqual(invoice.l10n_ro_edi_download, "3006850898")
+            self.assertEqual(invoice.l10n_ro_edi_transaction, "5004879752")
             self.assertEqual(invoice.move_type, "in_invoice")
             self.assertEqual(invoice.partner_id.vat, "RO8486152")
-            self.assertEqual(invoice.partner_id.name, "TOTAL SECURITY SA")
-            self.assertEqual(invoice.ref, "ETTS/2023 /000130")
-            self.assertEqual(invoice.payment_reference, "ETTS/2023 /000130")
+
+            self.assertEqual(invoice.ref, "INV/2023/00029")
+            self.assertEqual(invoice.payment_reference, "INV/2023/00029")
             self.assertEqual(invoice.currency_id.name, "RON")
             self.assertEqual(
-                invoice.invoice_date, fields.Date.from_string("2023-12-06")
+                invoice.invoice_date, fields.Date.from_string("2023-12-16")
             )
             self.assertEqual(
-                invoice.invoice_date_due, fields.Date.from_string("2023-12-21")
+                invoice.invoice_date_due, fields.Date.from_string("2023-12-16")
             )
-            self.assertAlmostEqual(invoice.amount_untaxed, 3964.80)
-            self.assertAlmostEqual(invoice.amount_tax, 753.31)
-            self.assertAlmostEqual(invoice.amount_total, 4718.11)
-            self.assertAlmostEqual(invoice.amount_residual, 4718.11)
-            self.assertEqual(invoice.invoice_line_ids[0].name, "PAZA_NEINARMAT")
-            self.assertAlmostEqual(invoice.invoice_line_ids[0].quantity, 168)
-            self.assertAlmostEqual(invoice.invoice_line_ids[0].price_unit, 23.6)
-            self.assertAlmostEqual(invoice.invoice_line_ids[0].balance, 3964.80)
+            self.assertAlmostEqual(invoice.amount_untaxed, 1000.0)
+            self.assertAlmostEqual(invoice.amount_tax, 190.0)
+            self.assertAlmostEqual(invoice.amount_total, 1190.0)
+            self.assertAlmostEqual(invoice.amount_residual, 1190.0)
+            self.assertEqual(invoice.invoice_line_ids[0].name, "test")
+            self.assertAlmostEqual(invoice.invoice_line_ids[0].quantity, 1)
+            self.assertAlmostEqual(invoice.invoice_line_ids[0].price_unit, 1000.0)
+            self.assertAlmostEqual(invoice.invoice_line_ids[0].balance, 1000.0)

@@ -12,7 +12,6 @@
                     id="l10n_ro_edi_residence"
                 >
                     <div class="o_setting_left_pane">
-                        <field name="l10n_ro_edi_residence" />
                     </div>
                     <div class="o_setting_right_pane">
                       <label
@@ -24,6 +23,27 @@
                             Period of residence for the e-Invoice after which it is automatically sent
                         </div>
 
+                    </div>
+                </div>
+                <div
+                    class="col-xs-12 col-md-6 o_setting_box"
+                    id="l10n_ro_edi_cius_embed_pdf"
+                >
+                    <div class="o_setting_left_pane">
+                        <field name="l10n_ro_edi_cius_embed_pdf" />
+                    </div>
+                    <div class="o_setting_right_pane">
+                        <label for="l10n_ro_edi_cius_embed_pdf" />
+                        <span
+                            class="fa fa-lg fa-building-o"
+                            title="Values set here are company-specific."
+                            role="img"
+                            aria-label="Values set here are company-specific."
+                            groups="base.group_multi_company"
+                        />
+                        <div class="text-muted">
+                            Attach PDF invoice to the e-Invoice.
+                        </div>
                     </div>
                 </div>
                 <div class="col-xs-12 col-md-6 o_setting_box" id="l10n_ro_edi_download">

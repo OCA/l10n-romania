@@ -14,6 +14,12 @@ class ResConfigSettings(models.TransientModel):
         string="Residence",
     )
 
+    l10n_ro_edi_cius_embed_pdf = fields.Boolean(
+        related="company_id.l10n_ro_edi_cius_embed_pdf",
+        readonly=False,
+        string="Embed PDF in CIUS",
+    )
+
     l10n_ro_download_einvoices = fields.Boolean(
         related="company_id.l10n_ro_download_einvoices",
         readonly=False,

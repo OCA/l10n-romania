@@ -23,10 +23,16 @@ class AccountMove(models.Model):
         copy=False,
     )
 
+    def get_l10n_ro_edi_invoice_needed(self):
+        self.ensure_one()
+        if self.move_type in ("out_invoice", "out_refund"):
+            return True
+        return False
+
     def button_draft(self):
         # OVERRIDE
         for move in self:
-            if move.l10n_ro_edi_transaction:
+            if move.l10n_ro_edi_transaction and move.get_l10n_ro_edi_invoice_needed():
                 raise UserError(
                     _(
                         "You can't edit the following journal entry %s "
@@ -41,7 +47,10 @@ class AccountMove(models.Model):
 
     def button_cancel_posted_moves(self):
         # OVERRIDE
-        sent_e_invoices = self.filtered(lambda move: move.l10n_ro_edi_transaction)
+        sent_e_invoices = self.filtered(
+            lambda move: move.l10n_ro_edi_transaction
+            and move.get_l10n_ro_edi_invoice_needed()
+        )
         if sent_e_invoices:
             raise UserError(
                 _(
@@ -70,7 +79,7 @@ class AccountMove(models.Model):
 
     def attach_ubl_xml_file_button(self):
         self.ensure_one()
-        assert self.move_type in ("out_invoice", "out_refund")
+        assert self.get_l10n_ro_edi_invoice_needed()
         assert self.state == "posted"
 
         cius_ro = self.env.ref("l10n_ro_account_edi_ubl.edi_ubl_cius_ro")
@@ -146,6 +155,9 @@ class AccountMove(models.Model):
 
     def l10n_ro_process_anaf_zip_file(self, zip_content):
         self.ensure_one()
+        self.l10n_ro_save_file(
+            "%s.zip" % self.l10n_ro_edi_transaction, zip_content, "application/zip"
+        )
         attachment = self.l10n_ro_save_anaf_xml_file(zip_content)
         cius_ro = self.env.ref("l10n_ro_account_edi_ubl.edi_ubl_cius_ro")
         edi_doc = self._get_edi_document(cius_ro)
@@ -157,20 +169,34 @@ class AccountMove(models.Model):
             )
             edi_format_cius._update_invoice_from_attachment(attachment, self)
 
+    def l10n_ro_get_xml_file(self, zip_ref):
+        file_name = xml_file = False
+        if self.get_l10n_ro_edi_invoice_needed():
+            xml_file = [f for f in zip_ref.namelist() if "semnatura" in f]
+        else:
+            xml_file = [f for f in zip_ref.namelist() if "semnatura" not in f]
+        if xml_file:
+            file_name = xml_file[0]
+            xml_file = zip_ref.read(file_name)
+        return file_name, xml_file
+
     def l10n_ro_save_anaf_xml_file(self, zip_content):
         """Process a ZIP containing the sending and official XML signed
         document. This will only be available for invoices that have
         been successfully validated by ANAF and the government.
         """
         self.ensure_one()
-
         zip_ref = zipfile.ZipFile(io.BytesIO(zip_content))
-        xml_file = [f for f in zip_ref.namelist() if "semnatura" in f]
+        file_name, xml_file = self.l10n_ro_get_xml_file(zip_ref)
         if not xml_file:
             return self.env["ir.attachment"]
 
-        file_name = xml_file[0]
-        xml_file = zip_ref.read(file_name)
+        attachment = self.l10n_ro_save_file(file_name, xml_file)
+
+        return attachment
+
+    def l10n_ro_save_file(self, file_name, file_content, mimetype="application/xml"):
+        self.ensure_one()
 
         domain = [
             ("name", "=", file_name),
@@ -183,10 +209,10 @@ class AccountMove(models.Model):
         attachment = self.env["ir.attachment"].create(
             {
                 "name": file_name,
-                "raw": xml_file,
+                "raw": file_content,
                 "res_model": "account.move",
                 "res_id": self.id,
-                "mimetype": "application/xml",
+                "mimetype": mimetype,
             }
         )
         return attachment
