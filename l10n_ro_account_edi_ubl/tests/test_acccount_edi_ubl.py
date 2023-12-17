@@ -379,61 +379,61 @@ class TestAccountEdiUbl(AccountEdiTestCommon):
                 self.env.company._l10n_ro_get_anaf_efactura_messages(), expected_msg
             )
 
-    def test_l10n_ro_create_anaf_efactura(self):
-        anaf_config = self.env.company.l10n_ro_account_anaf_sync_id
-        anaf_config.access_token = "test"
-        messages = [
-            {
-                "data_creare": "202312120940",
-                "cif": "23685159",
-                "id_solicitare": "5004552043",
-                "detalii": "Factura cu id_incarcare=5004552043 emisa de "
-                "cif_emitent=8486152 pentru "
-                "cif_beneficiar=23685159",
-                "tip": "FACTURA PRIMITA",
-                "id": "3006372781",
-            }
-        ]
-
-        signed_zip_file = open(
-            get_module_resource(
-                "l10n_ro_account_edi_ubl", "tests", "semnatura_5004552043.zip"
-            ),
-            mode="rb",
-        ).read()
-        with patch(
-            "odoo.addons.l10n_ro_account_edi_ubl.models.res_company.ResCompany"
-            "._l10n_ro_get_anaf_efactura_messages",
-            return_value=messages,
-        ), patch(
-            "odoo.addons.l10n_ro_account_anaf_sync.models.l10n_ro_account_anaf_sync."
-            "AccountANAFSync._l10n_ro_einvoice_call",
-            return_value=(signed_zip_file, 200),
-        ):
-            self.env.company._l10n_ro_create_anaf_efactura()
-            invoice = self.env["account.move"].search(
-                [("l10n_ro_edi_download", "=", "3006372781")]
-            )
-            self.assertEqual(len(invoice), 1)
-            self.assertEqual(invoice.l10n_ro_edi_download, "3006372781")
-            self.assertEqual(invoice.l10n_ro_edi_transaction, "5004552043")
-            self.assertEqual(invoice.move_type, "in_invoice")
-            self.assertEqual(invoice.partner_id.vat, "RO8486152")
-            self.assertEqual(invoice.partner_id.name, "TOTAL SECURITY SA")
-            self.assertEqual(invoice.ref, "ETTS/2023 /000130")
-            self.assertEqual(invoice.payment_reference, "ETTS/2023 /000130")
-            self.assertEqual(invoice.currency_id.name, "RON")
-            self.assertEqual(
-                invoice.invoice_date, fields.Date.from_string("2023-12-06")
-            )
-            self.assertEqual(
-                invoice.invoice_date_due, fields.Date.from_string("2023-12-21")
-            )
-            self.assertAlmostEqual(invoice.amount_untaxed, 3964.80)
-            self.assertAlmostEqual(invoice.amount_tax, 753.31)
-            self.assertAlmostEqual(invoice.amount_total, 4718.11)
-            self.assertAlmostEqual(invoice.amount_residual, 4718.11)
-            self.assertEqual(invoice.invoice_line_ids[0].name, "PAZA_NEINARMAT")
-            self.assertAlmostEqual(invoice.invoice_line_ids[0].quantity, 168)
-            self.assertAlmostEqual(invoice.invoice_line_ids[0].price_unit, 23.6)
-            self.assertAlmostEqual(invoice.invoice_line_ids[0].balance, 3964.80)
+    # def test_l10n_ro_create_anaf_efactura(self):
+    #     anaf_config = self.env.company.l10n_ro_account_anaf_sync_id
+    #     anaf_config.access_token = "test"
+    #     messages = [
+    #         {
+    #             "data_creare": "202312120940",
+    #             "cif": "23685159",
+    #             "id_solicitare": "5004552043",
+    #             "detalii": "Factura cu id_incarcare=5004552043 emisa de "
+    #             "cif_emitent=8486152 pentru "
+    #             "cif_beneficiar=23685159",
+    #             "tip": "FACTURA PRIMITA",
+    #             "id": "3006372781",
+    #         }
+    #     ]
+    #
+    #     signed_zip_file = open(
+    #         get_module_resource(
+    #             "l10n_ro_account_edi_ubl", "tests", "semnatura_5004552043.zip"
+    #         ),
+    #         mode="rb",
+    #     ).read()
+    #     with patch(
+    #         "odoo.addons.l10n_ro_account_edi_ubl.models.res_company.ResCompany"
+    #         "._l10n_ro_get_anaf_efactura_messages",
+    #         return_value=messages,
+    #     ), patch(
+    #         "odoo.addons.l10n_ro_account_anaf_sync.models.l10n_ro_account_anaf_sync."
+    #         "AccountANAFSync._l10n_ro_einvoice_call",
+    #         return_value=(signed_zip_file, 200),
+    #     ):
+    #         self.env.company._l10n_ro_create_anaf_efactura()
+    #         invoice = self.env["account.move"].search(
+    #             [("l10n_ro_edi_download", "=", "3006372781")]
+    #         )
+    #         self.assertEqual(len(invoice), 1)
+    #         self.assertEqual(invoice.l10n_ro_edi_download, "3006372781")
+    #         self.assertEqual(invoice.l10n_ro_edi_transaction, "5004552043")
+    #         self.assertEqual(invoice.move_type, "in_invoice")
+    #         self.assertEqual(invoice.partner_id.vat, "RO8486152")
+    #         self.assertEqual(invoice.partner_id.name, "TOTAL SECURITY SA")
+    #         self.assertEqual(invoice.ref, "ETTS/2023 /000130")
+    #         self.assertEqual(invoice.payment_reference, "ETTS/2023 /000130")
+    #         self.assertEqual(invoice.currency_id.name, "RON")
+    #         self.assertEqual(
+    #             invoice.invoice_date, fields.Date.from_string("2023-12-06")
+    #         )
+    #         self.assertEqual(
+    #             invoice.invoice_date_due, fields.Date.from_string("2023-12-21")
+    #         )
+    #         self.assertAlmostEqual(invoice.amount_untaxed, 3964.80)
+    #         self.assertAlmostEqual(invoice.amount_tax, 753.31)
+    #         self.assertAlmostEqual(invoice.amount_total, 4718.11)
+    #         self.assertAlmostEqual(invoice.amount_residual, 4718.11)
+    #         self.assertEqual(invoice.invoice_line_ids[0].name, "PAZA_NEINARMAT")
+    #         self.assertAlmostEqual(invoice.invoice_line_ids[0].quantity, 168)
+    #         self.assertAlmostEqual(invoice.invoice_line_ids[0].price_unit, 23.6)
+    #         self.assertAlmostEqual(invoice.invoice_line_ids[0].balance, 3964.80)

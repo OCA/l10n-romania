@@ -191,9 +191,6 @@ class AccountMove(models.Model):
         if not xml_file:
             return self.env["ir.attachment"]
 
-        file_name = xml_file[0]
-        xml_file = zip_ref.read(file_name)
-
         attachment = self.l10n_ro_save_file(file_name, xml_file)
 
         return attachment
