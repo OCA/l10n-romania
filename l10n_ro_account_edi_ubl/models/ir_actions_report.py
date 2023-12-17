@@ -7,7 +7,7 @@ from xml.sax.saxutils import escape, quoteattr
 
 from lxml import etree
 
-from odoo import models
+from odoo import api, models
 from odoo.tools import cleanup_xml_node
 
 
@@ -23,13 +23,18 @@ class IrActionsReport(models.Model):
 
         if not record.company_id.l10n_ro_edi_cius_embed_pdf:
             return result
+
         if record._name == "account.move":
-            # exclude efff because it's handled by l10n_be_edi
+
             format_codes = ["cius_ro"]
             cius_ro_edi_documents = record.edi_document_ids.filtered(
                 lambda d: d.edi_format_id.code in format_codes
             )
             if not cius_ro_edi_documents:
+                return result
+
+            invoice_report = self.env.company.l10n_ro_default_cius_pdf_report
+            if invoice_report and invoice_report != self:
                 return result
             record.attach_ubl_xml_file_button()
             edi_attachments = cius_ro_edi_documents.attachment_id
@@ -45,42 +50,49 @@ class IrActionsReport(models.Model):
                 additional_document_elements = tree.xpath(
                     "//*[local-name()='AdditionalDocumentReference']"
                 )
-                # with this clause, we ensure the xml are only postprocessed
-                # once (even when the invoice is reset to
-                # draft then validated again)
+                # with this clause, we ensure the xml are only postprocessed once
+                # (even when the invoice is reset to draft then validated again)
                 if anchor_elements and not additional_document_elements:
-                    pdf = base64.b64encode(buffer.getvalue()).decode()
-                    pdf_name = "%s.pdf" % record.name.replace("/", "_")
-                    to_inject = """
-    <cac:AdditionalDocumentReference
-        xmlns="urn:oasis:names:specification:ubl:schema:xsd:Invoice-2"
-        xmlns:cbc="urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2"
-        xmlns:cac="urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2">
-        <cbc:ID>%s</cbc:ID>
-        <cac:Attachment>
-            <cbc:EmbeddedDocumentBinaryObject mimeCode="application/pdf" filename=%s>
-                %s
-            </cbc:EmbeddedDocumentBinaryObject>
-        </cac:Attachment>
-    </cac:AdditionalDocumentReference>
-                    """ % (
-                        escape(pdf_name),
-                        quoteattr(pdf_name),
-                        pdf,
+                    self.l10n_ro_add_pdf_to_xml(
+                        record, buffer, tree, anchor_elements, edi_attachment
                     )
-
-                    anchor_index = tree.index(anchor_elements[0])
-                    tree.insert(anchor_index, etree.fromstring(to_inject))
-                    new_xml = etree.tostring(
-                        cleanup_xml_node(tree), xml_declaration=True, encoding="UTF-8"
-                    )
-                    edi_attachment.write(
-                        {
-                            "res_model": "account.move",
-                            "res_id": record.id,
-                            "datas": base64.b64encode(new_xml),
-                            "mimetype": "application/xml",
-                        }
-                    )
-
         return result
+
+    @api.model
+    def l10n_ro_add_pdf_to_xml(
+        self, invoice, buffer, tree, anchor_elements, edi_attachment
+    ):
+
+        pdf_content_b64 = base64.b64encode(buffer.getvalue()).decode()
+        pdf_name = "%s.pdf" % invoice.name.replace("/", "_")
+        to_inject = """
+<cac:AdditionalDocumentReference
+    xmlns="urn:oasis:names:specification:ubl:schema:xsd:Invoice-2"
+    xmlns:cbc="urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2"
+    xmlns:cac="urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2">
+    <cbc:ID>%s</cbc:ID>
+    <cac:Attachment>
+        <cbc:EmbeddedDocumentBinaryObject mimeCode="application/pdf" filename=%s>
+            %s
+        </cbc:EmbeddedDocumentBinaryObject>
+    </cac:Attachment>
+</cac:AdditionalDocumentReference>
+        """ % (
+            escape(pdf_name),
+            quoteattr(pdf_name),
+            pdf_content_b64,
+        )
+
+        anchor_index = tree.index(anchor_elements[0])
+        tree.insert(anchor_index, etree.fromstring(to_inject))
+        new_xml = etree.tostring(
+            cleanup_xml_node(tree), xml_declaration=True, encoding="UTF-8"
+        )
+        edi_attachment.sudo().write(
+            {
+                "res_model": "account.move",
+                "res_id": invoice.id,
+                "datas": base64.b64encode(new_xml),
+                "mimetype": "application/xml",
+            }
+        )
