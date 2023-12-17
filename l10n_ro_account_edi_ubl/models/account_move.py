@@ -190,14 +190,12 @@ class AccountMove(models.Model):
         file_name, xml_file = self.l10n_ro_get_xml_file(zip_ref)
         if not xml_file:
             return self.env["ir.attachment"]
-
         attachment = self.l10n_ro_save_file(file_name, xml_file)
 
         return attachment
 
     def l10n_ro_save_file(self, file_name, file_content, mimetype="application/xml"):
         self.ensure_one()
-
         domain = [
             ("name", "=", file_name),
             ("res_model", "=", "account.move"),

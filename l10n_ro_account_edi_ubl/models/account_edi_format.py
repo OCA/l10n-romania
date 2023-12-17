@@ -176,8 +176,9 @@ class AccountEdiXmlCIUSRO(models.Model):
         params = {"id_incarcare": invoice.l10n_ro_edi_transaction}
         res = self._l10n_ro_anaf_call("/stareMesaj", anaf_config, params, method="GET")
         if res.get("id_descarcare", False):
-            res.update({"attachment": attachment})
             invoice.write({"l10n_ro_edi_download": res.get("id_descarcare")})
+            if res.get("success", False):
+                res.update({"attachment": attachment})
         return res
 
     def _l10n_ro_anaf_call(self, func, anaf_config, params, data=None, method="POST"):

@@ -4,9 +4,10 @@
 
 import json
 import logging
+from datetime import datetime
 
-from odoo import api, fields, models
-from odoo.tools.safe_eval import safe_eval
+from odoo import _, api, fields, models
+from odoo.tools import DEFAULT_SERVER_DATE_FORMAT as DATE_FORMAT
 
 _logger = logging.getLogger(__name__)
 
@@ -18,9 +19,38 @@ class ResCompany(models.Model):
     l10n_ro_edi_cius_embed_pdf = fields.Boolean(
         string="Embed PDF in CIUS", default=False
     )
+    l10n_ro_default_cius_pdf_report = fields.Many2one(
+        "ir.actions.report",
+        string="Default PDF Report",
+        help="Default PDF report to be attached to xml e-invoice.",
+    )
     l10n_ro_download_einvoices = fields.Boolean(
         string="Download e-invoices from ANAF", default=False
     )
+    l10n_ro_download_einvoices_start_date = fields.Date(
+        string="Start date to download e-invoices"
+    )
+    l10n_ro_download_einvoices_days = fields.Integer(
+        string="Maximum number of days to download e-invoices.", default=10
+    )
+
+    @api.constrains("l10n_ro_edi_residence", "l10n_ro_download_einvoices_days")
+    def _check_l10n_ro_edi_residence(self):
+        for company in self:
+            if company.l10n_ro_edi_residence < 0 or company.l10n_ro_edi_residence > 5:
+                raise models.ValidationError(
+                    _("The period of residence must be between 0 and 5.")
+                )
+            if (
+                company.l10n_ro_download_einvoices_days < 0
+                or company.l10n_ro_download_einvoices_days > 60
+            ):
+                raise models.ValidationError(
+                    _(
+                        "The maximum number of days to download e-invoices "
+                        "must be between 0 and 60."
+                    )
+                )
 
     def _l10n_ro_get_anaf_efactura_messages(self):
         company_messages = []
@@ -31,13 +61,7 @@ class ResCompany(models.Model):
         if not anaf_config.access_token:
             _logger.warning("No access token for company %s", self.name)
             return company_messages
-        # We set a parameter to define the number of days to fetch messages from ANAF
-        # default 60 days as long as the invoices are available on ANAF
-        config_obj = self.env["ir.config_parameter"].sudo()
-        param = config_obj.search([("key", "=", "efactura_download_limit_days")])
-        if not param:
-            config_obj.set_param("efactura_download_limit_days", "60")
-        no_days = safe_eval(config_obj.get_param("efactura_download_limit_days"))
+        no_days = self.l10n_ro_download_einvoices_days or "60"
         params = {
             "zile": no_days,
             "cif": self.partner_id.l10n_ro_vat_number,
@@ -69,6 +93,16 @@ class ResCompany(models.Model):
             move_obj = self.env["account.move"].with_company(company)
             company_messages = company._l10n_ro_get_anaf_efactura_messages()
             for message in company_messages:
+                if company.l10n_ro_download_einvoices_start_date:
+                    if message.get("data_creare"):
+                        message_date = datetime.strptime(
+                            message.get("data_creare")[:8], "%Y%m%d"
+                        ).strftime(DATE_FORMAT)
+                        if (
+                            fields.Date.from_string(message_date)
+                            < company.l10n_ro_download_einvoices_start_date
+                        ):
+                            continue
                 invoice = move_obj.search(
                     [("l10n_ro_edi_download", "=", message.get("id"))]
                 )
