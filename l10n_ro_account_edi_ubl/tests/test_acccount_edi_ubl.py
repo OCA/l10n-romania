@@ -383,15 +383,29 @@ class TestAccountEdiUbl(AccountEdiTestCommon):
         anaf_config = self.env.company.l10n_ro_account_anaf_sync_id
         anaf_config.access_token = "test"
         self.env.company.l10n_ro_download_einvoices = True
-        self.env.company.vat = "RO23685159"
+        self.env.company.partner_id.write(
+            {
+                "vat": "RO34581625",
+                "name": "AGROAMAT COM SRL",
+                "phone": False,
+                "email": False,
+            }
+        )
+        self.env["res.partner"].create(
+            {
+                "name": "TOTAL SECURITY S.A.",
+                "vat": "RO8486152",
+                "country_id": self.env.ref("base.ro").id,
+            }
+        )
         messages = [
             {
                 "data_creare": "202312120940",
-                "cif": "23685159",
+                "cif": "34581625",
                 "id_solicitare": "5004879752",
                 "detalii": "Factura cu id_incarcare=5004879752 emisa de "
                 "cif_emitent=8486152 pentru "
-                "cif_beneficiar=23685159",
+                "cif_beneficiar=34581625",
                 "tip": "FACTURA PRIMITA",
                 "id": "3006850898",
             }
