@@ -27,6 +27,7 @@
             ref="l10n_ro_account_period_close.model_l10n_ro_account_period_closing"
         />
         <field name="binding_view_types">Null</field>
+        <field name="target">new</field>
     </record>
     <record id="view_l10n_ro_account_period_closing_tree" model="ir.ui.view">
         <field name="name">l10n.ro.account.period.closing.tree</field>
