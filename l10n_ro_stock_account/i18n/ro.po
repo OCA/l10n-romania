@@ -44,6 +44,12 @@ msgid "Companies"
 msgstr "Companii"
 
 #. module: l10n_ro_stock_account
+#: model:ir.model.fields,field_description:l10n_ro_stock_account.field_stock_quant__company_id
+#: model:ir.model.fields,field_description:l10n_ro_stock_account.field_stock_valuation_layer__company_id
+msgid "Company"
+msgstr ""
+
+#. module: l10n_ro_stock_account
 #. odoo-python
 #: code:addons/l10n_ro_stock_account/models/stock_landed_cost.py:0
 #, python-format
@@ -181,6 +187,11 @@ msgid "Last Updated on"
 msgstr ""
 
 #. module: l10n_ro_stock_account
+#: model:ir.model.fields,help:l10n_ro_stock_account.field_stock_quant__company_id
+msgid "Let this field empty if this location is shared between companies"
+msgstr ""
+
+#. module: l10n_ro_stock_account
 #: model_terms:ir.ui.view,arch_db:l10n_ro_stock_account.stock_valuation_layer_revaluation_form_view
 msgid "Location"
 msgstr ""
@@ -218,6 +229,7 @@ msgstr ""
 
 #. module: l10n_ro_stock_account
 #: model:ir.model,name:l10n_ro_stock_account.model_product_template
+#: model:ir.model.fields,field_description:l10n_ro_stock_account.field_stock_valuation_layer__product_id
 msgid "Product"
 msgstr ""
 
