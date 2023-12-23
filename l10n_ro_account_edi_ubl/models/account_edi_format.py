@@ -76,7 +76,7 @@ class AccountEdiXmlCIUSRO(models.Model):
             return super()._post_invoice_edi(invoices)
         res = {}
         for invoice in invoices:
-
+            # import ipdb; ipdb.set_trace()
             anaf_config = invoice.company_id.l10n_ro_account_anaf_sync_id
             if not anaf_config:
                 res[invoice] = {
@@ -88,11 +88,13 @@ class AccountEdiXmlCIUSRO(models.Model):
             attachment = invoice._get_edi_attachment(self)
             if not attachment:
                 attachment = self._export_cius_ro(invoice)
+                doc = invoice._get_edi_document(self)
+                doc.write({"attachment_id": attachment.id})
             # Generate PDF report to be embedded in the XML
             if invoice.company_id.l10n_ro_edi_cius_embed_pdf:
                 pdf_report = invoice.company_id.l10n_ro_default_cius_pdf_report
                 if not pdf_report:
-                    pdf_report = self.env.ref("account.report_invoice_with_payments")
+                    pdf_report = self.env.ref("account.account_invoices")
                 self.env["ir.actions.report"]._render_qweb_pdf(
                     pdf_report.report_name, invoice.id
                 )
@@ -197,6 +199,7 @@ class AccountEdiXmlCIUSRO(models.Model):
             invoice.write({"l10n_ro_edi_download": res.get("id_descarcare")})
             if res.get("success", False):
                 res.update({"attachment": attachment})
+                invoice.message_post(body=_("The invoice was validated by ANAF."))
         return res
 
     def _l10n_ro_anaf_call(self, func, anaf_config, params, data=None, method="POST"):
@@ -246,13 +249,12 @@ class AccountEdiXmlCIUSRO(models.Model):
             }
 
         # This is response from step 2
-        res = {"success": True}
+        res = {"success": False}
         stare = doc.get("stare", False)
         stari = {
             "in prelucrare": {
                 "success": False,
                 "blocking_level": "info",
-                "in_processing": True,
                 "error": "The invoice is in processing at ANAF.",
             },
             "nok": {

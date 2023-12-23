@@ -15,6 +15,7 @@
         "data/ubl_templates.xml",
         "views/res_config_settings_views.xml",
         "views/account_invoice.xml",
+        "views/account_onboarding_templates.xml",
         "views/product_view.xml",
         "views/res_partner_view.xml",
         "views/cius_template.xml",

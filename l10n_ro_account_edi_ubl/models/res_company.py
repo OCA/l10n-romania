@@ -12,6 +12,14 @@ from odoo.tools import DEFAULT_SERVER_DATE_FORMAT as DATE_FORMAT
 _logger = logging.getLogger(__name__)
 
 
+ONBOARDING_STEP_STATES = [
+    ("not_done", "Not done"),
+    ("just_done", "Just done"),
+    ("done", "Done"),
+]
+DASHBOARD_ONBOARDING_STATES = ONBOARDING_STEP_STATES + [("closed", "Closed")]
+
+
 class ResCompany(models.Model):
     _inherit = "res.company"
 
@@ -32,6 +40,22 @@ class ResCompany(models.Model):
     )
     l10n_ro_download_einvoices_days = fields.Integer(
         string="Maximum number of days to download e-invoices.", default=10
+    )
+    l10n_ro_anaf_edi_cron_result = fields.Text()
+    l10n_ro_token_status_data_state_step = fields.Selection(
+        ONBOARDING_STEP_STATES,
+        string="State of the onboarding anaf sycn status",
+        default="not_done",
+    )
+    l10n_ro_edi_download_cron_data_state_step = fields.Selection(
+        ONBOARDING_STEP_STATES,
+        string="State of the onboarding anaf edi download cron step",
+        default="not_done",
+    )
+    l10n_ro_anaf_edi_onboarding_state = fields.Selection(
+        DASHBOARD_ONBOARDING_STATES,
+        string="State of the edi ubl dashboard onboarding panel",
+        default="not_done",
     )
 
     @api.constrains("l10n_ro_edi_residence", "l10n_ro_download_einvoices_days")
@@ -88,34 +112,78 @@ class ResCompany(models.Model):
             and c.l10n_ro_account_anaf_sync_id
             and c.l10n_ro_download_einvoices
         )
-        new_invoices = self.env["account.move"]
+        ro_companies.l10n_ro_anaf_edi_cron_result = False
         for company in ro_companies:
-            move_obj = self.env["account.move"].with_company(company)
-            company_messages = company._l10n_ro_get_anaf_efactura_messages()
-            for message in company_messages:
-                if company.l10n_ro_download_einvoices_start_date:
-                    if message.get("data_creare"):
-                        message_date = datetime.strptime(
-                            message.get("data_creare")[:8], "%Y%m%d"
-                        ).strftime(DATE_FORMAT)
-                        if (
-                            fields.Date.from_string(message_date)
-                            < company.l10n_ro_download_einvoices_start_date
-                        ):
-                            continue
-                invoice = move_obj.search(
-                    [("l10n_ro_edi_download", "=", message.get("id"))]
+            try:
+                move_obj = self.env["account.move"].with_company(company)
+                company_messages = company._l10n_ro_get_anaf_efactura_messages()
+
+                for message in company_messages:
+                    if company.l10n_ro_download_einvoices_start_date:
+                        if message.get("data_creare"):
+                            message_date = datetime.strptime(
+                                message.get("data_creare")[:8], "%Y%m%d"
+                            ).strftime(DATE_FORMAT)
+                            if (
+                                fields.Date.from_string(message_date)
+                                < company.l10n_ro_download_einvoices_start_date
+                            ):
+                                continue
+                    invoice = move_obj.search(
+                        [("l10n_ro_edi_download", "=", message.get("id"))]
+                    )
+                    if not invoice:
+                        new_invoice = move_obj.with_context(
+                            default_move_type="in_invoice"
+                        ).create(
+                            {
+                                "l10n_ro_edi_download": message.get("id"),
+                                "l10n_ro_edi_transaction": message.get("id_solicitare"),
+                            }
+                        )
+                        new_invoice.l10n_ro_download_zip_anaf(
+                            company.l10n_ro_account_anaf_sync_id
+                        )
+            except Exception as e:
+                _logger.error(
+                    "Error while downloading e-invoices from ANAF: %s", str(e)
                 )
-                if not invoice:
-                    new_invoice = move_obj.with_context(
-                        default_move_type="in_invoice"
-                    ).create(
-                        {
-                            "l10n_ro_edi_download": message.get("id"),
-                            "l10n_ro_edi_transaction": message.get("id_solicitare"),
-                        }
-                    )
-                    new_invoice.l10n_ro_download_zip_anaf(
-                        company.l10n_ro_account_anaf_sync_id
-                    )
-                    new_invoices += new_invoice
+                company.l10n_ro_anaf_edi_cron_result = str(e)
+
+    def get_and_update_l10n_ro_anaf_edi_onboarding_state(self):
+        """This method is called on the controller rendering method
+        and ensures that the animations are displayed only one time."""
+        self.l10n_ro_token_status_data_state_step = "not_done"
+        self.l10n_ro_edi_download_cron_data_state_step = "not_done"
+        if not self.l10n_ro_anaf_edi_cron_result:
+            self.l10n_ro_edi_download_cron_data_state_step = "done"
+        if self.l10n_ro_account_anaf_sync_id:
+            token_date = self.l10n_ro_account_anaf_sync_id.client_token_valability
+            if (token_date - fields.Date.today()).days > 5:
+                self.l10n_ro_token_status_data_state_step = "done"
+
+        result = self._get_and_update_onboarding_state(
+            "l10n_ro_anaf_edi_onboarding_state",
+            self.get_account_edi_ubl_dashboard_onboarding_steps_states_names(),
+        )
+        return result
+
+    def get_account_edi_ubl_dashboard_onboarding_steps_states_names(self):
+        return [
+            "l10n_ro_token_status_data_state_step",
+            "l10n_ro_edi_download_cron_data_state_step",
+        ]
+
+    @api.model
+    def action_close_l10n_ro_anaf_edi_onboarding(self):
+        """Mark the dashboard onboarding panel as closed."""
+        self.env.company.l10n_ro_anaf_edi_onboarding_state = "closed"
+
+    @api.model
+    def action_open_l10n_ro_anaf_sync_onboarding(self):
+        """Onboarding step ANAF Sync status."""
+        action = self.env["ir.actions.actions"]._for_xml_id(
+            "l10n_ro_account_anaf_sync.action_account_anaf_sync"
+        )
+        action["res_id"] = self.env.company.l10n_ro_account_anaf_sync_id.id
+        return action

@@ -1,3 +1,9 @@
+First you need to register for the Oauth to ANAF website.
+
+All steps needs to be done on your personal ANAF account, not on the one with digital signature.
+
+Go to https://www.anaf.ro/InregOauth/index.xhtml and register to have access to the Oauth.
+
 1. Go to https://pfinternet.anaf.ro/my.policy put put your username and password and code that came on email (or create a new user if you do not have)
 
 2. Go to "Editare profil Oauth"
@@ -6,7 +12,7 @@
 
    - put some text at "Denumire Aplicatie"
    - at callback URL 1 put your Odoo instance url: /l10n_ro_account_anaf_sync/anaf_oauth
-   - (if you odoo site is https://odoo.zzz.ro you must put https://odoo.zzz.ro/l10n_ro_account_anaf_sync/anaf_oauth url shown also in odoo company e-invoice tab)
+   - (if you odoo site is https://odoo.zzz.ro you must put https://odoo.zzz.ro/l10n_ro_account_anaf_sync/anaf_oauth/<id_anaf_sync> url shown also in odoo company e-invoice tab)
    - at Serviciu check e-factura and/or e-transport
    - press Generare Client ID
 

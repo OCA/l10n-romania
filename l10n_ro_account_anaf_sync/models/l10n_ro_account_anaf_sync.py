@@ -32,11 +32,14 @@ class AccountANAFSync(models.Model):
         return result
 
     company_id = fields.Many2one("res.company", required=True)
-    anaf_oauth_url = fields.Char(default="https://logincert.anaf.ro/anaf-oauth2/v1")
+    anaf_oauth_url = fields.Char(
+        default="https://logincert.anaf.ro/anaf-oauth2/v1", readonly=True
+    )
     anaf_callback_url = fields.Char(
         compute="_compute_anaf_callback_url",
         help="This is the address to set in anaf_portal_url "
         "(and will work if is https & accessible form internet)",
+        readonly=True,
     )
     client_id = fields.Char(
         help="From ANAF site the Oauth id - view the readme",
@@ -49,24 +52,29 @@ class AccountANAFSync(models.Model):
     code = fields.Char(
         help="Received from ANAF with this you can take access token and refresh_token",
         tracking=1,
+        readonly=True,
     )
 
-    access_token = fields.Char(tracking=1, help="Received from ANAF")
-    refresh_token = fields.Char(tracking=1, help="Received from ANAF")
+    access_token = fields.Char(tracking=1, help="Received from ANAF", readonly=True)
+    refresh_token = fields.Char(tracking=1, help="Received from ANAF", readonly=True)
 
     client_token_valability = fields.Date(
         help="Date when is going to expire - 90 days from when was generated",
         tracking=1,
+        readonly=True,
     )
 
     response_secret = fields.Char(
-        help="A generated secret to know that the response is ok"
+        help="A generated secret to know that the response is ok", readonly=True
     )
     last_request_datetime = fields.Datetime(
         help="Time when was last time pressed the Get Token From Anaf Website."
         " It waits for ANAF request for maximum 1 minute",
+        readonly=True,
     )
-    anaf_einvoice_sync_url = fields.Char(default="https://api.anaf.ro/test/FCTEL/rest")
+    anaf_einvoice_sync_url = fields.Char(
+        default="https://api.anaf.ro/test/FCTEL/rest", readonly=True
+    )
     state = fields.Selection(
         [("test", "Test"), ("automatic", "Automatic")],
         default="test",
@@ -227,9 +235,9 @@ class AccountANAFSync(models.Model):
             status_code = response.status_code
             if response.status_code == 400:
                 content = response.json()
-            if response.headers.get("Content-Type") == "application/xml":
+            if response.headers.get("Content-Type", "") == "application/xml":
                 _logger.info("ANAF API response: %s" % response.text)
-            if "text/plain" in response.headers.get("Content-Type"):
+            if "text/plain" in response.headers.get("Content-Type", ""):
                 try:
                     content = response.json()
                     if content.get("eroare"):

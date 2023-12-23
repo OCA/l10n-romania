@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <!-- ONBOARDING STEPS -->
+    <template id="l10n_ro_token_status_data_state_step">
+        <t t-call="base.onboarding_step">
+            <t t-set="title">ANAF Sync Token Status</t>
+            <t
+                t-set="description"
+            >You ANAF SYnc token will expire in less than 5 days. Please go and refresh it.</t>
+            <t t-set="btn_text">Review</t>
+            <t t-set="done_text">Step Completed!</t>
+            <t t-set="method" t-value="'action_open_l10n_ro_anaf_sync_onboarding'" />
+            <t t-set="model" t-value="'res.company'" />
+            <t
+                t-set="state"
+                t-value="state.get('l10n_ro_token_status_data_state_step')"
+            />
+        </t>
+    </template>
+    <template id="l10n_ro_edi_download_cron_data_state_step">
+        <t t-call="base.onboarding_step">
+            <t t-set="title">Error in ANAF Download Invoices</t>
+            <t
+                t-set="description"
+            >There was an error in downloading invoices from ANAF</t>
+            <t t-set="btn_text">Review</t>
+            <t t-set="done_text">Step Completed!</t>
+            <t t-set="model" t-value="'res.company'" />
+            <t
+                t-set="state"
+                t-value="state.get('l10n_ro_edi_download_cron_data_state_step')"
+            />
+        </t>
+    </template>
+    <!-- ONBOARDING PANELS -->
+    <template
+        id="account_dashboard_edi_ubl_onboarding_panel"
+        name="account.dashboard.edi.ubl.onboarding.panel"
+    >
+        <t t-call="base.onboarding_container">
+            <t t-set="classes" t-value="'o_onboarding_orange'" />
+            <t
+                t-set="bg_image"
+                t-value="'/account/static/src/img/account_dashboard_onboarding_bg.jpg'"
+            />
+            <t
+                t-set="close_method"
+                t-value="'action_close_l10n_ro_anaf_edi_onboarding'"
+            />
+            <t t-set="close_model" t-value="'res.company'" />
+
+            <t
+                t-if="company.l10n_ro_token_status_data_state_step != 'done'"
+                t-call="l10n_ro_account_edi_ubl.l10n_ro_token_status_data_state_step"
+                name="l10n_ro_token_status"
+            />
+            <t
+                t-if="company.l10n_ro_edi_download_cron_data_state_step != 'done'"
+                t-call="l10n_ro_account_edi_ubl.l10n_ro_edi_download_cron_data_state_step"
+                name="l10n_ro_edi_download_cron"
+            />
+        </t>
+    </template>
+</odoo>
