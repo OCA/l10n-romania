@@ -10,6 +10,7 @@
                 <field name="company_id" />
                 <field name="client_id" />
                 <field name="client_token_valability" />
+                <field name="scope" />
                 <field name="state" />
             </tree>
         </field>
@@ -21,6 +22,14 @@
         <field name="arch" type="xml">
             <form string="Account ANAF Sync">
                 <header>
+                    <button
+                        class="btn btn-primary"
+                        string="Get Token From Anaf Website (with usb token inserted)"
+                        name="get_token_from_anaf_website"
+                        attrs="{'invisible':[('access_token','!=',''),('access_token','!=',False)]}"
+                        type="object"
+                        help="At this step you need a digital certified signature and a browser that recognise it"
+                    />
                     <button
                         class="btn btn-primary"
                         string="Get Token From Anaf Website (with usb token inserted)"
@@ -47,9 +56,9 @@
                     <group string="Config">
                         <group name="main_info">
                             <field name="state" />
-                            <field name="anaf_einvoice_sync_url" />
                             <field name="client_id" />
                             <field name="client_secret" />
+                            <field name="scope" />
                             <field name="anaf_oauth_url" />
                             <field name="anaf_callback_url" />
                             <field name="code" />
@@ -59,6 +68,16 @@
                             <field name="refresh_token" />
                             <field name="client_token_valability" />
                             <field name="last_request_datetime" />
+                        </group>
+                        <group name="url_sync">
+                            <field
+                                name="anaf_einvoice_sync_url"
+                                attrs="{'invisible': [('scope', '=', 'e-transport')]}"
+                            />
+                            <field
+                                name="anaf_etransport_sync_url"
+                                attrs="{'invisible': [('scope', '=', 'e-invoice')]}"
+                            />
                         </group>
                     </group>
                 </sheet>

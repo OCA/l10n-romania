@@ -170,7 +170,7 @@ class TestAccountEdiUbl(AccountEdiTestCommon):
         )
         cls.invoice_zip = open(test_file, mode="rb").read()
 
-        anaf_config = cls.env.company.l10n_ro_account_anaf_sync_id
+        anaf_config = cls.env.company.get_l10n_ro_anaf_sync("e-invoice")
         if not anaf_config:
             anaf_config = cls.env["l10n.ro.account.anaf.sync"].create(
                 {
@@ -180,7 +180,6 @@ class TestAccountEdiUbl(AccountEdiTestCommon):
                     "access_token": "123",
                 }
             )
-            cls.env.company.l10n_ro_account_anaf_sync_id = anaf_config
 
     def get_file(self, filename):
         test_file = get_module_resource("l10n_ro_account_edi_ubl", "tests", filename)
@@ -351,7 +350,7 @@ class TestAccountEdiUbl(AccountEdiTestCommon):
 
     def test_l10n_ro_get_anaf_efactura_messages(self):
         self.env.company.vat = "RO23685159"
-        anaf_config = self.env.company.l10n_ro_account_anaf_sync_id
+        anaf_config = self.env.company.get_l10n_ro_anaf_sync("e-invoice")
         anaf_config.access_token = "test"
         msg_dict = {
             "mesaje": [
@@ -393,7 +392,7 @@ class TestAccountEdiUbl(AccountEdiTestCommon):
             )
 
     def test_l10n_ro_create_anaf_efactura(self):
-        anaf_config = self.env.company.l10n_ro_account_anaf_sync_id
+        anaf_config = self.env.company.get_l10n_ro_anaf_sync("e-invoice")
         self.env.company.write(
             {
                 "l10n_ro_download_einvoices": True,

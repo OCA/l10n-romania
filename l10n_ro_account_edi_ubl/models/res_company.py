@@ -78,7 +78,7 @@ class ResCompany(models.Model):
 
     def _l10n_ro_get_anaf_efactura_messages(self):
         company_messages = []
-        anaf_config = self.l10n_ro_account_anaf_sync_id
+        anaf_config = self.get_l10n_ro_anaf_sync("e-invoice")
         if not anaf_config:
             _logger.warning("No ANAF configuration for company %s", self.name)
             return company_messages
@@ -109,7 +109,7 @@ class ResCompany(models.Model):
         # method to be used in cron job to auto download e-invoices from ANAF
         ro_companies = self.search([]).filtered(
             lambda c: c.country_id.code == "RO"
-            and c.l10n_ro_account_anaf_sync_id
+            and c.get_l10n_ro_anaf_sync("e-invoice")
             and c.l10n_ro_download_einvoices
         )
         ro_companies.l10n_ro_anaf_edi_cron_result = False
@@ -142,7 +142,7 @@ class ResCompany(models.Model):
                             }
                         )
                         new_invoice.l10n_ro_download_zip_anaf(
-                            company.l10n_ro_account_anaf_sync_id
+                            company.get_l10n_ro_anaf_sync("e-invoice")
                         )
             except Exception as e:
                 _logger.error(
@@ -157,8 +157,8 @@ class ResCompany(models.Model):
         self.l10n_ro_edi_download_cron_data_state_step = "not_done"
         if not self.l10n_ro_anaf_edi_cron_result:
             self.l10n_ro_edi_download_cron_data_state_step = "done"
-        if self.l10n_ro_account_anaf_sync_id:
-            token_date = self.l10n_ro_account_anaf_sync_id.client_token_valability
+        if self.get_l10n_ro_anaf_sync("e-invoice"):
+            token_date = self.get_l10n_ro_anaf_sync("e-invoice").client_token_valability
             if (token_date - fields.Date.today()).days > 5:
                 self.l10n_ro_token_status_data_state_step = "done"
 
@@ -185,5 +185,5 @@ class ResCompany(models.Model):
         action = self.env["ir.actions.actions"]._for_xml_id(
             "l10n_ro_account_anaf_sync.action_account_anaf_sync"
         )
-        action["res_id"] = self.env.company.l10n_ro_account_anaf_sync_id.id
+        action["res_id"] = self.env.company.get_l10n_ro_anaf_sync("e-invoice").id
         return action

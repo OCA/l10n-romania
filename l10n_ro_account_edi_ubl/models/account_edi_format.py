@@ -77,7 +77,7 @@ class AccountEdiXmlCIUSRO(models.Model):
         res = {}
         for invoice in invoices:
             # import ipdb; ipdb.set_trace()
-            anaf_config = invoice.company_id.l10n_ro_account_anaf_sync_id
+            anaf_config = invoice.company_id.get_l10n_ro_anaf_sync("e-invoice")
             if not anaf_config:
                 res[invoice] = {
                     "success": True,
@@ -166,7 +166,7 @@ class AccountEdiXmlCIUSRO(models.Model):
         self.ensure_one()
         if self.code != "cius_ro":
             return super()._needs_web_services()
-        anaf_config = self.env.company.l10n_ro_account_anaf_sync_id
+        anaf_config = self.env.company.get_l10n_ro_anaf_sync("e-invoice")
         return bool(anaf_config)
 
     def _get_invoice_edi_content(self, move):
@@ -180,7 +180,7 @@ class AccountEdiXmlCIUSRO(models.Model):
         return attachment.raw
 
     def _l10n_ro_post_invoice_step_1(self, invoice, attachment):
-        anaf_config = invoice.company_id.l10n_ro_account_anaf_sync_id
+        anaf_config = invoice.company_id.get_l10n_ro_anaf_sync("e-invoice")
         params = {
             "standard": "UBL" if invoice.move_type == "out_invoice" else "CN",
             "cif": invoice.company_id.partner_id.vat.replace("RO", ""),
@@ -192,7 +192,7 @@ class AccountEdiXmlCIUSRO(models.Model):
         return res
 
     def _l10n_ro_post_invoice_step_2(self, invoice, attachment):
-        anaf_config = invoice.company_id.l10n_ro_account_anaf_sync_id
+        anaf_config = invoice.company_id.get_l10n_ro_anaf_sync("e-invoice")
         params = {"id_incarcare": invoice.l10n_ro_edi_transaction}
         res = self._l10n_ro_anaf_call("/stareMesaj", anaf_config, params, method="GET")
         if res.get("id_descarcare", False):

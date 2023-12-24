@@ -4,8 +4,6 @@
 import secrets
 from datetime import datetime, timedelta
 
-import requests
-
 from odoo import _, http
 from odoo.http import request
 
@@ -93,8 +91,8 @@ class AccountANAFSyncWeb(http.Controller):
     def get_anaf_oauth_code(self, anaf_config_id, **kw):
         "Returns a text with the result of anaf request from redirect"
         uid = request.uid
-        user = request.env["res.users"].browse(uid)
-        now = datetime.now()
+        request.env["res.users"].browse(uid)
+        datetime.now()
         ANAF_Configs = request.env["l10n.ro.account.anaf.sync"].sudo()
         anaf_config = ANAF_Configs.browse(anaf_config_id)
 
@@ -110,43 +108,10 @@ class AccountANAFSyncWeb(http.Controller):
 
         code = kw.get("code")
         if code:
-            headers = {
-                "content-type": "application/x-www-form-urlencoded",
-                "accept": "application/json",
-                "user-agent": "PostmanRuntime/7.29.2",
-            }
-            url = user.get_base_url()
-            redirect_uri = (
-                f"{url}/l10n_ro_account_anaf_sync/anaf_oauth/{anaf_config_id}"
-            )
-            data = {
-                "grant_type": "authorization_code",
-                "client_id": "{}".format(anaf_config.client_id),
-                "client_secret": "{}".format(anaf_config.client_secret),
-                "code": "{}".format(code),
-                "access_key": "{}".format(code),
-                "redirect_uri": "{}".format(redirect_uri),
-            }
-            response = requests.post(
-                anaf_config.anaf_oauth_url + "/token",
-                data=data,
-                headers=headers,
-                timeout=1.5,
-            )
-            response_json = response.json()
-
-            message = _("The response was finished.\nResponse was: %s") % response_json
-            anaf_config.write(
-                {
-                    "code": code,
-                    "client_token_valability": now + timedelta(days=89),
-                    "access_token": response_json.get("access_token", ""),
-                    "refresh_token": response_json.get("refresh_token", ""),
-                }
-            )
+            anaf_config.get_access_token(code=code)
         else:
             message = _("No code was found in the response.\nResponse was: %s") % kw
+            anaf_config.message_post(body=message)
 
-        anaf_config.message_post(body=message)
         values = {"message": message}
         return str(values)
