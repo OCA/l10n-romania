@@ -10,7 +10,7 @@ class StockQuant(models.Model):
     _inherit = ["stock.quant", "l10n.ro.mixin"]
 
     l10n_ro_nondeductible_tax_id = fields.Many2one(
-        "account.tax", domain=[("is_nondeductible", "=", True)], copy=False
+        "account.tax", domain=[("l10n_ro_is_nondeductible", "=", True)], copy=False
     )
 
     def _get_inventory_move_values(self, qty, location_id, location_dest_id, out=False):
