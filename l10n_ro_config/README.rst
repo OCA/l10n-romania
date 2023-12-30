@@ -17,25 +17,30 @@ Romania - Localization Config
     :target: http://www.gnu.org/licenses/agpl-3.0-standalone.html
     :alt: License: AGPL-3
 .. |badge3| image:: https://img.shields.io/badge/github-OCA%2Fl10n--romania-lightgray.png?logo=github
-    :target: https://github.com/OCA/l10n-romania/tree/16.0/l10n_ro_config
+    :target: https://github.com/OCA/l10n-romania/tree/17.0/l10n_ro_config
     :alt: OCA/l10n-romania
 .. |badge4| image:: https://img.shields.io/badge/weblate-Translate%20me-F47D42.png
-    :target: https://translation.odoo-community.org/projects/l10n-romania-16-0/l10n-romania-16-0-l10n_ro_config
+    :target: https://translation.odoo-community.org/projects/l10n-romania-17-0/l10n-romania-17-0-l10n_ro_config
     :alt: Translate me on Weblate
 .. |badge5| image:: https://img.shields.io/badge/runboat-Try%20me-875A7B.png
-    :target: https://runboat.odoo-community.org/builds?repo=OCA/l10n-romania&target_branch=16.0
+    :target: https://runboat.odoo-community.org/builds?repo=OCA/l10n-romania&target_branch=17.0
     :alt: Try me on Runboat
 
 |badge1| |badge2| |badge3| |badge4| |badge5|
 
-This module allows you to install and configure all the localization modules related to Romania.
-Some of the modules will load data at install.
+This module allows you to install and configure all the localization
+modules related to Romania. Some of the modules will load data at
+install.
 
-For Romanian companies, you will have a dedicated page in Configuration, from where you cna install rest of the modules, or set up some added fields for localization.
+For Romanian companies, you will have a dedicated page in Configuration,
+from where you cna install rest of the modules, or set up some added
+fields for localization.
 
-\* All changes added by the Romanian localization will only apply for companies that have the "Use Romanian Accounting" checkbox set.
+\* All changes added by the Romanian localization will only apply for
+companies that have the "Use Romanian Accounting" checkbox set.
 
-\* All menus and fields are visible in the interface if you are working on a Romanian company, otherwise the are hidden.
+\* All menus and fields are visible in the interface if you are working
+on a Romanian company, otherwise the are hidden.
 
 **Table of contents**
 
@@ -47,38 +52,48 @@ Installation
 
 To install this module, you need to:
 
-* clone the branch 14.0 of the repository https://github.com/OCA/l10n-romania
-* add the path to this repository in your configuration (addons-path)
-* update the module list
-* search for "Romania - Localization Config" in your addons
-* install the module
+-  clone the branch 14.0 of the repository
+   https://github.com/OCA/l10n-romania
+-  add the path to this repository in your configuration (addons-path)
+-  update the module list
+-  search for "Romania - Localization Config" in your addons
+-  install the module
 
 Usage
 =====
 
 Companies
-=========
+---------
 
-- You can complete dedicated fields for Romanian companies, like "Share Capital", "CAEN Code".
-- From Romanian page from Configuration, you can define new properties for your company, depending on the modules that you have installed.
+-  You can complete dedicated fields for Romanian companies, like "Share
+   Capital", "CAEN Code".
+-  From Romanian page from Configuration, you can define new properties
+   for your company, depending on the modules that you have installed.
 
 Partners
-=========
+--------
 
-- You can complete dedicated fields for Romanian partners, like "VAT Subjected", "CAEN Code", "E-invoicing".
-- You can input also partners without VAT country code, but you need to select also the country.
+-  You can complete dedicated fields for Romanian partners, like "VAT
+   Subjected", "CAEN Code", "E-invoicing".
+-  You can input also partners without VAT country code, but you need to
+   select also the country.
 
 Products
-========
+--------
 
-- Use different taxes for "Service" products, they are defined in the Chart of Accounts, but here we set up the default taxes used.
+-  Use different taxes for "Service" products, they are defined in the
+   Chart of Accounts, but here we set up the default taxes used.
 
 Bank Accounts
-=============
+-------------
 
-- Tick the "Ro Print in Report" fields if you want the bank account to be printed in reports (not all reports are updated but you can use the example from the Invoice Report to change the other report where you want to print the bank accounts).
+-  Tick the "Ro Print in Report" fields if you want the bank account to
+   be printed in reports (not all reports are updated but you can use
+   the example from the Invoice Report to change the other report where
+   you want to print the bank accounts).
 
-  ** This applies also for company bank accounts, there you can use also the related field from Account Journal to mark them.
+   \*\* This applies also for company bank accounts, there you can use
+   also the related field from Account Journal to mark them.
 
 Bug Tracker
 ===========
@@ -86,7 +101,7 @@ Bug Tracker
 Bugs are tracked on `GitHub Issues <https://github.com/OCA/l10n-romania/issues>`_.
 In case of trouble, please check there if your issue has already been reported.
 If you spotted it first, help us to smash it by providing a detailed and welcomed
-`feedback <https://github.com/OCA/l10n-romania/issues/new?body=module:%20l10n_ro_config%0Aversion:%2016.0%0A%0A**Steps%20to%20reproduce**%0A-%20...%0A%0A**Current%20behavior**%0A%0A**Expected%20behavior**>`_.
+`feedback <https://github.com/OCA/l10n-romania/issues/new?body=module:%20l10n_ro_config%0Aversion:%2017.0%0A%0A**Steps%20to%20reproduce**%0A-%20...%0A%0A**Current%20behavior**%0A%0A**Expected%20behavior**>`_.
 
 Do not contact contributors directly about support or help with technical issues.
 
@@ -94,28 +109,29 @@ Credits
 =======
 
 Authors
-~~~~~~~
+-------
 
 * NextERP Romania
 * Forest and Biomass Romania
 
 Contributors
-~~~~~~~~~~~~
+------------
 
-* `NextERP Romania <https://www.nexterp.ro>`_:
+-  `NextERP Romania <https://www.nexterp.ro>`__:
 
-  * Fekete Mihai <feketemihai@nexterp.ro>
+   -  Fekete Mihai <feketemihai@nexterp.ro>
 
-* `Terrabit <https://www.terrabit.ro>`_:
+-  `Terrabit <https://www.terrabit.ro>`__:
 
-  * Dorin Hongu <dhongu@gmail.com>
+   -  Dorin Hongu <dhongu@gmail.com>
 
-* Adrian Vasile <adrian.vasile@gmail.com>
+-  Adrian Vasile <adrian.vasile@gmail.com>
 
-Do not contact contributors directly about support or help with technical issues.
+Do not contact contributors directly about support or help with
+technical issues.
 
 Maintainers
-~~~~~~~~~~~
+-----------
 
 This module is maintained by the OCA.
 
@@ -135,6 +151,6 @@ Current `maintainer <https://odoo-community.org/page/maintainer-role>`__:
 
 |maintainer-feketemihai| 
 
-This module is part of the `OCA/l10n-romania <https://github.com/OCA/l10n-romania/tree/16.0/l10n_ro_config>`_ project on GitHub.
+This module is part of the `OCA/l10n-romania <https://github.com/OCA/l10n-romania/tree/17.0/l10n_ro_config>`_ project on GitHub.
 
 You are welcome to contribute. To learn how please visit https://odoo-community.org/page/Contribute.
