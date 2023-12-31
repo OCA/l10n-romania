@@ -179,6 +179,7 @@ class AccountEdiXmlCIUSRO(models.Model):
             invoice.write({"l10n_ro_edi_download": res.get("id_descarcare")})
             if res.get("success", False):
                 res.update({"attachment": attachment})
+                invoice.message_post(body=_("The invoice was validated by ANAF."))
         return res
 
     def _l10n_ro_anaf_call(self, func, anaf_config, params, data=None, method="POST"):
@@ -228,7 +229,7 @@ class AccountEdiXmlCIUSRO(models.Model):
             }
 
         # This is response from step 2
-        res = {"success": True}
+        res = {"success": False}
         stare = doc.get("stare", False)
         stari = {
             "in prelucrare": {

@@ -34,6 +34,8 @@ class IrActionsReport(models.Model):
                 return result
 
             invoice_report = self.env.company.l10n_ro_default_cius_pdf_report
+            if not invoice_report:
+                invoice_report = self.env.ref("account.account_invoices")
             if invoice_report and invoice_report != self:
                 return result
             record.attach_ubl_xml_file_button()
