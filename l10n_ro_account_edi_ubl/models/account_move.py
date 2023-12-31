@@ -5,8 +5,8 @@
 import io
 import zipfile
 
-from odoo import _, fields, models
-from odoo.exceptions import UserError
+from odoo import _, api, fields, models
+from odoo.exceptions import UserError, ValidationError
 
 
 class AccountMove(models.Model):
@@ -22,6 +22,43 @@ class AccountMove(models.Model):
         help="ID used to download the ZIP file from ANAF.",
         copy=False,
     )
+
+    l10n_ro_show_anaf_download_edi_buton = fields.Boolean(
+        compute="_compute_l10n_ro_show_anaf_download_edi_buton",
+        string="Show ANAF Download EDI Button",
+    )
+
+    @api.constrains("l10n_ro_edi_download")
+    def _check_unique_sequence_number(self):
+        moves = self.filtered(lambda m: m.l10n_ro_edi_download)
+        if not moves:
+            return
+
+        self.flush_model(["l10n_ro_edi_download"])
+
+        self._cr.execute(
+            """
+            SELECT move2.id, move2.name
+            FROM account_move move
+            INNER JOIN account_move move2 ON
+                move2.l10n_ro_edi_download = move.l10n_ro_edi_download
+            WHERE move.id IN %s and move2.id != move.id
+        """,
+            [tuple(moves.ids)],
+        )
+        res = self._cr.fetchall()
+        if res:
+            raise ValidationError(
+                _(
+                    "You already have one invoice with the same ANAF download.\n"
+                    "Invoice(s) Ids: %(ids)s\n"
+                    "Invoice(s) Numbers: %(numbers)s\n"
+                )
+                % {
+                    "ids": ", ".join(str(r[0]) for r in res),
+                    "numbers": ", ".join(r[1] for r in res),
+                }
+            )
 
     def get_l10n_ro_edi_invoice_needed(self):
         self.ensure_one()
@@ -71,11 +108,11 @@ class AccountMove(models.Model):
             lambda m: m._get_edi_document(cius_ro).blocking_level == "error"
         ).l10n_ro_edi_transaction = None
 
-    def send_to_anaf_e_invoice(self):
-        for move in self:
-            move.with_context(
-                l10n_ro_edi_manual_action=True
-            ).action_process_edi_web_services()
+    def button_process_edi_web_services(self):
+        if len(self) == 1:
+            if not self.l10n_ro_edi_transaction:
+                self = self.with_context(l10n_ro_edi_manual_action=True)
+        return super().button_process_edi_web_services()
 
     def attach_ubl_xml_file_button(self):
         self.ensure_one()
@@ -167,7 +204,15 @@ class AccountMove(models.Model):
             edi_format_cius = self.env["account.edi.format"].search(
                 [("code", "=", "cius_ro")]
             )
-            edi_format_cius._update_invoice_from_attachment(attachment, self)
+            if not self.invoice_line_ids:
+                edi_format_cius._update_invoice_from_attachment(attachment, self)
+            else:
+                raise UserError(
+                    _(
+                        "The invoice already have invoice lines, "
+                        "you cannot update them again from the XMl downloaded file."
+                    )
+                )
 
     def l10n_ro_get_xml_file(self, zip_ref):
         file_name = xml_file = False
@@ -214,3 +259,19 @@ class AccountMove(models.Model):
             }
         )
         return attachment
+
+    def _compute_l10n_ro_show_anaf_download_edi_buton(self):
+        for invoice in self:
+            show_button = False
+            if invoice.l10n_ro_edi_download:
+                if (
+                    invoice.move_type in ("out_invoice", "out_refund")
+                    and invoice.edi_state == "sent"
+                ):
+                    show_button = True
+                elif (
+                    invoice.move_type in ("in_invoice", "in_refund")
+                    and not invoice.invoice_line_ids
+                ):
+                    show_button = True
+            invoice.l10n_ro_show_anaf_download_edi_buton = show_button

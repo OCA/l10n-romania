@@ -18,12 +18,13 @@ class IrActionsReport(models.Model):
         collected_streams = super()._render_qweb_pdf_prepare_streams(
             report_ref, data, res_ids=res_ids
         )
-        company_pdf_report = self.env.company.l10n_ro_default_cius_pdf_report
+        pdf_report = self.env.company.l10n_ro_default_cius_pdf_report
+        if not pdf_report:
+            pdf_report = self.env.ref("account.account_invoices")
         if (
             collected_streams
             and res_ids
-            and self._get_report(report_ref).report_name
-            == company_pdf_report.report_name
+            and self._get_report(report_ref).report_name == pdf_report.report_name
         ):
             for res_id, stream_data in collected_streams.items():
                 invoice = self.env["account.move"].browse(res_id)
@@ -37,9 +38,8 @@ class IrActionsReport(models.Model):
         """
         result = super()._add_pdf_into_invoice_xml(invoice, stream_data)
         if invoice.company_id.l10n_ro_edi_cius_embed_pdf:
-            edi_attachments = invoice.edi_document_ids.filtered(
-                lambda d: d.edi_format_id.code == "cius_ro"
-            ).mapped("attachment_id")
+            cius_ro = self.env.ref("l10n_ro_account_edi_ubl.edi_ubl_cius_ro")
+            edi_attachments = invoice._get_edi_attachment(cius_ro)
             for edi_attachment in edi_attachments:
                 old_xml = base64.b64decode(
                     edi_attachment.with_context(bin_size=False).datas, validate=True
