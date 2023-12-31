@@ -8,6 +8,7 @@ import time
 from unittest.mock import patch
 
 from odoo import fields
+from odoo.exceptions import UserError
 from odoo.modules.module import get_module_resource
 from odoo.tests import tagged
 
@@ -337,8 +338,11 @@ class TestAccountEdiUbl(AccountEdiTestCommon):
 
     def test_download_invoice(self):
         data = self.invoice_zip
+        self.invoice.invoice_line_ids = False
         self.invoice.l10n_ro_edi_download = "1234"
         self.invoice.with_context(test_data=data).l10n_ro_download_zip_anaf()
+        with self.assertRaises(UserError):
+            self.invoice.with_context(test_data=data).l10n_ro_download_zip_anaf()
 
     def test_edi_cius_is_required(self):
         cius_format = self.env.ref("l10n_ro_account_edi_ubl.edi_ubl_cius_ro")

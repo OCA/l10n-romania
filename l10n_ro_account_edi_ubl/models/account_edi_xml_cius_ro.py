@@ -162,6 +162,18 @@ class AccountEdiXmlCIUSRO(models.Model):
 
         return constraints
 
+    def _get_invoice_payment_means_vals_list(self, invoice):
+        res = super()._get_invoice_payment_means_vals_list(invoice)
+        if not invoice.partner_bank_id:
+            for vals in res:
+                vals.update(
+                    {
+                        "payment_means_code": "1",
+                        "payment_means_code_attrs": {"name": "Not Defined"},
+                    }
+                )
+        return res
+
     def _import_fill_invoice_line_taxes(
         self, journal, tax_nodes, invoice_line_form, inv_line_vals, logs
     ):
