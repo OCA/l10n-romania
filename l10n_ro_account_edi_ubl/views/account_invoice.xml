@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <odoo>
     <record id="view_move_form" model="ir.ui.view">
-        <field name="name">>account.move.form</field>
+        <field name="name">account.move.form</field>
         <field name="model">account.move</field>
         <field name="type">form</field>
         <field name="inherit_id" ref="account.view_move_form" />
@@ -17,57 +17,42 @@
             </button>
             <xpath expr="//div[@name='journal_div']" position="after">
                 <label
-                    for="l10n_ro_edi_download"
-                    string="ID eFactura"
-                    attrs="{'invisible': ['|',
-                     ('edi_state', '=', False),
-                     ('state', '=', 'draft'),
-                     ('move_type', 'in', ['out_invoice','out_refund'])]}"
+                    for="l10n_ro_edi_transaction"
+                    string="ID eFactura Transaction"
+                    attrs="{'invisible': [('l10n_ro_edi_transaction', '=', False)]}"
                 />
                 <div
-                    name="journal_div"
-                    attrs="{'invisible': ['|',
-                    ('edi_state', '=', False),
-                    ('state', '=', 'draft'),
-                    ('move_type', 'in', ['out_invoice','out_refund'])]}"
+                    name="l10n_ro_edi_transaction"
+                    class="d-flex"
+                    attrs="{'invisible': [('l10n_ro_edi_transaction', '=', False)]}"
+                >
+                    <field
+                        name="l10n_ro_edi_transaction"
+                        attrs="{'readonly': [('l10n_ro_edi_transaction', '!=', False)]}"
+                    />
+                </div>
+                <label
+                    for="l10n_ro_edi_download"
+                    string="ID eFactura"
+                    attrs="{'invisible': ['|', ('l10n_ro_edi_download', '=', False), ('state', '=', 'draft'), ('move_type', 'in', ['out_invoice','out_refund'])]}"
+                />
+                <div
+                    name="l10n_ro_edi_download"
+                    attrs="{'invisible': ['|', ('l10n_ro_edi_download', '=', False), ('state', '=', 'draft'), ('move_type', 'in', ['out_invoice','out_refund'])]}"
                     class="o_row"
                 >
                     <field
                         name="l10n_ro_edi_download"
-                        attrs="{'readonly': ['|',
-                        ('move_type', 'in', ['out_invoice','out_refund']),
-                        ('state','==','posted')]}"
+                        attrs="{'readonly': ['|', ('move_type', 'in', ['out_invoice','out_refund']), ('state','==','posted')]}"
                     />
+                    <field name="l10n_ro_show_anaf_download_edi_buton" invisible="1" />
                     <button
                         type="object"
                         class="oe_link badge bg-primary"
                         icon="fa-cloud-download"
-                        string="Download"
+                        string="Download from ANAF"
                         name="l10n_ro_download_zip_anaf"
-                        attrs="{'invisible': [
-                        ('move_type','not in',['in_invoice','in_refund']),
-                        '|',
-                        ('l10n_ro_edi_download', '=', False),
-                        ('invoice_line_ids', '=', False),
-                        ]}"
-                        help="Download ZIP with signed XML file from ANAF"
-                    />
-                    <button
-                        type="object"
-                        class="oe_link badge bg-danger"
-                        icon="fa-exclamation-triangle"
-                        string="Download Errors"
-                        name="l10n_ro_download_zip_anaf"
-                        attrs="{'invisible': ['|',('l10n_ro_edi_download', '=', False),('edi_state','!=','to_send')]}"
-                        help="Download ZIP with errors from ANAF"
-                    />
-                    <button
-                        type="object"
-                        class="oe_link badge bg-success"
-                        icon="fa-check-circle"
-                        string="Download Signed"
-                        name="l10n_ro_download_zip_anaf"
-                        attrs="{'invisible': ['|',('l10n_ro_edi_download', '=', False),('edi_state','!=','sent')]}"
+                        attrs="{'invisible': [('l10n_ro_show_anaf_download_edi_buton', '=', False)]}"
                         help="Download ZIP with signed XML file from ANAF"
                     />
                 </div>
