@@ -5,35 +5,33 @@
         <field name="model">res.partner</field>
         <field name="inherit_id" ref="base.view_partner_form" />
         <field name="arch" type="xml">
-            <field name="active" position="after">
+            <form position="inside">
                 <field name="is_l10n_ro_record" invisible="1" />
-            </field>
+            </form>
             <field name="nrc" position="attributes">
-                <attribute name="invisible">1</attribute>
+                <attribute
+                    name="invisible"
+                >not is_company or not is_l10n_ro_record</attribute>
             </field>
-            <field name="vat" position="after">
-                <field
-                    name="nrc"
-                    attrs="{'invisible': ['|',('is_company','=', False),('is_l10n_ro_record','=',False)]}"
-                />
+            <field name="nrc" position="after">
                 <field
                     name="l10n_ro_caen_code"
-                    attrs="{'invisible': ['|',('is_company','=', False),('is_l10n_ro_record','=',False)]}"
+                    invisible="not is_company or not is_l10n_ro_record"
                 />
                 <label
                     for="l10n_ro_vat_subjected"
-                    attrs="{'invisible': ['|',('is_company','=', False),('is_l10n_ro_record','=',False)]}"
+                    invisible="not is_company or not is_l10n_ro_record"
                 />
                 <div
                     name="l10n_ro_vat_subjected_info"
                     class="o_row"
-                    attrs="{'invisible': ['|',('is_company','=', False),('is_l10n_ro_record','=',False)]}"
+                    invisible="not is_company or not is_l10n_ro_record"
                 >
                     <field name="l10n_ro_vat_subjected" />
                 </div>
                 <field
                     name="l10n_ro_e_invoice"
-                    attrs="{'invisible': ['|',('is_company','=', False),('is_l10n_ro_record','=',False)]}"
+                    invisible="not is_company or not is_l10n_ro_record"
                 />
             </field>
         </field>

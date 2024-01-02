@@ -6,7 +6,7 @@ import logging
 logger = logging.getLogger(__name__)
 
 
-def pre_init_hook(cr):
+def pre_init_hook(env):
     """
     The objective of this hook is to speed up the installation
     of the module on an existing Odoo instance.
@@ -19,17 +19,17 @@ def pre_init_hook(cr):
     l10n_ro_vat_number so that it is not computed by the install.
 
     """
-    store_field_l10n_ro_vat_number(cr)
+    store_field_l10n_ro_vat_number(env)
 
 
-def store_field_l10n_ro_vat_number(cr):
-    cr.execute(
+def store_field_l10n_ro_vat_number(env):
+    env.cr.execute(
         """SELECT column_name
            FROM information_schema.columns
            WHERE table_name='res_partner' AND column_name='l10n_ro_vat_number'"""
     )
-    if not cr.fetchone():
-        cr.execute(
+    if not env.cr.fetchone():
+        env.cr.execute(
             """
             ALTER TABLE res_partner ADD COLUMN l10n_ro_vat_number varchar;
             COMMENT ON COLUMN res_partner.l10n_ro_vat_number IS 'VAT number digits';
@@ -38,7 +38,7 @@ def store_field_l10n_ro_vat_number(cr):
 
     logger.info("Computing field l10n_ro_vat_number on res.partner")
 
-    cr.execute(
+    env.cr.execute(
         r"""
         UPDATE res_partner partner
         SET l10n_ro_vat_number = NULLIF(regexp_replace(vat, '[^\.\d]', '', 'g'), '')
