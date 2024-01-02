@@ -11,9 +11,8 @@ from odoo.addons.account.tests.common import AccountTestInvoicingCommon
 class TestPartnerVATSubjected(AccountTestInvoicingCommon):
     @classmethod
     def setUpClass(cls):
-        ro_template_ref = "l10n_ro.ro_chart_template"
-        super().setUpClass(chart_template_ref=ro_template_ref)
-        cls.mainpartner = cls.env.ref("base.res_partner_1")
+        super().setUpClass(chart_template_ref="ro")
+        cls.mainpartner = cls.env.ref("base.main_partner")
         cls.env.company.anglo_saxon_accounting = True
         cls.env.company.l10n_ro_accounting = True
 
