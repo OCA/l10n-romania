@@ -48,7 +48,7 @@ class ResPartner(models.Model):
                     partner.country_id.code.upper()
                 ).lower()
         else:
-            vat_country, l10n_ro_vat_number = super(ResPartner, self)._split_vat(vat)
+            vat_country, l10n_ro_vat_number = super()._split_vat(vat)
         return vat_country, l10n_ro_vat_number
 
     @api.onchange("l10n_ro_vat_subjected")
