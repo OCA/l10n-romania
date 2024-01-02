@@ -10,7 +10,7 @@ from odoo.tests import common
 class TestBankAccount(common.TransactionCase):
     @classmethod
     def setUpClass(cls):
-        super(TestBankAccount, cls).setUpClass()
+        super().setUpClass()
         cls.bank = cls.env["res.partner.bank"].create(
             {
                 "acc_number": "NL46ABNA0499998748",

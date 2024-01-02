@@ -36,7 +36,7 @@ class L10nRoMixin(models.AbstractModel):
     def fields_view_get(
         self, view_id=None, view_type="tree", toolbar=False, submenu=False
     ):
-        result = super(L10nRoMixin, self).fields_view_get(
+        result = super().fields_view_get(
             view_id=view_id, view_type=view_type, toolbar=toolbar, submenu=submenu
         )
         if view_type == "tree":

@@ -6,11 +6,8 @@
         <field name="inherit_id" ref="account.view_account_journal_tree" />
         <field name="arch" type="xml">
             <field name="company_id" position="after">
-                <field name="is_l10n_ro_record" invisible="1" />
-                <field
-                    name="l10n_ro_print_report"
-                    attrs="{'invisible': [('is_l10n_ro_record','=',False)]}"
-                />
+                <field name="is_l10n_ro_record" column_invisible="1" />
+                <field name="l10n_ro_print_report" invisible="not is_l10n_ro_record" />
             </field>
         </field>
     </record>
@@ -19,18 +16,18 @@
         <field name="model">account.journal</field>
         <field name="inherit_id" ref="account.view_account_journal_form" />
         <field name="arch" type="xml">
-            <field name="company_id" position="after">
+            <xpath expr="//group/field[@name='company_id']" position="after">
                 <field name="is_l10n_ro_record" invisible="1" />
                 <field
                     name="l10n_ro_print_report"
                     readonly="False"
-                    attrs="{'invisible': [('is_l10n_ro_record','=',False)]}"
+                    invisible="not is_l10n_ro_record"
                 />
                 <field
                     name="l10n_ro_fiscal_receipt"
-                    attrs="{'invisible': [('is_l10n_ro_record','=',False)]}"
+                    invisible="not is_l10n_ro_record"
                 />
-            </field>
+            </xpath>
         </field>
     </record>
 </odoo>

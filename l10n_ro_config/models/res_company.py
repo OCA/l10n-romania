@@ -142,9 +142,7 @@ class ResCompany(models.Model):
             company = self.browse(company)
         return company.l10n_ro_accounting
 
-    @api.depends("chart_template_id")
+    @api.depends("chart_template")
     def _compute_l10n_ro_accounting(self):
         for company in self:
-            company.l10n_ro_accounting = company.chart_template_id == self.env.ref(
-                "l10n_ro.ro_chart_template"
-            )
+            company.l10n_ro_accounting = company.chart_template == "ro"
