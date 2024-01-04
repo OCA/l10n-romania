@@ -81,11 +81,15 @@ class StockQuant(models.Model):
                     for svl in svl_list:
                         if quant_quantity > 0:
                             if svl["qty"] >= quant_quantity:
-                                quant_value += quant_quantity * svl["price"] + svl["added_cost"]
+                                quant_value += (
+                                    quant_quantity * svl["price"] + svl["added_cost"]
+                                )
                                 svl["qty"] -= quant_quantity
                                 quant_quantity = 0
                             else:
-                                quant_value += svl["qty"] * svl["price"] + svl["added_cost"]
+                                quant_value += (
+                                    svl["qty"] * svl["price"] + svl["added_cost"]
+                                )
                                 quant_quantity -= svl["qty"]
                                 svl["qty"] = 0
                             if svl["qty"] <= 0:
