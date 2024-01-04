@@ -7,7 +7,7 @@ from odoo.tests.common import TransactionCase
 
 class TestAccountANAFSync(TransactionCase):
     def setUp(self):
-        super(TestAccountANAFSync, self).setUp()
+        super().setUp()
         self.test_company = self.env["res.company"].create({"name": "Test Sync"})
         self.sync = self.env["l10n.ro.account.anaf.sync"].create(
             {

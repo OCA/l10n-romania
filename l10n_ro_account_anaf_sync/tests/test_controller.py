@@ -4,13 +4,16 @@
 
 
 from odoo import fields
-from odoo.tests.common import HttpCase, tagged
+from odoo.tests import tagged
+from odoo.tools import mute_logger
+
+from odoo.addons.base.tests.common import HttpCaseWithUserDemo
 
 
 @tagged("-at_install", "post_install")
-class TestAnafSyncControllers(HttpCase):
+class TestAnafSyncControllers(HttpCaseWithUserDemo):
     def setUp(self):
-        super(TestAnafSyncControllers, self).setUp()
+        super().setUp()
         self.test_company = self.env["res.company"].create({"name": "Test Sync"})
         self.sync = self.env["l10n.ro.account.anaf.sync"].create(
             {
@@ -23,15 +26,17 @@ class TestAnafSyncControllers(HttpCase):
 
     def test_redirect_anaf(self):
         self.authenticate("demo", "demo")
-        response = self.url_open(
-            "/l10n_ro_account_anaf_sync/redirect_anaf/%s" % self.sync.id
-        )
+        with mute_logger("odoo.http"):
+            response = self.url_open(
+                "/l10n_ro_account_anaf_sync/redirect_anaf/%s" % self.sync.id
+            )
         self.assertTrue(response.status_code)
 
     def test_anaf_oauth(self):
         self.sync.write({"last_request_datetime": fields.Datetime.now()})
-        response = self.url_open(
-            "/l10n_ro_account_anaf_sync/anaf_oauth/%s" % self.sync.id,
-            data={"code": "123"},
-        )
+        with mute_logger("odoo.http"):
+            response = self.url_open(
+                "/l10n_ro_account_anaf_sync/anaf_oauth/%s" % self.sync.id,
+                data={"code": "123"},
+            )
         self.assertEqual(response.status_code, 200)

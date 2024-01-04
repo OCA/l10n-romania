@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <odoo>
-
     <record id="view_l10n_ro_account_anaf_sync_tree" model="ir.ui.view">
         <field name="name">l10n.ro.account.anaf.sync.tree</field>
         <field name="model">l10n.ro.account.anaf.sync</field>
@@ -25,7 +24,7 @@
                         class="btn btn-primary"
                         string="Get Token From Anaf Website (with usb token inserted)"
                         name="get_token_from_anaf_website"
-                        attrs="{'invisible':[('access_token','!=',''),('access_token','!=',False)]}"
+                        invisible="access_token"
                         type="object"
                         help="At this step you need a digital certified signature and a browser that recognise it"
                     />
@@ -34,7 +33,7 @@
                         string="Revoke Access Token"
                         name="revoke_access_token"
                         type="object"
-                        attrs="{'invisible':['|', ('access_token','=',''), ('access_token','=',False)]}"
+                        invisible="not access_token"
                     />
                 </header>
                 <sheet>

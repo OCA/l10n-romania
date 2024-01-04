@@ -202,7 +202,7 @@ class AccountANAFSync(models.Model):
 
     def _l10n_ro_einvoice_call(self, func, params, data=None, method="POST"):
         self.ensure_one()
-        _logger.info("ANAF API call: %s %s" % (func, params))
+        _logger.info(f"ANAF API call: {func} {params}")
         url = self.anaf_einvoice_sync_url + func
         access_token = self.access_token
         headers = {

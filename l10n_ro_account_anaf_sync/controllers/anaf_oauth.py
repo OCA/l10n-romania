@@ -62,11 +62,7 @@ class AccountANAFSyncWeb(http.Controller):
         client_id = anaf_config.client_id
         url = user.get_base_url()
         odoo_oauth_url = f"{url}/l10n_ro_account_anaf_sync/anaf_oauth/{anaf_config.id}"
-        redirect_url = "%s?response_type=code&client_id=%s&redirect_uri=%s" % (
-            anaf_config.anaf_oauth_url + "/authorize",
-            client_id,
-            odoo_oauth_url,
-        )
+        redirect_url = f"{anaf_config.anaf_oauth_url}/authorize?response_type=code&client_id={client_id}&redirect_uri={odoo_oauth_url}"
         anaf_request_from_redirect = request.redirect(
             redirect_url, code=302, local=False
         )
