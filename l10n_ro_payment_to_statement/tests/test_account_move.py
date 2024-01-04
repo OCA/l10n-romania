@@ -19,7 +19,7 @@ class TestAccountMove(AccountTestInvoicingCommon):
                 "name": "Invoices",
                 "code": "INV",
                 "implementation": "no_gap",
-                "prefix": "FCT/2023/",
+                "prefix": "FCT/",
                 "padding": 5,
                 "number_increment": 1,
                 "number_next_actual": 1,
@@ -112,7 +112,7 @@ class TestAccountMove(AccountTestInvoicingCommon):
     def test_l10n_ro_invoice_number(self):
         invoice1 = self.invoice1
         invoice1.action_post()
-        self.assertEqual(invoice1.name, "FCT/2023/00001")
+        self.assertEqual(invoice1.name, "FCT/00001")
         invoice2 = self.invoice2
         invoice2.action_post()
-        self.assertEqual(invoice2.name, "FCT/2023/00002")
+        self.assertEqual(invoice2.name, "FCT/00002")
