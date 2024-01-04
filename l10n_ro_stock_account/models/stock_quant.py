@@ -66,7 +66,13 @@ class StockQuant(models.Model):
                 remaining_quant = quants
                 remaining_svl = svls
                 svl_list = [
-                    {"qty": svl.remaining_qty, "price": svl.unit_cost}
+                    {
+                        "qty": svl.remaining_qty,
+                        "price": svl.unit_cost,
+                        "added_cost": sum(
+                            [s.value for s in svl.stock_valuation_layer_ids]
+                        ),
+                    }
                     for svl in remaining_svl
                 ]
                 for quant in remaining_quant:
@@ -75,11 +81,15 @@ class StockQuant(models.Model):
                     for svl in svl_list:
                         if quant_quantity > 0:
                             if svl["qty"] >= quant_quantity:
-                                quant_value += quant_quantity * svl["price"]
+                                quant_value += (
+                                    quant_quantity * svl["price"] + svl["added_cost"]
+                                )
                                 svl["qty"] -= quant_quantity
                                 quant_quantity = 0
                             else:
-                                quant_value += svl["qty"] * svl["price"]
+                                quant_value += (
+                                    svl["qty"] * svl["price"] + svl["added_cost"]
+                                )
                                 quant_quantity -= svl["qty"]
                                 svl["qty"] = 0
                             if svl["qty"] <= 0:
