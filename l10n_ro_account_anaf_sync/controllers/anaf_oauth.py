@@ -121,11 +121,11 @@ class AccountANAFSyncWeb(http.Controller):
             )
             data = {
                 "grant_type": "authorization_code",
-                "client_id": "{}".format(anaf_config.client_id),
-                "client_secret": "{}".format(anaf_config.client_secret),
-                "code": "{}".format(code),
-                "access_key": "{}".format(code),
-                "redirect_uri": "{}".format(redirect_uri),
+                "client_id": f"{anaf_config.client_id}",
+                "client_secret": f"{anaf_config.client_secret}",
+                "code": f"{code}",
+                "access_key": f"{code}",
+                "redirect_uri": f"{redirect_uri}",
             }
             response = requests.post(
                 anaf_config.anaf_oauth_url + "/token",
