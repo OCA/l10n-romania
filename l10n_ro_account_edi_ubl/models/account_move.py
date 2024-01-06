@@ -108,11 +108,11 @@ class AccountMove(models.Model):
             lambda m: m._get_edi_document(cius_ro).blocking_level == "error"
         ).l10n_ro_edi_transaction = None
 
-    def button_process_edi_web_services(self):
+    def action_process_edi_web_services(self):
         if len(self) == 1:
             if not self.l10n_ro_edi_transaction:
                 self = self.with_context(l10n_ro_edi_manual_action=True)
-        return super().button_process_edi_web_services()
+        return super().action_process_edi_web_services()
 
     def attach_ubl_xml_file_button(self):
         self.ensure_one()
