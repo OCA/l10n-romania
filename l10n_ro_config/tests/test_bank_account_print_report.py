@@ -122,7 +122,6 @@ class TestBankAccount(common.TransactionCase):
                 "acc_type": "iban",
             }
         )
-
         with self.assertRaises(psycopg2.errors.UniqueViolation):
             self.env["res.partner.bank"].create(
                 {
