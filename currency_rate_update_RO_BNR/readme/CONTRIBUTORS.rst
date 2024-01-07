@@ -1,0 +1,10 @@
+* `NextERP Romania <https://www.nexterp.ro>`_:
+
+  * Fekete Mihai <feketemihai@nexterp.ro>
+  * Cojocaru Marcel <cojocarumarcel@nexterp.ro>
+
+* `QDev Web Labs <https://qdev.ro>`_:
+
+  * Anastasescu Răzvan-Ioan <razvan@qdev.ro>
+
+Do not contact contributors directly about support or help with technical issues.
