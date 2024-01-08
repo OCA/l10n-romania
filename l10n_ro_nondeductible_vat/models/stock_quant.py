@@ -25,14 +25,9 @@ class StockQuant(models.Model):
         return res
 
     @api.model
-    def _get_inventory_fields_create(self):
-        fields = super()._get_inventory_fields_create()
-        return fields + ["l10n_ro_nondeductible_tax_id"]
-
-    @api.model
     def _get_inventory_fields_write(self):
         fields = super()._get_inventory_fields_write()
-        return fields + ["l10n_ro_nondeductible_tax_id"]
+        return fields + ["l10n_ro_nondeductible_tax_id", "is_l10n_ro_record"]
 
     def _apply_inventory(self):
         res = super()._apply_inventory()

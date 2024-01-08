@@ -50,6 +50,27 @@ class AccountMove(models.Model):
                 res[
                     "account_id"
                 ] = base_line.account_id.l10n_ro_nondeductible_account_id.id
+
+            if (
+                base_line.account_id.l10n_ro_nondeductible_account_id.internal_group
+                == "expense"
+            ):
+                for line in tax_repartition_line:
+                    if line.l10n_ro_nondeductible or not line.account_id:
+                        analytic_account_id = (
+                            base_line.move_id.invoice_line_ids.filtered(
+                                lambda l: l.account_id == base_line.account_id
+                            )[0]
+                        )
+                        if analytic_account_id.analytic_account_id:
+                            res[
+                                "analytic_account_id"
+                            ] = analytic_account_id.analytic_account_id.id
+                        if analytic_account_id.analytic_tag_ids:
+                            res["analytic_tag_ids"] = [
+                                (6, 0, analytic_account_id.analytic_tag_ids.ids)
+                            ]
+
         return res
 
     @api.model_create_multi
