@@ -139,7 +139,9 @@ class StockMoveLine(models.Model):
             if description == name or description == move.product_id.name:
                 description = False
             product = move.product_id
-            line_key = f'{product.id}_{product.display_name}_{description or ""}_{uom.id}'
+            line_key = (
+                f'{product.id}_{product.display_name}_{description or ""}_{uom.id}'
+            )
             return (line_key, name, description, uom)
 
         aggregated_move_lines = super()._get_aggregated_product_quantities(**kwargs)
@@ -159,7 +161,7 @@ class StockMoveLine(models.Model):
             aggregated_move_lines[aggregated_move_line]["l10n_ro_price_total"] = 0
 
         for move_line in self:
-            if kwargs.get('except_package') and move_line.result_package_id:
+            if kwargs.get("except_package") and move_line.result_package_id:
                 continue
             line_key, _name, _description, _uom = get_aggregated_properties(
                 move_line=move_line
