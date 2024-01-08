@@ -388,6 +388,7 @@ class StockMove(models.Model):
             self.is_l10n_ro_record
             and self._is_in()
             and self.location_id.usage == "production"
+            and not self.origin_returned_move_id
         )
         return it_is
 
