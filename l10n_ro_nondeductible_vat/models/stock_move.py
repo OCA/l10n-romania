@@ -43,7 +43,7 @@ class StockMove(models.Model):
         debit_account_id,
         credit_account_id,
         svl_id,
-        description
+        description,
     ):
         res = super(StockMove, self)._generate_valuation_lines_data(
             partner_id,
