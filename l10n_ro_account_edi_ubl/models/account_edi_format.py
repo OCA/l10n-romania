@@ -101,7 +101,7 @@ class AccountEdiXmlCIUSRO(models.Model):
 
             residence = invoice.company_id.l10n_ro_edi_residence
             days = (fields.Date.today() - invoice.invoice_date).days
-            if self.env.context.get("l10n_ro_edi_manual_action"):
+            if self.env.context.get("l10n_ro_edi_manual_action") and not invoice.l10n_ro_edi_transaction:
                 if anaf_config and not invoice.l10n_ro_edi_transaction:
                     res[invoice] = self._l10n_ro_post_invoice_step_1(
                         invoice, attachment
@@ -208,12 +208,20 @@ class AccountEdiXmlCIUSRO(models.Model):
         )
         if status_code == 400:
             error = _("Error %s") % status_code
-            return {"success": False, "error": error, "blocking_level": "error"}
+            return {
+                "success": False,
+                "error": error,
+                "blocking_level": "error",
+                "message": {'status_code': status_code},
+                "state": "error",
+                }
         elif status_code != 200:
             return {
                 "success": False,
                 "error": _("Access Error"),
                 "blocking_level": "warning",
+                "message": {'status_code': status_code},
+                "state": "error",
             }
 
         doc = etree.fromstring(content)
@@ -245,6 +253,8 @@ class AccountEdiXmlCIUSRO(models.Model):
                 "transaction": transaction,
                 "blocking_level": "info",
                 "error": "The invoice was sent to ANAF, awaiting validation.",
+                "message": doc,
+                "state": "info",
             }
 
         # This is response from step 2
@@ -256,17 +266,28 @@ class AccountEdiXmlCIUSRO(models.Model):
                 "blocking_level": "info",
                 "in_processing": True,
                 "error": "The invoice is in processing at ANAF.",
+                "message": doc,
+                "state": "info",
             },
             "nok": {
                 "success": False,
                 "blocking_level": "warning",
                 "error": "The invoice was not validated by ANAF.",
+                "message": doc,
+                "state": "error",
             },
-            "ok": {"success": True, "id_descarcare": doc.get("id_descarcare") or ""},
+            "ok": {
+                "success": True,
+                "id_descarcare": doc.get("id_descarcare") or "",
+                "message": doc,
+                "state": "info",
+                },
             "XML cu erori nepreluat de sistem": {
                 "success": False,
                 "blocking_level": "error",
                 "error": "XML cu erori nepreluat de sistem",
+                "message": doc,
+                "state": "error",
             },
         }
         if stare:
