@@ -66,7 +66,8 @@ class AccountEdiXmlCIUSRO(models.Model):
         if self.code != "cius_ro":
             return super()._is_required_for_invoice(invoice)
         is_required = (
-            invoice.partner_id.country_id.code == "RO" and invoice.partner_id.is_company
+            invoice.commercial_partner_id.country_id.code == "RO"
+            and invoice.commercial_partner_id.is_company
         )
         return is_required
 
