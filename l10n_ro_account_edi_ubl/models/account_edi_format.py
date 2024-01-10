@@ -101,7 +101,10 @@ class AccountEdiXmlCIUSRO(models.Model):
 
             residence = invoice.company_id.l10n_ro_edi_residence
             days = (fields.Date.today() - invoice.invoice_date).days
-            if self.env.context.get("l10n_ro_edi_manual_action") and not invoice.l10n_ro_edi_transaction:
+            if (
+                self.env.context.get("l10n_ro_edi_manual_action")
+                and not invoice.l10n_ro_edi_transaction
+            ):
                 if anaf_config and not invoice.l10n_ro_edi_transaction:
                     res[invoice] = self._l10n_ro_post_invoice_step_1(
                         invoice, attachment
@@ -212,15 +215,15 @@ class AccountEdiXmlCIUSRO(models.Model):
                 "success": False,
                 "error": error,
                 "blocking_level": "error",
-                "message": {'status_code': status_code},
+                "message": {"status_code": status_code},
                 "state": "error",
-                }
+            }
         elif status_code != 200:
             return {
                 "success": False,
                 "error": _("Access Error"),
                 "blocking_level": "warning",
-                "message": {'status_code': status_code},
+                "message": {"status_code": status_code},
                 "state": "error",
             }
 
@@ -281,7 +284,7 @@ class AccountEdiXmlCIUSRO(models.Model):
                 "id_descarcare": doc.get("id_descarcare") or "",
                 "message": doc,
                 "state": "info",
-                },
+            },
             "XML cu erori nepreluat de sistem": {
                 "success": False,
                 "blocking_level": "error",

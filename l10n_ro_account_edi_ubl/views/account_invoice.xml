@@ -66,10 +66,16 @@
         <field name="model">account.move</field>
         <field name="inherit_id" ref="account_edi.view_move_form_inherit" />
         <field name="arch" type="xml">
-            <xpath expr="//button[@name='button_process_edi_web_services']" position="attributes">
+            <xpath
+                expr="//button[@name='button_process_edi_web_services']"
+                position="attributes"
+            >
                 <attribute name="context">{"l10n_ro_edi_manual_action":1}</attribute>
             </xpath>
-            <xpath expr="//button[@name='action_retry_edi_documents_error']" position="attributes">
+            <xpath
+                expr="//button[@name='action_retry_edi_documents_error']"
+                position="attributes"
+            >
                 <attribute name="context">{"l10n_ro_edi_manual_action":1}</attribute>
             </xpath>
         </field>
