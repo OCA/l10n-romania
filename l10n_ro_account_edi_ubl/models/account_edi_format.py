@@ -52,7 +52,7 @@ class AccountEdiXmlCIUSRO(models.Model):
                 "qdt": "urn:oasis:names:specification:ubl:schema:xsd:QualifiedDataTypes-2",
                 "ccts": "urn:un:unece:uncefact:documentation:2",
                 "udt": "urn:oasis:names:specification:ubl:schema:xsd:UnqualifiedDataTypes-2",
-                "cac": "urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2",
+                "cac": "urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2",  # noqa: B950
                 "cbc": "urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2",
                 "xsi": "http://www.w3.org/2001/XMLSchema-instance",
             }
