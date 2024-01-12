@@ -115,13 +115,7 @@ class ResCompany(models.Model):
                             "l10n_ro_edi_transaction": message.get("id_solicitare"),
                         }
                     )
-                    new_invoice = self._l10n_ro_prepare_invoice_for_download(
-                        new_invoice
-                    )
+                    new_invoice = new_invoice._l10n_ro_prepare_invoice_for_download()
                     new_invoice.l10n_ro_download_zip_anaf(
                         company.l10n_ro_account_anaf_sync_id
                     )
-
-    @api.model
-    def _l10n_ro_prepare_invoice_for_download(self, invoice):
-        return invoice
