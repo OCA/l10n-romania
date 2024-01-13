@@ -226,7 +226,7 @@ class AccountEdiXmlCIUSRO(models.Model):
                 "success": False,
                 "transaction": transaction,
                 "blocking_level": "info",
-                "error": "The invoice was sent to ANAF, awaiting validation.",
+                "error": _("The invoice was sent to ANAF, awaiting validation."),
             }
 
         # This is response from step 2
@@ -237,18 +237,20 @@ class AccountEdiXmlCIUSRO(models.Model):
                 "success": False,
                 "blocking_level": "info",
                 "in_processing": True,
-                "error": "The invoice is in processing at ANAF.",
+                "error": _("The invoice is in processing at ANAF."),
             },
             "nok": {
                 "success": False,
                 "blocking_level": "warning",
-                "error": "The invoice was not validated by ANAF.",
+                "error": _("The invoice was not validated by ANAF.: %s")
+                % error_message,
             },
             "ok": {"success": True, "id_descarcare": doc.get("id_descarcare") or ""},
             "XML cu erori nepreluat de sistem": {
                 "success": False,
                 "blocking_level": "error",
-                "error": "XML cu erori nepreluat de sistem",
+                "error": _("XML with errors not taken over by the system %s")
+                % error_message,
             },
         }
         if stare:
