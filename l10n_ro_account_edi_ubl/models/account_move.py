@@ -147,6 +147,10 @@ class AccountMove(models.Model):
         high_risk_nc_list = high_risk_nc.split(",")
         return high_risk_nc_list
 
+    def _l10n_ro_prepare_invoice_for_download(self):
+        self.ensure_one()
+        return self
+
     def l10n_ro_download_zip_anaf(self, anaf_config=False):
         if not anaf_config:
             anaf_config = self.env.company.l10n_ro_account_anaf_sync_id.sudo()

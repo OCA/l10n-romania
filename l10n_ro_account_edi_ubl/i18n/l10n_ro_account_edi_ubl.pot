@@ -267,7 +267,7 @@ msgstr ""
 #. module: l10n_ro_account_edi_ubl
 #: model:ir.actions.server,name:l10n_ro_account_edi_ubl.ir_cron_res_company_einvoice_download_every_day_ir_actions_server
 #: model:ir.cron,cron_name:l10n_ro_account_edi_ubl.ir_cron_res_company_einvoice_download_every_day
-msgid "Romania e-Invoicing: Download Supplier Invoiecs"
+msgid "Romania e-Invoicing: Download Supplier Invoices"
 msgstr ""
 
 #. module: l10n_ro_account_edi_ubl
