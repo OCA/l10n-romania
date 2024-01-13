@@ -183,11 +183,15 @@ class AccountEdiXmlCIUSRO(models.Model):
         tax_nodes = tree.findall(".//{*}Item/{*}ClassifiedTaxCategory/{*}ID")
         if len(tax_nodes) == 1:
             if tax_nodes[0].text in ["O", "E", "Z"]:
+                # Acest TVA nu generaza inregistrari contabile,
+                # deci putem lua orice primul tva pe cota 0
+                # filtrat dupa companie si tip jurnal.
                 tax = self.env["account.tax"].search(
                     [
                         ("amount", "=", "0"),
                         ("type_tax_use", "=", journal.type),
                         ("amount_type", "=", "percent"),
+                        ("company_id", "=", invoice.company_id.id)
                     ],
                     limit=1,
                 )
