@@ -83,7 +83,12 @@ class AccountMove(models.Model):
     def button_draft(self):
         # OVERRIDE
         for move in self:
-            if move.l10n_ro_edi_transaction and move.get_l10n_ro_edi_invoice_needed():
+            edi_documents_with_error = move.edi_document_ids.filtered(lambda x: x.error)
+            if (
+                move.l10n_ro_edi_transaction
+                and move.get_l10n_ro_edi_invoice_needed()
+                and not edi_documents_with_error
+            ):
                 raise UserError(
                     _(
                         "You can't edit the following journal entry %s "
@@ -160,6 +165,10 @@ class AccountMove(models.Model):
         )
         high_risk_nc_list = high_risk_nc.split(",")
         return high_risk_nc_list
+
+    def _l10n_ro_prepare_invoice_for_download(self):
+        self.ensure_one()
+        return self
 
     def l10n_ro_download_zip_anaf(self, anaf_config=False):
         if not anaf_config:

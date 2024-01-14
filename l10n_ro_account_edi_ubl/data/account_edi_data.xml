@@ -18,7 +18,7 @@
     </record>
 
     <record model="ir.cron" id="ir_cron_res_company_einvoice_download_every_day">
-        <field name="name">Romania e-Invoicing: Download Supplier Invoiecs</field>
+        <field name="name">Romania e-Invoicing: Download Supplier Invoices</field>
         <field name="model_id" ref="base.model_res_company" />
         <field name="state">code</field>
         <field name="code">model._l10n_ro_create_anaf_efactura()</field>
