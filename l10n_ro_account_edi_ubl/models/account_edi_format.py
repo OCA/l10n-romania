@@ -3,9 +3,9 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
 import logging
+from datetime import timedelta
 
 from lxml import etree
-from datetime import timedelta
 
 from odoo import _, fields, models
 from odoo.exceptions import UserError
@@ -159,8 +159,12 @@ class AccountEdiXmlCIUSRO(models.Model):
                         user_id=invoice.invoice_user_id.id,
                     )
                 elif blocking_level in ["info", "warning"]:
-                    trigger_date = fields.Datetime.now() + timedelta(minutes=blocking_level == "info" and 5 or 30)
-                    self.env.ref('account_edi.ir_cron_edi_network')._trigger(at=trigger_date)
+                    trigger_date = fields.Datetime.now() + timedelta(
+                        minutes=blocking_level == "info" and 5 or 30
+                    )
+                    self.env.ref("account_edi.ir_cron_edi_network")._trigger(
+                        at=trigger_date
+                    )
             # If you have ANAF sync configured, but you don't have a transaction
             # number, then the invoice is marked as not sent to ANAF
             if (
@@ -208,7 +212,7 @@ class AccountEdiXmlCIUSRO(models.Model):
             res.update({"attachment": attachment})
             invoice.write({"l10n_ro_edi_transaction": res.get("transaction")})
             trigger_date = fields.Datetime.now() + timedelta(minutes=30)
-            self.env.ref('account_edi.ir_cron_edi_network')._trigger(at=trigger_date)
+            self.env.ref("account_edi.ir_cron_edi_network")._trigger(at=trigger_date)
         return res
 
     def _l10n_ro_post_invoice_step_2(self, invoice, attachment):
