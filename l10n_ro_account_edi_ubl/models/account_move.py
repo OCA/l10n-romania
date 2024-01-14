@@ -4,10 +4,11 @@
 
 import io
 import zipfile
+from datetime import timedelta
 
 from odoo import _, api, fields, models
 from odoo.exceptions import UserError, ValidationError
-from datetime import timedelta
+
 
 class AccountMove(models.Model):
     _inherit = "account.move"
@@ -70,14 +71,18 @@ class AccountMove(models.Model):
         # OVERRIDE
         # trigger cron after residence days
         posted = super(AccountMove, self)._post(soft)
-        trigger_dates = set([])
-        edi_format = self.env['account.edi.format'].search([('code', '=', 'cius_ro')], limit=1)
+        trigger_dates = set()
+        edi_format = self.env["account.edi.format"].search(
+            [("code", "=", "cius_ro")], limit=1
+        )
         for move in posted:
-            existing_edi_document = move.edi_document_ids.filtered(lambda x: x.edi_format_id == edi_format)
+            existing_edi_document = move.edi_document_ids.filtered(
+                lambda x: x.edi_format_id == edi_format
+            )
             if existing_edi_document:
                 residence = move.company_id.l10n_ro_edi_residence
                 trigger_dates.add(move.invoice_date + timedelta(days=residence))
-        self.env.ref('account_edi.ir_cron_edi_network')._trigger(at=trigger_dates)
+        self.env.ref("account_edi.ir_cron_edi_network")._trigger(at=trigger_dates)
         return posted
 
     def button_draft(self):
