@@ -88,7 +88,7 @@ class ResCompany(models.Model):
             and c.l10n_ro_account_anaf_sync_id
             and c.l10n_ro_download_einvoices
         )
-        new_invoices = self.env["account.move"]
+
         for company in ro_companies:
             move_obj = self.env["account.move"].with_company(company)
             company_messages = company._l10n_ro_get_anaf_efactura_messages()
@@ -115,7 +115,7 @@ class ResCompany(models.Model):
                             "l10n_ro_edi_transaction": message.get("id_solicitare"),
                         }
                     )
+                    new_invoice = new_invoice._l10n_ro_prepare_invoice_for_download()
                     new_invoice.l10n_ro_download_zip_anaf(
                         company.l10n_ro_account_anaf_sync_id
                     )
-                    new_invoices += new_invoice
