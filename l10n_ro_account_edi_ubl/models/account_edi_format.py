@@ -88,7 +88,15 @@ class AccountEdiXmlCIUSRO(models.Model):
 
             attachment = invoice._get_edi_attachment(self)
             if not attachment:
-                attachment = self._export_cius_ro(invoice)
+                try:
+                    attachment = self._export_cius_ro(invoice)
+                except UserError as odoo_error:
+                    res[invoice] = {
+                        "success": False,
+                        "blocking_level": "error",
+                        "error": odoo_error.name,
+                    }
+                    continue
             # Generate PDF report to be embedded in the XML
             if invoice.company_id.l10n_ro_edi_cius_embed_pdf:
                 pdf_report = invoice.company_id.l10n_ro_default_cius_pdf_report
