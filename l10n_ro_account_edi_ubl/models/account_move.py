@@ -79,7 +79,7 @@ class AccountMove(models.Model):
             )
         if existing_edi_document:
             residence = min(posted.mapped("company_id").l10n_ro_edi_residence)
-            trigger_date = fields.Datetime.now() + timedelta(days=residence))
+            trigger_date = fields.Datetime.now() + timedelta(days=residence)
             self.env.ref("account_edi.ir_cron_edi_network")._trigger(at=trigger_date)
         return posted
 
