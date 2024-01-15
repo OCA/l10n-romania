@@ -2,9 +2,13 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
 import base64
+import json
 import logging
+import time
+from unittest.mock import patch
 
 from odoo import fields
+from odoo.exceptions import UserError
 from odoo.modules.module import get_module_resource
 from odoo.tests import tagged
 
@@ -17,12 +21,6 @@ _logger = logging.getLogger(__name__)
 class TestAccountEdiUbl(AccountEdiTestCommon):
     @classmethod
     def setUpClass(cls):
-        def get_file(filename):
-            test_file = get_module_resource(
-                "l10n_ro_account_edi_ubl", "tests", filename
-            )
-            return open(test_file).read().encode("utf-8")
-
         ro_template_ref = "l10n_ro.ro_chart_template"
         super().setUpClass(chart_template_ref=ro_template_ref)
         cls.env.company.l10n_ro_accounting = True
@@ -75,6 +73,7 @@ class TestAccountEdiUbl(AccountEdiTestCommon):
                 "phone": "0256413409",
                 "l10n_ro_e_invoice": True,
                 "l10n_ro_is_government_institution": False,
+                "is_company": True,
             }
         )
         if "street_name" in cls.partner._fields:
@@ -143,7 +142,9 @@ class TestAccountEdiUbl(AccountEdiTestCommon):
             ],
         }
         cls.invoice = cls.env["account.move"].create(invoice_values)
-
+        cls.invoice.journal_id.edi_format_ids = [
+            (6, 0, cls.env.ref("l10n_ro_account_edi_ubl.edi_ubl_cius_ro").ids)
+        ]
         invoice_values.update(
             {
                 "move_type": "out_refund",
@@ -151,16 +152,6 @@ class TestAccountEdiUbl(AccountEdiTestCommon):
             }
         )
         cls.credit_note = cls.env["account.move"].create(invoice_values)
-
-        cls.expected_invoice_values = get_file("invoice.xml")
-        cls.expected_credit_note_values = get_file("credit_note.xml")
-        cls.expected_success_values = get_file("success.xml")
-        cls.expected_error_values = get_file("error.xml")
-        cls.expected_stare_mesaj_ok = get_file("stare_mesaj_ok.xml")
-        cls.expected_stare_mesaj_not_ok = get_file("stare_mesaj_not_ok.xml")
-        cls.expected_stare_mesaj_in_prelucrare = get_file(
-            "stare_mesaj_in_prelucrare.xml"
-        )
 
         test_file = get_module_resource(
             "l10n_ro_account_edi_ubl", "tests", "invoice.zip"
@@ -174,9 +165,40 @@ class TestAccountEdiUbl(AccountEdiTestCommon):
                     "company_id": cls.env.company.id,
                     "client_id": "123",
                     "client_secret": "123",
+                    "access_token": "123",
                 }
             )
             cls.env.company.l10n_ro_account_anaf_sync_id = anaf_config
+
+    def get_file(self, filename):
+        test_file = get_module_resource("l10n_ro_account_edi_ubl", "tests", filename)
+        return open(test_file).read().encode("utf-8")
+
+    def check_invoice_documents(
+        self, invoice, state="to_send", error=False, blocking_level=False
+    ):
+        sleep_time = 0
+        while not invoice.edi_state and sleep_time < 30:
+            time.sleep(1)
+            sleep_time += 1
+        self.assertEqual(len(invoice.edi_document_ids), 1)
+        self.assertEqual(invoice.edi_state, state)
+        self.assertEqual(invoice.edi_document_ids.state, state)
+        if error:
+            self.assertEqual(invoice.edi_document_ids.error, error)
+            self.assertTrue(
+                any(error in message for message in invoice.message_ids.mapped("body"))
+            )
+        if blocking_level:
+            self.assertEqual(invoice.edi_document_ids.blocking_level, blocking_level)
+            if blocking_level == "error":
+                self.assertTrue(invoice.activity_ids)
+                self.assertTrue(
+                    any(
+                        error in activity
+                        for activity in invoice.activity_ids.mapped("note")
+                    )
+                )
 
     def test_account_invoice_edi_ubl(self):
         self.invoice.action_post()
@@ -185,7 +207,7 @@ class TestAccountEdiUbl(AccountEdiTestCommon):
         xml_content = base64.b64decode(att.with_context(bin_size=False).datas)
 
         current_etree = self.get_xml_tree_from_string(xml_content)
-        expected_etree = self.get_xml_tree_from_string(self.expected_invoice_values)
+        expected_etree = self.get_xml_tree_from_string(self.get_file("invoice.xml"))
 
         self.assertXmlTreeEqual(current_etree, expected_etree)
 
@@ -196,53 +218,240 @@ class TestAccountEdiUbl(AccountEdiTestCommon):
         xml_content = base64.b64decode(att.with_context(bin_size=False).datas)
 
         current_etree = self.get_xml_tree_from_string(xml_content)
-        expected_etree = self.get_xml_tree_from_string(self.expected_credit_note_values)
+        expected_etree = self.get_xml_tree_from_string(self.get_file("credit_note.xml"))
         self.assertXmlTreeEqual(current_etree, expected_etree)
 
-    def test_process_documents_web_services(self):
-        self.partner.l10n_ro_e_invoice = False
+    def prepare_invoice_sent_step1(self):
         self.invoice.action_post()
-        anaf_config = self.env.company.l10n_ro_account_anaf_sync_id
-
-        anaf_config.state = "test"
-
-        # procesare step 1 - eroare
-        data = self.expected_error_values
-        self.invoice.with_context(test_data=data).action_process_edi_web_services()
-        docs = self.invoice.edi_document_ids.filtered(
-            lambda d: d.state == "to_send" and d.blocking_level == "error"
-        )
-        docs.blocking_level = False
 
         # procesare step 1 - succes
-        data = self.expected_success_values
-        self.invoice.with_context(test_data=data).action_process_edi_web_services()
+        self.invoice.with_context(
+            test_data=self.get_file("upload_success.xml")
+        ).action_process_edi_web_services()
+        self.check_invoice_documents(
+            self.invoice,
+            "to_send",
+            "<p>The invoice was sent to ANAF, awaiting validation.</p>",
+            "info",
+        )
 
-        # procesare step 2 - in prelucrare
-        data = self.expected_stare_mesaj_in_prelucrare
-        self.invoice.with_context(test_data=data).action_process_edi_web_services()
-        docs.blocking_level = False
+    def test_process_documents_web_services_step1_ok(self):
+        self.prepare_invoice_sent_step1()
 
-        # procesare step 2 - not_ok
-        data = self.expected_stare_mesaj_not_ok
-        self.invoice.with_context(test_data=data).action_process_edi_web_services()
-        docs.blocking_level = False
+    def test_process_documents_web_services_step1_error(self):
+        self.invoice.action_post()
 
-        # procesare step 2 - ok
-        data = self.expected_stare_mesaj_ok
-        self.invoice.with_context(test_data=data).action_process_edi_web_services()
-        docs.blocking_level = False
+        # procesare step 1 - eroare
+        self.invoice.with_context(
+            test_data=self.get_file("upload_standard_invalid.xml")
+        ).action_process_edi_web_services()
+        self.check_invoice_documents(
+            self.invoice,
+            "to_send",
+            "<p>Valorile acceptate pentru parametrul standard sunt UBL, CII sau RASP</p>",
+            "error",
+        )
+
+    def test_process_documents_web_services_step2_ok(self):
+        self.prepare_invoice_sent_step1()
+
+    def test_process_document_web_services_step2_not_ok(self):
+        self.prepare_invoice_sent_step1()
+        cases = [
+            (
+                self.get_file("stare_mesaj_not_ok.xml"),
+                "to_send",
+                "<p>The invoice was not validated by ANAF.</p>",
+                "warning",
+            ),
+            (
+                self.get_file("stare_mesaj_in_prelucrare.xml"),
+                "to_send",
+                "<p>The invoice is in processing at ANAF.</p>",
+                "info",
+            ),
+            (
+                self.get_file("stare_mesaj_limita_apeluri.xml"),
+                "to_send",
+                "<p>S-au facut deja 20 descarcari de mesaj in cursul zilei</p>",
+                "warning",
+            ),
+            (
+                self.get_file("stare_mesaj_xml_erori.xml"),
+                "to_send",
+                "<p>XML cu erori nepreluat de sistem</p>",
+                "error",
+            ),
+            (
+                self.get_file("stare_mesaj_drept_id_incarcare.xml"),
+                "to_send",
+                "<p>Nu aveti dreptul de inteorgare pentru id_incarcare= 18</p>",
+                "error",
+            ),
+            (
+                self.get_file("stare_mesaj_lipsa_drepturi.xml"),
+                "to_send",
+                "<p>Nu exista niciun CIF petru care sa aveti drept</p>",
+                "error",
+            ),
+            (
+                self.get_file("stare_mesaj_index_invalid.xml"),
+                "to_send",
+                "<p>Id_incarcare introdus= aaa nu este un numar intreg</p>",
+                "error",
+            ),
+            (
+                self.get_file("stare_mesaj_factura_inexistenta.xml"),
+                "to_send",
+                "<p>Nu exista factura cu id_incarcare=</p>",
+                "error",
+            ),
+        ]
+        for check_case in cases:
+            self.test_step2_not_ok(check_case)
+
+    def test_step2_not_ok(self, check_case=False):
+        if check_case:
+            if check_case[3] == "error":
+                self.invoice.edi_document_ids.write(
+                    {"state": "to_send", "blocking_level": False, "error": False}
+                )
+            self.invoice.with_context(
+                test_data=check_case[0]
+            ).action_process_edi_web_services()
+            self.check_invoice_documents(
+                self.invoice, check_case[1], check_case[2], check_case[3]
+            )
 
     def test_download_invoice(self):
         data = self.invoice_zip
+        self.invoice.invoice_line_ids = False
         self.invoice.l10n_ro_edi_download = "1234"
         self.invoice.with_context(test_data=data).l10n_ro_download_zip_anaf()
+        with self.assertRaises(UserError):
+            self.invoice.with_context(test_data=data).l10n_ro_download_zip_anaf()
 
     def test_edi_cius_is_required(self):
         cius_format = self.env.ref("l10n_ro_account_edi_ubl.edi_ubl_cius_ro")
         self.assertTrue(cius_format._is_required_for_invoice(self.invoice))
         self.invoice.partner_id.is_company = False
-        self.assertTrue(cius_format._is_required_for_invoice(self.invoice))
+        self.assertFalse(cius_format._is_required_for_invoice(self.invoice))
         self.invoice.partner_id.is_company = True
         self.invoice.partner_id.country_id = False
-        self.assertTrue(cius_format._is_required_for_invoice(self.invoice))
+        self.assertFalse(cius_format._is_required_for_invoice(self.invoice))
+
+    def test_l10n_ro_get_anaf_efactura_messages(self):
+        self.env.company.vat = "RO23685159"
+        anaf_config = self.env.company.l10n_ro_account_anaf_sync_id
+        anaf_config.access_token = "test"
+        msg_dict = {
+            "mesaje": [
+                {
+                    "data_creare": "202312120940",
+                    "cif": "23685159",
+                    "id_solicitare": "5004552043",
+                    "detalii": "Factura cu id_incarcare=5004552043 emisa de "
+                    "cif_emitent=8486152 pentru"
+                    "cif_beneficiar=23685159",
+                    "tip": "FACTURA PRIMITA",
+                    "id": "3006372781",
+                }
+            ],
+            "serial": "1234AA456",
+            "cui": "8000000000",
+            "titlu": "Lista Mesaje disponibile din ultimele 1 zile",
+        }
+        anaf_messages = b"""%s""" % json.dumps(msg_dict).encode("utf-8")
+        expected_msg = [
+            {
+                "data_creare": "202312120940",
+                "cif": "23685159",
+                "id_solicitare": "5004552043",
+                "detalii": "Factura cu id_incarcare=5004552043 emisa de "
+                "cif_emitent=8486152 pentru"
+                "cif_beneficiar=23685159",
+                "tip": "FACTURA PRIMITA",
+                "id": "3006372781",
+            }
+        ]
+        with patch(
+            "odoo.addons.l10n_ro_account_anaf_sync.models.l10n_ro_account_anaf_sync."
+            "AccountANAFSync._l10n_ro_einvoice_call",
+            return_value=(anaf_messages, 200),
+        ):
+            self.assertEqual(
+                self.env.company._l10n_ro_get_anaf_efactura_messages(), expected_msg
+            )
+
+    def test_l10n_ro_create_anaf_efactura(self):
+        anaf_config = self.env.company.l10n_ro_account_anaf_sync_id
+        anaf_config.access_token = "test"
+        self.env.company.l10n_ro_download_einvoices = True
+        self.env.company.partner_id.write(
+            {
+                "vat": "RO34581625",
+                "name": "AGROAMAT COM SRL",
+                "phone": False,
+                "email": False,
+            }
+        )
+        self.env["res.partner"].create(
+            {
+                "name": "TOTAL SECURITY S.A.",
+                "vat": "RO8486152",
+                "country_id": self.env.ref("base.ro").id,
+            }
+        )
+        messages = [
+            {
+                "data_creare": "202312120940",
+                "cif": "34581625",
+                "id_solicitare": "5004879752",
+                "detalii": "Factura cu id_incarcare=5004879752 emisa de "
+                "cif_emitent=8486152 pentru "
+                "cif_beneficiar=34581625",
+                "tip": "FACTURA PRIMITA",
+                "id": "3006850898",
+            }
+        ]
+
+        signed_zip_file = open(
+            get_module_resource("l10n_ro_account_edi_ubl", "tests", "5004879752.zip"),
+            mode="rb",
+        ).read()
+        with patch(
+            "odoo.addons.l10n_ro_account_edi_ubl.models.res_company.ResCompany"
+            "._l10n_ro_get_anaf_efactura_messages",
+            return_value=messages,
+        ), patch(
+            "odoo.addons.l10n_ro_account_anaf_sync.models.l10n_ro_account_anaf_sync."
+            "AccountANAFSync._l10n_ro_einvoice_call",
+            return_value=(signed_zip_file, 200),
+        ):
+            self.env.company._l10n_ro_create_anaf_efactura()
+            invoice = self.env["account.move"].search(
+                [("l10n_ro_edi_download", "=", "3006850898")]
+            )
+            self.assertEqual(len(invoice), 1)
+            self.assertEqual(invoice.l10n_ro_edi_download, "3006850898")
+            self.assertEqual(invoice.l10n_ro_edi_transaction, "5004879752")
+            self.assertEqual(invoice.move_type, "in_invoice")
+            self.assertEqual(invoice.partner_id.vat, "RO8486152")
+
+            self.assertEqual(invoice.ref, "INV/2023/00029")
+            self.assertEqual(invoice.payment_reference, "INV/2023/00029")
+            self.assertEqual(invoice.currency_id.name, "RON")
+            self.assertEqual(
+                invoice.invoice_date, fields.Date.from_string("2023-12-16")
+            )
+            self.assertEqual(
+                invoice.invoice_date_due, fields.Date.from_string("2023-12-16")
+            )
+            self.assertAlmostEqual(invoice.amount_untaxed, 1000.0)
+            self.assertAlmostEqual(invoice.amount_tax, 190.0)
+            self.assertAlmostEqual(invoice.amount_total, 1190.0)
+            self.assertAlmostEqual(invoice.amount_residual, 1190.0)
+            self.assertEqual(invoice.invoice_line_ids[0].name, "test")
+            self.assertAlmostEqual(invoice.invoice_line_ids[0].quantity, 1)
+            self.assertAlmostEqual(invoice.invoice_line_ids[0].price_unit, 1000.0)
+            self.assertAlmostEqual(invoice.invoice_line_ids[0].balance, 1000.0)

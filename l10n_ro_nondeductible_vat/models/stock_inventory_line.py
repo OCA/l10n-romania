@@ -12,7 +12,7 @@ class InventoryLine(models.Model):
     l10n_ro_nondeductible_tax_id = fields.Many2one(
         "account.tax",
         string="Romania - Non Deductible Tax",
-        domain=[("is_nondeductible", "=", True)],
+        domain=[("l10n_ro_is_nondeductible", "=", True)],
         copy=False,
     )
 

@@ -24,8 +24,8 @@ class AccountEdiXmlCIUSRO(models.Model):
                 partner.state_id.country_id.code + "-" + partner.state_id.code
             )
         # CIUS-RO replace spaces in city -- for Sector 1 -> Sector1
-        if partner.state_id.code == "B" and "sector" in partner.city:
-            vals["city"] = partner.city.upper().replace(" ", "")
+        if partner.state_id.code == "B" and "sector" in (partner.city or "").lower():
+            vals["city_name"] = partner.city.upper().replace(" ", "")
         return vals
 
     def _get_partner_party_tax_scheme_vals_list(self, partner, role):
@@ -72,7 +72,7 @@ class AccountEdiXmlCIUSRO(models.Model):
 
     def _get_invoice_line_price_vals(self, line):
         vals = super()._get_invoice_line_price_vals(line)
-        vals["base_quantity"] = line.quantity
+        vals["base_quantity"] = 1.0
         return vals
 
     def _export_invoice_vals(self, invoice):
@@ -151,6 +151,18 @@ class AccountEdiXmlCIUSRO(models.Model):
 
         return constraints
 
+    def _get_invoice_payment_means_vals_list(self, invoice):
+        res = super()._get_invoice_payment_means_vals_list(invoice)
+        if not invoice.partner_bank_id:
+            for vals in res:
+                vals.update(
+                    {
+                        "payment_means_code": "1",
+                        "payment_means_code_attrs": {"name": "Not Defined"},
+                    }
+                )
+        return res
+
     def _import_fill_invoice_line_form(
         self, journal, tree, invoice, invoice_line, qty_factor
     ):
@@ -174,3 +186,14 @@ class AccountEdiXmlCIUSRO(models.Model):
                 )
                 invoice_line.tax_ids = [tax.id]
         return res
+
+    def _import_fill_invoice_line_taxes(
+        self, journal, tax_nodes, invoice_line_form, inv_line_vals, logs
+    ):
+        if not invoice_line_form.account_id:
+            invoice_line_form.account_id = journal.default_account_id
+        if not inv_line_vals.get("account_id"):
+            inv_line_vals["account_id"] = journal.default_account_id.id
+        return super()._import_fill_invoice_line_taxes(
+            journal, tax_nodes, invoice_line_form, inv_line_vals, logs
+        )

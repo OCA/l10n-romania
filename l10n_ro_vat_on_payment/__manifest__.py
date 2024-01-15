@@ -11,12 +11,14 @@
     ],
     "depends": ["l10n_ro_config"],
     "license": "AGPL-3",
-    "version": "14.0.4.10.0",
+    "version": "14.0.4.11.0",
     "author": "NextERP Romania,"
     "Forest and Biomass Romania,"
     "Odoo Community Association (OCA)",
     "website": "https://github.com/OCA/l10n-romania",
     "installable": True,
+    "pre_init_hook": "pre_init_hook",
     "development_status": "Mature",
     "maintainers": ["feketemihai"],
+    "sequence": "99",
 }
