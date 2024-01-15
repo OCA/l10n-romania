@@ -41,6 +41,26 @@ class AccountEdiXmlCIUSRO(models.Model):
     def _export_invoice_filename(self, invoice):
         return f"{invoice.name.replace('/', '_')}_cius_ro.xml"
 
+    def _find_value(self, xpath, xml_element, namespaces=None):
+        res = None
+        try:
+            res = super(AccountEdiXmlCIUSRO, self)._find_value(
+                xpath, xml_element, namespaces=namespaces
+            )
+        except Exception:
+            namespaces = {
+                "qdt": "urn:oasis:names:specification:ubl:schema:xsd:QualifiedDataTypes-2",
+                "ccts": "urn:un:unece:uncefact:documentation:2",
+                "udt": "urn:oasis:names:specification:ubl:schema:xsd:UnqualifiedDataTypes-2",
+                "cac": "urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2",  # noqa: B950
+                "cbc": "urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2",
+                "xsi": "http://www.w3.org/2001/XMLSchema-instance",
+            }
+            res = super(AccountEdiXmlCIUSRO, self)._find_value(
+                xpath, xml_element, namespaces=namespaces
+            )
+        return res
+
     def _get_xml_builder(self, company):
         if self.code == "cius_ro":
             return self.env["account.edi.xml.cius_ro"]
