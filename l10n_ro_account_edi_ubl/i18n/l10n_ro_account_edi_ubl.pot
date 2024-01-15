@@ -375,13 +375,6 @@ msgstr ""
 #. odoo-python
 #: code:addons/l10n_ro_account_edi_ubl/models/account_edi_format.py:0
 #, python-format
-msgid "The invoice is not older than %s days"
-msgstr ""
-
-#. module: l10n_ro_account_edi_ubl
-#. odoo-python
-#: code:addons/l10n_ro_account_edi_ubl/models/account_edi_format.py:0
-#, python-format
 msgid "The invoice was not send or validated by ANAF."
 msgstr ""
 
