@@ -70,21 +70,17 @@ class AccountMove(models.Model):
     def _post(self, soft=True):
         # OVERRIDE
         # trigger cron after residence days
-        posted = super(AccountMove, self)._post(soft)
-        trigger_dates = set()
+        posted = super(AccountMove, self)._post(soft=soft)
         edi_format = self.env["account.edi.format"].search(
             [("code", "=", "cius_ro")], limit=1
         )
-        for move in posted:
-            existing_edi_document = move.edi_document_ids.filtered(
+        existing_edi_document = posted.mapped("edi_document_ids").filtered(
                 lambda x: x.edi_format_id == edi_format
             )
-            if existing_edi_document:
-                residence = move.company_id.l10n_ro_edi_residence
-                trigger_dates.add(move.invoice_date + timedelta(days=residence))
-            else:
-                trigger_dates.add(fields.Datetime.now())
-        self.env.ref("account_edi.ir_cron_edi_network")._trigger(at=trigger_dates)
+        if existing_edi_document:
+            residence = min(posted.mapped("company_id").l10n_ro_edi_residence)
+            trigger_date = fields.Datetime.now() + timedelta(days=residence))
+            self.env.ref("account_edi.ir_cron_edi_network")._trigger(at=trigger_date)
         return posted
 
     def button_draft(self):
