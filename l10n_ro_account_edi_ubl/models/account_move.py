@@ -82,6 +82,8 @@ class AccountMove(models.Model):
             if existing_edi_document:
                 residence = move.company_id.l10n_ro_edi_residence
                 trigger_dates.add(move.invoice_date + timedelta(days=residence))
+            else:
+                trigger_dates.add(fields.Datetime.now())
         self.env.ref("account_edi.ir_cron_edi_network")._trigger(at=trigger_dates)
         return posted
 
