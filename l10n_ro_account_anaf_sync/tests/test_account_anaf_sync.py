@@ -26,3 +26,10 @@ class TestAccountANAFSync(TransactionCase):
 
     def test_get_access_token(self):
         self.sync.get_token_from_anaf_website()
+
+    def test_einvoice_calll(self):
+        params = {
+            "zile": 1,
+            "cif": "1234567890",
+        }
+        self.sync._l10n_ro_einvoice_call("/listaMesajeFactura", params, method="GET")

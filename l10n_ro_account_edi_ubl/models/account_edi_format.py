@@ -108,7 +108,7 @@ class AccountEdiXmlCIUSRO(models.Model):
                     )
             if res[invoice].get("error", False):
                 invoice.message_post(body=res[invoice]["error"])
-                # Create activity if process is stoped with an error blocking level
+                # Create activity if process is stopped with an error blocking level
                 if res[invoice].get("blocking_level") == "error":
                     message = _("The invoice was not send or validated by ANAF.")
                     body = message + _("\n\nError:\n<p>%s</p>") % res[invoice]["error"]
@@ -236,15 +236,13 @@ class AccountEdiXmlCIUSRO(models.Model):
             "nok": {
                 "success": False,
                 "blocking_level": "warning",
-                "error": _("The invoice was not validated by ANAF.: %s")
-                % error_message,
+                "error": _("The invoice was not validated by ANAF."),
             },
             "ok": {"success": True, "id_descarcare": doc.get("id_descarcare") or ""},
             "XML cu erori nepreluat de sistem": {
                 "success": False,
                 "blocking_level": "error",
-                "error": _("XML with errors not taken over by the system %s")
-                % error_message,
+                "error": _("XML with errors not taken over by the system."),
             },
         }
         if stare:
