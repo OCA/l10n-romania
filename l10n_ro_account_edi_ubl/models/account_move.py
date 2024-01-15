@@ -75,8 +75,8 @@ class AccountMove(models.Model):
             [("code", "=", "cius_ro")], limit=1
         )
         existing_edi_document = posted.mapped("edi_document_ids").filtered(
-                lambda x: x.edi_format_id == edi_format
-            )
+            lambda x: x.edi_format_id == edi_format
+        )
         if existing_edi_document:
             residence = min(posted.mapped("company_id").l10n_ro_edi_residence)
             trigger_date = fields.Datetime.now() + timedelta(days=residence)
