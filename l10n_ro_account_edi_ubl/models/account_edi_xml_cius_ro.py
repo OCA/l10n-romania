@@ -150,3 +150,27 @@ class AccountEdiXmlCIUSRO(models.Model):
                         )
 
         return constraints
+
+    def _import_fill_invoice_line_form(
+        self, journal, tree, invoice, invoice_line, qty_factor
+    ):
+        res = super(AccountEdiXmlCIUSRO, self)._import_fill_invoice_line_form(
+            journal, tree, invoice, invoice_line, qty_factor
+        )
+        tax_nodes = tree.findall(".//{*}Item/{*}ClassifiedTaxCategory/{*}ID")
+        if len(tax_nodes) == 1:
+            if tax_nodes[0].text in ["O", "E", "Z"]:
+                # Acest TVA nu generaza inregistrari contabile,
+                # deci putem lua orice primul tva pe cota 0
+                # filtrat dupa companie si tip jurnal.
+                tax = self.env["account.tax"].search(
+                    [
+                        ("amount", "=", "0"),
+                        ("type_tax_use", "=", journal.type),
+                        ("amount_type", "=", "percent"),
+                        ("company_id", "=", invoice.company_id.id),
+                    ],
+                    limit=1,
+                )
+                invoice_line.tax_ids = [tax.id]
+        return res
