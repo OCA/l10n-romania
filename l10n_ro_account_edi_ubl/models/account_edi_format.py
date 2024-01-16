@@ -98,6 +98,7 @@ class AccountEdiXmlCIUSRO(models.Model):
                     else:
                         res[invoice] = {
                             "success": False,
+                            "blocking_level": "warning",
                             "error": _("The invoice is not older than %s days")
                             % residence,
                         }
