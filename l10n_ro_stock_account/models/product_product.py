@@ -7,6 +7,7 @@ import logging
 
 from odoo import api, fields, models
 from odoo.tools import float_compare, float_is_zero, float_repr
+from odoo.tools.safe_eval import safe_eval
 
 _logger = logging.getLogger(__name__)
 
@@ -21,6 +22,13 @@ class ProductProduct(models.Model):
         """Compute `value_svl` and `quantity_svl`.
         Overwrite to allow multiple prices per location
         """
+        get_param = self.env["ir.config_parameter"].sudo().get_param
+
+        simple_valuation = get_param("l10n_ro_stock_account.simple_valuation", "False")
+        simple_valuation = safe_eval(simple_valuation)
+        if simple_valuation:
+            return super()._compute_value_svl()
+
         l10n_ro_records = self.filtered("is_l10n_ro_record")
         res = super(ProductProduct, self - l10n_ro_records)._compute_value_svl()
 
