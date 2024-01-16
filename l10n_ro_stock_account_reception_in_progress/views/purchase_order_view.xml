@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="purchase_order_form" model="ir.ui.view">
+        <field name="name">purchase.order.form</field>
+        <field name="model">purchase.order</field>
+        <field name="inherit_id" ref="purchase.purchase_order_form" />
+        <field name="arch" type="xml">
+            <button name="action_create_invoice" position="after">
+                <field name="is_l10n_ro_record" invisible="1" />
+                <button
+                    name="action_create_reception_in_progress_invoice"
+                    string="Reception in Progress"
+                    help="Create Reception in Progress Bill"
+                    type="object"
+                    class="oe_highlight"
+                    context="{'create_bill':True}"
+                    attrs="{'invisible': ['|', '|', ('is_l10n_ro_record','=',False), ('state', '!=', 'purchase'), ('invoice_status', '!=', 'no')]}"
+                />
+            </button>
+        </field>
+    </record>
+</odoo>
