@@ -28,6 +28,14 @@ class AccountEdiXmlCIUSRO(models.Model):
         xml_content = xml_content.decode()
         xml_content = xml_content.encode()
         xml_name = builder._export_invoice_filename(invoice)
+        old_attachment = self.env["ir.attachment"].search(
+            [
+                ("res_model", "=", "account.move"),
+                ("res_id", "=", invoice.id),
+                ("name", "=", xml_name),
+            ]
+        )
+        old_attachment.unlink()
         return self.env["ir.attachment"].create(
             {
                 "name": xml_name,
