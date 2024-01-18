@@ -35,6 +35,12 @@ class AccountEdiXmlCIUSRO(models.Model):
                 ("name", "=", xml_name),
             ]
         )
+        edi_document = invoice.edi_document_ids.filtered(
+            lambda x: x.attachment_id in old_attachment.ids
+        )
+        if edi_document:
+            edi_document.attachment_id = False
+
         old_attachment.unlink()
         return self.env["ir.attachment"].create(
             {
