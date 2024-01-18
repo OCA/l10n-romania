@@ -19,12 +19,6 @@ class TestStockSaleLandedCost(TestStockCommon):
             chart_template_ref=chart_template_ref
         )
 
-    def setUp(self):
-        super().setUp()
-        set_param = self.env["ir.config_parameter"].sudo().set_param
-        set_param("l10n_ro_stock_account.simple_valuation", "False")
-        self.simple_valuation = False
-
     def test_po_sale_lc_fifo(self):
         self.product_1.product_tmpl_id.categ_id.property_cost_method = "fifo"
         self.product_2.product_tmpl_id.categ_id.property_cost_method = "fifo"
@@ -68,6 +62,9 @@ class TestStockSaleLandedCost(TestStockCommon):
         # 10 * 50 + 10 = 510 (p1_in_val)
         p1_in_val = self.qty_po_p1 * self.price_p1 + 10
         self.assertEqual(sum(svls_in_p1.mapped("value")), p1_in_val)
+
+        if self.simple_valuation:
+            return
 
         p1_in_remaining_val = p1_in_val - (self.qty_so_p1 * self.price_p1) - 2  # 408
         self.assertEqual(svls_in_p1[0].remaining_value, p1_in_remaining_val)
