@@ -15,7 +15,7 @@ _logger = logging.getLogger(__name__)
 class TestStockPurchaseReturn(TestStockCommon):
     def test_return_in_notice_picking(self):
         self.create_po(vals={"l10n_ro_notice": True})
-        _logger.info("Start generare retur")
+        _logger.debug("Start generare retur")
         # Create return picking
         pick = self.po.picking_ids
 

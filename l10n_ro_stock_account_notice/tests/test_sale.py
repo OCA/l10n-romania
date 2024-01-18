@@ -22,6 +22,10 @@ class TestStockSale(TestStockCommon):
         - in contul de venituri trebuie sa fie inregistrata valoarea de vanzare
         """
 
+        set_param = self.env["ir.config_parameter"].sudo().set_param
+        set_param("l10n_ro_stock_account.simple_valuation", "False")
+        self.simple_valuation = False
+
         self.make_purchase()
 
         self.check_stock_valuation(self.val_p1_i, self.val_p2_i)
