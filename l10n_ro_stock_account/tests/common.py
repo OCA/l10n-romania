@@ -76,8 +76,8 @@ class TestStockCommon(ValuationReconciliationTestCommon):
         super(TestStockCommon, cls).setUpClass(chart_template_ref=ro_template_ref)
 
         set_param = cls.env["ir.config_parameter"].sudo().set_param
-        set_param("l10n_ro_stock_account.simple_valuation", "False")
-        cls.simple_valuation = False
+        set_param("l10n_ro_stock_account.simple_valuation", "True")
+        cls.simple_valuation = True
 
         cls.env.company.anglo_saxon_accounting = True
         cls.env.company.l10n_ro_accounting = True

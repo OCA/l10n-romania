@@ -163,7 +163,7 @@ class TestStockConsum(TestStockCommon):
         self.check_account_valuation(0, 0, acc_3028)
         self.check_account_valuation(val_stock_p1 / 2, 0, acc_6028)
 
-        _logger.info("Start retur consum")
+        _logger.debug("Start retur consum")
         self.make_return(self.picking, 1)
         self.check_stock_valuation(val_stock_p1, 0)
         self.check_account_valuation(val_stock_p1, 0, self.account_valuation_mp)
@@ -188,20 +188,20 @@ class TestStockConsum(TestStockCommon):
         self.check_account_valuation(0, 0, acc_3028)
         self.check_account_valuation(0, 0, acc_6028)
 
-        _logger.info("Start dare in folosinta")
+        _logger.debug("Start dare in folosinta")
         location_id = self.picking_type_transfer.default_location_src_id
         location_dest_id = self.picking_type_transfer.default_location_dest_id.copy(
             {"usage": "usage_giving"}
         )
         self.transfer(location_id, location_dest_id)
-        _logger.info("Dare in folosinta facuta")
+        _logger.debug("Dare in folosinta facuta")
 
         self.check_stock_valuation(val_stock_p1 / 2, 0)
         self.check_account_valuation(val_stock_p1 / 2, 0)
         self.check_account_valuation(0, 0, acc_3028)
         self.check_account_valuation(val_stock_p1 / 2, 0, acc_6028)
 
-        _logger.info("Start retur dare in folosinta")
+        _logger.debug("Start retur dare in folosinta")
         self.make_return(self.picking, 1)
         self.check_stock_valuation(val_stock_p1, 0)
         self.check_account_valuation(val_stock_p1, 0)
@@ -216,7 +216,7 @@ class TestStockConsum(TestStockCommon):
             [("code", "=", "602600")], limit=1
         )
         acc_707 = self.env["account.account"].search([("code", "=", "707000")], limit=1)
-        _logger.info(
+        _logger.debug(
             "Start consum produse cand conturile de pe categorie difera de cele de pe locatie"
         )
         self.product_mp.standard_price = self.price_p1
