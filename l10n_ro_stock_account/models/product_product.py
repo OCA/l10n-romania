@@ -334,7 +334,9 @@ class ProductProduct(models.Model):
             .sudo()
             .search(domain, order="create_date, id")
         )
-
+        get_param = self.env["ir.config_parameter"].sudo().get_param
+        simple_valuation = get_param("l10n_ro_stock_account.simple_valuation", "False")
+        simple_valuation = safe_eval(simple_valuation)
         for svl_to_vacuum in svls_to_vacuum:
             # We don't use search to avoid executing _flush_search and
             # to decrease interaction with DB
@@ -401,27 +403,30 @@ class ProductProduct(models.Model):
             corrected_value = svl_to_vacuum.currency_id.round(corrected_value)
             move = svl_to_vacuum.stock_move_id
             move_line = svl_to_vacuum.l10n_ro_stock_move_line_id
-            vals = {
-                "product_id": self.id,
-                "value": corrected_value,
-                "unit_cost": 0,
-                "quantity": 0,
-                "remaining_qty": 0,
-                "l10n_ro_stock_move_line_id": move_line.id,
-                "stock_move_id": move.id,
-                "company_id": move.company_id.id,
-                "description": "Revaluation of %s (negative inventory)"
-                % move.picking_id.name
-                or move.name,
-                "stock_valuation_layer_id": svl_to_vacuum.id,
-            }
-            vacuum_svl = self.env["stock.valuation.layer"].sudo().create(vals)
-
+            if not simple_valuation:
+                vals = {
+                    "product_id": self.id,
+                    "value": corrected_value,
+                    "unit_cost": 0,
+                    "quantity": 0,
+                    "remaining_qty": 0,
+                    "l10n_ro_stock_move_line_id": move_line.id,
+                    "stock_move_id": move.id,
+                    "company_id": move.company_id.id,
+                    "description": "Revaluation of %s (negative inventory)"
+                    % move.picking_id.name
+                    or move.name,
+                    "stock_valuation_layer_id": svl_to_vacuum.id,
+                }
+                vacuum_svl = self.env["stock.valuation.layer"].sudo().create(vals)
+            else:
+                vacuum_svl = self.env["stock.valuation.layer"]
             # Create the account move.
             if self.valuation != "real_time":
                 continue
 
             # aici se creaza nota contabila
+
             vacuum_svl._validate_accounting_entries()
 
             # Create the related expense entry
