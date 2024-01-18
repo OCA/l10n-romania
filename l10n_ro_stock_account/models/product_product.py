@@ -192,22 +192,22 @@ class ProductProduct(models.Model):
         return domain
 
     def _run_fifo(self, quantity, company):
-        get_param = self.env["ir.config_parameter"].sudo().get_param
-        simple_valuation = get_param("l10n_ro_stock_account.simple_valuation", "False")
-        simple_valuation = safe_eval(simple_valuation)
-        if simple_valuation and self.cost_method == "average":
-            return super(ProductProduct, self)._run_fifo(quantity, company)
+        # get_param = self.env["ir.config_parameter"].sudo().get_param
+        # simple_valuation = get_param("l10n_ro_stock_account.simple_valuation", "False")
+        # simple_valuation = safe_eval(simple_valuation)
+        # if simple_valuation and self.cost_method == "average":
+        #     return super(ProductProduct, self)._run_fifo(quantity, company)
 
         if not self.env["res.company"]._check_is_l10n_ro_record(company.id):
             return super(ProductProduct, self)._run_fifo(quantity, company)
 
         self.ensure_one()
-        domain = self._l10n_ro_prepare_domain_fifo(
-            company, [("product_id", "=", self.id)]
-        ) + [
+        domain = [
+            ("product_id", "=", self.id),
             ("remaining_qty", ">", 0),
             ("company_id", "=", company.id),
         ]
+        domain = self._l10n_ro_prepare_domain_fifo(company, domain)
         if self.env.context.get("origin_return_candidates"):
             domain += [("id", "in", self.env.context["origin_return_candidates"])]
         candidates = self.env["stock.valuation.layer"].sudo().search(domain)
@@ -289,11 +289,11 @@ class ProductProduct(models.Model):
         :param company: recordset of `res.company` to limit the execution of the vacuum
         """
 
-        get_param = self.env["ir.config_parameter"].sudo().get_param
-        simple_valuation = get_param("l10n_ro_stock_account.simple_valuation", "False")
-        simple_valuation = safe_eval(simple_valuation)
-        if simple_valuation and self.cost_method == "average":
-            return super(ProductProduct, self)._run_fifo_vacuum(company)
+        # get_param = self.env["ir.config_parameter"].sudo().get_param
+        # simple_valuation = get_param("l10n_ro_stock_account.simple_valuation", "False")
+        # simple_valuation = safe_eval(simple_valuation)
+        # if simple_valuation and self.cost_method == "average":
+        #     return super(ProductProduct, self)._run_fifo_vacuum(company)
 
         if company is None:
             company = self.env.company
@@ -302,13 +302,14 @@ class ProductProduct(models.Model):
 
         self.ensure_one()
 
-        domain_svls_to_vacum = self._l10n_ro_prepare_domain_fifo(
-            company, [("product_id", "=", self.id)]
-        ) + [
+        domain = [
+            ("product_id", "=", self.id),
             ("remaining_qty", "<", 0),
             ("stock_move_id", "!=", False),
             ("company_id", "=", company.id),
         ]
+
+        domain_svls_to_vacum = self._l10n_ro_prepare_domain_fifo(company, domain)
         svls_to_vacuum = (
             self.env["stock.valuation.layer"]
             .sudo()
@@ -320,12 +321,13 @@ class ProductProduct(models.Model):
 
         # for romanian with l10n_ro_stock_account_date we can override
         # the create_date of the svl
-        domain = self._l10n_ro_prepare_domain_fifo(
-            company, [("product_id", "=", self.id)]
-        ) + [
+        domain = [
+            ("product_id", "=", self.id),
             ("company_id", "=", company.id),
             ("remaining_qty", ">", 0),
+            ("create_date", ">=", svls_to_vacuum[0].create_date),
         ]
+        domain = self._l10n_ro_prepare_domain_fifo(company, domain)
 
         all_candidates = (
             self.env["stock.valuation.layer"]
