@@ -15,12 +15,6 @@ class TestStockCommonPriceDiff(TestStockCommon):
         super().setUpClass()
         cls.env["account.move.line"]._l10n_ro_get_or_create_price_difference_product()
 
-    def setUp(self):
-        super().setUp()
-        set_param = self.env["ir.config_parameter"].sudo().set_param
-        set_param("l10n_ro_stock_account.simple_valuation", "False")
-        self.simple_valuation = False
-
     def _setup_dozen(self):
         self.product_1.uom_id = self.env.ref("uom.product_uom_unit")
         self.product_1.uom_po_id = self.env.ref("uom.product_uom_dozen")

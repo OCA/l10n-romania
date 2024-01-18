@@ -127,10 +127,6 @@ class TestStockSale(TestStockCommon):
 
     def test_sale_average(self):
 
-        set_param = self.env["ir.config_parameter"].sudo().set_param
-        set_param("l10n_ro_stock_account.simple_valuation", "False")
-        self.simple_valuation = False
-
         self.product_1.product_tmpl_id.categ_id.property_cost_method = "average"
         self.product_2.product_tmpl_id.categ_id.property_cost_method = "average"
 
@@ -167,10 +163,6 @@ class TestStockSale(TestStockCommon):
         )
 
     def test_sale_negative(self):
-
-        # set_param = self.env["ir.config_parameter"].sudo().set_param
-        # set_param("l10n_ro_stock_account.simple_valuation", "False")
-        # self.simple_valuation = False
 
         self.qty_po_p1 = 70.0
         self.qty_po_p2 = 70.0

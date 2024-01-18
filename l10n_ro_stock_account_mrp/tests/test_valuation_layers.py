@@ -88,10 +88,6 @@ class TestMrpValuationStandardL10nRo(TestStockCommon):
 
     def test_avco(self):
 
-        set_param = self.env["ir.config_parameter"].sudo().set_param
-        set_param("l10n_ro_stock_account.simple_valuation", "False")
-        self.simple_valuation = False
-
         self.fin_product.product_tmpl_id.categ_id.property_cost_method = "average"
         self.product_1.product_tmpl_id.categ_id.property_cost_method = "average"
 

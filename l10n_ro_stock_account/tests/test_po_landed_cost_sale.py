@@ -19,12 +19,6 @@ class TestStockLandedCostSale(TestStockCommon):
             chart_template_ref=chart_template_ref
         )
 
-    def setUp(self):
-        super().setUp()
-        set_param = self.env["ir.config_parameter"].sudo().set_param
-        set_param("l10n_ro_stock_account.simple_valuation", "False")
-        self.simple_valuation = False
-
     def test_po_lc_sale_tracking_fifo(self):
         self.product_1.product_tmpl_id.categ_id.property_cost_method = "fifo"
         self.product_2.product_tmpl_id.categ_id.property_cost_method = "fifo"
