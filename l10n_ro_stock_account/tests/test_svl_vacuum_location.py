@@ -13,6 +13,12 @@ _logger = logging.getLogger(__name__)
 
 @tagged("post_install", "-at_install")
 class TestSVLVacuumLocation(RoTestStockCommon):
+    def setUp(self):
+        super().setUp()
+        set_param = self.env["ir.config_parameter"].sudo().set_param
+        set_param("l10n_ro_stock_account.simple_valuation", "False")
+        self.simple_valuation = False
+
     def test_fifo_negative_1(self):
         self.product_1.categ_id.property_cost_method = "fifo"
         self.product_1.product_tmpl_id.standard_price = 8.0

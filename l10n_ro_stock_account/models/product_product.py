@@ -26,10 +26,11 @@ class ProductProduct(models.Model):
 
         simple_valuation = get_param("l10n_ro_stock_account.simple_valuation", "False")
         simple_valuation = safe_eval(simple_valuation)
-        if simple_valuation:
-            return super()._compute_value_svl()
-
         l10n_ro_records = self.filtered("is_l10n_ro_record")
+        if simple_valuation:
+            l10n_ro_records = l10n_ro_records.filtered(
+                lambda r: r.cost_method != "average"
+            )
         res = super(ProductProduct, self - l10n_ro_records)._compute_value_svl()
 
         if l10n_ro_records:
@@ -115,6 +116,8 @@ class ProductProduct(models.Model):
         }
         if self.cost_method in ("average", "fifo"):
             fifo_vals_list = self._run_fifo(abs(quantity), company)
+            if isinstance(fifo_vals_list, dict):
+                fifo_vals_list = [fifo_vals_list]
             for fifo_vals in fifo_vals_list:
                 vals = vals_tpl.copy()
                 vals["quantity"] = fifo_vals.get("quantity", 0)
@@ -189,6 +192,12 @@ class ProductProduct(models.Model):
         return domain
 
     def _run_fifo(self, quantity, company):
+        get_param = self.env["ir.config_parameter"].sudo().get_param
+        simple_valuation = get_param("l10n_ro_stock_account.simple_valuation", "False")
+        simple_valuation = safe_eval(simple_valuation)
+        if simple_valuation and self.cost_method == "average":
+            return super(ProductProduct, self)._run_fifo(quantity, company)
+
         if not self.env["res.company"]._check_is_l10n_ro_record(company.id):
             return super(ProductProduct, self)._run_fifo(quantity, company)
 
@@ -279,6 +288,13 @@ class ProductProduct(models.Model):
 
         :param company: recordset of `res.company` to limit the execution of the vacuum
         """
+
+        get_param = self.env["ir.config_parameter"].sudo().get_param
+        simple_valuation = get_param("l10n_ro_stock_account.simple_valuation", "False")
+        simple_valuation = safe_eval(simple_valuation)
+        if simple_valuation and self.cost_method == "average":
+            return super(ProductProduct, self)._run_fifo_vacuum(company)
+
         if company is None:
             company = self.env.company
         if not self.env["res.company"]._check_is_l10n_ro_record(company.id):

@@ -150,13 +150,13 @@ class TestStockConsum(TestStockCommon):
         self.check_account_valuation(0, 0, acc_3028)
         self.check_account_valuation(0, 0, acc_6028)
 
-        _logger.info("Start consum produse")
+        _logger.debug("Start consum produse")
         location_id = self.picking_type_transfer.default_location_src_id
         location_dest_id = self.picking_type_transfer.default_location_dest_id.copy(
             {"usage": "consume"}
         )
         self.transfer(location_id, location_dest_id)
-        _logger.info("Consum facuta")
+        _logger.debug("Consum facuta")
 
         self.check_stock_valuation(val_stock_p1 / 2, 0)
         self.check_account_valuation(val_stock_p1 / 2, 0, self.account_valuation_mp)
@@ -227,7 +227,7 @@ class TestStockConsum(TestStockCommon):
         self.check_account_valuation_mp(val_stock_p1, self.account_valuation_mp)
         self.check_stock_valuation(val_stock_p1, 0)
 
-        _logger.info("Start consum produse")
+        _logger.debug("Start consum produse")
         location_id = self.picking_type_transfer.default_location_src_id
         location_id.write(
             {
@@ -241,6 +241,6 @@ class TestStockConsum(TestStockCommon):
         )
 
         self.transfer(location_id, location_dest_id, self.product_mp)
-        _logger.info("Consum facut")
+        _logger.debug("Consum facut")
         self.check_account_valuation_mp(-val_stock_p1 / 2, acc_3026)
         self.check_account_valuation_mp(val_stock_p1 / 2, acc_6026)

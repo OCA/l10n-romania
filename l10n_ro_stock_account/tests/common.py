@@ -75,6 +75,10 @@ class TestStockCommon(ValuationReconciliationTestCommon):
         ro_template_ref = "l10n_ro.ro_chart_template"
         super(TestStockCommon, cls).setUpClass(chart_template_ref=ro_template_ref)
 
+        set_param = cls.env["ir.config_parameter"].sudo().set_param
+        set_param("l10n_ro_stock_account.simple_valuation", "False")
+        cls.simple_valuation = False
+
         cls.env.company.anglo_saxon_accounting = True
         cls.env.company.l10n_ro_accounting = True
         cls.env.company.l10n_ro_stock_acc_price_diff = True
@@ -98,7 +102,7 @@ class TestStockCommon(ValuationReconciliationTestCommon):
         cls.rate = cls.currency_eur._convert(
             1, cls.currency_ron, cls.env.company, fields.Date.today()
         )
-        _logger.info("Rate of EUR: %s", cls.rate)
+        _logger.debug("Rate of EUR: %s", cls.rate)
 
         stock_journal = cls.env["account.journal"].search(
             [("code", "=", "STJ"), ("company_id", "=", cls.env.company.id)],
@@ -605,9 +609,10 @@ class TestStockCommon(ValuationReconciliationTestCommon):
                 if self.product_2.cost_method == "fifo":
                     self.assertAlmostEqual(rem_val, val_p2)
 
-            qty = round(valuation["quantity"], 2)
-            rem_qty = round(valuation["remaining_qty"], 2)
-            self.assertAlmostEqual(qty, rem_qty)
+            if not self.simple_valuation:
+                qty = round(valuation["quantity"], 2)
+                rem_qty = round(valuation["remaining_qty"], 2)
+                self.assertAlmostEqual(qty, rem_qty)
 
     def check_account_valuation(self, val_p1, val_p2, account=None):
         val_p1 = round(val_p1, 2)
@@ -651,7 +656,7 @@ class TestStockCommon(ValuationReconciliationTestCommon):
         for valuation in account_valuations:
             val = round(valuation["debit"] - valuation["credit"], 2)
             if valuation["product_id"][0] == self.product_mp.id:
-                _logger.info("Check account P1 {} = {}".format(val, val_p1))
+                _logger.debug("Check account P1 {} = {}".format(val, val_p1))
                 self.assertAlmostEqual(val, val_p1)
 
     def set_stock(self, product, qty, location=None):
