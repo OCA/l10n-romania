@@ -212,6 +212,11 @@ msgid "Journal Entry"
 msgstr ""
 
 #. module: l10n_ro_account_edi_ubl
+#: model:ir.model,name:l10n_ro_account_edi_ubl.model_account_move_line
+msgid "Journal Item"
+msgstr ""
+
+#. module: l10n_ro_account_edi_ubl
 #: model:ir.model.fields,field_description:l10n_ro_account_edi_ubl.field_account_edi_xml_cius_ro____last_update
 msgid "Last Modified on"
 msgstr ""
@@ -375,6 +380,13 @@ msgstr ""
 #. odoo-python
 #: code:addons/l10n_ro_account_edi_ubl/models/account_edi_format.py:0
 #, python-format
+msgid "The invoice is not older than %s days"
+msgstr ""
+
+#. module: l10n_ro_account_edi_ubl
+#. odoo-python
+#: code:addons/l10n_ro_account_edi_ubl/models/account_edi_format.py:0
+#, python-format
 msgid "The invoice was not send or validated by ANAF."
 msgstr ""
 
@@ -382,7 +394,7 @@ msgstr ""
 #. odoo-python
 #: code:addons/l10n_ro_account_edi_ubl/models/account_edi_format.py:0
 #, python-format
-msgid "The invoice was not validated by ANAF.: %s"
+msgid "The invoice was not validated by ANAF."
 msgstr ""
 
 #. module: l10n_ro_account_edi_ubl
@@ -425,7 +437,7 @@ msgstr ""
 #. odoo-python
 #: code:addons/l10n_ro_account_edi_ubl/models/account_edi_format.py:0
 #, python-format
-msgid "XML with errors not taken over by the system %s"
+msgid "XML with errors not taken over by the system."
 msgstr ""
 
 #. module: l10n_ro_account_edi_ubl
