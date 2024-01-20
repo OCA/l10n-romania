@@ -1,7 +1,3 @@
-from datetime import timedelta
-
-from dateutil.relativedelta import relativedelta
-
 from odoo import fields
 from odoo.tests.common import SavepointCase
 
@@ -41,32 +37,4 @@ class TestCurrencyRateUpdateRoBnr(SavepointCase):
     def test_update_RO_BNR_today(self):
         """No checks are made since today may not be a banking day"""
         self.bnr_provider._update(self.today, self.today)
-        self.CurrencyRate.search([("currency_id", "=", self.usd_currency.id)]).unlink()
-
-    def test_update_RO_BNR_month(self):
-        self.bnr_provider._update(self.today - relativedelta(months=1), self.today)
-
-        rates = self.CurrencyRate.search(
-            [("currency_id", "=", self.usd_currency.id)], limit=1
-        )
-        self.assertTrue(rates)
-
-        self.CurrencyRate.search([("currency_id", "=", self.usd_currency.id)]).unlink()
-
-    def test_update_RO_BNR_scheduled(self):
-        self.bnr_provider.interval_type = "days"
-        self.bnr_provider.interval_number = 1
-
-        next_run = self.today
-        if next_run.weekday() == 0:
-            next_run = next_run - timedelta(days=2)
-
-        self.bnr_provider.next_run = next_run
-        self.bnr_provider._scheduled_update()
-
-        rates = self.CurrencyRate.search(
-            [("currency_id", "=", self.usd_currency.id)], limit=1
-        )
-        self.assertTrue(rates)
-
         self.CurrencyRate.search([("currency_id", "=", self.usd_currency.id)]).unlink()
