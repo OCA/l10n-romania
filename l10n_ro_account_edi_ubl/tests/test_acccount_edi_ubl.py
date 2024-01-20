@@ -393,7 +393,10 @@ class TestAccountEdiUbl(AccountEdiTestCommon):
             return_value=(anaf_messages, 200),
         ):
             self.assertEqual(
-                self.env.company._l10n_ro_get_anaf_efactura_messages(), expected_msg
+                self.env.company._l10n_ro_get_anaf_efactura_messages(
+                    filters={"tip": "FACTURA PRIMITA"}
+                ),
+                expected_msg,
             )
 
     def test_l10n_ro_create_anaf_efactura(self):
