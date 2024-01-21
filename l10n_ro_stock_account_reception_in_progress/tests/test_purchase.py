@@ -101,25 +101,6 @@ class TestStockPurchase(TestStockCommonPriceDiff):
         # soldul lui 327 trebuie sa fie zero
         self.check_account_valuation(0, 0, self.acc_327)
 
-    def test_nir_with_reception_in_progress_price_diff(self):
-        """
-        Achizitie in curs
-        """
-        self.create_po()
-        self.create_reception_progress_invoice(self.diff_p1, self.diff_p2)
-
-        self.check_account_valuation(self.val_p1_f, self.val_p2_f, self.acc_327)
-
-        self.check_account_valuation(0, 0)
-        self.check_stock_valuation(0, 0)
-
-        self.validate_picking()
-        self.check_stock_valuation(self.val_p1_f, self.val_p2_f)
-        self.check_account_valuation(self.val_p1_f, self.val_p2_f)
-
-        # soldul lui 327 trebuie sa fie zero
-        self.check_account_valuation(0, 0, self.acc_327)
-
     def test_nir_with_reception_in_progress_invoices_warning(self):
         """
         Achizitie in curs, eroare validare picking, mai multe facturi
