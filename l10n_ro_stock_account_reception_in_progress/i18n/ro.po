@@ -43,8 +43,8 @@ msgstr "Element jurnal"
 
 #. module: l10n_ro_stock_account_reception_in_progress
 #: model:ir.model,name:l10n_ro_stock_account_reception_in_progress.model_product_template
-msgid "Product Template"
-msgstr "Șablon produs"
+msgid "Product"
+msgstr ""
 
 #. module: l10n_ro_stock_account_reception_in_progress
 #: model:ir.model,name:l10n_ro_stock_account_reception_in_progress.model_purchase_order
@@ -72,6 +72,7 @@ msgid "Stock Move"
 msgstr "Mișcare stoc"
 
 #. module: l10n_ro_stock_account_reception_in_progress
+#. odoo-python
 #: code:addons/l10n_ro_stock_account_reception_in_progress/models/purchase_order.py:0
 #, python-format
 msgid ""
@@ -88,16 +89,7 @@ msgid "Transfer"
 msgstr "Transfer"
 
 #. module: l10n_ro_stock_account_reception_in_progress
-#: code:addons/l10n_ro_stock_account_reception_in_progress/models/account_move_line.py:0
-#, python-format
-msgid ""
-"You cannot change the quantity on invoice line linked with a purchase order "
-"marked as Reception in Progress."
-msgstr ""
-"Nu puteți modifica cantitatea de pe linia de factură asociată cu o comandăde "
-"achiziție marcată ca Recepție în curs."
-
-#. module: l10n_ro_stock_account_reception_in_progress
+#. odoo-python
 #: code:addons/l10n_ro_stock_account_reception_in_progress/models/stock_picking.py:0
 #, python-format
 msgid ""
@@ -106,6 +98,17 @@ msgid ""
 msgstr ""
 "Nu puteți avea 2 facturi pe o comandă de achiziție marcată cu Recepție în "
 "curs."
+
+#~ msgid "Product Template"
+#~ msgstr "Șablon produs"
+
+#, python-format
+#~ msgid ""
+#~ "You cannot change the quantity on invoice line linked with a purchase "
+#~ "order marked as Reception in Progress."
+#~ msgstr ""
+#~ "Nu puteți modifica cantitatea de pe linia de factură asociată cu o "
+#~ "comandăde achiziție marcată ca Recepție în curs."
 
 #~ msgid "Display Name"
 #~ msgstr "Nume afișat"
