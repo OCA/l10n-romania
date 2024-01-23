@@ -283,7 +283,6 @@ class ProductProduct(models.Model):
             return super(ProductProduct, self)._run_fifo_vacuum(company)
 
         self.ensure_one()
-
         svls_to_vacuum = (
             self.env["stock.valuation.layer"]
             .sudo()
