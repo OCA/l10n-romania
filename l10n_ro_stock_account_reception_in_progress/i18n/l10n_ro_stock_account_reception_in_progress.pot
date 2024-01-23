@@ -4,7 +4,7 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 15.0\n"
+"Project-Id-Version: Odoo Server 16.0\n"
 "Report-Msgid-Bugs-To: \n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -40,7 +40,7 @@ msgstr ""
 
 #. module: l10n_ro_stock_account_reception_in_progress
 #: model:ir.model,name:l10n_ro_stock_account_reception_in_progress.model_product_template
-msgid "Product Template"
+msgid "Product"
 msgstr ""
 
 #. module: l10n_ro_stock_account_reception_in_progress
@@ -69,6 +69,7 @@ msgid "Stock Move"
 msgstr ""
 
 #. module: l10n_ro_stock_account_reception_in_progress
+#. odoo-python
 #: code:addons/l10n_ro_stock_account_reception_in_progress/models/purchase_order.py:0
 #, python-format
 msgid ""
@@ -82,14 +83,7 @@ msgid "Transfer"
 msgstr ""
 
 #. module: l10n_ro_stock_account_reception_in_progress
-#: code:addons/l10n_ro_stock_account_reception_in_progress/models/account_move_line.py:0
-#, python-format
-msgid ""
-"You cannot change the quantity on invoice line linked with a purchase order "
-"marked as Reception in Progress."
-msgstr ""
-
-#. module: l10n_ro_stock_account_reception_in_progress
+#. odoo-python
 #: code:addons/l10n_ro_stock_account_reception_in_progress/models/stock_picking.py:0
 #, python-format
 msgid ""
