@@ -590,7 +590,7 @@ class StorageSheetLine(models.TransientModel):
         index=True,
     )
     categ_id = fields.Many2one("product.category", index=True)
-    serial_number = fields.Many2one("stock.production.lot", index=True)
+    serial_number = fields.Many2one("stock.lot", index=True)
     account_id = fields.Many2one("account.account", index=True)
     location_id = fields.Many2one("stock.location", index=True)
     invoice_id = fields.Many2one("account.move", index=True)
