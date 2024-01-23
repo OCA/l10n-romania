@@ -85,6 +85,7 @@ class AccountMove(models.Model):
                         move.display_name,
                     )
                 )
+            move.l10n_ro_edi_transaction = False
         return super().button_draft()
 
     def button_cancel_posted_moves(self):
