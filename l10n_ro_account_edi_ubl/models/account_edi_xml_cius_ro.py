@@ -48,7 +48,12 @@ class AccountEdiXmlCIUSRO(models.Model):
         # for vals in vals_list:
         #     vals.pop('tax_exemption_reason', None)
         for vals in vals_list:
-            if vals["percent"] == 0:
+            if "Invers" in taxes.name:
+                vals["id"] = "AE"
+                vals["tax_category_code"] = "AE"
+                vals["tax_exemption_reason_code"] = "VATEX-EU-AE"
+                vals["tax_exemption_reason"] = ""
+            if vals["percent"] == 0 and vals["tax_category_code"] != "AE":
                 vals["id"] = "Z"
                 vals["tax_category_code"] = "Z"
                 vals["tax_exemption_reason"] = ""
@@ -81,6 +86,9 @@ class AccountEdiXmlCIUSRO(models.Model):
         vals = super()._get_invoice_line_item_vals(line, taxes_vals)
         vals["description"] = vals["description"][:200]
         vals["name"] = vals["name"][:100]
+        if vals["classified_tax_category_vals"][0]["tax_category_code"] == "AE":
+            vals["classified_tax_category_vals"][0]["tax_exemption_reason_code"] = ""
+            vals["classified_tax_category_vals"][0]["tax_exemption_reason"] = ""
         return vals
 
     def _get_invoice_line_price_vals(self, line):
