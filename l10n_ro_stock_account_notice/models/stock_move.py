@@ -202,7 +202,9 @@ class StockMove(models.Model):
         mv_date = self.date
 
         Module = self.env["ir.module.module"]
-        is_installed = Module.search([("name", "=", "l10n_ro_stock_account_date")])
+        is_installed = Module.search(
+            [("name", "=", "l10n_ro_stock_account_date"), ("state", "=", "installed")]
+        )
         if is_installed:
             mv_date = self.l10n_ro_get_move_date()
 
