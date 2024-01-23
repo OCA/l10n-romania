@@ -28,6 +28,20 @@ class AccountEdiXmlCIUSRO(models.Model):
         xml_content = xml_content.decode()
         xml_content = xml_content.encode()
         xml_name = builder._export_invoice_filename(invoice)
+        old_attachment = self.env["ir.attachment"].search(
+            [
+                ("res_model", "=", "account.move"),
+                ("res_id", "=", invoice.id),
+                ("name", "=", xml_name),
+            ]
+        )
+        edi_document = invoice.edi_document_ids.filtered(
+            lambda x: x.attachment_id in old_attachment.ids
+        )
+        if edi_document:
+            edi_document.attachment_id = False
+
+        old_attachment.unlink()
         return self.env["ir.attachment"].create(
             {
                 "name": xml_name,
@@ -144,8 +158,9 @@ class AccountEdiXmlCIUSRO(models.Model):
                     else:
                         res[invoice] = {
                             "success": False,
-                            "blocking_level": "info",
-                            "error": "",
+                            "blocking_level": "warning",
+                            "error": _("The invoice is not older than %s days")
+                            % residence,
                         }
 
                 else:
@@ -154,7 +169,7 @@ class AccountEdiXmlCIUSRO(models.Model):
                     )
             if res[invoice].get("error", False):
                 invoice.message_post(body=res[invoice]["error"])
-                # Create activity if process is stoped with an error blocking level
+                # Create activity if process is stopped with an error blocking level
                 if res[invoice].get("blocking_level") == "error":
                     message = _("The invoice was not send or validated by ANAF.")
                     body = message + _("\n\nError:\n<p>%s</p>") % res[invoice]["error"]
@@ -282,15 +297,13 @@ class AccountEdiXmlCIUSRO(models.Model):
             "nok": {
                 "success": False,
                 "blocking_level": "warning",
-                "error": _("The invoice was not validated by ANAF.: %s")
-                % error_message,
+                "error": _("The invoice was not validated by ANAF."),
             },
             "ok": {"success": True, "id_descarcare": doc.get("id_descarcare") or ""},
             "XML cu erori nepreluat de sistem": {
                 "success": False,
                 "blocking_level": "error",
-                "error": _("XML with errors not taken over by the system %s")
-                % error_message,
+                "error": _("XML with errors not taken over by the system."),
             },
         }
         if stare:
