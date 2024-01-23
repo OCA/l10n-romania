@@ -59,7 +59,7 @@ class ResCompany(models.Model):
         zile = kwargs.get("zile", None)
         start = kwargs.get("start", None)
         end = kwargs.get("end", None)
-        pagina = kwargs.get("pagina", None)
+        pagina = kwargs.get("pagina", 1)
         filters = kwargs.get("filters", {})
         messages = kwargs.get("messages", [])
 
@@ -75,7 +75,7 @@ class ResCompany(models.Model):
         now = then = datetime.now()
         no_days = int(zile or self.l10n_ro_download_einvoices_days or "60")
         if not start:
-            now = end and parser.parse(end) or datetime.now() - timedelta(secods=60)
+            now = end and parser.parse(end) or datetime.now() - timedelta(seconds=60)
             then = now - relativedelta(days=no_days)
         elif start:
             then = parser.parse(start)
@@ -86,7 +86,7 @@ class ResCompany(models.Model):
 
         params = {
             "cif": self.partner_id.l10n_ro_vat_number,
-            "pagina": pagina or 1,
+            "pagina": pagina,
             "startTime": start_time,
             "endTime": end_time,
         }
@@ -109,14 +109,14 @@ class ResCompany(models.Model):
                 )
             )
         messages += company_messages
-        if doc.get("numar_total_pagini") > 1 and doc.get(
-            "index_pagina_curenta"
-        ) != doc.get("numar_total_pagini"):
-            return self._l10n_ro_get_anaf_efactura_messages_pages(
+        numar_total_pagini = doc.get("numar_total_pagini", 0)
+
+        if pagina < numar_total_pagini:
+            return self._l10n_ro_get_anaf_efactura_messages(
                 zile=zile,
                 start=start,
                 end=end,
-                pagina=doc.get("index_pagina_curenta") + 1,
+                pagina=pagina + 1,
                 filters=filters,
                 messages=messages,
             )
