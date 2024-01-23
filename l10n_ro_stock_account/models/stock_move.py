@@ -904,4 +904,16 @@ class StockMove(models.Model):
             if len(mv.move_line_ids) == 1:
                 mv.location_id = mv.move_line_ids[0].location_id
                 mv.location_dest_id = mv.move_line_ids[0].location_dest_id
+        # Launch fifo vacuum also for internal transfer moves
+        internal_transfer_moves = moves.filtered("is_l10n_ro_record").filtered(
+            lambda m: m._is_internal_transfer()
+        )
+        products_to_vacuum = internal_transfer_moves.mapped("product_id")
+        company = (
+            internal_transfer_moves.mapped("company_id")
+            and internal_transfer_moves.mapped("company_id")[0]
+            or self.env.company
+        )
+        for product_to_vacuum in products_to_vacuum:
+            product_to_vacuum._run_fifo_vacuum(company)
         return moves
