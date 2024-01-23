@@ -275,3 +275,17 @@ class AccountMove(models.Model):
                 ):
                     show_button = True
             invoice.l10n_ro_show_anaf_download_edi_buton = show_button
+
+
+class AccountMoveLine(models.Model):
+    _inherit = "account.move.line"
+
+    def _get_computed_price_unit(self):
+        self.ensure_one()
+        if (
+            self.move_id.move_type not in ["in_invoice", "in_refund"]
+            or not self.move_id.l10n_ro_edi_download
+        ):
+            return super()._get_computed_price_unit()
+        else:
+            return self.price_unit
