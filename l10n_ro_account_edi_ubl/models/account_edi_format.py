@@ -28,6 +28,20 @@ class AccountEdiXmlCIUSRO(models.Model):
         xml_content = xml_content.decode()
         xml_content = xml_content.encode()
         xml_name = builder._export_invoice_filename(invoice)
+        old_attachment = self.env["ir.attachment"].search(
+            [
+                ("res_model", "=", "account.move"),
+                ("res_id", "=", invoice.id),
+                ("name", "=", xml_name),
+            ]
+        )
+        edi_document = invoice.edi_document_ids.filtered(
+            lambda x: x.attachment_id in old_attachment.ids
+        )
+        if edi_document:
+            edi_document.attachment_id = False
+
+        old_attachment.unlink()
         return self.env["ir.attachment"].create(
             {
                 "name": xml_name,
@@ -40,6 +54,26 @@ class AccountEdiXmlCIUSRO(models.Model):
 
     def _export_invoice_filename(self, invoice):
         return f"{invoice.name.replace('/', '_')}_cius_ro.xml"
+
+    def _find_value(self, xpath, xml_element, namespaces=None):
+        res = None
+        try:
+            res = super(AccountEdiXmlCIUSRO, self)._find_value(
+                xpath, xml_element, namespaces=namespaces
+            )
+        except Exception:
+            namespaces = {
+                "qdt": "urn:oasis:names:specification:ubl:schema:xsd:QualifiedDataTypes-2",
+                "ccts": "urn:un:unece:uncefact:documentation:2",
+                "udt": "urn:oasis:names:specification:ubl:schema:xsd:UnqualifiedDataTypes-2",
+                "cac": "urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2",  # noqa: B950
+                "cbc": "urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2",
+                "xsi": "http://www.w3.org/2001/XMLSchema-instance",
+            }
+            res = super(AccountEdiXmlCIUSRO, self)._find_value(
+                xpath, xml_element, namespaces=namespaces
+            )
+        return res
 
     def _get_xml_builder(self, company):
         if self.code == "cius_ro":
@@ -66,7 +100,8 @@ class AccountEdiXmlCIUSRO(models.Model):
         if self.code != "cius_ro":
             return super()._is_required_for_invoice(invoice)
         is_required = (
-            invoice.commercial_partner_id.country_id.code == "RO"
+            invoice.move_type in ("out_invoice", "out_refund")
+            and invoice.commercial_partner_id.country_id.code == "RO"
             and invoice.commercial_partner_id.is_company
         )
         return is_required
@@ -88,7 +123,15 @@ class AccountEdiXmlCIUSRO(models.Model):
 
             attachment = invoice._get_edi_attachment(self)
             if not attachment:
-                attachment = self._export_cius_ro(invoice)
+                try:
+                    attachment = self._export_cius_ro(invoice)
+                except UserError as odoo_error:
+                    res[invoice] = {
+                        "success": False,
+                        "blocking_level": "error",
+                        "error": odoo_error.name,
+                    }
+                    continue
             # Generate PDF report to be embedded in the XML
             if invoice.company_id.l10n_ro_edi_cius_embed_pdf:
                 pdf_report = invoice.company_id.l10n_ro_default_cius_pdf_report
@@ -115,6 +158,7 @@ class AccountEdiXmlCIUSRO(models.Model):
                     else:
                         res[invoice] = {
                             "success": False,
+                            "blocking_level": "warning",
                             "error": _("The invoice is not older than %s days")
                             % residence,
                         }
@@ -125,20 +169,13 @@ class AccountEdiXmlCIUSRO(models.Model):
                     )
             if res[invoice].get("error", False):
                 invoice.message_post(body=res[invoice]["error"])
-                # Create activity if process is stoped with an error blocking level
+                # Create activity if process is stopped with an error blocking level
                 if res[invoice].get("blocking_level") == "error":
-                    body = (
-                        _(
-                            "The invoice was not send or validated by ANAF."
-                            "\n\nError:"
-                            "\n<p>%s</p>"
-                        )
-                        % res[invoice]["error"]
-                    )
-
+                    message = _("The invoice was not send or validated by ANAF.")
+                    body = message + _("\n\nError:\n<p>%s</p>") % res[invoice]["error"]
                     invoice.activity_schedule(
                         "mail.mail_activity_data_warning",
-                        summary=_("The invoice was not send or validated by ANAF"),
+                        summary=message,
                         note=body,
                         user_id=invoice.invoice_user_id.id,
                     )
@@ -244,7 +281,7 @@ class AccountEdiXmlCIUSRO(models.Model):
                 "success": False,
                 "transaction": transaction,
                 "blocking_level": "info",
-                "error": "The invoice was sent to ANAF, awaiting validation.",
+                "error": _("The invoice was sent to ANAF, awaiting validation."),
             }
 
         # This is response from step 2
@@ -255,18 +292,18 @@ class AccountEdiXmlCIUSRO(models.Model):
                 "success": False,
                 "blocking_level": "info",
                 "in_processing": True,
-                "error": "The invoice is in processing at ANAF.",
+                "error": _("The invoice is in processing at ANAF."),
             },
             "nok": {
                 "success": False,
                 "blocking_level": "warning",
-                "error": "The invoice was not validated by ANAF.",
+                "error": _("The invoice was not validated by ANAF."),
             },
             "ok": {"success": True, "id_descarcare": doc.get("id_descarcare") or ""},
             "XML cu erori nepreluat de sistem": {
                 "success": False,
                 "blocking_level": "error",
-                "error": "XML cu erori nepreluat de sistem",
+                "error": _("XML with errors not taken over by the system."),
             },
         }
         if stare:

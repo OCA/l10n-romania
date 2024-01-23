@@ -69,7 +69,12 @@ class AccountMove(models.Model):
     def button_draft(self):
         # OVERRIDE
         for move in self:
-            if move.l10n_ro_edi_transaction and move.get_l10n_ro_edi_invoice_needed():
+            edi_documents_with_error = move.edi_document_ids.filtered(lambda x: x.error)
+            if (
+                move.l10n_ro_edi_transaction
+                and move.get_l10n_ro_edi_invoice_needed()
+                and not edi_documents_with_error
+            ):
                 raise UserError(
                     _(
                         "You can't edit the following journal entry %s "
@@ -146,6 +151,10 @@ class AccountMove(models.Model):
         )
         high_risk_nc_list = high_risk_nc.split(",")
         return high_risk_nc_list
+
+    def _l10n_ro_prepare_invoice_for_download(self):
+        self.ensure_one()
+        return self
 
     def l10n_ro_download_zip_anaf(self, anaf_config=False):
         if not anaf_config:
@@ -275,3 +284,17 @@ class AccountMove(models.Model):
                 ):
                     show_button = True
             invoice.l10n_ro_show_anaf_download_edi_buton = show_button
+
+
+class AccountMoveLine(models.Model):
+    _inherit = "account.move.line"
+
+    def _get_computed_price_unit(self):
+        self.ensure_one()
+        if (
+            self.move_id.move_type not in ["in_invoice", "in_refund"]
+            or not self.move_id.l10n_ro_edi_download
+        ):
+            return super()._get_computed_price_unit()
+        else:
+            return self.price_unit
