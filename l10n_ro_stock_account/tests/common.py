@@ -597,18 +597,22 @@ class TestStockCommon(ValuationReconciliationTestCommon):
             }
         )
 
-    def _get_stock_valuation_move_lines(self):
+    def _get_stock_valuation_move_lines(self, account=None):
+        if not account:
+            account = self.account_valuation
         return self.env["account.move.line"].search(
             [
-                ("account_id", "=", self.account_valuation.id),
+                ("account_id", "=", account.id),
             ],
             order="date, id",
         )
 
-    def _get_stock_output_move_lines(self):
+    def _get_stock_output_move_lines(self, account=None):
+        if not account:
+            account = self.account_expense
         return self.env["account.move.line"].search(
             [
-                ("account_id", "=", self.account_expense.id),
+                ("account_id", "=", account.id),
             ],
             order="date, id",
         )
