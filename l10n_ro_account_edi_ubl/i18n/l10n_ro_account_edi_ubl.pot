@@ -108,6 +108,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_ro_account_edi_ubl.field_account_edi_format__display_name
 #: model:ir.model.fields,field_description:l10n_ro_account_edi_ubl.field_account_edi_xml_cius_ro__display_name
 #: model:ir.model.fields,field_description:l10n_ro_account_edi_ubl.field_account_move__display_name
+#: model:ir.model.fields,field_description:l10n_ro_account_edi_ubl.field_account_move_line__display_name
 #: model:ir.model.fields,field_description:l10n_ro_account_edi_ubl.field_ir_actions_report__display_name
 #: model:ir.model.fields,field_description:l10n_ro_account_edi_ubl.field_product_product__display_name
 #: model:ir.model.fields,field_description:l10n_ro_account_edi_ubl.field_product_template__display_name
@@ -161,6 +162,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_ro_account_edi_ubl.field_account_edi_format__id
 #: model:ir.model.fields,field_description:l10n_ro_account_edi_ubl.field_account_edi_xml_cius_ro__id
 #: model:ir.model.fields,field_description:l10n_ro_account_edi_ubl.field_account_move__id
+#: model:ir.model.fields,field_description:l10n_ro_account_edi_ubl.field_account_move_line__id
 #: model:ir.model.fields,field_description:l10n_ro_account_edi_ubl.field_ir_actions_report__id
 #: model:ir.model.fields,field_description:l10n_ro_account_edi_ubl.field_product_product__id
 #: model:ir.model.fields,field_description:l10n_ro_account_edi_ubl.field_product_template__id
@@ -213,9 +215,15 @@ msgid "Journal Entry"
 msgstr ""
 
 #. module: l10n_ro_account_edi_ubl
+#: model:ir.model,name:l10n_ro_account_edi_ubl.model_account_move_line
+msgid "Journal Item"
+msgstr ""
+
+#. module: l10n_ro_account_edi_ubl
 #: model:ir.model.fields,field_description:l10n_ro_account_edi_ubl.field_account_edi_format____last_update
 #: model:ir.model.fields,field_description:l10n_ro_account_edi_ubl.field_account_edi_xml_cius_ro____last_update
 #: model:ir.model.fields,field_description:l10n_ro_account_edi_ubl.field_account_move____last_update
+#: model:ir.model.fields,field_description:l10n_ro_account_edi_ubl.field_account_move_line____last_update
 #: model:ir.model.fields,field_description:l10n_ro_account_edi_ubl.field_ir_actions_report____last_update
 #: model:ir.model.fields,field_description:l10n_ro_account_edi_ubl.field_product_product____last_update
 #: model:ir.model.fields,field_description:l10n_ro_account_edi_ubl.field_product_template____last_update
@@ -371,6 +379,12 @@ msgstr ""
 #. module: l10n_ro_account_edi_ubl
 #: code:addons/l10n_ro_account_edi_ubl/models/account_edi_format.py:0
 #, python-format
+msgid "The invoice is in processing at ANAF."
+msgstr ""
+
+#. module: l10n_ro_account_edi_ubl
+#: code:addons/l10n_ro_account_edi_ubl/models/account_edi_format.py:0
+#, python-format
 msgid "The invoice is not older than %s days"
 msgstr ""
 
@@ -388,6 +402,18 @@ msgid ""
 "\n"
 "Error:\n"
 "<p>%s</p>"
+msgstr ""
+
+#. module: l10n_ro_account_edi_ubl
+#: code:addons/l10n_ro_account_edi_ubl/models/account_edi_format.py:0
+#, python-format
+msgid "The invoice was not validated by ANAF."
+msgstr ""
+
+#. module: l10n_ro_account_edi_ubl
+#: code:addons/l10n_ro_account_edi_ubl/models/account_edi_format.py:0
+#, python-format
+msgid "The invoice was sent to ANAF, awaiting validation."
 msgstr ""
 
 #. module: l10n_ro_account_edi_ubl
@@ -414,6 +440,12 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_ro_account_edi_ubl.field_account_move__l10n_ro_edi_transaction
 #: model:ir.model.fields,field_description:l10n_ro_account_edi_ubl.field_account_payment__l10n_ro_edi_transaction
 msgid "Transaction ID (RO)"
+msgstr ""
+
+#. module: l10n_ro_account_edi_ubl
+#: code:addons/l10n_ro_account_edi_ubl/models/account_edi_format.py:0
+#, python-format
+msgid "XML with errors not taken over by the system."
 msgstr ""
 
 #. module: l10n_ro_account_edi_ubl
