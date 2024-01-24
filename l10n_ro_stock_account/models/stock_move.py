@@ -781,3 +781,24 @@ class StockMove(models.Model):
     def _l10n_ro_filter_svl_on_move_line(self, domain):
         origin_svls = self.env["stock.valuation.layer"].search(domain)
         return origin_svls
+
+    # In case of single move line update locations of the stock move
+    def _action_done(self, cancel_backorder=False):
+        moves = super()._action_done(cancel_backorder=cancel_backorder)
+        for mv in moves:
+            if len(mv.move_line_ids) == 1:
+                mv.location_id = mv.move_line_ids[0].location_id
+                mv.location_dest_id = mv.move_line_ids[0].location_dest_id
+        # Launch fifo vacuum also for internal transfer moves
+        internal_transfer_moves = moves.filtered("is_l10n_ro_record").filtered(
+            lambda m: m._is_internal_transfer()
+        )
+        products_to_vacuum = internal_transfer_moves.mapped("product_id")
+        company = (
+            internal_transfer_moves.mapped("company_id")
+            and internal_transfer_moves.mapped("company_id")[0]
+            or self.env.company
+        )
+        for product_to_vacuum in products_to_vacuum:
+            product_to_vacuum._run_fifo_vacuum(company)
+        return moves
