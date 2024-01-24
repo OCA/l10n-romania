@@ -41,7 +41,10 @@ class TestCurrencyRateUpdateRoBnr(TransactionCase):
     def test_update_RO_BNR_today(self):
         """No checks are made since today may not be a banking day"""
         self.bnr_provider._update(self.today, self.today)
-        self.CurrencyRate.search([("currency_id", "=", self.usd_currency.id)]).unlink()
+        rate = self.CurrencyRate.search(
+            [("currency_id", "=", self.usd_currency.id)], limit=1
+        )
+        self.assertTrue(rate)
 
     def test_update_RO_BNR_day_in_past(self):
         "we test a know date in past and should give us a result"
@@ -50,17 +53,19 @@ class TestCurrencyRateUpdateRoBnr(TransactionCase):
             [("currency_id", "=", self.usd_currency.id), ("name", "=", "2022-04-08")]
         )
         self.assertTrue(rate)
-        rate.unlink()
 
     def test_update_RO_BNR_month(self):
         self.bnr_provider._update(self.today - relativedelta(months=1), self.today)
-
         rates = self.CurrencyRate.search(
             [("currency_id", "=", self.usd_currency.id)], limit=1
         )
         self.assertTrue(rates)
 
-        self.CurrencyRate.search([("currency_id", "=", self.usd_currency.id)]).unlink()
+    def test_update_RO_BNR_multi_year(self):
+        "we test a fetching rates for multi year"
+        self.bnr_provider._update(date(2021, 1, 1), date(2023, 1, 1))
+        rates = self.CurrencyRate.search([("currency_id", "=", self.usd_currency.id)])
+        self.assertEqual(len(rates), 505)
 
     def test_update_RO_BNR_scheduled(self):
         self.bnr_provider.interval_type = "days"
@@ -77,14 +82,3 @@ class TestCurrencyRateUpdateRoBnr(TransactionCase):
             [("currency_id", "=", self.usd_currency.id)], limit=1
         )
         self.assertTrue(rates)
-
-        self.CurrencyRate.search([("currency_id", "=", self.usd_currency.id)]).unlink()
-
-    def test_update_RO_BNR_multi_year(self):
-        "we test a fetching rates for multi year"
-        self.CurrencyRate.search(
-            [("currency_id", "=", self.usd_currency.id)]
-        ).sudo().unlink()
-        self.bnr_provider._update(date(2021, 1, 1), date(2023, 1, 1))
-        rates = self.CurrencyRate.search([("currency_id", "=", self.usd_currency.id)])
-        self.assertEqual(len(rates), 505)
