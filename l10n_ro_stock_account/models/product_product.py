@@ -315,6 +315,13 @@ class ProductProduct(models.Model):
             loc_candidates = all_candidates.filtered(
                 lambda r: r.l10n_ro_location_dest_id == location
             )
+            if not loc_candidates:
+                parent_locations = self.env["stock.location"].search(
+                    [("parent_path", "=like", location.parent_path + "%")]
+                )
+                loc_candidates = all_candidates.filtered(
+                    lambda r: r.l10n_ro_location_dest_id in parent_locations
+                )
             for svl_to_vacuum in svl_loc_to_vaccum:
                 # We don't use search to avoid executing _flush_search and
                 # to decrease interaction with DB
