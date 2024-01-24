@@ -46,6 +46,24 @@ class AccountEdiXmlCIUSRO(models.Model):
                 vals["tax_scheme_id"] = "!= VAT"
         return vals_list
 
+    def _get_tax_category_list(self, invoice, taxes):
+        # EXTENDS account.edi.xml.ubl_21
+        vals_list = super()._get_tax_category_list(invoice, taxes)
+        # for vals in vals_list:
+        #     vals.pop('tax_exemption_reason', None)
+        for vals in vals_list:
+            if "Invers" in taxes.name:
+                vals["id"] = "AE"
+                vals["tax_category_code"] = "AE"
+                vals["tax_exemption_reason_code"] = "VATEX-EU-AE"
+                vals["tax_exemption_reason"] = ""
+            if vals["percent"] == 0 and vals["tax_category_code"] != "AE":
+                vals["id"] = "Z"
+                vals["tax_category_code"] = "Z"
+                vals["tax_exemption_reason"] = ""
+
+        return vals_list
+
     def _get_invoice_tax_totals_vals_list(self, invoice, taxes_vals):
 
         # see:  def _export_invoice_vals(self, invoice): credit notes (out_refund) will
@@ -79,6 +97,9 @@ class AccountEdiXmlCIUSRO(models.Model):
         vals = super()._get_invoice_line_item_vals(line, taxes_vals)
         vals["description"] = vals["description"][:200]
         vals["name"] = vals["name"][:100]
+        if vals["classified_tax_category_vals"][0]["tax_category_code"] == "AE":
+            vals["classified_tax_category_vals"][0]["tax_exemption_reason_code"] = ""
+            vals["classified_tax_category_vals"][0]["tax_exemption_reason"] = ""
         return vals
 
     def _get_invoice_line_price_vals(self, line):
