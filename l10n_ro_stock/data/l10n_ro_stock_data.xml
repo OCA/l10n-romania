@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo noupdate="1">
+    <record id="consume_location" model="stock.location">
+        <field name="name">Consume</field>
+        <field name="active" eval="True" />
+        <field name="usage">consume</field>
+        <field name="barcode">CONSUME</field>
+    </record>
+    <record id="usage_giving_location" model="stock.location">
+        <field name="name">Usage</field>
+        <field name="active" eval="True" />
+        <field name="usage">usage_giving</field>
+        <field name="barcode">USAGE</field>
+    </record>
+</odoo>
