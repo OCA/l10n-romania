@@ -3,10 +3,10 @@ from datetime import date, timedelta
 from dateutil.relativedelta import relativedelta
 
 from odoo import fields
-from odoo.tests.common import SavepointCase
+from odoo.tests.common import TransactionCase
 
 
-class TestCurrencyRateUpdateRoBnr(SavepointCase):
+class TestCurrencyRateUpdateRoBnr(TransactionCase):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
@@ -79,3 +79,12 @@ class TestCurrencyRateUpdateRoBnr(SavepointCase):
         self.assertTrue(rates)
 
         self.CurrencyRate.search([("currency_id", "=", self.usd_currency.id)]).unlink()
+
+    def test_update_RO_BNR_multi_year(self):
+        "we test a fetching rates for multi year"
+        self.CurrencyRate.search(
+            [("currency_id", "=", self.usd_currency.id)]
+        ).sudo().unlink()
+        self.bnr_provider._update(date(2021, 1, 1), date(2023, 1, 1))
+        rates = self.CurrencyRate.search([("currency_id", "=", self.usd_currency.id)])
+        self.assertEqual(len(rates), 505)

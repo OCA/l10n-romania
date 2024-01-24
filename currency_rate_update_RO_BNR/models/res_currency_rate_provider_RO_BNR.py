@@ -3,24 +3,7 @@ from collections import defaultdict
 from datetime import timedelta
 from urllib.request import urlopen
 
-from odoo import api, fields, models
-
-
-class ResCurrencyRate(models.Model):
-    _inherit = "res.currency.rate"
-
-    @api.depends("rate")
-    def _compute_invese_rate(self):
-        for rec in self:
-            rec.inverse_rate = 1 / rec.rate if rec.rate else 1.0
-
-    inverse_rate = fields.Float(
-        store=1,
-        digits=(16, 4),
-        compute=_compute_invese_rate,
-        help="Inverse rate computed as 1/rate. If you want to change this, "
-        "change the rate ( write =1/desired_inverse_value)",
-    )
+from odoo import fields, models
 
 
 class ResCurrencyRateProviderROBNR(models.Model):
@@ -76,7 +59,7 @@ class ResCurrencyRateProviderROBNR(models.Model):
                 base_currency, currencies, date_from, date_to
             )  # pragma: no cover
 
-        if date_from == date_to:
+        if date_from == fields.Date.today():
             url = "https://www.bnr.ro/nbrfxrates.xml"
         else:
             year = date_from.year
@@ -96,6 +79,25 @@ class ResCurrencyRateProviderROBNR(models.Model):
             with urlopen(url, timeout=10) as response:
                 xml.sax.parse(response, handler)
         return handler.content or {}
+
+    def _update(self, date_from, date_to, newest_only=False):
+        # we must take all the years if we have a range of years
+        # so, please be carefull since it will fetch rates from begining
+        # of the year from date_from date until the end of the year
+        # of the date_to date
+        res = super()._update(date_from, date_to, newest_only)
+        ro_bnr_service = self.filtered(lambda p: p.service == "RO_BNR")
+        if ro_bnr_service:
+            if date_from and date_to and date_from.year != date_to.year:
+                # if we have a range of years we must take all the years
+                # not only the date_from year
+                for year in range(date_from.year + 1, date_to.year):
+                    year_date_from = fields.Date.from_string(str(year) + "-01-01")
+                    year_date_to = fields.Date.from_string(str(year) + "-12-31")
+                    ro_bnr_service._update(
+                        year_date_from, year_date_to, newest_only=False
+                    )
+        return res
 
 
 class ROBNRRatesHandler(xml.sax.ContentHandler):

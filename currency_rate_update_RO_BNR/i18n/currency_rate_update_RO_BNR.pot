@@ -24,18 +24,6 @@ msgid "Currency Rates Provider"
 msgstr ""
 
 #. module: currency_rate_update_RO_BNR
-#: model:ir.model.fields,field_description:currency_rate_update_RO_BNR.field_res_currency_rate__inverse_rate
-msgid "Inverse Rate"
-msgstr ""
-
-#. module: currency_rate_update_RO_BNR
-#: model:ir.model.fields,help:currency_rate_update_RO_BNR.field_res_currency_rate__inverse_rate
-msgid ""
-"Inverse rate computed as 1/rate. If you want to change this, change the rate"
-" ( write =1/desired_inverse_value)"
-msgstr ""
-
-#. module: currency_rate_update_RO_BNR
 #: model:ir.model.fields.selection,name:currency_rate_update_RO_BNR.selection__res_currency_rate_provider__service__ro_bnr
 msgid "National Bank of Romania"
 msgstr ""
