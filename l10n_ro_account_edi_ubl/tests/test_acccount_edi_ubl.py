@@ -182,6 +182,9 @@ class TestAccountEdiUbl(AccountEdiTestCommon):
             time.sleep(1)
             sleep_time += 1
         self.assertEqual(len(invoice.edi_document_ids), 1)
+        if not invoice.edi_state:
+            _logger.error("The invoice state is not set to %s" % state)
+
         self.assertEqual(invoice.edi_state, state)
         self.assertEqual(invoice.edi_document_ids.state, state)
         if error:
