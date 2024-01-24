@@ -4,7 +4,10 @@
 
 import json
 import logging
-from datetime import datetime
+from datetime import datetime, timedelta
+
+from dateutil import parser
+from dateutil.relativedelta import relativedelta
 
 from odoo import _, api, fields, models
 from odoo.tools import DEFAULT_SERVER_DATE_FORMAT as DATE_FORMAT
@@ -52,7 +55,14 @@ class ResCompany(models.Model):
                     )
                 )
 
-    def _l10n_ro_get_anaf_efactura_messages(self):
+    def _l10n_ro_get_anaf_efactura_messages(self, **kwargs):
+        zile = kwargs.get("zile", None)
+        start = kwargs.get("start", None)
+        end = kwargs.get("end", None)
+        pagina = kwargs.get("pagina", 1)
+        filters = kwargs.get("filters", {})
+        messages = kwargs.get("messages", [])
+
         company_messages = []
         anaf_config = self.l10n_ro_account_anaf_sync_id
         if not anaf_config:
@@ -61,24 +71,56 @@ class ResCompany(models.Model):
         if not anaf_config.access_token:
             _logger.warning("No access token for company %s", self.name)
             return company_messages
-        no_days = self.l10n_ro_download_einvoices_days or "60"
+        start_time = end_time = 0
+        now = then = datetime.now()
+        no_days = int(zile or self.l10n_ro_download_einvoices_days or "60")
+        if not start:
+            now = end and parser.parse(end) or datetime.now() - timedelta(seconds=60)
+            then = now - relativedelta(days=no_days)
+        elif start:
+            then = parser.parse(start)
+            now = end and parser.parse(end) or (then + relativedelta(days=no_days))
+            now = min(now, (datetime.now() - timedelta(seconds=60)))
+        start_time = str(then.timestamp() * 1e3).split(".")[0]
+        end_time = str(now.timestamp() * 1e3).split(".")[0]
+
         params = {
-            "zile": no_days,
             "cif": self.partner_id.l10n_ro_vat_number,
+            "pagina": pagina,
+            "startTime": start_time,
+            "endTime": end_time,
         }
+
         content, status_code = anaf_config._l10n_ro_einvoice_call(
-            "/listaMesajeFactura", params, method="GET"
+            "/listaMesajePaginatieFactura", params, method="GET"
         )
         if status_code == 200:
             doc = json.loads(content.decode("utf-8"))
             company_messages = list(
                 filter(
                     lambda m: m.get("cif") == self.partner_id.l10n_ro_vat_number
-                    and m.get("tip") == "FACTURA PRIMITA",
+                    and all(
+                        [
+                            m.get(key) == valued_filtered
+                            for key, valued_filtered in filters.items()
+                        ]
+                    ),
                     doc.get("mesaje") or [],
                 )
             )
-        return company_messages
+        messages += company_messages
+        numar_total_pagini = doc.get("numar_total_pagini", 0)
+
+        if pagina < numar_total_pagini:
+            return self._l10n_ro_get_anaf_efactura_messages(
+                zile=zile,
+                start=start,
+                end=end,
+                pagina=pagina + 1,
+                filters=filters,
+                messages=messages,
+            )
+        return messages
 
     @api.model
     def _l10n_ro_create_anaf_efactura(self):
@@ -91,7 +133,9 @@ class ResCompany(models.Model):
 
         for company in ro_companies:
             move_obj = self.env["account.move"].with_company(company)
-            company_messages = company._l10n_ro_get_anaf_efactura_messages()
+            company_messages = company._l10n_ro_get_anaf_efactura_messages(
+                filters={"tip": "FACTURA PRIMITA"}
+            )
             for message in company_messages:
                 if company.l10n_ro_download_einvoices_start_date:
                     if message.get("data_creare"):
