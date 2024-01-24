@@ -77,7 +77,6 @@ class TestCurrencyRateUpdateRoBnr(TransactionCase):
 
         self.bnr_provider.next_run = next_run
         self.bnr_provider._scheduled_update()
-
         rates = self.CurrencyRate.search(
             [("currency_id", "=", self.usd_currency.id)], limit=1
         )
