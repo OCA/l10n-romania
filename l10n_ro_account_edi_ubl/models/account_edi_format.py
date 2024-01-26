@@ -36,7 +36,7 @@ class AccountEdiXmlCIUSRO(models.Model):
             ]
         )
         edi_document = invoice.edi_document_ids.filtered(
-            lambda x: x.attachment_id in old_attachment.ids
+            lambda x: x.attachment_id in old_attachment
         )
         if edi_document:
             edi_document.attachment_id = False
