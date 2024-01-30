@@ -48,7 +48,7 @@ class AccountMove(models.Model):
 
     @api.depends("line_ids.account_id.account_type")
     def _compute_always_tax_exigible(self):
-        self_ro = self.filtered('is_l10n_ro_record')
+        self_ro = self.filtered("is_l10n_ro_record")
         self_no_ro = self - self_ro
         for record in self_ro:
             record.always_tax_exigible = (

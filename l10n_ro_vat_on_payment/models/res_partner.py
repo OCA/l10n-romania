@@ -6,7 +6,7 @@ import os
 from datetime import date, datetime
 from subprocess import PIPE, Popen
 
-from odoo import api, Command, fields, models, tools
+from odoo import Command, api, fields, models, tools
 from odoo.tools import DEFAULT_SERVER_DATE_FORMAT as DATE_FORMAT
 
 

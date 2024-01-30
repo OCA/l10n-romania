@@ -4,11 +4,12 @@
 
 import logging
 import os
-import requests
 import shutil
 from datetime import date, timedelta
 
-from odoo.tests.common import tagged, TransactionCase
+import requests
+
+from odoo.tests.common import TransactionCase, tagged
 from odoo.tools.misc import config, file_path
 
 _logger = logging.getLogger(__name__)
