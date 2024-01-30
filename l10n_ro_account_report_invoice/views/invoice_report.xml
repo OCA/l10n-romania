@@ -115,11 +115,11 @@
 
         <!-- fix floating of totals section -->
         <div id="right-elements" position="before">
-            <div id="right-elements-wrapper" class="clearfix"/>
+            <div id="right-elements-wrapper" class="clearfix" />
         </div>
 
         <div id="right-elements-wrapper" position="inside">
-            <div id="right-elements" position="move"/>
+            <div id="right-elements" position="move" />
         </div>
 
         <xpath expr="//p[@name='note']" position="after">
