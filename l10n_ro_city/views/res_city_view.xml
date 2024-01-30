@@ -6,14 +6,8 @@
         <field name="arch" type="xml">
             <field name="name" position="after">
                 <field name="is_l10n_ro_record" invisible="1" />
-                <field
-                    name="l10n_ro_municipality"
-                    invisible="not is_l10n_ro_record"
-                />
-                <field
-                    name="l10n_ro_siruta"
-                    invisible="not is_l10n_ro_record"
-                />
+                <field name="l10n_ro_municipality" invisible="not is_l10n_ro_record" />
+                <field name="l10n_ro_siruta" invisible="not is_l10n_ro_record" />
             </field>
         </field>
     </record>
