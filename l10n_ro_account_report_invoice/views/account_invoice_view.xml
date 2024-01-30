@@ -11,8 +11,7 @@
                 <label
                     for="l10n_ro_currency_rate"
                     groups="account.group_account_readonly"
-                    invisible="context.get('default_journal_id') and context.get('move_type', 'entry') != 'entry'"
-                    attrs="{'invisible': [('is_l10n_ro_record','=',False)]}"
+                    invisible="not is_l10n_ro_record or (context.get('default_journal_id') and context.get('move_type', 'entry') != 'entry')"
                 />
                 <div
                     name="currency_rate_div"
@@ -23,7 +22,7 @@
                     <field
                         name="l10n_ro_currency_rate"
                         digits="[16, 4]"
-                        attrs="{'invisible': [('is_l10n_ro_record','=',False)]}"
+                        invisible="not is_l10n_ro_record"
                     />
                 </div>
             </div>
@@ -31,7 +30,7 @@
                 <group
                     string="Amounts in company currency"
                     groups="base.group_multi_currency"
-                    attrs="{'invisible': [('is_l10n_ro_record','=',False)]}"
+                    invisible="not is_l10n_ro_record"
                 >
                     <field name="amount_untaxed_signed" string="Tax Excluded" />
                     <field name="amount_tax_signed" string="Tax" />

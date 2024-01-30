@@ -113,6 +113,15 @@
             </t>
         </table>
 
+        <!-- fix floating of totals section -->
+        <div id="right-elements" position="before">
+            <div id="right-elements-wrapper" class="clearfix"/>
+        </div>
+
+        <div id="right-elements-wrapper" position="inside">
+            <div id="right-elements" position="move"/>
+        </div>
+
         <xpath expr="//p[@name='note']" position="after">
             <t t-if="o.is_l10n_ro_record">
                 <p t-if="o.company_id.l10n_ro_no_signature_text" id="sign_info">
@@ -120,8 +129,6 @@
                 </p>
             </t>
         </xpath>
-
-
     </template>
     <template
         id="l10n_ro_report_invoice_document_tax_totals"

@@ -6,7 +6,7 @@ import logging
 logger = logging.getLogger(__name__)
 
 
-def pre_init_hook(cr):
+def pre_init_hook(env):
     """
     The objective of this hook is to speed up the installation
     of the module on an existing Odoo instance.
@@ -19,18 +19,18 @@ def pre_init_hook(cr):
     l10n_ro_currency_rate so that it is not computed by the install.
 
     """
-    store_field_l10n_ro_currency_rate(cr)
+    store_field_l10n_ro_currency_rate(env)
 
 
-def store_field_l10n_ro_currency_rate(cr):
+def store_field_l10n_ro_currency_rate(env):
     # pylint: disable=sql-injection
-    cr.execute(
+    env.cr.execute(
         """SELECT column_name
            FROM information_schema.columns
            WHERE table_name='account_move' AND column_name='l10n_ro_currency_rate'"""
     )
-    if not cr.fetchone():
-        cr.execute(
+    if not env.cr.fetchone():
+        env.cr.execute(
             """
             ALTER TABLE account_move ADD COLUMN l10n_ro_currency_rate numeric;
             COMMENT ON COLUMN account_move.l10n_ro_currency_rate IS 'Ro Currency Rate';
@@ -38,14 +38,14 @@ def store_field_l10n_ro_currency_rate(cr):
         )
 
         logger.info("Computing field l10n_ro_currency_rate on account.move")
-        cr.execute(
+        env.cr.execute(
             """
             select id from res_country where code = 'RO';
             """
         )
-        ro_country = cr.fetchone()
+        ro_country = env.cr.fetchone()
         if ro_country:
-            cr.execute(
+            env.cr.execute(
                 """
                 SELECT res_company.id
                 FROM res_company
@@ -54,10 +54,10 @@ def store_field_l10n_ro_currency_rate(cr):
                 """
                 % ro_country
             )
-            ro_companies = cr.fetchall()
+            ro_companies = env.cr.fetchall()
             if ro_companies:
                 ro_companies = [x[0] for x in ro_companies]
-                cr.execute(
+                env.cr.execute(
                     r"""
                     WITH currency_rate
                     (currency_id, company_id, rate, date_start, date_end) AS (
@@ -87,7 +87,7 @@ def store_field_l10n_ro_currency_rate(cr):
                     """,
                     {"ids": tuple(ro_companies)},
                 )
-            cr.execute(
+            env.cr.execute(
                 r"""
                 UPDATE account_move acc_move
                 SET l10n_ro_currency_rate = 1
