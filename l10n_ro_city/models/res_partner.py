@@ -20,7 +20,6 @@ class Partner(models.Model):
     @api.onchange("zip")
     def onchange_zip(self):
         if self.zip and self.is_l10n_ro_record:
-
             domain = [
                 ("l10n_ro_prefix_zip", "=", self.zip[:2]),
                 ("country_id", "=", self.country_id.id),

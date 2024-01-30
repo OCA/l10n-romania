@@ -16,7 +16,7 @@ class CountryCity(models.Model):
         result = []
         for record in self:
             if not record.is_l10n_ro_record:
-                result += super(CountryCity, record).name_get()
+                result += super().name_get()
             else:
                 if (
                     record.l10n_ro_municipality
@@ -34,6 +34,6 @@ class CountryCity(models.Model):
                     )
                 else:
                     result.append(
-                        (record.id, "{} ({})".format(record.name, record.state_id.code))
+                        (record.id, f"{record.name} ({record.state_id.code})")
                     )
         return result
