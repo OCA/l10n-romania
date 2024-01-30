@@ -11,7 +11,7 @@ import requests
 
 from odoo import api, fields, models, tools
 
-ANAF_URL = "http://static.anaf.ro/static/10/Anaf/TVA_incasare/ultim_%s.zip"
+ANAF_URL = "https://static.anaf.ro/static/10/Anaf/TVA_incasare/ultim_%s.zip"
 
 
 class ResPartnerAnaf(models.Model):

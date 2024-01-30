@@ -8,7 +8,7 @@
             <field name="user_id" position="before">
                 <filter
                     name="VAT on Payment"
-                    domain="[('l10n_ro_vat_on_payment','=',1)]"
+                    domain="[('l10n_ro_vat_on_payment', '=', True)]"
                 />
             </field>
         </field>
@@ -19,7 +19,7 @@
         <field name="inherit_id" ref="base.view_partner_tree" />
         <field name="arch" type="xml">
             <field name="user_id" position="before">
-                <field name="l10n_ro_vat_on_payment" invisible="1" />
+                <field name="l10n_ro_vat_on_payment" column_invisible="1" />
             </field>
         </field>
     </record>
@@ -29,29 +29,18 @@
         <field name="inherit_id" ref="l10n_ro_config.view_partner_create_by_vat" />
         <field name="arch" type="xml">
             <field name="l10n_ro_e_invoice" position="before">
-                <field name="is_l10n_ro_record" invisible="1" />
                 <label
                     for="l10n_ro_vat_on_payment"
-                    attrs="{'invisible': [
-                            '|', ('vat', '=', False),
-                            ('company_type', '!=', 'company')]}"
+                    invisible="not is_l10n_ro_record or not vat or company_type != 'company'"
                 />
                 <div
                     name="vat_on_payment_info"
                     class="o_row"
-                    attrs="{'invisible': [('is_l10n_ro_record','=',False)]}"
+                    invisible="not is_l10n_ro_record or not vat or company_type != 'company'"
                 >
-                    <field
-                        name="l10n_ro_vat_on_payment"
-                        attrs="{'invisible': [
-                            '|', ('vat', '=', False),
-                            ('company_type', '!=', 'company')]}"
-                    />
+                    <field name="l10n_ro_vat_on_payment" />
                     <button
                         name="check_vat_on_payment"
-                        attrs="{'invisible': [
-                            '|', ('vat', '=', False),
-                            ('company_type', '!=', 'company')]}"
                         string="Update VAT on Payment"
                         type="object"
                         class="oe_highlight"
@@ -67,9 +56,9 @@
         <field name="arch" type="xml">
             <page name="accounting" position="inside">
                 <field name="is_l10n_ro_record" invisible="1" />
-                <group attrs="{'invisible': [('is_l10n_ro_record', '=', False)]}">
+                <group invisible="not is_l10n_ro_record">
                     <separator string="ANAF - VAT on Payment" />
-                    <field name="l10n_ro_anaf_history" nolabel="1" colspan="4">
+                    <field name="l10n_ro_anaf_history" nolabel="1" colspan="2">
                         <tree>
                             <field name="start_date" />
                             <field name="end_date" />

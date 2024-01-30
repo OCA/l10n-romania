@@ -4,28 +4,23 @@
 
 import logging
 import os
+import requests
 import shutil
 from datetime import date, timedelta
 
-import requests
-
-from odoo import tools
-from odoo.modules.module import get_module_resource
-from odoo.tests import tagged
-
-from odoo.addons.account.tests.common import AccountTestInvoicingCommon
+from odoo.tests.common import tagged, TransactionCase
+from odoo.tools.misc import config, file_path
 
 _logger = logging.getLogger(__name__)
 
 
 @tagged("post_install", "-at_install")
-class TestVATonpayment(AccountTestInvoicingCommon):
+class TestVATonpayment(TransactionCase):
     """Run test for VAT on payment."""
 
     @classmethod
-    def setUpClass(cls, chart_template_ref=None):
-        ro_template_ref = "l10n_ro.ro_chart_template"
-        super().setUpClass(chart_template_ref=ro_template_ref)
+    def setUpClass(cls):
+        super().setUpClass()
         cls.env.company.l10n_ro_accounting = True
         cls.partner_anaf_model = cls.env["l10n.ro.res.partner.anaf"]
         cls.partner_model = cls.env["res.partner"]
@@ -52,13 +47,25 @@ class TestVATonpayment(AccountTestInvoicingCommon):
             ],
             limit=1,
         )
+        cls.product = cls.env["product.product"].create(
+            {
+                "name": "Office Chair",
+                "standard_price": 55.0,
+                "list_price": 70.0,
+                "detailed_type": "consu",
+                "weight": 0.01,
+                "uom_id": cls.env.ref("uom.product_uom_unit").id,
+                "uom_po_id": cls.env.ref("uom.product_uom_unit").id,
+                "default_code": "FURN_7777",
+            }
+        )
         cls.invoice_line = [
             (
                 0,
                 False,
                 {
                     "name": "Test description #1",
-                    "product_id": cls.env.ref("product.product_delivery_01").id,
+                    "product_id": cls.product.id,
                     "account_id": default_line_account.id,
                     "quantity": 1.0,
                     "price_unit": 100.0,
@@ -79,17 +86,25 @@ class TestVATonpayment(AccountTestInvoicingCommon):
                 ("company_id", "=", cls.env.company.id),
             ]
         )
-        data_dir = tools.config["data_dir"]
+        if not cls.fptvainc:
+            cls.fptvainc = cls.fp_model.create(
+                {
+                    "name": "Regim TVA la Incasare",
+                    "company_id": cls.env.company.id,
+                    "country_id": cls.env.ref("base.ro").id,
+                    "auto_apply": True,
+                    "vat_required": True,
+                }
+            )
+        data_dir = config["data_dir"]
         istoric_file = os.path.join(data_dir, "istoric.txt")
 
-        test_file = get_module_resource(
-            "l10n_ro_vat_on_payment", "tests", "istoric.txt"
-        )
+        test_file = file_path("l10n_ro_vat_on_payment/tests/istoric.txt")
         shutil.copyfile(test_file, istoric_file)
 
     def test_download_data(self):
         """Test download file and partner link."""
-        data_dir = tools.config["data_dir"]
+        data_dir = config["data_dir"]
         prev_day = date.today() - timedelta(1)
         try:
             self.partner_anaf_model._download_anaf_data(prev_day)

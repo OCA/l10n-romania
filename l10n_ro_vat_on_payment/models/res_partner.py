@@ -6,7 +6,7 @@ import os
 from datetime import date, datetime
 from subprocess import PIPE, Popen
 
-from odoo import api, fields, models, tools
+from odoo import api, Command, fields, models, tools
 from odoo.tools import DEFAULT_SERVER_DATE_FORMAT as DATE_FORMAT
 
 
@@ -20,9 +20,9 @@ class ResPartner(models.Model):
                 history = self.env["l10n.ro.res.partner.anaf"].search(
                     [("vat", "=", partner.l10n_ro_vat_number)]
                 )
-                partner.l10n_ro_anaf_history = [(6, 0, [line.id for line in history])]
+                partner.l10n_ro_anaf_history = [Command.set(history.ids)]
             else:
-                partner.l10n_ro_anaf_history = [(6, 0, [])]
+                partner.l10n_ro_anaf_history = [Command.clear()]
 
     l10n_ro_vat_on_payment = fields.Boolean(string="Romania - VAT on Payment")
     l10n_ro_anaf_history = fields.One2many(
