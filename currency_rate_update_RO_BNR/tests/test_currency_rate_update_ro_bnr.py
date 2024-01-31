@@ -55,9 +55,7 @@ class TestCurrencyRateUpdateRoBnr(TransactionCase):
     def call_bnr(self, url):
         _logger.info("call_bnr: %s", url)
         filename = url.split("/")[-1]
-        test_file = file_path(
-            f"currency_rate_update_RO_BNR/tests/{filename}"
-        )
+        test_file = file_path(f"currency_rate_update_RO_BNR/tests/{filename}")
         res = open(test_file).read().encode("utf-8")
         return res
 
