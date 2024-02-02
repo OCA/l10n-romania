@@ -18,39 +18,41 @@ class AccountEdiXmlCIUSRO(models.Model):
     def _export_cius_ro(self, invoice):
         self.ensure_one()
         # Create file content.
-        builder = self._get_xml_builder(invoice.company_id)
-        xml_content, errors = builder._export_invoice(invoice)
-        if errors:
-            raise UserError(
-                _("The following errors occurred while generating the " "XML file:\n%s")
-                % "\n".join(errors)
+        res = self.env["ir.attachment"]
+        if not invoice.l10n_ro_edi_transaction:
+            edi_document = invoice.edi_document_ids.filtered(
+                lambda l: l.edi_format_id.code == "cius_ro"
             )
-        xml_content = xml_content.decode()
-        xml_content = xml_content.encode()
-        xml_name = builder._export_invoice_filename(invoice)
-        old_attachment = self.env["ir.attachment"].search(
-            [
-                ("res_model", "=", "account.move"),
-                ("res_id", "=", invoice.id),
-                ("name", "=", xml_name),
-            ]
-        )
-        edi_document = invoice.edi_document_ids.filtered(
-            lambda x: x.attachment_id in old_attachment.ids
-        )
-        if edi_document:
-            edi_document.attachment_id = False
-
-        old_attachment.unlink()
-        return self.env["ir.attachment"].create(
-            {
-                "name": xml_name,
-                "raw": xml_content,
-                "mimetype": "application/xml",
-                "res_model": "account.move",
-                "res_id": invoice.id,
-            }
-        )
+            if edi_document:
+                builder = self._get_xml_builder(invoice.company_id)
+                xml_content, errors = builder._export_invoice(invoice)
+                if errors:
+                    raise UserError(
+                        _(
+                            "The following errors occurred while generating the "
+                            "XML file:\n%s"
+                        )
+                        % "\n".join(errors)
+                    )
+                xml_content = xml_content.decode()
+                xml_content = xml_content.encode()
+                xml_name = builder._export_invoice_filename(invoice)
+                old_attachment = edi_document.attachment_id
+                if old_attachment:
+                    edi_document.attachment_id = False
+                    old_attachment.unlink()
+                res = self.env["ir.attachment"].create(
+                    {
+                        "name": xml_name,
+                        "raw": xml_content,
+                        "mimetype": "application/xml",
+                        "res_model": "account.move",
+                        "res_id": invoice.id,
+                    }
+                )
+        else:
+            res = invoice._get_edi_attachment(self)
+        return res
 
     def _export_invoice_filename(self, invoice):
         return f"{invoice.name.replace('/', '_')}_cius_ro.xml"
