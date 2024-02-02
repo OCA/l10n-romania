@@ -2,6 +2,7 @@
 # Copyright (C) 2022 NextERP Romania
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
+
 from odoo import _, models
 
 SECTOR_RO_CODES = ("SECTOR1", "SECTOR2", "SECTOR3", "SECTOR4", "SECTOR5", "SECTOR6")
@@ -48,7 +49,12 @@ class AccountEdiXmlCIUSRO(models.Model):
         # for vals in vals_list:
         #     vals.pop('tax_exemption_reason', None)
         for vals in vals_list:
-            if vals["percent"] == 0:
+            if "Invers" in taxes.name:
+                vals["id"] = "AE"
+                vals["tax_category_code"] = "AE"
+                vals["tax_exemption_reason_code"] = "VATEX-EU-AE"
+                vals["tax_exemption_reason"] = ""
+            if vals["percent"] == 0 and vals["tax_category_code"] != "AE":
                 vals["id"] = "Z"
                 vals["tax_category_code"] = "Z"
                 vals["tax_exemption_reason"] = ""
@@ -81,6 +87,9 @@ class AccountEdiXmlCIUSRO(models.Model):
         vals = super()._get_invoice_line_item_vals(line, taxes_vals)
         vals["description"] = vals["description"][:200]
         vals["name"] = vals["name"][:100]
+        if vals["classified_tax_category_vals"][0]["tax_category_code"] == "AE":
+            vals["classified_tax_category_vals"][0]["tax_exemption_reason_code"] = ""
+            vals["classified_tax_category_vals"][0]["tax_exemption_reason"] = ""
         return vals
 
     def _get_invoice_line_price_vals(self, line):
@@ -174,6 +183,30 @@ class AccountEdiXmlCIUSRO(models.Model):
                         "payment_means_code_attrs": {"name": "Not Defined"},
                     }
                 )
+        return res
+
+    def _import_fill_invoice_line_form(
+        self, journal, tree, invoice, invoice_line, qty_factor
+    ):
+        res = super(AccountEdiXmlCIUSRO, self)._import_fill_invoice_line_form(
+            journal, tree, invoice, invoice_line, qty_factor
+        )
+        tax_nodes = tree.findall(".//{*}Item/{*}ClassifiedTaxCategory/{*}ID")
+        if len(tax_nodes) == 1:
+            if tax_nodes[0].text in ["O", "E", "Z"]:
+                # Acest TVA nu generaza inregistrari contabile,
+                # deci putem lua orice primul tva pe cota 0
+                # filtrat dupa companie si tip jurnal.
+                tax = self.env["account.tax"].search(
+                    [
+                        ("amount", "=", "0"),
+                        ("type_tax_use", "=", journal.type),
+                        ("amount_type", "=", "percent"),
+                        ("company_id", "=", invoice.company_id.id),
+                    ],
+                    limit=1,
+                )
+                invoice_line.tax_ids = [tax.id]
         return res
 
     def _import_fill_invoice_line_taxes(
