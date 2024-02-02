@@ -52,7 +52,10 @@ class AccountEdiXmlCIUSRO(models.Model):
         # for vals in vals_list:
         #     vals.pop('tax_exemption_reason', None)
         for vals in vals_list:
-            if "Invers" in taxes.name:
+            word_to_check = "Invers"
+            if any(
+                word_to_check.lower() in word.lower() for word in taxes.mapped("name")
+            ):
                 vals["id"] = "AE"
                 vals["tax_category_code"] = "AE"
                 vals["tax_exemption_reason_code"] = "VATEX-EU-AE"
