@@ -246,13 +246,19 @@ class AccountEdiXmlCIUSRO(models.Model):
         return invoice
 
     def l10n_ro_renderAnafPdf(self, invoice):
-        attachement = invoice.attachment_ids.filtered(
+        inv_attachments = self.env["ir.attachment"].search(
+            [
+                ("res_model", "=", "account.move"),
+                ("res_id", "=", invoice.id),
+            ]
+        )
+        attachment = inv_attachments.filtered(
             lambda x: f"{invoice.l10n_ro_edi_transaction}.xml" in x.name
         )
-        if not attachement:
+        if not attachment:
             return False
         headers = {"Content-Type": "text/plain"}
-        xml = b64decode(attachement.datas)
+        xml = b64decode(attachment.datas)
         val1 = "refund" in invoice.move_type and "FCN" or "FACT1"
         val2 = "DA"
         try:
