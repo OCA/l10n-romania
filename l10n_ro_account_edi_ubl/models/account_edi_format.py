@@ -90,13 +90,15 @@ class AccountEdiXmlCIUSRO(models.Model):
 
     def _get_move_applicability(self, move):
         self.ensure_one()
-        if self.code == "cius_ro":
+        if self.code != "cius_ro":
+            return super()._get_move_applicability(move)
+        if self.code == "cius_ro" and self._is_required_for_invoice(move):
             return {
                 "post": self._post_invoice_edi,
                 "cancel": self._cancel_invoice_edi,
                 "edi_content": self._get_invoice_edi_content,
             }
-        return super()._get_move_applicability(move)
+        return False
 
     def _is_required_for_invoice(self, invoice):
         if self.code != "cius_ro":
