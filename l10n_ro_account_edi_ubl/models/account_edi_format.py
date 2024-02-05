@@ -18,39 +18,37 @@ class AccountEdiXmlCIUSRO(models.Model):
     def _export_cius_ro(self, invoice):
         self.ensure_one()
         # Create file content.
-        builder = self._get_xml_builder(invoice.company_id)
-        xml_content, errors = builder._export_invoice(invoice)
-        if errors:
-            raise UserError(
-                _("The following errors occurred while generating the " "XML file:\n%s")
-                % "\n".join(errors)
+        res = self.env["ir.attachment"]
+        if not invoice.l10n_ro_edi_transaction:
+            edi_document = invoice.edi_document_ids.filtered(
+                lambda l: l.edi_format_id.code == "cius_ro"
             )
-        xml_content = xml_content.decode()
-        xml_content = xml_content.encode()
-        xml_name = builder._export_invoice_filename(invoice)
-        old_attachment = self.env["ir.attachment"].search(
-            [
-                ("res_model", "=", "account.move"),
-                ("res_id", "=", invoice.id),
-                ("name", "=", xml_name),
-            ]
-        )
-        edi_document = invoice.edi_document_ids.filtered(
-            lambda x: x.attachment_id in old_attachment.ids
-        )
-        if edi_document:
-            edi_document.attachment_id = False
-
-        old_attachment.unlink()
-        return self.env["ir.attachment"].create(
-            {
-                "name": xml_name,
-                "raw": xml_content,
-                "mimetype": "application/xml",
-                "res_model": "account.move",
-                "res_id": invoice.id,
-            }
-        )
+            if edi_document:
+                builder = self._get_xml_builder(invoice.company_id)
+                xml_content, errors = builder._export_invoice(invoice)
+                if errors:
+                    return errors
+                xml_content = xml_content.decode()
+                xml_content = xml_content.encode()
+                xml_name = builder._export_invoice_filename(invoice)
+                old_attachment = edi_document.attachment_id
+                if old_attachment:
+                    edi_document.attachment_id = False
+                    old_attachment.unlink()
+                res = self.env["ir.attachment"].create(
+                    {
+                        "name": xml_name,
+                        "raw": xml_content,
+                        "mimetype": "application/xml",
+                        "res_model": "account.move",
+                        "res_id": invoice.id,
+                    }
+                )
+            else:
+                return res
+        else:
+            res = invoice._get_edi_attachment(self)
+        return res
 
     def _export_invoice_filename(self, invoice):
         return f"{invoice.name.replace('/', '_')}_cius_ro.xml"
@@ -114,11 +112,28 @@ class AccountEdiXmlCIUSRO(models.Model):
             attachment = invoice._get_edi_attachment(self)
             if not attachment:
                 attachment = self._export_cius_ro(invoice)
+            # In case of error, the attachment is a list of string
+            if not isinstance(attachment, models.Model):
+                res[invoice] = {
+                    "success": False,
+                    "error": attachment,
+                    "blocking_level": "warning",
+                }
+                invoice.message_post(body=res[invoice]["error"])
+                message = _("There are some errors when generating the XMl file.")
+                body = message + _("\n\nError:\n<p>%s</p>") % res[invoice]["error"]
+                invoice.activity_schedule(
+                    "mail.mail_activity_data_warning",
+                    summary=message,
+                    note=body,
+                    user_id=invoice.invoice_user_id.id,
+                )
+                continue
             res[invoice] = {"attachment": attachment, "success": True}
 
-            residence = invoice.company_id.l10n_ro_edi_residence
+            residence = invoice.company_id.l10n_ro_edi_residence or 0
             days = (fields.Date.today() - invoice.invoice_date).days
-            if anaf_config and not invoice.l10n_ro_edi_transaction:
+            if not invoice.l10n_ro_edi_transaction:
                 should_send = days >= residence or self.env.context.get("l10n_ro_edi_manual_action")
                 if should_send:
                     try:
@@ -126,31 +141,17 @@ class AccountEdiXmlCIUSRO(models.Model):
                             invoice, attachment
                         )
                     except Exception as e:
-                        print(e)
                         res[invoice] = {
                             "success": False,
                             "error": str(e),
                             "blocking_level": "info",
                         }
-                    print("res[invoice] ", res[invoice])
-            else:
-                if anaf_config and not invoice.l10n_ro_edi_transaction:
-                    if days >= residence:
-                        res[invoice] = self._l10n_ro_post_invoice_step_1(
-                            invoice, attachment
-                        )
-                    else:
-                        res[invoice] = {
-                            "success": False,
-                            "blocking_level": "warning",
-                            "error": _("The invoice is not older than %s days")
-                            % residence,
-                        }
-
                 else:
-                    res[invoice] = self._l10n_ro_post_invoice_step_2(
-                        invoice, attachment
-                    )
+                    continue
+            else:
+                res[invoice] = self._l10n_ro_post_invoice_step_2(
+                    invoice, attachment
+                )
             if res[invoice].get("error", False):
                 invoice.message_post(body=res[invoice]["error"])
                 # Create activity if process is stopped with an error blocking level

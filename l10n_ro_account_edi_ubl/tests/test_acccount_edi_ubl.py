@@ -243,16 +243,18 @@ class TestAccountEdiUbl(AccountEdiTestCommon, CronMixinCase):
     
     @freezegun.freeze_time('2022-09-04')
     def test_process_documents_web_services_step1_cron(self):
+        anaf_config = self.env.company.l10n_ro_account_anaf_sync_id
+        anaf_config.access_token = "test"
         self.invoice.action_post()
 
         self.env.company.l10n_ro_edi_residence = 3
-        self.env.ref('account_edi.ir_cron_edi_network').method_direct_trigger()
-        #import ipdb; ipdb.set_trace()
+        edi_documents = self.env["account.edi.document"].search([('state', 'in', ('to_send', 'to_cancel')), ('move_id.state', '=', 'posted')])
+        edi_documents._process_documents_web_services(job_count=10)
         self.check_invoice_documents(
             self.invoice,
             "to_send",
             "<p>Access Error</p>",
-            "info",
+            "warning",
         )
 
     def test_process_documents_web_services_step1_error(self):
@@ -267,6 +269,19 @@ class TestAccountEdiUbl(AccountEdiTestCommon, CronMixinCase):
             "to_send",
             "<p>Valorile acceptate pentru parametrul standard sunt UBL, CII sau RASP</p>",
             "error",
+        )
+
+    def test_process_documents_web_services_step1_constraint(self):
+        self.invoice.partner_id.state_id = False
+        self.invoice.action_post()
+
+        # procesare step 1 - eroare
+        self.invoice.action_process_edi_web_services()
+        self.check_invoice_documents(
+            self.invoice,
+            "to_send",
+            "<p>{\"The field \'State\' is required on SCOALA GIMNAZIALA COMUNA FOENI.\"}</p>",
+            "warning",
         )
 
     def test_process_documents_web_services_step2_ok(self):
