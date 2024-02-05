@@ -7,7 +7,6 @@ import logging
 from lxml import etree
 
 from odoo import _, fields, models
-from odoo.exceptions import UserError
 
 _logger = logging.getLogger(__name__)
 
@@ -134,7 +133,9 @@ class AccountEdiXmlCIUSRO(models.Model):
             residence = invoice.company_id.l10n_ro_edi_residence or 0
             days = (fields.Date.today() - invoice.invoice_date).days
             if not invoice.l10n_ro_edi_transaction:
-                should_send = days >= residence or self.env.context.get("l10n_ro_edi_manual_action")
+                should_send = days >= residence or self.env.context.get(
+                    "l10n_ro_edi_manual_action"
+                )
                 if should_send:
                     try:
                         res[invoice] = self._l10n_ro_post_invoice_step_1(
@@ -149,9 +150,7 @@ class AccountEdiXmlCIUSRO(models.Model):
                 else:
                     continue
             else:
-                res[invoice] = self._l10n_ro_post_invoice_step_2(
-                    invoice, attachment
-                )
+                res[invoice] = self._l10n_ro_post_invoice_step_2(invoice, attachment)
             if res[invoice].get("error", False):
                 invoice.message_post(body=res[invoice]["error"])
                 # Create activity if process is stopped with an error blocking level

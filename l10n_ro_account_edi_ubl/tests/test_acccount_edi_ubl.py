@@ -5,15 +5,16 @@ import base64
 import json
 import logging
 import time
-import freezegun
 from unittest.mock import patch
+
+import freezegun
 
 from odoo import fields
 from odoo.exceptions import UserError
 from odoo.modules.module import get_module_resource
 from odoo.tests import tagged
 
-from odoo.addons.account_edi.tests.common import AccountEdiTestCommon, _generate_mocked_needs_web_services
+from odoo.addons.account_edi.tests.common import AccountEdiTestCommon
 from odoo.addons.base.tests.test_ir_cron import CronMixinCase
 
 _logger = logging.getLogger(__name__)
@@ -240,15 +241,20 @@ class TestAccountEdiUbl(AccountEdiTestCommon, CronMixinCase):
 
     def test_process_documents_web_services_step1_ok(self):
         self.prepare_invoice_sent_step1()
-    
-    @freezegun.freeze_time('2022-09-04')
+
+    @freezegun.freeze_time("2022-09-04")
     def test_process_documents_web_services_step1_cron(self):
         anaf_config = self.env.company.l10n_ro_account_anaf_sync_id
         anaf_config.access_token = "test"
         self.invoice.action_post()
 
         self.env.company.l10n_ro_edi_residence = 3
-        edi_documents = self.env["account.edi.document"].search([('state', 'in', ('to_send', 'to_cancel')), ('move_id.state', '=', 'posted')])
+        edi_documents = self.env["account.edi.document"].search(
+            [
+                ("state", "in", ("to_send", "to_cancel")),
+                ("move_id.state", "=", "posted"),
+            ]
+        )
         edi_documents._process_documents_web_services(job_count=10)
         self.check_invoice_documents(
             self.invoice,
@@ -280,7 +286,7 @@ class TestAccountEdiUbl(AccountEdiTestCommon, CronMixinCase):
         self.check_invoice_documents(
             self.invoice,
             "to_send",
-            "<p>{\"The field \'State\' is required on SCOALA GIMNAZIALA COMUNA FOENI.\"}</p>",
+            "<p>{\"The field 'State' is required on SCOALA GIMNAZIALA COMUNA FOENI.\"}</p>",
             "warning",
         )
 
