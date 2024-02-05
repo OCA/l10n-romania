@@ -118,13 +118,23 @@ class AccountEdiXmlCIUSRO(models.Model):
 
             residence = invoice.company_id.l10n_ro_edi_residence
             days = (fields.Date.today() - invoice.invoice_date).days
-            if self.env.context.get("l10n_ro_edi_manual_action"):
-                if anaf_config and not invoice.l10n_ro_edi_transaction:
-                    res[invoice] = self._l10n_ro_post_invoice_step_1(
-                        invoice, attachment
-                    )
+            if anaf_config and not invoice.l10n_ro_edi_transaction:
+                should_send = days >= residence or self.env.context.get("l10n_ro_edi_manual_action")
+                if should_send:
+                    try:
+                        res[invoice] = self._l10n_ro_post_invoice_step_1(
+                            invoice, attachment
+                        )
+                    except Exception as e:
+                        print(e)
+                        res[invoice] = {
+                            "success": False,
+                            "error": str(e),
+                            "blocking_level": "info",
+                        }
+                    print("res[invoice] ", res[invoice])
             else:
-                if not invoice.l10n_ro_edi_transaction:
+                if anaf_config and not invoice.l10n_ro_edi_transaction:
                     if days >= residence:
                         res[invoice] = self._l10n_ro_post_invoice_step_1(
                             invoice, attachment

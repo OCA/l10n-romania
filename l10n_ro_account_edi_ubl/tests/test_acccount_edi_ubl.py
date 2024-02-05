@@ -5,6 +5,7 @@ import base64
 import json
 import logging
 import time
+import freezegun
 from unittest.mock import patch
 
 from odoo import fields
@@ -12,13 +13,14 @@ from odoo.exceptions import UserError
 from odoo.modules.module import get_module_resource
 from odoo.tests import tagged
 
-from odoo.addons.account_edi.tests.common import AccountEdiTestCommon
+from odoo.addons.account_edi.tests.common import AccountEdiTestCommon, _generate_mocked_needs_web_services
+from odoo.addons.base.tests.test_ir_cron import CronMixinCase
 
 _logger = logging.getLogger(__name__)
 
 
 @tagged("post_install", "-at_install")
-class TestAccountEdiUbl(AccountEdiTestCommon):
+class TestAccountEdiUbl(AccountEdiTestCommon, CronMixinCase):
     @classmethod
     def setUpClass(cls):
         ro_template_ref = "l10n_ro.ro_chart_template"
@@ -185,6 +187,7 @@ class TestAccountEdiUbl(AccountEdiTestCommon):
         self.assertEqual(invoice.edi_state, state)
         self.assertEqual(invoice.edi_document_ids.state, state)
         if error:
+            self.assertTrue(invoice.edi_document_ids.error)
             self.assertIn(error, invoice.edi_document_ids.error)
             self.assertTrue(
                 any(error in message for message in invoice.message_ids.mapped("body"))
@@ -237,6 +240,20 @@ class TestAccountEdiUbl(AccountEdiTestCommon):
 
     def test_process_documents_web_services_step1_ok(self):
         self.prepare_invoice_sent_step1()
+    
+    @freezegun.freeze_time('2022-09-04')
+    def test_process_documents_web_services_step1_cron(self):
+        self.invoice.action_post()
+
+        self.env.company.l10n_ro_edi_residence = 3
+        self.env.ref('account_edi.ir_cron_edi_network').method_direct_trigger()
+        #import ipdb; ipdb.set_trace()
+        self.check_invoice_documents(
+            self.invoice,
+            "to_send",
+            "<p>Access Error</p>",
+            "info",
+        )
 
     def test_process_documents_web_services_step1_error(self):
         self.invoice.action_post()
