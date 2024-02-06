@@ -52,7 +52,10 @@ class AccountEdiXmlCIUSRO(models.Model):
         # for vals in vals_list:
         #     vals.pop('tax_exemption_reason', None)
         for vals in vals_list:
-            if "Invers" in taxes.name:
+            word_to_check = "Invers"
+            if any(
+                word_to_check.lower() in word.lower() for word in taxes.mapped("name")
+            ):
                 vals["id"] = "AE"
                 vals["tax_category_code"] = "AE"
                 vals["tax_exemption_reason_code"] = "VATEX-EU-AE"
@@ -90,9 +93,12 @@ class AccountEdiXmlCIUSRO(models.Model):
         vals = super()._get_invoice_line_item_vals(line, taxes_vals)
         vals["description"] = vals["description"][:200]
         vals["name"] = vals["name"][:100]
-        if vals["classified_tax_category_vals"][0]["tax_category_code"] == "AE":
-            vals["classified_tax_category_vals"][0]["tax_exemption_reason_code"] = ""
-            vals["classified_tax_category_vals"][0]["tax_exemption_reason"] = ""
+        if vals["classified_tax_category_vals"]:
+            if vals["classified_tax_category_vals"][0]["tax_category_code"] == "AE":
+                vals["classified_tax_category_vals"][0][
+                    "tax_exemption_reason_code"
+                ] = ""
+                vals["classified_tax_category_vals"][0]["tax_exemption_reason"] = ""
         return vals
 
     def _get_invoice_line_price_vals(self, line):
@@ -209,7 +215,8 @@ class AccountEdiXmlCIUSRO(models.Model):
                     ],
                     limit=1,
                 )
-                invoice_line.tax_ids = [tax.id]
+                if tax:
+                    invoice_line.tax_ids.add(tax)
         return res
 
     def _import_fill_invoice_line_taxes(
