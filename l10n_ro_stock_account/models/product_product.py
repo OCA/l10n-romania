@@ -388,6 +388,7 @@ class ProductProduct(models.Model):
                     )
                     if not (candidate.remaining_qty > 0):
                         all_candidates -= candidate
+                        loc_candidates -= candidate
 
                     qty_to_take_on_candidates -= qty_taken_on_candidate
                     tmp_value += value_taken_on_candidate
@@ -408,8 +409,10 @@ class ProductProduct(models.Model):
                 svl_to_vacuum.write(
                     {
                         "remaining_qty": new_remaining_qty,
+                        "remaining_value": new_remaining_qty * svl_to_vacuum.unit_cost,
                     }
                 )
+                new_remaining_value = svl_to_vacuum.remaining_value + corrected_value
                 # svl_to_vacuum._l10n_ro_post_process({"l10n_ro_tracking": track_svl})
                 svl_to_vacuum._l10n_ro_create_tracking(track_svl)
 
