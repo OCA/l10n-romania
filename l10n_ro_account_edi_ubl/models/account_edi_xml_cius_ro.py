@@ -232,11 +232,9 @@ class AccountEdiXmlCIUSRO(models.Model):
             res = self.l10n_ro_renderAnafPdf(invoice)
             if not res:
                 pdf = (
-                    self.env["ir.actions.report"]
+                    self.env.ref("account.account_invoices_without_payment")
                     .sudo()
-                    ._render_qweb_pdf(
-                        "account.account_invoices_without_payment", [invoice.id]
-                    )
+                    ._render_qweb_pdf([invoice.id])
                 )
                 b64_pdf = b64encode(pdf[0])
                 self.l10n_ro_addPDF_from_att(invoice, b64_pdf)
