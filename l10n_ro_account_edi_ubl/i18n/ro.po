@@ -327,14 +327,6 @@ msgid "The ANAF configuration is not set. Please set it and try again."
 msgstr ""
 
 #. module: l10n_ro_account_edi_ubl
-#: code:addons/l10n_ro_account_edi_ubl/models/account_edi_format.py:0
-#, python-format
-msgid ""
-"The following errors occurred while generating the XML file:\n"
-"%s"
-msgstr ""
-
-#. module: l10n_ro_account_edi_ubl
 #: code:addons/l10n_ro_account_edi_ubl/models/account_edi_xml_cius_ro.py:0
 #, python-format
 msgid ""
@@ -374,12 +366,6 @@ msgstr ""
 #. module: l10n_ro_account_edi_ubl
 #: code:addons/l10n_ro_account_edi_ubl/models/account_edi_format.py:0
 #, python-format
-msgid "The invoice is not older than %s days"
-msgstr ""
-
-#. module: l10n_ro_account_edi_ubl
-#: code:addons/l10n_ro_account_edi_ubl/models/account_edi_format.py:0
-#, python-format
 msgid "The invoice was not send or validated by ANAF."
 msgstr ""
 
@@ -412,6 +398,12 @@ msgstr ""
 #: code:addons/l10n_ro_account_edi_ubl/models/res_company.py:0
 #, python-format
 msgid "The period of residence must be between 0 and 5."
+msgstr ""
+
+#. module: l10n_ro_account_edi_ubl
+#: code:addons/l10n_ro_account_edi_ubl/models/account_edi_format.py:0
+#, python-format
+msgid "There are some errors when generating the XMl file."
 msgstr ""
 
 #. module: l10n_ro_account_edi_ubl
