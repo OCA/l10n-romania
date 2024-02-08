@@ -80,7 +80,7 @@ class ResCurrencyRateProviderROBNR(models.Model):
             url = "https://www.bnr.ro/nbrfxrates.xml"
         else:
             year = date_from.year
-            url = "http://www.bnr.ro/files/xml/years/nbrfxrates" + str(year) + ".xml"
+            url = "https://www.bnr.ro/files/xml/years/nbrfxrates" + str(year) + ".xml"
 
         handler = ROBNRRatesHandler(currencies, date_from, date_to)
         # with urlopen(url, timeout=10) as response:
@@ -93,7 +93,7 @@ class ResCurrencyRateProviderROBNR(models.Model):
             # date_from can be in past and first url is giving only one date
             # we must try to take the date from whole year list
             year = date_from.year
-            url = "http://www.bnr.ro/files/xml/years/nbrfxrates" + str(year) + ".xml"
+            url = "https://www.bnr.ro/files/xml/years/nbrfxrates" + str(year) + ".xml"
             handler = ROBNRRatesHandler(currencies, date_from, date_to)
             # with urlopen(url, timeout=10) as response:
             #     xml.sax.parse(response, handler)
