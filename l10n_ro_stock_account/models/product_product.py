@@ -7,6 +7,7 @@ import logging
 
 from odoo import api, fields, models
 from odoo.tools import float_compare, float_is_zero, float_repr
+from odoo.tools.safe_eval import safe_eval
 
 _logger = logging.getLogger(__name__)
 
@@ -305,6 +306,9 @@ class ProductProduct(models.Model):
             ("create_date", ">=", svls_to_vacuum[0].create_date),
         ]
         all_candidates = self.env["stock.valuation.layer"].sudo().search(domain)
+        get_param = self.env["ir.config_parameter"].sudo().get_param
+        simple_valuation = get_param("l10n_ro_stock_account.simple_valuation", "False")
+        simple_valuation = safe_eval(simple_valuation)
         for location in svls_to_vacuum.mapped("l10n_ro_location_id"):
             svl_loc_to_vaccum = svls_to_vacuum.filtered(
                 lambda r: r.l10n_ro_location_id == location
@@ -400,21 +404,24 @@ class ProductProduct(models.Model):
                 corrected_value = svl_to_vacuum.currency_id.round(corrected_value)
                 move = svl_to_vacuum.stock_move_id
                 move_line = svl_to_vacuum.l10n_ro_stock_move_line_id
-                vals = {
-                    "product_id": self.id,
-                    "value": corrected_value,
-                    "unit_cost": 0,
-                    "quantity": 0,
-                    "remaining_qty": 0,
-                    "stock_move_id": move.id,
-                    "l10n_ro_stock_move_line_id": move_line.id,
-                    "company_id": move.company_id.id,
-                    "description": "Revaluation of %s (negative inventory)"
-                    % move.picking_id.name
-                    or move.name,
-                    "stock_valuation_layer_id": svl_to_vacuum.id,
-                }
-                vacuum_svl = self.env["stock.valuation.layer"].sudo().create(vals)
+                if not simple_valuation:
+                    vals = {
+                        "product_id": self.id,
+                        "value": corrected_value,
+                        "unit_cost": 0,
+                        "quantity": 0,
+                        "remaining_qty": 0,
+                        "stock_move_id": move.id,
+                        "l10n_ro_stock_move_line_id": move_line.id,
+                        "company_id": move.company_id.id,
+                        "description": "Revaluation of %s (negative inventory)"
+                        % move.picking_id.name
+                        or move.name,
+                        "stock_valuation_layer_id": svl_to_vacuum.id,
+                    }
+                    vacuum_svl = self.env["stock.valuation.layer"].sudo().create(vals)
+                else:
+                    vacuum_svl = self.env["stock.valuation.layer"]
 
                 # Create the account move.
                 if self.valuation != "real_time":
