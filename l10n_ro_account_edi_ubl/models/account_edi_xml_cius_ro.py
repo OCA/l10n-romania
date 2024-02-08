@@ -234,24 +234,24 @@ class AccountEdiXmlCIUSRO(models.Model):
         invoice = super(AccountEdiXmlCIUSRO, self)._import_invoice(
             journal, filename, tree, existing_invoice=existing_invoice
         )
-        additional_docs = tree.findall("./{*}AdditionalDocumentReference")
-        if len(additional_docs) == 0:
-            res = self.l10n_ro_renderAnafPdf(invoice)
-            if not res:
-                report = self.env.ref("account.account_invoices_without_payment").sudo()
-                pdf = report._render_qweb_pdf(invoice.id)
-                b64_pdf = b64encode(pdf[0])
-                self.l10n_ro_addPDF_from_att(invoice, b64_pdf)
+        if invoice:
+            additional_docs = tree.findall("./{*}AdditionalDocumentReference")
+            if len(additional_docs) == 0:
+                res = self.l10n_ro_renderAnafPdf(invoice)
+                if not res:
+                    report = self.env.ref(
+                        "account.account_invoices_without_payment"
+                    ).sudo()
+                    pdf = report._render_qweb_pdf(invoice.id)
+                    b64_pdf = b64encode(pdf[0])
+                    self.l10n_ro_addPDF_from_att(invoice, b64_pdf)
         return invoice
 
     def l10n_ro_renderAnafPdf(self, invoice):
-        inv_attachments = self.env["ir.attachment"].search(
-            [
-                ("res_model", "=", "account.move"),
-                ("res_id", "=", invoice.id),
-            ]
+        attachments = self.env["ir.attachment"].search(
+            [("res_model", "=", invoice._name), ("res_id", "in", invoice.ids)]
         )
-        attachment = inv_attachments.filtered(
+        attachment = attachments.filtered(
             lambda x: f"{invoice.l10n_ro_edi_transaction}.xml" in x.name
         )
         if not attachment:
