@@ -25,6 +25,7 @@ class TestCurrencyRateUpdateRoBnr(SavepointCase):
     def setUpClass(cls):
 
         super().setUpClass()
+
         cls.Company = cls.env["res.company"]
         cls.CurrencyRate = cls.env["res.currency.rate"]
         cls.CurrencyRateProvider = cls.env["res.currency.rate.provider"]

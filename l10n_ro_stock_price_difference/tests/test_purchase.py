@@ -242,19 +242,45 @@ class TestStockPurchase(TestStockCommonPriceDiff):
         # in contabilitate stocul are valoarea din factura
         self.check_account_valuation(self.val_p1_f, self.val_p2_f)
 
-    def test_two_receipt_and_one_invoice(self):
-        """
-        Doua receptii partiale de achizitie si o factura
-        """
-        po1 = self.create_po_default(
-            {"lines": [{"product": self.product_1, "qty": 10, "price": 10}]}
+    def test_2_nir_and_1_invoice_with_price_diff(self):
+        "Doua receptii de pe doua comenzi de achzitie cu o singura factura cu diferenta de pret"
+        self.create_po_default(
+            {
+                "lines": [
+                    {
+                        "product": self.product_1,
+                        "qty": 2,
+                        "price": 5,
+                    },
+                    {
+                        "product": self.product_2,
+                        "qty": 2,
+                        "price": 5,
+                    },
+                ]
+            }
         )
+        po1 = self.po
+        self.create_po_default(
+            {
+                "lines": [
+                    {
+                        "product": self.product_1,
+                        "qty": 2,
+                        "price": 5,
+                    },
+                    {
+                        "product": self.product_2,
+                        "qty": 2,
+                        "price": 5,
+                    },
+                ]
+            }
+        )
+        po2 = self.po
 
-        # modificare cantitate si pret in comanda
-        po1.order_line.write({"product_qty": 15, "price_unit": 11})
-        self.validate_picking(po1.picking_ids.filtered(lambda l: l.state != "done"))
-
-        PurchaseBillUnion = self.env["purchase.bill.union"]
+        self.check_stock_valuation(20, 20)
+        self.check_account_valuation(0, 0)
 
         invoice_form = Form(
             self.env["account.move"].with_context(
@@ -264,14 +290,22 @@ class TestStockPurchase(TestStockCommonPriceDiff):
             )
         )
         invoice_form.partner_id = self.vendor
-        invoice_form.purchase_vendor_bill_id = PurchaseBillUnion.browse(-po1.id)
+        invoice_form.purchase_id = po1
 
         invoice = invoice_form.save()
 
         invoice_form = Form(invoice)
-        with invoice_form.invoice_line_ids.edit(0) as line_form:
-            line_form.price_unit = 12
+        invoice_form.purchase_id = po2
+        invoice = invoice_form.save()
+
+        invoice_form = Form(invoice)
+        for line in range(0, 4):
+            with invoice_form.invoice_line_ids.edit(line) as line_form:
+                line_form.price_unit += 1
 
         invoice = invoice_form.save()
 
-        invoice.action_post()
+        invoice.with_context(l10n_ro_approved_price_difference=True).action_post()
+
+        self.check_stock_valuation(24, 24)
+        self.check_account_valuation(24, 24)

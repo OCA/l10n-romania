@@ -107,6 +107,8 @@ class ProductProduct(models.Model):
         }
         if self.cost_method in ("average", "fifo"):
             fifo_vals_list = self._run_fifo(abs(quantity), company)
+            if isinstance(fifo_vals_list, dict):
+                fifo_vals_list = [fifo_vals_list]
             for fifo_vals in fifo_vals_list:
                 vals = vals_tpl.copy()
                 vals["quantity"] = fifo_vals.get("quantity", 0)
