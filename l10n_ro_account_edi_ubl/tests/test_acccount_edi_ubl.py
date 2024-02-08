@@ -7,18 +7,21 @@ import logging
 import time
 from unittest.mock import patch
 
+import freezegun
+
 from odoo import fields
 from odoo.exceptions import UserError
 from odoo.modules.module import get_module_resource
 from odoo.tests import tagged
 
 from odoo.addons.account_edi.tests.common import AccountEdiTestCommon
+from odoo.addons.base.tests.test_ir_cron import CronMixinCase
 
 _logger = logging.getLogger(__name__)
 
 
 @tagged("post_install", "-at_install")
-class TestAccountEdiUbl(AccountEdiTestCommon):
+class TestAccountEdiUbl(AccountEdiTestCommon, CronMixinCase):
     @classmethod
     def setUpClass(cls):
         ro_template_ref = "l10n_ro.ro_chart_template"
@@ -185,6 +188,7 @@ class TestAccountEdiUbl(AccountEdiTestCommon):
         self.assertEqual(invoice.edi_state, state)
         self.assertEqual(invoice.edi_document_ids.state, state)
         if error:
+            self.assertTrue(invoice.edi_document_ids.error)
             self.assertIn(error, invoice.edi_document_ids.error)
             self.assertTrue(
                 any(error in message for message in invoice.message_ids.mapped("body"))
@@ -238,6 +242,27 @@ class TestAccountEdiUbl(AccountEdiTestCommon):
     def test_process_documents_web_services_step1_ok(self):
         self.prepare_invoice_sent_step1()
 
+    @freezegun.freeze_time("2022-09-04")
+    def test_process_documents_web_services_step1_cron(self):
+        anaf_config = self.env.company.l10n_ro_account_anaf_sync_id
+        anaf_config.access_token = "test"
+        self.invoice.action_post()
+
+        self.env.company.l10n_ro_edi_residence = 3
+        edi_documents = self.env["account.edi.document"].search(
+            [
+                ("state", "in", ("to_send", "to_cancel")),
+                ("move_id.state", "=", "posted"),
+            ]
+        )
+        edi_documents._process_documents_web_services(job_count=10)
+        self.check_invoice_documents(
+            self.invoice,
+            "to_send",
+            "<p>Access Error</p>",
+            "warning",
+        )
+
     def test_process_documents_web_services_step1_error(self):
         self.invoice.action_post()
 
@@ -250,6 +275,19 @@ class TestAccountEdiUbl(AccountEdiTestCommon):
             "to_send",
             "<p>Valorile acceptate pentru parametrul standard sunt UBL, CII sau RASP</p>",
             "error",
+        )
+
+    def test_process_documents_web_services_step1_constraint(self):
+        self.invoice.partner_id.state_id = False
+        self.invoice.action_post()
+
+        # procesare step 1 - eroare
+        self.invoice.action_process_edi_web_services()
+        self.check_invoice_documents(
+            self.invoice,
+            "to_send",
+            "<p>{\"The field 'State' is required on SCOALA GIMNAZIALA COMUNA FOENI.\"}</p>",
+            "warning",
         )
 
     def test_process_documents_web_services_step2_ok(self):
