@@ -1,3 +1,7 @@
+# Copyright 2018 Forest and Biomass Romania
+# Copyright 2020 NextERP Romania SRL
+# License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl.html).
+
 import xml.sax
 from collections import defaultdict
 from datetime import timedelta
@@ -83,8 +87,10 @@ class ResCurrencyRateProviderROBNR(models.Model):
             url = "http://www.bnr.ro/files/xml/years/nbrfxrates" + str(year) + ".xml"
 
         handler = ROBNRRatesHandler(currencies, date_from, date_to)
-        with urlopen(url, timeout=10) as response:
-            xml.sax.parse(response, handler)
+        # with urlopen(url) as response:
+        #     xml.sax.parse(response, handler)
+        response = self.call_bnr(url)
+        xml.sax.parseString(response, handler)
         if handler.content:
             return handler.content
         elif date_from == date_to:
@@ -93,9 +99,15 @@ class ResCurrencyRateProviderROBNR(models.Model):
             year = date_from.year
             url = "http://www.bnr.ro/files/xml/years/nbrfxrates" + str(year) + ".xml"
             handler = ROBNRRatesHandler(currencies, date_from, date_to)
-            with urlopen(url, timeout=10) as response:
-                xml.sax.parse(response, handler)
+            # with urlopen(url) as response:
+            #     xml.sax.parse(response, handler)
+            response = self.call_bnr(url)
+            xml.sax.parseString(response, handler)
         return handler.content or {}
+
+    def call_bnr(self, url):
+        """Call BNR and return the response."""
+        return urlopen(url, timeout=10).read()
 
 
 class ROBNRRatesHandler(xml.sax.ContentHandler):
