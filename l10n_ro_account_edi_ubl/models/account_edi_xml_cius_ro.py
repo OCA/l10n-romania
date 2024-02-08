@@ -248,13 +248,10 @@ class AccountEdiXmlCIUSRO(models.Model):
         return invoice
 
     def l10n_ro_renderAnafPdf(self, invoice):
-        inv_attachments = self.env["ir.attachment"].search(
-            [
-                ("res_model", "=", "account.move"),
-                ("res_id", "=", invoice.id),
-            ]
+        attachments = self.env["ir.attachment"].search(
+            [("res_model", "=", invoice._name), ("res_id", "in", invoice.ids)]
         )
-        attachment = inv_attachments.filtered(
+        attachment = attachments.filtered(
             lambda x: f"{invoice.l10n_ro_edi_transaction}.xml" in x.name
         )
         if not attachment:
