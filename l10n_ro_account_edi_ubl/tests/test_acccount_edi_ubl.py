@@ -210,11 +210,8 @@ class TestAccountEdiUbl(AccountEdiTestCommon, CronMixinCase):
         att = self.env["ir.attachment"].browse(invoice_xml["res_id"])
         xml_content = base64.b64decode(att.with_context(bin_size=False).datas)
 
-        current_etree = round(self.get_xml_tree_from_string(xml_content), 2)
-        expected_etree = round(
-            self.get_xml_tree_from_string(self.get_file("invoice.xml")), 2
-        )
-
+        current_etree = self.get_xml_tree_from_string(xml_content)
+        expected_etree = self.get_xml_tree_from_string(self.get_file("invoice.xml"))
         self.assertXmlTreeEqual(current_etree, expected_etree)
 
     def test_account_credit_note_edi_ubl(self):
