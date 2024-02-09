@@ -59,13 +59,10 @@ class AccountANAFSyncWeb(http.Controller):
                 "last_request_datetime": now,
             }
         )
-        client_id = anaf_config.client_id
-        url = user.get_base_url()
-        odoo_oauth_url = f"{url}/l10n_ro_account_anaf_sync/anaf_oauth/{anaf_config.id}"
         redirect_url = "%s?response_type=code&client_id=%s&redirect_uri=%s" % (
             anaf_config.anaf_oauth_url + "/authorize",
-            client_id,
-            odoo_oauth_url,
+            anaf_config.client_id,
+            anaf_config.anaf_callback_url,
         )
         anaf_request_from_redirect = request.redirect(
             redirect_url, code=302, local=False
@@ -95,8 +92,9 @@ class AccountANAFSyncWeb(http.Controller):
         uid = request.uid
         user = request.env["res.users"].browse(uid)
         now = datetime.now()
-        ANAF_Configs = request.env["l10n.ro.account.anaf.sync"].sudo()
-        anaf_config = ANAF_Configs.browse(anaf_config_id)
+        anaf_config = (
+            request.env["l10n.ro.account.anaf.sync"].sudo().browse(anaf_config_id)
+        )
 
         message = ""
 
@@ -115,17 +113,13 @@ class AccountANAFSyncWeb(http.Controller):
                 "accept": "application/json",
                 "user-agent": "PostmanRuntime/7.29.2",
             }
-            url = user.get_base_url()
-            redirect_uri = (
-                f"{url}/l10n_ro_account_anaf_sync/anaf_oauth/{anaf_config_id}"
-            )
             data = {
                 "grant_type": "authorization_code",
                 "client_id": "{}".format(anaf_config.client_id),
                 "client_secret": "{}".format(anaf_config.client_secret),
                 "code": "{}".format(code),
                 "access_key": "{}".format(code),
-                "redirect_uri": "{}".format(redirect_uri),
+                "redirect_uri": "{}".format(anaf_config.anaf_callback_url),
             }
             response = requests.post(
                 anaf_config.anaf_oauth_url + "/token",
