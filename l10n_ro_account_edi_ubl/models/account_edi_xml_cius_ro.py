@@ -233,6 +233,7 @@ class AccountEdiXmlCIUSRO(models.Model):
                     limit=1,
                 )
                 invoice_line.tax_ids = [tax.id]
+
         return res
 
     def _import_fill_invoice_line_taxes(
@@ -250,6 +251,8 @@ class AccountEdiXmlCIUSRO(models.Model):
         invoice = super(AccountEdiXmlCIUSRO, self)._import_invoice(
             journal, filename, tree, existing_invoice=existing_invoice
         )
+        if invoice.partner_id:
+            invoice._onchange_partner_id()
         additional_docs = tree.findall("./{*}AdditionalDocumentReference")
         if len(additional_docs) == 0:
             res = self.l10n_ro_renderAnafPdf(invoice)
