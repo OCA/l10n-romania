@@ -74,3 +74,21 @@ class AccountMoveLine(models.Model):
         return super(
             AccountMoveLine, self - currency_lines
         )._create_exchange_difference_move(exchange_diff_vals)
+
+
+class AccountTaxRepartitionLine(models.Model):
+    _inherit = "account.tax.repartition.line"
+
+    def _get_aml_target_tax_account(self, force_caba_exigibility=False):
+        """Get the default tax account to set on a business line.
+
+        :return: An account.account record or an empty recordset.
+        """
+        self.ensure_one()
+        res = super(AccountTaxRepartitionLine, self)._get_aml_target_tax_account(
+            force_caba_exigibility=force_caba_exigibility
+        )
+        if self.company_id.country_id.code == "RO":
+            if self.tax_id.tax_exigibility == "on_payment":
+                return self.tax_id.cash_basis_transition_account_id
+        return res
