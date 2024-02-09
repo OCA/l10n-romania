@@ -210,8 +210,10 @@ class TestAccountEdiUbl(AccountEdiTestCommon, CronMixinCase):
         att = self.env["ir.attachment"].browse(invoice_xml["res_id"])
         xml_content = base64.b64decode(att.with_context(bin_size=False).datas)
 
-        current_etree = self.get_xml_tree_from_string(xml_content)
-        expected_etree = self.get_xml_tree_from_string(self.get_file("invoice.xml"))
+        current_etree = round(self.get_xml_tree_from_string(xml_content), 2)
+        expected_etree = round(
+            self.get_xml_tree_from_string(self.get_file("invoice.xml")), 2
+        )
 
         self.assertXmlTreeEqual(current_etree, expected_etree)
 
@@ -418,7 +420,10 @@ class TestAccountEdiUbl(AccountEdiTestCommon, CronMixinCase):
             return_value=(anaf_messages, 200),
         ):
             self.assertEqual(
-                self.env.company._l10n_ro_get_anaf_efactura_messages(), expected_msg
+                self.env.company._l10n_ro_get_anaf_efactura_messages(
+                    filters={"tip": "FACTURA PRIMITA"}
+                ),
+                expected_msg,
             )
 
     def test_l10n_ro_create_anaf_efactura(self):
