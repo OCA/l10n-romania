@@ -117,6 +117,25 @@
                         </div>
                     </div>
                 </div>
+                <div
+                    class="col-xs-12 col-md-12 o_setting_box"
+                    id="l10n_ro_store_einvoices"
+                >
+                    <div class="o_setting_left_pane">
+                    </div>
+                    <div class="o_setting_right_pane">
+                        <div class="row mt16">
+                            <label
+                                for="l10n_ro_store_einvoices"
+                                class="col-lg-3 o_light_label"
+                            />
+                            <field name="l10n_ro_store_einvoices" />
+                        </div>
+                        <div class="text-muted">
+                            Define if invoices validated by ANAf will be stored in Odoo.
+                        </div>
+                    </div>
+                </div>
             </div>
         </field>
     </record>
