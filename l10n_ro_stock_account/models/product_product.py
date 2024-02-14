@@ -6,7 +6,7 @@
 import logging
 
 from odoo import api, fields, models
-from odoo.tools import float_is_zero, float_repr
+from odoo.tools import float_compare, float_is_zero, float_repr
 from odoo.tools.safe_eval import safe_eval
 
 _logger = logging.getLogger(__name__)
@@ -447,3 +447,102 @@ class ProductProduct(models.Model):
             self._create_fifo_vacuum_anglo_saxon_expense_entry(
                 vacuum_svl, svl_to_vacuum
             )
+
+    @api.model
+    def _svl_empty_stock(
+        self, description, product_category=None, product_template=None
+    ):
+        company = (
+            self.env["res.company"].browse(self._context.get("force_company"))
+            or self.env.company
+        )
+        if not company.l10n_ro_accounting:
+            return super()._svl_empty_stock(
+                description,
+                product_category=product_category,
+                product_template=product_template,
+            )
+
+        impacted_product_ids = []
+        impacted_products = self.env["product.product"]
+        products_orig_quantity_svl = {}
+
+        # get the impacted products
+        domain = [("type", "=", "product")]
+        if product_category is not None:
+            domain += [("categ_id", "=", product_category.id)]
+        elif product_template is not None:
+            domain += [("product_tmpl_id", "=", product_template.id)]
+        else:
+            raise ValueError()
+        products = self.env["product.product"].search_read(domain, ["quantity_svl"])
+        for product in products:
+            impacted_product_ids.append(product["id"])
+            products_orig_quantity_svl[product["id"]] = product["quantity_svl"]
+        impacted_products |= self.env["product.product"].browse(impacted_product_ids)
+
+        # empty out the stock for the impacted products
+        empty_stock_svl_list = []
+        for product in impacted_products:
+            # FIXME sle: why not use products_orig_quantity_svl here?
+            if float_is_zero(
+                product.quantity_svl, precision_rounding=product.uom_id.rounding
+            ):
+                # FIXME: create an empty layer to track the change?
+                continue
+            if (
+                float_compare(
+                    product.quantity_svl, 0, precision_rounding=product.uom_id.rounding
+                )
+                > 0
+            ):
+                svsl_vals = product._prepare_out_svl_vals(
+                    product.quantity_svl, self.env.company
+                )
+            else:
+                svsl_vals = [
+                    product._prepare_in_svl_vals(
+                        abs(product.quantity_svl),
+                        product.value_svl / product.quantity_svl,
+                    )
+                ]
+            for vals in svsl_vals:
+                if "l10n_ro_tracking" in vals:
+                    vals.pop("l10n_ro_tracking")
+                vals["description"] = description + vals.pop("rounding_adjustment", "")
+                vals["company_id"] = self.env.company.id
+            empty_stock_svl_list.extend(svsl_vals)
+        return empty_stock_svl_list, products_orig_quantity_svl, impacted_products
+
+    def _svl_replenish_stock(self, description, products_orig_quantity_svl):
+        refill_stock_svl_list = []
+        l10n_ro_records = self.filtered("is_l10n_ro_record")
+        if self - l10n_ro_records:
+            refill_stock_svl_list = super(
+                ProductProduct, self - l10n_ro_records
+            )._svl_replenish_stock(description, products_orig_quantity_svl)
+        if l10n_ro_records:
+            for product in self:
+                quantity_svl = products_orig_quantity_svl[product.id]
+                if quantity_svl:
+                    if (
+                        float_compare(
+                            quantity_svl, 0, precision_rounding=product.uom_id.rounding
+                        )
+                        > 0
+                    ):
+                        svl_vals = [
+                            product._prepare_in_svl_vals(
+                                quantity_svl, product.standard_price
+                            )
+                        ]
+                    else:
+                        svl_vals = product._prepare_out_svl_vals(
+                            abs(quantity_svl), self.env.company
+                        )
+
+                    for vals in svl_vals:
+                        vals["description"] = description
+                        vals["company_id"] = self.env.company.id
+                    refill_stock_svl_list.extend(svl_vals)
+        return refill_stock_svl_list
