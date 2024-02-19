@@ -110,6 +110,11 @@ msgstr ""
 
 #. module: l10n_ro_account_edi_ubl
 #: model_terms:ir.ui.view,arch_db:l10n_ro_account_edi_ubl.res_config_settings_view_form
+msgid "Define if invoices validated by ANAf will be stored in Odoo."
+msgstr ""
+
+#. module: l10n_ro_account_edi_ubl
+#: model_terms:ir.ui.view,arch_db:l10n_ro_account_edi_ubl.res_config_settings_view_form
 msgid ""
 "Define the maximum number of days that Odoo will check supplier e-Invoices "
 "to download."
@@ -315,6 +320,12 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_ro_account_edi_ubl.field_res_company__l10n_ro_download_einvoices_start_date
 #: model:ir.model.fields,field_description:l10n_ro_account_edi_ubl.field_res_config_settings__l10n_ro_download_einvoices_start_date
 msgid "Start date to download e-invoices"
+msgstr ""
+
+#. module: l10n_ro_account_edi_ubl
+#: model:ir.model.fields,field_description:l10n_ro_account_edi_ubl.field_res_company__l10n_ro_store_einvoices
+#: model:ir.model.fields,field_description:l10n_ro_account_edi_ubl.field_res_config_settings__l10n_ro_store_einvoices
+msgid "Store E-Invoice signed by Anaf."
 msgstr ""
 
 #. module: l10n_ro_account_edi_ubl
