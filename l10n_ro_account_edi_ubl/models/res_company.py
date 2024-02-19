@@ -36,6 +36,9 @@ class ResCompany(models.Model):
     l10n_ro_download_einvoices_days = fields.Integer(
         string="Maximum number of days to download e-invoices.", default=10
     )
+    l10n_ro_store_einvoices = fields.Boolean(
+        string="Store E-Invoice signed by Anaf.", default=False
+    )
 
     @api.constrains("l10n_ro_edi_residence", "l10n_ro_download_einvoices_days")
     def _check_l10n_ro_edi_residence(self):
