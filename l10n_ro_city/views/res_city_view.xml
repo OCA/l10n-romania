@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="view_city_tree" model="ir.ui.view">
+        <field name="model">res.city</field>
+        <field name="inherit_id" ref="base_address_extended.view_city_tree" />
+        <field name="arch" type="xml">
+            <field name="name" position="after">
+                <field name="is_l10n_ro_record" invisible="1" />
+                <field name="l10n_ro_municipality" invisible="not is_l10n_ro_record" />
+                <field name="l10n_ro_siruta" invisible="not is_l10n_ro_record" />
+            </field>
+        </field>
+    </record>
+
+    <record id="base.ro" model="res.country">
+        <field name="enforce_cities" eval="1" />
+    </record>
+</odoo>
