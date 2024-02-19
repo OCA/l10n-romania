@@ -89,7 +89,7 @@ class ResCompany(models.Model):
             "pagina": pagina,
             "startTime": start_time,
             "endTime": end_time,
-            "filtru": "P",
+            "filtru": filtru,
         }
         content, status_code = anaf_config._l10n_ro_einvoice_call(
             "/listaMesajePaginatieFactura", params, method="GET"
@@ -127,7 +127,7 @@ class ResCompany(models.Model):
 
         for company in ro_companies:
             move_obj = self.env["account.move"].with_company(company)
-            company_messages = company._l10n_ro_get_anaf_efactura_messages()
+            company_messages = company._l10n_ro_get_anaf_efactura_messages(filtru="P")
             for message in company_messages:
                 if company.l10n_ro_download_einvoices_start_date:
                     if message.get("data_creare"):
