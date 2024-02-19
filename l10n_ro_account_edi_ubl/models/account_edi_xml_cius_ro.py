@@ -6,7 +6,7 @@ from base64 import b64decode, b64encode
 
 import requests
 
-from odoo import _, models
+from odoo import _, api, models
 
 SECTOR_RO_CODES = ("SECTOR1", "SECTOR2", "SECTOR3", "SECTOR4", "SECTOR5", "SECTOR6")
 
@@ -250,6 +250,69 @@ class AccountEdiXmlCIUSRO(models.Model):
         return super()._import_fill_invoice_line_taxes(
             journal, tax_nodes, invoice_line_form, inv_line_vals, logs
         )
+
+    @api.model
+    def _retrieve_partner_with_vat(self, vat, extra_domain):
+        company_domain = [("is_company", "=", True)]
+        extra_domain = extra_domain + company_domain if extra_domain else company_domain
+        return super()._retrieve_partner_with_vat(vat, extra_domain)
+
+    @api.model
+    def _retrieve_partner_with_phone_mail(self, phone, mail, extra_domain):
+        company_domain = [("is_company", "=", True)]
+        extra_domain = extra_domain + company_domain if extra_domain else company_domain
+        return super()._retrieve_partner_with_phone_mail(phone, mail, extra_domain)
+
+    @api.model
+    def _retrieve_partner_with_name(self, name, extra_domain):
+        company_domain = [("is_company", "=", True)]
+        extra_domain = extra_domain + company_domain if extra_domain else company_domain
+        return super()._retrieve_partner_with_name(name, extra_domain)
+
+    def _import_retrieve_and_fill_partner(
+        self, invoice, name, phone, mail, vat, country_code=False
+    ):
+        """Update method to set the partner as a company, not indiovidual"""
+        res = super()._import_retrieve_and_fill_partner(
+            invoice, name, phone, mail, vat, country_code
+        )
+        if not invoice.partner_id.is_company and name and vat:
+            invoice.partner_id.is_company = True
+        return res
+
+    def _import_fill_invoice_form(self, journal, tree, invoice_form, qty_factor):
+        # Overwrite to take partner from RegistrationName
+        if not invoice_form.partner_id:
+            role = "Customer" if invoice_form.journal_id.type == "sale" else "Supplier"
+            vat = self._find_value(
+                f"//cac:Accounting{role}Party/cac:Party//cbc:CompanyID", tree
+            )
+            phone = self._find_value(
+                f"//cac:Accounting{role}Party/cac:Party//cbc:Telephone", tree
+            )
+            mail = self._find_value(
+                f"//cac:Accounting{role}Party/cac:Party//cbc:ElectronicMail", tree
+            )
+            name = self._find_value(
+                f"//cac:Accounting{role}Party/cac:Party//cac:PartyLegalEntity//cbc:RegistrationName",  # noqa: B950
+                tree,
+            )
+            country_code = self._find_value(
+                f"//cac:Accounting{role}Party/cac:Party//cac:Country//cbc:IdentificationCode",
+                tree,
+            )
+            self._import_retrieve_and_fill_partner(
+                invoice_form,
+                name=name,
+                phone=phone,
+                mail=mail,
+                vat=vat,
+                country_code=country_code,
+            )
+        invoice_form, logs = super()._import_fill_invoice_form(
+            journal, tree, invoice_form, qty_factor
+        )
+        return invoice_form, logs
 
     def _import_invoice(self, journal, filename, tree, existing_invoice=None):
         invoice = super(AccountEdiXmlCIUSRO, self)._import_invoice(
