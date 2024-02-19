@@ -215,7 +215,8 @@ class AccountEdiXmlCIUSRO(models.Model):
                     ],
                     limit=1,
                 )
-                invoice_line.tax_ids = [tax.id]
+                if tax:
+                    invoice_line.tax_ids.add(tax)
         return res
 
     def _import_fill_invoice_line_taxes(
@@ -237,11 +238,8 @@ class AccountEdiXmlCIUSRO(models.Model):
         if len(additional_docs) == 0:
             res = self.l10n_ro_renderAnafPdf(invoice)
             if not res:
-                pdf = (
-                    self.env.ref("account.account_invoices_without_payment")
-                    .sudo()
-                    ._render_qweb_pdf([invoice.id])
-                )
+                report = self.env.ref("account.account_invoices_without_payment").sudo()
+                pdf = report._render_qweb_pdf(invoice.id)
                 b64_pdf = b64encode(pdf[0])
                 self.l10n_ro_addPDF_from_att(invoice, b64_pdf)
         return invoice
