@@ -1,0 +1,202 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <template
+        id="l10n_ro_report_invoice_document"
+        inherit_id="account.report_invoice_document"
+    >
+        <xpath
+            expr="//div[@name='address_not_same_as_shipping']//div[@t-if='o.partner_id.vat']"
+            position="after"
+        >
+            <t t-if="o.is_l10n_ro_record">
+                <div t-if="o.partner_id.nrc" class="mt16">
+                    NRC:
+                    <span t-field="o.partner_id.nrc" />
+                </div>
+                <div
+                    t-foreach="o.commercial_partner_id.bank_ids"
+                    t-as="bank"
+                    id="partner_bank"
+                >
+                    <t t-if="bank.l10n_ro_print_report">
+                        <div t-if="bank.bank_name">
+                            <strong>Bank:</strong>
+                            <span t-field="bank.bank_name" />
+                        </div>
+                        <div t-if="bank.acc_number">
+                            <strong>Account:</strong>
+                            <span t-field="bank.acc_number" />
+                            -
+                            <strong t-if="bank.currency_id">
+                                <span t-field="bank.currency_id" />
+                            </strong>
+                        </div>
+                    </t>
+                </div>
+            </t>
+        </xpath>
+        <xpath
+            expr="//div[@name='address_same_as_shipping']//div[@t-if='o.partner_id.vat']"
+            position="after"
+        >
+            <t t-if="o.is_l10n_ro_record">
+                <div t-if="o.partner_id.nrc" class="mt16">
+                    NRC:
+                    <span t-field="o.partner_id.nrc" />
+                </div>
+                <div
+                    t-foreach="o.commercial_partner_id.bank_ids"
+                    t-as="bank"
+                    id="partner_bank"
+                >
+                    <t t-if="bank.l10n_ro_print_report">
+                        <div t-if="bank.bank_name">
+                            <strong>Bank:</strong>
+                            <span t-field="bank.bank_name" />
+                        </div>
+                        <div t-if="bank.acc_number">
+                            <strong>Account:</strong>
+                            <span t-field="bank.acc_number" />
+                            -
+                            <strong t-if="bank.currency_id">
+                                <span t-field="bank.currency_id" />
+                            </strong>
+                        </div>
+                    </t>
+                </div>
+            </t>
+        </xpath>
+        <xpath
+            expr="//div[@name='no_shipping']//div[@t-if='o.partner_id.vat']"
+            position="after"
+        >
+            <t t-if="o.is_l10n_ro_record">
+                <div t-if="o.partner_id.nrc" class="mt16">
+                    NRC:
+                    <span t-field="o.partner_id.nrc" />
+                </div>
+                <div
+                    t-foreach="o.commercial_partner_id.bank_ids"
+                    t-as="bank"
+                    id="partner_bank"
+                >
+                    <t t-if="bank.l10n_ro_print_report">
+                        <div t-if="bank.bank_name">
+                            <strong>Bank:</strong>
+                            <span t-field="bank.bank_name" />
+                        </div>
+                        <div t-if="bank.acc_number">
+                            <strong>Account:</strong>
+                            <span t-field="bank.acc_number" />
+                            -
+                            <strong t-if="bank.currency_id">
+                                <span t-field="bank.currency_id" />
+                            </strong>
+                        </div>
+                    </t>
+                </div>
+            </t>
+        </xpath>
+
+        <table name="invoice_line_table" position="before">
+            <t t-if="o.is_l10n_ro_record">
+                <div
+                    t-if="o.currency_id != o.company_currency_id and o.l10n_ro_currency_rate"
+                    class="mt16 float-right"
+                >
+                    Currency rate: 1
+                    <span t-esc="o.currency_id.symbol" />
+                    =
+                    <span t-esc="round(o.l10n_ro_currency_rate, 4)" />
+                    <span t-esc="o.company_id.currency_id.symbol" />
+                </div>
+            </t>
+        </table>
+
+        <!-- fix floating of totals section -->
+        <div id="right-elements" position="before">
+            <div id="right-elements-wrapper" class="clearfix" />
+        </div>
+
+        <div id="right-elements-wrapper" position="inside">
+            <div id="right-elements" position="move" />
+        </div>
+
+        <xpath expr="//p[@name='note']" position="after">
+            <t t-if="o.is_l10n_ro_record">
+                <p t-if="o.company_id.l10n_ro_no_signature_text" id="sign_info">
+                    <span t-field="o.company_id.l10n_ro_no_signature_text" />
+                </p>
+            </t>
+        </xpath>
+    </template>
+    <template
+        id="l10n_ro_report_invoice_document_tax_totals"
+        inherit_id="account.document_tax_totals"
+    >
+        <xpath expr="//tr[hasclass('o_subtotal')]/td[1]" position="after">
+            <t t-set="o" t-value="o or sale_order or doc" />
+            <t t-if="o._name == 'account.move' and o.is_l10n_ro_record">
+                <td
+                    class="text-right"
+                    t-if="o and o.currency_id != o.company_id.currency_id"
+                >
+                    <span
+                        t-field="o.amount_untaxed_signed"
+                        t-options='{"widget": "monetary", "display_currency": o.company_currency_id}'
+                    />
+                </td>
+            </t>
+        </xpath>
+        <xpath expr="//tr[hasclass('o_total')]/td[1]" position="after">
+            <t t-set="o" t-value="o or sale_order or doc" />
+            <t t-if="o._name == 'account.move' and o.is_l10n_ro_record">
+                <td
+                    class="text-right"
+                    t-if="o and o.currency_id != o.company_id.currency_id"
+                >
+                    <span
+                        t-field="o.amount_total_signed"
+                        t-options='{"widget": "monetary", "display_currency": o.company_currency_id}'
+                    />
+                </td>
+            </t>
+        </xpath>
+    </template>
+    <template
+        id="l10n_ro_report_invoice_tax_groups_totals"
+        inherit_id="account.tax_groups_totals"
+    >
+        <xpath expr="//t/tr/t/td[1]" position="after">
+            <t t-if="o._name == 'account.move' and o.is_l10n_ro_record">
+                <td
+                    class="text-right"
+                    t-if="o and o.currency_id != o.company_id.currency_id"
+                >
+                    <span
+                        t-field="o.amount_tax_signed"
+                        t-options='{"widget": "monetary", "display_currency": o.company_currency_id}'
+                    />
+                </td>
+            </t>
+        </xpath>
+        <xpath expr="//t/tr/t[@t-else='']/td[1]" position="after">
+            <t t-if="o._name == 'account.move' and o.is_l10n_ro_record">
+                <td
+                    class="text-right"
+                    t-if="o and o.currency_id != o.company_id.currency_id"
+                >
+                    <t
+                        t-if="tax_totals['groups_by_subtotal'][subtotal_to_show] and amount_by_group == tax_totals['groups_by_subtotal'][subtotal_to_show][0]"
+                    >
+                        <span
+                            t-field="o.amount_tax_signed"
+                            t-options='{"widget": "monetary", "display_currency": o.company_currency_id}'
+                        />
+                    </t>
+                    <t t-else="" />
+                </td>
+            </t>
+        </xpath>
+    </template>
+</odoo>
