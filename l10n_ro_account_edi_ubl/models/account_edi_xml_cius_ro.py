@@ -116,7 +116,6 @@ class AccountEdiXmlCIUSRO(models.Model):
         return res
 
     def _get_invoice_line_vals(self, line, taxes_vals):
-        import ipdb; ipdb.set_trace()
         res = super()._get_invoice_line_vals(line, taxes_vals)
         if (
             line.move_id.move_type == "out_refund"
