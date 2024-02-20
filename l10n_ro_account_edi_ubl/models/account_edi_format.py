@@ -148,6 +148,7 @@ class AccountEdiXmlCIUSRO(models.Model):
                             "blocking_level": "info",
                         }
                 else:
+                    res[invoice]["success"] = False
                     continue
             else:
                 res[invoice] = self._l10n_ro_post_invoice_step_2(invoice, attachment)
@@ -170,7 +171,7 @@ class AccountEdiXmlCIUSRO(models.Model):
                 and not invoice.l10n_ro_edi_transaction
                 and not res.get("transaction")
             ):
-                res["success"] = False
+                res[invoice]["success"] = False
         return res
 
     def _cancel_invoice_edi(self, invoices):
