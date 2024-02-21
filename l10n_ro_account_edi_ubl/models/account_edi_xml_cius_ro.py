@@ -121,15 +121,15 @@ class AccountEdiXmlCIUSRO(models.Model):
             line.move_id.move_type == "out_refund"
             and line.company_id.l10n_ro_credit_note_einvoice
         ):
-            if res.get("invoiced_quantity", 0) > 0:
+            if res.get("invoiced_quantity", 0):
                 res["invoiced_quantity"] = (-1) * res["invoiced_quantity"]
-            if res.get("line_extension_amount", 0) > 0:
+            if res.get("line_extension_amount", 0):
                 res["line_extension_amount"] = (-1) * res["line_extension_amount"]
             if res.get("tax_total_vals"):
                 for tax in res["tax_total_vals"]:
-                    if tax["tax_amount"] > 0:
+                    if tax["tax_amount"]:
                         tax["tax_amount"] = (-1) * tax["tax_amount"]
-                    if tax["taxable_amount"] > 0:
+                    if tax["taxable_amount"]:
                         tax["taxable_amount"] = (-1) * tax["taxable_amount"]
         return res
 
