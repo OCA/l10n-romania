@@ -212,7 +212,6 @@ class TestAccountEdiUbl(AccountEdiTestCommon, CronMixinCase):
 
         current_etree = self.get_xml_tree_from_string(xml_content)
         expected_etree = self.get_xml_tree_from_string(self.get_file("invoice.xml"))
-
         self.assertXmlTreeEqual(current_etree, expected_etree)
 
     def test_account_credit_note_edi_ubl(self):
