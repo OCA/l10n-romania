@@ -227,9 +227,12 @@ class AccountANAFSync(models.Model):
             status_code = response.status_code
             if response.status_code == 400:
                 content = response.json()
-            if response.headers.get("Content-Type", "") == "application/xml":
+            content_type = ""
+            if response.headers:
+                content_type = response.headers.get("Content-Type", "")
+            if content_type == "application/xml":
                 _logger.info("ANAF API response: %s" % response.text)
-            if "text/plain" in response.headers.get("Content-Type", ""):
+            if "text/plain" in content_type:
                 try:
                     content = response.json()
                     if content.get("eroare"):
