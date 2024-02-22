@@ -46,3 +46,8 @@ class ResConfigSettings(models.TransientModel):
         readonly=False,
         string="Store E-Invoice signed by Anaf.",
     )
+    l10n_ro_credit_note_einvoice = fields.Boolean(
+        related="company_id.l10n_ro_credit_note_einvoice",
+        readonly=False,
+        string="Credit Note on e-invoice.",
+    )
