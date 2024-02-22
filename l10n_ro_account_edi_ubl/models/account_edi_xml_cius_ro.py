@@ -6,7 +6,7 @@ from base64 import b64decode, b64encode
 
 import requests
 
-from odoo import _, models
+from odoo import _, api, models
 
 SECTOR_RO_CODES = ("SECTOR1", "SECTOR2", "SECTOR3", "SECTOR4", "SECTOR5", "SECTOR6")
 
@@ -88,6 +88,27 @@ class AccountEdiXmlCIUSRO(models.Model):
                 ],
             }
         ]
+
+    def _get_delivery_vals_list(self, invoice):
+        res = super()._get_delivery_vals_list(invoice)
+
+        shipping_address = False
+        if "partner_shipping_id" in invoice._fields and invoice.partner_shipping_id:
+            shipping_address = invoice.partner_shipping_id
+            if shipping_address == invoice.partner_id:
+                shipping_address = False
+        if shipping_address:
+            res = [
+                {
+                    "actual_delivery_date": invoice.invoice_date,
+                    "delivery_location_vals": {
+                        "delivery_address_vals": self._get_partner_address_vals(
+                            shipping_address
+                        ),
+                    },
+                }
+            ]
+        return res
 
     def _get_invoice_line_item_vals(self, line, taxes_vals):
         vals = super()._get_invoice_line_item_vals(line, taxes_vals)
@@ -230,28 +251,87 @@ class AccountEdiXmlCIUSRO(models.Model):
             journal, tax_nodes, invoice_line_form, inv_line_vals, logs
         )
 
+    @api.model
+    def _retrieve_partner_with_vat(self, vat, extra_domain):
+        company_domain = [("is_company", "=", True)]
+        extra_domain = extra_domain + company_domain if extra_domain else company_domain
+        return super()._retrieve_partner_with_vat(vat, extra_domain)
+
+    @api.model
+    def _retrieve_partner_with_phone_mail(self, phone, mail, extra_domain):
+        company_domain = [("is_company", "=", True)]
+        extra_domain = extra_domain + company_domain if extra_domain else company_domain
+        return super()._retrieve_partner_with_phone_mail(phone, mail, extra_domain)
+
+    @api.model
+    def _retrieve_partner_with_name(self, name, extra_domain):
+        company_domain = [("is_company", "=", True)]
+        extra_domain = extra_domain + company_domain if extra_domain else company_domain
+        return super()._retrieve_partner_with_name(name, extra_domain)
+
+    def _import_retrieve_and_fill_partner(self, invoice, name, phone, mail, vat):
+        """Update method to set the partner as a company, not indiovidual"""
+        res = super()._import_retrieve_and_fill_partner(invoice, name, phone, mail, vat)
+        if not invoice.partner_id.is_company and name and vat:
+            invoice.partner_id.is_company = True
+        return res
+
+    def _import_fill_invoice_form(self, journal, tree, invoice_form, qty_factor):
+        # Overwrite to take partner from RegistrationName
+        if not invoice_form.partner_id:
+            role = "Customer" if invoice_form.journal_id.type == "sale" else "Supplier"
+            vat = self._find_value(
+                f"//cac:Accounting{role}Party/cac:Party//cbc:CompanyID", tree
+            )
+            phone = self._find_value(
+                f"//cac:Accounting{role}Party/cac:Party//cbc:Telephone", tree
+            )
+            mail = self._find_value(
+                f"//cac:Accounting{role}Party/cac:Party//cbc:ElectronicMail", tree
+            )
+            name = self._find_value(
+                f"//cac:Accounting{role}Party/cac:Party//cac:PartyLegalEntity//cbc:RegistrationName",  # noqa: B950
+                tree,
+            )
+            country_code = self._find_value(
+                f"//cac:Accounting{role}Party/cac:Party//cac:Country//cbc:IdentificationCode",
+                tree,
+            )
+            self._import_retrieve_and_fill_partner(
+                invoice_form,
+                name=name,
+                phone=phone,
+                mail=mail,
+                vat=vat,
+                country_code=country_code,
+            )
+        invoice_form, logs = super()._import_fill_invoice_form(
+            journal, tree, invoice_form, qty_factor
+        )
+        return invoice_form, logs
+
     def _import_invoice(self, journal, filename, tree, existing_invoice=None):
         invoice = super(AccountEdiXmlCIUSRO, self)._import_invoice(
             journal, filename, tree, existing_invoice=existing_invoice
         )
-        additional_docs = tree.findall("./{*}AdditionalDocumentReference")
-        if len(additional_docs) == 0:
-            res = self.l10n_ro_renderAnafPdf(invoice)
-            if not res:
-                report = self.env.ref("account.account_invoices_without_payment").sudo()
-                pdf = report._render_qweb_pdf(invoice.id)
-                b64_pdf = b64encode(pdf[0])
-                self.l10n_ro_addPDF_from_att(invoice, b64_pdf)
+        if invoice:
+            additional_docs = tree.findall("./{*}AdditionalDocumentReference")
+            if len(additional_docs) == 0:
+                res = self.l10n_ro_renderAnafPdf(invoice)
+                if not res:
+                    report = self.env.ref(
+                        "account.account_invoices_without_payment"
+                    ).sudo()
+                    pdf = report._render_qweb_pdf(invoice.id)
+                    b64_pdf = b64encode(pdf[0])
+                    self.l10n_ro_addPDF_from_att(invoice, b64_pdf)
         return invoice
 
     def l10n_ro_renderAnafPdf(self, invoice):
-        inv_attachments = self.env["ir.attachment"].search(
-            [
-                ("res_model", "=", "account.move"),
-                ("res_id", "=", invoice.id),
-            ]
+        attachments = self.env["ir.attachment"].search(
+            [("res_model", "=", invoice._name), ("res_id", "in", invoice.ids)]
         )
-        attachment = inv_attachments.filtered(
+        attachment = attachments.filtered(
             lambda x: f"{invoice.l10n_ro_edi_transaction}.xml" in x.name
         )
         if not attachment:
