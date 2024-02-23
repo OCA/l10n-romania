@@ -316,7 +316,7 @@ class AccountEdiXmlCIUSRO(models.Model):
                 vat=vat,
                 country_code=country_code,
             )
-        invoice_form, logs = super()._import_fill_invoice_form(
+        logs = super()._import_fill_invoice_form(
             journal, tree, invoice_form, qty_factor
         )
         return invoice_form, logs
