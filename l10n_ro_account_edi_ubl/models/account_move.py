@@ -201,14 +201,14 @@ class AccountMove(models.Model):
 
     def l10n_ro_process_anaf_zip_file(self, zip_content):
         self.ensure_one()
-        self.l10n_ro_save_file(
+        attachment_zip = self.l10n_ro_save_file(
             "%s.zip" % self.l10n_ro_edi_transaction, zip_content, "application/zip"
         )
         attachment = self.l10n_ro_save_anaf_xml_file(zip_content)
         cius_ro = self.env.ref("l10n_ro_account_edi_ubl.edi_ubl_cius_ro")
         edi_doc = self._get_edi_document(cius_ro)
         if edi_doc:
-            edi_doc.attachment_id = attachment
+            edi_doc.attachment_id = attachment_zip
         else:
             edi_format_cius = self.env["account.edi.format"].search(
                 [("code", "=", "cius_ro")]
@@ -225,10 +225,11 @@ class AccountMove(models.Model):
 
     def l10n_ro_get_xml_file(self, zip_ref):
         file_name = xml_file = False
-        if self.get_l10n_ro_edi_invoice_needed():
-            xml_file = [f for f in zip_ref.namelist() if "semnatura" in f]
-        else:
-            xml_file = [f for f in zip_ref.namelist() if "semnatura" not in f]
+        # if self.get_l10n_ro_edi_invoice_needed():
+        #     xml_file = [f for f in zip_ref.namelist() if "semnatura" in f]
+        # else:
+        #     xml_file = [f for f in zip_ref.namelist() if "semnatura" not in f]
+        xml_file = [f for f in zip_ref.namelist() if "semnatura" not in f]
         if xml_file:
             file_name = xml_file[0]
             xml_file = zip_ref.read(file_name)
