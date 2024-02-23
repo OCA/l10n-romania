@@ -319,7 +319,7 @@ class AccountEdiXmlCIUSRO(models.Model):
         logs = super()._import_fill_invoice_form(
             journal, tree, invoice_form, qty_factor
         )
-        return invoice_form, logs
+        return logs
 
     def _import_invoice(self, journal, filename, tree, existing_invoice=None):
         invoice = super(AccountEdiXmlCIUSRO, self)._import_invoice(
