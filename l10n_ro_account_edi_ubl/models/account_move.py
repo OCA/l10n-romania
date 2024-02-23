@@ -131,7 +131,8 @@ class AccountMove(models.Model):
             raise UserError("\n".join(errors))
         attachment = cius_ro._export_cius_ro(self)
         doc = self._get_edi_document(cius_ro)
-        doc.write({"attachment_id": attachment.id})
+        if attachment:
+            doc.write({"attachment_id": attachment.id})
 
         action = self.env["ir.attachment"].action_get()
         action.update(
