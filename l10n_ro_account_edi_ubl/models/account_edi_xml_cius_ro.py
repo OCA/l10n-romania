@@ -293,17 +293,12 @@ class AccountEdiXmlCIUSRO(models.Model):
                 f"//cac:Accounting{role}Party/cac:Party//cac:PartyLegalEntity//cbc:RegistrationName",  # noqa: B950
                 tree,
             )
-            country_code = self._find_value(
-                f"//cac:Accounting{role}Party/cac:Party//cac:Country//cbc:IdentificationCode",
-                tree,
-            )
             self._import_retrieve_and_fill_partner(
                 invoice_form,
                 name=name,
                 phone=phone,
                 mail=mail,
                 vat=vat,
-                country_code=country_code,
             )
         invoice_form, logs = super()._import_fill_invoice_form(
             journal, tree, invoice_form, qty_factor
