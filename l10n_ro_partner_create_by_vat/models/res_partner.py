@@ -315,6 +315,10 @@ class ResPartner(models.Model):
                     vat_country = self._l10n_ro_map_vat_country_code(
                         self.country_id.code.upper()
                     )
+                if not vat_country and self.env.user.company_id.country_id:
+                    vat_country = self._l10n_ro_map_vat_country_code(
+                        self.env.user.company_id.country_id.code.upper()
+                    )
                     if not vat_number:
                         vat_number = self.vat
                 if vat_country == "RO":
