@@ -2,12 +2,14 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
 import base64
+import io
 import json
 import logging
 import time
 from unittest.mock import patch
 
 import freezegun
+from PyPDF2 import PdfFileWriter
 
 from odoo import fields
 from odoo.exceptions import UserError
@@ -15,13 +17,12 @@ from odoo.modules.module import get_module_resource
 from odoo.tests import tagged
 
 from odoo.addons.account_edi.tests.common import AccountEdiTestCommon
-from odoo.addons.base.tests.test_ir_cron import CronMixinCase
 
 _logger = logging.getLogger(__name__)
 
 
 @tagged("post_install", "-at_install")
-class TestAccountEdiUbl(AccountEdiTestCommon, CronMixinCase):
+class TestAccountEdiUbl(AccountEdiTestCommon):
     @classmethod
     def setUpClass(cls):
         ro_template_ref = "l10n_ro.ro_chart_template"
@@ -282,6 +283,47 @@ class TestAccountEdiUbl(AccountEdiTestCommon, CronMixinCase):
 
         # procesare step 1 - eroare
         self.invoice.action_process_edi_web_services()
+        self.check_invoice_documents(
+            self.invoice,
+            "to_send",
+            "<p>{\"The field 'State' is required on SCOALA GIMNAZIALA COMUNA FOENI.\"}</p>",
+            "warning",
+        )
+
+    def test_print_pdf_error(self):
+        self.env.company.l10n_ro_edi_cius_embed_pdf = True
+        self.invoice.action_post()
+        self.invoice.partner_id.state_id = False
+
+        # Print the invoice to append AdditionalDocumentReference.
+        pdf_buffer = io.BytesIO()
+        pdf_writer = PdfFileWriter()
+        pdf_writer.addBlankPage(42, 42)
+        pdf_writer.write(pdf_buffer)
+        self.env.ref("account.account_invoices")._postprocess_pdf_report(
+            self.invoice, pdf_buffer
+        )
+        pdf_buffer.close()
+
+        # generare fisier xml - eroare
+        self.check_invoice_documents(
+            self.invoice,
+            "to_send",
+            "<p>{\"The field 'State' is required on SCOALA GIMNAZIALA COMUNA FOENI.\"}</p>",
+            "warning",
+        )
+
+    def test_get_invoice_edi_content_error(self):
+        self.env.company.l10n_ro_edi_cius_embed_pdf = True
+        self.invoice.action_post()
+        self.invoice.partner_id.state_id = False
+
+        # Compute edi document with error, should be b''
+        edi_doc = self.invoice.edi_document_ids
+        edi_doc._compute_edi_content()
+        self.assertEqual(edi_doc.edi_content, b"")
+
+        # generare fisier xml - eroare
         self.check_invoice_documents(
             self.invoice,
             "to_send",
