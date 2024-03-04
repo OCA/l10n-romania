@@ -80,7 +80,13 @@ class TestAccountEdiUbl(AccountEdiTestCommon, CronMixinCase):
             }
         )
         if "street_name" in cls.partner._fields:
-            cls.partner.write({"street_name": "Nr. 383", "street": "Foeni Nr. 383"})
+            cls.partner.write(
+                {
+                    "street_name": "Foeni",
+                    "street_number": "Nr. 383",
+                    "street": "Foeni Nr. 383",
+                }
+            )
 
         cls.partner.l10n_ro_is_government_institution = True
 
@@ -117,6 +123,8 @@ class TestAccountEdiUbl(AccountEdiTestCommon, CronMixinCase):
             "name": "FBRAO2092",
             "partner_id": cls.partner.id,
             "invoice_date": fields.Date.from_string("2022-09-01"),
+            "date": fields.Date.from_string("2022-09-01"),
+            "invoice_date_due": fields.Date.from_string("2022-09-01"),
             "currency_id": cls.currency.id,
             "partner_bank_id": cls.bank.id,
             "invoice_line_ids": [
