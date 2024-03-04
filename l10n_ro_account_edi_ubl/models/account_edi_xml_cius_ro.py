@@ -6,7 +6,7 @@ from base64 import b64decode, b64encode
 
 import requests
 
-from odoo import _, models
+from odoo import _, api, models
 
 SECTOR_RO_CODES = ("SECTOR1", "SECTOR2", "SECTOR3", "SECTOR4", "SECTOR5", "SECTOR6")
 
@@ -197,63 +197,53 @@ class AccountEdiXmlCIUSRO(models.Model):
         for partner_type in ("supplier", "customer"):
             partner = vals[partner_type]
 
-            constraints.update(
-                {
-                    f"ciusro_{partner_type}_city_required": self._check_required_fields(
-                        partner, "city"
-                    ),
-                    f"ciusro_{partner_type}_street_required": self._check_required_fields(
-                        partner, "street"
-                    ),
-                    f"ciusro_{partner_type}_state_id_required": self._check_required_fields(
-                        partner, "state_id"
-                    ),
-                }
-            )
-
-            if not partner.vat:
-                constraints[f"ciusro_{partner_type}_tax_identifier_required"] = _(
-                    "The following partner doesn't have a VAT nor Company ID: %s. "
-                    "At least one of them is required. ",
-                    partner.name,
+            if partner.is_company:
+                constraints.update(
+                    {
+                        f"ciusro_{partner_type}_city_required": self._check_required_fields(
+                            partner, "city"
+                        ),
+                        f"ciusro_{partner_type}_street_required": self._check_required_fields(
+                            partner, "street"
+                        ),
+                        f"ciusro_{partner_type}_state_id_required": self._check_required_fields(
+                            partner, "state_id"
+                        ),
+                    }
                 )
+                if not partner.vat:
+                    constraints[f"ciusro_{partner_type}_tax_identifier_required"] = _(
+                        "The following partner doesn't have a VAT nor Company ID: %s. "
+                        "At least one of them is required. ",
+                        partner.name,
+                    )
 
-            if (
-                partner.l10n_ro_vat_subjected
-                and partner.vat
-                and not partner.vat.startswith(partner.country_code)
-            ):
-                constraints[f"ciusro_{partner_type}_country_code_vat_required"] = _(
-                    "The following partner's doesn't have a "
-                    "country code prefix in their VAT: %s.",
-                    partner.name,
-                )
-
-            # if (
-            #     not partner.vat
-            #     and partner.company_registry
-            #     and not partner.company_registry.startswith(partner.country_code)
-            # ):
-            #     constraints[
-            #         f"ciusro_{partner_type}_country_code_company_registry_required"
-            #     ] = _(
-            #         "The following partner's doesn't have a country "
-            #         "code prefix in their Company ID: %s.",
-            #         partner.name,
-            #     )
-
-            if (
-                partner.country_code == "RO"
-                and partner.state_id
-                and partner.state_id.code == "B"
-                and partner.city.replace(" ", "").upper() not in SECTOR_RO_CODES
-            ):
-                constraints[f"ciusro_{partner_type}_invalid_city_name"] = _(
-                    "The following partner's city name is invalid: %s. "
-                    "If partner's state is București, the city name must be 'SECTORX', "
-                    "where X is a number between 1-6.",
-                    partner.name,
-                )
+                if (
+                    partner.l10n_ro_vat_subjected
+                    and partner.vat
+                    and not partner.vat.startswith(partner.country_id.code)
+                ):
+                    constraints[f"ciusro_{partner_type}_country_code_vat_required"] = _(
+                        "The following partner's doesn't have a "
+                        "country code prefix in their VAT: %s.",
+                        partner.name,
+                    )
+                if (
+                    partner.country_id.code == "RO"
+                    and partner.state_id
+                    and partner.state_id.code == "B"
+                ):
+                    # Use send city to check if it's a valid sector
+                    # because when they come from ANAF, not all are
+                    # formatted as SECTORX
+                    send_city = partner.city.upper().replace(" ", "")
+                    if send_city not in SECTOR_RO_CODES:
+                        constraints[f"ciusro_{partner_type}_invalid_city_name"] = _(
+                            "The following partner's city name is invalid: %s. "
+                            "If partner's state is București, the city name must be 'SECTORX', "
+                            "where X is a number between 1-6.",
+                            partner.name,
+                        )
 
         return constraints
 
@@ -290,8 +280,8 @@ class AccountEdiXmlCIUSRO(models.Model):
                     ],
                     limit=1,
                 )
-                invoice_line.tax_ids = [tax.id]
-
+                if tax:
+                    invoice_line.tax_ids.add(tax)
         return res
 
     def _import_fill_invoice_line_taxes(
@@ -305,35 +295,91 @@ class AccountEdiXmlCIUSRO(models.Model):
             journal, tax_nodes, invoice_line_form, inv_line_vals, logs
         )
 
+    @api.model
+    def _retrieve_partner_with_vat(self, vat, extra_domain):
+        company_domain = [("is_company", "=", True)]
+        extra_domain = extra_domain + company_domain if extra_domain else company_domain
+        return super()._retrieve_partner_with_vat(vat, extra_domain)
+
+    @api.model
+    def _retrieve_partner_with_phone_mail(self, phone, mail, extra_domain):
+        company_domain = [("is_company", "=", True)]
+        extra_domain = extra_domain + company_domain if extra_domain else company_domain
+        return super()._retrieve_partner_with_phone_mail(phone, mail, extra_domain)
+
+    @api.model
+    def _retrieve_partner_with_name(self, name, extra_domain):
+        company_domain = [("is_company", "=", True)]
+        extra_domain = extra_domain + company_domain if extra_domain else company_domain
+        return super()._retrieve_partner_with_name(name, extra_domain)
+
+    def _import_retrieve_and_fill_partner(
+        self, invoice, name, phone, mail, vat, country_code=False
+    ):
+        """Update method to set the partner as a company, not indiovidual"""
+        res = super()._import_retrieve_and_fill_partner(
+            invoice, name, phone, mail, vat, country_code
+        )
+        if not invoice.partner_id.is_company and name and vat:
+            invoice.partner_id.is_company = True
+        return res
+
+    def _import_fill_invoice_form(self, journal, tree, invoice_form, qty_factor):
+        # Overwrite to take partner from RegistrationName
+        if not invoice_form.partner_id:
+            role = "Customer" if invoice_form.journal_id.type == "sale" else "Supplier"
+            vat = self._find_value(
+                f"//cac:Accounting{role}Party/cac:Party//cbc:CompanyID", tree
+            )
+            phone = self._find_value(
+                f"//cac:Accounting{role}Party/cac:Party//cbc:Telephone", tree
+            )
+            mail = self._find_value(
+                f"//cac:Accounting{role}Party/cac:Party//cbc:ElectronicMail", tree
+            )
+            name = self._find_value(
+                f"//cac:Accounting{role}Party/cac:Party//cac:PartyLegalEntity//cbc:RegistrationName",  # noqa: B950
+                tree,
+            )
+            country_code = self._find_value(
+                f"//cac:Accounting{role}Party/cac:Party//cac:Country//cbc:IdentificationCode",
+                tree,
+            )
+            self._import_retrieve_and_fill_partner(
+                invoice_form,
+                name=name,
+                phone=phone,
+                mail=mail,
+                vat=vat,
+                country_code=country_code,
+            )
+        logs = super()._import_fill_invoice_form(
+            journal, tree, invoice_form, qty_factor
+        )
+        return logs
+
     def _import_invoice(self, journal, filename, tree, existing_invoice=None):
         invoice = super(AccountEdiXmlCIUSRO, self)._import_invoice(
             journal, filename, tree, existing_invoice=existing_invoice
         )
-        if invoice.partner_id:
-            invoice._onchange_partner_id()
-        additional_docs = tree.findall("./{*}AdditionalDocumentReference")
-        if len(additional_docs) == 0:
-            res = self.l10n_ro_renderAnafPdf(invoice)
-            if not res:
-                pdf = (
-                    self.env["ir.actions.report"]
-                    .sudo()
-                    ._render_qweb_pdf(
-                        "account.account_invoices_without_payment", [invoice.id]
+        if invoice:
+            additional_docs = tree.findall("./{*}AdditionalDocumentReference")
+            if len(additional_docs) == 0:
+                res = self.l10n_ro_renderAnafPdf(invoice)
+                if not res:
+                    report_obj = self.env["ir.actions.report"].sudo()
+                    pdf = report_obj._render_qweb_pdf(
+                        "account.account_invoices_without_payment", invoice.ids
                     )
-                )
-                b64_pdf = b64encode(pdf[0])
-                self.l10n_ro_addPDF_from_att(invoice, b64_pdf)
+                    b64_pdf = b64encode(pdf[0])
+                    self.l10n_ro_addPDF_from_att(invoice, b64_pdf)
         return invoice
 
     def l10n_ro_renderAnafPdf(self, invoice):
-        inv_attachments = self.env["ir.attachment"].search(
-            [
-                ("res_model", "=", "account.move"),
-                ("res_id", "=", invoice.id),
-            ]
+        attachments = self.env["ir.attachment"].search(
+            [("res_model", "=", invoice._name), ("res_id", "in", invoice.ids)]
         )
-        attachment = inv_attachments.filtered(
+        attachment = attachments.filtered(
             lambda x: f"{invoice.l10n_ro_edi_transaction}.xml" in x.name
         )
         if not attachment:

@@ -13,7 +13,7 @@
         <field name="binding_view_types">list</field>
         <field name="state">code</field>
         <field name="code">
-            records.send_to_anaf_e_invoice()
+            records.with_context(l10n_ro_edi_manual_action=True).button_process_edi_web_services()
         </field>
     </record>
 

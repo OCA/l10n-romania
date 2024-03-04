@@ -66,7 +66,7 @@ class ResCompany(models.Model):
         start = kwargs.get("start", None)
         end = kwargs.get("end", None)
         pagina = kwargs.get("pagina", 1)
-        filters = kwargs.get("filters", {})
+        filtru = kwargs.get("filtru", {})
         messages = kwargs.get("messages", [])
 
         company_messages = []
@@ -95,8 +95,8 @@ class ResCompany(models.Model):
             "pagina": pagina,
             "startTime": start_time,
             "endTime": end_time,
+            "filtru": filtru,
         }
-
         content, status_code = anaf_config._l10n_ro_einvoice_call(
             "/listaMesajePaginatieFactura", params, method="GET"
         )
@@ -104,13 +104,7 @@ class ResCompany(models.Model):
             doc = json.loads(content.decode("utf-8"))
             company_messages = list(
                 filter(
-                    lambda m: m.get("cif") == self.partner_id.l10n_ro_vat_number
-                    and all(
-                        [
-                            m.get(key) == valued_filtered
-                            for key, valued_filtered in filters.items()
-                        ]
-                    ),
+                    lambda m: m.get("cif") == self.partner_id.l10n_ro_vat_number,
                     doc.get("mesaje") or [],
                 )
             )
@@ -123,7 +117,7 @@ class ResCompany(models.Model):
                 start=start,
                 end=end,
                 pagina=pagina + 1,
-                filters=filters,
+                filtru=filtru,
                 messages=messages,
             )
         return messages
@@ -139,9 +133,7 @@ class ResCompany(models.Model):
 
         for company in ro_companies:
             move_obj = self.env["account.move"].with_company(company)
-            company_messages = company._l10n_ro_get_anaf_efactura_messages(
-                filters={"tip": "FACTURA PRIMITA"}
-            )
+            company_messages = company._l10n_ro_get_anaf_efactura_messages(filtru="P")
             for message in company_messages:
                 if company.l10n_ro_download_einvoices_start_date:
                     if message.get("data_creare"):
