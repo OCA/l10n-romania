@@ -131,7 +131,8 @@ class AccountMove(models.Model):
             raise UserError("\n".join(errors))
         attachment = cius_ro._export_cius_ro(self)
         doc = self._get_edi_document(cius_ro)
-        doc.write({"attachment_id": attachment.id})
+        if attachment:
+            doc.write({"attachment_id": attachment.id})
 
         action = self.env["ir.attachment"].action_get()
         action.update(
@@ -244,6 +245,10 @@ class AccountMove(models.Model):
         file_name, xml_file = self.l10n_ro_get_xml_file(zip_ref)
         if not xml_file:
             return self.env["ir.attachment"]
+        xml_file = xml_file.replace(
+            b'xmlns:schemaLocation="urn:oasis:names:specification:ubl:schema:xsd:Invoice-2 http://docs.oasis-open.org/ubl/os-UBL-2.1/xsd/maindoc/UBL-Invoice-2.1.xsd"',  # noqa: B950
+            b'xsi:schemaLocation="urn:oasis:names:specification:ubl:schema:xsd:Invoice-2 ../../UBL-2.1(1)/xsd/maindoc/UBL-Invoice-2.1.xsd"',  # noqa: B950
+        )
         attachment = self.l10n_ro_save_file(file_name, xml_file)
 
         return attachment
