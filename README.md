@@ -21,9 +21,9 @@ Available addons
 ----------------
 addon | version | maintainers | summary
 --- | --- | --- | ---
-[currency_rate_update_RO_BNR](currency_rate_update_RO_BNR/) | 16.0.1.4.0 | [![feketemihai](https://github.com/feketemihai.png?size=30px)](https://github.com/feketemihai) | Currency Rate Update National Bank of Romania service
+[currency_rate_update_RO_BNR](currency_rate_update_RO_BNR/) | 16.0.1.3.0 | [![feketemihai](https://github.com/feketemihai.png?size=30px)](https://github.com/feketemihai) | Currency Rate Update National Bank of Romania service
 [l10n_ro_account](l10n_ro_account/) | 16.0.1.3.0 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Romania - Account
-[l10n_ro_account_anaf_sync](l10n_ro_account_anaf_sync/) | 16.0.1.11.0 | [![feketemihai](https://github.com/feketemihai.png?size=30px)](https://github.com/feketemihai) | Romania - Account ANAF Sync
+[l10n_ro_account_anaf_sync](l10n_ro_account_anaf_sync/) | 16.0.1.10.0 | [![feketemihai](https://github.com/feketemihai.png?size=30px)](https://github.com/feketemihai) | Romania - Account ANAF Sync
 [l10n_ro_account_bank_statement_import_mt940_alpha](l10n_ro_account_bank_statement_import_mt940_alpha/) | 16.0.1.1.0 | [![feketemihai](https://github.com/feketemihai.png?size=30px)](https://github.com/feketemihai) | MT940 Alpha Format Bank Statements Import
 [l10n_ro_account_bank_statement_import_mt940_base](l10n_ro_account_bank_statement_import_mt940_base/) | 16.0.1.2.0 | [![feketemihai](https://github.com/feketemihai.png?size=30px)](https://github.com/feketemihai) [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Romania - MT940 Bank Statements Import
 [l10n_ro_account_bank_statement_import_mt940_bcr](l10n_ro_account_bank_statement_import_mt940_bcr/) | 16.0.1.2.0 | [![feketemihai](https://github.com/feketemihai.png?size=30px)](https://github.com/feketemihai) [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | MT940 BCR Format Bank Statements Import
@@ -31,12 +31,12 @@ addon | version | maintainers | summary
 [l10n_ro_account_bank_statement_import_mt940_ing](l10n_ro_account_bank_statement_import_mt940_ing/) | 16.0.1.3.0 | [![feketemihai](https://github.com/feketemihai.png?size=30px)](https://github.com/feketemihai) [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | MT940 ING Format Bank Statements Import
 [l10n_ro_account_bank_statement_import_mt940_rffsn](l10n_ro_account_bank_statement_import_mt940_rffsn/) | 16.0.1.1.0 | [![feketemihai](https://github.com/feketemihai.png?size=30px)](https://github.com/feketemihai) [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Romania - Import bank statements from Raiffeisen
 [l10n_ro_account_bank_statement_report](l10n_ro_account_bank_statement_report/) | 16.0.1.2.0 | [![feketemihai](https://github.com/feketemihai.png?size=30px)](https://github.com/feketemihai) | Romania - Bank Statement Report
-[l10n_ro_account_edi_ubl](l10n_ro_account_edi_ubl/) | 16.0.1.41.0 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) [![feketemihai](https://github.com/feketemihai.png?size=30px)](https://github.com/feketemihai) | Romania - eFactura - Account EDI UBL
+[l10n_ro_account_edi_ubl](l10n_ro_account_edi_ubl/) | 16.0.1.34.0 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) [![feketemihai](https://github.com/feketemihai.png?size=30px)](https://github.com/feketemihai) | Romania - eFactura - Account EDI UBL
 [l10n_ro_account_edit_currency_rate](l10n_ro_account_edit_currency_rate/) | 16.0.1.1.0 | [![mcojocaru](https://github.com/mcojocaru.png?size=30px)](https://github.com/mcojocaru) | Romania - Invoice Edit Currency Rate
 [l10n_ro_account_period_close](l10n_ro_account_period_close/) | 16.0.3.5.0 | [![feketemihai](https://github.com/feketemihai.png?size=30px)](https://github.com/feketemihai) | Romania - Account Period Closing
 [l10n_ro_account_report_invoice](l10n_ro_account_report_invoice/) | 16.0.1.2.0 | [![feketemihai](https://github.com/feketemihai.png?size=30px)](https://github.com/feketemihai) | Romania - Invoice Report
 [l10n_ro_city](l10n_ro_city/) | 16.0.3.4.0 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Romania - City
-[l10n_ro_config](l10n_ro_config/) | 16.0.1.8.0 | [![feketemihai](https://github.com/feketemihai.png?size=30px)](https://github.com/feketemihai) | Romania - Localization Install and Config Applications
+[l10n_ro_config](l10n_ro_config/) | 16.0.1.7.0 | [![feketemihai](https://github.com/feketemihai.png?size=30px)](https://github.com/feketemihai) | Romania - Localization Install and Config Applications
 [l10n_ro_dvi](l10n_ro_dvi/) | 16.0.1.6.0 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) [![feketemihai](https://github.com/feketemihai.png?size=30px)](https://github.com/feketemihai) | Romania - DVI
 [l10n_ro_fiscal_validation](l10n_ro_fiscal_validation/) | 16.0.1.4.0 | [![feketemihai](https://github.com/feketemihai.png?size=30px)](https://github.com/feketemihai) | Romania - Fiscal Validation
 [l10n_ro_partner_create_by_vat](l10n_ro_partner_create_by_vat/) | 16.0.1.4.0 | [![feketemihai](https://github.com/feketemihai.png?size=30px)](https://github.com/feketemihai) | Romania - Partner Create by VAT
@@ -52,7 +52,7 @@ addon | version | maintainers | summary
 [l10n_ro_stock_account_reception_in_progress](l10n_ro_stock_account_reception_in_progress/) | 16.0.0.1.0 | [![nct74](https://github.com/nct74.png?size=30px)](https://github.com/nct74) [![vasi26ro](https://github.com/vasi26ro.png?size=30px)](https://github.com/vasi26ro) | Romania - Stock Accounting Reception In progress
 [l10n_ro_stock_price_difference](l10n_ro_stock_price_difference/) | 16.0.5.6.0 | [![feketemihai](https://github.com/feketemihai.png?size=30px)](https://github.com/feketemihai) [![mcojocaru](https://github.com/mcojocaru.png?size=30px)](https://github.com/mcojocaru) [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Romania - Stock Accounting Price Difference
 [l10n_ro_stock_report](l10n_ro_stock_report/) | 16.0.6.13.0 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) [![feketemihai](https://github.com/feketemihai.png?size=30px)](https://github.com/feketemihai) | Romania - Stock Report (Fisa Magazie)
-[l10n_ro_vat_on_payment](l10n_ro_vat_on_payment/) | 16.0.1.7.0 | [![feketemihai](https://github.com/feketemihai.png?size=30px)](https://github.com/feketemihai) | Romania - VAT on Payment
+[l10n_ro_vat_on_payment](l10n_ro_vat_on_payment/) | 16.0.1.6.0 | [![feketemihai](https://github.com/feketemihai.png?size=30px)](https://github.com/feketemihai) | Romania - VAT on Payment
 
 [//]: # (end addons)
 
