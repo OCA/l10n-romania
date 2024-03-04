@@ -39,6 +39,9 @@ class ResCompany(models.Model):
     l10n_ro_store_einvoices = fields.Boolean(
         string="Store E-Invoice signed by Anaf.", default=False
     )
+    l10n_ro_credit_note_einvoice = fields.Boolean(
+        string="Credit Note on e-invoice", default=False
+    )
 
     @api.constrains("l10n_ro_edi_residence", "l10n_ro_download_einvoices_days")
     def _check_l10n_ro_edi_residence(self):
