@@ -16,6 +16,7 @@ msgstr ""
 
 #. module: l10n_ro_account_edi_ubl
 #: code:addons/l10n_ro_account_edi_ubl/models/account_edi_format.py:0
+#: code:addons/l10n_ro_account_edi_ubl/models/account_move.py:0
 #, python-format
 msgid ""
 "\n"
@@ -444,6 +445,7 @@ msgstr ""
 
 #. module: l10n_ro_account_edi_ubl
 #: code:addons/l10n_ro_account_edi_ubl/models/account_edi_format.py:0
+#: code:addons/l10n_ro_account_edi_ubl/models/account_move.py:0
 #, python-format
 msgid "There are some errors when generating the XMl file."
 msgstr ""
