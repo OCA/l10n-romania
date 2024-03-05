@@ -310,6 +310,42 @@ class TestAccountEdiUbl(AccountEdiTestCommon, CronMixinCase):
             "warning",
         )
 
+    def test_print_pdf_error(self):
+        self.env.company.l10n_ro_edi_cius_embed_pdf = True
+        self.invoice.action_post()
+        self.invoice.partner_id.state_id = False
+
+        # Print the invoice to append AdditionalDocumentReference.
+        self.env["ir.actions.report"]._render_qweb_pdf(
+            "account.account_invoices_without_payment", [self.invoice.id]
+        )
+        # generare fisier xml - eroare
+        self.invoice.action_process_edi_web_services()
+        self.check_invoice_documents(
+            self.invoice,
+            "to_send",
+            "<p>{\"The field 'State' is required on SCOALA GIMNAZIALA COMUNA FOENI.\"}</p>",
+            "warning",
+        )
+
+    def test_get_invoice_edi_content_error(self):
+        self.env.company.l10n_ro_edi_cius_embed_pdf = True
+        self.invoice.action_post()
+        self.invoice.partner_id.state_id = False
+
+        # Compute edi document with error, should be b''
+        edi_doc = self.invoice.edi_document_ids
+        edi_doc._compute_edi_content()
+        self.assertEqual(edi_doc.edi_content, b"")
+
+        # generare fisier xml - eroare
+        self.check_invoice_documents(
+            self.invoice,
+            "to_send",
+            "<p>{\"The field 'State' is required on SCOALA GIMNAZIALA COMUNA FOENI.\"}</p>",
+            "warning",
+        )
+
     def test_process_documents_web_services_step2_ok(self):
         self.prepare_invoice_sent_step1()
 
