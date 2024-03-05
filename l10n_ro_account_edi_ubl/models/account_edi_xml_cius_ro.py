@@ -74,6 +74,7 @@ class AccountEdiXmlCIUSRO(models.Model):
             and invoice.company_id.l10n_ro_credit_note_einvoice
         ):
             balance_sign = -balance_sign
+
         return [
             {
                 "currency": invoice.currency_id,
@@ -117,6 +118,12 @@ class AccountEdiXmlCIUSRO(models.Model):
 
     def _get_invoice_line_vals(self, line, taxes_vals):
         res = super()._get_invoice_line_vals(line, taxes_vals)
+        if line.discount != 0:
+            discount_amount = line.price_unit * line.quantity * line.discount / 100
+            if res.get("line_extension_amount", 0):
+                res["line_extension_amount"] = (
+                    discount_amount + res["line_extension_amount"]
+                )
         if (
             line.move_id.move_type == "out_refund"
             and line.company_id.l10n_ro_credit_note_einvoice
@@ -166,6 +173,7 @@ class AccountEdiXmlCIUSRO(models.Model):
         for val in vals_list["vals"]["invoice_line_vals"]:
             val["id"] = index
             index += 1
+
         if (
             invoice.move_type == "out_refund"
             and invoice.company_id.l10n_ro_credit_note_einvoice
@@ -187,7 +195,6 @@ class AccountEdiXmlCIUSRO(models.Model):
                 vals_list["vals"]["legal_monetary_total_vals"]["payable_amount"] = (
                     -1
                 ) * vals_list["vals"]["legal_monetary_total_vals"]["payable_amount"]
-
         return vals_list
 
     def _export_invoice_constraints(self, invoice, vals):
@@ -427,3 +434,66 @@ class AccountEdiXmlCIUSRO(models.Model):
                 attachment_ids=attachments.ids
             )
         return True
+
+    def _get_document_allowance_charge_vals_list(self, invoice):
+        discount_amount = 0
+        for line in invoice.invoice_line_ids:
+            if line.discount != 0:
+                discount_amount += line.price_unit * line.quantity * line.discount / 100
+        if invoice.move_type != "out_invoice" or discount_amount == 0:
+            return []
+
+        def grouping_key_generator(tax_values):
+            tax = tax_values["tax_id"]
+            tax_category_vals = self._get_tax_category_list(invoice, tax)[0]
+            grouping_key = {
+                "tax_category_id": tax_category_vals["id"],
+                "tax_category_percent": tax_category_vals["percent"],
+                "_tax_category_vals_": tax_category_vals,
+                "tax_amount_type": tax.amount_type,
+            }
+            if tax.amount_type == "fixed":
+                grouping_key["tax_name"] = tax.name
+            return grouping_key
+
+        balance_sign = (
+            -1
+            if invoice.company_id.l10n_ro_credit_note_einvoice
+            and invoice.move_type == "out_refund"
+            else 1
+        )
+        taxes_vals = invoice._prepare_edi_tax_details(
+            grouping_key_generator=grouping_key_generator,
+            filter_to_apply=self._apply_invoice_tax_filter,
+            filter_invl_to_apply=self._apply_invoice_line_filter,
+        )
+        fixed_taxes_keys = [
+            k for k in taxes_vals["tax_details"] if k["tax_amount_type"] == "fixed"
+        ]
+        for key in fixed_taxes_keys:
+            fixed_tax_details = taxes_vals["tax_details"].pop(key)
+            taxes_vals["tax_amount_currency"] -= fixed_tax_details[
+                "tax_amount_currency"
+            ]
+            taxes_vals["tax_amount"] -= fixed_tax_details["tax_amount"]
+            taxes_vals["base_amount_currency"] += fixed_tax_details[
+                "tax_amount_currency"
+            ]
+            taxes_vals["base_amount"] += fixed_tax_details["tax_amount"]
+        tax_vals = self._get_invoice_tax_totals_vals_list(invoice, taxes_vals)
+        tax_category_vals = []
+        tax_category_vals.append(
+            tax_vals[0]["tax_subtotal_vals"][0]["tax_category_vals"]
+        )
+        vals = [
+            {
+                "currency_name": invoice.currency_id.name,
+                "currency_dp": invoice.currency_id.decimal_places,
+                "charge_indicator": "false",
+                "allowance_charge_reason_code": 95,
+                "allowance_charge_reason": "Scont",
+                "amount": balance_sign * round(discount_amount, 2),
+                "tax_category_vals": tax_category_vals,
+            }
+        ]
+        return vals
