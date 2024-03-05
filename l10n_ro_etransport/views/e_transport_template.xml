@@ -9,16 +9,16 @@
             t-att-codDeclarant="company.vat.upper().replace('RO', '')"
             t-att-refDeclarant="doc.name"
         >
-            <notificare codTipOperatiune="30">
+            <notificare t-att-codTipOperatiune="doc.l10n_ro_e_transport_tip_operatie">
                 <t t-foreach="doc.move_lines" t-as="move">
                     <t t-foreach="move.move_line_ids" t-as="move_line">
-
                         <bunuriTransportate
+                            t-att-codTarifar="get_instastat_code(move.product_id)"
                             t-att-denumireMarfa="move.product_id.name"
                             t-att-cantitate="move_line.qty_done or move_line.product_uom_qty"
                             t-att-codUnitateMasura="move.product_uom.name[:3].upper()"
                             t-att-greutateBruta="move.product_id.weight or 1"
-                            t-att-codScopOperatiune="101"
+                            t-att-codScopOperatiune="doc.l10n_ro_e_transport_scop or '101'"
                         />
                     </t>
                 </t>
@@ -28,10 +28,11 @@
                     t-att-cod="doc.partner_id.commercial_partner_id.vat"
                     t-att-denumire="doc.partner_id.commercial_partner_id.name"
                 />
+                <t t-set="carrier" t-value="doc.carrier_id.l10n_ro_e_partner_id" />
                 <dateTransport
                     t-att-nrVehicul="doc.l10n_ro_vehicle and doc.l10n_ro_vehicle.upper().replace('-', '')"
-                    codTaraOrgTransport="RO"
-                    t-att-denumireOrgTransport="doc.carrier_id.name or doc.partner_id.name"
+                    t-att-codTaraOrgTransport="get_country_code(carrier.country_id.code)"
+                    t-att-denumireOrgTransport="carrier.name"
                     t-att-dataTransport="doc.date.date()"
                 />
                 <locStartTraseuRutier>

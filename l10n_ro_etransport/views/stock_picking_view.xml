@@ -14,11 +14,29 @@
                 />
                 </xpath>
 
-                <xpath expr="//field[@name='carrier_id']" position="after">
-                    <field name="l10n_ro_vehicle" />
-                    <field name="l10n_ro_e_transport_uit" />
-                </xpath>
 
+                <xpath expr="//page[@name='note']" position="before">
+                    <page string="E-Transport">
+                        <group>
+                            <group>
+                                <field name="carrier_id" />
+                                <field name="l10n_ro_vehicle" />
+                                <field name="l10n_ro_e_transport_vama" string="Vama" />
+                                <field
+                                name="l10n_ro_e_transport_tip_operatie"
+                                string="Tip Operatie"
+                            />
+                            </group>
+                            <group string="Status">
+                                <field name="l10n_ro_e_transport_uit" />
+                                <field
+                                name="l10n_ro_e_transport_status"
+                                string="Status"
+                            />
+                            </group>
+                        </group>
+                    </page>
+                </xpath>
             </field>
         </record>
 

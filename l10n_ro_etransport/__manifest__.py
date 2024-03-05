@@ -9,7 +9,11 @@
         "stock",
         "delivery",
     ],
-    "data": ["views/stock_picking_view.xml", "views/e_transport_template.xml"],
+    "data": [
+        "views/stock_picking_view.xml",
+        "views/e_transport_template.xml",
+        "views/delivery_view.xml",
+    ],
     "license": "AGPL-3",
     "version": "15.0.0.0.0",
     "author": "Terrabit," "Odoo Community Association (OCA)",

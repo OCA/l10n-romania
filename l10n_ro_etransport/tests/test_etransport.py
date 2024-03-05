@@ -33,6 +33,19 @@ class TestETransport(TransactionCase):
             }
         )
 
+        self.partner_carrier = self.env["res.partner"].create(
+            {
+                "name": "Test Partner Carrier",
+                "country_id": country_ro.id,
+                "state_id": self.env.ref("base.RO_SV").id,
+                "vat": "RO123456789",
+                "street": "Test Street",
+                "city": "Test City",
+                "zip": "123456",
+                "phone": "123456789",
+            }
+        )
+
         self.product = self.env["product.product"].create(
             {
                 "name": "Test Product",
@@ -61,6 +74,7 @@ class TestETransport(TransactionCase):
                 "delivery_type": "fixed",
                 "fixed_price": 10,
                 "product_id": self.product_delivery.id,
+                "l10n_ro_e_partner_id": self.partner_carrier.id,
             }
         )
         self.picking_type = self.env["stock.picking.type"].create(
@@ -95,6 +109,8 @@ class TestETransport(TransactionCase):
                 "picking_type_id": self.picking_type.id,
                 "carrier_id": self.carrier.id,
                 "l10n_ro_vehicle": "BC17DCH",
+                "l10n_ro_e_transport_tip_operatie": "30",
+                "l10n_ro_e_transport_scop": "101",
                 "location_id": self.picking_type.default_location_src_id.id,
                 "location_dest_id": self.picking_type.default_location_dest_id.id,
                 "move_lines": [

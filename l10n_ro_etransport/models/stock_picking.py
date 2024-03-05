@@ -57,15 +57,128 @@ STATE_CODES = {
     "CL": "51",
     "GR": "52",
 }
+TIP_OPERATIE = [
+    ("10", "Achiziţie intracomunitară"),
+    ("12", "Operaţiuni în sistem lohn (UE) - intrare"),
+    ("14", "Stocuri la dispoziţia clientului (Call-off stock) - intrare"),
+    ("20", "Livrare intracomunitară"),
+    ("22", "Operaţiuni în sistem lohn (UE) - ieşire"),
+    ("24", "Stocuri la dispoziţia clientului (Call-off stock) - ieşire"),
+    ("30", "Transport pe teritoriul naţional"),
+    ("40", "Import"),
+    ("50", "Export"),
+    ("60", "Tranzacţie intracomunitară - Intrare pentru depozitare"),
+    ("70", "Tranzacţie intracomunitară - Ieşire după depozitare"),
+]
 
 
 class StockPicking(models.Model):
     _inherit = "stock.picking"
 
     l10n_ro_e_transport_uit = fields.Char(string="UIT", readonly=True)
+    l10n_ro_e_transport_status = fields.Selection(
+        [
+            ("draft", "Draft"),
+            ("sent", "Sent"),
+            ("ok", "Ok"),
+            ("nok", "Not OK"),
+            ("in_processing", "In processing"),
+        ],
+        default="draft",
+        readonly=True,
+    )
+
+    l10n_ro_e_transport_tip_operatie = fields.Selection(
+        TIP_OPERATIE,
+        string="Tip operatie",
+        default="30",
+    )
+
+    l10n_ro_e_transport_scop = fields.Selection(
+        [
+            ("101", "Comercializare"),
+            ("201", "Producție"),
+            ("301", "Gratuități"),
+            ("401", "Echipament comercial"),
+            ("501", "Mijloace fixe"),
+            ("601", "Consum propriu"),
+            ("703", "Operațiuni de livrare cu instalare"),
+            ("704", "Transfer între gestiuni"),
+            ("705", "Bunuri puse la dispoziția clientului"),
+            ("801", "Leasing financiar/operațional"),
+            ("802", "Bunuri în garanție"),
+            ("901", "Operațiuni scutite"),
+            ("1001", "Investiție în curs"),
+            ("1101", "Donații, ajutoare"),
+            ("9901", "Altele"),
+            ("9999", "Același cu operațiunea"),
+        ],
+        default="101",
+        string="Scop",
+    )
+
+    l10n_ro_e_transport_vama = fields.Selection(
+        [
+            ("1", "Petea (HU)"),
+            ("2", "Borș(HU)"),
+            ("3", "Vărșand(HU)"),
+            ("4", "Nădlac(HU)"),
+            ("5", "Calafat (BG)"),
+            ("6", "Bechet(BG)"),
+            ("7", "Turnu Măgurele(BG)"),
+            ("8", "Zimnicea(BG)"),
+            ("9", "Giurgiu(BG)"),
+            ("10", "Ostrov(BG)"),
+            ("11", "Negru Vodă(BG)"),
+            ("12", "Vama Veche(BG)"),
+            ("13", "Călărași(BG)"),
+            ("14", "Corabia(BG)"),
+            ("15", "Oltenița(BG)"),
+            ("16", "Carei  (HU)"),
+            ("17", "Cenad (HU)"),
+            ("18", "Episcopia Bihor (HU)"),
+            ("19", "Salonta (HU)"),
+            ("20", "Săcuieni (HU)"),
+            ("21", "Turnu (HU)"),
+            ("22", "Urziceni (HU)"),
+            ("23", "Valea lui Mihai (HU)"),
+            ("24", "Vladimirescu (HU)"),
+            ("25", "Porțile de Fier 1 (RS)"),
+            ("26", "Naidăș(RS)"),
+            ("27", "Stamora Moravița(RS)"),
+            ("28", "Jimbolia(RS)"),
+            ("29", "Halmeu (UA)"),
+            ("30", "Stânca Costești (MD)"),
+            ("31", "Sculeni(MD)"),
+            ("32", "Albița(MD)"),
+            ("33", "Oancea(MD)"),
+            ("34", "Galați Giurgiulești(MD)"),
+            ("35", "Constanța Sud Agigea"),
+            ("36", "Siret  (UA)"),
+            ("37", "Nădlac 2 - A1 (HU)"),
+            ("38", "Borș 2 - A3 (HU)"),
+        ],
+        string="Punct trece vamala",
+    )
+
     l10n_ro_vehicle = fields.Char(string="Vehicle")
 
     def _export_e_transport(self):
+        def get_country_code(country_code):
+            if country_code == "GR":
+                country_code = "EL"
+            return country_code
+
+        def get_instastat_code(product):
+            intrastat_code = False
+            if "intrastat_id" in product._fields:
+                intrastat_code = product.intrastat_id.code
+            else:
+                _logger.warning(
+                    "Product %s does not have intrastat_id field", product.name
+                )
+            return intrastat_code
+
         self.ensure_one()
         # Create file content.
         xml_declaration = markupsafe.Markup("<?xml version='1.0' encoding='UTF-8'?>\n")
@@ -74,6 +187,8 @@ class StockPicking(models.Model):
             "doc": self,
             "company": self.company_id,
             "STATE_CODES": STATE_CODES,
+            "get_country_code": get_country_code,
+            "get_instastat_code": get_instastat_code,
         }
         xml_content = self.env.ref("l10n_ro_etransport.e_transport")._render(
             render_values
