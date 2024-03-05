@@ -36,12 +36,6 @@ class ResCompany(models.Model):
     l10n_ro_download_einvoices_days = fields.Integer(
         string="Maximum number of days to download e-invoices.", default=10
     )
-    l10n_ro_store_einvoices = fields.Boolean(
-        string="Store E-Invoice signed by Anaf.", default=False
-    )
-    l10n_ro_credit_note_einvoice = fields.Boolean(
-        string="Credit Note on e-invoice", default=False
-    )
 
     @api.constrains("l10n_ro_edi_residence", "l10n_ro_download_einvoices_days")
     def _check_l10n_ro_edi_residence(self):
@@ -66,7 +60,7 @@ class ResCompany(models.Model):
         start = kwargs.get("start", None)
         end = kwargs.get("end", None)
         pagina = kwargs.get("pagina", 1)
-        filtru = kwargs.get("filtru", {})
+        filters = kwargs.get("filters", {})
         messages = kwargs.get("messages", [])
 
         company_messages = []
@@ -95,8 +89,8 @@ class ResCompany(models.Model):
             "pagina": pagina,
             "startTime": start_time,
             "endTime": end_time,
-            "filtru": filtru,
         }
+
         content, status_code = anaf_config._l10n_ro_einvoice_call(
             "/listaMesajePaginatieFactura", params, method="GET"
         )
@@ -104,7 +98,13 @@ class ResCompany(models.Model):
             doc = json.loads(content.decode("utf-8"))
             company_messages = list(
                 filter(
-                    lambda m: m.get("cif") == self.partner_id.l10n_ro_vat_number,
+                    lambda m: m.get("cif") == self.partner_id.l10n_ro_vat_number
+                    and all(
+                        [
+                            m.get(key) == valued_filtered
+                            for key, valued_filtered in filters.items()
+                        ]
+                    ),
                     doc.get("mesaje") or [],
                 )
             )
@@ -117,7 +117,7 @@ class ResCompany(models.Model):
                 start=start,
                 end=end,
                 pagina=pagina + 1,
-                filtru=filtru,
+                filters=filters,
                 messages=messages,
             )
         return messages
@@ -133,7 +133,9 @@ class ResCompany(models.Model):
 
         for company in ro_companies:
             move_obj = self.env["account.move"].with_company(company)
-            company_messages = company._l10n_ro_get_anaf_efactura_messages(filtru="P")
+            company_messages = company._l10n_ro_get_anaf_efactura_messages(
+                filters={"tip": "FACTURA PRIMITA"}
+            )
             for message in company_messages:
                 if company.l10n_ro_download_einvoices_start_date:
                     if message.get("data_creare"):

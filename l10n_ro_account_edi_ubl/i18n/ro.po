@@ -97,21 +97,6 @@ msgid "Created on"
 msgstr "Creat in"
 
 #. module: l10n_ro_account_edi_ubl
-#: model_terms:ir.ui.view,arch_db:l10n_ro_account_edi_ubl.res_config_settings_view_form
-msgid "Credit Note on e-Invoice."
-msgstr ""
-
-#. module: l10n_ro_account_edi_ubl
-#: model:ir.model.fields,field_description:l10n_ro_account_edi_ubl.field_res_company__l10n_ro_credit_note_einvoice
-msgid "Credit Note on e-invoice"
-msgstr ""
-
-#. module: l10n_ro_account_edi_ubl
-#: model:ir.model.fields,field_description:l10n_ro_account_edi_ubl.field_res_config_settings__l10n_ro_credit_note_einvoice
-msgid "Credit Note on e-invoice."
-msgstr ""
-
-#. module: l10n_ro_account_edi_ubl
 #: model:ir.model.fields,field_description:l10n_ro_account_edi_ubl.field_res_company__l10n_ro_default_cius_pdf_report
 #: model:ir.model.fields,field_description:l10n_ro_account_edi_ubl.field_res_config_settings__l10n_ro_default_cius_pdf_report
 msgid "Default PDF Report"
@@ -121,11 +106,6 @@ msgstr ""
 #: model:ir.model.fields,help:l10n_ro_account_edi_ubl.field_res_company__l10n_ro_default_cius_pdf_report
 #: model:ir.model.fields,help:l10n_ro_account_edi_ubl.field_res_config_settings__l10n_ro_default_cius_pdf_report
 msgid "Default PDF report to be attached to xml e-invoice."
-msgstr ""
-
-#. module: l10n_ro_account_edi_ubl
-#: model_terms:ir.ui.view,arch_db:l10n_ro_account_edi_ubl.res_config_settings_view_form
-msgid "Define if invoices validated by ANAf will be stored in Odoo."
 msgstr ""
 
 #. module: l10n_ro_account_edi_ubl
@@ -338,12 +318,6 @@ msgid "Start date to download e-invoices"
 msgstr ""
 
 #. module: l10n_ro_account_edi_ubl
-#: model:ir.model.fields,field_description:l10n_ro_account_edi_ubl.field_res_company__l10n_ro_store_einvoices
-#: model:ir.model.fields,field_description:l10n_ro_account_edi_ubl.field_res_config_settings__l10n_ro_store_einvoices
-msgid "Store E-Invoice signed by Anaf."
-msgstr ""
-
-#. module: l10n_ro_account_edi_ubl
 #: model:ir.model.fields,help:l10n_ro_account_edi_ubl.field_account_bank_statement_line__l10n_ro_edi_transaction
 #: model:ir.model.fields,help:l10n_ro_account_edi_ubl.field_account_move__l10n_ro_edi_transaction
 #: model:ir.model.fields,help:l10n_ro_account_edi_ubl.field_account_payment__l10n_ro_edi_transaction
@@ -355,6 +329,15 @@ msgstr "Câmp tehnic utilizat pentru a urmări starea unei trimiteri."
 #: code:addons/l10n_ro_account_edi_ubl/models/account_move.py:0
 #, python-format
 msgid "The ANAF configuration is not set. Please set it and try again."
+msgstr ""
+
+#. module: l10n_ro_account_edi_ubl
+#. odoo-python
+#: code:addons/l10n_ro_account_edi_ubl/models/account_edi_format.py:0
+#, python-format
+msgid ""
+"The following errors occurred while generating the XML file:\n"
+"%s"
 msgstr ""
 
 #. module: l10n_ro_account_edi_ubl
@@ -403,6 +386,13 @@ msgstr ""
 #. odoo-python
 #: code:addons/l10n_ro_account_edi_ubl/models/account_edi_format.py:0
 #, python-format
+msgid "The invoice is not older than %s days"
+msgstr ""
+
+#. module: l10n_ro_account_edi_ubl
+#. odoo-python
+#: code:addons/l10n_ro_account_edi_ubl/models/account_edi_format.py:0
+#, python-format
 msgid "The invoice was not send or validated by ANAF."
 msgstr ""
 
@@ -440,13 +430,6 @@ msgstr ""
 #: code:addons/l10n_ro_account_edi_ubl/models/res_company.py:0
 #, python-format
 msgid "The period of residence must be between 0 and 5."
-msgstr ""
-
-#. module: l10n_ro_account_edi_ubl
-#. odoo-python
-#: code:addons/l10n_ro_account_edi_ubl/models/account_edi_format.py:0
-#, python-format
-msgid "There are some errors when generating the XMl file."
 msgstr ""
 
 #. module: l10n_ro_account_edi_ubl

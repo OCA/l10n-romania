@@ -7,6 +7,7 @@ import logging
 from lxml import etree
 
 from odoo import _, fields, models
+from odoo.exceptions import UserError
 
 _logger = logging.getLogger(__name__)
 
@@ -26,7 +27,13 @@ class AccountEdiXmlCIUSRO(models.Model):
                 builder = self._get_xml_builder(invoice.company_id)
                 xml_content, errors = builder._export_invoice(invoice)
                 if errors:
-                    return errors
+                    raise UserError(
+                        _(
+                            "The following errors occurred while generating the "
+                            "XML file:\n%s"
+                        )
+                        % "\n".join(errors)
+                    )
                 xml_content = xml_content.decode()
                 xml_content = xml_content.encode()
                 xml_name = builder._export_invoice_filename(invoice)
@@ -43,8 +50,6 @@ class AccountEdiXmlCIUSRO(models.Model):
                         "res_id": invoice.id,
                     }
                 )
-            else:
-                return res
         else:
             res = invoice._get_edi_attachment(self)
         return res
@@ -122,48 +127,50 @@ class AccountEdiXmlCIUSRO(models.Model):
 
             attachment = invoice._get_edi_attachment(self)
             if not attachment:
-                attachment = self._export_cius_ro(invoice)
-            # In case of error, the attachment is a list of string
-            if not isinstance(attachment, models.Model):
-                res[invoice] = {
-                    "success": False,
-                    "error": attachment,
-                    "blocking_level": "warning",
-                }
-                invoice.message_post(body=res[invoice]["error"])
-                message = _("There are some errors when generating the XMl file.")
-                body = message + _("\n\nError:\n<p>%s</p>") % res[invoice]["error"]
-                invoice.activity_schedule(
-                    "mail.mail_activity_data_warning",
-                    summary=message,
-                    note=body,
-                    user_id=invoice.invoice_user_id.id,
+                try:
+                    attachment = self._export_cius_ro(invoice)
+                except UserError as odoo_error:
+                    res[invoice] = {
+                        "success": False,
+                        "blocking_level": "error",
+                        "error": odoo_error.name,
+                    }
+                    continue
+            # Generate PDF report to be embedded in the XML
+            if invoice.company_id.l10n_ro_edi_cius_embed_pdf:
+                pdf_report = invoice.company_id.l10n_ro_default_cius_pdf_report
+                if not pdf_report:
+                    pdf_report = self.env.ref("account.account_invoices")
+                self.env["ir.actions.report"]._render_qweb_pdf(
+                    pdf_report.report_name, invoice.id
                 )
-                continue
             res[invoice] = {"attachment": attachment, "success": True}
 
-            residence = invoice.company_id.l10n_ro_edi_residence or 0
+            residence = invoice.company_id.l10n_ro_edi_residence
             days = (fields.Date.today() - invoice.invoice_date).days
-            if not invoice.l10n_ro_edi_transaction:
-                should_send = days >= residence or self.env.context.get(
-                    "l10n_ro_edi_manual_action"
-                )
-                if should_send:
-                    try:
+            if self.env.context.get("l10n_ro_edi_manual_action"):
+                if anaf_config and not invoice.l10n_ro_edi_transaction:
+                    res[invoice] = self._l10n_ro_post_invoice_step_1(
+                        invoice, attachment
+                    )
+            else:
+                if not invoice.l10n_ro_edi_transaction:
+                    if days >= residence:
                         res[invoice] = self._l10n_ro_post_invoice_step_1(
                             invoice, attachment
                         )
-                    except Exception as e:
+                    else:
                         res[invoice] = {
                             "success": False,
-                            "error": str(e),
-                            "blocking_level": "info",
+                            "blocking_level": "warning",
+                            "error": _("The invoice is not older than %s days")
+                            % residence,
                         }
+
                 else:
-                    res[invoice]["success"] = False
-                    continue
-            else:
-                res[invoice] = self._l10n_ro_post_invoice_step_2(invoice, attachment)
+                    res[invoice] = self._l10n_ro_post_invoice_step_2(
+                        invoice, attachment
+                    )
             if res[invoice].get("error", False):
                 invoice.message_post(body=res[invoice]["error"])
                 # Create activity if process is stopped with an error blocking level
@@ -183,7 +190,7 @@ class AccountEdiXmlCIUSRO(models.Model):
                 and not invoice.l10n_ro_edi_transaction
                 and not res.get("transaction")
             ):
-                res[invoice]["success"] = False
+                res["success"] = False
         return res
 
     def _cancel_invoice_edi(self, invoices):
@@ -233,8 +240,6 @@ class AccountEdiXmlCIUSRO(models.Model):
             if res.get("success", False):
                 res.update({"attachment": attachment})
                 invoice.message_post(body=_("The invoice was validated by ANAF."))
-                if invoice.company_id.l10n_ro_store_einvoices:
-                    invoice.l10n_ro_download_zip_anaf()
         return res
 
     def _l10n_ro_anaf_call(self, func, anaf_config, params, data=None, method="POST"):

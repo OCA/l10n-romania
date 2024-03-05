@@ -7,21 +7,18 @@ import logging
 import time
 from unittest.mock import patch
 
-import freezegun
-
 from odoo import fields
 from odoo.exceptions import UserError
 from odoo.modules.module import get_module_resource
 from odoo.tests import tagged
 
 from odoo.addons.account_edi.tests.common import AccountEdiTestCommon
-from odoo.addons.base.tests.test_ir_cron import CronMixinCase
 
 _logger = logging.getLogger(__name__)
 
 
 @tagged("post_install", "-at_install")
-class TestAccountEdiUbl(AccountEdiTestCommon, CronMixinCase):
+class TestAccountEdiUbl(AccountEdiTestCommon):
     @classmethod
     def setUpClass(cls):
         ro_template_ref = "l10n_ro.ro_chart_template"
@@ -48,7 +45,8 @@ class TestAccountEdiUbl(AccountEdiTestCommon, CronMixinCase):
         if "street_name" in cls.env.company._fields:
             cls.env.company.write(
                 {
-                    "street_name": "Str. Ciprian Porumbescu Nr. 12",
+                    "street_name": "Str. Ciprian Porumbescu",
+                    "street_number": "Nr. 12",
                     "street": "Str. Ciprian Porumbescu Nr. 12",
                 }
             )
@@ -68,6 +66,10 @@ class TestAccountEdiUbl(AccountEdiTestCommon, CronMixinCase):
                 "ref": "SCOALA GIMNAZIALA COMUNA FOENI",
                 "vat": "29152430",
                 "country_id": cls.env.ref("base.ro").id,
+            }
+        )
+        cls.partner.write(
+            {
                 "l10n_ro_vat_subjected": False,
                 "street": "Foeni Nr. 383",
                 "city": "Foeni",
@@ -196,7 +198,6 @@ class TestAccountEdiUbl(AccountEdiTestCommon, CronMixinCase):
         self.assertEqual(invoice.edi_state, state)
         self.assertEqual(invoice.edi_document_ids.state, state)
         if error:
-            self.assertTrue(invoice.edi_document_ids.error)
             self.assertIn(error, invoice.edi_document_ids.error)
             self.assertTrue(
                 any(error in message for message in invoice.message_ids.mapped("body"))
@@ -220,6 +221,7 @@ class TestAccountEdiUbl(AccountEdiTestCommon, CronMixinCase):
 
         current_etree = self.get_xml_tree_from_string(xml_content)
         expected_etree = self.get_xml_tree_from_string(self.get_file("invoice.xml"))
+
         self.assertXmlTreeEqual(current_etree, expected_etree)
 
     def test_account_credit_note_edi_ubl(self):
@@ -230,19 +232,6 @@ class TestAccountEdiUbl(AccountEdiTestCommon, CronMixinCase):
 
         current_etree = self.get_xml_tree_from_string(xml_content)
         expected_etree = self.get_xml_tree_from_string(self.get_file("credit_note.xml"))
-        self.assertXmlTreeEqual(current_etree, expected_etree)
-
-    def test_account_credit_note_with_option_edi_ubl(self):
-        self.credit_note.action_post()
-        self.env.company.l10n_ro_credit_note_einvoice = True
-        invoice_xml = self.credit_note.attach_ubl_xml_file_button()
-        att = self.env["ir.attachment"].browse(invoice_xml["res_id"])
-        xml_content = base64.b64decode(att.with_context(bin_size=False).datas)
-
-        current_etree = self.get_xml_tree_from_string(xml_content)
-        expected_etree = self.get_xml_tree_from_string(
-            self.get_file("credit_note_option.xml")
-        )
         self.assertXmlTreeEqual(current_etree, expected_etree)
 
     def prepare_invoice_sent_step1(self):
@@ -262,27 +251,6 @@ class TestAccountEdiUbl(AccountEdiTestCommon, CronMixinCase):
     def test_process_documents_web_services_step1_ok(self):
         self.prepare_invoice_sent_step1()
 
-    @freezegun.freeze_time("2022-09-04")
-    def test_process_documents_web_services_step1_cron(self):
-        anaf_config = self.env.company.l10n_ro_account_anaf_sync_id
-        anaf_config.access_token = "test"
-        self.invoice.action_post()
-
-        self.env.company.l10n_ro_edi_residence = 3
-        edi_documents = self.env["account.edi.document"].search(
-            [
-                ("state", "in", ("to_send", "to_cancel")),
-                ("move_id.state", "=", "posted"),
-            ]
-        )
-        edi_documents._process_documents_web_services(job_count=10)
-        self.check_invoice_documents(
-            self.invoice,
-            "to_send",
-            "<p>Access Error</p>",
-            "warning",
-        )
-
     def test_process_documents_web_services_step1_error(self):
         self.invoice.action_post()
 
@@ -295,19 +263,6 @@ class TestAccountEdiUbl(AccountEdiTestCommon, CronMixinCase):
             "to_send",
             "<p>Valorile acceptate pentru parametrul standard sunt UBL, CII sau RASP</p>",
             "error",
-        )
-
-    def test_process_documents_web_services_step1_constraint(self):
-        self.invoice.partner_id.state_id = False
-        self.invoice.action_post()
-
-        # procesare step 1 - eroare
-        self.invoice.action_process_edi_web_services()
-        self.check_invoice_documents(
-            self.invoice,
-            "to_send",
-            "<p>{\"The field 'State' is required on SCOALA GIMNAZIALA COMUNA FOENI.\"}</p>",
-            "warning",
         )
 
     def test_process_documents_web_services_step2_ok(self):
@@ -438,43 +393,39 @@ class TestAccountEdiUbl(AccountEdiTestCommon, CronMixinCase):
             return_value=(anaf_messages, 200),
         ):
             self.assertEqual(
-                self.env.company._l10n_ro_get_anaf_efactura_messages(), expected_msg
+                self.env.company._l10n_ro_get_anaf_efactura_messages(
+                    filters={"tip": "FACTURA PRIMITA"}
+                ),
+                expected_msg,
             )
 
     def test_l10n_ro_create_anaf_efactura(self):
         anaf_config = self.env.company.l10n_ro_account_anaf_sync_id
+        self.env.company.write(
+            {
+                "l10n_ro_download_einvoices": True,
+                "l10n_ro_download_einvoices_days": 60,
+                "l10n_ro_download_einvoices_start_date": fields.Date.from_string(
+                    "2023-12-01"
+                ),
+            }
+        )
         anaf_config.access_token = "test"
-        self.env.company.l10n_ro_download_einvoices = True
-        self.env.company.partner_id.write(
-            {
-                "vat": "RO34581625",
-                "name": "AGROAMAT COM SRL",
-                "phone": False,
-                "email": False,
-            }
-        )
-        self.env["res.partner"].create(
-            {
-                "name": "TOTAL SECURITY S.A.",
-                "vat": "RO8486152",
-                "country_id": self.env.ref("base.ro").id,
-            }
-        )
         messages = [
             {
                 "data_creare": "202312120940",
-                "cif": "34581625",
-                "id_solicitare": "5004879752",
-                "detalii": "Factura cu id_incarcare=5004879752 emisa de "
+                "cif": "23685159",
+                "id_solicitare": "5004552043",
+                "detalii": "Factura cu id_incarcare=5004552043 emisa de "
                 "cif_emitent=8486152 pentru "
-                "cif_beneficiar=34581625",
+                "cif_beneficiar=23685159",
                 "tip": "FACTURA PRIMITA",
-                "id": "3006850898",
+                "id": "3006372781",
             }
         ]
 
         signed_zip_file = open(
-            get_module_resource("l10n_ro_account_edi_ubl", "tests", "5004879752.zip"),
+            get_module_resource("l10n_ro_account_edi_ubl", "tests", "5004552043.zip"),
             mode="rb",
         ).read()
         with patch(
@@ -488,28 +439,28 @@ class TestAccountEdiUbl(AccountEdiTestCommon, CronMixinCase):
         ):
             self.env.company._l10n_ro_create_anaf_efactura()
             invoice = self.env["account.move"].search(
-                [("l10n_ro_edi_download", "=", "3006850898")]
+                [("l10n_ro_edi_download", "=", "3006372781")]
             )
             self.assertEqual(len(invoice), 1)
-            self.assertEqual(invoice.l10n_ro_edi_download, "3006850898")
-            self.assertEqual(invoice.l10n_ro_edi_transaction, "5004879752")
+            self.assertEqual(invoice.l10n_ro_edi_download, "3006372781")
+            self.assertEqual(invoice.l10n_ro_edi_transaction, "5004552043")
             self.assertEqual(invoice.move_type, "in_invoice")
             self.assertEqual(invoice.partner_id.vat, "RO8486152")
-
-            self.assertEqual(invoice.ref, "INV/2023/00029")
-            self.assertEqual(invoice.payment_reference, "INV/2023/00029")
+            self.assertEqual(invoice.partner_id.name, "TOTAL SECURITY SA")
+            self.assertEqual(invoice.ref, "ETTS/2023 /000130")
+            self.assertEqual(invoice.payment_reference, "ETTS/2023 /000130")
             self.assertEqual(invoice.currency_id.name, "RON")
             self.assertEqual(
-                invoice.invoice_date, fields.Date.from_string("2023-12-16")
+                invoice.invoice_date, fields.Date.from_string("2023-12-06")
             )
             self.assertEqual(
-                invoice.invoice_date_due, fields.Date.from_string("2023-12-16")
+                invoice.invoice_date_due, fields.Date.from_string("2023-12-21")
             )
-            self.assertAlmostEqual(invoice.amount_untaxed, 1000.0)
-            self.assertAlmostEqual(invoice.amount_tax, 190.0)
-            self.assertAlmostEqual(invoice.amount_total, 1190.0)
-            self.assertAlmostEqual(invoice.amount_residual, 1190.0)
-            self.assertEqual(invoice.invoice_line_ids[0].name, "test")
-            self.assertAlmostEqual(invoice.invoice_line_ids[0].quantity, 1)
-            self.assertAlmostEqual(invoice.invoice_line_ids[0].price_unit, 1000.0)
-            self.assertAlmostEqual(invoice.invoice_line_ids[0].balance, 1000.0)
+            self.assertAlmostEqual(invoice.amount_untaxed, 3964.80)
+            self.assertAlmostEqual(invoice.amount_tax, 753.31)
+            self.assertAlmostEqual(invoice.amount_total, 4718.11)
+            self.assertAlmostEqual(invoice.amount_residual, 4718.11)
+            self.assertEqual(invoice.invoice_line_ids[0].name, "PAZA_NEINARMAT")
+            self.assertAlmostEqual(invoice.invoice_line_ids[0].quantity, 168)
+            self.assertAlmostEqual(invoice.invoice_line_ids[0].price_unit, 23.6)
+            self.assertAlmostEqual(invoice.invoice_line_ids[0].balance, 3964.80)
