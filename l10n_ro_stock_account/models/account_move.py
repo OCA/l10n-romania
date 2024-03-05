@@ -43,9 +43,10 @@ class AccountMove(models.Model):
 
     def _stock_account_prepare_anglo_saxon_out_lines_vals(self):
         # nu se mai face descarcarea de gestiune la facturare
+        import ipdb; ipdb.set_trace()
         invoices = self
         for move in self:
-            if move.is_l10n_ro_record:
+            if move.company_id._check_is_l10n_ro_record():
                 invoices -= move
         return super(
             AccountMove, invoices
