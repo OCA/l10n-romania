@@ -157,6 +157,30 @@ class TestAccountEdiUbl(AccountEdiTestCommon, CronMixinCase):
         )
         cls.credit_note = cls.env["account.move"].create(invoice_values)
 
+        invoice_discount_values = {
+            "move_type": "out_invoice",
+            "name": "FBRAO2094",
+            "partner_id": cls.partner.id,
+            "invoice_date": fields.Date.from_string("2022-09-01"),
+            "currency_id": cls.currency.id,
+            "partner_bank_id": cls.bank.id,
+            "invoice_line_ids": [
+                (
+                    0,
+                    None,
+                    {
+                        "product_id": cls.product_b.id,
+                        "name": "[00000624] Bec P21/10W",
+                        "quantity": 1,
+                        "price_unit": 1000.00,
+                        "discount": 10,
+                        "tax_ids": [(6, 0, cls.tax_19.ids)],
+                    },
+                ),
+            ],
+        }
+        cls.invoice_discount = cls.env["account.move"].create(invoice_discount_values)
+
         test_file = get_module_resource(
             "l10n_ro_account_edi_ubl", "tests", "invoice.zip"
         )
@@ -246,6 +270,18 @@ class TestAccountEdiUbl(AccountEdiTestCommon, CronMixinCase):
 
         current_etree = self.get_xml_tree_from_string(xml_content)
         expected_etree = self.get_xml_tree_from_string(self.get_file("invoice.xml"))
+        self.assertXmlTreeEqual(current_etree, expected_etree)
+
+    def test_account_invoice_edi_ubl_with_discount(self):
+        self.invoice_discount.action_post()
+        invoice_xml = self.invoice_discount.attach_ubl_xml_file_button()
+        att = self.env["ir.attachment"].browse(invoice_xml["res_id"])
+        xml_content = base64.b64decode(att.with_context(bin_size=False).datas)
+
+        current_etree = self.get_xml_tree_from_string(xml_content)
+        expected_etree = self.get_xml_tree_from_string(
+            self.get_file("invoice_discount.xml")
+        )
         self.assertXmlTreeEqual(current_etree, expected_etree)
 
     def test_account_credit_note_edi_ubl(self):
