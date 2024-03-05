@@ -171,7 +171,7 @@ class TestAccountEdiUbl(AccountEdiTestCommon, CronMixinCase):
                         "product_id": cls.product_b.id,
                         "name": "[00000624] Bec P21/10W",
                         "quantity": 1,
-                        "price_unit": 1000.00,
+                        "price_unit": 10000.00,
                         "discount": 10,
                         "tax_ids": [(6, 0, cls.tax_19.ids)],
                     },

@@ -132,6 +132,11 @@
         <cbc:ID>1</cbc:ID>
         <cbc:InvoicedQuantity unitCode="C62">1.0</cbc:InvoicedQuantity>
         <cbc:LineExtensionAmount currencyID="RON">10000.00</cbc:LineExtensionAmount>
+        <cac:AllowanceCharge>
+            <cbc:ChargeIndicator>false</cbc:ChargeIndicator>
+            <cbc:AllowanceChargeReasonCode>95</cbc:AllowanceChargeReasonCode>
+            <cbc:Amount currencyID="RON">1000.00</cbc:Amount>
+        </cac:AllowanceCharge>
         <cac:Item>
             <cbc:Description>[00000624] Bec P21/10W</cbc:Description>
             <cbc:Name>Bec P21/10W</cbc:Name>
