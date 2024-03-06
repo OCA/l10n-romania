@@ -12,25 +12,32 @@
             <notificare t-att-codTipOperatiune="doc.l10n_ro_e_transport_tip_operatie">
                 <t t-foreach="doc.move_lines" t-as="move">
                     <t t-foreach="move.move_line_ids" t-as="move_line">
+                        <t
+                            t-set="qty"
+                            t-value="move_line.qty_done or move_line.product_uom_qty"
+                        />
                         <bunuriTransportate
                             t-att-codTarifar="get_instastat_code(move.product_id)"
                             t-att-denumireMarfa="move.product_id.name"
                             t-att-cantitate="move_line.qty_done or move_line.product_uom_qty"
-                            t-att-codUnitateMasura="move.product_uom.name[:3].upper()"
-                            t-att-greutateBruta="move.product_id.weight or 1"
+                            t-att-codUnitateMasura="move.product_uom._get_unece_code()"
+                            t-att-greutateNeta="qty * (move.product_id.l10n_ro_net_weight or 1)"
+                            t-att-greutateBruta="qty* (move.product_id.weight or 1)"
                             t-att-codScopOperatiune="doc.l10n_ro_e_transport_scop or '101'"
+                            t-att-valoareLeiFaraTva="qty * (move_line.product_id.standard_price or 1)"
                         />
                     </t>
                 </t>
 
                 <partenerComercial
                     t-att-codTara="doc.partner_id.commercial_partner_id.country_id.code"
-                    t-att-cod="doc.partner_id.commercial_partner_id.vat"
+                    t-att-cod="doc.partner_id.commercial_partner_id.vat.upper().replace('RO', '')"
                     t-att-denumire="doc.partner_id.commercial_partner_id.name"
                 />
                 <t t-set="carrier" t-value="doc.carrier_id.l10n_ro_e_partner_id" />
                 <dateTransport
                     t-att-nrVehicul="doc.l10n_ro_vehicle and doc.l10n_ro_vehicle.upper().replace('-', '')"
+                    t-att-codOrgTransport="carrier.vat.upper().replace('RO', '')"
                     t-att-codTaraOrgTransport="get_country_code(carrier.country_id.code)"
                     t-att-denumireOrgTransport="carrier.name"
                     t-att-dataTransport="doc.date.date()"

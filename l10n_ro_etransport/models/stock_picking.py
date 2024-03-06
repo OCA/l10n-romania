@@ -75,7 +75,7 @@ TIP_OPERATIE = [
 class StockPicking(models.Model):
     _inherit = "stock.picking"
 
-    l10n_ro_e_transport_uit = fields.Char(string="UIT", readonly=True)
+    l10n_ro_e_transport_uit = fields.Char(string="UIT", copy=False)
     l10n_ro_e_transport_status = fields.Selection(
         [
             ("draft", "Draft"),
@@ -85,8 +85,12 @@ class StockPicking(models.Model):
             ("in_processing", "In processing"),
         ],
         default="draft",
-        readonly=True,
     )
+    l10n_ro_e_transport_download = fields.Char(
+        "ID Download ANAF ",
+        copy=False,
+    )
+    l10n_ro_e_transport_message = fields.Text("ANAF Message")
 
     l10n_ro_e_transport_tip_operatie = fields.Selection(
         TIP_OPERATIE,
@@ -177,6 +181,7 @@ class StockPicking(models.Model):
                 _logger.warning(
                     "Product %s does not have intrastat_id field", product.name
                 )
+                intrastat_code = "00000000"  # 08031010
             return intrastat_code
 
         self.ensure_one()
@@ -196,6 +201,7 @@ class StockPicking(models.Model):
         xml_name = "%s_e_transport.xml" % (self.name.replace("/", "_"))
         xml_content = xml_declaration + xml_content
 
+        _logger.info(xml_content)
         xml_doc = etree.fromstring(xml_content.encode())
         schema_file_path = get_module_resource(
             "l10n_ro_etransport", "static/schemas", "eTransport.xsd"
@@ -227,13 +233,36 @@ class StockPicking(models.Model):
         )
 
     def export_e_transport_button(self):
-        attachment = self._export_e_transport()
-        self._export_e_transport_data(attachment.raw)
-        action = self.env["ir.attachment"].action_get()
-        action.update(
-            {"res_id": attachment.id, "views": False, "view_mode": "form,tree"}
-        )
-        return action
+        if self.l10n_ro_e_transport_status in ["draft", "nok"]:
+            attachment = self._export_e_transport()
+            self._export_e_transport_data(attachment.raw)
+        elif self.l10n_ro_e_transport_status in ["sent", "in_processing"]:
+            anaf_config = self.company_id.l10n_ro_account_anaf_sync_id
+            params = {}
+            func = f"/stareMesaj/{self.l10n_ro_e_transport_download}"
+            content, status_code = anaf_config._l10n_ro_etransport_call(
+                func, params, method="GET"
+            )
+            if status_code != 200:
+                raise UserError(
+                    _("Error %(status_code)s:%(content)s")
+                    % {"status_code": status_code, "content": content}
+                )
+            _logger.info(content)
+            stare = content.get("stare")
+
+            if stare in ["ok", "nok"]:
+                self.write({"l10n_ro_e_transport_status": stare})
+            if stare == "in prelucrare":
+                message = "Documentul UIT la data %s era in prelucrare." % content.get(
+                    "dateResponse"
+                )
+                self.write(
+                    {
+                        "l10n_ro_e_transport_status": "in_processing",
+                        "l10n_ro_e_transport_message": message,
+                    }
+                )
 
     @api.model
     def _export_e_transport_data(self, data):
@@ -245,12 +274,26 @@ class StockPicking(models.Model):
         func = f"/upload/{standard}/{cif}/2"
         content, status_code = anaf_config._l10n_ro_etransport_call(func, params, data)
         if status_code != 200:
-            raise UserError(_("Error %s") % status_code)
+            raise UserError(
+                _("Error %(status_code)s:%(content)s")
+                % {"status_code": status_code, "content": content}
+            )
 
         errors = content.get("Errors", [])
         error_message = "".join([error.get("errorMessage", "") for error in errors])
         if error_message:
             raise UserError(error_message)
+
+        message = "Documentul a fost incarcat cu succes, verificati starea."
+
+        self.write(
+            {
+                "l10n_ro_e_transport_uit": content.get("UIT"),
+                "l10n_ro_e_transport_status": "sent",
+                "l10n_ro_e_transport_download": content.get("index_incarcare"),
+                "l10n_ro_e_transport_message": message,
+            }
+        )
 
         _logger.info(content)
         _logger.info(status_code)

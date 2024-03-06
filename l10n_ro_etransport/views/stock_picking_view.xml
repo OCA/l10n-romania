@@ -6,6 +6,17 @@
             <field name="model">stock.picking</field>
             <field name="inherit_id" ref="stock.view_picking_form" />
             <field name="arch" type="xml">
+                <xpath expr="//header" position="after">
+                    <div
+                    class="alert alert-warning"
+                    role="alert"
+                    style="margin-bottom:0px;"
+                    attrs="{'invisible': [('l10n_ro_e_transport_message', '=', False)]}"
+                >
+                        <span><field name="l10n_ro_e_transport_message" /></span>
+                    </div>
+                </xpath>
+
                 <xpath expr="/form/header/button[last()]" position="after">
                     <button
                     name="export_e_transport_button"
@@ -26,9 +37,14 @@
                                 name="l10n_ro_e_transport_tip_operatie"
                                 string="Tip Operatie"
                             />
+                                 <field name="l10n_ro_e_transport_scop" string="Scop" />
                             </group>
                             <group string="Status">
                                 <field name="l10n_ro_e_transport_uit" />
+                                <field
+                                name="l10n_ro_e_transport_download"
+                                string="ID Download"
+                            />
                                 <field
                                 name="l10n_ro_e_transport_status"
                                 string="Status"
