@@ -63,6 +63,9 @@ class TestStockSaleLandedCost(TestStockCommon):
         p1_in_val = self.qty_po_p1 * self.price_p1 + 10
         self.assertEqual(sum(svls_in_p1.mapped("value")), p1_in_val)
 
+        if self.simple_valuation:
+            return
+
         p1_in_remaining_val = p1_in_val - (self.qty_so_p1 * self.price_p1) - 2  # 408
         self.assertEqual(svls_in_p1[0].remaining_value, p1_in_remaining_val)
 

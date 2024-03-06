@@ -7,7 +7,6 @@ import logging
 from lxml import etree
 
 from odoo import _, fields, models
-from odoo.exceptions import UserError
 
 _logger = logging.getLogger(__name__)
 
@@ -18,28 +17,60 @@ class AccountEdiXmlCIUSRO(models.Model):
     def _export_cius_ro(self, invoice):
         self.ensure_one()
         # Create file content.
-        builder = self._get_xml_builder(invoice.company_id)
-        xml_content, errors = builder._export_invoice(invoice)
-        if errors:
-            raise UserError(
-                _("The following errors occurred while generating the " "XML file:\n%s")
-                % "\n".join(errors)
+        res = self.env["ir.attachment"]
+        if not invoice.l10n_ro_edi_transaction:
+            edi_document = invoice.edi_document_ids.filtered(
+                lambda l: l.edi_format_id.code == "cius_ro"
             )
-        xml_content = xml_content.decode()
-        xml_content = xml_content.encode()
-        xml_name = builder._export_invoice_filename(invoice)
-        return self.env["ir.attachment"].create(
-            {
-                "name": xml_name,
-                "raw": xml_content,
-                "mimetype": "application/xml",
-                "res_model": "account.move",
-                "res_id": invoice.id,
-            }
-        )
+            if edi_document:
+                builder = self._get_xml_builder(invoice.company_id)
+                xml_content, errors = builder._export_invoice(invoice)
+                if errors:
+                    return errors
+                xml_content = xml_content.decode()
+                xml_content = xml_content.encode()
+                xml_name = builder._export_invoice_filename(invoice)
+                old_attachment = edi_document.attachment_id
+                if old_attachment:
+                    edi_document.attachment_id = False
+                    old_attachment.unlink()
+                res = self.env["ir.attachment"].create(
+                    {
+                        "name": xml_name,
+                        "raw": xml_content,
+                        "mimetype": "application/xml",
+                        "res_model": "account.move",
+                        "res_id": invoice.id,
+                    }
+                )
+            else:
+                return res
+        else:
+            res = invoice._get_edi_attachment(self)
+        return res
 
     def _export_invoice_filename(self, invoice):
         return f"{invoice.name.replace('/', '_')}_cius_ro.xml"
+
+    def _find_value(self, xpath, xml_element, namespaces=None):
+        res = None
+        try:
+            res = super(AccountEdiXmlCIUSRO, self)._find_value(
+                xpath, xml_element, namespaces=namespaces
+            )
+        except Exception:
+            namespaces = {
+                "qdt": "urn:oasis:names:specification:ubl:schema:xsd:QualifiedDataTypes-2",
+                "ccts": "urn:un:unece:uncefact:documentation:2",
+                "udt": "urn:oasis:names:specification:ubl:schema:xsd:UnqualifiedDataTypes-2",
+                "cac": "urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2",  # noqa: B950
+                "cbc": "urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2",
+                "xsi": "http://www.w3.org/2001/XMLSchema-instance",
+            }
+            res = super(AccountEdiXmlCIUSRO, self)._find_value(
+                xpath, xml_element, namespaces=namespaces
+            )
+        return res
 
     def _get_xml_builder(self, company):
         if self.code == "cius_ro":
@@ -56,7 +87,9 @@ class AccountEdiXmlCIUSRO(models.Model):
         if self.code != "cius_ro":
             return super()._is_required_for_invoice(invoice)
         is_required = (
-            invoice.partner_id.country_id.code == "RO" and invoice.partner_id.is_company
+            invoice.move_type in ("out_invoice", "out_refund")
+            and invoice.commercial_partner_id.country_id.code == "RO"
+            and invoice.commercial_partner_id.is_company
         )
         return is_required
 
@@ -66,52 +99,68 @@ class AccountEdiXmlCIUSRO(models.Model):
             return super()._post_invoice_edi(invoices)
         res = {}
         for invoice in invoices:
+
+            anaf_config = invoice.company_id.l10n_ro_account_anaf_sync_id
+            if not anaf_config:
+                res[invoice] = {
+                    "success": True,
+                    "error": _("ANAF sync manual"),
+                }
+                continue
+
             attachment = invoice._get_edi_attachment(self)
             if not attachment:
                 attachment = self._export_cius_ro(invoice)
+            # In case of error, the attachment is a list of string
+            if not isinstance(attachment, models.Model):
+                res[invoice] = {
+                    "success": False,
+                    "error": attachment,
+                    "blocking_level": "warning",
+                }
+                invoice.message_post(body=res[invoice]["error"])
+                message = _("There are some errors when generating the XMl file.")
+                body = message + _("\n\nError:\n<p>%s</p>") % res[invoice]["error"]
+                invoice.activity_schedule(
+                    "mail.mail_activity_data_warning",
+                    summary=message,
+                    note=body,
+                    user_id=invoice.invoice_user_id.id,
+                )
+                continue
             res[invoice] = {"attachment": attachment, "success": True}
-            anaf_config = invoice.company_id.l10n_ro_account_anaf_sync_id
 
-            residence = invoice.company_id.l10n_ro_edi_residence
+            residence = invoice.company_id.l10n_ro_edi_residence or 0
             days = (fields.Date.today() - invoice.invoice_date).days
-            if self.env.context.get("l10n_ro_edi_manual_action"):
-                if anaf_config and not invoice.l10n_ro_edi_transaction:
-                    res[invoice] = self._l10n_ro_post_invoice_step_1(
-                        invoice, attachment
-                    )
-            else:
-                if not invoice.l10n_ro_edi_transaction:
-                    if days >= residence:
+            if not invoice.l10n_ro_edi_transaction:
+                should_send = days >= residence or self.env.context.get(
+                    "l10n_ro_edi_manual_action"
+                )
+                if should_send:
+                    try:
                         res[invoice] = self._l10n_ro_post_invoice_step_1(
                             invoice, attachment
                         )
-                    else:
+                    except Exception as e:
                         res[invoice] = {
                             "success": False,
-                            "error": _("The invoice is not older than %s days")
-                            % residence,
+                            "error": str(e),
+                            "blocking_level": "info",
                         }
-
                 else:
-                    res[invoice] = self._l10n_ro_post_invoice_step_2(
-                        invoice, attachment
-                    )
+                    res[invoice]["success"] = False
+                    continue
+            else:
+                res[invoice] = self._l10n_ro_post_invoice_step_2(invoice, attachment)
             if res[invoice].get("error", False):
                 invoice.message_post(body=res[invoice]["error"])
-                # Create activity if process is stoped with an error blocking level
+                # Create activity if process is stopped with an error blocking level
                 if res[invoice].get("blocking_level") == "error":
-                    body = (
-                        _(
-                            "The invoice was not send or validated by ANAF."
-                            "\n\nError:"
-                            "\n<p>%s</p>"
-                        )
-                        % res[invoice]["error"]
-                    )
-
+                    message = _("The invoice was not send or validated by ANAF.")
+                    body = message + _("\n\nError:\n<p>%s</p>") % res[invoice]["error"]
                     invoice.activity_schedule(
                         "mail.mail_activity_data_warning",
-                        summary=_("The invoice was not send or validated by ANAF"),
+                        summary=message,
                         note=body,
                         user_id=invoice.invoice_user_id.id,
                     )
@@ -122,7 +171,7 @@ class AccountEdiXmlCIUSRO(models.Model):
                 and not invoice.l10n_ro_edi_transaction
                 and not res.get("transaction")
             ):
-                res["success"] = False
+                res[invoice]["success"] = False
         return res
 
     def _cancel_invoice_edi(self, invoices):
@@ -168,8 +217,10 @@ class AccountEdiXmlCIUSRO(models.Model):
         params = {"id_incarcare": invoice.l10n_ro_edi_transaction}
         res = self._l10n_ro_anaf_call("/stareMesaj", anaf_config, params, method="GET")
         if res.get("id_descarcare", False):
-            res.update({"attachment": attachment})
             invoice.write({"l10n_ro_edi_download": res.get("id_descarcare")})
+            if res.get("success", False):
+                res.update({"attachment": attachment})
+                invoice.message_post(body=_("The invoice was validated by ANAF."))
         return res
 
     def _l10n_ro_anaf_call(self, func, anaf_config, params, data=None, method="POST"):
@@ -215,29 +266,29 @@ class AccountEdiXmlCIUSRO(models.Model):
                 "success": False,
                 "transaction": transaction,
                 "blocking_level": "info",
-                "error": "The invoice was sent to ANAF, awaiting validation.",
+                "error": _("The invoice was sent to ANAF, awaiting validation."),
             }
 
         # This is response from step 2
-        res = {"success": True}
+        res = {"success": False}
         stare = doc.get("stare", False)
         stari = {
             "in prelucrare": {
                 "success": False,
                 "blocking_level": "info",
                 "in_processing": True,
-                "error": "The invoice is in processing at ANAF.",
+                "error": _("The invoice is in processing at ANAF."),
             },
             "nok": {
                 "success": False,
                 "blocking_level": "warning",
-                "error": "The invoice was not validated by ANAF.",
+                "error": _("The invoice was not validated by ANAF."),
             },
             "ok": {"success": True, "id_descarcare": doc.get("id_descarcare") or ""},
             "XML cu erori nepreluat de sistem": {
                 "success": False,
                 "blocking_level": "error",
-                "error": "XML cu erori nepreluat de sistem",
+                "error": _("XML with errors not taken over by the system."),
             },
         }
         if stare:
@@ -246,3 +297,14 @@ class AccountEdiXmlCIUSRO(models.Model):
                     res.update(value)
                     break
         return res
+
+    def _infer_xml_builder_from_tree(self, tree):
+        self.ensure_one()
+        customization_id = tree.find("{*}CustomizationID")
+        if customization_id is not None:
+            if (
+                customization_id.text
+                == "urn:cen.eu:en16931:2017#compliant#urn:efactura.mfinante.ro:CIUS-RO:1.0.1"
+            ):
+                return self.env["account.edi.xml.cius_ro"]
+        return super()._infer_xml_builder_from_tree(tree)

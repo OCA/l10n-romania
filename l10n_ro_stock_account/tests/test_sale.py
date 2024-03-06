@@ -126,6 +126,7 @@ class TestStockSale(TestStockCommon):
         self.create_sale_invoice()
 
     def test_sale_average(self):
+
         self.product_1.product_tmpl_id.categ_id.property_cost_method = "average"
         self.product_2.product_tmpl_id.categ_id.property_cost_method = "average"
 
@@ -163,6 +164,11 @@ class TestStockSale(TestStockCommon):
 
     def test_sale_negative(self):
 
+        # set simple valuation to False for first test
+        set_param = self.env["ir.config_parameter"].sudo().set_param
+        set_param("l10n_ro_stock_account.simple_valuation", "False")
+        self.simple_valuation = False
+
         self.qty_po_p1 = 70.0
         self.qty_po_p2 = 70.0
         self.price_p1 = 200
@@ -186,3 +192,44 @@ class TestStockSale(TestStockCommon):
         self.create_po()
 
         self.check_stock_valuation(0.0, 0.0)
+
+        # set simple valuation to True for second test
+        set_param = self.env["ir.config_parameter"].sudo().set_param
+        set_param("l10n_ro_stock_account.simple_valuation", "True")
+        self.simple_valuation = True
+
+        # simple valuation should be always average
+        self.product_1.write({"categ_id": self.category_average.id})
+        self.product_2.write({"categ_id": self.category_average.id})
+
+        self.qty_po_p1 = 70.0
+        self.qty_po_p2 = 70.0
+        self.price_p1 = 200
+        self.price_p2 = 200
+        self.create_po()
+
+        self.qty_po_p1 = 70.0
+        self.qty_po_p2 = 70.0
+        self.price_p1 = 180
+        self.price_p2 = 180
+        self.create_po()
+        # (70*200) + (70*180) = 26600
+        # avg price shoud be 190
+
+        self.qty_so_p1 = 200
+        self.qty_so_p2 = 200
+        self.create_so()
+        # -200*190 = -38000
+        # svls shoud be 26600-38000=−11400
+        self.check_stock_valuation(-11400, -11400)
+
+        self.qty_po_p1 = 60.0
+        self.qty_po_p2 = 60.0
+        self.price_p1 = 200
+        self.price_p2 = 200
+        self.create_po()
+        # add svl value of 60*200=12000
+        # 12000 - 11400(negative stock) = 600 should remain as value with 0 quantity
+        # never work with simple valuation and negative stock!!!
+
+        self.check_stock_valuation(600, 600)

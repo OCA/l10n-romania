@@ -6,24 +6,134 @@
         <field name="model">res.config.settings</field>
         <field name="inherit_id" ref="l10n_ro_config.res_config_settings_view_form" />
         <field name="arch" type="xml">
-            <div id="module_l10n_ro_account_anaf_sync" position="after">
-                <div
-                    class="col-xs-12 col-md-6 o_setting_box"
-                    id="l10n_ro_edi_residence"
-                >
+            <div id="ro_anaf_einvoice_container" position="before">
+
+                <div class="col-xs-6 col-md-6 o_setting_box" id="l10n_ro_edi_residence">
                     <div class="o_setting_left_pane">
-                        <field name="l10n_ro_edi_residence" />
+
                     </div>
                     <div class="o_setting_right_pane">
-                      <label
-                            for="l10n_ro_edi_residence"
-                            class="col-lg-3 o_light_label"
-                        />
-                        <field name="l10n_ro_edi_residence" />
+                        <span class="o_form_label">E-Invoice Settings</span>
+                        <div class="row mt16">
+                            <label
+                                for="l10n_ro_edi_residence"
+                                class="col-lg-5 o_light_label"
+                            />
+                            <field name="l10n_ro_edi_residence" />
+                        </div>
                         <div class="text-muted">
                             Period of residence for the e-Invoice after which it is automatically sent
                         </div>
-
+                    </div>
+                </div>
+                <div
+                    class="col-xs-6 col-md-6 o_setting_box"
+                    id="l10n_ro_edi_cius_embed_pdf"
+                >
+                    <div class="o_setting_left_pane">
+                        <field name="l10n_ro_edi_cius_embed_pdf" />
+                    </div>
+                    <div class="o_setting_right_pane">
+                        <label for="l10n_ro_edi_cius_embed_pdf" />
+                        <div class="text-muted">
+                            Attach PDF invoice to the e-Invoice.
+                        </div>
+                    </div>
+                </div>
+                <div
+                    class="col-xs-6 col-md-6 o_setting_box"
+                    id="l10n_ro_default_cius_pdf_report"
+                    attrs="{'invisible': [('l10n_ro_edi_cius_embed_pdf','=',False)]}"
+                >
+                    <div class="o_setting_left_pane">
+                    </div>
+                    <div class="o_setting_right_pane">
+                        <div class="row mt16">
+                            <label
+                                for="l10n_ro_default_cius_pdf_report"
+                                class="col-lg-5 o_light_label"
+                            />
+                            <field name="l10n_ro_default_cius_pdf_report" />
+                        </div>
+                        <div class="text-muted">
+                            Company PDF invoice report to be added to the e-Invoice XML.
+                            If not set default PDF report will be used.
+                        </div>
+                    </div>
+                </div>
+                <div
+                    class="col-xs-6 col-md-6 o_setting_box"
+                    id="l10n_ro_download_einvoices"
+                >
+                    <div class="o_setting_left_pane">
+                        <field name="l10n_ro_download_einvoices" />
+                    </div>
+                    <div class="o_setting_right_pane">
+                        <label for="l10n_ro_download_einvoices" />
+                        <div class="text-muted">
+                            Download e-Invoices automatically from ANAF website.
+                            It will create a draft invoice that you will have to check and posted afterwards.
+                        </div>
+                    </div>
+                </div>
+                <div
+                    class="col-xs-6 col-md-6 o_setting_box"
+                    id="l10n_ro_download_einvoices_start_date"
+                    attrs="{'invisible': [('l10n_ro_download_einvoices','=',False)]}"
+                >
+                    <div class="o_setting_left_pane">
+                    </div>
+                    <div class="o_setting_right_pane">
+                        <div class="row mt16">
+                            <label
+                                for="l10n_ro_download_einvoices_start_date"
+                                class="col-lg-5 o_light_label"
+                            />
+                            <field name="l10n_ro_download_einvoices_start_date" />
+                        </div>
+                        <div class="text-muted">
+                            Start date that Odoo will create supplier invoices downloaded from ANAF website.
+                        </div>
+                    </div>
+                </div>
+                <div
+                    class="col-xs-6 col-md-6 o_setting_box"
+                    id="l10n_ro_download_einvoices_days"
+                    attrs="{'invisible': [('l10n_ro_download_einvoices','=',False)]}"
+                >
+                    <div class="o_setting_left_pane">
+                    </div>
+                    <div class="o_setting_right_pane">
+                        <div class="row mt16">
+                            <label
+                                for="l10n_ro_download_einvoices_days"
+                                class="col-lg-5 o_light_label"
+                            />
+                            <field name="l10n_ro_download_einvoices_days" />
+                        </div>
+                        <div class="text-muted">
+                            Define the maximum number of days that Odoo will check supplier e-Invoices to download.
+                        </div>
+                    </div>
+                </div>
+                <div
+                    class="col-xs-6 col-md-6 o_setting_box"
+                    id="l10n_ro_credit_note_einvoice"
+                    attrs="{'invisible': [('l10n_ro_download_einvoices','=',False)]}"
+                >
+                    <div class="o_setting_left_pane">
+                    </div>
+                    <div class="o_setting_right_pane">
+                        <div class="row mt16">
+                            <label
+                                for="l10n_ro_credit_note_einvoice"
+                                class="col-lg-5 o_light_label"
+                            />
+                            <field name="l10n_ro_credit_note_einvoice" />
+                        </div>
+                        <div class="text-muted">
+                            Credit Note on e-Invoice.
+                        </div>
                     </div>
                 </div>
             </div>
