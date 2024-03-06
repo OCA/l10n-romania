@@ -29,7 +29,7 @@
                 <xpath expr="//page[@name='note']" position="before">
                     <page string="E-Transport">
                         <group>
-                            <group>
+                            <group string="Information e-transport">
                                 <field name="carrier_id" />
                                 <field name="l10n_ro_vehicle" />
                                 <field name="l10n_ro_e_transport_vama" string="Vama" />

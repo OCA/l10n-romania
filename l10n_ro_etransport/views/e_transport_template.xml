@@ -30,7 +30,7 @@
                 </t>
 
                 <partenerComercial
-                    t-att-codTara="doc.partner_id.commercial_partner_id.country_id.code"
+                    t-att-codTara="doc.partner_id.commercial_partner_id.country_id.code or ''"
                     t-att-cod="doc.partner_id.commercial_partner_id.vat.upper().replace('RO', '')"
                     t-att-denumire="doc.partner_id.commercial_partner_id.name"
                 />
@@ -42,7 +42,7 @@
                     t-att-denumireOrgTransport="carrier.name"
                     t-att-dataTransport="doc.date.date()"
                 />
-                <locStartTraseuRutier>
+                <locStartTraseuRutier t-if="doc.l10n_ro_e_transport_tip_operatie!='10'">
                     <locatie
                         t-att-codJudet="STATE_CODES[doc.company_id.state_id.code]"
                         t-att-denumireLocalitate="doc.company_id.city"
@@ -51,7 +51,11 @@
                         t-att-alteInfo="doc.company_id.street2"
                     />
                 </locStartTraseuRutier>
-                <locFinalTraseuRutier>
+                <locFinalTraseuRutier
+                    t-if="doc.l10n_ro_e_transport_tip_operatie=='10'"
+                    t-att-codPtf="doc.l10n_ro_e_transport_vama"
+                />
+                <locFinalTraseuRutier t-if="doc.l10n_ro_e_transport_tip_operatie!='20'">
                     <locatie
                         t-att-codJudet="STATE_CODES[doc.partner_id.state_id.code]"
                         t-att-denumireLocalitate="doc.partner_id.city"
@@ -59,7 +63,10 @@
                         t-att-codPostal="doc.partner_id.zip"
                     />
                 </locFinalTraseuRutier>
-
+                <locFinalTraseuRutier
+                    t-if="doc.l10n_ro_e_transport_tip_operatie=='20'"
+                    t-att-codPtf="doc.l10n_ro_e_transport_vama"
+                />
 
                 <documenteTransport
                     tipDocument="30"
