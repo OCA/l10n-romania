@@ -55,3 +55,18 @@ class TestStockWarehouseCreation(AccountTestInvoicingCommon):
             {"name": "Warehouse Romania", "code": "ROW"}
         )
         warehouse._update_name_and_code(new_name="Warehouse", new_code="WRO")
+
+    def test_create_product(self):
+        product = self.env["product.product"].create(
+            {
+                "name": "Test Product",
+                "type": "product",
+                "categ_id": self.env.ref("product.product_category_all").id,
+                "l10n_ro_net_weight": 1.0,
+                "company_id": self.env.company.id,
+            }
+        )
+        self.assertTrue(product.product_tmpl_id.l10n_ro_net_weight)
+        self.assertTrue(product.product_tmpl_id.l10n_ro_net_weight_uom_name)
+        product.product_tmpl_id.l10n_ro_net_weight = 2.0
+        self.assertEqual(product.l10n_ro_net_weight, 2.0)
