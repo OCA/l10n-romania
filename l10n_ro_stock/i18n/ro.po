@@ -50,6 +50,8 @@ msgid "Inventory Locations"
 msgstr ""
 
 #. module: l10n_ro_stock
+#: model:ir.model.fields,field_description:l10n_ro_stock.field_product_product__is_l10n_ro_record
+#: model:ir.model.fields,field_description:l10n_ro_stock.field_product_template__is_l10n_ro_record
 #: model:ir.model.fields,field_description:l10n_ro_stock.field_stock_location__is_l10n_ro_record
 #: model:ir.model.fields,field_description:l10n_ro_stock.field_stock_warehouse__is_l10n_ro_record
 msgid "Is Romanian Record"
@@ -58,6 +60,28 @@ msgstr ""
 #. module: l10n_ro_stock
 #: model:ir.model.fields,field_description:l10n_ro_stock.field_stock_location__usage
 msgid "Location Type"
+msgstr ""
+
+#. module: l10n_ro_stock
+#: model:ir.model.fields,field_description:l10n_ro_stock.field_product_product__l10n_ro_net_weight
+#: model:ir.model.fields,field_description:l10n_ro_stock.field_product_template__l10n_ro_net_weight
+msgid "Net Weight"
+msgstr ""
+
+#. module: l10n_ro_stock
+#: model:ir.model.fields,field_description:l10n_ro_stock.field_product_product__l10n_ro_net_weight_uom_name
+#: model:ir.model.fields,field_description:l10n_ro_stock.field_product_template__l10n_ro_net_weight_uom_name
+msgid "Net Weight unit of measure label"
+msgstr ""
+
+#. module: l10n_ro_stock
+#: model:ir.model,name:l10n_ro_stock.model_product_template
+msgid "Product"
+msgstr ""
+
+#. module: l10n_ro_stock
+#: model:ir.model,name:l10n_ro_stock.model_product_product
+msgid "Product Variant"
 msgstr ""
 
 #. module: l10n_ro_stock
