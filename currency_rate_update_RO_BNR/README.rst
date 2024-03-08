@@ -28,7 +28,8 @@ Currency Rate Update - BNR
 
 |badge1| |badge2| |badge3| |badge4| |badge5|
 
-This module adds Banca Națională a României (BNR) as currency rate provider.
+This module adds Banca Națională a României (BNR) as currency rate
+provider.
 
 **Table of contents**
 
@@ -40,11 +41,12 @@ Installation
 
 To install this module, you need to:
 
-* clone the branch 17.0 of the repository https://github.com/OCA/l10n-romania
-* add the path to this repository in your configuration (addons-path)
-* update the module list
-* search for "Currency Rate Update - BNR" in your addons
-* install the module
+-  clone the branch 17.0 of the repository
+   https://github.com/OCA/l10n-romania
+-  add the path to this repository in your configuration (addons-path)
+-  update the module list
+-  search for "Currency Rate Update - BNR" in your addons
+-  install the module
 
 Bug Tracker
 ===========
@@ -60,28 +62,29 @@ Credits
 =======
 
 Authors
-~~~~~~~
+-------
 
 * SM Freelancer
 * NextERP Romania
 * Forest and Biomass Romania
 
 Contributors
-~~~~~~~~~~~~
+------------
 
-* `NextERP Romania <https://www.nexterp.ro>`_:
+-  `NextERP Romania <https://www.nexterp.ro>`__:
 
-  * Fekete Mihai <feketemihai@nexterp.ro>
-  * Cojocaru Marcel <cojocarumarcel@nexterp.ro>
+   -  Fekete Mihai <feketemihai@nexterp.ro>
+   -  Cojocaru Marcel <cojocarumarcel@nexterp.ro>
 
-* `QDev Web Labs <https://qdev.ro>`_:
+-  `QDev Web Labs <https://qdev.ro>`__:
 
-  * Anastasescu Răzvan-Ioan <razvan@qdev.ro>
+   -  Anastasescu Răzvan-Ioan <razvan@qdev.ro>
 
-Do not contact contributors directly about support or help with technical issues.
+Do not contact contributors directly about support or help with
+technical issues.
 
 Maintainers
-~~~~~~~~~~~
+-----------
 
 This module is maintained by the OCA.
 
