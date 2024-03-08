@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record model="ir.cron" id="ir_cron_res_partner_anaf_update_every_day">
+        <field name="name">Download Partner ANAF Data</field>
+        <field name="model_id" ref="model_l10n_ro_res_partner_anaf" />
+        <field name="state">code</field>
+        <field name="code">model._download_anaf_data()</field>
+        <field name="interval_number">1</field>
+        <field name="interval_type">days</field>
+        <!-- it s every day -->
+        <field name="numbercall">-1</field>
+        <field name="doall" eval="False" />
+    </record>
+    <record model="ir.cron" id="ir_cron_res_partner_vat_payment_update_every_day">
+        <field name="name">Update Partner VAT on Payment</field>
+        <field name="model_id" ref="model_res_partner" />
+        <field name="state">code</field>
+        <field name="code">model._update_vat_payment_all()</field>
+        <field name="interval_number">1</field>
+        <field name="interval_type">days</field>
+        <!-- it s every day -->
+        <field name="numbercall">-1</field>
+        <field name="doall" eval="False" />
+    </record>
+</odoo>

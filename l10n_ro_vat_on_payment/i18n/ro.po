@@ -1,0 +1,208 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# * l10n_ro_vat_on_payment
+#
+# Translators:
+# OCA Transbot <transbot@odoo-community.org>, 2016
+# Fekete Mihai <mihai.fekete@forestandbiomass.ro>, 2016
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 8.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2016-07-10 00:01+0000\n"
+"PO-Revision-Date: 2020-08-13 03:59+0000\n"
+"Last-Translator: Dorin Hongu <dhongu@gmail.com>\n"
+"Language-Team: Romanian (https://www.transifex.com/oca/teams/23907/ro/)\n"
+"Language: ro\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: nplurals=3; plural=n==1 ? 0 : (n==0 || (n%100 > 0 && n%100 < "
+"20)) ? 1 : 2;\n"
+"X-Generator: Weblate 3.10\n"
+
+#. module: l10n_ro_vat_on_payment
+#: model_terms:ir.ui.view,arch_db:l10n_ro_vat_on_payment.view_partner_anaf_form
+msgid "ANAF - VAT on Payment"
+msgstr "ANAF - TVA la Încasare"
+
+#. module: l10n_ro_vat_on_payment
+#: model:ir.model,name:l10n_ro_vat_on_payment.model_l10n_ro_res_partner_anaf
+msgid "ANAF History about VAT on Payment"
+msgstr "Istoricul ANAF despre TVA la Încasare"
+
+#. module: l10n_ro_vat_on_payment
+#: model:ir.model.fields,field_description:l10n_ro_vat_on_payment.field_l10n_ro_res_partner_anaf__anaf_id
+msgid "Anaf"
+msgstr ""
+
+#. module: l10n_ro_vat_on_payment
+#: model:ir.model,name:l10n_ro_vat_on_payment.model_res_partner
+msgid "Contact"
+msgstr "Contact"
+
+#. module: l10n_ro_vat_on_payment
+#: model:ir.model.fields,field_description:l10n_ro_vat_on_payment.field_l10n_ro_res_partner_anaf__create_uid
+msgid "Created by"
+msgstr "Creeat de"
+
+#. module: l10n_ro_vat_on_payment
+#: model:ir.model.fields,field_description:l10n_ro_vat_on_payment.field_l10n_ro_res_partner_anaf__create_date
+msgid "Created on"
+msgstr "Creeat în"
+
+#. module: l10n_ro_vat_on_payment
+#: model:ir.model.fields,field_description:l10n_ro_vat_on_payment.field_l10n_ro_res_partner_anaf__display_name
+msgid "Display Name"
+msgstr "Nume Afişat"
+
+#. module: l10n_ro_vat_on_payment
+#: model:ir.actions.server,name:l10n_ro_vat_on_payment.ir_cron_res_partner_anaf_update_every_day_ir_actions_server
+#: model:ir.cron,cron_name:l10n_ro_vat_on_payment.ir_cron_res_partner_anaf_update_every_day
+msgid "Download Partner ANAF Data"
+msgstr "Descărcare date partener ANAF"
+
+#. module: l10n_ro_vat_on_payment
+#: model:ir.model.fields,field_description:l10n_ro_vat_on_payment.field_l10n_ro_res_partner_anaf__end_date
+msgid "End Date"
+msgstr "Dată Sfârşit"
+
+#. module: l10n_ro_vat_on_payment
+#: model:ir.model.fields.selection,name:l10n_ro_vat_on_payment.selection__l10n_ro_res_partner_anaf__operation_type__e
+msgid "Fix error"
+msgstr "Corectare eroare"
+
+#. module: l10n_ro_vat_on_payment
+#: model:ir.model.fields,field_description:l10n_ro_vat_on_payment.field_l10n_ro_res_partner_anaf__id
+msgid "ID"
+msgstr "ID"
+
+#. module: l10n_ro_vat_on_payment
+#: model:ir.model.fields,field_description:l10n_ro_vat_on_payment.field_account_move__is_l10n_ro_record
+#: model:ir.model.fields,field_description:l10n_ro_vat_on_payment.field_account_move_line__is_l10n_ro_record
+msgid "Is Romanian Record"
+msgstr ""
+
+#. module: l10n_ro_vat_on_payment
+#: model:ir.model,name:l10n_ro_vat_on_payment.model_account_move
+msgid "Journal Entry"
+msgstr ""
+
+#. module: l10n_ro_vat_on_payment
+#: model:ir.model,name:l10n_ro_vat_on_payment.model_account_move_line
+msgid "Journal Item"
+msgstr ""
+
+#. module: l10n_ro_vat_on_payment
+#: model:ir.model.fields,field_description:l10n_ro_vat_on_payment.field_l10n_ro_res_partner_anaf____last_update
+msgid "Last Modified on"
+msgstr "Ultima actualizare în"
+
+#. module: l10n_ro_vat_on_payment
+#: model:ir.model.fields,field_description:l10n_ro_vat_on_payment.field_l10n_ro_res_partner_anaf__write_uid
+msgid "Last Updated by"
+msgstr "Ultima actualizare de"
+
+#. module: l10n_ro_vat_on_payment
+#: model:ir.model.fields,field_description:l10n_ro_vat_on_payment.field_l10n_ro_res_partner_anaf__write_date
+msgid "Last Updated on"
+msgstr "Ultima actualizare în"
+
+#. module: l10n_ro_vat_on_payment
+#: model:ir.model.fields,field_description:l10n_ro_vat_on_payment.field_l10n_ro_res_partner_anaf__operation_date
+msgid "Operation Date"
+msgstr "Data Operaţiei"
+
+#. module: l10n_ro_vat_on_payment
+#: model:ir.model.fields,field_description:l10n_ro_vat_on_payment.field_l10n_ro_res_partner_anaf__operation_type
+msgid "Operation Type"
+msgstr "Tipul Operaţiei"
+
+#. module: l10n_ro_vat_on_payment
+#: model:ir.model.fields,field_description:l10n_ro_vat_on_payment.field_l10n_ro_res_partner_anaf__publish_date
+msgid "Publish Date"
+msgstr "Data Publicării"
+
+#. module: l10n_ro_vat_on_payment
+#: model:ir.model.fields.selection,name:l10n_ro_vat_on_payment.selection__l10n_ro_res_partner_anaf__operation_type__i
+msgid "Register"
+msgstr "Înregistrare"
+
+#. module: l10n_ro_vat_on_payment
+#: model:ir.model.fields.selection,name:l10n_ro_vat_on_payment.selection__l10n_ro_res_partner_anaf__operation_type__d
+msgid "Removal"
+msgstr "Ştergere"
+
+#. module: l10n_ro_vat_on_payment
+#: model:ir.model.fields,field_description:l10n_ro_vat_on_payment.field_res_partner__l10n_ro_anaf_history
+#: model:ir.model.fields,field_description:l10n_ro_vat_on_payment.field_res_users__l10n_ro_anaf_history
+msgid "Romania - ANAF History"
+msgstr ""
+
+#. module: l10n_ro_vat_on_payment
+#: model:ir.model.fields,field_description:l10n_ro_vat_on_payment.field_res_partner__l10n_ro_vat_on_payment
+#: model:ir.model.fields,field_description:l10n_ro_vat_on_payment.field_res_users__l10n_ro_vat_on_payment
+msgid "Romania - VAT on Payment"
+msgstr ""
+
+#. module: l10n_ro_vat_on_payment
+#: model:ir.model.fields,field_description:l10n_ro_vat_on_payment.field_l10n_ro_res_partner_anaf__start_date
+msgid "Start Date"
+msgstr "Dată Început"
+
+#. module: l10n_ro_vat_on_payment
+#: model:ir.actions.server,name:l10n_ro_vat_on_payment.ir_cron_res_partner_vat_payment_update_every_day_ir_actions_server
+#: model:ir.cron,cron_name:l10n_ro_vat_on_payment.ir_cron_res_partner_vat_payment_update_every_day
+#, fuzzy
+msgid "Update Partner VAT on Payment"
+msgstr "Actualizează TVA la Încasare"
+
+#. module: l10n_ro_vat_on_payment
+#: model_terms:ir.ui.view,arch_db:l10n_ro_vat_on_payment.partners_form_add_vat_payment
+msgid "Update VAT on Payment"
+msgstr "Actualizează TVA la Încasare"
+
+#. module: l10n_ro_vat_on_payment
+#: model:ir.model.fields,field_description:l10n_ro_vat_on_payment.field_l10n_ro_res_partner_anaf__vat
+msgid "Vat"
+msgstr ""
+
+#~ msgid "ANAF History"
+#~ msgstr "Istoric ANAF"
+
+#~ msgid "ANAF ID"
+#~ msgstr "ID ANAF"
+
+#~ msgid "Journal Entries"
+#~ msgstr "Intrări jurnal"
+
+#~ msgid "VAT"
+#~ msgstr "TVA"
+
+#~ msgid "VAT number"
+#~ msgstr "Număr TVA"
+
+#~ msgid "VAT number without country code."
+#~ msgstr "Număr TVA fără cod ţară."
+
+#~ msgid "VAT on Payment"
+#~ msgstr "TVA la Încasare"
+
+#~ msgid "Invoice"
+#~ msgstr "Factură"
+
+#~ msgid "Accounting"
+#~ msgstr "Contabilitate"
+
+#~ msgid "Is a Fiscal Receipt"
+#~ msgstr "Este Bon Fiscal"
+
+#~ msgid "Partner"
+#~ msgstr "Partener"
+
+#~ msgid ""
+#~ "onchange_partner_id(type, partner_id, date_invoice, payment_term, "
+#~ "partner_bank_id, company_id, context)"
+#~ msgstr ""
+#~ "onchange_partner_id(type, partner_id, date_invoice, payment_term, "
+#~ "partner_bank_id, company_id, context)"
