@@ -337,6 +337,13 @@ msgstr ""
 "Imprimați raportul de primire personalizat pentru companiile românești."
 
 #. module: l10n_ro_config
+#: model:ir.model.fields,field_description:l10n_ro_config.field_account_journal__l10n_ro_print_report
+#: model:ir.model.fields,field_description:l10n_ro_config.field_account_setup_bank_manual_config__l10n_ro_print_report
+#: model:ir.model.fields,field_description:l10n_ro_config.field_res_partner_bank__l10n_ro_print_report
+msgid "Print in Report"
+msgstr ""
+
+#. module: l10n_ro_config
 #: model:ir.model,name:l10n_ro_config.model_product_template
 msgid "Product"
 msgstr ""
@@ -408,11 +415,6 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:l10n_ro_config.res_config_settings_view_form
 msgid "Restrict stock move posting with future date."
 msgstr ""
-
-#. module: l10n_ro_config
-#: model:ir.model.fields,field_description:l10n_ro_config.field_account_journal__l10n_ro_print_report
-msgid "Ro Print in Report"
-msgstr "Ro Imprimare în raport"
 
 #. module: l10n_ro_config
 #: model_terms:ir.ui.view,arch_db:l10n_ro_config.res_config_settings_view_form
@@ -504,12 +506,6 @@ msgstr "Contul de primire pentru expediere"
 #: model:ir.model.fields,field_description:l10n_ro_config.field_res_config_settings__l10n_ro_property_stock_price_difference_product_id
 msgid "Romania - Price Difference Landed Cost Product"
 msgstr "Produsul de costuri adiționale pentru diferența de preț"
-
-#. module: l10n_ro_config
-#: model:ir.model.fields,field_description:l10n_ro_config.field_account_setup_bank_manual_config__l10n_ro_print_report
-#: model:ir.model.fields,field_description:l10n_ro_config.field_res_partner_bank__l10n_ro_print_report
-msgid "Romania - Print in Report"
-msgstr "Tipărit  în raport"
 
 #. module: l10n_ro_config
 #: model:ir.model.fields,field_description:l10n_ro_config.field_res_company__l10n_ro_share_capital
@@ -1069,6 +1065,12 @@ msgid ""
 msgstr ""
 "utilizați contul 4428 pentru tva neexigibil în notele făcute pentru 'Marfă "
 "în magazin'"
+
+#~ msgid "Ro Print in Report"
+#~ msgstr "Ro Imprimare în raport"
+
+#~ msgid "Romania - Print in Report"
+#~ msgstr "Tipărit  în raport"
 
 #~ msgid ""
 #~ "Add a mechanism to close Incomes, Expense, VAT on a period\n"
