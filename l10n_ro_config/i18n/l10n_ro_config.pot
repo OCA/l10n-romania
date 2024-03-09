@@ -306,6 +306,13 @@ msgid "Print custom receipt report for Romanian companies."
 msgstr ""
 
 #. module: l10n_ro_config
+#: model:ir.model.fields,field_description:l10n_ro_config.field_account_journal__l10n_ro_print_report
+#: model:ir.model.fields,field_description:l10n_ro_config.field_account_setup_bank_manual_config__l10n_ro_print_report
+#: model:ir.model.fields,field_description:l10n_ro_config.field_res_partner_bank__l10n_ro_print_report
+msgid "Print in Report"
+msgstr ""
+
+#. module: l10n_ro_config
 #: model:ir.model,name:l10n_ro_config.model_product_template
 msgid "Product"
 msgstr ""
@@ -373,11 +380,6 @@ msgstr ""
 #: model:ir.model.fields,help:l10n_ro_config.field_res_config_settings__l10n_ro_restrict_stock_move_date_future
 #: model_terms:ir.ui.view,arch_db:l10n_ro_config.res_config_settings_view_form
 msgid "Restrict stock move posting with future date."
-msgstr ""
-
-#. module: l10n_ro_config
-#: model:ir.model.fields,field_description:l10n_ro_config.field_account_journal__l10n_ro_print_report
-msgid "Ro Print in Report"
 msgstr ""
 
 #. module: l10n_ro_config
@@ -469,12 +471,6 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_ro_config.field_res_company__l10n_ro_property_stock_price_difference_product_id
 #: model:ir.model.fields,field_description:l10n_ro_config.field_res_config_settings__l10n_ro_property_stock_price_difference_product_id
 msgid "Romania - Price Difference Landed Cost Product"
-msgstr ""
-
-#. module: l10n_ro_config
-#: model:ir.model.fields,field_description:l10n_ro_config.field_account_setup_bank_manual_config__l10n_ro_print_report
-#: model:ir.model.fields,field_description:l10n_ro_config.field_res_partner_bank__l10n_ro_print_report
-msgid "Romania - Print in Report"
 msgstr ""
 
 #. module: l10n_ro_config
