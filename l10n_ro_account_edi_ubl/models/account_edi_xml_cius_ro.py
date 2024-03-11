@@ -157,6 +157,9 @@ class AccountEdiXmlCIUSRO(models.Model):
         vals["base_quantity"] = 1.0
         return vals
 
+    def split_string(self, string):
+        return [string[i : i + 100] for i in range(0, len(string), 100)]
+
     def _export_invoice_vals(self, invoice):
         vals_list = super()._export_invoice_vals(invoice)
         vals_list["vals"]["buyer_reference"] = (
@@ -195,6 +198,14 @@ class AccountEdiXmlCIUSRO(models.Model):
                 vals_list["vals"]["legal_monetary_total_vals"]["payable_amount"] = (
                     -1
                 ) * vals_list["vals"]["legal_monetary_total_vals"]["payable_amount"]
+        result_list = []
+        if vals_list["vals"].get("note_vals"):
+            if len(vals_list["vals"]["note_vals"][0]) > 100:
+                split_strings = self.split_string(vals_list["vals"]["note_vals"][0])
+                for _index, split_str in enumerate(split_strings):
+                    result_list.append(split_str)
+        if result_list:
+            vals_list["vals"]["note_vals"] = result_list
         return vals_list
 
     def _export_invoice_constraints(self, invoice, vals):
@@ -497,3 +508,107 @@ class AccountEdiXmlCIUSRO(models.Model):
             }
         ]
         return vals
+
+    def _import_fill_invoice_allowance_charge(
+        self, tree, invoice_form, journal, qty_factor
+    ):
+        logs = []
+        if "{urn:oasis:names:specification:ubl:schema:xsd" in tree.tag:
+            is_ubl = True
+        elif "{urn:un:unece:uncefact:data:standard:" in tree.tag:
+            is_ubl = False
+        else:
+            return
+
+        xpath = (
+            "./{*}AllowanceCharge"
+            if is_ubl
+            else "./{*}SupplyChainTradeTransaction/{*}ApplicableHeaderTradeSettlement/{*}SpecifiedTradeAllowanceCharge"  # noqa: B950
+        )
+        allowance_charge_nodes = tree.findall(xpath)
+        for allow_el in allowance_charge_nodes:
+            with invoice_form.invoice_line_ids.new() as invoice_line_form:
+                invoice_line_form.sequence = (
+                    0  # be sure to put these lines above the 'real' invoice lines
+                )
+
+                charge_factor = -1  # factor is -1 for discount, 1 for charge
+                if is_ubl:
+                    charge_indicator_node = allow_el.find("./{*}ChargeIndicator")
+                else:
+                    charge_indicator_node = allow_el.find(
+                        "./{*}ChargeIndicator/{*}Indicator"
+                    )
+                if charge_indicator_node is not None:
+                    charge_factor = -1 if charge_indicator_node.text == "false" else 1
+                name = ""
+                reason_code_node = allow_el.find(
+                    "./{*}AllowanceChargeReasonCode" if is_ubl else "./{*}ReasonCode"
+                )
+                if reason_code_node is not None:
+                    name += reason_code_node.text + " "
+                reason_node = allow_el.find(
+                    "./{*}AllowanceChargeReason" if is_ubl else "./{*}Reason"
+                )
+                if reason_node is not None:
+                    name += reason_node.text
+                invoice_line_form.name = name
+                invoice_line_form.account_id = journal.default_account_id
+
+                amount_node = allow_el.find(
+                    "./{*}Amount" if is_ubl else "./{*}ActualAmount"
+                )
+                base_amount_node = allow_el.find(
+                    "./{*}BaseAmount" if is_ubl else "./{*}BasisAmount"
+                )
+
+                if base_amount_node is not None:
+                    invoice_line_form.price_unit = (
+                        float(base_amount_node.text) * charge_factor * qty_factor
+                    )
+                    percent_node = allow_el.find(
+                        "./{*}MultiplierFactorNumeric"
+                        if is_ubl
+                        else "./{*}CalculationPercent"
+                    )
+                    if percent_node is not None:
+                        invoice_line_form.quantity = float(percent_node.text) / 100
+                elif amount_node is not None:
+                    invoice_line_form.price_unit = (
+                        float(amount_node.text) * charge_factor * qty_factor
+                    )
+                    if charge_factor == -1:
+                        invoice_line_form.price_unit = (
+                            charge_factor * invoice_line_form.price_unit
+                        )
+                        invoice_line_form.quantity = (
+                            charge_factor * invoice_line_form.quantity
+                        )
+
+                invoice_line_form.tax_ids.clear()  # clear the default taxes applied to the line
+                tax_xpath = (
+                    "./{*}TaxCategory/{*}Percent"
+                    if is_ubl
+                    else "./{*}CategoryTradeTax/{*}RateApplicablePercent"
+                )
+                for tax_categ_percent_el in allow_el.findall(tax_xpath):
+                    tax = self.env["account.tax"].search(
+                        [
+                            ("company_id", "=", journal.company_id.id),
+                            ("amount", "=", float(tax_categ_percent_el.text)),
+                            ("amount_type", "=", "percent"),
+                            ("type_tax_use", "=", journal.type),
+                        ],
+                        limit=1,
+                    )
+                    if tax:
+                        invoice_line_form.tax_ids.add(tax)
+                    else:
+                        logs.append(
+                            _(
+                                "Could not retrieve the tax: %s %% for line '%s'.",
+                                float(tax_categ_percent_el.text),
+                                name,
+                            )
+                        )
+        return logs
