@@ -626,9 +626,10 @@ class AccountEdiXmlCIUSRO(models.Model):
                     else:
                         logs.append(
                             _(
-                                "Could not retrieve the tax: %s %% for line '%s'.",
-                                float(tax_categ_percent_el.text),
-                                name,
+                                "Could not retrieve the tax: "
+                                "%(tax_percent)s %% for line '%(name)s'.",
+                                tax_percent=float(tax_categ_percent_el.text),
+                                name=name,
                             )
                         )
         return logs
