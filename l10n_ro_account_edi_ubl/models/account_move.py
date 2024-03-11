@@ -170,7 +170,9 @@ class AccountMove(models.Model):
 
     def l10n_ro_download_zip_anaf(self, anaf_config=False):
         if not anaf_config:
-            anaf_config = self.env.company.l10n_ro_account_anaf_sync_id.sudo()
+            anaf_config = self.env.company.sudo()._l10n_ro_get_anaf_sync(
+                scope="e-factura"
+            )
         if not anaf_config:
             raise UserError(
                 _("The ANAF configuration is not set. Please set it and try again.")

@@ -66,15 +66,16 @@ class ResCompany(models.Model):
         start = kwargs.get("start", None)
         end = kwargs.get("end", None)
         pagina = kwargs.get("pagina", 1)
-        filtru = kwargs.get("filtru", {})
+        filtru = kwargs.get("filtru", "")
         messages = kwargs.get("messages", [])
 
         company_messages = []
-        anaf_config = self.l10n_ro_account_anaf_sync_id
+        anaf_config = self._l10n_ro_get_anaf_sync(scope="e-factura")
         if not anaf_config:
             _logger.warning("No ANAF configuration for company %s", self.name)
             return company_messages
-        if not anaf_config.access_token:
+        token = anaf_config.anaf_sync_id.access_token
+        if not token:
             _logger.warning("No access token for company %s", self.name)
             return company_messages
         start_time = end_time = 0
@@ -127,7 +128,7 @@ class ResCompany(models.Model):
         # method to be used in cron job to auto download e-invoices from ANAF
         ro_companies = self.search([]).filtered(
             lambda c: c.country_id.code == "RO"
-            and c.l10n_ro_account_anaf_sync_id
+            and c._l10n_ro_get_anaf_sync(scope="e-factura")
             and c.l10n_ro_download_einvoices
         )
 
@@ -159,5 +160,5 @@ class ResCompany(models.Model):
                     )
                     new_invoice = new_invoice._l10n_ro_prepare_invoice_for_download()
                     new_invoice.l10n_ro_download_zip_anaf(
-                        company.l10n_ro_account_anaf_sync_id
+                        company._l10n_ro_get_anaf_sync(scope="e-factura")
                     )
