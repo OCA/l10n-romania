@@ -25,6 +25,16 @@ msgid "ANAF Response"
 msgstr "Răspuns ANAF"
 
 #. module: l10n_ro_account_anaf_sync
+#: model:ir.model.fields,field_description:l10n_ro_account_anaf_sync.field_l10n_ro_account_anaf_sync_scope__anaf_sync_production_url
+msgid "API production URL"
+msgstr ""
+
+#. module: l10n_ro_account_anaf_sync
+#: model:ir.model.fields,field_description:l10n_ro_account_anaf_sync.field_l10n_ro_account_anaf_sync_scope__anaf_sync_test_url
+msgid "API test URL"
+msgstr ""
+
+#. module: l10n_ro_account_anaf_sync
 #: model:ir.model.fields,field_description:l10n_ro_account_anaf_sync.field_l10n_ro_account_anaf_sync__access_token
 msgid "Access Token"
 msgstr "Access Token"
@@ -37,7 +47,13 @@ msgid "Account ANAF Sync"
 msgstr "Cont ANAF Sync"
 
 #. module: l10n_ro_account_anaf_sync
+#: model:ir.model,name:l10n_ro_account_anaf_sync.model_l10n_ro_account_anaf_sync_scope
+msgid "Account ANAF Sync Scope"
+msgstr ""
+
+#. module: l10n_ro_account_anaf_sync
 #: model:ir.model.fields,field_description:l10n_ro_account_anaf_sync.field_l10n_ro_account_anaf_sync__message_needaction
+#: model:ir.model.fields,field_description:l10n_ro_account_anaf_sync.field_l10n_ro_account_anaf_sync_scope__message_needaction
 msgid "Action Needed"
 msgstr "Acțiune necesară"
 
@@ -47,19 +63,24 @@ msgid "Anaf Callback Url"
 msgstr "Anaf Callback Url"
 
 #. module: l10n_ro_account_anaf_sync
-#: model:ir.model.fields,field_description:l10n_ro_account_anaf_sync.field_l10n_ro_account_anaf_sync__anaf_einvoice_sync_url
-msgid "Anaf Einvoice Sync Url"
-msgstr "Anaf Einvoice Sync Url"
-
-#. module: l10n_ro_account_anaf_sync
 #: model:ir.model.fields,field_description:l10n_ro_account_anaf_sync.field_l10n_ro_account_anaf_sync__anaf_oauth_url
 msgid "Anaf Oauth Url"
 msgstr "Anaf Oauth Url"
 
 #. module: l10n_ro_account_anaf_sync
-#: model:ir.model.constraint,message:l10n_ro_account_anaf_sync.constraint_l10n_ro_account_anaf_sync_company_id_uniq
-msgid "Another ANAF sync for this company already exists!"
-msgstr "O altă sincronizare ANAF pentru această companie există deja!"
+#: model:ir.model.fields,field_description:l10n_ro_account_anaf_sync.field_l10n_ro_account_anaf_sync__anaf_scope_ids
+msgid "Anaf Scope"
+msgstr ""
+
+#. module: l10n_ro_account_anaf_sync
+#: model:ir.model.fields,field_description:l10n_ro_account_anaf_sync.field_l10n_ro_account_anaf_sync_scope__anaf_sync_id
+msgid "Anaf Sync"
+msgstr ""
+
+#. module: l10n_ro_account_anaf_sync
+#: model:ir.model.fields,field_description:l10n_ro_account_anaf_sync.field_l10n_ro_account_anaf_sync_scope__anaf_sync_url
+msgid "Anaf Sync Url"
+msgstr ""
 
 #. module: l10n_ro_account_anaf_sync
 #: model_terms:ir.ui.view,arch_db:l10n_ro_account_anaf_sync.view_l10n_ro_account_anaf_sync_form
@@ -72,6 +93,7 @@ msgstr ""
 
 #. module: l10n_ro_account_anaf_sync
 #: model:ir.model.fields,field_description:l10n_ro_account_anaf_sync.field_l10n_ro_account_anaf_sync__message_attachment_count
+#: model:ir.model.fields,field_description:l10n_ro_account_anaf_sync.field_l10n_ro_account_anaf_sync_scope__message_attachment_count
 msgid "Attachment Count"
 msgstr "Număr de atașamente"
 
@@ -107,6 +129,7 @@ msgstr "Companii"
 
 #. module: l10n_ro_account_anaf_sync
 #: model:ir.model.fields,field_description:l10n_ro_account_anaf_sync.field_l10n_ro_account_anaf_sync__company_id
+#: model:ir.model.fields,field_description:l10n_ro_account_anaf_sync.field_l10n_ro_account_anaf_sync_scope__company_id
 msgid "Company"
 msgstr "Companie"
 
@@ -122,11 +145,13 @@ msgstr "Configurați sincronizarea ANAF"
 
 #. module: l10n_ro_account_anaf_sync
 #: model:ir.model.fields,field_description:l10n_ro_account_anaf_sync.field_l10n_ro_account_anaf_sync__create_uid
+#: model:ir.model.fields,field_description:l10n_ro_account_anaf_sync.field_l10n_ro_account_anaf_sync_scope__create_uid
 msgid "Created by"
 msgstr "Creat de"
 
 #. module: l10n_ro_account_anaf_sync
 #: model:ir.model.fields,field_description:l10n_ro_account_anaf_sync.field_l10n_ro_account_anaf_sync__create_date
+#: model:ir.model.fields,field_description:l10n_ro_account_anaf_sync.field_l10n_ro_account_anaf_sync_scope__create_date
 msgid "Created on"
 msgstr "Creat in"
 
@@ -138,6 +163,7 @@ msgstr ""
 
 #. module: l10n_ro_account_anaf_sync
 #: model:ir.model.fields,field_description:l10n_ro_account_anaf_sync.field_l10n_ro_account_anaf_sync__display_name
+#: model:ir.model.fields,field_description:l10n_ro_account_anaf_sync.field_l10n_ro_account_anaf_sync_scope__display_name
 msgid "Display Name"
 msgstr "Nume afișat"
 
@@ -150,11 +176,13 @@ msgstr "Eroare, această configurație ANAF nu există!"
 
 #. module: l10n_ro_account_anaf_sync
 #: model:ir.model.fields,field_description:l10n_ro_account_anaf_sync.field_l10n_ro_account_anaf_sync__message_follower_ids
+#: model:ir.model.fields,field_description:l10n_ro_account_anaf_sync.field_l10n_ro_account_anaf_sync_scope__message_follower_ids
 msgid "Followers"
 msgstr "Urmaritori"
 
 #. module: l10n_ro_account_anaf_sync
 #: model:ir.model.fields,field_description:l10n_ro_account_anaf_sync.field_l10n_ro_account_anaf_sync__message_partner_ids
+#: model:ir.model.fields,field_description:l10n_ro_account_anaf_sync.field_l10n_ro_account_anaf_sync_scope__message_partner_ids
 msgid "Followers (Partners)"
 msgstr "Urmaritori (Parteneri)"
 
@@ -171,36 +199,43 @@ msgstr "Obțineți token de pe site-ul Anaf (cu tokenul USB inserat)"
 
 #. module: l10n_ro_account_anaf_sync
 #: model:ir.model.fields,field_description:l10n_ro_account_anaf_sync.field_l10n_ro_account_anaf_sync__has_message
+#: model:ir.model.fields,field_description:l10n_ro_account_anaf_sync.field_l10n_ro_account_anaf_sync_scope__has_message
 msgid "Has Message"
 msgstr ""
 
 #. module: l10n_ro_account_anaf_sync
 #: model:ir.model.fields,field_description:l10n_ro_account_anaf_sync.field_l10n_ro_account_anaf_sync__id
+#: model:ir.model.fields,field_description:l10n_ro_account_anaf_sync.field_l10n_ro_account_anaf_sync_scope__id
 msgid "ID"
 msgstr "ID"
 
 #. module: l10n_ro_account_anaf_sync
 #: model:ir.model.fields,help:l10n_ro_account_anaf_sync.field_l10n_ro_account_anaf_sync__message_needaction
+#: model:ir.model.fields,help:l10n_ro_account_anaf_sync.field_l10n_ro_account_anaf_sync_scope__message_needaction
 msgid "If checked, new messages require your attention."
 msgstr "Dacă sunt bifate, mesajele noi necesită atenția dvs."
 
 #. module: l10n_ro_account_anaf_sync
 #: model:ir.model.fields,help:l10n_ro_account_anaf_sync.field_l10n_ro_account_anaf_sync__message_has_error
+#: model:ir.model.fields,help:l10n_ro_account_anaf_sync.field_l10n_ro_account_anaf_sync_scope__message_has_error
 msgid "If checked, some messages have a delivery error."
 msgstr "Dacă sunt bifate, unele mesaje au o eroare de livrare."
 
 #. module: l10n_ro_account_anaf_sync
 #: model:ir.model.fields,field_description:l10n_ro_account_anaf_sync.field_l10n_ro_account_anaf_sync__message_is_follower
+#: model:ir.model.fields,field_description:l10n_ro_account_anaf_sync.field_l10n_ro_account_anaf_sync_scope__message_is_follower
 msgid "Is Follower"
 msgstr "Este urmaritor"
 
 #. module: l10n_ro_account_anaf_sync
 #: model:ir.model.fields,field_description:l10n_ro_account_anaf_sync.field_l10n_ro_account_anaf_sync__is_l10n_ro_record
+#: model:ir.model.fields,field_description:l10n_ro_account_anaf_sync.field_l10n_ro_account_anaf_sync_scope__is_l10n_ro_record
 msgid "Is Romanian Record"
 msgstr "Inregistrare Romania"
 
 #. module: l10n_ro_account_anaf_sync
 #: model:ir.model.fields,field_description:l10n_ro_account_anaf_sync.field_l10n_ro_account_anaf_sync____last_update
+#: model:ir.model.fields,field_description:l10n_ro_account_anaf_sync.field_l10n_ro_account_anaf_sync_scope____last_update
 msgid "Last Modified on"
 msgstr "Ultima modificare pe"
 
@@ -211,26 +246,31 @@ msgstr "Data ultimei cereri"
 
 #. module: l10n_ro_account_anaf_sync
 #: model:ir.model.fields,field_description:l10n_ro_account_anaf_sync.field_l10n_ro_account_anaf_sync__write_uid
+#: model:ir.model.fields,field_description:l10n_ro_account_anaf_sync.field_l10n_ro_account_anaf_sync_scope__write_uid
 msgid "Last Updated by"
 msgstr "Ultima actualizare de către"
 
 #. module: l10n_ro_account_anaf_sync
 #: model:ir.model.fields,field_description:l10n_ro_account_anaf_sync.field_l10n_ro_account_anaf_sync__write_date
+#: model:ir.model.fields,field_description:l10n_ro_account_anaf_sync.field_l10n_ro_account_anaf_sync_scope__write_date
 msgid "Last Updated on"
 msgstr "Ultima actualizare pe"
 
 #. module: l10n_ro_account_anaf_sync
 #: model:ir.model.fields,field_description:l10n_ro_account_anaf_sync.field_l10n_ro_account_anaf_sync__message_main_attachment_id
+#: model:ir.model.fields,field_description:l10n_ro_account_anaf_sync.field_l10n_ro_account_anaf_sync_scope__message_main_attachment_id
 msgid "Main Attachment"
 msgstr "Atașamentul principal"
 
 #. module: l10n_ro_account_anaf_sync
 #: model:ir.model.fields,field_description:l10n_ro_account_anaf_sync.field_l10n_ro_account_anaf_sync__message_has_error
+#: model:ir.model.fields,field_description:l10n_ro_account_anaf_sync.field_l10n_ro_account_anaf_sync_scope__message_has_error
 msgid "Message Delivery error"
 msgstr "Eroare de livrare a mesajului"
 
 #. module: l10n_ro_account_anaf_sync
 #: model:ir.model.fields,field_description:l10n_ro_account_anaf_sync.field_l10n_ro_account_anaf_sync__message_ids
+#: model:ir.model.fields,field_description:l10n_ro_account_anaf_sync.field_l10n_ro_account_anaf_sync_scope__message_ids
 msgid "Messages"
 msgstr "Mesaje"
 
@@ -254,23 +294,32 @@ msgstr ""
 
 #. module: l10n_ro_account_anaf_sync
 #: model:ir.model.fields,field_description:l10n_ro_account_anaf_sync.field_l10n_ro_account_anaf_sync__message_needaction_counter
+#: model:ir.model.fields,field_description:l10n_ro_account_anaf_sync.field_l10n_ro_account_anaf_sync_scope__message_needaction_counter
 msgid "Number of Actions"
 msgstr "Numărul de acțiuni"
 
 #. module: l10n_ro_account_anaf_sync
 #: model:ir.model.fields,field_description:l10n_ro_account_anaf_sync.field_l10n_ro_account_anaf_sync__message_has_error_counter
+#: model:ir.model.fields,field_description:l10n_ro_account_anaf_sync.field_l10n_ro_account_anaf_sync_scope__message_has_error_counter
 msgid "Number of errors"
 msgstr "Numărul de erori"
 
 #. module: l10n_ro_account_anaf_sync
 #: model:ir.model.fields,help:l10n_ro_account_anaf_sync.field_l10n_ro_account_anaf_sync__message_needaction_counter
+#: model:ir.model.fields,help:l10n_ro_account_anaf_sync.field_l10n_ro_account_anaf_sync_scope__message_needaction_counter
 msgid "Number of messages requiring action"
 msgstr ""
 
 #. module: l10n_ro_account_anaf_sync
 #: model:ir.model.fields,help:l10n_ro_account_anaf_sync.field_l10n_ro_account_anaf_sync__message_has_error_counter
+#: model:ir.model.fields,help:l10n_ro_account_anaf_sync.field_l10n_ro_account_anaf_sync_scope__message_has_error_counter
 msgid "Number of messages with delivery error"
 msgstr "Numărul de mesaje cu eroare de livrare"
+
+#. module: l10n_ro_account_anaf_sync
+#: model:ir.model.fields.selection,name:l10n_ro_account_anaf_sync.selection__l10n_ro_account_anaf_sync_scope__state__production
+msgid "Production"
+msgstr ""
 
 #. module: l10n_ro_account_anaf_sync
 #: model:ir.model.fields,help:l10n_ro_account_anaf_sync.field_l10n_ro_account_anaf_sync__access_token
@@ -284,6 +333,11 @@ msgid ""
 "Received from ANAF with this you can take access token and refresh_token"
 msgstr ""
 "Primit de la ANAF, cu aceasta puteți lua token de acces și refresh_token"
+
+#. module: l10n_ro_account_anaf_sync
+#: model_terms:ir.ui.view,arch_db:l10n_ro_account_anaf_sync.view_l10n_ro_account_anaf_sync_form
+msgid "Refresh Access Token"
+msgstr ""
 
 #. module: l10n_ro_account_anaf_sync
 #: model:ir.model.fields,field_description:l10n_ro_account_anaf_sync.field_l10n_ro_account_anaf_sync__refresh_token
@@ -308,17 +362,24 @@ msgid "Revoke token response: %s"
 msgstr "Raspuns revocare Access Token: %s"
 
 #. module: l10n_ro_account_anaf_sync
-#: model:ir.model.fields,field_description:l10n_ro_account_anaf_sync.field_res_company__l10n_ro_account_anaf_sync_id
-msgid "Romania - Account ANAF Sync"
-msgstr "Cont ANAF Sync"
+#: model:ir.model.fields,field_description:l10n_ro_account_anaf_sync.field_l10n_ro_account_anaf_sync_scope__scope
+msgid "Scope"
+msgstr ""
+
+#. module: l10n_ro_account_anaf_sync
+#: model_terms:ir.ui.view,arch_db:l10n_ro_account_anaf_sync.view_l10n_ro_account_anaf_sync_form
+msgid "Services"
+msgstr ""
 
 #. module: l10n_ro_account_anaf_sync
 #: model:ir.model.fields,field_description:l10n_ro_account_anaf_sync.field_l10n_ro_account_anaf_sync__state
+#: model:ir.model.fields,field_description:l10n_ro_account_anaf_sync.field_l10n_ro_account_anaf_sync_scope__state
 msgid "State"
 msgstr "Status"
 
 #. module: l10n_ro_account_anaf_sync
 #: model:ir.model.fields.selection,name:l10n_ro_account_anaf_sync.selection__l10n_ro_account_anaf_sync__state__test
+#: model:ir.model.fields.selection,name:l10n_ro_account_anaf_sync.selection__l10n_ro_account_anaf_sync_scope__state__test
 msgid "Test"
 msgstr "Test"
 
@@ -367,11 +428,13 @@ msgstr ""
 
 #. module: l10n_ro_account_anaf_sync
 #: model:ir.model.fields,field_description:l10n_ro_account_anaf_sync.field_l10n_ro_account_anaf_sync__website_message_ids
+#: model:ir.model.fields,field_description:l10n_ro_account_anaf_sync.field_l10n_ro_account_anaf_sync_scope__website_message_ids
 msgid "Website Messages"
 msgstr "Mesaje pe site"
 
 #. module: l10n_ro_account_anaf_sync
 #: model:ir.model.fields,help:l10n_ro_account_anaf_sync.field_l10n_ro_account_anaf_sync__website_message_ids
+#: model:ir.model.fields,help:l10n_ro_account_anaf_sync.field_l10n_ro_account_anaf_sync_scope__website_message_ids
 msgid "Website communication history"
 msgstr "Istoricul comunicării site-ului"
 
@@ -406,6 +469,22 @@ msgstr ""
 #, python-format
 msgid "You don't have ANAF access token. Please get it first."
 msgstr "Nu aveți un token de acces ANAF. Vă rugăm să-l generati mai întâi."
+
+#. module: l10n_ro_account_anaf_sync
+#. odoo-python
+#: code:addons/l10n_ro_account_anaf_sync/models/l10n_ro_account_anaf_sync.py:0
+#, python-format
+msgid "You don't have ANAF refresh token. Please get it first."
+msgstr ""
+
+#~ msgid "Anaf Einvoice Sync Url"
+#~ msgstr "Anaf Einvoice Sync Url"
+
+#~ msgid "Another ANAF sync for this company already exists!"
+#~ msgstr "O altă sincronizare ANAF pentru această companie există deja!"
+
+#~ msgid "Romania - Account ANAF Sync"
+#~ msgstr "Cont ANAF Sync"
 
 #~ msgid "Number of messages which requires an action"
 #~ msgstr "Numărul de mesaje care necesită o acțiune"
