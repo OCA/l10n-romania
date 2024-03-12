@@ -196,6 +196,9 @@ class AccountEdiXmlCIUSRO(models.Model):
             )
             vals_list["customer"] = vals_list["supplier"]
             vals_list["supplier"] = customer
+            customer_vals = vals_list['vals']['accounting_customer_party_vals']
+            vals_list['vals']['accounting_customer_party_vals'] = vals_list['vals']['accounting_supplier_party_vals']
+            vals_list['vals']['accounting_supplier_party_vals'] = customer_vals
         return vals_list
 
     def _export_invoice_constraints(self, invoice, vals):

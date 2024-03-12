@@ -30,17 +30,17 @@
                     name="l10n_ro_fiscal_receipt"
                     attrs="{'invisible': [('is_l10n_ro_record','=',False)]}"
                 />
+            </field>
+            <xpath expr="//group[@name='group_alias_edit']" position="after">
+                <field name="is_l10n_ro_record" invisible="1" />
                 <group
-                    string="Romania - Auto Invoicing"
+                    string="Ro Auto Invoicing"
                     attrs="{'invisible': [('is_l10n_ro_record','=',False)]}"
                 >
                     <field name="l10n_ro_sequence_type" />
-                    <field
-                        name="l10n_ro_partner_id"
-                        attrs="{'invisible': [('l10n_ro_sequence_type', '=', 'normal')]}"
-                    />
+                    <field name="l10n_ro_partner_id" />
                 </group>
-            </field>
+            </xpath>
         </field>
     </record>
 </odoo>
