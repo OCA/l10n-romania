@@ -187,7 +187,15 @@ class AccountEdiXmlCIUSRO(models.Model):
                 vals_list["vals"]["legal_monetary_total_vals"]["payable_amount"] = (
                     -1
                 ) * vals_list["vals"]["legal_monetary_total_vals"]["payable_amount"]
-
+        if (
+            invoice.journal_id.l10n_ro_sequence_type == "autoinv2"
+            and invoice.journal_id.l10n_ro_partner_id
+        ):
+            customer = vals_list.get(
+                "customer", invoice.company_id.partner_id.commercial_partner_id
+            )
+            vals_list["customer"] = vals_list["supplier"]
+            vals_list["supplier"] = customer
         return vals_list
 
     def _export_invoice_constraints(self, invoice, vals):
