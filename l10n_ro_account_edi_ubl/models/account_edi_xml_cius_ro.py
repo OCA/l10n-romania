@@ -341,14 +341,13 @@ class AccountEdiXmlCIUSRO(models.Model):
         if not invoice.partner_id.is_company and name and vat:
             invoice.partner_id.is_company = True
         return res
-    
-    def _import_fill_invoice_form(self, journal, tree, invoice_form, qty_factor):
 
+    def _import_fill_invoice_form(self, journal, tree, invoice_form, qty_factor):
         def _find_value(xpath, element=tree):
             # avoid 'TypeError: empty namespace prefix is not supported in XPath'
             nsmap = {k: v for k, v in tree.nsmap.items() if k is not None}
-            return self.env['account.edi.format']._find_value(xpath, element, nsmap)
-        
+            return self.env["account.edi.format"]._find_value(xpath, element, nsmap)
+
         # Overwrite to take partner from RegistrationName
         if not invoice_form.partner_id:
             role = "Customer" if invoice_form.journal_id.type == "sale" else "Supplier"
