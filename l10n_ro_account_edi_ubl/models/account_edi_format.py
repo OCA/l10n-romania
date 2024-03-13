@@ -102,7 +102,7 @@ class AccountEdiXmlCIUSRO(models.Model):
             is_required = (
                 invoice.move_type in ("in_invoice", "in_refund")
                 and invoice.journal_id.l10n_ro_sequence_type == "autoinv2"
-                and invoice.journal_id.l10n_ro_partner_id
+                and bool(invoice.journal_id.l10n_ro_partner_id)
             )
         return is_required
 
