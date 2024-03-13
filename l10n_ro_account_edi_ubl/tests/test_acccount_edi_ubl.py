@@ -620,7 +620,6 @@ class TestAccountEdiUbl(AccountEdiTestCommon, CronMixinCase):
             self.assertAlmostEqual(invoice.invoice_line_ids[0].price_unit, 1000.0)
             self.assertAlmostEqual(invoice.invoice_line_ids[0].balance, 1000.0)
 
-    #
     def test_is_compatible_with_journal_sale_ro(self):
         is_compatible = self.edi_cius_format._is_compatible_with_journal(
             self.invoice.journal_id
@@ -736,3 +735,96 @@ class TestAccountEdiUbl(AccountEdiTestCommon, CronMixinCase):
             self.get_file("credit_note_in_option.xml")
         )
         self.assertXmlTreeEqual(current_etree, expected_etree)
+
+    def test_l10n_ro_create_anaf_efactura_discount(self):
+        anaf_config = self.env.company.l10n_ro_account_anaf_sync_id
+        anaf_config.access_token = "test"
+        self.env.company.l10n_ro_download_einvoices = True
+        partner = self.env['res.partner'].search([('name', '=', 'BTL ROMANIA APARATURA MEDICALA SRL')])
+        partner2 = self.env['res.partner'].search([('name', '=', 'GREEN RESOURCES MANAGEMENT SA')])
+        if not partner:
+            self.env.company.partner_id.write(
+                {
+                    "vat": "RO9731314",
+                    "name": "BTL ROMANIA APARATURA MEDICALA SRL",
+                    "phone": False,
+                    "email": False,
+                }
+            )
+        if not partner2:
+            self.env["res.partner"].create(
+                {
+                    "name": "GREEN RESOURCES MANAGEMENT SA",
+                    "vat": "RO36584466",
+                    "country_id": self.env.ref("base.ro").id,
+                }
+            )
+        messages = [
+            {
+                "data_creare": "202312120940",
+                "cif": "9731314",
+                "id_solicitare": "4186086961",
+                "detalii": "Factura cu id_incarcare=4186086961 emisa de "
+                "cif_emitent=36584466 pentru "
+                "cif_beneficiar=9731314",
+                "tip": "FACTURA PRIMITA",
+                "id": "3274587391",
+            }
+        ]
+
+        signed_zip_file = open(
+            get_module_resource("l10n_ro_account_edi_ubl", "tests", "4186086961.zip"),
+            mode="rb",
+        ).read()
+        with patch(
+            "odoo.addons.l10n_ro_account_edi_ubl.models.res_company.ResCompany"
+            "._l10n_ro_get_anaf_efactura_messages",
+            return_value=messages,
+        ), patch(
+            "odoo.addons.l10n_ro_account_anaf_sync.models.l10n_ro_account_anaf_sync."
+            "AccountANAFSync._l10n_ro_einvoice_call",
+            return_value=(signed_zip_file, 200),
+        ):
+            self.env.company._l10n_ro_create_anaf_efactura()
+            invoice = self.env["account.move"].search(
+                [("l10n_ro_edi_download", "=", "3274587391")]
+            )
+            self.assertEqual(len(invoice), 1)
+            self.assertEqual(invoice.l10n_ro_edi_download, "3274587391")
+            self.assertEqual(invoice.l10n_ro_edi_transaction, "4186086961")
+            self.assertEqual(invoice.move_type, "in_invoice")
+            self.assertEqual(invoice.partner_id.vat, "RO36584466")
+
+            self.assertEqual(invoice.ref, "GRS1913049")
+            self.assertEqual(invoice.currency_id.name, "RON")
+            self.assertEqual(
+                invoice.invoice_date, fields.Date.from_string("2024-02-20")
+            )
+            self.assertEqual(
+                invoice.invoice_date_due, fields.Date.from_string("2024-03-12")
+            )
+
+            self.assertAlmostEqual(invoice.amount_untaxed, 309.57)
+            self.assertAlmostEqual(invoice.amount_tax, 58.82)
+            self.assertAlmostEqual(invoice.amount_total, 368.39)
+            self.assertAlmostEqual(invoice.amount_residual, 368.39)
+            self.assertEqual(invoice.invoice_line_ids[0].name, "95 Scont")
+            self.assertAlmostEqual(invoice.invoice_line_ids[0].quantity, -1)
+            self.assertAlmostEqual(invoice.invoice_line_ids[0].price_unit, 21.20)
+            self.assertAlmostEqual(invoice.invoice_line_ids[0].balance, -21.20)
+            self.assertEqual(invoice.invoice_line_ids[1].name, "SERVICII AMBALAJ PUS PE PIATA-PLASTIC-FLUX C.I.")
+            self.assertAlmostEqual(invoice.invoice_line_ids[1].quantity, 0.043)
+            self.assertAlmostEqual(invoice.invoice_line_ids[1].price_unit, 340.00)
+            self.assertAlmostEqual(invoice.invoice_line_ids[1].balance, 14.62)
+            self.assertEqual(invoice.invoice_line_ids[2].name, "SERVICII AMBALAJ PUS PE PIATA-HARTIE-CARTON-FLUX C.I.")
+            self.assertAlmostEqual(invoice.invoice_line_ids[2].quantity, 0.599)
+            self.assertAlmostEqual(invoice.invoice_line_ids[2].price_unit, 330.00)
+            self.assertAlmostEqual(invoice.invoice_line_ids[2].balance, 197.67)
+            self.assertEqual(invoice.invoice_line_ids[3].name, "SERVICII AMBALAJ PUS PE PIATA-LEMN-FLUX C.I.")
+            self.assertAlmostEqual(invoice.invoice_line_ids[3].quantity, 0.214)
+            self.assertAlmostEqual(invoice.invoice_line_ids[3].price_unit, 320.00)
+            self.assertAlmostEqual(invoice.invoice_line_ids[3].balance, 68.48)
+            self.assertEqual(invoice.invoice_line_ids[4].name, "SERVICIU ADMINISTRARE LUNARA CONT")
+            self.assertAlmostEqual(invoice.invoice_line_ids[4].quantity, 1.0)
+            self.assertAlmostEqual(invoice.invoice_line_ids[4].price_unit, 50.00)
+            self.assertAlmostEqual(invoice.invoice_line_ids[4].balance, 50.00)
