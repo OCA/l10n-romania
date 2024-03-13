@@ -148,9 +148,7 @@ class TestAccountEdiUbl(AccountEdiTestCommon, CronMixinCase):
         }
         cls.edi_cius_format = cls.env.ref("l10n_ro_account_edi_ubl.edi_ubl_cius_ro")
         cls.invoice = cls.env["account.move"].create(invoice_values)
-        cls.invoice.journal_id.edi_format_ids = [
-            (6, 0, cls.edi_cius_format.ids)
-        ]
+        cls.invoice.journal_id.edi_format_ids = [(6, 0, cls.edi_cius_format.ids)]
         invoice_values.update(
             {
                 "move_type": "out_refund",
@@ -176,21 +174,20 @@ class TestAccountEdiUbl(AccountEdiTestCommon, CronMixinCase):
             )
             cls.env.company.l10n_ro_account_anaf_sync_id = anaf_config
 
-        
         # Create account.journal record
-        cls.journal_CIUS = cls.env['account.journal'].create({
-            'name': 'Test Journal CIUS',
-            'type': 'purchase',
-            'default_account_id': cls.company_data["default_account_expense"].id,
-            'code': 'TJ-CIUS',
-            'l10n_ro_sequence_type': 'autoinv2',
-            'l10n_ro_partner_id': cls.partner.id,
-        })
+        cls.journal_CIUS = cls.env["account.journal"].create(
+            {
+                "name": "Test Journal CIUS",
+                "type": "purchase",
+                "default_account_id": cls.company_data["default_account_expense"].id,
+                "code": "TJ-CIUS",
+                "l10n_ro_sequence_type": "autoinv2",
+                "l10n_ro_partner_id": cls.partner.id,
+            }
+        )
 
         # Check if the edi_format_ids field exists and set its value
-        cls.journal_CIUS.edi_format_ids = [
-            (6, 0, cls.edi_cius_format.ids)
-        ]
+        cls.journal_CIUS.edi_format_ids = [(6, 0, cls.edi_cius_format.ids)]
 
         invoice_values.update(
             {
@@ -209,8 +206,6 @@ class TestAccountEdiUbl(AccountEdiTestCommon, CronMixinCase):
             }
         )
         cls.credit_note_in = cls.env["account.move"].create(invoice_values)
-
-
 
     def get_file(self, filename):
         test_file = get_module_resource("l10n_ro_account_edi_ubl", "tests", filename)
@@ -242,6 +237,7 @@ class TestAccountEdiUbl(AccountEdiTestCommon, CronMixinCase):
                         for activity in invoice.activity_ids.mapped("note")
                     )
                 )
+
     def test_account_invoice_edi_ubl(self):
         self.invoice.action_post()
         invoice_xml = self.invoice.attach_ubl_xml_file_button()
@@ -589,22 +585,28 @@ class TestAccountEdiUbl(AccountEdiTestCommon, CronMixinCase):
             self.assertAlmostEqual(invoice.invoice_line_ids[0].balance, 1000.0)
 
     def test_is_compatible_with_journal_sale_ro(self):
-        is_compatible = self.edi_cius_format._is_compatible_with_journal(self.invoice.journal_id)
+        is_compatible = self.edi_cius_format._is_compatible_with_journal(
+            self.invoice.journal_id
+        )
         self.assertTrue(is_compatible)
 
     def test_is_compatible_with_journal_purchase_autoinv2(self):
-        is_compatible = self.edi_cius_format._is_compatible_with_journal(self.journal_CIUS)
+        is_compatible = self.edi_cius_format._is_compatible_with_journal(
+            self.journal_CIUS
+        )
         self.assertTrue(is_compatible)
 
     def test_is_compatible_with_journal_not_compatible(self):
-        self.env.company.country_id = self.env.ref('base.us')
-        journal = self.env['account.journal'].create({
-            'name': 'Test Journal',
-            'code': 'TJ-TEST',
-            'type': 'sale',
-            'company_id': self.env.company.id,
-            'default_account_id': self.company_data['default_account_revenue'].id,
-        })
+        self.env.company.country_id = self.env.ref("base.us")
+        journal = self.env["account.journal"].create(
+            {
+                "name": "Test Journal",
+                "code": "TJ-TEST",
+                "type": "sale",
+                "company_id": self.env.company.id,
+                "default_account_id": self.company_data["default_account_revenue"].id,
+            }
+        )
         is_compatible = self.edi_cius_format._is_compatible_with_journal(journal)
         self.assertFalse(is_compatible)
 
@@ -618,10 +620,12 @@ class TestAccountEdiUbl(AccountEdiTestCommon, CronMixinCase):
         self.assertTrue(self.edi_cius_format._is_required_for_invoice(self.invoice_in))
 
     def test_is_required_for_invoice_in_refund(self):
-        self.assertTrue(self.edi_cius_format._is_required_for_invoice(self.credit_note_in))
+        self.assertTrue(
+            self.edi_cius_format._is_required_for_invoice(self.credit_note_in)
+        )
 
     def test_is_required_for_invoice_non_ro_partner(self):
-        self.invoice.commercial_partner_id.country_id = self.env.ref('base.us')
+        self.invoice.commercial_partner_id.country_id = self.env.ref("base.us")
         self.assertFalse(self.edi_cius_format._is_required_for_invoice(self.invoice))
 
     def test_is_required_for_invoice_non_company_partner(self):
@@ -641,11 +645,13 @@ class TestAccountEdiUbl(AccountEdiTestCommon, CronMixinCase):
         self.assertTrue(self.credit_note.get_l10n_ro_edi_invoice_needed())
 
     def test_get_l10n_ro_edi_invoice_needed_invoice_in(self):
-        # Test when move_type is in_invoice, journal_id has l10n_ro_sequence_type as "autoinv2" and l10n_ro_partner_id is set
+        # Test when move_type is in_invoice, journal_id has l10n_ro_sequence_type as
+        # "autoinv2" and l10n_ro_partner_id is set
         self.assertTrue(self.invoice_in.get_l10n_ro_edi_invoice_needed())
 
     def test_get_l10n_ro_edi_invoice_needed_credit_note_in(self):
-        # Test when move_type is in_refund, journal_id has l10n_ro_sequence_type as "autoinv2" and l10n_ro_partner_id is set
+        # Test when move_type is in_refund, journal_id has l10n_ro_sequence_type as "autoinv2"
+        # and l10n_ro_partner_id is set
         self.assertTrue(self.credit_note_in.get_l10n_ro_edi_invoice_needed())
 
     def test_get_l10n_ro_edi_invoice_not_needed_invoice(self):
@@ -657,7 +663,7 @@ class TestAccountEdiUbl(AccountEdiTestCommon, CronMixinCase):
         # Test when move_type is not in the specified types and conditions are not met
         self.invoice_in.journal_id.l10n_ro_partner_id = False
         self.assertFalse(self.invoice_in.get_l10n_ro_edi_invoice_needed())
-    
+
     def test_account_invoice_in_edi_ubl(self):
         self.invoice_in.action_post()
         invoice_xml = self.invoice_in.attach_ubl_xml_file_button()
@@ -675,7 +681,9 @@ class TestAccountEdiUbl(AccountEdiTestCommon, CronMixinCase):
         xml_content = base64.b64decode(att.with_context(bin_size=False).datas)
 
         current_etree = self.get_xml_tree_from_string(xml_content)
-        expected_etree = self.get_xml_tree_from_string(self.get_file("credit_note_in.xml"))
+        expected_etree = self.get_xml_tree_from_string(
+            self.get_file("credit_note_in.xml")
+        )
         self.assertXmlTreeEqual(current_etree, expected_etree)
 
     # def test_account_credit_note_in_with_option_edi_ubl(self):

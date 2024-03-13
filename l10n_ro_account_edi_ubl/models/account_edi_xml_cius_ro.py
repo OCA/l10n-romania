@@ -196,15 +196,17 @@ class AccountEdiXmlCIUSRO(models.Model):
             )
             vals_list["customer"] = vals_list["supplier"]
             vals_list["supplier"] = customer
-            customer_vals = vals_list['vals']['accounting_customer_party_vals']
-            vals_list['vals']['accounting_customer_party_vals'] = vals_list['vals']['accounting_supplier_party_vals']
-            vals_list['vals']['accounting_supplier_party_vals'] = customer_vals
-        if invoice.move_type in ('out_invoice', "in_invoice"):
-            vals_list['main_template'] = 'account_edi_ubl_cii.ubl_20_Invoice'
-            vals_list['vals']['invoice_type_code'] = 380
+            customer_vals = vals_list["vals"]["accounting_customer_party_vals"]
+            vals_list["vals"]["accounting_customer_party_vals"] = vals_list["vals"][
+                "accounting_supplier_party_vals"
+            ]
+            vals_list["vals"]["accounting_supplier_party_vals"] = customer_vals
+        if invoice.move_type in ("out_invoice", "in_invoice"):
+            vals_list["main_template"] = "account_edi_ubl_cii.ubl_20_Invoice"
+            vals_list["vals"]["invoice_type_code"] = 380
         else:
-            vals_list['main_template'] = 'account_edi_ubl_cii.ubl_20_CreditNote'
-            vals_list['vals']['credit_note_type_code'] = 381
+            vals_list["main_template"] = "account_edi_ubl_cii.ubl_20_CreditNote"
+            vals_list["vals"]["credit_note_type_code"] = 381
         return vals_list
 
     def _export_invoice_constraints(self, invoice, vals):
