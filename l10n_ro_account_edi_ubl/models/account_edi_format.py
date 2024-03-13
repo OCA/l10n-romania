@@ -235,6 +235,8 @@ class AccountEdiXmlCIUSRO(models.Model):
             if res.get("success", False):
                 res.update({"attachment": attachment})
                 invoice.message_post(body=_("The invoice was validated by ANAF."))
+                if invoice.company_id.l10n_ro_store_einvoices:
+                    invoice.l10n_ro_download_zip_anaf()
         return res
 
     def _l10n_ro_anaf_call(self, func, anaf_config, params, data=None, method="POST"):
