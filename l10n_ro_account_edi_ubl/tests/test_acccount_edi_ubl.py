@@ -740,8 +740,12 @@ class TestAccountEdiUbl(AccountEdiTestCommon, CronMixinCase):
         anaf_config = self.env.company.l10n_ro_account_anaf_sync_id
         anaf_config.access_token = "test"
         self.env.company.l10n_ro_download_einvoices = True
-        partner = self.env['res.partner'].search([('name', '=', 'BTL ROMANIA APARATURA MEDICALA SRL')])
-        partner2 = self.env['res.partner'].search([('name', '=', 'GREEN RESOURCES MANAGEMENT SA')])
+        partner = self.env["res.partner"].search(
+            [("name", "=", "BTL ROMANIA APARATURA MEDICALA SRL")]
+        )
+        partner2 = self.env["res.partner"].search(
+            [("name", "=", "GREEN RESOURCES MANAGEMENT SA")]
+        )
         if not partner:
             self.env.company.partner_id.write(
                 {
@@ -812,19 +816,30 @@ class TestAccountEdiUbl(AccountEdiTestCommon, CronMixinCase):
             self.assertAlmostEqual(invoice.invoice_line_ids[0].quantity, -1)
             self.assertAlmostEqual(invoice.invoice_line_ids[0].price_unit, 21.20)
             self.assertAlmostEqual(invoice.invoice_line_ids[0].balance, -21.20)
-            self.assertEqual(invoice.invoice_line_ids[1].name, "SERVICII AMBALAJ PUS PE PIATA-PLASTIC-FLUX C.I.")
+            self.assertEqual(
+                invoice.invoice_line_ids[1].name,
+                "SERVICII AMBALAJ PUS PE PIATA-PLASTIC-FLUX C.I.",
+            )
             self.assertAlmostEqual(invoice.invoice_line_ids[1].quantity, 0.043)
             self.assertAlmostEqual(invoice.invoice_line_ids[1].price_unit, 340.00)
             self.assertAlmostEqual(invoice.invoice_line_ids[1].balance, 14.62)
-            self.assertEqual(invoice.invoice_line_ids[2].name, "SERVICII AMBALAJ PUS PE PIATA-HARTIE-CARTON-FLUX C.I.")
+            self.assertEqual(
+                invoice.invoice_line_ids[2].name,
+                "SERVICII AMBALAJ PUS PE PIATA-HARTIE-CARTON-FLUX C.I.",
+            )
             self.assertAlmostEqual(invoice.invoice_line_ids[2].quantity, 0.599)
             self.assertAlmostEqual(invoice.invoice_line_ids[2].price_unit, 330.00)
             self.assertAlmostEqual(invoice.invoice_line_ids[2].balance, 197.67)
-            self.assertEqual(invoice.invoice_line_ids[3].name, "SERVICII AMBALAJ PUS PE PIATA-LEMN-FLUX C.I.")
+            self.assertEqual(
+                invoice.invoice_line_ids[3].name,
+                "SERVICII AMBALAJ PUS PE PIATA-LEMN-FLUX C.I.",
+            )
             self.assertAlmostEqual(invoice.invoice_line_ids[3].quantity, 0.214)
             self.assertAlmostEqual(invoice.invoice_line_ids[3].price_unit, 320.00)
             self.assertAlmostEqual(invoice.invoice_line_ids[3].balance, 68.48)
-            self.assertEqual(invoice.invoice_line_ids[4].name, "SERVICIU ADMINISTRARE LUNARA CONT")
+            self.assertEqual(
+                invoice.invoice_line_ids[4].name, "SERVICIU ADMINISTRARE LUNARA CONT"
+            )
             self.assertAlmostEqual(invoice.invoice_line_ids[4].quantity, 1.0)
             self.assertAlmostEqual(invoice.invoice_line_ids[4].price_unit, 50.00)
             self.assertAlmostEqual(invoice.invoice_line_ids[4].balance, 50.00)
