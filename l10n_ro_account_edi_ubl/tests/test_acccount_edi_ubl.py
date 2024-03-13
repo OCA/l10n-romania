@@ -584,6 +584,7 @@ class TestAccountEdiUbl(AccountEdiTestCommon, CronMixinCase):
             self.assertAlmostEqual(invoice.invoice_line_ids[0].price_unit, 1000.0)
             self.assertAlmostEqual(invoice.invoice_line_ids[0].balance, 1000.0)
 
+    #
     def test_is_compatible_with_journal_sale_ro(self):
         is_compatible = self.edi_cius_format._is_compatible_with_journal(
             self.invoice.journal_id
@@ -664,6 +665,7 @@ class TestAccountEdiUbl(AccountEdiTestCommon, CronMixinCase):
         self.invoice_in.journal_id.l10n_ro_partner_id = False
         self.assertFalse(self.invoice_in.get_l10n_ro_edi_invoice_needed())
 
+    #
     def test_account_invoice_in_edi_ubl(self):
         self.invoice_in.action_post()
         invoice_xml = self.invoice_in.attach_ubl_xml_file_button()
@@ -686,15 +688,15 @@ class TestAccountEdiUbl(AccountEdiTestCommon, CronMixinCase):
         )
         self.assertXmlTreeEqual(current_etree, expected_etree)
 
-    # def test_account_credit_note_in_with_option_edi_ubl(self):
-    #     self.credit_note_in.action_post()
-    #     self.env.company.l10n_ro_credit_note_einvoice = True
-    #     invoice_xml = self.credit_note_in.attach_ubl_xml_file_button()
-    #     att = self.env["ir.attachment"].browse(invoice_xml["res_id"])
-    #     xml_content = base64.b64decode(att.with_context(bin_size=False).datas)
+    def test_account_credit_note_in_with_option_edi_ubl(self):
+        self.credit_note_in.action_post()
+        self.env.company.l10n_ro_credit_note_einvoice = True
+        invoice_xml = self.credit_note_in.attach_ubl_xml_file_button()
+        att = self.env["ir.attachment"].browse(invoice_xml["res_id"])
+        xml_content = base64.b64decode(att.with_context(bin_size=False).datas)
 
-    #     current_etree = self.get_xml_tree_from_string(xml_content)
-    #     expected_etree = self.get_xml_tree_from_string(
-    #         self.get_file("credit_note_in_option.xml")
-    #     )
-    #     self.assertXmlTreeEqual(current_etree, expected_etree)
+        current_etree = self.get_xml_tree_from_string(xml_content)
+        expected_etree = self.get_xml_tree_from_string(
+            self.get_file("credit_note_in_option.xml")
+        )
+        self.assertXmlTreeEqual(current_etree, expected_etree)
