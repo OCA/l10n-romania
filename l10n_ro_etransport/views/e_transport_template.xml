@@ -63,7 +63,7 @@
                     <locatie
                         t-att-codJudet="STATE_CODES[doc.partner_id.state_id.code]"
                         t-att-denumireLocalitate="doc.partner_id.city"
-                        t-att-denumireStrada="doc.partner_id.city"
+                        t-att-denumireStrada="doc.partner_id.street"
                         t-att-codPostal="doc.partner_id.zip"
                     />
                 </locFinalTraseuRutier>

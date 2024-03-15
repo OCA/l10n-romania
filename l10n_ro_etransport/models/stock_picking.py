@@ -57,18 +57,20 @@ STATE_CODES = {
     "CL": "51",
     "GR": "52",
 }
-TIP_OPERATIE = [
-    ("10", "Achiziţie intracomunitară"),
-    ("12", "Operaţiuni în sistem lohn (UE) - intrare"),
-    ("14", "Stocuri la dispoziţia clientului (Call-off stock) - intrare"),
-    ("20", "Livrare intracomunitară"),
-    ("22", "Operaţiuni în sistem lohn (UE) - ieşire"),
-    ("24", "Stocuri la dispoziţia clientului (Call-off stock) - ieşire"),
-    ("30", "Transport pe teritoriul naţional"),
+
+# tracuderea in engleza a operatiiilor
+OPERATION_TYPE = [
+    ("10", "Intra-community acquisition"),
+    ("12", "Lohn system operations (EU) - entry"),
+    ("14", "Stocks at the customer's disposal (Call-off stock) - entry"),
+    ("20", "Intra-community delivery"),
+    ("22", "Lohn system operations (EU) - exit"),
+    ("24", "Stocks at the customer's disposal (Call-off stock) - exit"),
+    ("30", "Transport on the national territory"),
     ("40", "Import"),
     ("50", "Export"),
-    ("60", "Tranzacţie intracomunitară - Intrare pentru depozitare"),
-    ("70", "Tranzacţie intracomunitară - Ieşire după depozitare"),
+    ("60", "Intra-community transaction - Entry for storage"),
+    ("70", "Intra-community transaction - Exit after storage"),
 ]
 
 
@@ -93,7 +95,7 @@ class StockPicking(models.Model):
     l10n_ro_e_transport_message = fields.Text("ANAF Message")
 
     l10n_ro_e_transport_operation_type = fields.Selection(
-        TIP_OPERATIE, string="Operation type", default="30"
+        OPERATION_TYPE, string="Operation type", default="30"
     )
 
     l10n_ro_e_transport_aim_id = fields.Many2one(

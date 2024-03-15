@@ -70,7 +70,7 @@
         id="l10n_ro_e_transport_menu"
         name="E-Transport"
         parent="sale.menu_sale_config"
-        sequence="10"
+        sequence="99"
     />
     <menuitem
         id="l10n_ro_e_transport_aim_menu"
