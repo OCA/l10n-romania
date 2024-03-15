@@ -20,13 +20,18 @@ class AccountANAFSyncScope(models.Model):
     )
     anaf_sync_url = fields.Char(compute="_compute_anaf_sync_url")
 
-    @api.depends("state")
+    @api.depends("state", "anaf_sync_production_url", "anaf_sync_test_url")
     def _compute_anaf_sync_url(self):
         for entry in self:
-            entry.anaf_sync_url = getattr(
-                entry, f"anaf_sync_{entry.state}_url", "anaf_sync_test_url"
-            )
+            if entry.anaf_sync_production_url and entry.anaf_sync_test_url:
+                entry.anaf_sync_url = getattr(
+                    entry, f"anaf_sync_{entry.state}_url", "anaf_sync_test_url"
+                )
+            else:
+                entry.anaf_sync_url = False
 
     @api.onchange("scope")
     def _onchange_scope(self):
-        self._compute_anaf_sync_url()
+        if not self.scope:
+            self.anaf_sync_production_url = False
+            self.anaf_sync_test_url = False
