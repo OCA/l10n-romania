@@ -167,7 +167,7 @@ class CiusRoTestSetup(AccountEdiTestCommon, CronMixinCase):
         cls.invoice_zip = open(test_file, mode="rb").read()
 
         # Set up ANAF configuration
-        anaf_config = cls.env.company.l10n_ro_account_anaf_sync_id
+        anaf_config = cls.env.company._l10n_ro_get_anaf_sync(scope="e-factura")
         if not anaf_config:
             anaf_config = cls.env["l10n.ro.account.anaf.sync"].create(
                 {
@@ -177,7 +177,6 @@ class CiusRoTestSetup(AccountEdiTestCommon, CronMixinCase):
                     "access_token": "123",
                 }
             )
-            cls.env.company.l10n_ro_account_anaf_sync_id = anaf_config
 
         # Create account.journal record
         cls.journal_CIUS = cls.env["account.journal"].create(
