@@ -16,8 +16,6 @@ def migrate(cr, version):
                 {
                     "anaf_sync_id": sync.id,
                     "scope": "e-factura",
-                    "anaf_sync_production_url": "https://api.anaf.ro/prod/FCTEL/rest",
-                    "anaf_sync_test_url": "https://api.anaf.ro/test/FCTEL/rest",
                     "state": "production" if sync.state == "automatic" else "test",
                 }
             )

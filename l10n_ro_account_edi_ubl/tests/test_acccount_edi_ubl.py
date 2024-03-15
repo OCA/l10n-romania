@@ -172,7 +172,7 @@ class TestAccountEdiUbl(AccountEdiTestCommon, CronMixinCase):
 
         anaf_config = cls.env.company._l10n_ro_get_anaf_sync(scope="e-factura")
         if not anaf_config:
-            anaf_config = cls.env["l10n.ro.account.anaf.sync"].create(
+            cls.env["l10n.ro.account.anaf.sync"].create(
                 {
                     "company_id": cls.env.company.id,
                     "client_id": "123",
@@ -186,13 +186,12 @@ class TestAccountEdiUbl(AccountEdiTestCommon, CronMixinCase):
                             {
                                 "scope": "e-factura",
                                 "state": "test",
-                                "anaf_sync_test_url": "https://api.anaf.ro/test/FCTEL/rest",
                             },
                         )
                     ],
                 }
             )
-            anaf_config = cls.env.company._l10n_ro_get_anaf_sync(scope="e-factura")
+            cls.env.company._l10n_ro_get_anaf_sync(scope="e-factura")
 
     def get_file(self, filename):
         test_file = get_module_resource("l10n_ro_account_edi_ubl", "tests", filename)
