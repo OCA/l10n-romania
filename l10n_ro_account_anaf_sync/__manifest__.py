@@ -14,10 +14,11 @@
         "views/template.xml",
     ],
     "license": "AGPL-3",
-    "version": "15.0.1.11.0",
+    "version": "15.0.1.11.1",
     "author": "NextERP Romania," "Odoo Community Association (OCA)",
     "website": "https://github.com/OCA/l10n-romania",
     "installable": True,
     "development_status": "Mature",
     "maintainers": ["feketemihai"],
+    "external_dependencies": {"python": ["PyJWT"]},
 }
