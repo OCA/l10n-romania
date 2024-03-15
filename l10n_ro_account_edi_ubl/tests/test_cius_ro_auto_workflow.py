@@ -297,7 +297,7 @@ class TestCiusRoAutoWorkflow(CiusRoTestSetup):
         anaf_config = self.env.company.l10n_ro_account_anaf_sync_id
         anaf_config.access_token = "test"
         self.env.company.l10n_ro_download_einvoices = True
-        self.env.ref('product.decimal_product_uom').digits = 4
+        self.env.ref("product.decimal_product_uom").digits = 4
         partner = self.env["res.partner"].search(
             [("name", "=", "BTL ROMANIA APARATURA MEDICALA SRL")]
         )
