@@ -74,6 +74,7 @@ class AccountEdiXmlCIUSRO(models.Model):
             and invoice.company_id.l10n_ro_credit_note_einvoice
         ):
             balance_sign = -balance_sign
+
         return [
             {
                 "currency": invoice.currency_id,
@@ -117,6 +118,12 @@ class AccountEdiXmlCIUSRO(models.Model):
 
     def _get_invoice_line_vals(self, line, taxes_vals):
         res = super()._get_invoice_line_vals(line, taxes_vals)
+        if line.discount != 0:
+            discount_amount = line.price_unit * line.quantity * line.discount / 100
+            if res.get("line_extension_amount", 0):
+                res["line_extension_amount"] = (
+                    discount_amount + res["line_extension_amount"]
+                )
         if (
             line.move_id.move_type in ["out_refund", "in_refund"]
             and line.company_id.l10n_ro_credit_note_einvoice
@@ -150,6 +157,9 @@ class AccountEdiXmlCIUSRO(models.Model):
         vals["base_quantity"] = 1.0
         return vals
 
+    def split_string(self, string):
+        return [string[i : i + 100] for i in range(0, len(string), 100)]
+
     def _export_invoice_vals(self, invoice):
         vals_list = super()._export_invoice_vals(invoice)
         vals_list["vals"]["buyer_reference"] = (
@@ -166,6 +176,7 @@ class AccountEdiXmlCIUSRO(models.Model):
         for val in vals_list["vals"]["invoice_line_vals"]:
             val["id"] = index
             index += 1
+
         if (
             invoice.move_type in ["out_refund", "in_refund"]
             and invoice.company_id.l10n_ro_credit_note_einvoice
@@ -207,6 +218,14 @@ class AccountEdiXmlCIUSRO(models.Model):
         else:
             vals_list["main_template"] = "account_edi_ubl_cii.ubl_20_CreditNote"
             vals_list["vals"]["credit_note_type_code"] = 381
+        result_list = []
+        if vals_list["vals"].get("note_vals"):
+            if len(vals_list["vals"]["note_vals"][0]) > 100:
+                split_strings = self.split_string(vals_list["vals"]["note_vals"][0])
+                for _index, split_str in enumerate(split_strings):
+                    result_list.append(split_str)
+        if result_list:
+            vals_list["vals"]["note_vals"] = result_list
         return vals_list
 
     def _export_invoice_constraints(self, invoice, vals):
@@ -344,23 +363,28 @@ class AccountEdiXmlCIUSRO(models.Model):
         return res
 
     def _import_fill_invoice_form(self, journal, tree, invoice_form, qty_factor):
+        def _find_value(xpath, element=tree):
+            # avoid 'TypeError: empty namespace prefix is not supported in XPath'
+            nsmap = {k: v for k, v in tree.nsmap.items() if k is not None}
+            return self.env["account.edi.format"]._find_value(xpath, element, nsmap)
+
         # Overwrite to take partner from RegistrationName
         if not invoice_form.partner_id:
             role = "Customer" if invoice_form.journal_id.type == "sale" else "Supplier"
-            vat = self._find_value(
+            vat = _find_value(
                 f"//cac:Accounting{role}Party/cac:Party//cbc:CompanyID", tree
             )
-            phone = self._find_value(
+            phone = _find_value(
                 f"//cac:Accounting{role}Party/cac:Party//cbc:Telephone", tree
             )
-            mail = self._find_value(
+            mail = _find_value(
                 f"//cac:Accounting{role}Party/cac:Party//cbc:ElectronicMail", tree
             )
-            name = self._find_value(
+            name = _find_value(
                 f"//cac:Accounting{role}Party/cac:Party//cac:PartyLegalEntity//cbc:RegistrationName",  # noqa: B950
                 tree,
             )
-            country_code = self._find_value(
+            country_code = _find_value(
                 f"//cac:Accounting{role}Party/cac:Party//cac:Country//cbc:IdentificationCode",
                 tree,
             )
@@ -446,3 +470,171 @@ class AccountEdiXmlCIUSRO(models.Model):
                 attachment_ids=attachments.ids
             )
         return True
+
+    def _get_document_allowance_charge_vals_list(self, invoice):
+        discount_amount = 0
+        for line in invoice.invoice_line_ids:
+            if line.discount != 0:
+                discount_amount += line.price_unit * line.quantity * line.discount / 100
+        if invoice.move_type != "out_invoice" or discount_amount == 0:
+            return []
+
+        def grouping_key_generator(tax_values):
+            tax = tax_values["tax_id"]
+            tax_category_vals = self._get_tax_category_list(invoice, tax)[0]
+            grouping_key = {
+                "tax_category_id": tax_category_vals["id"],
+                "tax_category_percent": tax_category_vals["percent"],
+                "_tax_category_vals_": tax_category_vals,
+                "tax_amount_type": tax.amount_type,
+            }
+            if tax.amount_type == "fixed":
+                grouping_key["tax_name"] = tax.name
+            return grouping_key
+
+        balance_sign = (
+            -1
+            if invoice.company_id.l10n_ro_credit_note_einvoice
+            and invoice.move_type == "out_refund"
+            else 1
+        )
+        taxes_vals = invoice._prepare_edi_tax_details(
+            grouping_key_generator=grouping_key_generator,
+            filter_to_apply=self._apply_invoice_tax_filter,
+            filter_invl_to_apply=self._apply_invoice_line_filter,
+        )
+        fixed_taxes_keys = [
+            k for k in taxes_vals["tax_details"] if k["tax_amount_type"] == "fixed"
+        ]
+        for key in fixed_taxes_keys:
+            fixed_tax_details = taxes_vals["tax_details"].pop(key)
+            taxes_vals["tax_amount_currency"] -= fixed_tax_details[
+                "tax_amount_currency"
+            ]
+            taxes_vals["tax_amount"] -= fixed_tax_details["tax_amount"]
+            taxes_vals["base_amount_currency"] += fixed_tax_details[
+                "tax_amount_currency"
+            ]
+            taxes_vals["base_amount"] += fixed_tax_details["tax_amount"]
+        tax_vals = self._get_invoice_tax_totals_vals_list(invoice, taxes_vals)
+        tax_category_vals = []
+        tax_category_vals.append(
+            tax_vals[0]["tax_subtotal_vals"][0]["tax_category_vals"]
+        )
+        vals = [
+            {
+                "currency_name": invoice.currency_id.name,
+                "currency_dp": invoice.currency_id.decimal_places,
+                "charge_indicator": "false",
+                "allowance_charge_reason_code": 95,
+                "allowance_charge_reason": "Scont",
+                "amount": balance_sign * round(discount_amount, 2),
+                "tax_category_vals": tax_category_vals,
+            }
+        ]
+        return vals
+
+    def _import_fill_invoice_allowance_charge(
+        self, tree, invoice_form, journal, qty_factor
+    ):
+        logs = []
+        if "{urn:oasis:names:specification:ubl:schema:xsd" in tree.tag:
+            is_ubl = True
+        elif "{urn:un:unece:uncefact:data:standard:" in tree.tag:
+            is_ubl = False
+        else:
+            return
+
+        xpath = (
+            "./{*}AllowanceCharge"
+            if is_ubl
+            else "./{*}SupplyChainTradeTransaction/{*}ApplicableHeaderTradeSettlement/{*}SpecifiedTradeAllowanceCharge"  # noqa: B950
+        )
+        allowance_charge_nodes = tree.findall(xpath)
+        for allow_el in allowance_charge_nodes:
+            with invoice_form.invoice_line_ids.new() as invoice_line_form:
+                invoice_line_form.sequence = (
+                    0  # be sure to put these lines above the 'real' invoice lines
+                )
+
+                charge_factor = -1  # factor is -1 for discount, 1 for charge
+                if is_ubl:
+                    charge_indicator_node = allow_el.find("./{*}ChargeIndicator")
+                else:
+                    charge_indicator_node = allow_el.find(
+                        "./{*}ChargeIndicator/{*}Indicator"
+                    )
+                if charge_indicator_node is not None:
+                    charge_factor = -1 if charge_indicator_node.text == "false" else 1
+                name = ""
+                reason_code_node = allow_el.find(
+                    "./{*}AllowanceChargeReasonCode" if is_ubl else "./{*}ReasonCode"
+                )
+                if reason_code_node is not None:
+                    name += reason_code_node.text + " "
+                reason_node = allow_el.find(
+                    "./{*}AllowanceChargeReason" if is_ubl else "./{*}Reason"
+                )
+                if reason_node is not None:
+                    name += reason_node.text
+                invoice_line_form.name = name
+                invoice_line_form.account_id = journal.default_account_id
+
+                amount_node = allow_el.find(
+                    "./{*}Amount" if is_ubl else "./{*}ActualAmount"
+                )
+                base_amount_node = allow_el.find(
+                    "./{*}BaseAmount" if is_ubl else "./{*}BasisAmount"
+                )
+
+                if base_amount_node is not None:
+                    invoice_line_form.price_unit = (
+                        float(base_amount_node.text) * charge_factor * qty_factor
+                    )
+                    percent_node = allow_el.find(
+                        "./{*}MultiplierFactorNumeric"
+                        if is_ubl
+                        else "./{*}CalculationPercent"
+                    )
+                    if percent_node is not None:
+                        invoice_line_form.quantity = float(percent_node.text) / 100
+                elif amount_node is not None:
+                    invoice_line_form.price_unit = (
+                        float(amount_node.text) * charge_factor * qty_factor
+                    )
+                    if charge_factor == -1:
+                        invoice_line_form.price_unit = (
+                            charge_factor * invoice_line_form.price_unit
+                        )
+                        invoice_line_form.quantity = (
+                            charge_factor * invoice_line_form.quantity
+                        )
+
+                invoice_line_form.tax_ids.clear()  # clear the default taxes applied to the line
+                tax_xpath = (
+                    "./{*}TaxCategory/{*}Percent"
+                    if is_ubl
+                    else "./{*}CategoryTradeTax/{*}RateApplicablePercent"
+                )
+                for tax_categ_percent_el in allow_el.findall(tax_xpath):
+                    tax = self.env["account.tax"].search(
+                        [
+                            ("company_id", "=", journal.company_id.id),
+                            ("amount", "=", float(tax_categ_percent_el.text)),
+                            ("amount_type", "=", "percent"),
+                            ("type_tax_use", "=", journal.type),
+                        ],
+                        limit=1,
+                    )
+                    if tax:
+                        invoice_line_form.tax_ids.add(tax)
+                    else:
+                        logs.append(
+                            _(
+                                "Could not retrieve the tax: "
+                                "%(tax_percent)s %% for line '%(name)s'.",
+                                tax_percent=float(tax_categ_percent_el.text),
+                                name=name,
+                            )
+                        )
+        return logs

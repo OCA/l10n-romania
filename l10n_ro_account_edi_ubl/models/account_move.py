@@ -94,6 +94,10 @@ class AccountMove(models.Model):
                         move.display_name,
                     )
                 )
+            if move.l10n_ro_edi_transaction:
+                move.l10n_ro_edi_transaction = None
+            if move.l10n_ro_edi_download:
+                move.l10n_ro_edi_download = None
         return super().button_draft()
 
     def button_cancel_posted_moves(self):
