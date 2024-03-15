@@ -81,7 +81,14 @@ class AccountEdiXmlCIUSRO(models.Model):
         self.ensure_one()
         if self.code != "cius_ro":
             return super()._is_compatible_with_journal(journal)
-        return journal.type == "sale" and journal.country_code == "RO"
+        is_compatible = journal.type == "sale" and journal.country_code == "RO"
+        if not is_compatible:
+            is_compatible = (
+                journal.type == "purchase"
+                and journal.l10n_ro_sequence_type == "autoinv2"
+                and journal.l10n_ro_partner_id
+            )
+        return is_compatible
 
     def _is_required_for_invoice(self, invoice):
         if self.code != "cius_ro":
@@ -91,6 +98,12 @@ class AccountEdiXmlCIUSRO(models.Model):
             and invoice.commercial_partner_id.country_id.code == "RO"
             and invoice.commercial_partner_id.is_company
         )
+        if not is_required:
+            is_required = (
+                invoice.move_type in ("in_invoice", "in_refund")
+                and invoice.journal_id.l10n_ro_sequence_type == "autoinv2"
+                and bool(invoice.journal_id.l10n_ro_partner_id)
+            )
         return is_required
 
     def _post_invoice_edi(self, invoices):
@@ -196,16 +209,38 @@ class AccountEdiXmlCIUSRO(models.Model):
         attachment = move._get_edi_attachment(self)
         if not attachment:
             attachment = self._export_cius_ro(move)
-            doc = move._get_edi_document(self)
+        doc = move._get_edi_document(self)
+        # In case of error, the attachment is a list of string
+        if not isinstance(attachment, models.Model):
+            doc.write({"error": attachment, "blocking_level": "warning"})
+            move.message_post(body=attachment)
+            message = _("There are some errors when generating the XMl file.")
+            body = message + _("\n\nError:\n<p>%s</p>") % attachment
+            move.activity_schedule(
+                "mail.mail_activity_data_warning",
+                summary=message,
+                note=body,
+                user_id=move.invoice_user_id.id,
+            )
+            return b""
+        else:
             doc.write({"attachment_id": attachment.id})
-        return attachment.raw
+            return attachment.raw
 
     def _l10n_ro_post_invoice_step_1(self, invoice, attachment):
         anaf_config = invoice.company_id.l10n_ro_account_anaf_sync_id
+        standard = "UBL"
+        if invoice.move_type in ("out_refund", "in_refund"):
+            standard = "CN"
         params = {
-            "standard": "UBL" if invoice.move_type == "out_invoice" else "CN",
+            "standard": standard,
             "cif": invoice.company_id.partner_id.vat.replace("RO", ""),
         }
+        if (
+            invoice.journal_id.l10n_ro_partner_id
+            and invoice.journal_id.l10n_ro_sequence_type == "autoinv2"
+        ):
+            params.update({"autofactura": "DA"})
         res = self._l10n_ro_anaf_call("/upload", anaf_config, params, attachment.raw)
         if res.get("transaction", False):
             res.update({"attachment": attachment})
@@ -221,6 +256,8 @@ class AccountEdiXmlCIUSRO(models.Model):
             if res.get("success", False):
                 res.update({"attachment": attachment})
                 invoice.message_post(body=_("The invoice was validated by ANAF."))
+                if invoice.company_id.l10n_ro_store_einvoices:
+                    invoice.l10n_ro_download_zip_anaf()
         return res
 
     def _l10n_ro_anaf_call(self, func, anaf_config, params, data=None, method="POST"):

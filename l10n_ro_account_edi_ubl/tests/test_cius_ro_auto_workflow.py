@@ -1,10 +1,7 @@
 # Copyright (C) 2020 NextERP Romania
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
-import base64
 import json
-import logging
-import time
 from unittest.mock import patch
 
 import freezegun
@@ -14,265 +11,17 @@ from odoo.exceptions import UserError
 from odoo.modules.module import get_module_resource
 from odoo.tests import tagged
 
-from odoo.addons.account_edi.tests.common import AccountEdiTestCommon
-from odoo.addons.base.tests.test_ir_cron import CronMixinCase
-
-_logger = logging.getLogger(__name__)
+from .common_data_setup import CiusRoTestSetup
 
 
 @tagged("post_install", "-at_install")
-class TestAccountEdiUbl(AccountEdiTestCommon, CronMixinCase):
+class TestCiusRoAutoWorkflow(CiusRoTestSetup):
     @classmethod
     def setUpClass(cls):
-        ro_template_ref = "l10n_ro.ro_chart_template"
-        super().setUpClass(chart_template_ref=ro_template_ref)
-        cls.env.company.l10n_ro_accounting = True
+        super().setUpClass()
+        cls.edi_cius_format = cls.env.ref("l10n_ro_account_edi_ubl.edi_ubl_cius_ro")
 
-        cls.currency = cls.env["res.currency"].search([("name", "=", "RON")])
-        cls.country_state = cls.env.ref("base.RO_TM")
-        cls.env.company.write({"vat": "RO30834857"})
-        cls.env.company.write(
-            {
-                "vat": "RO30834857",
-                "name": "FOREST AND BIOMASS ROMÂNIA S.A.",
-                "country_id": cls.env.ref("base.ro").id,
-                "currency_id": cls.currency.id,
-                "street": "Str. Ciprian Porumbescu Nr. 12",
-                "street2": "Zona Nr.3, Etaj 1",
-                "city": "Timișoara",
-                "state_id": cls.country_state.id,
-                "zip": "300011",
-                "phone": "0356179038",
-            }
-        )
-        if "street_name" in cls.env.company._fields:
-            cls.env.company.write(
-                {
-                    "street_name": "Str. Ciprian Porumbescu Nr. 12",
-                    "street": "Str. Ciprian Porumbescu Nr. 12",
-                }
-            )
-
-        cls.bank = cls.env["res.partner.bank"].create(
-            {
-                "acc_type": "iban",
-                "partner_id": cls.env.company.partner_id.id,
-                "bank_id": cls.env.ref("l10n_ro.res_bank_37").id,
-                "acc_number": "RO75TREZ0615069XXX001573",
-            }
-        )
-
-        cls.partner = cls.env["res.partner"].create(
-            {
-                "name": "SCOALA GIMNAZIALA COMUNA FOENI",
-                "ref": "SCOALA GIMNAZIALA COMUNA FOENI",
-                "vat": "29152430",
-                "country_id": cls.env.ref("base.ro").id,
-                "l10n_ro_vat_subjected": False,
-                "street": "Foeni Nr. 383",
-                "city": "Foeni",
-                "state_id": cls.country_state.id,
-                "zip": "307175",
-                "phone": "0256413409",
-                "l10n_ro_e_invoice": True,
-                "l10n_ro_is_government_institution": False,
-                "is_company": True,
-            }
-        )
-        if "street_name" in cls.partner._fields:
-            cls.partner.write({"street_name": "Nr. 383", "street": "Foeni Nr. 383"})
-
-        cls.partner.l10n_ro_is_government_institution = True
-
-        uom_id = cls.env.ref("uom.product_uom_unit").id
-        cls.product_a = cls.env["product.product"].create(
-            {
-                "name": "Bec P21/5W",
-                "default_code": "00000623",
-                "uom_id": uom_id,
-                "uom_po_id": uom_id,
-            }
-        )
-        cls.product_b = cls.env["product.product"].create(
-            {
-                "name": "Bec P21/10W",
-                "default_code": "00000624",
-                "l10n_ro_nc_code": "25050000",
-                "uom_id": uom_id,
-                "uom_po_id": uom_id,
-            }
-        )
-        cls.tax_19 = cls.env["account.tax"].create(
-            {
-                "name": "tax_19",
-                "amount_type": "percent",
-                "amount": 19,
-                "type_tax_use": "sale",
-                "sequence": 19,
-                "company_id": cls.env.company.id,
-            }
-        )
-        invoice_values = {
-            "move_type": "out_invoice",
-            "name": "FBRAO2092",
-            "partner_id": cls.partner.id,
-            "invoice_date": fields.Date.from_string("2022-09-01"),
-            "currency_id": cls.currency.id,
-            "partner_bank_id": cls.bank.id,
-            "invoice_line_ids": [
-                (
-                    0,
-                    None,
-                    {
-                        "product_id": cls.product_a.id,
-                        "name": "[00000623] Bec P21/5W",
-                        "quantity": 5,
-                        "price_unit": 1000.00,
-                        "tax_ids": [(6, 0, cls.tax_19.ids)],
-                    },
-                ),
-                (
-                    0,
-                    None,
-                    {
-                        "product_id": cls.product_b.id,
-                        "name": "[00000624] Bec P21/10W",
-                        "quantity": 5,
-                        "price_unit": 1000.00,
-                        "tax_ids": [(6, 0, cls.tax_19.ids)],
-                    },
-                ),
-            ],
-        }
-        cls.invoice = cls.env["account.move"].create(invoice_values)
-        cls.invoice.journal_id.edi_format_ids = [
-            (6, 0, cls.env.ref("l10n_ro_account_edi_ubl.edi_ubl_cius_ro").ids)
-        ]
-        invoice_values.update(
-            {
-                "move_type": "out_refund",
-                "name": "FBRAO2093",
-            }
-        )
-        cls.credit_note = cls.env["account.move"].create(invoice_values)
-
-        invoice_discount_values = {
-            "move_type": "out_invoice",
-            "name": "FBRAO2094",
-            "partner_id": cls.partner.id,
-            "invoice_date": fields.Date.from_string("2022-09-01"),
-            "currency_id": cls.currency.id,
-            "partner_bank_id": cls.bank.id,
-            "invoice_line_ids": [
-                (
-                    0,
-                    None,
-                    {
-                        "product_id": cls.product_b.id,
-                        "name": "[00000624] Bec P21/10W",
-                        "quantity": 1,
-                        "price_unit": 10000.00,
-                        "discount": 10,
-                        "tax_ids": [(6, 0, cls.tax_19.ids)],
-                    },
-                ),
-            ],
-        }
-        cls.invoice_discount = cls.env["account.move"].create(invoice_discount_values)
-
-        test_file = get_module_resource(
-            "l10n_ro_account_edi_ubl", "tests", "invoice.zip"
-        )
-        cls.invoice_zip = open(test_file, mode="rb").read()
-
-        anaf_config = cls.env.company.l10n_ro_account_anaf_sync_id
-        if not anaf_config:
-            anaf_config = cls.env["l10n.ro.account.anaf.sync"].create(
-                {
-                    "company_id": cls.env.company.id,
-                    "client_id": "123",
-                    "client_secret": "123",
-                    "access_token": "123",
-                }
-            )
-            cls.env.company.l10n_ro_account_anaf_sync_id = anaf_config
-
-    def get_file(self, filename):
-        test_file = get_module_resource("l10n_ro_account_edi_ubl", "tests", filename)
-        return open(test_file).read().encode("utf-8")
-
-    def check_invoice_documents(
-        self, invoice, state="to_send", error=False, blocking_level=False
-    ):
-        sleep_time = 0
-        while not invoice.edi_state and sleep_time < 30:
-            time.sleep(1)
-            sleep_time += 1
-        self.assertEqual(len(invoice.edi_document_ids), 1)
-        self.assertEqual(invoice.edi_state, state)
-        self.assertEqual(invoice.edi_document_ids.state, state)
-        if error:
-            self.assertTrue(invoice.edi_document_ids.error)
-            self.assertIn(error, invoice.edi_document_ids.error)
-            self.assertTrue(
-                any(error in message for message in invoice.message_ids.mapped("body"))
-            )
-        if blocking_level:
-            self.assertEqual(invoice.edi_document_ids.blocking_level, blocking_level)
-            if blocking_level == "error":
-                self.assertTrue(invoice.activity_ids)
-                self.assertTrue(
-                    any(
-                        error in activity
-                        for activity in invoice.activity_ids.mapped("note")
-                    )
-                )
-
-    def test_account_invoice_edi_ubl(self):
-        self.invoice.action_post()
-        invoice_xml = self.invoice.attach_ubl_xml_file_button()
-        att = self.env["ir.attachment"].browse(invoice_xml["res_id"])
-        xml_content = base64.b64decode(att.with_context(bin_size=False).datas)
-
-        current_etree = self.get_xml_tree_from_string(xml_content)
-        expected_etree = self.get_xml_tree_from_string(self.get_file("invoice.xml"))
-        self.assertXmlTreeEqual(current_etree, expected_etree)
-
-    def test_account_invoice_edi_ubl_with_discount(self):
-        self.invoice_discount.action_post()
-        invoice_xml = self.invoice_discount.attach_ubl_xml_file_button()
-        att = self.env["ir.attachment"].browse(invoice_xml["res_id"])
-        xml_content = base64.b64decode(att.with_context(bin_size=False).datas)
-
-        current_etree = self.get_xml_tree_from_string(xml_content)
-        expected_etree = self.get_xml_tree_from_string(
-            self.get_file("invoice_discount.xml")
-        )
-        self.assertXmlTreeEqual(current_etree, expected_etree)
-
-    def test_account_credit_note_edi_ubl(self):
-        self.credit_note.action_post()
-        invoice_xml = self.credit_note.attach_ubl_xml_file_button()
-        att = self.env["ir.attachment"].browse(invoice_xml["res_id"])
-        xml_content = base64.b64decode(att.with_context(bin_size=False).datas)
-
-        current_etree = self.get_xml_tree_from_string(xml_content)
-        expected_etree = self.get_xml_tree_from_string(self.get_file("credit_note.xml"))
-        self.assertXmlTreeEqual(current_etree, expected_etree)
-
-    def test_account_credit_note_with_option_edi_ubl(self):
-        self.credit_note.action_post()
-        self.env.company.l10n_ro_credit_note_einvoice = True
-        invoice_xml = self.credit_note.attach_ubl_xml_file_button()
-        att = self.env["ir.attachment"].browse(invoice_xml["res_id"])
-        xml_content = base64.b64decode(att.with_context(bin_size=False).datas)
-
-        current_etree = self.get_xml_tree_from_string(xml_content)
-        expected_etree = self.get_xml_tree_from_string(
-            self.get_file("credit_note_option.xml")
-        )
-        self.assertXmlTreeEqual(current_etree, expected_etree)
-
+    # Helper method to prepare an invoice and simulate the step 1 of the CIUS workflow.
     def prepare_invoice_sent_step1(self):
         self.invoice.action_post()
 
@@ -287,9 +36,11 @@ class TestAccountEdiUbl(AccountEdiTestCommon, CronMixinCase):
             "info",
         )
 
+    # Test case for the successful processing of documents in step 1 of the CIUS workflow.
     def test_process_documents_web_services_step1_ok(self):
         self.prepare_invoice_sent_step1()
 
+    # Test case for the cron job that processes documents in step 1 of the CIUS workflow.
     @freezegun.freeze_time("2022-09-04")
     def test_process_documents_web_services_step1_cron(self):
         anaf_config = self.env.company.l10n_ro_account_anaf_sync_id
@@ -311,6 +62,7 @@ class TestAccountEdiUbl(AccountEdiTestCommon, CronMixinCase):
             "warning",
         )
 
+    # Test case for the error handling in step 1 of the CIUS workflow.
     def test_process_documents_web_services_step1_error(self):
         self.invoice.action_post()
 
@@ -325,6 +77,7 @@ class TestAccountEdiUbl(AccountEdiTestCommon, CronMixinCase):
             "error",
         )
 
+    # Test case for the constraint handling in step 1 of the CIUS workflow.
     def test_process_documents_web_services_step1_constraint(self):
         self.invoice.partner_id.state_id = False
         self.invoice.action_post()
@@ -338,9 +91,12 @@ class TestAccountEdiUbl(AccountEdiTestCommon, CronMixinCase):
             "warning",
         )
 
+    # Test case for the successful processing of documents in step 2 of the CIUS workflow.
     def test_process_documents_web_services_step2_ok(self):
         self.prepare_invoice_sent_step1()
 
+    # Test case for the different scenarios of processing documents in step 2
+    # of the CIUS workflow.
     def test_process_document_web_services_step2_not_ok(self):
         self.prepare_invoice_sent_step1()
         cases = [
@@ -396,6 +152,7 @@ class TestAccountEdiUbl(AccountEdiTestCommon, CronMixinCase):
         for check_case in cases:
             self.test_step2_not_ok(check_case)
 
+    # Helper method to test the processing of documents in step 2 of the CIUS workflow.
     def test_step2_not_ok(self, check_case=False):
         if check_case:
             if check_case[3] == "error":
@@ -416,15 +173,6 @@ class TestAccountEdiUbl(AccountEdiTestCommon, CronMixinCase):
         self.invoice.with_context(test_data=data).l10n_ro_download_zip_anaf()
         with self.assertRaises(UserError):
             self.invoice.with_context(test_data=data).l10n_ro_download_zip_anaf()
-
-    def test_edi_cius_is_required(self):
-        cius_format = self.env.ref("l10n_ro_account_edi_ubl.edi_ubl_cius_ro")
-        self.assertTrue(cius_format._is_required_for_invoice(self.invoice))
-        self.invoice.partner_id.is_company = False
-        self.assertFalse(cius_format._is_required_for_invoice(self.invoice))
-        self.invoice.partner_id.is_company = True
-        self.invoice.partner_id.country_id = False
-        self.assertFalse(cius_format._is_required_for_invoice(self.invoice))
 
     def test_l10n_ro_get_anaf_efactura_messages(self):
         self.env.company.vat = "RO23685159"
