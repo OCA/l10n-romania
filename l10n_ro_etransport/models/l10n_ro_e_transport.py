@@ -18,3 +18,11 @@ class ETransportCustoms(models.Model):
 
     name = fields.Char(required=True)
     code = fields.Char(required=True)
+
+
+# class ETransportOperation(models.Model):
+#     _name = "l10n.ro.e.transport.operation"
+#     _description = "E Transport Operation"
+#
+#     name = fields.Char(required=True)
+#     code = fields.Char(required=True)
