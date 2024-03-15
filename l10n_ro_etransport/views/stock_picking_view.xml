@@ -32,12 +32,15 @@
                             <group string="Information e-transport">
                                 <field name="carrier_id" />
                                 <field name="l10n_ro_vehicle" />
-                                <field name="l10n_ro_e_transport_vama" string="Vama" />
                                 <field
-                                name="l10n_ro_e_transport_tip_operatie"
-                                string="Tip Operatie"
+                                name="l10n_ro_e_transport_customs"
+                                string="Border crossing point"
                             />
-                                 <field name="l10n_ro_e_transport_scop" string="Scop" />
+                                <field
+                                name="l10n_ro_e_transport_operation_type"
+                                string="Operation Type"
+                            />
+                                 <field name="l10n_ro_e_transport_aim" string="Aim" />
                             </group>
                             <group string="Status">
                                 <field name="l10n_ro_e_transport_uit" />
