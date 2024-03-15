@@ -71,7 +71,7 @@ class AccountANAFSyncWeb(http.Controller):
                 anaf_config.anaf_oauth_url + "/authorize",
                 client_id,
                 odoo_oauth_url,
-            )
+            ))
         anaf_request_from_redirect = request.redirect(
             redirect_url, code=302, local=False
         )
