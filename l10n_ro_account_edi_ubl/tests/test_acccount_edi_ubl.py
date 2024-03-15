@@ -172,6 +172,18 @@ class TestAccountEdiUbl(AccountEdiTestCommon, CronMixinCase):
 
         anaf_config = cls.env.company._l10n_ro_get_anaf_sync(scope="e-factura")
         if not anaf_config:
+            efact_scope = [
+                (
+                    0,
+                    0,
+                    {
+                        "scope": "e-factura",
+                        "state": "test",
+                        "anaf_sync_production_url": "https://api.anaf.ro/prod/FCTEL/rest",
+                        "anaf_sync_test_url": "https://api.anaf.ro/test/FCTEL/rest",
+                    },
+                )
+            ]
             anaf_config = cls.env["l10n.ro.account.anaf.sync"].create(
                 {
                     "company_id": cls.env.company.id,
@@ -179,17 +191,7 @@ class TestAccountEdiUbl(AccountEdiTestCommon, CronMixinCase):
                     "client_secret": "123",
                     "access_token": "123",
                     "client_token_valability": date.today() + timedelta(days=10),
-                    "anaf_scope_ids": [
-                        (
-                            0,
-                            0,
-                            {
-                                "scope": "e-factura",
-                                "state": "test",
-                                "anaf_sync_test_url": "https://api.anaf.ro/test/FCTEL/rest",
-                            },
-                        )
-                    ],
+                    "anaf_scope_ids": efact_scope,
                 }
             )
             anaf_config = cls.env.company._l10n_ro_get_anaf_sync(scope="e-factura")
