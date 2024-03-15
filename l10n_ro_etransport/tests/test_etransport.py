@@ -95,6 +95,12 @@ class TestETransport(TransactionCase):
         )
         anaf_config = self.env.company._l10n_ro_get_anaf_sync(scope="e-transport")
         if not anaf_config:
+            anaf_scope = {
+                "scope": "e-transport",
+                "state": "test",
+                "anaf_sync_test_url": "https://api.anaf.ro/test/ETRANSPORT/ws/v1",
+                "anaf_sync_production_url": "https://api.anaf.ro/prod/ETRANSPORT/ws/v1",
+            }
             self.env["l10n.ro.account.anaf.sync"].create(
                 {
                     "company_id": self.env.company.id,
@@ -102,18 +108,7 @@ class TestETransport(TransactionCase):
                     "client_secret": "123",
                     "access_token": "123",
                     "client_token_valability": date.today() + timedelta(days=10),
-                    "anaf_scope_ids": [
-                        (
-                            0,
-                            0,
-                            {
-                                "scope": "e-transport",
-                                "state": "test",
-                                "anaf_sync_test_url": "https://api.anaf.ro/test/ETRANSPORT/ws/v1",
-                                "anaf_sync_production_url": "https://api.anaf.ro/prod/ETRANSPORT/ws/v1",
-                            },
-                        )
-                    ],
+                    "anaf_scope_ids": [(0, 0, anaf_scope)],
                 }
             )
             self.env.company._l10n_ro_get_anaf_sync(scope="e-factura")
