@@ -15,7 +15,7 @@ class AccountANAFSyncScope(models.Model):
     @api.onchange("scope")
     def _onchange_scope(self):
         res = super()._onchange_scope()
-        if self.scope == "e-factura":
+        if self.scope == "e-transport":
             self.anaf_sync_test_url = "https://api.anaf.ro/test/ETRANSPORT/ws/v1"
             self.anaf_sync_production_url = "https://api.anaf.ro/prod/ETRANSPORT/ws/v1"
         return res
