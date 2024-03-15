@@ -19,7 +19,7 @@ class AccountANAFSyncScope(models.Model):
     )
     anaf_sync_url = fields.Char(compute="_compute_anaf_sync_url")
 
-    @api.depends("state")
+    @api.depends("state", "scope")
     def _compute_anaf_sync_url(self):
         for entry in self:
             if not entry.scope:
