@@ -96,71 +96,12 @@ class StockPicking(models.Model):
         TIP_OPERATIE, string="Operation type", default="30"
     )
 
-    l10n_ro_e_transport_aim = fields.Selection(
-        [
-            ("101", "Comercializare"),
-            ("201", "Producție"),
-            ("301", "Gratuități"),
-            ("401", "Echipament comercial"),
-            ("501", "Mijloace fixe"),
-            ("601", "Consum propriu"),
-            ("703", "Operațiuni de livrare cu instalare"),
-            ("704", "Transfer între gestiuni"),
-            ("705", "Bunuri puse la dispoziția clientului"),
-            ("801", "Leasing financiar/operațional"),
-            ("802", "Bunuri în garanție"),
-            ("901", "Operațiuni scutite"),
-            ("1001", "Investiție în curs"),
-            ("1101", "Donații, ajutoare"),
-            ("9901", "Altele"),
-            ("9999", "Același cu operațiunea"),
-        ],
-        default="101",
-        string="Aim",
+    l10n_ro_e_transport_aim_id = fields.Many2one(
+        "l10n.ro.e.transport.aim", string="Aim"
     )
 
-    l10n_ro_e_transport_customs = fields.Selection(
-        [
-            ("1", "Petea (HU)"),
-            ("2", "Borș(HU)"),
-            ("3", "Vărșand(HU)"),
-            ("4", "Nădlac(HU)"),
-            ("5", "Calafat (BG)"),
-            ("6", "Bechet(BG)"),
-            ("7", "Turnu Măgurele(BG)"),
-            ("8", "Zimnicea(BG)"),
-            ("9", "Giurgiu(BG)"),
-            ("10", "Ostrov(BG)"),
-            ("11", "Negru Vodă(BG)"),
-            ("12", "Vama Veche(BG)"),
-            ("13", "Călărași(BG)"),
-            ("14", "Corabia(BG)"),
-            ("15", "Oltenița(BG)"),
-            ("16", "Carei  (HU)"),
-            ("17", "Cenad (HU)"),
-            ("18", "Episcopia Bihor (HU)"),
-            ("19", "Salonta (HU)"),
-            ("20", "Săcuieni (HU)"),
-            ("21", "Turnu (HU)"),
-            ("22", "Urziceni (HU)"),
-            ("23", "Valea lui Mihai (HU)"),
-            ("24", "Vladimirescu (HU)"),
-            ("25", "Porțile de Fier 1 (RS)"),
-            ("26", "Naidăș(RS)"),
-            ("27", "Stamora Moravița(RS)"),
-            ("28", "Jimbolia(RS)"),
-            ("29", "Halmeu (UA)"),
-            ("30", "Stânca Costești (MD)"),
-            ("31", "Sculeni(MD)"),
-            ("32", "Albița(MD)"),
-            ("33", "Oancea(MD)"),
-            ("34", "Galați Giurgiulești(MD)"),
-            ("35", "Constanța Sud Agigea"),
-            ("36", "Siret  (UA)"),
-            ("37", "Nădlac 2 - A1 (HU)"),
-            ("38", "Borș 2 - A3 (HU)"),
-        ],
-        string="Border crossing point",
+    l10n_ro_e_transport_customs_id = fields.Many2one(
+        "l10n.ro.e.transport.customs", string="Border crossing point"
     )
 
     l10n_ro_vehicle = fields.Char(string="Vehicle")
@@ -253,7 +194,7 @@ class StockPicking(models.Model):
             if stare in ["ok", "nok"]:
                 self.write({"l10n_ro_e_transport_status": stare})
             if stare == "in prelucrare":
-                message = "Documentul UIT la data %s era in prelucrare." % content.get(
+                message = _("The document was in processing at %s.") % content.get(
                     "dateResponse"
                 )
                 self.write(
@@ -284,8 +225,7 @@ class StockPicking(models.Model):
         if error_message:
             raise UserError(error_message)
 
-        message = "Documentul a fost incarcat cu succes, verificati starea."
-
+        message = _("The document was uploaded successfully, check the status.")
         self.write(
             {
                 "l10n_ro_e_transport_uit": content.get("UIT"),

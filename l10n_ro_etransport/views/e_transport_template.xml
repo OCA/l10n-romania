@@ -23,7 +23,7 @@
                             t-att-codUnitateMasura="move.product_uom._get_unece_code()"
                             t-att-greutateNeta="qty * (move.product_id.l10n_ro_net_weight or 1)"
                             t-att-greutateBruta="qty* (move.product_id.weight or 1)"
-                            t-att-codScopOperatiune="doc.l10n_ro_e_transport_aim or '101'"
+                            t-att-codScopOperatiune="doc.l10n_ro_e_transport_aim_id.code or '101'"
                             t-att-valoareLeiFaraTva="qty * (move_line.product_id.standard_price or 1)"
                         />
                     </t>
@@ -55,7 +55,7 @@
                 </locStartTraseuRutier>
                 <locFinalTraseuRutier
                     t-if="doc.l10n_ro_e_transport_operation_type=='10'"
-                    t-att-codPtf="doc.l10n_ro_e_transport_customs"
+                    t-att-codPtf="doc.l10n_ro_e_transport_customs_id.code"
                 />
                 <locFinalTraseuRutier
                     t-if="doc.l10n_ro_e_transport_operation_type!='20'"
@@ -69,7 +69,7 @@
                 </locFinalTraseuRutier>
                 <locFinalTraseuRutier
                     t-if="doc.l10n_ro_e_transport_operation_type=='20'"
-                    t-att-codPtf="doc.l10n_ro_e_transport_customs"
+                    t-att-codPtf="doc.l10n_ro_e_transport_customs_id.code"
                 />
 
                 <documenteTransport

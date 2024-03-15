@@ -33,14 +33,17 @@
                                 <field name="carrier_id" />
                                 <field name="l10n_ro_vehicle" />
                                 <field
-                                name="l10n_ro_e_transport_customs"
+                                name="l10n_ro_e_transport_customs_id"
                                 string="Border crossing point"
                             />
                                 <field
                                 name="l10n_ro_e_transport_operation_type"
                                 string="Operation Type"
                             />
-                                 <field name="l10n_ro_e_transport_aim" string="Aim" />
+                                 <field
+                                name="l10n_ro_e_transport_aim_id"
+                                string="Aim"
+                            />
                             </group>
                             <group string="Status">
                                 <field name="l10n_ro_e_transport_uit" />
