@@ -92,13 +92,11 @@ class StockPicking(models.Model):
     )
     l10n_ro_e_transport_message = fields.Text("ANAF Message")
 
-    l10n_ro_e_transport_tip_operatie = fields.Selection(
-        TIP_OPERATIE,
-        string="Tip operatie",
-        default="30",
+    l10n_ro_e_transport_operation_type = fields.Selection(
+        TIP_OPERATIE, string="Operation type", default="30"
     )
 
-    l10n_ro_e_transport_scop = fields.Selection(
+    l10n_ro_e_transport_aim = fields.Selection(
         [
             ("101", "Comercializare"),
             ("201", "Producție"),
@@ -118,10 +116,10 @@ class StockPicking(models.Model):
             ("9999", "Același cu operațiunea"),
         ],
         default="101",
-        string="Scop",
+        string="Aim",
     )
 
-    l10n_ro_e_transport_vama = fields.Selection(
+    l10n_ro_e_transport_customs = fields.Selection(
         [
             ("1", "Petea (HU)"),
             ("2", "Borș(HU)"),
@@ -162,7 +160,7 @@ class StockPicking(models.Model):
             ("37", "Nădlac 2 - A1 (HU)"),
             ("38", "Borș 2 - A3 (HU)"),
         ],
-        string="Punct trece vamala",
+        string="Border crossing point",
     )
 
     l10n_ro_vehicle = fields.Char(string="Vehicle")

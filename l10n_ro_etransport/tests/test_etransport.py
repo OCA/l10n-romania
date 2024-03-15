@@ -120,8 +120,8 @@ class TestETransport(TransactionCase):
                 "picking_type_id": self.picking_type.id,
                 "carrier_id": self.carrier.id,
                 "l10n_ro_vehicle": "BC17DCH",
-                "l10n_ro_e_transport_tip_operatie": "30",
-                "l10n_ro_e_transport_scop": "101",
+                "l10n_ro_e_transport_operation_type": "30",
+                "l10n_ro_e_transport_aim": "101",
                 "location_id": self.picking_type.default_location_src_id.id,
                 "location_dest_id": self.picking_type.default_location_dest_id.id,
                 "move_ids": [

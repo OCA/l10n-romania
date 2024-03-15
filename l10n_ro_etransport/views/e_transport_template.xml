@@ -9,7 +9,7 @@
             t-att-codDeclarant="company.vat.upper().replace('RO', '')"
             t-att-refDeclarant="doc.name"
         >
-            <notificare t-att-codTipOperatiune="doc.l10n_ro_e_transport_tip_operatie">
+            <notificare t-att-codTipOperatiune="doc.l10n_ro_e_transport_operation_type">
                 <t t-foreach="doc.move_ids" t-as="move">
                     <t t-foreach="move.move_line_ids" t-as="move_line">
                         <t
@@ -23,7 +23,7 @@
                             t-att-codUnitateMasura="move.product_uom._get_unece_code()"
                             t-att-greutateNeta="qty * (move.product_id.l10n_ro_net_weight or 1)"
                             t-att-greutateBruta="qty* (move.product_id.weight or 1)"
-                            t-att-codScopOperatiune="doc.l10n_ro_e_transport_scop or '101'"
+                            t-att-codScopOperatiune="doc.l10n_ro_e_transport_aim or '101'"
                             t-att-valoareLeiFaraTva="qty * (move_line.product_id.standard_price or 1)"
                         />
                     </t>
@@ -42,7 +42,9 @@
                     t-att-denumireOrgTransport="carrier.name"
                     t-att-dataTransport="doc.date.date()"
                 />
-                <locStartTraseuRutier t-if="doc.l10n_ro_e_transport_tip_operatie!='10'">
+                <locStartTraseuRutier
+                    t-if="doc.l10n_ro_e_transport_operation_type!='10'"
+                >
                     <locatie
                         t-att-codJudet="STATE_CODES[doc.company_id.state_id.code]"
                         t-att-denumireLocalitate="doc.company_id.city"
@@ -52,10 +54,12 @@
                     />
                 </locStartTraseuRutier>
                 <locFinalTraseuRutier
-                    t-if="doc.l10n_ro_e_transport_tip_operatie=='10'"
-                    t-att-codPtf="doc.l10n_ro_e_transport_vama"
+                    t-if="doc.l10n_ro_e_transport_operation_type=='10'"
+                    t-att-codPtf="doc.l10n_ro_e_transport_customs"
                 />
-                <locFinalTraseuRutier t-if="doc.l10n_ro_e_transport_tip_operatie!='20'">
+                <locFinalTraseuRutier
+                    t-if="doc.l10n_ro_e_transport_operation_type!='20'"
+                >
                     <locatie
                         t-att-codJudet="STATE_CODES[doc.partner_id.state_id.code]"
                         t-att-denumireLocalitate="doc.partner_id.city"
@@ -64,8 +68,8 @@
                     />
                 </locFinalTraseuRutier>
                 <locFinalTraseuRutier
-                    t-if="doc.l10n_ro_e_transport_tip_operatie=='20'"
-                    t-att-codPtf="doc.l10n_ro_e_transport_vama"
+                    t-if="doc.l10n_ro_e_transport_operation_type=='20'"
+                    t-att-codPtf="doc.l10n_ro_e_transport_customs"
                 />
 
                 <documenteTransport
