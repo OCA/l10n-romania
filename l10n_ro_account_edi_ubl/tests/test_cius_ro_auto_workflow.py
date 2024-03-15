@@ -297,6 +297,7 @@ class TestCiusRoAutoWorkflow(CiusRoTestSetup):
         anaf_config = self.env.company.l10n_ro_account_anaf_sync_id
         anaf_config.access_token = "test"
         self.env.company.l10n_ro_download_einvoices = True
+        self.env.ref('product.decimal_product_uom').digits = 4
         partner = self.env["res.partner"].search(
             [("name", "=", "BTL ROMANIA APARATURA MEDICALA SRL")]
         )
@@ -364,7 +365,6 @@ class TestCiusRoAutoWorkflow(CiusRoTestSetup):
             self.assertEqual(
                 invoice.invoice_date_due, fields.Date.from_string("2024-03-12")
             )
-
             self.assertAlmostEqual(invoice.amount_untaxed, 309.57)
             self.assertAlmostEqual(invoice.amount_tax, 58.82)
             self.assertAlmostEqual(invoice.amount_total, 368.39)
