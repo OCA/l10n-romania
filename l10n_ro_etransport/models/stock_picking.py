@@ -195,8 +195,9 @@ class StockPicking(models.Model):
             "get_country_code": get_country_code,
             "get_instastat_code": get_instastat_code,
         }
-        xml_content = self.env.ref("l10n_ro_etransport.e_transport")._render(
-            render_values
+        View = self.env["ir.ui.view"].sudo()
+        xml_content = View._render_template(
+            "l10n_ro_etransport.e_transport", render_values
         )
         xml_name = "%s_e_transport.xml" % (self.name.replace("/", "_"))
         xml_content = xml_declaration + xml_content

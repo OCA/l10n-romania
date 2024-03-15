@@ -10,7 +10,7 @@
             t-att-refDeclarant="doc.name"
         >
             <notificare t-att-codTipOperatiune="doc.l10n_ro_e_transport_tip_operatie">
-                <t t-foreach="doc.move_lines" t-as="move">
+                <t t-foreach="doc.move_ids" t-as="move">
                     <t t-foreach="move.move_line_ids" t-as="move_line">
                         <t
                             t-set="qty"

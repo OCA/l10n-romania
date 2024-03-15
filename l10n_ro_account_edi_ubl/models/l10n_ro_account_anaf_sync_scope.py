@@ -12,12 +12,15 @@ class AccountANAFSyncScope(models.Model):
 
     scope = fields.Selection(selection_add=[("e-factura", "E-factura")])
 
-    @api.onchange("scope")
-    def _onchange_scope(self):
-        if self.scope == "e-factura":
-            self.anaf_sync_test_url = "https://api.anaf.ro/test/FCTEL/rest"
-            self.anaf_sync_production_url = "https://api.anaf.ro/prod/FCTEL/rest"
-        return super()._onchange_scope()
+    @api.depends("state")
+    def _compute_anaf_sync_url(self):
+        super()._compute_anaf_sync_url()
+        for entry in self:
+            if entry.scope == "e-factura":
+                if entry.state == "test":
+                    entry.anaf_sync_url = "https://api.anaf.ro/test/FCTEL/rest"
+                else:
+                    entry.anaf_sync_url = "https://api.anaf.ro/prod/FCTEL/rest"
 
     def _l10n_ro_einvoice_call(self, func, params, data=None, method="POST"):
         self.ensure_one()
