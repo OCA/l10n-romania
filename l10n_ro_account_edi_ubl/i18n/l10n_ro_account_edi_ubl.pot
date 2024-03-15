@@ -89,6 +89,12 @@ msgid "Contact"
 msgstr ""
 
 #. module: l10n_ro_account_edi_ubl
+#: code:addons/l10n_ro_account_edi_ubl/models/account_edi_xml_cius_ro.py:0
+#, python-format
+msgid "Could not retrieve the tax: %(tax_percent)s %% for line '%(name)s'."
+msgstr ""
+
+#. module: l10n_ro_account_edi_ubl
 #: model:ir.model.fields,field_description:l10n_ro_account_edi_ubl.field_account_edi_xml_cius_ro__create_uid
 msgid "Created by"
 msgstr ""
