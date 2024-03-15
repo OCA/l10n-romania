@@ -1,0 +1,47 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="140" height="140"
+     viewBox="0 0 70 70">
+    <defs>
+        <path id="a" d="M4 0h61c4 0 5 1 5 5v60c0 4-1 5-5 5H4c-3 0-4-1-4-5V5c0-4 1-5 4-5z" />
+        <linearGradient id="c" x1="100%" x2="0%" y1="0%" y2="100%">
+            <stop offset="0%" stop-color="#C2DFFF" />
+            <stop offset="100%" stop-color="#6698FF" />-
+        </linearGradient>
+
+        <svg id="d" width="359pt" height="375pt" viewBox="0 0 359 375" version="1.1">
+
+        </svg>
+
+
+    </defs>
+    <g fill="none" fill-rule="evenodd">
+        <mask id="b" fill="#fff">
+            <use xlink:href="#a" />
+        </mask>
+        <g mask="url(#b)">
+            <path fill="url(#c)" d="M0 0H70V70H0z" />
+            <path fill="#FFF" fill-opacity=".383" d="M4 1h61c2.667 0 4.333.667 5 2V0H0v3c.667-1.333 2-2 4-2z" />
+            <path fill="#000" fill-opacity=".383" d="M4 69h61c2.667 0 4.333-1 5-3v4H0v-4c.667 2 2 3 4 3z" />
+
+            <svg x="40" y="0" width="25" height="25" viewBox="0 0 3 2">
+                <rect width="3" height="2" x="0" y="0" fill="#002B7F" />
+                <rect width="2" height="2" x="1" y="0" fill="#FCD116" />
+                <rect width="1" height="2" x="2" y="0" fill="#CE1126" />
+            </svg>
+
+
+            <svg fill="#FFF" x="5" y="20" width="45" height="45" viewBox="0 0 576 512">
+                <use fill="#000" fill-rule="nonzero" opacity=".3" xlink:href="#d" />
+            </svg>
+
+            <svg fill="#FFF" x="5" y="19" width="45" height="45" viewBox="0 0 576 512">
+                <use fill="#FFF" fill-rule="nonzero" xlink:href="#d" />
+            </svg>
+
+            <svg  fill="#FFF" x="15" y="25" width="40" height="40"  viewBox="0 0 640 512">
+                <path d="M48 0C21.5 0 0 21.5 0 48V368c0 26.5 21.5 48 48 48H64c0 53 43 96 96 96s96-43 96-96H384c0 53 43 96 96 96s96-43 96-96h32c17.7 0 32-14.3 32-32s-14.3-32-32-32V288 256 237.3c0-17-6.7-33.3-18.7-45.3L512 114.7c-12-12-28.3-18.7-45.3-18.7H416V48c0-26.5-21.5-48-48-48H48zM416 160h50.7L544 237.3V256H416V160zM112 416a48 48 0 1 1 96 0 48 48 0 1 1 -96 0zm368-48a48 48 0 1 1 0 96 48 48 0 1 1 0-96z"/>
+            </svg>
+
+
+        </g>
+    </g>
+</svg>
