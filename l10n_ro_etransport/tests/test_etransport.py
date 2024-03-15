@@ -1,3 +1,5 @@
+from datetime import date, timedelta
+
 from odoo.tests.common import TransactionCase
 
 
@@ -19,8 +21,8 @@ class TestETransport(TransactionCase):
                 "phone": "123456789",
             }
         )
-
-        self.partner = self.env["res.partner"].create(
+        ResPartner = self.env["res.partner"].with_context(no_vat_validation=True)
+        self.partner = ResPartner.create(
             {
                 "name": "Test Partner",
                 "country_id": country_ro.id,
@@ -33,7 +35,7 @@ class TestETransport(TransactionCase):
             }
         )
 
-        self.partner_carrier = self.env["res.partner"].create(
+        self.partner_carrier = ResPartner.create(
             {
                 "name": "Test Partner Carrier",
                 "country_id": country_ro.id,
@@ -91,16 +93,28 @@ class TestETransport(TransactionCase):
                 ).id,
             }
         )
-        anaf_config = self.env.company.l10n_ro_account_anaf_sync_id
+        anaf_config = self.env.company._l10n_ro_get_anaf_sync(scope="e-transport")
         if not anaf_config:
-            anaf_config = self.env["l10n.ro.account.anaf.sync"].create(
+            self.env["l10n.ro.account.anaf.sync"].create(
                 {
                     "company_id": self.env.company.id,
                     "client_id": "123",
                     "client_secret": "123",
+                    "access_token": "123",
+                    "client_token_valability": date.today() + timedelta(days=10),
+                    "anaf_scope_ids": [
+                        (
+                            0,
+                            0,
+                            {
+                                "scope": "e-transport",
+                                "state": "test",
+                            },
+                        )
+                    ],
                 }
             )
-            self.env.company.l10n_ro_account_anaf_sync_id = anaf_config
+            self.env.company._l10n_ro_get_anaf_sync(scope="e-factura")
 
     def test_e_transport(self):
         picking = self.env["stock.picking"].create(
@@ -113,7 +127,7 @@ class TestETransport(TransactionCase):
                 "l10n_ro_e_transport_scop": "101",
                 "location_id": self.picking_type.default_location_src_id.id,
                 "location_dest_id": self.picking_type.default_location_dest_id.id,
-                "move_lines": [
+                "move_ids": [
                     (
                         0,
                         0,

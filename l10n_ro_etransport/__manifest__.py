@@ -7,6 +7,7 @@
     "depends": [
         "l10n_ro_config",
         "l10n_ro_account_anaf_sync",
+        "l10n_ro_stock",
         "stock",
         "delivery",
     ],
