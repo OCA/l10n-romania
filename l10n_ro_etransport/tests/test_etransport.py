@@ -8,15 +8,15 @@ class TestETransport(TransactionCase):
         super(TestETransport, self).setUp()
 
         country_ro = self.env["res.country"].search([("code", "=", "RO")])
-
+        self.env.company.l10n_ro_accounting = True
         self.env.company.partner_id.write(
             {
                 "name": "Test Company",
                 "country_id": country_ro.id,
                 "vat": "RO123456789",
                 "state_id": self.env.ref("base.RO_BC").id,
-                "street": "Test Street",
-                "city": "Test City",
+                "street": "Test Street Company",
+                "city": "Test City Company",
                 "zip": "123456",
                 "phone": "123456789",
             }
@@ -28,12 +28,15 @@ class TestETransport(TransactionCase):
                 "country_id": country_ro.id,
                 "state_id": self.env.ref("base.RO_IS").id,
                 "vat": "RO123456781",
-                "street": "Test Street",
-                "city": "Test City",
+                "street": "Test Street Partner",
+                "city": "Test City Partner",
                 "zip": "123456",
                 "phone": "123456789",
             }
         )
+        self.partner.street = "Test Street Partner"
+        if "street_name" in self.partner:
+            self.partner.street_name = "Test Street Name Partner"
 
         self.partner_carrier = ResPartner.create(
             {
@@ -41,12 +44,15 @@ class TestETransport(TransactionCase):
                 "country_id": country_ro.id,
                 "state_id": self.env.ref("base.RO_SV").id,
                 "vat": "RO123456782",
-                "street": "Test Street",
-                "city": "Test City",
+                "street": "Test Street Carrier",
+                "city": "Test City Carrier",
                 "zip": "123456",
                 "phone": "123456789",
             }
         )
+        self.partner_carrier.street = "Test Street Carrier"
+        if "street_name" in self.partner_carrier:
+            self.partner_carrier.street_name = "Test Street Name Carrier"
 
         self.product = self.env["product.product"].create(
             {
@@ -111,7 +117,7 @@ class TestETransport(TransactionCase):
                     "anaf_scope_ids": [(0, 0, anaf_scope)],
                 }
             )
-            self.env.company._l10n_ro_get_anaf_sync(scope="e-factura")
+            self.env.company._l10n_ro_get_anaf_sync(scope="e-transport")
 
     def test_e_transport(self):
         picking = self.env["stock.picking"].create(
