@@ -58,21 +58,6 @@ STATE_CODES = {
     "GR": "52",
 }
 
-# tracuderea in engleza a operatiiilor
-OPERATION_TYPE = [
-    ("10", "Intra-community acquisition"),
-    ("12", "Lohn system operations (EU) - entry"),
-    ("14", "Stocks at the customer's disposal (Call-off stock) - entry"),
-    ("20", "Intra-community delivery"),
-    ("22", "Lohn system operations (EU) - exit"),
-    ("24", "Stocks at the customer's disposal (Call-off stock) - exit"),
-    ("30", "Transport on the national territory"),
-    ("40", "Import"),
-    ("50", "Export"),
-    ("60", "Intra-community transaction - Entry for storage"),
-    ("70", "Intra-community transaction - Exit after storage"),
-]
-
 
 class StockPicking(models.Model):
     _inherit = "stock.picking"
@@ -94,8 +79,12 @@ class StockPicking(models.Model):
     )
     l10n_ro_e_transport_message = fields.Text("ANAF Message")
 
-    l10n_ro_e_transport_operation_type = fields.Selection(
-        OPERATION_TYPE, string="Operation type", default="30"
+    l10n_ro_e_transport_operation_type_id = fields.Many2one(
+        "l10n.ro.e.transport.operation",
+        string="Operation type",
+        default=lambda self: self.env.ref(
+            "l10n_ro_etransport.operation_30", raise_if_not_found=False
+        ),
     )
 
     l10n_ro_e_transport_aim_id = fields.Many2one(

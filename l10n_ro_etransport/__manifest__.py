@@ -19,6 +19,7 @@
         "security/ir.model.access.csv",
         "data/l10n.ro.e.transport.aim.csv",
         "data/l10n.ro.e.transport.customs.csv",
+        "data/l10n.ro.e.transport.operation.csv",
     ],
     "license": "AGPL-3",
     "version": "16.0.0.0.1",
