@@ -257,8 +257,8 @@ class TestCiusRoAutoWorkflow(CiusRoTestSetup):
             "._l10n_ro_get_anaf_efactura_messages",
             return_value=messages,
         ), patch(
-            "odoo.addons.l10n_ro_account_anaf_sync.models.l10n_ro_account_anaf_sync."
-            "AccountANAFSync._l10n_ro_einvoice_call",
+            "odoo.addons.l10n_ro_account_edi_ubl.models.l10n_ro_account_anaf_sync_scope."
+            "AccountANAFSyncScope._l10n_ro_einvoice_call",
             return_value=(signed_zip_file, 200),
         ):
             self.env.company._l10n_ro_create_anaf_efactura()

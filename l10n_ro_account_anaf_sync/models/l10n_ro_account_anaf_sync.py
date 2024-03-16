@@ -48,6 +48,7 @@ class AccountANAFSync(models.Model):
     access_token = fields.Char(tracking=1, help="Received from ANAF")
     refresh_token = fields.Char(tracking=1, help="Received from ANAF")
 
+    # todo: de corectat numele campului in client_token_validity
     client_token_valability = fields.Date(
         help="Date when is going to expire - 90 days from when was generated",
         tracking=1,
