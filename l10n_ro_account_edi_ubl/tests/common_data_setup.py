@@ -3,6 +3,7 @@
 
 import logging
 import time
+from datetime import date, timedelta
 
 from odoo import fields
 from odoo.modules.module import get_module_resource
@@ -167,17 +168,32 @@ class CiusRoTestSetup(AccountEdiTestCommon, CronMixinCase):
         cls.invoice_zip = open(test_file, mode="rb").read()
 
         # Set up ANAF configuration
-        anaf_config = cls.env.company.l10n_ro_account_anaf_sync_id
+        anaf_config = cls.env.company._l10n_ro_get_anaf_sync(scope="e-factura")
         if not anaf_config:
+            efact_scope = [
+                (
+                    0,
+                    0,
+                    {
+                        "scope": "e-factura",
+                        "state": "test",
+                        "anaf_sync_production_url": "https://api.anaf.ro/prod/FCTEL/rest",
+                        "anaf_sync_test_url": "https://api.anaf.ro/test/FCTEL/rest",
+                    },
+                )
+            ]
             anaf_config = cls.env["l10n.ro.account.anaf.sync"].create(
                 {
                     "company_id": cls.env.company.id,
                     "client_id": "123",
                     "client_secret": "123",
                     "access_token": "123",
+                    "client_token_valability": date.today() + timedelta(days=10),
+                    "anaf_scope_ids": efact_scope,
                 }
             )
-            cls.env.company.l10n_ro_account_anaf_sync_id = anaf_config
+            anaf_config = cls.env.company._l10n_ro_get_anaf_sync(scope="e-factura")
+        cls.anaf_config = anaf_config
 
         # Create account.journal record
         cls.journal_CIUS = cls.env["account.journal"].create(

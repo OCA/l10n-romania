@@ -113,7 +113,7 @@ class AccountEdiXmlCIUSRO(models.Model):
         res = {}
         for invoice in invoices:
 
-            anaf_config = invoice.company_id.l10n_ro_account_anaf_sync_id
+            anaf_config = invoice.company_id._l10n_ro_get_anaf_sync(scope="e-factura")
             if not anaf_config:
                 res[invoice] = {
                     "success": True,
@@ -200,7 +200,7 @@ class AccountEdiXmlCIUSRO(models.Model):
         self.ensure_one()
         if self.code != "cius_ro":
             return super()._needs_web_services()
-        anaf_config = self.env.company.l10n_ro_account_anaf_sync_id
+        anaf_config = self.env.company._l10n_ro_get_anaf_sync(scope="e-factura")
         return bool(anaf_config)
 
     def _get_invoice_edi_content(self, move):
@@ -228,7 +228,7 @@ class AccountEdiXmlCIUSRO(models.Model):
             return attachment.raw
 
     def _l10n_ro_post_invoice_step_1(self, invoice, attachment):
-        anaf_config = invoice.company_id.l10n_ro_account_anaf_sync_id
+        anaf_config = invoice.company_id._l10n_ro_get_anaf_sync(scope="e-factura")
         standard = "UBL"
         if invoice.move_type in ("out_refund", "in_refund"):
             standard = "CN"
@@ -248,7 +248,7 @@ class AccountEdiXmlCIUSRO(models.Model):
         return res
 
     def _l10n_ro_post_invoice_step_2(self, invoice, attachment):
-        anaf_config = invoice.company_id.l10n_ro_account_anaf_sync_id
+        anaf_config = invoice.company_id._l10n_ro_get_anaf_sync(scope="e-factura")
         params = {"id_incarcare": invoice.l10n_ro_edi_transaction}
         res = self._l10n_ro_anaf_call("/stareMesaj", anaf_config, params, method="GET")
         if res.get("id_descarcare", False):
