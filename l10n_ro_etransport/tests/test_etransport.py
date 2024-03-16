@@ -34,6 +34,9 @@ class TestETransport(TransactionCase):
                 "phone": "123456789",
             }
         )
+        self.partner.street = "Test Street Partner"
+        if "street_name" in self.partner:
+            self.partner.street_name = "Test Street Name Partner"
 
         self.partner_carrier = ResPartner.create(
             {
@@ -47,6 +50,9 @@ class TestETransport(TransactionCase):
                 "phone": "123456789",
             }
         )
+        self.partner_carrier.street = "Test Street Carrier"
+        if "street_name" in self.partner_carrier:
+            self.partner_carrier.street_name = "Test Street Name Carrier"
 
         self.product = self.env["product.product"].create(
             {
