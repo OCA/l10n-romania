@@ -43,8 +43,6 @@ class TestCiusRoAutoWorkflow(CiusRoTestSetup):
     # Test case for the cron job that processes documents in step 1 of the CIUS workflow.
     @freezegun.freeze_time("2022-09-04")
     def test_process_documents_web_services_step1_cron(self):
-        anaf_config = self.env.company._l10n_ro_get_anaf_sync(scope="e-factura")
-        anaf_config.access_token = "test"
         self.invoice.action_post()
 
         self.env.company.l10n_ro_edi_residence = 3
@@ -176,8 +174,7 @@ class TestCiusRoAutoWorkflow(CiusRoTestSetup):
 
     def test_l10n_ro_get_anaf_efactura_messages(self):
         self.env.company.vat = "RO23685159"
-        anaf_config = self.env.company._l10n_ro_get_anaf_sync(scope="e-factura")
-        anaf_config.access_token = "test"
+
         msg_dict = {
             "mesaje": [
                 {
@@ -209,8 +206,8 @@ class TestCiusRoAutoWorkflow(CiusRoTestSetup):
             }
         ]
         with patch(
-            "odoo.addons.l10n_ro_account_anaf_sync.models.l10n_ro_account_anaf_sync."
-            "AccountANAFSync._l10n_ro_einvoice_call",
+            "odoo.addons.l10n_ro_account_edi_ubl.models.l10n_ro_account_anaf_sync_scope."
+            "AccountANAFSyncScope._l10n_ro_einvoice_call",
             return_value=(anaf_messages, 200),
         ):
             self.assertEqual(
@@ -221,8 +218,7 @@ class TestCiusRoAutoWorkflow(CiusRoTestSetup):
             )
 
     def test_l10n_ro_create_anaf_efactura(self):
-        anaf_config = self.env.company._l10n_ro_get_anaf_sync(scope="e-factura")
-        anaf_config.access_token = "test"
+
         self.env.company.l10n_ro_download_einvoices = True
         self.env.company.partner_id.write(
             {
@@ -294,8 +290,7 @@ class TestCiusRoAutoWorkflow(CiusRoTestSetup):
             self.assertAlmostEqual(invoice.invoice_line_ids[0].balance, 1000.0)
 
     def test_l10n_ro_create_anaf_efactura_discount(self):
-        anaf_config = self.env.company._l10n_ro_get_anaf_sync(scope="e-factura")
-        anaf_config.access_token = "test"
+
         self.env.company.l10n_ro_download_einvoices = True
         self.env.ref("product.decimal_product_uom").digits = 4
         partner = self.env["res.partner"].search(
@@ -343,8 +338,8 @@ class TestCiusRoAutoWorkflow(CiusRoTestSetup):
             "._l10n_ro_get_anaf_efactura_messages",
             return_value=messages,
         ), patch(
-            "odoo.addons.l10n_ro_account_anaf_sync.models.l10n_ro_account_anaf_sync."
-            "AccountANAFSync._l10n_ro_einvoice_call",
+            "odoo.addons.l10n_ro_account_edi_ubl.models.l10n_ro_account_anaf_sync_scope."
+            "AccountANAFSyncScope._l10n_ro_einvoice_call",
             return_value=(signed_zip_file, 200),
         ):
             self.env.company._l10n_ro_create_anaf_efactura()
