@@ -3,6 +3,7 @@
 
 import logging
 import time
+from datetime import date, timedelta
 
 from odoo import fields
 from odoo.modules.module import get_module_resource
@@ -120,6 +121,7 @@ class CiusRoTestSetup(AccountEdiTestCommon, CronMixinCase):
             "name": "FBRAO2092",
             "partner_id": cls.partner.id,
             "invoice_date": fields.Date.from_string("2022-09-01"),
+            "invoice_date_due": fields.Date.from_string("2022-09-01"),
             "currency_id": cls.currency.id,
             "partner_bank_id": cls.bank.id,
             "invoice_line_ids": [
@@ -168,6 +170,18 @@ class CiusRoTestSetup(AccountEdiTestCommon, CronMixinCase):
 
         # Set up ANAF configuration
         anaf_config = cls.env.company._l10n_ro_get_anaf_sync(scope="e-factura")
+        anaf_scope = [
+            (
+                0,
+                0,
+                {
+                    "scope": "e-factura",
+                    "state": "test",
+                    "anaf_sync_production_url": "https://api.anaf.ro/prod/FCTEL/rest",
+                    "anaf_sync_test_url": "https://api.anaf.ro/test/FCTEL/rest",
+                },
+            )
+        ]
         if not anaf_config:
             anaf_config = cls.env["l10n.ro.account.anaf.sync"].create(
                 {
@@ -175,6 +189,8 @@ class CiusRoTestSetup(AccountEdiTestCommon, CronMixinCase):
                     "client_id": "123",
                     "client_secret": "123",
                     "access_token": "123",
+                    "client_token_valability": date.today() + timedelta(days=10),
+                    "anaf_scope_ids": anaf_scope,
                 }
             )
 

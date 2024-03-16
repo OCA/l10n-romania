@@ -26,7 +26,7 @@ class TestCiusRoRequired(CiusRoTestSetup):
         self.assertTrue(is_compatible)
 
     def test_is_compatible_with_journal_not_compatible(self):
-        self.env.company.country_id = self.env.ref("base.us")
+        self.env.company.account_fiscal_country_id = self.env.ref("base.us")
         journal = self.env["account.journal"].create(
             {
                 "name": "Test Journal",
