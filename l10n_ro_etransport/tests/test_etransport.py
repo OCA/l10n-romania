@@ -13,7 +13,7 @@ class TestETransport(TransactionCase):
             {
                 "name": "Test Company",
                 "country_id": country_ro.id,
-                "vat": "RO123456780",
+                "vat": "RO123456789",
                 "state_id": self.env.ref("base.RO_BC").id,
                 "street": "Test Street Company",
                 "city": "Test City Company",
