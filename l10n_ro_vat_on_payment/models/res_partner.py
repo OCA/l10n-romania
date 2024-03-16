@@ -122,7 +122,7 @@ class ResPartner(models.Model):
     def create(self, vals_list):
         partner = super().create(vals_list)
         partner.filtered(
-            lambda p: p.country_code == "RO" and p.vat
+            lambda p: p.country_id.code == "RO" and p.vat
         ).check_vat_on_payment()
         return partner
 
@@ -130,6 +130,6 @@ class ResPartner(models.Model):
         res = super().write(vals)
         if "vat" in vals:
             self.filtered(
-                lambda partner: partner.country_code == "RO"
+                lambda partner: partner.country_id.code == "RO"
             ).check_vat_on_payment()
         return res
