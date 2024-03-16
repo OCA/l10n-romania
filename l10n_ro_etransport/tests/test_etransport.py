@@ -8,7 +8,7 @@ class TestETransport(TransactionCase):
         super(TestETransport, self).setUp()
 
         country_ro = self.env["res.country"].search([("code", "=", "RO")])
-
+        self.env.company.l10n_ro_accounting = True
         self.env.company.partner_id.write(
             {
                 "name": "Test Company",
