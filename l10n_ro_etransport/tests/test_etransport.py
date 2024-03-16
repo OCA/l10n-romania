@@ -123,8 +123,8 @@ class TestETransport(TransactionCase):
                 "l10n_ro_e_transport_operation_type_id": self.env.ref(
                     "l10n_ro_etransport.operation_30"
                 ).id,
-                "l10n_ro_e_transport_aim_id": self.env.ref(
-                    "l10n_ro_etransport.aim_101"
+                "l10n_ro_e_transport_scope_id": self.env.ref(
+                    "l10n_ro_etransport.scope_101"
                 ).id,
                 "location_id": self.picking_type.default_location_src_id.id,
                 "location_dest_id": self.picking_type.default_location_dest_id.id,

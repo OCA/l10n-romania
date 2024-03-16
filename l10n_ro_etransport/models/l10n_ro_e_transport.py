@@ -4,9 +4,9 @@
 from odoo import fields, models
 
 
-class ETransportAim(models.Model):
-    _name = "l10n.ro.e.transport.aim"
-    _description = "E Transport Aim"
+class ETransportScope(models.Model):
+    _name = "l10n.ro.e.transport.scope"
+    _description = "E Transport Scope"
 
     name = fields.Char(required=True)
     code = fields.Char(required=True)

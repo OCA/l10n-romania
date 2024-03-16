@@ -26,11 +26,11 @@ msgid "Account ANAF Sync Scope"
 msgstr ""
 
 #. module: l10n_ro_etransport
-#: model:ir.actions.act_window,name:l10n_ro_etransport.action_l10n_ro_e_transport_aim
-#: model:ir.model.fields,field_description:l10n_ro_etransport.field_stock_picking__l10n_ro_e_transport_aim_id
-#: model:ir.ui.menu,name:l10n_ro_etransport.l10n_ro_e_transport_aim_menu
+#: model:ir.actions.act_window,name:l10n_ro_etransport.action_l10n_ro_e_transport_scope
+#: model:ir.model.fields,field_description:l10n_ro_etransport.field_stock_picking__l10n_ro_e_transport_scope_id
+#: model:ir.ui.menu,name:l10n_ro_etransport.l10n_ro_e_transport_scope_menu
 #: model_terms:ir.ui.view,arch_db:l10n_ro_etransport.view_picking_form
-msgid "Aim"
+msgid "Scope"
 msgstr "Scop"
 
 #. module: l10n_ro_etransport
@@ -42,25 +42,25 @@ msgid "Border crossing point"
 msgstr "Punct de trecere a frontierei"
 
 #. module: l10n_ro_etransport
-#: model:ir.model.fields,field_description:l10n_ro_etransport.field_l10n_ro_e_transport_aim__code
+#: model:ir.model.fields,field_description:l10n_ro_etransport.field_l10n_ro_e_transport_scope__code
 #: model:ir.model.fields,field_description:l10n_ro_etransport.field_l10n_ro_e_transport_customs__code
 msgid "Code"
 msgstr "Cod"
 
 #. module: l10n_ro_etransport
-#: model:ir.model.fields,field_description:l10n_ro_etransport.field_l10n_ro_e_transport_aim__create_uid
+#: model:ir.model.fields,field_description:l10n_ro_etransport.field_l10n_ro_e_transport_scope__create_uid
 #: model:ir.model.fields,field_description:l10n_ro_etransport.field_l10n_ro_e_transport_customs__create_uid
 msgid "Created by"
 msgstr ""
 
 #. module: l10n_ro_etransport
-#: model:ir.model.fields,field_description:l10n_ro_etransport.field_l10n_ro_e_transport_aim__create_date
+#: model:ir.model.fields,field_description:l10n_ro_etransport.field_l10n_ro_e_transport_scope__create_date
 #: model:ir.model.fields,field_description:l10n_ro_etransport.field_l10n_ro_e_transport_customs__create_date
 msgid "Created on"
 msgstr ""
 
 #. module: l10n_ro_etransport
-#: model:ir.model.fields,field_description:l10n_ro_etransport.field_l10n_ro_e_transport_aim__display_name
+#: model:ir.model.fields,field_description:l10n_ro_etransport.field_l10n_ro_e_transport_scope__display_name
 #: model:ir.model.fields,field_description:l10n_ro_etransport.field_l10n_ro_e_transport_customs__display_name
 msgid "Display Name"
 msgstr ""
@@ -71,8 +71,8 @@ msgid "Draft"
 msgstr ""
 
 #. module: l10n_ro_etransport
-#: model:ir.model,name:l10n_ro_etransport.model_l10n_ro_e_transport_aim
-msgid "E Transport Aim"
+#: model:ir.model,name:l10n_ro_etransport.model_l10n_ro_e_transport_scope
+msgid "E Transport scope"
 msgstr "Scop E-Transport"
 
 #. module: l10n_ro_etransport
@@ -106,7 +106,7 @@ msgid "Export E-Transport"
 msgstr ""
 
 #. module: l10n_ro_etransport
-#: model:ir.model.fields,field_description:l10n_ro_etransport.field_l10n_ro_e_transport_aim__id
+#: model:ir.model.fields,field_description:l10n_ro_etransport.field_l10n_ro_e_transport_scope__id
 #: model:ir.model.fields,field_description:l10n_ro_etransport.field_l10n_ro_e_transport_customs__id
 msgid "ID"
 msgstr ""
@@ -162,19 +162,19 @@ msgid "L10N Ro E Transport Status"
 msgstr ""
 
 #. module: l10n_ro_etransport
-#: model:ir.model.fields,field_description:l10n_ro_etransport.field_l10n_ro_e_transport_aim____last_update
+#: model:ir.model.fields,field_description:l10n_ro_etransport.field_l10n_ro_e_transport_scope____last_update
 #: model:ir.model.fields,field_description:l10n_ro_etransport.field_l10n_ro_e_transport_customs____last_update
 msgid "Last Modified on"
 msgstr "Ultima modificare la"
 
 #. module: l10n_ro_etransport
-#: model:ir.model.fields,field_description:l10n_ro_etransport.field_l10n_ro_e_transport_aim__write_uid
+#: model:ir.model.fields,field_description:l10n_ro_etransport.field_l10n_ro_e_transport_scope__write_uid
 #: model:ir.model.fields,field_description:l10n_ro_etransport.field_l10n_ro_e_transport_customs__write_uid
 msgid "Last Updated by"
 msgstr "Ultima actualizare de"
 
 #. module: l10n_ro_etransport
-#: model:ir.model.fields,field_description:l10n_ro_etransport.field_l10n_ro_e_transport_aim__write_date
+#: model:ir.model.fields,field_description:l10n_ro_etransport.field_l10n_ro_e_transport_scope__write_date
 #: model:ir.model.fields,field_description:l10n_ro_etransport.field_l10n_ro_e_transport_customs__write_date
 msgid "Last Updated on"
 msgstr "Ultima actualizare la"
@@ -190,7 +190,7 @@ msgid "Lohn system operations (EU) - exit"
 msgstr "Operaţiuni în sistem lohn (UE) - ieşire"
 
 #. module: l10n_ro_etransport
-#: model:ir.model.fields,field_description:l10n_ro_etransport.field_l10n_ro_e_transport_aim__name
+#: model:ir.model.fields,field_description:l10n_ro_etransport.field_l10n_ro_e_transport_scope__name
 #: model:ir.model.fields,field_description:l10n_ro_etransport.field_l10n_ro_e_transport_customs__name
 msgid "Name"
 msgstr "Nume"
@@ -220,10 +220,7 @@ msgstr "Tip operație"
 msgid "Partner Carrier"
 msgstr "Partener transportator"
 
-#. module: l10n_ro_etransport
-#: model:ir.model.fields,field_description:l10n_ro_etransport.field_l10n_ro_account_anaf_sync_scope__scope
-msgid "Scope"
-msgstr "Scop"
+
 
 #. module: l10n_ro_etransport
 #: model:ir.model.fields.selection,name:l10n_ro_etransport.selection__stock_picking__l10n_ro_e_transport_status__sent
