@@ -120,7 +120,9 @@ class TestETransport(TransactionCase):
                 "picking_type_id": self.picking_type.id,
                 "carrier_id": self.carrier.id,
                 "l10n_ro_vehicle": "BC17DCH",
-                "l10n_ro_e_transport_operation_type": "30",
+                "l10n_ro_e_transport_operation_type_id": self.env.ref(
+                    "l10n_ro_etransport.operation_30"
+                ).id,
                 "l10n_ro_e_transport_aim_id": self.env.ref(
                     "l10n_ro_etransport.aim_101"
                 ).id,
