@@ -13,10 +13,10 @@ class TestETransport(TransactionCase):
             {
                 "name": "Test Company",
                 "country_id": country_ro.id,
-                "vat": "RO123456789",
+                "vat": "RO123456780",
                 "state_id": self.env.ref("base.RO_BC").id,
-                "street": "Test Street",
-                "city": "Test City",
+                "street": "Test Street Company",
+                "city": "Test City Company",
                 "zip": "123456",
                 "phone": "123456789",
             }
@@ -28,8 +28,8 @@ class TestETransport(TransactionCase):
                 "country_id": country_ro.id,
                 "state_id": self.env.ref("base.RO_IS").id,
                 "vat": "RO123456781",
-                "street": "Test Street",
-                "city": "Test City",
+                "street": "Test Street Partner",
+                "city": "Test City Partner",
                 "zip": "123456",
                 "phone": "123456789",
             }
@@ -41,8 +41,8 @@ class TestETransport(TransactionCase):
                 "country_id": country_ro.id,
                 "state_id": self.env.ref("base.RO_SV").id,
                 "vat": "RO123456782",
-                "street": "Test Street",
-                "city": "Test City",
+                "street": "Test Street Carrier",
+                "city": "Test City Carrier",
                 "zip": "123456",
                 "phone": "123456789",
             }
@@ -111,7 +111,7 @@ class TestETransport(TransactionCase):
                     "anaf_scope_ids": [(0, 0, anaf_scope)],
                 }
             )
-            self.env.company._l10n_ro_get_anaf_sync(scope="e-factura")
+            self.env.company._l10n_ro_get_anaf_sync(scope="e-transport")
 
     def test_e_transport(self):
         picking = self.env["stock.picking"].create(
