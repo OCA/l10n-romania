@@ -17,7 +17,7 @@
         "views/delivery_view.xml",
         "views/l10n_ro_e_transport_view.xml",
         "security/ir.model.access.csv",
-        "data/l10n.ro.e.transport.aim.csv",
+        "data/l10n.ro.e.transport.scope.csv",
         "data/l10n.ro.e.transport.customs.csv",
         "data/l10n.ro.e.transport.operation.csv",
     ],

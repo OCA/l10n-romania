@@ -41,8 +41,8 @@
                                 string="Operation Type"
                             />
                                  <field
-                                name="l10n_ro_e_transport_aim_id"
-                                string="Aim"
+                                name="l10n_ro_e_transport_scope_id"
+                                string="Scope"
                             />
                             </group>
                             <group string="Status">

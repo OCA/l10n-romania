@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <odoo>
-    <!-- view form si tree pentru modelul l10n.ro.e.transport.aim -->
-    <record id="view_l10n_ro_e_transport_aim_form" model="ir.ui.view">
-        <field name="name">l10n.ro.e.transport.aim.form</field>
-        <field name="model">l10n.ro.e.transport.aim</field>
+    <!-- view form si tree pentru modelul l10n.ro.e.transport.scope -->
+    <record id="view_l10n_ro_e_transport_scope_form" model="ir.ui.view">
+        <field name="name">l10n.ro.e.transport.scope.form</field>
+        <field name="model">l10n.ro.e.transport.scope</field>
         <field name="arch" type="xml">
             <form>
                 <sheet>
@@ -15,9 +15,9 @@
             </form>
         </field>
     </record>
-    <record id="view_l10n_ro_e_transport_aim_tree" model="ir.ui.view">
-        <field name="name">l10n.ro.e.transport.aim.tree</field>
-        <field name="model">l10n.ro.e.transport.aim</field>
+    <record id="view_l10n_ro_e_transport_scope_tree" model="ir.ui.view">
+        <field name="name">l10n.ro.e.transport.scope.tree</field>
+        <field name="model">l10n.ro.e.transport.scope</field>
         <field name="arch" type="xml">
             <tree>
                 <field name="name" />
@@ -25,10 +25,10 @@
             </tree>
         </field>
     </record>
-    <!-- actiune pentru modelul l10n.ro.e.transport.aim -->
-    <record id="action_l10n_ro_e_transport_aim" model="ir.actions.act_window">
-        <field name="name">Aim</field>
-        <field name="res_model">l10n.ro.e.transport.aim</field>
+    <!-- actiune pentru modelul l10n.ro.e.transport.scope -->
+    <record id="action_l10n_ro_e_transport_scope" model="ir.actions.act_window">
+        <field name="name">scope</field>
+        <field name="res_model">l10n.ro.e.transport.scope</field>
         <field name="view_mode">tree,form</field>
     </record>
 
@@ -73,9 +73,9 @@
         sequence="99"
     />
     <menuitem
-        id="l10n_ro_e_transport_aim_menu"
-        name="Aim"
-        action="action_l10n_ro_e_transport_aim"
+        id="l10n_ro_e_transport_scope_menu"
+        name="scope"
+        action="action_l10n_ro_e_transport_scope"
         parent="l10n_ro_e_transport_menu"
         sequence="1"
     />

@@ -87,8 +87,8 @@ class StockPicking(models.Model):
         ),
     )
 
-    l10n_ro_e_transport_aim_id = fields.Many2one(
-        "l10n.ro.e.transport.aim", string="Aim"
+    l10n_ro_e_transport_scope_id = fields.Many2one(
+        "l10n.ro.e.transport.scope", string="Scope"
     )
 
     l10n_ro_e_transport_customs_id = fields.Many2one(
