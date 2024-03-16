@@ -71,7 +71,8 @@ class AccountANAFSyncWeb(http.Controller):
                 anaf_config.anaf_oauth_url + "/authorize",
                 client_id,
                 odoo_oauth_url,
-            ))
+            )
+        )
         anaf_request_from_redirect = request.redirect(
             redirect_url, code=302, local=False
         )
@@ -99,7 +100,7 @@ class AccountANAFSyncWeb(http.Controller):
         "Returns a text with the result of anaf request from redirect"
         uid = request.uid
         user = request.env["res.users"].browse(uid)
-        now = datetime.now()
+
         ANAF_Configs = request.env["l10n.ro.account.anaf.sync"].sudo()
         anaf_config = ANAF_Configs.browse(anaf_config_id)
 

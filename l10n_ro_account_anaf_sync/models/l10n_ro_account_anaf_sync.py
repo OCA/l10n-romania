@@ -4,10 +4,11 @@
 import logging
 from datetime import datetime
 
+import jwt
 import requests
 from werkzeug.urls import url_encode
 
-from odoo import _, api, fields, models
+from odoo import _, fields, models
 from odoo.exceptions import UserError
 
 _logger = logging.getLogger(__name__)

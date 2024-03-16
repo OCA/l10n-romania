@@ -82,6 +82,7 @@
                                         optional="hide"
                                     />
                                     <field name="state" groups="base.group_no_one" />
+                                    <field name="anaf_sync_url" />
                                 </tree>
                             </field>
                         </page>

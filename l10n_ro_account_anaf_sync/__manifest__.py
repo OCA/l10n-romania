@@ -20,5 +20,5 @@
     "installable": True,
     "development_status": "Mature",
     "maintainers": ["feketemihai"],
-    "external_dependencies": {"python": ["PyJWT"]},
+    "external_dependencies": {"python": ["jwt"]},
 }
