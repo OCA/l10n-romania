@@ -1,0 +1,945 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	xmlns="mfp:anaf:dgti:eTransport:declaratie:v2"
+	targetNamespace="mfp:anaf:dgti:eTransport:declaratie:v2" elementFormDefault="qualified"
+	attributeFormDefault="unqualified" version="1.02" xml:lang="ro">
+
+	<xs:element name="eTransport" type="eTransportType"/>
+
+	<xs:complexType name="eTransportType">
+		<xs:complexContent>
+			<xs:restriction base="xs:anyType">
+				<!-- choice elemente notificare SAU stergere SAU confirmare SAU modificare vehicul-->
+				<xs:choice>
+					<xs:element name="notificare" type="NotificareType"/>
+					<xs:element name="stergere" type="CorectieType"/>
+					<xs:element name="confirmare" type="ConfirmareType"/>
+					<xs:element name="modifVehicul" type="ModifVehiculType"/>
+				</xs:choice>
+				<xs:attribute name="codDeclarant" type="CodDeclarantType" use="required"/>
+				<xs:attribute name="refDeclarant" type="Str50"/>
+				<xs:attribute name="declPostAvarie" type="DeclPostAvarieType"/>
+			</xs:restriction>
+		</xs:complexContent>
+	</xs:complexType>
+
+	<!-- elementul notificare -->
+	<xs:complexType name="NotificareType">
+		<xs:sequence>
+			<xs:element name="corectie" type="CorectieType" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="bunuriTransportate" type="BunuriTransportateType" minOccurs="1"
+				maxOccurs="unbounded"/>
+			<xs:element name="partenerComercial" type="PartenerComercialType" minOccurs="1"
+				maxOccurs="1"/>
+			<xs:element name="dateTransport" type="DateTransportType" minOccurs="1" maxOccurs="1"/>
+			<xs:element name="locStartTraseuRutier" type="LocTraseuRutierType" minOccurs="1"
+				maxOccurs="1"/>
+			<xs:element name="locFinalTraseuRutier" type="LocTraseuRutierType" minOccurs="1"
+				maxOccurs="1"/>
+			<xs:element name="documenteTransport" type="DocumenteTransportType" minOccurs="1"
+				maxOccurs="unbounded"/>
+			<xs:element name="notificareAnterioara" type="NotificareAnterioaraType" minOccurs="0"
+				maxOccurs="unbounded"/>
+		</xs:sequence>
+		<xs:attribute name="codTipOperatiune" type="CodTipOperatiuneType" use="required"/>
+	</xs:complexType>
+
+	<xs:simpleType name="UitType">
+		<xs:restriction base="xs:string">
+			<!-- primele 14 caractere: cifre 0-9 si litere majuscule, cu exceptia literelor O,I,Z,S,G,B (care seamana cu 0,1,2,5,6,8) -->
+			<!-- ultimele 2 caractere: cifre 0-9; reprezinta ultimele 2 cifre ale sumei codurilor ascii ale tuturor caracterelor anterioare -->
+			<xs:pattern value="[0-9ACDEFHJKLMNPQRTUVWXY]{14}[0-9]{2}"/>
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:complexType name="CorectieType">
+		<xs:complexContent>
+			<xs:restriction base="xs:anyType">
+				<xs:attribute name="uit" type="UitType" use="required"/>
+			</xs:restriction>
+		</xs:complexContent>
+	</xs:complexType>
+
+	<!-- elementul confirmare -->
+	<xs:complexType name="ConfirmareType">
+		<xs:complexContent>
+			<xs:restriction base="xs:anyType">
+				<xs:attribute name="uit" type="UitType" use="required"/>
+				<xs:attribute name="tipConfirmare" type="TipConfirmareType" use="required"/>
+				<xs:attribute name="observatii" type="Str200"/>
+			</xs:restriction>
+		</xs:complexContent>
+	</xs:complexType>
+
+	<!-- elementul modificare vehicul -->
+	<xs:complexType name="ModifVehiculType">
+		<xs:complexContent>
+			<xs:restriction base="xs:anyType">
+				<xs:attribute name="uit" type="UitType" use="required"/>
+				<xs:attribute name="nrVehicul" type="NrVehiculType" use="required"/>
+				<xs:attribute name="nrRemorca1" type="NrVehiculType"/>
+				<xs:attribute name="nrRemorca2" type="NrVehiculType"/>
+				<xs:attribute name="dataModificare" type="xs:dateTime" use="required"/>
+				<xs:attribute name="observatii" type="Str200"/>
+			</xs:restriction>
+		</xs:complexContent>
+	</xs:complexType>
+
+	<xs:complexType name="BunuriTransportateType">
+		<xs:complexContent>
+			<xs:restriction base="xs:anyType">
+				<xs:attribute name="codScopOperatiune" type="CodScopOperatiuneType" use="required"/>
+				<xs:attribute name="codTarifar" type="CodTarifarType"/>
+				<xs:attribute name="denumireMarfa" type="Str200" use="required"/>
+				<xs:attribute name="cantitate" type="PosDec_12_2_Type" use="required"/>
+				<xs:attribute name="codUnitateMasura" type="CodUMType" use="required"/>
+				<xs:attribute name="greutateNeta" type="PosDec_12_2_Type"/>
+				<xs:attribute name="greutateBruta" type="PosDec_12_2_Type" use="required"/>
+				<xs:attribute name="valoareLeiFaraTva" type="NonNegDec_12_2_Type"/>
+				<xs:attribute name="refDeclarant" type="Str50"/>
+			</xs:restriction>
+		</xs:complexContent>
+	</xs:complexType>
+
+	<xs:complexType name="NotificareAnterioaraType">
+		<xs:complexContent>
+			<xs:restriction base="xs:anyType">
+				<xs:attribute name="uit" type="UitType" use="required"/>
+				<xs:attribute name="observatii" type="Str200"/>
+				<xs:attribute name="refDeclarant" type="Str50"/>
+			</xs:restriction>
+		</xs:complexContent>
+	</xs:complexType>
+
+	<xs:complexType name="PartenerComercialType">
+		<xs:complexContent>
+			<xs:restriction base="xs:anyType">
+				<xs:attribute name="codTara" type="CodTaraType" use="required"/>
+				<xs:attribute name="cod" type="Cod30Type"/>
+				<xs:attribute name="denumire" type="Str200" use="required"/>
+			</xs:restriction>
+		</xs:complexContent>
+	</xs:complexType>
+
+	<xs:complexType name="DateTransportType">
+		<xs:complexContent>
+			<xs:restriction base="xs:anyType">
+				<xs:attribute name="nrVehicul" type="NrVehiculType" use="required"/>
+				<xs:attribute name="nrRemorca1" type="NrVehiculType"/>
+				<xs:attribute name="nrRemorca2" type="NrVehiculType"/>
+				<xs:attribute name="codTaraOrgTransport" type="CodTaraType" use="required"/>
+				<xs:attribute name="codOrgTransport" type="Cod30Type"/>
+				<xs:attribute name="denumireOrgTransport" type="Str200" use="required"/>
+				<xs:attribute name="dataTransport" type="xs:date" use="required"/>
+			</xs:restriction>
+		</xs:complexContent>
+	</xs:complexType>
+
+	<xs:complexType name="LocTraseuRutierType">
+		<xs:complexContent>
+			<xs:restriction base="xs:anyType">
+				<xs:sequence>
+					<xs:element name="locatie" type="LocatieType" minOccurs="0" maxOccurs="1"/>
+				</xs:sequence>
+				<xs:attribute name="codPtf" type="CodPtfType"/>
+				<xs:attribute name="codBirouVamal" type="CodBirouVamalType"/>
+			</xs:restriction>
+		</xs:complexContent>
+	</xs:complexType>
+
+	<xs:complexType name="LocatieType">
+		<xs:complexContent>
+			<xs:restriction base="xs:anyType">
+				<xs:attribute name="codJudet" type="CodJudetType" use="required"/>
+				<xs:attribute name="denumireLocalitate" type="Str100" use="required"/>
+				<xs:attribute name="denumireStrada" type="Str100" use="required"/>
+				<xs:attribute name="numar" type="Str20"/>
+				<xs:attribute name="bloc" type="Str30"/>
+				<xs:attribute name="scara" type="Str20"/>
+				<xs:attribute name="etaj" type="Str20"/>
+				<xs:attribute name="apartament" type="Str20"/>
+				<xs:attribute name="alteInfo" type="Str200"/>
+				<xs:attribute name="codPostal" type="Str20"/>
+			</xs:restriction>
+		</xs:complexContent>
+	</xs:complexType>
+
+	<xs:complexType name="DocumenteTransportType">
+		<xs:complexContent>
+			<xs:restriction base="xs:anyType">
+				<xs:attribute name="tipDocument" type="TipDocumentType" use="required"/>
+				<xs:attribute name="numarDocument" type="Str50"/>
+				<xs:attribute name="dataDocument" type="xs:date" use="required"/>
+				<xs:attribute name="observatii" type="Str200"/>
+			</xs:restriction>
+		</xs:complexContent>
+	</xs:complexType>
+
+	<xs:simpleType name="Cod30Type">
+		<xs:restriction base="xs:token">
+			<xs:minLength value="1"/>
+			<xs:maxLength value="30"/>
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:simpleType name="Str20">
+		<xs:restriction base="xs:token">
+			<xs:minLength value="1"/>
+			<xs:maxLength value="20"/>
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:simpleType name="Str30">
+		<xs:restriction base="xs:token">
+			<xs:minLength value="1"/>
+			<xs:maxLength value="30"/>
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:simpleType name="Str50">
+		<xs:restriction base="xs:token">
+			<xs:minLength value="1"/>
+			<xs:maxLength value="50"/>
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:simpleType name="Str100">
+		<xs:restriction base="xs:token">
+			<xs:minLength value="1"/>
+			<xs:maxLength value="100"/>
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:simpleType name="Str200">
+		<xs:restriction base="xs:token">
+			<xs:minLength value="1"/>
+			<xs:maxLength value="200"/>
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:annotation>
+		<xs:documentation> "D" - Singura valoare posibilă pentru atributul "declPostAvarie"
+			(declarare până la sfârșitul următoarei zile lucrătoare repunerii în funcțiune a
+			sistemului, cf. art. 8, alin. 1^3 al OUG41/2022 aşa cum este modificată prin
+			OUG132/2022), dacă este cazul. Pentru declarare normală - anterioară punerii în mişcare
+			a vehiculului pe parcurs rutier naţional - atributul nu trebuie specificat.
+		</xs:documentation>
+	</xs:annotation>
+
+	<xs:simpleType name="DeclPostAvarieType">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="D"/>
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:annotation>
+		<xs:documentation>Regula validare CUI/CIF/CNP</xs:documentation>
+	</xs:annotation>
+	<xs:simpleType name="CodDeclarantType">
+		<xs:restriction base="xs:string">
+			<xs:pattern value="((\d{13})|(\d{2,10}))"/>
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:annotation>
+		<xs:documentation> Valori posibile pentru câmpul codTipOperatiune: "10" AIC - Achiziţie
+			intracomunitară "12" LHI - Operațiuni în sistem lohn (UE) - intrare "14" SCI - Stocuri
+			la dispoziția clientului (Call-off stock) - intrare "20" LIC - Livrare intracomunitară
+			"22" LHE - Operațiuni în sistem lohn (UE) - ieșire "24" SCE - Stocuri la dispoziția
+			clientului (Call-off stock) - ieșire "30" TTN - Transport pe teritoriul naţional "40"
+			IMP - Import "50" EXP - Export "60" DIN - Tranzacţie intracomunitară - Intrare pentru
+			depozitare/formare nou transport "70" DIE - Tranzacţie intracomunitară - Ieşire după
+			depozitare/formare nou transport </xs:documentation>
+	</xs:annotation>
+	<xs:simpleType name="CodTipOperatiuneType">
+		<xs:restriction base="xs:int">
+			<xs:enumeration value="10"/>
+			<xs:enumeration value="12"/>
+			<xs:enumeration value="14"/>
+			<xs:enumeration value="20"/>
+			<xs:enumeration value="22"/>
+			<xs:enumeration value="24"/>
+			<xs:enumeration value="30"/>
+			<xs:enumeration value="40"/>
+			<xs:enumeration value="50"/>
+			<xs:enumeration value="60"/>
+			<xs:enumeration value="70"/>
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:annotation>
+		<xs:documentation> Câmpul codScopOperatiune ia valori diferite, în funcţie de valoarea
+			câmpului codTipOperatiune, astfel: - pentru codTipOperatiune = "10" AIC - Achiziţie
+			intracomunitară: "101" Comercializare "201" Producție "301" Gratuități "401" Echipament
+			comercial "501" Mijloace fixe "601" Consum propriu "703" Operațiuni de livrare cu
+			instalare "801" Leasing financiar/operațional "802" Bunuri în garanție "901" Operațiuni
+			scutite "1001" Investiție in curs "1101" Donații, ajutoare "9901" Altele - pentru
+			codTipOperatiune = "12" LHI - Operațiuni în sistem lohn (UE) - intrare: "9999" Același
+			cu operațiunea - pentru codTipOperatiune = "14" SCI - Stocuri la dispoziția clientului
+			(Call-off stock) - intrare: "9999" Același cu operațiunea - pentru codTipOperatiune =
+			"20" LIC - Livrare intracomunitară: "101" Comercializare "301" Gratuități "703"
+			Operațiuni de livrare cu instalare "801" Leasing financiar/operațional "802" Bunuri în
+			garanție "9901" Altele - pentru codTipOperatiune = "22" LHE - Operațiuni în sistem lohn
+			(UE) - ieşire: "9999" Același cu operațiunea - pentru codTipOperatiune = "24" SCE -
+			Stocuri la dispoziția clientului (Call-off stock) - ieşire: "9999" Același cu
+			operațiunea - pentru codTipOperatiune = "30" TTN - Transport pe teritoriul naţional:
+			"101" Comercializare "704" Transfer între gestiuni "705" Bunuri puse la dispoziția
+			clientului "9901" Altele - pentru codTipOperatiune = "40" IMP - Import: "9999" Același
+			cu operațiunea - pentru codTipOperatiune = "50" EXP - Export: "9999" Același cu
+			operațiunea - pentru codTipOperatiune = "60" DIN - Tranzactie intracomunitara - Intrare
+			pentru depozitare/formare nou transport: "9999" Același cu operațiunea - pentru
+			codTipOperatiune = "70" DIE - Tranzactie intracomunitara - Iesire dupa
+			depozitare/formare nou transport: "9999" Același cu operațiunea </xs:documentation>
+	</xs:annotation>
+	<xs:simpleType name="CodScopOperatiuneType">
+		<xs:restriction base="xs:int">
+			<xs:enumeration value="101"/>
+			<xs:enumeration value="201"/>
+			<xs:enumeration value="301"/>
+			<xs:enumeration value="401"/>
+			<xs:enumeration value="501"/>
+			<xs:enumeration value="601"/>
+			<xs:enumeration value="703"/>
+			<xs:enumeration value="704"/>
+			<xs:enumeration value="705"/>
+			<xs:enumeration value="801"/>
+			<xs:enumeration value="802"/>
+			<xs:enumeration value="901"/>
+			<xs:enumeration value="1001"/>
+			<xs:enumeration value="1101"/>
+			<xs:enumeration value="9901"/>
+			<xs:enumeration value="9999"/>
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:simpleType name="CodTarifarType">
+		<xs:restriction base="xs:string">
+			<xs:pattern value="[0-9]{4}|[0-9]{6}|[0-9]{8}"/>
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:simpleType name="PosDec_12_2_Type">
+		<xs:restriction base="xs:decimal">
+			<xs:minExclusive value="0"/>
+			<xs:pattern value="[0-9]{0,12}(\.[0-9]{0,2})?"/>
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:simpleType name="NonNegDec_12_2_Type">
+		<xs:restriction base="xs:decimal">
+			<xs:minInclusive value="0"/>
+			<xs:pattern value="[0-9]{0,12}(\.[0-9]{0,2})?"/>
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:annotation>
+		<xs:documentation> Valori posibile pentru câmpul codJudetType: "1" Alba "2" Arad "3" Argeş
+			"4" Bacău "5" Bihor "6" Bistriţa-Năsăud "7" Botoşani "8" Braşov "9" Brăila "10" Buzău
+			"11" Caraş-Severin "51" Călăraşi "12" Cluj "13" Constanţa "14" Covasna "16" Dolj "15"
+			Dâmboviţa "17" Galaţi "52" Giurgiu "18" Gorj "19" Harghita "20" Hunedoara "21" Ialomiţa
+			"22" Iaşi "23" Ilfov "24" Maramureş "25" Mehedinţi "40" Municipiul Bucureşti "26" Mureş
+			"27" Neamţ "28" Olt "29" Prahova "30" Satu Mare "32" Sibiu "33" Suceava "31" Sălaj "34"
+			Teleorman "35" Timiş "36" Tulcea "37" Vaslui "39" Vrancea "38" Vâlcea
+		</xs:documentation>
+	</xs:annotation>
+
+	<xs:simpleType name="CodJudetType">
+		<xs:restriction base="xs:int">
+			<xs:enumeration value="1"/>
+			<xs:enumeration value="2"/>
+			<xs:enumeration value="3"/>
+			<xs:enumeration value="4"/>
+			<xs:enumeration value="5"/>
+			<xs:enumeration value="6"/>
+			<xs:enumeration value="7"/>
+			<xs:enumeration value="8"/>
+			<xs:enumeration value="9"/>
+			<xs:enumeration value="10"/>
+			<xs:enumeration value="11"/>
+			<xs:enumeration value="51"/>
+			<xs:enumeration value="12"/>
+			<xs:enumeration value="13"/>
+			<xs:enumeration value="14"/>
+			<xs:enumeration value="15"/>
+			<xs:enumeration value="16"/>
+			<xs:enumeration value="17"/>
+			<xs:enumeration value="52"/>
+			<xs:enumeration value="18"/>
+			<xs:enumeration value="19"/>
+			<xs:enumeration value="20"/>
+			<xs:enumeration value="21"/>
+			<xs:enumeration value="22"/>
+			<xs:enumeration value="23"/>
+			<xs:enumeration value="24"/>
+			<xs:enumeration value="25"/>
+			<xs:enumeration value="26"/>
+			<xs:enumeration value="27"/>
+			<xs:enumeration value="28"/>
+			<xs:enumeration value="29"/>
+			<xs:enumeration value="30"/>
+			<xs:enumeration value="31"/>
+			<xs:enumeration value="32"/>
+			<xs:enumeration value="33"/>
+			<xs:enumeration value="34"/>
+			<xs:enumeration value="35"/>
+			<xs:enumeration value="36"/>
+			<xs:enumeration value="37"/>
+			<xs:enumeration value="38"/>
+			<xs:enumeration value="39"/>
+			<xs:enumeration value="40"/>
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:annotation>
+		<xs:documentation> Valori posibile pentru câmpul codPtf: "1" Petea (HU) "2" Borș (HU) "3"
+			Vărșand (HU) "4" Nădlac (HU) "5" Calafat (BG) "6" Bechet (BG) "7" Turnu Măgurele (BG)
+			"8" Zimnicea (BG) "9" Giurgiu (BG) "10" Ostrov (BG) "11" Negru Vodă (BG) "12" Vama Veche
+			(BG) "13" Călărași (BG) "14" Corabia (BG) "15" Oltenița (BG) "16" Carei (HU) "17" Cenad
+			(HU) "18" Episcopia Bihor (HU) "19" Salonta (HU) "20" Săcuieni (HU) "21" Turnu (HU) "22"
+			Urziceni (HU) "23" Valea lui Mihai (HU) "24" Vladimirescu (HU) "25" Porțile de Fier 1
+			(RS) "26" Naidăș (RS) "27" Stamora Moravița (RS) "28" Jimbolia (RS) "29" Halmeu (UA)
+			"30" Stânca Costești (MD) "31" Sculeni (MD) "32" Albița (MD) "33" Oancea (MD) "34"
+			Galați Giurgiulești (MD) "35" Constanța Sud Agigea (-) "36" Siret (UA) "37" Nădlac 2 -
+			A1 (HU) "38" Borș 2 - A3 (HU) </xs:documentation>
+	</xs:annotation>
+
+	<xs:simpleType name="CodPtfType">
+		<xs:restriction base="xs:int">
+			<xs:enumeration value="1"/>
+			<xs:enumeration value="2"/>
+			<xs:enumeration value="3"/>
+			<xs:enumeration value="4"/>
+			<xs:enumeration value="5"/>
+			<xs:enumeration value="6"/>
+			<xs:enumeration value="7"/>
+			<xs:enumeration value="8"/>
+			<xs:enumeration value="9"/>
+			<xs:enumeration value="10"/>
+			<xs:enumeration value="11"/>
+			<xs:enumeration value="12"/>
+			<xs:enumeration value="13"/>
+			<xs:enumeration value="14"/>
+			<xs:enumeration value="15"/>
+			<xs:enumeration value="16"/>
+			<xs:enumeration value="17"/>
+			<xs:enumeration value="18"/>
+			<xs:enumeration value="19"/>
+			<xs:enumeration value="20"/>
+			<xs:enumeration value="21"/>
+			<xs:enumeration value="22"/>
+			<xs:enumeration value="23"/>
+			<xs:enumeration value="24"/>
+			<xs:enumeration value="25"/>
+			<xs:enumeration value="26"/>
+			<xs:enumeration value="27"/>
+			<xs:enumeration value="28"/>
+			<xs:enumeration value="29"/>
+			<xs:enumeration value="30"/>
+			<xs:enumeration value="31"/>
+			<xs:enumeration value="32"/>
+			<xs:enumeration value="33"/>
+			<xs:enumeration value="34"/>
+			<xs:enumeration value="35"/>
+			<xs:enumeration value="36"/>
+			<xs:enumeration value="37"/>
+			<xs:enumeration value="38"/>
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:annotation>
+		<xs:documentation> Valori posibile pentru câmpul codBirouVamal (BVI/F - Birou Vamal de
+			Interior/Frontieră): "12801" BVI Alba Iulia (ROBV0300) "22801" BVI Arad (ROTM0200)
+			"22901" BVF Arad Aeroport (ROTM0230) "22902" BVF Zona Liberă Curtici (ROTM2300) "32801"
+			BVI Pitești (ROCR7000) "42801" BVI Bacău (ROIS0600) "42901" BVF Bacău Aeroport
+			(ROIS0620) "52801" BVI Oradea (ROCJ6570) "52901" BVF Oradea Aeroport (ROCJ6580) "62801"
+			BVI Bistriţa-Năsăud (ROCJ0400) "72801" BVI Botoşani (ROIS1600) "72901" BVF Stanca
+			Costeşti (ROIS1610) "72902" BVF Rădăuţi Prut (ROIS1620) "82801" BVI Braşov (ROBV0900)
+			"92901" BVF Zona Liberă Brăila (ROGL0710) "92902" BVF Brăila (ROGL0700) "102801" BVI
+			Buzău (ROGL1500) "112801" BVI Reșița (ROTM7600) "112901" BVF Naidăș (ROTM6100) "122801"
+			BVI Cluj Napoca (ROCJ1800) "122901" BVF Cluj Napoca Aero (ROCJ1810) "132901" BVF
+			Constanţa Sud Agigea (ROCT1900) "132902" BVF Mihail Kogălniceanu (ROCT5100) "132903" BVF
+			Mangalia (ROCT5400) "132904" BVF Constanţa Port (ROCT1970) "142801" BVI Sfântu Gheorghe
+			(ROBV7820) "152801" BVI Târgoviște (ROBU8600) "162801" BVI Craiova (ROCR2100) "162901"
+			BVF Craiova Aeroport (ROCR2110) "162902" BVF Bechet (ROCR1720) "162903" BVF Calafat
+			(ROCR1700) "172901" BVF Zona Liberă Galaţi (ROGL3810) "172902" BVF Giurgiuleşti
+			(ROGL3850) "172903" BVF Oancea (ROGL3610) "172904" BVF Galaţi (ROGL3800) "182801" BVI
+			Târgu Jiu (ROCR8810) "192801" BVI Miercurea Ciuc (ROBV5600) "202801" BVI Deva (ROTM8100)
+			"212801" BVI Slobozia (ROCT8220) "222901" BVF Iaşi Aero (ROIS4660) "222902" BVF Sculeni
+			(ROIS4990) "222903" BVF Iaşi (ROIS4650) "232801" BVI Antrepozite/Ilfov (ROBU1200)
+			"232901" BVF Otopeni Călători (ROBU1030) "242801" BVI Baia Mare (ROCJ0500) "242901" BVF
+			Aero Baia Mare (ROCJ0510) "242902" BVF Sighet (ROCJ8000) "252901" BVF Orşova (ROCR7280)
+			"252902" BVF Porţile De Fier I (ROCR7270) "252903" BVF Porţile De Fier II (ROCR7200)
+			"252904" BVF Drobeta Turnu Severin (ROCR9000) "262801" BVI Târgu Mureş (ROBV8800)
+			"262901" BVF Târgu Mureş Aeroport (ROBV8820) "272801" BVI Piatra Neamţ (ROIS7400)
+			"282801" BVI Corabia (ROCR2000) "282802" BVI Olt (ROCR8210) "292801" BVI Ploiești
+			(ROBU7100) "302801" BVI Satu-Mare (ROCJ7810) "302901" BVF Halmeu (ROCJ4310) "302902" BVF
+			Aeroport Satu Mare (ROCJ7830) "312801" BVI Zalău (ROCJ9700) "322801" BVI Sibiu
+			(ROBV7900) "322901" BVF Sibiu Aeroport (ROBV7910) "332801" BVI Suceava (ROIS8230)
+			"332901" BVF Dorneşti (ROIS2700) "332902" BVF Siret (ROIS8200) "332903" BVF Suceava Aero
+			(ROIS8250) "332904" BVF Vicovu De Sus (ROIS9620) "342801" BVI Alexandria (ROCR0310)
+			"342901" BVF Turnu Măgurele (ROCR9100) "342902" BVF Zimnicea (ROCR5800) "352802" BVI
+			Timişoara Bază (ROTM8720) "352901" BVF Jimbolia (ROTM5010) "352902" BVF Moraviţa
+			(ROTM5510) "352903" BVF Timişoara Aeroport (ROTM8730) "362901" BVF Sulina (ROCT8300)
+			"362902" BVF Aeroport Delta Dunării Tulcea (ROGL8910) "362903" BVF Tulcea (ROGL8900)
+			"362904" BVF Isaccea (ROGL8920) "372801" BVI Vaslui (ROIS9610) "372901" BVF Fălciu (-)
+			"372902" BVF Albiţa (ROIS0100) "382801" BVI Râmnicu Vâlcea (ROCR7700) "392801" BVI
+			Focșani (ROGL3600) "402801" BVI Bucureşti Poştă (ROBU1380) "402802" BVI Târguri și
+			Expoziții (ROBU1400) "402901" BVF Băneasa (ROBU1040) "512801" BVI Călăraşi (ROCT1710)
+			"522801" BVI Giurgiu (ROBU3910) "522901" BVF Zona Liberă Giurgiu (ROBU3980)
+		</xs:documentation>
+	</xs:annotation>
+
+	<xs:simpleType name="CodBirouVamalType">
+		<xs:restriction base="xs:int">
+			<xs:enumeration value="12801"/>
+			<xs:enumeration value="22801"/>
+			<xs:enumeration value="22901"/>
+			<xs:enumeration value="22902"/>
+			<xs:enumeration value="32801"/>
+			<xs:enumeration value="42801"/>
+			<xs:enumeration value="42901"/>
+			<xs:enumeration value="52801"/>
+			<xs:enumeration value="52901"/>
+			<xs:enumeration value="62801"/>
+			<xs:enumeration value="72801"/>
+			<xs:enumeration value="72901"/>
+			<xs:enumeration value="72902"/>
+			<xs:enumeration value="82801"/>
+			<xs:enumeration value="92901"/>
+			<xs:enumeration value="92902"/>
+			<xs:enumeration value="102801"/>
+			<xs:enumeration value="112801"/>
+			<xs:enumeration value="112901"/>
+			<xs:enumeration value="122801"/>
+			<xs:enumeration value="122901"/>
+			<xs:enumeration value="132901"/>
+			<xs:enumeration value="132902"/>
+			<xs:enumeration value="132903"/>
+			<xs:enumeration value="132904"/>
+			<xs:enumeration value="142801"/>
+			<xs:enumeration value="152801"/>
+			<xs:enumeration value="162801"/>
+			<xs:enumeration value="162901"/>
+			<xs:enumeration value="162902"/>
+			<xs:enumeration value="162903"/>
+			<xs:enumeration value="172901"/>
+			<xs:enumeration value="172902"/>
+			<xs:enumeration value="172903"/>
+			<xs:enumeration value="172904"/>
+			<xs:enumeration value="182801"/>
+			<xs:enumeration value="192801"/>
+			<xs:enumeration value="202801"/>
+			<xs:enumeration value="212801"/>
+			<xs:enumeration value="222901"/>
+			<xs:enumeration value="222902"/>
+			<xs:enumeration value="222903"/>
+			<xs:enumeration value="232801"/>
+			<xs:enumeration value="232901"/>
+			<xs:enumeration value="242801"/>
+			<xs:enumeration value="242901"/>
+			<xs:enumeration value="242902"/>
+			<xs:enumeration value="252901"/>
+			<xs:enumeration value="252902"/>
+			<xs:enumeration value="252903"/>
+			<xs:enumeration value="252904"/>
+			<xs:enumeration value="262801"/>
+			<xs:enumeration value="262901"/>
+			<xs:enumeration value="272801"/>
+			<xs:enumeration value="282801"/>
+			<xs:enumeration value="282802"/>
+			<xs:enumeration value="292801"/>
+			<xs:enumeration value="302801"/>
+			<xs:enumeration value="302901"/>
+			<xs:enumeration value="302902"/>
+			<xs:enumeration value="312801"/>
+			<xs:enumeration value="322801"/>
+			<xs:enumeration value="322901"/>
+			<xs:enumeration value="332801"/>
+			<xs:enumeration value="332901"/>
+			<xs:enumeration value="332902"/>
+			<xs:enumeration value="332903"/>
+			<xs:enumeration value="332904"/>
+			<xs:enumeration value="342801"/>
+			<xs:enumeration value="342901"/>
+			<xs:enumeration value="342902"/>
+			<xs:enumeration value="352802"/>
+			<xs:enumeration value="352901"/>
+			<xs:enumeration value="352902"/>
+			<xs:enumeration value="352903"/>
+			<xs:enumeration value="362901"/>
+			<xs:enumeration value="362902"/>
+			<xs:enumeration value="362903"/>
+			<xs:enumeration value="362904"/>
+			<xs:enumeration value="372801"/>
+			<xs:enumeration value="372901"/>
+			<xs:enumeration value="372902"/>
+			<xs:enumeration value="382801"/>
+			<xs:enumeration value="392801"/>
+			<xs:enumeration value="402801"/>
+			<xs:enumeration value="402802"/>
+			<xs:enumeration value="402901"/>
+			<xs:enumeration value="512801"/>
+			<xs:enumeration value="522801"/>
+			<xs:enumeration value="522901"/>
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:annotation>
+		<xs:documentation> Valori posibile pentru câmpul tipConfirmare: "10" Confirmat "20"
+			Confirmat parţial "30" Infirmat </xs:documentation>
+	</xs:annotation>
+
+	<xs:simpleType name="TipConfirmareType">
+		<xs:restriction base="xs:int">
+			<xs:enumeration value="10"/>
+			<xs:enumeration value="20"/>
+			<xs:enumeration value="30"/>
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:annotation>
+		<xs:documentation> Valori posibile pentru ţări. Atenţie! Pentru Grecia există doar intrarea
+			"EL", nu și "GR". "AD" Andorra "AE" Emiratele Arabe Unite "AF" Afganistan "AG" Antigua
+			şi Barbuda "AI" Anguilla "AL" Albania "AM" Armenia "AN" NETHERLANDS ANTILLES "AO" Angola
+			"AQ" Antarctica "AR" Argentina "AS" Samoa Americană "AT" Austria (UE) "AU" Australia
+			"AW" Aruba "AX" Insulele Aland "AZ" Azerbaidjan "BA" Bosnia şi Herţegovina "BB" Barbados
+			"BD" Bangladesh "BE" Belgia (UE) "BF" Burkina Faso "BG" Bulgaria (UE) "BH" Bahrain "BI"
+			Burundi "BJ" Benin "BL" Saint-Barthélemy "BM" Bermuda "BN" Brunei "BO" Bolivia "BQ"
+			Bonaire, Sint Eustatius si Saba (ins. Olandeze) "BR" Brazilia "BS" Bahamas "BT" Bhutan
+			"BV" Insula Bouvet "BW" Botswana "BY" Belarus "BZ" Belize "CA" Canada "CC" Insulele
+			Cocos (Keeling) "CD" Republica Democratică Congo "CF" Republica Centrafricană "CG" Congo
+			"CH" Elveţia "CI" Côte d'Ivoire "CK" Insulele Cook "CL" Chile "CM" Camerun "CN" China
+			"CO" Columbia "CR" Costa Rica "CU" Cuba "CV" Capul Verde "CW" Curaçao "CX" Insula
+			Christmas "CY" Cipru (UE) "CZ" Cehia (UE) "DE" Germania (UE) "DJ" Djibouti "DK"
+			Danemarca (UE) "DM" Dominica "DO" Republica Dominicană "DZ" Algeria "EC" Ecuador "EE"
+			Estonia (UE) "EG" Egipt "EH" Sahara Occidentală "EL" Grecia (UE) "ER" Eritreea "ES"
+			Spania (UE) "ET" Etiopia "FI" Finlanda (UE) "FJ" Fiji "FK" Insulele Falkland "FM"
+			Micronezia "FO" Insulele Feroe "FR" Franţa (UE) "GA" Gabon "GB" Regatul Unit "GD"
+			Grenada "GE" Georgia "GF" Guyana Franceză "GG" Guernsey "GH" Ghana "GI" Gibraltar "GL"
+			Groenlanda "GM" Gambia "GN" Guineea "GP" Guadelupa "GQ" Guineea Ecuatorială "GS" Georgia
+			de Sud şi Insulele Sandwich de Sud "GT" Guatemala "GU" Guam "GW" Guineea-Bissau "GY"
+			Guyana "HK" Hong Kong "HM" Insula Heard şi Insulele McDonald "HN" Honduras "HR" Croaţia
+			(UE) "HT" Haiti "HU" Ungaria (UE) "ID" Indonezia "IE" Irlanda (UE) "IL" Israel "IM"
+			Insula Man "IN" India "IO" Teritoriul Britanic din Oceanul Indian "IQ" Irak "IR" Iran
+			"IS" Islanda "IT" Italia (UE) "JE" Jersey "JM" Jamaica "JO" Iordania "JP" Japonia "KE"
+			Kenya "KG" Kârgâzstan "KH" Cambodgia "KI" Kiribati "KM" Comore "KN" Saint Kitts şi Nevis
+			"KP" Coreea de Nord "KR" Coreea de Sud "KW" Kuweit "KY" Insulele Cayman "KZ" Kazahstan
+			"LA" Laos "LB" Liban "LC" Saint Lucia "LI" Liechtenstein "LK" Sri Lanka "LR" Liberia
+			"LS" Lesotho "LT" Lituania (UE) "LU" Luxemburg (UE) "LV" Letonia (UE) "LY" Libia "MA"
+			Maroc "MC" Monaco "MD" Moldova "ME" Muntenegru "MF" Saint-Martin "MG" Madagascar "MH"
+			Insulele Marshall "MK" Macedonia de Nord "ML" Mali "MM" Myanmar/Birmania "MN" Mongolia
+			"MO" Macao "MP" Insulele Mariane de Nord "MQ" Martinica "MR" Mauritania "MS" Montserrat
+			"MT" Malta (UE) "MU" Mauritius "MV" Maldive "MW" Malawi "MX" Mexic "MY" Malaysia "MZ"
+			Mozambic "NA" Namibia "NC" Noua Caledonie "NE" Niger "NF" Insula Norfolk "NG" Nigeria
+			"NI" Nicaragua "NL" Ţările de Jos (UE) "NO" Norvegia "NP" Nepal "NR" Nauru "NU" Niue
+			"NZ" Noua Zeelandă "OM" Oman "PA" Panama "PE" Peru "PF" Polinezia Franceză "PG"
+			Papua-Noua Guinee "PH" Filipine "PK" Pakistan "PL" Polonia (UE) "PM" Saint-Pierre
+			şi Miquelon "PN" Insulele Pitcairn "PR" Puerto Rico "PS" Fisia Gaza "PS" PALESTINA "PT"
+			Portugalia (UE) "PW" Palau "PY" Paraguay "QA" Qatar "RE" Réunion "RO" România (UE) "RS"
+			Serbia "RU" Rusia "RW" Rwanda "SA" Arabia Saudită "SB" Insulele Solomon "SC" Seychelles
+			"SD" Sudan "SE" Suedia (UE) "SG" Singapore "SH" Sfânta Elena, Ascension şi Tristan da
+			Cunha "SI" Slovenia (UE) "SJ" Svalbard şi Jan Mayen "SK" Slovacia (UE) "SL" Sierra Leone
+			"SM" San Marino "SN" Senegal "SO" Somalia "SR" Suriname "SS" Sudanul de Sud "ST" Sao
+			Tomé şi Príncipe "SV" El Salvador "SX" Sint-Maarten "SY" Siria "SZ" Eswatini "TC"
+			Insulele Turks şi Caicos "TD" Ciad "TF" Teritoriile Australe şi Antarctice Franceze "TG"
+			Togo "TH" Thailanda "TJ" Tadjikistan "TK" Tokelau "TL" Timorul de Est "TM" Turkmenistan
+			"TN" Tunisia "TO" Tonga "TR" Turcia "TT" Trinidad şi Tobago "TV" Tuvalu "TW" Taiwan "TZ"
+			Tanzania "UA" Ucraina "UG" Uganda "UM" Insulele Minore Îndepărtate ale Statelor Unite
+			"US" S.U.A "UY" Uruguay "UZ" Uzbekistan "VA" Vatican "VC" Saint Vincent şi Grenadinele
+			"VE" Venezuela "VG" Insulele Virgine Britanice "VI" Insulele Virgine Americane "VN"
+			Vietnam "VU" Vanuatu "WF" Wallis şi Futuna "WS" Samoa "XC" Poses. Spaniole Africa de
+			Nord "XI" Irlanda de Nord (UE) "XK" Kosovo "XL" Melila "YE" Yemen "YT" Mayotte "ZA"
+			Africa de Sud "ZM" Zambia "ZW" Zimbabwe </xs:documentation>
+	</xs:annotation>
+	<xs:simpleType name="CodTaraType">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="AD"/>
+			<xs:enumeration value="AE"/>
+			<xs:enumeration value="AF"/>
+			<xs:enumeration value="AG"/>
+			<xs:enumeration value="AI"/>
+			<xs:enumeration value="AL"/>
+			<xs:enumeration value="AM"/>
+			<xs:enumeration value="AN"/>
+			<xs:enumeration value="AO"/>
+			<xs:enumeration value="AQ"/>
+			<xs:enumeration value="AR"/>
+			<xs:enumeration value="AS"/>
+			<xs:enumeration value="AT"/>
+			<xs:enumeration value="AU"/>
+			<xs:enumeration value="AW"/>
+			<xs:enumeration value="AX"/>
+			<xs:enumeration value="AZ"/>
+			<xs:enumeration value="BA"/>
+			<xs:enumeration value="BB"/>
+			<xs:enumeration value="BD"/>
+			<xs:enumeration value="BE"/>
+			<xs:enumeration value="BF"/>
+			<xs:enumeration value="BG"/>
+			<xs:enumeration value="BH"/>
+			<xs:enumeration value="BI"/>
+			<xs:enumeration value="BJ"/>
+			<xs:enumeration value="BL"/>
+			<xs:enumeration value="BM"/>
+			<xs:enumeration value="BN"/>
+			<xs:enumeration value="BO"/>
+			<xs:enumeration value="BQ"/>
+			<xs:enumeration value="BR"/>
+			<xs:enumeration value="BS"/>
+			<xs:enumeration value="BT"/>
+			<xs:enumeration value="BV"/>
+			<xs:enumeration value="BW"/>
+			<xs:enumeration value="BY"/>
+			<xs:enumeration value="BZ"/>
+			<xs:enumeration value="CA"/>
+			<xs:enumeration value="CC"/>
+			<xs:enumeration value="CD"/>
+			<xs:enumeration value="CF"/>
+			<xs:enumeration value="CG"/>
+			<xs:enumeration value="CH"/>
+			<xs:enumeration value="CI"/>
+			<xs:enumeration value="CK"/>
+			<xs:enumeration value="CL"/>
+			<xs:enumeration value="CM"/>
+			<xs:enumeration value="CN"/>
+			<xs:enumeration value="CO"/>
+			<xs:enumeration value="CR"/>
+			<xs:enumeration value="CU"/>
+			<xs:enumeration value="CV"/>
+			<xs:enumeration value="CW"/>
+			<xs:enumeration value="CX"/>
+			<xs:enumeration value="CY"/>
+			<xs:enumeration value="CZ"/>
+			<xs:enumeration value="DE"/>
+			<xs:enumeration value="DJ"/>
+			<xs:enumeration value="DK"/>
+			<xs:enumeration value="DM"/>
+			<xs:enumeration value="DO"/>
+			<xs:enumeration value="DZ"/>
+			<xs:enumeration value="EC"/>
+			<xs:enumeration value="EE"/>
+			<xs:enumeration value="EG"/>
+			<xs:enumeration value="EH"/>
+			<xs:enumeration value="EL"/>
+			<xs:enumeration value="ER"/>
+			<xs:enumeration value="ES"/>
+			<xs:enumeration value="ET"/>
+			<xs:enumeration value="FI"/>
+			<xs:enumeration value="FJ"/>
+			<xs:enumeration value="FK"/>
+			<xs:enumeration value="FM"/>
+			<xs:enumeration value="FO"/>
+			<xs:enumeration value="FR"/>
+			<xs:enumeration value="GA"/>
+			<xs:enumeration value="GB"/>
+			<xs:enumeration value="GD"/>
+			<xs:enumeration value="GE"/>
+			<xs:enumeration value="GF"/>
+			<xs:enumeration value="GG"/>
+			<xs:enumeration value="GH"/>
+			<xs:enumeration value="GI"/>
+			<xs:enumeration value="GL"/>
+			<xs:enumeration value="GM"/>
+			<xs:enumeration value="GN"/>
+			<xs:enumeration value="GP"/>
+			<xs:enumeration value="GQ"/>
+			<xs:enumeration value="GS"/>
+			<xs:enumeration value="GT"/>
+			<xs:enumeration value="GU"/>
+			<xs:enumeration value="GW"/>
+			<xs:enumeration value="GY"/>
+			<xs:enumeration value="HK"/>
+			<xs:enumeration value="HM"/>
+			<xs:enumeration value="HN"/>
+			<xs:enumeration value="HR"/>
+			<xs:enumeration value="HT"/>
+			<xs:enumeration value="HU"/>
+			<xs:enumeration value="ID"/>
+			<xs:enumeration value="IE"/>
+			<xs:enumeration value="IL"/>
+			<xs:enumeration value="IM"/>
+			<xs:enumeration value="IN"/>
+			<xs:enumeration value="IO"/>
+			<xs:enumeration value="IQ"/>
+			<xs:enumeration value="IR"/>
+			<xs:enumeration value="IS"/>
+			<xs:enumeration value="IT"/>
+			<xs:enumeration value="JE"/>
+			<xs:enumeration value="JM"/>
+			<xs:enumeration value="JO"/>
+			<xs:enumeration value="JP"/>
+			<xs:enumeration value="KE"/>
+			<xs:enumeration value="KG"/>
+			<xs:enumeration value="KH"/>
+			<xs:enumeration value="KI"/>
+			<xs:enumeration value="KM"/>
+			<xs:enumeration value="KN"/>
+			<xs:enumeration value="KP"/>
+			<xs:enumeration value="KR"/>
+			<xs:enumeration value="KW"/>
+			<xs:enumeration value="KY"/>
+			<xs:enumeration value="KZ"/>
+			<xs:enumeration value="LA"/>
+			<xs:enumeration value="LB"/>
+			<xs:enumeration value="LC"/>
+			<xs:enumeration value="LI"/>
+			<xs:enumeration value="LK"/>
+			<xs:enumeration value="LR"/>
+			<xs:enumeration value="LS"/>
+			<xs:enumeration value="LT"/>
+			<xs:enumeration value="LU"/>
+			<xs:enumeration value="LV"/>
+			<xs:enumeration value="LY"/>
+			<xs:enumeration value="MA"/>
+			<xs:enumeration value="MC"/>
+			<xs:enumeration value="MD"/>
+			<xs:enumeration value="ME"/>
+			<xs:enumeration value="MF"/>
+			<xs:enumeration value="MG"/>
+			<xs:enumeration value="MH"/>
+			<xs:enumeration value="MK"/>
+			<xs:enumeration value="ML"/>
+			<xs:enumeration value="MM"/>
+			<xs:enumeration value="MN"/>
+			<xs:enumeration value="MO"/>
+			<xs:enumeration value="MP"/>
+			<xs:enumeration value="MQ"/>
+			<xs:enumeration value="MR"/>
+			<xs:enumeration value="MS"/>
+			<xs:enumeration value="MT"/>
+			<xs:enumeration value="MU"/>
+			<xs:enumeration value="MV"/>
+			<xs:enumeration value="MW"/>
+			<xs:enumeration value="MX"/>
+			<xs:enumeration value="MY"/>
+			<xs:enumeration value="MZ"/>
+			<xs:enumeration value="NA"/>
+			<xs:enumeration value="NC"/>
+			<xs:enumeration value="NE"/>
+			<xs:enumeration value="NF"/>
+			<xs:enumeration value="NG"/>
+			<xs:enumeration value="NI"/>
+			<xs:enumeration value="NL"/>
+			<xs:enumeration value="NO"/>
+			<xs:enumeration value="NP"/>
+			<xs:enumeration value="NR"/>
+			<xs:enumeration value="NU"/>
+			<xs:enumeration value="NZ"/>
+			<xs:enumeration value="OM"/>
+			<xs:enumeration value="PA"/>
+			<xs:enumeration value="PE"/>
+			<xs:enumeration value="PF"/>
+			<xs:enumeration value="PG"/>
+			<xs:enumeration value="PH"/>
+			<xs:enumeration value="PK"/>
+			<xs:enumeration value="PL"/>
+			<xs:enumeration value="PM"/>
+			<xs:enumeration value="PN"/>
+			<xs:enumeration value="PR"/>
+			<xs:enumeration value="PS"/>
+			<xs:enumeration value="PS"/>
+			<xs:enumeration value="PT"/>
+			<xs:enumeration value="PW"/>
+			<xs:enumeration value="PY"/>
+			<xs:enumeration value="QA"/>
+			<xs:enumeration value="RE"/>
+			<xs:enumeration value="RO"/>
+			<xs:enumeration value="RS"/>
+			<xs:enumeration value="RU"/>
+			<xs:enumeration value="RW"/>
+			<xs:enumeration value="SA"/>
+			<xs:enumeration value="SB"/>
+			<xs:enumeration value="SC"/>
+			<xs:enumeration value="SD"/>
+			<xs:enumeration value="SE"/>
+			<xs:enumeration value="SG"/>
+			<xs:enumeration value="SH"/>
+			<xs:enumeration value="SI"/>
+			<xs:enumeration value="SJ"/>
+			<xs:enumeration value="SK"/>
+			<xs:enumeration value="SL"/>
+			<xs:enumeration value="SM"/>
+			<xs:enumeration value="SN"/>
+			<xs:enumeration value="SO"/>
+			<xs:enumeration value="SR"/>
+			<xs:enumeration value="SS"/>
+			<xs:enumeration value="ST"/>
+			<xs:enumeration value="SV"/>
+			<xs:enumeration value="SX"/>
+			<xs:enumeration value="SY"/>
+			<xs:enumeration value="SZ"/>
+			<xs:enumeration value="TC"/>
+			<xs:enumeration value="TD"/>
+			<xs:enumeration value="TF"/>
+			<xs:enumeration value="TG"/>
+			<xs:enumeration value="TH"/>
+			<xs:enumeration value="TJ"/>
+			<xs:enumeration value="TK"/>
+			<xs:enumeration value="TL"/>
+			<xs:enumeration value="TM"/>
+			<xs:enumeration value="TN"/>
+			<xs:enumeration value="TO"/>
+			<xs:enumeration value="TR"/>
+			<xs:enumeration value="TT"/>
+			<xs:enumeration value="TV"/>
+			<xs:enumeration value="TW"/>
+			<xs:enumeration value="TZ"/>
+			<xs:enumeration value="UA"/>
+			<xs:enumeration value="UG"/>
+			<xs:enumeration value="UM"/>
+			<xs:enumeration value="US"/>
+			<xs:enumeration value="UY"/>
+			<xs:enumeration value="UZ"/>
+			<xs:enumeration value="VA"/>
+			<xs:enumeration value="VC"/>
+			<xs:enumeration value="VE"/>
+			<xs:enumeration value="VG"/>
+			<xs:enumeration value="VI"/>
+			<xs:enumeration value="VN"/>
+			<xs:enumeration value="VU"/>
+			<xs:enumeration value="WF"/>
+			<xs:enumeration value="WS"/>
+			<xs:enumeration value="XC"/>
+			<xs:enumeration value="XI"/>
+			<xs:enumeration value="XK"/>
+			<xs:enumeration value="XL"/>
+			<xs:enumeration value="YE"/>
+			<xs:enumeration value="YT"/>
+			<xs:enumeration value="ZA"/>
+			<xs:enumeration value="ZM"/>
+			<xs:enumeration value="ZW"/>
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:annotation>
+		<xs:documentation> Valori posibile pentru câmpul tipDocument: "10" CMR "20" Factura "30"
+			Aviz de însoțire a mărfii "9999" Altele </xs:documentation>
+	</xs:annotation>
+
+	<xs:simpleType name="TipDocumentType">
+		<xs:restriction base="xs:int">
+			<xs:enumeration value="10"/>
+			<xs:enumeration value="20"/>
+			<xs:enumeration value="30"/>
+			<xs:enumeration value="9999"/>
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:annotation>
+		<xs:documentation> Valori posibile pentru câmpul codUnitateMasura: UN/ECE Recommendation
+			N°20 and UN/ECE Recommendation N°21 — Unit codes </xs:documentation>
+	</xs:annotation>
+
+	<xs:simpleType name="CodUMType">
+		<xs:restriction base="xs:string">
+			<xs:pattern value="[0-9A-Z]{2,3}"/>
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:simpleType name="NrVehiculType">
+		<xs:restriction base="xs:string">
+			<xs:pattern value="[0-9A-Z]{2,20}"/>
+		</xs:restriction>
+	</xs:simpleType>
+
+</xs:schema>

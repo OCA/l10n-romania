@@ -1,0 +1,17 @@
+id,code,name
+scope_101,101,Comercializare
+scope_201,201,Producție
+scope_301,301,Gratuități
+scope_401,401,Echipament comercial
+scope_501,501,Mijloace fixe
+scope_601,601,Consum propriu
+scope_703,703,Operațiuni de livrare cu instalare
+scope_704,704,Transfer între gestiuni
+scope_705,705,Bunuri puse la dispoziția clientului
+scope_801,801,Leasing financiar/operațional
+scope_802,802,Bunuri în garanție
+scope_901,901,Operațiuni scutite
+scope_1001,1001,Investiție în curs
+scope_1101,1101,"Donații, ajutoare"
+scope_9901,9901,Altele
+scope_9999,9999,Același cu operațiunea

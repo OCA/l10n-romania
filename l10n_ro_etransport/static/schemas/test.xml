@@ -1,0 +1,62 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<eTransport
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns="mfp:anaf:dgti:eTransport:declaratie:v2"
+    xsi:schemaLocation="mfp:anaf:dgti:eTransport:declaratie:v2 eTransport.xsd"
+    codDeclarant="10167619"
+    refDeclarant="WH/OUT/19554"
+>
+            <notificare codTipOperatiune="30">
+                        <bunuriTransportate
+            denumireMarfa="consumabil"
+            cantitate="1.0"
+            codUnitateMasura="UNI"
+            greutateBruta="1"
+            codScopOperatiune="101"
+        />
+                        <bunuriTransportate
+            denumireMarfa="consumabil"
+            cantitate="1.0"
+            codUnitateMasura="UNI"
+            greutateBruta="1"
+            codScopOperatiune="101"
+        />
+                        <bunuriTransportate
+            denumireMarfa="consumabil"
+            cantitate="1.0"
+            codUnitateMasura="UNI"
+            greutateBruta="1"
+            codScopOperatiune="101"
+        />
+                <partenerComercial
+            codTara="RO"
+            cod="RO44560948"
+            denumire="SAS RO AGRICULTURA S.R.L."
+        />
+                <dateTransport
+            codTaraOrgTransport="RO"
+            nrVehicul="BC71DCH"
+            denumireOrgTransport="Transportator"
+            dataTransport="2022-09-06"
+        />
+                <locStartTraseuRutier>
+                    <locatie
+                codJudet="4"
+                denumireLocalitate="Filipești"
+                denumireStrada="Comuna Filipesti Nr. 340A"
+            />
+                </locStartTraseuRutier>
+                <locFinalTraseuRutier>
+                    <locatie
+                codJudet="4"
+                denumireLocalitate="Filipeşti"
+                denumireStrada="Filipeşti"
+            />
+                </locFinalTraseuRutier>
+                <documenteTransport
+            tipDocument="30"
+            numarDocument="WH/OUT/19554"
+            dataDocument="2022-09-06"
+        />
+            </notificare>
+        </eTransport>
