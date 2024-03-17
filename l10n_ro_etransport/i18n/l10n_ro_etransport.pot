@@ -4,13 +4,10 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 16.0+e\n"
+"Project-Id-Version: Odoo Server 15.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-03-15 17:38+0000\n"
-"PO-Revision-Date: 2024-03-15 17:38+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
-"Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
@@ -32,14 +29,14 @@ msgstr ""
 #: model:ir.ui.menu,name:l10n_ro_etransport.l10n_ro_e_transport_customs_menu
 #: model_terms:ir.ui.view,arch_db:l10n_ro_etransport.view_picking_form
 msgid "Border crossing point"
-msgstr "Punct de trecere a frontierei"
+msgstr ""
 
 #. module: l10n_ro_etransport
 #: model:ir.model.fields,field_description:l10n_ro_etransport.field_l10n_ro_e_transport_customs__code
 #: model:ir.model.fields,field_description:l10n_ro_etransport.field_l10n_ro_e_transport_operation__code
 #: model:ir.model.fields,field_description:l10n_ro_etransport.field_l10n_ro_e_transport_scope__code
 msgid "Code"
-msgstr "Cod"
+msgstr ""
 
 #. module: l10n_ro_etransport
 #: model:ir.model.fields,field_description:l10n_ro_etransport.field_l10n_ro_e_transport_customs__create_uid
@@ -70,19 +67,17 @@ msgstr ""
 #. module: l10n_ro_etransport
 #: model:ir.model,name:l10n_ro_etransport.model_l10n_ro_e_transport_customs
 msgid "E Transport Customs"
-msgstr "Vamă E-Transport"
+msgstr ""
 
 #. module: l10n_ro_etransport
 #: model:ir.model,name:l10n_ro_etransport.model_l10n_ro_e_transport_operation
-#, fuzzy
 msgid "E Transport Operation"
-msgstr "Scop E-Transport"
+msgstr ""
 
 #. module: l10n_ro_etransport
 #: model:ir.model,name:l10n_ro_etransport.model_l10n_ro_e_transport_scope
-#, fuzzy
 msgid "E Transport Scope"
-msgstr "Scop E-Transport"
+msgstr ""
 
 #. module: l10n_ro_etransport
 #: model:ir.model.fields.selection,name:l10n_ro_etransport.selection__l10n_ro_account_anaf_sync_scope__scope__e-transport
@@ -93,9 +88,10 @@ msgstr ""
 
 #. module: l10n_ro_etransport
 #: code:addons/l10n_ro_etransport/models/stock_picking.py:0
+#: code:addons/l10n_ro_etransport/models/stock_picking.py:0
 #, python-format
 msgid "Error %(status_code)s:%(content)s"
-msgstr "Eroare %(status_code)s:%(content)s"
+msgstr ""
 
 #. module: l10n_ro_etransport
 #: model_terms:ir.ui.view,arch_db:l10n_ro_etransport.view_picking_form
@@ -112,22 +108,22 @@ msgstr ""
 #. module: l10n_ro_etransport
 #: model_terms:ir.ui.view,arch_db:l10n_ro_etransport.view_picking_form
 msgid "ID Download"
-msgstr "ID Descărcare"
+msgstr ""
 
 #. module: l10n_ro_etransport
 #: model:ir.model.fields,field_description:l10n_ro_etransport.field_stock_picking__l10n_ro_e_transport_download
 msgid "ID Download ANAF "
-msgstr "Id Descărcare ANAF"
+msgstr ""
 
 #. module: l10n_ro_etransport
 #: model:ir.model.fields.selection,name:l10n_ro_etransport.selection__stock_picking__l10n_ro_e_transport_status__in_processing
 msgid "In processing"
-msgstr "In procesare"
+msgstr ""
 
 #. module: l10n_ro_etransport
 #: model_terms:ir.ui.view,arch_db:l10n_ro_etransport.view_picking_form
 msgid "Information e-transport"
-msgstr "Informații e-transport"
+msgstr ""
 
 #. module: l10n_ro_etransport
 #: model:ir.model.fields,field_description:l10n_ro_etransport.field_stock_picking__l10n_ro_e_transport_status
@@ -139,139 +135,111 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_ro_etransport.field_l10n_ro_e_transport_operation____last_update
 #: model:ir.model.fields,field_description:l10n_ro_etransport.field_l10n_ro_e_transport_scope____last_update
 msgid "Last Modified on"
-msgstr "Ultima modificare la"
+msgstr ""
 
 #. module: l10n_ro_etransport
 #: model:ir.model.fields,field_description:l10n_ro_etransport.field_l10n_ro_e_transport_customs__write_uid
 #: model:ir.model.fields,field_description:l10n_ro_etransport.field_l10n_ro_e_transport_operation__write_uid
 #: model:ir.model.fields,field_description:l10n_ro_etransport.field_l10n_ro_e_transport_scope__write_uid
 msgid "Last Updated by"
-msgstr "Ultima actualizare de"
+msgstr ""
 
 #. module: l10n_ro_etransport
 #: model:ir.model.fields,field_description:l10n_ro_etransport.field_l10n_ro_e_transport_customs__write_date
 #: model:ir.model.fields,field_description:l10n_ro_etransport.field_l10n_ro_e_transport_operation__write_date
 #: model:ir.model.fields,field_description:l10n_ro_etransport.field_l10n_ro_e_transport_scope__write_date
 msgid "Last Updated on"
-msgstr "Ultima actualizare la"
+msgstr ""
 
 #. module: l10n_ro_etransport
 #: model:ir.model.fields,field_description:l10n_ro_etransport.field_l10n_ro_e_transport_customs__name
 #: model:ir.model.fields,field_description:l10n_ro_etransport.field_l10n_ro_e_transport_operation__name
 #: model:ir.model.fields,field_description:l10n_ro_etransport.field_l10n_ro_e_transport_scope__name
 msgid "Name"
-msgstr "Nume"
+msgstr ""
 
 #. module: l10n_ro_etransport
 #: model:ir.model.fields.selection,name:l10n_ro_etransport.selection__stock_picking__l10n_ro_e_transport_status__nok
 msgid "Not OK"
-msgstr "Nu este OK"
+msgstr ""
 
 #. module: l10n_ro_etransport
 #: model:ir.model.fields.selection,name:l10n_ro_etransport.selection__stock_picking__l10n_ro_e_transport_status__ok
 msgid "Ok"
-msgstr "OK"
+msgstr ""
 
 #. module: l10n_ro_etransport
 #: model_terms:ir.ui.view,arch_db:l10n_ro_etransport.view_picking_form
 msgid "Operation Type"
-msgstr "Tip operație"
+msgstr ""
 
 #. module: l10n_ro_etransport
 #: model:ir.model.fields,field_description:l10n_ro_etransport.field_stock_picking__l10n_ro_e_transport_operation_type_id
 msgid "Operation type"
-msgstr "Tip operație"
+msgstr ""
 
 #. module: l10n_ro_etransport
 #: model:ir.model.fields,field_description:l10n_ro_etransport.field_delivery_carrier__l10n_ro_e_partner_id
 msgid "Partner Carrier"
-msgstr "Partener transportator"
+msgstr ""
 
 #. module: l10n_ro_etransport
 #: model:ir.model.fields,field_description:l10n_ro_etransport.field_l10n_ro_account_anaf_sync_scope__scope
 #: model:ir.model.fields,field_description:l10n_ro_etransport.field_stock_picking__l10n_ro_e_transport_scope_id
 #: model_terms:ir.ui.view,arch_db:l10n_ro_etransport.view_picking_form
 msgid "Scope"
-msgstr "Scop"
+msgstr ""
 
 #. module: l10n_ro_etransport
 #: model:ir.model.fields.selection,name:l10n_ro_etransport.selection__stock_picking__l10n_ro_e_transport_status__sent
 msgid "Sent"
-msgstr "Trimis"
+msgstr ""
 
 #. module: l10n_ro_etransport
 #: model:ir.model,name:l10n_ro_etransport.model_delivery_carrier
 msgid "Shipping Methods"
-msgstr "Metode de expediere"
+msgstr ""
 
 #. module: l10n_ro_etransport
 #: model_terms:ir.ui.view,arch_db:l10n_ro_etransport.view_picking_form
 msgid "Status"
-msgstr "Stare"
+msgstr ""
 
 #. module: l10n_ro_etransport
 #: code:addons/l10n_ro_etransport/models/stock_picking.py:0
 #, python-format
 msgid "The document was in processing at %s."
-msgstr "Documentul era în procesare la %s."
+msgstr ""
 
 #. module: l10n_ro_etransport
 #: code:addons/l10n_ro_etransport/models/stock_picking.py:0
 #, python-format
 msgid "The document was uploaded successfully, check the status."
-msgstr "Documentul a fost încărcat cu succes, verificați starea."
+msgstr ""
 
 #. module: l10n_ro_etransport
 #: model:ir.model,name:l10n_ro_etransport.model_stock_picking
 msgid "Transfer"
-msgstr "Transfer"
+msgstr ""
 
 #. module: l10n_ro_etransport
 #: model:ir.model.fields,field_description:l10n_ro_etransport.field_stock_picking__l10n_ro_e_transport_uit
 msgid "UIT"
-msgstr "UIT"
+msgstr ""
 
 #. module: l10n_ro_etransport
 #: code:addons/l10n_ro_etransport/models/stock_picking.py:0
 #, python-format
 msgid "Validation Error: %s"
-msgstr "Eroare de validare: %s"
+msgstr ""
 
 #. module: l10n_ro_etransport
 #: model:ir.model.fields,field_description:l10n_ro_etransport.field_stock_picking__l10n_ro_vehicle
 msgid "Vehicle"
-msgstr "Vehicul"
+msgstr ""
 
 #. module: l10n_ro_etransport
 #: model:ir.actions.act_window,name:l10n_ro_etransport.action_l10n_ro_e_transport_scope
 #: model:ir.ui.menu,name:l10n_ro_etransport.l10n_ro_e_transport_scope_menu
-#, fuzzy
 msgid "scope"
-msgstr "Scop"
-
-#~ msgid "Intra-community acquisition"
-#~ msgstr "Achiziție intracomunitară"
-
-#~ msgid "Intra-community delivery"
-#~ msgstr "Livrare intracomunitară"
-
-#~ msgid "Intra-community transaction - Entry for storage"
-#~ msgstr "Tranzacție intracomunitară - Intrare pentru depozitare"
-
-#~ msgid "Intra-community transaction - Exit after storage"
-#~ msgstr "Tranzacție intracomunitară - Ieșire după depozitare"
-
-#~ msgid "Lohn system operations (EU) - entry"
-#~ msgstr "Operaţiuni în sistem lohn (UE) - intrare"
-
-#~ msgid "Lohn system operations (EU) - exit"
-#~ msgstr "Operaţiuni în sistem lohn (UE) - ieşire"
-
-#~ msgid "Stocks at the customer's disposal (Call-off stock) - entry"
-#~ msgstr "Stocuri la dispoziţia clientului (Call-off stock) - intrare"
-
-#~ msgid "Stocks at the customer's disposal (Call-off stock) - exit"
-#~ msgstr "Stocuri la dispoziţia clientului (Call-off stock) - ieşire"
-
-#~ msgid "Transport on the national territory"
-#~ msgstr "Transport pe teritoriul național"
+msgstr ""
