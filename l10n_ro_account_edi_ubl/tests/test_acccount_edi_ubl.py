@@ -163,7 +163,7 @@ class TestAccountEdiUbl(AccountEdiTestCommon):
         )
         cls.invoice_zip = open(test_file, mode="rb").read()
 
-        anaf_config = cls.env.company.l10n_ro_account_anaf_sync_id
+        anaf_config = cls.env.company._l10n_ro_get_anaf_sync(scope="e-factura")
         if not anaf_config:
             efact_scope = [
                 (
