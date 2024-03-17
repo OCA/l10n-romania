@@ -273,7 +273,7 @@ class TestAccountEdiUbl(AccountEdiTestCommon):
 
     @freezegun.freeze_time("2022-09-04")
     def test_process_documents_web_services_step1_cron(self):
-        anaf_config = self.env.company.l10n_ro_account_anaf_sync_id
+        anaf_config = self.env.company._l10n_ro_get_anaf_sync(scope="e-factura")
         anaf_config.access_token = "test"
         self.invoice.action_post()
 
@@ -450,7 +450,7 @@ class TestAccountEdiUbl(AccountEdiTestCommon):
 
     def test_l10n_ro_get_anaf_efactura_messages(self):
         self.env.company.vat = "RO23685159"
-        anaf_config = self.env.company.l10n_ro_account_anaf_sync_id
+        anaf_config = self.env.company._l10n_ro_get_anaf_sync(scope="e-factura")
         anaf_config.access_token = "test"
         msg_dict = {
             "mesaje": [
@@ -492,7 +492,7 @@ class TestAccountEdiUbl(AccountEdiTestCommon):
             )
 
     def test_l10n_ro_create_anaf_efactura(self):
-        anaf_config = self.env.company.l10n_ro_account_anaf_sync_id
+        anaf_config = self.env.company._l10n_ro_get_anaf_sync(scope="e-factura")
         anaf_config.access_token = "test"
         self.env.company.l10n_ro_download_einvoices = True
         self.env.company.partner_id.write(
