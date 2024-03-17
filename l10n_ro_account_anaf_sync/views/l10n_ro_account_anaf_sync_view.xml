@@ -53,8 +53,6 @@
                     </div>
                     <group string="Config">
                         <group name="main_info">
-                            <field name="state" />
-                            <field name="anaf_einvoice_sync_url" />
                             <field name="client_id" />
                             <field name="client_secret" />
                             <field name="anaf_oauth_url" />
