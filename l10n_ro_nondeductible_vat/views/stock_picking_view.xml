@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="view_picking_add_nondeductible_vat_form" model="ir.ui.view">
+        <field name="name">view_picking_add_nondeductible_vat_form</field>
+        <field name="model">stock.picking</field>
+        <field name="inherit_id" ref="stock.view_picking_form" />
+        <field eval="42" name="priority" />
+        <field name="arch" type="xml">
+            <field name="name" position="after">
+                <field name="is_l10n_ro_record" invisible="1" />
+            </field>
+            <xpath expr="//button[@name='action_show_details']" position="after">
+                <field name="l10n_ro_nondeductible_usage" invisible="1" />
+                <field
+                    name="l10n_ro_nondeductible_tax_id"
+                    attrs="{'column_invisible': ['|',('parent.picking_type_code', '!=', 'internal'),('parent.is_l10n_ro_record', '=', False)], 'invisible': [('l10n_ro_nondeductible_usage','=',False)]}"
+                />
+            </xpath>
+        </field>
+    </record>
+</odoo>
