@@ -106,6 +106,7 @@ class TestPurchaseStockPickingValued(TestStockPickingValued):
                 "product_uom": move_line.product_id.uom_id.name,
                 "product_uom_rec": move_line.product_id.uom_id,
                 "product": move_line.product_id,
+                "hs_code": False,
                 "currency": move_line.company_id.currency_id.id,
                 "l10n_ro_price_unit": 450.0,
                 "l10n_ro_additional_charges": 0.0,
