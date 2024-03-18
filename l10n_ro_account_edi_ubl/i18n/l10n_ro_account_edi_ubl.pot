@@ -44,6 +44,11 @@ msgid "Access Error"
 msgstr ""
 
 #. module: l10n_ro_account_edi_ubl
+#: model:ir.model,name:l10n_ro_account_edi_ubl.model_l10n_ro_account_anaf_sync_scope
+msgid "Account ANAF Sync Scope"
+msgstr ""
+
+#. module: l10n_ro_account_edi_ubl
 #: model_terms:ir.ui.view,arch_db:l10n_ro_account_edi_ubl.res_config_settings_view_form
 msgid "Attach PDF invoice to the e-Invoice."
 msgstr ""
@@ -127,6 +132,11 @@ msgstr ""
 
 #. module: l10n_ro_account_edi_ubl
 #: model_terms:ir.ui.view,arch_db:l10n_ro_account_edi_ubl.res_config_settings_view_form
+msgid "Define if invoices validated by ANAf will be stored in Odoo."
+msgstr ""
+
+#. module: l10n_ro_account_edi_ubl
+#: model_terms:ir.ui.view,arch_db:l10n_ro_account_edi_ubl.res_config_settings_view_form
 msgid ""
 "Define the maximum number of days that Odoo will check supplier e-Invoices "
 "to download."
@@ -138,6 +148,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_ro_account_edi_ubl.field_account_move__display_name
 #: model:ir.model.fields,field_description:l10n_ro_account_edi_ubl.field_account_move_line__display_name
 #: model:ir.model.fields,field_description:l10n_ro_account_edi_ubl.field_ir_actions_report__display_name
+#: model:ir.model.fields,field_description:l10n_ro_account_edi_ubl.field_l10n_ro_account_anaf_sync_scope__display_name
 #: model:ir.model.fields,field_description:l10n_ro_account_edi_ubl.field_product_product__display_name
 #: model:ir.model.fields,field_description:l10n_ro_account_edi_ubl.field_product_template__display_name
 #: model:ir.model.fields,field_description:l10n_ro_account_edi_ubl.field_res_company__display_name
@@ -170,6 +181,11 @@ msgid "Download from ANAF"
 msgstr ""
 
 #. module: l10n_ro_account_edi_ubl
+#: model:ir.model.fields.selection,name:l10n_ro_account_edi_ubl.selection__l10n_ro_account_anaf_sync_scope__scope__e-factura
+msgid "E-factura"
+msgstr ""
+
+#. module: l10n_ro_account_edi_ubl
 #: model:ir.model,name:l10n_ro_account_edi_ubl.model_account_edi_format
 msgid "EDI format"
 msgstr ""
@@ -192,6 +208,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_ro_account_edi_ubl.field_account_move__id
 #: model:ir.model.fields,field_description:l10n_ro_account_edi_ubl.field_account_move_line__id
 #: model:ir.model.fields,field_description:l10n_ro_account_edi_ubl.field_ir_actions_report__id
+#: model:ir.model.fields,field_description:l10n_ro_account_edi_ubl.field_l10n_ro_account_anaf_sync_scope__id
 #: model:ir.model.fields,field_description:l10n_ro_account_edi_ubl.field_product_product__id
 #: model:ir.model.fields,field_description:l10n_ro_account_edi_ubl.field_product_template__id
 #: model:ir.model.fields,field_description:l10n_ro_account_edi_ubl.field_res_company__id
@@ -253,6 +270,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_ro_account_edi_ubl.field_account_move____last_update
 #: model:ir.model.fields,field_description:l10n_ro_account_edi_ubl.field_account_move_line____last_update
 #: model:ir.model.fields,field_description:l10n_ro_account_edi_ubl.field_ir_actions_report____last_update
+#: model:ir.model.fields,field_description:l10n_ro_account_edi_ubl.field_l10n_ro_account_anaf_sync_scope____last_update
 #: model:ir.model.fields,field_description:l10n_ro_account_edi_ubl.field_product_product____last_update
 #: model:ir.model.fields,field_description:l10n_ro_account_edi_ubl.field_product_template____last_update
 #: model:ir.model.fields,field_description:l10n_ro_account_edi_ubl.field_res_company____last_update
@@ -328,6 +346,11 @@ msgid "Romania e-Invoicing: Download Supplier Invoices"
 msgstr ""
 
 #. module: l10n_ro_account_edi_ubl
+#: model:ir.model.fields,field_description:l10n_ro_account_edi_ubl.field_l10n_ro_account_anaf_sync_scope__scope
+msgid "Scope"
+msgstr ""
+
+#. module: l10n_ro_account_edi_ubl
 #: model:ir.actions.server,name:l10n_ro_account_edi_ubl.model_account_send_toe_invoice
 msgid "Send to ANAF E Invoice"
 msgstr ""
@@ -350,6 +373,12 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_ro_account_edi_ubl.field_res_company__l10n_ro_download_einvoices_start_date
 #: model:ir.model.fields,field_description:l10n_ro_account_edi_ubl.field_res_config_settings__l10n_ro_download_einvoices_start_date
 msgid "Start date to download e-invoices"
+msgstr ""
+
+#. module: l10n_ro_account_edi_ubl
+#: model:ir.model.fields,field_description:l10n_ro_account_edi_ubl.field_res_company__l10n_ro_store_einvoices
+#: model:ir.model.fields,field_description:l10n_ro_account_edi_ubl.field_res_config_settings__l10n_ro_store_einvoices
+msgid "Store E-Invoice signed by Anaf."
 msgstr ""
 
 #. module: l10n_ro_account_edi_ubl
