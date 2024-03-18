@@ -273,8 +273,7 @@ class TestAccountEdiUbl(AccountEdiTestCommon):
 
     @freezegun.freeze_time("2022-09-04")
     def test_process_documents_web_services_step1_cron(self):
-        anaf_config = self.env.company._l10n_ro_get_anaf_sync(scope="e-factura")
-        anaf_config.access_token = "test"
+
         self.invoice.action_post()
 
         self.env.company.l10n_ro_edi_residence = 3
@@ -450,8 +449,7 @@ class TestAccountEdiUbl(AccountEdiTestCommon):
 
     def test_l10n_ro_get_anaf_efactura_messages(self):
         self.env.company.vat = "RO23685159"
-        anaf_config = self.env.company._l10n_ro_get_anaf_sync(scope="e-factura")
-        anaf_config.access_token = "test"
+
         msg_dict = {
             "mesaje": [
                 {
@@ -483,8 +481,8 @@ class TestAccountEdiUbl(AccountEdiTestCommon):
             }
         ]
         with patch(
-            "odoo.addons.l10n_ro_account_anaf_sync.models.l10n_ro_account_anaf_sync."
-            "AccountANAFSync._l10n_ro_einvoice_call",
+            "odoo.addons.l10n_ro_account_edi_ubl.models.l10n_ro_account_anaf_sync_scope."
+            "AccountANAFSyncScope._l10n_ro_einvoice_call",
             return_value=(anaf_messages, 200),
         ):
             self.assertEqual(
@@ -492,8 +490,7 @@ class TestAccountEdiUbl(AccountEdiTestCommon):
             )
 
     def test_l10n_ro_create_anaf_efactura(self):
-        anaf_config = self.env.company._l10n_ro_get_anaf_sync(scope="e-factura")
-        anaf_config.access_token = "test"
+
         self.env.company.l10n_ro_download_einvoices = True
         self.env.company.partner_id.write(
             {
@@ -532,8 +529,8 @@ class TestAccountEdiUbl(AccountEdiTestCommon):
             "._l10n_ro_get_anaf_efactura_messages",
             return_value=messages,
         ), patch(
-            "odoo.addons.l10n_ro_account_anaf_sync.models.l10n_ro_account_anaf_sync."
-            "AccountANAFSync._l10n_ro_einvoice_call",
+            "odoo.addons.l10n_ro_account_edi_ubl.models.l10n_ro_account_anaf_sync_scope."
+            "AccountANAFSyncScope._l10n_ro_einvoice_call",
             return_value=(signed_zip_file, 200),
         ):
             self.env.company._l10n_ro_create_anaf_efactura()
