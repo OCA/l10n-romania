@@ -10,7 +10,6 @@
                 <field name="company_id" />
                 <field name="client_id" />
                 <field name="client_token_valability" />
-                <field name="state" />
             </tree>
         </field>
     </record>
@@ -29,12 +28,20 @@
                         type="object"
                         help="At this step you need a digital certified signature and a browser that recognise it"
                     />
+                    <!-- <TO BE REMOVED SINCE JWT CANNOT BE REVOKED> -->
                     <button
                         class="btn btn-primary"
                         string="Revoke Access Token"
                         name="revoke_access_token"
                         type="object"
                         attrs="{'invisible':['|', ('access_token','=',''), ('access_token','=',False)]}"
+                    />
+                    <button
+                        class="btn btn-primary"
+                        string="Refresh Access Token"
+                        name="refresh_access_token"
+                        type="object"
+                        attrs="{'invisible':['|', ('refresh_token','=',''), ('refresh_token','=',False)]}"
                     />
                 </header>
                 <sheet>
@@ -46,8 +53,6 @@
                     </div>
                     <group string="Config">
                         <group name="main_info">
-                            <field name="state" />
-                            <field name="anaf_einvoice_sync_url" />
                             <field name="client_id" />
                             <field name="client_secret" />
                             <field name="anaf_oauth_url" />
@@ -61,6 +66,27 @@
                             <field name="last_request_datetime" />
                         </group>
                     </group>
+                    <notebook>
+                        <page string="Services">
+                            <field name="anaf_scope_ids">
+                                <tree editable="bottom">
+                                    <field name="scope" />
+                                    <field
+                                        name="anaf_sync_production_url"
+                                        groups="base.group_no_one"
+                                        optional="hide"
+                                    />
+                                    <field
+                                        name="anaf_sync_test_url"
+                                        groups="base.group_no_one"
+                                        optional="hide"
+                                    />
+                                    <field name="state" groups="base.group_no_one" />
+                                    <field name="anaf_sync_url" />
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
                 </sheet>
                 <div class="oe_chatter">
                     <field name="message_follower_ids" />
