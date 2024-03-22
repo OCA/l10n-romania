@@ -26,13 +26,13 @@
                             t-att-greutateNeta="qty * (move.product_id.l10n_ro_net_weight or 1)"
                             t-att-greutateBruta="qty* (move.product_id.weight or 1)"
                             t-att-codScopOperatiune="doc.l10n_ro_e_transport_scope_id.code or '101'"
-                            t-att-valoareLeiFaraTva="qty * (move_line.product_id.standard_price or 1)"
+                            t-att-valoareLeiFaraTva="round(qty * (move_line.product_id.standard_price or 1),0)"
                         />
                     </t>
                 </t>
 
                 <partenerComercial
-                    t-att-codTara="doc.partner_id.commercial_partner_id.country_id.code or ''"
+                    t-att-codTara="get_country_code(doc.partner_id.commercial_partner_id.country_id.code)"
                     t-att-cod="doc.partner_id.commercial_partner_id.vat.upper().replace('RO', '')"
                     t-att-denumire="doc.partner_id.commercial_partner_id.name"
                 />
@@ -45,32 +45,38 @@
                     t-att-dataTransport="doc.date.date()"
                 />
                 <locStartTraseuRutier
-                    t-if="doc.l10n_ro_e_transport_operation_type_id.code!='10'"
+                    t-if="doc.l10n_ro_e_transport_operation_type_id.code != 'import'"
                 >
                     <locatie
-                        t-att-codJudet="STATE_CODES[doc.company_id.state_id.code]"
+                        t-att-codJudet="doc.company_id.state_id and STATE_CODES[doc.company_id.state_id.code]"
                         t-att-denumireLocalitate="doc.company_id.city"
                         t-att-denumireStrada="doc.company_id.street"
                         t-att-numar="doc.company_id.street2"
                         t-att-alteInfo="doc.company_id.street2"
                     />
                 </locStartTraseuRutier>
-                <locFinalTraseuRutier
-                    t-if="doc.l10n_ro_e_transport_operation_type_id.code=='10'"
+                <locStartTraseuRutier
+                    t-if="doc.l10n_ro_e_transport_operation_type_id.usage == 'import'"
                     t-att-codPtf="doc.l10n_ro_e_transport_customs_id.code"
                 />
+
+                <t t-set="partner_final" t-value="doc.partner_id" />
+                <t t-if="doc.l10n_ro_e_transport_operation_type_id.usage == 'import'">
+                    <t t-set="partner_final" t-value="doc.company_id.partner_id" />
+                </t>
+
                 <locFinalTraseuRutier
-                    t-if="doc.l10n_ro_e_transport_operation_type_id.code!='20'"
+                    t-if="doc.l10n_ro_e_transport_operation_type_id.usage  != 'export'"
                 >
                     <locatie
-                        t-att-codJudet="STATE_CODES[doc.partner_id.state_id.code]"
-                        t-att-denumireLocalitate="doc.partner_id.city"
-                        t-att-denumireStrada="doc.partner_id.street"
-                        t-att-codPostal="doc.partner_id.zip"
+                        t-att-codJudet="partner_final.state_id and STATE_CODES[partner_final.state_id.code]"
+                        t-att-denumireLocalitate="partner_final.city"
+                        t-att-denumireStrada="partner_final.street"
+                        t-att-codPostal="partner_final.zip"
                     />
                 </locFinalTraseuRutier>
                 <locFinalTraseuRutier
-                    t-if="doc.l10n_ro_e_transport_operation_type_id.code=='20'"
+                    t-if="doc.l10n_ro_e_transport_operation_type_id.usage != 'export'"
                     t-att-codPtf="doc.l10n_ro_e_transport_customs_id.code"
                 />
 
