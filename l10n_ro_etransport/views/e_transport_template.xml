@@ -76,7 +76,7 @@
                     />
                 </locFinalTraseuRutier>
                 <locFinalTraseuRutier
-                    t-if="doc.l10n_ro_e_transport_operation_type_id.usage != 'export'"
+                    t-if="doc.l10n_ro_e_transport_operation_type_id.usage == 'export'"
                     t-att-codPtf="doc.l10n_ro_e_transport_customs_id.code"
                 />
 
