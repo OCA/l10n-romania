@@ -144,6 +144,7 @@ class StockPicking(models.Model):
         if not is_valid:
             message = _("Validation Error: %s") % xml_schema.error_log.last_error
             _logger.error(message)
+            raise UserError(message)
 
         domain = [
             ("name", "=", xml_name),
