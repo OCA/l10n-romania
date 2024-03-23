@@ -94,6 +94,11 @@ msgid "Error %(status_code)s:%(content)s"
 msgstr ""
 
 #. module: l10n_ro_etransport
+#: model:ir.model.fields.selection,name:l10n_ro_etransport.selection__l10n_ro_e_transport_operation__usage__export
+msgid "Export"
+msgstr ""
+
+#. module: l10n_ro_etransport
 #: model_terms:ir.ui.view,arch_db:l10n_ro_etransport.view_picking_form
 msgid "Export E-Transport"
 msgstr ""
@@ -113,6 +118,11 @@ msgstr ""
 #. module: l10n_ro_etransport
 #: model:ir.model.fields,field_description:l10n_ro_etransport.field_stock_picking__l10n_ro_e_transport_download
 msgid "ID Download ANAF "
+msgstr ""
+
+#. module: l10n_ro_etransport
+#: model:ir.model.fields.selection,name:l10n_ro_etransport.selection__l10n_ro_e_transport_operation__usage__import
+msgid "Import"
 msgstr ""
 
 #. module: l10n_ro_etransport
@@ -149,6 +159,11 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_ro_etransport.field_l10n_ro_e_transport_operation__write_date
 #: model:ir.model.fields,field_description:l10n_ro_etransport.field_l10n_ro_e_transport_scope__write_date
 msgid "Last Updated on"
+msgstr ""
+
+#. module: l10n_ro_etransport
+#: model:ir.model.fields.selection,name:l10n_ro_etransport.selection__l10n_ro_e_transport_operation__usage__local
+msgid "Local"
 msgstr ""
 
 #. module: l10n_ro_etransport
@@ -225,6 +240,11 @@ msgstr ""
 #. module: l10n_ro_etransport
 #: model:ir.model.fields,field_description:l10n_ro_etransport.field_stock_picking__l10n_ro_e_transport_uit
 msgid "UIT"
+msgstr ""
+
+#. module: l10n_ro_etransport
+#: model:ir.model.fields,field_description:l10n_ro_etransport.field_l10n_ro_e_transport_operation__usage
+msgid "Usage"
 msgstr ""
 
 #. module: l10n_ro_etransport
