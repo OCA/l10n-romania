@@ -48,3 +48,11 @@ class Partner(models.Model):
 
             if city:
                 self.city_id = city
+
+    @api.onchange("city_id")
+    def _onchange_city_id(self):
+        backup_zip = self.zip
+        res = super()._onchange_city_id()
+        if not self.zip and backup_zip:
+            self.zip = backup_zip
+        return res
