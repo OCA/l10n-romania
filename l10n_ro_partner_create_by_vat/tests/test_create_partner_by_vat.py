@@ -93,6 +93,7 @@ class TestCreatePartner(TestCreatePartnerBase):
 
         mainpartner.vat = "4264242"
         mainpartner.country_id = self.env.ref("base.ro")
+        mainpartner.zip = "031472"
 
         self.assertEqual(mainpartner.name, "CUMPANA 1993 SRL")
         self.assertEqual(mainpartner.street, "Str. Alexander Von Humboldt Nr. 10")
