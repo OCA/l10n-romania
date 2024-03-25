@@ -62,9 +62,18 @@ class AccountMove(models.Model):
 
     def get_l10n_ro_edi_invoice_needed(self):
         self.ensure_one()
-        if self.move_type in ("out_invoice", "out_refund"):
-            return True
-        return False
+        is_needed = (
+            self.move_type in ("out_invoice", "out_refund")
+            and self.commercial_partner_id.country_id.code == "RO"
+            and self.commercial_partner_id.is_company
+        )
+        if not is_needed:
+            is_needed = (
+                self.move_type in ("in_invoice", "in_refund")
+                and self.journal_id.l10n_ro_sequence_type == "autoinv2"
+                and self.journal_id.l10n_ro_partner_id
+            )
+        return is_needed
 
     def button_draft(self):
         # OVERRIDE

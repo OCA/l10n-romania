@@ -31,6 +31,16 @@
                     attrs="{'invisible': [('is_l10n_ro_record','=',False)]}"
                 />
             </field>
+            <xpath expr="//group[@name='group_alias_edit']" position="after">
+                <field name="is_l10n_ro_record" invisible="1" />
+                <group
+                    string="Ro Auto Invoicing"
+                    attrs="{'invisible': [('is_l10n_ro_record','=',False),('type','not in',('sale','purchase'))]}"
+                >
+                    <field name="l10n_ro_sequence_type" />
+                    <field name="l10n_ro_partner_id" />
+                </group>
+            </xpath>
         </field>
     </record>
 </odoo>
