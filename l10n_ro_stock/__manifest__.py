@@ -11,7 +11,7 @@
         "views/product_template_view.xml",
     ],
     "license": "AGPL-3",
-    "version": "17.0.0.2.0",
+    "version": "17.0.0.3.0",
     "author": "NextERP Romania,"
     "Dorin Hongu,"
     "Forest and Biomass Romania,"
