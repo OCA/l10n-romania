@@ -61,4 +61,4 @@ class Account(models.Model):
                 name = code + " " + account.name
                 account.display_name = name
                 rest -= account
-        super(Account, rest)._compute_display_name()
+        return super(Account, rest)._compute_display_name()
