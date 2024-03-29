@@ -10,12 +10,12 @@
             <xpath expr="//label[@for='volume']" position="before">
                 <label
                     for="l10n_ro_net_weight"
-                    attrs="{'invisible':[('product_variant_count', '>', 1), ('is_product_variant', '=', False)]}"
+                    invisible="product_variant_count > 1 and not is_product_variant"
                 />
                 <div
                     class="o_row"
                     name="l10n_ro_net_weight"
-                    attrs="{'invisible':[('product_variant_count', '>', 1), ('is_product_variant', '=', False)]}"
+                    invisible="product_variant_count > 1 and not is_product_variant"
                 >
                     <field name="l10n_ro_net_weight" />
                     <span><field name="l10n_ro_net_weight_uom_name" /></span>
