@@ -35,11 +35,11 @@
         fill-opacity=".383"
         d="M4 69h61c2.667 0 4.333-1 5-3v4H0v-4c.667 2 2 3 4 3z"
       />
-      <svg x="32" y="1" width="30" height="30" viewBox="0 0 3 2">
+<!--      <svg x="32" y="1" width="30" height="30" viewBox="0 0 3 2">
         <rect width="3" height="2" x="0" y="0" fill="#002B7F" />
         <rect width="2" height="2" x="1" y="0" fill="#FCD116" />
         <rect width="1" height="2" x="2" y="0" fill="#CE1126" />
-      </svg>
+      </svg>-->
       <svg fill="#FFF" x="11" y="16" width="50" height="50" viewBox="0 0 576 512">
         <use fill="#000" fill-rule="nonzero" opacity=".3" xlink:href="#d" />
       </svg>
