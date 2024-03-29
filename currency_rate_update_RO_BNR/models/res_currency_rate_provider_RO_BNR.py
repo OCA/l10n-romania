@@ -3,7 +3,24 @@ from collections import defaultdict
 from datetime import timedelta
 from urllib.request import urlopen
 
-from odoo import fields, models
+from odoo import api, fields, models
+
+
+class ResCurrencyRate(models.Model):
+    _inherit = "res.currency.rate"
+
+    @api.depends("rate")
+    def _compute_invese_rate(self):
+        for rec in self:
+            rec.inverse_rate = 1 / rec.rate if rec.rate else 1.0
+
+    inverse_rate = fields.Float(
+        store=1,
+        digits=(16, 4),
+        compute=_compute_invese_rate,
+        help="Inverse rate computed as 1/rate. If you want to change this, "
+        "change the rate ( write =1/desired_inverse_value)",
+    )
 
 
 class ResCurrencyRateProviderROBNR(models.Model):
@@ -63,22 +80,30 @@ class ResCurrencyRateProviderROBNR(models.Model):
             url = "https://www.bnr.ro/nbrfxrates.xml"
         else:
             year = date_from.year
-            url = "http://www.bnr.ro/files/xml/years/nbrfxrates" + str(year) + ".xml"
+            url = "https://www.bnr.ro/files/xml/years/nbrfxrates" + str(year) + ".xml"
 
         handler = ROBNRRatesHandler(currencies, date_from, date_to)
-        with urlopen(url, timeout=10) as response:
-            xml.sax.parse(response, handler)
+        # with urlopen(url, timeout=10) as response:
+        #     xml.sax.parse(response, handler)
+        response = self.call_bnr(url)
+        xml.sax.parseString(response, handler)
         if handler.content:
             return handler.content
         elif date_from == date_to:
             # date_from can be in past and first url is giving only one date
             # we must try to take the date from whole year list
             year = date_from.year
-            url = "http://www.bnr.ro/files/xml/years/nbrfxrates" + str(year) + ".xml"
+            url = "https://www.bnr.ro/files/xml/years/nbrfxrates" + str(year) + ".xml"
             handler = ROBNRRatesHandler(currencies, date_from, date_to)
-            with urlopen(url, timeout=10) as response:
-                xml.sax.parse(response, handler)
+            # with urlopen(url, timeout=10) as response:
+            #     xml.sax.parse(response, handler)
+            response = self.call_bnr(url)
+            xml.sax.parseString(response, handler)
         return handler.content or {}
+
+    def call_bnr(self, url):
+        """Call BNR and return the response."""
+        return urlopen(url, timeout=10).read()
 
 
 class ROBNRRatesHandler(xml.sax.ContentHandler):
