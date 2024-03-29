@@ -26,5 +26,5 @@ class TestAccount(TransactionCase):
         self.assertEqual(account_id, self.account.id)
 
     def test_name_get(self):
-        name = self.account.name_get()
-        self.assertEqual(name, [(self.account.id, "301.1 Test account")])
+        name = self.account.display_name
+        self.assertEqual(name, "301.1 Test account")
