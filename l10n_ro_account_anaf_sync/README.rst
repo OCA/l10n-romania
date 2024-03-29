@@ -45,7 +45,7 @@ Installation
 To install this module, you need to:
 
 -  clone the branch 14.0 of the repository
-   https://github.com/OCA/l10n-romania
+   `https://github.com/OCA/l10n-romania <https://github.com/OCA/l10n-romania>`__
 -  add the path to this repository in your configuration (addons-path)
 -  update the module list
 -  search for "Romania - Account ANAF Sync" in your addons
@@ -54,9 +54,10 @@ To install this module, you need to:
 Configuration
 =============
 
-1. Go to https://pfinternet.anaf.ro/my.policy put put your username and
-   password and code that came on email (or create a new user if you do
-   not have)
+1. Go to
+   `https://pfinternet.anaf.ro/my.policy <https://pfinternet.anaf.ro/my.policy>`__
+   put put your username and password and code that came on email (or
+   create a new user if you do not have)
 
 2. Go to "Editare profil Oauth"
 
@@ -65,9 +66,10 @@ Configuration
    -  put some text at "Denumire Aplicatie"
    -  at callback URL 1 put your Odoo instance url:
       /l10n_ro_account_anaf_sync/anaf_oauth
-   -  (if you odoo site is https://odoo.zzz.ro you must put
-      https://odoo.zzz.ro/l10n_ro_account_anaf_sync/anaf_oauth url shown
-      also in odoo company e-invoice tab)
+   -  (if you odoo site is `https://odoo.zzz.ro <https://odoo.zzz.ro>`__
+      you must put
+      `https://odoo.zzz.ro/l10n_ro_account_anaf_sync/anaf_oauth <https://odoo.zzz.ro/l10n_ro_account_anaf_sync/anaf_oauth>`__
+      url shown also in odoo company e-invoice tab)
    -  at Serviciu check e-factura and/or e-transport
    -  press Generare Client ID
 
@@ -96,11 +98,11 @@ Configuration
 
 Info:
 
-   https://www.anaf.ro/anaf/internet/ANAF/servicii_online/servicii_web_anaf/!ut/p/a1/hY9NC4JAEIZ_SwevzqRp1k2h3CQojUj3Eiv4FbYrq-nfT8NDRNncZnge3nmBQgiUs7bIWFMIzsphp-aVzIlJNEvzMNAt9A1nu3FWJ3QPyx6IegB_jI0fPvFx8HeB4R4R3cXoTwB_8i9AJyPQHIGJFz2gWSniV93I5rFuZUBlkiYykepD9ue8aap6raCCXdepjLNUlULBb3wu6gbCNwyq-znEm1G2e3v2BHB2faQ!/dl5/d5/L2dBISEvZ0FBIS9nQSEh/
+   `https://www.anaf.ro/anaf/internet/ANAF/servicii_online/servicii_web_anaf/!ut/p/a1/hY9NC4JAEIZ_SwevzqRp1k2h3CQojUj3Eiv4FbYrq-nfT8NDRNncZnge3nmBQgiUs7bIWFMIzsphp-aVzIlJNEvzMNAt9A1nu3FWJ3QPyx6IegB_jI0fPvFx8HeB4R4R3cXoTwB_8i9AJyPQHIGJFz2gWSniV93I5rFuZUBlkiYykepD9ue8aap6raCCXdepjLNUlULBb3wu6gbCNwyq-znEm1G2e3v2BHB2faQ!/dl5/d5/L2dBISEvZ0FBIS9nQSEh/ <https://www.anaf.ro/anaf/internet/ANAF/servicii_online/servicii_web_anaf/!ut/p/a1/hY9NC4JAEIZ_SwevzqRp1k2h3CQojUj3Eiv4FbYrq-nfT8NDRNncZnge3nmBQgiUs7bIWFMIzsphp-aVzIlJNEvzMNAt9A1nu3FWJ3QPyx6IegB_jI0fPvFx8HeB4R4R3cXoTwB_8i9AJyPQHIGJFz2gWSniV93I5rFuZUBlkiYykepD9ue8aap6raCCXdepjLNUlULBb3wu6gbCNwyq-znEm1G2e3v2BHB2faQ!/dl5/d5/L2dBISEvZ0FBIS9nQSEh/>`__
 
-   https://mfinante.gov.ro/web/efactura/informatii-tehnice
+   `https://mfinante.gov.ro/web/efactura/informatii-tehnice <https://mfinante.gov.ro/web/efactura/informatii-tehnice>`__
 
-   https://docs.peppol.eu/poacc/billing/3.0/syntax/ubl-invoice/
+   `https://docs.peppol.eu/poacc/billing/3.0/syntax/ubl-invoice/ <https://docs.peppol.eu/poacc/billing/3.0/syntax/ubl-invoice/>`__
 
 Bug Tracker
 ===========

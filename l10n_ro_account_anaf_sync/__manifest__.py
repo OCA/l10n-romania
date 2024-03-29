@@ -10,8 +10,8 @@
         "security/account_security.xml",
         "security/ir.model.access.csv",
         "views/l10n_ro_account_anaf_sync_view.xml",
-        "views/template.xml",
         "wizard/res_config_settings_views.xml",
+        "views/template.xml",
     ],
     "license": "AGPL-3",
     "version": "17.0.1.0.0",
@@ -20,4 +20,5 @@
     "installable": True,
     "development_status": "Mature",
     "maintainers": ["feketemihai"],
+    "external_dependencies": {"python": ["PyJWT"]},
 }

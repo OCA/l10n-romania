@@ -1,17 +1,21 @@
 # Copyright (C) 2022 NextERP Romania
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
+# Authorization Endpoint https://logincert.anaf.ro/anaf-oauth2/v1/authorize
+# Token Issuance Endpoint https://logincert.anaf.ro/anaf-oauth2/v1/token
+# Token Revocation Endpoint https://logincert.anaf.ro/anaf-oauth2/v1/revoke
+import logging
 import secrets
 from datetime import datetime, timedelta
 
+import jwt
 import requests
+from werkzeug.urls import url_encode
 
 from odoo import _, http
 from odoo.http import request
 
-# Authorization Endpoint https://logincert.anaf.ro/anaf-oauth2/v1/authorize
-# Token Issuance Endpoint https://logincert.anaf.ro/anaf-oauth2/v1/token
-# Token Revocation Endpoint https://logincert.anaf.ro/anaf-oauth2/v1/revoke
+_logger = logging.getLogger(__name__)
 
 
 class AccountANAFSyncWeb(http.Controller):
@@ -62,7 +66,22 @@ class AccountANAFSyncWeb(http.Controller):
         client_id = anaf_config.client_id
         url = user.get_base_url()
         odoo_oauth_url = f"{url}/l10n_ro_account_anaf_sync/anaf_oauth/{anaf_config.id}"
-        redirect_url = f"{anaf_config.anaf_oauth_url}/authorize?response_type=code&client_id={client_id}&redirect_uri={odoo_oauth_url}"
+
+        params = {
+            "response_type": "code",
+            "client_id": client_id,
+            "redirect_uri": odoo_oauth_url,
+            "token_content_type": "jwt",
+        }
+        redirect_url = anaf_config.anaf_oauth_url + "/authorize?" + url_encode(params)
+        # redirect_url = (
+        #     "%s?response_type=code&client_id=%s&redirect_uri=%s&token_content_type=jwt"
+        #     % (
+        #         anaf_config.anaf_oauth_url + "/authorize",
+        #         client_id,
+        #         odoo_oauth_url,
+        #     )
+        # )
         anaf_request_from_redirect = request.redirect(
             redirect_url, code=302, local=False
         )
@@ -90,7 +109,7 @@ class AccountANAFSyncWeb(http.Controller):
         "Returns a text with the result of anaf request from redirect"
         uid = request.uid
         user = request.env["res.users"].browse(uid)
-        now = datetime.now()
+        datetime.now()
         ANAF_Configs = request.env["l10n.ro.account.anaf.sync"].sudo()
         anaf_config = ANAF_Configs.browse(anaf_config_id)
 
@@ -122,6 +141,7 @@ class AccountANAFSyncWeb(http.Controller):
                 "code": f"{code}",
                 "access_key": f"{code}",
                 "redirect_uri": f"{redirect_uri}",
+                "token_content_type": "jwt",
             }
             response = requests.post(
                 anaf_config.anaf_oauth_url + "/token",
@@ -130,12 +150,20 @@ class AccountANAFSyncWeb(http.Controller):
                 timeout=1.5,
             )
             response_json = response.json()
-
+            acces_token = {}
+            if response_json.get("access_token", None):
+                acces_token = jwt.decode(
+                    response_json.get("access_token"),
+                    algorithms=["RS512"],
+                    options={"verify_signature": False},
+                )
             message = _("The response was finished.\nResponse was: %s") % response_json
             anaf_config.write(
                 {
                     "code": code,
-                    "client_token_valability": now + timedelta(days=89),
+                    "client_token_valability": datetime.fromtimestamp(
+                        acces_token.get("exp", 0)
+                    ),
                     "access_token": response_json.get("access_token", ""),
                     "refresh_token": response_json.get("refresh_token", ""),
                 }
