@@ -25,11 +25,7 @@ class CountryCity(models.Model):
                     result.append(
                         (
                             record.id,
-                            "{} ({}) ({})".format(
-                                record.name,
-                                record.l10n_ro_municipality,
-                                record.state_id.code,
-                            ),
+                            f"{record.name} ({record.l10n_ro_municipality}) ({record.state_id.code})",
                         )
                     )
                 else:
