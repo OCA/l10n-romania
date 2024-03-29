@@ -6,6 +6,7 @@
     "name": "Romania - Localization Config",
     "summary": "Romania - Localization Install and Config Applications",
     "license": "AGPL-3",
+    "countries": ["ro"],
     "version": "17.0.1.1.0",
     "author": "NextERP Romania,"
     "Forest and Biomass Romania,"
