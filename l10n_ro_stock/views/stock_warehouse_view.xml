@@ -10,24 +10,24 @@
                 <field
                     name="l10n_ro_wh_consume_loc_id"
                     readonly="1"
-                    attrs="{'invisible': [('is_l10n_ro_record', '=', False)]}"
+                    invisible="not is_l10n_ro_record"
                 />
                 <field
                     name="l10n_ro_wh_usage_loc_id"
                     readonly="1"
-                    attrs="{'invisible': [('is_l10n_ro_record', '=', False)]}"
+                    invisible="not is_l10n_ro_record"
                 />
             </field>
             <field name="out_type_id" position="after">
                 <field
                     name="l10n_ro_consume_type_id"
                     readonly="1"
-                    attrs="{'invisible': [('is_l10n_ro_record', '=', False)]}"
+                    invisible="not is_l10n_ro_record"
                 />
                 <field
                     name="l10n_ro_usage_type_id"
                     readonly="1"
-                    attrs="{'invisible': [('is_l10n_ro_record', '=', False)]}"
+                    invisible="not is_l10n_ro_record"
                 />
             </field>
         </field>
