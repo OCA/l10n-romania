@@ -1,10 +1,11 @@
 [project]
 name = "odoo-addons-oca-l10n-romania"
-version = "17.0.20240329.0"
+version = "17.0.20240329.1"
 dependencies = [
     "odoo-addon-currency_rate_update_RO_BNR>=17.0dev,<17.1dev",
     "odoo-addon-l10n_ro_city>=17.0dev,<17.1dev",
     "odoo-addon-l10n_ro_config>=17.0dev,<17.1dev",
+    "odoo-addon-l10n_ro_stock>=17.0dev,<17.1dev",
 ]
 classifiers=[
     "Programming Language :: Python",
