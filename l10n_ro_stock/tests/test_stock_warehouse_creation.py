@@ -10,14 +10,12 @@ class TestStockWarehouseCreation(AccountTestInvoicingCommon):
     @classmethod
     def setUpClass(cls):
         ro_template_ref = "l10n_ro.ro_chart_template"
-        super(TestStockWarehouseCreation, cls).setUpClass(
-            chart_template_ref=ro_template_ref
-        )
+        super().setUpClass(chart_template_ref=ro_template_ref)
         cls.env.company.anglo_saxon_accounting = True
         cls.env.company.l10n_ro_accounting = True
 
     def setUp(self):
-        super(TestStockWarehouseCreation, self).setUp()
+        super().setUp()
         self.warehouse_obj = self.env["stock.warehouse"]
 
     def test_warehouse_creation(self):

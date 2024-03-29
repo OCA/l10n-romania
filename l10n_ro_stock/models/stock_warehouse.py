@@ -24,7 +24,7 @@ class StockWarehouse(models.Model):
     )
 
     def _get_locations_values(self, vals, code=False):
-        sub_locations = super(StockWarehouse, self)._get_locations_values(vals, code)
+        sub_locations = super()._get_locations_values(vals, code)
         if self.env["res.company"]._check_is_l10n_ro_record(
             company=vals.get("company_id")
         ):
@@ -52,15 +52,15 @@ class StockWarehouse(models.Model):
         return sub_locations
 
     def _get_picking_type_update_values(self):
-        res = super(StockWarehouse, self)._get_picking_type_update_values()
+        res = super()._get_picking_type_update_values()
         if self.is_l10n_ro_record:
             res.update({"l10n_ro_consume_type_id": {}, "l10n_ro_usage_type_id": {}})
         return res
 
     def _get_picking_type_create_values(self, max_sequence):
-        create_data, max_sequence = super(
-            StockWarehouse, self
-        )._get_picking_type_create_values(max_sequence)
+        create_data, max_sequence = super()._get_picking_type_create_values(
+            max_sequence
+        )
         if self.is_l10n_ro_record:
             create_data.update(
                 {
@@ -95,9 +95,7 @@ class StockWarehouse(models.Model):
         return create_data, max_sequence
 
     def _get_sequence_values(self, name=False, code=False):
-        sequences = super(StockWarehouse, self)._get_sequence_values(
-            name=name, code=code
-        )
+        sequences = super()._get_sequence_values(name=name, code=code)
         if self.is_l10n_ro_record:
             sequences.update(
                 {
@@ -118,7 +116,7 @@ class StockWarehouse(models.Model):
         return sequences
 
     def _update_name_and_code(self, new_name=False, new_code=False):
-        res = super(StockWarehouse, self)._update_name_and_code(new_name, new_code)
+        res = super()._update_name_and_code(new_name, new_code)
         ro_whs = self.filtered("is_l10n_ro_record")
         for warehouse in ro_whs:
             sequence_data = warehouse._get_sequence_values()
