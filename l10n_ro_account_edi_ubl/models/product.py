@@ -7,12 +7,8 @@ from odoo import api, fields, models
 
 
 class ProductTemplate(models.Model):
-<<<<<<< HEAD
     _name = "product.template"
     _inherit = ["product.template", "l10n.ro.mixin"]
-=======
-    _inherit = "product.template"
->>>>>>> add l10n_ro_account_edi_ubl
 
     l10n_ro_nc_code = fields.Char(
         "Romania - NC Code",
@@ -29,11 +25,7 @@ class ProductTemplate(models.Model):
         for template in unique_variants:
             template.l10n_ro_nc_code = template.product_variant_ids.l10n_ro_nc_code
         for template in self - unique_variants:
-<<<<<<< HEAD
             template.l10n_ro_nc_code = False
-=======
-            template.default_code = False
->>>>>>> add l10n_ro_account_edi_ubl
 
     def _inverse_l10n_ro_nc_code(self):
         for template in self:

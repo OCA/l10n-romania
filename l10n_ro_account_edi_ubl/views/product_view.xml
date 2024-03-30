@@ -5,18 +5,12 @@
         <field name="model">product.template</field>
         <field name="inherit_id" ref="product.product_template_form_view" />
         <field name="arch" type="xml">
-<<<<<<< HEAD
             <field name="uom_id" position="before">
                 <field name="is_l10n_ro_record" invisible="1" />
                 <field
                     name="l10n_ro_nc_code"
                     attrs="{'invisible': [('is_l10n_ro_record','=',False)]}"
                 />
-=======
-            <field name="type" position="after">
-                <field name="is_l10n_ro_record" invisible="1" />
-                <field name="l10n_ro_nc_code" />
->>>>>>> add l10n_ro_account_edi_ubl
             </field>
         </field>
     </record>
