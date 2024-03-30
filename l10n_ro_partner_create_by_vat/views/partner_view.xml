@@ -11,7 +11,7 @@
                     <field
                     name="l10n_ro_old_name"
                     placeholder="Old Name"
-                    attrs="{'invisible': ['|',('is_company','=', False),('is_l10n_ro_record','=',False)]}"
+                    invisible="not is_company or not l10n_ro_e_invoice"
                 />
                 </field>
             </field>
@@ -26,7 +26,8 @@
                     <field name="is_l10n_ro_record" invisible="1" />
                     <group
                     string="ANAF History"
-                    attrs="{'invisible': [('is_l10n_ro_record', '=', False)]}"
+                    invisible="not is_l10n_ro_record"
+
                 >
                         <separator string="ANAF - Active State History" />
                         <field
