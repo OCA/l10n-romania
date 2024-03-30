@@ -11,7 +11,7 @@ class PosSession(models.Model):
     _inherit = "pos.session"
 
     def _prepare_line(self, order_line):
-        values = super(PosSession, self)._prepare_line(order_line)
+        values = super()._prepare_line(order_line)
         product = order_line.product_id
         if product.categ_id.l10n_ro_stock_account_change:
             location = (
@@ -25,14 +25,14 @@ class PosSession(models.Model):
     def _reconcile_account_move_lines(self, data):
         if self.company_id.l10n_ro_accounting:
             data["stock_output_lines"] = {}
-        return super(PosSession, self)._reconcile_account_move_lines(data)
+        return super()._reconcile_account_move_lines(data)
 
     def _accumulate_amounts(self, data):
         def get_amounts():
             res = {"amount": 0.0, "amount_converted": 0.0}
             return res
 
-        data = super(PosSession, self)._accumulate_amounts(data)
+        data = super()._accumulate_amounts(data)
 
         amounts = get_amounts
 
