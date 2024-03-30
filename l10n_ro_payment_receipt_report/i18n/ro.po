@@ -42,23 +42,19 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:l10n_ro_payment_receipt_report.report_bank_statement_line_payment_document
 msgid ""
 "<br/>\n"
-"                                        <span style=\"padding-left:100px;"
-"\">Signature ..........................................</span>"
+"                                        <span style=\"padding-left:100px;\">Signature ..........................................</span>"
 msgstr ""
 "<br/>\n"
-"                                        <span style=\"padding-left:100px;"
-"\">Semnătură ..........................................</span>"
+"                                        <span style=\"padding-left:100px;\">Semnătură ..........................................</span>"
 
 #. module: l10n_ro_payment_receipt_report
 #: model_terms:ir.ui.view,arch_db:l10n_ro_payment_receipt_report.report_bank_statement_line_payment_document
 msgid ""
 "<br/>\n"
-"                                        <span>Signature ........................................."
-"</span>"
+"                                        <span>Signature .........................................</span>"
 msgstr ""
 "<br/>\n"
-"                                        <span>Semnătură ........................................."
-"</span>"
+"                                        <span>Semnătură .........................................</span>"
 
 #. module: l10n_ro_payment_receipt_report
 #: model_terms:ir.ui.view,arch_db:l10n_ro_payment_receipt_report.report_bank_statement_line_payment_document
@@ -68,8 +64,8 @@ msgstr "<span style=\"padding-left:300px;\">(în cifre)</span>"
 #. module: l10n_ro_payment_receipt_report
 #: model_terms:ir.ui.view,arch_db:l10n_ro_payment_receipt_report.report_bank_statement_line_payment_document
 msgid ""
-"<span style=\"padding-left:300px;"
-"\">............................................</span>"
+"<span style=\"padding-"
+"left:300px;\">............................................</span>"
 msgstr ""
 
 #. module: l10n_ro_payment_receipt_report
@@ -87,19 +83,17 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:l10n_ro_payment_receipt_report.report_bank_statement_line_payment_document
 msgid ""
 "<span>\n"
-"                                            <strong>To be completed only for "
-"disposals</strong>\n"
+"                                            <strong>To be completed only for disposals</strong>\n"
 "                                        </span>"
 msgstr ""
 "<span>\n"
-"                                            <strong>A se completa numai "
-"pentru plăți</strong>\n"
+"                                            <strong>A se completa numai pentru plăți</strong>\n"
 "                                        </span>"
 
 #. module: l10n_ro_payment_receipt_report
 #: model_terms:ir.ui.view,arch_db:l10n_ro_payment_receipt_report.report_payment_receipt_document
 msgid "<span>NRC:</span>"
-msgstr "<span>NRC:</span>"
+msgstr ""
 
 #. module: l10n_ro_payment_receipt_report
 #: model_terms:ir.ui.view,arch_db:l10n_ro_payment_receipt_report.report_payment_receipt_document
@@ -112,15 +106,13 @@ msgid ""
 "<strong>ADDITIONAL DATA REGARDING THE BENEFICIARY OF THE AMOUNT:</strong>\n"
 "                                        <br/>\n"
 "                                        <br/>\n"
-"                                        <span>Identity document ........ "
-"Series ........... No. .........................</span>\n"
+"                                        <span>Identity document ........ Series ........... No. .........................</span>\n"
 "                                        <br/>"
 msgstr ""
 "<strong>DATE SUPLIMENTARE PRIVIND BENEFICIARUL SUMEI:</strong>\n"
 "                                        <br/>\n"
 "                                        <br/>\n"
-"                                        <span>Document de "
-"identitate ........ Seria ........... Nr. .........................</span>\n"
+"                                        <span>Document de identitate ........ Seria ........... Nr. .........................</span>\n"
 "                                        <br/>"
 
 #. module: l10n_ro_payment_receipt_report
@@ -254,14 +246,14 @@ msgstr "suma de"
 msgid "with address:"
 msgstr "cu adresa:"
 
-#~ msgid "Print Disposal"
-#~ msgstr "Tipărește Dispoziția"
-
-#~ msgid "Print Receipt"
-#~ msgstr "Tipărește Chitanța"
-
 #~ msgid "Display Name"
 #~ msgstr "Nume afișat"
 
 #~ msgid "Last Modified on"
 #~ msgstr "Ultima modificare la"
+
+#~ msgid "Print Disposal"
+#~ msgstr "Tipărește Dispoziția"
+
+#~ msgid "Print Receipt"
+#~ msgstr "Tipărește Chitanța"
