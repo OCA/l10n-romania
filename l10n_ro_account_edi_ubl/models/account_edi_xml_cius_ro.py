@@ -115,8 +115,8 @@ class AccountEdiXmlCIUSRO(models.Model):
             ]
         return res
 
-    def _get_invoice_line_vals(self, line, taxes_vals):
-        res = super()._get_invoice_line_vals(line, taxes_vals)
+    def _get_invoice_line_vals(self, line, line_id, taxes_vals):
+        res = super()._get_invoice_line_vals(line, line_id, taxes_vals)
         if (
             line.move_id.move_type == "out_refund"
             and line.company_id.l10n_ro_credit_note_einvoice
