@@ -5,12 +5,14 @@
 
 import json
 
+import requests
+
 from odoo.exceptions import ValidationError
 from odoo.modules.module import get_module_resource
 from odoo.tests import Form, tagged
 
 from odoo.addons.account.tests.common import AccountTestInvoicingCommon
-import requests
+
 
 @tagged("post_install", "-at_install")
 class TestCreatePartnerBase(AccountTestInvoicingCommon):
@@ -30,6 +32,7 @@ class TestCreatePartnerBase(AccountTestInvoicingCommon):
     def _request_handler(cls, s, r, /, **kw):
         """Don't block external requests."""
         return cls._super_send(s, r, **kw)
+
 
 @tagged("post_install", "-at_install")
 class TestCreatePartner(TestCreatePartnerBase):
