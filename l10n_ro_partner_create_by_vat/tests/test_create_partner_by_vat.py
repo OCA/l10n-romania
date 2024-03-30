@@ -10,14 +10,14 @@ from odoo.modules.module import get_module_resource
 from odoo.tests import Form, tagged
 
 from odoo.addons.account.tests.common import AccountTestInvoicingCommon
-
+import requests
 
 @tagged("post_install", "-at_install")
 class TestCreatePartnerBase(AccountTestInvoicingCommon):
     @classmethod
-    def setUpClass(cls):
-        ro_template_ref = "l10n_ro.ro_chart_template"
-        super(TestCreatePartnerBase, cls).setUpClass(chart_template_ref=ro_template_ref)
+    def setUpClass(cls, chart_template_ref="ro"):
+        cls._super_send = requests.Session.send
+        super().setUpClass(chart_template_ref=chart_template_ref)
         cls.env.company.l10n_ro_accounting = True
         cls.mainpartner = cls.env["res.partner"].create({"name": "Test partner"})
         test_file_path = get_module_resource(
@@ -26,6 +26,10 @@ class TestCreatePartnerBase(AccountTestInvoicingCommon):
         cls.anaf_data = json.load(open(test_file_path))
         cls.mainpartner = cls.mainpartner.with_context(anaf_data=cls.anaf_data)
 
+    @classmethod
+    def _request_handler(cls, s, r, /, **kw):
+        """Don't block external requests."""
+        return cls._super_send(s, r, **kw)
 
 @tagged("post_install", "-at_install")
 class TestCreatePartner(TestCreatePartnerBase):
