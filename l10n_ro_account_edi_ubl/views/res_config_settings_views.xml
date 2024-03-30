@@ -6,7 +6,7 @@
         <field name="model">res.config.settings</field>
         <field name="inherit_id" ref="l10n_ro_config.res_config_settings_view_form" />
         <field name="arch" type="xml">
-            <div id="ro_anaf_einvoice_container" position="inside">
+            <setting id="ro_anaf_einvoice_container" position="inside">
                 <separator string="E-Invoice Settings" />
                 <div
                     class="col-xs-12 col-md-12 o_setting_box"
@@ -44,7 +44,7 @@
                 <div
                     class="col-xs-12 col-md-12 o_setting_box"
                     id="l10n_ro_default_cius_pdf_report"
-                    attrs="{'invisible': [('l10n_ro_edi_cius_embed_pdf','=',False)]}"
+                    invisible="not l10n_ro_edi_cius_embed_pdf"
                 >
                     <div class="o_setting_left_pane">
                     </div>
@@ -80,7 +80,7 @@
                 <div
                     class="col-xs-12 col-md-12 o_setting_box"
                     id="l10n_ro_download_einvoices_start_date"
-                    attrs="{'invisible': [('l10n_ro_download_einvoices','=',False)]}"
+                    invisible="not l10n_ro_download_einvoices"
                 >
                     <div class="o_setting_left_pane">
                     </div>
@@ -100,7 +100,7 @@
                 <div
                     class="col-xs-12 col-md-12 o_setting_box"
                     id="l10n_ro_download_einvoices_days"
-                    attrs="{'invisible': [('l10n_ro_download_einvoices','=',False)]}"
+                    invisible="not l10n_ro_download_einvoices"
                 >
                     <div class="o_setting_left_pane">
                     </div>
@@ -155,7 +155,7 @@
                         </div>
                     </div>
                 </div>
-            </div>
+            </setting>
         </field>
     </record>
 
