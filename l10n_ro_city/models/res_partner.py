@@ -51,7 +51,10 @@ class Partner(models.Model):
     @api.onchange("city_id")
     def _onchange_city_id(self):
         backup_zip = self.zip
+        backup_city = self.city
         res = super()._onchange_city_id()
         if not self.zip and backup_zip:
             self.zip = backup_zip
+        if not self.city and backup_city:
+            self.city = backup_city
         return res
