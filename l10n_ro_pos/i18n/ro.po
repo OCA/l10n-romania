@@ -79,7 +79,7 @@ msgstr "Preț stoc"
 #~ msgstr "Nume afișat"
 
 #~ msgid "ID"
-#~ msgstr "ID"
+#~ msgstr ""
 
 #~ msgid "Intermediary Account"
 #~ msgstr "Cont Intermediar"
