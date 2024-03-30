@@ -15,7 +15,7 @@ from odoo.exceptions import UserError
 # from odoo.modules.module import get_module_resource
 from odoo.tools.misc import file_path
 from odoo.tests import tagged
-
+import requests
 from odoo.addons.account_edi.tests.common import AccountEdiTestCommon
 from odoo.addons.base.tests.test_ir_cron import CronMixinCase
 
@@ -25,7 +25,13 @@ _logger = logging.getLogger(__name__)
 @tagged("post_install", "-at_install")
 class TestAccountEdiUbl(AccountEdiTestCommon, CronMixinCase):
     @classmethod
+    def _request_handler(cls, s, r, /, **kw):
+        """Don't block external requests."""
+        return cls._super_send(s, r, **kw)
+
+    @classmethod
     def setUpClass(cls, chart_template_ref="ro"):
+        cls._super_send = requests.Session.send
         super().setUpClass(chart_template_ref=chart_template_ref)
         cls.env.company.l10n_ro_accounting = True
 

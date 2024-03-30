@@ -228,7 +228,8 @@ class AccountMove(models.Model):
                 [("code", "=", "cius_ro")]
             )
             if not self.invoice_line_ids:
-                edi_format_cius._update_invoice_from_attachment(attachment, self)
+                # edi_format_cius._update_invoice_from_attachment(attachment, self)  # in v16.0
+                self._get_edi_decoder(attachment)
             else:
                 raise UserError(
                     _(
