@@ -163,9 +163,6 @@ msgstr ""
 #~ msgid "Explanation"
 #~ msgstr "Explicații"
 
-#~ msgid "ID"
-#~ msgstr ""
-
 #~ msgid "Last Modified on"
 #~ msgstr "Ultima modificare la"
 
