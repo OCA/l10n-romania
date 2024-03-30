@@ -22,7 +22,7 @@ class AccountANAFSyncScope(models.Model):
 
     def _l10n_ro_einvoice_call(self, func, params, data=None, method="POST"):
         self.ensure_one()
-        _logger.info("ANAF API call: %s %s" % (func, params))
+        _logger.info(f"ANAF API call: {func} {params}")
         url = self.anaf_sync_url + func
         access_token = self.anaf_sync_id.access_token
         headers = {
@@ -51,13 +51,13 @@ class AccountANAFSyncScope(models.Model):
             if response.headers:
                 content_type = response.headers.get("Content-Type", "")
             if content_type == "application/xml":
-                _logger.info("ANAF API response: %s" % response.text)
+                _logger.info(f"ANAF API response: {response.text}")
             if "text/plain" in content_type:
                 try:
                     content = response.json()
                     if content.get("eroare"):
                         status_code = 400
                 except Exception:
-                    _logger.info("ANAF API response: %s" % response.text)
+                    _logger.info(f"ANAF API response: {response.text}")
 
         return content, status_code

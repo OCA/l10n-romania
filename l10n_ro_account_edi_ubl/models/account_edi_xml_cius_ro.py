@@ -359,7 +359,7 @@ class AccountEdiXmlCIUSRO(models.Model):
         return logs
 
     def _import_invoice(self, journal, filename, tree, existing_invoice=None):
-        invoice = super(AccountEdiXmlCIUSRO, self)._import_invoice(
+        invoice = super()._import_invoice(
             journal, filename, tree, existing_invoice=existing_invoice
         )
         if invoice:

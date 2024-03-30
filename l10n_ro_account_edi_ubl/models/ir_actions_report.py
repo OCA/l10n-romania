@@ -65,24 +65,21 @@ class IrActionsReport(models.Model):
     ):
         pdf_stream = stream_data["stream"]
         pdf_content_b64 = base64.b64encode(pdf_stream.getvalue()).decode()
-        pdf_name = "%s.pdf" % invoice.name.replace("/", "_")
-        to_inject = """
+        pdf_name = invoice.name.replace("/", "_")
+        pdf_name = f"{pdf_name}.pdf"
+        to_inject = f"""
 <cac:AdditionalDocumentReference
     xmlns="urn:oasis:names:specification:ubl:schema:xsd:Invoice-2"
     xmlns:cbc="urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2"
     xmlns:cac="urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2">
-    <cbc:ID>%s</cbc:ID>
+    <cbc:ID>{escape(pdf_name)}</cbc:ID>
     <cac:Attachment>
-        <cbc:EmbeddedDocumentBinaryObject mimeCode="application/pdf" filename=%s>
-            %s
+        <cbc:EmbeddedDocumentBinaryObject mimeCode="application/pdf" filename={quoteattr(pdf_name)}>
+            {pdf_content_b64}
         </cbc:EmbeddedDocumentBinaryObject>
     </cac:Attachment>
 </cac:AdditionalDocumentReference>
-        """ % (
-            escape(pdf_name),
-            quoteattr(pdf_name),
-            pdf_content_b64,
-        )
+        """
 
         anchor_index = tree.index(anchor_elements[0])
         tree.insert(anchor_index, etree.fromstring(to_inject))

@@ -7,6 +7,7 @@
     "countries": ["ro"],
     "summary": "Romania - eFactura - Account EDI UBL",
     "depends": [
+        "account_edi",
         "l10n_ro_account_anaf_sync",
         "account_edi_ubl_cii",
     ],
