@@ -4,6 +4,7 @@
 {
     "name": "Romania - Account ANAF Sync",
     "category": "Localization",
+    "countries": ["ro"],
     "summary": "Romania - Account ANAF Sync",
     "depends": ["l10n_ro_config"],
     "data": [
