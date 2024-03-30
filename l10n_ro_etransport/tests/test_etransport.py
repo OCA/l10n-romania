@@ -5,7 +5,7 @@ from odoo.tests.common import TransactionCase
 
 class TestETransport(TransactionCase):
     def setUp(self):
-        super(TestETransport, self).setUp()
+        super().setUp()
 
         country_ro = self.env["res.country"].search([("code", "=", "RO")])
         self.env.company.l10n_ro_accounting = True
