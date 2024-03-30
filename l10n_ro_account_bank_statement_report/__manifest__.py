@@ -4,10 +4,11 @@
 {
     "name": "Romania - Bank Statement Report",
     "summary": "Romania - Bank Statement Report",
-    "version": "16.0.1.2.0",
+    "version": "17.0.1.0.0",
     "author": "NextERP Romania," "Odoo Community Association (OCA)",
     "website": "https://github.com/OCA/l10n-romania",
     "category": "Accounting",
+    "countries": ["ro"],
     "depends": ["l10n_ro_config"],
     "license": "AGPL-3",
     "data": [
