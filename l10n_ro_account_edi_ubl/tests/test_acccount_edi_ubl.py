@@ -12,7 +12,8 @@ import freezegun
 
 from odoo import fields
 from odoo.exceptions import UserError
-from odoo.modules.module import get_module_resource
+# from odoo.modules.module import get_module_resource
+from odoo.tools.misc import file_path
 from odoo.tests import tagged
 
 from odoo.addons.account_edi.tests.common import AccountEdiTestCommon
@@ -164,9 +165,8 @@ class TestAccountEdiUbl(AccountEdiTestCommon, CronMixinCase):
         )
         cls.credit_note = cls.env["account.move"].create(invoice_values)
 
-        test_file = get_module_resource(
-            "l10n_ro_account_edi_ubl", "tests", "invoice.zip"
-        )
+        test_file = file_path("l10n_ro_account_edi_ubl/tests/invoice.zip")
+
         cls.invoice_zip = open(test_file, mode="rb").read()
 
         anaf_config = cls.env.company._l10n_ro_get_anaf_sync(scope="e-factura")
@@ -196,7 +196,7 @@ class TestAccountEdiUbl(AccountEdiTestCommon, CronMixinCase):
             anaf_config = cls.env.company._l10n_ro_get_anaf_sync(scope="e-factura")
 
     def get_file(self, filename):
-        test_file = get_module_resource("l10n_ro_account_edi_ubl", "tests", filename)
+        test_file = file_path(f"l10n_ro_account_edi_ubl/tests/{filename}")
         return open(test_file).read().encode("utf-8")
 
     def check_invoice_documents(
@@ -524,7 +524,7 @@ class TestAccountEdiUbl(AccountEdiTestCommon, CronMixinCase):
         ]
 
         signed_zip_file = open(
-            get_module_resource("l10n_ro_account_edi_ubl", "tests", "5004879752.zip"),
+            file_path("l10n_ro_account_edi_ubl/tests/5004879752.zip"),
             mode="rb",
         ).read()
         with patch(
