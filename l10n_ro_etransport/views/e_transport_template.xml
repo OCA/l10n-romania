@@ -14,10 +14,7 @@
             >
                 <t t-foreach="doc.move_ids" t-as="move">
                     <t t-foreach="move.move_line_ids" t-as="move_line">
-                        <t
-                            t-set="qty"
-                            t-value="move_line.quantity"
-                        />
+                        <t t-set="qty" t-value="move_line.quantity" />
                         <bunuriTransportate
                             t-att-codTarifar="get_instastat_code(move.product_id)"
                             t-att-denumireMarfa="move.product_id.name"

@@ -36,7 +36,6 @@
                                 name="l10n_ro_e_transport_customs_id"
                                 string="Border crossing point"
                                 readonly="state not in ('draft', 'nok')"
-
                             />
                                 <field
                                 name="l10n_ro_e_transport_operation_type_id"
