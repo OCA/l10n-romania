@@ -4,7 +4,7 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 11.0\n"
+"Project-Id-Version: Odoo Server 17.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2017-10-19 11:55+0000\n"
 "PO-Revision-Date: 2020-08-13 03:59+0000\n"
@@ -14,8 +14,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
-"Plural-Forms: nplurals=3; plural=n==1 ? 0 : (n==0 || (n%100 > 0 && n%100 < "
-"20)) ? 1 : 2;\n"
+"Plural-Forms: nplurals=3; plural=n==1 ? 0 : (n==0 || (n%100 > 0 && n%100 < 20)) ? 1 : 2;\n"
 "X-Generator: Weblate 3.10\n"
 
 #. module: l10n_ro_partner_create_by_vat
@@ -43,7 +42,7 @@ msgstr ""
 #. module: l10n_ro_partner_create_by_vat
 #: model:ir.model.fields,field_description:l10n_ro_partner_create_by_vat.field_l10n_ro_res_partner_anaf_status__act
 msgid "Act autorizare"
-msgstr "Act autorizare"
+msgstr ""
 
 #. module: l10n_ro_partner_create_by_vat
 #: model:ir.model.fields,field_description:l10n_ro_partner_create_by_vat.field_l10n_ro_res_partner_anaf_status__active_status
@@ -71,7 +70,7 @@ msgstr ""
 #. module: l10n_ro_partner_create_by_vat
 #: model:ir.model,name:l10n_ro_partner_create_by_vat.model_res_partner
 msgid "Contact"
-msgstr "Contact"
+msgstr ""
 
 #. module: l10n_ro_partner_create_by_vat
 #: model:ir.model.fields,field_description:l10n_ro_partner_create_by_vat.field_l10n_ro_res_partner_anaf_scptva__create_uid
@@ -202,9 +201,10 @@ msgstr "Data interogarii ANAF."
 #: model:ir.model.fields,help:l10n_ro_partner_create_by_vat.field_res_partner__l10n_ro_old_name
 #: model:ir.model.fields,help:l10n_ro_partner_create_by_vat.field_res_users__l10n_ro_old_name
 msgid ""
-"To be completed manually with previous name of the company in case on change."
-"If the field in completed, when fetching the datas from ANAF website,if the "
-"name received is the old name set, than the partner will not be updated."
+"To be completed manually with previous name of the company in case on "
+"change.If the field in completed, when fetching the datas from ANAF "
+"website,if the name received is the old name set, than the partner will not "
+"be updated."
 msgstr ""
 "Sa fie completat manual cu numele anterior al companiei in cazul unui "
 "schimb. Daca acest camp este completat, atunci cand se preiau datele de pe "
@@ -251,10 +251,3 @@ msgid ""
 msgstr ""
 "Vor adăuga intrări numai dacă statusInactivi este diferit față de intrarea "
 "anterioară sau după intrări"
-
-#, python-format
-#~ msgid "ANAF Webservice not working. Exeption=%s."
-#~ msgstr "Eroare la serviciul web ANAF. Exceptie=%s."
-
-#~ msgid "VAT Legal Statement"
-#~ msgstr "Plătitor de TVA"

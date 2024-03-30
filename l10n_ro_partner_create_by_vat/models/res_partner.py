@@ -220,10 +220,9 @@ class ResPartner(models.Model):
         }
 
         odoo_result = self.get_result_address(odoo_result)
-        odoo_result["vat"] = "%s%s" % (
-            odoo_result.get("scpTVA", False) and "RO" or "",
-            odoo_result.get("cui"),
-        )
+        prefix = odoo_result.get("scpTVA", False) and "RO" or ""
+        odoo_result["vat"] = prefix + str(odoo_result.get("cui", ""))
+
         if (
             "city_id" in self._fields
             and odoo_result["state_id"]
