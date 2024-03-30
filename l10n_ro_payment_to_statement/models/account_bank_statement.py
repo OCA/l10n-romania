@@ -24,13 +24,12 @@ class AccountBankStatement(models.Model):
                         vals["name"] = fields.Date.to_string(fields.Date.today())
         return super().create(vals_list)
 
-    def name_get(self):
-        result = super().name_get()
-        result_dict = dict(result)
+    def _compute_display_name(self):
+        res = super()._compute_display_name()
         for record in self:
             if record.is_l10n_ro_record and record.name == "/":
-                result_dict[record.id] = fields.Date.to_string(record.date)
-        return list(result_dict.items())
+                record.display_name = fields.Date.to_string(record.date)
+        return res
 
 
 class AccountBankStatementLine(models.Model):
