@@ -21,6 +21,7 @@ class TestAccountEdiUbl(AccountEdiTestCommon):
         cls.country_state = cls.env["res.country.state"].search(
             [("name", "=", "Timiș")]
         )
+<<<<<<< HEAD
         l10n_ro_address_extend = cls.env["ir.module.module"].search(
             [("name", "=", "l10n_ro_address_extended")]
         )
@@ -50,12 +51,30 @@ class TestAccountEdiUbl(AccountEdiTestCommon):
                     "zip": "300011",
                 }
             )
+=======
+        cls.env.company.write(
+            {
+                "vat": "RO30834857",
+                "name": "FOREST AND BIOMASS ROMANIA S.A.",
+                "country_id": cls.env.ref("base.ro").id,
+                "currency_id": cls.currency.id,
+                "street": "Ferma 5-6",
+                "city": "Giulvaz",
+                "state_id": cls.country_state.id,
+                "zip": "300011",
+            }
+        )
+>>>>>>> add l10n_ro_account_edi_ubl
 
         cls.partner = cls.env["res.partner"].create(
             {
                 "name": "SCOALA GIMNAZIALA COMUNA FOENI",
+<<<<<<< HEAD
                 "ref": "SCOALA GIMNAZIALA COMUNA FOENI",
                 "vat": "RO29152430",
+=======
+                "vat": "29152430",
+>>>>>>> add l10n_ro_account_edi_ubl
                 "country_id": cls.env.ref("base.ro").id,
                 "l10n_ro_vat_subjected": True,
                 "street": "Foeni Nr. 383",
@@ -71,6 +90,10 @@ class TestAccountEdiUbl(AccountEdiTestCommon):
             {
                 "name": "Bec P21/5W",
                 "default_code": "00000623",
+<<<<<<< HEAD
+=======
+                "type": "product",
+>>>>>>> add l10n_ro_account_edi_ubl
                 "uom_id": uom_id,
                 "uom_po_id": uom_id,
             }
@@ -79,6 +102,10 @@ class TestAccountEdiUbl(AccountEdiTestCommon):
             {
                 "name": "Bec P21/10W",
                 "default_code": "00000624",
+<<<<<<< HEAD
+=======
+                "type": "product",
+>>>>>>> add l10n_ro_account_edi_ubl
                 "uom_id": uom_id,
                 "uom_po_id": uom_id,
             }
@@ -136,8 +163,14 @@ class TestAccountEdiUbl(AccountEdiTestCommon):
             xmlns="urn:oasis:names:specification:ubl:schema:xsd:Invoice-2"
             xmlns:cac=
             "urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2">
+<<<<<<< HEAD
                 <cbc:CustomizationID>
                     urn:cen.eu:en16931:2017#compliant#urn:efactura.mfinante.ro:CIUS-RO:1.0.1
+=======
+                <cbc:UBLVersionID>2.1</cbc:UBLVersionID>
+                <cbc:CustomizationID>
+                    urn:cen.eu:en16931:2017#compliant#urn:efactura.mfinante.ro:CIUS-RO:1.0.0
+>>>>>>> add l10n_ro_account_edi_ubl
                 </cbc:CustomizationID>
                 <cbc:ProfileID>urn:fdc:peppol.eu:2017:poacc:billing:01:1.0</cbc:ProfileID>
                 <cbc:ID>FBRAO2092</cbc:ID>
@@ -183,7 +216,11 @@ class TestAccountEdiUbl(AccountEdiTestCommon):
                 </cac:AccountingSupplierParty>
                 <cac:AccountingCustomerParty>
                     <cac:Party>
+<<<<<<< HEAD
                         <cbc:EndpointID schemeID="9947">RO29152430</cbc:EndpointID>
+=======
+                        <cbc:EndpointID schemeID="9947">29152430</cbc:EndpointID>
+>>>>>>> add l10n_ro_account_edi_ubl
                         <cac:PartyName>
                             <cbc:Name>SCOALA GIMNAZIALA COMUNA FOENI</cbc:Name>
                         </cac:PartyName>
@@ -197,16 +234,26 @@ class TestAccountEdiUbl(AccountEdiTestCommon):
                             </cac:Country>
                         </cac:PostalAddress>
                         <cac:PartyTaxScheme>
+<<<<<<< HEAD
                             <cbc:CompanyID>RO29152430</cbc:CompanyID>
                             <cac:TaxScheme>
                                 <cbc:ID>VAT</cbc:ID>
+=======
+                            <cbc:CompanyID>29152430</cbc:CompanyID>
+                            <cac:TaxScheme>
+                                <cbc:ID>!= VAT</cbc:ID>
+>>>>>>> add l10n_ro_account_edi_ubl
                             </cac:TaxScheme>
                         </cac:PartyTaxScheme>
                         <cac:PartyLegalEntity>
                             <cbc:RegistrationName>
                             SCOALA GIMNAZIALA COMUNA FOENI
                             </cbc:RegistrationName>
+<<<<<<< HEAD
                             <cbc:CompanyID>RO29152430</cbc:CompanyID>
+=======
+                            <cbc:CompanyID>29152430</cbc:CompanyID>
+>>>>>>> add l10n_ro_account_edi_ubl
                         </cac:PartyLegalEntity>
                         <cac:Contact>
                             <cbc:Name>SCOALA GIMNAZIALA COMUNA FOENI</cbc:Name>

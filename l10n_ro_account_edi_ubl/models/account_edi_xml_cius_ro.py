@@ -69,20 +69,28 @@ class AccountEdiXmlCIUSRO(models.Model):
 
     def _export_invoice_vals(self, invoice):
         vals_list = super()._export_invoice_vals(invoice)
+<<<<<<< HEAD
         vals_list["vals"]["buyer_reference"] = (
             invoice.commercial_partner_id.ref or invoice.commercial_partner_id.name
         )
+=======
+>>>>>>> add l10n_ro_account_edi_ubl
         vals_list["vals"]["order_reference"] = (invoice.ref or invoice.name)[:30]
         vals_list[
             "TaxTotalType_template"
         ] = "l10n_ro_account_edi_ubl.ubl_20_TaxTotalType"
         vals_list["vals"][
             "customization_id"
+<<<<<<< HEAD
         ] = "urn:cen.eu:en16931:2017#compliant#urn:efactura.mfinante.ro:CIUS-RO:1.0.1"
+=======
+        ] = "urn:cen.eu:en16931:2017#compliant#urn:efactura.mfinante.ro:CIUS-RO:1.0.0"
+>>>>>>> add l10n_ro_account_edi_ubl
         index = 1
         for val in vals_list["vals"]["invoice_line_vals"]:
             val["id"] = index
             index += 1
+<<<<<<< HEAD
         # amount = 0
         # tax_subtotal_vals = vals_list["vals"]["tax_total_vals"][0]["tax_subtotal_vals"]
         # for tax in tax_subtotal_vals:
@@ -114,4 +122,14 @@ class AccountEdiXmlCIUSRO(models.Model):
                     subtax["taxable_amount"] = -1 * subtax["taxable_amount"]
                     subtax["tax_amount"] = -1 * subtax["tax_amount"]
 
+=======
+        amount = 0
+        tax_subtotal_vals = vals_list["vals"]["tax_total_vals"][0]["tax_subtotal_vals"]
+        for tax in tax_subtotal_vals:
+            for tax_group in invoice.amount_by_group:
+                if tax_group[0] == tax["tax_id"].tax_group_id.name:
+                    tax["tax_amount"] = tax_group[1]
+                    amount += tax_group[1]
+        vals_list["vals"]["tax_total_vals"][0]["tax_amount"] = amount
+>>>>>>> add l10n_ro_account_edi_ubl
         return vals_list

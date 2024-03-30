@@ -20,10 +20,13 @@ class AccountEdiXmlCIUSRO(models.Model):
         # Create file content.
         builder = self._get_xml_builder(invoice.company_id)
         xml_content, errors = builder._export_invoice(invoice)
+<<<<<<< HEAD
         xml_content = xml_content.decode()
         xml_content = xml_content.replace("CreditNoteLine", "InvoiceLine")
         xml_content = xml_content.replace("CreditedQuantity", "InvoicedQuantity")
         xml_content = xml_content.encode()
+=======
+>>>>>>> add l10n_ro_account_edi_ubl
         xml_name = builder._export_invoice_filename(invoice)
         return self.env["ir.attachment"].create(
             {
@@ -45,7 +48,11 @@ class AccountEdiXmlCIUSRO(models.Model):
         vals["vals"].update(
             {
                 "customization_id": "urn:cen.eu:en16931:2017#compliant#"
+<<<<<<< HEAD
                 "urn:efactura.mfinante.ro:CIUS-RO:1.0.1",
+=======
+                "urn:efactura.mfinante.ro:CIUS-RO:1.0.0",
+>>>>>>> add l10n_ro_account_edi_ubl
             }
         )
         return vals
@@ -67,23 +74,39 @@ class AccountEdiXmlCIUSRO(models.Model):
         is_required = invoice.commercial_partner_id.l10n_ro_e_invoice
         if not is_required:
             # Check if it contains high risk products
+<<<<<<< HEAD
             invoice_nc_codes = list(
                 set(invoice.invoice_line_ids.mapped("product_id.l10n_ro_nc_code"))
+=======
+            invoice_nc_codes = invoice.invoice_line_ids.mapped(
+                "product_id.l10n_ro_nc_code"
+>>>>>>> add l10n_ro_account_edi_ubl
             )
             high_risk_nc_codes = invoice.get_l10n_ro_high_risk_nc_codes()
             if invoice_nc_codes and invoice_nc_codes != [False]:
                 for hr_code in high_risk_nc_codes:
+<<<<<<< HEAD
                     if any(
                         item and item.startswith(hr_code) for item in invoice_nc_codes
                     ):
+=======
+                    if any(item.startswith(hr_code) for item in invoice_nc_codes):
+>>>>>>> add l10n_ro_account_edi_ubl
                         is_required = True
                         break
         return is_required
 
+<<<<<<< HEAD
     def _post_invoice_edi(self, invoices):
         self.ensure_one()
         if self.code != "cius_ro":
             return super()._post_invoice_edi(invoices)
+=======
+    def _post_invoice_edi(self, invoices, test_mode=False):
+        self.ensure_one()
+        if self.code != "cius_ro":
+            return super()._post_invoice_edi(invoices, test_mode)
+>>>>>>> add l10n_ro_account_edi_ubl
         res = {}
         for invoice in invoices:
             attachment = invoice._get_edi_attachment(self)
@@ -104,10 +127,17 @@ class AccountEdiXmlCIUSRO(models.Model):
 
         return res
 
+<<<<<<< HEAD
     def _cancel_invoice_edi(self, invoices):
         self.ensure_one()
         if self.code != "cius_ro":
             return super()._cancel_invoice_edi(invoices)
+=======
+    def _cancel_invoice_edi(self, invoices, test_mode=False):
+        self.ensure_one()
+        if self.code != "cius_ro":
+            return super()._cancel_invoice_edi(invoices, test_mode)
+>>>>>>> add l10n_ro_account_edi_ubl
         return {
             invoice: {"success": False if invoice.l10n_ro_edi_transaction else True}
             for invoice in invoices
@@ -128,7 +158,11 @@ class AccountEdiXmlCIUSRO(models.Model):
         errors = []
         if not partner.street:
             errors += [
+<<<<<<< HEAD
                 _("The partner %s doesn't have the street completed.") % partner.name
+=======
+                _("The partner doesn't have the street completed.") % partner.name
+>>>>>>> add l10n_ro_account_edi_ubl
             ]
 
         state_bucuresti = self.env.ref("base.RO_B")

@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="utf-8" ?>
+<<<<<<< HEAD
 <odoo noupdate="1">
+=======
+<odoo>
+>>>>>>> add l10n_ro_account_edi_ubl
 
         <record id="edi_ubl_cius_ro" model="account.edi.format">
             <field name="name">UBL 2.1 (CIUS-RO)</field>

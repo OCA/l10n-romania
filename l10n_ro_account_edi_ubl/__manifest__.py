@@ -17,14 +17,23 @@
         "views/account_invoice.xml",
         "views/product_view.xml",
         "views/res_partner_view.xml",
+<<<<<<< HEAD
         "views/cius_template.xml",
     ],
     "license": "AGPL-3",
     "version": "15.0.1.10.0",
+=======
+    ],
+    "license": "AGPL-3",
+    "version": "14.0.1.0.0",
+>>>>>>> add l10n_ro_account_edi_ubl
     "author": "Terrabit," "NextERP Romania," "Odoo Community Association (OCA)",
     "website": "https://github.com/OCA/l10n-romania",
     "installable": True,
     "development_status": "Mature",
+<<<<<<< HEAD
     "pre_init_hook": "pre_init_hook",
+=======
+>>>>>>> add l10n_ro_account_edi_ubl
     "maintainers": ["dhongu", "feketemihai"],
 }
