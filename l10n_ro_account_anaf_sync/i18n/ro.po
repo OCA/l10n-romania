@@ -161,7 +161,8 @@ msgstr "Creat in"
 #: model:ir.model.fields,help:l10n_ro_account_anaf_sync.field_l10n_ro_account_anaf_sync__client_token_valability
 msgid "Date when is going to expire - 90 days from when was generated"
 msgstr ""
-"Data la care urmează să expire -90 de zile de la data la care a fost generată"
+"Data la care urmează să expire -90 de zile de la data la care a fost "
+"generată"
 
 #. module: l10n_ro_account_anaf_sync
 #: model:ir.model.fields,field_description:l10n_ro_account_anaf_sync.field_l10n_ro_account_anaf_sync__display_name
@@ -414,8 +415,8 @@ msgid ""
 "Time when was last time pressed the Get Token From Anaf Website. It waits "
 "for ANAF request for maximum 1 minute"
 msgstr ""
-"Data când a fost apăsat ultima dată pe Get Token From Anaf Website. Asteapta "
-"cererea ANAF maxim 1 minut"
+"Data când a fost apăsat ultima dată pe Get Token From Anaf Website. Asteapta"
+" cererea ANAF maxim 1 minut"
 
 #. module: l10n_ro_account_anaf_sync
 #: model:ir.model.fields,field_description:l10n_ro_account_anaf_sync.field_l10n_ro_account_anaf_sync__website_message_ids

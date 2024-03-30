@@ -22,7 +22,11 @@
         "data/l10n.ro.e.transport.operation.csv",
     ],
     "license": "AGPL-3",
+<<<<<<< HEAD
     "version": "16.0.0.2.0",
+=======
+    "version": "16.0.0.1.1",
+>>>>>>> fix
     "author": "Terrabit," "Odoo Community Association (OCA)",
     "website": "https://github.com/OCA/l10n-romania",
     "installable": True,

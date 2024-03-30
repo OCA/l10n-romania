@@ -227,12 +227,12 @@ msgstr "Documentul a fost încărcat cu succes, verificați starea."
 #. module: l10n_ro_etransport
 #: model:ir.model,name:l10n_ro_etransport.model_stock_picking
 msgid "Transfer"
-msgstr "Transfer"
+msgstr ""
 
 #. module: l10n_ro_etransport
 #: model:ir.model.fields,field_description:l10n_ro_etransport.field_stock_picking__l10n_ro_e_transport_uit
 msgid "UIT"
-msgstr "UIT"
+msgstr ""
 
 #. module: l10n_ro_etransport
 #. odoo-python

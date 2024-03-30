@@ -144,6 +144,7 @@ class StockPicking(models.Model):
         if not is_valid:
             message = _("Validation Error: %s") % xml_schema.error_log.last_error
             _logger.error(message)
+            raise UserError(message)
 
         domain = [
             ("name", "=", xml_name),
@@ -197,7 +198,6 @@ class StockPicking(models.Model):
 
     @api.model
     def _export_e_transport_data(self, data):
-
         anaf_config = self.company_id._l10n_ro_get_anaf_sync(scope="e-transport")
         params = {}
         standard = "ETRANSP"

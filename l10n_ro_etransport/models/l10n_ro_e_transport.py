@@ -26,3 +26,6 @@ class ETransportOperation(models.Model):
 
     name = fields.Char(required=True)
     code = fields.Char(required=True)
+    usage = fields.Selection(
+        [("import", "Import"), ("export", "Export"), ("local", "Local")], required=True
+    )
