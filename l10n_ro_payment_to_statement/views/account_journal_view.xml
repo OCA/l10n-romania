@@ -10,27 +10,27 @@
                 <field name="is_l10n_ro_record" invisible="1" />
                 <field
                     name="l10n_ro_journal_sequence_id"
-                    attrs="{'invisible': [('is_l10n_ro_record','=',False)]}"
+                    invisible="not is_l10n_ro_record"
                 />
                 <field
                     name="l10n_ro_customer_cash_in_sequence_id"
-                    attrs="{'invisible': ['|',('type', '!=', 'cash'),('is_l10n_ro_record','=',False)]}"
+                    invisible="not is_l10n_ro_record or type != 'cash'"
                 />
                 <field
                     name="l10n_ro_statement_sequence_id"
-                    attrs="{'invisible': ['|',('type', 'not in', ['cash','bank']),('is_l10n_ro_record','=',False)]}"
+                    invisible="not is_l10n_ro_record or type not in ['cash','bank']"
                 />
                 <field
                     name="l10n_ro_auto_statement"
-                    attrs="{'invisible': ['|',('type', 'not in', ['cash','bank']),('is_l10n_ro_record','=',False)]}"
+                    invisible="not is_l10n_ro_record or type not in ['cash','bank']"
                 />
                 <field
                     name="l10n_ro_cash_in_sequence_id"
-                    attrs="{'invisible': ['|',('type', '!=', 'cash'),('is_l10n_ro_record','=',False)]}"
+                    invisible="not is_l10n_ro_record or type != 'cash'"
                 />
                 <field
                     name="l10n_ro_cash_out_sequence_id"
-                    attrs="{'invisible': ['|',('type', '!=', 'cash'),('is_l10n_ro_record','=',False)]}"
+                    invisible="not is_l10n_ro_record or type != 'cash'"
                 />
             </xpath>
         </field>
