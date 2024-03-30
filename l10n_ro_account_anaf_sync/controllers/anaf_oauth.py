@@ -33,9 +33,9 @@ class AccountANAFSyncWeb(http.Controller):
         error = False
         if user.share:
             return request.not_found(_("This page is only for internal users!"))
-        anaf_config = (
-            request.env["l10n.ro.account.anaf.sync"].sudo().browse(anaf_config_id)
-        )
+        ANAF_Configs = request.env["l10n.ro.account.anaf.sync"].sudo()
+        anaf_config = ANAF_Configs.browse(anaf_config_id)
+
         if not anaf_config.exists():
             return request.not_found(_("Error, this ANAF config does not exist!"))
         company = anaf_config.company_id
@@ -74,14 +74,7 @@ class AccountANAFSyncWeb(http.Controller):
             "token_content_type": "jwt",
         }
         redirect_url = anaf_config.anaf_oauth_url + "/authorize?" + url_encode(params)
-        # redirect_url = (
-        #     "%s?response_type=code&client_id=%s&redirect_uri=%s&token_content_type=jwt"
-        #     % (
-        #         anaf_config.anaf_oauth_url + "/authorize",
-        #         client_id,
-        #         odoo_oauth_url,
-        #     )
-        # )
+
         anaf_request_from_redirect = request.redirect(
             redirect_url, code=302, local=False
         )
@@ -109,14 +102,14 @@ class AccountANAFSyncWeb(http.Controller):
         "Returns a text with the result of anaf request from redirect"
         uid = request.uid
         user = request.env["res.users"].browse(uid)
-        datetime.now()
+
         ANAF_Configs = request.env["l10n.ro.account.anaf.sync"].sudo()
         anaf_config = ANAF_Configs.browse(anaf_config_id)
 
-        message = ""
+        if not anaf_config.exists():
+            return request.not_found(_("Error, this ANAF config does not exist!"))
 
-        if not anaf_config:
-            message = _("No ANAF config was found for this company.")
+        message = ""
 
         if message:
             anaf_config.message_post(body=message)
@@ -150,9 +143,9 @@ class AccountANAFSyncWeb(http.Controller):
                 timeout=1.5,
             )
             response_json = response.json()
-            acces_token = {}
+            access_token = {}
             if response_json.get("access_token", None):
-                acces_token = jwt.decode(
+                access_token = jwt.decode(
                     response_json.get("access_token"),
                     algorithms=["RS512"],
                     options={"verify_signature": False},
@@ -162,7 +155,7 @@ class AccountANAFSyncWeb(http.Controller):
                 {
                     "code": code,
                     "client_token_valability": datetime.fromtimestamp(
-                        acces_token.get("exp", 0)
+                        access_token.get("exp", 0)
                     ),
                     "access_token": response_json.get("access_token", ""),
                     "refresh_token": response_json.get("refresh_token", ""),

@@ -3,6 +3,8 @@
 # See README.rst file on addons root folder for license details
 
 
+import requests
+
 from odoo import fields
 from odoo.tests import tagged
 from odoo.tools import mute_logger
@@ -12,6 +14,16 @@ from odoo.addons.base.tests.common import HttpCaseWithUserDemo
 
 @tagged("-at_install", "post_install")
 class TestAnafSyncControllers(HttpCaseWithUserDemo):
+    @classmethod
+    def setUpClass(cls):
+        cls._super_send = requests.Session.send
+        super().setUpClass()
+
+    @classmethod
+    def _request_handler(cls, s, r, /, **kw):
+        """Don't block external requests."""
+        return cls._super_send(s, r, **kw)
+
     def setUp(self):
         super().setUp()
         self.test_company = self.env["res.company"].create({"name": "Test Sync"})
