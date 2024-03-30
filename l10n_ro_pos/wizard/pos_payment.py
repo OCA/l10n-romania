@@ -10,7 +10,7 @@ class PosMakePayment(models.TransientModel):
 
     @api.model
     def default_get(self, fields_list):
-        res = super(PosMakePayment, self).default_get(fields_list)
+        res = super().default_get(fields_list)
         active_id = self.env.context.get("active_id")
         if active_id:
             session = self.env["pos.order"].browse(active_id).session_id

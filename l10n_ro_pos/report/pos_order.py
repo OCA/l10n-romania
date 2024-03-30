@@ -18,9 +18,7 @@ class ReportSaleDetails(models.AbstractModel):
     def get_sale_details(
         self, date_start=False, date_stop=False, config_ids=False, session_ids=False
     ):
-        res = super(ReportSaleDetails, self).get_sale_details(
-            date_start, date_stop, config_ids, session_ids
-        )
+        res = super().get_sale_details(date_start, date_stop, config_ids, session_ids)
 
         domain = [("state", "in", ["paid", "invoiced", "done"])]
 
@@ -118,6 +116,6 @@ class ReportSaleDetails(models.AbstractModel):
             products += [values]
             total_stock_amount += stock_price * qty
 
-        res["products"] = sorted(products, key=lambda l: l["product_name"])
+        # res["products"] = sorted(products, key=lambda l: l["product_name"])
         res["total_stock_amount"] = total_stock_amount
         return res
