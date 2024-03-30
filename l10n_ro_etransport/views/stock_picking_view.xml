@@ -11,7 +11,7 @@
                     class="alert alert-warning"
                     role="alert"
                     style="margin-bottom:0px;"
-                    attrs="{'invisible': [('l10n_ro_e_transport_message', '=', False)]}"
+                    invisible="not l10n_ro_e_transport_message"
                 >
                         <span><field name="l10n_ro_e_transport_message" /></span>
                     </div>
@@ -35,17 +35,18 @@
                                 <field
                                 name="l10n_ro_e_transport_customs_id"
                                 string="Border crossing point"
-                                attrs="{'readonly': [('state', 'not in', ('draft', 'nok'))]}"
+                                readonly="state not in ('draft', 'nok')"
+
                             />
                                 <field
                                 name="l10n_ro_e_transport_operation_type_id"
                                 string="Operation Type"
-                                attrs="{'readonly': [('state', 'not in', ('draft', 'nok'))]}"
+                                readonly="state not in ('draft', 'nok')"
                             />
                                  <field
                                 name="l10n_ro_e_transport_scope_id"
                                 string="Scope"
-                                attrs="{'readonly': [('state', 'not in', ('draft', 'nok'))]}"
+                                readonly="state not in ('draft', 'nok')"
                             />
                             </group>
                             <group string="Status">
