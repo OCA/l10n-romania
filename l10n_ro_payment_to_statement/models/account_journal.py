@@ -72,7 +72,7 @@ class AccountJournal(models.Model):
                 if query_results and query_results[0].get(amount_field) is not None:
                     account_transfer_sum = query_results[0].get(amount_field)
 
-        datas = super(AccountJournal, self).get_journal_dashboard_datas()
+        datas = super().get_journal_dashboard_datas()
         if self.is_l10n_ro_record:
             datas["account_transfer_balance"] = formatLang(
                 self.env,
@@ -108,10 +108,10 @@ class AccountJournal(models.Model):
             for seq_field, code in l10n_ro_sequnce_fields.items():
                 if not vals.get(seq_field):
                     vals_seq = {
-                        "name": "%s - %s" % (journal_name, seq_field),
-                        "code": "%s%s" % (journal_code, code),
+                        "name": f"{journal_name} - {seq_field}",
+                        "code": f"{journal_code}{code}",
                         "implementation": "no_gap",
-                        "prefix": "%s%s-" % (journal_code, code),
+                        "prefix": f"{journal_code}{code}",
                         "suffix": "",
                         "padding": 6,
                         "company_id": company,

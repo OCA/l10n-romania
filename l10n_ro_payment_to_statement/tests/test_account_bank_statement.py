@@ -9,9 +9,6 @@ from .common import TestPaymenttoStatement
 
 @tagged("post_install", "-at_install")
 class TestAccountBankStatement(TestPaymenttoStatement):
-    def setUp(self):
-        super(TestAccountBankStatement, self).setUp()
-
     def test_create_bank_statement(self):
         # Create statement with l10n_ro_statement_sequence_id in cash journal
         bnk1 = self.env["account.bank.statement"].create(

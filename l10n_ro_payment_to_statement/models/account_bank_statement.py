@@ -22,7 +22,7 @@ class AccountBankStatement(models.Model):
                         ] = journal.l10n_ro_statement_sequence_id.next_by_id()
                     else:
                         vals["name"] = fields.Date.to_string(fields.Date.today())
-        return super(AccountBankStatement, self).create(vals_list)
+        return super().create(vals_list)
 
     def name_get(self):
         result = super().name_get()

@@ -11,7 +11,7 @@ from .common import TestPaymenttoStatement
 @tagged("post_install", "-at_install")
 class TestPayment(TestPaymenttoStatement):
     def setUp(self):
-        super(TestPayment, self).setUp()
+        super().setUp()
         self.env.company.l10n_ro_accounting = True
         self.partner_a = self.env["res.partner"].create({"name": "test"})
 

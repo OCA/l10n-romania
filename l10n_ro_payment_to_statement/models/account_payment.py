@@ -86,7 +86,7 @@ class AccountPayment(models.Model):
                     )
 
     def action_post(self):
-        res = super(AccountPayment, self).action_post()
+        res = super().action_post()
         l10n_ro_records = self.filtered(lambda p: p.is_l10n_ro_record)
         if l10n_ro_records:
             for payment in l10n_ro_records:
@@ -135,7 +135,8 @@ class AccountPayment(models.Model):
                 new_context["l10n_ro_payment_type"] = vals.get("payment_type")
             if vals.get("partner_type"):
                 new_context["l10n_ro_partner_type"] = vals.get("partner_type")
-            self = self.with_context(**new_context)
-            payment = super(AccountPayment, self).create([vals])
+            payment = super(AccountPayment, self.with_context(**new_context)).create(
+                [vals]
+            )
             res |= payment
         return res
