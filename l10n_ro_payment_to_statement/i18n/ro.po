@@ -129,8 +129,8 @@ msgstr "Secvența folosită pentru încasări de la clienți (chitanțe)"
 #: model:ir.model.fields,help:l10n_ro_payment_to_statement.field_account_journal__l10n_ro_journal_sequence_id
 msgid "Sequence used for other (closing, line) account move names"
 msgstr ""
-"Secvența folosită pentru alte note contabile (facturi în cazul jurnalelor de "
-"vânzare, n.c. închidere, linii extras în cazul jurnalelor de casă/bancă)"
+"Secvența folosită pentru alte note contabile (facturi în cazul jurnalelor de"
+" vânzare, n.c. închidere, linii extras în cazul jurnalelor de casă/bancă)"
 
 #. module: l10n_ro_payment_to_statement
 #: model:ir.model.fields,help:l10n_ro_payment_to_statement.field_account_journal__l10n_ro_statement_sequence_id

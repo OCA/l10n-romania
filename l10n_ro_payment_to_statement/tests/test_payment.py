@@ -16,7 +16,6 @@ class TestPayment(TestPaymenttoStatement):
         self.partner_a = self.env["res.partner"].create({"name": "test"})
 
     def test_payment(self):
-
         cash_journal = self.env["account.journal"].search(
             [("type", "=", "cash")], limit=1
         )
