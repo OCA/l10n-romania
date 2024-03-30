@@ -18,7 +18,6 @@ class ReportSaleDetails(models.AbstractModel):
     def get_sale_details(
         self, date_start=False, date_stop=False, config_ids=False, session_ids=False
     ):
-
         res = super(ReportSaleDetails, self).get_sale_details(
             date_start, date_stop, config_ids, session_ids
         )
