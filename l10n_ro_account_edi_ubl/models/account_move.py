@@ -224,9 +224,9 @@ class AccountMove(models.Model):
         if edi_doc:
             edi_doc.attachment_id = attachment_zip
         else:
-            edi_format_cius = self.env["account.edi.format"].search(
-                [("code", "=", "cius_ro")]
-            )
+            # edi_format_cius = self.env["account.edi.format"].search(
+            #     [("code", "=", "cius_ro")]
+            # )
             if not self.invoice_line_ids:
                 # edi_format_cius._update_invoice_from_attachment(attachment, self)  # in v16.0
                 self._get_edi_decoder(attachment)

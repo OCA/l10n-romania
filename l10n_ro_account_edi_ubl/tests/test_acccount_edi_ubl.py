@@ -9,13 +9,15 @@ from datetime import date, timedelta
 from unittest.mock import patch
 
 import freezegun
+import requests
 
 from odoo import fields
 from odoo.exceptions import UserError
+from odoo.tests import tagged
+
 # from odoo.modules.module import get_module_resource
 from odoo.tools.misc import file_path
-from odoo.tests import tagged
-import requests
+
 from odoo.addons.account_edi.tests.common import AccountEdiTestCommon
 from odoo.addons.base.tests.test_ir_cron import CronMixinCase
 
