@@ -1,0 +1,382 @@
+{
+  "4264242": {
+    "date_generale": {
+      "cui": 4264242,
+      "data": "2023-11-11",
+      "denumire": "CUMPANA 1993 SRL",
+      "adresa": "MUNICIPIUL BUCUREŞTI, SECTOR 3, STR. ALEXANDER VON HUMBOLDT, NR.10, ET.PARTER",
+      "nrRegCom": "J40/16655/1993",
+      "telefon": "0219224",
+      "fax": "",
+      "codPostal": "31472",
+      "act": "",
+      "stare_inregistrare": "TRANSFER(SOSIRE) din data 26.11.2014",
+      "data_inregistrare": "1993-07-09",
+      "cod_CAEN": "1107",
+      "iban": "",
+      "statusRO_e_Factura": true,
+      "organFiscalCompetent": "Direcţia Generală a Finanţelor Publice Municipiul Bucureşti",
+      "forma_de_proprietate": "PROPR.PRIVATA-CAPITAL PRIVAT AUTOHTON",
+      "forma_organizare": "PERSOANA JURIDICA",
+      "forma_juridica": "SOCIETATE COMERCIALĂ CU RĂSPUNDERE LIMITATĂ"
+    },
+    "inregistrare_scop_Tva": {
+      "scpTVA": true,
+      "perioade_TVA": [
+        {
+          "data_inceput_ScpTVA": "1994-02-01",
+          "data_sfarsit_ScpTVA": "",
+          "data_anul_imp_ScpTVA": "",
+          "mesaj_ScpTVA": ""
+        }
+      ]
+    },
+    "inregistrare_RTVAI": {
+      "dataInceputTvaInc": "",
+      "dataSfarsitTvaInc": "",
+      "dataActualizareTvaInc": "",
+      "dataPublicareTvaInc": "",
+      "tipActTvaInc": "",
+      "statusTvaIncasare": false
+    },
+    "stare_inactiv": {
+      "dataInactivare": "",
+      "dataReactivare": "",
+      "dataPublicare": "",
+      "dataRadiere": "",
+      "statusInactivi": false
+    },
+    "inregistrare_SplitTVA": {
+      "dataInceputSplitTVA": "",
+      "dataAnulareSplitTVA": "",
+      "statusSplitTVA": false
+    },
+    "adresa_sediu_social": {
+      "sdenumire_Strada": "Str. Alexander Von Humboldt",
+      "snumar_Strada": "10",
+      "sdenumire_Localitate": "Sector 3 Mun. Bucureşti",
+      "scod_Localitate": "3",
+      "sdenumire_Judet": "MUNICIPIUL BUCUREŞTI",
+      "scod_Judet": "40",
+      "scod_JudetAuto": "B",
+      "stara": "",
+      "sdetalii_Adresa": "PARTER",
+      "scod_Postal": "31472"
+    },
+    "adresa_domiciliu_fiscal": {
+      "ddenumire_Strada": "Str. Alexander Von Humboldt",
+      "dnumar_Strada": "10",
+      "ddenumire_Localitate": "Sector 3 Mun. Bucureşti",
+      "dcod_Localitate": "3",
+      "ddenumire_Judet": "MUNICIPIUL BUCUREŞTI",
+      "dcod_Judet": "40",
+      "dcod_JudetAuto": "B",
+      "dtara": "",
+      "ddetalii_Adresa": "",
+      "dcod_Postal": "31472"
+    }
+  },
+  "27193515": {
+    "date_generale": {
+      "cui": 27193515,
+      "data": "2023-11-11",
+      "denumire": "FOREST AND BIOMASS SERVICES ROMANIA S.A.",
+      "adresa": "JUD. TIMIŞ, MUN. TIMIŞOARA, CAL. BUZIAŞULUI, NR.11 A, CORP B, ZONA NR.1, ETAJ 3",
+      "nrRegCom": "J35/1214/2015",
+      "telefon": "0747029724",
+      "fax": "",
+      "codPostal": "",
+      "act": "",
+      "stare_inregistrare": "DIZOLVARE FARA LICHIDARE(FUZIUNE) din data 22.08.2016",
+      "data_inregistrare": "2010-07-21",
+      "cod_CAEN": "7022",
+      "iban": "",
+      "statusRO_e_Factura": false,
+      "organFiscalCompetent": "Administraţia Fiscală pentru Contribuabili Mijlocii - Timiş",
+      "forma_de_proprietate": "PROPR.PRIVATA-CAPITAL PRIVAT STRAIN",
+      "forma_organizare": "PERSOANA JURIDICA",
+      "forma_juridica": "SOCIETATE COMERCIALĂ PE ACŢIUNI"
+    },
+    "inregistrare_scop_Tva": {
+      "scpTVA": false,
+      "perioade_TVA": [
+        {
+          "data_inceput_ScpTVA": "2010-07-22",
+          "data_sfarsit_ScpTVA": "2016-08-22",
+          "data_anul_imp_ScpTVA": "2016-08-24",
+          "mesaj_ScpTVA": "Anularea înregistrarii în scopuri de TVA a fost efectuata la cererea persoanei impozabile, potrivit dispozitiilor  din Legea nr.227/2015 privind Codul fiscal, cu modificarile si completarile ulterioare"
+        }
+      ]
+    },
+    "inregistrare_RTVAI": {
+      "dataInceputTvaInc": "",
+      "dataSfarsitTvaInc": "",
+      "dataActualizareTvaInc": "",
+      "dataPublicareTvaInc": "",
+      "tipActTvaInc": "",
+      "statusTvaIncasare": false
+    },
+    "stare_inactiv": {
+      "dataInactivare": "",
+      "dataReactivare": "",
+      "dataPublicare": "",
+      "dataRadiere": "",
+      "statusInactivi": false
+    },
+    "inregistrare_SplitTVA": {
+      "dataInceputSplitTVA": "",
+      "dataAnulareSplitTVA": "",
+      "statusSplitTVA": false
+    },
+    "adresa_sediu_social": {
+      "sdenumire_Strada": "Cal. Buziaşului",
+      "snumar_Strada": "11A",
+      "sdenumire_Localitate": "Mun. Timişoara",
+      "scod_Localitate": "355",
+      "sdenumire_Judet": "TIMIŞ",
+      "scod_Judet": "35",
+      "scod_JudetAuto": "TM",
+      "stara": "",
+      "sdetalii_Adresa": "CORP B, ZONA NR. 1",
+      "scod_Postal": "300699"
+    },
+    "adresa_domiciliu_fiscal": {
+      "ddenumire_Strada": "Cal. Buziaşului",
+      "dnumar_Strada": "11 A",
+      "ddenumire_Localitate": "Mun. Timişoara",
+      "dcod_Localitate": "355",
+      "ddenumire_Judet": "TIMIŞ",
+      "dcod_Judet": "35",
+      "dcod_JudetAuto": "TM",
+      "dtara": "",
+      "ddetalii_Adresa": "CORP B, ZONA NR.1, ETAJ 3",
+      "dcod_Postal": ""
+    }
+  },
+
+  "30834857": {
+    "date_generale": {
+      "cui": 30834857,
+      "data": "2023-11-11",
+      "denumire": "FOREST AND BIOMASS ROMÂNIA S.A.",
+      "adresa": "JUD. TIMIŞ, MUN. TIMIŞOARA, STR. CIPRIAN PORUMBESCU, NR.12, ZONA NR.3, ETAJ 1",
+      "nrRegCom": "J35/2622/2012",
+      "telefon": "0356179038",
+      "fax": "",
+      "codPostal": "",
+      "act": "",
+      "stare_inregistrare": "INREGISTRAT din data 26.10.2012",
+      "data_inregistrare": "2012-10-26",
+      "cod_CAEN": "119",
+      "iban": "",
+      "statusRO_e_Factura": false,
+      "organFiscalCompetent": "Administraţia Fiscală pentru Contribuabili Mijlocii - Timiş",
+      "forma_de_proprietate": "PROPR.PRIVATA-CAPITAL PRIVAT AUTOHTON SI STRAIN",
+      "forma_organizare": "PERSOANA JURIDICA",
+      "forma_juridica": "SOCIETATE COMERCIALĂ PE ACŢIUNI"
+    },
+    "inregistrare_scop_Tva": {
+      "scpTVA": true,
+      "perioade_TVA": [
+        {
+          "data_inceput_ScpTVA": "2012-12-04",
+          "data_sfarsit_ScpTVA": "",
+          "data_anul_imp_ScpTVA": "",
+          "mesaj_ScpTVA": ""
+        }
+      ]
+    },
+    "inregistrare_RTVAI": {
+      "dataInceputTvaInc": "2013-02-01",
+      "dataSfarsitTvaInc": "2013-08-01",
+      "dataActualizareTvaInc": "2013-07-11",
+      "dataPublicareTvaInc": "2013-07-12",
+      "tipActTvaInc": "Radiere",
+      "statusTvaIncasare": false
+    },
+    "stare_inactiv": {
+      "dataInactivare": "",
+      "dataReactivare": "",
+      "dataPublicare": "",
+      "dataRadiere": "",
+      "statusInactivi": false
+    },
+    "inregistrare_SplitTVA": {
+      "dataInceputSplitTVA": "",
+      "dataAnulareSplitTVA": "",
+      "statusSplitTVA": false
+    },
+    "adresa_sediu_social": {
+      "sdenumire_Strada": " ",
+      "snumar_Strada": "",
+      "sdenumire_Localitate": "Sat Giulvăz Com. Giulvăz",
+      "scod_Localitate": "170",
+      "sdenumire_Judet": "TIMIŞ",
+      "scod_Judet": "35",
+      "scod_JudetAuto": "TM",
+      "stara": "",
+      "sdetalii_Adresa": "FERMA 5-6",
+      "scod_Postal": "307225"
+    },
+    "adresa_domiciliu_fiscal": {
+      "ddenumire_Strada": "Str. Ciprian Porumbescu",
+      "dnumar_Strada": "12",
+      "ddenumire_Localitate": "Mun. Timişoara",
+      "dcod_Localitate": "355",
+      "ddenumire_Judet": "TIMIŞ",
+      "dcod_Judet": "35",
+      "dcod_JudetAuto": "TM",
+      "dtara": "",
+      "ddetalii_Adresa": "ZONA NR.3, Etaj 1",
+      "dcod_Postal": ""
+    }
+  },
+  "42078234": {
+    "date_generale": {
+      "cui": 42078234,
+      "data": "2023-11-11",
+      "denumire": "COJOCARU AURELIAN-MARCEL SOFTWARE PERSOANĂ FIZICĂ AUTORIZATĂ",
+      "adresa": "JUD. TIMIŞ, MUN. TIMIŞOARA, STR. HOLDELOR, NR.11, CAMERA 1, BL.B18, ET.2, AP.9",
+      "nrRegCom": "F35/11/2020",
+      "telefon": "",
+      "fax": "",
+      "codPostal": "",
+      "act": "",
+      "stare_inregistrare": "INREGISTRAT din data 08.01.2020",
+      "data_inregistrare": "2020-01-08",
+      "cod_CAEN": "6202",
+      "iban": "",
+      "statusRO_e_Factura": false,
+      "organFiscalCompetent": "Administraţia Judeţeană a Finanţelor Publice Timiş",
+      "forma_de_proprietate": "",
+      "forma_organizare": "",
+      "forma_juridica": ""
+    },
+    "inregistrare_scop_Tva": {
+      "scpTVA": false,
+      "perioade_TVA": []
+    },
+    "inregistrare_RTVAI": {
+      "dataInceputTvaInc": "",
+      "dataSfarsitTvaInc": "",
+      "dataActualizareTvaInc": "",
+      "dataPublicareTvaInc": "",
+      "tipActTvaInc": "",
+      "statusTvaIncasare": false
+    },
+    "stare_inactiv": {
+      "dataInactivare": "",
+      "dataReactivare": "",
+      "dataPublicare": "",
+      "dataRadiere": "",
+      "statusInactivi": false
+    },
+    "inregistrare_SplitTVA": {
+      "dataInceputSplitTVA": "",
+      "dataAnulareSplitTVA": "",
+      "statusSplitTVA": false
+    },
+    "adresa_sediu_social": {
+      "sdenumire_Strada": "Str. Holdelor",
+      "snumar_Strada": "11",
+      "sdenumire_Localitate": "Mun. Timişoara",
+      "scod_Localitate": "355",
+      "sdenumire_Judet": "TIMIŞ",
+      "scod_Judet": "35",
+      "scod_JudetAuto": "TM",
+      "stara": "",
+      "sdetalii_Adresa": "CAMERA 1",
+      "scod_Postal": ""
+    },
+    "adresa_domiciliu_fiscal": {
+      "ddenumire_Strada": "Str. Holdelor",
+      "dnumar_Strada": "11",
+      "ddenumire_Localitate": "Mun. Timişoara",
+      "dcod_Localitate": "355",
+      "ddenumire_Judet": "TIMIŞ",
+      "dcod_Judet": "35",
+      "dcod_JudetAuto": "TM",
+      "dtara": "",
+      "ddetalii_Adresa": "CAMERA 1",
+      "dcod_Postal": ""
+    }
+  },
+  "8235738": {
+    "date_generale": {
+      "cui": 8235738,
+      "data": "2023-11-11",
+      "denumire": "HOLZINDUSTRIE ROMANESTI S.R.L.",
+      "adresa": "JUD. TIMIŞ, SAT ROMÂNEŞTI COM. TOMEŞTI, ROMÂNEŞTI, NR.69/A",
+      "nrRegCom": "J35/196/1996",
+      "telefon": "",
+      "fax": "",
+      "codPostal": "307416",
+      "act": "",
+      "stare_inregistrare": "INREGISTRAT din data 18.03.1996",
+      "data_inregistrare": "1996-03-18",
+      "cod_CAEN": "1610",
+      "iban": "",
+      "statusRO_e_Factura": false,
+      "organFiscalCompetent": "Serviciul Fiscal Orăşenesc  Făget",
+      "forma_de_proprietate": "PROPR.PRIVATA-CAPITAL PRIVAT AUTOHTON SI STRAIN",
+      "forma_organizare": "PERSOANA JURIDICA",
+      "forma_juridica": "SOCIETATE COMERCIALĂ CU RĂSPUNDERE LIMITATĂ"
+    },
+    "inregistrare_scop_Tva": {
+      "scpTVA": true,
+      "perioade_TVA": [
+        {
+          "data_inceput_ScpTVA": "1996-07-01",
+          "data_sfarsit_ScpTVA": "",
+          "data_anul_imp_ScpTVA": "",
+          "mesaj_ScpTVA": ""
+        }
+      ]
+    },
+    "inregistrare_RTVAI": {
+      "dataInceputTvaInc": "2013-01-01",
+      "dataSfarsitTvaInc": "",
+      "dataActualizareTvaInc": "2012-12-27",
+      "dataPublicareTvaInc": "2012-12-28",
+      "tipActTvaInc": "Inregistrare",
+      "statusTvaIncasare": true
+    },
+    "stare_inactiv": {
+      "dataInactivare": "",
+      "dataReactivare": "",
+      "dataPublicare": "",
+      "dataRadiere": "",
+      "statusInactivi": false
+    },
+    "inregistrare_SplitTVA": {
+      "dataInceputSplitTVA": "",
+      "dataAnulareSplitTVA": "",
+      "statusSplitTVA": false
+    },
+    "adresa_sediu_social": {
+      "sdenumire_Strada": " ",
+      "snumar_Strada": "69/A",
+      "sdenumire_Localitate": "Sat Româneşti Com. Tomeşti",
+      "scod_Localitate": "300",
+      "sdenumire_Judet": "TIMIŞ",
+      "scod_Judet": "35",
+      "scod_JudetAuto": "TM",
+      "stara": "",
+      "sdetalii_Adresa": "",
+      "scod_Postal": "307416"
+    },
+    "adresa_domiciliu_fiscal": {
+      "ddenumire_Strada": "Româneşti",
+      "dnumar_Strada": "69/A",
+      "ddenumire_Localitate": "Sat Româneşti Com. Tomeşti",
+      "dcod_Localitate": "300",
+      "ddenumire_Judet": "TIMIŞ",
+      "dcod_Judet": "35",
+      "dcod_JudetAuto": "TM",
+      "dtara": "",
+      "ddetalii_Adresa": "",
+      "dcod_Postal": "307416"
+    }
+  },
+  "3083485711": {"error": "Nu exista date pentru CUI-ul introdus"}
+}
