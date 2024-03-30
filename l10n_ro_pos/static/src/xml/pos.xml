@@ -5,7 +5,6 @@
         t-name="PaymentScreenStatus"
         t-inherit="point_of_sale.PaymentScreenStatus"
         t-inherit-mode="extension"
-        owl="1"
     >
          <xpath expr="//div[hasclass('payment-status-container')]" position="before">
              <div t-if="warningMessage=='L5000'" class="limit-warning">
