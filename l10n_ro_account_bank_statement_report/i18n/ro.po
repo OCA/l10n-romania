@@ -31,7 +31,7 @@ msgstr "<span>Cont</span>"
 #: model_terms:ir.ui.view,arch_db:l10n_ro_account_bank_statement_report.report_l10n_ro_statement_daily
 #: model_terms:ir.ui.view,arch_db:l10n_ro_account_bank_statement_report.report_l10n_ro_statement_period
 msgid "<strong>CIF:</strong>"
-msgstr "<strong>CIF:</strong>"
+msgstr ""
 
 #. module: l10n_ro_account_bank_statement_report
 #: model_terms:ir.ui.view,arch_db:l10n_ro_account_bank_statement_report.report_l10n_ro_statement_daily
@@ -54,7 +54,7 @@ msgstr "<strong>Departamentul Financiar-Contabil</strong>"
 #: model_terms:ir.ui.view,arch_db:l10n_ro_account_bank_statement_report.report_l10n_ro_statement_daily
 #: model_terms:ir.ui.view,arch_db:l10n_ro_account_bank_statement_report.report_l10n_ro_statement_period
 msgid "<strong>NRC:</strong>"
-msgstr "<strong>NRC:</strong>"
+msgstr ""
 
 #. module: l10n_ro_account_bank_statement_report
 #: model_terms:ir.ui.view,arch_db:l10n_ro_account_bank_statement_report.report_l10n_ro_statement_period
@@ -121,7 +121,7 @@ msgstr "Inregistrare Romania"
 #: model_terms:ir.ui.view,arch_db:l10n_ro_account_bank_statement_report.report_l10n_ro_statement_daily
 #: model_terms:ir.ui.view,arch_db:l10n_ro_account_bank_statement_report.report_l10n_ro_statement_period
 msgid "Nr. Crt"
-msgstr "Nr. Crt"
+msgstr ""
 
 #. module: l10n_ro_account_bank_statement_report
 #: model_terms:ir.ui.view,arch_db:l10n_ro_account_bank_statement_report.report_l10n_ro_statement_daily
@@ -163,11 +163,11 @@ msgstr ""
 #~ msgid "Explanation"
 #~ msgstr "Explicații"
 
-#~ msgid "Transaction No"
-#~ msgstr "Nr Tranzacție"
-
 #~ msgid "ID"
-#~ msgstr "ID"
+#~ msgstr ""
 
 #~ msgid "Last Modified on"
 #~ msgstr "Ultima modificare la"
+
+#~ msgid "Transaction No"
+#~ msgstr "Nr Tranzacție"
