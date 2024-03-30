@@ -14,7 +14,7 @@ class PosInvoiceReport(models.AbstractModel):
 
     @api.model
     def _get_report_values(self, docids, data=None):
-        values = super(PosInvoiceReport, self)._get_report_values(docids, data)
+        values = super()._get_report_values(docids, data)
         values.update(
             {
                 "data": data,
