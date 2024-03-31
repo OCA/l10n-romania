@@ -33,13 +33,13 @@
 
                 <partenerComercial
                     t-att-codTara="get_country_code(doc.partner_id.commercial_partner_id.country_id.code)"
-                    t-att-cod="doc.partner_id.commercial_partner_id.vat.upper().replace('RO', '')"
+                    t-att-cod="(doc.partner_id.commercial_partner_id.vat or '').upper().replace('RO', '')"
                     t-att-denumire="doc.partner_id.commercial_partner_id.name"
                 />
                 <t t-set="carrier" t-value="doc.carrier_id.l10n_ro_e_partner_id" />
                 <dateTransport
-                    t-att-nrVehicul="doc.l10n_ro_vehicle and doc.l10n_ro_vehicle.upper().replace('-', '')"
-                    t-att-codOrgTransport="carrier.vat.upper().replace('RO', '')"
+                    t-att-nrVehicul="(doc.l10n_ro_vehicle and doc.l10n_ro_vehicle or '').upper().replace('-', '')"
+                    t-att-codOrgTransport="(carrier.vat or '').upper().replace('RO', '')"
                     t-att-codTaraOrgTransport="get_country_code(carrier.country_id.code)"
                     t-att-denumireOrgTransport="carrier.name"
                     t-att-dataTransport="doc.date.date()"
