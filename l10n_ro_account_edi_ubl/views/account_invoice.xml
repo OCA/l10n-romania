@@ -48,7 +48,7 @@
                     <field name="l10n_ro_show_anaf_download_edi_buton" invisible="1" />
                     <button
                         type="object"
-                        class="oe_link badge bg-primary"
+                        class="oe_link badge btn-primary"
                         icon="fa-cloud-download"
                         string="Download from ANAF"
                         name="l10n_ro_download_zip_anaf"
