@@ -36,7 +36,7 @@ class TestSaleStockPickingValued(TestStockPickingValued):
         self.assertTrue(len(self.sale_order.picking_ids))
         for picking in self.sale_order.picking_ids:
             picking.action_assign()
-            picking.move_lines.quantity_done = 1
+            picking.move_ids.quantity_done = 1
             picking.button_validate()
             self.assertEqual(picking.l10n_ro_amount_untaxed, 100.0)
             self.assertEqual(picking.l10n_ro_amount_tax, 19.0)
@@ -48,7 +48,7 @@ class TestSaleStockPickingValued(TestStockPickingValued):
         self.assertTrue(len(self.sale_order2.picking_ids))
         for picking in self.sale_order2.picking_ids:
             picking.action_assign()
-            picking.move_lines.quantity_done = 1
+            picking.move_ids.quantity_done = 1
             picking.button_validate()
             self.assertEqual(picking.l10n_ro_amount_untaxed, 200.0)
             self.assertEqual(picking.l10n_ro_amount_tax, 38.0)
@@ -59,7 +59,7 @@ class TestSaleStockPickingValued(TestStockPickingValued):
         self.assertTrue(len(self.sale_order.picking_ids))
         for picking in self.sale_order.picking_ids:
             picking.action_assign()
-            picking.move_lines.quantity_done = 2.0
+            picking.move_ids.quantity_done = 2.0
             picking.button_validate()
             self.assertEqual(picking.l10n_ro_amount_untaxed, 200.0)
             self.assertEqual(picking.l10n_ro_amount_tax, 38.0)
