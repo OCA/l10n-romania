@@ -1,6 +1,7 @@
 # Copyright (C) 2022 NextERP Romania
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
+from odoo import fields
 from odoo.tests import tagged
 
 from odoo.addons.l10n_ro_stock_account.tests.common import TestStockCommon
@@ -19,6 +20,24 @@ class TestStockPickingValued(TestStockCommon):
         cls.env.company.l10n_ro_accounting = True
         cls.env.company.l10n_ro_stock_acc_price_diff = True
         company = cls.env.user.company_id
+        # activare momenda RON si EUR
+        cls.currency_eur = cls.env.ref("base.EUR")
+        cls.currency_ron = cls.env.ref("base.RON")
+        cls.currency_eur.active = True
+
+        cls.currency_eur.rate_ids.create(
+            {
+                "name": "2021-01-01",
+                "rate": 4.5,
+                "company_id": cls.env.company.id,
+                "currency_id": cls.currency_ron.id,
+            }
+        )
+
+        # convertesc 1 EUR in RON
+        cls.rate = cls.currency_eur._convert(
+            1, cls.currency_ron, cls.env.company, fields.Date.today()
+        )
         cls.partner = cls.env["res.partner"].create({"name": "Mr. Odoo"})
         cls.sale_order = cls.env["sale.order"].create(
             {
