@@ -10,8 +10,6 @@
     "depends": [
         "l10n_ro_stock_account",
         "base_comment_template",
-        # Add changes from stock_picking_comment_template until it is merged
-        # "stock_picking_comment_template",
     ],
     "data": [
         "data/l10n_ro_stock_picking_comment_template.xml",
@@ -22,7 +20,7 @@
         "security/ir.model.access.csv",
     ],
     "license": "AGPL-3",
-    "version": "15.0.1.2.0",
+    "version": "16.0.0.1.0",
     "author": "NextERP Romania," "Odoo Community Association (OCA)",
     "website": "https://github.com/OCA/l10n-romania",
     "installable": True,
