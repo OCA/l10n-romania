@@ -44,7 +44,7 @@ class StockMoveLine(models.Model):
     )
 
     def _get_move_line_quantity(self):
-        return self.qty_done or self.product_qty
+        return self.qty_done or self.reserved_qty
 
     @api.depends(
         "l10n_ro_sale_line_id",
@@ -83,6 +83,7 @@ class StockMoveLine(models.Model):
                 )
             else:
                 svls = line.move_id.stock_valuation_layer_ids
+
                 svls_lc_not_same_invoice = self.env["stock.valuation.layer"]
                 price_unit = 0
                 if svls:
@@ -131,55 +132,29 @@ class StockMoveLine(models.Model):
                 )
 
     def _get_aggregated_product_quantities(self, **kwargs):
-        def get_aggregated_properties(move_line=False, move=False):
-            move = move or move_line.move_id
-            uom = move.product_uom or move_line.product_uom_id
-            name = move.product_id.display_name
-            description = move.description_picking
-            if description == name or description == move.product_id.name:
-                description = False
-            product = move.product_id
-            line_key = (
-                f'{product.id}_{product.display_name}_{description or ""}_{uom.id}'
-            )
-            return (line_key, name, description, uom)
+        agg_move_lines = super()._get_aggregated_product_quantities(**kwargs)
 
-        aggregated_move_lines = super()._get_aggregated_product_quantities(**kwargs)
-        for aggregated_move_line in aggregated_move_lines:
-            aggregated_move_lines[aggregated_move_line][
+        for aggregated_move_line in agg_move_lines:
+            agg_move_lines[aggregated_move_line][
                 "currency"
             ] = self.env.company.currency_id.id
-            aggregated_move_lines[aggregated_move_line]["l10n_ro_price_unit"] = 0
-            aggregated_move_lines[aggregated_move_line][
-                "l10n_ro_additional_charges"
-            ] = 0
-            aggregated_move_lines[aggregated_move_line][
-                "l10n_ro_additional_charges"
-            ] = 0
-            aggregated_move_lines[aggregated_move_line]["l10n_ro_price_subtotal"] = 0
-            aggregated_move_lines[aggregated_move_line]["l10n_ro_price_tax"] = 0
-            aggregated_move_lines[aggregated_move_line]["l10n_ro_price_total"] = 0
-
+            agg_move_lines[aggregated_move_line]["l10n_ro_price_unit"] = 0
+            agg_move_lines[aggregated_move_line]["l10n_ro_additional_charges"] = 0
+            agg_move_lines[aggregated_move_line]["l10n_ro_price_subtotal"] = 0
+            agg_move_lines[aggregated_move_line]["l10n_ro_price_tax"] = 0
+            agg_move_lines[aggregated_move_line]["l10n_ro_price_total"] = 0
         for move_line in self:
-            line_key, _name, _description, _uom = get_aggregated_properties(
+            aggregated_properties = move_line._get_aggregated_properties(
                 move_line=move_line
             )
-            aggregated_move_lines[line_key][
-                "l10n_ro_currency_id"
-            ] = move_line.l10n_ro_currency_id.id
-            aggregated_move_lines[line_key][
-                "l10n_ro_price_unit"
-            ] += move_line.l10n_ro_price_unit
-            aggregated_move_lines[line_key][
+            line_key = aggregated_properties["line_key"]
+            agg_line = agg_move_lines[line_key]
+            agg_line["l10n_ro_currency_id"] = move_line.l10n_ro_currency_id.id
+            agg_line["l10n_ro_price_unit"] += move_line.l10n_ro_price_unit
+            agg_line[
                 "l10n_ro_additional_charges"
             ] += move_line.l10n_ro_additional_charges
-            aggregated_move_lines[line_key][
-                "l10n_ro_price_subtotal"
-            ] += move_line.l10n_ro_price_subtotal
-            aggregated_move_lines[line_key][
-                "l10n_ro_price_tax"
-            ] += move_line.l10n_ro_price_tax
-            aggregated_move_lines[line_key][
-                "l10n_ro_price_total"
-            ] += move_line.l10n_ro_price_total
-        return aggregated_move_lines
+            agg_line["l10n_ro_price_subtotal"] += move_line.l10n_ro_price_subtotal
+            agg_line["l10n_ro_price_tax"] += move_line.l10n_ro_price_tax
+            agg_line["l10n_ro_price_total"] += move_line.l10n_ro_price_total
+        return agg_move_lines
