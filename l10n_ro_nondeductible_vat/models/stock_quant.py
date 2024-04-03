@@ -26,13 +26,19 @@ class StockQuant(models.Model):
 
     @api.model
     def _get_inventory_fields_create(self):
-        fields = super()._get_inventory_fields_create()
-        return fields + ["l10n_ro_nondeductible_tax_id"]
+        """Returns a list of fields user can edit when he want
+        to create a quant in `inventory_mode`."""
+        res = super()._get_inventory_fields_create()
+        res += ["l10n_ro_nondeductible_tax_id", "is_l10n_ro_record"]
+        return res
 
     @api.model
     def _get_inventory_fields_write(self):
-        fields = super()._get_inventory_fields_write()
-        return fields + ["l10n_ro_nondeductible_tax_id"]
+        """Returns a list of fields user can edit when he want
+        to edit a quant in `inventory_mode`."""
+        res = super()._get_inventory_fields_write()
+        res += ["l10n_ro_nondeductible_tax_id", "is_l10n_ro_record"]
+        return res
 
     def _apply_inventory(self):
         res = super()._apply_inventory()
