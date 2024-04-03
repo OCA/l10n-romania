@@ -22,6 +22,7 @@ class TestNonDeductibleInvoice(TestNondeductibleCommon):
     def test_invoice_cash_basis(self):
         self.make_purchase_notdeductible(fiscal_position=self.fptvainc)
         line = self.invoice.invoice_line_ids[0]
+
         self.assertEqual(line.tax_ids, self.tax_10_nondeductible_cash_basis)
         self.check_no_move_lines(self.account_vat_deductible)
         self.check_account_valuation(50, self.account_expense)

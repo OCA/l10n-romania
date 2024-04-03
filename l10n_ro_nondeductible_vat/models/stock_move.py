@@ -42,6 +42,7 @@ class StockMove(models.Model):
         credit_value,
         debit_account_id,
         credit_account_id,
+        svl_id,
         description,
     ):
         res = super(StockMove, self)._generate_valuation_lines_data(
@@ -51,6 +52,7 @@ class StockMove(models.Model):
             credit_value,
             debit_account_id,
             credit_account_id,
+            svl_id,
             description,
         )
         if self.is_l10n_ro_record:
