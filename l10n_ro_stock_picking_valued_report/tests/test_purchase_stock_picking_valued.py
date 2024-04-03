@@ -102,6 +102,7 @@ class TestPurchaseStockPickingValued(TestStockPickingValued):
                 "qty_done": 2.0,
                 "qty_ordered": 2.0,
                 "product": move_line.product_id,
+                "hs_code": False,
                 "currency": move_line.company_id.currency_id.id,
                 "l10n_ro_price_unit": 450.0,
                 "l10n_ro_additional_charges": 0.0,
