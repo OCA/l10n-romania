@@ -59,7 +59,9 @@ class AccountMove(models.Model):
                     "%s\t\t%s\t\t%s"
                     % (line.debit, line.credit, line.account_id.display_name)
                 )
-            invoice_lines = move.invoice_line_ids.filtered(lambda l: not l.display_type)
+            invoice_lines = move.invoice_line_ids.filtered(
+                lambda l: l.display_type == "product"
+            )
             for line in invoice_lines:
                 valuation_stock_moves = line._l10n_ro_get_valuation_stock_moves()
                 if valuation_stock_moves:
@@ -73,7 +75,6 @@ class AccountMove(models.Model):
                             "l10n_ro_invoice_id": line.move_id.id,
                         }
                     )
-
         return res
 
 
