@@ -36,6 +36,9 @@ class TestNondeductibleCommon(ValuationReconciliationTestCommon):
         cls.account_expense_vat_nondeductible = get_account("635200")
         if not cls.account_expense_vat_nondeductible:
             cls.account_expense_vat_nondeductible = get_account("635100")
+        cls.env.company.l10n_ro_property_uneligible_tax_account_id = (
+            cls.account_expense_vat_nondeductible
+        )
         cls.account_expense = get_account("607000")
         cls.account_expense_nondeductible = cls.account_expense.copy(
             {
@@ -116,7 +119,6 @@ class TestNondeductibleCommon(ValuationReconciliationTestCommon):
                 {
                     "factor_percent": 500,
                     "repartition_type": "tax",
-                    "account_id": cls.account_expense_vat_nondeductible.id,
                     "tag_ids": [(6, 0, [cls.tag_base_nondeductible.id])],
                     "l10n_ro_nondeductible": True,
                 },
@@ -179,7 +181,6 @@ class TestNondeductibleCommon(ValuationReconciliationTestCommon):
                 {
                     "factor_percent": 500,
                     "repartition_type": "tax",
-                    "account_id": cls.account_expense_vat_nondeductible.id,
                     "tag_ids": [(6, 0, [cls.minus_tag_base_nondeductible.id])],
                     "l10n_ro_nondeductible": True,
                 },
@@ -255,7 +256,6 @@ class TestNondeductibleCommon(ValuationReconciliationTestCommon):
                 {
                     "factor_percent": 500,
                     "repartition_type": "tax",
-                    "account_id": cls.account_expense_vat_nondeductible.id,
                     "tag_ids": [(6, 0, [cls.tag_base_nondeductible.id])],
                     "l10n_ro_nondeductible": True,
                     "l10n_ro_skip_cash_basis_account_switch": True,
@@ -320,7 +320,6 @@ class TestNondeductibleCommon(ValuationReconciliationTestCommon):
                 {
                     "factor_percent": 500,
                     "repartition_type": "tax",
-                    "account_id": cls.account_expense_vat_nondeductible.id,
                     "tag_ids": [(6, 0, [cls.minus_tag_base_nondeductible.id])],
                     "l10n_ro_nondeductible": True,
                     "l10n_ro_skip_cash_basis_account_switch": True,
@@ -446,6 +445,22 @@ class TestNondeductibleCommon(ValuationReconciliationTestCommon):
             }
         )
 
+    @classmethod
+    def setup_company_data(cls, company_name, chart_template=None, **kwargs):
+        company_data = super().setup_company_data(
+            company_name, chart_template=chart_template, **kwargs
+        )
+        acc_371 = cls.env["account.account"].search([("code", "=", "371000")], limit=1)
+        if acc_371:
+            company_data.update(
+                {
+                    "default_account_stock_valuation": acc_371,
+                    "default_account_stock_in": acc_371,
+                    "default_account_stock_out": acc_371,
+                }
+            )
+        return company_data
+
     def create_po(self, picking_type_in=None):
 
         if not picking_type_in:
@@ -474,25 +489,26 @@ class TestNondeductibleCommon(ValuationReconciliationTestCommon):
         return po
 
     def create_invoice_notdeductible(self, fiscal_position=False):
+        PurchaseBillUnion = self.env["purchase.bill.union"]
         invoice = Form(
             self.env["account.move"].with_context(
                 default_move_type="in_invoice", default_invoice_date=fields.Date.today()
             )
         )
         invoice.partner_id = self.vendor
-        invoice.purchase_id = self.po
+        invoice.purchase_vendor_bill_id = PurchaseBillUnion.browse(-self.po.id)
         if fiscal_position:
-            self.vendor.vat = "RO39187746"
             self.env["l10n.ro.res.partner.anaf"].create(
                 {
                     "anaf_id": "1",
-                    "vat": self.vendor.l10n_ro_vat_number,
+                    "vat": "39187746",
                     "start_date": fields.Date.today(),
                     "publish_date": fields.Date.today(),
                     "operation_date": fields.Date.today(),
                     "operation_type": "I",
                 }
             )
+            self.vendor.vat = "RO39187746"
             invoice.fiscal_position_id = fiscal_position
         with invoice.invoice_line_ids.edit(0) as invoice_line_form:
             invoice_line_form.account_id = self.account_expense
@@ -506,13 +522,14 @@ class TestNondeductibleCommon(ValuationReconciliationTestCommon):
         _logger.info("Factura introdusa")
 
     def create_invoice(self):
+        PurchaseBillUnion = self.env["purchase.bill.union"]
         invoice = Form(
             self.env["account.move"].with_context(
                 default_move_type="in_invoice", default_invoice_date=fields.Date.today()
             )
         )
         invoice.partner_id = self.vendor
-        invoice.purchase_id = self.po
+        invoice.purchase_vendor_bill_id = PurchaseBillUnion.browse(-self.po.id)
         invoice = invoice.save()
         invoice.action_post()
 
