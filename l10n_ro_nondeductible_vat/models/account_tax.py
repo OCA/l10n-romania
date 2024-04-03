@@ -28,17 +28,3 @@ class AccountTaxExtend(models.Model):
                 )
             else:
                 record.l10n_ro_is_nondeductible = False
-
-
-class AccountTaxRepartitionLineExtend(models.Model):
-    _name = "account.tax.repartition.line"
-    _inherit = ["account.tax.repartition.line", "l10n.ro.mixin"]
-
-    l10n_ro_nondeductible = fields.Boolean(string="Romania - Nondeductible")
-    l10n_ro_exclude_from_stock = fields.Boolean(string="Romania - Exclude From Stock")
-    l10n_ro_skip_cash_basis_account_switch = fields.Boolean(
-        string="Romania - Skip Account Switch (Cash Basis)",
-        help="If checked, then it doesn't change expense account"
-        " in the tax line for invoices, and it set 44283 instead of expense"
-        " account for the journal entry created at payment reconciliation",
-    )
