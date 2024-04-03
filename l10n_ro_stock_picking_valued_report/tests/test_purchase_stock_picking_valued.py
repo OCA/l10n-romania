@@ -8,13 +8,8 @@ from .common import TestStockPickingValued
 @tagged("post_install", "-at_install")
 class TestPurchaseStockPickingValued(TestStockPickingValued):
     def _get_agg_lines_key(self, move_line):
-        name = move_line.product_id.display_name
-        description = move_line.move_id.description_picking
-        if description == name or description == move_line.product_id.name:
-            description = False
-        uom = move_line.product_uom_id
-        product = move_line.product_id
-        line_key = f'{product.id}_{product.display_name}_{description or ""}_{uom.id}'
+        agg_properties = move_line._get_aggregated_properties(move_line=move_line)
+        line_key = agg_properties["line_key"]
         return line_key
 
     def test_01_confirm_order(self):
@@ -60,7 +55,7 @@ class TestPurchaseStockPickingValued(TestStockPickingValued):
         self.assertTrue(len(self.purchase_order2.picking_ids))
         for picking in self.purchase_order2.picking_ids:
             picking.action_assign()
-            picking.move_line_ids.qty_done = 3.0
+            picking.move_ids.quantity_done = 3.0
             picking.button_validate()
             picking._action_done()
             self.assertEqual(picking.l10n_ro_amount_untaxed, 600.0)
@@ -72,7 +67,7 @@ class TestPurchaseStockPickingValued(TestStockPickingValued):
         self.assertTrue(len(self.purchase_order.picking_ids))
         for picking in self.purchase_order.picking_ids:
             picking.action_assign()
-            picking.move_line_ids.qty_done = 2.0
+            picking.move_ids.quantity_done = 2.0
             picking.button_validate()
             picking._action_done()
             self.assertEqual(picking.l10n_ro_amount_untaxed, 200.0)
@@ -86,7 +81,7 @@ class TestPurchaseStockPickingValued(TestStockPickingValued):
         self.assertTrue(len(self.purchase_order.picking_ids))
         for picking in self.purchase_order.picking_ids:
             picking.action_assign()
-            picking.move_line_ids.qty_done = 2.0
+            picking.move_ids.quantity_done = 2.0
             picking.button_validate()
             picking._action_done()
             self.assertEqual(picking.l10n_ro_amount_untaxed, 900.0)
@@ -99,14 +94,14 @@ class TestPurchaseStockPickingValued(TestStockPickingValued):
         exp = {
             "%s"
             % line_key: {
+                "line_key": line_key,
                 "name": move_line.product_id.name,
                 "description": False,
+                "product_uom": move_line.product_id.uom_id,
+                "move": move_line.move_id,
                 "qty_done": 2.0,
                 "qty_ordered": 2.0,
-                "product_uom": move_line.product_id.uom_id.name,
-                "product_uom_rec": move_line.product_id.uom_id,
                 "product": move_line.product_id,
-                "hs_code": False,
                 "currency": move_line.company_id.currency_id.id,
                 "l10n_ro_price_unit": 450.0,
                 "l10n_ro_additional_charges": 0.0,
@@ -127,7 +122,7 @@ class TestPurchaseStockPickingValued(TestStockPickingValued):
         # proceseaza picking
         picking = self.purchase_order.picking_ids
         picking.action_assign()
-        picking.move_line_ids.qty_done = 1.0
+        picking.move_ids.quantity_done = 1.0
         picking.button_validate()
         picking._action_done()
 
@@ -166,7 +161,6 @@ class TestPurchaseStockPickingValued(TestStockPickingValued):
         # verifica valori price_unit si additional_charges
         move_line = self.purchase_order.picking_ids.move_line_ids
         agg_lines = move_line._get_aggregated_product_quantities()
-
         line_key = self._get_agg_lines_key(move_line)
         self.assertEqual(agg_lines[line_key]["l10n_ro_price_unit"], 110.0)
         self.assertEqual(agg_lines[line_key]["l10n_ro_additional_charges"], 20.0)
