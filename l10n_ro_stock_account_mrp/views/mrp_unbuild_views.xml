@@ -3,7 +3,6 @@
         <field name="name">l10n.ro.mrp.unbuild.view.inherited</field>
         <field name="model">mrp.unbuild</field>
         <field name="inherit_id" ref="mrp.mrp_unbuild_form_view" />
-        <field name="groups_id" eval="[(4, ref('stock.group_stock_manager'))]" />
         <field name="arch" type="xml">
             <xpath expr="//field[@name='product_id']" position="before">
                 <field name="l10n_ro_show_valuation" invisible="1" />
@@ -15,7 +14,7 @@
                     name="action_l10n_ro_view_stock_valuation_layers"
                     class="oe_stat_button"
                     icon="fa-dollar"
-                    groups="base.group_no_one"
+                    groups="stock.group_stock_manager"
                     attrs="{'invisible': [('l10n_ro_show_valuation', '=', False)]}"
                 />
             </xpath>
