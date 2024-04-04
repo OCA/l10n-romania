@@ -3,6 +3,7 @@
 import logging
 
 from odoo import api, fields, models
+from odoo.tools.safe_eval import safe_eval
 
 _logger = logging.getLogger(__name__)
 
@@ -35,3 +36,19 @@ class StockPicking(models.Model):
                     {"l10n_ro_mean_transp": l10n_ro_mean_transp}
                 )
         return super().write(vals)
+
+    @api.depends("picking_type_id")
+    def _compute_comment_template_ids(self):
+        res = super()._compute_comment_template_ids()
+        for record in self.filtered(lambda r: not r.comment_template_ids):
+            templates = self.env["base.comment.template"].search(
+                [
+                    ("partner_ids", "=", False),
+                    ("models", "=", self._name),
+                ]
+            )
+            for template in templates:
+                domain = safe_eval(template.domain)
+                if not domain or record.filtered_domain(domain):
+                    record.comment_template_ids = [(4, template.id)]
+        return res
