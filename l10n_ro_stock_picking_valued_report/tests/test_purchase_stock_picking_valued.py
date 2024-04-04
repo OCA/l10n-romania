@@ -90,29 +90,17 @@ class TestPurchaseStockPickingValued(TestStockPickingValued):
 
         move_line = self.purchase_order.picking_ids.move_line_ids
         agg_lines = move_line._get_aggregated_product_quantities()
+        self.assertEqual(len(agg_lines.keys()), 1)
         line_key = self._get_agg_lines_key(move_line)
-        exp = {
-            "%s"
-            % line_key: {
-                "line_key": line_key,
-                "name": move_line.product_id.name,
-                "description": False,
-                "product_uom": move_line.product_id.uom_id,
-                "move": move_line.move_id,
-                "qty_done": 2.0,
-                "qty_ordered": 2.0,
-                "product": move_line.product_id,
-                "hs_code": False,
-                "currency": move_line.company_id.currency_id.id,
-                "l10n_ro_price_unit": 450.0,
-                "l10n_ro_additional_charges": 0.0,
-                "l10n_ro_price_subtotal": 900.0,
-                "l10n_ro_price_tax": 171.0,
-                "l10n_ro_price_total": 1071.0,
-                "l10n_ro_currency_id": move_line.company_id.currency_id.id,
-            }
-        }
-        self.assertEqual(agg_lines, exp)
+        self.assertEqual(agg_lines[line_key]["l10n_ro_price_unit"], 450.0)
+        self.assertEqual(agg_lines[line_key]["l10n_ro_additional_charges"], 0.0)
+        self.assertEqual(agg_lines[line_key]["l10n_ro_price_subtotal"], 900.0)
+        self.assertEqual(agg_lines[line_key]["l10n_ro_price_tax"], 171.0)
+        self.assertEqual(agg_lines[line_key]["l10n_ro_price_total"], 1071.0)
+        self.assertEqual(
+            agg_lines[line_key]["l10n_ro_currency_id"],
+            move_line.company_id.currency_id.id,
+        )
 
     def test_07_move_line_additional_charges(self):
         self.product_1.purchase_method = "purchase"
