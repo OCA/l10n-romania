@@ -21,8 +21,9 @@
             <h2>
                 <span>Delivery Order</span>
             </h2>
+
             <t t-if="object.picking_type_code == 'internal'">
-                <table t-if="{{object.picking_type_code}} == 'internal'" class="table table-condensed">
+                <table class="table table-condensed">
                     <thead>
                         <tr>
                             <th>
@@ -36,15 +37,16 @@
                     <tbody>
                         <tr>
                             <td>
-                                {{object.location_id.name}}
+                                <t t-out="object.location_id.name"/>
                             </td>
                             <td>
-                                {{object.location_dest_id.name}}
+                                <t t-out="object.location_dest_id.name"/>
                             </td>
                         </tr>
                     </tbody>
                 </table>
-            </t>]]>
+            </t>
+            ]]>
         </field>
     </record>
 
@@ -77,13 +79,13 @@
                 <tbody>
                     <tr>
                         <td>
-                            <span>Name:  {{user.name}}</span>
+                            <span>Name: <t t-esc="user.name"/></span>
                         </td>
                         <td>
-                            <div><span>Delegate: {{object.l10n_ro_delegate_id.name if object.l10n_ro_delegate_id else '.'*100 }}</span><br/></div>
-                            <div><span>B.I./C.I.: {{'.'*100}}</span><br/></div>
-                            <div><span>Mean Transport:  {{object.l10n_ro_mean_transp or "."*50}}</span><br/></div>
-                            <div><span>Date: {{'.'*40}} Hour: {{'.'*20}}</span><br/></div>
+                            <div><span>Delegate: <t t-esc="object.l10n_ro_delegate_id.name if object.l10n_ro_delegate_id else '.'*100"/></span><br/></div>
+                            <div><span>B.I./C.I.: <t t-esc="'.'*100"/></span><br/></div>
+                            <div><span>Mean Transport: <t t-esc="object.l10n_ro_mean_transp or '.'*50"/></span><br/></div>
+                            <div><span>Date: <t t-esc="'.'*40"/> Hour: <t t-esc="'.'*20"/></span><br/></div>
                         </td>
                         <td> </td>
                     </tr>
@@ -106,12 +108,12 @@
         ><![CDATA[
             <h2><span>Reception Note and Differences</span></h2>
             <span>The undersigned, members of the reception commission, I received the material values provided by:
-            {{object.partner_id.name}},
-            delegate: {{object.l10n_ro_delegate_id.name if object.l10n_ro_delegate_id else '.'*60 }},
-            car no.: {{object.l10n_ro_mean_transp or "."*32}},
-            based on the accompanying documents:  {{object.purchase_id.partner_ref+'; ' if object.purchase_id.partner_ref else  ''}}
-                                                 {{object.purchase_id.invoice_ids[0].name if object.purchase_id.invoice_ids else  ''}}
-                                                 {{'' if  object.purchase_id.invoice_ids or  object.purchase_id.partner_ref else  '.'*60}} , noting:
+            <t t-esc="object.partner_id.name"/>,
+            delegate: <t t-esc="object.l10n_ro_delegate_id.name if object.l10n_ro_delegate_id else '.'*60"/>,
+            car no.: <t t-esc="object.l10n_ro_mean_transp or '.'*32"/>,
+            based on the accompanying documents: <t t-esc="object.purchase_id.partner_ref+'; ' if object.purchase_id.partner_ref else  ''"/>
+                                                 <t t-esc="object.purchase_id.invoice_ids[0].name if object.purchase_id.invoice_ids else  ''"/>
+                                                 <t t-esc="'' if  object.purchase_id.invoice_ids or  object.purchase_id.partner_ref else  '.'*60"/>, noting:
                                     </span>]]>
         </field>
     </record>
@@ -151,7 +153,7 @@
                             </p>
                         </td>
                         <td>
-                            <span>{{user.name}}</span>
+                            <span><t t-esc="user.name"/></span>
                         </td>
                         <td>
                             <p>
@@ -229,7 +231,7 @@
                 <tbody>
                     <tr>
                         <td>
-                            <span>Name:  {{user.name}}</span>
+                            <span>Name: <t t-esc="user.name"/></span>
                         </td>
                         <td>
                         </td>
@@ -268,7 +270,7 @@
                 <tbody>
                     <tr>
                         <td>
-                            <span>Name:  {{user.name}}</span>
+                            <span>Name: <t t-esc="user.name"/></span>
                         </td>
                         <td>
                         </td>
