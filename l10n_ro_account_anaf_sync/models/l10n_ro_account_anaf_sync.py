@@ -6,7 +6,6 @@ from datetime import datetime
 
 import jwt
 import requests
-from werkzeug.urls import url_encode
 
 from odoo import _, fields, models
 from odoo.exceptions import UserError
@@ -95,21 +94,10 @@ class AccountANAFSync(models.Model):
             raise UserError(
                 _("You already have an ANAF access token. Please revoke it first.")
             )
-
-        # Construiește URL-ul de autorizare
-        param = {
-            "anaf_oauth_url": self.anaf_oauth_url,
-            "client_id": self.client_id,
-            "redirect_uri": self.anaf_callback_url,
-            "response_type": "code",
-        }
-
-        authorization_url = f"{self.anaf_oauth_url}/authorize?{url_encode(param)}"
-
-        # Redirectează utilizatorul către URL-ul de autorizare
+        return_url = "/l10n_ro_account_anaf_sync/redirect_anaf/%s" % self.id
         return {
             "type": "ir.actions.act_url",
-            "url": authorization_url,
+            "url": "%s" % return_url,
             "target": "new",
         }
 
