@@ -100,7 +100,7 @@ class AccountANAFSyncWeb(http.Controller):
         "Returns a text with the result of anaf request from redirect"
         uid = request.uid
         user = request.env["res.users"].browse(uid)
-        datetime.now()
+
         ANAF_Configs = request.env["l10n.ro.account.anaf.sync"].sudo()
         anaf_config = ANAF_Configs.browse(anaf_config_id)
 
