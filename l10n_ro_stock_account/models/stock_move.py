@@ -204,13 +204,6 @@ class StockMove(models.Model):
                         svls |= move._l10n_ro_create_track_svl([svl_vals])
         return svls
 
-    def _is_returned(self, valued_type):
-        """Este tot timpul False deoarece noi tratam fiecare caz in parte
-        de retur si fxam conturile"""
-        if not self.is_l10n_ro_record:
-            return super()._is_returned(valued_type)
-        return False
-
     # evaluare la receptie - in mod normal nu se
     def _is_reception(self):
         """Este receptie in stoc fara aviz"""
