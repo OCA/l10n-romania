@@ -134,6 +134,13 @@ class ResCompany(models.Model):
         string="Restrict Stock Move Date Future",
         help="Restrict stock move posting with future date.",
     )
+    l10n_ro_nondeductible_account_id = fields.Many2one(
+        "account.account",
+        string="Romania - Non Deductible Expense Account",
+        help="This account will be used as the default non deductible expense account from "
+        "tax repartition lines marked as not deductible. If the line account does not have "
+        "a non deductible account set, this account will be used.",
+    )
 
     def _check_is_l10n_ro_record(self, company=False):
         if not company:
