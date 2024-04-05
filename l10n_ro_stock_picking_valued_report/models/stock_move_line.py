@@ -94,8 +94,6 @@ class StockMoveLine(models.Model):
                                 s.stock_landed_cost_id
                                 and s.stock_landed_cost_id.l10n_ro_cost_type == "normal"
                                 and s.stock_landed_cost_id.vendor_bill_id
-                                and s.stock_landed_cost_id.vendor_bill_id
-                                != svls[0].l10n_ro_invoice_id
                             )
                         )
                         svls = svls - svls_lc_not_same_invoice
@@ -109,7 +107,9 @@ class StockMoveLine(models.Model):
                 line.l10n_ro_additional_charges = sum(
                     svls_lc_not_same_invoice.mapped("value")
                 )
-                line.l10n_ro_price_subtotal = move_qty * line.l10n_ro_price_unit
+                line.l10n_ro_price_subtotal = (
+                    move_qty * line.l10n_ro_price_unit + line.l10n_ro_additional_charges
+                )
                 line.l10n_ro_price_tax = 0
                 if line.l10n_ro_purchase_line_id and svls:
                     price_tax = (
