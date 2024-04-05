@@ -4,7 +4,10 @@
 import logging
 from datetime import timedelta
 
+from dateutil.relativedelta import relativedelta
+
 from odoo import fields
+from odoo.exceptions import UserError
 from odoo.tests import tagged
 
 from odoo.addons.l10n_ro_stock_account.tests.common import TestStockCommon
@@ -70,3 +73,34 @@ class TestStockAccountDate(TestStockCommon):
             acc_date,
         )
         self.assertEqual(stock_move.account_move_ids.date, acc_date)
+
+    def test_stock_date_restriction(self):
+        self.set_stock(self.product_mp, 1000)
+        location_id = self.picking_type_transfer.default_location_src_id
+        location_dest_id = self.picking_type_transfer.default_location_dest_id.copy(
+            {"l10n_ro_property_stock_valuation_account_id": self.account_valuation.id}
+        )
+        # Restrict date to last month
+        self.env.company.l10n_ro_restrict_stock_move_date_last_month = True
+        acc_date = fields.Date.today() + relativedelta(months=-2)
+        with self.assertRaises(UserError):
+            self.transfer(location_id, location_dest_id, accounting_date=acc_date)
+
+        # Restrict date to last month current month future
+        self.env.company.l10n_ro_restrict_stock_move_date_last_month = True
+        acc_date = fields.Date.today() + relativedelta(months=1)
+        with self.assertRaises(UserError):
+            self.transfer(location_id, location_dest_id, accounting_date=acc_date)
+
+        # Restrict date to future
+        self.env.company.l10n_ro_restrict_stock_move_date_future = True
+        acc_date = fields.Date.today() + timedelta(days=1)
+        with self.assertRaises(UserError):
+            self.transfer(location_id, location_dest_id, accounting_date=acc_date)
+
+        # Restrict date to future allow last month
+        acc_date = fields.Date.today() + relativedelta(months=-1)
+        self.transfer(location_id, location_dest_id, accounting_date=acc_date)
+        # Restrict date to future allow current day
+        acc_date = fields.Date.today()
+        self.transfer(location_id, location_dest_id, accounting_date=acc_date)
