@@ -20,7 +20,7 @@
         "security/ir.model.access.csv",
     ],
     "license": "AGPL-3",
-    "version": "16.0.0.2.0",
+    "version": "16.0.0.3.0",
     "author": "NextERP Romania," "Odoo Community Association (OCA)",
     "website": "https://github.com/OCA/l10n-romania",
     "installable": True,
