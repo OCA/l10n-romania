@@ -42,10 +42,10 @@
                     t-att-codOrgTransport="(carrier.vat or '').upper().replace('RO', '')"
                     t-att-codTaraOrgTransport="get_country_code(carrier.country_id.code)"
                     t-att-denumireOrgTransport="carrier.name"
-                    t-att-dataTransport="doc.date.date()"
+                    t-att-dataTransport="doc.scheduled_date.date()"
                 />
                 <locStartTraseuRutier
-                    t-if="doc.l10n_ro_e_transport_operation_type_id.code != 'import'"
+                    t-if="doc.l10n_ro_e_transport_operation_type_id.usage != 'import'"
                 >
                     <locatie
                         t-att-codJudet="doc.company_id.state_id and STATE_CODES[doc.company_id.state_id.code]"
