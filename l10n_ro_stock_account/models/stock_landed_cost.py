@@ -6,6 +6,7 @@ from collections import defaultdict
 from odoo import _, fields, models
 from odoo.exceptions import UserError
 from odoo.tools.float_utils import float_is_zero
+from odoo.tools.safe_eval import safe_eval
 
 
 class StockLandedCost(models.Model):
@@ -102,9 +103,8 @@ class StockLandedCost(models.Model):
             products = self.env["product.product"].browse(
                 p.id for p in cost_to_add_byproduct.keys()
             )
-            for (
-                product
-            ) in products:  # iterate on recordset to prefetch efficiently quantity_svl
+            # iterate on recordset to prefetch efficiently quantity_svl
+            for product in products:
                 if not float_is_zero(
                     product.quantity_svl, precision_rounding=product.uom_id.rounding
                 ):
@@ -121,6 +121,14 @@ class StockLandedCost(models.Model):
     def l10n_ro_distribute_cost_propagate(
         self, line, svls, cost_to_add_byproduct, cost_to_add=0, propagate=False
     ):
+        get_param = self.env["ir.config_parameter"].sudo().get_param
+        stop = get_param(
+            "l10n_ro_stock_account.stop_distribute_cost_propagate", "False"
+        )
+        stop = safe_eval(stop)
+        if stop:
+            return True
+
         for svl in svls.filtered(lambda s: s.quantity != 0):
             # Add distributed cost for each stock valuation layer.
             cost_to_add_byproduct, svl_cost_to_add = self.l10n_ro_distribute_cost(
