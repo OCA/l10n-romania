@@ -35,17 +35,17 @@
                                 <field
                                 name="l10n_ro_e_transport_customs_id"
                                 string="Border crossing point"
-                                attrs="{'readonly': [('state', 'not in', ('draft', 'nok'))]}"
+                                attrs="{'readonly': [('l10n_ro_e_transport_status', 'not in', ('draft', 'nok'))]}"
                             />
                                 <field
                                 name="l10n_ro_e_transport_operation_type_id"
                                 string="Operation Type"
-                                attrs="{'readonly': [('state', 'not in', ('draft', 'nok'))]}"
+                                attrs="{'readonly': [('l10n_ro_e_transport_status', 'not in', ('draft', 'nok'))]}"
                             />
                                  <field
                                 name="l10n_ro_e_transport_scope_id"
                                 string="Scope"
-                                attrs="{'readonly': [('state', 'not in', ('draft', 'nok'))]}"
+                                attrs="{'readonly': [('l10n_ro_e_transport_status', 'not in', ('draft', 'nok'))]}"
                             />
                             </group>
                             <group string="Status">
