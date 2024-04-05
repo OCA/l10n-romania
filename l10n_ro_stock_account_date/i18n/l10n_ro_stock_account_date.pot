@@ -20,6 +20,22 @@ msgid "Accounting Date"
 msgstr ""
 
 #. module: l10n_ro_stock_account_date
+#. odoo-python
+#: code:addons/l10n_ro_stock_account_date/models/stock_move.py:0
+#, python-format
+msgid "Cannot validate stock move due to account date restriction."
+msgstr ""
+
+#. module: l10n_ro_stock_account_date
+#. odoo-python
+#: code:addons/l10n_ro_stock_account_date/models/stock_move.py:0
+#, python-format
+msgid ""
+"Cannot validate stock move due to date restriction.The date must be between "
+"%(first_posting_date)s and %(last_posting_date)s"
+msgstr ""
+
+#. module: l10n_ro_stock_account_date
 #: model:ir.model.fields,field_description:l10n_ro_stock_account_date.field_stock_valuation_layer__create_uid
 msgid "Created by"
 msgstr ""
