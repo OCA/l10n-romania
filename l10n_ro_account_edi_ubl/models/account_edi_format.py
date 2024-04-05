@@ -134,12 +134,23 @@ class AccountEdiXmlCIUSRO(models.Model):
                 invoice.message_post(body=res[invoice]["error"])
                 message = _("There are some errors when generating the XMl file.")
                 body = message + _("\n\nError:\n<p>%s</p>") % res[invoice]["error"]
-                invoice.activity_schedule(
-                    "mail.mail_activity_data_warning",
-                    summary=message,
-                    note=body,
-                    user_id=invoice.invoice_user_id.id,
-                )
+
+                model_id = self.env["ir.model"]._get(invoice._name).id
+                domain = [
+                    ("res_model_id", "=", model_id),
+                    ("res_id", "=", invoice.id),
+                    ("summary", "=", body),
+                ]
+                mail_activity = self.env["mail.activity"].search(domain)
+                if mail_activity:
+                    mail_activity.write({"date_deadline": fields.Date.today()})
+                else:
+                    invoice.activity_schedule(
+                        "mail.mail_activity_data_warning",
+                        summary=message,
+                        note=body,
+                        user_id=invoice.invoice_user_id.id,
+                    )
                 continue
             res[invoice] = {"attachment": attachment, "success": True}
 
