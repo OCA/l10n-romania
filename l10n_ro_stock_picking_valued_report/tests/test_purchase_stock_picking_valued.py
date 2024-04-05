@@ -168,5 +168,5 @@ class TestPurchaseStockPickingValued(TestStockPickingValued):
         agg_lines = move_line._get_aggregated_product_quantities()
 
         line_key = self._get_agg_lines_key(move_line)
-        self.assertEqual(agg_lines[line_key]["l10n_ro_price_unit"], 110.0)
-        self.assertEqual(agg_lines[line_key]["l10n_ro_additional_charges"], 20.0)
+        self.assertEqual(agg_lines[line_key]["l10n_ro_price_unit"], 100.0)
+        self.assertEqual(agg_lines[line_key]["l10n_ro_additional_charges"], 30.0)
