@@ -3,21 +3,20 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
 
-from odoo import api, models
+from odoo import models
 
 
 class AccountMove(models.Model):
     _name = "account.move"
     _inherit = ["account.move", "l10n.ro.mixin"]
 
-    @api.depends("move_type")
     def _compute_is_storno(self):
         res = super()._compute_is_storno()
-        for move in self:
-            if (
-                move.company_id.account_storno
-                and move.company_id.l10n_ro_accounting
-                and move.move_type == "entry"
-            ):
-                move.is_storno = True
+        moves = self.filtered(
+            lambda m: m.company_id.l10n_ro_accounting
+            and m.company_id.account_storno
+            and m.move_type == "entry"
+            and self.env.context.get("default_move_type") == "entry"
+        )
+        moves.is_storno = True
         return res
