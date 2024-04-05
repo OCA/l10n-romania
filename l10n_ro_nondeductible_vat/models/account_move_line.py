@@ -22,11 +22,11 @@ class AccountMoveLine(models.Model):
             new_account = line.account_id
             # Set the account to the non deductible account or the
             # company non deductible account
-            if (
-                tax_rep_line.l10n_ro_nondeductible
-                and line.account_id.l10n_ro_nondeductible_account_id
-            ):
-                new_account = line.account_id.l10n_ro_nondeductible_account_id
+            if tax_rep_line.l10n_ro_nondeductible:
+                if company.l10n_ro_nondeductible_account_id:
+                    new_account = company.l10n_ro_nondeductible_account_id
+                if line.account_id.l10n_ro_nondeductible_account_id:
+                    new_account = line.account_id.l10n_ro_nondeductible_account_id
             # Use company cash basis base account not to increase balances
             # of invoice accounts
             if (
