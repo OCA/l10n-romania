@@ -79,7 +79,13 @@ class CiusRoTestSetup(AccountEdiTestCommon, CronMixinCase):
             }
         )
         if "street_name" in cls.partner._fields:
-            cls.partner.write({"street_name": "Nr. 383", "street": "Foeni Nr. 383"})
+            cls.partner.write(
+                {
+                    "street_name": "Foeni",
+                    "street_number": "Nr. 383",
+                    "street": "Foeni Nr. 383",
+                }
+            )
 
         cls.partner.l10n_ro_is_government_institution = True
 
