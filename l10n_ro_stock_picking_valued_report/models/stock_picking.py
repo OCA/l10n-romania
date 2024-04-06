@@ -36,9 +36,9 @@ class StockPicking(models.Model):
 
     def _compute_l10n_ro_is_internal(self):
         for pick in self:
-            pick.l10n_ro_is_internal = pick.move_lines and not (
-                pick.move_lines.mapped("sale_line_id")
-                or pick.move_lines.mapped("purchase_line_id")
+            pick.l10n_ro_is_internal = pick.move_ids and not (
+                pick.move_ids.mapped("sale_line_id")
+                or pick.move_ids.mapped("purchase_line_id")
             )
 
     @api.depends(
