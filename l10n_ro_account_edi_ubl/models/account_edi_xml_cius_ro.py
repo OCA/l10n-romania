@@ -70,7 +70,7 @@ class AccountEdiXmlCIUSRO(models.Model):
     def _get_invoice_tax_totals_vals_list(self, invoice, taxes_vals):
         balance_sign = 1
         if (
-            invoice.move_type == "out_refund"
+            invoice.move_type in ["out_refund", "in_refund"]
             and invoice.company_id.l10n_ro_credit_note_einvoice
         ):
             balance_sign = -balance_sign
@@ -118,7 +118,7 @@ class AccountEdiXmlCIUSRO(models.Model):
     def _get_invoice_line_vals(self, line, taxes_vals):
         res = super()._get_invoice_line_vals(line, taxes_vals)
         if (
-            line.move_id.move_type == "out_refund"
+            line.move_id.move_type in ["out_refund", "in_refund"]
             and line.company_id.l10n_ro_credit_note_einvoice
         ):
             if res.get("invoiced_quantity", 0):
@@ -167,7 +167,7 @@ class AccountEdiXmlCIUSRO(models.Model):
             val["id"] = index
             index += 1
         if (
-            invoice.move_type == "out_refund"
+            invoice.move_type in ["out_refund", "in_refund"]
             and invoice.company_id.l10n_ro_credit_note_einvoice
         ):
             if vals_list["vals"].get("legal_monetary_total_vals"):
@@ -187,7 +187,26 @@ class AccountEdiXmlCIUSRO(models.Model):
                 vals_list["vals"]["legal_monetary_total_vals"]["payable_amount"] = (
                     -1
                 ) * vals_list["vals"]["legal_monetary_total_vals"]["payable_amount"]
-
+        if (
+            invoice.journal_id.l10n_ro_sequence_type == "autoinv2"
+            and invoice.journal_id.l10n_ro_partner_id
+        ):
+            customer = vals_list.get(
+                "customer", invoice.company_id.partner_id.commercial_partner_id
+            )
+            vals_list["customer"] = vals_list["supplier"]
+            vals_list["supplier"] = customer
+            customer_vals = vals_list["vals"]["accounting_customer_party_vals"]
+            vals_list["vals"]["accounting_customer_party_vals"] = vals_list["vals"][
+                "accounting_supplier_party_vals"
+            ]
+            vals_list["vals"]["accounting_supplier_party_vals"] = customer_vals
+        if invoice.move_type in ("out_invoice", "in_invoice"):
+            vals_list["main_template"] = "account_edi_ubl_cii.ubl_20_Invoice"
+            vals_list["vals"]["invoice_type_code"] = 380
+        else:
+            vals_list["main_template"] = "account_edi_ubl_cii.ubl_20_CreditNote"
+            vals_list["vals"]["credit_note_type_code"] = 381
         return vals_list
 
     def _export_invoice_constraints(self, invoice, vals):
