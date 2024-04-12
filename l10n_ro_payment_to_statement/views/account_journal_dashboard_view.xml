@@ -9,10 +9,10 @@
                 position="inside"
             >
                 <div class="row">
-                    <div class="col overflow-hidden text-left">
+                    <div class="col overflow-hidden text-start">
                         <span title="Transfer">Transfer</span>
                     </div>
-                    <div class="col-auto text-right">
+                    <div class="col-auto text-end">
                         <span>
                             <t t-esc="dashboard.account_transfer_balance" />
                         </span>

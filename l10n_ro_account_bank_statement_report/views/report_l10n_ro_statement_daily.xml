@@ -51,7 +51,7 @@
                                     </strong>
                                 </h5>
                             </div>
-                            <div class="col-2 text-right">
+                            <div class="col-2 text-end">
                                 <div class="row">
                                     <span>Account</span>
                                 </div>
@@ -98,7 +98,7 @@
                                 <td style="border: 1px solid black;" colspan="2">
                                     <strong>Starting Balance</strong>
                                 </td>
-                                <td style="border: 1px solid black;" class="text-right">
+                                <td style="border: 1px solid black;" class="text-end">
                                     <strong>
                                         <span t-field="o.balance_start" />
                                     </strong>
@@ -141,7 +141,7 @@
                                     </td>
                                     <td
                                         style="border: 1px solid black;"
-                                        class="text-right"
+                                        class="text-end"
                                     >
                                         <t t-if="line.amount&gt;0">
                                             <span
@@ -162,7 +162,7 @@
                                     </td>
                                     <td
                                         style="border: 1px solid black;"
-                                        class="text-right"
+                                        class="text-end"
                                     >
                                         <t t-if="line.amount&lt;0">
                                             <span
@@ -183,7 +183,7 @@
                                     </td>
                                     <td
                                         style="border: 1px solid black;"
-                                        class="text-right"
+                                        class="text-end"
                                         t-if="with_currency"
                                     >
                                         <span
@@ -198,13 +198,13 @@
                                 <td style="border: 1px solid black;" colspan="2">
                                     <strong>Total Balance</strong>
                                 </td>
-                                <td style="border: 1px solid black;" class="text-right">
+                                <td style="border: 1px solid black;" class="text-end">
                                     <strong
                                         t-esc="total_received"
                                         t-options='{"widget": "monetary", "display_currency": o.currency_id}'
                                     />
                                 </td>
-                                <td style="border: 1px solid black;" class="text-right">
+                                <td style="border: 1px solid black;" class="text-end">
                                     <strong
                                         t-esc="total_paid"
                                         t-options='{"widget": "monetary", "display_currency": o.currency_id}'
@@ -219,7 +219,7 @@
                                 <td style="border: 1px solid black;" colspan="2">
                                     <strong>Ending Balance</strong>
                                 </td>
-                                <td style="border: 1px solid black;" class="text-right">
+                                <td style="border: 1px solid black;" class="text-end">
                                     <strong>
                                         <span t-field="o.balance_end_real" />
                                     </strong>
@@ -255,7 +255,7 @@
                             </div>
                             <div class="col-6 text-center">
                             </div>
-                            <div class="col-2 text-right">
+                            <div class="col-2 text-end">
                                 <ul class="list-inline">
                                     <li class="list-inline-item">
                                         <span class="page" />
