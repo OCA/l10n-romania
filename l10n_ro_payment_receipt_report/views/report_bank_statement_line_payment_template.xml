@@ -4,7 +4,7 @@
         <t t-call="web.external_layout">
             <t t-set="o" t-value="o.with_context(lang=lang)" />
             <div class="page">
-                <div class="row mt64 pull-right">
+                <div class="row mt64 fa-pull-right">
                     <div class="col-12">
                         <t t-if="o.amount&gt;0">
                             <strong>Payment Reception:

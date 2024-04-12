@@ -5,11 +5,8 @@
         <t t-call="web.external_layout">
             <t t-set="o" t-value="o.with_context(lang=lang)" />
             <div class="page">
-                <!-- DO NOT remove the 3 <br/> from below because the next row won't be visible anymore-->
                 <br />
-                <br />
-                <br />
-                <div class="row mt64 pull-right">
+                <div class="row mt64 fa-pull-right">
                     <div class="col-12">
                         <t t-if="o.reconciled_invoice_ids">
                             <strong>Payment Receipt:
@@ -31,6 +28,7 @@
                         </t>
                     </div>
                 </div>
+                <div class="clearfix" />
                 <div class="row">
                     <div class="col-8">
 
