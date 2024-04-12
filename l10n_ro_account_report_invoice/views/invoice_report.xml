@@ -131,7 +131,7 @@
             <t t-set="o" t-value="o or sale_order or doc" />
             <t t-if="o._name == 'account.move' and o.is_l10n_ro_record">
                 <td
-                    class="text-right"
+                    class="text-end"
                     t-if="o and o.currency_id != o.company_id.currency_id"
                 >
                     <span
@@ -145,7 +145,7 @@
             <t t-set="o" t-value="o or sale_order or doc" />
             <t t-if="o._name == 'account.move' and o.is_l10n_ro_record">
                 <td
-                    class="text-right"
+                    class="text-end"
                     t-if="o and o.currency_id != o.company_id.currency_id"
                 >
                     <span
@@ -163,7 +163,7 @@
         <xpath expr="//t/tr/t/td[1]" position="after">
             <t t-if="o._name == 'account.move' and o.is_l10n_ro_record">
                 <td
-                    class="text-right"
+                    class="text-end"
                     t-if="o and o.currency_id != o.company_id.currency_id"
                 >
                     <span
@@ -176,7 +176,7 @@
         <xpath expr="//t/tr/t[@t-else='']/td[1]" position="after">
             <t t-if="o._name == 'account.move' and o.is_l10n_ro_record">
                 <td
-                    class="text-right"
+                    class="text-end"
                     t-if="o and o.currency_id != o.company_id.currency_id"
                 >
                     <t
