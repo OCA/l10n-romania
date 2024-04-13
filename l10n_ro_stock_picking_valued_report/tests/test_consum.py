@@ -18,7 +18,10 @@ class TestStockConsumn(TestStockPickingValued):
         location_dest_id = self.picking_type_transfer.default_location_dest_id
         _logger.info("Start transfer")
         self.transfer(location_id, location_dest_id)
+
         picking = self.picking
+        self.assertEqual(picking.l10n_ro_is_internal, True)
+
         _logger.info("Tranfer efectuat")
         self.assertEqual(picking.l10n_ro_amount_untaxed, 100.0)
         self.assertEqual(picking.l10n_ro_amount_tax, 0.0)
