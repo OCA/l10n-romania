@@ -13,9 +13,9 @@ class AccountMove(models.Model):
         for invoice in self:
             currency_rate = 1
             if (
-                invoice.is_l10n_ro_record and
-                invoice.currency_id and
-                invoice.currency_id != invoice.company_id.currency_id
+                invoice.is_l10n_ro_record
+                and invoice.currency_id
+                and invoice.currency_id != invoice.company_id.currency_id
             ):
                 currency_rate = self.env["res.currency"]._get_conversion_rate(
                     invoice.currency_id,
