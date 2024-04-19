@@ -229,6 +229,13 @@ msgstr "Stare"
 #. odoo-python
 #: code:addons/l10n_ro_etransport/models/stock_picking.py:0
 #, python-format
+msgid "The document is not ok. Errors: %s"
+msgstr ""
+
+#. module: l10n_ro_etransport
+#. odoo-python
+#: code:addons/l10n_ro_etransport/models/stock_picking.py:0
+#, python-format
 msgid "The document was in processing at %s."
 msgstr "Documentul era în procesare la %s."
 
