@@ -104,14 +104,12 @@ class StockPicking(models.Model):
             return country_code
 
         def get_instastat_code(product):
-            intrastat_code = False
-            if "intrastat_id" in product._fields:
-                intrastat_code = product.intrastat_id.code
-            else:
-                _logger.warning(
-                    "Product %s does not have intrastat_id field", product.name
-                )
-                intrastat_code = "00000000"  # 08031010
+            intrastat_code = "00000000"  # 08031010
+            if "hs_code" in product._fields:
+                intrastat_code = product.hs_code or intrastat_code
+            if "intrastat_code_id" in product._fields:
+                intrastat_code = product.intrastat_code_id.code or intrastat_code
+
             return intrastat_code
 
         self.ensure_one()
@@ -183,8 +181,20 @@ class StockPicking(models.Model):
             _logger.info(content)
             stare = content.get("stare")
 
-            if stare in ["ok", "nok"]:
+            if stare == "ok":
                 self.write({"l10n_ro_e_transport_status": stare})
+            if stare == "nok":
+                errors = content.get("Errors", [])
+                error_message = "".join(
+                    [error.get("errorMessage", "") for error in errors]
+                )
+                message = _("The document is not ok. Errors: %s") % error_message
+                self.write(
+                    {
+                        "l10n_ro_e_transport_status": "nok",
+                        "l10n_ro_e_transport_message": message,
+                    }
+                )
             if stare == "in prelucrare":
                 message = _("The document was in processing at %s.") % content.get(
                     "dateResponse"

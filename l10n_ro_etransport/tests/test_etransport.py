@@ -152,6 +152,7 @@ class TestETransport(TransactionCase):
         )
         picking.action_confirm()
         picking.button_validate()
+
         test_data = {
             "dateResponse": "202203071008",
             "ExecutionStatus": 0,
@@ -159,3 +160,12 @@ class TestETransport(TransactionCase):
             "trace_id": "cd5d99d0-2f52-4072-9ed1-4004931ccc1b",
         }
         picking.with_context(test_data=test_data).export_e_transport_button()
+
+        test_data_not_ok = {
+            "Errors": [{"errorMessage": "UIT-ul nu poate fi identificat."}],
+            "stare": "nok",
+            "dateResponse": "202208021055",
+            "ExecutionStatus": 1,
+            "trace_id": "c78c23fa-a230-45d7-8fd6-e3bee8e13f41",
+        }
+        picking.with_context(test_data=test_data_not_ok).export_e_transport_button()
