@@ -10,6 +10,7 @@ msgstr ""
 "PO-Revision-Date: 2024-03-30 02:07+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
+"Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
@@ -270,13 +271,6 @@ msgstr "Mesaje"
 #. odoo-python
 #: code:addons/l10n_ro_account_anaf_sync/controllers/anaf_oauth.py:0
 #, python-format
-msgid "No ANAF config was found for this company."
-msgstr ""
-
-#. module: l10n_ro_account_anaf_sync
-#. odoo-python
-#: code:addons/l10n_ro_account_anaf_sync/controllers/anaf_oauth.py:0
-#, python-format
 msgid ""
 "No code was found in the response.\n"
 "Response was: %s"
@@ -311,12 +305,6 @@ msgstr "Numărul de mesaje cu eroare de livrare"
 #. module: l10n_ro_account_anaf_sync
 #: model:ir.model.fields.selection,name:l10n_ro_account_anaf_sync.selection__l10n_ro_account_anaf_sync_scope__state__production
 msgid "Production"
-msgstr ""
-
-#. module: l10n_ro_account_anaf_sync
-#: model:ir.model.fields,field_description:l10n_ro_account_anaf_sync.field_l10n_ro_account_anaf_sync__rating_ids
-#: model:ir.model.fields,field_description:l10n_ro_account_anaf_sync.field_l10n_ro_account_anaf_sync_scope__rating_ids
-msgid "Ratings"
 msgstr ""
 
 #. module: l10n_ro_account_anaf_sync
@@ -355,7 +343,6 @@ msgstr "Revocati Access Token"
 #. module: l10n_ro_account_anaf_sync
 #. odoo-python
 #: code:addons/l10n_ro_account_anaf_sync/models/l10n_ro_account_anaf_sync.py:0
-#: code:addons/l10n_ro_account_anaf_sync/models/l10n_ro_account_anaf_sync.py:0
 #, python-format
 msgid "Revoke token response: %s"
 msgstr "Raspuns revocare Access Token: %s"
@@ -390,7 +377,6 @@ msgstr ""
 
 #. module: l10n_ro_account_anaf_sync
 #. odoo-python
-#: code:addons/l10n_ro_account_anaf_sync/models/l10n_ro_account_anaf_sync.py:0
 #: code:addons/l10n_ro_account_anaf_sync/models/l10n_ro_account_anaf_sync.py:0
 #, python-format
 msgid "Test token response: %s"
