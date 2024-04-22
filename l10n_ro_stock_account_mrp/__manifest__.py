@@ -11,7 +11,7 @@
     "website": "https://github.com/OCA/l10n-romania",
     "data": ["views/mrp_unbuild_views.xml"],
     "installable": True,
-    "auto_install": True,
+    "auto_install": False,
     "development_status": "Mature",
     "maintainers": ["adrian-dks"],
 }
