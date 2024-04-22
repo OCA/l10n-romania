@@ -1,0 +1,81 @@
+<odoo>
+    <record id="stock_valuation_layer_form" model="ir.ui.view">
+        <field name="name">stock.valuation.layer.form</field>
+        <field name="model">stock.valuation.layer</field>
+        <field name="inherit_id" ref="stock_account.stock_valuation_layer_form" />
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='stock_move_id']" position="after">
+                <field name="is_l10n_ro_record" invisible="1" />
+                <field
+                    name="l10n_ro_valued_type"
+                    attrs="{'invisible': [('is_l10n_ro_record', '=', False)]}"
+                />
+                <field
+                    name="l10n_ro_stock_move_line_id"
+                    attrs="{'invisible': ['|', ('is_l10n_ro_record', '=', False), ('l10n_ro_stock_move_line_id', '=', False)]}"
+                />
+                <field
+                    name="l10n_ro_location_id"
+                    attrs="{'invisible': [('is_l10n_ro_record', '=', False)]}"
+                />
+                <field
+                    name="l10n_ro_location_dest_id"
+                    attrs="{'invisible': [('is_l10n_ro_record', '=', False)]}"
+                />
+                <field
+                    name="l10n_ro_lot_ids"
+                    widget="many2many_tags"
+                    attrs="{'invisible': [('is_l10n_ro_record', '=', False)]}"
+                />
+            </xpath>
+            <xpath expr="//field[@name='account_move_id']" position="after">
+                <field
+                    name="l10n_ro_account_id"
+                    attrs="{'invisible': [('is_l10n_ro_record', '=', False)]}"
+                />
+                <field
+                    name="l10n_ro_invoice_line_id"
+                    attrs="{'invisible': [('is_l10n_ro_record', '=', False)]}"
+                />
+                <field
+                    name="l10n_ro_invoice_id"
+                    attrs="{'invisible': [('is_l10n_ro_record', '=', False)]}"
+                />
+            </xpath>
+            <xpath expr="//page[@name='other_info']" position="after">
+                    <page
+                    string="Source SVL"
+                    name="source_svl"
+                    attrs="{'invisible': [('is_l10n_ro_record', '=', False)]}"
+                >
+                        <label for="l10n_ro_svl_src_ids" />
+                        <field name="l10n_ro_svl_src_ids" readonly="1">
+                            <tree>
+                                <field name="create_date" />
+                                <field name="l10n_ro_valued_type" />
+                                <field name="quantity" sum="Total Quantity" />
+                                <field name="unit_cost" />
+                                <field name="value" sum="Total Value" />
+                            </tree>
+                        </field>
+                    </page>
+                    <page
+                    string="Destination SVL"
+                    name="destination_svl"
+                    attrs="{'invisible': [('is_l10n_ro_record', '=', False)]}"
+                >
+                        <label for="l10n_ro_svl_dest_ids" />
+                        <field name="l10n_ro_svl_dest_ids" readonly="1">
+                            <tree>
+                                <field name="create_date" />
+                                <field name="l10n_ro_valued_type" />
+                                <field name="quantity" sum="Total Quantity" />
+                                <field name="unit_cost" />
+                                <field name="value" sum="Total Value" />
+                            </tree>
+                        </field>
+                    </page>
+                </xpath>
+        </field>
+    </record>
+</odoo>
