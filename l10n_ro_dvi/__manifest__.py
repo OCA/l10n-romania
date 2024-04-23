@@ -8,7 +8,7 @@
     "website": "https://github.com/OCA/l10n-romania",
     "category": "Localization",
     "depends": [
-        "l10n_ro_stock_account",
+        "l10n_ro_stock_account_landed_cost",
     ],
     "data": [
         "security/ir.model.access.csv",
