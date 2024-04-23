@@ -52,11 +52,6 @@ msgid "Attach PDF invoice to the e-Invoice."
 msgstr ""
 
 #. module: l10n_ro_account_edi_ubl
-#: model_terms:ir.ui.view,arch_db:l10n_ro_account_edi_ubl.view_move_form
-msgid "Attach the UBL XML file to the invoice"
-msgstr ""
-
-#. module: l10n_ro_account_edi_ubl
 #: model:ir.model,name:l10n_ro_account_edi_ubl.model_account_edi_xml_cius_ro
 msgid "CIUS RO"
 msgstr ""
@@ -495,9 +490,4 @@ msgid ""
 "You can't edit the following journal entry %s because an electronic document"
 " has already been sent to ANAF. To edit this entry, you need to create a "
 "Credit Note for the invoice and create a new invoice."
-msgstr ""
-
-#. module: l10n_ro_account_edi_ubl
-#: model_terms:ir.ui.view,arch_db:l10n_ro_account_edi_ubl.view_move_form
-msgid "eFactura"
 msgstr ""
