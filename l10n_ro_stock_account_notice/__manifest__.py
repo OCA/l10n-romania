@@ -2,7 +2,7 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 {
     "name": "Romania - Stock Accounting Notice",
-    "version": "16.0.4.5.1",
+    "version": "16.0.4.6.0",
     "category": "Localization",
     "summary": "Romania - Stock Accounting Notice",
     "author": "NextERP Romania," "Dorin Hongu," "Odoo Community Association (OCA)",
@@ -13,7 +13,7 @@
         "views/stock_picking_view.xml",
     ],
     "installable": True,
-    "auto_install": True,
+    "auto_install": False,
     "development_status": "Mature",
     "maintainers": ["feketemihai", "mcojocaru", "dhongu"],
 }
