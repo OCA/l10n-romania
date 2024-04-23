@@ -51,11 +51,6 @@ msgid "Attach PDF invoice to the e-Invoice."
 msgstr ""
 
 #. module: l10n_ro_account_edi_ubl
-#: model_terms:ir.ui.view,arch_db:l10n_ro_account_edi_ubl.view_move_form
-msgid "Attach the UBL XML file to the invoice"
-msgstr ""
-
-#. module: l10n_ro_account_edi_ubl
 #: model:ir.model,name:l10n_ro_account_edi_ubl.model_account_edi_xml_cius_ro
 msgid "CIUS RO"
 msgstr "CIUS RO"
@@ -503,11 +498,6 @@ msgstr ""
 "electronic a fost deja trimis către ANAF. Pentru a edita această intrare, "
 "trebuie să creați o notă de credit pentru factură și să creați o nouă "
 "factură."
-
-#. module: l10n_ro_account_edi_ubl
-#: model_terms:ir.ui.view,arch_db:l10n_ro_account_edi_ubl.view_move_form
-msgid "eFactura"
-msgstr ""
 
 #~ msgid ""
 #~ "<span class=\"fa fa-lg fa-building-o\" title=\"Values set here are "
