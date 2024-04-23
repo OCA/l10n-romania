@@ -31,10 +31,7 @@
                 >
                     <field name="l10n_ro_vat_subjected" />
                 </div>
-                <field
-                    name="l10n_ro_e_invoice"
-                    attrs="{'invisible': ['|',('is_company','=', False),('is_l10n_ro_record','=',False)]}"
-                />
+
                 <field name="l10n_ro_vat_number" invisible="1" />
             </field>
         </field>

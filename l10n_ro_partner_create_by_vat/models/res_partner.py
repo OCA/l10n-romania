@@ -39,7 +39,6 @@ AnafFiled_OdooField_Overwrite = [
     ("zip", "codPostal", "over_all_the_time"),
     ("phone", "telefon", "write_if_empty"),
     ("l10n_ro_caen_code", "cod_CAEN", "over_all_the_time"),
-    ("l10n_ro_e_invoice", "statusRO_e_Factura", "over_all_the_time"),
 ]
 
 
