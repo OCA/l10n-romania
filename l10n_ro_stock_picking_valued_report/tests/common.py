@@ -4,7 +4,7 @@
 from odoo import fields
 from odoo.tests import tagged
 
-from odoo.addons.l10n_ro_stock_account.tests.common import TestStockCommon
+from odoo.addons.l10n_ro_stock_account_landed_cost.tests.common import TestStockCommon
 
 
 @tagged("post_install", "-at_install")
