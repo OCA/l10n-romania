@@ -73,7 +73,6 @@ class CiusRoTestSetup(AccountEdiTestCommon, CronMixinCase):
                 "state_id": cls.country_state.id,
                 "zip": "307175",
                 "phone": "0256413409",
-                "l10n_ro_e_invoice": True,
                 "l10n_ro_is_government_institution": False,
                 "is_company": True,
             }
