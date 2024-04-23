@@ -49,7 +49,7 @@ msgstr "Cont ANAF Sync"
 #. module: l10n_ro_account_anaf_sync
 #: model:ir.model,name:l10n_ro_account_anaf_sync.model_l10n_ro_account_anaf_sync_scope
 msgid "Account ANAF Sync Scope"
-msgstr ""
+msgstr "Cont ANAF Sync Scope"
 
 #. module: l10n_ro_account_anaf_sync
 #: model:ir.model.fields,field_description:l10n_ro_account_anaf_sync.field_l10n_ro_account_anaf_sync__message_needaction

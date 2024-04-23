@@ -62,15 +62,6 @@ msgstr ""
 msgid "CIUS RO"
 msgstr "CIUS RO"
 
-#. module: l10n_ro_account_edi_ubl
-#: model:ir.model.fields,help:l10n_ro_account_edi_ubl.field_res_partner__l10n_ro_is_government_institution
-#: model:ir.model.fields,help:l10n_ro_account_edi_ubl.field_res_users__l10n_ro_is_government_institution
-msgid ""
-"Check this if the partner is a government institution.Will be used to "
-"calculate the sending of the invoice to the e-invoice system."
-msgstr ""
-"Bifa dacă partenerul este o instituție guvernamentală. Va fi folosit pentru "
-"a calcula trimiterea facturii către sistemul de facturi electronice."
 
 #. module: l10n_ro_account_edi_ubl
 #: model:ir.model,name:l10n_ro_account_edi_ubl.model_res_company
@@ -311,11 +302,6 @@ msgstr ""
 msgid "Residence"
 msgstr ""
 
-#. module: l10n_ro_account_edi_ubl
-#: model:ir.model.fields,field_description:l10n_ro_account_edi_ubl.field_res_partner__l10n_ro_is_government_institution
-#: model:ir.model.fields,field_description:l10n_ro_account_edi_ubl.field_res_users__l10n_ro_is_government_institution
-msgid "Romania - Is government institution"
-msgstr "Este o instituție guvernamentală"
 
 #. module: l10n_ro_account_edi_ubl
 #: model:ir.model.fields,field_description:l10n_ro_account_edi_ubl.field_product_product__l10n_ro_nc_code

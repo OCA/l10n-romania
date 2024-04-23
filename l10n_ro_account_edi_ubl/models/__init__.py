@@ -5,5 +5,4 @@ from . import ir_actions_report
 from . import product
 from . import res_company
 from . import res_config_settings
-from . import res_partner
 from . import l10n_ro_account_anaf_sync_scope
