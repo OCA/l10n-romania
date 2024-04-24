@@ -28,7 +28,7 @@
         <field name="model">res.partner</field>
         <field name="inherit_id" ref="l10n_ro_config.view_partner_create_by_vat" />
         <field name="arch" type="xml">
-            <field name="l10n_ro_e_invoice" position="before">
+            <field name="l10n_ro_vat_number" position="before">
                 <field name="is_l10n_ro_record" invisible="1" />
                 <label
                     for="l10n_ro_vat_on_payment"
