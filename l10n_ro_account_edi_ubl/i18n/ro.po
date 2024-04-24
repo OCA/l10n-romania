@@ -53,15 +53,9 @@ msgid "Attach PDF invoice to the e-Invoice."
 msgstr ""
 
 #. module: l10n_ro_account_edi_ubl
-#: model_terms:ir.ui.view,arch_db:l10n_ro_account_edi_ubl.view_move_form
-msgid "Attach the UBL XML file to the invoice"
-msgstr ""
-
-#. module: l10n_ro_account_edi_ubl
 #: model:ir.model,name:l10n_ro_account_edi_ubl.model_account_edi_xml_cius_ro
 msgid "CIUS RO"
 msgstr "CIUS RO"
-
 
 #. module: l10n_ro_account_edi_ubl
 #: model:ir.model,name:l10n_ro_account_edi_ubl.model_res_company
@@ -79,11 +73,6 @@ msgstr ""
 #: model:ir.model,name:l10n_ro_account_edi_ubl.model_res_config_settings
 msgid "Config Settings"
 msgstr "Setări de configurare"
-
-#. module: l10n_ro_account_edi_ubl
-#: model:ir.model,name:l10n_ro_account_edi_ubl.model_res_partner
-msgid "Contact"
-msgstr "Contact"
 
 #. module: l10n_ro_account_edi_ubl
 #: code:addons/l10n_ro_account_edi_ubl/models/account_edi_xml_cius_ro.py:0
@@ -302,7 +291,6 @@ msgstr ""
 msgid "Residence"
 msgstr ""
 
-
 #. module: l10n_ro_account_edi_ubl
 #: model:ir.model.fields,field_description:l10n_ro_account_edi_ubl.field_product_product__l10n_ro_nc_code
 #: model:ir.model.fields,field_description:l10n_ro_account_edi_ubl.field_product_template__l10n_ro_nc_code
@@ -486,10 +474,8 @@ msgstr ""
 "trebuie să creați o notă de credit pentru factură și să creați o nouă "
 "factură."
 
-#. module: l10n_ro_account_edi_ubl
-#: model_terms:ir.ui.view,arch_db:l10n_ro_account_edi_ubl.view_move_form
-msgid "eFactura"
-msgstr ""
+#~ msgid "Contact"
+#~ msgstr "Contact"
 
 #~ msgid ""
 #~ "<span class=\"fa fa-lg fa-building-o\" title=\"Values set here are "
