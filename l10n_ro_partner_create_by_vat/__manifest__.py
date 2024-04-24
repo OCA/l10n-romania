@@ -6,7 +6,7 @@
     "summary": "Romania - Partner Create by VAT",
     "depends": ["l10n_ro_config"],
     "license": "AGPL-3",
-    "version": "15.0.3.11.1",
+    "version": "15.0.3.12.0",
     "author": "NextERP Romania,"
     "Forest and Biomass Romania,"
     "Odoo Community Association (OCA)",
