@@ -7,7 +7,7 @@ import logging
 
 from odoo.tests import tagged
 
-from odoo.addons.l10n_ro_stock_account_determination.tests.common import (
+from odoo.addons.l10n_ro_stock_account.tests.common import (
     TestStockCommon as TestStockCommonBase,
 )
 
