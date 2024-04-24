@@ -28,5 +28,5 @@
     ],
     "installable": True,
     "development_status": "Mature",
-    "maintainers": ["dhongu"],
+    "maintainers": ["dhongu", "feketemihai"],
 }
