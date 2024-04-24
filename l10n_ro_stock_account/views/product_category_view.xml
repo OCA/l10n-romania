@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="view_product_category_add_romania_form" model="ir.ui.view">
+        <field name="name">view_product_category_add_romania_form</field>
+        <field name="model">product.category</field>
+        <field name="inherit_id" ref="stock_account.view_category_property_form" />
+        <field name="priority" eval="50" />
+        <field name="arch" type="xml">
+            <field name="property_stock_valuation_account_id" position="after">
+                <field name="is_l10n_ro_record" invisible="1" />
+                <field
+                    name="l10n_ro_stock_account_change"
+                    attrs="{'invisible': [('is_l10n_ro_record', '=', False)]}"
+                />
+                <field name="l10n_ro_hide_stock_in_out_account" invisible="1" />
+            </field>
+            <field name="property_stock_account_input_categ_id" position="attributes">
+                <attribute name="attrs">
+                    {'invisible':[('l10n_ro_hide_stock_in_out_account','=',True)]}
+                </attribute>
+            </field>
+            <field name="property_stock_account_output_categ_id" position="attributes">
+                <attribute name="attrs">
+                    {'invisible':[('l10n_ro_hide_stock_in_out_account','=',True)]}
+                </attribute>
+            </field>
+        </field>
+    </record>
+</odoo>
