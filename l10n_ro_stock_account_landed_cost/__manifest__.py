@@ -11,7 +11,7 @@
     "website": "https://github.com/OCA/l10n-romania",
     "depends": [
         "stock_landed_costs",
-        "l10n_ro_stock_account_determination",
+        "l10n_ro_stock_account",
     ],
     "license": "AGPL-3",
     "data": [
