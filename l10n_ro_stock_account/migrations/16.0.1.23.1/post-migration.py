@@ -11,16 +11,6 @@ def migrate(cr, version):
     IrModule = env["ir.module.module"]
     IrModule.update_list()
 
-    l10n_ro_stock_account_determination_module = IrModule.search(
-        [("name", "=", "l10n_ro_stock_account_determination")]
-    )
-    if l10n_ro_stock_account_determination_module.state not in (
-        "installed",
-        "to install",
-        "to upgrade",
-    ):
-        l10n_ro_stock_account_determination_module.button_install()
-
     l10n_ro_stock_account_tracking = IrModule.search(
         [("name", "=", "l10n_ro_stock_account_tracking")]
     )
