@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: l10n-romania (8.0)\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-05-07 02:39+0000\n"
-"PO-Revision-Date: 2020-08-13 03:59+0000\n"
+"PO-Revision-Date: 2024-04-26 17:04+0000\n"
 "Last-Translator: Dorin Hongu <dhongu@gmail.com>\n"
 "Language-Team: Romanian (http://www.transifex.com/oca/OCA-l10n-romania-8-0/"
 "language/ro/)\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=3; plural=n==1 ? 0 : (n==0 || (n%100 > 0 && n%100 < "
 "20)) ? 1 : 2;\n"
-"X-Generator: Weblate 3.10\n"
+"X-Generator: Weblate 4.17\n"
 
 #. module: l10n_ro_partner_unique
 #: model:ir.model,name:l10n_ro_partner_unique.model_res_partner
@@ -31,6 +31,7 @@ msgstr "Contact"
 #, python-format
 msgid "The VAT and NRC pair (%(vat)s, %(nrc)s) must be unique ids=%(ids)s!"
 msgstr ""
+"Combinația CUI și NRC (%(vat)s, %(nrc)s) trebuie să fie unică ids=%(ids)s!"
 
 #, python-format
 #~ msgid "The VAT and NRC pair (%s, %s) must be unique!"
