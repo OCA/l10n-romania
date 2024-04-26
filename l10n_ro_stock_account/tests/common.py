@@ -84,8 +84,9 @@ class TestStockCommon(ValuationReconciliationTestCommon):
 
     @classmethod
     def setUpClass(cls, chart_template_ref=None):
-        ro_template_ref = "l10n_ro.ro_chart_template"
-        super().setUpClass(chart_template_ref=ro_template_ref)
+        if not chart_template_ref:
+            chart_template_ref = "ro"
+        super().setUpClass(chart_template_ref=chart_template_ref)
 
         cls.env.company.anglo_saxon_accounting = True
         cls.env.company.l10n_ro_accounting = True
@@ -523,13 +524,13 @@ class TestStockCommon(ValuationReconciliationTestCommon):
             rem_val = round(valuation["remaining_value"], 2)
 
             if valuation["product_id"][0] == self.product_1.id:
-                _logger.debug("Check stock P1 {} = {}".format(val, val_p1))
+                _logger.debug(f"Check stock P1 {val} = {val_p1}")
                 self.assertAlmostEqual(val, val_p1)
                 if self.product_1.cost_method == "fifo":
                     self.assertAlmostEqual(rem_val, val_p1)
 
             if valuation["product_id"][0] == self.product_2.id:
-                _logger.debug("Check stock P2 {} = {}".format(val, val_p2))
+                _logger.debug(f"Check stock P2 {val} = {val_p2}")
                 self.assertAlmostEqual(val, val_p2)
                 if self.product_2.cost_method == "fifo":
                     self.assertAlmostEqual(rem_val, val_p2)
@@ -555,10 +556,10 @@ class TestStockCommon(ValuationReconciliationTestCommon):
         for valuation in account_valuations:
             val = round(valuation["debit"] - valuation["credit"], 2)
             if valuation["product_id"][0] == self.product_1.id:
-                _logger.debug("Check account P1 {} = {}".format(val, val_p1))
+                _logger.debug(f"Check account P1 {val} = {val_p1}")
                 self.assertAlmostEqual(val, val_p1)
             if valuation["product_id"][0] == self.product_2.id:
-                _logger.debug("Check account P2 {} = {}".format(val, val_p2))
+                _logger.debug(f"Check account P2 {val} = {val_p2}")
                 self.assertAlmostEqual(val, val_p2)
 
     def check_account_diff(self, val_p1, val_p2):
@@ -580,7 +581,7 @@ class TestStockCommon(ValuationReconciliationTestCommon):
         for valuation in account_valuations:
             val = round(valuation["debit"] - valuation["credit"], 2)
             if valuation["product_id"][0] == self.product_mp.id:
-                _logger.debug("Check account P1 {} = {}".format(val, val_p1))
+                _logger.debug(f"Check account P1 {val} = {val_p1}")
                 self.assertAlmostEqual(val, val_p1)
 
     def set_stock(self, product, qty, location=None):
@@ -613,3 +614,34 @@ class TestStockCommon(ValuationReconciliationTestCommon):
             ],
             order="date, id",
         )
+
+    def create_lc(self, picking, lc_p1, lc_p2, vendor_bill=False):
+        default_vals = self.env["stock.landed.cost"].default_get(
+            list(self.env["stock.landed.cost"].fields_get())
+        )
+        default_vals.update(
+            {
+                "picking_ids": [picking.id],
+                "account_journal_id": self.company_data["default_journal_misc"],
+                "cost_lines": [(0, 0, {"product_id": self.product_1.id})],
+                "valuation_adjustment_lines": [],
+                "vendor_bill_id": vendor_bill and vendor_bill.id or False,
+            }
+        )
+        cost_lines_values = {
+            "name": ["equal split"],
+            "split_method": ["equal"],
+            "price_unit": [lc_p1 + lc_p2],
+        }
+        stock_landed_cost_1 = self.env["stock.landed.cost"].new(default_vals)
+        for index, cost_line in enumerate(stock_landed_cost_1.cost_lines):
+            cost_line.onchange_product_id()
+            cost_line.name = cost_lines_values["name"][index]
+            cost_line.split_method = cost_lines_values["split_method"][index]
+            cost_line.price_unit = cost_lines_values["price_unit"][index]
+        vals = stock_landed_cost_1._convert_to_write(stock_landed_cost_1._cache)
+        stock_landed_cost_1 = self.env["stock.landed.cost"].create(vals)
+
+        stock_landed_cost_1.compute_landed_cost()
+        stock_landed_cost_1.button_validate()
+        return stock_landed_cost_1

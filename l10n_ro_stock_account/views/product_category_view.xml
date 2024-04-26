@@ -10,18 +10,18 @@
                 <field name="is_l10n_ro_record" invisible="1" />
                 <field
                     name="l10n_ro_stock_account_change"
-                    attrs="{'invisible': [('is_l10n_ro_record', '=', False)]}"
+                    invisible="not is_l10n_ro_record"
                 />
                 <field name="l10n_ro_hide_stock_in_out_account" invisible="1" />
             </field>
             <field name="property_stock_account_input_categ_id" position="attributes">
-                <attribute name="attrs">
-                    {'invisible':[('l10n_ro_hide_stock_in_out_account','=',True)]}
+                <attribute name="invisible">
+                    l10n_ro_hide_stock_in_out_account
                 </attribute>
             </field>
             <field name="property_stock_account_output_categ_id" position="attributes">
-                <attribute name="attrs">
-                    {'invisible':[('l10n_ro_hide_stock_in_out_account','=',True)]}
+                <attribute name="invisible">
+                    l10n_ro_hide_stock_in_out_account
                 </attribute>
             </field>
         </field>
