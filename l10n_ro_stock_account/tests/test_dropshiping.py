@@ -51,5 +51,7 @@ class TestStockDropshiping(TestStockCommon):
         )
         purchase.button_confirm()
 
-        sale_order.picking_ids.action_set_quantities_to_reservation()
+        for move_line in sale_order.picking_ids.move_ids:
+            if move_line.product_uom_qty > 0 and move_line.product_qty == 0:
+                move_line.write({"product_qty": move_line.product_uom_qty})
         sale_order.picking_ids.button_validate()

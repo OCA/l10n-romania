@@ -355,9 +355,9 @@ class TestStockCommon(ValuationReconciliationTestCommon):
             qty_po_p2 = self.qty_po_p2 if not partial else self.qty_po_p2 / 2
             for move_line in self.picking.move_line_ids:
                 if move_line.product_id == self.product_1:
-                    move_line.write({"qty_done": qty_po_p1})
+                    move_line.write({"product_qty": qty_po_p1})
                 if move_line.product_id == self.product_2:
-                    move_line.write({"qty_done": qty_po_p2})
+                    move_line.write({"product_qty": qty_po_p2})
 
             self.picking.button_validate()
             self.picking._action_done()
@@ -419,8 +419,8 @@ class TestStockCommon(ValuationReconciliationTestCommon):
         return_pick.action_confirm()
         return_pick.action_assign()
         for move_line in return_pick.move_ids:
-            if move_line.product_uom_qty > 0 and move_line.quantity_done == 0:
-                move_line.write({"quantity_done": move_line.product_uom_qty})
+            if move_line.product_uom_qty > 0 and move_line.product_qty == 0:
+                move_line.write({"product_qty": move_line.product_uom_qty})
         return_pick._action_done()
 
     def create_so(self, vals=False):
@@ -444,8 +444,8 @@ class TestStockCommon(ValuationReconciliationTestCommon):
         self.picking.action_assign()  # verifica disponibilitate
 
         for move_line in self.picking.move_ids:
-            if move_line.product_uom_qty > 0 and move_line.quantity_done == 0:
-                move_line.write({"quantity_done": move_line.product_uom_qty})
+            if move_line.product_uom_qty > 0 and move_line.product_qty == 0:
+                move_line.write({"product_qty": move_line.product_uom_qty})
 
         self.picking._action_done()
         _logger.debug("Livrare facuta")
@@ -499,8 +499,8 @@ class TestStockCommon(ValuationReconciliationTestCommon):
         picking.action_assign()
         if post:
             for move_line in picking.move_ids:
-                if move_line.product_uom_qty > 0 and move_line.quantity_done == 0:
-                    move_line.write({"quantity_done": move_line.product_uom_qty})
+                if move_line.product_uom_qty > 0 and move_line.product_qty == 0:
+                    move_line.write({"product_qty": move_line.product_uom_qty})
             picking._action_done()
         self.picking = picking
 
