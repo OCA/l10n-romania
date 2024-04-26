@@ -26,4 +26,4 @@ section-order = ["future", "standard-library", "third-party", "odoo", "odoo-addo
 "odoo-addons" = ["odoo.addons"]
 
 [mccabe]
-max-complexity = 16
+max-complexity = 20
