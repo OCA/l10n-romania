@@ -1,16 +1,13 @@
 # Translation of Odoo Server.
 # This file contains the translation of the following modules:
-# 	* l10n_ro_stock_account
+# 	* l10n_ro_stock_account_landed_cost
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 14.0+ec\n"
+"Project-Id-Version: Odoo Server 16.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-12-08 03:29+0000\n"
-"PO-Revision-Date: 2020-12-08 03:29+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
-"Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
@@ -43,12 +40,12 @@ msgstr ""
 #. module: l10n_ro_stock_account_landed_cost
 #: model:ir.model,name:l10n_ro_stock_account_landed_cost.model_account_move
 msgid "Journal Entry"
-msgstr "Notă contabilă"
+msgstr ""
 
 #. module: l10n_ro_stock_account_landed_cost
 #: model:ir.model,name:l10n_ro_stock_account_landed_cost.model_account_move_line
 msgid "Journal Item"
-msgstr "Element jurnal"
+msgstr ""
 
 #. module: l10n_ro_stock_account_landed_cost
 #: model:ir.model.fields,field_description:l10n_ro_stock_account_landed_cost.field_stock_landed_cost__l10n_ro_cost_type
@@ -76,66 +73,3 @@ msgstr ""
 #: model:ir.model,name:l10n_ro_stock_account_landed_cost.model_stock_valuation_adjustment_lines
 msgid "Valuation Adjustment Lines"
 msgstr ""
-
-#~ msgid "Account"
-#~ msgstr "Cont"
-
-#~ msgid "Companies"
-#~ msgstr "Companii"
-
-#~ msgid "Display Name"
-#~ msgstr "Nume afișat"
-
-#~ msgid "ID"
-#~ msgstr "ID"
-
-#~ msgid "Inventory Locations"
-#~ msgstr "Locații inventar"
-
-#~ msgid "Last Modified on"
-#~ msgstr "Ultima modificare la"
-
-#~ msgid "Product Category"
-#~ msgstr "Categorie produs"
-
-#~ msgid "Stock Move"
-#~ msgstr "Mișcare stoc"
-
-#~ msgid "Stock Valuation Layer"
-#~ msgstr "Nivel evaluare stoc"
-
-#~ msgid "Transfer"
-#~ msgstr "Transfer"
-
-#~ msgid "Product Template"
-#~ msgstr "Șablon produs"
-
-#, python-format
-#~ msgid ""
-#~ "For Romanian Stock Accounting the stock_input, stock_output and "
-#~ "stock_valuation accounts must bethe same for category %s"
-#~ msgstr ""
-#~ "Pentru contabilitatea din România contul de intrare, contul de ieșire și "
-#~ "contul de evaluare trebuie să fie același pentru categoria %s "
-
-#~ msgid "Allow stock account change from locations"
-#~ msgstr "Permite modificare conturilor de stoc din locație"
-
-#~ msgid "Expense Account"
-#~ msgstr "Cont cheltuială"
-
-#~ msgid "Income Account"
-#~ msgstr "Cont venit"
-
-#~ msgid "Is a notice"
-#~ msgstr "Este un aviz"
-
-#~ msgid "Is notice"
-#~ msgstr "Este aviz"
-
-#, python-format
-#~ msgid "Price difference"
-#~ msgstr "Diferență preț"
-
-#~ msgid "Valued Type"
-#~ msgstr "Tip evaluare"
