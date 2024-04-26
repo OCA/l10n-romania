@@ -98,11 +98,11 @@ msgstr "Ascunde conturile de intrare/ieșire stoc Odoo"
 #: model:ir.model.fields,help:l10n_ro_stock_account.field_res_company__l10n_ro_stock_acc_price_diff
 msgid ""
 "If this field is checked and the company use Romanian Accounting,the "
-"currency rate differences between reception and invoice will be reflected in "
-"the stock valuation."
+"currency rate differences between reception and invoice will be reflected in"
+" the stock valuation."
 msgstr ""
-"Dacă acest câmp este bifat și compania utilizează Contabilitatea Românească, "
-"diferențele de curs valutar dintre recepție și factură se vor reflecta în "
+"Dacă acest câmp este bifat și compania utilizează Contabilitatea Românească,"
+" diferențele de curs valutar dintre recepție și factură se vor reflecta în "
 "evaluarea stocului."
 
 #. module: l10n_ro_stock_account
@@ -112,8 +112,9 @@ msgid ""
 "In Romania accounting is only one account for valuation/input/output. If "
 "this value is set, we will use it, otherwise will use the category value. "
 msgstr ""
-"În contabilitatea din România există un singur cont pentru evaluare/intrare/"
-"ieșire. Dacă această valoare este setată, o vom folosi, altfel vom folosi "
+"În contabilitatea din România există un singur cont pentru "
+"evaluare/intrare/ieșire. Dacă această valoare este setată, o vom folosi, "
+"altfel vom folosi "
 
 #. module: l10n_ro_stock_account
 #: model:ir.model.fields,field_description:l10n_ro_stock_account.field_stock_location__l10n_ro_property_account_income_location_id
@@ -220,8 +221,8 @@ msgstr ""
 #. module: l10n_ro_stock_account
 #: model:ir.model.fields,help:l10n_ro_stock_account.field_product_category__l10n_ro_hide_stock_in_out_account
 msgid ""
-"Only for Romania, to hide stock_input and stock_output accounts because they "
-"are the same as stock_valuation account"
+"Only for Romania, to hide stock_input and stock_output accounts because they"
+" are the same as stock_valuation account"
 msgstr ""
 "Numai pentru România, pentru a ascunde conturile de intrare și ieșire stoc "
 "deoarece sunt aceleași cu contul de evaluare a stocului"
@@ -331,7 +332,7 @@ msgstr ""
 #. module: l10n_ro_stock_account
 #: model:ir.model,name:l10n_ro_stock_account.model_stock_picking
 msgid "Transfer"
-msgstr "Transfer"
+msgstr ""
 
 #. module: l10n_ro_stock_account
 #: model:ir.model.fields.selection,name:l10n_ro_stock_account.selection__stock_valuation_layer__l10n_ro_valued_type__usage_giving
