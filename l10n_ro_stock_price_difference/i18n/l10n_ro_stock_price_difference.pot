@@ -95,6 +95,11 @@ msgid "Journal Item"
 msgstr ""
 
 #. module: l10n_ro_stock_price_difference
+#: model:ir.model.fields,field_description:l10n_ro_stock_price_difference.field_stock_landed_cost__l10n_ro_cost_type
+msgid "Landed Cost Type"
+msgstr ""
+
+#. module: l10n_ro_stock_price_difference
 #: model:ir.model.fields,field_description:l10n_ro_stock_price_difference.field_l10n_ro_price_difference_confirm_dialog____last_update
 #: model:ir.model.fields,field_description:l10n_ro_stock_price_difference.field_l10n_ro_price_difference_item____last_update
 msgid "Last Modified on"
@@ -136,11 +141,6 @@ msgstr ""
 #. module: l10n_ro_stock_price_difference
 #: model:ir.model.fields,field_description:l10n_ro_stock_price_difference.field_l10n_ro_price_difference_item__quantity_difference
 msgid "Quantity Difference"
-msgstr ""
-
-#. module: l10n_ro_stock_price_difference
-#: model:ir.model.fields,field_description:l10n_ro_stock_price_difference.field_stock_landed_cost__l10n_ro_cost_type
-msgid "Romania - Landed Cost Type"
 msgstr ""
 
 #. module: l10n_ro_stock_price_difference
