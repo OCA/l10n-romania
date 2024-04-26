@@ -4,13 +4,10 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 14.0+ec\n"
+"Project-Id-Version: Odoo Server 16.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-12-08 03:29+0000\n"
-"PO-Revision-Date: 2020-12-08 03:29+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
-"Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
@@ -34,12 +31,12 @@ msgstr ""
 #. module: l10n_ro_stock_account_tracking
 #: model:ir.model.fields,field_description:l10n_ro_stock_account_tracking.field_l10n_ro_stock_valuation_layer_tracking__display_name
 msgid "Display Name"
-msgstr "Nume afișat"
+msgstr ""
 
 #. module: l10n_ro_stock_account_tracking
 #: model:ir.model.fields,field_description:l10n_ro_stock_account_tracking.field_l10n_ro_stock_valuation_layer_tracking__id
 msgid "ID"
-msgstr "ID"
+msgstr ""
 
 #. module: l10n_ro_stock_account_tracking
 #: model:ir.model.fields,field_description:l10n_ro_stock_account_tracking.field_product_product__is_l10n_ro_record
@@ -73,7 +70,7 @@ msgstr ""
 #. module: l10n_ro_stock_account_tracking
 #: model:ir.model.fields,field_description:l10n_ro_stock_account_tracking.field_l10n_ro_stock_valuation_layer_tracking____last_update
 msgid "Last Modified on"
-msgstr "Ultima modificare la"
+msgstr ""
 
 #. module: l10n_ro_stock_account_tracking
 #: model:ir.model.fields,field_description:l10n_ro_stock_account_tracking.field_l10n_ro_stock_valuation_layer_tracking__write_uid
@@ -158,12 +155,12 @@ msgstr ""
 #. module: l10n_ro_stock_account_tracking
 #: model:ir.model,name:l10n_ro_stock_account_tracking.model_stock_move
 msgid "Stock Move"
-msgstr "Mișcare stoc"
+msgstr ""
 
 #. module: l10n_ro_stock_account_tracking
 #: model:ir.model,name:l10n_ro_stock_account_tracking.model_stock_valuation_layer
 msgid "Stock Valuation Layer"
-msgstr "Nivel evaluare stoc"
+msgstr ""
 
 #. module: l10n_ro_stock_account_tracking
 #: model:ir.model.fields,field_description:l10n_ro_stock_account_tracking.field_l10n_ro_stock_valuation_layer_tracking__svl_dest_id
@@ -184,57 +181,3 @@ msgstr ""
 #: model:ir.model,name:l10n_ro_stock_account_tracking.model_stock_valuation_layer_revaluation
 msgid "Wizard model to reavaluate a stock inventory for a product"
 msgstr ""
-
-#~ msgid "Account"
-#~ msgstr "Cont"
-
-#~ msgid "Companies"
-#~ msgstr "Companii"
-
-#~ msgid "Inventory Locations"
-#~ msgstr "Locații inventar"
-
-#~ msgid "Journal Entry"
-#~ msgstr "Notă contabilă"
-
-#~ msgid "Journal Item"
-#~ msgstr "Element jurnal"
-
-#~ msgid "Product Category"
-#~ msgstr "Categorie produs"
-
-#~ msgid "Transfer"
-#~ msgstr "Transfer"
-
-#~ msgid "Product Template"
-#~ msgstr "Șablon produs"
-
-#, python-format
-#~ msgid ""
-#~ "For Romanian Stock Accounting the stock_input, stock_output and "
-#~ "stock_valuation accounts must bethe same for category %s"
-#~ msgstr ""
-#~ "Pentru contabilitatea din România contul de intrare, contul de ieșire și "
-#~ "contul de evaluare trebuie să fie același pentru categoria %s "
-
-#~ msgid "Allow stock account change from locations"
-#~ msgstr "Permite modificare conturilor de stoc din locație"
-
-#~ msgid "Expense Account"
-#~ msgstr "Cont cheltuială"
-
-#~ msgid "Income Account"
-#~ msgstr "Cont venit"
-
-#~ msgid "Is a notice"
-#~ msgstr "Este un aviz"
-
-#~ msgid "Is notice"
-#~ msgstr "Este aviz"
-
-#, python-format
-#~ msgid "Price difference"
-#~ msgstr "Diferență preț"
-
-#~ msgid "Valued Type"
-#~ msgstr "Tip evaluare"
