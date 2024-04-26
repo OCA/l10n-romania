@@ -284,6 +284,11 @@ msgid "Landed Cost"
 msgstr ""
 
 #. module: l10n_ro_dvi
+#: model:ir.model.fields,field_description:l10n_ro_dvi.field_stock_landed_cost__l10n_ro_cost_type
+msgid "Landed Cost Type"
+msgstr ""
+
+#. module: l10n_ro_dvi
 #: model_terms:ir.ui.view,arch_db:l10n_ro_dvi.view_account_dvi_form
 msgid "Landed Costs"
 msgstr ""
@@ -425,11 +430,6 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_ro_dvi.field_account_move__l10n_ro_dvi_ids
 #: model:ir.model.fields,field_description:l10n_ro_dvi.field_account_payment__l10n_ro_dvi_ids
 msgid "Romania - DVI's"
-msgstr ""
-
-#. module: l10n_ro_dvi
-#: model:ir.model.fields,field_description:l10n_ro_dvi.field_stock_landed_cost__l10n_ro_cost_type
-msgid "Romania - Landed Cost Type"
 msgstr ""
 
 #. module: l10n_ro_dvi
