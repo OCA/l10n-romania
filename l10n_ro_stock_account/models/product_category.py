@@ -35,11 +35,11 @@ class ProductCategory(models.Model):
             )
 
     @api.constrains(
-        "property_stock_valuation_account_id",
-        "property_stock_account_output_categ_id",
-        "property_stock_account_input_categ_id",
+        lambda self: tuple(
+            self._get_stock_account_property_field_names() + ["property_valuation"]
+        )
     )
-    def _check_valuation_accouts(self):
+    def _check_valuation_accounts(self):
         """Overwrite default constraint for Romania,
         stock_valuation, stock_output and stock_input
         are the same
@@ -60,7 +60,7 @@ class ProductCategory(models.Model):
                         % record.name
                     )
         else:
-            return super()._check_valuation_accouts()
+            return super()._check_valuation_accounts()
 
     @api.onchange(
         "property_stock_valuation_account_id",
