@@ -29,9 +29,7 @@ class AccountMove(models.Model):
         for move in self.filtered("is_l10n_ro_record"):
             for line in move.line_ids:
                 _logger.debug(
-                    "{}\t\t{}\t\t{}".format(
-                        line.debit, line.credit, line.account_id.display_name
-                    )
+                    f"{line.debit}\t\t{line.credit}\t\t{line.account_id.display_name}"
                 )
             invoice_lines = move.invoice_line_ids.filtered(
                 lambda line: line.display_type == "product"
@@ -84,17 +82,13 @@ class AccountMoveLine(models.Model):
             if self.move_id.is_purchase_document():
                 stock_moves = self._get_account_change_stock_moves_purchase()
                 for stock_move in stock_moves:
-                    if (
-                        stock_move.location_dest_id.l10n_ro_property_stock_valuation_account_id
-                    ):
+                    if stock_move.location_dest_id.l10n_ro_property_stock_valuation_account_id:
                         location = stock_move.location_dest_id
                         res = location.l10n_ro_property_stock_valuation_account_id
             if self.move_id.is_sale_document():
                 stock_moves = self._get_account_change_stock_moves_sale()
                 for stock_move in stock_moves:
-                    if (
-                        stock_move.location_id.l10n_ro_property_account_income_location_id
-                    ):
+                    if stock_move.location_id.l10n_ro_property_account_income_location_id:
                         location = stock_move.location_id
                         res = location.l10n_ro_property_account_income_location_id
             if fiscal_position:

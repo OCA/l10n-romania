@@ -372,9 +372,7 @@ class StockMove(models.Model):
             am_vals = super()._account_entry_move(qty, description, svl_id, cost)
 
         if self.env.context.get("l10n_ro_reception_in_progress"):
-            am_vals = super(StockMove, self)._account_entry_move(
-                qty, description, svl_id, cost
-            )
+            am_vals = super()._account_entry_move(qty, description, svl_id, cost)
 
         if svl.l10n_ro_valued_type == "internal_transfer":
             am_vals = self._account_entry_move_internal_transfer(
