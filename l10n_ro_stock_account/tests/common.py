@@ -501,6 +501,7 @@ class TestStockCommon(ValuationReconciliationTestCommon):
             for move in picking.move_ids:
                 if move.product_uom_qty > 0 and move.product_qty == 0:
                     move._set_quantity_done(move.product_uom_qty)
+            picking.button_validate()
             picking._action_done()
         self.picking = picking
 
