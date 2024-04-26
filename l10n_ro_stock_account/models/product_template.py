@@ -16,7 +16,7 @@ class ProductTemplate(models.Model):
 
     l10n_ro_property_stock_valuation_account_id = fields.Many2one(
         "account.account",
-        string="Romania - Stock Valuation Account",
+        string="Stock Valuation Account",
         company_dependent=True,
         domain="[('company_id', '=', allowed_company_ids[0]),"
         "('deprecated', '=', False)]",
@@ -27,7 +27,7 @@ class ProductTemplate(models.Model):
     )
 
     def _get_product_accounts(self):
-        accounts = super(ProductTemplate, self)._get_product_accounts()
+        accounts = super()._get_product_accounts()
 
         company = (
             self.env["res.company"].browse(self._context.get("force_company"))

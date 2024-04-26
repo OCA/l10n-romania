@@ -35,9 +35,8 @@ class StockPicking(models.Model):
     def action_l10n_ro_view_account_moves(self):
         self.ensure_one()
         domain = [("move_id.stock_move_id", "in", self.move_ids.ids)]
-        action = self.env["ir.actions.actions"]._for_xml_id(
-            "l10n_ro_stock_account.l10n_ro_stock_account_move_action"
-        )
+        xml_id = "l10n_ro_stock_account.l10n_ro_stock_account_move_action"
+        action = self.env["ir.actions.actions"]._for_xml_id(xml_id)
         context = literal_eval(action["context"])
         context.update(self.env.context)
         return dict(action, domain=domain, context=context)

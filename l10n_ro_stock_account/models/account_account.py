@@ -10,7 +10,7 @@ class AccountAccount(models.Model):
 
     l10n_ro_stock_consume_account_id = fields.Many2one(
         "account.account",
-        string="Romania - Consume Account",
+        string="Consume Account",
         company_dependent=True,
         domain="[('deprecated', '=', False), ('company_id', '=', current_company_id)]",
         help="Account used for stock consume and usage giving operations",

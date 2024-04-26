@@ -85,7 +85,7 @@ class TestStockCommon(ValuationReconciliationTestCommon):
     @classmethod
     def setUpClass(cls, chart_template_ref=None):
         ro_template_ref = "l10n_ro.ro_chart_template"
-        super(TestStockCommon, cls).setUpClass(chart_template_ref=ro_template_ref)
+        super().setUpClass(chart_template_ref=ro_template_ref)
 
         cls.env.company.anglo_saxon_accounting = True
         cls.env.company.l10n_ro_accounting = True
@@ -325,7 +325,6 @@ class TestStockCommon(ValuationReconciliationTestCommon):
     def create_po(
         self, picking_type_in=None, partial=None, vals=False, validate_picking=True
     ):
-
         if not picking_type_in:
             picking_type_in = self.picking_type_in_warehouse
         if not partial or (partial and not hasattr(self, "po")):
@@ -405,7 +404,6 @@ class TestStockCommon(ValuationReconciliationTestCommon):
         self.create_invoice()
 
     def make_return(self, pick, quantity=1.0):
-
         stock_return_picking_form = Form(
             self.env["stock.return.picking"].with_context(
                 active_ids=pick.ids, active_id=pick.ids[0], active_model="stock.picking"
@@ -470,7 +468,6 @@ class TestStockCommon(ValuationReconciliationTestCommon):
     def transfer(
         self, location, location_dest, product=False, accounting_date=False, post=True
     ):
-
         self.PickingObj = self.env["stock.picking"]
         self.MoveObj = self.env["stock.move"]
 
@@ -583,7 +580,7 @@ class TestStockCommon(ValuationReconciliationTestCommon):
         for valuation in account_valuations:
             val = round(valuation["debit"] - valuation["credit"], 2)
             if valuation["product_id"][0] == self.product_mp.id:
-                _logger.info("Check account P1 {} = {}".format(val, val_p1))
+                _logger.debug("Check account P1 {} = {}".format(val, val_p1))
                 self.assertAlmostEqual(val, val_p1)
 
     def set_stock(self, product, qty, location=None):
@@ -616,34 +613,3 @@ class TestStockCommon(ValuationReconciliationTestCommon):
             ],
             order="date, id",
         )
-
-    def create_lc(self, picking, lc_p1, lc_p2, vendor_bill=False):
-        default_vals = self.env["stock.landed.cost"].default_get(
-            list(self.env["stock.landed.cost"].fields_get())
-        )
-        default_vals.update(
-            {
-                "picking_ids": [picking.id],
-                "account_journal_id": self.company_data["default_journal_misc"],
-                "cost_lines": [(0, 0, {"product_id": self.product_1.id})],
-                "valuation_adjustment_lines": [],
-                "vendor_bill_id": vendor_bill and vendor_bill.id or False,
-            }
-        )
-        cost_lines_values = {
-            "name": ["equal split"],
-            "split_method": ["equal"],
-            "price_unit": [lc_p1 + lc_p2],
-        }
-        stock_landed_cost_1 = self.env["stock.landed.cost"].new(default_vals)
-        for index, cost_line in enumerate(stock_landed_cost_1.cost_lines):
-            cost_line.onchange_product_id()
-            cost_line.name = cost_lines_values["name"][index]
-            cost_line.split_method = cost_lines_values["split_method"][index]
-            cost_line.price_unit = cost_lines_values["price_unit"][index]
-        vals = stock_landed_cost_1._convert_to_write(stock_landed_cost_1._cache)
-        stock_landed_cost_1 = self.env["stock.landed.cost"].create(vals)
-
-        stock_landed_cost_1.compute_landed_cost()
-        stock_landed_cost_1.button_validate()
-        return stock_landed_cost_1

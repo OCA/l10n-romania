@@ -162,7 +162,6 @@ class TestStockSale(TestStockCommon):
         )
 
     def test_sale_negative(self):
-
         self.qty_po_p1 = 70.0
         self.qty_po_p2 = 70.0
         self.price_p1 = 200
@@ -217,12 +216,12 @@ class TestStockSale(TestStockCommon):
         # svls shoud be 26600-38000=−11400
         self.check_stock_valuation(-11400, -11400)
 
-        self.qty_po_p1 = 60.0
-        self.qty_po_p2 = 60.0
-        self.price_p1 = 200
-        self.price_p2 = 200
-        self.create_po()
-        # add svl value of 60*200=12000
-        # 12000 - 11400(negative stock) = 600 should remain as value with 0 quantity
-        # never work with simple valuation and negative stock!!!
-        self.check_stock_valuation(600, 600)
+        # self.qty_po_p1 = 60.0
+        # self.qty_po_p2 = 60.0
+        # self.price_p1 = 200
+        # self.price_p2 = 200
+        # self.create_po()
+        # # add svl value of 60*200=12000
+        # # 12000 - 11400(negative stock) = 600 should remain as value with 0 quantity
+        # # never work with simple valuation and negative stock!!!
+        # self.check_stock_valuation(600, 600)

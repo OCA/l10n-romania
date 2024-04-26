@@ -15,7 +15,7 @@ class StockLandedCost(models.Model):
     l10n_ro_cost_type = fields.Selection(
         [("normal", "Normal")],
         default="normal",
-        string="Romania - Landed Cost Type",
+        string="Landed Cost Type",
         states={"done": [("readonly", True)]},
     )
 
@@ -76,7 +76,7 @@ class StockLandedCost(models.Model):
                 "move_type": "entry",
             }
             valuation_layer_ids = []
-            cost_to_add_byproduct = defaultdict(lambda: 0.0)
+            cost_to_add_byproduct = defaultdict(float)
             for line in cost.valuation_adjustment_lines.filtered(
                 lambda line: line.move_id
             ):
@@ -85,7 +85,6 @@ class StockLandedCost(models.Model):
                 for svl in line.move_id.stock_valuation_layer_ids.filtered(
                     lambda s: s.quantity != 0
                 ):
-
                     cost_to_add = (
                         svl.quantity / line.move_id.quantity_done
                     ) * line.additional_landed_cost

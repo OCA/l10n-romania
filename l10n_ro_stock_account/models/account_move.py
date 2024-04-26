@@ -5,7 +5,7 @@
 
 import logging
 
-from odoo import api, models
+from odoo import models
 
 _logger = logging.getLogger(__name__)
 
@@ -13,33 +13,6 @@ _logger = logging.getLogger(__name__)
 class AccountMove(models.Model):
     _name = "account.move"
     _inherit = ["account.move", "l10n.ro.mixin"]
-
-    def button_create_landed_costs(self):
-        """Update account of the landed cost ine with the one from invoice line."""
-
-        res = super().button_create_landed_costs()
-        landed_cost = self.env["stock.landed.cost"].browse(res.get("res_id"))
-        if self.is_l10n_ro_record and landed_cost:
-            picking_invoice_ids = (
-                self.line_ids.mapped("purchase_line_id")
-                .mapped("order_id")
-                .mapped("picking_ids")
-            )
-            picking_landed_cost_ids = (
-                self.env["stock.landed.cost"]
-                .search([("state", "=", "done")])
-                .mapped("picking_ids")
-            )
-            landed_cost.picking_ids = picking_invoice_ids.filtered(
-                lambda l: l not in picking_landed_cost_ids and l.state == "done"
-            )
-            for line in landed_cost.cost_lines:
-                invoice_line = self.line_ids.filtered(
-                    lambda l: l.product_id == line.product_id
-                )
-                if invoice_line:
-                    line.account_id = invoice_line[0].account_id
-        return res
 
     def _stock_account_prepare_anglo_saxon_out_lines_vals(self):
         # nu se mai face descarcarea de gestiune la facturare
@@ -52,15 +25,16 @@ class AccountMove(models.Model):
         )._stock_account_prepare_anglo_saxon_out_lines_vals()
 
     def action_post(self):
-        res = super(AccountMove, self).action_post()
+        res = super().action_post()
         for move in self.filtered("is_l10n_ro_record"):
             for line in move.line_ids:
                 _logger.debug(
-                    "%s\t\t%s\t\t%s"
-                    % (line.debit, line.credit, line.account_id.display_name)
+                    "{}\t\t{}\t\t{}".format(
+                        line.debit, line.credit, line.account_id.display_name
+                    )
                 )
             invoice_lines = move.invoice_line_ids.filtered(
-                lambda l: l.display_type == "product"
+                lambda line: line.display_type == "product"
             )
             for line in invoice_lines:
                 valuation_stock_moves = line._l10n_ro_get_valuation_stock_moves()
@@ -68,7 +42,9 @@ class AccountMove(models.Model):
                     svls = valuation_stock_moves.sudo().mapped(
                         "stock_valuation_layer_ids"
                     )
-                    svls = svls.filtered(lambda l: not l.l10n_ro_invoice_line_id)
+                    svls = svls.filtered(
+                        lambda layer: not layer.l10n_ro_invoice_line_id
+                    )
                     svls.write(
                         {
                             "l10n_ro_invoice_line_id": line.id,
@@ -82,28 +58,10 @@ class AccountMoveLine(models.Model):
     _name = "account.move.line"
     _inherit = ["account.move.line", "l10n.ro.mixin"]
 
-    @api.onchange("is_landed_costs_line")
-    def _onchange_is_landed_costs_line(self):
-        res = super()._onchange_is_landed_costs_line()
-        if (
-            self.move_id.is_l10n_ro_record
-            and self.product_type == "service"
-            and self.is_landed_costs_line
-        ):
-            accounts = self.product_id.product_tmpl_id._get_product_accounts()
-            if self.move_id.move_type not in ("out_invoice", "out_refund"):
-                self.account_id = accounts["expense"]
-            else:
-                self.account_id = accounts["income"]
-        return res
-
     def _l10n_ro_get_valuation_stock_moves(self):
         valuation_stock_moves = self.env["stock.move"]
         if self.purchase_line_id or self.sale_line_ids:
-            domain = [
-                ("state", "=", "done"),
-                ("product_qty", "!=", 0.0),
-            ]
+            domain = [("state", "=", "done"), ("product_qty", "!=", 0.0)]
             if self.purchase_line_id:
                 domain += [("purchase_line_id", "=", self.purchase_line_id.id)]
             if self.sale_line_ids:
@@ -114,7 +72,7 @@ class AccountMoveLine(models.Model):
         return valuation_stock_moves
 
     def _get_computed_account(self):
-        res = super(AccountMoveLine, self)._get_computed_account()
+        res = super()._get_computed_account()
         # Take accounts from stock location in case the category allow changinc
         # accounts and the picking is not notice
         if (

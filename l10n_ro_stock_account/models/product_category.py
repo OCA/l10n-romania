@@ -17,12 +17,12 @@ class ProductCategory(models.Model):
 
     l10n_ro_hide_stock_in_out_account = fields.Boolean(
         compute="_compute_hide_accounts",
-        string="Romania - Hide Odoo Stock In/Out Accounts",
+        string="Hide Odoo Stock In/Out Accounts",
         help="Only for Romania, to hide stock_input and stock_output "
         "accounts because they are the same as stock_valuation account",
     )
     l10n_ro_stock_account_change = fields.Boolean(
-        string="Romania - Allow stock account change from locations",
+        string="Allow stock account change from locations",
         help="Only for Romania, to change the accounts to the ones defined "
         "on stock locations",
     )
@@ -60,7 +60,7 @@ class ProductCategory(models.Model):
                         % record.name
                     )
         else:
-            return super(ProductCategory, self)._check_valuation_accouts()
+            return super()._check_valuation_accouts()
 
     @api.onchange(
         "property_stock_valuation_account_id",

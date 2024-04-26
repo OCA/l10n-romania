@@ -23,7 +23,7 @@ class ProductProduct(models.Model):
         Overwrite to allow multiple prices per location
         """
         l10n_ro_records = self.filtered("is_l10n_ro_record")
-        res = super(ProductProduct, self)._compute_value_svl()
+        res = super()._compute_value_svl()
 
         if l10n_ro_records:
             company = self.env.company
@@ -141,7 +141,7 @@ class ProductProduct(models.Model):
                             vals["value"] += rounding_error
                             vals[
                                 "rounding_adjustment"
-                            ] = "\nRounding Adjustment: %s%s %s" % (
+                            ] = "\nRounding Adjustment: {}{} {}".format(
                                 "+" if rounding_error > 0 else "",
                                 float_repr(
                                     rounding_error,
@@ -188,7 +188,7 @@ class ProductProduct(models.Model):
 
     def _run_fifo(self, quantity, company):
         if not self.env["res.company"]._check_is_l10n_ro_record(company.id):
-            return super(ProductProduct, self)._run_fifo(quantity, company)
+            return super()._run_fifo(quantity, company)
 
         self.ensure_one()
         domain = self._l10n_ro_prepare_domain_fifo(
@@ -281,7 +281,7 @@ class ProductProduct(models.Model):
         if company is None:
             company = self.env.company
         if not self.env["res.company"]._check_is_l10n_ro_record(company.id):
-            return super(ProductProduct, self)._run_fifo_vacuum(company)
+            return super()._run_fifo_vacuum(company)
 
         self.ensure_one()
         svls_to_vacuum = (

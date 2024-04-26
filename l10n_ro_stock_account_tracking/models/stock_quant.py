@@ -35,7 +35,8 @@ class StockQuant(models.Model):
         for product in products:
             for location in locations:
                 quants = quants_without_lot_allocation.filtered(
-                    lambda q: q.location_id == location and q.product_id == product
+                    lambda quant: quant.location_id == location
+                    and quant.product_id == product
                 ).sorted("in_date")
                 svls = (
                     self.env["stock.valuation.layer"]
@@ -50,9 +51,9 @@ class StockQuant(models.Model):
                     .sorted("create_date")
                 )
                 svl_lots = set(svls.mapped("l10n_ro_lot_ids"))
-                sq_lots = quants.filtered(lambda l: l.lot_id in svl_lots)
+                sq_lots = quants.filtered(lambda quant: quant.lot_id in svl_lots)
                 svl_with_lot_in_sq_lot = svls.filtered(
-                    lambda l: l.l10n_ro_lot_ids in sq_lots.mapped("lot_id")
+                    lambda svl: svl.l10n_ro_lot_ids in sq_lots.mapped("lot_id")
                 )
                 for svl in svl_with_lot_in_sq_lot:
                     for sq in sq_lots:

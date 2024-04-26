@@ -11,15 +11,12 @@ from .common import TestStockCommon
 @tagged("post_install", "-at_install")
 class TestStockPurchase(TestStockCommon):
     def test_nir_with_invoice_standard(self):
-
         self.env.company.l10n_ro_accounting = False
 
         self.create_po()
 
         self.check_stock_valuation(self.val_p1_i, self.val_p2_i)
 
-        # in contabilitate trebuie sa fie zero pentru ca la receptie nu
-        # trebuie generata nota cantabila
         self.check_account_valuation(0, 0)
 
         self.create_invoice()

@@ -1,7 +1,7 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 {
     "name": "Romania - Stock Accounting",
-    "version": "16.0.1.23.0",
+    "version": "16.0.1.23.1",
     "category": "Localization",
     "summary": "Romania - Stock Accounting",
     "author": "NextERP Romania,"
@@ -10,9 +10,9 @@
     "Odoo Community Association (OCA)",
     "website": "https://github.com/OCA/l10n-romania",
     "depends": [
-        "stock_landed_costs",
         "sale_stock",
         "purchase_stock",
+        "stock_dropshipping",
         "l10n_ro_config",
         "l10n_ro_stock",
     ],
@@ -22,14 +22,10 @@
         "views/account_account_view.xml",
         "views/product_category_view.xml",
         "views/product_template_view.xml",
-        "views/stock_landed_cost_view.xml",
         "views/stock_location_view.xml",
         "views/stock_picking_view.xml",
         "views/stock_valuation_layer_views.xml",
-        "wizard/stock_picking_return_views.xml",
-        "wizard/stock_valuation_layer_revaluation_views.xml",
     ],
-    "pre_init_hook": "pre_init_hook",
     "installable": True,
     "development_status": "Mature",
     "maintainers": ["dhongu", "feketemihai"],
