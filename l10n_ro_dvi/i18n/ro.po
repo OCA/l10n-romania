@@ -42,9 +42,8 @@ msgstr ""
 
 #. module: l10n_ro_dvi
 #: model:ir.model.fields,field_description:l10n_ro_dvi.field_l10n_ro_account_dvi_line__price_subtotal
-#, fuzzy
-msgid "Subtotal"
-msgstr "Subtotal"
+msgid "Balance"
+msgstr ""
 
 #. module: l10n_ro_dvi
 #: model:ir.model.fields,field_description:l10n_ro_dvi.field_l10n_ro_account_dvi_line__base_amount
@@ -94,24 +93,25 @@ msgid "Currency"
 msgstr "Moneda"
 
 #. module: l10n_ro_dvi
+#. odoo-python
 #: code:addons/l10n_ro_dvi/models/res_company.py:0
 #, python-format
 msgid "Custom Duty"
 msgstr "Taxă vamală"
 
 #. module: l10n_ro_dvi
-#: model:ir.model.fields,field_description:l10n_ro_dvi.field_l10n_ro_account_dvi__customs_commission_product_id
-#, fuzzy
-msgid "Customs Commission Product"
-msgstr "Produs Comision vamal"
-
-#. module: l10n_ro_dvi
+#. odoo-python
 #: code:addons/l10n_ro_dvi/models/res_company.py:0
 #: model_terms:ir.ui.view,arch_db:l10n_ro_dvi.view_account_dvi_form
 #, python-format
 msgid "Customs Commission"
 msgstr "Comision vamal"
 
+#. module: l10n_ro_dvi
+#: model:ir.model.fields,field_description:l10n_ro_dvi.field_l10n_ro_account_dvi__customs_commission_product_id
+#, fuzzy
+msgid "Customs Commission Product"
+msgstr "Produs Comision vamal"
 
 #. module: l10n_ro_dvi
 #: model:ir.model.fields,field_description:l10n_ro_dvi.field_l10n_ro_account_dvi__customs_commission_value
@@ -217,13 +217,11 @@ msgstr "ID"
 
 #. module: l10n_ro_dvi
 #: model:ir.model.fields,help:l10n_ro_dvi.field_l10n_ro_account_dvi__message_needaction
-#: model:ir.model.fields,help:l10n_ro_dvi.field_l10n_ro_account_dvi__message_unread
 msgid "If checked, new messages require your attention."
 msgstr ""
 
 #. module: l10n_ro_dvi
 #: model:ir.model.fields,help:l10n_ro_dvi.field_l10n_ro_account_dvi__message_has_error
-#: model:ir.model.fields,help:l10n_ro_dvi.field_l10n_ro_account_dvi__message_has_sms_error
 msgid "If checked, some messages have a delivery error."
 msgstr ""
 
@@ -310,6 +308,11 @@ msgid "Landed Cost"
 msgstr "Costuri Adiționale Stoc"
 
 #. module: l10n_ro_dvi
+#: model:ir.model.fields,field_description:l10n_ro_dvi.field_stock_landed_cost__l10n_ro_cost_type
+msgid "Landed Cost Type"
+msgstr ""
+
+#. module: l10n_ro_dvi
 #: model_terms:ir.ui.view,arch_db:l10n_ro_dvi.view_account_dvi_form
 #, fuzzy
 msgid "Landed Costs"
@@ -370,7 +373,7 @@ msgstr ""
 
 #. module: l10n_ro_dvi
 #: model:ir.model.fields,help:l10n_ro_dvi.field_l10n_ro_account_dvi__message_needaction_counter
-msgid "Number of messages which requires an action"
+msgid "Number of messages requiring action"
 msgstr ""
 
 #. module: l10n_ro_dvi
@@ -379,11 +382,7 @@ msgid "Number of messages with delivery error"
 msgstr ""
 
 #. module: l10n_ro_dvi
-#: model:ir.model.fields,help:l10n_ro_dvi.field_l10n_ro_account_dvi__message_unread_counter
-msgid "Number of unread messages"
-msgstr ""
-
-#. module: l10n_ro_dvi
+#. odoo-python
 #: code:addons/l10n_ro_dvi/models/l10n_ro_account_dvi.py:0
 #, python-format
 msgid "Only Posted DVI can be reversed."
@@ -412,11 +411,9 @@ msgstr ""
 #. module: l10n_ro_dvi
 #: model:ir.model.fields,help:l10n_ro_dvi.field_l10n_ro_account_dvi__customs_commission_product_id
 msgid ""
-"Product type service with l10n_ro_custom_commission checked (in purchase tab). "
-"Journal entry for commission will be with this product"
+"Product type service with l10n_ro_custom_commission checed (in purchase "
+"tab). Journal entry for commission will be with this product"
 msgstr ""
-"Produs de tip serviciu cu l10n_ro_custom_commission bifat (în fila de "
-"achiziții). Înregistrarea în jurnal pentru comision va fi cu acest produs"
 
 #. module: l10n_ro_dvi
 #: model:ir.model.fields,field_description:l10n_ro_dvi.field_l10n_ro_account_dvi_line__qty
@@ -461,26 +458,20 @@ msgid "Romania - DVI's"
 msgstr "DVI-uri"
 
 #. module: l10n_ro_dvi
-#: model:ir.model.fields,field_description:l10n_ro_dvi.field_stock_landed_cost__l10n_ro_cost_type
-#, fuzzy
-msgid "Romania - Landed Cost Type"
-msgstr "Costuri Adiționale Stoc"
-
-#. module: l10n_ro_dvi
 #: model:ir.model.fields,field_description:l10n_ro_dvi.field_stock_landed_cost__l10n_ro_tax_value
 #, fuzzy
 msgid "Romania - VAT amount paid at customs"
 msgstr "TVA plătit în vamă"
 
 #. module: l10n_ro_dvi
+#: model:ir.model.fields,field_description:l10n_ro_dvi.field_res_company__l10n_ro_property_vat_price_difference_product_id
+msgid "Romania - Vat Price Difference Product"
+msgstr ""
+
+#. module: l10n_ro_dvi
 #: model:ir.ui.menu,name:l10n_ro_dvi.menu_action_account_dvi
 msgid "Romanian DVI"
 msgstr "DVI"
-
-#. module: l10n_ro_dvi
-#: model:ir.model.fields,field_description:l10n_ro_dvi.field_l10n_ro_account_dvi__message_has_sms_error
-msgid "SMS Delivery error"
-msgstr ""
 
 #. module: l10n_ro_dvi
 #: model:ir.model.fields,field_description:l10n_ro_dvi.field_l10n_ro_account_dvi__state
@@ -499,15 +490,6 @@ msgid "Tax"
 msgstr "TVA"
 
 #. module: l10n_ro_dvi
-#: model:ir.model.fields,help:l10n_ro_dvi.field_l10n_ro_account_dvi_line__price_subtotal
-msgid ""
-"Technical field holding the debit - credit in order to open meaningful graph "
-"views from reports"
-msgstr ""
-"Total debit - credit pentru a deschide vizualizări grafice semnificative din "
-"rapoarte"
-
-#. module: l10n_ro_dvi
 #: model:ir.model.fields,help:l10n_ro_dvi.field_l10n_ro_account_dvi_line__qty
 msgid ""
 "The optional quantity expressed by this line, eg: number of product sold. "
@@ -518,6 +500,7 @@ msgstr ""
 "pentru unele rapoarte."
 
 #. module: l10n_ro_dvi
+#. odoo-python
 #: code:addons/l10n_ro_dvi/models/stock_landed_cost.py:0
 #, python-format
 msgid "The product Custom Duty not found"
@@ -532,6 +515,13 @@ msgstr "Cantitatea declarată în DVI."
 #: model:ir.model.fields,help:l10n_ro_dvi.field_l10n_ro_account_dvi__customs_duty_value
 msgid "This is a value from received dvi"
 msgstr "Aceasta este o valoare de la DVI primit"
+
+#. module: l10n_ro_dvi
+#: model:ir.model.fields,help:l10n_ro_dvi.field_res_company__l10n_ro_property_vat_price_difference_product_id
+msgid ""
+"This product will be used in create an accounting note for the difference "
+"between customs duty and bill"
+msgstr ""
 
 #. module: l10n_ro_dvi
 #: model:ir.model.fields,field_description:l10n_ro_dvi.field_l10n_ro_account_dvi__total_base_tax_value
@@ -556,16 +546,6 @@ msgid "Unit of Measure"
 msgstr "Unitate de măsură"
 
 #. module: l10n_ro_dvi
-#: model:ir.model.fields,field_description:l10n_ro_dvi.field_l10n_ro_account_dvi__message_unread
-msgid "Unread Messages"
-msgstr ""
-
-#. module: l10n_ro_dvi
-#: model:ir.model.fields,field_description:l10n_ro_dvi.field_l10n_ro_account_dvi__message_unread_counter
-msgid "Unread Messages Counter"
-msgstr ""
-
-#. module: l10n_ro_dvi
 #: model:ir.model.fields,help:l10n_ro_dvi.field_l10n_ro_account_dvi__currency_id
 #: model:ir.model.fields,help:l10n_ro_dvi.field_l10n_ro_account_dvi_line__currency_id
 msgid "Utility field to express amount currency"
@@ -582,12 +562,14 @@ msgid "VAT amount, calculated from invoice base amount and customs."
 msgstr "Valoarea TVA, calculată din valoarea de bază a facturii și vamă."
 
 #. module: l10n_ro_dvi
+#. odoo-python
 #: code:addons/l10n_ro_dvi/models/stock_landed_cost.py:0
 #, python-format
 msgid "VAT paid at customs"
 msgstr "TVA plătit în vamă"
 
 #. module: l10n_ro_dvi
+#. odoo-python
 #: code:addons/l10n_ro_dvi/models/stock_landed_cost.py:0
 #, fuzzy, python-format
 msgid "VAT paid at customs expense"
@@ -634,24 +616,28 @@ msgid "Website communication history"
 msgstr ""
 
 #. module: l10n_ro_dvi
+#. odoo-python
 #: code:addons/l10n_ro_dvi/models/l10n_ro_account_dvi.py:0
 #, python-format
 msgid "You can only post DVI from 'draft' state."
 msgstr "Puteți posta DVI numai din statusul „ciornă”."
 
 #. module: l10n_ro_dvi
+#. odoo-python
 #: code:addons/l10n_ro_dvi/models/stock_landed_cost.py:0
 #, python-format
 msgid "You cannot create a DVI landed cost without reference to an invoice."
 msgstr "Nu puteți crea un DVI fără referire la o factură."
 
 #. module: l10n_ro_dvi
+#. odoo-python
 #: code:addons/l10n_ro_dvi/models/account_invoice.py:0
 #, python-format
 msgid "You do not have created DVI's for this invoice"
 msgstr "Nu ați creat DVI-uri pentru această factură"
 
 #. module: l10n_ro_dvi
+#. odoo-python
 #: code:addons/l10n_ro_dvi/models/l10n_ro_account_dvi.py:0
 #, python-format
 msgid "You do not have created landed costs for this DVI"
@@ -680,3 +666,25 @@ msgstr "taxa calculată din custom_duty_value"
 #: model:ir.model.fields,help:l10n_ro_dvi.field_l10n_ro_account_dvi__customs_commission_value
 msgid "taken from dvi if exists"
 msgstr "luat din DVI dacă există"
+
+#, fuzzy
+#~ msgid "Subtotal"
+#~ msgstr "Subtotal"
+
+#~ msgid ""
+#~ "Product type service with l10n_ro_custom_commission checked (in purchase "
+#~ "tab). Journal entry for commission will be with this product"
+#~ msgstr ""
+#~ "Produs de tip serviciu cu l10n_ro_custom_commission bifat (în fila de "
+#~ "achiziții). Înregistrarea în jurnal pentru comision va fi cu acest produs"
+
+#, fuzzy
+#~ msgid "Romania - Landed Cost Type"
+#~ msgstr "Costuri Adiționale Stoc"
+
+#~ msgid ""
+#~ "Technical field holding the debit - credit in order to open meaningful "
+#~ "graph views from reports"
+#~ msgstr ""
+#~ "Total debit - credit pentru a deschide vizualizări grafice semnificative "
+#~ "din rapoarte"
