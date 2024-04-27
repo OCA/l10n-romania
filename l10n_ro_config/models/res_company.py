@@ -143,11 +143,7 @@ class ResCompany(models.Model):
     )
 
     def _check_is_l10n_ro_record(self, company=False):
-        if not company:
-            company = self
-        else:
-            company = self.browse(company)
-        return company.l10n_ro_accounting
+        return True
 
     @api.depends("chart_template_id")
     def _compute_l10n_ro_accounting(self):

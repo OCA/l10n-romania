@@ -325,7 +325,7 @@ class ResConfigSettings(models.TransientModel):
             )
 
             no_tracking_products = self.env["product.template"].search(
-                [("tracking", "=", "none"), ("type", "!=", "service")]
+                [("tracking", "=", "none"), ("type", "!=", "service")], limit=1
             )
             if no_tracking_products.exists():
                 error = _(
