@@ -444,10 +444,11 @@ class TestStockCommon(ValuationReconciliationTestCommon):
         self.picking.action_assign()  # verifica disponibilitate
 
         for move in self.picking.move_ids:
-            if move.product_uom_qty > 0 and move.product_qty == 0:
-                move._set_quantity_done(move.product_uom_qty)
+            move._set_quantity_done(move.product_uom_qty)
 
+        self.picking.button_validate()
         self.picking._action_done()
+
         _logger.debug("Livrare facuta")
         return self.picking
 
