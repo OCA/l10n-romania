@@ -4,6 +4,7 @@
     "name": "Romania - Stock Accounting Notice",
     "version": "17.0.1.0.0",
     "category": "Localization",
+    "countries": ["ro"],
     "summary": "Romania - Stock Accounting Notice",
     "author": "NextERP Romania," "Dorin Hongu," "Odoo Community Association (OCA)",
     "website": "https://github.com/OCA/l10n-romania",
