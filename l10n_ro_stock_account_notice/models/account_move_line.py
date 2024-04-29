@@ -48,7 +48,7 @@ class AccountMoveLine(models.Model):
                         ]
                     ):
                         self = self.with_context(valued_type="invoice_out_notice")
-        return super(AccountMoveLine, self)._compute_account_id()
+        return super()._compute_account_id()
 
     # TODO: de sters, metoda depreciata.
     def _get_computed_account(self):
@@ -76,7 +76,7 @@ class AccountMoveLine(models.Model):
                         ]
                     ):
                         self = self.with_context(valued_type="invoice_out_notice")
-        return super(AccountMoveLine, self)._get_computed_account()
+        return super()._get_computed_account()
 
     def _get_account_change_stock_moves_purchase(self):
         stock_moves = self.purchase_line_id.move_ids.filtered(
