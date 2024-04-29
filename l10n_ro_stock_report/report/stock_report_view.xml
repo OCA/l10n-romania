@@ -42,10 +42,7 @@
                     </group>
 
                 </group>
-                <group
-                    name="locations"
-                    attrs="{'invisible': [  ('show_locations','=',False)]}"
-                >
+                <group name="locations" invisible="not show_locations">
                     <field name="location_ids" />
                 </group>
                 <footer>
