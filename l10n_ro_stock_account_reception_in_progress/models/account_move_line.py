@@ -21,5 +21,5 @@ class AccountMoveLine(models.Model):
                         )
                         remaining -= linie
         if reception_in_progress_lines:
-            super(AccountMoveLine, reception_in_progress_lines)._get_computed_account()
-        return super(AccountMoveLine, remaining)._get_computed_account()
+            super(AccountMoveLine, reception_in_progress_lines)._compute_account_id()
+        return super(AccountMoveLine, remaining)._compute_account_id()
