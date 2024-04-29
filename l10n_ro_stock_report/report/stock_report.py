@@ -9,8 +9,9 @@ from dateutil.relativedelta import relativedelta
 from odoo import _, api, fields, models
 from odoo.exceptions import UserError
 
-_logger = logging.getLogger(__name__)
 from odoo.addons.l10n_ro_stock_account.models.stock_valuation_layer import VALUED_TYPE
+
+_logger = logging.getLogger(__name__)
 
 
 class StorageSheet(models.TransientModel):
@@ -236,21 +237,21 @@ class StorageSheet(models.TransientModel):
         _logger.info("end select ")
 
     def _get_lot_fields(self):
-        if 'lot_id' in self.env['stock.valuation.layer']:
-            field = ', serial_number'
-            select = ',sml.lot_id as serial_number'
-            join = 'left join stock_move_line sml on sml.id=svl.l10n_ro_stock_move_line_id'
-            group = 'ml.lot_id'
+        if "lot_id" in self.env["stock.valuation.layer"]:
+            field = ", serial_number"
+            select = ",sml.lot_id as serial_number"
+            join = (
+                "left join stock_move_line sml on sml.id=svl.l10n_ro_stock_move_line_id"
+            )
+            group = "ml.lot_id"
         else:
-            field = ''
-            select = ''
-            join = ''
-            group = ''
+            field = ""
+            select = ""
+            join = ""
+            group = ""
         return field, select, join, group
 
-
     def _get_sql_select_sold_init(self):
-
         field, select, join, group = self._get_lot_fields()
 
         sql = f"""
@@ -294,9 +295,7 @@ class StorageSheet(models.TransientModel):
         return sql
 
     def _get_sql_select_sold_final(self):
-
         field, select, join, group = self._get_lot_fields()
-
 
         sql = f"""
             insert into l10n_ro_stock_storage_sheet_line
@@ -340,7 +339,6 @@ class StorageSheet(models.TransientModel):
         return sql
 
     def _get_sql_select_in(self):
-
         field, select, join, group = self._get_lot_fields()
 
         sql = f"""
@@ -400,7 +398,6 @@ class StorageSheet(models.TransientModel):
         return sql
 
     def _get_sql_select_out(self):
-
         field, select, join, group = self._get_lot_fields()
 
         sql = f"""
