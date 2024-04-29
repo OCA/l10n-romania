@@ -94,7 +94,7 @@ class StorageSheet(models.TransientModel):
 
     @api.model
     def default_get(self, fields_list):
-        res = super(StorageSheet, self).default_get(fields_list)
+        res = super().default_get(fields_list)
 
         today = fields.Date.context_today(self)
         today = fields.Date.from_string(today)
@@ -107,7 +107,6 @@ class StorageSheet(models.TransientModel):
         return res
 
     def get_products_with_move_sql(self, product_list=False):
-
         locations = self.location_ids
 
         if product_list:

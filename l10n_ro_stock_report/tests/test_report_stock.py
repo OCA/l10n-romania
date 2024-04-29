@@ -12,7 +12,7 @@ _logger = logging.getLogger(__name__)
 
 class TestStockReport(TransactionCase):
     def setUp(self):
-        super(TestStockReport, self).setUp()
+        super().setUp()
         self.env.company.write(
             {
                 "l10n_ro_accounting": True,
