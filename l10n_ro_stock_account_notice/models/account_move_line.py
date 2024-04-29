@@ -18,8 +18,12 @@ class AccountMoveLine(models.Model):
             lambda x: x.product_id.type == "product" and x.is_l10n_ro_record
         )
         remaining = self
-        invoice_in_notice_lines = self.env["account.move.line"]
-        invoice_out_notice_lines = self.env["account.move.line"]
+        invoice_in_notice_lines = self.env["account.move.line"].with_context(
+            valued_type="invoice_in_notice"
+        )
+        invoice_out_notice_lines = self.env["account.move.line"].with_context(
+            valued_type="invoice_out_notice"
+        )
 
         for line in l10n_ro_lines_for_notice:
             move_id = line.move_id
@@ -35,9 +39,7 @@ class AccountMoveLine(models.Model):
                             for p in purchase.picking_ids
                         ]
                     ):
-                        invoice_in_notice_lines |= line.with_context(
-                            valued_type="invoice_in_notice"
-                        )
+                        invoice_in_notice_lines |= line
                         remaining -= line
             if move_id.is_sale_document():
                 sale_lines = line.mapped("sale_line_ids")
@@ -52,10 +54,9 @@ class AccountMoveLine(models.Model):
                             for p in sale.mapped("picking_ids")
                         ]
                     ):
-                        invoice_out_notice_lines |= line.with_context(
-                            valued_type="invoice_out_notice"
-                        )
+                        invoice_out_notice_lines |= line
                         remaining -= line
+
         if invoice_in_notice_lines:
             super(AccountMoveLine, invoice_in_notice_lines)._compute_account_id()
         if invoice_out_notice_lines:
