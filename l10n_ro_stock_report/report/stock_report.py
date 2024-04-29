@@ -10,27 +10,7 @@ from odoo import _, api, fields, models
 from odoo.exceptions import UserError
 
 _logger = logging.getLogger(__name__)
-
-VALUED_TYPE = [
-    ("reception", "Reception"),
-    ("reception_return", "Return reception"),
-    ("reception_notice", "Reception with notice"),
-    ("reception_notice_return", "Return reception with notice"),
-    ("delivery", "Delivery"),
-    ("delivery_return", "Return delivery"),
-    ("delivery_notice", "Delivery with notice"),
-    ("delivery_notice_return", "Return delivery with notice"),
-    ("plus_inventory", "Plus inventory"),
-    ("minus_inventory", "Minus inventory"),
-    ("consumption", "Consumption"),
-    ("consumption_return", "Return Consumption"),
-    ("production", "Production"),
-    ("production_return", "Return Production"),
-    ("internal_transfer", "Internal Transfer"),
-    ("usage_giving", "Usage Giving"),
-    ("usage_giving_return", "Return Usage Giving"),
-    ("indefinite", "Indefinite"),
-]
+from odoo.addons.l10n_ro_stock_account.models.stock_valuation_layer import VALUED_TYPE
 
 
 class StorageSheet(models.TransientModel):
@@ -260,21 +240,19 @@ class StorageSheet(models.TransientModel):
              insert into l10n_ro_stock_storage_sheet_line
               (report_id, product_id, amount_initial, quantity_initial,
                account_id, date_time, date, reference, document,
-               location_id, categ_id, serial_number)
+               location_id, categ_id)
 
             select * from(
                 SELECT %(report)s as report_id, prod.id as product_id,
                     COALESCE(sum(svl.value), 0)  as amount_initial,
                     COALESCE(sum(svl.quantity), 0)  as quantity_initial,
-
                     COALESCE(svl.l10n_ro_account_id, Null) as account_id,
                     %(datetime_from)s::timestamp without time zone  as date_time,
                     %(date_from)s::date as date,
                     %(reference)s as reference,
                     %(reference)s as document,
                     %(location)s as location_id,
-                    pt.categ_id as categ_id,
-                    sml.lot_id as serial_number
+                    pt.categ_id as categ_id
                 from product_product as prod
                 join stock_move as sm ON sm.product_id = prod.id AND sm.state = 'done' AND
                     sm.company_id = %(company)s AND
@@ -285,14 +263,13 @@ class StorageSheet(models.TransientModel):
                         ((l10n_ro_valued_type !='internal_transfer' or
                             l10n_ro_valued_type is Null
                          ) or
-                         (l10n_ro_valued_type ='internal_transfer' and quantity<0 and
+                         (l10n_ro_valued_type ='internal_transfer' and svl.quantity<0 and
                           sm.location_id in %(locations)s) or
-                         (l10n_ro_valued_type ='internal_transfer' and quantity>0 and
+                         (l10n_ro_valued_type ='internal_transfer' and svl.quantity>0 and
                           sm.location_dest_id in %(locations)s))
-                left join stock_move_line sml on sml.id=svl.l10n_ro_stock_move_line_id
                 where
                     ( %(all_products)s  or sm.product_id in %(product)s )
-                GROUP BY prod.id, svl.l10n_ro_account_id, pt.categ_id, sml.lot_id)
+                GROUP BY prod.id, svl.l10n_ro_account_id, pt.categ_id)
             a --where a.amount_initial!=0 and a.quantity_initial!=0
             """
         return sql
@@ -302,7 +279,7 @@ class StorageSheet(models.TransientModel):
             insert into l10n_ro_stock_storage_sheet_line
               (report_id, product_id, amount_final, quantity_final,
                account_id, date_time, date, reference, document,
-               location_id, categ_id, serial_number)
+               location_id, categ_id)
             select * from(
                 SELECT %(report)s as report_id, sm.product_id as product_id,
                     COALESCE(sum(svl.value),0)  as amount_final,
@@ -314,8 +291,7 @@ class StorageSheet(models.TransientModel):
                     %(reference)s as reference,
                     %(reference)s as document,
                     %(location)s as location_id,
-                    pt.categ_id as categ_id,
-                    sml.lot_id as serial_number
+                    pt.categ_id as categ_id
                 from stock_move as sm
                 left join product_product prod on prod.id = sm.product_id
                 left join product_template pt on pt.id = prod.product_tmpl_id
@@ -323,19 +299,18 @@ class StorageSheet(models.TransientModel):
                         ((l10n_ro_valued_type !='internal_transfer' or
                           l10n_ro_valued_type is Null
                          ) or
-                         (l10n_ro_valued_type ='internal_transfer' and quantity<0 and
+                         (l10n_ro_valued_type ='internal_transfer' and svl.quantity<0 and
                           sm.location_id in %(locations)s) or
-                         (l10n_ro_valued_type ='internal_transfer' and quantity>0 and
+                         (l10n_ro_valued_type ='internal_transfer' and svl.quantity>0 and
                           sm.location_dest_id in %(locations)s))
-                left join stock_move_line sml on sml.id=svl.l10n_ro_stock_move_line_id
                 where
                     sm.state = 'done' AND
                     sm.company_id = %(company)s AND
                     ( %(all_products)s  or sm.product_id in %(product)s ) AND
                     sm.date <=  %(datetime_to)s AND
                     (sm.location_id in %(locations)s OR sm.location_dest_id in %(locations)s)
-                GROUP BY sm.product_id, svl.l10n_ro_account_id, pt.categ_id, sml.lot_id)
-            a --where a.amount_final!=0 and a.quantity_final!=0
+                GROUP BY sm.product_id, svl.l10n_ro_account_id, pt.categ_id)
+            a
             """
         return sql
 
@@ -344,7 +319,7 @@ class StorageSheet(models.TransientModel):
             insert into l10n_ro_stock_storage_sheet_line
               (report_id, product_id, amount_in, quantity_in, unit_price_in,
                account_id, invoice_id, date_time, date, reference,  location_id,
-               partner_id, document, valued_type, categ_id , serial_number)
+               partner_id, document, valued_type, categ_id )
             select * from(
 
 
@@ -365,8 +340,7 @@ class StorageSheet(models.TransientModel):
                     sp.partner_id,
                     COALESCE(am.name, sm.reference) as document,
                     COALESCE(svl_in.l10n_ro_valued_type, 'indefinite') as valued_type,
-                    pt.categ_id as categ_id,
-                    sml.lot_id as serial_number
+                    pt.categ_id as categ_id
 
                 from stock_move as sm
                     inner join stock_valuation_layer as svl_in
@@ -382,7 +356,7 @@ class StorageSheet(models.TransientModel):
                     left join product_template pt on pt.id = prod.product_tmpl_id
                     left join stock_picking as sp on sm.picking_id = sp.id
                     left join account_move am on svl_in.l10n_ro_invoice_id = am.id
-                    left join stock_move_line sml on sml.id=svl_in.l10n_ro_stock_move_line_id
+
                 where
                     sm.state = 'done' AND
                     sm.company_id = %(company)s AND
@@ -392,7 +366,7 @@ class StorageSheet(models.TransientModel):
                 GROUP BY sm.product_id, sm.date,
                  sm.reference, sp.partner_id, l10n_ro_account_id,
                  svl_in.l10n_ro_invoice_id, am.name, svl_in.l10n_ro_valued_type,
-                 pt.categ_id, sml.lot_id)
+                 pt.categ_id)
             a --where a.amount_in!=0 and a.quantity_in!=0
                 """
         return sql
@@ -402,7 +376,7 @@ class StorageSheet(models.TransientModel):
             insert into l10n_ro_stock_storage_sheet_line
               (report_id, product_id, amount_out, quantity_out, unit_price_out,
                account_id, invoice_id, date_time, date, reference,  location_id,
-               partner_id, document, valued_type, categ_id, serial_number )
+               partner_id, document, valued_type, categ_id )
 
             select * from(
 
@@ -423,8 +397,7 @@ class StorageSheet(models.TransientModel):
                     sp.partner_id,
                     COALESCE(am.name, sm.reference) as document,
                     COALESCE(svl_out.l10n_ro_valued_type, 'indefinite') as valued_type,
-                    pt.categ_id as categ_id,
-                    sml.lot_id as serial_number
+                    pt.categ_id as categ_id
 
                 from stock_move as sm
 
@@ -441,7 +414,7 @@ class StorageSheet(models.TransientModel):
                     left join product_template pt on pt.id = prod.product_tmpl_id
                     left join stock_picking as sp on sm.picking_id = sp.id
                     left join account_move am on svl_out.l10n_ro_invoice_id = am.id
-                    left join stock_move_line sml on sml.id=svl_out.l10n_ro_stock_move_line_id
+
                 where
                     sm.state = 'done' AND
                     sm.company_id = %(company)s AND
@@ -451,7 +424,7 @@ class StorageSheet(models.TransientModel):
                 GROUP BY sm.product_id, sm.date,
                          sm.reference, sp.partner_id, account_id,
                          svl_out.l10n_ro_invoice_id, am.name, svl_out.l10n_ro_valued_type,
-                         pt.categ_id, sml.lot_id)
+                         pt.categ_id)
             a --where a.amount_out!=0 and a.quantity_out!=0
                 """
         return sql
