@@ -32,6 +32,7 @@ class TestStockPurchaseReturn(TestStockCommon):
         return_pick = self.env["stock.picking"].browse(res["res_id"])
 
         # Validate picking
-        return_pick.move_line_ids.write({"qty_done": 2})
+        for move in return_pick.move_ids:
+            move._set_quantity_done(move.product_uom_qty)
         return_pick.l10n_ro_notice = True  # asta trebuia sa fie setat in mod automat
         return_pick.button_validate()
