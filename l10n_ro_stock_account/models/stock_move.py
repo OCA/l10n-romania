@@ -519,7 +519,7 @@ class StockMove(models.Model):
             return []
         if isinstance(svl_id, models.BaseModel):
             svl_id = svl_id.id
-        return self.env["account.move"].create(
+        move = self.env["account.move"].create(
             self.with_company(self.company_id)._prepare_account_move_vals(
                 credit_account_id,
                 debit_account_id,
@@ -530,6 +530,8 @@ class StockMove(models.Model):
                 cost,
             )
         )
+        move.action_post()
+        return move
 
     def _get_accounting_data_for_valuation(self):
         (
@@ -549,7 +551,9 @@ class StockMove(models.Model):
         )
         location_to_account = location_to.l10n_ro_property_stock_valuation_account_id
 
-        if self.product_id.categ_id.l10n_ro_stock_account_change:
+        allow_accounts_change = self.product_id.categ_id.l10n_ro_stock_account_change
+        operations_not_allowed = ["usage_giving_secondary"]
+        if allow_accounts_change and valued_type not in operations_not_allowed:
             # produsele din aceasta locatia folosesc pentru evaluare contul
             if location_to_account:
                 # in cazul unui transfer intern se va face contare dintre
