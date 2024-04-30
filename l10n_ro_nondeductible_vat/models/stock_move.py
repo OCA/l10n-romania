@@ -55,7 +55,11 @@ class StockMove(models.Model):
         )
         if self.is_l10n_ro_record:
             if self.l10n_ro_nondeductible_tax_id:
-                if res.get("debit_line_vals"):
+                debit_line = res.get("debit_line_vals")
+                debit_account = self.env["account.account"].browse(
+                    debit_line.get("account_id")
+                )
+                if debit_account.internal_group == "expense":
                     res["debit_line_vals"].update(
                         {
                             "tax_ids": [(6, 0, [self.l10n_ro_nondeductible_tax_id.id])],
