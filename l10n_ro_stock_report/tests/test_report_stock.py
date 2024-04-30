@@ -133,12 +133,12 @@ class TestStockReport(TransactionCase):
 
         for move_line in self.picking.move_line_ids:
             if move_line.product_id == self.product_1:
-                move_line.write({"qty_done": self.qty_po_p1})
+                move_line.write({"quantity": self.qty_po_p1})
             if move_line.product_id == self.product_2:
                 move_line.write(
-                    {"qty_done": self.qty_po_p2, "location_dest_id": self.location_2}
+                    {"quantity": self.qty_po_p2, "location_dest_id": self.location_2.id}
                 )
-                move_line.move_id.write({"location_dest_id": self.location_2})
+                move_line.move_id.write({"location_dest_id": self.location_2.id})
 
         self.picking.button_validate()
         _logger.debug("Receptie facuta")
@@ -278,7 +278,7 @@ class TestStockReport(TransactionCase):
 
         # Receive the goods
         receipt = po_form.picking_ids[0]
-        receipt.move_line_ids.qty_done = 1
+        receipt.move_line_ids.quantity = 1
         receipt.button_validate()
 
         # Check SVL

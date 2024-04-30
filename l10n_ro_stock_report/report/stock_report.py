@@ -22,7 +22,7 @@ class StorageSheet(models.TransientModel):
 
     location_id = fields.Many2one(
         "stock.location",
-        domain="[('usage','=','internal'),('company_id','=',company_id)]",
+        domain="[('usage','=','internal')]",
     )
 
     product_ids = fields.Many2many(
@@ -47,12 +47,12 @@ class StorageSheet(models.TransientModel):
     )
     sublocation = fields.Boolean("Include Sublocations", default=True)
     detailed_locations = fields.Boolean("Detailed by locations", default=False)
-    show_locations = fields.Boolean("Show location")
+    show_locations = fields.Boolean("Show location", default=False)
     location_ids = fields.Many2many(
         "stock.location", string="Only for locations", compute="_compute_location_ids"
     )
 
-    @api.depends("sublocation", "location_id")
+    @api.depends("sublocation", "location_id", "show_locations")
     def _compute_location_ids(self):
         if not self.location_id:
             self.location_ids = self.env["stock.location"].search(

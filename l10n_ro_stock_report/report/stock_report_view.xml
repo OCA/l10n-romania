@@ -14,31 +14,20 @@
                         <field name="sublocation" />
                         <field name="detailed_locations" />
                         <field name="show_locations" />
-                        <field name="company_id" invisible="1" />
+                        <field
+                            name="company_id"
+                            groups="base.group_multi_company"
+                            options="{'no_create': True}"
+                        />
                     </group>
                     <group name="date_range">
-                        <label for="date_from" string="Date" />
-                        <div class="o_row">
-                            <field
-                                name="date_from"
-                                widget="daterange"
-                                nolabel="1"
-                                class="oe_inline"
-                                options="{'related_end_date': 'date_to'}"
-                            />
-                            <i
-                                class="fa fa-long-arrow-right mx-2"
-                                aria-label="Arrow icon"
-                                title="Arrow"
-                            />
-                            <field
-                                name="date_to"
-                                widget="daterange"
-                                nolabel="1"
-                                class="oe_inline"
-                                options="{'related_start_date': 'date_from'}"
-                            />
-                        </div>
+                        <field
+                            name="date_from"
+                            string="Date"
+                            widget="daterange"
+                            options="{'end_date_field': 'date_to'}"
+                        />
+                        <field name="date_to" invisible="1" />
                     </group>
 
                 </group>
