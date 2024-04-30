@@ -17,14 +17,20 @@ class AccountMoveLine(models.Model):
         l10n_ro_lines_for_notice = self.filtered(
             lambda x: x.product_id.type == "product" and x.is_l10n_ro_record
         )
-        if l10n_ro_lines_for_notice:
-            move_id = self.mapped("move_id")
-            # Presupunem ca avem doar o factura de evaluat.
-            # Nu este compatibil cu factura ce stige mai multe achizitii.
+        remaining = self
+        invoice_in_notice_lines = self.env["account.move.line"].with_context(
+            valued_type="invoice_in_notice"
+        )
+        invoice_out_notice_lines = self.env["account.move.line"].with_context(
+            valued_type="invoice_out_notice"
+        )
+
+        for line in l10n_ro_lines_for_notice:
+            move_id = line.move_id
             if move_id.is_purchase_document():
-                purchase = l10n_ro_lines_for_notice.mapped("purchase_order_id")
+                purchase = line.mapped("purchase_order_id")
                 if purchase and any(
-                    [p.purchase_method == "receive" for p in self.mapped("product_id")]
+                    [p.purchase_method == "receive" for p in line.mapped("product_id")]
                 ):
                     # Control bills based on received quantities
                     if any(
@@ -33,11 +39,12 @@ class AccountMoveLine(models.Model):
                             for p in purchase.picking_ids
                         ]
                     ):
-                        self = self.with_context(valued_type="invoice_in_notice")
+                        invoice_in_notice_lines |= line
+                        remaining -= line
             if move_id.is_sale_document():
-                sale_lines = l10n_ro_lines_for_notice.mapped("sale_line_ids")
+                sale_lines = line.mapped("sale_line_ids")
                 if sale_lines and any(
-                    [p.invoice_policy == "delivery" for p in self.mapped("product_id")]
+                    [p.invoice_policy == "delivery" for p in line.mapped("product_id")]
                 ):
                     # Control bills based on received quantities
                     sale = sale_lines.mapped("order_id")
@@ -47,36 +54,14 @@ class AccountMoveLine(models.Model):
                             for p in sale.mapped("picking_ids")
                         ]
                     ):
-                        self = self.with_context(valued_type="invoice_out_notice")
-        return super(AccountMoveLine, self)._compute_account_id()
+                        invoice_out_notice_lines |= line
+                        remaining -= line
 
-    # TODO: de sters, metoda depreciata.
-    def _get_computed_account(self):
-        if self.product_id.type == "product" and self.is_l10n_ro_record:
-            if self.move_id.is_purchase_document():
-                purchase = self.purchase_order_id
-                if purchase and self.product_id.purchase_method == "receive":
-                    # Control bills based on received quantities
-                    if any(
-                        [
-                            p.l10n_ro_notice or p._is_dropshipped()
-                            for p in purchase.picking_ids
-                        ]
-                    ):
-                        self = self.with_context(valued_type="invoice_in_notice")
-            if self.move_id.is_sale_document():
-                sales = self.sale_line_ids
-                if sales and self.product_id.invoice_policy == "delivery":
-                    # Control bills based on received quantities
-                    sale = self.sale_line_ids[0].order_id
-                    if any(
-                        [
-                            p.l10n_ro_notice and not p._is_dropshipped()
-                            for p in sale.picking_ids
-                        ]
-                    ):
-                        self = self.with_context(valued_type="invoice_out_notice")
-        return super(AccountMoveLine, self)._get_computed_account()
+        if invoice_in_notice_lines:
+            super(AccountMoveLine, invoice_in_notice_lines)._compute_account_id()
+        if invoice_out_notice_lines:
+            super(AccountMoveLine, invoice_out_notice_lines)._compute_account_id()
+        return super(AccountMoveLine, remaining)._compute_account_id()
 
     def _get_account_change_stock_moves_purchase(self):
         stock_moves = self.purchase_line_id.move_ids.filtered(

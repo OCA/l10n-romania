@@ -8,10 +8,18 @@ class AccountMoveLine(models.Model):
     _name = "account.move.line"
     _inherit = ["account.move.line", "l10n.ro.mixin"]
 
-    def _get_computed_account(self):
-        if self.product_id.type == "product" and self.is_l10n_ro_record:
-            if self.move_id.is_purchase_document():
-                purchase = self.purchase_order_id
-                if purchase and self.product_id.purchase_method == "receive":
-                    self = self.with_context(l10n_ro_reception_in_progress=True)
-        return super(AccountMoveLine, self)._get_computed_account()
+    def _compute_account_id(self):
+        remaining = self
+        reception_in_progress_lines = self.env["account.move.line"].with_context(
+            l10n_ro_reception_in_progress=True
+        )
+        for linie in self:
+            if linie.product_id.type == "product" and linie.is_l10n_ro_record:
+                if linie.move_id.is_purchase_document():
+                    purchase = linie.purchase_order_id
+                    if purchase and linie.product_id.purchase_method == "receive":
+                        reception_in_progress_lines |= linie
+                        remaining -= linie
+        if reception_in_progress_lines:
+            super(AccountMoveLine, reception_in_progress_lines)._compute_account_id()
+        return super(AccountMoveLine, remaining)._compute_account_id()
