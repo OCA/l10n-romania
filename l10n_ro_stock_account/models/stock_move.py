@@ -552,7 +552,7 @@ class StockMove(models.Model):
         location_to_account = location_to.l10n_ro_property_stock_valuation_account_id
 
         allow_accounts_change = self.product_id.categ_id.l10n_ro_stock_account_change
-        operations_not_allowed = "usage_giving_secondary"
+        operations_not_allowed = ["usage_giving_secondary"]
         if allow_accounts_change and valued_type not in operations_not_allowed:
             # produsele din aceasta locatia folosesc pentru evaluare contul
             if location_to_account:
