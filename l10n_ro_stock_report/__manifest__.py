@@ -2,7 +2,7 @@
 {
     "name": "Romania - Stock Report (Fisa Magazie)",
     "license": "AGPL-3",
-    "version": "17.0.1.0.0",
+    "version": "17.0.1.1.0",
     "countries": ["ro"],
     "author": "Terrabit,NextERP Romania,Odoo Community Association (OCA)",
     "website": "https://github.com/OCA/l10n-romania",
