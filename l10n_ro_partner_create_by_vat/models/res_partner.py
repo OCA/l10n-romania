@@ -25,7 +25,8 @@ headers = {
     "Content-Type": "application/json;",
 }
 
-# anaf syncron url https://static.anaf.ro/static/10/Anaf/Informatii_R/Servicii_web/doc_WS_V8.txt
+# anaf syncron url
+# https://static.anaf.ro/static/10/Anaf/Informatii_R/Servicii_web/doc_WS_V8.txt
 ANAF_URL = "https://webservicesp.anaf.ro/PlatitorTvaRest/api/v8/ws/tva"
 
 AnafFiled_OdooField_Overwrite = [
@@ -49,9 +50,11 @@ class ResPartner(models.Model):
     l10n_ro_old_name = fields.Char(
         string="Romania - Old Name",
         default="",
-        help="To be completed manually with previous name of the company in case on change."
+        help="To be completed manually with previous name of the company "
+        "in case on change."
         "If the field in completed, when fetching the datas from ANAF website,"
-        "if the name received is the old name set, than the partner will not be updated.",
+        "if the name received is the old name set, "
+        "than the partner will not be updated.",
     )
     l10n_ro_active_anaf_line_ids = fields.One2many(
         "l10n.ro.res.partner.anaf.status",
@@ -102,14 +105,20 @@ class ResPartner(models.Model):
         "codPostal": "-- Codul Postal --",
         "act": "-- Act autorizare --",
         "stare_inregistrare": "-- Stare Societate --",
-        "scpTVA": " -- true -pentru platitor in scopuri de tva / false in cazul in
-                       care nu e platitor  in scopuri de TVA la data cautata  --",
-        "data_inceput_ScpTVA": " -- Data înregistrării în scopuri de TVA anterioară --",
-        "data_sfarsit_ScpTVA": " -- Data anulării înregistrării în scopuri de TVA --",
-        "data_anul_imp_ScpTVA": "-- Data operarii anularii înregistrării în scopuri de TVA --",
+        "scpTVA":
+            " -- true -pentru platitor in scopuri de tva / false in cazul in
+             care nu e platitor  in scopuri de TVA la data cautata  --",
+        "data_inceput_ScpTVA":
+            " -- Data înregistrării în scopuri de TVA anterioară --",
+        "data_sfarsit_ScpTVA":
+        " -- Data anulării înregistrării în scopuri de TVA --",
+        "data_anul_imp_ScpTVA":
+            "-- Data operarii anularii înregistrării în scopuri de TVA --",
         "mesaj_ScpTVA": "-- MESAJ:(ne)platitor de TVA la data cautata --",
-        "dataInceputTvaInc": " -- Data de la care aplică sistemul TVA la încasare -- ",
-        "dataSfarsitTvaInc": " -- Data până la care aplică sistemul TVA la încasare --",
+        "dataInceputTvaInc":
+            " -- Data de la care aplică sistemul TVA la încasare -- ",
+        "dataSfarsitTvaInc":
+            " -- Data până la care aplică sistemul TVA la încasare --",
         "dataActualizareTvaInc": "-- Data actualizarii --",
         "dataPublicareTvaInc": "-- Data publicarii --""
         "tipActTvaInc": " --Tip actualizare --",
@@ -127,8 +136,9 @@ class ResPartner(models.Model):
         "statusSplitTVA": "-- true -aplica plata defalcata a Tva / false - nu aplica
                              plata defalcata a Tva la data cautata  --",
         "iban": "-- contul IBAN --",
-        "statusRO_e_Factura": "-- true - figureaza in Registrul RO e-Factura / false
-                             - nu figureaza in Registrul RO e-Factura la data cautata  --",
+        "statusRO_e_Factura":
+            "-- true - figureaza in Registrul RO e-Factura / false
+               - nu figureaza in Registrul RO e-Factura la data cautata  --",
         "sdenumire_Strada": "-- Denumire strada sediu --",
         "snumar_Strada": "-- Numar strada sediu --",
         "sdenumire_Localitate": "-- Denumire localitate sediu --",
