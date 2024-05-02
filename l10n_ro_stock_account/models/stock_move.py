@@ -586,7 +586,10 @@ class StockMove(models.Model):
                     or acc_dest
                 )
                 if location_to.usage in ["consume", "production"]:
-                    acc_dest = location_to.l10n_ro_property_account_expense_location_id.id or acc_dest
+                    acc_dest = (
+                        location_to.l10n_ro_property_account_expense_location_id.id
+                        or acc_dest
+                    )
             elif valued_type in [
                 "production",
                 "delivery_return",
