@@ -14,7 +14,7 @@ class AccountPaymentRegister(models.TransientModel):
         def raise_error(amount, amount_limit):
             raise ValidationError(
                 _(
-                    "The payment amount (%(amount)s) cannot be greater than %(amount_limit)s"
+                    "The payment amount (%(amount)s) cannot be greater than %(amount_limit)s"  # noqa E501
                 )
                 % {"amount": amount, "amount_limit": amount_limit}
             )
@@ -56,7 +56,7 @@ class AccountPayment(models.Model):
         def raise_error(amount, amount_limit):
             raise ValidationError(
                 _(
-                    "The payment amount (%(amount)s) cannot be greater than %(amount_limit)s"
+                    "The payment amount (%(amount)s) cannot be greater than %(amount_limit)s"  # noqa E501
                 )
                 % {"amount": amount, "amount_limit": amount_limit}
             )
