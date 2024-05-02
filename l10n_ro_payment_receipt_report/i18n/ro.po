@@ -251,6 +251,11 @@ msgid "for payment of:"
 msgstr "pentru plata:"
 
 #. module: l10n_ro_payment_receipt_report
+#: model_terms:ir.ui.view,arch_db:l10n_ro_payment_receipt_report.report_payment_receipt_document
+msgid "from:"
+msgstr "din data"
+
+#. module: l10n_ro_payment_receipt_report
 #: model_terms:ir.ui.view,arch_db:l10n_ro_payment_receipt_report.report_bank_statement_line_payment_document
 msgid "reception"
 msgstr "incasare"
@@ -270,8 +275,3 @@ msgstr "cu adresa:"
 
 #~ msgid "Last Modified on"
 #~ msgstr "Ultima modificare la"
-
-#. module: l10n_ro_payment_receipt_report
-#: model_terms:ir.ui.view,arch_db:l10n_ro_payment_receipt_report.report_payment_receipt_document
-msgid "from:"
-msgstr "din data"
