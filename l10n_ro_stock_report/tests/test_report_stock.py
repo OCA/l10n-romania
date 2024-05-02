@@ -45,7 +45,7 @@ class TestStockReport(TransactionCase):
             "name": "TEST Marfa",
             "property_cost_method": "fifo",
             "property_valuation": "real_time",
-            "property_account_creditor_price_difference_categ": self.account_difference.id,
+            "property_account_creditor_price_difference_categ": self.account_difference.id,  # noqa E501
             "property_account_income_categ_id": self.account_income.id,
             "property_account_expense_categ_id": self.account_expense.id,
             "property_stock_account_input_categ_id": self.account_valuation.id,
