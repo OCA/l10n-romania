@@ -74,10 +74,11 @@ class TestStockConsum(TestStockCommon):
     def test_consumption_din_locatie_evaluata(self):
         self.set_stock(self.product_mp, 1000)
         _logger.debug("Start Consum in productie din locatie cu alta evaluare")
+        # noqa E501
         location_id = self.picking_type_transfer.default_location_src_id.copy(
             {
-                "l10n_ro_property_stock_valuation_account_id": self.account_valuation_mp.id,
-                "l10n_ro_property_account_expense_location_id": self.account_expense_mp.id,
+                "l10n_ro_property_stock_valuation_account_id": self.account_valuation_mp.id,  # noqa E501
+                "l10n_ro_property_account_expense_location_id": self.account_expense_mp.id,  # noqa E501
             }
         )
 
@@ -215,7 +216,8 @@ class TestStockConsum(TestStockCommon):
         )
         acc_707 = self.env["account.account"].search([("code", "=", "707000")], limit=1)
         _logger.debug(
-            "Start consum produse cand conturile de pe categorie difera de cele de pe locatie"
+            "Start consum produse cand conturile de pe categorie"
+            " difera de cele de pe locatie"
         )
         self.product_mp.standard_price = self.price_p1
         self.product_mp.categ_id.write({"l10n_ro_stock_account_change": True})

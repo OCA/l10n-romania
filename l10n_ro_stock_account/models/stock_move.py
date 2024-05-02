@@ -27,7 +27,7 @@ class StockMove(models.Model):
                 "minus_inventory",
                 "consumption",  # consum in productie
                 "consumption_return",  # storno consum produse
-                "production",  # inregistrare produse finite/semifabricate prin productie
+                "production",  # inreg produse finite/semifabricate din productie
                 "production_return",  # storno productie
                 "internal_transfer",  # transfer intern
                 "usage_giving",
@@ -585,6 +585,11 @@ class StockMove(models.Model):
                     or location_from.l10n_ro_property_account_expense_location_id.id
                     or acc_dest
                 )
+                if location_to.usage in ["consume", "production"]:
+                    acc_dest = (
+                        location_to.l10n_ro_property_account_expense_location_id.id
+                        or acc_dest
+                    )
             elif valued_type in [
                 "production",
                 "delivery_return",

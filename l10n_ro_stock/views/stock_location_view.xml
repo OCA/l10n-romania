@@ -28,7 +28,7 @@
             </field>
         </field>
     </record>
-    <record id="view_location_tree2" model="ir.ui.view">
+<!--    <record id="view_location_tree2" model="ir.ui.view">
         <field name="name">l10n.ro.stock.location.merchandise_type.tree</field>
         <field name="model">stock.location</field>
         <field name="inherit_id" ref="stock.view_location_tree2" />
@@ -41,5 +41,5 @@
                 />
             </field>
         </field>
-    </record>
+    </record>-->
 </odoo>

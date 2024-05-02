@@ -1,0 +1,3 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_l10n_ro_stock_storage_sheet,access_l10n_ro_stock_storage_sheet,model_l10n_ro_stock_storage_sheet,stock.group_stock_user,1,1,1,1
+access_l10n_ro_stock_storage_sheet_line,access_l10n_ro_stock_storage_sheet_line,model_l10n_ro_stock_storage_sheet_line,stock.group_stock_user,1,1,1,1

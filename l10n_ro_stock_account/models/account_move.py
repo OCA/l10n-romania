@@ -94,6 +94,7 @@ class AccountMoveLine(models.Model):
                     ai = location.l10n_ro_property_account_income_location_id
                     if ai:
                         account = ai
+
             if fiscal_position:
                 account = fiscal_position.map_account(account)
 
