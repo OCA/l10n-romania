@@ -82,14 +82,14 @@ class AccountMoveLine(models.Model):
             if self.move_id.is_purchase_document():
                 stock_moves = self._get_account_change_stock_moves_purchase()
                 for stock_move in stock_moves:
-                    if stock_move.location_dest_id.l10n_ro_property_stock_valuation_account_id:
-                        location = stock_move.location_dest_id
+                    location = stock_move.location_dest_id
+                    if location.l10n_ro_property_stock_valuation_account_id:
                         res = location.l10n_ro_property_stock_valuation_account_id
             if self.move_id.is_sale_document():
                 stock_moves = self._get_account_change_stock_moves_sale()
                 for stock_move in stock_moves:
-                    if stock_move.location_id.l10n_ro_property_account_income_location_id:
-                        location = stock_move.location_id
+                    location = stock_move.location_id
+                    if location.l10n_ro_property_account_income_location_id:
                         res = location.l10n_ro_property_account_income_location_id
             if fiscal_position:
                 res = fiscal_position.map_account(res)

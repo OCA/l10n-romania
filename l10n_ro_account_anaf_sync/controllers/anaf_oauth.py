@@ -80,8 +80,10 @@ class AccountANAFSyncWeb(http.Controller):
         )
 
         # This is the default for Authorization Code grant.
-        # A successful response is 302 Found which triggers a redirect to the redirect_uri.
-        # The response parameters are embedded in the query component (the part after ?)
+        # A successful response is 302 Found which triggers a
+        # redirect to the redirect_uri.
+        # The response parameters are embedded in the query
+        # component (the part after ?)
         # of the redirect_uri in the Location header.
         # For example:
         # HTTP/1.1 302 Found

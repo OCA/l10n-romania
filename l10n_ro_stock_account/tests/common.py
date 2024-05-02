@@ -8,7 +8,7 @@ import logging
 from odoo import fields
 from odoo.tests import Form, tagged
 
-from odoo.addons.stock_account.tests.test_anglo_saxon_valuation_reconciliation_common import (
+from odoo.addons.stock_account.tests.test_anglo_saxon_valuation_reconciliation_common import (  # noqa E501
     ValuationReconciliationTestCommon,
 )
 
@@ -311,8 +311,8 @@ class TestStockCommon(ValuationReconciliationTestCommon):
     def set_warehouse_as_mp(self):
         self.location_warehouse.write(
             {
-                "l10n_ro_property_stock_valuation_account_id": self.account_valuation_mp.id,
-                "l10n_ro_property_account_expense_location_id": self.account_expense_mp.id,
+                "l10n_ro_property_stock_valuation_account_id": self.account_valuation_mp.id,  # noqa E501
+                "l10n_ro_property_account_expense_location_id": self.account_expense_mp.id,  # noqa E501
                 "valuation_in_account_id": self.account_valuation_mp.id,
                 "valuation_out_account_id": self.account_valuation_mp.id,
             }

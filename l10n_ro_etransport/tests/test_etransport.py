@@ -120,6 +120,14 @@ class TestETransport(TransactionCase):
             self.env.company._l10n_ro_get_anaf_sync(scope="e-transport")
 
     def test_e_transport(self):
+        move_values = {
+            "name": self.product.name,
+            "product_id": self.product.id,
+            "product_uom_qty": 1,
+            "product_uom": self.product.uom_id.id,
+            "location_id": self.picking_type.default_location_src_id.id,
+            "location_dest_id": self.picking_type.default_location_dest_id.id,
+        }
         picking = self.env["stock.picking"].create(
             {
                 "partner_id": self.partner.id,
@@ -134,20 +142,7 @@ class TestETransport(TransactionCase):
                 ).id,
                 "location_id": self.picking_type.default_location_src_id.id,
                 "location_dest_id": self.picking_type.default_location_dest_id.id,
-                "move_ids": [
-                    (
-                        0,
-                        0,
-                        {
-                            "name": self.product.name,
-                            "product_id": self.product.id,
-                            "product_uom_qty": 1,
-                            "product_uom": self.product.uom_id.id,
-                            "location_id": self.picking_type.default_location_src_id.id,
-                            "location_dest_id": self.picking_type.default_location_dest_id.id,
-                        },
-                    )
-                ],
+                "move_ids": [(0, 0, move_values)],
             }
         )
         picking.action_confirm()
