@@ -270,3 +270,8 @@ msgstr "cu adresa:"
 
 #~ msgid "Last Modified on"
 #~ msgstr "Ultima modificare la"
+
+#. module: l10n_ro_payment_receipt_report
+#: model_terms:ir.ui.view,arch_db:l10n_ro_payment_receipt_report.report_payment_receipt_document
+msgid "from:"
+msgstr "din data"

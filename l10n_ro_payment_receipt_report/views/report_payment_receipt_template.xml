@@ -63,6 +63,11 @@
                                 t-esc="','.join(o.reconciled_invoice_ids.mapped('name'))"
                             />
                         </span>
+                        <span>from:
+                            <span
+                                t-esc="o.reconciled_invoice_ids.date.strftime('%d.%m.%Y')"
+                            />
+                        </span>
                         .
                     </div>
                 </div>
