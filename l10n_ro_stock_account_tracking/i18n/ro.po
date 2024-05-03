@@ -32,6 +32,11 @@ msgid "Created on"
 msgstr ""
 
 #. module: l10n_ro_stock_account_tracking
+#: model_terms:ir.ui.view,arch_db:l10n_ro_stock_account_tracking.stock_valuation_layer_form
+msgid "Destination SVL"
+msgstr ""
+
+#. module: l10n_ro_stock_account_tracking
 #: model:ir.model.fields,field_description:l10n_ro_stock_account_tracking.field_l10n_ro_stock_valuation_layer_tracking__display_name
 msgid "Display Name"
 msgstr "Nume afișat"
@@ -156,6 +161,11 @@ msgid "Romania - Tracking layer stock valuation"
 msgstr ""
 
 #. module: l10n_ro_stock_account_tracking
+#: model_terms:ir.ui.view,arch_db:l10n_ro_stock_account_tracking.stock_valuation_layer_form
+msgid "Source SVL"
+msgstr ""
+
+#. module: l10n_ro_stock_account_tracking
 #: model:ir.model,name:l10n_ro_stock_account_tracking.model_stock_move
 msgid "Stock Move"
 msgstr "Mișcare stoc"
@@ -173,6 +183,16 @@ msgstr ""
 #. module: l10n_ro_stock_account_tracking
 #: model:ir.model.fields,field_description:l10n_ro_stock_account_tracking.field_l10n_ro_stock_valuation_layer_tracking__svl_src_id
 msgid "Svl Src"
+msgstr ""
+
+#. module: l10n_ro_stock_account_tracking
+#: model_terms:ir.ui.view,arch_db:l10n_ro_stock_account_tracking.stock_valuation_layer_form
+msgid "Total Quantity"
+msgstr ""
+
+#. module: l10n_ro_stock_account_tracking
+#: model_terms:ir.ui.view,arch_db:l10n_ro_stock_account_tracking.stock_valuation_layer_form
+msgid "Total Value"
 msgstr ""
 
 #. module: l10n_ro_stock_account_tracking
