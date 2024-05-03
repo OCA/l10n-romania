@@ -69,30 +69,36 @@ class AccountMoveLine(models.Model):
 
         return valuation_stock_moves
 
-    def _get_computed_account(self):
-        res = super()._get_computed_account()
-        # Take accounts from stock location in case the category allow changinc
-        # accounts and the picking is not notice
-        if (
-            self.product_id.categ_id.l10n_ro_stock_account_change
-            and self.product_id.type == "product"
-            and self.move_id.is_l10n_ro_record
-        ):
-            fiscal_position = self.move_id.fiscal_position_id
-            if self.move_id.is_purchase_document():
-                stock_moves = self._get_account_change_stock_moves_purchase()
+    def _compute_account_id(self):
+        res = super()._compute_account_id()
+        for line in self:
+            if not (
+                line.product_id.categ_id.l10n_ro_stock_account_change
+                and line.product_id.type == "product"
+                and line.move_id.is_l10n_ro_record
+            ):
+                continue
+            account = False
+            fiscal_position = line.move_id.fiscal_position_id
+            if line.move_id.is_purchase_document():
+                stock_moves = line._get_account_change_stock_moves_purchase()
                 for stock_move in stock_moves:
                     location = stock_move.location_dest_id
-                    if location.l10n_ro_property_stock_valuation_account_id:
-                        res = location.l10n_ro_property_stock_valuation_account_id
-            if self.move_id.is_sale_document():
-                stock_moves = self._get_account_change_stock_moves_sale()
+                    va = location.l10n_ro_property_stock_valuation_account_id
+                    if va:
+                        account = va
+            if line.move_id.is_sale_document():
+                stock_moves = line._get_account_change_stock_moves_sale()
                 for stock_move in stock_moves:
                     location = stock_move.location_id
-                    if location.l10n_ro_property_account_income_location_id:
-                        res = location.l10n_ro_property_account_income_location_id
+                    ai = location.l10n_ro_property_account_income_location_id
+                    if ai:
+                        account = ai
             if fiscal_position:
-                res = fiscal_position.map_account(res)
+                account = fiscal_position.map_account(account)
+
+            if account:
+                line.account_id = account
         return res
 
     def _get_account_change_stock_moves_purchase(self):
