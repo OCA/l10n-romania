@@ -15,8 +15,7 @@ class StockPicking(models.Model):
     # receptie/ livrare in baza de aviz
     l10n_ro_notice = fields.Boolean(
         string="Romania - Is a notice",
-        states={"done": [("readonly", True)], "cancel": [("readonly", True)]},
         default=False,
-        help="With this field the reception/delivery is set as a notice. "
-        "The generated account move will contain accounts 408/418.",
+        help="This field sets the reception/delivery as a notice."
+        " The resulting account move will include accounts 408/418.",
     )
