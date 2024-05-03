@@ -13,9 +13,7 @@
         "l10n_ro_stock_account",
     ],
     "license": "AGPL-3",
-    "data": [
-        "security/ir.model.access.csv",
-    ],
+    "data": ["security/ir.model.access.csv", "views/stock_valuation_layer_views.xml"],
     "installable": True,
     "pre_init_hook": "pre_init_hook",
     "development_status": "Mature",
