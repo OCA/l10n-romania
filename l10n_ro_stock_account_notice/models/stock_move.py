@@ -30,28 +30,19 @@ class StockMove(models.Model):
 
     def _is_reception(self):
         """Este receptie in stoc fara aviz"""
-        if not self.is_l10n_ro_record:
-            return super()._is_reception()
-
         it_is = super()._is_reception() and not self.picking_id.l10n_ro_notice
         return it_is
 
     def _is_reception_return(self):
         """Este un retur la o receptie in stoc fara aviz"""
-        if not self.is_l10n_ro_record:
-            return super()._is_reception_return()
 
         it_is = super()._is_reception_return() and not self.picking_id.l10n_ro_notice
         return it_is
 
     def _is_reception_notice(self):
         """Este receptie in stoc cu aviz"""
-        if not self.is_l10n_ro_record:
-            return super()._is_reception_return()
-
         it_is = (
-            self.company_id.l10n_ro_accounting
-            and self.picking_id.l10n_ro_notice
+            self.picking_id.l10n_ro_notice
             and self.location_id.usage == "supplier"
             and self._is_in()
         )
@@ -63,12 +54,9 @@ class StockMove(models.Model):
 
     def _is_reception_notice_return(self):
         """Este un retur la receptie in stoc cu aviz"""
-        if not self.is_l10n_ro_record:
-            return False
 
         it_is = (
-            self.company_id.l10n_ro_accounting
-            and self.picking_id.l10n_ro_notice
+            self.picking_id.l10n_ro_notice
             and self.location_dest_id.usage == "supplier"
             and self._is_out()
         )
@@ -94,27 +82,17 @@ class StockMove(models.Model):
 
     def _is_delivery(self):
         """Este livrare din stoc fara aviz"""
-        if not self.is_l10n_ro_record:
-            return super()._is_delivery()
-
         return super()._is_delivery() and not self.picking_id.l10n_ro_notice
 
     def _is_delivery_return(self):
         """Este retur la o livrare din stoc fara aviz"""
-        if not self.is_l10n_ro_record:
-            return super()._is_delivery_return()
-
         it_is = super()._is_delivery_return() and not self.picking_id.l10n_ro_notice
         return it_is
 
     def _is_delivery_notice(self):
         """Este livrare cu aviz"""
-        if not self.is_l10n_ro_record:
-            return False
-
         it_is = (
-            self.company_id.l10n_ro_accounting
-            and self.picking_id.l10n_ro_notice
+            self.picking_id.l10n_ro_notice
             and self.location_dest_id.usage == "customer"
             and self._is_out()
         )
@@ -122,16 +100,14 @@ class StockMove(models.Model):
 
     def _create_delivery_notice_svl(self, forced_quantity=None):
         move = self.with_context(standard=True, valued_type="delivery_notice")
-        return move._create_out_svl(forced_quantity)
+        out_svl = move._create_out_svl(forced_quantity)
+        return out_svl
 
     def _is_delivery_notice_return(self):
         """Este retur livrare cu aviz"""
-        if not self.is_l10n_ro_record:
-            return False
 
         it_is = (
-            self.company_id.l10n_ro_accounting
-            and self.picking_id.l10n_ro_notice
+            self.picking_id.l10n_ro_notice
             and self.location_id.usage == "customer"
             and self._is_in()
         )
@@ -141,8 +117,8 @@ class StockMove(models.Model):
         move = self.with_context(standard=True, valued_type="delivery_notice_return")
         return move._create_in_svl(forced_quantity)
 
-    def _romanian_account_entry_move(self, qty, description, svl_id, cost):
-        res = super()._romanian_account_entry_move(qty, description, svl_id, cost)
+    def _l10n_ro_account_entry_move(self, qty, description, svl_id, cost):
+        res = super()._l10n_ro_account_entry_move(qty, description, svl_id, cost)
         svl = self.env["stock.valuation.layer"]
         if self._is_delivery_notice():
             # inregistrare valoare vanzare
@@ -155,7 +131,7 @@ class StockMove(models.Model):
                 acc_dest,
                 acc_valuation,
             ) = move._get_accounting_data_for_valuation()
-            move._create_account_move_line(
+            move._l10n_ro_create_account_move_line(
                 acc_valuation,
                 acc_dest,
                 journal_id,
@@ -176,7 +152,7 @@ class StockMove(models.Model):
                 acc_dest,
                 acc_valuation,
             ) = move._get_accounting_data_for_valuation()
-            move._create_account_move_line(
+            move._l10n_ro_create_account_move_line(
                 acc_dest,
                 acc_valuation,
                 journal_id,
