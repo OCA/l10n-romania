@@ -80,7 +80,8 @@ class AccountMove(models.Model):
                             last_sequence = move._get_last_sequence()
                             if not last_sequence:
                                 # trebuie incrementata secventa deoarece sunt in cazul
-                                # in care nu a existat nici o factura/nota in baza de date
+                                # in care nu a existat nici o factura/nota
+                                # in baza de date
                                 #
                                 # si in _set_next_sequence de mai sus new_number
                                 # a fost initializat cu

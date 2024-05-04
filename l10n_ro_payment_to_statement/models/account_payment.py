@@ -116,7 +116,8 @@ class AccountPayment(models.Model):
             ):
                 raise UserError(
                     _(
-                        "You cannot delete the payment %s, as it already consumed a number."
+                        "You cannot delete the payment %s,"
+                        " as it already consumed a number."
                     )
                     % payment.name
                 )
