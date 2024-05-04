@@ -1,0 +1,12 @@
+id,code,name,usage
+operation_10,10,Achiziţie intracomunitară,import
+operation_12,12,Operaţiuni în sistem lohn (UE) - intrare,import
+operation_14,14,Stocuri la dispoziţia clientului (Call-off stock) - intrare,import
+operation_20,20,Livrare intracomunitară,export
+operation_22,22,Operaţiuni în sistem lohn (UE) - ieşire,export
+operation_24,24,Stocuri la dispoziţia clientului (Call-off stock) - ieşire,export
+operation_30,30,Transport pe teritoriul naţional,local
+operation_40,40,Import,import
+operation_50,50,Export,export
+operation_60,60,Tranzacţie intracomunitară - Intrare pentru depozitare,import
+operation_70,70,Tranzacţie intracomunitară - Ieşire după depozitare,export

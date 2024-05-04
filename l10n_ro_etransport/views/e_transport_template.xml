@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+
+    <template id="e_transport">
+        <eTransport
+            xmlns="mfp:anaf:dgti:eTransport:declaratie:v2"
+            xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+            xsi:schemaLocation="mfp:anaf:dgti:eTransport:declaratie:v2 eTransport.xsd"
+            t-att-codDeclarant="company.vat.upper().replace('RO', '')"
+            t-att-refDeclarant="doc.name"
+        >
+            <notificare
+                t-att-codTipOperatiune="doc.l10n_ro_e_transport_operation_type_id.code"
+            >
+                <t t-foreach="doc.move_ids" t-as="move">
+                    <t t-foreach="move.move_line_ids" t-as="move_line">
+                        <t t-set="qty" t-value="move_line.quantity" />
+                        <bunuriTransportate
+                            t-att-codTarifar="get_instastat_code(move.product_id)"
+                            t-att-denumireMarfa="move.product_id.name"
+                            t-att-cantitate="qty"
+                            t-att-codUnitateMasura="move.product_uom._get_unece_code()"
+                            t-att-greutateNeta="qty * (move.product_id.l10n_ro_net_weight or 1)"
+                            t-att-greutateBruta="qty* (move.product_id.weight or 1)"
+                            t-att-codScopOperatiune="doc.l10n_ro_e_transport_scope_id.code or '101'"
+                            t-att-valoareLeiFaraTva="round(qty * (move_line.product_id.standard_price or 1),0)"
+                        />
+                    </t>
+                </t>
+
+                <partenerComercial
+                    t-att-codTara="get_country_code(doc.partner_id.commercial_partner_id.country_id.code)"
+                    t-att-cod="doc.partner_id.commercial_partner_id.vat.upper().replace('RO', '')"
+                    t-att-denumire="doc.partner_id.commercial_partner_id.name"
+                />
+                <t t-set="carrier" t-value="doc.carrier_id.l10n_ro_e_partner_id" />
+                <dateTransport
+                    t-att-nrVehicul="doc.l10n_ro_vehicle and doc.l10n_ro_vehicle.upper().replace('-', '')"
+                    t-att-codOrgTransport="carrier.vat.upper().replace('RO', '')"
+                    t-att-codTaraOrgTransport="get_country_code(carrier.country_id.code)"
+                    t-att-denumireOrgTransport="carrier.name"
+                    t-att-dataTransport="doc.date.date()"
+                />
+                <locStartTraseuRutier
+                    t-if="doc.l10n_ro_e_transport_operation_type_id.code != 'import'"
+                >
+                    <locatie
+                        t-att-codJudet="doc.company_id.state_id and STATE_CODES[doc.company_id.state_id.code]"
+                        t-att-denumireLocalitate="doc.company_id.city"
+                        t-att-denumireStrada="doc.company_id.street"
+                        t-att-numar="doc.company_id.street2"
+                        t-att-alteInfo="doc.company_id.street2"
+                    />
+                </locStartTraseuRutier>
+                <locStartTraseuRutier
+                    t-if="doc.l10n_ro_e_transport_operation_type_id.usage == 'import'"
+                    t-att-codPtf="doc.l10n_ro_e_transport_customs_id.code"
+                />
+
+                <t t-set="partner_final" t-value="doc.partner_id" />
+                <t t-if="doc.l10n_ro_e_transport_operation_type_id.usage == 'import'">
+                    <t t-set="partner_final" t-value="doc.company_id.partner_id" />
+                </t>
+
+                <locFinalTraseuRutier
+                    t-if="doc.l10n_ro_e_transport_operation_type_id.usage  != 'export'"
+                >
+                    <locatie
+                        t-att-codJudet="partner_final.state_id and STATE_CODES[partner_final.state_id.code]"
+                        t-att-denumireLocalitate="partner_final.city"
+                        t-att-denumireStrada="partner_final.street"
+                        t-att-codPostal="partner_final.zip"
+                    />
+                </locFinalTraseuRutier>
+                <locFinalTraseuRutier
+                    t-if="doc.l10n_ro_e_transport_operation_type_id.usage == 'export'"
+                    t-att-codPtf="doc.l10n_ro_e_transport_customs_id.code"
+                />
+
+                <documenteTransport
+                    tipDocument="30"
+                    t-att-numarDocument="doc.name"
+                    t-att-dataDocument="doc.date.date()"
+                />
+
+
+            </notificare>
+        </eTransport>
+
+    </template>
+
+</odoo>
