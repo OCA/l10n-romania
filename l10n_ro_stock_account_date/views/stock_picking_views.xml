@@ -9,7 +9,7 @@
                 <field
                     name="l10n_ro_accounting_date"
                     readonly="1"
-                    attrs="{'invisible': [('is_l10n_ro_record', '=', False)]}"
+                    invisible="not is_l10n_ro_record"
                 />
             </field>
         </field>
@@ -24,16 +24,10 @@
                 <field name="is_l10n_ro_record" invisible="1" />
                 <label
                     for="l10n_ro_accounting_date"
-                    attrs="{'invisible': [('is_l10n_ro_record', '=', False)]}"
+                    invisible="not is_l10n_ro_record"
                 />
-                <div
-                    class="o_row"
-                    attrs="{'invisible': [('is_l10n_ro_record', '=', False)]}"
-                >
-                    <field
-                        name="l10n_ro_accounting_date"
-                        attrs="{'readonly': [('state', '=', 'done')]}"
-                    />
+                <div class="o_row" invisible="not is_l10n_ro_record">
+                    <field name="l10n_ro_accounting_date" readonly="state == 'done'" />
                 </div>
             </xpath>
         </field>
@@ -51,7 +45,7 @@
                     name="accounting_date"
                     domain="[]"
                     context="{'group_by': 'l10n_ro_accounting_date'}"
-                    attrs="{'invisible': [('is_l10n_ro_record', '=', False)]}"
+                    invisible="not is_l10n_ro_record"
                 />
             </filter>
 
