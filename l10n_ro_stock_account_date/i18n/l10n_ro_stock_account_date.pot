@@ -4,7 +4,7 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 16.0\n"
+"Project-Id-Version: Odoo Server 17.0\n"
 "Report-Msgid-Bugs-To: \n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -46,10 +46,15 @@ msgid "Created on"
 msgstr ""
 
 #. module: l10n_ro_stock_account_date
+#: model:ir.model,name:l10n_ro_stock_account_date.model_res_currency
+msgid "Currency"
+msgstr ""
+
+#. module: l10n_ro_stock_account_date
 #: model:ir.model.fields,help:l10n_ro_stock_account_date.field_stock_picking__l10n_ro_accounting_date
 msgid ""
-"If this field is set, the svl and accounting entiries will have this date, "
-"If not will have the today date as it should be"
+"If this field is set, the svl and accounting entries will have this date, If"
+" not will have the today date as it should be"
 msgstr ""
 
 #. module: l10n_ro_stock_account_date
@@ -98,7 +103,7 @@ msgstr ""
 #: model:ir.model.fields,help:l10n_ro_stock_account_date.field_stock_valuation_layer__l10n_ro_date_done
 msgid ""
 "This is the date when this record was created. Original create_date is "
-"writen at reception by module nexterp_stock_date"
+"writen at reception by module l10n_ro_stock_account_date"
 msgstr ""
 
 #. module: l10n_ro_stock_account_date
