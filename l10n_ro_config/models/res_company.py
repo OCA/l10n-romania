@@ -122,8 +122,8 @@ class ResCompany(models.Model):
         "the value used for stock out operations will be the value recorded at the "
         "reception of the lot/serial, ignoring FIFO rule;"
         "If this field is NOT checked and the company use Romanian Accounting,"
-        "the value used for stock out operations will be the value provided by FIFO rule, "
-        "applied strictly on a location level (including its children)",
+        "the value used for stock out operations will be the value provided "
+        "by FIFO rule, applied strictly on a location level (including its children)",
     )
 
     l10n_ro_restrict_stock_move_date_last_month = fields.Boolean(
