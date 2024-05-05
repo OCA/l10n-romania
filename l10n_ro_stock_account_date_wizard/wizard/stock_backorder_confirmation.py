@@ -10,7 +10,7 @@ class StockBackorderConfirmation(models.TransientModel):
     _inherit = ["stock.backorder.confirmation", "l10n.ro.mixin"]
 
     l10n_ro_accounting_date = fields.Datetime(
-        help="If this field is set, the svl and accounting entiries will "
+        help="If this field is set, the svl and accounting entries will "
         "have this date, If not will have the today date as it should be",
         default=fields.Datetime.now(),
     )
@@ -38,7 +38,8 @@ class StockBackorderConfirmation(models.TransientModel):
             if self.l10n_ro_accounting_date.date() > fields.date.today():
                 raise ValidationError(
                     _(
-                        "You can not have a Accounting date=%s for picking bigger than today!"
+                        "You can not have a Accounting date=%s "
+                        "for picking bigger than today!"
                     )
                     % self.l10n_ro_accounting_date.date()
                 )
