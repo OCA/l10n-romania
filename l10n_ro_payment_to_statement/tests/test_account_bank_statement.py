@@ -11,10 +11,11 @@ from .common import TestPaymenttoStatement
 class TestAccountBankStatement(TestPaymenttoStatement):
     def test_create_bank_statement(self):
         # Create statement with l10n_ro_statement_sequence_id in cash journal
+        journal_cash = self.company_data["default_journal_cash"]
         bnk1 = self.env["account.bank.statement"].create(
             {
                 "date": "2022-12-01",
-                "journal_id": self.company_data["default_journal_cash"].id,
+                "journal_id": journal_cash.id,
                 "company_id": self.env.company.id,
                 "line_ids": [
                     (
@@ -29,7 +30,7 @@ class TestAccountBankStatement(TestPaymenttoStatement):
                 ],
             }
         )
-        self.assertEqual(bnk1.name, "CSH1RC-000001")
+        self.assertEqual(bnk1.name, journal_cash.code + "RC000001")
 
         # Create statement without l10n_ro_statement_sequence_id in cash journal
         journal = self.company_data["default_journal_cash"]

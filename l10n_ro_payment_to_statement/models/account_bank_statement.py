@@ -21,6 +21,7 @@ class AccountBankStatement(models.Model):
                             "name"
                         ] = journal.l10n_ro_statement_sequence_id.next_by_id()
                     else:
+                        # sper sa nu fie doua statementuri in aceeasi zi
                         vals["name"] = fields.Date.to_string(fields.Date.today())
         return super().create(vals_list)
 

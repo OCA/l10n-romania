@@ -10,6 +10,14 @@ class AccountMove(models.Model):
     _name = "account.move"
     _inherit = ["account.move", "l10n.ro.mixin"]
 
+    def _get_starting_sequence(self):
+        return super()._get_starting_sequence()
+
+    def _get_last_sequence_domain(self, relaxed=False):
+        where_string, param = super()._get_last_sequence_domain(relaxed)
+
+        return where_string, param
+
     def get_l10n_ro_sequence(self):
         self.ensure_one()
         if self.payment_id:

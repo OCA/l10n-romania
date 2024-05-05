@@ -136,8 +136,7 @@ class AccountPayment(models.Model):
                 new_context["l10n_ro_payment_type"] = vals.get("payment_type")
             if vals.get("partner_type"):
                 new_context["l10n_ro_partner_type"] = vals.get("partner_type")
-            payment = super(AccountPayment, self.with_context(**new_context)).create(
-                [vals]
-            )
+            self = self.with_context(**new_context)
+            payment = super().create([vals])
             res |= payment
         return res
