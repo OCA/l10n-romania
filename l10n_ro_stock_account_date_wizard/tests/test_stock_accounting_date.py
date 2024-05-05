@@ -55,9 +55,9 @@ class TestStockReport(TestStockCommon):
             picking.l10n_ro_accounting_date = accounting_date
         picking.action_confirm()
         picking.action_assign()
-        for move_line in picking.move_ids:
-            if move_line.product_uom_qty > 0 and move_line.quantity_done == 0:
-                move_line.write({"quantity_done": move_line.product_uom_qty})
+        for move in picking.move_ids:
+            move._set_quantity_done(move.product_uom_qty)
+
         return picking
 
     def test_transfer_backorder(self):
@@ -133,13 +133,19 @@ class TestStockReport(TestStockCommon):
         po = po.save()
         po.button_confirm()
         picking = po.picking_ids.filtered(lambda pick: pick.state != "done")
+        picking.l10n_ro_accounting_date = acc_date
 
-        wiz = picking.button_validate()
-        wiz = Form(
-            self.env["stock.immediate.transfer"].with_context(**wiz["context"])
-        ).save()
-        wiz.l10n_ro_accounting_date = acc_date
-        wiz.process()
+        # in 17.0 nu mai exista stock.immediate.transfer
+        # wiz = picking.button_validate()
+        # wiz = Form(
+        #     self.env["stock.immediate.transfer"].with_context(**wiz["context"])
+        # ).save()
+        # wiz.l10n_ro_accounting_date = acc_date
+        # wiz.process()
+        for move in picking.move_ids:
+            move._set_quantity_done(move.product_uom_qty)
+            move.picked = True
+        picking._action_done()
 
         stock_move = picking.move_ids
         _logger.info("Tranfer efectuat")
