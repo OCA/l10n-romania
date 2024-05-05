@@ -61,8 +61,9 @@ class StockMove(models.Model):
 
     def _action_done(self, cancel_backorder=False):
         moves_todo = super()._action_done(cancel_backorder=cancel_backorder)
-        for move in moves_todo.filtered("is_l10n_ro_record"):
+        for move in self.filtered("is_l10n_ro_record"):
             move.date = move.l10n_ro_get_move_date()
+            move.move_line_ids.write({"date": move.date})
         return moves_todo
 
     def _trigger_assign(self):
