@@ -3,6 +3,7 @@
     "name": "Romania - Stock Accounting",
     "version": "17.0.1.3.0",
     "category": "Localization",
+    "countries": ["ro"],
     "summary": "Romania - Stock Accounting",
     "author": "NextERP Romania,"
     "Dorin Hongu,"
