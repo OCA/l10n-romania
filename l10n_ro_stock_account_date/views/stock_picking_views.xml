@@ -39,13 +39,11 @@
         <field name="inherit_id" ref="stock.view_picking_internal_search" />
         <field name="arch" type="xml">
             <filter name="expected_date" position="before">
-                <field name="is_l10n_ro_record" invisible="1" />
                 <filter
                     string="Accounting Date"
                     name="accounting_date"
                     domain="[]"
                     context="{'group_by': 'l10n_ro_accounting_date'}"
-                    invisible="not is_l10n_ro_record"
                 />
             </filter>
 
