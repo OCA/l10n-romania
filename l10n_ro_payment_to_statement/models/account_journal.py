@@ -144,4 +144,6 @@ class AccountJournal(models.Model):
             "l10n_ro_customer_cash_in_sequence_id": customer_cash_in_sequence_id,
         }
         self._fill_missing_values(new_vals)
+        # cannot write type when journal is used in POS
+        new_vals.pop("type")
         self.write(new_vals)
