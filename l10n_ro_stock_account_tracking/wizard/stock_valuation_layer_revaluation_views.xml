@@ -11,7 +11,7 @@
         <field name="arch" type="xml">
             <xpath expr="//group[1]" position="before">
                 <field name="is_l10n_ro_record" invisible="1" />
-                <group attrs="{'invisible': [('is_l10n_ro_record', '=', False)]}">
+                <group id="l10n_ro_location_group">
                     <label for="l10n_ro_location_id" string="Location" />
                     <div class="o_row">
                         <field name="l10n_ro_location_id" />
