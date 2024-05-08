@@ -1,7 +1,7 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 {
     "name": "Romania - Stock Accounting tracking",
-    "version": "16.0.1.24.0",
+    "version": "16.0.1.25.0",
     "category": "Localization",
     "summary": "Romania - Stock Accounting",
     "author": "NextERP Romania,"
@@ -13,9 +13,7 @@
         "l10n_ro_stock_account",
     ],
     "license": "AGPL-3",
-    "data": [
-        "security/ir.model.access.csv",
-    ],
+    "data": ["security/ir.model.access.csv", "views/stock_valuation_layer_views.xml"],
     "installable": True,
     "pre_init_hook": "pre_init_hook",
     "development_status": "Mature",
