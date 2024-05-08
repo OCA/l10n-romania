@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 14.0\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2021-01-22 09:40+0000\n"
+"PO-Revision-Date: 2024-05-08 19:35+0000\n"
 "Last-Translator: Dorin Hongu <dhongu@gmail.com>\n"
 "Language-Team: none\n"
 "Language: ro\n"
@@ -15,7 +15,7 @@ msgstr ""
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=3; plural=n==1 ? 0 : (n==0 || (n%100 > 0 && n%100 < "
 "20)) ? 1 : 2;\n"
-"X-Generator: Weblate 4.3.2\n"
+"X-Generator: Weblate 4.17\n"
 
 #. module: l10n_ro_stock
 #: model:ir.model.fields,help:l10n_ro_stock.field_stock_location__usage
@@ -35,6 +35,21 @@ msgid ""
 "* Transit Location: Counterpart location that should be used in inter-"
 "company or inter-warehouses operations"
 msgstr ""
+"* Locație furnizor: Locație virtuală care reprezintă locația sursă pentru "
+"produsele care vin de la furnizorii dvs.\n"
+"* Vizualizare: Locație virtuală utilizată pentru a crea structuri ierarhice "
+"pentru depozitul dvs., agregând locațiile sale copil; nu poate conține "
+"direct produse\n"
+"* Locație internă: Locații fizice în interiorul propriilor depozite,\n"
+"* Locație client: Locație virtuală care reprezintă locația destinație pentru "
+"produsele trimise clienților dvs.\n"
+"* Pierdere de inventar: Locație virtuală care servește ca locație "
+"contrapartidă pentru operațiunile de inventar utilizate pentru a corecta "
+"nivelurile de stoc (Inventare fizice)\n"
+"* Producție: Locație virtuală contrapartidă pentru operațiunile de producție:"
+" această locație consumă componentele și produce produse finite\n"
+"* Locație de tranzit: Locație contrapartidă care ar trebui utilizată în "
+"operațiunile intercompanie sau inter-depozite"
 
 #. module: l10n_ro_stock
 #. odoo-python
@@ -47,7 +62,7 @@ msgstr "Consum"
 #. module: l10n_ro_stock
 #: model:ir.model,name:l10n_ro_stock.model_stock_location
 msgid "Inventory Locations"
-msgstr ""
+msgstr "Locații de inventar"
 
 #. module: l10n_ro_stock
 #: model:ir.model.fields,field_description:l10n_ro_stock.field_product_product__is_l10n_ro_record
@@ -55,73 +70,73 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_ro_stock.field_stock_location__is_l10n_ro_record
 #: model:ir.model.fields,field_description:l10n_ro_stock.field_stock_warehouse__is_l10n_ro_record
 msgid "Is Romanian Record"
-msgstr ""
+msgstr "Este înregistrare românească"
 
 #. module: l10n_ro_stock
 #: model:ir.model.fields,field_description:l10n_ro_stock.field_stock_location__usage
 msgid "Location Type"
-msgstr ""
+msgstr "Tip locație"
 
 #. module: l10n_ro_stock
 #: model:ir.model.fields,field_description:l10n_ro_stock.field_product_product__l10n_ro_net_weight
 #: model:ir.model.fields,field_description:l10n_ro_stock.field_product_template__l10n_ro_net_weight
 msgid "Net Weight"
-msgstr ""
+msgstr "Greutate netă"
 
 #. module: l10n_ro_stock
 #: model:ir.model.fields,field_description:l10n_ro_stock.field_product_product__l10n_ro_net_weight_uom_name
 #: model:ir.model.fields,field_description:l10n_ro_stock.field_product_template__l10n_ro_net_weight_uom_name
 msgid "Net Weight unit of measure label"
-msgstr ""
+msgstr "Etichetă unitate de măsură greutate netă"
 
 #. module: l10n_ro_stock
 #: model:ir.model,name:l10n_ro_stock.model_product_template
 msgid "Product"
-msgstr ""
+msgstr "Produs"
 
 #. module: l10n_ro_stock
 #: model:ir.model,name:l10n_ro_stock.model_product_product
 msgid "Product Variant"
-msgstr ""
+msgstr "Variantă produs"
 
 #. module: l10n_ro_stock
 #: model:ir.model.fields,field_description:l10n_ro_stock.field_stock_warehouse__l10n_ro_wh_consume_loc_id
 msgid "Romania - Consume Location"
-msgstr ""
+msgstr "Locație consum"
 
 #. module: l10n_ro_stock
 #: model:ir.model.fields,field_description:l10n_ro_stock.field_stock_warehouse__l10n_ro_consume_type_id
 msgid "Romania - Consume Type"
-msgstr ""
+msgstr "Tip consum"
 
 #. module: l10n_ro_stock
 #: model:ir.model.fields,field_description:l10n_ro_stock.field_stock_location__l10n_ro_merchandise_type
 msgid "Romania - Merchandise type"
-msgstr ""
+msgstr "Tip marfă"
 
 #. module: l10n_ro_stock
 #: model:ir.model.fields,field_description:l10n_ro_stock.field_stock_warehouse__l10n_ro_wh_usage_loc_id
 msgid "Romania - Usage Giving Location"
-msgstr ""
+msgstr "Locație de utilizare"
 
 #. module: l10n_ro_stock
 #: model:ir.model.fields,field_description:l10n_ro_stock.field_stock_warehouse__l10n_ro_usage_type_id
 msgid "Romania - Usage Giving Type"
-msgstr ""
+msgstr "Tip de utilizare"
 
 #. module: l10n_ro_stock
 #. odoo-python
 #: code:addons/l10n_ro_stock/models/stock_warehouse.py:0
 #, python-format
 msgid "Sequence Consume"
-msgstr ""
+msgstr "Secvență consum"
 
 #. module: l10n_ro_stock
 #. odoo-python
 #: code:addons/l10n_ro_stock/models/stock_warehouse.py:0
 #, python-format
 msgid "Sequence Usage Giving"
-msgstr ""
+msgstr "Secvență de dare în folosință"
 
 #. module: l10n_ro_stock
 #. odoo-python
@@ -129,14 +144,14 @@ msgstr ""
 #: model:ir.model.fields.selection,name:l10n_ro_stock.selection__stock_location__l10n_ro_merchandise_type__store
 #, python-format
 msgid "Store"
-msgstr ""
+msgstr "Magazin"
 
 #. module: l10n_ro_stock
 #. odoo-python
 #: code:addons/l10n_ro_stock/models/stock_warehouse.py:0
 #, python-format
 msgid "Usage"
-msgstr ""
+msgstr "Utilizare"
 
 #. module: l10n_ro_stock
 #. odoo-python
@@ -144,7 +159,7 @@ msgstr ""
 #: model:ir.model.fields.selection,name:l10n_ro_stock.selection__stock_location__usage__usage_giving
 #, python-format
 msgid "Usage Giving"
-msgstr ""
+msgstr "Dare în folosință"
 
 #. module: l10n_ro_stock
 #. odoo-python
@@ -153,7 +168,7 @@ msgstr ""
 #: model:ir.model.fields.selection,name:l10n_ro_stock.selection__stock_location__l10n_ro_merchandise_type__warehouse
 #, python-format
 msgid "Warehouse"
-msgstr ""
+msgstr "Depozit"
 
 #~ msgid "Consume Location"
 #~ msgstr "Locație consum"
