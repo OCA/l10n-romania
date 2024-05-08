@@ -6,11 +6,7 @@
         <field name="inherit_id" ref="base.view_partner_bank_form" />
         <field name="arch" type="xml">
             <field name="company_id" position="after">
-                <field name="is_l10n_ro_record" invisible="1" />
-                <field
-                    name="l10n_ro_print_report"
-                    attrs="{'invisible': [('is_l10n_ro_record','=',False)]}"
-                />
+                <field name="l10n_ro_print_report" />
             </field>
         </field>
     </record>
@@ -20,11 +16,7 @@
         <field name="inherit_id" ref="base.view_partner_bank_tree" />
         <field name="arch" type="xml">
             <field name="company_id" position="after">
-                <field name="is_l10n_ro_record" invisible="1" />
-                <field
-                    name="l10n_ro_print_report"
-                    attrs="{'invisible': [('is_l10n_ro_record','=',False)]}"
-                />
+                <field name="l10n_ro_print_report" />
             </field>
         </field>
     </record>
