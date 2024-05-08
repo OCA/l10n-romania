@@ -6,6 +6,7 @@
         <field name="inherit_id" ref="account.view_account_journal_tree" />
         <field name="arch" type="xml">
             <field name="company_id" position="after">
+                <field name="is_l10n_ro_record" invisible="1" />
                 <field name="l10n_ro_print_report" />
             </field>
         </field>
@@ -16,10 +17,12 @@
         <field name="inherit_id" ref="account.view_account_journal_form" />
         <field name="arch" type="xml">
             <field name="currency_id" position="after">
+                <field name="is_l10n_ro_record" invisible="1" />
                 <field name="l10n_ro_print_report" readonly="False" />
                 <field name="l10n_ro_fiscal_receipt" />
             </field>
             <xpath expr="//group[@name='group_alias_edit']" position="after">
+                <field name="is_l10n_ro_record" invisible="1" />
                 <group
                     string="Ro Auto Invoicing"
                     id="l10n_ro_auto_invoicing"
