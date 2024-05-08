@@ -11,12 +11,8 @@
                     name="l10n_ro_delegate_id"
                     domain="[('type','=','contact'),('is_company','=',False)]"
                     context="{'simple_form':True, 'parent_partner_id':partner_id } "
-                    attrs="{'invisible': [('is_l10n_ro_record', '=', False)]}"
                 />
-                <field
-                    name="l10n_ro_mean_transp"
-                    attrs="{'invisible': [('is_l10n_ro_record', '=', False)]}"
-                />
+                <field name="l10n_ro_mean_transp" />
             </field>
         </field>
 
