@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+
+    <record id="view_account_journal_form" model="ir.ui.view">
+        <field name="name">l10n.ro.account.journal.form</field>
+        <field name="model">account.journal</field>
+        <field name="inherit_id" ref="account.view_account_journal_form" />
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='refund_sequence']" position="before">
+                <field name="is_l10n_ro_record" invisible="1" />
+                <field
+                    name="l10n_ro_journal_sequence_id"
+                    invisible="not is_l10n_ro_record"
+                />
+                <field
+                    name="l10n_ro_customer_cash_in_sequence_id"
+                    invisible="not is_l10n_ro_record or type != 'cash'"
+                />
+                <field
+                    name="l10n_ro_statement_sequence_id"
+                    invisible="not is_l10n_ro_record or type not in ['cash','bank']"
+                />
+                <field
+                    name="l10n_ro_auto_statement"
+                    invisible="not is_l10n_ro_record or type not in ['cash','bank']"
+                />
+                <field
+                    name="l10n_ro_cash_in_sequence_id"
+                    invisible="not is_l10n_ro_record or type != 'cash'"
+                />
+                <field
+                    name="l10n_ro_cash_out_sequence_id"
+                    invisible="not is_l10n_ro_record or type != 'cash'"
+                />
+            </xpath>
+        </field>
+    </record>
+
+</odoo>

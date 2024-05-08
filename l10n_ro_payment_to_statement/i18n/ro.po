@@ -1,0 +1,151 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* l10n_ro_payment_to_statement
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 16.0+e\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2023-08-08 10:56+0000\n"
+"PO-Revision-Date: 2023-08-08 10:56+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: l10n_ro_payment_to_statement
+#: model_terms:ir.ui.view,arch_db:l10n_ro_payment_to_statement.account_journal_dashboard_kanban_view
+msgid "<span title=\"Transfer\">Transfer</span>"
+msgstr ""
+
+#. module: l10n_ro_payment_to_statement
+#: model_terms:ir.ui.view,arch_db:l10n_ro_payment_to_statement.view_account_payment_form
+msgid "Add to statement"
+msgstr "Adaugă la extras"
+
+#. module: l10n_ro_payment_to_statement
+#: model:ir.model.fields,help:l10n_ro_payment_to_statement.field_account_journal__l10n_ro_auto_statement
+msgid "Automatically add payments with this journal to a statement"
+msgstr "Adaugă automat tranzacțiile la extras"
+
+#. module: l10n_ro_payment_to_statement
+#: model:ir.model,name:l10n_ro_payment_to_statement.model_account_bank_statement
+msgid "Bank Statement"
+msgstr "Extras bancă"
+
+#. module: l10n_ro_payment_to_statement
+#: model:ir.model,name:l10n_ro_payment_to_statement.model_account_bank_statement_line
+msgid "Bank Statement Line"
+msgstr "Linie extras bacă"
+
+#. module: l10n_ro_payment_to_statement
+#: model_terms:ir.ui.view,arch_db:l10n_ro_payment_to_statement.view_account_payment_form
+msgid "Get statement Line"
+msgstr "Preia linia de extras"
+
+#. module: l10n_ro_payment_to_statement
+#: model:ir.model.fields,field_description:l10n_ro_payment_to_statement.field_account_bank_statement_line__is_l10n_ro_payment_disposal
+msgid "Is L10N Ro Payment Disposal"
+msgstr ""
+
+#. module: l10n_ro_payment_to_statement
+#: model:ir.model.fields,field_description:l10n_ro_payment_to_statement.field_account_bank_statement__is_l10n_ro_record
+#: model:ir.model.fields,field_description:l10n_ro_payment_to_statement.field_account_bank_statement_line__is_l10n_ro_record
+#: model:ir.model.fields,field_description:l10n_ro_payment_to_statement.field_account_journal__is_l10n_ro_record
+#: model:ir.model.fields,field_description:l10n_ro_payment_to_statement.field_account_move__is_l10n_ro_record
+#: model:ir.model.fields,field_description:l10n_ro_payment_to_statement.field_account_payment__is_l10n_ro_record
+msgid "Is Romanian Record"
+msgstr "Este înregistrarea Română"
+
+#. module: l10n_ro_payment_to_statement
+#: model:ir.model,name:l10n_ro_payment_to_statement.model_account_journal
+msgid "Journal"
+msgstr "Jurnal"
+
+#. module: l10n_ro_payment_to_statement
+#: model:ir.model,name:l10n_ro_payment_to_statement.model_account_move
+msgid "Journal Entry"
+msgstr "Notă contabilă"
+
+#. module: l10n_ro_payment_to_statement
+#: model:ir.model,name:l10n_ro_payment_to_statement.model_account_payment
+msgid "Payments"
+msgstr "Plăți"
+
+#. module: l10n_ro_payment_to_statement
+#: model:ir.model.fields,field_description:l10n_ro_payment_to_statement.field_account_journal__l10n_ro_auto_statement
+msgid "Romania - Auto Statement"
+msgstr ""
+
+#. module: l10n_ro_payment_to_statement
+#: model:ir.model.fields,field_description:l10n_ro_payment_to_statement.field_account_journal__l10n_ro_customer_cash_in_sequence_id
+msgid "Romania - Customer sequence cash in"
+msgstr "România - Secvență chitanțe"
+
+#. module: l10n_ro_payment_to_statement
+#: model:ir.model.fields,field_description:l10n_ro_payment_to_statement.field_account_journal__l10n_ro_journal_sequence_id
+msgid "Romania - Sequence Journal"
+msgstr "România - Secvența jurnalului (NC)"
+
+#. module: l10n_ro_payment_to_statement
+#: model:ir.model.fields,field_description:l10n_ro_payment_to_statement.field_account_journal__l10n_ro_cash_in_sequence_id
+msgid "Romania - Sequence cash in"
+msgstr "România - Secvența disp. încasare"
+
+#. module: l10n_ro_payment_to_statement
+#: model:ir.model.fields,field_description:l10n_ro_payment_to_statement.field_account_journal__l10n_ro_cash_out_sequence_id
+msgid "Romania - Sequence cash out"
+msgstr "România - Secvența disp. plată"
+
+#. module: l10n_ro_payment_to_statement
+#: model:ir.model.fields,field_description:l10n_ro_payment_to_statement.field_account_payment__l10n_ro_statement_id
+msgid "Romania - Statement"
+msgstr "România - extras"
+
+#. module: l10n_ro_payment_to_statement
+#: model:ir.model.fields,field_description:l10n_ro_payment_to_statement.field_account_journal__l10n_ro_statement_sequence_id
+msgid "Romania - Statement Sequence"
+msgstr "România - Secvența extras/registru casă"
+
+#. module: l10n_ro_payment_to_statement
+#: model:ir.model.fields,help:l10n_ro_payment_to_statement.field_account_journal__l10n_ro_cash_in_sequence_id
+msgid "Sequence used for cash in operations"
+msgstr "Secvența folosită pentru dispoziții de încasare"
+
+#. module: l10n_ro_payment_to_statement
+#: model:ir.model.fields,help:l10n_ro_payment_to_statement.field_account_journal__l10n_ro_cash_out_sequence_id
+msgid "Sequence used for cash out operations"
+msgstr "Secvența folosită pentru dispoziții de plată"
+
+#. module: l10n_ro_payment_to_statement
+#: model:ir.model.fields,help:l10n_ro_payment_to_statement.field_account_journal__l10n_ro_customer_cash_in_sequence_id
+msgid "Sequence used for customer cash in operations (customer payments)"
+msgstr "Secvența folosită pentru încasări de la clienți (chitanțe)"
+
+#. module: l10n_ro_payment_to_statement
+#: model:ir.model.fields,help:l10n_ro_payment_to_statement.field_account_journal__l10n_ro_journal_sequence_id
+msgid "Sequence used for other (closing, line) account move names"
+msgstr ""
+"Secvența folosită pentru alte note contabile (facturi în cazul jurnalelor de"
+" vânzare, n.c. închidere, linii extras în cazul jurnalelor de casă/bancă)"
+
+#. module: l10n_ro_payment_to_statement
+#: model:ir.model.fields,help:l10n_ro_payment_to_statement.field_account_journal__l10n_ro_statement_sequence_id
+msgid "Sequence used for statement name"
+msgstr "Secvența folosită pentru numele extrasului"
+
+#. module: l10n_ro_payment_to_statement
+#: model:ir.model.fields,field_description:l10n_ro_payment_to_statement.field_account_payment__statement_line_id
+msgid "Statement Line"
+msgstr "Linie a Extrasului de cont"
+
+#. module: l10n_ro_payment_to_statement
+#. odoo-python
+#: code:addons/l10n_ro_payment_to_statement/models/account_payment.py:0
+#, python-format
+msgid "You cannot delete the payment %s, as it already consumed a number."
+msgstr ""
+"Nu se poate șterge plata/încasarea %s, deoarece a consumat deja un număr."
