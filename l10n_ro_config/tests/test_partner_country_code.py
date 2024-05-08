@@ -2,7 +2,7 @@
 # Copyright (C) 2020 NextERP Romania
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
-from odoo.tests import tagged
+from odoo.tests import Form, tagged
 
 from odoo.addons.account.tests.common import AccountTestInvoicingCommon
 
@@ -40,3 +40,26 @@ class TestPartnerVAT(TestPartnerVATSubjected):
         )
         self.assertEqual(vat_country, "ro")
         self.assertEqual(l10n_ro_vat_number, "4264242")
+
+    def test_form_partner(self):
+        test_company = self.env["res.company"].create(
+            {
+                "name": "Test Company",
+            }
+        )
+        partner = self.env["res.partner"].create(
+            {
+                "name": "Test Partner",
+                "is_company": True,
+            }
+        )
+
+        partner_form = Form(partner)
+        partner_form.name = "Test Partner"
+        partner_form.l10n_ro_vat_subjected = True
+
+        self.env.company = test_company
+        partner_form = Form(partner)
+        partner_form.name = "Test Partner"
+        with self.assertRaises(AssertionError):
+            partner_form.l10n_ro_vat_subjected = True

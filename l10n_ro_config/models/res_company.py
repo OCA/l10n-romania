@@ -11,7 +11,6 @@ class ResCompany(models.Model):
     # de eliminat acest camp si de utilizat account_fiscal_country_id.code == 'RO'
     l10n_ro_accounting = fields.Boolean(
         string="Romania - Use Romanian Accounting",
-        default=True,
         compute="_compute_l10n_ro_accounting",
         store=True,
     )

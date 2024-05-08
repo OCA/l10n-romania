@@ -8,10 +8,7 @@
         <field name="arch" type="xml">
             <field name="property_stock_valuation_account_id" position="after">
                 <field name="is_l10n_ro_record" invisible="1" />
-                <field
-                    name="l10n_ro_stock_account_change"
-                    attrs="{'invisible': [('is_l10n_ro_record', '=', False)]}"
-                />
+                <field name="l10n_ro_stock_account_change" />
                 <field name="l10n_ro_hide_stock_in_out_account" invisible="1" />
             </field>
             <field name="property_stock_account_input_categ_id" position="attributes">
