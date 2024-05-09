@@ -10,7 +10,7 @@ class AccountJournal(models.Model):
 
     # TO-DO Add migration script
     l10n_ro_print_report = fields.Boolean(
-        "Ro Print in Report",
+        "Print in Report",
         compute="_compute_l10n_ro_print_report",
         inverse="_inverse_l10n_ro_print_report",
         store=True,

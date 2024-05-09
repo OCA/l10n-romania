@@ -407,12 +407,6 @@ msgid "Romania - Default Services Sale Tax"
 msgstr "Taxa implicită de vânzare pentru servicii"
 
 #. module: l10n_ro_config
-#: model:ir.model.fields,field_description:l10n_ro_config.field_res_partner__l10n_ro_e_invoice
-#: model:ir.model.fields,field_description:l10n_ro_config.field_res_users__l10n_ro_e_invoice
-msgid "Romania - E-Invoicing"
-msgstr "E-Factura"
-
-#. module: l10n_ro_config
 #: model:ir.model.fields,field_description:l10n_ro_config.field_res_company__l10n_ro_property_inverse_taxation_position_id
 #: model:ir.model.fields,field_description:l10n_ro_config.field_res_config_settings__l10n_ro_property_inverse_taxation_position_id
 msgid "Romania - Fiscal Position for Inverse Taxation"
