@@ -8,8 +8,7 @@ from odoo.tests.common import Form, TransactionCase
 class TestRoCity(TransactionCase):
     def setUp(self):
         super().setUp()
-        self.env.company.anglo_saxon_accounting = True
-        self.env.company.l10n_ro_accounting = True
+
         self.city_1 = self.env.ref("l10n_ro_city.RO_22585")
         self.city_2 = self.env.ref("l10n_ro_city.RO_21588")
         self.city_3 = self.env.ref("l10n_ro_city.RO_6734")
@@ -18,11 +17,11 @@ class TestRoCity(TransactionCase):
     def test_city(self):
         self.assertEqual(self.city_1.name, "Filipești")
 
-        name = self.city_1.name_get()
-        self.assertEqual(name[0][1], "Filipești (BC)")
+        display_name = self.city_1.display_name
+        self.assertEqual(display_name, "Filipești (BC)")
 
-        name = self.city_2.name_get()
-        self.assertEqual(name[0][1], "Filipești (Bogdănești) (BC)")
+        display_name = self.city_2.display_name
+        self.assertEqual(display_name, "Filipești (Bogdănești) (BC)")
 
     def test_partner_on_change_city(self):
         city_obj = self.env["res.city"]
