@@ -1,7 +1,6 @@
 # Copyright 2022 NextERP Romania
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html)
 
-import json
 
 from lxml import etree
 
@@ -41,16 +40,16 @@ class L10nRoMixin(models.AbstractModel):
         if view_type == "tree":
             doc = etree.fromstring(result["arch"])
             for field in doc.xpath('//field[contains(@name,"l10n_ro")]'):
-                field.set("column_invisible", json.dumps(True))
+                field.set("column_invisible", "True")
             result["arch"] = etree.tostring(doc)
 
         if view_type == "form":
             doc = etree.fromstring(result["arch"])
             for field in doc.xpath('//field[contains(@name,"l10n_ro")]'):
-                field.set("invisible", json.dumps(True))
+                field.set("invisible", "True")
 
             for field in doc.xpath('//group[contains(@id,"l10n_ro")]'):
-                field.set("invisible", json.dumps(True))
+                field.set("invisible", "True")
 
             result["arch"] = etree.tostring(doc)
 
@@ -58,9 +57,9 @@ class L10nRoMixin(models.AbstractModel):
             doc = etree.fromstring(result["arch"])
             # Hide filters
             for field in doc.xpath('//filter[contains(@domain,"l10n_ro")]'):
-                field.set("invisible", json.dumps(True))
+                field.set("invisible", "True")
             # Hide groups by
             for field in doc.xpath('//filter[contains(@context,"l10n_ro")]'):
-                field.set("invisible", json.dumps(True))
+                field.set("invisible", "True")
             result["arch"] = etree.tostring(doc)
         return result
