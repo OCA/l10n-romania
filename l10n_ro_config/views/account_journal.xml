@@ -7,7 +7,7 @@
         <field name="arch" type="xml">
             <field name="company_id" position="after">
                 <field name="is_l10n_ro_record" column_invisible="1" />
-                <field name="l10n_ro_print_report" invisible="not is_l10n_ro_record" />
+                <field name="l10n_ro_print_report" />
             </field>
         </field>
     </record>
@@ -18,15 +18,8 @@
         <field name="arch" type="xml">
             <xpath expr="//group/field[@name='company_id']" position="after">
                 <field name="is_l10n_ro_record" invisible="1" />
-                <field
-                    name="l10n_ro_print_report"
-                    readonly="False"
-                    invisible="not is_l10n_ro_record"
-                />
-                <field
-                    name="l10n_ro_fiscal_receipt"
-                    invisible="not is_l10n_ro_record"
-                />
+                <field name="l10n_ro_print_report" readonly="False" />
+                <field name="l10n_ro_fiscal_receipt" />
             </xpath>
         </field>
     </record>
