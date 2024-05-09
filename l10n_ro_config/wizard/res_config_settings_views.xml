@@ -437,7 +437,6 @@
                     string="Install BNR update rates"
                     company_dependent="1"
                     help="Will update daily from cron only if is checked Automatic Currency Rates (OCA) and you added a rate_provider."
-                    invisible="not is_l10n_ro_record"
                 >
                     <field name="module_currency_rate_update_RO_BNR" />
                 </setting>
@@ -448,7 +447,6 @@
                     string="Default Services Taxes"
                     company_dependent="1"
                     help="Default taxes applied to local transactions."
-                    invisible="not is_l10n_ro_record"
                 >
                     <div class="content-group">
                         <div class="row mt16">
