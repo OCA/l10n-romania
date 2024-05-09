@@ -8,6 +8,7 @@ from odoo import api, fields, models
 class ResCompany(models.Model):
     _inherit = "res.company"
 
+    # de eliminat acest camp si de utilizat account_fiscal_country_id.code == 'RO'
     l10n_ro_accounting = fields.Boolean(
         string="Romania - Use Romanian Accounting",
         default=True,

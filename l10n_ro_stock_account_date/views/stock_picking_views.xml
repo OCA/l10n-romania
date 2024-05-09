@@ -6,11 +6,7 @@
         <field name="arch" type="xml">
             <field name="scheduled_date" position="before">
                 <field name="is_l10n_ro_record" invisible="1" />
-                <field
-                    name="l10n_ro_accounting_date"
-                    readonly="1"
-                    invisible="not is_l10n_ro_record"
-                />
+                <field name="l10n_ro_accounting_date" readonly="1" />
             </field>
         </field>
     </record>
@@ -22,11 +18,8 @@
         <field name="arch" type="xml">
             <xpath expr="//label[@for='scheduled_date']" position="before">
                 <field name="is_l10n_ro_record" invisible="1" />
-                <label
-                    for="l10n_ro_accounting_date"
-                    invisible="not is_l10n_ro_record"
-                />
-                <div class="o_row" invisible="not is_l10n_ro_record">
+                <label for="l10n_ro_accounting_date" />
+                <div class="o_row">
                     <field name="l10n_ro_accounting_date" readonly="state == 'done'" />
                 </div>
             </xpath>
