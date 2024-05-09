@@ -253,7 +253,8 @@ msgid ""
 "                                            the value used for stock out operations will be the value recorded at the\n"
 "                                            reception of the lot/serial, ignoring FIFO rule;\n"
 "                                            If this field is NOT checked and the company use Romanian Accounting,\n"
-"                                            the value used for stock out operations will be the value provided by FIFO rule,\n"
+"                                            the value used for stock out operations will be the value provided by FIFO\n"
+"                                            rule,\n"
 "                                            applied strictly on a location level (including its children)"
 msgstr ""
 
@@ -335,7 +336,8 @@ msgstr ""
 #. module: l10n_ro_config
 #: model_terms:ir.ui.view,arch_db:l10n_ro_config.res_config_settings_view_form
 msgid ""
-"Mark stock operations as notice operations. Stock accounting will change to use and\n"
+"Mark stock operations as notice operations. Stock accounting will change to use\n"
+"                                        and\n"
 "                                        accounts."
 msgstr ""
 
@@ -419,13 +421,6 @@ msgstr ""
 #. module: l10n_ro_config
 #: model_terms:ir.ui.view,arch_db:l10n_ro_config.res_config_settings_view_form
 msgid "Register sync oAuth with ANAF website."
-msgstr ""
-
-#. module: l10n_ro_config
-#: model_terms:ir.ui.view,arch_db:l10n_ro_config.res_config_settings_view_form
-msgid ""
-"Registration of accounting moves according to\n"
-"                                        Romanian legislation"
 msgstr ""
 
 #. module: l10n_ro_config
@@ -768,21 +763,22 @@ msgstr ""
 #. module: l10n_ro_config
 #: model_terms:ir.ui.view,arch_db:l10n_ro_config.res_config_settings_view_form
 msgid ""
-"Select a service product that will be used in customs commission "
-"registration in landed cost."
+"Select a service product that will be used in customs commission\n"
+"                                                registration in landed cost."
 msgstr ""
 
 #. module: l10n_ro_config
 #: model_terms:ir.ui.view,arch_db:l10n_ro_config.res_config_settings_view_form
 msgid ""
-"Select a service product that will be used in customs duty registration in "
-"landed cost."
+"Select a service product that will be used in customs duty registration\n"
+"                                                in landed cost."
 msgstr ""
 
 #. module: l10n_ro_config
 #: model_terms:ir.ui.view,arch_db:l10n_ro_config.res_config_settings_view_form
 msgid ""
-"Select a service product that will be used in landed cost to register price\n"
+"Select a service product that will be used in landed cost to register\n"
+"                                                price\n"
 "                                                differences.\n"
 "                                                An expense account needs to be set on product or product category."
 msgstr ""
@@ -843,7 +839,8 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:l10n_ro_config.res_config_settings_view_form
 msgid ""
 "This account will be used as the default non deductible expense account from\n"
-"                                        tax repartition lines marked as not deductible. If the line account does not have\n"
+"                                        tax repartition lines marked as not deductible. If the line account does not\n"
+"                                        have\n"
 "                                        a non deductible account set, this account will be used."
 msgstr ""
 
@@ -1074,7 +1071,7 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:l10n_ro_config.res_config_settings_view_form
 msgid ""
 "This option allows you to manage account names based on Romanian format,\n"
-"                                    restriction on cash operations."
+"                                        restriction on cash operations."
 msgstr ""
 
 #. module: l10n_ro_config
