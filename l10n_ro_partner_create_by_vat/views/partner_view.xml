@@ -7,11 +7,11 @@
             <field name="model">res.partner</field>
             <field name="inherit_id" ref="l10n_ro_config.view_partner_create_by_vat" />
             <field name="arch" type="xml">
-                <field name="l10n_ro_e_invoice" position="after">
+                <field name="l10n_ro_vat_number" position="after">
                     <field
                     name="l10n_ro_old_name"
                     placeholder="Old Name"
-                    invisible="not is_company or not l10n_ro_e_invoice"
+                    invisible="not is_company"
                 />
                 </field>
             </field>
@@ -24,7 +24,7 @@
             <field name="arch" type="xml">
                 <page name="accounting" position="inside">
                     <field name="is_l10n_ro_record" invisible="1" />
-                    <group string="ANAF History" invisible="not is_l10n_ro_record">
+                    <group string="ANAF History">
                         <separator string="ANAF - Active State History" />
                         <field
                         name="l10n_ro_active_anaf_line_ids"
