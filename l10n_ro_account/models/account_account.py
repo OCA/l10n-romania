@@ -42,17 +42,6 @@ class Account(models.Model):
             cont += "." + str(analitic)
         return cont
 
-    # def name_get(self):
-    #     result = []
-    #     rest = self
-    #     for account in self:
-    #         if account.company_id.l10n_ro_accounting:
-    #             code = account.l10n_ro_external_code or account.code
-    #             name = code + " " + account.name
-    #             result.append((account.id, name))
-    #             rest -= account
-    #     return result + super(Account, rest).name_get()
-
     def _compute_display_name(self):
         rest = self
         for account in self:
