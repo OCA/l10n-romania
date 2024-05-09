@@ -286,7 +286,8 @@ msgid ""
 "                                            If this field is NOT checked and "
 "the company use Romanian Accounting,\n"
 "                                            the value used for stock out "
-"operations will be the value provided by FIFO rule,\n"
+"operations will be the value provided by FIFO\n"
+"                                            rule,\n"
 "                                            applied strictly on a location "
 "level (including its children)"
 msgstr ""
@@ -380,7 +381,8 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:l10n_ro_config.res_config_settings_view_form
 msgid ""
 "Mark stock operations as notice operations. Stock accounting will change to "
-"use and\n"
+"use\n"
+"                                        and\n"
 "                                        accounts."
 msgstr ""
 
@@ -474,13 +476,6 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:l10n_ro_config.res_config_settings_view_form
 msgid "Register sync oAuth with ANAF website."
 msgstr "Înregistrați sincronizarea oAuth cu site-ul ANAF."
-
-#. module: l10n_ro_config
-#: model_terms:ir.ui.view,arch_db:l10n_ro_config.res_config_settings_view_form
-msgid ""
-"Registration of accounting moves according to\n"
-"                                        Romanian legislation"
-msgstr ""
 
 #. module: l10n_ro_config
 #: model:ir.model.fields,field_description:l10n_ro_config.field_res_company__l10n_ro_restrict_stock_move_date_future
@@ -823,25 +818,22 @@ msgstr "Selectați un produs"
 #. module: l10n_ro_config
 #: model_terms:ir.ui.view,arch_db:l10n_ro_config.res_config_settings_view_form
 msgid ""
-"Select a service product that will be used in customs commission "
-"registration in landed cost."
+"Select a service product that will be used in customs commission\n"
+"                                                registration in landed cost."
 msgstr ""
-"Selectați un produs de tip serviciu care va fi utilizat în înregistrarea "
-"comisionului vamal în costul adițional."
 
 #. module: l10n_ro_config
 #: model_terms:ir.ui.view,arch_db:l10n_ro_config.res_config_settings_view_form
 msgid ""
-"Select a service product that will be used in customs duty registration in "
-"landed cost."
+"Select a service product that will be used in customs duty registration\n"
+"                                                in landed cost."
 msgstr ""
-"Selectați un produs de tip serviciu care va fi utilizat în înregistrarea "
-"taxelor vamale în costul adițional."
 
 #. module: l10n_ro_config
 #: model_terms:ir.ui.view,arch_db:l10n_ro_config.res_config_settings_view_form
 msgid ""
-"Select a service product that will be used in landed cost to register price\n"
+"Select a service product that will be used in landed cost to register\n"
+"                                                price\n"
 "                                                differences.\n"
 "                                                An expense account needs to "
 "be set on product or product category."
@@ -907,7 +899,8 @@ msgid ""
 "This account will be used as the default non deductible expense account "
 "from\n"
 "                                        tax repartition lines marked as not "
-"deductible. If the line account does not have\n"
+"deductible. If the line account does not\n"
+"                                        have\n"
 "                                        a non deductible account set, this "
 "account will be used."
 msgstr ""
@@ -1192,7 +1185,7 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:l10n_ro_config.res_config_settings_view_form
 msgid ""
 "This option allows you to manage account names based on Romanian format,\n"
-"                                    restriction on cash operations."
+"                                        restriction on cash operations."
 msgstr ""
 
 #. module: l10n_ro_config
@@ -1368,6 +1361,20 @@ msgid ""
 msgstr ""
 "utilizați contul 4428 pentru tva neexigibil în notele făcute pentru 'Marfă "
 "în magazin'"
+
+#~ msgid ""
+#~ "Select a service product that will be used in customs commission "
+#~ "registration in landed cost."
+#~ msgstr ""
+#~ "Selectați un produs de tip serviciu care va fi utilizat în înregistrarea "
+#~ "comisionului vamal în costul adițional."
+
+#~ msgid ""
+#~ "Select a service product that will be used in customs duty registration "
+#~ "in landed cost."
+#~ msgstr ""
+#~ "Selectați un produs de tip serviciu care va fi utilizat în înregistrarea "
+#~ "taxelor vamale în costul adițional."
 
 #~ msgid "Register non deductible VAT in accoutning and stock operations."
 #~ msgstr ""
