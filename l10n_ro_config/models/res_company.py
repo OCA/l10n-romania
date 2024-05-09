@@ -11,6 +11,7 @@ class ResCompany(models.Model):
     # de eliminat acest camp si de utilizat account_fiscal_country_id.code == 'RO'
     l10n_ro_accounting = fields.Boolean(
         string="Romania - Use Romanian Accounting",
+        default=True,
         compute="_compute_l10n_ro_accounting",
         store=True,
     )
@@ -140,9 +141,9 @@ class ResCompany(models.Model):
             company = self
         else:
             company = self.browse(company)
-        return company.account_fiscal_country_id.code == "RO"
+        return company.l10n_ro_accounting
 
-    @api.depends("account_fiscal_country_id.code")
+    @api.depends("chart_template")
     def _compute_l10n_ro_accounting(self):
         for company in self:
-            company.l10n_ro_accounting = company.account_fiscal_country_id.code == "RO"
+            company.l10n_ro_accounting = company.chart_template == "ro"
