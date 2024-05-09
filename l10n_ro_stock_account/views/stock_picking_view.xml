@@ -8,10 +8,7 @@
             <xpath expr="//button[@name='action_show_details']" position="after">
                 <field name="is_l10n_ro_record" invisible="1" />
                 <field name="picking_code" invisible="1" />
-                <field
-                    name="price_unit"
-                    invisible="not is_l10n_ro_record or picking_code != 'incoming'"
-                />
+                <field name="price_unit" invisible="picking_code != 'incoming'" />
             </xpath>
             <xpath expr="//div[@name='button_box']" position="inside">
                 <field name="is_l10n_ro_record" invisible="1" />
@@ -22,7 +19,7 @@
                     class="oe_stat_button"
                     icon="fa-dollar"
                     groups="base.group_no_one"
-                    invisible="not is_l10n_ro_record or state != 'done'"
+                    invisible="state != 'done'"
                 />
             </xpath>
         </field>
