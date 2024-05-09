@@ -33,40 +33,47 @@ class L10nRoMixin(models.AbstractModel):
             return ["company_id"]
         return []
 
-    def fields_view_get(
-        self, view_id=None, view_type="tree", toolbar=False, submenu=False
-    ):
-        result = super(L10nRoMixin, self).fields_view_get(
-            view_id=view_id, view_type=view_type, toolbar=toolbar, submenu=submenu
-        )
+    @api.model
+    def get_view(self, view_id=None, view_type="form", **options):
+        result = super().get_view(view_id=view_id, view_type=view_type, **options)
+        if self.env.company._check_is_l10n_ro_record():
+            return result
         if view_type == "tree":
             doc = etree.fromstring(result["arch"])
             for field in doc.xpath('//field[contains(@name,"l10n_ro")]'):
                 modifiers = json.loads(field.get("modifiers", "{}"))
-                if field.get("invisible", "0") != "1":
-                    if self.env.company._check_is_l10n_ro_record():
-                        modifiers["column_invisible"] = False
-                    else:
-                        modifiers["column_invisible"] = True
+                modifiers["column_invisible"] = True
+
                 field.set("modifiers", json.dumps(modifiers))
             result["arch"] = etree.tostring(doc)
+
+        if view_type == "form":
+            doc = etree.fromstring(result["arch"])
+            for field in doc.xpath('//field[contains(@name,"l10n_ro")]'):
+                modifiers = json.loads(field.get("modifiers", "{}"))
+                modifiers["invisible"] = True
+
+                field.set("modifiers", json.dumps(modifiers))
+
+            for field in doc.xpath('//group[contains(@id,"l10n_ro")]'):
+                modifiers = json.loads(field.get("modifiers", "{}"))
+                modifiers["invisible"] = True
+
+                field.set("modifiers", json.dumps(modifiers))
+
+            result["arch"] = etree.tostring(doc)
+
         if view_type == "search":
             doc = etree.fromstring(result["arch"])
             # Hide filters
             for field in doc.xpath('//filter[contains(@domain,"l10n_ro")]'):
                 modifiers = json.loads(field.get("modifiers", "{}"))
-                if self.env.company._check_is_l10n_ro_record():
-                    modifiers["invisible"] = False
-                else:
-                    modifiers["invisible"] = True
+                modifiers["invisible"] = True
                 field.set("modifiers", json.dumps(modifiers))
             # Hide groups by
             for field in doc.xpath('//filter[contains(@context,"l10n_ro")]'):
                 modifiers = json.loads(field.get("modifiers", "{}"))
-                if self.env.company._check_is_l10n_ro_record():
-                    modifiers["invisible"] = False
-                else:
-                    modifiers["invisible"] = True
+                modifiers["invisible"] = True
                 field.set("modifiers", json.dumps(modifiers))
             result["arch"] = etree.tostring(doc)
         return result

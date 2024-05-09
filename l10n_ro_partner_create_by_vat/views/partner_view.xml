@@ -24,10 +24,7 @@
             <field name="arch" type="xml">
                 <page name="accounting" position="inside">
                     <field name="is_l10n_ro_record" invisible="1" />
-                    <group
-                    string="ANAF History"
-                    attrs="{'invisible': [('is_l10n_ro_record', '=', False)]}"
-                >
+                    <group string="ANAF History" id="l10n_ro_anaf_history_group">
                         <separator string="ANAF - Active State History" />
                         <field
                         name="l10n_ro_active_anaf_line_ids"

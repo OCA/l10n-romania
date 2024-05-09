@@ -7,10 +7,7 @@
         <field name="arch" type="xml">
             <field name="usage" position="after">
                 <field name="is_l10n_ro_record" invisible="1" />
-                <field
-                    name="l10n_ro_merchandise_type"
-                    attrs="{'invisible': [('is_l10n_ro_record', '=', False)]}"
-                />
+                <field name="l10n_ro_merchandise_type" />
             </field>
         </field>
     </record>
@@ -21,10 +18,7 @@
         <field name="arch" type="xml">
             <field name="complete_name" position="after">
                 <field name="is_l10n_ro_record" invisible="1" />
-                <field
-                    name="l10n_ro_merchandise_type"
-                    attrs="{'invisible': [('is_l10n_ro_record', '=', False)]}"
-                />
+                <field name="l10n_ro_merchandise_type" />
             </field>
         </field>
     </record>
@@ -35,10 +29,7 @@
         <field name="arch" type="xml">
             <field name="usage" position="after">
                 <field name="is_l10n_ro_record" invisible="1" />
-                <field
-                    name="l10n_ro_merchandise_type"
-                    attrs="{'invisible': [('is_l10n_ro_record', '=', False)]}"
-                />
+                <field name="l10n_ro_merchandise_type" />
             </field>
         </field>
     </record>

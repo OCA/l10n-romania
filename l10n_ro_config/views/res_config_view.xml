@@ -13,10 +13,7 @@
                 expr="//div[@data-key='account']//field[@name='module_currency_rate_live']/../.."
                 position="after"
             >
-                <div
-                    class="col-12 col-lg-6 o_setting_box"
-                    attrs="{'invisible': [('is_l10n_ro_record','=',False)]}"
-                >
+                <div class="col-12 col-lg-6 o_setting_box">
                     <div class="o_setting_left_pane">
                         <field name="module_currency_rate_update_RO_BNR" />
                     </div>
@@ -44,13 +41,8 @@
                     data-string="Romania"
                     string="Romania"
                     data-key="l10n_ro_config"
-                    groups="l10n_ro_config.group_ro_menus"
                 >
-                    <field
-                        name="country_code"
-                        invisible="1"
-                        groups="l10n_ro_config.group_ro_menus"
-                    />
+                    <field name="country_code" invisible="1" />
                     <div
                         name="l10n_ro_config_container"
                         attrs="{'invisible': [('country_code', '!=', 'RO')]}"
@@ -202,6 +194,7 @@
                                 </div>
                             </div>
                         </div>
+
                         <h2>Accounting</h2>
                         <div
                             class="row mt16 o_settings_container"
@@ -210,7 +203,6 @@
                             <div
                                 class="col-xs-12 col-md-6 o_setting_box"
                                 id="use_anglo_saxon"
-                                attrs="{'invisible': [('country_code', '!=', 'RO')]}"
                             >
                                 <div class="o_setting_left_pane">
                                     <field name="use_anglo_saxon" />
@@ -228,23 +220,7 @@
                                         Record cost of goods sold in your journal entries
                                     </div>
                                 </div>
-                                <div class="o_setting_left_pane">
-                                    <field name="l10n_ro_accounting" />
-                                </div>
-                                <div class="o_setting_right_pane">
-                                    <label for="l10n_ro_accounting" />
-                                    <span
-                                        class="fa fa-lg fa-building-o"
-                                        title="Values set here are company-specific."
-                                        role="img"
-                                        aria-label="Values set here are company-specific."
-                                        groups="base.group_multi_company"
-                                    />
-                                    <div class="text-muted">
-                                        Registration of accounting moves according to
-                                        Romanian legislation
-                                    </div>
-                                </div>
+
                             </div>
 
                             <div class="col-xs-12 col-md-6 o_setting_box">
@@ -308,7 +284,7 @@
                                     <div
                                         class="text-muted"
                                     >This option allows you to manage account names based on Romanian format,
-                                    restriction on cash operations.
+                                        restriction on cash operations.
                                     </div>
                                 </div>
                             </div>
@@ -371,7 +347,8 @@
 
                                     <div class="text-muted">
                                         This account will be used as the default non deductible expense account from
-                                        tax repartition lines marked as not deductible. If the line account does not have
+                                        tax repartition lines marked as not deductible. If the line account does not
+                                        have
                                         a non deductible account set, this account will be used.
                                     </div>
                                 </div>
@@ -412,7 +389,8 @@
                                             />
 
                                             <div class="text-muted">
-                                                Select a service product that will be used in customs duty registration in landed cost.
+                                                Select a service product that will be used in customs duty registration
+                                                in landed cost.
                                             </div>
                                         </div>
                                         <label
@@ -432,7 +410,8 @@
                                             />
 
                                             <div class="text-muted">
-                                                Select a service product that will be used in customs commission registration in landed cost.
+                                                Select a service product that will be used in customs commission
+                                                registration in landed cost.
                                             </div>
                                         </div>
                                     </div>
@@ -480,7 +459,6 @@
                         <div
                             class="row mt16 o_settings_container"
                             name="ro_bank_setting_container"
-                            attrs="{'invisible': [('country_code', '!=', 'RO')]}"
                         >
                             <div
                                 class="col-xs-12 col-md-6 o_setting_box"
@@ -619,12 +597,12 @@
                                 </div>
                             </div>
                         </div>
+
                         <h2>Stock</h2>
                         <div class="row mt16 o_settings_container">
-
                             <div
-                                class="col-xs-12 col-md-6 o_setting_box"
                                 id="module_l10n_ro_stock"
+                                class="col-xs-12 col-md-6 o_setting_box"
                             >
                                 <div class="o_setting_left_pane">
                                     <field name="module_l10n_ro_stock" />
@@ -638,8 +616,8 @@
                                 </div>
                             </div>
                             <div
-                                class="col-12 col-lg-6 o_setting_box"
                                 id="module_l10n_ro_stock_account"
+                                class="col-12 col-lg-6 o_setting_box"
                             >
                                 <div class="o_setting_left_pane">
                                     <field name="module_l10n_ro_stock_account" />
@@ -651,14 +629,9 @@
                                     </div>
                                 </div>
                             </div>
-                            <field
-                                name="l10n_ro_stock_account_svl_lot_allocation_visible"
-                                invisible="1"
-                            />
                             <div
-                                class="col-12 col-lg-6 o_setting_box"
                                 id="module_l10n_ro_stock_account_svl_allocation_config"
-                                attrs="{'invisible': [('l10n_ro_stock_account_svl_lot_allocation_visible', '=', False)]}"
+                                class="col-12 col-lg-6 o_setting_box"
                             >
                                 <div
                                     class="content-group"
@@ -684,15 +657,16 @@
                                             the value used for stock out operations will be the value recorded at the
                                             reception of the lot/serial, ignoring FIFO rule;
                                             If this field is NOT checked and the company use Romanian Accounting,
-                                            the value used for stock out operations will be the value provided by FIFO rule,
+                                            the value used for stock out operations will be the value provided by FIFO
+                                            rule,
                                             applied strictly on a location level (including its children)
                                         </div>
                                     </div>
                                 </div>
                             </div>
                             <div
-                                class="col-12 col-lg-6 o_setting_box"
                                 id="module_l10n_ro_stock_price_difference"
+                                class="col-12 col-lg-6 o_setting_box"
                             >
                                 <div class="o_setting_left_pane">
                                     <field
@@ -741,7 +715,8 @@
                                             />
 
                                             <div class="text-muted">
-                                                Select a service product that will be used in landed cost to register price
+                                                Select a service product that will be used in landed cost to register
+                                                price
                                                 differences.
                                                 An expense account needs to be set on product or product category.
                                             </div>
@@ -750,8 +725,8 @@
                                 </div>
                             </div>
                             <div
-                                class="col-12 col-lg-6 o_setting_box"
                                 id="module_l10n_ro_stock_account_notice"
+                                class="col-12 col-lg-6 o_setting_box"
                             >
                                 <div class="o_setting_left_pane">
                                     <field name="module_l10n_ro_stock_account_notice" />
@@ -759,14 +734,15 @@
                                 <div class="o_setting_right_pane">
                                     <label for="module_l10n_ro_stock_account_notice" />
                                     <div class="text-muted">
-                                        Mark stock operations as notice operations. Stock accounting will change to use and
+                                        Mark stock operations as notice operations. Stock accounting will change to use
+                                        and
                                         accounts.
                                     </div>
                                 </div>
                             </div>
                             <div
-                                class="col-12 col-lg-6 o_setting_box"
                                 id="module_l10n_ro_stock_account_reception_in_progress"
+                                class="col-12 col-lg-6 o_setting_box"
                             >
                                 <div class="o_setting_left_pane">
                                     <field
@@ -784,8 +760,8 @@
                                 </div>
                             </div>
                             <div
-                                class="col-12 col-lg-6 o_setting_box"
                                 id="module_l10n_ro_stock_account_mrp"
+                                class="col-12 col-lg-6 o_setting_box"
                             >
                                 <div class="o_setting_left_pane">
                                     <field name="module_l10n_ro_stock_account_mrp" />
@@ -798,8 +774,8 @@
                                 </div>
                             </div>
                             <div
-                                class="col-xs-12 col-md-6 o_setting_box"
                                 id="module_l10n_ro_stock_account_date"
+                                class="col-xs-12 col-md-6 o_setting_box"
                             >
                                 <div class="o_setting_left_pane">
                                     <field name="module_l10n_ro_stock_account_date" />
@@ -869,8 +845,8 @@
                                 </div>
                             </div>
                             <div
-                                class="col-xs-12 col-md-6 o_setting_box"
                                 id="module_l10n_ro_stock_report"
+                                class="col-xs-12 col-md-6 o_setting_box"
                             >
                                 <div class="o_setting_left_pane">
                                     <field name="module_l10n_ro_stock_report" />
@@ -883,8 +859,8 @@
                                 </div>
                             </div>
                             <div
-                                class="col-xs-12 col-md-6 o_setting_box"
                                 id="module_l10n_ro_stock_picking_valued_report"
+                                class="col-xs-12 col-md-6 o_setting_box"
                             >
                                 <div class="o_setting_left_pane">
                                     <field
@@ -901,8 +877,8 @@
                                 </div>
                             </div>
                             <div
-                                class="col-xs-12 col-md-6 o_setting_box"
                                 id="module_l10n_ro_stock_picking_comment_template"
+                                class="col-xs-12 col-md-6 o_setting_box"
                             >
                                 <div class="o_setting_left_pane">
                                     <field
@@ -918,95 +894,124 @@
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                        <div
-                            class="col-12 col-lg-6 o_setting_box"
-                            id="module_l10n_ro_stock_account_config"
-                        >
-                            <div class="o_setting_left_pane">
+                            <div
+                                id="module_l10n_ro_stock_account_notice_config"
+                                class="col-12 col-lg-6 o_setting_box"
+                            >
+                                <div class="o_setting_left_pane">
+                                </div>
+                                <div class="o_setting_right_pane">
+                                    <div
+                                        class="content-group"
+                                        attrs="{'invisible': [('module_l10n_ro_stock_account', '=', False)]}"
+                                    >
+                                        <div class="row mt16">
+                                            <label
+                                                for="l10n_ro_property_stock_picking_payable_account_id"
+                                                class="col-lg-3 o_light_label"
+                                            />
+                                            <field
+                                                name="l10n_ro_property_stock_picking_payable_account_id"
+                                                placeholder="Select 408"
+                                            />
+                                        </div>
+                                        <div class="row mt16">
+                                            <label
+                                                for="l10n_ro_property_stock_picking_receivable_account_id"
+                                                class="col-lg-3 o_light_label"
+                                            />
+                                            <field
+                                                name="l10n_ro_property_stock_picking_receivable_account_id"
+                                                placeholder="Select 418"
+                                            />
+                                        </div>
+                                                                            </div>
+                                </div>
                             </div>
-                            <div class="o_setting_right_pane">
-                                <div
-                                    class="content-group"
-                                    attrs="{'invisible': [('module_l10n_ro_stock_account', '=', False)]}"
-                                >
-                                    <div class="row mt16">
-                                        <label
-                                            for="l10n_ro_property_stock_picking_payable_account_id"
-                                            class="col-lg-3 o_light_label"
-                                        />
-                                        <field
-                                            name="l10n_ro_property_stock_picking_payable_account_id"
-                                            placeholder="Select 408"
-                                        />
+                            <div
+                                id="module_l10n_ro_stock_account_config"
+                                class="col-12 col-lg-6 o_setting_box"
+                            >
+                                <div class="o_setting_left_pane">
+                                </div>
+                                <div class="o_setting_right_pane">
+                                    <div
+                                        class="content-group"
+                                        attrs="{'invisible': [('module_l10n_ro_stock_account', '=', False)]}"
+                                    >
+
+                                        <div class="row mt16">
+                                            <label
+                                                for="l10n_ro_property_stock_usage_giving_account_id"
+                                                class="col-lg-3 o_light_label"
+                                            />
+                                            <field
+                                                name="l10n_ro_property_stock_usage_giving_account_id"
+                                                placeholder="Select 8035"
+                                            />
+                                        </div>
+                                        <div class="row mt16">
+                                            <label
+                                                for="l10n_ro_property_stock_picking_custody_account_id"
+                                                class="col-lg-3 o_light_label"
+                                            />
+                                            <field
+                                                name="l10n_ro_property_stock_picking_custody_account_id"
+                                                placeholder="cont stock marfa primita in custodie (creeat nou extrabilantier)"
+                                            />
+                                        </div>
+                                        <div class="row mt16">
+                                            <label
+                                                for="l10n_ro_property_uneligible_tax_account_id"
+                                                class="col-lg-3 o_light_label"
+                                            />
+                                            <field
+                                                name="l10n_ro_property_uneligible_tax_account_id"
+                                                placeholder="use 4428 cont pentru tva neexigibil in notele facute pentru 'Marfa in magazin'"
+                                            />
+                                        </div>
+                                        <div class="row mt16">
+                                            <label
+                                                for="l10n_ro_property_stock_transfer_account_id"
+                                                class="col-lg-3 o_light_label"
+                                            />
+                                            <field
+                                                name="l10n_ro_property_stock_transfer_account_id"
+                                                placeholder="Select 482"
+                                            />
+                                        </div>
                                     </div>
-                                    <div class="row mt16">
-                                        <label
-                                            for="l10n_ro_property_stock_picking_receivable_account_id"
-                                            class="col-lg-3 o_light_label"
-                                        />
-                                        <field
-                                            name="l10n_ro_property_stock_picking_receivable_account_id"
-                                            placeholder="Select 418"
-                                        />
-                                    </div>
-                                    <div class="row mt16">
-                                        <label
-                                            for="l10n_ro_property_stock_usage_giving_account_id"
-                                            class="col-lg-3 o_light_label"
-                                        />
-                                        <field
-                                            name="l10n_ro_property_stock_usage_giving_account_id"
-                                            placeholder="Select 8035"
-                                        />
-                                    </div>
-                                    <div class="row mt16">
-                                        <label
-                                            for="l10n_ro_property_stock_picking_custody_account_id"
-                                            class="col-lg-3 o_light_label"
-                                        />
-                                        <field
-                                            name="l10n_ro_property_stock_picking_custody_account_id"
-                                            placeholder="cont stock marfa primita in custodie (creeat nou extrabilantier)"
-                                        />
-                                    </div>
-                                    <div class="row mt16">
-                                        <label
-                                            for="l10n_ro_property_uneligible_tax_account_id"
-                                            class="col-lg-3 o_light_label"
-                                        />
-                                        <field
-                                            name="l10n_ro_property_uneligible_tax_account_id"
-                                            placeholder="use 4428 cont pentru tva neexigibil in notele facute pentru 'Marfa in magazin'"
-                                        />
-                                    </div>
-                                    <div class="row mt16">
-                                        <label
-                                            for="l10n_ro_property_stock_transfer_account_id"
-                                            class="col-lg-3 o_light_label"
-                                        />
-                                        <field
-                                            name="l10n_ro_property_stock_transfer_account_id"
-                                            placeholder="Select 482"
-                                        />
-                                    </div>
-                                    <div class="row mt16">
-                                        <label
-                                            for="l10n_ro_property_trade_discount_received_account_id"
-                                            class="col-lg-3 o_light_label"
-                                        />
-                                        <field
-                                            name="l10n_ro_property_trade_discount_received_account_id"
-                                        />
-                                    </div>
-                                    <div class="row mt16">
-                                        <label
-                                            for="l10n_ro_property_trade_discount_granted_account_id"
-                                            class="col-lg-3 o_light_label"
-                                        />
-                                        <field
-                                            name="l10n_ro_property_trade_discount_granted_account_id"
-                                        />
+                                </div>
+                            </div>
+                            <div
+                                id="module_l10n_ro_stock_account_discount_config"
+                                class="col-12 col-lg-6 o_setting_box"
+                            >
+                                <div class="o_setting_left_pane">
+                                </div>
+                                <div class="o_setting_right_pane">
+                                    <div
+                                        class="content-group"
+                                        attrs="{'invisible': [('module_l10n_ro_stock_account', '=', False)]}"
+                                    >
+                                        <div class="row mt16">
+                                            <label
+                                                for="l10n_ro_property_trade_discount_received_account_id"
+                                                class="col-lg-3 o_light_label"
+                                            />
+                                            <field
+                                                name="l10n_ro_property_trade_discount_received_account_id"
+                                            />
+                                        </div>
+                                        <div class="row mt16">
+                                            <label
+                                                for="l10n_ro_property_trade_discount_granted_account_id"
+                                                class="col-lg-3 o_light_label"
+                                            />
+                                            <field
+                                                name="l10n_ro_property_trade_discount_granted_account_id"
+                                            />
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -1027,7 +1032,6 @@
                     class="col-12 col-lg-6 o_setting_box"
                     id="default_services_taxes"
                     title="These taxes are set in any new service product created."
-                    attrs="{'invisible': [('is_l10n_ro_record','=',False)]}"
                 >
                     <div class="o_setting_left_pane" />
                     <div class="o_setting_right_pane">

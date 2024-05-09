@@ -7,28 +7,12 @@
         <field name="arch" type="xml">
             <field name="wh_output_stock_loc_id" position="after">
                 <field name="is_l10n_ro_record" invisible="1" />
-                <field
-                    name="l10n_ro_wh_consume_loc_id"
-                    readonly="1"
-                    attrs="{'invisible': [('is_l10n_ro_record', '=', False)]}"
-                />
-                <field
-                    name="l10n_ro_wh_usage_loc_id"
-                    readonly="1"
-                    attrs="{'invisible': [('is_l10n_ro_record', '=', False)]}"
-                />
+                <field name="l10n_ro_wh_consume_loc_id" readonly="1" />
+                <field name="l10n_ro_wh_usage_loc_id" readonly="1" />
             </field>
             <field name="out_type_id" position="after">
-                <field
-                    name="l10n_ro_consume_type_id"
-                    readonly="1"
-                    attrs="{'invisible': [('is_l10n_ro_record', '=', False)]}"
-                />
-                <field
-                    name="l10n_ro_usage_type_id"
-                    readonly="1"
-                    attrs="{'invisible': [('is_l10n_ro_record', '=', False)]}"
-                />
+                <field name="l10n_ro_consume_type_id" readonly="1" />
+                <field name="l10n_ro_usage_type_id" readonly="1" />
             </field>
         </field>
     </record>

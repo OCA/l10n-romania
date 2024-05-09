@@ -8,9 +8,9 @@ from odoo import api, fields, models
 class ResCompany(models.Model):
     _inherit = "res.company"
 
+    # de eliminat acest camp si de utilizat account_fiscal_country_id.code == 'RO'
     l10n_ro_accounting = fields.Boolean(
         string="Romania - Use Romanian Accounting",
-        default=True,
         compute="_compute_l10n_ro_accounting",
         store=True,
     )
@@ -147,11 +147,9 @@ class ResCompany(models.Model):
             company = self
         else:
             company = self.browse(company)
-        return company.l10n_ro_accounting
+        return company.account_fiscal_country_id.code == "RO"
 
-    @api.depends("chart_template_id")
+    @api.depends("account_fiscal_country_id.code")
     def _compute_l10n_ro_accounting(self):
         for company in self:
-            company.l10n_ro_accounting = company.chart_template_id == self.env.ref(
-                "l10n_ro.ro_chart_template"
-            )
+            company.l10n_ro_accounting = company.account_fiscal_country_id.code == "RO"
