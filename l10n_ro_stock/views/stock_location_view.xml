@@ -7,10 +7,7 @@
         <field name="arch" type="xml">
             <field name="usage" position="after">
                 <field name="is_l10n_ro_record" invisible="1" />
-                <field
-                    name="l10n_ro_merchandise_type"
-                    invisible="not is_l10n_ro_record"
-                />
+                <field name="l10n_ro_merchandise_type" />
             </field>
         </field>
     </record>
@@ -32,10 +29,7 @@
         <field name="arch" type="xml">
             <field name="usage" position="after">
                 <field name="is_l10n_ro_record" column_invisible="1" />
-                <field
-                    name="l10n_ro_merchandise_type"
-                    invisible="not is_l10n_ro_record"
-                />
+                <field name="l10n_ro_merchandise_type" />
             </field>
         </field>
     </record>
