@@ -42,6 +42,7 @@ class CiusRoTestSetup(AccountEdiTestCommon, CronMixinCase):
                 "phone": "0356179038",
             }
         )
+        cls.env.company.partner_id.l10n_ro_vat_subjected = (True,)
         if "street_name" in cls.env.company._fields:
             cls.env.company.write(
                 {
@@ -111,6 +112,18 @@ class CiusRoTestSetup(AccountEdiTestCommon, CronMixinCase):
             }
         )
 
+        # Set up tax 0
+        cls.tax_0 = cls.env["account.tax"].create(
+            {
+                "name": "tax_0",
+                "amount_type": "percent",
+                "amount": 0,
+                "type_tax_use": "sale",
+                "sequence": 19,
+                "company_id": cls.env.company.id,
+            }
+        )
+
         # Set up invoice
         invoice_values = {
             "move_type": "out_invoice",
@@ -144,9 +157,65 @@ class CiusRoTestSetup(AccountEdiTestCommon, CronMixinCase):
                 ),
             ],
         }
+
+        cls.supplier_partner = cls.env["res.partner"].create(
+            {
+                "name": "NEXTERP ROMANIA SRL",
+                "ref": "NEXTERP ROMANIA SRL",
+                "vat": "RO39187746",
+                "country_id": cls.env.ref("base.ro").id,
+                "l10n_ro_vat_subjected": True,
+                "street": "Foeni Nr. 383",
+                "city": "Foeni",
+                "state_id": cls.country_state.id,
+                "zip": "307175",
+                "phone": "0256413409",
+                "is_company": True,
+            }
+        )
+        if "street_name" in cls.partner._fields:
+            cls.partner.write({"street_name": "Nr. 383", "street": "Foeni Nr. 383"})
+
+        invoice_values_tax_0 = {
+            "move_type": "out_invoice",
+            "name": "FBRAO2092",
+            "partner_id": cls.partner.id,
+            "invoice_date": fields.Date.from_string("2022-09-01"),
+            "currency_id": cls.currency.id,
+            "partner_bank_id": cls.bank.id,
+            "invoice_line_ids": [
+                (
+                    0,
+                    None,
+                    {
+                        "product_id": cls.product_a.id,
+                        "name": "[00000623] Bec P21/5W",
+                        "quantity": 5,
+                        "price_unit": 1000.00,
+                        "tax_ids": [(6, 0, cls.tax_0.ids)],
+                    },
+                ),
+                (
+                    0,
+                    None,
+                    {
+                        "product_id": cls.product_b.id,
+                        "name": "[00000624] Bec P21/10W",
+                        "quantity": 5,
+                        "price_unit": 1000.00,
+                        "tax_ids": [(6, 0, cls.tax_0.ids)],
+                    },
+                ),
+            ],
+        }
+
         cls.edi_cius_format = cls.env.ref("l10n_ro_account_edi_ubl.edi_ubl_cius_ro")
+        # invoice tax 19%
         cls.invoice = cls.env["account.move"].create(invoice_values)
         cls.invoice.journal_id.edi_format_ids = [(6, 0, cls.edi_cius_format.ids)]
+        # invoice tax 0%
+        cls.invoice_tax_0 = cls.env["account.move"].create(invoice_values_tax_0)
+        cls.invoice_tax_0.journal_id.edi_format_ids = [(6, 0, cls.edi_cius_format.ids)]
 
         # Update the invoice_values and create a credit_note
         invoice_values.update(
@@ -155,7 +224,16 @@ class CiusRoTestSetup(AccountEdiTestCommon, CronMixinCase):
                 "name": "FBRAO2093",
             }
         )
+        invoice_values_tax_0.update(
+            {
+                "move_type": "out_refund",
+                "name": "FBRAO2093",
+            }
+        )
+        # credit note tax 19%
         cls.credit_note = cls.env["account.move"].create(invoice_values)
+        # credit note tax 0%
+        cls.credit_note_tax_0 = cls.env["account.move"].create(invoice_values_tax_0)
 
         # Set up test file
         test_file = get_module_resource(
@@ -211,9 +289,20 @@ class CiusRoTestSetup(AccountEdiTestCommon, CronMixinCase):
                 "move_type": "in_invoice",
                 "name": "FBRAO2094",
                 "journal_id": cls.journal_CIUS.id,
+                "partner_id": cls.supplier_partner.id,
             }
         )
+        invoice_values_tax_0.update(
+            {
+                "move_type": "in_invoice",
+                "name": "FBRAO2094",
+                "journal_id": cls.journal_CIUS.id,
+            }
+        )
+        # credit note tax 19%
         cls.invoice_in = cls.env["account.move"].create(invoice_values)
+        # credit note tax 0%
+        cls.invoice_in_tax_0 = cls.env["account.move"].create(invoice_values_tax_0)
 
         # Update the invoice_values and create a credit_note_in
         invoice_values.update(
@@ -222,7 +311,16 @@ class CiusRoTestSetup(AccountEdiTestCommon, CronMixinCase):
                 "name": "FBRAO2095",
             }
         )
+        invoice_values_tax_0.update(
+            {
+                "move_type": "in_refund",
+                "name": "FBRAO2095",
+            }
+        )
+        # credit note tax 19%
         cls.credit_note_in = cls.env["account.move"].create(invoice_values)
+        # credit note tax 0%
+        cls.credit_note_in_tax_0 = cls.env["account.move"].create(invoice_values_tax_0)
 
     # Utility methods
     def get_file(self, filename):

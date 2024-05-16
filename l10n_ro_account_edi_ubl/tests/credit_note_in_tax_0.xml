@@ -11,15 +11,15 @@
     <cbc:IssueDate>2022-09-01</cbc:IssueDate>
     <cbc:CreditNoteTypeCode>381</cbc:CreditNoteTypeCode>
     <cbc:DocumentCurrencyCode>RON</cbc:DocumentCurrencyCode>
-    <cbc:BuyerReference>NEXTERP ROMANIA SRL</cbc:BuyerReference>
+    <cbc:BuyerReference>SCOALA GIMNAZIALA COMUNA FOENI</cbc:BuyerReference>
     <cac:OrderReference>
         <cbc:ID>FBRAO2095</cbc:ID>
     </cac:OrderReference>
     <cac:AccountingSupplierParty>
         <cac:Party>
-            <cbc:EndpointID schemeID="9947">RO39187746</cbc:EndpointID>
+            <cbc:EndpointID schemeID="9947">29152430</cbc:EndpointID>
             <cac:PartyName>
-                <cbc:Name>NEXTERP ROMANIA SRL</cbc:Name>
+                <cbc:Name>SCOALA GIMNAZIALA COMUNA FOENI</cbc:Name>
             </cac:PartyName>
             <cac:PostalAddress>
                 <cbc:StreetName>Foeni Nr. 383</cbc:StreetName>
@@ -30,18 +30,13 @@
                     <cbc:IdentificationCode>RO</cbc:IdentificationCode>
                 </cac:Country>
             </cac:PostalAddress>
-            <cac:PartyTaxScheme>
-                <cbc:CompanyID>RO39187746</cbc:CompanyID>
-                <cac:TaxScheme>
-                    <cbc:ID>VAT</cbc:ID>
-                </cac:TaxScheme>
-            </cac:PartyTaxScheme>
             <cac:PartyLegalEntity>
-                <cbc:RegistrationName>NEXTERP ROMANIA SRL</cbc:RegistrationName>
-                <cbc:CompanyID>RO39187746</cbc:CompanyID>
+                <cbc:RegistrationName
+                >SCOALA GIMNAZIALA COMUNA FOENI</cbc:RegistrationName>
+                <cbc:CompanyID>29152430</cbc:CompanyID>
             </cac:PartyLegalEntity>
             <cac:Contact>
-                <cbc:Name>NEXTERP ROMANIA SRL</cbc:Name>
+                <cbc:Name>SCOALA GIMNAZIALA COMUNA FOENI</cbc:Name>
                 <cbc:Telephone>0256413409</cbc:Telephone>
             </cac:Contact>
         </cac:Party>
@@ -62,12 +57,6 @@
                     <cbc:IdentificationCode>RO</cbc:IdentificationCode>
                 </cac:Country>
             </cac:PostalAddress>
-            <cac:PartyTaxScheme>
-                <cbc:CompanyID>RO30834857</cbc:CompanyID>
-                <cac:TaxScheme>
-                    <cbc:ID>VAT</cbc:ID>
-                </cac:TaxScheme>
-            </cac:PartyTaxScheme>
             <cac:PartyLegalEntity>
                 <cbc:RegistrationName
                 >FOREST AND BIOMASS ROMÂNIA S.A.</cbc:RegistrationName>
@@ -90,13 +79,13 @@
         </cac:PayeeFinancialAccount>
     </cac:PaymentMeans>
     <cac:TaxTotal>
-        <cbc:TaxAmount currencyID="RON">1900.00</cbc:TaxAmount>
+        <cbc:TaxAmount currencyID="RON">0.00</cbc:TaxAmount>
         <cac:TaxSubtotal>
             <cbc:TaxableAmount currencyID="RON">10000.00</cbc:TaxableAmount>
-            <cbc:TaxAmount currencyID="RON">1900.00</cbc:TaxAmount>
+            <cbc:TaxAmount currencyID="RON">0.00</cbc:TaxAmount>
             <cac:TaxCategory>
-                <cbc:ID>S</cbc:ID>
-                <cbc:Percent>19.0</cbc:Percent>
+                <cbc:ID>O</cbc:ID>
+                <cbc:TaxExemptionReason>VATEX-EU-O</cbc:TaxExemptionReason>
                 <cac:TaxScheme>
                     <cbc:ID>VAT</cbc:ID>
                 </cac:TaxScheme>
@@ -106,9 +95,9 @@
     <cac:LegalMonetaryTotal>
         <cbc:LineExtensionAmount currencyID="RON">10000.00</cbc:LineExtensionAmount>
         <cbc:TaxExclusiveAmount currencyID="RON">10000.00</cbc:TaxExclusiveAmount>
-        <cbc:TaxInclusiveAmount currencyID="RON">11900.00</cbc:TaxInclusiveAmount>
+        <cbc:TaxInclusiveAmount currencyID="RON">10000.00</cbc:TaxInclusiveAmount>
         <cbc:PrepaidAmount currencyID="RON">0.00</cbc:PrepaidAmount>
-        <cbc:PayableAmount currencyID="RON">11900.00</cbc:PayableAmount>
+        <cbc:PayableAmount currencyID="RON">10000.00</cbc:PayableAmount>
     </cac:LegalMonetaryTotal>
     <cac:CreditNoteLine>
         <cbc:ID>1</cbc:ID>
@@ -121,8 +110,7 @@
                 <cbc:ID>00000623</cbc:ID>
             </cac:SellersItemIdentification>
             <cac:ClassifiedTaxCategory>
-                <cbc:ID>S</cbc:ID>
-                <cbc:Percent>19.0</cbc:Percent>
+                <cbc:ID>O</cbc:ID>
                 <cac:TaxScheme>
                     <cbc:ID>VAT</cbc:ID>
                 </cac:TaxScheme>
@@ -144,8 +132,7 @@
                 <cbc:ID>00000624</cbc:ID>
             </cac:SellersItemIdentification>
             <cac:ClassifiedTaxCategory>
-                <cbc:ID>S</cbc:ID>
-                <cbc:Percent>19.0</cbc:Percent>
+                <cbc:ID>O</cbc:ID>
                 <cac:TaxScheme>
                     <cbc:ID>VAT</cbc:ID>
                 </cac:TaxScheme>

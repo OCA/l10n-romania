@@ -7,6 +7,7 @@
     "summary": "Romania - eFactura - Account EDI UBL",
     "depends": [
         "l10n_ro_account_anaf_sync",
+        "l10n_ro_partner_create_by_vat",
         "account_edi_ubl_cii",
     ],
     "data": [
