@@ -98,6 +98,7 @@ class AccountEdiXmlCIUSRO(models.Model):
         if self.code != "cius_ro":
             return super()._post_invoice_edi(invoices, test_mode)
         res = {}
+        to_remove_invoices = self.env["account.move"]
         for invoice in invoices:
 
             anaf_config = invoice.company_id._l10n_ro_get_anaf_sync(scope="e-factura")
@@ -149,6 +150,7 @@ class AccountEdiXmlCIUSRO(models.Model):
                         }
                 else:
                     res[invoice]["success"] = False
+                    to_remove_invoices |= invoice
                     continue
             else:
                 res[invoice] = self._l10n_ro_post_invoice_step_2(invoice, attachment)
@@ -172,6 +174,8 @@ class AccountEdiXmlCIUSRO(models.Model):
                 and not res.get("transaction")
             ):
                 res[invoice]["success"] = False
+        for invoice in to_remove_invoices:
+            res.pop(invoice)
         return res
 
     def _cancel_invoice_edi(self, invoices, test_mode=False):
