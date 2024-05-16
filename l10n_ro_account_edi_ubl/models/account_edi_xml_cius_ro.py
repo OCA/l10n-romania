@@ -47,6 +47,10 @@ class AccountEdiXmlCIUSRO(models.Model):
         return vals_list
 
     def _get_tax_category_list(self, invoice, taxes):
+        partner = invoice.company_id.partner_id
+        if invoice.journal_id.l10n_ro_sequence_type == "autoinv2":
+            partner = invoice.partner_id
+
         # EXTENDS account.edi.xml.ubl_21
         vals_list = super()._get_tax_category_list(invoice, taxes)
         # for vals in vals_list:
@@ -61,9 +65,17 @@ class AccountEdiXmlCIUSRO(models.Model):
                 vals["tax_exemption_reason_code"] = "VATEX-EU-AE"
                 vals["tax_exemption_reason"] = ""
             if vals["percent"] == 0 and vals["tax_category_code"] != "AE":
-                vals["id"] = "Z"
-                vals["tax_category_code"] = "Z"
-                vals["tax_exemption_reason"] = ""
+                if (
+                    partner.country_id.code == "RO"
+                    and not partner.l10n_ro_vat_subjected
+                ):
+                    vals["id"] = "O"
+                    vals["tax_category_code"] = "O"
+                    vals["tax_exemption_reason"] = "VATEX-EU-O"
+                else:
+                    vals["id"] = "Z"
+                    vals["tax_category_code"] = "Z"
+                    vals["tax_exemption_reason"] = ""
 
         return vals_list
 
@@ -145,7 +157,10 @@ class AccountEdiXmlCIUSRO(models.Model):
         vals["description"] = vals["description"][:200]
         vals["name"] = vals["name"][:100]
         if vals["classified_tax_category_vals"]:
-            if vals["classified_tax_category_vals"][0]["tax_category_code"] == "AE":
+            if vals["classified_tax_category_vals"][0]["tax_category_code"] in (
+                "AE",
+                "O",
+            ):
                 vals["classified_tax_category_vals"][0][
                     "tax_exemption_reason_code"
                 ] = ""
@@ -160,23 +175,7 @@ class AccountEdiXmlCIUSRO(models.Model):
     def split_string(self, string):
         return [string[i : i + 100] for i in range(0, len(string), 100)]
 
-    def _export_invoice_vals(self, invoice):
-        vals_list = super()._export_invoice_vals(invoice)
-        vals_list["vals"]["buyer_reference"] = (
-            invoice.commercial_partner_id.ref or invoice.commercial_partner_id.name
-        )
-        vals_list["vals"]["order_reference"] = (invoice.ref or invoice.name)[:30]
-        vals_list[
-            "TaxTotalType_template"
-        ] = "l10n_ro_account_edi_ubl.ubl_20_TaxTotalType"
-        vals_list["vals"][
-            "customization_id"
-        ] = "urn:cen.eu:en16931:2017#compliant#urn:efactura.mfinante.ro:CIUS-RO:1.0.1"
-        index = 1
-        for val in vals_list["vals"]["invoice_line_vals"]:
-            val["id"] = index
-            index += 1
-
+    def _export_vals_einvoice_options(self, invoice, vals_list):
         if (
             invoice.move_type in ["out_refund", "in_refund"]
             and invoice.company_id.l10n_ro_credit_note_einvoice
@@ -198,6 +197,9 @@ class AccountEdiXmlCIUSRO(models.Model):
                 vals_list["vals"]["legal_monetary_total_vals"]["payable_amount"] = (
                     -1
                 ) * vals_list["vals"]["legal_monetary_total_vals"]["payable_amount"]
+        return vals_list
+
+    def _export_vals_einvoice_autoinvoice(self, invoice, vals_list):
         if (
             invoice.journal_id.l10n_ro_sequence_type == "autoinv2"
             and invoice.journal_id.l10n_ro_partner_id
@@ -212,6 +214,73 @@ class AccountEdiXmlCIUSRO(models.Model):
                 "accounting_supplier_party_vals"
             ]
             vals_list["vals"]["accounting_supplier_party_vals"] = customer_vals
+        return vals_list
+
+    def _export_vals_einvoice_partner_vat_subjected(self, invoice, vals_list):
+        # Remove PartyTaxScheme and Percent for partners that are not subjected to VAT,
+        # to be in line with ANAF requirements
+        partner = invoice.company_id.partner_id
+        if invoice.journal_id.l10n_ro_sequence_type == "autoinv2":
+            partner = invoice.partner_id
+
+        if not partner.l10n_ro_vat_subjected:
+            # remove Supplier -> PartyTaxScheme
+            supplier_party_vals = vals_list["vals"]["accounting_supplier_party_vals"][
+                "party_vals"
+            ]
+            if supplier_party_vals.get("party_tax_scheme_vals"):
+                supplier_party_vals["party_tax_scheme_vals"] = []
+
+            # remove Customer -> PartyTaxScheme
+            customer_party_vals = vals_list["vals"]["accounting_customer_party_vals"][
+                "party_vals"
+            ]
+            if customer_party_vals.get("party_tax_scheme_vals"):
+                customer_party_vals["party_tax_scheme_vals"] = []
+
+            # remove TaxCategory -> Percent
+            if vals_list["vals"].get("tax_total_vals"):
+                for tax_total in vals_list["vals"]["tax_total_vals"]:
+                    if tax_total.get("tax_subtotal_vals"):
+                        tax_subtotal_vals = tax_total["tax_subtotal_vals"]
+                        if tax_subtotal_vals:
+                            for tax_subtotal in tax_subtotal_vals:
+                                if tax_subtotal.get("tax_category_vals"):
+                                    tax_category_vals = tax_subtotal[
+                                        "tax_category_vals"
+                                    ]
+                                    if tax_category_vals:
+                                        if "percent" in tax_category_vals.keys():
+                                            tax_category_vals.pop("percent", None)
+
+            # remove ClassifiedTaxCategory -> Percent
+            invoice_lines_vals = vals_list["vals"]["invoice_line_vals"]
+            for invoice_line in invoice_lines_vals:
+                classified_tax_category_vals = invoice_line["item_vals"][
+                    "classified_tax_category_vals"
+                ]
+                if classified_tax_category_vals:
+                    if "percent" in classified_tax_category_vals[0].keys():
+                        classified_tax_category_vals[0].pop("percent", None)
+        return vals_list
+
+    def _export_invoice_vals(self, invoice):
+        vals_list = super()._export_invoice_vals(invoice)
+        vals_list["vals"]["buyer_reference"] = (
+            invoice.commercial_partner_id.ref or invoice.commercial_partner_id.name
+        )
+        vals_list["vals"]["order_reference"] = (invoice.ref or invoice.name)[:30]
+        vals_list[
+            "TaxTotalType_template"
+        ] = "l10n_ro_account_edi_ubl.ubl_20_TaxTotalType"
+        vals_list["vals"][
+            "customization_id"
+        ] = "urn:cen.eu:en16931:2017#compliant#urn:efactura.mfinante.ro:CIUS-RO:1.0.1"
+        index = 1
+        for val in vals_list["vals"]["invoice_line_vals"]:
+            val["id"] = index
+            index += 1
+
         if invoice.move_type in ("out_invoice", "in_invoice"):
             vals_list["main_template"] = "account_edi_ubl_cii.ubl_20_Invoice"
             vals_list["vals"]["invoice_type_code"] = 380
@@ -226,6 +295,11 @@ class AccountEdiXmlCIUSRO(models.Model):
                     result_list.append(split_str)
         if result_list:
             vals_list["vals"]["note_vals"] = result_list
+
+        vals_list = self._export_vals_einvoice_options(invoice, vals_list)
+        vals_list = self._export_vals_einvoice_autoinvoice(invoice, vals_list)
+        vals_list = self._export_vals_einvoice_partner_vat_subjected(invoice, vals_list)
+
         return vals_list
 
     def _export_invoice_constraints(self, invoice, vals):

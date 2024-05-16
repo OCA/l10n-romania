@@ -11,15 +11,15 @@
     <cbc:IssueDate>2022-09-01</cbc:IssueDate>
     <cbc:CreditNoteTypeCode>381</cbc:CreditNoteTypeCode>
     <cbc:DocumentCurrencyCode>RON</cbc:DocumentCurrencyCode>
-    <cbc:BuyerReference>SCOALA GIMNAZIALA COMUNA FOENI</cbc:BuyerReference>
+    <cbc:BuyerReference>NEXTERP ROMANIA SRL</cbc:BuyerReference>
     <cac:OrderReference>
         <cbc:ID>FBRAO2095</cbc:ID>
     </cac:OrderReference>
     <cac:AccountingSupplierParty>
         <cac:Party>
-            <cbc:EndpointID schemeID="9947">29152430</cbc:EndpointID>
+            <cbc:EndpointID schemeID="9947">RO39187746</cbc:EndpointID>
             <cac:PartyName>
-                <cbc:Name>SCOALA GIMNAZIALA COMUNA FOENI</cbc:Name>
+                <cbc:Name>NEXTERP ROMANIA SRL</cbc:Name>
             </cac:PartyName>
             <cac:PostalAddress>
                 <cbc:StreetName>Foeni Nr. 383</cbc:StreetName>
@@ -31,18 +31,17 @@
                 </cac:Country>
             </cac:PostalAddress>
             <cac:PartyTaxScheme>
-                <cbc:CompanyID>29152430</cbc:CompanyID>
+                <cbc:CompanyID>RO39187746</cbc:CompanyID>
                 <cac:TaxScheme>
-                    <cbc:ID>!= VAT</cbc:ID>
+                    <cbc:ID>VAT</cbc:ID>
                 </cac:TaxScheme>
             </cac:PartyTaxScheme>
             <cac:PartyLegalEntity>
-                <cbc:RegistrationName
-                >SCOALA GIMNAZIALA COMUNA FOENI</cbc:RegistrationName>
-                <cbc:CompanyID>29152430</cbc:CompanyID>
+                <cbc:RegistrationName>NEXTERP ROMANIA SRL</cbc:RegistrationName>
+                <cbc:CompanyID>RO39187746</cbc:CompanyID>
             </cac:PartyLegalEntity>
             <cac:Contact>
-                <cbc:Name>SCOALA GIMNAZIALA COMUNA FOENI</cbc:Name>
+                <cbc:Name>NEXTERP ROMANIA SRL</cbc:Name>
                 <cbc:Telephone>0256413409</cbc:Telephone>
             </cac:Contact>
         </cac:Party>
