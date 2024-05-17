@@ -14,8 +14,15 @@ class AccountBankStatement(models.Model):
     def create(self, vals_list):
         for vals in vals_list:
             if self.env.company._check_is_l10n_ro_record():
-                if "name" not in vals or vals["name"] in ["/", "", False]:
-                    journal = self.env["account.journal"].browse(vals["journal_id"])
+                if "journal_id" in vals:
+                    journal_id = vals["journal_id"]
+                else:
+                    # la import jurnalul este in context
+                    journal_id = self.env.context.get("default_journal_id", False)
+                if (
+                    "name" not in vals or vals["name"] in ["/", "", False]
+                ) and journal_id:
+                    journal = self.env["account.journal"].browse(journal_id)
                     if journal.l10n_ro_statement_sequence_id:
                         vals[
                             "name"
