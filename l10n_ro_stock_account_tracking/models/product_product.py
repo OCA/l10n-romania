@@ -283,6 +283,10 @@ class ProductProduct(models.Model):
         if not self.env["res.company"]._check_is_l10n_ro_record(company.id):
             return super()._run_fifo_vacuum(company)
 
+        for product in self:
+            product._l10n_ro_run_fifo_vacuum(company)
+
+    def _l10n_ro_run_fifo_vacuum(self, company=None):
         self.ensure_one()
         svls_to_vacuum = (
             self.env["stock.valuation.layer"]
