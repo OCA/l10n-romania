@@ -6,16 +6,17 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 15.0\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2022-10-07 07:36+0000\n"
+"POT-Creation-Date: \n"
+"PO-Revision-Date: 2024-05-22 13:40+0300\n"
 "Last-Translator: Fekete Mihai <feketemihai@nexterp.ro>\n"
 "Language-Team: none\n"
 "Language: ro\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
-"Content-Transfer-Encoding: \n"
+"Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=n==1 ? 0 : (n==0 || (n%100 > 0 && n%100 < "
 "20)) ? 1 : 2;\n"
-"X-Generator: Weblate 4.3.2\n"
+"X-Generator: Poedit 3.0.1\n"
 
 #. module: l10n_ro_stock_account_date
 #: model:ir.model.fields,field_description:l10n_ro_stock_account_date.field_stock_picking__l10n_ro_accounting_date
@@ -29,6 +30,8 @@ msgstr "Data Contabila"
 #, python-format
 msgid "Cannot validate stock move due to account date restriction."
 msgstr ""
+"Nu se poate valida mutarea stocului din cauza restricției privind data "
+"contului."
 
 #. module: l10n_ro_stock_account_date
 #. odoo-python
@@ -38,6 +41,8 @@ msgid ""
 "Cannot validate stock move due to date restriction.The date must be between "
 "%(first_posting_date)s and %(last_posting_date)s"
 msgstr ""
+"Nu se poate valida mutarea stocului din cauza restricției de dată. Data "
+"trebuie să fie între %(first_posting_date)s și %(last_posting_date)s"
 
 #. module: l10n_ro_stock_account_date
 #: model:ir.model.fields,field_description:l10n_ro_stock_account_date.field_stock_valuation_layer__create_uid
@@ -55,48 +60,50 @@ msgid ""
 "If this field is set, the svl and accounting entiries will have this date, "
 "If not will have the today date as it should be"
 msgstr ""
+"Dacă acest câmp este setat, entitățile svl și contabile vor avea această "
+"dată, dacă nu vor avea data de astăzi așa cum ar trebui să fie"
 
 #. module: l10n_ro_stock_account_date
 #: model:ir.model.fields,field_description:l10n_ro_stock_account_date.field_stock_move__is_l10n_ro_record
 #: model:ir.model.fields,field_description:l10n_ro_stock_account_date.field_stock_move_line__is_l10n_ro_record
 #: model:ir.model.fields,field_description:l10n_ro_stock_account_date.field_stock_picking__is_l10n_ro_record
 msgid "Is Romanian Record"
-msgstr ""
+msgstr "Este record românesc"
 
 #. module: l10n_ro_stock_account_date
 #: model:ir.model.fields,field_description:l10n_ro_stock_account_date.field_stock_valuation_layer__l10n_ro_date_done
 msgid "L10N Ro Date Done"
-msgstr ""
+msgstr "Data Terminat"
 
 #. module: l10n_ro_stock_account_date
 #: model:ir.model.fields,field_description:l10n_ro_stock_account_date.field_stock_valuation_layer__write_uid
 msgid "Last Updated by"
-msgstr ""
+msgstr "Ultima actualizare de"
 
 #. module: l10n_ro_stock_account_date
 #: model:ir.model.fields,field_description:l10n_ro_stock_account_date.field_stock_valuation_layer__write_date
 msgid "Last Updated on"
-msgstr ""
+msgstr "Ultima actualizare la"
 
 #. module: l10n_ro_stock_account_date
 #: model:ir.model,name:l10n_ro_stock_account_date.model_stock_move_line
 msgid "Product Moves (Stock Move Line)"
-msgstr ""
+msgstr "Mutări de produs (linie de mutare stoc)"
 
 #. module: l10n_ro_stock_account_date
 #: model:ir.model,name:l10n_ro_stock_account_date.model_stock_quant
 msgid "Quants"
-msgstr ""
+msgstr "Poziții de stoc"
 
 #. module: l10n_ro_stock_account_date
 #: model:ir.model,name:l10n_ro_stock_account_date.model_stock_move
 msgid "Stock Move"
-msgstr ""
+msgstr "Mișcare stoc"
 
 #. module: l10n_ro_stock_account_date
 #: model:ir.model,name:l10n_ro_stock_account_date.model_stock_valuation_layer
 msgid "Stock Valuation Layer"
-msgstr ""
+msgstr "Nivel evaluare stoc"
 
 #. module: l10n_ro_stock_account_date
 #: model:ir.model.fields,help:l10n_ro_stock_account_date.field_stock_valuation_layer__l10n_ro_date_done
@@ -104,11 +111,13 @@ msgid ""
 "This is the date when this record was created. Original create_date is "
 "writen at reception by module nexterp_stock_date"
 msgstr ""
+"Aceasta este data la care a fost creată această înregistrare. Create_date "
+"originală este scrisă la recepție prin modulul nexterp_stock_date"
 
 #. module: l10n_ro_stock_account_date
 #: model:ir.model,name:l10n_ro_stock_account_date.model_stock_picking
 msgid "Transfer"
-msgstr ""
+msgstr "Transfer"
 
 #. module: l10n_ro_stock_account_date
 #. odoo-python
@@ -116,3 +125,4 @@ msgstr ""
 #, python-format
 msgid "You can not have a Accounting date=%s for picking bigger than today!"
 msgstr ""
+"Nu puteți avea o dată contabilă=%s pentru alegerea mai mare decât astăzi!"
