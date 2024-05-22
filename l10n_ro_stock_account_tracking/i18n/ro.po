@@ -7,34 +7,35 @@ msgstr ""
 "Project-Id-Version: Odoo Server 14.0+ec\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-12-08 03:29+0000\n"
-"PO-Revision-Date: 2020-12-08 03:29+0000\n"
+"PO-Revision-Date: 2024-05-22 19:14+0300\n"
 "Last-Translator: \n"
 "Language-Team: \n"
-"Language: \n"
+"Language: ro\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
-"Content-Transfer-Encoding: \n"
+"Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: \n"
+"X-Generator: Poedit 3.0.1\n"
 
 #. module: l10n_ro_stock_account_tracking
 #: model:ir.model.fields,field_description:l10n_ro_stock_account_tracking.field_stock_quant__company_id
 msgid "Company"
-msgstr ""
+msgstr "Companie"
 
 #. module: l10n_ro_stock_account_tracking
 #: model:ir.model.fields,field_description:l10n_ro_stock_account_tracking.field_l10n_ro_stock_valuation_layer_tracking__create_uid
 msgid "Created by"
-msgstr ""
+msgstr "Creeat de"
 
 #. module: l10n_ro_stock_account_tracking
 #: model:ir.model.fields,field_description:l10n_ro_stock_account_tracking.field_l10n_ro_stock_valuation_layer_tracking__create_date
 msgid "Created on"
-msgstr ""
+msgstr "Creat la"
 
 #. module: l10n_ro_stock_account_tracking
 #: model_terms:ir.ui.view,arch_db:l10n_ro_stock_account_tracking.stock_valuation_layer_form
 msgid "Destination SVL"
-msgstr ""
+msgstr "Destinație SVL"
 
 #. module: l10n_ro_stock_account_tracking
 #: model:ir.model.fields,field_description:l10n_ro_stock_account_tracking.field_l10n_ro_stock_valuation_layer_tracking__display_name
@@ -53,27 +54,27 @@ msgstr "ID"
 #: model:ir.model.fields,field_description:l10n_ro_stock_account_tracking.field_stock_valuation_layer__is_l10n_ro_record
 #: model:ir.model.fields,field_description:l10n_ro_stock_account_tracking.field_stock_valuation_layer_revaluation__is_l10n_ro_record
 msgid "Is Romanian Record"
-msgstr ""
+msgstr "Este record românesc"
 
 #. module: l10n_ro_stock_account_tracking
 #: model:ir.model.fields,field_description:l10n_ro_stock_account_tracking.field_stock_valuation_layer_revaluation__l10n_ro_location_id
 msgid "L10N Ro Location"
-msgstr ""
+msgstr "Locatie"
 
 #. module: l10n_ro_stock_account_tracking
 #: model:ir.model.fields,field_description:l10n_ro_stock_account_tracking.field_stock_return_picking_line__l10n_ro_origin_ret_move_qty
 msgid "L10N Ro Origin Ret Move Qty"
-msgstr ""
+msgstr "Origine Ret Mutare Cantitate"
 
 #. module: l10n_ro_stock_account_tracking
 #: model:ir.model.fields,field_description:l10n_ro_stock_account_tracking.field_stock_return_picking_line__l10n_ro_origin_ret_move_qty_warn
 msgid "L10N Ro Origin Ret Move Qty Warn"
-msgstr ""
+msgstr "Origine Ret Mutare Cant. Avertisment"
 
 #. module: l10n_ro_stock_account_tracking
 #: model:ir.model.fields,field_description:l10n_ro_stock_account_tracking.field_stock_valuation_layer__l10n_ro_qty_returned
 msgid "L10N Ro Qty Returned"
-msgstr ""
+msgstr "Cantitate Returnată"
 
 #. module: l10n_ro_stock_account_tracking
 #: model:ir.model.fields,field_description:l10n_ro_stock_account_tracking.field_l10n_ro_stock_valuation_layer_tracking____last_update
@@ -83,87 +84,87 @@ msgstr "Ultima modificare la"
 #. module: l10n_ro_stock_account_tracking
 #: model:ir.model.fields,field_description:l10n_ro_stock_account_tracking.field_l10n_ro_stock_valuation_layer_tracking__write_uid
 msgid "Last Updated by"
-msgstr ""
+msgstr "Ultima actualizare de"
 
 #. module: l10n_ro_stock_account_tracking
 #: model:ir.model.fields,field_description:l10n_ro_stock_account_tracking.field_l10n_ro_stock_valuation_layer_tracking__write_date
 msgid "Last Updated on"
-msgstr ""
+msgstr "Ultima actualizare la"
 
 #. module: l10n_ro_stock_account_tracking
 #: model:ir.model.fields,help:l10n_ro_stock_account_tracking.field_stock_quant__company_id
 msgid "Let this field empty if this location is shared between companies"
-msgstr ""
+msgstr "Lăsați acest câmp să se golească dacă această locație este partajată între companii"
 
 #. module: l10n_ro_stock_account_tracking
 #: model:ir.model,name:l10n_ro_stock_account_tracking.model_product_product
 msgid "Product Variant"
-msgstr ""
+msgstr "Variantă produs"
 
 #. module: l10n_ro_stock_account_tracking
 #: model:ir.model.fields,field_description:l10n_ro_stock_account_tracking.field_l10n_ro_stock_valuation_layer_tracking__quantity
 msgid "Quantity"
-msgstr ""
+msgstr "Cantitate"
 
 #. module: l10n_ro_stock_account_tracking
 #: model:ir.model,name:l10n_ro_stock_account_tracking.model_stock_quant
 msgid "Quants"
-msgstr ""
+msgstr "Cantități"
 
 #. module: l10n_ro_stock_account_tracking
 #: model:ir.model,name:l10n_ro_stock_account_tracking.model_stock_return_picking_line
 msgid "Return Picking Line"
-msgstr ""
+msgstr "Linie de ridicare a returnării"
 
 #. module: l10n_ro_stock_account_tracking
 #: model:ir.model.fields,field_description:l10n_ro_stock_account_tracking.field_stock_valuation_layer__l10n_ro_location_dest_id
 msgid "Romania - Destination Location"
-msgstr ""
+msgstr "România - Locație de destinație"
 
 #. module: l10n_ro_stock_account_tracking
 #: model:ir.model.fields,field_description:l10n_ro_stock_account_tracking.field_stock_valuation_layer__l10n_ro_svl_track_src_ids
 msgid "Romania - Destination Tracking"
-msgstr ""
+msgstr "România - Urmărirea destinației"
 
 #. module: l10n_ro_stock_account_tracking
 #: model:ir.model.fields,field_description:l10n_ro_stock_account_tracking.field_stock_valuation_layer__l10n_ro_svl_src_ids
 msgid "Romania - Destination Valuation"
-msgstr ""
+msgstr "România - Evaluare Destinație"
 
 #. module: l10n_ro_stock_account_tracking
 #: model:ir.model.fields,field_description:l10n_ro_stock_account_tracking.field_stock_valuation_layer__l10n_ro_lot_ids
 msgid "Romania - Serial Numbers"
-msgstr ""
+msgstr "România - Numere de serie"
 
 #. module: l10n_ro_stock_account_tracking
 #: model:ir.model.fields,field_description:l10n_ro_stock_account_tracking.field_stock_valuation_layer__l10n_ro_location_id
 msgid "Romania - Source Location"
-msgstr ""
+msgstr "România - Locația sursei"
 
 #. module: l10n_ro_stock_account_tracking
 #: model:ir.model.fields,field_description:l10n_ro_stock_account_tracking.field_stock_valuation_layer__l10n_ro_svl_track_dest_ids
 msgid "Romania - Source Tracking"
-msgstr ""
+msgstr "România - Urmărirea sursei"
 
 #. module: l10n_ro_stock_account_tracking
 #: model:ir.model.fields,field_description:l10n_ro_stock_account_tracking.field_stock_valuation_layer__l10n_ro_svl_dest_ids
 msgid "Romania - Source Valuation"
-msgstr ""
+msgstr "România - Evaluare sursă"
 
 #. module: l10n_ro_stock_account_tracking
 #: model:ir.model.fields,field_description:l10n_ro_stock_account_tracking.field_stock_valuation_layer__l10n_ro_stock_move_line_id
 msgid "Romania - Stock Move Line"
-msgstr ""
+msgstr "România - Linia de mutare a stocurilor"
 
 #. module: l10n_ro_stock_account_tracking
 #: model:ir.model,name:l10n_ro_stock_account_tracking.model_l10n_ro_stock_valuation_layer_tracking
 msgid "Romania - Tracking layer stock valuation"
-msgstr ""
+msgstr "România - Evaluarea stocurilor la nivel de urmărire"
 
 #. module: l10n_ro_stock_account_tracking
 #: model_terms:ir.ui.view,arch_db:l10n_ro_stock_account_tracking.stock_valuation_layer_form
 msgid "Source SVL"
-msgstr ""
+msgstr "Sursă SVL"
 
 #. module: l10n_ro_stock_account_tracking
 #: model:ir.model,name:l10n_ro_stock_account_tracking.model_stock_move
@@ -188,22 +189,22 @@ msgstr ""
 #. module: l10n_ro_stock_account_tracking
 #: model_terms:ir.ui.view,arch_db:l10n_ro_stock_account_tracking.stock_valuation_layer_form
 msgid "Total Quantity"
-msgstr ""
+msgstr "Cantitate Totală"
 
 #. module: l10n_ro_stock_account_tracking
 #: model_terms:ir.ui.view,arch_db:l10n_ro_stock_account_tracking.stock_valuation_layer_form
 msgid "Total Value"
-msgstr ""
+msgstr "Total Valoare"
 
 #. module: l10n_ro_stock_account_tracking
 #: model:ir.model.fields,field_description:l10n_ro_stock_account_tracking.field_l10n_ro_stock_valuation_layer_tracking__value
 msgid "Value"
-msgstr ""
+msgstr "Valoare"
 
 #. module: l10n_ro_stock_account_tracking
 #: model:ir.model,name:l10n_ro_stock_account_tracking.model_stock_valuation_layer_revaluation
 msgid "Wizard model to reavaluate a stock inventory for a product"
-msgstr ""
+msgstr "Model expert pentru a reevalua un stoc de stoc pentru un produs"
 
 #~ msgid "Account"
 #~ msgstr "Cont"
@@ -230,12 +231,8 @@ msgstr ""
 #~ msgstr "Șablon produs"
 
 #, python-format
-#~ msgid ""
-#~ "For Romanian Stock Accounting the stock_input, stock_output and "
-#~ "stock_valuation accounts must bethe same for category %s"
-#~ msgstr ""
-#~ "Pentru contabilitatea din România contul de intrare, contul de ieșire și "
-#~ "contul de evaluare trebuie să fie același pentru categoria %s "
+#~ msgid "For Romanian Stock Accounting the stock_input, stock_output and stock_valuation accounts must bethe same for category %s"
+#~ msgstr "Pentru contabilitatea din România contul de intrare, contul de ieșire și contul de evaluare trebuie să fie același pentru categoria %s "
 
 #~ msgid "Allow stock account change from locations"
 #~ msgstr "Permite modificare conturilor de stoc din locație"
