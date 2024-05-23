@@ -3,10 +3,13 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
 import io
+import logging
 import zipfile
 
 from odoo import _, api, fields, models
 from odoo.exceptions import UserError, ValidationError
+
+_logger = logging.getLogger(__name__)
 
 
 class AccountMove(models.Model):
@@ -23,13 +26,47 @@ class AccountMove(models.Model):
         copy=False,
     )
 
+    l10n_ro_show_edi_fields = fields.Boolean(
+        compute="_compute_l10n_ro_show_edi_fields",
+        string="Show ANAF EDI Fields",
+    )
+
     l10n_ro_show_anaf_download_edi_buton = fields.Boolean(
         compute="_compute_l10n_ro_show_anaf_download_edi_buton",
         string="Show ANAF Download EDI Button",
     )
 
+    @api.depends("edi_state", "move_type")
+    def _compute_l10n_ro_show_edi_fields(self):
+        cius_ro = self.env.ref("l10n_ro_account_edi_ubl.edi_ubl_cius_ro")
+        for invoice in self:
+            show_button = False
+            if (
+                cius_ro._is_required_for_invoice(invoice)
+                and invoice.edi_state == "sent"
+            ):
+                show_button = True
+            elif invoice.move_type in ("in_invoice", "in_refund"):
+                show_button = True
+            invoice.l10n_ro_show_edi_fields = show_button
+
+    @api.depends("l10n_ro_edi_download", "edi_state", "move_type")
+    def _compute_l10n_ro_show_anaf_download_edi_buton(self):
+        cius_ro = self.env.ref("l10n_ro_account_edi_ubl.edi_ubl_cius_ro")
+        for invoice in self:
+            show_button = False
+            if invoice.l10n_ro_edi_download:
+                if (
+                    cius_ro._is_required_for_invoice(invoice)
+                    and invoice.edi_state == "sent"
+                ):
+                    show_button = True
+                elif invoice.move_type in ("in_invoice", "in_refund"):
+                    show_button = True
+            invoice.l10n_ro_show_anaf_download_edi_buton = show_button
+
     @api.constrains("l10n_ro_edi_download")
-    def _check_unique_sequence_number(self):
+    def _check_unique_edi_download_number(self):
         moves = self.filtered(lambda m: m.l10n_ro_edi_download)
         if not moves:
             return
@@ -62,18 +99,8 @@ class AccountMove(models.Model):
 
     def get_l10n_ro_edi_invoice_needed(self):
         self.ensure_one()
-        is_needed = (
-            self.move_type in ("out_invoice", "out_refund")
-            and self.commercial_partner_id.country_id.code == "RO"
-            and self.commercial_partner_id.is_company
-        )
-        if not is_needed:
-            is_needed = (
-                self.move_type in ("in_invoice", "in_refund")
-                and self.journal_id.l10n_ro_sequence_type == "autoinv2"
-                and self.journal_id.l10n_ro_partner_id
-            )
-        return is_needed
+        cius_ro = self.env.ref("l10n_ro_account_edi_ubl.edi_ubl_cius_ro")
+        return cius_ro._is_required_for_invoice(self)
 
     def button_draft(self):
         # OVERRIDE
@@ -177,7 +204,7 @@ class AccountMove(models.Model):
         self.ensure_one()
         return self
 
-    def l10n_ro_download_zip_anaf(self, anaf_config=False):
+    def l10n_ro_download_zip_anaf(self, anaf_config=False, return_error=False):
         if not anaf_config:
             anaf_config = self.env.company.sudo()._l10n_ro_get_anaf_sync(
                 scope="e-factura"
@@ -203,11 +230,19 @@ class AccountMove(models.Model):
                 eroare = response.get("eroare")
             cius_ro = self.env.ref("l10n_ro_account_edi_ubl.edi_ubl_cius_ro")
             edi_doc = invoice._get_edi_document(cius_ro)
+            nok_error = False
+            if edi_doc:
+                nok_error = invoice.l10n_ro_check_anaf_error_xml(response)
+            if nok_error:
+                eroare = nok_error
             if eroare:
                 if edi_doc:
                     edi_doc.write({"blocking_level": "warning", "error": eroare})
                 else:
+                    _logger.warning(eroare)
                     raise UserError(eroare)
+            if return_error:
+                return eroare
             else:
                 edi_doc.write({"blocking_level": "info", "error": ""})
                 invoice.l10n_ro_process_anaf_zip_file(response)
@@ -221,6 +256,30 @@ class AccountMove(models.Model):
                 "next": {"type": "ir.actions.act_window_close"},
             },
         }
+
+    def l10n_ro_check_anaf_error_xml(self, zip_content):
+        self.ensure_one()
+        cius_ro = self.env.ref("l10n_ro_account_edi_ubl.edi_ubl_cius_ro")
+        err_msg = False
+        try:
+            zip_ref = zipfile.ZipFile(io.BytesIO(zip_content))
+            err_file = [
+                f
+                for f in zip_ref.namelist()
+                if f"{self.l10n_ro_edi_transaction}.xml" == f
+            ]
+            if err_file:
+                err_cont = zip_ref.read(err_file[0])
+                decode_xml = cius_ro._decode_xml(err_file[0], err_cont)
+                if decode_xml:
+                    tree = decode_xml[0]["xml_tree"]
+                error_tag = "Error"
+                err_msg = "Erori validare ANAF:<br/>"
+                for _index, err in enumerate(tree.findall("./{*}" + error_tag)):
+                    err_msg += f"{err.attrib.get('errorMessage')}<br/>"
+        except Exception as e:
+            _logger.warning(f"Error while checking the Zipped XML file: {e}")
+        return err_msg
 
     def l10n_ro_process_anaf_zip_file(self, zip_content):
         self.ensure_one()
@@ -248,10 +307,6 @@ class AccountMove(models.Model):
 
     def l10n_ro_get_xml_file(self, zip_ref):
         file_name = xml_file = False
-        # if self.get_l10n_ro_edi_invoice_needed():
-        #     xml_file = [f for f in zip_ref.namelist() if "semnatura" in f]
-        # else:
-        #     xml_file = [f for f in zip_ref.namelist() if "semnatura" not in f]
         xml_file = [f for f in zip_ref.namelist() if "semnatura" not in f]
         if xml_file:
             file_name = xml_file[0]
@@ -264,8 +319,18 @@ class AccountMove(models.Model):
         been successfully validated by ANAF and the government.
         """
         self.ensure_one()
-        zip_ref = zipfile.ZipFile(io.BytesIO(zip_content))
-        file_name, xml_file = self.l10n_ro_get_xml_file(zip_ref)
+        file_name = xml_file = False
+        try:
+            zip_ref = zipfile.ZipFile(io.BytesIO(zip_content))
+            file_name, xml_file = self.l10n_ro_get_xml_file(zip_ref)
+        except Exception as e:
+            # In case the file is not zip, we will try to read it as XML
+            _logger.warning(f"Error while processing the Zipped XML file: {e}")
+            try:
+                xml_file = zip_content
+                file_name = f"{self.l10n_ro_edi_transaction}.xml"
+            except Exception as e:
+                _logger.warning(f"Error while processing the XML file: {e}")
         if not xml_file:
             return self.env["ir.attachment"]
         xml_file = xml_file.replace(
@@ -296,22 +361,6 @@ class AccountMove(models.Model):
             }
         )
         return attachment
-
-    def _compute_l10n_ro_show_anaf_download_edi_buton(self):
-        for invoice in self:
-            show_button = False
-            if invoice.l10n_ro_edi_download:
-                if (
-                    invoice.move_type in ("out_invoice", "out_refund")
-                    and invoice.edi_state == "sent"
-                ):
-                    show_button = True
-                elif (
-                    invoice.move_type in ("in_invoice", "in_refund")
-                    and not invoice.invoice_line_ids
-                ):
-                    show_button = True
-            invoice.l10n_ro_show_anaf_download_edi_buton = show_button
 
 
 class AccountMoveLine(models.Model):

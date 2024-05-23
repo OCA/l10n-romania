@@ -101,12 +101,6 @@ class TestCiusRoAutoWorkflow(CiusRoTestSetup):
         self.prepare_invoice_sent_step1()
         cases = [
             (
-                self.get_file("stare_mesaj_not_ok.xml"),
-                "to_send",
-                "The invoice was not validated by ANAF.",
-                "warning",
-            ),
-            (
                 self.get_file("stare_mesaj_in_prelucrare.xml"),
                 "to_send",
                 "The invoice is in processing at ANAF.",
@@ -117,6 +111,12 @@ class TestCiusRoAutoWorkflow(CiusRoTestSetup):
                 "to_send",
                 "<p>S-au facut deja 20 descarcari de mesaj in cursul zilei</p>",
                 "warning",
+            ),
+            (
+                self.get_file("stare_mesaj_not_ok.xml"),
+                "to_send",
+                "The invoice was not validated by ANAF.",
+                "error",
             ),
             (
                 self.get_file("stare_mesaj_xml_erori.xml"),
@@ -164,6 +164,30 @@ class TestCiusRoAutoWorkflow(CiusRoTestSetup):
             ).action_process_edi_web_services()
             self.check_invoice_documents(
                 self.invoice, check_case[1], check_case[2], check_case[3]
+            )
+
+    def test_step2_not_ok_anaf_error(self):
+        self.prepare_invoice_sent_step1()
+        not_ok_content = self.get_file("stare_mesaj_not_ok.xml")
+        anaf_error_zipfile = self.get_zip_file("3828.zip")
+
+        def _l10n_ro_einvoice_call(self, func, params, data=None, method="POST"):
+            if func == "/descarcare":
+                return anaf_error_zipfile, 200
+            else:
+                return not_ok_content, 200
+
+        with patch(
+            "odoo.addons.l10n_ro_account_edi_ubl.models.l10n_ro_account_anaf_sync_scope."
+            "AccountANAFSyncScope._l10n_ro_einvoice_call",
+            _l10n_ro_einvoice_call,
+        ):
+            self.invoice.action_process_edi_web_services()
+            self.check_invoice_documents(
+                self.invoice,
+                "to_send",
+                "<p>Erori validare ANAF:<br>E: validari globale\n eroare regula: R6.1: CIF-ul vanzatorului nu figureaza in baza de date:6443019833<br></p>",  # noqa
+                "error",
             )
 
     def test_download_invoice(self):
