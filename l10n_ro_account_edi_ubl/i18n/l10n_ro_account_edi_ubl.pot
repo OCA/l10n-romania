@@ -17,7 +17,6 @@ msgstr ""
 #. odoo-python
 #: code:addons/l10n_ro_account_edi_ubl/models/account_edi_format.py:0
 #: code:addons/l10n_ro_account_edi_ubl/models/account_edi_format.py:0
-#: code:addons/l10n_ro_account_edi_ubl/models/account_edi_format.py:0
 #: code:addons/l10n_ro_account_edi_ubl/models/account_move.py:0
 #, python-format
 msgid ""
@@ -329,6 +328,13 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_ro_account_edi_ubl.field_account_move__l10n_ro_show_anaf_download_edi_buton
 #: model:ir.model.fields,field_description:l10n_ro_account_edi_ubl.field_account_payment__l10n_ro_show_anaf_download_edi_buton
 msgid "Show ANAF Download EDI Button"
+msgstr ""
+
+#. module: l10n_ro_account_edi_ubl
+#: model:ir.model.fields,field_description:l10n_ro_account_edi_ubl.field_account_bank_statement_line__l10n_ro_show_edi_fields
+#: model:ir.model.fields,field_description:l10n_ro_account_edi_ubl.field_account_move__l10n_ro_show_edi_fields
+#: model:ir.model.fields,field_description:l10n_ro_account_edi_ubl.field_account_payment__l10n_ro_show_edi_fields
+msgid "Show ANAF EDI Fields"
 msgstr ""
 
 #. module: l10n_ro_account_edi_ubl
