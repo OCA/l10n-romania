@@ -122,9 +122,18 @@ class AccountMove(models.Model):
         # For RO, remove the l10n_ro_edi_transaction to force re-send
         # (otherwise this only triggers a check_status)
         cius_ro = self.env.ref("l10n_ro_account_edi_ubl.edi_ubl_cius_ro")
-        self.filtered(
+        invoice_errors = self.filtered(
             lambda m: m._get_edi_document(cius_ro).blocking_level == "error"
-        ).l10n_ro_edi_transaction = None
+        )
+
+        for invoice in invoice_errors:
+            invoice.l10n_ro_edi_transaction = None
+            edi_document = invoice._get_edi_document(cius_ro)
+            if edi_document:
+                old_attachment = edi_document.attachment_id
+                if old_attachment:
+                    edi_document.attachment_id = False
+                    old_attachment.sudo().unlink()
 
     def button_process_edi_web_services(self):
         if len(self) == 1:
