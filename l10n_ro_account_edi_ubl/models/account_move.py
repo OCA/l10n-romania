@@ -287,9 +287,11 @@ class AccountMove(models.Model):
                 if decode_xml:
                     tree = decode_xml[0]["xml_tree"]
                 error_tag = "Error"
-                err_msg = "Erori validare ANAF:<br/>"
                 for _index, err in enumerate(tree.findall("./{*}" + error_tag)):
                     err_msg += f"{err.attrib.get('errorMessage')}<br/>"
+                if err_msg:
+                    err_msg = "Erori validare ANAF:<br/>" + err_msg
+                    return err_msg
         except Exception as e:
             _logger.warning(f"Error while checking the Zipped XML file: {e}")
         return err_msg
