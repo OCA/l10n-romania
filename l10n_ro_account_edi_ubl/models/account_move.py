@@ -280,7 +280,7 @@ class AccountMove(models.Model):
                 error_tag = "Error"
                 for _index, err in enumerate(tree.findall("./{*}" + error_tag)):
                     err_msg += f"{err.attrib.get('errorMessage')}<br/>"
-                if err_msg != "":
+                if err_msg:
                     err_msg = "Erori validare ANAF:<br/>" + err_msg
                     return err_msg
         except Exception as e:
