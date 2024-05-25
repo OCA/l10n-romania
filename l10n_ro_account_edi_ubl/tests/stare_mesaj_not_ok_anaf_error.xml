@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<header
+    xmlns="mfp:anaf:dgti:efactura:mesajEroriFactuta:v1"
+    Index_incarcare="5011636148"
+    Cif_emitent="47024170"
+>
+    <Error
+        errorMessage="E: validari globale&#xA; eroare regula: R6.1: CIF-ul vanzatorului nu figureaza in baza de date:6443019833"
+    />
+</header>
