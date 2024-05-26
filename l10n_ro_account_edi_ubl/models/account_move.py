@@ -275,7 +275,7 @@ class AccountMove(models.Model):
     def l10n_ro_check_anaf_error_xml(self, zip_content):
         self.ensure_one()
         cius_ro = self.env.ref("l10n_ro_account_edi_ubl.edi_ubl_cius_ro")
-        err_msg = False
+        err_msg = ""
         try:
             zip_ref = zipfile.ZipFile(io.BytesIO(zip_content))
             err_file = [
