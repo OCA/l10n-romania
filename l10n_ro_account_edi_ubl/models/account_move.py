@@ -162,6 +162,8 @@ class AccountMove(models.Model):
                     edi_document.attachment_id = False
                     old_attachment.sudo().unlink()
 
+        return super()._retry_edi_documents_error_hook()
+
     def button_process_edi_web_services(self):
         if len(self) == 1:
             if not self.l10n_ro_edi_transaction:
