@@ -108,7 +108,7 @@ class AccountEdiXmlCIUSRO(models.Model):
 
     @api.model
     def l10n_ro_edi_post_message(self, invoice, message, res):
-        invoice.message_post(body=res["error"])
+        # invoice.message_post(body=res["error"])
         body = message + _("\n\nError:\n<p>%s</p>") % res["error"]
 
         mail_activity = invoice.activity_ids.filtered(
