@@ -67,7 +67,7 @@ msgstr "Cursul valutar: 1"
 #. module: l10n_ro_account_report_invoice
 #: model_terms:ir.ui.view,arch_db:l10n_ro_account_report_invoice.res_config_settings_view_form
 msgid "Insert your invoice without stamp text here..."
-msgstr "Introduceți factura fără text de ștampilă aici..."
+msgstr "Introduceți text pentru specificatii factura fara semnatura si stampila aici..."
 
 #. module: l10n_ro_account_report_invoice
 #: model_terms:ir.ui.view,arch_db:l10n_ro_account_report_invoice.res_config_settings_view_form
@@ -78,7 +78,7 @@ msgstr "Facturi fără text de ștampilă"
 #: model:ir.model.fields,field_description:l10n_ro_account_report_invoice.field_account_move__is_l10n_ro_record
 #: model:ir.model.fields,field_description:l10n_ro_account_report_invoice.field_sale_order__is_l10n_ro_record
 msgid "Is Romanian Record"
-msgstr "Este record românesc"
+msgstr "Este inregistrare româneasca"
 
 #. module: l10n_ro_account_report_invoice
 #: model:ir.model,name:l10n_ro_account_report_invoice.model_account_move

@@ -34,9 +34,9 @@ msgid ""
 "                    <br/>\n"
 "                    (.*)(?P&amp;lt;<code>account_number</code>&amp;gt;[A-Z]{2}[0-9]{2}[A-Z]{4}\\w{16}).*"
 msgstr ""
-"INCASARE[\\n]?[ ]*(?P&amp;lt;<code>nume partener</code>&amp;gt;.*)[ ](?P&amp;lt;<code>vat</code>&amp;gt;[A-Z]{0,}[0-9]{8})?[ ](?P&amp;lt;<code>numărul de cont</code>&amp;gt;[A-Z]{2}[0-9]{2}[A-Z]{4}\\w{16}).*\n"
+"INCASARE[\\n]?[ ]*(?P&amp;lt;<code>partner_name</code>&amp;gt;.*)[ ](?P&amp;lt;<code>vat</code>&amp;gt;[A-Z]{0,}[0-9]{8})?[ ](?P&amp;lt;<code>account_number</code>&amp;gt;[A-Z]{2}[0-9]{2}[A-Z]{4}\\w{16}).*\n"
 "                    <br/>\n"
-"                    (.*)(?P&amp;lt;<code>numărul de cont</code>&amp;gt;[A-Z]{2}[0-9]{2}[A-Z]{4}\\w{16}).*"
+"                    (.*)(?P&amp;lt;<code>account_number</code>&amp;gt;[A-Z]{2}[0-9]{2}[A-Z]{4}\\w{16}).*"
 
 #. module: l10n_ro_account_bank_statement_import_mt940_ing
 #: model:ir.model,name:l10n_ro_account_bank_statement_import_mt940_ing.model_account_statement_import

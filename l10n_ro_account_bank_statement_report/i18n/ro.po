@@ -157,18 +157,3 @@ msgstr "Sold inițial"
 #: model_terms:ir.ui.view,arch_db:l10n_ro_account_bank_statement_report.report_l10n_ro_statement_period
 msgid "Transaction No /<br/>Explanation"
 msgstr "Nr. tranzacție /<br/>Explicație"
-
-#~ msgid "Display Name"
-#~ msgstr "Nume afișat"
-
-#~ msgid "Explanation"
-#~ msgstr "Explicații"
-
-#~ msgid "Transaction No"
-#~ msgstr "Nr Tranzacție"
-
-#~ msgid "ID"
-#~ msgstr "ID"
-
-#~ msgid "Last Modified on"
-#~ msgstr "Ultima modificare la"

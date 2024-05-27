@@ -50,7 +50,7 @@ msgstr "Eroare de acces"
 #. module: l10n_ro_account_edi_ubl
 #: model:ir.model,name:l10n_ro_account_edi_ubl.model_l10n_ro_account_anaf_sync_scope
 msgid "Account ANAF Sync Scope"
-msgstr "Contul ANAF sincronizare domeniu"
+msgstr "Scop sincronizare Cont ANAF"
 
 #. module: l10n_ro_account_edi_ubl
 #: model_terms:ir.ui.view,arch_db:l10n_ro_account_edi_ubl.res_config_settings_view_form
@@ -69,7 +69,7 @@ msgid ""
 "Check this if the partner is a government institution.Will be used to "
 "calculate the sending of the invoice to the e-invoice system."
 msgstr ""
-"Bifa dacă partenerul este o instituție guvernamentală. Va fi folosit pentru "
+"Bifati dacă partenerul este o instituție guvernamentală. Va fi folosit pentru "
 "a calcula trimiterea facturii către sistemul de facturi electronice."
 
 #. module: l10n_ro_account_edi_ubl
@@ -83,7 +83,7 @@ msgid ""
 "Company PDF invoice report to be added to the e-Invoice XML.\n"
 "                            If not set default PDF report will be used."
 msgstr ""
-"Raportul de factură PDF al companiei care va fi adăugat la e-Invoice XML.\n"
+"Raportul de factură PDF al companiei care va fi adăugat la e-Factura XML.\n"
 "                            Dacă nu este setat, va fi utilizat raportul PDF "
 "implicit."
 
@@ -183,12 +183,12 @@ msgstr "Descărcați de la ANAF"
 #. module: l10n_ro_account_edi_ubl
 #: model_terms:ir.ui.view,arch_db:l10n_ro_account_edi_ubl.res_config_settings_view_form
 msgid "E-Invoice Settings"
-msgstr "Setări de factură electronică"
+msgstr "Setări e-Factura"
 
 #. module: l10n_ro_account_edi_ubl
 #: model:ir.model.fields.selection,name:l10n_ro_account_edi_ubl.selection__l10n_ro_account_anaf_sync_scope__scope__e-factura
 msgid "E-factura"
-msgstr "E-factura"
+msgstr "e-Factura"
 
 #. module: l10n_ro_account_edi_ubl
 #: model:ir.model,name:l10n_ro_account_edi_ubl.model_account_edi_format
@@ -218,7 +218,7 @@ msgstr "ID"
 #: model:ir.model.fields,field_description:l10n_ro_account_edi_ubl.field_account_move__l10n_ro_edi_download
 #: model:ir.model.fields,field_description:l10n_ro_account_edi_ubl.field_account_payment__l10n_ro_edi_download
 msgid "ID Download ANAF (RO)"
-msgstr "Descarca ID ANAF (RO)"
+msgstr "ID Descarcare ANAF (RO)"
 
 #. module: l10n_ro_account_edi_ubl
 #: model_terms:ir.ui.view,arch_db:l10n_ro_account_edi_ubl.view_move_form
@@ -251,7 +251,7 @@ msgstr ""
 #. module: l10n_ro_account_edi_ubl
 #: model:ir.model.fields,field_description:l10n_ro_account_edi_ubl.field_product_template__is_l10n_ro_record
 msgid "Is Romanian Record"
-msgstr "Este record românesc"
+msgstr "Este inregistrare româneasca"
 
 #. module: l10n_ro_account_edi_ubl
 #: model:ir.model,name:l10n_ro_account_edi_ubl.model_account_move
@@ -261,7 +261,7 @@ msgstr "Nota Contabila"
 #. module: l10n_ro_account_edi_ubl
 #: model:ir.model,name:l10n_ro_account_edi_ubl.model_account_move_line
 msgid "Journal Item"
-msgstr "Element jurnal"
+msgstr "Elemente jurnal"
 
 #. module: l10n_ro_account_edi_ubl
 #: model:ir.model.fields,field_description:l10n_ro_account_edi_ubl.field_account_edi_xml_cius_ro____last_update
@@ -406,7 +406,7 @@ msgid ""
 "The following partner's city name is invalid: %s. If partner's state is "
 "București, the city name must be 'SECTORX', where X is a number between 1-6."
 msgstr ""
-"Numele orașului următor partener este nevalid: %s. Dacă statul partener este "
+"Numele orașului următor partener este nevalid: %s. Dacă judetul partenerului este "
 "București, numele orașului trebuie să fie „SECTORX”, unde X este un număr "
 "între 1-6."
 
@@ -529,63 +529,3 @@ msgstr ""
 "electronic a fost deja trimis către ANAF. Pentru a edita această intrare, "
 "trebuie să creați o notă de credit pentru factură și să creați o nouă "
 "factură."
-
-#~ msgid ""
-#~ "<span class=\"fa fa-lg fa-building-o\" title=\"Values set here are "
-#~ "company-specific.\" role=\"img\" aria-label=\"Values set here are company-"
-#~ "specific.\" groups=\"base.group_multi_company\"/>"
-#~ msgstr ""
-#~ "<span class=\"fa fa-lg fa-building-o\" title=\"Valorile stabilite aici "
-#~ "sunt specifice companiei.\" role=\"img\" aria-label=\"Valorile stabilite "
-#~ "aici sunt specifice companiei.\" groups=\"base.group_multi_company\"/>"
-
-#~ msgid "E-Invoice Manual submission"
-#~ msgstr "Trimiterea manuală a facturii electronice"
-
-#~ msgid "Send e-Invoice manually from the Client Action"
-#~ msgstr "Trimiteți factura electronică manual din Acțiunea client"
-
-#, python-format
-#~ msgid "Access error"
-#~ msgstr "Eroare de acces"
-
-#~ msgid "Generate XML File"
-#~ msgstr "Generați fișierul XML"
-
-#, python-format
-#~ msgid ""
-#~ "If country state of partner %s is Bucharest, the city must be as SectorX "
-#~ msgstr ""
-#~ "Dacă judetul partenerului %s este București, orașul trebuie să fie ca "
-#~ "SectorX "
-
-#~ msgid "Invoice XML Send State"
-#~ msgstr "Starea trimiterii facturii XML"
-
-#~ msgid "New"
-#~ msgstr "Nou"
-
-#~ msgid "Not yet send"
-#~ msgstr "Netrimisa"
-
-#~ msgid "Other"
-#~ msgstr "Altul"
-
-#~ msgid "Product Template"
-#~ msgstr "Șablon de produs"
-
-#~ msgid "Romania - E-Invoice Manual submission"
-#~ msgstr "Trimiterea manuală a facturii electronice"
-
-#~ msgid "Sent, but invalid"
-#~ msgstr "Trimis, dar invalid"
-
-#~ msgid "Sent, waiting for response"
-#~ msgstr "Trimis, în așteptarea unui răspuns"
-
-#~ msgid "This invoice is delivered"
-#~ msgstr "Aceasta factura este trimisa"
-
-#, python-format
-#~ msgid "The partner doesn't have the street completed."
-#~ msgstr "Partenerul nu are strada completata."

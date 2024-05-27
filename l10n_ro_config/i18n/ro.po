@@ -109,14 +109,14 @@ msgid ""
 "Add a mechanism to close Incomes, Expense, VAT on a period\n"
 "                                        based."
 msgstr ""
-"Adăugați un mecanism pentru a închide Veniturile, Cheltuielile, TVA-ul pe "
+"Adaugă un mecanism pentru a închide Veniturile, Cheltuielile, TVA-ul pe "
 "baza perioadei."
 
 #. module: l10n_ro_config
 #: model_terms:ir.ui.view,arch_db:l10n_ro_config.res_config_settings_view_form
 msgid "Add a stock sheet report for products grouped by Location, Account."
 msgstr ""
-"Adăugați un raport de stoc pentru produsele grupate după Locație, Cont."
+"Adaugă un raport de stoc pentru produsele grupate după Locație, Cont."
 
 #. module: l10n_ro_config
 #: model_terms:ir.ui.view,arch_db:l10n_ro_config.res_config_settings_view_form
@@ -125,7 +125,7 @@ msgid ""
 "                                        position with the one defined in "
 "settings depending on the partner and invoice."
 msgstr ""
-"Adăugați un câmp de TVA la plată în parteneri, schimbați poziția fiscală cu "
+"Adaugă un câmp de TVA la plată în parteneri, schimba poziția fiscală cu "
 "cea definită în setări în funcție de partener și factură."
 
 #. module: l10n_ro_config
@@ -134,18 +134,18 @@ msgid ""
 "Add company field for no signature, update invoice report for\n"
 "                                        multi currency."
 msgstr ""
-"Adăugați câmpul companiei pentru nicio semnătură, actualizați raportul de "
+"Adaugă câmpul companiei pentru text semnătură, actualizare raportul de "
 "factură pentru multi-valută."
 
 #. module: l10n_ro_config
 #: model_terms:ir.ui.view,arch_db:l10n_ro_config.res_config_settings_view_form
 msgid "Add predefined layouts to stock reports."
-msgstr "Adăugați aspecte predefinite la rapoartele de stoc."
+msgstr "Adaugă aspecte predefinite la rapoartele de stoc."
 
 #. module: l10n_ro_config
 #: model_terms:ir.ui.view,arch_db:l10n_ro_config.res_config_settings_view_form
 msgid "Add valued reports for stock operations."
-msgstr "Adăugați rapoarte valorice pentru operațiile de stoc."
+msgstr "Adaugă rapoarte valorice pentru operațiile de stoc."
 
 #. module: l10n_ro_config
 #: model_terms:ir.ui.view,arch_db:l10n_ro_config.res_config_settings_view_form
@@ -238,12 +238,12 @@ msgid ""
 "                                        currency rate."
 msgstr ""
 "Cursul valutar din factură este editabil, astfel încât să puteți utiliza "
-"propriul."
+"un curs valutar diferit."
 
 #. module: l10n_ro_config
 #: model:ir.model.fields.selection,name:l10n_ro_config.selection__account_journal__l10n_ro_sequence_type__autoinv1
 msgid "Customer Auto Invoicing"
-msgstr "Facturarea automată a clienților"
+msgstr "Auto Facturare Client"
 
 #. module: l10n_ro_config
 #: model_terms:ir.ui.view,arch_db:l10n_ro_config.res_config_settings_account_view_form
@@ -296,13 +296,13 @@ msgid ""
 msgstr ""
 "Dacă acest câmp este bifat și compania folosește Contabilitatea românească,\n"
 "                                            valoarea utilizată pentru "
-"operațiunile de epuizare a stocurilor va fi valoarea înregistrată la\n"
+"operațiunile de descarcare a stocurilor va fi valoarea înregistrată la\n"
 "                                            recepția lotului/serialului, "
 "ignorând regula FIFO;\n"
 "                                            Dacă acest câmp NU este bifat și "
 "compania folosește Contabilitatea românească,\n"
 "                                            valoarea utilizată pentru "
-"operațiunile de epuizare a stocurilor va fi valoarea furnizată de FIFO\n"
+"operațiunile de descarcare a stocurilor va fi valoarea furnizată de FIFO\n"
 "                                            regulă,\n"
 "                                            aplicat strict la nivel de "
 "locație (inclusiv copiii săi)"
@@ -317,7 +317,7 @@ msgid ""
 msgstr ""
 "Dacă acest câmp este bifat și compania utilizează Contabilitatea Românească, "
 "diferențele de curs valutar dintre recepție și factură se vor reflecta în "
-"evaluarea stocului."
+"valoarea stocului."
 
 #. module: l10n_ro_config
 #: model:ir.model.fields,help:l10n_ro_config.field_res_company__l10n_ro_stock_account_svl_lot_allocation
