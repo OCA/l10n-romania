@@ -57,7 +57,7 @@ msgstr ""
 "Selectând acest lucru când închideți o perioadă, aceasta nu va respecta "
 "partea de închidere, adică: cheltuieli închise pe partea de credit, "
 "veniturile închise pe partea de debit.\n"
-"  Ar trebui să verificați conturile 711xxx."
+"  Ar trebui să bifati pentru conturile 711xxx."
 
 #. module: l10n_ro_account_period_close
 #: model_terms:ir.ui.view,arch_db:l10n_ro_account_period_close.view_account_period_closing_wizard
@@ -211,7 +211,7 @@ msgstr "Ignoră verificarea închiderii"
 #: model:ir.model.fields,field_description:l10n_ro_account_period_close.field_account_move__l10n_ro_close_id
 #: model:ir.model.fields,field_description:l10n_ro_account_period_close.field_account_payment__l10n_ro_close_id
 msgid "Romania - Closed Account Period"
-msgstr "Perioadă închisă"
+msgstr "Romania - Perioadă contabilă închisă"
 
 #. module: l10n_ro_account_period_close
 #: model:ir.model.fields,field_description:l10n_ro_account_period_close.field_account_bank_statement_line__l10n_ro_closing_move
@@ -239,9 +239,3 @@ msgstr "Tip"
 #: model:ir.model,name:l10n_ro_account_period_close.model_l10n_ro_account_period_closing_wizard
 msgid "Wizard for Account Period Closing"
 msgstr "Asistent pentru închiderea perioadei contabile"
-
-#~ msgid "Date range"
-#~ msgstr "Interval"
-
-#~ msgid "Close"
-#~ msgstr "Închide"
