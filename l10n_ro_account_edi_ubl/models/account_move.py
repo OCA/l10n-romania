@@ -145,9 +145,19 @@ class AccountMove(models.Model):
         # For RO, remove the l10n_ro_edi_transaction to force re-send
         # (otherwise this only triggers a check_status)
         cius_ro = self.env.ref("l10n_ro_account_edi_ubl.edi_ubl_cius_ro")
-        self.filtered(
+        invoice_errors = self.filtered(
             lambda m: m._get_edi_document(cius_ro).blocking_level == "error"
-        ).l10n_ro_edi_transaction = None
+        )
+        for invoice in invoice_errors:
+            invoice.l10n_ro_edi_transaction = None
+            edi_document = invoice._get_edi_document(cius_ro)
+            if edi_document:
+                old_attachment = edi_document.attachment_id
+                if old_attachment:
+                    edi_document.attachment_id = False
+                    old_attachment.sudo().unlink()
+
+        return super()._retry_edi_documents_error_hook()
 
     def action_process_edi_web_services(self):
         if len(self) == 1:
@@ -260,7 +270,7 @@ class AccountMove(models.Model):
     def l10n_ro_check_anaf_error_xml(self, zip_content):
         self.ensure_one()
         cius_ro = self.env.ref("l10n_ro_account_edi_ubl.edi_ubl_cius_ro")
-        err_msg = False
+        err_msg = ""
         try:
             zip_ref = zipfile.ZipFile(io.BytesIO(zip_content))
             err_file = [
@@ -274,9 +284,11 @@ class AccountMove(models.Model):
                 if decode_xml:
                     tree = decode_xml[0]["xml_tree"]
                 error_tag = "Error"
-                err_msg = "Erori validare ANAF:<br/>"
                 for _index, err in enumerate(tree.findall("./{*}" + error_tag)):
                     err_msg += f"{err.attrib.get('errorMessage')}<br/>"
+                if err_msg:
+                    err_msg = "Erori validare ANAF:<br/>" + err_msg
+                    return err_msg
         except Exception as e:
             _logger.warning(f"Error while checking the Zipped XML file: {e}")
         return err_msg
