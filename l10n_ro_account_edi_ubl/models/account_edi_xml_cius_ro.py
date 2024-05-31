@@ -100,7 +100,10 @@ class AccountEdiXmlCIUSRO(models.Model):
         shipping_address = False
         if "partner_shipping_id" in invoice._fields and invoice.partner_shipping_id:
             shipping_address = invoice.partner_shipping_id
-            if shipping_address == invoice.partner_id:
+            if (
+                shipping_address.type != "delivery"
+                or shipping_address == invoice.partner_id
+            ):
                 shipping_address = False
         if shipping_address:
             res = [
