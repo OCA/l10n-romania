@@ -30,7 +30,7 @@ class AccountEdiXmlCIUSRO(models.Model):
                 xml_content = xml_content.decode()
                 xml_content = xml_content.encode()
                 xml_name = builder._export_invoice_filename(invoice)
-                old_attachment = edi_document.attachment_id
+                old_attachment = edi_document.attachment_id.sudo()
                 if old_attachment:
                     edi_document.attachment_id = False
                     old_attachment.unlink()
