@@ -365,10 +365,11 @@ class AccountMove(models.Model):
             ("res_model", "=", "account.move"),
             ("res_id", "=", self.id),
         ]
-        attachments = self.env["ir.attachment"].search(domain)
+        ir_attachment = self.env["ir.attachment"].sudo()
+        attachments = ir_attachment.search(domain)
         if attachments:
             attachments.unlink()
-        attachment = self.env["ir.attachment"].create(
+        attachment = ir_attachment.create(
             {
                 "name": file_name,
                 "raw": file_content,
@@ -377,6 +378,7 @@ class AccountMove(models.Model):
                 "mimetype": mimetype,
             }
         )
+
         return attachment
 
 
