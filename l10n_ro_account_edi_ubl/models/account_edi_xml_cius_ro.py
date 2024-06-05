@@ -159,6 +159,10 @@ class AccountEdiXmlCIUSRO(models.Model):
             invoice.commercial_partner_id.ref or invoice.commercial_partner_id.name
         )
         vals_list["vals"]["order_reference"] = (invoice.ref or invoice.name)[:30]
+        if "sales_order_id" in vals_list["vals"]:
+            vals_list["vals"]["sales_order_id"] = vals_list["vals"]["sales_order_id"][
+                :200
+            ]
         vals_list[
             "TaxTotalType_template"
         ] = "l10n_ro_account_edi_ubl.ubl_20_TaxTotalType"
