@@ -39,7 +39,9 @@
                 <div
                     name="vat_on_payment_info"
                     class="o_row"
-                    attrs="{'invisible': [('is_l10n_ro_record','=',False)]}"
+                    attrs="{'invisible': [
+                        '|', ('vat', '=', False),
+                        ('company_type', '!=', 'company')]}"
                 >
                     <field
                         name="l10n_ro_vat_on_payment"
