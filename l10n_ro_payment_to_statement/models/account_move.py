@@ -133,26 +133,6 @@ class AccountMove(models.Model):
             statement.write(
                 {"balance_end": balance_end, "balance_end_real": balance_end}
             )
-        else:
-            # daca tipul este numerar trebuie generat
-            if self.journal_id.l10n_ro_auto_statement:
-                values = {
-                    "journal_id": self.journal_id.id,
-                    "date": self.date,
-                    "name": "/",
-                }
-                statement = self.env["account.bank.statement"].sudo().create(values)
-                self.payment_id.l10n_ro_statement_id = statement
-                self.statement_line_id.statement_id = statement
-                lines = statement.line_ids.filtered(lambda x: x.state == "posted")
-                balance_end = (
-                    statement.balance_start
-                    + sum(lines.mapped("amount"))
-                    + self.statement_line_id.amount
-                )
-                statement.write(
-                    {"balance_end": balance_end, "balance_end_real": balance_end}
-                )
 
     def _post(self, soft=True):
         for move in self:
@@ -163,9 +143,4 @@ class AccountMove(models.Model):
                     and (not move.name or move.name == "/")
                 ):
                     move.payment_id.l10n_ro_force_cash_sequence()
-
-                if (
-                    move.payment_id or move.statement_line_id
-                ) and move.journal_id.l10n_ro_auto_statement:
-                    move._get_l10n_ro_bank_statement()
         return super()._post(soft)

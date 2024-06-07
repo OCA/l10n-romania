@@ -238,24 +238,34 @@ class TestPayment(TestPaymenttoStatement):
         self.assertIn("150.43", dashboard_data["outstanding_pay_account_balance"])
         self.assertEqual(dashboard_data["nb_lines_outstanding_pay_account_balance"], 1)
 
-    # def test_cash_box_out(self):
-    #     cash1 = self.env["cash.box.out"].create(
-    #         {"name": "Take money in", "amount": 100}
-    #     )
-    #     cash2 = self.env["cash.box.out"].create(
-    #         {"name": "Take money in", "amount": -200}
-    #     )
-    #     bnk = self.env["account.bank.statement"].create(
-    #         {
-    #             "name": "Take money out",
-    #             "date": "2022-12-10",
-    #             "journal_id": self.company_data["default_journal_cash"].id,
-    #             "company_id": self.env.company.id,
-    #         }
-    #     )
-    #     values_in = cash1._calculate_values_for_statement_line(bnk)
-    #     values_out = cash2._calculate_values_for_statement_line(bnk)
-    #     cash_in = self.env["account.bank.statement.line"].sudo().create(values_in)
-    #     cash_out = self.env["account.bank.statement.line"].sudo().create(values_out)
-    #     self.assertEqual(cash_in.name, "CSH1DI-000001")
-    #     self.assertEqual(cash_out.name, "CSH1DP-000001")
+    def test_add_statement_line(self):
+
+        journal = self.env["account.journal"].create(
+            {
+                "name": "Test cash",
+                "type": "cash",
+                "company_id": self.env.company.id,
+                "l10n_ro_auto_statement": True,
+            }
+        )
+        payment = self.env["account.payment"].create(
+            {
+                "amount": 111.50,
+                "payment_type": "inbound",
+                "partner_type": "customer",
+                "date": "2015-01-01",
+                "journal_id": journal.id,
+                "partner_id": self.partner_a.id,
+            }
+        )
+        payment.action_post()
+        created_statement = self.env["account.bank.statement"].search(
+            [("date", "=", "2015-01-01")]
+        )
+        self.assertEqual(created_statement.journal_id, journal)
+        self.assertEqual(created_statement.balance_end, 111.5)
+        self.assertEqual(created_statement.balance_end_real, 111.5)
+        payment.action_draft()
+        self.assertEqual(created_statement.balance_end, 0.0)
+        created_statement._compute_balance_end_real()
+        self.assertEqual(created_statement.balance_end_real, 0.0)
