@@ -6,7 +6,7 @@ import logging
 
 from lxml import etree
 
-from odoo import _, fields, models
+from odoo import _, api, fields, models
 
 _logger = logging.getLogger(__name__)
 
@@ -30,7 +30,7 @@ class AccountEdiXmlCIUSRO(models.Model):
                 xml_content = xml_content.decode()
                 xml_content = xml_content.encode()
                 xml_name = builder._export_invoice_filename(invoice)
-                old_attachment = edi_document.attachment_id
+                old_attachment = edi_document.attachment_id.sudo()
                 if old_attachment:
                     edi_document.attachment_id = False
                     old_attachment.unlink()
@@ -118,12 +118,37 @@ class AccountEdiXmlCIUSRO(models.Model):
             )
         return is_required
 
+    @api.model
+    def l10n_ro_edi_post_message(self, invoice, message, res):
+        # invoice.message_post(body=res["error"])
+        body = message + _("\n\nError:\n<p>%s</p>") % res["error"]
+
+        mail_activity = invoice.activity_ids.filtered(
+            lambda a: a.summary == message and a.user_id == invoice.invoice_user_id
+        )
+        if mail_activity:
+            mail_activity.write(
+                {
+                    "date_deadline": fields.Date.today(),
+                    "note": body,
+                }
+            )
+        else:
+            invoice.activity_schedule(
+                "mail.mail_activity_data_warning",
+                summary=message,
+                note=body,
+                user_id=invoice.invoice_user_id.id,
+            )
+
     def _post_invoice_edi(self, invoices):
         self.ensure_one()
         if self.code != "cius_ro":
             return super()._post_invoice_edi(invoices)
         res = {}
+        to_remove_invoices = self.env["account.move"]
         for invoice in invoices:
+
             anaf_config = invoice.company_id._l10n_ro_get_anaf_sync(scope="e-factura")
             if not anaf_config:
                 res[invoice] = {
@@ -142,26 +167,8 @@ class AccountEdiXmlCIUSRO(models.Model):
                     "error": attachment,
                     "blocking_level": "warning",
                 }
-                invoice.message_post(body=res[invoice]["error"])
                 message = _("There are some errors when generating the XMl file.")
-                body = message + _("\n\nError:\n<p>%s</p>") % res[invoice]["error"]
-
-                model_id = self.env["ir.model"]._get(invoice._name).id
-                domain = [
-                    ("res_model_id", "=", model_id),
-                    ("res_id", "=", invoice.id),
-                    ("summary", "=", body),
-                ]
-                mail_activity = self.env["mail.activity"].search(domain)
-                if mail_activity:
-                    mail_activity.write({"date_deadline": fields.Date.today()})
-                else:
-                    invoice.activity_schedule(
-                        "mail.mail_activity_data_warning",
-                        summary=message,
-                        note=body,
-                        user_id=invoice.invoice_user_id.id,
-                    )
+                self.l10n_ro_edi_post_message(invoice, message, res[invoice])
                 continue
             res[invoice] = {"attachment": attachment, "success": True}
 
@@ -184,6 +191,7 @@ class AccountEdiXmlCIUSRO(models.Model):
                         }
                 else:
                     res[invoice]["success"] = False
+                    to_remove_invoices |= invoice
                     continue
             else:
                 res[invoice] = self._l10n_ro_post_invoice_step_2(invoice, attachment)
@@ -192,13 +200,7 @@ class AccountEdiXmlCIUSRO(models.Model):
                 # Create activity if process is stopped with an error blocking level
                 if res[invoice].get("blocking_level") == "error":
                     message = _("The invoice was not send or validated by ANAF.")
-                    body = message + _("\n\nError:\n<p>%s</p>") % res[invoice]["error"]
-                    invoice.activity_schedule(
-                        "mail.mail_activity_data_warning",
-                        summary=message,
-                        note=body,
-                        user_id=invoice.invoice_user_id.id,
-                    )
+                    self.l10n_ro_edi_post_message(invoice, message, res[invoice])
             # If you have ANAF sync configured, but you don't have a transaction
             # number, then the invoice is marked as not sent to ANAF
             if (
@@ -207,6 +209,8 @@ class AccountEdiXmlCIUSRO(models.Model):
                 and not res.get("transaction")
             ):
                 res[invoice]["success"] = False
+        for invoice in to_remove_invoices:
+            res.pop(invoice)
         return res
 
     def _cancel_invoice_edi(self, invoices):
@@ -275,6 +279,9 @@ class AccountEdiXmlCIUSRO(models.Model):
         res = self._l10n_ro_anaf_call("/stareMesaj", anaf_config, params, method="GET")
         if res.get("id_descarcare", False):
             invoice.write({"l10n_ro_edi_download": res.get("id_descarcare")})
+            error = invoice.l10n_ro_download_zip_anaf(return_error=True)
+            if error:
+                res.update({"error": error, "blocking_level": "error"})
             if res.get("success", False):
                 res.update({"attachment": attachment})
                 invoice.message_post(body=_("The invoice was validated by ANAF."))
@@ -340,8 +347,9 @@ class AccountEdiXmlCIUSRO(models.Model):
             },
             "nok": {
                 "success": False,
-                "blocking_level": "warning",
+                "blocking_level": "error",
                 "error": _("The invoice was not validated by ANAF."),
+                "id_descarcare": doc.get("id_descarcare") or "",
             },
             "ok": {"success": True, "id_descarcare": doc.get("id_descarcare") or ""},
             "XML cu erori nepreluat de sistem": {
@@ -354,6 +362,10 @@ class AccountEdiXmlCIUSRO(models.Model):
             for key, value in stari.items():
                 if key in stare:
                     res.update(value)
+                    if stare == "nok":
+                        error = doc.get("mesaj_eroare", False)
+                        if error:
+                            res.update({"error": error})
                     break
         return res
 

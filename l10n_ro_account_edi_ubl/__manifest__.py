@@ -7,6 +7,7 @@
     "summary": "Romania - eFactura - Account EDI UBL",
     "depends": [
         "l10n_ro_account_anaf_sync",
+        "l10n_ro_partner_create_by_vat",
         "account_edi_ubl_cii",
     ],
     "data": [
@@ -19,7 +20,7 @@
         "views/cius_template.xml",
     ],
     "license": "AGPL-3",
-    "version": "16.0.1.48.0",
+    "version": "16.0.1.53.0",
     "author": "Terrabit," "NextERP Romania," "Odoo Community Association (OCA)",
     "website": "https://github.com/OCA/l10n-romania",
     "installable": True,
