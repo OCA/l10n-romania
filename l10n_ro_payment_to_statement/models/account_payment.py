@@ -25,41 +25,20 @@ class AccountPayment(models.Model):
     )
 
     def get_l10n_ro_statement_line(self):
-        lines = self.env["account.bank.statement.line"]
-        self.get_l10n_ro_reconciled_statement_line()
         for payment in self:
             auto_statement = payment.journal_id.l10n_ro_auto_statement
             if (
                 auto_statement
-                and not payment.l10n_ro_statement_id
                 and not payment.reconciled_statement_line_ids
+                and payment.state == "posted"
             ):
-                domain = [
-                    ("date", "=", payment.date),
-                    ("journal_id", "=", payment.journal_id.id),
-                ]
-                statement = self.env["account.bank.statement"].search(domain, limit=1)
-                if not statement:
-                    values = {
-                        "journal_id": payment.journal_id.id,
-                        "date": payment.date,
-                        "name": "/",
-                    }
-                    statement = payment.env["account.bank.statement"].create(values)
-                payment.write({"l10n_ro_statement_id": statement.id})
-
-            if (
-                payment.state == "posted"
-                and not payment.statement_line_id
-                and payment.l10n_ro_statement_id
-            ):
+                # create statement line
                 ref = ""
                 for invoice in payment.reconciled_bill_ids:
                     ref += invoice.name
                 for invoice in payment.reconciled_invoice_ids:
                     ref += invoice.name
-                values = {
-                    "statement_id": payment.l10n_ro_statement_id.id,
+                line_values = {
                     "date": payment.date,
                     "partner_id": payment.partner_id.id,
                     "amount": payment.amount,
@@ -68,22 +47,29 @@ class AccountPayment(models.Model):
                     "journal_id": payment.journal_id.id,
                 }
                 if payment.payment_type == "outbound":
-                    values["amount"] = -1 * payment.amount
+                    line_values["amount"] = -1 * payment.amount
+                line = payment.env["account.bank.statement.line"].create(line_values)
 
-                line = payment.env["account.bank.statement.line"].create(values)
-                lines |= line
-                payment.write({"statement_line_id": line.id})
-
-    def get_l10n_ro_reconciled_statement_line(self):
-        for payment in self:
-            for move_line in payment.reconciled_statement_line_ids:
-                if move_line.statement_id and move_line.statement_line_id:
-                    payment.write(
-                        {
-                            "l10n_ro_statement_id": move_line.statement_id.id,
-                            "statement_line_id": move_line.statement_line_id.id,
-                        }
-                    )
+                # check statements
+                domain = [
+                    ("date", "=", payment.date),
+                    ("journal_id", "=", payment.journal_id.id),
+                ]
+                statement = self.env["account.bank.statement"].search(domain, limit=1)
+                if not statement:
+                    # create statement with line
+                    values = {
+                        "date": payment.date,
+                        "name": "/",
+                        "line_ids": [(4, line.id)],
+                    }
+                    statement = payment.env["account.bank.statement"].create(values)
+                    payment.write({"l10n_ro_statement_id": statement.id})
+                    payment.write({"statement_line_id": line.id})
+                else:
+                    # link line to statement
+                    line.write({"statement_id": statement.id})
+                    payment.write({"statement_line_id": line.id})
 
     def action_post(self):
         res = super(AccountPayment, self).action_post()
@@ -92,6 +78,18 @@ class AccountPayment(models.Model):
             for payment in l10n_ro_records:
                 payment.move_id._get_l10n_ro_bank_statement()
             l10n_ro_records.get_l10n_ro_statement_line()
+        return res
+
+    def action_draft(self):
+        res = super(AccountPayment, self).action_draft()
+        l10n_ro_records = self.filtered(lambda p: p.is_l10n_ro_record)
+        if l10n_ro_records:
+            for payment in l10n_ro_records:
+                if payment.statement_line_id:
+                    payment.statement_line_id.move_id.button_draft()
+                    payment.statement_line_id.unlink()
+                if payment.l10n_ro_statement_id:
+                    payment.write({"l10n_ro_statement_id": False})
         return res
 
     def l10n_ro_force_cash_sequence(self):
