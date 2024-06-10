@@ -42,11 +42,6 @@ msgid "Bank Statement Line"
 msgstr "Linie extras bacă"
 
 #. module: l10n_ro_payment_to_statement
-#: model_terms:ir.ui.view,arch_db:l10n_ro_payment_to_statement.view_account_payment_form
-msgid "Get statement Line"
-msgstr "Preia linia de extras"
-
-#. module: l10n_ro_payment_to_statement
 #: model:ir.model.fields,field_description:l10n_ro_payment_to_statement.field_account_bank_statement_line__is_l10n_ro_payment_disposal
 msgid "Is L10N Ro Payment Disposal"
 msgstr ""
@@ -149,3 +144,6 @@ msgstr "Linie a Extrasului de cont"
 msgid "You cannot delete the payment %s, as it already consumed a number."
 msgstr ""
 "Nu se poate șterge plata/încasarea %s, deoarece a consumat deja un număr."
+
+#~ msgid "Get statement Line"
+#~ msgstr "Preia linia de extras"
