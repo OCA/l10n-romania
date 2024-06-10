@@ -159,6 +159,11 @@ class ResCompany(models.Model):
                         }
                     )
                     new_invoice = new_invoice._l10n_ro_prepare_invoice_for_download()
-                    new_invoice.l10n_ro_download_zip_anaf(
-                        company._l10n_ro_get_anaf_sync(scope="e-factura")
-                    )
+                    try:
+                        new_invoice.l10n_ro_download_zip_anaf(
+                            company._l10n_ro_get_anaf_sync(scope="e-factura")
+                        )
+                    except Exception as e:
+                        new_invoice.message_post(
+                            body=_("Error downloading e-invoice: %s") % str(e)
+                        )
