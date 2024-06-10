@@ -129,6 +129,12 @@ class AccountEdiXmlCIUSRO(models.Model):
                 user_id=invoice.invoice_user_id.id,
             )
 
+    def _embed_edis_to_pdf(self, pdf_content, invoice):
+        self.ensure_one()
+        if self.code != "cius_ro":
+            return super()._embed_edis_to_pdf(pdf_content, invoice)
+        return pdf_content
+
     def _post_invoice_edi(self, invoices):
         self.ensure_one()
         if self.code != "cius_ro":

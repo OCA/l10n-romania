@@ -379,6 +379,14 @@ class AccountMove(models.Model):
         )
         return attachment
 
+    def _l10n_ro_add_pdf_to_xml(self):
+        # Add render PDF and attach it to the XML
+        for invoice in self:
+            report = invoice.company_id.l10n_ro_default_cius_pdf_report
+            if not report:
+                report = self.env.ref("account.account_invoices")
+            report.sudo()._render_qweb_pdf(invoice.id)
+
 
 class AccountMoveLine(models.Model):
     _inherit = "account.move.line"

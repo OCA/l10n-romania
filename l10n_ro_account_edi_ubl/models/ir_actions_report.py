@@ -33,7 +33,7 @@ class IrActionsReport(models.Model):
             if not cius_ro_edi_documents:
                 return result
 
-            invoice_report = self.env.company.l10n_ro_default_cius_pdf_report
+            invoice_report = record.company_id.l10n_ro_default_cius_pdf_report
             if not invoice_report:
                 invoice_report = self.env.ref("account.account_invoices")
             if invoice_report and invoice_report != self:
