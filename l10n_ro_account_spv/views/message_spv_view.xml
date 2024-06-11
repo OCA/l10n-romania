@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+
+
+    <record id="view_l10n_ro_message_spv_tree" model="ir.ui.view">
+        <field name="name">l10n.ro.message.spv.tree</field>
+        <field name="model">l10n.ro.message.spv</field>
+        <field name="type">tree</field>
+        <field name="arch" type="xml">
+            <tree>
+                 <header>
+                    <button
+                        name="get_invoice_from_move"
+                        string="Get Invoice"
+                        type="object"
+                    />
+                </header>
+
+                <field name="name" />
+                <field name="cif" />
+                <field name="message_type" />
+                <field name="date" />
+                <field name="partner_id" />
+                <field name="request_id" />
+                <field name="company_id" />
+                <field name="invoice_id" />
+                <field
+                    name="state"
+                    widget="badge"
+                    decoration-success="state == 'done'"
+                    decoration-info="state == 'draft'"
+                />
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_l10n_ro_message_spv_form" model="ir.ui.view">
+        <field name="name">l10n.ro.message.spv.form</field>
+        <field name="model">l10n.ro.message.spv</field>
+        <field name="type">form</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <field name="name" />
+                        <field name="cif" />
+                        <field name="message_type" />
+                        <field name="date" />
+                        <field name="details" />
+                        <field name="request_id" />
+                    </group>
+                    <group>
+                        <field name="company_id" />
+                        <field name="invoice_id" />
+                        <field
+                            name="state"
+                            widget="badge"
+                            decoration-success="state == 'done'"
+                            decoration-info="state == 'draft'"
+                        />
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+
+    <record id="view_l10n_ro_message_spv_search" model="ir.ui.view">
+        <field name="name">l10n.ro.message.spv.search</field>
+        <field name="model">l10n.ro.message.spv</field>
+        <field name="type">search</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name" />
+                <field name="message_type" />
+                <field name="date" />
+                <field name="partner_id" />
+                <field name="request_id" />
+                <field name="company_id" />
+                <field name="invoice_id" />
+                <field name="state" />
+                <group>
+                    <filter
+                        string="Draft"
+                        name="draft"
+                        domain="[('state', '=', 'draft')]"
+                    />
+                    <filter
+                        string="Done"
+                        name="done"
+                        domain="[('state', '=', 'done')]"
+                    />
+                    <separator />
+                    <filter
+                        string="In Invoices"
+                        name="invoices"
+                        domain="[('message_type', '=', 'in_invoice')]"
+                    />
+                    <filter
+                        string="Out Invoices"
+                        name="out_invoices"
+                        domain="[('message_type', '=', 'out_invoice')]"
+                    />
+                    <filter
+                        string="Errors"
+                        name="errors"
+                        domain="[('message_type', '=', 'error')]"
+                    />
+                </group>
+            </search>
+        </field>
+    </record>
+
+
+    <record id="action_l10n_ro_message_spv" model="ir.actions.act_window">
+        <field name="name">Messages SPV</field>
+        <field name="res_model">l10n.ro.message.spv</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <menuitem
+        id="menu_l10n_ro_message_spv"
+        name="Messages SPV"
+        parent="account.menu_finance_entries"
+        action="action_l10n_ro_message_spv"
+    />
+</odoo>
