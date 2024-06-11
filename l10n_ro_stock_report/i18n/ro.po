@@ -252,7 +252,7 @@ msgstr "Tranzit intern"
 #: model:ir.model.fields.selection,name:l10n_ro_stock_report.selection__l10n_ro_stock_storage_sheet_line__valued_type__internal_transit_in
 #: model:ir.model.fields.selection,name:l10n_ro_stock_report.selection__l10n_ro_stock_storage_sheet_line__valued_type__internal_transit_out
 msgid "Internal Transit In"
-msgstr ""
+msgstr "Tranzit intern In"
 
 #. module: l10n_ro_stock_report
 #: model:ir.model.fields,field_description:l10n_ro_stock_report.field_l10n_ro_stock_storage_sheet_line__invoice_id
