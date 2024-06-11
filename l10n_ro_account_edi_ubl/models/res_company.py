@@ -96,8 +96,9 @@ class ResCompany(models.Model):
             "pagina": pagina,
             "startTime": start_time,
             "endTime": end_time,
-            "filtru": filtru,
         }
+        if filtru:
+            params["filtru"] = filtru
         content, status_code = anaf_config._l10n_ro_einvoice_call(
             "/listaMesajePaginatieFactura", params, method="GET"
         )
@@ -135,6 +136,7 @@ class ResCompany(models.Model):
         for company in ro_companies:
             move_obj = self.env["account.move"].with_company(company)
             company_messages = company._l10n_ro_get_anaf_efactura_messages(filtru="P")
+            anaf_config = company._l10n_ro_get_anaf_sync(scope="e-factura")
             for message in company_messages:
                 if company.l10n_ro_download_einvoices_start_date:
                     if message.get("data_creare"):
@@ -160,10 +162,33 @@ class ResCompany(models.Model):
                     )
                     new_invoice = new_invoice._l10n_ro_prepare_invoice_for_download()
                     try:
-                        new_invoice.l10n_ro_download_zip_anaf(
-                            company._l10n_ro_get_anaf_sync(scope="e-factura")
-                        )
+                        new_invoice.l10n_ro_download_zip_anaf(anaf_config)
                     except Exception as e:
                         new_invoice.message_post(
                             body=_("Error downloading e-invoice: %s") % str(e)
+                        )
+
+                    exist_invoice = move_obj.search(
+                        [
+                            ("ref", "=", new_invoice.ref),
+                            ("type", "=", "in_invoice"),
+                            ("state", "=", "posted"),
+                            ("partner_id", "=", new_invoice.partner_id.id),
+                            ("id", "!=", new_invoice.id),
+                        ],
+                        limit=1,
+                    )
+                    if exist_invoice:
+                        domain = [
+                            ("res_model", "=", "account.move"),
+                            ("res_id", "=", new_invoice.id),
+                        ]
+                        attachments = self["ir.attachment"].sudo().search(domain)
+                        attachments.write({"res_id": exist_invoice.id})
+                        new_invoice.unlink()
+                        exist_invoice.write(
+                            {
+                                "l10n_ro_edi_download": message.get("id"),
+                                "l10n_ro_edi_transaction": message.get("id_solicitare"),
+                            }
                         )
