@@ -246,7 +246,7 @@ msgstr "Transfer intern exterior"
 #. module: l10n_ro_stock_report
 #: model:ir.model.fields.selection,name:l10n_ro_stock_report.selection__l10n_ro_stock_storage_sheet_line__valued_type__internal_transit
 msgid "Internal Transit"
-msgstr ""
+msgstr "Tranzit intern"
 
 #. module: l10n_ro_stock_report
 #: model:ir.model.fields.selection,name:l10n_ro_stock_report.selection__l10n_ro_stock_storage_sheet_line__valued_type__internal_transit_in
