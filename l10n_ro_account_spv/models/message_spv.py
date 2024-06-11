@@ -57,6 +57,7 @@ class MessageSPV(models.Model):
             move_obj = self.env["account.move"].with_company(message.company_id)
             new_invoice = move_obj.with_context(default_move_type="in_invoice").create(
                 {
+                    "name": "/",
                     "l10n_ro_edi_download": message.name,
                     "l10n_ro_edi_transaction": message.request_id,
                 }
@@ -86,7 +87,7 @@ class MessageSPV(models.Model):
                     ("res_model", "=", "account.move"),
                     ("res_id", "=", new_invoice.id),
                 ]
-                attachments = self["ir.attachment"].sudo().search(domain)
+                attachments = self.env["ir.attachment"].sudo().search(domain)
                 attachments.write({"res_id": exist_invoice.id})
                 new_invoice.unlink()
                 exist_invoice.write(

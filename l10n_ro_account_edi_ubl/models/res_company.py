@@ -171,7 +171,7 @@ class ResCompany(models.Model):
                     exist_invoice = move_obj.search(
                         [
                             ("ref", "=", new_invoice.ref),
-                            ("type", "=", "in_invoice"),
+                            ("move_type", "=", "in_invoice"),
                             ("state", "=", "posted"),
                             ("partner_id", "=", new_invoice.partner_id.id),
                             ("id", "!=", new_invoice.id),
