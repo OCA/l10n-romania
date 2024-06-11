@@ -14,6 +14,11 @@
                         string="Get Invoice"
                         type="object"
                     />
+                     <button
+                        name="create_invoice"
+                        string="Create Invoice"
+                        type="object"
+                    />
                 </header>
 
                 <field name="name" />
