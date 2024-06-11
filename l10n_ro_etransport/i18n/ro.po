@@ -7,24 +7,26 @@ msgstr ""
 "Project-Id-Version: Odoo Server 16.0+e\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2024-03-15 17:38+0000\n"
-"PO-Revision-Date: 2024-03-15 17:38+0000\n"
-"Last-Translator: \n"
+"PO-Revision-Date: 2024-06-11 10:52+0000\n"
+"Last-Translator: Larisa Cuciureanu <larisa.cuciureanu@nexterp.ro>\n"
 "Language-Team: \n"
-"Language: \n"
+"Language: ro\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
-"Plural-Forms: \n"
+"Plural-Forms: nplurals=3; plural=n==1 ? 0 : (n==0 || (n%100 > 0 && n%100 < "
+"20)) ? 1 : 2;\n"
+"X-Generator: Weblate 4.17\n"
 
 #. module: l10n_ro_etransport
 #: model:ir.model.fields,field_description:l10n_ro_etransport.field_stock_picking__l10n_ro_e_transport_message
 msgid "ANAF Message"
-msgstr ""
+msgstr "Mesaj ANAF"
 
 #. module: l10n_ro_etransport
 #: model:ir.model,name:l10n_ro_etransport.model_l10n_ro_account_anaf_sync_scope
 msgid "Account ANAF Sync Scope"
-msgstr ""
+msgstr "Contul ANAF Sync Scope"
 
 #. module: l10n_ro_etransport
 #: model:ir.actions.act_window,name:l10n_ro_etransport.action_l10n_ro_e_transport_customs
@@ -46,26 +48,26 @@ msgstr "Cod"
 #: model:ir.model.fields,field_description:l10n_ro_etransport.field_l10n_ro_e_transport_operation__create_uid
 #: model:ir.model.fields,field_description:l10n_ro_etransport.field_l10n_ro_e_transport_scope__create_uid
 msgid "Created by"
-msgstr ""
+msgstr "Creat de"
 
 #. module: l10n_ro_etransport
 #: model:ir.model.fields,field_description:l10n_ro_etransport.field_l10n_ro_e_transport_customs__create_date
 #: model:ir.model.fields,field_description:l10n_ro_etransport.field_l10n_ro_e_transport_operation__create_date
 #: model:ir.model.fields,field_description:l10n_ro_etransport.field_l10n_ro_e_transport_scope__create_date
 msgid "Created on"
-msgstr ""
+msgstr "Creat in"
 
 #. module: l10n_ro_etransport
 #: model:ir.model.fields,field_description:l10n_ro_etransport.field_l10n_ro_e_transport_customs__display_name
 #: model:ir.model.fields,field_description:l10n_ro_etransport.field_l10n_ro_e_transport_operation__display_name
 #: model:ir.model.fields,field_description:l10n_ro_etransport.field_l10n_ro_e_transport_scope__display_name
 msgid "Display Name"
-msgstr ""
+msgstr "Numele de afișare"
 
 #. module: l10n_ro_etransport
 #: model:ir.model.fields.selection,name:l10n_ro_etransport.selection__stock_picking__l10n_ro_e_transport_status__draft
 msgid "Draft"
-msgstr ""
+msgstr "Proiect"
 
 #. module: l10n_ro_etransport
 #: model:ir.model,name:l10n_ro_etransport.model_l10n_ro_e_transport_customs
@@ -74,22 +76,20 @@ msgstr "Vamă E-Transport"
 
 #. module: l10n_ro_etransport
 #: model:ir.model,name:l10n_ro_etransport.model_l10n_ro_e_transport_operation
-#, fuzzy
 msgid "E Transport Operation"
-msgstr "Scop E-Transport"
+msgstr "Operațiune E Transport"
 
 #. module: l10n_ro_etransport
 #: model:ir.model,name:l10n_ro_etransport.model_l10n_ro_e_transport_scope
-#, fuzzy
 msgid "E Transport Scope"
-msgstr "Scop E-Transport"
+msgstr "Scop E Transport"
 
 #. module: l10n_ro_etransport
 #: model:ir.model.fields.selection,name:l10n_ro_etransport.selection__l10n_ro_account_anaf_sync_scope__scope__e-transport
 #: model:ir.ui.menu,name:l10n_ro_etransport.l10n_ro_e_transport_menu
 #: model_terms:ir.ui.view,arch_db:l10n_ro_etransport.view_picking_form
 msgid "E-Transport"
-msgstr ""
+msgstr "E-Transport"
 
 #. module: l10n_ro_etransport
 #. odoo-python
@@ -101,14 +101,14 @@ msgstr "Eroare %(status_code)s:%(content)s"
 #. module: l10n_ro_etransport
 #: model_terms:ir.ui.view,arch_db:l10n_ro_etransport.view_picking_form
 msgid "Export E-Transport"
-msgstr ""
+msgstr "Export E-Transport"
 
 #. module: l10n_ro_etransport
 #: model:ir.model.fields,field_description:l10n_ro_etransport.field_l10n_ro_e_transport_customs__id
 #: model:ir.model.fields,field_description:l10n_ro_etransport.field_l10n_ro_e_transport_operation__id
 #: model:ir.model.fields,field_description:l10n_ro_etransport.field_l10n_ro_e_transport_scope__id
 msgid "ID"
-msgstr ""
+msgstr "Identificare"
 
 #. module: l10n_ro_etransport
 #: model_terms:ir.ui.view,arch_db:l10n_ro_etransport.view_picking_form
@@ -118,7 +118,7 @@ msgstr "ID Descărcare"
 #. module: l10n_ro_etransport
 #: model:ir.model.fields,field_description:l10n_ro_etransport.field_stock_picking__l10n_ro_e_transport_download
 msgid "ID Download ANAF "
-msgstr "Id Descărcare ANAF"
+msgstr "Id Descărcare ANAF "
 
 #. module: l10n_ro_etransport
 #: model:ir.model.fields.selection,name:l10n_ro_etransport.selection__stock_picking__l10n_ro_e_transport_status__in_processing
@@ -133,7 +133,7 @@ msgstr "Informații e-transport"
 #. module: l10n_ro_etransport
 #: model:ir.model.fields,field_description:l10n_ro_etransport.field_stock_picking__l10n_ro_e_transport_status
 msgid "L10N Ro E Transport Status"
-msgstr ""
+msgstr "L10N Ro Stare E Transport"
 
 #. module: l10n_ro_etransport
 #: model:ir.model.fields,field_description:l10n_ro_etransport.field_l10n_ro_e_transport_customs____last_update
@@ -227,12 +227,12 @@ msgstr "Documentul a fost încărcat cu succes, verificați starea."
 #. module: l10n_ro_etransport
 #: model:ir.model,name:l10n_ro_etransport.model_stock_picking
 msgid "Transfer"
-msgstr ""
+msgstr "Transfer"
 
 #. module: l10n_ro_etransport
 #: model:ir.model.fields,field_description:l10n_ro_etransport.field_stock_picking__l10n_ro_e_transport_uit
 msgid "UIT"
-msgstr ""
+msgstr "UIT"
 
 #. module: l10n_ro_etransport
 #. odoo-python
@@ -249,9 +249,8 @@ msgstr "Vehicul"
 #. module: l10n_ro_etransport
 #: model:ir.actions.act_window,name:l10n_ro_etransport.action_l10n_ro_e_transport_scope
 #: model:ir.ui.menu,name:l10n_ro_etransport.l10n_ro_e_transport_scope_menu
-#, fuzzy
 msgid "scope"
-msgstr "Scop"
+msgstr "scop"
 
 #~ msgid "Intra-community acquisition"
 #~ msgstr "Achiziție intracomunitară"
