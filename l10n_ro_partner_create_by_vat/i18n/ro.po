@@ -7,15 +7,16 @@ msgstr ""
 "Project-Id-Version: Odoo Server 17.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2017-10-19 11:55+0000\n"
-"PO-Revision-Date: 2020-08-13 03:59+0000\n"
-"Last-Translator: Dorin Hongu <dhongu@gmail.com>\n"
+"PO-Revision-Date: 2024-06-11 10:52+0000\n"
+"Last-Translator: Larisa Cuciureanu <larisa.cuciureanu@nexterp.ro>\n"
 "Language-Team: \n"
 "Language: ro\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
-"Plural-Forms: nplurals=3; plural=n==1 ? 0 : (n==0 || (n%100 > 0 && n%100 < 20)) ? 1 : 2;\n"
-"X-Generator: Weblate 3.10\n"
+"Plural-Forms: nplurals=3; plural=n==1 ? 0 : (n==0 || (n%100 > 0 && n%100 < "
+"20)) ? 1 : 2;\n"
+"X-Generator: Weblate 4.17\n"
 
 #. module: l10n_ro_partner_create_by_vat
 #: model_terms:ir.ui.view,arch_db:l10n_ro_partner_create_by_vat.view_partner_anaf_status_form
@@ -37,12 +38,12 @@ msgstr "Istoric ANAF"
 #: code:addons/l10n_ro_partner_create_by_vat/models/res_partner.py:0
 #, python-format
 msgid "ANAF Webservice not working. Exception=%s."
-msgstr ""
+msgstr "Serviciul web ANAF nu funcționează. Excepție=%s."
 
 #. module: l10n_ro_partner_create_by_vat
 #: model:ir.model.fields,field_description:l10n_ro_partner_create_by_vat.field_l10n_ro_res_partner_anaf_status__act
 msgid "Act autorizare"
-msgstr ""
+msgstr "Act de autorizare"
 
 #. module: l10n_ro_partner_create_by_vat
 #: model:ir.model.fields,field_description:l10n_ro_partner_create_by_vat.field_l10n_ro_res_partner_anaf_status__active_status
@@ -66,11 +67,15 @@ msgid ""
 "reason=%(reason)s \n"
 "text=%(text)s"
 msgstr ""
+"Eroare de solicitare Anaf: \n"
+"răspuns=%(response)s \n"
+"motiv=%(reason)s \n"
+"text=%(text)s"
 
 #. module: l10n_ro_partner_create_by_vat
 #: model:ir.model,name:l10n_ro_partner_create_by_vat.model_res_partner
 msgid "Contact"
-msgstr ""
+msgstr "a lua legatura"
 
 #. module: l10n_ro_partner_create_by_vat
 #: model:ir.model.fields,field_description:l10n_ro_partner_create_by_vat.field_l10n_ro_res_partner_anaf_scptva__create_uid
@@ -111,7 +116,7 @@ msgstr "Data de sfârșit"
 #: model:ir.model.fields,field_description:l10n_ro_partner_create_by_vat.field_l10n_ro_res_partner_anaf_scptva__id
 #: model:ir.model.fields,field_description:l10n_ro_partner_create_by_vat.field_l10n_ro_res_partner_anaf_status__id
 msgid "ID"
-msgstr ""
+msgstr "Identificare"
 
 #. module: l10n_ro_partner_create_by_vat
 #: model:ir.model.fields,field_description:l10n_ro_partner_create_by_vat.field_l10n_ro_res_partner_anaf_scptva____last_update
@@ -123,13 +128,13 @@ msgstr "Ultima modificare la"
 #: model:ir.model.fields,field_description:l10n_ro_partner_create_by_vat.field_l10n_ro_res_partner_anaf_scptva__write_uid
 #: model:ir.model.fields,field_description:l10n_ro_partner_create_by_vat.field_l10n_ro_res_partner_anaf_status__write_uid
 msgid "Last Updated by"
-msgstr ""
+msgstr "Ultima actualizare de către"
 
 #. module: l10n_ro_partner_create_by_vat
 #: model:ir.model.fields,field_description:l10n_ro_partner_create_by_vat.field_l10n_ro_res_partner_anaf_scptva__write_date
 #: model:ir.model.fields,field_description:l10n_ro_partner_create_by_vat.field_l10n_ro_res_partner_anaf_status__write_date
 msgid "Last Updated on"
-msgstr ""
+msgstr "Ultima actualizare pe"
 
 #. module: l10n_ro_partner_create_by_vat
 #: model:ir.model.fields,field_description:l10n_ro_partner_create_by_vat.field_l10n_ro_res_partner_anaf_scptva__message
