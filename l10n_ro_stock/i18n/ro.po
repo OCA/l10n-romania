@@ -7,13 +7,16 @@ msgstr ""
 "Project-Id-Version: Odoo Server 17.0+e\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2024-03-29 19:20+0000\n"
-"PO-Revision-Date: 2024-03-29 19:20+0000\n"
-"Last-Translator: \n"
+"PO-Revision-Date: 2024-06-12 08:56+0000\n"
+"Last-Translator: Larisa Cuciureanu <larisa.cuciureanu@nexterp.ro>\n"
 "Language-Team: \n"
+"Language: ro\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
-"Plural-Forms: \n"
+"Plural-Forms: nplurals=3; plural=n==1 ? 0 : (n==0 || (n%100 > 0 && n%100 < "
+"20)) ? 1 : 2;\n"
+"X-Generator: Weblate 4.17\n"
 
 #. module: l10n_ro_stock
 #: model:ir.model.fields,help:l10n_ro_stock.field_stock_location__usage
@@ -26,14 +29,21 @@ msgid ""
 "* Production: Virtual counterpart location for production operations: this location consumes the components and produces finished products\n"
 "* Transit Location: Counterpart location that should be used in inter-company or inter-warehouses operations"
 msgstr ""
-"* Locația furnizor: locația virtuală reprezintă locația sursă pentru produsele provenite de la furnizorii dvs.\n"
-"* Vizualizare: locația virtuală utilizată pentru a crea o structură ierarhică pentru depozitul dvs., agregând locațiile acestuia; nu pot conține în mod direct produse\n"
-"* Locație internă: locații fizice în interiorul depozitelor dvs.,\n"
-"* Locația clienților: locația virtuală reprezintă locația destinației pentru produsele trimise clienților dvs.\n"
-"* Ajustare inventar: locația virtuală care servește ca contrapartidă pentru operațiunile de inventariere utilizate pentru corectarea nivelurilor stocurilor (inventare fizice)\n"
-"* Achiziție: locația virtuală care servește ca contrapartidă temporară pentru operațiunile de achiziții publice, când sursa (vânzătorul sau producția) nu este încă cunoscută. Această locație ar trebui să fie goală atunci când programul de achiziții a încheiat funcționarea.\n"
-"* Producție: Locul de amplasare contrapartidă virtuală pentru operațiunile de producție: această locație consumă materia primă și produce produse finite\n"
-"* Locul de tranzit: Locația contrapartidei care ar trebui utilizată în operațiunile inter-companii sau inter-depozite"
+"* Locația furnizorului: locație virtuală reprezentând locația sursă pentru "
+"produsele care vin de la furnizorii dvs\n"
+"* Vizualizare: Locație virtuală folosită pentru a crea structuri ierarhice "
+"pentru depozitul dvs., agregând locațiile sale secundare; nu poate conține "
+"direct produse\n"
+"* Locație internă: locații fizice în interiorul propriilor depozite,\n"
+"* Locația clientului: locație virtuală reprezentând locația de destinație "
+"pentru produsele trimise clienților dvs\n"
+"* Pierderea stocurilor: locație virtuală care servește drept contrapartidă "
+"pentru operațiunile de inventar utilizate pentru corectarea nivelurilor "
+"stocurilor (inventare fizice)\n"
+"* Producție: Locație virtuală pentru operațiuni de producție: această "
+"locație consumă componentele și produce produse finite\n"
+"* Locație de tranzit: locație omoloage care ar trebui utilizată în "
+"operațiuni între companii sau între depozite"
 
 #. module: l10n_ro_stock
 #. odoo-python
@@ -66,13 +76,13 @@ msgstr "Tip Locație"
 #: model:ir.model.fields,field_description:l10n_ro_stock.field_product_product__l10n_ro_net_weight
 #: model:ir.model.fields,field_description:l10n_ro_stock.field_product_template__l10n_ro_net_weight
 msgid "Net Weight"
-msgstr ""
+msgstr "Greutate netă"
 
 #. module: l10n_ro_stock
 #: model:ir.model.fields,field_description:l10n_ro_stock.field_product_product__l10n_ro_net_weight_uom_name
 #: model:ir.model.fields,field_description:l10n_ro_stock.field_product_template__l10n_ro_net_weight_uom_name
 msgid "Net Weight unit of measure label"
-msgstr ""
+msgstr "Etichetă cu unitatea de măsură pentru greutatea netă"
 
 #. module: l10n_ro_stock
 #: model:ir.model,name:l10n_ro_stock.model_product_template
@@ -87,41 +97,41 @@ msgstr "Variantă produs"
 #. module: l10n_ro_stock
 #: model:ir.model.fields,field_description:l10n_ro_stock.field_stock_warehouse__l10n_ro_wh_consume_loc_id
 msgid "Romania - Consume Location"
-msgstr ""
+msgstr "România - Consum Locație"
 
 #. module: l10n_ro_stock
 #: model:ir.model.fields,field_description:l10n_ro_stock.field_stock_warehouse__l10n_ro_consume_type_id
 msgid "Romania - Consume Type"
-msgstr ""
+msgstr "România - Tip Consum"
 
 #. module: l10n_ro_stock
 #: model:ir.model.fields,field_description:l10n_ro_stock.field_stock_location__l10n_ro_merchandise_type
 msgid "Romania - Merchandise type"
-msgstr ""
+msgstr "România - Tip marfă"
 
 #. module: l10n_ro_stock
 #: model:ir.model.fields,field_description:l10n_ro_stock.field_stock_warehouse__l10n_ro_wh_usage_loc_id
 msgid "Romania - Usage Giving Location"
-msgstr ""
+msgstr "România - Locație de utilizare"
 
 #. module: l10n_ro_stock
 #: model:ir.model.fields,field_description:l10n_ro_stock.field_stock_warehouse__l10n_ro_usage_type_id
 msgid "Romania - Usage Giving Type"
-msgstr ""
+msgstr "România - Tipul de utilizare"
 
 #. module: l10n_ro_stock
 #. odoo-python
 #: code:addons/l10n_ro_stock/models/stock_warehouse.py:0
 #, python-format
 msgid "Sequence Consume"
-msgstr ""
+msgstr "Secvență Consum"
 
 #. module: l10n_ro_stock
 #. odoo-python
 #: code:addons/l10n_ro_stock/models/stock_warehouse.py:0
 #, python-format
 msgid "Sequence Usage Giving"
-msgstr ""
+msgstr "Dăruire de utilizare a secvenței"
 
 #. module: l10n_ro_stock
 #. odoo-python
@@ -129,14 +139,14 @@ msgstr ""
 #: model:ir.model.fields.selection,name:l10n_ro_stock.selection__stock_location__l10n_ro_merchandise_type__store
 #, python-format
 msgid "Store"
-msgstr ""
+msgstr "Magazin"
 
 #. module: l10n_ro_stock
 #. odoo-python
 #: code:addons/l10n_ro_stock/models/stock_warehouse.py:0
 #, python-format
 msgid "Usage"
-msgstr ""
+msgstr "Utilizare"
 
 #. module: l10n_ro_stock
 #. odoo-python
@@ -144,7 +154,7 @@ msgstr ""
 #: model:ir.model.fields.selection,name:l10n_ro_stock.selection__stock_location__usage__usage_giving
 #, python-format
 msgid "Usage Giving"
-msgstr ""
+msgstr "Utilizare"
 
 #. module: l10n_ro_stock
 #. odoo-python
