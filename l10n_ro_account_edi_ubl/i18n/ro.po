@@ -58,6 +58,11 @@ msgid "Attach PDF invoice to the e-Invoice."
 msgstr "Atașați factura în format PDF la factura electronică."
 
 #. module: l10n_ro_account_edi_ubl
+#: model_terms:ir.ui.view,arch_db:l10n_ro_account_edi_ubl.res_config_settings_view_form
+msgid "Automatic generation of PDF for invoices received from SPV."
+msgstr ""
+
+#. module: l10n_ro_account_edi_ubl
 #: model:ir.model,name:l10n_ro_account_edi_ubl.model_account_edi_xml_cius_ro
 msgid "CIUS RO"
 msgstr "CIUS RO"
@@ -69,8 +74,8 @@ msgid ""
 "Check this if the partner is a government institution.Will be used to "
 "calculate the sending of the invoice to the e-invoice system."
 msgstr ""
-"Bifati dacă partenerul este o instituție guvernamentală. Va fi folosit pentru "
-"a calcula trimiterea facturii către sistemul de facturi electronice."
+"Bifati dacă partenerul este o instituție guvernamentală. Va fi folosit "
+"pentru a calcula trimiterea facturii către sistemul de facturi electronice."
 
 #. module: l10n_ro_account_edi_ubl
 #: model:ir.model,name:l10n_ro_account_edi_ubl.model_res_company
@@ -315,6 +320,12 @@ msgid "Product Variant"
 msgstr "Variantă produs"
 
 #. module: l10n_ro_account_edi_ubl
+#: model:ir.model.fields,field_description:l10n_ro_account_edi_ubl.field_res_company__l10n_ro_render_anaf_pdf
+#: model:ir.model.fields,field_description:l10n_ro_account_edi_ubl.field_res_config_settings__l10n_ro_render_anaf_pdf
+msgid "Render Anaf PDF"
+msgstr ""
+
+#. module: l10n_ro_account_edi_ubl
 #: model:ir.model,name:l10n_ro_account_edi_ubl.model_ir_actions_report
 msgid "Report Action"
 msgstr "Raportați acțiunea"
@@ -420,9 +431,9 @@ msgid ""
 "The following partner's city name is invalid: %s. If partner's state is "
 "București, the city name must be 'SECTORX', where X is a number between 1-6."
 msgstr ""
-"Numele orașului următor partener este nevalid: %s. Dacă judetul partenerului este "
-"București, numele orașului trebuie să fie „SECTORX”, unde X este un număr "
-"între 1-6."
+"Numele orașului următor partener este nevalid: %s. Dacă judetul partenerului "
+"este București, numele orașului trebuie să fie „SECTORX”, unde X este un "
+"număr între 1-6."
 
 #. module: l10n_ro_account_edi_ubl
 #. odoo-python
