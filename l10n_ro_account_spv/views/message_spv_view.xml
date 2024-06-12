@@ -28,7 +28,7 @@
                 <field name="date" />
                 <field name="partner_id" />
                 <field name="request_id" />
-                <field name="company_id" />
+                <field name="company_id" invisible="1" />
                 <field name="invoice_id" />
                 <field
                     name="state"
@@ -70,7 +70,7 @@
                         <field name="request_id" />
                     </group>
                     <group>
-                        <field name="company_id" />
+                        <field name="company_id" invisible="1" />
                         <field name="partner_id" />
                         <field name="invoice_id" />
                         <field

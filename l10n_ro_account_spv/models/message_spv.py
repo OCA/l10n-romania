@@ -35,8 +35,17 @@ class MessageSPV(models.Model):
     invoice_id = fields.Many2one("account.move", string="Invoice")
     partner_id = fields.Many2one("res.partner", string="Partner")
 
+    # draft - starea initiala a mesajului descarcat din SPV
+    # downloaded - fisierul a fost descarcat cu succes
+    # invoice - factura a fost creata cu succes
+    # done - factura a fost creata si validata cu succes
     state = fields.Selection(
-        [("draft", "Draft"), ("downloaded", "Downloaded"), ("done", "Done")],
+        [
+            ("draft", "Draft"),
+            ("downloaded", "Downloaded"),
+            ("invoice", "Invoice"),
+            ("done", "Done"),
+        ],
         string="State",
         default="draft",
     )
@@ -44,7 +53,8 @@ class MessageSPV(models.Model):
     attachment_id = fields.Many2one("ir.attachment", string="Attachment")
 
     def download_from_spv(self):
-        for message in self:
+        """Rutina de descarcare a fisierelor de la SPV"""
+        for message in self.filtered(lambda m: m.state == "draft"):
             anaf_config = message.company_id.sudo()._l10n_ro_get_anaf_sync(
                 scope="e-factura"
             )
@@ -63,7 +73,7 @@ class MessageSPV(models.Model):
             elif status_code == 200 and type(response) == dict:
                 error = response.get("eroare")
             if not error:
-                error = message.l10n_ro_check_anaf_error_xml(response)
+                error = message.check_anaf_error_xml(response)
             if error:
                 message.write({"error": error})
                 continue
@@ -80,11 +90,12 @@ class MessageSPV(models.Model):
                     }
                 )
             )
+
             message.write({"file_name": file_name, "attachment_id": attachment.id})
             if message.state == "draft":
                 message.state = "downloaded"
 
-    def l10n_ro_check_anaf_error_xml(self, zip_content):
+    def check_anaf_error_xml(self, zip_content):
         self.ensure_one()
         cius_ro = self.env.ref("l10n_ro_account_edi_ubl.edi_ubl_cius_ro")
         err_msg = ""
@@ -124,19 +135,22 @@ class MessageSPV(models.Model):
                 or i.l10n_ro_edi_transaction == message.request_id
             )
             if invoice:
+                state = "invoice"
+                if invoice.edi_state == "sent":
+                    state = "done"
                 message.write(
                     {
                         "invoice_id": invoice.id,
                         "partner_id": invoice.commercial_partner_id.id,
+                        "state": state,
                     }
                 )
-                if invoice.edi_state == "sent":
-                    message.state = "done"
 
     def create_invoice(self):
-        for message in self:
-            if message.message_type == "out_invoice":
-                self.get_invoice_from_move()
+        self.download_from_spv()
+        for message in self.filtered(
+            lambda m: not m.invoice_id and self.state == "downloaded"
+        ):
             if not message.message_type == "in_invoice":
                 continue
 
@@ -148,14 +162,13 @@ class MessageSPV(models.Model):
                     "l10n_ro_edi_transaction": message.request_id,
                 }
             )
-            new_invoice = new_invoice._l10n_ro_prepare_invoice_for_download()
+            zip_content = message.attachment_id.raw
+            attachment = new_invoice.l10n_ro_save_anaf_xml_file(zip_content)
             try:
-                new_invoice.l10n_ro_download_zip_anaf(
-                    message.company_id._l10n_ro_get_anaf_sync(scope="e-factura")
-                )
+                new_invoice.l10n_ro_process_anaf_xml_file(attachment)
             except Exception as e:
                 new_invoice.message_post(
-                    body=_("Error downloading e-invoice: %s") % str(e)
+                    body=_("Error processing e-invoice: %s") % str(e)
                 )
 
             exist_invoice = move_obj.search(
@@ -184,4 +197,6 @@ class MessageSPV(models.Model):
                 )
                 new_invoice = exist_invoice
 
-            message.write({"invoice_id": new_invoice.id})
+            state = "invoice"
+
+            message.write({"invoice_id": new_invoice.id, "state": state})
