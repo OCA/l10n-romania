@@ -309,18 +309,22 @@ class AccountMove(models.Model):
         if edi_doc:
             edi_doc.attachment_id = attachment_zip
         else:
-            edi_format_cius = self.env["account.edi.format"].search(
-                [("code", "=", "cius_ro")]
-            )
-            if not self.invoice_line_ids:
-                edi_format_cius._update_invoice_from_attachment(attachment, self)
-            else:
-                raise UserError(
-                    _(
-                        "The invoice already have invoice lines, "
-                        "you cannot update them again from the XMl downloaded file."
-                    )
+            self.l10n_ro_process_anaf_xml_file(attachment)
+
+    def l10n_ro_process_anaf_xml_file(self, attachment=None):
+
+        edi_format_cius = self.env["account.edi.format"].search(
+            [("code", "=", "cius_ro")]
+        )
+        if not self.invoice_line_ids:
+            edi_format_cius._update_invoice_from_attachment(attachment, self)
+        else:
+            raise UserError(
+                _(
+                    "The invoice already have invoice lines, "
+                    "you cannot update them again from the XMl downloaded file."
                 )
+            )
 
     def l10n_ro_get_xml_file(self, zip_ref):
         file_name = xml_file = False
