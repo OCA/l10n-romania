@@ -147,7 +147,11 @@ class MessageSPV(models.Model):
                 amount = float(amount_note.text)
 
             message.write(
-                {"attachment_xml_id": attachment_xml.id, "ref": ref, "amount": amount}
+                {
+                    "attachment_xml_id": attachment_xml.id,
+                    "ref": ref,
+                    "amount": amount,
+                }
             )
 
     def check_anaf_error_xml(self, zip_content):
@@ -210,10 +214,7 @@ class MessageSPV(models.Model):
                 )
 
     def create_invoice(self):
-        self.download_from_spv()
-        for message in self.filtered(
-            lambda m: not m.invoice_id and self.state == "downloaded"
-        ):
+        for message in self.filtered(lambda m: not m.invoice_id):
             if not message.message_type == "in_invoice":
                 continue
 
@@ -221,6 +222,7 @@ class MessageSPV(models.Model):
             new_invoice = move_obj.with_context(default_move_type="in_invoice").create(
                 {
                     "name": "/",
+                    "ref": message.ref,
                     "partner_id": message.partner_id.id,
                     "l10n_ro_edi_download": message.name,
                     "l10n_ro_edi_transaction": message.request_id,
@@ -283,7 +285,7 @@ class MessageSPV(models.Model):
                 f"https://webservicesp.anaf.ro/prod/FCTEL/rest/transformare/{val1}/{val2}",
                 data=xml,
                 headers=headers,
-                timeout=10,
+                timeout=25,
             )
             if "The requested URL was rejected" in res.text:
                 xml = xml.replace(
@@ -294,7 +296,7 @@ class MessageSPV(models.Model):
                     f"https://webservicesp.anaf.ro/prod/FCTEL/rest/transformare/{val1}/{val2}",
                     data=xml,
                     headers=headers,
-                    timeout=10,
+                    timeout=25,
                 )
 
             if res.status_code == 200:
