@@ -14,6 +14,7 @@ _logger = logging.getLogger(__name__)
 class MessageSPV(models.Model):
     _name = "l10n.ro.message.spv"
     _description = "Message SPV"
+    _order = "date desc"
 
     name = fields.Char(string="Message ID")  # id
     cif = fields.Char(string="CIF")  # cif
@@ -55,7 +56,7 @@ class MessageSPV(models.Model):
 
     def download_from_spv(self):
         """Rutina de descarcare a fisierelor de la SPV"""
-        for message in self.filtered(lambda m: m.state == "draft"):
+        for message in self.filtered(lambda m: not m.attachment_id):
             anaf_config = message.company_id.sudo()._l10n_ro_get_anaf_sync(
                 scope="e-factura"
             )
