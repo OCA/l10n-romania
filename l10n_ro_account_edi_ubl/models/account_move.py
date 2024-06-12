@@ -312,15 +312,6 @@ class AccountMove(models.Model):
             self.l10n_ro_process_anaf_xml_file(attachment)
 
     def l10n_ro_process_anaf_xml_file(self, attachment=None):
-        if not attachment:
-            file_name = f"{self.l10n_ro_edi_transaction}.xml"
-            attachment = self.env["ir.attachment"].search(
-                [
-                    ("name", "=", file_name),
-                    ("res_id", "=", self.id),
-                    ("res_model", "=", "account.move"),
-                ]
-            )
 
         edi_format_cius = self.env["account.edi.format"].search(
             [("code", "=", "cius_ro")]
