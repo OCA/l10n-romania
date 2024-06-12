@@ -74,6 +74,7 @@ class AccountEdiXmlCIUSRO(models.Model):
             and invoice.company_id.l10n_ro_credit_note_einvoice
         ):
             balance_sign = -balance_sign
+
         return [
             {
                 "currency": invoice.currency_id,
@@ -392,14 +393,9 @@ class AccountEdiXmlCIUSRO(models.Model):
         if invoice:
             additional_docs = tree.findall("./{*}AdditionalDocumentReference")
             if len(additional_docs) == 0:
-                res = self.l10n_ro_renderAnafPdf(invoice)
-                if not res:
-                    report_obj = self.env["ir.actions.report"].sudo()
-                    pdf = report_obj._render_qweb_pdf(
-                        "account.account_invoices_without_payment", invoice.ids
-                    )
-                    b64_pdf = b64encode(pdf[0])
-                    self.l10n_ro_addPDF_from_att(invoice, b64_pdf)
+                if invoice.company_id.l10n_ro_render_anaf_pdf:
+                    self.l10n_ro_renderAnafPdf(invoice)
+
         return invoice
 
     def l10n_ro_renderAnafPdf(self, invoice):
