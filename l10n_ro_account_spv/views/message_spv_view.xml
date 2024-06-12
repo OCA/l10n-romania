@@ -19,6 +19,7 @@
                         string="Create Invoice"
                         type="object"
                     />
+                     <button name="download_from_spv" string="Download" type="object" />
                 </header>
 
                 <field name="name" />
@@ -33,7 +34,7 @@
                     name="state"
                     widget="badge"
                     decoration-success="state == 'done'"
-                    decoration-info="state == 'draft'"
+                    decoration-info="state == 'downloaded'"
                 />
             </tree>
         </field>
@@ -45,6 +46,20 @@
         <field name="type">form</field>
         <field name="arch" type="xml">
             <form>
+                 <header>
+                    <button
+                        name="get_invoice_from_move"
+                        string="Get Invoice"
+                        type="object"
+                    />
+                     <button
+                        name="create_invoice"
+                        string="Create Invoice"
+                        type="object"
+                        attrs="{'invisible': [('message_type', '!=', 'in_invoice')]}"
+                    />
+                     <button name="download_from_spv" string="Download" type="object" />
+                </header>
                 <sheet>
                     <group>
                         <field name="name" />
@@ -56,13 +71,18 @@
                     </group>
                     <group>
                         <field name="company_id" />
+                        <field name="partner_id" />
                         <field name="invoice_id" />
                         <field
                             name="state"
                             widget="badge"
                             decoration-success="state == 'done'"
-                            decoration-info="state == 'draft'"
+                            decoration-info="state == 'downloaded'"
                         />
+                    </group>
+                    <group>
+                        <field name="error" />
+                        <field name="attachment_id" />
                     </group>
                 </sheet>
             </form>

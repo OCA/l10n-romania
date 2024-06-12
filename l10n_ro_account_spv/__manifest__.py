@@ -8,6 +8,7 @@
     "depends": ["l10n_ro_account_anaf_sync", "l10n_ro_account_edi_ubl"],
     "data": [
         "security/ir.model.access.csv",
+        "security/security.xml",
         "data/ir_cron_data.xml",
         "views/message_spv_view.xml",
     ],
