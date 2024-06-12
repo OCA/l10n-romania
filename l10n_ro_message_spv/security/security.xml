@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo noupdate="0">
+
+        <record id="message_spv_comp_rule" model="ir.rule">
+            <field name="name">Message SPV</field>
+            <field name="model_id" ref="model_l10n_ro_message_spv" />
+            <field
+            name="domain_force"
+        >[('company_id', 'in', company_ids + [False])]</field>
+        </record>
+
+
+</odoo>
