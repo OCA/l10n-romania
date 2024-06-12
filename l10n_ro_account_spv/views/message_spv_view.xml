@@ -7,7 +7,7 @@
         <field name="model">l10n.ro.message.spv</field>
         <field name="type">tree</field>
         <field name="arch" type="xml">
-            <tree>
+            <tree js_class="message_spv_tree">
                  <header>
                     <button
                         name="get_invoice_from_move"

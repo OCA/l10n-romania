@@ -12,6 +12,11 @@
         "data/ir_cron_data.xml",
         "views/message_spv_view.xml",
     ],
+    "assets": {
+        "web.assets_backend": [
+            "l10n_ro_account_spv/static/src/js/message_spv.js",
+        ],
+    },
     "license": "AGPL-3",
     "version": "15.0.1.0.0",
     "author": "Terrabit," "NextERP Romania," "Odoo Community Association (OCA)",
