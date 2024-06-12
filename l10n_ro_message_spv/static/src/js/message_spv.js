@@ -13,7 +13,7 @@ odoo.define("account.message.spv.tree", function (require) {
         );
         refresh_button.find("button").on("click", function () {
             self.do_action(
-                "l10n_ro_account_spv.ir_cron_res_company_download_message_spv_ir_actions_server",
+                "l10n_ro_message_spv.ir_cron_res_company_download_message_spv_ir_actions_server",
                 {}
             );
         });

@@ -119,6 +119,7 @@
         <field name="type">search</field>
         <field name="arch" type="xml">
             <search>
+                <field name="ref" />
                 <field name="name" />
                 <field name="message_type" />
                 <field name="date" />
