@@ -42,6 +42,7 @@ class ResCompany(models.Model):
     l10n_ro_credit_note_einvoice = fields.Boolean(
         string="Credit Note on e-invoice", default=False
     )
+    l10n_ro_render_anaf_pdf = fields.Boolean(string="Render Anaf PDF", default=False)
 
     @api.constrains("l10n_ro_edi_residence", "l10n_ro_download_einvoices_days")
     def _check_l10n_ro_edi_residence(self):

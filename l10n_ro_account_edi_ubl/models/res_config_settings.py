@@ -51,3 +51,8 @@ class ResConfigSettings(models.TransientModel):
         readonly=False,
         string="Credit Note on e-invoice.",
     )
+    l10n_ro_render_anaf_pdf = fields.Boolean(
+        related="company_id.l10n_ro_render_anaf_pdf",
+        readonly=False,
+        string="Render Anaf PDF",
+    )

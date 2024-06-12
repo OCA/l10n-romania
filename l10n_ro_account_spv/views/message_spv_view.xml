@@ -35,6 +35,7 @@
                     widget="badge"
                     decoration-success="state == 'done'"
                     decoration-info="state == 'downloaded'"
+                    decoration-primary="state == 'invoice'"
                 />
             </tree>
         </field>
@@ -78,6 +79,7 @@
                             widget="badge"
                             decoration-success="state == 'done'"
                             decoration-info="state == 'downloaded'"
+                            decoration-primary="state == 'invoice'"
                         />
                     </group>
                     <group>

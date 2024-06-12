@@ -51,6 +51,7 @@ class MessageSPV(models.Model):
     )
     file_name = fields.Char(string="File Name")
     attachment_id = fields.Many2one("ir.attachment", string="Attachment")
+    attachment_xml_id = fields.Many2one("ir.attachment", string="Attachment XML")
 
     def download_from_spv(self):
         """Rutina de descarcare a fisierelor de la SPV"""
@@ -158,6 +159,7 @@ class MessageSPV(models.Model):
             new_invoice = move_obj.with_context(default_move_type="in_invoice").create(
                 {
                     "name": "/",
+                    "partner_id": message.partner_id.id,
                     "l10n_ro_edi_download": message.name,
                     "l10n_ro_edi_transaction": message.request_id,
                 }
