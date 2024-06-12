@@ -42,6 +42,7 @@ class ResCompany(models.Model):
     l10n_ro_credit_note_einvoice = fields.Boolean(
         string="Credit Note on e-invoice", default=False
     )
+    l10n_ro_render_anaf_pdf = fields.Boolean(string="Render Anaf PDF", default=False)
 
     @api.constrains("l10n_ro_edi_residence", "l10n_ro_download_einvoices_days")
     def _check_l10n_ro_edi_residence(self):
@@ -96,8 +97,9 @@ class ResCompany(models.Model):
             "pagina": pagina,
             "startTime": start_time,
             "endTime": end_time,
-            "filtru": filtru,
         }
+        if filtru:
+            params["filtru"] = filtru
         content, status_code = anaf_config._l10n_ro_einvoice_call(
             "/listaMesajePaginatieFactura", params, method="GET"
         )
@@ -135,6 +137,7 @@ class ResCompany(models.Model):
         for company in ro_companies:
             move_obj = self.env["account.move"].with_company(company)
             company_messages = company._l10n_ro_get_anaf_efactura_messages(filtru="P")
+            anaf_config = company._l10n_ro_get_anaf_sync(scope="e-factura")
             for message in company_messages:
                 if company.l10n_ro_download_einvoices_start_date:
                     if message.get("data_creare"):
@@ -160,9 +163,7 @@ class ResCompany(models.Model):
                     )
                     new_invoice = new_invoice._l10n_ro_prepare_invoice_for_download()
                     try:
-                        new_invoice.l10n_ro_download_zip_anaf(
-                            company._l10n_ro_get_anaf_sync(scope="e-factura")
-                        )
+                        new_invoice.l10n_ro_download_zip_anaf(anaf_config)
                     except Exception as e:
                         new_invoice.message_post(
                             body=_("Error downloading e-invoice: %s") % str(e)
