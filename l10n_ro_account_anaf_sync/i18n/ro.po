@@ -6,13 +6,16 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 14.0\n"
 "Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: \n"
+"PO-Revision-Date: \n"
 "Last-Translator: \n"
 "Language-Team: \n"
-"Language: \n"
+"Language: ro\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
-"Content-Transfer-Encoding: \n"
+"Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: \n"
+"X-Generator: Poedit 3.0.1\n"
 
 #. module: l10n_ro_account_anaf_sync
 #: model:ir.model.fields,help:l10n_ro_account_anaf_sync.field_l10n_ro_account_anaf_sync__response_secret
@@ -27,12 +30,12 @@ msgstr "Răspuns ANAF"
 #. module: l10n_ro_account_anaf_sync
 #: model:ir.model.fields,field_description:l10n_ro_account_anaf_sync.field_l10n_ro_account_anaf_sync_scope__anaf_sync_production_url
 msgid "API production URL"
-msgstr ""
+msgstr "Adresa URL de producție API"
 
 #. module: l10n_ro_account_anaf_sync
 #: model:ir.model.fields,field_description:l10n_ro_account_anaf_sync.field_l10n_ro_account_anaf_sync_scope__anaf_sync_test_url
 msgid "API test URL"
-msgstr ""
+msgstr "Adresa URL de testare API"
 
 #. module: l10n_ro_account_anaf_sync
 #: model:ir.model.fields,field_description:l10n_ro_account_anaf_sync.field_l10n_ro_account_anaf_sync__access_token
@@ -49,7 +52,7 @@ msgstr "Cont ANAF Sync"
 #. module: l10n_ro_account_anaf_sync
 #: model:ir.model,name:l10n_ro_account_anaf_sync.model_l10n_ro_account_anaf_sync_scope
 msgid "Account ANAF Sync Scope"
-msgstr ""
+msgstr "Contul ANAF sincronizare domeniu"
 
 #. module: l10n_ro_account_anaf_sync
 #: model:ir.model.fields,field_description:l10n_ro_account_anaf_sync.field_l10n_ro_account_anaf_sync__message_needaction
@@ -70,17 +73,17 @@ msgstr "Anaf Oauth Url"
 #. module: l10n_ro_account_anaf_sync
 #: model:ir.model.fields,field_description:l10n_ro_account_anaf_sync.field_l10n_ro_account_anaf_sync__anaf_scope_ids
 msgid "Anaf Scope"
-msgstr ""
+msgstr "Scopul Anaf"
 
 #. module: l10n_ro_account_anaf_sync
 #: model:ir.model.fields,field_description:l10n_ro_account_anaf_sync.field_l10n_ro_account_anaf_sync_scope__anaf_sync_id
 msgid "Anaf Sync"
-msgstr ""
+msgstr "Sincronizare Anaf"
 
 #. module: l10n_ro_account_anaf_sync
 #: model:ir.model.fields,field_description:l10n_ro_account_anaf_sync.field_l10n_ro_account_anaf_sync_scope__anaf_sync_url
 msgid "Anaf Sync Url"
-msgstr ""
+msgstr "Anaf sincronizare Url"
 
 #. module: l10n_ro_account_anaf_sync
 #: model_terms:ir.ui.view,arch_db:l10n_ro_account_anaf_sync.view_l10n_ro_account_anaf_sync_form
@@ -178,13 +181,13 @@ msgstr "Eroare, această configurație ANAF nu există!"
 #: model:ir.model.fields,field_description:l10n_ro_account_anaf_sync.field_l10n_ro_account_anaf_sync__message_follower_ids
 #: model:ir.model.fields,field_description:l10n_ro_account_anaf_sync.field_l10n_ro_account_anaf_sync_scope__message_follower_ids
 msgid "Followers"
-msgstr "Urmaritori"
+msgstr "Urmăritori"
 
 #. module: l10n_ro_account_anaf_sync
 #: model:ir.model.fields,field_description:l10n_ro_account_anaf_sync.field_l10n_ro_account_anaf_sync__message_partner_ids
 #: model:ir.model.fields,field_description:l10n_ro_account_anaf_sync.field_l10n_ro_account_anaf_sync_scope__message_partner_ids
 msgid "Followers (Partners)"
-msgstr "Urmaritori (Parteneri)"
+msgstr "Urmăritori (Parteneri)"
 
 #. module: l10n_ro_account_anaf_sync
 #: model:ir.model.fields,help:l10n_ro_account_anaf_sync.field_l10n_ro_account_anaf_sync__client_id
@@ -201,7 +204,7 @@ msgstr "Obțineți token de pe site-ul Anaf (cu tokenul USB inserat)"
 #: model:ir.model.fields,field_description:l10n_ro_account_anaf_sync.field_l10n_ro_account_anaf_sync__has_message
 #: model:ir.model.fields,field_description:l10n_ro_account_anaf_sync.field_l10n_ro_account_anaf_sync_scope__has_message
 msgid "Has Message"
-msgstr ""
+msgstr "Are mesaj"
 
 #. module: l10n_ro_account_anaf_sync
 #: model:ir.model.fields,field_description:l10n_ro_account_anaf_sync.field_l10n_ro_account_anaf_sync__id
@@ -225,13 +228,13 @@ msgstr "Dacă sunt bifate, unele mesaje au o eroare de livrare."
 #: model:ir.model.fields,field_description:l10n_ro_account_anaf_sync.field_l10n_ro_account_anaf_sync__message_is_follower
 #: model:ir.model.fields,field_description:l10n_ro_account_anaf_sync.field_l10n_ro_account_anaf_sync_scope__message_is_follower
 msgid "Is Follower"
-msgstr "Este urmaritor"
+msgstr "Este urmăritor"
 
 #. module: l10n_ro_account_anaf_sync
 #: model:ir.model.fields,field_description:l10n_ro_account_anaf_sync.field_l10n_ro_account_anaf_sync__is_l10n_ro_record
 #: model:ir.model.fields,field_description:l10n_ro_account_anaf_sync.field_l10n_ro_account_anaf_sync_scope__is_l10n_ro_record
 msgid "Is Romanian Record"
-msgstr "Inregistrare Romania"
+msgstr "Înregistrare România"
 
 #. module: l10n_ro_account_anaf_sync
 #: model:ir.model.fields,field_description:l10n_ro_account_anaf_sync.field_l10n_ro_account_anaf_sync____last_update
@@ -279,7 +282,7 @@ msgstr "Mesaje"
 #: code:addons/l10n_ro_account_anaf_sync/controllers/anaf_oauth.py:0
 #, python-format
 msgid "No ANAF config was found for this company."
-msgstr ""
+msgstr "Nu a fost găsită nicio configurație ANAF pentru această companie."
 
 #. module: l10n_ro_account_anaf_sync
 #. odoo-python
@@ -308,7 +311,7 @@ msgstr "Numărul de erori"
 #: model:ir.model.fields,help:l10n_ro_account_anaf_sync.field_l10n_ro_account_anaf_sync__message_needaction_counter
 #: model:ir.model.fields,help:l10n_ro_account_anaf_sync.field_l10n_ro_account_anaf_sync_scope__message_needaction_counter
 msgid "Number of messages requiring action"
-msgstr ""
+msgstr "Numărul de mesaje care necesită acțiune"
 
 #. module: l10n_ro_account_anaf_sync
 #: model:ir.model.fields,help:l10n_ro_account_anaf_sync.field_l10n_ro_account_anaf_sync__message_has_error_counter
@@ -319,7 +322,7 @@ msgstr "Numărul de mesaje cu eroare de livrare"
 #. module: l10n_ro_account_anaf_sync
 #: model:ir.model.fields.selection,name:l10n_ro_account_anaf_sync.selection__l10n_ro_account_anaf_sync_scope__state__production
 msgid "Production"
-msgstr ""
+msgstr "Producție"
 
 #. module: l10n_ro_account_anaf_sync
 #: model:ir.model.fields,help:l10n_ro_account_anaf_sync.field_l10n_ro_account_anaf_sync__access_token
@@ -337,7 +340,7 @@ msgstr ""
 #. module: l10n_ro_account_anaf_sync
 #: model_terms:ir.ui.view,arch_db:l10n_ro_account_anaf_sync.view_l10n_ro_account_anaf_sync_form
 msgid "Refresh Access Token"
-msgstr ""
+msgstr "Actualizează accesul Token"
 
 #. module: l10n_ro_account_anaf_sync
 #: model:ir.model.fields,field_description:l10n_ro_account_anaf_sync.field_l10n_ro_account_anaf_sync__refresh_token
@@ -347,29 +350,29 @@ msgstr "Refresh Token"
 #. module: l10n_ro_account_anaf_sync
 #: model:ir.model.fields,field_description:l10n_ro_account_anaf_sync.field_l10n_ro_account_anaf_sync__response_secret
 msgid "Response Secret"
-msgstr "Response Secret"
+msgstr "Răspuns secret"
 
 #. module: l10n_ro_account_anaf_sync
 #: model_terms:ir.ui.view,arch_db:l10n_ro_account_anaf_sync.view_l10n_ro_account_anaf_sync_form
 msgid "Revoke Access Token"
-msgstr "Revocati Access Token"
+msgstr "Revocați Access Token"
 
 #. module: l10n_ro_account_anaf_sync
 #. odoo-python
 #: code:addons/l10n_ro_account_anaf_sync/models/l10n_ro_account_anaf_sync.py:0
 #, python-format
 msgid "Revoke token response: %s"
-msgstr "Raspuns revocare Access Token: %s"
+msgstr "Răspuns revocare Access Token: %s"
 
 #. module: l10n_ro_account_anaf_sync
 #: model:ir.model.fields,field_description:l10n_ro_account_anaf_sync.field_l10n_ro_account_anaf_sync_scope__scope
 msgid "Scope"
-msgstr ""
+msgstr "Scop"
 
 #. module: l10n_ro_account_anaf_sync
 #: model_terms:ir.ui.view,arch_db:l10n_ro_account_anaf_sync.view_l10n_ro_account_anaf_sync_form
 msgid "Services"
-msgstr ""
+msgstr "Servicii"
 
 #. module: l10n_ro_account_anaf_sync
 #: model:ir.model.fields,field_description:l10n_ro_account_anaf_sync.field_l10n_ro_account_anaf_sync__state
@@ -388,7 +391,7 @@ msgstr "Test"
 #: code:addons/l10n_ro_account_anaf_sync/models/l10n_ro_account_anaf_sync.py:0
 #, python-format
 msgid "Test token response: %s"
-msgstr "Raspuns test token: %s"
+msgstr "Răspuns test token: %s"
 
 #. module: l10n_ro_account_anaf_sync
 #. odoo-python
@@ -443,7 +446,7 @@ msgstr "Istoricul comunicării site-ului"
 #: code:addons/l10n_ro_account_anaf_sync/models/l10n_ro_account_anaf_sync.py:0
 #, python-format
 msgid "You already have an ANAF access token. Please revoke it first."
-msgstr ""
+msgstr "Aveți deja un token de acces ANAF. Vă rugăm să o revocați mai întâi."
 
 #. module: l10n_ro_account_anaf_sync
 #. odoo-python
@@ -476,6 +479,7 @@ msgstr "Nu aveți un token de acces ANAF. Vă rugăm să-l generati mai întâi.
 #, python-format
 msgid "You don't have ANAF refresh token. Please get it first."
 msgstr ""
+"Nu aveți token de reîmprospătare ANAF. Vă rugăm să-l primiți mai întâi."
 
 #~ msgid "Anaf Einvoice Sync Url"
 #~ msgstr "Anaf Einvoice Sync Url"

@@ -6,16 +6,17 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 14.0\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2024-04-26 19:35+0000\n"
+"POT-Creation-Date: \n"
+"PO-Revision-Date: 2024-05-22 12:25+0300\n"
 "Last-Translator: Dorin Hongu <dhongu@gmail.com>\n"
 "Language-Team: none\n"
 "Language: ro\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
-"Content-Transfer-Encoding: \n"
+"Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=n==1 ? 0 : (n==0 || (n%100 > 0 && n%100 < "
 "20)) ? 1 : 2;\n"
-"X-Generator: Weblate 4.17\n"
+"X-Generator: Poedit 3.0.1\n"
 
 #. module: l10n_ro_config
 #: model_terms:ir.ui.view,arch_db:l10n_ro_config.res_config_settings_view_form
@@ -42,14 +43,14 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:l10n_ro_config.res_config_settings_account_view_form
 msgid ""
 "<span class=\"o_form_label\">Default Services Taxes</span>\n"
-"                        <span class=\"fa fa-lg fa-building-o\" title="
-"\"Values set here are company-specific.\" aria-label=\"Values set here are "
-"company-specific.\" groups=\"base.group_multi_company\" role=\"img\"/>"
+"                        <span class=\"fa fa-lg fa-building-o\" "
+"title=\"Values set here are company-specific.\" aria-label=\"Values set here "
+"are company-specific.\" groups=\"base.group_multi_company\" role=\"img\"/>"
 msgstr ""
 "<span class=\"o_form_label\">Taxe implicite pentru servicii</span>\n"
-"                        <span class=\"fa fa-lg fa-building-o\" title="
-"\"Valoarea este specifică companiei\" aria-label=\"Valoarea este specifică "
-"companiei\" groups=\"base.group_multi_company\" role=\"img\"/>"
+"                        <span class=\"fa fa-lg fa-building-o\" "
+"title=\"Valoarea este specifică companiei\" aria-label=\"Valoarea este "
+"specifică companiei\" groups=\"base.group_multi_company\" role=\"img\"/>"
 
 #. module: l10n_ro_config
 #: model_terms:ir.ui.view,arch_db:l10n_ro_config.banks
@@ -95,7 +96,7 @@ msgstr "Cont Sincronizare ANAF"
 #. module: l10n_ro_config
 #: model:ir.model.fields,field_description:l10n_ro_config.field_res_config_settings__module_l10n_ro_account
 msgid "Account Base"
-msgstr ""
+msgstr "Bază de cont"
 
 #. module: l10n_ro_config
 #: model_terms:ir.ui.view,arch_db:l10n_ro_config.res_config_settings_view_form
@@ -108,14 +109,14 @@ msgid ""
 "Add a mechanism to close Incomes, Expense, VAT on a period\n"
 "                                        based."
 msgstr ""
-"Adăugați un mecanism pentru a închide Veniturile, Cheltuielile, TVA-ul pe "
+"Adaugă un mecanism pentru a închide Veniturile, Cheltuielile, TVA-ul pe "
 "baza perioadei."
 
 #. module: l10n_ro_config
 #: model_terms:ir.ui.view,arch_db:l10n_ro_config.res_config_settings_view_form
 msgid "Add a stock sheet report for products grouped by Location, Account."
 msgstr ""
-"Adăugați un raport de stoc pentru produsele grupate după Locație, Cont."
+"Adaugă un raport de stoc pentru produsele grupate după Locație, Cont."
 
 #. module: l10n_ro_config
 #: model_terms:ir.ui.view,arch_db:l10n_ro_config.res_config_settings_view_form
@@ -124,7 +125,7 @@ msgid ""
 "                                        position with the one defined in "
 "settings depending on the partner and invoice."
 msgstr ""
-"Adăugați un câmp de TVA la plată în parteneri, schimbați poziția fiscală cu "
+"Adaugă un câmp de TVA la plată în parteneri, schimba poziția fiscală cu "
 "cea definită în setări în funcție de partener și factură."
 
 #. module: l10n_ro_config
@@ -133,18 +134,18 @@ msgid ""
 "Add company field for no signature, update invoice report for\n"
 "                                        multi currency."
 msgstr ""
-"Adăugați câmpul companiei pentru nicio semnătură, actualizați raportul de "
+"Adaugă câmpul companiei pentru text semnătură, actualizare raportul de "
 "factură pentru multi-valută."
 
 #. module: l10n_ro_config
 #: model_terms:ir.ui.view,arch_db:l10n_ro_config.res_config_settings_view_form
 msgid "Add predefined layouts to stock reports."
-msgstr "Adăugați aspecte predefinite la rapoartele de stoc."
+msgstr "Adaugă aspecte predefinite la rapoartele de stoc."
 
 #. module: l10n_ro_config
 #: model_terms:ir.ui.view,arch_db:l10n_ro_config.res_config_settings_view_form
 msgid "Add valued reports for stock operations."
-msgstr "Adăugați rapoarte valorice pentru operațiile de stoc."
+msgstr "Adaugă rapoarte valorice pentru operațiile de stoc."
 
 #. module: l10n_ro_config
 #: model_terms:ir.ui.view,arch_db:l10n_ro_config.res_config_settings_view_form
@@ -193,7 +194,7 @@ msgstr "Raport de extras bancar"
 #. module: l10n_ro_config
 #: model_terms:ir.ui.view,arch_db:l10n_ro_config.res_config_settings_view_form
 msgid "Bank Statements"
-msgstr ""
+msgstr "Declarații bancare"
 
 #. module: l10n_ro_config
 #: model:ir.model,name:l10n_ro_config.model_res_company
@@ -203,7 +204,7 @@ msgstr "Companii"
 #. module: l10n_ro_config
 #: model_terms:ir.ui.view,arch_db:l10n_ro_config.res_config_settings_view_form
 msgid "Complete also staircase in extended address for partners."
-msgstr ""
+msgstr "Completați și scara în adresa extinsă pentru parteneri."
 
 #. module: l10n_ro_config
 #: model:ir.model,name:l10n_ro_config.model_res_config_settings
@@ -237,12 +238,12 @@ msgid ""
 "                                        currency rate."
 msgstr ""
 "Cursul valutar din factură este editabil, astfel încât să puteți utiliza "
-"propriul"
+"un curs valutar diferit."
 
 #. module: l10n_ro_config
 #: model:ir.model.fields.selection,name:l10n_ro_config.selection__account_journal__l10n_ro_sequence_type__autoinv1
 msgid "Customer Auto Invoicing"
-msgstr ""
+msgstr "Auto Facturare Client"
 
 #. module: l10n_ro_config
 #: model_terms:ir.ui.view,arch_db:l10n_ro_config.res_config_settings_account_view_form
@@ -263,17 +264,19 @@ msgstr ""
 #. module: l10n_ro_config
 #: model:ir.model.fields,field_description:l10n_ro_config.field_account_journal__l10n_ro_fiscal_receipt
 msgid "Fiscal Receipts Journal"
-msgstr ""
+msgstr "Jurnal de bonuri fiscale"
 
 #. module: l10n_ro_config
 #: model_terms:ir.ui.view,arch_db:l10n_ro_config.res_config_settings_view_form
 msgid "Generate e-invoice xml and send it manually or automaticaly to ANAF."
 msgstr ""
+"Generați xml de factură electronică și trimiteți-l manual sau automat către "
+"ANAF."
 
 #. module: l10n_ro_config
 #: model_terms:ir.ui.view,arch_db:l10n_ro_config.res_config_settings_view_form
 msgid "Generate e-transport xml and send it manually or automaticaly to ANAF."
-msgstr ""
+msgstr "Generați xml e-transport și trimiteți-l manual sau automat către ANAF."
 
 #. module: l10n_ro_config
 #: model_terms:ir.ui.view,arch_db:l10n_ro_config.res_config_settings_view_form
@@ -291,6 +294,18 @@ msgid ""
 "                                            applied strictly on a location "
 "level (including its children)"
 msgstr ""
+"Dacă acest câmp este bifat și compania folosește Contabilitatea românească,\n"
+"                                            valoarea utilizată pentru "
+"operațiunile de descarcare a stocurilor va fi valoarea înregistrată la\n"
+"                                            recepția lotului/serialului, "
+"ignorând regula FIFO;\n"
+"                                            Dacă acest câmp NU este bifat și "
+"compania folosește Contabilitatea românească,\n"
+"                                            valoarea utilizată pentru "
+"operațiunile de descarcare a stocurilor va fi valoarea furnizată de FIFO\n"
+"                                            regulă,\n"
+"                                            aplicat strict la nivel de "
+"locație (inclusiv copiii săi)"
 
 #. module: l10n_ro_config
 #: model:ir.model.fields,help:l10n_ro_config.field_res_company__l10n_ro_stock_acc_price_diff
@@ -302,7 +317,7 @@ msgid ""
 msgstr ""
 "Dacă acest câmp este bifat și compania utilizează Contabilitatea Românească, "
 "diferențele de curs valutar dintre recepție și factură se vor reflecta în "
-"evaluarea stocului."
+"valoarea stocului."
 
 #. module: l10n_ro_config
 #: model:ir.model.fields,help:l10n_ro_config.field_res_company__l10n_ro_stock_account_svl_lot_allocation
@@ -370,12 +385,12 @@ msgstr "Jurnal"
 #. module: l10n_ro_config
 #: model:ir.model,name:l10n_ro_config.model_account_move_line
 msgid "Journal Item"
-msgstr ""
+msgstr "Element jurnal"
 
 #. module: l10n_ro_config
 #: model:ir.model.fields,field_description:l10n_ro_config.field_res_config_settings__l10n_ro_stock_account_svl_lot_allocation_visible
 msgid "L10N Ro Stock Account Svl Lot Allocation Visible"
-msgstr ""
+msgstr "Cont de stoc Svl Alocare lot Vizibil L10N Ro"
 
 #. module: l10n_ro_config
 #: model_terms:ir.ui.view,arch_db:l10n_ro_config.res_config_settings_view_form
@@ -385,6 +400,10 @@ msgid ""
 "                                        and\n"
 "                                        accounts."
 msgstr ""
+"Marcați operațiunile de stoc ca operațiuni de notificare. Contabilitatea "
+"stocurilor se va modifica pentru utilizare\n"
+"                                        și\n"
+"                                        conturi."
 
 #. module: l10n_ro_config
 #: model:ir.model,name:l10n_ro_config.model_ir_ui_menu
@@ -403,7 +422,7 @@ msgstr ""
 #: code:addons/l10n_ro_config/models/res_config_settings.py:0
 #, python-format
 msgid "Notification !"
-msgstr ""
+msgstr "Notificare!"
 
 #. module: l10n_ro_config
 #: model:ir.model.fields,field_description:l10n_ro_config.field_res_config_settings__module_l10n_ro_fiscal_validation
@@ -470,7 +489,7 @@ msgstr ""
 #. module: l10n_ro_config
 #: model_terms:ir.ui.view,arch_db:l10n_ro_config.res_config_settings_view_form
 msgid "Register non deductible VAT in accounting and stock operations."
-msgstr ""
+msgstr "Înregistrați TVA nedeductibilă în contabilitate și operațiuni de stoc."
 
 #. module: l10n_ro_config
 #: model_terms:ir.ui.view,arch_db:l10n_ro_config.res_config_settings_view_form
@@ -481,13 +500,13 @@ msgstr "Înregistrați sincronizarea oAuth cu site-ul ANAF."
 #: model:ir.model.fields,field_description:l10n_ro_config.field_res_company__l10n_ro_restrict_stock_move_date_future
 #: model:ir.model.fields,field_description:l10n_ro_config.field_res_config_settings__l10n_ro_restrict_stock_move_date_future
 msgid "Restrict Stock Move Date Future"
-msgstr ""
+msgstr "Restricționați stocul de date mutare viitor"
 
 #. module: l10n_ro_config
 #: model:ir.model.fields,field_description:l10n_ro_config.field_res_company__l10n_ro_restrict_stock_move_date_last_month
 #: model:ir.model.fields,field_description:l10n_ro_config.field_res_config_settings__l10n_ro_restrict_stock_move_date_last_month
 msgid "Restrict Stock Move Date Last Month"
-msgstr ""
+msgstr "Restricționați data mutării stocului luna trecută"
 
 #. module: l10n_ro_config
 #: model:ir.model.fields,help:l10n_ro_config.field_res_company__l10n_ro_restrict_stock_move_date_last_month
@@ -505,7 +524,7 @@ msgstr "Restricționați postarea mișcării de stoc cu data viitoare."
 #. module: l10n_ro_config
 #: model_terms:ir.ui.view,arch_db:l10n_ro_config.view_account_bank_journal_form
 msgid "Ro Auto Invoicing"
-msgstr ""
+msgstr "Ro Auto Facturare"
 
 #. module: l10n_ro_config
 #: model_terms:ir.ui.view,arch_db:l10n_ro_config.res_config_settings_view_form
@@ -576,7 +595,7 @@ msgstr "Poziția fiscală pentru TVA la plată"
 #: model:ir.model.fields,field_description:l10n_ro_config.field_res_company__l10n_ro_nondeductible_account_id
 #: model:ir.model.fields,field_description:l10n_ro_config.field_res_config_settings__l10n_ro_nondeductible_account_id
 msgid "Romania - Non Deductible Expense Account"
-msgstr ""
+msgstr "România - Cont de cheltuieli nedeductibile"
 
 #. module: l10n_ro_config
 #: model:ir.model.fields,field_description:l10n_ro_config.field_res_company__l10n_ro_property_uneligible_tax_account_id
@@ -618,7 +637,7 @@ msgstr "Capital social"
 #: model:ir.model.fields,field_description:l10n_ro_config.field_res_company__l10n_ro_stock_account_svl_lot_allocation
 #: model:ir.model.fields,field_description:l10n_ro_config.field_res_config_settings__l10n_ro_stock_account_svl_lot_allocation
 msgid "Romania - Stock Accounting Valuation Lot/Serial allocation"
-msgstr ""
+msgstr "România - Evaluare Stoc Contabilitate Lot/Alocare în serie"
 
 #. module: l10n_ro_config
 #: model:ir.model.fields,field_description:l10n_ro_config.field_res_company__l10n_ro_stock_acc_price_diff
@@ -700,17 +719,17 @@ msgstr "Adresa extinsă"
 #. module: l10n_ro_config
 #: model:ir.model.fields,field_description:l10n_ro_config.field_res_config_settings__module_l10n_ro_nondeductible_vat
 msgid "Romanian Nondeductible VAT"
-msgstr ""
+msgstr "Nedeductibilă VAT"
 
 #. module: l10n_ro_config
 #: model:ir.model.fields,field_description:l10n_ro_config.field_res_config_settings__module_l10n_ro_pos
 msgid "Romanian POS"
-msgstr ""
+msgstr "POS românesc"
 
 #. module: l10n_ro_config
 #: model:ir.model.fields,field_description:l10n_ro_config.field_res_config_settings__module_l10n_ro_payment_receipt_report
 msgid "Romanian Payment Receipt Report"
-msgstr ""
+msgstr "Raport chitanță de plată "
 
 #. module: l10n_ro_config
 #: model:ir.model.fields,field_description:l10n_ro_config.field_res_config_settings__module_l10n_ro_siruta
@@ -725,32 +744,32 @@ msgstr "Stoc"
 #. module: l10n_ro_config
 #: model:ir.model.fields,field_description:l10n_ro_config.field_res_config_settings__module_l10n_ro_stock_account_notice
 msgid "Romanian Stock Account Notice"
-msgstr ""
+msgstr "Notificare privind contul de stoc"
 
 #. module: l10n_ro_config
 #: model:ir.model.fields,field_description:l10n_ro_config.field_res_config_settings__module_l10n_ro_stock_account_reception_in_progress
 msgid "Romanian Stock Account Reception In Progress"
-msgstr ""
+msgstr "Recepție cont de stoc în curs"
 
 #. module: l10n_ro_config
 #: model:ir.model.fields,field_description:l10n_ro_config.field_res_config_settings__module_l10n_ro_stock_account
 msgid "Romanian Stock Accounting"
-msgstr ""
+msgstr "Contabilitatea stocurilor"
 
 #. module: l10n_ro_config
 #: model:ir.model.fields,field_description:l10n_ro_config.field_res_config_settings__module_l10n_ro_stock_account_date
 msgid "Romanian Stock Accounting Date"
-msgstr ""
+msgstr "Data contabilității stocului"
 
 #. module: l10n_ro_config
 #: model:ir.model.fields,field_description:l10n_ro_config.field_res_config_settings__module_l10n_ro_stock_account_date_wizard
 msgid "Romanian Stock Accounting Date Wizard"
-msgstr ""
+msgstr "Expert Data contabilității stocurilor"
 
 #. module: l10n_ro_config
 #: model:ir.model.fields,field_description:l10n_ro_config.field_res_config_settings__module_l10n_ro_stock_account_mrp
 msgid "Romanian Stock Accounting MRP"
-msgstr ""
+msgstr "Contabilitate stoc MRP"
 
 #. module: l10n_ro_config
 #: model:ir.model.fields,field_description:l10n_ro_config.field_res_config_settings__module_l10n_ro_stock_price_difference
@@ -760,17 +779,17 @@ msgstr "Diferența de preț în contabilitate stoc"
 #. module: l10n_ro_config
 #: model:ir.model.fields,field_description:l10n_ro_config.field_res_config_settings__module_l10n_ro_stock_picking_comment_template
 msgid "Romanian Stock Picking Comment Template"
-msgstr ""
+msgstr "Șablon de comentariu pentru alegerea stocurilor"
 
 #. module: l10n_ro_config
 #: model:ir.model.fields,field_description:l10n_ro_config.field_res_config_settings__module_l10n_ro_stock_picking_valued_report
 msgid "Romanian Stock Picking Valued Report"
-msgstr ""
+msgstr "Raport de evaluare a stocurilor"
 
 #. module: l10n_ro_config
 #: model:ir.model.fields,field_description:l10n_ro_config.field_res_config_settings__module_l10n_ro_stock_report
 msgid "Romanian Stock Report"
-msgstr ""
+msgstr "Raport de stoc"
 
 #. module: l10n_ro_config
 #: model_terms:ir.ui.view,arch_db:l10n_ro_config.res_config_settings_view_form
@@ -804,11 +823,14 @@ msgid ""
 "                                        All transactions will have the "
 "Accounting Date as the used date in stock."
 msgstr ""
+"Selectați Data contabilă în operațiunile de stoc.\n"
+"                                        Toate tranzacțiile vor avea Data "
+"contabilă ca dată utilizată în stoc."
 
 #. module: l10n_ro_config
 #: model_terms:ir.ui.view,arch_db:l10n_ro_config.res_config_settings_view_form
 msgid "Select a expense account"
-msgstr ""
+msgstr "Selectați un cont de cheltuieli"
 
 #. module: l10n_ro_config
 #: model_terms:ir.ui.view,arch_db:l10n_ro_config.res_config_settings_view_form
@@ -821,6 +843,9 @@ msgid ""
 "Select a service product that will be used in customs commission\n"
 "                                                registration in landed cost."
 msgstr ""
+"Selectați un produs de serviciu care va fi utilizat în comisionul vamal\n"
+"                                                înregistrare în cost "
+"debarcat."
 
 #. module: l10n_ro_config
 #: model_terms:ir.ui.view,arch_db:l10n_ro_config.res_config_settings_view_form
@@ -828,6 +853,9 @@ msgid ""
 "Select a service product that will be used in customs duty registration\n"
 "                                                in landed cost."
 msgstr ""
+"Selectați un produs de serviciu care va fi utilizat la înregistrarea taxelor "
+"vamale\n"
+"                                                în costul terenului."
 
 #. module: l10n_ro_config
 #: model_terms:ir.ui.view,arch_db:l10n_ro_config.res_config_settings_view_form
@@ -838,6 +866,12 @@ msgid ""
 "                                                An expense account needs to "
 "be set on product or product category."
 msgstr ""
+"Selectați un produs de serviciu care va fi utilizat în costul aterizat "
+"pentru înregistrare\n"
+"                                                Preț\n"
+"                                                diferențe.\n"
+"                                                Trebuie setat un cont de "
+"cheltuieli pentru produs sau categorie de produs."
 
 #. module: l10n_ro_config
 #: model_terms:ir.ui.view,arch_db:l10n_ro_config.res_config_settings_view_form
@@ -860,6 +894,8 @@ msgid ""
 "Set up a rule for unique partners based on vat, nrc and\n"
 "                                        company"
 msgstr ""
+"Stabiliți o regulă pentru partenerii unici bazată pe tva, nrc și\n"
+"                                        companie"
 
 #. module: l10n_ro_config
 #: model_terms:ir.ui.view,arch_db:l10n_ro_config.res_config_settings_view_form
@@ -869,7 +905,7 @@ msgstr "Stoc"
 #. module: l10n_ro_config
 #: model:ir.model.fields.selection,name:l10n_ro_config.selection__account_journal__l10n_ro_sequence_type__autoinv2
 msgid "Supplier  Auto Invoicing"
-msgstr ""
+msgstr "Facturare automată a furnizorului"
 
 #. module: l10n_ro_config
 #. odoo-python
@@ -877,6 +913,8 @@ msgstr ""
 #, python-format
 msgid "The values used for stock out operations will not follow FIFO rule!"
 msgstr ""
+"Valorile utilizate pentru operațiunile de epuizare a stocurilor nu vor "
+"respecta regula FIFO!"
 
 #. module: l10n_ro_config
 #: model_terms:ir.ui.view,arch_db:l10n_ro_config.res_config_settings_account_view_form
@@ -904,6 +942,13 @@ msgid ""
 "                                        a non deductible account set, this "
 "account will be used."
 msgstr ""
+"Acest cont va fi utilizat ca cont implicit de cheltuieli nedeductibile de "
+"la\n"
+"                                        linii de repartizare a taxelor "
+"marcate ca nedeductibile. Dacă contul de linie nu\n"
+"                                        avea\n"
+"                                        un set de cont nedeductibil, acest "
+"cont va fi utilizat."
 
 #. module: l10n_ro_config
 #: model:ir.model.fields,help:l10n_ro_config.field_res_company__l10n_ro_nondeductible_account_id
@@ -913,6 +958,9 @@ msgid ""
 "tax repartition lines marked as not deductible. If the line account does not "
 "have a non deductible account set, this account will be used."
 msgstr ""
+"Acest cont va fi utilizat ca cont implicit de cheltuieli nedeductibile din "
+"liniile de repartizare a taxelor marcate ca nedeductibile. Dacă contul de "
+"linie nu are setat un cont nedeductibil, acest cont va fi utilizat."
 
 #. module: l10n_ro_config
 #: model:ir.model.fields,help:l10n_ro_config.field_res_company__l10n_ro_property_stock_picking_custody_account_id
@@ -1010,22 +1058,25 @@ msgstr ""
 #. module: l10n_ro_config
 #: model:ir.model.fields,help:l10n_ro_config.field_res_config_settings__module_l10n_ro_dvi
 msgid "This allows you to manage the Romanian DVI."
-msgstr ""
+msgstr "Acest lucru vă permite să gestionați DVI-ul românesc."
 
 #. module: l10n_ro_config
 #: model:ir.model.fields,help:l10n_ro_config.field_res_config_settings__module_l10n_ro_etransport
 msgid "This allows you to manage the Romanian E-Transport."
-msgstr ""
+msgstr "Acest lucru vă permite să gestionați E-Transportul românesc."
 
 #. module: l10n_ro_config
 #: model:ir.model.fields,help:l10n_ro_config.field_res_config_settings__module_l10n_ro_nondeductible_vat
 msgid "This allows you to manage the Romanian Nondeductible VAT taxes."
 msgstr ""
+"Acest lucru vă permite să gestionați taxele VAT nedeductibile din România."
 
 #. module: l10n_ro_config
 #: model:ir.model.fields,help:l10n_ro_config.field_res_config_settings__module_l10n_ro_payment_receipt_report
 msgid "This allows you to manage the Romanian Payment Receipt Report."
 msgstr ""
+"Acest lucru vă permite să gestionați Raportul de chitanță de plată din "
+"România."
 
 #. module: l10n_ro_config
 #: model:ir.model.fields,help:l10n_ro_config.field_res_config_settings__module_l10n_ro_payment_to_statement
@@ -1034,6 +1085,9 @@ msgid ""
 "each payment will be generated a statement line. Pre-defined numbering for "
 "each receipt, cash in, cash out."
 msgstr ""
+"Acest lucru vă permite să gestionați operațiunile de plată la extras în "
+"România, pentru fiecare plată va fi generată o linie de extras. Numerotare "
+"predefinită pentru fiecare chitanță, încasări, încasări."
 
 #. module: l10n_ro_config
 #: model:ir.model.fields,help:l10n_ro_config.field_res_config_settings__module_l10n_ro_stock_account
@@ -1069,6 +1123,8 @@ msgstr ""
 msgid ""
 "This allows you to manage the small adjustemts for Romanian POS accounts."
 msgstr ""
+"Acest lucru vă permite să gestionați micile ajustări pentru conturile POS "
+"din România."
 
 #. module: l10n_ro_config
 #: model:ir.model.fields,help:l10n_ro_config.field_res_config_settings__module_l10n_ro_stock_account_notice
@@ -1076,6 +1132,8 @@ msgid ""
 "This allows you to manage the stock notice operations\n"
 "through an intermediary account defined in the settings, 408 and 418."
 msgstr ""
+"Acest lucru vă permite să gestionați operațiunile de notificare de stoc\n"
+"printr-un cont intermediar definit în setări, 408 și 418."
 
 #. module: l10n_ro_config
 #: model:ir.model.fields,help:l10n_ro_config.field_res_config_settings__module_l10n_ro_stock_picking_comment_template
@@ -1083,6 +1141,8 @@ msgid ""
 "This allows you to manage the stock picking comment template.The comment "
 "will be generated based on the picking type."
 msgstr ""
+"Acest lucru vă permite să gestionați șablonul de comentariu pentru alegerea "
+"stocurilor. Comentariul va fi generat în funcție de tipul de alegere."
 
 #. module: l10n_ro_config
 #: model:ir.model.fields,help:l10n_ro_config.field_res_config_settings__module_l10n_ro_stock_picking_valued_report
@@ -1090,6 +1150,8 @@ msgid ""
 "This allows you to manage the stock picking valued report.The report will be "
 "generated based on values from svl."
 msgstr ""
+"Acest lucru vă permite să gestionați raportul de evaluare a stocurilor. "
+"Raportul va fi generat pe baza valorilor din svl."
 
 #. module: l10n_ro_config
 #: model_terms:ir.ui.view,arch_db:l10n_ro_config.res_config_settings_view_form
@@ -1098,6 +1160,9 @@ msgid ""
 "                                        through an intermediary account "
 "defined for each account."
 msgstr ""
+"Acest lucru vă permite să gestionați recepția stocului în curs.\n"
+"                                        printr-un cont intermediar definit "
+"pentru fiecare cont."
 
 #. module: l10n_ro_config
 #: model:ir.model.fields,help:l10n_ro_config.field_res_config_settings__module_l10n_ro_stock_account_reception_in_progress
@@ -1105,6 +1170,8 @@ msgid ""
 "This allows you to manage the stock reception in progress.through an "
 "intermediary account defined for each account."
 msgstr ""
+"Acest lucru vă permite să gestionați recepția stocului în curs.printr-un "
+"cont intermediar definit pentru fiecare cont."
 
 #. module: l10n_ro_config
 #: model:ir.model.fields,help:l10n_ro_config.field_res_config_settings__module_l10n_ro_stock_report
@@ -1112,6 +1179,8 @@ msgid ""
 "This allows you to manage the stock reports.The report will be generated "
 "based on values from svl."
 msgstr ""
+"Acest lucru vă permite să gestionați rapoartele de stoc. Raportul va fi "
+"generat pe baza valorilor din svl."
 
 #. module: l10n_ro_config
 #: model:ir.model.fields,help:l10n_ro_config.field_res_config_settings__module_l10n_ro_fiscal_validation
@@ -1162,7 +1231,7 @@ msgstr "Acest lucru vă permite să setați cursul valutar în facturi.\n"
 #: model:ir.model.fields,help:l10n_ro_config.field_res_config_settings__module_l10n_ro_stock_account_mrp
 #: model_terms:ir.ui.view,arch_db:l10n_ro_config.res_config_settings_view_form
 msgid "This allows you to view SVL from Unbuild operations."
-msgstr ""
+msgstr "Acest lucru vă permite să vizualizați SVL din operațiunile Unbuild."
 
 #. module: l10n_ro_config
 #: model:ir.model.fields,help:l10n_ro_config.field_res_config_settings__module_l10n_ro_stock
@@ -1187,6 +1256,10 @@ msgid ""
 "This option allows you to manage account names based on Romanian format,\n"
 "                                        restriction on cash operations."
 msgstr ""
+"Această opțiune vă permite să gestionați nume de cont în funcție de formatul "
+"românesc,\n"
+"                                        restricție asupra operațiunilor cu "
+"numerar."
 
 #. module: l10n_ro_config
 #: model:ir.model.fields,help:l10n_ro_config.field_res_config_settings__module_l10n_ro_account
@@ -1194,21 +1267,23 @@ msgid ""
 "This option allows you to manage account names based on Romanian format, "
 "restriction on cash operations."
 msgstr ""
+"Această opțiune vă permite să gestionați nume de cont în funcție de format "
+"românesc, restricție asupra operațiunilor de numerar."
 
 #. module: l10n_ro_config
 #: model:ir.model.fields,help:l10n_ro_config.field_res_config_settings__module_l10n_ro_account_edi_ubl
 msgid "This option allows you to manage the EDI CIUS-RO format."
-msgstr ""
+msgstr "Această opțiune vă permite să gestionați formatul EDI CIUS-RO."
 
 #. module: l10n_ro_config
 #: model_terms:ir.ui.view,arch_db:l10n_ro_config.res_config_settings_view_form
 msgid "This option allows you to manage the bank statement report"
-msgstr ""
+msgstr "Această opțiune vă permite să gestionați raportul extras de cont"
 
 #. module: l10n_ro_config
 #: model:ir.model.fields,help:l10n_ro_config.field_res_config_settings__module_l10n_ro_account_bank_statement_report
 msgid "This option allows you to manage the bank statement report."
-msgstr ""
+msgstr "Această opțiune vă permite să gestionați raportul extras de cont."
 
 #. module: l10n_ro_config
 #: model:ir.model.fields,help:l10n_ro_config.field_res_config_settings__module_l10n_ro_account_bank_statement_import_mt940_alpha
@@ -1216,6 +1291,8 @@ msgid ""
 "This option allows you to manage the import of bank statements based on "
 "Alpha Bank format."
 msgstr ""
+"Această opțiune vă permite să gestionați importul extraselor bancare pe baza "
+"formatului Alpha Bank."
 
 #. module: l10n_ro_config
 #: model:ir.model.fields,help:l10n_ro_config.field_res_config_settings__module_l10n_ro_account_bank_statement_import_mt940_bcr
@@ -1223,6 +1300,8 @@ msgid ""
 "This option allows you to manage the import of bank statements based on BCR "
 "Bank format."
 msgstr ""
+"Această opțiune vă permite să gestionați importul extraselor bancare pe baza "
+"formatului BCR Bank."
 
 #. module: l10n_ro_config
 #: model:ir.model.fields,help:l10n_ro_config.field_res_config_settings__module_l10n_ro_account_bank_statement_import_mt940_brd
@@ -1230,6 +1309,8 @@ msgid ""
 "This option allows you to manage the import of bank statements based on BRD "
 "Bank format."
 msgstr ""
+"Această opțiune vă permite să gestionați importul extraselor bancare pe baza "
+"formatului BRD Bank."
 
 #. module: l10n_ro_config
 #: model:ir.model.fields,help:l10n_ro_config.field_res_config_settings__module_l10n_ro_account_bank_statement_import_mt940_ing
@@ -1237,6 +1318,8 @@ msgid ""
 "This option allows you to manage the import of bank statements based on ING "
 "Bank format."
 msgstr ""
+"Această opțiune vă permite să gestionați importul extraselor bancare pe baza "
+"formatului ING Bank."
 
 #. module: l10n_ro_config
 #: model:ir.model.fields,help:l10n_ro_config.field_res_config_settings__module_l10n_ro_account_bank_statement_import_mt940_rffsn
@@ -1244,6 +1327,8 @@ msgid ""
 "This option allows you to manage the import of bank statements based on "
 "RFFSN Bank format."
 msgstr ""
+"Această opțiune vă permite să gestionați importul extraselor bancare pe baza "
+"formatului RFFSN Bank."
 
 #. module: l10n_ro_config
 #: model:ir.model.fields,help:l10n_ro_config.field_res_config_settings__module_l10n_ro_account_anaf_sync
@@ -1295,6 +1380,8 @@ msgid ""
 "Tracking (Lot/Serial) has to be enabled first for all stockable and "
 "consumable products !"
 msgstr ""
+"Urmărirea (Lot/Serial) trebuie să fie activată mai întâi pentru toate "
+"produsele stocabile și consumabile!"
 
 #. module: l10n_ro_config
 #: model_terms:ir.ui.view,arch_db:l10n_ro_config.res_config_settings_view_form
@@ -1302,6 +1389,9 @@ msgid ""
 "Update partners data based on the vat code from ANAF website in\n"
 "                                        cron job."
 msgstr ""
+"Actualizați datele partenerilor pe baza codului de TVA de pe site-ul ANAF "
+"în\n"
+"                                        cron job."
 
 #. module: l10n_ro_config
 #: model_terms:ir.ui.view,arch_db:l10n_ro_config.res_config_settings_view_form
@@ -1310,6 +1400,9 @@ msgid ""
 "                                            between reception and bill. "
 "Value is company specific."
 msgstr ""
+"Actualizați evaluarea stocului în cazul unei diferențe de preț\n"
+"                                            intre receptie si factura. "
+"Valoarea este specifică companiei."
 
 #. module: l10n_ro_config
 #: model_terms:ir.ui.view,arch_db:l10n_ro_config.res_config_settings_view_form

@@ -7,14 +7,15 @@ msgstr ""
 "Project-Id-Version: Odoo Server 14.0+e\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-03-13 09:02+0000\n"
-"PO-Revision-Date: 2021-03-13 09:02+0000\n"
+"PO-Revision-Date: 2024-05-22 19:31+0300\n"
 "Last-Translator: \n"
 "Language-Team: \n"
-"Language: \n"
+"Language: ro\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
-"Content-Transfer-Encoding: \n"
+"Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: \n"
+"X-Generator: Poedit 3.0.1\n"
 
 #. module: l10n_ro_stock_report
 #: model:ir.actions.report,print_report_name:l10n_ro_stock_report.action_report_storage_sheet
@@ -25,11 +26,11 @@ msgstr "(object._get_report_base_filename())"
 #. module: l10n_ro_stock_report
 #: model_terms:ir.ui.view,arch_db:l10n_ro_stock_report.view_stock_sheet_report_form
 msgid ""
-"<i class=\"fa fa-long-arrow-right mx-2\" aria-label=\"Arrow icon\" title="
-"\"Arrow\"/>"
+"<i class=\"fa fa-long-arrow-right mx-2\" aria-label=\"Arrow icon\" "
+"title=\"Arrow\"/>"
 msgstr ""
-"<i class=\"fa fa-long-arrow-right mx-2\" aria-label=\"Arrow icon\" title="
-"\"Arrow\"/>"
+"<i class=\"fa fa-long-arrow-right mx-2\" aria-label=\"Arrow icon\" "
+"title=\"Arrow\"/>"
 
 #. module: l10n_ro_stock_report
 #: model_terms:ir.ui.view,arch_db:l10n_ro_stock_report.report_storage_sheet_report_all_base
@@ -57,7 +58,7 @@ msgstr "Cont"
 #: code:addons/l10n_ro_stock_report/report/stock_report.py:0
 #, python-format
 msgid "All Locations"
-msgstr ""
+msgstr "Toate locațiile"
 
 #. module: l10n_ro_stock_report
 #: model_terms:ir.ui.view,arch_db:l10n_ro_stock_report.report_storage_sheet_lines_header
@@ -67,7 +68,7 @@ msgstr "Valoare intrată"
 #. module: l10n_ro_stock_report
 #: model_terms:ir.ui.view,arch_db:l10n_ro_stock_report.report_storage_sheet_lines_header
 msgid "Amount Output"
-msgstr "Valoare iesită"
+msgstr "Valoare ieșită"
 
 #. module: l10n_ro_stock_report
 #: model_terms:ir.ui.view,arch_db:l10n_ro_stock_report.report_storage_sheet_lines_header
@@ -93,7 +94,7 @@ msgstr "Companie"
 #. module: l10n_ro_stock_report
 #: model:ir.model.fields.selection,name:l10n_ro_stock_report.selection__l10n_ro_stock_storage_sheet_line__valued_type__consumption
 msgid "Consumption"
-msgstr ""
+msgstr "Consum"
 
 #. module: l10n_ro_stock_report
 #: model:ir.model.fields,field_description:l10n_ro_stock_report.field_l10n_ro_stock_storage_sheet__create_uid
@@ -142,17 +143,17 @@ msgstr "Data"
 #. module: l10n_ro_stock_report
 #: model:ir.model.fields.selection,name:l10n_ro_stock_report.selection__l10n_ro_stock_storage_sheet_line__valued_type__delivery
 msgid "Delivery"
-msgstr ""
+msgstr "Livrare"
 
 #. module: l10n_ro_stock_report
 #: model:ir.model.fields.selection,name:l10n_ro_stock_report.selection__l10n_ro_stock_storage_sheet_line__valued_type__delivery_notice
 msgid "Delivery with notice"
-msgstr ""
+msgstr "Livrare cu aviz"
 
 #. module: l10n_ro_stock_report
 #: model:ir.model.fields,field_description:l10n_ro_stock_report.field_l10n_ro_stock_storage_sheet__detailed_locations
 msgid "Detailed by locations"
-msgstr ""
+msgstr "Detaliat pe locații"
 
 #. module: l10n_ro_stock_report
 #: model:ir.model.fields,field_description:l10n_ro_stock_report.field_l10n_ro_stock_storage_sheet__display_name
@@ -204,12 +205,12 @@ msgstr "INITIAL"
 #. module: l10n_ro_stock_report
 #: model:ir.model.fields,field_description:l10n_ro_stock_report.field_l10n_ro_stock_storage_sheet__sublocation
 msgid "Include Sublocations"
-msgstr ""
+msgstr "Includeți sublocații"
 
 #. module: l10n_ro_stock_report
 #: model:ir.model.fields.selection,name:l10n_ro_stock_report.selection__l10n_ro_stock_storage_sheet_line__valued_type__indefinite
 msgid "Indefinite"
-msgstr ""
+msgstr "Nedefinit"
 
 #. module: l10n_ro_stock_report
 #: model:ir.model.fields,field_description:l10n_ro_stock_report.field_l10n_ro_stock_storage_sheet_line__amount_initial
@@ -234,12 +235,12 @@ msgstr "Cantitate intrată"
 #. module: l10n_ro_stock_report
 #: model:ir.model.fields.selection,name:l10n_ro_stock_report.selection__l10n_ro_stock_storage_sheet_line__valued_type__internal_transfer
 msgid "Internal Transfer"
-msgstr ""
+msgstr "Transfer intern"
 
 #. module: l10n_ro_stock_report
 #: model:ir.model.fields,field_description:l10n_ro_stock_report.field_l10n_ro_stock_storage_sheet_line__invoice_id
 msgid "Invoice"
-msgstr "Factura fiscala"
+msgstr "Factură fiscală"
 
 #. module: l10n_ro_stock_report
 #: model:ir.model.fields,field_description:l10n_ro_stock_report.field_l10n_ro_stock_storage_sheet____last_update
@@ -275,7 +276,7 @@ msgstr "Locație"
 #. module: l10n_ro_stock_report
 #: model:ir.model.fields.selection,name:l10n_ro_stock_report.selection__l10n_ro_stock_storage_sheet_line__valued_type__minus_inventory
 msgid "Minus inventory"
-msgstr ""
+msgstr "Minus inventar"
 
 #. module: l10n_ro_stock_report
 #: model:ir.model.fields,field_description:l10n_ro_stock_report.field_l10n_ro_stock_storage_sheet__one_product
@@ -311,27 +312,27 @@ msgstr "Partener"
 #. module: l10n_ro_stock_report
 #: model:ir.model.fields.selection,name:l10n_ro_stock_report.selection__l10n_ro_stock_storage_sheet_line__valued_type__plus_inventory
 msgid "Plus inventory"
-msgstr ""
+msgstr "Plus inventar"
 
 #. module: l10n_ro_stock_report
 #: model_terms:ir.ui.view,arch_db:l10n_ro_stock_report.report_storage_sheet_lines_header
 msgid "Price Input"
-msgstr ""
+msgstr "Intrare preț"
 
 #. module: l10n_ro_stock_report
 #: model_terms:ir.ui.view,arch_db:l10n_ro_stock_report.report_storage_sheet_lines_header
 msgid "Price Output"
-msgstr ""
+msgstr "Ieșire preț"
 
 #. module: l10n_ro_stock_report
 #: model:ir.model.fields,field_description:l10n_ro_stock_report.field_l10n_ro_stock_storage_sheet_line__unit_price_in
 msgid "Price Unit In"
-msgstr ""
+msgstr "Preț unitar în"
 
 #. module: l10n_ro_stock_report
 #: model:ir.model.fields,field_description:l10n_ro_stock_report.field_l10n_ro_stock_storage_sheet_line__unit_price_out
 msgid "Price Unit Out"
-msgstr ""
+msgstr "Preț Unitate Ieșire"
 
 #. module: l10n_ro_stock_report
 #. odoo-python
@@ -349,7 +350,7 @@ msgstr "Produs"
 #. module: l10n_ro_stock_report
 #: model:ir.model.fields.selection,name:l10n_ro_stock_report.selection__l10n_ro_stock_storage_sheet_line__valued_type__production
 msgid "Production"
-msgstr ""
+msgstr "Producție"
 
 #. module: l10n_ro_stock_report
 #: model:ir.model.fields,field_description:l10n_ro_stock_report.field_l10n_ro_stock_storage_sheet__products_with_move
@@ -375,12 +376,12 @@ msgstr "Cantitate intrare"
 #. module: l10n_ro_stock_report
 #: model:ir.model.fields.selection,name:l10n_ro_stock_report.selection__l10n_ro_stock_storage_sheet_line__valued_type__reception
 msgid "Reception"
-msgstr ""
+msgstr "Recepție"
 
 #. module: l10n_ro_stock_report
 #: model:ir.model.fields.selection,name:l10n_ro_stock_report.selection__l10n_ro_stock_storage_sheet_line__valued_type__reception_notice
 msgid "Reception with notice"
-msgstr ""
+msgstr "Recepție cu aviz"
 
 #. module: l10n_ro_stock_report
 #: model:ir.model.fields,field_description:l10n_ro_stock_report.field_l10n_ro_stock_storage_sheet_line__reference
@@ -401,37 +402,37 @@ msgstr "Opțiuni raport"
 #. module: l10n_ro_stock_report
 #: model:ir.model.fields.selection,name:l10n_ro_stock_report.selection__l10n_ro_stock_storage_sheet_line__valued_type__consumption_return
 msgid "Return Consumption"
-msgstr ""
+msgstr "Returnare consum"
 
 #. module: l10n_ro_stock_report
 #: model:ir.model.fields.selection,name:l10n_ro_stock_report.selection__l10n_ro_stock_storage_sheet_line__valued_type__production_return
 msgid "Return Production"
-msgstr ""
+msgstr "Returnare producție"
 
 #. module: l10n_ro_stock_report
 #: model:ir.model.fields.selection,name:l10n_ro_stock_report.selection__l10n_ro_stock_storage_sheet_line__valued_type__usage_giving_return
 msgid "Return Usage Giving"
-msgstr ""
+msgstr "Returnare dare în folosință"
 
 #. module: l10n_ro_stock_report
 #: model:ir.model.fields.selection,name:l10n_ro_stock_report.selection__l10n_ro_stock_storage_sheet_line__valued_type__delivery_return
 msgid "Return delivery"
-msgstr ""
+msgstr "Returnare livrare"
 
 #. module: l10n_ro_stock_report
 #: model:ir.model.fields.selection,name:l10n_ro_stock_report.selection__l10n_ro_stock_storage_sheet_line__valued_type__delivery_notice_return
 msgid "Return delivery with notice"
-msgstr ""
+msgstr "Returnare livrare cu aviz"
 
 #. module: l10n_ro_stock_report
 #: model:ir.model.fields.selection,name:l10n_ro_stock_report.selection__l10n_ro_stock_storage_sheet_line__valued_type__reception_return
 msgid "Return reception"
-msgstr ""
+msgstr "Returnare recepție"
 
 #. module: l10n_ro_stock_report
 #: model:ir.model.fields.selection,name:l10n_ro_stock_report.selection__l10n_ro_stock_storage_sheet_line__valued_type__reception_notice_return
 msgid "Return reception with notice"
-msgstr ""
+msgstr "Returnare recepție cu aviz"
 
 #. module: l10n_ro_stock_report
 #: model:ir.ui.menu,name:l10n_ro_stock_report.menu_sheet_stock_report
@@ -442,7 +443,7 @@ msgstr "Fișă de magazie"
 #. module: l10n_ro_stock_report
 #: model:ir.model.fields,field_description:l10n_ro_stock_report.field_l10n_ro_stock_storage_sheet_line__serial_number
 msgid "Serial Number"
-msgstr ""
+msgstr "Număr serie"
 
 #. module: l10n_ro_stock_report
 #: model_terms:ir.ui.view,arch_db:l10n_ro_stock_report.view_stock_sheet_report_form
@@ -457,7 +458,7 @@ msgstr "Tipărire fișă"
 #. module: l10n_ro_stock_report
 #: model:ir.model.fields,field_description:l10n_ro_stock_report.field_l10n_ro_stock_storage_sheet__show_locations
 msgid "Show location"
-msgstr ""
+msgstr "Afișează locația"
 
 #. module: l10n_ro_stock_report
 #: model:ir.model.fields,field_description:l10n_ro_stock_report.field_l10n_ro_stock_storage_sheet__date_from
@@ -511,13 +512,13 @@ msgstr "Nu există mișcări ale stocurilor în perioada selectată"
 #. module: l10n_ro_stock_report
 #: model:ir.model.fields.selection,name:l10n_ro_stock_report.selection__l10n_ro_stock_storage_sheet_line__valued_type__usage_giving
 msgid "Usage Giving"
-msgstr ""
+msgstr "Dare în folosință"
 
 #. module: l10n_ro_stock_report
 #: model:ir.model.fields,field_description:l10n_ro_stock_report.field_l10n_ro_stock_storage_sheet_line__valued_type
 #: model_terms:ir.ui.view,arch_db:l10n_ro_stock_report.view_sheet_stock_report_line_search
 msgid "Valued Type"
-msgstr ""
+msgstr "Tip evaluat"
 
 #. module: l10n_ro_stock_report
 #: model_terms:ir.ui.view,arch_db:l10n_ro_stock_report.view_stock_sheet_report_form
@@ -530,8 +531,8 @@ msgid ""
 "will show report only for this products.         If nothing selected will "
 "show only products that have moves in period"
 msgstr ""
-"Va afișa raportul numai pentru aceste produse.     Dacă nimic nu va fi "
-"selectat arata numai produsele care au miscari de stoc in perioada"
+"va afișa raportul numai pentru aceste produse.     Dacă nimic nu va fi "
+"selectat arata numai produsele care au mișcări de stoc în perioada"
 
 #~ msgid "Select category for the current product"
 #~ msgstr "Selectați categoria pentru produsul curent"
