@@ -43,7 +43,7 @@ class ResCompany(models.Model):
                     gmt_tz = pytz.timezone("GMT")
                     gmt_date = localized_date.astimezone(gmt_tz)
                     partner = self.env["res.partner"]
-
+                    cif = message["cif"]
                     message_type = False
                     if message["tip"] == "FACTURA PRIMITA":
                         message_type = "in_invoice"
@@ -70,7 +70,7 @@ class ResCompany(models.Model):
                     self.env["l10n.ro.message.spv"].create(
                         {
                             "name": message["id"],
-                            "cif": message["cif"],
+                            "cif": cif,
                             "message_type": message_type,
                             "date": gmt_date.strftime("%Y-%m-%d %H:%M:%S"),
                             "details": message["detalii"],

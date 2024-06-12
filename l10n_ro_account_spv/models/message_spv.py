@@ -4,6 +4,10 @@
 import io
 import logging
 import zipfile
+from base64 import b64encode
+
+import requests
+from lxml import etree
 
 from odoo import _, fields, models
 from odoo.exceptions import UserError
@@ -30,9 +34,10 @@ class MessageSPV(models.Model):
     details = fields.Char(string="Details")  # detalii
     error = fields.Text(string="Error")  # eroare
     request_id = fields.Char(string="Request ID")  # id_solicitare
+    ref = fields.Char(string="Reference")  # referinta
 
     # campuri suplimentare
-    company_id = fields.Many2one("res.company", string="Company")
+
     invoice_id = fields.Many2one("account.move", string="Invoice")
     partner_id = fields.Many2one("res.partner", string="Partner")
 
@@ -45,6 +50,7 @@ class MessageSPV(models.Model):
             ("draft", "Draft"),
             ("downloaded", "Downloaded"),
             ("invoice", "Invoice"),
+            ("error", "Error"),
             ("done", "Done"),
         ],
         string="State",
@@ -52,7 +58,17 @@ class MessageSPV(models.Model):
     )
     file_name = fields.Char(string="File Name")
     attachment_id = fields.Many2one("ir.attachment", string="Attachment")
-    attachment_xml_id = fields.Many2one("ir.attachment", string="Attachment XML")
+    attachment_xml_id = fields.Many2one("ir.attachment", string="XML")
+    attachment_anaf_pdf_id = fields.Many2one("ir.attachment", string="ANAF PDF")
+    attachment_embedded_pdf_id = fields.Many2one("ir.attachment", string="Embedded PDF")
+    amount = fields.Monetary(string="Amount")
+
+    company_id = fields.Many2one(
+        "res.company", "Company", default=lambda self: self.env.company
+    )
+    currency_id = fields.Many2one(
+        "res.currency", default=lambda self: self.env.company.currency_id
+    )
 
     def download_from_spv(self):
         """Rutina de descarcare a fisierelor de la SPV"""
@@ -80,22 +96,59 @@ class MessageSPV(models.Model):
                 message.write({"error": error})
                 continue
 
-            file_name = f"{message.name}.zip"
-            attachment = (
-                self.env["ir.attachment"]
-                .sudo()
-                .create(
-                    {
-                        "name": file_name,
-                        "raw": response,
-                        "mimetype": "application/zip",
-                    }
-                )
-            )
+            file_name = f"{message.request_id}.zip"
+            attachment_value = {
+                "name": file_name,
+                "raw": response,
+                "mimetype": "application/zip",
+            }
+            attachment = self.env["ir.attachment"].sudo().create(attachment_value)
 
+            if message.attachment_id:
+                message.attachment_id.unlink()
             message.write({"file_name": file_name, "attachment_id": attachment.id})
             if message.state == "draft":
                 message.state = "downloaded"
+
+            message.get_xml_fom_zip()
+
+    def get_xml_fom_zip(self):
+        for message in self:
+            if not message.attachment_id:
+                continue
+            zip_ref = zipfile.ZipFile(io.BytesIO(message.attachment_id.raw))
+            xml_file = [f for f in zip_ref.namelist() if "semnatura" not in f]
+            file_name = f"{message.request_id}.xml"
+            if xml_file:
+                file_name = xml_file[0]
+                xml_file = zip_ref.read(file_name)
+            if not xml_file:
+                continue
+            attachment_value = {
+                "name": file_name,
+                "raw": xml_file,
+                "mimetype": "application/xml",
+            }
+            attachment_xml = self.env["ir.attachment"].sudo().create(attachment_value)
+            if message.attachment_xml_id:
+                message.attachment_xml_id.sudo().unlink()
+
+            xml_tree = etree.fromstring(xml_file)
+            ref_node = xml_tree.find("./{*}ID")
+            ref = message.ref
+            if ref_node is not None:
+                ref = ref_node.text
+
+            amount = False
+            amount_note = xml_tree.find(
+                ".//{*}LegalMonetaryTotal/{*}TaxInclusiveAmount"
+            )
+            if amount_note is not None:
+                amount = float(amount_note.text)
+
+            message.write(
+                {"attachment_xml_id": attachment_xml.id, "ref": ref, "amount": amount}
+            )
 
     def check_anaf_error_xml(self, zip_content):
         self.ensure_one()
@@ -131,11 +184,19 @@ class MessageSPV(models.Model):
                 ("l10n_ro_edi_transaction", "in", request_ids),
             ]
         )
-        for message in self:
+        for message in messages_without_invoice:
             invoice = invoices.filtered(
                 lambda i: i.l10n_ro_edi_download == message.name
                 or i.l10n_ro_edi_transaction == message.request_id
             )
+            if not invoice:
+                domain = [
+                    ("partner_id", "=", message.partner_id.id),
+                    ("ref", "=", message.ref),
+                    ("move_type", "=", message.message_type),
+                ]
+                invoice = self.env["account.move"].search(domain, limit=1)
+
             if invoice:
                 state = "invoice"
                 if invoice.edi_state == "sent":
@@ -170,9 +231,8 @@ class MessageSPV(models.Model):
             try:
                 new_invoice.l10n_ro_process_anaf_xml_file(attachment)
             except Exception as e:
-                new_invoice.message_post(
-                    body=_("Error processing e-invoice: %s") % str(e)
-                )
+                message.write({"state": "error", "error": str(e)})
+                continue
 
             exist_invoice = move_obj.search(
                 [
@@ -203,3 +263,95 @@ class MessageSPV(models.Model):
             state = "invoice"
 
             message.write({"invoice_id": new_invoice.id, "state": state})
+
+    def render_anaf_pdf(self):
+        for message in self:
+            if not message.attachment_id:
+                continue
+            if not message.attachment_xml_id:
+                message.get_xml_fom_zip()
+
+            xml_file = message.attachment_xml_id.raw
+            headers = {"Content-Type": "text/plain"}
+            xml = xml_file
+            val1 = "FACT1"
+            if b"<CreditNote" in xml:
+                val1 = "FCN"
+            val2 = "DA"
+
+            res = requests.post(
+                f"https://webservicesp.anaf.ro/prod/FCTEL/rest/transformare/{val1}/{val2}",
+                data=xml,
+                headers=headers,
+                timeout=10,
+            )
+            if "The requested URL was rejected" in res.text:
+                xml = xml.replace(
+                    b'xsi:schemaLocation="urn:oasis:names:specification:ubl:schema:xsd:Invoice-2 ../../UBL-2.1(1)/xsd/maindoc/UBLInvoice-2.1.xsd"',  # noqa: B950
+                    "",
+                )
+                res = requests.post(
+                    f"https://webservicesp.anaf.ro/prod/FCTEL/rest/transformare/{val1}/{val2}",
+                    data=xml,
+                    headers=headers,
+                    timeout=10,
+                )
+
+            if res.status_code == 200:
+                pdf = b64encode(res.content)
+                pdf = pdf + b"=" * (len(pdf) % 3)  # Fix incorrect padding
+                file_name = f"{message.request_id}.pdf"
+
+                attachment_value = {
+                    "name": file_name,
+                    "datas": pdf,
+                    "type": "binary",
+                    "mimetype": "application/pdf",
+                }
+
+                attachment_pdf = (
+                    self.env["ir.attachment"].sudo().create(attachment_value)
+                )
+                if message.attachment_anaf_pdf_id:
+                    message.attachment_anaf_pdf_id.sudo().unlink()
+                message.write({"attachment_anaf_pdf_id": attachment_pdf.id})
+
+    def get_embedded_pdf(self):
+        for message in self:
+            if not message.attachment_id:
+                message.download_from_spv()
+            if not message.attachment_xml_id:
+                message.get_xml_fom_zip()
+
+            xml_file = message.attachment_xml_id.raw
+            xml_tree = etree.fromstring(xml_file)
+            additional_docs = xml_tree.findall(
+                "./{*}AdditionalDocumentReference"
+            )  # noqa: B950
+            for document in additional_docs:
+                attachment_name = document.find("{*}ID")
+                attachment_data = document.find(
+                    "{*}Attachment/{*}EmbeddedDocumentBinaryObject"
+                )
+                if (
+                    attachment_name is not None
+                    and attachment_data is not None
+                    and attachment_data.attrib.get("mimeCode") == "application/pdf"
+                ):
+                    text = attachment_data.text
+
+                    name = (attachment_name.text or "invoice").split("\\")[-1].split(
+                        "/"
+                    )[-1].split(".")[0] + ".pdf"
+                    attachment = self.env["ir.attachment"].create(
+                        {
+                            "name": name,
+                            "datas": text
+                            + "=" * (len(text) % 3),  # Fix incorrect padding
+                            "type": "binary",
+                            "mimetype": "application/pdf",
+                        }
+                    )
+                    if message.attachment_embedded_pdf_id:
+                        message.attachment_embedded_pdf_id.unlink()
+                    message.write({"attachment_embedded_pdf_id": attachment.id})
