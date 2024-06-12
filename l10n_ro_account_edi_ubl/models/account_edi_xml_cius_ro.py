@@ -483,14 +483,16 @@ class AccountEdiXmlCIUSRO(models.Model):
         if invoice:
             additional_docs = tree.findall("./{*}AdditionalDocumentReference")
             if len(additional_docs) == 0:
-                res = self.l10n_ro_renderAnafPdf(invoice)
-                if not res:
-                    report = self.env.ref(
-                        "account.account_invoices_without_payment"
-                    ).sudo()
-                    pdf = report._render_qweb_pdf(invoice.id)
-                    b64_pdf = b64encode(pdf[0])
-                    self.l10n_ro_addPDF_from_att(invoice, b64_pdf)
+                if invoice.company_id.l10n_ro_render_anaf_pdf:
+                    self.l10n_ro_renderAnafPdf(invoice)
+                    # res = self.l10n_ro_renderAnafPdf(invoice)
+                    # if not res:
+                    #     report = self.env.ref(
+                    #         "account.account_invoices_without_payment"
+                    #     ).sudo()
+                    #     pdf = report._render_qweb_pdf(invoice.id)
+                    #     b64_pdf = b64encode(pdf[0])
+                    #     self.l10n_ro_addPDF_from_att(invoice, b64_pdf)
         return invoice
 
     def l10n_ro_renderAnafPdf(self, invoice):
