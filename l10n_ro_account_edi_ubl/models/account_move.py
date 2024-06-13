@@ -387,6 +387,8 @@ class AccountMove(models.Model):
 class AccountMoveLine(models.Model):
     _inherit = "account.move.line"
 
+    l10n_ro_vendor_code = fields.Char()
+
     def _get_computed_price_unit(self):
         self.ensure_one()
         if (
