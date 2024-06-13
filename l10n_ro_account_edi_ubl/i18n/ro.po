@@ -4,17 +4,19 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 14.0\n"
+"Project-Id-Version: Odoo Server 15.0+e\n"
 "Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2024-06-13 10:34+0000\n"
+"PO-Revision-Date: 2024-06-13 10:34+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
-"Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: \n"
 
 #. module: l10n_ro_account_edi_ubl
+#: code:addons/l10n_ro_account_edi_ubl/models/account_edi_format.py:0
 #: code:addons/l10n_ro_account_edi_ubl/models/account_edi_format.py:0
 #: code:addons/l10n_ro_account_edi_ubl/models/account_move.py:0
 #, python-format
@@ -24,38 +26,42 @@ msgid ""
 "Error:\n"
 "<p>%s</p>"
 msgstr ""
+"\n"
+"\n"
+"Eroare:\n"
+"<p>%s</p>"
 
 #. module: l10n_ro_account_edi_ubl
 #: model_terms:ir.ui.view,arch_db:l10n_ro_account_edi_ubl.res_config_settings_view_form
 msgid "<span class=\"o_form_label\">E-Invoice Settings</span>"
-msgstr ""
+msgstr "<span class=\"o_form_label\">Setări e-factură</span>"
 
 #. module: l10n_ro_account_edi_ubl
 #: code:addons/l10n_ro_account_edi_ubl/models/account_edi_format.py:0
 #, python-format
 msgid "ANAF sync manual"
-msgstr ""
+msgstr "ANAF sincronizare manuală"
 
 #. module: l10n_ro_account_edi_ubl
 #: code:addons/l10n_ro_account_edi_ubl/models/account_edi_format.py:0
 #, python-format
 msgid "Access Error"
-msgstr ""
+msgstr "Eroare de acces"
 
 #. module: l10n_ro_account_edi_ubl
 #: model:ir.model,name:l10n_ro_account_edi_ubl.model_l10n_ro_account_anaf_sync_scope
 msgid "Account ANAF Sync Scope"
-msgstr ""
+msgstr "Cont ANAF Sync Scope"
 
 #. module: l10n_ro_account_edi_ubl
 #: model_terms:ir.ui.view,arch_db:l10n_ro_account_edi_ubl.res_config_settings_view_form
 msgid "Attach PDF invoice to the e-Invoice."
-msgstr ""
+msgstr "Atașați factura PDF la e-factură."
 
 #. module: l10n_ro_account_edi_ubl
 #: model_terms:ir.ui.view,arch_db:l10n_ro_account_edi_ubl.res_config_settings_view_form
 msgid "Automatic generation of PDF for invoices received from SPV."
-msgstr ""
+msgstr "Generarea automată a PDF-ului pentru facturile primite de la SPV."
 
 #. module: l10n_ro_account_edi_ubl
 #: model:ir.model,name:l10n_ro_account_edi_ubl.model_account_edi_xml_cius_ro
@@ -73,6 +79,8 @@ msgid ""
 "Company PDF invoice report to be added to the e-Invoice XML.\n"
 "                            If not set default PDF report will be used."
 msgstr ""
+"Raportul PDF al facturii companiei care va fi adăugat la XML-ul e-facturii.\n"
+"                            Dacă nu este setat, se va folosi raportul PDF "
 
 #. module: l10n_ro_account_edi_ubl
 #: model:ir.model,name:l10n_ro_account_edi_ubl.model_res_config_settings
@@ -83,7 +91,7 @@ msgstr "Setări de configurare"
 #: code:addons/l10n_ro_account_edi_ubl/models/account_edi_xml_cius_ro.py:0
 #, python-format
 msgid "Could not retrieve the tax: %(tax_percent)s %% for line '%(name)s'."
-msgstr ""
+msgstr "Nu s-a putut determina taxa: %(tax_percent)s %% pentru linia '%(name)s'."
 
 #. module: l10n_ro_account_edi_ubl
 #: model:ir.model.fields,field_description:l10n_ro_account_edi_ubl.field_account_edi_xml_cius_ro__create_uid
@@ -98,39 +106,39 @@ msgstr "Creat in"
 #. module: l10n_ro_account_edi_ubl
 #: model_terms:ir.ui.view,arch_db:l10n_ro_account_edi_ubl.res_config_settings_view_form
 msgid "Credit Note on e-Invoice."
-msgstr ""
+msgstr "Notă de credit pe e-factură."
 
 #. module: l10n_ro_account_edi_ubl
 #: model:ir.model.fields,field_description:l10n_ro_account_edi_ubl.field_res_company__l10n_ro_credit_note_einvoice
 msgid "Credit Note on e-invoice"
-msgstr ""
+msgstr "Notă de credit pe e-factură"
 
 #. module: l10n_ro_account_edi_ubl
 #: model:ir.model.fields,field_description:l10n_ro_account_edi_ubl.field_res_config_settings__l10n_ro_credit_note_einvoice
 msgid "Credit Note on e-invoice."
-msgstr ""
+msgstr "Notă de credit pe e-factură."
 
 #. module: l10n_ro_account_edi_ubl
 #: model_terms:ir.ui.view,arch_db:l10n_ro_account_edi_ubl.res_config_settings_view_form
 msgid "Days to check"
-msgstr ""
+msgstr "Zile de verificat"
 
 #. module: l10n_ro_account_edi_ubl
 #: model:ir.model.fields,field_description:l10n_ro_account_edi_ubl.field_res_company__l10n_ro_default_cius_pdf_report
 #: model:ir.model.fields,field_description:l10n_ro_account_edi_ubl.field_res_config_settings__l10n_ro_default_cius_pdf_report
 msgid "Default PDF Report"
-msgstr ""
+msgstr "Raport PDF implicit"
 
 #. module: l10n_ro_account_edi_ubl
 #: model:ir.model.fields,help:l10n_ro_account_edi_ubl.field_res_company__l10n_ro_default_cius_pdf_report
 #: model:ir.model.fields,help:l10n_ro_account_edi_ubl.field_res_config_settings__l10n_ro_default_cius_pdf_report
 msgid "Default PDF report to be attached to xml e-invoice."
-msgstr ""
+msgstr "Raportul PDF implicit care va fi atașat la e-factura XML."
 
 #. module: l10n_ro_account_edi_ubl
 #: model_terms:ir.ui.view,arch_db:l10n_ro_account_edi_ubl.res_config_settings_view_form
 msgid "Define if invoices validated by ANAf will be stored in Odoo."
-msgstr ""
+msgstr "Definiți dacă facturile validate de ANAf vor fi stocate în Odoo."
 
 #. module: l10n_ro_account_edi_ubl
 #: model_terms:ir.ui.view,arch_db:l10n_ro_account_edi_ubl.res_config_settings_view_form
@@ -138,6 +146,8 @@ msgid ""
 "Define the maximum number of days that Odoo will check supplier e-Invoices "
 "to download."
 msgstr ""
+"Definiți numărul maxim de zile în care Odoo va verifica facturile furnizorilor"
+" pentru a le descărca."
 
 #. module: l10n_ro_account_edi_ubl
 #: model:ir.model.fields,field_description:l10n_ro_account_edi_ubl.field_account_edi_xml_cius_ro__display_name
@@ -147,31 +157,33 @@ msgstr "Nume afișat"
 #. module: l10n_ro_account_edi_ubl
 #: model_terms:ir.ui.view,arch_db:l10n_ro_account_edi_ubl.view_move_form
 msgid "Download ZIP with signed XML file from ANAF"
-msgstr ""
+msgstr "Descărcați ZIP cu fișier XML semnat de la ANAF"
 
 #. module: l10n_ro_account_edi_ubl
 #: model_terms:ir.ui.view,arch_db:l10n_ro_account_edi_ubl.res_config_settings_view_form
 msgid ""
 "Download e-Invoices automatically from ANAF website.\n"
-"                            It will create a draft invoice that you will "
-"have to check and posted afterwards."
+"                            It will create a draft invoice that you will have to check and posted afterwards."
 msgstr ""
+"Descărcați automat e-facturile de pe site-ul ANAF.\n"
+"                            Va crea o factură provizorie pe care va trebui să o verificați și să o postați ulterior."
+
 
 #. module: l10n_ro_account_edi_ubl
 #: model:ir.model.fields,field_description:l10n_ro_account_edi_ubl.field_res_company__l10n_ro_download_einvoices
 #: model:ir.model.fields,field_description:l10n_ro_account_edi_ubl.field_res_config_settings__l10n_ro_download_einvoices
 msgid "Download e-invoices from ANAF"
-msgstr ""
+msgstr "Descărcați e-facturile de la ANAF"
 
 #. module: l10n_ro_account_edi_ubl
 #: model_terms:ir.ui.view,arch_db:l10n_ro_account_edi_ubl.view_move_form
 msgid "Download from ANAF"
-msgstr ""
+msgstr "Descărcați de la ANAF"
 
 #. module: l10n_ro_account_edi_ubl
 #: model:ir.model.fields.selection,name:l10n_ro_account_edi_ubl.selection__l10n_ro_account_anaf_sync_scope__scope__e-factura
 msgid "E-factura"
-msgstr ""
+msgstr "E-factura"
 
 #. module: l10n_ro_account_edi_ubl
 #: model:ir.model,name:l10n_ro_account_edi_ubl.model_account_edi_format
@@ -182,24 +194,24 @@ msgstr "Format EDI"
 #: model:ir.model.fields,field_description:l10n_ro_account_edi_ubl.field_res_company__l10n_ro_edi_cius_embed_pdf
 #: model:ir.model.fields,field_description:l10n_ro_account_edi_ubl.field_res_config_settings__l10n_ro_edi_cius_embed_pdf
 msgid "Embed PDF in CIUS"
-msgstr ""
+msgstr "PDF încorporat în CIUS"
 
 #. module: l10n_ro_account_edi_ubl
 #: code:addons/l10n_ro_account_edi_ubl/models/account_edi_format.py:0
 #, python-format
 msgid "Error %s"
-msgstr ""
+msgstr "Eroare %s"
 
 #. module: l10n_ro_account_edi_ubl
 #: code:addons/l10n_ro_account_edi_ubl/models/res_company.py:0
 #, python-format
 msgid "Error downloading e-invoice: %s"
-msgstr ""
+msgstr "Eroare la descărcarea e-facturii: %s"
 
 #. module: l10n_ro_account_edi_ubl
 #: model:ir.model.fields,field_description:l10n_ro_account_edi_ubl.field_account_edi_xml_cius_ro__id
 msgid "ID"
-msgstr "ID"
+msgstr ""
 
 #. module: l10n_ro_account_edi_ubl
 #: model:ir.model.fields,field_description:l10n_ro_account_edi_ubl.field_account_bank_statement_line__l10n_ro_edi_download
@@ -211,19 +223,19 @@ msgstr ""
 #. module: l10n_ro_account_edi_ubl
 #: model_terms:ir.ui.view,arch_db:l10n_ro_account_edi_ubl.view_move_form
 msgid "ID eFactura"
-msgstr ""
+msgstr "ID eFactura"
 
 #. module: l10n_ro_account_edi_ubl
 #: model_terms:ir.ui.view,arch_db:l10n_ro_account_edi_ubl.view_move_form
 msgid "ID eFactura Transaction"
-msgstr ""
+msgstr "ID tranzacție eFactura"
 
 #. module: l10n_ro_account_edi_ubl
 #: model:ir.model.fields,help:l10n_ro_account_edi_ubl.field_account_bank_statement_line__l10n_ro_edi_download
 #: model:ir.model.fields,help:l10n_ro_account_edi_ubl.field_account_move__l10n_ro_edi_download
 #: model:ir.model.fields,help:l10n_ro_account_edi_ubl.field_account_payment__l10n_ro_edi_download
 msgid "ID used to download the ZIP file from ANAF."
-msgstr ""
+msgstr "ID-ul folosit pentru a descărca fișierul ZIP de la ANAF."
 
 #. module: l10n_ro_account_edi_ubl
 #: code:addons/l10n_ro_account_edi_ubl/models/account_move.py:0
@@ -232,23 +244,28 @@ msgid ""
 "Invoices with this document type always need to be cancelled through a "
 "credit note. There is no possibility to cancel."
 msgstr ""
-"Facturile cu acest tip de document trebuie întotdeauna anulate printr-o notă "
-"de credit. Nu există posibilitatea de a anula."
+"Facturile cu acest tip de document trebuie întotdeauna anulate printr-o notă"
+" de credit. Nu există posibilitatea de a anula."
 
 #. module: l10n_ro_account_edi_ubl
 #: model:ir.model.fields,field_description:l10n_ro_account_edi_ubl.field_product_template__is_l10n_ro_record
 msgid "Is Romanian Record"
-msgstr ""
+msgstr "Este înregistrarea Română"
 
 #. module: l10n_ro_account_edi_ubl
 #: model:ir.model,name:l10n_ro_account_edi_ubl.model_account_move
 msgid "Journal Entry"
-msgstr "Nota Contabila"
+msgstr "Notă contabilă"
 
 #. module: l10n_ro_account_edi_ubl
 #: model:ir.model,name:l10n_ro_account_edi_ubl.model_account_move_line
 msgid "Journal Item"
-msgstr ""
+msgstr "Element jurnal"
+
+#. module: l10n_ro_account_edi_ubl
+#: model:ir.model.fields,field_description:l10n_ro_account_edi_ubl.field_account_move_line__l10n_ro_vendor_code
+msgid "L10N Ro Vendor Code"
+msgstr "Cod furnizor"
 
 #. module: l10n_ro_account_edi_ubl
 #: model:ir.model.fields,field_description:l10n_ro_account_edi_ubl.field_account_edi_xml_cius_ro____last_update
@@ -269,18 +286,19 @@ msgstr "Ultima actualizare pe"
 #: model:ir.model.fields,field_description:l10n_ro_account_edi_ubl.field_res_company__l10n_ro_download_einvoices_days
 #: model:ir.model.fields,field_description:l10n_ro_account_edi_ubl.field_res_config_settings__l10n_ro_download_einvoices_days
 msgid "Maximum number of days to download e-invoices."
-msgstr ""
+msgstr "Numărul maxim de zile pentru a descărca e-facturile."
 
 #. module: l10n_ro_account_edi_ubl
 #: model:ir.model.fields,field_description:l10n_ro_account_edi_ubl.field_res_company__l10n_ro_edi_residence
 msgid "Period of Residence"
-msgstr ""
+msgstr "Perioada de rezidență"
 
 #. module: l10n_ro_account_edi_ubl
 #: model_terms:ir.ui.view,arch_db:l10n_ro_account_edi_ubl.res_config_settings_view_form
 msgid ""
 "Period of residence for the e-Invoice after which it is automatically sent"
 msgstr ""
+"Perioada de rezidență pentru e-factură după care este trimisă automat"
 
 #. module: l10n_ro_account_edi_ubl
 #: model:ir.model,name:l10n_ro_account_edi_ubl.model_product_product
@@ -290,23 +308,23 @@ msgstr "Produs"
 #. module: l10n_ro_account_edi_ubl
 #: model:ir.model,name:l10n_ro_account_edi_ubl.model_product_template
 msgid "Product Template"
-msgstr "Șablon de produs"
+msgstr "Șablon produs"
 
 #. module: l10n_ro_account_edi_ubl
 #: model:ir.model.fields,field_description:l10n_ro_account_edi_ubl.field_res_company__l10n_ro_render_anaf_pdf
 #: model:ir.model.fields,field_description:l10n_ro_account_edi_ubl.field_res_config_settings__l10n_ro_render_anaf_pdf
 msgid "Render Anaf PDF"
-msgstr ""
+msgstr "Randați PDF-ul Anaf"
 
 #. module: l10n_ro_account_edi_ubl
 #: model:ir.model,name:l10n_ro_account_edi_ubl.model_ir_actions_report
 msgid "Report Action"
-msgstr ""
+msgstr "Acțiune raport"
 
 #. module: l10n_ro_account_edi_ubl
 #: model:ir.model.fields,field_description:l10n_ro_account_edi_ubl.field_res_config_settings__l10n_ro_edi_residence
 msgid "Residence"
-msgstr ""
+msgstr "Rezidență"
 
 #. module: l10n_ro_account_edi_ubl
 #: model:ir.model.fields,field_description:l10n_ro_account_edi_ubl.field_product_product__l10n_ro_nc_code
@@ -319,36 +337,36 @@ msgstr "Cod NC"
 #: model:ir.cron,cron_name:l10n_ro_account_edi_ubl.ir_cron_res_company_einvoice_download_every_day
 #: model:ir.cron,name:l10n_ro_account_edi_ubl.ir_cron_res_company_einvoice_download_every_day
 msgid "Romania e-Invoicing: Download Supplier Invoices"
-msgstr ""
+msgstr "Facturare electronică România: Descărcați facturile furnizorilor"
 
 #. module: l10n_ro_account_edi_ubl
 #: model:ir.model.fields,field_description:l10n_ro_account_edi_ubl.field_l10n_ro_account_anaf_sync_scope__scope
 msgid "Scope"
-msgstr ""
+msgstr "Scop"
 
 #. module: l10n_ro_account_edi_ubl
 #: model:ir.actions.server,name:l10n_ro_account_edi_ubl.model_account_send_toe_invoice
 msgid "Send to ANAF E Invoice"
-msgstr "Trimite factura la ANAF"
+msgstr "Proceseaza tranzactia EDI"
 
 #. module: l10n_ro_account_edi_ubl
 #: model:ir.model.fields,field_description:l10n_ro_account_edi_ubl.field_account_bank_statement_line__l10n_ro_show_anaf_download_edi_buton
 #: model:ir.model.fields,field_description:l10n_ro_account_edi_ubl.field_account_move__l10n_ro_show_anaf_download_edi_buton
 #: model:ir.model.fields,field_description:l10n_ro_account_edi_ubl.field_account_payment__l10n_ro_show_anaf_download_edi_buton
 msgid "Show ANAF Download EDI Button"
-msgstr ""
+msgstr "Afișați butonul de descărcare EDI ANAF"
 
 #. module: l10n_ro_account_edi_ubl
 #: model:ir.model.fields,field_description:l10n_ro_account_edi_ubl.field_account_bank_statement_line__l10n_ro_show_edi_fields
 #: model:ir.model.fields,field_description:l10n_ro_account_edi_ubl.field_account_move__l10n_ro_show_edi_fields
 #: model:ir.model.fields,field_description:l10n_ro_account_edi_ubl.field_account_payment__l10n_ro_show_edi_fields
 msgid "Show ANAF EDI Fields"
-msgstr ""
+msgstr "Afișați câmpurile EDI ANAF"
 
 #. module: l10n_ro_account_edi_ubl
 #: model_terms:ir.ui.view,arch_db:l10n_ro_account_edi_ubl.res_config_settings_view_form
 msgid "Start date"
-msgstr ""
+msgstr "Data de început"
 
 #. module: l10n_ro_account_edi_ubl
 #: model_terms:ir.ui.view,arch_db:l10n_ro_account_edi_ubl.res_config_settings_view_form
@@ -356,18 +374,20 @@ msgid ""
 "Start date that Odoo will create supplier invoices downloaded from ANAF "
 "website."
 msgstr ""
+"Data de început la care Odoo va crea facturile furnizorilor descărcate de pe"
+" site-ul ANAF."
 
 #. module: l10n_ro_account_edi_ubl
 #: model:ir.model.fields,field_description:l10n_ro_account_edi_ubl.field_res_company__l10n_ro_download_einvoices_start_date
 #: model:ir.model.fields,field_description:l10n_ro_account_edi_ubl.field_res_config_settings__l10n_ro_download_einvoices_start_date
 msgid "Start date to download e-invoices"
-msgstr ""
+msgstr "Data de început pentru a descărca e-facturile"
 
 #. module: l10n_ro_account_edi_ubl
 #: model:ir.model.fields,field_description:l10n_ro_account_edi_ubl.field_res_company__l10n_ro_store_einvoices
 #: model:ir.model.fields,field_description:l10n_ro_account_edi_ubl.field_res_config_settings__l10n_ro_store_einvoices
 msgid "Store E-Invoice signed by Anaf."
-msgstr ""
+msgstr "Stocați e-factura semnată de Anaf."
 
 #. module: l10n_ro_account_edi_ubl
 #: model:ir.model.fields,help:l10n_ro_account_edi_ubl.field_account_bank_statement_line__l10n_ro_edi_transaction
@@ -380,15 +400,17 @@ msgstr "Câmp tehnic utilizat pentru a urmări starea unei trimiteri."
 #: code:addons/l10n_ro_account_edi_ubl/models/account_move.py:0
 #, python-format
 msgid "The ANAF configuration is not set. Please set it and try again."
-msgstr ""
+msgstr "Configurația ANAF nu este setată. Vă rugăm să o setați și să încercați din nou."
 
 #. module: l10n_ro_account_edi_ubl
 #: code:addons/l10n_ro_account_edi_ubl/models/account_edi_xml_cius_ro.py:0
 #, python-format
 msgid ""
-"The following partner doesn't have a VAT nor Company ID: %s. At least one of "
-"them is required. "
+"The following partner doesn't have a VAT nor Company ID: %s. At least one of"
+" them is required. "
 msgstr ""
+"Următorul partener nu are niciun TVA, nici un ID de companie: %s. Cel puțin"
+" unul dintre ele este necesar. "
 
 #. module: l10n_ro_account_edi_ubl
 #: code:addons/l10n_ro_account_edi_ubl/models/account_edi_xml_cius_ro.py:0
@@ -397,6 +419,9 @@ msgid ""
 "The following partner's city name is invalid: %s. If partner's state is "
 "București, the city name must be 'SECTORX', where X is a number between 1-6."
 msgstr ""
+"Numele orașului partenerului următor este invalid: %s. Dacă statul partenerului"
+" este București, numele orașului trebuie să fie 'SECTORX', unde X este un "
+"număr între 1-6."
 
 #. module: l10n_ro_account_edi_ubl
 #: code:addons/l10n_ro_account_edi_ubl/models/account_edi_xml_cius_ro.py:0
@@ -404,6 +429,8 @@ msgstr ""
 msgid ""
 "The following partner's doesn't have a country code prefix in their VAT: %s."
 msgstr ""
+"Partenerul următor nu are un prefix de cod de țară în TVA-ul lor: %s."
+
 
 #. module: l10n_ro_account_edi_ubl
 #: code:addons/l10n_ro_account_edi_ubl/models/account_move.py:0
@@ -412,36 +439,38 @@ msgid ""
 "The invoice already have invoice lines, you cannot update them again from "
 "the XMl downloaded file."
 msgstr ""
+"Factura are deja linii de factură, nu le puteți actualiza din nou din fișierul"
+" descărcat XMl."
 
 #. module: l10n_ro_account_edi_ubl
 #: code:addons/l10n_ro_account_edi_ubl/models/account_edi_format.py:0
 #, python-format
 msgid "The invoice is in processing at ANAF."
-msgstr ""
+msgstr "Factura este în procesare la ANAF."
 
 #. module: l10n_ro_account_edi_ubl
 #: code:addons/l10n_ro_account_edi_ubl/models/account_edi_format.py:0
 #, python-format
 msgid "The invoice was not send or validated by ANAF."
-msgstr ""
+msgstr "Factura nu a fost trimisă sau validată de ANAF."
 
 #. module: l10n_ro_account_edi_ubl
 #: code:addons/l10n_ro_account_edi_ubl/models/account_edi_format.py:0
 #, python-format
 msgid "The invoice was not validated by ANAF."
-msgstr ""
+msgstr "Factura nu a fost validată de ANAF."
 
 #. module: l10n_ro_account_edi_ubl
 #: code:addons/l10n_ro_account_edi_ubl/models/account_edi_format.py:0
 #, python-format
 msgid "The invoice was sent to ANAF, awaiting validation."
-msgstr ""
+msgstr "Factura a fost trimisă la ANAF, așteptând validarea."
 
 #. module: l10n_ro_account_edi_ubl
 #: code:addons/l10n_ro_account_edi_ubl/models/account_edi_format.py:0
 #, python-format
 msgid "The invoice was validated by ANAF."
-msgstr ""
+msgstr "Factura a fost validată de ANAF."
 
 #. module: l10n_ro_account_edi_ubl
 #: code:addons/l10n_ro_account_edi_ubl/models/res_company.py:0
@@ -449,19 +478,22 @@ msgstr ""
 msgid ""
 "The maximum number of days to download e-invoices must be between 0 and 60."
 msgstr ""
+"Numărul maxim de zile pentru a descărca e-facturile trebuie să fie între 0 și"
+" 60."
 
 #. module: l10n_ro_account_edi_ubl
 #: code:addons/l10n_ro_account_edi_ubl/models/res_company.py:0
 #, python-format
 msgid "The period of residence must be between 0 and 5."
-msgstr ""
+msgstr "Perioada de rezidență trebuie să fie între 0 și 5."
 
 #. module: l10n_ro_account_edi_ubl
+#: code:addons/l10n_ro_account_edi_ubl/models/account_edi_format.py:0
 #: code:addons/l10n_ro_account_edi_ubl/models/account_edi_format.py:0
 #: code:addons/l10n_ro_account_edi_ubl/models/account_move.py:0
 #, python-format
 msgid "There are some errors when generating the XMl file."
-msgstr ""
+msgstr "Există unele erori la generarea fișierului XMl."
 
 #. module: l10n_ro_account_edi_ubl
 #: model:ir.model.fields,field_description:l10n_ro_account_edi_ubl.field_account_bank_statement_line__l10n_ro_edi_transaction
@@ -474,7 +506,7 @@ msgstr "ID tranzacție (RO)"
 #: code:addons/l10n_ro_account_edi_ubl/models/account_edi_format.py:0
 #, python-format
 msgid "XML with errors not taken over by the system."
-msgstr ""
+msgstr "XML cu erori care nu sunt preluate de sistem."
 
 #. module: l10n_ro_account_edi_ubl
 #: code:addons/l10n_ro_account_edi_ubl/models/account_move.py:0
@@ -484,76 +516,19 @@ msgid ""
 "Invoice(s) Ids: %(ids)s\n"
 "Invoice(s) Numbers: %(numbers)s\n"
 msgstr ""
+"Deja aveți o factură cu aceeași descărcare ANAF.\n"
+"ID-uri factură: %(ids)s\n"
+"Numere factură: %(numbers)s\n"
 
 #. module: l10n_ro_account_edi_ubl
 #: code:addons/l10n_ro_account_edi_ubl/models/account_move.py:0
 #, python-format
 msgid ""
-"You can't edit the following journal entry %s because an electronic document "
-"has already been sent to ANAF. To edit this entry, you need to create a "
+"You can't edit the following journal entry %s because an electronic document"
+" has already been sent to ANAF. To edit this entry, you need to create a "
 "Credit Note for the invoice and create a new invoice."
 msgstr ""
 "Nu puteți edita următoarea înregistrare de jurnal %s deoarece un document "
 "electronic a fost deja trimis către ANAF. Pentru a edita această intrare, "
 "trebuie să creați o notă de credit pentru factură și să creați o nouă "
 "factură."
-
-#~ msgid "Contact"
-#~ msgstr "Contact"
-
-#~ msgid ""
-#~ "<span class=\"fa fa-lg fa-building-o\" title=\"Values set here are "
-#~ "company-specific.\" role=\"img\" aria-label=\"Values set here are company-"
-#~ "specific.\" groups=\"base.group_multi_company\"/>"
-#~ msgstr ""
-#~ "<span class=\"fa fa-lg fa-building-o\" title=\"Valorile stabilite aici "
-#~ "sunt specifice companiei.\" role=\"img\" aria-label=\"Valorile stabilite "
-#~ "aici sunt specifice companiei.\" groups=\"base.group_multi_company\"/>"
-
-#~ msgid "E-Invoice Manual submission"
-#~ msgstr "Trimiterea manuală a facturii electronice"
-
-#~ msgid "Send e-Invoice manually from the Client Action"
-#~ msgstr "Trimiteți factura electronică manual din Acțiunea client"
-
-#~ msgid "Invoice XML Send State"
-#~ msgstr "Starea trimiterii facturii XML"
-
-#~ msgid "New"
-#~ msgstr "Nou"
-
-#~ msgid "Not yet send"
-#~ msgstr "Netrimisa"
-
-#~ msgid "Other"
-#~ msgstr "Altul"
-
-#~ msgid "Sent, but invalid"
-#~ msgstr "Trimis, dar invalid"
-
-#~ msgid "Sent, waiting for response"
-#~ msgstr "Trimis, în așteptarea unui răspuns"
-
-#~ msgid "This invoice is delivered"
-#~ msgstr "Aceasta factura este trimisa"
-
-#, python-format
-#~ msgid "Access error"
-#~ msgstr "Eroare de acces"
-
-#~ msgid "Generate XML File"
-#~ msgstr "Generați fișierul XML"
-
-#, python-format
-#~ msgid ""
-#~ "If country state of partner %s is Bucharest, the city must be as SectorX "
-#~ msgstr ""
-#~ "Dacă judetul partenerului %s este București, orașul trebuie să fie ca "
-#~ "SectorX "
-
-#~ msgid "Romania - E-Invoice Manual submission"
-#~ msgstr "Trimiterea manuală a facturii electronice"
-
-#, python-format
-#~ msgid "The partner doesn't have the street completed."
-#~ msgstr "Partenerul nu are strada completata."
