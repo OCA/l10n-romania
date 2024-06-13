@@ -168,28 +168,3 @@ class ResCompany(models.Model):
                         new_invoice.message_post(
                             body=_("Error downloading e-invoice: %s") % str(e)
                         )
-
-                    exist_invoice = move_obj.search(
-                        [
-                            ("ref", "=", new_invoice.ref),
-                            ("move_type", "=", "in_invoice"),
-                            ("state", "=", "posted"),
-                            ("partner_id", "=", new_invoice.partner_id.id),
-                            ("id", "!=", new_invoice.id),
-                        ],
-                        limit=1,
-                    )
-                    if exist_invoice:
-                        domain = [
-                            ("res_model", "=", "account.move"),
-                            ("res_id", "=", new_invoice.id),
-                        ]
-                        attachments = self["ir.attachment"].sudo().search(domain)
-                        attachments.write({"res_id": exist_invoice.id})
-                        new_invoice.unlink()
-                        exist_invoice.write(
-                            {
-                                "l10n_ro_edi_download": message.get("id"),
-                                "l10n_ro_edi_transaction": message.get("id_solicitare"),
-                            }
-                        )
