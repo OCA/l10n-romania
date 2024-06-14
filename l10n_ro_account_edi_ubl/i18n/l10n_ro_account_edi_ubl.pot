@@ -490,6 +490,11 @@ msgid "Transaction ID (RO)"
 msgstr ""
 
 #. module: l10n_ro_account_edi_ubl
+#: model:ir.model.fields,field_description:l10n_ro_account_edi_ubl.field_account_move_line__l10n_ro_vendor_code
+msgid "Vendor Code"
+msgstr ""
+
+#. module: l10n_ro_account_edi_ubl
 #. odoo-python
 #: code:addons/l10n_ro_account_edi_ubl/models/account_edi_format.py:0
 #, python-format
