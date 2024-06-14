@@ -289,9 +289,28 @@ class AccountEdiXmlCIUSRO(models.Model):
     def _import_fill_invoice_line_form(
         self, journal, tree, invoice, invoice_line, qty_factor
     ):
-        res = super(AccountEdiXmlCIUSRO, self)._import_fill_invoice_line_form(
+        res = super()._import_fill_invoice_line_form(
             journal, tree, invoice, invoice_line, qty_factor
         )
+
+        vendor_code = self._find_value(
+            "./cac:Item/cac:SellersItemIdentification/cbc:ID", tree
+        )
+        if not vendor_code:
+            vendor_code = self._find_value(
+                "./cac:Item/cac:StandardItemIdentification/cbc:ID", tree
+            )
+
+        if vendor_code:
+            invoice_line.l10n_ro_vendor_code = vendor_code
+            domain = [
+                ("seller_ids.product_code", "=", vendor_code),
+                ("seller_ids.name", "=", invoice.partner_id.id),
+            ]
+            product = self.env["product.product"].search(domain, limit=1)
+            if product:
+                invoice_line.product_id = product
+
         tax_nodes = tree.findall(".//{*}Item/{*}ClassifiedTaxCategory/{*}ID")
         if len(tax_nodes) == 1:
             if tax_nodes[0].text in ["O", "E", "Z"]:
