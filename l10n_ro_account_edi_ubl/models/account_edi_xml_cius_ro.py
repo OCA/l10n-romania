@@ -305,7 +305,7 @@ class AccountEdiXmlCIUSRO(models.Model):
             invoice_line.l10n_ro_vendor_code = vendor_code
             domain = [
                 ("seller_ids.product_code", "=", vendor_code),
-                ("seller_ids.name", "=", invoice.partner_id.id),
+                ("seller_ids.partner_id", "=", invoice.partner_id.id),
             ]
             product = self.env["product.product"].search(domain, limit=1)
             if product:

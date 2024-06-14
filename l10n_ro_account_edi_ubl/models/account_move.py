@@ -399,7 +399,7 @@ class AccountMove(models.Model):
                     if not supplier_info:
                         self.env["product.supplierinfo"].create(
                             {
-                                "name": invoice.partner_id.id,
+                                "partner_id": invoice.partner_id.id,
                                 "product_name": line.name,
                                 "product_code": line.l10n_ro_vendor_code,
                             }
