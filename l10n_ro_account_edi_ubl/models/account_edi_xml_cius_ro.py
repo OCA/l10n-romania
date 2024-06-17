@@ -326,7 +326,7 @@ class AccountEdiXmlCIUSRO(models.Model):
                     ],
                     limit=1,
                 )
-                if tax:
+                if tax and not invoice_line.tax_ids:
                     invoice_line.tax_ids.add(tax)
         return res
 

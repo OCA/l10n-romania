@@ -147,7 +147,7 @@ class ResCompany(models.Model):
             company = self
         else:
             company = self.browse(company)
-        return company.account_fiscal_country_id.code == "RO"
+        return company.l10n_ro_accounting
 
     @api.depends("account_fiscal_country_id.code")
     def _compute_l10n_ro_accounting(self):
