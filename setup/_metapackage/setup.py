@@ -27,6 +27,7 @@ setuptools.setup(
         'odoo-addon-l10n_ro_dvi>=16.0dev,<16.1dev',
         'odoo-addon-l10n_ro_etransport>=16.0dev,<16.1dev',
         'odoo-addon-l10n_ro_fiscal_validation>=16.0dev,<16.1dev',
+        'odoo-addon-l10n_ro_message_spv>=16.0dev,<16.1dev',
         'odoo-addon-l10n_ro_nondeductible_vat>=16.0dev,<16.1dev',
         'odoo-addon-l10n_ro_partner_create_by_vat>=16.0dev,<16.1dev',
         'odoo-addon-l10n_ro_partner_unique>=16.0dev,<16.1dev',
