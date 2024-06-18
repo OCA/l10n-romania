@@ -21,7 +21,7 @@ class MessageSPV(models.Model):
     _order = "date desc"
 
     name = fields.Char(string="Message ID")  # id
-    cif = fields.Char(string="CIF")  # cif
+    cif = fields.Char()  # cif
     message_type = fields.Selection(
         [
             ("in_invoice", "In Invoice"),
@@ -30,9 +30,9 @@ class MessageSPV(models.Model):
         ],
         string="Type",
     )  # tip
-    date = fields.Datetime(string="Date")  # data_creare
-    details = fields.Char(string="Details")  # detalii
-    error = fields.Text(string="Error")  # eroare
+    date = fields.Datetime()  # data_creare
+    details = fields.Char()  # detalii
+    error = fields.Text()  # eroare
     request_id = fields.Char(string="Request ID")  # id_solicitare
     ref = fields.Char(string="Reference")  # referinta
 
@@ -53,15 +53,14 @@ class MessageSPV(models.Model):
             ("error", "Error"),
             ("done", "Done"),
         ],
-        string="State",
         default="draft",
     )
-    file_name = fields.Char(string="File Name")
+    file_name = fields.Char()
     attachment_id = fields.Many2one("ir.attachment", string="Attachment")
     attachment_xml_id = fields.Many2one("ir.attachment", string="XML")
     attachment_anaf_pdf_id = fields.Many2one("ir.attachment", string="ANAF PDF")
     attachment_embedded_pdf_id = fields.Many2one("ir.attachment", string="Embedded PDF")
-    amount = fields.Monetary(string="Amount")
+    amount = fields.Monetary()
 
     company_id = fields.Many2one(
         "res.company", "Company", default=lambda self: self.env.company
