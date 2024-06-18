@@ -4,7 +4,7 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 15.0\n"
+"Project-Id-Version: Odoo Server 16.0\n"
 "Report-Msgid-Bugs-To: \n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -19,6 +19,7 @@ msgid "ANAF PDF"
 msgstr ""
 
 #. module: l10n_ro_message_spv
+#. odoo-python
 #: code:addons/l10n_ro_message_spv/models/message_spv.py:0
 #, python-format
 msgid "ANAF configuration is missing."
@@ -36,7 +37,7 @@ msgstr ""
 
 #. module: l10n_ro_message_spv
 #: model:ir.model.fields,field_description:l10n_ro_message_spv.field_l10n_ro_message_spv__cif
-msgid "CIF"
+msgid "Cif"
 msgstr ""
 
 #. module: l10n_ro_message_spv
@@ -242,7 +243,6 @@ msgstr ""
 #. module: l10n_ro_message_spv
 #: model:ir.actions.server,name:l10n_ro_message_spv.ir_cron_res_company_download_message_spv_ir_actions_server
 #: model:ir.cron,cron_name:l10n_ro_message_spv.ir_cron_res_company_download_message_spv
-#: model:ir.cron,name:l10n_ro_message_spv.ir_cron_res_company_download_message_spv
 msgid "Romania e-Invoicing: Download SPV Message"
 msgstr ""
 
