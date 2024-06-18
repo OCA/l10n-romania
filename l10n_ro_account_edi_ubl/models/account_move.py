@@ -400,6 +400,10 @@ class AccountMove(models.Model):
                                 "name": invoice.partner_id.id,
                                 "product_name": line.name,
                                 "product_code": line.l10n_ro_vendor_code,
+                                "product_id": line.product_id.id,
+                                "product_uom": line.product_uom_id.id,
+                                "price": line.price_unit,
+                                "currency_id": invoice.currency_id.id,
                             }
                         )
                     else:
