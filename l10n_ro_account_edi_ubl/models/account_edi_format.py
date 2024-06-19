@@ -32,7 +32,7 @@ class AccountEdiXmlCIUSRO(models.Model):
                 xml_name = builder._export_invoice_filename(invoice)
                 old_attachment = edi_document.attachment_id.sudo()
                 if old_attachment:
-                    edi_document.attachment_id = False
+                    edi_document.sudo().attachment_id = False
                     old_attachment.unlink()
                 res = self.env["ir.attachment"].create(
                     {
@@ -250,7 +250,7 @@ class AccountEdiXmlCIUSRO(models.Model):
             )
             return b""
         else:
-            doc.write({"attachment_id": attachment.id})
+            doc.sudo().write({"attachment_id": attachment.id})
             return attachment.raw
 
     def _l10n_ro_post_invoice_step_1(self, invoice, attachment):
