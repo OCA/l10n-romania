@@ -7,19 +7,21 @@ msgstr ""
 "Project-Id-Version: Odoo Server 14.0+e\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-03-17 08:59+0000\n"
-"PO-Revision-Date: 2022-03-17 08:59+0000\n"
-"Last-Translator: \n"
+"PO-Revision-Date: 2024-06-12 08:56+0000\n"
+"Last-Translator: Larisa Cuciureanu <larisa.cuciureanu@nexterp.ro>\n"
 "Language-Team: \n"
-"Language: \n"
+"Language: ro\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
-"Plural-Forms: \n"
+"Plural-Forms: nplurals=3; plural=n==1 ? 0 : (n==0 || (n%100 > 0 && n%100 < "
+"20)) ? 1 : 2;\n"
+"X-Generator: Weblate 4.17\n"
 
 #. module: l10n_ro_pos
 #: model_terms:ir.ui.view,arch_db:l10n_ro_pos.report_saledetails
 msgid "<strong>Totals</strong>"
-msgstr ""
+msgstr "<strong>Totaluri</strong>"
 
 #. module: l10n_ro_pos
 #. odoo-javascript
@@ -51,7 +53,7 @@ msgstr "Sesiune Punct de vânzare"
 #. module: l10n_ro_pos
 #. odoo-javascript
 #: code:addons/l10n_ro_pos/static/src/xml/pos.xml:0
-#, fuzzy, python-format
+#, python-format
 msgid "Sale to individuals only.."
 msgstr "Vânzare doar către persoane fizice."
 
