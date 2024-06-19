@@ -14,8 +14,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
-"Plural-Forms: nplurals=3; plural=n==1 ? 0 : (n==0 || (n%100 > 0 && n%100 < "
-"20)) ? 1 : 2;\n"
+"Plural-Forms: nplurals=3; plural=n==1 ? 0 : (n==0 || (n%100 > 0 && n%100 < 20)) ? 1 : 2;\n"
 "X-Generator: Weblate 4.17\n"
 
 #. module: l10n_ro_config
@@ -82,8 +81,8 @@ msgid ""
 "Add a vat on payment field in partners, change the fiscal position with the "
 "one defined in settings depending on the partner and invoice."
 msgstr ""
-"Adăugați un câmp de TVA la plată în parteneri, modificați poziția fiscală cu "
-"cea definită în setări în funcție de partener și de factură."
+"Adăugați un câmp de TVA la plată în parteneri, modificați poziția fiscală cu"
+" cea definită în setări în funcție de partener și de factură."
 
 #. module: l10n_ro_config
 #: model_terms:ir.ui.view,arch_db:l10n_ro_config.res_config_settings_view_form
@@ -224,8 +223,8 @@ msgid ""
 " be the value provided by FIFO rule, applied strictly on a location level "
 "(including its children)"
 msgstr ""
-"Dacă acest camp este bifat și firma folosește Contabilitate Romană, valoarea "
-"utilizată pentru operațiunile de epuizare a stocurilor va fi valoarea "
+"Dacă acest camp este bifat și firma folosește Contabilitate Romană, valoarea"
+" utilizată pentru operațiunile de epuizare a stocurilor va fi valoarea "
 "inregistrată la recepția lotului/serialului, ignorand regula FIFO; Dacă "
 "acest camp NU este bifat și firma folosește Contabilitatea Romană, valoarea "
 "utilizată pentru operațiunile de epuizare a stocurilor va fi valoarea "
@@ -364,7 +363,8 @@ msgstr ""
 #. module: l10n_ro_config
 #: model_terms:ir.ui.view,arch_db:l10n_ro_config.res_config_settings_view_form
 msgid "Register non deductible VAT in accounting and stock operations."
-msgstr "Înregistrați TVA nedeductibilă în contabilitate și operațiuni de stoc."
+msgstr ""
+"Înregistrați TVA nedeductibilă în contabilitate și operațiuni de stoc."
 
 #. module: l10n_ro_config
 #: model_terms:ir.ui.view,arch_db:l10n_ro_config.res_config_settings_view_form
@@ -392,7 +392,8 @@ msgstr "Restricționați data mutarii stocului luna trecută"
 #: model:ir.model.fields,help:l10n_ro_config.field_res_company__l10n_ro_restrict_stock_move_date_last_month
 #: model:ir.model.fields,help:l10n_ro_config.field_res_config_settings__l10n_ro_restrict_stock_move_date_last_month
 msgid "Restrict stock move posting with at most one month ago."
-msgstr "Restricționați postarea mișcării stocurilor cu cel mult o lună în urmă."
+msgstr ""
+"Restricționați postarea mișcării stocurilor cu cel mult o lună în urmă."
 
 #. module: l10n_ro_config
 #: model:ir.model.fields,help:l10n_ro_config.field_res_company__l10n_ro_restrict_stock_move_date_future
@@ -982,8 +983,8 @@ msgstr ""
 msgid ""
 "Update partners data based on the vat code from ANAF website in cron job."
 msgstr ""
-"Actualizați datele partenerilor pe baza codului de TVA de pe site-ul ANAF în "
-"cron job."
+"Actualizați datele partenerilor pe baza codului de TVA de pe site-ul ANAF în"
+" cron job."
 
 #. module: l10n_ro_config
 #: model_terms:ir.ui.view,arch_db:l10n_ro_config.res_config_settings_view_form
