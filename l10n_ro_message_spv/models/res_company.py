@@ -18,10 +18,14 @@ class ResCompany(models.Model):
     @api.model
     def _l10n_ro_download_message_spv(self):
         # method to be used in cron job to auto download e-invoices from ANAF
-        ro_companies = self.search([]).filtered(
-            lambda c: c.country_id.code == "RO"
-            and c._l10n_ro_get_anaf_sync(scope="e-factura")
-            and c.l10n_ro_download_einvoices
+        ro_companies = (
+            self.sudo()
+            .search([])
+            .filtered(
+                lambda c: c.country_id.code == "RO"
+                and c._l10n_ro_get_anaf_sync(scope="e-factura")
+                and c.l10n_ro_download_einvoices
+            )
         )
         pattern_in = r"cif_emitent=(\d+)"
         pattern_out = r"cif_beneficiar=(\d+)"
@@ -36,7 +40,6 @@ class ResCompany(models.Model):
                     ("company_id", "=", company.id),
                 ]
                 if not self.env["l10n.ro.message.spv"].search(domain, limit=1):
-
                     date = datetime.strptime(message.get("data_creare"), "%Y%m%d%H%M")
                     localized_date = romania_tz.localize(date)
                     # Convertim data și ora la GMT
@@ -64,6 +67,8 @@ class ResCompany(models.Model):
                             )
                     elif message["tip"] == "ERORI FACTURA":
                         message_type = "error"
+                    elif "MESAJ" in message["tip"]:
+                        message_type = "message"
                     else:
                         _logger.error("Unknown message type: %s", message["tip"])
 

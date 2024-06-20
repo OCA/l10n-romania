@@ -14,7 +14,9 @@
     ],
     "assets": {
         "web.assets_backend": [
-            "l10n_ro_message_spv/static/src/js/message_spv.js",
+            # "l10n_ro_message_spv/static/src/js/message_spv.js",
+            "l10n_ro_message_spv/static/src/js/message_spv.esm.js",
+            "l10n_ro_message_spv/static/src/js/message_spv.xml",
         ],
     },
     "license": "AGPL-3",
