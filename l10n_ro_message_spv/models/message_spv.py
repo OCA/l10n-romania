@@ -206,10 +206,15 @@ class MessageSPV(models.Model):
                 ("l10n_ro_edi_transaction", "in", request_ids),
             ]
         )
+        domain = [("name", "in", messages_without_invoice.mapped("ref"))]
+        invoices |= self.env["account.move"].search(domain)
+        invoices = invoices.filtered(lambda i: i.state == "posted")
         for message in messages_without_invoice:
             invoice = invoices.filtered(
                 lambda i, m=message: i.l10n_ro_edi_download == m.name
                 or i.l10n_ro_edi_transaction == m.request_id
+                or i.ref == m.ref
+                or i.name == m.ref
             )
             if not invoice:
                 domain = [
@@ -229,6 +234,16 @@ class MessageSPV(models.Model):
                         "partner_id": invoice.commercial_partner_id.id,
                         "state": state,
                     }
+                )
+        for message in self:
+            if message.invoice_id:
+                attachments = self.env["ir.attachment"]
+                attachments += message.attachment_id
+                attachments += message.attachment_xml_id
+                attachments += message.attachment_anaf_pdf_id
+                attachments += message.attachment_embedded_pdf_id
+                attachments.write(
+                    {"res_id": message.invoice_id.id, "res_model": "account.move"}
                 )
 
     def create_invoice(self):
