@@ -159,7 +159,7 @@ class AccountMove(models.Model):
             if edi_document:
                 old_attachment = edi_document.attachment_id
                 if old_attachment:
-                    edi_document.attachment_id = False
+                    edi_document.sudo().attachment_id = False
                     old_attachment.sudo().unlink()
 
         return super()._retry_edi_documents_error_hook()
@@ -195,7 +195,7 @@ class AccountMove(models.Model):
                 user_id=self.invoice_user_id.id,
             )
         else:
-            doc.write({"attachment_id": attachment.id})
+            doc.sudo().write({"attachment_id": attachment.id})
             action = self.env["ir.attachment"].action_get()
             action.update(
                 {"res_id": attachment.id, "views": False, "view_mode": "form,tree"}
@@ -307,7 +307,7 @@ class AccountMove(models.Model):
         cius_ro = self.env.ref("l10n_ro_account_edi_ubl.edi_ubl_cius_ro")
         edi_doc = self._get_edi_document(cius_ro)
         if edi_doc:
-            edi_doc.attachment_id = attachment_zip
+            edi_doc.sudo().attachment_id = attachment_zip
         else:
             self.l10n_ro_process_anaf_xml_file(attachment)
 
