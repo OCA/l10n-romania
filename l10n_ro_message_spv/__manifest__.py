@@ -4,6 +4,7 @@
 {
     "name": "Romania - Mesaje SPV",
     "category": "Localization",
+    "countries": ["ro"],
     "summary": "Romania - Mesaje SPV",
     "depends": ["l10n_ro_account_anaf_sync"],
     "data": [
