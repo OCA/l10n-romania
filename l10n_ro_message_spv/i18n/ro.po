@@ -10,6 +10,7 @@ msgstr ""
 "PO-Revision-Date: 2024-06-19 17:11+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
+"Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
@@ -26,6 +27,11 @@ msgstr "PDF ANAF"
 #, python-format
 msgid "ANAF configuration is missing."
 msgstr "Lipsește configurarea ANAF."
+
+#. module: l10n_ro_message_spv
+#: model:ir.model,name:l10n_ro_message_spv.model_l10n_ro_account_anaf_sync_scope
+msgid "Account ANAF Sync Scope"
+msgstr ""
 
 #. module: l10n_ro_message_spv
 #: model:ir.model.fields,field_description:l10n_ro_message_spv.field_l10n_ro_message_spv__amount
@@ -112,6 +118,11 @@ msgid "Draft"
 msgstr "Ciornă"
 
 #. module: l10n_ro_message_spv
+#: model:ir.model.fields.selection,name:l10n_ro_message_spv.selection__l10n_ro_account_anaf_sync_scope__scope__e-factura
+msgid "E-factura"
+msgstr ""
+
+#. module: l10n_ro_message_spv
 #: model:ir.model.fields,field_description:l10n_ro_message_spv.field_l10n_ro_message_spv__attachment_embedded_pdf_id
 msgid "Embedded PDF"
 msgstr "PDF încorporat"
@@ -160,6 +171,20 @@ msgid "ID"
 msgstr ""
 
 #. module: l10n_ro_message_spv
+#: model:ir.model.fields,field_description:l10n_ro_message_spv.field_account_bank_statement_line__l10n_ro_edi_download
+#: model:ir.model.fields,field_description:l10n_ro_message_spv.field_account_move__l10n_ro_edi_download
+#: model:ir.model.fields,field_description:l10n_ro_message_spv.field_account_payment__l10n_ro_edi_download
+msgid "ID Download ANAF (RO)"
+msgstr ""
+
+#. module: l10n_ro_message_spv
+#: model:ir.model.fields,help:l10n_ro_message_spv.field_account_bank_statement_line__l10n_ro_edi_download
+#: model:ir.model.fields,help:l10n_ro_message_spv.field_account_move__l10n_ro_edi_download
+#: model:ir.model.fields,help:l10n_ro_message_spv.field_account_payment__l10n_ro_edi_download
+msgid "ID used to download the ZIP file from ANAF."
+msgstr ""
+
+#. module: l10n_ro_message_spv
 #: model:ir.model.fields.selection,name:l10n_ro_message_spv.selection__l10n_ro_message_spv__message_type__in_invoice
 msgid "In Invoice"
 msgstr "Factură achiziție"
@@ -176,9 +201,14 @@ msgid "Invoice"
 msgstr "Factură"
 
 #. module: l10n_ro_message_spv
-#: model:ir.model.fields,field_description:l10n_ro_message_spv.field_l10n_ro_message_spv____last_update
-msgid "Last Modified on"
-msgstr "Ultima modificare la"
+#: model:ir.model,name:l10n_ro_message_spv.model_account_move
+msgid "Journal Entry"
+msgstr ""
+
+#. module: l10n_ro_message_spv
+#: model:ir.model,name:l10n_ro_message_spv.model_account_move_line
+msgid "Journal Item"
+msgstr ""
 
 #. module: l10n_ro_message_spv
 #: model:ir.model.fields,field_description:l10n_ro_message_spv.field_l10n_ro_message_spv__write_uid
@@ -191,6 +221,7 @@ msgid "Last Updated on"
 msgstr "Ultima actualizare la"
 
 #. module: l10n_ro_message_spv
+#: model:ir.model.fields.selection,name:l10n_ro_message_spv.selection__l10n_ro_message_spv__message_type__message
 #: model_terms:ir.ui.view,arch_db:l10n_ro_message_spv.view_l10n_ro_message_spv_form
 msgid "Message"
 msgstr "Mesaj"
@@ -233,6 +264,13 @@ msgid "Reference"
 msgstr "Referință"
 
 #. module: l10n_ro_message_spv
+#. odoo-javascript
+#: code:addons/l10n_ro_message_spv/static/src/js/message_spv.xml:0
+#, python-format
+msgid "Refresh"
+msgstr ""
+
+#. module: l10n_ro_message_spv
 #: model_terms:ir.ui.view,arch_db:l10n_ro_message_spv.view_l10n_ro_message_spv_form
 msgid "Render PDF"
 msgstr "Generează PDF"
@@ -244,9 +282,13 @@ msgstr "ID cerere"
 
 #. module: l10n_ro_message_spv
 #: model:ir.actions.server,name:l10n_ro_message_spv.ir_cron_res_company_download_message_spv_ir_actions_server
-#: model:ir.cron,cron_name:l10n_ro_message_spv.ir_cron_res_company_download_message_spv
 msgid "Romania e-Invoicing: Download SPV Message"
 msgstr "Facturare electronică România: Descarcă mesaj SPV"
+
+#. module: l10n_ro_message_spv
+#: model:ir.model.fields,field_description:l10n_ro_message_spv.field_l10n_ro_account_anaf_sync_scope__scope
+msgid "Scope"
+msgstr ""
 
 #. module: l10n_ro_message_spv
 #: model:ir.model.fields,field_description:l10n_ro_message_spv.field_l10n_ro_message_spv__state
@@ -254,11 +296,33 @@ msgid "State"
 msgstr "Stare"
 
 #. module: l10n_ro_message_spv
+#: model:ir.model.fields,help:l10n_ro_message_spv.field_account_bank_statement_line__l10n_ro_edi_transaction
+#: model:ir.model.fields,help:l10n_ro_message_spv.field_account_move__l10n_ro_edi_transaction
+#: model:ir.model.fields,help:l10n_ro_message_spv.field_account_payment__l10n_ro_edi_transaction
+msgid "Technical field used to track the status of a submission."
+msgstr ""
+
+#. module: l10n_ro_message_spv
+#: model:ir.model.fields,field_description:l10n_ro_message_spv.field_account_bank_statement_line__l10n_ro_edi_transaction
+#: model:ir.model.fields,field_description:l10n_ro_message_spv.field_account_move__l10n_ro_edi_transaction
+#: model:ir.model.fields,field_description:l10n_ro_message_spv.field_account_payment__l10n_ro_edi_transaction
+msgid "Transaction ID (RO)"
+msgstr ""
+
+#. module: l10n_ro_message_spv
 #: model:ir.model.fields,field_description:l10n_ro_message_spv.field_l10n_ro_message_spv__message_type
 msgid "Type"
 msgstr "Tip"
 
 #. module: l10n_ro_message_spv
+#: model:ir.model.fields,field_description:l10n_ro_message_spv.field_account_move_line__l10n_ro_vendor_code
+msgid "Vendor Code"
+msgstr ""
+
+#. module: l10n_ro_message_spv
 #: model:ir.model.fields,field_description:l10n_ro_message_spv.field_l10n_ro_message_spv__attachment_xml_id
 msgid "XML"
 msgstr ""
+
+#~ msgid "Last Modified on"
+#~ msgstr "Ultima modificare la"
