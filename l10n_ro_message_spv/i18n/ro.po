@@ -214,7 +214,7 @@ msgstr "Mesaje SPV"
 #. module: l10n_ro_message_spv
 #: model:ir.model.fields.selection,name:l10n_ro_message_spv.selection__l10n_ro_message_spv__message_type__out_invoice
 msgid "Out Invoice"
-msgstr "Factură vănzare"
+msgstr "Factură vânzare"
 
 #. module: l10n_ro_message_spv
 #: model_terms:ir.ui.view,arch_db:l10n_ro_message_spv.view_l10n_ro_message_spv_search
