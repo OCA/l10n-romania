@@ -10,6 +10,7 @@ msgstr ""
 "PO-Revision-Date: 2024-06-19 17:11+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
+"Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
@@ -191,6 +192,7 @@ msgid "Last Updated on"
 msgstr "Ultima actualizare la"
 
 #. module: l10n_ro_message_spv
+#: model:ir.model.fields.selection,name:l10n_ro_message_spv.selection__l10n_ro_message_spv__message_type__message
 #: model_terms:ir.ui.view,arch_db:l10n_ro_message_spv.view_l10n_ro_message_spv_form
 msgid "Message"
 msgstr "Mesaj"
@@ -233,6 +235,13 @@ msgid "Reference"
 msgstr "Referință"
 
 #. module: l10n_ro_message_spv
+#. odoo-javascript
+#: code:addons/l10n_ro_message_spv/static/src/js/message_spv.xml:0
+#, python-format
+msgid "Refresh"
+msgstr ""
+
+#. module: l10n_ro_message_spv
 #: model_terms:ir.ui.view,arch_db:l10n_ro_message_spv.view_l10n_ro_message_spv_form
 msgid "Render PDF"
 msgstr "Generează PDF"
@@ -262,4 +271,3 @@ msgstr "Tip"
 #: model:ir.model.fields,field_description:l10n_ro_message_spv.field_l10n_ro_message_spv__attachment_xml_id
 msgid "XML"
 msgstr "XML"
-
