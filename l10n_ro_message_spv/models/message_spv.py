@@ -322,16 +322,7 @@ class MessageSPV(models.Model):
                 timeout=25,
             )
             if "The requested URL was rejected" in res.text:
-                xml = xml.replace(
-                    b'xsi:schemaLocation="urn:oasis:names:specification:ubl:schema:xsd:Invoice-2 ../../UBL-2.1(1)/xsd/maindoc/UBLInvoice-2.1.xsd"',  # noqa: B950
-                    "",
-                )
-                res = requests.post(
-                    f"https://webservicesp.anaf.ro/prod/FCTEL/rest/transformare/{val1}/{val2}",
-                    data=xml,
-                    headers=headers,
-                    timeout=25,
-                )
+                raise UserError(_("ANAF service unable to generate PDF from this XML."))
 
             if res.status_code == 200:
                 pdf = b64encode(res.content)
