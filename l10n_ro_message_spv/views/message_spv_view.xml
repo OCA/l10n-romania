@@ -7,8 +7,9 @@
         <field name="model">l10n.ro.message.spv</field>
         <field name="type">tree</field>
         <field name="arch" type="xml">
-            <tree js_class="message_spv_tree">
+            <tree js_class="message_spv_tree" sample="1" create="0">
                 <header>
+                    <button name="download_from_spv" string="Download" type="object" />
                     <button
                         name="get_invoice_from_move"
                         string="Get Invoice"
@@ -19,7 +20,7 @@
                         string="Create Invoice"
                         type="object"
                     />
-                    <button name="download_from_spv" string="Download" type="object" />
+
                 </header>
 
                 <field name="name" />
@@ -50,6 +51,7 @@
         <field name="arch" type="xml">
             <form>
                 <header>
+                    <button name="download_from_spv" string="Download" type="object" />
                     <button
                         name="get_invoice_from_move"
                         string="Get Invoice"
@@ -61,7 +63,7 @@
                         type="object"
                         attrs="{'invisible': [('message_type', '!=', 'in_invoice')]}"
                     />
-                    <button name="download_from_spv" string="Download" type="object" />
+
                     <button name="render_anaf_pdf" string="Render PDF" type="object" />
                     <button
                         name="get_embedded_pdf"

@@ -26,6 +26,7 @@ class MessageSPV(models.Model):
         [
             ("in_invoice", "In Invoice"),
             ("out_invoice", "Out Invoice"),
+            ("message", "Message"),
             ("error", "Error"),
         ],
         string="Type",
@@ -84,11 +85,11 @@ class MessageSPV(models.Model):
                 "/descarcare", params, method="GET"
             )
             error = ""
-            if type(response) == dict:
+            if isinstance(response, dict):
                 error = response.get("eroare", "")
             if status_code == "400":
                 error = response.get("message")
-            elif status_code == 200 and type(response) == dict:
+            elif status_code == 200 and isinstance(response, dict):
                 error = response.get("eroare")
             if not error:
                 error = message.check_anaf_error_xml(response)
@@ -154,16 +155,34 @@ class MessageSPV(models.Model):
                 }
             )
 
+    def _decode_xml(self, filename, content):
+        to_process = []
+        try:
+            xml_tree = etree.fromstring(content)
+        except Exception as e:
+            _logger.exception("Error when converting the xml content to etree: %s" % e)
+            return to_process
+        if len(xml_tree):
+            to_process.append(
+                {
+                    "filename": filename,
+                    "content": content,
+                    "type": "xml",
+                    "xml_tree": xml_tree,
+                }
+            )
+        return to_process
+
     def check_anaf_error_xml(self, zip_content):
         self.ensure_one()
-        cius_ro = self.env.ref("l10n_ro_account_edi_ubl.edi_ubl_cius_ro")
+
         err_msg = ""
         try:
             zip_ref = zipfile.ZipFile(io.BytesIO(zip_content))
             err_file = [f for f in zip_ref.namelist() if f"{self.request_id}.xml" == f]
             if err_file:
                 err_cont = zip_ref.read(err_file[0])
-                decode_xml = cius_ro._decode_xml(err_file[0], err_cont)
+                decode_xml = self._decode_xml(err_file[0], err_cont)
                 if not decode_xml:
                     return err_msg
                 tree = decode_xml[0]["xml_tree"]
@@ -188,10 +207,15 @@ class MessageSPV(models.Model):
                 ("l10n_ro_edi_transaction", "in", request_ids),
             ]
         )
+        domain = [("name", "in", messages_without_invoice.mapped("ref"))]
+        invoices |= self.env["account.move"].search(domain)
+        invoices = invoices.filtered(lambda i: i.state == "posted")
         for message in messages_without_invoice:
             invoice = invoices.filtered(
-                lambda i: i.l10n_ro_edi_download == message.name
-                or i.l10n_ro_edi_transaction == message.request_id
+                lambda i, m=message: i.l10n_ro_edi_download == m.name
+                or i.l10n_ro_edi_transaction == m.request_id
+                or i.ref == m.ref
+                or i.name == m.ref
             )
             if not invoice:
                 domain = [
@@ -211,6 +235,16 @@ class MessageSPV(models.Model):
                         "partner_id": invoice.commercial_partner_id.id,
                         "state": state,
                     }
+                )
+        for message in self:
+            if message.invoice_id:
+                attachments = self.env["ir.attachment"]
+                attachments += message.attachment_id
+                attachments += message.attachment_xml_id
+                attachments += message.attachment_anaf_pdf_id
+                attachments += message.attachment_embedded_pdf_id
+                attachments.write(
+                    {"res_id": message.invoice_id.id, "res_model": "account.move"}
                 )
 
     def create_invoice(self):
