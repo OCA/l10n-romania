@@ -25,6 +25,12 @@ msgid "ANAF configuration is missing."
 msgstr ""
 
 #. module: l10n_ro_message_spv
+#: code:addons/l10n_ro_message_spv/models/message_spv.py:0
+#, python-format
+msgid "ANAF service unable to generate PDF from this XML."
+msgstr ""
+
+#. module: l10n_ro_message_spv
 #: model:ir.model.fields,field_description:l10n_ro_message_spv.field_l10n_ro_message_spv__amount
 msgid "Amount"
 msgstr ""
@@ -188,6 +194,7 @@ msgid "Last Updated on"
 msgstr ""
 
 #. module: l10n_ro_message_spv
+#: model:ir.model.fields.selection,name:l10n_ro_message_spv.selection__l10n_ro_message_spv__message_type__message
 #: model_terms:ir.ui.view,arch_db:l10n_ro_message_spv.view_l10n_ro_message_spv_form
 msgid "Message"
 msgstr ""
