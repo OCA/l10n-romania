@@ -16,17 +16,12 @@ class ResCompany(models.Model):
     _inherit = "res.company"
 
     @api.model
-    def _l10n_ro_download_message_spv(self):
+    def l10n_ro_download_message_spv(self):
         # method to be used in cron job to auto download e-invoices from ANAF
-        ro_companies = (
-            self.sudo()
-            .search([])
-            .filtered(
-                lambda c: c.country_id.code == "RO"
-                and c._l10n_ro_get_anaf_sync(scope="e-factura")
-                and c.l10n_ro_download_einvoices
-            )
+        ro_companies = self.env.user.company_ids.filtered(
+            lambda c: c._l10n_ro_get_anaf_sync(scope="e-factura")
         )
+
         pattern_in = r"cif_emitent=(\d+)"
         pattern_out = r"cif_beneficiar=(\d+)"
 
@@ -62,9 +57,8 @@ class ResCompany(models.Model):
                         match = re.search(pattern_out, message["detalii"])
                         if match:
                             cif = match.group(1)
-                            partner = self.env["res.partner"].search(
-                                [("vat", "like", cif)], limit=1
-                            )
+                            domain = [("vat", "like", cif), ("is_company", "=", True)]
+                            partner = self.env["res.partner"].search(domain, limit=1)
                     elif message["tip"] == "ERORI FACTURA":
                         message_type = "error"
                     elif "MESAJ" in message["tip"]:
@@ -72,7 +66,7 @@ class ResCompany(models.Model):
                     else:
                         _logger.error("Unknown message type: %s", message["tip"])
 
-                    self.env["l10n.ro.message.spv"].create(
+                    self.env["l10n.ro.message.spv"].sudo().create(
                         {
                             "name": message["id"],
                             "cif": cif,
