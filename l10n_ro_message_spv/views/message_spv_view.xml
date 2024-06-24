@@ -106,7 +106,8 @@
                             <field name="attachment_embedded_pdf_id" />
                         </group>
                         <group string="Errors and Info">
-                            <field name="error" />
+                            <field name="error" invisible="not error" />
+                            <field name="message" invisible="not message" />
                         </group>
                     </group>
                 </sheet>
