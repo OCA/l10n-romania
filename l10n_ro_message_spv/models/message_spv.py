@@ -34,6 +34,7 @@ class MessageSPV(models.Model):
     date = fields.Datetime()  # data_creare
     details = fields.Char()  # detalii
     error = fields.Text()  # eroare
+    message = fields.Text()  # mesaj
     request_id = fields.Char(string="Request ID")  # id_solicitare
     ref = fields.Char(string="Reference")  # referinta
 
@@ -95,6 +96,9 @@ class MessageSPV(models.Model):
             if error:
                 message.write({"error": error})
                 continue
+            if message.message_type == "message":
+                info_message = message.check_anaf_message_xml(response)
+                message.write({"message": info_message})
 
             file_name = f"{message.request_id}.zip"
             attachment_value = {
@@ -143,8 +147,15 @@ class MessageSPV(models.Model):
             amount_note = xml_tree.find(
                 ".//{*}LegalMonetaryTotal/{*}TaxInclusiveAmount"
             )
+
             if amount_note is not None:
                 amount = float(amount_note.text)
+
+            if (
+                xml_tree.tag
+                == "{urn:oasis:names:specification:ubl:schema:xsd:CreditNote-2}CreditNote"  # noqa
+            ):
+                amount = -1 * amount
 
             message.write(
                 {
@@ -194,6 +205,21 @@ class MessageSPV(models.Model):
         except Exception as e:
             _logger.warning(f"Error while checking the Zipped XML file: {e}")
         return err_msg
+
+    def check_anaf_message_xml(self, zip_content):
+        self.ensure_one()
+        info_msg = ""
+        try:
+            zip_ref = zipfile.ZipFile(io.BytesIO(zip_content))
+            info_file = [f for f in zip_ref.namelist() if f"{self.request_id}.xml" == f]
+            if info_file:
+                message_cont = zip_ref.read(info_file[0])
+                tree = etree.fromstring(message_cont)
+                info_msg += tree.attrib.get("message")
+
+        except Exception as e:
+            _logger.warning(f"Error while checking the Zipped XML file: {e}")
+        return info_msg
 
     def get_invoice_from_move(self):
         messages_without_invoice = self.filtered(lambda m: not m.invoice_id)
