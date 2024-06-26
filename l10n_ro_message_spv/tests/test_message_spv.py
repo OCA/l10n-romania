@@ -116,15 +116,5 @@ class TestMessageSPV(AccountEdiTestCommon, CronMixinCase):
             return_value=(anaf_messages, 200),
         ):
             message_spv.download_from_spv()
-
-    def test_render_pdf(self):
-        # test de randare a mesajelor in format PDF
-        pass
-
-    def test_get_embedded_pdf(self):
-        # test de preluare a PDF-ului din mesaj
-        pass
-
-    def test_create_invoice_from_message(self):
-        # test de creare a unei facturi din mesaj
-        pass
+            message_spv.get_invoice_from_move()
+            message_spv.create_invoice()
