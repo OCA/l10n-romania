@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<templates>
+
+    <t t-extend="ListView.buttons" t-name="MessageSPV.buttons">
+        <t t-jquery="button.o_list_button_discard" t-operation="after">
+            <button type="button" class="btn btn-secondary o_button_refresh">
+               <i class="fa fa-refresh" />
+            </button>
+        </t>
+    </t>
+</templates>

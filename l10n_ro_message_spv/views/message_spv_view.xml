@@ -1,0 +1,245 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+
+
+    <record id="view_l10n_ro_message_spv_tree" model="ir.ui.view">
+        <field name="name">l10n.ro.message.spv.tree</field>
+        <field name="model">l10n.ro.message.spv</field>
+        <field name="type">tree</field>
+        <field name="arch" type="xml">
+            <tree js_class="message_spv_tree" sample="1" create="0" delete="0">
+                <header>
+                    <button name="download_from_spv" string="Download" type="object" />
+                    <button
+                        name="get_invoice_from_move"
+                        string="Get Invoice"
+                        type="object"
+                    />
+                    <button
+                        name="create_invoice"
+                        string="Create Invoice"
+                        type="object"
+                    />
+
+                </header>
+
+                <field name="name" />
+                <field name="ref" />
+                <field name="message_type" />
+                <field name="date" />
+                <field name="partner_id" />
+                <field name="request_id" />
+                <field name="company_id" invisible="1" />
+                <field name="currency_id" invisible="1" />
+                <field name="amount" sum="1" />
+                <field name="invoice_id" />
+                <field
+                    name="state"
+                    widget="badge"
+                    decoration-success="state == 'done'"
+                    decoration-info="state == 'downloaded'"
+                    decoration-primary="state == 'invoice'"
+                />
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_l10n_ro_message_spv_form" model="ir.ui.view">
+        <field name="name">l10n.ro.message.spv.form</field>
+        <field name="model">l10n.ro.message.spv</field>
+        <field name="type">form</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <button name="download_from_spv" string="Download" type="object" />
+                    <button
+                        name="get_invoice_from_move"
+                        string="Get Invoice"
+                        type="object"
+                    />
+                    <button
+                        name="create_invoice"
+                        string="Create Invoice"
+                        type="object"
+                        attrs="{'invisible': [('message_type', '!=', 'in_invoice')]}"
+                    />
+
+                    <button name="render_anaf_pdf" string="Render PDF" type="object" />
+                    <button
+                        name="get_embedded_pdf"
+                        string="Get Embedded PDF"
+                        type="object"
+                    />
+                </header>
+                <sheet>
+                    <group>
+                        <group string="Message">
+                            <field name="name" />
+                            <field name="cif" />
+                            <field name="message_type" />
+                            <field name="date" />
+                            <field name="details" />
+                            <field name="request_id" />
+                        </group>
+                        <group string="Reference">
+                            <field name="company_id" invisible="1" />
+                            <field name="partner_id" />
+                            <field name="ref" />
+                            <field name="invoice_id" />
+                            <field name="currency_id" invisible="1" />
+                            <field name="amount" sum="1" />
+                            <field
+                                name="state"
+                                widget="badge"
+                                decoration-success="state == 'done'"
+                                decoration-info="state == 'downloaded'"
+                                decoration-primary="state == 'invoice'"
+                            />
+
+                        </group>
+
+                        <group string="Files">
+                            <label for="attachment_id" />
+                            <div name="attachment_div" class="o_row">
+                                <field name="attachment_id" />
+                                <button
+                                    name="action_download_attachment"
+                                    string="Download"
+                                    type="object"
+                                    attrs="{'invisible': [('attachment_id', '==', False)]}"
+                                />
+                            </div>
+                            <label for="attachment_xml_id" />
+                            <div name="attachment_xml_div" class="o_row">
+                                <field name="attachment_xml_id" />
+                                <button
+                                    name="action_download_xml"
+                                    string="Download"
+                                    type="object"
+                                    attrs="{'invisible': [('attachment_xml_id', '==', False)]}"
+                                />
+                            </div>
+                            <label for="attachment_anaf_pdf_id" />
+                            <div name="attachment_anaf_pdf_div" class="o_row">
+                                <field name="attachment_anaf_pdf_id" />
+                                <button
+                                    name="action_download_anaf_pdf"
+                                    string="Download"
+                                    type="object"
+                                    attrs="{'invisible': [('attachment_anaf_pdf_id', '==', False)]}"
+                                />
+                            </div>
+
+                            <label for="attachment_embedded_pdf_id" />
+                            <div name="attachment_embedded_pdf_div" class="o_row">
+                                <field name="attachment_embedded_pdf_id" />
+                                <button
+                                    name="action_download_embedded_pdf"
+                                    string="Download"
+                                    type="object"
+                                    attrs="{'invisible': [('attachment_embedded_pdf_id', '==', False)]}"
+                                />
+                            </div>
+                        </group>
+                        <group string="Errors and Info">
+                            <field
+                                name="error"
+                                attrs="{'invisible': [('error', '==', False)]}"
+                            />
+                            <field
+                                name="message"
+                                attrs="{'invisible': [('message', '==', False)]}"
+                            />
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+
+    <record id="view_l10n_ro_message_spv_search" model="ir.ui.view">
+        <field name="name">l10n.ro.message.spv.search</field>
+        <field name="model">l10n.ro.message.spv</field>
+        <field name="type">search</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="ref" />
+                <field name="name" />
+                <field name="message_type" />
+                <field name="date" />
+                <field name="partner_id" />
+                <field name="request_id" />
+                <field name="company_id" />
+                <field name="invoice_id" />
+                <field name="state" />
+                <group>
+                    <filter
+                        string="Draft"
+                        name="draft"
+                        domain="[('state', '=', 'draft')]"
+                    />
+                    <filter
+                        string="Done"
+                        name="done"
+                        domain="[('state', '=', 'done')]"
+                    />
+                    <separator />
+                    <filter
+                        string="In Invoices"
+                        name="invoices"
+                        domain="[('message_type', '=', 'in_invoice')]"
+                    />
+                    <filter
+                        string="Out Invoices"
+                        name="out_invoices"
+                        domain="[('message_type', '=', 'out_invoice')]"
+                    />
+                    <filter
+                        string="Errors"
+                        name="errors"
+                        domain="[('message_type', '=', 'error')]"
+                    />
+                </group>
+                <group>
+                    <filter
+                        name="group_state"
+                        string="State"
+                        context="{'group_by': 'state'}"
+                    />
+                    <filter
+                        name="group_message_type"
+                        string="Type"
+                        context="{'group_by': 'message_type'}"
+                    />
+                    <filter
+                        name="group_partner_id"
+                        string="Partner"
+                        context="{'group_by': 'partner_id'}"
+                    />
+                </group>
+            </search>
+        </field>
+    </record>
+
+
+    <record id="action_l10n_ro_message_spv" model="ir.actions.act_window">
+        <field name="name">Messages SPV</field>
+        <field name="res_model">l10n.ro.message.spv</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <menuitem
+        id="menu_l10n_ro_spv"
+        name="SPV"
+        parent="account.menu_finance_entries"
+        action="action_l10n_ro_message_spv"
+    />
+    <menuitem
+        id="menu_l10n_ro_message_spv"
+        name="Messages SPV"
+        parent="menu_l10n_ro_spv"
+        action="action_l10n_ro_message_spv"
+    />
+
+</odoo>
