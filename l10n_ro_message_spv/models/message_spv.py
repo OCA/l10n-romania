@@ -21,7 +21,7 @@ class MessageSPV(models.Model):
     _order = "date desc"
 
     name = fields.Char(string="Message ID")  # id
-    cif = fields.Char(string="CIF")  # cif
+    cif = fields.Char()  # cif
     message_type = fields.Selection(
         [
             ("in_invoice", "In Invoice"),
@@ -55,15 +55,14 @@ class MessageSPV(models.Model):
             ("error", "Error"),
             ("done", "Done"),
         ],
-        string="State",
         default="draft",
     )
-    file_name = fields.Char(string="File Name")
+    file_name = fields.Char()
     attachment_id = fields.Many2one("ir.attachment", string="Attachment")
     attachment_xml_id = fields.Many2one("ir.attachment", string="XML")
     attachment_anaf_pdf_id = fields.Many2one("ir.attachment", string="ANAF PDF")
     attachment_embedded_pdf_id = fields.Many2one("ir.attachment", string="Embedded PDF")
-    amount = fields.Monetary(string="Amount")
+    amount = fields.Monetary()
 
     company_id = fields.Many2one(
         "res.company", "Company", default=lambda self: self.env.company
@@ -348,16 +347,7 @@ class MessageSPV(models.Model):
                 timeout=25,
             )
             if "The requested URL was rejected" in res.text:
-                xml = xml.replace(
-                    b'xsi:schemaLocation="urn:oasis:names:specification:ubl:schema:xsd:Invoice-2 ../../UBL-2.1(1)/xsd/maindoc/UBLInvoice-2.1.xsd"',  # noqa: B950
-                    "",
-                )
-                res = requests.post(
-                    f"https://webservicesp.anaf.ro/prod/FCTEL/rest/transformare/{val1}/{val2}",
-                    data=xml,
-                    headers=headers,
-                    timeout=25,
-                )
+                raise UserError(_("ANAF service unable to generate PDF from this XML."))
 
             if res.status_code == 200:
                 pdf = b64encode(res.content)
@@ -417,3 +407,26 @@ class MessageSPV(models.Model):
                     if message.attachment_embedded_pdf_id:
                         message.attachment_embedded_pdf_id.unlink()
                     message.write({"attachment_embedded_pdf_id": attachment.id})
+
+    def action_download_attachment(self):
+        self.ensure_one()
+        return self._action_download(self.attachment_id.id)
+
+    def action_download_xml(self):
+        self.ensure_one()
+        return self._action_download(self.attachment_xml_id.id)
+
+    def action_download_anaf_pdf(self):
+        self.ensure_one()
+        return self._action_download(self.attachment_anaf_pdf_id.id)
+
+    def action_download_embedded_pdf(self):
+        self.ensure_one()
+        return self._action_download(self.attachment_embedded_pdf_id.id)
+
+    def _action_download(self, attachment_field_id):
+        return {
+            "type": "ir.actions.act_url",
+            "url": f"/web/content/{attachment_field_id}?download=true",
+            "target": "self",
+        }
