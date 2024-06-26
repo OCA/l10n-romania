@@ -21,7 +21,6 @@ class ResCompany(models.Model):
         ro_companies = self.env.user.company_ids.filtered(
             lambda c: c._l10n_ro_get_anaf_sync(scope="e-factura")
         )
-
         pattern_in = r"cif_emitent=(\d+)"
         pattern_out = r"cif_beneficiar=(\d+)"
 
@@ -35,6 +34,7 @@ class ResCompany(models.Model):
                     ("company_id", "=", company.id),
                 ]
                 if not self.env["l10n.ro.message.spv"].search(domain, limit=1):
+
                     date = datetime.strptime(message.get("data_creare"), "%Y%m%d%H%M")
                     localized_date = romania_tz.localize(date)
                     # Convertim data și ora la GMT

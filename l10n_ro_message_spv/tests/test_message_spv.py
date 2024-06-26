@@ -6,14 +6,13 @@ from odoo.tests.common import TransactionCase
 
 
 class TestMessageSPV(TransactionCase):
-
     # test de creare mesaje preluate de la SPV
 
     def setUp(self):
         # initializare date
 
         #
-        return super(TestMessageSPV, self).setUp()
+        return super().setUp()
 
     def test_download_messages(self):
         # test de descarcare a mesajelor de la SPV
