@@ -287,10 +287,9 @@ class MessageSPV(models.Model):
                     "l10n_ro_edi_transaction": message.request_id,
                 }
             )
-            zip_content = message.attachment_id.raw
-            attachment = new_invoice.l10n_ro_save_anaf_xml_file(zip_content)
+
             try:
-                new_invoice.l10n_ro_process_anaf_xml_file(attachment)
+                new_invoice._extend_with_attachments(message.attachment_xml_id)
             except Exception as e:
                 message.write({"state": "error", "error": str(e)})
                 continue
@@ -414,3 +413,26 @@ class MessageSPV(models.Model):
                     if message.attachment_embedded_pdf_id:
                         message.attachment_embedded_pdf_id.unlink()
                     message.write({"attachment_embedded_pdf_id": attachment.id})
+
+    def action_download_attachment(self):
+        self.ensure_one()
+        return self._action_download(self.attachment_id.id)
+
+    def action_download_xml(self):
+        self.ensure_one()
+        return self._action_download(self.attachment_xml_id.id)
+
+    def action_download_anaf_pdf(self):
+        self.ensure_one()
+        return self._action_download(self.attachment_anaf_pdf_id.id)
+
+    def action_download_embedded_pdf(self):
+        self.ensure_one()
+        return self._action_download(self.attachment_embedded_pdf_id.id)
+
+    def _action_download(self, attachment_field_id):
+        return {
+            "type": "ir.actions.act_url",
+            "url": f"/web/content/{attachment_field_id}?download=true",
+            "target": "self",
+        }

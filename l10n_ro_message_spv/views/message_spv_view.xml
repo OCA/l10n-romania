@@ -99,11 +99,47 @@
                         </group>
 
                         <group string="Files">
+                            <label for="attachment_id" />
+                            <div name="attachment_div" class="o_row">
+                                <field name="attachment_id" />
+                                <button
+                                    name="action_download_attachment"
+                                    string="Download"
+                                    type="object"
+                                    invisible="not attachment_id"
+                                />
+                            </div>
+                            <label for="attachment_xml_id" />
+                            <div name="attachment_xml_div" class="o_row">
+                                <field name="attachment_xml_id" />
+                                <button
+                                    name="action_download_xml"
+                                    string="Download"
+                                    type="object"
+                                    invisible="not attachment_xml_id"
+                                />
+                            </div>
+                            <label for="attachment_anaf_pdf_id" />
+                            <div name="attachment_anaf_pdf_div" class="o_row">
+                                <field name="attachment_anaf_pdf_id" />
+                                <button
+                                    name="action_download_anaf_pdf"
+                                    string="Download"
+                                    type="object"
+                                    invisible="not attachment_anaf_pdf_id"
+                                />
+                            </div>
 
-                            <field name="attachment_id" />
-                            <field name="attachment_xml_id" />
-                            <field name="attachment_anaf_pdf_id" />
-                            <field name="attachment_embedded_pdf_id" />
+                            <label for="attachment_embedded_pdf_id" />
+                            <div name="attachment_embedded_pdf_div" class="o_row">
+                                <field name="attachment_embedded_pdf_id" />
+                                <button
+                                    name="action_download_embedded_pdf"
+                                    string="Download"
+                                    type="object"
+                                    invisible="not attachment_embedded_pdf_id"
+                                />
+                            </div>
                         </group>
                         <group string="Errors and Info">
                             <field name="error" invisible="not error" />
@@ -159,6 +195,23 @@
                         domain="[('message_type', '=', 'error')]"
                     />
                 </group>
+                <group>
+                    <filter
+                        name="group_state"
+                        string="State"
+                        context="{'group_by': 'state'}"
+                    />
+                    <filter
+                        name="group_message_type"
+                        string="Type"
+                        context="{'group_by': 'message_type'}"
+                    />
+                    <filter
+                        name="group_partner_id"
+                        string="Partner"
+                        context="{'group_by': 'partner_id'}"
+                    />
+                </group>
             </search>
         </field>
     </record>
@@ -171,9 +224,16 @@
     </record>
 
     <menuitem
-        id="menu_l10n_ro_message_spv"
-        name="Messages SPV"
+        id="menu_l10n_ro_spv"
+        name="SPV"
         parent="account.menu_finance_entries"
         action="action_l10n_ro_message_spv"
     />
+    <menuitem
+        id="menu_l10n_ro_message_spv"
+        name="Messages SPV"
+        parent="menu_l10n_ro_spv"
+        action="action_l10n_ro_message_spv"
+    />
+
 </odoo>
