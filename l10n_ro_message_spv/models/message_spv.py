@@ -21,7 +21,7 @@ class MessageSPV(models.Model):
     _order = "date desc"
 
     name = fields.Char(string="Message ID")  # id
-    cif = fields.Char(string="CIF")  # cif
+    cif = fields.Char()  # cif
     message_type = fields.Selection(
         [
             ("in_invoice", "In Invoice"),
@@ -31,9 +31,10 @@ class MessageSPV(models.Model):
         ],
         string="Type",
     )  # tip
-    date = fields.Datetime(string="Date")  # data_creare
-    details = fields.Char(string="Details")  # detalii
-    error = fields.Text(string="Error")  # eroare
+    date = fields.Datetime()  # data_creare
+    details = fields.Char()  # detalii
+    error = fields.Text()  # eroare
+    message = fields.Text()  # mesaj
     request_id = fields.Char(string="Request ID")  # id_solicitare
     ref = fields.Char(string="Reference")  # referinta
 
@@ -54,15 +55,14 @@ class MessageSPV(models.Model):
             ("error", "Error"),
             ("done", "Done"),
         ],
-        string="State",
         default="draft",
     )
-    file_name = fields.Char(string="File Name")
+    file_name = fields.Char()
     attachment_id = fields.Many2one("ir.attachment", string="Attachment")
     attachment_xml_id = fields.Many2one("ir.attachment", string="XML")
     attachment_anaf_pdf_id = fields.Many2one("ir.attachment", string="ANAF PDF")
     attachment_embedded_pdf_id = fields.Many2one("ir.attachment", string="Embedded PDF")
-    amount = fields.Monetary(string="Amount")
+    amount = fields.Monetary()
 
     company_id = fields.Many2one(
         "res.company", "Company", default=lambda self: self.env.company
@@ -96,6 +96,9 @@ class MessageSPV(models.Model):
             if error:
                 message.write({"error": error})
                 continue
+            if message.message_type == "message":
+                info_message = message.check_anaf_message_xml(response)
+                message.write({"message": info_message})
 
             file_name = f"{message.request_id}.zip"
             attachment_value = {
@@ -144,8 +147,15 @@ class MessageSPV(models.Model):
             amount_note = xml_tree.find(
                 ".//{*}LegalMonetaryTotal/{*}TaxInclusiveAmount"
             )
+
             if amount_note is not None:
                 amount = float(amount_note.text)
+
+            if (
+                xml_tree.tag
+                == "{urn:oasis:names:specification:ubl:schema:xsd:CreditNote-2}CreditNote"  # noqa
+            ):
+                amount = -1 * amount
 
             message.write(
                 {
@@ -195,6 +205,21 @@ class MessageSPV(models.Model):
         except Exception as e:
             _logger.warning(f"Error while checking the Zipped XML file: {e}")
         return err_msg
+
+    def check_anaf_message_xml(self, zip_content):
+        self.ensure_one()
+        info_msg = ""
+        try:
+            zip_ref = zipfile.ZipFile(io.BytesIO(zip_content))
+            info_file = [f for f in zip_ref.namelist() if f"{self.request_id}.xml" == f]
+            if info_file:
+                message_cont = zip_ref.read(info_file[0])
+                tree = etree.fromstring(message_cont)
+                info_msg += tree.attrib.get("message")
+
+        except Exception as e:
+            _logger.warning(f"Error while checking the Zipped XML file: {e}")
+        return info_msg
 
     def get_invoice_from_move(self):
         messages_without_invoice = self.filtered(lambda m: not m.invoice_id)
@@ -382,3 +407,26 @@ class MessageSPV(models.Model):
                     if message.attachment_embedded_pdf_id:
                         message.attachment_embedded_pdf_id.unlink()
                     message.write({"attachment_embedded_pdf_id": attachment.id})
+
+    def action_download_attachment(self):
+        self.ensure_one()
+        return self._action_download(self.attachment_id.id)
+
+    def action_download_xml(self):
+        self.ensure_one()
+        return self._action_download(self.attachment_xml_id.id)
+
+    def action_download_anaf_pdf(self):
+        self.ensure_one()
+        return self._action_download(self.attachment_anaf_pdf_id.id)
+
+    def action_download_embedded_pdf(self):
+        self.ensure_one()
+        return self._action_download(self.attachment_embedded_pdf_id.id)
+
+    def _action_download(self, attachment_field_id):
+        return {
+            "type": "ir.actions.act_url",
+            "url": f"/web/content/{attachment_field_id}?download=true",
+            "target": "self",
+        }
