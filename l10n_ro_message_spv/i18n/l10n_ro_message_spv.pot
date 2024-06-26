@@ -252,6 +252,7 @@ msgstr ""
 
 #. module: l10n_ro_message_spv
 #: model:ir.model.fields,field_description:l10n_ro_message_spv.field_l10n_ro_message_spv__partner_id
+#: model_terms:ir.ui.view,arch_db:l10n_ro_message_spv.view_l10n_ro_message_spv_search
 msgid "Partner"
 msgstr ""
 
@@ -284,12 +285,18 @@ msgid "Romania e-Invoicing: Download SPV Message"
 msgstr ""
 
 #. module: l10n_ro_message_spv
+#: model:ir.ui.menu,name:l10n_ro_message_spv.menu_l10n_ro_spv
+msgid "SPV"
+msgstr ""
+
+#. module: l10n_ro_message_spv
 #: model:ir.model.fields,field_description:l10n_ro_message_spv.field_l10n_ro_account_anaf_sync_scope__scope
 msgid "Scope"
 msgstr ""
 
 #. module: l10n_ro_message_spv
 #: model:ir.model.fields,field_description:l10n_ro_message_spv.field_l10n_ro_message_spv__state
+#: model_terms:ir.ui.view,arch_db:l10n_ro_message_spv.view_l10n_ro_message_spv_search
 msgid "State"
 msgstr ""
 
@@ -309,6 +316,7 @@ msgstr ""
 
 #. module: l10n_ro_message_spv
 #: model:ir.model.fields,field_description:l10n_ro_message_spv.field_l10n_ro_message_spv__message_type
+#: model_terms:ir.ui.view,arch_db:l10n_ro_message_spv.view_l10n_ro_message_spv_search
 msgid "Type"
 msgstr ""
 
