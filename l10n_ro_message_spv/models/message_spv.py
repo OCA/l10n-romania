@@ -76,7 +76,10 @@ class MessageSPV(models.Model):
     def _onchange_invoice_id(self):
         for message in self:
             if message.invoice_id:
-                message.invoice_amount = message.invoice_id.amount_total
+                if message.invoice_id.move_type in ("in_refund", "out_refund"):
+                    message.invoice_amount = -1 * message.invoice_id.amount_total
+                else:
+                    message.invoice_amount = message.invoice_id.amount_total
                 message.partner_id = message.invoice_id.commercial_partner_id
                 if message.invoice_id.state == "posted":
                     message.state = "done"
@@ -266,7 +269,7 @@ class MessageSPV(models.Model):
                 invoice = self.env["account.move"].search(domain, limit=1)
 
             if invoice:
-                message.write({"invoice_id": invoice.id})
+                message.write({"invoice_id": invoice[0].id})
 
         self.get_data_from_invoice()
 
@@ -277,10 +280,16 @@ class MessageSPV(models.Model):
             state = "invoice"
             if message.invoice_id.state == "posted":
                 state = "done"
+
+            if message.invoice_id.move_type in ("in_refund", "out_refund"):
+                invoice_amount = -1 * message.invoice_id.amount_total
+            else:
+                invoice_amount = message.invoice_id.amount_total
+
             message.write(
                 {
                     "partner_id": message.invoice_id.commercial_partner_id.id,
-                    "invoice_amount": message.invoice_id.amount_total,
+                    "invoice_amount": invoice_amount,
                     "state": state,
                 }
             )
