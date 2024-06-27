@@ -56,3 +56,8 @@ class ResConfigSettings(models.TransientModel):
         readonly=False,
         string="Render Anaf PDF",
     )
+    l10n_ro_edi_error_notify_users = fields.Many2many(
+        related="company_id.l10n_ro_edi_error_notify_users",
+        readonly=False,
+        string="EDI Error Notify Users",
+    )

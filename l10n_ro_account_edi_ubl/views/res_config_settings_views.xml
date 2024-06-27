@@ -165,6 +165,25 @@
                         </div>
                     </div>
                 </div>
+                <div
+                    class="col-xs-12 col-md-12 o_setting_box"
+                    id="l10n_ro_edi_error_notify_users"
+                    string="EDI Error Notification Users"
+                >
+                    <div class="o_setting_left_pane">
+                    </div>
+                    <div class="o_setting_right_pane">
+                        <div class="row mt16">
+                            <field
+                                name="l10n_ro_edi_error_notify_users"
+                                widget="many2many_tags"
+                            />
+                        </div>
+                        <div class="text-muted">
+                            Select users who will receive EDI Error notification.
+                        </div>
+                    </div>
+                </div>
             </div>
         </field>
     </record>

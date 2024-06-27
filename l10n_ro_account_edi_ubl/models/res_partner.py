@@ -14,3 +14,7 @@ class ResPartner(models.Model):
         "Will be used to calculate the sending of the invoice to "
         "the e-invoice system.",
     )
+    l10n_ro_edi_ubl_no_send = fields.Boolean(
+        "Romania - No send UBL",
+        help="Check this if the partner should not receive UBL invoices.",
+    )

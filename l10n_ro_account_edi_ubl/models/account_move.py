@@ -30,6 +30,10 @@ class AccountMove(models.Model):
         compute="_compute_l10n_ro_show_edi_fields",
         string="Show ANAF EDI Fields",
     )
+    l10n_ro_edi_fields_readonly = fields.Boolean(
+        compute="_compute_l10n_ro_show_edi_fields",
+        string="Make ANAF EDI Fields readonly",
+    )
 
     l10n_ro_show_anaf_download_edi_buton = fields.Boolean(
         compute="_compute_l10n_ro_show_anaf_download_edi_buton",
@@ -40,15 +44,18 @@ class AccountMove(models.Model):
     def _compute_l10n_ro_show_edi_fields(self):
         cius_ro = self.env.ref("l10n_ro_account_edi_ubl.edi_ubl_cius_ro")
         for invoice in self:
-            show_button = False
+            show_fields = False
             if (
                 cius_ro._is_required_for_invoice(invoice)
-                and invoice.edi_state == "sent"
+                and invoice.l10n_ro_edi_transaction
             ):
-                show_button = True
+                show_fields = True
+                readonly_fields = True
             elif invoice.move_type in ("in_invoice", "in_refund"):
-                show_button = True
-            invoice.l10n_ro_show_edi_fields = show_button
+                show_fields = True
+                readonly_fields = True if invoice.state == "posted" else False
+            invoice.l10n_ro_show_edi_fields = show_fields
+            invoice.l10n_ro_edi_fields_readonly = readonly_fields
 
     @api.depends("l10n_ro_edi_download", "edi_state", "move_type")
     def _compute_l10n_ro_show_anaf_download_edi_buton(self):
@@ -121,10 +128,13 @@ class AccountMove(models.Model):
                         move.display_name,
                     )
                 )
-            if move.l10n_ro_edi_transaction:
-                move.l10n_ro_edi_transaction = None
-            if move.l10n_ro_edi_download:
-                move.l10n_ro_edi_download = None
+            # Remove EDI transaction and EDI download only if the invoice is
+            # required to be send to ANAF.
+            if move.get_l10n_ro_edi_invoice_needed():
+                if move.l10n_ro_edi_transaction:
+                    move.l10n_ro_edi_transaction = None
+                if move.l10n_ro_edi_download:
+                    move.l10n_ro_edi_download = None
         return super().button_draft()
 
     def button_cancel_posted_moves(self):
@@ -188,12 +198,16 @@ class AccountMove(models.Model):
             self.message_post(body=attachment)
             message = _("There are some errors when generating the XMl file.")
             body = message + _("\n\nError:\n<p>%s</p>") % attachment
-            self.activity_schedule(
-                "mail.mail_activity_data_warning",
-                summary=message,
-                note=body,
-                user_id=self.invoice_user_id.id,
+            users = (
+                self.company_id.l10n_ro_edi_error_notify_users or self.invoice_user_id
             )
+            for user in users:
+                self.activity_schedule(
+                    "mail.mail_activity_data_warning",
+                    summary=message,
+                    note=body,
+                    user_id=user.id,
+                )
         else:
             doc.sudo().write({"attachment_id": attachment.id})
             action = self.env["ir.attachment"].action_get()
