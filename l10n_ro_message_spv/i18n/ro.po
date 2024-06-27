@@ -29,6 +29,13 @@ msgid "ANAF configuration is missing."
 msgstr "Lipsește configurarea ANAF."
 
 #. module: l10n_ro_message_spv
+#. odoo-python
+#: code:addons/l10n_ro_message_spv/models/message_spv.py:0
+#, python-format
+msgid "ANAF service unable to generate PDF from this XML."
+msgstr ""
+
+#. module: l10n_ro_message_spv
 #: model:ir.model.fields,field_description:l10n_ro_message_spv.field_l10n_ro_message_spv__amount
 msgid "Amount"
 msgstr "Sumă"
@@ -192,6 +199,7 @@ msgid "Last Updated on"
 msgstr "Ultima actualizare la"
 
 #. module: l10n_ro_message_spv
+#: model:ir.model.fields,field_description:l10n_ro_message_spv.field_l10n_ro_message_spv__message
 #: model:ir.model.fields.selection,name:l10n_ro_message_spv.selection__l10n_ro_message_spv__message_type__message
 #: model_terms:ir.ui.view,arch_db:l10n_ro_message_spv.view_l10n_ro_message_spv_form
 msgid "Message"
@@ -225,6 +233,7 @@ msgstr "Facturi vânzare"
 
 #. module: l10n_ro_message_spv
 #: model:ir.model.fields,field_description:l10n_ro_message_spv.field_l10n_ro_message_spv__partner_id
+#: model_terms:ir.ui.view,arch_db:l10n_ro_message_spv.view_l10n_ro_message_spv_search
 msgid "Partner"
 msgstr "Partener"
 
@@ -258,12 +267,19 @@ msgid "Romania e-Invoicing: Download SPV Message"
 msgstr "Facturare electronică România: Descarcă mesaj SPV"
 
 #. module: l10n_ro_message_spv
+#: model:ir.ui.menu,name:l10n_ro_message_spv.menu_l10n_ro_spv
+msgid "SPV"
+msgstr ""
+
+#. module: l10n_ro_message_spv
 #: model:ir.model.fields,field_description:l10n_ro_message_spv.field_l10n_ro_message_spv__state
+#: model_terms:ir.ui.view,arch_db:l10n_ro_message_spv.view_l10n_ro_message_spv_search
 msgid "State"
 msgstr "Stare"
 
 #. module: l10n_ro_message_spv
 #: model:ir.model.fields,field_description:l10n_ro_message_spv.field_l10n_ro_message_spv__message_type
+#: model_terms:ir.ui.view,arch_db:l10n_ro_message_spv.view_l10n_ro_message_spv_search
 msgid "Type"
 msgstr "Tip"
 
