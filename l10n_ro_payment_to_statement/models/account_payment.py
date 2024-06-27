@@ -111,6 +111,7 @@ class AccountPayment(models.Model):
                 and payment.name
                 and payment.name != "/"
                 and payment.journal_id.type == "cash"
+                and not self._context.get("force_delete", False)
             ):
                 raise UserError(
                     _(
