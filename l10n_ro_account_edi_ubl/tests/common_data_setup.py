@@ -248,7 +248,12 @@ class CiusRoTestSetup(AccountEdiTestCommon, CronMixinCase):
         return bytes_content
 
     def check_invoice_documents(
-        self, invoice, state="to_send", error=False, blocking_level=False
+        self,
+        invoice,
+        state="to_send",
+        error=False,
+        blocking_level=False,
+        check_activity=False,
     ):
         sleep_time = 0
         while not invoice.edi_state and sleep_time < 30:
@@ -260,16 +265,16 @@ class CiusRoTestSetup(AccountEdiTestCommon, CronMixinCase):
         if error:
             self.assertTrue(invoice.edi_document_ids.error)
             self.assertIn(error, invoice.edi_document_ids.error)
-            # self.assertTrue(
-            #     any(error in message for message in invoice.message_ids.mapped("body"))
-            # )
         if blocking_level:
             self.assertEqual(invoice.edi_document_ids.blocking_level, blocking_level)
-            if blocking_level == "error":
-                self.assertTrue(invoice.activity_ids)
-                self.assertTrue(
-                    any(
-                        error in activity
-                        for activity in invoice.activity_ids.mapped("note")
-                    )
+        if not check_activity and blocking_level == "error":
+            check_activity = True
+        if check_activity:
+            self.assertTrue(invoice.activity_ids)
+            self.assertTrue(
+                any(
+                    error in activity
+                    for activity in invoice.sudo().activity_ids.mapped("note")
+                    + invoice.sudo().activity_ids.mapped("summary")
                 )
+            )

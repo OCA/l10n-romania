@@ -40,11 +40,20 @@ class AccountMove(models.Model):
         string="Show ANAF Download EDI Button",
     )
 
+    l10n_ro_edi_previous_transaction = fields.Char(
+        "Previous Transactions or Download (RO)",
+        help="Technical field used to track previous transactions or "
+        "download ID's received from ANAF. Useful in case the invoice "
+        "was sent and had errors, we could find the invoice based on "
+        "old data, since on reset to draft they are removed.",
+        copy=False,
+    )
+
     @api.depends("edi_state", "move_type")
     def _compute_l10n_ro_show_edi_fields(self):
         cius_ro = self.env.ref("l10n_ro_account_edi_ubl.edi_ubl_cius_ro")
         for invoice in self:
-            show_fields = False
+            show_fields = readonly_fields = False
             if (
                 cius_ro._is_required_for_invoice(invoice)
                 and invoice.l10n_ro_edi_transaction
@@ -195,19 +204,11 @@ class AccountMove(models.Model):
         # In case of error, the attachment is a list of string
         if not isinstance(attachment, models.Model):
             doc.write({"error": attachment, "blocking_level": "warning"})
-            self.message_post(body=attachment)
             message = _("There are some errors when generating the XMl file.")
-            body = message + _("\n\nError:\n<p>%s</p>") % attachment
-            users = (
-                self.company_id.l10n_ro_edi_error_notify_users or self.invoice_user_id
+            message += _("\n\nError:\n<p>%s</p>") % attachment
+            self.env["account.edi.format"].l10n_ro_edi_post_message(
+                self, message, attachment
             )
-            for user in users:
-                self.activity_schedule(
-                    "mail.mail_activity_data_warning",
-                    summary=message,
-                    note=body,
-                    user_id=user.id,
-                )
         else:
             doc.sudo().write({"attachment_id": attachment.id})
             action = self.env["ir.attachment"].action_get()
@@ -429,6 +430,23 @@ class AccountMove(models.Model):
                         supplier_info.write({"product_code": line.l10n_ro_vendor_code})
 
         return res
+
+    def write(self, vals):
+        if vals.get("l10n_ro_edi_download"):
+            self.l10n_ro_complete_old_transaction(vals["l10n_ro_edi_download"])
+        if vals.get("l10n_ro_edi_transaction"):
+            self.l10n_ro_complete_old_transaction(vals["l10n_ro_edi_transaction"])
+        res = super().write(vals)
+        return res
+
+    def l10n_ro_complete_old_transaction(self, old_transaction):
+        if not old_transaction:
+            return
+        for move in self:
+            if not move.l10n_ro_edi_previous_transaction:
+                move.l10n_ro_edi_previous_transaction = old_transaction
+            elif old_transaction not in move.l10n_ro_edi_previous_transaction:
+                move.l10n_ro_edi_previous_transaction += ", %s" % old_transaction
 
 
 class AccountMoveLine(models.Model):

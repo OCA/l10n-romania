@@ -123,7 +123,9 @@ class AccountEdiXmlCIUSRO(models.Model):
 
     @api.model
     def l10n_ro_edi_post_message(self, invoice, message, res):
-        body = message + _("\n\nError:\n<p>%s</p>") % res["error"]
+        body = message
+        if res.get("error"):
+            body += _("\n\nError:\n<p>%s</p>") % res["error"]
         users = (
             invoice.company_id.l10n_ro_edi_error_notify_users or invoice.invoice_user_id
         )
@@ -243,23 +245,8 @@ class AccountEdiXmlCIUSRO(models.Model):
         # In case of error, the attachment is a list of string
         if not isinstance(attachment, models.Model):
             doc.write({"error": attachment, "blocking_level": "warning"})
-            context = clean_context(self.env.context)
-            context.update(
-                {"mail_create_nosubscribe": True, "mail_auto_subscribe_no_notify": True}
-            )
-            move.with_context(**context).message_post(body=attachment)
             message = _("There are some errors when generating the XMl file.")
-            body = message + _("\n\nError:\n<p>%s</p>") % attachment
-            users = (
-                move.company_id.l10n_ro_edi_error_notify_users or move.invoice_user_id
-            )
-            for user in users:
-                move.activity_schedule(
-                    "mail.mail_activity_data_warning",
-                    summary=message,
-                    note=body,
-                    user_id=user.id,
-                )
+            self.l10n_ro_edi_post_message(move, message, attachment)
             return b""
         else:
             doc.sudo().write({"attachment_id": attachment.id})

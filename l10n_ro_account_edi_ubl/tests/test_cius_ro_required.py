@@ -92,3 +92,8 @@ class TestCiusRoRequired(CiusRoTestSetup):
         # Test when move_type is not in the specified types and conditions are not met
         self.invoice_in.journal_id.l10n_ro_partner_id = False
         self.assertFalse(self.invoice_in.get_l10n_ro_edi_invoice_needed())
+
+    def test_get_l10n_ro_edi_invoice_needed_partner_option(self):
+        # Test when the partner has l10n_ro_edi_ubl_no_send set to True
+        self.invoice.commercial_partner_id.l10n_ro_edi_ubl_no_send = True
+        self.assertFalse(self.invoice.get_l10n_ro_edi_invoice_needed())
