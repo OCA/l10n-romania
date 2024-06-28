@@ -394,7 +394,7 @@ class AccountMove(models.Model):
             for line in invoice.invoice_line_ids:
                 if line.l10n_ro_vendor_code and line.product_id:
                     supplier_info = line.product_id.seller_ids.filtered(
-                        lambda s: s.name.id == invoice.partner_id.id
+                        lambda s: s.partner_id.id == invoice.partner_id.id
                     )
                     if not supplier_info:
                         self.env["product.supplierinfo"].create(
