@@ -9,7 +9,7 @@ from base64 import b64encode
 import requests
 from lxml import etree
 
-from odoo import _, fields, models
+from odoo import _, api, fields, models
 from odoo.exceptions import UserError
 
 _logger = logging.getLogger(__name__)
@@ -63,6 +63,7 @@ class MessageSPV(models.Model):
     attachment_anaf_pdf_id = fields.Many2one("ir.attachment", string="ANAF PDF")
     attachment_embedded_pdf_id = fields.Many2one("ir.attachment", string="Embedded PDF")
     amount = fields.Monetary()
+    invoice_amount = fields.Monetary()
 
     company_id = fields.Many2one(
         "res.company", "Company", default=lambda self: self.env.company
@@ -70,6 +71,18 @@ class MessageSPV(models.Model):
     currency_id = fields.Many2one(
         "res.currency", default=lambda self: self.env.company.currency_id
     )
+
+    @api.onchange("invoice_id")
+    def _onchange_invoice_id(self):
+        for message in self:
+            if message.invoice_id:
+                if message.invoice_id.move_type in ("in_refund", "out_refund"):
+                    message.invoice_amount = -1 * message.invoice_id.amount_total
+                else:
+                    message.invoice_amount = message.invoice_id.amount_total
+                message.partner_id = message.invoice_id.commercial_partner_id
+                if message.invoice_id.state == "posted":
+                    message.state = "done"
 
     def download_from_spv(self):
         """Rutina de descarcare a fisierelor de la SPV"""
@@ -243,24 +256,43 @@ class MessageSPV(models.Model):
                 or i.name == m.ref
             )
             if not invoice:
+                if message.message_type == "in_invoice":
+                    move_type = ("in_invoice", "in_refund")
+                else:
+                    move_type = ("out_invoice", "out_refund")
+
                 domain = [
                     ("partner_id", "=", message.partner_id.id),
                     ("ref", "=", message.ref),
-                    ("move_type", "=", message.message_type),
+                    ("move_type", "in", move_type),
                 ]
                 invoice = self.env["account.move"].search(domain, limit=1)
 
             if invoice:
-                state = "invoice"
-                if invoice.edi_state == "sent":
-                    state = "done"
-                message.write(
-                    {
-                        "invoice_id": invoice.id,
-                        "partner_id": invoice.commercial_partner_id.id,
-                        "state": state,
-                    }
-                )
+                message.write({"invoice_id": invoice[0].id})
+
+        self.get_data_from_invoice()
+
+    def get_data_from_invoice(self):
+        for message in self:
+            if not message.invoice_id:
+                continue
+            state = "invoice"
+            if message.invoice_id.state == "posted":
+                state = "done"
+
+            if message.invoice_id.move_type in ("in_refund", "out_refund"):
+                invoice_amount = -1 * message.invoice_id.amount_total
+            else:
+                invoice_amount = message.invoice_id.amount_total
+
+            message.write(
+                {
+                    "partner_id": message.invoice_id.commercial_partner_id.id,
+                    "invoice_amount": invoice_amount,
+                    "state": state,
+                }
+            )
         for message in self:
             if message.invoice_id:
                 attachments = self.env["ir.attachment"]
