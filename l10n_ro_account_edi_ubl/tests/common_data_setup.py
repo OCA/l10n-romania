@@ -155,8 +155,12 @@ class CiusRoTestSetup(AccountEdiTestCommon, CronMixinCase):
             ],
         }
         cls.edi_cius_format = cls.env.ref("l10n_ro_account_edi_ubl.edi_ubl_cius_ro")
+        journal = cls.env["account.journal"].search(
+            [("type", "=", "sale"), ("company_id", "=", cls.env.company.id)], limit=1
+        )
+        journal.edi_format_ids = [(6, 0, cls.edi_cius_format.ids)]
+        invoice_values["journal_id"] = journal.id
         cls.invoice = cls.env["account.move"].create(invoice_values)
-        cls.invoice.journal_id.edi_format_ids = [(6, 0, cls.edi_cius_format.ids)]
 
         # Update the invoice_values and create a credit_note
         invoice_values.update(
@@ -254,6 +258,7 @@ class CiusRoTestSetup(AccountEdiTestCommon, CronMixinCase):
         error=False,
         blocking_level=False,
         check_activity=False,
+        user_id=False,
     ):
         sleep_time = 0
         while not invoice.edi_state and sleep_time < 30:
@@ -270,11 +275,15 @@ class CiusRoTestSetup(AccountEdiTestCommon, CronMixinCase):
         if not check_activity and blocking_level == "error":
             check_activity = True
         if check_activity:
-            self.assertTrue(invoice.activity_ids)
+            domain = [("res_id", "=", invoice.id), ("res_model", "=", "account.move")]
+            if user_id:
+                domain.append(("user_id", "=", user_id))
+            activity = self.env["mail.activity"].search(domain)
+            self.assertTrue(activity)
             self.assertTrue(
                 any(
-                    error in activity
-                    for activity in invoice.sudo().activity_ids.mapped("note")
+                    error in msg
+                    for msg in activity.mapped("note")
                     + invoice.sudo().activity_ids.mapped("summary")
                 )
             )

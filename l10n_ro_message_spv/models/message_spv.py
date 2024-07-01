@@ -102,8 +102,6 @@ class MessageSPV(models.Model):
                 error = response.get("eroare", "")
             if status_code == "400":
                 error = response.get("message")
-            elif status_code == 200 and isinstance(response, dict):
-                error = response.get("eroare")
             if not error:
                 error = message.check_anaf_error_xml(response)
             if error:

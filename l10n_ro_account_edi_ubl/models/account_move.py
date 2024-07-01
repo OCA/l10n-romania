@@ -49,20 +49,19 @@ class AccountMove(models.Model):
         copy=False,
     )
 
-    @api.depends("edi_state", "move_type")
+    @api.depends("edi_state", "move_type", "l10n_ro_edi_transaction")
     def _compute_l10n_ro_show_edi_fields(self):
         cius_ro = self.env.ref("l10n_ro_account_edi_ubl.edi_ubl_cius_ro")
         for invoice in self:
             show_fields = readonly_fields = False
-            if (
-                cius_ro._is_required_for_invoice(invoice)
-                and invoice.l10n_ro_edi_transaction
-            ):
-                show_fields = True
-                readonly_fields = True
-            elif invoice.move_type in ("in_invoice", "in_refund"):
-                show_fields = True
-                readonly_fields = True if invoice.state == "posted" else False
+            if cius_ro._is_required_for_invoice(invoice):
+                if invoice.l10n_ro_edi_transaction:
+                    show_fields = True
+                    readonly_fields = True
+            else:
+                if invoice.move_type in ("in_invoice", "in_refund"):
+                    show_fields = True
+                    readonly_fields = True if invoice.state == "posted" else False
             invoice.l10n_ro_show_edi_fields = show_fields
             invoice.l10n_ro_edi_fields_readonly = readonly_fields
 

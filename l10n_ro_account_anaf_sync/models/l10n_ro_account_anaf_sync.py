@@ -247,18 +247,20 @@ class AccountANAFSync(models.Model):
                     .get_param("l10n_ro_account_anaf_sync.token_valability_days", 7)
                 )
                 msg = False
-                if 0 <= date_diff.days <= days:
-                    msg = (
-                        _(
-                            "Your Odoo ANAF access token is about to expire in %s days."
-                            " Please refresh it."
+                if date_diff.days <= int(days):
+                    try:
+                        record.refresh_access_token()
+                        msg = _(
+                            "Your Odoo ANAF access token was refreshed automatically."
                         )
-                        % date_diff.days
-                    )
-                if date_diff.days < 0:
-                    msg = _(
-                        "Your Odoo ANAF access token expired %s days ago."
-                        " Please revoke it and get the token again from ANAF website."
-                    ) % (-1 * date_diff.days)
+                    except Exception as e:
+                        _logger.error("Error while refreshing token: %s", e)
+                        msg = (
+                            _(
+                                "Your Odoo ANAF access token is about to expire in %s days."
+                                " Please refresh it."
+                            )
+                            % date_diff.days
+                        )
                 if msg:
                     record.message_post(body=msg)
