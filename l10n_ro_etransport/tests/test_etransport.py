@@ -134,7 +134,7 @@ class TestETransport(TransactionCase):
                 ).id,
                 "location_id": self.picking_type.default_location_src_id.id,
                 "location_dest_id": self.picking_type.default_location_dest_id.id,
-                "move_ids": [
+                "move_lines": [
                     (
                         0,
                         0,
