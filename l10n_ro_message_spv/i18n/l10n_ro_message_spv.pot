@@ -179,6 +179,11 @@ msgid "Invoice"
 msgstr ""
 
 #. module: l10n_ro_message_spv
+#: model:ir.model.fields,field_description:l10n_ro_message_spv.field_l10n_ro_message_spv__invoice_amount
+msgid "Invoice Amount"
+msgstr ""
+
+#. module: l10n_ro_message_spv
 #: model:ir.model.fields,field_description:l10n_ro_message_spv.field_l10n_ro_message_spv____last_update
 msgid "Last Modified on"
 msgstr ""
