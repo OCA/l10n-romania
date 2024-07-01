@@ -1,0 +1,4 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_l10n_ro_e_transport_scope,access_l10n_ro_e_transport_scope,model_l10n_ro_e_transport_scope,base.group_user,1,0,0,0
+access_l10n_ro_e_transport_customs,access_l10n_ro_e_transport_customs,model_l10n_ro_e_transport_customs,base.group_user,1,0,0,0
+access_l10n_ro_e_transport_operation,access_l10n_ro_e_transport_operation,model_l10n_ro_e_transport_operation,base.group_user,1,0,0,0

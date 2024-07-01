@@ -1,0 +1,276 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* l10n_ro_etransport
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 16.0\n"
+"Report-Msgid-Bugs-To: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: l10n_ro_etransport
+#: model:ir.model.fields,field_description:l10n_ro_etransport.field_stock_picking__l10n_ro_e_transport_message
+msgid "ANAF Message"
+msgstr ""
+
+#. module: l10n_ro_etransport
+#: model:ir.model,name:l10n_ro_etransport.model_l10n_ro_account_anaf_sync_scope
+msgid "Account ANAF Sync Scope"
+msgstr ""
+
+#. module: l10n_ro_etransport
+#: model:ir.actions.act_window,name:l10n_ro_etransport.action_l10n_ro_e_transport_customs
+#: model:ir.model.fields,field_description:l10n_ro_etransport.field_stock_picking__l10n_ro_e_transport_customs_id
+#: model:ir.ui.menu,name:l10n_ro_etransport.l10n_ro_e_transport_customs_menu
+#: model_terms:ir.ui.view,arch_db:l10n_ro_etransport.view_picking_form
+msgid "Border crossing point"
+msgstr ""
+
+#. module: l10n_ro_etransport
+#: model:ir.model.fields,field_description:l10n_ro_etransport.field_l10n_ro_e_transport_customs__code
+#: model:ir.model.fields,field_description:l10n_ro_etransport.field_l10n_ro_e_transport_operation__code
+#: model:ir.model.fields,field_description:l10n_ro_etransport.field_l10n_ro_e_transport_scope__code
+msgid "Code"
+msgstr ""
+
+#. module: l10n_ro_etransport
+#: model:ir.model.fields,field_description:l10n_ro_etransport.field_l10n_ro_e_transport_customs__create_uid
+#: model:ir.model.fields,field_description:l10n_ro_etransport.field_l10n_ro_e_transport_operation__create_uid
+#: model:ir.model.fields,field_description:l10n_ro_etransport.field_l10n_ro_e_transport_scope__create_uid
+msgid "Created by"
+msgstr ""
+
+#. module: l10n_ro_etransport
+#: model:ir.model.fields,field_description:l10n_ro_etransport.field_l10n_ro_e_transport_customs__create_date
+#: model:ir.model.fields,field_description:l10n_ro_etransport.field_l10n_ro_e_transport_operation__create_date
+#: model:ir.model.fields,field_description:l10n_ro_etransport.field_l10n_ro_e_transport_scope__create_date
+msgid "Created on"
+msgstr ""
+
+#. module: l10n_ro_etransport
+#: model:ir.model.fields,field_description:l10n_ro_etransport.field_l10n_ro_e_transport_customs__display_name
+#: model:ir.model.fields,field_description:l10n_ro_etransport.field_l10n_ro_e_transport_operation__display_name
+#: model:ir.model.fields,field_description:l10n_ro_etransport.field_l10n_ro_e_transport_scope__display_name
+msgid "Display Name"
+msgstr ""
+
+#. module: l10n_ro_etransport
+#: model:ir.model.fields.selection,name:l10n_ro_etransport.selection__stock_picking__l10n_ro_e_transport_status__draft
+msgid "Draft"
+msgstr ""
+
+#. module: l10n_ro_etransport
+#: model:ir.model,name:l10n_ro_etransport.model_l10n_ro_e_transport_customs
+msgid "E Transport Customs"
+msgstr ""
+
+#. module: l10n_ro_etransport
+#: model:ir.model,name:l10n_ro_etransport.model_l10n_ro_e_transport_operation
+msgid "E Transport Operation"
+msgstr ""
+
+#. module: l10n_ro_etransport
+#: model:ir.model,name:l10n_ro_etransport.model_l10n_ro_e_transport_scope
+msgid "E Transport Scope"
+msgstr ""
+
+#. module: l10n_ro_etransport
+#: model:ir.model.fields.selection,name:l10n_ro_etransport.selection__l10n_ro_account_anaf_sync_scope__scope__e-transport
+#: model:ir.ui.menu,name:l10n_ro_etransport.l10n_ro_e_transport_menu
+#: model_terms:ir.ui.view,arch_db:l10n_ro_etransport.view_picking_form
+msgid "E-Transport"
+msgstr ""
+
+#. module: l10n_ro_etransport
+#. odoo-python
+#: code:addons/l10n_ro_etransport/models/stock_picking.py:0
+#: code:addons/l10n_ro_etransport/models/stock_picking.py:0
+#, python-format
+msgid "Error %(status_code)s:%(content)s"
+msgstr ""
+
+#. module: l10n_ro_etransport
+#: model:ir.model.fields.selection,name:l10n_ro_etransport.selection__l10n_ro_e_transport_operation__usage__export
+msgid "Export"
+msgstr ""
+
+#. module: l10n_ro_etransport
+#: model_terms:ir.ui.view,arch_db:l10n_ro_etransport.view_picking_form
+msgid "Export E-Transport"
+msgstr ""
+
+#. module: l10n_ro_etransport
+#: model:ir.model.fields,field_description:l10n_ro_etransport.field_l10n_ro_e_transport_customs__id
+#: model:ir.model.fields,field_description:l10n_ro_etransport.field_l10n_ro_e_transport_operation__id
+#: model:ir.model.fields,field_description:l10n_ro_etransport.field_l10n_ro_e_transport_scope__id
+msgid "ID"
+msgstr ""
+
+#. module: l10n_ro_etransport
+#: model_terms:ir.ui.view,arch_db:l10n_ro_etransport.view_picking_form
+msgid "ID Download"
+msgstr ""
+
+#. module: l10n_ro_etransport
+#: model:ir.model.fields,field_description:l10n_ro_etransport.field_stock_picking__l10n_ro_e_transport_download
+msgid "ID Download ANAF "
+msgstr ""
+
+#. module: l10n_ro_etransport
+#: model:ir.model.fields.selection,name:l10n_ro_etransport.selection__l10n_ro_e_transport_operation__usage__import
+msgid "Import"
+msgstr ""
+
+#. module: l10n_ro_etransport
+#: model:ir.model.fields.selection,name:l10n_ro_etransport.selection__stock_picking__l10n_ro_e_transport_status__in_processing
+msgid "In processing"
+msgstr ""
+
+#. module: l10n_ro_etransport
+#: model_terms:ir.ui.view,arch_db:l10n_ro_etransport.view_picking_form
+msgid "Information e-transport"
+msgstr ""
+
+#. module: l10n_ro_etransport
+#: model:ir.model.fields,field_description:l10n_ro_etransport.field_stock_picking__l10n_ro_e_transport_status
+msgid "L10N Ro E Transport Status"
+msgstr ""
+
+#. module: l10n_ro_etransport
+#: model:ir.model.fields,field_description:l10n_ro_etransport.field_l10n_ro_e_transport_customs____last_update
+#: model:ir.model.fields,field_description:l10n_ro_etransport.field_l10n_ro_e_transport_operation____last_update
+#: model:ir.model.fields,field_description:l10n_ro_etransport.field_l10n_ro_e_transport_scope____last_update
+msgid "Last Modified on"
+msgstr ""
+
+#. module: l10n_ro_etransport
+#: model:ir.model.fields,field_description:l10n_ro_etransport.field_l10n_ro_e_transport_customs__write_uid
+#: model:ir.model.fields,field_description:l10n_ro_etransport.field_l10n_ro_e_transport_operation__write_uid
+#: model:ir.model.fields,field_description:l10n_ro_etransport.field_l10n_ro_e_transport_scope__write_uid
+msgid "Last Updated by"
+msgstr ""
+
+#. module: l10n_ro_etransport
+#: model:ir.model.fields,field_description:l10n_ro_etransport.field_l10n_ro_e_transport_customs__write_date
+#: model:ir.model.fields,field_description:l10n_ro_etransport.field_l10n_ro_e_transport_operation__write_date
+#: model:ir.model.fields,field_description:l10n_ro_etransport.field_l10n_ro_e_transport_scope__write_date
+msgid "Last Updated on"
+msgstr ""
+
+#. module: l10n_ro_etransport
+#: model:ir.model.fields.selection,name:l10n_ro_etransport.selection__l10n_ro_e_transport_operation__usage__local
+msgid "Local"
+msgstr ""
+
+#. module: l10n_ro_etransport
+#: model:ir.model.fields,field_description:l10n_ro_etransport.field_l10n_ro_e_transport_customs__name
+#: model:ir.model.fields,field_description:l10n_ro_etransport.field_l10n_ro_e_transport_operation__name
+#: model:ir.model.fields,field_description:l10n_ro_etransport.field_l10n_ro_e_transport_scope__name
+msgid "Name"
+msgstr ""
+
+#. module: l10n_ro_etransport
+#: model:ir.model.fields.selection,name:l10n_ro_etransport.selection__stock_picking__l10n_ro_e_transport_status__nok
+msgid "Not OK"
+msgstr ""
+
+#. module: l10n_ro_etransport
+#: model:ir.model.fields.selection,name:l10n_ro_etransport.selection__stock_picking__l10n_ro_e_transport_status__ok
+msgid "Ok"
+msgstr ""
+
+#. module: l10n_ro_etransport
+#: model_terms:ir.ui.view,arch_db:l10n_ro_etransport.view_picking_form
+msgid "Operation Type"
+msgstr ""
+
+#. module: l10n_ro_etransport
+#: model:ir.model.fields,field_description:l10n_ro_etransport.field_stock_picking__l10n_ro_e_transport_operation_type_id
+msgid "Operation type"
+msgstr ""
+
+#. module: l10n_ro_etransport
+#: model:ir.model.fields,field_description:l10n_ro_etransport.field_delivery_carrier__l10n_ro_e_partner_id
+msgid "Partner Carrier"
+msgstr ""
+
+#. module: l10n_ro_etransport
+#: model:ir.model.fields,field_description:l10n_ro_etransport.field_l10n_ro_account_anaf_sync_scope__scope
+#: model:ir.model.fields,field_description:l10n_ro_etransport.field_stock_picking__l10n_ro_e_transport_scope_id
+#: model_terms:ir.ui.view,arch_db:l10n_ro_etransport.view_picking_form
+msgid "Scope"
+msgstr ""
+
+#. module: l10n_ro_etransport
+#: model:ir.model.fields.selection,name:l10n_ro_etransport.selection__stock_picking__l10n_ro_e_transport_status__sent
+msgid "Sent"
+msgstr ""
+
+#. module: l10n_ro_etransport
+#: model:ir.model,name:l10n_ro_etransport.model_delivery_carrier
+msgid "Shipping Methods"
+msgstr ""
+
+#. module: l10n_ro_etransport
+#: model_terms:ir.ui.view,arch_db:l10n_ro_etransport.view_picking_form
+msgid "Status"
+msgstr ""
+
+#. module: l10n_ro_etransport
+#. odoo-python
+#: code:addons/l10n_ro_etransport/models/stock_picking.py:0
+#, python-format
+msgid "The document is not ok. Errors: %s"
+msgstr ""
+
+#. module: l10n_ro_etransport
+#. odoo-python
+#: code:addons/l10n_ro_etransport/models/stock_picking.py:0
+#, python-format
+msgid "The document was in processing at %s."
+msgstr ""
+
+#. module: l10n_ro_etransport
+#. odoo-python
+#: code:addons/l10n_ro_etransport/models/stock_picking.py:0
+#, python-format
+msgid "The document was uploaded successfully, check the status."
+msgstr ""
+
+#. module: l10n_ro_etransport
+#: model:ir.model,name:l10n_ro_etransport.model_stock_picking
+msgid "Transfer"
+msgstr ""
+
+#. module: l10n_ro_etransport
+#: model:ir.model.fields,field_description:l10n_ro_etransport.field_stock_picking__l10n_ro_e_transport_uit
+msgid "UIT"
+msgstr ""
+
+#. module: l10n_ro_etransport
+#: model:ir.model.fields,field_description:l10n_ro_etransport.field_l10n_ro_e_transport_operation__usage
+msgid "Usage"
+msgstr ""
+
+#. module: l10n_ro_etransport
+#. odoo-python
+#: code:addons/l10n_ro_etransport/models/stock_picking.py:0
+#, python-format
+msgid "Validation Error: %s"
+msgstr ""
+
+#. module: l10n_ro_etransport
+#: model:ir.model.fields,field_description:l10n_ro_etransport.field_stock_picking__l10n_ro_vehicle
+msgid "Vehicle"
+msgstr ""
+
+#. module: l10n_ro_etransport
+#: model:ir.actions.act_window,name:l10n_ro_etransport.action_l10n_ro_e_transport_scope
+#: model:ir.ui.menu,name:l10n_ro_etransport.l10n_ro_e_transport_scope_menu
+msgid "scope"
+msgstr ""
