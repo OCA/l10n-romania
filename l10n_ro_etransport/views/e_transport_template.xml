@@ -83,7 +83,7 @@
                 <documenteTransport
                     tipDocument="30"
                     t-att-numarDocument="doc.name"
-                    t-att-dataDocument="doc.date_done.date()"
+                    t-att-dataDocument="doc.scheduled_date.date()"
                 />
 
 
