@@ -424,22 +424,18 @@ class AccountMoveLine(models.Model):
 
     @api.depends("product_id")
     def _compute_name(self):
-        self.ensure_one()
-        if (
-            self.move_id.move_type not in ["in_invoice", "in_refund"]
-            or not self.move_id.l10n_ro_edi_download
-        ):
-            return super()._compute_name()
-        else:
-            return self.name
+        lines = self.filtered(
+            lambda l: l.move_id.move_type in ["in_invoice", "in_refund"]
+            and l.move_id.l10n_ro_edi_download
+        )
+
+        return super(AccountMoveLine, self - lines)._compute_name()
 
     @api.depends("product_id", "product_uom_id")
     def _compute_price_unit(self):
-        self.ensure_one()
-        if (
-            self.move_id.move_type not in ["in_invoice", "in_refund"]
-            or not self.move_id.l10n_ro_edi_download
-        ):
-            return super()._compute_price_unit()
-        else:
-            return self.price_unit
+        lines = self.filtered(
+            lambda l: l.move_id.move_type in ["in_invoice", "in_refund"]
+            and l.move_id.l10n_ro_edi_download
+        )
+
+        return super(AccountMoveLine, self - lines)._compute_price_unit()
