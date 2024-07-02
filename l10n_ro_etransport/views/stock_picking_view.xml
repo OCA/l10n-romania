@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+
+        <record id="view_picking_form" model="ir.ui.view">
+            <field name="name">stock.picking.form.view</field>
+            <field name="model">stock.picking</field>
+            <field name="inherit_id" ref="stock.view_picking_form" />
+            <field name="arch" type="xml">
+                <xpath expr="//header" position="after">
+                    <div
+                    class="alert alert-warning"
+                    role="alert"
+                    style="margin-bottom:0px;"
+                    attrs="{'invisible': [('l10n_ro_e_transport_message', '=', False)]}"
+                >
+                        <span><field name="l10n_ro_e_transport_message" /></span>
+                    </div>
+                </xpath>
+
+                <xpath expr="/form/header/button[last()]" position="after">
+                    <button
+                    name="export_e_transport_button"
+                    string="Export E-Transport"
+                    type="object"
+                />
+                </xpath>
+
+
+                <xpath expr="//page[@name='note']" position="before">
+                    <page string="E-Transport">
+                        <group>
+                            <group string="Information e-transport">
+                                <field name="carrier_id" />
+                                <field name="l10n_ro_vehicle" />
+                                <field
+                                name="l10n_ro_e_transport_customs_id"
+                                string="Border crossing point"
+                                attrs="{'readonly': [('l10n_ro_e_transport_status', 'not in', ('draft', 'nok'))]}"
+                            />
+                                <field
+                                name="l10n_ro_e_transport_operation_type_id"
+                                string="Operation Type"
+                                attrs="{'readonly': [('l10n_ro_e_transport_status', 'not in', ('draft', 'nok'))]}"
+                            />
+                                 <field
+                                name="l10n_ro_e_transport_scope_id"
+                                string="Scope"
+                                attrs="{'readonly': [('l10n_ro_e_transport_status', 'not in', ('draft', 'nok'))]}"
+                            />
+                            </group>
+                            <group string="Status">
+                                <field name="l10n_ro_e_transport_uit" />
+                                <field
+                                name="l10n_ro_e_transport_download"
+                                string="ID Download"
+                                readonly="1"
+                            />
+                                <field
+                                name="l10n_ro_e_transport_status"
+                                string="Status"
+                                readonly="1"
+                            />
+                            </group>
+                        </group>
+                    </page>
+                </xpath>
+            </field>
+        </record>
+
+</odoo>
