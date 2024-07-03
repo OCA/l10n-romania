@@ -157,7 +157,7 @@ class AccountMove(models.Model):
             invoice.l10n_ro_edi_transaction = None
             edi_document = invoice._get_edi_document(cius_ro)
             if edi_document:
-                old_attachment = edi_document.attachment_id
+                old_attachment = edi_document.sudo().attachment_id
                 if old_attachment:
                     edi_document.sudo().attachment_id = False
                     old_attachment.sudo().unlink()
