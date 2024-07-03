@@ -16,7 +16,6 @@ msgstr ""
 #. module: l10n_ro_account_edi_ubl
 #. odoo-python
 #: code:addons/l10n_ro_account_edi_ubl/models/account_edi_format.py:0
-#: code:addons/l10n_ro_account_edi_ubl/models/account_edi_format.py:0
 #: code:addons/l10n_ro_account_edi_ubl/models/account_move.py:0
 #, python-format
 msgid ""
@@ -46,6 +45,12 @@ msgid "Account ANAF Sync Scope"
 msgstr ""
 
 #. module: l10n_ro_account_edi_ubl
+#: model:ir.model.fields,help:l10n_ro_account_edi_ubl.field_res_company__l10n_ro_edi_error_notify_users
+#: model:ir.model.fields,help:l10n_ro_account_edi_ubl.field_res_config_settings__l10n_ro_edi_error_notify_users
+msgid "Add users to receive EDI Error messages"
+msgstr ""
+
+#. module: l10n_ro_account_edi_ubl
 #: model_terms:ir.ui.view,arch_db:l10n_ro_account_edi_ubl.res_config_settings_view_form
 msgid "Attach PDF invoice to the e-Invoice."
 msgstr ""
@@ -66,6 +71,12 @@ msgstr ""
 msgid ""
 "Check this if the partner is a government institution.Will be used to "
 "calculate the sending of the invoice to the e-invoice system."
+msgstr ""
+
+#. module: l10n_ro_account_edi_ubl
+#: model:ir.model.fields,help:l10n_ro_account_edi_ubl.field_res_partner__l10n_ro_edi_ubl_no_send
+#: model:ir.model.fields,help:l10n_ro_account_edi_ubl.field_res_users__l10n_ro_edi_ubl_no_send
+msgid "Check this if the partner should not receive UBL invoices."
 msgstr ""
 
 #. module: l10n_ro_account_edi_ubl
@@ -178,6 +189,17 @@ msgid "E-factura"
 msgstr ""
 
 #. module: l10n_ro_account_edi_ubl
+#: model_terms:ir.ui.view,arch_db:l10n_ro_account_edi_ubl.res_config_settings_view_form
+msgid "EDI Error Notification Users"
+msgstr ""
+
+#. module: l10n_ro_account_edi_ubl
+#: model:ir.model.fields,field_description:l10n_ro_account_edi_ubl.field_res_company__l10n_ro_edi_error_notify_users
+#: model:ir.model.fields,field_description:l10n_ro_account_edi_ubl.field_res_config_settings__l10n_ro_edi_error_notify_users
+msgid "EDI Error Notify Users"
+msgstr ""
+
+#. module: l10n_ro_account_edi_ubl
 #: model:ir.model,name:l10n_ro_account_edi_ubl.model_account_edi_format
 msgid "EDI format"
 msgstr ""
@@ -271,6 +293,13 @@ msgid "Last Updated on"
 msgstr ""
 
 #. module: l10n_ro_account_edi_ubl
+#: model:ir.model.fields,field_description:l10n_ro_account_edi_ubl.field_account_bank_statement_line__l10n_ro_edi_fields_readonly
+#: model:ir.model.fields,field_description:l10n_ro_account_edi_ubl.field_account_move__l10n_ro_edi_fields_readonly
+#: model:ir.model.fields,field_description:l10n_ro_account_edi_ubl.field_account_payment__l10n_ro_edi_fields_readonly
+msgid "Make ANAF EDI Fields readonly"
+msgstr ""
+
+#. module: l10n_ro_account_edi_ubl
 #: model:ir.model.fields,field_description:l10n_ro_account_edi_ubl.field_res_company__l10n_ro_download_einvoices_days
 #: model:ir.model.fields,field_description:l10n_ro_account_edi_ubl.field_res_config_settings__l10n_ro_download_einvoices_days
 msgid "Maximum number of days to download e-invoices."
@@ -285,6 +314,13 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:l10n_ro_account_edi_ubl.res_config_settings_view_form
 msgid ""
 "Period of residence for the e-Invoice after which it is automatically sent"
+msgstr ""
+
+#. module: l10n_ro_account_edi_ubl
+#: model:ir.model.fields,field_description:l10n_ro_account_edi_ubl.field_account_bank_statement_line__l10n_ro_edi_previous_transaction
+#: model:ir.model.fields,field_description:l10n_ro_account_edi_ubl.field_account_move__l10n_ro_edi_previous_transaction
+#: model:ir.model.fields,field_description:l10n_ro_account_edi_ubl.field_account_payment__l10n_ro_edi_previous_transaction
+msgid "Previous Transactions or Download (RO)"
 msgstr ""
 
 #. module: l10n_ro_account_edi_ubl
@@ -326,6 +362,12 @@ msgid "Romania - NC Code"
 msgstr ""
 
 #. module: l10n_ro_account_edi_ubl
+#: model:ir.model.fields,field_description:l10n_ro_account_edi_ubl.field_res_partner__l10n_ro_edi_ubl_no_send
+#: model:ir.model.fields,field_description:l10n_ro_account_edi_ubl.field_res_users__l10n_ro_edi_ubl_no_send
+msgid "Romania - No send UBL"
+msgstr ""
+
+#. module: l10n_ro_account_edi_ubl
 #: model:ir.actions.server,name:l10n_ro_account_edi_ubl.ir_cron_res_company_einvoice_download_every_day_ir_actions_server
 #: model:ir.cron,cron_name:l10n_ro_account_edi_ubl.ir_cron_res_company_einvoice_download_every_day
 msgid "Romania e-Invoicing: Download Supplier Invoices"
@@ -334,6 +376,11 @@ msgstr ""
 #. module: l10n_ro_account_edi_ubl
 #: model:ir.model.fields,field_description:l10n_ro_account_edi_ubl.field_l10n_ro_account_anaf_sync_scope__scope
 msgid "Scope"
+msgstr ""
+
+#. module: l10n_ro_account_edi_ubl
+#: model_terms:ir.ui.view,arch_db:l10n_ro_account_edi_ubl.res_config_settings_view_form
+msgid "Select users who will receive EDI Error notification."
 msgstr ""
 
 #. module: l10n_ro_account_edi_ubl
@@ -372,6 +419,17 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_ro_account_edi_ubl.field_res_company__l10n_ro_store_einvoices
 #: model:ir.model.fields,field_description:l10n_ro_account_edi_ubl.field_res_config_settings__l10n_ro_store_einvoices
 msgid "Store E-Invoice signed by Anaf."
+msgstr ""
+
+#. module: l10n_ro_account_edi_ubl
+#: model:ir.model.fields,help:l10n_ro_account_edi_ubl.field_account_bank_statement_line__l10n_ro_edi_previous_transaction
+#: model:ir.model.fields,help:l10n_ro_account_edi_ubl.field_account_move__l10n_ro_edi_previous_transaction
+#: model:ir.model.fields,help:l10n_ro_account_edi_ubl.field_account_payment__l10n_ro_edi_previous_transaction
+msgid ""
+"Technical field used to track previous transactions or download ID's "
+"received from ANAF. Useful in case the invoice was sent and had errors, we "
+"could find the invoice based on old data, since on reset to draft they are "
+"removed."
 msgstr ""
 
 #. module: l10n_ro_account_edi_ubl
