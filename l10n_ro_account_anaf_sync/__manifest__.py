@@ -7,6 +7,7 @@
     "summary": "Romania - Account ANAF Sync",
     "depends": ["l10n_ro_config"],
     "data": [
+        "data/anaf_sync_expire_cron.xml",
         "security/account_security.xml",
         "security/ir.model.access.csv",
         "views/l10n_ro_account_anaf_sync_view.xml",

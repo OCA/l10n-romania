@@ -7,7 +7,7 @@ from datetime import datetime
 import jwt
 import requests
 
-from odoo import _, fields, models
+from odoo import _, api, fields, models
 from odoo.exceptions import UserError
 
 _logger = logging.getLogger(__name__)
@@ -221,3 +221,46 @@ class AccountANAFSync(models.Model):
         else:
             message = _("Test token response: %s") % response.reason
         self.message_post(body=message)
+
+    @api.model
+    def cron_send_expiration_token_message(self, anaf_sync=False):
+        """Cron to send post message to user if token expire."""
+        if anaf_sync:
+            anaf_sync.send_expiration_token_message()
+        else:
+            anaf_syncs = self.env["l10n.ro.account.anaf.sync"].sudo().search([])
+            for anaf_sync in anaf_syncs:
+                anaf_sync.send_expiration_token_message()
+
+    def send_expiration_token_message(self):
+        """Send message to user when token is about to expiry,
+        7 days before the expiry date, but can be changed from
+        ir.config.parameter with value
+        `l10n_ro_account_anaf_sync.token_valability_days`.
+        """
+        for record in self:
+            if record.client_token_valability:
+                date_diff = record.client_token_valability - fields.Date.today()
+                days = (
+                    self.env["ir.config_parameter"]
+                    .sudo()
+                    .get_param("l10n_ro_account_anaf_sync.token_valability_days", 7)
+                )
+                msg = False
+                if date_diff.days <= int(days):
+                    try:
+                        record.refresh_access_token()
+                        msg = _(
+                            "Your Odoo ANAF access token was refreshed automatically."
+                        )
+                    except Exception as e:
+                        _logger.error("Error while refreshing token: %s", e)
+                        msg = (
+                            _(
+                                "Your Odoo ANAF access token is about to expire in %s days."
+                                " Please refresh it."
+                            )
+                            % date_diff.days
+                        )
+                if msg:
+                    record.message_post(body=msg)

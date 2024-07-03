@@ -30,25 +30,40 @@ class AccountMove(models.Model):
         compute="_compute_l10n_ro_show_edi_fields",
         string="Show ANAF EDI Fields",
     )
+    l10n_ro_edi_fields_readonly = fields.Boolean(
+        compute="_compute_l10n_ro_show_edi_fields",
+        string="Make ANAF EDI Fields readonly",
+    )
 
     l10n_ro_show_anaf_download_edi_buton = fields.Boolean(
         compute="_compute_l10n_ro_show_anaf_download_edi_buton",
         string="Show ANAF Download EDI Button",
     )
 
-    @api.depends("edi_state", "move_type")
+    l10n_ro_edi_previous_transaction = fields.Char(
+        "Previous Transactions or Download (RO)",
+        help="Technical field used to track previous transactions or "
+        "download ID's received from ANAF. Useful in case the invoice "
+        "was sent and had errors, we could find the invoice based on "
+        "old data, since on reset to draft they are removed.",
+        copy=False,
+    )
+
+    @api.depends("edi_state", "move_type", "l10n_ro_edi_transaction")
     def _compute_l10n_ro_show_edi_fields(self):
         cius_ro = self.env.ref("l10n_ro_account_edi_ubl.edi_ubl_cius_ro")
         for invoice in self:
-            show_button = False
-            if (
-                cius_ro._is_required_for_invoice(invoice)
-                and invoice.edi_state == "sent"
-            ):
-                show_button = True
-            elif invoice.move_type in ("in_invoice", "in_refund"):
-                show_button = True
-            invoice.l10n_ro_show_edi_fields = show_button
+            show_fields = readonly_fields = False
+            if cius_ro._is_required_for_invoice(invoice):
+                if invoice.l10n_ro_edi_transaction:
+                    show_fields = True
+                    readonly_fields = True
+            else:
+                if invoice.move_type in ("in_invoice", "in_refund"):
+                    show_fields = True
+                    readonly_fields = True if invoice.state == "posted" else False
+            invoice.l10n_ro_show_edi_fields = show_fields
+            invoice.l10n_ro_edi_fields_readonly = readonly_fields
 
     @api.depends("l10n_ro_edi_download", "edi_state", "move_type")
     def _compute_l10n_ro_show_anaf_download_edi_buton(self):
@@ -121,10 +136,13 @@ class AccountMove(models.Model):
                         move.display_name,
                     )
                 )
-            if move.l10n_ro_edi_transaction:
-                move.l10n_ro_edi_transaction = None
-            if move.l10n_ro_edi_download:
-                move.l10n_ro_edi_download = None
+            # Remove EDI transaction and EDI download only if the invoice is
+            # required to be send to ANAF.
+            if move.get_l10n_ro_edi_invoice_needed():
+                if move.l10n_ro_edi_transaction:
+                    move.l10n_ro_edi_transaction = None
+                if move.l10n_ro_edi_download:
+                    move.l10n_ro_edi_download = None
         return super().button_draft()
 
     def button_cancel_posted_moves(self):
@@ -185,14 +203,10 @@ class AccountMove(models.Model):
         # In case of error, the attachment is a list of string
         if not isinstance(attachment, models.Model):
             doc.write({"error": attachment, "blocking_level": "warning"})
-            self.message_post(body=attachment)
             message = _("There are some errors when generating the XMl file.")
-            body = message + _("\n\nError:\n<p>%s</p>") % attachment
-            self.activity_schedule(
-                "mail.mail_activity_data_warning",
-                summary=message,
-                note=body,
-                user_id=self.invoice_user_id.id,
+            message += _("\n\nError:\n<p>%s</p>") % attachment
+            self.env["account.edi.format"].l10n_ro_edi_post_message(
+                self, message, attachment
             )
         else:
             doc.sudo().write({"attachment_id": attachment.id})
@@ -415,6 +429,23 @@ class AccountMove(models.Model):
                         supplier_info.write({"product_code": line.l10n_ro_vendor_code})
 
         return res
+
+    def write(self, vals):
+        if vals.get("l10n_ro_edi_download"):
+            self.l10n_ro_complete_old_transaction(vals["l10n_ro_edi_download"])
+        if vals.get("l10n_ro_edi_transaction"):
+            self.l10n_ro_complete_old_transaction(vals["l10n_ro_edi_transaction"])
+        res = super().write(vals)
+        return res
+
+    def l10n_ro_complete_old_transaction(self, old_transaction):
+        if not old_transaction:
+            return
+        for move in self:
+            if not move.l10n_ro_edi_previous_transaction:
+                move.l10n_ro_edi_previous_transaction = old_transaction
+            elif old_transaction not in move.l10n_ro_edi_previous_transaction:
+                move.l10n_ro_edi_previous_transaction += ", %s" % old_transaction
 
 
 class AccountMoveLine(models.Model):

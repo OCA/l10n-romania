@@ -66,17 +66,24 @@ class ResCompany(models.Model):
                     else:
                         _logger.error("Unknown message type: %s", message["tip"])
 
-                    self.env["l10n.ro.message.spv"].sudo().create(
-                        {
-                            "name": message["id"],
-                            "cif": cif,
-                            "message_type": message_type,
-                            "date": gmt_date.strftime("%Y-%m-%d %H:%M:%S"),
-                            "details": message["detalii"],
-                            "request_id": message["id_solicitare"],
-                            "company_id": company.id,
-                            "partner_id": partner.id,
-                            "state": "draft",
-                        }
+                    spv_message = (
+                        self.env["l10n.ro.message.spv"]
+                        .sudo()
+                        .create(
+                            {
+                                "name": message["id"],
+                                "cif": cif,
+                                "message_type": message_type,
+                                "date": gmt_date.strftime("%Y-%m-%d %H:%M:%S"),
+                                "details": message["detalii"],
+                                "request_id": message["id_solicitare"],
+                                "company_id": company.id,
+                                "partner_id": partner.id,
+                                "state": "draft",
+                            }
+                        )
                     )
+                    if spv_message.message_type in ["error", "message"]:
+                        spv_message.get_invoice_from_move()
+                        spv_message.download_from_spv()
         return True

@@ -10,11 +10,11 @@
         "security/ir.model.access.csv",
         "security/security.xml",
         "data/ir_cron_data.xml",
+        "views/account_invoice.xml",
         "views/message_spv_view.xml",
     ],
     "assets": {
         "web.assets_backend": [
-            # "l10n_ro_message_spv/static/src/js/message_spv.js",
             "l10n_ro_message_spv/static/src/js/message_spv.esm.js",
             "l10n_ro_message_spv/static/src/js/message_spv.xml",
         ],

@@ -43,6 +43,12 @@ class ResCompany(models.Model):
         string="Credit Note on e-invoice", default=False
     )
     l10n_ro_render_anaf_pdf = fields.Boolean(string="Render Anaf PDF", default=False)
+    l10n_ro_edi_error_notify_users = fields.Many2many(
+        "res.users",
+        relation="res_company_res_users_edi_notify_rel",
+        string="EDI Error Notify Users",
+        help="Add users to receive EDI Error messages",
+    )
 
     @api.constrains("l10n_ro_edi_residence", "l10n_ro_download_einvoices_days")
     def _check_l10n_ro_edi_residence(self):

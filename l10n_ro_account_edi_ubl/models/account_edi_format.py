@@ -7,6 +7,7 @@ import logging
 from lxml import etree
 
 from odoo import _, api, fields, models
+from odoo.tools.misc import clean_context
 
 _logger = logging.getLogger(__name__)
 
@@ -109,37 +110,43 @@ class AccountEdiXmlCIUSRO(models.Model):
             invoice.move_type in ("out_invoice", "out_refund")
             and invoice.commercial_partner_id.country_id.code == "RO"
             and invoice.commercial_partner_id.is_company
+            and not invoice.commercial_partner_id.l10n_ro_edi_ubl_no_send
         )
         if not is_required:
             is_required = (
                 invoice.move_type in ("in_invoice", "in_refund")
                 and invoice.journal_id.l10n_ro_sequence_type == "autoinv2"
                 and bool(invoice.journal_id.l10n_ro_partner_id)
+                and not invoice.journal_id.l10n_ro_partner_id.l10n_ro_edi_ubl_no_send
             )
         return is_required
 
     @api.model
     def l10n_ro_edi_post_message(self, invoice, message, res):
-        # invoice.message_post(body=res["error"])
-        body = message + _("\n\nError:\n<p>%s</p>") % res["error"]
-
-        mail_activity = invoice.activity_ids.filtered(
-            lambda a: a.summary == message and a.user_id == invoice.invoice_user_id
+        body = message
+        if res.get("error"):
+            body += _("\n\nError:\n<p>%s</p>") % res["error"]
+        users = (
+            invoice.company_id.l10n_ro_edi_error_notify_users or invoice.invoice_user_id
         )
-        if mail_activity:
-            mail_activity.write(
-                {
-                    "date_deadline": fields.Date.today(),
-                    "note": body,
-                }
+        for user in users:
+            mail_activity = invoice.activity_ids.filtered(
+                lambda a: a.summary == message and a.user_id == user
             )
-        else:
-            invoice.activity_schedule(
-                "mail.mail_activity_data_warning",
-                summary=message,
-                note=body,
-                user_id=invoice.invoice_user_id.id,
-            )
+            if mail_activity:
+                mail_activity.write(
+                    {
+                        "date_deadline": fields.Date.today(),
+                        "note": body,
+                    }
+                )
+            else:
+                invoice.activity_schedule(
+                    "mail.mail_activity_data_warning",
+                    summary=message,
+                    note=body,
+                    user_id=user.id,
+                )
 
     def _post_invoice_edi(self, invoices):
         self.ensure_one()
@@ -196,7 +203,6 @@ class AccountEdiXmlCIUSRO(models.Model):
             else:
                 res[invoice] = self._l10n_ro_post_invoice_step_2(invoice, attachment)
             if res[invoice].get("error", False):
-                invoice.message_post(body=res[invoice]["error"])
                 # Create activity if process is stopped with an error blocking level
                 if res[invoice].get("blocking_level") == "error":
                     message = _("The invoice was not send or validated by ANAF.")
@@ -239,15 +245,8 @@ class AccountEdiXmlCIUSRO(models.Model):
         # In case of error, the attachment is a list of string
         if not isinstance(attachment, models.Model):
             doc.write({"error": attachment, "blocking_level": "warning"})
-            move.message_post(body=attachment)
             message = _("There are some errors when generating the XMl file.")
-            body = message + _("\n\nError:\n<p>%s</p>") % attachment
-            move.activity_schedule(
-                "mail.mail_activity_data_warning",
-                summary=message,
-                note=body,
-                user_id=move.invoice_user_id.id,
-            )
+            self.l10n_ro_edi_post_message(move, message, attachment)
             return b""
         else:
             doc.sudo().write({"attachment_id": attachment.id})
@@ -284,7 +283,16 @@ class AccountEdiXmlCIUSRO(models.Model):
                 res.update({"error": error, "blocking_level": "error"})
             if res.get("success", False):
                 res.update({"attachment": attachment})
-                invoice.message_post(body=_("The invoice was validated by ANAF."))
+                context = clean_context(self.env.context)
+                context.update(
+                    {
+                        "mail_create_nosubscribe": True,
+                        "mail_auto_subscribe_no_notify": True,
+                    }
+                )
+                invoice.with_context(**context).message_post(
+                    body=_("The invoice was validated by ANAF.")
+                )
                 if invoice.company_id.l10n_ro_store_einvoices:
                     invoice.l10n_ro_download_zip_anaf()
         return res
