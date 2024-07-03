@@ -53,17 +53,24 @@ class ProductProduct(models.Model):
                 rec_l10n_ro_nc_code = product.get_hs_code_recursively()
                 if rec_l10n_ro_nc_code:
                     l10n_ro_nc_code = rec_l10n_ro_nc_code
-            has_intrastat_id = "intrastat_id" in self.env[self._name]._fields
-            if has_intrastat_id and product.intrastat_id:
-                l10n_ro_nc_code = product.intrastat_id.code
+            has_hs_code = "hs_code" in self.env[self._name]._fields
+            if has_hs_code and product.hs_code:
+                l10n_ro_nc_code = product.hs_code
+            has_intrastat_code_id = "intrastat_code_id" in self.env[self._name]._fields
+            if has_intrastat_code_id and product.intrastat_code_id:
+                l10n_ro_nc_code = product.intrastat_code_id.code
             product.l10n_ro_nc_code = l10n_ro_nc_code
 
     def _check_l10n_ro_intrastat_fields(self):
         # Add compatibility with intrastat modules from OCA or Enterprise
+        depend_list = []
         has_hs_code_id = "hs_code_id" in self.env[self._name]._fields
         if has_hs_code_id:
-            return ["hs_code_id"]
-        has_intrastat_id = "intrastat_id" in self.env[self._name]._fields
+            depend_list += ["hs_code_id"]
+        has_hs_code = "hs_code" in self.env[self._name]._fields
+        if has_hs_code:
+            depend_list += ["hs_code"]
+        has_intrastat_id = "intrastat_code_id" in self.env[self._name]._fields
         if has_intrastat_id:
-            return ["intrastat_id"]
-        return []
+            depend_list += ["intrastat_code_id"]
+        return depend_list
