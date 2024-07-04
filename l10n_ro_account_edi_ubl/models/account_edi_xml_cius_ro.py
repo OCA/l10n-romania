@@ -429,5 +429,5 @@ class AccountEdiXmlCIUSRO(models.Model):
         commercial_partner = partner.commercial_partner_id
         for vals in vals_list:
             if commercial_partner.nrc:
-                vals["company_id"] = commercial_partner.vat
+                vals["company_id"] = commercial_partner.nrc
         return vals_list
