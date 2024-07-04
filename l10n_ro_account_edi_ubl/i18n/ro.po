@@ -53,6 +53,12 @@ msgid "Account ANAF Sync Scope"
 msgstr "Scop sincronizare Cont ANAF"
 
 #. module: l10n_ro_account_edi_ubl
+#: model:ir.model.fields,help:l10n_ro_account_edi_ubl.field_res_company__l10n_ro_edi_error_notify_users
+#: model:ir.model.fields,help:l10n_ro_account_edi_ubl.field_res_config_settings__l10n_ro_edi_error_notify_users
+msgid "Add users to receive EDI Error messages"
+msgstr ""
+
+#. module: l10n_ro_account_edi_ubl
 #: model_terms:ir.ui.view,arch_db:l10n_ro_account_edi_ubl.res_config_settings_view_form
 msgid "Attach PDF invoice to the e-Invoice."
 msgstr "Atașați factura în format PDF la factura electronică."
@@ -76,6 +82,12 @@ msgid ""
 msgstr ""
 "Bifati dacă partenerul este o instituție guvernamentală. Va fi folosit "
 "pentru a calcula trimiterea facturii către sistemul de facturi electronice."
+
+#. module: l10n_ro_account_edi_ubl
+#: model:ir.model.fields,help:l10n_ro_account_edi_ubl.field_res_partner__l10n_ro_edi_ubl_no_send
+#: model:ir.model.fields,help:l10n_ro_account_edi_ubl.field_res_users__l10n_ro_edi_ubl_no_send
+msgid "Check this if the partner should not receive UBL invoices."
+msgstr ""
 
 #. module: l10n_ro_account_edi_ubl
 #: model:ir.model,name:l10n_ro_account_edi_ubl.model_res_company
@@ -196,6 +208,17 @@ msgid "E-factura"
 msgstr "e-Factura"
 
 #. module: l10n_ro_account_edi_ubl
+#: model_terms:ir.ui.view,arch_db:l10n_ro_account_edi_ubl.res_config_settings_view_form
+msgid "EDI Error Notification Users"
+msgstr ""
+
+#. module: l10n_ro_account_edi_ubl
+#: model:ir.model.fields,field_description:l10n_ro_account_edi_ubl.field_res_company__l10n_ro_edi_error_notify_users
+#: model:ir.model.fields,field_description:l10n_ro_account_edi_ubl.field_res_config_settings__l10n_ro_edi_error_notify_users
+msgid "EDI Error Notify Users"
+msgstr ""
+
+#. module: l10n_ro_account_edi_ubl
 #: model:ir.model,name:l10n_ro_account_edi_ubl.model_account_edi_format
 msgid "EDI format"
 msgstr "Format EDI"
@@ -291,6 +314,13 @@ msgid "Last Updated on"
 msgstr "Ultima actualizare pe"
 
 #. module: l10n_ro_account_edi_ubl
+#: model:ir.model.fields,field_description:l10n_ro_account_edi_ubl.field_account_bank_statement_line__l10n_ro_edi_fields_readonly
+#: model:ir.model.fields,field_description:l10n_ro_account_edi_ubl.field_account_move__l10n_ro_edi_fields_readonly
+#: model:ir.model.fields,field_description:l10n_ro_account_edi_ubl.field_account_payment__l10n_ro_edi_fields_readonly
+msgid "Make ANAF EDI Fields readonly"
+msgstr ""
+
+#. module: l10n_ro_account_edi_ubl
 #: model:ir.model.fields,field_description:l10n_ro_account_edi_ubl.field_res_company__l10n_ro_download_einvoices_days
 #: model:ir.model.fields,field_description:l10n_ro_account_edi_ubl.field_res_config_settings__l10n_ro_download_einvoices_days
 msgid "Maximum number of days to download e-invoices."
@@ -308,6 +338,13 @@ msgid ""
 msgstr ""
 "Perioada de rezidență pentru factura electronică după care aceasta este "
 "trimisă automat"
+
+#. module: l10n_ro_account_edi_ubl
+#: model:ir.model.fields,field_description:l10n_ro_account_edi_ubl.field_account_bank_statement_line__l10n_ro_edi_previous_transaction
+#: model:ir.model.fields,field_description:l10n_ro_account_edi_ubl.field_account_move__l10n_ro_edi_previous_transaction
+#: model:ir.model.fields,field_description:l10n_ro_account_edi_ubl.field_account_payment__l10n_ro_edi_previous_transaction
+msgid "Previous Transactions or Download (RO)"
+msgstr ""
 
 #. module: l10n_ro_account_edi_ubl
 #: model:ir.model,name:l10n_ro_account_edi_ubl.model_product_template
@@ -348,6 +385,12 @@ msgid "Romania - NC Code"
 msgstr "Cod NC"
 
 #. module: l10n_ro_account_edi_ubl
+#: model:ir.model.fields,field_description:l10n_ro_account_edi_ubl.field_res_partner__l10n_ro_edi_ubl_no_send
+#: model:ir.model.fields,field_description:l10n_ro_account_edi_ubl.field_res_users__l10n_ro_edi_ubl_no_send
+msgid "Romania - No send UBL"
+msgstr ""
+
+#. module: l10n_ro_account_edi_ubl
 #: model:ir.actions.server,name:l10n_ro_account_edi_ubl.ir_cron_res_company_einvoice_download_every_day_ir_actions_server
 #: model:ir.cron,cron_name:l10n_ro_account_edi_ubl.ir_cron_res_company_einvoice_download_every_day
 msgid "Romania e-Invoicing: Download Supplier Invoices"
@@ -357,6 +400,11 @@ msgstr "România e-Invoicing: Descarcă Facturi Furnizori"
 #: model:ir.model.fields,field_description:l10n_ro_account_edi_ubl.field_l10n_ro_account_anaf_sync_scope__scope
 msgid "Scope"
 msgstr "Scop"
+
+#. module: l10n_ro_account_edi_ubl
+#: model_terms:ir.ui.view,arch_db:l10n_ro_account_edi_ubl.res_config_settings_view_form
+msgid "Select users who will receive EDI Error notification."
+msgstr ""
 
 #. module: l10n_ro_account_edi_ubl
 #: model:ir.actions.server,name:l10n_ro_account_edi_ubl.model_account_send_toe_invoice
@@ -397,6 +445,17 @@ msgstr "Data de începere a descărcarii facturilor electronice"
 #: model:ir.model.fields,field_description:l10n_ro_account_edi_ubl.field_res_config_settings__l10n_ro_store_einvoices
 msgid "Store E-Invoice signed by Anaf."
 msgstr "Factură electronică magazin semnată de Anaf."
+
+#. module: l10n_ro_account_edi_ubl
+#: model:ir.model.fields,help:l10n_ro_account_edi_ubl.field_account_bank_statement_line__l10n_ro_edi_previous_transaction
+#: model:ir.model.fields,help:l10n_ro_account_edi_ubl.field_account_move__l10n_ro_edi_previous_transaction
+#: model:ir.model.fields,help:l10n_ro_account_edi_ubl.field_account_payment__l10n_ro_edi_previous_transaction
+msgid ""
+"Technical field used to track previous transactions or download ID's "
+"received from ANAF. Useful in case the invoice was sent and had errors, we "
+"could find the invoice based on old data, since on reset to draft they are "
+"removed."
+msgstr ""
 
 #. module: l10n_ro_account_edi_ubl
 #: model:ir.model.fields,help:l10n_ro_account_edi_ubl.field_account_bank_statement_line__l10n_ro_edi_transaction

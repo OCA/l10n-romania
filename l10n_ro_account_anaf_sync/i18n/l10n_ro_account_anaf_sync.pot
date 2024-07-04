@@ -356,6 +356,12 @@ msgid "Revoke token response: %s"
 msgstr ""
 
 #. module: l10n_ro_account_anaf_sync
+#: model:ir.actions.server,name:l10n_ro_account_anaf_sync.l10n_ro_anaf_sync_send_expiration_token_message_ir_actions_server
+#: model:ir.cron,cron_name:l10n_ro_account_anaf_sync.l10n_ro_anaf_sync_send_expiration_token_message
+msgid "Romania - Send ANAF Sync token expiration message"
+msgstr ""
+
+#. module: l10n_ro_account_anaf_sync
 #: model:ir.model.fields,field_description:l10n_ro_account_anaf_sync.field_l10n_ro_account_anaf_sync_scope__scope
 msgid "Scope"
 msgstr ""
@@ -462,4 +468,20 @@ msgstr ""
 #: code:addons/l10n_ro_account_anaf_sync/models/l10n_ro_account_anaf_sync.py:0
 #, python-format
 msgid "You don't have ANAF refresh token. Please get it first."
+msgstr ""
+
+#. module: l10n_ro_account_anaf_sync
+#. odoo-python
+#: code:addons/l10n_ro_account_anaf_sync/models/l10n_ro_account_anaf_sync.py:0
+#, python-format
+msgid ""
+"Your Odoo ANAF access token is about to expire in %s days. Please refresh "
+"it."
+msgstr ""
+
+#. module: l10n_ro_account_anaf_sync
+#. odoo-python
+#: code:addons/l10n_ro_account_anaf_sync/models/l10n_ro_account_anaf_sync.py:0
+#, python-format
+msgid "Your Odoo ANAF access token was refreshed automatically."
 msgstr ""

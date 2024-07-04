@@ -22,6 +22,11 @@ msgid "ANAF PDF"
 msgstr "PDF ANAF"
 
 #. module: l10n_ro_message_spv
+#: model_terms:ir.ui.view,arch_db:l10n_ro_message_spv.view_move_form
+msgid "ANAF SPV Messages"
+msgstr ""
+
+#. module: l10n_ro_message_spv
 #. odoo-python
 #: code:addons/l10n_ro_message_spv/models/message_spv.py:0
 #, python-format
@@ -120,6 +125,13 @@ msgid "Draft"
 msgstr "Ciornă"
 
 #. module: l10n_ro_message_spv
+#: model:ir.model.fields,help:l10n_ro_message_spv.field_account_bank_statement_line__l10n_ro_message_spv_ids
+#: model:ir.model.fields,help:l10n_ro_message_spv.field_account_move__l10n_ro_message_spv_ids
+#: model:ir.model.fields,help:l10n_ro_message_spv.field_account_payment__l10n_ro_message_spv_ids
+msgid "E-invoice messages related to this invoice."
+msgstr ""
+
+#. module: l10n_ro_message_spv
 #: model:ir.model.fields,field_description:l10n_ro_message_spv.field_l10n_ro_message_spv__attachment_embedded_pdf_id
 msgid "Embedded PDF"
 msgstr "PDF încorporat"
@@ -186,6 +198,11 @@ msgstr "Factură"
 #. module: l10n_ro_message_spv
 #: model:ir.model.fields,field_description:l10n_ro_message_spv.field_l10n_ro_message_spv__invoice_amount
 msgid "Invoice Amount"
+msgstr ""
+
+#. module: l10n_ro_message_spv
+#: model:ir.model,name:l10n_ro_message_spv.model_account_move
+msgid "Journal Entry"
 msgstr ""
 
 #. module: l10n_ro_message_spv
@@ -266,6 +283,13 @@ msgid "Request ID"
 msgstr "ID cerere"
 
 #. module: l10n_ro_message_spv
+#: model:ir.model.fields,field_description:l10n_ro_message_spv.field_account_bank_statement_line__l10n_ro_message_spv_ids
+#: model:ir.model.fields,field_description:l10n_ro_message_spv.field_account_move__l10n_ro_message_spv_ids
+#: model:ir.model.fields,field_description:l10n_ro_message_spv.field_account_payment__l10n_ro_message_spv_ids
+msgid "Romania - E-invoice messages"
+msgstr ""
+
+#. module: l10n_ro_message_spv
 #: model:ir.actions.server,name:l10n_ro_message_spv.ir_cron_res_company_download_message_spv_ir_actions_server
 #: model:ir.cron,cron_name:l10n_ro_message_spv.ir_cron_res_company_download_message_spv
 msgid "Romania e-Invoicing: Download SPV Message"
@@ -292,3 +316,10 @@ msgstr "Tip"
 #: model:ir.model.fields,field_description:l10n_ro_message_spv.field_l10n_ro_message_spv__attachment_xml_id
 msgid "XML"
 msgstr "XML"
+
+#. module: l10n_ro_message_spv
+#. odoo-python
+#: code:addons/l10n_ro_message_spv/models/message_spv.py:0
+#, python-format
+msgid "You received a message from ANAF for invoice %s"
+msgstr ""

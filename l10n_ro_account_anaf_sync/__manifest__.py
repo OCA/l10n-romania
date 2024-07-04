@@ -7,6 +7,7 @@
     "summary": "Romania - Account ANAF Sync",
     "depends": ["l10n_ro_config"],
     "data": [
+        "data/anaf_sync_expire_cron.xml",
         "security/account_security.xml",
         "security/ir.model.access.csv",
         "views/l10n_ro_account_anaf_sync_view.xml",
@@ -14,7 +15,7 @@
         "views/template.xml",
     ],
     "license": "AGPL-3",
-    "version": "16.0.1.17.0",
+    "version": "16.0.1.18.0",
     "author": "NextERP Romania," "Odoo Community Association (OCA)",
     "website": "https://github.com/OCA/l10n-romania",
     "installable": True,

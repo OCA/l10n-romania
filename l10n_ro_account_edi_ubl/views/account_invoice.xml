@@ -9,6 +9,8 @@
 
             <xpath expr="//div[@name='journal_div']" position="after">
                 <field name="l10n_ro_show_edi_fields" invisible="1" />
+                <field name="l10n_ro_edi_fields_readonly" invisible="1" />
+                <field name="l10n_ro_show_anaf_download_edi_buton" invisible="1" />
                 <label
                     for="l10n_ro_edi_transaction"
                     string="ID eFactura Transaction"
@@ -21,7 +23,7 @@
                 >
                     <field
                         name="l10n_ro_edi_transaction"
-                        attrs="{'readonly': [('l10n_ro_edi_transaction', '!=', False)]}"
+                        attrs="{'readonly': [('l10n_ro_edi_fields_readonly', '!=', False)]}"
                     />
                 </div>
                 <label
@@ -36,9 +38,8 @@
                 >
                     <field
                         name="l10n_ro_edi_download"
-                        attrs="{'readonly': [('l10n_ro_edi_download', '!=', False),('l10n_ro_edi_transaction', '!=', False)]}"
+                        attrs="{'readonly': [('l10n_ro_edi_fields_readonly', '!=', False)]}"
                     />
-                    <field name="l10n_ro_show_anaf_download_edi_buton" invisible="1" />
                     <button
                         type="object"
                         class="oe_link badge btn-primary"
