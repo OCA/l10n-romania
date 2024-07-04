@@ -37,7 +37,7 @@ class TestAccountEdiUbl(AccountEdiTestCommon):
             {
                 "vat": "RO30834857",
                 "name": "FOREST AND BIOMASS ROMÂNIA S.A.",
-                "nrc": "J35/2622/2012",
+                "company_registry": "J35/2622/2012",
                 "country_id": cls.env.ref("base.ro").id,
                 "currency_id": cls.currency.id,
                 "street": "Str. Ciprian Porumbescu Nr. 12",
@@ -69,6 +69,7 @@ class TestAccountEdiUbl(AccountEdiTestCommon):
             {
                 "name": "SCOALA GIMNAZIALA COMUNA FOENI",
                 "ref": "SCOALA GIMNAZIALA COMUNA FOENI",
+                "nrc": "J35/2622/2013",
                 "vat": "29152430",
                 "country_id": cls.env.ref("base.ro").id,
                 "l10n_ro_vat_subjected": False,
