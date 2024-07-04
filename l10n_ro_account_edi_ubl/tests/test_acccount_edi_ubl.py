@@ -37,6 +37,7 @@ class TestAccountEdiUbl(AccountEdiTestCommon):
             {
                 "vat": "RO30834857",
                 "name": "FOREST AND BIOMASS ROMÂNIA S.A.",
+                "nrc": "J35/2622/2012",
                 "country_id": cls.env.ref("base.ro").id,
                 "currency_id": cls.currency.id,
                 "street": "Str. Ciprian Porumbescu Nr. 12",
