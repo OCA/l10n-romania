@@ -423,3 +423,11 @@ class AccountEdiXmlCIUSRO(models.Model):
                 attachment_ids=attachments.ids
             )
         return True
+
+    def _get_partner_party_legal_entity_vals_list(self, partner):
+        vals_list = super()._get_partner_party_legal_entity_vals_list(partner)
+        commercial_partner = partner.commercial_partner_id
+        for vals in vals_list:
+            if commercial_partner.nrc:
+                vals["company_id"] = commercial_partner.nrc
+        return vals_list
