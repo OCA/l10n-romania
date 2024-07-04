@@ -428,5 +428,6 @@ class AccountEdiXmlCIUSRO(models.Model):
         vals_list = super()._get_partner_party_legal_entity_vals_list(partner)
         commercial_partner = partner.commercial_partner_id
         for vals in vals_list:
-            vals["company_id"] = commercial_partner.nrc
+            if commercial_partner.nrc:
+                vals["company_id"] = commercial_partner.vat
         return vals_list
