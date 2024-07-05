@@ -72,6 +72,8 @@ class MessageSPV(models.Model):
         "res.currency", default=lambda self: self.env.company.currency_id
     )
 
+    _sql_constraints = [("unique_name", "unique(name)", "Message ID must be unique.")]
+
     @api.onchange("invoice_id", "invoice_id.state")
     def _onchange_invoice_id(self):
         for message in self:
@@ -102,6 +104,8 @@ class MessageSPV(models.Model):
                 error = response.get("eroare", "")
             if status_code == "400":
                 error = response.get("message")
+            elif status_code == 200 and isinstance(response, dict):
+                error = response.get("eroare")
             if not error:
                 error = message.check_anaf_error_xml(response)
             if error:
@@ -252,9 +256,25 @@ class MessageSPV(models.Model):
         invoices |= self.env["account.move"].search(domain)
         for message in messages_without_invoice:
             invoice = invoices.filtered(
-                lambda i: i.l10n_ro_edi_download == message.name
-                or i.l10n_ro_edi_transaction == message.request_id
+                lambda i, m=message: i.l10n_ro_edi_download == m.name
+                or i.l10n_ro_edi_transaction == m.request_id
+                or (i.ref == m.ref and m.ref)
+                or (i.name == m.ref and m.ref)
             )
+
+            if not invoice and message.ref:
+                if message.message_type == "in_invoice":
+                    move_type = ("in_invoice", "in_refund")
+                else:
+                    move_type = ("out_invoice", "out_refund")
+
+                domain = [
+                    ("partner_id", "=", message.partner_id.id),
+                    ("ref", "=", message.ref),
+                    ("move_type", "in", move_type),
+                ]
+                invoice = self.env["account.move"].search(domain, limit=1)
+
             if not invoice:
                 invoice = invoices.filtered(
                     lambda i: message.name in i.l10n_ro_edi_previous_transaction
@@ -314,28 +334,28 @@ class MessageSPV(models.Model):
             if not message.message_type == "in_invoice":
                 continue
             message.get_invoice_from_move()
-            if not message.invoice_id:
-                move_obj = self.env["account.move"].with_company(message.company_id)
-                new_invoice = move_obj.with_context(
-                    default_move_type="in_invoice"
-                ).create(
-                    {
-                        "name": "/",
-                        "ref": message.ref,
-                        "partner_id": message.partner_id.id,
-                        "l10n_ro_edi_download": message.name,
-                        "l10n_ro_edi_transaction": message.request_id,
-                    }
-                )
-                zip_content = message.attachment_id.raw
-                attachment = new_invoice.l10n_ro_save_anaf_xml_file(zip_content)
-                try:
-                    new_invoice.l10n_ro_process_anaf_xml_file(attachment)
-                except Exception as e:
-                    message.write({"state": "error", "error": str(e)})
-                    continue
-                state = "invoice"
-                message.write({"invoice_id": new_invoice.id, "state": state})
+            if message.invoice_id:
+                continue
+
+            move_obj = self.env["account.move"].with_company(message.company_id)
+            new_invoice = move_obj.with_context(default_move_type="in_invoice").create(
+                {
+                    "name": "/",
+                    "ref": message.ref,
+                    "partner_id": message.partner_id.id,
+                    "l10n_ro_edi_download": message.name,
+                    "l10n_ro_edi_transaction": message.request_id,
+                }
+            )
+            zip_content = message.attachment_id.raw
+            attachment = new_invoice.l10n_ro_save_anaf_xml_file(zip_content)
+            try:
+                new_invoice.l10n_ro_process_anaf_xml_file(attachment)
+            except Exception as e:
+                message.write({"state": "error", "error": str(e)})
+                continue
+            state = "invoice"
+            message.write({"invoice_id": new_invoice.id, "state": state})
 
     def render_anaf_pdf(self):
         for message in self:
