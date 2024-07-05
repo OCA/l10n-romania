@@ -233,6 +233,11 @@ msgid "Message ID"
 msgstr "ID mesaj"
 
 #. module: l10n_ro_message_spv
+#: model:ir.model.constraint,message:l10n_ro_message_spv.constraint_l10n_ro_message_spv_unique_name
+msgid "Message ID must be unique."
+msgstr ""
+
+#. module: l10n_ro_message_spv
 #: model:ir.model,name:l10n_ro_message_spv.model_l10n_ro_message_spv
 msgid "Message SPV"
 msgstr "Mesaj SPV"
