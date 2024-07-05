@@ -19,6 +19,11 @@ msgid "ANAF PDF"
 msgstr ""
 
 #. module: l10n_ro_message_spv
+#: model_terms:ir.ui.view,arch_db:l10n_ro_message_spv.view_move_form
+msgid "ANAF SPV Messages"
+msgstr ""
+
+#. module: l10n_ro_message_spv
 #. odoo-python
 #: code:addons/l10n_ro_message_spv/models/message_spv.py:0
 #, python-format
@@ -124,6 +129,13 @@ msgstr ""
 #. module: l10n_ro_message_spv
 #: model:ir.model.fields.selection,name:l10n_ro_message_spv.selection__l10n_ro_account_anaf_sync_scope__scope__e-factura
 msgid "E-factura"
+msgstr ""
+
+#. module: l10n_ro_message_spv
+#: model:ir.model.fields,help:l10n_ro_message_spv.field_account_bank_statement_line__l10n_ro_message_spv_ids
+#: model:ir.model.fields,help:l10n_ro_message_spv.field_account_move__l10n_ro_message_spv_ids
+#: model:ir.model.fields,help:l10n_ro_message_spv.field_account_payment__l10n_ro_message_spv_ids
+msgid "E-invoice messages related to this invoice."
 msgstr ""
 
 #. module: l10n_ro_message_spv
@@ -242,6 +254,11 @@ msgid "Message ID"
 msgstr ""
 
 #. module: l10n_ro_message_spv
+#: model:ir.model.constraint,message:l10n_ro_message_spv.constraint_l10n_ro_message_spv_unique_name
+msgid "Message ID must be unique."
+msgstr ""
+
+#. module: l10n_ro_message_spv
 #: model:ir.model,name:l10n_ro_message_spv.model_l10n_ro_message_spv
 msgid "Message SPV"
 msgstr ""
@@ -289,6 +306,13 @@ msgstr ""
 #. module: l10n_ro_message_spv
 #: model:ir.model.fields,field_description:l10n_ro_message_spv.field_l10n_ro_message_spv__request_id
 msgid "Request ID"
+msgstr ""
+
+#. module: l10n_ro_message_spv
+#: model:ir.model.fields,field_description:l10n_ro_message_spv.field_account_bank_statement_line__l10n_ro_message_spv_ids
+#: model:ir.model.fields,field_description:l10n_ro_message_spv.field_account_move__l10n_ro_message_spv_ids
+#: model:ir.model.fields,field_description:l10n_ro_message_spv.field_account_payment__l10n_ro_message_spv_ids
+msgid "Romania - E-invoice messages"
 msgstr ""
 
 #. module: l10n_ro_message_spv
