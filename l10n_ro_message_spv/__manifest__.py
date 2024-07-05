@@ -11,6 +11,7 @@
         "security/ir.model.access.csv",
         "security/security.xml",
         "data/ir_cron_data.xml",
+        "views/account_invoice.xml",
         "views/message_spv_view.xml",
     ],
     "assets": {
@@ -20,7 +21,7 @@
         ],
     },
     "license": "AGPL-3",
-    "version": "17.0.1.7.0",
+    "version": "17.0.1.7.1",
     "author": "Terrabit," "Odoo Community Association (OCA)",
     "website": "https://github.com/OCA/l10n-romania",
     "installable": True,

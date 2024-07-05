@@ -72,7 +72,9 @@ class MessageSPV(models.Model):
         "res.currency", default=lambda self: self.env.company.currency_id
     )
 
-    @api.onchange("invoice_id")
+    _sql_constraints = [("unique_name", "unique(name)", "Message ID must be unique.")]
+
+    @api.onchange("invoice_id", "invoice_id.state")
     def _onchange_invoice_id(self):
         for message in self:
             if message.invoice_id:
@@ -164,10 +166,10 @@ class MessageSPV(models.Model):
             if amount_note is not None:
                 amount = float(amount_note.text)
 
-            if (
-                xml_tree.tag
-                == "{urn:oasis:names:specification:ubl:schema:xsd:CreditNote-2}CreditNote"  # noqa
-            ):
+            xml_tag_credit_note = (
+                "{urn:oasis:names:specification:ubl:schema:xsd:CreditNote-2}CreditNote"
+            )  # noqa
+            if xml_tree.tag == xml_tag_credit_note:
                 amount = -1 * amount
 
             message.write(
@@ -307,6 +309,9 @@ class MessageSPV(models.Model):
     def create_invoice(self):
         for message in self.filtered(lambda m: not m.invoice_id):
             if not message.message_type == "in_invoice":
+                continue
+            message.get_invoice_from_move()
+            if message.invoice_id:
                 continue
 
             move_obj = self.env["account.move"].with_company(message.company_id)
