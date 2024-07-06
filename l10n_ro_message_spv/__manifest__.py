@@ -10,6 +10,7 @@
         "security/ir.model.access.csv",
         "security/security.xml",
         "data/ir_cron_data.xml",
+        "views/account_invoice.xml",
         "views/message_spv_view.xml",
     ],
     "assets": {

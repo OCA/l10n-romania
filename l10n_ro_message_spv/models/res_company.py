@@ -28,13 +28,12 @@ class ResCompany(models.Model):
 
         for company in ro_companies:
             company_messages = company._l10n_ro_get_anaf_efactura_messages()
+            message_spv_obj = (
+                self.env["l10n.ro.message.spv"].with_company(company).sudo()
+            )
             for message in company_messages:
-                domain = [
-                    ("name", "=", message["id"]),
-                    ("company_id", "=", company.id),
-                ]
-                if not self.env["l10n.ro.message.spv"].search(domain, limit=1):
-
+                domain = [("name", "=", message["id"])]
+                if not message_spv_obj.search(domain, limit=1):
                     date = datetime.strptime(message.get("data_creare"), "%Y%m%d%H%M")
                     localized_date = romania_tz.localize(date)
                     # Convertim data și ora la GMT
@@ -66,7 +65,7 @@ class ResCompany(models.Model):
                     else:
                         _logger.error("Unknown message type: %s", message["tip"])
 
-                    self.env["l10n.ro.message.spv"].sudo().create(
+                    spv_message = message_spv_obj.create(
                         {
                             "name": message["id"],
                             "cif": cif,
@@ -79,4 +78,8 @@ class ResCompany(models.Model):
                             "state": "draft",
                         }
                     )
+
+                    if spv_message.message_type in ["error", "message"]:
+                        spv_message.get_invoice_from_move()
+                        spv_message.download_from_spv()
         return True
