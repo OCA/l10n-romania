@@ -72,7 +72,9 @@ class MessageSPV(models.Model):
         "res.currency", default=lambda self: self.env.company.currency_id
     )
 
-    @api.onchange("invoice_id")
+    _sql_constraints = [("unique_name", "unique(name)", "Message ID must be unique.")]
+
+    @api.onchange("invoice_id", "invoice_id.state")
     def _onchange_invoice_id(self):
         for message in self:
             if message.invoice_id:
@@ -252,10 +254,11 @@ class MessageSPV(models.Model):
             invoice = invoices.filtered(
                 lambda i, m=message: i.l10n_ro_edi_download == m.name
                 or i.l10n_ro_edi_transaction == m.request_id
-                or i.ref == m.ref
-                or i.name == m.ref
+                or (i.ref == m.ref and m.ref)
+                or (i.name == m.ref and m.ref)
             )
-            if not invoice:
+
+            if not invoice and message.ref:
                 if message.message_type == "in_invoice":
                     move_type = ("in_invoice", "in_refund")
                 else:
@@ -307,6 +310,9 @@ class MessageSPV(models.Model):
     def create_invoice(self):
         for message in self.filtered(lambda m: not m.invoice_id):
             if not message.message_type == "in_invoice":
+                continue
+            message.get_invoice_from_move()
+            if message.invoice_id:
                 continue
 
             move_obj = self.env["account.move"].with_company(message.company_id)
