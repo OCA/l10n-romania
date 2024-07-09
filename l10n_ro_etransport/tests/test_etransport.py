@@ -161,6 +161,7 @@ class TestETransport(TransactionCase):
         }
         picking.with_context(test_data=test_data).export_e_transport_button()
 
+        # picking.with_context(test_data=test_data).delete_e_transport_button()
         test_data_not_ok = {
             "Errors": [{"errorMessage": "UIT-ul nu poate fi identificat."}],
             "stare": "nok",

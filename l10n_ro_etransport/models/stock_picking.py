@@ -77,7 +77,7 @@ class StockPicking(models.Model):
         "ID Download ANAF ",
         copy=False,
     )
-    l10n_ro_e_transport_message = fields.Text("ANAF Message")
+    l10n_ro_e_transport_message = fields.Text("ANAF Message", readonly=True)
 
     l10n_ro_e_transport_operation_type_id = fields.Many2one(
         "l10n.ro.e.transport.operation",
@@ -96,6 +96,8 @@ class StockPicking(models.Model):
     )
 
     l10n_ro_vehicle = fields.Char(string="Vehicle")
+    l10n_ro_trailer1 = fields.Char(string="Trailer1")
+    l10n_ro_trailer2 = fields.Char(string="Trailer2")
 
     def _export_e_transport(self):
         def get_country_code(country_code):
@@ -162,10 +164,25 @@ class StockPicking(models.Model):
             }
         )
 
+    def delete_e_transport_button(self):
+        render_values = {
+            "doc": self,
+            "company": self.company_id,
+        }
+        View = self.env["ir.ui.view"].sudo()
+        xml_content = View._render_template(
+            "l10n_ro_etransport.e_transport_delete", render_values
+        )
+        self._export_e_transport_data(xml_content)
+        self.write(
+            {"l10n_ro_e_transport_uit": False, "l10n_ro_e_transport_status": "draft"}
+        )
+
     def export_e_transport_button(self):
         if self.l10n_ro_e_transport_status in ["draft", "nok"]:
             attachment = self._export_e_transport()
             self._export_e_transport_data(attachment.raw)
+
         elif self.l10n_ro_e_transport_status in ["sent", "in_processing"]:
             anaf_config = self.company_id._l10n_ro_get_anaf_sync(scope="e-transport")
             params = {}
@@ -182,7 +199,12 @@ class StockPicking(models.Model):
             stare = content.get("stare")
 
             if stare == "ok":
-                self.write({"l10n_ro_e_transport_status": stare})
+                self.write(
+                    {
+                        "l10n_ro_e_transport_status": stare,
+                        "l10n_ro_e_transport_message": False,
+                    }
+                )
             if stare == "nok":
                 errors = content.get("Errors", [])
                 error_message = "".join(
