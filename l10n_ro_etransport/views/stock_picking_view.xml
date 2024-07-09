@@ -20,7 +20,7 @@
                 <xpath expr="/form/header/button[last()]" position="after">
                     <button
                     name="export_e_transport_button"
-                    string="Export E-Transport"
+                    string="E-Transport"
                     type="object"
                 />
                 </xpath>
@@ -31,7 +31,10 @@
                         <group>
                             <group string="Information e-transport">
                                 <field name="carrier_id" />
+
                                 <field name="l10n_ro_vehicle" />
+                                <field name="l10n_ro_trailer1" />
+                                <field name="l10n_ro_trailer2" />
                                 <field
                                 name="l10n_ro_e_transport_customs_id"
                                 string="Border crossing point"
@@ -49,7 +52,24 @@
                             />
                             </group>
                             <group string="Status">
-                                <field name="l10n_ro_e_transport_uit" />
+                                <label for="l10n_ro_e_transport_uit" />
+                                <div name="uit">
+                                    <field
+                                    name="l10n_ro_e_transport_uit"
+                                    class="oe_inline text-break"
+                                />
+                                    <button
+                                    type='object'
+                                    class="fa fa-fw fa-remove oe_link"
+                                    confirm="Delete e-Transport document. Are you sure you want to continue?"
+                                    name="delete_e_transport_button"
+                                    string="Delete"
+                                    attrs="{'invisible':[('l10n_ro_e_transport_uit','=',False)]}"
+                                />
+                                </div>
+
+
+
                                 <field
                                 name="l10n_ro_e_transport_download"
                                 string="ID Download"
