@@ -53,6 +53,16 @@ msgid "Created on"
 msgstr ""
 
 #. module: l10n_ro_etransport
+#: model_terms:ir.ui.view,arch_db:l10n_ro_etransport.view_picking_form
+msgid "Delete"
+msgstr ""
+
+#. module: l10n_ro_etransport
+#: model_terms:ir.ui.view,arch_db:l10n_ro_etransport.view_picking_form
+msgid "Delete e-Transport document. Are you sure you want to continue?"
+msgstr ""
+
+#. module: l10n_ro_etransport
 #: model:ir.model.fields,field_description:l10n_ro_etransport.field_l10n_ro_e_transport_customs__display_name
 #: model:ir.model.fields,field_description:l10n_ro_etransport.field_l10n_ro_e_transport_operation__display_name
 #: model:ir.model.fields,field_description:l10n_ro_etransport.field_l10n_ro_e_transport_scope__display_name
@@ -97,11 +107,6 @@ msgstr ""
 #. module: l10n_ro_etransport
 #: model:ir.model.fields.selection,name:l10n_ro_etransport.selection__l10n_ro_e_transport_operation__usage__export
 msgid "Export"
-msgstr ""
-
-#. module: l10n_ro_etransport
-#: model_terms:ir.ui.view,arch_db:l10n_ro_etransport.view_picking_form
-msgid "Export E-Transport"
 msgstr ""
 
 #. module: l10n_ro_etransport
@@ -240,6 +245,16 @@ msgstr ""
 #: code:addons/l10n_ro_etransport/models/stock_picking.py:0
 #, python-format
 msgid "The document was uploaded successfully, check the status."
+msgstr ""
+
+#. module: l10n_ro_etransport
+#: model:ir.model.fields,field_description:l10n_ro_etransport.field_stock_picking__l10n_ro_trailer1
+msgid "Trailer1"
+msgstr ""
+
+#. module: l10n_ro_etransport
+#: model:ir.model.fields,field_description:l10n_ro_etransport.field_stock_picking__l10n_ro_trailer2
+msgid "Trailer2"
 msgstr ""
 
 #. module: l10n_ro_etransport
