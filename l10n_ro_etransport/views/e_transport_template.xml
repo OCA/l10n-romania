@@ -1,6 +1,15 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <odoo>
-
+    <template id="e_transport_delete">
+         <eTransport
+            xmlns="mfp:anaf:dgti:eTransport:declaratie:v2"
+            xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+            xsi:schemaLocation="mfp:anaf:dgti:eTransport:declaratie:v1"
+            t-att-codDeclarant="company.vat.upper().replace('RO', '')"
+        >
+             <stergere t-att-uit="doc.l10n_ro_e_transport_uit" />
+         </eTransport>
+    </template>
     <template id="e_transport">
         <eTransport
             xmlns="mfp:anaf:dgti:eTransport:declaratie:v2"
@@ -12,6 +21,10 @@
             <notificare
                 t-att-codTipOperatiune="doc.l10n_ro_e_transport_operation_type_id.code"
             >
+                <corectie
+                    t-if="doc.l10n_ro_e_transport_uit"
+                    t-att-uit="doc.l10n_ro_edi_etransport_uit"
+                />
                 <t t-foreach="doc.move_lines" t-as="move">
                     <t t-foreach="move.move_line_ids" t-as="move_line">
                         <t
@@ -23,8 +36,8 @@
                             t-att-denumireMarfa="move.product_id.name"
                             t-att-cantitate="move_line.qty_done or move_line.product_uom_qty or 1"
                             t-att-codUnitateMasura="move.product_uom._get_unece_code()"
-                            t-att-greutateNeta="qty * (move.product_id.l10n_ro_net_weight or 1)"
-                            t-att-greutateBruta="qty* (move.product_id.weight or 1)"
+                            t-att-greutateNeta="round(qty * (move.product_id.l10n_ro_net_weight or move.product_id.weight or 1),2)"
+                            t-att-greutateBruta="round(qty* (move.product_id.weight or 1),2)"
                             t-att-codScopOperatiune="doc.l10n_ro_e_transport_scope_id.code or '101'"
                             t-att-valoareLeiFaraTva="round(qty * (move_line.product_id.standard_price or 1),0)"
                         />
@@ -33,13 +46,15 @@
 
                 <partenerComercial
                     t-att-codTara="get_country_code(doc.partner_id.commercial_partner_id.country_id.code)"
-                    t-att-cod="doc.partner_id.commercial_partner_id.vat.upper().replace('RO', '')"
+                    t-att-cod="(doc.partner_id.commercial_partner_id.vat or '').upper().replace('RO', '')"
                     t-att-denumire="doc.partner_id.commercial_partner_id.name"
                 />
                 <t t-set="carrier" t-value="doc.carrier_id.l10n_ro_e_partner_id" />
                 <dateTransport
-                    t-att-nrVehicul="doc.l10n_ro_vehicle and doc.l10n_ro_vehicle.upper().replace('-', '')"
-                    t-att-codOrgTransport="carrier.vat.upper().replace('RO', '')"
+                    t-att-nrVehicul="(doc.l10n_ro_vehicle and doc.l10n_ro_vehicle or '').upper().replace('-', '')"
+                    t-att-nrRemorca1="(doc.l10n_ro_trailer1 and doc.l10n_ro_trailer1 or '').upper().replace('-', '') or False"
+                    t-att-nrRemorca2="(doc.l10n_ro_trailer2 and doc.l10n_ro_trailer2 or '').upper().replace('-', '') or False"
+                    t-att-codOrgTransport="(carrier.vat or '').upper().replace('RO', '')"
                     t-att-codTaraOrgTransport="get_country_code(carrier.country_id.code)"
                     t-att-denumireOrgTransport="carrier.name"
                     t-att-dataTransport="doc.scheduled_date.date()"
