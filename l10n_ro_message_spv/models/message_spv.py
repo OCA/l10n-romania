@@ -303,7 +303,7 @@ class MessageSPV(models.Model):
                 attachments += message.attachment_xml_id
                 attachments += message.attachment_anaf_pdf_id
                 attachments += message.attachment_embedded_pdf_id
-                attachments.write(
+                attachments.sudo().write(
                     {"res_id": message.invoice_id.id, "res_model": "account.move"}
                 )
 
