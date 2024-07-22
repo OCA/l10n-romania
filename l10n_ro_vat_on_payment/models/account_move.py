@@ -18,7 +18,7 @@ class AccountMove(models.Model):
         for internal invoices (National or not specified fiscal position)
         """
         result = super(AccountMove, self)._onchange_partner_id()
-        if self.is_l10n_ro_record:
+        if self.is_l10n_ro_record or self.company_id.country_code == "RO":
             fp_model = self.env["account.fiscal.position"]
             vatp = False
             ctx = dict(self._context)

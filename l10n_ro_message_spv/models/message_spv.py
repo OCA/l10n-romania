@@ -249,7 +249,10 @@ class MessageSPV(models.Model):
         for msg in message_ids + request_ids:
             inv_domain = [
                 "|",
-                ("l10n_ro_edi_previous_transaction", "ilike", msg),
+                (
+                    ("l10n_ro_edi_previous_transaction", "!=", False),
+                    ("l10n_ro_edi_previous_transaction", "ilike", msg),
+                ),
             ] + inv_domain
         invoices = self.env["account.move"].search(inv_domain)
         domain = [("name", "in", messages_without_invoice.mapped("ref"))]
@@ -277,8 +280,11 @@ class MessageSPV(models.Model):
 
             if not invoice:
                 invoice = invoices.filtered(
-                    lambda i: message.name in i.l10n_ro_edi_previous_transaction
-                    or message.request_id in i.l10n_ro_edi_previous_transaction
+                    lambda i: i.l10n_ro_edi_previous_transaction
+                    and (
+                        message.name in i.l10n_ro_edi_previous_transaction
+                        or message.request_id in i.l10n_ro_edi_previous_transaction
+                    )
                 )
             if len(invoice) > 1:
                 _logger.warning(

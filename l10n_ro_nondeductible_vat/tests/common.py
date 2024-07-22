@@ -101,6 +101,7 @@ class TestNondeductibleCommon(ValuationReconciliationTestCommon):
                     "repartition_type": "tax",
                     "account_id": cls.account_expense_vat_nondeductible.id,
                     "tag_ids": [(6, 0, [cls.tag_vat_nondeductible.id])],
+                    "l10n_ro_use_tax_exigibility_account": True,
                 },
             ),
             (
@@ -163,6 +164,7 @@ class TestNondeductibleCommon(ValuationReconciliationTestCommon):
                     "repartition_type": "tax",
                     "account_id": cls.account_expense_vat_nondeductible.id,
                     "tag_ids": [(6, 0, [cls.minus_tag_vat_nondeductible.id])],
+                    "l10n_ro_use_tax_exigibility_account": True,
                 },
             ),
             (

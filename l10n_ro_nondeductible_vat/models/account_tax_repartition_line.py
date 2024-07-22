@@ -10,27 +10,27 @@ class AccountTaxRepartitionLineExtend(models.Model):
     _inherit = ["account.tax.repartition.line", "l10n.ro.mixin"]
 
     l10n_ro_nondeductible = fields.Boolean(string="Romania - Nondeductible")
-    l10n_ro_exclude_from_stock = fields.Boolean(string="Romania - Exclude From Stock")
-    l10n_ro_skip_cash_basis_account_switch = fields.Boolean(
-        string="Romania - Skip Account Switch (Cash Basis)",
-        help="If checked, then it doesn't change expense account"
-        " in the tax line for invoices, and it set 44283 instead of expense"
-        " account for the journal entry created at payment reconciliation",
+    l10n_ro_use_tax_exigibility_account = fields.Boolean(
+        string="Romania - Use Tax Exigibility Account"
     )
+    l10n_ro_exclude_from_stock = fields.Boolean(string="Romania - Exclude From Stock")
 
     def _get_aml_target_tax_account(self, force_caba_exigibility=False):
-        if not self.tax_id.is_l10n_ro_record:
-            return super()._get_aml_target_tax_account(
-                force_caba_exigibility=force_caba_exigibility
-            )
-        account = False
-        if (
-            not force_caba_exigibility
-            and self.tax_id.tax_exigibility == "on_payment"
-            and not self._context.get("caba_no_transition_account")
-            and not self.l10n_ro_skip_cash_basis_account_switch
-        ):
-            account = self.tax_id.cash_basis_transition_account_id
-        if not account:
-            account = self.account_id
-        return account
+        res = super()._get_aml_target_tax_account(
+            force_caba_exigibility=force_caba_exigibility
+        )
+        if self.l10n_ro_nondeductible and not self.account_id:
+            line_account = self.env.context.get("l10n_ro_account_id")
+            company = self.company_id
+            if (
+                company.l10n_ro_nondeductible_account_id
+                and self.l10n_ro_use_tax_exigibility_account
+            ):
+                res = company.l10n_ro_nondeductible_account_id
+            if (
+                line_account
+                and line_account.l10n_ro_nondeductible_account_id
+                and not self.l10n_ro_use_tax_exigibility_account
+            ):
+                res = line_account.l10n_ro_nondeductible_account_id
+        return res
