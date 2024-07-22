@@ -6,7 +6,8 @@ from odoo import fields, models
 
 
 class AccountTaxRepartitionLine(models.Model):
-    _inherit = "account.tax.repartition.line"
+    _name = "account.tax.repartition.line"
+    _inherit = ["account.tax.repartition.line", "l10n.ro.mixin"]
 
     l10n_ro_skip_cash_basis_account_switch = fields.Boolean(
         string="Romania - Skip Account Switch (Cash Basis)",
