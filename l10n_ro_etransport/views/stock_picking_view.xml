@@ -52,11 +52,15 @@
                             />
                             </group>
                             <group string="Status">
-                                <label for="l10n_ro_e_transport_uit" />
+                                <label
+                                for="l10n_ro_e_transport_uit"
+                                attrs="{'invisible': [('l10n_ro_e_transport_status', '!=', 'ok')]}"
+                            />
                                 <div name="uit">
                                     <field
                                     name="l10n_ro_e_transport_uit"
                                     class="oe_inline text-break"
+                                    attrs="{'invisible': [('l10n_ro_e_transport_status', '!=', 'ok')]}"
                                 />
                                     <button
                                     type='object'

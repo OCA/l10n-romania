@@ -21,6 +21,10 @@
             <notificare
                 t-att-codTipOperatiune="doc.l10n_ro_e_transport_operation_type_id.code"
             >
+                <corectie
+                    t-if="doc.l10n_ro_e_transport_uit"
+                    t-att-uit="doc.l10n_ro_edi_etransport_uit"
+                />
                 <t t-foreach="doc.move_ids" t-as="move">
                     <t t-foreach="move.move_line_ids" t-as="move_line">
                         <t
@@ -32,7 +36,7 @@
                             t-att-denumireMarfa="move.product_id.name"
                             t-att-cantitate="move_line.qty_done or move_line.reserved_uom_qty or 1"
                             t-att-codUnitateMasura="move.product_uom._get_unece_code()"
-                            t-att-greutateNeta="round(qty * (move.product_id.l10n_ro_net_weight or 1),2)"
+                            t-att-greutateNeta="round(qty * (move.product_id.l10n_ro_net_weight or move.product_id.weight or 1),2)"
                             t-att-greutateBruta="round(qty* (move.product_id.weight or 1),2)"
                             t-att-codScopOperatiune="doc.l10n_ro_e_transport_scope_id.code or '101'"
                             t-att-valoareLeiFaraTva="round(qty * (move_line.product_id.standard_price or 1),0)"
