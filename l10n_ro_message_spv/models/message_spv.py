@@ -296,6 +296,17 @@ class MessageSPV(models.Model):
                     self.env["account.edi.format"].l10n_ro_edi_post_message(
                         invoice, msg, {}
                     )
+                if (
+                    not invoice.l10n_ro_edi_download
+                    and not invoice.l10n_ro_edi_transaction
+                ):
+                    invoice.write(
+                        {
+                            "l10n_ro_edi_download": message.name,
+                            "l10n_ro_edi_transaction": message.request_id,
+                        }
+                    )
+
         self.get_data_from_invoice()
 
     def get_data_from_invoice(self):
