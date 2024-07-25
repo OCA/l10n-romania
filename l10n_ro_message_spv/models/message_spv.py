@@ -240,16 +240,15 @@ class MessageSPV(models.Model):
         messages_without_invoice = self.filtered(lambda m: not m.invoice_id)
         message_ids = messages_without_invoice.mapped("name")
         request_ids = messages_without_invoice.mapped("request_id")
-        invoices = self.env["account.move"].search(
-            [
-                "|",
-                ("l10n_ro_edi_download", "in", message_ids),
-                ("l10n_ro_edi_transaction", "in", request_ids),
-            ]
-        )
+        inv_domain = [
+            "|",
+            ("l10n_ro_edi_download", "in", message_ids),
+            ("l10n_ro_edi_transaction", "in", request_ids),
+        ]
+        invoices = self.env["account.move"].search(inv_domain)
         domain = [("name", "in", messages_without_invoice.mapped("ref"))]
         invoices |= self.env["account.move"].search(domain)
-        invoices = invoices.filtered(lambda i: i.state == "posted")
+
         for message in messages_without_invoice:
             invoice = invoices.filtered(
                 lambda i, m=message: i.l10n_ro_edi_download == m.name
@@ -270,9 +269,34 @@ class MessageSPV(models.Model):
                     ("move_type", "in", move_type),
                 ]
                 invoice = self.env["account.move"].search(domain, limit=1)
-
+            if len(invoice) > 1:
+                _logger.warning(
+                    "Multiple invoices found for message %s: %s",
+                    message.name,
+                    invoice.ids,
+                )
             if invoice:
                 message.write({"invoice_id": invoice[0].id})
+            if len(invoice) == 1:
+                message.write({"invoice_id": invoice.id})
+                if message.message_type == "message":
+                    msg = _("You received a message from ANAF for invoice %s") % (
+                        invoice.name
+                    )
+                    msg += f"\n{message.message}"
+                    self.env["account.edi.format"].l10n_ro_edi_post_message(
+                        invoice, msg, {}
+                    )
+                if (
+                    not invoice.l10n_ro_edi_download
+                    and not invoice.l10n_ro_edi_transaction
+                ):
+                    invoice.write(
+                        {
+                            "l10n_ro_edi_download": message.name,
+                            "l10n_ro_edi_transaction": message.request_id,
+                        }
+                    )
 
         self.get_data_from_invoice()
 
