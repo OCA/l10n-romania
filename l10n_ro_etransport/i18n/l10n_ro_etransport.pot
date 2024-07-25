@@ -32,6 +32,16 @@ msgid "Border crossing point"
 msgstr ""
 
 #. module: l10n_ro_etransport
+#: model:ir.model.fields,field_description:l10n_ro_etransport.field_l10n_ro_e_transport_history__tr_den
+msgid "Carrier Name"
+msgstr ""
+
+#. module: l10n_ro_etransport
+#: model:ir.model.fields,field_description:l10n_ro_etransport.field_l10n_ro_e_transport_history__cod_decl
+msgid "Cod Decl"
+msgstr ""
+
+#. module: l10n_ro_etransport
 #: model:ir.model.fields,field_description:l10n_ro_etransport.field_l10n_ro_e_transport_customs__code
 #: model:ir.model.fields,field_description:l10n_ro_etransport.field_l10n_ro_e_transport_operation__code
 #: model:ir.model.fields,field_description:l10n_ro_etransport.field_l10n_ro_e_transport_scope__code
@@ -39,7 +49,18 @@ msgid "Code"
 msgstr ""
 
 #. module: l10n_ro_etransport
+#: model:ir.model.fields,field_description:l10n_ro_etransport.field_l10n_ro_e_transport_history__country_pc_id
+msgid "Country PC"
+msgstr ""
+
+#. module: l10n_ro_etransport
+#: model:ir.model.fields,field_description:l10n_ro_etransport.field_l10n_ro_e_transport_history__country_tr_id
+msgid "Country TR"
+msgstr ""
+
+#. module: l10n_ro_etransport
 #: model:ir.model.fields,field_description:l10n_ro_etransport.field_l10n_ro_e_transport_customs__create_uid
+#: model:ir.model.fields,field_description:l10n_ro_etransport.field_l10n_ro_e_transport_history__create_uid
 #: model:ir.model.fields,field_description:l10n_ro_etransport.field_l10n_ro_e_transport_operation__create_uid
 #: model:ir.model.fields,field_description:l10n_ro_etransport.field_l10n_ro_e_transport_scope__create_uid
 msgid "Created by"
@@ -47,9 +68,15 @@ msgstr ""
 
 #. module: l10n_ro_etransport
 #: model:ir.model.fields,field_description:l10n_ro_etransport.field_l10n_ro_e_transport_customs__create_date
+#: model:ir.model.fields,field_description:l10n_ro_etransport.field_l10n_ro_e_transport_history__create_date
 #: model:ir.model.fields,field_description:l10n_ro_etransport.field_l10n_ro_e_transport_operation__create_date
 #: model:ir.model.fields,field_description:l10n_ro_etransport.field_l10n_ro_e_transport_scope__create_date
 msgid "Created on"
+msgstr ""
+
+#. module: l10n_ro_etransport
+#: model:ir.model.fields,field_description:l10n_ro_etransport.field_l10n_ro_e_transport_history__date
+msgid "Data Creare"
 msgstr ""
 
 #. module: l10n_ro_etransport
@@ -64,6 +91,7 @@ msgstr ""
 
 #. module: l10n_ro_etransport
 #: model:ir.model.fields,field_description:l10n_ro_etransport.field_l10n_ro_e_transport_customs__display_name
+#: model:ir.model.fields,field_description:l10n_ro_etransport.field_l10n_ro_e_transport_history__display_name
 #: model:ir.model.fields,field_description:l10n_ro_etransport.field_l10n_ro_e_transport_operation__display_name
 #: model:ir.model.fields,field_description:l10n_ro_etransport.field_l10n_ro_e_transport_scope__display_name
 msgid "Display Name"
@@ -77,6 +105,11 @@ msgstr ""
 #. module: l10n_ro_etransport
 #: model:ir.model,name:l10n_ro_etransport.model_l10n_ro_e_transport_customs
 msgid "E Transport Customs"
+msgstr ""
+
+#. module: l10n_ro_etransport
+#: model:ir.model,name:l10n_ro_etransport.model_l10n_ro_e_transport_history
+msgid "E Transport History"
 msgstr ""
 
 #. module: l10n_ro_etransport
@@ -98,10 +131,16 @@ msgstr ""
 
 #. module: l10n_ro_etransport
 #. odoo-python
+#: code:addons/l10n_ro_etransport/models/l10n_ro_e_transport_history.py:0
 #: code:addons/l10n_ro_etransport/models/stock_picking.py:0
 #: code:addons/l10n_ro_etransport/models/stock_picking.py:0
 #, python-format
 msgid "Error %(status_code)s:%(content)s"
+msgstr ""
+
+#. module: l10n_ro_etransport
+#: model:ir.model.fields,field_description:l10n_ro_etransport.field_l10n_ro_e_transport_history__errors
+msgid "Errors"
 msgstr ""
 
 #. module: l10n_ro_etransport
@@ -110,7 +149,14 @@ msgid "Export"
 msgstr ""
 
 #. module: l10n_ro_etransport
+#: model:ir.actions.act_window,name:l10n_ro_etransport.action_l10n_ro_e_transport_history
+#: model:ir.ui.menu,name:l10n_ro_etransport.l10n_ro_e_transport_history_menu
+msgid "History"
+msgstr ""
+
+#. module: l10n_ro_etransport
 #: model:ir.model.fields,field_description:l10n_ro_etransport.field_l10n_ro_e_transport_customs__id
+#: model:ir.model.fields,field_description:l10n_ro_etransport.field_l10n_ro_e_transport_history__id
 #: model:ir.model.fields,field_description:l10n_ro_etransport.field_l10n_ro_e_transport_operation__id
 #: model:ir.model.fields,field_description:l10n_ro_etransport.field_l10n_ro_e_transport_scope__id
 msgid "ID"
@@ -124,6 +170,11 @@ msgstr ""
 #. module: l10n_ro_etransport
 #: model:ir.model.fields,field_description:l10n_ro_etransport.field_stock_picking__l10n_ro_e_transport_download
 msgid "ID Download ANAF "
+msgstr ""
+
+#. module: l10n_ro_etransport
+#: model:ir.model.fields,field_description:l10n_ro_etransport.field_l10n_ro_e_transport_history__id_incarcare
+msgid "Id Incarcare"
 msgstr ""
 
 #. module: l10n_ro_etransport
@@ -148,6 +199,7 @@ msgstr ""
 
 #. module: l10n_ro_etransport
 #: model:ir.model.fields,field_description:l10n_ro_etransport.field_l10n_ro_e_transport_customs____last_update
+#: model:ir.model.fields,field_description:l10n_ro_etransport.field_l10n_ro_e_transport_history____last_update
 #: model:ir.model.fields,field_description:l10n_ro_etransport.field_l10n_ro_e_transport_operation____last_update
 #: model:ir.model.fields,field_description:l10n_ro_etransport.field_l10n_ro_e_transport_scope____last_update
 msgid "Last Modified on"
@@ -155,6 +207,7 @@ msgstr ""
 
 #. module: l10n_ro_etransport
 #: model:ir.model.fields,field_description:l10n_ro_etransport.field_l10n_ro_e_transport_customs__write_uid
+#: model:ir.model.fields,field_description:l10n_ro_etransport.field_l10n_ro_e_transport_history__write_uid
 #: model:ir.model.fields,field_description:l10n_ro_etransport.field_l10n_ro_e_transport_operation__write_uid
 #: model:ir.model.fields,field_description:l10n_ro_etransport.field_l10n_ro_e_transport_scope__write_uid
 msgid "Last Updated by"
@@ -162,6 +215,7 @@ msgstr ""
 
 #. module: l10n_ro_etransport
 #: model:ir.model.fields,field_description:l10n_ro_etransport.field_l10n_ro_e_transport_customs__write_date
+#: model:ir.model.fields,field_description:l10n_ro_etransport.field_l10n_ro_e_transport_history__write_date
 #: model:ir.model.fields,field_description:l10n_ro_etransport.field_l10n_ro_e_transport_operation__write_date
 #: model:ir.model.fields,field_description:l10n_ro_etransport.field_l10n_ro_e_transport_scope__write_date
 msgid "Last Updated on"
@@ -190,6 +244,7 @@ msgid "Ok"
 msgstr ""
 
 #. module: l10n_ro_etransport
+#: model:ir.model.fields,field_description:l10n_ro_etransport.field_l10n_ro_e_transport_history__operation_type_id
 #: model_terms:ir.ui.view,arch_db:l10n_ro_etransport.view_picking_form
 msgid "Operation Type"
 msgstr ""
@@ -202,6 +257,23 @@ msgstr ""
 #. module: l10n_ro_etransport
 #: model:ir.model.fields,field_description:l10n_ro_etransport.field_delivery_carrier__l10n_ro_e_partner_id
 msgid "Partner Carrier"
+msgstr ""
+
+#. module: l10n_ro_etransport
+#: model:ir.model.fields,field_description:l10n_ro_etransport.field_l10n_ro_e_transport_history__pc_den
+msgid "Pc Den"
+msgstr ""
+
+#. module: l10n_ro_etransport
+#: model:ir.model.fields,field_description:l10n_ro_etransport.field_l10n_ro_e_transport_history__ref_decl
+msgid "Reference"
+msgstr ""
+
+#. module: l10n_ro_etransport
+#. odoo-javascript
+#: code:addons/l10n_ro_etransport/static/src/js/e_transport.xml:0
+#, python-format
+msgid "Refresh"
 msgstr ""
 
 #. module: l10n_ro_etransport
@@ -227,6 +299,11 @@ msgid "Status"
 msgstr ""
 
 #. module: l10n_ro_etransport
+#: model:ir.model.fields,field_description:l10n_ro_etransport.field_l10n_ro_e_transport_history__sursa
+msgid "Sursa"
+msgstr ""
+
+#. module: l10n_ro_etransport
 #. odoo-python
 #: code:addons/l10n_ro_etransport/models/stock_picking.py:0
 #, python-format
@@ -248,11 +325,13 @@ msgid "The document was uploaded successfully, check the status."
 msgstr ""
 
 #. module: l10n_ro_etransport
+#: model:ir.model.fields,field_description:l10n_ro_etransport.field_l10n_ro_e_transport_history__trailer1
 #: model:ir.model.fields,field_description:l10n_ro_etransport.field_stock_picking__l10n_ro_trailer1
 msgid "Trailer1"
 msgstr ""
 
 #. module: l10n_ro_etransport
+#: model:ir.model.fields,field_description:l10n_ro_etransport.field_l10n_ro_e_transport_history__trailer2
 #: model:ir.model.fields,field_description:l10n_ro_etransport.field_stock_picking__l10n_ro_trailer2
 msgid "Trailer2"
 msgstr ""
@@ -263,6 +342,12 @@ msgid "Transfer"
 msgstr ""
 
 #. module: l10n_ro_etransport
+#: model:ir.model.fields,field_description:l10n_ro_etransport.field_l10n_ro_e_transport_history__transport_date
+msgid "Transport Date"
+msgstr ""
+
+#. module: l10n_ro_etransport
+#: model:ir.model.fields,field_description:l10n_ro_etransport.field_l10n_ro_e_transport_history__name
 #: model:ir.model.fields,field_description:l10n_ro_etransport.field_stock_picking__l10n_ro_e_transport_uit
 msgid "UIT"
 msgstr ""
@@ -280,8 +365,14 @@ msgid "Validation Error: %s"
 msgstr ""
 
 #. module: l10n_ro_etransport
+#: model:ir.model.fields,field_description:l10n_ro_etransport.field_l10n_ro_e_transport_history__vehicle
 #: model:ir.model.fields,field_description:l10n_ro_etransport.field_stock_picking__l10n_ro_vehicle
 msgid "Vehicle"
+msgstr ""
+
+#. module: l10n_ro_etransport
+#: model:ir.actions.server,name:l10n_ro_etransport.action_e_transport_refresh
+msgid "eTransport refresh"
 msgstr ""
 
 #. module: l10n_ro_etransport
