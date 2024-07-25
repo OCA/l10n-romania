@@ -310,3 +310,9 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_ro_message_spv.field_l10n_ro_message_spv__attachment_xml_id
 msgid "XML"
 msgstr ""
+
+#. module: l10n_ro_message_spv
+#: code:addons/l10n_ro_message_spv/models/message_spv.py:0
+#, python-format
+msgid "You received a message from ANAF for invoice %s"
+msgstr ""
