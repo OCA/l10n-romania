@@ -29,6 +29,7 @@ class AccountTaxRepartitionLine(models.Model):
         if (
             self.company_id.country_id.code == "RO"
             and self.tax_id.tax_exigibility == "on_payment"
+            and self.account_id
         ):
             account = self.tax_id.cash_basis_transition_account_id
         if (
@@ -36,6 +37,7 @@ class AccountTaxRepartitionLine(models.Model):
             and self.tax_id.tax_exigibility == "on_payment"
             and not self._context.get("caba_no_transition_account")
             and not self.l10n_ro_skip_cash_basis_account_switch
+            and self.account_id
         ):
             account = self.tax_id.cash_basis_transition_account_id
         if not account:

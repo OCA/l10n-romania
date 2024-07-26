@@ -30,7 +30,7 @@ class AccountTaxRepartitionLineExtend(models.Model):
             if (
                 line_account
                 and line_account.l10n_ro_nondeductible_account_id
-                and not self.l10n_ro_use_tax_exigibility_account
+                and self.l10n_ro_use_tax_exigibility_account
             ):
                 res = line_account.l10n_ro_nondeductible_account_id
         return res

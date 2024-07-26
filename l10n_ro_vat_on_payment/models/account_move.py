@@ -53,5 +53,5 @@ class AccountMove(models.Model):
         for record in self_ro:
             record.always_tax_exigible = (
                 record.is_invoice(True) and record._collect_tax_cash_basis_values()
-            )
+            ) or  (record.is_invoice() and not record.line_ids.filtered(lambda l: l.account_type in ["asset_receivable", "asset_payable"]))
         return super(AccountMove, self_no_ro)._compute_always_tax_exigible()
