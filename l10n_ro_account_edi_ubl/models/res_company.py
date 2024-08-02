@@ -96,8 +96,9 @@ class ResCompany(models.Model):
             "pagina": pagina,
             "startTime": start_time,
             "endTime": end_time,
-            "filtru": filtru,
         }
+        if filtru:
+            params["filtru"] = filtru
         content, status_code = anaf_config._l10n_ro_einvoice_call(
             "/listaMesajePaginatieFactura", params, method="GET"
         )
