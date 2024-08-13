@@ -349,7 +349,7 @@ class MessageSPV(models.Model):
                     "l10n_ro_edi_transaction": message.request_id,
                 }
             )
-            zip_content = message.attachment_id.raw
+            zip_content = message.sudo().attachment_id.raw
             attachment = new_invoice.l10n_ro_save_anaf_xml_file(zip_content)
             try:
                 new_invoice.l10n_ro_process_anaf_xml_file(attachment)
