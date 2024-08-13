@@ -306,7 +306,6 @@ msgstr ""
 
 #. module: l10n_ro_config
 #: model:ir.model.fields,field_description:l10n_ro_config.field_account_journal__is_l10n_ro_record
-#: model:ir.model.fields,field_description:l10n_ro_config.field_account_move_line__is_l10n_ro_record
 #: model:ir.model.fields,field_description:l10n_ro_config.field_account_setup_bank_manual_config__is_l10n_ro_record
 #: model:ir.model.fields,field_description:l10n_ro_config.field_l10n_ro_mixin__is_l10n_ro_record
 #: model:ir.model.fields,field_description:l10n_ro_config.field_product_product__is_l10n_ro_record
@@ -321,11 +320,6 @@ msgstr ""
 #. module: l10n_ro_config
 #: model:ir.model,name:l10n_ro_config.model_account_journal
 msgid "Journal"
-msgstr ""
-
-#. module: l10n_ro_config
-#: model:ir.model,name:l10n_ro_config.model_account_move_line
-msgid "Journal Item"
 msgstr ""
 
 #. module: l10n_ro_config
