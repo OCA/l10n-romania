@@ -109,14 +109,13 @@ msgid ""
 "Add a mechanism to close Incomes, Expense, VAT on a period\n"
 "                                        based."
 msgstr ""
-"Adaugă un mecanism pentru a închide Veniturile, Cheltuielile, TVA-ul pe "
-"baza perioadei."
+"Adaugă un mecanism pentru a închide Veniturile, Cheltuielile, TVA-ul pe baza "
+"perioadei."
 
 #. module: l10n_ro_config
 #: model_terms:ir.ui.view,arch_db:l10n_ro_config.res_config_settings_view_form
 msgid "Add a stock sheet report for products grouped by Location, Account."
-msgstr ""
-"Adaugă un raport de stoc pentru produsele grupate după Locație, Cont."
+msgstr "Adaugă un raport de stoc pentru produsele grupate după Locație, Cont."
 
 #. module: l10n_ro_config
 #: model_terms:ir.ui.view,arch_db:l10n_ro_config.res_config_settings_view_form
@@ -125,8 +124,8 @@ msgid ""
 "                                        position with the one defined in "
 "settings depending on the partner and invoice."
 msgstr ""
-"Adaugă un câmp de TVA la plată în parteneri, schimba poziția fiscală cu "
-"cea definită în setări în funcție de partener și factură."
+"Adaugă un câmp de TVA la plată în parteneri, schimba poziția fiscală cu cea "
+"definită în setări în funcție de partener și factură."
 
 #. module: l10n_ro_config
 #: model_terms:ir.ui.view,arch_db:l10n_ro_config.res_config_settings_view_form
@@ -237,8 +236,8 @@ msgid ""
 "Currency rate in invoice is editable, so you can use your own\n"
 "                                        currency rate."
 msgstr ""
-"Cursul valutar din factură este editabil, astfel încât să puteți utiliza "
-"un curs valutar diferit."
+"Cursul valutar din factură este editabil, astfel încât să puteți utiliza un "
+"curs valutar diferit."
 
 #. module: l10n_ro_config
 #: model:ir.model.fields.selection,name:l10n_ro_config.selection__account_journal__l10n_ro_sequence_type__autoinv1
@@ -365,7 +364,6 @@ msgstr "Este înregistrarea L10N Ro"
 
 #. module: l10n_ro_config
 #: model:ir.model.fields,field_description:l10n_ro_config.field_account_journal__is_l10n_ro_record
-#: model:ir.model.fields,field_description:l10n_ro_config.field_account_move_line__is_l10n_ro_record
 #: model:ir.model.fields,field_description:l10n_ro_config.field_account_setup_bank_manual_config__is_l10n_ro_record
 #: model:ir.model.fields,field_description:l10n_ro_config.field_l10n_ro_mixin__is_l10n_ro_record
 #: model:ir.model.fields,field_description:l10n_ro_config.field_product_product__is_l10n_ro_record
@@ -381,11 +379,6 @@ msgstr "Este înregistrarea Română"
 #: model:ir.model,name:l10n_ro_config.model_account_journal
 msgid "Journal"
 msgstr "Jurnal"
-
-#. module: l10n_ro_config
-#: model:ir.model,name:l10n_ro_config.model_account_move_line
-msgid "Journal Item"
-msgstr "Element jurnal"
 
 #. module: l10n_ro_config
 #: model:ir.model.fields,field_description:l10n_ro_config.field_res_config_settings__l10n_ro_stock_account_svl_lot_allocation_visible
@@ -1454,6 +1447,9 @@ msgid ""
 msgstr ""
 "utilizați contul 4428 pentru tva neexigibil în notele făcute pentru 'Marfă "
 "în magazin'"
+
+#~ msgid "Journal Item"
+#~ msgstr "Element jurnal"
 
 #~ msgid ""
 #~ "Select a service product that will be used in customs commission "
