@@ -17,7 +17,7 @@
         "static/src/xml/message_spv.xml",
     ],
     "license": "AGPL-3",
-    "version": "14.0.1.1.0",
+    "version": "14.0.1.1.1",
     "author": "Terrabit," "NextERP Romania," "Odoo Community Association (OCA)",
     "website": "https://github.com/OCA/l10n-romania",
     "installable": True,
