@@ -11,7 +11,7 @@ from .common import TestMT940BankStatementImport
 @tagged("post_install", "-at_install")
 class TestImport(TestMT940BankStatementImport):
     def setUp(self):
-        super(TestImport, self).setUp()
+        super().setUp()
         eur_curr = self.env.ref("base.EUR")
         self.bank = self.create_partner_bank("NL34RABO0142623393 EUR")
         self.journal = self.create_journal("TBNK2MT940", self.bank, eur_curr)

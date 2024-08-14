@@ -90,9 +90,9 @@ class MT940Parser(models.AbstractModel):
         """determine if line is the start of a statement"""
         if not bool(line.startswith("{4:")):
             raise ValueError(
-                "The pre processed match %s does not seem to be a"
-                " valid %s MT940 format bank statement. Every statement"
-                " should start be a dict starting with {4:.." % line
+                "The pre processed match does not seem to be a"
+                " valid MT940 format bank statement. Every statement"
+                " should start be a dict starting with {4:.."
             )
 
     def parse_amount(self, sign, amount_str):
