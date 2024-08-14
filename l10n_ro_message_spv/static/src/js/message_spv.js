@@ -1,8 +1,5 @@
 odoo.define("account.message.spv.tree", function (require) {
     "use strict";
-    console.log(
-        "Hello from nexterp_dev/14.0/nexterp/l10n-romania/l10n_ro_message_spv/static/src/js/message_spv.js"
-    );
 
     var ListController = require("web.ListController");
     var ListView = require("web.ListView");
