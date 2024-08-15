@@ -2,8 +2,8 @@
 # Copyright (C) 2022 NextERP Romania
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 from odoo import fields
-from odoo.modules.module import get_module_resource
 from odoo.tests import tagged
+from odoo.tools.misc import file_path
 
 from odoo.addons.l10n_ro_account_bank_statement_import_mt940_base.tests.common import (
     TestMT940BankStatementImport,
@@ -13,8 +13,9 @@ from odoo.addons.l10n_ro_account_bank_statement_import_mt940_base.tests.common i
 @tagged("post_install", "-at_install")
 class TestImport(TestMT940BankStatementImport):
     def setUp(self):
-        super(TestImport, self).setUp()
+        super().setUp()
         ron_curr = self.env.ref("base.RON")
+        ron_curr.write({"active": True})
         self.bank = self.create_partner_bank("RO40RZBR0000060001111111")
         self.journal = self.create_journal("TBNK3MT940", self.bank, ron_curr)
 
@@ -81,10 +82,8 @@ RGER LOGISTICS ROU"""
 
     def test_statement_import(self):
         """Test correct creation of single statement BCR."""
-        testfile = get_module_resource(
-            "l10n_ro_account_bank_statement_import_mt940_rffsn",
-            "test_files",
-            "test_rffsn_940.txt",
+        testfile = file_path(
+            "l10n_ro_account_bank_statement_import_mt940_rffsn/test_files/test_rffsn_940.txt",
         )
         parser = self.env["l10n.ro.account.bank.statement.import.mt940.parser"]
         parser = parser.with_context(type="mt940_ro_rffsn")
