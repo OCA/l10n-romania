@@ -38,10 +38,9 @@ class MT940Parser(models.AbstractModel):
                 if parsed_data["reference"] != "NONREF":
                     transaction["ref"] = parsed_data["reference"]
                 else:
-                    transaction["ref"] = "%s-%s" % (
-                        parsed_data.get("ingid", ""),
-                        parsed_data.get("ingtranscode", ""),
-                    )
+                    ingid = parsed_data.get("ingid", "")
+                    ingtranscode = parsed_data.get("ingtranscode", "")
+                    transaction["ref"] = f"{ingid}-{ingtranscode}"
                 if parsed_data.get("account_number"):
                     transaction["account_number"] = parsed_data["account_number"]
         return result
@@ -183,7 +182,7 @@ class MT940Parser(models.AbstractModel):
                 "29",
                 "60",
                 "61",
-                "32"
+                "32",
                 # "110",
             ]:
                 if counterpart_field in subfields:

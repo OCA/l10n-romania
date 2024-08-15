@@ -28,4 +28,4 @@ class AccountBankStatementImport(models.TransientModel):
                 if bank:
                     return (data[0], bank.sanitized_acc_number, data[2])
                 return data
-        return super(AccountBankStatementImport, self)._parse_file(data_file)
+        return super()._parse_file(data_file)
