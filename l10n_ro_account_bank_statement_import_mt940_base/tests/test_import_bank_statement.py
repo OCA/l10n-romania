@@ -2,8 +2,8 @@
 # Copyright (C) 2022 NextERP Romania
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 from odoo import fields
-from odoo.modules.module import get_module_resource
 from odoo.tests import tagged
+from odoo.tools.misc import file_path
 
 from .common import TestMT940BankStatementImport
 
@@ -83,10 +83,8 @@ class TestImport(TestMT940BankStatementImport):
     def test_statement_import(self):
         """Test correct creation of single statement ING."""
 
-        testfile = get_module_resource(
-            "l10n_ro_account_bank_statement_import_mt940_base",
-            "test_files",
-            "test-rabo.swi",
+        testfile = file_path(
+            "l10n_ro_account_bank_statement_import_mt940_base/test_files/test-rabo.swi"
         )
         parser = self.env["l10n.ro.account.bank.statement.import.mt940.parser"]
         parser = parser.with_context(type="mt940_general")
@@ -106,10 +104,8 @@ class TestImport(TestMT940BankStatementImport):
 
     def test_wrong_file_import(self):
         """Test wrong file import."""
-        testfile = get_module_resource(
-            "l10n_ro_account_bank_statement_import_mt940_base",
-            "test_files",
-            "test-wrong-file.940",
+        testfile = file_path(
+            "l10n_ro_account_bank_statement_import_mt940_base/test_files/test-wrong-file.940",
         )
         parser = self.env["l10n.ro.account.bank.statement.import.mt940.parser"]
         parser = parser.with_context(type="mt940_general")
