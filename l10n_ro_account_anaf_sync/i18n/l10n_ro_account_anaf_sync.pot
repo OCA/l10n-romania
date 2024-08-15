@@ -214,9 +214,7 @@ msgstr ""
 
 #. module: l10n_ro_account_anaf_sync
 #: model:ir.model.fields,help:l10n_ro_account_anaf_sync.field_l10n_ro_account_anaf_sync__message_has_error
-#: model:ir.model.fields,help:l10n_ro_account_anaf_sync.field_l10n_ro_account_anaf_sync__message_has_sms_error
 #: model:ir.model.fields,help:l10n_ro_account_anaf_sync.field_l10n_ro_account_anaf_sync_scope__message_has_error
-#: model:ir.model.fields,help:l10n_ro_account_anaf_sync.field_l10n_ro_account_anaf_sync_scope__message_has_sms_error
 msgid "If checked, some messages have a delivery error."
 msgstr ""
 
@@ -337,12 +335,6 @@ msgstr ""
 #: code:addons/l10n_ro_account_anaf_sync/models/l10n_ro_account_anaf_sync.py:0
 #, python-format
 msgid "Revoke token response: %s"
-msgstr ""
-
-#. module: l10n_ro_account_anaf_sync
-#: model:ir.model.fields,field_description:l10n_ro_account_anaf_sync.field_l10n_ro_account_anaf_sync__message_has_sms_error
-#: model:ir.model.fields,field_description:l10n_ro_account_anaf_sync.field_l10n_ro_account_anaf_sync_scope__message_has_sms_error
-msgid "SMS Delivery error"
 msgstr ""
 
 #. module: l10n_ro_account_anaf_sync
