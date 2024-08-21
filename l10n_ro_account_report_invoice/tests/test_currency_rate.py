@@ -13,7 +13,7 @@ from odoo.addons.account.tests.common import AccountTestInvoicingCommon
 class TestInvoiceCurrencyRate(AccountTestInvoicingCommon):
     @classmethod
     def setUpClass(cls):
-        ro_template_ref = "l10n_ro.ro_chart_template"
+        ro_template_ref = "ro"
         super().setUpClass(chart_template_ref=ro_template_ref)
 
         cls.invoice = cls.init_invoice(
