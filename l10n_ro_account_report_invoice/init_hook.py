@@ -73,16 +73,21 @@ def store_field_l10n_ro_currency_rate(env):
                             ORDER BY r2.name ASC
                             LIMIT 1) AS date_end
                         FROM res_currency_rate r
-                        JOIN res_company c ON (r.company_id is null or r.company_id = c.id)
+                        JOIN res_company c ON (r.company_id is null or
+                        r.company_id = c.id)
                     )
                     UPDATE account_move acc_move
-                    SET l10n_ro_currency_rate = round(1 / coalesce(cr.rate, 1),4)::numeric
+                    SET l10n_ro_currency_rate = round(1 /
+                        coalesce(cr.rate, 1),4)::numeric
                     FROM currency_rate cr
                     WHERE acc_move.company_id in %(ids)s AND
                         (cr.currency_id = acc_move.currency_id AND
-                        cr.date_start <= COALESCE(acc_move.invoice_date, acc_move.date) AND
+                        cr.date_start <= COALESCE(acc_move.invoice_date, acc_move.date)
+                        AND
                         (cr.date_end IS NULL OR
-                            cr.date_end > COALESCE(acc_move.invoice_date, acc_move.date)) AND
+                            cr.date_end > COALESCE(acc_move.invoice_date,
+                            acc_move.date))
+                            AND
                         (acc_move.company_id = cr.company_id OR cr.company_id is Null));
                     """,
                     {"ids": tuple(ro_companies)},
