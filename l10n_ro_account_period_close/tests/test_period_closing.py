@@ -16,7 +16,7 @@ class TestPeriodClosing(AccountTestInvoicingCommon):
     @classmethod
     def setUpClass(cls, chart_template_ref=None):
         if not chart_template_ref:
-            chart_template_ref = "l10n_ro.ro_chart_template"
+            chart_template_ref = "ro"
         super().setUpClass(chart_template_ref=chart_template_ref)
         cls.per_close_model = cls.env["l10n.ro.account.period.closing"]
         cls.wiz_close_model = cls.env["l10n.ro.account.period.closing.wizard"]
