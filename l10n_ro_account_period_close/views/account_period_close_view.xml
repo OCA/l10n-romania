@@ -29,7 +29,7 @@
     <record id="view_l10n_ro_account_period_closing_tree" model="ir.ui.view">
         <field name="name">l10n.ro.account.period.closing.tree</field>
         <field name="model">l10n.ro.account.period.closing</field>
-        <field name="type">form</field>
+        <field name="type">tree</field>
         <field name="arch" type="xml">
             <tree>
                 <field name="name" />
