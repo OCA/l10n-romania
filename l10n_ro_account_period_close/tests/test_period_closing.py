@@ -216,7 +216,6 @@ class TestPeriodClosing(AccountTestInvoicingCommon):
         self.assertEqual(self.inc_closing.account_ids, inc_accounts)
 
     def test_period_closing_get_accounts(self):
-
         account_expense = self.company_data["default_account_expense"]
         expected_exp_account = [
             {
