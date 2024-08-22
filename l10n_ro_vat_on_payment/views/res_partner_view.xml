@@ -32,28 +32,20 @@
                 <field name="is_l10n_ro_record" invisible="1" />
                 <label
                     for="l10n_ro_vat_on_payment"
-                    attrs="{'invisible': [
-                            '|', ('vat', '=', False),
-                            ('company_type', '!=', 'company')]}"
+                    invisible="vat == False or company_type != 'company'"
                 />
                 <div
                     name="vat_on_payment_info"
                     class="o_row"
-                    attrs="{'invisible': [
-                        '|', ('vat', '=', False),
-                        ('company_type', '!=', 'company')]}"
+                    invisible="vat == False or company_type != 'company'"
                 >
                     <field
                         name="l10n_ro_vat_on_payment"
-                        attrs="{'invisible': [
-                            '|', ('vat', '=', False),
-                            ('company_type', '!=', 'company')]}"
+                        invisible="vat == False or company_type != 'company'"
                     />
                     <button
                         name="check_vat_on_payment"
-                        attrs="{'invisible': [
-                            '|', ('vat', '=', False),
-                            ('company_type', '!=', 'company')]}"
+                        invisible="vat == False or company_type != 'company'"
                         string="Update VAT on Payment"
                         type="object"
                         class="oe_highlight"

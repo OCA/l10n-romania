@@ -24,8 +24,7 @@ class TestVATonpayment(AccountTestInvoicingCommon):
 
     @classmethod
     def setUpClass(cls, chart_template_ref=None):
-        ro_template_ref = "l10n_ro.ro_chart_template"
-        super().setUpClass(chart_template_ref=ro_template_ref)
+        super().setUpClass(chart_template_ref="ro")
         cls.env.company.l10n_ro_accounting = True
         cls.partner_anaf_model = cls.env["l10n.ro.res.partner.anaf"]
         cls.partner_model = cls.env["res.partner"]
