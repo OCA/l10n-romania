@@ -72,7 +72,7 @@ msgstr ""
 #. module: l10n_ro_vat_on_payment
 #: model:ir.model.fields,field_description:l10n_ro_vat_on_payment.field_l10n_ro_res_partner_anaf__id
 msgid "ID"
-msgstr "ID"
+msgstr ""
 
 #. module: l10n_ro_vat_on_payment
 #: model:ir.model.fields,field_description:l10n_ro_vat_on_payment.field_account_move__is_l10n_ro_record
@@ -172,4 +172,4 @@ msgstr ""
 #~ msgstr "Számla"
 
 #~ msgid "Partner"
-#~ msgstr "Partner"
+#~ msgstr ""
