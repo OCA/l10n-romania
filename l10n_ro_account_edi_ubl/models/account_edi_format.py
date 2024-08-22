@@ -155,7 +155,6 @@ class AccountEdiXmlCIUSRO(models.Model):
         res = {}
         to_remove_invoices = self.env["account.move"]
         for invoice in invoices:
-
             anaf_config = invoice.company_id._l10n_ro_get_anaf_sync(scope="e-factura")
             if not anaf_config:
                 res[invoice] = {
@@ -298,7 +297,6 @@ class AccountEdiXmlCIUSRO(models.Model):
         return res
 
     def _l10n_ro_anaf_call(self, func, anaf_config, params, data=None, method="POST"):
-
         content, status_code = anaf_config._l10n_ro_einvoice_call(
             func, params, data, method
         )

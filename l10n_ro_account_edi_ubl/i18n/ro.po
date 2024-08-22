@@ -71,7 +71,7 @@ msgstr ""
 #. module: l10n_ro_account_edi_ubl
 #: model:ir.model,name:l10n_ro_account_edi_ubl.model_account_edi_xml_cius_ro
 msgid "CIUS RO"
-msgstr "CIUS RO"
+msgstr ""
 
 #. module: l10n_ro_account_edi_ubl
 #: model:ir.model.fields,help:l10n_ro_account_edi_ubl.field_res_partner__l10n_ro_is_government_institution
@@ -101,8 +101,7 @@ msgid ""
 "                            If not set default PDF report will be used."
 msgstr ""
 "Raportul de factură PDF al companiei care va fi adăugat la e-Factura XML.\n"
-"                            Dacă nu este setat, va fi utilizat raportul PDF "
-"implicit."
+"                            Dacă nu este setat, va fi utilizat raportul PDF implicit."
 
 #. module: l10n_ro_account_edi_ubl
 #: model:ir.model,name:l10n_ro_account_edi_ubl.model_res_config_settings
@@ -112,7 +111,7 @@ msgstr "Setări de configurare"
 #. module: l10n_ro_account_edi_ubl
 #: model:ir.model,name:l10n_ro_account_edi_ubl.model_res_partner
 msgid "Contact"
-msgstr "Contact"
+msgstr ""
 
 #. module: l10n_ro_account_edi_ubl
 #: model:ir.model.fields,field_description:l10n_ro_account_edi_ubl.field_account_edi_xml_cius_ro__create_uid
@@ -179,12 +178,10 @@ msgstr "Descărcați ZIP cu fișier XML semnat de la ANAF"
 #: model_terms:ir.ui.view,arch_db:l10n_ro_account_edi_ubl.res_config_settings_view_form
 msgid ""
 "Download e-Invoices automatically from ANAF website.\n"
-"                            It will create a draft invoice that you will "
-"have to check and posted afterwards."
+"                            It will create a draft invoice that you will have to check and posted afterwards."
 msgstr ""
 "Descarcă e-Facturi automat de pe site-ul ANAF.\n"
-"                            Acesta va crea o ciornă de factură pe care va "
-"trebui să o verificați și să o postați ulterior."
+"                            Acesta va crea o ciornă de factură pe care va trebui să o verificați și să o postați ulterior."
 
 #. module: l10n_ro_account_edi_ubl
 #: model:ir.model.fields,field_description:l10n_ro_account_edi_ubl.field_res_company__l10n_ro_download_einvoices
@@ -246,7 +243,7 @@ msgstr ""
 #. module: l10n_ro_account_edi_ubl
 #: model:ir.model.fields,field_description:l10n_ro_account_edi_ubl.field_account_edi_xml_cius_ro__id
 msgid "ID"
-msgstr "ID"
+msgstr ""
 
 #. module: l10n_ro_account_edi_ubl
 #: model:ir.model.fields,field_description:l10n_ro_account_edi_ubl.field_account_bank_statement_line__l10n_ro_edi_download
@@ -258,7 +255,7 @@ msgstr "ID Descarcare ANAF (RO)"
 #. module: l10n_ro_account_edi_ubl
 #: model_terms:ir.ui.view,arch_db:l10n_ro_account_edi_ubl.view_move_form
 msgid "ID eFactura"
-msgstr "ID eFactura"
+msgstr ""
 
 #. module: l10n_ro_account_edi_ubl
 #: model_terms:ir.ui.view,arch_db:l10n_ro_account_edi_ubl.view_move_form
@@ -280,8 +277,8 @@ msgid ""
 "Invoices with this document type always need to be cancelled through a "
 "credit note. There is no possibility to cancel."
 msgstr ""
-"Facturile cu acest tip de document trebuie întotdeauna anulate printr-o notă "
-"de credit. Nu există posibilitatea de a anula."
+"Facturile cu acest tip de document trebuie întotdeauna anulate printr-o notă"
+" de credit. Nu există posibilitatea de a anula."
 
 #. module: l10n_ro_account_edi_ubl
 #: model:ir.model.fields,field_description:l10n_ro_account_edi_ubl.field_product_template__is_l10n_ro_record
@@ -476,8 +473,8 @@ msgstr "Configurația ANAF nu este setată. Setați-l și încercați din nou."
 #: code:addons/l10n_ro_account_edi_ubl/models/account_edi_xml_cius_ro.py:0
 #, python-format
 msgid ""
-"The following partner doesn't have a VAT nor Company ID: %s. At least one of "
-"them is required. "
+"The following partner doesn't have a VAT nor Company ID: %s. At least one of"
+" them is required. "
 msgstr ""
 "Următorul partener nu are TVA sau ID de companie: %s. Cel puțin unul dintre "
 "ele este necesar. "
@@ -490,8 +487,8 @@ msgid ""
 "The following partner's city name is invalid: %s. If partner's state is "
 "București, the city name must be 'SECTORX', where X is a number between 1-6."
 msgstr ""
-"Numele orașului următor partener este nevalid: %s. Dacă judetul partenerului "
-"este București, numele orașului trebuie să fie „SECTORX”, unde X este un "
+"Numele orașului următor partener este nevalid: %s. Dacă judetul partenerului"
+" este București, numele orașului trebuie să fie „SECTORX”, unde X este un "
 "număr între 1-6."
 
 #. module: l10n_ro_account_edi_ubl
@@ -610,8 +607,8 @@ msgstr ""
 #: code:addons/l10n_ro_account_edi_ubl/models/account_move.py:0
 #, python-format
 msgid ""
-"You can't edit the following journal entry %s because an electronic document "
-"has already been sent to ANAF. To edit this entry, you need to create a "
+"You can't edit the following journal entry %s because an electronic document"
+" has already been sent to ANAF. To edit this entry, you need to create a "
 "Credit Note for the invoice and create a new invoice."
 msgstr ""
 "Nu puteți edita următoarea înregistrare de jurnal %s deoarece un document "

@@ -180,16 +180,12 @@ class AccountEdiXmlCIUSRO(models.Model):
             and invoice.company_id.l10n_ro_credit_note_einvoice
         ):
             if vals_list["vals"].get("monetary_total_vals"):
-                vals_list["vals"]["monetary_total_vals"][
-                    "tax_exclusive_amount"
-                ] = (-1) * vals_list["vals"]["monetary_total_vals"][
-                    "tax_exclusive_amount"
-                ]
-                vals_list["vals"]["monetary_total_vals"][
-                    "tax_inclusive_amount"
-                ] = (-1) * vals_list["vals"]["monetary_total_vals"][
-                    "tax_inclusive_amount"
-                ]
+                vals_list["vals"]["monetary_total_vals"]["tax_exclusive_amount"] = (
+                    -1
+                ) * vals_list["vals"]["monetary_total_vals"]["tax_exclusive_amount"]
+                vals_list["vals"]["monetary_total_vals"]["tax_inclusive_amount"] = (
+                    -1
+                ) * vals_list["vals"]["monetary_total_vals"]["tax_inclusive_amount"]
                 vals_list["vals"]["monetary_total_vals"]["prepaid_amount"] = (
                     -1
                 ) * vals_list["vals"]["monetary_total_vals"]["prepaid_amount"]
