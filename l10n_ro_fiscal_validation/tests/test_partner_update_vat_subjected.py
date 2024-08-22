@@ -13,7 +13,7 @@ from odoo.tools import pycompat
 class TestPartnerUpdateVatSubjectedBase(TransactionCase):
     @classmethod
     def setUpClass(cls):
-        super(TestPartnerUpdateVatSubjectedBase, cls).setUpClass()
+        super().setUpClass()
         cls.partner_model = cls.env["res.partner"]
         parts = cls.partner_model.search(
             [("country_id", "=", cls.env.ref("base.ro").id)]
