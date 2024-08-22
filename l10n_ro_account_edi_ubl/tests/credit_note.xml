@@ -1,0 +1,160 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<CreditNote
+    xmlns="urn:oasis:names:specification:ubl:schema:xsd:CreditNote-2"
+    xmlns:cac="urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2"
+    xmlns:cbc="urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2"
+>
+    <cbc:CustomizationID
+    >urn:cen.eu:en16931:2017#compliant#urn:efactura.mfinante.ro:CIUS-RO:1.0.1</cbc:CustomizationID>
+    <cbc:ProfileID>urn:fdc:peppol.eu:2017:poacc:billing:01:1.0</cbc:ProfileID>
+    <cbc:ID>FBRAO2093</cbc:ID>
+    <cbc:IssueDate>2022-09-01</cbc:IssueDate>
+    <cbc:CreditNoteTypeCode>381</cbc:CreditNoteTypeCode>
+    <cbc:DocumentCurrencyCode>RON</cbc:DocumentCurrencyCode>
+    <cbc:BuyerReference>SCOALA GIMNAZIALA COMUNA FOENI</cbc:BuyerReference>
+    <cac:OrderReference>
+        <cbc:ID>FBRAO2093</cbc:ID>
+    </cac:OrderReference>
+    <cac:AccountingSupplierParty>
+        <cac:Party>
+            <cbc:EndpointID schemeID="9947">RO30834857</cbc:EndpointID>
+            <cac:PartyName>
+                <cbc:Name>FOREST AND BIOMASS ROMÂNIA S.A.</cbc:Name>
+            </cac:PartyName>
+            <cac:PostalAddress>
+                <cbc:StreetName>Str. Ciprian Porumbescu Nr. 12</cbc:StreetName>
+                <cbc:AdditionalStreetName>Zona Nr.3, Etaj 1</cbc:AdditionalStreetName>
+                <cbc:CityName>Timișoara</cbc:CityName>
+                <cbc:PostalZone>300011</cbc:PostalZone>
+                <cbc:CountrySubentity>RO-TM</cbc:CountrySubentity>
+                <cac:Country>
+                    <cbc:IdentificationCode>RO</cbc:IdentificationCode>
+                </cac:Country>
+            </cac:PostalAddress>
+            <cac:PartyTaxScheme>
+                <cbc:CompanyID>RO30834857</cbc:CompanyID>
+                <cac:TaxScheme>
+                    <cbc:ID>VAT</cbc:ID>
+                </cac:TaxScheme>
+            </cac:PartyTaxScheme>
+            <cac:PartyLegalEntity>
+                <cbc:RegistrationName
+                >FOREST AND BIOMASS ROMÂNIA S.A.</cbc:RegistrationName>
+                <cbc:CompanyID>RO30834857</cbc:CompanyID>
+            </cac:PartyLegalEntity>
+            <cac:Contact>
+                <cbc:Name>FOREST AND BIOMASS ROMÂNIA S.A.</cbc:Name>
+                <cbc:Telephone>0356179038</cbc:Telephone>
+            </cac:Contact>
+        </cac:Party>
+    </cac:AccountingSupplierParty>
+    <cac:AccountingCustomerParty>
+        <cac:Party>
+            <cbc:EndpointID schemeID="9947">29152430</cbc:EndpointID>
+            <cac:PartyName>
+                <cbc:Name>SCOALA GIMNAZIALA COMUNA FOENI</cbc:Name>
+            </cac:PartyName>
+            <cac:PostalAddress>
+                <cbc:StreetName>Foeni Nr. 383</cbc:StreetName>
+                <cbc:CityName>Foeni</cbc:CityName>
+                <cbc:PostalZone>307175</cbc:PostalZone>
+                <cbc:CountrySubentity>RO-TM</cbc:CountrySubentity>
+                <cac:Country>
+                    <cbc:IdentificationCode>RO</cbc:IdentificationCode>
+                </cac:Country>
+            </cac:PostalAddress>
+            <cac:PartyTaxScheme>
+                <cbc:CompanyID>29152430</cbc:CompanyID>
+                <cac:TaxScheme>
+                    <cbc:ID>!= VAT</cbc:ID>
+                </cac:TaxScheme>
+            </cac:PartyTaxScheme>
+            <cac:PartyLegalEntity>
+                <cbc:RegistrationName
+                >SCOALA GIMNAZIALA COMUNA FOENI</cbc:RegistrationName>
+                <cbc:CompanyID>29152430</cbc:CompanyID>
+            </cac:PartyLegalEntity>
+            <cac:Contact>
+                <cbc:Name>SCOALA GIMNAZIALA COMUNA FOENI</cbc:Name>
+                <cbc:Telephone>0256413409</cbc:Telephone>
+            </cac:Contact>
+        </cac:Party>
+    </cac:AccountingCustomerParty>
+    <cac:PaymentMeans>
+        <cbc:PaymentMeansCode name="credit transfer">30</cbc:PaymentMeansCode>
+        <cbc:PaymentID>FBRAO2093</cbc:PaymentID>
+          <cac:PayeeFinancialAccount>
+          <cbc:ID>RO75TREZ0615069XXX001573</cbc:ID>
+          <cac:FinancialInstitutionBranch>
+            <cbc:ID>TREZROBU</cbc:ID>
+          </cac:FinancialInstitutionBranch>
+        </cac:PayeeFinancialAccount>
+    </cac:PaymentMeans>
+    <cac:TaxTotal>
+        <cbc:TaxAmount currencyID="RON">1900.00</cbc:TaxAmount>
+        <cac:TaxSubtotal>
+            <cbc:TaxableAmount currencyID="RON">10000.00</cbc:TaxableAmount>
+            <cbc:TaxAmount currencyID="RON">1900.00</cbc:TaxAmount>
+            <cac:TaxCategory>
+                <cbc:ID>S</cbc:ID>
+                <cbc:Percent>19.0</cbc:Percent>
+                <cac:TaxScheme>
+                    <cbc:ID>VAT</cbc:ID>
+                </cac:TaxScheme>
+            </cac:TaxCategory>
+        </cac:TaxSubtotal>
+    </cac:TaxTotal>
+    <cac:LegalMonetaryTotal>
+        <cbc:LineExtensionAmount currencyID="RON">10000.00</cbc:LineExtensionAmount>
+        <cbc:TaxExclusiveAmount currencyID="RON">10000.00</cbc:TaxExclusiveAmount>
+        <cbc:TaxInclusiveAmount currencyID="RON">11900.00</cbc:TaxInclusiveAmount>
+        <cbc:PrepaidAmount currencyID="RON">0.00</cbc:PrepaidAmount>
+        <cbc:PayableAmount currencyID="RON">11900.00</cbc:PayableAmount>
+    </cac:LegalMonetaryTotal>
+    <cac:CreditNoteLine>
+        <cbc:ID>1</cbc:ID>
+        <cbc:CreditedQuantity unitCode="C62">5.0</cbc:CreditedQuantity>
+        <cbc:LineExtensionAmount currencyID="RON">5000.00</cbc:LineExtensionAmount>
+        <cac:Item>
+            <cbc:Description>[00000623] Bec P21/5W</cbc:Description>
+            <cbc:Name>Bec P21/5W</cbc:Name>
+            <cac:SellersItemIdentification>
+                <cbc:ID>00000623</cbc:ID>
+            </cac:SellersItemIdentification>
+            <cac:ClassifiedTaxCategory>
+                <cbc:ID>S</cbc:ID>
+                <cbc:Percent>19.0</cbc:Percent>
+                <cac:TaxScheme>
+                    <cbc:ID>VAT</cbc:ID>
+                </cac:TaxScheme>
+            </cac:ClassifiedTaxCategory>
+        </cac:Item>
+        <cac:Price>
+            <cbc:PriceAmount currencyID="RON">1000.0</cbc:PriceAmount>
+            <cbc:BaseQuantity unitCode="C62">1.0</cbc:BaseQuantity>
+        </cac:Price>
+    </cac:CreditNoteLine>
+    <cac:CreditNoteLine>
+        <cbc:ID>2</cbc:ID>
+        <cbc:CreditedQuantity unitCode="C62">5.0</cbc:CreditedQuantity>
+        <cbc:LineExtensionAmount currencyID="RON">5000.00</cbc:LineExtensionAmount>
+        <cac:Item>
+            <cbc:Description>[00000624] Bec P21/10W</cbc:Description>
+            <cbc:Name>Bec P21/10W</cbc:Name>
+            <cac:SellersItemIdentification>
+                <cbc:ID>00000624</cbc:ID>
+            </cac:SellersItemIdentification>
+            <cac:ClassifiedTaxCategory>
+                <cbc:ID>S</cbc:ID>
+                <cbc:Percent>19.0</cbc:Percent>
+                <cac:TaxScheme>
+                    <cbc:ID>VAT</cbc:ID>
+                </cac:TaxScheme>
+            </cac:ClassifiedTaxCategory>
+        </cac:Item>
+        <cac:Price>
+            <cbc:PriceAmount currencyID="RON">1000.0</cbc:PriceAmount>
+            <cbc:BaseQuantity unitCode="C62">1.0</cbc:BaseQuantity>
+        </cac:Price>
+    </cac:CreditNoteLine>
+</CreditNote>

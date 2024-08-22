@@ -1,0 +1,2 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_account_edi_xml_cius_ro,account.edi.xml.cius_ro,model_account_edi_xml_cius_ro,account.group_account_user,1,1,1,1

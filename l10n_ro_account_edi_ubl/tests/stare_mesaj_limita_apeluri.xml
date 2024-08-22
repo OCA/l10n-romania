@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<header xmlns="mfp:anaf:dgti:efactura:stareMesajFactura:v1">
+    <Errors errorMessage="S-au facut deja 20 descarcari de mesaj in cursul zilei" />
+</header>
