@@ -20,7 +20,7 @@ msgstr ""
 #. module: l10n_ro_fiscal_validation
 #: model:ir.model,name:l10n_ro_fiscal_validation.model_res_partner
 msgid "Contact"
-msgstr "Contact"
+msgstr ""
 
 #. module: l10n_ro_fiscal_validation
 #: model:ir.actions.server,name:l10n_ro_fiscal_validation.ir_cron_res_partner_vat_subjected_update_every_day_ir_actions_server
