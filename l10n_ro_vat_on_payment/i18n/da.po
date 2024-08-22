@@ -169,4 +169,4 @@ msgid "Vat"
 msgstr ""
 
 #~ msgid "Partner"
-#~ msgstr "Partner"
+#~ msgstr ""
