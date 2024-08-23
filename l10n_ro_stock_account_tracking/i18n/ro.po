@@ -45,7 +45,7 @@ msgstr "Nume afișat"
 #. module: l10n_ro_stock_account_tracking
 #: model:ir.model.fields,field_description:l10n_ro_stock_account_tracking.field_l10n_ro_stock_valuation_layer_tracking__id
 msgid "ID"
-msgstr "ID"
+msgstr ""
 
 #. module: l10n_ro_stock_account_tracking
 #: model:ir.model.fields,field_description:l10n_ro_stock_account_tracking.field_product_product__is_l10n_ro_record
@@ -94,7 +94,9 @@ msgstr "Ultima actualizare la"
 #. module: l10n_ro_stock_account_tracking
 #: model:ir.model.fields,help:l10n_ro_stock_account_tracking.field_stock_quant__company_id
 msgid "Let this field empty if this location is shared between companies"
-msgstr "Lăsați acest câmp să se golească dacă această locație este partajată între companii"
+msgstr ""
+"Lăsați acest câmp să se golească dacă această locație este partajată între "
+"companii"
 
 #. module: l10n_ro_stock_account_tracking
 #: model:ir.model,name:l10n_ro_stock_account_tracking.model_product_product
@@ -209,39 +211,28 @@ msgstr "Model expert pentru a reevalua un stoc de stoc pentru un produs"
 #~ msgid "Account"
 #~ msgstr "Cont"
 
-#~ msgid "Companies"
-#~ msgstr "Companii"
-
-#~ msgid "Inventory Locations"
-#~ msgstr "Locații inventar"
-
-#~ msgid "Journal Entry"
-#~ msgstr "Notă contabilă"
-
-#~ msgid "Journal Item"
-#~ msgstr "Element jurnal"
-
-#~ msgid "Product Category"
-#~ msgstr "Categorie produs"
-
-#~ msgid "Transfer"
-#~ msgstr "Transfer"
-
-#~ msgid "Product Template"
-#~ msgstr "Șablon produs"
-
-#, python-format
-#~ msgid "For Romanian Stock Accounting the stock_input, stock_output and stock_valuation accounts must bethe same for category %s"
-#~ msgstr "Pentru contabilitatea din România contul de intrare, contul de ieșire și contul de evaluare trebuie să fie același pentru categoria %s "
-
 #~ msgid "Allow stock account change from locations"
 #~ msgstr "Permite modificare conturilor de stoc din locație"
+
+#~ msgid "Companies"
+#~ msgstr "Companii"
 
 #~ msgid "Expense Account"
 #~ msgstr "Cont cheltuială"
 
+#, python-format
+#~ msgid ""
+#~ "For Romanian Stock Accounting the stock_input, stock_output and "
+#~ "stock_valuation accounts must bethe same for category %s"
+#~ msgstr ""
+#~ "Pentru contabilitatea din România contul de intrare, contul de ieșire și "
+#~ "contul de evaluare trebuie să fie același pentru categoria %s "
+
 #~ msgid "Income Account"
 #~ msgstr "Cont venit"
+
+#~ msgid "Inventory Locations"
+#~ msgstr "Locații inventar"
 
 #~ msgid "Is a notice"
 #~ msgstr "Este un aviz"
@@ -249,9 +240,24 @@ msgstr "Model expert pentru a reevalua un stoc de stoc pentru un produs"
 #~ msgid "Is notice"
 #~ msgstr "Este aviz"
 
+#~ msgid "Journal Entry"
+#~ msgstr "Notă contabilă"
+
+#~ msgid "Journal Item"
+#~ msgstr "Element jurnal"
+
 #, python-format
 #~ msgid "Price difference"
 #~ msgstr "Diferență preț"
+
+#~ msgid "Product Category"
+#~ msgstr "Categorie produs"
+
+#~ msgid "Product Template"
+#~ msgstr "Șablon produs"
+
+#~ msgid "Transfer"
+#~ msgstr ""
 
 #~ msgid "Valued Type"
 #~ msgstr "Tip evaluare"
