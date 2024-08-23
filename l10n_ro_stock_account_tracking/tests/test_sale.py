@@ -79,7 +79,7 @@ class TestStockSale(TestStockCommon):
         return_pick = self.env["stock.picking"].browse(res["res_id"])
 
         # Validate picking
-        return_pick.move_line_ids.write({"qty_done": 2})
+        return_pick.move_line_ids.write({"quantity": 2})
 
         return_pick.button_validate()
 
