@@ -17,13 +17,13 @@ Romania - DVI
     :target: http://www.gnu.org/licenses/agpl-3.0-standalone.html
     :alt: License: AGPL-3
 .. |badge3| image:: https://img.shields.io/badge/github-OCA%2Fl10n--romania-lightgray.png?logo=github
-    :target: https://github.com/OCA/l10n-romania/tree/16.0/l10n_ro_dvi
+    :target: https://github.com/OCA/l10n-romania/tree/17.0/l10n_ro_dvi
     :alt: OCA/l10n-romania
 .. |badge4| image:: https://img.shields.io/badge/weblate-Translate%20me-F47D42.png
-    :target: https://translation.odoo-community.org/projects/l10n-romania-16-0/l10n-romania-16-0-l10n_ro_dvi
+    :target: https://translation.odoo-community.org/projects/l10n-romania-17-0/l10n-romania-17-0-l10n_ro_dvi
     :alt: Translate me on Weblate
 .. |badge5| image:: https://img.shields.io/badge/runboat-Try%20me-875A7B.png
-    :target: https://runboat.odoo-community.org/builds?repo=OCA/l10n-romania&target_branch=16.0
+    :target: https://runboat.odoo-community.org/builds?repo=OCA/l10n-romania&target_branch=17.0
     :alt: Try me on Runboat
 
 |badge1| |badge2| |badge3| |badge4| |badge5|
@@ -34,8 +34,8 @@ Se face legatura dintre factura de achizitie si DVI (landed cost)
 
 Se genereaza automat un DVI cu doua linii si cu TVA.
 
-
-Contul 447 trebuie sa fie un cont de reconciliere pentru a se putea inchide prin banca
+Contul 447 trebuie sa fie un cont de reconciliere pentru a se putea
+inchide prin banca
 
 **Table of contents**
 
@@ -49,16 +49,18 @@ DVI - Import Customs Declaration
 
 For creating a DVi you must go to:
 
-Accounting -> Actions -> DVI
-* Create a new record
-* Complete the tax with VAT 19% deductible, invoices linked for this DVI
-* Complete the "Customs Duty Value" and "Customs Commission Value"
-* Complete the DVI lines quantity with the quantity declared
-* Click on button "Post" to validate the Customs declaration
+Accounting -> Actions -> DVI \* Create a new record \* Complete the tax
+with VAT 19% deductible, invoices linked for this DVI \* Complete the
+"Customs Duty Value" and "Customs Commission Value" \* Complete the DVI
+lines quantity with the quantity declared \* Click on button "Post" to
+validate the Customs declaration
 
-At post, a landed cost is created to distribute the amounts to the correct products and creating the account moves for the VAT paid.
+At post, a landed cost is created to distribute the amounts to the
+correct products and creating the account moves for the VAT paid.
 
-You have the possibility to revert one declaration, which will create new valuation layers with minus, and cancel the account move of the inital landed cost.
+You have the possibility to revert one declaration, which will create
+new valuation layers with minus, and cancel the account move of the
+inital landed cost.
 
 Bug Tracker
 ===========
@@ -66,7 +68,7 @@ Bug Tracker
 Bugs are tracked on `GitHub Issues <https://github.com/OCA/l10n-romania/issues>`_.
 In case of trouble, please check there if your issue has already been reported.
 If you spotted it first, help us to smash it by providing a detailed and welcomed
-`feedback <https://github.com/OCA/l10n-romania/issues/new?body=module:%20l10n_ro_dvi%0Aversion:%2016.0%0A%0A**Steps%20to%20reproduce**%0A-%20...%0A%0A**Current%20behavior**%0A%0A**Expected%20behavior**>`_.
+`feedback <https://github.com/OCA/l10n-romania/issues/new?body=module:%20l10n_ro_dvi%0Aversion:%2017.0%0A%0A**Steps%20to%20reproduce**%0A-%20...%0A%0A**Current%20behavior**%0A%0A**Expected%20behavior**>`_.
 
 Do not contact contributors directly about support or help with technical issues.
 
@@ -74,23 +76,23 @@ Credits
 =======
 
 Authors
-~~~~~~~
+-------
 
 * Terrabit
 * NextERP Romania
 
 Contributors
-~~~~~~~~~~~~
+------------
 
-* `Terrabit <https://www.terrabit.ro>`_:
+-  `Terrabit <https://www.terrabit.ro>`__:
 
-  * Dorin Hongu <dhongu@gmail.com>
+   -  Dorin Hongu <dhongu@gmail.com>
 
-
-Do not contact contributors directly about support or help with technical issues.
+Do not contact contributors directly about support or help with
+technical issues.
 
 Maintainers
-~~~~~~~~~~~
+-----------
 
 This module is maintained by the OCA.
 
@@ -113,6 +115,6 @@ Current `maintainers <https://odoo-community.org/page/maintainer-role>`__:
 
 |maintainer-dhongu| |maintainer-feketemihai| 
 
-This module is part of the `OCA/l10n-romania <https://github.com/OCA/l10n-romania/tree/16.0/l10n_ro_dvi>`_ project on GitHub.
+This module is part of the `OCA/l10n-romania <https://github.com/OCA/l10n-romania/tree/17.0/l10n_ro_dvi>`_ project on GitHub.
 
 You are welcome to contribute. To learn how please visit https://odoo-community.org/page/Contribute.
