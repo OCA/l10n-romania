@@ -47,7 +47,7 @@ class TestSVLVacuumLocation(RoTestStockCommon):
                             "location_id": self.stock_location.id,
                             "location_dest_id": self.customer_location.id,
                             "product_uom_id": self.uom_unit.id,
-                            "qty_done": 50.0,
+                            "quantity": 50.0,
                         },
                     )
                 ],
@@ -88,7 +88,7 @@ class TestSVLVacuumLocation(RoTestStockCommon):
                             "location_id": self.supplier_location.id,
                             "location_dest_id": self.stock_location.id,
                             "product_uom_id": self.uom_unit.id,
-                            "qty_done": 40.0,
+                            "quantity": 40.0,
                         },
                     )
                 ],
@@ -165,7 +165,7 @@ class TestSVLVacuumLocation(RoTestStockCommon):
                             "location_id": self.stock_location_2.id,
                             "location_dest_id": self.customer_location.id,
                             "product_uom_id": self.uom_unit.id,
-                            "qty_done": 50.0,
+                            "quantity": 50.0,
                         },
                     )
                 ],
@@ -203,7 +203,7 @@ class TestSVLVacuumLocation(RoTestStockCommon):
                             "location_id": self.stock_location_2.id,
                             "location_dest_id": self.customer_location.id,
                             "product_uom_id": self.uom_unit.id,
-                            "qty_done": 20.0,
+                            "quantity": 20.0,
                         },
                     )
                 ],
@@ -244,7 +244,7 @@ class TestSVLVacuumLocation(RoTestStockCommon):
                             "location_id": self.supplier_location.id,
                             "location_dest_id": self.stock_location.id,
                             "product_uom_id": self.uom_unit.id,
-                            "qty_done": 100.0,
+                            "quantity": 100.0,
                         },
                     )
                 ],
@@ -275,7 +275,7 @@ class TestSVLVacuumLocation(RoTestStockCommon):
                             "location_id": self.stock_location.id,
                             "location_dest_id": self.stock_location_2.id,
                             "product_uom_id": self.uom_unit.id,
-                            "qty_done": 40.0,
+                            "quantity": 40.0,
                         },
                     )
                 ],
@@ -350,7 +350,7 @@ class TestSVLVacuumLocation(RoTestStockCommon):
                             "location_id": self.stock_location.id,
                             "location_dest_id": self.stock_location_2.id,
                             "product_uom_id": self.uom_unit.id,
-                            "qty_done": 20.0,
+                            "quantity": 20.0,
                         },
                     )
                 ],
@@ -440,7 +440,7 @@ class TestSVLVacuumLocation(RoTestStockCommon):
                             "location_id": self.stock_location.id,
                             "location_dest_id": self.stock_location_2.id,
                             "product_uom_id": self.uom_unit.id,
-                            "qty_done": 30.0,
+                            "quantity": 30.0,
                         },
                     )
                 ],
