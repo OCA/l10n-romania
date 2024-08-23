@@ -14,7 +14,7 @@
                     class="oe_stat_button"
                     icon="fa-bars"
                     type="object"
-                    attrs="{'invisible': ['|', ('l10n_ro_dvi_ids', '=', False), ('is_l10n_ro_record', '=', False)]}"
+                    invisible="l10n_ro_dvi_ids == False and is_l10n_ro_record == False"
                 />
             </div>
         </field>
