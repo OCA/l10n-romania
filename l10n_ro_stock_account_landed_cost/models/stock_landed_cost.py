@@ -16,7 +16,6 @@ class StockLandedCost(models.Model):
         [("normal", "Normal")],
         default="normal",
         string="Landed Cost Type",
-        states={"done": [("readonly", True)]},
     )
 
     def _prepare_landed_cost_svl_vals(self, line, linked_layer, amount):
@@ -86,7 +85,7 @@ class StockLandedCost(models.Model):
                     lambda s: s.quantity != 0
                 ):
                     cost_to_add = (
-                        svl.quantity / line.move_id.quantity_done
+                        svl.quantity / line.move_id.quantity
                     ) * line.additional_landed_cost
                     valuation_layer = cost.l10n_ro_create_valuation_layer(
                         line, svl, cost_to_add
@@ -146,7 +145,8 @@ class StockLandedCost(models.Model):
                 # they do not need to create journal entries.
                 if product.valuation != "real_time":
                     continue
-            # batch standard price computation avoid recompute quantity_svl at each iteration
+            # batch standard price computation avoid recompute quantity_svl
+            # at each iteration
             products = self.env["product.product"].browse(
                 p.id for p in cost_to_add_byproduct.keys()
             )
@@ -174,7 +174,8 @@ class AdjustmentLines(models.Model):
     def _l10n_ro_prepare_accounting_entries(
         self, valuation_layer, move_vals, cost_to_add, svl_type="in"
     ):
-        """Prepare the account move lines (accounting entries) for each valuation layer."""
+        """Prepare the account move lines (accounting entries) for
+        each valuation layer."""
         self.ensure_one()
         cost_product = self.cost_line_id.product_id
         if not cost_product:
