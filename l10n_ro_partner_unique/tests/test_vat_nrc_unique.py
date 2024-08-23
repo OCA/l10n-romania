@@ -12,8 +12,7 @@ from odoo.addons.account.tests.common import AccountTestInvoicingCommon
 class TestVatUnique(AccountTestInvoicingCommon):
     @classmethod
     def setUpClass(cls):
-        ro_template_ref = "l10n_ro.ro_chart_template"
-        super(TestVatUnique, cls).setUpClass(chart_template_ref=ro_template_ref)
+        super().setUpClass(chart_template_ref="ro")
         cls.env.company.l10n_ro_accounting = True
         cls.partner = cls.env["res.partner"].create(
             {"name": "Test partner", "vat": "RO30834857", "nrc": "J35/2622/2012"}

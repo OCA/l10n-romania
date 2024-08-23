@@ -41,7 +41,7 @@ Installation
 
 To install this module, you need to:
 
-1. Clone the branch 16.0 of the repository
+1. Clone the branch 17.0 of the repository
    https://github.com/OCA/l10n-romania
 2. Add the path to this repository in your configuration (addons-path)
 3. Update the module list
