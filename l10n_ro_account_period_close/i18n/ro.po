@@ -13,8 +13,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
-"Plural-Forms: nplurals=3; plural=n==1 ? 0 : (n==0 || (n%100 > 0 && n%100 < "
-"20)) ? 1 : 2;\n"
+"Plural-Forms: nplurals=3; plural=n==1 ? 0 : (n==0 || (n%100 > 0 && n%100 < 20)) ? 1 : 2;\n"
 "X-Generator: Weblate 4.14.1\n"
 
 #. module: l10n_ro_account_period_close
@@ -49,14 +48,10 @@ msgstr "Conturi de închis"
 #. module: l10n_ro_account_period_close
 #: model:ir.model.fields,help:l10n_ro_account_period_close.field_account_account__l10n_ro_close_check
 msgid ""
-"By checking this when you close a period, it will not respect the side of "
-"closing, meaning: expenses closed on credit side, incomed closed on debit "
-"side. \n"
+"By checking this when you close a period, it will not respect the side of closing, meaning: expenses closed on credit side, incomed closed on debit side. \n"
 " You should check the 711xxx accounts."
 msgstr ""
-"Selectând acest lucru când închideți o perioadă, aceasta nu va respecta "
-"partea de închidere, adică: cheltuieli închise pe partea de credit, "
-"veniturile închise pe partea de debit.\n"
+"Selectând acest lucru când închideți o perioadă, aceasta nu va respecta partea de închidere, adică: cheltuieli închise pe partea de credit, veniturile închise pe partea de debit.\n"
 "  Ar trebui să bifati pentru conturile 711xxx."
 
 #. module: l10n_ro_account_period_close
