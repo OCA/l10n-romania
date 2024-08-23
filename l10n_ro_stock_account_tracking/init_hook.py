@@ -27,7 +27,8 @@ def store_field_l10n_ro_vat_number(cr):
     cr.execute(
         """SELECT column_name
            FROM information_schema.columns
-           WHERE table_name='stock_valuation_layer' AND column_name='l10n_ro_account_id'"""
+           WHERE table_name='stock_valuation_layer'
+           AND column_name='l10n_ro_account_id'"""
     )
     if not cr.fetchone():
         cr.execute(
@@ -110,7 +111,8 @@ def store_field_l10n_ro_vat_number(cr):
                                         THEN aml.account_id
                                         ELSE null
                                     END) account,
-                                row_number() over (partition by am.id order by aa.code) as rnum
+                                row_number() over
+                                (partition by am.id order by aa.code) as rnum
                                 from account_move am
                                 left join account_move_line aml on aml.move_id = am.id
                                 left join account_account aa on aa.id = aml.account_id
@@ -141,7 +143,8 @@ def store_field_l10n_ro_vat_number(cr):
     cr.execute(
         """SELECT column_name
            FROM information_schema.columns
-           WHERE table_name='stock_valuation_layer' AND column_name='l10n_ro_valued_type'"""
+           WHERE table_name='stock_valuation_layer'
+           AND column_name='l10n_ro_valued_type'"""
     )
     if not cr.fetchone():
         cr.execute(
@@ -209,8 +212,10 @@ def store_field_l10n_ro_vat_number(cr):
             left join (
                 SELECT sm.id as move_id,
                 CASE
-                    WHEN sl_src1.usage != 'internal' and sl_dest1.usage = 'internal' THEN 'in'
-                    WHEN sl_src1.usage = 'internal' and sl_dest1.usage != 'internal' THEN 'out'
+                    WHEN sl_src1.usage != 'internal'
+                    and sl_dest1.usage = 'internal' THEN 'in'
+                    WHEN sl_src1.usage = 'internal'
+                    and sl_dest1.usage != 'internal' THEN 'out'
                     ELSE null
                 END as in_out_type
 
@@ -294,7 +299,8 @@ def store_svl_lot_and_locations(cr):
     cr.execute(
         """SELECT column_name
            FROM information_schema.columns
-           WHERE table_name='stock_valuation_layer' AND column_name='l10n_ro_location_id'"""
+           WHERE table_name='stock_valuation_layer'
+           AND column_name='l10n_ro_location_id'"""
     )
     if not cr.fetchone():
         cr.execute(
