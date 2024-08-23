@@ -9,7 +9,7 @@
                 <field name="l10n_ro_valued_type" />
                 <field
                     name="l10n_ro_stock_move_line_id"
-                    attrs="{'invisible': ['|', ('is_l10n_ro_record', '=', False), ('l10n_ro_stock_move_line_id', '=', False)]}"
+                    invisible="is_l10n_ro_record == False or l10n_ro_stock_move_line_id == False"
                 />
                 <field name="l10n_ro_location_id" />
                 <field name="l10n_ro_location_dest_id" />
@@ -24,7 +24,7 @@
                     <page
                     string="Source SVL"
                     name="source_svl"
-                    attrs="{'invisible': [('is_l10n_ro_record', '=', False)]}"
+                    invisible="is_l10n_ro_record == False"
                 >
                         <label for="l10n_ro_svl_src_ids" />
                         <field name="l10n_ro_svl_src_ids" readonly="1">
@@ -40,7 +40,7 @@
                     <page
                     string="Destination SVL"
                     name="destination_svl"
-                    attrs="{'invisible': [('is_l10n_ro_record', '=', False)]}"
+                    invisible="is_l10n_ro_record == False"
                 >
                         <label for="l10n_ro_svl_dest_ids" />
                         <field name="l10n_ro_svl_dest_ids" readonly="1">
