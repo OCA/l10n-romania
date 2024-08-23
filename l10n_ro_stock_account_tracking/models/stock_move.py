@@ -73,7 +73,7 @@ class StockMove(models.Model):
                 for valued_move_line in valued_move_lines:
                     move = move.with_context(stock_move_line_id=valued_move_line)
                     valued_quantity = valued_move_line.product_uom_id._compute_quantity(
-                        valued_move_line.qty_done, move.product_id.uom_id
+                        valued_move_line.quantity, move.product_id.uom_id
                     )
                     origin_unit_cost = None
                     tracking = []
@@ -149,7 +149,7 @@ class StockMove(models.Model):
                     )
                     move = move.with_context(stock_move_line_id=valued_move_line)
                     valued_quantity = valued_move_line.product_uom_id._compute_quantity(
-                        valued_move_line.qty_done, move.product_id.uom_id
+                        valued_move_line.quantity, move.product_id.uom_id
                     )
                     if float_is_zero(
                         forced_quantity or valued_quantity,
@@ -225,7 +225,7 @@ class StockMove(models.Model):
             for valued_move_line in valued_move_lines:
                 move = move.with_context(stock_move_line_id=valued_move_line)
                 valued_quantity = valued_move_line.product_uom_id._compute_quantity(
-                    valued_move_line.qty_done, move.product_id.uom_id
+                    valued_move_line.quantity, move.product_id.uom_id
                 )
 
                 for out_svl in out_svls:
@@ -314,7 +314,7 @@ class StockMove(models.Model):
             for valued_move_line in valued_move_lines:
                 move = move.with_context(stock_move_line_id=valued_move_line)
                 valued_quantity = valued_move_line.product_uom_id._compute_quantity(
-                    valued_move_line.qty_done, move.product_id.uom_id
+                    valued_move_line.quantity, move.product_id.uom_id
                 )
                 if float_is_zero(
                     forced_quantity or valued_quantity,
