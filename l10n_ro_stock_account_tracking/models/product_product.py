@@ -133,7 +133,8 @@ class ProductProduct(models.Model):
                     if rounding_error:
                         # If it is bigger than the (smallest number of the
                         # currency * quantity) / 2, then it isn't a rounding error
-                        # but a stock valuation error, we shouldn't fix it under the hood ...
+                        # but a stock valuation error, we shouldn't
+                        # fix it under the hood ...
                         if (
                             abs(rounding_error)
                             <= (abs(quantity) * currency.rounding) / 2
@@ -233,9 +234,11 @@ class ProductProduct(models.Model):
                     track_svl += [(linked_svl.id, 0, 0)]
 
                 qty_to_take_on_candidates -= qty_taken_on_candidate
-                # If there's still quantity to value but we're out of candidates, we fall in the
-                # negative stock use case. We chose to value the out move at the price of the
-                # last out and a correction entry will be made once `_fifo_vacuum` is called.
+                # If there's still quantity to value but we're out of candidates,
+                # we fall in the negative stock use case. We chose to value the out move
+                # at the price of the
+                # last out and a correction entry will be made once
+                # `_fifo_vacuum` is called.
                 vals = {
                     "value": -value_taken_on_candidate,
                     "unit_cost": new_standard_price,
@@ -271,10 +274,10 @@ class ProductProduct(models.Model):
         return candidate_list
 
     def _run_fifo_vacuum(self, company=None):
-        """Compensate layer valued at an estimated price with the price of future receipts
-        if any. If the estimated price is equals to the real price, no layer is created but
-        the original layer is marked as compensated.
-        It will be done for each stock location.
+        """Compensate layer valued at an estimated price with the
+        price of future receipts if any. If the estimated price is equals to
+        the real price, no layer is created but the original layer is marked
+        as compensated. It will be done for each stock location.
 
         :param company: recordset of `res.company` to limit the execution of the vacuum
         """
@@ -403,7 +406,8 @@ class ProductProduct(models.Model):
                 new_remaining_value = svl_to_vacuum.remaining_value + corrected_value
                 svl_to_vacuum._l10n_ro_post_process({"l10n_ro_tracking": track_svl})
 
-                # Don't create a layer or an accounting entry if the corrected value is zero.
+                # Don't create a layer or an accounting entry if the
+                # corrected value is zero.
                 if svl_to_vacuum.currency_id.is_zero(corrected_value):
                     continue
 
