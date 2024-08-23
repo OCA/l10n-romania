@@ -215,7 +215,8 @@ class TestStockConsum(TestStockCommon):
         )
         acc_707 = self.env["account.account"].search([("code", "=", "707000")], limit=1)
         _logger.info(
-            "Start consum produse cand conturile de pe categorie difera de cele de pe locatie"
+            "Start consum produse cand conturile de pe categorie "
+            "difera de cele de pe locatie"
         )
         self.product_mp.standard_price = self.price_p1
         self.product_mp.categ_id.write({"l10n_ro_stock_account_change": True})
