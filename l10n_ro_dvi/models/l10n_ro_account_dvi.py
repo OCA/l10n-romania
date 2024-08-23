@@ -365,9 +365,7 @@ class AccountInvoiceDVI(models.Model):
 
         if self.customs_commission_value:
             product = self.customs_commission_product_id
-            accounts_data = (
-                self.customs_commission_product_id.product_tmpl_id.get_product_accounts()
-            )
+            accounts_data = self.customs_commission_product_id.product_tmpl_id.get_product_accounts()
             values["cost_lines"] += self.prepare_dvi_landed_cost_lines(
                 product, self.customs_commission_value, accounts_data
             )
