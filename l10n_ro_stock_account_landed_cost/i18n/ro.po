@@ -61,7 +61,7 @@ msgstr "Tipuri de Costuri Adiționale"
 #. module: l10n_ro_stock_account_landed_cost
 #: model:ir.model.fields.selection,name:l10n_ro_stock_account_landed_cost.selection__stock_landed_cost__l10n_ro_cost_type__normal
 msgid "Normal"
-msgstr "Normal"
+msgstr ""
 
 #. module: l10n_ro_stock_account_landed_cost
 #. odoo-python
@@ -84,35 +84,17 @@ msgstr "Linii de ajustare a evaluării"
 #~ msgid "Account"
 #~ msgstr "Cont"
 
+#~ msgid "Allow stock account change from locations"
+#~ msgstr "Permite modificare conturilor de stoc din locație"
+
 #~ msgid "Companies"
 #~ msgstr "Companii"
 
 #~ msgid "Display Name"
 #~ msgstr "Nume afișat"
 
-#~ msgid "ID"
-#~ msgstr "ID"
-
-#~ msgid "Inventory Locations"
-#~ msgstr "Locații inventar"
-
-#~ msgid "Last Modified on"
-#~ msgstr "Ultima modificare la"
-
-#~ msgid "Product Category"
-#~ msgstr "Categorie produs"
-
-#~ msgid "Stock Move"
-#~ msgstr "Mișcare stoc"
-
-#~ msgid "Stock Valuation Layer"
-#~ msgstr "Nivel evaluare stoc"
-
-#~ msgid "Transfer"
-#~ msgstr "Transfer"
-
-#~ msgid "Product Template"
-#~ msgstr "Șablon produs"
+#~ msgid "Expense Account"
+#~ msgstr "Cont cheltuială"
 
 #, python-format
 #~ msgid ""
@@ -122,14 +104,14 @@ msgstr "Linii de ajustare a evaluării"
 #~ "Pentru contabilitatea din România contul de intrare, contul de ieșire și "
 #~ "contul de evaluare trebuie să fie același pentru categoria %s "
 
-#~ msgid "Allow stock account change from locations"
-#~ msgstr "Permite modificare conturilor de stoc din locație"
-
-#~ msgid "Expense Account"
-#~ msgstr "Cont cheltuială"
+#~ msgid "ID"
+#~ msgstr ""
 
 #~ msgid "Income Account"
 #~ msgstr "Cont venit"
+
+#~ msgid "Inventory Locations"
+#~ msgstr "Locații inventar"
 
 #~ msgid "Is a notice"
 #~ msgstr "Este un aviz"
@@ -137,9 +119,27 @@ msgstr "Linii de ajustare a evaluării"
 #~ msgid "Is notice"
 #~ msgstr "Este aviz"
 
+#~ msgid "Last Modified on"
+#~ msgstr "Ultima modificare la"
+
 #, python-format
 #~ msgid "Price difference"
 #~ msgstr "Diferență preț"
+
+#~ msgid "Product Category"
+#~ msgstr "Categorie produs"
+
+#~ msgid "Product Template"
+#~ msgstr "Șablon produs"
+
+#~ msgid "Stock Move"
+#~ msgstr "Mișcare stoc"
+
+#~ msgid "Stock Valuation Layer"
+#~ msgstr "Nivel evaluare stoc"
+
+#~ msgid "Transfer"
+#~ msgstr ""
 
 #~ msgid "Valued Type"
 #~ msgstr "Tip evaluare"
