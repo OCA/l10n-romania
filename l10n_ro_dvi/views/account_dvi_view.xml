@@ -22,7 +22,7 @@
                 <header>
                     <button
                         string="Post"
-                        states="draft"
+                        invisible="state != 'draft'"
                         class="oe_highlight"
                         name="button_post"
                         type="object"
@@ -51,10 +51,7 @@
                             invisible="landed_cost_ids == []"
                         />
                     </div>
-                    <div
-                        class="oe_title mb8"
-                        readonly="state != 'draft'"
-                    >
+                    <div class="oe_title mb8" readonly="state != 'draft'">
                         <label for="name" class="oe_edit_only" />
                         <h1 class="o_row">
                             <field name="name" placeholder="e.g. DVI factura .." />
@@ -62,23 +59,11 @@
                     </div>
                     <group>
                         <group>
-                            <field
-                                name="date"
-                                readonly="state != 'draft'"
-                            />
-                            <field
-                                name="tax_id"
-                                readonly="state != 'draft'"
-                            />
+                            <field name="date" readonly="state != 'draft'" />
+                            <field name="tax_id" readonly="state != 'draft'" />
                             <field name="currency_id" />
-                            <field
-                                name="company_id"
-                                readonly="state != 'draft'"
-                            />
-                            <field
-                                name="journal_id"
-                                readonly="state != 'draft'"
-                            />
+                            <field name="company_id" readonly="state != 'draft'" />
+                            <field name="journal_id" readonly="state != 'draft'" />
                             <field name="total_base_tax_value" decoration-primary="1" />
                             <field name="total_tax_value" decoration-primary="1" />
                             <field
@@ -140,8 +125,8 @@
                                 readonly="state != 'draft'"
                             >
                                 <tree create="false" edit="true" editable="bottom">
-                                    <field name="dvi_id" invisible="1" />
-                                    <field name="company_id" invisible="1" />
+                                    <field name="dvi_id" column_invisible="1" />
+                                    <field name="company_id" column_invisible="1" />
                                     <field name="invoice_id" />
                                     <field name="invoice_line_id" />
                                     <field name="name" />

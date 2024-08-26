@@ -12,7 +12,7 @@ from odoo.addons.l10n_ro_stock_account.tests.common2 import TestStockCommon2
 class TestDVI(TestStockCommon2):
     @classmethod
     def setUpClass(cls):
-        super(TestDVI, cls).setUpClass()
+        super().setUpClass()
         cls.env.company._l10n_ro_get_or_create_custom_duty_product()
         cls.env.company._l10n_ro_get_or_create_customs_commission_product()
         cls.tax_id = cls.product_1.supplier_taxes_id
@@ -25,7 +25,10 @@ class TestDVI(TestStockCommon2):
         self.create_invoice()
         dvi = Form(self.env["l10n.ro.account.dvi"])
         dvi.name = "DVI test"
-        dvi.tax_id = self.tax_id
+        tax_id = self.tax_id
+        if len(self.tax_id) > 1:
+            tax_id = self.tax_id[0]
+        dvi.tax_id = tax_id
         dvi.journal_id = self.journal_id
         dvi.customs_duty_value = 100
         dvi.customs_commission_value = 50
@@ -140,7 +143,10 @@ class TestDVI(TestStockCommon2):
         )
         dvi = Form(self.env["l10n.ro.account.dvi"])
         dvi.name = "DVI test vat difference"
-        dvi.tax_id = self.tax_id
+        tax_id = self.tax_id
+        if len(self.tax_id) > 1:
+            tax_id = self.tax_id[0]
+        dvi.tax_id = tax_id
         dvi.journal_id = self.journal_id
         dvi.customs_duty_value = 100
         dvi.customs_commission_value = 50
@@ -159,7 +165,10 @@ class TestDVI(TestStockCommon2):
         self.create_invoice()
         dvi = Form(self.env["l10n.ro.account.dvi"])
         dvi.name = "DVI test vat difference"
-        dvi.tax_id = self.tax_id
+        tax_id = self.tax_id
+        if len(self.tax_id) > 1:
+            tax_id = self.tax_id[0]
+        dvi.tax_id = tax_id
         dvi.journal_id = self.journal_id
         dvi.customs_duty_value = 100
         dvi.customs_commission_value = 50
@@ -168,7 +177,7 @@ class TestDVI(TestStockCommon2):
         dvi = dvi.save()
         dvi.button_post()
         for line in dvi.vat_price_difference_move_id.line_ids:
-            tags = self.tax_id.invoice_repartition_line_ids.filtered(
+            tags = tax_id.invoice_repartition_line_ids.filtered(
                 lambda m: m.repartition_type == "tax"
             )[0]
             if line.account_id.id == tags.account_id.id:
@@ -189,7 +198,10 @@ class TestDVI(TestStockCommon2):
         )
         dvi = Form(self.env["l10n.ro.account.dvi"])
         dvi.name = "DVI test vat difference"
-        dvi.tax_id = self.tax_id
+        tax_id = self.tax_id
+        if len(self.tax_id) > 1:
+            tax_id = self.tax_id[0]
+        dvi.tax_id = tax_id
         dvi.journal_id = self.journal_id
         dvi.customs_duty_value = 100
         dvi.customs_commission_value = 50
@@ -219,7 +231,10 @@ class TestDVI(TestStockCommon2):
         self.vat_product_id.categ_id.property_account_expense_categ_id = False
         dvi = Form(self.env["l10n.ro.account.dvi"])
         dvi.name = "DVI test vat difference"
-        dvi.tax_id = self.tax_id
+        tax_id = self.tax_id
+        if len(self.tax_id) > 1:
+            tax_id = self.tax_id[0]
+        dvi.tax_id = tax_id
         dvi.journal_id = self.journal_id
         dvi.customs_duty_value = 100
         dvi.customs_commission_value = 50
@@ -246,7 +261,10 @@ class TestDVI(TestStockCommon2):
         )
         dvi = Form(self.env["l10n.ro.account.dvi"])
         dvi.name = "DVI test vat difference"
-        dvi.tax_id = self.tax_id
+        tax_id = self.tax_id
+        if len(self.tax_id) > 1:
+            tax_id = self.tax_id[0]
+        dvi.tax_id = tax_id
         dvi.journal_id = self.journal_id
         dvi.customs_duty_value = 100
         dvi.customs_commission_value = 50
