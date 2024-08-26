@@ -195,7 +195,9 @@ class TestNondeductibleCommon(ValuationReconciliationTestCommon):
                 },
             ),
         ]
+        import ipdb
 
+        ipdb.set_trace()
         cls.tax_10_nondeductible = cls.env["account.tax"].create(
             {
                 "name": "Tax 10% Non Deductible 50%",
@@ -375,7 +377,7 @@ class TestNondeductibleCommon(ValuationReconciliationTestCommon):
 
     @classmethod
     def setUpClass(cls, chart_template_ref=None):
-        ro_template_ref = "l10n_ro.ro_chart_template"
+        ro_template_ref = "ro"
         super(TestNondeductibleCommon, cls).setUpClass(
             chart_template_ref=ro_template_ref
         )

@@ -10,7 +10,7 @@
                 <field name="is_l10n_ro_record" invisible="1" />
                 <field
                     name="l10n_ro_nondeductible_tax_id"
-                    attrs="{'invisible': [('is_l10n_ro_record', '=', False),('inventory_diff_quantity','&gt;=',0.00)]}"
+                    invisible="is_l10n_ro_record == False or inventory_diff_quantity &gt;= 0.00"
                 />
             </xpath>
         </field>
