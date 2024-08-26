@@ -174,8 +174,6 @@ class AccountMoveLine(models.Model):
                 }
             )
 
-            self.sudo().company_id.l10n_ro_property_stock_price_difference_product_id = (
-                price_diff_product
-            )
+            self.sudo().company_id.l10n_ro_property_stock_price_difference_product_id = price_diff_product
 
         return price_diff_product
