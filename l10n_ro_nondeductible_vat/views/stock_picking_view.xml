@@ -9,11 +9,12 @@
             <field name="name" position="after">
                 <field name="is_l10n_ro_record" invisible="1" />
             </field>
-            <xpath expr="//button[@name='action_show_details']" position="after">
+            <xpath expr="//button[@name='action_assign_serial']" position="before">
                 <field name="l10n_ro_nondeductible_usage" invisible="1" />
                 <field
                     name="l10n_ro_nondeductible_tax_id"
-                    attrs="{'column_invisible': ['|',('parent.picking_type_code', '!=', 'internal'),('parent.is_l10n_ro_record', '=', False)], 'invisible': [('l10n_ro_nondeductible_usage','=',False)]}"
+                    column_invisible="parent.is_l10n_ro_record == False or parent.picking_type_code != 'internal'"
+                    invisible="l10n_ro_nondeductible_usage == False"
                 />
             </xpath>
         </field>
