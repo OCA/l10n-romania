@@ -45,7 +45,7 @@ class StockMove(models.Model):
         svl_id,
         description,
     ):
-        res = super(StockMove, self)._generate_valuation_lines_data(
+        res = super()._generate_valuation_lines_data(
             partner_id,
             qty,
             debit_value,
