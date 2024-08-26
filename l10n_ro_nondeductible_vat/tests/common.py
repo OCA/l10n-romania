@@ -462,7 +462,6 @@ class TestNondeductibleCommon(ValuationReconciliationTestCommon):
         return company_data
 
     def create_po(self, picking_type_in=None):
-
         if not picking_type_in:
             picking_type_in = self.warehouse.in_type_id
 
@@ -587,7 +586,7 @@ class TestNondeductibleCommon(ValuationReconciliationTestCommon):
         for valuation in account_valuations:
             val = round(valuation["debit"] - valuation["credit"], 2)
             if valuation["account_id"][0] == account.id:
-                _logger.info("Check account {} = {}".format(val, balance))
+                _logger.info(f"Check account {val} = {balance}")
                 self.assertAlmostEqual(val, balance)
 
     def check_no_move_lines(self, account=None):
