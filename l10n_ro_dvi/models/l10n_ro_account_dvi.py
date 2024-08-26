@@ -34,9 +34,7 @@ class AccountInvoiceDVI(models.Model):
         "account.journal",
         string="Journal",
         required=True,
-        readonly=True,
         domain="[('type', '=', 'general')]",
-        states={"draft": [("readonly", False)]},
     )
     currency_id = fields.Many2one(
         related="company_id.currency_id",
@@ -57,18 +55,16 @@ class AccountInvoiceDVI(models.Model):
         "dvi_id",
         string="DVI Lines",
         copy=False,
-        readonly=False,
-        states={"done": [("readonly", True)]},
     )
     total_base_tax_value = fields.Monetary(
         compute="_compute_total_tax_value",
-        readonly=1,
+        readonly=True,
         help="Is readonly sum of product tax and custom tax."
         "This must be the tax value that you have on dvi",
     )
     total_tax_value = fields.Monetary(
         compute="_compute_total_tax_value",
-        readonly=1,
+        readonly=True,
         help="Is readonly sum of product tax and custom tax."
         "This must be the tax value that you have on dvi",
     )
@@ -78,11 +74,12 @@ class AccountInvoiceDVI(models.Model):
         required=True,
         help="A product type service with l10n_ro_custom_duty checked"
         " (purchase tab).  Journal entry for duty will be with this product &"
-        " default vat for custom duty and invoice - to find it in declaration based on tags",
+        " default vat for custom duty and invoice - to find it in declaration"
+        " based on tags",
     )
     customs_duty_value = fields.Monetary(help="This is a value from received dvi")
     customs_duty_tax_value = fields.Monetary(
-        readonly=1,
+        readonly=True,
         compute="_compute_total_tax_value",
         help="readonly computed tax from custom_duty_value",
     )
@@ -120,12 +117,12 @@ class AccountInvoiceDVI(models.Model):
         "product.product", help="Product for vat price difference"
     )
     vat_price_difference_move_id = fields.Many2one(
-        "account.move", readonly=1, help="Move for vat price difference"
+        "account.move", readonly=True, help="Move for vat price difference"
     )
 
     @api.model
     def default_get(self, fields_list):
-        defaults = super(AccountInvoiceDVI, self).default_get(fields_list)
+        defaults = super().default_get(fields_list)
         defaults["date"] = fields.Date.today()
         if "company_id" not in defaults:
             defaults["company_id"] = self.env.company
@@ -365,7 +362,7 @@ class AccountInvoiceDVI(models.Model):
 
         if self.customs_commission_value:
             product = self.customs_commission_product_id
-            accounts_data = self.customs_commission_product_id.product_tmpl_id.get_product_accounts()
+            accounts_data = product.product_tmpl_id.get_product_accounts()
             values["cost_lines"] += self.prepare_dvi_landed_cost_lines(
                 product, self.customs_commission_value, accounts_data
             )

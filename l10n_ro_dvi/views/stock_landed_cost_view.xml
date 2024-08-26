@@ -12,9 +12,7 @@
                 <field name="is_l10n_ro_record" invisible="1" />
             </group>
             <group name="l10n_ro_general" position="attributes">
-                <attribute
-                    name="attrs"
-                >{'invisible': [('is_l10n_ro_record', '=', False)]}</attribute>
+                <attribute name="invisible">not is_l10n_ro_record</attribute>
             </group>
             <group name="l10n_ro_general" position="inside">
                 <field
@@ -32,9 +30,9 @@
                     name="l10n_ro_dvi"
                     invisible="l10n_ro_cost_type != 'dvi' or is_l10n_ro_record == False"
                 >
-                    <field name="l10n_ro_tax_id" />
-                    <field name="l10n_ro_base_tax_value" />
-                    <field name="l10n_ro_tax_value" />
+                    <field name="l10n_ro_tax_id" readonly="state == 'done'" />
+                    <field name="l10n_ro_base_tax_value" readonly="state == 'done'" />
+                    <field name="l10n_ro_tax_value" readonly="state == 'done'" />
                 </group>
             </group>
         </field>
