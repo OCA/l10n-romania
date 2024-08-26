@@ -116,12 +116,12 @@ msgstr "Taxe"
 #. module: l10n_ro_stock_picking_valued_report
 #: model:ir.model.fields,field_description:l10n_ro_stock_picking_valued_report.field_stock_picking__l10n_ro_amount_total
 msgid "Total"
-msgstr "Total"
+msgstr ""
 
 #. module: l10n_ro_stock_picking_valued_report
 #: model:ir.model,name:l10n_ro_stock_picking_valued_report.model_stock_picking
 msgid "Transfer"
-msgstr "Transfer"
+msgstr ""
 
 #. module: l10n_ro_stock_picking_valued_report
 #: model:ir.model.fields,field_description:l10n_ro_stock_picking_valued_report.field_stock_picking__l10n_ro_amount_untaxed
