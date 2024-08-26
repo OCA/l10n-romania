@@ -30,9 +30,9 @@ class TestStockPurchaseDozen(TestStockCommonPriceDiff):
         picking = po.picking_ids.filtered(lambda pick: pick.state != "done")
         for move_line in picking.move_line_ids:
             if move_line.product_id == self.product_1:
-                move_line.write({"qty_done": qty_done_p1})
+                move_line.write({"quantity": qty_done_p1})
             if move_line.product_id == self.product_2:
-                move_line.write({"qty_done": qty_done_p2})
+                move_line.write({"quantity": qty_done_p2})
 
         picking.button_validate()
         picking._action_done()
