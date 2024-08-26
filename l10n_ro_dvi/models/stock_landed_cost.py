@@ -21,18 +21,16 @@ class LandedCost(models.Model):
         "account.tax",
         string="Romania - DVI Tax",
         copy=False,
-        states={"done": [("readonly", True)]},
         help="VAT tax for products and customs cost",
     )
     l10n_ro_base_tax_value = fields.Float(
         "Romania - Base VAT amount",
-        states={"done": [("readonly", True)]},
         copy=False,
-        help="Base VAT amount, calculated from invoice base amount, customs and commission.",
+        help="Base VAT amount, calculated from invoice base amount,"
+        " customs and commission.",
     )
     l10n_ro_tax_value = fields.Float(
         "Romania - VAT amount paid at customs",
-        states={"done": [("readonly", True)]},
         copy=False,
         help="VAT amount, calculated from invoice base amount and customs.",
     )
@@ -48,7 +46,7 @@ class LandedCost(models.Model):
     )
 
     def button_validate(self):
-        res = super(LandedCost, self).button_validate()
+        res = super().button_validate()
         ro_recs = self.filtered(lambda rec: rec.is_l10n_ro_record)
         for cost in ro_recs.filtered(
             lambda c: c.l10n_ro_tax_value and c.l10n_ro_tax_id
@@ -59,7 +57,8 @@ class LandedCost(models.Model):
             ):
                 raise UserError(
                     _(
-                        "You cannot create a DVI landed cost without reference to an invoice."
+                        "You cannot create a DVI landed cost without "
+                        "reference to an invoice."
                     )
                 )
             if not self.env.context.get("l10n_ro_revert_landed_cost"):
