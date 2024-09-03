@@ -13,7 +13,7 @@ class AccountMoveLine(models.Model):
 
     def _add_exchange_difference_cash_basis_vals(self, exchange_diff_vals):
         """For Romanian we don't do any exchange difference for cash basis"""
-        not_ro_lines = self.filtered(lambda l: not l.is_l10n_ro_record)
+        not_ro_lines = self.filtered(lambda line: not line.is_l10n_ro_record)
         return super(
             AccountMoveLine, not_ro_lines
         )._add_exchange_difference_cash_basis_vals(exchange_diff_vals)
