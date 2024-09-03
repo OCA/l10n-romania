@@ -13,5 +13,5 @@ def pre_init_hook(cr):
     data_dir = tools.config["data_dir"]
     istoric_file = os.path.join(data_dir, "istoric.txt")
 
-    test_file = file_path("l10n_ro_vat_on_payment", "tests", "istoric.txt")
+    test_file = file_path("l10n_ro_vat_on_payment/tests/istoric.txt")
     shutil.copyfile(test_file, istoric_file)

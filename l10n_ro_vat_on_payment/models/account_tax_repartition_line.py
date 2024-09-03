@@ -14,7 +14,7 @@ class AccountTaxRepartitionLine(models.Model):
         :return: An account.account record or an empty recordset.
         """
         self.ensure_one()
-        res = super(AccountTaxRepartitionLine, self)._get_aml_target_tax_account(
+        res = super()._get_aml_target_tax_account(
             force_caba_exigibility=force_caba_exigibility
         )
         if (
