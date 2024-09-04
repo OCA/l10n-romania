@@ -56,7 +56,6 @@ msgstr "Nama Tampilan"
 
 #. module: l10n_ro_vat_on_payment
 #: model:ir.actions.server,name:l10n_ro_vat_on_payment.ir_cron_res_partner_anaf_update_every_day_ir_actions_server
-#: model:ir.cron,cron_name:l10n_ro_vat_on_payment.ir_cron_res_partner_anaf_update_every_day
 msgid "Download Partner ANAF Data"
 msgstr ""
 
@@ -90,11 +89,6 @@ msgstr ""
 #: model:ir.model,name:l10n_ro_vat_on_payment.model_account_move_line
 msgid "Journal Item"
 msgstr ""
-
-#. module: l10n_ro_vat_on_payment
-#: model:ir.model.fields,field_description:l10n_ro_vat_on_payment.field_l10n_ro_res_partner_anaf____last_update
-msgid "Last Modified on"
-msgstr "Terakhir Dimodifikasi pada"
 
 #. module: l10n_ro_vat_on_payment
 #: model:ir.model.fields,field_description:l10n_ro_vat_on_payment.field_l10n_ro_res_partner_anaf__write_uid
@@ -155,7 +149,6 @@ msgstr ""
 
 #. module: l10n_ro_vat_on_payment
 #: model:ir.actions.server,name:l10n_ro_vat_on_payment.ir_cron_res_partner_vat_payment_update_every_day_ir_actions_server
-#: model:ir.cron,cron_name:l10n_ro_vat_on_payment.ir_cron_res_partner_vat_payment_update_every_day
 msgid "Update Partner VAT on Payment"
 msgstr ""
 
@@ -168,6 +161,9 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_ro_vat_on_payment.field_l10n_ro_res_partner_anaf__vat
 msgid "Vat"
 msgstr ""
+
+#~ msgid "Last Modified on"
+#~ msgstr "Terakhir Dimodifikasi pada"
 
 #~ msgid "Invoice"
 #~ msgstr "Faktur"
