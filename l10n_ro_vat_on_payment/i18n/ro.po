@@ -17,7 +17,8 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=n==1 ? 0 : (n==0 || (n%100 > 0 && n%100 < 20)) ? 1 : 2;\n"
+"Plural-Forms: nplurals=3; plural=n==1 ? 0 : (n==0 || (n%100 > 0 && n%100 < "
+"20)) ? 1 : 2;\n"
 "X-Generator: Poedit 3.0.1\n"
 
 #. module: l10n_ro_vat_on_payment
@@ -57,7 +58,6 @@ msgstr "Nume Afişat"
 
 #. module: l10n_ro_vat_on_payment
 #: model:ir.actions.server,name:l10n_ro_vat_on_payment.ir_cron_res_partner_anaf_update_every_day_ir_actions_server
-#: model:ir.cron,cron_name:l10n_ro_vat_on_payment.ir_cron_res_partner_anaf_update_every_day
 msgid "Download Partner ANAF Data"
 msgstr "Descărcare date partener ANAF"
 
@@ -91,11 +91,6 @@ msgstr "Înregistrare contabilă"
 #: model:ir.model,name:l10n_ro_vat_on_payment.model_account_move_line
 msgid "Journal Item"
 msgstr "Element jurnal"
-
-#. module: l10n_ro_vat_on_payment
-#: model:ir.model.fields,field_description:l10n_ro_vat_on_payment.field_l10n_ro_res_partner_anaf____last_update
-msgid "Last Modified on"
-msgstr "Ultima actualizare în"
 
 #. module: l10n_ro_vat_on_payment
 #: model:ir.model.fields,field_description:l10n_ro_vat_on_payment.field_l10n_ro_res_partner_anaf__write_uid
@@ -156,7 +151,6 @@ msgstr "Linie de repartizare a taxei"
 
 #. module: l10n_ro_vat_on_payment
 #: model:ir.actions.server,name:l10n_ro_vat_on_payment.ir_cron_res_partner_vat_payment_update_every_day_ir_actions_server
-#: model:ir.cron,cron_name:l10n_ro_vat_on_payment.ir_cron_res_partner_vat_payment_update_every_day
 #, fuzzy
 msgid "Update Partner VAT on Payment"
 msgstr "Actualizează TVA la Încasare"
@@ -170,6 +164,9 @@ msgstr "Actualizează TVA la Încasare"
 #: model:ir.model.fields,field_description:l10n_ro_vat_on_payment.field_l10n_ro_res_partner_anaf__vat
 msgid "Vat"
 msgstr ""
+
+#~ msgid "Last Modified on"
+#~ msgstr "Ultima actualizare în"
 
 #~ msgid "ANAF History"
 #~ msgstr "Istoric ANAF"
@@ -203,8 +200,3 @@ msgstr ""
 
 #~ msgid "VAT on Payment"
 #~ msgstr "TVA la Încasare"
-
-#~ msgid ""
-#~ "onchange_partner_id(type, partner_id, date_invoice, payment_term, "
-#~ "partner_bank_id, company_id, context)"
-#~ msgstr ""
