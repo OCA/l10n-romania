@@ -311,6 +311,7 @@ class TestStockQuantValue(RoTestStockCommon):
         stock_move._action_confirm()
         stock_move._action_assign()
         stock_move.move_line_ids.write({"lot_id": lot.id, "quantity": qty})
+        stock_move.picked = True
         stock_move._action_done()
 
     def create_stock_move_out(
@@ -335,6 +336,7 @@ class TestStockQuantValue(RoTestStockCommon):
         stock_move._action_confirm()
         stock_move._action_assign()
         stock_move.move_line_ids.write({"lot_id": lot.id, "quantity": qty})
+        stock_move.picked = True
         stock_move._action_done()
         self.env["stock.quant"]._quant_tasks()
 

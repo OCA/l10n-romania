@@ -54,6 +54,7 @@ class TestSVLVacuumLocation(RoTestStockCommon):
             }
         )
         move_out_loc1._action_confirm()
+        move_out_loc1.picked = True
         move_out_loc1._action_done()
 
         self.assertEqual(move_out_loc1.stock_valuation_layer_ids.value, -400.0)
@@ -95,6 +96,7 @@ class TestSVLVacuumLocation(RoTestStockCommon):
             }
         )
         move_in_loc1._action_confirm()
+        move_in_loc1.picked = True
         move_in_loc1._action_done()
 
         # stock values for move2
@@ -125,17 +127,16 @@ class TestSVLVacuumLocation(RoTestStockCommon):
         self.product_1.product_tmpl_id.standard_price = 8.0
         self.warehouse_1 = self.company_data["default_warehouse"]
         self.stock_location = self.warehouse_1.lot_stock_id
-        self.account_valuation_copy = self.account_valuation.copy({"code": "37100"})
-        self.account_expense_copy = self.account_expense.copy({"code": "607001"})
-        self.stock_location_2 = self.env["stock.location"].create(
-            {
-                "name": "Test Location Internal",
-                "usage": "internal",
-                "company_id": self.env.company.id,
-                "l10n_ro_property_stock_valuation_account_id": self.account_valuation_copy.id,
-                "l10n_ro_property_account_expense_location_id": self.account_expense_copy.id,
-            }
-        )
+        self.acc_val_copy = self.account_valuation.copy({"code": "37100"})
+        self.acc_exp_copy = self.account_expense.copy({"code": "607001"})
+        loc_vals = {
+            "name": "Test Location Internal",
+            "usage": "internal",
+            "company_id": self.env.company.id,
+            "l10n_ro_property_stock_valuation_account_id": self.acc_val_copy.id,
+            "l10n_ro_property_account_expense_location_id": self.acc_exp_copy.id,
+        }
+        self.stock_location_2 = self.env["stock.location"].create(loc_vals)
         self.supplier_location = self.env.ref("stock.stock_location_suppliers")
         self.customer_location = self.env.ref("stock.stock_location_customers")
         self.categ_unit = self.env.ref("uom.product_uom_categ_unit")
@@ -172,6 +173,7 @@ class TestSVLVacuumLocation(RoTestStockCommon):
             }
         )
         move_out_loc1._action_confirm()
+        move_out_loc1.picked = True
         move_out_loc1._action_done()
 
         self.assertEqual(move_out_loc1.stock_valuation_layer_ids.value, -400.0)
@@ -210,6 +212,7 @@ class TestSVLVacuumLocation(RoTestStockCommon):
             }
         )
         move_out_loc2._action_confirm()
+        move_out_loc2.picked = True
         move_out_loc2._action_done()
 
         self.assertEqual(move_out_loc2.stock_valuation_layer_ids.value, -160.0)
@@ -251,6 +254,7 @@ class TestSVLVacuumLocation(RoTestStockCommon):
             }
         )
         move_in_loc1._action_confirm()
+        move_in_loc1.picked = True
         move_in_loc1._action_done()
 
         # stock values for move2
@@ -282,6 +286,7 @@ class TestSVLVacuumLocation(RoTestStockCommon):
             }
         )
         move_internal_loc1._action_confirm()
+        move_internal_loc1.picked = True
         move_internal_loc1._action_done()
 
         self.assertEqual(
@@ -301,9 +306,7 @@ class TestSVLVacuumLocation(RoTestStockCommon):
         self.assertEqual(vacuum1_valuation_aml.credit, 600)
 
         # account values after vacuum -> credit 371 -> debit 607
-        stock_acc_aml = self._get_stock_valuation_move_lines(
-            self.account_valuation_copy
-        )
+        stock_acc_aml = self._get_stock_valuation_move_lines(self.acc_val_copy)
         self.assertEqual(stock_acc_aml[0].debit, 0)
         self.assertEqual(stock_acc_aml[0].credit, 400)
         self.assertEqual(stock_acc_aml[0].name, "50 out - Product A")
@@ -357,6 +360,7 @@ class TestSVLVacuumLocation(RoTestStockCommon):
             }
         )
         move_internal_loc2._action_confirm()
+        move_internal_loc2.picked = True
         move_internal_loc2._action_done()
 
         self.assertEqual(
@@ -375,9 +379,7 @@ class TestSVLVacuumLocation(RoTestStockCommon):
         vacuum1_valuation_aml = valuation_aml[-1]
         self.assertEqual(vacuum1_valuation_aml.debit, 0)
         self.assertEqual(vacuum1_valuation_aml.credit, 300)
-        stock_acc_aml = self._get_stock_valuation_move_lines(
-            self.account_valuation_copy
-        )
+        stock_acc_aml = self._get_stock_valuation_move_lines(self.acc_val_copy)
         self.assertEqual(stock_acc_aml[0].debit, 0)
         self.assertEqual(stock_acc_aml[0].credit, 400)
         self.assertEqual(stock_acc_aml[0].name, "50 out - Product A")
@@ -421,7 +423,7 @@ class TestSVLVacuumLocation(RoTestStockCommon):
             sum(move_out_loc2.stock_valuation_layer_ids.mapped("remaining_qty")), -10
         )
         self.check_stock_valuation(600.0, 0.0)
-        self.check_stock_valuation(-80.0, 0.0, self.account_valuation_copy)
+        self.check_stock_valuation(-80.0, 0.0, self.acc_val_copy)
 
         move_internal_loc3 = self.env["stock.move"].create(
             {
@@ -447,6 +449,7 @@ class TestSVLVacuumLocation(RoTestStockCommon):
             }
         )
         move_internal_loc3._action_confirm()
+        move_internal_loc3.picked = True
         move_internal_loc3._action_done()
 
         # account values after internal transfer -> credit 371
@@ -454,9 +457,7 @@ class TestSVLVacuumLocation(RoTestStockCommon):
         vacuum1_valuation_aml = valuation_aml[-1]
         self.assertEqual(vacuum1_valuation_aml.debit, 0)
         self.assertEqual(vacuum1_valuation_aml.credit, 450)
-        stock_acc_aml = self._get_stock_valuation_move_lines(
-            self.account_valuation_copy
-        )
+        stock_acc_aml = self._get_stock_valuation_move_lines(self.acc_val_copy)
         self.assertEqual(stock_acc_aml[0].debit, 0)
         self.assertEqual(stock_acc_aml[0].credit, 400)
         self.assertEqual(stock_acc_aml[0].name, "50 out - Product A")
@@ -524,4 +525,4 @@ class TestSVLVacuumLocation(RoTestStockCommon):
             300,
         )
         self.check_stock_valuation(150.0, 0.0)
-        self.check_stock_valuation(300.0, 0.0, self.account_valuation_copy)
+        self.check_stock_valuation(300.0, 0.0, self.acc_val_copy)
