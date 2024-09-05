@@ -321,22 +321,26 @@ class ProductProduct(models.Model):
         simple_valuation = safe_eval(simple_valuation)
         for location in svls_to_vacuum.mapped("l10n_ro_location_id"):
             svl_loc_to_vaccum = svls_to_vacuum.filtered(
-                lambda r: r.l10n_ro_location_id == location
+                lambda r, location: r.l10n_ro_location_id.id == location.id
             )
             loc_candidates = all_candidates.filtered(
-                lambda r: r.l10n_ro_location_dest_id == location
+                lambda r, location: r.l10n_ro_location_dest_id.id == location.id
             )
             if not loc_candidates:
                 parent_locations = self.env["stock.location"].search(
                     [("parent_path", "=like", location.parent_path + "%")]
                 )
                 loc_candidates = all_candidates.filtered(
-                    lambda r: r.l10n_ro_location_dest_id in parent_locations
+                    lambda r: r,
+                    parent_locations.l10n_ro_location_dest_id.id
+                    in parent_locations.ids,
                 )
             for svl_to_vacuum in svl_loc_to_vaccum:
                 # We don't use search to avoid executing _flush_search and
                 # to decrease interaction with DB
-                candidates = loc_candidates.filtered(lambda r: r.id > svl_to_vacuum.id)
+                candidates = loc_candidates.filtered(
+                    lambda r, svl_to_vacuum: r.id > svl_to_vacuum.id
+                )
                 if not candidates:
                     break
                 qty_to_take_on_candidates = abs(svl_to_vacuum.remaining_qty)
