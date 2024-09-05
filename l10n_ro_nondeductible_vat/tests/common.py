@@ -377,6 +377,9 @@ class TestNondeductibleCommon(ValuationReconciliationTestCommon):
         ro_template_ref = "ro"
         super().setUpClass(chart_template_ref=ro_template_ref)
 
+        cls.env["ir.property"].search([("name", "=", "property_valuation")]).write(
+            {"value_text": "real_time"}
+        )
         cls.env.company.anglo_saxon_accounting = True
         cls.env.company.l10n_ro_accounting = True
         cls.env.company.l10n_ro_stock_acc_price_diff = True
@@ -475,7 +478,7 @@ class TestNondeductibleCommon(ValuationReconciliationTestCommon):
         self.picking = po.picking_ids[0]
         for move_line in self.picking.move_line_ids:
             if move_line.product_id == self.product_1:
-                move_line.write({"qty_done": 100})
+                move_line.write({"quantity": 100})
 
         self.picking.button_validate()
         self.picking._action_done()
