@@ -161,8 +161,8 @@ msgstr ""
 msgid "Vat"
 msgstr ""
 
-#~ msgid "Last Modified on"
-#~ msgstr "Utolsó frissítés dátuma"
-
 #~ msgid "Invoice"
 #~ msgstr "Számla"
+
+#~ msgid "Last Modified on"
+#~ msgstr "Utolsó frissítés dátuma"

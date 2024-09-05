@@ -162,11 +162,11 @@ msgstr ""
 msgid "Vat"
 msgstr ""
 
-#~ msgid "Last Modified on"
-#~ msgstr "Terakhir Dimodifikasi pada"
-
 #~ msgid "Invoice"
 #~ msgstr "Faktur"
+
+#~ msgid "Last Modified on"
+#~ msgstr "Terakhir Dimodifikasi pada"
 
 #~ msgid "Partner"
 #~ msgstr "Mitra"
