@@ -74,10 +74,12 @@ class TestStockConsum(TestStockCommon):
     def test_consumption_din_locatie_evaluata(self):
         self.set_stock(self.product_mp, 1000)
         _logger.debug("Start Consum in productie din locatie cu alta evaluare")
+        acc_val_mp = self.account_valuation_mp.id
+        acc_exp_mp = self.account_expense_mp.id
         location_id = self.picking_type_transfer.default_location_src_id.copy(
             {
-                "l10n_ro_property_stock_valuation_account_id": self.account_valuation_mp.id,
-                "l10n_ro_property_account_expense_location_id": self.account_expense_mp.id,
+                "l10n_ro_property_stock_valuation_account_id": acc_val_mp,
+                "l10n_ro_property_account_expense_location_id": acc_exp_mp,
             }
         )
 

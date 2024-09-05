@@ -77,9 +77,10 @@ class StockMove(models.Model):
                     )
                     origin_unit_cost = None
                     tracking = []
+                    origin_move = move.origin_returned_move_id.sudo()
                     if (
                         move.origin_returned_move_id
-                        and move.origin_returned_move_id.sudo().stock_valuation_layer_ids
+                        and origin_move.stock_valuation_layer_ids
                     ):
                         origin_domain = move.product_id._l10n_ro_prepare_domain_fifo(
                             move.company_id,
@@ -89,7 +90,7 @@ class StockMove(models.Model):
                             (
                                 "stock_move_line_id",
                                 "in",
-                                move.origin_returned_move_id._get_in_move_lines().ids,
+                                origin_move._get_in_move_lines().ids,
                             )
                         ] + origin_domain
                         origin_svls = move._l10n_ro_filter_svl_on_move_line(
