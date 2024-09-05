@@ -161,11 +161,11 @@ msgstr ""
 msgid "Vat"
 msgstr ""
 
-#~ msgid "Last Modified on"
-#~ msgstr "最終更新日"
-
 #~ msgid "Invoice"
 #~ msgstr "請求書"
+
+#~ msgid "Last Modified on"
+#~ msgstr "最終更新日"
 
 #~ msgid "Partner"
 #~ msgstr "パートナ"

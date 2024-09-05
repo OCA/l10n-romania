@@ -162,11 +162,11 @@ msgstr ""
 msgid "Vat"
 msgstr ""
 
-#~ msgid "Last Modified on"
-#~ msgstr "Son değişiklik"
-
 #~ msgid "Invoice"
 #~ msgstr "Fatura"
+
+#~ msgid "Last Modified on"
+#~ msgstr "Son değişiklik"
 
 #~ msgid "Partner"
 #~ msgstr "İş Ortağı"
