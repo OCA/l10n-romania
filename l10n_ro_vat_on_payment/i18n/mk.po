@@ -161,11 +161,11 @@ msgstr ""
 msgid "Vat"
 msgstr ""
 
-#~ msgid "Last Modified on"
-#~ msgstr "Последна промена на"
-
 #~ msgid "Invoice"
 #~ msgstr "Фактура"
+
+#~ msgid "Last Modified on"
+#~ msgstr "Последна промена на"
 
 #~ msgid "Partner"
 #~ msgstr "Партнер"

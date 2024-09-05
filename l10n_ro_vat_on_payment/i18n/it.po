@@ -163,8 +163,8 @@ msgstr ""
 msgid "Vat"
 msgstr ""
 
-#~ msgid "Last Modified on"
-#~ msgstr "Ultima modifica il"
-
 #~ msgid "Invoice"
 #~ msgstr "Fattura"
+
+#~ msgid "Last Modified on"
+#~ msgstr "Ultima modifica il"

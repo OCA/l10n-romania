@@ -161,11 +161,11 @@ msgstr ""
 msgid "Vat"
 msgstr ""
 
-#~ msgid "Last Modified on"
-#~ msgstr "Viimeksi muokattu"
-
 #~ msgid "Invoice"
 #~ msgstr "Lasku"
+
+#~ msgid "Last Modified on"
+#~ msgstr "Viimeksi muokattu"
 
 #~ msgid "Partner"
 #~ msgstr "Kumppani"
