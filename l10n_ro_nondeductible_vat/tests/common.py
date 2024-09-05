@@ -50,14 +50,14 @@ class TestNondeductibleCommon(ValuationReconciliationTestCommon):
         cls.account_expense.l10n_ro_nondeductible_account_id = (
             cls.account_expense_nondeductible
         )
-        cls.tag_base = get_account_tag("+24_1 - BAZA")
-        cls.tag_base_nondeductible = get_account_tag("+24_2 - BAZA")
-        cls.tag_vat = get_account_tag("+24_1 - TVA")
-        cls.tag_vat_nondeductible = get_account_tag("+24_2 - TVA")
-        cls.minus_tag_base = get_account_tag("-24_1 - BAZA")
-        cls.minus_tag_base_nondeductible = get_account_tag("-24_2 - BAZA")
-        cls.minus_tag_vat = get_account_tag("-24_1 - TVA")
-        cls.minus_tag_vat_nondeductible = get_account_tag("-24_2 - TVA")
+        cls.tag_base = get_account_tag("+24_1 - TAX BASE")
+        cls.tag_base_nondeductible = get_account_tag("+24_2 - TAX BASE")
+        cls.tag_vat = get_account_tag("+24_1 - VAT")
+        cls.tag_vat_nondeductible = get_account_tag("+24_2 - VAT")
+        cls.minus_tag_base = get_account_tag("-24_1 - TAX BASE")
+        cls.minus_tag_base_nondeductible = get_account_tag("-24_2 - TAX BASE")
+        cls.minus_tag_vat = get_account_tag("-24_1 - VAT")
+        cls.minus_tag_vat_nondeductible = get_account_tag("-24_2 - VAT")
 
         cls.uneligible_deductible_tax_account_id = get_account("442820")
         cls.account_cash_basis_base_account_id = (
@@ -377,9 +377,10 @@ class TestNondeductibleCommon(ValuationReconciliationTestCommon):
         ro_template_ref = "ro"
         super().setUpClass(chart_template_ref=ro_template_ref)
 
-        cls.env["ir.property"].search([("name", "=", "property_valuation")]).write(
-            {"value_text": "real_time"}
+        cls.env.user.groups_id += cls.env.ref(
+            "stock_account.group_stock_accounting_automatic"
         )
+
         cls.env.company.anglo_saxon_accounting = True
         cls.env.company.l10n_ro_accounting = True
         cls.env.company.l10n_ro_stock_acc_price_diff = True
@@ -444,6 +445,7 @@ class TestNondeductibleCommon(ValuationReconciliationTestCommon):
                 "company_id": cls.env.company.id,
             }
         )
+        cls.ro_category.property_valuation = "real_time"
 
     @classmethod
     def setup_company_data(cls, company_name, chart_template=None, **kwargs):
@@ -478,7 +480,7 @@ class TestNondeductibleCommon(ValuationReconciliationTestCommon):
         self.picking = po.picking_ids[0]
         for move_line in self.picking.move_line_ids:
             if move_line.product_id == self.product_1:
-                move_line.write({"quantity": 100})
+                move_line.write({"quantity": 100, "picked": True})
 
         self.picking.button_validate()
         self.picking._action_done()
@@ -554,7 +556,7 @@ class TestNondeductibleCommon(ValuationReconciliationTestCommon):
         stock_picking.action_confirm()
         stock_picking.action_assign()
         for line in stock_picking.move_ids_without_package:
-            line.quantity_done = 10
+            line.quantity = 10
         stock_picking.button_validate()
 
     def make_inventory(self):
