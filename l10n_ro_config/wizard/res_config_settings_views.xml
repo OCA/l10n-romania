@@ -170,6 +170,19 @@
                         >
                             <field name="module_l10n_ro_nondeductible_vat" />
                         </setting>
+                        <setting
+                            id="l10n_ro_nondeductible_account_id"
+                            invisible="module_l10n_ro_nondeductible_vat == False"
+                            help="This account will be used as the default non deductible expense account from
+                                tax repartition lines marked as not deductible. If the line account does not
+                                have a non deductible account set, this account will be used."
+                            company_dependent="1"
+                        >
+                            <field
+                                name="l10n_ro_nondeductible_account_id"
+                                placeholder="Select a expense account"
+                            />
+                        </setting>
                     </block>
 
                     <block title="ANAF Integration" id="ro_anaf_setting_container">
