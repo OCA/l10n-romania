@@ -15,7 +15,7 @@ class AccountMoveLine(models.Model):
         lines = super().create(vals_list)
         moves = self.env["account.move"]
         to_remove_lines = self.env["account.move.line"]
-        for line in lines.filtered(lambda l: l.company_id.l10n_ro_accounting):
+        for line in lines.filtered(lambda aml: aml.company_id.l10n_ro_accounting):
             move = line.move_id
             company = line.company_id
             tax_rep_line = line.tax_repartition_line_id
