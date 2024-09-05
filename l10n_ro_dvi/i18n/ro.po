@@ -1,0 +1,694 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* l10n_ro_dvi
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 13.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2020-04-28 05:20+0000\n"
+"PO-Revision-Date: 2024-05-22 12:34+0300\n"
+"Last-Translator: Dorin Hongu <dhongu@gmail.com>\n"
+"Language-Team: \n"
+"Language: ro\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=n==1 ? 0 : (n==0 || (n%100 > 0 && n%100 < 20)) ? 1 : 2;\n"
+"X-Generator: Poedit 3.0.1\n"
+
+#. module: l10n_ro_dvi
+#: model:ir.model.fields,help:l10n_ro_dvi.field_l10n_ro_account_dvi__customs_duty_product_id
+msgid ""
+"A product type service with l10n_ro_custom_duty checked (purchase tab).  "
+"Journal entry for duty will be with this product & default vat for custom "
+"duty and invoice - to find it in declaration based on tags"
+msgstr ""
+"Un produs de tip serviciu cu l10n_ro_custom_duty bifat (in pagina de "
+"cumpărare). Înregistrarea în jurnal pentru taxe va folosi acest produs și "
+"TVA implicit pentru taxe vamale și factură -pentru a o găsi în declarație "
+"bazată pe etichete"
+
+#. module: l10n_ro_dvi
+#: model:ir.model.fields,field_description:l10n_ro_dvi.field_l10n_ro_account_dvi__message_needaction
+msgid "Action Needed"
+msgstr "Necesită atenție"
+
+#. module: l10n_ro_dvi
+#: model:ir.model.fields,field_description:l10n_ro_dvi.field_l10n_ro_account_dvi__message_attachment_count
+msgid "Attachment Count"
+msgstr "Număr de atașamente"
+
+#. module: l10n_ro_dvi
+#: model:ir.model.fields,field_description:l10n_ro_dvi.field_l10n_ro_account_dvi_line__price_subtotal
+msgid "Balance"
+msgstr ""
+
+#. module: l10n_ro_dvi
+#: model:ir.model.fields,field_description:l10n_ro_dvi.field_l10n_ro_account_dvi_line__base_amount
+msgid "Base Amount"
+msgstr "Suma de bază"
+
+#. module: l10n_ro_dvi
+#: model:ir.model.fields,help:l10n_ro_dvi.field_stock_landed_cost__l10n_ro_base_tax_value
+msgid ""
+"Base VAT amount, calculated from invoice base amount, customs and "
+"commission."
+msgstr ""
+"Valoarea bază TVA, calculată din valoarea de bază a facturii, vamă și "
+"comision."
+
+#. module: l10n_ro_dvi
+#: model:ir.model,name:l10n_ro_dvi.model_res_company
+msgid "Companies"
+msgstr "Companii"
+
+#. module: l10n_ro_dvi
+#: model:ir.model.fields,field_description:l10n_ro_dvi.field_l10n_ro_account_dvi__company_id
+#: model:ir.model.fields,field_description:l10n_ro_dvi.field_l10n_ro_account_dvi_line__company_id
+msgid "Company"
+msgstr "Companie"
+
+#. module: l10n_ro_dvi
+#: model:ir.model,name:l10n_ro_dvi.model_l10n_ro_account_dvi
+msgid "Create DVI for invoices"
+msgstr "Creați DVI pentru facturi"
+
+#. module: l10n_ro_dvi
+#: model:ir.model.fields,field_description:l10n_ro_dvi.field_l10n_ro_account_dvi__create_uid
+#: model:ir.model.fields,field_description:l10n_ro_dvi.field_l10n_ro_account_dvi_line__create_uid
+msgid "Created by"
+msgstr "Creat de"
+
+#. module: l10n_ro_dvi
+#: model:ir.model.fields,field_description:l10n_ro_dvi.field_l10n_ro_account_dvi__create_date
+#: model:ir.model.fields,field_description:l10n_ro_dvi.field_l10n_ro_account_dvi_line__create_date
+msgid "Created on"
+msgstr "Creat in"
+
+#. module: l10n_ro_dvi
+#: model:ir.model.fields,field_description:l10n_ro_dvi.field_l10n_ro_account_dvi__currency_id
+#: model:ir.model.fields,field_description:l10n_ro_dvi.field_l10n_ro_account_dvi_line__currency_id
+msgid "Currency"
+msgstr "Moneda"
+
+#. module: l10n_ro_dvi
+#. odoo-python
+#: code:addons/l10n_ro_dvi/models/res_company.py:0
+#, python-format
+msgid "Custom Duty"
+msgstr "Taxă vamală"
+
+#. module: l10n_ro_dvi
+#. odoo-python
+#: code:addons/l10n_ro_dvi/models/res_company.py:0
+#: model_terms:ir.ui.view,arch_db:l10n_ro_dvi.view_account_dvi_form
+#, python-format
+msgid "Customs Commission"
+msgstr "Comision vamal"
+
+#. module: l10n_ro_dvi
+#: model:ir.model.fields,field_description:l10n_ro_dvi.field_l10n_ro_account_dvi__customs_commission_product_id
+#, fuzzy
+msgid "Customs Commission Product"
+msgstr "Produs Comision vamal"
+
+#. module: l10n_ro_dvi
+#: model:ir.model.fields,field_description:l10n_ro_dvi.field_l10n_ro_account_dvi__customs_commission_value
+msgid "Customs Commission Value"
+msgstr "Valoare comision vamal"
+
+#. module: l10n_ro_dvi
+#: model_terms:ir.ui.view,arch_db:l10n_ro_dvi.view_account_dvi_form
+#, fuzzy
+msgid "Customs Duty"
+msgstr "Taxă vamală"
+
+#. module: l10n_ro_dvi
+#: model:ir.model.fields,field_description:l10n_ro_dvi.field_l10n_ro_account_dvi__customs_duty_product_id
+#, fuzzy
+msgid "Customs Duty Product"
+msgstr "Produs taxă vamală"
+
+#. module: l10n_ro_dvi
+#: model:ir.model.fields,field_description:l10n_ro_dvi.field_l10n_ro_account_dvi__customs_duty_tax_value
+#, fuzzy
+msgid "Customs Duty Tax Value"
+msgstr "Valoare taxă vamală"
+
+#. module: l10n_ro_dvi
+#: model:ir.model.fields,field_description:l10n_ro_dvi.field_l10n_ro_account_dvi__customs_duty_value
+#, fuzzy
+msgid "Customs Duty Value"
+msgstr "Valoare taxă vamală"
+
+#. module: l10n_ro_dvi
+#: model:ir.actions.act_window,name:l10n_ro_dvi.action_account_dvi
+#: model:ir.model.fields.selection,name:l10n_ro_dvi.selection__stock_landed_cost__l10n_ro_cost_type__dvi
+#: model_terms:ir.ui.view,arch_db:l10n_ro_dvi.view_move_form
+msgid "DVI"
+msgstr ""
+
+#. module: l10n_ro_dvi
+#: model:ir.model.fields,field_description:l10n_ro_dvi.field_l10n_ro_account_dvi_line__invoice_id
+msgid "DVI Invoice"
+msgstr "Factura DVI"
+
+#. module: l10n_ro_dvi
+#: model:ir.model,name:l10n_ro_dvi.model_l10n_ro_account_dvi_line
+#: model:ir.model.fields,field_description:l10n_ro_dvi.field_l10n_ro_account_dvi__line_ids
+#: model_terms:ir.ui.view,arch_db:l10n_ro_dvi.view_account_dvi_form
+msgid "DVI Lines"
+msgstr "Linii DVI"
+
+#. module: l10n_ro_dvi
+#: model:ir.model.fields,field_description:l10n_ro_dvi.field_l10n_ro_account_dvi_line__line_qty
+msgid "DVI Quantity"
+msgstr "Cantitate DVI"
+
+#. module: l10n_ro_dvi
+#: model:ir.model.fields,field_description:l10n_ro_dvi.field_l10n_ro_account_dvi_line__dvi_id
+msgid "DVI Ref"
+msgstr "Referință DVI"
+
+#. module: l10n_ro_dvi
+#: model:ir.model.fields,help:l10n_ro_dvi.field_account_bank_statement_line__l10n_ro_dvi_ids
+#: model:ir.model.fields,help:l10n_ro_dvi.field_account_move__l10n_ro_dvi_ids
+#: model:ir.model.fields,help:l10n_ro_dvi.field_account_payment__l10n_ro_dvi_ids
+msgid "DVI's linked to this invoice"
+msgstr "DVI-urile legate de această factură"
+
+#. module: l10n_ro_dvi
+#: model:ir.model.fields,field_description:l10n_ro_dvi.field_l10n_ro_account_dvi__date
+msgid "Date"
+msgstr "Data"
+
+#. module: l10n_ro_dvi
+#: model:ir.model.fields,field_description:l10n_ro_dvi.field_l10n_ro_account_dvi__display_name
+#: model:ir.model.fields,field_description:l10n_ro_dvi.field_l10n_ro_account_dvi_line__display_name
+msgid "Display Name"
+msgstr "Nume afișat"
+
+#. module: l10n_ro_dvi
+#: model:ir.model.fields.selection,name:l10n_ro_dvi.selection__l10n_ro_account_dvi__state__draft
+msgid "Draft"
+msgstr "Ciornă"
+
+#. module: l10n_ro_dvi
+#: model:ir.model.fields,field_description:l10n_ro_dvi.field_l10n_ro_account_dvi__message_follower_ids
+msgid "Followers"
+msgstr "Urmăritori"
+
+#. module: l10n_ro_dvi
+#: model:ir.model.fields,field_description:l10n_ro_dvi.field_l10n_ro_account_dvi__message_partner_ids
+msgid "Followers (Partners)"
+msgstr "Urmăritori (Parteneri)"
+
+#. module: l10n_ro_dvi
+#: model:ir.model.fields,field_description:l10n_ro_dvi.field_l10n_ro_account_dvi__has_message
+msgid "Has Message"
+msgstr "Are mesaj"
+
+#. module: l10n_ro_dvi
+#: model:ir.model.fields,field_description:l10n_ro_dvi.field_l10n_ro_account_dvi__id
+#: model:ir.model.fields,field_description:l10n_ro_dvi.field_l10n_ro_account_dvi_line__id
+msgid "ID"
+msgstr ""
+
+#. module: l10n_ro_dvi
+#: model:ir.model.fields,help:l10n_ro_dvi.field_l10n_ro_account_dvi__message_needaction
+msgid "If checked, new messages require your attention."
+msgstr "Dacă sunt bifate, mesajele noi necesită atenția dvs."
+
+#. module: l10n_ro_dvi
+#: model:ir.model.fields,help:l10n_ro_dvi.field_l10n_ro_account_dvi__message_has_error
+msgid "If checked, some messages have a delivery error."
+msgstr "Dacă sunt bifate, unele mesaje au o eroare de livrare."
+
+#. module: l10n_ro_dvi
+#: model:ir.model.fields,field_description:l10n_ro_dvi.field_l10n_ro_account_dvi__invoice_base_value
+msgid "Invoice Base Value"
+msgstr "Valoarea de bază a facturii"
+
+#. module: l10n_ro_dvi
+#: model:ir.model.fields,field_description:l10n_ro_dvi.field_l10n_ro_account_dvi_line__invoice_line_id
+msgid "Invoice Line"
+msgstr "Linia de factură"
+
+#. module: l10n_ro_dvi
+#: model:ir.model.fields,field_description:l10n_ro_dvi.field_l10n_ro_account_dvi__invoice_tax_value
+#, fuzzy
+msgid "Invoice Tax Value"
+msgstr "Valoare TVA factură"
+
+#. module: l10n_ro_dvi
+#: model:ir.model.fields,field_description:l10n_ro_dvi.field_l10n_ro_account_dvi__invoice_ids
+#: model_terms:ir.ui.view,arch_db:l10n_ro_dvi.view_account_dvi_form
+msgid "Invoices"
+msgstr "Facturi"
+
+#. module: l10n_ro_dvi
+#: model:ir.model.fields,help:l10n_ro_dvi.field_l10n_ro_account_dvi__invoice_base_value
+msgid "Invoices value without taxes"
+msgstr "Valoarea facturilor fără taxe"
+
+#. module: l10n_ro_dvi
+#: model:ir.model.fields,field_description:l10n_ro_dvi.field_l10n_ro_account_dvi__message_is_follower
+msgid "Is Follower"
+msgstr "Este urmăritor"
+
+#. module: l10n_ro_dvi
+#: model:ir.model.fields,field_description:l10n_ro_dvi.field_account_move__is_l10n_ro_record
+#: model:ir.model.fields,field_description:l10n_ro_dvi.field_stock_landed_cost__is_l10n_ro_record
+msgid "Is Romanian Record"
+msgstr "Este înregistrarea Română"
+
+#. module: l10n_ro_dvi
+#: model:ir.model.fields,help:l10n_ro_dvi.field_l10n_ro_account_dvi__total_base_tax_value
+#: model:ir.model.fields,help:l10n_ro_dvi.field_l10n_ro_account_dvi__total_tax_value
+msgid ""
+"Is readonly sum of product tax and custom tax.This must be the tax value "
+"that you have on dvi"
+msgstr ""
+"Este suma din valoarea taxei pe produs și a taxei vamale. Aceasta trebuie să"
+" fie valoarea taxei pe care o aveți pe dvi"
+
+#. module: l10n_ro_dvi
+#: model:ir.model.fields,help:l10n_ro_dvi.field_l10n_ro_account_dvi__tax_id
+#: model:ir.model.fields,help:l10n_ro_dvi.field_l10n_ro_account_dvi_line__tax_id
+msgid ""
+"Is the vat that is paid in custom for products. default is taken from custom"
+" duty tax. will put this vat tag in journal entry to find it in reports"
+msgstr ""
+"Este tva care se plătește in vama pentru produse. implicit este luat din "
+"taxa vamală. va pune această etichetă în înregistrarea jurnalului pentru a o"
+" găsi în rapoarte"
+
+#. module: l10n_ro_dvi
+#: model:ir.model.fields,field_description:l10n_ro_dvi.field_l10n_ro_account_dvi__journal_id
+#, fuzzy
+msgid "Journal"
+msgstr "Jurnal"
+
+#. module: l10n_ro_dvi
+#: model:ir.model,name:l10n_ro_dvi.model_account_move
+#, fuzzy
+msgid "Journal Entry"
+msgstr "Note contabile"
+
+#. module: l10n_ro_dvi
+#: model:ir.model.fields,field_description:l10n_ro_dvi.field_l10n_ro_account_dvi_line__name
+msgid "Label"
+msgstr "Etichetă"
+
+#. module: l10n_ro_dvi
+#: model:ir.model.fields,field_description:l10n_ro_dvi.field_l10n_ro_account_dvi__landed_cost_ids
+#, fuzzy
+msgid "Landed Cost"
+msgstr "Costuri Adiționale Stoc"
+
+#. module: l10n_ro_dvi
+#: model:ir.model.fields,field_description:l10n_ro_dvi.field_stock_landed_cost__l10n_ro_cost_type
+msgid "Landed Cost Type"
+msgstr "Tipuri de Costuri Adiționale"
+
+#. module: l10n_ro_dvi
+#: model_terms:ir.ui.view,arch_db:l10n_ro_dvi.view_account_dvi_form
+#, fuzzy
+msgid "Landed Costs"
+msgstr "Costuri Adiționale Stoc"
+
+#. module: l10n_ro_dvi
+#: model:ir.model.fields,field_description:l10n_ro_dvi.field_l10n_ro_account_dvi____last_update
+#: model:ir.model.fields,field_description:l10n_ro_dvi.field_l10n_ro_account_dvi_line____last_update
+msgid "Last Modified on"
+msgstr "Ultima modificare pe"
+
+#. module: l10n_ro_dvi
+#: model:ir.model.fields,field_description:l10n_ro_dvi.field_l10n_ro_account_dvi__write_uid
+#: model:ir.model.fields,field_description:l10n_ro_dvi.field_l10n_ro_account_dvi_line__write_uid
+msgid "Last Updated by"
+msgstr "Ultima actualizare de către"
+
+#. module: l10n_ro_dvi
+#: model:ir.model.fields,field_description:l10n_ro_dvi.field_l10n_ro_account_dvi__write_date
+#: model:ir.model.fields,field_description:l10n_ro_dvi.field_l10n_ro_account_dvi_line__write_date
+msgid "Last Updated on"
+msgstr "Ultima actualizare pe"
+
+#. module: l10n_ro_dvi
+#: model:ir.model.fields,field_description:l10n_ro_dvi.field_l10n_ro_account_dvi__message_main_attachment_id
+msgid "Main Attachment"
+msgstr "Atașamentul principal"
+
+#. module: l10n_ro_dvi
+#: model:ir.model.fields,field_description:l10n_ro_dvi.field_l10n_ro_account_dvi__message_has_error
+msgid "Message Delivery error"
+msgstr "Eroare de livrare a mesajului"
+
+#. module: l10n_ro_dvi
+#: model:ir.model.fields,field_description:l10n_ro_dvi.field_l10n_ro_account_dvi__message_ids
+msgid "Messages"
+msgstr "Mesaje"
+
+#. module: l10n_ro_dvi
+#: model:ir.model.fields,help:l10n_ro_dvi.field_l10n_ro_account_dvi__vat_price_difference_move_id
+msgid "Move for vat price difference"
+msgstr "Mutați pentru diferența de preț cu VAT"
+
+#. module: l10n_ro_dvi
+#: model:ir.model.fields,field_description:l10n_ro_dvi.field_l10n_ro_account_dvi__name
+msgid "Name"
+msgstr "Nume"
+
+#. module: l10n_ro_dvi
+#: model:ir.model.fields,field_description:l10n_ro_dvi.field_l10n_ro_account_dvi__message_needaction_counter
+msgid "Number of Actions"
+msgstr "Numărul de acțiuni"
+
+#. module: l10n_ro_dvi
+#: model:ir.model.fields,field_description:l10n_ro_dvi.field_l10n_ro_account_dvi__message_has_error_counter
+msgid "Number of errors"
+msgstr "Numărul de erori"
+
+#. module: l10n_ro_dvi
+#: model:ir.model.fields,help:l10n_ro_dvi.field_l10n_ro_account_dvi__message_needaction_counter
+msgid "Number of messages requiring action"
+msgstr "Numărul de mesaje care necesită acțiune"
+
+#. module: l10n_ro_dvi
+#: model:ir.model.fields,help:l10n_ro_dvi.field_l10n_ro_account_dvi__message_has_error_counter
+msgid "Number of messages with delivery error"
+msgstr "Numărul de mesaje cu eroare de livrare"
+
+#. module: l10n_ro_dvi
+#. odoo-python
+#: code:addons/l10n_ro_dvi/models/l10n_ro_account_dvi.py:0
+#, python-format
+msgid "Only Posted DVI can be reversed."
+msgstr "Numai DVI postat poate fi inversat."
+
+#. module: l10n_ro_dvi
+#: model_terms:ir.ui.view,arch_db:l10n_ro_dvi.view_account_dvi_form
+msgid "Post"
+msgstr "Postează"
+
+#. module: l10n_ro_dvi
+#: model:ir.model.fields.selection,name:l10n_ro_dvi.selection__l10n_ro_account_dvi__state__posted
+msgid "Posted"
+msgstr "Postat"
+
+#. module: l10n_ro_dvi
+#: model:ir.model.fields,field_description:l10n_ro_dvi.field_l10n_ro_account_dvi_line__product_id
+msgid "Product"
+msgstr "Produs"
+
+#. module: l10n_ro_dvi
+#: model:ir.model.fields,help:l10n_ro_dvi.field_l10n_ro_account_dvi__vat_price_difference_product_id
+msgid "Product for vat price difference"
+msgstr "Produs pentru diferența de preț VAT"
+
+#. module: l10n_ro_dvi
+#: model:ir.model.fields,help:l10n_ro_dvi.field_l10n_ro_account_dvi__customs_commission_product_id
+msgid ""
+"Product type service with l10n_ro_custom_commission checed (in purchase "
+"tab). Journal entry for commission will be with this product"
+msgstr ""
+"Serviciu tip produs cu l10n_ro_custom_commission verificat (în fila de "
+"achiziții). Înregistrarea în jurnal pentru comision va fi cu acest produs"
+
+#. module: l10n_ro_dvi
+#: model:ir.model.fields,field_description:l10n_ro_dvi.field_l10n_ro_account_dvi_line__qty
+msgid "Quantity"
+msgstr "Cantitate"
+
+#. module: l10n_ro_dvi
+#: model:ir.model.fields.selection,name:l10n_ro_dvi.selection__l10n_ro_account_dvi__state__reversed
+msgid "Reversed"
+msgstr "Inversat"
+
+#. module: l10n_ro_dvi
+#: model_terms:ir.ui.view,arch_db:l10n_ro_dvi.view_account_dvi_form
+msgid "Revert"
+msgstr "Inverseză"
+
+#. module: l10n_ro_dvi
+#: model:ir.model.fields,field_description:l10n_ro_dvi.field_stock_landed_cost__l10n_ro_base_tax_value
+msgid "Romania - Base VAT amount"
+msgstr "Suma TVA de bază"
+
+#. module: l10n_ro_dvi
+#: model:ir.model.fields,field_description:l10n_ro_dvi.field_stock_landed_cost__l10n_ro_account_dvi_id
+msgid "Romania - DVI"
+msgstr "DVI"
+
+#. module: l10n_ro_dvi
+#: model:ir.model.fields,field_description:l10n_ro_dvi.field_stock_landed_cost__l10n_ro_dvi_bill_ids
+msgid "Romania - DVI Invoices"
+msgstr "Facturi DVI"
+
+#. module: l10n_ro_dvi
+#: model:ir.model.fields,field_description:l10n_ro_dvi.field_stock_landed_cost__l10n_ro_tax_id
+msgid "Romania - DVI Tax"
+msgstr "TVA DVI"
+
+#. module: l10n_ro_dvi
+#: model:ir.model.fields,field_description:l10n_ro_dvi.field_account_bank_statement_line__l10n_ro_dvi_ids
+#: model:ir.model.fields,field_description:l10n_ro_dvi.field_account_move__l10n_ro_dvi_ids
+#: model:ir.model.fields,field_description:l10n_ro_dvi.field_account_payment__l10n_ro_dvi_ids
+msgid "Romania - DVI's"
+msgstr "DVI-uri"
+
+#. module: l10n_ro_dvi
+#: model:ir.model.fields,field_description:l10n_ro_dvi.field_stock_landed_cost__l10n_ro_tax_value
+#, fuzzy
+msgid "Romania - VAT amount paid at customs"
+msgstr "TVA plătit în vamă"
+
+#. module: l10n_ro_dvi
+#: model:ir.model.fields,field_description:l10n_ro_dvi.field_res_company__l10n_ro_property_vat_price_difference_product_id
+msgid "Romania - Vat Price Difference Product"
+msgstr "România - Produs diferență de preț cu VAT"
+
+#. module: l10n_ro_dvi
+#: model:ir.ui.menu,name:l10n_ro_dvi.menu_action_account_dvi
+msgid "Romanian DVI"
+msgstr "DVI"
+
+#. module: l10n_ro_dvi
+#: model:ir.model.fields,field_description:l10n_ro_dvi.field_l10n_ro_account_dvi__state
+msgid "Status"
+msgstr ""
+
+#. module: l10n_ro_dvi
+#: model:ir.model,name:l10n_ro_dvi.model_stock_landed_cost
+msgid "Stock Landed Cost"
+msgstr "Cost Adițional Stoc"
+
+#. module: l10n_ro_dvi
+#: model:ir.model.fields,field_description:l10n_ro_dvi.field_l10n_ro_account_dvi__tax_id
+#: model:ir.model.fields,field_description:l10n_ro_dvi.field_l10n_ro_account_dvi_line__tax_id
+msgid "Tax"
+msgstr "TVA"
+
+#. module: l10n_ro_dvi
+#: model:ir.model.fields,help:l10n_ro_dvi.field_l10n_ro_account_dvi_line__qty
+msgid ""
+"The optional quantity expressed by this line, eg: number of product sold. "
+"The quantity is not a legal requirement but is very useful for some reports."
+msgstr ""
+"Cantitatea opțională exprimată de această linie, de exemplu: numărul de "
+"produse vândute. Cantitatea nu este o cerință legală dar este foarte utilă "
+"pentru unele rapoarte."
+
+#. module: l10n_ro_dvi
+#. odoo-python
+#: code:addons/l10n_ro_dvi/models/stock_landed_cost.py:0
+#, python-format
+msgid "The product Custom Duty not found"
+msgstr "Produsul Taxă vamală nu este găsit"
+
+#. module: l10n_ro_dvi
+#: model:ir.model.fields,help:l10n_ro_dvi.field_l10n_ro_account_dvi_line__line_qty
+msgid "The quantity declared in the DVI."
+msgstr "Cantitatea declarată în DVI."
+
+#. module: l10n_ro_dvi
+#: model:ir.model.fields,help:l10n_ro_dvi.field_l10n_ro_account_dvi__customs_duty_value
+msgid "This is a value from received dvi"
+msgstr "Aceasta este o valoare de la DVI primit"
+
+#. module: l10n_ro_dvi
+#: model:ir.model.fields,help:l10n_ro_dvi.field_res_company__l10n_ro_property_vat_price_difference_product_id
+msgid ""
+"This product will be used in create an accounting note for the difference "
+"between customs duty and bill"
+msgstr ""
+"Acest produs va fi utilizat pentru a crea o notă contabilă pentru diferența "
+"dintre taxe vamale și factură"
+
+#. module: l10n_ro_dvi
+#: model:ir.model.fields,field_description:l10n_ro_dvi.field_l10n_ro_account_dvi__total_base_tax_value
+#, fuzzy
+msgid "Total Base Tax Value"
+msgstr "Total bază TVA"
+
+#. module: l10n_ro_dvi
+#: model:ir.model.fields,field_description:l10n_ro_dvi.field_l10n_ro_account_dvi__total_tax_value
+#, fuzzy
+msgid "Total Tax Value"
+msgstr "Total valoare TVA"
+
+#. module: l10n_ro_dvi
+#: model:ir.model.fields,field_description:l10n_ro_dvi.field_l10n_ro_account_dvi_line__price_unit
+msgid "Unit Price"
+msgstr "Preț unitar"
+
+#. module: l10n_ro_dvi
+#: model:ir.model.fields,field_description:l10n_ro_dvi.field_l10n_ro_account_dvi_line__product_uom_id
+msgid "Unit of Measure"
+msgstr "Unitate de măsură"
+
+#. module: l10n_ro_dvi
+#: model:ir.model.fields,help:l10n_ro_dvi.field_l10n_ro_account_dvi__currency_id
+#: model:ir.model.fields,help:l10n_ro_dvi.field_l10n_ro_account_dvi_line__currency_id
+msgid "Utility field to express amount currency"
+msgstr "Câmp utilitar pentru a exprima suma in valuta"
+
+#. module: l10n_ro_dvi
+#: model:ir.model.fields,field_description:l10n_ro_dvi.field_l10n_ro_account_dvi_line__vat_amount
+msgid "VAT Amount"
+msgstr "Suma TVA"
+
+#. module: l10n_ro_dvi
+#: model:ir.model.fields,help:l10n_ro_dvi.field_stock_landed_cost__l10n_ro_tax_value
+msgid "VAT amount, calculated from invoice base amount and customs."
+msgstr "Valoarea TVA, calculată din valoarea de bază a facturii și vamă."
+
+#. module: l10n_ro_dvi
+#. odoo-python
+#: code:addons/l10n_ro_dvi/models/stock_landed_cost.py:0
+#, python-format
+msgid "VAT paid at customs"
+msgstr "TVA plătit în vamă"
+
+#. module: l10n_ro_dvi
+#. odoo-python
+#: code:addons/l10n_ro_dvi/models/stock_landed_cost.py:0
+#, fuzzy, python-format
+msgid "VAT paid at customs expense"
+msgstr "TVA plătit în vamă"
+
+#. module: l10n_ro_dvi
+#: model:ir.model.fields,help:l10n_ro_dvi.field_l10n_ro_account_dvi__vat_price_difference
+msgid "VAT price difference"
+msgstr "TVA diferență preț"
+
+#. module: l10n_ro_dvi
+#: model:ir.model.fields,help:l10n_ro_dvi.field_stock_landed_cost__l10n_ro_tax_id
+msgid "VAT tax for products and customs cost"
+msgstr "Taxă TVA pentru produse și cost vamal"
+
+#. module: l10n_ro_dvi
+#: model:ir.model,name:l10n_ro_dvi.model_stock_valuation_adjustment_lines
+msgid "Valuation Adjustment Lines"
+msgstr "Linii de ajustare a evaluării"
+
+#. module: l10n_ro_dvi
+#: model:ir.model.fields,field_description:l10n_ro_dvi.field_l10n_ro_account_dvi__vat_price_difference
+msgid "Vat Price Difference"
+msgstr "Diferență de preț TVA"
+
+#. module: l10n_ro_dvi
+#: model:ir.model.fields,field_description:l10n_ro_dvi.field_l10n_ro_account_dvi__vat_price_difference_move_id
+msgid "Vat Price Difference Move"
+msgstr "Mișcare diferență preț TVA"
+
+#. module: l10n_ro_dvi
+#: model:ir.model.fields,field_description:l10n_ro_dvi.field_l10n_ro_account_dvi__vat_price_difference_product_id
+msgid "Vat Price Difference Product"
+msgstr "Produs diferență preț TVA"
+
+#. module: l10n_ro_dvi
+#: model:ir.model.fields,field_description:l10n_ro_dvi.field_l10n_ro_account_dvi__website_message_ids
+msgid "Website Messages"
+msgstr "Mesaje pe site"
+
+#. module: l10n_ro_dvi
+#: model:ir.model.fields,help:l10n_ro_dvi.field_l10n_ro_account_dvi__website_message_ids
+msgid "Website communication history"
+msgstr "Istoricul comunicării site-ului"
+
+#. module: l10n_ro_dvi
+#. odoo-python
+#: code:addons/l10n_ro_dvi/models/l10n_ro_account_dvi.py:0
+#, python-format
+msgid "You can only post DVI from 'draft' state."
+msgstr "Puteți posta DVI numai din statusul „ciornă”."
+
+#. module: l10n_ro_dvi
+#. odoo-python
+#: code:addons/l10n_ro_dvi/models/stock_landed_cost.py:0
+#, python-format
+msgid "You cannot create a DVI landed cost without reference to an invoice."
+msgstr "Nu puteți crea un DVI fără referire la o factură."
+
+#. module: l10n_ro_dvi
+#. odoo-python
+#: code:addons/l10n_ro_dvi/models/account_invoice.py:0
+#, python-format
+msgid "You do not have created DVI's for this invoice"
+msgstr "Nu ați creat DVI-uri pentru această factură"
+
+#. module: l10n_ro_dvi
+#. odoo-python
+#: code:addons/l10n_ro_dvi/models/l10n_ro_account_dvi.py:0
+#, python-format
+msgid "You do not have created landed costs for this DVI"
+msgstr "Nu ați creat costuri de repartizare pentru acest DVI"
+
+#. module: l10n_ro_dvi
+#: model:ir.model.fields,help:l10n_ro_dvi.field_l10n_ro_account_dvi__invoice_tax_value
+msgid ""
+"default is computed as tax_id from product; is not recomputed based on "
+"selected vat"
+msgstr ""
+"implicit este calculat ca tax_id din produs; nu se recalculează pe baza tva "
+"selectată"
+
+#. module: l10n_ro_dvi
+#: model_terms:ir.ui.view,arch_db:l10n_ro_dvi.view_account_dvi_form
+msgid "e.g. DVI factura .."
+msgstr "ex. DVI factură .."
+
+#. module: l10n_ro_dvi
+#: model:ir.model.fields,help:l10n_ro_dvi.field_l10n_ro_account_dvi__customs_duty_tax_value
+msgid "readonly computed tax from custom_duty_value"
+msgstr "taxă calculată din custom_duty_value"
+
+#. module: l10n_ro_dvi
+#: model:ir.model.fields,help:l10n_ro_dvi.field_l10n_ro_account_dvi__customs_commission_value
+msgid "taken from dvi if exists"
+msgstr "luat din DVI dacă există"
+
+#~ msgid ""
+#~ "Product type service with l10n_ro_custom_commission checked (in purchase "
+#~ "tab). Journal entry for commission will be with this product"
+#~ msgstr ""
+#~ "Produs de tip serviciu cu l10n_ro_custom_commission bifat (în fila de "
+#~ "achiziții). Înregistrarea în jurnal pentru comision va fi cu acest produs"
+
+#, fuzzy
+#~ msgid "Romania - Landed Cost Type"
+#~ msgstr "Costuri Adiționale Stoc"
+
+#, fuzzy
+#~ msgid "Subtotal"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "Technical field holding the debit - credit in order to open meaningful graph"
+#~ " views from reports"
+#~ msgstr ""
+#~ "Total debit - credit pentru a deschide vizualizări grafice semnificative din"
+#~ " rapoarte"
