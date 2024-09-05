@@ -8,7 +8,7 @@ import logging
 from odoo import fields
 from odoo.tests import Form, tagged
 
-from odoo.addons.stock_account.tests.test_anglo_saxon_valuation_reconciliation_common import (
+from odoo.addons.stock_account.tests.test_anglo_saxon_valuation_reconciliation_common import (  # noqa E501
     ValuationReconciliationTestCommon,
 )
 
@@ -195,9 +195,6 @@ class TestNondeductibleCommon(ValuationReconciliationTestCommon):
                 },
             ),
         ]
-        import ipdb
-
-        ipdb.set_trace()
         cls.tax_10_nondeductible = cls.env["account.tax"].create(
             {
                 "name": "Tax 10% Non Deductible 50%",
@@ -338,7 +335,7 @@ class TestNondeductibleCommon(ValuationReconciliationTestCommon):
                 },
             ),
         ]
-
+        unelig_ded_tax_acc = cls.uneligible_deductible_tax_account_id.id
         cls.tax_10_nondeductible_cash_basis = cls.env["account.tax"].create(
             {
                 "name": "Tax 10% Non Deductible Cash Basis 50% ",
@@ -349,7 +346,7 @@ class TestNondeductibleCommon(ValuationReconciliationTestCommon):
                 "invoice_repartition_line_ids": invoice_rep_lines_cash_basis,
                 "refund_repartition_line_ids": refund_rep_lines_cash_basis,
                 "tax_exigibility": "on_payment",
-                "cash_basis_transition_account_id": cls.uneligible_deductible_tax_account_id.id,
+                "cash_basis_transition_account_id": unelig_ded_tax_acc,
             }
         )
 
@@ -378,9 +375,7 @@ class TestNondeductibleCommon(ValuationReconciliationTestCommon):
     @classmethod
     def setUpClass(cls, chart_template_ref=None):
         ro_template_ref = "ro"
-        super(TestNondeductibleCommon, cls).setUpClass(
-            chart_template_ref=ro_template_ref
-        )
+        super().setUpClass(chart_template_ref=ro_template_ref)
 
         cls.env.company.anglo_saxon_accounting = True
         cls.env.company.l10n_ro_accounting = True
