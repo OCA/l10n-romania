@@ -14,7 +14,8 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=n==1 ? 0 : (n==0 || (n%100 > 0 && n%100 < 20)) ? 1 : 2;\n"
+"Plural-Forms: nplurals=3; plural=n==1 ? 0 : (n==0 || (n%100 > 0 && n%100 < "
+"20)) ? 1 : 2;\n"
 "X-Generator: Poedit 3.0.1\n"
 
 #. module: l10n_ro_dvi
@@ -52,8 +53,7 @@ msgstr "Suma de bază"
 #. module: l10n_ro_dvi
 #: model:ir.model.fields,help:l10n_ro_dvi.field_stock_landed_cost__l10n_ro_base_tax_value
 msgid ""
-"Base VAT amount, calculated from invoice base amount, customs and "
-"commission."
+"Base VAT amount, calculated from invoice base amount, customs and commission."
 msgstr ""
 "Valoarea bază TVA, calculată din valoarea de bază a facturii, vamă și "
 "comision."
@@ -270,19 +270,19 @@ msgid ""
 "Is readonly sum of product tax and custom tax.This must be the tax value "
 "that you have on dvi"
 msgstr ""
-"Este suma din valoarea taxei pe produs și a taxei vamale. Aceasta trebuie să"
-" fie valoarea taxei pe care o aveți pe dvi"
+"Este suma din valoarea taxei pe produs și a taxei vamale. Aceasta trebuie să "
+"fie valoarea taxei pe care o aveți pe dvi"
 
 #. module: l10n_ro_dvi
 #: model:ir.model.fields,help:l10n_ro_dvi.field_l10n_ro_account_dvi__tax_id
 #: model:ir.model.fields,help:l10n_ro_dvi.field_l10n_ro_account_dvi_line__tax_id
 msgid ""
-"Is the vat that is paid in custom for products. default is taken from custom"
-" duty tax. will put this vat tag in journal entry to find it in reports"
+"Is the vat that is paid in custom for products. default is taken from custom "
+"duty tax. will put this vat tag in journal entry to find it in reports"
 msgstr ""
 "Este tva care se plătește in vama pentru produse. implicit este luat din "
-"taxa vamală. va pune această etichetă în înregistrarea jurnalului pentru a o"
-" găsi în rapoarte"
+"taxa vamală. va pune această etichetă în înregistrarea jurnalului pentru a o "
+"găsi în rapoarte"
 
 #. module: l10n_ro_dvi
 #: model:ir.model.fields,field_description:l10n_ro_dvi.field_l10n_ro_account_dvi__journal_id
@@ -319,12 +319,6 @@ msgid "Landed Costs"
 msgstr "Costuri Adiționale Stoc"
 
 #. module: l10n_ro_dvi
-#: model:ir.model.fields,field_description:l10n_ro_dvi.field_l10n_ro_account_dvi____last_update
-#: model:ir.model.fields,field_description:l10n_ro_dvi.field_l10n_ro_account_dvi_line____last_update
-msgid "Last Modified on"
-msgstr "Ultima modificare pe"
-
-#. module: l10n_ro_dvi
 #: model:ir.model.fields,field_description:l10n_ro_dvi.field_l10n_ro_account_dvi__write_uid
 #: model:ir.model.fields,field_description:l10n_ro_dvi.field_l10n_ro_account_dvi_line__write_uid
 msgid "Last Updated by"
@@ -335,11 +329,6 @@ msgstr "Ultima actualizare de către"
 #: model:ir.model.fields,field_description:l10n_ro_dvi.field_l10n_ro_account_dvi_line__write_date
 msgid "Last Updated on"
 msgstr "Ultima actualizare pe"
-
-#. module: l10n_ro_dvi
-#: model:ir.model.fields,field_description:l10n_ro_dvi.field_l10n_ro_account_dvi__message_main_attachment_id
-msgid "Main Attachment"
-msgstr "Atașamentul principal"
 
 #. module: l10n_ro_dvi
 #: model:ir.model.fields,field_description:l10n_ro_dvi.field_l10n_ro_account_dvi__message_has_error
@@ -671,6 +660,12 @@ msgstr "taxă calculată din custom_duty_value"
 msgid "taken from dvi if exists"
 msgstr "luat din DVI dacă există"
 
+#~ msgid "Last Modified on"
+#~ msgstr "Ultima modificare pe"
+
+#~ msgid "Main Attachment"
+#~ msgstr "Atașamentul principal"
+
 #~ msgid ""
 #~ "Product type service with l10n_ro_custom_commission checked (in purchase "
 #~ "tab). Journal entry for commission will be with this product"
@@ -682,13 +677,9 @@ msgstr "luat din DVI dacă există"
 #~ msgid "Romania - Landed Cost Type"
 #~ msgstr "Costuri Adiționale Stoc"
 
-#, fuzzy
-#~ msgid "Subtotal"
-#~ msgstr ""
-
 #~ msgid ""
-#~ "Technical field holding the debit - credit in order to open meaningful graph"
-#~ " views from reports"
+#~ "Technical field holding the debit - credit in order to open meaningful "
+#~ "graph views from reports"
 #~ msgstr ""
-#~ "Total debit - credit pentru a deschide vizualizări grafice semnificative din"
-#~ " rapoarte"
+#~ "Total debit - credit pentru a deschide vizualizări grafice semnificative "
+#~ "din rapoarte"
