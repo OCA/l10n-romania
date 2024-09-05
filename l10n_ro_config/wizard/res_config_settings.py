@@ -122,6 +122,11 @@ class ResConfigSettings(models.TransientModel):
         related="company_id.l10n_ro_restrict_stock_move_date_future",
         readonly=False,
     )
+    l10n_ro_nondeductible_account_id = fields.Many2one(
+        "account.account",
+        related="company_id.l10n_ro_nondeductible_account_id",
+        readonly=False,
+    )
 
     module_currency_rate_update_RO_BNR = fields.Boolean(
         "Currency Rate Update BNR",
