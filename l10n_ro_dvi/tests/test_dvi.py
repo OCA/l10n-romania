@@ -27,7 +27,9 @@ class TestDVI(TestStockCommon2):
         dvi.name = "DVI test"
         tax_id = self.tax_id
         if len(self.tax_id) > 1:
-            tax_id = self.tax_id[0]
+            tax_id = self.tax_id.filtered(
+                lambda tax: tax.company_id == self.env.company
+            )[0]
         dvi.tax_id = tax_id
         dvi.journal_id = self.journal_id
         dvi.customs_duty_value = 100
@@ -145,7 +147,9 @@ class TestDVI(TestStockCommon2):
         dvi.name = "DVI test vat difference"
         tax_id = self.tax_id
         if len(self.tax_id) > 1:
-            tax_id = self.tax_id[0]
+            tax_id = self.tax_id.filtered(
+                lambda tax: tax.company_id == self.env.company
+            )[0]
         dvi.tax_id = tax_id
         dvi.journal_id = self.journal_id
         dvi.customs_duty_value = 100
@@ -167,7 +171,9 @@ class TestDVI(TestStockCommon2):
         dvi.name = "DVI test vat difference"
         tax_id = self.tax_id
         if len(self.tax_id) > 1:
-            tax_id = self.tax_id[0]
+            tax_id = self.tax_id.filtered(
+                lambda tax: tax.company_id == self.env.company
+            )[0]
         dvi.tax_id = tax_id
         dvi.journal_id = self.journal_id
         dvi.customs_duty_value = 100
@@ -200,7 +206,9 @@ class TestDVI(TestStockCommon2):
         dvi.name = "DVI test vat difference"
         tax_id = self.tax_id
         if len(self.tax_id) > 1:
-            tax_id = self.tax_id[0]
+            tax_id = self.tax_id.filtered(
+                lambda tax: tax.company_id == self.env.company
+            )[0]
         dvi.tax_id = tax_id
         dvi.journal_id = self.journal_id
         dvi.customs_duty_value = 100
@@ -233,7 +241,9 @@ class TestDVI(TestStockCommon2):
         dvi.name = "DVI test vat difference"
         tax_id = self.tax_id
         if len(self.tax_id) > 1:
-            tax_id = self.tax_id[0]
+            tax_id = self.tax_id.filtered(
+                lambda tax: tax.company_id == self.env.company
+            )[0]
         dvi.tax_id = tax_id
         dvi.journal_id = self.journal_id
         dvi.customs_duty_value = 100
@@ -263,7 +273,9 @@ class TestDVI(TestStockCommon2):
         dvi.name = "DVI test vat difference"
         tax_id = self.tax_id
         if len(self.tax_id) > 1:
-            tax_id = self.tax_id[0]
+            tax_id = self.tax_id.filtered(
+                lambda tax: tax.company_id == self.env.company
+            )[0]
         dvi.tax_id = tax_id
         dvi.journal_id = self.journal_id
         dvi.customs_duty_value = 100
