@@ -161,8 +161,8 @@ msgstr ""
 msgid "Vat"
 msgstr ""
 
-#~ msgid "Last Modified on"
-#~ msgstr "Viimati muudetud"
-
 #~ msgid "Invoice"
 #~ msgstr "Arve"
+
+#~ msgid "Last Modified on"
+#~ msgstr "Viimati muudetud"

@@ -162,11 +162,11 @@ msgstr ""
 msgid "Vat"
 msgstr ""
 
-#~ msgid "Last Modified on"
-#~ msgstr "Zuletzt geändert am"
-
 #~ msgid "Invoice"
 #~ msgstr "Rechnung"
+
+#~ msgid "Last Modified on"
+#~ msgstr "Zuletzt geändert am"
 
 #~ msgid "VAT"
 #~ msgstr "USt-ID"
