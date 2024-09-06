@@ -414,6 +414,12 @@ msgid "Romania - Fiscal Position for VAT on Payment"
 msgstr ""
 
 #. module: l10n_ro_config
+#: model:ir.model.fields,field_description:l10n_ro_config.field_res_company__l10n_ro_nondeductible_account_id
+#: model:ir.model.fields,field_description:l10n_ro_config.field_res_config_settings__l10n_ro_nondeductible_account_id
+msgid "Romania - Non Deductible Expense Account"
+msgstr ""
+
+#. module: l10n_ro_config
 #: model:ir.model.fields,field_description:l10n_ro_config.field_res_company__l10n_ro_property_uneligible_tax_account_id
 #: model:ir.model.fields,field_description:l10n_ro_config.field_res_config_settings__l10n_ro_property_uneligible_tax_account_id
 msgid "Romania - Not Eligible Tax Account"
@@ -632,6 +638,11 @@ msgstr ""
 
 #. module: l10n_ro_config
 #: model_terms:ir.ui.view,arch_db:l10n_ro_config.res_config_settings_view_form
+msgid "Select a expense account"
+msgstr ""
+
+#. module: l10n_ro_config
+#: model_terms:ir.ui.view,arch_db:l10n_ro_config.res_config_settings_view_form
 msgid "Select a product"
 msgstr ""
 
@@ -695,6 +706,24 @@ msgstr ""
 msgid ""
 "This account will be used as an intermediary account for account move line "
 "generated from internal moves between company stores."
+msgstr ""
+
+#. module: l10n_ro_config
+#: model_terms:ir.ui.view,arch_db:l10n_ro_config.res_config_settings_view_form
+msgid ""
+"This account will be used as the default non deductible expense account from"
+"                                 tax repartition lines marked as not "
+"deductible. If the line account does not                                 "
+"have a non deductible account set, this account will be used."
+msgstr ""
+
+#. module: l10n_ro_config
+#: model:ir.model.fields,help:l10n_ro_config.field_res_company__l10n_ro_nondeductible_account_id
+#: model:ir.model.fields,help:l10n_ro_config.field_res_config_settings__l10n_ro_nondeductible_account_id
+msgid ""
+"This account will be used as the default non deductible expense account from"
+" tax repartition lines marked as not deductible. If the line account does "
+"not have a non deductible account set, this account will be used."
 msgstr ""
 
 #. module: l10n_ro_config
