@@ -106,12 +106,6 @@ msgid "Landed Cost Type"
 msgstr "Tipuri de Costuri Adiționale"
 
 #. module: l10n_ro_stock_price_difference
-#: model:ir.model.fields,field_description:l10n_ro_stock_price_difference.field_l10n_ro_price_difference_confirm_dialog____last_update
-#: model:ir.model.fields,field_description:l10n_ro_stock_price_difference.field_l10n_ro_price_difference_item____last_update
-msgid "Last Modified on"
-msgstr "Ultima modificare pe"
-
-#. module: l10n_ro_stock_price_difference
 #: model:ir.model.fields,field_description:l10n_ro_stock_price_difference.field_l10n_ro_price_difference_confirm_dialog__write_uid
 #: model:ir.model.fields,field_description:l10n_ro_stock_price_difference.field_l10n_ro_price_difference_item__write_uid
 msgid "Last Updated by"
@@ -157,10 +151,12 @@ msgstr "Costuri Adiționale Stoc"
 #. module: l10n_ro_stock_price_difference
 #: model_terms:ir.ui.view,arch_db:l10n_ro_stock_price_difference.view_price_difference_confirmation_form
 msgid "There are price differences between reception pickings and this bill !"
-msgstr ""
-"Există diferențe de preț între ridicarea recepției și această factură!"
+msgstr "Există diferențe de preț între ridicarea recepției și această factură!"
 
 #. module: l10n_ro_stock_price_difference
 #: model:ir.model,name:l10n_ro_stock_price_difference.model_l10n_ro_price_difference_confirm_dialog
 msgid "Wizard to show price differences between invoice and reception"
 msgstr "Expert pentru a afișa diferențele de preț între factură și recepție"
+
+#~ msgid "Last Modified on"
+#~ msgstr "Ultima modificare pe"
