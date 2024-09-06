@@ -13,7 +13,7 @@ from odoo.addons.account.tests.common import AccountTestInvoicingCommon
 class TestInvoiceCurrencyRateEdit(AccountTestInvoicingCommon):
     @classmethod
     def setUpClass(cls):
-        ro_template_ref = "l10n_ro.ro_chart_template"
+        ro_template_ref = "ro"
         super().setUpClass(chart_template_ref=ro_template_ref)
         cls.env.company.l10n_ro_accounting = True
 
@@ -64,6 +64,8 @@ class TestInvoiceCurrencyRateEdit(AccountTestInvoicingCommon):
             line_form.price_unit = 100
         move_form.save()
 
+        with move_form.invoice_line_ids.edit(0) as line_form:
+            line_form.tax_ids.clear()
         move_form.l10n_ro_currency_rate = 5
         move_form.save()
         self.assertEqual(self.invoice.amount_total_signed, -1000)
@@ -71,6 +73,7 @@ class TestInvoiceCurrencyRateEdit(AccountTestInvoicingCommon):
         with move_form.invoice_line_ids.edit(0) as line_form:
             line_form.price_unit = 50
             line_form.quantity = 2
+            line_form.tax_ids.clear()
         move_form.save()
         move_form.l10n_ro_currency_rate = 5
         move_form.save()
