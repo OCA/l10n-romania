@@ -50,8 +50,9 @@ class PurchaseOrder(models.Model):
         if not invoice_vals_list:
             raise UserError(
                 _(
-                    "There is no invoiceable line. If a product has a control policy based "
-                    "on received quantity, please make sure that a quantity has been received."
+                    "There is no invoiceable line. If a product has a control"
+                    " policy based on received quantity, please make sure that"
+                    " a quantity has been received."
                 )
             )
 
@@ -99,12 +100,12 @@ class PurchaseOrder(models.Model):
         for vals in invoice_vals_list:
             moves |= AccountMove.with_company(vals["company_id"]).create(vals)
 
-        # 4) Some moves might actually be refunds: convert them if the total amount is negative
-        # We do this after the moves have been created since we need taxes, etc. to know
-        # if the total is actually negative or not
+        # 4) Some moves might actually be refunds: convert them if the total
+        # amount is negative. We do this after the moves have been created
+        # since we need taxes, etc. to know if the total is actually negative or not
         moves.filtered(
             lambda m: m.currency_id.round(m.amount_total) < 0
-        ).action_switch_invoice_into_refund_credit_note()
+        ).action_switch_move_type()
         self.l10n_ro_reception_in_progress = True
         return self.action_view_invoice(moves)
 

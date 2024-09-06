@@ -56,9 +56,9 @@ class TestStockPurchase(TestStockCommonPriceDiff):
         qty_po_p2 = self.qty_po_p2 if not partial else self.qty_po_p2 / 2
         for move_line in self.picking.move_line_ids:
             if move_line.product_id == self.product_1:
-                move_line.write({"qty_done": qty_po_p1})
+                move_line.write({"quantity": qty_po_p1})
             if move_line.product_id == self.product_2:
-                move_line.write({"qty_done": qty_po_p2})
+                move_line.write({"quantity": qty_po_p2})
 
         self.picking.button_validate()
         self.picking._action_done()

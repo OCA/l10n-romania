@@ -9,9 +9,12 @@ class StockMove(models.Model):
     _inherit = ["stock.move", "l10n.ro.mixin"]
 
     def _get_accounting_data_for_valuation(self):
-        journal_id, acc_src, acc_dest, acc_valuation = super(
-            StockMove, self
-        )._get_accounting_data_for_valuation()
+        (
+            journal_id,
+            acc_src,
+            acc_dest,
+            acc_valuation,
+        ) = super()._get_accounting_data_for_valuation()
         if (
             self.is_l10n_ro_record
             and self.purchase_line_id.order_id.l10n_ro_reception_in_progress
@@ -27,5 +30,5 @@ class StockMove(models.Model):
             and self.picking_id.purchase_id.l10n_ro_reception_in_progress
         ):
             self = self.with_context(l10n_ro_reception_in_progress=True)
-        res = super(StockMove, self)._account_entry_move(qty, description, svl_id, cost)
+        res = super()._account_entry_move(qty, description, svl_id, cost)
         return res

@@ -118,7 +118,7 @@ class TestStockCommon2(TestStockCommon):
 
         invoice = invoice.save()
         if invoice.amount_total < 0:
-            invoice.action_switch_invoice_into_refund_credit_note()
+            invoice.action_switch_move_type()
         if quant_p1 or quant_p2 or diff_p1 or diff_p2:
             invoice = invoice.with_context(l10n_ro_approved_price_difference=True)
         if auto_post:
