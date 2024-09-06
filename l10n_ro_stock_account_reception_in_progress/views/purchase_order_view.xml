@@ -14,7 +14,7 @@
                     type="object"
                     class="oe_highlight"
                     context="{'create_bill':True}"
-                    attrs="{'invisible': ['|', '|', ('is_l10n_ro_record','=',False), ('state', '!=', 'purchase'), ('invoice_status', '!=', 'no')]}"
+                    invisible="(not is_l10n_ro_record and state != 'purchase') or invoice_status != 'no'"
                 />
             </button>
         </field>
