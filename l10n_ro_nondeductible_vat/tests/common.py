@@ -353,7 +353,7 @@ class TestNondeductibleCommon(ValuationReconciliationTestCommon):
         cls.fp_model = cls.env["account.fiscal.position"]
         cls.fptvainc = cls.fp_model.search(
             [
-                ("name", "ilike", "Regim TVA la Incasare"),
+                ("name", "ilike", "VAT collection system"),
                 ("company_id", "=", cls.env.company.id),
             ]
         )
@@ -445,7 +445,7 @@ class TestNondeductibleCommon(ValuationReconciliationTestCommon):
                 "company_id": cls.env.company.id,
             }
         )
-        cls.ro_category.property_valuation = "real_time"
+        cls.category.property_valuation = "real_time"
 
     @classmethod
     def setup_company_data(cls, company_name, chart_template=None, **kwargs):
