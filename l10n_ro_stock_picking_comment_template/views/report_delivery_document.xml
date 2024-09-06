@@ -12,7 +12,7 @@
                     t-as="comment_template_top"
                 >
                     <div
-                        t-raw="o.render_comment(comment_template_top, engine='qweb', post_process=True)"
+                        t-raw="o.render_comment(comment_template_top, engine='qweb')"
                     />
                 </t>
             </t>
@@ -24,7 +24,7 @@
                     t-as="comment_template_bottom"
                 >
                     <div
-                        t-raw="o.render_comment(comment_template_bottom, engine='qweb', post_process=True)"
+                        t-raw="o.render_comment(comment_template_bottom, engine='qweb')"
                     />
                 </t>
             </t>
