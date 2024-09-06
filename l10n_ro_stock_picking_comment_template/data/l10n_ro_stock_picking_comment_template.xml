@@ -1,0 +1,284 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- # Copyright 2020 NextERP Romania SRL
+     # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl). -->
+<odoo>
+    <!-- Delivery -->
+    <record id="l10n_ro_picking_delivery_internTransfer" model="base.comment.template">
+        <field name="name">
+            Romania - Comment for Delivery + Internal Transfer Before Lines
+        </field>
+        <field name="position">before_lines</field>
+        <field name="models">stock.picking</field>
+        <field name="model_ids" eval="[(6, 0,  [ref('stock.model_stock_picking')]) ]" />
+        <field name="domain">
+            [['location_dest_id.usage','not in',['usage_giving','consume','production']],
+            ['is_l10n_ro_record', '=', True],
+            '|',['picking_type_code', '=', 'outgoing'],['picking_type_code', '=', 'internal']]
+        </field>
+        <field
+            name="text"
+        ><![CDATA[
+            <h2>
+                <span>Delivery Order</span>
+            </h2>
+
+            <t t-if="object.picking_type_code == 'internal'">
+                <table class="table table-condensed">
+                    <thead>
+                        <tr>
+                            <th>
+                                Source Location
+                            </th>
+                            <th>
+                                Destination Location
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <t t-out="object.location_id.name"/>
+                            </td>
+                            <td>
+                                <t t-out="object.location_dest_id.name"/>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </t>
+            ]]>
+        </field>
+    </record>
+
+    <!-- Delivery -->
+    <record id="l10n_ro_picking_out_down" model="base.comment.template">
+        <field name="name">Romania - Comment for Delivery After Lines</field>
+        <field name="position">after_lines</field>
+        <field name="models">stock.picking</field>
+        <field name="model_ids" eval="[(6, 0,  [ref('stock.model_stock_picking')]) ]" />
+        <field
+            name="domain"
+        >[['location_dest_id.usage','not in',['usage_giving','consume','production','internal']],
+            ['is_l10n_ro_record', '=', True],
+            '|',['picking_type_code', '=','outgoing'],['picking_type_code', '=', 'internal']]
+        </field>
+        <field
+            name="text"
+        ><![CDATA[
+            <p>
+                <br/>
+            </p>
+            <table class="table table-bordered mb32" style="table-layout:auto"
+                <thead>
+                    <tr>
+                        <th width="40%">Elaborate</th>
+                        <th width="40%">Information for delivery</th>
+                        <th width="20%">Signature reception</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>
+                            <span>Name: <t t-esc="user.name"/></span>
+                        </td>
+                        <td>
+                            <div><span>Delegate: <t t-esc="object.l10n_ro_delegate_id.name if object.l10n_ro_delegate_id else '.'*100"/></span><br/></div>
+                            <div><span>B.I./C.I.: <t t-esc="'.'*100"/></span><br/></div>
+                            <div><span>Mean Transport: <t t-esc="object.l10n_ro_mean_transp or '.'*50"/></span><br/></div>
+                            <div><span>Date: <t t-esc="'.'*40"/> Hour: <t t-esc="'.'*20"/></span><br/></div>
+                        </td>
+                        <td> </td>
+                    </tr>
+                </tbody>
+            </table>]]>
+        </field>
+    </record>
+
+    <!-- Reception -->
+    <record id="l10n_ro_picking_in_up" model="base.comment.template">
+        <field name="name">Romania - Comment for Reception Before Lines</field>
+        <field name="position">before_lines</field>
+        <field name="models">stock.picking</field>
+        <field name="model_ids" eval="[(6, 0,  [ref('stock.model_stock_picking')]) ]" />
+        <field name="domain">
+            [['picking_type_code', '=', 'incoming'], ['is_l10n_ro_record', '=', True]]
+        </field>
+        <field
+            name="text"
+        ><![CDATA[
+            <h2><span>Reception Note and Differences</span></h2>
+            <span>The undersigned, members of the reception commission, I received the material values provided by:
+            <t t-esc="object.partner_id.name"/>,
+            delegate: <t t-esc="object.l10n_ro_delegate_id.name if object.l10n_ro_delegate_id else '.'*60"/>,
+            car no.: <t t-esc="object.l10n_ro_mean_transp or '.'*32"/>,
+            based on the accompanying documents: <t t-esc="object.purchase_id.partner_ref+'; ' if object.purchase_id.partner_ref else  ''"/>
+                                                 <t t-esc="object.purchase_id.invoice_ids[0].name if object.purchase_id.invoice_ids else  ''"/>
+                                                 <t t-esc="'' if  object.purchase_id.invoice_ids or  object.purchase_id.partner_ref else  '.'*60"/>, noting:
+                                    </span>]]>
+        </field>
+    </record>
+    <record id="l10n_ro_picking_in_down" model="base.comment.template">
+        <field name="name">Romania - Comment for Reception After Lines</field>
+        <field name="position">after_lines</field>
+        <field name="models">stock.picking</field>
+        <field name="model_ids" eval="[(6, 0,  [ref('stock.model_stock_picking')]) ]" />
+        <field
+            name="domain"
+        >[['picking_type_code', '=', 'incoming'], ['is_l10n_ro_record', '=', True]]</field>
+        <field
+            name="text"
+        ><![CDATA[
+            <p>
+                <br/>
+            </p>
+            <table class="table table-sm o_main_table table-bordered">
+                <thead>
+                    <tr>
+                        <th width="35%">Members of the reception commission</th>
+                        <th width="15%">Signature</th>
+                        <th width="35%">Stock responsible</th>
+                        <th width="15%">Signature</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>
+                            <p>
+                                <br/><br/><br/>
+                            </p>
+                        </td>
+                        <td>
+                            <p>
+                                <br/><br/><br/>
+                            </p>
+                        </td>
+                        <td>
+                            <span><t t-esc="user.name"/></span>
+                        </td>
+                        <td>
+                            <p>
+                                <br/><br/><br/>
+                            </p>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>]]>
+        </field>
+    </record>
+
+    <!-- Consume Voucher   location_dest_id.usage == "production" -->
+    <record id="l10n_ro_picking_consume_up" model="base.comment.template">
+        <field name="name">Romania - Comment for Consume Voucher Before Lines</field>
+        <field name="position">before_lines</field>
+        <field name="models">stock.picking</field>
+        <field name="model_ids" eval="[(6, 0,  [ref('stock.model_stock_picking')]) ]" />
+        <field name="domain">
+            [['location_id.usage','=','internal'],['location_dest_id.usage','in',['consume','production']],
+            ['is_l10n_ro_record', '=', True]]
+        </field>
+        <field
+            name="text"
+        ><![CDATA[
+            <h2>
+                <span>Consume Voucher</span>
+            </h2>
+            ]]>
+        </field>
+    </record>
+
+    <!-- - Usage  Giving -->
+    <record id="l10n_ro_picking_usage_giving_up" model="base.comment.template">
+        <field name="name">Romania - Comment for Usage Giving Before Lines</field>
+        <field name="position">before_lines</field>
+        <field name="models">stock.picking</field>
+        <field name="model_ids" eval="[(6, 0,  [ref('stock.model_stock_picking')]) ]" />
+        <field name="domain">
+            [['location_id.usage','=','internal'],['location_dest_id.usage','=','usage_giving'], ['is_l10n_ro_record',
+            '=', True]]
+        </field>
+        <field
+            name="text"
+        ><![CDATA[
+            <h2>
+                <span>Usage Giving Report</span>
+            </h2>
+            ]]>
+        </field>
+    </record>
+    <record id="l10n_ro_picking_consume_down" model="base.comment.template">
+        <field name="name">Romania - Comment for Consume Voucher After Lines</field>
+        <field name="position">after_lines</field>
+        <field name="models">stock.picking</field>
+        <field name="model_ids" eval="[(6, 0,  [ref('stock.model_stock_picking')]) ]" />
+        <field name="domain">
+            [['location_id.usage','=','internal'],['location_dest_id.usage','in',['consume','production']],
+            ['is_l10n_ro_record', '=', True]]
+        </field>
+        <field
+            name="text"
+        ><![CDATA[
+            <p>
+                <br/>
+            </p>
+            <table class="table table-bordered mb32" style="table-layout:auto"
+                <thead>
+                    <tr>
+                        <th width="40%">Elaborate</th>
+                        <th width="40%">Giver signature</th>
+                        <th width="20%">Date</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>
+                            <span>Name: <t t-esc="user.name"/></span>
+                        </td>
+                        <td>
+                        </td>
+                        <td> </td>
+                    </tr>
+                </tbody>
+            </table>]]>
+        </field>
+    </record>
+
+    <record id="l10n_ro_picking_internTransfer_down" model="base.comment.template">
+        <field name="name">Romania - Comment for Internal Transfer Voucher After Lines
+        </field>
+        <field name="position">after_lines</field>
+        <field name="models">stock.picking</field>
+        <field name="model_ids" eval="[(6, 0,  [ref('stock.model_stock_picking')]) ]" />
+        <field
+            name="domain"
+        >[['location_id.usage','=','internal'],['location_dest_id.usage','in',['usage_giving','internal']],
+            ['is_l10n_ro_record', '=', True]]
+        </field>
+        <field
+            name="text"
+        ><![CDATA[
+            <p>
+                <br/>
+            </p>
+            <table class="table table-bordered mb32" style="table-layout:auto"
+                <thead>
+                    <tr>
+                        <th width="40%">Elaborate</th>
+                        <th width="40%">Giver signature</th>
+                        <th width="20%">Receiver signature</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>
+                            <span>Name: <t t-esc="user.name"/></span>
+                        </td>
+                        <td>
+                        </td>
+                        <td> </td>
+                    </tr>
+                </tbody>
+            </table>]]>
+        </field>
+    </record>
+
+</odoo>

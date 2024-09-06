@@ -1,0 +1,312 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* l10n_ro_stock_picking_comment_template
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 16.0\n"
+"Report-Msgid-Bugs-To: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: l10n_ro_stock_picking_comment_template
+#: model:base.comment.template,text:l10n_ro_stock_picking_comment_template.l10n_ro_picking_consume_up
+msgid ""
+"\n"
+"            <h2>\n"
+"                <span>Consume Voucher</span>\n"
+"            </h2>\n"
+"            \n"
+"        "
+msgstr ""
+
+#. module: l10n_ro_stock_picking_comment_template
+#: model:base.comment.template,text:l10n_ro_stock_picking_comment_template.l10n_ro_picking_delivery_internTransfer
+msgid ""
+"\n"
+"            <h2>\n"
+"                <span>Delivery Order</span>\n"
+"            </h2>\n"
+"\n"
+"            <t t-if=\"object.picking_type_code == 'internal'\">\n"
+"                <table class=\"table table-condensed\">\n"
+"                    <thead>\n"
+"                        <tr>\n"
+"                            <th>\n"
+"                                Source Location\n"
+"                            </th>\n"
+"                            <th>\n"
+"                                Destination Location\n"
+"                            </th>\n"
+"                        </tr>\n"
+"                    </thead>\n"
+"                    <tbody>\n"
+"                        <tr>\n"
+"                            <td>\n"
+"                                <t t-out=\"object.location_id.name\"/>\n"
+"                            </td>\n"
+"                            <td>\n"
+"                                <t t-out=\"object.location_dest_id.name\"/>\n"
+"                            </td>\n"
+"                        </tr>\n"
+"                    </tbody>\n"
+"                </table>\n"
+"            </t>\n"
+"            \n"
+"        "
+msgstr ""
+
+#. module: l10n_ro_stock_picking_comment_template
+#: model:base.comment.template,text:l10n_ro_stock_picking_comment_template.l10n_ro_picking_usage_giving_up
+msgid ""
+"\n"
+"            <h2>\n"
+"                <span>Usage Giving Report</span>\n"
+"            </h2>\n"
+"            \n"
+"        "
+msgstr ""
+
+#. module: l10n_ro_stock_picking_comment_template
+#: model:base.comment.template,text:l10n_ro_stock_picking_comment_template.l10n_ro_picking_in_up
+msgid ""
+"\n"
+"            <h2><span>Reception Note and Differences</span></h2>\n"
+"            <span>The undersigned, members of the reception commission, I received the material values provided by:\n"
+"            <t t-esc=\"object.partner_id.name\"/>,\n"
+"            delegate: <t t-esc=\"object.l10n_ro_delegate_id.name if object.l10n_ro_delegate_id else '.'*60\"/>,\n"
+"            car no.: <t t-esc=\"object.l10n_ro_mean_transp or '.'*32\"/>,\n"
+"            based on the accompanying documents: <t t-esc=\"object.purchase_id.partner_ref+'; ' if object.purchase_id.partner_ref else  ''\"/>\n"
+"                                                 <t t-esc=\"object.purchase_id.invoice_ids[0].name if object.purchase_id.invoice_ids else  ''\"/>\n"
+"                                                 <t t-esc=\"'' if  object.purchase_id.invoice_ids or  object.purchase_id.partner_ref else  '.'*60\"/>, noting:\n"
+"                                    </span>\n"
+"        "
+msgstr ""
+
+#. module: l10n_ro_stock_picking_comment_template
+#: model:base.comment.template,text:l10n_ro_stock_picking_comment_template.l10n_ro_picking_consume_down
+msgid ""
+"\n"
+"            <p>\n"
+"                <br/>\n"
+"            </p>\n"
+"            <table class=\"table table-bordered mb32\" style=\"table-layout:auto\"\n"
+"                <thead>\n"
+"                    <tr>\n"
+"                        <th width=\"40%\">Elaborate</th>\n"
+"                        <th width=\"40%\">Giver signature</th>\n"
+"                        <th width=\"20%\">Date</th>\n"
+"                    </tr>\n"
+"                </thead>\n"
+"                <tbody>\n"
+"                    <tr>\n"
+"                        <td>\n"
+"                            <span>Name: <t t-esc=\"user.name\"/></span>\n"
+"                        </td>\n"
+"                        <td>\n"
+"                        </td>\n"
+"                        <td> </td>\n"
+"                    </tr>\n"
+"                </tbody>\n"
+"            </table>\n"
+"        "
+msgstr ""
+
+#. module: l10n_ro_stock_picking_comment_template
+#: model:base.comment.template,text:l10n_ro_stock_picking_comment_template.l10n_ro_picking_internTransfer_down
+msgid ""
+"\n"
+"            <p>\n"
+"                <br/>\n"
+"            </p>\n"
+"            <table class=\"table table-bordered mb32\" style=\"table-layout:auto\"\n"
+"                <thead>\n"
+"                    <tr>\n"
+"                        <th width=\"40%\">Elaborate</th>\n"
+"                        <th width=\"40%\">Giver signature</th>\n"
+"                        <th width=\"20%\">Receiver signature</th>\n"
+"                    </tr>\n"
+"                </thead>\n"
+"                <tbody>\n"
+"                    <tr>\n"
+"                        <td>\n"
+"                            <span>Name: <t t-esc=\"user.name\"/></span>\n"
+"                        </td>\n"
+"                        <td>\n"
+"                        </td>\n"
+"                        <td> </td>\n"
+"                    </tr>\n"
+"                </tbody>\n"
+"            </table>\n"
+"        "
+msgstr ""
+
+#. module: l10n_ro_stock_picking_comment_template
+#: model:base.comment.template,text:l10n_ro_stock_picking_comment_template.l10n_ro_picking_out_down
+msgid ""
+"\n"
+"            <p>\n"
+"                <br/>\n"
+"            </p>\n"
+"            <table class=\"table table-bordered mb32\" style=\"table-layout:auto\"\n"
+"                <thead>\n"
+"                    <tr>\n"
+"                        <th width=\"40%\">Elaborate</th>\n"
+"                        <th width=\"40%\">Information for delivery</th>\n"
+"                        <th width=\"20%\">Signature reception</th>\n"
+"                    </tr>\n"
+"                </thead>\n"
+"                <tbody>\n"
+"                    <tr>\n"
+"                        <td>\n"
+"                            <span>Name: <t t-esc=\"user.name\"/></span>\n"
+"                        </td>\n"
+"                        <td>\n"
+"                            <div><span>Delegate: <t t-esc=\"object.l10n_ro_delegate_id.name if object.l10n_ro_delegate_id else '.'*100\"/></span><br/></div>\n"
+"                            <div><span>B.I./C.I.: <t t-esc=\"'.'*100\"/></span><br/></div>\n"
+"                            <div><span>Mean Transport: <t t-esc=\"object.l10n_ro_mean_transp or '.'*50\"/></span><br/></div>\n"
+"                            <div><span>Date: <t t-esc=\"'.'*40\"/> Hour: <t t-esc=\"'.'*20\"/></span><br/></div>\n"
+"                        </td>\n"
+"                        <td> </td>\n"
+"                    </tr>\n"
+"                </tbody>\n"
+"            </table>\n"
+"        "
+msgstr ""
+
+#. module: l10n_ro_stock_picking_comment_template
+#: model:base.comment.template,text:l10n_ro_stock_picking_comment_template.l10n_ro_picking_in_down
+msgid ""
+"\n"
+"            <p>\n"
+"                <br/>\n"
+"            </p>\n"
+"            <table class=\"table table-sm o_main_table table-bordered\">\n"
+"                <thead>\n"
+"                    <tr>\n"
+"                        <th width=\"35%\">Members of the reception commission</th>\n"
+"                        <th width=\"15%\">Signature</th>\n"
+"                        <th width=\"35%\">Stock responsible</th>\n"
+"                        <th width=\"15%\">Signature</th>\n"
+"                    </tr>\n"
+"                </thead>\n"
+"                <tbody>\n"
+"                    <tr>\n"
+"                        <td>\n"
+"                            <p>\n"
+"                                <br/><br/><br/>\n"
+"                            </p>\n"
+"                        </td>\n"
+"                        <td>\n"
+"                            <p>\n"
+"                                <br/><br/><br/>\n"
+"                            </p>\n"
+"                        </td>\n"
+"                        <td>\n"
+"                            <span><t t-esc=\"user.name\"/></span>\n"
+"                        </td>\n"
+"                        <td>\n"
+"                            <p>\n"
+"                                <br/><br/><br/>\n"
+"                            </p>\n"
+"                        </td>\n"
+"                    </tr>\n"
+"                </tbody>\n"
+"            </table>\n"
+"        "
+msgstr ""
+
+#. module: l10n_ro_stock_picking_comment_template
+#: model:base.comment.template,name:l10n_ro_stock_picking_comment_template.l10n_ro_picking_delivery_internTransfer
+msgid ""
+"\n"
+"            Romania - Comment for Delivery + Internal Transfer Before Lines\n"
+"        "
+msgstr ""
+
+#. module: l10n_ro_stock_picking_comment_template
+#: model:ir.model.fields,field_description:l10n_ro_stock_picking_comment_template.field_stock_picking__comment_template_ids
+msgid "Comment Template"
+msgstr ""
+
+#. module: l10n_ro_stock_picking_comment_template
+#: model_terms:ir.ui.view,arch_db:l10n_ro_stock_picking_comment_template.stock_picking_form_add_comment
+msgid "Comments"
+msgstr ""
+
+#. module: l10n_ro_stock_picking_comment_template
+#: model:ir.model,name:l10n_ro_stock_picking_comment_template.model_res_partner
+msgid "Contact"
+msgstr ""
+
+#. module: l10n_ro_stock_picking_comment_template
+#: model:ir.model.fields,field_description:l10n_ro_stock_picking_comment_template.field_stock_picking__l10n_ro_delegate_id
+msgid "Delegate"
+msgstr ""
+
+#. module: l10n_ro_stock_picking_comment_template
+#: model:ir.model.fields,field_description:l10n_ro_stock_picking_comment_template.field_res_partner__l10n_ro_mean_transp
+#: model:ir.model.fields,field_description:l10n_ro_stock_picking_comment_template.field_res_users__l10n_ro_mean_transp
+#: model:ir.model.fields,field_description:l10n_ro_stock_picking_comment_template.field_stock_picking__l10n_ro_mean_transp
+msgid "Mean transport"
+msgstr ""
+
+#. module: l10n_ro_stock_picking_comment_template
+#: model:base.comment.template,name:l10n_ro_stock_picking_comment_template.l10n_ro_picking_consume_down
+msgid "Romania - Comment for Consume Voucher After Lines"
+msgstr ""
+
+#. module: l10n_ro_stock_picking_comment_template
+#: model:base.comment.template,name:l10n_ro_stock_picking_comment_template.l10n_ro_picking_consume_up
+msgid "Romania - Comment for Consume Voucher Before Lines"
+msgstr ""
+
+#. module: l10n_ro_stock_picking_comment_template
+#: model:base.comment.template,name:l10n_ro_stock_picking_comment_template.l10n_ro_picking_out_down
+msgid "Romania - Comment for Delivery After Lines"
+msgstr ""
+
+#. module: l10n_ro_stock_picking_comment_template
+#: model:base.comment.template,name:l10n_ro_stock_picking_comment_template.l10n_ro_picking_internTransfer_down
+msgid ""
+"Romania - Comment for Internal Transfer Voucher After Lines\n"
+"        "
+msgstr ""
+
+#. module: l10n_ro_stock_picking_comment_template
+#: model:base.comment.template,name:l10n_ro_stock_picking_comment_template.l10n_ro_picking_in_down
+msgid "Romania - Comment for Reception After Lines"
+msgstr ""
+
+#. module: l10n_ro_stock_picking_comment_template
+#: model:base.comment.template,name:l10n_ro_stock_picking_comment_template.l10n_ro_picking_in_up
+msgid "Romania - Comment for Reception Before Lines"
+msgstr ""
+
+#. module: l10n_ro_stock_picking_comment_template
+#: model:base.comment.template,name:l10n_ro_stock_picking_comment_template.l10n_ro_picking_usage_giving_up
+msgid "Romania - Comment for Usage Giving Before Lines"
+msgstr ""
+
+#. module: l10n_ro_stock_picking_comment_template
+#: model:ir.actions.act_window,name:l10n_ro_stock_picking_comment_template.action_stock_picking_comment_template
+#: model:ir.ui.menu,name:l10n_ro_stock_picking_comment_template.menu_base_comment_template_picking
+msgid "Romanian Stock Picking Comments"
+msgstr ""
+
+#. module: l10n_ro_stock_picking_comment_template
+#: model:ir.model,name:l10n_ro_stock_picking_comment_template.model_stock_picking
+msgid "Transfer"
+msgstr ""
+
+#. module: l10n_ro_stock_picking_comment_template
+#: model:ir.model.fields,help:l10n_ro_stock_picking_comment_template.field_res_partner__l10n_ro_mean_transp
+#: model:ir.model.fields,help:l10n_ro_stock_picking_comment_template.field_res_users__l10n_ro_mean_transp
+msgid ""
+"Visible only in pickings, and can be modify only from there;is keeping all "
+"the time the last not null value"
+msgstr ""
