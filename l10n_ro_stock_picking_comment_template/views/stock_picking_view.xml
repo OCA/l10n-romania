@@ -28,7 +28,7 @@
                 <page
                     string="Comments"
                     name="comments"
-                    attrs="{'invisible': [('is_l10n_ro_record', '=', False)]}"
+                    invisible="is_l10n_ro_record == False"
                 >
                     <field name="comment_template_ids" />
                 </page>
