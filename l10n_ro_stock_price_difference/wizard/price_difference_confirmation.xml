@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="view_price_difference_confirmation_form" model="ir.ui.view">
+        <field name="name">Return lines</field>
+        <field name="model">l10n_ro.price_difference_confirm_dialog</field>
+        <field name="arch" type="xml">
+            <form string="Price Difference Confirmation">
+
+                    <div>
+               <p
+                    >There are price differences between reception pickings and this bill !</p>
+                    </div>
+
+                <field name="invoice_id" invisible="1" />
+                <field name="item_ids" mode="tree,kanban">
+                    <tree>
+                        <field name="product_id" />
+                        <field name="picking_id" />
+                        <field name="amount_difference" />
+                        <field name="quantity_difference" />
+                    </tree>
+                </field>
+                <footer>
+                    <button
+                        name="action_confirm"
+                        string="Confirm"
+                        type="object"
+                        class="btn-primary"
+                    />
+                    <button string="Cancel" class="btn-secondary" special="cancel" />
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_price_difference_confirmation" model="ir.actions.act_window">
+        <field name="name">Price Difference Confirmation</field>
+        <field name="res_model">l10n_ro.price_difference_confirm_dialog</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+</odoo>
