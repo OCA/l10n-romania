@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record model="ir.ui.view" id="view_account_dvi_tree">
+        <field name="name">l10n.ro.account.dvi.tree</field>
+        <field name="model">l10n.ro.account.dvi</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="name" />
+                <field name="date" />
+                <field name="invoice_ids" widget="many2many_tags" />
+                <field name="total_base_tax_value" />
+                <field name="total_tax_value" />
+                <field name="state" />
+            </tree>
+        </field>
+    </record>
+    <record id="view_account_dvi_form" model="ir.ui.view">
+        <field name="name">DVI</field>
+        <field name="model">l10n.ro.account.dvi</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <button
+                        string="Post"
+                        invisible="state != 'draft'"
+                        class="oe_highlight"
+                        name="button_post"
+                        type="object"
+                    />
+                    <button
+                        string="Revert"
+                        name="button_reverse"
+                        type="object"
+                        invisible="state != 'posted'"
+                    />
+                    <field
+                        name="state"
+                        widget="statusbar"
+                        statusbar_visible="draft,posted,reverted"
+                    />
+                </header>
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <field name="landed_cost_ids" invisible="1" />
+                        <button
+                            name="action_view_landed_costs"
+                            string="Landed Costs"
+                            class="oe_stat_button"
+                            icon="fa-bars"
+                            type="object"
+                            invisible="landed_cost_ids == []"
+                        />
+                    </div>
+                    <div class="oe_title mb8" readonly="state != 'draft'">
+                        <label for="name" class="oe_edit_only" />
+                        <h1 class="o_row">
+                            <field name="name" placeholder="e.g. DVI factura .." />
+                        </h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="date" readonly="state != 'draft'" />
+                            <field name="tax_id" readonly="state != 'draft'" />
+                            <field name="currency_id" />
+                            <field name="company_id" readonly="state != 'draft'" />
+                            <field name="journal_id" readonly="state != 'draft'" />
+                            <field name="total_base_tax_value" decoration-primary="1" />
+                            <field name="total_tax_value" decoration-primary="1" />
+                            <field
+                                name="vat_price_difference"
+                                readonly="state != 'draft'"
+                            />
+                            <field
+                                name="vat_price_difference_product_id"
+                                invisible="vat_price_difference == 0.0"
+                                readonly="state != 'draft'"
+                            />
+                            <field
+                                name="vat_price_difference_move_id"
+                                invisible="vat_price_difference == 0.0"
+                            />
+                        </group>
+                        <group string="Invoices">
+                            <field
+                                name="invoice_ids"
+                                widget="many2many_tags"
+                                readonly="state != 'draft'"
+                            />
+                            <field name="invoice_base_value" decoration-primary="1" />
+                            <field name="invoice_tax_value" decoration-primary="1" />
+                        </group>
+                        <group string="Customs Duty">
+                            <field
+                                name="customs_duty_product_id"
+                                readonly="state != 'draft'"
+                            />
+                            <field
+                                name="customs_duty_value"
+                                decoration-primary="1"
+                                readonly="state != 'draft'"
+                            />
+                            <field
+                                name="customs_duty_tax_value"
+                                decoration-primary="1"
+                                readonly="state != 'draft'"
+                            />
+                        </group>
+                        <group string="Customs Commission">
+                            <field
+                                name="customs_commission_product_id"
+                                readonly="state != 'draft'"
+                            />
+                            <field
+                                name="customs_commission_value"
+                                decoration-primary="1"
+                                readonly="state != 'draft'"
+                            />
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="DVI Lines" name="dvi_lines">
+                            <field
+                                name="line_ids"
+                                widget="one2many"
+                                readonly="state != 'draft'"
+                            >
+                                <tree create="false" edit="true" editable="bottom">
+                                    <field name="dvi_id" column_invisible="1" />
+                                    <field name="company_id" column_invisible="1" />
+                                    <field name="invoice_id" />
+                                    <field name="invoice_line_id" />
+                                    <field name="name" />
+                                    <field name="product_id" />
+                                    <field name="qty" />
+                                    <field name="product_uom_id" />
+                                    <field name="price_unit" />
+                                    <field name="price_subtotal" />
+                                    <field name="line_qty" />
+                                    <field name="base_amount" />
+                                    <field name="vat_amount" />
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    <record id="action_account_dvi" model="ir.actions.act_window">
+        <field name="name">DVI</field>
+        <field name="res_model">l10n.ro.account.dvi</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <record id="menu_action_account_dvi" model="ir.ui.menu">
+        <field name="name">Romanian DVI</field>
+        <field name="action" ref="action_account_dvi" />
+        <field name="parent_id" ref="account.menu_finance_entries_actions" />
+        <field name="groups_id" eval="[(4, ref('base.group_no_one'))]" />
+        <field name="is_l10n_ro_record" eval="True" />
+        <field name="sequence" eval="45" />
+    </record>
+</odoo>

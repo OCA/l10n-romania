@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id='view_stock_landed_cost_form' model='ir.ui.view'>
+        <field name="name">stock.landed.cost.form</field>
+        <field name="model">stock.landed.cost</field>
+        <field
+            name="inherit_id"
+            ref="l10n_ro_stock_account_landed_cost.view_stock_landed_cost_form"
+        />
+        <field name="arch" type="xml">
+            <group name="l10n_ro_general" position="before">
+                <field name="is_l10n_ro_record" invisible="1" />
+            </group>
+            <group name="l10n_ro_general" position="attributes">
+                <attribute name="invisible">not is_l10n_ro_record</attribute>
+            </group>
+            <group name="l10n_ro_general" position="inside">
+                <field
+                    name="l10n_ro_account_dvi_id"
+                    invisible="l10n_ro_cost_type != 'dvi'"
+                />
+                <field
+                    name="l10n_ro_dvi_bill_ids"
+                    widget="many2many_tags"
+                    invisible="l10n_ro_cost_type != 'dvi'"
+                />
+            </group>
+            <group name="l10n_ro_general" position="after">
+                <group
+                    name="l10n_ro_dvi"
+                    invisible="l10n_ro_cost_type != 'dvi' or is_l10n_ro_record == False"
+                >
+                    <field name="l10n_ro_tax_id" readonly="state == 'done'" />
+                    <field name="l10n_ro_base_tax_value" readonly="state == 'done'" />
+                    <field name="l10n_ro_tax_value" readonly="state == 'done'" />
+                </group>
+            </group>
+        </field>
+    </record>
+</odoo>
