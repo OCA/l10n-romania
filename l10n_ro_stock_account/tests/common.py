@@ -393,7 +393,7 @@ class TestStockCommon(ValuationReconciliationTestCommon):
 
         invoice = invoice.save()
         if invoice.amount_total < 0:
-            invoice.action_switch_invoice_into_refund_credit_note()
+            invoice.action_switch_move_type()
         if quant_p1 or quant_p2 or diff_p1 or diff_p2:
             invoice = invoice.with_context(l10n_ro_approved_price_difference=True)
         if auto_post:
@@ -423,6 +423,7 @@ class TestStockCommon(ValuationReconciliationTestCommon):
         for move in return_pick.move_ids:
             if move.product_uom_qty > 0 and move.product_qty == 0:
                 move._set_quantity_done(move.product_uom_qty)
+        return_pick.move_ids.picked = True
         return_pick._action_done()
 
     def create_so(self, vals=False):
