@@ -49,8 +49,8 @@ class AccountMoveLine(models.Model):
                 val_stock_move.sudo()
                 .mapped("stock_valuation_layer_ids")
                 .filtered(
-                    lambda l: not l.stock_landed_cost_id
-                    or l.stock_landed_cost_id.l10n_ro_cost_type == "price_diff"
+                    lambda line: not line.stock_landed_cost_id
+                    or line.stock_landed_cost_id.l10n_ro_cost_type == "price_diff"
                 )
             )
             layers_qty = sum(svl.mapped("quantity"))
@@ -174,6 +174,9 @@ class AccountMoveLine(models.Model):
                 }
             )
 
-            self.sudo().company_id.l10n_ro_property_stock_price_difference_product_id = price_diff_product
+            company = self.sudo().company_id
+            company.l10n_ro_property_stock_price_difference_product_id = (
+                price_diff_product
+            )
 
         return price_diff_product
