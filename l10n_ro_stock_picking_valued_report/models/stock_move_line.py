@@ -44,12 +44,12 @@ class StockMoveLine(models.Model):
     )
 
     def _get_move_line_quantity(self):
-        return self.qty_done or self.reserved_qty
+        return self.quantity or self.reserved_qty
 
     @api.depends(
         "l10n_ro_sale_line_id",
         "l10n_ro_purchase_line_id",
-        "qty_done",
+        "quantity",
         "picking_id.state",
         "move_id",
         "move_id.stock_valuation_layer_ids",
@@ -91,7 +91,7 @@ class StockMoveLine(models.Model):
                         svls = svls.filtered(lambda s: s.quantity > 0)
                     if svls[0].stock_move_id._is_in():
                         svls_lc_not_same_invoice = svls.filtered(
-                            lambda s: (
+                            lambda s, svls=svls: (
                                 s.stock_landed_cost_id
                                 and s.stock_landed_cost_id.l10n_ro_cost_type == "normal"
                                 and s.stock_landed_cost_id.vendor_bill_id
