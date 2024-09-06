@@ -266,35 +266,37 @@ class AccountInvoiceDVI(models.Model):
             }
         return vals
 
-    @api.model
-    def create(self, vals):
-        dvi = super().create(vals)
-        if vals.get("invoice_ids"):
-            new_lines = []
-            if dvi.line_ids:
-                dvi.line_ids.unlink()
-            for invoice in dvi.invoice_ids:
-                invoice_lines = invoice.invoice_line_ids.filtered(
-                    lambda line: line.display_type not in ("line_section", "line_note")
-                    and (
-                        line.product_id.type == "product"
-                        or line.is_landed_costs_line is True
-                    )
-                )
-                for inv_line in invoice_lines:
-                    new_lines.append(
-                        (
-                            0,
-                            0,
-                            {
-                                "dvi_id": dvi.id,
-                                "invoice_id": invoice.id,
-                                "invoice_line_id": inv_line.id,
-                            },
+    @api.model_create_multi
+    def create(self, vals_list):
+        dvis = super().create(vals_list)
+        for dvi in dvis:
+            if dvi.invoice_ids:
+                new_lines = []
+                if dvi.line_ids:
+                    dvi.line_ids.unlink()
+                for invoice in dvi.invoice_ids:
+                    invoice_lines = invoice.invoice_line_ids.filtered(
+                        lambda line: line.display_type
+                        not in ("line_section", "line_note")
+                        and (
+                            line.product_id.type == "product"
+                            or line.is_landed_costs_line is True
                         )
                     )
-            dvi.line_ids = new_lines
-        return dvi
+                    for inv_line in invoice_lines:
+                        new_lines.append(
+                            (
+                                0,
+                                0,
+                                {
+                                    "dvi_id": dvi.id,
+                                    "invoice_id": invoice.id,
+                                    "invoice_line_id": inv_line.id,
+                                },
+                            )
+                        )
+                dvi.line_ids = new_lines
+        return dvis
 
     def button_post(self):
         self.ensure_one()
