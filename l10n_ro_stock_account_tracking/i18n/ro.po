@@ -77,11 +77,6 @@ msgid "L10N Ro Qty Returned"
 msgstr "Cantitate Returnată"
 
 #. module: l10n_ro_stock_account_tracking
-#: model:ir.model.fields,field_description:l10n_ro_stock_account_tracking.field_l10n_ro_stock_valuation_layer_tracking____last_update
-msgid "Last Modified on"
-msgstr "Ultima modificare la"
-
-#. module: l10n_ro_stock_account_tracking
 #: model:ir.model.fields,field_description:l10n_ro_stock_account_tracking.field_l10n_ro_stock_valuation_layer_tracking__write_uid
 msgid "Last Updated by"
 msgstr "Ultima actualizare de"
@@ -246,6 +241,9 @@ msgstr "Model expert pentru a reevalua un stoc de stoc pentru un produs"
 #~ msgid "Journal Item"
 #~ msgstr "Element jurnal"
 
+#~ msgid "Last Modified on"
+#~ msgstr "Ultima modificare la"
+
 #, python-format
 #~ msgid "Price difference"
 #~ msgstr "Diferență preț"
@@ -255,9 +253,6 @@ msgstr "Model expert pentru a reevalua un stoc de stoc pentru un produs"
 
 #~ msgid "Product Template"
 #~ msgstr "Șablon produs"
-
-#~ msgid "Transfer"
-#~ msgstr ""
 
 #~ msgid "Valued Type"
 #~ msgstr "Tip evaluare"
