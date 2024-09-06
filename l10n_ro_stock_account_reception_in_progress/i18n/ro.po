@@ -80,8 +80,8 @@ msgid ""
 "There is no invoiceable line. If a product has a control policy based on "
 "received quantity, please make sure that a quantity has been received."
 msgstr ""
-"Nu există nici o linie facturabilă. Dacă un produs are o politică de control"
-" bazată pecantitate primită, vă rugăm să vă asigurați că a fost primită o "
+"Nu există nici o linie facturabilă. Dacă un produs are o politică de control "
+"bazată pecantitate primită, vă rugăm să vă asigurați că a fost primită o "
 "cantitate."
 
 #. module: l10n_ro_stock_account_reception_in_progress
@@ -103,9 +103,6 @@ msgstr ""
 #~ msgid "Display Name"
 #~ msgstr "Nume afișat"
 
-#~ msgid "ID"
-#~ msgstr ""
-
 #~ msgid "Last Modified on"
 #~ msgstr "Ultima modificare la"
 
@@ -114,8 +111,8 @@ msgstr ""
 
 #, python-format
 #~ msgid ""
-#~ "You cannot change the quantity on invoice line linked with a purchase order "
-#~ "marked as Reception in Progress."
+#~ "You cannot change the quantity on invoice line linked with a purchase "
+#~ "order marked as Reception in Progress."
 #~ msgstr ""
-#~ "Nu puteți modifica cantitatea de pe linia de factură asociată cu o comandăde"
-#~ " achiziție marcată ca Recepție în curs."
+#~ "Nu puteți modifica cantitatea de pe linia de factură asociată cu o "
+#~ "comandăde achiziție marcată ca Recepție în curs."
