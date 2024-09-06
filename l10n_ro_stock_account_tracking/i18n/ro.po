@@ -203,9 +203,6 @@ msgstr "Valoare"
 msgid "Wizard model to reavaluate a stock inventory for a product"
 msgstr "Model expert pentru a reevalua un stoc de stoc pentru un produs"
 
-#~ msgid "Last Modified on"
-#~ msgstr "Ultima modificare la"
-
 #~ msgid "Account"
 #~ msgstr "Cont"
 
@@ -243,6 +240,9 @@ msgstr "Model expert pentru a reevalua un stoc de stoc pentru un produs"
 
 #~ msgid "Journal Item"
 #~ msgstr "Element jurnal"
+
+#~ msgid "Last Modified on"
+#~ msgstr "Ultima modificare la"
 
 #, python-format
 #~ msgid "Price difference"
