@@ -48,9 +48,9 @@ class StockValuationLayer(models.Model):
     )
 
     l10n_ro_invoice_line_id = fields.Many2one(
-        "account.move.line", string="Invoice Line"
+        "account.move.line", string="RO Invoice Line"
     )
-    l10n_ro_invoice_id = fields.Many2one("account.move", string="Invoice")
+    l10n_ro_invoice_id = fields.Many2one("account.move", string="RO Invoice")
 
     @api.model_create_multi
     def create(self, vals_list):
