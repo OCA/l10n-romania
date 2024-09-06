@@ -44,7 +44,7 @@ class StockPicking(models.Model):
     @api.depends(
         "state",
         "move_line_ids",
-        "move_line_ids.qty_done",
+        "move_line_ids.quantity",
         "move_line_ids.l10n_ro_price_subtotal",
         "move_line_ids.l10n_ro_price_total",
     )
