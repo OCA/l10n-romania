@@ -38,11 +38,7 @@ class TestPurchaseStockPickingValued(TestStockPickingValued):
         self.purchase_order.button_confirm()
         self.assertTrue(len(self.purchase_order.picking_ids))
         for picking in self.purchase_order.picking_ids:
-            action = picking.button_validate()
-            wizard = Form(
-                self.env[action["res_model"]].with_context(**action["context"])
-            ).save()
-            wizard.process()
+            picking.button_validate()
             self.assertEqual(picking.l10n_ro_amount_untaxed, 100.0)
             self.assertEqual(picking.l10n_ro_amount_tax, 19.0)
             self.assertEqual(picking.l10n_ro_amount_total, 119.0)
@@ -55,7 +51,7 @@ class TestPurchaseStockPickingValued(TestStockPickingValued):
         self.assertTrue(len(self.purchase_order2.picking_ids))
         for picking in self.purchase_order2.picking_ids:
             picking.action_assign()
-            picking.move_ids.quantity_done = 3.0
+            picking.move_ids.quantity = 3.0
             picking.button_validate()
             picking._action_done()
             self.assertEqual(picking.l10n_ro_amount_untaxed, 600.0)
@@ -67,7 +63,7 @@ class TestPurchaseStockPickingValued(TestStockPickingValued):
         self.assertTrue(len(self.purchase_order.picking_ids))
         for picking in self.purchase_order.picking_ids:
             picking.action_assign()
-            picking.move_ids.quantity_done = 2.0
+            picking.move_ids.quantity = 2.0
             picking.button_validate()
             picking._action_done()
             self.assertEqual(picking.l10n_ro_amount_untaxed, 200.0)
@@ -81,7 +77,7 @@ class TestPurchaseStockPickingValued(TestStockPickingValued):
         self.assertTrue(len(self.purchase_order.picking_ids))
         for picking in self.purchase_order.picking_ids:
             picking.action_assign()
-            picking.move_ids.quantity_done = 2.0
+            picking.move_ids.quantity = 2.0
             picking.button_validate()
             picking._action_done()
             self.assertEqual(picking.l10n_ro_amount_untaxed, 900.0)
@@ -92,7 +88,7 @@ class TestPurchaseStockPickingValued(TestStockPickingValued):
         agg_lines = move_line._get_aggregated_product_quantities()
         self.assertEqual(len(agg_lines.keys()), 1)
         line_key = self._get_agg_lines_key(move_line)
-        self.assertEqual(agg_lines[line_key]["l10n_ro_price_unit"], 450.0)
+        self.assertEqual(agg_lines[line_key]["l10n_ro_price_unit"], 900.0)
         self.assertEqual(agg_lines[line_key]["l10n_ro_additional_charges"], 0.0)
         self.assertEqual(agg_lines[line_key]["l10n_ro_price_subtotal"], 900.0)
         self.assertEqual(agg_lines[line_key]["l10n_ro_price_tax"], 171.0)
@@ -111,7 +107,7 @@ class TestPurchaseStockPickingValued(TestStockPickingValued):
         # proceseaza picking
         picking = self.purchase_order.picking_ids
         picking.action_assign()
-        picking.move_ids.quantity_done = 1.0
+        picking.move_ids.quantity = 1.0
         picking.button_validate()
         picking._action_done()
 

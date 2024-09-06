@@ -11,10 +11,8 @@ from odoo.addons.l10n_ro_stock_account_landed_cost.tests.common import TestStock
 class TestStockPickingValued(TestStockCommon):
     @classmethod
     def setUpClass(cls, chart_template_ref=None):
-        ro_template_ref = "l10n_ro.ro_chart_template"
-        super(TestStockPickingValued, cls).setUpClass(
-            chart_template_ref=ro_template_ref
-        )
+        ro_template_ref = "ro"
+        super().setUpClass(chart_template_ref=ro_template_ref)
 
         cls.env.company.anglo_saxon_accounting = True
         cls.env.company.l10n_ro_accounting = True
