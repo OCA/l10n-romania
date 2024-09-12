@@ -169,7 +169,7 @@ class StockLandedCost(models.Model):
     def reconcile_landed_cost(self):
         # Overwrite method to avoid reconciliation for Romania
         ro_landed_cost = self.filtered(lambda c: c.company_id.l10n_ro_accounting)
-        res = super(StockLandedCost, self-ro_landed_cost).reconcile_landed_cost()
+        res = super(StockLandedCost, self - ro_landed_cost).reconcile_landed_cost()
         return res
 
 
