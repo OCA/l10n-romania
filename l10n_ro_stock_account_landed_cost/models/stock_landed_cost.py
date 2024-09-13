@@ -166,6 +166,12 @@ class StockLandedCost(models.Model):
             cost.write(cost_vals)
         return True
 
+    def reconcile_landed_cost(self):
+        # Overwrite method to avoid reconciliation for Romania
+        ro_landed_cost = self.filtered(lambda c: c.company_id.l10n_ro_accounting)
+        res = super(StockLandedCost, self - ro_landed_cost).reconcile_landed_cost()
+        return res
+
 
 class AdjustmentLines(models.Model):
     _name = "stock.valuation.adjustment.lines"
