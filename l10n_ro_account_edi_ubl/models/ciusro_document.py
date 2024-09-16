@@ -3,6 +3,7 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
 import io
+import requests
 import zipfile
 
 from lxml import etree
@@ -33,11 +34,11 @@ class L10nRoEdiDocument(models.Model):
         :return: {'error': <str>} | {'attachment_raw': <str>, 'key_signature': <str>, 'key_certificate': <str>}
         """
         result = make_efactura_request(
-            session=session,
+            session=requests,
             company=company,
             endpoint="descarcare",
             method="GET",
-            params={"id": key_download},
+            params={"id": key_download, 'cif': company.vat.replace('RO', '')},
         )
         if "error" in result:
             return result

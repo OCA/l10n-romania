@@ -227,9 +227,12 @@ class AccountMove(models.Model):
                 key_download=invoice.l10n_ro_edi_download,
                 session=requests,
             )
+            active_sending_document = invoice.l10n_ro_edi_document_ids.filtered(lambda d: d.state == 'invoice_sending')[0]
+            previous_raw = active_sending_document.attachment_id.sudo().raw
             if "error" in result:
+                
                 invoice._l10n_ro_edi_create_document_invoice_sending_failed(
-                    final_result["error"], previous_raw
+                    result["error"], previous_raw
                 )
             else:
                 attachment_zip = (
