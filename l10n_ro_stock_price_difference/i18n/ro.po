@@ -151,7 +151,8 @@ msgstr "Costuri Adiționale Stoc"
 #. module: l10n_ro_stock_price_difference
 #: model_terms:ir.ui.view,arch_db:l10n_ro_stock_price_difference.view_price_difference_confirmation_form
 msgid "There are price differences between reception pickings and this bill !"
-msgstr "Există diferențe de preț între ridicarea recepției și această factură!"
+msgstr ""
+"Există diferențe de preț între ridicarea recepției și această factură!"
 
 #. module: l10n_ro_stock_price_difference
 #: model:ir.model,name:l10n_ro_stock_price_difference.model_l10n_ro_price_difference_confirm_dialog
