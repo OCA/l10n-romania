@@ -35,7 +35,7 @@ class AccountMove(models.Model):
             )
             for line in landed_cost.cost_lines:
                 invoice_line = self.line_ids.filtered(
-                    lambda lin, line: lin.product_id == line.product_id
+                    lambda lin, line=line: lin.product_id == line.product_id
                 )
                 if invoice_line:
                     line.account_id = invoice_line[0].account_id
