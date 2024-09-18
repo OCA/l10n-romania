@@ -243,7 +243,7 @@ class CiusRoTestSetup(TestUBLCommon, CronMixinCase):
         if error:
             self.assertTrue(invoice.l10n_ro_edi_document_ids.message)
             self.assertIn(error, invoice.l10n_ro_edi_document_ids.message)
-        if not check_activity and blocking_level == "error":
+        if not check_activity and invoice.l10n_ro_edi_document_ids.blocking_level == "error":
             check_activity = True
         if check_activity:
             domain = [("res_id", "=", invoice.id), ("res_model", "=", "account.move")]

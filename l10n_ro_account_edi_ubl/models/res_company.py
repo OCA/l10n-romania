@@ -134,7 +134,6 @@ class ResCompany(models.Model):
             and c.l10n_ro_edi_access_token
             and c.l10n_ro_download_einvoices
         )
-
         for company in ro_companies:
             move_obj = self.env["account.move"].with_company(company)
             company_messages = company._l10n_ro_get_anaf_efactura_messages(filtru="P")

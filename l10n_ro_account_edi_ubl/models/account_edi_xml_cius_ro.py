@@ -118,6 +118,7 @@ class AccountEdiXmlCIUSRO(models.AbstractModel):
                     "accounting_supplier_party_vals": customer_vals,
                 }
             )
+        return vals_list
 
     def _get_invoice_payment_means_vals_list(self, invoice):
         res = super()._get_invoice_payment_means_vals_list(invoice)
@@ -140,6 +141,7 @@ class AccountEdiXmlCIUSRO(models.AbstractModel):
                 # Acest TVA nu generaza inregistrari contabile,
                 # deci putem lua orice primul tva pe cota 0
                 # filtrat dupa companie si tip jurnal.
+                journal = invoice_line.move_id.journal_id
                 tax = self.env["account.tax"].search(
                     [
                         ("amount", "=", "0"),

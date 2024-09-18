@@ -81,6 +81,7 @@ class TestCiusRoAutoWorkflow(CiusRoTestSetup):
         self.invoice.action_post()
 
         # procesare step 1 - eroare
+        import ipdb; ipdb.set_trace()
         self.invoice.action_process_edi_web_services()
         self.check_invoice_documents(
             self.invoice,

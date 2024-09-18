@@ -149,7 +149,7 @@ class AccountMove(models.Model):
     @api.model
     def l10n_ro_edi_post_message(self, invoice, message, res):
         body = message
-        if res.get("error"):
+        if 'error' in res.message:
             body += _("\n\nError:\n<p>%s</p>") % res["error"]
         users = (
             invoice.company_id.l10n_ro_edi_error_notify_users or invoice.invoice_user_id
@@ -198,19 +198,13 @@ class AccountMove(models.Model):
 
         session = requests.Session()
         invoices_to_fetch = self.filtered(
-            lambda inv: inv.l10n_ro_edi_state == "invoice_sending"
-            or (
-                inv.l10n_ro_edi_state == "invoice_sent" and not inv.l10n_ro_edi_download
-            )
+            lambda inv: inv.l10n_ro_edi_state == "invoice_sent" and not inv.l10n_ro_edi_download
         )
 
         for invoice in invoices_to_fetch:
-            active_sending_document = invoice.l10n_ro_edi_document_ids.filtered(
-                lambda d: d.key_loading
-            )[0]
             result = self.env["l10n_ro_edi.document"]._request_ciusro_fetch_status(
                 company=invoice.company_id,
-                key_loading=active_sending_document.key_loading,
+                key_loading=invoice.l10n_ro_edi_transaction,
                 session=session,
             )
             if result.get("key_download"):
@@ -227,33 +221,34 @@ class AccountMove(models.Model):
                 key_download=invoice.l10n_ro_edi_download,
                 session=requests,
             )
-            active_sending_document = invoice.l10n_ro_edi_document_ids.filtered(lambda d: d.state == 'invoice_sending')[0]
-            previous_raw = active_sending_document.attachment_id.sudo().raw
-            if "error" in result:
-                
-                invoice._l10n_ro_edi_create_document_invoice_sending_failed(
-                    result["error"], previous_raw
-                )
-            else:
-                attachment_zip = (
-                    self.env["ir.attachment"]
-                    .sudo()
-                    .create(
-                        self._l10n_ro_edi_create_attachment_values(
-                            result["attachment_zip"]
-                        )
+            active_sending_document = invoice.l10n_ro_edi_document_ids.filtered(lambda d: d.state == 'invoice_sending')
+            if active_sending_document:
+                active_sending_document = active_sending_document[0]
+                previous_raw = active_sending_document.attachment_id.sudo().raw
+                if "error" in result:
+                    
+                    invoice._l10n_ro_edi_create_document_invoice_sending_failed(
+                        result["error"], previous_raw
+                    )
+            attachment_zip = (
+                self.env["ir.attachment"]
+                .sudo()
+                .create(
+                    self._l10n_ro_edi_create_attachment_values(
+                        result["attachment_zip"]
                     )
                 )
-                attachment = (
-                    self.env["ir.attachment"]
-                    .sudo()
-                    .create(
-                        self._l10n_ro_edi_create_attachment_values(
-                            result["attachment_raw"]
-                        )
+            )
+            attachment = (
+                self.env["ir.attachment"]
+                .sudo()
+                .create(
+                    self._l10n_ro_edi_create_attachment_values(
+                        result["attachment_raw"]
                     )
                 )
-                invoice._extend_with_attachments(attachment)
+            )
+            invoice._extend_with_attachments(attachment)
 
     @api.model
     def _get_ubl_cii_builder_from_xml_tree(self, tree):

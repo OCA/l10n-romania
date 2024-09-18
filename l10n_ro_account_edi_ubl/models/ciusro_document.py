@@ -38,7 +38,7 @@ class L10nRoEdiDocument(models.Model):
             company=company,
             endpoint="descarcare",
             method="GET",
-            params={"id": key_download, 'cif': company.vat.replace('RO', '')},
+            params={"id": key_download},
         )
         if "error" in result:
             return result
