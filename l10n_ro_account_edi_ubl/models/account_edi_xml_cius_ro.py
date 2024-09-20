@@ -33,7 +33,7 @@ class AccountEdiXmlCIUSRO(models.AbstractModel):
             invoice.move_type in ["out_refund", "in_refund"]
             and invoice.company_id.l10n_ro_credit_note_einvoice
         ):
-            vals_list.update({"tax_amount": -1 * taxes_vals["tax_amount_currency"]})
+            vals_list[0].update({"tax_amount": -1 * taxes_vals["tax_amount_currency"]})
             for vals in taxes_vals["tax_details"].values():
                 vals["taxable_amount"] = -1 * vals["base_amount_currency"]
                 vals["tax_amount"] = -1 * vals["tax_amount_currency"]

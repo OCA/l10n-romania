@@ -39,6 +39,7 @@ class CiusRoTestSetup(TestUBLCommon, CronMixinCase):
                 "zip": "300011",
                 "phone": "0356179038",
                 "invoice_is_ubl_cii": True,
+                "email": "admin@admin.com",
             }
         )
         if "street_name" in cls.env.company._fields:
@@ -167,6 +168,8 @@ class CiusRoTestSetup(TestUBLCommon, CronMixinCase):
         # Set up test file
         test_file = file_path("l10n_ro_account_edi_ubl/tests/invoice.zip")
         cls.invoice_zip = open(test_file, mode="rb").read()
+        invoice_xml_file = file_path("l10n_ro_account_edi_ubl/tests/invoice.xml")
+        cls.invoice_xml = open(invoice_xml_file, mode="rb").read()
 
         # Set up ANAF configuration
         cls.env.company.write(
@@ -178,7 +181,7 @@ class CiusRoTestSetup(TestUBLCommon, CronMixinCase):
                 "l10n_ro_edi_access_expiry_date": date.today() + timedelta(days=10),
             }
         )
-
+        
         # Create account.journal record
         cls.journal_CIUS = cls.env["account.journal"].create(
             {

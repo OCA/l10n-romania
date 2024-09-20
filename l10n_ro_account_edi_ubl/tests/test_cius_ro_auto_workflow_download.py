@@ -28,9 +28,13 @@ class TestCiusRoAutoWorkflowDownload(CiusRoTestSetup):
         return response
 
     def test_download_invoice(self):
-        data = self.invoice_zip
+        data = {'attachment_zip':self.invoice_zip, 'attachment_raw':self.invoice_xml}
         self.invoice.invoice_line_ids = False
         self.invoice.l10n_ro_edi_download = "1234"
+        with patch.object(
+                requests, "get", self._mocked_successful_empty_get_response
+            ):
+            self.invoice.with_context(test_data=data).l10n_ro_download_zip_anaf()
         with self.assertRaises(UserError):
             with patch.object(
                 requests, "get", self._mocked_successful_empty_get_response
@@ -101,8 +105,7 @@ class TestCiusRoAutoWorkflowDownload(CiusRoTestSetup):
                 "country_id": self.env.ref("base.ro").id,
             }
         )
-        anaf_messages = [
-            {
+        anaf_messages = [{
                 "data_creare": "202312120940",
                 "cif": "34581625",
                 "id_solicitare": "5004879752",
@@ -111,8 +114,7 @@ class TestCiusRoAutoWorkflowDownload(CiusRoTestSetup):
                 "cif_beneficiar=34581625",
                 "tip": "FACTURA PRIMITA",
                 "id": "3006850898",
-            }
-        ]
+            }]
 
         signed_zip_file = open(
             file_path("l10n_ro_account_edi_ubl/tests/5004879752.zip"), mode="rb"

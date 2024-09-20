@@ -15,7 +15,7 @@
         "views/account_invoice.xml",
     ],
     "license": "AGPL-3",
-    "version": "17.0.1.0.0",
+    "version": "17.0.1.0.1",
     "author": "Terrabit," "NextERP Romania," "Odoo Community Association (OCA)",
     "website": "https://github.com/OCA/l10n-romania",
     "installable": True,

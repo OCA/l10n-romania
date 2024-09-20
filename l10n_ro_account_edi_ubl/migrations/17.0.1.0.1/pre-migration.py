@@ -9,6 +9,12 @@ def migrate(cr, version):
 
     env = api.Environment(cr, SUPERUSER_ID, {})
 
+    send_action = env.ref("l10n_ro_account_edi_ubl.model_account_send_toe_invoice")
+    if send_action:
+        send_action.code = """
+            records.with_context(l10n_ro_edi_manual_action=True).button_process_edi_web_services()
+        """  # noqa
+
     anaf_sync = env["l10n.ro.account.anaf.sync"].search([])
     for sync in anaf_sync:
         env["l10n.ro.account.anaf.sync.scope"].create(

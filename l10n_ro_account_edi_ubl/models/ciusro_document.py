@@ -33,6 +33,8 @@ class L10nRoEdiDocument(models.Model):
         :param session: ``requests.Session()`` object
         :return: {'error': <str>} | {'attachment_raw': <str>, 'key_signature': <str>, 'key_certificate': <str>}
         """
+        if self.env.context.get("test_data"):
+            return self.env.context["test_data"]
         result = make_efactura_request(
             session=requests,
             company=company,

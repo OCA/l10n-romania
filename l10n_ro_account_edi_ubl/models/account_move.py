@@ -7,7 +7,7 @@ import logging
 import requests
 
 from odoo import _, api, fields, models
-from odoo.exceptions import ValidationError
+from odoo.exceptions import ValidationError, UserError
 
 _logger = logging.getLogger(__name__)
 
@@ -215,7 +215,6 @@ class AccountMove(models.Model):
         for invoice in self:
             if not invoice.l10n_ro_edi_download:
                 continue
-            params = {"id": invoice.l10n_ro_edi_download}
             result = self.env["l10n_ro_edi.document"]._request_ciusro_download_zipfile(
                 company=invoice.company_id,
                 key_download=invoice.l10n_ro_edi_download,
@@ -248,6 +247,13 @@ class AccountMove(models.Model):
                     )
                 )
             )
+            if invoice.invoice_line_ids:
+               raise UserError(
+                    _(
+                        "The invoice already have invoice lines, "
+                        "you cannot update them again from the XMl downloaded file."
+                    )
+                )
             invoice._extend_with_attachments(attachment)
 
     @api.model
@@ -268,6 +274,6 @@ class AccountMove(models.Model):
         res = super()._generate_pdf_and_send_invoice(
             template, force_synchronous, allow_fallback_pdf, bypass_download, **kwargs
         )
-        if self.env.content.get("test_data"):
-            return self.env.content["test_data"]
+        if self.env.context.get("test_data"):
+            return self.env.context["test_data"]
         return res
