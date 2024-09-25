@@ -181,7 +181,7 @@ class CiusRoTestSetup(TestUBLCommon, CronMixinCase):
                 "l10n_ro_edi_access_expiry_date": date.today() + timedelta(days=10),
             }
         )
-        
+
         # Create account.journal record
         cls.journal_CIUS = cls.env["account.journal"].create(
             {
@@ -235,18 +235,27 @@ class CiusRoTestSetup(TestUBLCommon, CronMixinCase):
         error=False,
         check_activity=False,
         user_id=False,
+        has_edi_document=True,
     ):
         sleep_time = 0
         while not invoice.l10n_ro_edi_state and sleep_time < 30:
             time.sleep(1)
             sleep_time += 1
-        self.assertEqual(len(invoice.l10n_ro_edi_document_ids), 1)
-        self.assertEqual(invoice.l10n_ro_edi_state, state)
-        self.assertEqual(invoice.l10n_ro_edi_document_ids.state, state)
-        if error:
-            self.assertTrue(invoice.l10n_ro_edi_document_ids.message)
-            self.assertIn(error, invoice.l10n_ro_edi_document_ids.message)
-        if not check_activity and invoice.l10n_ro_edi_document_ids.blocking_level == "error":
+        if has_edi_document:
+            self.assertEqual(invoice.l10n_ro_edi_state, state)
+            self.assertTrue(invoice.l10n_ro_edi_document_ids)
+            self.assertEqual(len(invoice.l10n_ro_edi_document_ids), 1)
+            self.assertTrue(invoice.l10n_ro_edi_document_ids.attachment_id)
+            self.assertEqual(invoice.l10n_ro_edi_document_ids.state, state)
+            if error:
+                self.assertTrue(invoice.l10n_ro_edi_document_ids.message)
+                self.assertIn(error, invoice.l10n_ro_edi_document_ids.message)
+        else:
+            self.assertFalse(invoice.l10n_ro_edi_state)
+        if (
+            not check_activity
+            and invoice.l10n_ro_edi_document_ids.blocking_level == "error"
+        ):
             check_activity = True
         if check_activity:
             domain = [("res_id", "=", invoice.id), ("res_model", "=", "account.move")]

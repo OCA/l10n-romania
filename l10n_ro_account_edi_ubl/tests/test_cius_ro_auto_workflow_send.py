@@ -2,9 +2,9 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
 from unittest.mock import Mock, patch
-import requests
 
 import freezegun
+import requests
 
 from odoo.tests import tagged
 
@@ -23,19 +23,21 @@ class TestCiusRoAutoWorkflow(CiusRoTestSetup):
         response.status_code = 200
         response.content = ""
         return response
-    
+
     # Helper method to prepare an invoice and simulate the step 1 of the CIUS workflow.
     def prepare_invoice_sent_step1(self):
         self.invoice.action_post()
 
         # procesare step 1 - succes
         with patch.object(
-                requests, "post", self._mocked_successful_empty_post_response
-            ):
+            requests, "post", self._mocked_successful_empty_post_response
+        ):
             self.invoice.with_context(
                 test_data=self.get_file("upload_success.xml"),
-                force_report_rendering=True
-            )._generate_pdf_and_send_invoice(self.move_template, allow_fallback_pdf=False)
+                force_report_rendering=True,
+            )._generate_pdf_and_send_invoice(
+                self.move_template, allow_fallback_pdf=False
+            )
             self.check_invoice_documents(
                 self.invoice,
                 "invoice_sending",
@@ -78,28 +80,35 @@ class TestCiusRoAutoWorkflow(CiusRoTestSetup):
         self.invoice.action_post()
 
         # procesare step 1 - eroare
-        self.invoice.with_context(
-            test_data=self.get_file("upload_standard_invalid.xml")
-        ).action_process_edi_web_services()
-        self.check_invoice_documents(
-            self.invoice,
-            "invoice_sending",
-            "<p>Valorile acceptate pentru parametrul standard sunt UBL, CII sau RASP</p>",
-        )
+        with patch.object(
+            requests, "post", self._mocked_successful_empty_post_response
+        ):
+            self.invoice.with_context(
+                test_data=self.get_file("upload_standard_invalid.xml"),
+                force_report_rendering=True,
+            )._generate_pdf_and_send_invoice(
+                self.move_template, allow_fallback_pdf=False
+            )
+            self.check_invoice_documents(
+                self.invoice,
+                "invoice_sending",
+                "<p>Valorile acceptate pentru parametrul standard sunt UBL, CII sau RASP</p>",
+            )
 
     # Test case for the constraint handling in step 1 of the CIUS workflow.
     def test_process_documents_web_services_step1_constraint(self):
         self.invoice.partner_id.state_id = False
         self.invoice.action_post()
-        self.invoice.with_context(force_report_rendering=True)._generate_pdf_and_send_invoice(self.move_template, allow_fallback_pdf=False)
-        
+        self.invoice.with_context(
+            force_report_rendering=True
+        )._generate_pdf_and_send_invoice(self.move_template, allow_fallback_pdf=False)
+
         # procesare step 1 - eroare
-        self.invoice.action_process_edi_web_services()
-        
         self.check_invoice_documents(
             self.invoice,
             "invoice_sending",
             "<p>{\"The field 'State' is required on SCOALA GIMNAZIALA COMUNA FOENI.\"}</p>",
+            has_edi_document=False,
         )
 
     # Test case for the successful processing of documents in step 2 of the CIUS workflow.

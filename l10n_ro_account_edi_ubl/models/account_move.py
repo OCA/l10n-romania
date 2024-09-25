@@ -7,7 +7,7 @@ import logging
 import requests
 
 from odoo import _, api, fields, models
-from odoo.exceptions import ValidationError, UserError
+from odoo.exceptions import UserError, ValidationError
 
 _logger = logging.getLogger(__name__)
 
@@ -149,7 +149,7 @@ class AccountMove(models.Model):
     @api.model
     def l10n_ro_edi_post_message(self, invoice, message, res):
         body = message
-        if 'error' in res.message:
+        if "error" in res.message:
             body += _("\n\nError:\n<p>%s</p>") % res["error"]
         users = (
             invoice.company_id.l10n_ro_edi_error_notify_users or invoice.invoice_user_id
@@ -198,7 +198,8 @@ class AccountMove(models.Model):
 
         session = requests.Session()
         invoices_to_fetch = self.filtered(
-            lambda inv: inv.l10n_ro_edi_state == "invoice_sent" and not inv.l10n_ro_edi_download
+            lambda inv: inv.l10n_ro_edi_state == "invoice_sent"
+            and not inv.l10n_ro_edi_download
         )
 
         for invoice in invoices_to_fetch:
@@ -220,12 +221,13 @@ class AccountMove(models.Model):
                 key_download=invoice.l10n_ro_edi_download,
                 session=requests,
             )
-            active_sending_document = invoice.l10n_ro_edi_document_ids.filtered(lambda d: d.state == 'invoice_sending')
+            active_sending_document = invoice.l10n_ro_edi_document_ids.filtered(
+                lambda d: d.state == "invoice_sending"
+            )
             if active_sending_document:
                 active_sending_document = active_sending_document[0]
                 previous_raw = active_sending_document.attachment_id.sudo().raw
                 if "error" in result:
-                    
                     invoice._l10n_ro_edi_create_document_invoice_sending_failed(
                         result["error"], previous_raw
                     )
@@ -233,22 +235,18 @@ class AccountMove(models.Model):
                 self.env["ir.attachment"]
                 .sudo()
                 .create(
-                    self._l10n_ro_edi_create_attachment_values(
-                        result["attachment_zip"]
-                    )
+                    self._l10n_ro_edi_create_attachment_values(result["attachment_zip"])
                 )
             )
             attachment = (
                 self.env["ir.attachment"]
                 .sudo()
                 .create(
-                    self._l10n_ro_edi_create_attachment_values(
-                        result["attachment_raw"]
-                    )
+                    self._l10n_ro_edi_create_attachment_values(result["attachment_raw"])
                 )
             )
             if invoice.invoice_line_ids:
-               raise UserError(
+                raise UserError(
                     _(
                         "The invoice already have invoice lines, "
                         "you cannot update them again from the XMl downloaded file."
@@ -271,9 +269,9 @@ class AccountMove(models.Model):
         bypass_download=False,
         **kwargs,
     ):
+        if self.env.context.get("test_data"):
+            return self.env.context["test_data"]
         res = super()._generate_pdf_and_send_invoice(
             template, force_synchronous, allow_fallback_pdf, bypass_download, **kwargs
         )
-        if self.env.context.get("test_data"):
-            return self.env.context["test_data"]
         return res
