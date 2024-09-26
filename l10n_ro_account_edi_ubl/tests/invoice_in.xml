@@ -10,7 +10,7 @@
     <cbc:ID>FBRAO2094</cbc:ID>
     <cbc:IssueDate>2022-09-01</cbc:IssueDate>
     <cbc:DueDate>2022-09-01</cbc:DueDate>
-    <cbc:InvoiceTypeCode>380</cbc:InvoiceTypeCode>
+    <cbc:InvoiceTypeCode>389</cbc:InvoiceTypeCode>
     <cbc:DocumentCurrencyCode>RON</cbc:DocumentCurrencyCode>
     <cbc:BuyerReference>NEXTERP ROMANIA SRL</cbc:BuyerReference>
     <cac:OrderReference>

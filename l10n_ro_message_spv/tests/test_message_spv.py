@@ -43,13 +43,17 @@ class TestMessageSPV(TestMessageSPV):
 
     def test_download_from_spv(self):
         # test descarcare zip from SPV
-        message_spv = self.env["l10n.ro.message.spv"].create(
-            {
-                "name": "3006372781",
-                "company_id": self.env.company.id,
-                "message_type": "in_invoice",
-                "cif": "8486152",
-            }
+        message_spv = (
+            self.env["l10n.ro.message.spv"]
+            .sudo()
+            .create(
+                {
+                    "name": "3006372781",
+                    "company_id": self.env.company.id,
+                    "message_type": "in_invoice",
+                    "cif": "8486152",
+                }
+            )
         )
 
         test_file = get_module_resource(
@@ -61,6 +65,6 @@ class TestMessageSPV(TestMessageSPV):
             "AccountANAFSyncScope._l10n_ro_einvoice_call",
             return_value=(anaf_messages, 200),
         ):
-            message_spv.download_from_spv()
-            message_spv.get_invoice_from_move()
-            message_spv.create_invoice()
+            message_spv.sudo().download_from_spv()
+            message_spv.sudo().get_invoice_from_move()
+            message_spv.sudo().create_invoice()
