@@ -3,11 +3,13 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
 import logging
-import time
 
 import requests
+from requests.adapters import HTTPAdapter
+from urllib3.util import Retry
 
 from odoo import api, fields, models
+from odoo.tools.safe_eval import safe_eval
 
 _logger = logging.getLogger(__name__)
 
@@ -37,8 +39,16 @@ class ResPartner(models.Model):
             anaf_dict.append(partner.l10n_ro_vat_number)
         chunk = []
         chunks = []
-        # Process 500 vat numbers once
-        max_no = 499
+        # Process 100 vat numbers once, this is maximum allowed by ANAF
+        get_param = self.env["ir.config_parameter"].sudo().get_param
+        l10n_ro_fiscal_validation_limit = get_param(
+            "l10n_ro_fiscal_validation_limit", "100"
+        )
+        max_no = safe_eval(l10n_ro_fiscal_validation_limit)
+        l10n_ro_fiscal_validation_timeout = get_param(
+            "l10n_ro_fiscal_validation_timeout", "30"
+        )
+        max_timeout = safe_eval(l10n_ro_fiscal_validation_timeout)
         for position in range(0, len(anaf_dict), max_no):
             chunk = anaf_dict[position : position + max_no]
             chunks.append(chunk)
@@ -49,7 +59,7 @@ class ResPartner(models.Model):
                     anaf_ask.append({"cui": int(item), "data": check_date})
             try:
                 res = requests.post(
-                    ANAF_BULK_URL, json=anaf_ask, headers=headers, timeout=30
+                    ANAF_BULK_URL, json=anaf_ask, headers=headers, timeout=max_timeout
                 )
                 if res.status_code == 200:
                     result = {}
@@ -58,11 +68,18 @@ class ResPartner(models.Model):
                     except Exception:
                         _logger.warning("ANAF sync not working: %s" % res.content)
                     if result.get("correlationId"):
-                        time.sleep(3)
                         resp = False
                         try:
-                            resp = requests.get(
-                                ANAF_CORR % result["correlationId"], timeout=30
+                            retry = Retry(
+                                total=5,
+                                backoff_factor=2,
+                                status_forcelist=[403, 429, 500, 502, 503, 504],
+                            )
+                            adapter = HTTPAdapter(max_retries=retry)
+                            session = requests.Session()
+                            session.mount("https://", adapter)
+                            resp = session.get(
+                                ANAF_CORR % result["correlationId"], timeout=max_timeout
                             )
                         except Exception as e:
                             _logger.warning("ANAF sync not working: %s" % e)
