@@ -27,7 +27,9 @@
             </t>
         </xpath>
         <!-- suprasciere sa nu mai puna credit note line -->
-        <xpath expr="//*[local-name()='CreditNoteLine']" position="replace" />
+        <xpath expr="//*[local-name()='CreditNoteLine']" position="attributes">
+            <attribute name="t-if">False</attribute>
+        </xpath>
 
 
         <xpath expr="//*[local-name()='IssueDate']" position="after">
@@ -71,6 +73,8 @@
                 t-out="vals.get('invoiced_quantity')"
             />
         </xpath>
-        <xpath expr="//*[local-name()='CreditedQuantity']" position="replace" />
+        <xpath expr="//*[local-name()='CreditedQuantity']" position="attributes">
+            <attribute name="t-if">False</attribute>
+        </xpath>
     </template>
 </odoo>

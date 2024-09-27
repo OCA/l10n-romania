@@ -28,20 +28,20 @@ class ETransportHistory(models.Model):
     # nr_rem2	string
 
     name = fields.Char("UIT")
-    cod_decl = fields.Char("Cod Decl")
+    cod_decl = fields.Char()
     ref_decl = fields.Char("Reference")
-    sursa = fields.Char("Sursa")
-    id_incarcare = fields.Char("ID Incarcare")
+    sursa = fields.Char()
+    id_incarcare = fields.Char()
 
     date = fields.Date("Data Creare")
-    vehicle = fields.Char(string="Vehicle")
-    trailer1 = fields.Char(string="Trailer1")
-    trailer2 = fields.Char(string="Trailer2")
+    vehicle = fields.Char()
+    trailer1 = fields.Char()
+    trailer2 = fields.Char()
 
     transport_date = fields.Date("Data Transp")
-    pc_den = fields.Char("Pc Den")
+    pc_den = fields.Char()
     tr_den = fields.Char("Carrier Name")
-    errors = fields.Text("Errors")
+    errors = fields.Text()
     operation_type_id = fields.Many2one("l10n.ro.e.transport.operation")
     country_tr_id = fields.Many2one("res.country", string="Country TR")
     country_pc_id = fields.Many2one("res.country", string="Country PC")
