@@ -209,12 +209,22 @@ class AccountEdiXmlCIUSRO(models.Model):
                 "accounting_supplier_party_vals"
             ]
             vals_list["vals"]["accounting_supplier_party_vals"] = customer_vals
-        if invoice.move_type in ("out_invoice", "in_invoice"):
-            vals_list["main_template"] = "account_edi_ubl_cii.ubl_20_Invoice"
-            vals_list["vals"]["invoice_type_code"] = 380
-        else:
-            vals_list["main_template"] = "account_edi_ubl_cii.ubl_20_CreditNote"
-            vals_list["vals"]["credit_note_type_code"] = 381
+
+        vals_list["main_template"] = "account_edi_ubl_cii.ubl_20_Invoice"
+        vals_list["vals"]["invoice_type_code"] = 380
+        if vals_list["vals"].get("credit_note_type_code"):
+            vals_list["vals"].pop("credit_note_type_code")
+        if (
+            invoice.move_type in ("in_invoice", "in_refund")
+            and invoice.journal_id.l10n_ro_sequence_type == "autoinv2"
+        ):
+            vals_list["vals"]["invoice_type_code"] = 389
+        point_of_sale = self.env["ir.module.module"].search(
+            [("name", "=", "point_of_sale"), ("state", "=", "installed")], limit=1
+        )
+        if point_of_sale:
+            if invoice.pos_order_ids:
+                vals_list["vals"]["invoice_type_code"] = 751
         return vals_list
 
     def _export_invoice_constraints(self, invoice, vals):
