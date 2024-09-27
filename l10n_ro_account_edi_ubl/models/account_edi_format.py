@@ -231,7 +231,7 @@ class AccountEdiXmlCIUSRO(models.Model):
     def _l10n_ro_post_invoice_step_1(self, invoice, attachment):
         anaf_config = invoice.company_id._l10n_ro_get_anaf_sync(scope="e-factura")
         params = {
-            "standard": "UBL" if invoice.move_type == "out_invoice" else "CN",
+            "standard": "UBL",
             "cif": invoice.company_id.partner_id.vat.replace("RO", ""),
         }
         res = self._l10n_ro_anaf_call("/upload", anaf_config, params, attachment.raw)
