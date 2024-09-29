@@ -237,6 +237,7 @@ class MessageSPV(models.Model):
         return info_msg
 
     def get_invoice_from_move(self):
+        self.get_partner()
         messages_without_invoice = self.filtered(lambda m: not m.invoice_id)
         message_ids = messages_without_invoice.mapped("name")
         request_ids = messages_without_invoice.mapped("request_id")
@@ -301,6 +302,7 @@ class MessageSPV(models.Model):
         self.get_data_from_invoice()
 
     def get_data_from_invoice(self):
+        self.get_partner()
         for message in self:
             if not message.invoice_id:
                 continue
@@ -315,7 +317,8 @@ class MessageSPV(models.Model):
 
             message.write(
                 {
-                    "partner_id": message.invoice_id.commercial_partner_id.id,
+                    "partner_id": message.invoice_id.commercial_partner_id.id
+                    or message.partner_id.id,
                     "invoice_amount": invoice_amount,
                     "state": state,
                 }
@@ -332,6 +335,7 @@ class MessageSPV(models.Model):
                 )
 
     def create_invoice(self):
+        self.get_partner()
         for message in self.filtered(lambda m: not m.invoice_id):
             if not message.message_type == "in_invoice":
                 continue
@@ -492,3 +496,19 @@ class MessageSPV(models.Model):
             "url": f"/web/content/{attachment_field_id}?download=true",
             "target": "self",
         }
+
+    def get_partner(self):
+
+        for message in self.filtered(lambda m: not m.partner_id):
+            if message.cif:
+                domain = [("vat", "like", message.cif), ("is_company", "=", True)]
+                partner = self.env["res.partner"].search(domain, limit=1)
+                if not partner:
+                    partner = self.env["res.partner"].create(
+                        {
+                            "name": message.cif,
+                            "vat": message.cif,
+                            "is_company": True,
+                        }
+                    )
+                message.write({"partner_id": partner.id})
