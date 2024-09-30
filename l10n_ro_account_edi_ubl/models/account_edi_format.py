@@ -35,6 +35,14 @@ class AccountEdiXmlCIUSRO(models.Model):
                 if old_attachment:
                     edi_document.sudo().attachment_id = False
                     old_attachment.unlink()
+                domain = [
+                    ("res_model", "=", "account.move"),
+                    ("res_id", "=", invoice.id),
+                    ("name", "=", xml_name),
+                ]
+                old_attachment = self.env["ir.attachment"].sudo().search(domain)
+                if old_attachment:
+                    old_attachment.unlink()
                 res = self.env["ir.attachment"].create(
                     {
                         "name": xml_name,
