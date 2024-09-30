@@ -178,7 +178,7 @@ msgstr ""
 
 #. module: l10n_ro_etransport
 #: model:ir.model.fields,field_description:l10n_ro_etransport.field_l10n_ro_e_transport_history__id_incarcare
-msgid "ID Incarcare"
+msgid "Id Incarcare"
 msgstr ""
 
 #. module: l10n_ro_etransport
