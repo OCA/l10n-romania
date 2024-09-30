@@ -3,22 +3,12 @@
 
     <template id="cius_InvoiceType" inherit_id="account_edi_ubl_cii.ubl_20_InvoiceType">
         <xpath expr="//*[local-name()='IssueDate']" position="after">
-
             <cbc:InvoiceTypeCode
                 xmlns="urn:oasis:names:specification:ubl:schema:xsd:Invoice-2"
                 xmlns:cac="urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2"
                 xmlns:cbc="urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2"
-                t-if="invoice.move_type in ('out_refund', 'in_invoice')"
-                t-att="vals.get('invoice_type_code_attrs', {})"
+                t-if="invoice.move_type in ('out_refund', 'in_invoice', 'in_refund')"
                 t-out="vals.get('invoice_type_code')"
-            />
-            <cbc:CreditNoteTypeCode
-                xmlns="urn:oasis:names:specification:ubl:schema:xsd:Invoice-2"
-                xmlns:cac="urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2"
-                xmlns:cbc="urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2"
-                t-if="invoice.move_type == 'in_refund'"
-                t-att="vals.get('invoice_type_code_attrs', {})"
-                t-out="vals.get('credit_note_type_code')"
             />
         </xpath>
         <xpath
@@ -27,18 +17,21 @@
             xmlns:cac="urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2"
         >
             <t t-foreach="vals.get('invoice_line_vals', [])" t-as="foreach_vals">
-                <cac:InvoiceLine t-if="invoice.move_type == 'in_invoice'">
+                <cac:InvoiceLine
+                    t-if="invoice.move_type in ('in_invoice', 'in_refund', 'out_refund')"
+                >
                     <t t-call="{{InvoiceLineType_template}}">
                         <t t-set="vals" t-value="foreach_vals" />
                     </t>
                 </cac:InvoiceLine>
-                <cac:CreditNoteLine t-if="invoice.move_type == 'in_refund'">
-                    <t t-call="{{InvoiceLineType_template}}">
-                        <t t-set="vals" t-value="foreach_vals" />
-                    </t>
-                </cac:CreditNoteLine>
             </t>
         </xpath>
+        <!-- suprasciere sa nu mai puna credit note line -->
+        <xpath expr="//*[local-name()='CreditNoteLine']" position="attributes">
+            <attribute name="t-if">False</attribute>
+        </xpath>
+
+
         <xpath expr="//*[local-name()='IssueDate']" position="after">
             <cbc:DueDate
                 xmlns="urn:oasis:names:specification:ubl:schema:xsd:Invoice-2"
@@ -75,18 +68,13 @@
         <xpath expr="//*[local-name()='InvoicedQuantity']" position="after">
             <cbc:InvoicedQuantity
                 xmlns:cbc="urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2"
-                t-if="invoice.move_type == 'in_invoice'"
+                t-if="invoice.move_type in ('out_refund', 'in_invoice', 'in_refund')"
                 t-att="vals.get('invoiced_quantity_attrs', {})"
                 t-out="vals.get('invoiced_quantity')"
             />
         </xpath>
-        <xpath expr="//*[local-name()='CreditedQuantity']" position="after">
-            <cbc:CreditedQuantity
-                xmlns:cbc="urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2"
-                t-if="invoice.move_type == 'in_refund'"
-                t-att="vals.get('invoiced_quantity_attrs', {})"
-                t-out="vals.get('invoiced_quantity')"
-            />
+        <xpath expr="//*[local-name()='CreditedQuantity']" position="attributes">
+            <attribute name="t-if">False</attribute>
         </xpath>
     </template>
 </odoo>

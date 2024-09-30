@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='UTF-8' ?>
-<CreditNote
-    xmlns="urn:oasis:names:specification:ubl:schema:xsd:CreditNote-2"
+<Invoice
+    xmlns="urn:oasis:names:specification:ubl:schema:xsd:Invoice-2"
     xmlns:cac="urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2"
     xmlns:cbc="urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2"
 >
@@ -9,7 +9,7 @@
     <cbc:ProfileID>urn:fdc:peppol.eu:2017:poacc:billing:01:1.0</cbc:ProfileID>
     <cbc:ID>FBRAO2095</cbc:ID>
     <cbc:IssueDate>2022-09-01</cbc:IssueDate>
-    <cbc:CreditNoteTypeCode>381</cbc:CreditNoteTypeCode>
+    <cbc:InvoiceTypeCode>389</cbc:InvoiceTypeCode>
     <cbc:DocumentCurrencyCode>RON</cbc:DocumentCurrencyCode>
     <cbc:BuyerReference>NEXTERP ROMANIA SRL</cbc:BuyerReference>
     <cac:OrderReference>
@@ -110,9 +110,9 @@
         <cbc:PrepaidAmount currencyID="RON">0.00</cbc:PrepaidAmount>
         <cbc:PayableAmount currencyID="RON">11900.00</cbc:PayableAmount>
     </cac:LegalMonetaryTotal>
-    <cac:CreditNoteLine>
+    <cac:InvoiceLine>
         <cbc:ID>1</cbc:ID>
-        <cbc:CreditedQuantity unitCode="C62">5.0</cbc:CreditedQuantity>
+        <cbc:InvoicedQuantity unitCode="C62">5.0</cbc:InvoicedQuantity>
         <cbc:LineExtensionAmount currencyID="RON">5000.00</cbc:LineExtensionAmount>
         <cac:Item>
             <cbc:Description>[00000623] Bec P21/5W</cbc:Description>
@@ -132,10 +132,10 @@
             <cbc:PriceAmount currencyID="RON">1000.0</cbc:PriceAmount>
             <cbc:BaseQuantity unitCode="C62">1.0</cbc:BaseQuantity>
         </cac:Price>
-    </cac:CreditNoteLine>
-    <cac:CreditNoteLine>
+    </cac:InvoiceLine>
+    <cac:InvoiceLine>
         <cbc:ID>2</cbc:ID>
-        <cbc:CreditedQuantity unitCode="C62">5.0</cbc:CreditedQuantity>
+        <cbc:InvoicedQuantity unitCode="C62">5.0</cbc:InvoicedQuantity>
         <cbc:LineExtensionAmount currencyID="RON">5000.00</cbc:LineExtensionAmount>
         <cac:Item>
             <cbc:Description>[00000624] Bec P21/10W</cbc:Description>
@@ -155,5 +155,5 @@
             <cbc:PriceAmount currencyID="RON">1000.0</cbc:PriceAmount>
             <cbc:BaseQuantity unitCode="C62">1.0</cbc:BaseQuantity>
         </cac:Price>
-    </cac:CreditNoteLine>
-</CreditNote>
+    </cac:InvoiceLine>
+</Invoice>

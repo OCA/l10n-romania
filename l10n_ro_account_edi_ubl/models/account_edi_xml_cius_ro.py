@@ -281,12 +281,27 @@ class AccountEdiXmlCIUSRO(models.Model):
             val["id"] = index
             index += 1
 
-        if invoice.move_type in ("out_invoice", "in_invoice"):
+        if invoice.move_type in (
+            "out_invoice",
+            "in_invoice",
+            "out_refund",
+            "in_refund",
+        ):
             vals_list["main_template"] = "account_edi_ubl_cii.ubl_20_Invoice"
             vals_list["vals"]["invoice_type_code"] = 380
-        else:
-            vals_list["main_template"] = "account_edi_ubl_cii.ubl_20_CreditNote"
-            vals_list["vals"]["credit_note_type_code"] = 381
+            if (
+                invoice.move_type in ("in_invoice", "in_refund")
+                and invoice.journal_id.l10n_ro_sequence_type == "autoinv2"
+            ):
+                vals_list["vals"]["invoice_type_code"] = 389
+            point_of_sale = self.env["ir.module.module"].search(
+                [("name", "=", "point_of_sale"), ("state", "=", "installed")], limit=1
+            )
+            if point_of_sale:
+                if invoice.pos_order_ids:
+                    vals_list["vals"]["invoice_type_code"] = 751
+        if vals_list["vals"].get("credit_note_type_code"):
+            vals_list["vals"].pop("credit_note_type_code")
         result_list = []
         if vals_list["vals"].get("note_vals"):
             if len(vals_list["vals"]["note_vals"][0]) > 100:
