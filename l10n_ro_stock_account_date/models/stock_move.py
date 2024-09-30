@@ -43,26 +43,17 @@ class StockMove(models.Model):
             )
         if restrict_date_future:
             last_posting_date = date.today()
-            if new_date.date() > last_posting_date:
+        if first_posting_date or last_posting_date:
+            if not (first_posting_date <= new_date.date() <= last_posting_date):
                 raise UserError(
                     _(
                         "Cannot validate stock move due to date restriction."
-                        "The date must be before %(last_posting_date)s "
-                    )
-                    % {
-                        "last_posting_date": last_posting_date,
-                    }
-                )
-            self.check_lock_date(self.date)
-        if first_posting_date:
-            if not (first_posting_date <= new_date.date()):
-                raise UserError(
-                    _(
-                        "Cannot validate stock move due to date restriction."
-                        "The date must be after %(first_posting_date)s"
+                        "The date must be between %(first_posting_date)s and "
+                        "%(last_posting_date)s"
                     )
                     % {
                         "first_posting_date": first_posting_date,
+                        "last_posting_date": last_posting_date,
                     }
                 )
             self.check_lock_date(self.date)
@@ -83,6 +74,13 @@ class StockMove(models.Model):
     def _get_price_unit(self):
         # Update price unit for purchases in different currencies with the
         # reception date.
+        mrp = (
+            self.env["ir.module.module"]
+            .sudo()
+            .search([("name", "=", "purchase_mrp"), ("state", "=", "installed")])
+        )
+        if mrp:
+            return super()._get_price_unit()
         if self.is_l10n_ro_record:
             if (
                 self.origin_returned_move_id
