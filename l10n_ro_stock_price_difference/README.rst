@@ -29,6 +29,7 @@ Romania - Stock Accounting Price Difference
 |badge1| |badge2| |badge3| |badge4| |badge5|
 
 The module is managing price diferences between invoices and receptions. It will create a landed cost with a "Price Difference" product available in the configuration.
+***The price diference does not apply to receptions of products with a BOM (Bill of Materials).***
 
 **Table of contents**
 

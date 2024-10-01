@@ -261,7 +261,7 @@ class AccountEdiXmlCIUSRO(models.Model):
         }
         if (
             invoice.journal_id.l10n_ro_partner_id
-            and invoice.journal_id.l10n_ro_sequence_type == "autoinv2"
+            and invoice.journal_id.l10n_ro_sequence_type != "invoice"
         ):
             params.update({"autofactura": "DA"})
         res = self._l10n_ro_anaf_call("/upload", anaf_config, params, attachment.raw)
