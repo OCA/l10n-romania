@@ -82,7 +82,8 @@ class StockMove(models.Model):
             .search([("name", "=", "purchase_mrp"), ("state", "=", "installed")])
         )
         if mrp:
-            return super()._get_price_unit()
+            if self.bom_line_id:
+                return super()._get_price_unit()
         if self.is_l10n_ro_record:
             if (
                 self.origin_returned_move_id
