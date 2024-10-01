@@ -168,14 +168,21 @@ class AccountEdiXmlCIUSRO(models.Model):
         if (
             invoice.move_type in ("in_invoice", "in_refund")
             and invoice.journal_id.l10n_ro_sequence_type == "autoinv2"
+        ) or (
+            invoice.journal_id.type == "sale"
+            and invoice.journal_id.l10n_ro_sequence_type == "autoinv1"
         ):
             vals_list["vals"]["invoice_type_code"] = 389
-            point_of_sale = self.env["ir.module.module"].search(
+        point_of_sale = (
+            self.env["ir.module.module"]
+            .sudo()
+            .search(
                 [("name", "=", "point_of_sale"), ("state", "=", "installed")], limit=1
             )
-            if point_of_sale:
-                if invoice.pos_order_ids:
-                    vals_list["vals"]["invoice_type_code"] = 751
+        )
+        if point_of_sale:
+            if invoice.pos_order_ids:
+                vals_list["vals"]["invoice_type_code"] = 751
         if vals_list["vals"].get("credit_note_type_code"):
             vals_list["vals"].pop("credit_note_type_code")
         for val in vals_list["vals"]["invoice_line_vals"]:

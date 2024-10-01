@@ -76,6 +76,13 @@ class StockMove(models.Model):
     def _get_price_unit(self):
         # Update price unit for purchases in different currencies with the
         # reception date.
+        mrp = (
+            self.env["ir.module.module"]
+            .sudo()
+            .search([("name", "=", "purchase_mrp"), ("state", "=", "installed")])
+        )
+        if mrp:
+            return super()._get_price_unit()
         if self.is_l10n_ro_record:
             if (
                 self.origin_returned_move_id
