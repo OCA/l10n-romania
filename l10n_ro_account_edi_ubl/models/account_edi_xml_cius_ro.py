@@ -165,14 +165,6 @@ class AccountEdiXmlCIUSRO(models.Model):
         index = 1
         vals_list["main_template"] = "account_edi_ubl_cii.ubl_20_Invoice"
         vals_list["vals"]["invoice_type_code"] = 380
-        if (
-            invoice.move_type in ("in_invoice", "in_refund")
-            and invoice.journal_id.l10n_ro_sequence_type == "autoinv2"
-        ) or (
-            invoice.journal_id.type == "sale"
-            and invoice.journal_id.l10n_ro_sequence_type == "autoinv1"
-        ):
-            vals_list["vals"]["invoice_type_code"] = 389
         point_of_sale = (
             self.env["ir.module.module"]
             .sudo()
