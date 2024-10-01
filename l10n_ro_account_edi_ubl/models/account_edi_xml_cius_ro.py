@@ -222,8 +222,12 @@ class AccountEdiXmlCIUSRO(models.Model):
             and invoice.journal_id.l10n_ro_sequence_type == "autoinv1"
         ):
             vals_list["vals"]["invoice_type_code"] = 389
-        point_of_sale = self.env["ir.module.module"].search(
-            [("name", "=", "point_of_sale"), ("state", "=", "installed")], limit=1
+        point_of_sale = (
+            self.env["ir.module.module"]
+            .sudo()
+            .search(
+                [("name", "=", "point_of_sale"), ("state", "=", "installed")], limit=1
+            )
         )
         if point_of_sale:
             if invoice.pos_order_ids:
