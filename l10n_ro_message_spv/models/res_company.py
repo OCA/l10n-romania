@@ -1,14 +1,11 @@
 # Copyright (C) 2022 Dorin Hongu <dhongu(@)gmail(.)com
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
-import json
 import logging
 import re
-from datetime import datetime, timedelta
+from datetime import datetime
 
 import pytz
-from dateutil import parser
-from dateutil.relativedelta import relativedelta
 
 from odoo import api, models
 
@@ -86,4 +83,3 @@ class ResCompany(models.Model):
                         spv_message.get_invoice_from_move()
                         spv_message.download_from_spv()
         return True
-
