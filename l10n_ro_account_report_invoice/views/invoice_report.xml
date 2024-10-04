@@ -161,6 +161,7 @@
         inherit_id="account.tax_groups_totals"
     >
         <xpath expr="//t/tr/t/td[1]" position="after">
+            <t t-set="o" t-value="o or sale_order or doc" />
             <t t-if="o._name == 'account.move' and o.is_l10n_ro_record">
                 <td
                     class="text-end"
@@ -174,6 +175,7 @@
             </t>
         </xpath>
         <xpath expr="//t/tr/t[@t-else='']/td[1]" position="after">
+            <t t-set="o" t-value="o or sale_order or doc" />
             <t t-if="o._name == 'account.move' and o.is_l10n_ro_record">
                 <td
                     class="text-end"
