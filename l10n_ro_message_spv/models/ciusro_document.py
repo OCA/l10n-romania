@@ -11,9 +11,9 @@ from lxml import etree
 
 from odoo import api, models
 
-_logger = logging.getLogger(__name__)
-
 from odoo.addons.l10n_ro_efactura.models import ciusro_document
+
+_logger = logging.getLogger(__name__)
 
 
 class L10nRoEdiDocument(models.Model):
@@ -40,8 +40,6 @@ class L10nRoEdiDocument(models.Model):
         if error_element is not None:
             return {"error": error_element.get("errorMessage")}
 
-        # Pretty-print the XML content of the signature file to be saved as attachment
-        # attachment_raw = etree.tostring(root, pretty_print=True, xml_declaration=True, encoding='UTF-8')
         return result
 
     @api.model
