@@ -32,12 +32,11 @@ class TestMessageSPV(TestMessageSPV):
             "cui": "8000000000",
             "titlu": "Lista Mesaje disponibile din ultimele 1 zile",
         }
-        anaf_messages = b"""%s""" % json.dumps(msg_dict).encode("utf-8")
+        anaf_messages = {"content": b"""%s""" % json.dumps(msg_dict).encode("utf-8")}
 
         with patch(
-            "odoo.addons.l10n_ro_message_spv.models.l10n_ro_account_anaf_sync_scope."
-            "AccountANAFSyncScope._l10n_ro_einvoice_call",
-            return_value=(anaf_messages, 200),
+            "odoo.addons.l10n_ro_efactura.models.ciusro_document.make_efactura_request",
+            return_value=anaf_messages,
         ):
             self.env.company.l10n_ro_download_message_spv()
 
@@ -53,11 +52,10 @@ class TestMessageSPV(TestMessageSPV):
         )
 
         file_invoice = file_path("l10n_ro_message_spv/tests/invoice.zip")
-        anaf_messages = open(file_invoice, "rb").read()
+        anaf_messages = {"content": open(file_invoice, "rb").read()}
         with patch(
-            "odoo.addons.l10n_ro_message_spv.models.l10n_ro_account_anaf_sync_scope."
-            "AccountANAFSyncScope._l10n_ro_einvoice_call",
-            return_value=(anaf_messages, 200),
+            "odoo.addons.l10n_ro_efactura.models.ciusro_document.make_efactura_request",
+            return_value=anaf_messages,
         ):
             message_spv.download_from_spv()
             message_spv.get_invoice_from_move()
