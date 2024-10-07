@@ -87,8 +87,7 @@ class StockMoveLine(models.Model):
                     else 0
                 )
             else:
-                _logger.warning("M0")
-                _logger.warning(self.l10n_ro_purchase_line_id)
+
                 svls = line.move_id.stock_valuation_layer_ids
 
                 svls_lc_not_same_invoice = self.env["stock.valuation.layer"]
@@ -129,25 +128,20 @@ class StockMoveLine(models.Model):
                 )
                 taxes = False
                 if len(purchase_mrp) == 1:
-                    if (
-                        line.l10n_ro_purchase_line_id.product_id.bom_ids.type
-                        == "phantom"
-                    ):
-                        # price_unit = self.move_id._get_price_unit()
-                        for (
-                            component
-                        ) in (
-                            line.l10n_ro_purchase_line_id.product_id.bom_ids.bom_line_ids
-                        ):
+                    if len(line.l10n_ro_purchase_line_id.move_ids) > 0:
+                        if line.l10n_ro_purchase_line_id.move_ids[0].bom_line_id:
+
                             aditional_charges = 0
-                            if line.l10n_ro_additional_charges:
-                                aditional_charges = line.l10n_ro_additional_charges
+                            # if line.l10n_ro_additional_charges:
+                            #     aditional_charges = line.l10n_ro_additional_charges
 
                             taxes = line.l10n_ro_purchase_line_id.taxes_id.compute_all(
                                 price_unit + aditional_charges,
                                 line.l10n_ro_purchase_line_id.currency_id,
                                 move_qty,
-                                component.product_id,
+                                line.l10n_ro_purchase_line_id.move_ids[
+                                    0
+                                ].bom_line_id.product_id,
                                 self.l10n_ro_purchase_line_id.order_id.partner_id,
                             )
                 if line.l10n_ro_purchase_line_id and svls:
