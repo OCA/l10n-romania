@@ -30,19 +30,7 @@ msgstr ""
 #. odoo-python
 #: code:addons/l10n_ro_message_spv/models/message_spv.py:0
 #, python-format
-msgid "ANAF configuration is missing."
-msgstr "Lipsește configurarea ANAF."
-
-#. module: l10n_ro_message_spv
-#. odoo-python
-#: code:addons/l10n_ro_message_spv/models/message_spv.py:0
-#, python-format
 msgid "ANAF service unable to generate PDF from this XML."
-msgstr ""
-
-#. module: l10n_ro_message_spv
-#: model:ir.model,name:l10n_ro_message_spv.model_l10n_ro_account_anaf_sync_scope
-msgid "Account ANAF Sync Scope"
 msgstr ""
 
 #. module: l10n_ro_message_spv
@@ -107,6 +95,11 @@ msgid "Display Name"
 msgstr "Nume afișat"
 
 #. module: l10n_ro_message_spv
+#: model:ir.model,name:l10n_ro_message_spv.model_l10n_ro_edi_document
+msgid "Document object for tracking CIUS-RO XML sent to E-Factura"
+msgstr ""
+
+#. module: l10n_ro_message_spv
 #: model:ir.model.fields.selection,name:l10n_ro_message_spv.selection__l10n_ro_message_spv__state__done
 #: model_terms:ir.ui.view,arch_db:l10n_ro_message_spv.view_l10n_ro_message_spv_search
 msgid "Done"
@@ -128,11 +121,6 @@ msgstr "Descărcat"
 #: model_terms:ir.ui.view,arch_db:l10n_ro_message_spv.view_l10n_ro_message_spv_search
 msgid "Draft"
 msgstr "Ciornă"
-
-#. module: l10n_ro_message_spv
-#: model:ir.model.fields.selection,name:l10n_ro_message_spv.selection__l10n_ro_account_anaf_sync_scope__scope__e-factura
-msgid "E-factura"
-msgstr ""
 
 #. module: l10n_ro_message_spv
 #: model:ir.model.fields,help:l10n_ro_message_spv.field_account_bank_statement_line__l10n_ro_message_spv_ids
@@ -329,11 +317,6 @@ msgid "SPV"
 msgstr ""
 
 #. module: l10n_ro_message_spv
-#: model:ir.model.fields,field_description:l10n_ro_message_spv.field_l10n_ro_account_anaf_sync_scope__scope
-msgid "Scope"
-msgstr ""
-
-#. module: l10n_ro_message_spv
 #: model:ir.model.fields,field_description:l10n_ro_message_spv.field_l10n_ro_message_spv__state
 #: model_terms:ir.ui.view,arch_db:l10n_ro_message_spv.view_l10n_ro_message_spv_search
 msgid "State"
@@ -368,6 +351,10 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_ro_message_spv.field_l10n_ro_message_spv__attachment_xml_id
 msgid "XML"
 msgstr ""
+
+#, python-format
+#~ msgid "ANAF configuration is missing."
+#~ msgstr "Lipsește configurarea ANAF."
 
 #~ msgid "Last Modified on"
 #~ msgstr "Ultima modificare la"
