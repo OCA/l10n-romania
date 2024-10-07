@@ -13,6 +13,7 @@ from odoo import _, api, fields, models
 from odoo.exceptions import UserError
 
 _logger = logging.getLogger(__name__)
+session = requests.Session()
 
 
 class MessageSPV(models.Model):
@@ -88,17 +89,26 @@ class MessageSPV(models.Model):
 
     def download_from_spv(self):
         """Rutina de descarcare a fisierelor de la SPV"""
-        for message in self.filtered(lambda m: not m.attachment_id):
-            anaf_config = message.company_id.sudo()._l10n_ro_get_anaf_sync(
-                scope="e-factura"
-            )
-            if not anaf_config:
-                raise UserError(_("ANAF configuration is missing."))
+        session = requests.Session()
 
-            params = {"id": message.name}
-            response, status_code = anaf_config._l10n_ro_einvoice_call(
-                "/descarcare", params, method="GET"
+        for message in self.filtered(lambda m: not m.attachment_id):
+            # anaf_config = message.company_id.sudo()._l10n_ro_get_anaf_sync(
+            #     scope="e-factura"
+            # )
+            # if not anaf_config:
+            #     raise UserError(_("ANAF configuration is missing."))
+
+            # params = {"id": message.name}
+
+            response = self.env["l10n_ro_edi.document"]._request_ciusro_download_zip(
+                company=message.company_id,
+                key_download=message.name,
+                session=session,
             )
+            status_code = response.get("status_code", 200)
+            # response, status_code = anaf_config._l10n_ro_einvoice_call(
+            #     "/descarcare", params, method="GET"
+            # )
             error = ""
             if isinstance(response, dict):
                 error = response.get("eroare", "")
@@ -107,18 +117,18 @@ class MessageSPV(models.Model):
             elif status_code == 200 and isinstance(response, dict):
                 error = response.get("eroare")
             if not error:
-                error = message.check_anaf_error_xml(response)
+                error = message.check_anaf_error_xml(response["content"])
             if error:
                 message.write({"error": error})
                 continue
             if message.message_type == "message":
-                info_message = message.check_anaf_message_xml(response)
+                info_message = message.check_anaf_message_xml(response["content"])
                 message.write({"message": info_message})
 
             file_name = f"{message.request_id}.zip"
             attachment_value = {
                 "name": file_name,
-                "raw": response,
+                "raw": response["content"],
                 "mimetype": "application/zip",
             }
             attachment = self.env["ir.attachment"].sudo().create(attachment_value)
@@ -140,9 +150,16 @@ class MessageSPV(models.Model):
             file_name = f"{message.request_id}.xml"
             if xml_file:
                 file_name = xml_file[0]
-                xml_file = zip_ref.read(file_name)
-            if not xml_file:
+                xml_bytes = zip_ref.open(file_name)
+                # xml_file = zip_ref.read(file_name)
+            if not xml_bytes:
                 continue
+
+            # xml_bytes = zip_ref.open(xml_file)
+            root = etree.parse(xml_bytes)
+            xml_file = etree.tostring(
+                root, pretty_print=True, xml_declaration=True, encoding="UTF-8"
+            )
             attachment_value = {
                 "name": file_name,
                 "raw": xml_file,
