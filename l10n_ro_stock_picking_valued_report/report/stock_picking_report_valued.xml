@@ -4,7 +4,9 @@
         <xpath expr="//table[@name='stock_move_line_table']/thead/tr" position="inside">
             <t t-if="o.is_l10n_ro_record and o.company_id.country_id.code == 'RO'">
                 <t t-if="o.move_line_ids">
-                    <t t-if="o.picking_type_code == 'incoming' or env.company.l10n_ro_print_delivery_price">
+                    <t
+                        t-if="o.picking_type_code == 'incoming' or env.company.l10n_ro_print_delivery_price"
+                    >
                         <t t-if="o.l10n_ro_is_internal">
                             <th>
                                 <strong>Unit Price</strong>
@@ -45,7 +47,9 @@
         >
             <t t-if="o.is_l10n_ro_record and o.company_id.country_id.code == 'RO'">
                 <t t-if="o.move_line_ids">
-                    <t t-if="o.picking_type_code == 'incoming'  or env.company.l10n_ro_print_delivery_price">
+                    <t
+                        t-if="o.picking_type_code == 'incoming'  or env.company.l10n_ro_print_delivery_price"
+                    >
                         <t t-if="o.l10n_ro_is_internal">
                             <div class="clearfix">
                                 <div name="total" class="row">
@@ -100,7 +104,7 @@
                                     </tr>
                                 </tbody>
                             </table>
-                        </t>    
+                        </t>
                     </t>
                 </t>
             </t>
@@ -114,7 +118,9 @@
         <xpath expr="//tr[@t-foreach='aggregated_lines']" position="inside">
             <t t-if="o.is_l10n_ro_record and o.company_id.country_id.code == 'RO'">
                 <t t-if="o.move_line_ids">
-                    <t t-if="o.picking_type_code == 'incoming'  or env.company.l10n_ro_print_delivery_price">
+                    <t
+                        t-if="o.picking_type_code == 'incoming'  or env.company.l10n_ro_print_delivery_price"
+                    >
                         <t t-if="o.l10n_ro_is_internal">
                             <td class="text-end">
                                 <span
@@ -177,7 +183,9 @@
         <xpath expr="//td[@name='move_line_lot_qty_done']" position="after">
             <t t-if="o.is_l10n_ro_record and o.company_id.country_id.code == 'RO'">
                 <t t-if="move_line">
-                    <t t-if="o.picking_type_code == 'incoming' or env.company.l10n_ro_print_delivery_price">
+                    <t
+                        t-if="o.picking_type_code == 'incoming' or env.company.l10n_ro_print_delivery_price"
+                    >
                         <t
                             t-if="move_line.picking_id and move_line.picking_id.l10n_ro_is_internal"
                         >
@@ -185,7 +193,9 @@
                                 <span t-esc="'%.2f' % move_line.l10n_ro_price_unit" />
                             </td>
                             <td class="text-end">
-                                <span t-esc="'%.2f' % move_line.l10n_ro_price_subtotal" />
+                                <span
+                                    t-esc="'%.2f' % move_line.l10n_ro_price_subtotal"
+                                />
                             </td>
                         </t>
                         <t t-else="">
@@ -193,7 +203,9 @@
                             <span t-esc="'%.2f' % move_line.l10n_ro_price_unit" />
                         </td>
                         <td class="text-end">
-                            <span t-esc="'%.2f' % move_line.l10n_ro_additional_charges" />
+                            <span
+                                    t-esc="'%.2f' % move_line.l10n_ro_additional_charges"
+                                />
                         </td>
                         <td class="text-end">
                             <span t-esc="'%.2f' % move_line.l10n_ro_price_subtotal" />

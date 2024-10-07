@@ -61,7 +61,7 @@ class StockMoveLine(models.Model):
             line.l10n_ro_additional_charges = 0
             if line.l10n_ro_sale_line_id:
                 sale_line = line.l10n_ro_sale_line_id
-                line.l10n_ro_currency_id = sale_line.currency_id   
+                line.l10n_ro_currency_id = sale_line.currency_id
                 price_unit = (
                     (sale_line.price_subtotal / sale_line.product_uom_qty)
                     if sale_line.product_uom_qty
