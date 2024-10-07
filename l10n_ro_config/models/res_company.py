@@ -141,6 +141,13 @@ class ResCompany(models.Model):
         "tax repartition lines marked as not deductible. If the line account does not have "
         "a non deductible account set, this account will be used.",
     )
+    
+    l10n_ro_print_delivery_price = fields.Boolean(string= "Print Delivery Slip Prices and Totals" ,
+            help= "For delivery order to customer or intern transfer order, this variable sets whether if the unit price and total are printed on the delivery slip"
+            "Default is enabled, the system will automatically print these values  on the delivery note.", 
+            default=True
+            )
+    
 
     def _check_is_l10n_ro_record(self, company=False):
         if not company:
