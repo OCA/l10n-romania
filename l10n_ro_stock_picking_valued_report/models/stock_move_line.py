@@ -1,7 +1,11 @@
 # Copyright (C) 2022 NextERP Romania
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
+import logging
+
 from odoo import api, fields, models
+
+_logger = logging.getLogger(__name__)
 
 
 class StockMoveLine(models.Model):
@@ -59,6 +63,7 @@ class StockMoveLine(models.Model):
         for line in self:
             move_qty = line._get_move_line_quantity()
             line.l10n_ro_additional_charges = 0
+            _logger.warning("M00")
             if line.l10n_ro_sale_line_id:
                 sale_line = line.l10n_ro_sale_line_id
                 line.l10n_ro_currency_id = sale_line.currency_id
@@ -82,6 +87,8 @@ class StockMoveLine(models.Model):
                     else 0
                 )
             else:
+                _logger.warning("M0")
+                _logger.warning(self.l10n_ro_purchase_line_id)
                 svls = line.move_id.stock_valuation_layer_ids
 
                 svls_lc_not_same_invoice = self.env["stock.valuation.layer"]
@@ -112,6 +119,37 @@ class StockMoveLine(models.Model):
                 )
                 line.l10n_ro_price_subtotal = move_qty * line.l10n_ro_price_unit
                 line.l10n_ro_price_tax = 0
+                purchase_mrp = (
+                    self.env["ir.module.module"]
+                    .sudo()
+                    .search(
+                        [("name", "=", "purchase_mrp"), ("state", "=", "installed")],
+                        limit=1,
+                    )
+                )
+                taxes = False
+                if len(purchase_mrp) == 1:
+                    if (
+                        line.l10n_ro_purchase_line_id.product_id.bom_ids.type
+                        == "phantom"
+                    ):
+                        # price_unit = self.move_id._get_price_unit()
+                        for (
+                            component
+                        ) in (
+                            line.l10n_ro_purchase_line_id.product_id.bom_ids.bom_line_ids
+                        ):
+                            aditional_charges = 0
+                            if line.l10n_ro_additional_charges:
+                                aditional_charges = line.l10n_ro_additional_charges
+
+                            taxes = line.l10n_ro_purchase_line_id.taxes_id.compute_all(
+                                price_unit + aditional_charges,
+                                line.l10n_ro_purchase_line_id.currency_id,
+                                move_qty,
+                                component.product_id,
+                                self.l10n_ro_purchase_line_id.order_id.partner_id,
+                            )
                 if line.l10n_ro_purchase_line_id and svls:
                     price_tax = (
                         line.l10n_ro_purchase_line_id.price_tax
@@ -119,6 +157,8 @@ class StockMoveLine(models.Model):
                         if line.l10n_ro_purchase_line_id.product_uom_qty
                         else line.l10n_ro_purchase_line_id.price_tax
                     ) * move_qty
+                    if taxes:
+                        price_tax = taxes["taxes"][0]["amount"]
                     line.l10n_ro_price_tax = (
                         line.l10n_ro_purchase_line_id.currency_id._convert(
                             price_tax,
