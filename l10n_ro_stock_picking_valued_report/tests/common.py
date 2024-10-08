@@ -126,3 +126,149 @@ class TestStockPickingValued(TestStockCommon):
                 "company_id": company.id,
             }
         )
+        # module_name = 'purchase_mrp'
+        # module = cls.env['ir.module.module'].sudo().search([('name', '=', module_name)])
+        # if module.state not in ('installed', 'to install', 'to upgrade'):
+        #     module.button_immediate_install()
+
+        cls.UoM = cls.env["uom.uom"]
+        cls.categ_unit = cls.env.ref("uom.product_uom_categ_unit")
+
+        cls.uom_unit = cls.env["uom.uom"].search(
+            [("category_id", "=", cls.categ_unit.id), ("uom_type", "=", "reference")],
+            limit=1,
+        )
+        cls.uom_unit.write({"name": "Test-Unit", "rounding": 0.01})
+        # cls.uom_dozen = cls.UoM.create({
+        #     'name': 'Test-DozenA',
+        #     'category_id': cls.categ_unit.id,
+        #     'factor_inv': 12,
+        #     'uom_type': 'bigger',
+        #     'rounding': 0.001})
+
+        # Creating all components
+
+        cls.component_a = cls.env["product.product"].create(
+            {
+                "name": "Comp A",
+                "uom_id": cls.uom_unit.id,
+                "type": "product",
+                "purchase_method": "receive",
+                "categ_id": cls.category_fifo.id,
+                "invoice_policy": "delivery",
+                "list_price": 12,
+                "standard_price": 12,
+            }
+        )
+
+        cls.component_b = cls.env["product.product"].create(
+            {
+                "name": "Comp B",
+                "uom_id": cls.uom_unit.id,
+                "type": "product",
+                "purchase_method": "receive",
+                "categ_id": cls.category_fifo.id,
+                "invoice_policy": "delivery",
+                "list_price": 12,
+                "standard_price": 12,
+            }
+        )
+
+        # Create kit and bom
+
+        cls.kit_1 = cls.env["product.product"].create(
+            {
+                "name": "Kit A",
+                "uom_id": cls.uom_unit.id,
+                "type": "product",
+                "purchase_method": "receive",
+                "categ_id": cls.category_fifo.id,
+                "invoice_policy": "delivery",
+                "list_price": 1,
+                "standard_price": 1,
+            }
+        )
+        cls.kit_2 = cls.env["product.product"].create(
+            {
+                "name": "Kit B",
+                "uom_id": cls.uom_unit.id,
+            }
+        )
+
+        cls.bom_kit_1 = cls.env["mrp.bom"].create(
+            {
+                "product_tmpl_id": cls.kit_1.product_tmpl_id.id,
+                "product_qty": 1.0,
+                "type": "phantom",
+            }
+        )
+
+        cls.bom_kit_2 = cls.env["mrp.bom"].create(
+            {
+                "product_tmpl_id": cls.kit_1.product_tmpl_id.id,
+                "product_qty": 1.0,
+                "type": "phantom",
+            }
+        )
+
+        BomLine = cls.env["mrp.bom.line"]
+        BomLine.create(
+            {
+                "product_id": cls.component_a.id,
+                "product_qty": 12.0,
+                "bom_id": cls.bom_kit_1.id,
+            }
+        )
+
+        BomLine.create(
+            {
+                "product_id": cls.component_b.id,
+                "product_qty": 6.0,
+                "bom_id": cls.bom_kit_2.id,
+            }
+        )
+
+        cls.purchase_order3 = cls.env["purchase.order"].create(
+            {
+                "partner_id": cls.partner.id,
+                "order_line": [
+                    (
+                        0,
+                        0,
+                        {
+                            "product_id": cls.kit_1.id,
+                            "price_unit": 24,
+                            "product_uom_qty": 1,
+                        },
+                    ),
+                ],
+                "company_id": company.id,
+            }
+        )
+
+        cls.purchase_order4 = cls.env["purchase.order"].create(
+            {
+                "partner_id": cls.partner.id,
+                "order_line": [
+                    (
+                        0,
+                        0,
+                        {
+                            "product_id": cls.kit_1.id,
+                            "price_unit": 24,
+                            "product_uom_qty": 1,
+                        },
+                    ),
+                    (
+                        0,
+                        0,
+                        {
+                            "product_id": cls.kit_2.id,
+                            "price_unit": 36,
+                            "product_uom_qty": 1,
+                        },
+                    ),
+                ],
+                "company_id": company.id,
+            }
+        )

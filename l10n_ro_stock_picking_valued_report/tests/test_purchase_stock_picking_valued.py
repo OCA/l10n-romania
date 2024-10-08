@@ -1,8 +1,12 @@
 # Copyright (C) 2022 NextERP Romania
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
+import logging
+
 from odoo.tests import Form, tagged
 
 from .common import TestStockPickingValued
+
+_logger = logging.getLogger(__name__)
 
 
 @tagged("post_install", "-at_install")
@@ -153,3 +157,40 @@ class TestPurchaseStockPickingValued(TestStockPickingValued):
         line_key = self._get_agg_lines_key(move_line)
         self.assertEqual(agg_lines[line_key]["l10n_ro_price_unit"], 110.0)
         self.assertEqual(agg_lines[line_key]["l10n_ro_additional_charges"], 20.0)
+
+    def test_08_move_line_kit(self):
+        module_name = "purchase_mrp"
+        module = (
+            self.env["ir.module.module"].sudo().search([("name", "=", module_name)])
+        )
+        if module.state not in ("installed", "to install", "to upgrade"):
+            module.button_immediate_install()
+
+        self.purchase_order3.button_confirm()
+
+        for picking in self.purchase_order3.picking_ids:
+            action = picking.button_validate()
+            picking._action_done()
+            wizard = Form(
+                self.env[action["res_model"]].with_context(**action["context"])
+            ).save()
+            wizard.process()
+            for move_line in picking.move_line_ids:
+                move_line._compute_l10n_ro_valued_fields()
+                self.assertEqual(round(move_line.l10n_ro_price_tax, 2), 4.56)
+
+        self.purchase_order4.button_confirm()
+
+        for picking in self.purchase_order4.picking_ids:
+            action = picking.button_validate()
+            picking._action_done()
+            wizard = Form(
+                self.env[action["res_model"]].with_context(**action["context"])
+            ).save()
+            wizard.process()
+            taxes = []
+            for move_line in picking.move_line_ids:
+                move_line._compute_l10n_ro_valued_fields()
+                taxes.append(move_line.l10n_ro_price_tax)
+
+            self.assertEqual(sum(taxes), 11.4)

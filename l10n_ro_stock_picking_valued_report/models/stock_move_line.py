@@ -63,7 +63,6 @@ class StockMoveLine(models.Model):
         for line in self:
             move_qty = line._get_move_line_quantity()
             line.l10n_ro_additional_charges = 0
-            _logger.warning("M00")
             if line.l10n_ro_sale_line_id:
                 sale_line = line.l10n_ro_sale_line_id
                 line.l10n_ro_currency_id = sale_line.currency_id
@@ -89,7 +88,6 @@ class StockMoveLine(models.Model):
             else:
 
                 svls = line.move_id.stock_valuation_layer_ids
-
                 svls_lc_not_same_invoice = self.env["stock.valuation.layer"]
                 price_unit = 0
                 if svls:
@@ -132,9 +130,6 @@ class StockMoveLine(models.Model):
                         if line.l10n_ro_purchase_line_id.move_ids[0].bom_line_id:
 
                             aditional_charges = 0
-                            # if line.l10n_ro_additional_charges:
-                            #     aditional_charges = line.l10n_ro_additional_charges
-
                             taxes = line.l10n_ro_purchase_line_id.taxes_id.compute_all(
                                 price_unit + aditional_charges,
                                 line.l10n_ro_purchase_line_id.currency_id,
@@ -161,6 +156,7 @@ class StockMoveLine(models.Model):
                             line.date,
                         )
                     )
+
                 line.l10n_ro_price_total = (
                     line.l10n_ro_price_subtotal + line.l10n_ro_price_tax
                 )
