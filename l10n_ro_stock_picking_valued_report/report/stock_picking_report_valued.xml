@@ -5,7 +5,7 @@
             <t t-if="o.is_l10n_ro_record and o.company_id.country_id.code == 'RO'">
                 <t t-if="o.move_line_ids">
                     <t
-                        t-if="o.picking_type_code == 'incoming' or env.company.l10n_ro_print_delivery_price"
+                        t-if="o.picking_type_code == 'incoming' or o.company_id.l10n_ro_print_delivery_price"
                     >
                         <t t-if="o.l10n_ro_is_internal">
                             <th>
@@ -48,7 +48,7 @@
             <t t-if="o.is_l10n_ro_record and o.company_id.country_id.code == 'RO'">
                 <t t-if="o.move_line_ids">
                     <t
-                        t-if="o.picking_type_code == 'incoming'  or env.company.l10n_ro_print_delivery_price"
+                        t-if="o.picking_type_code == 'incoming' or o.company_id.l10n_ro_print_delivery_price"
                     >
                         <t t-if="o.l10n_ro_is_internal">
                             <div class="clearfix">
@@ -119,7 +119,7 @@
             <t t-if="o.is_l10n_ro_record and o.company_id.country_id.code == 'RO'">
                 <t t-if="o.move_line_ids">
                     <t
-                        t-if="o.picking_type_code == 'incoming'  or env.company.l10n_ro_print_delivery_price"
+                        t-if="o.picking_type_code == 'incoming' or o.company_id.l10n_ro_print_delivery_price"
                     >
                         <t t-if="o.l10n_ro_is_internal">
                             <td class="text-end">
@@ -184,7 +184,7 @@
             <t t-if="o.is_l10n_ro_record and o.company_id.country_id.code == 'RO'">
                 <t t-if="move_line">
                     <t
-                        t-if="o.picking_type_code == 'incoming' or env.company.l10n_ro_print_delivery_price"
+                        t-if="o.picking_type_code == 'incoming' or o.company_id.l10n_ro_print_delivery_price"
                     >
                         <t
                             t-if="move_line.picking_id and move_line.picking_id.l10n_ro_is_internal"

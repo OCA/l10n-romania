@@ -1,11 +1,8 @@
 # Copyright (C) 2022 NextERP Romania
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
-import logging
 
 from odoo import api, fields, models
-
-_logger = logging.getLogger(__name__)
 
 
 class StockMoveLine(models.Model):
@@ -167,21 +164,17 @@ class StockMoveLine(models.Model):
                     )
                 )
 
-                if len(purchase_mrp) == 1:
-                    if len(line.l10n_ro_purchase_line_id.move_ids) > 0:
-                        if line.l10n_ro_purchase_line_id.move_ids[0].bom_line_id:
+                taxes = False
+                if purchase_mrp:
+                    if line.l10n_ro_purchase_line_id and line.move_id.bom_line_id:
+                        taxes = line.l10n_ro_purchase_line_id.taxes_id.compute_all(
+                            price_unit,
+                            line.l10n_ro_purchase_line_id.currency_id,
+                            move_qty,
+                            line.move_id.bom_line_id.product_id,
+                            line.l10n_ro_purchase_line_id.order_id.partner_id,
+                        )
 
-                            aditional_charges = 0
-                            taxes = line.l10n_ro_purchase_line_id.taxes_id.compute_all(
-                                price_unit + aditional_charges,
-                                line.l10n_ro_purchase_line_id.currency_id,
-                                move_qty,
-                                line.l10n_ro_purchase_line_id.move_ids[
-                                    0
-                                ].bom_line_id.product_id,
-                                self.l10n_ro_purchase_line_id.order_id.partner_id,
-                            )
-                            kit = True
                 if line.l10n_ro_purchase_line_id and svls:
                     price_tax = (
                         line.l10n_ro_purchase_line_id.price_tax
