@@ -82,16 +82,17 @@ class StockMoveLine(models.Model):
                     )
                 )
 
-                if len(sale_mrp) == 1:
+                if sale_mrp:
                     if len(line.l10n_ro_sale_line_id.move_ids[0].bom_line_id) != 0:
-                        qty_kit = sum(
-                            line.l10n_ro_sale_line_id.move_ids.bom_line_id.mapped(
-                                "product_qty"
-                            )
-                        )
+                        qty_kit = line.move_id.bom_line_id.product_qty
+
                         unit_price = (
                             line.l10n_ro_sale_line_id.price_subtotal
-                            / (sale_line.product_uom_qty * qty_kit)
+                            / (
+                                len(line.l10n_ro_sale_line_id.move_ids)
+                                * line.l10n_ro_sale_line_id.product_uom_qty
+                                * qty_kit
+                            )
                             if sale_line.product_uom_qty and qty_kit
                             else 0
                         )
@@ -100,9 +101,7 @@ class StockMoveLine(models.Model):
                             unit_price,
                             line.l10n_ro_sale_line_id.currency_id,
                             move_qty,
-                            line.l10n_ro_sale_line_id.move_ids[
-                                0
-                            ].bom_line_id.product_id,
+                            line.move_id.bom_line_id.product_id,
                             self.l10n_ro_sale_line_id.order_id.partner_id,
                         )
                         kit = True
@@ -164,7 +163,6 @@ class StockMoveLine(models.Model):
                     )
                 )
 
-                taxes = False
                 if purchase_mrp:
                     if line.l10n_ro_purchase_line_id and line.move_id.bom_line_id:
                         taxes = line.l10n_ro_purchase_line_id.taxes_id.compute_all(
@@ -174,6 +172,7 @@ class StockMoveLine(models.Model):
                             line.move_id.bom_line_id.product_id,
                             line.l10n_ro_purchase_line_id.order_id.partner_id,
                         )
+                        kit = True
 
                 if line.l10n_ro_purchase_line_id and svls:
                     price_tax = (
@@ -192,7 +191,6 @@ class StockMoveLine(models.Model):
                             line.date,
                         )
                     )
-
                 line.l10n_ro_price_total = (
                     line.l10n_ro_price_subtotal + line.l10n_ro_price_tax
                 )
