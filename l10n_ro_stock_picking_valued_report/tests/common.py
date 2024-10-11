@@ -195,6 +195,13 @@ class TestStockPickingValued(TestStockCommon):
             }
         )
 
+        cls.kit_3 = cls.env["product.product"].create(
+            {
+                "name": "Kit 2 Components",
+                "uom_id": cls.uom_unit.id,
+            }
+        )
+
         cls.bom_kit_1 = cls.env["mrp.bom"].create(
             {
                 "product_tmpl_id": cls.kit_1.product_tmpl_id.id,
@@ -206,6 +213,14 @@ class TestStockPickingValued(TestStockCommon):
         cls.bom_kit_2 = cls.env["mrp.bom"].create(
             {
                 "product_tmpl_id": cls.kit_1.product_tmpl_id.id,
+                "product_qty": 1.0,
+                "type": "phantom",
+            }
+        )
+
+        cls.bom_kit_3 = cls.env["mrp.bom"].create(
+            {
+                "product_tmpl_id": cls.kit_3.product_tmpl_id.id,
                 "product_qty": 1.0,
                 "type": "phantom",
             }
@@ -228,6 +243,21 @@ class TestStockPickingValued(TestStockCommon):
             }
         )
 
+        BomLine.create(
+            {
+                "product_id": cls.component_b.id,
+                "product_qty": 6.0,
+                "bom_id": cls.bom_kit_3.id,
+            }
+        )
+        BomLine.create(
+            {
+                "product_id": cls.component_b.id,
+                "product_qty": 3.0,
+                "bom_id": cls.bom_kit_3.id,
+            }
+        )
+
         cls.purchase_order3 = cls.env["purchase.order"].create(
             {
                 "partner_id": cls.partner.id,
@@ -238,7 +268,7 @@ class TestStockPickingValued(TestStockCommon):
                         {
                             "product_id": cls.kit_1.id,
                             "price_unit": 24,
-                            "product_uom_qty": 1,
+                            "product_qty": 1,
                         },
                     ),
                 ],
@@ -256,7 +286,7 @@ class TestStockPickingValued(TestStockCommon):
                         {
                             "product_id": cls.kit_1.id,
                             "price_unit": 24,
-                            "product_uom_qty": 1,
+                            "product_qty": 1,
                         },
                     ),
                     (
@@ -265,6 +295,51 @@ class TestStockPickingValued(TestStockCommon):
                         {
                             "product_id": cls.kit_2.id,
                             "price_unit": 36,
+                            "product_qty": 1,
+                        },
+                    ),
+                ],
+                "company_id": company.id,
+            }
+        )
+
+        cls.purchase_order5 = cls.env["purchase.order"].create(
+            {
+                "partner_id": cls.partner.id,
+                "order_line": [
+                    (
+                        0,
+                        0,
+                        {
+                            "product_id": cls.kit_3.id,
+                            "price_unit": 42,
+                            "product_qty": 2,
+                        },
+                    ),
+                ],
+                "company_id": company.id,
+            }
+        )
+
+        cls.sale_order3 = cls.env["sale.order"].create(
+            {
+                "partner_id": cls.partner.id,
+                "order_line": [
+                    (
+                        0,
+                        0,
+                        {
+                            "product_id": cls.kit_1.id,
+                            "price_unit": 20,
+                            "product_uom_qty": 1,
+                        },
+                    ),
+                    (
+                        0,
+                        0,
+                        {
+                            "product_id": cls.product_1.id,
+                            "price_unit": 100,
                             "product_uom_qty": 1,
                         },
                     ),

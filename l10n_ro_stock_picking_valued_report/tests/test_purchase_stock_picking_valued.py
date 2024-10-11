@@ -194,3 +194,39 @@ class TestPurchaseStockPickingValued(TestStockPickingValued):
                 taxes.append(move_line.l10n_ro_price_tax)
 
             self.assertEqual(sum(taxes), 11.4)
+
+        self.purchase_order5.button_confirm()
+
+        for picking in self.purchase_order5.picking_ids:
+            action = picking.button_validate()
+            picking._action_done()
+            wizard = Form(
+                self.env[action["res_model"]].with_context(**action["context"])
+            ).save()
+            wizard.process()
+
+            for move_line in picking.move_line_ids:
+                move_line._compute_l10n_ro_valued_fields()
+            received = []
+            expect = [
+                {
+                    "l10n_ro_price_tax": 7.98,
+                    "l10n_ro_price_unit": 3.5,
+                    "l10n_ro_price_subtotal": 42.0,
+                },
+                {
+                    "l10n_ro_price_tax": 7.98,
+                    "l10n_ro_price_unit": 7.0,
+                    "l10n_ro_price_subtotal": 42.0,
+                },
+            ]
+            for move_line in picking.move_line_ids:
+                received.append(
+                    {
+                        "l10n_ro_price_tax": move_line.l10n_ro_price_tax,
+                        "l10n_ro_price_unit": move_line.l10n_ro_price_unit,
+                        "l10n_ro_price_subtotal": move_line.l10n_ro_price_subtotal,
+                    }
+                )
+
+            self.assertListEqual(received, expect)
