@@ -167,7 +167,6 @@ class TestPurchaseStockPickingValued(TestStockPickingValued):
             module.button_immediate_install()
 
         self.purchase_order3.button_confirm()
-
         for picking in self.purchase_order3.picking_ids:
             action = picking.button_validate()
             picking._action_done()
@@ -178,7 +177,9 @@ class TestPurchaseStockPickingValued(TestStockPickingValued):
             for move_line in picking.move_line_ids:
                 move_line._compute_l10n_ro_valued_fields()
                 self.assertEqual(round(move_line.l10n_ro_price_tax, 2), 4.56)
-
+                self.assertEqual(round(move_line.l10n_ro_price_unit, 2), 2)
+                self.assertEqual(round(move_line.l10n_ro_price_subtotal, 2), 24)
+            self.assertEqual(picking.l10n_ro_amount_untaxed, 24)
         self.purchase_order4.button_confirm()
 
         for picking in self.purchase_order4.picking_ids:

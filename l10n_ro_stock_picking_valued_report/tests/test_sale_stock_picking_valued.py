@@ -66,6 +66,13 @@ class TestSaleStockPickingValued(TestStockPickingValued):
             self.assertEqual(picking.l10n_ro_amount_total, 238.0)
 
     def test_06_order_kit(self):
+        module_name = "sale_mrp"
+        module = (
+            self.env["ir.module.module"].sudo().search([("name", "=", module_name)])
+        )
+        if module.state not in ("installed", "to install", "to upgrade"):
+            module.button_immediate_install()
+
         self.sale_order3.action_confirm()
         self.assertTrue(len(self.sale_order3.picking_ids))
         for picking in self.sale_order3.picking_ids:

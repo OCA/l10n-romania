@@ -139,12 +139,6 @@ class TestStockPickingValued(TestStockCommon):
             limit=1,
         )
         cls.uom_unit.write({"name": "Test-Unit", "rounding": 0.01})
-        # cls.uom_dozen = cls.UoM.create({
-        #     'name': 'Test-DozenA',
-        #     'category_id': cls.categ_unit.id,
-        #     'factor_inv': 12,
-        #     'uom_type': 'bigger',
-        #     'rounding': 0.001})
 
         # Creating all components
 
