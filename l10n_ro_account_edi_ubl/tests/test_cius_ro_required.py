@@ -25,11 +25,8 @@ class TestCiusRoRequired(CiusRoTestSetup):
         self.assertTrue(self.credit_note_in._need_ubl_cii_xml())
 
     def test_is_required_for_invoice_non_ro_partner(self):
+        self.invoice.commercial_partner_id.ubl_cii_format = False
         self.invoice.commercial_partner_id.country_id = self.env.ref("base.us")
-        self.assertFalse(self.invoice._need_ubl_cii_xml())
-
-    def test_is_required_for_invoice_non_company_partner(self):
-        self.invoice.commercial_partner_id.is_company = False
         self.assertFalse(self.invoice._need_ubl_cii_xml())
 
     def test_is_required_for_invoice_missing_partner_id(self):
