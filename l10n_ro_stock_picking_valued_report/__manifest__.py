@@ -2,7 +2,7 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 {
     "name": "Romania - Stock Picking Valued Report",
-    "version": "16.0.0.7.0",
+    "version": "16.0.0.8.0",
     "category": "Localization",
     "summary": "Romania -  Stock Picking Valued Report",
     "author": "NextERP Romania," "Odoo Community Association (OCA)",
