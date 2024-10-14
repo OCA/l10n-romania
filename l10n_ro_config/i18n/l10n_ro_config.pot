@@ -238,6 +238,23 @@ msgstr ""
 
 #. module: l10n_ro_config
 #: model_terms:ir.ui.view,arch_db:l10n_ro_config.res_config_settings_view_form
+msgid ""
+"For delivery order to customer or intern transfer order, this variable sets\n"
+"                                            whether if the unit price and total are printed on the delivery slip."
+msgstr ""
+
+#. module: l10n_ro_config
+#: model:ir.model.fields,help:l10n_ro_config.field_res_company__l10n_ro_print_delivery_price
+#: model:ir.model.fields,help:l10n_ro_config.field_res_config_settings__l10n_ro_print_delivery_price
+msgid ""
+"For delivery order to customer or intern transfer order, this variable sets "
+"whether if the unit price and total are printed on the delivery slipDefault "
+"is enabled, the system will automatically print these valueson the delivery "
+"note."
+msgstr ""
+
+#. module: l10n_ro_config
+#: model_terms:ir.ui.view,arch_db:l10n_ro_config.res_config_settings_view_form
 msgid "Generate e-invoice xml and send it manually or automaticaly to ANAF."
 msgstr ""
 
@@ -365,6 +382,12 @@ msgstr ""
 #. module: l10n_ro_config
 #: model:ir.model.fields,field_description:l10n_ro_config.field_res_config_settings__module_l10n_ro_partner_unique
 msgid "Partners unique by Company, VAT, NRC"
+msgstr ""
+
+#. module: l10n_ro_config
+#: model:ir.model.fields,field_description:l10n_ro_config.field_res_company__l10n_ro_print_delivery_price
+#: model:ir.model.fields,field_description:l10n_ro_config.field_res_config_settings__l10n_ro_print_delivery_price
+msgid "Print Delivery Slip Prices and Totals"
 msgstr ""
 
 #. module: l10n_ro_config
