@@ -23,7 +23,9 @@ class TestCiusRoXmlGeneration(CiusRoTestSetup):
         else:
             xml_data = move.ubl_cii_xml_id.raw
         edi_doc = move._l10n_ro_edi_create_document_invoice_sending("123", xml_data)
-        return edi_doc.attachment_id
+        attachment = edi_doc.attachment_id
+        self.assertTrue(attachment)
+        return attachment
 
     # invoice -> move_type = "out_invoice"
     @freezegun.freeze_time("2022-09-01")

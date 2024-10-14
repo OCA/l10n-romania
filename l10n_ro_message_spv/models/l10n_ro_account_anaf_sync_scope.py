@@ -42,7 +42,9 @@ class AccountANAFSyncScope(models.Model):
                 response = requests.post(
                     url, params=params, data=data, headers=headers, timeout=80
                 )
-            import ipdb; ipdb.set_trace()
+            import ipdb
+
+            ipdb.set_trace()
             content = response.content
             status_code = response.status_code
             if response.status_code == 400:
