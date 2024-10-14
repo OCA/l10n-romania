@@ -94,6 +94,10 @@ class ResConfigSettings(models.TransientModel):
     l10n_ro_stock_acc_price_diff = fields.Boolean(
         related="company_id.l10n_ro_stock_acc_price_diff", readonly=False
     )
+    l10n_ro_print_delivery_price = fields.Boolean(
+        related="company_id.l10n_ro_print_delivery_price",
+        readonly=False,
+    )
     l10n_ro_property_stock_price_difference_product_id = fields.Many2one(
         "product.product",
         related="company_id.l10n_ro_property_stock_price_difference_product_id",

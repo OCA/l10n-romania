@@ -64,3 +64,44 @@ class TestSaleStockPickingValued(TestStockPickingValued):
             self.assertEqual(picking.l10n_ro_amount_untaxed, 200.0)
             self.assertEqual(picking.l10n_ro_amount_tax, 38.0)
             self.assertEqual(picking.l10n_ro_amount_total, 238.0)
+
+    def test_06_order_kit(self):
+        module_name = "sale_mrp"
+        module = (
+            self.env["ir.module.module"].sudo().search([("name", "=", module_name)])
+        )
+        if module.state not in ("installed", "to install", "to upgrade"):
+            module.button_immediate_install()
+
+        self.sale_order3.action_confirm()
+        self.assertTrue(len(self.sale_order3.picking_ids))
+        for picking in self.sale_order3.picking_ids:
+            picking.action_assign()
+            picking.move_ids.quantity_done = 1.0
+            picking.button_validate()
+
+            received = []
+            expect = [
+                {
+                    "l10n_ro_price_tax": 0.32,
+                    "l10n_ro_price_unit": 1.6666666666666667,
+                    "l10n_ro_price_subtotal": 1.67,
+                },
+                {
+                    "l10n_ro_price_tax": 19.0,
+                    "l10n_ro_price_unit": 100.0,
+                    "l10n_ro_price_subtotal": 100.0,
+                },
+            ]
+            for move_line in picking.move_line_ids:
+                move_line._compute_l10n_ro_valued_fields()
+                received.append(
+                    {
+                        "l10n_ro_price_tax": move_line.l10n_ro_price_tax,
+                        "l10n_ro_price_unit": move_line.l10n_ro_price_unit,
+                        "l10n_ro_price_subtotal": move_line.l10n_ro_price_subtotal,
+                    }
+                )
+
+            self.assertListEqual(received, expect)
+            self.assertEqual(picking.l10n_ro_amount_tax, 19.32)

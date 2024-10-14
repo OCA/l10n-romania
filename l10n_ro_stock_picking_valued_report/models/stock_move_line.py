@@ -1,6 +1,7 @@
 # Copyright (C) 2022 NextERP Romania
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
+
 from odoo import api, fields, models
 
 
@@ -59,6 +60,7 @@ class StockMoveLine(models.Model):
         for line in self:
             move_qty = line._get_move_line_quantity()
             line.l10n_ro_additional_charges = 0
+            kit = False
             if line.l10n_ro_sale_line_id:
                 sale_line = line.l10n_ro_sale_line_id
                 line.l10n_ro_currency_id = sale_line.currency_id
@@ -70,20 +72,60 @@ class StockMoveLine(models.Model):
                 line.l10n_ro_price_unit = sale_line.product_uom._compute_price(
                     price_unit, line.product_uom_id
                 )
-                line.l10n_ro_price_subtotal = move_qty * line.l10n_ro_price_unit
-                line.l10n_ro_price_tax = (
-                    (sale_line.price_tax / sale_line.product_uom_qty) * move_qty
-                    if sale_line.product_uom_qty
-                    else 0
-                )
-                line.l10n_ro_price_total = (
-                    (sale_line.price_total / sale_line.product_uom_qty) * move_qty
-                    if sale_line.product_uom_qty
-                    else 0
-                )
-            else:
-                svls = line.move_id.stock_valuation_layer_ids
 
+                sale_mrp = (
+                    self.env["ir.module.module"]
+                    .sudo()
+                    .search(
+                        [("name", "=", "sale_mrp"), ("state", "=", "installed")],
+                        limit=1,
+                    )
+                )
+
+                if sale_mrp:
+                    if len(line.l10n_ro_sale_line_id.move_ids[0].bom_line_id) != 0:
+                        qty_kit = line.move_id.bom_line_id.product_qty
+
+                        unit_price = (
+                            line.l10n_ro_sale_line_id.price_subtotal
+                            / (
+                                len(line.l10n_ro_sale_line_id.move_ids)
+                                * line.l10n_ro_sale_line_id.product_uom_qty
+                                * qty_kit
+                            )
+                            if sale_line.product_uom_qty and qty_kit
+                            else 0
+                        )
+                        line.l10n_ro_price_unit = unit_price
+                        taxes = line.l10n_ro_sale_line_id.tax_id.compute_all(
+                            unit_price,
+                            line.l10n_ro_sale_line_id.currency_id,
+                            move_qty,
+                            line.move_id.bom_line_id.product_id,
+                            self.l10n_ro_sale_line_id.order_id.partner_id,
+                        )
+                        kit = True
+
+                line.l10n_ro_price_subtotal = move_qty * line.l10n_ro_price_unit
+                if kit:
+                    line.l10n_ro_price_tax = taxes["taxes"][0]["amount"]
+                    line.l10n_ro_price_total = (
+                        line.l10n_ro_price_subtotal + line.l10n_ro_price_tax
+                    )
+                else:
+                    line.l10n_ro_price_tax = (
+                        (sale_line.price_tax / sale_line.product_uom_qty) * move_qty
+                        if sale_line.product_uom_qty
+                        else 0
+                    )
+                    line.l10n_ro_price_total = (
+                        (sale_line.price_total / sale_line.product_uom_qty) * move_qty
+                        if sale_line.product_uom_qty
+                        else 0
+                    )
+            else:
+
+                svls = line.move_id.stock_valuation_layer_ids
                 svls_lc_not_same_invoice = self.env["stock.valuation.layer"]
                 price_unit = 0
                 if svls:
@@ -112,6 +154,26 @@ class StockMoveLine(models.Model):
                 )
                 line.l10n_ro_price_subtotal = move_qty * line.l10n_ro_price_unit
                 line.l10n_ro_price_tax = 0
+                purchase_mrp = (
+                    self.env["ir.module.module"]
+                    .sudo()
+                    .search(
+                        [("name", "=", "purchase_mrp"), ("state", "=", "installed")],
+                        limit=1,
+                    )
+                )
+
+                if purchase_mrp:
+                    if line.l10n_ro_purchase_line_id and line.move_id.bom_line_id:
+                        taxes = line.l10n_ro_purchase_line_id.taxes_id.compute_all(
+                            price_unit,
+                            line.l10n_ro_purchase_line_id.currency_id,
+                            move_qty,
+                            line.move_id.bom_line_id.product_id,
+                            line.l10n_ro_purchase_line_id.order_id.partner_id,
+                        )
+                        kit = True
+
                 if line.l10n_ro_purchase_line_id and svls:
                     price_tax = (
                         line.l10n_ro_purchase_line_id.price_tax
@@ -119,6 +181,8 @@ class StockMoveLine(models.Model):
                         if line.l10n_ro_purchase_line_id.product_uom_qty
                         else line.l10n_ro_purchase_line_id.price_tax
                     ) * move_qty
+                    if kit:
+                        price_tax = taxes["taxes"][0]["amount"]
                     line.l10n_ro_price_tax = (
                         line.l10n_ro_purchase_line_id.currency_id._convert(
                             price_tax,
