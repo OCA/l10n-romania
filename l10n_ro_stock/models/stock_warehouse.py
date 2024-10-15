@@ -54,7 +54,10 @@ class StockWarehouse(models.Model):
     def _get_picking_type_update_values(self):
         res = super()._get_picking_type_update_values()
         if self.is_l10n_ro_record:
-            res.update({"l10n_ro_consume_type_id": {}, "l10n_ro_usage_type_id": {}})
+            if self.l10n_ro_wh_consume_loc_id:
+                res.update({"l10n_ro_consume_type_id": {}})
+            if self.l10n_ro_wh_usage_loc_id:
+                res.update({"l10n_ro_usage_type_id": {}})
         return res
 
     def _get_picking_type_create_values(self, max_sequence):
@@ -62,34 +65,40 @@ class StockWarehouse(models.Model):
             max_sequence
         )
         if self.is_l10n_ro_record:
-            create_data.update(
-                {
-                    "l10n_ro_consume_type_id": {
-                        "name": _("Consume"),
-                        "code": "internal",
-                        "use_create_lots": True,
-                        "use_existing_lots": False,
-                        "default_location_src_id": self.lot_stock_id.id,
-                        "default_location_dest_id": self.l10n_ro_wh_consume_loc_id.id,
-                        "sequence": max_sequence + 6,
-                        "barcode": self.code.replace(" ", "").upper() + "-CONSUME",
-                        "sequence_code": "CONS",
-                        "company_id": self.company_id.id,
-                    },
-                    "l10n_ro_usage_type_id": {
-                        "name": _("Usage Giving"),
-                        "code": "internal",
-                        "use_create_lots": True,
-                        "use_existing_lots": False,
-                        "default_location_src_id": self.lot_stock_id.id,
-                        "default_location_dest_id": self.l10n_ro_wh_usage_loc_id.id,
-                        "sequence": max_sequence + 7,
-                        "barcode": self.code.replace(" ", "").upper() + "-USAGE",
-                        "sequence_code": "USAGE",
-                        "company_id": self.company_id.id,
-                    },
-                }
-            )
+            if self.l10n_ro_wh_consume_loc_id:
+                create_data.update(
+                    {
+                        "l10n_ro_consume_type_id": {
+                            "name": _("Consume"),
+                            "code": "internal",
+                            "use_create_lots": True,
+                            "use_existing_lots": False,
+                            "default_location_src_id": self.lot_stock_id.id,
+                            "default_location_dest_id": self.l10n_ro_wh_consume_loc_id.id,  # noqa
+                            "sequence": max_sequence + 6,
+                            "barcode": self.code.replace(" ", "").upper() + "-CONSUME",
+                            "sequence_code": "CONS",
+                            "company_id": self.company_id.id,
+                        }
+                    }
+                )
+            if self.l10n_ro_wh_usage_loc_id:
+                create_data.update(
+                    {
+                        "l10n_ro_usage_type_id": {
+                            "name": _("Usage Giving"),
+                            "code": "internal",
+                            "use_create_lots": True,
+                            "use_existing_lots": False,
+                            "default_location_src_id": self.lot_stock_id.id,
+                            "default_location_dest_id": self.l10n_ro_wh_usage_loc_id.id,  # noqa
+                            "sequence": max_sequence + 7,
+                            "barcode": self.code.replace(" ", "").upper() + "-USAGE",
+                            "sequence_code": "USAGE",
+                            "company_id": self.company_id.id,
+                        },
+                    }
+                )
             max_sequence += 2
         return create_data, max_sequence
 
