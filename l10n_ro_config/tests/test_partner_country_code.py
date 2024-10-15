@@ -10,8 +10,9 @@ from odoo.addons.account.tests.common import AccountTestInvoicingCommon
 @tagged("post_install", "-at_install")
 class TestPartnerVATSubjected(AccountTestInvoicingCommon):
     @classmethod
+    @AccountTestInvoicingCommon.setup_country("ro")
     def setUpClass(cls):
-        super().setUpClass(chart_template_ref="ro")
+        super().setUpClass()
         cls.mainpartner = cls.env.ref("base.main_partner")
         cls.env.company.anglo_saxon_accounting = True
         cls.env.company.l10n_ro_accounting = True
