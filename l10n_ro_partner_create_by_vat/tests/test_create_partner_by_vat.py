@@ -17,9 +17,10 @@ from odoo.addons.account.tests.common import AccountTestInvoicingCommon
 @tagged("post_install", "-at_install")
 class TestCreatePartnerBase(AccountTestInvoicingCommon):
     @classmethod
-    def setUpClass(cls, chart_template_ref="ro"):
+    @AccountTestInvoicingCommon.setup_country("ro")
+    def setUpClass(cls):
         cls._super_send = requests.Session.send
-        super().setUpClass(chart_template_ref=chart_template_ref)
+        super().setUpClass()
         cls.env.company.l10n_ro_accounting = True
         cls.mainpartner = cls.env["res.partner"].create({"name": "Test partner"})
         test_file_path = get_module_resource(
