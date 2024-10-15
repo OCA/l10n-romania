@@ -45,7 +45,7 @@ class Account(models.Model):
     def _compute_display_name(self):
         rest = self
         for account in self:
-            if account.company_id.l10n_ro_accounting:
+            if self.env.company.l10n_ro_accounting:
                 code = account.l10n_ro_external_code or account.code
                 name = code + " " + account.name
                 account.display_name = name
