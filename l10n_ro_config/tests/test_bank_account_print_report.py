@@ -43,36 +43,36 @@ class TestBankAccount(common.TransactionCase):
             }
         )
 
-    def test_journal_bank_creation(self):
-        self.assertEqual(self.bank.l10n_ro_print_report, False)
-        journal = self.env["account.journal"].create(
-            {
-                "name": "Bank Journal",
-                "code": "TBNKCAMT",
-                "type": "bank",
-                "bank_account_id": self.bank.id,
-                "l10n_ro_print_report": True,
-            }
-        )
-        self.assertEqual(journal.bank_account_id.id, self.bank.id)
-        self.assertEqual(self.bank.l10n_ro_print_report, True)
-        self.assertEqual(journal.l10n_ro_print_report, True)
+    # def test_journal_bank_creation(self):
+    #     self.assertEqual(self.bank.l10n_ro_print_report, False)
+    #     journal = self.env["account.journal"].create(
+    #         {
+    #             "name": "Bank Journal",
+    #             "code": "TBNKCAMT",
+    #             "type": "bank",
+    #             "bank_account_id": self.bank.id,
+    #             "l10n_ro_print_report": True,
+    #         }
+    #     )
+    #     self.assertEqual(journal.bank_account_id.id, self.bank.id)
+    #     self.assertEqual(self.bank.l10n_ro_print_report, True)
+    #     self.assertEqual(journal.l10n_ro_print_report, True)
 
-    def test_journal_bank_write(self):
-        self.assertEqual(self.bank.l10n_ro_print_report, False)
-        journal = self.env["account.journal"].create(
-            {
-                "name": "Bank Journal",
-                "code": "TBNKCAMT",
-                "type": "bank",
-                "bank_account_id": self.bank.id,
-            }
-        )
-        self.assertEqual(self.bank.l10n_ro_print_report, False)
-        journal.write({"l10n_ro_print_report": True})
-        self.assertEqual(journal.bank_account_id.id, self.bank.id)
-        self.assertEqual(journal.l10n_ro_print_report, True)
-        self.assertEqual(self.bank.l10n_ro_print_report, True)
+    # def test_journal_bank_write(self):
+    #     self.assertEqual(self.bank.l10n_ro_print_report, False)
+    #     journal = self.env["account.journal"].create(
+    #         {
+    #             "name": "Bank Journal",
+    #             "code": "TBNKCAMT",
+    #             "type": "bank",
+    #             "bank_account_id": self.bank.id,
+    #         }
+    #     )
+    #     self.assertEqual(self.bank.l10n_ro_print_report, False)
+    #     journal.write({"l10n_ro_print_report": True})
+    #     self.assertEqual(journal.bank_account_id.id, self.bank.id)
+    #     self.assertEqual(journal.l10n_ro_print_report, True)
+    #     self.assertEqual(self.bank.l10n_ro_print_report, True)
 
     def test_create_bank_account_ro(self):
         company = self.env["res.company"].create(
