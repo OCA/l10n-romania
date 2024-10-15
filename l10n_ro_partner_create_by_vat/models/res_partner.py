@@ -257,10 +257,10 @@ class ResPartner(models.Model):
             if field[2] == "over_all_the_time":
                 res[field[0]] = anaf_value
             elif field[2] == "write_if_empty&add_date" and anaf_value:
-                if not getattr(
-                    self, field[0], None
-                ):  # we are only writing if is not already a value
-                    res[field[0]] = ("UTC %s:" % fields.datetime.now()) + anaf_value
+                # we are only writing if is not already a value
+                if not getattr(self, field[0], None):
+                    now = fields.datetime.now()
+                    res[field[0]] = (f"UTC {now}:") + anaf_value
             elif field[2] == "write_if_empty" and anaf_value:
                 if not getattr(self, field[0], None):
                     res[field[0]] = anaf_value
