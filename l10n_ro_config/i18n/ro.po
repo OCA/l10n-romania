@@ -297,7 +297,6 @@ msgstr ""
 #. module: l10n_ro_config
 #. odoo-python
 #: code:addons/l10n_ro_config/wizard/res_config_settings.py:0
-#, python-format
 msgid "Notification !"
 msgstr "Notificare!"
 
@@ -754,7 +753,6 @@ msgstr "Stoc"
 #. module: l10n_ro_config
 #. odoo-python
 #: code:addons/l10n_ro_config/wizard/res_config_settings.py:0
-#, python-format
 msgid "The values used for stock out operations will not follow FIFO rule!"
 msgstr ""
 "Valorile utilizate pentru operațiunile de epuizare a stocurilor nu vor "
@@ -1017,7 +1015,6 @@ msgstr ""
 #. module: l10n_ro_config
 #. odoo-python
 #: code:addons/l10n_ro_config/wizard/res_config_settings.py:0
-#, python-format
 msgid ""
 "Tracking (Lot/Serial) has to be enabled first for all stockable and "
 "consumable products !"
