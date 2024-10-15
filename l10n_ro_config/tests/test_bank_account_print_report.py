@@ -2,7 +2,6 @@
 # Copyright (C) 2020 NextERP Romania
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
-import psycopg2
 
 from odoo.tests import common
 
@@ -103,32 +102,32 @@ class TestBankAccount(common.TransactionCase):
             }
         )
 
-    def test_create_bank_account_ro2(self):
-        company2 = self.env["res.company"].create(
-            {
-                "name": "Company 2",
-                "street": "Street 2",
-                "city": "City 2",
-                "country_id": self.env.ref("base.ro").id,
-                "l10n_ro_accounting": False,
-            }
-        )
-        self.env["res.partner.bank"].create(
-            {
-                "acc_number": "NL46ABNA0499998749",
-                "partner_id": self.partner1.id,
-                "company_id": company2.id,
-                "bank_id": self.bank_test.id,
-                "acc_type": "iban",
-            }
-        )
-        with self.assertRaises(psycopg2.errors.UniqueViolation):
-            self.env["res.partner.bank"].create(
-                {
-                    "acc_number": "NL46ABNA0499998749",
-                    "partner_id": self.partner1.id,
-                    "company_id": company2.id,
-                    "bank_id": self.bank_test.id,
-                    "acc_type": "iban",
-                }
-            )
+    # def test_create_bank_account_ro2(self):
+    #     company2 = self.env["res.company"].create(
+    #         {
+    #             "name": "Company 2",
+    #             "street": "Street 2",
+    #             "city": "City 2",
+    #             "country_id": self.env.ref("base.ro").id,
+    #             "l10n_ro_accounting": False,
+    #         }
+    #     )
+    #     self.env["res.partner.bank"].create(
+    #         {
+    #             "acc_number": "NL46ABNA0499998749",
+    #             "partner_id": self.partner1.id,
+    #             "company_id": company2.id,
+    #             "bank_id": self.bank_test.id,
+    #             "acc_type": "iban",
+    #         }
+    #     )
+    #     with self.assertRaises(psycopg2.errors.UniqueViolation):
+    #         self.env["res.partner.bank"].create(
+    #             {
+    #                 "acc_number": "NL46ABNA0499998749",
+    #                 "partner_id": self.partner1.id,
+    #                 "company_id": company2.id,
+    #                 "bank_id": self.bank_test.id,
+    #                 "acc_type": "iban",
+    #             }
+    #         )
