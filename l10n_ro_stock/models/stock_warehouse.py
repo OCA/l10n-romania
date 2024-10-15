@@ -73,7 +73,6 @@ class StockWarehouse(models.Model):
                         "default_location_dest_id": self.l10n_ro_wh_consume_loc_id.id,
                         "sequence": max_sequence + 6,
                         "barcode": self.code.replace(" ", "").upper() + "-CONSUME",
-                        "show_reserved": False,
                         "sequence_code": "CONS",
                         "company_id": self.company_id.id,
                     },
