@@ -10,6 +10,7 @@
     "depends": ["l10n_ro_stock_account"],
     "license": "AGPL-3",
     "data": [
+        "views/ir_config_parameter.xml",
         "views/stock_picking_views.xml",
         "views/stock_valuation_layer_views.xml",
     ],
