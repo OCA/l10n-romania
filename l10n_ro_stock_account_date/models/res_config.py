@@ -8,7 +8,7 @@ class ResConfigSettings(models.TransientModel):
     _name = "res.config.settings"
     _inherit = ["res.config.settings", "l10n.ro.mixin"]
 
-    l10n_ro_stock_move_date= fields.Boolean(
+    l10n_ro_stock_move_date = fields.Boolean(
         "Add notification when posting invoice/entry if it's not linked to stock_move",
-        config_parameter='stock_move_date'
+        config_parameter="stock_move_date",
     )
