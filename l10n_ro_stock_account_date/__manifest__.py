@@ -2,7 +2,7 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 {
     "name": "Romania - Stock Accounting Date",
-    "version": "15.0.2.3.0",
+    "version": "15.0.2.4.0",
     "category": "Localization",
     "summary": "Romania - Stock Accounting Date",
     "author": "NextERP Romania," "Odoo Community Association (OCA)",
@@ -10,6 +10,7 @@
     "depends": ["l10n_ro_stock_account"],
     "license": "AGPL-3",
     "data": [
+        "views/ir_config_parameter.xml",
         "views/stock_picking_views.xml",
         "views/stock_valuation_layer_views.xml",
     ],
