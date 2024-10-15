@@ -1,0 +1,503 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="res_config_settings_view_form" model="ir.ui.view">
+        <field name="name">res.config.settings.view.form.inherit</field>
+        <field name="model">res.config.settings</field>
+        <field name="priority" eval="50" />
+        <field name="inherit_id" ref="base.res_config_settings_view_form" />
+        <field name="arch" type="xml">
+            <form position="inside">
+                <field name="is_l10n_ro_record" invisible="1" />
+                <field
+                    name="country_code"
+                    invisible="1"
+                    groups="l10n_ro_config.group_ro_menus"
+                />
+
+                <app
+                    data-string="România"
+                    string="România"
+                    name="l10n_ro_config"
+                    groups="l10n_ro_config.group_ro_menus"
+                    invisible="country_code != 'RO'"
+                >
+                    <block
+                        title="Partners &amp; Addresses"
+                        id="modules_contact_setting_container"
+                    >
+                        <setting
+                            id="module_l10n_ro_partner_unique"
+                            help="Set up a rule for unique partners based on vat, nrc and company."
+                        >
+                            <field name="module_l10n_ro_partner_unique" />
+                        </setting>
+
+                        <setting
+                            id="module_l10n_ro_partner_create_by_vat"
+                            help="Create partners based on the vat code from ANAF website."
+                        >
+                            <field name="module_l10n_ro_partner_create_by_vat" />
+                        </setting>
+
+                        <setting
+                            id="module_l10n_ro_fiscal_validation"
+                            help="Update partners data based on the vat code from ANAF website in cron job."
+                        >
+                            <field name="module_l10n_ro_fiscal_validation" />
+                        </setting>
+
+                        <setting
+                            id="module_l10n_ro_address_extended"
+                            help="Complete also staircase in extended address for partners."
+                        >
+                            <field name="module_l10n_ro_address_extended" />
+                        </setting>
+
+                        <setting
+                            id="module_l10n_ro_city"
+                            help="Upload Romanian cities, so you can select them more easily."
+                        >
+                            <field name="module_l10n_ro_city" />
+                        </setting>
+
+                        <setting
+                            id="module_l10n_ro_siruta"
+                            help="Select also the commune and zone in partner addresses."
+                        >
+                            <field name="module_l10n_ro_siruta" />
+                        </setting>
+                    </block>
+
+                    <block title="Accounting" id="ro_accounting_setting_container">
+                        <setting
+                            id="use_anglo_saxon"
+                            company_dependent="1"
+                            help="Record cost of goods sold in your journal entries."
+                        >
+                            <field name="use_anglo_saxon" />
+                        </setting>
+
+                        <setting
+                            id="l10n_ro_accounting"
+                            company_dependent="1"
+                            help="Registration of accounting moves according to Romanian legislation."
+                        >
+                            <field name="l10n_ro_accounting" />
+                        </setting>
+
+                        <setting id="l10n_ro_config">
+                            <div class="content-group">
+                                <div class="row mt16">
+                                    <label
+                                        for="l10n_ro_share_capital"
+                                        class="col-lg-3 o_light_label"
+                                    />
+                                    <field name="l10n_ro_share_capital" />
+                                </div>
+                                <div class="row mt16">
+                                    <label
+                                        for="l10n_ro_caen_code"
+                                        class="col-lg-3 o_light_label"
+                                    />
+                                    <field name="l10n_ro_caen_code" />
+                                </div>
+                                <div class="row mt16">
+                                    <label
+                                        for="l10n_ro_property_vat_on_payment_position_id"
+                                        class="col-lg-3 o_light_label"
+                                    />
+                                    <field
+                                        name="l10n_ro_property_vat_on_payment_position_id"
+                                    />
+                                </div>
+                                <div class="row mt16">
+                                    <label
+                                        for="l10n_ro_property_inverse_taxation_position_id"
+                                        class="col-lg-3 o_light_label"
+                                    />
+                                    <field
+                                        name="l10n_ro_property_inverse_taxation_position_id"
+                                    />
+                                </div>
+                            </div>
+                        </setting>
+
+                        <setting
+                            id="module_l10n_ro_vat_on_payment"
+                            help="Add a vat on payment field in partners, change the fiscal position with the one defined in settings depending on the partner and invoice."
+                        >
+                            <field name="module_l10n_ro_vat_on_payment" />
+                        </setting>
+
+                        <setting
+                            id="module_l10n_ro_account_period_close"
+                            help="Add a mechanism to close Incomes, Expense, VAT on a period base."
+                        >
+                            <field name="module_l10n_ro_account_period_close" />
+                        </setting>
+
+                        <setting
+                            id="module_l10n_ro_account_report_invoice"
+                            help="Add company field for no signature, update invoice report for multi currency."
+                        >
+                            <field name="module_l10n_ro_account_report_invoice" />
+                        </setting>
+
+                        <setting
+                            id="module_l10n_ro_account_edit_currency_rate"
+                            help="Currency rate in invoice is editable, so you can use your own currency rate."
+                        >
+                            <field name="module_l10n_ro_account_edit_currency_rate" />
+                        </setting>
+
+                        <setting
+                            id="module_l10n_ro_payment_receipt_report"
+                            help="Print custom receipt report for Romanian companies."
+                        >
+                            <field name="module_l10n_ro_payment_receipt_report" />
+                        </setting>
+
+                        <setting
+                            id="module_l10n_ro_payment_to_statement"
+                            help="Record the payment directly to bank or cash statement. Set up different sequences for cash operations."
+                        >
+                            <field name="module_l10n_ro_payment_to_statement" />
+                        </setting>
+
+                        <setting
+                            id="module_l10n_ro_nondeductible_vat"
+                            help="Register non deductible VAT in accounting and stock operations."
+                        >
+                            <field name="module_l10n_ro_nondeductible_vat" />
+                        </setting>
+                        <setting
+                            id="l10n_ro_nondeductible_account_id"
+                            invisible="module_l10n_ro_nondeductible_vat == False"
+                            help="This account will be used as the default non deductible expense account from
+                                tax repartition lines marked as not deductible. If the line account does not
+                                have a non deductible account set, this account will be used."
+                            company_dependent="1"
+                        >
+                            <field
+                                name="l10n_ro_nondeductible_account_id"
+                                placeholder="Select a expense account"
+                            />
+                        </setting>
+                    </block>
+
+                    <block title="ANAF Integration" id="ro_anaf_setting_container">
+                        <setting
+                            id="module_l10n_ro_account_anaf_sync"
+                            help="Register sync oAuth with ANAF website."
+                        >
+                            <field name="module_l10n_ro_account_anaf_sync" />
+                        </setting>
+
+                        <setting id="ro_anaf_einvoice_container" />
+
+                        <setting id="ro_anaf_etransport_container" />
+                    </block>
+
+                    <block title="Stock" id="ro_stock_setting_container">
+                        <setting
+                            id="module_l10n_ro_stock"
+                            help="Adds location in_custody, usage_giving, consume *merchandise_type: store, warehouse."
+                        >
+                            <field name="module_l10n_ro_stock" />
+                        </setting>
+
+                        <setting
+                            id="module_l10n_ro_stock_account"
+                            help="Updates stock accounting according to Romanian Legislation."
+                        >
+                            <field name="module_l10n_ro_stock_account" />
+                        </setting>
+
+                        <field
+                            name="l10n_ro_stock_account_svl_lot_allocation_visible"
+                            invisible="1"
+                        />
+                        <setting
+                            id="module_l10n_ro_stock_account_svl_allocation_config"
+                            help="If this field is checked and the company use Romanian Accounting, the value used for stock out operations will be the value recorded at the reception of the lot/serial, ignoring FIFO rule; If this field is NOT checked and the company use Romanian Accounting, the value used for stock out operations will be the value provided by FIFO rule, applied strictly on a location level (including its children)."
+                            company_dependent="1"
+                            invisible="not l10n_ro_stock_account_svl_lot_allocation_visible"
+                        >
+                            <field name="l10n_ro_stock_account_svl_lot_allocation" />
+                        </setting>
+
+                        <setting
+                            id="module_l10n_ro_stock_price_difference"
+                            help="Record price differences between bills and reception through Landed Cost"
+                        >
+                            <field name="module_l10n_ro_stock_price_difference" />
+                        </setting>
+
+                        <setting
+                            id="l10n_ro_stock_acc_price_diff"
+                            help="Update stock valuation in case of price difference between reception and bill."
+                            company_dependent="1"
+                            invisible="not module_l10n_ro_stock_price_difference"
+                        >
+                            <field name="l10n_ro_stock_acc_price_diff" />
+                            <div
+                                class="content-group"
+                                invisible="not l10n_ro_stock_acc_price_diff"
+                            >
+                                <div class="mt16">
+                                    <field
+                                        name="l10n_ro_property_stock_price_difference_product_id"
+                                        placeholder="Select a product"
+                                    />
+                                </div>
+                                <div class="text-muted mt16">
+                                    Select a service product that will be used in landed cost to register price differences.<br
+                                    />An expense account needs to be set on product or product category.
+                                </div>
+                            </div>
+                        </setting>
+
+                        <setting
+                            id="module_l10n_ro_dvi"
+                            help="Record DVI directly from invoices."
+                        >
+                            <field name="module_l10n_ro_dvi" />
+                        </setting>
+
+                        <setting
+                            id="module_l10n_ro_dvi_config"
+                            company_dependent="1"
+                            invisible="not module_l10n_ro_dvi"
+                        >
+                            <label for="l10n_ro_property_customs_duty_product_id" />
+                            <div class="text-muted mt8">
+                                Select a service product that will be used in customs duty registration in landed cost.
+                            </div>
+                            <div class="mt8">
+                                <field
+                                    name="l10n_ro_property_customs_duty_product_id"
+                                    placeholder="Select a product"
+                                />
+                            </div>
+                            <div class="mt16">
+                                <label
+                                    for="l10n_ro_property_customs_commission_product_id"
+                                />
+                            </div>
+                            <div class="text-muted mt8">
+                                Select a service product that will be used in customs commission registration in landed cost.
+                            </div>
+                            <div class="mt8">
+                                <field
+                                    name="l10n_ro_property_customs_commission_product_id"
+                                    placeholder="Select a product"
+                                />
+                            </div>
+                        </setting>
+
+                        <setting
+                            id="module_l10n_ro_stock_account_notice"
+                            help="Mark stock operations as notice operations. Stock accounting will change to use and accounts."
+                        >
+                            <field name="module_l10n_ro_stock_account_notice" />
+                        </setting>
+
+                        <setting
+                            id="module_l10n_ro_stock_account_date"
+                            help="Select Accounting Date in stock operations. All transactions will have the Accounting Date as the used date in stock."
+                        >
+                            <field name="module_l10n_ro_stock_account_date" />
+                        </setting>
+
+                        <setting
+                            id="module_l10n_ro_stock_account_date_wizard"
+                            help="Select Accounting Date in stock operations wizard."
+                            invisible="not module_l10n_ro_stock_account_date"
+                        >
+                            <field name="module_l10n_ro_stock_account_date_wizard" />
+                        </setting>
+
+                        <setting
+                            id="module_l10n_ro_stock_report"
+                            help="Add a stock sheet report for products grouped by Location, Account."
+                        >
+                            <field name="module_l10n_ro_stock_report" />
+                        </setting>
+
+                        <setting
+                            id="module_l10n_ro_stock_picking_valued_report"
+                            help="Add valued reports for stock operations."
+                        >
+                            <field name="module_l10n_ro_stock_picking_valued_report" />
+                        </setting>
+
+                        <setting
+                            id="module_l10n_ro_stock_picking_comment_template"
+                            help="Add predefined layouts to stock reports."
+                        >
+                            <field
+                                name="module_l10n_ro_stock_picking_comment_template"
+                            />
+                        </setting>
+
+                        <setting
+                            id="l10n_ro_restrict_stock_move_date_last_month"
+                            help="Restrict stock move posting in the last month."
+                        >
+                            <field name="l10n_ro_restrict_stock_move_date_last_month" />
+                        </setting>
+
+                        <setting
+                            id="l10n_ro_restrict_stock_move_date_future"
+                            help="Restrict stock move posting with future date."
+                        >
+                            <field name="l10n_ro_restrict_stock_move_date_future" />
+                        </setting>
+
+                        <setting
+                            id="module_l10n_ro_stock_account_config"
+                            company_dependent="1"
+                            invisible="not module_l10n_ro_stock_account"
+                        >
+                            <div class="content-group">
+                                <div class="row mt16">
+                                    <label
+                                        for="l10n_ro_property_stock_picking_payable_account_id"
+                                        class="col-lg-3 o_light_label"
+                                    />
+                                    <field
+                                        name="l10n_ro_property_stock_picking_payable_account_id"
+                                        placeholder="Select 408"
+                                    />
+                                </div>
+                                <div class="row mt16">
+                                    <label
+                                        for="l10n_ro_property_stock_picking_receivable_account_id"
+                                        class="col-lg-3 o_light_label"
+                                    />
+                                    <field
+                                        name="l10n_ro_property_stock_picking_receivable_account_id"
+                                        placeholder="Select 418"
+                                    />
+                                </div>
+                                <div class="row mt16">
+                                    <label
+                                        for="l10n_ro_property_stock_usage_giving_account_id"
+                                        class="col-lg-3 o_light_label"
+                                    />
+                                    <field
+                                        name="l10n_ro_property_stock_usage_giving_account_id"
+                                        placeholder="Select 8035"
+                                    />
+                                </div>
+                                <div class="row mt16">
+                                    <label
+                                        for="l10n_ro_property_stock_picking_custody_account_id"
+                                        class="col-lg-3 o_light_label"
+                                    />
+                                    <field
+                                        name="l10n_ro_property_stock_picking_custody_account_id"
+                                        placeholder="cont stock marfa primita in custodie (creeat nou extrabilantier)"
+                                    />
+                                </div>
+                                <div class="row mt16">
+                                    <label
+                                        for="l10n_ro_property_uneligible_tax_account_id"
+                                        class="col-lg-3 o_light_label"
+                                    />
+                                    <field
+                                        name="l10n_ro_property_uneligible_tax_account_id"
+                                        placeholder="use 4428 cont pentru tva neexigibil in notele facute pentru 'Marfa in magazin'"
+                                    />
+                                </div>
+                                <div class="row mt16">
+                                    <label
+                                        for="l10n_ro_property_stock_transfer_account_id"
+                                        class="col-lg-3 o_light_label"
+                                    />
+                                    <field
+                                        name="l10n_ro_property_stock_transfer_account_id"
+                                        placeholder="Select 482"
+                                    />
+                                </div>
+                                <div class="row mt16">
+                                    <label
+                                        for="l10n_ro_property_trade_discount_received_account_id"
+                                        class="col-lg-3 o_light_label"
+                                    />
+                                    <field
+                                        name="l10n_ro_property_trade_discount_received_account_id"
+                                    />
+                                </div>
+                                <div class="row mt16">
+                                    <label
+                                        for="l10n_ro_property_trade_discount_granted_account_id"
+                                        class="col-lg-3 o_light_label"
+                                    />
+                                    <field
+                                        name="l10n_ro_property_trade_discount_granted_account_id"
+                                    />
+                                </div>
+                            </div>
+                        </setting>
+                    </block>
+                </app>
+            </form>
+        </field>
+    </record>
+
+    <record id="res_config_settings_account_view_form" model="ir.ui.view">
+        <field name="name">res.config.settings.view.form.inherit.account</field>
+        <field name="model">res.config.settings</field>
+        <field name="inherit_id" ref="account.res_config_settings_view_form" />
+        <field name="arch" type="xml">
+            <setting id="update_exchange_rates" position="after">
+                <setting
+                    id="update_bnr_exchange_rates"
+                    string="Install BNR update rates"
+                    company_dependent="1"
+                    help="Will update daily from cron only if is checked Automatic Currency Rates (OCA) and you added a rate_provider."
+                >
+                    <field name="module_currency_rate_update_RO_BNR" />
+                </setting>
+            </setting>
+            <setting id="default_taxes" position="after">
+                <setting
+                    id="default_services_taxes"
+                    string="Default Services Taxes"
+                    company_dependent="1"
+                    help="Default taxes applied to local transactions."
+                >
+                    <div class="content-group">
+                        <div class="row mt16">
+                            <div>
+                                <label
+                                    string="Services Sales Tax"
+                                    for="l10n_ro_serv_sale_tax_id"
+                                    class="col-lg-3 o_light_label"
+                                />
+                                <field
+                                    name="l10n_ro_serv_sale_tax_id"
+                                    domain="[('type_tax_use', 'in', ('sale', 'all')), ('company_id', '=', company_id)]"
+                                />
+                            </div>
+                        </div>
+                        <div class="row mt16">
+                            <div>
+                                <label
+                                    string="Services Purchase Tax"
+                                    for="l10n_ro_serv_purchase_tax_id"
+                                    class="col-lg-3 o_light_label"
+                                />
+                                <field
+                                    name="l10n_ro_serv_purchase_tax_id"
+                                    domain="[('type_tax_use', 'in', ('purchase', 'all')), ('company_id', '=', company_id)]"
+                                />
+                            </div>
+                        </div>
+                    </div>
+                </setting>
+            </setting>
+        </field>
+    </record>
+</odoo>
