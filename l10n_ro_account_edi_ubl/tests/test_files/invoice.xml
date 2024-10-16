@@ -12,6 +12,7 @@
     <cbc:DueDate>2022-09-01</cbc:DueDate>
     <cbc:InvoiceTypeCode>380</cbc:InvoiceTypeCode>
     <cbc:DocumentCurrencyCode>RON</cbc:DocumentCurrencyCode>
+    <cbc:TaxCurrencyCode>RON</cbc:TaxCurrencyCode>
     <cbc:BuyerReference>SCOALA GIMNAZIALA COMUNA FOENI</cbc:BuyerReference>
     <cac:OrderReference>
         <cbc:ID>FBRAO2092</cbc:ID>
@@ -46,6 +47,7 @@
             <cac:Contact>
                 <cbc:Name>FOREST AND BIOMASS ROMÂNIA S.A.</cbc:Name>
                 <cbc:Telephone>0356179038</cbc:Telephone>
+                <cbc:ElectronicMail>admin@admin.com</cbc:ElectronicMail>
             </cac:Contact>
         </cac:Party>
     </cac:AccountingSupplierParty>
@@ -81,6 +83,19 @@
             </cac:Contact>
         </cac:Party>
     </cac:AccountingCustomerParty>
+    <cac:Delivery>
+        <cac:DeliveryLocation>
+            <cac:Address>
+            <cbc:StreetName>Foeni Nr. 383</cbc:StreetName>
+            <cbc:CityName>Foeni</cbc:CityName>
+            <cbc:PostalZone>307175</cbc:PostalZone>
+            <cbc:CountrySubentity>RO-TM</cbc:CountrySubentity>
+            <cac:Country>
+                <cbc:IdentificationCode>RO</cbc:IdentificationCode>
+            </cac:Country>
+            </cac:Address>
+        </cac:DeliveryLocation>
+    </cac:Delivery>
     <cac:PaymentMeans>
         <cbc:PaymentMeansCode name="credit transfer">30</cbc:PaymentMeansCode>
 

@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='UTF-8' ?>
-<CreditNote
-    xmlns="urn:oasis:names:specification:ubl:schema:xsd:CreditNote-2"
+<Invoice
+    xmlns="urn:oasis:names:specification:ubl:schema:xsd:Invoice-2"
     xmlns:cac="urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2"
     xmlns:cbc="urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2"
 >
@@ -9,8 +9,10 @@
     <cbc:ProfileID>urn:fdc:peppol.eu:2017:poacc:billing:01:1.0</cbc:ProfileID>
     <cbc:ID>FBRAO2095</cbc:ID>
     <cbc:IssueDate>2022-09-01</cbc:IssueDate>
-    <cbc:CreditNoteTypeCode>381</cbc:CreditNoteTypeCode>
+    <cbc:DueDate>2022-09-01</cbc:DueDate>
+    <cbc:InvoiceTypeCode>380</cbc:InvoiceTypeCode>
     <cbc:DocumentCurrencyCode>RON</cbc:DocumentCurrencyCode>
+    <cbc:TaxCurrencyCode>RON</cbc:TaxCurrencyCode>
     <cbc:BuyerReference>SCOALA GIMNAZIALA COMUNA FOENI</cbc:BuyerReference>
     <cac:OrderReference>
         <cbc:ID>FBRAO2095</cbc:ID>
@@ -77,9 +79,23 @@
             <cac:Contact>
                 <cbc:Name>FOREST AND BIOMASS ROMÂNIA S.A.</cbc:Name>
                 <cbc:Telephone>0356179038</cbc:Telephone>
+                <cbc:ElectronicMail>admin@admin.com</cbc:ElectronicMail>
             </cac:Contact>
         </cac:Party>
     </cac:AccountingCustomerParty>
+    <cac:Delivery>
+        <cac:DeliveryLocation>
+            <cac:Address>
+            <cbc:StreetName>Foeni Nr. 383</cbc:StreetName>
+            <cbc:CityName>Foeni</cbc:CityName>
+            <cbc:PostalZone>307175</cbc:PostalZone>
+            <cbc:CountrySubentity>RO-TM</cbc:CountrySubentity>
+            <cac:Country>
+                <cbc:IdentificationCode>RO</cbc:IdentificationCode>
+            </cac:Country>
+            </cac:Address>
+        </cac:DeliveryLocation>
+    </cac:Delivery>
     <cac:PaymentMeans>
         <cbc:PaymentMeansCode name="credit transfer">30</cbc:PaymentMeansCode>
         <cbc:PaymentID>FBRAO2095</cbc:PaymentID>
@@ -91,10 +107,10 @@
         </cac:PayeeFinancialAccount>
     </cac:PaymentMeans>
     <cac:TaxTotal>
-        <cbc:TaxAmount currencyID="RON">1900.00</cbc:TaxAmount>
+        <cbc:TaxAmount currencyID="RON">-1900.00</cbc:TaxAmount>
         <cac:TaxSubtotal>
-            <cbc:TaxableAmount currencyID="RON">10000.00</cbc:TaxableAmount>
-            <cbc:TaxAmount currencyID="RON">1900.00</cbc:TaxAmount>
+            <cbc:TaxableAmount currencyID="RON">-10000.00</cbc:TaxableAmount>
+            <cbc:TaxAmount currencyID="RON">-1900.00</cbc:TaxAmount>
             <cac:TaxCategory>
                 <cbc:ID>S</cbc:ID>
                 <cbc:Percent>19.0</cbc:Percent>
@@ -105,16 +121,16 @@
         </cac:TaxSubtotal>
     </cac:TaxTotal>
     <cac:LegalMonetaryTotal>
-        <cbc:LineExtensionAmount currencyID="RON">10000.00</cbc:LineExtensionAmount>
-        <cbc:TaxExclusiveAmount currencyID="RON">10000.00</cbc:TaxExclusiveAmount>
-        <cbc:TaxInclusiveAmount currencyID="RON">11900.00</cbc:TaxInclusiveAmount>
+        <cbc:LineExtensionAmount currencyID="RON">-10000.00</cbc:LineExtensionAmount>
+        <cbc:TaxExclusiveAmount currencyID="RON">-10000.00</cbc:TaxExclusiveAmount>
+        <cbc:TaxInclusiveAmount currencyID="RON">-11900.00</cbc:TaxInclusiveAmount>
         <cbc:PrepaidAmount currencyID="RON">0.00</cbc:PrepaidAmount>
-        <cbc:PayableAmount currencyID="RON">11900.00</cbc:PayableAmount>
+        <cbc:PayableAmount currencyID="RON">-11900.00</cbc:PayableAmount>
     </cac:LegalMonetaryTotal>
-    <cac:CreditNoteLine>
+    <cac:InvoiceLine>
         <cbc:ID>1</cbc:ID>
-        <cbc:CreditedQuantity unitCode="C62">5.0</cbc:CreditedQuantity>
-        <cbc:LineExtensionAmount currencyID="RON">5000.00</cbc:LineExtensionAmount>
+        <cbc:InvoicedQuantity unitCode="C62">-5.0</cbc:InvoicedQuantity>
+        <cbc:LineExtensionAmount currencyID="RON">-5000.00</cbc:LineExtensionAmount>
         <cac:Item>
             <cbc:Description>[00000623] Bec P21/5W</cbc:Description>
             <cbc:Name>Bec P21/5W</cbc:Name>
@@ -133,11 +149,11 @@
             <cbc:PriceAmount currencyID="RON">1000.0</cbc:PriceAmount>
             <cbc:BaseQuantity unitCode="C62">1.0</cbc:BaseQuantity>
         </cac:Price>
-    </cac:CreditNoteLine>
-    <cac:CreditNoteLine>
+    </cac:InvoiceLine>
+    <cac:InvoiceLine>
         <cbc:ID>2</cbc:ID>
-        <cbc:CreditedQuantity unitCode="C62">5.0</cbc:CreditedQuantity>
-        <cbc:LineExtensionAmount currencyID="RON">5000.00</cbc:LineExtensionAmount>
+        <cbc:InvoicedQuantity unitCode="C62">-5.0</cbc:InvoicedQuantity>
+        <cbc:LineExtensionAmount currencyID="RON">-5000.00</cbc:LineExtensionAmount>
         <cac:Item>
             <cbc:Description>[00000624] Bec P21/10W</cbc:Description>
             <cbc:Name>Bec P21/10W</cbc:Name>
@@ -156,5 +172,5 @@
             <cbc:PriceAmount currencyID="RON">1000.0</cbc:PriceAmount>
             <cbc:BaseQuantity unitCode="C62">1.0</cbc:BaseQuantity>
         </cac:Price>
-    </cac:CreditNoteLine>
-</CreditNote>
+    </cac:InvoiceLine>
+</Invoice>

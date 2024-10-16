@@ -145,6 +145,7 @@ class AccountMove(models.Model):
         )
         if message:
             self.l10n_ro_edi_post_message(self, message, res)
+        return res
 
     @api.model
     def l10n_ro_edi_post_message(self, invoice, message, res):
@@ -156,7 +157,7 @@ class AccountMove(models.Model):
         )
         for user in users:
             mail_activity = invoice.activity_ids.filtered(
-                lambda a: a.summary == message and a.user_id == user
+                lambda a, user=user: a.summary == message and a.user_id == user
             )
             if mail_activity:
                 mail_activity.write(
@@ -231,7 +232,7 @@ class AccountMove(models.Model):
                     invoice._l10n_ro_edi_create_document_invoice_sending_failed(
                         result["error"], previous_raw
                     )
-            attachment_zip = (
+            (
                 self.env["ir.attachment"]
                 .sudo()
                 .create(

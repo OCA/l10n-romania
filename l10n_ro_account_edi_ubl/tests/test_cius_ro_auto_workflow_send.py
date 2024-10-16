@@ -44,7 +44,8 @@ class TestCiusRoAutoWorkflow(CiusRoTestSetup):
                 "<p>The invoice was sent to ANAF, awaiting validation.</p>",
             )
 
-    # Test case for the successful processing of documents in step 1 of the CIUS workflow.
+    # Test case for the successful processing of documents in step 1
+    # of the CIUS workflow.
     def test_process_documents_web_services_step1_ok(self):
         self.prepare_invoice_sent_step1()
         self.assertEqual(self.invoice.l10n_ro_edi_transaction, "3828")
@@ -56,7 +57,8 @@ class TestCiusRoAutoWorkflow(CiusRoTestSetup):
         self.assertEqual(self.invoice.l10n_ro_edi_transaction, "3828")
         self.assertEqual(self.invoice.l10n_ro_edi_previous_transaction, "3828")
 
-    # Test case for the cron job that processes documents in step 1 of the CIUS workflow.
+    # Test case for the cron job that processes documents in step 1
+    # of the CIUS workflow.
     @freezegun.freeze_time("2022-09-04")
     def test_process_documents_web_services_step1_cron(self):
         self.invoice.action_post()
@@ -92,7 +94,8 @@ class TestCiusRoAutoWorkflow(CiusRoTestSetup):
             self.check_invoice_documents(
                 self.invoice,
                 "invoice_sending",
-                "<p>Valorile acceptate pentru parametrul standard sunt UBL, CII sau RASP</p>",
+                "<p>Valorile acceptate pentru parametrul standard sunt UBL,"
+                " CII sau RASP</p>",
             )
 
     # Test case for the constraint handling in step 1 of the CIUS workflow.
@@ -107,11 +110,13 @@ class TestCiusRoAutoWorkflow(CiusRoTestSetup):
         self.check_invoice_documents(
             self.invoice,
             "invoice_sending",
-            "<p>{\"The field 'State' is required on SCOALA GIMNAZIALA COMUNA FOENI.\"}</p>",
+            "<p>{\"The field 'State' is required on"
+            ' SCOALA GIMNAZIALA COMUNA FOENI."}</p>',  # noqa
             has_edi_document=False,
         )
 
-    # Test case for the successful processing of documents in step 2 of the CIUS workflow.
+    # Test case for the successful processing of documents
+    # in step 2 of the CIUS workflow.
     def test_process_documents_web_services_step2_ok(self):
         self.prepare_invoice_sent_step1()
 
@@ -209,6 +214,7 @@ class TestCiusRoAutoWorkflow(CiusRoTestSetup):
         anaf_error_zipfile = self.get_zip_file("3828.zip")
         users = self.env.ref("base.user_admin") + self.env.ref("base.user_demo")
         self.env.company.l10n_ro_edi_error_notify_users = users
+        import ipdb; ipdb.set_trace()
 
         def _request_ciusro_download_answer(self, company, key_download, session):
             if func == "/descarcare":

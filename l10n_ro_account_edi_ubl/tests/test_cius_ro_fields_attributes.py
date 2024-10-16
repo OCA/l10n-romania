@@ -72,6 +72,7 @@ class TestCiusRoRequired(CiusRoTestSetup):
         self.check_invoice_fields_invoice_sent(self.credit_note)
 
     def test_purchase_invoice_autoinvoice_fields(self):
+        import ipdb; ipdb.set_trace()
         self.check_invoice_fields_invoice_sent(self.invoice_in)
 
     def test_purchase_refund_autoinvoice_fields(self):

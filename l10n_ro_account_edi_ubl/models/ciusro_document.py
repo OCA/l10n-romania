@@ -22,16 +22,21 @@ class L10nRoEdiDocument(models.Model):
     @api.model
     def _request_ciusro_download_zipfile(self, company, key_download, session):
         """
-        This method makes a "Download Answer" (GET/descarcare) request to the Romanian SPV. It then processes the
-        response by opening the received zip file and returns either:
+        This method makes a "Download Answer" (GET/descarcare) request to the
+        Romanian SPV. It then processes the response by opening the received zip
+        file and returns either:
 
-        - {'error': <str>} ~ failing response from a bad request / unaccepted XML answer from the SPV
-        - <successful response dictionary> ~ contains the necessary information to be stored from the SPV
+        - {'error': <str>} ~ failing response from a bad request / unaccepted XML
+        answer from the SPV
+        - <successful response dictionary> ~ contains the necessary information
+        to be stored from the SPV
 
         :param company: ``res.company`` object
-        :param key_download: Content of `key_download` received from `_request_ciusro_send_invoice`
+        :param key_download: Content of `key_download` received from
+        `_request_ciusro_send_invoice`
         :param session: ``requests.Session()`` object
-        :return: {'error': <str>} | {'attachment_raw': <str>, 'key_signature': <str>, 'key_certificate': <str>}
+        :return: {'error': <str>} | {'attachment_raw': <str>, 'key_signature': <str>,
+        'key_certificate': <str>}
         """
         if self.env.context.get("test_data"):
             return self.env.context["test_data"]

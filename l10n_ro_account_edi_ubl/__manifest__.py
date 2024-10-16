@@ -13,6 +13,7 @@
         "data/account_edi_data.xml",
         "views/res_config_settings_views.xml",
         "views/account_invoice.xml",
+        "views/cius_template.xml",
     ],
     "license": "AGPL-3",
     "version": "17.0.1.0.1",
