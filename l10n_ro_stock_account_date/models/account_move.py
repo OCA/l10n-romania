@@ -35,17 +35,23 @@ class AccountMove(models.Model):
                         ok = True
                         break
             if not ok:
-                message = _(
-                    "There is no stock move with date %(date)s for product %(product)s",
-                    date=move.date,
-                    product=product.name,
+                stock_date = (
+                    self.env["ir.config_parameter"]
+                    .sudo()
+                    .get_param("l10n_ro_account_move_activity")
                 )
+                if stock_date == "True":
+                    message = _(
+                        "There is no stock move with date %(date)s for product %(product)s",
+                        date=move.date,
+                        product=product.name,
+                    )
 
-                _logger.warning(message)
-                move.sudo().activity_schedule(
-                    "mail.mail_activity_data_warning",
-                    summary=_("Incorrect Date"),
-                    note=message,
-                    user_id=move.user_id.id,
-                )
+                    _logger.warning(message)
+                    move.sudo().activity_schedule(
+                        "mail.mail_activity_data_warning",
+                        summary=_("Incorrect Date"),
+                        note=message,
+                        user_id=move.user_id.id,
+                    )
         return res

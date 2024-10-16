@@ -12,6 +12,7 @@
     "data": [
         "views/stock_picking_views.xml",
         "views/stock_valuation_layer_views.xml",
+        "views/res_config.xml",
     ],
     "installable": True,
     "development_status": "Mature",
