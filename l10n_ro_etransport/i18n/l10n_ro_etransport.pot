@@ -4,7 +4,7 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 16.0\n"
+"Project-Id-Version: Odoo Server 14.0\n"
 "Report-Msgid-Bugs-To: \n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -53,9 +53,12 @@ msgid "Created on"
 msgstr ""
 
 #. module: l10n_ro_etransport
+#: model:ir.model.fields,field_description:l10n_ro_etransport.field_delivery_carrier__display_name
+#: model:ir.model.fields,field_description:l10n_ro_etransport.field_l10n_ro_account_anaf_sync_scope__display_name
 #: model:ir.model.fields,field_description:l10n_ro_etransport.field_l10n_ro_e_transport_customs__display_name
 #: model:ir.model.fields,field_description:l10n_ro_etransport.field_l10n_ro_e_transport_operation__display_name
 #: model:ir.model.fields,field_description:l10n_ro_etransport.field_l10n_ro_e_transport_scope__display_name
+#: model:ir.model.fields,field_description:l10n_ro_etransport.field_stock_picking__display_name
 msgid "Display Name"
 msgstr ""
 
@@ -87,7 +90,6 @@ msgid "E-Transport"
 msgstr ""
 
 #. module: l10n_ro_etransport
-#. odoo-python
 #: code:addons/l10n_ro_etransport/models/stock_picking.py:0
 #: code:addons/l10n_ro_etransport/models/stock_picking.py:0
 #, python-format
@@ -105,9 +107,12 @@ msgid "Export E-Transport"
 msgstr ""
 
 #. module: l10n_ro_etransport
+#: model:ir.model.fields,field_description:l10n_ro_etransport.field_delivery_carrier__id
+#: model:ir.model.fields,field_description:l10n_ro_etransport.field_l10n_ro_account_anaf_sync_scope__id
 #: model:ir.model.fields,field_description:l10n_ro_etransport.field_l10n_ro_e_transport_customs__id
 #: model:ir.model.fields,field_description:l10n_ro_etransport.field_l10n_ro_e_transport_operation__id
 #: model:ir.model.fields,field_description:l10n_ro_etransport.field_l10n_ro_e_transport_scope__id
+#: model:ir.model.fields,field_description:l10n_ro_etransport.field_stock_picking__id
 msgid "ID"
 msgstr ""
 
@@ -142,9 +147,12 @@ msgid "L10N Ro E Transport Status"
 msgstr ""
 
 #. module: l10n_ro_etransport
+#: model:ir.model.fields,field_description:l10n_ro_etransport.field_delivery_carrier____last_update
+#: model:ir.model.fields,field_description:l10n_ro_etransport.field_l10n_ro_account_anaf_sync_scope____last_update
 #: model:ir.model.fields,field_description:l10n_ro_etransport.field_l10n_ro_e_transport_customs____last_update
 #: model:ir.model.fields,field_description:l10n_ro_etransport.field_l10n_ro_e_transport_operation____last_update
 #: model:ir.model.fields,field_description:l10n_ro_etransport.field_l10n_ro_e_transport_scope____last_update
+#: model:ir.model.fields,field_description:l10n_ro_etransport.field_stock_picking____last_update
 msgid "Last Modified on"
 msgstr ""
 
@@ -222,21 +230,18 @@ msgid "Status"
 msgstr ""
 
 #. module: l10n_ro_etransport
-#. odoo-python
 #: code:addons/l10n_ro_etransport/models/stock_picking.py:0
 #, python-format
 msgid "The document is not ok. Errors: %s"
 msgstr ""
 
 #. module: l10n_ro_etransport
-#. odoo-python
 #: code:addons/l10n_ro_etransport/models/stock_picking.py:0
 #, python-format
 msgid "The document was in processing at %s."
 msgstr ""
 
 #. module: l10n_ro_etransport
-#. odoo-python
 #: code:addons/l10n_ro_etransport/models/stock_picking.py:0
 #, python-format
 msgid "The document was uploaded successfully, check the status."
@@ -258,7 +263,6 @@ msgid "Usage"
 msgstr ""
 
 #. module: l10n_ro_etransport
-#. odoo-python
 #: code:addons/l10n_ro_etransport/models/stock_picking.py:0
 #, python-format
 msgid "Validation Error: %s"
