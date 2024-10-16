@@ -20,6 +20,19 @@ msgid "Accounting Date"
 msgstr ""
 
 #. module: l10n_ro_stock_account_date
+#: model_terms:ir.ui.view,arch_db:l10n_ro_stock_account_date.res_config_settings_view_form
+msgid ""
+"Add notification when posting invoice/entry if it's not linked to stock "
+"move."
+msgstr ""
+
+#. module: l10n_ro_stock_account_date
+#: model:ir.model.fields,field_description:l10n_ro_stock_account_date.field_res_config_settings__l10n_ro_account_move_activity
+msgid ""
+"Add notification when posting invoice/entry if it's not linked to stock_move"
+msgstr ""
+
+#. module: l10n_ro_stock_account_date
 #: code:addons/l10n_ro_stock_account_date/models/stock_move.py:0
 #, python-format
 msgid "Cannot validate stock move due to account date restriction."
@@ -29,6 +42,11 @@ msgstr ""
 #: code:addons/l10n_ro_stock_account_date/models/stock_move.py:0
 #, python-format
 msgid "Cannot validate stock move due to date restriction."
+msgstr ""
+
+#. module: l10n_ro_stock_account_date
+#: model:ir.model,name:l10n_ro_stock_account_date.model_res_config_settings
+msgid "Config Settings"
 msgstr ""
 
 #. module: l10n_ro_stock_account_date
@@ -55,6 +73,7 @@ msgid "Incorrect Date"
 msgstr ""
 
 #. module: l10n_ro_stock_account_date
+#: model:ir.model.fields,field_description:l10n_ro_stock_account_date.field_res_config_settings__is_l10n_ro_record
 #: model:ir.model.fields,field_description:l10n_ro_stock_account_date.field_stock_move__is_l10n_ro_record
 #: model:ir.model.fields,field_description:l10n_ro_stock_account_date.field_stock_move_line__is_l10n_ro_record
 #: model:ir.model.fields,field_description:l10n_ro_stock_account_date.field_stock_picking__is_l10n_ro_record
