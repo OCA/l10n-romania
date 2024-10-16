@@ -19,7 +19,7 @@ class ResCompany(models.Model):
     def l10n_ro_download_message_spv(self):
         # method to be used in cron job to auto download e-invoices from ANAF
         ro_companies = self.env.user.company_ids.filtered(
-            lambda c: c._l10n_ro_get_anaf_sync(scope="e-factura")
+            lambda c: c.l10n_ro_edi_access_token
         )
 
         pattern_in = r"cif_emitent=(\d+)"
@@ -28,7 +28,10 @@ class ResCompany(models.Model):
         romania_tz = pytz.timezone("Europe/Bucharest")
 
         for company in ro_companies:
-            company_messages = company._l10n_ro_get_anaf_efactura_messages()
+            # company_messages = company._l10n_ro_get_anaf_efactura_messages()
+            company_messages = self.env[
+                "l10n_ro_edi.document"
+            ]._request_ciusro_download_messages_spv(company)
             message_spv_obj = (
                 self.env["l10n.ro.message.spv"].with_company(company).sudo()
             )

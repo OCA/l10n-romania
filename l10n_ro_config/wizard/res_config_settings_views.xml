@@ -339,6 +339,13 @@
                         </setting>
 
                         <setting
+                            id="l10n_ro_restrict_stock_move_date_last_month"
+                            help="Restrict stock move posting in the last month."
+                        >
+                            <field name="l10n_ro_restrict_stock_move_date_last_month" />
+                        </setting>
+
+                        <setting
                             id="l10n_ro_restrict_stock_move_date_future"
                             help="Restrict stock move posting with future date."
                         >

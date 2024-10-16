@@ -193,7 +193,7 @@ class TestCiusRoAutoWorkflow(CiusRoTestSetup):
 
         with patch(
             "odoo.addons.l10n_ro_efactura.models.ciusro_document."
-            "AccountANAFSyncScope._request_ciusro_download_answer",
+            "L10nRoEdiDocument._request_ciusro_download_answer",
             _request_ciusro_download_answer,
         ):
             self.invoice.action_process_edi_web_services()
@@ -226,7 +226,7 @@ class TestCiusRoAutoWorkflow(CiusRoTestSetup):
 
         with patch(
             "odoo.addons.l10n_ro_efactura.models.ciusro_document."
-            "AccountANAFSyncScope._request_ciusro_download_answer",
+            "L10nRoEdiDocument._request_ciusro_download_answer",
             _request_ciusro_download_answer,
         ):
             self.invoice.action_process_edi_web_services()

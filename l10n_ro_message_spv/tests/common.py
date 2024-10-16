@@ -1,7 +1,6 @@
 # Copyright (C) 2024 Terrabit
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html)
 
-from datetime import date, timedelta
 
 from odoo.tests import tagged
 
@@ -39,28 +38,28 @@ class TestMessageSPV(AccountEdiTestCommon, CronMixinCase):
             }
         )
 
-        # Set up ANAF configuration
-        anaf_config = cls.env.company._l10n_ro_get_anaf_sync(scope="e-factura")
-        anaf_scope = [
-            (
-                0,
-                0,
-                {
-                    "scope": "e-factura",
-                    "state": "test",
-                    "anaf_sync_production_url": "https://api.anaf.ro/prod/FCTEL/rest",
-                    "anaf_sync_test_url": "https://api.anaf.ro/test/FCTEL/rest",
-                },
-            )
-        ]
-        if not anaf_config:
-            cls.env["l10n.ro.account.anaf.sync"].create(
-                {
-                    "company_id": cls.env.company.id,
-                    "client_id": "123",
-                    "client_secret": "123",
-                    "access_token": "123",
-                    "client_token_valability": date.today() + timedelta(days=10),
-                    "anaf_scope_ids": anaf_scope,
-                }
-            )
+        # # Set up ANAF configuration
+        # anaf_config = cls.env.company._l10n_ro_get_anaf_sync(scope="e-factura")
+        # anaf_scope = [
+        #     (
+        #         0,
+        #         0,
+        #         {
+        #             "scope": "e-factura",
+        #             "state": "test",
+        #             "anaf_sync_production_url": "https://api.anaf.ro/prod/FCTEL/rest",
+        #             "anaf_sync_test_url": "https://api.anaf.ro/test/FCTEL/rest",
+        #         },
+        #     )
+        # ]
+        # if not anaf_config:
+        #     cls.env["l10n.ro.account.anaf.sync"].create(
+        #         {
+        #             "company_id": cls.env.company.id,
+        #             "client_id": "123",
+        #             "client_secret": "123",
+        #             "access_token": "123",
+        #             "client_token_valability": date.today() + timedelta(days=10),
+        #             "anaf_scope_ids": anaf_scope,
+        #         }
+        #     )
