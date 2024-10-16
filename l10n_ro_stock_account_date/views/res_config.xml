@@ -11,7 +11,7 @@
                 position="after"
             >
                 <div
-                    id="account_move_activity"
+                    id="l10n_ro_account_move_activity"
                     attrs="{'invisible': [('module_l10n_ro_stock_account_date', '=', False)]}"
                 >
                     <div class="o_setting_left_pane">

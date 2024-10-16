@@ -10,5 +10,5 @@ class ResConfigSettings(models.TransientModel):
 
     l10n_ro_account_move_activity = fields.Boolean(
         "Add notification when posting invoice/entry if it's not linked to stock_move",
-        config_parameter="account_move_activity",
+        config_parameter="l10n_ro_account_move_activity",
     )
