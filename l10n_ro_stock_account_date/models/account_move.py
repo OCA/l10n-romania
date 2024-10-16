@@ -38,7 +38,7 @@ class AccountMove(models.Model):
                 stock_date = (
                     self.env["ir.config_parameter"]
                     .sudo()
-                    .get_param("account_move_activity")
+                    .get_param("l10n_ro_account_move_activity")
                 )
                 if stock_date == "True":
                     message = _(
