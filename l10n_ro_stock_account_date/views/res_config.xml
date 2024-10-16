@@ -11,14 +11,14 @@
                 position="after"
             >
                 <div
-                    id="stock_account_date"
+                    id="account_move_activity"
                     attrs="{'invisible': [('module_l10n_ro_stock_account_date', '=', False)]}"
                 >
                     <div class="o_setting_left_pane">
-                        <field name="l10n_ro_stock_move_date" />
+                        <field name="l10n_ro_account_move_activity" />
                     </div>
                     <div class="o_setting_right_pane">
-                        <label for="l10n_ro_stock_move_date" />
+                        <label for="l10n_ro_account_move_activity" />
                         <div class="text-muted">
                             Add notification when posting invoice/entry if it's not linked to stock move.
                         </div>
