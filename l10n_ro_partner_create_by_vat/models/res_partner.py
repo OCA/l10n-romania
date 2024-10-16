@@ -241,7 +241,9 @@ class ResPartner(models.Model):
                 ("state_id", "=", odoo_result["state_id"].id),
                 ("name", "=ilike", odoo_result["city"]),
             ]
-            odoo_result["city_id"] = self.env["res.city"].search(domain, limit=1).id
+            city = self.env["res.city"].search(domain, limit=1)
+            if city:
+                odoo_result["city_id"] = city.id
 
         if odoo_result["state_id"] == self.env.ref("base.RO_B"):
             if odoo_result.get("codPostal") and odoo_result["codPostal"][0] != "0":
@@ -301,11 +303,19 @@ class ResPartner(models.Model):
             result["street2"] = result.get("ddetalii_Adresa", " ").strip().title()
             result["city"] = get_city(result.get("ddenumire_Localitate"))
             state_name = get_city(result.get("ddenumire_Judet"))
-            if state_name:
-                state = self.env["res.country.state"].search(
-                    [("name", "=", state_name)],
-                    limit=1,
-                )
+            state_code = result.get("dcod_JudetAuto")
+
+            if state_code:
+                domain = [
+                    ("code", "=", state_code),
+                    ("country_id", "=", self.env.ref("base.ro").id),
+                ]
+                state = self.env["res.country.state"].search(domain, limit=1)
+
+            if not state and state_name:
+                domain = [("name", "=", state_name)]
+                state = self.env["res.country.state"].search(domain, limit=1)
+
         result["state_id"] = state
         return result
 
