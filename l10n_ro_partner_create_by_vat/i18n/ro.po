@@ -14,28 +14,13 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
-"Plural-Forms: nplurals=3; plural=n==1 ? 0 : (n==0 || (n%100 > 0 && n%100 < 20)) ? 1 : 2;\n"
+"Plural-Forms: nplurals=3; plural=n==1 ? 0 : (n==0 || (n%100 > 0 && n%100 < "
+"20)) ? 1 : 2;\n"
 "X-Generator: Weblate 4.17\n"
-
-#. module: l10n_ro_partner_create_by_vat
-#: model_terms:ir.ui.view,arch_db:l10n_ro_partner_create_by_vat.view_partner_anaf_status_form
-msgid "ANAF - Active State History"
-msgstr "ANAF - Istoric state Activ"
-
-#. module: l10n_ro_partner_create_by_vat
-#: model_terms:ir.ui.view,arch_db:l10n_ro_partner_create_by_vat.view_partner_anaf_status_form
-msgid "ANAF - VAT Subjected History"
-msgstr "ANAF - Istoric Platitor TVA"
-
-#. module: l10n_ro_partner_create_by_vat
-#: model_terms:ir.ui.view,arch_db:l10n_ro_partner_create_by_vat.view_partner_anaf_status_form
-msgid "ANAF History"
-msgstr "Istoric ANAF"
 
 #. module: l10n_ro_partner_create_by_vat
 #. odoo-python
 #: code:addons/l10n_ro_partner_create_by_vat/models/res_partner.py:0
-#, python-format
 msgid "ANAF Webservice not working. Exception=%s."
 msgstr "Serviciul web ANAF nu funcționează. Excepție=%s."
 
@@ -52,14 +37,12 @@ msgstr "Stare Ativ"
 #. module: l10n_ro_partner_create_by_vat
 #. odoo-python
 #: code:addons/l10n_ro_partner_create_by_vat/models/res_partner.py:0
-#, python-format
 msgid "Anaf didn't find any company with VAT=%s !"
 msgstr "ANAF nu a gasit nici o companie cu codul TVA=%s!"
 
 #. module: l10n_ro_partner_create_by_vat
 #. odoo-python
 #: code:addons/l10n_ro_partner_create_by_vat/models/res_partner.py:0
-#, python-format
 msgid ""
 "Anaf request error: \n"
 "response=%(response)s \n"
@@ -116,12 +99,6 @@ msgstr "Data de sfârșit"
 #: model:ir.model.fields,field_description:l10n_ro_partner_create_by_vat.field_l10n_ro_res_partner_anaf_status__id
 msgid "ID"
 msgstr "Identificare"
-
-#. module: l10n_ro_partner_create_by_vat
-#: model:ir.model.fields,field_description:l10n_ro_partner_create_by_vat.field_l10n_ro_res_partner_anaf_scptva____last_update
-#: model:ir.model.fields,field_description:l10n_ro_partner_create_by_vat.field_l10n_ro_res_partner_anaf_status____last_update
-msgid "Last Modified on"
-msgstr "Ultima modificare la"
 
 #. module: l10n_ro_partner_create_by_vat
 #: model:ir.model.fields,field_description:l10n_ro_partner_create_by_vat.field_l10n_ro_res_partner_anaf_scptva__write_uid
@@ -205,10 +182,9 @@ msgstr "Data interogarii ANAF."
 #: model:ir.model.fields,help:l10n_ro_partner_create_by_vat.field_res_partner__l10n_ro_old_name
 #: model:ir.model.fields,help:l10n_ro_partner_create_by_vat.field_res_users__l10n_ro_old_name
 msgid ""
-"To be completed manually with previous name of the company in case on "
-"change.If the field in completed, when fetching the datas from ANAF "
-"website,if the name received is the old name set, than the partner will not "
-"be updated."
+"To be completed manually with previous name of the company in case on change."
+"If the field in completed, when fetching the datas from ANAF website,if the "
+"name received is the old name set, than the partner will not be updated."
 msgstr ""
 "Sa fie completat manual cu numele anterior al companiei in cazul unui "
 "schimb. Daca acest camp este completat, atunci cand se preiau datele de pe "
@@ -255,3 +231,15 @@ msgid ""
 msgstr ""
 "Vor adăuga intrări numai dacă statusInactivi este diferit față de intrarea "
 "anterioară sau după intrări"
+
+#~ msgid "ANAF - Active State History"
+#~ msgstr "ANAF - Istoric state Activ"
+
+#~ msgid "ANAF - VAT Subjected History"
+#~ msgstr "ANAF - Istoric Platitor TVA"
+
+#~ msgid "ANAF History"
+#~ msgstr "Istoric ANAF"
+
+#~ msgid "Last Modified on"
+#~ msgstr "Ultima modificare la"
