@@ -17,33 +17,6 @@ class TestCiusRoAutoWorkflow(CiusRoTestSetup):
     def setUpClass(cls):
         super().setUpClass()
 
-    def _mocked_successful_empty_post_response(self, *args, **kwargs):
-        """This mock is used when requesting documents, such as labels."""
-        response = Mock()
-        response.status_code = 200
-        response.content = ""
-        return response
-
-    # Helper method to prepare an invoice and simulate the step 1 of the CIUS workflow.
-    def prepare_invoice_sent_step1(self):
-        self.invoice.action_post()
-
-        # procesare step 1 - succes
-        with patch.object(
-            requests, "post", self._mocked_successful_empty_post_response
-        ):
-            self.invoice.with_context(
-                test_data=self.get_file("upload_success.xml"),
-                force_report_rendering=True,
-            )._generate_pdf_and_send_invoice(
-                self.move_template, allow_fallback_pdf=False
-            )
-            self.check_invoice_documents(
-                self.invoice,
-                "invoice_sending",
-                "<p>The invoice was sent to ANAF, awaiting validation.</p>",
-            )
-
     # Test case for the successful processing of documents in step 1
     # of the CIUS workflow.
     def test_process_documents_web_services_step1_ok(self):

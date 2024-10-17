@@ -20,13 +20,6 @@ class TestCiusRoAutoWorkflowDownload(CiusRoTestSetup):
     def setUpClass(cls):
         super().setUpClass()
 
-    def _mocked_successful_empty_get_response(self, *args, **kwargs):
-        """This mock is used when requesting documents, such as labels."""
-        response = Mock()
-        response.status_code = 200
-        response.content = ""
-        return response
-
     def test_download_invoice(self):
         data = {"attachment_zip": self.invoice_zip, "attachment_raw": self.invoice_xml}
         self.invoice.invoice_line_ids = False

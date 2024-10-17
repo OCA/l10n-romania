@@ -4,6 +4,9 @@
 import logging
 import time
 from datetime import date, timedelta
+from unittest.mock import Mock, patch
+
+import requests
 
 from odoo import fields
 from odoo.tests import tagged
@@ -254,7 +257,7 @@ class CiusRoTestSetup(TestUBLCommon, CronMixinCase):
             self.assertFalse(invoice.l10n_ro_edi_state)
         if (
             not check_activity
-            and invoice.l10n_ro_edi_document_ids.blocking_level == "error"
+            and invoice.l10n_ro_edi_document_ids.state == "invoice_sending_failed"
         ):
             check_activity = True
         if check_activity:
@@ -270,3 +273,51 @@ class CiusRoTestSetup(TestUBLCommon, CronMixinCase):
                     + invoice.sudo().activity_ids.mapped("summary")
                 )
             )
+
+    def get_attachment(self, move):
+        if not move.ubl_cii_xml_id:
+            xml_data, _build_errors = self.env[
+                "account.edi.xml.ubl_ro"
+            ]._export_invoice(move)
+        else:
+            xml_data = move.ubl_cii_xml_id.raw
+        edi_doc = move._l10n_ro_edi_create_document_invoice_sending("123", xml_data)
+        attachment = edi_doc.attachment_id
+        self.assertTrue(attachment)
+        return attachment
+
+    def _mocked_successful_empty_get_response(self, *args, **kwargs):
+        """This mock is used when requesting documents, such as labels."""
+        response = Mock()
+        response.status_code = 200
+        response.content = ""
+        return response
+    
+    def _mocked_successful_empty_post_response(self, *args, **kwargs):
+        """This mock is used when requesting documents, such as labels."""
+        response = Mock()
+        response.status_code = 200
+        response.content = ""
+        return response
+    
+    # Helper method to prepare an invoice and simulate the step 1 of the CIUS workflow.
+    def prepare_invoice_sent_step1(self):
+        self.invoice.action_post()
+
+        # procesare step 1 - succes
+        self.l10n_ro_edi_send_test_invoice(self.invoice, "3828")
+        self.check_invoice_documents(
+            self.invoice,
+            "invoice_sending",
+        )
+    
+    def l10n_ro_edi_send_test_invoice(self, invoice, key_loading):
+        xml_data = self.get_attachment(invoice).datas.decode("utf-8")
+        with patch.object(
+            requests, "post", self._mocked_successful_empty_post_response
+        ), patch(
+            "odoo.addons.l10n_ro_efactura.models.ciusro_document."
+            "L10nRoEdiDocument._request_ciusro_send_invoice",
+            return_value={'key_loading': key_loading},
+        ):
+            invoice._l10n_ro_edi_send_invoice(xml_data)

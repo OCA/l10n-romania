@@ -59,9 +59,7 @@ class TestCiusRoRequired(CiusRoTestSetup):
         vals = self.get_fields_and_view_vals(False, True)
         invoice.action_post()
         self.check_invoice_edi_fields(invoice, vals)
-        invoice.with_context(
-            test_data=self.get_file("upload_success.xml")
-        )._generate_pdf_and_send_invoice(self.move_template, allow_fallback_pdf=False)
+        self.l10n_ro_edi_send_test_invoice(invoice, "3208")
         vals = self.get_fields_and_view_vals(True, False)
         self.check_invoice_edi_fields(invoice, vals)
 
@@ -72,7 +70,6 @@ class TestCiusRoRequired(CiusRoTestSetup):
         self.check_invoice_fields_invoice_sent(self.credit_note)
 
     def test_purchase_invoice_autoinvoice_fields(self):
-        import ipdb; ipdb.set_trace()
         self.check_invoice_fields_invoice_sent(self.invoice_in)
 
     def test_purchase_refund_autoinvoice_fields(self):
@@ -111,4 +108,7 @@ class TestCiusRoRequired(CiusRoTestSetup):
         invoice.button_draft()
         self.assertEqual(invoice.l10n_ro_edi_transaction, "test")
         self.assertEqual(invoice.l10n_ro_edi_download, "test")
+        vals["fields"]["l10n_ro_edi_fields_readonly"] = False
+        vals['l10n_ro_edi_transaction']['readonly'] = False
+        vals['l10n_ro_edi_download']['readonly'] = False
         self.check_invoice_edi_fields(invoice, vals)

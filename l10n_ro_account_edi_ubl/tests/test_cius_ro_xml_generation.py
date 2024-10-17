@@ -15,18 +15,6 @@ class TestCiusRoXmlGeneration(CiusRoTestSetup):
     def setUpClass(cls):
         super().setUpClass()
 
-    def get_attachment(self, move):
-        if not move.ubl_cii_xml_id:
-            xml_data, _build_errors = self.env[
-                "account.edi.xml.ubl_ro"
-            ]._export_invoice(move)
-        else:
-            xml_data = move.ubl_cii_xml_id.raw
-        edi_doc = move._l10n_ro_edi_create_document_invoice_sending("123", xml_data)
-        attachment = edi_doc.attachment_id
-        self.assertTrue(attachment)
-        return attachment
-
     # invoice -> move_type = "out_invoice"
     @freezegun.freeze_time("2022-09-01")
     def test_account_invoice_edi_ubl(self):
