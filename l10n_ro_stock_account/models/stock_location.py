@@ -13,8 +13,7 @@ class StockLocation(models.Model):
         "account.account",
         company_dependent=True,
         string="Income Account",
-        domain="['&', ('deprecated', '=', False),"
-        "('company_id', '=', current_company_id)]",
+        domain="[('deprecated', '=', False)]",
         help="This account will overwrite the income accounts from product "
         "or category.",
     )
@@ -22,8 +21,7 @@ class StockLocation(models.Model):
         "account.account",
         company_dependent=True,
         string="Expense Account",
-        domain="['&', ('deprecated', '=', False),"
-        "('company_id', '=', current_company_id)]",
+        domain="[('deprecated', '=', False)]",
         help="This account will overwrite the expense accounts from product "
         "or category.",
     )
@@ -32,6 +30,5 @@ class StockLocation(models.Model):
         "account.account",
         string="Stock Valuation Account",
         company_dependent=True,
-        domain="[('company_id', '=', current_company_id),"
-        "('deprecated', '=', False)]",
+        domain="[('deprecated', '=', False)]",
     )
