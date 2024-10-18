@@ -12,6 +12,6 @@ class AccountAccount(models.Model):
         "account.account",
         string="Consume Account",
         company_dependent=True,
-        domain="[('deprecated', '=', False), ('company_id', '=', current_company_id)]",
+        domain="[('deprecated', '=', False)]",
         help="Account used for stock consume and usage giving operations",
     )
