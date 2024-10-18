@@ -27,7 +27,7 @@ class StockMove(models.Model):
                 "minus_inventory",
                 "consumption",  # consum in productie
                 "consumption_return",  # storno consum produse
-                "production",  # inregistrare produse finite/semifabricate prin productie
+                "production",  # inreg produse finite/semifabricate din productie
                 "production_return",  # storno productie
                 "internal_transfer",  # transfer intern
                 "usage_giving",
