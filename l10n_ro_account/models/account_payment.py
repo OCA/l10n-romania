@@ -14,9 +14,10 @@ class AccountPaymentRegister(models.TransientModel):
         def raise_error(amount, amount_limit):
             raise ValidationError(
                 _(
-                    "The payment amount (%(amount)s) cannot be greater than %(amount_limit)s"  # noqa E501
+                    "The payment amount (%(amount)s) cannot be greater than %(amount_limit)s",  # noqa E501
+                    amount=amount,
+                    amount_limit=amount_limit,
                 )
-                % {"amount": amount, "amount_limit": amount_limit}
             )
 
         get_param = self.env["ir.config_parameter"].sudo().get_param
@@ -56,9 +57,10 @@ class AccountPayment(models.Model):
         def raise_error(amount, amount_limit):
             raise ValidationError(
                 _(
-                    "The payment amount (%(amount)s) cannot be greater than %(amount_limit)s"  # noqa E501
+                    "The payment amount (%(amount)s) cannot be greater than %(amount_limit)s",  # noqa E501
+                    amount=amount,
+                    amount_limit=amount_limit,
                 )
-                % {"amount": amount, "amount_limit": amount_limit}
             )
 
         get_param = self.env["ir.config_parameter"].sudo().get_param
