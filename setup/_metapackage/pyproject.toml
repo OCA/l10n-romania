@@ -1,8 +1,10 @@
 [project]
 name = "odoo-addons-oca-l10n-romania"
-version = "18.0.20241015.0"
+version = "18.0.20241016.1"
 dependencies = [
+    "odoo-addon-l10n_ro_city==18.0.*",
     "odoo-addon-l10n_ro_config==18.0.*",
+    "odoo-addon-l10n_ro_partner_create_by_vat==18.0.*",
 ]
 classifiers=[
     "Programming Language :: Python",
