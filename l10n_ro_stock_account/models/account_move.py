@@ -84,6 +84,7 @@ class AccountMoveLine(models.Model):
                 stock_moves = line._get_account_change_stock_moves_purchase()
                 for stock_move in stock_moves:
                     location = stock_move.location_dest_id
+<<<<<<< HEAD
                     va = location.l10n_ro_property_stock_valuation_account_id
                     if va:
                         account = va
@@ -94,6 +95,16 @@ class AccountMoveLine(models.Model):
                     ai = location.l10n_ro_property_account_income_location_id
                     if ai:
                         account = ai
+=======
+                    if location.l10n_ro_property_stock_valuation_account_id:
+                        res = location.l10n_ro_property_stock_valuation_account_id
+            if self.move_id.is_sale_document():
+                stock_moves = self._get_account_change_stock_moves_sale()
+                for stock_move in stock_moves:
+                    location = stock_move.location_id
+                    if location.l10n_ro_property_account_income_location_id:
+                        res = location.l10n_ro_property_account_income_location_id
+>>>>>>> fix precommit
             if fiscal_position:
                 account = fiscal_position.map_account(account)
 
