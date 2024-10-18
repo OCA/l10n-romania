@@ -55,9 +55,9 @@ class ProductCategory(models.Model):
                         _(
                             """For Romanian Stock Accounting the stock_input,
                           stock_output and stock_valuation accounts must be
-                          the same for category %s"""
+                          the same for category %s""",
+                            record.name,
                         )
-                        % record.name
                     )
         else:
             return super()._check_valuation_accounts()
