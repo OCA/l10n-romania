@@ -21,6 +21,8 @@ class TestStockCommon(ValuationReconciliationTestCommon):
     def setUpAccounts(cls):
         def get_account(code):
             account = cls.env["account.account"].search([("code", "=", code)], limit=1)
+            if not account:
+                _logger.error(f"Account {code} not found")
             return account
 
         cls.account_difference = get_account("378000")
@@ -44,7 +46,7 @@ class TestStockCommon(ValuationReconciliationTestCommon):
             cls.env.user.company_id.l10n_ro_property_stock_picking_payable_account_id
         )
         if not cls.stock_picking_payable_account_id:
-            cls.stock_picking_payable_account_id = get_account("408000")
+            cls.stock_picking_payable_account_id = get_account("408100")
 
         cls.env.user.company_id.l10n_ro_property_stock_picking_payable_account_id = (
             cls.stock_picking_payable_account_id
