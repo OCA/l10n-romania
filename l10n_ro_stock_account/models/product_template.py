@@ -18,8 +18,7 @@ class ProductTemplate(models.Model):
         "account.account",
         string="Stock Valuation Account",
         company_dependent=True,
-        domain="[('company_id', '=', allowed_company_ids[0]),"
-        "('deprecated', '=', False)]",
+        domain="[('deprecated', '=', False)]",
         check_company=True,
         help="In Romania accounting is only one account for valuation/input/"
         "output. If this value is set, we will use it, otherwise will "

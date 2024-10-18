@@ -8,6 +8,7 @@ import logging
 from odoo import fields
 from odoo.tests import Form, tagged
 
+from odoo.addons.account.tests.common import AccountTestInvoicingCommon
 from odoo.addons.stock_account.tests.test_anglo_saxon_valuation_reconciliation_common import (  # noqa E501
     ValuationReconciliationTestCommon,
 )
@@ -85,11 +86,9 @@ class TestStockCommon(ValuationReconciliationTestCommon):
         return company_data
 
     @classmethod
-    def setUpClass(cls, chart_template_ref=None):
-        if not chart_template_ref:
-            chart_template_ref = "ro"
-        super().setUpClass(chart_template_ref=chart_template_ref)
-
+    @AccountTestInvoicingCommon.setup_country("ro")
+    def setUpClass(cls):
+        super().setUpClass()
         cls.env.company.anglo_saxon_accounting = True
         cls.env.company.l10n_ro_accounting = True
         cls.env.company.l10n_ro_stock_acc_price_diff = True
