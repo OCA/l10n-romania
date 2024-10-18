@@ -38,7 +38,7 @@ class StockMove(models.Model):
         return valued_types
 
     def _create_in_svl(self, forced_quantity=None):
-        _logger.debug("SVL:%s" % self.env.context.get("valued_type", ""))
+        _logger.debug("SVL:{}".format(self.env.context.get("valued_type", "")))
         svls = self.env["stock.valuation.layer"]
         l10n_ro_records = self.filtered("is_l10n_ro_record")
         if self - l10n_ro_records:
@@ -50,7 +50,7 @@ class StockMove(models.Model):
         return svls
 
     def _create_out_svl(self, forced_quantity=None):
-        _logger.debug("SVL:%s" % self.env.context.get("valued_type", ""))
+        _logger.debug("SVL:{}".format(self.env.context.get("valued_type", "")))
         svls = self.env["stock.valuation.layer"]
         l10n_ro_records = self.filtered("is_l10n_ro_record")
         if self - l10n_ro_records:
@@ -314,9 +314,9 @@ class StockMove(models.Model):
             valued_type = self.env.context.get("valued_type")
             if valued_type:
                 vals["l10n_ro_valued_type"] = valued_type
-            vals[
-                "l10n_ro_account_id"
-            ] = self.product_id.categ_id.property_stock_valuation_account_id.id
+            vals["l10n_ro_account_id"] = (
+                self.product_id.categ_id.property_stock_valuation_account_id.id
+            )
         return vals
 
     def _create_dropshipped_svl(self, forced_quantity=None):
@@ -386,7 +386,7 @@ class StockMove(models.Model):
 
         # todo: de eliminat
         if self.is_l10n_ro_record:
-            self._romanian_account_entry_move(qty, description, svl_id, cost)
+            self._l10n_ro_account_entry_move(qty, description, svl_id, cost)
 
         return am_vals
 
@@ -453,7 +453,7 @@ class StockMove(models.Model):
             vals["is_storno"] = True
         return vals
 
-    def _romanian_account_entry_move(self, qty, description, svl_id, cost):
+    def _l10n_ro_account_entry_move(self, qty, description, svl_id, cost):
         svl = self.env["stock.valuation.layer"]
         if self._is_usage_giving() or self._is_consumption():
             (
@@ -466,7 +466,7 @@ class StockMove(models.Model):
             if acc_valuation_rec and acc_valuation_rec.l10n_ro_stock_consume_account_id:
                 acc_valuation = acc_valuation_rec.l10n_ro_stock_consume_account_id.id
             if acc_src != acc_valuation:
-                self._create_account_move_line(
+                self._l10n_ro_create_account_move_line(
                     acc_valuation, acc_src, journal_id, qty, description, svl, cost
                 )
         if self._is_usage_giving_return() or self._is_consumption_return():
@@ -480,7 +480,7 @@ class StockMove(models.Model):
             if acc_valuation_rec and acc_valuation_rec.l10n_ro_stock_consume_account_id:
                 acc_valuation = acc_valuation_rec.l10n_ro_stock_consume_account_id.id
             if acc_dest != acc_valuation:
-                self._create_account_move_line(
+                self._l10n_ro_create_account_move_line(
                     acc_dest, acc_valuation, journal_id, qty, description, svl, cost
                 )
         if self._is_usage_giving() or self._is_usage_giving_return():
@@ -492,11 +492,11 @@ class StockMove(models.Model):
                 acc_dest,
                 acc_valuation,
             ) = move._get_accounting_data_for_valuation()
-            move._create_account_move_line(
+            move._l10n_ro_create_account_move_line(
                 acc_src, acc_dest, journal_id, qty, description, svl, cost
             )
 
-    def _create_account_move_line(
+    def _l10n_ro_create_account_move_line(
         self,
         credit_account_id,
         debit_account_id,
@@ -509,15 +509,15 @@ class StockMove(models.Model):
         # nu mai trebuie generate notele contabile de la cont de stoc la cont de stoc
         # valabil doar pentru dare in folosinta
         if (
-            self.is_l10n_ro_record
-            and credit_account_id == debit_account_id
+            credit_account_id == debit_account_id
             and not self._is_usage_giving()
             and not self._is_usage_giving_return()
         ):
             return []
         if isinstance(svl_id, models.BaseModel):
             svl_id = svl_id.id
-        return self.env["account.move"].create(
+
+        account_move = self.env["account.move"].create(
             self.with_company(self.company_id)._prepare_account_move_vals(
                 credit_account_id,
                 debit_account_id,
@@ -528,8 +528,10 @@ class StockMove(models.Model):
                 cost,
             )
         )
+        account_move.action_post()
+        return account_move
 
-    def _get_accounting_data_for_valuation(self):
+    def _get_accounting_data_for_valuation(self):  # noqa C901
         (
             journal_id,
             acc_src,
@@ -547,7 +549,9 @@ class StockMove(models.Model):
         )
         location_to_account = location_to.l10n_ro_property_stock_valuation_account_id
 
-        if self.product_id.categ_id.l10n_ro_stock_account_change:
+        allow_accounts_change = self.product_id.categ_id.l10n_ro_stock_account_change
+        operations_not_allowed = ["usage_giving_secondary"]
+        if allow_accounts_change and valued_type not in operations_not_allowed:
             # produsele din aceasta locatia folosesc pentru evaluare contul
             if location_to_account:
                 # in cazul unui transfer intern se va face contare dintre
