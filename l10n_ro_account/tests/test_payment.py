@@ -17,7 +17,6 @@ class TestAccountPayment(TransactionCase):
     def setUp(self):
         super().setUp()
         self.env.company.l10n_ro_accounting = True
-        self.env.lang = "ro_RO"
         self.partner_person = self.env["res.partner"].create(
             {
                 "name": "Test Partner",
