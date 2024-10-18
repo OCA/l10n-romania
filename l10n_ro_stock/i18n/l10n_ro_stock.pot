@@ -4,10 +4,8 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 18.0+e\n"
+"Project-Id-Version: Odoo Server 18.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-10-18 17:50+0000\n"
-"PO-Revision-Date: 2024-10-18 17:50+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -30,7 +28,6 @@ msgstr ""
 #. module: l10n_ro_stock
 #. odoo-python
 #: code:addons/l10n_ro_stock/models/stock_warehouse.py:0
-#: code:addons/odoo-addons/l10n-romania-oca/l10n_ro_stock/models/stock_warehouse.py:0
 #: model:ir.model.fields.selection,name:l10n_ro_stock.selection__stock_location__usage__consume
 msgid "Consume"
 msgstr ""
@@ -54,16 +51,12 @@ msgid "Location Type"
 msgstr ""
 
 #. module: l10n_ro_stock
-#: model:ir.model.fields,field_description:l10n_ro_stock.field_marketplace_product__l10n_ro_net_weight
-#: model:ir.model.fields,field_description:l10n_ro_stock.field_marketplace_product_template__l10n_ro_net_weight
 #: model:ir.model.fields,field_description:l10n_ro_stock.field_product_product__l10n_ro_net_weight
 #: model:ir.model.fields,field_description:l10n_ro_stock.field_product_template__l10n_ro_net_weight
 msgid "Net Weight"
 msgstr ""
 
 #. module: l10n_ro_stock
-#: model:ir.model.fields,field_description:l10n_ro_stock.field_marketplace_product__l10n_ro_net_weight_uom_name
-#: model:ir.model.fields,field_description:l10n_ro_stock.field_marketplace_product_template__l10n_ro_net_weight_uom_name
 #: model:ir.model.fields,field_description:l10n_ro_stock.field_product_product__l10n_ro_net_weight_uom_name
 #: model:ir.model.fields,field_description:l10n_ro_stock.field_product_template__l10n_ro_net_weight_uom_name
 msgid "Net Weight unit of measure label"
@@ -80,13 +73,11 @@ msgid "Product Variant"
 msgstr ""
 
 #. module: l10n_ro_stock
-#: model:ir.model.fields,field_description:l10n_ro_stock.field_marketplace_warehouse__l10n_ro_wh_consume_loc_id
 #: model:ir.model.fields,field_description:l10n_ro_stock.field_stock_warehouse__l10n_ro_wh_consume_loc_id
 msgid "Romania - Consume Location"
 msgstr ""
 
 #. module: l10n_ro_stock
-#: model:ir.model.fields,field_description:l10n_ro_stock.field_marketplace_warehouse__l10n_ro_consume_type_id
 #: model:ir.model.fields,field_description:l10n_ro_stock.field_stock_warehouse__l10n_ro_consume_type_id
 msgid "Romania - Consume Type"
 msgstr ""
@@ -97,13 +88,11 @@ msgid "Romania - Merchandise type"
 msgstr ""
 
 #. module: l10n_ro_stock
-#: model:ir.model.fields,field_description:l10n_ro_stock.field_marketplace_warehouse__l10n_ro_wh_usage_loc_id
 #: model:ir.model.fields,field_description:l10n_ro_stock.field_stock_warehouse__l10n_ro_wh_usage_loc_id
 msgid "Romania - Usage Giving Location"
 msgstr ""
 
 #. module: l10n_ro_stock
-#: model:ir.model.fields,field_description:l10n_ro_stock.field_marketplace_warehouse__l10n_ro_usage_type_id
 #: model:ir.model.fields,field_description:l10n_ro_stock.field_stock_warehouse__l10n_ro_usage_type_id
 msgid "Romania - Usage Giving Type"
 msgstr ""
@@ -111,21 +100,16 @@ msgstr ""
 #. module: l10n_ro_stock
 #. odoo-python
 #: code:addons/l10n_ro_stock/models/stock_warehouse.py:0
-#: code:addons/odoo-addons/l10n-romania-oca/l10n_ro_stock/models/stock_warehouse.py:0
 msgid "Sequence Consume"
 msgstr ""
 
 #. module: l10n_ro_stock
 #. odoo-python
 #: code:addons/l10n_ro_stock/models/stock_warehouse.py:0
-#: code:addons/odoo-addons/l10n-romania-oca/l10n_ro_stock/models/stock_warehouse.py:0
 msgid "Sequence Usage Giving"
 msgstr ""
 
 #. module: l10n_ro_stock
-#. odoo-python
-#: code:addons/l10n_ro_stock/models/stock_location.py:0
-#: code:addons/odoo-addons/l10n-romania-oca/l10n_ro_stock/models/stock_location.py:0
 #: model:ir.model.fields.selection,name:l10n_ro_stock.selection__stock_location__l10n_ro_merchandise_type__store
 msgid "Store"
 msgstr ""
@@ -133,22 +117,17 @@ msgstr ""
 #. module: l10n_ro_stock
 #. odoo-python
 #: code:addons/l10n_ro_stock/models/stock_warehouse.py:0
-#: code:addons/odoo-addons/l10n-romania-oca/l10n_ro_stock/models/stock_warehouse.py:0
 msgid "Usage"
 msgstr ""
 
 #. module: l10n_ro_stock
 #. odoo-python
 #: code:addons/l10n_ro_stock/models/stock_warehouse.py:0
-#: code:addons/odoo-addons/l10n-romania-oca/l10n_ro_stock/models/stock_warehouse.py:0
 #: model:ir.model.fields.selection,name:l10n_ro_stock.selection__stock_location__usage__usage_giving
 msgid "Usage Giving"
 msgstr ""
 
 #. module: l10n_ro_stock
-#. odoo-python
-#: code:addons/l10n_ro_stock/models/stock_location.py:0
-#: code:addons/odoo-addons/l10n-romania-oca/l10n_ro_stock/models/stock_location.py:0
 #: model:ir.model,name:l10n_ro_stock.model_stock_warehouse
 #: model:ir.model.fields.selection,name:l10n_ro_stock.selection__stock_location__l10n_ro_merchandise_type__warehouse
 msgid "Warehouse"
