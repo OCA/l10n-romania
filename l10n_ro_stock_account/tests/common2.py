@@ -7,6 +7,8 @@ import logging
 from odoo import fields
 from odoo.tests import Form, tagged
 
+from odoo.addons.account.tests.common import AccountTestInvoicingCommon
+
 from .common import TestStockCommon
 
 _logger = logging.getLogger(__name__)
@@ -15,6 +17,7 @@ _logger = logging.getLogger(__name__)
 @tagged("post_install", "-at_install")
 class TestStockCommon2(TestStockCommon):
     @classmethod
+    @AccountTestInvoicingCommon.setup_country("ro")
     def setUpClass(cls):
         super().setUpClass()
         cls.price_p1_2 = 60.0

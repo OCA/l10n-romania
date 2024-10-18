@@ -166,7 +166,7 @@ class TestStockCommon(ValuationReconciliationTestCommon):
         cls.product_1 = cls.env["product.product"].create(
             {
                 "name": "Product A",
-                "type": "product",
+                "is_storable": True,
                 "categ_id": cls.category_fifo.id,
                 "invoice_policy": "delivery",
                 "purchase_method": "receive",
@@ -177,7 +177,7 @@ class TestStockCommon(ValuationReconciliationTestCommon):
         cls.product_2 = cls.env["product.product"].create(
             {
                 "name": "Product B",
-                "type": "product",
+                "is_storable": True,
                 "purchase_method": "receive",
                 "categ_id": cls.category_average.id,
                 "invoice_policy": "delivery",
@@ -189,7 +189,7 @@ class TestStockCommon(ValuationReconciliationTestCommon):
         cls.product_mp = cls.env["product.product"].create(
             {
                 "name": "Product MP",
-                "type": "product",
+                "is_storable": True,
                 "categ_id": cls.category_mp.id,
                 "invoice_policy": "delivery",
                 "purchase_method": "receive",
@@ -201,6 +201,7 @@ class TestStockCommon(ValuationReconciliationTestCommon):
             {
                 "name": "Landed Cost",
                 "type": "service",
+                "is_storable": False,
                 "purchase_method": "purchase",
                 "invoice_policy": "order",
                 "property_account_expense_id": cls.account_expense.id,
