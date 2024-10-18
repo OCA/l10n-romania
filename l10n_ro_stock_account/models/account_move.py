@@ -74,7 +74,7 @@ class AccountMoveLine(models.Model):
         for line in self:
             if not (
                 line.product_id.categ_id.l10n_ro_stock_account_change
-                and line.product_id.type == "product"
+                and line.product_id.is_stocable
                 and line.move_id.is_l10n_ro_record
             ):
                 continue
