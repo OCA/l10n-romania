@@ -154,8 +154,9 @@ class AccountEdiXmlCIUSRO(models.Model):
 
     def _get_invoice_line_item_vals(self, line, taxes_vals):
         vals = super()._get_invoice_line_item_vals(line, taxes_vals)
-        vals["description"] = vals["description"][:200]
-        vals["name"] = vals["name"][:100]
+        vals["name"] = vals.get("name", "n/a")[:100]
+        vals["description"] = vals.get("description", vals["name"])[:200]
+
         if vals["classified_tax_category_vals"]:
             if vals["classified_tax_category_vals"][0]["tax_category_code"] in (
                 "AE",
