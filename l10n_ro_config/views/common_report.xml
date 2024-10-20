@@ -56,7 +56,6 @@
         </div>
         <div>
             <div>
-
                 <div>
                     <div t-if="res_company.partner_id.vat">
                         <strong>
