@@ -1,7 +1,5 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <odoo>
-
-
     <record id="l10n_ro_product_template_form_inherit" model="ir.ui.view">
         <field name="name">l10n.ro.product.template.form.inherit</field>
         <field name="model">product.template</field>
@@ -18,9 +16,10 @@
                     invisible="product_variant_count > 1 and not is_product_variant"
                 >
                     <field name="l10n_ro_net_weight" />
-                    <span><field name="l10n_ro_net_weight_uom_name" /></span>
+                    <span>
+                        <field name="l10n_ro_net_weight_uom_name" />
+                    </span>
                 </div>
-
             </xpath>
         </field>
     </record>
