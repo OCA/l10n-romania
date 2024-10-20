@@ -252,7 +252,7 @@
                                 </div>
                                 <div class="text-muted mt16">
                                     Select a service product that will be used in landed cost to register price differences.<br
-                                    />An expense account needs to be set on product or product category.
+                                />An expense account needs to be set on product or product category.
                                 </div>
                             </div>
                         </setting>
