@@ -10,6 +10,8 @@ class AccountPartialReconcile(models.Model):
             tax_line, balance, amount_currency
         )
         if tax_line.company_id.l10n_ro_accounting:
+            if not tax_line.tax_repartition_line_id.account_id.id:
+                vals["account_id"] = tax_line.account_id.id
             if (
                 tax_line.tax_repartition_line_id.l10n_ro_skip_cash_basis_account_switch
                 and tax_line.company_id.account_cash_basis_base_account_id

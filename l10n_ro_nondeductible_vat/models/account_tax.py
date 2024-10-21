@@ -28,3 +28,68 @@ class AccountTaxExtend(models.Model):
                 )
             else:
                 record.l10n_ro_is_nondeductible = False
+
+    @api.model
+    def _compute_taxes_for_single_line(
+        self,
+        base_line,
+        handle_price_include=True,
+        include_caba_tags=False,
+        early_pay_discount_computation=None,
+        early_pay_discount_percentage=None,
+    ):
+        move_line_account = base_line.get("account")
+        if move_line_account:
+            base_line["extra_context"]["l10n_ro_account_id"] = move_line_account
+        return super()._compute_taxes_for_single_line(
+            base_line,
+            handle_price_include=handle_price_include,
+            include_caba_tags=include_caba_tags,
+            early_pay_discount_computation=early_pay_discount_computation,
+            early_pay_discount_percentage=early_pay_discount_percentage,
+        )
+
+    @api.model
+    def _convert_to_tax_line_dict(
+        self,
+        tax_line,
+        partner=None,
+        currency=None,
+        taxes=None,
+        tax_tags=None,
+        tax_repartition_line=None,
+        group_tax=None,
+        account=None,
+        analytic_distribution=None,
+        tax_amount=None,
+    ):
+        res = super()._convert_to_tax_line_dict(
+            tax_line,
+            partner=partner,
+            currency=currency,
+            taxes=taxes,
+            tax_tags=tax_tags,
+            tax_repartition_line=tax_repartition_line,
+            group_tax=group_tax,
+            account=account,
+            analytic_distribution=analytic_distribution,
+            tax_amount=tax_amount,
+        )
+        if (
+            tax_repartition_line
+            and tax_repartition_line.l10n_ro_nondeductible
+            and not tax_repartition_line.account_id
+        ):
+            if (
+                account
+                and account.company_id.l10n_ro_nondeductible_account_id
+                and tax_repartition_line.l10n_ro_use_tax_exigibility_account
+            ):
+                res["account"] = account.company_id.l10n_ro_nondeductible_account_id
+            if (
+                account
+                and account.l10n_ro_nondeductible_account_id
+                and not tax_repartition_line.l10n_ro_use_tax_exigibility_account
+            ):
+                res["account"] = account.l10n_ro_nondeductible_account_id
+        return res
