@@ -192,11 +192,9 @@
                         >
                             <field name="module_l10n_ro_account_anaf_sync" />
                         </setting>
-
-                        <setting id="ro_anaf_einvoice_container" />
-
                         <setting id="ro_anaf_etransport_container" />
                     </block>
+                    <block title="E-factura" id="ro_e_factura" />
 
                     <block title="Stock" id="ro_stock_setting_container">
                         <setting

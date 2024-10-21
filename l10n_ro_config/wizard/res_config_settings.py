@@ -185,6 +185,10 @@ class ResConfigSettings(models.TransientModel):
         "Account ANAF Sync",
         help="This option allows you to manage the sync to ANAF website.",
     )
+    module_l10n_ro_account_edi_ubl = fields.Boolean(
+        "Romanian EDI",
+        help="This option allows you to manage the EDI for Romanian accounting.",
+    )
     module_l10n_ro_account_report_invoice = fields.Boolean(
         "Invoice Report",
         help="This allows you to print invoice report based on " "romanian layout.\n",

@@ -19,17 +19,6 @@ class AccountMove(models.Model):
         help="E-invoice messages related to this invoice.",
     )
 
-    l10n_ro_edi_transaction = fields.Char(
-        "Transaction ID (RO)",
-        help="Technical field used to track the status of a submission.",
-        copy=False,
-    )
-    l10n_ro_edi_download = fields.Char(
-        "ID Download ANAF (RO)",
-        help="ID used to download the ZIP file from ANAF.",
-        copy=False,
-    )
-
     def action_post(self):
         res = super().action_post()
         invoices = self.filtered(
