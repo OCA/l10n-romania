@@ -8,8 +8,10 @@ import json
 import requests
 
 from odoo.exceptions import ValidationError
-from odoo.modules.module import get_module_resource
 from odoo.tests import Form, tagged
+
+# from odoo.modules.module import get_module_resource
+from odoo.tools import file_path
 
 from odoo.addons.account.tests.common import AccountTestInvoicingCommon
 
@@ -22,9 +24,7 @@ class TestCreatePartnerBase(AccountTestInvoicingCommon):
         super().setUpClass(chart_template_ref=chart_template_ref)
         cls.env.company.l10n_ro_accounting = True
         cls.mainpartner = cls.env["res.partner"].create({"name": "Test partner"})
-        test_file_path = get_module_resource(
-            "l10n_ro_partner_create_by_vat", "tests", "anaf_data.json"
-        )
+        test_file_path = file_path("l10n_ro_partner_create_by_vat/tests/anaf_data.json")
         cls.anaf_data = json.load(open(test_file_path))
         cls.mainpartner = cls.mainpartner.with_context(anaf_data=cls.anaf_data)
 
