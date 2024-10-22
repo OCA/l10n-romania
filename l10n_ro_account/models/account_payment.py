@@ -6,20 +6,11 @@ from odoo.exceptions import ValidationError
 from odoo.tools.safe_eval import safe_eval
 
 
-class AccountPaymentRegister(models.TransientModel):
-    _name = "account.payment.register"
-    _inherit = ["account.payment.register", "l10n.ro.mixin"]
+class AccountPaymentCheck(models.AbstractModel):
+    _name = "l10n.ro.mixin.payment.check"
+    _description = "Account Payment Check"
 
-    def _check_amount(self):
-        def raise_error(amount, amount_limit):
-            raise ValidationError(
-                _(
-                    "The payment amount (%(amount)s) cannot be greater than %(amount_limit)s",  # noqa E501
-                    amount=amount,
-                    amount_limit=amount_limit,
-                )
-            )
-
+    def check_amount_payment(self, payment):
         get_param = self.env["ir.config_parameter"].sudo().get_param
         amount_company_limit = get_param(
             "l10n_ro_accounting.amount_company_limit", "5000"
@@ -30,19 +21,43 @@ class AccountPaymentRegister(models.TransientModel):
         amount_company_limit = safe_eval(amount_company_limit)
         amount_person_limit = safe_eval(amount_person_limit)
 
+        if (
+            payment.is_l10n_ro_record
+            and payment.payment_type == "inbound"
+            and payment.partner_type == "customer"
+            and payment.journal_id.type == "cash"
+        ):
+            if payment.partner_id.is_company:
+                if payment.amount > amount_company_limit:
+                    raise ValidationError(
+                        _(
+                            "The payment amount (%(amount)s) cannot be greater than %(amount_limit)s",  # noqa E501
+                            amount=payment.amount,
+                            amount_limit=amount_company_limit,
+                        )
+                    )
+            else:
+                if payment.amount > amount_person_limit:
+                    raise ValidationError(
+                        _(
+                            "The payment amount (%(amount)s) cannot be greater than %(amount_limit)s",  # noqa E501
+                            amount=payment.amount,
+                            amount_limit=amount_person_limit,
+                        )
+                    )
+
+    def _check_amount(self):
         for payment in self:
-            if (
-                payment.is_l10n_ro_record
-                and payment.payment_type == "inbound"
-                and payment.partner_type == "customer"
-                and payment.journal_id.type == "cash"
-            ):
-                if payment.partner_id.is_company:
-                    if payment.amount > amount_company_limit:
-                        raise_error(payment.amount, amount_company_limit)
-                else:
-                    if payment.amount > amount_person_limit:
-                        raise_error(payment.amount, amount_person_limit)
+            self.check_amount_payment(payment)
+
+
+class AccountPaymentRegister(models.TransientModel):
+    _name = "account.payment.register"
+    _inherit = [
+        "account.payment.register",
+        "l10n.ro.mixin",
+        "l10n.ro.mixin.payment.check",
+    ]
 
     def action_create_payments(self):
         self._check_amount()
@@ -51,40 +66,7 @@ class AccountPaymentRegister(models.TransientModel):
 
 class AccountPayment(models.Model):
     _name = "account.payment"
-    _inherit = ["account.payment", "l10n.ro.mixin"]
-
-    def _check_amount(self):
-        def raise_error(amount, amount_limit):
-            raise ValidationError(
-                _(
-                    "The payment amount (%(amount)s) cannot be greater than %(amount_limit)s",  # noqa E501
-                    amount=amount,
-                    amount_limit=amount_limit,
-                )
-            )
-
-        get_param = self.env["ir.config_parameter"].sudo().get_param
-        amount_company_limit = get_param(
-            "l10n_ro_accounting.amount_company_limit", "5000"
-        )
-        amount_person_limit = get_param(
-            "l10n_ro_accounting.amount_person_limit", "10000"
-        )
-        amount_company_limit = safe_eval(amount_company_limit)
-        amount_person_limit = safe_eval(amount_person_limit)
-        for payment in self:
-            if (
-                payment.is_l10n_ro_record
-                and payment.payment_type == "inbound"
-                and payment.partner_type == "customer"
-                and payment.journal_id.type == "cash"
-            ):
-                if payment.partner_id.is_company:
-                    if payment.amount > amount_company_limit:
-                        raise_error(payment.amount, amount_company_limit)
-                else:
-                    if payment.amount > amount_person_limit:
-                        raise_error(payment.amount, amount_person_limit)
+    _inherit = ["account.payment", "l10n.ro.mixin", "l10n.ro.mixin.payment.check"]
 
     @api.onchange("amount", "payment_type", "partner_type", "journal_id")
     def _onchange_amount(self):
