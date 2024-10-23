@@ -490,10 +490,13 @@ class MessageSPV(models.Model):
         self.ensure_one()
         return self._action_download(self.attachment_embedded_pdf_id.id)
 
-    def _action_download(self, attachment_field_id):
+    def _action_download(self, attachment_id):
+        attachment = self.env["ir.attachment"].sudo().browse(attachment_id)
+        attachment.generate_access_token()
+        access_token = attachment.access_token
         return {
             "type": "ir.actions.act_url",
-            "url": f"/web/content/{attachment_field_id}?download=true",
+            "url": f"/web/content/{attachment_id}?download=true&amp;access_token=#{access_token}",  # noqa
             "target": "self",
         }
 
