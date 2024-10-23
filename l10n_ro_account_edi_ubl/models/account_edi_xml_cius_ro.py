@@ -32,17 +32,17 @@ class AccountEdiXmlCIUSRO(models.AbstractModel):
     #     if (
     #         invoice.move_type in ["out_refund", "in_refund"]
     #     ):
-    #         vals_list[0].update({"tax_amount": -1 * taxes_vals["tax_amount_currency"]})
+    #         vals_list[0].update(
+    #             {"tax_amount": -1 * taxes_vals["tax_amount_currency"]}
+    #         )
     #         for vals in taxes_vals["tax_details"].values():
     #             vals["taxable_amount"] = -1 * vals["base_amount_currency"]
     #             vals["tax_amount"] = -1 * vals["tax_amount_currency"]
     #     return vals_list
-    
+
     def _get_invoice_tax_totals_vals_list(self, invoice, taxes_vals):
         balance_sign = 1
-        if (
-            invoice.move_type in ["out_refund", "in_refund"]
-        ):
+        if invoice.move_type in ["out_refund", "in_refund"]:
             balance_sign = -balance_sign
 
         return [
@@ -67,9 +67,7 @@ class AccountEdiXmlCIUSRO(models.AbstractModel):
 
     def _get_invoice_line_vals(self, line, line_id, taxes_vals):
         res = super()._get_invoice_line_vals(line, line_id, taxes_vals)
-        if (
-            line.move_id.move_type in ["out_refund", "in_refund"]
-        ):
+        if line.move_id.move_type in ["out_refund", "in_refund"]:
             if res.get("line_quantity", 0):
                 res["line_quantity"] = (-1) * res["line_quantity"]
             if res.get("line_extension_amount", 0):
@@ -104,82 +102,82 @@ class AccountEdiXmlCIUSRO(models.AbstractModel):
         vals_list = super()._get_partner_party_tax_scheme_vals_list(partner, role)
 
         if not partner.vat and partner.company_registry:
-            vals_list = [{'company_id': partner.company_registry, 'tax_scheme_vals': {'id': 'VAT'}}]
+            vals_list = [
+                {
+                    "company_id": partner.company_registry,
+                    "tax_scheme_vals": {"id": "VAT"},
+                }
+            ]
         for vals in vals_list:
-            if partner.country_code == 'RO' and not (vals['company_id'] or '').upper().startswith('RO'):
-                vals['tax_scheme_vals']['id'] = '!= VAT'
+            if partner.country_code == "RO" and not (
+                vals["company_id"] or ""
+            ).upper().startswith("RO"):
+                vals["tax_scheme_vals"]["id"] = "!= VAT"
 
         return vals_list
-    
+
     def _export_invoice_vals(self, invoice):
-        vals_list = super()._export_invoice_vals(invoice)
-        if "order_reference" in vals_list["vals"]:
-            vals_list["vals"]["order_reference"] = vals_list["vals"]["order_reference"][
-                :30
-            ]
-        if "sales_order_id" in vals_list["vals"]:
-            vals_list["vals"]["sales_order_id"] = vals_list["vals"]["sales_order_id"][
-                :200
-            ]
-        if (
-            invoice.move_type in ["out_refund", "in_refund"]
-        ):
-            if vals_list["vals"].get("monetary_total_vals"):
-                vals_list["vals"]["monetary_total_vals"][
-                    "tax_exclusive_amount"
-                ] = (-1) * vals_list["vals"]["monetary_total_vals"][
-                    "tax_exclusive_amount"
-                ]
-                vals_list["vals"]["monetary_total_vals"][
-                    "tax_inclusive_amount"
-                ] = (-1) * vals_list["vals"]["monetary_total_vals"][
-                    "tax_inclusive_amount"
-                ]
-                vals_list["vals"]["monetary_total_vals"]["prepaid_amount"] = (
-                    -1
-                ) * vals_list["vals"]["monetary_total_vals"]["prepaid_amount"]
-                vals_list["vals"]["monetary_total_vals"]["payable_amount"] = (
-                    -1
-                ) * vals_list["vals"]["monetary_total_vals"]["payable_amount"]
-        if invoice.is_l10n_ro_autoinvoice():
-            customer = invoice.company_id.partner_id.commercial_partner_id
-            supplier = invoice.partner_id
-            vals_list.update({"customer": customer, "supplier": supplier})
-            customer_vals = vals_list["vals"]["accounting_customer_party_vals"]
-            vals_list["vals"].update(
-                {
-                    "accounting_customer_party_vals": vals_list["vals"][
-                        "accounting_supplier_party_vals"
-                    ],
-                    "accounting_supplier_party_vals": customer_vals,
-                }
+        vals = super()._export_invoice_vals(invoice)
+        if vals.get("vals"):
+            invoice_vals = vals["vals"]
+            if invoice_vals.get("order_reference"):
+                invoice_vals["order_reference"] = invoice_vals["order_reference"][:30]
+            if invoice_vals.get("sales_order_id"):
+                invoice_vals["sales_order_id"] = invoice_vals["sales_order_id"][:200]
+            if invoice.move_type in ["out_refund", "in_refund"]:
+                if invoice_vals.get("monetary_total_vals"):
+                    invoice_vals["monetary_total_vals"]["tax_exclusive_amount"] = (
+                        -1
+                    ) * invoice_vals["monetary_total_vals"]["tax_exclusive_amount"]
+                    invoice_vals["monetary_total_vals"]["tax_inclusive_amount"] = (
+                        -1
+                    ) * invoice_vals["monetary_total_vals"]["tax_inclusive_amount"]
+                    invoice_vals["monetary_total_vals"]["prepaid_amount"] = (
+                        -1
+                    ) * invoice_vals["monetary_total_vals"]["prepaid_amount"]
+                    invoice_vals["monetary_total_vals"]["payable_amount"] = (
+                        -1
+                    ) * invoice_vals["monetary_total_vals"]["payable_amount"]
+            if invoice.is_l10n_ro_autoinvoice():
+                customer = invoice.company_id.partner_id.commercial_partner_id
+                supplier = invoice.partner_id
+                vals.update({"customer": customer, "supplier": supplier})
+                customer_vals = invoice_vals["accounting_customer_party_vals"]
+                invoice_vals.update(
+                    {
+                        "accounting_customer_party_vals": invoice_vals[
+                            "accounting_supplier_party_vals"
+                        ],
+                        "accounting_supplier_party_vals": customer_vals,
+                    }
+                )
+            vals["main_template"] = "account_edi_ubl_cii.ubl_20_Invoice"
+            invoice_vals["invoice_type_code"] = 380
+            invoice_vals["document_type_code"] = 380
+            if invoice_vals.get("credit_note_type_code"):
+                invoice_vals.pop("credit_note_type_code")
+            if (
+                invoice.move_type in ("in_invoice", "in_refund")
+                and invoice.journal_id.l10n_ro_sequence_type == "autoinv2"
+            ) or (
+                invoice.journal_id.type == "sale"
+                and invoice.journal_id.l10n_ro_sequence_type == "autoinv1"
+            ):
+                invoice_vals["document_type_code"] = 389
+                invoice_vals["invoice_type_code"] = 389
+            point_of_sale = (
+                self.env["ir.module.module"]
+                .sudo()
+                .search(
+                    [("name", "=", "point_of_sale"), ("state", "=", "installed")],
+                    limit=1,
+                )
             )
-        vals_list["main_template"] = "account_edi_ubl_cii.ubl_20_Invoice"
-        vals_list["vals"]["invoice_type_code"] = 380
-        vals_list["vals"]["document_type_code"] = 380
-        if vals_list["vals"].get("credit_note_type_code"):
-            vals_list["vals"].pop("credit_note_type_code")
-        if (
-            invoice.move_type in ("in_invoice", "in_refund")
-            and invoice.journal_id.l10n_ro_sequence_type == "autoinv2"
-        ) or (
-            invoice.journal_id.type == "sale"
-            and invoice.journal_id.l10n_ro_sequence_type == "autoinv1"
-        ):
-            vals_list["vals"]["document_type_code"] = 389
-            vals_list["vals"]["invoice_type_code"] = 389
-        point_of_sale = (
-            self.env["ir.module.module"]
-            .sudo()
-            .search(
-                [("name", "=", "point_of_sale"), ("state", "=", "installed")], limit=1
-            )
-        )
-        if point_of_sale:
-            if invoice.pos_order_ids:
-                vals_list["vals"]["document_type_code"] = 751
-                vals_list["vals"]["invoice_type_code"] = 751
-        return vals_list
+            if point_of_sale:
+                if invoice.pos_order_ids:
+                    invoice_vals["document_type_code"] = 751
+                    invoice_vals["invoice_type_code"] = 751
+        return vals
 
     def _get_invoice_payment_means_vals_list(self, invoice):
         res = super()._get_invoice_payment_means_vals_list(invoice)
