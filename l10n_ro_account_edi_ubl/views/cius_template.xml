@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <template id="cius_InvoiceType" inherit_id="account_edi_ubl_cii.ubl_20_TaxTotalType">
+        <xpath expr="//*[local-name()='Percent']" position="replace"/>
+    </template>
+</odoo>

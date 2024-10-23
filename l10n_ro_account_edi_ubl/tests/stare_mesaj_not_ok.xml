@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<header
+    xmlns="mfp:anaf:dgti:efactura:stareMesajFactura:v1"
+    stare="nok"
+    id_descarcare="123"
+/>

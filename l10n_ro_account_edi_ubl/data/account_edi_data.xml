@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo noupdate="1">
+
+    <record model="ir.cron" id="ir_cron_res_company_einvoice_download_every_day">
+        <field name="name">Romania e-Invoicing: Download Supplier Invoices</field>
+        <field name="model_id" ref="base.model_res_company" />
+        <field name="state">code</field>
+        <field name="code">model._l10n_ro_create_anaf_efactura()</field>
+        <field name="interval_number">1</field>
+        <field name="interval_type">days</field>
+        <!-- it s every day -->
+        <field name="numbercall">-1</field>
+        <field name="doall" eval="False" />
+    </record>
+
+    <record model="ir.cron" id="ir_cron_account_move_send_efactura_anaf">
+        <field name="name">Romania e-Invoicing: Sent Invoices to eFactura</field>
+        <field name="model_id" ref="account.model_account_move" />
+        <field name="state">code</field>
+        <field name="code">model._l10n_ro_send_efactura()</field>
+        <field name="interval_number">1</field>
+        <field name="interval_type">hours</field>
+        <!-- it s every day -->
+        <field name="numbercall">-1</field>
+        <field name="doall" eval="False" />
+    </record>
+    <record model="ir.cron" id="ir_cron_account_move_fetch_efactura_status">
+        <field name="name">Romania e-Invoicing: Download Sent Invoices Status</field>
+        <field name="model_id" ref="account.model_account_move" />
+        <field name="state">code</field>
+        <field name="code">model._l10n_ro_fetch_efactura_status()</field>
+        <field name="interval_number">1</field>
+        <field name="interval_type">hours</field>
+        <!-- it s every day -->
+        <field name="numbercall">-1</field>
+        <field name="doall" eval="False" />
+    </record>
+</odoo>
