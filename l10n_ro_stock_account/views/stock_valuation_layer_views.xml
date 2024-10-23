@@ -1,0 +1,18 @@
+<odoo>
+    <record id="stock_valuation_layer_form" model="ir.ui.view">
+        <field name="name">stock.valuation.layer.form</field>
+        <field name="model">stock.valuation.layer</field>
+        <field name="inherit_id" ref="stock_account.stock_valuation_layer_form" />
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='stock_move_id']" position="after">
+                <field name="is_l10n_ro_record" invisible="1" />
+                <field name="l10n_ro_valued_type" />
+
+            </xpath>
+            <xpath expr="//field[@name='account_move_id']" position="after">
+                <field name="l10n_ro_account_id" />
+            </xpath>
+
+        </field>
+    </record>
+</odoo>

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+        <record id="view_location_form_inherit" model="ir.ui.view">
+            <field name="name">view_location_romania_form</field>
+            <field name="model">stock.location</field>
+            <field name="inherit_id" ref="stock_account.view_location_form_inherit" />
+            <field name="arch" type="xml">
+                <xpath expr="//group[@name='additional_info']" position="after">
+                    <group string="Accounting Information">
+                        <field
+                        name="valuation_in_account_id"
+                        options="{'no_create': True}"
+                    />
+                        <field
+                        name="valuation_out_account_id"
+                        options="{'no_create': True}"
+                    />
+                        <field name="is_l10n_ro_record" invisible="1" />
+                        <separator string="Only for Romania" />
+                        <field
+                        name="l10n_ro_property_account_income_location_id"
+                        options="{'no_create': True}"
+                    />
+                        <field
+                        name="l10n_ro_property_account_expense_location_id"
+                        options="{'no_create': True}"
+                    />
+                        <field
+                        name="l10n_ro_property_stock_valuation_account_id"
+                        options="{'no_create': True}"
+                    />
+                    </group>
+                </xpath>
+            </field>
+        </record>
+</odoo>

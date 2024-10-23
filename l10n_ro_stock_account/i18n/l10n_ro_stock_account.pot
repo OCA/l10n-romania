@@ -1,0 +1,327 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* l10n_ro_stock_account
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 17.0\n"
+"Report-Msgid-Bugs-To: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: l10n_ro_stock_account
+#: model:ir.model,name:l10n_ro_stock_account.model_account_account
+msgid "Account"
+msgstr ""
+
+#. module: l10n_ro_stock_account
+#: model:ir.model.fields,help:l10n_ro_stock_account.field_account_account__l10n_ro_stock_consume_account_id
+msgid "Account used for stock consume and usage giving operations"
+msgstr ""
+
+#. module: l10n_ro_stock_account
+#: model_terms:ir.ui.view,arch_db:l10n_ro_stock_account.view_location_form_inherit
+msgid "Accounting Information"
+msgstr ""
+
+#. module: l10n_ro_stock_account
+#: model:ir.model.fields,field_description:l10n_ro_stock_account.field_product_category__l10n_ro_stock_account_change
+msgid "Allow stock account change from locations"
+msgstr ""
+
+#. module: l10n_ro_stock_account
+#: model:ir.model,name:l10n_ro_stock_account.model_res_company
+msgid "Companies"
+msgstr ""
+
+#. module: l10n_ro_stock_account
+#: model:ir.model.fields,field_description:l10n_ro_stock_account.field_stock_valuation_layer__company_id
+msgid "Company"
+msgstr ""
+
+#. module: l10n_ro_stock_account
+#: model:ir.model.fields,field_description:l10n_ro_stock_account.field_account_account__l10n_ro_stock_consume_account_id
+msgid "Consume Account"
+msgstr ""
+
+#. module: l10n_ro_stock_account
+#: model:ir.model.fields.selection,name:l10n_ro_stock_account.selection__stock_valuation_layer__l10n_ro_valued_type__consumption
+msgid "Consumption"
+msgstr ""
+
+#. module: l10n_ro_stock_account
+#: model:ir.model.fields.selection,name:l10n_ro_stock_account.selection__stock_valuation_layer__l10n_ro_valued_type__delivery
+msgid "Delivery"
+msgstr ""
+
+#. module: l10n_ro_stock_account
+#: model:ir.model.fields.selection,name:l10n_ro_stock_account.selection__stock_valuation_layer__l10n_ro_valued_type__delivery_notice
+msgid "Delivery with notice"
+msgstr ""
+
+#. module: l10n_ro_stock_account
+#: model:ir.model.fields.selection,name:l10n_ro_stock_account.selection__stock_valuation_layer__l10n_ro_valued_type__dropshipped
+msgid "Dropshipped"
+msgstr ""
+
+#. module: l10n_ro_stock_account
+#: model:ir.model.fields,field_description:l10n_ro_stock_account.field_stock_location__l10n_ro_property_account_expense_location_id
+msgid "Expense Account"
+msgstr ""
+
+#. module: l10n_ro_stock_account
+#. odoo-python
+#: code:addons/l10n_ro_stock_account/models/product_category.py:0
+#, python-format
+msgid ""
+"For Romanian Stock Accounting the stock_input,\n"
+"                          stock_output and stock_valuation accounts must be\n"
+"                          the same for category %s"
+msgstr ""
+
+#. module: l10n_ro_stock_account
+#: model:ir.model.fields,field_description:l10n_ro_stock_account.field_product_category__l10n_ro_hide_stock_in_out_account
+msgid "Hide Odoo Stock In/Out Accounts"
+msgstr ""
+
+#. module: l10n_ro_stock_account
+#: model:ir.model.fields,help:l10n_ro_stock_account.field_res_company__l10n_ro_stock_acc_price_diff
+msgid ""
+"If this field is checked and the company use Romanian Accounting,the "
+"currency rate differences between reception and invoice will be reflected in"
+" the stock valuation."
+msgstr ""
+
+#. module: l10n_ro_stock_account
+#: model:ir.model.fields,help:l10n_ro_stock_account.field_product_product__l10n_ro_property_stock_valuation_account_id
+#: model:ir.model.fields,help:l10n_ro_stock_account.field_product_template__l10n_ro_property_stock_valuation_account_id
+msgid ""
+"In Romania accounting is only one account for valuation/input/output. If "
+"this value is set, we will use it, otherwise will use the category value. "
+msgstr ""
+
+#. module: l10n_ro_stock_account
+#: model:ir.model.fields,field_description:l10n_ro_stock_account.field_stock_location__l10n_ro_property_account_income_location_id
+msgid "Income Account"
+msgstr ""
+
+#. module: l10n_ro_stock_account
+#: model:ir.model.fields.selection,name:l10n_ro_stock_account.selection__stock_valuation_layer__l10n_ro_valued_type__indefinite
+msgid "Indefinite"
+msgstr ""
+
+#. module: l10n_ro_stock_account
+#: model:ir.model.fields.selection,name:l10n_ro_stock_account.selection__stock_valuation_layer__l10n_ro_valued_type__internal_transfer
+msgid "Internal Transfer"
+msgstr ""
+
+#. module: l10n_ro_stock_account
+#: model:ir.model.fields.selection,name:l10n_ro_stock_account.selection__stock_valuation_layer__l10n_ro_valued_type__internal_transfer_in
+msgid "Internal Transfer In"
+msgstr ""
+
+#. module: l10n_ro_stock_account
+#: model:ir.model.fields.selection,name:l10n_ro_stock_account.selection__stock_valuation_layer__l10n_ro_valued_type__internal_transfer_out
+msgid "Internal Transfer Out"
+msgstr ""
+
+#. module: l10n_ro_stock_account
+#: model:ir.model.fields.selection,name:l10n_ro_stock_account.selection__stock_valuation_layer__l10n_ro_valued_type__internal_transit
+msgid "Internal Transit"
+msgstr ""
+
+#. module: l10n_ro_stock_account
+#: model:ir.model.fields.selection,name:l10n_ro_stock_account.selection__stock_valuation_layer__l10n_ro_valued_type__internal_transit_in
+#: model:ir.model.fields.selection,name:l10n_ro_stock_account.selection__stock_valuation_layer__l10n_ro_valued_type__internal_transit_out
+msgid "Internal Transit In"
+msgstr ""
+
+#. module: l10n_ro_stock_account
+#: model:ir.model,name:l10n_ro_stock_account.model_stock_location
+msgid "Inventory Locations"
+msgstr ""
+
+#. module: l10n_ro_stock_account
+#: model:ir.model.fields,field_description:l10n_ro_stock_account.field_stock_valuation_layer__l10n_ro_invoice_id
+msgid "Invoice"
+msgstr ""
+
+#. module: l10n_ro_stock_account
+#: model:ir.model.fields,field_description:l10n_ro_stock_account.field_stock_valuation_layer__l10n_ro_invoice_line_id
+msgid "Invoice Line"
+msgstr ""
+
+#. module: l10n_ro_stock_account
+#: model:ir.model.fields,field_description:l10n_ro_stock_account.field_account_account__is_l10n_ro_record
+#: model:ir.model.fields,field_description:l10n_ro_stock_account.field_account_move__is_l10n_ro_record
+#: model:ir.model.fields,field_description:l10n_ro_stock_account.field_account_move_line__is_l10n_ro_record
+#: model:ir.model.fields,field_description:l10n_ro_stock_account.field_product_category__is_l10n_ro_record
+#: model:ir.model.fields,field_description:l10n_ro_stock_account.field_product_template__is_l10n_ro_record
+#: model:ir.model.fields,field_description:l10n_ro_stock_account.field_stock_move__is_l10n_ro_record
+#: model:ir.model.fields,field_description:l10n_ro_stock_account.field_stock_picking__is_l10n_ro_record
+#: model:ir.model.fields,field_description:l10n_ro_stock_account.field_stock_valuation_layer__is_l10n_ro_record
+msgid "Is Romanian Record"
+msgstr ""
+
+#. module: l10n_ro_stock_account
+#: model:ir.model,name:l10n_ro_stock_account.model_account_move
+msgid "Journal Entry"
+msgstr ""
+
+#. module: l10n_ro_stock_account
+#: model:ir.model,name:l10n_ro_stock_account.model_account_move_line
+msgid "Journal Item"
+msgstr ""
+
+#. module: l10n_ro_stock_account
+#: model:ir.model.fields.selection,name:l10n_ro_stock_account.selection__stock_valuation_layer__l10n_ro_valued_type__minus_inventory
+msgid "Minus inventory"
+msgstr ""
+
+#. module: l10n_ro_stock_account
+#: model_terms:ir.ui.view,arch_db:l10n_ro_stock_account.view_location_form_inherit
+msgid "Only for Romania"
+msgstr ""
+
+#. module: l10n_ro_stock_account
+#: model:ir.model.fields,help:l10n_ro_stock_account.field_product_category__l10n_ro_stock_account_change
+msgid ""
+"Only for Romania, to change the accounts to the ones defined on stock "
+"locations"
+msgstr ""
+
+#. module: l10n_ro_stock_account
+#: model:ir.model.fields,help:l10n_ro_stock_account.field_product_category__l10n_ro_hide_stock_in_out_account
+msgid ""
+"Only for Romania, to hide stock_input and stock_output accounts because they"
+" are the same as stock_valuation account"
+msgstr ""
+
+#. module: l10n_ro_stock_account
+#: model:ir.model.fields.selection,name:l10n_ro_stock_account.selection__stock_valuation_layer__l10n_ro_valued_type__plus_inventory
+msgid "Plus inventory"
+msgstr ""
+
+#. module: l10n_ro_stock_account
+#: model:ir.model,name:l10n_ro_stock_account.model_product_template
+#: model:ir.model.fields,field_description:l10n_ro_stock_account.field_stock_valuation_layer__product_id
+msgid "Product"
+msgstr ""
+
+#. module: l10n_ro_stock_account
+#: model:ir.model,name:l10n_ro_stock_account.model_product_category
+msgid "Product Category"
+msgstr ""
+
+#. module: l10n_ro_stock_account
+#: model:ir.model.fields.selection,name:l10n_ro_stock_account.selection__stock_valuation_layer__l10n_ro_valued_type__production
+msgid "Production"
+msgstr ""
+
+#. module: l10n_ro_stock_account
+#: model:ir.model.fields.selection,name:l10n_ro_stock_account.selection__stock_valuation_layer__l10n_ro_valued_type__reception
+msgid "Reception"
+msgstr ""
+
+#. module: l10n_ro_stock_account
+#: model:ir.model.fields.selection,name:l10n_ro_stock_account.selection__stock_valuation_layer__l10n_ro_valued_type__reception_notice
+msgid "Reception with notice"
+msgstr ""
+
+#. module: l10n_ro_stock_account
+#: model:ir.model.fields.selection,name:l10n_ro_stock_account.selection__stock_valuation_layer__l10n_ro_valued_type__consumption_return
+msgid "Return Consumption"
+msgstr ""
+
+#. module: l10n_ro_stock_account
+#: model:ir.model.fields.selection,name:l10n_ro_stock_account.selection__stock_valuation_layer__l10n_ro_valued_type__production_return
+msgid "Return Production"
+msgstr ""
+
+#. module: l10n_ro_stock_account
+#: model:ir.model.fields.selection,name:l10n_ro_stock_account.selection__stock_valuation_layer__l10n_ro_valued_type__usage_giving_return
+msgid "Return Usage Giving"
+msgstr ""
+
+#. module: l10n_ro_stock_account
+#: model:ir.model.fields.selection,name:l10n_ro_stock_account.selection__stock_valuation_layer__l10n_ro_valued_type__delivery_return
+msgid "Return delivery"
+msgstr ""
+
+#. module: l10n_ro_stock_account
+#: model:ir.model.fields.selection,name:l10n_ro_stock_account.selection__stock_valuation_layer__l10n_ro_valued_type__delivery_notice_return
+msgid "Return delivery with notice"
+msgstr ""
+
+#. module: l10n_ro_stock_account
+#: model:ir.model.fields.selection,name:l10n_ro_stock_account.selection__stock_valuation_layer__l10n_ro_valued_type__reception_return
+msgid "Return reception"
+msgstr ""
+
+#. module: l10n_ro_stock_account
+#: model:ir.model.fields.selection,name:l10n_ro_stock_account.selection__stock_valuation_layer__l10n_ro_valued_type__reception_notice_return
+msgid "Return reception with notice"
+msgstr ""
+
+#. module: l10n_ro_stock_account
+#: model:ir.model.fields,field_description:l10n_ro_stock_account.field_res_company__l10n_ro_stock_acc_price_diff
+msgid "Romania - Stock Valuation Update"
+msgstr ""
+
+#. module: l10n_ro_stock_account
+#: model:ir.model,name:l10n_ro_stock_account.model_stock_move
+msgid "Stock Move"
+msgstr ""
+
+#. module: l10n_ro_stock_account
+#: model:ir.model.fields,field_description:l10n_ro_stock_account.field_product_product__l10n_ro_property_stock_valuation_account_id
+#: model:ir.model.fields,field_description:l10n_ro_stock_account.field_product_template__l10n_ro_property_stock_valuation_account_id
+#: model:ir.model.fields,field_description:l10n_ro_stock_account.field_stock_location__l10n_ro_property_stock_valuation_account_id
+msgid "Stock Valuation Account"
+msgstr ""
+
+#. module: l10n_ro_stock_account
+#: model:ir.model,name:l10n_ro_stock_account.model_stock_valuation_layer
+msgid "Stock Valuation Layer"
+msgstr ""
+
+#. module: l10n_ro_stock_account
+#: model:ir.model.fields,help:l10n_ro_stock_account.field_stock_location__l10n_ro_property_account_expense_location_id
+msgid ""
+"This account will overwrite the expense accounts from product or category."
+msgstr ""
+
+#. module: l10n_ro_stock_account
+#: model:ir.model.fields,help:l10n_ro_stock_account.field_stock_location__l10n_ro_property_account_income_location_id
+msgid ""
+"This account will overwrite the income accounts from product or category."
+msgstr ""
+
+#. module: l10n_ro_stock_account
+#: model:ir.model,name:l10n_ro_stock_account.model_stock_picking
+msgid "Transfer"
+msgstr ""
+
+#. module: l10n_ro_stock_account
+#: model:ir.model.fields.selection,name:l10n_ro_stock_account.selection__stock_valuation_layer__l10n_ro_valued_type__usage_giving
+msgid "Usage Giving"
+msgstr ""
+
+#. module: l10n_ro_stock_account
+#: model:ir.model.fields,field_description:l10n_ro_stock_account.field_res_company__anglo_saxon_accounting
+msgid "Use anglo-saxon accounting"
+msgstr ""
+
+#. module: l10n_ro_stock_account
+#: model:ir.model.fields,field_description:l10n_ro_stock_account.field_stock_valuation_layer__l10n_ro_account_id
+msgid "Valuation Account"
+msgstr ""
+
+#. module: l10n_ro_stock_account
+#: model:ir.model.fields,field_description:l10n_ro_stock_account.field_stock_valuation_layer__l10n_ro_valued_type
+msgid "Valued Type"
+msgstr ""
