@@ -496,7 +496,7 @@ class MessageSPV(models.Model):
         access_token = attachment.access_token
         return {
             "type": "ir.actions.act_url",
-            "url": f"/web/content/{attachment_id}?download=true&amp;access_token=#{access_token}",  # noqa
+            "url": f"/web/content/{attachment_id}?download=true&access_token={access_token}",  # noqa
             "target": "self",
         }
 
