@@ -36,11 +36,11 @@
                     attrs="{'column_invisible': [('parent.is_l10n_ro_record', '=', False)], 'invisible': [('repartition_type', '=', 'base')]}"
                 />
                 <field
-                    name="l10n_ro_exclude_from_stock"
+                    name="l10n_ro_use_tax_exigibility_account"
                     attrs="{'column_invisible': [('parent.is_l10n_ro_record', '=', False)], 'invisible': [('repartition_type', '=', 'base')]}"
                 />
                 <field
-                    name="l10n_ro_skip_cash_basis_account_switch"
+                    name="l10n_ro_exclude_from_stock"
                     attrs="{'column_invisible': [('parent.is_l10n_ro_record', '=', False)], 'invisible': [('repartition_type', '=', 'base')]}"
                 />
             </field>
