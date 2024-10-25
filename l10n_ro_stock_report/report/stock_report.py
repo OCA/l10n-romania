@@ -512,12 +512,8 @@ class StorageSheet(models.TransientModel):
             self.date_to,
         )
         action["domain"] = [("report_id", "=", self.id)]
-        action["context"] = {
-            "active_id": self.id,
-            "general_buttons": self.env[
-                "l10n.ro.stock.storage.sheet.line"
-            ].get_general_buttons(),
-        }
+        action["context"] = {"active_id": self.id}
+
         action["target"] = "main"
         return action
 
@@ -600,12 +596,3 @@ class StorageSheetLine(models.TransientModel):
     invoice_id = fields.Many2one("account.move", index=True)
     valued_type = fields.Selection(VALUED_TYPE)
     document = fields.Char()
-
-    def get_general_buttons(self):
-        return [
-            {
-                "action": "print_pdf",
-                "name": _("Print Preview"),
-                "model": "stock.storage.sheet",
-            }
-        ]
