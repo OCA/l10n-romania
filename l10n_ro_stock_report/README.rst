@@ -1,5 +1,5 @@
 =====================================
-Romania - Stock Report (Fisa Magazie)
+Romania - Stock Report (Fișă Magazie)
 =====================================
 
 .. 

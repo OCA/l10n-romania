@@ -85,7 +85,7 @@
                     decoration-danger="quantity_final &lt; 0"
                 />
                 <field name="amount_final" decoration-danger="amount_final &lt; 0" />
-
+                <field name="currency_id" column_invisible="1" />
             </tree>
         </field>
     </record>
@@ -209,12 +209,33 @@
         <field name="name">Stock Sheet Report</field>
         <field name="res_model">l10n.ro.stock.storage.sheet.line</field>
         <field name="view_mode">pivot,tree,form</field>
+         <field name="view_id" ref="view_sheet_stock_report_line_pivot" />
         <field name="domain">[('report_id','=',active_id)]</field>
-        <field name="context">{'general_buttons':'get_general_buttons'}</field>
-        <field
-            name="view_id"
-            ref="l10n_ro_stock_report.view_sheet_stock_report_line_tree"
-        />
+    </record>
+
+
+    <record
+        id="action_sheet_stock_report_line_pivot"
+        model="ir.actions.act_window.view"
+    >
+        <field name="sequence" eval="1" />
+            <field name="view_mode">pivot</field>
+            <field name="view_id" ref="view_sheet_stock_report_line_pivot" />
+            <field name="act_window_id" ref="action_sheet_stock_report_line" />
+    </record>
+
+    <record id="action_sheet_stock_report_line_tree" model="ir.actions.act_window.view">
+              <field name="sequence" eval="2" />
+            <field name="view_mode">tree</field>
+            <field name="view_id" ref="view_sheet_stock_report_line_tree" />
+            <field name="act_window_id" ref="action_sheet_stock_report_line" />
+    </record>
+
+    <record id="action_sheet_stock_report_line_form" model="ir.actions.act_window.view">
+              <field name="sequence" eval="3" />
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="view_sheet_stock_report_line_form" />
+            <field name="act_window_id" ref="action_sheet_stock_report_line" />
     </record>
 
 
