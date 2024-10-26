@@ -12,6 +12,13 @@ _logger = logging.getLogger(__name__)
 class AccountMove(models.Model):
     _inherit = "account.move"
 
+    l10n_ro_message_spv_ids = fields.One2many(
+        "l10n.ro.message.spv",
+        "invoice_id",
+        string="Romania - E-invoice messages",
+        help="E-invoice messages related to this invoice.",
+    )
+
     l10n_ro_edi_transaction = fields.Char(
         "Transaction ID (RO)",
         help="Technical field used to track the status of a submission.",

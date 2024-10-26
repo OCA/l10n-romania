@@ -6,7 +6,6 @@
         t-inherit-mode="primary"
     >
         <xpath expr="//div[hasclass('o_list_buttons')]" position="inside">
-
             <button
                 type="button"
                 class="btn btn-secondary"
@@ -14,7 +13,6 @@
             > <i class="fa fa-refresh" />
                 Refresh
             </button>
-
         </xpath>
     </t>
 </templates>

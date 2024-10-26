@@ -1,13 +1,10 @@
-<?xml version="1.0" encoding="utf-8" ?>
 <odoo>
-
-
     <record id="view_l10n_ro_message_spv_tree" model="ir.ui.view">
         <field name="name">l10n.ro.message.spv.tree</field>
         <field name="model">l10n.ro.message.spv</field>
-        <field name="type">tree</field>
+        <field name="type">list</field>
         <field name="arch" type="xml">
-            <tree js_class="message_spv_tree" sample="1" create="0">
+            <list js_class="message_spv_tree" sample="1" create="0">
                 <header>
                     <button name="download_from_spv" string="Download" type="object" />
                     <button
@@ -20,7 +17,6 @@
                         string="Create Invoice"
                         type="object"
                     />
-
                 </header>
 
                 <field name="name" />
@@ -46,7 +42,7 @@
                     decoration-info="state == 'downloaded'"
                     decoration-primary="state == 'invoice'"
                 />
-            </tree>
+            </list>
         </field>
     </record>
 
@@ -105,7 +101,6 @@
                                 decoration-info="state == 'downloaded'"
                                 decoration-primary="state == 'invoice'"
                             />
-
                         </group>
 
                         <group string="Files">
@@ -160,7 +155,6 @@
             </form>
         </field>
     </record>
-
 
     <record id="view_l10n_ro_message_spv_search" model="ir.ui.view">
         <field name="name">l10n.ro.message.spv.search</field>
@@ -226,11 +220,10 @@
         </field>
     </record>
 
-
     <record id="action_l10n_ro_message_spv" model="ir.actions.act_window">
         <field name="name">Messages SPV</field>
         <field name="res_model">l10n.ro.message.spv</field>
-        <field name="view_mode">tree,form</field>
+        <field name="view_mode">list,form</field>
     </record>
 
     <menuitem
@@ -245,5 +238,4 @@
         parent="menu_l10n_ro_spv"
         action="action_l10n_ro_message_spv"
     />
-
 </odoo>
