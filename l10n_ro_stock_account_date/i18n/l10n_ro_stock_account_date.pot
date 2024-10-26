@@ -4,7 +4,7 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 17.0\n"
+"Project-Id-Version: Odoo Server 18.0\n"
 "Report-Msgid-Bugs-To: \n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -22,14 +22,12 @@ msgstr ""
 #. module: l10n_ro_stock_account_date
 #. odoo-python
 #: code:addons/l10n_ro_stock_account_date/models/stock_move.py:0
-#, python-format
 msgid "Cannot validate stock move due to account date restriction."
 msgstr ""
 
 #. module: l10n_ro_stock_account_date
 #. odoo-python
 #: code:addons/l10n_ro_stock_account_date/models/stock_move.py:0
-#, python-format
 msgid ""
 "Cannot validate stock move due to date restriction.The date must be after "
 "%(last_posting_date)s"
@@ -38,7 +36,6 @@ msgstr ""
 #. module: l10n_ro_stock_account_date
 #. odoo-python
 #: code:addons/l10n_ro_stock_account_date/models/stock_move.py:0
-#, python-format
 msgid ""
 "Cannot validate stock move due to date restriction.The date must be between "
 "%(first_posting_date)s and %(last_posting_date)s"
@@ -123,6 +120,5 @@ msgstr ""
 #. module: l10n_ro_stock_account_date
 #. odoo-python
 #: code:addons/l10n_ro_stock_account_date/models/stock_picking.py:0
-#, python-format
 msgid "You can not have a Accounting date=%s for picking bigger than today!"
 msgstr ""
