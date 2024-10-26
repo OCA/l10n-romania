@@ -42,7 +42,7 @@
         </field>
     </record>
 
-    <record id="stock_picking_kanban" model="ir.ui.view">
+    <!--    <record id="stock_picking_kanban" model="ir.ui.view">
         <field name="name">stock.picking.kanban</field>
         <field name="model">stock.picking</field>
         <field name="inherit_id" ref="stock.stock_picking_kanban" />
@@ -59,7 +59,5 @@
                 </div>
             </xpath>
         </field>
-    </record>
-
-
+    </record>-->
 </odoo>

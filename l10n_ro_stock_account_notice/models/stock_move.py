@@ -205,9 +205,9 @@ class StockMove(models.Model):
             # in nir si factura se ca utiliza 408
             if valued_type == "invoice_in_notice":
                 if location_to.l10n_ro_property_account_expense_location_id:
-                    acc_dest = (
-                        acc_valuation
-                    ) = location_to.l10n_ro_property_account_expense_location_id.id
+                    acc_dest = acc_valuation = (
+                        location_to.l10n_ro_property_account_expense_location_id.id
+                    )
                 # if location_to.property_account_expense_location_id:
                 #     acc_dest = (
                 #         acc_valuation
