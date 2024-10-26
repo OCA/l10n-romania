@@ -4,7 +4,7 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 17.0\n"
+"Project-Id-Version: Odoo Server 18.0\n"
 "Report-Msgid-Bugs-To: \n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -76,7 +76,6 @@ msgstr ""
 #. module: l10n_ro_stock_account
 #. odoo-python
 #: code:addons/l10n_ro_stock_account/models/product_category.py:0
-#, python-format
 msgid ""
 "For Romanian Stock Accounting the stock_input,\n"
 "                          stock_output and stock_valuation accounts must be\n"
@@ -148,11 +147,6 @@ msgstr ""
 #. module: l10n_ro_stock_account
 #: model:ir.model.fields,field_description:l10n_ro_stock_account.field_stock_valuation_layer__l10n_ro_invoice_id
 msgid "Invoice"
-msgstr ""
-
-#. module: l10n_ro_stock_account
-#: model:ir.model.fields,field_description:l10n_ro_stock_account.field_stock_valuation_layer__l10n_ro_invoice_line_id
-msgid "Invoice Line"
 msgstr ""
 
 #. module: l10n_ro_stock_account
@@ -270,6 +264,11 @@ msgstr ""
 #. module: l10n_ro_stock_account
 #: model:ir.model.fields,field_description:l10n_ro_stock_account.field_res_company__l10n_ro_stock_acc_price_diff
 msgid "Romania - Stock Valuation Update"
+msgstr ""
+
+#. module: l10n_ro_stock_account
+#: model:ir.model.fields,field_description:l10n_ro_stock_account.field_stock_valuation_layer__l10n_ro_invoice_line_id
+msgid "Romania Invoice Line"
 msgstr ""
 
 #. module: l10n_ro_stock_account
