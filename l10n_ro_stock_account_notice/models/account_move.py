@@ -61,10 +61,11 @@ class AccountMove(models.Model):
                 account = lines_diff_acc[0]
         return account
 
-    def _stock_account_prepare_anglo_saxon_in_lines_vals(self):
-        l10n_ro_records = self.filtered("is_l10n_ro_record")
-        if l10n_ro_records == self:
-            return []
-        return super(
-            AccountMove, self - l10n_ro_records
-        )._stock_account_prepare_anglo_saxon_in_lines_vals()
+    # desactivarea acestie metode se va face in l10n_ro_stock_price_difference
+    # def _stock_account_prepare_anglo_saxon_in_lines_vals(self):
+    #     l10n_ro_records = self.filtered("is_l10n_ro_record")
+    #     if l10n_ro_records == self:
+    #         return []
+    #     return super(
+    #         AccountMove, self - l10n_ro_records
+    #     )._stock_account_prepare_anglo_saxon_in_lines_vals()
