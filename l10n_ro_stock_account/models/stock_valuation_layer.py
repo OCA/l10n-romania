@@ -48,7 +48,7 @@ class StockValuationLayer(models.Model):
     )
 
     l10n_ro_invoice_line_id = fields.Many2one(
-        "account.move.line", string="Invoice Line"
+        "account.move.line", string="Romania Invoice Line"
     )
     l10n_ro_invoice_id = fields.Many2one("account.move", string="Invoice")
 
