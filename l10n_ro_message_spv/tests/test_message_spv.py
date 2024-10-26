@@ -1,31 +1,118 @@
 # Copyright (C) 2020 Terrabit
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html)
 
+import json
+from datetime import date, timedelta
+from unittest.mock import patch
 
-from odoo.tests.common import TransactionCase
+from odoo.tests import tagged
+from odoo.tools.misc import file_path
+
+from odoo.addons.account_edi.tests.common import AccountEdiTestCommon
+from odoo.addons.base.tests.test_ir_cron import CronMixinCase
 
 
-class TestMessageSPV(TransactionCase):
+@tagged("post_install", "-at_install")
+class TestMessageSPV(AccountEdiTestCommon, CronMixinCase):
     # test de creare mesaje preluate de la SPV
 
-    def setUp(self):
-        # initializare date
+    @classmethod
+    def setUpClass(cls):
+        super().setUpClass(chart_template_ref="ro")
+        cls.mainpartner = cls.env.ref("base.main_partner")
+        cls.env.company.anglo_saxon_accounting = True
+        cls.env.company.l10n_ro_accounting = True
 
-        #
-        return super().setUp()
+        # Set up company details
+        cls.currency = cls.env["res.currency"].search([("name", "=", "RON")])
+        cls.country_state = cls.env.ref("base.RO_TM")
+        cls.env.company.write({"vat": "RO30834857"})
+        cls.env.company.write(
+            {
+                "vat": "RO30834857",
+                "name": "FOREST AND BIOMASS ROMÂNIA S.A.",
+                "country_id": cls.env.ref("base.ro").id,
+                "currency_id": cls.currency.id,
+                "street": "Str. Ciprian Porumbescu Nr. 12",
+                "street2": "Zona Nr.3, Etaj 1",
+                "city": "Timișoara",
+                "state_id": cls.country_state.id,
+                "zip": "300011",
+                "phone": "0356179038",
+            }
+        )
+
+        # Set up ANAF configuration
+        anaf_config = cls.env.company._l10n_ro_get_anaf_sync(scope="e-factura")
+        anaf_scope = [
+            (
+                0,
+                0,
+                {
+                    "scope": "e-factura",
+                    "state": "test",
+                    "anaf_sync_production_url": "https://api.anaf.ro/prod/FCTEL/rest",
+                    "anaf_sync_test_url": "https://api.anaf.ro/test/FCTEL/rest",
+                },
+            )
+        ]
+        if not anaf_config:
+            cls.env["l10n.ro.account.anaf.sync"].create(
+                {
+                    "company_id": cls.env.company.id,
+                    "client_id": "123",
+                    "client_secret": "123",
+                    "access_token": "123",
+                    "client_token_valability": date.today() + timedelta(days=10),
+                    "anaf_scope_ids": anaf_scope,
+                }
+            )
 
     def test_download_messages(self):
         # test de descarcare a mesajelor de la SPV
-        pass
+        self.env.company.vat = "RO23685159"
+        msg_dict = {
+            "mesaje": [
+                {
+                    "data_creare": "202312120940",
+                    "cif": "23685159",
+                    "id_solicitare": "5004552043",
+                    "detalii": "Factura cu id_incarcare=5004552043 emisa de cif_emitent=8486152 pentru cif_beneficiar=23685159",  # noqa
+                    "tip": "FACTURA PRIMITA",
+                    "id": "3006372781",
+                }
+            ],
+            "serial": "1234AA456",
+            "cui": "8000000000",
+            "titlu": "Lista Mesaje disponibile din ultimele 1 zile",
+        }
+        anaf_messages = b"""%s""" % json.dumps(msg_dict).encode("utf-8")
 
-    def test_render_pdf(self):
-        # test de randare a mesajelor in format PDF
-        pass
+        with patch(
+            "odoo.addons.l10n_ro_message_spv.models.l10n_ro_account_anaf_sync_scope."
+            "AccountANAFSyncScope._l10n_ro_einvoice_call",
+            return_value=(anaf_messages, 200),
+        ):
+            self.env.company.l10n_ro_download_message_spv()
 
-    def test_get_embedded_pdf(self):
-        # test de preluare a PDF-ului din mesaj
-        pass
+    def test_download_from_spv(self):
+        # test descarcare zip from SPV
+        message_spv = self.env["l10n.ro.message.spv"].create(
+            {
+                "name": "3006372781",
+                "company_id": self.env.company.id,
+                "message_type": "in_invoice",
+                "cif": "8486152",
+            }
+        )
 
-    def test_create_invoice_from_message(self):
-        # test de creare a unei facturi din mesaj
-        pass
+        file_invoice = file_path("l10n_ro_message_spv/tests/invoice.zip")
+        anaf_messages = open(file_invoice, "rb").read()
+        with patch(
+            "odoo.addons.l10n_ro_message_spv.models.l10n_ro_account_anaf_sync_scope."
+            "AccountANAFSyncScope._l10n_ro_einvoice_call",
+            return_value=(anaf_messages, 200),
+        ):
+            message_spv.download_from_spv()
+            message_spv.get_invoice_from_move()
+            message_spv.create_invoice()

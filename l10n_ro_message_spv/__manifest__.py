@@ -20,8 +20,13 @@
         ],
     },
     "license": "AGPL-3",
+<<<<<<< HEAD
     "version": "17.0.1.6.0",
     "author": "Terrabit," "NextERP Romania," "Odoo Community Association (OCA)",
+=======
+    "version": "17.0.1.3.0",
+    "author": "Terrabit," "Odoo Community Association (OCA)",
+>>>>>>> message SPV
     "website": "https://github.com/OCA/l10n-romania",
     "installable": True,
     "development_status": "Beta",
