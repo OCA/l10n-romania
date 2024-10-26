@@ -31,7 +31,13 @@
                 <field name="request_id" />
                 <field name="company_id" invisible="1" />
                 <field name="currency_id" invisible="1" />
-                <field name="amount" sum="1" />
+                <field
+                    name="amount"
+                    sum="1"
+                    decoration-danger="invoice_amount and amount != invoice_amount"
+                />
+                <field name="invoice_amount" invisible="1" />
+
                 <field name="invoice_id" />
                 <field
                     name="state"
@@ -87,7 +93,11 @@
                             <field name="ref" />
                             <field name="invoice_id" />
                             <field name="currency_id" invisible="1" />
-                            <field name="amount" sum="1" />
+                            <field
+                                name="amount"
+                                decoration-danger="invoice_amount and amount != invoice_amount"
+                            />
+                            <field name="invoice_amount" invisible="1" />
                             <field
                                 name="state"
                                 widget="badge"
