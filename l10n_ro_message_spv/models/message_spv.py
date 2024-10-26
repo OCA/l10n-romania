@@ -13,6 +13,7 @@ from odoo import _, api, fields, models
 from odoo.exceptions import UserError
 
 _logger = logging.getLogger(__name__)
+session = requests.Session()
 
 
 class MessageSPV(models.Model):
@@ -72,7 +73,9 @@ class MessageSPV(models.Model):
         "res.currency", default=lambda self: self.env.company.currency_id
     )
 
-    @api.onchange("invoice_id")
+    _sql_constraints = [("unique_name", "unique(name)", "Message ID must be unique.")]
+
+    @api.onchange("invoice_id", "invoice_id.state")
     def _onchange_invoice_id(self):
         for message in self:
             if message.invoice_id:
@@ -86,17 +89,26 @@ class MessageSPV(models.Model):
 
     def download_from_spv(self):
         """Rutina de descarcare a fisierelor de la SPV"""
-        for message in self.filtered(lambda m: not m.attachment_id):
-            anaf_config = message.company_id.sudo()._l10n_ro_get_anaf_sync(
-                scope="e-factura"
-            )
-            if not anaf_config:
-                raise UserError(_("ANAF configuration is missing."))
+        session = requests.Session()
 
-            params = {"id": message.name}
-            response, status_code = anaf_config._l10n_ro_einvoice_call(
-                "/descarcare", params, method="GET"
+        for message in self.filtered(lambda m: not m.attachment_id):
+            # anaf_config = message.company_id.sudo()._l10n_ro_get_anaf_sync(
+            #     scope="e-factura"
+            # )
+            # if not anaf_config:
+            #     raise UserError(_("ANAF configuration is missing."))
+
+            # params = {"id": message.name}
+
+            response = self.env["l10n_ro_edi.document"]._request_ciusro_download_zip(
+                company=message.company_id,
+                key_download=message.name,
+                session=session,
             )
+            status_code = response.get("status_code", 200)
+            # response, status_code = anaf_config._l10n_ro_einvoice_call(
+            #     "/descarcare", params, method="GET"
+            # )
             error = ""
             if isinstance(response, dict):
                 error = response.get("eroare", "")
@@ -105,18 +117,18 @@ class MessageSPV(models.Model):
             elif status_code == 200 and isinstance(response, dict):
                 error = response.get("eroare")
             if not error:
-                error = message.check_anaf_error_xml(response)
+                error = message.check_anaf_error_xml(response["content"])
             if error:
                 message.write({"error": error})
                 continue
             if message.message_type == "message":
-                info_message = message.check_anaf_message_xml(response)
+                info_message = message.check_anaf_message_xml(response["content"])
                 message.write({"message": info_message})
 
             file_name = f"{message.request_id}.zip"
             attachment_value = {
                 "name": file_name,
-                "raw": response,
+                "raw": response["content"],
                 "mimetype": "application/zip",
             }
             attachment = self.env["ir.attachment"].sudo().create(attachment_value)
@@ -138,9 +150,16 @@ class MessageSPV(models.Model):
             file_name = f"{message.request_id}.xml"
             if xml_file:
                 file_name = xml_file[0]
-                xml_file = zip_ref.read(file_name)
-            if not xml_file:
+                xml_bytes = zip_ref.open(file_name)
+                # xml_file = zip_ref.read(file_name)
+            if not xml_bytes:
                 continue
+
+            # xml_bytes = zip_ref.open(xml_file)
+            root = etree.parse(xml_bytes)
+            xml_file = etree.tostring(
+                root, pretty_print=True, xml_declaration=True, encoding="UTF-8"
+            )
             attachment_value = {
                 "name": file_name,
                 "raw": xml_file,
@@ -164,10 +183,10 @@ class MessageSPV(models.Model):
             if amount_note is not None:
                 amount = float(amount_note.text)
 
-            if (
-                xml_tree.tag
-                == "{urn:oasis:names:specification:ubl:schema:xsd:CreditNote-2}CreditNote"  # noqa
-            ):
+            xml_tag_credit_note = (
+                "{urn:oasis:names:specification:ubl:schema:xsd:CreditNote-2}CreditNote"  # noqa
+            )
+            if xml_tree.tag == xml_tag_credit_note:
                 amount = -1 * amount
 
             message.write(
@@ -183,7 +202,7 @@ class MessageSPV(models.Model):
         try:
             xml_tree = etree.fromstring(content)
         except Exception as e:
-            _logger.exception("Error when converting the xml content to etree: %s" % e)
+            _logger.exception(f"Error when converting the xml content to etree: {e}")
             return to_process
         if len(xml_tree):
             to_process.append(
@@ -311,6 +330,9 @@ class MessageSPV(models.Model):
         self.get_partner()
         for message in self.filtered(lambda m: not m.invoice_id):
             if not message.message_type == "in_invoice":
+                continue
+            message.get_invoice_from_move()
+            if message.invoice_id:
                 continue
 
             move_obj = self.env["account.move"].with_company(message.company_id)
