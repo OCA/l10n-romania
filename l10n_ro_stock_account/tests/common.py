@@ -425,8 +425,7 @@ class TestStockCommon(ValuationReconciliationTestCommon):
         )
         return_wiz = stock_return_picking_form.save()
         return_wiz.product_return_moves.write({"quantity": quantity, "to_refund": True})
-        res = return_wiz.create_returns()
-        return_pick = self.env["stock.picking"].browse(res["res_id"])
+        return_pick = return_wiz._create_return()
 
         # Validate picking
         return_pick.action_confirm()
