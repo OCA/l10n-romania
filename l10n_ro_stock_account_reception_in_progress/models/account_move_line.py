@@ -11,13 +11,17 @@ class AccountMoveLine(models.Model):
     def _compute_account_id(self):
         remaining = self
         reception_in_progress_lines = self.env["account.move.line"].with_context(
-            l10n_ro_reception_in_progress=True
+            l10n_ro_reception_in_progress=True, valued_type="reception_in_progress"
         )
         for linie in self:
             if linie.product_id.type == "product" and linie.is_l10n_ro_record:
                 if linie.move_id.is_purchase_document():
                     purchase = linie.purchase_order_id
-                    if purchase and linie.product_id.purchase_method == "receive":
+                    if (
+                        purchase
+                        and purchase.l10n_ro_reception_in_progress
+                        and linie.product_id.purchase_method == "receive"
+                    ):
                         reception_in_progress_lines |= linie
                         remaining -= linie
         if reception_in_progress_lines:
