@@ -39,7 +39,6 @@
                     context="{'group_by': 'l10n_ro_accounting_date'}"
                 />
             </filter>
-
         </field>
     </record>
 </odoo>
