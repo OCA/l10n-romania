@@ -86,6 +86,17 @@ class TestStockCommon(ValuationReconciliationTestCommon):
         return company_data
 
     @classmethod
+    def collect_company_accounting_data(cls, company):
+        company_data = super().collect_company_accounting_data(company)
+        company_data["default_account_stock_in"] = company_data[
+            "default_account_stock_valuation"
+        ]
+        company_data["default_account_stock_out"] = company_data[
+            "default_account_stock_valuation"
+        ]
+        return company_data
+
+    @classmethod
     @AccountTestInvoicingCommon.setup_country("ro")
     def setUpClass(cls):
         super().setUpClass()
