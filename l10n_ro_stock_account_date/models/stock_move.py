@@ -103,7 +103,8 @@ class StockMove(models.Model):
 
     def check_lock_date(self, move_date):
         self.ensure_one()
-        lock_date = self.company_id._get_user_fiscal_lock_date()
+        journal = self.product_id.categ_id.property_stock_journal
+        lock_date = self.company_id._get_user_fiscal_lock_date(journal)
         if move_date.date() < lock_date:
             raise UserError(
                 _("Cannot validate stock move due to account date restriction.")

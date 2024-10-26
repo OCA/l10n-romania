@@ -17,10 +17,6 @@ _logger = logging.getLogger(__name__)
 
 @tagged("post_install", "-at_install")
 class TestStockAccountDate(TestStockCommon):
-    @classmethod
-    def setUpClass(cls):
-        super().setUpClass()
-
     def test_inventory(self):
         self.make_purchase()
         acc_date = fields.Date.today() - timedelta(days=1)
