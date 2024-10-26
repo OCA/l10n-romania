@@ -6,11 +6,17 @@
     "category": "Localization",
     "countries": ["ro"],
     "summary": "Romania - Mesaje SPV",
-    "depends": ["l10n_ro_account_anaf_sync", "l10n_ro_edi", "account_edi"],
+    "depends": [
+        # "l10n_ro_account_anaf_sync",
+        "l10n_ro_edi",
+        # "l10n_ro_efactura", # din 18.0 e inclus in l10n_ro_edi
+        "account_edi",
+    ],
     "data": [
         "security/ir.model.access.csv",
         "security/security.xml",
         "data/ir_cron_data.xml",
+        "views/account_invoice.xml",
         "views/message_spv_view.xml",
     ],
     "assets": {
@@ -20,13 +26,8 @@
         ],
     },
     "license": "AGPL-3",
-<<<<<<< HEAD
-    "version": "17.0.1.6.0",
-    "author": "Terrabit," "NextERP Romania," "Odoo Community Association (OCA)",
-=======
-    "version": "17.0.1.3.0",
+    "version": "18.0.1.0.0",
     "author": "Terrabit," "Odoo Community Association (OCA)",
->>>>>>> message SPV
     "website": "https://github.com/OCA/l10n-romania",
     "installable": True,
     "development_status": "Beta",
