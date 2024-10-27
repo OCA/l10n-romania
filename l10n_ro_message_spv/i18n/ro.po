@@ -29,7 +29,6 @@ msgstr ""
 #. module: l10n_ro_message_spv
 #. odoo-python
 #: code:addons/l10n_ro_message_spv/models/message_spv.py:0
-#, python-format
 msgid "ANAF service unable to generate PDF from this XML."
 msgstr ""
 
@@ -125,7 +124,6 @@ msgstr "Ciornă"
 #. module: l10n_ro_message_spv
 #: model:ir.model.fields,help:l10n_ro_message_spv.field_account_bank_statement_line__l10n_ro_message_spv_ids
 #: model:ir.model.fields,help:l10n_ro_message_spv.field_account_move__l10n_ro_message_spv_ids
-#: model:ir.model.fields,help:l10n_ro_message_spv.field_account_payment__l10n_ro_message_spv_ids
 msgid "E-invoice messages related to this invoice."
 msgstr ""
 
@@ -180,14 +178,12 @@ msgstr ""
 #. module: l10n_ro_message_spv
 #: model:ir.model.fields,field_description:l10n_ro_message_spv.field_account_bank_statement_line__l10n_ro_edi_download
 #: model:ir.model.fields,field_description:l10n_ro_message_spv.field_account_move__l10n_ro_edi_download
-#: model:ir.model.fields,field_description:l10n_ro_message_spv.field_account_payment__l10n_ro_edi_download
 msgid "ID Download ANAF (RO)"
 msgstr ""
 
 #. module: l10n_ro_message_spv
 #: model:ir.model.fields,help:l10n_ro_message_spv.field_account_bank_statement_line__l10n_ro_edi_download
 #: model:ir.model.fields,help:l10n_ro_message_spv.field_account_move__l10n_ro_edi_download
-#: model:ir.model.fields,help:l10n_ro_message_spv.field_account_payment__l10n_ro_edi_download
 msgid "ID used to download the ZIP file from ANAF."
 msgstr ""
 
@@ -285,7 +281,6 @@ msgstr "Referință"
 #. module: l10n_ro_message_spv
 #. odoo-javascript
 #: code:addons/l10n_ro_message_spv/static/src/js/message_spv.xml:0
-#, python-format
 msgid "Refresh"
 msgstr ""
 
@@ -302,7 +297,6 @@ msgstr "ID cerere"
 #. module: l10n_ro_message_spv
 #: model:ir.model.fields,field_description:l10n_ro_message_spv.field_account_bank_statement_line__l10n_ro_message_spv_ids
 #: model:ir.model.fields,field_description:l10n_ro_message_spv.field_account_move__l10n_ro_message_spv_ids
-#: model:ir.model.fields,field_description:l10n_ro_message_spv.field_account_payment__l10n_ro_message_spv_ids
 msgid "Romania - E-invoice messages"
 msgstr ""
 
@@ -325,14 +319,12 @@ msgstr "Stare"
 #. module: l10n_ro_message_spv
 #: model:ir.model.fields,help:l10n_ro_message_spv.field_account_bank_statement_line__l10n_ro_edi_transaction
 #: model:ir.model.fields,help:l10n_ro_message_spv.field_account_move__l10n_ro_edi_transaction
-#: model:ir.model.fields,help:l10n_ro_message_spv.field_account_payment__l10n_ro_edi_transaction
 msgid "Technical field used to track the status of a submission."
 msgstr ""
 
 #. module: l10n_ro_message_spv
 #: model:ir.model.fields,field_description:l10n_ro_message_spv.field_account_bank_statement_line__l10n_ro_edi_transaction
 #: model:ir.model.fields,field_description:l10n_ro_message_spv.field_account_move__l10n_ro_edi_transaction
-#: model:ir.model.fields,field_description:l10n_ro_message_spv.field_account_payment__l10n_ro_edi_transaction
 msgid "Transaction ID (RO)"
 msgstr ""
 
