@@ -48,7 +48,6 @@ msgstr "Cont"
 #. module: l10n_ro_stock_report
 #. odoo-python
 #: code:addons/l10n_ro_stock_report/report/stock_report.py:0
-#, python-format
 msgid "All Locations"
 msgstr "Toate locațiile"
 
@@ -505,7 +504,6 @@ msgstr "Linie Fișă Magazie"
 #. module: l10n_ro_stock_report
 #. odoo-python
 #: code:addons/l10n_ro_stock_report/report/stock_report.py:0
-#, python-format
 msgid "There are no stock movements in the selected period"
 msgstr "Nu există mișcări ale stocurilor în perioada selectată"
 
