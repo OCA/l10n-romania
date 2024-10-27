@@ -1,6 +1,6 @@
 [project]
 name = "odoo-addons-oca-l10n-romania"
-version = "18.0.20241027.0"
+version = "18.0.20241027.1"
 dependencies = [
     "odoo-addon-l10n_ro_account==18.0.*",
     "odoo-addon-l10n_ro_city==18.0.*",
@@ -10,6 +10,7 @@ dependencies = [
     "odoo-addon-l10n_ro_stock==18.0.*",
     "odoo-addon-l10n_ro_stock_account==18.0.*",
     "odoo-addon-l10n_ro_stock_account_date==18.0.*",
+    "odoo-addon-l10n_ro_stock_account_date_wizard==18.0.*",
     "odoo-addon-l10n_ro_stock_account_notice==18.0.*",
 ]
 classifiers=[
