@@ -28,7 +28,7 @@ class StorageSheet(models.TransientModel):
     product_ids = fields.Many2many(
         "product.product",
         string="Only for products",
-        domain=[("type", "=", "product")],
+        domain=[("is_storable", "=", True)],
         help="will show report only for this products.\
          If nothing selected will show only products that have moves in period",
     )
@@ -170,7 +170,7 @@ class StorageSheet(models.TransientModel):
                 product_list = [-1]  # dummy list
                 all_products = True
 
-        self.env["account.move.line"].check_access_rights("read")
+        self.env["account.move.line"].check_access("read")
 
         lines = self.env["l10n.ro.stock.storage.sheet.line"].search(
             [("report_id", "=", self.id)]
@@ -237,18 +237,10 @@ class StorageSheet(models.TransientModel):
         _logger.info("end select ")
 
     def _get_lot_fields(self):
-        if "lot_id" in self.env["stock.valuation.layer"]:
-            field = ", serial_number"
-            select = ",sml.lot_id as serial_number"
-            join = (
-                "left join stock_move_line sml on sml.id=svl.l10n_ro_stock_move_line_id"
-            )
-            group = "ml.lot_id"
-        else:
-            field = ""
-            select = ""
-            join = ""
-            group = ""
+        field = ", serial_number"
+        select = ", lot_id as serial_number"
+        join = ""
+        group = ", lot_id"
         return field, select, join, group
 
     def _get_sql_select_sold_init(self):
@@ -467,17 +459,16 @@ class StorageSheet(models.TransientModel):
             product_list = self.product_ids.ids
             all_products = False
         else:
+            domain = [
+                ("is_storable", "=", True),
+                "|",
+                ("company_id", "=", self.company_id.id),
+                ("company_id", "=", False),
+            ]
             product_list = (
                 self.env["product.product"]
                 .with_context(active_test=False)
-                .search(
-                    [
-                        ("type", "=", "product"),
-                        "|",
-                        ("company_id", "=", self.company_id.id),
-                        ("company_id", "=", False),
-                    ]
-                )
+                .search(domain)
                 .ids
             )
             all_products = True
@@ -559,7 +550,7 @@ class StorageSheetLine(models.TransientModel):
         currency_field="currency_id",
         string="Price Unit In",
         default=0.0,
-        group_operator="avg",
+        aggregator="avg",
     )
     amount_out = fields.Monetary(
         currency_field="currency_id", default=0.0, string="Output Amount"
@@ -571,7 +562,7 @@ class StorageSheetLine(models.TransientModel):
         currency_field="currency_id",
         string="Price Unit Out",
         default=0.0,
-        group_operator="avg",
+        aggregator="avg",
     )
     amount_final = fields.Monetary(
         currency_field="currency_id", default=0.0, string="Final Amount"

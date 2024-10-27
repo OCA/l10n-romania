@@ -1,6 +1,4 @@
-<?xml version="1.0" encoding="utf-8" ?>
 <odoo>
-
     <template id="report_storage_sheet">
         <t t-call="web.html_container">
             <t t-foreach="docs" t-as="o">
@@ -108,7 +106,6 @@
                                             />
                                         </div>
                                     </div>
-
                                 </div>
                                 <t
                                     t-foreach="prod_acc_lines.filtered(lambda l: l.reference not in ['INITIAL','FINAL'] )"
@@ -188,7 +185,6 @@
         </t>
     </template>
 
-
     <template id="report_storage_sheet_lines">
         <div class="act_as_row lines">
             <div class="act_as_cell left">
@@ -199,7 +195,6 @@
                 <t t-if="line_product.invoice_id">
                     <span t-field="line_product.invoice_id" />
                 </t>
-
             </div>
             <div class="act_as_cell right">
                 <span
@@ -231,7 +226,7 @@
                     t-options='{"widget": "float", "precision": 2}'
                 />
             </div>
-              <div class="act_as_cell right">
+            <div class="act_as_cell right">
                 <span
                     t-field="line_product.unit_price_out"
                     t-options='{"widget": "float", "precision": 2}'
@@ -287,7 +282,6 @@
         </div>
     </template>
 
-
     <template id="report_storage_sheet_all">
         <t t-call="web.html_container">
             <t t-foreach="docs" t-as="o">
@@ -295,7 +289,6 @@
             </t>
         </t>
     </template>
-
 
     <template id="report_storage_sheet_report_all_base">
         <t t-call="web.external_layout">
@@ -366,7 +359,8 @@
                                     -
                                     <t t-esc="account.name" />
                                 </div>
-                                <br /><br />
+                                <br />
+                                <br />
                                 <t t-set="quantity" t-value="0" />
                                 <t t-set="amount" t-value="0" />
                                 <t t-foreach="prod_acc_lines" t-as="line_product">
@@ -426,5 +420,4 @@
         <field name="report_file">l10n_ro_stock_report.report_storage_sheet_all</field>
         <field name="print_report_name">(object._get_report_base_filename())</field>
     </record>
-
 </odoo>
