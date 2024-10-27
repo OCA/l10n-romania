@@ -75,7 +75,7 @@ class MessageSPV(models.Model):
 
     _sql_constraints = [("unique_name", "unique(name)", "Message ID must be unique.")]
 
-    @api.onchange("invoice_id", "invoice_id.state")
+    @api.onchange("invoice_id")
     def _onchange_invoice_id(self):
         for message in self:
             if message.invoice_id:
