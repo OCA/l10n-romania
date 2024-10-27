@@ -33,7 +33,9 @@ class TestStockReport(TransactionCase):
             [("code", "=", "371000")]
         )
 
-        self.stock_journal = self.env["account.journal"].search([("code", "=", "STJ")])
+        self.stock_journal = self.env["account.journal"].search(
+            [("code", "=", "STJ"), ("company_id", "=", self.env.company.id)]
+        )
         if not self.stock_journal:
             self.stock_journal = self.env["account.journal"].create(
                 {"name": "Stock Journal", "code": "STJ", "type": "general"}
