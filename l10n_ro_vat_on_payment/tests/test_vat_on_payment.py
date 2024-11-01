@@ -72,19 +72,22 @@ class TestVATonpayment(AccountTestInvoicingCommon):
             }
         )
         cls.fp_model = cls.env["account.fiscal.position"]
-        cls.fptvainc = cls.fp_model.search(
-            [
-                ("name", "ilike", "Regim TVA la Incasare"),
-                ("company_id", "=", cls.env.company.id),
-            ]
-        )
+        cls.fptvainc = cls.env.company.l10n_ro_property_vat_on_payment_position_id
+        # cls.fptvainc = cls.fp_model.search(
+        #     [
+        #         ("name", "ilike", "Sistem de colectare TVA"),
+        #         ("company_id", "=", cls.env.company.id),
+        #     ]
+        # )
         if not cls.fptvainc:
             cls.fptvainc = cls.fp_model.create(
                 {
-                    "name": "Regim TVA la Incasare",
+                    "name": "Sistem de colectare TVA",
                     "company_id": cls.env.company.id,
                 }
             )
+            cls.env.company.l10n_ro_property_vat_on_payment_position_id = cls.fptvainc
+
         data_dir = tools.config["data_dir"]
         istoric_file = os.path.join(data_dir, "istoric.txt")
 
