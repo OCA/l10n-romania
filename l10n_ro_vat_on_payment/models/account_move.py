@@ -19,8 +19,6 @@ class AccountMove(models.Model):
         """
         result = super()._onchange_partner_id()
         if self.is_l10n_ro_record:
-            fp_model = self.env["account.fiscal.position"]
-            vatp = False
             ctx = dict(self._context)
             company = self.company_id
             partner = (
@@ -35,13 +33,7 @@ class AccountMove(models.Model):
             if not vatp and self.is_purchase_document() and partner:
                 vatp = partner.with_context(**ctx)._check_vat_on_payment()
             if vatp and self.move_type != "entry":
-                fptvainc = fp_model.search(
-                    [
-                        ("name", "ilike", "Regim TVA la Incasare"),
-                        ("company_id", "=", self.env.company.id),
-                    ],
-                    limit=1,
-                )
+                fptvainc = company.l10n_ro_property_vat_on_payment_position_id
                 if fptvainc:
                     self.fiscal_position_id = fptvainc
         return result
