@@ -100,13 +100,16 @@ class ResPartner(models.Model):
     def check_vat_on_payment(self):
         if self.env.context.get("no_vat_validation", False):
             return True
-        ctx = dict(self._context)
-        ctx.update({"check_date": date.today()})
-
         for partner in self:
+            company = partner.company_id or self.env.company
+            vopfp = company.l10n_ro_property_vat_on_payment_position_id
             partner.l10n_ro_vat_on_payment = partner.with_context(
-                **ctx
+                check_date=date.today()
             )._check_vat_on_payment()
+            if partner.l10n_ro_vat_on_payment:
+                partner.property_account_position_id = vopfp
+            elif partner.property_account_position_id.id == vopfp.id:
+                partner.property_account_position_id = False
 
     @api.model
     def update_vat_payment_all(self):
