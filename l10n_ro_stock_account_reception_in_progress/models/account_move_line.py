@@ -9,10 +9,7 @@ class AccountMoveLine(models.Model):
     _inherit = ["account.move.line", "l10n.ro.mixin"]
 
     def _compute_account_id(self):
-        remaining = self
-        reception_in_progress_lines = self.env["account.move.line"].with_context(
-            l10n_ro_reception_in_progress=True, valued_type="reception_in_progress"
-        )
+        res = super()._compute_account_id()
         for linie in self:
             if linie.product_id.type == "product" and linie.is_l10n_ro_record:
                 if linie.move_id.is_purchase_document():
@@ -22,8 +19,9 @@ class AccountMoveLine(models.Model):
                         and purchase.l10n_ro_reception_in_progress
                         and linie.product_id.purchase_method == "receive"
                     ):
-                        reception_in_progress_lines |= linie
-                        remaining -= linie
-        if reception_in_progress_lines:
-            super(AccountMoveLine, reception_in_progress_lines)._compute_account_id()
-        return super(AccountMoveLine, remaining)._compute_account_id()
+                        account_stock_input = linie.product_id._get_product_accounts()[
+                            "stock_valuation"
+                        ]
+                        if account_stock_input.l10n_ro_reception_in_progress_account_id:
+                            linie.account_id = account_stock_input.l10n_ro_reception_in_progress_account_id  # noqa E501
+        return res
