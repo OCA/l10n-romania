@@ -1,6 +1,6 @@
 <odoo>
     <record id="view_l10n_ro_message_spv_tree" model="ir.ui.view">
-        <field name="name">l10n.ro.message.spv.tree</field>
+        <field name="name">l10n.ro.message.spv.list</field>
         <field name="model">l10n.ro.message.spv</field>
         <field name="type">list</field>
         <field name="arch" type="xml">
