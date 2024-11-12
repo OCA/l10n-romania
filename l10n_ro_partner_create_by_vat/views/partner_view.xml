@@ -33,7 +33,7 @@
                         nolabel="1"
                         colspan="4"
                     >
-                            <tree>
+                            <list>
                                 <field name="partner_id" invisible="1" />
                                 <field name="date" />
                                 <field name="act" />
@@ -43,7 +43,7 @@
                                 <field name="publish_date" />
                                 <field name="delete_date" />
                                 <field name="active_status" />
-                            </tree>
+                            </list>
                         </field>
                         <separator string="ANAF - VAT Subjected History" />
                         <field
@@ -53,7 +53,7 @@
                         nolabel="1"
                         colspan="4"
                     >
-                            <tree>
+                            <list>
                                 <field name="partner_id" invisible="1" />
                                 <field name="date" />
                                 <field name="start_date" />
@@ -61,7 +61,7 @@
                                 <field name="year_date" />
                                 <field name="message" />
                                 <field name="vat_subjected" />
-                            </tree>
+                            </list>
                         </field>
                     </group>
                 </page>
