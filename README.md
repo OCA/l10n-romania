@@ -23,13 +23,13 @@ addon | version | maintainers | summary
 --- | --- | --- | ---
 [l10n_ro_account](l10n_ro_account/) | 18.0.0.1.0 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Romania - Account
 [l10n_ro_city](l10n_ro_city/) | 18.0.1.4.0 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Romania - City
-[l10n_ro_config](l10n_ro_config/) | 18.0.0.1.0 | [![feketemihai](https://github.com/feketemihai.png?size=30px)](https://github.com/feketemihai) | Romania - Localization Install and Config Applications
-[l10n_ro_message_spv](l10n_ro_message_spv/) | 18.0.1.1.0 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Romania - Mesaje SPV
-[l10n_ro_partner_create_by_vat](l10n_ro_partner_create_by_vat/) | 18.0.0.1.0 | [![feketemihai](https://github.com/feketemihai.png?size=30px)](https://github.com/feketemihai) | Romania - Partner Create by VAT
+[l10n_ro_config](l10n_ro_config/) | 18.0.0.2.0 | [![feketemihai](https://github.com/feketemihai.png?size=30px)](https://github.com/feketemihai) | Romania - Localization Install and Config Applications
+[l10n_ro_message_spv](l10n_ro_message_spv/) | 18.0.1.2.0 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Romania - Mesaje SPV
+[l10n_ro_partner_create_by_vat](l10n_ro_partner_create_by_vat/) | 18.0.0.2.0 | [![feketemihai](https://github.com/feketemihai.png?size=30px)](https://github.com/feketemihai) | Romania - Partner Create by VAT
 [l10n_ro_pos](l10n_ro_pos/) | 18.0.1.1.0 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Romania - Point of Sale
-[l10n_ro_stock](l10n_ro_stock/) | 18.0.0.9.0 | [![feketemihai](https://github.com/feketemihai.png?size=30px)](https://github.com/feketemihai) | Romania - Stock
-[l10n_ro_stock_account](l10n_ro_stock_account/) | 18.0.1.11.0 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) [![feketemihai](https://github.com/feketemihai.png?size=30px)](https://github.com/feketemihai) | Romania - Stock Accounting
-[l10n_ro_stock_account_date](l10n_ro_stock_account_date/) | 18.0.1.1.0 | [![feketemihai](https://github.com/feketemihai.png?size=30px)](https://github.com/feketemihai) | Romania - Stock Accounting Date
+[l10n_ro_stock](l10n_ro_stock/) | 18.0.0.10.0 | [![feketemihai](https://github.com/feketemihai.png?size=30px)](https://github.com/feketemihai) | Romania - Stock
+[l10n_ro_stock_account](l10n_ro_stock_account/) | 18.0.1.12.0 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) [![feketemihai](https://github.com/feketemihai.png?size=30px)](https://github.com/feketemihai) | Romania - Stock Accounting
+[l10n_ro_stock_account_date](l10n_ro_stock_account_date/) | 18.0.1.2.0 | [![feketemihai](https://github.com/feketemihai.png?size=30px)](https://github.com/feketemihai) | Romania - Stock Accounting Date
 [l10n_ro_stock_account_date_wizard](l10n_ro_stock_account_date_wizard/) | 18.0.1.1.0 | [![feketemihai](https://github.com/feketemihai.png?size=30px)](https://github.com/feketemihai) | Romania - Stock Accounting Date Wizard
 [l10n_ro_stock_account_notice](l10n_ro_stock_account_notice/) | 18.0.1.2.0 | [![feketemihai](https://github.com/feketemihai.png?size=30px)](https://github.com/feketemihai) [![mcojocaru](https://github.com/mcojocaru.png?size=30px)](https://github.com/mcojocaru) [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Romania - Stock Accounting Notice
 [l10n_ro_stock_report](l10n_ro_stock_report/) | 18.0.1.4.0 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) [![feketemihai](https://github.com/feketemihai.png?size=30px)](https://github.com/feketemihai) | Romania - Stock Report (Fișă Magazie)
