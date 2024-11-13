@@ -35,19 +35,25 @@ class ProductTemplate(models.Model):
         if not company.l10n_ro_accounting:
             return accounts
 
-        property_stock_valuation_account_id = (
+        if not self.is_storable:
+            accounts["stock_input"] = accounts["expense"]
+            return accounts
+
+        stock_valuation_account = (
             self.l10n_ro_property_stock_valuation_account_id
             or self.categ_id.property_stock_valuation_account_id
         )
-        property_stock_usage_giving_account_id = (
+        stock_usage_giving_account = (
             company.l10n_ro_property_stock_usage_giving_account_id
         )
-        if property_stock_valuation_account_id:
+        stock_transfer_account = company.l10n_ro_property_stock_transfer_account_id
+
+        if stock_valuation_account:
             accounts.update(
                 {
-                    "stock_input": property_stock_valuation_account_id,
-                    "stock_output": property_stock_valuation_account_id,
-                    "stock_valuation": property_stock_valuation_account_id,
+                    "stock_input": stock_valuation_account,
+                    "stock_output": stock_valuation_account,
+                    "stock_valuation": stock_valuation_account,
                 }
             )
 
@@ -78,7 +84,14 @@ class ProductTemplate(models.Model):
 
         # suplimentar la darea in consum mai face o nota contabila
         elif valued_type == "usage_giving_secondary":
-            accounts["stock_output"] = property_stock_usage_giving_account_id
-            accounts["stock_input"] = property_stock_usage_giving_account_id
-            accounts["stock_valuation"] = property_stock_usage_giving_account_id
+            accounts["stock_output"] = stock_usage_giving_account
+            accounts["stock_input"] = stock_usage_giving_account
+            accounts["stock_valuation"] = stock_usage_giving_account
+
+        elif valued_type == "internal_transit_out":
+            accounts["stock_output"] = stock_transfer_account
+
+        elif valued_type == "internal_transit_in":
+            accounts["stock_output"] = stock_transfer_account
+
         return accounts
