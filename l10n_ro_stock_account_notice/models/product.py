@@ -33,13 +33,13 @@ class ProductTemplate(models.Model):
 
         valued_type = self.env.context.get("valued_type", "indefinite")
 
-        if self.type != "service" and valued_type == "in_invoice":
-            accounts["expense"] = accounts["stock_valuation"]
+        # if self.type != "service" and valued_type == "in_invoice":
+        #     accounts["expense"] = accounts["stock_valuation"]
 
         # in nir si factura se ca utiliza 408
         if valued_type in [
             "reception_notice",
-            "invoice_in_notice",
+            # "invoice_in_notice",
         ]:
             if stock_picking_payable_account_id:
                 accounts["stock_input"] = stock_picking_payable_account_id
