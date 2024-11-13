@@ -380,13 +380,37 @@ class StockMove(models.Model):
             )
 
         if svl.l10n_ro_valued_type == "internal_transit_out":
-            self._account_entry_move_internal_transit_out(
+            am_vals = self._account_entry_move_internal_transit_out(
                 qty, description, svl_id, cost
             )
 
         # todo: de eliminat
         if self.is_l10n_ro_record:
             self._l10n_ro_account_entry_move(qty, description, svl_id, cost)
+
+        if not self.company_id.anglo_saxon_accounting and svl.l10n_ro_valued_type in [
+            "delivery",
+            "delivery_notice",
+            "reception_notice",
+        ]:
+            (
+                journal_id,
+                acc_src,
+                acc_dest,
+                acc_valuation,
+            ) = self._get_accounting_data_for_valuation()
+            anglosaxon_am_vals = self._prepare_anglosaxon_account_move_vals(
+                acc_src,
+                acc_dest,
+                acc_valuation,
+                journal_id,
+                qty,
+                description,
+                svl_id,
+                cost,
+            )
+            if anglosaxon_am_vals:
+                am_vals.append(anglosaxon_am_vals)
 
         return am_vals
 
@@ -454,7 +478,7 @@ class StockMove(models.Model):
         return vals
 
     def _l10n_ro_account_entry_move(self, qty, description, svl_id, cost):
-        svl = self.env["stock.valuation.layer"]
+        svl = self.env["stock.valuation.layer"].browse(svl_id)
         if self._is_usage_giving() or self._is_consumption():
             (
                 journal_id,
@@ -622,9 +646,9 @@ class StockMove(models.Model):
             acc_valuation_rec = self.env["account.account"].browse(acc_valuation)
             if acc_valuation_rec and acc_valuation_rec.l10n_ro_stock_consume_account_id:
                 acc_valuation = acc_valuation_rec.l10n_ro_stock_consume_account_id.id
-        if valued_type == "internal_transit_out":
-            acc_dest = location_to_account.id or acc_dest
-            acc_valuation = location_to_account.id or acc_dest
+        # if valued_type == "internal_transit_out":
+        #     acc_dest = location_to_account.id or acc_dest
+        #     acc_valuation = location_to_account.id or acc_dest
         return journal_id, acc_src, acc_dest, acc_valuation
 
     def _l10n_ro_filter_svl_on_move_line(self, domain):

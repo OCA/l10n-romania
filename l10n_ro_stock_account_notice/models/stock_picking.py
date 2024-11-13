@@ -6,6 +6,13 @@
 from odoo import fields, models
 
 
+class StockPickingType(models.Model):
+    _name = "stock.picking.type"
+    _inherit = ["stock.picking.type", "l10n.ro.mixin"]
+
+    l10n_ro_notice_default = fields.Boolean(string="Romania - Is a notice")
+
+
 class StockPicking(models.Model):
     _name = "stock.picking"
     _inherit = ["stock.picking", "l10n.ro.mixin"]
@@ -15,7 +22,6 @@ class StockPicking(models.Model):
     # receptie/ livrare in baza de aviz
     l10n_ro_notice = fields.Boolean(
         string="Romania - Is a notice",
-        default=False,
         help="This field sets the reception/delivery as a notice."
         " The resulting account move will include accounts 408/418.",
     )
