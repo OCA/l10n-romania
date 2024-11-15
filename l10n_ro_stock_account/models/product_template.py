@@ -89,7 +89,7 @@ class ProductTemplate(models.Model):
             accounts["stock_valuation"] = stock_usage_giving_account
 
         elif valued_type == "internal_transit_out":
-            accounts["stock_output"] = stock_transfer_account
+            accounts["stock_input"] = stock_transfer_account
 
         elif valued_type == "internal_transit_in":
             accounts["stock_output"] = stock_transfer_account
