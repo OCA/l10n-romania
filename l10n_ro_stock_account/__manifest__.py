@@ -1,7 +1,7 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 {
     "name": "Romania - Stock Accounting",
-    "version": "18.0.1.13.0",
+    "version": "18.0.1.13.1",
     "category": "Localization",
     "countries": ["ro"],
     "summary": "Romania - Stock Accounting",
@@ -26,6 +26,7 @@
         "views/stock_location_view.xml",
         # "views/stock_picking_view.xml",
         "views/stock_valuation_layer_views.xml",
+        "views/stock_warehouse_view.xml",
     ],
     "installable": True,
     "development_status": "Mature",
