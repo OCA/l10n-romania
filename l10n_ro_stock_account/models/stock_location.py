@@ -32,3 +32,9 @@ class StockLocation(models.Model):
         company_dependent=True,
         domain="[('deprecated', '=', False)]",
     )
+
+    def _should_be_valued(self):
+        res = super()._should_be_valued()
+        if self.env.context.get("valued_type") == "internal_transit_out":
+            res = False
+        return res
