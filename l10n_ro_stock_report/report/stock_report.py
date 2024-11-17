@@ -149,7 +149,7 @@ class StorageSheet(models.TransientModel):
                     ]
                 )
                 .mapped("product_id")
-                .filtered(lambda p: p.type == "product")
+                .filtered(lambda p: p.is_storable)
             )
             product_list = products_with_moves.ids
         return product_list
