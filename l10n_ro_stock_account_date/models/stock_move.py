@@ -56,7 +56,7 @@ class StockMove(models.Model):
                 )
             self.check_lock_date(self.date)
         if first_posting_date and last_posting_date:
-            if not (first_posting_date <= new_date <= last_posting_date):
+            if not (first_posting_date <= new_date.date() <= last_posting_date):
                 raise UserError(
                     _(
                         "Cannot validate stock move due to date restriction."
