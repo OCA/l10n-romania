@@ -173,9 +173,10 @@ class AccountEdiXmlCIUSRO(models.Model):
         vals_list["vals"].update(
             {
                 "customization_id": "urn:cen.eu:en16931:2017#compliant#urn:efactura.mfinante.ro:CIUS-RO:1.0.1",  # noqa
-                "tax_currency_code": "RON",
             }
         )
+        if invoice.move_type == "out_invoice" and invoice.currency_id.name != "RON":
+            vals_list["vals"]["tax_currency_code"] = invoice.currency_id.name
 
         index = 1
         for val in vals_list["vals"]["invoice_line_vals"]:

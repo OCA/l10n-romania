@@ -33,7 +33,7 @@ class TestCiusRoXmlGeneration(CiusRoTestSetup):
     @freezegun.freeze_time("2022-09-01")
     def test_account_credit_note_edi_ubl(self):
         self.credit_note.action_post()
-        self.env.company.l10n_ro_credit_note_einvoice = False
+        self.credit_note.company_id.l10n_ro_credit_note_einvoice = False
         invoice_xml = self.credit_note.attach_ubl_xml_file_button()
         att = self.env["ir.attachment"].browse(invoice_xml["res_id"])
         xml_content = base64.b64decode(att.with_context(bin_size=False).datas)
@@ -46,7 +46,7 @@ class TestCiusRoXmlGeneration(CiusRoTestSetup):
     @freezegun.freeze_time("2022-09-01")
     def test_account_credit_note_with_option_edi_ubl(self):
         self.credit_note.action_post()
-        self.env.company.l10n_ro_credit_note_einvoice = True
+        self.credit_note.company_id.l10n_ro_credit_note_einvoice = True
         invoice_xml = self.credit_note.attach_ubl_xml_file_button()
         att = self.env["ir.attachment"].browse(invoice_xml["res_id"])
         xml_content = base64.b64decode(att.with_context(bin_size=False).datas)
@@ -61,7 +61,7 @@ class TestCiusRoXmlGeneration(CiusRoTestSetup):
     @freezegun.freeze_time("2022-09-01")
     def test_account_invoice_in_edi_ubl(self):
         self.invoice_in.action_post()
-        self.env.company.l10n_ro_credit_note_einvoice = True
+        self.invoice_in.company_id.l10n_ro_credit_note_einvoice = False
         invoice_xml = self.invoice_in.attach_ubl_xml_file_button()
         att = self.env["ir.attachment"].browse(invoice_xml["res_id"])
         xml_content = base64.b64decode(att.with_context(bin_size=False).datas)
@@ -74,7 +74,7 @@ class TestCiusRoXmlGeneration(CiusRoTestSetup):
     @freezegun.freeze_time("2022-09-01")
     def test_account_credit_note_in_edi_ubl(self):
         self.credit_note_in.action_post()
-        self.env.company.l10n_ro_credit_note_einvoice = False
+        self.credit_note_in.company_id.l10n_ro_credit_note_einvoice = False
         invoice_xml = self.credit_note_in.attach_ubl_xml_file_button()
         att = self.env["ir.attachment"].browse(invoice_xml["res_id"])
         xml_content = base64.b64decode(att.with_context(bin_size=False).datas)
@@ -89,7 +89,7 @@ class TestCiusRoXmlGeneration(CiusRoTestSetup):
     @freezegun.freeze_time("2022-09-01")
     def test_account_credit_note_in_with_option_edi_ubl(self):
         self.credit_note_in.action_post()
-        self.env.company.l10n_ro_credit_note_einvoice = True
+        self.credit_note_in.company_id.l10n_ro_credit_note_einvoice = True
         invoice_xml = self.credit_note_in.attach_ubl_xml_file_button()
         att = self.env["ir.attachment"].browse(invoice_xml["res_id"])
         xml_content = base64.b64decode(att.with_context(bin_size=False).datas)
