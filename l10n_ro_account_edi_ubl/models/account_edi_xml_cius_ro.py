@@ -217,10 +217,11 @@ class AccountEdiXmlCIUSRO(models.Model):
             ]
             vals_list["vals"]["accounting_supplier_party_vals"] = customer_vals
 
-        vals_list["main_template"] = "account_edi_ubl_cii.ubl_20_Invoice"
-        vals_list["vals"]["invoice_type_code"] = 380
-        if vals_list["vals"].get("credit_note_type_code"):
-            vals_list["vals"].pop("credit_note_type_code")
+        if invoice.company_id.l10n_ro_credit_note_einvoice:
+            vals_list["main_template"] = "account_edi_ubl_cii.ubl_20_Invoice"
+            vals_list["vals"]["invoice_type_code"] = 380
+            if vals_list["vals"].get("credit_note_type_code"):
+                vals_list["vals"].pop("credit_note_type_code")
         if (
             invoice.move_type in ("in_invoice", "in_refund")
             and invoice.journal_id.l10n_ro_sequence_type == "autoinv2"
