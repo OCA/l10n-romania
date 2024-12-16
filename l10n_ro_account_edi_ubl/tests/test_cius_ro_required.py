@@ -59,7 +59,7 @@ class TestCiusRoRequired(CiusRoTestSetup):
 
     def test_is_required_for_invoice_non_company_partner(self):
         self.invoice.commercial_partner_id.is_company = False
-        self.assertFalse(self.edi_cius_format._is_required_for_invoice(self.invoice))
+        self.assertTrue(self.edi_cius_format._is_required_for_invoice(self.invoice))
 
     def test_is_required_for_invoice_missing_partner_id(self):
         self.invoice_in.journal_id.l10n_ro_partner_id = False
@@ -82,11 +82,6 @@ class TestCiusRoRequired(CiusRoTestSetup):
         # Test when move_type is in_refund, journal_id has l10n_ro_sequence_type as "autoinv2"
         # and l10n_ro_partner_id is set
         self.assertTrue(self.credit_note_in.get_l10n_ro_edi_invoice_needed())
-
-    def test_get_l10n_ro_edi_invoice_not_needed_invoice(self):
-        # Test when move_type is not in the specified types and conditions are not met
-        self.invoice.commercial_partner_id.is_company = False
-        self.assertFalse(self.invoice.get_l10n_ro_edi_invoice_needed())
 
     def test_get_l10n_ro_edi_invoice_not_needed_invoice_in(self):
         # Test when move_type is not in the specified types and conditions are not met
