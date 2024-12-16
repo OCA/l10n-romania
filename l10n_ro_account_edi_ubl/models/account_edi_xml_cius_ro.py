@@ -46,6 +46,14 @@ class AccountEdiXmlCIUSRO(models.Model):
                 vals["tax_scheme_id"] = "!= VAT"
         return vals_list
 
+    def _get_partner_party_legal_entity_vals_list(self, partner):
+        val_list = super()._get_partner_party_legal_entity_vals_list(partner)
+        if not partner.is_company and not partner.parent_id and not partner.vat:
+            for vals in val_list:
+                if vals.get("commercial_partner") == partner:
+                    vals["company_id"] = "0000000000000"
+        return val_list
+
     def _get_tax_category_list(self, invoice, taxes):
         # EXTENDS account.edi.xml.ubl_21
         vals_list = super()._get_tax_category_list(invoice, taxes)
