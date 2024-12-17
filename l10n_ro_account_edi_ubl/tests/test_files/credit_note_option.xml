@@ -97,7 +97,7 @@
         </cac:DeliveryLocation>
     </cac:Delivery>
     <cac:PaymentMeans>
-        <cbc:PaymentMeansCode name="credit transfer">30</cbc:PaymentMeansCode>
+        <cbc:PaymentMeansCode name="standing agreement">57</cbc:PaymentMeansCode>
         <cbc:PaymentID>FBRAO2093</cbc:PaymentID>
           <cac:PayeeFinancialAccount>
           <cbc:ID>RO75TREZ0615069XXX001573</cbc:ID>
