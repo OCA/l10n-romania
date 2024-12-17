@@ -71,6 +71,10 @@ class TestStockCommon(ValuationReconciliationTestCommon):
                 cls.stock_usage_giving_account_id
             )
 
+        cls.env.user.company_id.l10n_ro_property_stock_transfer_account_id = (
+            get_account("482000")
+        )
+
     @classmethod
     def setup_company_data(cls, company_name, chart_template=None, **kwargs):
         company_data = super().setup_company_data(
@@ -280,6 +284,21 @@ class TestStockCommon(ValuationReconciliationTestCommon):
                 "location_id": location.id,
             }
         )
+        cls.location_warehouse_other = location.copy(
+            {
+                "l10n_ro_merchandise_type": "warehouse",
+                "name": "TEST warehouse other",
+                "location_id": location.id,
+            }
+        )
+
+        cls.location_transit = location.copy(
+            {
+                "usage": "transit",
+                "name": "TEST transit",
+            }
+        )
+
         cls.picking_type_in_warehouse = picking_type_in.copy(
             {
                 "default_location_dest_id": cls.location_warehouse.id,
@@ -375,7 +394,7 @@ class TestStockCommon(ValuationReconciliationTestCommon):
             self.env["account.move"].with_context(
                 default_move_type="in_invoice",
                 default_invoice_date=fields.Date.today(),
-                active_model="accoun.move",
+                active_model="account.move",
             )
         )
         bill_union = self.env["purchase.bill.union"].search(

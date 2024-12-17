@@ -60,11 +60,12 @@ repos:
           - --convert-fragments-to-markdown
       - id: oca-gen-external-dependencies
   - repo: https://github.com/OCA/odoo-pre-commit-hooks
-    rev: v0.0.31
+    rev: v0.0.33
     hooks:
       - id: oca-checks-odoo-module
       - id: oca-checks-po
-        args: ["--fix"]
+        args:
+          - --disable=po-pretty-format
   - repo: https://github.com/pre-commit/mirrors-prettier
     rev: v4.0.0-alpha.8
     hooks:

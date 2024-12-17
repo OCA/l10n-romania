@@ -14,54 +14,48 @@ class AccountMoveLine(models.Model):
     _inherit = ["account.move.line", "l10n.ro.mixin"]
 
     def _compute_account_id(self):
-        l10n_ro_lines_for_notice = self.filtered(
+        res = super()._compute_account_id()
+        l10n_ro_lines = self.filtered(
             lambda x: x.product_id.type == "product" and x.is_l10n_ro_record
         )
-        remaining = self
-        invoice_in_notice_lines = self.env["account.move.line"].with_context(
-            valued_type="invoice_in_notice"
-        )
-        invoice_out_notice_lines = self.env["account.move.line"].with_context(
-            valued_type="invoice_out_notice"
+
+        company = (
+            self.env["res.company"].browse(self._context.get("force_company"))
+            or self.env.company
         )
 
-        for line in l10n_ro_lines_for_notice:
+        stock_picking_payable_account_id = (
+            company.l10n_ro_property_stock_picking_payable_account_id
+        )
+        stock_picking_receivable_account_id = (
+            company.l10n_ro_property_stock_picking_receivable_account_id
+        )
+
+        for line in l10n_ro_lines:
             move_id = line.move_id
-            if move_id.is_purchase_document():
+            if move_id.is_purchase_document() and stock_picking_payable_account_id:
                 purchase = line.mapped("purchase_order_id")
-                if purchase and any(
-                    [p.purchase_method == "receive" for p in line.mapped("product_id")]
-                ):
-                    # Control bills based on received quantities
-                    if any(
-                        [
-                            p.l10n_ro_notice or p._is_dropshipped()
-                            for p in purchase.picking_ids
-                        ]
-                    ):
-                        invoice_in_notice_lines |= line
-                        remaining -= line
-            if move_id.is_sale_document():
-                sale_lines = line.mapped("sale_line_ids")
-                if sale_lines and any(
-                    [p.invoice_policy == "delivery" for p in line.mapped("product_id")]
-                ):
-                    # Control bills based on received quantities
-                    sale = sale_lines.mapped("order_id")
-                    if any(
-                        [
-                            p.l10n_ro_notice and not p._is_dropshipped()
-                            for p in sale.mapped("picking_ids")
-                        ]
-                    ):
-                        invoice_out_notice_lines |= line
-                        remaining -= line
+                if not purchase:
+                    continue
 
-        if invoice_in_notice_lines:
-            super(AccountMoveLine, invoice_in_notice_lines)._compute_account_id()
-        if invoice_out_notice_lines:
-            super(AccountMoveLine, invoice_out_notice_lines)._compute_account_id()
-        return super(AccountMoveLine, remaining)._compute_account_id()
+                is_notice = any([p.l10n_ro_notice for p in purchase.picking_ids])
+                if is_notice:
+                    line.account_id = stock_picking_payable_account_id
+
+            if move_id.is_sale_document() and stock_picking_receivable_account_id:
+                sale_lines = line.mapped("sale_line_ids")
+                if not sale_lines:
+                    continue
+                is_notice = any(
+                    [
+                        p.l10n_ro_notice
+                        for p in sale_lines.mapped("order_id").mapped("picking_ids")
+                    ]
+                )
+                if is_notice:
+                    line.account_id = stock_picking_receivable_account_id
+
+        return res
 
     def _get_account_change_stock_moves_purchase(self):
         stock_moves = self.purchase_line_id.move_ids.filtered(

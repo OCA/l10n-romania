@@ -73,14 +73,17 @@ class AccountMoveLine(models.Model):
         res = super()._compute_account_id()
         for line in self:
             if not (
-                line.product_id.categ_id.l10n_ro_stock_account_change
-                and line.product_id.type == "product"
-                and line.move_id.is_l10n_ro_record
+                line.product_id.type == "product" and line.move_id.is_l10n_ro_record
             ):
                 continue
+            fiscal_position = line.move_id.fiscal_position_id
+            accounts = line.product_id.product_tmpl_id.get_product_accounts(
+                fiscal_pos=fiscal_position
+            )
             account = False
             fiscal_position = line.move_id.fiscal_position_id
             if line.move_id.is_purchase_document():
+                account = accounts["stock_valuation"]
                 stock_moves = line._get_account_change_stock_moves_purchase()
                 for stock_move in stock_moves:
                     location = stock_move.location_dest_id

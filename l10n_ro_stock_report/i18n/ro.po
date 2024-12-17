@@ -14,7 +14,8 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
-"Plural-Forms: nplurals=3; plural=n==1 ? 0 : (n==0 || (n%100 > 0 && n%100 < 20)) ? 1 : 2;\n"
+"Plural-Forms: nplurals=3; plural=n==1 ? 0 : (n==0 || (n%100 > 0 && n%100 < "
+"20)) ? 1 : 2;\n"
 "X-Generator: Weblate 4.17\n"
 
 #. module: l10n_ro_stock_report
@@ -64,7 +65,7 @@ msgstr "Valoare iesită"
 #. module: l10n_ro_stock_report
 #: model_terms:ir.ui.view,arch_db:l10n_ro_stock_report.report_storage_sheet_lines_header
 msgid "Amount Total"
-msgstr "Suma Totală"
+msgstr "Suma totală"
 
 #. module: l10n_ro_stock_report
 #: model_terms:ir.ui.view,arch_db:l10n_ro_stock_report.view_stock_sheet_report_form
@@ -137,7 +138,7 @@ msgstr "Livrare"
 #. module: l10n_ro_stock_report
 #: model:ir.model.fields.selection,name:l10n_ro_stock_report.selection__l10n_ro_stock_storage_sheet_line__valued_type__delivery_notice
 msgid "Delivery with notice"
-msgstr "Livrare cu preaviz"
+msgstr "Livrare cu eaviz"
 
 #. module: l10n_ro_stock_report
 #: model:ir.model.fields,field_description:l10n_ro_stock_report.field_l10n_ro_stock_storage_sheet__detailed_locations
@@ -158,7 +159,7 @@ msgstr ""
 #. module: l10n_ro_stock_report
 #: model:ir.model.fields.selection,name:l10n_ro_stock_report.selection__l10n_ro_stock_storage_sheet_line__valued_type__dropshipped
 msgid "Dropshipped"
-msgstr "Livrat"
+msgstr "Livrare directă"
 
 #. module: l10n_ro_stock_report
 #: model:ir.model.fields,field_description:l10n_ro_stock_report.field_l10n_ro_stock_storage_sheet__date_to
@@ -189,7 +190,7 @@ msgstr "Grupează după"
 #: model:ir.model.fields,field_description:l10n_ro_stock_report.field_l10n_ro_stock_storage_sheet__id
 #: model:ir.model.fields,field_description:l10n_ro_stock_report.field_l10n_ro_stock_storage_sheet_line__id
 msgid "ID"
-msgstr "Identificare"
+msgstr ""
 
 #. module: l10n_ro_stock_report
 #: model_terms:ir.ui.view,arch_db:l10n_ro_stock_report.report_storage_sheet_report_base
@@ -234,12 +235,12 @@ msgstr "Transfer intern"
 #. module: l10n_ro_stock_report
 #: model:ir.model.fields.selection,name:l10n_ro_stock_report.selection__l10n_ro_stock_storage_sheet_line__valued_type__internal_transfer_in
 msgid "Internal Transfer In"
-msgstr "Transfer intern în"
+msgstr "Intrare transfer intern"
 
 #. module: l10n_ro_stock_report
 #: model:ir.model.fields.selection,name:l10n_ro_stock_report.selection__l10n_ro_stock_storage_sheet_line__valued_type__internal_transfer_out
 msgid "Internal Transfer Out"
-msgstr "Transfer intern exterior"
+msgstr "Ieșire transfer intern "
 
 #. module: l10n_ro_stock_report
 #: model:ir.model.fields.selection,name:l10n_ro_stock_report.selection__l10n_ro_stock_storage_sheet_line__valued_type__internal_transit
@@ -250,7 +251,7 @@ msgstr "Tranzit intern"
 #: model:ir.model.fields.selection,name:l10n_ro_stock_report.selection__l10n_ro_stock_storage_sheet_line__valued_type__internal_transit_in
 #: model:ir.model.fields.selection,name:l10n_ro_stock_report.selection__l10n_ro_stock_storage_sheet_line__valued_type__internal_transit_out
 msgid "Internal Transit In"
-msgstr "Tranzit intern In"
+msgstr "Intrare tranzit intern"
 
 #. module: l10n_ro_stock_report
 #: model:ir.model.fields,field_description:l10n_ro_stock_report.field_l10n_ro_stock_storage_sheet_line__invoice_id
@@ -325,29 +326,22 @@ msgstr "Plus inventar"
 #. module: l10n_ro_stock_report
 #: model_terms:ir.ui.view,arch_db:l10n_ro_stock_report.report_storage_sheet_lines_header
 msgid "Price Input"
-msgstr "Intrare preț"
+msgstr "Preț intrare"
 
 #. module: l10n_ro_stock_report
 #: model_terms:ir.ui.view,arch_db:l10n_ro_stock_report.report_storage_sheet_lines_header
 msgid "Price Output"
-msgstr "Ieșire preț"
+msgstr "Preț ieșire"
 
 #. module: l10n_ro_stock_report
 #: model:ir.model.fields,field_description:l10n_ro_stock_report.field_l10n_ro_stock_storage_sheet_line__unit_price_in
 msgid "Price Unit In"
-msgstr "Preț unitar în"
+msgstr "Preț unitar intrare"
 
 #. module: l10n_ro_stock_report
 #: model:ir.model.fields,field_description:l10n_ro_stock_report.field_l10n_ro_stock_storage_sheet_line__unit_price_out
 msgid "Price Unit Out"
-msgstr "Preț Unitate Ieșire"
-
-#. module: l10n_ro_stock_report
-#. odoo-python
-#: code:addons/l10n_ro_stock_report/report/stock_report.py:0
-#, python-format
-msgid "Print Preview"
-msgstr "Previzualizare"
+msgstr "Preț unitate ieșire"
 
 #. module: l10n_ro_stock_report
 #: model:ir.model.fields,field_description:l10n_ro_stock_report.field_l10n_ro_stock_storage_sheet_line__product_id
@@ -378,7 +372,7 @@ msgstr "Cantitate ieșire"
 #. module: l10n_ro_stock_report
 #: model_terms:ir.ui.view,arch_db:l10n_ro_stock_report.report_storage_sheet_lines_header
 msgid "Quantity Total"
-msgstr "Cantitate Totală"
+msgstr "Cantitate totală"
 
 #. module: l10n_ro_stock_report
 #: model:ir.model.fields.selection,name:l10n_ro_stock_report.selection__l10n_ro_stock_storage_sheet_line__valued_type__reception
@@ -524,7 +518,7 @@ msgstr "Utilizare de"
 #: model:ir.model.fields,field_description:l10n_ro_stock_report.field_l10n_ro_stock_storage_sheet_line__valued_type
 #: model_terms:ir.ui.view,arch_db:l10n_ro_stock_report.view_sheet_stock_report_line_search
 msgid "Valued Type"
-msgstr "Tip evaluat"
+msgstr "Tip evaluare"
 
 #. module: l10n_ro_stock_report
 #: model_terms:ir.ui.view,arch_db:l10n_ro_stock_report.view_stock_sheet_report_form
@@ -539,6 +533,10 @@ msgid ""
 msgstr ""
 "Va afișa raportul numai pentru aceste produse.     Dacă nimic nu va fi "
 "selectat arata numai produsele care au miscari de stoc in perioada"
+
+#, python-format
+#~ msgid "Print Preview"
+#~ msgstr "Previzualizare"
 
 #~ msgid "Last Modified on"
 #~ msgstr "Ultima modificare pe"

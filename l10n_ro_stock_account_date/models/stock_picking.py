@@ -22,13 +22,13 @@ class StockPicking(models.Model):
         res = super()._action_done()
         for picking in self.filtered("is_l10n_ro_record"):
             if picking.l10n_ro_accounting_date:
-                if picking.l10n_ro_accounting_date.date() > fields.date.today():
+                if picking.l10n_ro_accounting_date > fields.datetime.today():
                     raise ValidationError(
                         _(
                             "You can not have a Accounting date=%s for picking "
                             "bigger than today!"
                         )
-                        % picking.l10n_ro_accounting_date.date()
+                        % picking.l10n_ro_accounting_date
                     )
                 picking.write({"date_done": picking.l10n_ro_accounting_date})
         return res

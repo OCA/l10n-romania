@@ -87,7 +87,7 @@ class StockValuationLayer(models.Model):
                     and loc_scr.l10n_ro_property_stock_valuation_account_id
                 ):
                     account = loc_scr.l10n_ro_property_stock_valuation_account_id
-            if svl.account_move_id:
+            if svl.account_move_id and "internal" not in svl.l10n_ro_valued_type:
                 for aml in svl.account_move_id.line_ids.sorted(
                     lambda layer: layer.account_id.code
                 ):

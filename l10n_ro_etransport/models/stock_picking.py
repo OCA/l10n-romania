@@ -8,7 +8,9 @@ from lxml import etree
 
 from odoo import _, api, fields, models
 from odoo.exceptions import UserError
-from odoo.modules.module import get_module_resource
+
+# from odoo.modules.module import get_module_resource
+from odoo.tools import file_path
 
 _logger = logging.getLogger(__name__)
 
@@ -134,9 +136,7 @@ class StockPicking(models.Model):
 
         _logger.info(xml_content)
         xml_doc = etree.fromstring(xml_content.encode())
-        schema_file_path = get_module_resource(
-            "l10n_ro_etransport", "static/schemas", "eTransport.xsd"
-        )
+        schema_file_path = file_path("l10n_ro_etransport/static/schemas/eTransport.xsd")
         xml_schema = etree.XMLSchema(etree.parse(open(schema_file_path)))
 
         is_valid = xml_schema.validate(xml_doc)

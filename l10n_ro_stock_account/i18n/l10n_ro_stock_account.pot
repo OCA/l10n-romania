@@ -164,6 +164,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_ro_stock_account.field_stock_move__is_l10n_ro_record
 #: model:ir.model.fields,field_description:l10n_ro_stock_account.field_stock_picking__is_l10n_ro_record
 #: model:ir.model.fields,field_description:l10n_ro_stock_account.field_stock_valuation_layer__is_l10n_ro_record
+#: model:ir.model.fields,field_description:l10n_ro_stock_account.field_stock_warehouse__is_l10n_ro_record
 msgid "Is Romanian Record"
 msgstr ""
 
@@ -273,6 +274,11 @@ msgid "Romania - Stock Valuation Update"
 msgstr ""
 
 #. module: l10n_ro_stock_account
+#: model:ir.model.fields,field_description:l10n_ro_stock_account.field_stock_warehouse__l10n_ro_property_stock_journal_id
+msgid "Stock Journal"
+msgstr ""
+
+#. module: l10n_ro_stock_account
 #: model:ir.model,name:l10n_ro_stock_account.model_stock_move
 msgid "Stock Move"
 msgstr ""
@@ -307,6 +313,13 @@ msgid "Transfer"
 msgstr ""
 
 #. module: l10n_ro_stock_account
+#. odoo-python
+#: code:addons/l10n_ro_stock_account/models/stock_move.py:0
+#, python-format
+msgid "Transfer between locations with different journals is not allowed!"
+msgstr ""
+
+#. module: l10n_ro_stock_account
 #: model:ir.model.fields.selection,name:l10n_ro_stock_account.selection__stock_valuation_layer__l10n_ro_valued_type__usage_giving
 msgid "Usage Giving"
 msgstr ""
@@ -324,4 +337,9 @@ msgstr ""
 #. module: l10n_ro_stock_account
 #: model:ir.model.fields,field_description:l10n_ro_stock_account.field_stock_valuation_layer__l10n_ro_valued_type
 msgid "Valued Type"
+msgstr ""
+
+#. module: l10n_ro_stock_account
+#: model:ir.model,name:l10n_ro_stock_account.model_stock_warehouse
+msgid "Warehouse"
 msgstr ""

@@ -19,6 +19,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_ro_stock_account_notice.field_product_template__is_l10n_ro_record
 #: model:ir.model.fields,field_description:l10n_ro_stock_account_notice.field_stock_move__is_l10n_ro_record
 #: model:ir.model.fields,field_description:l10n_ro_stock_account_notice.field_stock_picking__is_l10n_ro_record
+#: model:ir.model.fields,field_description:l10n_ro_stock_account_notice.field_stock_picking_type__is_l10n_ro_record
 msgid "Is Romanian Record"
 msgstr ""
 
@@ -39,12 +40,23 @@ msgid "Journal Item"
 msgstr ""
 
 #. module: l10n_ro_stock_account_notice
+#: model:ir.model,name:l10n_ro_stock_account_notice.model_stock_picking_type
+msgid "Picking Type"
+msgstr ""
+
+#. module: l10n_ro_stock_account_notice
 #: model:ir.model,name:l10n_ro_stock_account_notice.model_product_template
 msgid "Product"
 msgstr ""
 
 #. module: l10n_ro_stock_account_notice
+#: model:ir.model,name:l10n_ro_stock_account_notice.model_purchase_order
+msgid "Purchase Order"
+msgstr ""
+
+#. module: l10n_ro_stock_account_notice
 #: model:ir.model.fields,field_description:l10n_ro_stock_account_notice.field_stock_picking__l10n_ro_notice
+#: model:ir.model.fields,field_description:l10n_ro_stock_account_notice.field_stock_picking_type__l10n_ro_notice_default
 msgid "Romania - Is a notice"
 msgstr ""
 

@@ -47,6 +47,7 @@ class TestStockPurchase(TestStockCommonPriceDiff):
         else:
             po = self.po
         self.po = po
+        self.po.l10n_ro_reception_in_progress = True
         return po
 
     def validate_picking(self, partial=None, vals=False):

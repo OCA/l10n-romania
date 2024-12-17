@@ -43,19 +43,17 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:l10n_ro_payment_receipt_report.report_bank_statement_line_payment_document
 msgid ""
 "<br/>\n"
-"                                        <span style=\"padding-left:100px;\">Signature ..........................................</span>"
+"                                    <span style=\"padding-left:100px;"
+"\">Signature ..........................................</span>"
 msgstr ""
-"<br/>\n"
-"                                        <span style=\"padding-left:100px;\">Semnătură ..........................................</span>"
 
 #. module: l10n_ro_payment_receipt_report
 #: model_terms:ir.ui.view,arch_db:l10n_ro_payment_receipt_report.report_bank_statement_line_payment_document
 msgid ""
 "<br/>\n"
-"                                        <span>Signature .........................................</span>"
+"                                    <span>Signature ........................................."
+"</span>"
 msgstr ""
-"<br/>\n"
-"                                        <span>Semnătură .........................................</span>"
 
 #. module: l10n_ro_payment_receipt_report
 #: model_terms:ir.ui.view,arch_db:l10n_ro_payment_receipt_report.report_bank_statement_line_payment_document
@@ -65,31 +63,26 @@ msgstr "<span style=\"padding-left:300px;\">(în cifre)</span>"
 #. module: l10n_ro_payment_receipt_report
 #: model_terms:ir.ui.view,arch_db:l10n_ro_payment_receipt_report.report_bank_statement_line_payment_document
 msgid ""
-"<span style=\"padding-"
-"left:300px;\">............................................</span>"
+"<span style=\"padding-left:300px;"
+"\">............................................</span>"
 msgstr ""
 
 #. module: l10n_ro_payment_receipt_report
 #: model_terms:ir.ui.view,arch_db:l10n_ro_payment_receipt_report.report_bank_statement_line_payment_document
 msgid ""
 "<span>\n"
-"                                            <strong>CASHIER</strong>\n"
-"                                        </span>"
+"                                        <strong>CASHIER</strong>\n"
+"                                    </span>"
 msgstr ""
-"<span>\n"
-"                                            <strong>CASIER</strong>\n"
-"                                        </span>"
 
 #. module: l10n_ro_payment_receipt_report
 #: model_terms:ir.ui.view,arch_db:l10n_ro_payment_receipt_report.report_bank_statement_line_payment_document
 msgid ""
 "<span>\n"
-"                                            <strong>To be completed only for disposals</strong>\n"
-"                                        </span>"
+"                                        <strong>To be completed only for "
+"disposals</strong>\n"
+"                                    </span>"
 msgstr ""
-"<span>\n"
-"                                            <strong>A se completa numai pentru plăți</strong>\n"
-"                                        </span>"
 
 #. module: l10n_ro_payment_receipt_report
 #: model_terms:ir.ui.view,arch_db:l10n_ro_payment_receipt_report.report_payment_receipt_document
@@ -105,16 +98,12 @@ msgstr "<span>Semnătura și ștampila</span>"
 #: model_terms:ir.ui.view,arch_db:l10n_ro_payment_receipt_report.report_bank_statement_line_payment_document
 msgid ""
 "<strong>ADDITIONAL DATA REGARDING THE BENEFICIARY OF THE AMOUNT:</strong>\n"
-"                                        <br/>\n"
-"                                        <br/>\n"
-"                                        <span>Identity document ........ Series ........... No. .........................</span>\n"
-"                                        <br/>"
+"                                    <br/>\n"
+"                                    <br/>\n"
+"                                    <span>Identity document ........ "
+"Series ........... No. .........................</span>\n"
+"                                    <br/>"
 msgstr ""
-"<strong>DATE SUPLIMENTARE PRIVIND BENEFICIARUL SUMEI:</strong>\n"
-"                                        <br/>\n"
-"                                        <br/>\n"
-"                                        <span>Document de identitate ........ Seria ........... Nr. .........................</span>\n"
-"                                        <br/>"
 
 #. module: l10n_ro_payment_receipt_report
 #: model_terms:ir.ui.view,arch_db:l10n_ro_payment_receipt_report.report_bank_statement_line_payment_document
@@ -246,6 +235,61 @@ msgstr "suma de"
 #: model_terms:ir.ui.view,arch_db:l10n_ro_payment_receipt_report.report_payment_receipt_document
 msgid "with address:"
 msgstr "cu adresa:"
+
+#~ msgid ""
+#~ "<br/>\n"
+#~ "                                        <span style=\"padding-left:100px;"
+#~ "\">Signature ..........................................</span>"
+#~ msgstr ""
+#~ "<br/>\n"
+#~ "                                        <span style=\"padding-left:100px;"
+#~ "\">Semnătură ..........................................</span>"
+
+#~ msgid ""
+#~ "<br/>\n"
+#~ "                                        <span>Signature ........................................."
+#~ "</span>"
+#~ msgstr ""
+#~ "<br/>\n"
+#~ "                                        <span>Semnătură ........................................."
+#~ "</span>"
+
+#~ msgid ""
+#~ "<span>\n"
+#~ "                                            <strong>CASHIER</strong>\n"
+#~ "                                        </span>"
+#~ msgstr ""
+#~ "<span>\n"
+#~ "                                            <strong>CASIER</strong>\n"
+#~ "                                        </span>"
+
+#~ msgid ""
+#~ "<span>\n"
+#~ "                                            <strong>To be completed only "
+#~ "for disposals</strong>\n"
+#~ "                                        </span>"
+#~ msgstr ""
+#~ "<span>\n"
+#~ "                                            <strong>A se completa numai "
+#~ "pentru plăți</strong>\n"
+#~ "                                        </span>"
+
+#~ msgid ""
+#~ "<strong>ADDITIONAL DATA REGARDING THE BENEFICIARY OF THE AMOUNT:</"
+#~ "strong>\n"
+#~ "                                        <br/>\n"
+#~ "                                        <br/>\n"
+#~ "                                        <span>Identity document ........ "
+#~ "Series ........... No. .........................</span>\n"
+#~ "                                        <br/>"
+#~ msgstr ""
+#~ "<strong>DATE SUPLIMENTARE PRIVIND BENEFICIARUL SUMEI:</strong>\n"
+#~ "                                        <br/>\n"
+#~ "                                        <br/>\n"
+#~ "                                        <span>Document de "
+#~ "identitate ........ Seria ........... Nr. .........................</"
+#~ "span>\n"
+#~ "                                        <br/>"
 
 #~ msgid "Display Name"
 #~ msgstr "Nume afișat"

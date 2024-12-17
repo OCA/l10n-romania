@@ -26,22 +26,22 @@ msgstr "Cont"
 #: model:ir.model.fields,field_description:l10n_ro_account.field_account_payment__is_l10n_ro_record
 #: model:ir.model.fields,field_description:l10n_ro_account.field_account_payment_register__is_l10n_ro_record
 msgid "Is Romanian Record"
-msgstr "Este record românesc"
+msgstr "Este înregistrare românească"
 
 #. module: l10n_ro_account
 #: model:ir.model.fields,field_description:l10n_ro_account.field_account_account__l10n_ro_external_code
 msgid "L10N Ro External Code"
-msgstr "L10N Ro Cod Extern"
+msgstr "Cod extern"
 
 #. module: l10n_ro_account
 #: model:ir.model,name:l10n_ro_account.model_account_payment
 msgid "Payments"
-msgstr "Plăți"
+msgstr "Încasări"
 
 #. module: l10n_ro_account
 #: model:ir.model,name:l10n_ro_account.model_account_payment_register
 msgid "Register Payment"
-msgstr "Înregistrează Plată"
+msgstr "Registru încasări"
 
 #. module: l10n_ro_account
 #. odoo-python

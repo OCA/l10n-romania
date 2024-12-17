@@ -55,8 +55,23 @@
                 <field name="is_l10n_ro_record" invisible="1" />
                 <div class="oe_kanban_content">
                     <label for="l10n_ro_notice">Is notice</label>
-                    <field name="l10n_ro_notice" widget="boolean_toggle" />
+                    <field
+                        name="l10n_ro_notice"
+                        widget="boolean_toggle"
+                        readonly="True"
+                    />
                 </div>
+            </xpath>
+        </field>
+    </record>
+
+        <record id="view_picking_type_form" model="ir.ui.view">
+        <field name="name">stock.picking.type.inherit</field>
+        <field name="model">stock.picking.type</field>
+        <field name="inherit_id" ref="stock.view_picking_type_form" />
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='warehouse_id']" position="after">
+               <field name="l10n_ro_notice_default" />
             </xpath>
         </field>
     </record>
