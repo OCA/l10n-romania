@@ -292,14 +292,14 @@ class CiusRoTestSetup(TestUBLCommon, CronMixinCase):
         response.status_code = 200
         response.content = ""
         return response
-    
+
     def _mocked_successful_empty_post_response(self, *args, **kwargs):
         """This mock is used when requesting documents, such as labels."""
         response = Mock()
         response.status_code = 200
         response.content = ""
         return response
-    
+
     # Helper method to prepare an invoice and simulate the step 1 of the CIUS workflow.
     def prepare_invoice_sent_step1(self):
         self.invoice.action_post()
@@ -310,7 +310,7 @@ class CiusRoTestSetup(TestUBLCommon, CronMixinCase):
             self.invoice,
             "invoice_sending",
         )
-    
+
     def l10n_ro_edi_send_test_invoice(self, invoice, key_loading):
         xml_data = self.get_attachment(invoice).datas.decode("utf-8")
         with patch.object(
@@ -318,6 +318,6 @@ class CiusRoTestSetup(TestUBLCommon, CronMixinCase):
         ), patch(
             "odoo.addons.l10n_ro_efactura.models.ciusro_document."
             "L10nRoEdiDocument._request_ciusro_send_invoice",
-            return_value={'key_loading': key_loading},
+            return_value={"key_loading": key_loading},
         ):
             invoice._l10n_ro_edi_send_invoice(xml_data)

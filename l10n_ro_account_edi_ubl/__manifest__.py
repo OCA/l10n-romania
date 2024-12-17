@@ -6,6 +6,7 @@
     "category": "Localization",
     "summary": "Romania - eFactura - Account EDI UBL",
     "depends": [
+        "l10n_ro_config",
         "l10n_ro_efactura",
         "l10n_ro_partner_create_by_vat",
     ],

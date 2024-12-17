@@ -109,6 +109,6 @@ class TestCiusRoRequired(CiusRoTestSetup):
         self.assertEqual(invoice.l10n_ro_edi_transaction, "test")
         self.assertEqual(invoice.l10n_ro_edi_download, "test")
         vals["fields"]["l10n_ro_edi_fields_readonly"] = False
-        vals['l10n_ro_edi_transaction']['readonly'] = False
-        vals['l10n_ro_edi_download']['readonly'] = False
+        vals["l10n_ro_edi_transaction"]["readonly"] = False
+        vals["l10n_ro_edi_download"]["readonly"] = False
         self.check_invoice_edi_fields(invoice, vals)
