@@ -61,9 +61,9 @@
         <field name="arch" type="xml">
             <page name="accounting" position="inside">
                 <field name="is_l10n_ro_record" invisible="1" />
-                <group id="l10n_ro_anaf_history_group">
-                    <separator string="ANAF - VAT on Payment" />
-                    <field name="l10n_ro_anaf_history" nolabel="1" colspan="4">
+                <group string="ANAF - VAT on Payment" id="l10n_ro_anaf_history_group">
+
+                    <field name="l10n_ro_anaf_history" nolabel="1" colspan="2">
                         <tree>
                             <field name="start_date" />
                             <field name="end_date" />
