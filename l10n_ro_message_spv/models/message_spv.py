@@ -105,19 +105,9 @@ class MessageSPV(models.Model):
                 key_download=message.name,
                 session=session,
             )
-            status_code = response.get("status_code", 200)
-            # response, status_code = anaf_config._l10n_ro_einvoice_call(
-            #     "/descarcare", params, method="GET"
-            # )
-            error = ""
-            if isinstance(response, dict):
-                error = response.get("eroare", "")
-            if status_code == "400":
-                error = response.get("message")
-            elif status_code == 200 and isinstance(response, dict):
-                error = response.get("eroare")
-            if not error:
-                error = message.check_anaf_error_xml(response["content"])
+
+            error = response.get("error", "")
+
             if error:
                 message.write({"error": error})
                 continue
@@ -502,3 +492,6 @@ class MessageSPV(models.Model):
                         }
                     )
                 message.write({"partner_id": partner.id})
+
+    def refresh(self):
+        self.env.company.l10n_ro_download_message_spv()

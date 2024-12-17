@@ -283,11 +283,9 @@ msgid "Reference"
 msgstr "Referință"
 
 #. module: l10n_ro_message_spv
-#. odoo-javascript
-#: code:addons/l10n_ro_message_spv/static/src/js/message_spv.xml:0
-#, python-format
+#: model_terms:ir.ui.view,arch_db:l10n_ro_message_spv.view_l10n_ro_message_spv_tree
 msgid "Refresh"
-msgstr ""
+msgstr "Actualizare"
 
 #. module: l10n_ro_message_spv
 #: model_terms:ir.ui.view,arch_db:l10n_ro_message_spv.view_l10n_ro_message_spv_form

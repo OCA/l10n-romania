@@ -7,8 +7,15 @@
         <field name="model">l10n.ro.message.spv</field>
         <field name="type">tree</field>
         <field name="arch" type="xml">
-            <tree js_class="message_spv_tree" sample="1" create="0">
+            <tree sample="1" create="0">
                 <header>
+                    <button
+                        name="refresh"
+                        string="Refresh"
+                        type="object"
+                        icon="fa-refresh"
+                        display="always"
+                    />
                     <button name="download_from_spv" string="Download" type="object" />
                     <button
                         name="get_invoice_from_move"

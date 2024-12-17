@@ -9,7 +9,8 @@
         "l10n_ro_config",
         "l10n_ro_account_anaf_sync",
         "l10n_ro_stock",
-        "stock_delivery",
+        "stock",
+        "delivery",
     ],
     "data": [
         "views/stock_picking_view.xml",
