@@ -500,17 +500,31 @@ class StockMove(models.Model):
             acc_valuation,
         ) = move._get_accounting_data_for_valuation()
         if location_to.l10n_ro_property_stock_valuation_account_id and cost < 0:
-            am_vals.append(
-                move._prepare_account_move_vals(
-                    acc_dest, acc_valuation, journal_id, qty, description, svl_id, cost
+            if acc_dest != acc_valuation:
+                am_vals.append(
+                    move._prepare_account_move_vals(
+                        acc_dest,
+                        acc_valuation,
+                        journal_id,
+                        qty,
+                        description,
+                        svl_id,
+                        cost,
+                    )
                 )
-            )
         if location_from.l10n_ro_property_stock_valuation_account_id and cost > 0:
-            am_vals.append(
-                move._prepare_account_move_vals(
-                    acc_src, acc_valuation, journal_id, qty, description, svl_id, cost
+            if acc_src != acc_valuation:
+                am_vals.append(
+                    move._prepare_account_move_vals(
+                        acc_src,
+                        acc_valuation,
+                        journal_id,
+                        qty,
+                        description,
+                        svl_id,
+                        cost,
+                    )
                 )
-            )
 
         return am_vals
 
