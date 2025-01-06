@@ -7,7 +7,7 @@ from datetime import datetime
 
 import pytz
 
-from odoo import api, models
+from odoo import models
 
 _logger = logging.getLogger(__name__)
 
@@ -15,10 +15,35 @@ _logger = logging.getLogger(__name__)
 class ResCompany(models.Model):
     _inherit = "res.company"
 
-    @api.model
     def l10n_ro_download_message_spv(self):
         # method to be used in cron job to auto download e-invoices from ANAF
-        ro_companies = self.env.user.company_ids.filtered(
+
+        def get_partner_from_cif(cif):
+            domain = [
+                ("vat", "like", cif),
+                ("is_company", "=", True),
+                ("company_id", "=", self.id),
+            ]
+            partner = self.env["res.partner"].search(domain, limit=1)
+            if not partner:
+                domain = [("vat", "like", cif), ("is_company", "=", True)]
+                partner = self.env["res.partner"].search(domain, limit=1)
+            if not partner:
+                domain = [("vat", "like", cif)]
+                partner = self.env["res.partner"].search(domain, limit=1)
+            if not partner:
+                partner = self.env["res.partner"].create(
+                    {
+                        "name": "Unknown",
+                        "vat": cif,
+                        "company_id": self.id,
+                        "country_id": self.env.ref("base.ro").id,
+                        "is_company": True,
+                    }
+                )
+            return partner
+
+        ro_companies = self or self.env.user.company_ids.filtered(
             lambda c: c.l10n_ro_edi_access_token
         )
 
@@ -51,17 +76,14 @@ class ResCompany(models.Model):
                         match = re.search(pattern_in, message["detalii"])
                         if match:
                             cif = match.group(1)
-                            partner = self.env["res.partner"].search(
-                                [("vat", "like", cif)], limit=1
-                            )
+                            partner = get_partner_from_cif(cif)
 
                     elif message["tip"] == "FACTURA TRIMISA":
                         message_type = "out_invoice"
                         match = re.search(pattern_out, message["detalii"])
                         if match:
                             cif = match.group(1)
-                            domain = [("vat", "like", cif), ("is_company", "=", True)]
-                            partner = self.env["res.partner"].search(domain, limit=1)
+                            partner = get_partner_from_cif(cif)
                     elif message["tip"] == "ERORI FACTURA":
                         message_type = "error"
                     elif "MESAJ" in message["tip"]:

@@ -17,6 +17,7 @@ class TestMessageSPV(TestMessageSPV):
     def test_download_messages(self):
         # test de descarcare a mesajelor de la SPV
         self.env.company.vat = "RO23685159"
+
         msg_dict = {
             "mesaje": [
                 {
