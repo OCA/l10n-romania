@@ -7,7 +7,7 @@ from datetime import datetime
 
 import pytz
 
-from odoo import api, models
+from odoo import models
 
 _logger = logging.getLogger(__name__)
 
@@ -15,7 +15,6 @@ _logger = logging.getLogger(__name__)
 class ResCompany(models.Model):
     _inherit = "res.company"
 
-    @api.model
     def l10n_ro_download_message_spv(self):
         # method to be used in cron job to auto download e-invoices from ANAF
 
@@ -29,12 +28,22 @@ class ResCompany(models.Model):
             if not partner:
                 domain = [("vat", "like", cif), ("is_company", "=", True)]
                 partner = self.env["res.partner"].search(domain, limit=1)
-                if not partner:
-                    domain = [("vat", "like", cif)]
-                    partner = self.env["res.partner"].search(domain, limit=1)
+            if not partner:
+                domain = [("vat", "like", cif)]
+                partner = self.env["res.partner"].search(domain, limit=1)
+            if not partner:
+                partner = self.env["res.partner"].create(
+                    {
+                        "name": "Unknown",
+                        "vat": cif,
+                        "company_id": self.id,
+                        "country_id": self.env.ref("base.ro").id,
+                        "is_company": True,
+                    }
+                )
             return partner
 
-        ro_companies = self.env.user.company_ids.filtered(
+        ro_companies = self or self.env.user.company_ids.filtered(
             lambda c: c.l10n_ro_edi_access_token
         )
 
