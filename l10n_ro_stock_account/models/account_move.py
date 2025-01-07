@@ -81,9 +81,13 @@ class AccountMoveLine(models.Model):
                 fiscal_pos=fiscal_position
             )
             account = False
-            fiscal_position = line.move_id.fiscal_position_id
+            fiscal_positions = line.move_id.fiscal_position_id
             if line.move_id.is_purchase_document():
                 account = accounts["stock_valuation"]
+                pickings = line.purchase_line_id.order_id.picking_ids
+                fiscal_positions |= pickings.mapped(
+                    "picking_type_id.l10n_ro_fiscal_position_id"
+                )
                 stock_moves = line._get_account_change_stock_moves_purchase()
                 for stock_move in stock_moves:
                     location = stock_move.location_dest_id
@@ -91,13 +95,17 @@ class AccountMoveLine(models.Model):
                     if va:
                         account = va
             if line.move_id.is_sale_document():
+                pickings = line.sale_line_ids.mapped("order_id.picking_ids")
+                fiscal_positions |= pickings.mapped(
+                    "picking_type_id.l10n_ro_fiscal_position_id"
+                )
                 stock_moves = line._get_account_change_stock_moves_sale()
                 for stock_move in stock_moves:
                     location = stock_move.location_id
                     ai = location.l10n_ro_property_account_income_location_id
                     if ai:
                         account = ai
-            if fiscal_position:
+            for fiscal_position in fiscal_positions:
                 account = fiscal_position.map_account(account)
 
             if account:

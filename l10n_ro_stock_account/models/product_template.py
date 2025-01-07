@@ -26,6 +26,10 @@ class ProductTemplate(models.Model):
         "use the category value. ",
     )
 
+    def get_product_accounts(self, fiscal_pos=None):
+        fiscal_pos = fiscal_pos or self.env.context.get("fiscal_pos")
+        return super().get_product_accounts(fiscal_pos)
+
     def _get_product_accounts(self):
         accounts = super()._get_product_accounts()
 
