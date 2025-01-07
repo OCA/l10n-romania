@@ -40,7 +40,7 @@ class StockValuationLayer(models.Model):
                     move = self.env["stock.move"].browse(values["stock_move_id"])
                     val_date = move.l10n_ro_get_move_date()
                     values.update({"create_date": val_date, "write_date": val_date})
-                values["l10n_ro_date_done"] = (fields.datetime.now(),)
+                values["l10n_ro_date_done"] = fields.datetime.now()
         return super().create(vals_list)
 
     def write(self, vals):
