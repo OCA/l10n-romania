@@ -631,6 +631,8 @@ class StockMove(models.Model):
         return account_move
 
     def _get_accounting_data_for_valuation(self):
+        fiscal_pos = self.picking_id.picking_type_id.l10n_ro_fiscal_position_id
+        self = self.with_context(fiscal_pos=fiscal_pos)
         (
             journal_id,
             acc_src,
