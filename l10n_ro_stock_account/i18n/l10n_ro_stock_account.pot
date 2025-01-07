@@ -163,9 +163,15 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_ro_stock_account.field_product_template__is_l10n_ro_record
 #: model:ir.model.fields,field_description:l10n_ro_stock_account.field_stock_move__is_l10n_ro_record
 #: model:ir.model.fields,field_description:l10n_ro_stock_account.field_stock_picking__is_l10n_ro_record
+#: model:ir.model.fields,field_description:l10n_ro_stock_account.field_stock_picking_type__is_l10n_ro_record
 #: model:ir.model.fields,field_description:l10n_ro_stock_account.field_stock_valuation_layer__is_l10n_ro_record
 #: model:ir.model.fields,field_description:l10n_ro_stock_account.field_stock_warehouse__is_l10n_ro_record
 msgid "Is Romanian Record"
+msgstr ""
+
+#. module: l10n_ro_stock_account
+#: model:ir.actions.act_window,name:l10n_ro_stock_account.l10n_ro_stock_account_move_action
+msgid "Journal Entries"
 msgstr ""
 
 #. module: l10n_ro_stock_account
@@ -176,6 +182,16 @@ msgstr ""
 #. module: l10n_ro_stock_account
 #: model:ir.model,name:l10n_ro_stock_account.model_account_move_line
 msgid "Journal Item"
+msgstr ""
+
+#. module: l10n_ro_stock_account
+#: model_terms:ir.ui.view,arch_db:l10n_ro_stock_account.view_picking_add_price_unit_form
+msgid "Journal Items"
+msgstr ""
+
+#. module: l10n_ro_stock_account
+#: model:ir.model.fields,field_description:l10n_ro_stock_account.field_stock_picking_type__l10n_ro_fiscal_position_id
+msgid "L10N Ro Fiscal Position"
 msgstr ""
 
 #. module: l10n_ro_stock_account
@@ -200,6 +216,11 @@ msgstr ""
 msgid ""
 "Only for Romania, to hide stock_input and stock_output accounts because they"
 " are the same as stock_valuation account"
+msgstr ""
+
+#. module: l10n_ro_stock_account
+#: model:ir.model,name:l10n_ro_stock_account.model_stock_picking_type
+msgid "Picking Type"
 msgstr ""
 
 #. module: l10n_ro_stock_account
