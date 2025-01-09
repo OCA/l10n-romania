@@ -59,5 +59,6 @@ class TestMessageSPV(TestMessageSPV):
             return_value=anaf_messages,
         ):
             message_spv.download_from_spv()
-            message_spv.get_invoice_from_move()
-            message_spv.create_invoice()
+        message_spv.get_invoice_from_move()
+        message_spv.create_invoice()
+        message_spv.show_invoice()
