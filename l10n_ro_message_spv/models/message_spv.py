@@ -247,7 +247,7 @@ class MessageSPV(models.Model):
         self.get_partner()
 
         messages = self.filtered(lambda m: not m.invoice_id)
-        messages_with_error = messages.filtered(lambda m: not m.message_type == "error")
+        messages_with_error = messages.filtered(lambda m: m.message_type == "error")
         if messages_with_error:
             request_ids = messages_with_error.mapped("request_id")
             domain = [("key_loading", "in", request_ids)]
