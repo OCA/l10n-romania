@@ -51,15 +51,21 @@ class ResCompany(models.Model):
         pattern_out = r"cif_beneficiar=(\d+)"
 
         romania_tz = pytz.timezone("Europe/Bucharest")
+        obj_message_spv = self.env["l10n.ro.message.spv"]
+        obj_edi_document = self.env["l10n_ro_edi.document"]
 
         for company in ro_companies:
+            # stergere erorile vechi
+            domain = [("company_id", "=", company.id), ("message_type", "=", "error")]
+            error_messages = obj_message_spv.with_company(company).search(domain)
+            error_messages.unlink()
+
             # company_messages = company._l10n_ro_get_anaf_efactura_messages()
-            company_messages = self.env[
-                "l10n_ro_edi.document"
-            ]._request_ciusro_download_messages_spv(company)
-            message_spv_obj = (
-                self.env["l10n.ro.message.spv"].with_company(company).sudo()
+            company_messages = obj_edi_document._request_ciusro_download_messages_spv(
+                company
             )
+            message_spv_obj = obj_message_spv.with_company(company).sudo()
+
             for message in company_messages:
                 domain = [("name", "=", message["id"])]
                 if not message_spv_obj.search(domain, limit=1):
