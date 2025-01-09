@@ -27,6 +27,7 @@
                         string="Create Invoice"
                         type="object"
                     />
+                    <button name="show_invoice" string="Show Invoice" type="object" />
 
                 </header>
 
