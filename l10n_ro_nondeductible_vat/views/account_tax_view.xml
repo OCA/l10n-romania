@@ -8,11 +8,11 @@
         <field name="inherit_id" ref="account.view_tax_form" />
         <field name="arch" type="xml">
             <field name="cash_basis_transition_account_id" position="after">
-                <field name="is_l10n_ro_record" invisible="1" />
+
                 <field name="l10n_ro_is_nondeductible" invisible="1" />
                 <field
                     name="l10n_ro_nondeductible_tax_id"
-                    invisible="is_l10n_ro_record == False or l10n_ro_is_nondeductible == False"
+                    invisible=" l10n_ro_is_nondeductible == False"
                     domain="[('l10n_ro_is_nondeductible','=',True)]"
                 />
             </field>
@@ -29,21 +29,18 @@
         <field name="inherit_id" ref="account.tax_repartition_line_tree" />
         <field name="arch" type="xml">
             <field name="repartition_type" position="after">
-                <field name="is_l10n_ro_record" invisible="1" />
+
 
                 <field
                     name="l10n_ro_nondeductible"
-                    column_invisible="parent.is_l10n_ro_record == False"
                     invisible="repartition_type == 'base'"
                 />
                 <field
                     name="l10n_ro_exclude_from_stock"
-                    column_invisible="parent.is_l10n_ro_record == False"
                     invisible="repartition_type == 'base'"
                 />
                 <field
                     name="l10n_ro_skip_cash_basis_account_switch"
-                    column_invisible="parent.is_l10n_ro_record == False"
                     invisible="repartition_type == 'base'"
                 />
             </field>
