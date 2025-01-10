@@ -6,7 +6,7 @@
         <field name="inherit_id" ref="purchase.purchase_order_form" />
         <field name="arch" type="xml">
             <button name="action_create_invoice" position="after">
-                <field name="is_l10n_ro_record" invisible="1" />
+
                 <button
                     name="action_create_reception_in_progress_invoice"
                     string="Reception in Progress"
@@ -14,7 +14,7 @@
                     type="object"
                     class="oe_highlight"
                     context="{'create_bill':True}"
-                    invisible="(not is_l10n_ro_record and state != 'purchase') or invoice_status != 'no'"
+                    invisible="( state != 'purchase') or invoice_status != 'no'"
                 />
             </button>
         </field>
