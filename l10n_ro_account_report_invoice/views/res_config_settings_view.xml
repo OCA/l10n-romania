@@ -6,10 +6,9 @@
         <field name="inherit_id" ref="account.res_config_settings_view_form" />
         <field name="arch" type="xml">
             <block id="invoicing_settings" position="inside">
-                <field name="is_l10n_ro_record" invisible="1" />
                 <div
+                    id="l10n_ro_invoicing_settings"
                     class="col-12 col-lg-6 o_setting_box"
-                    invisible="is_l10n_ro_record == False"
                 >
                     <div class="o_setting_left_pane">
                     </div>
