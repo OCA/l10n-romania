@@ -272,6 +272,7 @@ class MessageSPV(models.Model):
                 edi_doc.write(
                     {"state": "invoice_sending_failed", "message": message.error}
                 )
+                edi_doc.invoice_id.write({"l10n_ro_edi_state": False})
 
         messages = self.filtered(lambda m: not m.invoice_id)
         messages_without_invoice = messages.filtered(lambda m: not m.invoice_id)
