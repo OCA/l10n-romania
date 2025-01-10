@@ -29,12 +29,12 @@
         <field name="inherit_id" ref="l10n_ro_config.view_partner_create_by_vat" />
         <field name="arch" type="xml">
             <field name="l10n_ro_vat_number" position="before">
-                <field name="is_l10n_ro_record" invisible="1" />
                 <label
                     for="l10n_ro_vat_on_payment"
                     invisible="vat == False or company_type != 'company'"
                 />
                 <div
+                    id="l10n_ro_vat_on_payment_info"
                     name="vat_on_payment_info"
                     class="o_row"
                     invisible="vat == False or company_type != 'company'"
@@ -60,9 +60,7 @@
         <field name="inherit_id" ref="account.view_partner_property_form" />
         <field name="arch" type="xml">
             <page name="accounting" position="inside">
-                <field name="is_l10n_ro_record" invisible="1" />
                 <group string="ANAF - VAT on Payment" id="l10n_ro_anaf_history_group">
-
                     <field name="l10n_ro_anaf_history" nolabel="1" colspan="2">
                         <tree>
                             <field name="start_date" />
