@@ -157,7 +157,6 @@
         <field name="action" ref="action_account_dvi" />
         <field name="parent_id" ref="account.menu_finance_entries_actions" />
         <field name="groups_id" eval="[(4, ref('base.group_no_one'))]" />
-        <field name="is_l10n_ro_record" eval="True" />
         <field name="sequence" eval="45" />
     </record>
 </odoo>
