@@ -3,7 +3,7 @@
 # See README.rst file on addons root folder for license details
 {
     "name": "Romania - Point of Sale",
-    "version": "17.0.1.2.0",
+    "version": "17.0.1.3.0",
     "category": "Localization",
     "countries": ["ro"],
     "license": "AGPL-3",
@@ -13,12 +13,12 @@
     "data": [
         "views/report_saledetails.xml",
     ],
-    "qweb": ["static/src/xml/pos.xml"],
     "maintainers": ["dhongu"],
     "assets": {
-        "point_of_sale.assets": [
+        "point_of_sale._assets_pos": [
             "l10n_ro_pos/static/src/css/pos.css",
-            "l10n_ro_pos/static/src/js/PaymentScreenStatus.js",
+            "l10n_ro_pos/static/src/js/PaymentScreenStatus.esm.js",
+            "l10n_ro_pos/static/src/xml/pos.xml",
         ],
     },
 }

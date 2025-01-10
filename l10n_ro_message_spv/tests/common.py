@@ -18,6 +18,7 @@ class TestMessageSPV(AccountEdiTestCommon, CronMixinCase):
         cls.mainpartner = cls.env.ref("base.main_partner")
         cls.env.company.anglo_saxon_accounting = True
         cls.env.company.l10n_ro_accounting = True
+        cls.env.company.l10n_ro_edi_access_token = "123"
 
         # Set up company details
         cls.currency = cls.env["res.currency"].search([("name", "=", "RON")])

@@ -7,15 +7,16 @@ msgstr ""
 "Project-Id-Version: Odoo Server 17.0+e\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2024-03-30 02:07+0000\n"
-"PO-Revision-Date: 2024-06-11 10:52+0000\n"
-"Last-Translator: Larisa Cuciureanu <larisa.cuciureanu@nexterp.ro>\n"
+"PO-Revision-Date: 2024-12-22 08:06+0000\n"
+"Last-Translator: Dorin Hongu <dhongu@gmail.com>\n"
 "Language-Team: \n"
 "Language: ro\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
-"Plural-Forms: nplurals=3; plural=n==1 ? 0 : (n==0 || (n%100 > 0 && n%100 < 20)) ? 1 : 2;\n"
-"X-Generator: Weblate 4.17\n"
+"Plural-Forms: nplurals=3; plural=n==1 ? 0 : (n==0 || (n%100 > 0 && n%100 < "
+"20)) ? 1 : 2;\n"
+"X-Generator: Weblate 5.6.2\n"
 
 #. module: l10n_ro_account_anaf_sync
 #: model:ir.model.fields,help:l10n_ro_account_anaf_sync.field_l10n_ro_account_anaf_sync__response_secret
@@ -108,7 +109,7 @@ msgstr "Automat"
 #. module: l10n_ro_account_anaf_sync
 #: model:ir.model.fields,field_description:l10n_ro_account_anaf_sync.field_l10n_ro_account_anaf_sync__client_id
 msgid "Client"
-msgstr ""
+msgstr "Client"
 
 #. module: l10n_ro_account_anaf_sync
 #: model:ir.model.fields,field_description:l10n_ro_account_anaf_sync.field_l10n_ro_account_anaf_sync__client_secret
@@ -366,7 +367,7 @@ msgstr "Status"
 #: model:ir.model.fields.selection,name:l10n_ro_account_anaf_sync.selection__l10n_ro_account_anaf_sync__state__test
 #: model:ir.model.fields.selection,name:l10n_ro_account_anaf_sync.selection__l10n_ro_account_anaf_sync_scope__state__test
 msgid "Test"
-msgstr ""
+msgstr "Test"
 
 #. module: l10n_ro_account_anaf_sync
 #. odoo-python

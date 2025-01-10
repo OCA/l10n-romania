@@ -7,14 +7,16 @@ msgstr ""
 "Project-Id-Version: Odoo Server 16.0+e\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2024-06-19 17:11+0000\n"
-"PO-Revision-Date: 2024-06-19 17:11+0000\n"
-"Last-Translator: \n"
+"PO-Revision-Date: 2024-12-22 08:06+0000\n"
+"Last-Translator: Dorin Hongu <dhongu@gmail.com>\n"
 "Language-Team: \n"
-"Language: \n"
+"Language: ro\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
-"Plural-Forms: \n"
+"Plural-Forms: nplurals=3; plural=n==1 ? 0 : (n==0 || (n%100 > 0 && n%100 < "
+"20)) ? 1 : 2;\n"
+"X-Generator: Weblate 5.6.2\n"
 
 #. module: l10n_ro_message_spv
 #: model:ir.model.fields,field_description:l10n_ro_message_spv.field_l10n_ro_message_spv__attachment_anaf_pdf_id
@@ -24,14 +26,14 @@ msgstr "PDF ANAF"
 #. module: l10n_ro_message_spv
 #: model_terms:ir.ui.view,arch_db:l10n_ro_message_spv.view_move_form
 msgid "ANAF SPV Messages"
-msgstr ""
+msgstr "ANAF Mesaje SPV"
 
 #. module: l10n_ro_message_spv
 #. odoo-python
 #: code:addons/l10n_ro_message_spv/models/message_spv.py:0
 #, python-format
 msgid "ANAF service unable to generate PDF from this XML."
-msgstr ""
+msgstr "Serviciul ANAF nu poate să genereze PFD pentru acest XML."
 
 #. module: l10n_ro_message_spv
 #: model:ir.model.fields,field_description:l10n_ro_message_spv.field_l10n_ro_message_spv__amount

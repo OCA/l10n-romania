@@ -69,6 +69,7 @@ class TestCreatePartner(TestCreatePartnerBase):
         # Test onchange from ANAF
 
         mainpartner = Form(self.mainpartner)
+        mainpartner.company_type = "company"
         mainpartner.vat = "RO30834857"
         self.assertEqual(mainpartner.name, "FOREST AND BIOMASS ROMÂNIA S.A.")
         self.assertEqual(mainpartner.street, "Str. Ciprian Porumbescu Nr. 12")
@@ -158,6 +159,7 @@ class TestCreatePartner(TestCreatePartnerBase):
         error, res = self.mainpartner._get_Anaf("20603502")
         self.assertEqual(res, {})
         self.assertTrue(len(error) > 3)
+        self.mainpartner.company_type = "company"
         self.mainpartner.vat = "RO20603502"
         res = self.mainpartner.ro_vat_change()
         self.assertTrue(res.get("warning"))

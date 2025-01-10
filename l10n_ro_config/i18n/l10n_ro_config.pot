@@ -146,6 +146,11 @@ msgid ""
 msgstr ""
 
 #. module: l10n_ro_config
+#: model:ir.model.fields.selection,name:l10n_ro_config.selection__account_journal__l10n_ro_sequence_type__autoinv1
+msgid "Customer Auto Invoicing"
+msgstr ""
+
+#. module: l10n_ro_config
 #: model_terms:ir.ui.view,arch_db:l10n_ro_config.res_config_settings_account_view_form
 msgid "Default Services Taxes"
 msgstr ""
@@ -200,6 +205,11 @@ msgstr ""
 #. module: l10n_ro_config
 #: model_terms:ir.ui.view,arch_db:l10n_ro_config.res_config_settings_account_view_form
 msgid "Install BNR update rates"
+msgstr ""
+
+#. module: l10n_ro_config
+#: model:ir.model.fields.selection,name:l10n_ro_config.selection__account_journal__l10n_ro_sequence_type__normal
+msgid "Invoice"
 msgstr ""
 
 #. module: l10n_ro_config
@@ -360,6 +370,21 @@ msgstr ""
 #: model:ir.model.fields,help:l10n_ro_config.field_res_config_settings__l10n_ro_restrict_stock_move_date_future
 #: model_terms:ir.ui.view,arch_db:l10n_ro_config.res_config_settings_view_form
 msgid "Restrict stock move posting with future date."
+msgstr ""
+
+#. module: l10n_ro_config
+#: model_terms:ir.ui.view,arch_db:l10n_ro_config.view_account_bank_journal_form
+msgid "Ro Auto Invoicing"
+msgstr ""
+
+#. module: l10n_ro_config
+#: model:ir.model.fields,field_description:l10n_ro_config.field_account_journal__l10n_ro_partner_id
+msgid "Romania - Autoinvoice Partner"
+msgstr ""
+
+#. module: l10n_ro_config
+#: model:ir.model.fields,field_description:l10n_ro_config.field_account_journal__l10n_ro_sequence_type
+msgid "Romania - Autoinvoice Sequence Type"
 msgstr ""
 
 #. module: l10n_ro_config
@@ -696,6 +721,11 @@ msgstr ""
 #. module: l10n_ro_config
 #: model_terms:ir.ui.view,arch_db:l10n_ro_config.res_config_settings_view_form
 msgid "Stock"
+msgstr ""
+
+#. module: l10n_ro_config
+#: model:ir.model.fields.selection,name:l10n_ro_config.selection__account_journal__l10n_ro_sequence_type__autoinv2
+msgid "Supplier  Auto Invoicing"
 msgstr ""
 
 #. module: l10n_ro_config

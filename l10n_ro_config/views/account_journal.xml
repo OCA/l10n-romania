@@ -21,6 +21,16 @@
                 <field name="l10n_ro_print_report" readonly="False" />
                 <field name="l10n_ro_fiscal_receipt" />
             </xpath>
+            <xpath expr="//group[@name='group_alias_edit']" position="after">
+                <field name="is_l10n_ro_record" invisible="1" />
+                <group
+                    string="Ro Auto Invoicing"
+                    invisible="is_l10n_ro_record == False or type not in ['sale', 'purchase']"
+                >
+                    <field name="l10n_ro_sequence_type" />
+                    <field name="l10n_ro_partner_id" />
+                </group>
+            </xpath>
         </field>
     </record>
 </odoo>

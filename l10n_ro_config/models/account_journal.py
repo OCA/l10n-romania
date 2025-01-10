@@ -3,6 +3,12 @@
 
 from odoo import api, fields, models
 
+SEQUENCE_TYPE = [
+    ("normal", "Invoice"),
+    ("autoinv1", "Customer Auto Invoicing"),
+    ("autoinv2", "Supplier  Auto Invoicing"),
+]
+
 
 class AccountJournal(models.Model):
     _name = "account.journal"
@@ -17,6 +23,14 @@ class AccountJournal(models.Model):
     )
 
     l10n_ro_fiscal_receipt = fields.Boolean("Fiscal Receipts Journal")
+    l10n_ro_partner_id = fields.Many2one(
+        "res.partner", "Romania - Autoinvoice Partner", default=None
+    )
+    l10n_ro_sequence_type = fields.Selection(
+        selection=SEQUENCE_TYPE,
+        string="Romania - Autoinvoice Sequence Type",
+        default="normal",
+    )
 
     @api.depends("bank_account_id.l10n_ro_print_report")
     def _compute_l10n_ro_print_report(self):

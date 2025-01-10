@@ -8,7 +8,7 @@ class Account(models.Model):
     _inherit = "account.account"
 
     l10n_ro_external_code = fields.Char(
-        compute="_compute_l10n_ro_external_code", store=True
+        compute="_compute_l10n_ro_external_code", store=False
     )
 
     @api.depends("code")
@@ -38,7 +38,8 @@ class Account(models.Model):
             cont = cont[:-1]
 
         analytic = int(self.code[4:])
-        cont += "." + str(analytic)
+        if analytic:
+            cont += "." + str(analytic)
         return cont
 
     def _compute_display_name(self):

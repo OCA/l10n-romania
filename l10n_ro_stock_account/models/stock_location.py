@@ -35,3 +35,15 @@ class StockLocation(models.Model):
         domain="[('company_id', '=', current_company_id),"
         "('deprecated', '=', False)]",
     )
+
+    def propagate_account(self):
+        for location in self:
+            children = self.search([("id", "child_of", [location.id])])
+            if not children:
+                continue
+            values = {
+                "l10n_ro_property_account_income_location_id": location.l10n_ro_property_account_income_location_id.id,  # noqa
+                "l10n_ro_property_account_expense_location_id": location.l10n_ro_property_account_expense_location_id.id,  # noqa
+                "l10n_ro_property_stock_valuation_account_id": location.l10n_ro_property_stock_valuation_account_id.id,  # noqa
+            }
+            children.write(values)

@@ -500,17 +500,31 @@ class StockMove(models.Model):
             acc_valuation,
         ) = move._get_accounting_data_for_valuation()
         if location_to.l10n_ro_property_stock_valuation_account_id and cost < 0:
-            am_vals.append(
-                move._prepare_account_move_vals(
-                    acc_dest, acc_valuation, journal_id, qty, description, svl_id, cost
+            if acc_dest != acc_valuation:
+                am_vals.append(
+                    move._prepare_account_move_vals(
+                        acc_dest,
+                        acc_valuation,
+                        journal_id,
+                        qty,
+                        description,
+                        svl_id,
+                        cost,
+                    )
                 )
-            )
         if location_from.l10n_ro_property_stock_valuation_account_id and cost > 0:
-            am_vals.append(
-                move._prepare_account_move_vals(
-                    acc_src, acc_valuation, journal_id, qty, description, svl_id, cost
+            if acc_src != acc_valuation:
+                am_vals.append(
+                    move._prepare_account_move_vals(
+                        acc_src,
+                        acc_valuation,
+                        journal_id,
+                        qty,
+                        description,
+                        svl_id,
+                        cost,
+                    )
                 )
-            )
 
         return am_vals
 
@@ -617,6 +631,8 @@ class StockMove(models.Model):
         return account_move
 
     def _get_accounting_data_for_valuation(self):
+        fiscal_pos = self.picking_id.picking_type_id.l10n_ro_fiscal_position_id
+        self = self.with_context(fiscal_pos=fiscal_pos)
         (
             journal_id,
             acc_src,
@@ -633,6 +649,9 @@ class StockMove(models.Model):
             location_from.l10n_ro_property_stock_valuation_account_id
         )
         location_to_account = location_to.l10n_ro_property_stock_valuation_account_id
+
+        company = self.company_id
+        stock_transfer_account = company.l10n_ro_property_stock_transfer_account_id
 
         allow_accounts_change = self.product_id.categ_id.l10n_ro_stock_account_change
         operations_not_allowed = ["usage_giving_secondary"]
@@ -693,30 +712,45 @@ class StockMove(models.Model):
                     or acc_src
                 )
 
-        if valued_type in ("consumption", "usage_giving"):
-            acc_dest_rec = self.env["account.account"].browse(acc_dest)
-            if acc_dest_rec and acc_dest_rec.l10n_ro_stock_consume_account_id:
-                acc_dest = acc_dest_rec.l10n_ro_stock_consume_account_id.id
-            acc_valuation_rec = self.env["account.account"].browse(acc_valuation)
-            if acc_valuation_rec and acc_valuation_rec.l10n_ro_stock_consume_account_id:
-                acc_valuation = acc_valuation_rec.l10n_ro_stock_consume_account_id.id
-        if valued_type in ("consumption_return", "usage_giving_return"):
-            acc_src_rec = self.env["account.account"].browse(acc_src)
-            if acc_src_rec and acc_src_rec.l10n_ro_stock_consume_account_id:
-                acc_src = acc_src_rec.l10n_ro_stock_consume_account_id.id
-            acc_valuation_rec = self.env["account.account"].browse(acc_valuation)
-            if acc_valuation_rec and acc_valuation_rec.l10n_ro_stock_consume_account_id:
-                acc_valuation = acc_valuation_rec.l10n_ro_stock_consume_account_id.id
+        if stock_transfer_account:
+            if valued_type == "internal_transit_out":
+                acc_src = stock_transfer_account.id
+            elif valued_type == "internal_transit_in":
+                acc_dest = stock_transfer_account.id
 
-        # if valued_type == "internal_transit_out":
-        #     acc_dest = location_to_account.id or acc_dest
-        #     acc_valuation = location_to_account.id or acc_dest
+        if valued_type in ("consumption", "usage_giving"):
+            acc_src, acc_dest, acc_valuation = self._l10n_ro_get_account_cons(
+                acc_src, acc_dest, acc_valuation
+            )
+
+        if valued_type in ("consumption_return", "usage_giving_return"):
+            acc_src, acc_dest, acc_valuation = self._l10n_ro_get_account_cons_return(
+                acc_src, acc_dest, acc_valuation
+            )
 
         journal_id = self._l10n_ro_get_journal_id(
             location_from, location_to, journal_id
         )
 
         return journal_id, acc_src, acc_dest, acc_valuation
+
+    def _l10n_ro_get_account_cons(self, acc_src, acc_dest, acc_valuation):
+        acc_dest_rec = self.env["account.account"].browse(acc_dest)
+        if acc_dest_rec and acc_dest_rec.l10n_ro_stock_consume_account_id:
+            acc_dest = acc_dest_rec.l10n_ro_stock_consume_account_id.id
+        acc_valuation_rec = self.env["account.account"].browse(acc_valuation)
+        if acc_valuation_rec and acc_valuation_rec.l10n_ro_stock_consume_account_id:
+            acc_valuation = acc_valuation_rec.l10n_ro_stock_consume_account_id.id
+        return acc_src, acc_dest, acc_valuation
+
+    def _l10n_ro_get_account_cons_return(self, acc_src, acc_dest, acc_valuation):
+        acc_src_rec = self.env["account.account"].browse(acc_src)
+        if acc_src_rec and acc_src_rec.l10n_ro_stock_consume_account_id:
+            acc_src = acc_src_rec.l10n_ro_stock_consume_account_id.id
+        acc_valuation_rec = self.env["account.account"].browse(acc_valuation)
+        if acc_valuation_rec and acc_valuation_rec.l10n_ro_stock_consume_account_id:
+            acc_valuation = acc_valuation_rec.l10n_ro_stock_consume_account_id.id
+        return acc_src, acc_dest, acc_valuation
 
     def _l10n_ro_get_journal_id(self, location_from, location_to, journal_id):
         journal_to_id = False
@@ -751,15 +785,25 @@ class StockMove(models.Model):
             return price_unit
         if self.product_id.cost_method != "average":
             return price_unit
-        if not self._is_out():
-            return price_unit
 
         account = (
             self.product_id.l10n_ro_property_stock_valuation_account_id
             or self.product_id.categ_id.property_stock_valuation_account_id
         )
-        if self.location_id.l10n_ro_property_stock_valuation_account_id:
-            account = self.location_id.l10n_ro_property_stock_valuation_account_id
+
+        if self._is_out():
+            if self.location_id.l10n_ro_property_stock_valuation_account_id:
+                account = self.location_id.l10n_ro_property_stock_valuation_account_id
+        elif self._is_in():
+            # ajustarea de inventar pozitiva sa se faca la pretul din locatie
+            if self.price_unit:
+                return price_unit
+            if self.location_dest_id.l10n_ro_property_stock_valuation_account_id:
+                account = (
+                    self.location_dest_id.l10n_ro_property_stock_valuation_account_id
+                )
+        else:
+            return price_unit
 
         domain = [
             ("product_id", "=", self.product_id.id),

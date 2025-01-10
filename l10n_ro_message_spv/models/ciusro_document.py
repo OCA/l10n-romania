@@ -31,8 +31,14 @@ class L10nRoEdiDocument(models.Model):
         if result.get("error", False):
             return result
 
+        content = result["content"]
         # E-Factura gives download response in ZIP format
-        zip_ref = zipfile.ZipFile(io.BytesIO(result["content"]))
+        try:
+            zip_ref = zipfile.ZipFile(io.BytesIO(content))
+        except Exception as e:
+            _logger.error(f"Error {e} while parsing ZIP file: {content}")
+            return {"error": "Error while parsing ZIP file"}
+
         xml_file = next(file for file in zip_ref.namelist() if "semnatura" not in file)
         xml_bytes = zip_ref.open(xml_file)
         root = etree.parse(xml_bytes)

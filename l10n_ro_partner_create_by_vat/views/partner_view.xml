@@ -24,14 +24,14 @@
             <field name="arch" type="xml">
                 <page name="accounting" position="inside">
                     <field name="is_l10n_ro_record" invisible="1" />
-                    <group string="ANAF History">
-                        <separator string="ANAF - Active State History" />
+                    <group string="ANAF - Active State History">
+
                         <field
                         name="l10n_ro_active_anaf_line_ids"
                         readonly="1"
                         force_save="1"
                         nolabel="1"
-                        colspan="4"
+                        colspan="2"
                     >
                             <tree>
                                 <field name="partner_id" invisible="1" />
@@ -45,13 +45,14 @@
                                 <field name="active_status" />
                             </tree>
                         </field>
-                        <separator string="ANAF - VAT Subjected History" />
+                    </group>
+                    <group string="ANAF - VAT Subjected History">
                         <field
                         name="l10n_ro_vat_subjected_anaf_line_ids"
                         readonly="1"
                         force_save="1"
                         nolabel="1"
-                        colspan="4"
+                        colspan="2"
                     >
                             <tree>
                                 <field name="partner_id" invisible="1" />
