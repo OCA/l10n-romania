@@ -5,7 +5,7 @@
         <field name="inherit_id" ref="stock_account.stock_valuation_layer_form" />
         <field name="arch" type="xml">
             <xpath expr="//field[@name='stock_move_id']" position="after">
-                <field name="is_l10n_ro_record" invisible="1" />
+
                 <field name="l10n_ro_valued_type" />
 
             </xpath>

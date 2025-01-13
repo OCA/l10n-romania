@@ -9,8 +9,7 @@
             />
             <field name="arch" type="xml">
                 <notebook position="before">
-                    <field name="is_l10n_ro_record" invisible="1" />
-                    <group name="l10n_ro_extend" invisible="is_l10n_ro_record == False">
+                    <group name="l10n_ro_extend">
                         <group name="l10n_ro_general">
                             <field
                                 name="l10n_ro_cost_type"

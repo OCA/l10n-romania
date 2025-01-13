@@ -245,9 +245,40 @@ class MessageSPV(models.Model):
 
     def get_invoice_from_move(self):
         self.get_partner()
-        messages_without_invoice = self.filtered(lambda m: not m.invoice_id)
+
+        messages_with_error = self.filtered(lambda m: m.message_type == "error")
+        if messages_with_error:
+            request_ids = messages_with_error.mapped("request_id")
+            domain = [("key_loading", "in", request_ids)]
+            edi_docs = self.env["l10n_ro_edi.document"].search(domain)
+            for message in messages_with_error:
+                edi_doc = edi_docs.filtered(
+                    lambda e, m=message: e.key_loading == m.request_id
+                )
+                if not edi_doc:
+                    continue
+                message.write({"invoice_id": edi_doc.invoice_id.id})
+                domain = [
+                    ("res_model", "=", "account.move"),
+                    (
+                        "res_field",
+                        "in",
+                        ["ubl_cii_xml_file", "invoice_pdf_report_file"],
+                    ),
+                    ("res_id", "=", edi_doc.invoice_id.id),
+                ]
+                attachments = self.env["ir.attachment"].sudo().search(domain)
+                attachments.unlink()
+                edi_doc.write(
+                    {"state": "invoice_sending_failed", "message": message.error}
+                )
+                edi_doc.invoice_id.write({"l10n_ro_edi_state": False})
+
+        messages = self.filtered(lambda m: not m.invoice_id)
+        messages_without_invoice = messages.filtered(lambda m: not m.invoice_id)
         message_ids = messages_without_invoice.mapped("name")
         request_ids = messages_without_invoice.mapped("request_id")
+        messages_without_invoice = self.filtered(lambda m: not m.invoice_id)
         invoices = self.env["account.move"].search(
             [
                 "|",
@@ -255,7 +286,8 @@ class MessageSPV(models.Model):
                 ("l10n_ro_edi_transaction", "in", request_ids),
             ]
         )
-        domain = [("name", "in", messages_without_invoice.mapped("ref"))]
+        messages_with_ref = messages_without_invoice.filtered(lambda m: m.ref)
+        domain = [("name", "in", messages_with_ref.mapped("ref"))]
         invoices |= self.env["account.move"].search(domain)
         invoices = invoices.filtered(lambda i: i.state == "posted")
         for message in messages_without_invoice:
@@ -265,7 +297,7 @@ class MessageSPV(models.Model):
                 or i.ref == m.ref
                 or i.name == m.ref
             )
-            if not invoice:
+            if not invoice and message.ref:
                 if message.message_type == "in_invoice":
                     move_type = ("in_invoice", "in_refund")
                 else:
@@ -495,3 +527,15 @@ class MessageSPV(models.Model):
 
     def refresh(self):
         self.env.company.l10n_ro_download_message_spv()
+
+    def show_invoice(self):
+        invoices = self.mapped("invoice_id")
+        action = {
+            "type": "ir.actions.act_window",
+            "res_model": "account.move",
+            "view_mode": "tree",
+            "views": [(False, "list"), (False, "form")],
+            "domain": [("id", "in", invoices.ids)],
+        }
+
+        return action

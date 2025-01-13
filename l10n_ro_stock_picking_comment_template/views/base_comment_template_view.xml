@@ -17,7 +17,6 @@
         <field name="name">Romanian Stock Picking Comments</field>
         <field name="action" ref="action_stock_picking_comment_template" />
         <field name="parent_id" ref="stock.menu_stock_config_settings" />
-        <field name="is_l10n_ro_record" eval="True" />
     </record>
 
 </odoo>

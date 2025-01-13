@@ -6,7 +6,6 @@
         <field name="inherit_id" ref="account.product_template_form_view" />
         <field name="arch" type="xml">
             <field name="property_account_expense_id" position="after">
-                <field name="is_l10n_ro_record" invisible="1" />
                 <field
                     name="l10n_ro_property_stock_valuation_account_id"
                     domain="[('deprecated','=',False)]"

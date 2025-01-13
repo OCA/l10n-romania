@@ -6,12 +6,10 @@
         <field name="inherit_id" ref="stock.view_picking_form" />
         <field name="arch" type="xml">
             <xpath expr="//button[@name='action_assign_serial']" position="before">
-                <field name="is_l10n_ro_record" invisible="1" />
                 <field name="picking_code" invisible="1" />
                 <field name="price_unit" invisible="picking_code != 'incoming'" />
             </xpath>
             <xpath expr="//div[@name='button_box']" position="inside">
-                <field name="is_l10n_ro_record" invisible="1" />
                 <button
                     string="Journal Items"
                     type="object"

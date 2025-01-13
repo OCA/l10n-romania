@@ -6,7 +6,6 @@
         <field name="inherit_id" ref="account.view_account_journal_tree" />
         <field name="arch" type="xml">
             <field name="company_id" position="after">
-                <field name="is_l10n_ro_record" column_invisible="1" />
                 <field name="l10n_ro_print_report" />
             </field>
         </field>
@@ -16,17 +15,15 @@
         <field name="model">account.journal</field>
         <field name="inherit_id" ref="account.view_account_journal_form" />
         <field name="arch" type="xml">
-            <xpath expr="//group/field[@name='currency_id']" position="after">
-                <field name="is_l10n_ro_record" invisible="1" />
+            <xpath expr="//group/field[@name='company_id']" position="after">
                 <field name="l10n_ro_print_report" readonly="False" />
                 <field name="l10n_ro_fiscal_receipt" />
                 <field name="l10n_ro_fiscal_position_id" />
             </xpath>
             <xpath expr="//group[@name='group_alias_edit']" position="after">
-                <field name="is_l10n_ro_record" invisible="1" />
                 <group
                     string="Ro Auto Invoicing"
-                    invisible="is_l10n_ro_record == False or type not in ['sale', 'purchase']"
+                    invisible="type not in ['sale', 'purchase']"
                 >
                     <field name="l10n_ro_sequence_type" />
                     <field name="l10n_ro_partner_id" />
