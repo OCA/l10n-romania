@@ -105,11 +105,13 @@ class AccountMoveLine(models.Model):
                     ai = location.l10n_ro_property_account_income_location_id
                     if ai:
                         account = ai
+            fiscal_positions |= line.move_id.journal_id.l10n_ro_fiscal_position_id
             for fiscal_position in fiscal_positions:
                 account = fiscal_position.map_account(account)
 
             if account:
                 line.account_id = account
+
         return res
 
     def _get_account_change_stock_moves_purchase(self):

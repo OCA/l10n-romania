@@ -18,6 +18,7 @@
             <xpath expr="//group/field[@name='company_id']" position="after">
                 <field name="l10n_ro_print_report" readonly="False" />
                 <field name="l10n_ro_fiscal_receipt" />
+                <field name="l10n_ro_fiscal_position_id" />
             </xpath>
             <xpath expr="//group[@name='group_alias_edit']" position="after">
                 <group
