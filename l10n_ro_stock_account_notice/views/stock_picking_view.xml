@@ -6,7 +6,6 @@
         <field name="inherit_id" ref="stock.view_picking_form" />
         <field name="arch" type="xml">
             <field name="backorder_id" position="after">
-                <field name="is_l10n_ro_record" invisible="1" />
                 <field name="l10n_ro_notice" readonly="state in ('done', 'cancel')" />
             </field>
             <!-- if is a notice/aviz to be mandatory the partner_id -->
@@ -21,7 +20,6 @@
         <field name="inherit_id" ref="stock.vpicktree" />
         <field name="arch" type="xml">
             <field name="origin" position="before">
-                <field name="is_l10n_ro_record" invisible="1" />
                 <field name="l10n_ro_notice" optional="show" />
             </field>
         </field>
@@ -32,7 +30,6 @@
         <field name="inherit_id" ref="stock.view_picking_internal_search" />
         <field name="arch" type="xml">
             <filter name="backorder" position="after">
-                <field name="is_l10n_ro_record" invisible="1" />
                 <filter
                     name="notice"
                     string="Is notice"
@@ -48,11 +45,9 @@
         <field name="inherit_id" ref="stock.stock_picking_kanban" />
         <field name="arch" type="xml">
             <field name="activity_state" position="after">
-                <field name="is_l10n_ro_record" invisible="1" />
                 <field name="l10n_ro_notice" />
             </field>
             <xpath expr="//div[hasclass('o_kanban_record_bottom')]" position="before">
-                <field name="is_l10n_ro_record" invisible="1" />
                 <div class="oe_kanban_content">
                     <label for="l10n_ro_notice">Is notice</label>
                     <field

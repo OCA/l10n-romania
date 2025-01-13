@@ -23,8 +23,11 @@
             <field name="inherit_id" ref="account.view_partner_property_form" />
             <field name="arch" type="xml">
                 <page name="accounting" position="inside">
-                    <field name="is_l10n_ro_record" invisible="1" />
-                    <group string="ANAF - Active State History">
+
+                    <group
+                    string="ANAF - Active State History"
+                    id="l10n_ro_anaf_active_stare_history"
+                >
 
                         <field
                         name="l10n_ro_active_anaf_line_ids"
@@ -46,7 +49,10 @@
                             </tree>
                         </field>
                     </group>
-                    <group string="ANAF - VAT Subjected History">
+                    <group
+                    string="ANAF - VAT Subjected History"
+                    id="l10n_ro_anaf_active_vat_history"
+                >
                         <field
                         name="l10n_ro_vat_subjected_anaf_line_ids"
                         readonly="1"
