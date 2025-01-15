@@ -40,7 +40,7 @@ class ResPartner(models.Model):
     def _split_vat(self, vat):
         # Allowing setting the vat without country code
         if self.env.company.country_id.code != "RO":
-            return self._split_ro_vat(vat)
+            return self._split_vat(vat)
         vat_country = l10n_ro_vat_number = ""
         if vat and vat.isdigit():
             l10n_ro_vat_number = vat
