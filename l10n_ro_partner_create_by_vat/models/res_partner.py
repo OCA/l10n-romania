@@ -317,7 +317,9 @@ class ResPartner(models.Model):
                 if not self.vat:
                     return res
                 vat = self.vat.strip().upper()
-                original_vat_country, vat_number = self._split_vat(vat)
+                original_vat_country, vat_number = self._split_vat_and_mapped_country(
+                    vat
+                )
                 vat_country = original_vat_country.upper()
                 if not vat_country and self.country_id:
                     vat_country = self._l10n_ro_map_vat_country_code(

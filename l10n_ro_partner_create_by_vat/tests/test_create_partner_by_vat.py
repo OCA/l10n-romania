@@ -132,7 +132,9 @@ class TestCreatePartner(TestCreatePartnerBase):
 
         mainpartner.save()
 
-        vat_country, vat_number = self.mainpartner._split_vat(mainpartner.vat)
+        vat_country, vat_number = self.mainpartner._split_vat_and_mapped_country(
+            mainpartner.vat
+        )
         self.assertEqual(vat_country, "ro")
         self.assertEqual(vat_number, "42078234")
         # Check vat subjected onchange
