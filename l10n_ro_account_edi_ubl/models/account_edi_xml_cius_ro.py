@@ -170,6 +170,8 @@ class AccountEdiXmlCIUSRO(models.Model):
         if point_of_sale:
             if invoice.pos_order_ids:
                 vals_list["vals"]["invoice_type_code"] = 751
+        if invoice.journal_id.l10n_ro_fiscal_receipt:
+            vals_list["vals"]["invoice_type_code"] = 751
         return vals_list
 
     def _check_required_fields(self, record, field_names, custom_warning_message=""):

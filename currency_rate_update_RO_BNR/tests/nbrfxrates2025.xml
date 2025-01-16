@@ -1,0 +1,256 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<DataSet
+    xmlns="http://www.bnr.ro/xsd"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.bnr.ro/xsd nbrfxrates.xsd"
+>
+    <Header>
+        <Publisher>National Bank of Romania</Publisher>
+        <PublishingDate>2025-01-15</PublishingDate>
+        <MessageType>DR</MessageType>
+    </Header>
+    <Body>
+        <Subject>Reference rates</Subject>
+        <OrigCurrency>RON</OrigCurrency>
+        <Cube date="2025-01-03">
+            <Rate currency="AED">1.3170</Rate>
+            <Rate currency="AUD">3.0067</Rate>
+            <Rate currency="BGN">2.5436</Rate>
+            <Rate currency="BRL">0.7862</Rate>
+            <Rate currency="CAD">3.3594</Rate>
+            <Rate currency="CHF">5.3185</Rate>
+            <Rate currency="CNY">0.6609</Rate>
+            <Rate currency="CZK">0.1977</Rate>
+            <Rate currency="DKK">0.6669</Rate>
+            <Rate currency="EGP">0.0953</Rate>
+            <Rate currency="EUR">4.9749</Rate>
+            <Rate currency="GBP">5.9967</Rate>
+            <Rate currency="HKD">0.6219</Rate>
+            <Rate currency="HUF" multiplier="100">1.1992</Rate>
+            <Rate currency="IDR" multiplier="100">0.0299</Rate>
+            <Rate currency="ILS">1.3232</Rate>
+            <Rate currency="INR">0.0564</Rate>
+            <Rate currency="ISK" multiplier="100">3.4717</Rate>
+            <Rate currency="JPY" multiplier="100">3.0741</Rate>
+            <Rate currency="KRW" multiplier="100">0.3289</Rate>
+            <Rate currency="MDL">0.2592</Rate>
+            <Rate currency="MXN">0.2352</Rate>
+            <Rate currency="MYR">1.0750</Rate>
+            <Rate currency="NOK">0.4246</Rate>
+            <Rate currency="NZD">2.7094</Rate>
+            <Rate currency="PHP">0.0832</Rate>
+            <Rate currency="PLN">1.1647</Rate>
+            <Rate currency="RSD">0.0425</Rate>
+            <Rate currency="RUB">0.0432</Rate>
+            <Rate currency="SEK">0.4341</Rate>
+            <Rate currency="SGD">3.5293</Rate>
+            <Rate currency="THB">0.1404</Rate>
+            <Rate currency="TRY">0.1368</Rate>
+            <Rate currency="UAH">0.1149</Rate>
+            <Rate currency="USD">4.8373</Rate>
+            <Rate currency="XAU">412.9649</Rate>
+            <Rate currency="XDR">6.2812</Rate>
+            <Rate currency="ZAR">0.2574</Rate>
+        </Cube>
+        <Cube date="2025-01-08">
+            <Rate currency="AED">1.3127</Rate>
+            <Rate currency="AUD">2.9950</Rate>
+            <Rate currency="BGN">2.5430</Rate>
+            <Rate currency="BRL">0.7903</Rate>
+            <Rate currency="CAD">3.3544</Rate>
+            <Rate currency="CHF">5.2862</Rate>
+            <Rate currency="CNY">0.6577</Rate>
+            <Rate currency="CZK">0.1980</Rate>
+            <Rate currency="DKK">0.6667</Rate>
+            <Rate currency="EGP">0.0952</Rate>
+            <Rate currency="EUR">4.9738</Rate>
+            <Rate currency="GBP">6.0012</Rate>
+            <Rate currency="HKD">0.6198</Rate>
+            <Rate currency="HUF" multiplier="100">1.1994</Rate>
+            <Rate currency="IDR" multiplier="100">0.0297</Rate>
+            <Rate currency="ILS">1.3213</Rate>
+            <Rate currency="INR">0.0561</Rate>
+            <Rate currency="ISK" multiplier="100">3.4231</Rate>
+            <Rate currency="JPY" multiplier="100">3.0453</Rate>
+            <Rate currency="KRW" multiplier="100">0.3304</Rate>
+            <Rate currency="MDL">0.2595</Rate>
+            <Rate currency="MXN">0.2370</Rate>
+            <Rate currency="MYR">1.0709</Rate>
+            <Rate currency="NOK">0.4241</Rate>
+            <Rate currency="NZD">2.7059</Rate>
+            <Rate currency="PHP">0.0826</Rate>
+            <Rate currency="PLN">1.1647</Rate>
+            <Rate currency="RSD">0.0425</Rate>
+            <Rate currency="RUB">0.0461</Rate>
+            <Rate currency="SEK">0.4320</Rate>
+            <Rate currency="SGD">3.5258</Rate>
+            <Rate currency="THB">0.1392</Rate>
+            <Rate currency="TRY">0.1363</Rate>
+            <Rate currency="UAH">0.1142</Rate>
+            <Rate currency="USD">4.8217</Rate>
+            <Rate currency="XAU">411.4200</Rate>
+            <Rate currency="XDR">6.2646</Rate>
+            <Rate currency="ZAR">0.2565</Rate>
+        </Cube>
+        <Cube date="2025-01-09">
+            <Rate currency="AED">1.3142</Rate>
+            <Rate currency="AUD">2.9899</Rate>
+            <Rate currency="BGN">2.5429</Rate>
+            <Rate currency="BRL">0.7905</Rate>
+            <Rate currency="CAD">3.3553</Rate>
+            <Rate currency="CHF">5.2922</Rate>
+            <Rate currency="CNY">0.6583</Rate>
+            <Rate currency="CZK">0.1980</Rate>
+            <Rate currency="DKK">0.6666</Rate>
+            <Rate currency="EGP">0.0954</Rate>
+            <Rate currency="EUR">4.9736</Rate>
+            <Rate currency="GBP">5.9269</Rate>
+            <Rate currency="HKD">0.6203</Rate>
+            <Rate currency="HUF" multiplier="100">1.2019</Rate>
+            <Rate currency="IDR" multiplier="100">0.0297</Rate>
+            <Rate currency="ILS">1.3156</Rate>
+            <Rate currency="INR">0.0562</Rate>
+            <Rate currency="ISK" multiplier="100">3.4324</Rate>
+            <Rate currency="JPY" multiplier="100">3.0539</Rate>
+            <Rate currency="KRW" multiplier="100">0.3303</Rate>
+            <Rate currency="MDL">0.2594</Rate>
+            <Rate currency="MXN">0.2364</Rate>
+            <Rate currency="MYR">1.0719</Rate>
+            <Rate currency="NOK">0.4233</Rate>
+            <Rate currency="NZD">2.6989</Rate>
+            <Rate currency="PHP">0.0825</Rate>
+            <Rate currency="PLN">1.1632</Rate>
+            <Rate currency="RSD">0.0425</Rate>
+            <Rate currency="RUB">0.0468</Rate>
+            <Rate currency="SEK">0.4330</Rate>
+            <Rate currency="SGD">3.5261</Rate>
+            <Rate currency="THB">0.1394</Rate>
+            <Rate currency="TRY">0.1365</Rate>
+            <Rate currency="UAH">0.1140</Rate>
+            <Rate currency="USD">4.8269</Rate>
+            <Rate currency="XAU">414.0962</Rate>
+            <Rate currency="XDR">6.2635</Rate>
+            <Rate currency="ZAR">0.2560</Rate>
+        </Cube>
+        <Cube date="2025-01-10">
+            <Rate currency="AED">1.3141</Rate>
+            <Rate currency="AUD">2.9850</Rate>
+            <Rate currency="BGN">2.5425</Rate>
+            <Rate currency="BRL">0.7996</Rate>
+            <Rate currency="CAD">3.3502</Rate>
+            <Rate currency="CHF">5.2812</Rate>
+            <Rate currency="CNY">0.6583</Rate>
+            <Rate currency="CZK">0.1982</Rate>
+            <Rate currency="DKK">0.6665</Rate>
+            <Rate currency="EGP">0.0955</Rate>
+            <Rate currency="EUR">4.9728</Rate>
+            <Rate currency="GBP">5.9363</Rate>
+            <Rate currency="HKD">0.6199</Rate>
+            <Rate currency="HUF" multiplier="100">1.2026</Rate>
+            <Rate currency="IDR" multiplier="100">0.0298</Rate>
+            <Rate currency="ILS">1.3161</Rate>
+            <Rate currency="INR">0.0561</Rate>
+            <Rate currency="ISK" multiplier="100">3.4366</Rate>
+            <Rate currency="JPY" multiplier="100">3.0533</Rate>
+            <Rate currency="KRW" multiplier="100">0.3289</Rate>
+            <Rate currency="MDL">0.2586</Rate>
+            <Rate currency="MXN">0.2353</Rate>
+            <Rate currency="MYR">1.0734</Rate>
+            <Rate currency="NOK">0.4227</Rate>
+            <Rate currency="NZD">2.6924</Rate>
+            <Rate currency="PHP">0.0825</Rate>
+            <Rate currency="PLN">1.1656</Rate>
+            <Rate currency="RSD">0.0425</Rate>
+            <Rate currency="RUB">0.0475</Rate>
+            <Rate currency="SEK">0.4330</Rate>
+            <Rate currency="SGD">3.5281</Rate>
+            <Rate currency="THB">0.1395</Rate>
+            <Rate currency="TRY">0.1367</Rate>
+            <Rate currency="UAH">0.1141</Rate>
+            <Rate currency="USD">4.8266</Rate>
+            <Rate currency="XAU">415.8147</Rate>
+            <Rate currency="XDR">6.2636</Rate>
+            <Rate currency="ZAR">0.2543</Rate>
+        </Cube>
+        <Cube date="2025-01-13">
+            <Rate currency="AED">1.3268</Rate>
+            <Rate currency="AUD">2.9957</Rate>
+            <Rate currency="BGN">2.5427</Rate>
+            <Rate currency="BRL">0.7982</Rate>
+            <Rate currency="CAD">3.3763</Rate>
+            <Rate currency="CHF">5.3188</Rate>
+            <Rate currency="CNY">0.6647</Rate>
+            <Rate currency="CZK">0.1975</Rate>
+            <Rate currency="DKK">0.6666</Rate>
+            <Rate currency="EGP">0.0965</Rate>
+            <Rate currency="EUR">4.9731</Rate>
+            <Rate currency="GBP">5.9109</Rate>
+            <Rate currency="HKD">0.6259</Rate>
+            <Rate currency="HUF" multiplier="100">1.2012</Rate>
+            <Rate currency="IDR" multiplier="100">0.0298</Rate>
+            <Rate currency="ILS">1.3292</Rate>
+            <Rate currency="INR">0.0563</Rate>
+            <Rate currency="ISK" multiplier="100">3.4416</Rate>
+            <Rate currency="JPY" multiplier="100">3.0971</Rate>
+            <Rate currency="KRW" multiplier="100">0.3312</Rate>
+            <Rate currency="MDL">0.2583</Rate>
+            <Rate currency="MXN">0.2344</Rate>
+            <Rate currency="MYR">1.0806</Rate>
+            <Rate currency="NOK">0.4243</Rate>
+            <Rate currency="NZD">2.7042</Rate>
+            <Rate currency="PHP">0.0830</Rate>
+            <Rate currency="PLN">1.1639</Rate>
+            <Rate currency="RSD">0.0425</Rate>
+            <Rate currency="RUB">0.0474</Rate>
+            <Rate currency="SEK">0.4322</Rate>
+            <Rate currency="SGD">3.5469</Rate>
+            <Rate currency="THB">0.1400</Rate>
+            <Rate currency="TRY">0.1374</Rate>
+            <Rate currency="UAH">0.1150</Rate>
+            <Rate currency="USD">4.8734</Rate>
+            <Rate currency="XAU">419.9433</Rate>
+            <Rate currency="XDR">6.3016</Rate>
+            <Rate currency="ZAR">0.2543</Rate>
+        </Cube>
+        <Cube date="2025-01-14">
+            <Rate currency="AED">1.3202</Rate>
+            <Rate currency="AUD">3.0006</Rate>
+            <Rate currency="BGN">2.5432</Rate>
+            <Rate currency="BRL">0.7956</Rate>
+            <Rate currency="CAD">3.3719</Rate>
+            <Rate currency="CHF">5.2925</Rate>
+            <Rate currency="CNY">0.6614</Rate>
+            <Rate currency="CZK">0.1968</Rate>
+            <Rate currency="DKK">0.6667</Rate>
+            <Rate currency="EGP">0.0961</Rate>
+            <Rate currency="EUR">4.9742</Rate>
+            <Rate currency="GBP">5.9080</Rate>
+            <Rate currency="HKD">0.6228</Rate>
+            <Rate currency="HUF" multiplier="100">1.2065</Rate>
+            <Rate currency="IDR" multiplier="100">0.0298</Rate>
+            <Rate currency="ILS">1.3358</Rate>
+            <Rate currency="INR">0.0560</Rate>
+            <Rate currency="ISK" multiplier="100">3.4329</Rate>
+            <Rate currency="JPY" multiplier="100">3.0717</Rate>
+            <Rate currency="KRW" multiplier="100">0.3322</Rate>
+            <Rate currency="MDL">0.2578</Rate>
+            <Rate currency="MXN">0.2353</Rate>
+            <Rate currency="MYR">1.0764</Rate>
+            <Rate currency="NOK">0.4251</Rate>
+            <Rate currency="NZD">2.7206</Rate>
+            <Rate currency="PHP">0.0825</Rate>
+            <Rate currency="PLN">1.1646</Rate>
+            <Rate currency="RSD">0.0425</Rate>
+            <Rate currency="RUB">0.0472</Rate>
+            <Rate currency="SEK">0.4322</Rate>
+            <Rate currency="SGD">3.5424</Rate>
+            <Rate currency="THB">0.1394</Rate>
+            <Rate currency="TRY">0.1365</Rate>
+            <Rate currency="UAH">0.1147</Rate>
+            <Rate currency="USD">4.8491</Rate>
+            <Rate currency="XAU">415.7350</Rate>
+            <Rate currency="XDR">6.2808</Rate>
+            <Rate currency="ZAR">0.2559</Rate>
+        </Cube>
+    </Body>
+</DataSet>
