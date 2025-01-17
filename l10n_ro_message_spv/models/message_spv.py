@@ -359,15 +359,17 @@ class MessageSPV(models.Model):
                 continue
 
             move_obj = self.env["account.move"].with_company(message.company_id)
+            invoice_values = {
+                "name": "/",
+                "ref": message.ref,
+                "partner_id": message.partner_id.id,
+                "l10n_ro_edi_download": message.name,
+                "l10n_ro_edi_transaction": message.request_id,
+            }
+            if "extract_state" in move_obj._fields:
+                invoice_values["extract_state"] = "no_extract_requested"
             new_invoice = move_obj.with_context(default_move_type="in_invoice").create(
-                {
-                    "name": "/",
-                    "ref": message.ref,
-                    "partner_id": message.partner_id.id,
-                    "l10n_ro_edi_download": message.name,
-                    "l10n_ro_edi_transaction": message.request_id,
-                    "extract_state": "no_extract_requested",
-                }
+                invoice_values
             )
             new_invoice = new_invoice.with_context(
                 disable_onchange_name_predictive=True
