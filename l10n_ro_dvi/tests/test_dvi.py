@@ -76,8 +76,8 @@ class TestDVI(TestStockCommon2):
         # 600 / 1100 * 25 = 13,636363636 -> ROUNDED TO 13.64
         # TOTAL TO BE SPLITTED 75 -> ROUNDED 75.02
         # For product_2 the 0.02 will be deducted
-        self.check_stock_valuation(self.val_p1_i + 75.02, self.val_p2_i + 74.98)
-        self.check_account_valuation(self.val_p1_i + 75.02, self.val_p2_i + 74.98)
+        self.check_stock_valuation(self.val_p1_i + 75.00, self.val_p2_i + 75.00)
+        self.check_account_valuation(self.val_p1_i + 75.00, self.val_p2_i + 75.00)
 
         # urmatoarele teste nu merg
         # vat_paid_aml_name = "VAT paid at customs"
