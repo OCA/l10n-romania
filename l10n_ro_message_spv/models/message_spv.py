@@ -124,7 +124,7 @@ class MessageSPV(models.Model):
             attachment = self.env["ir.attachment"].sudo().create(attachment_value)
 
             if message.attachment_id:
-                message.attachment_id.unlink()
+                message.attachment_id.sudo().unlink()
             message.write({"file_name": file_name, "attachment_id": attachment.id})
             if message.state == "draft":
                 message.state = "downloaded"
@@ -133,9 +133,10 @@ class MessageSPV(models.Model):
 
     def get_xml_fom_zip(self):
         for message in self:
-            if not message.attachment_id:
+            attachment = message.attachment_id.sudo()
+            if not attachment:
                 continue
-            zip_ref = zipfile.ZipFile(io.BytesIO(message.attachment_id.raw))
+            zip_ref = zipfile.ZipFile(io.BytesIO(attachment.raw))
             xml_file = [f for f in zip_ref.namelist() if "semnatura" not in f]
             file_name = f"{message.request_id}.xml"
             if xml_file:
@@ -358,20 +359,23 @@ class MessageSPV(models.Model):
                 continue
 
             move_obj = self.env["account.move"].with_company(message.company_id)
+            invoice_values = {
+                "name": "/",
+                "ref": message.ref,
+                "partner_id": message.partner_id.id,
+                "l10n_ro_edi_download": message.name,
+                "l10n_ro_edi_transaction": message.request_id,
+            }
+            if "extract_state" in move_obj._fields:
+                invoice_values["extract_state"] = "no_extract_requested"
             new_invoice = move_obj.with_context(default_move_type="in_invoice").create(
-                {
-                    "name": "/",
-                    "ref": message.ref,
-                    "partner_id": message.partner_id.id,
-                    "l10n_ro_edi_download": message.name,
-                    "l10n_ro_edi_transaction": message.request_id,
-                }
+                invoice_values
             )
             new_invoice = new_invoice.with_context(
                 disable_onchange_name_predictive=True
             )
             try:
-                new_invoice._extend_with_attachments(message.attachment_xml_id)
+                new_invoice._extend_with_attachments(message.attachment_xml_id.sudo())
             except Exception as e:
                 message.write({"state": "error", "error": str(e)})
                 continue
@@ -413,7 +417,7 @@ class MessageSPV(models.Model):
             if not message.attachment_xml_id:
                 message.get_xml_fom_zip()
 
-            xml_file = message.attachment_xml_id.raw
+            xml_file = message.attachment_xml_id.sudo().raw
             headers = {"Content-Type": "text/plain"}
             xml = xml_file
             val1 = "FACT1"
@@ -456,7 +460,7 @@ class MessageSPV(models.Model):
             if not message.attachment_xml_id:
                 message.get_xml_fom_zip()
 
-            xml_file = message.attachment_xml_id.raw
+            xml_file = message.attachment_xml_id.sudo().raw
             xml_tree = etree.fromstring(xml_file)
             additional_docs = xml_tree.findall("./{*}AdditionalDocumentReference")  # noqa: B950
             for document in additional_docs:
@@ -474,17 +478,21 @@ class MessageSPV(models.Model):
                     name = (attachment_name.text or "invoice").split("\\")[-1].split(
                         "/"
                     )[-1].split(".")[0] + ".pdf"
-                    attachment = self.env["ir.attachment"].create(
-                        {
-                            "name": name,
-                            "datas": text
-                            + "=" * (len(text) % 3),  # Fix incorrect padding
-                            "type": "binary",
-                            "mimetype": "application/pdf",
-                        }
+                    attachment = (
+                        self.env["ir.attachment"]
+                        .sudo()
+                        .create(
+                            {
+                                "name": name,
+                                "datas": text
+                                + "=" * (len(text) % 3),  # Fix incorrect padding
+                                "type": "binary",
+                                "mimetype": "application/pdf",
+                            }
+                        )
                     )
                     if message.attachment_embedded_pdf_id:
-                        message.attachment_embedded_pdf_id.unlink()
+                        message.attachment_embedded_pdf_id.sudo().unlink()
                     message.write({"attachment_embedded_pdf_id": attachment.id})
 
     def action_download_attachment(self):
@@ -526,7 +534,7 @@ class MessageSPV(models.Model):
                 message.write({"partner_id": partner.id})
 
     def refresh(self):
-        self.env.company.l10n_ro_download_message_spv()
+        self.env.company._l10n_ro_download_message_spv(no_days=1)
 
     def show_invoice(self):
         invoices = self.mapped("invoice_id")

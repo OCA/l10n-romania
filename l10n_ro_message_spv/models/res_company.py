@@ -18,6 +18,13 @@ class ResCompany(models.Model):
     def l10n_ro_download_message_spv(self):
         # method to be used in cron job to auto download e-invoices from ANAF
 
+        ro_companies = self or self.env.user.company_ids.filtered(
+            lambda c: c.l10n_ro_edi_access_token
+        )
+
+        return ro_companies._l10n_ro_download_message_spv()
+
+    def _l10n_ro_download_message_spv(self, no_days=60):
         def get_partner_from_cif(cif):
             domain = [
                 ("vat", "like", cif),
@@ -43,10 +50,6 @@ class ResCompany(models.Model):
                 )
             return partner
 
-        ro_companies = self or self.env.user.company_ids.filtered(
-            lambda c: c.l10n_ro_edi_access_token
-        )
-
         pattern_in = r"cif_emitent=(\d+)"
         pattern_out = r"cif_beneficiar=(\d+)"
 
@@ -54,7 +57,7 @@ class ResCompany(models.Model):
         obj_message_spv = self.env["l10n.ro.message.spv"]
         obj_edi_document = self.env["l10n_ro_edi.document"]
 
-        for company in ro_companies:
+        for company in self:
             # stergere erorile vechi
             domain = [("company_id", "=", company.id), ("message_type", "=", "error")]
             error_messages = obj_message_spv.with_company(company).search(domain)
@@ -62,7 +65,7 @@ class ResCompany(models.Model):
 
             # company_messages = company._l10n_ro_get_anaf_efactura_messages()
             company_messages = obj_edi_document._request_ciusro_download_messages_spv(
-                company
+                company, no_days=no_days
             )
             message_spv_obj = obj_message_spv.with_company(company).sudo()
 
@@ -114,67 +117,3 @@ class ResCompany(models.Model):
                         spv_message.get_invoice_from_move()
                         spv_message.download_from_spv()
         return True
-
-    # def _l10n_ro_get_anaf_efactura_messages(self, **kwargs):
-    #     zile = kwargs.get("zile", None)
-    #     start = kwargs.get("start", None)
-    #     end = kwargs.get("end", None)
-    #     pagina = kwargs.get("pagina", 1)
-    #     filtru = kwargs.get("filtru", "")
-    #     messages = kwargs.get("messages", [])
-    #
-    #     company_messages = []
-    #     anaf_config = self._l10n_ro_get_anaf_sync(scope="e-factura")
-    #     if not anaf_config:
-    #         _logger.warning("No ANAF configuration for company %s", self.name)
-    #         return company_messages
-    #     token = anaf_config.anaf_sync_id.access_token
-    #     if not token:
-    #         _logger.warning("No access token for company %s", self.name)
-    #         return company_messages
-    #     start_time = end_time = 0
-    #     now = then = datetime.now()
-    #     # no_days = int(zile or self.l10n_ro_download_einvoices_days or "60")
-    #     no_days = int(zile or 60)
-    #     if not start:
-    #         now = end and parser.parse(end) or datetime.now() - timedelta(seconds=60)
-    #         then = now - relativedelta(days=no_days)
-    #     elif start:
-    #         then = parser.parse(start)
-    #         now = end and parser.parse(end) or (then + relativedelta(days=no_days))
-    #         now = min(now, (datetime.now() - timedelta(seconds=60)))
-    #     start_time = str(then.timestamp() * 1e3).split(".")[0]
-    #     end_time = str(now.timestamp() * 1e3).split(".")[0]
-    #
-    #     params = {
-    #         "cif": self.partner_id.l10n_ro_vat_number,
-    #         "pagina": pagina,
-    #         "startTime": start_time,
-    #         "endTime": end_time,
-    #     }
-    #     if filtru:
-    #         params["filtru"] = filtru
-    #     content, status_code = anaf_config._l10n_ro_einvoice_call(
-    #         "/listaMesajePaginatieFactura", params, method="GET"
-    #     )
-    #     if status_code == 200:
-    #         doc = json.loads(content.decode("utf-8"))
-    #         company_messages = list(
-    #             filter(
-    #                 lambda m: m.get("cif") == self.partner_id.l10n_ro_vat_number,
-    #                 doc.get("mesaje") or [],
-    #             )
-    #         )
-    #     messages += company_messages
-    #     numar_total_pagini = doc.get("numar_total_pagini", 0)
-    #
-    #     if pagina < numar_total_pagini:
-    #         return self._l10n_ro_get_anaf_efactura_messages(
-    #             zile=zile,
-    #             start=start,
-    #             end=end,
-    #             pagina=pagina + 1,
-    #             filtru=filtru,
-    #             messages=messages,
-    #         )
-    #     return messages

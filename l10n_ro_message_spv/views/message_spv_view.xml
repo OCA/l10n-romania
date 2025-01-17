@@ -212,6 +212,8 @@
                         name="errors"
                         domain="[('message_type', '=', 'error')]"
                     />
+                    <separator />
+                    <filter string="Date" name="date" date="date" />
                 </group>
                 <group>
                     <filter
