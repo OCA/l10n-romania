@@ -817,24 +817,21 @@ class StockMove(models.Model):
         if self.product_id.cost_method != "average":
             return price_unit
 
-        account = (
-            self.product_id.l10n_ro_property_stock_valuation_account_id
-            or self.product_id.categ_id.property_stock_valuation_account_id
-        )
+        (
+            journal_id,
+            acc_src,
+            acc_dest,
+            acc_valuation,
+        ) = self._get_accounting_data_for_valuation()
+        account = acc_src if self._is_out() else acc_dest
 
-        if self._is_out():
-            if self.location_id.l10n_ro_property_stock_valuation_account_id:
-                account = self.location_id.l10n_ro_property_stock_valuation_account_id
-        elif self._is_in():
-            # ajustarea de inventar pozitiva sa se faca la pretul din locatie
+        if self._is_in:
             if self.price_unit:
-                return price_unit
-            if self.location_dest_id.l10n_ro_property_stock_valuation_account_id:
-                account = (
-                    self.location_dest_id.l10n_ro_property_stock_valuation_account_id
-                )
-        else:
+                return self.price_unit
+        elif not self._is_out():
             return price_unit
+
+        account = self.env["account.account"].browse(account)
 
         domain = [
             ("product_id", "=", self.product_id.id),
@@ -846,11 +843,32 @@ class StockMove(models.Model):
             ["value:sum", "quantity:sum"],
             ["product_id"],
         )
-        for valuation in valuations:
-            val = round(valuation["value"], 2)
-            quantity = round(valuation["quantity"], 2)
-            if quantity:
-                price_unit = val / quantity
+        if valuations:
+            for valuation in valuations:
+                val = round(valuation["value"], 2)
+                quantity = round(valuation["quantity"], 2)
+                if quantity:
+                    price_unit = val / quantity
+        else:
+            # se selecteaza valoarea din notele contabile account_move_line
+            sql = """
+            SELECT
+                SUM(credit) - SUM(debit) as value,
+                SUM(quantity) as quantity
+            FROM account_move_line join account_move on
+                 account_move_line.move_id = account_move.id
+            WHERE account_id = %(account)s
+                AND product_id = %(product)s
+                AND state = 'posted'
+            """
+            param = {
+                "account": account.id,
+                "product": self.product_id.id,
+            }
+            self.env.cr.execute(sql, param)
+            res = self.env.cr.dictfetchone()
+            if res and res["quantity"]:
+                price_unit = res["value"] / res["quantity"]
         return price_unit
 
     def _get_out_svl_vals(self, forced_quantity):
