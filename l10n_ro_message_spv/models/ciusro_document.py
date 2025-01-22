@@ -41,7 +41,10 @@ class L10nRoEdiDocument(models.Model):
 
         xml_file = next(file for file in zip_ref.namelist() if "semnatura" not in file)
         xml_bytes = zip_ref.open(xml_file)
-        root = etree.parse(xml_bytes)
+
+        recovering_parser = etree.XMLParser(recover=True)
+
+        root = etree.parse(xml_bytes, parser=recovering_parser)
         error_element = root.find(".//ns:Error", namespaces=ciusro_document.NS_HEADER)
         if error_element is not None:
             return {"error": error_element.get("errorMessage")}

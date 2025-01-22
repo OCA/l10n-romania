@@ -27,6 +27,8 @@ class MessageSPV(models.Model):
         [
             ("in_invoice", "In Invoice"),
             ("out_invoice", "Out Invoice"),
+            ("out_receipt", "Out Receipt"),
+            ("in_receipt", "In Receipt"),
             ("message", "Message"),
             ("error", "Error"),
         ],
@@ -147,7 +149,10 @@ class MessageSPV(models.Model):
                 continue
 
             # xml_bytes = zip_ref.open(xml_file)
-            root = etree.parse(xml_bytes)
+            recovering_parser = etree.XMLParser(recover=True)
+
+            root = etree.parse(xml_bytes, parser=recovering_parser)
+
             xml_file = etree.tostring(
                 root, pretty_print=True, xml_declaration=True, encoding="UTF-8"
             )
@@ -160,7 +165,22 @@ class MessageSPV(models.Model):
             if message.attachment_xml_id:
                 message.attachment_xml_id.sudo().unlink()
 
-            xml_tree = etree.fromstring(xml_file)
+            xml_tree = etree.fromstring(xml_file, parser=recovering_parser)
+
+            type_code_node = xml_tree.find("./{*}InvoiceTypeCode")
+
+            if type_code_node is not None:
+                type_code = type_code_node.text
+                if type_code == "380":
+                    message.message_type = "out_receipt"
+                elif type_code == "381":
+                    message.message_type = "in_receipt"
+                elif type_code == "751":
+                    if message.message_type == "in_invoice":
+                        message.message_type = "in_receipt"
+                    else:
+                        message.message_type = "out_receipt"
+
             ref_node = xml_tree.find("./{*}ID")
             ref = message.ref
             if ref_node is not None:
