@@ -107,7 +107,7 @@ class AccountMoveLine(models.Model):
                         account = ai
             fiscal_positions |= line.move_id.journal_id.l10n_ro_fiscal_position_id
             for fiscal_position in fiscal_positions:
-                account = fiscal_position.map_account(account)
+                account = fiscal_position.map_account(account or line.account_id)
 
             if account:
                 line.account_id = account
