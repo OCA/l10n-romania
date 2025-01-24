@@ -4,19 +4,16 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 16.0+e\n"
+"Project-Id-Version: Odoo Server 17.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-06-19 17:11+0000\n"
-"PO-Revision-Date: 2024-12-22 08:06+0000\n"
-"Last-Translator: Dorin Hongu <dhongu@gmail.com>\n"
+"POT-Creation-Date: 2025-01-24 08:22+0000\n"
+"PO-Revision-Date: 2025-01-24 08:22+0000\n"
+"Last-Translator: \n"
 "Language-Team: \n"
-"Language: ro\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
-"Plural-Forms: nplurals=3; plural=n==1 ? 0 : (n==0 || (n%100 > 0 && n%100 < "
-"20)) ? 1 : 2;\n"
-"X-Generator: Weblate 5.6.2\n"
+"Plural-Forms: \n"
 
 #. module: l10n_ro_message_spv
 #: model:ir.model.fields,field_description:l10n_ro_message_spv.field_l10n_ro_message_spv__attachment_anaf_pdf_id
@@ -100,7 +97,7 @@ msgstr "Nume afișat"
 #. module: l10n_ro_message_spv
 #: model:ir.model,name:l10n_ro_message_spv.model_l10n_ro_edi_document
 msgid "Document object for tracking CIUS-RO XML sent to E-Factura"
-msgstr ""
+msgstr "Document obiect pentru urmărirea XML-ului CIUS-RO trimis la E-Factura"
 
 #. module: l10n_ro_message_spv
 #: model:ir.model.fields.selection,name:l10n_ro_message_spv.selection__l10n_ro_message_spv__state__done
@@ -130,7 +127,7 @@ msgstr "Ciornă"
 #: model:ir.model.fields,help:l10n_ro_message_spv.field_account_move__l10n_ro_message_spv_ids
 #: model:ir.model.fields,help:l10n_ro_message_spv.field_account_payment__l10n_ro_message_spv_ids
 msgid "E-invoice messages related to this invoice."
-msgstr ""
+msgstr "Mesaje e-factură legate de această factură."
 
 #. module: l10n_ro_message_spv
 #: model:ir.model.fields,field_description:l10n_ro_message_spv.field_l10n_ro_message_spv__attachment_embedded_pdf_id
@@ -192,7 +189,7 @@ msgstr ""
 #: model:ir.model.fields,help:l10n_ro_message_spv.field_account_move__l10n_ro_edi_download
 #: model:ir.model.fields,help:l10n_ro_message_spv.field_account_payment__l10n_ro_edi_download
 msgid "ID used to download the ZIP file from ANAF."
-msgstr ""
+msgstr "ID folosit pentru a descărca fișierul ZIP de la ANAF."
 
 #. module: l10n_ro_message_spv
 #: model:ir.model.fields.selection,name:l10n_ro_message_spv.selection__l10n_ro_message_spv__message_type__in_invoice
@@ -207,7 +204,7 @@ msgstr "Facturi achiziție"
 #. module: l10n_ro_message_spv
 #: model:ir.model.fields.selection,name:l10n_ro_message_spv.selection__l10n_ro_message_spv__message_type__in_receipt
 msgid "In Receipt"
-msgstr ""
+msgstr "Factură achiziție cu bon"
 
 #. module: l10n_ro_message_spv
 #: model:ir.model.fields,field_description:l10n_ro_message_spv.field_l10n_ro_message_spv__invoice_id
@@ -218,17 +215,17 @@ msgstr "Factură"
 #. module: l10n_ro_message_spv
 #: model:ir.model.fields,field_description:l10n_ro_message_spv.field_l10n_ro_message_spv__invoice_amount
 msgid "Invoice Amount"
-msgstr ""
+msgstr "Valoare factură"
 
 #. module: l10n_ro_message_spv
 #: model:ir.model,name:l10n_ro_message_spv.model_account_move
 msgid "Journal Entry"
-msgstr ""
+msgstr "Înregistrare jurnal"
 
 #. module: l10n_ro_message_spv
 #: model:ir.model,name:l10n_ro_message_spv.model_account_move_line
 msgid "Journal Item"
-msgstr ""
+msgstr "Element jurnal"
 
 #. module: l10n_ro_message_spv
 #: model:ir.model.fields,field_description:l10n_ro_message_spv.field_l10n_ro_message_spv__write_uid
@@ -255,7 +252,7 @@ msgstr "ID mesaj"
 #. module: l10n_ro_message_spv
 #: model:ir.model.constraint,message:l10n_ro_message_spv.constraint_l10n_ro_message_spv_unique_name
 msgid "Message ID must be unique."
-msgstr ""
+msgstr "ID-ul mesajului trebuie să fie unic."
 
 #. module: l10n_ro_message_spv
 #: model:ir.model,name:l10n_ro_message_spv.model_l10n_ro_message_spv
@@ -281,7 +278,7 @@ msgstr "Facturi vânzare"
 #. module: l10n_ro_message_spv
 #: model:ir.model.fields.selection,name:l10n_ro_message_spv.selection__l10n_ro_message_spv__message_type__out_receipt
 msgid "Out Receipt"
-msgstr ""
+msgstr "Factură vânzare cu bon"
 
 #. module: l10n_ro_message_spv
 #: model:ir.model.fields,field_description:l10n_ro_message_spv.field_l10n_ro_message_spv__partner_id
@@ -325,12 +322,12 @@ msgstr "Facturare electronică România: Descarcă mesaj SPV"
 #. module: l10n_ro_message_spv
 #: model:ir.ui.menu,name:l10n_ro_message_spv.menu_l10n_ro_spv
 msgid "SPV"
-msgstr ""
+msgstr "SPV"
 
 #. module: l10n_ro_message_spv
 #: model_terms:ir.ui.view,arch_db:l10n_ro_message_spv.view_l10n_ro_message_spv_tree
 msgid "Show Invoice"
-msgstr ""
+msgstr "Arată factură"
 
 #. module: l10n_ro_message_spv
 #: model:ir.model.fields,field_description:l10n_ro_message_spv.field_l10n_ro_message_spv__state
@@ -343,14 +340,14 @@ msgstr "Stare"
 #: model:ir.model.fields,help:l10n_ro_message_spv.field_account_move__l10n_ro_edi_transaction
 #: model:ir.model.fields,help:l10n_ro_message_spv.field_account_payment__l10n_ro_edi_transaction
 msgid "Technical field used to track the status of a submission."
-msgstr ""
+msgstr "Câmp tehnic folosit pentru a urmări starea unei trimiteri."
 
 #. module: l10n_ro_message_spv
 #: model:ir.model.fields,field_description:l10n_ro_message_spv.field_account_bank_statement_line__l10n_ro_edi_transaction
 #: model:ir.model.fields,field_description:l10n_ro_message_spv.field_account_move__l10n_ro_edi_transaction
 #: model:ir.model.fields,field_description:l10n_ro_message_spv.field_account_payment__l10n_ro_edi_transaction
 msgid "Transaction ID (RO)"
-msgstr ""
+msgstr "ID tranzacție SPV"
 
 #. module: l10n_ro_message_spv
 #: model:ir.model.fields,field_description:l10n_ro_message_spv.field_l10n_ro_message_spv__message_type
@@ -361,16 +358,9 @@ msgstr "Tip"
 #. module: l10n_ro_message_spv
 #: model:ir.model.fields,field_description:l10n_ro_message_spv.field_account_move_line__l10n_ro_vendor_code
 msgid "Vendor Code"
-msgstr ""
+msgstr "Cod furnizor"
 
 #. module: l10n_ro_message_spv
 #: model:ir.model.fields,field_description:l10n_ro_message_spv.field_l10n_ro_message_spv__attachment_xml_id
 msgid "XML"
 msgstr ""
-
-#, python-format
-#~ msgid "ANAF configuration is missing."
-#~ msgstr "Lipsește configurarea ANAF."
-
-#~ msgid "Last Modified on"
-#~ msgstr "Ultima modificare la"
