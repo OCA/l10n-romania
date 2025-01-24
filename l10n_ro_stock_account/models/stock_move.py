@@ -641,7 +641,7 @@ class StockMove(models.Model):
         ) = super()._get_accounting_data_for_valuation()
         if not self.is_l10n_ro_record:
             return journal_id, acc_src, acc_dest, acc_valuation
-
+        self.log_account(acc_src, acc_dest, acc_valuation, journal_id)
         valued_type = self.env.context.get("valued_type", "indefinite")
         location_from = self.location_id
         location_to = self.location_dest_id
@@ -660,7 +660,7 @@ class StockMove(models.Model):
             if location_to_account:
                 # in cazul unui transfer intern se va face contare dintre
                 # contul de stoc si contul din locatie
-                if valued_type == "internal_transfer":
+                if valued_type in "internal_transfer":
                     acc_dest = location_to_account.id
                 else:
                     acc_valuation = location_to_account.id
@@ -728,7 +728,7 @@ class StockMove(models.Model):
                 acc_src, acc_dest, acc_valuation
             )
 
-        # self.log_account(acc_src, acc_dest, acc_valuation, journal_id)
+        self.log_account(acc_src, acc_dest, acc_valuation, journal_id)
 
         journal_id = self._l10n_ro_get_journal_id(
             location_from, location_to, journal_id
@@ -749,21 +749,21 @@ class StockMove(models.Model):
         #         acc_dest = acc_dest_rec.id
         #         acc_valuation = acc_valuation_rec.id
 
-        # self.log_account(acc_src, acc_dest, acc_valuation, journal_id)
+        self.log_account(acc_src, acc_dest, acc_valuation, journal_id)
         return journal_id, acc_src, acc_dest, acc_valuation
 
-    # def log_account(self, acc_src, acc_dest, acc_valuation, journal_id):
-    #     acc_dest_rec = self.env["account.account"].browse(acc_dest)
-    #     acc_src_rec = self.env["account.account"].browse(acc_src)
-    #     acc_valuation_rec = self.env["account.account"].browse(acc_valuation)
-    #     journal_rec = self.env["account.journal"].browse(journal_id)
-    #     _logger.info(
-    #         "Journal: %s, AccSrc: %s, AccDest: %s, AccVal: %s",
-    #         journal_rec.name,
-    #         acc_src_rec.code,
-    #         acc_dest_rec.code,
-    #         acc_valuation_rec.code,
-    #     )
+    def log_account(self, acc_src, acc_dest, acc_valuation, journal_id):
+        acc_dest_rec = self.env["account.account"].browse(acc_dest)
+        acc_src_rec = self.env["account.account"].browse(acc_src)
+        acc_valuation_rec = self.env["account.account"].browse(acc_valuation)
+        journal_rec = self.env["account.journal"].browse(journal_id)
+        _logger.info(
+            "Journal: %s, AccSrc: %s, AccDest: %s, AccVal: %s",
+            journal_rec.name,
+            acc_src_rec.code,
+            acc_dest_rec.code,
+            acc_valuation_rec.code,
+        )
 
     def _l10n_ro_get_account_cons(self, acc_src, acc_dest, acc_valuation):
         acc_dest_rec = self.env["account.account"].browse(acc_dest)
