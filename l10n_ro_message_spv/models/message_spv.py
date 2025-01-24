@@ -168,23 +168,26 @@ class MessageSPV(models.Model):
             xml_tree = etree.fromstring(xml_file, parser=recovering_parser)
 
             type_code_node = xml_tree.find("./{*}InvoiceTypeCode")
-
             if type_code_node is not None:
                 type_code = type_code_node.text
-                if type_code == "380":
-                    message.message_type = "out_receipt"
-                elif type_code == "381":
-                    message.message_type = "in_receipt"
-                elif type_code == "751":
+                if type_code == "751":
                     if message.message_type == "in_invoice":
                         message.message_type = "in_receipt"
-                    else:
+                    elif message.message_type == "out_invoice":
                         message.message_type = "out_receipt"
 
             ref_node = xml_tree.find("./{*}ID")
             ref = message.ref
             if ref_node is not None:
                 ref = ref_node.text
+
+            currency = message.currency_id
+            currency_node = xml_tree.find("./{*}DocumentCurrencyCode")
+            if currency_node is not None:
+                currency_code = currency_node.text
+                currency = self.env["res.currency"].search(
+                    [("name", "=", currency_code)]
+                )
 
             amount = False
             amount_note = xml_tree.find(
@@ -205,6 +208,7 @@ class MessageSPV(models.Model):
                     "attachment_xml_id": attachment_xml.id,
                     "ref": ref,
                     "amount": amount,
+                    "currency_id": currency.id or message.currency_id.id,
                 }
             )
 
