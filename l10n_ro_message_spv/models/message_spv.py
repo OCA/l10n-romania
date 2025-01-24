@@ -184,7 +184,6 @@ class MessageSPV(models.Model):
             currency = message.currency_id
             currency_node = xml_tree.find("./{*}DocumentCurrencyCode")
             if currency_node is not None:
-                ref = currency_node.text
                 currency_code = currency_node.text
                 currency = self.env["res.currency"].search(
                     [("name", "=", currency_code)]
