@@ -817,6 +817,12 @@ class StockMove(models.Model):
         if self.product_id.cost_method != "average":
             return price_unit
 
+        if self._is_in:
+            if self.price_unit:
+                return self.price_unit
+        elif not self._is_out():
+            return price_unit
+
         (
             journal_id,
             acc_src,
@@ -824,12 +830,6 @@ class StockMove(models.Model):
             acc_valuation,
         ) = self._get_accounting_data_for_valuation()
         account = acc_src if self._is_out() else acc_dest
-
-        if self._is_in:
-            if self.price_unit:
-                return self.price_unit
-        elif not self._is_out():
-            return price_unit
 
         account = self.env["account.account"].browse(account)
 
@@ -869,6 +869,7 @@ class StockMove(models.Model):
             res = self.env.cr.dictfetchone()
             if res and res["quantity"]:
                 price_unit = res["value"] / res["quantity"]
+        self.write({"price_unit": price_unit})
         return price_unit
 
     def _get_out_svl_vals(self, forced_quantity):
