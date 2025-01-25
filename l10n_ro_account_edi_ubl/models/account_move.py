@@ -140,7 +140,7 @@ class AccountMove(models.Model):
 
         return super().button_cancel_posted_moves()
 
-    def _retry_edi_documents_error_hook(self):
+    def action_retry_edi_documents_error(self):
         # OVERRIDE
         # For RO, remove the l10n_ro_edi_transaction to force re-send
         # (otherwise this only triggers a check_status)
@@ -157,7 +157,7 @@ class AccountMove(models.Model):
                     edi_document.attachment_id = False
                     old_attachment.sudo().unlink()
 
-        return super()._retry_edi_documents_error_hook()
+        return super().action_retry_edi_documents_error()
 
     def action_process_edi_web_services(self):
         if len(self) == 1:
