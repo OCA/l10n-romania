@@ -57,6 +57,8 @@ class AccountEdiXmlCIUSRO(models.Model):
                 vals["tax_scheme_id"] = "!= VAT"
             if not partner.is_company and partner.l10n_ro_edi_ubl_no_send_cnp:
                 vals["company_id"] = "0000000000000"
+            if not partner.is_company:
+                vals["tax_scheme_id"] = "!= VAT"
         return vals_list
 
     def _get_partner_party_legal_entity_vals_list(self, partner):
