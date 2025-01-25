@@ -22,6 +22,7 @@ class AccountEdiXmlCIUSRO(models.Model):
     def _get_partner_address_vals(self, partner):
         # EXTENDS account.edi.xml.ubl_21
         vals = super()._get_partner_address_vals(partner)
+        partner = partner.commercial_partner_id
         # CIUS-RO country_subentity formed as country_code + state code
         if partner and partner.state_id:
             vals["country_subentity"] = (
@@ -30,6 +31,8 @@ class AccountEdiXmlCIUSRO(models.Model):
         # CIUS-RO replace spaces in city -- for Sector 1 -> Sector1
         if partner.state_id.code == "B" and "sector" in (partner.city or "").lower():
             vals["city_name"] = partner.city.upper().replace(" ", "")
+        if not partner.is_company and partner.l10n_ro_edi_ubl_no_send_cnp:
+            vals["endpoint_id"] = "0000000000000"
         return vals
 
     def _get_partner_party_vals(self, partner, role):
