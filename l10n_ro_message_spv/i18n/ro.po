@@ -80,6 +80,7 @@ msgstr "Monedă"
 
 #. module: l10n_ro_message_spv
 #: model:ir.model.fields,field_description:l10n_ro_message_spv.field_l10n_ro_message_spv__date
+#: model_terms:ir.ui.view,arch_db:l10n_ro_message_spv.view_l10n_ro_message_spv_search
 msgid "Date"
 msgstr "Dată"
 
@@ -289,8 +290,7 @@ msgid "Reference"
 msgstr "Referință"
 
 #. module: l10n_ro_message_spv
-#. odoo-javascript
-#: code:addons/l10n_ro_message_spv/static/src/js/message_spv.xml:0
+#: model_terms:ir.ui.view,arch_db:l10n_ro_message_spv.view_l10n_ro_message_spv_tree
 msgid "Refresh"
 msgstr "Actualizare"
 
