@@ -61,6 +61,17 @@ class AccountMove(models.Model):
 
         return res
 
+    def unlink(self):
+        domain = [("invoice_id", "in", self.ids)]
+        message_spv_ids = self.env["l10n.ro.message.spv"].search(domain)
+        attachments = self.env["ir.attachment"]
+        attachments += message_spv_ids.mapped("attachment_id")
+        attachments += message_spv_ids.mapped("attachment_xml_id")
+        attachments += message_spv_ids.mapped("attachment_anaf_pdf_id")
+        attachments += message_spv_ids.mapped("attachment_embedded_pdf_id")
+        attachments.sudo().write({"res_id": False, "res_model": False})
+        return super().unlink()
+
 
 class AccountMoveLine(models.Model):
     _inherit = "account.move.line"
@@ -86,14 +97,3 @@ class AccountMoveLine(models.Model):
             return super()._get_computed_price_unit()
         else:
             return self.price_unit
-
-    def unlink(self):
-        domain = [("invoice_id", "in", self.ids)]
-        message_spv_ids = self.env["l10n.ro.message.spv"].search(domain)
-        attachments = self.env["ir.attachment"]
-        attachments += message_spv_ids.mapped("attachment_id")
-        attachments += message_spv_ids.mapped("attachment_xml_id")
-        attachments += message_spv_ids.mapped("attachment_anaf_pdf_id")
-        attachments += message_spv_ids.mapped("attachment_embedded_pdf_id")
-        attachments.sudo().write({"res_id": False, "res_model": False})
-        return super().unlink()
