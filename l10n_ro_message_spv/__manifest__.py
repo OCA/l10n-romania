@@ -7,9 +7,7 @@
     "countries": ["ro"],
     "summary": "Romania - Mesaje SPV",
     "depends": [
-        # "l10n_ro_account_anaf_sync",
         "l10n_ro_edi",
-        # "l10n_ro_efactura", # din 18.0 e inclus in l10n_ro_edi
         "account_edi",
     ],
     "data": [
@@ -19,12 +17,6 @@
         "views/account_invoice.xml",
         "views/message_spv_view.xml",
     ],
-    "assets": {
-        "web.assets_backend": [
-            "l10n_ro_message_spv/static/src/js/message_spv.esm.js",
-            "l10n_ro_message_spv/static/src/js/message_spv.xml",
-        ],
-    },
     "license": "AGPL-3",
     "version": "18.0.1.2.0",
     "author": "Terrabit," "Odoo Community Association (OCA)",
