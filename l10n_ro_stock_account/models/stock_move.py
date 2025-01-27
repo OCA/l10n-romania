@@ -891,7 +891,8 @@ class StockMove(models.Model):
                     move.id == stock_move_id
                     and move.product_id.cost_method == "average"
                 ):
-                    svl_value["unit_cost"] = move._get_price_unit()
+                    unit_cost = move._get_price_unit()
+                    svl_value["unit_cost"] = unit_cost[svl_value("lot_id")]
                     svl_value["value"] = svl_value["quantity"] * svl_value["unit_cost"]
                     _logger.debug(svl_value)
 
