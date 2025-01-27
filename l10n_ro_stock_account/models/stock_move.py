@@ -819,7 +819,7 @@ class StockMove(models.Model):
 
         if self._is_in:
             if self.price_unit:
-                return self.price_unit
+                return price_unit
         elif not self._is_out():
             return price_unit
 
@@ -868,8 +868,8 @@ class StockMove(models.Model):
             self.env.cr.execute(sql, param)
             res = self.env.cr.dictfetchone()
             if res and res["quantity"]:
-                price_unit = res["value"] / res["quantity"]
-        self.write({"price_unit": price_unit})
+                price = res["value"] / res["quantity"]
+                self.write({"price_unit": price})
         return price_unit
 
     def _get_out_svl_vals(self, forced_quantity):
