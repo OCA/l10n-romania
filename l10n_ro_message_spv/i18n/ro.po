@@ -24,13 +24,13 @@ msgstr "PDF ANAF"
 #. module: l10n_ro_message_spv
 #: model_terms:ir.ui.view,arch_db:l10n_ro_message_spv.view_move_form
 msgid "ANAF SPV Messages"
-msgstr ""
+msgstr "ANAF Mesaje SPV"
 
 #. module: l10n_ro_message_spv
 #. odoo-python
 #: code:addons/l10n_ro_message_spv/models/message_spv.py:0
 msgid "ANAF service unable to generate PDF from this XML."
-msgstr ""
+msgstr "Serviciul ANAF nu poate să genereze PFD pentru acest XML."
 
 #. module: l10n_ro_message_spv
 #: model:ir.model.fields,field_description:l10n_ro_message_spv.field_l10n_ro_message_spv__amount
@@ -80,6 +80,7 @@ msgstr "Monedă"
 
 #. module: l10n_ro_message_spv
 #: model:ir.model.fields,field_description:l10n_ro_message_spv.field_l10n_ro_message_spv__date
+#: model_terms:ir.ui.view,arch_db:l10n_ro_message_spv.view_l10n_ro_message_spv_search
 msgid "Date"
 msgstr "Dată"
 
@@ -96,7 +97,7 @@ msgstr "Nume afișat"
 #. module: l10n_ro_message_spv
 #: model:ir.model,name:l10n_ro_message_spv.model_l10n_ro_edi_document
 msgid "Document object for tracking CIUS-RO XML sent to E-Factura"
-msgstr ""
+msgstr "Document obiect pentru urmărirea XML-ului CIUS-RO trimis la E-Factura"
 
 #. module: l10n_ro_message_spv
 #: model:ir.model.fields.selection,name:l10n_ro_message_spv.selection__l10n_ro_message_spv__state__done
@@ -125,7 +126,7 @@ msgstr "Ciornă"
 #: model:ir.model.fields,help:l10n_ro_message_spv.field_account_bank_statement_line__l10n_ro_message_spv_ids
 #: model:ir.model.fields,help:l10n_ro_message_spv.field_account_move__l10n_ro_message_spv_ids
 msgid "E-invoice messages related to this invoice."
-msgstr ""
+msgstr "Mesaje e-factură legate de această factură."
 
 #. module: l10n_ro_message_spv
 #: model:ir.model.fields,field_description:l10n_ro_message_spv.field_l10n_ro_message_spv__attachment_embedded_pdf_id
@@ -185,7 +186,7 @@ msgstr ""
 #: model:ir.model.fields,help:l10n_ro_message_spv.field_account_bank_statement_line__l10n_ro_edi_download
 #: model:ir.model.fields,help:l10n_ro_message_spv.field_account_move__l10n_ro_edi_download
 msgid "ID used to download the ZIP file from ANAF."
-msgstr ""
+msgstr "ID folosit pentru a descărca fișierul ZIP de la ANAF."
 
 #. module: l10n_ro_message_spv
 #: model:ir.model.fields.selection,name:l10n_ro_message_spv.selection__l10n_ro_message_spv__message_type__in_invoice
@@ -198,6 +199,11 @@ msgid "In Invoices"
 msgstr "Facturi achiziție"
 
 #. module: l10n_ro_message_spv
+#: model:ir.model.fields.selection,name:l10n_ro_message_spv.selection__l10n_ro_message_spv__message_type__in_receipt
+msgid "In Receipt"
+msgstr "Factură achiziție cu bon"
+
+#. module: l10n_ro_message_spv
 #: model:ir.model.fields,field_description:l10n_ro_message_spv.field_l10n_ro_message_spv__invoice_id
 #: model:ir.model.fields.selection,name:l10n_ro_message_spv.selection__l10n_ro_message_spv__state__invoice
 msgid "Invoice"
@@ -206,7 +212,7 @@ msgstr "Factură"
 #. module: l10n_ro_message_spv
 #: model:ir.model.fields,field_description:l10n_ro_message_spv.field_l10n_ro_message_spv__invoice_amount
 msgid "Invoice Amount"
-msgstr ""
+msgstr "Valoare factură"
 
 #. module: l10n_ro_message_spv
 #: model:ir.model,name:l10n_ro_message_spv.model_account_move
@@ -216,7 +222,7 @@ msgstr ""
 #. module: l10n_ro_message_spv
 #: model:ir.model,name:l10n_ro_message_spv.model_account_move_line
 msgid "Journal Item"
-msgstr ""
+msgstr "Element jurnal"
 
 #. module: l10n_ro_message_spv
 #: model:ir.model.fields,field_description:l10n_ro_message_spv.field_l10n_ro_message_spv__write_uid
@@ -243,7 +249,7 @@ msgstr "ID mesaj"
 #. module: l10n_ro_message_spv
 #: model:ir.model.constraint,message:l10n_ro_message_spv.constraint_l10n_ro_message_spv_unique_name
 msgid "Message ID must be unique."
-msgstr ""
+msgstr "ID-ul mesajului trebuie să fie unic."
 
 #. module: l10n_ro_message_spv
 #: model:ir.model,name:l10n_ro_message_spv.model_l10n_ro_message_spv
@@ -267,6 +273,11 @@ msgid "Out Invoices"
 msgstr "Facturi vânzare"
 
 #. module: l10n_ro_message_spv
+#: model:ir.model.fields.selection,name:l10n_ro_message_spv.selection__l10n_ro_message_spv__message_type__out_receipt
+msgid "Out Receipt"
+msgstr "Factură vânzare cu bon"
+
+#. module: l10n_ro_message_spv
 #: model:ir.model.fields,field_description:l10n_ro_message_spv.field_l10n_ro_message_spv__partner_id
 #: model_terms:ir.ui.view,arch_db:l10n_ro_message_spv.view_l10n_ro_message_spv_search
 msgid "Partner"
@@ -279,10 +290,9 @@ msgid "Reference"
 msgstr "Referință"
 
 #. module: l10n_ro_message_spv
-#. odoo-javascript
-#: code:addons/l10n_ro_message_spv/static/src/js/message_spv.xml:0
+#: model_terms:ir.ui.view,arch_db:l10n_ro_message_spv.view_l10n_ro_message_spv_tree
 msgid "Refresh"
-msgstr ""
+msgstr "Actualizare"
 
 #. module: l10n_ro_message_spv
 #: model_terms:ir.ui.view,arch_db:l10n_ro_message_spv.view_l10n_ro_message_spv_form
@@ -308,7 +318,12 @@ msgstr "Facturare electronică România: Descarcă mesaj SPV"
 #. module: l10n_ro_message_spv
 #: model:ir.ui.menu,name:l10n_ro_message_spv.menu_l10n_ro_spv
 msgid "SPV"
-msgstr ""
+msgstr "SPV"
+
+#. module: l10n_ro_message_spv
+#: model_terms:ir.ui.view,arch_db:l10n_ro_message_spv.view_l10n_ro_message_spv_tree
+msgid "Show Invoice"
+msgstr "Arată factură"
 
 #. module: l10n_ro_message_spv
 #: model:ir.model.fields,field_description:l10n_ro_message_spv.field_l10n_ro_message_spv__state
@@ -320,13 +335,13 @@ msgstr "Stare"
 #: model:ir.model.fields,help:l10n_ro_message_spv.field_account_bank_statement_line__l10n_ro_edi_transaction
 #: model:ir.model.fields,help:l10n_ro_message_spv.field_account_move__l10n_ro_edi_transaction
 msgid "Technical field used to track the status of a submission."
-msgstr ""
+msgstr "Câmp tehnic folosit pentru a urmări starea unei trimiteri."
 
 #. module: l10n_ro_message_spv
 #: model:ir.model.fields,field_description:l10n_ro_message_spv.field_account_bank_statement_line__l10n_ro_edi_transaction
 #: model:ir.model.fields,field_description:l10n_ro_message_spv.field_account_move__l10n_ro_edi_transaction
 msgid "Transaction ID (RO)"
-msgstr ""
+msgstr "ID tranzacție SPV"
 
 #. module: l10n_ro_message_spv
 #: model:ir.model.fields,field_description:l10n_ro_message_spv.field_l10n_ro_message_spv__message_type
@@ -337,7 +352,7 @@ msgstr "Tip"
 #. module: l10n_ro_message_spv
 #: model:ir.model.fields,field_description:l10n_ro_message_spv.field_account_move_line__l10n_ro_vendor_code
 msgid "Vendor Code"
-msgstr ""
+msgstr "Cod furnizor"
 
 #. module: l10n_ro_message_spv
 #: model:ir.model.fields,field_description:l10n_ro_message_spv.field_l10n_ro_message_spv__attachment_xml_id
