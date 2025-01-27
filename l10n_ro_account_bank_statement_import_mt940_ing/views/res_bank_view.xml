@@ -14,12 +14,12 @@
                 </p>
                 <p class="text-muted">
                     INCASARE[\n]?[ ]*(?P&amp;lt;<code
-                    >partner_name</code>&amp;gt;.*)[ ](?P&amp;lt;<code
-                    >vat</code>&amp;gt;[A-Z]{0,}[0-9]{8})?[ ](?P&amp;lt;<code
-                    >account_number</code>&amp;gt;[A-Z]{2}[0-9]{2}[A-Z]{4}\w{16}).*
+                >partner_name</code>&amp;gt;.*)[ ](?P&amp;lt;<code
+                >vat</code>&amp;gt;[A-Z]{0,}[0-9]{8})?[ ](?P&amp;lt;<code
+                >account_number</code>&amp;gt;[A-Z]{2}[0-9]{2}[A-Z]{4}\w{16}).*
                     <br />
                     (.*)(?P&amp;lt;<code
-                    >account_number</code>&amp;gt;[A-Z]{2}[0-9]{2}[A-Z]{4}\w{16}).*</p>
+                >account_number</code>&amp;gt;[A-Z]{2}[0-9]{2}[A-Z]{4}\w{16}).*</p>
             </field>
         </field>
     </record>
