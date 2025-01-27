@@ -290,11 +290,11 @@ class MT940Parser(models.AbstractModel):
         tag_match = re.match(self.get_tag_regex(), line)
         if tag_match:
             tag = tag_match.group(0).strip(":")
-            if not hasattr(self, "handle_tag_%s" % tag):  # pragma: no cover
-                logging.error("Unknown tag %s", tag)
+            if not hasattr(self, f"handle_tag_{tag}"):  # pragma: no cover
+                logging.error(f"Unknown tag {tag}")
                 logging.error(line)
                 return
-            handler = getattr(self, "handle_tag_%s" % tag)
+            handler = getattr(self, f"handle_tag_{tag}")
             result = handler(line[tag_match.end() :], result)
         return result
 
