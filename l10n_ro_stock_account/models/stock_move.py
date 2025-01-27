@@ -812,6 +812,10 @@ class StockMove(models.Model):
         price_unit = super()._get_price_unit()
         if not self.is_l10n_ro_record:
             return price_unit
+
+        if self.product_id.lot_valuated:
+            return price_unit
+
         if self.origin_returned_move_id:
             return price_unit
         if self.product_id.cost_method != "average":
@@ -848,7 +852,8 @@ class StockMove(models.Model):
                 val = round(valuation["value"], 2)
                 quantity = round(valuation["quantity"], 2)
                 if quantity:
-                    price_unit = val / quantity
+                    price = val / quantity
+                    return {self.env["stock.lot"]: price}
         else:
             # se selecteaza valoarea din notele contabile account_move_line
             sql = """
@@ -870,6 +875,7 @@ class StockMove(models.Model):
             if res and res["quantity"]:
                 price = res["value"] / res["quantity"]
                 self.write({"price_unit": price})
+                return {self.env["stock.lot"]: price}
         return price_unit
 
     def _get_out_svl_vals(self, forced_quantity):
