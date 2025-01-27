@@ -24,7 +24,7 @@ class ResPartner(models.Model):
         for partner in self:
             l10n_ro_vat_number = ""
             if partner.vat:
-                l10n_ro_vat_number = self._split_vat(partner.vat)[1]
+                l10n_ro_vat_number = self._split_vat_and_mapped_country(partner.vat)[1]
             partner.l10n_ro_vat_number = l10n_ro_vat_number
 
     def _l10n_ro_map_vat_country_code(self, country_code):
@@ -37,7 +37,7 @@ class ResPartner(models.Model):
         }
         return country_code_map.get(country_code, country_code)
 
-    def _split_vat(self, vat):
+    def _split_vat_and_mapped_country(self, vat):
         # Allowing setting the vat without country code
         vat_country = l10n_ro_vat_number = ""
         if vat and vat.isdigit():
@@ -48,7 +48,7 @@ class ResPartner(models.Model):
                     partner.country_id.code.upper()
                 ).lower()
         else:
-            vat_country, l10n_ro_vat_number = super()._split_vat(vat)
+            vat_country, l10n_ro_vat_number = self._split_vat(vat)
         return vat_country, l10n_ro_vat_number
 
     @api.onchange("l10n_ro_vat_subjected")
@@ -65,5 +65,8 @@ class ResPartner(models.Model):
                     and not self.vat.isdigit()
                     and not self.l10n_ro_vat_subjected
                 ):
-                    vat_country, l10n_ro_vat_number = self._split_vat(self.vat)
+                    (
+                        vat_country,
+                        l10n_ro_vat_number,
+                    ) = self._split_vat_and_mapped_country(self.vat)
                     self.vat = l10n_ro_vat_number

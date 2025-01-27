@@ -46,7 +46,7 @@ msgstr "Element jurnal"
 #. module: l10n_ro_stock_account_notice
 #: model:ir.model,name:l10n_ro_stock_account_notice.model_stock_picking_type
 msgid "Picking Type"
-msgstr ""
+msgstr "Tip ridicare"
 
 #. module: l10n_ro_stock_account_notice
 #: model:ir.model,name:l10n_ro_stock_account_notice.model_product_template
@@ -81,4 +81,4 @@ msgstr ""
 #. module: l10n_ro_stock_account_notice
 #: model:ir.model,name:l10n_ro_stock_account_notice.model_stock_picking
 msgid "Transfer"
-msgstr ""
+msgstr "Transfer"
