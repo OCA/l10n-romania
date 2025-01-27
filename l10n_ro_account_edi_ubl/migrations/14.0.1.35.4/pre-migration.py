@@ -22,7 +22,15 @@ except ImportError:
 
 @openupgrade.migrate(use_env=True)
 def migrate(env, version):
-
+    if not openupgrade.column_exists(
+        env.cr, "res_partner", "l10n_ro_edi_ubl_no_send_cnp"
+    ):
+        env.cr.execute(
+            """
+            ALTER TABLE res_partner
+            ADD COLUMN l10n_ro_edi_ubl_no_send_cnp boolean;
+            """
+        )
     openupgrade.logged_query(
         env.cr,
         """
