@@ -105,9 +105,9 @@ class AccountMoveLine(models.Model):
                     ai = location.l10n_ro_property_account_income_location_id
                     if ai:
                         account = ai
-            fiscal_positions |= line.move_id.journal_id.l10n_ro_fiscal_position_id
-            for fiscal_position in fiscal_positions:
-                account = fiscal_position.map_account(account or line.account_id)
+            # fiscal_positions |= line.move_id.journal_id.l10n_ro_fiscal_position_id
+            # for fiscal_position in fiscal_positions:
+            #     account = fiscal_position.map_account(account or line.account_id)
 
             if account:
                 line.account_id = account
@@ -121,3 +121,18 @@ class AccountMoveLine(models.Model):
     def _get_account_change_stock_moves_sale(self):
         sales = self.sale_line_ids.filtered(lambda s: s.move_ids)
         return sales.move_ids
+
+    def _prepare_create_values(self, vals_list):
+        result_vals_list = super()._prepare_create_values(vals_list)
+        for vals in result_vals_list:
+            move_id = vals.get("move_id", False)
+            account_id = vals.get("account_id", False)
+            if move_id and account_id:
+                move = self.env["account.move"].browse(move_id)
+                account = self.env["account.account"].browse(account_id)
+                journal = move.journal_id
+                fiscal_position = journal.l10n_ro_fiscal_position_id
+                if fiscal_position:
+                    account = fiscal_position.map_account(account)
+                    vals["account_id"] = account.id
+        return result_vals_list
