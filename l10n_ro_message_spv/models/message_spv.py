@@ -329,7 +329,7 @@ class MessageSPV(models.Model):
                     move_type = ("out_invoice", "out_refund")
 
                 domain = [
-                    ("partner_id", "=", message.partner_id.id),
+                    ("commercial_partner_id", "=", message.partner_id.id),
                     ("ref", "=", message.ref),
                     ("move_type", "in", move_type),
                 ]
@@ -409,7 +409,7 @@ class MessageSPV(models.Model):
                     ("ref", "=", new_invoice.ref),
                     ("move_type", "=", "in_invoice"),
                     ("state", "=", "posted"),
-                    ("partner_id", "=", new_invoice.partner_id.id),
+                    ("commercial_partner_id", "=", new_invoice.partner_id.id),
                     ("id", "!=", new_invoice.id),
                 ],
                 limit=1,
