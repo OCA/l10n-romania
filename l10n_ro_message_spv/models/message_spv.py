@@ -289,7 +289,13 @@ class MessageSPV(models.Model):
                 )
                 if not edi_doc:
                     continue
-                message.write({"invoice_id": edi_doc.invoice_id.id})
+                message.write({
+                    "invoice_id": edi_doc.invoice_id.id,
+                })
+                edi_doc.write({
+                    "key_loading": edi_doc.request_id,
+                    "l10n_ro_edi_state": "invoice_sent",
+                })
                 domain = [
                     ("res_model", "=", "account.move"),
                     (
