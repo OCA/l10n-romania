@@ -39,11 +39,7 @@ repos:
         language: fail
         files: '[a-zA-Z0-9_]*/i18n/en\.po$'
   - repo: https://github.com/sbidoul/whool
-<<<<<<< before updating
-    rev: v1.0.1
-=======
     rev: v1.2
->>>>>>> after updating
     hooks:
       - id: whool-init
   - repo: https://github.com/oca/maintainer-tools
@@ -70,12 +66,7 @@ repos:
       - id: oca-checks-po
         args:
           - --disable=po-pretty-format
-<<<<<<< before updating
-  - repo: https://github.com/pre-commit/mirrors-prettier
-    rev: v4.0.0-alpha.8
-=======
   - repo: local
->>>>>>> after updating
     hooks:
       - id: prettier
         name: prettier (with plugin-xml)
@@ -90,15 +81,7 @@ repos:
         additional_dependencies:
           - "prettier@2.7.1"
           - "@prettier/plugin-xml@2.2.0"
-<<<<<<< before updating
-        args:
-          - --plugin=@prettier/plugin-xml
-        files: \.(css|htm|html|js|json|jsx|less|md|scss|toml|ts|xml|yaml|yml)$
-  - repo: https://github.com/pre-commit/mirrors-eslint
-    rev: v8.50.0
-=======
   - repo: local
->>>>>>> after updating
     hooks:
       - id: eslint
         name: eslint
