@@ -32,6 +32,20 @@ msgid "Attachment Count"
 msgstr ""
 
 #. module: l10n_ro_dvi
+#. odoo-python
+#: code:addons/l10n_ro_dvi/models/stock_landed_cost.py:0
+#, python-format
+msgid "BASE paid at customs"
+msgstr ""
+
+#. module: l10n_ro_dvi
+#. odoo-python
+#: code:addons/l10n_ro_dvi/models/stock_landed_cost.py:0
+#, python-format
+msgid "BASE paid at customs expense"
+msgstr ""
+
+#. module: l10n_ro_dvi
 #: model:ir.model.fields,field_description:l10n_ro_dvi.field_l10n_ro_account_dvi_line__price_subtotal
 msgid "Balance"
 msgstr ""
