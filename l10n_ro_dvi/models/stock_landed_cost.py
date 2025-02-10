@@ -82,9 +82,15 @@ class LandedCost(models.Model):
                     tax_repartition_line = tax.invoice_repartition_line_ids.filtered(
                         lambda r: r.repartition_type == "tax"
                     )
+                    base_repartition_line = tax.invoice_repartition_line_ids.filtered(
+                        lambda r: r.repartition_type == "base"
+                    )
                 else:
                     tax_repartition_line = tax.refund_repartition_line_ids.filtered(
                         lambda r: r.repartition_type == "tax"
+                    )
+                    base_repartition_line = tax.refund_repartition_line_ids.filtered(
+                        lambda r: r.repartition_type == "base"
                     )
                 accounts_data = (
                     customs_duty_product.product_tmpl_id.get_product_accounts()
@@ -92,6 +98,12 @@ class LandedCost(models.Model):
                 tax_values = cost.l10n_ro_tax_id.compute_all(
                     cost.l10n_ro_base_tax_value
                 )
+                if self.env.company.account_cash_basis_base_account_id:
+                    base_account_id = (
+                        self.env.company.account_cash_basis_base_account_id.id
+                    )
+                else:
+                    base_account_id = (tax_values["taxes"][0]["account_id"],)
                 aml = [
                     {
                         "name": _("VAT paid at customs"),
@@ -111,9 +123,37 @@ class LandedCost(models.Model):
                         "account_id": accounts_data["expense"].id,
                         "move_id": cost.account_move_id.id,
                     },
+                    {
+                        "name": _("BASE paid at customs"),
+                        "debit": round(cost.l10n_ro_tax_value * 100 / tax.amount, 2),
+                        "credit": 0.0,
+                        "account_id": base_account_id,
+                        "move_id": cost.account_move_id.id,
+                        "tax_line_id": tax.id,
+                        # "tax_repartition_line_id": tax_repartition_line.id,
+                        "tax_tag_ids": [(6, 0, base_repartition_line.tag_ids.ids)],
+                        "tax_base_amount": cost.l10n_ro_base_tax_value,
+                    },
+                    {
+                        "name": _("BASE paid at customs expense"),
+                        "debit": -round(cost.l10n_ro_tax_value * 100 / tax.amount, 2),
+                        "credit": 0.0,
+                        "amount_currency": -round(
+                            cost.l10n_ro_tax_value * 100 / tax.amount, 2
+                        ),
+                        "account_id": base_account_id,
+                        "move_id": cost.account_move_id.id,
+                    },
                 ]
                 cost.account_move_id.write(
-                    {"line_ids": [(0, 0, aml[0]), (0, 0, aml[1])]}
+                    {
+                        "line_ids": [
+                            (0, 0, aml[0]),
+                            (0, 0, aml[1]),
+                            (0, 0, aml[2]),
+                            (0, 0, aml[3]),
+                        ]
+                    }
                 )
                 # self.env["account.move.line"].create(aml)
                 if cost.account_move_id and cost.account_move_id.state != "posted":
