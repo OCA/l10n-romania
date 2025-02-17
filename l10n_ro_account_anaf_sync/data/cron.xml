@@ -1,5 +1,4 @@
 <?xml version="1.0" ?>
-
 <odoo>
     <record model="ir.cron" id="ir_cron_auto_update_access_token">
         <field name="name">ANAF Access token auto update</field>
@@ -7,7 +6,10 @@
         <field name="interval_type">days</field>
         <field name="numbercall">-1</field>
         <field name="state">code</field>
-        <field name="nextcall" eval="(DateTime.now() + relativedelta(days=1)).strftime('%Y-%m-%d 00:02:00')"/>
+        <field
+            name="nextcall"
+            eval="(DateTime.now() + relativedelta(days=1)).strftime('%Y-%m-%d 00:02:00')"
+        />
         <field name="doall" eval="False" />
         <field
             name="model_id"
