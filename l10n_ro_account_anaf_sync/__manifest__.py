@@ -9,6 +9,7 @@
     "data": [
         "security/account_security.xml",
         "security/ir.model.access.csv",
+        "data/cron.xml",
         "views/l10n_ro_account_anaf_sync_view.xml",
         "views/res_config_view.xml",
         "views/template.xml",

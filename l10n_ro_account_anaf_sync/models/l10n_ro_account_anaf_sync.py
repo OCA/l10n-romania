@@ -2,7 +2,7 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
 import logging
-from datetime import datetime
+from datetime import datetime, timedelta
 
 import jwt
 import requests
@@ -67,6 +67,15 @@ class AccountANAFSync(models.Model):
     anaf_scope_ids = fields.One2many(
         comodel_name="l10n.ro.account.anaf.sync.scope", inverse_name="anaf_sync_id"
     )
+
+    auto_refresh_access_token = fields.Boolean(string='Auto-Refresh access token',default=True)
+
+    def action_auto_refresh_access_token(self):
+        items = self.env['l10n.ro.account.anaf.sync'].search([('auto_refresh_access_token','=',True)])
+        for item in items:
+            compare_date = (datetime.now() - timedelta(days=7)).date()
+            if item.client_token_valability <= compare_date:
+                item.refresh_access_token()
 
     def write(self, values):
         if values.get("company_id"):
