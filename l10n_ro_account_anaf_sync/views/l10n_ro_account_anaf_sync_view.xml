@@ -63,6 +63,7 @@
                             <field name="access_token" />
                             <field name="refresh_token" />
                             <field name="client_token_valability" />
+							<field name="auto_refresh_access_token" widget="boolean_toggle" />
                             <field name="last_request_datetime" />
                         </group>
                     </group>
