@@ -19,6 +19,13 @@ msgid "A generated secret to know that the response is ok"
 msgstr ""
 
 #. module: l10n_ro_account_anaf_sync
+#: model:ir.actions.server,name:l10n_ro_account_anaf_sync.ir_cron_auto_update_access_token_ir_actions_server
+#: model:ir.cron,cron_name:l10n_ro_account_anaf_sync.ir_cron_auto_update_access_token
+#: model:ir.cron,name:l10n_ro_account_anaf_sync.ir_cron_auto_update_access_token
+msgid "ANAF Access token auto update"
+msgstr ""
+
+#. module: l10n_ro_account_anaf_sync
 #: model_terms:ir.ui.view,arch_db:l10n_ro_account_anaf_sync.redirect_anaf
 msgid "ANAF Response"
 msgstr ""
@@ -92,6 +99,11 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_ro_account_anaf_sync.field_l10n_ro_account_anaf_sync__message_attachment_count
 #: model:ir.model.fields,field_description:l10n_ro_account_anaf_sync.field_l10n_ro_account_anaf_sync_scope__message_attachment_count
 msgid "Attachment Count"
+msgstr ""
+
+#. module: l10n_ro_account_anaf_sync
+#: model:ir.model.fields,field_description:l10n_ro_account_anaf_sync.field_l10n_ro_account_anaf_sync__auto_refresh_access_token
+msgid "Auto-Refresh access token"
 msgstr ""
 
 #. module: l10n_ro_account_anaf_sync
