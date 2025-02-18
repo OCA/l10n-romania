@@ -378,6 +378,7 @@ class MessageSPV(models.Model):
                     or message.partner_id.id,
                     "invoice_amount": invoice_amount,
                     "state": state,
+                    "invoice_date": message.invoice_id.invoice_date,
                 }
             )
         for message in self:
