@@ -30,6 +30,13 @@ class ResPartner(models.Model):
 
     @api.model
     def update_l10n_ro_vat_subjected(self):
+        get_param = self.env["ir.config_parameter"].sudo().get_param
+        anaf_url = get_param("l10n_ro_fiscal_validation.anaf_bulk_url", ANAF_BULK_URL)
+        anaf_corr = get_param("l10n_ro_fiscal_validation.anaf_corr", ANAF_CORR)
+        if get_param("l10n_ro_partner_create_by_vat.anaf_authorization", False):
+            headers["Authorization"] = "Bearer " + get_param(
+                "l10n_ro_partner_create_by_vat.anaf_authorization"
+            )
         anaf_dict = []
         check_date = fields.Date.to_string(fields.Date.today())
         # Build list of vat numbers to be checked on ANAF
@@ -49,7 +56,7 @@ class ResPartner(models.Model):
                     anaf_ask.append({"cui": int(item), "data": check_date})
             try:
                 res = requests.post(
-                    ANAF_BULK_URL, json=anaf_ask, headers=headers, timeout=30
+                    anaf_url, json=anaf_ask, headers=headers, timeout=30
                 )
                 if res.status_code == 200:
                     result = {}
@@ -62,7 +69,9 @@ class ResPartner(models.Model):
                         resp = False
                         try:
                             resp = requests.get(
-                                ANAF_CORR % result["correlationId"], timeout=30
+                                anaf_corr % result["correlationId"],
+                                headers=headers,
+                                timeout=30,
                             )
                         except Exception as e:
                             _logger.warning("ANAF sync not working: %s" % e)
