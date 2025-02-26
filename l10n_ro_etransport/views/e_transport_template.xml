@@ -23,7 +23,7 @@
             >
                 <corectie
                     t-if="doc.l10n_ro_e_transport_uit"
-                    t-att-uit="doc.l10n_ro_edi_etransport_uit"
+                    t-att-uit="doc.l10n_ro_e_transport_uit"
                 />
                 <t t-foreach="doc.move_ids" t-as="move">
                     <t t-foreach="move.move_line_ids" t-as="move_line">
