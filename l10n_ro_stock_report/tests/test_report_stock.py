@@ -12,7 +12,6 @@ _logger = logging.getLogger(__name__)
 
 
 class TestStockReport(AccountTestInvoicingCommon):
-
     @classmethod
     def setUpClass(cls, chart_template_ref=None):
         ro_template_ref = "l10n_ro.ro_chart_template"
