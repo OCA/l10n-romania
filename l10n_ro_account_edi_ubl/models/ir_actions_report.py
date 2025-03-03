@@ -41,6 +41,9 @@ class IrActionsReport(models.Model):
             cius_ro = self.env.ref("l10n_ro_account_edi_ubl.edi_ubl_cius_ro")
             edi_attachments = invoice._get_edi_attachment(cius_ro)
             for edi_attachment in edi_attachments:
+                # Skip non-xml attachments
+                if edi_attachment.mimetype != "application/xml":
+                    continue
                 old_xml = base64.b64decode(
                     edi_attachment.with_context(bin_size=False).datas, validate=True
                 )
