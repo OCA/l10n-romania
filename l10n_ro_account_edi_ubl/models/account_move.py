@@ -425,6 +425,7 @@ class AccountMoveLine(models.Model):
         if (
             self.move_id.move_type not in ["in_invoice", "in_refund"]
             or not self.move_id.l10n_ro_edi_download
+            or not self.name
         ):
             return super()._get_computed_name()
         else:
