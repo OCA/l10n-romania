@@ -111,7 +111,7 @@ class TestStockReport(AccountTestInvoicingCommon):
         if not self.client:
             self.client = Partner.create({"name": "TEST Client"})
 
-        picking_type_in = self.env.ref("stock.picking_type_in")
+        picking_type_in = self.env.ref("stock.picking_type_in").sudo().copy()
         self.location = picking_type_in.default_location_dest_id
         self.location_2 = self.env["stock.location"].create(
             {
