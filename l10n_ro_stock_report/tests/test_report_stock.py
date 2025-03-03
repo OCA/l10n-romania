@@ -4,13 +4,14 @@
 import logging
 
 from odoo import fields
-from odoo.tests import Form
+from odoo.tests import Form, tagged
 
 from odoo.addons.account.tests.common import AccountTestInvoicingCommon
 
 _logger = logging.getLogger(__name__)
 
 
+@tagged("post_install", "-at_install")
 class TestStockReport(AccountTestInvoicingCommon):
     @classmethod
     def setUpClass(cls, chart_template_ref=None):
