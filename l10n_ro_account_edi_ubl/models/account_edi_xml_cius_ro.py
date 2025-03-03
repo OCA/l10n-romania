@@ -383,7 +383,6 @@ class AccountEdiXmlCIUSRO(models.Model):
     def _import_fill_invoice_line_form(
         self, journal, tree, invoice_form, invoice_line_form, qty_factor
     ):
-
         def _find_value(xpath, element=tree):
             # avoid 'TypeError: empty namespace prefix is not supported in XPath'
             nsmap = {k: v for k, v in tree.nsmap.items() if k is not None}
