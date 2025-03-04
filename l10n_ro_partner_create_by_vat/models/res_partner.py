@@ -171,6 +171,10 @@ class ResPartner(models.Model):
 
         get_param = self.env["ir.config_parameter"].sudo().get_param
         anaf_url = get_param("l10n_ro_partner_create_by_vat.anaf_url", ANAF_URL)
+        if get_param("l10n_ro_partner_create_by_vat.anaf_authorization", False):
+            headers["Authorization"] = "Bearer " + get_param(
+                "l10n_ro_partner_create_by_vat.anaf_authorization"
+            )
         if not data:
             data = fields.Date.to_string(fields.Date.today())
         if type(cod) in [list, tuple]:
