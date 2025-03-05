@@ -3,9 +3,11 @@
 
 
 from odoo.exceptions import ValidationError
+from odoo.tests import tagged
 from odoo.addons.account.tests.common import AccountTestInvoicingCommon
 
 
+@tagged("post_install", "-at_install")
 class TestAccountPayment(AccountTestInvoicingCommon):
     def setUp(self):
         ro_template_ref = "l10n_ro.ro_chart_template"
