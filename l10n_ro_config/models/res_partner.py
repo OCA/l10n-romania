@@ -43,18 +43,18 @@ class ResPartner(models.Model):
         if vat and vat.isdigit():
             l10n_ro_vat_number = vat
             partner = self.search([("vat", "=", vat)], limit=1)
-            if partner and partner.country_id and partner.country_id.code:
+            if partner and partner.country_id and partner.country_id.code == "RO":
                 vat_country = self._l10n_ro_map_vat_country_code(
                     partner.country_id.code.upper()
                 ).lower()
         else:
-            vat_country, l10n_ro_vat_number = self._split_vat(vat)
+            vat_country, l10n_ro_vat_number = super()._split_vat(vat)
         return vat_country, l10n_ro_vat_number
 
     @api.onchange("l10n_ro_vat_subjected")
     def onchange_l10n_ro_vat_subjected(self):
         if self.is_l10n_ro_record:
-            if not self.env.context.get("skip_ro_vat_change"):
+            if not self.env.context.get("skip_ro_vat_change") and self.country_id.code == "RO":
                 if self.vat and self.vat.isdigit() and self.l10n_ro_vat_subjected:
                     vat_country = self._l10n_ro_map_vat_country_code(
                         self.country_id.code.upper()
@@ -70,3 +70,11 @@ class ResPartner(models.Model):
                         l10n_ro_vat_number,
                     ) = self._split_vat_and_mapped_country(self.vat)
                     self.vat = l10n_ro_vat_number
+
+    def _fix_vat_number(self, vat, country_id):
+        country = self.env["res.country"].browse(country_id)
+        if self and len(self) == 1 and country.code == "RO":
+            if self.l10n_ro_vat_subjected:
+                return country.code + self.l10n_ro_vat_number
+            return self.l10n_ro_vat_number
+        return super()._fix_vat_number(vat, country_id)
