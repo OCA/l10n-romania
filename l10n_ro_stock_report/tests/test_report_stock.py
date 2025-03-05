@@ -5,14 +5,16 @@ import logging
 
 from odoo import fields
 from odoo.tests import Form
-from odoo.tests.common import TransactionCase
+from odoo.addons.account.tests.common import AccountTestInvoicingCommon
 
 _logger = logging.getLogger(__name__)
 
 
-class TestStockReport(TransactionCase):
+class TestStockReport(AccountTestInvoicingCommon):
     def setUp(self):
-        super(TestStockReport, self).setUp()
+        ro_template_ref = "l10n_ro.ro_chart_template"
+        super().setUp(chart_template_ref=ro_template_ref)
+
         self.env.company.write(
             {
                 "l10n_ro_accounting": True,
