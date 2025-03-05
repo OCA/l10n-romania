@@ -3,12 +3,17 @@
 
 
 from odoo.exceptions import ValidationError
-from odoo.tests.common import TransactionCase
+from odoo.tests import tagged
+
+from odoo.addons.account.tests.common import AccountTestInvoicingCommon
 
 
-class TestAccountPayment(TransactionCase):
+@tagged("post_install", "-at_install")
+class TestAccountPayment(AccountTestInvoicingCommon):
     def setUp(self):
-        super(TestAccountPayment, self).setUp()
+        ro_template_ref = "l10n_ro.ro_chart_template"
+        super().setUp(chart_template_ref=ro_template_ref)
+
         self.env.company.l10n_ro_accounting = True
         self.partner_person = self.env["res.partner"].create(
             {
