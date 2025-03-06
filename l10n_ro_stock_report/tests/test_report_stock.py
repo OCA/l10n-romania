@@ -13,13 +13,10 @@ _logger = logging.getLogger(__name__)
 
 @tagged("post_install", "-at_install")
 class TestStockReport(AccountTestInvoicingCommon):
-    @classmethod
-    def setUpClass(cls, chart_template_ref=None):
-        ro_template_ref = "l10n_ro.ro_chart_template"
-        super().setUpClass(chart_template_ref=ro_template_ref)
-
     def setUp(self):
-        super(TestStockReport, self).setUp()
+        ro_template_ref = "l10n_ro.ro_chart_template"
+        super().setUp(chart_template_ref=ro_template_ref)
+
         self.env.company.write(
             {
                 "l10n_ro_accounting": True,
@@ -111,7 +108,7 @@ class TestStockReport(AccountTestInvoicingCommon):
         if not self.client:
             self.client = Partner.create({"name": "TEST Client"})
 
-        picking_type_in = self.env.ref("stock.picking_type_in").sudo().copy()
+        picking_type_in = self.env.ref("stock.picking_type_in")
         self.location = picking_type_in.default_location_dest_id
         self.location_2 = self.env["stock.location"].create(
             {
