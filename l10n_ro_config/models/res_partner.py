@@ -76,7 +76,7 @@ class ResPartner(models.Model):
 
     def _fix_vat_number(self, vat, country_id):
         country = self.env["res.country"].browse(country_id)
-        if self and len(self) == 1 and country.code == "RO":
+        if self.l10n_ro_vat_number and len(self) == 1 and country.code == "RO":
             if self.l10n_ro_vat_subjected:
                 return country.code + self.l10n_ro_vat_number
             return self.l10n_ro_vat_number
