@@ -343,6 +343,16 @@ class ResPartner(models.Model):
                         # Update ANAF history for vat_subjected and active status
                         res = self._update_l10n_ro_anaf_status(res, result)
                         res = self._update_l10n_ro_anaf_scptva(res, result)
+                        # Update l10n_ro_vat_subjected separately to make sure
+                        # that when _fix_vat_number is called,
+                        # value on l10n_ro_vat_subjected is already set
+                        self.with_context(skip_ro_vat_change=True).update(
+                            {
+                                "l10n_ro_vat_subjected": res.get(
+                                    "l10n_ro_vat_subjected", False
+                                )
+                            }
+                        )
                         self.with_context(skip_ro_vat_change=True).update(res)
                     else:
                         res["warning"] = {"message": anaf_error}
