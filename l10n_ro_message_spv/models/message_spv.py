@@ -391,6 +391,14 @@ class MessageSPV(models.Model):
                     {"res_id": message.invoice_id.id, "res_model": "account.move"}
                 )
 
+        if "out" in message.message_type:
+            if not message.invoice_id.l10n_ro_edi_document_ids:
+                self.env["l10n_ro_edi.document"].create({
+                    "invoice_id": message.invoice_id.id,
+                    'state': 'invoice_sending',
+                    'key_loading': message.request_id,
+                })
+
     def create_invoice(self):
         self.get_partner()
         for message in self.filtered(lambda m: not m.invoice_id):
