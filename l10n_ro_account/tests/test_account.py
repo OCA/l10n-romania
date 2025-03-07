@@ -2,10 +2,18 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html)
 
 
-from odoo.tests.common import TransactionCase
+from odoo.tests import tagged
+
+from odoo.addons.account.tests.common import AccountTestInvoicingCommon
 
 
-class TestAccount(TransactionCase):
+@tagged("post_install", "-at_install")
+class TestAccount(AccountTestInvoicingCommon):
+    @classmethod
+    def setUpClass(cls, chart_template_ref=None):
+        ro_template_ref = "l10n_ro.ro_chart_template"
+        super().setUpClass(chart_template_ref=ro_template_ref)
+
     def setUp(self):
         super(TestAccount, self).setUp()
         self.env.company.l10n_ro_accounting = True
