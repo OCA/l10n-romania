@@ -28,8 +28,8 @@
                             <span t-field="bank.acc_number" />
                             -
                             <strong t-if="bank.currency_id">
-                                <span t-field="bank.currency_id" />
-                            </strong>
+                            <span t-field="bank.currency_id" />
+                        </strong>
                         </div>
                     </t>
                 </div>
@@ -59,8 +59,8 @@
                             <span t-field="bank.acc_number" />
                             -
                             <strong t-if="bank.currency_id">
-                                <span t-field="bank.currency_id" />
-                            </strong>
+                            <span t-field="bank.currency_id" />
+                        </strong>
                         </div>
                     </t>
                 </div>
@@ -90,8 +90,8 @@
                             <span t-field="bank.acc_number" />
                             -
                             <strong t-if="bank.currency_id">
-                                <span t-field="bank.currency_id" />
-                            </strong>
+                            <span t-field="bank.currency_id" />
+                        </strong>
                         </div>
                     </t>
                 </div>
@@ -120,8 +120,6 @@
                 </p>
             </t>
         </xpath>
-
-
     </template>
     <template
         id="l10n_ro_report_invoice_document_tax_totals"
