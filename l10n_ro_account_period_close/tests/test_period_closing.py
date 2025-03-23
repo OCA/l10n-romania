@@ -14,10 +14,9 @@ from odoo.addons.account.tests.common import AccountTestInvoicingCommon
 @tagged("post_install", "-at_install")
 class TestPeriodClosing(AccountTestInvoicingCommon):
     @classmethod
-    def setUpClass(cls, chart_template_ref=None):
-        if not chart_template_ref:
-            chart_template_ref = "ro"
-        super().setUpClass(chart_template_ref=chart_template_ref)
+    @AccountTestInvoicingCommon.setup_country("ro")
+    def setUpClass(cls):
+        super().setUpClass()
         cls.per_close_model = cls.env["l10n.ro.account.period.closing"]
         cls.wiz_close_model = cls.env["l10n.ro.account.period.closing.wizard"]
         cls.company = company = cls.env.company
@@ -40,7 +39,7 @@ class TestPeriodClosing(AccountTestInvoicingCommon):
                 "code": "DEBITACC",
                 "account_type": "liability_current",
                 "reconcile": True,
-                "company_id": cls.company.id,
+                "company_ids": cls.company.ids,
             }
         )
         cls.credit_acc = cls.env["account.account"].create(
@@ -49,7 +48,7 @@ class TestPeriodClosing(AccountTestInvoicingCommon):
                 "code": "CREDITACC",
                 "account_type": "liability_current",
                 "reconcile": True,
-                "company_id": cls.company.id,
+                "company_ids": cls.company.ids,
             }
         )
         cls.vat_close_debit = cls.env["account.account"].create(
@@ -57,7 +56,7 @@ class TestPeriodClosing(AccountTestInvoicingCommon):
                 "name": "VAT CLOSE DEBIT",
                 "code": "VATCLOSEDEBIT",
                 "account_type": "asset_current",
-                "company_id": cls.company.id,
+                "company_ids": cls.company.ids,
             }
         )
         cls.vat_close_credit = cls.env["account.account"].create(
@@ -65,7 +64,7 @@ class TestPeriodClosing(AccountTestInvoicingCommon):
                 "name": "VAT CLOSE CREDIT",
                 "code": "VATCLOSECREDIT",
                 "account_type": "asset_current",
-                "company_id": cls.company.id,
+                "company_ids": cls.company.ids,
             }
         )
         cls.tax_base_amount_account = cls.env["account.account"].create(
@@ -73,7 +72,7 @@ class TestPeriodClosing(AccountTestInvoicingCommon):
                 "name": "TAX_BASE",
                 "code": "TBASE",
                 "account_type": "asset_current",
-                "company_id": cls.company.id,
+                "company_ids": cls.company.ids,
             }
         )
         cls.exp_closing = cls.per_close_model.create(
@@ -200,14 +199,14 @@ class TestPeriodClosing(AccountTestInvoicingCommon):
         exp_accounts = self.env["account.account"].search(
             [
                 ("account_type", "=", "expense"),
-                ("company_id", "=", self.company.id),
+                ("company_ids", "in", self.company.ids),
             ]
         )
 
         inc_accounts = self.env["account.account"].search(
             [
                 ("account_type", "=", "income"),
-                ("company_id", "=", self.company.id),
+                ("company_ids", "in", self.company.ids),
             ]
         )
         self.exp_closing._onchange_type()

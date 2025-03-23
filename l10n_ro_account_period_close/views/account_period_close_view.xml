@@ -28,14 +28,14 @@
     <record id="view_l10n_ro_account_period_closing_tree" model="ir.ui.view">
         <field name="name">l10n.ro.account.period.closing.tree</field>
         <field name="model">l10n.ro.account.period.closing</field>
-        <field name="type">tree</field>
+        <field name="type">list</field>
         <field name="arch" type="xml">
-            <tree>
+            <list>
                 <field name="name" />
                 <field name="type" />
                 <field name="debit_account_id" />
                 <field name="credit_account_id" />
-            </tree>
+            </list>
         </field>
     </record>
     <record id="view_l10n_ro_account_period_closing_form" model="ir.ui.view">
@@ -70,7 +70,6 @@
                             <field name="close_result" />
                         </group>
                         <group name="accounts">
-                            <field name="company_id" invisible="1" />
                             <field
                                 name="debit_account_id"
                                 options="{'no_create': True}"
@@ -92,12 +91,12 @@
     <record id="action_account_period_closing" model="ir.actions.act_window">
         <field name="name">Account Period Closing</field>
         <field name="res_model">l10n.ro.account.period.closing</field>
-        <field name="view_mode">tree,form</field>
+        <field name="view_mode">list,form</field>
     </record>
     <record id="menu_action_account_period_closing" model="ir.ui.menu">
         <field name="name">Account Period Closing</field>
         <field name="action" ref="action_account_period_closing" />
-        <field name="parent_id" ref="account.menu_finance_entries_actions" />
+        <field name="parent_id" ref="account.menu_finance_entries" />
         <field name="groups_id" eval="[(4, ref('l10n_ro_config.group_ro_menus'))]" />
     </record>
 </odoo>
