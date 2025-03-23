@@ -24,16 +24,10 @@ class AccountPeriodClosing(models.Model):
     journal_id = fields.Many2one("account.journal", string="Journal", required=True)
     account_ids = fields.Many2many("account.account", string="Accounts to close")
     debit_account_id = fields.Many2one(
-        "account.account",
-        "Closing account, debit",
-        required=True,
-        domain="[('company_id', '=', company_id)]",
+        "account.account", "Closing account, debit", required=True, check_company=True
     )
     credit_account_id = fields.Many2one(
-        "account.account",
-        "Closing account, credit",
-        required=True,
-        domain="[('company_id', '=', company_id)]",
+        "account.account", "Closing account, credit", required=True, check_company=True
     )
     move_ids = fields.One2many(
         "account.move",
@@ -49,7 +43,7 @@ class AccountPeriodClosing(models.Model):
             accounts = self.env["account.account"].search(
                 [
                     ("account_type", "=", "income"),
-                    ("company_id", "=", self.company_id.id),
+                    ("company_ids", "in", self.company_id.ids),
                 ]
             )
 
@@ -57,7 +51,7 @@ class AccountPeriodClosing(models.Model):
             accounts = self.env["account.account"].search(
                 [
                     ("account_type", "=", "expense"),
-                    ("company_id", "=", self.company_id.id),
+                    ("company_ids", "in", self.company_id.ids),
                 ]
             )
 
@@ -118,7 +112,7 @@ class AccountPeriodClosing(models.Model):
             currency = (
                 account.currency_id
                 if account.currency_id
-                else account.company_id.currency_id
+                else self.company_id.currency_id
             )
             res["id"] = account.id
             res["code"] = account.code
