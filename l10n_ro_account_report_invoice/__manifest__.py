@@ -4,7 +4,7 @@
 {
     "name": "Romania - Invoice Report",
     "summary": "Romania - Invoice Report",
-    "version": "17.0.1.5.0",
+    "version": "18.0.0.1.0",
     "category": "Localization",
     "author": "NextERP Romania," "Odoo Community Association (OCA)",
     "website": "https://github.com/OCA/l10n-romania",
@@ -13,7 +13,6 @@
     "development_status": "Mature",
     "maintainers": ["feketemihai"],
     "depends": ["l10n_ro_config", "sale"],
-    "pre_init_hook": "pre_init_hook",
     "data": [
         "views/account_invoice_view.xml",
         "views/invoice_report.xml",
