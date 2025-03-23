@@ -50,7 +50,7 @@ class ResPartner(models.Model):
         anaf_obj = self.env["l10n.ro.res.partner.anaf"]
         data_dir = tools.config["data_dir"]
         istoric = os.path.join(data_dir, "istoric.txt")
-        vat_regex = "^[0-9]+#(%s)#" % "|".join(vat_numbers)
+        vat_regex = "^([0-9]+)#({})#".format("|".join(vat_numbers))
         anaf_data = Popen(["egrep", vat_regex, istoric], stdout=PIPE)
         (process_lines, _) = anaf_data.communicate()
         process_lines = [x.split("#") for x in process_lines.decode().strip().split()]

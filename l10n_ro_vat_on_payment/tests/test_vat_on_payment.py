@@ -23,8 +23,9 @@ class TestVATonpayment(AccountTestInvoicingCommon):
     """Run test for VAT on payment."""
 
     @classmethod
-    def setUpClass(cls, chart_template_ref=None):
-        super().setUpClass(chart_template_ref="ro")
+    @AccountTestInvoicingCommon.setup_country("ro")
+    def setUpClass(cls):
+        super().setUpClass()
         cls.env.company.l10n_ro_accounting = True
         cls.partner_anaf_model = cls.env["l10n.ro.res.partner.anaf"]
         cls.partner_model = cls.env["res.partner"]
@@ -47,7 +48,7 @@ class TestVATonpayment(AccountTestInvoicingCommon):
             [
                 ("account_type", "=", "expense"),
                 ("deprecated", "=", False),
-                ("company_id", "=", cls.env.company.id),
+                ("company_ids", "in", cls.env.company.ids),
             ],
             limit=1,
         )
@@ -73,12 +74,6 @@ class TestVATonpayment(AccountTestInvoicingCommon):
         )
         cls.fp_model = cls.env["account.fiscal.position"]
         cls.fptvainc = cls.env.company.l10n_ro_property_vat_on_payment_position_id
-        # cls.fptvainc = cls.fp_model.search(
-        #     [
-        #         ("name", "ilike", "Sistem de colectare TVA"),
-        #         ("company_id", "=", cls.env.company.id),
-        #     ]
-        # )
         if not cls.fptvainc:
             cls.fptvainc = cls.fp_model.create(
                 {
@@ -163,5 +158,5 @@ class TestVATonpayment(AccountTestInvoicingCommon):
         """Test download file and partner link."""
         if not self.invoice.partner_id.l10n_ro_vat_on_payment:
             self.lxt_partner.l10n_ro_vat_on_payment = True
-        self.invoice._onchange_partner_id()
+        self.invoice._inverse_partner_id()
         self.assertEqual(self.invoice.fiscal_position_id, self.fptvainc)
