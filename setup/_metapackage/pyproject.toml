@@ -1,10 +1,11 @@
 [project]
 name = "odoo-addons-oca-l10n-romania"
-version = "18.0.20250323.1"
+version = "18.0.20250324.0"
 dependencies = [
     "odoo-addon-l10n_ro_account==18.0.*",
     "odoo-addon-l10n_ro_account_bank_statement_import_mt940_base==18.0.*",
     "odoo-addon-l10n_ro_account_bank_statement_import_mt940_ing==18.0.*",
+    "odoo-addon-l10n_ro_account_period_close==18.0.*",
     "odoo-addon-l10n_ro_city==18.0.*",
     "odoo-addon-l10n_ro_config==18.0.*",
     "odoo-addon-l10n_ro_message_spv==18.0.*",
