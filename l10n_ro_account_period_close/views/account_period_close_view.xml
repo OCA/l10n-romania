@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="view_account_form" model="ir.ui.view">
+        <field name="name">account.account.form</field>
+        <field name="model">account.account</field>
+        <field name="type">form</field>
+        <field name="inherit_id" ref="account.view_account_form" />
+        <field name="arch" type="xml">
+            <field position="after" name="deprecated">
+                <field name="l10n_ro_close_check" />
+            </field>
+        </field>
+    </record>
+    <record id="act_account_period_closing_wizard" model="ir.actions.act_window">
+        <field name="name">Close Period</field>
+        <field name="view_mode">form,tree</field>
+        <field name="res_model">l10n.ro.account.period.closing.wizard</field>
+        <field name="context">
+            {'search_default_closing_id':[active_id], 'default_closing_id': active_id}
+        </field>
+        <field
+            name="binding_model_id"
+            ref="l10n_ro_account_period_close.model_l10n_ro_account_period_closing"
+        />
+        <field name="binding_view_types">Null</field>
+        <field name="target">new</field>
+    </record>
+    <record id="view_l10n_ro_account_period_closing_tree" model="ir.ui.view">
+        <field name="name">l10n.ro.account.period.closing.tree</field>
+        <field name="model">l10n.ro.account.period.closing</field>
+        <field name="type">list</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="name" />
+                <field name="type" />
+                <field name="debit_account_id" />
+                <field name="credit_account_id" />
+            </list>
+        </field>
+    </record>
+    <record id="view_l10n_ro_account_period_closing_form" model="ir.ui.view">
+        <field name="name">l10n.ro.account.period.closing.form</field>
+        <field name="model">l10n.ro.account.period.closing</field>
+        <field name="type">form</field>
+        <field name="arch" type="xml">
+            <form string="Closing">
+                <div class="oe_editonly">
+                    <label for="name" />
+                    <h1>
+                        <field name="name" />
+                    </h1>
+                </div>
+                <div>
+                    <button
+                        name="%(act_account_period_closing_wizard)d"
+                        string="Close Period"
+                        type="action"
+                    />
+                </div>
+                <notebook>
+                    <page string="Config">
+                        <group name="main_info">
+                            <field
+                                name="company_id"
+                                options="{'no_create': True}"
+                                groups="base.group_multi_company"
+                            />
+                            <field name="journal_id" options="{'no_create': True}" />
+                            <field name="type" />
+                            <field name="close_result" />
+                        </group>
+                        <group name="accounts">
+                            <field
+                                name="debit_account_id"
+                                options="{'no_create': True}"
+                            />
+                            <field
+                                name="credit_account_id"
+                                options="{'no_create': True}"
+                            />
+                        </group>
+                        <field colspan="4" name="account_ids" widget="many2many_tags" />
+                    </page>
+                    <page string="Moves">
+                        <field name="move_ids" />
+                    </page>
+                </notebook>
+            </form>
+        </field>
+    </record>
+    <record id="action_account_period_closing" model="ir.actions.act_window">
+        <field name="name">Account Period Closing</field>
+        <field name="res_model">l10n.ro.account.period.closing</field>
+        <field name="view_mode">list,form</field>
+    </record>
+    <record id="menu_action_account_period_closing" model="ir.ui.menu">
+        <field name="name">Account Period Closing</field>
+        <field name="action" ref="action_account_period_closing" />
+        <field name="parent_id" ref="account.menu_finance_entries" />
+        <field name="groups_id" eval="[(4, ref('l10n_ro_config.group_ro_menus'))]" />
+    </record>
+</odoo>
