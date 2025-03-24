@@ -4,7 +4,7 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 17.0\n"
+"Project-Id-Version: Odoo Server 18.0\n"
 "Report-Msgid-Bugs-To: \n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -52,8 +52,8 @@ msgid "Config Settings"
 msgstr ""
 
 #. module: l10n_ro_account_report_invoice
-#: model_terms:ir.ui.view,arch_db:l10n_ro_account_report_invoice.l10n_ro_report_invoice_document
-msgid "Currency rate: 1"
+#: model_terms:ir.ui.view,arch_db:l10n_ro_account_report_invoice.document_tax_totals_company_currency_template
+msgid "Exchange Rate"
 msgstr ""
 
 #. module: l10n_ro_account_report_invoice
@@ -80,13 +80,6 @@ msgstr ""
 #. module: l10n_ro_account_report_invoice
 #: model_terms:ir.ui.view,arch_db:l10n_ro_account_report_invoice.l10n_ro_report_invoice_document
 msgid "NRC:"
-msgstr ""
-
-#. module: l10n_ro_account_report_invoice
-#: model:ir.model.fields,field_description:l10n_ro_account_report_invoice.field_account_bank_statement_line__l10n_ro_currency_rate
-#: model:ir.model.fields,field_description:l10n_ro_account_report_invoice.field_account_move__l10n_ro_currency_rate
-#: model:ir.model.fields,field_description:l10n_ro_account_report_invoice.field_account_payment__l10n_ro_currency_rate
-msgid "Romania - Currency Rate"
 msgstr ""
 
 #. module: l10n_ro_account_report_invoice
