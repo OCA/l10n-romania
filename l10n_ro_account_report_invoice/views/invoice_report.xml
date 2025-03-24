@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <template
+        id="l10n_ro_report_invoice_document"
+        inherit_id="account.report_invoice_document"
+    >
+        <xpath
+            expr="//div[@name='address_not_same_as_shipping']//div[@t-if='o.partner_id.vat']"
+            position="after"
+        >
+            <t t-if="o.is_l10n_ro_record">
+                <div t-if="o.partner_id.nrc" class="mt16">
+                    NRC:
+                    <span t-field="o.partner_id.nrc" />
+                </div>
+                <div
+                    t-foreach="o.commercial_partner_id.bank_ids"
+                    t-as="bank"
+                    id="partner_bank"
+                >
+                    <t t-if="bank.l10n_ro_print_report">
+                        <div t-if="bank.bank_name">
+                            <strong>Bank:</strong>
+                            <span t-field="bank.bank_name" />
+                        </div>
+                        <div t-if="bank.acc_number">
+                            <strong>Account:</strong>
+                            <span t-field="bank.acc_number" />
+                            -
+                            <strong t-if="bank.currency_id">
+                            <span t-field="bank.currency_id" />
+                        </strong>
+                        </div>
+                    </t>
+                </div>
+            </t>
+        </xpath>
+        <xpath
+            expr="//div[@name='address_same_as_shipping']//div[@t-if='o.partner_id.vat']"
+            position="after"
+        >
+            <t t-if="o.is_l10n_ro_record">
+                <div t-if="o.partner_id.nrc" class="mt16">
+                    NRC:
+                    <span t-field="o.partner_id.nrc" />
+                </div>
+                <div
+                    t-foreach="o.commercial_partner_id.bank_ids"
+                    t-as="bank"
+                    id="partner_bank"
+                >
+                    <t t-if="bank.l10n_ro_print_report">
+                        <div t-if="bank.bank_name">
+                            <strong>Bank:</strong>
+                            <span t-field="bank.bank_name" />
+                        </div>
+                        <div t-if="bank.acc_number">
+                            <strong>Account:</strong>
+                            <span t-field="bank.acc_number" />
+                            -
+                            <strong t-if="bank.currency_id">
+                            <span t-field="bank.currency_id" />
+                        </strong>
+                        </div>
+                    </t>
+                </div>
+            </t>
+        </xpath>
+        <xpath
+            expr="//div[@name='no_shipping']//div[@t-if='o.partner_id.vat']"
+            position="after"
+        >
+            <t t-if="o.is_l10n_ro_record">
+                <div t-if="o.partner_id.nrc" class="mt16">
+                    NRC:
+                    <span t-field="o.partner_id.nrc" />
+                </div>
+                <div
+                    t-foreach="o.commercial_partner_id.bank_ids"
+                    t-as="bank"
+                    id="partner_bank"
+                >
+                    <t t-if="bank.l10n_ro_print_report">
+                        <div t-if="bank.bank_name">
+                            <strong>Bank:</strong>
+                            <span t-field="bank.bank_name" />
+                        </div>
+                        <div t-if="bank.acc_number">
+                            <strong>Account:</strong>
+                            <span t-field="bank.acc_number" />
+                            -
+                            <strong t-if="bank.currency_id">
+                            <span t-field="bank.currency_id" />
+                        </strong>
+                        </div>
+                    </t>
+                </div>
+            </t>
+        </xpath>
+
+        <xpath expr="//p[@name='note']" position="after">
+            <t t-if="o.is_l10n_ro_record">
+                <p t-if="o.company_id.l10n_ro_no_signature_text" id="sign_info">
+                    <span t-field="o.company_id.l10n_ro_no_signature_text" />
+                </p>
+            </t>
+        </xpath>
+    </template>
+
+    <template
+        id="document_tax_totals_company_currency_template"
+        inherit_id="account.document_tax_totals_company_currency_template"
+    >
+        <xpath
+            expr="//p[hasclass('tax_computation_company_currency')]"
+            position="after"
+        >
+            <tr t-if="o.company_id.country_id.code == 'RO'">
+                <td>Exchange Rate</td>
+                <td class="text-end">
+                    1 <span t-esc="o.currency_id.symbol" /> =
+                    <span
+                    t-esc="o.invoice_currency_rate"
+                    t-options='{"widget": "float", "precision": 5}'
+                />
+                    <span t-esc="o.company_id.currency_id.symbol" />
+                </td>
+            </tr>
+        </xpath>
+    </template>
+</odoo>
