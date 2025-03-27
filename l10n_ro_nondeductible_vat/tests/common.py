@@ -11,6 +11,7 @@ from odoo.tests import Form, tagged
 from odoo.addons.stock_account.tests.test_anglo_saxon_valuation_reconciliation_common import (  # noqa E501
     ValuationReconciliationTestCommon,
 )
+from odoo.addons.account.tests.common import AccountTestInvoicingCommon
 
 _logger = logging.getLogger(__name__)
 
@@ -373,9 +374,10 @@ class TestNondeductibleCommon(ValuationReconciliationTestCommon):
         )
 
     @classmethod
-    def setUpClass(cls, chart_template_ref=None):
-        ro_template_ref = "ro"
-        super().setUpClass(chart_template_ref=ro_template_ref)
+    @AccountTestInvoicingCommon.setup_country("ro")
+    def setUpClass(cls):
+        
+        super().setUpClass()
 
         cls.env.user.groups_id += cls.env.ref(
             "stock_account.group_stock_accounting_automatic"
@@ -441,7 +443,7 @@ class TestNondeductibleCommon(ValuationReconciliationTestCommon):
         cls.warehouse = cls.env["stock.warehouse"].create(
             {
                 "name": "Warehouse Romania",
-                "code": "ROW",
+                "code": "ROW1",
                 "company_id": cls.env.company.id,
             }
         )

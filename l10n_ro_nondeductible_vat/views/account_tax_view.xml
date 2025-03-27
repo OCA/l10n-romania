@@ -25,7 +25,7 @@
     > <!-- Aceastra structura trebuie stearsa sau reglata -->
         <field name="name">account.tax.repartition.line Tree</field>
         <field name="model">account.tax.repartition.line</field>
-        <field name="type">tree</field>
+        <field name="type">list</field>
         <field name="inherit_id" ref="account.tax_repartition_line_tree" />
         <field name="arch" type="xml">
             <field name="repartition_type" position="after">
