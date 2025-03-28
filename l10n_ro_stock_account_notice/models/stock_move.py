@@ -167,7 +167,7 @@ class StockMove(models.Model):
     def _account_entry_move_delivery_notice_return(
         self, qty, description, svl_id, cost
     ):
-        move = self.with_context(valued_type="invoice_out_notice")
+        move = self.with_context(valued_type="invoice_out_notice_return")
         sale_price = -1 * self._l10n_ro_get_sale_price()
         (
             journal_id,

@@ -62,11 +62,14 @@ Contributors
 -  `NextERP Romania <https://www.nexterp.ro>`__:
 
    -  Fekete Mihai <feketemihai@nexterp.ro>
-   -  Cojocaru Marcel <cojocarumarcel@nexterp.ro>
 
 -  `Terrabit <https://www.terrabit.ro>`__:
 
    -  Dorin Hongu <dhongu@gmail.com>
+
+- `Sostenia <https://www.sostenia.ro>`__:
+
+    - Cojocaru Marcel <marcel.cojocaru.bp@sostenia.ro>   
 
 Do not contact contributors directly about support or help with
 technical issues.
