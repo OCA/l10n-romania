@@ -425,7 +425,7 @@ class TestNondeductibleCommon(ValuationReconciliationTestCommon):
         cls.product_1 = cls.env["product.product"].create(
             {
                 "name": "Product A",
-                "type": "product",
+                "type": "consu",
                 "categ_id": cls.category.id,
                 "invoice_policy": "delivery",
                 "purchase_method": "receive",
@@ -455,15 +455,37 @@ class TestNondeductibleCommon(ValuationReconciliationTestCommon):
             company_name, chart_template=chart_template, **kwargs
         )
         acc_371 = cls.env["account.account"].search([("code", "=", "371000")], limit=1)
-        if acc_371:
-            company_data.update(
-                {
-                    "default_account_stock_valuation": acc_371,
-                    "default_account_stock_in": acc_371,
-                    "default_account_stock_out": acc_371,
-                }
-            )
+        company_data["default_account_stock_valuation"] = acc_371
+        # if acc_371:
+        #     company_data.update(
+        #         {
+        #             "default_account_stock_valuation": acc_371,
+        #             "default_account_stock_in": acc_371,
+        #             "default_account_stock_out": acc_371,
+        #         }
+        #     )
+        company_data["default_account_stock_in"] = company_data[
+            "default_account_stock_valuation"
+        ]
+        company_data["default_account_stock_out"] = company_data[
+            "default_account_stock_valuation"
+        ]
+       
         return company_data
+    
+    @classmethod
+    def collect_company_accounting_data(cls, company):
+        company_data = super().collect_company_accounting_data(company)
+        acc_371 = cls.env["account.account"].search([("code", "=", "371000")], limit=1)
+        company_data["default_account_stock_valuation"] = acc_371
+        company_data["default_account_stock_in"] = company_data[
+            "default_account_stock_valuation"
+        ]
+        company_data["default_account_stock_out"] = company_data[
+            "default_account_stock_valuation"
+        ]
+        return company_data
+
 
     def create_po(self, picking_type_in=None):
         if not picking_type_in:
@@ -480,9 +502,10 @@ class TestNondeductibleCommon(ValuationReconciliationTestCommon):
         po = po.save()
         po.button_confirm()
         self.picking = po.picking_ids[0]
-        for move_line in self.picking.move_line_ids:
-            if move_line.product_id == self.product_1:
-                move_line.write({"quantity": 100, "picked": True})
+        for move in self.picking.move_ids:
+            if move.product_id == self.product_1:
+               
+                move._set_quantity_done(100)
 
         self.picking.button_validate()
         self.picking._action_done()
