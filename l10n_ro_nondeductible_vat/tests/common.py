@@ -7,6 +7,7 @@ import logging
 
 from odoo import fields
 from odoo.tests import Form, tagged
+from odoo import Command
 
 from odoo.addons.stock_account.tests.test_anglo_saxon_valuation_reconciliation_common import (  # noqa E501
     ValuationReconciliationTestCommon,
@@ -202,6 +203,7 @@ class TestNondeductibleCommon(ValuationReconciliationTestCommon):
                 "amount": 10.0,
                 "amount_type": "percent",
                 "type_tax_use": "purchase",
+                "l10n_ro_negative_allow": True,
                 "company_id": cls.env.company.id,
                 "invoice_repartition_line_ids": invoice_rep_lines,
                 "refund_repartition_line_ids": refund_rep_lines,
@@ -344,6 +346,7 @@ class TestNondeductibleCommon(ValuationReconciliationTestCommon):
                 "amount_type": "percent",
                 "type_tax_use": "purchase",
                 "company_id": cls.env.company.id,
+                "l10n_ro_negative_allow": True,
                 "invoice_repartition_line_ids": invoice_rep_lines_cash_basis,
                 "refund_repartition_line_ids": refund_rep_lines_cash_basis,
                 "tax_exigibility": "on_payment",
@@ -358,20 +361,21 @@ class TestNondeductibleCommon(ValuationReconciliationTestCommon):
                 ("company_id", "=", cls.env.company.id),
             ]
         )
-        cls.fptvainc.write(
-            {
-                "tax_ids": [
-                    (
-                        0,
-                        0,
-                        {
-                            "tax_src_id": cls.tax_10_nondeductible.id,
-                            "tax_dest_id": cls.tax_10_nondeductible_cash_basis.id,
-                        },
-                    )
-                ]
-            }
-        )
+        cls.env['account.fiscal.position.tax'].create({
+            'position_id':  cls.fptvainc.id,
+            'tax_src_id': cls.tax_10_nondeductible.id,
+            'tax_dest_id':cls.tax_10_nondeductible_cash_basis.id,
+        })
+        # cls.fptvainc.write(
+        #     {
+        #         "tax_ids": [Command.create({
+        #                     "tax_src_id": cls.tax_10_nondeductible.id,
+        #                     "tax_dest_id": cls.tax_10_nondeductible_cash_basis.id,
+        #                 },
+        #             )
+        #         ]
+        #     }
+        # )
 
     @classmethod
     @AccountTestInvoicingCommon.setup_country("ro")
@@ -426,6 +430,7 @@ class TestNondeductibleCommon(ValuationReconciliationTestCommon):
             {
                 "name": "Product A",
                 "type": "consu",
+                "is_storable": True,
                 "categ_id": cls.category.id,
                 "invoice_policy": "delivery",
                 "purchase_method": "receive",
@@ -527,19 +532,23 @@ class TestNondeductibleCommon(ValuationReconciliationTestCommon):
             self.env["l10n.ro.res.partner.anaf"].create(
                 {
                     "anaf_id": "1",
-                    "vat": "39187746",
+                    "vat": "RO39187746",
                     "start_date": fields.Date.today(),
                     "publish_date": fields.Date.today(),
                     "operation_date": fields.Date.today(),
                     "operation_type": "I",
                 }
             )
-            self.vendor.vat = "RO39187746"
+            self.vendor.l10n_ro_vat_number = "RO39187746"
             invoice.fiscal_position_id = fiscal_position
         with invoice.invoice_line_ids.edit(0) as invoice_line_form:
             invoice_line_form.account_id = self.account_expense
             invoice_line_form.tax_ids.clear()
             invoice_line_form.tax_ids.add(self.tax_10_nondeductible)
+            if fiscal_position == self.fptvainc:
+                invoice_line_form.tax_ids.clear()
+                invoice_line_form.tax_ids.add(self.tax_10_nondeductible_cash_basis)
+                
 
         invoice = invoice.save()
         invoice.action_post()
