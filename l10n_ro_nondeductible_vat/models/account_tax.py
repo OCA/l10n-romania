@@ -4,7 +4,7 @@
 
 from collections import defaultdict
 
-from odoo import api, fields, models
+from odoo import _, api, fields, models
 from odoo.exceptions import ValidationError
 
 
@@ -20,7 +20,7 @@ class AccountTaxExtend(models.Model):
         compute="_compute_boolean_l10n_ro_nondeductible",
         store=True,
     )
-    
+
     l10n_ro_negative_allow = fields.Boolean(
         string="Allow negative tax",
         help="Allows negative tax repartition in tax per account.",
@@ -37,7 +37,7 @@ class AccountTaxExtend(models.Model):
                 )
             else:
                 record.l10n_ro_is_nondeductible = False
-                
+
     @api.depends(
         "invoice_repartition_line_ids.factor",
         "invoice_repartition_line_ids.repartition_type",
@@ -52,8 +52,8 @@ class AccountTaxExtend(models.Model):
                     tax_reps.filtered(lambda tax_rep: tax_rep.factor < 0.0)
                 )
             else:
-                tax.has_negative_factor = False           
-                
+                tax.has_negative_factor = False
+
     @api.constrains(
         "invoice_repartition_line_ids",
         "refund_repartition_line_ids",
@@ -62,7 +62,8 @@ class AccountTaxExtend(models.Model):
     def _validate_repartition_lines(self):
         if self.env.company.l10n_ro_accounting:
             for record in self:
-                # if the tax is an aggregation of its sub-taxes (group) it can have no repartition lines
+                # if the tax is an aggregation of its sub-taxes (group) it can
+                # have no repartition lines
                 if (
                     record.amount_type == "group"
                     and not record.invoice_repartition_line_ids
@@ -72,11 +73,11 @@ class AccountTaxExtend(models.Model):
 
                 invoice_repartition_line_ids = (
                     record.invoice_repartition_line_ids.sorted(
-                        lambda l: (l.sequence, l.id)
+                        lambda line: (line.sequence, line.id)
                     )
                 )
                 refund_repartition_line_ids = record.refund_repartition_line_ids.sorted(
-                    lambda l: (l.sequence, l.id)
+                    lambda line: (line.sequence, line.id)
                 )
                 record._check_repartition_lines(invoice_repartition_line_ids)
                 record._check_repartition_lines(refund_repartition_line_ids)
@@ -86,7 +87,8 @@ class AccountTaxExtend(models.Model):
                 ):
                     raise ValidationError(
                         _(
-                            "Invoice and credit note distribution should have the same number of lines."
+                            "Invoice and credit note distribution should have the"
+                            " same number of lines."
                         )
                     )
 
@@ -97,7 +99,8 @@ class AccountTaxExtend(models.Model):
                 ):
                     raise ValidationError(
                         _(
-                            "Invoice and credit note repartition should have at least one tax repartition line."
+                            "Invoice and credit note repartition should have at least"
+                            " one tax repartition line."
                         )
                     )
 
@@ -111,15 +114,16 @@ class AccountTaxExtend(models.Model):
                     ):
                         raise ValidationError(
                             _(
-                                "Invoice and credit note distribution should match (same percentages, in the same order)."
+                                "Invoice and credit note distribution should match"
+                                "same percentages."
                             )
                         )
                     index += 1
 
         else:
             super()._validate_repartition_lines()
-            
-            
+
+    # flake8: noqa: C901
     @api.model
     def _add_accounting_data_to_base_line_tax_details(
         self, base_line, company, include_caba_tags=False
@@ -277,8 +281,3 @@ class AccountTaxExtend(models.Model):
             super()._add_accounting_data_to_base_line_tax_details(
                 base_line, company, include_caba_tags=False
             )
-
-            
-            
-            
-

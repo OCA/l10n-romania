@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <odoo>
-
     <record id="account_tax_form" model="ir.ui.view">
         <field name="name">account.tax Form</field>
         <field name="model">account.tax</field>
@@ -8,7 +7,6 @@
         <field name="inherit_id" ref="account.view_tax_form" />
         <field name="arch" type="xml">
             <field name="cash_basis_transition_account_id" position="after">
-
                 <field name="l10n_ro_is_nondeductible" invisible="1" />
                 <field
                     name="l10n_ro_nondeductible_tax_id"
@@ -19,18 +17,14 @@
         </field>
     </record>
 
-    <record
-        id="account_tax_repartition_line_tree"
-        model="ir.ui.view"
-    > <!-- Aceastra structura trebuie stearsa sau reglata -->
+    <record id="account_tax_repartition_line_tree" model="ir.ui.view">
+        <!-- Aceastra structura trebuie stearsa sau reglata -->
         <field name="name">account.tax.repartition.line Tree</field>
         <field name="model">account.tax.repartition.line</field>
         <field name="type">list</field>
         <field name="inherit_id" ref="account.tax_repartition_line_tree" />
         <field name="arch" type="xml">
             <field name="repartition_type" position="after">
-
-
                 <field
                     name="l10n_ro_nondeductible"
                     invisible="repartition_type == 'base'"
@@ -46,5 +40,4 @@
             </field>
         </field>
     </record>
-
 </odoo>
