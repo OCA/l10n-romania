@@ -50,6 +50,7 @@ class ProductCategory(models.Model):
                 stock_input = record.property_stock_account_input_categ_id
                 stock_output = record.property_stock_account_output_categ_id
                 stock_val = record.property_stock_valuation_account_id
+
                 if not (stock_input == stock_output == stock_val):
                     raise UserError(
                         _(
