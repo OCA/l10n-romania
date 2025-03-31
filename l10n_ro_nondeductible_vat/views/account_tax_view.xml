@@ -13,6 +13,10 @@
                     invisible=" l10n_ro_is_nondeductible == False"
                     domain="[('l10n_ro_is_nondeductible','=',True)]"
                 />
+                <field
+                    name="l10n_ro_negative_allow"
+                    invisible=" l10n_ro_is_nondeductible == False"
+                />
             </field>
         </field>
     </record>
