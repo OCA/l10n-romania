@@ -54,6 +54,7 @@ class AccountTaxExtend(models.Model):
             else:
                 tax.has_negative_factor = False
 
+    # pylint: disable=W8110
     @api.constrains(
         "invoice_repartition_line_ids",
         "refund_repartition_line_ids",
