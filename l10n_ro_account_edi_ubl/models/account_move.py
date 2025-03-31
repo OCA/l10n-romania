@@ -374,6 +374,11 @@ class AccountMove(models.Model):
         )
         return attachment
 
+    def _is_l10n_ro_b2c(self):
+        self.ensure_one()
+        partner = self.partner_id.commercial_partner_id
+        return partner.country_id.code == "RO" and not partner.is_company
+
 
 class AccountMoveLine(models.Model):
     _inherit = "account.move.line"

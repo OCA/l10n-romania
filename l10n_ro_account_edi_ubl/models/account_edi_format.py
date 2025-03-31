@@ -234,7 +234,8 @@ class AccountEdiXmlCIUSRO(models.Model):
             "standard": standard,
             "cif": invoice.company_id.partner_id.vat.replace("RO", ""),
         }
-        res = self._l10n_ro_anaf_call("/upload", anaf_config, params, attachment.raw)
+        anaf_url = "/uploadb2c" if invoice._is_l10n_ro_b2c() else "/upload"
+        res = self._l10n_ro_anaf_call(anaf_url, anaf_config, params, attachment.raw)
         if res.get("transaction", False):
             res.update({"attachment": attachment})
             invoice.write({"l10n_ro_edi_transaction": res.get("transaction")})
