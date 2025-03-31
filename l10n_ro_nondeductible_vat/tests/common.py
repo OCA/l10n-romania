@@ -7,12 +7,11 @@ import logging
 
 from odoo import fields
 from odoo.tests import Form, tagged
-from odoo import Command
 
+from odoo.addons.account.tests.common import AccountTestInvoicingCommon
 from odoo.addons.stock_account.tests.test_anglo_saxon_valuation_reconciliation_common import (  # noqa E501
     ValuationReconciliationTestCommon,
 )
-from odoo.addons.account.tests.common import AccountTestInvoicingCommon
 
 _logger = logging.getLogger(__name__)
 
@@ -361,11 +360,13 @@ class TestNondeductibleCommon(ValuationReconciliationTestCommon):
                 ("company_id", "=", cls.env.company.id),
             ]
         )
-        cls.env['account.fiscal.position.tax'].create({
-            'position_id':  cls.fptvainc.id,
-            'tax_src_id': cls.tax_10_nondeductible.id,
-            'tax_dest_id':cls.tax_10_nondeductible_cash_basis.id,
-        })
+        cls.env["account.fiscal.position.tax"].create(
+            {
+                "position_id": cls.fptvainc.id,
+                "tax_src_id": cls.tax_10_nondeductible.id,
+                "tax_dest_id": cls.tax_10_nondeductible_cash_basis.id,
+            }
+        )
         # cls.fptvainc.write(
         #     {
         #         "tax_ids": [Command.create({
@@ -380,7 +381,6 @@ class TestNondeductibleCommon(ValuationReconciliationTestCommon):
     @classmethod
     @AccountTestInvoicingCommon.setup_country("ro")
     def setUpClass(cls):
-        
         super().setUpClass()
 
         cls.env.user.groups_id += cls.env.ref(
@@ -475,9 +475,9 @@ class TestNondeductibleCommon(ValuationReconciliationTestCommon):
         company_data["default_account_stock_out"] = company_data[
             "default_account_stock_valuation"
         ]
-       
+
         return company_data
-    
+
     @classmethod
     def collect_company_accounting_data(cls, company):
         company_data = super().collect_company_accounting_data(company)
@@ -490,7 +490,6 @@ class TestNondeductibleCommon(ValuationReconciliationTestCommon):
             "default_account_stock_valuation"
         ]
         return company_data
-
 
     def create_po(self, picking_type_in=None):
         if not picking_type_in:
@@ -509,7 +508,6 @@ class TestNondeductibleCommon(ValuationReconciliationTestCommon):
         self.picking = po.picking_ids[0]
         for move in self.picking.move_ids:
             if move.product_id == self.product_1:
-               
                 move._set_quantity_done(100)
 
         self.picking.button_validate()
@@ -548,7 +546,6 @@ class TestNondeductibleCommon(ValuationReconciliationTestCommon):
             if fiscal_position == self.fptvainc:
                 invoice_line_form.tax_ids.clear()
                 invoice_line_form.tax_ids.add(self.tax_10_nondeductible_cash_basis)
-                
 
         invoice = invoice.save()
         invoice.action_post()
