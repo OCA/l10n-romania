@@ -391,11 +391,30 @@ class AccountEdiXmlCIUSRO(models.Model):
         return super()._retrieve_partner_with_name(name, extra_domain)
 
     def _import_retrieve_and_fill_partner(
-        self, invoice, name, phone, mail, vat, country_code=False
+        self,
+        invoice,
+        name,
+        phone,
+        mail,
+        vat,
+        country_code=False,
+        street=False,
+        street2=False,
+        city=False,
+        zip_code=False,
     ):
         """Update method to set the partner as a company, not indiovidual"""
         res = super()._import_retrieve_and_fill_partner(
-            invoice, name, phone, mail, vat, country_code
+            invoice,
+            name,
+            phone,
+            mail,
+            vat,
+            country_code,
+            street,
+            street2,
+            city,
+            zip_code,
         )
         if not invoice.partner_id.is_company and name and vat:
             if not invoice.partner_id.parent_id:
@@ -408,20 +427,23 @@ class AccountEdiXmlCIUSRO(models.Model):
         if not invoice_form.partner_id:
             role = "Customer" if invoice_form.journal_id.type == "sale" else "Supplier"
             vat = self._find_value(
-                f"//cac:Accounting{role}Party/cac:Party//cbc:CompanyID", tree
+                f"//cac:Accounting{role}Party/cac:Party//cbc:CompanyID",  # noqa: E231
+                tree,
             )
             phone = self._find_value(
-                f"//cac:Accounting{role}Party/cac:Party//cbc:Telephone", tree
+                f"//cac:Accounting{role}Party/cac:Party//cbc:Telephone",  # noqa: E231
+                tree,
             )
             mail = self._find_value(
-                f"//cac:Accounting{role}Party/cac:Party//cbc:ElectronicMail", tree
+                f"//cac:Accounting{role}Party/cac:Party//cbc:ElectronicMail",  # noqa: E231
+                tree,
             )
             name = self._find_value(
-                f"//cac:Accounting{role}Party/cac:Party//cac:PartyLegalEntity//cbc:RegistrationName",  # noqa: B950
+                f"//cac:Accounting{role}Party/cac:Party//cac:PartyLegalEntity//cbc:RegistrationName",  # noqa: B950,E231
                 tree,
             )
             country_code = self._find_value(
-                f"//cac:Accounting{role}Party/cac:Party//cac:Country//cbc:IdentificationCode",
+                f"//cac:Accounting{role}Party/cac:Party//cac:Country//cbc:IdentificationCode",  # noqa: B950,E231
                 tree,
             )
             self._import_retrieve_and_fill_partner(
@@ -464,18 +486,18 @@ class AccountEdiXmlCIUSRO(models.Model):
         val2 = "DA"
         try:
             res = requests.post(
-                f"https://webservicesp.anaf.ro/prod/FCTEL/rest/transformare/{val1}/{val2}",
+                f"https://webservicesp.anaf.ro/prod/FCTEL/rest/transformare/{val1}/{val2}",  # noqa: B950,E231
                 data=xml,
                 headers=headers,
                 timeout=10,
             )
             if "The requested URL was rejected" in res.text:
                 xml = xml.replace(
-                    b'xsi:schemaLocation="urn:oasis:names:specification:ubl:schema:xsd:Invoice-2 ../../UBL-2.1(1)/xsd/maindoc/UBLInvoice-2.1.xsd"',  # noqa: B950
+                    b'xsi:schemaLocation="urn:oasis:names:specification:ubl:schema:xsd:Invoice-2 ../../UBL-2.1(1)/xsd/maindoc/UBLInvoice-2.1.xsd"',  # noqa: B950,E231
                     "",
                 )
                 res = requests.post(
-                    f"https://webservicesp.anaf.ro/prod/FCTEL/rest/transformare/{val1}/{val2}",
+                    f"https://webservicesp.anaf.ro/prod/FCTEL/rest/transformare/{val1}/{val2}",  # noqa: B950,E231
                     data=xml,
                     headers=headers,
                     timeout=10,
