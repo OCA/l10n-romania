@@ -86,3 +86,22 @@ class TestStockSale(TestStockCommon):
         return_pick.button_validate()
 
         self.create_sale_invoice()
+
+        _logger.info("Verifcare valoare ramas in stoc")
+
+        val_stock_p1 = round(
+            self.val_p1_i - self.val_stock_out_so_p1 + 2 * self.price_p1, 2
+        )
+        val_stock_p2 = round(
+            self.val_p2_i - self.val_stock_out_so_p2 + 2 * self.price_p2, 2
+        )
+
+        self.check_stock_valuation(val_stock_p1, val_stock_p2)
+        self.check_account_valuation(val_stock_p1, val_stock_p2)
+
+        _logger.info("Verifcare valoare vanduta")
+
+        val_so_p1 = round((self.qty_so_p1 - 2) * self.list_price_p1, 2)
+        val_so_p2 = round((self.qty_so_p2 - 2) * self.list_price_p2, 2)
+
+        self.check_account_valuation(-val_so_p1, -val_so_p2, self.account_income)
