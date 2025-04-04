@@ -194,6 +194,9 @@ class AdjustmentLines(models.Model):
             self.cost_line_id.account_id.id
             or cost_product.categ_id.property_stock_account_input_categ_id.id
         )
+        # daca e acelasi cont sa nu mai faca nota
+        if credit_account_id == debit_account_id:
+            return []
 
         # If the stock move is dropshipped move we need to get the cost account
         # instead the stock valuation account
