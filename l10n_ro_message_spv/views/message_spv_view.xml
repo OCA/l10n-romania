@@ -77,7 +77,7 @@
                         name="create_invoice"
                         string="Create Invoice"
                         type="object"
-                        invisible="message_type != 'in_invoice'"
+                        invisible="message_type not in ('in_invoice','in_receipt')"
                     />
 
                     <button name="render_anaf_pdf" string="Render PDF" type="object" />
