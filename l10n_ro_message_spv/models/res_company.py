@@ -113,7 +113,8 @@ class ResCompany(models.Model):
                             "state": "draft",
                         }
                     )
+                    spv_message.download_from_spv()
                     if spv_message.message_type in ["error", "message"]:
                         spv_message.get_invoice_from_move()
-                        spv_message.download_from_spv()
+
         return True
