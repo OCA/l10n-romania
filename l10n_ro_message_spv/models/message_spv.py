@@ -401,6 +401,19 @@ class MessageSPV(models.Model):
                                 "key_loading": message.request_id,
                             }
                         )
+                if not message.invoice_id.l10n_ro_edi_document_ids:
+                    if message.message_type != "error":
+                        state = "invoice_sent"
+                    else:
+                        state = "invoice_sending_failed"
+
+                    self.env["l10n_ro_edi.document"].create(
+                        {
+                            "invoice_id": message.invoice_id.id,
+                            "state": state,
+                            "key_loading": message.request_id,
+                        }
+                    )
 
     def create_invoice(self):
         self.get_partner()
