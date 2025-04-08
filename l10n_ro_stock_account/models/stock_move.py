@@ -733,21 +733,21 @@ class StockMove(models.Model):
         journal_id = self._l10n_ro_get_journal_id(
             location_from, location_to, journal_id
         )
-        # # determina analiticul aferent jurnalului
-        # if journal_id:
-        #     journal = self.env["account.journal"].browse(journal_id)
-        #     if journal.l10n_ro_fiscal_position_id:
-        #         fiscal_position = journal.l10n_ro_fiscal_position_id
-        #         acc_src_rec = self.env["account.account"].browse(acc_src)
-        #         acc_dest_rec = self.env["account.account"].browse(acc_dest)
-        #         acc_valuation_rec = self.env["account.account"].browse(acc_valuation)
-        #
-        #         acc_src_rec = fiscal_position.map_account(acc_src_rec)
-        #         acc_dest_rec = fiscal_position.map_account(acc_dest_rec)
-        #         acc_valuation_rec = fiscal_position.map_account(acc_valuation_rec)
-        #         acc_src = acc_src_rec.id
-        #         acc_dest = acc_dest_rec.id
-        #         acc_valuation = acc_valuation_rec.id
+        # determina analiticul aferent jurnalului
+        if journal_id:
+            journal = self.env["account.journal"].browse(journal_id)
+            if journal.l10n_ro_fiscal_position_id:
+                fiscal_position = journal.l10n_ro_fiscal_position_id
+                acc_src_rec = self.env["account.account"].browse(acc_src)
+                acc_dest_rec = self.env["account.account"].browse(acc_dest)
+                acc_valuation_rec = self.env["account.account"].browse(acc_valuation)
+
+                acc_src_rec = fiscal_position.map_account(acc_src_rec)
+                acc_dest_rec = fiscal_position.map_account(acc_dest_rec)
+                acc_valuation_rec = fiscal_position.map_account(acc_valuation_rec)
+                acc_src = acc_src_rec.id
+                acc_dest = acc_dest_rec.id
+                acc_valuation = acc_valuation_rec.id
 
         # self.log_account(acc_src, acc_dest, acc_valuation, journal_id)
         return journal_id, acc_src, acc_dest, acc_valuation
@@ -817,7 +817,7 @@ class StockMove(models.Model):
         if self.product_id.cost_method != "average":
             return price_unit
 
-        if self._is_in:
+        if self._is_in():
             if self.price_unit:
                 return self.price_unit
         elif not self._is_out():
