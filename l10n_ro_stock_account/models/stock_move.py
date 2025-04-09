@@ -890,3 +890,20 @@ class StockMove(models.Model):
                     _logger.debug(svl_value)
 
         return svl_values
+
+    def _action_done(self, cancel_backorder=False):
+        accounts = []
+        for move in self:
+            (
+                journal_id,
+                acc_src,
+                acc_dest,
+                acc_valuation,
+            ) = move._get_accounting_data_for_valuation()
+            accounts += [acc_src, acc_dest, acc_valuation]
+
+        if accounts:
+            accounts = list(set(accounts))
+            self = self.with_context(l10n_ro_account_ids=accounts)
+        res = super()._action_done(cancel_backorder=cancel_backorder)
+        return res

@@ -118,3 +118,22 @@ class StockValuationLayer(models.Model):
             account_moves._post()
 
         return res
+
+    @api.model
+    def _read_group(
+        self,
+        domain,
+        groupby=(),
+        aggregates=(),
+        having=(),
+        offset=0,
+        limit=None,
+        order=None,
+    ):
+        l10n_ro_account_ids = self.env.context.get("l10n_ro_account_ids")
+        if l10n_ro_account_ids:
+            domain.append(("l10n_ro_account_id", "in", l10n_ro_account_ids))
+
+        return super()._read_group(
+            domain, groupby, aggregates, having, offset, limit, order
+        )
