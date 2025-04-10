@@ -17,9 +17,7 @@
                     string="Quantity more than existing. You will return different stock valuations."
                     icon="fa-exclamation-triangle"
                     invisible="l10n_ro_origin_ret_move_qty_warn == False"
-                >
-
-                </button>
+                />
                 <field
                     name="l10n_ro_origin_ret_move_qty"
                     invisible="l10n_ro_origin_ret_move_qty_warn == False"
