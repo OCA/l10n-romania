@@ -27,18 +27,60 @@ class StockMove(models.Model):
                 self.origin_returned_move_id
                 and self.origin_returned_move_id.sudo().stock_valuation_layer_ids
             ):
+                
                 layers = self.origin_returned_move_id.sudo().stock_valuation_layer_ids
-                quantity = sum(layers.mapped("quantity"))
-                price_unit = (
-                    sum(layers.mapped("value")) / quantity
-                    if not float_is_zero(
-                        quantity, precision_rounding=layers.uom_id.rounding
-                    )
-                    else 0
-                )
+                if self.product_id.lot_valuated:
+                    layers_by_lot = layers.grouped('lot_id')
+                    prices = {}
+                    for lot, stock_layers in layers_by_lot.items():
+                        qty = sum(stock_layers.mapped("quantity"))
+                        val = sum(stock_layers.mapped("value"))
+                        prices[lot] = val / qty if not float_is_zero(qty, precision_rounding=self.product_id.uom_id.rounding) else 0
+                else:
+                    quantity = sum(layers.mapped("quantity"))
+                    price_unit = {self.env['stock.lot']:(
+                        sum(layers.mapped("value")) / quantity
+                        if not float_is_zero(
+                            quantity, precision_rounding=layers.uom_id.rounding
+                        )
+                        else 0
+                    )}
 
         return price_unit
 
+    # def _get_in_svl_vals(self, forced_quantity):
+    #     svl_vals_list = []
+    #     for move in self:
+    #         move = move.with_company(move.company_id)
+    #         lines = move._get_in_move_lines()
+    #         quantities = defaultdict(float)
+    #         if forced_quantity:
+    #             quantities[forced_quantity[0]] += forced_quantity[1]
+    #         else:
+    #             for line in lines:
+    #                 quantities[line.lot_id] += line.product_uom_id._compute_quantity(
+    #                     line.quantity, move.product_id.uom_id
+    #                 )
+    #         if move.product_id.lot_valuated:
+    #             unit_cost = {lot: lot.standard_price for lot in move.lot_ids}
+    #         else:
+    #             unit_cost = {self.env['stock.lot']: move.product_id.standard_price}
+    #         if move.product_id.cost_method != 'standard':
+    #             unit_cost = move._get_price_unit()  # May be negative (i.e. decrease an out move).
+    #         if move.product_id.lot_valuated:
+    #             vals = []
+    #             for lot_id, qty in quantities.items():
+    #                 vals.append(move.product_id._prepare_in_svl_vals(qty, abs(unit_cost[lot_id]), lot=lot_id))
+    #         else:
+    #             vals = [move.product_id._prepare_in_svl_vals(sum(quantities.values()), abs(unit_cost[self.env['stock.lot']]))]
+    #         for val in vals:
+    #             val.update(move._prepare_common_svl_vals())
+    #             if forced_quantity:
+    #                 val['description'] = _('Correction of %s (modification of past move)', move.picking_id.name or move.name)
+    #         svl_vals_list += vals
+    #     return svl_vals_list
+    
+    
     # nu se mai face in mod automat evaluarea la intrare in stoc
     def _create_in_svl(self, forced_quantity=None):
         _logger.debug("SVL:%s" % self.env.context.get("valued_type", ""))
@@ -54,9 +96,8 @@ class StockMove(models.Model):
                 move = move.with_company(move.company_id)
                 valued_move_lines = move._get_in_move_lines()
                 if not valued_move_lines and forced_quantity:
-                    unit_cost = abs(
-                        move._get_price_unit()
-                    )  # May be negative (i.e. decrease an out move).
+                    unit_cost = abs(move._get_price_unit()[self.env['stock.lot']])
+                      # May be negative (i.e. decrease an out move).
                     if move.product_id.cost_method == "standard":
                         unit_cost = move.product_id.standard_price
                     svl_vals = move.product_id._prepare_in_svl_vals(
@@ -71,6 +112,10 @@ class StockMove(models.Model):
                         )
                     svls = self.env["stock.valuation.layer"].sudo().create(svl_vals)
                 for valued_move_line in valued_move_lines:
+                    if valued_move_line.lot_id:
+                        lot = valued_move_line.lot_id
+                    else:
+                        lot = self.env["stock.lot"]
                     move = move.with_context(stock_move_line_id=valued_move_line)
                     valued_quantity = valued_move_line.product_uom_id._compute_quantity(
                         valued_move_line.quantity, move.product_id.uom_id
@@ -105,9 +150,8 @@ class StockMove(models.Model):
                                     origin_unit_cost * valued_quantity,
                                 )
                             ]
-                    unit_cost = abs(
-                        origin_unit_cost or move._get_price_unit()
-                    )  # May be negative (i.e. decrease an out move).
+                    unit_cost = abs(move._get_price_unit()[lot])
+                      # May be negative (i.e. decrease an out move).
                     if move.product_id.cost_method == "standard":
                         unit_cost = move.product_id.standard_price
                     svl_vals = move.product_id._prepare_in_svl_vals(
