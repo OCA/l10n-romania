@@ -35,6 +35,7 @@ class MessageSPV(models.Model):
         string="Type",
     )  # tip
     date = fields.Datetime()  # data_creare
+    invoice_date = fields.Date()  # data_factura
     details = fields.Char()  # detalii
     error = fields.Text()  # eroare
     message = fields.Text()  # mesaj
@@ -181,6 +182,11 @@ class MessageSPV(models.Model):
             if ref_node is not None:
                 ref = ref_node.text
 
+            invoice_date_node = xml_tree.find("./{*}IssueDate")
+            invoice_date = message.invoice_date
+            if invoice_date_node is not None:
+                invoice_date = invoice_date_node.text
+
             currency = message.currency_id
             currency_node = xml_tree.find("./{*}DocumentCurrencyCode")
             if currency_node is not None:
@@ -208,6 +214,7 @@ class MessageSPV(models.Model):
                     "attachment_xml_id": attachment_xml.id,
                     "ref": ref,
                     "amount": amount,
+                    "invoice_date": invoice_date,
                     "currency_id": currency.id or message.currency_id.id,
                 }
             )
@@ -282,7 +289,18 @@ class MessageSPV(models.Model):
                 )
                 if not edi_doc:
                     continue
-                message.write({"invoice_id": edi_doc.invoice_id.id})
+                message.write(
+                    {
+                        "invoice_id": edi_doc.invoice_id.id,
+                    }
+                )
+                if not edi_doc.key_loading:
+                    edi_doc.write(
+                        {
+                            "key_loading": message.request_id,
+                            "state": "invoice_sent",
+                        }
+                    )
                 domain = [
                     ("res_model", "=", "account.move"),
                     (
@@ -329,7 +347,7 @@ class MessageSPV(models.Model):
                     move_type = ("out_invoice", "out_refund")
 
                 domain = [
-                    ("partner_id", "=", message.partner_id.id),
+                    ("commercial_partner_id", "=", message.partner_id.id),
                     ("ref", "=", message.ref),
                     ("move_type", "in", move_type),
                 ]
@@ -360,6 +378,7 @@ class MessageSPV(models.Model):
                     or message.partner_id.id,
                     "invoice_amount": invoice_amount,
                     "state": state,
+                    "invoice_date": message.invoice_id.invoice_date,
                 }
             )
         for message in self:
@@ -373,10 +392,33 @@ class MessageSPV(models.Model):
                     {"res_id": message.invoice_id.id, "res_model": "account.move"}
                 )
 
+                if "out" in message.message_type:
+                    if not message.invoice_id.l10n_ro_edi_document_ids:
+                        self.env["l10n_ro_edi.document"].create(
+                            {
+                                "invoice_id": message.invoice_id.id,
+                                "state": "invoice_sending",
+                                "key_loading": message.request_id,
+                            }
+                        )
+                if not message.invoice_id.l10n_ro_edi_document_ids:
+                    if message.message_type != "error":
+                        state = "invoice_sent"
+                    else:
+                        state = "invoice_sending_failed"
+
+                    self.env["l10n_ro_edi.document"].create(
+                        {
+                            "invoice_id": message.invoice_id.id,
+                            "state": state,
+                            "key_loading": message.request_id,
+                        }
+                    )
+
     def create_invoice(self):
         self.get_partner()
         for message in self.filtered(lambda m: not m.invoice_id):
-            if not message.message_type == "in_invoice":
+            if message.message_type not in ("in_invoice", "in_receipt"):
                 continue
             message.get_invoice_from_move()
             if message.invoice_id:
@@ -407,9 +449,13 @@ class MessageSPV(models.Model):
             exist_invoice = move_obj.search(
                 [
                     ("ref", "=", new_invoice.ref),
-                    ("move_type", "=", "in_invoice"),
+                    ("move_type", "in", ("in_invoice", "in_receipt")),
                     ("state", "=", "posted"),
-                    ("partner_id", "=", new_invoice.partner_id.id),
+                    (
+                        "commercial_partner_id",
+                        "=",
+                        new_invoice.commercial_partner_id.id,
+                    ),
                     ("id", "!=", new_invoice.id),
                 ],
                 limit=1,
