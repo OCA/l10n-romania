@@ -25,11 +25,11 @@ class ResCompany(models.Model):
         return ro_companies._l10n_ro_download_message_spv()
 
     def _l10n_ro_download_message_spv(self, no_days=60):
-        def get_partner_from_cif(cif):
+        def get_partner_from_cif(cif, company_id):
             domain = [
                 ("vat", "like", cif),
                 ("is_company", "=", True),
-                ("company_id", "=", self.id),
+                ("company_id", "=", company_id),
             ]
             partner = self.env["res.partner"].search(domain, limit=1)
             if not partner:
@@ -43,7 +43,7 @@ class ResCompany(models.Model):
                     {
                         "name": "Unknown",
                         "vat": cif,
-                        "company_id": self.id,
+                        "company_id": company_id,
                         "country_id": self.env.ref("base.ro").id,
                         "is_company": True,
                     }
@@ -85,14 +85,14 @@ class ResCompany(models.Model):
                         match = re.search(pattern_in, message["detalii"])
                         if match:
                             cif = match.group(1)
-                            partner = get_partner_from_cif(cif)
+                            partner = get_partner_from_cif(cif, company.id)
 
                     elif message["tip"] == "FACTURA TRIMISA":
                         message_type = "out_invoice"
                         match = re.search(pattern_out, message["detalii"])
                         if match:
                             cif = match.group(1)
-                            partner = get_partner_from_cif(cif)
+                            partner = get_partner_from_cif(cif, company.id)
                     elif message["tip"] == "ERORI FACTURA":
                         message_type = "error"
                     elif "MESAJ" in message["tip"]:
@@ -113,7 +113,8 @@ class ResCompany(models.Model):
                             "state": "draft",
                         }
                     )
+                    spv_message.download_from_spv()
                     if spv_message.message_type in ["error", "message"]:
                         spv_message.get_invoice_from_move()
-                        spv_message.download_from_spv()
+
         return True
