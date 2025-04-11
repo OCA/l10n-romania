@@ -40,18 +40,14 @@ class StockQuant(models.Model):
                     product=product: quant.location_id.id == location.id
                     and quant.product_id.id == product.id
                 ).sorted("in_date")
-                svls = (
-                    self.env["stock.valuation.layer"]
-                    .search(
-                        [
-                            ("product_id", "=", product.id),
-                            ("company_id", "=", location.company_id.id),
-                            ("l10n_ro_location_dest_id", "=", location.id),
-                            ("remaining_qty", ">", 0),
-                        ]
-                    )
-                    .sorted("create_date")
-                )
+
+                svls = product.stock_valuation_layer_ids.filtered(
+                    lambda svl, location=location: svl.company_id.id
+                    == location.company_id.id
+                    and svl.l10n_ro_location_dest_id.id == location.id
+                    and svl.remaining_qty > 0
+                ).sorted("create_date")
+
                 sq_lots = quants.filtered(
                     lambda quant, svls=svls: quant.lot_id in set(svls.mapped("lot_id"))
                 )
