@@ -26,13 +26,7 @@ class StockValuationLayer(models.Model):
         index=True,
         string="Romania - Destination Location",
     )
-    l10n_ro_lot_ids = fields.Many2many(
-        "stock.lot",
-        compute="_compute_l10n_ro_svl_locations_lot",
-        store=True,
-        index=True,
-        string="Romania - Serial Numbers",
-    )
+
     l10n_ro_svl_track_dest_ids = fields.One2many(
         "l10n.ro.stock.valuation.layer.tracking",
         "svl_src_id",
@@ -66,9 +60,6 @@ class StockValuationLayer(models.Model):
             )
             svl.l10n_ro_location_id = record.location_id
             svl.l10n_ro_location_dest_id = record.location_dest_id
-            svl.l10n_ro_lot_ids = (
-                record.lot_id if "lot_id" in record._fields else record.lot_ids
-            )
 
     def _compute_l10n_ro_svl_tracking(self):
         for s in self:

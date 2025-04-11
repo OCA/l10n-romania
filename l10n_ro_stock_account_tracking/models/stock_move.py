@@ -55,38 +55,6 @@ class StockMove(models.Model):
 
         return price_unit
 
-    # def _get_in_svl_vals(self, forced_quantity):
-    #     svl_vals_list = []
-    #     for move in self:
-    #         move = move.with_company(move.company_id)
-    #         lines = move._get_in_move_lines()
-    #         quantities = defaultdict(float)
-    #         if forced_quantity:
-    #             quantities[forced_quantity[0]] += forced_quantity[1]
-    #         else:
-    #             for line in lines:
-    #                 quantities[line.lot_id] += line.product_uom_id._compute_quantity(
-    #                     line.quantity, move.product_id.uom_id
-    #                 )
-    #         if move.product_id.lot_valuated:
-    #             unit_cost = {lot: lot.standard_price for lot in move.lot_ids}
-    #         else:
-    #             unit_cost = {self.env['stock.lot']: move.product_id.standard_price}
-    #         if move.product_id.cost_method != 'standard':
-    #             unit_cost = move._get_price_unit()  # May be negative (i.e. decrease an out move).
-    #         if move.product_id.lot_valuated:
-    #             vals = []
-    #             for lot_id, qty in quantities.items():
-    #                 vals.append(move.product_id._prepare_in_svl_vals(qty, abs(unit_cost[lot_id]), lot=lot_id))
-    #         else:
-    #             vals = [move.product_id._prepare_in_svl_vals(sum(quantities.values()), abs(unit_cost[self.env['stock.lot']]))]
-    #         for val in vals:
-    #             val.update(move._prepare_common_svl_vals())
-    #             if forced_quantity:
-    #                 val['description'] = _('Correction of %s (modification of past move)', move.picking_id.name or move.name)
-    #         svl_vals_list += vals
-    #     return svl_vals_list
-
     # nu se mai face in mod automat evaluarea la intrare in stoc
     def _create_in_svl(self, forced_quantity=None):
         _logger.debug("SVL: {}".format(self.env.context.get("valued_type", "")))
@@ -111,11 +79,8 @@ class StockMove(models.Model):
                     )
                     svl_vals.update(move._prepare_common_svl_vals())
                     if forced_quantity:
-                        svl_vals["description"] = (
-                            "Correction of %s (modification of past move)"
-                            % move.picking_id.name
-                            or move.name
-                        )
+                        svl_vals["description"] = f"Correction of\
+                        {move.picking_id.name or move.name} (modification of past move)"
                     svls = self.env["stock.valuation.layer"].sudo().create(svl_vals)
                 for valued_move_line in valued_move_lines:
                     if valued_move_line.lot_id:
@@ -173,9 +138,10 @@ class StockMove(models.Model):
                         }
                     )
                     if forced_quantity:
-                        svl_vals["description"] = (
-                            f"Correction of {move.picking_id.name or move.name} (modification of past move)"
-                        )
+                        svl_vals[
+                            "description"
+                        ] = f"Correction of {move.picking_id.name or move.name}\
+                                (modification of past move)"
                     svls |= self._l10n_ro_create_track_svl([svl_vals])
         return svls
 
@@ -213,17 +179,19 @@ class StockMove(models.Model):
                     )
                     for svl_vals in svl_vals_list:
                         svl_vals.update(move._prepare_common_svl_vals())
+                        if valued_move_line.lot_id:
+                            svl_vals.update({"lot_id": valued_move_line.lot_id.id})
                         svl_vals.update(
                             {
                                 "l10n_ro_stock_move_line_id": valued_move_line.id,
                             }
                         )
                         if forced_quantity:
-                            svl_vals["description"] = (
-                                "Correction of %s (modification of past move)"
-                                % valued_move_line.picking_id.name
-                                or valued_move_line.name
-                            )
+                            svl_vals[
+                                "description"
+                            ] = f"Correction of {move.picking_id.name or move.name}\
+                                    (modification of past move)"
+
                         svl_vals["description"] += svl_vals.pop(
                             "rounding_adjustment", ""
                         )
@@ -307,6 +275,8 @@ class StockMove(models.Model):
                         unit_cost = move.product_id.standard_price
                     svl_vals = move.product_id._prepare_in_svl_vals(quantity, unit_cost)
                     svl_vals.update(move._prepare_common_svl_vals())
+                    if valued_move_line.lot_id:
+                        svl_vals.update({"lot_id": valued_move_line.lot_id.id})
                     svl_vals.update(
                         {
                             "l10n_ro_stock_move_line_id": valued_move_line.id,
@@ -378,9 +348,10 @@ class StockMove(models.Model):
                 for svl_vals in svl_vals_list:
                     svl_vals.update(move._prepare_common_svl_vals())
                     if forced_quantity:
-                        svl_vals["description"] = (
-                            f"Correction of {move.picking_id.name or move.name} (modification of past move)"
-                        )
+                        svl_vals[
+                            "description"
+                        ] = f"Correction of {move.picking_id.name or move.name}\
+                                (modification of past move)"
                     svl_vals["description"] += svl_vals.pop("rounding_adjustment", "")
                     svl_vals["l10n_ro_stock_move_line_id"] = valued_move_line.id
                     svls |= self._l10n_ro_create_track_svl([svl_vals])
