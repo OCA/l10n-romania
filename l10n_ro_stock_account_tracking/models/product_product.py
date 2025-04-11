@@ -45,7 +45,7 @@ class ProductProduct(models.Model):
             if use_svl_lot_config and self.env.context.get("lot_id"):
                 domain_ctx += [
                     (
-                        "l10n_ro_lot_ids",
+                        "lot_id",
                         "in",
                         [self.env.context.get("lot_id")],
                     )
@@ -182,7 +182,7 @@ class ProductProduct(models.Model):
 
         use_svl_lot_config = company.l10n_ro_stock_account_svl_lot_allocation
         if self.tracking in ["lot", "serial"] and lot_id and use_svl_lot_config:
-            domain += [("l10n_ro_lot_ids", "in", [lot_id.id])]
+            domain += [("lot_id", "=", lot_id.id)]
         if loc_id:
             domain += [("l10n_ro_location_dest_id", "child_of", loc_id.id)]
         return domain
@@ -420,6 +420,10 @@ class ProductProduct(models.Model):
                 move = svl_to_vacuum.stock_move_id
                 move_line = svl_to_vacuum.l10n_ro_stock_move_line_id
                 if not simple_valuation:
+                    description_value = (
+                        move.picking_id.name if move.picking_id.name else move.name
+                    )
+
                     vals = {
                         "product_id": self.id,
                         "value": corrected_value,
@@ -429,7 +433,7 @@ class ProductProduct(models.Model):
                         "stock_move_id": move.id,
                         "l10n_ro_stock_move_line_id": move_line.id,
                         "company_id": move.company_id.id,
-                        "description": f"Revaluation of {move.picking_id.name or move.name} (negative inventory)",
+                        "description": f"Revaluation of {description_value} (negative inventory)",  # noqa E501
                         "stock_valuation_layer_id": svl_to_vacuum.id,
                     }
                     vacuum_svl = self.env["stock.valuation.layer"].sudo().create(vals)
