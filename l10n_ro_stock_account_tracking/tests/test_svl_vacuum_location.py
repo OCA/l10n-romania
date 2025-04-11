@@ -320,7 +320,7 @@ class TestSVLVacuumLocation(RoTestStockCommon):
         self.assertEqual(stock_acc_aml[3].credit, 280)
         # -400 -160 + 600 - 280 = -240 = 30 bucati la 8 lei
         self.assertEqual(
-            stock_acc_aml[3].name, "Revaluation of False (negative inventory)"
+            stock_acc_aml[3].name, "Revaluation of 50 out (negative inventory)"
         )
         self.assertEqual(
             sum(move_out_loc1.stock_valuation_layer_ids.mapped("value")), -680.0
@@ -392,7 +392,7 @@ class TestSVLVacuumLocation(RoTestStockCommon):
         self.assertEqual(stock_acc_aml[3].debit, 0)
         self.assertEqual(stock_acc_aml[3].credit, 280)
         self.assertEqual(
-            stock_acc_aml[3].name, "Revaluation of False (negative inventory)"
+            stock_acc_aml[3].name, "Revaluation of 50 out (negative inventory)"
         )
         self.assertEqual(stock_acc_aml[4].debit, 300)
         self.assertEqual(stock_acc_aml[4].credit, 0)
@@ -400,12 +400,12 @@ class TestSVLVacuumLocation(RoTestStockCommon):
         self.assertEqual(stock_acc_aml[5].debit, 0)
         self.assertEqual(stock_acc_aml[5].credit, 70)
         self.assertEqual(
-            stock_acc_aml[5].name, "Revaluation of False (negative inventory)"
+            stock_acc_aml[5].name, "Revaluation of 50 out (negative inventory)"
         )
         self.assertEqual(stock_acc_aml[6].debit, 0)
         self.assertEqual(stock_acc_aml[6].credit, 70)
         self.assertEqual(
-            stock_acc_aml[6].name, "Revaluation of False (negative inventory)"
+            stock_acc_aml[6].name, "Revaluation of 20 out (negative inventory)"
         )
 
         self.assertEqual(
@@ -470,7 +470,7 @@ class TestSVLVacuumLocation(RoTestStockCommon):
         self.assertEqual(stock_acc_aml[3].debit, 0)
         self.assertEqual(stock_acc_aml[3].credit, 280)
         self.assertEqual(
-            stock_acc_aml[3].name, "Revaluation of False (negative inventory)"
+            stock_acc_aml[3].name, "Revaluation of 50 out (negative inventory)"
         )
         self.assertEqual(stock_acc_aml[4].debit, 300)
         self.assertEqual(stock_acc_aml[4].credit, 0)
@@ -478,12 +478,12 @@ class TestSVLVacuumLocation(RoTestStockCommon):
         self.assertEqual(stock_acc_aml[5].debit, 0)
         self.assertEqual(stock_acc_aml[5].credit, 70)
         self.assertEqual(
-            stock_acc_aml[5].name, "Revaluation of False (negative inventory)"
+            stock_acc_aml[5].name, "Revaluation of 50 out (negative inventory)"
         )
         self.assertEqual(stock_acc_aml[6].debit, 0)
         self.assertEqual(stock_acc_aml[6].credit, 70)
         self.assertEqual(
-            stock_acc_aml[6].name, "Revaluation of False (negative inventory)"
+            stock_acc_aml[6].name, "Revaluation of 20 out (negative inventory)"
         )
         self.assertEqual(stock_acc_aml[7].debit, 450)
         self.assertEqual(stock_acc_aml[7].credit, 0)
@@ -491,7 +491,7 @@ class TestSVLVacuumLocation(RoTestStockCommon):
         self.assertEqual(stock_acc_aml[8].debit, 0)
         self.assertEqual(stock_acc_aml[8].credit, 70)
         self.assertEqual(
-            stock_acc_aml[8].name, "Revaluation of False (negative inventory)"
+            stock_acc_aml[8].name, "Revaluation of 20 out (negative inventory)"
         )
 
         self.assertEqual(

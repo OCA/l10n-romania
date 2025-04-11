@@ -53,19 +53,14 @@ class StockQuant(models.Model):
                     .sorted("create_date")
                 )
                 sq_lots = quants.filtered(
-                    lambda quant, svls=svls: quant.lot_id
-                    in set(svls.mapped("l10n_ro_lot_ids"))
+                    lambda quant, svls=svls: quant.lot_id in set(svls.mapped("lot_id"))
                 )
                 svl_with_lot_in_sq_lot = svls.filtered(
-                    lambda svl, sq_lots=sq_lots: svl.l10n_ro_lot_ids
-                    in sq_lots.mapped("lot_id")
+                    lambda svl, sq_lots=sq_lots: svl.lot_id in sq_lots.mapped("lot_id")
                 )
                 for svl in svl_with_lot_in_sq_lot:
                     for sq in sq_lots:
-                        if (
-                            svl.remaining_qty == sq.quantity
-                            and sq.lot_id in svl.l10n_ro_lot_ids
-                        ):
+                        if svl.remaining_qty == sq.quantity and sq.lot_id == svl.lot_id:
                             quants -= sq
                             quants_without_lot_allocation -= sq
                             svls -= svl

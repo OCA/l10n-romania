@@ -110,7 +110,7 @@ class TestStockQuantValue(RoTestStockCommon):
             [
                 ("product_id", "=", product_serial_number.id),
                 ("quantity", "<", 0),
-                ("l10n_ro_lot_ids.name", "=", "Series 3"),
+                ("lot_id.name", "=", "Series 3"),
             ]
         )
         self.assertEqual(svl3_out.value, -10.0)
@@ -118,7 +118,7 @@ class TestStockQuantValue(RoTestStockCommon):
             [
                 ("product_id", "=", product_serial_number.id),
                 ("remaining_qty", ">", 0),
-                ("l10n_ro_lot_ids.name", "=", "Series 3"),
+                ("lot_id.name", "=", "Series 3"),
             ]
         )
         self.assertEqual(svl3_remaining.remaining_value, 20.0)
@@ -126,7 +126,7 @@ class TestStockQuantValue(RoTestStockCommon):
         svl1 = self.env["stock.valuation.layer"].search(
             [
                 ("product_id", "=", product_serial_number.id),
-                ("l10n_ro_lot_ids.name", "=", "Series 1"),
+                ("lot_id.name", "=", "Series 1"),
             ]
         )
         self.assertEqual(svl1.remaining_qty, 0.0)
@@ -172,7 +172,7 @@ class TestStockQuantValue(RoTestStockCommon):
             [
                 ("product_id", "=", product_serial_number.id),
                 ("quantity", "<", 0),
-                ("l10n_ro_lot_ids.name", "=", "Series 5"),
+                ("lot_id.name", "=", "Series 5"),
             ]
         )
         self.assertEqual(svl5_out.value, -15.0)
@@ -180,7 +180,7 @@ class TestStockQuantValue(RoTestStockCommon):
             [
                 ("product_id", "=", product_serial_number.id),
                 ("remaining_qty", ">", 0),
-                ("l10n_ro_lot_ids.name", "=", "Series 5"),
+                ("lot_id.name", "=", "Series 5"),
             ]
         )
         self.assertEqual(svl5_remaining.remaining_qty, 10.0)
@@ -189,7 +189,7 @@ class TestStockQuantValue(RoTestStockCommon):
             [
                 ("product_id", "=", product_serial_number.id),
                 ("remaining_qty", ">", 0),
-                ("l10n_ro_lot_ids.name", "=", "Series 2"),
+                ("lot_id.name", "=", "Series 2"),
             ]
         )
         self.assertEqual(svl2.remaining_qty, 0.0)
@@ -235,7 +235,7 @@ class TestStockQuantValue(RoTestStockCommon):
             [
                 ("product_id", "=", product_serial_number.id),
                 ("quantity", "<", 0),
-                ("l10n_ro_lot_ids.name", "=", "Series 5"),
+                ("lot_id.name", "=", "Series 5"),
             ],
             order="create_date desc",
             limit=1,
@@ -245,7 +245,7 @@ class TestStockQuantValue(RoTestStockCommon):
             [
                 ("product_id", "=", product_serial_number.id),
                 ("remaining_qty", ">", 0),
-                ("l10n_ro_lot_ids.name", "=", "Series 5"),
+                ("lot_id.name", "=", "Series 5"),
             ]
         )
         self.assertEqual(svl5_remaining.remaining_qty, 10.0)
@@ -254,7 +254,7 @@ class TestStockQuantValue(RoTestStockCommon):
             [
                 ("product_id", "=", product_serial_number.id),
                 ("remaining_qty", ">", 0),
-                ("l10n_ro_lot_ids.name", "=", "Series 3"),
+                ("lot_id.name", "=", "Series 3"),
             ]
         )
         self.assertEqual(svl3.remaining_qty, 0.0)
@@ -357,7 +357,7 @@ class TestStockQuantValue(RoTestStockCommon):
             [
                 ("product_id", "=", product_id.id),
                 ("remaining_qty", ">", 0),
-                ("l10n_ro_lot_ids.name", "=", series),
+                ("lot_id.name", "=", series),
             ]
         )
         return [
