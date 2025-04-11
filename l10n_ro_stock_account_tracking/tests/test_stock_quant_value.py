@@ -23,8 +23,8 @@ class TestStockQuantValue(RoTestStockCommon):
                 "standard_price": 5.00,
                 "supplier_taxes_id": None,
                 "tracking": "lot",
-                'lot_valuated': True,
-                'is_storable': True,
+                "lot_valuated": True,
+                "is_storable": True,
             }
         )
         product_serial_number.categ_id.property_cost_method = "fifo"
@@ -93,8 +93,8 @@ class TestStockQuantValue(RoTestStockCommon):
                 series, product_serial_number
             )
             self.assertEqual(
-                stock_quant_qty[0],
-                stock_valuation_layer_qty[0],
+                stock_quant_qty,
+                stock_valuation_layer_qty,
                 f"Quantities do not match for {series}",
             )
 
