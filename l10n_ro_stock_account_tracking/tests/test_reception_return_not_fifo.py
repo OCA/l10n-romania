@@ -16,8 +16,8 @@ class TestStockPurchaseReturn(TestStockCommon):
     def test_not_fifo_return(self):
         po1 = self.create_po()
         self.create_invoice()
-        _logger.debug("PO1: %s" % po1.amount_total)
-        _logger.debug("Product1 price: %s" % self.product_1.standard_price)
+        _logger.debug(f"PO1: {po1.amount_total}")
+        _logger.debug(f"Product1 price: {self.product_1.standard_price}")
 
         stock_value_p1 = round(self.qty_po_p1 * self.price_p1, 2)
         stock_value_p2 = round(self.qty_po_p2 * self.price_p2, 2)
@@ -29,8 +29,8 @@ class TestStockPurchaseReturn(TestStockCommon):
         self.price_p2 = 55.0
         po2 = self.create_po()
         self.create_invoice()
-        _logger.debug("PO2: %s" % po2.amount_total)
-        _logger.debug("Product1 price: %s" % self.product_1.standard_price)
+        _logger.debug(f"PO2: {po2.amount_total}")
+        _logger.debug(f"Product1 price: {self.product_1.standard_price}")
 
         stock_value_final_p1 = stock_value_p1 + round(self.qty_po_p1 * self.price_p1, 2)
         stock_value_final_p2 = stock_value_p2 + round(self.qty_po_p2 * self.price_p2, 2)
