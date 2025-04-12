@@ -6,11 +6,7 @@
     "category": "Localization",
     "countries": ["ro"],
     "summary": "Romania - Mesaje SPV",
-    "depends": [
-        "l10n_ro_edi",
-        "account_edi",
-        "l10n_ro_config"
-    ],
+    "depends": ["l10n_ro_edi", "account_edi", "l10n_ro_config"],
     "data": [
         "security/ir.model.access.csv",
         "security/security.xml",
