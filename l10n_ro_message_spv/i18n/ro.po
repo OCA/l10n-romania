@@ -215,6 +215,12 @@ msgid "Invoice Amount"
 msgstr "Valoare factură"
 
 #. module: l10n_ro_message_spv
+#: model:ir.model.fields,field_description:l10n_ro_message_spv.field_l10n_ro_message_spv__invoice_date
+#: model_terms:ir.ui.view,arch_db:l10n_ro_message_spv.view_l10n_ro_message_spv_search
+msgid "Invoice Date"
+msgstr ""
+
+#. module: l10n_ro_message_spv
 #: model:ir.model,name:l10n_ro_message_spv.model_account_move
 msgid "Journal Entry"
 msgstr ""
