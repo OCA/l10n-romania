@@ -810,19 +810,21 @@ class StockMove(models.Model):
         return origin_svls
 
     def _get_price_unit(self):
-        price_unit = super()._get_price_unit()
+        res = super()._get_price_unit()
         if not self.is_l10n_ro_record:
-            return price_unit
+            return res
         if self.origin_returned_move_id:
-            return price_unit
+            return res
         if self.product_id.cost_method != "average":
-            return price_unit
+            return res
+        if self.product_id.lot_valuated:
+            return res
 
         if self._is_in():
             if self.price_unit:
-                return self.price_unit
+                return {self.env["stock.lot"]: self.price_unit}
         elif not self._is_out():
-            return price_unit
+            return res
 
         (
             journal_id,
@@ -871,7 +873,7 @@ class StockMove(models.Model):
             if res and res["quantity"]:
                 price_unit = res["value"] / res["quantity"]
         self.write({"price_unit": price_unit})
-        return price_unit
+        return {self.env["stock.lot"]: price_unit}
 
     def _get_out_svl_vals(self, forced_quantity):
         svl_values = super()._get_out_svl_vals(forced_quantity)
@@ -886,7 +888,8 @@ class StockMove(models.Model):
                     move.id == stock_move_id
                     and move.product_id.cost_method == "average"
                 ):
-                    svl_value["unit_cost"] = move._get_price_unit()
+                    price_unit = next(iter(move._get_price_unit().values()))
+                    svl_value["unit_cost"] = price_unit
                     svl_value["value"] = svl_value["quantity"] * svl_value["unit_cost"]
                     _logger.debug(svl_value)
 

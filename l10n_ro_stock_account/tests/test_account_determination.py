@@ -4,12 +4,13 @@
 
 from odoo.tests import tagged
 
+from odoo.addons.account.tests.common import AccountTestInvoicingCommon
+
 from .common import TestStockCommon
 
 
 @tagged("post_install", "-at_install")
 class TestStockAccountDetermination(TestStockCommon):
-
     """Verificare determinare conturi contabile analitice pentru fiecare depozit"""
 
     # se vor defini doua depzoite cu conturi contabile diferite
@@ -18,8 +19,9 @@ class TestStockAccountDetermination(TestStockCommon):
     # 707 va deveni 707.1 si respectiv 707.2
 
     @classmethod
-    def setUpClass(cls, chart_template_ref=None):
-        super().setUpClass(chart_template_ref=chart_template_ref)
+    @AccountTestInvoicingCommon.setup_country("ro")
+    def setUpClass(cls):
+        super().setUpClass()
 
         cls.account_371_1 = cls.account_valuation.copy({"name": "371001"})
         cls.account_371_2 = cls.account_valuation.copy({"name": "371002"})
