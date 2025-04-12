@@ -203,9 +203,9 @@ class StockMove(models.Model):
                 lambda x: "transit"
                 in (x.location_dest_id | x.location_id).mapped("usage")
             )
-        if not move_lines and self.env.context.get("valued_type", "") in (
-            "internal_transfer",
-            "internal_transit_in",
+        if (
+            not move_lines
+            and self.env.context.get("valued_type", "") == "internal_transfer"
         ):
             move_lines = self.move_line_ids
         return move_lines
@@ -214,9 +214,9 @@ class StockMove(models.Model):
         "fix _get_out_move_lines return None for move to transit"
         move_lines = super()._get_in_move_lines()
 
-        if not move_lines and self.env.context.get("valued_type", "") in (
-            "internal_transfer",
-            "internal_transit_out",
+        if (
+            not move_lines
+            and self.env.context.get("valued_type", "") == "internal_transfer"
         ):
             move_lines = self.move_line_ids
         return move_lines
@@ -241,6 +241,17 @@ class StockMove(models.Model):
         moves = self.with_context(standard=True, valued_type="internal_transit_in")
         for move in moves:
             svls |= move._create_out_svl(forced_quantity)
+            amount = 0
+            for svl in svls:
+                if svl.quantity > 0:
+                    svl.write(
+                        {
+                            "remaining_qty": svl.quantity,
+                            "remaining_value": svl.value,
+                        }
+                    )
+                amount += svl.value / (svl.quantity or 1)
+            move.price_unit = amount  #
             # for svl in svls:
             #     svl.write(
             #         {
@@ -281,7 +292,23 @@ class StockMove(models.Model):
         # currency = company.currency_id
         moves = self.with_context(standard=True, valued_type="internal_transit_out")
         for move in moves:
-            svls |= move._create_in_svl(forced_quantity)
+            valued_move_lines = move._get_out_move_lines()
+            valued_quantity = 0
+            for valued_move_line in valued_move_lines:
+                valued_quantity += valued_move_line.product_uom_id._compute_quantity(
+                    valued_move_line.quantity, move.product_id.uom_id
+                )
+
+            svls |= move._create_in_svl(forced_quantity or valued_quantity)
+            for svl in svls:
+                svl.write(
+                    {
+                        "quantity": abs(svl.quantity),
+                        "value": abs(svl.value),
+                        "remaining_qty": abs(svl.quantity),
+                        "remaining_value": abs(svl.value),
+                    }
+                )
             # for svl in svls:
             #     svl.write(
             #         {
@@ -605,6 +632,8 @@ class StockMove(models.Model):
         return account_move
 
     def _get_accounting_data_for_valuation(self):  # noqa C901
+        fiscal_pos = self.picking_id.picking_type_id.l10n_ro_fiscal_position_id
+        self = self.with_context(fiscal_pos=fiscal_pos)
         (
             journal_id,
             acc_src,
@@ -621,6 +650,9 @@ class StockMove(models.Model):
             location_from.l10n_ro_property_stock_valuation_account_id
         )
         location_to_account = location_to.l10n_ro_property_stock_valuation_account_id
+
+        company = self.company_id
+        stock_transfer_account = company.l10n_ro_property_stock_transfer_account_id
 
         allow_accounts_change = self.product_id.categ_id.l10n_ro_stock_account_change
         operations_not_allowed = ["usage_giving_secondary"]
@@ -681,30 +713,76 @@ class StockMove(models.Model):
                     or acc_src
                 )
 
-        if valued_type in ("consumption", "usage_giving"):
-            acc_dest_rec = self.env["account.account"].browse(acc_dest)
-            if acc_dest_rec and acc_dest_rec.l10n_ro_stock_consume_account_id:
-                acc_dest = acc_dest_rec.l10n_ro_stock_consume_account_id.id
-            acc_valuation_rec = self.env["account.account"].browse(acc_valuation)
-            if acc_valuation_rec and acc_valuation_rec.l10n_ro_stock_consume_account_id:
-                acc_valuation = acc_valuation_rec.l10n_ro_stock_consume_account_id.id
-        if valued_type in ("consumption_return", "usage_giving_return"):
-            acc_src_rec = self.env["account.account"].browse(acc_src)
-            if acc_src_rec and acc_src_rec.l10n_ro_stock_consume_account_id:
-                acc_src = acc_src_rec.l10n_ro_stock_consume_account_id.id
-            acc_valuation_rec = self.env["account.account"].browse(acc_valuation)
-            if acc_valuation_rec and acc_valuation_rec.l10n_ro_stock_consume_account_id:
-                acc_valuation = acc_valuation_rec.l10n_ro_stock_consume_account_id.id
+        if stock_transfer_account:
+            if valued_type == "internal_transit_out":
+                acc_src = stock_transfer_account.id
+            elif valued_type == "internal_transit_in":
+                acc_dest = stock_transfer_account.id
 
-        # if valued_type == "internal_transit_out":
-        #     acc_dest = location_to_account.id or acc_dest
-        #     acc_valuation = location_to_account.id or acc_dest
+        if valued_type in ("consumption", "usage_giving"):
+            acc_src, acc_dest, acc_valuation = self._l10n_ro_get_account_cons(
+                acc_src, acc_dest, acc_valuation
+            )
+
+        if valued_type in ("consumption_return", "usage_giving_return"):
+            acc_src, acc_dest, acc_valuation = self._l10n_ro_get_account_cons_return(
+                acc_src, acc_dest, acc_valuation
+            )
+
+        # self.log_account(acc_src, acc_dest, acc_valuation, journal_id)
 
         journal_id = self._l10n_ro_get_journal_id(
             location_from, location_to, journal_id
         )
+        # determina analiticul aferent jurnalului
+        if journal_id:
+            journal = self.env["account.journal"].browse(journal_id)
+            if journal.l10n_ro_fiscal_position_id:
+                fiscal_position = journal.l10n_ro_fiscal_position_id
+                acc_src_rec = self.env["account.account"].browse(acc_src)
+                acc_dest_rec = self.env["account.account"].browse(acc_dest)
+                acc_valuation_rec = self.env["account.account"].browse(acc_valuation)
 
+                acc_src_rec = fiscal_position.map_account(acc_src_rec)
+                acc_dest_rec = fiscal_position.map_account(acc_dest_rec)
+                acc_valuation_rec = fiscal_position.map_account(acc_valuation_rec)
+                acc_src = acc_src_rec.id
+                acc_dest = acc_dest_rec.id
+                acc_valuation = acc_valuation_rec.id
+
+        # self.log_account(acc_src, acc_dest, acc_valuation, journal_id)
         return journal_id, acc_src, acc_dest, acc_valuation
+
+    # def log_account(self, acc_src, acc_dest, acc_valuation, journal_id):
+    #     acc_dest_rec = self.env["account.account"].browse(acc_dest)
+    #     acc_src_rec = self.env["account.account"].browse(acc_src)
+    #     acc_valuation_rec = self.env["account.account"].browse(acc_valuation)
+    #     journal_rec = self.env["account.journal"].browse(journal_id)
+    #     _logger.info(
+    #         "Journal: %s, AccSrc: %s, AccDest: %s, AccVal: %s",
+    #         journal_rec.name,
+    #         acc_src_rec.code,
+    #         acc_dest_rec.code,
+    #         acc_valuation_rec.code,
+    #     )
+
+    def _l10n_ro_get_account_cons(self, acc_src, acc_dest, acc_valuation):
+        acc_dest_rec = self.env["account.account"].browse(acc_dest)
+        if acc_dest_rec and acc_dest_rec.l10n_ro_stock_consume_account_id:
+            acc_dest = acc_dest_rec.l10n_ro_stock_consume_account_id.id
+        acc_valuation_rec = self.env["account.account"].browse(acc_valuation)
+        if acc_valuation_rec and acc_valuation_rec.l10n_ro_stock_consume_account_id:
+            acc_valuation = acc_valuation_rec.l10n_ro_stock_consume_account_id.id
+        return acc_src, acc_dest, acc_valuation
+
+    def _l10n_ro_get_account_cons_return(self, acc_src, acc_dest, acc_valuation):
+        acc_src_rec = self.env["account.account"].browse(acc_src)
+        if acc_src_rec and acc_src_rec.l10n_ro_stock_consume_account_id:
+            acc_src = acc_src_rec.l10n_ro_stock_consume_account_id.id
+        acc_valuation_rec = self.env["account.account"].browse(acc_valuation)
+        if acc_valuation_rec and acc_valuation_rec.l10n_ro_stock_consume_account_id:
+            acc_valuation = acc_valuation_rec.l10n_ro_stock_consume_account_id.id
+        return acc_src, acc_dest, acc_valuation
 
     def _l10n_ro_get_journal_id(self, location_from, location_to, journal_id):
         journal_to_id = False
@@ -730,3 +808,86 @@ class StockMove(models.Model):
     def _l10n_ro_filter_svl_on_move_line(self, domain):
         origin_svls = self.env["stock.valuation.layer"].search(domain)
         return origin_svls
+
+    def _get_price_unit(self):
+        price_unit = super()._get_price_unit()
+        if not self.is_l10n_ro_record:
+            return price_unit
+        if self.origin_returned_move_id:
+            return price_unit
+        if self.product_id.cost_method != "average":
+            return price_unit
+
+        if self._is_in():
+            if self.price_unit:
+                return self.price_unit
+        elif not self._is_out():
+            return price_unit
+
+        (
+            journal_id,
+            acc_src,
+            acc_dest,
+            acc_valuation,
+        ) = self._get_accounting_data_for_valuation()
+        account = acc_src if self._is_out() else acc_dest
+
+        account = self.env["account.account"].browse(account)
+
+        domain = [
+            ("product_id", "=", self.product_id.id),
+            ("l10n_ro_account_id", "=", account.id),
+            ("id", "not in", self.stock_valuation_layer_ids.ids),
+        ]
+        valuations = self.env["stock.valuation.layer"].read_group(
+            domain,
+            ["value:sum", "quantity:sum"],
+            ["product_id"],
+        )
+        if valuations:
+            for valuation in valuations:
+                val = round(valuation["value"], 2)
+                quantity = round(valuation["quantity"], 2)
+                if quantity:
+                    price_unit = val / quantity
+        else:
+            # se selecteaza valoarea din notele contabile account_move_line
+            sql = """
+            SELECT
+                SUM(credit) - SUM(debit) as value,
+                SUM(quantity) as quantity
+            FROM account_move_line join account_move on
+                 account_move_line.move_id = account_move.id
+            WHERE account_id = %(account)s
+                AND product_id = %(product)s
+                AND state = 'posted'
+            """
+            param = {
+                "account": account.id,
+                "product": self.product_id.id,
+            }
+            self.env.cr.execute(sql, param)
+            res = self.env.cr.dictfetchone()
+            if res and res["quantity"]:
+                price_unit = res["value"] / res["quantity"]
+        self.write({"price_unit": price_unit})
+        return price_unit
+
+    def _get_out_svl_vals(self, forced_quantity):
+        svl_values = super()._get_out_svl_vals(forced_quantity)
+        if self.company_id.country_id.code != "RO":
+            return svl_values
+        for svl_value in svl_values:
+            if svl_value["quantity"] >= 0:
+                continue
+            stock_move_id = svl_value["stock_move_id"]
+            for move in self:
+                if (
+                    move.id == stock_move_id
+                    and move.product_id.cost_method == "average"
+                ):
+                    svl_value["unit_cost"] = move._get_price_unit()
+                    svl_value["value"] = svl_value["quantity"] * svl_value["unit_cost"]
+                    _logger.debug(svl_value)
+
+        return svl_values

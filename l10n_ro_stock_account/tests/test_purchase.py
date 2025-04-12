@@ -120,3 +120,15 @@ class TestStockPurchase(TestStockCommon):
         )
 
         self.check_account_diff(0, 0)
+
+    def test_nir_average_and_transfer(self):
+        self.product_1.product_tmpl_id.categ_id.property_cost_method = "average"
+        self.product_2.product_tmpl_id.categ_id.property_cost_method = "average"
+
+        self.create_po()
+
+        # iesire tranzit
+        self.transfer(self.location_warehouse, self.location_transit)
+        self.transfer(self.location_transit, self.location_warehouse_other)
+
+        self.create_invoice(diff_p1=20)
