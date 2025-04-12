@@ -17,9 +17,9 @@
         <field name="inherit_id" ref="account.view_account_journal_form" />
         <field name="arch" type="xml">
             <xpath expr="//group/field[@name='company_id']" position="after">
-                <field name="is_l10n_ro_record" invisible="1" />
                 <field name="l10n_ro_print_report" readonly="False" />
                 <field name="l10n_ro_fiscal_receipt" />
+                <field name="l10n_ro_fiscal_position_id" />
             </xpath>
         </field>
     </record>

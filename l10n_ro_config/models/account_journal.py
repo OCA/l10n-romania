@@ -18,6 +18,12 @@ class AccountJournal(models.Model):
 
     l10n_ro_fiscal_receipt = fields.Boolean("Fiscal Receipts Journal")
 
+    l10n_ro_fiscal_position_id = fields.Many2one(
+        "account.fiscal.position",
+        "Romania - Fiscal Position",
+        domain="[('company_id', '=', company_id)]",
+    )
+
     @api.depends("bank_account_id.l10n_ro_print_report")
     def _compute_l10n_ro_print_report(self):
         for jr in self:
