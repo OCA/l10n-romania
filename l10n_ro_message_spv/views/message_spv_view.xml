@@ -32,6 +32,8 @@
                 <field name="ref" />
                 <field name="message_type" />
                 <field name="date" />
+                <field name="invoice_date" />
+
                 <field name="partner_id" />
                 <field name="request_id" />
                 <field name="company_id" invisible="1" />
@@ -72,7 +74,7 @@
                         name="create_invoice"
                         string="Create Invoice"
                         type="object"
-                        invisible="message_type != 'in_invoice'"
+                        invisible="message_type not in ('in_invoice','in_receipt')"
                     />
 
                     <button name="render_anaf_pdf" string="Render PDF" type="object" />
@@ -96,6 +98,7 @@
                             <field name="company_id" invisible="1" />
                             <field name="partner_id" />
                             <field name="ref" />
+                            <field name="invoice_date" />
                             <field name="invoice_id" />
                             <field name="currency_id" invisible="1" />
                             <field
@@ -175,6 +178,7 @@
                 <field name="name" />
                 <field name="message_type" />
                 <field name="date" />
+                <field name="invoice_date" />
                 <field name="partner_id" />
                 <field name="request_id" />
                 <field name="company_id" />
@@ -209,6 +213,11 @@
                     />
                     <separator />
                     <filter string="Date" name="date" date="date" />
+                    <filter
+                        string="Invoice Date"
+                        name="invoice_date"
+                        date="invoice_date"
+                    />
                 </group>
                 <group>
                     <filter
