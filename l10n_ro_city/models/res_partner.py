@@ -46,7 +46,13 @@ class Partner(models.Model):
                 city = self.env["res.city"].search(domain, limit=1)
 
             if city:
-                self.city_id = city
+                self.write(
+                    {
+                        "city_id": city.id,
+                        "city": city.name,
+                        "state_id": city.state_id.id,
+                    }
+                )
 
     @api.onchange("city_id")
     def _onchange_city_id(self):
