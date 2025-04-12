@@ -138,10 +138,10 @@ class StockMove(models.Model):
                         }
                     )
                     if forced_quantity:
-                        svl_vals[
-                            "description"
-                        ] = f"Correction of {move.picking_id.name or move.name}\
-                                (modification of past move)"
+                        svl_vals["description"] = (
+                            f"Correction of {move.picking_id.name or move.name}"
+                            "(modification of past move)"
+                        )
                     svls |= self._l10n_ro_create_track_svl([svl_vals])
         return svls
 
@@ -187,10 +187,10 @@ class StockMove(models.Model):
                             }
                         )
                         if forced_quantity:
-                            svl_vals[
-                                "description"
-                            ] = f"Correction of {move.picking_id.name or move.name}\
-                                    (modification of past move)"
+                            svl_vals["description"] = (
+                                f"Correction of {move.picking_id.name or move.name}"
+                                "(modification of past move)"
+                            )
 
                         svl_vals["description"] += svl_vals.pop(
                             "rounding_adjustment", ""
@@ -348,10 +348,10 @@ class StockMove(models.Model):
                 for svl_vals in svl_vals_list:
                     svl_vals.update(move._prepare_common_svl_vals())
                     if forced_quantity:
-                        svl_vals[
-                            "description"
-                        ] = f"Correction of {move.picking_id.name or move.name}\
-                                (modification of past move)"
+                        svl_vals["description"] = (
+                            f"Correction of {move.picking_id.name or move.name}"
+                            "(modification of past move)"
+                        )
                     svl_vals["description"] += svl_vals.pop("rounding_adjustment", "")
                     svl_vals["l10n_ro_stock_move_line_id"] = valued_move_line.id
                     svls |= self._l10n_ro_create_track_svl([svl_vals])
