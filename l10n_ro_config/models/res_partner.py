@@ -54,7 +54,10 @@ class ResPartner(models.Model):
     @api.onchange("l10n_ro_vat_subjected")
     def onchange_l10n_ro_vat_subjected(self):
         if self.is_l10n_ro_record:
-            if not self.env.context.get("skip_ro_vat_change"):
+            if (
+                not self.env.context.get("skip_ro_vat_change")
+                and self.country_id.code == "RO"
+            ):
                 if self.vat and self.vat.isdigit() and self.l10n_ro_vat_subjected:
                     vat_country = self._l10n_ro_map_vat_country_code(
                         self.country_id.code.upper()
