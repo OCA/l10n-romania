@@ -611,7 +611,7 @@ class MessageSPV(models.Model):
         action = {
             "type": "ir.actions.act_window",
             "res_model": "account.move",
-            "view_mode": "tree",
+            "view_mode": "list",
             "views": [(False, "list"), (False, "form")],
             "domain": [("id", "in", invoices.ids)],
         }
