@@ -89,6 +89,7 @@ class AccountMoveLine(models.Model):
                     if va:
                         account = va
             if line.move_id.is_sale_document():
+                account = accounts["income"]
                 stock_moves = line._get_account_change_stock_moves_sale()
                 for stock_move in stock_moves:
                     location = stock_move.location_id
