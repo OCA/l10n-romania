@@ -17,8 +17,8 @@ class ResCompany(models.Model):
 
     def l10n_ro_download_message_spv(self):
         # method to be used in cron job to auto download e-invoices from ANAF
-        domain = [('l10n_ro_edi_access_token','!=', False)]
-        ro_companies = self or self.env['res.company'].sudo().search(domain)
+        domain = [("l10n_ro_edi_access_token", "!=", False)]
+        ro_companies = self or self.env["res.company"].sudo().search(domain)
         return ro_companies._l10n_ro_download_message_spv()
 
     def _l10n_ro_download_message_spv(self, no_days=60):
