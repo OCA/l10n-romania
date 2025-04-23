@@ -62,3 +62,4 @@ class TestMessageSPV(TestMessageSPV):
         message_spv.get_invoice_from_move()
         message_spv.create_invoice()
         message_spv.show_invoice()
+        message_spv.refresh()
