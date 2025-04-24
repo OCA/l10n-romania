@@ -813,6 +813,8 @@ class StockMove(models.Model):
         if not self.is_l10n_ro_record:
             return price_unit
         if self.origin_returned_move_id:
+            if not price_unit:
+                price_unit = self.origin_returned_move_id._get_price_unit()
             return price_unit
         if self.product_id.cost_method != "average":
             return price_unit
