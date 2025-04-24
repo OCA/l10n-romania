@@ -36,10 +36,10 @@ class Account(models.Model):
         cont = self.code[:4]
         while cont and cont[-1] == "0":
             cont = cont[:-1]
-
-        analytic = int(self.code[4:])
-        if analytic:
-            cont += "." + str(analytic)
+        if self.code[4:]:
+            analytic = int(self.code[4:])
+            if analytic:
+                cont += "." + str(analytic)
         return cont
 
     def _compute_display_name(self):
