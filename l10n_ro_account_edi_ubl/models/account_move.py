@@ -388,7 +388,6 @@ class AccountMove(models.Model):
         partner = self.partner_id.commercial_partner_id
         return partner.country_id.code == "RO" and not partner.is_company
 
-
     def action_post(self):
         res = super().action_post()
         invoices = self.filtered(
