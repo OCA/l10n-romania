@@ -604,14 +604,14 @@ class MessageSPV(models.Model):
                 message.write({"partner_id": partner.id})
 
     def refresh(self):
-        l10n_ro_download_message_days = int(
+        l10n_ro_refresh_message_days = int(
             self.env["ir.config_parameter"]
             .sudo()
-            .get_param("l10n_ro_download_message_days")
+            .get_param("l10n_ro_refresh_message_days")
             or 1
         )
         self.env.company._l10n_ro_download_message_spv(
-            no_days=l10n_ro_download_message_days
+            no_days=l10n_ro_refresh_message_days
         )
 
     def show_invoice(self):
