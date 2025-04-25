@@ -237,11 +237,11 @@ class AccountMove(models.Model):
                 "/descarcare", params, method="GET"
             )
             eroare = ""
-            if type(response) == dict:
+            if isinstance(response, dict):
                 eroare = response.get("eroare", "")
             if status_code == "400":
                 eroare = response.get("message")
-            elif status_code == 200 and type(response) == dict:
+            elif status_code == 200 and isinstance(response, dict):
                 eroare = response.get("eroare")
             cius_ro = self.env.ref("l10n_ro_account_edi_ubl.edi_ubl_cius_ro")
             edi_doc = invoice._get_edi_document(cius_ro)
@@ -382,6 +382,12 @@ class AccountMove(models.Model):
             }
         )
         return attachment
+
+    def _is_l10n_ro_b2c(self):
+        self.ensure_one()
+        partner = self.partner_id.commercial_partner_id
+        return partner.country_id.code == "RO" and not partner.is_company
+
 
     def action_post(self):
         res = super().action_post()
