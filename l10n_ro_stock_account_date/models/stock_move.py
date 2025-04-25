@@ -24,9 +24,9 @@ class StockMove(models.Model):
                 new_date = self.date
             elif "raw_material_production_id" in self._fields:
                 if self.raw_material_production_id:
-                    new_date = self.raw_material_production_id.date_planned_start
+                    new_date = self.raw_material_production_id.date_start
                 elif self.production_id:
-                    new_date = self.production_id.date_planned_start
+                    new_date = self.production_id.date_start
             if not new_date:
                 new_date = fields.datetime.now()
         restrict_date_last_month = (
