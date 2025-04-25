@@ -45,7 +45,7 @@ class StockLandedCost(models.Model):
         valuation_layer = self.env["stock.valuation.layer"].create(vals)
         return valuation_layer
 
-    def button_validate(self):
+    def button_validate(self):  # noqa: C901
         # Overwrite method for Romania to extract stock valuation layer
         # creation in a separate method
         if not self.filtered(lambda c: c.company_id.l10n_ro_accounting):
