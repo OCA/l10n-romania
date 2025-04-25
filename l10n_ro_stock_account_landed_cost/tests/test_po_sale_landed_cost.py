@@ -6,6 +6,8 @@ import logging
 
 from odoo.tests import tagged
 
+from odoo.addons.account.tests.common import AccountTestInvoicingCommon
+
 from .common import TestStockCommon
 
 _logger = logging.getLogger(__name__)
@@ -14,8 +16,9 @@ _logger = logging.getLogger(__name__)
 @tagged("post_install", "-at_install")
 class TestStockSaleLandedCost(TestStockCommon):
     @classmethod
+    @AccountTestInvoicingCommon.setup_country("ro")
     def setUpClass(cls, chart_template_ref=None):
-        super().setUpClass(chart_template_ref=chart_template_ref)
+        super().setUpClass()
 
     def test_po_sale_lc_fifo(self):
         self.product_1.product_tmpl_id.categ_id.property_cost_method = "fifo"
