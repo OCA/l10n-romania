@@ -22,7 +22,13 @@ class TestStockLandedCost(TestStockCommon):
 
     def test_create_lc(self):
         self.categ_real_time = self.env.ref("product.product_category_all").copy(
-            {"property_valuation": "real_time", "property_cost_method": "fifo"}
+            {
+                "property_valuation": "real_time",
+                "property_cost_method": "fifo",
+                "property_stock_account_input_categ_id": self.account_valuation.id,
+                "property_stock_account_output_categ_id": self.account_valuation.id,
+                "property_stock_valuation_account_id": self.account_valuation.id,
+            }
         )
         product = self.env["product.product"].create(
             {
@@ -74,3 +80,11 @@ class TestStockLandedCost(TestStockCommon):
             picking_landed_cost.cost_lines.account_id.id, accounts["expense"].id
         )
         self.assertEqual(picking_landed_cost.amount_total, 6.85)
+
+        bill.landed_costs_ids.button_validate()
+        svl_aj = self.env["stock.valuation.adjustment.lines"].search(
+            [("product_id", "=", product.id)]
+        )
+
+        self.assertEqual(svl_aj[0].name, "Landed Cost - product")
+        self.assertEqual(sum(svl_aj.mapped("additional_landed_cost")), 6.85)
