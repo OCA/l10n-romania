@@ -1,18 +1,14 @@
 # Copyright (C) 2025 NextERP Romania
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
-# Generare note contabile la achizitie
 import logging
-from odoo import Command
-from odoo.tests import tagged, Form
 
+from odoo import Command
+from odoo.fields import Date
+from odoo.tests import Form, tagged
 
 from odoo.addons.account.tests.common import AccountTestInvoicingCommon
-
 from odoo.addons.l10n_ro_stock_account.tests.common import TestStockCommon
-from odoo.fields import Date
-
-
 
 _logger = logging.getLogger(__name__)
 
@@ -25,26 +21,34 @@ class TestStockLandedCost(TestStockCommon):
         super().setUpClass()
 
     def test_create_lc(self):
-         
-        self.categ_real_time = self.env.ref('product.product_category_all').copy({
-            "property_valuation": "real_time",
-            "property_cost_method": "fifo"})
-        product = self.env['product.product'].create({
-            'name': 'product',
-            'is_storable': True,
-            'standard_price': 10,
-            'categ_id': self.categ_real_time.id,
-        })
-        po = self.env['purchase.order'].create({
-            'partner_id': self.partner_a.id,
-            'order_line': [Command.create({
-                'product_id': product.id,
-                'product_qty': 1,
-            }) for _ in range(6)],
-        })
+        self.categ_real_time = self.env.ref("product.product_category_all").copy(
+            {"property_valuation": "real_time", "property_cost_method": "fifo"}
+        )
+        product = self.env["product.product"].create(
+            {
+                "name": "product",
+                "is_storable": True,
+                "standard_price": 10,
+                "categ_id": self.categ_real_time.id,
+            }
+        )
+        po = self.env["purchase.order"].create(
+            {
+                "partner_id": self.partner_a.id,
+                "order_line": [
+                    Command.create(
+                        {
+                            "product_id": product.id,
+                            "product_qty": 1,
+                        }
+                    )
+                    for _ in range(6)
+                ],
+            }
+        )
         po.button_confirm()
         po.picking_ids.button_validate()
-        
+
         po.action_create_invoice()
         bill = po.invoice_ids
         bill.invoice_date = Date.today()
@@ -55,23 +59,18 @@ class TestStockLandedCost(TestStockCommon):
                 inv_line.is_landed_costs_line = True
         bill.action_post()
         action = bill.button_create_landed_costs()
-        self.assertEqual(action.get("name"), 'Landed Costs')
-        
-        picking_landed = (
-                self.env["stock.landed.cost"]
-                .search([("picking_ids", "in",po.picking_ids.id)]))
+        self.assertEqual(action.get("name"), "Landed Costs")
+
+        picking_landed = self.env["stock.landed.cost"].search(
+            [("picking_ids", "in", po.picking_ids.id)]
+        )
         picking_landed_cost = picking_landed.filtered(
             lambda x: x.cost_lines.product_id == self.landed_cost
-        ) 
-        
+        )
+
         accounts = self.landed_cost.product_tmpl_id._get_product_accounts()
-        
-        self.assertEqual(picking_landed_cost.cost_lines.account_id.code, accounts["expense"].code)
+
+        self.assertEqual(
+            picking_landed_cost.cost_lines.account_id.id, accounts["expense"].id
+        )
         self.assertEqual(picking_landed_cost.amount_total, 6.85)
-        
-        
-        
-        
-        
-        
-      
