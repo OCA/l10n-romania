@@ -1,4 +1,4 @@
-# Copyright (C) 2022 NextERP Romania
+# Copyright (C) 2025 NextERP Romania
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
 from odoo import models
@@ -11,7 +11,7 @@ class AccountMoveLine(models.Model):
     def _compute_account_id(self):
         res = super()._compute_account_id()
         for linie in self:
-            if linie.product_id.type == "product" and linie.is_l10n_ro_record:
+            if linie.product_id.type == "consu" and linie.is_l10n_ro_record:
                 if linie.move_id.is_purchase_document():
                     purchase = linie.purchase_order_id
                     if (
