@@ -25,7 +25,7 @@ class ProductTemplate(models.Model):
             if valued_type == "reception_in_progress":
                 account = accounts["stock_input"]
                 if account.l10n_ro_reception_in_progress_account_id:
-                    accounts[
-                        "stock_input"
-                    ] = account.l10n_ro_reception_in_progress_account_id
+                    accounts["stock_input"] = (
+                        account.l10n_ro_reception_in_progress_account_id
+                    )
         return accounts

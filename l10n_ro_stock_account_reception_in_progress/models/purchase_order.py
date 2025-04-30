@@ -17,7 +17,6 @@ class PurchaseOrder(models.Model):
 
     def action_create_reception_in_progress_invoice(self):
         """Create the reception in progress invoice associated to the PO."""
-        self.l10n_ro_reception_in_progress = True
         self.env["decimal.precision"].precision_get("Product Unit of Measure")
         self = self.with_context(
             l10n_ro_reception_in_progress=True, valued_type="reception_in_progress"
@@ -107,6 +106,7 @@ class PurchaseOrder(models.Model):
         moves.filtered(
             lambda m: m.currency_id.round(m.amount_total) < 0
         ).action_switch_move_type()
+        self.l10n_ro_reception_in_progress = True
         return self.action_view_invoice(moves)
 
     def action_create_invoice(self):
