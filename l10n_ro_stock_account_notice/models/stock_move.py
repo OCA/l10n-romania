@@ -178,8 +178,8 @@ class StockMove(models.Model):
 
         if self._is_delivery_notice_return():
             # inregistrare valoare vanzare
-            sale_price = self._l10n_ro_get_sale_price()
-            move = self.with_context(valued_type="invoice_out_notice")
+            sale_price = -1 * self._l10n_ro_get_sale_price()
+            move = self.with_context(valued_type="invoice_out_notice_return")
 
             (
                 journal_id,
