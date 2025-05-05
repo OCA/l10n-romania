@@ -182,21 +182,24 @@
                         </td>
                     </t>
                     <t t-else="">
-                    <td class="text-end">
-                        <span t-esc="'%.2f' % move_line.l10n_ro_price_unit" />
-                    </td>
-                    <td class="text-end">
-                        <span t-esc="'%.2f' % move_line.l10n_ro_additional_charges" />
-                    </td>
-                    <td class="text-end">
-                        <span t-esc="'%.2f' % move_line.l10n_ro_price_subtotal" />
-                    </td>
-                    <td class="text-end">
-                        <span t-esc="'%.2f' % move_line.l10n_ro_price_tax" />
-                    </td>
-                    <td class="text-end">
-                        <span t-esc="'%.2f' % move_line.l10n_ro_price_total" />
-                    </td></t>
+                        <td class="text-end">
+                            <span t-esc="'%.2f' % move_line.l10n_ro_price_unit" />
+                        </td>
+                        <td class="text-end">
+                            <span
+                                t-esc="'%.2f' % move_line.l10n_ro_additional_charges"
+                            />
+                        </td>
+                        <td class="text-end">
+                            <span t-esc="'%.2f' % move_line.l10n_ro_price_subtotal" />
+                        </td>
+                        <td class="text-end">
+                            <span t-esc="'%.2f' % move_line.l10n_ro_price_tax" />
+                        </td>
+                        <td class="text-end">
+                            <span t-esc="'%.2f' % move_line.l10n_ro_price_total" />
+                        </td>
+                    </t>
                 </t>
             </t>
         </xpath>
