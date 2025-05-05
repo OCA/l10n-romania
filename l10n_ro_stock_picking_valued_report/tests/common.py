@@ -4,20 +4,22 @@
 from odoo import fields
 from odoo.tests import tagged
 
+from odoo.addons.account.tests.common import AccountTestInvoicingCommon
 from odoo.addons.l10n_ro_stock_account_landed_cost.tests.common import TestStockCommon
 
 
 @tagged("post_install", "-at_install")
 class TestStockPickingValued(TestStockCommon):
     @classmethod
+    @AccountTestInvoicingCommon.setup_country("ro")
     def setUpClass(cls, chart_template_ref=None):
-        ro_template_ref = "ro"
-        super().setUpClass(chart_template_ref=ro_template_ref)
+        super().setUpClass()
 
         cls.env.company.anglo_saxon_accounting = True
         cls.env.company.l10n_ro_accounting = True
         cls.env.company.l10n_ro_stock_acc_price_diff = True
         company = cls.env.user.company_id
+        cls.account_valuation.reconcile = True
         # activare momenda RON si EUR
         cls.currency_eur = cls.env.ref("base.EUR")
         cls.currency_ron = cls.env.ref("base.RON")

@@ -135,9 +135,9 @@ class StockMoveLine(models.Model):
         agg_move_lines = super()._get_aggregated_product_quantities(**kwargs)
 
         for aggregated_move_line in agg_move_lines:
-            agg_move_lines[aggregated_move_line][
-                "currency"
-            ] = self.env.company.currency_id.id
+            agg_move_lines[aggregated_move_line]["currency"] = (
+                self.env.company.currency_id.id
+            )
             agg_move_lines[aggregated_move_line]["l10n_ro_price_unit"] = 0
             agg_move_lines[aggregated_move_line]["l10n_ro_additional_charges"] = 0
             agg_move_lines[aggregated_move_line]["l10n_ro_price_subtotal"] = 0
@@ -151,9 +151,9 @@ class StockMoveLine(models.Model):
             agg_line = agg_move_lines[line_key]
             agg_line["l10n_ro_currency_id"] = move_line.l10n_ro_currency_id.id
             agg_line["l10n_ro_price_unit"] += move_line.l10n_ro_price_unit
-            agg_line[
-                "l10n_ro_additional_charges"
-            ] += move_line.l10n_ro_additional_charges
+            agg_line["l10n_ro_additional_charges"] += (
+                move_line.l10n_ro_additional_charges
+            )
             agg_line["l10n_ro_price_subtotal"] += move_line.l10n_ro_price_subtotal
             agg_line["l10n_ro_price_tax"] += move_line.l10n_ro_price_tax
             agg_line["l10n_ro_price_total"] += move_line.l10n_ro_price_total
