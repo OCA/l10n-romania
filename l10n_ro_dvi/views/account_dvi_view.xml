@@ -4,14 +4,14 @@
         <field name="name">l10n.ro.account.dvi.tree</field>
         <field name="model">l10n.ro.account.dvi</field>
         <field name="arch" type="xml">
-            <tree>
+            <list>
                 <field name="name" />
                 <field name="date" />
                 <field name="invoice_ids" widget="many2many_tags" />
                 <field name="total_base_tax_value" />
                 <field name="total_tax_value" />
                 <field name="state" />
-            </tree>
+            </list>
         </field>
     </record>
     <record id="view_account_dvi_form" model="ir.ui.view">
@@ -124,7 +124,7 @@
                                 widget="one2many"
                                 readonly="state != 'draft'"
                             >
-                                <tree create="false" edit="true" editable="bottom">
+                                <list create="false" edit="true" editable="bottom">
                                     <field name="dvi_id" column_invisible="1" />
                                     <field name="company_id" column_invisible="1" />
                                     <field name="invoice_id" />
@@ -138,7 +138,7 @@
                                     <field name="line_qty" />
                                     <field name="base_amount" />
                                     <field name="vat_amount" />
-                                </tree>
+                                </list>
                             </field>
                         </page>
                     </notebook>
@@ -149,13 +149,13 @@
     <record id="action_account_dvi" model="ir.actions.act_window">
         <field name="name">DVI</field>
         <field name="res_model">l10n.ro.account.dvi</field>
-        <field name="view_mode">tree,form</field>
+        <field name="view_mode">list,form</field>
     </record>
 
     <record id="menu_action_account_dvi" model="ir.ui.menu">
         <field name="name">Romanian DVI</field>
         <field name="action" ref="action_account_dvi" />
-        <field name="parent_id" ref="account.menu_finance_entries_actions" />
+        <field name="parent_id" ref="account.menu_finance_entries" />
         <field name="groups_id" eval="[(4, ref('base.group_no_one'))]" />
         <field name="sequence" eval="45" />
     </record>

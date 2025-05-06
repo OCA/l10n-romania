@@ -189,7 +189,7 @@ class AccountInvoiceDVI(models.Model):
                         lambda line: line.display_type
                         not in ("line_section", "line_note")
                         and (
-                            line.product_id.type == "product"
+                            line.product_id.type == "consu"
                             or line.is_landed_costs_line is True
                         )
                     )
@@ -277,7 +277,7 @@ class AccountInvoiceDVI(models.Model):
                             lambda line: line.display_type
                             not in ("line_section", "line_note")
                             and (
-                                line.product_id.type == "product"
+                                line.product_id.type == "consu"
                                 or line.is_landed_costs_line is True
                             )
                         )
