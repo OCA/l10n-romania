@@ -8,7 +8,6 @@
             ref="l10n_ro_stock_account_landed_cost.view_stock_landed_cost_form"
         />
         <field name="arch" type="xml">
-
             <group name="l10n_ro_general" position="inside">
                 <field
                     name="l10n_ro_account_dvi_id"

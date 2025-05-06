@@ -22,7 +22,7 @@ class ResCompany(models.Model):
             account = self.env["account.account"].search(
                 [
                     ("code", "=", "446%"),
-                    ("company_id", "=", self.id),
+                    ("company_ids", "in", [self.id]),
                 ],
                 limit=1,
             )
@@ -50,7 +50,7 @@ class ResCompany(models.Model):
             account = self.env["account.account"].search(
                 [
                     ("code", "=", "447%"),
-                    ("company_id", "=", self.id),
+                    ("company_ids", "in", [self.id]),
                 ],
                 limit=1,
             )
@@ -80,7 +80,7 @@ class ResCompany(models.Model):
             account = self.env["account.account"].search(
                 [
                     ("code", "=", "658820"),
-                    ("company_id", "=", self.id),
+                    ("company_ids", "in", [self.id]),
                 ],
                 limit=1,
             )
@@ -90,7 +90,7 @@ class ResCompany(models.Model):
                     "categ_id": self.env.ref("product.product_category_all").id,
                     "type": "service",
                     "invoice_policy": "order",
-                    "property_account_expense_id": account if account else False,
+                    "property_account_expense_id": account.id if account else False,
                     "company_id": self.id,
                 }
             )
