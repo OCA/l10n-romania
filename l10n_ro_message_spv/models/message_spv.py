@@ -604,7 +604,11 @@ class MessageSPV(models.Model):
                 message.write({"partner_id": partner.id})
 
     def refresh(self):
-        self.env.company._l10n_ro_download_message_spv(no_days=1)
+        get_param = self.env["ir.config_parameter"].sudo().get_param
+        l10n_ro_refresh_message_days = int(get_param("l10n_ro_refresh_message_days", 1))
+        self.env.company._l10n_ro_download_message_spv(
+            no_days=l10n_ro_refresh_message_days
+        )
 
     def show_invoice(self):
         invoices = self.mapped("invoice_id")
