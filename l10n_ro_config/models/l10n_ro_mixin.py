@@ -47,6 +47,11 @@ class L10nRoMixin(models.AbstractModel):
             doc = etree.fromstring(result["arch"])
             for field in doc.xpath('//field[contains(@name,"l10n_ro")]'):
                 field.set("invisible", "True")
+                parent = field.getparent()
+                if parent is not None and "tree" in parent.tag:
+                    field.set("column_invisible", "True")
+                else:
+                    field.set("invisible", "True")
 
             for field in doc.xpath('//group[contains(@id,"l10n_ro")]'):
                 field.set("invisible", "True")
