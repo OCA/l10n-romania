@@ -151,11 +151,6 @@ msgid "Invoice"
 msgstr ""
 
 #. module: l10n_ro_stock_account
-#: model:ir.model.fields,field_description:l10n_ro_stock_account.field_stock_valuation_layer__l10n_ro_invoice_line_id
-msgid "Invoice Line"
-msgstr ""
-
-#. module: l10n_ro_stock_account
 #: model:ir.model.fields,field_description:l10n_ro_stock_account.field_account_account__is_l10n_ro_record
 #: model:ir.model.fields,field_description:l10n_ro_stock_account.field_account_move__is_l10n_ro_record
 #: model:ir.model.fields,field_description:l10n_ro_stock_account.field_account_move_line__is_l10n_ro_record
@@ -297,6 +292,11 @@ msgstr ""
 #. module: l10n_ro_stock_account
 #: model:ir.model.fields,field_description:l10n_ro_stock_account.field_res_company__l10n_ro_stock_acc_price_diff
 msgid "Romania - Stock Valuation Update"
+msgstr ""
+
+#. module: l10n_ro_stock_account
+#: model:ir.model.fields,field_description:l10n_ro_stock_account.field_stock_valuation_layer__l10n_ro_invoice_line_id
+msgid "Romania Invoice Line"
 msgstr ""
 
 #. module: l10n_ro_stock_account
