@@ -166,11 +166,6 @@ msgid "Invoice"
 msgstr "Factură"
 
 #. module: l10n_ro_stock_account
-#: model:ir.model.fields,field_description:l10n_ro_stock_account.field_stock_valuation_layer__l10n_ro_invoice_line_id
-msgid "Invoice Line"
-msgstr "Linie factură"
-
-#. module: l10n_ro_stock_account
 #: model:ir.model.fields,field_description:l10n_ro_stock_account.field_account_account__is_l10n_ro_record
 #: model:ir.model.fields,field_description:l10n_ro_stock_account.field_account_move__is_l10n_ro_record
 #: model:ir.model.fields,field_description:l10n_ro_stock_account.field_account_move_line__is_l10n_ro_record
@@ -319,6 +314,11 @@ msgid "Romania - Stock Valuation Update"
 msgstr "Actualizare evaluare stoc"
 
 #. module: l10n_ro_stock_account
+#: model:ir.model.fields,field_description:l10n_ro_stock_account.field_stock_valuation_layer__l10n_ro_invoice_line_id
+msgid "Romania Invoice Line"
+msgstr ""
+
+#. module: l10n_ro_stock_account
 #: model:ir.model.fields,field_description:l10n_ro_stock_account.field_stock_warehouse__l10n_ro_property_stock_journal_id
 msgid "Stock Journal"
 msgstr ""
@@ -390,3 +390,6 @@ msgstr "Tip evaluat"
 #: model:ir.model,name:l10n_ro_stock_account.model_stock_warehouse
 msgid "Warehouse"
 msgstr ""
+
+#~ msgid "Invoice Line"
+#~ msgstr "Linie factură"
