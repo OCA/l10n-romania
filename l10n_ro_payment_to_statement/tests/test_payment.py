@@ -142,7 +142,6 @@ class TestPayment(TestPaymenttoStatement):
         cash_journal = self.env["account.journal"].search(
             [("type", "=", "cash"), ("company_id", "=", self.env.company.id)], limit=1
         )
-        # import ipdb; ipdb.set_trace()
         moves = self.env["account.move"].search([])
         moves.unlink()
         payment_7 = self.env["account.payment"].create(
