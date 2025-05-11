@@ -1,6 +1,6 @@
 [project]
 name = "odoo-addons-oca-l10n-romania"
-version = "18.0.20250511.0"
+version = "18.0.20250511.1"
 dependencies = [
     "odoo-addon-l10n_ro_account==18.0.*",
     "odoo-addon-l10n_ro_account_bank_statement_import_mt940_base==18.0.*",
@@ -10,6 +10,7 @@ dependencies = [
     "odoo-addon-l10n_ro_account_report_invoice==18.0.*",
     "odoo-addon-l10n_ro_city==18.0.*",
     "odoo-addon-l10n_ro_config==18.0.*",
+    "odoo-addon-l10n_ro_dvi==18.0.*",
     "odoo-addon-l10n_ro_fiscal_validation==18.0.*",
     "odoo-addon-l10n_ro_message_spv==18.0.*",
     "odoo-addon-l10n_ro_nondeductible_vat==18.0.*",
