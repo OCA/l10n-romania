@@ -728,6 +728,9 @@ class StockMove(models.Model):
                 acc_src, acc_dest, acc_valuation
             )
 
+        if valued_type == "delivery_return":
+            acc_dest = acc_src
+
         # self.log_account(acc_src, acc_dest, acc_valuation, journal_id)
 
         journal_id = self._l10n_ro_get_journal_id(
