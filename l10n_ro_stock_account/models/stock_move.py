@@ -548,7 +548,9 @@ class StockMove(models.Model):
             cost,
         )
         valued_type = self.env.context.get("valued_type", "indefinite")
-        if "return" in valued_type and self.env.company.account_storno:
+        if self.env.company.account_storno and (
+            "return" in valued_type or self.origin_returned_move_id
+        ):
             vals["is_storno"] = True
         return vals
 
