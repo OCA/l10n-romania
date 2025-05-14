@@ -114,6 +114,21 @@ class StockPicking(models.Model):
 
             return intrastat_code
 
+        def get_vat_code(partner):
+            if partner.company_type == "person":
+                if partner.commercial_partner_id != partner:
+                    return partner.commercial_partner_id.vat.replace("RO", "")
+                elif partner.vat:
+                    return partner.vat.replace("RO", "")
+                else:
+                    return "PF"
+            else:
+                return (
+                    partner.commercial_partner_id.vat.replace("RO", "")
+                    if partner.commercial_partner_id.vat
+                    else ""
+                )
+
         self.ensure_one()
         # Create file content.
         xml_declaration = markupsafe.Markup("<?xml version='1.0' encoding='UTF-8'?>\n")
@@ -124,6 +139,7 @@ class StockPicking(models.Model):
             "STATE_CODES": STATE_CODES,
             "get_country_code": get_country_code,
             "get_instastat_code": get_instastat_code,
+            "get_vat_code": get_vat_code,
         }
         View = self.env["ir.ui.view"].sudo()
         xml_content = View._render_template(
