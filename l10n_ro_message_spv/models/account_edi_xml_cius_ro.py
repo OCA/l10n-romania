@@ -6,9 +6,7 @@ from odoo import models
 
 
 class AccountEdiXmlUBLRO(models.AbstractModel):
-    _inherit =  "account.edi.xml.ubl_20"  #  "account.edi.xml.ubl_ro"
-
-
+    _inherit = "account.edi.xml.ubl_20"  #  "account.edi.xml.ubl_ro"
 
     def _import_fill_invoice_line_form(self, tree, invoice_line, qty_factor):
         res = super()._import_fill_invoice_line_form(tree, invoice_line, qty_factor)
@@ -31,6 +29,5 @@ class AccountEdiXmlUBLRO(models.AbstractModel):
             product = self.env["product.product"].search(domain, limit=1)
             if product:
                 invoice_line.product_id = product
-
 
         return res

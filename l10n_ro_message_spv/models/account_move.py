@@ -72,10 +72,10 @@ class AccountMove(models.Model):
         attachments.sudo().write({"res_id": False, "res_model": False})
         return super().unlink()
 
-
     # def _get_edi_decoder(self, file_data, new=False):
     #
     #     return super()._get_edi_decoder(file_data, new=new)
+
 
 class AccountMoveLine(models.Model):
     _inherit = "account.move.line"
@@ -89,7 +89,6 @@ class AccountMoveLine(models.Model):
         )
 
         return super(AccountMoveLine, self - lines)._compute_name()
-
 
     def _compute_price_unit(self):
         lines = self.filtered(
