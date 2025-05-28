@@ -21,7 +21,7 @@ class ResCompany(models.Model):
         ro_companies = self or self.env["res.company"].sudo().search(domain)
         return ro_companies._l10n_ro_download_message_spv()
 
-    def _l10n_ro_download_message_spv(self, no_days=60):
+    def _l10n_ro_download_message_spv(self, no_days=60, download_zip=True):
         def get_partner_from_cif(cif, company_id):
             domain = [
                 ("vat", "like", cif),
@@ -110,8 +110,12 @@ class ResCompany(models.Model):
                             "state": "draft",
                         }
                     )
-                    spv_message.download_from_spv()
-                    if spv_message.message_type in ["error", "message"]:
-                        spv_message.get_invoice_from_move()
+                    if download_zip:
+                        try:
+                            spv_message.download_from_spv()
+                            if spv_message.message_type in ["error", "message"]:
+                                spv_message.get_invoice_from_move()
+                        except Exception as e:
+                            _logger.info(str(e))
 
         return True
