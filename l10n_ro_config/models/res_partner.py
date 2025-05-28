@@ -48,7 +48,7 @@ class ResPartner(models.Model):
                     partner.country_id.code.upper()
                 ).lower()
         else:
-            vat_country, l10n_ro_vat_number = super()._split_vat(vat)
+            vat_country, l10n_ro_vat_number = self._split_vat(vat)
         return vat_country, l10n_ro_vat_number
 
     @api.onchange("l10n_ro_vat_subjected")
@@ -77,7 +77,10 @@ class ResPartner(models.Model):
     def _fix_vat_number(self, vat, country_id):
         country = self.env["res.country"].browse(country_id)
         if len(self) == 1 and self.l10n_ro_vat_number and country.code == "RO":
-            if self.l10n_ro_vat_subjected:
-                return country.code + self.l10n_ro_vat_number
-            return self.l10n_ro_vat_number
+            if self.l10n_ro_vat_subjected or (vat and vat[:2] == "RO"):
+                vat = "".join([s for s in vat if s.isdigit()])
+                if not vat:
+                    return False
+                return country.code + vat
+            return vat
         return super()._fix_vat_number(vat, country_id)
