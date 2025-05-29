@@ -27,7 +27,7 @@ headers = {
 
 # anaf syncron url
 # https://static.anaf.ro/static/10/Anaf/Informatii_R/Servicii_web/doc_WS_V8.txt
-ANAF_URL = "https://webservicesp.anaf.ro/PlatitorTvaRest/api/v8/ws/tva"
+ANAF_URL = "https://webservicesp.anaf.ro/api/PlatitorTvaRest/v9/tva"
 
 AnafFiled_OdooField_Overwrite = [
     ("vat", "vat", "over_all_the_time"),

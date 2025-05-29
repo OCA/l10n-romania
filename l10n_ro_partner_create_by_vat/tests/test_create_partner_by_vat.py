@@ -60,8 +60,7 @@ class TestCreatePartner(TestCreatePartnerBase):
         self.assertTrue(len(error) > 3)
         cod = ["30834857", "3083485711"]
         error, result = self.mainpartner._get_Anaf(cod)
-        if result:
-            self.assertTrue(result.get("cod"))
+        self.assertTrue(result)
 
     def test_onchange_vat_anaf(self):
         """Check onchange vat from ANAF."""
