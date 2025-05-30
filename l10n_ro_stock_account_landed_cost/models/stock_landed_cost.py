@@ -179,10 +179,9 @@ class AdjustmentLines(models.Model):
         cost_product = self.cost_line_id.product_id
         if not cost_product:
             return False
+        acc_valuation = self.move_id._get_accounting_data_for_valuation()[3]
         accounts = self.product_id.product_tmpl_id.get_product_accounts()
-        debit_account_id = (
-            accounts.get("stock_valuation") and accounts["stock_valuation"].id or False
-        )
+        debit_account_id = acc_valuation
         credit_account_id = (
             self.cost_line_id.account_id.id
             or cost_product.categ_id.property_stock_account_input_categ_id.id
