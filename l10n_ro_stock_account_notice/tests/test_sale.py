@@ -49,10 +49,10 @@ class TestStockSale(TestStockCommon):
             -self.val_so_p1, -self.val_so_p2, self.account_income
         )
 
-    def test_sale_notice_and_invoice_extra_location_accounts(self):
+    def test_sale_notice_and_invoice_and_return_extra_location_accounts(self):
         """
-        - initial in stoc si contabilitate este valoarea din achizitie pe contul
-        din locatie
+        - initial in stoc si contabilitate este valoarea din achizitie
+        pe contul din locatie
         - dupa vanzare valoarea stocului trebuie sa scada cu valoarea stocului
         vandut
         - valoarea din stoc trebuie sa fie egala cu valoarea din contabilitate
@@ -117,6 +117,65 @@ class TestStockSale(TestStockCommon):
 
         self.check_stock_valuation(val_stock_p1, val_stock_p2, account=acc_3711)
         self.check_account_valuation(val_stock_p1, val_stock_p2, account=acc_3711)
+
+        #####RETURN
+
+        pick = self.so.picking_ids
+        stock_return_picking_form = Form(
+            self.env["stock.return.picking"].with_context(
+                active_ids=pick.ids, active_id=pick.ids[0], active_model="stock.picking"
+            )
+        )
+        return_wiz = stock_return_picking_form.save()
+        return_wiz.product_return_moves.write(
+            {"quantity": 2.0, "to_refund": True}
+        )  # Return only 2
+        res = return_wiz.create_returns()
+        return_pick = self.env["stock.picking"].browse(res["res_id"])
+
+        # Validate return picking
+
+        for move in return_pick.move_ids:
+            move._set_quantity_done(move.product_uom_qty)
+        return_pick.l10n_ro_notice = True
+        return_pick.button_validate()
+
+        val_stock_p1 = round(
+            self.val_p1_i - self.val_stock_out_so_p1 + 2 * self.price_p1, 2
+        )
+        val_stock_p2 = round(
+            self.val_p2_i - self.val_stock_out_so_p2 + 2 * self.price_p2, 2
+        )
+
+        self.check_stock_valuation(val_stock_p1, val_stock_p2, account=acc_3711)
+        self.check_account_valuation(val_stock_p1, val_stock_p2, account=acc_3711)
+
+        _logger.info("Verifcare valoare vanduta dupa retur")
+
+        val_so_p1 = round((self.qty_so_p1 - 2) * self.list_price_p1, 2)
+        val_so_p2 = round((self.qty_so_p2 - 2) * self.list_price_p2, 2)
+
+        self.check_account_valuation(-val_so_p1, -val_so_p2, acc_7071)
+
+        _logger.info("Verifcare valoare 418 dupa retur")
+        # 418 a fost pe 0, inainte de retur, cand s-a facut factura)
+        # asadar acum ar trebui sa avem in 418 doar valoarea stornata
+        # pe credit (sau pe debit cu -)
+        val_so_p1_418 = round(2 * self.list_price_p1, 2)
+        val_so_p2_418 = round(2 * self.list_price_p2, 2)
+
+        self.check_account_valuation(
+            -val_so_p1_418,
+            -val_so_p2_418,
+            account=self.stock_picking_receivable_account_id,
+        )
+
+        self.create_sale_invoice(final=True)
+
+        _logger.info("Verifcare ca s-a inchis 418 dupa crearea facturii storno")
+        self.check_account_valuation(
+            0.0, 0.0, account=self.stock_picking_receivable_account_id
+        )
 
     def test_sale_notice_and_invoice_and_retur(self):
         """

@@ -237,6 +237,9 @@ class StockMove(models.Model):
             payable_account_id = (
                 company.l10n_ro_property_stock_picking_payable_account_id
             )
+            receivable_account_id = (
+                company.l10n_ro_property_stock_picking_receivable_account_id
+            )
 
             if valued_type == "reception_notice":
                 acc_dest = payable_account_id.id
@@ -249,10 +252,12 @@ class StockMove(models.Model):
                     or acc_valuation
                 )
             elif valued_type == "invoice_out_notice_return":
-                acc_valuation = (
+                acc_dest = (
                     location_to.l10n_ro_property_account_income_location_id.id
-                    or acc_valuation
+                    or acc_dest
                 )
+                acc_valuation = receivable_account_id.id or acc_valuation
+
             # in Romania iesirea din stoc de face de regula pe contul de cheltuiala
             if valued_type in [
                 "delivery_notice",

@@ -475,9 +475,9 @@ class TestStockCommon(ValuationReconciliationTestCommon):
         _logger.debug("Livrare facuta")
         return self.picking
 
-    def create_sale_invoice(self, diff_p1=0, diff_p2=0):
+    def create_sale_invoice(self, diff_p1=0, diff_p2=0, final=False):
         # invoice on order
-        invoice = self.so._create_invoices()
+        invoice = self.so._create_invoices(final=final)
 
         invoice = Form(invoice)
 
