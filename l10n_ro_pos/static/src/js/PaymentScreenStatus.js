@@ -11,7 +11,7 @@ odoo.define("l10n_ro_pos.PaymentScreenStatus", function (require) {
                 var message = false;
                 var value = 0;
                 var order = this.currentOrder;
-                var paymentlines = order.get_paymentlines();
+                var paymentlines = order.payment_ids;
 
                 for (var i = 0; i < paymentlines.length; i++) {
                     var line = paymentlines[i];
