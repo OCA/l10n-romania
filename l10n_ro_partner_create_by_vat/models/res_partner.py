@@ -304,7 +304,7 @@ class ResPartner(models.Model):
             result["street"] = result["street"].strip().title()
             result["street2"] = result.get("ddetalii_Adresa", " ").strip().title()
             if not result["street"] and result["street2"]:
-                result["street"]= result.pop("street2")
+                result["street"] = result.pop("street2")
                 result["street2"] = ""
             result["city"] = get_city(result.get("ddenumire_Localitate"))
             state_name = get_city(result.get("ddenumire_Judet"))
