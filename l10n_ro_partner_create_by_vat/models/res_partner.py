@@ -15,10 +15,10 @@ CEDILLATRANS = bytes.maketrans(
     "\u0219\u021b\u0218\u021a".encode(),
 )
 
-CEDILLATRANS = bytes.maketrans(
-    "\u015f\u0163\u015e\u0162\u00e2\u00c2\u00ee\u00ce\u0103\u0102".encode(),
-    "\u0219\u021b\u0218\u021a\u00e2\u00c2\u00ee\u00ce\u0103\u0102".encode(),
-)
+# CEDILLATRANS = bytes.maketrans(
+#     "\u015f\u0163\u015e\u0162\u00e2\u00c2\u00ee\u00ce\u0103\u0102".encode(),
+#     "\u0219\u021b\u0218\u021a\u00e2\u00c2\u00ee\u00ce\u0103\u0102".encode(),
+# )
 
 headers = {
     "User-Agent": "Mozilla/5.0 (compatible; MSIE 7.01; Windows NT 5.0)",
@@ -303,6 +303,9 @@ class ResPartner(models.Model):
                 result["street"] += " Nr. " + result.get("dnumar_Strada")
             result["street"] = result["street"].strip().title()
             result["street2"] = result.get("ddetalii_Adresa", " ").strip().title()
+            if not result["street"] and result["street2"]:
+                result["street"]= result.pop("street2")
+                result["street2"] = ""
             result["city"] = get_city(result.get("ddenumire_Localitate"))
             state_name = get_city(result.get("ddenumire_Judet"))
             if state_name:
