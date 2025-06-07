@@ -53,7 +53,6 @@ class TestCreatePartner(TestCreatePartnerBase):
         error, result = self.mainpartner._get_Anaf(cod)
         self.assertTrue(len(error) > 3)
 
-
     def test_onchange_vat_anaf(self):
         """Check onchange vat from ANAF."""
         # Test onchange from ANAF
