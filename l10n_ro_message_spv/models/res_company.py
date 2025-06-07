@@ -7,7 +7,7 @@ from datetime import datetime
 
 import pytz
 
-from odoo import models
+from odoo import api, models
 
 _logger = logging.getLogger(__name__)
 
@@ -15,16 +15,17 @@ _logger = logging.getLogger(__name__)
 class ResCompany(models.Model):
     _inherit = "res.company"
 
+    @api.model
     def l10n_ro_download_message_spv(self):
         # method to be used in cron job to auto download e-invoices from ANAF
-        companies = self or self.env["res.company"].sudo().search([])
+        companies = self.env["res.company"].sudo().search([])
         ro_companies = companies.filtered(
             lambda c: c._l10n_ro_get_anaf_sync(scope="e-factura")
         )
 
         return ro_companies._l10n_ro_download_message_spv()
 
-    def _l10n_ro_download_message_spv(self, no_days=60, download_zip=True):
+    def _l10n_ro_download_message_spv(self, no_days=1, download_zip=False):
         def get_partner_from_cif(cif, company_id):
             domain = [
                 ("vat", "like", cif),
@@ -56,7 +57,7 @@ class ResCompany(models.Model):
         romania_tz = pytz.timezone("Europe/Bucharest")
 
         for company in self:
-            company_messages = company._l10n_ro_get_anaf_efactura_messages()
+            company_messages = company._l10n_ro_get_anaf_efactura_messages(zile=no_days)
             message_spv_obj = (
                 self.env["l10n.ro.message.spv"].with_company(company).sudo()
             )
