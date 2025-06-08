@@ -18,16 +18,46 @@ class ResCompany(models.Model):
     @api.model
     def l10n_ro_download_message_spv(self):
         # method to be used in cron job to auto download e-invoices from ANAF
-        ro_companies = self.env.user.company_ids.filtered(
+        companies = self.env["res.company"].sudo().search([])
+        ro_companies = companies.filtered(
             lambda c: c._l10n_ro_get_anaf_sync(scope="e-factura")
         )
+
+        return ro_companies._l10n_ro_download_message_spv()
+
+    def _l10n_ro_download_message_spv(self, no_days=1, download_zip=False):
+        def get_partner_from_cif(cif, company_id):
+            domain = [
+                ("vat", "like", cif),
+                ("is_company", "=", True),
+                ("company_id", "=", company_id),
+            ]
+            partner = self.env["res.partner"].search(domain, limit=1)
+            if not partner:
+                domain = [("vat", "like", cif), ("is_company", "=", True)]
+                partner = self.env["res.partner"].search(domain, limit=1)
+            if not partner:
+                domain = [("vat", "like", cif)]
+                partner = self.env["res.partner"].search(domain, limit=1)
+            if not partner:
+                partner = self.env["res.partner"].create(
+                    {
+                        "name": "Unknown",
+                        "vat": cif,
+                        "company_id": company_id,
+                        "country_id": self.env.ref("base.ro").id,
+                        "is_company": True,
+                    }
+                )
+            return partner
+
         pattern_in = r"cif_emitent=(\d+)"
         pattern_out = r"cif_beneficiar=(\d+)"
 
         romania_tz = pytz.timezone("Europe/Bucharest")
 
-        for company in ro_companies:
-            company_messages = company._l10n_ro_get_anaf_efactura_messages()
+        for company in self:
+            company_messages = company._l10n_ro_get_anaf_efactura_messages(zile=no_days)
             message_spv_obj = (
                 self.env["l10n.ro.message.spv"].with_company(company).sudo()
             )
@@ -47,17 +77,14 @@ class ResCompany(models.Model):
                         match = re.search(pattern_in, message["detalii"])
                         if match:
                             cif = match.group(1)
-                            partner = self.env["res.partner"].search(
-                                [("vat", "like", cif)], limit=1
-                            )
+                            partner = get_partner_from_cif(cif, company.id)
 
                     elif message["tip"] == "FACTURA TRIMISA":
                         message_type = "out_invoice"
                         match = re.search(pattern_out, message["detalii"])
                         if match:
                             cif = match.group(1)
-                            domain = [("vat", "like", cif), ("is_company", "=", True)]
-                            partner = self.env["res.partner"].search(domain, limit=1)
+                            partner = get_partner_from_cif(cif, company.id)
                     elif message["tip"] == "ERORI FACTURA":
                         message_type = "error"
                     elif "MESAJ" in message["tip"]:
@@ -78,8 +105,12 @@ class ResCompany(models.Model):
                             "state": "draft",
                         }
                     )
+                    if download_zip:
+                        try:
+                            spv_message.download_from_spv()
+                            if spv_message.message_type in ["error", "message"]:
+                                spv_message.get_invoice_from_move()
+                        except Exception as e:
+                            _logger.info(str(e))
 
-                    if spv_message.message_type in ["error", "message"]:
-                        spv_message.get_invoice_from_move()
-                        spv_message.download_from_spv()
         return True

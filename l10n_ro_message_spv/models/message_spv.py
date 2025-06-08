@@ -34,6 +34,7 @@ class MessageSPV(models.Model):
         string="Type",
     )  # tip
     date = fields.Datetime()  # data_creare
+    invoice_date = fields.Date()  # data_factura
     details = fields.Char()  # detalii
     error = fields.Text()  # eroare
     message = fields.Text()  # mesaj
@@ -181,6 +182,11 @@ class MessageSPV(models.Model):
             if ref_node is not None:
                 ref = ref_node.text
 
+            invoice_date_node = xml_tree.find("./{*}IssueDate")
+            invoice_date = message.invoice_date
+            if invoice_date_node is not None:
+                invoice_date = invoice_date_node.text
+
             currency = message.currency_id
             currency_node = xml_tree.find("./{*}DocumentCurrencyCode")
             if currency_node is not None:
@@ -197,10 +203,8 @@ class MessageSPV(models.Model):
             if amount_note is not None:
                 amount = float(amount_note.text)
 
-            if (
-                xml_tree.tag
-                == "{urn:oasis:names:specification:ubl:schema:xsd:CreditNote-2}CreditNote"  # noqa
-            ):
+            xml_tag_credit_note = "{urn:oasis:names:specification:ubl:schema:xsd:CreditNote-2}CreditNote"  # noqa
+            if xml_tree.tag == xml_tag_credit_note:
                 amount = -1 * amount
 
             message.write(
@@ -208,6 +212,7 @@ class MessageSPV(models.Model):
                     "attachment_xml_id": attachment_xml.id,
                     "ref": ref,
                     "amount": amount,
+                    "invoice_date": invoice_date,
                     "currency_id": currency.id or message.currency_id.id,
                 }
             )
@@ -287,6 +292,7 @@ class MessageSPV(models.Model):
         invoices = self.env["account.move"].search(inv_domain)
         domain = [("name", "in", messages_without_invoice.mapped("ref"))]
         invoices |= self.env["account.move"].search(domain)
+        invoices = invoices.filtered(lambda i: i.state == "posted")
         for message in messages_without_invoice:
             invoice = invoices.filtered(
                 lambda i, m=message: i.l10n_ro_edi_download == m.name
@@ -294,7 +300,6 @@ class MessageSPV(models.Model):
                 or (i.ref == m.ref and m.ref)
                 or (i.name == m.ref and m.ref)
             )
-
             if not invoice and message.ref:
                 if message.message_type == "in_invoice":
                     move_type = ("in_invoice", "in_refund")
@@ -365,6 +370,7 @@ class MessageSPV(models.Model):
                     or message.partner_id.id,
                     "invoice_amount": invoice_amount,
                     "state": state,
+                    "invoice_date": message.invoice_id.invoice_date,
                 }
             )
         for message in self:
@@ -381,7 +387,7 @@ class MessageSPV(models.Model):
     def create_invoice(self):
         self.get_partner()
         for message in self.filtered(lambda m: not m.invoice_id):
-            if not message.message_type == "in_invoice":
+            if message.message_type not in ("in_invoice", "in_receipt"):
                 continue
             message.get_invoice_from_move()
             if message.invoice_id:
@@ -418,7 +424,7 @@ class MessageSPV(models.Model):
         if not message.attachment_xml_id:
             message.get_xml_fom_zip()
 
-        xml_file = message.attachment_xml_id.raw
+        xml_file = message.attachment_xml_id.sudo().raw
         headers = {"Content-Type": "text/plain"}
         xml = xml_file
         val1 = "FACT1"
@@ -480,14 +486,18 @@ class MessageSPV(models.Model):
                     name = (attachment_name.text or "invoice").split("\\")[-1].split(
                         "/"
                     )[-1].split(".")[0] + ".pdf"
-                    attachment = self.env["ir.attachment"].create(
-                        {
-                            "name": name,
-                            "datas": text
-                            + "=" * (len(text) % 3),  # Fix incorrect padding
-                            "type": "binary",
-                            "mimetype": "application/pdf",
-                        }
+                    attachment = (
+                        self.env["ir.attachment"]
+                        .sudo()
+                        .create(
+                            {
+                                "name": name,
+                                "datas": text
+                                + "=" * (len(text) % 3),  # Fix incorrect padding
+                                "type": "binary",
+                                "mimetype": "application/pdf",
+                            }
+                        )
                     )
                     if message.attachment_embedded_pdf_id:
                         message.attachment_embedded_pdf_id.sudo().unlink()
@@ -533,6 +543,13 @@ class MessageSPV(models.Model):
                         }
                     )
                 message.write({"partner_id": partner.id})
+
+    def refresh(self):
+        get_param = self.env["ir.config_parameter"].sudo().get_param
+        l10n_ro_refresh_message_days = int(get_param("l10n_ro_refresh_message_days", 1))
+        self.env.company._l10n_ro_download_message_spv(
+            no_days=l10n_ro_refresh_message_days
+        )
 
     def show_invoice(self):
         invoices = self.mapped("invoice_id")
