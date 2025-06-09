@@ -179,6 +179,11 @@ msgid "Is Romanian Record"
 msgstr "Inregistrare românească"
 
 #. module: l10n_ro_stock_account
+#: model:ir.actions.act_window,name:l10n_ro_stock_account.l10n_ro_stock_account_move_action
+msgid "Journal Entries"
+msgstr "Înregistrări contabile"
+
+#. module: l10n_ro_stock_account
 #: model:ir.model,name:l10n_ro_stock_account.model_account_move
 msgid "Journal Entry"
 msgstr "Notă contabilă"
@@ -187,6 +192,11 @@ msgstr "Notă contabilă"
 #: model:ir.model,name:l10n_ro_stock_account.model_account_move_line
 msgid "Journal Item"
 msgstr "Element jurnal"
+
+#. module: l10n_ro_stock_account
+#: model_terms:ir.ui.view,arch_db:l10n_ro_stock_account.view_picking_add_price_unit_form
+msgid "Journal Items"
+msgstr "Elemente jurnal"
 
 #. module: l10n_ro_stock_account
 #: model:ir.model.fields,field_description:l10n_ro_stock_account.field_stock_picking_type__l10n_ro_fiscal_position_id
@@ -381,9 +391,3 @@ msgstr ""
 
 #~ msgid "Invoice Line"
 #~ msgstr "Linie factură"
-
-#~ msgid "Journal Entries"
-#~ msgstr "Înregistrări contabile"
-
-#~ msgid "Journal Items"
-#~ msgstr "Elemente jurnal"
