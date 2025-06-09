@@ -24,7 +24,7 @@ class StockValuationLayer(models.Model):
     @api.model_create_multi
     def create(self, vals_list):
         for values in vals_list:
-            val_date = fields.datetime.now()
+            val_date = values.get("create_date", fields.datetime.now())
             values.update(
                 {
                     "create_uid": self._uid,
@@ -39,13 +39,8 @@ class StockValuationLayer(models.Model):
                 if values.get("stock_move_id"):
                     move = self.env["stock.move"].browse(values["stock_move_id"])
                     val_date = move.l10n_ro_get_move_date()
-                values.update(
-                    {
-                        "create_date": val_date,
-                        "write_date": val_date,
-                        "l10n_ro_date_done": fields.datetime.now(),
-                    }
-                )
+                    values.update({"create_date": val_date, "write_date": val_date})
+                values["l10n_ro_date_done"] = fields.datetime.now()
         return super().create(vals_list)
 
     def write(self, vals):
