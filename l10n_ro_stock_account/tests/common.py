@@ -33,43 +33,52 @@ class TestStockCommon(ValuationReconciliationTestCommon):
         cls.account_valuation = get_account("371000")
         cls.account_valuation_mp = get_account("301000")
 
+        company = cls.env.user.company_id
+
         cls.uneligible_tax_account_id = (
-            cls.env.user.company_id.tax_cash_basis_journal_id.default_account_id
+            company.tax_cash_basis_journal_id.default_account_id
         )
         if not cls.uneligible_tax_account_id:
             cls.uneligible_tax_account_id = get_account("442810")
 
-        cls.env.user.company_id.tax_cash_basis_journal_id.default_account_id = (
+        company.tax_cash_basis_journal_id.default_account_id = (
             cls.uneligible_tax_account_id
         )
 
         cls.stock_picking_payable_account_id = (
-            cls.env.user.company_id.l10n_ro_property_stock_picking_payable_account_id
+            company.l10n_ro_property_stock_picking_payable_account_id
         )
         if not cls.stock_picking_payable_account_id:
             cls.stock_picking_payable_account_id = get_account("408100")
 
-        cls.env.user.company_id.l10n_ro_property_stock_picking_payable_account_id = (
+        company.l10n_ro_property_stock_picking_payable_account_id = (
             cls.stock_picking_payable_account_id
         )
 
         cls.stock_picking_receivable_account_id = (
-            cls.env.user.company_id.l10n_ro_property_stock_picking_receivable_account_id
+            company.l10n_ro_property_stock_picking_receivable_account_id
         )
         if not cls.stock_picking_receivable_account_id:
             cls.stock_picking_receivable_account_id = get_account("418000")
 
-        cls.env.user.company_id.l10n_ro_property_stock_picking_receivable_account_id = (
+        company.l10n_ro_property_stock_picking_receivable_account_id = (
             cls.stock_picking_receivable_account_id
         )
 
         cls.stock_usage_giving_account_id = (
-            cls.env.user.company_id.l10n_ro_property_stock_usage_giving_account_id
+            company.l10n_ro_property_stock_usage_giving_account_id
         )
         if not cls.stock_usage_giving_account_id:
             cls.stock_usage_giving_account_id = get_account("803500")
-            cls.env.user.company_id.l10n_ro_property_stock_usage_giving_account_id = (
+            company.l10n_ro_property_stock_usage_giving_account_id = (
                 cls.stock_usage_giving_account_id
+            )
+
+        cls.account_stock_transfer = company.l10n_ro_property_stock_transfer_account_id
+        if not cls.account_stock_transfer:
+            cls.account_stock_transfer = get_account("482000")
+            company.l10n_ro_property_stock_transfer_account_id = (
+                cls.account_stock_transfer
             )
 
     @classmethod
@@ -103,6 +112,7 @@ class TestStockCommon(ValuationReconciliationTestCommon):
         cls.env.company.anglo_saxon_accounting = True
         cls.env.company.l10n_ro_accounting = True
         cls.env.company.l10n_ro_stock_acc_price_diff = True
+        cls.env.company.account_storno = True
 
         cls.setUpAccounts()
 
@@ -291,6 +301,21 @@ class TestStockCommon(ValuationReconciliationTestCommon):
                 "location_id": location.id,
             }
         )
+        cls.location_warehouse_other = location.copy(
+            {
+                "l10n_ro_merchandise_type": "warehouse",
+                "name": "TEST warehouse other",
+                "location_id": location.id,
+            }
+        )
+
+        cls.location_transit = location.copy(
+            {
+                "usage": "transit",
+                "name": "TEST transit",
+            }
+        )
+
         cls.picking_type_in_warehouse = picking_type_in.copy(
             {
                 "default_location_dest_id": cls.location_warehouse.id,
@@ -386,7 +411,7 @@ class TestStockCommon(ValuationReconciliationTestCommon):
             self.env["account.move"].with_context(
                 default_move_type="in_invoice",
                 default_invoice_date=fields.Date.today(),
-                active_model="accoun.move",
+                active_model="account.move",
             )
         )
         bill_union = self.env["purchase.bill.union"].search(
@@ -465,9 +490,9 @@ class TestStockCommon(ValuationReconciliationTestCommon):
         _logger.debug("Livrare facuta")
         return self.picking
 
-    def create_sale_invoice(self, diff_p1=0, diff_p2=0):
+    def create_sale_invoice(self, diff_p1=0, diff_p2=0, final=False):
         # invoice on order
-        invoice = self.so._create_invoices()
+        invoice = self.so._create_invoices(final=final)
 
         invoice = Form(invoice)
 
