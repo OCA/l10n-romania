@@ -14,7 +14,6 @@ msgstr ""
 "Plural-Forms: \n"
 
 #. module: l10n_ro_stock_account_notice
-#: model:ir.model.fields,field_description:l10n_ro_stock_account_notice.field_account_move__is_l10n_ro_record
 #: model:ir.model.fields,field_description:l10n_ro_stock_account_notice.field_account_move_line__is_l10n_ro_record
 #: model:ir.model.fields,field_description:l10n_ro_stock_account_notice.field_product_template__is_l10n_ro_record
 #: model:ir.model.fields,field_description:l10n_ro_stock_account_notice.field_stock_move__is_l10n_ro_record
@@ -26,11 +25,6 @@ msgstr ""
 #. module: l10n_ro_stock_account_notice
 #: model_terms:ir.ui.view,arch_db:l10n_ro_stock_account_notice.view_picking_internal_add_notice_search
 msgid "Is notice"
-msgstr ""
-
-#. module: l10n_ro_stock_account_notice
-#: model:ir.model,name:l10n_ro_stock_account_notice.model_account_move
-msgid "Journal Entry"
 msgstr ""
 
 #. module: l10n_ro_stock_account_notice
