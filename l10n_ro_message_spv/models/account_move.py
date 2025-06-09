@@ -72,28 +72,36 @@ class AccountMove(models.Model):
         attachments.sudo().write({"res_id": False, "res_model": False})
         return super().unlink()
 
+    # def _get_edi_decoder(self, file_data, new=False):
+    #
+    #     return super()._get_edi_decoder(file_data, new=new)
+
+    def _compute_show_reset_to_draft_button(self):
+        res = super()._compute_show_reset_to_draft_button()
+        for move in self:
+            if not move.show_reset_to_draft_button:
+                if move.move_type in ["in_invoice", "in_refund"]:
+                    move.show_reset_to_draft_button = True
+        return res
+
 
 class AccountMoveLine(models.Model):
     _inherit = "account.move.line"
 
     l10n_ro_vendor_code = fields.Char(string="Vendor Code", copy=False)
 
-    def _get_computed_name(self):
-        self.ensure_one()
-        if (
-            self.move_id.move_type not in ["in_invoice", "in_refund"]
-            or not self.move_id.l10n_ro_edi_download
-        ):
-            return super()._get_computed_name()
-        else:
-            return self.name
+    def _compute_name(self):
+        lines = self.filtered(
+            lambda line: line.move_id.move_type in ["in_invoice", "in_refund"]
+            and line.move_id.l10n_ro_edi_download
+        )
 
-    def _get_computed_price_unit(self):
-        self.ensure_one()
-        if (
-            self.move_id.move_type not in ["in_invoice", "in_refund"]
-            or not self.move_id.l10n_ro_edi_download
-        ):
-            return super()._get_computed_price_unit()
-        else:
-            return self.price_unit
+        return super(AccountMoveLine, self - lines)._compute_name()
+
+    def _compute_price_unit(self):
+        lines = self.filtered(
+            lambda line: line.move_id.move_type in ["in_invoice", "in_refund"]
+            and line.move_id.l10n_ro_edi_download
+        )
+
+        return super(AccountMoveLine, self - lines)._compute_price_unit()
