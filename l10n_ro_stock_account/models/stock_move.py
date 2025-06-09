@@ -33,7 +33,7 @@ class StockMove(models.Model):
                 "internal_transfer",  # transfer intern
                 "usage_giving",
                 "usage_giving_return",
-                "internal_transit_out",  # stock moves trasit to internal
+                "internal_transit_out",  # stock moves transit to internal
                 "internal_transit_in",  # stock moves internal to transit
             ]
         return valued_types
@@ -522,7 +522,9 @@ class StockMove(models.Model):
             cost,
         )
         valued_type = self.env.context.get("valued_type", "indefinite")
-        if "return" in valued_type and self.env.company.account_storno:
+        if self.env.company.account_storno and (
+            "return" in valued_type or self.origin_returned_move_id
+        ):
             vals["is_storno"] = True
         return vals
 
