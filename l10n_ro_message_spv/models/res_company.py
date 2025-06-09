@@ -21,32 +21,34 @@ class ResCompany(models.Model):
         ro_companies = self or self.env["res.company"].sudo().search(domain)
         return ro_companies._l10n_ro_download_message_spv()
 
-    def _l10n_ro_download_message_spv(self, no_days=60):
-        def get_partner_from_cif(cif, company_id):
-            domain = [
-                ("vat", "like", cif),
-                ("is_company", "=", True),
-                ("company_id", "=", company_id),
-            ]
+    def _l10n_ro_get_partner_from_cif(self, cif):
+        self.ensure_one()
+        company_id = self.id
+        domain = [
+            ("vat", "like", cif),
+            ("is_company", "=", True),
+            ("company_id", "=", company_id),
+        ]
+        partner = self.env["res.partner"].search(domain, limit=1)
+        if not partner:
+            domain = [("vat", "like", cif), ("is_company", "=", True)]
             partner = self.env["res.partner"].search(domain, limit=1)
-            if not partner:
-                domain = [("vat", "like", cif), ("is_company", "=", True)]
-                partner = self.env["res.partner"].search(domain, limit=1)
-            if not partner:
-                domain = [("vat", "like", cif)]
-                partner = self.env["res.partner"].search(domain, limit=1)
-            if not partner:
-                partner = self.env["res.partner"].create(
-                    {
-                        "name": "Unknown",
-                        "vat": cif,
-                        "company_id": company_id,
-                        "country_id": self.env.ref("base.ro").id,
-                        "is_company": True,
-                    }
-                )
-            return partner
+        if not partner:
+            domain = [("vat", "like", cif)]
+            partner = self.env["res.partner"].search(domain, limit=1)
+        if not partner:
+            partner = self.env["res.partner"].create(
+                {
+                    "name": "Unknown",
+                    "vat": cif,
+                    "company_id": company_id,
+                    "country_id": self.env.ref("base.ro").id,
+                    "is_company": True,
+                }
+            )
+        return partner
 
+    def _l10n_ro_download_message_spv(self, no_days=60, download_zip=True):
         pattern_in = r"cif_emitent=(\d+)"
         pattern_out = r"cif_beneficiar=(\d+)"
 
@@ -82,14 +84,14 @@ class ResCompany(models.Model):
                         match = re.search(pattern_in, message["detalii"])
                         if match:
                             cif = match.group(1)
-                            partner = get_partner_from_cif(cif, company.id)
+                            partner = company._l10n_ro_get_partner_from_cif(cif)
 
                     elif message["tip"] == "FACTURA TRIMISA":
                         message_type = "out_invoice"
                         match = re.search(pattern_out, message["detalii"])
                         if match:
                             cif = match.group(1)
-                            partner = get_partner_from_cif(cif, company.id)
+                            partner = company._l10n_ro_get_partner_from_cif(cif)
                     elif message["tip"] == "ERORI FACTURA":
                         message_type = "error"
                     elif "MESAJ" in message["tip"]:
@@ -110,7 +112,12 @@ class ResCompany(models.Model):
                             "state": "draft",
                         }
                     )
-                    if spv_message.message_type in ["error", "message"]:
-                        spv_message.get_invoice_from_move()
-                        spv_message.download_from_spv()
+                    if download_zip:
+                        try:
+                            spv_message.download_from_spv()
+                            if spv_message.message_type in ["error", "message"]:
+                                spv_message.get_invoice_from_move()
+                        except Exception as e:
+                            _logger.info(str(e))
+
         return True
