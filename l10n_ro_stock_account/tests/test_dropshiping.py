@@ -40,18 +40,27 @@ class TestStockDropshiping(TestStockCommon):
         with so_form.order_line.new() as so_line:
             so_line.product_id = self.product_1
             so_line.product_uom_qty = self.qty_so_p1
+            # so_line.route_id = dropshipping_route
 
         sale_order = so_form.save()
-
         # Confirm sales order
         sale_order.action_confirm()
-
         purchase = self.env["purchase.order"].search(
             [("partner_id", "=", self.vendor.id)]
         )
         purchase.button_confirm()
+        picking = sale_order.picking_ids
+        is_dropshipped = picking._is_dropshipped()
+        self.assertTrue(is_dropshipped, "Picking should be dropshipped")
+        _is_dropshipped_returned = picking._is_dropshipped_returned()
+        self.assertFalse(
+            _is_dropshipped_returned, "Picking should not be dropshipped returned"
+        )
 
-        for move_line in sale_order.picking_ids.move_ids:
-            if move_line.product_uom_qty > 0 and move_line.product_qty == 0:
-                move_line.write({"product_qty": move_line.product_uom_qty})
-        sale_order.picking_ids.button_validate()
+        picking.action_assign()  # verifica disponibilitate
+        for move in picking.move_ids:
+            move._set_quantity_done(move.product_uom_qty)
+
+        picking.button_validate()
+        picking._action_done()
+        # todo: de verificat notele contabile generate de dropshiping
