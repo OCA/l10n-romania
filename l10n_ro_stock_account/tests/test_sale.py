@@ -50,6 +50,9 @@ class TestStockSale(TestStockCommon):
             -self.val_so_p1, -self.val_so_p2, self.account_income
         )
 
+        picking = self.so.picking_ids
+        picking.action_l10n_ro_view_account_moves()
+
     def test_sale_and_invoice_and_retur(self):
         """
         Vanzare si facturare
