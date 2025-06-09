@@ -50,7 +50,7 @@ class TestMessageSPV(TestMessageSPV):
             "odoo.addons.l10n_ro_edi.models.ciusro_document.make_efactura_request",
             return_value=anaf_messages,
         ):
-            self.env.company.l10n_ro_download_message_spv()
+            self.env.company.l10n_ro_download_message_spv(download_zip=False)
 
     def test_download_from_spv(self):
         # test descarcare zip from SPV
@@ -125,7 +125,6 @@ class TestMessageSPV(TestMessageSPV):
     def test_edi_transaction_tracking(self):
         """Testează câmpurile de urmărire a tranzacțiilor EDI"""
         # Creăm o factură
-
         invoice = self.env["account.move"].create(
             {
                 "move_type": "in_invoice",
