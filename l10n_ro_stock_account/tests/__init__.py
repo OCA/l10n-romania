@@ -8,3 +8,6 @@ from . import test_purchase
 
 from . import test_sale
 from . import test_dropshiping
+
+from . import test_account_determination
+from . import test_stock_location
