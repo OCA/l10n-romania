@@ -203,9 +203,9 @@ class StockMove(models.Model):
                 lambda x: "transit"
                 in (x.location_dest_id | x.location_id).mapped("usage")
             )
-        if not move_lines and self.env.context.get("valued_type", "") in (
-            "internal_transfer",
-            "internal_transit_in",
+        if (
+            not move_lines
+            and self.env.context.get("valued_type", "") == "internal_transfer"
         ):
             move_lines = self.move_line_ids
         return move_lines
@@ -214,9 +214,9 @@ class StockMove(models.Model):
         "fix _get_out_move_lines return None for move to transit"
         move_lines = super()._get_in_move_lines()
 
-        if not move_lines and self.env.context.get("valued_type", "") in (
-            "internal_transfer",
-            "internal_transit_out",
+        if (
+            not move_lines
+            and self.env.context.get("valued_type", "") == "internal_transfer"
         ):
             move_lines = self.move_line_ids
         return move_lines
@@ -241,13 +241,18 @@ class StockMove(models.Model):
         moves = self.with_context(standard=True, valued_type="internal_transit_in")
         for move in moves:
             svls |= move._create_out_svl(forced_quantity)
-            # for svl in svls:
-            #     svl.write(
-            #         {
-            #             "remaining_qty": abs(svl.quantity),
-            #             "remaining_value": abs(svl.value),
-            #         }
-            #     )
+            amount = 0
+            for svl in svls:
+                if svl.quantity > 0:
+                    svl.write(
+                        {
+                            "remaining_qty": svl.quantity,
+                            "remaining_value": svl.value,
+                        }
+                    )
+                amount += svl.value / (svl.quantity or 1)
+            move.price_unit = amount  #
+
             # vls_vals = move._prepare_common_svl_vals()
             # quantity = forced_quantity or move.quantity
             # product = move.product_id
@@ -621,6 +626,8 @@ class StockMove(models.Model):
         return account_move
 
     def _get_accounting_data_for_valuation(self):  # noqa C901
+        fiscal_pos = self.picking_id.picking_type_id.l10n_ro_fiscal_position_id
+        self = self.with_context(fiscal_pos=fiscal_pos)
         (
             journal_id,
             acc_src,

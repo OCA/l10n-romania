@@ -1,7 +1,7 @@
 # Copyright (C) 2022 NextERP Romania SRL
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
-from datetime import date, timedelta
+from datetime import timedelta
 
 from dateutil.relativedelta import relativedelta
 
@@ -16,6 +16,7 @@ class StockMove(models.Model):
     def l10n_ro_get_move_date(self):
         self.ensure_one()
         new_date = self._context.get("force_period_date")
+        now = fields.datetime.now()
         if not new_date:
             if self.picking_id:
                 if self.picking_id.l10n_ro_accounting_date:
@@ -28,52 +29,36 @@ class StockMove(models.Model):
                 elif self.production_id:
                     new_date = self.production_id.date_start
             if not new_date:
-                new_date = fields.datetime.now()
+                new_date = now
         restrict_date_last_month = (
             self.company_id.l10n_ro_restrict_stock_move_date_last_month
         )
         restrict_date_future = self.company_id.l10n_ro_restrict_stock_move_date_future
         first_posting_date = last_posting_date = False
         if restrict_date_last_month:
-            first_posting_date = date.today().replace(day=1) + relativedelta(months=-1)
+            first_posting_date = now.replace(day=1) + relativedelta(months=-1)
             last_posting_date = (
-                date.today().replace(day=1)
-                - timedelta(days=1)
-                + relativedelta(months=1)
+                now.replace(day=1) - timedelta(days=1) + relativedelta(months=1)
             )
+
         if restrict_date_future:
-            last_posting_date = date.today()
-        if not first_posting_date and last_posting_date:
-            if not (new_date.date() <= last_posting_date):
-                raise UserError(
-                    _(
-                        "Cannot validate stock move due to date restriction."
-                        "The date must be after %(last_posting_date)s"
-                    )
-                    % {
-                        "last_posting_date": last_posting_date,
-                    }
-                )
-            self.check_lock_date(self.date)
+            last_posting_date = now
+
         if first_posting_date and last_posting_date:
-            if not (first_posting_date <= new_date.date() <= last_posting_date):
+            if not (first_posting_date <= new_date <= last_posting_date):
                 raise UserError(
                     _(
-                        "Cannot validate stock move due to date restriction."
-                        "The date must be between %(first_posting_date)s and "
-                        "%(last_posting_date)s"
+                        f"Cannot validate stock move due to date restriction."
+                        f" The date must be between"
+                        f" %{first_posting_date} and {last_posting_date}"
                     )
-                    % {
-                        "first_posting_date": first_posting_date,
-                        "last_posting_date": last_posting_date,
-                    }
                 )
             self.check_lock_date(self.date)
         return new_date
 
     def _action_done(self, cancel_backorder=False):
         moves_todo = super()._action_done(cancel_backorder=cancel_backorder)
-        for move in self.filtered("is_l10n_ro_record"):
+        for move in moves_todo.filtered("is_l10n_ro_record"):
             move.date = move.l10n_ro_get_move_date()
             move.move_line_ids.write({"date": move.date})
         return moves_todo
