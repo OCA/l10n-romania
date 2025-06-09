@@ -33,7 +33,7 @@ class StockMove(models.Model):
                 "internal_transfer",  # transfer intern
                 "usage_giving",
                 "usage_giving_return",
-                "internal_transit_out",  # stock moves trasit to internal
+                "internal_transit_out",  # stock moves transit to internal
                 "internal_transit_in",  # stock moves internal to transit
             ]
         return valued_types
@@ -488,17 +488,31 @@ class StockMove(models.Model):
             acc_valuation,
         ) = move._get_accounting_data_for_valuation()
         if location_to.l10n_ro_property_stock_valuation_account_id and cost < 0:
-            am_vals.append(
-                move._prepare_account_move_vals(
-                    acc_dest, acc_valuation, journal_id, qty, description, svl_id, cost
+            if acc_dest != acc_valuation:
+                am_vals.append(
+                    move._prepare_account_move_vals(
+                        acc_dest,
+                        acc_valuation,
+                        journal_id,
+                        qty,
+                        description,
+                        svl_id,
+                        cost,
+                    )
                 )
-            )
         if location_from.l10n_ro_property_stock_valuation_account_id and cost > 0:
-            am_vals.append(
-                move._prepare_account_move_vals(
-                    acc_src, acc_valuation, journal_id, qty, description, svl_id, cost
+            if acc_src != acc_valuation:
+                am_vals.append(
+                    move._prepare_account_move_vals(
+                        acc_src,
+                        acc_valuation,
+                        journal_id,
+                        qty,
+                        description,
+                        svl_id,
+                        cost,
+                    )
                 )
-            )
 
         return am_vals
 
@@ -522,7 +536,9 @@ class StockMove(models.Model):
             cost,
         )
         valued_type = self.env.context.get("valued_type", "indefinite")
-        if "return" in valued_type and self.env.company.account_storno:
+        if self.env.company.account_storno and (
+            "return" in valued_type or self.origin_returned_move_id
+        ):
             vals["is_storno"] = True
         return vals
 
@@ -622,6 +638,9 @@ class StockMove(models.Model):
         )
         location_to_account = location_to.l10n_ro_property_stock_valuation_account_id
 
+        company = self.company_id
+        stock_transfer_account = company.l10n_ro_property_stock_transfer_account_id
+
         allow_accounts_change = self.product_id.categ_id.l10n_ro_stock_account_change
         operations_not_allowed = ["usage_giving_secondary"]
         if allow_accounts_change and valued_type not in operations_not_allowed:
@@ -680,6 +699,12 @@ class StockMove(models.Model):
                     or location_to.l10n_ro_property_account_expense_location_id.id
                     or acc_src
                 )
+
+        if stock_transfer_account:
+            if valued_type == "internal_transit_out":
+                acc_src = stock_transfer_account.id
+            elif valued_type == "internal_transit_in":
+                acc_dest = stock_transfer_account.id
 
         if valued_type in ("consumption", "usage_giving"):
             acc_dest_rec = self.env["account.account"].browse(acc_dest)
