@@ -248,6 +248,11 @@ msgid "Production"
 msgstr "Producție"
 
 #. module: l10n_ro_stock_account
+#: model:ir.actions.server,name:l10n_ro_stock_account.action_location_account_propagate
+msgid "Propagate Accounts"
+msgstr ""
+
+#. module: l10n_ro_stock_account
 #: model:ir.model.fields.selection,name:l10n_ro_stock_account.selection__stock_valuation_layer__l10n_ro_valued_type__reception
 msgid "Reception"
 msgstr "Recepție"
