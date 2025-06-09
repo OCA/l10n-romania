@@ -142,7 +142,7 @@ class TestMessageSPV(TestMessageSPV):
         product = self.env["product.product"].create(
             {
                 "name": "Test Product",
-                "type": "product",
+                "is_storable": True,
             }
         )
 
