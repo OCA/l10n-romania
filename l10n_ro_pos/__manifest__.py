@@ -13,12 +13,12 @@
     "data": [
         "views/report_saledetails.xml",
     ],
-    "qweb": ["static/src/xml/pos.xml"],
     "maintainers": ["dhongu"],
     "assets": {
-        "point_of_sale.assets": [
+        "point_of_sale._assets_pos": [
             "l10n_ro_pos/static/src/css/pos.css",
-            "l10n_ro_pos/static/src/js/PaymentScreenStatus.js",
+            "l10n_ro_pos/static/src/js/PaymentScreenStatus.esm.js",
+            "l10n_ro_pos/static/src/xml/pos.xml",
         ],
     },
 }
