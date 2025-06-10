@@ -224,7 +224,7 @@ class MessageSPV(models.Model):
         try:
             xml_tree = etree.fromstring(content)
         except Exception as e:
-            _logger.exception("Error when converting the xml content to etree: %s" % e)
+            _logger.exception(f"Error when converting the xml content to etree: {e}")
             return to_process
         if len(xml_tree):
             to_process.append(

@@ -7,10 +7,10 @@
     "countries": ["ro"],
     "summary": "Romania - Mesaje SPV",
     "depends": [
-        # "l10n_ro_account_anaf_sync",
         "l10n_ro_edi",
-        "l10n_ro_efactura",
         "account_edi",
+        "l10n_ro_config",
+        "l10n_ro_efactura",
     ],
     "data": [
         "security/ir.model.access.csv",
@@ -18,6 +18,7 @@
         "data/ir_cron_data.xml",
         "views/account_invoice.xml",
         "views/message_spv_view.xml",
+        "wizard/res_config_settings_views.xml",
     ],
     "license": "AGPL-3",
     "version": "17.0.1.36.0",
