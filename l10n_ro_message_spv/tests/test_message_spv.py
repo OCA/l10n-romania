@@ -14,6 +14,17 @@ from .common import TestMessageSPV
 class TestMessageSPV(TestMessageSPV):
     # test de creare mesaje preluate de la SPV
 
+    def setUp(self):
+        super().setUp()
+        self.vendor = self.env["res.partner"].create(
+            {
+                "name": "Deltatech",
+                "country_id": self.env.ref("base.ro").id,
+                "vat": "RO20603502",
+                "is_company": True,
+            }
+        )
+
     def test_download_messages(self):
         # test de descarcare a mesajelor de la SPV
         self.env.company.vat = "RO23685159"
@@ -96,7 +107,7 @@ class TestMessageSPV(TestMessageSPV):
         invoice = self.env["account.move"].create(
             {
                 "move_type": "in_invoice",
-                "partner_id": self.env.ref("base.res_partner_12").id,
+                "partner_id": self.vendor.id,
             }
         )
         message_spv.write({"invoice_id": invoice.id})
@@ -117,7 +128,7 @@ class TestMessageSPV(TestMessageSPV):
         invoice = self.env["account.move"].create(
             {
                 "move_type": "in_invoice",
-                "partner_id": self.env.ref("base.res_partner_12").id,
+                "partner_id": self.vendor.id,
             }
         )
 
@@ -147,11 +158,11 @@ class TestMessageSPV(TestMessageSPV):
         )
 
         # Creăm o factură cu linie ce conține codul furnizorului
-        vendor = self.env.ref("base.res_partner_12")
+
         invoice = self.env["account.move"].create(
             {
                 "move_type": "in_invoice",
-                "partner_id": vendor.id,
+                "partner_id": self.vendor.id,
                 "invoice_date": "2023-12-01",
                 "invoice_line_ids": [
                     (
@@ -175,7 +186,7 @@ class TestMessageSPV(TestMessageSPV):
         # Verificăm că s-a creat o informație de furnizor cu codul corect
         supplier_info = self.env["product.supplierinfo"].search(
             [
-                ("partner_id", "=", vendor.id),
+                ("partner_id", "=", self.vendor.id),
                 ("product_id", "=", product.id),
             ]
         )

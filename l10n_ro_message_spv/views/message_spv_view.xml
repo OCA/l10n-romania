@@ -1,7 +1,5 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <odoo>
-
-
     <record id="view_l10n_ro_message_spv_tree" model="ir.ui.view">
         <field name="name">l10n.ro.message.spv.tree</field>
         <field name="model">l10n.ro.message.spv</field>
@@ -116,7 +114,6 @@
                                 decoration-info="state == 'downloaded'"
                                 decoration-primary="state == 'invoice'"
                             />
-
                         </group>
 
                         <group string="Files">
@@ -171,7 +168,6 @@
             </form>
         </field>
     </record>
-
 
     <record id="view_l10n_ro_message_spv_search" model="ir.ui.view">
         <field name="name">l10n.ro.message.spv.search</field>
@@ -245,7 +241,6 @@
         </field>
     </record>
 
-
     <record id="action_l10n_ro_message_spv" model="ir.actions.act_window">
         <field name="name">Messages SPV</field>
         <field name="res_model">l10n.ro.message.spv</field>
@@ -264,5 +259,4 @@
         parent="menu_l10n_ro_spv"
         action="action_l10n_ro_message_spv"
     />
-
 </odoo>
