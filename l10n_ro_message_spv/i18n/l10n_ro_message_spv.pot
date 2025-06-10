@@ -56,6 +56,11 @@ msgid "Company"
 msgstr ""
 
 #. module: l10n_ro_message_spv
+#: model:ir.model,name:l10n_ro_message_spv.model_res_config_settings
+msgid "Config Settings"
+msgstr ""
+
+#. module: l10n_ro_message_spv
 #: model_terms:ir.ui.view,arch_db:l10n_ro_message_spv.view_l10n_ro_message_spv_form
 #: model_terms:ir.ui.view,arch_db:l10n_ro_message_spv.view_l10n_ro_message_spv_tree
 msgid "Create Invoice"
@@ -239,6 +244,12 @@ msgstr ""
 #. module: l10n_ro_message_spv
 #: model:ir.model.fields,field_description:l10n_ro_message_spv.field_l10n_ro_message_spv__write_date
 msgid "Last Updated on"
+msgstr ""
+
+#. module: l10n_ro_message_spv
+#: model:ir.model.fields,field_description:l10n_ro_message_spv.field_res_company__l10n_ro_download_einvoices_days
+#: model:ir.model.fields,field_description:l10n_ro_message_spv.field_res_config_settings__l10n_ro_download_einvoices_days
+msgid "Maximum number of days to download e-invoices."
 msgstr ""
 
 #. module: l10n_ro_message_spv
