@@ -335,6 +335,11 @@ msgid "Romania e-Invoicing: Download SPV Message"
 msgstr ""
 
 #. module: l10n_ro_message_spv
+#: model:ir.actions.server,name:l10n_ro_message_spv.ir_cron_download_zip_message_spv_ir_actions_server
+msgid "Romania e-Invoicing: Download ZIP SPV Message"
+msgstr ""
+
+#. module: l10n_ro_message_spv
 #: model:ir.ui.menu,name:l10n_ro_message_spv.menu_l10n_ro_spv
 msgid "SPV"
 msgstr ""
