@@ -19,6 +19,27 @@ class ResCompany(models.Model):
         string="Maximum number of days to download e-invoices.", default=60
     )
 
+    def l10n_ro_download_zip_message_spv(self, limit=5):
+        # method to be used in cron job to auto download e-invoices from ANAF
+        domain = [("l10n_ro_edi_access_token", "!=", False)]
+        ro_companies = self or self.env["res.company"].sudo().search(domain)
+
+        need_retrigger = False
+        for company in ro_companies:
+            domain = [("company_id", "=", company.id), ("attachment_id", "=", False)]
+            messages = company.env["l10n.ro.message.spv"].search(
+                domain, limit=limit + 1
+            )
+            if len(messages) > limit:
+                need_retrigger = True
+            messages = messages[:-1]
+            messages.download_from_spv()
+
+        if need_retrigger:
+            self.env.ref(
+                "l10n_ro_message_spv.ir_cron_download_zip_message_spv"
+            )._trigger()
+
     def l10n_ro_download_message_spv(self):
         # method to be used in cron job to auto download e-invoices from ANAF
         domain = [("l10n_ro_edi_access_token", "!=", False)]
@@ -52,7 +73,7 @@ class ResCompany(models.Model):
             )
         return partner
 
-    def _l10n_ro_download_message_spv(self, no_days=0, download_zip=True):
+    def _l10n_ro_download_message_spv(self, no_days=0):
         pattern_in = r"cif_emitent=(\d+)"
         pattern_out = r"cif_beneficiar=(\d+)"
 
@@ -103,7 +124,7 @@ class ResCompany(models.Model):
                     else:
                         _logger.error("Unknown message type: %s", message["tip"])
 
-                    spv_message = message_spv_obj.create(
+                    message_spv_obj.create(
                         {
                             "name": message["id"],
                             "cif": cif,
@@ -116,12 +137,5 @@ class ResCompany(models.Model):
                             "state": "draft",
                         }
                     )
-                    if download_zip:
-                        try:
-                            spv_message.download_from_spv()
-                            if spv_message.message_type in ["error", "message"]:
-                                spv_message.get_invoice_from_move()
-                        except Exception as e:
-                            _logger.info(str(e))
 
         return True
