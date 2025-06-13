@@ -26,7 +26,11 @@ class ResCompany(models.Model):
 
         need_retrigger = False
         for company in ro_companies:
-            domain = [("company_id", "=", company.id), ("attachment_id", "=", False)]
+            domain = [
+                ("company_id", "=", company.id),
+                ("attachment_id", "=", False),
+                ("message_type", "not in", ["error", "message"]),
+            ]
             messages = company.env["l10n.ro.message.spv"].search(
                 domain, limit=limit + 1
             )
