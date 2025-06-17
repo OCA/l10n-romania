@@ -813,7 +813,6 @@ class StockMove(models.Model):
         origin_svls = self.env["stock.valuation.layer"].search(domain)
         return origin_svls
 
-
     def _get_out_svl_vals(self, forced_quantity):
         svl_values = super()._get_out_svl_vals(forced_quantity)
         if self.company_id.country_id.code != "RO":
