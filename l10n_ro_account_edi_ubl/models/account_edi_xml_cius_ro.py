@@ -369,7 +369,7 @@ class AccountEdiXmlCIUSRO(models.Model):
                         ("type_tax_use", "=", journal.type),
                         ("amount_type", "=", "percent"),
                         ("company_id", "=", invoice.company_id.id),
-                        ("name", "ilike", "incasare"),
+                        ("tax_exigibility", "=", "on_payment"),
                     ],
                     limit=1,
                 )
