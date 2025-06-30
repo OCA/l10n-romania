@@ -343,6 +343,7 @@ class AccountEdiXmlCIUSRO(models.Model):
                 invoice_line.product_id = product
 
         tax_nodes = tree.findall(".//{*}Item/{*}ClassifiedTaxCategory/{*}ID")
+        tax_percent = tree.findall(".//{*}ClassifiedTaxCategory/{*}Percent")
         if len(tax_nodes) == 1:
             if tax_nodes[0].text in ["O", "E", "Z"]:
                 # Acest TVA nu generaza inregistrari contabile,
@@ -359,6 +360,21 @@ class AccountEdiXmlCIUSRO(models.Model):
                 )
                 if tax and not invoice_line.tax_ids:
                     invoice_line.tax_ids.add(tax)
+            elif (
+                tax_nodes[0].text in ["S"] and invoice.partner_id.l10n_ro_vat_on_payment
+            ):
+                tax = self.env["account.tax"].search(
+                    [
+                        ("amount", "=", float(tax_percent[0].text)),
+                        ("type_tax_use", "=", journal.type),
+                        ("amount_type", "=", "percent"),
+                        ("company_id", "=", invoice.company_id.id),
+                        ("tax_exigibility", "=", "on_payment"),
+                    ],
+                    limit=1,
+                )
+                if tax and tax != invoice_line.tax_ids:
+                    invoice_line.tax_ids = tax
         return res
 
     def _import_fill_invoice_line_taxes(
