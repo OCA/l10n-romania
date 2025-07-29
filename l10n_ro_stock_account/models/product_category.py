@@ -47,6 +47,8 @@ class ProductCategory(models.Model):
         if self.env.company.l10n_ro_accounting:
             # is a romanian company:
             for record in self.filtered("is_l10n_ro_record"):
+                if record.property_valuation == "manual_periodic":
+                    continue
                 stock_input = record.property_stock_account_input_categ_id
                 stock_output = record.property_stock_account_output_categ_id
                 stock_val = record.property_stock_valuation_account_id
