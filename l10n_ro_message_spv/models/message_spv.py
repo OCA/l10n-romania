@@ -412,6 +412,7 @@ class MessageSPV(models.Model):
                 continue
             state = "invoice"
             message.write({"invoice_id": new_invoice.id, "state": state})
+            new_invoice._onchange_partner_id()
 
     def render_anaf_pdf(self):
         for message in self:
