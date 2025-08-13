@@ -8,4 +8,13 @@
         <field name="interval_number">1</field>
         <field name="interval_type">days</field>
     </record>
+
+    <record model="ir.cron" id="ir_cron_download_zip_message_spv">
+        <field name="name">Romania e-Invoicing: Download ZIP SPV Message</field>
+        <field name="model_id" ref="base.model_res_company" />
+        <field name="state">code</field>
+        <field name="code">model.l10n_ro_download_zip_message_spv(limit=5)</field>
+        <field name="interval_number">1</field>
+        <field name="interval_type">days</field>
+    </record>
 </odoo>
