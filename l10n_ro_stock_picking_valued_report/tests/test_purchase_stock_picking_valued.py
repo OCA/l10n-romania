@@ -41,7 +41,7 @@ class TestPurchaseStockPickingValued(TestStockPickingValued):
             picking.button_validate()
             self.assertEqual(picking.l10n_ro_amount_untaxed, 100.0)
             self.assertEqual(picking.l10n_ro_amount_tax, 21.0)
-            self.assertEqual(picking.l10n_ro_amount_total, 119.0)
+            self.assertEqual(picking.l10n_ro_amount_total, 121.0)
 
     def test_04_lines_distinct_tax(self):
         self.purchase_order2.company_id.tax_calculation_rounding_method = (
@@ -56,7 +56,7 @@ class TestPurchaseStockPickingValued(TestStockPickingValued):
             picking._action_done()
             self.assertEqual(picking.l10n_ro_amount_untaxed, 600.0)
             self.assertEqual(picking.l10n_ro_amount_tax, 126.0)
-            self.assertEqual(picking.l10n_ro_amount_total, 714.0)
+            self.assertEqual(picking.l10n_ro_amount_total, 726.0)
 
     def test_05_distinct_qty(self):
         self.purchase_order.button_confirm()
@@ -68,7 +68,7 @@ class TestPurchaseStockPickingValued(TestStockPickingValued):
             picking._action_done()
             self.assertEqual(picking.l10n_ro_amount_untaxed, 200.0)
             self.assertEqual(picking.l10n_ro_amount_tax, 42.0)
-            self.assertEqual(picking.l10n_ro_amount_total, 238.0)
+            self.assertEqual(picking.l10n_ro_amount_total, 242.0)
 
     def test_06_po_currency_qty(self):
         # In l10n_ro_stock_account we defined a currency rate of 4.5 for EUR
@@ -82,7 +82,7 @@ class TestPurchaseStockPickingValued(TestStockPickingValued):
             picking._action_done()
             self.assertEqual(picking.l10n_ro_amount_untaxed, 900.0)
             self.assertEqual(picking.l10n_ro_amount_tax, 189.0)
-            self.assertEqual(picking.l10n_ro_amount_total, 1071.0)
+            self.assertEqual(picking.l10n_ro_amount_total, 1089.0)
 
         move_line = self.purchase_order.picking_ids.move_line_ids
         agg_lines = move_line._get_aggregated_product_quantities()
