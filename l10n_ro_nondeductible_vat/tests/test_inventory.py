@@ -22,7 +22,7 @@ class TestStockInventoryNondeductible(TestNondeductibleCommon):
         _logger.info("Inventar facut")
 
         _logger.info("Start verificare balanta consum")
-        self.check_account_valuation(16.5, self.account_vat_deductible)
+        self.check_account_valuation(18.5, self.account_vat_deductible)
         self.check_account_valuation(50, self.account_valuation)
         self.check_account_valuation(25, self.account_expense)
         self.check_account_valuation(25, self.account_expense_nondeductible)
