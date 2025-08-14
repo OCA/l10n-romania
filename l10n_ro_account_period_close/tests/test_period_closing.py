@@ -245,17 +245,17 @@ class TestPeriodClosing(AccountTestInvoicingCommon):
         )
         expected_vat_account = [
             {
-                "credit": 340.0,
+                "credit": 360.0,
                 "debit": 0.0,
-                "balance": -340.0,
+                "balance": -360.0,
                 "id": account_sale_tax.id,
                 "code": account_sale_tax.code,
                 "name": account_sale_tax.name,
             },
             {
                 "credit": 0.0,
-                "debit": 34.0,
-                "balance": 34.0,
+                "debit": 36.0,
+                "balance": 36.0,
                 "id": account_purchase_tax.id,
                 "code": account_purchase_tax.code,
                 "name": account_purchase_tax.name,
