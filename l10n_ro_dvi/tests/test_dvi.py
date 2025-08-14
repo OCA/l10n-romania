@@ -45,7 +45,7 @@ class TestDVI(TestStockCommon2):
         self.check_account_valuation(self.val_p1_i, self.val_p2_i)
         for line in dvi.line_ids:
             self.assertEqual(line.price_subtotal, line.base_amount)
-            self.assertAlmostEqual(line.vat_amount, round(line.base_amount * 0.19, 2))
+            self.assertAlmostEqual(line.vat_amount, round(line.base_amount * 0.21, 2))
         inv_subtotal = -1 * dvi.invoice_ids.amount_untaxed_signed
 
         dvi._compute_amount()
