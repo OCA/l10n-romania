@@ -92,7 +92,7 @@ class TestPurchaseStockPickingValued(TestStockPickingValued):
         self.assertEqual(agg_lines[line_key]["l10n_ro_additional_charges"], 0.0)
         self.assertEqual(agg_lines[line_key]["l10n_ro_price_subtotal"], 900.0)
         self.assertEqual(agg_lines[line_key]["l10n_ro_price_tax"], 189.0)
-        self.assertEqual(agg_lines[line_key]["l10n_ro_price_total"], 1071.0)
+        self.assertEqual(agg_lines[line_key]["l10n_ro_price_total"], 1089.0)
         self.assertEqual(
             agg_lines[line_key]["l10n_ro_currency_id"],
             move_line.company_id.currency_id.id,
