@@ -45,18 +45,18 @@ class TestDVI(TestStockCommon2):
         self.check_account_valuation(self.val_p1_i, self.val_p2_i)
         for line in dvi.line_ids:
             self.assertEqual(line.price_subtotal, line.base_amount)
-            self.assertAlmostEqual(line.vat_amount, round(line.base_amount * 0.19, 2))
+            self.assertAlmostEqual(line.vat_amount, round(line.base_amount * 0.21, 2))
         inv_subtotal = -1 * dvi.invoice_ids.amount_untaxed_signed
 
         dvi._compute_amount()
         self.assertEqual(dvi.invoice_base_value, inv_subtotal)
-        self.assertEqual(dvi.invoice_tax_value, round(inv_subtotal * 0.19, 2))
+        self.assertEqual(dvi.invoice_tax_value, round(inv_subtotal * 0.21, 2))
         self.assertEqual(
             dvi.total_base_tax_value, inv_subtotal + dvi.customs_duty_value
         )
         self.assertEqual(
             dvi.total_tax_value,
-            round((inv_subtotal + dvi.customs_duty_value) * 0.19, 2),
+            round((inv_subtotal + dvi.customs_duty_value) * 0.21, 2),
         )
         dvi.button_post()
         lc = dvi.landed_cost_ids
@@ -99,13 +99,13 @@ class TestDVI(TestStockCommon2):
         self.check_account_valuation(self.val_p1_i, self.val_p2_i)
         inv_subtotal = -1 * dvi.invoice_ids.amount_untaxed_signed
         self.assertEqual(dvi.invoice_base_value, inv_subtotal)
-        self.assertEqual(dvi.invoice_tax_value, round(inv_subtotal * 0.19, 2))
+        self.assertEqual(dvi.invoice_tax_value, round(inv_subtotal * 0.21, 2))
         self.assertEqual(
             dvi.total_base_tax_value, inv_subtotal + dvi.customs_duty_value
         )
         self.assertEqual(
             dvi.total_tax_value,
-            round((inv_subtotal + dvi.customs_duty_value) * 0.19, 2),
+            round((inv_subtotal + dvi.customs_duty_value) * 0.21, 2),
         )
         self.assertEqual(revert_lc.l10n_ro_cost_type, "dvi")
         self.assertEqual(revert_lc.l10n_ro_tax_id, dvi.tax_id)
