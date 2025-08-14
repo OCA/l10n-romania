@@ -15,46 +15,6 @@ class StockMove(models.Model):
     _name = "stock.move"
     _inherit = ["stock.move", "l10n.ro.mixin"]
 
-    def _get_price_unit(self):
-        # se caculeaza preturl cu functia standard
-        price_unit = super()._get_price_unit()
-
-        self.ensure_one()
-        if self.is_l10n_ro_record:
-            self.env["decimal.precision"].precision_get("Product Price")
-            # If the move is a return, use the original move's price unit.
-            if (
-                self.origin_returned_move_id
-                and self.origin_returned_move_id.sudo().stock_valuation_layer_ids
-            ):
-                layers = self.origin_returned_move_id.sudo().stock_valuation_layer_ids
-                if self.product_id.lot_valuated:
-                    layers_by_lot = layers.grouped("lot_id")
-                    prices = {}
-                    for lot, stock_layers in layers_by_lot.items():
-                        qty = sum(stock_layers.mapped("quantity"))
-                        val = sum(stock_layers.mapped("value"))
-                        prices[lot] = (
-                            val / qty
-                            if not float_is_zero(
-                                qty, precision_rounding=self.product_id.uom_id.rounding
-                            )
-                            else 0
-                        )
-                else:
-                    quantity = sum(layers.mapped("quantity"))
-                    price_unit = {
-                        self.env["stock.lot"]: (
-                            sum(layers.mapped("value")) / quantity
-                            if not float_is_zero(
-                                quantity, precision_rounding=layers.uom_id.rounding
-                            )
-                            else 0
-                        )
-                    }
-
-        return price_unit
-
     # nu se mai face in mod automat evaluarea la intrare in stoc
     def _create_in_svl(self, forced_quantity=None):
         _logger.debug("SVL: {}".format(self.env.context.get("valued_type", "")))
@@ -121,16 +81,30 @@ class StockMove(models.Model):
                                     origin_unit_cost * valued_quantity,
                                 )
                             ]
-                    unit_cost = abs(move._get_price_unit()[lot])
+                    if move.product_id.lot_valuated:
+                        unit_cost = {lot: lot.standard_price for lot in move.lot_ids}
+                    else:
+                        unit_cost = {
+                            self.env["stock.lot"]: move.product_id.standard_price
+                        }
+                    if move.product_id.cost_method != "standard":
+                        unit_cost = move._get_price_unit()
+
                     # May be negative (i.e. decrease an out move).
-                    if move.product_id.cost_method == "standard":
-                        unit_cost = move.product_id.standard_price
-                    svl_vals = move.product_id._prepare_in_svl_vals(
-                        forced_quantity or valued_quantity, unit_cost
-                    )
+                    if move.product_id.lot_valuated:
+                        svl_vals = move.product_id._prepare_in_svl_vals(
+                            forced_quantity or valued_quantity,
+                            abs(unit_cost[lot]),
+                            lot=lot,
+                        )
+                    else:
+                        svl_vals = move.product_id._prepare_in_svl_vals(
+                            forced_quantity or valued_quantity,
+                            abs(unit_cost[self.env["stock.lot"]]),
+                        )
                     svl_vals.update(move._prepare_common_svl_vals())
-                    if valued_move_line.lot_id:
-                        svl_vals.update({"lot_id": lot.id})
+                    # if valued_move_line.lot_id:
+                    #     svl_vals.update({"lot_id": lot.id})
                     svl_vals.update(
                         {
                             "l10n_ro_stock_move_line_id": valued_move_line.id,
