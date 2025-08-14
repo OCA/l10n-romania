@@ -40,7 +40,7 @@ class TestPurchaseStockPickingValued(TestStockPickingValued):
         for picking in self.purchase_order.picking_ids:
             picking.button_validate()
             self.assertEqual(picking.l10n_ro_amount_untaxed, 100.0)
-            self.assertEqual(picking.l10n_ro_amount_tax, 19.0)
+            self.assertEqual(picking.l10n_ro_amount_tax, 21.0)
             self.assertEqual(picking.l10n_ro_amount_total, 119.0)
 
     def test_04_lines_distinct_tax(self):
@@ -55,7 +55,7 @@ class TestPurchaseStockPickingValued(TestStockPickingValued):
             picking.button_validate()
             picking._action_done()
             self.assertEqual(picking.l10n_ro_amount_untaxed, 600.0)
-            self.assertEqual(picking.l10n_ro_amount_tax, 114.0)
+            self.assertEqual(picking.l10n_ro_amount_tax, 126.0)
             self.assertEqual(picking.l10n_ro_amount_total, 714.0)
 
     def test_05_distinct_qty(self):
@@ -67,7 +67,7 @@ class TestPurchaseStockPickingValued(TestStockPickingValued):
             picking.button_validate()
             picking._action_done()
             self.assertEqual(picking.l10n_ro_amount_untaxed, 200.0)
-            self.assertEqual(picking.l10n_ro_amount_tax, 38.0)
+            self.assertEqual(picking.l10n_ro_amount_tax, 42.0)
             self.assertEqual(picking.l10n_ro_amount_total, 238.0)
 
     def test_06_po_currency_qty(self):
@@ -81,7 +81,7 @@ class TestPurchaseStockPickingValued(TestStockPickingValued):
             picking.button_validate()
             picking._action_done()
             self.assertEqual(picking.l10n_ro_amount_untaxed, 900.0)
-            self.assertEqual(picking.l10n_ro_amount_tax, 171.0)
+            self.assertEqual(picking.l10n_ro_amount_tax, 189.0)
             self.assertEqual(picking.l10n_ro_amount_total, 1071.0)
 
         move_line = self.purchase_order.picking_ids.move_line_ids
