@@ -47,7 +47,8 @@ class Account(models.Model):
         for account in self:
             if self.env.company.l10n_ro_accounting:
                 code = account.l10n_ro_external_code or account.code
-                name = code + " " + account.name
-                account.display_name = name
-                rest -= account
+                if code and account.name:
+                    name = code + " " + account.name
+                    account.display_name = name
+                    rest -= account
         return super(Account, rest)._compute_display_name()
