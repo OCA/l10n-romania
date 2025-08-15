@@ -50,7 +50,7 @@ class TestMessageSPV(TestMessageSPV):
             "odoo.addons.l10n_ro_edi.models.ciusro_document.make_efactura_request",
             return_value=anaf_messages,
         ):
-            self.env.company._l10n_ro_download_message_spv(download_zip=False)
+            self.env.company._l10n_ro_download_message_spv()
 
     def test_download_from_spv(self):
         # test descarcare zip from SPV
