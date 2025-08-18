@@ -10,8 +10,8 @@ from odoo.addons.account.tests.common import AccountTestInvoicingCommon
 @tagged("post_install", "-at_install")
 class TestPaymenttoStatement(AccountTestInvoicingCommon):
     @classmethod
-    def setUpClass(cls, chart_template_ref="ro"):
-        super().setUpClass(chart_template_ref=chart_template_ref)
+    def setUpClass(cls):
+        super().setUpClass()
         cls.env.company.l10n_ro_accounting = True
         cls.partner_a = cls.env["res.partner"].create({"name": "test"})
         cash_journals = cls.env["account.journal"].search(
