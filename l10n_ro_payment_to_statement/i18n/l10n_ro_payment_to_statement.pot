@@ -4,7 +4,7 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 17.0\n"
+"Project-Id-Version: Odoo Server 18.0\n"
 "Report-Msgid-Bugs-To: \n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -16,11 +16,6 @@ msgstr ""
 #. module: l10n_ro_payment_to_statement
 #: model_terms:ir.ui.view,arch_db:l10n_ro_payment_to_statement.account_journal_dashboard_kanban_view
 msgid "<span title=\"Transfer\">Transfer</span>"
-msgstr ""
-
-#. module: l10n_ro_payment_to_statement
-#: model_terms:ir.ui.view,arch_db:l10n_ro_payment_to_statement.view_account_payment_form
-msgid "Add to statement"
 msgstr ""
 
 #. module: l10n_ro_payment_to_statement
@@ -36,11 +31,6 @@ msgstr ""
 #. module: l10n_ro_payment_to_statement
 #: model:ir.model,name:l10n_ro_payment_to_statement.model_account_bank_statement_line
 msgid "Bank Statement Line"
-msgstr ""
-
-#. module: l10n_ro_payment_to_statement
-#: model_terms:ir.ui.view,arch_db:l10n_ro_payment_to_statement.view_account_payment_form
-msgid "Get statement Line"
 msgstr ""
 
 #. module: l10n_ro_payment_to_statement
@@ -133,13 +123,12 @@ msgid "Sequence used for statement name"
 msgstr ""
 
 #. module: l10n_ro_payment_to_statement
-#: model:ir.model.fields,field_description:l10n_ro_payment_to_statement.field_account_payment__statement_line_id
+#: model:ir.model.fields,field_description:l10n_ro_payment_to_statement.field_account_payment__l10n_ro_statement_line_id
 msgid "Statement Line"
 msgstr ""
 
 #. module: l10n_ro_payment_to_statement
 #. odoo-python
 #: code:addons/l10n_ro_payment_to_statement/models/account_payment.py:0
-#, python-format
 msgid "You cannot delete the payment %s, as it already consumed a number."
 msgstr ""
