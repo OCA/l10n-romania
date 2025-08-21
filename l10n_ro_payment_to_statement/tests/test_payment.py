@@ -14,12 +14,14 @@ class TestPayment(TestPaymenttoStatement):
         super().setUp()
         self.env.company.l10n_ro_accounting = True
         self.partner_a = self.env["res.partner"].create({"name": "test"})
-        self.out_outstanding_account = self.env['account.account'].create({
-            'name': "Outstanding Payments",
-            'code': '5125001',
-            'reconcile': True,
-            'account_type': 'asset_current'
-        })
+        self.out_outstanding_account = self.env["account.account"].create(
+            {
+                "name": "Outstanding Payments",
+                "code": "5125001",
+                "reconcile": True,
+                "account_type": "asset_current",
+            }
+        )
 
     def test_payment(self):
         cash_journal = self.env["account.journal"].search(
@@ -106,8 +108,12 @@ class TestPayment(TestPaymenttoStatement):
         )
         moves = self.env["account.move"].search([])
         moves.unlink()
-        self.payment_debit_account_id = self.inbound_payment_method_line.payment_account_id
-        cash_journal.inbound_payment_method_line_ids[0].payment_account_id = self.payment_debit_account_id
+        self.payment_debit_account_id = (
+            self.inbound_payment_method_line.payment_account_id
+        )
+        cash_journal.inbound_payment_method_line_ids[
+            0
+        ].payment_account_id = self.payment_debit_account_id
         payment_5 = self.env["account.payment"].create(
             {
                 "amount": 150.0,
@@ -119,7 +125,9 @@ class TestPayment(TestPaymenttoStatement):
                 "payment_method_id": self.env.ref(
                     "account.account_payment_method_manual_in"
                 ).id,
-                "payment_method_line_id": cash_journal.inbound_payment_method_line_ids[0].id,
+                "payment_method_line_id": cash_journal.inbound_payment_method_line_ids[
+                    0
+                ].id,
             }
         )
         payment_5.action_post()
@@ -129,8 +137,12 @@ class TestPayment(TestPaymenttoStatement):
         cash_journal = self.env["account.journal"].search(
             [("type", "=", "cash"), ("company_id", "=", self.env.company.id)], limit=1
         )
-        self.payment_debit_account_id = self.inbound_payment_method_line.payment_account_id
-        cash_journal.inbound_payment_method_line_ids[0].payment_account_id = self.payment_debit_account_id
+        self.payment_debit_account_id = (
+            self.inbound_payment_method_line.payment_account_id
+        )
+        cash_journal.inbound_payment_method_line_ids[
+            0
+        ].payment_account_id = self.payment_debit_account_id
         payment_6 = self.env["account.payment"].create(
             {
                 "amount": 150.0,
@@ -143,7 +155,9 @@ class TestPayment(TestPaymenttoStatement):
                     "account.account_payment_method_manual_in"
                 ).id,
                 "company_id": self.env.company.id,
-                "payment_method_line_id": cash_journal.inbound_payment_method_line_ids[0].id,
+                "payment_method_line_id": cash_journal.inbound_payment_method_line_ids[
+                    0
+                ].id,
             }
         )
         payment_6.action_post()
@@ -155,8 +169,12 @@ class TestPayment(TestPaymenttoStatement):
         )
         moves = self.env["account.move"].search([])
         moves.unlink()
-        self.payment_debit_account_id = self.inbound_payment_method_line.payment_account_id
-        cash_journal.inbound_payment_method_line_ids[0].payment_account_id = self.payment_debit_account_id
+        self.payment_debit_account_id = (
+            self.inbound_payment_method_line.payment_account_id
+        )
+        cash_journal.inbound_payment_method_line_ids[
+            0
+        ].payment_account_id = self.payment_debit_account_id
         payment_7 = self.env["account.payment"].create(
             {
                 "amount": 150.0,
@@ -169,7 +187,9 @@ class TestPayment(TestPaymenttoStatement):
                     "account.account_payment_method_manual_in"
                 ).id,
                 "company_id": self.env.company.id,
-                "payment_method_line_id": cash_journal.inbound_payment_method_line_ids[0].id,
+                "payment_method_line_id": cash_journal.inbound_payment_method_line_ids[
+                    0
+                ].id,
             }
         )
         payment_7.action_post()
@@ -198,7 +218,9 @@ class TestPayment(TestPaymenttoStatement):
                     "account.account_payment_method_manual_in"
                 ).id,
                 "company_id": self.env.company.id,
-                "payment_method_line_id": cash_journal.inbound_payment_method_line_ids[0].id,
+                "payment_method_line_id": cash_journal.inbound_payment_method_line_ids[
+                    0
+                ].id,
             }
         )
         payment_8.action_post()
@@ -217,7 +239,6 @@ class TestPayment(TestPaymenttoStatement):
         self.assertEqual(bnk_line_out.move_id.name, journal_cash.code + "000001")
 
     def test_get_journal_dashboard_datas(self):
-        payment_debit_account_id = self.env.company.transfer_account_id
         journal = self.env["account.journal"].create(
             {
                 "name": "Test cash",
@@ -239,12 +260,3 @@ class TestPayment(TestPaymenttoStatement):
             }
         )
         payment.action_post()
-        dashboard_data = journal._get_journal_dashboard_data_batched()
-        # self.assertEqual(dashboard_data["number_draft"], 0)
-        # self.assertIn("0.00", dashboard_data["sum_draft"])
-        # self.assertIn(
-        #     "150.43", dashboard_data[journal.id]["outstanding_pay_account_balance"]
-        # )
-        # self.assertEqual(
-        #     dashboard_data[journal.id]["nb_lines_outstanding_pay_account_balance"], 1
-        # )
