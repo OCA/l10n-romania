@@ -80,7 +80,7 @@ class AccountMove(models.Model):
                     cash_sequence = move.get_l10n_ro_sequence()
                     if cash_sequence and (
                         not move.origin_payment_id
-                        or move.origin_payment_id.state == "posted"
+                        or move.origin_payment_id.state == "in_process"
                     ):
                         if not move.name or move.name == "/":
                             new_number = cash_sequence.next_by_id()
@@ -148,7 +148,7 @@ class AccountMove(models.Model):
                 values = {
                     "journal_id": self.journal_id.id,
                     "date": self.date,
-                    "name": "/",
+                    # "name": "/",
                 }
                 statement = self.env["account.bank.statement"].sudo().create(values)
                 self.origin_payment_id.l10n_ro_statement_id = statement
@@ -168,7 +168,7 @@ class AccountMove(models.Model):
             if move.is_l10n_ro_record:
                 if (
                     move.origin_payment_id
-                    and move.origin_payment_id.state != "posted"
+                    and move.origin_payment_id.state != "in_process"
                     and (not move.name or move.name == "/")
                 ):
                     move.origin_payment_id.l10n_ro_force_cash_sequence()
