@@ -12,7 +12,7 @@ class StockImmediateTransfer(models.TransientModel):
     l10n_ro_accounting_date = fields.Datetime(
         help="If this field is set, the svl and accounting entiries will "
         "have this date, If not will have the today date as it should be",
-        default=fields.Datetime.now(),
+        default=fields.Datetime.now,
     )
 
     @api.model
