@@ -39,8 +39,8 @@ class TestSaleStockPickingValued(TestStockPickingValued):
             picking.move_ids.quantity = 1
             picking.button_validate()
             self.assertEqual(picking.l10n_ro_amount_untaxed, 100.0)
-            self.assertEqual(picking.l10n_ro_amount_tax, 19.0)
-            self.assertEqual(picking.l10n_ro_amount_total, 119.0)
+            self.assertEqual(picking.l10n_ro_amount_tax, 21.0)
+            self.assertEqual(picking.l10n_ro_amount_total, 121.0)
 
     def test_04_lines_distinct_tax(self):
         self.sale_order2.company_id.tax_calculation_rounding_method = "round_globally"
@@ -51,8 +51,8 @@ class TestSaleStockPickingValued(TestStockPickingValued):
             picking.move_ids.quantity = 1
             picking.button_validate()
             self.assertEqual(picking.l10n_ro_amount_untaxed, 200.0)
-            self.assertEqual(picking.l10n_ro_amount_tax, 38.0)
-            self.assertEqual(picking.l10n_ro_amount_total, 238.0)
+            self.assertEqual(picking.l10n_ro_amount_tax, 42.0)
+            self.assertEqual(picking.l10n_ro_amount_total, 242.0)
 
     def test_05_distinct_qty(self):
         self.sale_order.action_confirm()
@@ -62,5 +62,5 @@ class TestSaleStockPickingValued(TestStockPickingValued):
             picking.move_ids.quantity = 2.0
             picking.button_validate()
             self.assertEqual(picking.l10n_ro_amount_untaxed, 200.0)
-            self.assertEqual(picking.l10n_ro_amount_tax, 38.0)
-            self.assertEqual(picking.l10n_ro_amount_total, 238.0)
+            self.assertEqual(picking.l10n_ro_amount_tax, 42.0)
+            self.assertEqual(picking.l10n_ro_amount_total, 242.0)
