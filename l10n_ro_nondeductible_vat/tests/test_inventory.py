@@ -14,7 +14,7 @@ _logger = logging.getLogger(__name__)
 class TestStockInventoryNondeductible(TestNondeductibleCommon):
     def test_minus_inventory(self):
         self.make_purchase()
-        self.check_account_valuation(19, self.account_vat_deductible)
+        self.check_account_valuation(21, self.account_vat_deductible)
         self.check_account_valuation(100, self.account_valuation)
 
         _logger.info("Start inventar produse")

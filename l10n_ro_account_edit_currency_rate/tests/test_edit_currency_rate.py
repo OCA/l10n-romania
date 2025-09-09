@@ -105,9 +105,9 @@ class TestInvoiceCurrencyRateEdit(AccountTestInvoicingCommon):
             line_form.quantity = 1
             line_form.price_unit = 100
             line_form.tax_ids.clear()
-            line_form.tax_ids.add(self.tax_purchase_a)  # 19% tax rate
+            line_form.tax_ids.add(self.tax_purchase_a)  # 21% tax rate
         move_form.save()
-        self.assertEqual(self.invoice.amount_total_signed, -595)
+        self.assertEqual(self.invoice.amount_total_signed, -605)
 
         with move_form.invoice_line_ids.edit(0) as line_form:
             line_form.quantity = 2
