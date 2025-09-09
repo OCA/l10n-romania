@@ -94,9 +94,10 @@ class TestCreatePartner(TestCreatePartnerBase):
         self.assertEqual(mainpartner.country_id, self.env.ref("base.ro"))
 
         # Check address from vat without country code - vat subjected
-
-        mainpartner.vat = "4264242"
         mainpartner.country_id = self.env.ref("base.ro")
+        mainpartner.state_id = self.env.ref("base.RO_B")
+        mainpartner.vat = "4264242"
+
         mainpartner.zip = "031472"
 
         self.assertEqual(mainpartner.name, "CUMPANA 1993 SRL")
