@@ -5,6 +5,7 @@
 from odoo import _, api, fields, models
 from odoo.exceptions import UserError
 
+
 class Partner(models.Model):
     _name = "res.partner"
     _inherit = ["res.partner", "l10n.ro.mixin"]
@@ -20,7 +21,6 @@ class Partner(models.Model):
     @api.onchange("zip")
     def onchange_zip(self):
         if self.zip and self.country_id.code == "RO":
-
             state_b = self.env.ref("base.RO_B")
 
             domain = [
@@ -30,7 +30,9 @@ class Partner(models.Model):
             state = self.env["res.country.state"].search(domain, limit=1)
             if state:
                 if self.state_id and self.state_id != state:
-                    raise UserError(_(f"The state {state.name} doesn't match the zip code"))
+                    raise UserError(
+                        _(f"The state {state.name} doesn't match the zip code")
+                    )
                 self.state_id = state
 
             if self.zip[:2] in ["01", "02", "03", "04", "05", "06"]:
@@ -46,7 +48,8 @@ class Partner(models.Model):
                 if self.state_id != state_b:
                     raise UserError(
                         _(
-                            f"The city {city.name} doesn't match the zip code and the state {state.name}"
+                            f"The city {city.name} doesn't match the"
+                            f" zip code and the state {state.name}"
                         )
                     )
             else:
