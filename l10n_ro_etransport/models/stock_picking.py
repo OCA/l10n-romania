@@ -134,7 +134,7 @@ class StockPicking(models.Model):
         xml_name = "%s_e_transport.xml" % (self.name.replace("/", "_"))
         xml_content = xml_declaration + xml_content
 
-        _logger.info(xml_content)
+        _logger.debug(xml_content)
         xml_doc = etree.fromstring(xml_content.encode())
         schema_file_path = file_path("l10n_ro_etransport/static/schemas/eTransport.xsd")
         xml_schema = etree.XMLSchema(etree.parse(open(schema_file_path)))
@@ -180,7 +180,7 @@ class StockPicking(models.Model):
                     _("Error %(status_code)s:%(content)s")
                     % {"status_code": status_code, "content": content}
                 )
-            _logger.info(content)
+            _logger.debug(content)
             stare = content.get("stare")
 
             if stare in ["ok", "nok"]:
@@ -226,5 +226,5 @@ class StockPicking(models.Model):
             }
         )
 
-        _logger.info(content)
-        _logger.info(status_code)
+        _logger.debug(content)
+        _logger.debug(status_code)

@@ -51,13 +51,13 @@ class TestAccountMove(AccountTestInvoicingCommon):
                 "name": "Test sale",
             }
         )
-        cls.tax_19 = cls.env["account.tax"].create(
+        cls.tax_21 = cls.env["account.tax"].create(
             {
-                "name": "tax_19",
+                "name": "tax_21",
                 "amount_type": "percent",
-                "amount": 19,
+                "amount": 21,
                 "type_tax_use": "sale",
-                "sequence": 19,
+                "sequence": 21,
                 "company_id": cls.env.company.id,
             }
         )
@@ -77,7 +77,7 @@ class TestAccountMove(AccountTestInvoicingCommon):
                                 "name": "Test sale",
                                 "quantity": 1,
                                 "price_unit": 10.00,
-                                "tax_ids": [(6, 0, cls.tax_19.ids)],
+                                "tax_ids": [(6, 0, cls.tax_21.ids)],
                             },
                         ),
                     ],
@@ -100,7 +100,7 @@ class TestAccountMove(AccountTestInvoicingCommon):
                                 "name": "Test sale",
                                 "quantity": 1,
                                 "price_unit": 10.00,
-                                "tax_ids": [(6, 0, cls.tax_19.ids)],
+                                "tax_ids": [(6, 0, cls.tax_21.ids)],
                             },
                         ),
                     ],
