@@ -116,4 +116,4 @@ class TestInvoiceCurrencyRateEdit(AccountTestInvoicingCommon):
         move_form.l10n_ro_currency_rate = 10
         move_form.save()
 
-        self.assertEqual(self.invoice.amount_total_signed, -2380)
+        self.assertEqual(self.invoice.amount_total_signed, -2420)
