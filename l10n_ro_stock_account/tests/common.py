@@ -261,8 +261,8 @@ class TestStockCommon(ValuationReconciliationTestCommon):
         cls.val_p1_store = cls.qty_po_p1 * cls.list_price_p1
         cls.val_p2_store = cls.qty_po_p2 * cls.list_price_p2
 
-        cls.tva_p1 = cls.val_p1_store * 0.19
-        cls.tva_p2 = cls.val_p2_store * 0.19
+        cls.tva_p1 = cls.val_p1_store * 0.21
+        cls.tva_p2 = cls.val_p2_store * 0.21
         cls.val_p1_store = round(cls.val_p1_store + cls.tva_p1, 2)
         cls.val_p2_store = round(cls.val_p2_store + cls.tva_p2, 2)
 

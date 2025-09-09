@@ -1,7 +1,7 @@
 # Copyright (C) 2023 Dorin Hongu <dhongu(@)gmail(.)com
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 {
-    "name": "Romania - E-Trasnport",
+    "name": "Romania - E-Trasnport - Obsolete",
     "category": "Localization",
     "countries": ["ro"],
     "summary": "Romania - E-Trasnport",
@@ -23,7 +23,7 @@
         "data/l10n.ro.e.transport.operation.csv",
     ],
     "license": "AGPL-3",
-    "version": "17.0.0.5.0",
+    "version": "17.0.0.6.0",
     "author": "Terrabit," "Odoo Community Association (OCA)",
     "website": "https://github.com/OCA/l10n-romania",
     "installable": True,
