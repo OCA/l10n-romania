@@ -40,7 +40,7 @@ class TestSaleStockPickingValued(TestStockPickingValued):
             picking.button_validate()
             self.assertEqual(picking.l10n_ro_amount_untaxed, 100.0)
             self.assertEqual(picking.l10n_ro_amount_tax, 21.0)
-            self.assertEqual(picking.l10n_ro_amount_total, 122.0)
+            self.assertEqual(picking.l10n_ro_amount_total, 121.0)
 
     def test_04_lines_distinct_tax(self):
         self.sale_order2.company_id.tax_calculation_rounding_method = "round_globally"
