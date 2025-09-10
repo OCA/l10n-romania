@@ -56,7 +56,7 @@ msgstr "<strong>Departamentul Financiar-Contabil</strong>"
 #: model_terms:ir.ui.view,arch_db:l10n_ro_account_bank_statement_report.report_l10n_ro_statement_daily
 #: model_terms:ir.ui.view,arch_db:l10n_ro_account_bank_statement_report.report_l10n_ro_statement_period
 msgid "<strong>NRC:</strong>"
-msgstr "<strong>Consiliul national de cercetare:</strong>"
+msgstr "<strong>NRC:</strong>"
 
 #. module: l10n_ro_account_bank_statement_report
 #: model_terms:ir.ui.view,arch_db:l10n_ro_account_bank_statement_report.report_l10n_ro_statement_period

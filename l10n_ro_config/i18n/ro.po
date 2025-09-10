@@ -41,7 +41,7 @@ msgstr "<strong>Companie</strong>"
 #. module: l10n_ro_config
 #: model_terms:ir.ui.view,arch_db:l10n_ro_config.report_address_company
 msgid "<strong>NRC:</strong>"
-msgstr "<strong>Consiliul National de Cercetare:</strong>"
+msgstr "<strong>NRC:</strong>"
 
 #. module: l10n_ro_config
 #: model_terms:ir.ui.view,arch_db:l10n_ro_config.report_address_company
