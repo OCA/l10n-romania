@@ -14,6 +14,7 @@ class TestRoCity(TransactionCase):
         self.city_2 = self.env.ref("l10n_ro_city.RO_21588")
         self.city_3 = self.env.ref("l10n_ro_city.RO_6734")
         self.state_bc = self.env.ref("base.RO_BC")
+        self.state_b = self.env.ref("base.RO_B")
 
     def test_city(self):
         self.assertEqual(self.city_1.name, "Filipești")
@@ -40,8 +41,10 @@ class TestRoCity(TransactionCase):
         partner_form = Form(self.env["res.partner"])
         partner_form.country_id = self.env.ref("base.ro")
         # competare cod postal filipesti
+        partner_form.state_id = self.state_bc
         partner_form.zip = "607185"
         self.assertEqual(partner_form.city_id.name, "Filipești")
 
+        partner_form.state_id = self.state_b
         partner_form.zip = "030011"
         self.assertEqual(partner_form.city_id.name, "Sector3")
