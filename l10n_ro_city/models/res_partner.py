@@ -2,7 +2,8 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html)
 
 
-from odoo import api, fields, models
+from odoo import _, api, fields, models
+from odoo.exceptions import UserError
 
 
 class Partner(models.Model):
@@ -20,12 +21,18 @@ class Partner(models.Model):
     @api.onchange("zip")
     def onchange_zip(self):
         if self.zip and self.country_id.code == "RO":
+            state_b = self.env.ref("base.RO_B")
+
             domain = [
                 ("l10n_ro_prefix_zip", "=", self.zip[:2]),
                 ("country_id", "=", self.country_id.id),
             ]
             state = self.env["res.country.state"].search(domain, limit=1)
             if state:
+                if self.state_id and self.state_id != state:
+                    raise UserError(
+                        _(f"The state {state.name} doesn't match the zip code")
+                    )
                 self.state_id = state
 
             if self.zip[:2] in ["01", "02", "03", "04", "05", "06"]:
@@ -38,6 +45,13 @@ class Partner(models.Model):
                     "06": "l10n_ro_city.RO_179196",  # Sector 6
                 }
                 city = self.env.ref(mapping[self.zip[:2]])
+                if self.state_id != state_b:
+                    raise UserError(
+                        _(
+                            f"The city {city.name} doesn't match the"
+                            f" zip code and the state {state.name}"
+                        )
+                    )
             else:
                 domain = [
                     ("zipcode", "=", self.zip),
