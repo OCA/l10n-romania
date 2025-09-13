@@ -13,6 +13,7 @@
                 />
                 <field name="l10n_ro_location_id" />
                 <field name="l10n_ro_location_dest_id" />
+                <field name="l10n_ro_location_eval_id" />
                 <field name="l10n_ro_lot_ids" widget="many2many_tags" />
             </xpath>
             <xpath expr="//field[@name='account_move_id']" position="after">

@@ -15,6 +15,17 @@ class StockMove(models.Model):
     _name = "stock.move"
     _inherit = ["stock.move", "l10n.ro.mixin"]
 
+    def _get_accounting_data_for_valuation_locations(self):
+        # returneaza locatiile de pe stock.move.line
+        # in cazul in care am locatie parinte (internal), cu mai multe locatii copil
+        # si locatiile copil au conturi pe ele
+        sml_location_ids = self.move_line_ids.mapped("location_id")
+        sml_location_dest_ids = self.move_line_ids.mapped("location_dest_id")
+        if len(sml_location_ids) == 1 and len(sml_location_dest_ids) == 1:
+            return (sml_location_ids, sml_location_dest_ids)
+
+        return (self.location_id, self.location_dest_id)
+
     def _get_price_unit(self):
         # se caculeaza preturl cu functia standard
         price_unit = super()._get_price_unit()
@@ -311,7 +322,9 @@ class StockMove(models.Model):
             move = move.with_context(standard=True, valued_type="internal_transfer")
             move = move.with_company(move.company_id.id)
 
-            valued_move_lines = move.move_line_ids
+            valued_move_lines = move.move_line_ids.filtered(
+                lambda ml: not ml._should_exclude_for_valuation()
+            )
             for valued_move_line in valued_move_lines:
                 move = move.with_context(stock_move_line_id=valued_move_line)
                 valued_quantity = valued_move_line.product_uom_id._compute_quantity(
