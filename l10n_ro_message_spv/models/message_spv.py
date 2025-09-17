@@ -397,7 +397,7 @@ class MessageSPV(models.Model):
                         self.env["l10n_ro_edi.document"].create(
                             {
                                 "invoice_id": message.invoice_id.id,
-                                "state": "invoice_sending",
+                                "state": "invoice_sent",
                                 "key_loading": message.request_id,
                             }
                         )
