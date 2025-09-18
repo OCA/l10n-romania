@@ -6,6 +6,9 @@ import logging
 import os
 import shutil
 from datetime import date, timedelta
+from io import BytesIO
+from unittest.mock import MagicMock, patch
+from zipfile import ZipFile
 
 import requests
 
@@ -30,6 +33,18 @@ class TestVATonpayment(AccountTestInvoicingCommon):
         cls.partner_anaf_model = cls.env["l10n.ro.res.partner.anaf"]
         cls.partner_model = cls.env["res.partner"]
         cls.invoice_model = cls.env["account.move"]
+
+        cls.fp_model = cls.env["account.fiscal.position"]
+        cls.fptvainc = cls.env.company.l10n_ro_property_vat_on_payment_position_id
+        if not cls.fptvainc:
+            cls.fptvainc = cls.fp_model.create(
+                {
+                    "name": "Sistem de colectare TVA",
+                    "company_id": cls.env.company.id,
+                }
+            )
+            cls.env.company.l10n_ro_property_vat_on_payment_position_id = cls.fptvainc
+
         cls.fbr_partner = cls.partner_model.create(
             {
                 "name": "FBR",
@@ -72,16 +87,6 @@ class TestVATonpayment(AccountTestInvoicingCommon):
                 "invoice_line_ids": cls.invoice_line,
             }
         )
-        cls.fp_model = cls.env["account.fiscal.position"]
-        cls.fptvainc = cls.env.company.l10n_ro_property_vat_on_payment_position_id
-        if not cls.fptvainc:
-            cls.fptvainc = cls.fp_model.create(
-                {
-                    "name": "Sistem de colectare TVA",
-                    "company_id": cls.env.company.id,
-                }
-            )
-            cls.env.company.l10n_ro_property_vat_on_payment_position_id = cls.fptvainc
 
         data_dir = tools.config["data_dir"]
         istoric_file = os.path.join(data_dir, "istoric.txt")
@@ -89,8 +94,29 @@ class TestVATonpayment(AccountTestInvoicingCommon):
         test_file = file_path("l10n_ro_vat_on_payment/tests/istoric.txt")
         shutil.copyfile(test_file, istoric_file)
 
-    def test_download_data(self):
+    def _mock_anaf_request(self):
+        """Mock ANAF request to avoid external HTTP calls during tests."""
+        # Create a sample zip file content with the historic.txt file
+        test_file_path = file_path("l10n_ro_vat_on_payment/tests/istoric.txt")
+
+        # Create a BytesIO object to simulate zip file content
+        zip_buffer = BytesIO()
+        with ZipFile(zip_buffer, "w") as zip_file:
+            zip_file.write(test_file_path, "istoric.txt")
+        zip_buffer.seek(0)
+
+        # Create mock response
+        mock_response = MagicMock()
+        mock_response.status_code = 200
+        mock_response.content = zip_buffer.getvalue()
+
+        return mock_response
+
+    @patch("requests.get")
+    def test_download_data(self, mock_get):
         """Test download file and partner link."""
+        mock_get.return_value = self._mock_anaf_request()
+
         data_dir = tools.config["data_dir"]
         prev_day = date.today() - timedelta(1)
         try:
@@ -104,8 +130,8 @@ class TestVATonpayment(AccountTestInvoicingCommon):
             requests.exceptions.Timeout,
             requests.exceptions.HTTPError,
             requests.exceptions.ChunkedEncodingError,
-        ):
-            _logger.info("Server ANAF is down.")
+        ) as e:
+            _logger.warning(f"Server ANAF is down. Exception: {e}")
             return True
 
         try:
@@ -119,8 +145,8 @@ class TestVATonpayment(AccountTestInvoicingCommon):
             requests.exceptions.Timeout,
             requests.exceptions.HTTPError,
             requests.exceptions.ChunkedEncodingError,
-        ):
-            _logger.info("Server ANAF is down.")
+        ) as e:
+            _logger.warning(f"Server ANAF is down. Exception: {e}")
             return True
 
     def test_update_partner_data(self):
@@ -151,12 +177,12 @@ class TestVATonpayment(AccountTestInvoicingCommon):
             requests.exceptions.HTTPError,
             requests.exceptions.ChunkedEncodingError,
         ):
-            _logger.info("Server ANAF is down.")
+            _logger.warning("Server ANAF is down.")
             return True
 
     def test_invoice_fp(self):
         """Test download file and partner link."""
         if not self.invoice.partner_id.l10n_ro_vat_on_payment:
             self.lxt_partner.l10n_ro_vat_on_payment = True
-        self.invoice._inverse_partner_id()
+        self.invoice._onchange_partner_id()
         self.assertEqual(self.invoice.fiscal_position_id, self.fptvainc)
