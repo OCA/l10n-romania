@@ -6,6 +6,9 @@ import logging
 import os
 import shutil
 from datetime import date, timedelta
+from io import BytesIO
+from unittest.mock import MagicMock, patch
+from zipfile import ZipFile
 
 import requests
 
@@ -91,8 +94,29 @@ class TestVATonpayment(AccountTestInvoicingCommon):
         test_file = file_path("l10n_ro_vat_on_payment/tests/istoric.txt")
         shutil.copyfile(test_file, istoric_file)
 
-    def test_download_data(self):
+    def _mock_anaf_request(self):
+        """Mock ANAF request to avoid external HTTP calls during tests."""
+        # Create a sample zip file content with the historic.txt file
+        test_file_path = file_path("l10n_ro_vat_on_payment/tests/istoric.txt")
+
+        # Create a BytesIO object to simulate zip file content
+        zip_buffer = BytesIO()
+        with ZipFile(zip_buffer, "w") as zip_file:
+            zip_file.write(test_file_path, "istoric.txt")
+        zip_buffer.seek(0)
+
+        # Create mock response
+        mock_response = MagicMock()
+        mock_response.status_code = 200
+        mock_response.content = zip_buffer.getvalue()
+
+        return mock_response
+
+    @patch("requests.get")
+    def test_download_data(self, mock_get):
         """Test download file and partner link."""
+        mock_get.return_value = self._mock_anaf_request()
+
         data_dir = tools.config["data_dir"]
         prev_day = date.today() - timedelta(1)
         try:
@@ -121,7 +145,7 @@ class TestVATonpayment(AccountTestInvoicingCommon):
             requests.exceptions.Timeout,
             requests.exceptions.HTTPError,
             requests.exceptions.ChunkedEncodingError,
-        ) as e :
+        ) as e:
             _logger.warning(f"Server ANAF is down. Exception: {e}")
             return True
 
