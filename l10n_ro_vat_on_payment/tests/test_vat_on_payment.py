@@ -30,6 +30,19 @@ class TestVATonpayment(AccountTestInvoicingCommon):
         cls.partner_anaf_model = cls.env["l10n.ro.res.partner.anaf"]
         cls.partner_model = cls.env["res.partner"]
         cls.invoice_model = cls.env["account.move"]
+
+        cls.fp_model = cls.env["account.fiscal.position"]
+        cls.fptvainc = cls.env.company.l10n_ro_property_vat_on_payment_position_id
+        if not cls.fptvainc:
+            cls.fptvainc = cls.fp_model.create(
+                {
+                    "name": "Sistem de colectare TVA",
+                    "company_id": cls.env.company.id,
+                }
+            )
+            cls.env.company.l10n_ro_property_vat_on_payment_position_id = cls.fptvainc
+
+
         cls.fbr_partner = cls.partner_model.create(
             {
                 "name": "FBR",
@@ -72,16 +85,7 @@ class TestVATonpayment(AccountTestInvoicingCommon):
                 "invoice_line_ids": cls.invoice_line,
             }
         )
-        cls.fp_model = cls.env["account.fiscal.position"]
-        cls.fptvainc = cls.env.company.l10n_ro_property_vat_on_payment_position_id
-        if not cls.fptvainc:
-            cls.fptvainc = cls.fp_model.create(
-                {
-                    "name": "Sistem de colectare TVA",
-                    "company_id": cls.env.company.id,
-                }
-            )
-            cls.env.company.l10n_ro_property_vat_on_payment_position_id = cls.fptvainc
+
 
         data_dir = tools.config["data_dir"]
         istoric_file = os.path.join(data_dir, "istoric.txt")
@@ -158,5 +162,5 @@ class TestVATonpayment(AccountTestInvoicingCommon):
         """Test download file and partner link."""
         if not self.invoice.partner_id.l10n_ro_vat_on_payment:
             self.lxt_partner.l10n_ro_vat_on_payment = True
-        self.invoice._inverse_partner_id()
+        self.invoice._onchange_partner_id()
         self.assertEqual(self.invoice.fiscal_position_id, self.fptvainc)
