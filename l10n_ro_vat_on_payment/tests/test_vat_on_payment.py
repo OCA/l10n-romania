@@ -42,7 +42,6 @@ class TestVATonpayment(AccountTestInvoicingCommon):
             )
             cls.env.company.l10n_ro_property_vat_on_payment_position_id = cls.fptvainc
 
-
         cls.fbr_partner = cls.partner_model.create(
             {
                 "name": "FBR",
@@ -85,7 +84,6 @@ class TestVATonpayment(AccountTestInvoicingCommon):
                 "invoice_line_ids": cls.invoice_line,
             }
         )
-
 
         data_dir = tools.config["data_dir"]
         istoric_file = os.path.join(data_dir, "istoric.txt")
