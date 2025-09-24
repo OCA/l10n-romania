@@ -187,9 +187,9 @@ class ProductProduct(models.Model):
             domain += [("l10n_ro_location_dest_id", "child_of", loc_id.id)]
         return domain
 
-    def _run_fifo(self, quantity, company):
+    def _run_fifo(self, quantity, company, lot=False):
         if not self.env["res.company"]._check_is_l10n_ro_record(company.id):
-            return super()._run_fifo(quantity, company)
+            return super()._run_fifo(quantity, company, lot)
 
         self.ensure_one()
         domain = self._l10n_ro_prepare_domain_fifo(
