@@ -25,12 +25,21 @@ class AccountTaxRepartitionLineExtend(models.Model):
             )
         account = False
         if (
-            not force_caba_exigibility
+            force_caba_exigibility
             and self.tax_id.tax_exigibility == "on_payment"
             and not self._context.get("caba_no_transition_account")
             and not self.l10n_ro_skip_cash_basis_account_switch
         ):
             account = self.tax_id.cash_basis_transition_account_id
+            if "default_move_type" in self.env.context:
+                if self.env.context.get("default_move_type") in [
+                    "out_invoice",
+                    "out_refund",
+                ]:
+                    if self.tax_id.company_id.partner_id.l10n_ro_vat_on_payment:
+                        account = account
+                    else:
+                        account = self.account_id
         if not account:
             account = self.account_id
         return account
