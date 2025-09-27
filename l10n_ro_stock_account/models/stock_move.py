@@ -321,8 +321,33 @@ class StockMove(models.Model):
     def _create_internal_transfer_svl(self, forced_quantity=None):
         move = self.with_context(standard=True, valued_type="internal_transfer")
         svls = move._create_out_svl(forced_quantity)
-        move = self.with_context(standard=True, valued_type="internal_transfer")
-        svls |= move._create_in_svl(forced_quantity)
+        # creare in_svl, cu copiere field-uri din out_svl
+        #
+        # daca se face move._create_in_svl(forced_quantity) atunci
+        # valoarea de pe svl_in poate diferi de valoarea de pe svl_out
+        # deoarece move._create_in_svl() nu ia in calcul landed cost-uri (in fifo)
+        # iesite cu svl_out
+        for svl in svls:
+            mv = svl.stock_move_id
+            mv = mv.with_context(standard=True, valued_type="internal_transfer")
+            svl_in_vals = mv._prepare_common_svl_vals()
+            if forced_quantity:
+                svl_in_vals["description"] = (
+                    f"Correction of {mv.picking_id.name or mv.name}"
+                    "(modification of past move)"
+                )
+            svl_in = self.env["stock.valuation.layer"].create(svl_in_vals)
+            unit_cost = svl.quantity and svl.value / svl.quantity or svl.unit_cost
+            svl_in.update(
+                {
+                    "quantity": abs(svl.quantity),
+                    "remaining_qty": abs(svl.quantity),
+                    "unit_cost": abs(unit_cost),
+                    "value": abs(svl.value),
+                    "remaining_value": abs(svl.value),
+                }
+            )
+            svls |= svl_in
         return svls
 
     def _is_usage_giving(self):

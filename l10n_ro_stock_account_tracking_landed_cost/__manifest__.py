@@ -1,23 +1,22 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 {
-    "name": "Romania - Stock Accounting Landed Cost",
-    "version": "18.0.1.3.0",
+    "name": "Romania - Stock Accounting Tracking Landed Cost",
+    "version": "18.0.1.2.0",
     "category": "Localization",
-    "summary": "Romania - Stock Accounting Landed Cost",
+    "summary": "Romania - Stock Accounting Tracking Landed Cost",
     "author": "NextERP Romania,"
     "Dorin Hongu,"
     "Forest and Biomass Romania,"
     "Odoo Community Association (OCA)",
     "website": "https://github.com/OCA/l10n-romania",
     "depends": [
-        "stock_landed_costs",
-        "l10n_ro_stock_account",
+        "l10n_ro_stock_account_landed_cost",
+        "l10n_ro_stock_account_tracking",
     ],
     "license": "AGPL-3",
-    "data": [
-        "views/stock_landed_cost_view.xml",
-    ],
+    "data": [],
     "installable": True,
+    "auto_install": True,
     "development_status": "Mature",
     "maintainers": ["dhongu", "feketemihai"],
 }

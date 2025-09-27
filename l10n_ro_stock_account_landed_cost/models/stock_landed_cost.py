@@ -34,7 +34,6 @@ class StockLandedCost(models.Model):
             "stock_valuation_layer_id": linked_layer.id,
             "description": self.name,
             "stock_move_id": stock_move_id.id,
-            "l10n_ro_stock_move_line_id": linked_layer.l10n_ro_stock_move_line_id.id,
             "product_id": product_id.id,
             "stock_landed_cost_id": self.id,
             "company_id": self.company_id.id,
@@ -74,7 +73,6 @@ class StockLandedCost(models.Model):
                 "line_ids": [],
                 "move_type": "entry",
             }
-            valuation_layer_ids = []
             cost_to_add_byproduct = defaultdict(float)
             for line in cost.valuation_adjustment_lines.filtered(
                 lambda line: line.move_id
@@ -91,12 +89,11 @@ class StockLandedCost(models.Model):
                         line, svl, cost_to_add
                     )
                     svl.remaining_value += cost_to_add
-                    valuation_layer_ids.append(valuation_layer.id)
                     if product.cost_method == "average":
                         cost_to_add_byproduct[product] += cost_to_add
                     # Create separate account move for each svl
+                    svl_move_vals = move_vals
                     if product.valuation == "real_time":
-                        svl_move_vals = move_vals
                         amls = line._l10n_ro_prepare_accounting_entries(
                             valuation_layer, svl_move_vals, cost_to_add, svl_type="in"
                         )
@@ -105,41 +102,9 @@ class StockLandedCost(models.Model):
                             svl_move = move.create(svl_move_vals)
                             valuation_layer.update({"account_move_id": svl_move.id})
                             svl_move._post()
-
-                    # Add separate svl for each quantity out
-                    for svl_out in svl.l10n_ro_svl_dest_ids.filtered(
-                        lambda s: s.quantity != 0
-                    ):
-                        out_cost_to_add = (
-                            svl_out.quantity / svl.quantity
-                        ) * cost_to_add
-                        valuation_layer_out = cost.l10n_ro_create_valuation_layer(
-                            self.env["stock.valuation.adjustment.lines"],
-                            svl_out,
-                            out_cost_to_add,
-                        )
-                        svl.remaining_value += out_cost_to_add
-                        valuation_layer_ids.append(valuation_layer_out.id)
-
-                        if product.cost_method == "average":
-                            cost_to_add_byproduct[product] += out_cost_to_add
-                        # Create separate account move for each put svl
-                        if product.valuation == "real_time":
-                            move_vals.update(date=svl_out.create_date)
-                            svl_move_vals = move_vals
-                            amls = line._l10n_ro_prepare_accounting_entries(
-                                valuation_layer_out,
-                                svl_move_vals,
-                                out_cost_to_add,
-                                svl_type="out",
-                            )
-                            if amls:
-                                svl_move_vals["line_ids"] = amls
-                                svl_move = move.create(svl_move_vals)
-                                valuation_layer_out.update(
-                                    {"account_move_id": svl_move.id}
-                                )
-                                svl_move._post()
+                    self._button_validate_adjust_quantity_out_costs(
+                        svl, line, cost_to_add, svl_move_vals, cost_to_add_byproduct
+                    )
 
                 # Products with manual inventory valuation are ignored because
                 # they do not need to create journal entries.
@@ -165,6 +130,41 @@ class StockLandedCost(models.Model):
             cost_vals = {"state": "done"}
             cost.write(cost_vals)
         return True
+
+    def _button_validate_adjust_quantity_out_costs(
+        self, svl, cost_line, cost_to_add, svl_move_vals, cost_to_add_byproduct
+    ):
+        if not float_is_zero(
+            svl.quantity - svl.remaining_qty,
+            precision_rounding=svl.product_id.uom_id.rounding,
+        ):
+            move = self.env["account.move"]
+            product = svl.product_id
+            qty = svl.quantity - svl.remaining_qty
+            out_cost_to_add = (qty / svl.quantity) * cost_to_add
+            svl_out = cost_line.cost_id.l10n_ro_create_valuation_layer(
+                self.env["stock.valuation.adjustment.lines"],
+                svl,
+                -out_cost_to_add,
+            )
+            svl.remaining_value -= out_cost_to_add
+
+            if product.cost_method == "average":
+                cost_to_add_byproduct[product] -= out_cost_to_add
+            # Create separate account move for each put svl
+            if product.valuation == "real_time":
+                svl_move_vals.update(date=svl_out.create_date)
+                amls = cost_line._l10n_ro_prepare_accounting_entries(
+                    svl_out,
+                    svl_move_vals,
+                    -out_cost_to_add,
+                    svl_type="out",
+                )
+                if amls:
+                    svl_move_vals["line_ids"] = amls
+                    svl_move = move.create(svl_move_vals)
+                    svl_out.update({"account_move_id": svl_move.id})
+                    svl_move._post()
 
     def reconcile_landed_cost(self):
         # Overwrite method to avoid reconciliation for Romania
