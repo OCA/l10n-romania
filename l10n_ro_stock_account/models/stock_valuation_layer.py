@@ -70,8 +70,10 @@ class StockValuationLayer(models.Model):
             account = self.env["account.account"]
             svl = svl.with_company(svl.stock_move_id.company_id)
 
-            loc_dest = svl.stock_move_id.location_dest_id
-            loc_scr = svl.stock_move_id.location_id
+            (
+                loc_scr,
+                loc_dest,
+            ) = svl.stock_move_id._get_accounting_data_for_valuation_locations()
             account = (
                 svl.product_id.l10n_ro_property_stock_valuation_account_id
                 or svl.product_id.categ_id.property_stock_valuation_account_id
@@ -88,13 +90,7 @@ class StockValuationLayer(models.Model):
                 ):
                     account = loc_scr.l10n_ro_property_stock_valuation_account_id
             if svl.account_move_id and "internal" not in svl.l10n_ro_valued_type:
-                for aml in svl.account_move_id.line_ids.sorted(
-                    lambda layer: layer.account_id.code
-                ):
-                    if aml.account_id.code[0] in ["2", "3"]:
-                        if round(aml.balance, 2) == round(svl.value, 2):
-                            account = aml.account_id
-                            break
+                account = svl._l10n_ro_get_svl_account_from_account_move(account)
             if svl._l10n_ro_can_use_invoice_line_account(account):
                 if (
                     svl.l10n_ro_valued_type in ("reception", "reception_return")
@@ -102,6 +98,18 @@ class StockValuationLayer(models.Model):
                 ):
                     account = svl.l10n_ro_invoice_line_id.account_id
             svl.l10n_ro_account_id = account
+
+    def _l10n_ro_get_svl_account_from_account_move(self, account):
+        # hook method pentru l10n_ro_stock_account_tracking_sale_transform
+        self.ensure_one()
+        for aml in self.account_move_id.line_ids.sorted(
+            lambda layer: layer.account_id.code
+        ):
+            if aml.account_id.code[0] in ["2", "3"]:
+                if round(aml.balance, 2) == round(self.value, 2):
+                    account = aml.account_id
+                    break
+        return account
 
     # hook method for reception in progress
     def _l10n_ro_can_use_invoice_line_account(self, account):

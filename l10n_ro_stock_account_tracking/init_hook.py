@@ -315,6 +315,11 @@ def store_svl_lot_and_locations(cr):
         )
         cr.execute(
             """
+                ALTER TABLE stock_valuation_layer
+                ADD COLUMN l10n_ro_location_eval_id integer""",
+        )
+        cr.execute(
+            """
             WITH sub as (
                 SELECT
                     svl.id as svl_id,
@@ -337,4 +342,28 @@ def store_svl_lot_and_locations(cr):
                 l10n_ro_location_dest_id = sub.location_dest_id
             FROM sub
             WHERE sub.svl_id = svl.id""",
+        )
+
+        # initializare svl.l10n_ro_location_eval_id
+        # setez l10n_ro_location_eval_id doar pe svl-urile cu quantity diferit de 0
+        # apoi svl-urile cu quantity = 0 din svl.stock_valuation_layer_id
+        cr.execute(
+            """
+            UPDATE stock_valuation_layer
+            SET l10n_ro_location_eval_id = CASE
+                    WHEN quantity > 0 THEN l10n_ro_location_dest_id
+                    WHEN quantity < 0 THEN l10n_ro_location_id
+                END
+            WHERE quantity != 0;
+            """
+        )
+
+        # valuation-uri landed cost, quantity = 0
+        cr.execute(
+            """
+            UPDATE stock_valuation_layer svl_lc
+            SET l10n_ro_location_eval_id = svl.l10n_ro_location_eval_id
+            FROM stock_valuation_layer svl
+            WHERE svl_lc.stock_valuation_layer_id = svl.id AND svl_lc.quantity = 0;
+            """
         )

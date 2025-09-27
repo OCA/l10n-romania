@@ -625,6 +625,18 @@ class StockMove(models.Model):
         account_move.action_post()
         return account_move
 
+    def _get_accounting_data_for_valuation_locations(self):
+        # metoda hook
+        # sa am posibilitatea de a returna locatiile de pe stock.move.line
+        # in cazul in care am locatie parinte (internal),
+        # cu mai multe locatii copil
+        # si locatiile copil au conturi pe ele
+        #
+        # stock.move este cu locatiile parinte,
+        # insa stock.move.line este setat pe locatii copil
+
+        return (self.location_id, self.location_dest_id)
+
     def _get_accounting_data_for_valuation(self):  # noqa C901
         fiscal_pos = self.picking_id.picking_type_id.l10n_ro_fiscal_position_id
         self = self.with_context(fiscal_pos=fiscal_pos)
@@ -638,8 +650,7 @@ class StockMove(models.Model):
             return journal_id, acc_src, acc_dest, acc_valuation
 
         valued_type = self.env.context.get("valued_type", "indefinite")
-        location_from = self.location_id
-        location_to = self.location_dest_id
+        location_from, location_to = self._get_accounting_data_for_valuation_locations()
         location_from_account = (
             location_from.l10n_ro_property_stock_valuation_account_id
         )
@@ -762,3 +773,13 @@ class StockMove(models.Model):
     def _l10n_ro_filter_svl_on_move_line(self, domain):
         origin_svls = self.env["stock.valuation.layer"].search(domain)
         return origin_svls
+
+    def _get_dest_account(self, accounts_data):
+        if self.is_l10n_ro_record and self._is_internal_transit_in():
+            return accounts_data["stock_valuation"].id
+        return super()._get_dest_account(accounts_data)
+
+    def _get_src_account(self, accounts_data):
+        if self.is_l10n_ro_record and self._is_internal_transit_out():
+            return accounts_data["stock_valuation"].id
+        return super()._get_src_account(accounts_data)
