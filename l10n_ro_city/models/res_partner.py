@@ -22,7 +22,7 @@ class Partner(models.Model):
     def onchange_zip(self):
         if self.zip and self.country_id.code == "RO":
             if len(self.zip) == 5:
-                self.zip = '0' + self.zip
+                self.zip = "0" + self.zip
             state_b = self.env.ref("base.RO_B")
 
             domain = [
