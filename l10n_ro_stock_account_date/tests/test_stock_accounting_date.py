@@ -100,7 +100,9 @@ class TestStockAccountDate(TestStockCommon):
 
         # Restrict date to future allow last month
         acc_date = fields.Date.today() + relativedelta(months=-1)
-        self.transfer(location_id, location_dest_id, accounting_date=acc_date)
+        with self.assertRaises(UserError):
+            self.transfer(location_id, location_dest_id, accounting_date=acc_date)
         # Restrict date to future allow current day
         acc_date = fields.Date.today()
-        self.transfer(location_id, location_dest_id, accounting_date=acc_date)
+        with self.assertRaises(UserError):
+            self.transfer(location_id, location_dest_id, accounting_date=acc_date)
