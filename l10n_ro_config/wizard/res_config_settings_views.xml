@@ -69,14 +69,6 @@
 
                     <block title="Accounting" id="ro_accounting_setting_container">
                         <setting
-                            id="use_anglo_saxon"
-                            company_dependent="1"
-                            help="Record cost of goods sold in your journal entries."
-                        >
-                            <field name="use_anglo_saxon" />
-                        </setting>
-
-                        <setting
                             id="l10n_ro_accounting"
                             company_dependent="1"
                             help="Registration of accounting moves according to Romanian legislation."
