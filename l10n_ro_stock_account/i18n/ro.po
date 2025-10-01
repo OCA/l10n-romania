@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: Odoo Server 16.0+e\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2024-04-21 09:41+0000\n"
-"PO-Revision-Date: 2024-12-22 08:06+0000\n"
+"PO-Revision-Date: 2025-10-01 17:42+0000\n"
 "Last-Translator: Dorin Hongu <dhongu@gmail.com>\n"
 "Language-Team: \n"
 "Language: ro\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=3; plural=n==1 ? 0 : (n==0 || (n%100 > 0 && n%100 < "
 "20)) ? 1 : 2;\n"
-"X-Generator: Weblate 5.6.2\n"
+"X-Generator: Weblate 5.10.4\n"
 
 #. module: l10n_ro_stock_account
 #: model:ir.model,name:l10n_ro_stock_account.model_account_account
@@ -202,7 +202,7 @@ msgstr "Elemente jurnal"
 #. module: l10n_ro_stock_account
 #: model:ir.model.fields,field_description:l10n_ro_stock_account.field_stock_picking_type__l10n_ro_fiscal_position_id
 msgid "L10N Ro Fiscal Position"
-msgstr ""
+msgstr "Poziție fiscală"
 
 #. module: l10n_ro_stock_account
 #: model:ir.model.fields.selection,name:l10n_ro_stock_account.selection__stock_valuation_layer__l10n_ro_valued_type__minus_inventory
@@ -235,7 +235,7 @@ msgstr ""
 #. module: l10n_ro_stock_account
 #: model:ir.model,name:l10n_ro_stock_account.model_stock_picking_type
 msgid "Picking Type"
-msgstr ""
+msgstr "Tip ridicare"
 
 #. module: l10n_ro_stock_account
 #: model:ir.model.fields.selection,name:l10n_ro_stock_account.selection__stock_valuation_layer__l10n_ro_valued_type__plus_inventory
@@ -261,7 +261,7 @@ msgstr "Producție"
 #. module: l10n_ro_stock_account
 #: model:ir.actions.server,name:l10n_ro_stock_account.action_location_account_propagate
 msgid "Propagate Accounts"
-msgstr ""
+msgstr "Propagă conturile"
 
 #. module: l10n_ro_stock_account
 #: model:ir.model.fields.selection,name:l10n_ro_stock_account.selection__stock_valuation_layer__l10n_ro_valued_type__reception
@@ -281,32 +281,32 @@ msgstr "Returnare consum"
 #. module: l10n_ro_stock_account
 #: model:ir.model.fields.selection,name:l10n_ro_stock_account.selection__stock_valuation_layer__l10n_ro_valued_type__production_return
 msgid "Return Production"
-msgstr "Returnare producție"
+msgstr "Retur producție"
 
 #. module: l10n_ro_stock_account
 #: model:ir.model.fields.selection,name:l10n_ro_stock_account.selection__stock_valuation_layer__l10n_ro_valued_type__usage_giving_return
 msgid "Return Usage Giving"
-msgstr "Returnare dare în folosință"
+msgstr "Retur dare în folosință"
 
 #. module: l10n_ro_stock_account
 #: model:ir.model.fields.selection,name:l10n_ro_stock_account.selection__stock_valuation_layer__l10n_ro_valued_type__delivery_return
 msgid "Return delivery"
-msgstr "Returnare livrare"
+msgstr "Retur livrare"
 
 #. module: l10n_ro_stock_account
 #: model:ir.model.fields.selection,name:l10n_ro_stock_account.selection__stock_valuation_layer__l10n_ro_valued_type__delivery_notice_return
 msgid "Return delivery with notice"
-msgstr "Returnare livrare cu aviz"
+msgstr "Retur livrare cu aviz"
 
 #. module: l10n_ro_stock_account
 #: model:ir.model.fields.selection,name:l10n_ro_stock_account.selection__stock_valuation_layer__l10n_ro_valued_type__reception_return
 msgid "Return reception"
-msgstr "Returnare recepție"
+msgstr "Retur recepție"
 
 #. module: l10n_ro_stock_account
 #: model:ir.model.fields.selection,name:l10n_ro_stock_account.selection__stock_valuation_layer__l10n_ro_valued_type__reception_notice_return
 msgid "Return reception with notice"
-msgstr "Returnare recepție cu aviz"
+msgstr "Retur recepție cu aviz"
 
 #. module: l10n_ro_stock_account
 #: model:ir.model.fields,field_description:l10n_ro_stock_account.field_res_company__l10n_ro_stock_acc_price_diff
@@ -316,12 +316,12 @@ msgstr "Actualizare evaluare stoc"
 #. module: l10n_ro_stock_account
 #: model:ir.model.fields,field_description:l10n_ro_stock_account.field_stock_valuation_layer__l10n_ro_invoice_line_id
 msgid "Romania Invoice Line"
-msgstr ""
+msgstr "Line factură"
 
 #. module: l10n_ro_stock_account
 #: model:ir.model.fields,field_description:l10n_ro_stock_account.field_stock_warehouse__l10n_ro_property_stock_journal_id
 msgid "Stock Journal"
-msgstr ""
+msgstr "Jurnal stoc"
 
 #. module: l10n_ro_stock_account
 #: model:ir.model,name:l10n_ro_stock_account.model_stock_move
@@ -389,7 +389,7 @@ msgstr "Tip evaluat"
 #. module: l10n_ro_stock_account
 #: model:ir.model,name:l10n_ro_stock_account.model_stock_warehouse
 msgid "Warehouse"
-msgstr ""
+msgstr "Depozit"
 
 #~ msgid "Invoice Line"
 #~ msgstr "Linie factură"
