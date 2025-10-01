@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <template id="banks">
+        <small>
+            <t t-set="currency_id" t-value="res_company.currency_id" />
+            <t t-if="o and 'currency_id' in o._fields">
+                <t t-set="currency_id" t-value="o.currency_id" />
+            </t>
+            <t t-set="counts" t-value="0" />
+            <div
+                t-foreach="partner_id.bank_ids.filtered(lambda r: r.l10n_ro_print_report)"
+                t-as="bank"
+            >
+                <t
+                    t-set="bank_currency"
+                    t-value="bank.currency_id or res_company.currency_id"
+                />
+                <t t-if="bank_currency == currency_id and counts&lt;3">
+                    <div t-if="bank.bank_name">
+                        <strong>Bank:</strong>
+                        <span t-field="bank.bank_name" />
+                    </div>
+                    <div t-if="bank.acc_number">
+                        <strong>Account:</strong>
+                        <span t-field="bank.acc_number" />
+                    </div>
+                    <t t-set="counts" t-value="counts+1" />
+                </t>
+            </div>
+        </small>
+    </template>
+    <template id="report_address_company">
+        <t t-if="o and 'company_id' in o._fields">
+            <t t-set="res_company" t-value="o.company_id" />
+        </t>
+        <div>
+            <div>
+                <div>
+                    <strong>Company</strong>
+                </div>
+                <strong t-field="res_company.partner_id.name" />
+                <div>
+                    <strong>Address:</strong>
+                    <address
+                        t-field="res_company.partner_id"
+                        t-options='{"widget": "contact", "fields": ["address","phone", "mobile", "fax"], "no_marker": false, "no_tag_br": true}'
+                    />
+                </div>
+            </div>
+        </div>
+        <div>
+            <div>
+                <t t-set="partner_id" t-value="res_company.partner_id" />
+                <t t-call="l10n_ro_config.banks" />
+            </div>
+        </div>
+        <div>
+            <div>
+                <div>
+                    <div t-if="res_company.partner_id.vat">
+                        <strong>
+                            <t t-esc="res_company.country_id.vat_label or 'Tax ID'" />
+                            :
+                        </strong>
+                        <span t-field="res_company.partner_id.vat" />
+                    </div>
+                    <div t-if="res_company.partner_id.nrc">
+                        <strong>NRC:</strong>
+                        <span t-field="res_company.partner_id.nrc" />
+                    </div>
+                    <div i-if="res_company.l10n_ro_share_capital">
+                        <strong>Share Capital:</strong>
+                        <span t-esc="int(res_company.l10n_ro_share_capital)" />
+                    </div>
+                </div>
+            </div>
+        </div>
+        <br />
+    </template>
+</odoo>

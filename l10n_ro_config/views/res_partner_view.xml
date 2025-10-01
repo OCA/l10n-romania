@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="view_partner_create_by_vat" model="ir.ui.view">
+        <field name="name">res.partner.create.by.vat</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_form" />
+        <field name="arch" type="xml">
+            <field name="nrc" position="attributes">
+                <attribute name="invisible">not is_company</attribute>
+            </field>
+            <field name="nrc" position="after">
+                <field name="l10n_ro_caen_code" invisible="not is_company" />
+                <label for="l10n_ro_vat_subjected" invisible="not is_company " />
+                <div
+                    name="l10n_ro_vat_subjected_info"
+                    class="o_row"
+                    invisible="not is_company "
+                >
+                    <field name="l10n_ro_vat_subjected" />
+                </div>
+
+                <field name="l10n_ro_vat_number" invisible="1" />
+            </field>
+        </field>
+    </record>
+</odoo>
