@@ -38,17 +38,12 @@ class ResPartner(models.Model):
         return country_code_map.get(country_code, country_code)
 
     def _split_vat(self, vat):
-        # Allowing setting the vat without country code
-        vat_country = l10n_ro_vat_number = ""
-        if vat and vat.isdigit():
-            l10n_ro_vat_number = vat
-            partner = self.search([("vat", "=", vat)], limit=1)
-            if partner and partner.country_id and partner.country_id.code:
-                vat_country = self._l10n_ro_map_vat_country_code(
-                    partner.country_id.code.upper()
-                ).lower()
-        else:
-            vat_country, l10n_ro_vat_number = super()._split_vat(vat)
+        vat_country, l10n_ro_vat_number = super()._split_vat(vat)
+        partner = self.search([("vat", "=", vat)], limit=1)
+        if partner and partner.country_id and partner.country_id.code:
+            vat_country = self._l10n_ro_map_vat_country_code(
+                partner.country_id.code.upper()
+            ).lower()
         return vat_country, l10n_ro_vat_number
 
     @api.onchange("l10n_ro_vat_subjected")
@@ -70,3 +65,11 @@ class ResPartner(models.Model):
                 ):
                     vat_country, l10n_ro_vat_number = self._split_vat(self.vat)
                     self.vat = l10n_ro_vat_number
+
+    @api.depends("nrc", "vat", "country_id")
+    def _compute_company_registry(self):
+        res = super()._compute_company_registry()
+        for partner in self:
+            if partner.is_l10n_ro_record and partner.nrc:
+                partner.company_registry = partner.nrc
+        return res

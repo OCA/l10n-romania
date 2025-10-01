@@ -2,8 +2,7 @@
 # Copyright (C) 2020 NextERP Romania
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
-from odoo import _, api, fields, models
-from odoo.exceptions import ValidationError
+from odoo import api, fields, models
 
 
 class ResConfigSettings(models.TransientModel):
@@ -12,10 +11,6 @@ class ResConfigSettings(models.TransientModel):
 
     l10n_ro_accounting = fields.Boolean(
         related="company_id.l10n_ro_accounting",
-        readonly=False,
-    )
-    use_anglo_saxon = fields.Boolean(
-        related="company_id.anglo_saxon_accounting",
         readonly=False,
     )
     l10n_ro_caen_code = fields.Char(
@@ -238,30 +233,6 @@ class ResConfigSettings(models.TransientModel):
         "Romanian Stock Picking Comment Template"
     )
     module_l10n_ro_dvi = fields.Boolean("Romanian DVI")
-
-    @api.onchange("l10n_ro_stock_account_svl_lot_allocation")
-    def onchange_svl_lot_allocation(self):
-        warning = ""
-        if (
-            self.company_id.l10n_ro_stock_account_svl_lot_allocation is False
-            and self.l10n_ro_stock_account_svl_lot_allocation is True
-        ):
-            warning += _(
-                "The values used for stock out operations will not follow FIFO rule!"
-            )
-
-            no_tracking_products = self.env["product.template"].search(
-                [("tracking", "=", "none"), ("type", "!=", "service")]
-            )
-            if no_tracking_products.exists():
-                error = _(
-                    "Tracking (Lot/Serial) has to be enabled first "
-                    "for all stockable and consumable products !"
-                )
-                raise ValidationError(error)
-
-        if warning:
-            return {"warning": {"title": _("Notification !"), "message": warning}}
 
     @api.model
     def default_get(self, fields):
