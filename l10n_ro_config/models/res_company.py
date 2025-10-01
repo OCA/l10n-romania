@@ -106,8 +106,7 @@ class ResCompany(models.Model):
         "product.product",
         string="Romania - Customs Duty Landed Cost Product",
         domain="[('type', '=', 'service')]",
-        help="This product will be used in create the DVI landed cost"
-        "for the duty tax",
+        help="This product will be used in create the DVI landed costfor the duty tax",
     )
     l10n_ro_property_customs_commission_product_id = fields.Many2one(
         "product.product",

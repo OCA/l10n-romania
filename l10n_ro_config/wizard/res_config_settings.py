@@ -149,7 +149,7 @@ class ResConfigSettings(models.TransientModel):
     )
     module_l10n_ro_partner_unique = fields.Boolean(
         "Partners unique by Company, VAT, NRC",
-        help="This allows you to set unique partners by " "company, VAT and NRC.",
+        help="This allows you to set unique partners by company, VAT and NRC.",
     )
     module_l10n_ro_partner_create_by_vat = fields.Boolean(
         "Create Partners by VAT",
@@ -187,7 +187,7 @@ class ResConfigSettings(models.TransientModel):
     )
     module_l10n_ro_account_report_invoice = fields.Boolean(
         "Invoice Report",
-        help="This allows you to print invoice report based on " "romanian layout.\n",
+        help="This allows you to print invoice report based on romanian layout.\n",
     )
     module_l10n_ro_account_edit_currency_rate = fields.Boolean(
         "Invoice Edit Currency Rate",
