@@ -74,7 +74,7 @@ class ResPartner(models.Model):
 
     def _check_vat_on_payment(self):
         self.ensure_one()
-        ctx = dict(self._context)
+        ctx = dict(self.env.context)
         vat_on_payment = False
         self._insert_relevant_anaf_data()
         self._compute_l10n_ro_anaf_history()

@@ -62,10 +62,16 @@ class TestVATonpayment(AccountTestInvoicingCommon):
         default_line_account = cls.env["account.account"].search(
             [
                 ("account_type", "=", "expense"),
-                ("deprecated", "=", False),
                 ("company_ids", "in", cls.env.company.ids),
             ],
             limit=1,
+        )
+        cls.product = cls.env["product.product"].create(
+            {
+                "name": "Service",
+                "type": "service",
+                "list_price": 50.0,
+            }
         )
         cls.invoice_line = [
             (
@@ -73,7 +79,7 @@ class TestVATonpayment(AccountTestInvoicingCommon):
                 False,
                 {
                     "name": "Test description #1",
-                    "product_id": cls.env.ref("product.product_delivery_01").id,
+                    "product_id": cls.product.id,
                     "account_id": default_line_account.id,
                     "quantity": 1.0,
                     "price_unit": 100.0,
