@@ -14,7 +14,6 @@ class TestPartnerVATSubjected(AccountTestInvoicingCommon):
     def setUpClass(cls):
         super().setUpClass()
         cls.mainpartner = cls.env.ref("base.main_partner")
-        cls.env.company.anglo_saxon_accounting = True
         cls.env.company.l10n_ro_accounting = True
 
 
@@ -23,20 +22,26 @@ class TestPartnerVAT(TestPartnerVATSubjected):
     def test_onchange_l10n_ro_vat_subjected(self):
         """Check onchange vat subjected and country."""
         # test setting l10n_ro_vat_subjected as True
-        self.mainpartner.vat = "4264242"
-        self.mainpartner.country_id = self.env.ref("base.ro")
-        self.mainpartner.l10n_ro_vat_subjected = True
-        self.mainpartner.onchange_l10n_ro_vat_subjected()
-        # Test setting l10n_ro_vat_subjected as False
-        self.assertEqual(self.mainpartner.vat, "RO4264242")
-        self.mainpartner.l10n_ro_vat_subjected = False
-        self.mainpartner.onchange_l10n_ro_vat_subjected()
-        self.assertEqual(self.mainpartner.vat, "4264242")
-        # Check split vat with no country code in vat
-        vat_country, l10n_ro_vat_number = self.mainpartner._split_vat(
-            self.mainpartner.vat
+
+        partner = self.env["res.partner"].create(
+            {
+                "name": "Test Partner",
+                "is_company": True,
+            }
         )
-        self.assertEqual(vat_country, "ro")
+        partner_form = Form(partner)
+        partner_form.vat = "4264242"
+        partner_form.country_id = self.env.ref("base.ro")
+        partner_form.l10n_ro_vat_subjected = True
+        partner_form.save()
+        self.assertEqual(partner.vat, "RO4264242")
+        # Test setting l10n_ro_vat_subjected as False
+        partner_form.l10n_ro_vat_subjected = False
+        partner_form.save()
+        self.assertEqual(partner.vat, "4264242")
+        # Check split vat with no country code in vat
+        vat_country, l10n_ro_vat_number = partner._split_vat(partner.vat)
+        self.assertEqual(vat_country, "RO")
         self.assertEqual(l10n_ro_vat_number, "4264242")
 
     def test_form_partner(self):
