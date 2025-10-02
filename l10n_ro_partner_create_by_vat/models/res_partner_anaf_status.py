@@ -7,14 +7,10 @@ from odoo import fields, models
 class ResPartnerAnafStatus(models.Model):
     _name = "l10n.ro.res.partner.anaf.status"
     _description = "Partner Activation ANAF History"
-    _order = "date desc"
+    _order = "start_date desc"
 
     partner_id = fields.Many2one("res.partner", ondelete="cascade")
     vat_number = fields.Char(help="VAT Number without country code.", index=True)
-    date = fields.Date(
-        index=True,
-        help="The date for ANAF interogation.",
-    )
     act = fields.Char(
         "Act autorizare",
     )
