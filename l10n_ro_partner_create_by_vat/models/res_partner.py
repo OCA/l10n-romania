@@ -6,7 +6,7 @@ import logging
 
 import requests
 
-from odoo import _, api, fields, models
+from odoo import api, fields, models
 
 _logger = logging.getLogger(__name__)
 
@@ -71,94 +71,95 @@ class ResPartner(models.Model):
         copy=False,
     )
 
-    @api.constrains("vat", "country_id")
-    def check_vat(self):
-        if self.env.context.get("no_vat_validation"):
-            return
-        partners = self.filtered(lambda p: p.country_id.code == "RO")
-        # if partners:
-        #     partners._check_vat_ro()
-        super(ResPartner, self - partners).check_vat()
-
-    # def _check_vat_ro(self):
-    #     for partner in self:
-    #         partner.with_context(no_vat_validation=True).ro_vat_change()
-
     @api.model
     def _get_Anaf(self, cod, data=False):
         """
-        Function to retrieve data from ANAF for one vat number
-        at certain date
+            Function to retrieve data from ANAF for one vat number
+            at certain date
 
-        :param str cod:  vat number without country code or a list of codes
-        :param date data: date of the interogation
-        :return dict result: cost of the body's operation
-        {
-        "cui": "-- codul fiscal --",
-        "data": "-- data pentru care se efectueaza cautarea --",
-        "denumire": "-- denumire --",
-        "adresa": "-- adresa --",
-        "nrRegCom": "-- numar de inmatriculare la Registrul Comertului --",
-        "telefon": "-- Telefon --",
-        "fax": "-- Fax --",
-        "codPostal": "-- Codul Postal --",
-        "act": "-- Act autorizare --",
-        "stare_inregistrare": "-- Stare Societate --",
-        "scpTVA":
-            " -- true -pentru platitor in scopuri de tva / false in cazul in
-             care nu e platitor  in scopuri de TVA la data cautata  --",
-        "data_inceput_ScpTVA":
-            " -- Data înregistrării în scopuri de TVA anterioară --",
-        "data_sfarsit_ScpTVA":
-        " -- Data anulării înregistrării în scopuri de TVA --",
-        "data_anul_imp_ScpTVA":
-            "-- Data operarii anularii înregistrării în scopuri de TVA --",
-        "mesaj_ScpTVA": "-- MESAJ:(ne)platitor de TVA la data cautata --",
-        "dataInceputTvaInc":
-            " -- Data de la care aplică sistemul TVA la încasare -- ",
-        "dataSfarsitTvaInc":
-            " -- Data până la care aplică sistemul TVA la încasare --",
-        "dataActualizareTvaInc": "-- Data actualizarii --",
-        "dataPublicareTvaInc": "-- Data publicarii --""
-        "tipActTvaInc": " --Tip actualizare --",
-        "statusTvaIncasare": " -- true -pentru platitor TVA la incasare/ false in
-                               cazul in care nu e platitor de TVA la incasare la
-                               data cautata --",
-        "dataInactivare": " --     -- ",
-        "dataReactivare": " --     -- ",
-        "dataPublicare": " --     -- ",
-        "dataRadiere": " -- Data radiere -- ",
-        "statusInactivi": " -- true -pentru inactiv / false in cazul in care nu este
-                               inactiv la data cautata -- ",
-        "dataInceputSplitTVA": "--     --",
-        "dataAnulareSplitTVA": "--     --",
-        "statusSplitTVA": "-- true -aplica plata defalcata a Tva / false - nu aplica
-                             plata defalcata a Tva la data cautata  --",
-        "iban": "-- contul IBAN --",
-        "statusRO_e_Factura":
-            "-- true - figureaza in Registrul RO e-Factura / false
-               - nu figureaza in Registrul RO e-Factura la data cautata  --",
-        "sdenumire_Strada": "-- Denumire strada sediu --",
-        "snumar_Strada": "-- Numar strada sediu --",
-        "sdenumire_Localitate": "-- Denumire localitate sediu --",
-        "scod_Localitate": "-- Cod localitate sediu --",
-        "sdenumire_Judet": "-- Denumire judet sediu --",
-        "scod_Judet": "-- Cod judet sediu --",
-        "stara": "-- Denumire tara sediu -- ",
-        "sdetalii_Adresa": "-- Detalii adresa sediu --",
-        "scod_Postal": "-- Cod postal sediu --",
-        "ddenumire_Strada":  -- Denumire strada domiciliu fiscal --",
-        "dnumar_Strada": "-- Numar strada domiciliu fiscal --",
-        "ddenumire_Localitate": "-- Denumire localitate domiciliu fiscal --",
-        "dcod_Localitate": "-- Cod localitate domiciliu fiscal --",
-        "ddenumire_Judet": "-- Denumire judet domiciliu fiscal --",
-        "dcod_Judet": "-- Cod judet domiciliu fiscal --",
-        "dtara": "-- Denumire tara domiciliu fiscal --",
-        "ddetalii_Adresa": "-- Detalii adresa domiciliu fiscal --",
-        "dcod_Postal": "-- Cod postal domiciliu fiscal --",
-        "data_inregistrare": "-- Data inregistrare -- ",
-        "cod_CAEN": "-- Cod CAEN --",
-                          }
+            :param str cod:  vat number without country code or a list of codes
+            :param date data: date of the interogation
+            :return dict result: cost of the body's operation
+            {
+            "date_generale": {
+                "data": "2025-10-01",
+                "cui": 30834857,
+                "denumire": "FOREST AND BIOMASS ROMÂNIA S.A.",
+                "adresa": "JUD. TIMIŞ, SAT GIULVĂZ COM. GIULVĂZ,  , FERMA 5-6",
+                "telefon": "0356179038",
+                "fax": "",
+                "codPostal": "307225",
+                "act": "",
+                "stare_inregistrare": "INREGISTRAT din data 26.10.2012",
+                "data_inreg_Reg_RO_e_Factura": "",
+                "organFiscalCompetent": "Administraţia Fiscală pentru
+                    Contribuabili Mijlocii - Timiş",
+                "forma_de_proprietate": "PROPR.PRIVATA-CAPITAL PRIVAT
+                    AUTOHTON SI STRAIN",
+                "forma_organizare": "PERSOANA JURIDICA",
+                "forma_juridica": "SOCIETATE COMERCIALĂ PE ACŢIUNI",
+                "statusRO_e_Factura": False,
+                "data_inregistrare": "2012-10-26",
+                "nrRegCom": "J2012002622359",
+                "cod_CAEN": "119",
+                "iban": ""
+            },
+            "inregistrare_scop_Tva": {
+                "scpTVA": True,
+                "perioade_TVA": [
+                    {
+                        "data_inceput_ScpTVA": "2012-12-04",
+                        "data_sfarsit_ScpTVA": "",
+                        "data_anul_imp_ScpTVA": "",
+                        "mesaj_ScpTVA": ""
+                    }
+                ]
+            },
+            "inregistrare_RTVAI": {
+                "dataActualizareTvaInc": "2013-07-11",
+                "dataPublicareTvaInc": "2013-07-12",
+                "dataInceputTvaInc": "2013-02-01",
+                "dataSfarsitTvaInc": "2013-08-01",
+                "tipActTvaInc": "Radiere",
+                "statusTvaIncasare": False
+            },
+            "stare_inactiv": {
+                "dataInactivare": "",
+                "dataReactivare": "",
+                "dataPublicare": "",
+                "dataRadiere": "",
+                "statusInactivi": False
+            },
+            "inregistrare_SplitTVA": {
+                "dataInceputSplitTVA": "",
+                "dataAnulareSplitTVA": "",
+                "statusSplitTVA": False
+            },
+            "adresa_sediu_social": {
+                "sdenumire_Localitate": "Sat Giulvăz Com. Giulvăz",
+                "sdenumire_Strada": " ",
+                "snumar_Strada": "",
+                "scod_Localitate": "170",
+                "sdenumire_Judet": "TIMIŞ",
+                "scod_Judet": "35",
+                "scod_JudetAuto": "TM",
+                "sdetalii_Adresa": "FERMA 5-6",
+                "scod_Postal": "307225",
+                "stara": ""
+            },
+            "adresa_domiciliu_fiscal": {
+                "dcod_Localitate": "170",
+                "ddenumire_Strada": " ",
+                "dnumar_Strada": "",
+                "ddenumire_Localitate": "Sat Giulvăz Com. Giulvăz",
+                "ddenumire_Judet": "TIMIŞ",
+                "dcod_Judet": "35",
+                "dcod_JudetAuto": "TM",
+                "ddetalii_Adresa": "FERMA 5-6",
+                "dcod_Postal": "307225",
+                "dtara": ""
+            }
+        },
         """
 
         anaf_error = ""
@@ -180,7 +181,10 @@ class ResPartner(models.Model):
         try:
             res = requests.post(anaf_url, json=json_data, headers=headers, timeout=30)
         except Exception as ex:
-            return _("ANAF Webservice not working. Exception=%s.") % ex, {}
+            error = self.env._(
+                "ANAF Webservice not working. Exception raised: %(error)s", error=ex
+            )
+            return error, {}
 
         result = {}
 
@@ -195,9 +199,11 @@ class ResPartner(models.Model):
                 if resjson.get("found") and resjson["found"][0]:
                     result = resjson["found"][0]
                 if not result or not result.get("date_generale"):
-                    anaf_error = _("Anaf didn't find any company with VAT=%s !") % cod
+                    anaf_error = self.env._(
+                        "Anaf didn't find any company with VAT=%(vat)s !", vat=cod
+                    )
         else:
-            anaf_error = _(
+            anaf_error = self.env._(
                 "Anaf request error: \nresponse=%(response)s "
                 "\nreason=%(reason)s \ntext=%(text)s",
                 response=res,
@@ -248,7 +254,6 @@ class ResPartner(models.Model):
         if odoo_result["state_id"] == self.env.ref("base.RO_B"):
             if odoo_result.get("codPostal") and odoo_result["codPostal"][0] != "0":
                 odoo_result["codPostal"] = "0" + odoo_result["codPostal"]
-
         for field in AnafFiled_OdooField_Overwrite:
             if field[1] not in odoo_result:
                 continue
@@ -281,40 +286,43 @@ class ResPartner(models.Model):
             return city.strip().title()
 
         state = False
-        if result.get("adresa"):
-            for tag in [
-                "ddenumire_Strada",
-                "dnumar_Strada",
-                "ddetalii_Adresa",
-                "ddenumire_Localitate",
-                "ddenumire_Judet",
-            ]:
-                result[tag] = (
-                    result[tag]
-                    .encode("utf8")
-                    .translate(CEDILLATRANS)
-                    .decode("utf8")
-                    .strip()
-                )
-            result["street"] = result.get("ddenumire_Strada")
-            if result.get("dnumar_Strada"):
-                result["street"] += " Nr. " + result.get("dnumar_Strada")
-            result["street"] = result["street"].strip().title()
-            result["street2"] = result.get("ddetalii_Adresa", " ").strip().title()
-            result["city"] = get_city(result.get("ddenumire_Localitate"))
-            state_name = get_city(result.get("ddenumire_Judet"))
-            state_code = result.get("dcod_JudetAuto")
+        for tag in [
+            "ddenumire_Strada",
+            "dnumar_Strada",
+            "ddetalii_Adresa",
+            "ddenumire_Localitate",
+            "ddenumire_Judet",
+        ]:
+            result[tag] = (
+                result[tag]
+                .encode("utf8")
+                .translate(CEDILLATRANS)
+                .decode("utf8")
+                .strip()
+            )
+        result["street"] = result.get("ddenumire_Strada")
+        if result.get("dnumar_Strada"):
+            result["street"] += " Nr. " + result.get("dnumar_Strada")
+        result["street"] = result["street"].strip().title()
+        result["street2"] = result.get("ddetalii_Adresa", " ").strip().title()
+        if not result["street"] and result["street2"]:
+            result["street"] = result["street2"]
+            result["street2"] = ""
+        result["zip"] = result.get("dcod_Postal", "").strip()
+        result["city"] = get_city(result.get("ddenumire_Localitate"))
+        state_name = get_city(result.get("ddenumire_Judet"))
+        state_code = result.get("dcod_JudetAuto")
 
-            if state_code:
-                domain = [
-                    ("code", "=", state_code),
-                    ("country_id", "=", self.env.ref("base.ro").id),
-                ]
-                state = self.env["res.country.state"].search(domain, limit=1)
+        if state_code:
+            domain = [
+                ("code", "=", state_code),
+                ("country_id", "=", self.env.ref("base.ro").id),
+            ]
+            state = self.env["res.country.state"].search(domain, limit=1)
 
-            if not state and state_name:
-                domain = [("name", "=", state_name)]
-                state = self.env["res.country.state"].search(domain, limit=1)
+        if not state and state_name:
+            domain = [("name", "=", state_name)]
+            state = self.env["res.country.state"].search(domain, limit=1)
 
         result["state_id"] = state
         return result
@@ -363,40 +371,42 @@ class ResPartner(models.Model):
         if not res:
             res = {}
         if result:
-            same_date_record = self.l10n_ro_active_anaf_line_ids.filtered(
-                lambda r: str(r.date) == self.get_date_from_anaf(result.get("data", ""))
-            )
-            if not same_date_record and self.l10n_ro_active_anaf_line_ids:
-                # Check if we have lines already added NewId
-                for line in self.l10n_ro_active_anaf_line_ids:
-                    if isinstance(line.id, models.NewId):
-                        same_date_record = True
-            if not same_date_record and not res.get("l10n_ro_active_anaf_line_ids"):
-                res["l10n_ro_active_anaf_line_ids"] = [
-                    (
-                        0,
-                        0,
-                        {
-                            "vat_number": result.get("cui"),
-                            "date": self.get_date_from_anaf(result.get("data", "")),
-                            "act": result.get("act"),
-                            "status": result.get("stare_inregistrare"),
-                            "start_date": self.get_date_from_anaf(
-                                result.get("dataReactivare", "")
-                            ),
-                            "end_date": self.get_date_from_anaf(
-                                result.get("dataInactivare", "")
-                            ),
-                            "publish_date": self.get_date_from_anaf(
-                                result.get("dataPublicare", "")
-                            ),
-                            "delete_date": self.get_date_from_anaf(
-                                result.get("dataRadiere", "")
-                            ),
-                            "active_status": result.get("statusInactivi"),
-                        },
-                    )
-                ]
+            date_generale = result.get("date_generale", {})
+            inactive_res = result.get("stare_inactiv", {})
+            if inactive_res:
+                same_date_record = self.l10n_ro_active_anaf_line_ids.filtered(
+                    lambda r: str(r.start_date)
+                    == inactive_res.get("dataReactivare", "")
+                    and str(r.end_date) == inactive_res.get("dataInactivare", "")
+                    and str(r.publish_date) == inactive_res.get("dataPublicare", "")
+                    and str(r.delete_date) == inactive_res.get("dataRadiere", "")
+                    and r.active_status == inactive_res.get("statusInactivi")
+                )
+                if not same_date_record and not res.get("l10n_ro_active_anaf_line_ids"):
+                    res["l10n_ro_active_anaf_line_ids"] = [
+                        (
+                            0,
+                            0,
+                            {
+                                "vat_number": date_generale.get("cui"),
+                                "act": date_generale.get("act"),
+                                "status": date_generale.get("stare_inregistrare"),
+                                "start_date": self.get_date_from_anaf(
+                                    inactive_res.get("dataReactivare", "")
+                                ),
+                                "end_date": self.get_date_from_anaf(
+                                    inactive_res.get("dataInactivare", "")
+                                ),
+                                "publish_date": self.get_date_from_anaf(
+                                    inactive_res.get("dataPublicare", "")
+                                ),
+                                "delete_date": self.get_date_from_anaf(
+                                    inactive_res.get("dataRadiere", "")
+                                ),
+                                "active_status": inactive_res.get("statusInactivi"),
+                            },
+                        )
+                    ]
         return res
 
     def _update_l10n_ro_anaf_scptva(self, res, result):
@@ -404,36 +414,39 @@ class ResPartner(models.Model):
         if not res:
             res = {}
         if result:
-            same_date_record = self.l10n_ro_vat_subjected_anaf_line_ids.filtered(
-                lambda r: str(r.date) == self.get_date_from_anaf(result.get("data", ""))
-            )
-            if not same_date_record and self.l10n_ro_vat_subjected_anaf_line_ids:
-                # Check if we have lines already added NewId
-                for line in self.l10n_ro_vat_subjected_anaf_line_ids:
-                    if isinstance(line.id, models.NewId):
-                        same_date_record = True
-            if not same_date_record and not res.get(
-                "l10n_ro_vat_subjected_anaf_line_ids"
-            ):
-                res["l10n_ro_vat_subjected_anaf_line_ids"] = [
-                    (
-                        0,
-                        0,
-                        {
-                            "vat_number": result.get("cui"),
-                            "date": self.get_date_from_anaf(result.get("data", "")),
-                            "start_date": self.get_date_from_anaf(
-                                result.get("data_inceput_ScpTVA", "")
-                            ),
-                            "end_date": self.get_date_from_anaf(
-                                result.get("data_sfarsit_ScpTVA", "")
-                            ),
-                            "year_date": self.get_date_from_anaf(
-                                result.get("data_anul_imp_ScpTVA", "")
-                            ),
-                            "message": result.get("mesaj_ScpTVA"),
-                            "vat_subjected": result.get("scpTVA"),
-                        },
+            date_generale = result.get("date_generale", {})
+            vat_res = result.get("inregistrare_scop_Tva", {})
+            if vat_res:
+                for vat_period in vat_res.get("perioade_TVA", [{}]):
+                    same_date_record = (
+                        self.l10n_ro_vat_subjected_anaf_line_ids.filtered(
+                            lambda r, vat_period=vat_period: str(r.start_date)
+                            == vat_period.get("data_inceput_ScpTVA", "")
+                            and str(r.end_date)
+                            == vat_period.get("data_sfarsit_ScpTVA", "")
+                            and str(r.year_date)
+                            == vat_period.get("data_anul_imp_ScpTVA", "")
+                            and r.message == vat_period.get("mesaj_ScpTVA")
+                        )
                     )
-                ]
+                    if not same_date_record:
+                        res["l10n_ro_vat_subjected_anaf_line_ids"] = [
+                            (
+                                0,
+                                0,
+                                {
+                                    "vat_number": date_generale.get("cui"),
+                                    "start_date": self.get_date_from_anaf(
+                                        vat_period.get("data_inceput_ScpTVA", "")
+                                    ),
+                                    "end_date": self.get_date_from_anaf(
+                                        vat_period.get("data_sfarsit_ScpTVA", "")
+                                    ),
+                                    "year_date": self.get_date_from_anaf(
+                                        vat_period.get("data_anul_imp_ScpTVA", "")
+                                    ),
+                                    "message": vat_period.get("mesaj_ScpTVA"),
+                                },
+                            )
+                        ]
         return res
