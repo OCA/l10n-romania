@@ -11,13 +11,6 @@ class AccountMoveLine(models.Model):
     _name = "account.move.line"
     _inherit = ["account.move.line", "l10n.ro.mixin"]
 
-    def _add_exchange_difference_cash_basis_vals(self, exchange_diff_vals):
-        """For Romanian we don't do any exchange difference for cash basis"""
-        not_ro_lines = self.filtered(lambda line: not line.is_l10n_ro_record)
-        return super(
-            AccountMoveLine, not_ro_lines
-        )._add_exchange_difference_cash_basis_vals(exchange_diff_vals)
-
     @api.onchange("tax_ids")
     def onchange_l10n_ro_tax_ids(self):
         if self.is_l10n_ro_record:
@@ -26,7 +19,7 @@ class AccountMoveLine(models.Model):
                     self.env["res.partner"]._find_accounting_partner(self.partner_id)
                     or self.partner_id
                 )
-                ctx = dict(self._context)
+                ctx = dict(self.env.context)
                 vatp = False
 
                 if self.move_id.invoice_date:

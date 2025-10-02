@@ -19,7 +19,7 @@ class AccountMove(models.Model):
         """
         result = super()._onchange_partner_id()
         if self.is_l10n_ro_record:
-            ctx = dict(self._context)
+            ctx = dict(self.env.context)
             company = self.company_id
             partner = (
                 self.env["res.partner"]._find_accounting_partner(self.partner_id)
