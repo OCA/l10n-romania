@@ -2,6 +2,8 @@
 # Copyright (C) 2020 NextERP Romania
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
+from unittest.mock import patch
+
 from odoo.tests import Form, tagged
 
 from odoo.addons.account.tests.common import AccountTestInvoicingCommon
@@ -19,6 +21,7 @@ class TestPartnerVATSubjected(AccountTestInvoicingCommon):
 
 @tagged("post_install", "-at_install")
 class TestPartnerVAT(TestPartnerVATSubjected):
+    @patch("requests.post")
     def test_onchange_l10n_ro_vat_subjected(self):
         """Check onchange vat subjected and country."""
         # test setting l10n_ro_vat_subjected as True
