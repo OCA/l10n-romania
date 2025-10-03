@@ -5,8 +5,12 @@
 import codecs
 import csv
 import os
+from unittest.mock import Mock, patch
+
+import requests
 
 from odoo.tests.common import TransactionCase
+from odoo.tools import mute_logger
 
 
 class TestPartnerUpdateVatSubjectedBase(TransactionCase):
@@ -47,6 +51,16 @@ class TestPartnerUpdateVatSubjectedBase(TransactionCase):
 class TestUpdatePartner(TestPartnerUpdateVatSubjectedBase):
     def test_vat_subjected_cron(self):
         """Check methods vat from ANAF."""
-        # Test cron update vat subjected from ANAF
-        context = {"test_data": True}
-        self.partner_model.with_context(**context)._update_l10n_ro_vat_subjected_all()
+
+        def post(url, **kwargs):
+            response = Mock()
+            response.status_code = 200
+            response._content = b"ok"
+            return response
+
+        with mute_logger("odoo.addons.l10n_ro_fiscal_validation.models.res_partner"):
+            with (
+                patch.object(requests, "post", post),
+                patch.object(requests.Session, "post", post),
+            ):
+                self.partner_model._update_l10n_ro_vat_subjected_all()
