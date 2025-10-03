@@ -4,7 +4,7 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 18.0\n"
+"Project-Id-Version: Odoo Server 19.0\n"
 "Report-Msgid-Bugs-To: \n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -14,9 +14,29 @@ msgstr ""
 "Plural-Forms: \n"
 
 #. module: l10n_ro_partner_create_by_vat
+#: model_terms:ir.ui.view,arch_db:l10n_ro_partner_create_by_vat.view_partner_anaf_status_form
+msgid "ANAF"
+msgstr ""
+
+#. module: l10n_ro_partner_create_by_vat
+#: model_terms:ir.ui.view,arch_db:l10n_ro_partner_create_by_vat.view_partner_anaf_status_form
+msgid "ANAF - Active State History"
+msgstr ""
+
+#. module: l10n_ro_partner_create_by_vat
+#: model_terms:ir.ui.view,arch_db:l10n_ro_partner_create_by_vat.view_partner_anaf_status_form
+msgid "ANAF - VAT Subjected History"
+msgstr ""
+
+#. module: l10n_ro_partner_create_by_vat
+#: model_terms:ir.ui.view,arch_db:l10n_ro_partner_create_by_vat.view_partner_anaf_status_form
+msgid "ANAF History"
+msgstr ""
+
+#. module: l10n_ro_partner_create_by_vat
 #. odoo-python
 #: code:addons/l10n_ro_partner_create_by_vat/models/res_partner.py:0
-msgid "ANAF Webservice not working. Exception=%s."
+msgid "ANAF Webservice not working. Exception raised: %(error)s"
 msgstr ""
 
 #. module: l10n_ro_partner_create_by_vat
@@ -32,7 +52,7 @@ msgstr ""
 #. module: l10n_ro_partner_create_by_vat
 #. odoo-python
 #: code:addons/l10n_ro_partner_create_by_vat/models/res_partner.py:0
-msgid "Anaf didn't find any company with VAT=%s !"
+msgid "Anaf didn't find any company with VAT=%(vat)s !"
 msgstr ""
 
 #. module: l10n_ro_partner_create_by_vat
@@ -63,12 +83,6 @@ msgid "Created on"
 msgstr ""
 
 #. module: l10n_ro_partner_create_by_vat
-#: model:ir.model.fields,field_description:l10n_ro_partner_create_by_vat.field_l10n_ro_res_partner_anaf_scptva__date
-#: model:ir.model.fields,field_description:l10n_ro_partner_create_by_vat.field_l10n_ro_res_partner_anaf_status__date
-msgid "Date"
-msgstr ""
-
-#. module: l10n_ro_partner_create_by_vat
 #: model:ir.model.fields,field_description:l10n_ro_partner_create_by_vat.field_l10n_ro_res_partner_anaf_status__delete_date
 msgid "Delete Date"
 msgstr ""
@@ -76,6 +90,7 @@ msgstr ""
 #. module: l10n_ro_partner_create_by_vat
 #: model:ir.model.fields,field_description:l10n_ro_partner_create_by_vat.field_l10n_ro_res_partner_anaf_scptva__display_name
 #: model:ir.model.fields,field_description:l10n_ro_partner_create_by_vat.field_l10n_ro_res_partner_anaf_status__display_name
+#: model:ir.model.fields,field_description:l10n_ro_partner_create_by_vat.field_res_partner__display_name
 msgid "Display Name"
 msgstr ""
 
@@ -88,6 +103,7 @@ msgstr ""
 #. module: l10n_ro_partner_create_by_vat
 #: model:ir.model.fields,field_description:l10n_ro_partner_create_by_vat.field_l10n_ro_res_partner_anaf_scptva__id
 #: model:ir.model.fields,field_description:l10n_ro_partner_create_by_vat.field_l10n_ro_res_partner_anaf_status__id
+#: model:ir.model.fields,field_description:l10n_ro_partner_create_by_vat.field_res_partner__id
 msgid "ID"
 msgstr ""
 
@@ -164,12 +180,6 @@ msgid "Start Date"
 msgstr ""
 
 #. module: l10n_ro_partner_create_by_vat
-#: model:ir.model.fields,help:l10n_ro_partner_create_by_vat.field_l10n_ro_res_partner_anaf_scptva__date
-#: model:ir.model.fields,help:l10n_ro_partner_create_by_vat.field_l10n_ro_res_partner_anaf_status__date
-msgid "The date for ANAF interogation."
-msgstr ""
-
-#. module: l10n_ro_partner_create_by_vat
 #: model:ir.model.fields,help:l10n_ro_partner_create_by_vat.field_res_partner__l10n_ro_old_name
 #: model:ir.model.fields,help:l10n_ro_partner_create_by_vat.field_res_users__l10n_ro_old_name
 msgid ""
@@ -189,11 +199,6 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_ro_partner_create_by_vat.field_l10n_ro_res_partner_anaf_scptva__vat_number
 #: model:ir.model.fields,field_description:l10n_ro_partner_create_by_vat.field_l10n_ro_res_partner_anaf_status__vat_number
 msgid "Vat Number"
-msgstr ""
-
-#. module: l10n_ro_partner_create_by_vat
-#: model:ir.model.fields,field_description:l10n_ro_partner_create_by_vat.field_l10n_ro_res_partner_anaf_scptva__vat_subjected
-msgid "Vat Subjected"
 msgstr ""
 
 #. module: l10n_ro_partner_create_by_vat
