@@ -932,11 +932,6 @@ msgid "Upload Romanian cities, so you can select them more easily."
 msgstr ""
 
 #. module: l10n_ro_config
-#: model:ir.model.fields,field_description:l10n_ro_config.field_res_company__anglo_saxon_accounting
-msgid "Use anglo-saxon accounting"
-msgstr ""
-
-#. module: l10n_ro_config
 #: model:ir.model.fields,help:l10n_ro_config.field_res_partner__l10n_ro_vat_number
 #: model:ir.model.fields,help:l10n_ro_config.field_res_users__l10n_ro_vat_number
 msgid "VAT number without country code."
