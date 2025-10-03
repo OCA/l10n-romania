@@ -59,7 +59,7 @@ class TestStockWarehouseCreation(AccountTestInvoicingCommon):
             {
                 "name": "Test Product",
                 "is_storable": True,
-                "categ_id": self.env.ref("product.product_category_all").id,
+                "categ_id": self.product_category.id,
                 "l10n_ro_net_weight": 1.0,
                 "company_id": self.env.company.id,
             }

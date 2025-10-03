@@ -3,7 +3,7 @@
 # Copyright (C) 2019 NextERP Romania
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
-from odoo import _, fields, models
+from odoo import fields, models
 
 
 class StockWarehouse(models.Model):
@@ -36,13 +36,13 @@ class StockWarehouse(models.Model):
             sub_locations.update(
                 {
                     "l10n_ro_wh_consume_loc_id": {
-                        "name": _("Consume"),
+                        "name": self.env._("Consume"),
                         "active": True,
                         "usage": "consume",
                         "barcode": self._valid_barcode(code + "-CONSUME", company_id),
                     },
                     "l10n_ro_wh_usage_loc_id": {
-                        "name": _("Usage"),
+                        "name": self.env._("Usage"),
                         "active": True,
                         "usage": "usage_giving",
                         "barcode": self._valid_barcode(code + "-USAGE", company_id),
@@ -69,7 +69,7 @@ class StockWarehouse(models.Model):
                 create_data.update(
                     {
                         "l10n_ro_consume_type_id": {
-                            "name": _("Consume"),
+                            "name": self.env._("Consume"),
                             "code": "internal",
                             "use_create_lots": True,
                             "use_existing_lots": False,
@@ -86,7 +86,7 @@ class StockWarehouse(models.Model):
                 create_data.update(
                     {
                         "l10n_ro_usage_type_id": {
-                            "name": _("Usage Giving"),
+                            "name": self.env._("Usage Giving"),
                             "code": "internal",
                             "use_create_lots": True,
                             "use_existing_lots": False,
@@ -108,13 +108,13 @@ class StockWarehouse(models.Model):
             sequences.update(
                 {
                     "l10n_ro_consume_type_id": {
-                        "name": self.name + " " + _("Sequence Consume"),
+                        "name": self.name + " " + self.env._("Sequence Consume"),
                         "prefix": self.code + "/CONS/",
                         "padding": 5,
                         "company_id": self.company_id.id,
                     },
                     "l10n_ro_usage_type_id": {
-                        "name": self.name + " " + _("Sequence Usage Giving"),
+                        "name": self.name + " " + self.env._("Sequence Usage Giving"),
                         "prefix": self.code + "/USAGE/",
                         "padding": 5,
                         "company_id": self.company_id.id,
