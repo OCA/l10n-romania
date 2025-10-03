@@ -171,6 +171,18 @@ msgid "Default taxes applied to local transactions."
 msgstr "Taxe implicite aplicate tranzacțiilor locale."
 
 #. module: l10n_ro_config
+#: model:ir.model.fields,field_description:l10n_ro_config.field_account_journal__display_name
+#: model:ir.model.fields,field_description:l10n_ro_config.field_ir_ui_menu__display_name
+#: model:ir.model.fields,field_description:l10n_ro_config.field_l10n_ro_mixin__display_name
+#: model:ir.model.fields,field_description:l10n_ro_config.field_product_template__display_name
+#: model:ir.model.fields,field_description:l10n_ro_config.field_res_company__display_name
+#: model:ir.model.fields,field_description:l10n_ro_config.field_res_config_settings__display_name
+#: model:ir.model.fields,field_description:l10n_ro_config.field_res_partner__display_name
+#: model:ir.model.fields,field_description:l10n_ro_config.field_res_partner_bank__display_name
+msgid "Display Name"
+msgstr ""
+
+#. module: l10n_ro_config
 #: model:ir.model.fields,help:l10n_ro_config.field_res_config_settings__module_l10n_ro_address_extended
 msgid "Extend the  partner addres field with flat number, staircase.."
 msgstr ""
@@ -180,6 +192,18 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_ro_config.field_account_journal__l10n_ro_fiscal_receipt
 msgid "Fiscal Receipts Journal"
 msgstr "Jurnalul de bonuri fiscale"
+
+#. module: l10n_ro_config
+#: model:ir.model.fields,field_description:l10n_ro_config.field_account_journal__id
+#: model:ir.model.fields,field_description:l10n_ro_config.field_ir_ui_menu__id
+#: model:ir.model.fields,field_description:l10n_ro_config.field_l10n_ro_mixin__id
+#: model:ir.model.fields,field_description:l10n_ro_config.field_product_template__id
+#: model:ir.model.fields,field_description:l10n_ro_config.field_res_company__id
+#: model:ir.model.fields,field_description:l10n_ro_config.field_res_config_settings__id
+#: model:ir.model.fields,field_description:l10n_ro_config.field_res_partner__id
+#: model:ir.model.fields,field_description:l10n_ro_config.field_res_partner_bank__id
+msgid "ID"
+msgstr ""
 
 #. module: l10n_ro_config
 #: model_terms:ir.ui.view,arch_db:l10n_ro_config.res_config_settings_view_form
@@ -295,12 +319,6 @@ msgstr ""
 "Română"
 
 #. module: l10n_ro_config
-#. odoo-python
-#: code:addons/l10n_ro_config/wizard/res_config_settings.py:0
-msgid "Notification !"
-msgstr "Notificare!"
-
-#. module: l10n_ro_config
 #: model_terms:ir.ui.view,arch_db:l10n_ro_config.res_config_settings_view_form
 msgid "Partners & Addresses"
 msgstr "Parteneri și adrese"
@@ -335,12 +353,6 @@ msgstr "Produs"
 #: model_terms:ir.ui.view,arch_db:l10n_ro_config.res_config_settings_view_form
 msgid "Record DVI directly from invoices."
 msgstr "Înregistrați DVI direct din facturi."
-
-#. module: l10n_ro_config
-#: model_terms:ir.ui.view,arch_db:l10n_ro_config.res_config_settings_view_form
-msgid "Record cost of goods sold in your journal entries."
-msgstr ""
-"Înregistrați costul mărfurilor vândute în înregistrările dvs. de jurnal."
 
 #. module: l10n_ro_config
 #: model_terms:ir.ui.view,arch_db:l10n_ro_config.res_config_settings_view_form
@@ -756,14 +768,6 @@ msgid "Stock"
 msgstr "Stoc"
 
 #. module: l10n_ro_config
-#. odoo-python
-#: code:addons/l10n_ro_config/wizard/res_config_settings.py:0
-msgid "The values used for stock out operations will not follow FIFO rule!"
-msgstr ""
-"Valorile utilizate pentru operațiunile de epuizare a stocurilor nu vor "
-"respecta regula FIFO!"
-
-#. module: l10n_ro_config
 #: model:ir.model.fields,help:l10n_ro_config.field_res_company__l10n_ro_property_stock_transfer_account_id
 #: model:ir.model.fields,help:l10n_ro_config.field_res_config_settings__l10n_ro_property_stock_transfer_account_id
 msgid ""
@@ -1018,16 +1022,6 @@ msgstr ""
 "diferența de preț între ridicarea și factură"
 
 #. module: l10n_ro_config
-#. odoo-python
-#: code:addons/l10n_ro_config/wizard/res_config_settings.py:0
-msgid ""
-"Tracking (Lot/Serial) has to be enabled first for all stockable and "
-"consumable products !"
-msgstr ""
-"Urmărirea (Lot/Serial) trebuie să fie activată mai întâi pentru toate "
-"produsele stocabile și consumabile!"
-
-#. module: l10n_ro_config
 #: model_terms:ir.ui.view,arch_db:l10n_ro_config.res_config_settings_view_form
 msgid ""
 "Update partners data based on the vat code from ANAF website in cron job."
@@ -1054,12 +1048,6 @@ msgstr "Actualizează contabilitatea stocului conform legislației românești."
 msgid "Upload Romanian cities, so you can select them more easily."
 msgstr ""
 "Încărcați orașele românești, astfel încât să le puteți selecta mai ușor."
-
-#. module: l10n_ro_config
-#: model:ir.model.fields,field_description:l10n_ro_config.field_res_company__anglo_saxon_accounting
-#: model:ir.model.fields,field_description:l10n_ro_config.field_res_config_settings__use_anglo_saxon
-msgid "Use anglo-saxon accounting"
-msgstr "Utilizați contabilitatea anglo-saxonă"
 
 #. module: l10n_ro_config
 #: model:ir.model.fields,help:l10n_ro_config.field_res_partner__l10n_ro_vat_number
@@ -1094,6 +1082,28 @@ msgid ""
 msgstr ""
 "utilizați contul 4428 pentru tva neexigibil în notele făcute pentru 'Marfă "
 "în magazin'"
+
+#~ msgid "Notification !"
+#~ msgstr "Notificare!"
+
+#~ msgid "Record cost of goods sold in your journal entries."
+#~ msgstr ""
+#~ "Înregistrați costul mărfurilor vândute în înregistrările dvs. de jurnal."
+
+#~ msgid "The values used for stock out operations will not follow FIFO rule!"
+#~ msgstr ""
+#~ "Valorile utilizate pentru operațiunile de epuizare a stocurilor nu vor "
+#~ "respecta regula FIFO!"
+
+#~ msgid ""
+#~ "Tracking (Lot/Serial) has to be enabled first for all stockable and "
+#~ "consumable products !"
+#~ msgstr ""
+#~ "Urmărirea (Lot/Serial) trebuie să fie activată mai întâi pentru toate "
+#~ "produsele stocabile și consumabile!"
+
+#~ msgid "Use anglo-saxon accounting"
+#~ msgstr "Utilizați contabilitatea anglo-saxonă"
 
 #~ msgid "Ro Print in Report"
 #~ msgstr "Ro Imprimare în raport"
