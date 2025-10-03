@@ -56,7 +56,6 @@ class TestPartnerVAT(TestPartnerVATSubjected):
         partner_form.name = "Test Partner"
         partner_form.l10n_ro_vat_subjected = True
 
-        self.env.company = test_company
         partner_form = Form(partner.with_company(test_company))
         partner_form.name = "Test Partner"
         with self.assertRaises(AssertionError):

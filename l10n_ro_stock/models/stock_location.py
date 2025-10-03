@@ -14,9 +14,3 @@ class StockLocation(models.Model):
         selection_add=[("usage_giving", "Usage Giving"), ("consume", "Consume")],
         ondelete={"usage_giving": "set default", "consume": "set default"},
     )
-    l10n_ro_merchandise_type = fields.Selection(
-        [("store", "Store"), ("warehouse", "Warehouse")],
-        string="Romania - Merchandise type",
-        default="warehouse",
-        ondelete={"store": "set default", "warehouse": "set default"},
-    )
