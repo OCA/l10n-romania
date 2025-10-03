@@ -4,7 +4,7 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 18.0\n"
+"Project-Id-Version: Odoo Server 19.0\n"
 "Report-Msgid-Bugs-To: \n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -16,13 +16,13 @@ msgstr ""
 #. module: l10n_ro_stock
 #: model:ir.model.fields,help:l10n_ro_stock.field_stock_location__usage
 msgid ""
-"* Vendor Location: Virtual location representing the source location for products coming from your vendors\n"
-"* View: Virtual location used to create a hierarchical structures for your warehouse, aggregating its child locations ; can't directly contain products\n"
-"* Internal Location: Physical locations inside your own warehouses,\n"
-"* Customer Location: Virtual location representing the destination location for products sent to your customers\n"
-"* Inventory Loss: Virtual location serving as counterpart for inventory operations used to correct stock levels (Physical inventories)\n"
-"* Production: Virtual counterpart location for production operations: this location consumes the components and produces finished products\n"
-"* Transit Location: Counterpart location that should be used in inter-company or inter-warehouses operations"
+"* Vendor: Virtual location representing the source location for products coming from your vendors\n"
+"* Virtual: Virtual location used to create a hierarchical structure for your warehouse by aggregating its child locations. Can't directly contain products\n"
+"* Internal: Physical locations inside your warehouses,\n"
+"* Customer: Virtual location representing the destination location for products sent to your customers\n"
+"* Inventory Loss: Virtual location serving as the counterpart for inventory operations done to correct stock levels (Physical inventories)\n"
+"* Production: Virtual counterpart location for production operations. I.e. This location consumes components and produces finished products\n"
+"* Transit: Counterpart location that should be used for inter-company or inter-warehouses operations"
 msgstr ""
 
 #. module: l10n_ro_stock
@@ -30,6 +30,22 @@ msgstr ""
 #: code:addons/l10n_ro_stock/models/stock_warehouse.py:0
 #: model:ir.model.fields.selection,name:l10n_ro_stock.selection__stock_location__usage__consume
 msgid "Consume"
+msgstr ""
+
+#. module: l10n_ro_stock
+#: model:ir.model.fields,field_description:l10n_ro_stock.field_product_product__display_name
+#: model:ir.model.fields,field_description:l10n_ro_stock.field_product_template__display_name
+#: model:ir.model.fields,field_description:l10n_ro_stock.field_stock_location__display_name
+#: model:ir.model.fields,field_description:l10n_ro_stock.field_stock_warehouse__display_name
+msgid "Display Name"
+msgstr ""
+
+#. module: l10n_ro_stock
+#: model:ir.model.fields,field_description:l10n_ro_stock.field_product_product__id
+#: model:ir.model.fields,field_description:l10n_ro_stock.field_product_template__id
+#: model:ir.model.fields,field_description:l10n_ro_stock.field_stock_location__id
+#: model:ir.model.fields,field_description:l10n_ro_stock.field_stock_warehouse__id
+msgid "ID"
 msgstr ""
 
 #. module: l10n_ro_stock
@@ -83,11 +99,6 @@ msgid "Romania - Consume Type"
 msgstr ""
 
 #. module: l10n_ro_stock
-#: model:ir.model.fields,field_description:l10n_ro_stock.field_stock_location__l10n_ro_merchandise_type
-msgid "Romania - Merchandise type"
-msgstr ""
-
-#. module: l10n_ro_stock
 #: model:ir.model.fields,field_description:l10n_ro_stock.field_stock_warehouse__l10n_ro_wh_usage_loc_id
 msgid "Romania - Usage Giving Location"
 msgstr ""
@@ -110,11 +121,6 @@ msgid "Sequence Usage Giving"
 msgstr ""
 
 #. module: l10n_ro_stock
-#: model:ir.model.fields.selection,name:l10n_ro_stock.selection__stock_location__l10n_ro_merchandise_type__store
-msgid "Store"
-msgstr ""
-
-#. module: l10n_ro_stock
 #. odoo-python
 #: code:addons/l10n_ro_stock/models/stock_warehouse.py:0
 msgid "Usage"
@@ -129,6 +135,5 @@ msgstr ""
 
 #. module: l10n_ro_stock
 #: model:ir.model,name:l10n_ro_stock.model_stock_warehouse
-#: model:ir.model.fields.selection,name:l10n_ro_stock.selection__stock_location__l10n_ro_merchandise_type__warehouse
 msgid "Warehouse"
 msgstr ""
