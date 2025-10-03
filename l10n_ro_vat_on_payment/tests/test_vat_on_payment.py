@@ -137,7 +137,7 @@ class TestVATonpayment(AccountTestInvoicingCommon):
             requests.exceptions.HTTPError,
             requests.exceptions.ChunkedEncodingError,
         ) as e:
-            _logger.warning(f"Server ANAF is down. Exception: {e}")
+            _logger.info(f"Server ANAF is down. Exception: {e}")
             return True
 
         try:
@@ -152,7 +152,7 @@ class TestVATonpayment(AccountTestInvoicingCommon):
             requests.exceptions.HTTPError,
             requests.exceptions.ChunkedEncodingError,
         ) as e:
-            _logger.warning(f"Server ANAF is down. Exception: {e}")
+            _logger.info(f"Server ANAF is down. Exception: {e}")
             return True
 
     def test_update_partner_data(self):
@@ -183,7 +183,7 @@ class TestVATonpayment(AccountTestInvoicingCommon):
             requests.exceptions.HTTPError,
             requests.exceptions.ChunkedEncodingError,
         ):
-            _logger.warning("Server ANAF is down.")
+            _logger.info("Server ANAF is down.")
             return True
 
     def test_invoice_fp(self):

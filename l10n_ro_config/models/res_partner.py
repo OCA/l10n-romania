@@ -43,28 +43,41 @@ class ResPartner(models.Model):
         if partner and partner.country_id and partner.country_id.code:
             vat_country = self._l10n_ro_map_vat_country_code(
                 partner.country_id.code.upper()
-            ).lower()
+            ).upper()
         return vat_country, l10n_ro_vat_number
+
+    def _get_ro_vat(self):
+        self.ensure_one()
+        returned_vat = self.vat
+        if (
+            self.is_l10n_ro_record
+            and self.vat
+            and self.country_id
+            and self.country_id.code == "RO"
+        ):
+            if self.l10n_ro_vat_subjected and self.vat.isdigit():
+                returned_vat = "RO" + self.vat
+            elif not self.l10n_ro_vat_subjected and not self.vat.isdigit():
+                _vat_country, l10n_ro_vat_number = self._split_vat(self.vat)
+                returned_vat = l10n_ro_vat_number
+
+        return returned_vat
+
+    def _check_vat(self, validation="error"):
+        res = super()._check_vat(validation=validation)
+        for partner in self:
+            ro_vat = partner._get_ro_vat()
+            if partner.vat != ro_vat:
+                partner.vat = ro_vat
+        return res
 
     @api.onchange("l10n_ro_vat_subjected")
     def onchange_l10n_ro_vat_subjected(self):
-        if self.is_l10n_ro_record:
-            if (
-                not self.env.context.get("skip_ro_vat_change")
-                and self.country_id.code == "RO"
-            ):
-                if self.vat and self.vat.isdigit() and self.l10n_ro_vat_subjected:
-                    vat_country = self._l10n_ro_map_vat_country_code(
-                        self.country_id.code.upper()
-                    )
-                    self.vat = vat_country + self.vat
-                elif (
-                    self.vat
-                    and not self.vat.isdigit()
-                    and not self.l10n_ro_vat_subjected
-                ):
-                    vat_country, l10n_ro_vat_number = self._split_vat(self.vat)
-                    self.vat = l10n_ro_vat_number
+        if (
+            not self.env.context.get("skip_ro_vat_change")
+            and self.country_id.code == "RO"
+        ):
+            self.vat = self._get_ro_vat()
 
     @api.depends("nrc", "vat", "country_id")
     def _compute_company_registry(self):
