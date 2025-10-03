@@ -22,8 +22,10 @@ class TestPartnerVATSubjected(AccountTestInvoicingCommon):
 @tagged("post_install", "-at_install")
 class TestPartnerVAT(TestPartnerVATSubjected):
     @patch("requests.post")
-    def test_onchange_l10n_ro_vat_subjected(self):
+    def test_onchange_l10n_ro_vat_subjected(self, mock_post):
         """Check onchange vat subjected and country."""
+        mock_post.return_value.status_code = 200
+        mock_post.return_value.json = {}
         # test setting l10n_ro_vat_subjected as True
 
         partner = self.env["res.partner"].create(
