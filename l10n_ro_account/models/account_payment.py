@@ -1,7 +1,7 @@
 # ©  2020 Terrabit
 # See README.rst file on addons root folder for license details
 
-from odoo import _, api, models
+from odoo import api, models
 from odoo.exceptions import ValidationError
 from odoo.tools.safe_eval import safe_eval
 
@@ -30,7 +30,7 @@ class AccountPaymentCheck(models.AbstractModel):
             if payment.partner_id.is_company:
                 if payment.amount > amount_company_limit:
                     raise ValidationError(
-                        _(
+                        self.env._(
                             "The payment amount (%(amount)s) cannot be greater than %(amount_limit)s",  # noqa E501
                             amount=payment.amount,
                             amount_limit=amount_company_limit,
@@ -39,7 +39,7 @@ class AccountPaymentCheck(models.AbstractModel):
             else:
                 if payment.amount > amount_person_limit:
                     raise ValidationError(
-                        _(
+                        self.env._(
                             "The payment amount (%(amount)s) cannot be greater than %(amount_limit)s",  # noqa E501
                             amount=payment.amount,
                             amount_limit=amount_person_limit,
@@ -49,19 +49,6 @@ class AccountPaymentCheck(models.AbstractModel):
     def _check_amount(self):
         for payment in self:
             self.check_amount_payment(payment)
-
-
-class AccountPaymentRegister(models.TransientModel):
-    _name = "account.payment.register"
-    _inherit = [
-        "account.payment.register",
-        "l10n.ro.mixin",
-        "l10n.ro.mixin.payment.check",
-    ]
-
-    def action_create_payments(self):
-        self._check_amount()
-        return super().action_create_payments()
 
 
 class AccountPayment(models.Model):
