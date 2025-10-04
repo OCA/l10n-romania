@@ -4,7 +4,7 @@
 
 {
     "name": "Romania - Account",
-    "version": "18.0.0.4.0",
+    "version": "19.0.0.4.0",
     "summary": "Romania - Account",
     "countries": ["ro"],
     "license": "AGPL-3",
