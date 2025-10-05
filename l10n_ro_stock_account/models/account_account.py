@@ -3,6 +3,8 @@
 
 from odoo import fields, models
 
+from odoo.addons.account.models.product import ACCOUNT_DOMAIN
+
 
 class AccountAccount(models.Model):
     _name = "account.account"
@@ -12,6 +14,9 @@ class AccountAccount(models.Model):
         "account.account",
         string="Consume Account",
         company_dependent=True,
-        domain="[('deprecated', '=', False)]",
+        domain=ACCOUNT_DOMAIN,
         help="Account used for stock consume and usage giving operations",
+    )
+    l10n_ro_reception_in_progress_account_id = fields.Many2one(
+        "account.account", string="Romania - Reception in Progress Account"
     )

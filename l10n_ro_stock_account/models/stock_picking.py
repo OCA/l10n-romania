@@ -3,47 +3,25 @@
 # Copyright (C) 2020 Terrabit
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
-from ast import literal_eval
 
 from odoo import fields, models
-
-
-class StockPickingType(models.Model):
-    _name = "stock.picking.type"
-    _inherit = ["stock.picking.type", "l10n.ro.mixin"]
-
-    l10n_ro_fiscal_position_id = fields.Many2one("account.fiscal.position")
 
 
 class StockPicking(models.Model):
     _name = "stock.picking"
     _inherit = ["stock.picking", "l10n.ro.mixin"]
 
-    def _is_dropshipped(self):
-        if not self.is_l10n_ro_record:
-            return False
-
-        self.ensure_one()
-        return (
-            self.location_id.usage == "supplier"
-            and self.location_dest_id.usage == "customer"
-        )
-
-    def _is_dropshipped_returned(self):
-        if not self.is_l10n_ro_record:
-            return super()._is_dropshipped()
-
-        self.ensure_one()
-        return (
-            self.location_id.usage == "customer"
-            and self.location_dest_id.usage == "supplier"
-        )
+    l10n_ro_notice = fields.Boolean()
+    l10n_ro_reception_in_progress = fields.Boolean()
 
     def action_l10n_ro_view_account_moves(self):
         self.ensure_one()
-        domain = [("move_id.stock_move_id", "in", self.move_ids.ids)]
-        xml_id = "l10n_ro_stock_account.l10n_ro_stock_account_move_action"
-        action = self.env["ir.actions.actions"]._for_xml_id(xml_id)
-        context = literal_eval(action["context"])
-        context.update(self.env.context)
-        return dict(action, domain=domain, context=context)
+        acc_lines = self.move_ids.account_move_id.line_ids
+        if not acc_lines:
+            return {}
+        return {
+            "type": "ir.actions.act_window",
+            "res_model": "account.move.line",
+            "view_mode": "list,form",
+            "domain": [("id", "in", acc_lines.ids)],
+        }

@@ -6,16 +6,7 @@
         <field name="inherit_id" ref="stock_account.view_location_form_inherit" />
         <field name="arch" type="xml">
             <xpath expr="//group[@name='additional_info']" position="after">
-                <group string="Accounting Information">
-                    <field
-                        name="valuation_in_account_id"
-                        options="{'no_create': True}"
-                    />
-                    <field
-                        name="valuation_out_account_id"
-                        options="{'no_create': True}"
-                    />
-
+                <group string="Romania Accounting" invisible="usage != 'internal'">
                     <separator string="Only for Romania" />
                     <field
                         name="l10n_ro_property_account_income_location_id"
@@ -39,7 +30,7 @@
         <field name="model_id" ref="model_stock_location" />
         <field name="binding_model_id" ref="model_stock_location" />
         <field name="binding_view_types">form</field>
-        <field name="groups_id" eval="[(4, ref('base.group_no_one'))]" />
+        <field name="group_ids" eval="[(4, ref('base.group_no_one'))]" />
         <field name="state">code</field>
         <field name="code">
             if records:

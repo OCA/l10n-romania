@@ -5,6 +5,8 @@
 
 from odoo import fields, models
 
+from odoo.addons.account.models.product import ACCOUNT_DOMAIN
+
 
 class StockLocation(models.Model):
     _inherit = "stock.location"
@@ -13,7 +15,7 @@ class StockLocation(models.Model):
         "account.account",
         company_dependent=True,
         string="Income Account",
-        domain="[('deprecated', '=', False)]",
+        domain=ACCOUNT_DOMAIN,
         help="This account will overwrite the income accounts from product "
         "or category.",
     )
@@ -21,23 +23,17 @@ class StockLocation(models.Model):
         "account.account",
         company_dependent=True,
         string="Expense Account",
-        domain="[('deprecated', '=', False)]",
+        domain=ACCOUNT_DOMAIN,
         help="This account will overwrite the expense accounts from product "
         "or category.",
     )
 
     l10n_ro_property_stock_valuation_account_id = fields.Many2one(
         "account.account",
-        string="Stock Valuation Account",
+        string="Stock Valuation Account Romania",
         company_dependent=True,
-        domain="[('deprecated', '=', False)]",
+        domain=ACCOUNT_DOMAIN,
     )
-
-    def _should_be_valued(self):
-        res = super()._should_be_valued()
-        if self.env.context.get("valued_type") == "internal_transit_out":
-            res = False
-        return res
 
     def propagate_account(self):
         for location in self:

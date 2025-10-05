@@ -1,223 +1,122 @@
 # Copyright (C) 2020 Terrabit
+# Copyright (C) 2025 NextERP Romania SRL
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
-# Generare note contabile la achizitie
-
+import ast
+import codecs
+import csv
 import logging
+import os
 
-from odoo import fields
 from odoo.tests import Form, tagged
+from odoo.tools import float_compare
 
 from odoo.addons.account.tests.common import AccountTestInvoicingCommon
-from odoo.addons.stock_account.tests.test_anglo_saxon_valuation_reconciliation_common import (  # noqa E501
-    ValuationReconciliationTestCommon,
-)
 
 _logger = logging.getLogger(__name__)
 
 
 @tagged("post_install", "-at_install")
-class TestStockCommon(ValuationReconciliationTestCommon):
-    @classmethod
-    def setUpAccounts(cls):
-        def get_account(code):
-            account = cls.env["account.account"].search([("code", "=", code)], limit=1)
-            if not account:
-                _logger.error(f"Account {code} not found")
-            return account
-
-        cls.account_difference = get_account("378000")
-        cls.account_expense = get_account("607000")
-        cls.account_expense_mp = get_account("601000")
-        cls.account_income = get_account("707000")
-        cls.account_valuation = get_account("371000")
-        cls.account_valuation_mp = get_account("301000")
-
-        company = cls.env.user.company_id
-
-        cls.uneligible_tax_account_id = (
-            company.tax_cash_basis_journal_id.default_account_id
-        )
-        if not cls.uneligible_tax_account_id:
-            cls.uneligible_tax_account_id = get_account("442810")
-
-        company.tax_cash_basis_journal_id.default_account_id = (
-            cls.uneligible_tax_account_id
-        )
-
-        cls.stock_picking_payable_account_id = (
-            company.l10n_ro_property_stock_picking_payable_account_id
-        )
-        if not cls.stock_picking_payable_account_id:
-            cls.stock_picking_payable_account_id = get_account("408100")
-
-        company.l10n_ro_property_stock_picking_payable_account_id = (
-            cls.stock_picking_payable_account_id
-        )
-
-        cls.stock_picking_receivable_account_id = (
-            company.l10n_ro_property_stock_picking_receivable_account_id
-        )
-        if not cls.stock_picking_receivable_account_id:
-            cls.stock_picking_receivable_account_id = get_account("418000")
-
-        company.l10n_ro_property_stock_picking_receivable_account_id = (
-            cls.stock_picking_receivable_account_id
-        )
-
-        cls.stock_usage_giving_account_id = (
-            company.l10n_ro_property_stock_usage_giving_account_id
-        )
-        if not cls.stock_usage_giving_account_id:
-            cls.stock_usage_giving_account_id = get_account("803500")
-            company.l10n_ro_property_stock_usage_giving_account_id = (
-                cls.stock_usage_giving_account_id
-            )
-
-        cls.account_stock_transfer = company.l10n_ro_property_stock_transfer_account_id
-        if not cls.account_stock_transfer:
-            cls.account_stock_transfer = get_account("482000")
-            company.l10n_ro_property_stock_transfer_account_id = (
-                cls.account_stock_transfer
-            )
-
-    @classmethod
-    def setup_company_data(cls, company_name, chart_template=None, **kwargs):
-        company_data = super().setup_company_data(
-            company_name, chart_template=chart_template, **kwargs
-        )
-        company_data["default_account_stock_in"] = company_data[
-            "default_account_stock_valuation"
-        ]
-        company_data["default_account_stock_out"] = company_data[
-            "default_account_stock_valuation"
-        ]
-        return company_data
-
-    @classmethod
-    def collect_company_accounting_data(cls, company):
-        company_data = super().collect_company_accounting_data(company)
-        company_data["default_account_stock_in"] = company_data[
-            "default_account_stock_valuation"
-        ]
-        company_data["default_account_stock_out"] = company_data[
-            "default_account_stock_valuation"
-        ]
-        return company_data
-
+class TestROStockCommon(AccountTestInvoicingCommon):
     @classmethod
     @AccountTestInvoicingCommon.setup_country("ro")
     def setUpClass(cls):
         super().setUpClass()
-        cls.env.company.anglo_saxon_accounting = True
-        cls.env.company.l10n_ro_accounting = True
-        cls.env.company.l10n_ro_stock_acc_price_diff = True
-        cls.env.company.account_storno = True
-
-        cls.setUpAccounts()
-
-        # Add multi location group to user
-        grp_multi_loc = cls.env.ref("stock.group_stock_multi_locations")
-        cls.env.user.write({"groups_id": [(4, grp_multi_loc.id, 0)]})
-
-        stock_journal = cls.env["account.journal"].search(
-            [("code", "=", "STJ"), ("company_id", "=", cls.env.company.id)],
-            limit=1,
-        )
-        if not stock_journal:
-            stock_journal = cls.env["account.journal"].create(
-                {"name": "Stock Journal", "code": "STJ", "type": "general"}
-            )
-
-        acc_diff_id = cls.account_difference.id
-
-        category_value = {
-            "name": "TEST Marfa",
-            "property_cost_method": "fifo",
-            "property_valuation": "real_time",
-            "property_account_creditor_price_difference_categ": acc_diff_id,
-            "property_account_income_categ_id": cls.account_income.id,
-            "property_account_expense_categ_id": cls.account_expense.id,
-            "property_stock_account_input_categ_id": cls.account_valuation.id,
-            "property_stock_account_output_categ_id": cls.account_valuation.id,
-            "property_stock_valuation_account_id": cls.account_valuation.id,
-            "property_stock_journal": stock_journal.id,
-            "l10n_ro_stock_account_change": True,
-        }
-
-        cls.category_fifo = cls.env["product.category"].search(
-            [("name", "=", "TEST Marfa")], limit=1
-        )
-        if not cls.category_fifo:
-            cls.category_fifo = cls.env["product.category"].create(category_value)
-        else:
-            cls.category_fifo.write(category_value)
-
-        cls.category = cls.category_fifo
-
-        category_value.update(
+        cls.log_checks = False
+        cls.env.user.group_ids += cls.env.ref("sales_team.group_sale_salesman")
+        cls.stock_journal = cls.env["account.journal"].create(
             {
-                "name": "TEST Marfa ",
+                "name": "Stock Journal",
+                "code": "StockJurnal",
+                "type": "general",
+                "company_id": cls.env.company.id,
+            }
+        )
+        cls.env.company.account_stock_journal_id = cls.stock_journal
+
+        stock_val_account = cls.env.company.account_stock_valuation_id
+        cls.category_marfa_fifo = cls.env["product.category"].create(
+            {
+                "name": "Test category",
+                "property_valuation": "real_time",
+                "property_cost_method": "fifo",
+                "property_stock_valuation_account_id": stock_val_account.id,
+                "l10n_ro_stock_account_change": True,
+            }
+        )
+        cls.category_marfa_avg = cls.env["product.category"].create(
+            {
+                "name": "Test category",
+                "property_valuation": "real_time",
                 "property_cost_method": "average",
+                "property_stock_valuation_account_id": stock_val_account.id,
+                "l10n_ro_stock_account_change": True,
             }
         )
-
-        cls.category_average = cls.env["product.category"].search(
-            [("name", "=", "TEST Marfa Average")], limit=1
-        )
-        if not cls.category_average:
-            cls.category_average = cls.env["product.category"].create(category_value)
-        else:
-            cls.category_average.write(category_value)
-
-        cls.category_mp = cls.category_fifo.copy(
+        cls.product_fifo = cls.env["product.product"].create(
             {
-                "property_account_expense_categ_id": cls.account_expense_mp.id,
-                "property_stock_account_input_categ_id": cls.account_valuation_mp.id,
-                "property_stock_account_output_categ_id": cls.account_valuation_mp.id,
-                "property_stock_valuation_account_id": cls.account_valuation_mp.id,
-            }
-        )
-
-        cls.price_p1 = 50.0
-        cls.price_p2 = 50.0
-        cls.list_price_p1 = 70.0
-        cls.list_price_p2 = 70.0
-
-        cls.product_1 = cls.env["product.product"].create(
-            {
-                "name": "Product A",
+                "name": "Product FIFO",
                 "is_storable": True,
-                "categ_id": cls.category_fifo.id,
+                "categ_id": cls.category_marfa_fifo.id,
                 "invoice_policy": "delivery",
                 "purchase_method": "receive",
-                "list_price": cls.list_price_p1,
-                "standard_price": cls.price_p1,
             }
         )
-        cls.product_2 = cls.env["product.product"].create(
+        cls.product_avg = cls.env["product.product"].create(
             {
-                "name": "Product B",
+                "name": "Product Average",
                 "is_storable": True,
                 "purchase_method": "receive",
-                "categ_id": cls.category_average.id,
+                "categ_id": cls.category_marfa_avg.id,
                 "invoice_policy": "delivery",
-                "list_price": cls.list_price_p2,
-                "standard_price": cls.price_p2,
+            }
+        )
+        cls.product_fifo_lot = cls.env["product.product"].create(
+            {
+                "name": "Product FIFO Lot Valuated",
+                "is_storable": True,
+                "purchase_method": "receive",
+                "categ_id": cls.category_marfa_avg.id,
+                "invoice_policy": "delivery",
+                "tracking": "lot",
+                "lot_valuated": True,
+            }
+        )
+        cls.lot_fifo_1 = cls.env["stock.lot"].create(
+            {
+                "name": "FIFO-LOT-1",
+                "product_id": cls.product_fifo_lot.id,
+            }
+        )
+        cls.lot_fifo_2 = cls.env["stock.lot"].create(
+            {
+                "name": "FIFO-LOT-2",
+                "product_id": cls.product_fifo_lot.id,
+            }
+        )
+        cls.product_avg_lot = cls.env["product.product"].create(
+            {
+                "name": "Product Average Lot Valuated",
+                "is_storable": True,
+                "purchase_method": "receive",
+                "categ_id": cls.category_marfa_avg.id,
+                "invoice_policy": "delivery",
+                "tracking": "lot",
+            }
+        )
+        cls.lot_avg_1 = cls.env["stock.lot"].create(
+            {
+                "name": "AVG-LOT-1",
+                "product_id": cls.product_avg_lot.id,
+            }
+        )
+        cls.lot_avg_2 = cls.env["stock.lot"].create(
+            {
+                "name": "AVG-LOT-2",
+                "product_id": cls.product_avg_lot.id,
             }
         )
 
-        cls.product_mp = cls.env["product.product"].create(
-            {
-                "name": "Product MP",
-                "is_storable": True,
-                "categ_id": cls.category_mp.id,
-                "invoice_policy": "delivery",
-                "purchase_method": "receive",
-                "list_price": cls.list_price_p1,
-                "standard_price": cls.price_p1,
-            }
-        )
         cls.landed_cost = cls.env["product.product"].create(
             {
                 "name": "Landed Cost",
@@ -225,462 +124,986 @@ class TestStockCommon(ValuationReconciliationTestCommon):
                 "is_storable": False,
                 "purchase_method": "purchase",
                 "invoice_policy": "order",
-                "property_account_expense_id": cls.account_expense.id,
-                "l10n_ro_property_stock_valuation_account_id": cls.account_valuation.id,
             }
         )
-
-        cls.vendor = cls.env["res.partner"].search(
-            [("name", "=", "TEST Vendor")], limit=1
-        )
-        if not cls.vendor:
-            cls.vendor = cls.env["res.partner"].create({"name": "TEST Vendor"})
-
-        cls.client = cls.env["res.partner"].search(
-            [("name", "=", "TEST Client")], limit=1
-        )
-        if not cls.client:
-            cls.client = cls.env["res.partner"].create({"name": "TEST Client"})
-
-        cls.diff_p1 = 1
-        cls.diff_p2 = -1
-
-        # cantitatea din PO
-        cls.qty_po_p1 = 10.0
-        cls.qty_po_p2 = 10.0
-
-        # cantitata din SO
-        cls.qty_so_p1 = 5.0
-        cls.qty_so_p2 = 5.0
-
-        cls.val_p1_i = round(cls.qty_po_p1 * cls.price_p1, 2)
-        cls.val_p2_i = round(cls.qty_po_p2 * cls.price_p2, 2)
-        cls.val_p1_f = round(cls.qty_po_p1 * (cls.price_p1 + cls.diff_p1), 2)
-        cls.val_p2_f = round(cls.qty_po_p2 * (cls.price_p2 + cls.diff_p2), 2)
-
-        # valoarea descarcari de gestiune
-        cls.val_stock_out_so_p1 = round(cls.qty_so_p1 * cls.price_p1, 2)
-        cls.val_stock_out_so_p2 = round(cls.qty_so_p2 * cls.price_p2, 2)
-
-        # valoarea descarcari de gestiune incluzand si diferentele
-        cls.val_stock_out_so_p1_diff = round(
-            cls.val_stock_out_so_p1 + (cls.qty_so_p1 * cls.diff_p1), 2
-        )
-        cls.val_stock_out_so_p2_diff = round(
-            cls.val_stock_out_so_p2 + (cls.qty_so_p2 * cls.diff_p2), 2
-        )
-
-        # valoarea vanzarii
-        cls.val_so_p1 = round(cls.qty_so_p1 * cls.list_price_p1, 2)
-        cls.val_so_p2 = round(cls.qty_so_p2 * cls.list_price_p2, 2)
-
-        cls.val_p1_store = cls.qty_po_p1 * cls.list_price_p1
-        cls.val_p2_store = cls.qty_po_p2 * cls.list_price_p2
-
-        cls.tva_p1 = cls.val_p1_store * 0.19
-        cls.tva_p2 = cls.val_p2_store * 0.19
-        cls.val_p1_store = round(cls.val_p1_store + cls.tva_p1, 2)
-        cls.val_p2_store = round(cls.val_p2_store + cls.tva_p2, 2)
-
-        cls.adaos_p1 = round(cls.val_p1_store - cls.val_p1_i, 2)
-        cls.adaos_p2 = round(cls.val_p2_store - cls.val_p2_i, 2)
-
-        cls.adaos_p1_f = round(cls.val_p1_store - cls.val_p1_f, 2)
-        cls.adaos_p2_f = round(cls.val_p2_store - cls.val_p2_f, 2)
-
-        warehouse = cls.company_data["default_warehouse"]
-
-        picking_type_in = warehouse.in_type_id
-        location = picking_type_in.default_location_dest_id
-        # Locatia trebuie sa fie child la Stock, altfel la livrari
-        # foloseste location Stock implicita
-        cls.location_warehouse = location.copy(
+        cls.advance_product = cls.env["product.product"].create(
             {
-                "l10n_ro_merchandise_type": "warehouse",
-                "name": "TEST warehouse",
-                "location_id": location.id,
+                "name": "Advance Product",
+                "type": "service",
+                "is_storable": False,
+                "purchase_method": "purchase",
+                "invoice_policy": "order",
             }
         )
-        cls.location_warehouse_other = location.copy(
+        cls.supplier_1 = cls.env["res.partner"].create({"name": "Supplier 1"})
+        cls.customer_1 = cls.env["res.partner"].create({"name": "Customer 1"})
+        cls.ron = cls.env["res.currency"].search([("name", "=", "RON")])
+        cls.eur = cls.env["res.currency"].search([("name", "=", "EUR")])
+        cls.usd = cls.env["res.currency"].search([("name", "=", "USD")])
+
+        cls.account_income = cls.env.company.income_account_id
+        cls.account_expense = cls.env.company.expense_account_id
+        cls.account_valuation = cls.env.company.account_stock_valuation_id
+
+        # On the first warehouse the consume and usage giving operations
+        # are not configured by default
+        comp_warehouse = cls.env["stock.warehouse"].search(
+            [("company_id", "=", cls.env.company.id)]
+        )
+        comp_warehouse.write({"name": "Test Warehouse 1", "code": "TW1"})
+        cls.location = comp_warehouse.lot_stock_id
+        cls.location_production = cls.env["stock.location"].create(
             {
-                "l10n_ro_merchandise_type": "warehouse",
-                "name": "TEST warehouse other",
-                "location_id": location.id,
+                "name": "Production",
+                "usage": "production",
             }
         )
-
-        cls.location_transit = location.copy(
+        cls.production_type = cls.env["stock.picking.type"].create(
             {
-                "usage": "transit",
-                "name": "TEST transit",
+                "name": "Production",
+                "code": "outgoing",
+                "sequence_code": "PROD1",
+                "default_location_src_id": cls.location.id,
+                "default_location_dest_id": cls.location_production.id,
+                "warehouse_id": comp_warehouse.id,
             }
         )
-
-        cls.picking_type_in_warehouse = picking_type_in.copy(
+        cls.location_sub = cls.env["stock.location"].create(
             {
-                "default_location_dest_id": cls.location_warehouse.id,
-                "name": "TEST Receptie in Depozit",
-                "sequence_code": "IN_test",
+                "name": "Stock Sub Location",
+                "usage": "internal",
+                "location_id": cls.location.id,
             }
         )
-        picking_type_out = warehouse.out_type_id
-        cls.picking_type_out_warehouse = picking_type_out.copy(
+
+        # Create a second warehouse with different stock accounts
+        # configured by location
+        warehouse1 = cls.env["stock.warehouse"].create(
             {
-                "default_location_src_id": cls.location_warehouse.id,
-                "name": "TEST Livrare in Depozit",
-                "sequence_code": "OUT_test",
+                "name": "Test Warehouse 2",
+                "code": "TW2",
+                "company_id": cls.env.company.id,
             }
         )
-        picking_type_transfer = warehouse.int_type_id
-        cls.picking_type_transfer = picking_type_transfer.copy(
+        cls.location1 = warehouse1.lot_stock_id
+
+        new_stock_val_account = cls.env.company.account_stock_valuation_id.copy(
+            {"code": "371001"}
+        )
+        new_expense_acc = cls.env.company.expense_account_id.copy({"code": "607001"})
+        cls.location1.write(
             {
-                "default_location_src_id": cls.location_warehouse.id,
-                "default_location_dest_id": cls.location_warehouse.id,
-                "name": "TEST Transfer",
-                "sequence_code": "TR_test",
+                "l10n_ro_property_account_expense_location_id": new_expense_acc.id,
+                "l10n_ro_property_stock_valuation_account_id": new_stock_val_account.id,
             }
         )
-        domain = [
-            ("usage", "=", "production"),
-            ("company_id", "=", cls.env.user.company_id.id),
-        ]
-        cls.location_production = cls.env["stock.location"].search(domain, limit=1)
 
-    def set_warehouse_as_mp(self):
-        self.location_warehouse.write(
+        cls.transit_loc = comp_warehouse.company_id.internal_transit_location_id
+        cls.transit_transfer = cls.env["stock.picking.type"].create(
             {
-                "l10n_ro_property_stock_valuation_account_id": self.account_valuation_mp.id,  # noqa E501
-                "l10n_ro_property_account_expense_location_id": self.account_expense_mp.id,  # noqa E501
-                "valuation_in_account_id": self.account_valuation_mp.id,
-                "valuation_out_account_id": self.account_valuation_mp.id,
+                "name": "Transfer Warehouse to Transit",
+                "code": "outgoing",
+                "sequence_code": "INTW1",
+                "default_location_src_id": cls.location.id,
+                "default_location_dest_id": cls.transit_loc.id,
+                "warehouse_id": comp_warehouse.id,
+            }
+        )
+        cls.transit_route = cls.env["stock.route"].create(
+            {
+                "name": "Push",
+                "company_id": False,
+                "rule_ids": [
+                    (
+                        0,
+                        False,
+                        {
+                            "name": "Transit to Warehouse 1 Stock",
+                            "location_src_id": cls.transit_loc.id,
+                            "location_dest_id": cls.location1.id,
+                            "action": "push",
+                            "auto": "manual",
+                            "picking_type_id": warehouse1.int_type_id.id,
+                        },
+                    )
+                ],
             }
         )
 
-    def writeOnPicking(self, vals=False):
-        if not vals:
-            vals = {}
-        self.picking.write(vals)
+        # Create a third warehouse with different stock accounts
+        # configured by fiscal position
+        new_stock_val_account1 = cls.env.company.account_stock_valuation_id.copy(
+            {
+                "code": "371002",
+                "l10n_ro_stock_consume_account_id": new_stock_val_account.id,
+            }
+        )
+        new_expense_acc1 = cls.env.company.expense_account_id.copy(
+            {"code": "607002", "l10n_ro_stock_consume_account_id": new_expense_acc.id}
+        )
+        fiscal_position = cls.env["account.fiscal.position"].create(
+            {
+                "name": "Fiscal Position Warehouse 2",
+                "account_ids": [
+                    (
+                        0,
+                        0,
+                        {
+                            "account_src_id": cls.account_valuation.id,
+                            "account_dest_id": new_stock_val_account1.id,
+                        },
+                    ),
+                    (
+                        0,
+                        0,
+                        {
+                            "account_src_id": cls.account_expense.id,
+                            "account_dest_id": new_expense_acc1.id,
+                        },
+                    ),
+                ],
+            }
+        )
+        warehouse2 = cls.env["stock.warehouse"].create(
+            {
+                "name": "Test Warehouse 3",
+                "code": "TW3",
+                "company_id": cls.env.company.id,
+                "l10n_ro_fiscal_position_id": fiscal_position.id,
+            }
+        )
+        cls.location2 = warehouse2.lot_stock_id
 
-    def create_po(
-        self, picking_type_in=None, partial=None, vals=False, validate_picking=True
-    ):
-        if not picking_type_in:
-            picking_type_in = self.picking_type_in_warehouse
-        if not partial or (partial and not hasattr(self, "po")):
-            po = Form(self.env["purchase.order"])
-            po.partner_id = self.vendor
-            po.picking_type_id = picking_type_in
+    def read_test_cases_from_csv_file(self, filename):
+        data_dir = os.path.join(
+            os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "tests/cases/"
+        )
+        f = open(os.path.join(data_dir, filename), "rb")
+        reader = csv.DictReader(codecs.iterdecode(f, "utf-8"))
+        test_cases = {}
+        for row in reader:
+            if row.get("case_no") not in test_cases:
+                row_case = row.copy()
+                test_cases[row["case_no"]] = {
+                    "name": row.get("name", "No Name"),
+                    "code": row["case_no"],
+                    "steps": [row_case],
+                }
+            else:
+                test_cases[row["case_no"]]["steps"].append(row)
+        return test_cases
 
-            with po.order_line.new() as po_line:
-                po_line.product_id = self.product_1
-                po_line.product_qty = self.qty_po_p1
-                po_line.price_unit = self.price_p1
-
-            with po.order_line.new() as po_line:
-                po_line.product_id = self.product_2
-                po_line.product_qty = self.qty_po_p2
-                po_line.price_unit = self.price_p2
-
-            po = po.save()
-            po.button_confirm()
+    def test_case(self, case=False):
+        if case:
+            for step in case.get("steps", []):
+                self.run_test_step(step)
         else:
-            po = self.po
+            pass
 
-        if validate_picking:
-            self.picking = po.picking_ids.filtered(lambda pick: pick.state != "done")
-            self.writeOnPicking(vals)
-            qty_po_p1 = self.qty_po_p1 if not partial else self.qty_po_p1 / 2
-            qty_po_p2 = self.qty_po_p2 if not partial else self.qty_po_p2 / 2
-            for move in self.picking.move_ids:
-                if move.product_id == self.product_1:
-                    move._set_quantity_done(qty_po_p1)
-                if move.product_id == self.product_2:
-                    move._set_quantity_done(qty_po_p2)
-
-            self.picking.button_validate()
-            self.picking._action_done()
-            _logger.debug("Receptie facuta")
-
-        self.po = po
-        return po
-
-    def create_invoice(
-        self, diff_p1=0, diff_p2=0, quant_p1=0, quant_p2=0, auto_post=True
-    ):
-        invoice = Form(
-            self.env["account.move"].with_context(
-                default_move_type="in_invoice",
-                default_invoice_date=fields.Date.today(),
-                active_model="account.move",
+    def run_test_step(self, step):
+        if self.log_checks:
+            _logger.info(
+                "Running test step: %s - %s - %s",
+                step.get("case_no"),
+                step.get("name"),
+                step.get("type"),
             )
-        )
-        bill_union = self.env["purchase.bill.union"].search(
-            [("purchase_order_id", "=", self.po.id)]
-        )
-        invoice.partner_id = self.vendor
-        invoice.purchase_vendor_bill_id = bill_union
+        if step.get("type") == "sale":
+            self.create_sale_order(step)
+        elif step.get("type") == "purchase":
+            self.create_purchase(step)
+        elif step.get("type") == "inventory":
+            self.create_stock_inventory(step)
+        elif step.get("type") == "transfer_transit":
+            self.create_internal_transfer_transit(step)
+        elif step.get("type") == "transfer_direct":
+            self.create_internal_transfer_direct(step)
+        elif step.get("type") == "consume":
+            self.create_stock_picking("consume", step)
+        elif step.get("type") == "consume_production":
+            self.create_stock_picking("production", step)
+        elif step.get("type") == "usage_giving":
+            self.create_stock_picking("usage_giving", step)
+        elif step.get("type") == "dropship":
+            self.create_sale_dropship(step)
+        if step.get("checks"):
+            checks = ast.literal_eval(step["checks"])
+            if checks:
+                self.run_checks(checks)
 
-        with invoice.invoice_line_ids.edit(0) as line_form:
-            line_form.quantity += quant_p1
-            line_form.price_unit += diff_p1
-        with invoice.invoice_line_ids.edit(1) as line_form:
-            line_form.quantity += quant_p2
-            line_form.price_unit += diff_p2
+    def run_checks(self, checks):
+        # Run accounting checks
+        if "account" in checks:
+            self.check_accounting_entries(checks["account"])
+        # Run stock checks
+        if "stock" in checks:
+            self.check_stock_levels(checks["stock"])
 
-        invoice = invoice.save()
-        if invoice.amount_total < 0:
-            invoice.action_switch_move_type()
-        if quant_p1 or quant_p2 or diff_p1 or diff_p2:
-            invoice = invoice.with_context(l10n_ro_approved_price_difference=True)
-        if auto_post:
+    def check_stock_levels(self, checks):
+        for product_ref, check_list in checks.items():
+            product = getattr(self, product_ref)
+            for vals in check_list:
+                if vals.get("location"):
+                    location = getattr(self, vals.get("location"))
+                    quant_domain = [
+                        ("product_id", "=", product.id),
+                        ("location_id", "=", location.id),
+                    ]
+                    move_domain = [
+                        ("product_id", "=", product.id),
+                        ("location_dest_id", "=", location.id),
+                    ]
+                else:
+                    locations = self.env["stock.location"].search(
+                        [
+                            ("usage", "in", ("internal", "transit")),
+                            ("company_id", "=", self.env.company.id),
+                        ]
+                    )
+                    quant_domain = [
+                        ("product_id", "=", product.id),
+                        ("location_id", "in", locations.ids),
+                    ]
+                    move_domain = [
+                        ("product_id", "=", product.id),
+                        ("location_dest_id", "in", locations.ids),
+                    ]
+                if vals.get("lot"):
+                    lot = getattr(self, vals.get("lot"))
+                    quant_domain.append(("lot_id", "=", lot.id))
+                    move_domain.append(("lot_ids", "in", lot.id))
+                quants = self.env["stock.quant"].search(quant_domain)
+                stock_moves = self.env["stock.move"].search(move_domain)
+                if self.log_checks:
+                    _logger.info("Stock quants for product %s", product.name)
+                    for quant in quants:
+                        _logger.info(
+                            "%s | %s | Quantity: %.2f | Value: %.2f",
+                            quant.location_id.display_name,
+                            quant.product_id.display_name,
+                            quant.quantity,
+                            quant.value,  # noqa
+                        )
+                    _logger.info("Stock moves for product %s", product.name)
+                    for move in stock_moves:
+                        _logger.info(
+                            "%s | %s | %s | %s | %s | %s | %s | %s | %s",
+                            move.id,
+                            move.display_name,
+                            move.location_id.display_name,
+                            move.location_dest_id.display_name,
+                            move.quantity,
+                            move.value,
+                            move.remaining_qty,
+                            move.price_unit,
+                            move.remaining_value,  # noqa
+                        )
+                total_qty = sum(quants.mapped("quantity"))
+                total_value = sum(quants.mapped("value"))
+                self.assertEqual(
+                    float_compare(
+                        total_qty,
+                        float(vals.get("qty", 0)),
+                        precision_rounding=product.uom_id.rounding,
+                    ),
+                    0,
+                    f"Stock quant quantity for {product.name} expected {vals.get('qty', 0)}, got {total_qty}",  # noqa
+                )
+                self.assertEqual(
+                    float_compare(
+                        sum(stock_moves.mapped("remaining_qty")),
+                        float(vals.get("qty", 0)),
+                        precision_rounding=product.uom_id.rounding,
+                    ),
+                    0,
+                    f"Stock Move Remaining quantity for {product.name} expected {vals.get('qty', 0)}, got {sum(stock_moves.mapped('remaining_qty'))}",  # noqa
+                )
+                self.assertEqual(
+                    float_compare(
+                        total_value,
+                        float(vals.get("value", 0)),
+                        precision_rounding=0.01,
+                    ),
+                    0,
+                    f"Stock quant value for {product.name} expected {vals.get('value', 0)}, got {total_value}",  # noqa
+                )
+                self.assertEqual(
+                    float_compare(
+                        sum(stock_moves.mapped("remaining_value")),
+                        float(vals.get("value", 0)),
+                        precision_rounding=0.01,
+                    ),
+                    0,
+                    f"Stock Remaining value for {product.name} expected {vals.get('value', 0)}, got {sum(stock_moves.mapped('remaining_value'))}",  # noqa
+                )
+
+    def check_accounting_entries(self, checks):
+        if self.log_checks:
+            acc_moves = self.env["account.move"].search(
+                [
+                    ("company_id", "=", self.env.company.id),
+                    ("state", "=", "posted"),
+                ]
+            )
+            for move in acc_moves:
+                for line in move.line_ids:
+                    _logger.info(
+                        "%s | %s | Debit: %.2f | Credit: %.2f | Balance: %.2f",
+                        line.move_id.name,
+                        line.account_id.code,
+                        line.debit,
+                        line.credit,
+                        line.balance,  # noqa
+                    )
+        for account_code, expected_balance in checks.items():
+            account = self.env["account.account"].search(
+                [
+                    ("code", "=", account_code),
+                    ("company_ids", "in", self.env.company.id),
+                ],
+                limit=1,
+            )
+            if not account:
+                raise AssertionError(f"Account with code {account_code} not found")
+            acc_move_lines = self.env["account.move.line"].search(
+                [
+                    ("account_id", "=", account.id),
+                    ("company_id", "=", self.env.company.id),
+                    ("parent_state", "=", "posted"),
+                ]
+            )
+            if not acc_move_lines:
+                raise AssertionError(
+                    f"No posted entries found for account {account_code}"
+                )
+            balance = sum(acc_move_lines.mapped("balance"))
+            self.assertEqual(
+                float_compare(
+                    balance, float(expected_balance), precision_rounding=0.01
+                ),
+                0,
+                f"Account {account_code} balance expected {expected_balance}, got {balance}",  # noqa
+            )  # noqa
+
+    def get_references_from_values(self, values):
+        refs = [
+            "partner_id",
+            "fiscal_position_id",
+            "product_id",
+            "currency_id",
+            "location",
+            "location1",
+            "lot1",
+            "lot2",
+        ]
+        float_keys = [
+            "step",
+            "qty",
+            "stock_qty",
+            "inv_qty",
+            "stock_qty2",
+            "inv_qty2",
+            "price",
+            "inv_price",
+            "inv_price2",
+            "discount",
+            "advance",
+            "landed_cost",
+        ]
+        bool_keys = ["notice", "reception_in_progress"]
+        try:
+            for key in values.keys():
+                if key in refs and values.get(key, False):
+                    if hasattr(self, values[key]):
+                        values[key] = getattr(self, values[key])
+                if key in float_keys and values.get(key, False):
+                    values[key] = float(values[key])
+                if key in bool_keys and values.get(key, False):
+                    values[key] = bool(float(values[key]))
+        except Exception as e:
+            _logger.debug("Error getting references from values: %(error)s", error=e)
+            pass
+        return dict(values)
+
+    def get_stock_quantity(self, values, step):
+        if step == 1:
+            return values.get("stock_qty", 1)
+        elif step == 2:
+            return values.get("stock_qty2", 1)
+        else:
+            return 1
+
+    def get_stock_lot(self, values, step):
+        if step == 1:
+            return values.get("lot1")  # None dacă nu există
+        elif step == 2:
+            return values.get("lot2")  # None dacă nu există
+        return None
+
+    def get_invoice_quantity(self, values, step):
+        if step == 1:
+            return values.get("inv_qty")  # None dacă nu există
+        elif step == 2:
+            return values.get("inv_qty2")  # None dacă nu există
+        return None
+
+    def get_invoice_price(self, values, step):
+        price = values.get("price", 0)
+        if step == 1:
+            price = values.get("inv_price")  # None dacă nu există
+        elif step == 2:
+            price = values.get("inv_price2")  # None dacă nu există
+        return price
+
+    def create_sale_order(self, values):
+        so_values = self.get_references_from_values(values)
+        order_line = [
+            (
+                0,
+                0,
+                {
+                    "product_id": so_values["product_id"].id,
+                    "product_uom_qty": so_values.get("qty", 1),
+                    "price_unit": so_values.get("price", 100),
+                    "discount": so_values.get("discount", 0),
+                },
+            )
+        ]
+        fpos = False
+        if so_values.get("fiscal_position_id", False):
+            fpos = so_values["fiscal_position_id"].id
+        vals = {
+            "partner_id": so_values["partner_id"].id,
+            "partner_invoice_id": so_values["partner_id"].id,
+            "fiscal_position_id": fpos,
+            "partner_shipping_id": so_values["partner_id"].id,
+            "currency_id": so_values.get(
+                "currency_id", self.env.company.currency_id
+            ).id,
+            "order_line": order_line,
+            "client_order_ref": so_values.get("ref", False),
+        }
+        if so_values.get("location", False):
+            warehouse = so_values["location"].warehouse_id
+            if warehouse:
+                vals["warehouse_id"] = warehouse.id
+        sale = self.env["sale.order"].create(vals)
+        sale.action_confirm()
+        if so_values.get("advance") != 0:
+            product = self.advance_product
+            if product:
+                adv_wiz = (
+                    self.env["sale.advance.payment.inv"]
+                    .with_context(active_ids=[sale.id])
+                    .create(
+                        {
+                            "advance_payment_method": "percentage",
+                            "amount": 50.0,
+                            "product_id": product.id,
+                        }
+                    )
+                )
+                act = adv_wiz.with_context(open_invoices=True).create_invoices()
+                invoice = self.env["account.move"].browse(act["res_id"])
+                invoice.action_post()
+        self.deliver_and_invoice_sales(sale, so_values)
+        if values.get("step") == 2:
+            self.deliver_and_invoice_sales(sale.with_context(step=2), so_values)
+        return sale
+
+    def deliver_and_invoice_sales(self, sales, values):
+        for sale in sales:
+            step = sale.env.context.get("step", 1)
+            stock_qty = self.get_stock_quantity(values, step)
+            invoice_qty = self.get_invoice_quantity(values, step)
+            invoice_price = self.get_invoice_price(values, step)
+            stock_lot = self.get_stock_lot(values, step)
+            picking = self.env["stock.picking"]
+            if step == 2 and stock_qty < 0:
+                stock_qty = -stock_qty
+                # Create return to initial reception
+                picking = sale.picking_ids.filtered(lambda x: x.state == "done")
+                if picking:
+                    stock_return_picking_form = Form(
+                        self.env["stock.return.picking"].with_context(
+                            active_ids=picking.ids,
+                            active_id=picking.ids[0],
+                            active_model="stock.picking",
+                        )
+                    )
+                    return_wiz = stock_return_picking_form.save()
+                    return_wiz.product_return_moves.write(
+                        {
+                            "quantity": stock_qty,
+                            "to_refund": True,
+                        }
+                    )
+                    if stock_lot:
+                        lot = getattr(self, stock_lot)
+                        return_wiz.product_return_moves.write({"lot_id": lot.id})
+                    res = return_wiz.action_create_returns()
+                    return_pick = self.env["stock.picking"].browse(res["res_id"])
+                    if values.get("notice"):
+                        return_pick.l10n_ro_notice = values.get("notice")
+                    return_pick.action_confirm()
+                    return_pick.action_assign()
+                    return_pick.move_ids._set_quantity_done(stock_qty)
+                    return_pick.move_ids.picked = True
+                    return_pick._action_done()
+                    picking = return_pick
+            else:
+                # Create reception
+                pickings = sale.picking_ids.filtered(lambda x: x.state != "done")
+                if pickings:
+                    picking = pickings[0]
+                    picking.write(
+                        {
+                            "l10n_ro_notice": values.get("notice"),
+                            "scheduled_date": sale.date_order,
+                            "date_done": sale.date_order,
+                        }
+                    )
+                    picking.move_ids._set_quantity_done(stock_qty)
+                    if stock_lot:
+                        lot = getattr(self, stock_lot)
+                        picking.move_ids.write({"lot_id": lot.id})
+                    picking.move_ids.picked = True
+                    picking.button_validate()
+                    if picking.state == "assigned":
+                        picking._action_done()
+            if picking.state == "done":
+                invoice = self.env["account.move"]
+                try:
+                    invoices = sale._create_invoices(final=True)
+                    invoice = invoices[0]
+                except Exception as e:
+                    _logger.info("Error creating invoice: %(error)s", error=e)
+                if invoice:
+                    invoice_line = invoice.invoice_line_ids[0]
+                    if (
+                        invoice_qty
+                        and invoice_qty < 0
+                        and invoice.move_type == "out_refund"
+                    ):
+                        invoice_qty = -invoice_qty
+                    invoice_line.write(
+                        {"quantity": invoice_qty, "price_unit": invoice_price}
+                    )
+                    invoice.write(
+                        {
+                            "date": sale.date_order,
+                            "invoice_date": sale.date_order,
+                            "invoice_date_due": sale.date_order,
+                        }
+                    )
+                    invoice.action_post()
+
+    def create_purchase(self, values):
+        po_values = self.get_references_from_values(values)
+        order_line = [
+            (
+                0,
+                0,
+                {
+                    "product_id": po_values["product_id"].id,
+                    "product_qty": po_values.get("qty", 1),
+                    "price_unit": po_values.get("price", 80),
+                },
+            )
+        ]
+        fpos = False
+        if po_values.get("fiscal_position_id", False):
+            fpos = po_values["fiscal_position_id"].id
+        vals = {
+            "partner_id": po_values["partner_id"].id,
+            "currency_id": po_values.get(
+                "currency_id", self.env.company.currency_id
+            ).id,
+            "fiscal_position_id": fpos,
+            "order_line": order_line,
+            "origin": po_values.get("ref", False),
+        }
+
+        if po_values.get("location", False):
+            picking_type = self.env["stock.picking.type"].search(
+                [
+                    ("company_id", "=", self.env.company.id),
+                    ("default_location_src_id.usage", "=", "supplier"),
+                    ("default_location_dest_id", "=", po_values["location"].id),
+                ],
+                limit=1,
+                order="sequence",
+            )
+            if picking_type:
+                vals["picking_type_id"] = picking_type.id
+
+        purchase = self.env["purchase.order"].create(vals)
+        purchase.onchange_partner_id()
+        purchase.button_confirm()
+        if values.get("reception_in_progress"):
+            purchase.action_create_reception_in_progress_invoice()
+            invoice = purchase.invoice_ids[0]
+            invoice.write(
+                {
+                    "date": purchase.date_order,
+                    "invoice_date": purchase.date_order,
+                    "invoice_date_due": purchase.date_order,
+                }
+            )
             invoice.action_post()
+        self.receive_and_invoice_purchases(purchase, po_values)
+        if values.get("step") == 2:
+            self.receive_and_invoice_purchases(purchase.with_context(step=2), po_values)
+        return purchase
 
-        self.invoice = invoice
-        _logger.debug("Factura introdusa")
+    def receive_and_invoice_purchases(self, purchases, values):
+        for purchase in purchases:
+            step = purchase.env.context.get("step", 1)
+            stock_qty = self.get_stock_quantity(values, step)
+            invoice_qty = self.get_invoice_quantity(values, step)
+            invoice_price = self.get_invoice_price(values, step)
+            stock_lot = self.get_stock_lot(values, step)
+            picking = self.env["stock.picking"]
+            if step == 2 and stock_qty < 0:
+                # Create return to initial reception
+                stock_qty = -stock_qty
+                picking = purchase.picking_ids.filtered(lambda x: x.state == "done")
+                if picking:
+                    stock_return_picking_form = Form(
+                        self.env["stock.return.picking"].with_context(
+                            active_ids=picking.ids,
+                            active_id=picking.ids[0],
+                            active_model="stock.picking",
+                        )
+                    )
+                    return_wiz = stock_return_picking_form.save()
+                    return_wiz.product_return_moves.write(
+                        {
+                            "quantity": stock_qty,
+                            "to_refund": True,
+                        }
+                    )
+                    if stock_lot:
+                        lot = getattr(self, stock_lot)
+                        return_wiz.product_return_moves.write({"lot_id": lot.id})
+                    res = return_wiz.action_create_returns()
+                    return_pick = self.env["stock.picking"].browse(res["res_id"])
+                    return_pick.action_confirm()
+                    return_pick.action_assign()
+                    return_pick.move_ids._set_quantity_done(stock_qty)
+                    return_pick.move_ids.picked = True
+                    return_pick._action_done()
+                    picking = return_pick
+            else:
+                # Create reception
+                pickings = purchase.picking_ids.filtered(lambda x: x.state != "done")
+                if pickings:
+                    picking = pickings[0]
+                    picking.write(
+                        {
+                            "l10n_ro_notice": values.get("notice"),
+                            "scheduled_date": purchase.date_planned,
+                            "date_done": purchase.date_planned,
+                        }
+                    )
+                    picking.move_ids._set_quantity_done(stock_qty)
+                    if stock_lot:
+                        lot = getattr(self, stock_lot)
+                        picking.move_ids.write({"lot_id": lot.id})
+                    picking.move_ids.picked = True
+                    picking.button_validate()
+                    if picking.state == "assigned":
+                        picking._action_done()
+            if picking.state == "done":
+                invoice = self.env["account.move"]
+                try:
+                    action = purchase.action_create_invoice()
+                    invoice = self.env["account.move"].browse(action["res_id"])
+                except Exception as e:
+                    _logger.info("Error creating invoice: %(error)s", error=e)
+                if invoice:
+                    invoice_line = invoice.invoice_line_ids[0]
+                    if (
+                        invoice_qty
+                        and invoice_qty < 0
+                        and invoice.move_type == "in_refund"
+                    ):
+                        invoice_qty = -invoice_qty
+                    invoice_line.write(
+                        {"quantity": invoice_qty, "price_unit": invoice_price}
+                    )
+                    if values.get("landed_cost") != 0:
+                        self.create_landed_cost(invoice, picking, values)
+                    invoice.write(
+                        {
+                            "date": purchase.date_planned,
+                            "invoice_date": purchase.date_planned,
+                            "invoice_date_due": purchase.date_planned,
+                        }
+                    )
+                    invoice.with_context(
+                        l10n_ro_approved_price_difference=True
+                    ).action_post()
 
-    def make_purchase(self):
-        self.create_po()
-        self.create_invoice()
+    def create_stock_inventory(self, values):
+        inventory_values = self.get_references_from_values(values)
+        inventory_vals = {
+            "product_id": inventory_values["product_id"].id,
+            "location_id": inventory_values["location"].id,
+            "inventory_quantity": inventory_values.get("stock_qty", 0),
+        }
+        if inventory_values.get("lot1"):
+            lot = inventory_values["lot1"]
+            inventory_vals["lot_id"] = lot.id
+        self.env["stock.quant"].with_context(inventory_mode=True).create(
+            inventory_vals
+        ).action_apply_inventory()
 
-    def make_return(self, pick, quantity=1.0):
-        stock_return_picking_form = Form(
-            self.env["stock.return.picking"].with_context(
-                active_ids=pick.ids, active_id=pick.ids[0], active_model="stock.picking"
+    def create_internal_transfer_transit(self, values, picking=None):
+        transfer_values = self.get_references_from_values(values)
+        step = 1
+        if picking:
+            step = picking.env.context.get("step", 1)
+
+        stock_qty = self.get_stock_quantity(values, step)
+        stock_lot = self.get_stock_lot(values, step)
+        if step == 2 and stock_qty < 0:
+            # Create return to initial transfer
+            stock_qty = -stock_qty
+            stock_return_picking_form = Form(
+                self.env["stock.return.picking"].with_context(
+                    active_ids=[picking.id],
+                    active_id=picking.id,
+                    active_model="stock.picking",
+                )
             )
-        )
-        return_wiz = stock_return_picking_form.save()
-        return_wiz.product_return_moves.write({"quantity": quantity, "to_refund": True})
-        return_pick = return_wiz._create_return()
+            return_wiz = stock_return_picking_form.save()
+            return_wiz.product_return_moves.write(
+                {
+                    "quantity": stock_qty,
+                    "to_refund": True,
+                }
+            )
+            if stock_lot:
+                lot = getattr(self, stock_lot)
+                return_wiz.product_return_moves.write({"lot_id": lot.id})
+            res = return_wiz.action_create_returns()
+            return_pick = self.env["stock.picking"].browse(res["res_id"])
+            return_pick.action_confirm()
+            return_pick.action_assign()
+            return_pick.move_ids._set_quantity_done(stock_qty)
+            return_pick.move_ids.picked = True
+            return_pick._action_done()
+            return return_pick
+        step = 1
+        if picking:
+            step = picking.env.context.get("step", 1)
+        move_vals = {
+            "company_id": self.env.company.id,
+            "location_id": transfer_values.get("location").id,
+            "location_dest_id": self.transit_loc.id,
+            "product_id": transfer_values.get("product_id").id,
+            "product_uom": transfer_values.get("product_id").uom_id.id,
+            "product_uom_qty": transfer_values.get("qty", 1),
+            "route_ids": [(4, self.transit_route.id)],
+        }
+        if stock_lot:
+            lot = getattr(self, stock_lot)
+            move_vals["lot_ids"] = [(6, 0, [lot.id])]
+        move_transit_out = self.env["stock.move"].create(move_vals)
+        move_transit_out._action_confirm()
+        move_transit_out._action_assign()
+        move_transit_out._set_quantity_done(stock_qty)
+        move_transit_out.picked = True
+        move_transit_out._action_done()
+        move_transit_in = move_transit_out.move_dest_ids
+        self.assertTrue(move_transit_in, "No move created from push rules")
+        self.assertEqual(move_transit_in.state, "assigned")
+        picking_receipt = move_transit_in.picking_id
+        picking_receipt.move_ids.picked = True
+        picking_receipt.button_validate()
+        if values.get("step") == 2:
+            self.create_internal_transfer_transit(
+                values, picking_receipt.with_context(step=2)
+            )
+        return picking_receipt
 
-        # Validate picking
-        return_pick.action_confirm()
-        return_pick.action_assign()
-        for move in return_pick.move_ids:
-            if move.product_uom_qty > 0 and move.product_qty == 0:
-                move._set_quantity_done(move.product_uom_qty)
-        return_pick.move_ids.picked = True
-        return_pick._action_done()
+    def create_internal_transfer_direct(self, values, picking=None):
+        transfer_values = self.get_references_from_values(values)
+        step = 1
+        if picking:
+            step = picking.env.context.get("step", 1)
+        stock_qty = self.get_stock_quantity(values, step)
+        stock_lot = self.get_stock_lot(values, step)
+        if step == 2 and stock_qty < 0:
+            # Create return to initial transfer
+            stock_qty = -stock_qty
+            stock_return_picking_form = Form(
+                self.env["stock.return.picking"].with_context(
+                    active_ids=[picking.id],
+                    active_id=picking.id,
+                    active_model="stock.picking",
+                )
+            )
+            return_wiz = stock_return_picking_form.save()
+            return_wiz.product_return_moves.write(
+                {
+                    "quantity": stock_qty,
+                    "to_refund": True,
+                }
+            )
+            if stock_lot:
+                lot = getattr(self, stock_lot)
+                return_wiz.product_return_moves.write({"lot_id": lot.id})
+            res = return_wiz.action_create_returns()
+            return_pick = self.env["stock.picking"].browse(res["res_id"])
+            return_pick.action_confirm()
+            return_pick.action_assign()
+            return_pick.move_ids._set_quantity_done(stock_qty)
+            return_pick.move_ids.picked = True
+            return_pick._action_done()
+            return return_pick
+        move_vals = {
+            "company_id": self.env.company.id,
+            "location_id": transfer_values.get("location").id,
+            "location_dest_id": transfer_values.get("location1").id,
+            "product_id": transfer_values.get("product_id").id,
+            "product_uom": transfer_values.get("product_id").uom_id.id,
+            "product_uom_qty": transfer_values.get("qty", 1),
+        }
+        if stock_lot:
+            lot = getattr(self, stock_lot)
+            move_vals["lot_ids"] = [(6, 0, [lot.id])]
+        move_transfer = self.env["stock.move"].create(move_vals)
+        move_transfer._action_confirm()
+        move_transfer._action_assign()
+        move_transfer._set_quantity_done(stock_qty)
+        move_transfer.picked = True
+        move_transfer._action_done()
+        picking_receipt = move_transfer.picking_id
+        if values.get("step") == 2:
+            self.create_internal_transfer_direct(
+                values, picking_receipt.with_context(step=2)
+            )
+        return picking_receipt
 
-    def create_so(self, vals=False):
-        _logger.debug("Start sale")
-        so = Form(self.env["sale.order"])
-        so.partner_id = self.client
-
-        with so.order_line.new() as so_line:
-            so_line.product_id = self.product_1
-            so_line.product_uom_qty = self.qty_so_p1
-            # so_line.price_unit = self.p
-
-        with so.order_line.new() as so_line:
-            so_line.product_id = self.product_2
-            so_line.product_uom_qty = self.qty_so_p2
-
-        self.so = so.save()
-        self.so.action_confirm()
-        self.picking = self.so.picking_ids
-        self.writeOnPicking(vals)
-        self.picking.action_assign()  # verifica disponibilitate
-
-        for move in self.picking.move_ids:
-            move._set_quantity_done(move.product_uom_qty)
-
-        self.picking.button_validate()
-        self.picking._action_done()
-
-        _logger.debug("Livrare facuta")
-        return self.picking
-
-    def create_sale_invoice(self, diff_p1=0, diff_p2=0, final=False):
-        # invoice on order
-        invoice = self.so._create_invoices(final=final)
-
-        invoice = Form(invoice)
-
-        with invoice.invoice_line_ids.edit(0) as line_form:
-            line_form.price_unit += diff_p1
-        with invoice.invoice_line_ids.edit(1) as line_form:
-            line_form.price_unit += diff_p2
-
-        invoice = invoice.save()
-
-        invoice.action_post()
-
-    def transfer(
-        self, location, location_dest, product=False, accounting_date=False, post=True
-    ):
-        self.PickingObj = self.env["stock.picking"]
-        self.MoveObj = self.env["stock.move"]
-
-        if not product:
-            product = self.product_mp
-
-        picking = self.PickingObj.create(
-            {
-                "picking_type_id": self.picking_type_transfer.id,
-                "location_id": location.id,
-                "location_dest_id": location_dest.id,
-            }
-        )
-        self.MoveObj.create(
-            {
-                "name": product.name,
-                "product_id": product.id,
-                "product_uom_qty": 2,
-                "product_uom": product.uom_id.id,
-                "picking_id": picking.id,
-                "location_id": location.id,
-                "location_dest_id": location_dest.id,
-            }
-        )
-        if accounting_date:
-            picking.l10n_ro_accounting_date = accounting_date
+    def create_stock_picking(self, oper_type, values, picking=None):
+        picking_values = self.get_references_from_values(values)
+        step = 1
+        if picking:
+            step = picking.env.context.get("step", 1)
+        stock_qty = self.get_stock_quantity(values, step)
+        stock_lot = self.get_stock_lot(values, step)
+        if step == 2 and stock_qty < 0:
+            # Create return to initial operation
+            stock_qty = -stock_qty
+            stock_return_picking_form = Form(
+                self.env["stock.return.picking"].with_context(
+                    active_ids=[picking.id],
+                    active_id=picking.id,
+                    active_model="stock.picking",
+                )
+            )
+            return_wiz = stock_return_picking_form.save()
+            return_wiz.product_return_moves.write(
+                {
+                    "quantity": stock_qty,
+                    "to_refund": True,
+                }
+            )
+            if stock_lot:
+                lot = getattr(self, stock_lot)
+                return_wiz.product_return_moves.write({"lot_id": lot.id})
+            res = return_wiz.action_create_returns()
+            return_pick = self.env["stock.picking"].browse(res["res_id"])
+            return_pick.action_confirm()
+            return_pick.action_assign()
+            return_pick.move_ids._set_quantity_done(stock_qty)
+            return_pick.move_ids.picked = True
+            return_pick._action_done()
+            return return_pick
+        if not picking_values.get("location"):
+            _logger.warning(
+                "You need to provide the location source for stock operations"
+            )
+            pass
+        domain = [
+            ("company_id", "=", self.env.company.id),
+            ("default_location_src_id", "=", picking_values["location"].id),
+            ("default_location_dest_id.usage", "=", oper_type),
+        ]
+        if picking_values.get("location1"):
+            domain.append(
+                ("default_location_dest_id", "=", picking_values["location1"].id)
+            )
+        picking_type = self.env["stock.picking.type"].search(domain)
+        if not picking_type:
+            _logger.warning(
+                self.env._(
+                    "No picking type found for type %(picking_type)s and locations %(location)s %(location1)s.",  # noqa
+                    picking_type=oper_type,
+                    location=picking_values.get("location"),
+                    location1=picking_values.get("location1"),
+                )
+            )
+        picking_type.use_existing_lots = True
+        location_src = picking_type.default_location_src_id.id
+        location_dest = picking_type.default_location_dest_id.id
+        product = picking_values.get("product_id")
+        picking_vals = {
+            "location_id": location_src,
+            "location_dest_id": location_dest,
+            "picking_type_id": picking_type.id,
+        }
+        if picking_values.get("partner_id"):
+            picking_vals["partner_id"] = picking_values["partner_id"].id
+        picking = self.env["stock.picking"].create(picking_vals)
+        move_vals = {
+            "location_id": location_src,
+            "location_dest_id": location_dest,
+            "picking_id": picking.id,
+            "product_id": product.id,
+            "product_uom": product.uom_id.id,
+            "product_uom_qty": picking_values.get("qty", 1),
+        }
+        if stock_lot:
+            lot = getattr(self, stock_lot)
+            move_vals["lot_ids"] = [(6, 0, [lot.id])]
+        move = self.env["stock.move"].create(move_vals)
         picking.action_confirm()
         picking.action_assign()
-        if post:
-            for move in picking.move_ids:
-                move._set_quantity_done(move.product_uom_qty)
-            picking.button_validate()
-            picking._action_done()
-        self.picking = picking
+        move._set_quantity_done(stock_qty)
 
-    def check_stock_valuation(self, val_p1, val_p2, account=None):
-        val_p1 = round(val_p1, 2)
-        val_p2 = round(val_p2, 2)
-        if not account:
-            account = self.account_valuation
+        picking.button_validate()
+        if step == 1 and picking_values.get("step") == 2:
+            self.create_stock_picking(oper_type, values, picking.with_context(step=2))
+        return picking
 
-        domain = [
-            ("product_id", "in", [self.product_1.id, self.product_2.id]),
-            ("l10n_ro_account_id", "=", account.id),
-        ]
-        valuations = self.env["stock.valuation.layer"].read_group(
-            domain,
-            ["value:sum", "quantity:sum", "remaining_value:sum", "remaining_qty:sum"],
-            ["product_id"],
+    def create_landed_cost(self, invoice, picking, values):
+        journal = self.env["account.journal"].search(
+            [("company_id", "=", self.env.company.id), ("type", "=", "general")],
+            limit=1,
         )
-        for valuation in valuations:
-            val = round(valuation["value"], 2)
-            rem_val = round(valuation["remaining_value"], 2)
-
-            if valuation["product_id"][0] == self.product_1.id:
-                _logger.debug(f"Check stock P1 {val} = {val_p1}")
-                self.assertAlmostEqual(val, val_p1)
-                if self.product_1.cost_method == "fifo":
-                    self.assertAlmostEqual(rem_val, val_p1)
-
-            if valuation["product_id"][0] == self.product_2.id:
-                _logger.debug(f"Check stock P2 {val} = {val_p2}")
-                self.assertAlmostEqual(val, val_p2)
-                if self.product_2.cost_method == "fifo":
-                    self.assertAlmostEqual(rem_val, val_p2)
-
-            qty = round(valuation["quantity"], 2)
-            rem_qty = round(valuation["remaining_qty"], 2)
-            self.assertAlmostEqual(qty, rem_qty)
-
-    def check_account_valuation(self, val_p1, val_p2, account=None):
-        val_p1 = round(val_p1, 2)
-        val_p2 = round(val_p2, 2)
-        if not account:
-            account = self.account_valuation
-
-        domain = [
-            ("product_id", "in", [self.product_1.id, self.product_2.id]),
-            ("account_id", "=", account.id),
-            ("parent_state", "=", "posted"),
-        ]
-        account_valuations = self.env["account.move.line"].read_group(
-            domain, ["debit:sum", "credit:sum", "quantity:sum"], ["product_id"]
-        )
-        for valuation in account_valuations:
-            val = round(valuation["debit"] - valuation["credit"], 2)
-            if valuation["product_id"][0] == self.product_1.id:
-                _logger.debug(f"Check account P1 {val} = {val_p1}")
-                self.assertAlmostEqual(val, val_p1)
-            if valuation["product_id"][0] == self.product_2.id:
-                _logger.debug(f"Check account P2 {val} = {val_p2}")
-                self.assertAlmostEqual(val, val_p2)
-
-    def check_account_diff(self, val_p1, val_p2):
-        self.check_account_valuation(val_p1, val_p2, self.account_difference)
-
-    def check_account_valuation_mp(self, val_p1, account=None):
-        val_p1 = round(val_p1, 2)
-        if not account:
-            account = self.account_valuation
-
-        domain = [
-            ("product_id", "=", self.product_mp.id),
-            ("account_id", "=", account.id),
-            ("parent_state", "=", "posted"),
-        ]
-        account_valuations = self.env["account.move.line"].read_group(
-            domain, ["debit:sum", "credit:sum", "quantity:sum"], ["product_id"]
-        )
-        for valuation in account_valuations:
-            val = round(valuation["debit"] - valuation["credit"], 2)
-            if valuation["product_id"][0] == self.product_mp.id:
-                _logger.debug(f"Check account P1 {val} = {val_p1}")
-                self.assertAlmostEqual(val, val_p1)
-
-    def set_stock(self, product, qty, location=None):
-        if not location:
-            location = self.location_warehouse
-        self.env["stock.quant"].with_context(inventory_mode=True).create(
+        product = self.landed_cost
+        landed_cost = self.env["stock.landed.cost"].create(
             {
-                "product_id": product.id,
-                "inventory_quantity": qty,
-                "location_id": location.id,
+                "picking_ids": [(4, picking.id)],
+                "vendor_bill_id": invoice.id,
+                "account_journal_id": journal.id,
+                "date": invoice.date,
+                "cost_lines": [
+                    (
+                        0,
+                        0,
+                        {
+                            "product_id": product.id,
+                            "price_unit": values.get("landed_cost"),
+                            "split_method": "equal",
+                            "account_id": product.property_account_expense_id.id,
+                        },
+                    )
+                ],
             }
         )
-
-    def _get_stock_valuation_move_lines(self, account=None):
-        if not account:
-            account = self.account_valuation
-        return self.env["account.move.line"].search(
-            [
-                ("account_id", "=", account.id),
-            ],
-            order="date, id",
-        )
-
-    def _get_stock_output_move_lines(self, account=None):
-        if not account:
-            account = self.account_expense
-        return self.env["account.move.line"].search(
-            [
-                ("account_id", "=", account.id),
-            ],
-            order="date, id",
-        )
-
-    def create_lc(self, picking, lc_p1, lc_p2, vendor_bill=False):
-        default_vals = self.env["stock.landed.cost"].default_get(
-            list(self.env["stock.landed.cost"].fields_get())
-        )
-        default_vals.update(
-            {
-                "picking_ids": [picking.id],
-                "account_journal_id": self.company_data["default_journal_misc"],
-                "cost_lines": [(0, 0, {"product_id": self.product_1.id})],
-                "valuation_adjustment_lines": [],
-                "vendor_bill_id": vendor_bill and vendor_bill.id or False,
-            }
-        )
-        cost_lines_values = {
-            "name": ["equal split"],
-            "split_method": ["equal"],
-            "price_unit": [lc_p1 + lc_p2],
-        }
-        stock_landed_cost_1 = self.env["stock.landed.cost"].new(default_vals)
-        for index, cost_line in enumerate(stock_landed_cost_1.cost_lines):
-            cost_line.onchange_product_id()
-            cost_line.name = cost_lines_values["name"][index]
-            cost_line.split_method = cost_lines_values["split_method"][index]
-            cost_line.price_unit = cost_lines_values["price_unit"][index]
-        vals = stock_landed_cost_1._convert_to_write(stock_landed_cost_1._cache)
-        stock_landed_cost_1 = self.env["stock.landed.cost"].create(vals)
-
-        stock_landed_cost_1.compute_landed_cost()
-        stock_landed_cost_1.button_validate()
-        return stock_landed_cost_1
+        landed_cost.compute_landed_cost()
+        landed_cost.button_validate()
