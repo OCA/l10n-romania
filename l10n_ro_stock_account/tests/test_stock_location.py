@@ -1,19 +1,20 @@
-# odoo-addons/l10n-romania-oca/l10n_ro_stock_account/tests/test_stock_location.py
+# Copyright (C) 2020 Terrabit
+# Copyright (C) 2025 NextERP Romania
+# License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
 import logging
 
 from odoo.tests import tagged
 
-from .common import TestStockCommon
+from .common import TestROStockCommon
 
 _logger = logging.getLogger(__name__)
 
 
 @tagged("post_install", "-at_install")
-class TestStockLocation(TestStockCommon):
+class TestStockLocation(TestROStockCommon):
     def test_propagate_account_child_locations(self):
         """Test propagate_account with child stock locations"""
-
         # Create a parent location
         parent_location = self.env["stock.location"].create(
             {
