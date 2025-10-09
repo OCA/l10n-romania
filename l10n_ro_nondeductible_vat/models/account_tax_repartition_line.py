@@ -29,6 +29,8 @@ class AccountTaxRepartitionLineExtend(models.Model):
             and self.tax_id.is_l10n_ro_record
         ):
             account = self.tax_id.cash_basis_transition_account_id
-        if not account or self.l10n_ro_skip_cash_basis_account_switch:
+        if self.tax_id.is_l10n_ro_record and (
+            not account or self.l10n_ro_skip_cash_basis_account_switch
+        ):
             account = self.account_id
         return account
