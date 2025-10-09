@@ -19,18 +19,18 @@ class AccountTaxRepartitionLineExtend(models.Model):
     )
 
     def _get_aml_target_tax_account(self, force_caba_exigibility=False):
-        if not self.tax_id.is_l10n_ro_record:
-            return super()._get_aml_target_tax_account(
-                force_caba_exigibility=force_caba_exigibility
-            )
-        account = False
+        account = super()._get_aml_target_tax_account(
+            force_caba_exigibility=force_caba_exigibility
+        )
         if (
-            not force_caba_exigibility
-            and self.tax_id.tax_exigibility == "on_payment"
+            self.tax_id.tax_exigibility == "on_payment"
             and not self._context.get("caba_no_transition_account")
             and not self.l10n_ro_skip_cash_basis_account_switch
+            and self.tax_id.is_l10n_ro_record
         ):
             account = self.tax_id.cash_basis_transition_account_id
-        if not account:
+        if self.tax_id.is_l10n_ro_record and (
+            not account or self.l10n_ro_skip_cash_basis_account_switch
+        ):
             account = self.account_id
         return account
