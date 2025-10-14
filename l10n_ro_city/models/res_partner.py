@@ -67,7 +67,7 @@ class Partner(models.Model):
             if city:
                 self.city = city.name
                 self.city_id = city
-                self.state = city.state_id
+                self.state_id = city.state_id
 
     @api.onchange("city_id")
     def _onchange_city_id(self):
