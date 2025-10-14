@@ -47,7 +47,10 @@ class Partner(models.Model):
                     "06": "l10n_ro_city.RO_179196",  # Sector 6
                 }
                 city = self.env.ref(mapping[self.zip[:2]])
-                if self.state_id != state_b:
+                if (
+                    self.state_id != state_b
+                    and "skip_ro_vat_change" not in self.env.context
+                ):
                     raise UserError(
                         _(
                             f"The city {city.name} doesn't match the"
@@ -62,13 +65,9 @@ class Partner(models.Model):
                 city = self.env["res.city"].search(domain, limit=1)
 
             if city:
-                self.write(
-                    {
-                        "city_id": city.id,
-                        "city": city.name,
-                        "state_id": city.state_id.id,
-                    }
-                )
+                self.city = city.name
+                self.city_id = city
+                self.state_id = city.state_id
 
     @api.onchange("city_id")
     def _onchange_city_id(self):
