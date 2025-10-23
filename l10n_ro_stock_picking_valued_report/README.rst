@@ -1,7 +1,3 @@
-.. image:: https://odoo-community.org/readme-banner-image
-   :target: https://odoo-community.org/get-involved?utm_source=readme
-   :alt: Odoo Community Association
-
 =====================================
 Romania - Stock Picking Valued Report
 =====================================
@@ -17,7 +13,7 @@ Romania - Stock Picking Valued Report
 .. |badge1| image:: https://img.shields.io/badge/maturity-Mature-brightgreen.png
     :target: https://odoo-community.org/page/development-status
     :alt: Mature
-.. |badge2| image:: https://img.shields.io/badge/license-AGPL--3-blue.png
+.. |badge2| image:: https://img.shields.io/badge/licence-AGPL--3-blue.png
     :target: http://www.gnu.org/licenses/agpl-3.0-standalone.html
     :alt: License: AGPL-3
 .. |badge3| image:: https://img.shields.io/badge/github-OCA%2Fl10n--romania-lightgray.png?logo=github
@@ -45,12 +41,12 @@ Installation
 
 To install this module, you need to:
 
-- clone the branch 16.0 of the repository
-  https://github.com/OCA/l10n-romania
-- add the path to this repository in your configuration (addons-path)
-- update the module list
-- search for "Romania - Stock Picking Valued Report" in your addons
-- install the module
+-  clone the branch 16.0 of the repository
+   https://github.com/OCA/l10n-romania
+-  add the path to this repository in your configuration (addons-path)
+-  update the module list
+-  search for "Romania - Stock Picking Valued Report" in your addons
+-  install the module
 
 Bug Tracker
 ===========
@@ -73,9 +69,9 @@ Authors
 Contributors
 ------------
 
-- `NextERP Romania <https://www.nexterp.ro>`__:
+-  `NextERP Romania <https://www.nexterp.ro>`__:
 
-  - Fekete Mihai <feketemihai@nexterp.ro>
+   -  Fekete Mihai <feketemihai@nexterp.ro>
 
 Do not contact contributors directly about support or help with
 technical issues.
