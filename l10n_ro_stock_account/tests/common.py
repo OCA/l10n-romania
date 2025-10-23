@@ -563,6 +563,34 @@ class TestStockCommon(ValuationReconciliationTestCommon):
             rem_qty = round(valuation["remaining_qty"], 2)
             self.assertAlmostEqual(qty, rem_qty)
 
+    def check_stock_valuation_mp(self, val_mp, account=None):
+        val_mp = round(val_mp, 2)
+        if not account:
+            account = self.account_valuation
+
+        domain = [
+            ("product_id", "=", self.product_mp.id),
+            ("l10n_ro_account_id", "=", account.id),
+        ]
+        valuations = self.env["stock.valuation.layer"].read_group(
+            domain,
+            ["value:sum", "quantity:sum", "remaining_value:sum", "remaining_qty:sum"],
+            ["product_id"],
+        )
+        for valuation in valuations:
+            val = round(valuation["value"], 2)
+            rem_val = round(valuation["remaining_value"], 2)
+
+            if valuation["product_id"][0] == self.product_mp.id:
+                _logger.debug(f"Check stock P1 {val} = {val_mp}")
+                self.assertAlmostEqual(val, val_mp)
+                if self.product_1.cost_method == "fifo":
+                    self.assertAlmostEqual(rem_val, val_mp)
+
+            qty = round(valuation["quantity"], 2)
+            rem_qty = round(valuation["remaining_qty"], 2)
+            self.assertAlmostEqual(qty, rem_qty)
+
     def check_account_valuation(self, val_p1, val_p2, account=None):
         val_p1 = round(val_p1, 2)
         val_p2 = round(val_p2, 2)
@@ -611,13 +639,18 @@ class TestStockCommon(ValuationReconciliationTestCommon):
     def set_stock(self, product, qty, location=None):
         if not location:
             location = self.location_warehouse
-        self.env["stock.quant"].with_context(inventory_mode=True).create(
-            {
-                "product_id": product.id,
-                "inventory_quantity": qty,
-                "location_id": location.id,
-            }
+        qnt = (
+            self.env["stock.quant"]
+            .with_context(inventory_mode=True)
+            .create(
+                {
+                    "product_id": product.id,
+                    "inventory_quantity": qty,
+                    "location_id": location.id,
+                }
+            )
         )
+        qnt._apply_inventory()
 
     def _get_stock_valuation_move_lines(self, account=None):
         if not account:

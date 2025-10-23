@@ -116,7 +116,8 @@ class TestStockConsum(TestStockCommon):
         self.make_return(self.picking, 1)
 
     def test_consume(self):
-        self.set_stock(self.product_mp, 1000)
+        self.set_stock(self.product_mp, 2)
+        # val_mp = round(2 * self.price_p1, 2)
         _logger.debug("Start consum produse")
 
         location_id = self.picking_type_transfer.default_location_src_id
@@ -125,11 +126,17 @@ class TestStockConsum(TestStockCommon):
             {"usage": "consume"}
         )
 
-        self.transfer(location_id, location_dest_id)
-        _logger.debug("Consum facuta")
+        # transfer in consum (2 bucati)
+        self.transfer(location_id, location_dest_id, product=self.product_mp)
+        self.check_stock_valuation_mp(0, self.account_valuation_mp)
+        self.check_account_valuation_mp(0, self.account_valuation_mp)
+        _logger.debug("Consum facut 2 bucati")
 
-        _logger.debug("Start retur consum")
+        _logger.debug("Start retur consum 1 bucata")
         self.make_return(self.picking, 1)
+        val_mp_return = round(1 * self.price_p1, 2)
+        self.check_stock_valuation_mp(val_mp_return, self.account_valuation_mp)
+        self.check_account_valuation_mp(val_mp_return, self.account_valuation_mp)
 
     def test_consume_extra_accounts(self):
         acc_3028 = self.env["account.account"].search(

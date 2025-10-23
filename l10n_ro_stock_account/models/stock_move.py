@@ -566,10 +566,10 @@ class StockMove(models.Model):
             acc_valuation_rec = self.env["account.account"].browse(acc_valuation)
             if acc_valuation_rec and acc_valuation_rec.l10n_ro_stock_consume_account_id:
                 acc_valuation = acc_valuation_rec.l10n_ro_stock_consume_account_id.id
-            if acc_src != acc_valuation:
-                self._l10n_ro_create_account_move_line(
-                    acc_valuation, acc_src, journal_id, qty, description, svl, cost
-                )
+                if acc_src != acc_valuation:
+                    self._l10n_ro_create_account_move_line(
+                        acc_valuation, acc_src, journal_id, qty, description, svl, cost
+                    )
         if self._is_usage_giving_return() or self._is_consumption_return():
             (
                 journal_id,
@@ -580,10 +580,10 @@ class StockMove(models.Model):
             acc_valuation_rec = self.env["account.account"].browse(acc_valuation)
             if acc_valuation_rec and acc_valuation_rec.l10n_ro_stock_consume_account_id:
                 acc_valuation = acc_valuation_rec.l10n_ro_stock_consume_account_id.id
-            if acc_dest != acc_valuation:
-                self._l10n_ro_create_account_move_line(
-                    acc_dest, acc_valuation, journal_id, qty, description, svl, cost
-                )
+                if acc_dest != acc_valuation:
+                    self._l10n_ro_create_account_move_line(
+                        acc_dest, acc_valuation, journal_id, qty, description, svl, cost
+                    )
         if self._is_usage_giving() or self._is_usage_giving_return():
             # inregistrare dare in folosinta 8035
             move = self.with_context(valued_type="usage_giving_secondary")
