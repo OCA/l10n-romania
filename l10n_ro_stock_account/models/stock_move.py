@@ -122,11 +122,11 @@ class StockMove(models.Model):
             self.location_id.usage == "internal"
             and self.location_dest_id.usage == "internal"
         ):
-            _logger.warning(
-                self.env._(
-                    "All internal moves should be done through transit location."
-                )
-            )
+            # _logger.warning(
+            #     self.env._(
+            #         "All internal moves should be done through transit location."
+            #     )
+            # )
             return "internal_transfer"
         if self._is_dropshipped():
             return "dropshipped"
