@@ -168,9 +168,16 @@ class TestROStockCommon(AccountTestInvoicingCommon):
                 "warehouse_id": comp_warehouse.id,
             }
         )
-        cls.location_sub = cls.env["stock.location"].create(
+        cls.location_sub_1 = cls.env["stock.location"].create(
             {
-                "name": "Stock Sub Location",
+                "name": "Stock Sub Location 1",
+                "usage": "internal",
+                "location_id": cls.location.id,
+            }
+        )
+        cls.location_sub_2 = cls.env["stock.location"].create(
+            {
+                "name": "Stock Sub Location 2",
                 "usage": "internal",
                 "location_id": cls.location.id,
             }
@@ -374,6 +381,11 @@ class TestROStockCommon(AccountTestInvoicingCommon):
                     move_domain.append(("lot_ids", "in", lot.id))
                 quants = self.env["stock.quant"].search(quant_domain)
                 stock_moves = self.env["stock.move"].search(move_domain)
+                product_moves = self.env["stock.move"].search(
+                    [
+                        ("product_id", "=", product.id),
+                    ]
+                )
                 if self.log_checks:
                     _logger.info("Stock quants for product %s", product.name)
                     for quant in quants:
@@ -382,10 +394,10 @@ class TestROStockCommon(AccountTestInvoicingCommon):
                             quant.location_id.display_name,
                             quant.product_id.display_name,
                             quant.quantity,
-                            quant.value,  # noqa
+                            quant.value,
                         )
                     _logger.info("Stock moves for product %s", product.name)
-                    for move in stock_moves:
+                    for move in product_moves:
                         _logger.info(
                             "%s | %s | %s | %s | %s | %s | %s | %s | %s",
                             move.id,
@@ -396,7 +408,7 @@ class TestROStockCommon(AccountTestInvoicingCommon):
                             move.value,
                             move.remaining_qty,
                             move.price_unit,
-                            move.remaining_value,  # noqa
+                            move.remaining_value,
                         )
                 total_qty = sum(quants.mapped("quantity"))
                 total_value = sum(quants.mapped("value"))
@@ -472,7 +484,7 @@ class TestROStockCommon(AccountTestInvoicingCommon):
                     ("parent_state", "=", "posted"),
                 ]
             )
-            if not acc_move_lines:
+            if not acc_move_lines and float(expected_balance) != 0.0:
                 raise AssertionError(
                     f"No posted entries found for account {account_code}"
                 )
@@ -671,7 +683,7 @@ class TestROStockCommon(AccountTestInvoicingCommon):
                     picking.button_validate()
                     if picking.state == "assigned":
                         picking._action_done()
-            if picking.state == "done":
+            if picking.state == "done" and invoice_qty:
                 invoice = self.env["account.move"]
                 try:
                     invoices = sale._create_invoices(final=True)
@@ -814,7 +826,7 @@ class TestROStockCommon(AccountTestInvoicingCommon):
                     picking.button_validate()
                     if picking.state == "assigned":
                         picking._action_done()
-            if picking.state == "done":
+            if picking.state == "done" and invoice_qty:
                 invoice = self.env["account.move"]
                 try:
                     action = purchase.action_create_invoice()
@@ -832,7 +844,7 @@ class TestROStockCommon(AccountTestInvoicingCommon):
                     invoice_line.write(
                         {"quantity": invoice_qty, "price_unit": invoice_price}
                     )
-                    if values.get("landed_cost") != 0:
+                    if values.get("landed_cost", 0) != 0:
                         self.create_landed_cost(invoice, picking, values)
                     invoice.write(
                         {
@@ -969,7 +981,7 @@ class TestROStockCommon(AccountTestInvoicingCommon):
             "location_dest_id": transfer_values.get("location1").id,
             "product_id": transfer_values.get("product_id").id,
             "product_uom": transfer_values.get("product_id").uom_id.id,
-            "product_uom_qty": transfer_values.get("qty", 1),
+            "product_uom_qty": stock_qty,
         }
         if stock_lot:
             lot = getattr(self, stock_lot)

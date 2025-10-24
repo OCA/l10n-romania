@@ -137,6 +137,12 @@ Format JSON cu verificări așteptate:
 }
 ```
 
+Pentru a vedea log-urile din check va trebui sa setati
+
+```python
+cls.log_checks = True
+```
+
 ## Tipuri de Operațiuni Test
 
 ### 1. Achiziții (`purchase`)
