@@ -184,17 +184,29 @@ class StockMove(models.Model):
         return res
 
     def _action_done(self, cancel_backorder=False):
-        ro_internal_moves = self.filtered(
-            lambda m: m.is_l10n_ro_record and m.l10n_ro_move_type == "internal_transfer"
-        )
-        if ro_internal_moves:
-            ro_internal_moves._set_value()
-        res = super()._action_done(cancel_backorder=cancel_backorder)
         ro_moves = self.filtered(lambda m: m.is_l10n_ro_record)
-        if ro_moves:
-            for move in ro_moves:
-                move._create_account_move_ro_extra()
+        ro_moves._set_locations_from_move_line()
+        ro_internal_moves = ro_moves.filtered(
+            lambda m: m.l10n_ro_move_type == "internal_transfer"
+        )
+        ro_internal_moves._set_value()
+        res = super()._action_done(cancel_backorder=cancel_backorder)
+        for move in ro_moves:
+            move._create_account_move_ro_extra()
         return res
+
+    def _set_locations_from_move_line(self):
+        # By applying putaway rules, the move location_dest_id
+        # will not be the same as the move line location_dest_id.
+        # For Romania, we need to have the correct locations on the move
+        # to generate correct accounting entries.
+        for move in self:
+            move_lines_src = move.move_line_ids.mapped("location_id")
+            if move_lines_src and len(move_lines_src) == 1:
+                move.location_id = move_lines_src
+            move_lines_dest = move.move_line_ids.mapped("location_dest_id")
+            if move_lines_dest and len(move_lines_dest) == 1:
+                move.location_dest_id = move_lines_dest
 
     def _create_account_move_ro_extra(self):
         """Create account move for specific location or analytic."""
@@ -342,6 +354,10 @@ class StockMove(models.Model):
                     product=self.product_id.display_name,
                 )
             )
+        if self.l10n_ro_move_type == "internal_transfer" and accounts.get(
+            "expense"
+        ) == accounts.get("stock_valuation"):
+            return res
         for from_key, to_key, price_type, sign in account_list:
             debit_acc = accounts.get(from_key, acc_obj)
             credit_acc = accounts.get(to_key, acc_obj)
@@ -363,6 +379,8 @@ class StockMove(models.Model):
                     )
                 )
             if not value:
+                continue
+            if debit_acc == credit_acc:
                 continue
             res += [
                 {
