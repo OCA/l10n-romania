@@ -117,7 +117,10 @@ class TestStockConsum(TestStockCommon):
 
     def test_consume(self):
         self.set_stock(self.product_mp, 2)
-        # val_mp = round(2 * self.price_p1, 2)
+        val_mp = round(2 * self.price_p1, 2)
+        self.check_stock_valuation_mp(val_mp, self.account_valuation_mp)
+        self.check_account_valuation_mp(val_mp, self.account_valuation_mp)
+
         _logger.debug("Start consum produse")
 
         location_id = self.picking_type_transfer.default_location_src_id
