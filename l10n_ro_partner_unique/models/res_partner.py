@@ -2,7 +2,7 @@
 # Copyright (C) 2020 NextERP Romania
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
-from odoo import _, api, models
+from odoo import api, models
 from odoo.exceptions import ValidationError
 
 
@@ -32,7 +32,7 @@ class ResPartner(models.Model):
                 found = self.env["res.partner"].search(domain)
                 if len(found) > 1:
                     raise ValidationError(
-                        _(
+                        self.env._(
                             "The VAT and NRC pair (%(vat)s, %(nrc)s) must be "
                             "unique ids=%(ids)s!",
                             vat=record.vat,
