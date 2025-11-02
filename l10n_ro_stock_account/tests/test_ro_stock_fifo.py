@@ -13,7 +13,7 @@ _logger = logging.getLogger(__name__)
 
 
 @tagged("post_install", "-at_install")
-class TestStockSale(TestROStockCommon):
+class TestStockFifo(TestROStockCommon):
     @TestROStockCommon.setup_country("ro")
     def setUp(cls):
         super().setUp()
