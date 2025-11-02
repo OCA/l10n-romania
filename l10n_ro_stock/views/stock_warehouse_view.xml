@@ -5,10 +5,6 @@
         <field name="model">stock.warehouse</field>
         <field name="inherit_id" ref="stock.view_warehouse" />
         <field name="arch" type="xml">
-            <field name="wh_output_stock_loc_id" position="after">
-                <field name="l10n_ro_wh_consume_loc_id" readonly="1" />
-                <field name="l10n_ro_wh_usage_loc_id" readonly="1" />
-            </field>
             <field name="out_type_id" position="after">
                 <field name="l10n_ro_consume_type_id" readonly="1" />
                 <field name="l10n_ro_usage_type_id" readonly="1" />

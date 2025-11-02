@@ -13,12 +13,15 @@ class TestStockWarehouseCreation(AccountTestInvoicingCommon):
         super().setUpClass()
         cls.env.company.anglo_saxon_accounting = True
         cls.env.company.l10n_ro_accounting = True
+        cls.env.company._create_usage_location()
+        cls.env.company._create_consume_location()
 
     def setUp(self):
         super().setUp()
         self.warehouse_obj = self.env["stock.warehouse"]
 
     def test_warehouse_creation(self):
+        company = self.env.company
         warehouse = self.warehouse_obj.create(
             {
                 "name": "Warehouse Romania",
@@ -26,27 +29,26 @@ class TestStockWarehouseCreation(AccountTestInvoicingCommon):
                 "company_id": self.env.company.id,
             }
         )
-        self.assertTrue(warehouse.l10n_ro_wh_consume_loc_id)
-        self.assertTrue(warehouse.l10n_ro_wh_usage_loc_id)
+
         self.assertTrue(warehouse.l10n_ro_consume_type_id)
         self.assertTrue(warehouse.l10n_ro_usage_type_id)
 
         wh_stock_loc = warehouse.lot_stock_id
-        wh_consume_loc = warehouse.l10n_ro_wh_consume_loc_id
-        wh_usage_loc = warehouse.l10n_ro_wh_usage_loc_id
+        consume_loc = company.l10n_ro_consume_location_id
+        usage_loc = company.l10n_ro_usage_location_id
         consume_type = warehouse.l10n_ro_consume_type_id
         usage_type = warehouse.l10n_ro_usage_type_id
 
-        self.assertTrue(wh_consume_loc.usage, "consume")
-        self.assertTrue(wh_usage_loc.usage, "usage_giving")
+        self.assertTrue(consume_loc.usage, "consume")
+        self.assertTrue(usage_loc.usage, "usage_giving")
 
         self.assertTrue(consume_type.code, "internal")
         self.assertTrue(consume_type.default_location_src_id, wh_stock_loc)
-        self.assertTrue(consume_type.default_location_dest_id, wh_consume_loc)
+        self.assertTrue(consume_type.default_location_dest_id, consume_loc)
 
         self.assertTrue(usage_type.code, "internal")
         self.assertTrue(usage_type.default_location_src_id, wh_stock_loc)
-        self.assertTrue(usage_type.default_location_dest_id, wh_usage_loc)
+        self.assertTrue(usage_type.default_location_dest_id, usage_loc)
 
     def test_warehouse_rename(self):
         warehouse = self.warehouse_obj.create(
