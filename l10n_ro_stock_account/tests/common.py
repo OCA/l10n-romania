@@ -33,7 +33,8 @@ class TestROStockCommon(AccountTestInvoicingCommon):
             }
         )
         cls.env.company.account_stock_journal_id = cls.stock_journal
-
+        cls.env.company._create_usage_location()
+        cls.env.company._create_consume_location()
         stock_val_account = cls.env.company.account_stock_valuation_id
         cls.category_marfa_fifo = cls.env["product.category"].create(
             {
