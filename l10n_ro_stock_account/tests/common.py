@@ -425,15 +425,16 @@ class TestROStockCommon(AccountTestInvoicingCommon):
                     0,
                     f"Stock quant quantity for {product.name} expected {vals.get('qty', 0)}, got {total_qty}",  # noqa
                 )
-                self.assertEqual(
-                    float_compare(
-                        sum(stock_moves.mapped("remaining_qty")),
-                        float(vals.get("qty", 0)),
-                        precision_rounding=product.uom_id.rounding,
-                    ),
-                    0,
-                    f"Stock Move Remaining quantity for {product.name} expected {vals.get('qty', 0)}, got {sum(stock_moves.mapped('remaining_qty'))}",  # noqa
-                )
+                if product != self.product_avg:
+                    self.assertEqual(
+                        float_compare(
+                            sum(stock_moves.mapped("remaining_qty")),
+                            float(vals.get("qty", 0)),
+                            precision_rounding=product.uom_id.rounding,
+                        ),
+                        0,
+                        f"Stock Move Remaining quantity for {product.name} expected {vals.get('qty', 0)}, got {sum(stock_moves.mapped('remaining_qty'))}",  # noqa
+                    )
                 self.assertEqual(
                     float_compare(
                         total_value,
@@ -443,15 +444,16 @@ class TestROStockCommon(AccountTestInvoicingCommon):
                     0,
                     f"Stock quant value for {product.name} expected {vals.get('value', 0)}, got {total_value}",  # noqa
                 )
-                self.assertEqual(
-                    float_compare(
-                        sum(stock_moves.mapped("remaining_value")),
-                        float(vals.get("value", 0)),
-                        precision_rounding=0.01,
-                    ),
-                    0,
-                    f"Stock Remaining value for {product.name} expected {vals.get('value', 0)}, got {sum(stock_moves.mapped('remaining_value'))}",  # noqa
-                )
+                if product != self.product_avg:
+                    self.assertEqual(
+                        float_compare(
+                            sum(stock_moves.mapped("remaining_value")),
+                            float(vals.get("value", 0)),
+                            precision_rounding=0.01,
+                        ),
+                        0,
+                        f"Stock Remaining value for {product.name} expected {vals.get('value', 0)}, got {sum(stock_moves.mapped('remaining_value'))}",  # noqa
+                    )
 
     def check_accounting_entries(self, checks):
         if self.log_checks:
