@@ -10,12 +10,6 @@ class StockWarehouse(models.Model):
     _name = "stock.warehouse"
     _inherit = ["stock.warehouse", "l10n.ro.mixin"]
 
-    l10n_ro_wh_consume_loc_id = fields.Many2one(
-        "stock.location", string="Romania - Consume Location"
-    )
-    l10n_ro_wh_usage_loc_id = fields.Many2one(
-        "stock.location", string="Romania - Usage Giving Location"
-    )
     l10n_ro_consume_type_id = fields.Many2one(
         "stock.picking.type", string="Romania - Consume Type"
     )
@@ -23,40 +17,12 @@ class StockWarehouse(models.Model):
         "stock.picking.type", string="Romania - Usage Giving Type"
     )
 
-    def _get_locations_values(self, vals, code=False):
-        sub_locations = super()._get_locations_values(vals, code)
-        if self.env["res.company"]._check_is_l10n_ro_record(
-            company=vals.get("company_id")
-        ):
-            code = vals.get("code") or code or ""
-            code = code.replace(" ", "").upper()
-            company_id = vals.get(
-                "company_id", self.default_get(["company_id"])["company_id"]
-            )
-            sub_locations.update(
-                {
-                    "l10n_ro_wh_consume_loc_id": {
-                        "name": self.env._("Consume"),
-                        "active": True,
-                        "usage": "consume",
-                        "barcode": self._valid_barcode(code + "-CONSUME", company_id),
-                    },
-                    "l10n_ro_wh_usage_loc_id": {
-                        "name": self.env._("Usage"),
-                        "active": True,
-                        "usage": "usage_giving",
-                        "barcode": self._valid_barcode(code + "-USAGE", company_id),
-                    },
-                }
-            )
-        return sub_locations
-
     def _get_picking_type_update_values(self):
         res = super()._get_picking_type_update_values()
         if self.is_l10n_ro_record:
-            if self.l10n_ro_wh_consume_loc_id:
+            if self.company_id.l10n_ro_consume_location_id:
                 res.update({"l10n_ro_consume_type_id": {}})
-            if self.l10n_ro_wh_usage_loc_id:
+            if self.company_id.l10n_ro_usage_location_id:
                 res.update({"l10n_ro_usage_type_id": {}})
         return res
 
@@ -65,7 +31,9 @@ class StockWarehouse(models.Model):
             max_sequence
         )
         if self.is_l10n_ro_record:
-            if self.l10n_ro_wh_consume_loc_id:
+            usage_location = self.company_id.l10n_ro_usage_location_id
+            consume_location = self.company_id.l10n_ro_consume_location_id
+            if consume_location:
                 create_data.update(
                     {
                         "l10n_ro_consume_type_id": {
@@ -74,7 +42,7 @@ class StockWarehouse(models.Model):
                             "use_create_lots": True,
                             "use_existing_lots": False,
                             "default_location_src_id": self.lot_stock_id.id,
-                            "default_location_dest_id": self.l10n_ro_wh_consume_loc_id.id,  # noqa
+                            "default_location_dest_id": consume_location.id,  # noqa
                             "sequence": max_sequence + 6,
                             "barcode": self.code.replace(" ", "").upper() + "-CONSUME",
                             "sequence_code": "CONS",
@@ -82,7 +50,7 @@ class StockWarehouse(models.Model):
                         }
                     }
                 )
-            if self.l10n_ro_wh_usage_loc_id:
+            if usage_location:
                 create_data.update(
                     {
                         "l10n_ro_usage_type_id": {
@@ -91,7 +59,7 @@ class StockWarehouse(models.Model):
                             "use_create_lots": True,
                             "use_existing_lots": False,
                             "default_location_src_id": self.lot_stock_id.id,
-                            "default_location_dest_id": self.l10n_ro_wh_usage_loc_id.id,  # noqa
+                            "default_location_dest_id": usage_location.id,  # noqa
                             "sequence": max_sequence + 7,
                             "barcode": self.code.replace(" ", "").upper() + "-USAGE",
                             "sequence_code": "USAGE",
