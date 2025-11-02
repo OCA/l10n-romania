@@ -334,7 +334,10 @@ class TestROStockCommon(AccountTestInvoicingCommon):
         elif step.get("type") == "dropship":
             self.create_sale_dropship(step)
         if step.get("checks"):
-            checks = ast.literal_eval(step["checks"])
+            if isinstance(step.get("checks"), dict):
+                checks = step.get("checks")
+            else:
+                checks = ast.literal_eval(step["checks"])
             if checks:
                 self.run_checks(checks)
 

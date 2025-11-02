@@ -36,16 +36,20 @@ class TestFIFOInternalTransfer(TestROStockCommon):
                     "currency_id": self.env.company.currency_id,
                     "partner_id": self.supplier_1,
                     "product_id": self.product_fifo,
-                    "step": 1.0,
+                    "step": 1,
                     "qty": 10.0,
                     "stock_qty": 10.0,
                     "inv_qty": 10.0,
                     "price": 100.0,
                     "inv_price": 100.0,
-                    "checks": "{"
-                    "'stock': {'product_fifo': ["
-                    "{'location': 'location_sub_1', 'qty': 10, 'value': 1000}]}, "
-                    "'account': {'371000': 1000}}",
+                    "checks": {
+                        "stock": {
+                            "product_fifo": [
+                                {"location": "location_sub_1", "qty": 10, "value": 1000}
+                            ]
+                        },
+                        "account": {"371000": 1000},
+                    },
                     "name": "transfer intern direct sublocatie",
                 },
                 {
@@ -55,14 +59,18 @@ class TestFIFOInternalTransfer(TestROStockCommon):
                     "location": self.location_sub_1,
                     "location1": self.location_sub_2,
                     "product_id": self.product_fifo,
-                    "step": 1.0,
+                    "step": 1,
                     "qty": 6.0,
                     "stock_qty": 6.0,
-                    "checks": "{"
-                    "'stock': {'product_fifo': ["
-                    "{'location': 'location_sub_1', 'qty': 4, 'value': 400}, "
-                    "{'location': 'location_sub_2', 'qty': 6, 'value': 600}]}, "
-                    "'account': {'371000': 1000}}",
+                    "checks": {
+                        "stock": {
+                            "product_fifo": [
+                                {"location": "location_sub_1", "qty": 4, "value": 400},
+                                {"location": "location_sub_2", "qty": 6, "value": 600},
+                            ]
+                        },
+                        "account": {"371000": 1000},
+                    },
                     "name": "transfer intern direct sublocatie",
                 },
             ],
