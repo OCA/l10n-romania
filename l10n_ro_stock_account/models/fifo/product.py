@@ -152,11 +152,10 @@ class ProductProduct(models.Model):
             and not p.lot_valuated
         )
         if not ro_fifo_products:
-            return (
-                super()
-                ._get_remaining_moves(lot=lot, at_date=at_date, location=location)
-                .get(self, {})
+            return super()._run_fifo_get_stack(
+                lot=lot, at_date=at_date, location=location
             )
+
         external_location = location and location.is_valued_external
         fifo_stack = []
         fifo_stack_size = 0
