@@ -6,6 +6,7 @@
     "countries": ["ro"],
     "depends": ["stock", "l10n_ro_config"],
     "data": [
+        "data/stock_data.xml",
         "views/stock_warehouse_view.xml",
         "views/product_template_view.xml",
     ],
