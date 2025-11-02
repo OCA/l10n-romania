@@ -19,7 +19,7 @@ class TestStockAvg(TestROStockCommon):
         super().setUp()
 
     def test_ro_stock_product_avg(self):
-        filename = "test_cases_avg.csv"
+        filename = "test_cases_avg2.csv"
         test_cases = self.read_test_cases_from_csv_file(filename)
         for _key, case in test_cases.items():
             _logger.info(

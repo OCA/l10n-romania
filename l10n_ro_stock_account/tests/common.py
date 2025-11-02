@@ -461,17 +461,32 @@ class TestROStockCommon(AccountTestInvoicingCommon):
                 [
                     ("company_id", "=", self.env.company.id),
                     ("state", "=", "posted"),
-                ]
+                ],
+                order="id",
             )
             for move in acc_moves:
+                # Opțional, puteți adăuga un separator pentru fiecare "move"
+                _logger.info("-" * 80)
+
+                # Antetul tabelului
+                _logger.info(
+                    "%-20s | %-10s | %-10s | %-10s | %s",
+                    "Document",
+                    "Cont",
+                    "Debit",
+                    "Credit",
+                    "Sold",
+                )
+                _logger.info("-" * 80)
+
                 for line in move.line_ids:
                     _logger.info(
-                        "%s | %s | Debit: %.2f | Credit: %.2f | Balance: %.2f",
+                        "%-20s | %-10s | %10.2f | %10.2f | %10.2f",
                         line.move_id.name,
                         line.account_id.code,
                         line.debit,
                         line.credit,
-                        line.balance,  # noqa
+                        line.balance,
                     )
         for account_code, expected_balance in checks.items():
             account = self.env["account.account"].search(
@@ -481,6 +496,7 @@ class TestROStockCommon(AccountTestInvoicingCommon):
                 ],
                 limit=1,
             )
+
             if not account:
                 raise AssertionError(f"Account with code {account_code} not found")
             acc_move_lines = self.env["account.move.line"].search(
@@ -490,6 +506,20 @@ class TestROStockCommon(AccountTestInvoicingCommon):
                     ("parent_state", "=", "posted"),
                 ]
             )
+
+            if self.log_checks:
+                _logger.info("-" * 80)
+
+                for line in acc_move_lines:
+                    _logger.info(
+                        "%-20s | %-10s | %10.2f | %10.2f | %10.2f",
+                        line.move_id.name,
+                        line.account_id.code,
+                        line.debit,
+                        line.credit,
+                        line.balance,
+                    )
+
             if not acc_move_lines and float(expected_balance) != 0.0:
                 raise AssertionError(
                     f"No posted entries found for account {account_code}"
