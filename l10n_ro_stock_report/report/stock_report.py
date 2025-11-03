@@ -6,7 +6,7 @@ import logging
 import pytz
 from dateutil.relativedelta import relativedelta
 
-from odoo import _, api, fields, models
+from odoo import api, fields, models
 from odoo.exceptions import UserError
 
 # Local fallback; in v19 we do not depend on l10n_ro_stock_account
@@ -165,7 +165,9 @@ class StorageSheet(models.TransientModel):
                 all_products = False
                 if not product_list:
                     raise UserError(
-                        _("There are no stock movements in the selected period")
+                        self.env._(
+                            "There are no stock movements in the selected period"
+                        )
                     )
             else:
                 product_list = [-1]  # dummy list
@@ -475,7 +477,7 @@ class StorageSheet(models.TransientModel):
             all_products = False
             if not product_list:
                 raise UserError(
-                    _("There are no stock movements in the selected period")
+                    self.env._("There are no stock movements in the selected period")
                 )
         return product_list, all_products
 
@@ -496,7 +498,7 @@ class StorageSheet(models.TransientModel):
 
         action["display_name"] = "{} {} ({}-{})".format(
             action["name"],
-            self.location_id.name or _("All Locations"),
+            self.location_id.name or self.env._("All Locations"),
             self.date_from,
             self.date_to,
         )
