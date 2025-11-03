@@ -74,7 +74,6 @@ class TestStockReport(TransactionCase):
                 "name": "Product A",
                 "is_storable": True,
                 "categ_id": self.category.id,
-                "purchase_method": "receive",
                 "list_price": self.list_price_p1,
                 "standard_price": self.price_p1,
             }
@@ -85,7 +84,6 @@ class TestStockReport(TransactionCase):
                 "name": "Product B",
                 "is_storable": True,
                 "categ_id": self.category.id,
-                "purchase_method": "receive",
                 "list_price": self.list_price_p1,
                 "standard_price": self.price_p1,
             }
@@ -368,16 +366,6 @@ class TestStockReport(TransactionCase):
                 ("location_id", "=", self.location.id),
             ]
         )
-        for line in lines1:
-            _logger.info(
-                "Line: Prod %s Loc %s Init %s In %s Out %s Final %s",
-                line.product_id.name,
-                line.location_id.name,
-                line.quantity_initial,
-                line.quantity_in,
-                line.quantity_out,
-                line.quantity_final,
-            )
 
         qty_init_1 = sum(lines1.mapped("quantity_initial"))
         qty_in_1 = sum(lines1.mapped("quantity_in"))
