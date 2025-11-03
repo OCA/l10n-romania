@@ -12,7 +12,7 @@
     "category": "Localization",
     "depends": ["base_address_extended", "l10n_ro_config"],
     "data": [
-        "data/res_city.xml",
+        "data/res.city.csv",
         "views/res_city_view.xml",
         "data/res.country.state.csv",
     ],
