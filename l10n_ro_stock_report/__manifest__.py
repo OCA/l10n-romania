@@ -10,6 +10,8 @@
     "depends": [
         "stock",
         "account",
+        "purchase",
+        "sale",
         "l10n_ro_config",
     ],
     "data": [
