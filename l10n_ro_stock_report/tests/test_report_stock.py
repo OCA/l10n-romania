@@ -256,7 +256,6 @@ class TestStockReport(TransactionCase):
         )
         self.assertTrue(line)
 
-
     def _create_simple_picking(self, picking_type, product, qty, date_dt):
         Picking = self.env["stock.picking"]
         Move = self.env["stock.move"]
