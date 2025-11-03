@@ -2,13 +2,15 @@
 {
     "name": "Romania - Stock Report (Fișă Magazie)",
     "license": "AGPL-3",
-    "version": "18.0.1.6.0",
+    "version": "19.0.2.0.0",
     "countries": ["ro"],
     "author": "Terrabit,NextERP Romania,Odoo Community Association (OCA)",
     "website": "https://github.com/OCA/l10n-romania",
     "category": "Warehouse",
     "depends": [
-        "l10n_ro_stock_account",
+        "stock",
+        "account",
+        "l10n_ro_config",
     ],
     "data": [
         "report/stock_report_view.xml",
