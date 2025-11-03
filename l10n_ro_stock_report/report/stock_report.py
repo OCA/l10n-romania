@@ -9,7 +9,8 @@ from dateutil.relativedelta import relativedelta
 from odoo import _, api, fields, models
 from odoo.exceptions import UserError
 
-from odoo.addons.l10n_ro_stock_account.models.stock_valuation_layer import VALUED_TYPE
+# Local fallback; in v19 we do not depend on l10n_ro_stock_account
+VALUED_TYPE = [("indefinite", "Indefinite")]
 
 _logger = logging.getLogger(__name__)
 
@@ -207,7 +208,7 @@ class StorageSheet(models.TransientModel):
                 "date_to": fields.Date.to_string(self.date_to),
                 "datetime_from": fields.Datetime.to_string(datetime_from),
                 "datetime_to": fields.Datetime.to_string(datetime_to),
-                "tz": self._context.get("tz") or self.env.user.tz or "UTC",
+                "tz": self.env.context.get("tz") or self.env.user.tz or "UTC",
             }
             _logger.info("start query_select_sold_init %s", location.name)
             # defalcare sold initial pe preturi
@@ -237,10 +238,12 @@ class StorageSheet(models.TransientModel):
         _logger.info("end select ")
 
     def _get_lot_fields(self):
-        field = ", serial_number"
-        select = ", lot_id as serial_number"
+        # In v19 we aggregate by move only; lot breakdown is disabled to avoid
+        # dependencies on move lines or SVL. Keep empty to simplify queries.
+        field = ""
+        select = ""
         join = ""
-        group = ", lot_id"
+        group = ""
         return field, select, join, group
 
     def _get_sql_select_sold_init(self):
@@ -253,36 +256,47 @@ class StorageSheet(models.TransientModel):
            location_id, categ_id {field})
 
         select * from(
-            SELECT %(report)s as report_id, prod.id as product_id,
-                COALESCE(sum(svl.value), 0)  as amount_initial,
-                COALESCE(sum(svl.quantity), 0)  as quantity_initial,
-                COALESCE(svl.l10n_ro_account_id, Null) as account_id,
+            SELECT %(report)s as report_id, x.product_id as product_id,
+                COALESCE(sum(x.amount), 0) as amount_initial,
+                COALESCE(sum(x.quantity), 0) as quantity_initial,
+                NULL::int as account_id,
                 %(datetime_from)s::timestamp without time zone  as date_time,
                 %(date_from)s::date as date,
                 %(reference)s as reference,
                 %(reference)s as document,
                 %(location)s as location_id,
-                pt.categ_id as categ_id
+                x.categ_id as categ_id
                 {select}
-            from product_product as prod
-            join stock_move as sm ON sm.product_id = prod.id AND sm.state = 'done' AND
-                sm.company_id = %(company)s AND
-                 sm.date <  %(datetime_from)s AND
-                (sm.location_id in %(locations)s OR
-                sm.location_dest_id in %(locations)s)
-            left join product_template pt on pt.id = prod.product_tmpl_id
-            left join stock_valuation_layer as svl on svl.stock_move_id = sm.id and
-                    ((l10n_ro_valued_type !='internal_transfer' or
-                        l10n_ro_valued_type is Null
-                     ) or
-                     (l10n_ro_valued_type ='internal_transfer' and svl.quantity<0 and
-                      sm.location_id in %(locations)s) or
-                     (l10n_ro_valued_type ='internal_transfer' and svl.quantity>0 and
-                      sm.location_dest_id in %(locations)s))
-            {join}
-            where
-                ( %(all_products)s  or sm.product_id in %(product)s )
-            GROUP BY prod.id, svl.l10n_ro_account_id, pt.categ_id {group})
+            from (
+                SELECT sm.product_id, pt.categ_id,
+                       sm.value as amount,
+                       sm.quantity as quantity
+                from stock_move as sm
+                    left join product_product prod on prod.id = sm.product_id
+                    left join product_template pt on pt.id = prod.product_tmpl_id
+                    {join}
+                where
+                    sm.state = 'done' AND
+                    sm.company_id = %(company)s AND
+                    ( %(all_products)s  or sm.product_id in %(product)s ) AND
+                    sm.date <  %(datetime_from)s AND
+                    sm.location_dest_id in %(locations)s
+                UNION ALL
+                SELECT sm.product_id, pt.categ_id,
+                       -sm.value as amount,
+                       -sm.quantity as quantity
+                from stock_move as sm
+                    left join product_product prod on prod.id = sm.product_id
+                    left join product_template pt on pt.id = prod.product_tmpl_id
+                    {join}
+                where
+                    sm.state = 'done' AND
+                    sm.company_id = %(company)s AND
+                    ( %(all_products)s  or sm.product_id in %(product)s ) AND
+                    sm.date <  %(datetime_from)s AND
+                    sm.location_id in %(locations)s
+            ) as x
+            GROUP BY x.product_id, x.categ_id {group})
         a --where a.amount_initial!=0 and a.quantity_initial!=0
             """
         return sql
@@ -296,38 +310,48 @@ class StorageSheet(models.TransientModel):
            account_id, date_time, date, reference, document,
            location_id, categ_id {field})
         select * from(
-            SELECT %(report)s as report_id, sm.product_id as product_id,
-                COALESCE(sum(svl.value),0)  as amount_final,
-                COALESCE(sum(svl.quantity),0)  as quantity_final,
+            SELECT %(report)s as report_id, x.product_id as product_id,
+                COALESCE(sum(x.amount), 0) as amount_final,
+                COALESCE(sum(x.quantity), 0) as quantity_final,
 
-                COALESCE(svl.l10n_ro_account_id, Null) as account_id,
+                NULL::int as account_id,
                 %(datetime_to)s::timestamp without time zone as date_time,
                 %(date_to)s::date as date,
                 %(reference)s as reference,
                 %(reference)s as document,
                 %(location)s as location_id,
-                pt.categ_id as categ_id
+                x.categ_id as categ_id
                 {select}
-            from stock_move as sm
-            left join product_product prod on prod.id = sm.product_id
-            left join product_template pt on pt.id = prod.product_tmpl_id
-            inner join  stock_valuation_layer as svl on svl.stock_move_id = sm.id and
-                    ((l10n_ro_valued_type !='internal_transfer' or
-                      l10n_ro_valued_type is Null
-                     ) or
-                     (l10n_ro_valued_type ='internal_transfer' and svl.quantity<0 and
-                      sm.location_id in %(locations)s) or
-                     (l10n_ro_valued_type ='internal_transfer' and svl.quantity>0 and
-                      sm.location_dest_id in %(locations)s))
-            {join}
-            where
-                sm.state = 'done' AND
-                sm.company_id = %(company)s AND
-                ( %(all_products)s  or sm.product_id in %(product)s ) AND
-                sm.date <=  %(datetime_to)s AND
-                (sm.location_id in %(locations)s OR
-                 sm.location_dest_id in %(locations)s)
-            GROUP BY sm.product_id, svl.l10n_ro_account_id, pt.categ_id {group})
+            from (
+                SELECT sm.product_id, pt.categ_id,
+                       sm.value as amount,
+                       sm.quantity as quantity
+                from stock_move as sm
+                    left join product_product prod on prod.id = sm.product_id
+                    left join product_template pt on pt.id = prod.product_tmpl_id
+                    {join}
+                where
+                    sm.state = 'done' AND
+                    sm.company_id = %(company)s AND
+                    ( %(all_products)s  or sm.product_id in %(product)s ) AND
+                    sm.date <=  %(datetime_to)s AND
+                    sm.location_dest_id in %(locations)s
+                UNION ALL
+                SELECT sm.product_id, pt.categ_id,
+                       -sm.value as amount,
+                       -sm.quantity as quantity
+                from stock_move as sm
+                    left join product_product prod on prod.id = sm.product_id
+                    left join product_template pt on pt.id = prod.product_tmpl_id
+                    {join}
+                where
+                    sm.state = 'done' AND
+                    sm.company_id = %(company)s AND
+                    ( %(all_products)s  or sm.product_id in %(product)s ) AND
+                    sm.date <=  %(datetime_to)s AND
+                    sm.location_id in %(locations)s
+            ) as x
+            GROUP BY x.product_id, x.categ_id {group})
         a
             """
         return sql
@@ -342,51 +366,38 @@ class StorageSheet(models.TransientModel):
            partner_id, document, valued_type, categ_id {field} )
         select * from(
 
-
         SELECT  %(report)s as report_id, sm.product_id as product_id,
-            COALESCE(sum(svl_in.value),0)   as amount_in,
-            COALESCE(ROUND(sum(svl_in.quantity), 5), 0)   as quantity_in,
+            COALESCE(sum(sm.value),0)   as amount_in,
+            COALESCE(ROUND(sum(sm.quantity), 5), 0)   as quantity_in,
             CASE
-                WHEN ROUND(COALESCE(sum(svl_in.quantity), 0), 5) != 0
-                    THEN COALESCE(sum(svl_in.value),0) / sum(svl_in.quantity)
+                WHEN ROUND(COALESCE(sum(sm.quantity), 0), 5) != 0
+                    THEN COALESCE(sum(sm.value),0) / NULLIF(sum(sm.quantity),0)
                 ELSE 0
             END as unit_price_in,
-             svl_in.l10n_ro_account_id as account_id,
-             svl_in.l10n_ro_invoice_id as invoice_id,
+             NULL::int as account_id,
+             NULL::int as invoice_id,
             sm.date as date_time,
             date_trunc('day', sm.date at time zone 'utc' at time zone %(tz)s) as date,
             sm.reference as reference,
             %(location)s as location_id,
             sp.partner_id,
-            COALESCE(am.name, sm.reference) as document,
-            COALESCE(svl_in.l10n_ro_valued_type, 'indefinite') as valued_type,
+            sm.reference as document,
+            'indefinite' as valued_type,
             pt.categ_id as categ_id
                 {select}
             from stock_move as sm
-                inner join stock_valuation_layer as svl_in
-                    on svl_in.stock_move_id = sm.id and
-                    (
-                     (sm.location_dest_id in %(locations)s and svl_in.quantity>=0 and
-                      l10n_ro_valued_type not like '%%_return')
-                    or
-                     (sm.location_id in %(locations)s and (svl_in.quantity<=0 and
-                     l10n_ro_valued_type='reception_return'))
-                    )
                 left join product_product prod on prod.id = sm.product_id
                 left join product_template pt on pt.id = prod.product_tmpl_id
                 left join stock_picking as sp on sm.picking_id = sp.id
-                left join account_move am on svl_in.l10n_ro_invoice_id = am.id
             {join}
             where
                 sm.state = 'done' AND
                 sm.company_id = %(company)s AND
                 ( %(all_products)s  or sm.product_id in %(product)s ) AND
                 sm.date >= %(datetime_from)s  AND  sm.date <= %(datetime_to)s  AND
-                (sm.location_dest_id in %(locations)s or
-                 sm.location_id in %(locations)s)
+                sm.location_dest_id in %(locations)s
             GROUP BY sm.product_id, sm.date,
-             sm.reference, sp.partner_id, l10n_ro_account_id,
-             svl_in.l10n_ro_invoice_id, am.name, svl_in.l10n_ro_valued_type,
+             sm.reference, sp.partner_id,
              pt.categ_id {group})
         a --where a.amount_in!=0 and a.quantity_in!=0
                 """
@@ -404,50 +415,37 @@ class StorageSheet(models.TransientModel):
         select * from(
 
         SELECT  %(report)s as report_id, sm.product_id as product_id,
-            -1*COALESCE(sum(svl_out.value),0)   as amount_out,
-            -1*COALESCE(ROUND(sum(svl_out.quantity), 5),0) as quantity_out,
+            COALESCE(sum(sm.value),0)   as amount_out,
+            COALESCE(ROUND(sum(sm.quantity), 5),0) as quantity_out,
             CASE
-                WHEN ROUND(COALESCE(sum(svl_out.quantity), 0), 5) != 0
-                    THEN COALESCE(sum(svl_out.value),0) / sum(svl_out.quantity)
+                WHEN ROUND(COALESCE(sum(sm.quantity), 0), 5) != 0
+                    THEN COALESCE(sum(sm.value),0) / NULLIF(sum(sm.quantity),0)
                 ELSE 0
             END as unit_price_out,
-            svl_out.l10n_ro_account_id as account_id,
-            svl_out.l10n_ro_invoice_id as invoice_id,
+            NULL::int as account_id,
+            NULL::int as invoice_id,
             sm.date as date_time,
             date_trunc('day', sm.date at time zone 'utc' at time zone %(tz)s) as date,
             sm.reference as reference,
             %(location)s as location_id,
             sp.partner_id,
-            COALESCE(am.name, sm.reference) as document,
-            COALESCE(svl_out.l10n_ro_valued_type, 'indefinite') as valued_type,
+            sm.reference as document,
+            'indefinite' as valued_type,
             pt.categ_id as categ_id
             {select}
             from stock_move as sm
-
-                inner join stock_valuation_layer as svl_out
-                on svl_out.stock_move_id = sm.id and
-                 (
-                  (sm.location_id in %(locations)s and svl_out.quantity<=0 and
-                    l10n_ro_valued_type != 'reception_return')
-                 or
-                  (sm.location_dest_id in  %(locations)s and (svl_out.quantity>=0 and
-                   l10n_ro_valued_type like '%%_return'))
-                 )
                 left join product_product prod on prod.id = sm.product_id
                 left join product_template pt on pt.id = prod.product_tmpl_id
                 left join stock_picking as sp on sm.picking_id = sp.id
-                left join account_move am on svl_out.l10n_ro_invoice_id = am.id
                 {join}
             where
                 sm.state = 'done' AND
                 sm.company_id = %(company)s AND
                 ( %(all_products)s  or sm.product_id in %(product)s ) AND
                 sm.date >= %(datetime_from)s  AND  sm.date <= %(datetime_to)s  AND
-                (sm.location_id in %(locations)s or
-                 sm.location_dest_id in %(locations)s)
+                sm.location_id in %(locations)s
             GROUP BY sm.product_id, sm.date,
-                     sm.reference, sp.partner_id, account_id,
-                     svl_out.l10n_ro_invoice_id, am.name, svl_out.l10n_ro_valued_type,
+                     sm.reference, sp.partner_id,
                      pt.categ_id {group})
         a --where a.amount_out!=0 and a.quantity_out!=0
                 """

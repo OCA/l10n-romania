@@ -14,8 +14,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
-"Plural-Forms: nplurals=3; plural=n==1 ? 0 : (n==0 || (n%100 > 0 && n%100 < "
-"20)) ? 1 : 2;\n"
+"Plural-Forms: nplurals=3; plural=n==1 ? 0 : (n==0 || (n%100 > 0 && n%100 < 20)) ? 1 : 2;\n"
 "X-Generator: Weblate 4.17\n"
 
 #. module: l10n_ro_stock_report
@@ -531,13 +530,3 @@ msgid ""
 msgstr ""
 "Va afișa raportul numai pentru aceste produse.     Dacă nimic nu va fi "
 "selectat arata numai produsele care au miscari de stoc in perioada"
-
-#, python-format
-#~ msgid "Print Preview"
-#~ msgstr "Previzualizare"
-
-#~ msgid "Last Modified on"
-#~ msgstr "Ultima modificare pe"
-
-#~ msgid "Select category for the current product"
-#~ msgstr "Selectați categoria pentru produsul curent"

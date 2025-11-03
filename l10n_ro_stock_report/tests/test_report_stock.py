@@ -45,11 +45,10 @@ class TestStockReport(TransactionCase):
             "name": "TEST Marfa",
             "property_cost_method": "fifo",
             "property_valuation": "real_time",
-            "property_account_creditor_price_difference_categ": self.account_difference.id,  # noqa E501
+
             "property_account_income_categ_id": self.account_income.id,
             "property_account_expense_categ_id": self.account_expense.id,
-            "property_stock_account_input_categ_id": self.account_valuation.id,
-            "property_stock_account_output_categ_id": self.account_valuation.id,
+
             "property_stock_valuation_account_id": self.account_valuation.id,
             "property_stock_journal": self.stock_journal.id,
         }
@@ -279,18 +278,6 @@ class TestStockReport(TransactionCase):
         receipt.move_line_ids.quantity = 1
         receipt.button_validate()
 
-        # Check SVL
-        svl = self.env["stock.valuation.layer"].search(
-            [("stock_move_id", "in", receipt.move_ids.ids)]
-        )
-        self.assertAlmostEqual(svl.value, 70)
-
-        # copy svl dand modify the quantity
-        svl2 = svl.copy()
-        svl2.quantity = 0
-        svl2.unit_cost = 0
-        svl2.value = 20
-
         wizard = Form(self.env["l10n.ro.stock.storage.sheet"])
         wizard.location_id = self.location
         wizard = wizard.save()
@@ -301,9 +288,9 @@ class TestStockReport(TransactionCase):
         )
         self.assertEqual(sum(line.mapped("amount_initial")), 0)
         self.assertEqual(sum(line.mapped("quantity_initial")), 0)
-        self.assertEqual(sum(line.mapped("amount_in")), 90)
+        self.assertEqual(sum(line.mapped("amount_in")), 70)
         self.assertEqual(sum(line.mapped("quantity_in")), 1)
         self.assertEqual(sum(line.mapped("amount_out")), 0)
         self.assertEqual(sum(line.mapped("quantity_out")), 0)
-        self.assertEqual(sum(line.mapped("amount_final")), 90)
+        self.assertEqual(sum(line.mapped("amount_final")), 70)
         self.assertEqual(sum(line.mapped("quantity_final")), 1)
