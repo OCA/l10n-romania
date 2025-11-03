@@ -173,6 +173,9 @@ class TestStockReport(TransactionCase):
         products = (
             self.env["product.product"].with_context(active_test=False).search(domain)
         )
+
+        self._create_receipt(self.product_1, 1, fields.Datetime.now())
+
         wizard = Form(self.env["l10n.ro.stock.storage.sheet"])
         wizard.location_id = self.location
         wizard.products_with_move = True
