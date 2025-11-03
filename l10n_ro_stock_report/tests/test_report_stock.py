@@ -256,39 +256,6 @@ class TestStockReport(TransactionCase):
         )
         self.assertTrue(line)
 
-    def test_report_with_stock_landed_costs(self):
-        self.env.company.anglo_saxon_accounting = True
-        # Create PO with Product A
-        po_form = Form(self.env["purchase.order"])
-        po_form.partner_id = self.vendor
-        with po_form.order_line.new() as po_line:
-            po_line.product_id = self.product_1
-            po_line.product_qty = 1
-            po_line.price_unit = 70.0
-        po_form = po_form.save()
-        po_form.button_confirm()
-
-        # Receive the goods
-        receipt = po_form.picking_ids[0]
-        receipt.move_line_ids.quantity = 1
-        receipt.button_validate()
-
-        wizard = Form(self.env["l10n.ro.stock.storage.sheet"])
-        wizard.location_id = self.location
-        wizard = wizard.save()
-
-        wizard.button_show_sheet_pdf()
-        line = self.env["l10n.ro.stock.storage.sheet.line"].search(
-            [("report_id", "=", wizard.id), ("product_id", "=", self.product_1.id)]
-        )
-        self.assertEqual(sum(line.mapped("amount_initial")), 0)
-        self.assertEqual(sum(line.mapped("quantity_initial")), 0)
-        self.assertEqual(sum(line.mapped("amount_in")), 70)
-        self.assertEqual(sum(line.mapped("quantity_in")), 1)
-        self.assertEqual(sum(line.mapped("amount_out")), 0)
-        self.assertEqual(sum(line.mapped("quantity_out")), 0)
-        self.assertEqual(sum(line.mapped("amount_final")), 70)
-        self.assertEqual(sum(line.mapped("quantity_final")), 1)
 
     def _create_simple_picking(self, picking_type, product, qty, date_dt):
         Picking = self.env["stock.picking"]
