@@ -51,20 +51,10 @@ jobs:
           - 5432:5432
     env:
       OCA_ENABLE_CHECKLOG_ODOO: "1"
-      LOCAL_ADDONS: "./deltatech-addons"
-
-
     steps:
       - uses: actions/checkout@v4
         with:
           persist-credentials: false
-
-      - name: Checkout deltatech repo
-        uses: actions/checkout@v4
-        with:
-          repository: dhongu/deltatech
-          path: deltatech-addons
-
       - name: Install addons and dependencies
         run: oca_install_addons
       - name: Check licenses
