@@ -83,7 +83,18 @@ class TestVatUnique(AccountTestInvoicingCommon):
             {
                 "name": "Test partner 1",
                 "is_company": True,
-                "vat": "RO3083485",
+                "vat": "RO308",
+                "nrc": "J35/2622/2012",
+            }
+        )
+        with self.assertRaises(ValidationError):
+            partner.vat = "RO30834857"  # try to fix vat
+
+        partner = self.env["res.partner"].create(
+            {
+                "name": "Test partner 1",
+                "is_company": True,
+                "vat": "RO3083485789",
                 "nrc": "J35/2622/2012",
             }
         )
