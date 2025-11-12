@@ -16,14 +16,24 @@ class TestVatUnique(AccountTestInvoicingCommon):
         super().setUpClass()
         cls.env.company.l10n_ro_accounting = True
         cls.partner = cls.env["res.partner"].create(
-            {"name": "Test partner", "vat": "RO30834857", "nrc": "J35/2622/2012"}
+            {
+                "name": "Test partner",
+                "vat": "RO30834857",
+                "nrc": "J35/2622/2012",
+                "is_company": True,
+            }
         )
 
     def test_duplicated_vat_creation(self):
         """Test creation of partner."""
         with self.assertRaises(ValidationError):
             self.env["res.partner"].create(
-                {"name": "Second partner", "vat": "RO30834857", "nrc": "J35/2622/2012"}
+                {
+                    "name": "Second partner",
+                    "vat": "RO30834857",
+                    "nrc": "J35/2622/2012",
+                    "is_company": True,
+                }
             )
 
     def test_contact_vat_creation(self):
