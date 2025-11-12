@@ -40,7 +40,7 @@ class TestVatUnique(AccountTestInvoicingCommon):
 
     def test_duplicated_vat_creation_without_prefix(self):
         """
-        Test if is possible to create two partners with the same vat without prefix
+        Test if it is possible to create two partners with the same vat without prefix
         """
         with self.assertRaises(ValidationError):
             self.env["res.partner"].create(
