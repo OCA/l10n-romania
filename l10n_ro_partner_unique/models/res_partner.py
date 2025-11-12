@@ -22,6 +22,7 @@ class ResPartner(models.Model):
             ("parent_id", "=", False),
             ("id", "!=", self.id),
             ("is_company", "=", True),
+            "&",
             "|",
             ("vat", "=ilike", vat_1),
             ("vat", "=ilike", vat_2),
@@ -41,7 +42,7 @@ class ResPartner(models.Model):
                 if self.env["res.partner"].search(domain, limit=1):
                     raise ValidationError(
                         self.env._(
-                            "The VAT and NRC pair (%(vat)s, %(nrc)s) must be unique  !",
+                            "The VAT and NRC pair (%(vat)s, %(nrc)s) must be unique!",
                             vat=record.vat,
                             nrc=record.nrc,
                         )
