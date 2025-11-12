@@ -26,7 +26,7 @@ class TestVatUnique(AccountTestInvoicingCommon):
 
     def test_duplicated_vat_creation(self):
         """
-        Test if is possible to create two partners with the same vat
+        Test if it is possible to create two partners with the same vat
         """
         with self.assertRaises(ValidationError):
             self.env["res.partner"].create(
@@ -40,7 +40,8 @@ class TestVatUnique(AccountTestInvoicingCommon):
 
     def test_duplicated_vat_creation_without_prefix(self):
         """
-        Test if is possible to create two partners with the same vat without prefix
+        Test if it is possible to create two partners with the same
+         vat without prefix
         """
         with self.assertRaises(ValidationError):
             self.env["res.partner"].create(
@@ -54,7 +55,8 @@ class TestVatUnique(AccountTestInvoicingCommon):
 
     def test_contact_vat_creation(self):
         """
-        Test if is possible to create a contact with the same vat as the parent company
+        Test if it is possible to create a contact with the same vat
+        as the parent company
         """
         self.env["res.partner"].create(
             {
@@ -77,7 +79,8 @@ class TestVatUnique(AccountTestInvoicingCommon):
 
     def test_partial_vat_creation(self):
         """
-        Test if is possible to create a contact with a partial vat as the other partner
+        Test if it is possible to create a contact with a partial
+        vat of an existing one
         """
         partner = self.env["res.partner"].create(
             {
@@ -103,7 +106,8 @@ class TestVatUnique(AccountTestInvoicingCommon):
 
     def test_duplicated_vat_creation_individual(self):
         """
-        Test if is possible to create an individual with the same vat as a company
+        Test if is possible to create an individual with the same
+        vat as a company
         """
         partner = self.env["res.partner"].create(
             {
