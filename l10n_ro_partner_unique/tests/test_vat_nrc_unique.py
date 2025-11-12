@@ -25,7 +25,9 @@ class TestVatUnique(AccountTestInvoicingCommon):
         )
 
     def test_duplicated_vat_creation(self):
-        """Test creation of partner."""
+        """
+        Test if is possible to create two partners with the same vat
+        """
         with self.assertRaises(ValidationError):
             self.env["res.partner"].create(
                 {
@@ -36,8 +38,24 @@ class TestVatUnique(AccountTestInvoicingCommon):
                 }
             )
 
+    def test_duplicated_vat_creation_without_prefix(self):
+        """
+        Test if is possible to create two partners with the same vat without prefix
+        """
+        with self.assertRaises(ValidationError):
+            self.env["res.partner"].create(
+                {
+                    "name": "Second partner",
+                    "vat": "30834857",
+                    "nrc": "J35/2622/2012",
+                    "is_company": True,
+                }
+            )
+
     def test_contact_vat_creation(self):
-        """Test creation of partner contacs."""
+        """
+        Test if is possible to create a contact with the same vat as the parent company
+        """
         self.env["res.partner"].create(
             {
                 "name": "Test partner 1 - child",
@@ -47,3 +65,43 @@ class TestVatUnique(AccountTestInvoicingCommon):
                 "nrc": "J35/2622/2012",
             }
         )
+        self.env["res.partner"].create(
+            {
+                "name": "Test partner 2 - child",
+                "parent_id": self.partner.id,
+                "is_company": True,
+                "vat": "RO30834857",
+                "nrc": "J35/2622/2012",
+            }
+        )
+
+    def test_partial_vat_creation(self):
+        """
+        Test if is possible to create a contact with a partial vat as the other partner
+        """
+        partner = self.env["res.partner"].create(
+            {
+                "name": "Test partner 1",
+                "is_company": True,
+                "vat": "RO3083485",
+                "nrc": "J35/2622/2012",
+            }
+        )
+        with self.assertRaises(ValidationError):
+            partner.vat = "RO30834857"  # try to fix vat
+
+    def test_duplicated_vat_creation_individual(self):
+        """
+        Test if is possible to create an individual with the same vat as a company
+        """
+        partner = self.env["res.partner"].create(
+            {
+                "name": "Second partner",
+                "vat": "RO30834857",
+                "nrc": "J35/2622/2012",
+                "is_company": False,
+            }
+        )
+
+        with self.assertRaises(ValidationError):
+            partner.is_company = True
