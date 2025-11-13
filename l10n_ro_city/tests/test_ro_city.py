@@ -36,7 +36,6 @@ class TestRoCity(TransactionCase):
             partner_form.state_id = self.state_bc
 
         self.assertEqual(partner_form.city_id, city_obj)
-        partner_form.get_zip_code()
 
     def test_completare_zip(self):
         partner_form = Form(self.env["res.partner"])
