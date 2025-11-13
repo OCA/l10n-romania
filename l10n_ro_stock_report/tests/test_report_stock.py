@@ -225,7 +225,7 @@ class TestStockReport(TransactionCase):
         # with self.assertRaises(UserError):
         #     wizard_product.get_found_products()
 
-    def test_report_storeage_sheet_sublocation(self):
+    def test_report_storage_sheet_sublocation(self):
         self.create_po()
         self.create_invoice()
 
