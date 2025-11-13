@@ -242,7 +242,7 @@ class TestStockReport(TransactionCase):
         )
         self.assertTrue(line)
 
-    def test_report_storeage_sheet_sublocation2(self):
+    def test_report_storage_sheet_sublocation2(self):
         self.create_po()
         self.create_invoice()
 
