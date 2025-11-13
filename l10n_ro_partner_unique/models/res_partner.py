@@ -17,19 +17,36 @@ class ResPartner(models.Model):
         vat_2 = vat.replace("RO", "")
         vat_1 = "RO" + vat_2
 
+        # citiere paramentru legat de uniticatea VAT sau unitictate de CUI+NRC
+        get_param = self.env["ir.config_parameter"].sudo().get_param
+        vat_nrc_unique = get_param(
+            "l10n_ro_partner_unique.vat_nrc_unique", default="vat"
+        )
+
         domain = [
             ("company_id", "=", self.company_id.id if self.company_id else False),
             ("parent_id", "=", False),
             ("id", "!=", self.id),
             ("is_company", "=", True),
-            "&",
-            "|",
-            ("vat", "=ilike", vat_1),
-            ("vat", "=ilike", vat_2),
-            "|",
-            ("nrc", "=ilike", nrc),
-            ("nrc", "=", False),
         ]
+
+        if vat_nrc_unique == "vat":
+            domain += [
+                "|",
+                ("vat", "=ilike", vat_1),
+                ("vat", "=ilike", vat_2),
+            ]
+        if vat_nrc_unique == "vat_nrc":
+            domain += [
+                "&",
+                "|",
+                ("vat", "=ilike", vat_1),
+                ("vat", "=ilike", vat_2),
+                "|",
+                ("nrc", "=ilike", nrc),
+                ("nrc", "=", False),
+            ]
+
         return domain
 
     @api.constrains("vat", "nrc", "is_company")
