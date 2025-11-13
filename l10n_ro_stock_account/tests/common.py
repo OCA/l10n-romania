@@ -401,9 +401,23 @@ class TestROStockCommon(AccountTestInvoicingCommon):
                             quant.value,
                         )
                     _logger.info("Stock moves for product %s", product.name)
+                    # Antetul tabelului
+                    _logger.info(
+                        "%-5s | %-20s | %-10s | %-10s | %-5s | %-10s | %-10s | %-10s | %s",  # noqa
+                        "ID",
+                        "Name",
+                        "From",
+                        "To",
+                        "Qty",
+                        "Value",
+                        "Remain Qty",
+                        "Price Unit",
+                        "Remain Value",  # noqa
+                    )
+                    _logger.info("-" * 120)
                     for move in product_moves:
                         _logger.info(
-                            "%s | %s | %s | %s | %s | %s | %s | %s | %s",
+                            "%-5s | %-20s | %-10s | %-10s | %5.2f | %10.2f | %10.2f | %10.2f | %10.2f",  # noqa
                             move.id,
                             move.display_name,
                             move.location_id.display_name,
