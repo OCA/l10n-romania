@@ -19,7 +19,6 @@
         "report/stock_report_template.xml",
         "security/ir.model.access.csv",
     ],
-    "qweb": ["static/src/xml/stock_sheet.xml"],
     "installable": True,
     "development_status": "Mature",
     "maintainers": ["dhongu", "feketemihai"],
