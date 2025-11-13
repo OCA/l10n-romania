@@ -46172,6 +46172,12 @@ msgid "Tețcoiu"
 msgstr ""
 
 #. module: l10n_ro_city
+#. odoo-python
+#: code:addons/l10n_ro_city/models/res_partner.py:0
+msgid "The state %s doesn't match the zip code"
+msgstr ""
+
+#. module: l10n_ro_city
 #: model:res.city,name:l10n_ro_city.RO_129479
 msgid "Tia Mare"
 msgstr ""
