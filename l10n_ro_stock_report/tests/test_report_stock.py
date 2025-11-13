@@ -147,7 +147,7 @@ class TestStockReport(TransactionCase):
         invoice.action_post()
         _logger.info("Factura introdusa")
 
-    def test_report_storeage_sheet(self):
+    def test_report_storage_sheet(self):
         self.create_po()
         self.create_invoice()
 
