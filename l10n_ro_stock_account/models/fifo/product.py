@@ -31,6 +31,7 @@ class ProductProduct(models.Model):
             product.total_value = product._run_fifo_value(
                 qty_available, at_date=at_date
             )
+            product.avg_cost = product.total_value / qty_available if qty_available else 0
         return res
 
     def _get_remaining_moves_ro(self, lot=None, at_date=None, location=None):
