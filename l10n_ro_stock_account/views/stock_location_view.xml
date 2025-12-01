@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="view_location_form_inherit" model="ir.ui.view">
+        <field name="name">view_location_romania_form</field>
+        <field name="model">stock.location</field>
+        <field name="inherit_id" ref="stock_account.view_location_form_inherit" />
+        <field name="arch" type="xml">
+            <xpath expr="//group[@name='additional_info']" position="after">
+                <group string="Romania Accounting" invisible="usage != 'internal'">
+                    <separator string="Only for Romania" />
+                    <field
+                        name="l10n_ro_property_account_income_location_id"
+                        options="{'no_create': True}"
+                    />
+                    <field
+                        name="l10n_ro_property_account_expense_location_id"
+                        options="{'no_create': True}"
+                    />
+                    <field
+                        name="l10n_ro_property_stock_valuation_account_id"
+                        options="{'no_create': True}"
+                    />
+                </group>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="action_location_account_propagate" model="ir.actions.server">
+        <field name="name">Propagate Accounts</field>
+        <field name="model_id" ref="model_stock_location" />
+        <field name="binding_model_id" ref="model_stock_location" />
+        <field name="binding_view_types">form</field>
+        <field name="group_ids" eval="[(4, ref('base.group_no_one'))]" />
+        <field name="state">code</field>
+        <field name="code">
+            if records:
+                records.propagate_account()
+        </field>
+    </record>
+</odoo>
