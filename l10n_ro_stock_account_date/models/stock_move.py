@@ -1,7 +1,7 @@
 # Copyright (C) 2022 NextERP Romania SRL
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
-from datetime import timedelta
+from datetime import datetime, timedelta
 
 from dateutil.relativedelta import relativedelta
 
@@ -16,7 +16,7 @@ class StockMove(models.Model):
     def l10n_ro_get_move_date(self):
         self.ensure_one()
         new_date = self._context.get("force_period_date")
-        now = fields.datetime.now()
+        now = fields.Date.today()
         if not new_date:
             if self.picking_id:
                 if self.picking_id.l10n_ro_accounting_date:
@@ -43,6 +43,13 @@ class StockMove(models.Model):
 
         if restrict_date_future:
             last_posting_date = now
+
+        if isinstance(first_posting_date, datetime):
+            first_posting_date = first_posting_date.date()
+        if isinstance(last_posting_date, datetime):
+            last_posting_date = last_posting_date.date()
+        if isinstance(new_date, datetime):
+            new_date = new_date.date()
 
         if first_posting_date and last_posting_date:
             if not (first_posting_date <= new_date <= last_posting_date):
