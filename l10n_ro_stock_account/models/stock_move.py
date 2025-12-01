@@ -540,7 +540,7 @@ class StockMove(models.Model):
             svl_id,
             cost,
         )
-        valued_type = self.env.context.get("valued_type", "indefinite")
+        valued_type = self.env.context.get("valued_type", False) or "indefinite"
         if self.env.company.account_storno and (
             "return" in valued_type or self.origin_returned_move_id
         ):

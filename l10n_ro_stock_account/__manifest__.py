@@ -1,7 +1,7 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 {
     "name": "Romania - Stock Accounting",
-    "version": "18.0.1.20.0",
+    "version": "18.0.1.21.0",
     "category": "Localization",
     "countries": ["ro"],
     "summary": "Romania - Stock Accounting",
