@@ -81,7 +81,8 @@ class TestStockSale(TestStockCommon):
         return_pick = return_wiz._create_return()
 
         # Validate picking
-        return_pick.move_ids._set_quantity_done(2)
+        for move in return_pick.move_ids:
+            move._set_quantity_done(2)
 
         return_pick.button_validate()
 
