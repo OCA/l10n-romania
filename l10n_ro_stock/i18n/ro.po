@@ -58,6 +58,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_ro_stock.field_product_template__display_name
 #: model:ir.model.fields,field_description:l10n_ro_stock.field_res_company__display_name
 #: model:ir.model.fields,field_description:l10n_ro_stock.field_stock_location__display_name
+#: model:ir.model.fields,field_description:l10n_ro_stock.field_stock_move__display_name
 #: model:ir.model.fields,field_description:l10n_ro_stock.field_stock_warehouse__display_name
 msgid "Display Name"
 msgstr ""
@@ -67,6 +68,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_ro_stock.field_product_template__id
 #: model:ir.model.fields,field_description:l10n_ro_stock.field_res_company__id
 #: model:ir.model.fields,field_description:l10n_ro_stock.field_stock_location__id
+#: model:ir.model.fields,field_description:l10n_ro_stock.field_stock_move__id
 #: model:ir.model.fields,field_description:l10n_ro_stock.field_stock_warehouse__id
 msgid "ID"
 msgstr ""
@@ -132,6 +134,11 @@ msgstr "Secvență Consum"
 #: code:addons/l10n_ro_stock/models/stock_warehouse.py:0
 msgid "Sequence Usage Giving"
 msgstr "Dăruire de utilizare a secvenței"
+
+#. module: l10n_ro_stock
+#: model:ir.model,name:l10n_ro_stock.model_stock_move
+msgid "Stock Move"
+msgstr ""
 
 #. module: l10n_ro_stock
 #. odoo-python
