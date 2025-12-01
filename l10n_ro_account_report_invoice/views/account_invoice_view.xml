@@ -1,0 +1,23 @@
+<?xml version="1.0" ?>
+<odoo>
+    <record id="l10n_ro_view_move_form" model="ir.ui.view">
+        <field name="name">account.move.form</field>
+        <field name="model">account.move</field>
+        <field name="type">form</field>
+        <field name="inherit_id" ref="account.view_move_form" />
+        <field name="arch" type="xml">
+            <group name="accounting_info_group" position="after">
+                <group
+                    string="Amounts in company currency"
+                    groups="base.group_multi_currency"
+                    id="l10n_ro_multi_currency"
+                >
+                    <field name="amount_untaxed_signed" string="Tax Excluded" />
+                    <field name="amount_tax_signed" string="Tax" />
+                    <field name="amount_total_signed" string="Total" />
+                    <field name="amount_residual_signed" string="Amount Due" />
+                </group>
+            </group>
+        </field>
+    </record>
+</odoo>
