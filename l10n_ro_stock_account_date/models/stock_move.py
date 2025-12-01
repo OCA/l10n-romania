@@ -1,8 +1,7 @@
 # Copyright (C) 2022 NextERP Romania SRL
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
-from datetime import datetime
-from datetime import timedelta
+from datetime import datetime, timedelta
 
 from dateutil.relativedelta import relativedelta
 
@@ -44,7 +43,6 @@ class StockMove(models.Model):
 
         if restrict_date_future:
             last_posting_date = now
-
 
         if isinstance(first_posting_date, datetime):
             first_posting_date = first_posting_date.date()
