@@ -168,56 +168,58 @@ class MessageSPV(models.Model):
 
             xml_tree = etree.fromstring(xml_file, parser=recovering_parser)
 
-            type_code_node = xml_tree.find("./{*}InvoiceTypeCode")
-            if type_code_node is not None:
-                type_code = type_code_node.text
-                if type_code == "751":
-                    if message.message_type == "in_invoice":
-                        message.message_type = "in_receipt"
-                    elif message.message_type == "out_invoice":
-                        message.message_type = "out_receipt"
+            values = message.process_xml(xml_tree, attachment_xml)
+            message.write(values)
 
-            ref_node = xml_tree.find("./{*}ID")
-            ref = message.ref
-            if ref_node is not None:
-                ref = ref_node.text
+    def process_xml(self, xml_tree, attachment_xml):
+        message = self
 
-            invoice_date_node = xml_tree.find("./{*}IssueDate")
-            invoice_date = message.invoice_date
-            if invoice_date_node is not None:
-                invoice_date = invoice_date_node.text
+        type_code_node = xml_tree.find("./{*}InvoiceTypeCode")
+        if type_code_node is not None:
+            type_code = type_code_node.text
+            if type_code == "751":
+                if message.message_type == "in_invoice":
+                    message.message_type = "in_receipt"
+                elif message.message_type == "out_invoice":
+                    message.message_type = "out_receipt"
 
-            currency = message.currency_id
-            currency_node = xml_tree.find("./{*}DocumentCurrencyCode")
-            if currency_node is not None:
-                currency_code = currency_node.text
-                currency = self.env["res.currency"].search(
-                    [("name", "=", currency_code)]
-                )
+        ref_node = xml_tree.find("./{*}ID")
+        ref = message.ref
+        if ref_node is not None:
+            ref = ref_node.text
 
-            amount = False
-            amount_note = xml_tree.find(
-                ".//{*}LegalMonetaryTotal/{*}TaxInclusiveAmount"
-            )
+        invoice_date_node = xml_tree.find("./{*}IssueDate")
+        invoice_date = message.invoice_date
+        if invoice_date_node is not None:
+            invoice_date = invoice_date_node.text
 
-            if amount_note is not None:
-                amount = float(amount_note.text)
+        currency = message.currency_id
+        currency_node = xml_tree.find("./{*}DocumentCurrencyCode")
+        if currency_node is not None:
+            currency_code = currency_node.text
+            currency = self.env["res.currency"].search([("name", "=", currency_code)])
 
-            xml_tag_credit_note = (
-                "{urn:oasis:names:specification:ubl:schema:xsd:CreditNote-2}CreditNote"  # noqa
-            )
-            if xml_tree.tag == xml_tag_credit_note:
-                amount = -1 * amount
+        amount = False
+        amount_note = xml_tree.find(".//{*}LegalMonetaryTotal/{*}TaxInclusiveAmount")
 
-            message.write(
-                {
-                    "attachment_xml_id": attachment_xml.id,
-                    "ref": ref,
-                    "amount": amount,
-                    "invoice_date": invoice_date,
-                    "currency_id": currency.id or message.currency_id.id,
-                }
-            )
+        if amount_note is not None:
+            amount = float(amount_note.text)
+
+        xml_tag_credit_note = (
+            "{urn:oasis:names:specification:ubl:schema:xsd:CreditNote-2}CreditNote"  # noqa
+        )
+        if xml_tree.tag == xml_tag_credit_note:
+            amount = -1 * amount
+
+        values = {
+            "attachment_xml_id": attachment_xml.id,
+            "ref": ref,
+            "amount": amount,
+            "invoice_date": invoice_date,
+            "currency_id": currency.id or message.currency_id.id,
+        }
+
+        return values
 
     def _decode_xml(self, filename, content):
         to_process = []
