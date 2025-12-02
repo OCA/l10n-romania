@@ -49,9 +49,8 @@ class AccountMoveLine(models.Model):
     def _compute_currency_rate(self):
         res = super()._compute_currency_rate()
         for line in self:
-            if (
-                line.move_id.is_l10n_ro_record
-                and self._context.get("l10n_ro_force_currency_rate")
+            if line.move_id.is_l10n_ro_record and self._context.get(
+                "l10n_ro_force_currency_rate"
             ):
                 line.currency_rate = 1 / line.move_id.l10n_ro_currency_rate
         return res
