@@ -11,7 +11,7 @@
     "website": "https://github.com/OCA/l10n-romania",
     "depends": ["point_of_sale", "l10n_ro_stock", "l10n_ro_config"],
     "data": [
-        # "views/report_saledetails.xml",
+        "views/report_saledetails.xml",
     ],
     "maintainers": ["dhongu"],
     "assets": {
