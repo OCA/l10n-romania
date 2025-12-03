@@ -1,7 +1,7 @@
 # Copyright (C) 2022 NextERP Romania SRL
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
-from odoo import _, fields, models
+from odoo import fields, models
 from odoo.exceptions import ValidationError
 
 
@@ -26,9 +26,9 @@ class StockPicking(models.Model):
                     raise ValidationError(
                         self.env._(
                             "You can not have a Accounting date=%s for picking "
-                            "bigger than today!"
+                            "bigger than today!",
+                            picking.l10n_ro_accounting_date.date(),
                         )
-                        % picking.l10n_ro_accounting_date.date()
                     )
                 picking.write({"date_done": picking.l10n_ro_accounting_date})
         return res
