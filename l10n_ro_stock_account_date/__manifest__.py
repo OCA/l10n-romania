@@ -6,7 +6,7 @@
     "category": "Localization",
     "countries": ["ro"],
     "summary": "Romania - Stock Accounting Date",
-    "author": "NextERP Romania," "Odoo Community Association (OCA)",
+    "author": "NextERP Romania,Odoo Community Association (OCA)",
     "website": "https://github.com/OCA/l10n-romania",
     "depends": ["l10n_ro_stock_account"],
     "license": "AGPL-3",
