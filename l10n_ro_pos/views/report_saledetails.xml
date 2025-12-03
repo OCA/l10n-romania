@@ -11,13 +11,13 @@
         <xpath expr="//tbody/tr" position="inside">
             <td class="text-right">
                 <t
-                    t-esc="line['stock_price']"
+                    t-esc="line.get('stock_price',0.0)"
                     t-options='{"widget": "float", "precision": currency_precision}'
                 />
             </td>
             <td class="text-right">
                 <t
-                    t-esc="line['stock_amount']"
+                    t-esc="line.get('stock_amount',0.0)"
                     t-options='{"widget": "float", "precision": currency_precision}'
                 />
             </td>
