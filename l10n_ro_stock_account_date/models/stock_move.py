@@ -5,7 +5,7 @@ from datetime import datetime, timedelta
 
 from dateutil.relativedelta import relativedelta
 
-from odoo import _, fields, models
+from odoo import fields, models
 from odoo.exceptions import UserError
 
 
@@ -55,9 +55,11 @@ class StockMove(models.Model):
             if not (first_posting_date <= new_date <= last_posting_date):
                 raise UserError(
                     self.env._(
-                        f"Cannot validate stock move due to date restriction."
-                        f" The date must be between"
-                        f" %{first_posting_date} and {last_posting_date}"
+                        "Cannot validate stock move due to date restriction."
+                        " The date must be between"
+                        " %(first_posting_date)s and %(last_posting_date)s",
+                        first_posting_date=first_posting_date,
+                        last_posting_date=last_posting_date,
                     )
                 )
             self.check_lock_date(self.date)
@@ -99,5 +101,7 @@ class StockMove(models.Model):
         lock_date = self.company_id._get_user_fiscal_lock_date(journal)
         if move_date.date() < lock_date:
             raise UserError(
-                self.env._("Cannot validate stock move due to account date restriction.")
+                self.env._(
+                    "Cannot validate stock move due to account date restriction."
+                )
             )
