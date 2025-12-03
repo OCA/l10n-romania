@@ -27,9 +27,9 @@ class StockValuationLayer(models.Model):
             val_date = values.get("create_date", fields.datetime.now())
             values.update(
                 {
-                    "create_uid": self._uid,
+                    "create_uid": self.env.uid,
                     "create_date": val_date,
-                    "write_uid": self._uid,
+                    "write_uid": self.env.uid,
                     "write_date": val_date,
                 }
             )
@@ -46,7 +46,7 @@ class StockValuationLayer(models.Model):
     def write(self, vals):
         if self.filtered("is_l10n_ro_record"):
             if not vals.get("write_uid"):
-                vals["write_uid"] = self._uid
+                vals["write_uid"] = self.env.uid
             if not vals.get("write_date"):
                 vals["write_date"] = fields.datetime.now()
         return super().write(vals)
