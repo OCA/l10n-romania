@@ -10,13 +10,13 @@ from odoo import fields
 from odoo.exceptions import UserError
 from odoo.tests import tagged
 
-from odoo.addons.l10n_ro_stock_account.tests.common import TestStockCommon
+from odoo.addons.l10n_ro_stock_account.tests.common import TestROStockCommon
 
 _logger = logging.getLogger(__name__)
 
 
 @tagged("post_install", "-at_install")
-class TestStockAccountDate(TestStockCommon):
+class TestStockAccountDate(TestROStockCommon):
     def test_inventory(self):
         self.make_purchase()
         acc_date = fields.Date.today() - timedelta(days=1)
