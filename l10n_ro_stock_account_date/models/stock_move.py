@@ -15,7 +15,7 @@ class StockMove(models.Model):
 
     def l10n_ro_get_move_date(self):
         self.ensure_one()
-        new_date = self._context.get("force_period_date")
+        new_date = self.env.context.get("force_period_date")
         now = fields.Date.today()
         if not new_date:
             if self.picking_id:
@@ -54,7 +54,7 @@ class StockMove(models.Model):
         if first_posting_date and last_posting_date:
             if not (first_posting_date <= new_date <= last_posting_date):
                 raise UserError(
-                    _(
+                    self.env._(
                         f"Cannot validate stock move due to date restriction."
                         f" The date must be between"
                         f" %{first_posting_date} and {last_posting_date}"
@@ -99,5 +99,5 @@ class StockMove(models.Model):
         lock_date = self.company_id._get_user_fiscal_lock_date(journal)
         if move_date.date() < lock_date:
             raise UserError(
-                _("Cannot validate stock move due to account date restriction.")
+                self.env._("Cannot validate stock move due to account date restriction.")
             )

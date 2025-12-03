@@ -24,7 +24,7 @@ class StockPicking(models.Model):
             if picking.l10n_ro_accounting_date:
                 if picking.l10n_ro_accounting_date.date() > fields.date.today():
                     raise ValidationError(
-                        _(
+                        self.env._(
                             "You can not have a Accounting date=%s for picking "
                             "bigger than today!"
                         )
