@@ -264,8 +264,8 @@ class StockMove(models.Model):
             "consumption_return": [("expense", "stock_valuation", "value", -1)],
             "usage_giving": [("expense", "stock_valuation", "value", 1)],
             "usage_giving_return": [("expense", "stock_valuation", "value", -1)],
-            "production": [("expense", "stock_valuation", "value", 1)],
-            "production_return": [("expense", "stock_valuation", "value", -1)],
+            "production": [("stock_valuation", "expense", "value", 1)],
+            "production_return": [("stock_valuation", "expense", "value", -1)],
             "internal_transfer": [
                 ("l10n_ro_transfer", "stock_valuation", "value", 1),
                 ("expense", "l10n_ro_transfer", "value", 1),
