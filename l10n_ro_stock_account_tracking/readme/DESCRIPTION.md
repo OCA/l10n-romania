@@ -1,4 +1,1 @@
-Stock accounting tracking stock moves for receptions, deliveries,
-consume, usage_giving, inventory and production.
-
-Stock valuation by lots/serial number
+Adds a new table that holds reservations between stock moves for FIFO products.
