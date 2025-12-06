@@ -1,11 +1,8 @@
 # Copyright (C) 2022 NextERP Romania
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
-from collections import defaultdict
 
-from odoo import _, fields, models
-from odoo.exceptions import UserError
-from odoo.tools.float_utils import float_is_zero
+from odoo import api, fields, models
 
 
 class StockLandedCost(models.Model):
@@ -17,233 +14,108 @@ class StockLandedCost(models.Model):
         default="normal",
         string="Landed Cost Type",
     )
+    l10n_ro_distributed_valuation_lines = fields.One2many(
+        "l10n.ro.stock.valuation.adjustment.lines",
+        "cost_id",
+        string="Romania - Distributed Valuation Lines",
+        readonly=True,
+    )
 
-    def _prepare_landed_cost_svl_vals(self, line, linked_layer, amount):
-        if line:
-            stock_move_id = line.move_id
-            product_id = line.move_id.product_id
-        else:
-            stock_move_id = linked_layer.stock_move_id
-            product_id = linked_layer.stock_move_id.product_id
+    def compute_landed_cost(self):
+        # Extend method to handle Romania specific accounting entries
+        # for landed costs, will calculate on moves quantity,
+        # and create separate stock valuation layers
+        # for each stock move destination
+        res = super().compute_landed_cost()
+        ro_landed_costs = self.filtered(lambda c: c.company_id.l10n_ro_accounting)
+        if ro_landed_costs:
+            ro_landed_costs._l10n_ro_distribute_landed_cost()
+        return res
 
-        return {
-            "value": amount,
-            "unit_cost": 0,
-            "quantity": 0,
-            "remaining_qty": 0,
-            "stock_valuation_layer_id": linked_layer.id,
-            "description": self.name,
-            "stock_move_id": stock_move_id.id,
-            "l10n_ro_stock_move_line_id": linked_layer.l10n_ro_stock_move_line_id.id,
-            "product_id": product_id.id,
-            "stock_landed_cost_id": self.id,
-            "company_id": self.company_id.id,
-        }
-
-    def l10n_ro_create_valuation_layer(self, line, linked_layer, amount):
-        vals = self._prepare_landed_cost_svl_vals(line, linked_layer, amount)
-        valuation_layer = self.env["stock.valuation.layer"].create(vals)
-        return valuation_layer
-
-    def button_validate(self):  # noqa: C901
-        # Overwrite method for Romania to extract stock valuation layer
-        # creation in a separate method
-        if not self.filtered(lambda c: c.company_id.l10n_ro_accounting):
-            return super().button_validate()
-        self._check_can_validate()
-        cost_without_adjusment_lines = self.filtered(
-            lambda c: not c.valuation_adjustment_lines
-        )
-        if cost_without_adjusment_lines:
-            cost_without_adjusment_lines.compute_landed_cost()
-        if not self._check_sum():
-            raise UserError(
-                _(
-                    "Cost and adjustments lines do not match. "
-                    "You should maybe recompute the landed costs."
-                )
+    @api.model
+    def _get_l10n_ro_move_destinations(self, move):
+        """Get recursive all destination moves for a given move."""
+        dest_vals_list = []
+        for track in move.l10n_ro_move_track_dest_ids:
+            dest_vals_list.append(
+                {
+                    "move": track.dest_move_id,
+                    "quantity": track.quantity,
+                }
             )
+            if track.dest_move_id.l10n_ro_move_track_dest_ids:
+                dest_vals_list += self._get_l10n_ro_move_destinations(
+                    track.dest_move_id
+                )
+        return dest_vals_list
+
+    def _l10n_ro_distribute_landed_cost(self):
+        """Distribute landed cost on stock moves quantity,
+        creating separate l10n.ro.stock.valuation.adjustment.lines
+        for each stock move destination."""
+        AdjustementLines = self.env["l10n.ro.stock.valuation.adjustment.lines"]
+        AdjustementLines.search([("cost_id", "in", self.ids)]).unlink()
 
         for cost in self:
-            cost = cost.with_company(cost.company_id)
-            move = self.env["account.move"]
-            move_vals = {
-                "journal_id": cost.account_journal_id.id,
-                "date": cost.date,
-                "ref": cost.name,
-                "line_ids": [],
-                "move_type": "entry",
-            }
-            valuation_layer_ids = []
-            cost_to_add_byproduct = defaultdict(float)
-            for line in cost.valuation_adjustment_lines.filtered(
-                lambda line: line.move_id
-            ):
-                # Add distributed cost for each stock valuation layer.
-                product = line.move_id.product_id
-                for svl in line.move_id.stock_valuation_layer_ids.filtered(
-                    lambda s: s.quantity != 0
-                ):
-                    cost_to_add = (
-                        svl.quantity / line.move_id.quantity
-                    ) * line.additional_landed_cost
-                    valuation_layer = cost.l10n_ro_create_valuation_layer(
-                        line, svl, cost_to_add
-                    )
-                    svl.remaining_value += cost_to_add
-                    valuation_layer_ids.append(valuation_layer.id)
-                    if product.cost_method == "average":
-                        cost_to_add_byproduct[product] += cost_to_add
-                    # Create separate account move for each svl
-                    if product.valuation == "real_time":
-                        svl_move_vals = move_vals
-                        amls = line._l10n_ro_prepare_accounting_entries(
-                            valuation_layer, svl_move_vals, cost_to_add, svl_type="in"
-                        )
-                        if amls:
-                            svl_move_vals["line_ids"] = amls
-                            svl_move = move.create(svl_move_vals)
-                            valuation_layer.update({"account_move_id": svl_move.id})
-                            svl_move._post()
-
-                    # Add separate svl for each quantity out
-                    for svl_out in svl.l10n_ro_svl_dest_ids.filtered(
-                        lambda s: s.quantity != 0
-                    ):
-                        out_cost_to_add = (
-                            svl_out.quantity / svl.quantity
-                        ) * cost_to_add
-                        valuation_layer_out = cost.l10n_ro_create_valuation_layer(
-                            self.env["stock.valuation.adjustment.lines"],
-                            svl_out,
-                            out_cost_to_add,
-                        )
-                        svl.remaining_value += out_cost_to_add
-                        valuation_layer_ids.append(valuation_layer_out.id)
-
-                        if product.cost_method == "average":
-                            cost_to_add_byproduct[product] += out_cost_to_add
-                        # Create separate account move for each put svl
-                        if product.valuation == "real_time":
-                            move_vals.update(date=svl_out.create_date)
-                            svl_move_vals = move_vals
-                            amls = line._l10n_ro_prepare_accounting_entries(
-                                valuation_layer_out,
-                                svl_move_vals,
-                                out_cost_to_add,
-                                svl_type="out",
-                            )
-                            if amls:
-                                svl_move_vals["line_ids"] = amls
-                                svl_move = move.create(svl_move_vals)
-                                valuation_layer_out.update(
-                                    {"account_move_id": svl_move.id}
-                                )
-                                svl_move._post()
-
-                # Products with manual inventory valuation are ignored because
-                # they do not need to create journal entries.
-                if product.valuation != "real_time":
+            for line in cost.valuation_adjustment_lines:
+                move = line.move_id
+                if not move:
                     continue
-            # batch standard price computation avoid recompute quantity_svl
-            # at each iteration
-            products = self.env["product.product"].browse(
-                p.id for p in cost_to_add_byproduct.keys()
-            )
-            for (
-                product
-            ) in products:  # iterate on recordset to prefetch efficiently quantity_svl
-                if not float_is_zero(
-                    product.quantity_svl, precision_rounding=product.uom_id.rounding
-                ):
-                    product.with_company(cost.company_id).sudo().with_context(
-                        disable_auto_svl=True
-                    ).standard_price += (
-                        cost_to_add_byproduct[product] / product.quantity_svl
+                um_add_cost = line.additional_landed_cost / move.quantity
+                move_dest_vals_list = self._get_l10n_ro_move_destinations(move)
+                for dest_vals in move_dest_vals_list:
+                    additional_landed_cost = um_add_cost * dest_vals["quantity"]
+                    adj_line_vals = line._l10n_ro_prepare_adj_line_vals(
+                        dest_vals, additional_landed_cost
                     )
-
-            cost_vals = {"state": "done"}
-            cost.write(cost_vals)
-        return True
-
-    def reconcile_landed_cost(self):
-        # Overwrite method to avoid reconciliation for Romania
-        ro_landed_cost = self.filtered(lambda c: c.company_id.l10n_ro_accounting)
-        res = super(StockLandedCost, self - ro_landed_cost).reconcile_landed_cost()
-        return res
+                    self.env["l10n.ro.stock.valuation.adjustment.lines"].create(
+                        adj_line_vals
+                    )
 
 
 class AdjustmentLines(models.Model):
     _name = "stock.valuation.adjustment.lines"
     _inherit = ["stock.valuation.adjustment.lines", "l10n.ro.mixin"]
 
-    def _l10n_ro_prepare_accounting_entries(
-        self, valuation_layer, move_vals, cost_to_add, svl_type="in"
-    ):
-        """Prepare the account move lines (accounting entries) for
-        each valuation layer."""
-        self.ensure_one()
-        cost_product = self.cost_line_id.product_id
-        if not cost_product:
-            return False
-        acc_valuation = self.move_id._get_accounting_data_for_valuation()[3]
-        accounts = self.product_id.product_tmpl_id.get_product_accounts()
-        debit_account_id = acc_valuation
-        credit_account_id = (
-            self.cost_line_id.account_id.id
-            or cost_product.categ_id.property_stock_account_input_categ_id.id
-        )
-        # daca e acelasi cont sa nu mai faca nota
-        if credit_account_id == debit_account_id:
-            return []
+    l10n_ro_distributed_valuation_lines = fields.One2many(
+        "l10n.ro.stock.valuation.adjustment.lines",
+        "origin_line_id",
+        string="Romania - Distributed Valuation Lines",
+        readonly=True,
+    )
 
-        # If the stock move is dropshipped move we need to get the cost account
-        # instead the stock valuation account
-        if self.move_id._is_dropshipped():
-            debit_account_id = (
-                accounts.get("expense") and accounts["expense"].id or False
-            )
-        already_out_account_id = accounts["stock_output"].id
-
-        if not credit_account_id:
-            raise UserError(
-                _("Please configure Stock Expense Account for product: %s.")
-                % (cost_product.name)
-            )
-        AccountMoveLine = []
-
-        base_line = {
-            "name": self.name,
-            "product_id": self.product_id.id,
-            "quantity": 0,
+    def _l10n_ro_prepare_adj_line_vals(self, track_vals, additional_landed_cost):
+        former_cost = track_vals["move"]._get_value()
+        vals = {
+            "cost_id": self.cost_id.id,
+            "cost_line_id": self.cost_line_id.id,
+            "origin_line_id": self.id,
+            "move_id": track_vals["move"].id,
+            "product_id": track_vals["move"].product_id.id,
+            "quantity": track_vals["quantity"],
+            "former_cost": former_cost,
+            "additional_landed_cost": additional_landed_cost,
         }
+        return vals
 
-        if svl_type == "out":
-            credit_account_id = self.product_id.product_tmpl_id.get_product_accounts()[
-                "expense"
-            ].id
-            debit_account_id = already_out_account_id
-            base_line["name"] += ": " + _(" already out")
-        debit_line = dict(base_line, account_id=debit_account_id)
-        credit_line = dict(base_line, account_id=credit_account_id)
-        if cost_to_add > 0:
-            debit_line["debit"] = cost_to_add
-            credit_line["credit"] = cost_to_add
-        else:
-            # negative cost, reverse the entry
-            debit_line["credit"] = -cost_to_add
-            credit_line["debit"] = -cost_to_add
-        AccountMoveLine.append([0, 0, debit_line])
-        AccountMoveLine.append([0, 0, credit_line])
-
-        return AccountMoveLine
-
-    def _create_account_move_line(
-        self, move, credit_account_id, debit_account_id, qty_out, already_out_account_id
-    ):
-        res = super()._create_account_move_line(
-            move, credit_account_id, debit_account_id, qty_out, already_out_account_id
+    def _create_accounting_entries(self, remaining_qty):
+        """For Romania create accouting entries on total quantity of the move,
+        as landed cost is distributed on move destinations."""
+        ro_adj_lines = self.filtered(lambda line: line.cost_id.is_l10n_ro_record)
+        res = super(AdjustmentLines, self - ro_adj_lines)._create_accounting_entries(
+            remaining_qty
         )
-        if self.is_l10n_ro_record:
-            return self.env["account.move.line"]
+        for line in ro_adj_lines:
+            res += super(AdjustmentLines, line)._create_accounting_entries(
+                line.move_id.quantity
+            )
+            for distributed_line in line.l10n_ro_distributed_valuation_lines:
+                res += super(
+                    AdjustmentLines, distributed_line
+                )._create_accounting_entries(distributed_line.move_id.quantity)
         return res
+
+
+class L10NROStockValuationAdjustmentLines(models.Model):
+    _name = "l10n.ro.stock.valuation.adjustment.lines"
+    _inherit = "stock.valuation.adjustment.lines"
