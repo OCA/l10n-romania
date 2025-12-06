@@ -337,7 +337,9 @@ class StockMove(models.Model):
             res = self._get_l10n_ro_move_line_vals_list(account_list, res)
         return res
 
-    def _get_l10n_ro_move_line_vals_list(self, account_list=None, res=None, forced_value=None):
+    def _get_l10n_ro_move_line_vals_list(
+        self, account_list=None, res=None, forced_value=None
+    ):
         acc_obj = self.env["account.account"]
         if not account_list:
             return res
