@@ -282,10 +282,10 @@ class TestROStockCommon(AccountTestInvoicingCommon):
         )
         cls.location2 = warehouse2.lot_stock_id
 
-    def read_test_cases_from_csv_file(self, filename, dir=None):
-        if not dir:
-            dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-        data_dir = os.path.join(dir, "tests/cases/")
+    def read_test_cases_from_csv_file(self, filename, module_dir=None):
+        if not module_dir:
+            module_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+        data_dir = os.path.join(module_dir, "tests/cases/")
         f = open(os.path.join(data_dir, filename), "rb")
         reader = csv.DictReader(codecs.iterdecode(f, "utf-8"))
         test_cases = {}
