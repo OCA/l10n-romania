@@ -32,8 +32,8 @@ Romania - Stock Accounting Landed Cost
 
 |badge1| |badge2| |badge3| |badge4| |badge5|
 
-Stock accounting for receptions, deliveries, consume, usage_giving,
-inventory and production.
+Extend Odoo standard functionality for landed costs to add also
+distribution of costs to stock moves reserved from actual
 
 **Table of contents**
 

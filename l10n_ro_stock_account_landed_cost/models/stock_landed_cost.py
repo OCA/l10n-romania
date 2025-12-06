@@ -1,8 +1,8 @@
 # Copyright (C) 2022 NextERP Romania
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
-
-from odoo import api, fields, models
+from odoo import Command, api, fields, models
+from odoo.exceptions import UserError
 
 
 class StockLandedCost(models.Model):
@@ -20,6 +20,13 @@ class StockLandedCost(models.Model):
         string="Romania - Distributed Valuation Lines",
         readonly=True,
     )
+
+    def button_validate(self):
+        res = super().button_validate()
+        for cost in self:
+            for dist_line in cost.l10n_ro_distributed_valuation_lines:
+                dist_line.move_id._set_value()
+        return res
 
     def compute_landed_cost(self):
         # Extend method to handle Romania specific accounting entries
@@ -105,17 +112,38 @@ class AdjustmentLines(models.Model):
         res = super(AdjustmentLines, self - ro_adj_lines)._create_accounting_entries(
             remaining_qty
         )
+        if not res:
+            res = []
         for line in ro_adj_lines:
             res += super(AdjustmentLines, line)._create_accounting_entries(
                 line.move_id.quantity
             )
             for distributed_line in line.l10n_ro_distributed_valuation_lines:
-                res += super(
-                    AdjustmentLines, distributed_line
-                )._create_accounting_entries(distributed_line.move_id.quantity)
+                res += distributed_line._create_accounting_entries()
         return res
 
 
 class L10NROStockValuationAdjustmentLines(models.Model):
     _name = "l10n.ro.stock.valuation.adjustment.lines"
     _inherit = "stock.valuation.adjustment.lines"
+
+    origin_line_id = fields.Many2one(
+        "stock.valuation.adjustment.lines",
+        string="Origin Adjustment Line",
+        readonly=True,
+    )
+
+    def _create_accounting_entries(self):
+        res = []
+        if not self.move_id.l10n_ro_move_type:
+            raise UserError(
+                self.env._(
+                    "Romanian Stock Move Type not set on stock move %(move)s",
+                    move=self.move_id.display_name,
+                )
+            )
+        account_list = self.move_id._get_l10n_ro_move_type_account_list()
+        aml_vals_list = self.move_id._get_l10n_ro_move_line_vals_list(
+            account_list, res, self.additional_landed_cost
+        )
+        return [Command.create(aml_vals) for aml_vals in aml_vals_list]

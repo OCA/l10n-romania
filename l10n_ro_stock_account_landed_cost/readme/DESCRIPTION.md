@@ -1,2 +1,2 @@
-Stock accounting for receptions, deliveries, consume, usage_giving,
-inventory and production.
+Extend Odoo standard functionality for landed costs to add also distribution
+of costs to stock moves reserved from actual
