@@ -15,6 +15,7 @@
     ],
     "license": "AGPL-3",
     "data": [
+        "security/ir.model.access.csv",
         "views/stock_landed_cost_view.xml",
     ],
     "installable": True,
