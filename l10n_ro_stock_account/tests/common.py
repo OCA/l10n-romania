@@ -282,10 +282,10 @@ class TestROStockCommon(AccountTestInvoicingCommon):
         )
         cls.location2 = warehouse2.lot_stock_id
 
-    def read_test_cases_from_csv_file(self, filename):
-        data_dir = os.path.join(
-            os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "tests/cases/"
-        )
+    def read_test_cases_from_csv_file(self, filename, dir=None):
+        if not dir:
+            dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+        data_dir = os.path.join(dir, "tests/cases/")
         f = open(os.path.join(data_dir, filename), "rb")
         reader = csv.DictReader(codecs.iterdecode(f, "utf-8"))
         test_cases = {}
@@ -826,6 +826,7 @@ class TestROStockCommon(AccountTestInvoicingCommon):
             invoice_price = self.get_invoice_price(values, step)
             stock_lot = self.get_stock_lot(values, step)
             picking = self.env["stock.picking"]
+            invoice = self.env["account.move"]
             if step == 2 and stock_qty < 0:
                 # Create return to initial reception
                 stock_qty = -stock_qty
@@ -877,7 +878,6 @@ class TestROStockCommon(AccountTestInvoicingCommon):
                     if picking.state == "assigned":
                         picking._action_done()
             if picking.state == "done" and invoice_qty:
-                invoice = self.env["account.move"]
                 try:
                     action = purchase.action_create_invoice()
                     invoice = self.env["account.move"].browse(action["res_id"])
@@ -894,8 +894,6 @@ class TestROStockCommon(AccountTestInvoicingCommon):
                     invoice_line.write(
                         {"quantity": invoice_qty, "price_unit": invoice_price}
                     )
-                    if values.get("landed_cost", 0) != 0:
-                        self.create_landed_cost(invoice, picking, values)
                     invoice.write(
                         {
                             "date": purchase.date_planned,
@@ -906,6 +904,9 @@ class TestROStockCommon(AccountTestInvoicingCommon):
                     invoice.with_context(
                         l10n_ro_approved_price_difference=True
                     ).action_post()
+            if picking.state == "done":
+                if values.get("landed_cost", 0) != 0:
+                    self.create_landed_cost(invoice, picking, values)
 
     def create_stock_inventory(self, values):
         inventory_values = self.get_references_from_values(values)
@@ -1150,9 +1151,9 @@ class TestROStockCommon(AccountTestInvoicingCommon):
         landed_cost = self.env["stock.landed.cost"].create(
             {
                 "picking_ids": [(4, picking.id)],
-                "vendor_bill_id": invoice.id,
+                "vendor_bill_id": invoice.id if invoice else False,
                 "account_journal_id": journal.id,
-                "date": invoice.date,
+                "date": invoice.date if invoice else picking.scheduled_date,
                 "cost_lines": [
                     (
                         0,
