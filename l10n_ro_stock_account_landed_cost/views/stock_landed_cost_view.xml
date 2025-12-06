@@ -18,6 +18,17 @@
                         </group>
                     </group>
                 </notebook>
+                <xpath expr="//page[@name='valuation_lines']" position="after">
+                    <page
+                        name="l10n_ro_distributed_valuation_lines"
+                        string="Romania - Distributed Valuation Lines"
+                    >
+                        <field
+                            name="l10n_ro_distributed_valuation_lines"
+                            readonly="1"
+                        />
+                    </page>
+                </xpath>
             </field>
         </record>
     </odoo>
