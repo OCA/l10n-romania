@@ -1,0 +1,3 @@
+case_no,type,currency_id,partner_id,fiscal_position_id,location,location1,product_id,step,qty,lot1,stock_qty,inv_qty,lot2,stock_qty2,inv_qty2,price,inv_price,inv_price2,discount,advance,notice,landed_cost,reception_in_progress,checks,name
+70,purchase,ron,supplier_1,,,,product_fifo,1,10,,10,10,,0,0,100,100,0,0,0,0,0,0,"{'stock': {'product_fifo': [{'qty': 10, 'value': 1000}]}, 'account': {'371000': 1000}}",transfer intern direct sublocatie
+70,transfer_direct,ron,,,location,location_sub,product_fifo,1,6,,6,0,,0,0,0,0,0,0,0,0,0,0,"{'stock': {'product_fifo': [{'location': 'location', 'qty': 4, 'value': 400}, {'location': 'location_sub', 'qty': 6, 'value': 600}]}, 'account': {'371000': 1000}}",transfer intern direct sublocatie
