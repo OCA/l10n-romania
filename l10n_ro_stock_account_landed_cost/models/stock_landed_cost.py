@@ -1,6 +1,7 @@
 # Copyright (C) 2022 NextERP Romania
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
+
 from odoo import Command, api, fields, models
 from odoo.exceptions import UserError
 
@@ -14,12 +15,52 @@ class StockLandedCost(models.Model):
         default="normal",
         string="Landed Cost Type",
     )
+    l10n_ro_only_on_distributed_lines = fields.Boolean(
+        help="Field used to stop distribution on the actual stock moves, "
+        "and to distribute only on new field, distributed valuation lines.",
+        compute="_compute_l10n_ro_only_on_distributed_lines",
+        store=True,
+        readonly=False,
+    )
     l10n_ro_distributed_valuation_lines = fields.One2many(
         "l10n.ro.stock.valuation.adjustment.lines",
         "cost_id",
         string="Romania - Distributed Valuation Lines",
         readonly=True,
     )
+
+    def _compute_l10n_ro_only_on_distributed_lines(self):
+        """Method to compute if the landed cost will be distributed
+        on actul stock move, or only on the distributed lines.
+        e.g. For price difference, we should only distribute on the next moves,
+        because the value in accounting is posted on the invoice.
+        Transport or DVI should distribute on both."""
+        for cost in self:
+            cost.l10n_ro_only_on_distributed_lines = False
+
+    def _check_sum(self):
+        """Since we don't distribute the landed cost, adjust the check sum
+        not to raise an error when validating them."""
+        not_distributed_costs = self.filtered(
+            lambda c: c.l10n_ro_only_on_distributed_lines
+        )
+        res = super(StockLandedCost, self - not_distributed_costs)._check_sum()
+        for landed_cost in not_distributed_costs:
+            total_amount = sum(
+                landed_cost.l10n_ro_distributed_valuation_lines.mapped(
+                    "additional_landed_cost"
+                )
+            )
+            lc_total = 0
+            for line in landed_cost.valuation_adjustment_lines:
+                lc_total += (
+                    (line.move_id.quantity - line.move_id.remaining_qty)
+                    / line.move_id.quantity
+                    * line.l10n_ro_not_distributed_amount
+                )
+            if not landed_cost.currency_id.is_zero(total_amount - lc_total):
+                return False
+        return res
 
     def button_validate(self):
         res = super().button_validate()
@@ -37,6 +78,11 @@ class StockLandedCost(models.Model):
         ro_landed_costs = self.filtered(lambda c: c.company_id.l10n_ro_accounting)
         if ro_landed_costs:
             ro_landed_costs._l10n_ro_distribute_landed_cost()
+        for cost in ro_landed_costs:
+            if cost.l10n_ro_only_on_distributed_lines:
+                for line in cost.valuation_adjustment_lines:
+                    line.l10n_ro_not_distributed_amount = line.additional_landed_cost
+                    line.additional_landed_cost = 0
         return res
 
     @api.model
@@ -90,6 +136,7 @@ class AdjustmentLines(models.Model):
         string="Romania - Distributed Valuation Lines",
         readonly=True,
     )
+    l10n_ro_not_distributed_amount = fields.Monetary("Additional Landed Cost")
 
     def _l10n_ro_prepare_adj_line_vals(self, track_vals, additional_landed_cost):
         former_cost = track_vals["move"]._get_value()
