@@ -8,7 +8,7 @@ from datetime import timedelta
 import pytz
 
 from odoo import api, fields, models
-from odoo.osv.expression import AND
+from odoo.fields import Domain
 
 
 class ReportSaleDetails(models.AbstractModel):
@@ -23,7 +23,7 @@ class ReportSaleDetails(models.AbstractModel):
         domain = [("state", "in", ["paid", "invoiced", "done"])]
 
         if session_ids:
-            domain = AND([domain, [("session_id", "in", session_ids)]])
+            domain = Domain.AND([domain, [("session_id", "in", session_ids)]])
         else:
             if date_start:
                 date_start = fields.Datetime.from_string(date_start)
@@ -46,7 +46,7 @@ class ReportSaleDetails(models.AbstractModel):
                 # stop by default today 23:59:59
                 date_stop = date_start + timedelta(days=1, seconds=-1)
 
-            domain = AND(
+            domain = Domain.AND(
                 [
                     domain,
                     [
@@ -57,7 +57,7 @@ class ReportSaleDetails(models.AbstractModel):
             )
 
             if config_ids:
-                domain = AND([domain, [("config_id", "in", config_ids)]])
+                domain = Domain.AND([domain, [("config_id", "in", config_ids)]])
 
         orders = self.env["pos.order"].search(domain)
 
