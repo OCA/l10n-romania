@@ -2,7 +2,7 @@ from odoo.tests import tagged
 
 from odoo.addons.account.tests.common import AccountTestInvoicingCommon
 
-
+@tagged("l10n_ro_pos_tests")
 @tagged("post_install", "-at_install")
 class TestReportPoSOrder(AccountTestInvoicingCommon):
     @classmethod
@@ -11,6 +11,9 @@ class TestReportPoSOrder(AccountTestInvoicingCommon):
         super().setUpClass()
         cls.env.company.anglo_saxon_accounting = True
         cls.env.company.l10n_ro_accounting = True
+
+        pos_admin_group = cls.env.ref("point_of_sale.group_pos_manager")
+        cls.env.user.group_ids = [(4, pos_admin_group.id)]
 
     def test_wizard_report(self):
         wizard = self.env["pos.details.wizard"].create({})
