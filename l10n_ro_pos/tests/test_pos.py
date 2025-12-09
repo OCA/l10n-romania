@@ -2,7 +2,6 @@ from odoo.tests import tagged
 
 from odoo.addons.account.tests.common import AccountTestInvoicingCommon
 
-@tagged("l10n_ro_pos_tests")
 @tagged("post_install", "-at_install")
 class TestReportPoSOrder(AccountTestInvoicingCommon):
     @classmethod
