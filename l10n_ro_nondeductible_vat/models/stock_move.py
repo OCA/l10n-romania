@@ -34,33 +34,12 @@ class StockMove(models.Model):
             else:
                 s.l10n_ro_nondeductible_usage = False
 
-    def _generate_valuation_lines_data(
-        self,
-        partner_id,
-        qty,
-        debit_value,
-        credit_value,
-        debit_account_id,
-        credit_account_id,
-        svl_id,
-        description,
-    ):
-        res = super()._generate_valuation_lines_data(
-            partner_id,
-            qty,
-            debit_value,
-            credit_value,
-            debit_account_id,
-            credit_account_id,
-            svl_id,
-            description,
-        )
-        if self.is_l10n_ro_record:
-            if self.l10n_ro_nondeductible_tax_id:
-                if res.get("debit_line_vals"):
-                    res["debit_line_vals"].update(
-                        {
-                            "tax_ids": [(6, 0, [self.l10n_ro_nondeductible_tax_id.id])],
-                        }
-                    )
+    def _get_account_move_line_vals(self):
+        # For nondeductible operation, add the taxes to the expense debit line
+        res = super()._get_account_move_line_vals()
+        if self.l10n_ro_nondeductible_tax_id:
+            for line in res:
+                account = self.env["account.account"].browse(line["account_id"])
+                if account.account_type == "expense":
+                    line["tax_ids"] = [(6, 0, [self.l10n_ro_nondeductible_tax_id.id])]
         return res
