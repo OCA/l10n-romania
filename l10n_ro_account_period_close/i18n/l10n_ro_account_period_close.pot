@@ -1,0 +1,223 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* l10n_ro_account_period_close
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 18.0\n"
+"Report-Msgid-Bugs-To: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: l10n_ro_account_period_close
+#: model_terms:ir.ui.view,arch_db:l10n_ro_account_period_close.view_account_period_closing_wizard
+msgid ""
+"<i class=\"fa fa-long-arrow-right mx-2\" aria-label=\"Arrow icon\" "
+"title=\"Arrow\"/>"
+msgstr ""
+
+#. module: l10n_ro_account_period_close
+#: model:ir.model,name:l10n_ro_account_period_close.model_account_account
+msgid "Account"
+msgstr ""
+
+#. module: l10n_ro_account_period_close
+#: model:ir.actions.act_window,name:l10n_ro_account_period_close.action_account_period_closing
+#: model:ir.model,name:l10n_ro_account_period_close.model_l10n_ro_account_period_closing
+#: model:ir.ui.menu,name:l10n_ro_account_period_close.menu_action_account_period_closing
+msgid "Account Period Closing"
+msgstr ""
+
+#. module: l10n_ro_account_period_close
+#: model_terms:ir.ui.view,arch_db:l10n_ro_account_period_close.view_account_period_closing_wizard
+msgid "Account Period Closing Wizard"
+msgstr ""
+
+#. module: l10n_ro_account_period_close
+#: model:ir.model.fields,field_description:l10n_ro_account_period_close.field_l10n_ro_account_period_closing__account_ids
+msgid "Accounts to close"
+msgstr ""
+
+#. module: l10n_ro_account_period_close
+#: model:ir.model.fields,help:l10n_ro_account_period_close.field_account_account__l10n_ro_close_check
+msgid ""
+"By checking this when you close a period, it will not respect the side of closing, meaning: expenses closed on credit side, incomed closed on debit side. \n"
+" You should check the 711xxx accounts."
+msgstr ""
+
+#. module: l10n_ro_account_period_close
+#: model_terms:ir.ui.view,arch_db:l10n_ro_account_period_close.view_account_period_closing_wizard
+msgid "Cancel"
+msgstr ""
+
+#. module: l10n_ro_account_period_close
+#: model:ir.actions.act_window,name:l10n_ro_account_period_close.act_account_period_closing_wizard
+#: model_terms:ir.ui.view,arch_db:l10n_ro_account_period_close.view_account_period_closing_wizard
+#: model_terms:ir.ui.view,arch_db:l10n_ro_account_period_close.view_l10n_ro_account_period_closing_form
+msgid "Close Period"
+msgstr ""
+
+#. module: l10n_ro_account_period_close
+#: model:ir.model.fields,field_description:l10n_ro_account_period_close.field_l10n_ro_account_period_closing__close_result
+msgid "Close debit and credit accounts"
+msgstr ""
+
+#. module: l10n_ro_account_period_close
+#: model_terms:ir.ui.view,arch_db:l10n_ro_account_period_close.view_l10n_ro_account_period_closing_form
+msgid "Closing"
+msgstr ""
+
+#. module: l10n_ro_account_period_close
+#: model:ir.model.fields,field_description:l10n_ro_account_period_close.field_l10n_ro_account_period_closing_wizard__closing_id
+msgid "Closing Model"
+msgstr ""
+
+#. module: l10n_ro_account_period_close
+#: model:ir.model.fields,field_description:l10n_ro_account_period_close.field_l10n_ro_account_period_closing__move_ids
+msgid "Closing Moves"
+msgstr ""
+
+#. module: l10n_ro_account_period_close
+#: model:ir.model.fields,field_description:l10n_ro_account_period_close.field_l10n_ro_account_period_closing__credit_account_id
+msgid "Closing account, credit"
+msgstr ""
+
+#. module: l10n_ro_account_period_close
+#: model:ir.model.fields,field_description:l10n_ro_account_period_close.field_l10n_ro_account_period_closing__debit_account_id
+msgid "Closing account, debit"
+msgstr ""
+
+#. module: l10n_ro_account_period_close
+#: model:ir.model.fields,field_description:l10n_ro_account_period_close.field_l10n_ro_account_period_closing__company_id
+#: model:ir.model.fields,field_description:l10n_ro_account_period_close.field_l10n_ro_account_period_closing_wizard__company_id
+msgid "Company"
+msgstr ""
+
+#. module: l10n_ro_account_period_close
+#: model_terms:ir.ui.view,arch_db:l10n_ro_account_period_close.view_l10n_ro_account_period_closing_form
+msgid "Config"
+msgstr ""
+
+#. module: l10n_ro_account_period_close
+#: model:ir.model.fields,field_description:l10n_ro_account_period_close.field_l10n_ro_account_period_closing__create_uid
+#: model:ir.model.fields,field_description:l10n_ro_account_period_close.field_l10n_ro_account_period_closing_wizard__create_uid
+msgid "Created by"
+msgstr ""
+
+#. module: l10n_ro_account_period_close
+#: model:ir.model.fields,field_description:l10n_ro_account_period_close.field_l10n_ro_account_period_closing__create_date
+#: model:ir.model.fields,field_description:l10n_ro_account_period_close.field_l10n_ro_account_period_closing_wizard__create_date
+msgid "Created on"
+msgstr ""
+
+#. module: l10n_ro_account_period_close
+#: model_terms:ir.ui.view,arch_db:l10n_ro_account_period_close.view_account_period_closing_wizard
+msgid "Date"
+msgstr ""
+
+#. module: l10n_ro_account_period_close
+#: model:ir.model.fields,field_description:l10n_ro_account_period_close.field_l10n_ro_account_period_closing__display_name
+#: model:ir.model.fields,field_description:l10n_ro_account_period_close.field_l10n_ro_account_period_closing_wizard__display_name
+msgid "Display Name"
+msgstr ""
+
+#. module: l10n_ro_account_period_close
+#: model:ir.model.fields,field_description:l10n_ro_account_period_close.field_l10n_ro_account_period_closing_wizard__date_to
+msgid "End Date"
+msgstr ""
+
+#. module: l10n_ro_account_period_close
+#: model:ir.model.fields.selection,name:l10n_ro_account_period_close.selection__l10n_ro_account_period_closing__type__expense
+msgid "Expenses"
+msgstr ""
+
+#. module: l10n_ro_account_period_close
+#: model:ir.model.fields,field_description:l10n_ro_account_period_close.field_l10n_ro_account_period_closing__id
+#: model:ir.model.fields,field_description:l10n_ro_account_period_close.field_l10n_ro_account_period_closing_wizard__id
+msgid "ID"
+msgstr ""
+
+#. module: l10n_ro_account_period_close
+#: model:ir.model.fields.selection,name:l10n_ro_account_period_close.selection__l10n_ro_account_period_closing__type__income
+msgid "Incomes"
+msgstr ""
+
+#. module: l10n_ro_account_period_close
+#: model:ir.model.fields,field_description:l10n_ro_account_period_close.field_account_account__is_l10n_ro_record
+#: model:ir.model.fields,field_description:l10n_ro_account_period_close.field_account_move__is_l10n_ro_record
+msgid "Is Romanian Record"
+msgstr ""
+
+#. module: l10n_ro_account_period_close
+#: model:ir.model.fields,field_description:l10n_ro_account_period_close.field_l10n_ro_account_period_closing__journal_id
+#: model:ir.model.fields,field_description:l10n_ro_account_period_close.field_l10n_ro_account_period_closing_wizard__journal_id
+msgid "Journal"
+msgstr ""
+
+#. module: l10n_ro_account_period_close
+#: model:ir.model,name:l10n_ro_account_period_close.model_account_move
+msgid "Journal Entry"
+msgstr ""
+
+#. module: l10n_ro_account_period_close
+#: model:ir.model.fields,field_description:l10n_ro_account_period_close.field_l10n_ro_account_period_closing__write_uid
+#: model:ir.model.fields,field_description:l10n_ro_account_period_close.field_l10n_ro_account_period_closing_wizard__write_uid
+msgid "Last Updated by"
+msgstr ""
+
+#. module: l10n_ro_account_period_close
+#: model:ir.model.fields,field_description:l10n_ro_account_period_close.field_l10n_ro_account_period_closing__write_date
+#: model:ir.model.fields,field_description:l10n_ro_account_period_close.field_l10n_ro_account_period_closing_wizard__write_date
+msgid "Last Updated on"
+msgstr ""
+
+#. module: l10n_ro_account_period_close
+#: model_terms:ir.ui.view,arch_db:l10n_ro_account_period_close.view_l10n_ro_account_period_closing_form
+msgid "Moves"
+msgstr ""
+
+#. module: l10n_ro_account_period_close
+#: model:ir.model.fields,field_description:l10n_ro_account_period_close.field_l10n_ro_account_period_closing__name
+msgid "Name"
+msgstr ""
+
+#. module: l10n_ro_account_period_close
+#: model:ir.model.fields,field_description:l10n_ro_account_period_close.field_account_account__l10n_ro_close_check
+msgid "Romania - Bypass Closing Side Check"
+msgstr ""
+
+#. module: l10n_ro_account_period_close
+#: model:ir.model.fields,field_description:l10n_ro_account_period_close.field_account_bank_statement_line__l10n_ro_close_id
+#: model:ir.model.fields,field_description:l10n_ro_account_period_close.field_account_move__l10n_ro_close_id
+msgid "Romania - Closed Account Period"
+msgstr ""
+
+#. module: l10n_ro_account_period_close
+#: model:ir.model.fields,field_description:l10n_ro_account_period_close.field_account_bank_statement_line__l10n_ro_closing_move
+#: model:ir.model.fields,field_description:l10n_ro_account_period_close.field_account_move__l10n_ro_closing_move
+msgid "Romania - Is Closing Move"
+msgstr ""
+
+#. module: l10n_ro_account_period_close
+#: model:ir.model.fields.selection,name:l10n_ro_account_period_close.selection__l10n_ro_account_period_closing__type__selected
+msgid "Selected"
+msgstr ""
+
+#. module: l10n_ro_account_period_close
+#: model:ir.model.fields,field_description:l10n_ro_account_period_close.field_l10n_ro_account_period_closing_wizard__date_from
+msgid "Start Date"
+msgstr ""
+
+#. module: l10n_ro_account_period_close
+#: model:ir.model.fields,field_description:l10n_ro_account_period_close.field_l10n_ro_account_period_closing__type
+msgid "Type"
+msgstr ""
+
+#. module: l10n_ro_account_period_close
+#: model:ir.model,name:l10n_ro_account_period_close.model_l10n_ro_account_period_closing_wizard
+msgid "Wizard for Account Period Closing"
+msgstr ""
