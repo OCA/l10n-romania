@@ -49,7 +49,6 @@ class ResCompany(models.Model):
                         message.name,
                         company.id,
                     )
-                    # folosim sudo pentru a ne asigura că putem scrie câmpurile de stare/eroare
                     message.sudo().write(
                         {
                             "state": "error",
