@@ -1,0 +1,94 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* l10n_ro_pos
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 14.0+e\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2022-03-17 08:59+0000\n"
+"PO-Revision-Date: 2024-06-12 08:56+0000\n"
+"Last-Translator: Larisa Cuciureanu <larisa.cuciureanu@nexterp.ro>\n"
+"Language-Team: \n"
+"Language: ro\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: nplurals=3; plural=n==1 ? 0 : (n==0 || (n%100 > 0 && n%100 < "
+"20)) ? 1 : 2;\n"
+"X-Generator: Weblate 4.17\n"
+
+#. module: l10n_ro_pos
+#: model_terms:ir.ui.view,arch_db:l10n_ro_pos.pos_session_sales_details
+msgid "<strong>Totals</strong>"
+msgstr "<strong>Totaluri</strong>"
+
+#. module: l10n_ro_pos
+#. odoo-javascript
+#: code:addons/l10n_ro_pos/static/src/xml/pos.xml:0
+msgid "A cash sale of more than 10,000 lei cannot be made."
+msgstr "Nu se poate face o vânzare cu numerar mai mare de 10.000 lei."
+
+#. module: l10n_ro_pos
+#: model:ir.model,name:l10n_ro_pos.model_report_point_of_sale_report_saledetails
+msgid "Point of Sale Details"
+msgstr "Detalii Punct de Vânzare"
+
+#. module: l10n_ro_pos
+#: model:ir.model,name:l10n_ro_pos.model_report_point_of_sale_report_invoice
+msgid "Point of Sale Invoice Report"
+msgstr "Raport Facturi Punct de Vânzare"
+
+#. module: l10n_ro_pos
+#: model:ir.model,name:l10n_ro_pos.model_pos_order
+msgid "Point of Sale Orders"
+msgstr "Comenzile Punctului de vânzare"
+
+#. module: l10n_ro_pos
+#: model:ir.model,name:l10n_ro_pos.model_pos_session
+msgid "Point of Sale Session"
+msgstr "Sesiune Punct de vânzare"
+
+#. module: l10n_ro_pos
+#. odoo-javascript
+#: code:addons/l10n_ro_pos/static/src/xml/pos.xml:0
+msgid "Sale to individuals only.."
+msgstr "Vânzare doar către persoane fizice."
+
+#. module: l10n_ro_pos
+#: model_terms:ir.ui.view,arch_db:l10n_ro_pos.pos_session_sales_details
+msgid "Stock Amount"
+msgstr "Valoare stoc"
+
+#. module: l10n_ro_pos
+#: model_terms:ir.ui.view,arch_db:l10n_ro_pos.pos_session_sales_details
+msgid "Stock Price Unit"
+msgstr "Preț stoc"
+
+#~ msgid ""
+#~ "Account used as counterpart of the income account in the accounting entry "
+#~ "representing the pos sales."
+#~ msgstr ""
+#~ "Cont utilizat ca contrapartidă a contului de venit în înregistrarea "
+#~ "contabilă reprezentând vânzările punctului de vanzare"
+
+#~ msgid "Bank Journal"
+#~ msgstr "Jurnal bancă"
+
+#~ msgid "Display Name"
+#~ msgstr "Nume afișat"
+
+#~ msgid "Intermediary Account"
+#~ msgstr "Cont Intermediar"
+
+#~ msgid "Is the Full Accounting Installed"
+#~ msgstr "Contabilitatea completă este instalată"
+
+#~ msgid "Last Modified on"
+#~ msgstr "Ultima modificare la"
+
+#~ msgid "Point of Sale Configuration"
+#~ msgstr "Configurarea Punctului de Vânzare"
+
+#~ msgid "Point of Sale Payment Methods"
+#~ msgstr "Metode plată Punct de Vânzare"
