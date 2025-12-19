@@ -6,7 +6,7 @@
         <field name="type">form</field>
         <field name="inherit_id" ref="account.view_account_form" />
         <field name="arch" type="xml">
-            <field position="after" name="deprecated">
+            <field position="after" name="active">
                 <field name="l10n_ro_close_check" />
             </field>
         </field>
@@ -97,6 +97,6 @@
         <field name="name">Account Period Closing</field>
         <field name="action" ref="action_account_period_closing" />
         <field name="parent_id" ref="account.menu_finance_entries" />
-        <field name="groups_id" eval="[(4, ref('l10n_ro_config.group_ro_menus'))]" />
+        <field name="group_ids" eval="[(4, ref('l10n_ro_config.group_ro_menus'))]" />
     </record>
 </odoo>

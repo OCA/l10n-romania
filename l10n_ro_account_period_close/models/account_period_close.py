@@ -70,7 +70,7 @@ class AccountPeriodClosing(models.Model):
             `debit`: total amount of debit,
             `balance`: total amount of balance,
         """
-        context = dict(self._context or {})
+        context = dict(self.env.context)
         domain = [("account_id", "in", accounts.ids), ("parent_state", "=", "posted")]
 
         date_field = "date"
@@ -210,7 +210,7 @@ class AccountPeriodClosing(models.Model):
                 debit_acc = closing.debit_account_id
                 credit_acc = closing.credit_account_id
                 debit = credit = new_amount = 0.0
-                ctx1 = dict(self._context)
+                ctx1 = dict(self.env.context)
                 ctx1.update({"date_from": False, "date_to": date_to})
                 accounts = account_obj.browse(
                     [closing.debit_account_id.id, closing.credit_account_id.id]
