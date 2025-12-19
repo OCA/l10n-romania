@@ -26,14 +26,35 @@ class ResCompany(models.Model):
 
         need_retrigger = False
         for company in ro_companies:
-            domain = [("company_id", "=", company.id), ("attachment_id", "=", False)]
+            domain = [
+                ("company_id", "=", company.id),
+                ("attachment_id", "=", False),
+                ("state", "!=", "error"),  # nu mai procesăm în cron mesajele în eroare
+            ]
             messages = company.env["l10n.ro.message.spv"].search(
                 domain, limit=limit + 1
             )
             if len(messages) > limit:
                 need_retrigger = True
-            messages = messages[:-1]
-            messages.download_from_spv()
+            # Procesează mesajele individual pentru a nu bloca cron-ul în caz de eroare
+            messages_to_process = messages[:-1]
+            for message in messages_to_process:
+                try:
+                    # rulează descărcarea pentru fiecare mesaj în parte
+                    message.download_from_spv()
+                except Exception as e:  # pragma: no cover - protecție runtime
+                    # Marchează mesajul ca eroare și continuă cu următorul
+                    _logger.exception(
+                        "Eroare la descărcarea ZIP pentru mesajul %s (compania %s)",
+                        message.name,
+                        company.id,
+                    )
+                    message.sudo().write(
+                        {
+                            "state": "error",
+                            "error": str(e),
+                        }
+                    )
 
         if need_retrigger:
             self.env.ref(
