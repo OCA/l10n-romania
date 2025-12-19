@@ -28,6 +28,9 @@ class TestNondeductibleCommon(ValuationReconciliationTestCommon):
             account = cls.env["account.account.tag"].search(
                 [("name", "=", name)], limit=1
             )
+            if not account:
+                # Ensure the tag exists for tests: create if missing
+                account = cls.env["account.account.tag"].create({"name": name})
             return account
 
         cls.account_vat_deductible = get_account("442600")
@@ -383,8 +386,8 @@ class TestNondeductibleCommon(ValuationReconciliationTestCommon):
     def setUpClass(cls):
         super().setUpClass()
 
-        cls.env.user.groups_id += cls.env.ref(
-            "stock_account.group_stock_accounting_automatic"
+        cls.env.user.group_ids += cls.env.ref(
+            "stock_account.group_lot_on_invoice"
         )
 
         cls.env.company.anglo_saxon_accounting = True
