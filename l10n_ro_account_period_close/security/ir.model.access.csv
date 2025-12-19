@@ -1,0 +1,4 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_l10n_ro_account_period_closing_user,l10n.ro.account.period.closing,model_l10n_ro_account_period_closing,account.group_account_user,1,1,1,0
+access_l10n_ro_account_period_closing_manager,l10n.ro.account.period.closing,model_l10n_ro_account_period_closing,account.group_account_manager,1,1,1,1
+access_l10n_ro_account_period_closing_wizard_user,l10n.ro.account.period.closing.wizard.user,model_l10n_ro_account_period_closing_wizard,account.group_account_manager,1,1,1,1
