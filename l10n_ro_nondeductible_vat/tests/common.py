@@ -355,21 +355,33 @@ class TestNondeductibleCommon(ValuationReconciliationTestCommon):
                 "cash_basis_transition_account_id": unelig_ded_tax_acc,
             }
         )
-
-        cls.fp_model = cls.env["account.fiscal.position"]
-        cls.fptvainc = cls.fp_model.search(
+        cls.fptvainc = cls.env["account.fiscal.position"].search(
             [
                 ("name", "ilike", "VAT collection system"),
                 ("company_id", "=", cls.env.company.id),
-            ]
+            ],
+            limit=1,
         )
-        cls.env["account.fiscal.position.tax"].create(
-            {
-                "position_id": cls.fptvainc.id,
-                "tax_src_id": cls.tax_10_nondeductible.id,
-                "tax_dest_id": cls.tax_10_nondeductible_cash_basis.id,
-            }
-        )
+
+
+        # cls.fp_model = cls.env["account.fiscal.position"]
+        # cls.fptvainc = cls.fp_model.search(
+        #     [
+        #         ("name", "ilike", "VAT collection system"),
+        #         ("company_id", "=", cls.env.company.id),
+        #     ]
+        # )
+        # cls.fp = self.env['account.fiscal.position'].browse(cls.fptvainc.id,)
+        # cls.fp.write({
+        #     'tax_ids': [(4, tax_id)]
+        # })
+        # cls.env["account.fiscal.position.tax"].create(
+        #     {
+        #         "position_id": cls.fptvainc.id,
+        #         "tax_src_id": cls.tax_10_nondeductible.id,
+        #         "tax_dest_id": cls.tax_10_nondeductible_cash_basis.id,
+        #     }
+        # )
         # cls.fptvainc.write(
         #     {
         #         "tax_ids": [Command.create({
@@ -411,11 +423,11 @@ class TestNondeductibleCommon(ValuationReconciliationTestCommon):
             "name": "TEST Marfa",
             "property_cost_method": "fifo",
             "property_valuation": "real_time",
-            "property_account_creditor_price_difference_categ": acc_diff_id,
+            # "property_account_creditor_price_difference_categ": acc_diff_id,
             "property_account_income_categ_id": cls.account_income.id,
             "property_account_expense_categ_id": cls.account_expense.id,
-            "property_stock_account_input_categ_id": cls.account_valuation.id,
-            "property_stock_account_output_categ_id": cls.account_valuation.id,
+            # "property_stock_account_input_categ_id": cls.account_valuation.id,
+            # "property_stock_account_output_categ_id": cls.account_valuation.id,
             "property_stock_valuation_account_id": cls.account_valuation.id,
             "property_stock_journal": stock_journal.id,
             "l10n_ro_stock_account_change": True,
