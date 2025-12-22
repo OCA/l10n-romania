@@ -100,8 +100,8 @@ class ProductProduct(models.Model):
                 quantity=quantity, company=company, lot=lot
             )
         self.ensure_one()
-        company_id = self.env.context.get('force_company', self.env.company.id)
-        company = self.env['res.company'].browse(company_id)
+        company_id = self.env.context.get("force_company", self.env.company.id)
+        company = self.env["res.company"].browse(company_id)
         currency = company.currency_id
         # Quantity is negative for out valuation layers.
         quantity = -1 * quantity
@@ -111,7 +111,7 @@ class ProductProduct(models.Model):
             "value": currency.round(quantity * self.standard_price),
             "unit_cost": self.standard_price,
             "quantity": quantity,
-            'lot_id': lot.id if lot else False,
+            "lot_id": lot.id if lot else False,
         }
         if self.cost_method in ("average", "fifo"):
             fifo_vals_list = self._run_fifo(abs(quantity), company)
