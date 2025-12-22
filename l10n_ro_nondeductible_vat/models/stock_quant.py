@@ -47,7 +47,7 @@ class StockQuant(models.Model):
         res += ["l10n_ro_nondeductible_tax_id", "is_l10n_ro_record"]
         return res
 
-    def _apply_inventory(self):
-        res = super()._apply_inventory()
+    def _apply_inventory(self, date=None):
+        res = super()._apply_inventory(date)
         self.l10n_ro_nondeductible_tax_id = False
         return res

@@ -467,6 +467,30 @@ class TestNondeductibleCommon(ValuationReconciliationTestCommon):
                 "company_id": cls.env.company.id,
             }
         )
+        
+        sequence = cls.env["ir.sequence"].create({
+            "name": "Internal Moves",
+            "padding": 4,
+            "implementation": "standard",
+        })
+        
+        cls.stock_picking_type = cls.env["stock.picking.type"].create(
+            {
+                "name": "Consume Internal",
+                "sequence_code": "internal",
+                "default_location_src_id": cls.warehouse.lot_stock_id.id,
+                "default_location_dest_id": cls.warehouse.lot_stock_id.id,
+                "code": "internal",
+                "reservation_method": "manual",
+                "company_id": cls.env.company.id,
+                "create_backorder": "always",
+                "move_type":"direct",
+                "sequence_id": sequence.id,
+            }
+        )
+
+        cls.warehouse.l10n_ro_consume_type_id = cls.stock_picking_type
+
         cls.category.property_valuation = "real_time"
 
     @classmethod
@@ -594,14 +618,13 @@ class TestNondeductibleCommon(ValuationReconciliationTestCommon):
         consume_type = self.warehouse.l10n_ro_consume_type_id
         stock_picking_form = Form(self.env["stock.picking"])
         stock_picking_form.picking_type_id = consume_type
-        with stock_picking_form.move_ids_without_package.new() as line:
+        with stock_picking_form.move_ids.new() as line:
             line.product_id = self.product_1
             line.product_uom_qty = 10
-            line.l10n_ro_nondeductible_tax_id = self.tax_10_nondeductible
         stock_picking = stock_picking_form.save()
         stock_picking.action_confirm()
         stock_picking.action_assign()
-        for line in stock_picking.move_ids_without_package:
+        for line in stock_picking.move_ids:
             line.quantity = 10
         stock_picking.button_validate()
 

@@ -40,7 +40,6 @@ class AccountMoveLine(models.Model):
             # Remove the lines marked to be removed from stock non deductible
             if (
                 line.display_type == "tax"
-                and move.stock_move_id.l10n_ro_nondeductible_tax_id
                 and tax_rep_line.l10n_ro_exclude_from_stock
             ):
                 moves |= line.move_id
