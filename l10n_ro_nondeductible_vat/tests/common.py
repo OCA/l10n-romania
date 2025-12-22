@@ -414,8 +414,15 @@ class TestNondeductibleCommon(ValuationReconciliationTestCommon):
         )
         if not stock_journal:
             stock_journal = cls.env["account.journal"].create(
-                {"name": "Stock Journal", "code": "STJ", "type": "general"}
+                {
+                    "name": "Stock Journal", 
+                    "code": "STJ", 
+                    "type": "general",
+                    "company_id": cls.env.company.id,
+                 }
             )
+
+        cls.env.company.account_stock_journal_id = stock_journal
 
         acc_diff_id = cls.account_difference.id
 
