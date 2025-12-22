@@ -93,14 +93,15 @@ class ProductProduct(models.Model):
 
         return res
 
-    def _prepare_out_svl_vals(self, quantity, company):
+    def _prepare_out_svl_vals(self, quantity, company, lot=False):
         # FOr Romania, prepare a svl vals list for each svl reserved
         if not self.is_l10n_ro_record:
-            return super()._prepare_out_svl_vals(quantity, company)
+            return super()._prepare_out_svl_vals(
+                quantity=quantity, company=company, lot=lot
+            )
         self.ensure_one()
-        if not company:
-            company_id = self.env.context.get("force_company", self.env.company.id)
-            company = self.env["res.company"].browse(company_id)
+        company_id = self.env.context.get("force_company", self.env.company.id)
+        company = self.env["res.company"].browse(company_id)
         currency = company.currency_id
         # Quantity is negative for out valuation layers.
         quantity = -1 * quantity
@@ -110,6 +111,7 @@ class ProductProduct(models.Model):
             "value": currency.round(quantity * self.standard_price),
             "unit_cost": self.standard_price,
             "quantity": quantity,
+            "lot_id": lot.id if lot else False,
         }
         if self.cost_method in ("average", "fifo"):
             fifo_vals_list = self._run_fifo(abs(quantity), company)
