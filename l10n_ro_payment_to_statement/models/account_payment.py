@@ -3,7 +3,7 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
 
-from odoo import _, api, fields, models
+from odoo import api, fields, models
 from odoo.exceptions import UserError
 
 
@@ -91,11 +91,11 @@ class AccountPayment(models.Model):
                 and payment.journal_id.type == "cash"
             ):
                 raise UserError(
-                    _(
-                        "You cannot delete the payment %(payment)s, "
-                        "as it already consumed a number."
+                    self.env._(
+                        "You cannot delete the payment %s, "
+                        "as it already consumed a number.",
+                        payment.display_name,
                     )
-                    % {"payment": payment.display_name}
                 )
 
     @api.model_create_multi
