@@ -76,6 +76,12 @@ class AccountPayment(models.Model):
 
     def unlink(self):
         l10n_ro_statement_line_ids = self.env["account.bank.statement.line"]
+        self._check_can_unlink()
+        res = super().unlink()
+        l10n_ro_statement_line_ids.unlink()
+        return res
+
+    def _check_can_unlink(self):
         for payment in self:
             # forbid deleting if has a number
             if (
@@ -86,14 +92,11 @@ class AccountPayment(models.Model):
             ):
                 raise UserError(
                     _(
-                        "You cannot delete the payment %s,"
-                        " as it already consumed a number."
+                        "You cannot delete the payment %(payment)s, "
+                        "as it already consumed a number."
                     )
-                    % payment.name
+                    % {"payment": payment.display_name}
                 )
-        res = super().unlink()
-        l10n_ro_statement_line_ids.unlink()
-        return res
 
     @api.model_create_multi
     def create(self, vals_list):
