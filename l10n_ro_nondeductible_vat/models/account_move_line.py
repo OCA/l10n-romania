@@ -4,7 +4,9 @@
 
 
 from odoo import api, models
+import logging
 
+_logger = logging.getLogger(__name__)
 
 class AccountMoveLine(models.Model):
     _name = "account.move.line"
@@ -38,8 +40,10 @@ class AccountMoveLine(models.Model):
             if line.account_id != new_account:
                 line.account_id = new_account
             # Remove the lines marked to be removed from stock non deductible
+            _logger.info('move type: %s', type(move))
             if (
                 line.display_type == "tax"
+                and move.stock_move_ids.l10n_ro_nondeductible_tax_id
                 and tax_rep_line.l10n_ro_exclude_from_stock
             ):
                 moves |= line.move_id
