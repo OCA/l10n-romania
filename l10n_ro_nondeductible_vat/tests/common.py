@@ -631,7 +631,7 @@ class TestNondeductibleCommon(ValuationReconciliationTestCommon):
         stock_picking = stock_picking_form.save()
         stock_picking.action_confirm()
         stock_picking.action_assign()
-        for line in stock_picking.move_ids:
+        for line in stock_picking.move_line_ids.filtered(lambda l: not l.result_package_id):
             line.quantity = 10
         stock_picking.button_validate()
 
