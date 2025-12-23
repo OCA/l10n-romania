@@ -432,9 +432,9 @@ class MessageSPV(models.Model):
         if b"<CreditNote" in xml:
             val1 = "FCN"
 
-        url = f"https://webservicesp.anaf.ro/prod/FCTEL/rest/transformare/{val1}" # pylint: disable=E231
+        url = f"https://webservicesp.anaf.ro/prod/FCTEL/rest/transformare/{val1}"
         if no_validate:
-            url = f"https://webservicesp.anaf.ro/prod/FCTEL/rest/transformare/{val1}/DA" # pylint: disable=E231
+            url = f"https://webservicesp.anaf.ro/prod/FCTEL/rest/transformare/{val1}/DA"
 
         res = requests.post(url, data=xml, headers=headers, timeout=25)
         if "The requested URL was rejected" in res.text:
