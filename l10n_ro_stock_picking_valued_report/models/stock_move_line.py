@@ -52,8 +52,7 @@ class StockMoveLine(models.Model):
         "quantity",
         "picking_id.state",
         "move_id",
-        "move_id.stock_valuation_layer_ids",
-        "move_id.stock_valuation_layer_ids.value",
+        "move_id.value",
     )
     def _compute_l10n_ro_valued_fields(self):
         for line in self:
@@ -82,54 +81,59 @@ class StockMoveLine(models.Model):
                     else 0
                 )
             else:
-                svls = line.move_id.stock_valuation_layer_ids
+                move = line.move_id or self.env["stock.move"]
+                price_unit = 0.0
+                additional_charges = 0.0
 
-                svls_lc_not_same_invoice = self.env["stock.valuation.layer"]
-                price_unit = 0
-                if svls:
-                    if svls[0].l10n_ro_valued_type == "internal_transfer":
-                        svls = svls.filtered(lambda s: s.quantity > 0)
-                    if svls[0].stock_move_id._is_in():
-                        svls_lc_not_same_invoice = svls.filtered(
-                            lambda s, svls=svls: (
-                                s.stock_landed_cost_id
-                                and s.stock_landed_cost_id.l10n_ro_cost_type == "normal"
-                                and s.stock_landed_cost_id.vendor_bill_id
-                                and s.stock_landed_cost_id.vendor_bill_id
-                                != svls[0].l10n_ro_invoice_id
-                            )
-                        )
-                        svls = svls - svls_lc_not_same_invoice
+                if move and move.exists():
+                    candidates = self.env["stock.move"]
+                    candidates |= move
 
-                    if sum(svls.mapped("quantity")):
-                        price_unit = sum(svls.mapped("value")) / sum(
-                            svls.mapped("quantity")
-                        )
+                    if hasattr(move, "move_orig_ids"):
+                        candidates |= move.move_orig_ids
+                    if hasattr(move, "move_dest_ids"):
+                        candidates |= move.move_dest_ids
+
+
+                    incoming = candidates.filtered(lambda m: m._is_in())
+
+                    if incoming and incoming[0].picking_id and incoming[0].picking_id.picking_type_id:
+                        if incoming[0].picking_id.picking_type_id.code == "internal":
+                            incoming = incoming.filtered(lambda m: (m.product_uom_qty or 0) > 0)
+
+                    total_qty = sum((m.product_uom_qty or 0.0) for m in incoming)
+                    total_value = 0.0
+                    for m in incoming:
+                        mv = float(getattr(m, "value", 0.0) or getattr(m, "remaining_value", 0.0) or 0.0)
+                        total_value += mv
+
+                    if total_qty:
+                        price_unit = total_value / total_qty
+
+                    additional_charges = 0.0  
+
                 line.l10n_ro_currency_id = line.company_id.currency_id
                 line.l10n_ro_price_unit = price_unit
-                line.l10n_ro_additional_charges = sum(
-                    svls_lc_not_same_invoice.mapped("value")
-                )
+                line.l10n_ro_additional_charges = additional_charges
                 line.l10n_ro_price_subtotal = move_qty * line.l10n_ro_price_unit
+
                 line.l10n_ro_price_tax = 0
-                if line.l10n_ro_purchase_line_id and svls:
-                    price_tax = (
-                        line.l10n_ro_purchase_line_id.price_tax
-                        / line.l10n_ro_purchase_line_id.product_uom_qty
-                        if line.l10n_ro_purchase_line_id.product_uom_qty
-                        else line.l10n_ro_purchase_line_id.price_tax
-                    ) * move_qty
+                if line.l10n_ro_purchase_line_id and move and move.exists():
+                    purch = line.l10n_ro_purchase_line_id
+                    if purch.product_uom_qty:
+                        price_tax = (purch.price_tax / purch.product_uom_qty) * move_qty
+                    else:
+                        price_tax = purch.price_tax * move_qty
                     line.l10n_ro_price_tax = (
-                        line.l10n_ro_purchase_line_id.currency_id._convert(
+                        purch.currency_id._convert(
                             price_tax,
                             line.company_id.currency_id,
                             line.company_id,
                             line.date,
                         )
                     )
-                line.l10n_ro_price_total = (
-                    line.l10n_ro_price_subtotal + line.l10n_ro_price_tax
-                )
+                line.l10n_ro_price_total = line.l10n_ro_price_subtotal + line.l10n_ro_price_tax
+
 
     def _get_aggregated_product_quantities(self, **kwargs):
         agg_move_lines = super()._get_aggregated_product_quantities(**kwargs)
