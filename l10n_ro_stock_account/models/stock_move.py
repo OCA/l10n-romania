@@ -15,8 +15,12 @@ class StockMove(models.Model):
     _name = "stock.move"
     _inherit = ["stock.move", "l10n.ro.mixin"]
 
-    l10n_ro_extra_account_move_id = fields.Many2one(
-        "account.move", string="Account Move", readonly=True, copy=False
+    l10n_ro_extra_account_move_ids = fields.One2many(
+        "account.move",
+        "l10n_ro_extra_stock_move_id",
+        string="Extra Account Moves",
+        readonly=True,
+        copy=False,
     )
     l10n_ro_move_type = fields.Selection(
         [
@@ -210,28 +214,27 @@ class StockMove(models.Model):
 
     def _create_account_move_ro_extra(self):
         """Create account move for specific location or analytic."""
-        aml_vals_list = []
-        move_to_link = set()
+        account_moves = self.env["account.move"]
         for move in self:
+            aml_vals_list = []
             if move._should_create_account_move():
                 account_list = self._get_l10n_ro_move_type_account_list_extra()
                 aml_vals_list = self._get_l10n_ro_move_line_vals_list(
                     account_list, aml_vals_list
                 )
-                move_to_link.add(move.id)
-        if not aml_vals_list:
-            return self.env["account.move"]
-        account_move = self.env["account.move"].create(
-            {
-                "journal_id": self.company_id.account_stock_journal_id.id,
-                "line_ids": [Command.create(aml_vals) for aml_vals in aml_vals_list],
-            }
-        )
-        self.env["stock.move"].browse(
-            move_to_link
-        ).l10n_ro_extra_account_move_id = account_move.id
-        account_move._post()
-        return account_move
+                if aml_vals_list:
+                    account_move = self.env["account.move"].create(
+                        {
+                            "l10n_ro_extra_stock_move_id": move.id,
+                            "journal_id": self.company_id.account_stock_journal_id.id,
+                            "line_ids": [
+                                Command.create(aml_vals) for aml_vals in aml_vals_list
+                            ],
+                        }
+                    )
+                    account_move._post()
+                    account_moves |= account_move
+        return account_moves
 
     @api.model
     def _get_l10n_ro_move_type_account_list(self):
@@ -384,7 +387,9 @@ class StockMove(models.Model):
                 )
             if not value:
                 continue
-            if debit_acc == credit_acc:
+            if debit_acc == credit_acc and debit_acc != accounts.get(
+                "l10n_ro_usage_giving", False
+            ):
                 continue
             res += [
                 {
