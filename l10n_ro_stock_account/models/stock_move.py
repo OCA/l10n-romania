@@ -264,8 +264,8 @@ class StockMove(models.Model):
             "consumption_return": [("expense", "stock_valuation", "value", -1)],
             "usage_giving": [("expense", "stock_valuation", "value", 1)],
             "usage_giving_return": [("expense", "stock_valuation", "value", -1)],
-            "production": [("expense", "stock_valuation", "value", 1)],
-            "production_return": [("expense", "stock_valuation", "value", -1)],
+            "production": [("stock_valuation", "expense", "value", 1)],
+            "production_return": [("stock_valuation", "expense", "value", -1)],
             "internal_transfer": [
                 ("l10n_ro_transfer", "stock_valuation", "value", 1),
                 ("expense", "l10n_ro_transfer", "value", 1),
@@ -337,7 +337,9 @@ class StockMove(models.Model):
             res = self._get_l10n_ro_move_line_vals_list(account_list, res)
         return res
 
-    def _get_l10n_ro_move_line_vals_list(self, account_list=None, res=None):
+    def _get_l10n_ro_move_line_vals_list(
+        self, account_list=None, res=None, forced_value=None
+    ):
         acc_obj = self.env["account.account"]
         if not account_list:
             return res
@@ -361,7 +363,9 @@ class StockMove(models.Model):
         for from_key, to_key, price_type, sign in account_list:
             debit_acc = accounts.get(from_key, acc_obj)
             credit_acc = accounts.get(to_key, acc_obj)
-            value = sign * self._get_l10n_ro_value(price_type)
+            if not forced_value:
+                forced_value = self._get_l10n_ro_value(price_type)
+            value = sign * forced_value
             if not debit_acc:
                 raise UserError(
                     self.env._(

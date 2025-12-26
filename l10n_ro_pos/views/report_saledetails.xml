@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <template
+        id="pos_session_sales_details"
+        inherit_id="point_of_sale.pos_session_sales_details"
+    >
+        <xpath expr="//thead/tr" position="inside">
+            <th class="text-right">Stock Price Unit</th>
+            <th class="text-right">Stock Amount</th>
+        </xpath>
+        <xpath expr="//tbody/tr" position="inside">
+            <td class="text-right">
+                <t
+                    t-esc="line.get('stock_price',0.0)"
+                    t-options='{"widget": "float", "precision": currency_precision}'
+                />
+            </td>
+            <td class="text-right">
+                <t
+                    t-esc="line.get('stock_amount',0.0)"
+                    t-options='{"widget": "float", "precision": currency_precision}'
+                />
+            </td>
+        </xpath>
+        <xpath expr="//tbody" position="after">
+            <tfoot>
+                <tr>
+                    <td>
+                        <strong>Totals</strong>
+                    </td>
+                    <td />
+                    <td />
+                    <td />
+                    <td class="text-right">
+                        <strong
+                            t-esc='total_stock_amount'
+                            t-options="{'widget': 'float', 'precision': currency_precision}"
+                        />
+                    </td>
+                </tr>
+            </tfoot>
+        </xpath>
+    </template>
+</odoo>
