@@ -136,7 +136,9 @@ class AdjustmentLines(models.Model):
         string="Romania - Distributed Valuation Lines",
         readonly=True,
     )
-    l10n_ro_not_distributed_amount = fields.Monetary("Additional Landed Cost")
+    l10n_ro_not_distributed_amount = fields.Monetary(
+        "Not Distributed Amount", readonly=True
+    )
 
     def _l10n_ro_prepare_adj_line_vals(self, track_vals, additional_landed_cost):
         former_cost = track_vals["move"]._get_value()
@@ -155,24 +157,60 @@ class AdjustmentLines(models.Model):
     def _create_accounting_entries(self, remaining_qty):
         """For Romania create accouting entries on total quantity of the move,
         as landed cost is distributed on move destinations."""
+        res = []
         ro_adj_lines = self.filtered(lambda line: line.cost_id.is_l10n_ro_record)
-        res = super(AdjustmentLines, self - ro_adj_lines)._create_accounting_entries(
-            remaining_qty
-        )
+        if self - ro_adj_lines:
+            res = super(
+                AdjustmentLines, self - ro_adj_lines
+            )._create_accounting_entries(remaining_qty)
         if not res:
             res = []
         for line in ro_adj_lines:
+            line = line.with_context(l10n_ro_stock_move=line.move_id)
             res += super(AdjustmentLines, line)._create_accounting_entries(
                 line.move_id.quantity
             )
+            line._l10n_ro_get_extra_accounting_entries()
             for distributed_line in line.l10n_ro_distributed_valuation_lines:
                 res += distributed_line._create_accounting_entries()
         return res
+
+    def _l10n_ro_get_extra_accounting_entries(self):
+        """Get extra accounting entries for Romania landed cost."""
+        self.ensure_one()
+        ro_types = [
+            "reception_notice",
+            "reception_notice_return",
+            "reception_in_progress",
+            "reception_in_progress_return",
+        ]
+        account_move = self.env["account.move"]
+        if (
+            self.cost_id.l10n_ro_only_on_distributed_lines
+            and self.move_id.l10n_ro_move_type in ro_types
+        ):
+            account_list = self.move_id._get_l10n_ro_move_type_account_list()
+            aml_vals_list = self.move_id._get_l10n_ro_move_line_vals_list(
+                account_list, [], forced_value=self.l10n_ro_not_distributed_amount
+            )
+            if aml_vals_list:
+                account_move = self.env["account.move"].create(
+                    {
+                        "l10n_ro_extra_stock_move_id": self.move_id.id,
+                        "journal_id": self.cost_id.account_journal_id.id,
+                        "line_ids": [
+                            Command.create(aml_vals) for aml_vals in aml_vals_list
+                        ],
+                    }
+                )
+                account_move._post()
+        return account_move
 
 
 class L10NROStockValuationAdjustmentLines(models.Model):
     _name = "l10n.ro.stock.valuation.adjustment.lines"
     _inherit = "stock.valuation.adjustment.lines"
+    _description = "Romania - EXtra Stock Valuation Adjustment Lines"
 
     origin_line_id = fields.Many2one(
         "stock.valuation.adjustment.lines",
@@ -181,7 +219,7 @@ class L10NROStockValuationAdjustmentLines(models.Model):
     )
 
     def _create_accounting_entries(self):
-        res = []
+        aml_vals_list = []
         if not self.move_id.l10n_ro_move_type:
             raise UserError(
                 self.env._(
@@ -191,6 +229,41 @@ class L10NROStockValuationAdjustmentLines(models.Model):
             )
         account_list = self.move_id._get_l10n_ro_move_type_account_list()
         aml_vals_list = self.move_id._get_l10n_ro_move_line_vals_list(
-            account_list, res, self.additional_landed_cost
+            account_list, aml_vals_list, self.additional_landed_cost
         )
+        # In case of return reception, create extra accounting entry
+        # for notice or reception in progress
+        extra_account_list = []
+        extra_aml_vals_list = []
+        if self.move_id.l10n_ro_move_type in [
+            "reception_notice_return",
+            "reception_in_progress_return",
+        ]:
+            extra_account_list = self.move_id._get_l10n_ro_move_type_account_list()
+            extra_aml_vals_list = self.move_id._get_l10n_ro_move_line_vals_list(
+                extra_account_list,
+                extra_aml_vals_list,
+                forced_value=self.additional_landed_cost,
+            )
+        if self.move_id.l10n_ro_move_type in ["usage_giving", "usage_giving_return"]:
+            extra_account_list += (
+                self.move_id._get_l10n_ro_move_type_account_list_extra()
+            )
+            extra_aml_vals_list = self.move_id._get_l10n_ro_move_line_vals_list(
+                extra_account_list,
+                extra_aml_vals_list,
+                forced_value=self.additional_landed_cost,
+            )
+        if extra_aml_vals_list:
+            account_move = self.env["account.move"].create(
+                {
+                    "l10n_ro_extra_stock_move_id": self.move_id.id,
+                    "journal_id": self.cost_id.account_journal_id.id,
+                    "line_ids": [
+                        Command.create(aml_vals) for aml_vals in extra_aml_vals_list
+                    ],
+                }
+            )
+            if account_move:
+                account_move._post()
         return [Command.create(aml_vals) for aml_vals in aml_vals_list]

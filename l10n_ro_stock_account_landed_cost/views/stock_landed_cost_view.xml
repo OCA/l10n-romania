@@ -22,6 +22,22 @@
                         </group>
                     </group>
                 </notebook>
+                <xpath
+                    expr="//field[@name='valuation_adjustment_lines']/form/group[1]/group[2]/field[@name='additional_landed_cost']"
+                    position="after"
+                >
+                    <field name="l10n_ro_not_distributed_amount" readonly="1" />
+                </xpath>
+                <xpath
+                    expr="//field[@name='valuation_adjustment_lines']/list/field[@name='additional_landed_cost']"
+                    position="after"
+                >
+                    <field
+                        name="l10n_ro_not_distributed_amount"
+                        readonly="1"
+                        optional="hide"
+                    />
+                </xpath>
                 <xpath expr="//page[@name='valuation_adjustments']" position="after">
                     <page
                         name="l10n_ro_valuation_adjustments"

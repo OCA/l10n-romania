@@ -18,6 +18,7 @@ class TestStockFifo(TestROStockCommon):
     @TestROStockCommon.setup_country("ro")
     def setUp(cls):
         super().setUp()
+        cls.l10n_ro_cost_type = "normal"
 
     def test_ro_stock_product_fifo(self):
         module_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
