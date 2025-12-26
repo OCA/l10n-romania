@@ -904,9 +904,12 @@ class TestROStockCommon(AccountTestInvoicingCommon):
                     invoice.with_context(
                         l10n_ro_approved_price_difference=True
                     ).action_post()
-            if picking.state == "done":
+            lc_pickings = purchase.picking_ids.filtered(
+                lambda x: x.state == "done" and x.picking_type_code == "incoming"
+            )
+            if lc_pickings:
                 if values.get("landed_cost", 0) != 0:
-                    self.create_landed_cost(invoice, picking, values)
+                    self.create_landed_cost(invoice, lc_pickings, values)
 
     def create_stock_inventory(self, values):
         inventory_values = self.get_references_from_values(values)
@@ -1142,18 +1145,26 @@ class TestROStockCommon(AccountTestInvoicingCommon):
             self.create_stock_picking(oper_type, values, picking.with_context(step=2))
         return picking
 
-    def create_landed_cost(self, invoice, picking, values):
+    def create_landed_cost(self, invoice, pickings, values):
         journal = self.env["account.journal"].search(
             [("company_id", "=", self.env.company.id), ("type", "=", "general")],
+            limit=1,
+        )
+        # For landed cost use 624000 account
+        acc = self.env["account.account"].search(
+            [
+                ("company_ids", "in", self.env.company.id),
+                ("code", "=", "624000"),
+            ],
             limit=1,
         )
         product = self.landed_cost
         landed_cost = self.env["stock.landed.cost"].create(
             {
-                "picking_ids": [(4, picking.id)],
+                "picking_ids": [(4, picking.id) for picking in pickings],
                 "vendor_bill_id": invoice.id if invoice else False,
                 "account_journal_id": journal.id,
-                "date": invoice.date if invoice else picking.scheduled_date,
+                "date": invoice.date if invoice else pickings[0].scheduled_date,
                 "cost_lines": [
                     (
                         0,
@@ -1162,11 +1173,15 @@ class TestROStockCommon(AccountTestInvoicingCommon):
                             "product_id": product.id,
                             "price_unit": values.get("landed_cost"),
                             "split_method": "equal",
-                            "account_id": product.property_account_expense_id.id,
+                            "account_id": acc.id
+                            if acc
+                            else product.property_account_expense_id.id,
                         },
                     )
                 ],
             }
         )
+        if hasattr(self, "l10n_ro_cost_type"):
+            landed_cost.l10n_ro_cost_type = self.l10n_ro_cost_type
         landed_cost.compute_landed_cost()
         landed_cost.button_validate()
