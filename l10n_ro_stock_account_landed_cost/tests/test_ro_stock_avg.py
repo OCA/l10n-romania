@@ -3,11 +3,12 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
 import logging
+import os
 from contextlib import closing
 
 from odoo.tests import tagged
 
-from .common import TestROStockCommon
+from odoo.addons.l10n_ro_stock_account.tests.common import TestROStockCommon
 
 _logger = logging.getLogger(__name__)
 
@@ -19,8 +20,9 @@ class TestStockAvg(TestROStockCommon):
         super().setUp()
 
     def test_ro_stock_product_avg(self):
+        module_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
         filename = "test_cases_avg.csv"
-        test_cases = self.read_test_cases_from_csv_file(filename)
+        test_cases = self.read_test_cases_from_csv_file(filename, module_dir=module_dir)
         for _key, case in test_cases.items():
             _logger.info(
                 "Running test case: %s - %s", case.get("code"), case.get("name")
