@@ -41,5 +41,10 @@ class StockMove(models.Model):
             for line in res:
                 account = self.env["account.account"].browse(line["account_id"])
                 if account.account_type == "expense":
-                    line["tax_ids"] = [(6, 0, [self.l10n_ro_nondeductible_tax_id.id])]
+                    line.update(
+                        {
+                            "tax_ids": [(6, 0, [self.l10n_ro_nondeductible_tax_id.id])],
+                            "deductible_amount": 50.0,
+                        }
+                    )
         return res
