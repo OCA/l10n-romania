@@ -14,16 +14,17 @@ class AccountMove(models.Model):
     _inherit = ["account.move", "l10n.ro.mixin"]
 
     def _get_sync_stack(self, container):
-        def has_non_deductible_lines(move):
+        def has_l10n_ro_non_deductible_lines(move):
             return move.state == "draft" and any(
                 move.line_ids.filtered(
                     lambda line: line.display_type == "product"
+                    and line.company_id.l10n_ro_accounting
                     and line.deductible_amount < 100
                 )
             )
 
         ro_non_deductible_moves = container["records"].filtered(
-            lambda m: m.company_id.l10n_ro_accounting and has_non_deductible_lines(m)
+            lambda m: has_l10n_ro_non_deductible_lines(m)
         )
         ro_non_deductible_container = {"records": ro_non_deductible_moves}
         stack, update_containers = super()._get_sync_stack(container)
@@ -71,20 +72,6 @@ class AccountMove(models.Model):
         for move in container["records"]:
             if move.state != "draft":
                 continue
-            balance_name = self.env._("Automatic Balancing Line")
-            existing_balancing_line = move.line_ids.filtered(
-                lambda line, bal_name=balance_name: line.name == bal_name
-            )
-            if existing_balancing_line:
-                to_delete += existing_balancing_line.ids
-
-            # For stock non deductible remove also the tax lines
-            if move.stock_move_ids and not move.is_purchase_document():
-                tax_lines = move.line_ids.filtered(
-                    lambda tax_line: tax_line.display_type == "tax"
-                )
-                if tax_lines:
-                    to_delete += tax_lines.ids
 
             non_deductible_base_lines = move.line_ids.filtered(
                 lambda line: line.display_type
@@ -117,7 +104,7 @@ class AccountMove(models.Model):
                         sign * non_deductible_subtotal / rate
                     )
                     if rate
-                    else 0.0
+                    else sign * non_deductible_subtotal
                 )
                 tax = line.tax_ids.filtered(lambda t: t.amount_type != "fixed")
                 rep_lines = move._get_l10n_ro_nd_repartition_lines(tax)
@@ -184,20 +171,6 @@ class AccountMove(models.Model):
         for move in container["records"]:
             if move.state != "draft":
                 continue
-            balance_name = self.env._("Automatic Balancing Line")
-            existing_balancing_line = move.line_ids.filtered(
-                lambda line, bal_name=balance_name: line.name == bal_name
-            )
-            if existing_balancing_line:
-                to_delete += existing_balancing_line.ids
-
-            # For stock non deductible remove also the tax lines
-            if move.stock_move_ids and not move.is_purchase_document():
-                tax_lines = move.line_ids.filtered(
-                    lambda tax_line: tax_line.display_type == "tax"
-                )
-                if tax_lines:
-                    to_delete += tax_lines.ids
 
             non_deductible_tax_lines = move.line_ids.filtered(
                 lambda tax_line: tax_line.display_type
@@ -272,14 +245,11 @@ class AccountMove(models.Model):
                                 ],
                             }
                         )
-                        account = tax_repartition_line.account_id
-                        if account.l10n_ro_nondeductible_account_id:
-                            account = account.l10n_ro_nondeductible_account_id
-                        if not account:
-                            account = (
-                                move.journal_id.non_deductible_account_id
-                                or move.journal_id.default_account_id
-                            )
+                        account = (
+                            move.company_id.l10n_ro_nondeductible_account_id
+                            or move.journal_id.non_deductible_account_id
+                            or tax_repartition_line.account_id
+                        )
                         to_create.append(
                             {
                                 "move_id": move.id,
@@ -309,20 +279,24 @@ class AccountMove(models.Model):
             self.env["account.move.line"].create(to_create)
 
     def _inverse_tax_totals(self):
-        with self._disable_recursion(
-            {"records": self}, "skip_invoice_sync"
+        ro_moves = self.filtered(lambda m: m.company_id.l10n_ro_accounting)
+        res = True
+        if self - ro_moves:
+            res = super(AccountMove, self - ro_moves)._inverse_tax_totals()
+        with ro_moves._disable_recursion(
+            {"records": ro_moves}, "skip_invoice_sync"
         ) as disabled:
             if disabled:
                 return
-        res = True
-        for move in self:
-            with move._sync_dynamic_line(
-                existing_key_fname="term_key",
-                needed_vals_fname="needed_terms",
-                needed_dirty_fname="needed_terms_dirty",
-                line_type="payment_term",
-                container={"records": move},
-            ):
-                if move.tax_totals and "subtotals" in move.tax_totals:
-                    res = super(AccountMove, move)._inverse_tax_totals()
+        with ro_moves._sync_dynamic_line(
+            existing_key_fname="term_key",
+            needed_vals_fname="needed_terms",
+            needed_dirty_fname="needed_terms_dirty",
+            line_type="payment_term",
+            container={"records": ro_moves},
+        ):
+            moves_with_subtotal = ro_moves.filtered(
+                lambda m: m.tax_totals and "subtotals" in m.tax_totals
+            )
+            super(AccountMove, moves_with_subtotal)._inverse_tax_totals()
         return res

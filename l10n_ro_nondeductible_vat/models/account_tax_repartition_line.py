@@ -9,28 +9,4 @@ class AccountTaxRepartitionLineExtend(models.Model):
     _name = "account.tax.repartition.line"
     _inherit = ["account.tax.repartition.line", "l10n.ro.mixin"]
 
-    l10n_ro_nondeductible = fields.Boolean(string="Romania - Nondeductible")
     l10n_ro_exclude_from_stock = fields.Boolean(string="Romania - Exclude From Stock")
-    l10n_ro_skip_cash_basis_account_switch = fields.Boolean(
-        string="Romania - Skip Account Switch (Cash Basis)",
-        help="If checked, then it doesn't change expense account"
-        " in the tax line for invoices, and it set 44283 instead of expense"
-        " account for the journal entry created at payment reconciliation",
-    )
-
-    # def _get_aml_target_tax_account(self, force_caba_exigibility=False):
-    #     account = super()._get_aml_target_tax_account(
-    #         force_caba_exigibility=force_caba_exigibility
-    #     )
-    #     if (
-    #         self.tax_id.tax_exigibility == "on_payment"
-    #         and not self._context.get("caba_no_transition_account")
-    #         and not self.l10n_ro_skip_cash_basis_account_switch
-    #         and self.tax_id.is_l10n_ro_record
-    #     ):
-    #         account = self.tax_id.cash_basis_transition_account_id
-    #     if self.tax_id.is_l10n_ro_record and (
-    #         not account or self.l10n_ro_skip_cash_basis_account_switch
-    #     ):
-    #         account = self.account_id
-    #     return account

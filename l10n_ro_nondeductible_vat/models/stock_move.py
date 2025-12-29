@@ -15,6 +15,11 @@ class StockMove(models.Model):
         domain=[("l10n_ro_is_nondeductible", "=", True)],
         copy=False,
     )
+    l10n_ro_nondeductible_percent = fields.Selection(
+        [("0", "Deductible"), ("50", "50% Nondeductible"), ("100", "Nondeductible")],
+        string="Romania - Non Deductible Percent",
+        default="0",
+    )
     l10n_ro_nondeductible_usage = fields.Boolean(
         compute="_compute_l10n_ro_nondeductible_usage",
         string="Romania - Allow Non Deductible",
@@ -44,7 +49,8 @@ class StockMove(models.Model):
                     line.update(
                         {
                             "tax_ids": [(6, 0, [self.l10n_ro_nondeductible_tax_id.id])],
-                            "deductible_amount": 50.0,
+                            "deductible_amount": 100
+                            - int(self.l10n_ro_nondeductible_percent),
                         }
                     )
         return res

@@ -10,7 +10,15 @@ class StockQuant(models.Model):
     _inherit = ["stock.quant", "l10n.ro.mixin"]
 
     l10n_ro_nondeductible_tax_id = fields.Many2one(
-        "account.tax", domain=[("l10n_ro_is_nondeductible", "=", True)], copy=False
+        "account.tax",
+        string="Non Deductible Tax",
+        domain=[("l10n_ro_is_nondeductible", "=", True)],
+        copy=False,
+    )
+    l10n_ro_nondeductible_percent = fields.Selection(
+        [("0", "Deductible"), ("50", "50% Nondeductible"), ("100", "Nondeductible")],
+        string="Deductibility",
+        default="50",
     )
 
     def _get_inventory_move_values(
@@ -24,11 +32,15 @@ class StockQuant(models.Model):
         res = super()._get_inventory_move_values(
             qty, location_id, location_dest_id, package_id, package_dest_id
         )
-        res["l10n_ro_nondeductible_tax_id"] = (
-            self.l10n_ro_nondeductible_tax_id
-            and self.l10n_ro_nondeductible_tax_id.id
-            or None
-        )
+        if self.l10n_ro_nondeductible_tax_id:
+            nd_tax = self.l10n_ro_nondeductible_tax_id
+            nd_perc = self.l10n_ro_nondeductible_percent
+            res.update(
+                {
+                    "l10n_ro_nondeductible_tax_id": nd_tax.id,
+                    "l10n_ro_nondeductible_percent": nd_perc,
+                }
+            )
         return res
 
     @api.model
@@ -36,7 +48,11 @@ class StockQuant(models.Model):
         """Returns a list of fields user can edit when he want
         to create a quant in `inventory_mode`."""
         res = super()._get_inventory_fields_create()
-        res += ["l10n_ro_nondeductible_tax_id", "is_l10n_ro_record"]
+        res += [
+            "l10n_ro_nondeductible_tax_id",
+            "l10n_ro_nondeductible_percent",
+            "is_l10n_ro_record",
+        ]
         return res
 
     @api.model
@@ -44,10 +60,17 @@ class StockQuant(models.Model):
         """Returns a list of fields user can edit when he want
         to edit a quant in `inventory_mode`."""
         res = super()._get_inventory_fields_write()
-        res += ["l10n_ro_nondeductible_tax_id", "is_l10n_ro_record"]
+        res += [
+            "l10n_ro_nondeductible_tax_id",
+            "l10n_ro_nondeductible_percent",
+            "is_l10n_ro_record",
+        ]
         return res
 
     def _apply_inventory(self, date=None):
+        if self.l10n_ro_nondeductible_tax_id:
+            self = self.with_context(l10n_ro_exclude_from_stock=True)
         res = super()._apply_inventory(date=date)
-        self.l10n_ro_nondeductible_tax_id = False
+        if self.l10n_ro_nondeductible_tax_id:
+            self.l10n_ro_nondeductible_tax_id = False
         return res
