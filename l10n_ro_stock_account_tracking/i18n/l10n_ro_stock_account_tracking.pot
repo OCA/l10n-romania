@@ -4,7 +4,7 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 18.0\n"
+"Project-Id-Version: Odoo Server 19.0\n"
 "Report-Msgid-Bugs-To: \n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -14,142 +14,84 @@ msgstr ""
 "Plural-Forms: \n"
 
 #. module: l10n_ro_stock_account_tracking
-#: model:ir.model.fields,field_description:l10n_ro_stock_account_tracking.field_stock_quant__company_id
-msgid "Company"
-msgstr ""
-
-#. module: l10n_ro_stock_account_tracking
-#: model:ir.model.fields,field_description:l10n_ro_stock_account_tracking.field_l10n_ro_stock_valuation_layer_tracking__create_uid
+#: model:ir.model.fields,field_description:l10n_ro_stock_account_tracking.field_l10n_ro_stock_move_tracking__create_uid
 msgid "Created by"
 msgstr ""
 
 #. module: l10n_ro_stock_account_tracking
-#: model:ir.model.fields,field_description:l10n_ro_stock_account_tracking.field_l10n_ro_stock_valuation_layer_tracking__create_date
+#: model:ir.model.fields,field_description:l10n_ro_stock_account_tracking.field_l10n_ro_stock_move_tracking__create_date
 msgid "Created on"
 msgstr ""
 
 #. module: l10n_ro_stock_account_tracking
-#: model_terms:ir.ui.view,arch_db:l10n_ro_stock_account_tracking.stock_valuation_layer_form
-msgid "Destination SVL"
+#: model:ir.model.fields,field_description:l10n_ro_stock_account_tracking.field_l10n_ro_stock_move_tracking__dest_move_id
+msgid "Destination Move"
 msgstr ""
 
 #. module: l10n_ro_stock_account_tracking
-#: model:ir.model.fields,field_description:l10n_ro_stock_account_tracking.field_l10n_ro_stock_valuation_layer_tracking__display_name
+#: model_terms:ir.ui.view,arch_db:l10n_ro_stock_account_tracking.view_move_form
+#: model_terms:ir.ui.view,arch_db:l10n_ro_stock_account_tracking.view_stock_move_operations
+msgid "Destination Moves"
+msgstr ""
+
+#. module: l10n_ro_stock_account_tracking
+#: model:ir.model.fields,field_description:l10n_ro_stock_account_tracking.field_l10n_ro_stock_move_tracking__display_name
+#: model:ir.model.fields,field_description:l10n_ro_stock_account_tracking.field_stock_move__display_name
 msgid "Display Name"
 msgstr ""
 
 #. module: l10n_ro_stock_account_tracking
-#: model:ir.model.fields,field_description:l10n_ro_stock_account_tracking.field_l10n_ro_stock_valuation_layer_tracking__id
+#: model:ir.model.fields,field_description:l10n_ro_stock_account_tracking.field_l10n_ro_stock_move_tracking__id
+#: model:ir.model.fields,field_description:l10n_ro_stock_account_tracking.field_stock_move__id
 msgid "ID"
 msgstr ""
 
 #. module: l10n_ro_stock_account_tracking
-#: model:ir.model.fields,field_description:l10n_ro_stock_account_tracking.field_product_product__is_l10n_ro_record
 #: model:ir.model.fields,field_description:l10n_ro_stock_account_tracking.field_stock_move__is_l10n_ro_record
-#: model:ir.model.fields,field_description:l10n_ro_stock_account_tracking.field_stock_quant__is_l10n_ro_record
-#: model:ir.model.fields,field_description:l10n_ro_stock_account_tracking.field_stock_valuation_layer__is_l10n_ro_record
-#: model:ir.model.fields,field_description:l10n_ro_stock_account_tracking.field_stock_valuation_layer_revaluation__is_l10n_ro_record
 msgid "Is Romanian Record"
 msgstr ""
 
 #. module: l10n_ro_stock_account_tracking
-#: model:ir.model.fields,field_description:l10n_ro_stock_account_tracking.field_stock_valuation_layer_revaluation__l10n_ro_location_id
-msgid "L10N Ro Location"
-msgstr ""
-
-#. module: l10n_ro_stock_account_tracking
-#: model:ir.model.fields,field_description:l10n_ro_stock_account_tracking.field_stock_return_picking_line__l10n_ro_origin_ret_move_qty
-msgid "L10N Ro Origin Ret Move Qty"
-msgstr ""
-
-#. module: l10n_ro_stock_account_tracking
-#: model:ir.model.fields,field_description:l10n_ro_stock_account_tracking.field_stock_return_picking_line__l10n_ro_origin_ret_move_qty_warn
-msgid "L10N Ro Origin Ret Move Qty Warn"
-msgstr ""
-
-#. module: l10n_ro_stock_account_tracking
-#: model:ir.model.fields,field_description:l10n_ro_stock_account_tracking.field_stock_valuation_layer__l10n_ro_qty_returned
-msgid "L10N Ro Qty Returned"
-msgstr ""
-
-#. module: l10n_ro_stock_account_tracking
-#: model:ir.model.fields,field_description:l10n_ro_stock_account_tracking.field_l10n_ro_stock_valuation_layer_tracking__write_uid
+#: model:ir.model.fields,field_description:l10n_ro_stock_account_tracking.field_l10n_ro_stock_move_tracking__write_uid
 msgid "Last Updated by"
 msgstr ""
 
 #. module: l10n_ro_stock_account_tracking
-#: model:ir.model.fields,field_description:l10n_ro_stock_account_tracking.field_l10n_ro_stock_valuation_layer_tracking__write_date
+#: model:ir.model.fields,field_description:l10n_ro_stock_account_tracking.field_l10n_ro_stock_move_tracking__write_date
 msgid "Last Updated on"
 msgstr ""
 
 #. module: l10n_ro_stock_account_tracking
-#: model:ir.model.fields,help:l10n_ro_stock_account_tracking.field_stock_quant__company_id
-msgid "Let this field empty if this location is shared between companies"
-msgstr ""
-
-#. module: l10n_ro_stock_account_tracking
-#: model:ir.model,name:l10n_ro_stock_account_tracking.model_product_product
-msgid "Product Variant"
-msgstr ""
-
-#. module: l10n_ro_stock_account_tracking
-#: model:ir.model.fields,field_description:l10n_ro_stock_account_tracking.field_l10n_ro_stock_valuation_layer_tracking__quantity
+#: model:ir.model.fields,field_description:l10n_ro_stock_account_tracking.field_l10n_ro_stock_move_tracking__quantity
 msgid "Quantity"
 msgstr ""
 
 #. module: l10n_ro_stock_account_tracking
-#: model:ir.model,name:l10n_ro_stock_account_tracking.model_stock_quant
-msgid "Quants"
-msgstr ""
-
-#. module: l10n_ro_stock_account_tracking
-#: model:ir.model,name:l10n_ro_stock_account_tracking.model_stock_return_picking_line
-msgid "Return Picking Line"
-msgstr ""
-
-#. module: l10n_ro_stock_account_tracking
-#: model:ir.model.fields,field_description:l10n_ro_stock_account_tracking.field_stock_valuation_layer__l10n_ro_location_dest_id
-msgid "Romania - Destination Location"
-msgstr ""
-
-#. module: l10n_ro_stock_account_tracking
-#: model:ir.model.fields,field_description:l10n_ro_stock_account_tracking.field_stock_valuation_layer__l10n_ro_svl_track_src_ids
+#: model:ir.model.fields,field_description:l10n_ro_stock_account_tracking.field_stock_move__l10n_ro_move_track_dest_ids
 msgid "Romania - Destination Tracking"
 msgstr ""
 
 #. module: l10n_ro_stock_account_tracking
-#: model:ir.model.fields,field_description:l10n_ro_stock_account_tracking.field_stock_valuation_layer__l10n_ro_svl_src_ids
-msgid "Romania - Destination Valuation"
-msgstr ""
-
-#. module: l10n_ro_stock_account_tracking
-#: model:ir.model.fields,field_description:l10n_ro_stock_account_tracking.field_stock_valuation_layer__l10n_ro_location_id
-msgid "Romania - Source Location"
-msgstr ""
-
-#. module: l10n_ro_stock_account_tracking
-#: model:ir.model.fields,field_description:l10n_ro_stock_account_tracking.field_stock_valuation_layer__l10n_ro_svl_track_dest_ids
+#: model:ir.model.fields,field_description:l10n_ro_stock_account_tracking.field_stock_move__l10n_ro_move_track_src_ids
 msgid "Romania - Source Tracking"
 msgstr ""
 
 #. module: l10n_ro_stock_account_tracking
-#: model:ir.model.fields,field_description:l10n_ro_stock_account_tracking.field_stock_valuation_layer__l10n_ro_svl_dest_ids
-msgid "Romania - Source Valuation"
+#: model:ir.model,name:l10n_ro_stock_account_tracking.model_l10n_ro_stock_move_tracking
+#: model_terms:ir.ui.view,arch_db:l10n_ro_stock_account_tracking.view_move_form
+#: model_terms:ir.ui.view,arch_db:l10n_ro_stock_account_tracking.view_stock_move_operations
+msgid "Romania - Stock Move Tracking"
 msgstr ""
 
 #. module: l10n_ro_stock_account_tracking
-#: model:ir.model.fields,field_description:l10n_ro_stock_account_tracking.field_stock_valuation_layer__l10n_ro_stock_move_line_id
-msgid "Romania - Stock Move Line"
+#: model:ir.model.fields,field_description:l10n_ro_stock_account_tracking.field_l10n_ro_stock_move_tracking__src_move_id
+msgid "Source Move"
 msgstr ""
 
 #. module: l10n_ro_stock_account_tracking
-#: model:ir.model,name:l10n_ro_stock_account_tracking.model_l10n_ro_stock_valuation_layer_tracking
-msgid "Romania - Tracking layer stock valuation"
-msgstr ""
-
-#. module: l10n_ro_stock_account_tracking
-#: model_terms:ir.ui.view,arch_db:l10n_ro_stock_account_tracking.stock_valuation_layer_form
-msgid "Source SVL"
+#: model_terms:ir.ui.view,arch_db:l10n_ro_stock_account_tracking.view_move_form
+#: model_terms:ir.ui.view,arch_db:l10n_ro_stock_account_tracking.view_stock_move_operations
+msgid "Source Moves"
 msgstr ""
 
 #. module: l10n_ro_stock_account_tracking
@@ -158,36 +100,6 @@ msgid "Stock Move"
 msgstr ""
 
 #. module: l10n_ro_stock_account_tracking
-#: model:ir.model,name:l10n_ro_stock_account_tracking.model_stock_valuation_layer
-msgid "Stock Valuation Layer"
-msgstr ""
-
-#. module: l10n_ro_stock_account_tracking
-#: model:ir.model.fields,field_description:l10n_ro_stock_account_tracking.field_l10n_ro_stock_valuation_layer_tracking__svl_dest_id
-msgid "Svl Dest"
-msgstr ""
-
-#. module: l10n_ro_stock_account_tracking
-#: model:ir.model.fields,field_description:l10n_ro_stock_account_tracking.field_l10n_ro_stock_valuation_layer_tracking__svl_src_id
-msgid "Svl Src"
-msgstr ""
-
-#. module: l10n_ro_stock_account_tracking
-#: model_terms:ir.ui.view,arch_db:l10n_ro_stock_account_tracking.stock_valuation_layer_form
-msgid "Total Quantity"
-msgstr ""
-
-#. module: l10n_ro_stock_account_tracking
-#: model_terms:ir.ui.view,arch_db:l10n_ro_stock_account_tracking.stock_valuation_layer_form
-msgid "Total Value"
-msgstr ""
-
-#. module: l10n_ro_stock_account_tracking
-#: model:ir.model.fields,field_description:l10n_ro_stock_account_tracking.field_l10n_ro_stock_valuation_layer_tracking__value
+#: model:ir.model.fields,field_description:l10n_ro_stock_account_tracking.field_l10n_ro_stock_move_tracking__value
 msgid "Value"
-msgstr ""
-
-#. module: l10n_ro_stock_account_tracking
-#: model:ir.model,name:l10n_ro_stock_account_tracking.model_stock_valuation_layer_revaluation
-msgid "Wizard model to reavaluate a stock inventory for a product"
 msgstr ""
