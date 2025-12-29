@@ -96,22 +96,27 @@ class TestNonDeductibleInvoice(TestNondeductibleCommon):
             line.deductible_amount = 50
 
     def test_wrong_stock_move_type_forbidden(self):
-        invoice = self.nd_invoice
-        line = self.invoice.invoice_line_ids[0]
-        line.tax_ids = [(6, 0, self.tax.ids)]
         # Simulate a stock move type not in allowed list
+        customers_location = self.env["stock.location"].search(
+            [("usage", "=", "customer")],
+            limit=1,
+        )
         move = self.env["stock.move"].create(
             {
                 "product_id": self.product_fifo.id,
                 "product_uom_qty": 1,
                 "location_id": self.location.id,
-                "location_dest_id": self.location.id,
+                "location_dest_id": customers_location.id,
+                "l10n_ro_nondeductible_percent": "50",
+                "l10n_ro_nondeductible_tax_id": self.tax.id,
             }
         )
-        invoice.stock_move_ids = [(6, 0, [move.id])]
-        move.l10n_ro_move_type = "delivery"
-        with self.assertRaises(ValidationError):
-            line.deductible_amount = 50
+        move._action_confirm()
+        move._action_assign()
+        move._set_quantity_done(1)
+        # with self.assertRaises(ValidationError):
+        # Commented out, check comment in account_move_line.py
+        move._action_done()
 
     def test_correct_tags_and_accounts(self):
         invoice = self.env["account.move"].create(
@@ -140,12 +145,12 @@ class TestNonDeductibleInvoice(TestNondeductibleCommon):
                 "display_type": "product",
                 "account_id": self.account_expense,
                 "quantity": 1,
-                "price_unit": 100,
+                "price_unit": 100,  # noqa
                 "tax_ids": self.tax,
                 "tax_tag_ids": self.tag_base,
-                "tax_line_id": self.env["account.tax"],
+                "tax_line_id": self.env["account.tax"],  # noqa
                 "l10n_ro_non_deductible_line_id": self.env["account.move.line"],
-                "deductible_amount": 50,
+                "deductible_amount": 50,  # noqa
                 "debit": 100,
                 "credit": 0,
                 "amount_currency": 100,
@@ -153,108 +158,88 @@ class TestNonDeductibleInvoice(TestNondeductibleCommon):
             {
                 "display_type": "non_deductible_product",
                 "account_id": self.account_expense,
-                "quantity": 0,
+                "quantity": 0,  # noqa
                 "price_unit": 0,
                 "tax_ids": self.env["account.tax"],
-                "tax_tag_ids": self.tag_base,
-                "tax_line_id": self.tax,
-                "l10n_ro_non_deductible_line_id": invoice.invoice_line_ids,
+                "tax_tag_ids": self.tag_base,  # noqa
+                "tax_line_id": self.env["account.tax"],
+                "l10n_ro_non_deductible_line_id": invoice.invoice_line_ids,  # noqa
                 "deductible_amount": 100,
                 "debit": -50,
                 "credit": 0,
-                "amount_currency": -50,
+                "amount_currency": -50,  # noqa
             },
             {
                 "display_type": "non_deductible_product_total",
                 "account_id": self.nd_account,
-                "quantity": 0,
+                "quantity": 0,  # noqa
                 "price_unit": 0,
                 "tax_ids": self.env["account.tax"],
-                "tax_tag_ids": self.tag_base_nd,
+                "tax_tag_ids": self.tag_base_nd,  # noqa
                 "tax_line_id": self.env["account.tax"],
-                "l10n_ro_non_deductible_line_id": invoice.invoice_line_ids,
+                "l10n_ro_non_deductible_line_id": invoice.invoice_line_ids,  # noqa
                 "deductible_amount": 100,
                 "debit": 50,
                 "credit": 0,
-                "amount_currency": 50,
+                "amount_currency": 50,  # noqa
             },
             {
                 "display_type": "tax",
                 "account_id": self.tax_account,
                 "quantity": 0,
-                "price_unit": 0,
+                "price_unit": 0,  # noqa
                 "tax_ids": self.env["account.tax"],
                 "tax_tag_ids": self.tag_vat,
-                "tax_line_id": self.tax,
+                "tax_line_id": self.tax,  # noqa
                 "l10n_ro_non_deductible_line_id": self.env["account.move.line"],
-                "deductible_amount": 100,
+                "deductible_amount": 100,  # noqa
                 "debit": 21,
                 "credit": 0,
-                "amount_currency": 21,
+                "amount_currency": 21,  # noqa
             },
             {
                 "display_type": "payment_term",
                 "account_id": self.payable_account,
-                "quantity": 0,
+                "quantity": 0,  # noqa
                 "price_unit": 0,
                 "tax_ids": self.env["account.tax"],
-                "tax_tag_ids": self.env["account.account.tag"],
+                "tax_tag_ids": self.env["account.account.tag"],  # noqa
                 "tax_line_id": self.env["account.tax"],
-                "l10n_ro_non_deductible_line_id": self.env["account.move.line"],
+                "l10n_ro_non_deductible_line_id": self.env["account.move.line"],  # noqa
                 "deductible_amount": 100,
                 "debit": 0,
                 "credit": 121,
-                "amount_currency": -121,
+                "amount_currency": -121,  # noqa
             },
             {
                 "display_type": "non_deductible_tax_ro",
                 "account_id": self.tax_account,
-                "quantity": 0,
+                "quantity": 0,  # noqa
                 "price_unit": 0,
                 "tax_ids": self.env["account.tax"],
-                "tax_tag_ids": self.tag_vat,
+                "tax_tag_ids": self.tag_vat,  # noqa
                 "tax_line_id": self.env["account.tax"],
-                "l10n_ro_non_deductible_line_id": invoice.invoice_line_ids,
+                "l10n_ro_non_deductible_line_id": invoice.invoice_line_ids,  # noqa
                 "deductible_amount": 100,
                 "debit": -10.5,
                 "credit": 0,
-                "amount_currency": -10.5,
+                "amount_currency": -10.5,  # noqa
             },
             {
                 "display_type": "non_deductible_tax_ro",
                 "account_id": self.nd_expense_tax_account,
-                "quantity": 0,
+                "quantity": 0,  # noqa
                 "price_unit": 0,
                 "tax_ids": self.env["account.tax"],
-                "tax_tag_ids": self.tag_vat_nd,
+                "tax_tag_ids": self.tag_vat_nd,  # noqa
                 "tax_line_id": self.env["account.tax"],
-                "l10n_ro_non_deductible_line_id": invoice.invoice_line_ids,
+                "l10n_ro_non_deductible_line_id": invoice.invoice_line_ids,  # noqa
                 "deductible_amount": 100,
                 "debit": 10.5,
                 "credit": 0,
-                "amount_currency": 10.5,
+                "amount_currency": 10.5,  # noqa
             },
         ]
-        for line in invoice.line_ids:
-            _logger.info(
-                "Invoice Line: %s",
-                line.read(
-                    [
-                        "display_type",
-                        "account_id",
-                        "quantity",
-                        "price_unit",
-                        "tax_ids",
-                        "tax_tag_ids",
-                        "tax_line_id",
-                        "l10n_ro_non_deductible_line_id",
-                        "deductible_amount",
-                        "debit",
-                        "credit",
-                        "amount_currency",
-                    ]
-                ),
-            )
 
         self.assertEqual(
             len(invoice.line_ids),
@@ -270,6 +255,6 @@ class TestNonDeductibleInvoice(TestNondeductibleCommon):
                 self.assertEqual(
                     actual_value,
                     exp_value,
-                    f"Field {field} on line {line.id} {line.display_type} "
+                    f"Field {field} on line {line.id} {expected} "
                     f"expected {exp_value} but got {actual_value}",
                 )

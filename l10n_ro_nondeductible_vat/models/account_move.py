@@ -122,7 +122,9 @@ class AccountMove(models.Model):
                         "balance": -1 * non_deductible_base,
                         "amount_currency": -1 * non_deductible_base_currency,
                         "l10n_ro_non_deductible_line_id": line.id,
+                        "tax_ids": [Command.set([])],
                         "tax_tag_ids": [Command.set(tax_tags.ids)],
+                        "tax_line_id": False,
                         "sequence": line.sequence + 1,
                     }
                 )
@@ -145,6 +147,8 @@ class AccountMove(models.Model):
                         "balance": non_deductible_base,
                         "amount_currency": non_deductible_base_currency,
                         "l10n_ro_non_deductible_line_id": line.id,
+                        "tax_ids": [Command.set([])],
+                        "tax_line_id": False,
                         "tax_tag_ids": [
                             Command.set(tax_tags.l10n_ro_nondeductible_tag_id.ids)
                         ],
