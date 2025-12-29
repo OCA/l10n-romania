@@ -145,6 +145,8 @@ class LandedCost(models.Model):
                         "move_id": cost.account_move_id.id,
                     },
                 ]
+                if cost.account_move_id:
+                    cost.account_move_id.button_draft()
                 cost.account_move_id.write(
                     {
                         "line_ids": [
@@ -165,26 +167,22 @@ class AdjustmentLines(models.Model):
     _inherit = "stock.valuation.adjustment.lines"
 
     def _create_account_move_line(
-        self, move, credit_account_id, debit_account_id, qty_out, already_out_account_id
+        self, credit_account_id, debit_account_id, remaining_qty
     ):
         if not self.cost_id.is_l10n_ro_record:
             return super()._create_account_move_line(
-                move,
                 credit_account_id,
                 debit_account_id,
-                qty_out,
-                already_out_account_id,
+                remaining_qty
             )
 
         if self._context.get("l10n_ro_revert_landed_cost"):
             return []
         else:
             res = super()._create_account_move_line(
-                move,
                 credit_account_id,
                 debit_account_id,
-                qty_out,
-                already_out_account_id,
+                remaining_qty
             )
             customs_duty_product = (
                 self.cost_id.company_id._l10n_ro_get_or_create_custom_duty_product()

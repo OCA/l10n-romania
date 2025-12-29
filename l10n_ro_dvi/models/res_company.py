@@ -30,7 +30,7 @@ class ResCompany(models.Model):
             customs_duty_product = self.env["product.product"].create(
                 {
                     "name": _("Custom Duty"),
-                    "categ_id": self.env.ref("product.product_category_all").id,
+                    "categ_id": self.env.ref("product.product_category_services").id,
                     "type": "service",
                     "invoice_policy": "order",
                     "landed_cost_ok": True,
@@ -58,7 +58,7 @@ class ResCompany(models.Model):
             customs_commission_product = self.env["product.product"].create(
                 {
                     "name": _("Customs Commission"),
-                    "categ_id": self.env.ref("product.product_category_all").id,
+                    "categ_id": self.env.ref("product.product_category_services").id,
                     "type": "service",
                     "invoice_policy": "order",
                     "landed_cost_ok": True,
@@ -87,7 +87,7 @@ class ResCompany(models.Model):
             vat_price_diff_product = self.env["product.product"].create(
                 {
                     "name": "Vat price difference",
-                    "categ_id": self.env.ref("product.product_category_all").id,
+                    "categ_id": self.env.ref("product.product_category_services").id,
                     "type": "service",
                     "invoice_policy": "order",
                     "property_account_expense_id": account.id if account else False,
