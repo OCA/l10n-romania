@@ -9,6 +9,7 @@
     "version": "19.0.0.0.0",
     "data": [
         "views/account_account_view.xml",
+        "views/account_move_view.xml",
         "views/account_tax_view.xml",
         "views/stock_quant_view.xml",
         "views/stock_picking_view.xml",

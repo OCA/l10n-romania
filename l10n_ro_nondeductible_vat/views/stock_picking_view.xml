@@ -13,6 +13,11 @@
                     column_invisible=" parent.picking_type_code != 'internal'"
                     invisible="l10n_ro_nondeductible_usage == False"
                 />
+                <field
+                    name="l10n_ro_nondeductible_percent"
+                    column_invisible=" parent.picking_type_code != 'internal'"
+                    invisible="l10n_ro_nondeductible_usage == False"
+                />
             </xpath>
         </field>
     </record>

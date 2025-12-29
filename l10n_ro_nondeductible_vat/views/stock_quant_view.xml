@@ -10,6 +10,10 @@
                     name="l10n_ro_nondeductible_tax_id"
                     invisible=" inventory_diff_quantity &gt;= 0.00"
                 />
+                <field
+                    name="l10n_ro_nondeductible_percent"
+                    invisible=" inventory_diff_quantity &gt;= 0.00"
+                />
             </xpath>
         </field>
     </record>
