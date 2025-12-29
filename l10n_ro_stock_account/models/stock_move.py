@@ -443,12 +443,12 @@ class StockMove(models.Model):
     def _get_value_from_account_move(self, quantity, at_date=None):
         # Override since there are some errors from commit
         # https://github.com/odoo/odoo/commit/47345b1fc8b805e232a4287cc6d5c54b2f5886cb
-        valuation_data = super()._get_value_from_account_move(quantity, at_date=at_date)  # noqa
+        valuation_data = dict(quantity=0, value=0, description=False)
         if not self.purchase_line_id:
             return valuation_data
 
         if not self.company_id.l10n_ro_accounting:
-            return valuation_data
+            return super()._get_value_from_account_move(quantity, at_date=at_date)
         if isinstance(at_date, datetime):
             # Since aml.date are Date, we don't need the extra precision here.
             at_date = Date.to_date(at_date)
