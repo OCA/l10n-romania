@@ -7,13 +7,105 @@ from datetime import timedelta
 from odoo import fields
 from odoo.tests import Form, tagged
 
-from odoo.addons.l10n_ro_stock_account.tests.common import TestStockCommon
+from odoo.addons.l10n_ro_stock_account.tests.common import TestROStockCommon
 
 _logger = logging.getLogger(__name__)
 
 
 @tagged("post_install", "-at_install")
-class TestStockReport(TestStockCommon):
+class TestStockReport(TestROStockCommon):
+    @classmethod
+    def setUpClass(cls):
+        super().setUpClass()
+
+        def get_account(code):
+            account = cls.env["account.account"].search([("code", "=", code)], limit=1)
+            if not account:
+                _logger.error(f"Account {code} not found")
+            return account
+
+        stock_journal = cls.env["account.journal"].search(
+            [("code", "=", "STJ"), ("company_id", "=", cls.env.company.id)],
+            limit=1,
+        )
+        if not stock_journal:
+            stock_journal = cls.env["account.journal"].create(
+                {"name": "Stock Journal", "code": "STJ", "type": "general"}
+            )
+
+        category_value = {
+            "name": "TEST Marfa",
+            "property_cost_method": "fifo",
+            "property_valuation": "real_time",
+            "property_account_income_categ_id": cls.account_income.id,
+            "property_account_expense_categ_id": cls.account_expense.id,
+            "property_stock_valuation_account_id": cls.account_valuation.id,
+            "property_stock_journal": stock_journal.id,
+            "l10n_ro_stock_account_change": True,
+        }
+
+        cls.category_fifo = cls.env["product.category"].search(
+            [("name", "=", "TEST Marfa")], limit=1
+        )
+        if not cls.category_fifo:
+            cls.category_fifo = cls.env["product.category"].create(category_value)
+        else:
+            cls.category_fifo.write(category_value)
+
+        cls.account_expense_mp = get_account("601000")
+        cls.account_valuation_mp = get_account("301000")
+        cls.category_mp = cls.category_fifo.copy(
+            {
+                "property_account_expense_categ_id": cls.account_expense_mp.id,
+                "property_stock_valuation_account_id": cls.account_valuation_mp.id,
+            }
+        )
+
+        cls.price_p1 = 50.0
+        cls.price_p2 = 50.0
+        cls.list_price_p1 = 70.0
+        cls.list_price_p2 = 70.0
+
+        cls.product_mp = cls.env["product.product"].create(
+            {
+                "name": "Product MP",
+                "is_storable": True,
+                "categ_id": cls.category_mp.id,
+                "invoice_policy": "delivery",
+                "purchase_method": "receive",
+                "list_price": cls.list_price_p1,
+                "standard_price": cls.price_p1,
+            }
+        )
+
+        warehouse = cls.company_data.get("default_warehouse")
+        if not warehouse:
+            warehouse = cls.env["stock.warehouse"].search(
+                [("company_id", "=", cls.env.company.id)], limit=1
+            )
+
+        picking_type_in = warehouse.in_type_id
+        location = picking_type_in.default_location_dest_id
+
+        vals = {
+            "name": "TEST warehouse",
+            "location_id": location.id,
+        }
+        if "l10n_ro_merchandise_type" in cls.env["stock.location"]._fields:
+            vals["l10n_ro_merchandise_type"] = "warehouse"
+
+        cls.location_warehouse = location.copy(vals)
+
+        picking_type_transfer = warehouse.int_type_id
+        cls.picking_type_transfer = picking_type_transfer.copy(
+            {
+                "default_location_src_id": cls.location_warehouse.id,
+                "default_location_dest_id": cls.location_warehouse.id,
+                "name": "TEST Transfer",
+                "sequence_code": "TR_test",
+            }
+        )
+
     def set_stock(self, product, qty):
         inventory_obj = self.env["stock.quant"].with_context(inventory_mode=True)
         inventory = inventory_obj.create(
@@ -42,7 +134,6 @@ class TestStockReport(TestStockCommon):
         )
         self.MoveObj.create(
             {
-                "name": product.name,
                 "product_id": product.id,
                 "product_uom_qty": 10,
                 "product_uom": product.uom_id.id,
