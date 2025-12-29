@@ -75,6 +75,9 @@ class AccountMoveLine(models.Model):
                     )
                 )
             if line.move_id.stock_move_ids and line.tax_ids:
+                # We need to check this validation since when setting up
+                # deductible_amount, the stock move is not linked with
+                # the account move, this is done after.
                 if hasattr(line.move_id.stock_move_ids, "l10n_ro_move_type"):
                     l10n_ro_move_type = line.move_id.stock_move_ids.l10n_ro_move_type
                     types_allow_ndeductibility = [
