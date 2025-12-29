@@ -30,11 +30,6 @@ msgid "Account"
 msgstr "Cont"
 
 #. module: l10n_ro_stock_account
-#: model:ir.model.fields,field_description:l10n_ro_stock_account.field_stock_move__l10n_ro_extra_account_move_id
-msgid "Account Move"
-msgstr ""
-
-#. module: l10n_ro_stock_account
 #: model:ir.model.fields,help:l10n_ro_stock_account.field_account_account__l10n_ro_stock_consume_account_id
 msgid "Account used for stock consume and usage giving operations"
 msgstr ""
@@ -110,6 +105,11 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_ro_stock_account.field_stock_location__l10n_ro_property_account_expense_location_id
 msgid "Expense Account"
 msgstr "Cont cheltuieli"
+
+#. module: l10n_ro_stock_account
+#: model:ir.model.fields,field_description:l10n_ro_stock_account.field_stock_move__l10n_ro_extra_account_move_ids
+msgid "Extra Account Moves"
+msgstr ""
 
 #. module: l10n_ro_stock_account
 #: model:ir.model.fields,field_description:l10n_ro_stock_account.field_stock_warehouse__l10n_ro_fiscal_position_id
@@ -338,6 +338,12 @@ msgstr ""
 #. module: l10n_ro_stock_account
 #: model:ir.model.fields.selection,name:l10n_ro_stock_account.selection__stock_move__l10n_ro_move_type__reception_return
 msgid "Reception Return"
+msgstr ""
+
+#. module: l10n_ro_stock_account
+#: model:ir.model.fields,field_description:l10n_ro_stock_account.field_account_bank_statement_line__l10n_ro_extra_stock_move_id
+#: model:ir.model.fields,field_description:l10n_ro_stock_account.field_account_move__l10n_ro_extra_stock_move_id
+msgid "Romania - Extra Stock Move"
 msgstr ""
 
 #. module: l10n_ro_stock_account
