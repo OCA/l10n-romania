@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="view_picking_add_nondeductible_vat_form" model="ir.ui.view">
+        <field name="name">view_picking_add_nondeductible_vat_form</field>
+        <field name="model">stock.picking</field>
+        <field name="inherit_id" ref="stock.view_picking_form" />
+        <field eval="42" name="priority" />
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='lot_ids']" position="before">
+                <field name="l10n_ro_nondeductible_usage" column_invisible="1" />
+                <field
+                    name="l10n_ro_nondeductible_tax_id"
+                    column_invisible=" parent.picking_type_code != 'internal'"
+                    invisible="l10n_ro_nondeductible_usage == False"
+                />
+                <field
+                    name="l10n_ro_nondeductible_percent"
+                    column_invisible=" parent.picking_type_code != 'internal'"
+                    invisible="l10n_ro_nondeductible_usage == False"
+                />
+            </xpath>
+        </field>
+    </record>
+</odoo>

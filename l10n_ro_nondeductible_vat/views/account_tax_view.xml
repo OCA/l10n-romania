@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="account_tag_view_form" model="ir.ui.view">
+        <field name="name">Tags</field>
+        <field name="model">account.account.tag</field>
+        <field name="inherit_id" ref="account.account_tag_view_form" />
+        <field name="arch" type="xml">
+            <field name="country_id" position="after">
+                <field
+                    name="l10n_ro_nondeductible_tag_id"
+                    invisible="applicability != 'taxes'"
+                />
+            </field>
+        </field>
+    </record>
+
+    <record id="account_tax_repartition_line_tree" model="ir.ui.view">
+        <!-- Aceastra structura trebuie stearsa sau reglata -->
+        <field name="name">account.tax.repartition.line Tree</field>
+        <field name="model">account.tax.repartition.line</field>
+        <field name="type">list</field>
+        <field name="inherit_id" ref="account.tax_repartition_line_tree" />
+        <field name="arch" type="xml">
+            <field name="repartition_type" position="after">
+                <field
+                    name="l10n_ro_exclude_from_stock"
+                    invisible="repartition_type == 'base'"
+                />
+            </field>
+        </field>
+    </record>
+</odoo>
