@@ -4,7 +4,7 @@
 
 import logging
 
-from odoo import _, fields, models
+from odoo import fields, models
 from odoo.exceptions import UserError
 
 _logger = logging.getLogger(__name__)
@@ -56,7 +56,7 @@ class LandedCost(models.Model):
                 and not cost.l10n_ro_account_dvi_id.invoice_ids
             ):
                 raise UserError(
-                    _(
+                    self.env._(
                         "You cannot create a DVI landed cost without "
                         "reference to an invoice."
                     )
@@ -76,7 +76,7 @@ class LandedCost(models.Model):
                     cost.company_id._l10n_ro_get_or_create_custom_duty_product()
                 )
                 if not customs_duty_product:
-                    raise UserError(_("The product Custom Duty not found"))
+                    raise UserError(self.env._("The product Custom Duty not found"))
                 tax = cost.l10n_ro_tax_id
                 if cost.l10n_ro_dvi_bill_ids[0].move_type == "in_invoice":
                     tax_repartition_line = tax.invoice_repartition_line_ids.filtered(
@@ -106,7 +106,7 @@ class LandedCost(models.Model):
                     base_account_id = (tax_values["taxes"][0]["account_id"],)
                 aml = [
                     {
-                        "name": _("VAT paid at customs"),
+                        "name": self.env._("VAT paid at customs"),
                         "debit": cost.l10n_ro_tax_value,
                         "credit": 0.0,
                         "account_id": tax_values["taxes"][0]["account_id"],
@@ -117,14 +117,14 @@ class LandedCost(models.Model):
                         "tax_base_amount": cost.l10n_ro_base_tax_value,
                     },
                     {
-                        "name": _("VAT paid at customs expense"),
+                        "name": self.env._("VAT paid at customs expense"),
                         "debit": 0.0,
                         "credit": cost.l10n_ro_tax_value,
                         "account_id": accounts_data["expense"].id,
                         "move_id": cost.account_move_id.id,
                     },
                     {
-                        "name": _("BASE paid at customs"),
+                        "name": self.env._("BASE paid at customs"),
                         "debit": round(cost.l10n_ro_tax_value * 100 / tax.amount, 2),
                         "credit": 0.0,
                         "account_id": base_account_id,
@@ -135,7 +135,7 @@ class LandedCost(models.Model):
                         "tax_base_amount": cost.l10n_ro_base_tax_value,
                     },
                     {
-                        "name": _("BASE paid at customs expense"),
+                        "name": self.env._("BASE paid at customs expense"),
                         "debit": -round(cost.l10n_ro_tax_value * 100 / tax.amount, 2),
                         "credit": 0.0,
                         "amount_currency": -round(
