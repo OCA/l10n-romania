@@ -171,18 +171,14 @@ class AdjustmentLines(models.Model):
     ):
         if not self.cost_id.is_l10n_ro_record:
             return super()._create_account_move_line(
-                credit_account_id,
-                debit_account_id,
-                remaining_qty
+                credit_account_id, debit_account_id, remaining_qty
             )
 
         if self._context.get("l10n_ro_revert_landed_cost"):
             return []
         else:
             res = super()._create_account_move_line(
-                credit_account_id,
-                debit_account_id,
-                remaining_qty
+                credit_account_id, debit_account_id, remaining_qty
             )
             customs_duty_product = (
                 self.cost_id.company_id._l10n_ro_get_or_create_custom_duty_product()
