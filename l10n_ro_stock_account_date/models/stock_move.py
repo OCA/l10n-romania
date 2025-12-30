@@ -62,28 +62,25 @@ class StockMove(models.Model):
     def _check_lock_date_single_company(self, company, move_date):
         restrict_date_last_month = company.l10n_ro_restrict_stock_move_date_last_month
         now = fields.Date.today()
-        first_posting_date = False
-        last_posting_date = now
+        last_posting_date = False
         if restrict_date_last_month:
             # Allow only dates from 1st of previous month till today
-            first_posting_date = now.replace(day=1) - relativedelta(months=1)
+            last_posting_date = now.replace(day=1) - relativedelta(months=1)
 
-        if isinstance(first_posting_date, datetime):
-            first_posting_date = first_posting_date.date()
         if isinstance(last_posting_date, datetime):
             last_posting_date = last_posting_date.date()
         if isinstance(move_date, datetime):
             move_date = move_date.date()
 
-        if first_posting_date and move_date < first_posting_date:
+        if last_posting_date and move_date < last_posting_date:
             raise UserError(
                 self.env._(
                     "Cannot validate stock move due to date restriction."
-                    " The date must be after %(first_posting_date)s",
-                    first_posting_date=first_posting_date,
+                    " The date must be after %(last_posting_date)s",
+                    last_posting_date=last_posting_date,
                 )
             )
-        if last_posting_date and move_date >= last_posting_date:
+        if move_date > now:
             raise UserError(
                 self.env._(
                     "Cannot validate stock move due to date restriction."
