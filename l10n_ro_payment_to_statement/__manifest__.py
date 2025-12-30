@@ -6,8 +6,8 @@
 {
     "name": "Romania - Payment to Statement",
     "summary": "Add payment to cash statement",
-    "version": "18.0.0.1.0",
-    "author": "Terrabit," "NextERP Romania," "Odoo Community Association (OCA)",
+    "version": "19.0.1.0.0",
+    "author": "Terrabit,NextERP Romania,Odoo Community Association (OCA)",
     "website": "https://github.com/OCA/l10n-romania",
     "category": "Accounting",
     "countries": ["ro"],

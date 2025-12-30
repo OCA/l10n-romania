@@ -31,8 +31,8 @@ class AccountMove(models.Model):
             and self.is_l10n_ro_record
             and self.journal_id.type == "cash"
         ):
-            partner_type = self._context.get("l10n_ro_partner_type", "")
-            payment_type = self._context.get("l10n_ro_payment_type", "")
+            partner_type = self.env.context.get("l10n_ro_partner_type", "")
+            payment_type = self.env.context.get("l10n_ro_payment_type", "")
             if partner_type == "customer":
                 if payment_type == "inbound":
                     sequence = self.journal_id.l10n_ro_customer_cash_in_sequence_id
