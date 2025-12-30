@@ -113,10 +113,6 @@ class ResConfigSettings(models.TransientModel):
         related="company_id.l10n_ro_restrict_stock_move_date_last_month",
         readonly=False,
     )
-    l10n_ro_restrict_stock_move_date_future = fields.Boolean(
-        related="company_id.l10n_ro_restrict_stock_move_date_future",
-        readonly=False,
-    )
     l10n_ro_nondeductible_account_id = fields.Many2one(
         "account.account",
         related="company_id.l10n_ro_nondeductible_account_id",

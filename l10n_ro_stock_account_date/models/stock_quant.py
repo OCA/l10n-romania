@@ -23,11 +23,3 @@ class StockQuant(models.Model):
         if self.accounting_date:
             vals["date"] = self.accounting_date
         return vals
-
-    def _apply_inventory(self):
-        # If accounting date is set, set also inventory date
-        res = super()._apply_inventory()
-        for quant in self:
-            if quant.accounting_date:
-                quant.inventory_date = quant.accounting_date
-        return res
