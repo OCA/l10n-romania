@@ -3,7 +3,7 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html)
 
 
-from odoo import _, fields, models
+from odoo import fields, models
 from odoo.exceptions import ValidationError
 
 
@@ -33,7 +33,9 @@ class AccountInvoice(models.Model):
     def action_view_dvis(self):
         self.ensure_one()
         if not self.l10n_ro_dvi_ids:
-            raise ValidationError(_("You do not have created DVI's for this invoice"))
+            raise ValidationError(
+                self.env._("You do not have created DVI's for this invoice")
+            )
         action = self.env.ref("l10n_ro_dvi.action_account_dvi")
         action = action.sudo().read()[0]
         action["domain"] = [("id", "in", self.l10n_ro_dvi_ids.ids)]
