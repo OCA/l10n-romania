@@ -2,7 +2,7 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html)
 
 
-from odoo import _, api, fields, models
+from odoo import api, fields, models
 from odoo.exceptions import UserError, ValidationError
 
 
@@ -149,7 +149,7 @@ class AccountInvoiceDVI(models.Model):
         self.ensure_one()
         if not self.landed_cost_ids:
             raise ValidationError(
-                _("You do not have created landed costs for this DVI")
+                self.env._("You do not have created landed costs for this DVI")
             )
         action = self.env.ref("stock_landed_costs.action_stock_landed_cost")
         action = action.sudo().read()[0]
@@ -220,9 +220,9 @@ class AccountInvoiceDVI(models.Model):
         vals = {}
         msg = "Expense account is not set on product %s."
         if not account1:
-            raise ValidationError(_(msg) % self.vat_price_difference_product_id.name)
+            raise ValidationError(self.env._(msg) % self.vat_price_difference_product_id.name)
         if not account2:
-            raise ValidationError(_(msg) % self.customs_duty_product_id.name)
+            raise ValidationError(self.env._(msg) % self.customs_duty_product_id.name)
         if account1 and account2:
             amount = self.vat_price_difference
             tags = self.tax_id.invoice_repartition_line_ids.filtered(
@@ -299,7 +299,7 @@ class AccountInvoiceDVI(models.Model):
     def button_post(self):
         self.ensure_one()
         if self.state != "draft":
-            raise ValidationError(_("You can only post DVI from 'draft' state."))
+            raise ValidationError(self.env._("You can only post DVI from 'draft' state."))
 
         values = self.prepare_dvi_landed_cost_values()
         landed_cost = self.env["stock.landed.cost"].create(values)
@@ -324,7 +324,7 @@ class AccountInvoiceDVI(models.Model):
     def button_reverse(self):
         self.ensure_one()
         if self.state != "posted":
-            raise UserError(_("Only Posted DVI can be reversed."))
+            raise UserError(self.env._("Only Posted DVI can be reversed."))
         for lc in self.landed_cost_ids:
             if lc.account_move_id:
                 if lc.account_move_id.state == "posted":
