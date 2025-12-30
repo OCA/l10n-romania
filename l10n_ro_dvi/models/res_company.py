@@ -1,7 +1,7 @@
 # Copyright (C) 2022 NextERP Romania
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
-from odoo import _, fields, models
+from odoo import fields, models
 
 
 class ResCompany(models.Model):
@@ -29,7 +29,7 @@ class ResCompany(models.Model):
 
             customs_duty_product = self.env["product.product"].create(
                 {
-                    "name": _("Custom Duty"),
+                    "name": self.env._("Custom Duty"),
                     "categ_id": self.env.ref("product.product_category_services").id,
                     "type": "service",
                     "invoice_policy": "order",
@@ -57,7 +57,7 @@ class ResCompany(models.Model):
 
             customs_commission_product = self.env["product.product"].create(
                 {
-                    "name": _("Customs Commission"),
+                    "name": self.env._("Customs Commission"),
                     "categ_id": self.env.ref("product.product_category_services").id,
                     "type": "service",
                     "invoice_policy": "order",
