@@ -232,6 +232,8 @@ class StockMove(models.Model):
                             "line_ids": [
                                 Command.create(aml_vals) for aml_vals in aml_vals_list
                             ],
+                            "date": self.env.context.get("force_period_date")
+                            or fields.Date.context_today(self),
                         }
                     )
                     account_move._post()
