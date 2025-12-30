@@ -174,7 +174,7 @@ class AdjustmentLines(models.Model):
                 credit_account_id, debit_account_id, remaining_qty
             )
 
-        if self._context.get("l10n_ro_revert_landed_cost"):
+        if self.env.context.get("l10n_ro_revert_landed_cost"):
             return []
         else:
             res = super()._create_account_move_line(

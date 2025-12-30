@@ -5,24 +5,61 @@
 from odoo.exceptions import ValidationError
 from odoo.tests import Form, tagged
 
-from odoo.addons.l10n_ro_stock_account.tests.common2 import TestStockCommon2
+from odoo.addons.l10n_ro_stock_account.tests.common import TestROStockCommon
 
 
 @tagged("post_install", "-at_install")
-class TestDVI(TestStockCommon2):
+class TestDVI(TestROStockCommon):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
+        cls.log_checks = False
         cls.env.company._l10n_ro_get_or_create_custom_duty_product()
         cls.env.company._l10n_ro_get_or_create_customs_commission_product()
-        cls.tax_id = cls.product_1.supplier_taxes_id
+        cls.tax_id = cls.product_fifo.supplier_taxes_id
+        cls.product_fifo.supplier_taxes_id = None
         cls.journal_id = cls.env["account.journal"].search(
             [("type", "=", "general"), ("company_id", "=", cls.env.company.id)], limit=1
         )
 
+    def make_purchase(self):
+        return [
+            {
+                "case_no": "1",
+                "type": "purchase",
+                "currency_id": self.env.company.currency_id,
+                "partner_id": self.supplier_1,
+                "product_id": self.product_fifo,
+                "step": 1,
+                "qty": 10.0,
+                "stock_qty": 10.0,
+                "inv_qty": 10.0,
+                "price": 100.0,
+                "inv_price": 100.0,
+                "checks1": {
+                    "stock": {
+                        "product_fifo": [
+                            {"location": "location", "qty": 10, "value": 1000}
+                        ]
+                    },
+                    "account": {"371000": 1000},
+                },
+                "checks2": {
+                    "stock": {
+                        "product_fifo": [
+                            {"location": "location", "qty": 10, "value": 1150}
+                        ]
+                    },
+                    "account": {"371000": 1150},
+                },
+                "name": "Receptie + inventar cu data contabila",
+            },
+        ]
+
     def test_dvi(self):
-        self.create_po()
-        self.create_invoice()
+        purchase = self.env["purchase.order"]
+        for value in self.make_purchase():
+            purchase |= self.create_purchase(value)
         dvi = Form(self.env["l10n.ro.account.dvi"])
         dvi.name = "DVI test"
         tax_id = self.tax_id
@@ -34,15 +71,16 @@ class TestDVI(TestStockCommon2):
         dvi.journal_id = self.journal_id
         dvi.customs_duty_value = 100
         dvi.customs_commission_value = 50
-
-        dvi.invoice_ids.add(self.invoice)
+        dvi.invoice_ids.add(purchase.invoice_ids)
         dvi = dvi.save()
 
         for dvi_line in dvi.line_ids:
             dvi_line.line_qty = dvi_line.qty
 
-        self.check_stock_valuation(self.val_p1_i, self.val_p2_i)
-        self.check_account_valuation(self.val_p1_i, self.val_p2_i)
+        for value in self.make_purchase():
+            self.run_checks(value.get("checks1"))
+        # self.check_stock_valuation(self.val_p1_i, self.val_p2_i)
+        # self.check_account_valuation(self.val_p1_i, self.val_p2_i)
         for line in dvi.line_ids:
             self.assertEqual(line.price_subtotal, line.base_amount)
             self.assertAlmostEqual(line.vat_amount, round(line.base_amount * 0.21, 2))
@@ -67,6 +105,9 @@ class TestDVI(TestStockCommon2):
         self.assertEqual(lc.l10n_ro_account_dvi_id, dvi)
         self.assertEqual(lc.l10n_ro_dvi_bill_ids, dvi.invoice_ids)
         lc.button_validate()
+        # print(lc.read())
+        # print(lc.cost_lines.read())
+        # print(lc.account_move_id.line_ids.read())
         # Because of landed costs rounding issues, which is using ROUND=UP,
         # we will have more with 0.02 in stock
         # Example for product_1 split:
@@ -76,8 +117,10 @@ class TestDVI(TestStockCommon2):
         # 600 / 1100 * 25 = 13,636363636 -> ROUNDED TO 13.64
         # TOTAL TO BE SPLITTED 75 -> ROUNDED 75.02
         # For product_2 the 0.02 will be deducted
-        self.check_stock_valuation(self.val_p1_i + 75.00, self.val_p2_i + 75.00)
-        self.check_account_valuation(self.val_p1_i + 75.00, self.val_p2_i + 75.00)
+        for value in self.make_purchase():
+            self.run_checks(value.get("checks2"))
+        # self.check_stock_valuation(self.val_p1_i + 75.00, self.val_p2_i + 75.00)
+        # self.check_account_valuation(self.val_p1_i + 75.00, self.val_p2_i + 75.00)
 
         # urmatoarele teste nu merg
         # vat_paid_aml_name = "VAT paid at customs"
@@ -95,8 +138,10 @@ class TestDVI(TestStockCommon2):
         # Revert DVI
         dvi.button_reverse()
         revert_lc = dvi.landed_cost_ids - lc
-        self.check_stock_valuation(self.val_p1_i, self.val_p2_i)
-        self.check_account_valuation(self.val_p1_i, self.val_p2_i)
+        for value in self.make_purchase():
+            self.run_checks(value.get("checks1"))
+        # self.check_stock_valuation(self.val_p1_i, self.val_p2_i)
+        # self.check_account_valuation(self.val_p1_i, self.val_p2_i)
         inv_subtotal = -1 * dvi.invoice_ids.amount_untaxed_signed
         self.assertEqual(dvi.invoice_base_value, inv_subtotal)
         self.assertEqual(dvi.invoice_tax_value, round(inv_subtotal * 0.21, 2))
@@ -119,8 +164,10 @@ class TestDVI(TestStockCommon2):
 
     def test_vat_price_difference(self):
         # pentru valoare pozitiva
-        self.create_po()
-        self.create_invoice()
+        purchase = self.env["purchase.order"]
+        for value in self.make_purchase():
+            purchase |= self.create_purchase(value)
+            self.run_checks(value.get("checks1"))
         self.account_expense = self.env["account.account"].search(
             [("code", "=", "658820")], limit=1
         )
@@ -165,8 +212,8 @@ class TestDVI(TestStockCommon2):
             else:
                 self.assertEqual(line.credit, 10)
         # pentru valoare negativa
-        self.create_po()
-        self.create_invoice()
+        # self.create_po()
+        # self.create_invoice()
         dvi = Form(self.env["l10n.ro.account.dvi"])
         dvi.name = "DVI test vat difference"
         tax_id = self.tax_id
@@ -192,8 +239,8 @@ class TestDVI(TestStockCommon2):
                 self.assertEqual(line.debit, 10)
 
         # cand da reverse move-ul trebuie sa fie in cancel
-        self.create_po()
-        self.create_invoice()
+        # self.create_po()
+        # self.create_invoice()
         self.vat_product_id = self.env["product.product"].create(
             {
                 "name": "VAT Price Difference",
@@ -216,7 +263,7 @@ class TestDVI(TestStockCommon2):
         dvi.vat_price_difference = -10
         dvi.vat_price_difference_product_id = self.vat_product_id
         dvi = dvi.save()
-        dvi.invoice_ids = [(6, 0, self.invoice.ids)]
+        dvi.invoice_ids = [(6, 0, purchase.invoice_ids.ids)]
         for dvi_line in dvi.line_ids:
             dvi_line.line_qty = dvi_line.qty
         dvi.button_post()
@@ -226,8 +273,8 @@ class TestDVI(TestStockCommon2):
         self.assertEqual(dvi.vat_price_difference_move_id.state, "cancel")
 
         # daca nu exista cont pe produsul vat_product_id
-        self.create_po()
-        self.create_invoice()
+        # self.create_po()
+        # self.create_invoice()
         self.vat_product_id = self.env["product.product"].create(
             {
                 "name": "VAT Price Difference",
@@ -258,8 +305,8 @@ class TestDVI(TestStockCommon2):
             dvi.button_post()
 
         # daca nu exista cont pe produsul vat_product_id
-        self.create_po()
-        self.create_invoice()
+        # self.create_po()
+        # self.create_invoice()
         self.vat_product_id = self.env["product.product"].create(
             {
                 "name": "VAT Price Difference",

@@ -220,7 +220,9 @@ class AccountInvoiceDVI(models.Model):
         vals = {}
         msg = "Expense account is not set on product %s."
         if not account1:
-            raise ValidationError(self.env._(msg) % self.vat_price_difference_product_id.name)
+            raise ValidationError(
+                self.env._(msg) % self.vat_price_difference_product_id.name
+            )
         if not account2:
             raise ValidationError(self.env._(msg) % self.customs_duty_product_id.name)
         if account1 and account2:
@@ -299,7 +301,9 @@ class AccountInvoiceDVI(models.Model):
     def button_post(self):
         self.ensure_one()
         if self.state != "draft":
-            raise ValidationError(self.env._("You can only post DVI from 'draft' state."))
+            raise ValidationError(
+                self.env._("You can only post DVI from 'draft' state.")
+            )
 
         values = self.prepare_dvi_landed_cost_values()
         landed_cost = self.env["stock.landed.cost"].create(values)
