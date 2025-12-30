@@ -125,11 +125,8 @@ class ResCompany(models.Model):
 
     l10n_ro_restrict_stock_move_date_last_month = fields.Boolean(
         string="Restrict Stock Move Date Last Month",
-        help="Restrict stock move posting with at most one month ago.",
-    )
-    l10n_ro_restrict_stock_move_date_future = fields.Boolean(
-        string="Restrict Stock Move Date Future",
-        help="Restrict stock move posting with future date.",
+        help="Restrict stock move posting from 1st of previous month till today. "
+        "Future dates are not allowed.",
     )
     l10n_ro_nondeductible_account_id = fields.Many2one(
         "account.account",
