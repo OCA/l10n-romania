@@ -105,9 +105,10 @@ class TestDVI(TestROStockCommon):
         self.assertEqual(lc.l10n_ro_account_dvi_id, dvi)
         self.assertEqual(lc.l10n_ro_dvi_bill_ids, dvi.invoice_ids)
         lc.button_validate()
-        # print(lc.read())
-        # print(lc.cost_lines.read())
-        # print(lc.account_move_id.line_ids.read())
+        
+        # Need Recompute quant value.
+        quant = self.env['stock.quant'].search([('product_id','=',self.product_fifo.id)])
+        quant.write({'company_id': lc.company_id.id})
         # Because of landed costs rounding issues, which is using ROUND=UP,
         # we will have more with 0.02 in stock
         # Example for product_1 split:
@@ -138,6 +139,9 @@ class TestDVI(TestROStockCommon):
         # Revert DVI
         dvi.button_reverse()
         revert_lc = dvi.landed_cost_ids - lc
+        # recompute quant value. 
+        quant.write({'company_id': lc.company_id.id})
+        
         for value in self.make_purchase():
             self.run_checks(value.get("checks1"))
         # self.check_stock_valuation(self.val_p1_i, self.val_p2_i)
@@ -300,7 +304,7 @@ class TestDVI(TestROStockCommon):
         dvi = dvi.save()
         with self.assertRaises(
             ValidationError,
-            msg="Expense account is not set on product VAT Price Difference",
+            msg="Expense account is not set on product VAT Price Difference 1123",
         ):
             dvi.button_post()
 
