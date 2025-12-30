@@ -12,7 +12,10 @@ class TestAccountMove(AccountTestInvoicingCommon):
     def setUpClass(cls):
         super().setUpClass()
         cls.env.company.l10n_ro_accounting = True
-        cls.currency = cls.env["res.currency"].search([("name", "=", "RON")])
+        cls.currency = (
+            cls.env["res.currency"].search([("name", "=", "RON")], limit=1)
+            or cls.env.company.currency_id
+        )
         cls.inv_sequence = cls.env["ir.sequence"].create(
             {
                 "name": "Invoices",

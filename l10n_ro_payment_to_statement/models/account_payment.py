@@ -3,7 +3,7 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
 
-from odoo import _, api, fields, models
+from odoo import api, fields, models
 from odoo.exceptions import UserError
 
 
@@ -76,6 +76,12 @@ class AccountPayment(models.Model):
 
     def unlink(self):
         l10n_ro_statement_line_ids = self.env["account.bank.statement.line"]
+        self._check_can_unlink()
+        res = super().unlink()
+        l10n_ro_statement_line_ids.unlink()
+        return res
+
+    def _check_can_unlink(self):
         for payment in self:
             # forbid deleting if has a number
             if (
@@ -85,15 +91,12 @@ class AccountPayment(models.Model):
                 and payment.journal_id.type == "cash"
             ):
                 raise UserError(
-                    _(
-                        "You cannot delete the payment %s,"
-                        " as it already consumed a number."
+                    self.env._(
+                        "You cannot delete the payment %s, "
+                        "as it already consumed a number.",
+                        payment.display_name,
                     )
-                    % payment.name
                 )
-        res = super().unlink()
-        l10n_ro_statement_line_ids.unlink()
-        return res
 
     @api.model_create_multi
     def create(self, vals_list):

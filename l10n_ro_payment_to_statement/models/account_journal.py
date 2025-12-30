@@ -107,7 +107,7 @@ class AccountJournal(models.Model):
             }
             journal_code = vals.get("code") or self.env[
                 "account.journal"
-            ].get_next_bank_cash_default_code("cash", self.env.company)
+            ]._get_next_journal_default_code("cash", self.env.company)
             journal_name = vals.get("name") or ""
             company = vals.get("company_id") or self.env.company.id
             vals["sequence_override_regex"] = (
