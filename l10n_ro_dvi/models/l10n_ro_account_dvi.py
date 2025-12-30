@@ -221,10 +221,10 @@ class AccountInvoiceDVI(models.Model):
         msg = "Expense account is not set on product %s."
         if not account1:
             raise ValidationError(
-                self.env._(msg) % self.vat_price_difference_product_id.name
+                self.env._(msg), self.vat_price_difference_product_id.name
             )
         if not account2:
-            raise ValidationError(self.env._(msg) % self.customs_duty_product_id.name)
+            raise ValidationError(self.env._(msg), self.customs_duty_product_id.name)
         if account1 and account2:
             amount = self.vat_price_difference
             tags = self.tax_id.invoice_repartition_line_ids.filtered(
