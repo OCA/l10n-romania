@@ -1,4 +1,3 @@
-from . import account_invoice
-from . import l10n_ro_account_dvi
-from . import res_company
-from . import stock_landed_cost
+from . import res_city
+from . import res_partner
+from . import res_country_state
