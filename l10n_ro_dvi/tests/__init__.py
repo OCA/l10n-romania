@@ -1,1 +1,4 @@
-from . import test_dvi
+# Copyright (C) 2020 Terrabit
+# License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html)
+
+from . import test_ro_city
