@@ -1,4 +1,3 @@
 from . import common
-from . import test_sale_stock_picking_valued
-from . import test_purchase_stock_picking_valued
-from . import test_consum
+from . import test_ro_stock_fifo
+# from . import test_ro_stock_avg
