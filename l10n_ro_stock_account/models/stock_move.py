@@ -312,9 +312,9 @@ class StockMove(models.Model):
             return self.value
         if price_type == "sale_price":
             if hasattr(self, "sale_line_id") and self.sale_line_id is not None:
-                sale_value = self.company_id.currency_id._convert(
+                sale_value = self.sale_line_id.currency_id._convert(
                     self.sale_line_id.price_unit * self.quantity,
-                    self.env.company.currency_id,
+                    self.company_id.currency_id,
                     self.company_id,
                     self.date,
                 )
