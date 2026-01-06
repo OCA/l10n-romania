@@ -138,9 +138,11 @@ class TestROStockCommon(AccountTestInvoicingCommon):
         )
         cls.supplier_1 = cls.env["res.partner"].create({"name": "Supplier 1"})
         cls.customer_1 = cls.env["res.partner"].create({"name": "Customer 1"})
-        cls.ron = cls.env["res.currency"].search([("name", "=", "RON")])
-        cls.eur = cls.env["res.currency"].search([("name", "=", "EUR")])
-        cls.usd = cls.env["res.currency"].search([("name", "=", "USD")])
+        cls.ron = cls.env.ref("base.RON")
+        cls.eur = cls.env.ref("base.EUR")
+        cls.eur.active = True
+        cls.usd = cls.env.ref("base.USD")
+        cls.usd.active = True
 
         cls.account_income = cls.env.company.income_account_id
         cls.account_expense = cls.env.company.expense_account_id
@@ -304,7 +306,7 @@ class TestROStockCommon(AccountTestInvoicingCommon):
     def test_case(self, case=False):
         if case:
             for step in case.get("steps", []):
-                step["index"] = case.get("steps", []).index(step)
+                step["index"] = case.get("steps", []).index(step) + 1
                 self.run_test_step(step)
         else:
             pass
