@@ -138,9 +138,11 @@ class TestROStockCommon(AccountTestInvoicingCommon):
         )
         cls.supplier_1 = cls.env["res.partner"].create({"name": "Supplier 1"})
         cls.customer_1 = cls.env["res.partner"].create({"name": "Customer 1"})
-        cls.ron = cls.env["res.currency"].search([("name", "=", "RON")])
-        cls.eur = cls.env["res.currency"].search([("name", "=", "EUR")])
-        cls.usd = cls.env["res.currency"].search([("name", "=", "USD")])
+        cls.ron = cls.env.ref("base.RON")
+        cls.eur = cls.env.ref("base.EUR")
+        cls.eur.active = True
+        cls.usd = cls.env.ref("base.USD")
+        cls.usd.active = True
 
         cls.account_income = cls.env.company.income_account_id
         cls.account_expense = cls.env.company.expense_account_id
@@ -304,7 +306,7 @@ class TestROStockCommon(AccountTestInvoicingCommon):
     def test_case(self, case=False):
         if case:
             for step in case.get("steps", []):
-                step["index"] = case.get("steps", []).index(step)
+                step["index"] = case.get("steps", []).index(step) + 1
                 self.run_test_step(step)
         else:
             pass
@@ -651,6 +653,7 @@ class TestROStockCommon(AccountTestInvoicingCommon):
             if warehouse:
                 vals["warehouse_id"] = warehouse.id
         sale = self.env["sale.order"].create(vals)
+        sale.write({"currency_id": vals["currency_id"]})
         if self.log_checks:
             _logger.info(
                 "Setting sale order variables: sale_order_%s", values.get("index", 0)
@@ -679,6 +682,7 @@ class TestROStockCommon(AccountTestInvoicingCommon):
                         values.get("index", 0),
                     )
                 setattr(self, f"advance_invoice_{values.get('index', 0)}", invoice)
+                invoice.currency_id = sale.currency_id
                 invoice.action_post()
         self.deliver_and_invoice_sales(sale, so_values)
         if values.get("step") == 2:
@@ -726,13 +730,13 @@ class TestROStockCommon(AccountTestInvoicingCommon):
                     return_pick._action_done()
                     if self.log_checks:
                         _logger.info(
-                            "Setting return picking variables: return_picking_%s_%s",
+                            "Setting return picking variables: return_delivery_%s_%s",
                             values.get("index", 0),
                             step,
                         )
                     setattr(
                         self,
-                        f"return_picking_{values.get('index', 0)}_{step}",
+                        f"return_delivery_{values.get('index', 0)}_{step}",
                         return_pick,
                     )
                     picking = return_pick
@@ -756,11 +760,11 @@ class TestROStockCommon(AccountTestInvoicingCommon):
                     picking.button_validate()
                     if self.log_checks:
                         _logger.info(
-                            "Setting picking variables: picking_%s_%s",
+                            "Setting picking variables: delivery_%s_%s",
                             values.get("index", 0),
                             step,
                         )
-                    setattr(self, f"picking_{values.get('index', 0)}_{step}", picking)
+                    setattr(self, f"delivery_{values.get('index', 0)}_{step}", picking)
                     if picking.state == "assigned":
                         picking._action_done()
             if picking.state == "done" and invoice_qty:
@@ -771,6 +775,14 @@ class TestROStockCommon(AccountTestInvoicingCommon):
                 except Exception as e:
                     _logger.info("Error creating invoice: %(error)s", error=e)
                 if invoice:
+                    invoice.write(
+                        {
+                            "currency_id": sale.currency_id.id,
+                            "date": sale.date_order,
+                            "invoice_date": sale.date_order,
+                            "invoice_date_due": sale.date_order,
+                        }
+                    )
                     invoice_line = invoice.invoice_line_ids[0]
                     if (
                         invoice_qty
@@ -781,20 +793,18 @@ class TestROStockCommon(AccountTestInvoicingCommon):
                     invoice_line.write(
                         {"quantity": invoice_qty, "price_unit": invoice_price}
                     )
-                    invoice.write(
-                        {
-                            "date": sale.date_order,
-                            "invoice_date": sale.date_order,
-                            "invoice_date_due": sale.date_order,
-                        }
-                    )
                     if self.log_checks:
                         _logger.info(
-                            "Setting invoice variables: invoice_%s_%s",
+                            "Setting customer invoice variables: "
+                            "customer_invoice_%s_%s",
                             values.get("index", 0),
                             step,
                         )
-                    setattr(self, f"invoice_{values.get('index', 0)}_{step}", invoice)
+                    setattr(
+                        self,
+                        f"customer_invoice_{values.get('index', 0)}_{step}",
+                        invoice,
+                    )
                     invoice.action_post()
 
     def create_purchase(self, values):
@@ -910,13 +920,13 @@ class TestROStockCommon(AccountTestInvoicingCommon):
                     return_pick._action_done()
                     if self.log_checks:
                         _logger.info(
-                            "Setting return picking variables: return_picking_%s_%s",
+                            "Setting return picking variables: return_reception_%s_%s",
                             values.get("index", 0),
                             step,
                         )
                     setattr(
                         self,
-                        f"return_picking_{values.get('index', 0)}_{step}",
+                        f"return_reception_{values.get('index', 0)}_{step}",
                         return_pick,
                     )
                     picking = return_pick
@@ -940,11 +950,11 @@ class TestROStockCommon(AccountTestInvoicingCommon):
                     picking.button_validate()
                     if self.log_checks:
                         _logger.info(
-                            "Setting picking variables: picking_%s_%s",
+                            "Setting picking variables: reception_%s_%s",
                             values.get("index", 0),
                             step,
                         )
-                    setattr(self, f"picking_{values.get('index', 0)}_{step}", picking)
+                    setattr(self, f"reception_{values.get('index', 0)}_{step}", picking)
                     if picking.state == "assigned":
                         picking._action_done()
             if picking.state == "done" and invoice_qty:
@@ -973,11 +983,16 @@ class TestROStockCommon(AccountTestInvoicingCommon):
                     )
                     if self.log_checks:
                         _logger.info(
-                            "Setting invoice variables: invoice_%s_%s",
+                            "Setting supplier invoice variables: "
+                            "supplier_invoice_%s_%s",
                             values.get("index", 0),
                             step,
                         )
-                    setattr(self, f"invoice_{values.get('index', 0)}_{step}", invoice)
+                    setattr(
+                        self,
+                        f"supplier_invoice_{values.get('index', 0)}_{step}",
+                        invoice,
+                    )
                     invoice.with_context(
                         l10n_ro_approved_price_difference=True
                     ).action_post()
@@ -985,6 +1000,9 @@ class TestROStockCommon(AccountTestInvoicingCommon):
                 lambda x: x.state == "done" and x.picking_type_code == "incoming"
             )
             if lc_pickings:
+                lc_pickings = lc_pickings.sorted(
+                    key=lambda r: (r.date_done, r.id), reverse=True
+                )[:1]
                 if values.get("landed_cost", 0) != 0:
                     self.create_landed_cost(invoice, lc_pickings, values)
 
@@ -1039,12 +1057,15 @@ class TestROStockCommon(AccountTestInvoicingCommon):
             return_pick._action_done()
             if self.log_checks:
                 _logger.info(
-                    "Setting return picking variables: return_picking_%s_%s",
+                    "Setting return picking variables: "
+                    "return_transit_int_transfer_%s_%s",
                     values.get("index", 0),
                     step,
                 )
             setattr(
-                self, f"return_picking_{values.get('index', 0)}_{step}", return_pick
+                self,
+                f"return_transit_int_transfer_{values.get('index', 0)}_{step}",
+                return_pick,
             )
             return return_pick
         step = 1
@@ -1071,13 +1092,13 @@ class TestROStockCommon(AccountTestInvoicingCommon):
         picking_transit_out = move_transit_out.picking_id
         if self.log_checks:
             _logger.info(
-                "Setting picking variables: picking_transit_out_%s_%s",
+                "Setting picking variables: transit_int_transfer_out_%s_%s",
                 values.get("index", 0),
                 step,
             )
         setattr(
             self,
-            f"picking_transit_out_{values.get('index', 0)}_{step}",
+            f"transit_int_transfer_out_{values.get('index', 0)}_{step}",
             picking_transit_out,
         )
         move_transit_in = move_transit_out.move_dest_ids
@@ -1088,12 +1109,14 @@ class TestROStockCommon(AccountTestInvoicingCommon):
         picking_receipt.button_validate()
         if self.log_checks:
             _logger.info(
-                "Setting picking variables: picking_transit_in_%s_%s",
+                "Setting picking variables: transit_int_transfer_in_%s_%s",
                 values.get("index", 0),
                 step,
             )
         setattr(
-            self, f"picking_transit_in_{values.get('index', 0)}_{step}", picking_receipt
+            self,
+            f"transit_int_transfer_in_{values.get('index', 0)}_{step}",
+            picking_receipt,
         )
         if values.get("step") == 2:
             self.create_internal_transfer_transit(
@@ -1137,13 +1160,14 @@ class TestROStockCommon(AccountTestInvoicingCommon):
             return_pick._action_done()
             if self.log_checks:
                 _logger.info(
-                    "Setting return picking variables: return_picking_direct_%s_%s",
+                    "Setting return picking variables: "
+                    "return_direct_int_transfer_%s_%s",
                     values.get("index", 0),
                     step,
                 )
             setattr(
                 self,
-                f"return_picking_direct_{values.get('index', 0)}_{step}",
+                f"return_direct_int_transfer_{values.get('index', 0)}_{step}",
                 return_pick,
             )
             return return_pick
@@ -1167,12 +1191,14 @@ class TestROStockCommon(AccountTestInvoicingCommon):
         picking_receipt = move_transfer.picking_id
         if self.log_checks:
             _logger.info(
-                "Setting picking variables: picking_direct_%s_%s",
+                "Setting picking variables: direct_int_transfer_%s_%s",
                 values.get("index", 0),
                 step,
             )
         setattr(
-            self, f"picking_direct_{values.get('index', 0)}_{step}", picking_receipt
+            self,
+            f"direct_int_transfer_{values.get('index', 0)}_{step}",
+            picking_receipt,
         )
         if values.get("step") == 2:
             self.create_internal_transfer_direct(
