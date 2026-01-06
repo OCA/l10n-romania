@@ -1,0 +1,208 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* l10n_ro_nondeductible_vat
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 19.0\n"
+"Report-Msgid-Bugs-To: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: l10n_ro_nondeductible_vat
+#: model:ir.model.fields.selection,name:l10n_ro_nondeductible_vat.selection__account_move_line__l10n_ro_nondeductible_percent__50
+#: model:ir.model.fields.selection,name:l10n_ro_nondeductible_vat.selection__stock_move__l10n_ro_nondeductible_percent__50
+#: model:ir.model.fields.selection,name:l10n_ro_nondeductible_vat.selection__stock_quant__l10n_ro_nondeductible_percent__50
+msgid "50% Nondeductible"
+msgstr ""
+
+#. module: l10n_ro_nondeductible_vat
+#: model:ir.model,name:l10n_ro_nondeductible_vat.model_account_account
+msgid "Account"
+msgstr ""
+
+#. module: l10n_ro_nondeductible_vat
+#: model:ir.model,name:l10n_ro_nondeductible_vat.model_account_account_tag
+msgid "Account Tag"
+msgstr ""
+
+#. module: l10n_ro_nondeductible_vat
+#: model:ir.model.fields,field_description:l10n_ro_nondeductible_vat.field_stock_quant__l10n_ro_nondeductible_percent
+msgid "Deductibility"
+msgstr ""
+
+#. module: l10n_ro_nondeductible_vat
+#: model_terms:ir.ui.view,arch_db:l10n_ro_nondeductible_vat.view_move_form
+#: model_terms:ir.ui.view,arch_db:l10n_ro_nondeductible_vat.view_move_line_tree
+msgid "Deductibility %"
+msgstr ""
+
+#. module: l10n_ro_nondeductible_vat
+#: model:ir.model.fields.selection,name:l10n_ro_nondeductible_vat.selection__account_move_line__l10n_ro_nondeductible_percent__0
+#: model:ir.model.fields.selection,name:l10n_ro_nondeductible_vat.selection__stock_move__l10n_ro_nondeductible_percent__0
+#: model:ir.model.fields.selection,name:l10n_ro_nondeductible_vat.selection__stock_quant__l10n_ro_nondeductible_percent__0
+msgid "Deductible"
+msgstr ""
+
+#. module: l10n_ro_nondeductible_vat
+#: model:ir.model.fields,field_description:l10n_ro_nondeductible_vat.field_account_account__display_name
+#: model:ir.model.fields,field_description:l10n_ro_nondeductible_vat.field_account_account_tag__display_name
+#: model:ir.model.fields,field_description:l10n_ro_nondeductible_vat.field_account_move__display_name
+#: model:ir.model.fields,field_description:l10n_ro_nondeductible_vat.field_account_move_line__display_name
+#: model:ir.model.fields,field_description:l10n_ro_nondeductible_vat.field_account_partial_reconcile__display_name
+#: model:ir.model.fields,field_description:l10n_ro_nondeductible_vat.field_account_tax__display_name
+#: model:ir.model.fields,field_description:l10n_ro_nondeductible_vat.field_account_tax_repartition_line__display_name
+#: model:ir.model.fields,field_description:l10n_ro_nondeductible_vat.field_stock_move__display_name
+#: model:ir.model.fields,field_description:l10n_ro_nondeductible_vat.field_stock_quant__display_name
+msgid "Display Name"
+msgstr ""
+
+#. module: l10n_ro_nondeductible_vat
+#: model:ir.model.fields,field_description:l10n_ro_nondeductible_vat.field_account_move_line__display_type
+msgid "Display Type"
+msgstr ""
+
+#. module: l10n_ro_nondeductible_vat
+#: model:ir.model.fields,field_description:l10n_ro_nondeductible_vat.field_account_account__id
+#: model:ir.model.fields,field_description:l10n_ro_nondeductible_vat.field_account_account_tag__id
+#: model:ir.model.fields,field_description:l10n_ro_nondeductible_vat.field_account_move__id
+#: model:ir.model.fields,field_description:l10n_ro_nondeductible_vat.field_account_move_line__id
+#: model:ir.model.fields,field_description:l10n_ro_nondeductible_vat.field_account_partial_reconcile__id
+#: model:ir.model.fields,field_description:l10n_ro_nondeductible_vat.field_account_tax__id
+#: model:ir.model.fields,field_description:l10n_ro_nondeductible_vat.field_account_tax_repartition_line__id
+#: model:ir.model.fields,field_description:l10n_ro_nondeductible_vat.field_stock_move__id
+#: model:ir.model.fields,field_description:l10n_ro_nondeductible_vat.field_stock_quant__id
+msgid "ID"
+msgstr ""
+
+#. module: l10n_ro_nondeductible_vat
+#: model:ir.model.fields,field_description:l10n_ro_nondeductible_vat.field_account_account__is_l10n_ro_record
+#: model:ir.model.fields,field_description:l10n_ro_nondeductible_vat.field_account_account_tag__is_l10n_ro_record
+#: model:ir.model.fields,field_description:l10n_ro_nondeductible_vat.field_account_move__is_l10n_ro_record
+#: model:ir.model.fields,field_description:l10n_ro_nondeductible_vat.field_account_move_line__is_l10n_ro_record
+#: model:ir.model.fields,field_description:l10n_ro_nondeductible_vat.field_account_tax__is_l10n_ro_record
+#: model:ir.model.fields,field_description:l10n_ro_nondeductible_vat.field_account_tax_repartition_line__is_l10n_ro_record
+#: model:ir.model.fields,field_description:l10n_ro_nondeductible_vat.field_stock_move__is_l10n_ro_record
+#: model:ir.model.fields,field_description:l10n_ro_nondeductible_vat.field_stock_quant__is_l10n_ro_record
+msgid "Is Romanian Record"
+msgstr ""
+
+#. module: l10n_ro_nondeductible_vat
+#: model:ir.model,name:l10n_ro_nondeductible_vat.model_account_move
+msgid "Journal Entry"
+msgstr ""
+
+#. module: l10n_ro_nondeductible_vat
+#: model:ir.model,name:l10n_ro_nondeductible_vat.model_account_move_line
+msgid "Journal Item"
+msgstr ""
+
+#. module: l10n_ro_nondeductible_vat
+#: model:ir.model.fields,field_description:l10n_ro_nondeductible_vat.field_stock_quant__l10n_ro_nondeductible_tax_id
+msgid "Non Deductible Tax"
+msgstr ""
+
+#. module: l10n_ro_nondeductible_vat
+#: model:ir.model.fields.selection,name:l10n_ro_nondeductible_vat.selection__account_move_line__l10n_ro_nondeductible_percent__100
+#: model:ir.model.fields.selection,name:l10n_ro_nondeductible_vat.selection__stock_move__l10n_ro_nondeductible_percent__100
+#: model:ir.model.fields.selection,name:l10n_ro_nondeductible_vat.selection__stock_quant__l10n_ro_nondeductible_percent__100
+msgid "Nondeductible"
+msgstr ""
+
+#. module: l10n_ro_nondeductible_vat
+#. odoo-python
+#: code:addons/l10n_ro_nondeductible_vat/models/account_move_line.py:0
+msgid ""
+"Only stock moves of type %(types)s allow for non-deductibility of "
+"product/services."
+msgstr ""
+
+#. module: l10n_ro_nondeductible_vat
+#: model:ir.model,name:l10n_ro_nondeductible_vat.model_account_partial_reconcile
+msgid "Partial Reconcile"
+msgstr ""
+
+#. module: l10n_ro_nondeductible_vat
+#: model:ir.model,name:l10n_ro_nondeductible_vat.model_stock_quant
+msgid "Quants"
+msgstr ""
+
+#. module: l10n_ro_nondeductible_vat
+#: model:ir.model.fields,field_description:l10n_ro_nondeductible_vat.field_stock_move__l10n_ro_nondeductible_usage
+msgid "Romania - Allow Non Deductible"
+msgstr ""
+
+#. module: l10n_ro_nondeductible_vat
+#: model:ir.model.fields,field_description:l10n_ro_nondeductible_vat.field_account_tax_repartition_line__l10n_ro_exclude_from_stock
+msgid "Romania - Exclude From Stock"
+msgstr ""
+
+#. module: l10n_ro_nondeductible_vat
+#: model:ir.model.fields,field_description:l10n_ro_nondeductible_vat.field_account_tax__l10n_ro_is_nondeductible
+msgid "Romania - Is Nondeductible"
+msgstr ""
+
+#. module: l10n_ro_nondeductible_vat
+#: model:ir.model.fields,field_description:l10n_ro_nondeductible_vat.field_account_move_line__l10n_ro_non_deductible_line_id
+msgid "Romania - Non Deductible Line"
+msgstr ""
+
+#. module: l10n_ro_nondeductible_vat
+#: model:ir.model.fields,field_description:l10n_ro_nondeductible_vat.field_account_move_line__l10n_ro_nondeductible_percent
+#: model:ir.model.fields,field_description:l10n_ro_nondeductible_vat.field_stock_move__l10n_ro_nondeductible_percent
+msgid "Romania - Non Deductible Percent"
+msgstr ""
+
+#. module: l10n_ro_nondeductible_vat
+#: model:ir.model.fields,field_description:l10n_ro_nondeductible_vat.field_stock_move__l10n_ro_nondeductible_tax_id
+#: model:ir.model.fields.selection,name:l10n_ro_nondeductible_vat.selection__account_move_line__display_type__non_deductible_tax_ro
+msgid "Romania - Non Deductible Tax"
+msgstr ""
+
+#. module: l10n_ro_nondeductible_vat
+#: model:ir.model.fields,field_description:l10n_ro_nondeductible_vat.field_account_account__l10n_ro_nondeductible_account_id
+msgid "Romania - Nondeductible Account"
+msgstr ""
+
+#. module: l10n_ro_nondeductible_vat
+#: model:ir.model.fields,field_description:l10n_ro_nondeductible_vat.field_account_account_tag__l10n_ro_nondeductible_tag_id
+msgid "Romania - Nondeductible Tag"
+msgstr ""
+
+#. module: l10n_ro_nondeductible_vat
+#. odoo-python
+#: code:addons/l10n_ro_nondeductible_vat/models/account_move_line.py:0
+msgid "Sales document doesn't allow for deductibility of product/services."
+msgstr ""
+
+#. module: l10n_ro_nondeductible_vat
+#: model:ir.model,name:l10n_ro_nondeductible_vat.model_stock_move
+msgid "Stock Move"
+msgstr ""
+
+#. module: l10n_ro_nondeductible_vat
+#: model:ir.model,name:l10n_ro_nondeductible_vat.model_account_tax
+msgid "Tax"
+msgstr ""
+
+#. module: l10n_ro_nondeductible_vat
+#: model:ir.model,name:l10n_ro_nondeductible_vat.model_account_tax_repartition_line
+msgid "Tax Repartition Line"
+msgstr ""
+
+#. module: l10n_ro_nondeductible_vat
+#. odoo-python
+#: code:addons/l10n_ro_nondeductible_vat/models/account_move_line.py:0
+msgid "The deductibility must be a value between 0 and 100."
+msgstr ""
+
+#. module: l10n_ro_nondeductible_vat
+#. odoo-python
+#: code:addons/l10n_ro_nondeductible_vat/models/account_move.py:0
+#: code:addons/l10n_ro_nondeductible_vat/models/account_move_line.py:0
+msgid "private part"
+msgstr ""

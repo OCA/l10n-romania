@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="view_account_period_closing_wizard" model="ir.ui.view">
+        <field name="name">l10n.ro.account.period.closing.wizard</field>
+        <field name="model">l10n.ro.account.period.closing.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Account Period Closing Wizard">
+                <group name="main_info">
+                    <field name="closing_id" options="{'no_create': True}" />
+                    <field name="company_id" readonly="1" />
+                    <field name="journal_id" options="{'no_create': True}" />
+                </group>
+                <group name="filters">
+                    <group name="date_range">
+                        <label for="date_from" string="Date" />
+                        <div class="o_row">
+                            <field
+                                name="date_from"
+                                widget="daterange"
+                                nolabel="1"
+                                class="oe_inline"
+                                options="{'related_end_date': 'date_to'}"
+                            />
+                            <i
+                                class="fa fa-long-arrow-right mx-2"
+                                aria-label="Arrow icon"
+                                title="Arrow"
+                            />
+                            <field
+                                name="date_to"
+                                widget="daterange"
+                                nolabel="1"
+                                class="oe_inline"
+                                options="{'related_start_date': 'date_from'}"
+                            />
+                        </div>
+                    </group>
+                </group>
+                <footer>
+                    <button name="do_close" string="Close Period" type="object" />
+                    <button string="Cancel" class="oe_link" special="cancel" />
+                </footer>
+            </form>
+        </field>
+    </record>
+</odoo>

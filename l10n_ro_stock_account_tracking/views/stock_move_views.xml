@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="view_stock_move_operations" model="ir.ui.view">
+        <field name="name">stock.move.operations.form</field>
+        <field name="model">stock.move</field>
+        <field name="inherit_id" ref="stock.view_stock_move_operations" />
+        <field name="arch" type="xml">
+            <field name="move_line_ids" position="after">
+                <group
+                    name="l10n_ro_stock_move_tracking_group"
+                    string="Romania - Stock Move Tracking"
+                    colspan="4"
+                >
+                    <group string="Source Moves" class="mw-100">
+                        <field
+                            name="l10n_ro_move_track_src_ids"
+                            nolabel="1"
+                            colspan="2"
+                        >
+                            <list>
+                                <field name="src_move_id" />
+                                <field name="quantity" />
+                                <field name="value" />
+                            </list>
+                        </field>
+                    </group>
+                    <group string="Destination Moves" class="mw-100">
+                        <field
+                            name="l10n_ro_move_track_dest_ids"
+                            nolabel="1"
+                            colspan="2"
+                        >
+                            <list>
+                                <field name="dest_move_id" />
+                                <field name="quantity" />
+                                <field name="value" />
+                            </list>
+                        </field>
+                    </group>
+                </group>
+            </field>
+        </field>
+    </record>
+
+    <record id="view_move_form" model="ir.ui.view">
+        <field name="name">stock.move.form</field>
+        <field name="model">stock.move</field>
+        <field name="inherit_id" ref="stock.view_move_form" />
+        <field name="arch" type="xml">
+            <group name="linked_group" position="after">
+                <group
+                    name="l10n_ro_stock_move_tracking_group"
+                    string="Romania - Stock Move Tracking"
+                    colspan="4"
+                >
+                    <group string="Source Moves" class="mw-100">
+                        <field
+                            name="l10n_ro_move_track_src_ids"
+                            nolabel="1"
+                            colspan="2"
+                        >
+                            <list>
+                                <field name="src_move_id" />
+                                <field name="quantity" />
+                                <field name="value" />
+                            </list>
+                        </field>
+                    </group>
+                    <group string="Destination Moves" class="mw-100">
+                        <field
+                            name="l10n_ro_move_track_dest_ids"
+                            nolabel="1"
+                            colspan="2"
+                        >
+                            <list>
+                                <field name="dest_move_id" />
+                                <field name="quantity" />
+                                <field name="value" />
+                            </list>
+                        </field>
+                    </group>
+                </group>
+            </group>
+        </field>
+    </record>
+</odoo>
