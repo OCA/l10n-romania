@@ -5,9 +5,9 @@
     "version": "19.0.1.0.0",
     "category": "Localization",
     "summary": "Romania -  Stock Picking Valued Report",
-    "author": "NextERP Romania," "Odoo Community Association (OCA)",
+    "author": "NextERP Romania,Odoo Community Association (OCA)",
     "website": "https://github.com/OCA/l10n-romania",
-    "depends": ["l10n_ro_stock_account", "l10n_ro_stock_account_landed_cost"],
+    "depends": ["l10n_ro_stock_account_landed_cost"],
     "excludes": ["stock_picking_report_valued"],
     "license": "AGPL-3",
     "data": [
