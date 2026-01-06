@@ -1,22 +1,22 @@
-# Copyright (C) 2020 Terrabit
-# License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html)
-
+# ©  2008-2020 Dorin Hongu <dhongu(@)gmail(.)com
+# See README.rst file on addons root folder for license details
 {
-    "name": "Romania - City",
-    "summary": "Romania - City",
-    "countries": ["ro"],
+    "name": "Romania - DVI",
     "license": "AGPL-3",
-    "version": "19.0.1.9.0",
-    "author": "Terrabit,Odoo Community Association (OCA)",
+    "version": "19.0.0.0.0",
+    "author": "Terrabit,NextERP Romania,Odoo Community Association (OCA)",
     "website": "https://github.com/OCA/l10n-romania",
     "category": "Localization",
-    "depends": ["base_address_extended", "l10n_ro_config"],
-    "data": [
-        "data/res.city.csv",
-        "views/res_city_view.xml",
-        "data/res.country.state.csv",
+    "depends": [
+        "l10n_ro_stock_account_landed_cost",
     ],
-    "development_status": "Mature",
+    "data": [
+        "security/ir.model.access.csv",
+        "views/account_invoice_view.xml",
+        "views/stock_landed_cost_view.xml",
+        "views/account_dvi_view.xml",
+    ],
     "installable": True,
-    "maintainers": ["dhongu"],
+    "development_status": "Mature",
+    "maintainers": ["dhongu", "feketemihai"],
 }
