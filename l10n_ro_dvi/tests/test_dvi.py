@@ -256,6 +256,7 @@ class TestDVI(TestROStockCommon):
             }
         )
         dvi = Form(self.env["l10n.ro.account.dvi"])
+        dvi.company_id.expense_account_id = False
         dvi.name = "DVI test vat difference"
         tax_id = self.tax_id
         if len(self.tax_id) > 1:
@@ -267,7 +268,7 @@ class TestDVI(TestROStockCommon):
         dvi.customs_duty_value = 100
         dvi.customs_commission_value = 50
         dvi.vat_price_difference = -10
-        dvi.vat_price_difference_product_id = self.vat_product_id
+        dvi.vat_price_difference_product_id = self.vat_product_id        
         dvi = dvi.save()
         dvi.invoice_ids = [(6, 0, purchase.invoice_ids.ids)]
         for dvi_line in dvi.line_ids:
