@@ -19,6 +19,12 @@ msgstr ""
 "X-Generator: Weblate 5.10.4\n"
 
 #. module: l10n_ro_stock_account
+#. odoo-python
+#: code:addons/l10n_ro_stock_account/models/stock_move.py:0
+msgid "%(value)s for %(quantity)s %(unit)s from %(bills)s"
+msgstr ""
+
+#. module: l10n_ro_stock_account
 #: model:ir.model,name:l10n_ro_stock_account.model_account_account
 msgid "Account"
 msgstr "Cont"
@@ -30,24 +36,9 @@ msgstr ""
 "Cont folosit pentru operațiile de consum și de dare în folosință a stocului"
 
 #. module: l10n_ro_stock_account
-#: model_terms:ir.ui.view,arch_db:l10n_ro_stock_account.view_location_form_inherit
-msgid "Accounting Information"
-msgstr "Informații contabile"
-
-#. module: l10n_ro_stock_account
 #: model:ir.model.fields,field_description:l10n_ro_stock_account.field_product_category__l10n_ro_stock_account_change
 msgid "Allow stock account change from locations"
 msgstr "Permite schimbarea contului de stoc din locații"
-
-#. module: l10n_ro_stock_account
-#: model:ir.model,name:l10n_ro_stock_account.model_res_company
-msgid "Companies"
-msgstr "Companii"
-
-#. module: l10n_ro_stock_account
-#: model:ir.model.fields,field_description:l10n_ro_stock_account.field_stock_valuation_layer__company_id
-msgid "Company"
-msgstr "Companie"
 
 #. module: l10n_ro_stock_account
 #: model:ir.model.fields,field_description:l10n_ro_stock_account.field_account_account__l10n_ro_stock_consume_account_id
@@ -55,24 +46,60 @@ msgid "Consume Account"
 msgstr "Cont consum"
 
 #. module: l10n_ro_stock_account
-#: model:ir.model.fields.selection,name:l10n_ro_stock_account.selection__stock_valuation_layer__l10n_ro_valued_type__consumption
+#: model:ir.model.fields.selection,name:l10n_ro_stock_account.selection__stock_move__l10n_ro_move_type__consumption
 msgid "Consumption"
 msgstr "Consum"
 
 #. module: l10n_ro_stock_account
-#: model:ir.model.fields.selection,name:l10n_ro_stock_account.selection__stock_valuation_layer__l10n_ro_valued_type__delivery
+#: model:ir.model.fields.selection,name:l10n_ro_stock_account.selection__stock_move__l10n_ro_move_type__consumption_return
+msgid "Consumption Return"
+msgstr ""
+
+#. module: l10n_ro_stock_account
+#: model:ir.model.fields.selection,name:l10n_ro_stock_account.selection__stock_move__l10n_ro_move_type__delivery
 msgid "Delivery"
 msgstr "Livrare"
 
 #. module: l10n_ro_stock_account
-#: model:ir.model.fields.selection,name:l10n_ro_stock_account.selection__stock_valuation_layer__l10n_ro_valued_type__delivery_notice
-msgid "Delivery with notice"
-msgstr "Livrare cu aviz"
+#: model:ir.model.fields.selection,name:l10n_ro_stock_account.selection__stock_move__l10n_ro_move_type__delivery_notice
+msgid "Delivery Notice"
+msgstr ""
 
 #. module: l10n_ro_stock_account
-#: model:ir.model.fields.selection,name:l10n_ro_stock_account.selection__stock_valuation_layer__l10n_ro_valued_type__dropshipped
+#: model:ir.model.fields.selection,name:l10n_ro_stock_account.selection__stock_move__l10n_ro_move_type__delivery_notice_return
+msgid "Delivery Notice Return"
+msgstr ""
+
+#. module: l10n_ro_stock_account
+#: model:ir.model.fields.selection,name:l10n_ro_stock_account.selection__stock_move__l10n_ro_move_type__delivery_return
+msgid "Delivery Return"
+msgstr ""
+
+#. module: l10n_ro_stock_account
+#: model:ir.model.fields,field_description:l10n_ro_stock_account.field_account_account__display_name
+#: model:ir.model.fields,field_description:l10n_ro_stock_account.field_account_move__display_name
+#: model:ir.model.fields,field_description:l10n_ro_stock_account.field_account_move_line__display_name
+#: model:ir.model.fields,field_description:l10n_ro_stock_account.field_product_category__display_name
+#: model:ir.model.fields,field_description:l10n_ro_stock_account.field_product_product__display_name
+#: model:ir.model.fields,field_description:l10n_ro_stock_account.field_product_template__display_name
+#: model:ir.model.fields,field_description:l10n_ro_stock_account.field_stock_location__display_name
+#: model:ir.model.fields,field_description:l10n_ro_stock_account.field_stock_lot__display_name
+#: model:ir.model.fields,field_description:l10n_ro_stock_account.field_stock_move__display_name
+#: model:ir.model.fields,field_description:l10n_ro_stock_account.field_stock_picking__display_name
+#: model:ir.model.fields,field_description:l10n_ro_stock_account.field_stock_quant__display_name
+#: model:ir.model.fields,field_description:l10n_ro_stock_account.field_stock_warehouse__display_name
+msgid "Display Name"
+msgstr ""
+
+#. module: l10n_ro_stock_account
+#: model:ir.model.fields.selection,name:l10n_ro_stock_account.selection__stock_move__l10n_ro_move_type__dropshipped
 msgid "Dropshipped"
 msgstr "Livrare directă"
+
+#. module: l10n_ro_stock_account
+#: model:ir.model.fields.selection,name:l10n_ro_stock_account.selection__stock_move__l10n_ro_move_type__dropshipped_return
+msgid "Dropshipped Return"
+msgstr ""
 
 #. module: l10n_ro_stock_account
 #: model:ir.model.fields,field_description:l10n_ro_stock_account.field_stock_location__l10n_ro_property_account_expense_location_id
@@ -80,33 +107,36 @@ msgid "Expense Account"
 msgstr "Cont cheltuieli"
 
 #. module: l10n_ro_stock_account
+#: model:ir.model.fields,field_description:l10n_ro_stock_account.field_stock_move__l10n_ro_extra_account_move_ids
+msgid "Extra Account Moves"
+msgstr ""
+
+#. module: l10n_ro_stock_account
+#: model:ir.model.fields,field_description:l10n_ro_stock_account.field_stock_warehouse__l10n_ro_fiscal_position_id
+msgid "Fiscal Position"
+msgstr ""
+
+#. module: l10n_ro_stock_account
 #. odoo-python
-#: code:addons/l10n_ro_stock_account/models/product_category.py:0
-msgid ""
-"For Romanian Stock Accounting the stock_input,\n"
-"                          stock_output and stock_valuation accounts must be\n"
-"                          the same for category %s"
+#: code:addons/l10n_ro_stock_account/models/fifo/product.py:0
+msgid "Forced value for %(qty)s units"
 msgstr ""
-"Pentru Contabilitatea stocurilor românești, stocul_input,\n"
-"                          Conturile stoc_output și stoc_valuation trebuie să "
-"fie\n"
-"                          la fel pentru categoria %s"
 
 #. module: l10n_ro_stock_account
-#: model:ir.model.fields,field_description:l10n_ro_stock_account.field_product_category__l10n_ro_hide_stock_in_out_account
-msgid "Hide Odoo Stock In/Out Accounts"
-msgstr "Ascunde conturile de intrare/ieșire stoc Odoo"
-
-#. module: l10n_ro_stock_account
-#: model:ir.model.fields,help:l10n_ro_stock_account.field_res_company__l10n_ro_stock_acc_price_diff
-msgid ""
-"If this field is checked and the company use Romanian Accounting,the "
-"currency rate differences between reception and invoice will be reflected in "
-"the stock valuation."
+#: model:ir.model.fields,field_description:l10n_ro_stock_account.field_account_account__id
+#: model:ir.model.fields,field_description:l10n_ro_stock_account.field_account_move__id
+#: model:ir.model.fields,field_description:l10n_ro_stock_account.field_account_move_line__id
+#: model:ir.model.fields,field_description:l10n_ro_stock_account.field_product_category__id
+#: model:ir.model.fields,field_description:l10n_ro_stock_account.field_product_product__id
+#: model:ir.model.fields,field_description:l10n_ro_stock_account.field_product_template__id
+#: model:ir.model.fields,field_description:l10n_ro_stock_account.field_stock_location__id
+#: model:ir.model.fields,field_description:l10n_ro_stock_account.field_stock_lot__id
+#: model:ir.model.fields,field_description:l10n_ro_stock_account.field_stock_move__id
+#: model:ir.model.fields,field_description:l10n_ro_stock_account.field_stock_picking__id
+#: model:ir.model.fields,field_description:l10n_ro_stock_account.field_stock_quant__id
+#: model:ir.model.fields,field_description:l10n_ro_stock_account.field_stock_warehouse__id
+msgid "ID"
 msgstr ""
-"Dacă acest câmp este bifat și compania utilizează Contabilitatea Românească, "
-"diferențele de curs valutar dintre recepție și factură se vor reflecta în "
-"evaluarea stocului."
 
 #. module: l10n_ro_stock_account
 #: model:ir.model.fields,help:l10n_ro_stock_account.field_product_product__l10n_ro_property_stock_valuation_account_id
@@ -124,35 +154,19 @@ msgid "Income Account"
 msgstr "Cont venit"
 
 #. module: l10n_ro_stock_account
-#: model:ir.model.fields.selection,name:l10n_ro_stock_account.selection__stock_valuation_layer__l10n_ro_valued_type__indefinite
-msgid "Indefinite"
-msgstr "Nedefinit"
-
-#. module: l10n_ro_stock_account
-#: model:ir.model.fields.selection,name:l10n_ro_stock_account.selection__stock_valuation_layer__l10n_ro_valued_type__internal_transfer
+#: model:ir.model.fields.selection,name:l10n_ro_stock_account.selection__stock_move__l10n_ro_move_type__internal_transfer
 msgid "Internal Transfer"
 msgstr "Transfer intern"
 
 #. module: l10n_ro_stock_account
-#: model:ir.model.fields.selection,name:l10n_ro_stock_account.selection__stock_valuation_layer__l10n_ro_valued_type__internal_transfer_in
-msgid "Internal Transfer In"
-msgstr "Intrare transfer intern"
-
-#. module: l10n_ro_stock_account
-#: model:ir.model.fields.selection,name:l10n_ro_stock_account.selection__stock_valuation_layer__l10n_ro_valued_type__internal_transfer_out
-msgid "Internal Transfer Out"
-msgstr "Ieșire transfer intern"
-
-#. module: l10n_ro_stock_account
-#: model:ir.model.fields.selection,name:l10n_ro_stock_account.selection__stock_valuation_layer__l10n_ro_valued_type__internal_transit
-msgid "Internal Transit"
-msgstr "Tranzit intern"
-
-#. module: l10n_ro_stock_account
-#: model:ir.model.fields.selection,name:l10n_ro_stock_account.selection__stock_valuation_layer__l10n_ro_valued_type__internal_transit_in
-#: model:ir.model.fields.selection,name:l10n_ro_stock_account.selection__stock_valuation_layer__l10n_ro_valued_type__internal_transit_out
+#: model:ir.model.fields.selection,name:l10n_ro_stock_account.selection__stock_move__l10n_ro_move_type__internal_transit_in
 msgid "Internal Transit In"
 msgstr "Tranzit intern In"
+
+#. module: l10n_ro_stock_account
+#: model:ir.model.fields.selection,name:l10n_ro_stock_account.selection__stock_move__l10n_ro_move_type__internal_transit_out
+msgid "Internal Transit Out"
+msgstr ""
 
 #. module: l10n_ro_stock_account
 #: model:ir.model,name:l10n_ro_stock_account.model_stock_location
@@ -160,28 +174,19 @@ msgid "Inventory Locations"
 msgstr "Locații inventar"
 
 #. module: l10n_ro_stock_account
-#: model:ir.model.fields,field_description:l10n_ro_stock_account.field_stock_valuation_layer__l10n_ro_invoice_id
-msgid "Invoice"
-msgstr "Factură"
-
-#. module: l10n_ro_stock_account
 #: model:ir.model.fields,field_description:l10n_ro_stock_account.field_account_account__is_l10n_ro_record
 #: model:ir.model.fields,field_description:l10n_ro_stock_account.field_account_move__is_l10n_ro_record
 #: model:ir.model.fields,field_description:l10n_ro_stock_account.field_account_move_line__is_l10n_ro_record
 #: model:ir.model.fields,field_description:l10n_ro_stock_account.field_product_category__is_l10n_ro_record
+#: model:ir.model.fields,field_description:l10n_ro_stock_account.field_product_product__is_l10n_ro_record
 #: model:ir.model.fields,field_description:l10n_ro_stock_account.field_product_template__is_l10n_ro_record
+#: model:ir.model.fields,field_description:l10n_ro_stock_account.field_stock_lot__is_l10n_ro_record
 #: model:ir.model.fields,field_description:l10n_ro_stock_account.field_stock_move__is_l10n_ro_record
 #: model:ir.model.fields,field_description:l10n_ro_stock_account.field_stock_picking__is_l10n_ro_record
-#: model:ir.model.fields,field_description:l10n_ro_stock_account.field_stock_picking_type__is_l10n_ro_record
-#: model:ir.model.fields,field_description:l10n_ro_stock_account.field_stock_valuation_layer__is_l10n_ro_record
+#: model:ir.model.fields,field_description:l10n_ro_stock_account.field_stock_quant__is_l10n_ro_record
 #: model:ir.model.fields,field_description:l10n_ro_stock_account.field_stock_warehouse__is_l10n_ro_record
 msgid "Is Romanian Record"
 msgstr "Inregistrare românească"
-
-#. module: l10n_ro_stock_account
-#: model:ir.actions.act_window,name:l10n_ro_stock_account.l10n_ro_stock_account_move_action
-msgid "Journal Entries"
-msgstr "Înregistrări contabile"
 
 #. module: l10n_ro_stock_account
 #: model:ir.model,name:l10n_ro_stock_account.model_account_move
@@ -194,19 +199,62 @@ msgid "Journal Item"
 msgstr "Element jurnal"
 
 #. module: l10n_ro_stock_account
-#: model_terms:ir.ui.view,arch_db:l10n_ro_stock_account.view_picking_add_price_unit_form
+#: model_terms:ir.ui.view,arch_db:l10n_ro_stock_account.view_picking_form
 msgid "Journal Items"
 msgstr "Elemente jurnal"
 
 #. module: l10n_ro_stock_account
-#: model:ir.model.fields,field_description:l10n_ro_stock_account.field_stock_picking_type__l10n_ro_fiscal_position_id
-msgid "L10N Ro Fiscal Position"
+#: model:ir.model.fields,field_description:l10n_ro_stock_account.field_stock_picking__l10n_ro_notice
+msgid "L10N Ro Notice"
 msgstr ""
 
 #. module: l10n_ro_stock_account
-#: model:ir.model.fields.selection,name:l10n_ro_stock_account.selection__stock_valuation_layer__l10n_ro_valued_type__minus_inventory
-msgid "Minus inventory"
-msgstr "Minus inventar"
+#: model:ir.model.fields,field_description:l10n_ro_stock_account.field_stock_picking__l10n_ro_reception_in_progress
+msgid "L10N Ro Reception In Progress"
+msgstr ""
+
+#. module: l10n_ro_stock_account
+#: model:ir.model,name:l10n_ro_stock_account.model_stock_lot
+msgid "Lot/Serial"
+msgstr ""
+
+#. module: l10n_ro_stock_account
+#: model:ir.model.fields.selection,name:l10n_ro_stock_account.selection__stock_move__l10n_ro_move_type__minus_inventory
+msgid "Minus Inventory"
+msgstr ""
+
+#. module: l10n_ro_stock_account
+#. odoo-python
+#: code:addons/l10n_ro_stock_account/models/stock_move.py:0
+msgid ""
+"Missing credit account when generating account move for stock move line "
+"%(move)s"
+msgstr ""
+
+#. module: l10n_ro_stock_account
+#. odoo-python
+#: code:addons/l10n_ro_stock_account/models/stock_move.py:0
+msgid ""
+"Missing debit account when generating account move for stock move line "
+"%(move)s"
+msgstr ""
+
+#. module: l10n_ro_stock_account
+#. odoo-python
+#: code:addons/l10n_ro_stock_account/tests/common.py:0
+msgid ""
+"No picking type found for type %(picking_type)s and locations %(location)s "
+"%(location1)s."
+msgstr ""
+
+#. module: l10n_ro_stock_account
+#. odoo-python
+#: code:addons/l10n_ro_stock_account/models/stock_move.py:0
+msgid ""
+"No stock valuation account found for product %(product)s. Make sure you have "
+"a stock valuation account defined on the product or its category, and that "
+"the product is storable."
+msgstr ""
 
 #. module: l10n_ro_stock_account
 #: model_terms:ir.ui.view,arch_db:l10n_ro_stock_account.view_location_form_inherit
@@ -223,27 +271,12 @@ msgstr ""
 "locațiile"
 
 #. module: l10n_ro_stock_account
-#: model:ir.model.fields,help:l10n_ro_stock_account.field_product_category__l10n_ro_hide_stock_in_out_account
-msgid ""
-"Only for Romania, to hide stock_input and stock_output accounts because they "
-"are the same as stock_valuation account"
+#: model:ir.model.fields.selection,name:l10n_ro_stock_account.selection__stock_move__l10n_ro_move_type__plus_inventory
+msgid "Plus Inventory"
 msgstr ""
-"Numai pentru România, pentru a ascunde conturile de intrare și ieșire stoc "
-"deoarece sunt aceleași cu contul de evaluare a stocului"
-
-#. module: l10n_ro_stock_account
-#: model:ir.model,name:l10n_ro_stock_account.model_stock_picking_type
-msgid "Picking Type"
-msgstr ""
-
-#. module: l10n_ro_stock_account
-#: model:ir.model.fields.selection,name:l10n_ro_stock_account.selection__stock_valuation_layer__l10n_ro_valued_type__plus_inventory
-msgid "Plus inventory"
-msgstr "Plus inventar"
 
 #. module: l10n_ro_stock_account
 #: model:ir.model,name:l10n_ro_stock_account.model_product_template
-#: model:ir.model.fields,field_description:l10n_ro_stock_account.field_stock_valuation_layer__product_id
 msgid "Product"
 msgstr "Produs"
 
@@ -253,9 +286,19 @@ msgid "Product Category"
 msgstr "Categorie produs"
 
 #. module: l10n_ro_stock_account
-#: model:ir.model.fields.selection,name:l10n_ro_stock_account.selection__stock_valuation_layer__l10n_ro_valued_type__production
+#: model:ir.model,name:l10n_ro_stock_account.model_product_product
+msgid "Product Variant"
+msgstr ""
+
+#. module: l10n_ro_stock_account
+#: model:ir.model.fields.selection,name:l10n_ro_stock_account.selection__stock_move__l10n_ro_move_type__production
 msgid "Production"
 msgstr "Producție"
+
+#. module: l10n_ro_stock_account
+#: model:ir.model.fields.selection,name:l10n_ro_stock_account.selection__stock_move__l10n_ro_move_type__production_return
+msgid "Production Return"
+msgstr ""
 
 #. module: l10n_ro_stock_account
 #: model:ir.actions.server,name:l10n_ro_stock_account.action_location_account_propagate
@@ -263,63 +306,70 @@ msgid "Propagate Accounts"
 msgstr ""
 
 #. module: l10n_ro_stock_account
-#: model:ir.model.fields.selection,name:l10n_ro_stock_account.selection__stock_valuation_layer__l10n_ro_valued_type__reception
+#: model:ir.model,name:l10n_ro_stock_account.model_stock_quant
+msgid "Quants"
+msgstr ""
+
+#. module: l10n_ro_stock_account
+#: model:ir.model.fields.selection,name:l10n_ro_stock_account.selection__stock_move__l10n_ro_move_type__reception
 msgid "Reception"
 msgstr "Recepție"
 
 #. module: l10n_ro_stock_account
-#: model:ir.model.fields.selection,name:l10n_ro_stock_account.selection__stock_valuation_layer__l10n_ro_valued_type__reception_notice
-msgid "Reception with notice"
-msgstr "Recepție cu aviz"
-
-#. module: l10n_ro_stock_account
-#: model:ir.model.fields.selection,name:l10n_ro_stock_account.selection__stock_valuation_layer__l10n_ro_valued_type__consumption_return
-msgid "Return Consumption"
-msgstr "Retur consum"
-
-#. module: l10n_ro_stock_account
-#: model:ir.model.fields.selection,name:l10n_ro_stock_account.selection__stock_valuation_layer__l10n_ro_valued_type__production_return
-msgid "Return Production"
-msgstr "Retur producție"
-
-#. module: l10n_ro_stock_account
-#: model:ir.model.fields.selection,name:l10n_ro_stock_account.selection__stock_valuation_layer__l10n_ro_valued_type__usage_giving_return
-msgid "Return Usage Giving"
-msgstr "Returnare dare în folosință"
-
-#. module: l10n_ro_stock_account
-#: model:ir.model.fields.selection,name:l10n_ro_stock_account.selection__stock_valuation_layer__l10n_ro_valued_type__delivery_return
-msgid "Return delivery"
-msgstr "Returnare livrare"
-
-#. module: l10n_ro_stock_account
-#: model:ir.model.fields.selection,name:l10n_ro_stock_account.selection__stock_valuation_layer__l10n_ro_valued_type__delivery_notice_return
-msgid "Return delivery with notice"
-msgstr "Returnare livrare cu aviz"
-
-#. module: l10n_ro_stock_account
-#: model:ir.model.fields.selection,name:l10n_ro_stock_account.selection__stock_valuation_layer__l10n_ro_valued_type__reception_return
-msgid "Return reception"
-msgstr "Returnare recepție"
-
-#. module: l10n_ro_stock_account
-#: model:ir.model.fields.selection,name:l10n_ro_stock_account.selection__stock_valuation_layer__l10n_ro_valued_type__reception_notice_return
-msgid "Return reception with notice"
-msgstr "Returnare recepție cu aviz"
-
-#. module: l10n_ro_stock_account
-#: model:ir.model.fields,field_description:l10n_ro_stock_account.field_res_company__l10n_ro_stock_acc_price_diff
-msgid "Romania - Stock Valuation Update"
-msgstr "Actualizare evaluare stoc"
-
-#. module: l10n_ro_stock_account
-#: model:ir.model.fields,field_description:l10n_ro_stock_account.field_stock_valuation_layer__l10n_ro_invoice_line_id
-msgid "Romania Invoice Line"
+#: model:ir.model.fields.selection,name:l10n_ro_stock_account.selection__stock_move__l10n_ro_move_type__reception_in_progress
+msgid "Reception In Progress"
 msgstr ""
 
 #. module: l10n_ro_stock_account
-#: model:ir.model.fields,field_description:l10n_ro_stock_account.field_stock_warehouse__l10n_ro_property_stock_journal_id
-msgid "Stock Journal"
+#: model:ir.model.fields.selection,name:l10n_ro_stock_account.selection__stock_move__l10n_ro_move_type__reception_in_progress_return
+msgid "Reception In Progress Return"
+msgstr ""
+
+#. module: l10n_ro_stock_account
+#: model:ir.model.fields.selection,name:l10n_ro_stock_account.selection__stock_move__l10n_ro_move_type__reception_notice
+msgid "Reception Notice"
+msgstr ""
+
+#. module: l10n_ro_stock_account
+#: model:ir.model.fields.selection,name:l10n_ro_stock_account.selection__stock_move__l10n_ro_move_type__reception_notice_return
+msgid "Reception Notice Return"
+msgstr ""
+
+#. module: l10n_ro_stock_account
+#: model:ir.model.fields.selection,name:l10n_ro_stock_account.selection__stock_move__l10n_ro_move_type__reception_return
+msgid "Reception Return"
+msgstr ""
+
+#. module: l10n_ro_stock_account
+#: model:ir.model.fields,field_description:l10n_ro_stock_account.field_account_bank_statement_line__l10n_ro_extra_stock_move_id
+#: model:ir.model.fields,field_description:l10n_ro_stock_account.field_account_move__l10n_ro_extra_stock_move_id
+msgid "Romania - Extra Stock Move"
+msgstr ""
+
+#. module: l10n_ro_stock_account
+#: model:ir.model.fields,field_description:l10n_ro_stock_account.field_account_account__l10n_ro_reception_in_progress_account_id
+msgid "Romania - Reception in Progress Account"
+msgstr ""
+
+#. module: l10n_ro_stock_account
+#: model_terms:ir.ui.view,arch_db:l10n_ro_stock_account.view_location_form_inherit
+msgid "Romania Accounting"
+msgstr ""
+
+#. module: l10n_ro_stock_account
+#: model:ir.model.fields,field_description:l10n_ro_stock_account.field_stock_move__l10n_ro_move_type
+msgid "Romanian Move Type"
+msgstr ""
+
+#. module: l10n_ro_stock_account
+#. odoo-python
+#: code:addons/l10n_ro_stock_account/models/stock_move.py:0
+msgid "Romanian Stock Move Type not set on stock move %(move)s"
+msgstr ""
+
+#. module: l10n_ro_stock_account
+#: model:ir.model.fields,help:l10n_ro_stock_account.field_stock_move__l10n_ro_move_type
+msgid "Specify the type of stock move for Romanian localization."
 msgstr ""
 
 #. module: l10n_ro_stock_account
@@ -330,14 +380,19 @@ msgstr "Mișcare stoc"
 #. module: l10n_ro_stock_account
 #: model:ir.model.fields,field_description:l10n_ro_stock_account.field_product_product__l10n_ro_property_stock_valuation_account_id
 #: model:ir.model.fields,field_description:l10n_ro_stock_account.field_product_template__l10n_ro_property_stock_valuation_account_id
-#: model:ir.model.fields,field_description:l10n_ro_stock_account.field_stock_location__l10n_ro_property_stock_valuation_account_id
 msgid "Stock Valuation Account"
 msgstr "Contul de evaluare a stocurilor"
 
 #. module: l10n_ro_stock_account
-#: model:ir.model,name:l10n_ro_stock_account.model_stock_valuation_layer
-msgid "Stock Valuation Layer"
-msgstr "Nivel evaluare stoc"
+#: model:ir.model.fields,field_description:l10n_ro_stock_account.field_stock_location__l10n_ro_property_stock_valuation_account_id
+msgid "Stock Valuation Account Romania"
+msgstr ""
+
+#. module: l10n_ro_stock_account
+#. odoo-python
+#: code:addons/l10n_ro_stock_account/models/stock_move.py:0
+msgid "Stock move %(move)s has no linked sale line for sale price computation"
+msgstr ""
 
 #. module: l10n_ro_stock_account
 #: model:ir.model.fields,help:l10n_ro_stock_account.field_stock_location__l10n_ro_property_account_expense_location_id
@@ -361,33 +416,134 @@ msgstr ""
 #. module: l10n_ro_stock_account
 #. odoo-python
 #: code:addons/l10n_ro_stock_account/models/stock_move.py:0
-msgid "Transfer between locations with different journals is not allowed!"
+msgid "Unknown price type %(type)s"
 msgstr ""
 
 #. module: l10n_ro_stock_account
-#: model:ir.model.fields.selection,name:l10n_ro_stock_account.selection__stock_valuation_layer__l10n_ro_valued_type__usage_giving
+#: model:ir.model.fields.selection,name:l10n_ro_stock_account.selection__stock_move__l10n_ro_move_type__usage_giving
 msgid "Usage Giving"
 msgstr "Dare în folosință"
 
 #. module: l10n_ro_stock_account
-#: model:ir.model.fields,field_description:l10n_ro_stock_account.field_res_company__anglo_saxon_accounting
-msgid "Use anglo-saxon accounting"
-msgstr "Utilizare contabilitate anglo-saxonă"
+#: model:ir.model.fields.selection,name:l10n_ro_stock_account.selection__stock_move__l10n_ro_move_type__usage_giving_return
+msgid "Usage Giving Return"
+msgstr ""
 
 #. module: l10n_ro_stock_account
-#: model:ir.model.fields,field_description:l10n_ro_stock_account.field_stock_valuation_layer__l10n_ro_account_id
-msgid "Valuation Account"
-msgstr "Cont evaluare"
-
-#. module: l10n_ro_stock_account
-#: model:ir.model.fields,field_description:l10n_ro_stock_account.field_stock_valuation_layer__l10n_ro_valued_type
-msgid "Valued Type"
-msgstr "Tip evaluat"
+#. odoo-python
+#: code:addons/l10n_ro_stock_account/models/fifo/stock_move.py:0
+msgid "Value based on origin move %(reference)s"
+msgstr ""
 
 #. module: l10n_ro_stock_account
 #: model:ir.model,name:l10n_ro_stock_account.model_stock_warehouse
 msgid "Warehouse"
 msgstr ""
+
+#~ msgid "Accounting Information"
+#~ msgstr "Informații contabile"
+
+#~ msgid "Companies"
+#~ msgstr "Companii"
+
+#~ msgid "Company"
+#~ msgstr "Companie"
+
+#~ msgid "Delivery with notice"
+#~ msgstr "Livrare cu aviz"
+
+#~ msgid ""
+#~ "For Romanian Stock Accounting the stock_input,\n"
+#~ "                          stock_output and stock_valuation accounts must "
+#~ "be\n"
+#~ "                          the same for category %s"
+#~ msgstr ""
+#~ "Pentru Contabilitatea stocurilor românești, stocul_input,\n"
+#~ "                          Conturile stoc_output și stoc_valuation trebuie "
+#~ "să fie\n"
+#~ "                          la fel pentru categoria %s"
+
+#~ msgid "Hide Odoo Stock In/Out Accounts"
+#~ msgstr "Ascunde conturile de intrare/ieșire stoc Odoo"
+
+#~ msgid ""
+#~ "If this field is checked and the company use Romanian Accounting,the "
+#~ "currency rate differences between reception and invoice will be reflected "
+#~ "in the stock valuation."
+#~ msgstr ""
+#~ "Dacă acest câmp este bifat și compania utilizează Contabilitatea "
+#~ "Românească, diferențele de curs valutar dintre recepție și factură se vor "
+#~ "reflecta în evaluarea stocului."
+
+#~ msgid "Indefinite"
+#~ msgstr "Nedefinit"
+
+#~ msgid "Internal Transfer In"
+#~ msgstr "Intrare transfer intern"
+
+#~ msgid "Internal Transfer Out"
+#~ msgstr "Ieșire transfer intern"
+
+#~ msgid "Internal Transit"
+#~ msgstr "Tranzit intern"
+
+#~ msgid "Invoice"
+#~ msgstr "Factură"
+
+#~ msgid "Journal Entries"
+#~ msgstr "Înregistrări contabile"
+
+#~ msgid "Minus inventory"
+#~ msgstr "Minus inventar"
+
+#~ msgid ""
+#~ "Only for Romania, to hide stock_input and stock_output accounts because "
+#~ "they are the same as stock_valuation account"
+#~ msgstr ""
+#~ "Numai pentru România, pentru a ascunde conturile de intrare și ieșire "
+#~ "stoc deoarece sunt aceleași cu contul de evaluare a stocului"
+
+#~ msgid "Plus inventory"
+#~ msgstr "Plus inventar"
+
+#~ msgid "Reception with notice"
+#~ msgstr "Recepție cu aviz"
+
+#~ msgid "Return Consumption"
+#~ msgstr "Retur consum"
+
+#~ msgid "Return Production"
+#~ msgstr "Retur producție"
+
+#~ msgid "Return Usage Giving"
+#~ msgstr "Returnare dare în folosință"
+
+#~ msgid "Return delivery"
+#~ msgstr "Returnare livrare"
+
+#~ msgid "Return delivery with notice"
+#~ msgstr "Returnare livrare cu aviz"
+
+#~ msgid "Return reception"
+#~ msgstr "Returnare recepție"
+
+#~ msgid "Return reception with notice"
+#~ msgstr "Returnare recepție cu aviz"
+
+#~ msgid "Romania - Stock Valuation Update"
+#~ msgstr "Actualizare evaluare stoc"
+
+#~ msgid "Stock Valuation Layer"
+#~ msgstr "Nivel evaluare stoc"
+
+#~ msgid "Use anglo-saxon accounting"
+#~ msgstr "Utilizare contabilitate anglo-saxonă"
+
+#~ msgid "Valuation Account"
+#~ msgstr "Cont evaluare"
+
+#~ msgid "Valued Type"
+#~ msgstr "Tip evaluat"
 
 #~ msgid "Invoice Line"
 #~ msgstr "Linie factură"
