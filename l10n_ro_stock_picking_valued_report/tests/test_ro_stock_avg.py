@@ -8,14 +8,14 @@ from contextlib import closing
 
 from odoo.tests import tagged
 
-from odoo.addons.l10n_ro_stock_account.tests.common import TestROStockCommon
+from .common import TestStockPickingValued
 
 _logger = logging.getLogger(__name__)
 
 
 @tagged("post_install", "-at_install")
-class TestStockAvg(TestROStockCommon):
-    @TestROStockCommon.setup_country("ro")
+class TestStockAvg(TestStockPickingValued):
+    @TestStockPickingValued.setup_country("ro")
     def setUp(cls):
         super().setUp()
 
