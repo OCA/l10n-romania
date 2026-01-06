@@ -32,8 +32,14 @@ Romania - DVI
 
 |badge1| |badge2| |badge3| |badge4| |badge5|
 
-This module adds to the database the nomenclature of localities from
-Romania
+DVI - declaraţie vamala de import
+
+Se face legatura dintre factura de achizitie si DVI (landed cost)
+
+Se genereaza automat un DVI cu doua linii si cu TVA.
+
+Contul 447 trebuie sa fie un cont de reconciliere pentru a se putea
+inchide prin banca
 
 **Table of contents**
 
@@ -85,10 +91,6 @@ Contributors
 - `Terrabit <https://www.terrabit.ro>`__:
 
   - Dorin Hongu <dhongu@gmail.com>
-
-- `QDev Web Labs <https://qdev.ro>`__:
-
-  - Anastasescu Răzvan-Ioan <razvan@qdev.ro>
 
 Do not contact contributors directly about support or help with
 technical issues.
