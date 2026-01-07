@@ -5,7 +5,7 @@
 import logging
 
 from odoo import models
-from odoo.tools import float_round
+from odoo.tools import float_is_zero
 
 _logger = logging.getLogger(__name__)
 
@@ -14,69 +14,84 @@ class AccountMove(models.Model):
     _inherit = "account.move"
 
     def action_post(self):
-        l10n_ro_records = self.filtered("is_l10n_ro_record")
-        if not l10n_ro_records:
+        ro_price_diff_records = self.filtered(
+            lambda m: m._should_generate_ro_price_difference()
+        )
+        if not ro_price_diff_records:
             return super().action_post()
-
-        if (
-            len(self) == 1
-            and self.move_type in ["in_invoice", "in_refund"]
-            and self.company_id.l10n_ro_accounting
-            and not self.env.context.get("l10n_ro_approved_price_difference")
+        # Get price differences to process for each invoice
+        price_diffs = ro_price_diff_records._get_l10n_ro_price_differences()
+        if len(ro_price_diff_records) == 1 and not self.env.context.get(
+            "l10n_ro_approved_price_difference"
         ):
-            action = self._l10n_ro_get_price_difference_check_action()
+            action = ro_price_diff_records._l10n_ro_get_price_difference_check_action(
+                price_diffs
+            )
             if action:
                 return action
+
         res = super().action_post()
-        l10n_ro_records.l10n_ro_fix_price_difference_svl()
+        ro_price_diff_records.l10n_ro_fix_price_difference_svl(price_diffs)
         return res
 
-    def _l10n_ro_get_price_difference_check_action(self):
+    def _should_generate_ro_price_difference(self):
         self.ensure_one()
-        price_diffs = []  # list of (product, picking)
+        if (
+            self.move_type in ["in_invoice", "in_refund"]
+            and self.company_id.l10n_ro_accounting
+            and self.company_id.l10n_ro_stock_acc_price_diff
+        ):
+            return True
+        return False
+
+    def _get_l10n_ro_price_differences(self):
+        """Return a dictionary mapping invoice IDs to a list of price difference
+        items. Each item is a dictionary with the following keys
+        - invoice_id
+        - invoice_line_id
+        - product_id
+        - value_diff
+        - qty_diff
+        - stock_move
+        """
+        price_diffs = {}
         for invoice in self:
-            if invoice.move_type in ["in_invoice", "in_refund"]:
-                invoice_lines = invoice.invoice_line_ids.filtered(
-                    lambda line: line.display_type == "product"
-                    and line.purchase_line_id
+            invoice_price_diffs = []
+            invoice_lines = invoice.invoice_line_ids.filtered(
+                lambda line: line.display_type == "product" and line.purchase_line_id
+            )
+            for line in invoice_lines:
+                diff_dict = line.l10n_ro_get_stock_valuation_difference()
+                price_diff = diff_dict["value_diff"]
+                if float_is_zero(
+                    price_diff, precision_rounding=invoice.currency_id.rounding
+                ):
+                    continue
+                line_diff_dict = diff_dict
+                line_diff_dict.update(
+                    {
+                        "invoice_id": invoice.id,
+                        "invoice_line_id": line.id,
+                        "product_id": line.product_id.id,
+                    }
                 )
-                for line in invoice_lines:
-                    add_diff = invoice.company_id.l10n_ro_stock_acc_price_diff
-                    if line.product_id.cost_method == "standard":
-                        add_diff = False
-                    if not add_diff:
-                        continue
+                invoice_price_diffs.append(line_diff_dict)
+            if invoice_price_diffs:
+                price_diffs[invoice.id] = invoice_price_diffs
+        return price_diffs
 
-                    # se reevalueaza stocul
-                    price_diff, qty_diff = line.l10n_ro_get_stock_valuation_difference()
-                    if not price_diff:
-                        continue
+    def _l10n_ro_get_price_difference_check_action(self, price_diffs=None):
+        self.ensure_one()
+        if not price_diffs:
+            return False
+        inv_price_diffs = price_diffs.get(self.id, [])
 
-                    valuation_stock_moves = line._l10n_ro_get_valuation_stock_moves()
-                    #  de regula e o singura inregistrare
-                    move_count = len(valuation_stock_moves)
-                    for stock_move in valuation_stock_moves:
-                        price_diffs.append(
-                            {
-                                "invoice_id": self.id,
-                                "product_id": stock_move.product_id.id,
-                                "picking_id": stock_move.picking_id.id,
-                                "amount_difference": line.currency_id.round(
-                                    price_diff / move_count
-                                ),
-                                "quantity_difference": float_round(
-                                    qty_diff / move_count,
-                                    precision_rounding=line.product_uom_id.rounding,
-                                ),
-                            }
-                        )
-
-        if price_diffs:
+        if inv_price_diffs:
             difference_confirm_dialog_value = {
                 "invoice_id": self.id,
                 "item_ids": [],
             }
-            for pd in price_diffs:
+            for pd in inv_price_diffs:
                 difference_confirm_dialog_value["item_ids"].append([0, 0, pd])
 
             wizard = self.env["l10n_ro.price_difference_confirm_dialog"].create(
@@ -91,34 +106,25 @@ class AccountMove(models.Model):
             return action
         return False
 
-    def l10n_ro_fix_price_difference_svl(self):
-        for invoice in self:
-            if invoice.state == "posted" and invoice.move_type in [
-                "in_invoice",
-                "in_refund",
-            ]:
-                invoice_lines = invoice.invoice_line_ids.filtered(
-                    lambda line: line.display_type == "product"
-                    and line.purchase_line_id
-                )
-                for line in invoice_lines:
-                    add_diff = invoice.company_id.l10n_ro_stock_acc_price_diff
-                    if line.product_id.cost_method == "standard":
-                        add_diff = False
-
-                    if add_diff:
-                        # se reevalueaza stocul
-                        (
-                            diff,
-                            _qty_diff,
-                        ) = line.l10n_ro_get_stock_valuation_difference()
-                        if diff:
-                            line.l10n_ro_modify_stock_valuation(diff)
-
-    def _stock_account_prepare_anglo_saxon_in_lines_vals(self):
-        l10n_ro_moves = self.filtered(lambda m: m.company_id.l10n_ro_accounting)
-        if l10n_ro_moves == self:
-            return []
-        return super(
-            AccountMove, self - l10n_ro_moves
-        )._stock_account_prepare_anglo_saxon_in_lines_vals()
+    def l10n_ro_fix_price_difference_svl(self, price_diffs=None):
+        if not price_diffs:
+            return
+        supp_invoices = self.filtered(
+            lambda inv: inv.is_l10n_ro_record
+            and inv.state == "posted"
+            and inv.move_type in ["in_invoice", "in_refund"]
+            and inv.company_id.l10n_ro_stock_acc_price_diff
+        )
+        for invoice in supp_invoices:
+            inv_price_diffs = price_diffs.get(invoice.id, [])
+            if not inv_price_diffs:
+                continue
+            for line in invoice.invoice_line_ids:
+                line_price_diffs = {}
+                for price_diff in inv_price_diffs:
+                    if price_diff["invoice_line_id"] == line.id:
+                        line_price_diffs = price_diff
+                        break
+                if not line_price_diffs:
+                    continue
+                line.l10n_ro_modify_stock_valuation(line_price_diffs)

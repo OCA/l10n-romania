@@ -26,10 +26,11 @@ class PriceDifferenceItem(models.TransientModel):
 
     confirmation_id = fields.Many2one("l10n_ro.price_difference_confirm_dialog")
     invoice_id = fields.Many2one("account.move")
-    picking_id = fields.Many2one("stock.picking")
+    invoice_line_id = fields.Many2one("account.move.line")
+    stock_move_id = fields.Many2one("stock.move")
     product_id = fields.Many2one("product.product")
-    amount_difference = fields.Monetary()
-    quantity_difference = fields.Float()
+    value_diff = fields.Monetary()
+    qty_diff = fields.Float()
     currency_id = fields.Many2one(
         "res.currency", default=lambda self: self.env.company.currency_id
     )
