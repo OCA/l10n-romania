@@ -138,9 +138,11 @@ class TestROStockCommon(AccountTestInvoicingCommon):
         )
         cls.supplier_1 = cls.env["res.partner"].create({"name": "Supplier 1"})
         cls.customer_1 = cls.env["res.partner"].create({"name": "Customer 1"})
-        cls.ron = cls.env["res.currency"].search([("name", "=", "RON")])
-        cls.eur = cls.env["res.currency"].search([("name", "=", "EUR")])
-        cls.usd = cls.env["res.currency"].search([("name", "=", "USD")])
+        cls.ron = cls.env.ref("base.RON")
+        cls.eur = cls.env.ref("base.EUR")
+        cls.eur.active = True
+        cls.usd = cls.env.ref("base.USD")
+        cls.usd.active = True
 
         cls.account_income = cls.env.company.income_account_id
         cls.account_expense = cls.env.company.expense_account_id
@@ -304,6 +306,7 @@ class TestROStockCommon(AccountTestInvoicingCommon):
     def test_case(self, case=False):
         if case:
             for step in case.get("steps", []):
+                step["index"] = case.get("steps", []).index(step) + 1
                 self.run_test_step(step)
         else:
             pass
@@ -650,6 +653,12 @@ class TestROStockCommon(AccountTestInvoicingCommon):
             if warehouse:
                 vals["warehouse_id"] = warehouse.id
         sale = self.env["sale.order"].create(vals)
+        sale.write({"currency_id": vals["currency_id"]})
+        if self.log_checks:
+            _logger.info(
+                "Setting sale order variables: sale_order_%s", values.get("index", 0)
+            )
+        setattr(self, f"sale_order_{values.get('index', 0)}", sale)
         sale.action_confirm()
         if so_values.get("advance") != 0:
             product = self.advance_product
@@ -667,6 +676,13 @@ class TestROStockCommon(AccountTestInvoicingCommon):
                 )
                 act = adv_wiz.with_context(open_invoices=True).create_invoices()
                 invoice = self.env["account.move"].browse(act["res_id"])
+                if self.log_checks:
+                    _logger.info(
+                        "Setting advance invoice variables: advance_invoice_%s",
+                        values.get("index", 0),
+                    )
+                setattr(self, f"advance_invoice_{values.get('index', 0)}", invoice)
+                invoice.currency_id = sale.currency_id
                 invoice.action_post()
         self.deliver_and_invoice_sales(sale, so_values)
         if values.get("step") == 2:
@@ -712,6 +728,17 @@ class TestROStockCommon(AccountTestInvoicingCommon):
                     return_pick.move_ids._set_quantity_done(stock_qty)
                     return_pick.move_ids.picked = True
                     return_pick._action_done()
+                    if self.log_checks:
+                        _logger.info(
+                            "Setting return picking variables: return_delivery_%s_%s",
+                            values.get("index", 0),
+                            step,
+                        )
+                    setattr(
+                        self,
+                        f"return_delivery_{values.get('index', 0)}_{step}",
+                        return_pick,
+                    )
                     picking = return_pick
             else:
                 # Create reception
@@ -731,6 +758,13 @@ class TestROStockCommon(AccountTestInvoicingCommon):
                         picking.move_ids.write({"lot_id": lot.id})
                     picking.move_ids.picked = True
                     picking.button_validate()
+                    if self.log_checks:
+                        _logger.info(
+                            "Setting picking variables: delivery_%s_%s",
+                            values.get("index", 0),
+                            step,
+                        )
+                    setattr(self, f"delivery_{values.get('index', 0)}_{step}", picking)
                     if picking.state == "assigned":
                         picking._action_done()
             if picking.state == "done" and invoice_qty:
@@ -741,6 +775,14 @@ class TestROStockCommon(AccountTestInvoicingCommon):
                 except Exception as e:
                     _logger.info("Error creating invoice: %(error)s", error=e)
                 if invoice:
+                    invoice.write(
+                        {
+                            "currency_id": sale.currency_id.id,
+                            "date": sale.date_order,
+                            "invoice_date": sale.date_order,
+                            "invoice_date_due": sale.date_order,
+                        }
+                    )
                     invoice_line = invoice.invoice_line_ids[0]
                     if (
                         invoice_qty
@@ -751,12 +793,17 @@ class TestROStockCommon(AccountTestInvoicingCommon):
                     invoice_line.write(
                         {"quantity": invoice_qty, "price_unit": invoice_price}
                     )
-                    invoice.write(
-                        {
-                            "date": sale.date_order,
-                            "invoice_date": sale.date_order,
-                            "invoice_date_due": sale.date_order,
-                        }
+                    if self.log_checks:
+                        _logger.info(
+                            "Setting customer invoice variables: "
+                            "customer_invoice_%s_%s",
+                            values.get("index", 0),
+                            step,
+                        )
+                    setattr(
+                        self,
+                        f"customer_invoice_{values.get('index', 0)}_{step}",
+                        invoice,
                     )
                     invoice.action_post()
 
@@ -802,6 +849,12 @@ class TestROStockCommon(AccountTestInvoicingCommon):
         purchase = self.env["purchase.order"].create(vals)
         purchase.onchange_partner_id()
         purchase.button_confirm()
+        if self.log_checks:
+            _logger.info(
+                "Setting purchase order variables: purchase_order_%s",
+                values.get("index", 0),
+            )
+        setattr(self, f"purchase_order_{values.get('index', 0)}", purchase)
         if values.get("reception_in_progress"):
             purchase.action_create_reception_in_progress_invoice()
             invoice = purchase.invoice_ids[0]
@@ -811,6 +864,15 @@ class TestROStockCommon(AccountTestInvoicingCommon):
                     "invoice_date": purchase.date_order,
                     "invoice_date_due": purchase.date_order,
                 }
+            )
+            if self.log_checks:
+                _logger.info(
+                    "Setting reception in progress invoice variables: "
+                    "reception_in_progress_invoice_%s",
+                    values.get("index", 0),
+                )
+            setattr(
+                self, f"reception_in_progress_invoice_{values.get('index', 0)}", invoice
             )
             invoice.action_post()
         self.receive_and_invoice_purchases(purchase, po_values)
@@ -856,6 +918,17 @@ class TestROStockCommon(AccountTestInvoicingCommon):
                     return_pick.move_ids._set_quantity_done(stock_qty)
                     return_pick.move_ids.picked = True
                     return_pick._action_done()
+                    if self.log_checks:
+                        _logger.info(
+                            "Setting return picking variables: return_reception_%s_%s",
+                            values.get("index", 0),
+                            step,
+                        )
+                    setattr(
+                        self,
+                        f"return_reception_{values.get('index', 0)}_{step}",
+                        return_pick,
+                    )
                     picking = return_pick
             else:
                 # Create reception
@@ -875,6 +948,13 @@ class TestROStockCommon(AccountTestInvoicingCommon):
                         picking.move_ids.write({"lot_id": lot.id})
                     picking.move_ids.picked = True
                     picking.button_validate()
+                    if self.log_checks:
+                        _logger.info(
+                            "Setting picking variables: reception_%s_%s",
+                            values.get("index", 0),
+                            step,
+                        )
+                    setattr(self, f"reception_{values.get('index', 0)}_{step}", picking)
                     if picking.state == "assigned":
                         picking._action_done()
             if picking.state == "done" and invoice_qty:
@@ -901,6 +981,18 @@ class TestROStockCommon(AccountTestInvoicingCommon):
                             "invoice_date_due": purchase.date_planned,
                         }
                     )
+                    if self.log_checks:
+                        _logger.info(
+                            "Setting supplier invoice variables: "
+                            "supplier_invoice_%s_%s",
+                            values.get("index", 0),
+                            step,
+                        )
+                    setattr(
+                        self,
+                        f"supplier_invoice_{values.get('index', 0)}_{step}",
+                        invoice,
+                    )
                     invoice.with_context(
                         l10n_ro_approved_price_difference=True
                     ).action_post()
@@ -908,6 +1000,9 @@ class TestROStockCommon(AccountTestInvoicingCommon):
                 lambda x: x.state == "done" and x.picking_type_code == "incoming"
             )
             if lc_pickings:
+                lc_pickings = lc_pickings.sorted(
+                    key=lambda r: (r.date_done, r.id), reverse=True
+                )[:1]
                 if values.get("landed_cost", 0) != 0:
                     self.create_landed_cost(invoice, lc_pickings, values)
 
@@ -960,6 +1055,18 @@ class TestROStockCommon(AccountTestInvoicingCommon):
             return_pick.move_ids._set_quantity_done(stock_qty)
             return_pick.move_ids.picked = True
             return_pick._action_done()
+            if self.log_checks:
+                _logger.info(
+                    "Setting return picking variables: "
+                    "return_transit_int_transfer_%s_%s",
+                    values.get("index", 0),
+                    step,
+                )
+            setattr(
+                self,
+                f"return_transit_int_transfer_{values.get('index', 0)}_{step}",
+                return_pick,
+            )
             return return_pick
         step = 1
         if picking:
@@ -982,12 +1089,35 @@ class TestROStockCommon(AccountTestInvoicingCommon):
         move_transit_out._set_quantity_done(stock_qty)
         move_transit_out.picked = True
         move_transit_out._action_done()
+        picking_transit_out = move_transit_out.picking_id
+        if self.log_checks:
+            _logger.info(
+                "Setting picking variables: transit_int_transfer_out_%s_%s",
+                values.get("index", 0),
+                step,
+            )
+        setattr(
+            self,
+            f"transit_int_transfer_out_{values.get('index', 0)}_{step}",
+            picking_transit_out,
+        )
         move_transit_in = move_transit_out.move_dest_ids
         self.assertTrue(move_transit_in, "No move created from push rules")
         self.assertEqual(move_transit_in.state, "assigned")
         picking_receipt = move_transit_in.picking_id
         picking_receipt.move_ids.picked = True
         picking_receipt.button_validate()
+        if self.log_checks:
+            _logger.info(
+                "Setting picking variables: transit_int_transfer_in_%s_%s",
+                values.get("index", 0),
+                step,
+            )
+        setattr(
+            self,
+            f"transit_int_transfer_in_{values.get('index', 0)}_{step}",
+            picking_receipt,
+        )
         if values.get("step") == 2:
             self.create_internal_transfer_transit(
                 values, picking_receipt.with_context(step=2)
@@ -1028,6 +1158,18 @@ class TestROStockCommon(AccountTestInvoicingCommon):
             return_pick.move_ids._set_quantity_done(stock_qty)
             return_pick.move_ids.picked = True
             return_pick._action_done()
+            if self.log_checks:
+                _logger.info(
+                    "Setting return picking variables: "
+                    "return_direct_int_transfer_%s_%s",
+                    values.get("index", 0),
+                    step,
+                )
+            setattr(
+                self,
+                f"return_direct_int_transfer_{values.get('index', 0)}_{step}",
+                return_pick,
+            )
             return return_pick
         move_vals = {
             "company_id": self.env.company.id,
@@ -1047,6 +1189,17 @@ class TestROStockCommon(AccountTestInvoicingCommon):
         move_transfer.picked = True
         move_transfer._action_done()
         picking_receipt = move_transfer.picking_id
+        if self.log_checks:
+            _logger.info(
+                "Setting picking variables: direct_int_transfer_%s_%s",
+                values.get("index", 0),
+                step,
+            )
+        setattr(
+            self,
+            f"direct_int_transfer_{values.get('index', 0)}_{step}",
+            picking_receipt,
+        )
         if values.get("step") == 2:
             self.create_internal_transfer_direct(
                 values, picking_receipt.with_context(step=2)
@@ -1087,6 +1240,18 @@ class TestROStockCommon(AccountTestInvoicingCommon):
             return_pick.move_ids._set_quantity_done(stock_qty)
             return_pick.move_ids.picked = True
             return_pick._action_done()
+            if self.log_checks:
+                _logger.info(
+                    "Setting return picking as variable: picking_return_%s_%s_%s",
+                    oper_type,
+                    values.get("index", 0),
+                    step,
+                )
+            setattr(
+                self,
+                f"return_picking_{oper_type}_{values.get('index', 0)}_{step}",
+                return_pick,
+            )
             return return_pick
         if not picking_values.get("location"):
             _logger.warning(
@@ -1124,6 +1289,14 @@ class TestROStockCommon(AccountTestInvoicingCommon):
         if picking_values.get("partner_id"):
             picking_vals["partner_id"] = picking_values["partner_id"].id
         picking = self.env["stock.picking"].create(picking_vals)
+        if self.log_checks:
+            _logger.info(
+                "Setting picking as variable: picking_%s_%s_%s",
+                oper_type,
+                values.get("index", 0),
+                step,
+            )
+        setattr(self, f"picking_{oper_type}_{values.get('index', 0)}_{step}", picking)
         move_vals = {
             "location_id": location_src,
             "location_dest_id": location_dest,
@@ -1185,3 +1358,10 @@ class TestROStockCommon(AccountTestInvoicingCommon):
             landed_cost.l10n_ro_cost_type = self.l10n_ro_cost_type
         landed_cost.compute_landed_cost()
         landed_cost.button_validate()
+        if self.log_checks:
+            _logger.info(
+                "Setting landed cost as variable: landed_cost_%s",
+                values.get("index", 0),
+            )
+        setattr(self, f"landed_cost_{values.get('index', 0)}", landed_cost)
+        return landed_cost
