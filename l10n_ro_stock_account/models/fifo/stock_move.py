@@ -40,7 +40,8 @@ class StockMove(models.Model):
         ro_fifo_moves_out = self.filtered(
             lambda m: m._is_out()
             and m.product_id.cost_method == "fifo"
-            and not m.origin_returned_move_id
+            and m.is_l10n_ro_record
+            and not m.product_id.lot_valuated
         )
         res = super(StockMove, self - ro_fifo_moves_out)._action_done(
             cancel_backorder=cancel_backorder
@@ -50,8 +51,6 @@ class StockMove(models.Model):
             for move in moves_out_fifo_splitted:
                 move._set_quantity_done(move.quantity)
                 move.picked = True
-            for move in ro_fifo_moves_out + moves_out_fifo_splitted:
-                move._set_value()
             res += super(
                 StockMove, ro_fifo_moves_out + moves_out_fifo_splitted
             )._action_done(cancel_backorder=cancel_backorder)
@@ -70,6 +69,9 @@ class StockMove(models.Model):
         if ro_fifo_out_moves:
             for move in ro_fifo_out_moves:
                 value = 0
+                if move.value_manual:
+                    move.value = move.value_manual
+                    continue
                 for move_line in move.move_line_ids:
                     value += move.product_id._run_fifo_value(
                         move_line.quantity_product_uom,
@@ -133,12 +135,7 @@ class StockMove(models.Model):
                 location=move.location_id.ids
             )._run_fifo(move.product_qty, location=move.location_id)
             quantity = move.product_qty
-            if fifo_list:
-                if fifo_list[0]["quantity"] <= quantity:
-                    self._l10n_ro_update_fifo_move(fifo_list[0], move)
-                    quantity -= fifo_list[0]["quantity"]
-                    fifo_list.pop(0)
-            while quantity > 0 and fifo_list:
+            while quantity >= move.quantity and fifo_list:
                 fifo_split_vals_list, quantity = self._l10n_ro_process_fifo_split(
                     move, fifo_list, quantity, fifo_split_vals_list
                 )
@@ -151,8 +148,8 @@ class StockMove(models.Model):
     @api.model
     def _l10n_ro_update_fifo_move(self, fifo_item, move):
         """Updates the move based on FIFO item."""
-        if fifo_item and move:
-            move.quantity = fifo_item["quantity"]
+        if move:
+            move._set_quantity_done(move.quantity)
 
     @api.model
     def _l10n_ro_process_fifo_split(
@@ -161,14 +158,33 @@ class StockMove(models.Model):
         """Processes the FIFO split for a given move."""
         fifo_item = fifo_list.pop(0)
         fifo_quantity = fifo_item["quantity"]
-        new_move_vals_list = move._split(fifo_quantity)
+        if fifo_quantity < quantity:
+            new_move_vals_list = move._split(fifo_quantity)
+            new_move_vals_list[0].update(
+                {
+                    "value_manual": fifo_item["value"],
+                    "price_unit": fifo_item["value"] / fifo_quantity,
+                }
+            )
+            quantity -= fifo_quantity
+            move.quantity = quantity
+        else:
+            quantity = 0
+            move.write(
+                {
+                    "value_manual": fifo_item["value"] / fifo_quantity * move.quantity,
+                    "price_unit": fifo_item["value"] / fifo_quantity,
+                }
+            )
+            new_move_vals_list = []
+        if fifo_item:
+            move._l10n_ro_update_fifo_move(fifo_item, move)
         if new_move_vals_list:
             for new_move_vals in new_move_vals_list:
                 self._l10n_ro_update_fifo_split_move_vals(
                     move, new_move_vals, fifo_item, fifo_quantity
                 )
         fifo_split_vals_list += new_move_vals_list
-        quantity -= fifo_quantity
         return fifo_split_vals_list, quantity
 
     @api.model
