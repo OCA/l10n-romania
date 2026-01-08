@@ -28,7 +28,7 @@ class L10nROResPartnerAnafScptva(models.Model):
     def write(self, vals):
         res = super().write(vals)
         for record in self:
-            if record.vat_number:
+            if record.vat_number and not record.partner_id:
                 record.partner_id = self.env["res.partner"].search(
                     [("l10n_ro_vat_number", "=", record.vat_number)]
                 )

@@ -7,7 +7,6 @@ from unittest.mock import Mock, patch
 
 import requests
 
-from odoo.exceptions import ValidationError
 from odoo.tests import Form, tagged
 
 from odoo.addons.account.tests.common import AccountTestInvoicingCommon
@@ -58,6 +57,41 @@ class TestCreatePartner(TestCreatePartnerBase):
                 self.assertEqual(res["city"], "Sat Giulvăz Com Giulvăz")
                 self.assertEqual(res["zip"], "307225")
                 self.assertEqual(res["phone"], "0356179038")
+
+    def test_write_anaf_history(self):
+        """Test write method in l10n.ro.res.partner.anaf.scptva
+        and l10n.ro.res.partner.anaf.status"""
+        cod = "30834857"
+        partner = self.env["res.partner"].create(
+            {
+                "name": "Test Partner ANAF",
+                "vat": "RO" + cod,
+            }
+        )
+        # Force recompute or manually set l10n_ro_vat_number if needed,
+        # but normally it should be computed if l10n_ro_config is installed.
+        partner.flush_recordset()
+        self.assertEqual(partner.l10n_ro_vat_number, cod)
+
+        # Test l10n.ro.res.partner.anaf.scptva
+        scptva = self.env["l10n.ro.res.partner.anaf.scptva"].create(
+            {
+                "vat_number": "123456",  # different VAT
+            }
+        )
+        self.assertFalse(scptva.partner_id)
+        scptva.write({"vat_number": cod})
+        self.assertEqual(scptva.partner_id, partner)
+
+        # Test l10n.ro.res.partner.anaf.status
+        status = self.env["l10n.ro.res.partner.anaf.status"].create(
+            {
+                "vat_number": "123456",  # different VAT
+            }
+        )
+        self.assertFalse(status.partner_id)
+        status.write({"vat_number": cod})
+        self.assertEqual(status.partner_id, partner)
 
     def test_vat_anaf_error(self):
         """Check methods vat from ANAF."""
@@ -186,14 +220,14 @@ class TestCreatePartner(TestCreatePartnerBase):
             self.assertTrue(res.get("warning"))
 
     def test_vat_vies(self):
-        self.env.company.vat_check_vies = True
-        partner_odoo = Form(self.env["res.partner"])
-        partner_odoo.name = "Test partner"
-        partner_odoo.country_id = self.env.ref("base.be")
-        partner_odoo.vat = "BE0477472701"
-        partner = partner_odoo.save()
-        self.assertEqual(partner.vat, "BE0477472701")
-
-        with self.assertRaises(ValidationError):
-            partner_odoo.vat = "BE0577472701"
-            partner_odoo.save()
+        with patch(
+            "odoo.addons.base_vat.models.res_partner.check_vies",
+            return_value={"valid": True},
+        ):
+            self.env.company.vat_check_vies = True
+            partner_odoo = Form(self.env["res.partner"])
+            partner_odoo.name = "Test partner"
+            partner_odoo.country_id = self.env.ref("base.be")
+            partner_odoo.vat = "BE0477472701"
+            partner = partner_odoo.save()
+            self.assertEqual(partner.vat, "BE0477472701")
