@@ -40,7 +40,8 @@ class StockMove(models.Model):
         ro_fifo_moves_out = self.filtered(
             lambda m: m._is_out()
             and m.product_id.cost_method == "fifo"
-            and not m.origin_returned_move_id
+            and m.is_l10n_ro_record
+            and not m.product_id.lot_valuated
         )
         res = super(StockMove, self - ro_fifo_moves_out)._action_done(
             cancel_backorder=cancel_backorder
@@ -145,6 +146,12 @@ class StockMove(models.Model):
         return self.env["stock.move"]
 
     @api.model
+    def _l10n_ro_update_fifo_move(self, fifo_item, move):
+        """Updates the move based on FIFO item."""
+        if move:
+            move._set_quantity_done(move.quantity)
+
+    @api.model
     def _l10n_ro_process_fifo_split(
         self, move, fifo_list, quantity, fifo_split_vals_list
     ):
@@ -161,7 +168,6 @@ class StockMove(models.Model):
             )
             quantity -= fifo_quantity
             move.quantity = quantity
-            move._set_quantity_done(quantity)
         else:
             quantity = 0
             move.write(
@@ -171,6 +177,8 @@ class StockMove(models.Model):
                 }
             )
             new_move_vals_list = []
+        if fifo_item:
+            move._l10n_ro_update_fifo_move(fifo_item, move)
         if new_move_vals_list:
             for new_move_vals in new_move_vals_list:
                 self._l10n_ro_update_fifo_split_move_vals(
