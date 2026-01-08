@@ -10,17 +10,17 @@ from odoo import models
 class PosSession(models.Model):
     _inherit = "pos.session"
 
-    def _prepare_line(self, order_line):
-        values = super()._prepare_line(order_line)
-        product = order_line.product_id
-        if product.categ_id.l10n_ro_stock_account_change:
-            location = (
-                order_line.order_id.config_id.picking_type_id.default_location_src_id
-            )
-            account_income = location.l10n_ro_property_account_income_location_id
-            if account_income:
-                values["income_account_id"] = account_income.id
-        return values
+    # def _prepare_line(self, order_line):
+    #     values = super()._prepare_line(order_line)
+    #     product = order_line.product_id
+    #     if product.categ_id.l10n_ro_stock_account_change:
+    #         location = (
+    #             order_line.order_id.config_id.picking_type_id.default_location_src_id
+    #         )
+    #         account_income = location.l10n_ro_property_account_income_location_id
+    #         if account_income:
+    #             values["income_account_id"] = account_income.id
+    #     return values
 
     def _reconcile_account_move_lines(self, data):
         if self.company_id.l10n_ro_accounting:
