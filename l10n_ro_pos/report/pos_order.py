@@ -72,21 +72,8 @@ class ReportSaleDetails(models.AbstractModel):
                 products_sold[key] += line.qty
             for picking in order.picking_ids:
                 for move in picking.move_ids:
-                    value = 0
-                    quantity = 0
-                    for valuation in move.stock_valuation_layer_ids:
-                        if (
-                            valuation.l10n_ro_valued_type == "internal_transfer"
-                            and not valuation.account_move_id
-                        ):
-                            continue
-                        if (
-                            valuation.l10n_ro_valued_type == "dropshipped"
-                            and valuation.value < 0
-                        ):
-                            continue
-                        value += abs(valuation.value)
-                        quantity += abs(valuation.quantity)
+                    value = move.value
+                    quantity = move.quantity
 
                     products_stock.setdefault(move.product_id.id, 0.0)
                     products_stock_qty.setdefault(move.product_id.id, 0.0)
