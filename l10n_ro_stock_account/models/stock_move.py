@@ -152,6 +152,15 @@ class StockMove(models.Model):
                 res |= move_line
         return res
 
+    def _compute_reference(self):
+        res = super()._compute_reference()
+        ro_moves_without_ref = self.filtered(
+            lambda m: m.is_l10n_ro_record and not m.reference
+        )
+        for move in ro_moves_without_ref:
+            move.reference = move.display_name
+        return res
+
     def _get_out_move_lines(self, lot=None):
         res = super()._get_out_move_lines(lot=lot)
         for move_line in self.move_line_ids:
