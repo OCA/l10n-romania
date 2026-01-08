@@ -21,11 +21,11 @@ class StockLandedCost(models.Model):
         return res
 
     def _get_targeted_move_ids(self):
-        if not self._context.get("l10n_ro_price_difference_move_ids"):
+        if not self.env.context.get("l10n_ro_price_difference_move_ids"):
             return super()._get_targeted_move_ids()
 
         return self.env["stock.move"].browse(
-            self._context["l10n_ro_price_difference_move_ids"]
+            self.env.context["l10n_ro_price_difference_move_ids"]
         )
 
     def _create_account_move_line(
