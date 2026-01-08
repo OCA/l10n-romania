@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: Odoo Server 17.0+e\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2024-03-29 06:22+0000\n"
-"PO-Revision-Date: 2025-09-10 11:42+0000\n"
+"PO-Revision-Date: 2026-01-08 20:42+0000\n"
 "Last-Translator: Dorin Hongu <dhongu@gmail.com>\n"
 "Language-Team: \n"
 "Language: ro\n"
@@ -61,7 +61,7 @@ msgstr "Cont Sincronizare ANAF"
 #. module: l10n_ro_config
 #: model:ir.model,name:l10n_ro_config.model_account_chart_template
 msgid "Account Chart Template"
-msgstr ""
+msgstr "Șablon de plan de conturi"
 
 #. module: l10n_ro_config
 #: model_terms:ir.ui.view,arch_db:l10n_ro_config.res_config_settings_view_form
@@ -186,7 +186,7 @@ msgstr "Taxe implicite aplicate tranzacțiilor locale."
 #: model:ir.model.fields,field_description:l10n_ro_config.field_res_partner__display_name
 #: model:ir.model.fields,field_description:l10n_ro_config.field_res_partner_bank__display_name
 msgid "Display Name"
-msgstr ""
+msgstr "Nume afișat"
 
 #. module: l10n_ro_config
 #: model:ir.model.fields,help:l10n_ro_config.field_res_config_settings__module_l10n_ro_address_extended
@@ -210,7 +210,7 @@ msgstr "Jurnalul de bonuri fiscale"
 #: model:ir.model.fields,field_description:l10n_ro_config.field_res_partner__id
 #: model:ir.model.fields,field_description:l10n_ro_config.field_res_partner_bank__id
 msgid "ID"
-msgstr ""
+msgstr "ID"
 
 #. module: l10n_ro_config
 #: model_terms:ir.ui.view,arch_db:l10n_ro_config.res_config_settings_view_form
@@ -406,6 +406,8 @@ msgid ""
 "Restrict stock move posting from 1st of previous month till today. Future "
 "dates are not allowed."
 msgstr ""
+"Restricționează înregistrarea mișcărilor de stoc din prima zi a lunii "
+"anterioare până astăzi. Datele viitoare nu sunt permise."
 
 #. module: l10n_ro_config
 #: model:ir.model.fields,field_description:l10n_ro_config.field_res_company__l10n_ro_caen_code
@@ -454,7 +456,7 @@ msgstr "Romania - Facturare electronică"
 #. module: l10n_ro_config
 #: model:ir.model.fields,field_description:l10n_ro_config.field_account_journal__l10n_ro_fiscal_position_id
 msgid "Romania - Fiscal Position"
-msgstr ""
+msgstr "Poziție fiscală"
 
 #. module: l10n_ro_config
 #: model:ir.model.fields,field_description:l10n_ro_config.field_res_company__l10n_ro_property_inverse_taxation_position_id
@@ -472,7 +474,7 @@ msgstr "Poziția fiscală pentru TVA la plată"
 #: model:ir.model.fields,field_description:l10n_ro_config.field_res_company__l10n_ro_nondeductible_account_id
 #: model:ir.model.fields,field_description:l10n_ro_config.field_res_config_settings__l10n_ro_nondeductible_account_id
 msgid "Romania - Non Deductible Expense Account"
-msgstr ""
+msgstr "Cont de cheltuieli nedeductibile"
 
 #. module: l10n_ro_config
 #: model:ir.model.fields,field_description:l10n_ro_config.field_res_company__l10n_ro_property_uneligible_tax_account_id
@@ -696,7 +698,7 @@ msgstr ""
 #. module: l10n_ro_config
 #: model_terms:ir.ui.view,arch_db:l10n_ro_config.res_config_settings_view_form
 msgid "Select a expense account"
-msgstr ""
+msgstr "Selectați un cont de cheltuieli"
 
 #. module: l10n_ro_config
 #: model_terms:ir.ui.view,arch_db:l10n_ro_config.res_config_settings_view_form
@@ -776,6 +778,10 @@ msgid ""
 "deductible. If the line account does not                                 "
 "have a non deductible account set, this account will be used."
 msgstr ""
+"Acest cont va fi utilizat ca și cont implicit de cheltuieli nedeductibile "
+"pentru liniile de repartizare a taxelor marcate ca nedeductibile. Dacă  "
+"contul liniei nu are un cont de cheltuieli nedeductibile setat, acest cont "
+"va fi utilizat."
 
 #. module: l10n_ro_config
 #: model:ir.model.fields,help:l10n_ro_config.field_res_company__l10n_ro_nondeductible_account_id
@@ -785,6 +791,10 @@ msgid ""
 "tax repartition lines marked as not deductible. If the line account does not "
 "have a non deductible account set, this account will be used."
 msgstr ""
+"Acest cont va fi utilizat ca și cont implicit de cheltuieli nedeductibile "
+"pentru liniile de repartizare a taxelor marcate ca nedeductibile. Dacă "
+"contul liniei nu are un cont de cheltuieli nedeductibile setat, acest cont "
+"va fi utilizat."
 
 #. module: l10n_ro_config
 #: model:ir.model.fields,help:l10n_ro_config.field_res_company__l10n_ro_property_stock_picking_custody_account_id
