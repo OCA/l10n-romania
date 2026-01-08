@@ -30,3 +30,59 @@ class TestStockFifo(TestROStockCommon):
             )
             with self.subTest(case=case), closing(self.cr.savepoint()):
                 self.test_case(case)
+
+    def test_button_create_landed_costs(self):
+        purchase = self.env["purchase.order"].create(
+            {
+                "partner_id": self.supplier_1.id,
+                "order_line": [
+                    (
+                        0,
+                        0,
+                        {
+                            "product_id": self.product_fifo.id,
+                            "product_qty": 1.0,
+                            "price_unit": 100.0,
+                        },
+                    )
+                ],
+            }
+        )
+        purchase.button_confirm()
+        picking = purchase.picking_ids
+        picking.move_ids._set_quantity_done(1.0)
+        picking.button_validate()
+
+        invoice = (
+            self.env["account.move"]
+            .with_context(default_move_type="in_invoice")
+            .create(
+                {
+                    "move_type": "in_invoice",
+                    "partner_id": self.supplier_1.id,
+                    "invoice_date": purchase.date_order,
+                    "invoice_line_ids": [
+                        (
+                            0,
+                            0,
+                            {
+                                "product_id": self.landed_cost.id,
+                                "price_unit": 50.0,
+                                "quantity": 1.0,
+                                "purchase_line_id": purchase.order_line[0].id,
+                            },
+                        )
+                    ],
+                }
+            )
+        )
+        invoice.action_post()
+
+        # Apelăm metoda button_create_landed_costs
+        action = invoice.button_create_landed_costs()
+        self.assertEqual(action.get("res_model"), "stock.landed.cost")
+
+        landed_cost = self.env["stock.landed.cost"].browse(action.get("res_id"))
+        self.assertTrue(landed_cost.exists())
+        self.assertEqual(landed_cost.vendor_bill_id, invoice)
+        self.assertIn(picking, landed_cost.picking_ids)
