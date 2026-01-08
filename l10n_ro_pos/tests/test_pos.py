@@ -1,3 +1,4 @@
+from odoo import fields
 from odoo.fields import Command
 from odoo.tests import tagged
 
@@ -113,11 +114,127 @@ class TestReportPoSOrder(CommonPosTest):
         wizard.generate_report()
 
     def test_report_saledetails(self):
+        # 1. Asigurăm stoc pentru produs (ex: 10 bucăți la 60 RON)
+        # standard_price este deja 60.0 din setUpClass
+        self.env["stock.quant"].with_context(inventory_mode=True).create(
+            {
+                "product_id": self.product_a.id,
+                "location_id": self.pos_config_usd.picking_type_id.default_location_src_id.id,  # noqa: E501
+                "inventory_quantity": 10,
+            }
+        ).action_apply_inventory()
+
+        self.pos_config_usd.open_ui()
+        session = self.pos_config_usd.current_session_id
+
+        # 2. Creăm mai multe comenzi POS
+        orders_data = [
+            {
+                "amount_paid": 100.0,
+                "amount_return": 0,
+                "amount_tax": 0,
+                "amount_total": 100.0,
+                "date_order": fields.Datetime.now(),
+                "name": "Order 0001",
+                "partner_id": self.partner_adgu.id,
+                "session_id": session.id,
+                "lines": [
+                    Command.create(
+                        {
+                            "product_id": self.product_a.id,
+                            "price_unit": 100.0,
+                            "qty": 1,
+                            "price_subtotal": 100.0,
+                            "price_subtotal_incl": 100.0,
+                        }
+                    )
+                ],
+                "payment_ids": [
+                    Command.create(
+                        {
+                            "amount": 100.0,
+                            "payment_method_id": self.cash_payment_method.id,
+                        }
+                    )
+                ],
+                "uuid": "0001",
+            },
+            {
+                "amount_paid": 200.0,
+                "amount_return": 0,
+                "amount_tax": 0,
+                "amount_total": 200.0,
+                "date_order": fields.Datetime.now(),
+                "name": "Order 0002",
+                "partner_id": self.partner_adgu.id,
+                "session_id": session.id,
+                "lines": [
+                    Command.create(
+                        {
+                            "product_id": self.product_a.id,
+                            "price_unit": 100.0,
+                            "qty": 2,
+                            "price_subtotal": 200.0,
+                            "price_subtotal_incl": 200.0,
+                        }
+                    )
+                ],
+                "payment_ids": [
+                    Command.create(
+                        {
+                            "amount": 200.0,
+                            "payment_method_id": self.cash_payment_method.id,
+                        }
+                    )
+                ],
+                "uuid": "0002",
+            },
+        ]
+
+        self.env["pos.order"].sync_from_ui(orders_data)
+
+        session.action_pos_session_closing_control()
+
         report_saledetails = self.env["report.point_of_sale.report_saledetails"]
-        data = report_saledetails.get_sale_details()
+        data = report_saledetails.get_sale_details(session_ids=[session.id])
+
         self.assertIn("products", data, "Raportul ar trebui să conțină produse")
         self.assertIn("payments", data, "Raportul ar trebui să conțină plăți")
         self.assertIn("taxes", data, "Raportul ar trebui să conțină taxe")
+        self.assertIn(
+            "total_stock_amount",
+            data,
+            "Raportul ar trebui să conțină total_stock_amount",
+        )
+
+        found_product = False
+        for product_lines in data.get("products", []):
+            for product_line in product_lines.get("products", []):
+                if product_line["product_id"] == self.product_a.id:
+                    found_product = True
+                    self.assertEqual(
+                        product_line["quantity"],
+                        3,
+                        "Cantitatea totală vândută ar trebui să fie 3",
+                    )
+
+        self.assertTrue(found_product, "Produsul vândut ar trebui să fie în raport")
+
+        data = report_saledetails.get_sale_details()
+        self.assertIn("products", data, "Raportul ar trebui să conțină produse")
+
+    def test_report_rendering(self):
+        report_name = "point_of_sale.report_saledetails"
+        wizard = self.env["pos.details.wizard"].create({})
+
+        # Verificăm că raportul se generează fără erori (HTML)
+        content, content_type = self.env["ir.actions.report"]._render_qweb_html(
+            report_name, [wizard.id]
+        )
+        self.assertTrue(content)
+        # Verificăm dacă label-urile adăugate prin xpath apar în output
+        self.assertIn(b"Stock Price Unit", content)
+        self.assertIn(b"Stock Amount", content)
 
     def test_report_invoice(self):
         # Cream o comanda si o factura pentru a testa raportul cu date reale
@@ -157,6 +274,7 @@ class TestReportPoSOrder(CommonPosTest):
         result = self.env["pos.order"].sync_from_ui([order_data])
         order_id = result["pos.order"][0]["id"]
         order = self.env["pos.order"].browse(order_id)
+        order.action_pos_order_invoice()
         # Flush to ensure record is available in DB for sudo() browse in report
         self.env.cr.flush()
 
