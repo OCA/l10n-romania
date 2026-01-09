@@ -1,0 +1,3 @@
+# See https://github.com/OCA/odoo-community.org/blob/master/website/Contribution/CONTRIBUTING.rst#oca_dependencies-txt
+odoo-addon-account-statement-import-file @ git+https://github.com/OCA/bank-statement-import.git@19.0 account_statement_import_file
+odoo-addon-account-statement-base @ git+https://github.com:OCA/account-reconcile.git account_statement_base
