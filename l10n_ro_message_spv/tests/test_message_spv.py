@@ -47,7 +47,7 @@ class TestMessageSPV(TestMessageSPV):
         anaf_messages = {"content": b"""%s""" % json.dumps(msg_dict).encode("utf-8")}
 
         with patch(
-            "odoo.addons.l10n_ro_edi.models.ciusro_document.make_efactura_request",
+            "odoo.addons.l10n_ro_edi.models.utils.make_efactura_request",
             return_value=anaf_messages,
         ):
             self.env.company._l10n_ro_download_message_spv()
@@ -66,7 +66,7 @@ class TestMessageSPV(TestMessageSPV):
         file_invoice = file_path("l10n_ro_message_spv/tests/invoice.zip")
         anaf_messages = {"content": open(file_invoice, "rb").read()}
         with patch(
-            "odoo.addons.l10n_ro_edi.models.ciusro_document.make_efactura_request",
+            "odoo.addons.l10n_ro_edi.models.utils.make_efactura_request",
             return_value=anaf_messages,
         ):
             message_spv.download_from_spv()
@@ -153,7 +153,6 @@ class TestMessageSPV(TestMessageSPV):
         product = self.env["product.product"].create(
             {
                 "name": "Test Product",
-                "is_storable": True,
             }
         )
 

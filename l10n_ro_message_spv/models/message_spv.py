@@ -9,7 +9,7 @@ from base64 import b64encode
 import requests
 from lxml import etree
 
-from odoo import _, api, fields, models
+from odoo import api, fields, models
 from odoo.exceptions import UserError
 
 _logger = logging.getLogger(__name__)
@@ -76,7 +76,10 @@ class MessageSPV(models.Model):
         "res.currency", default=lambda self: self.env.company.currency_id
     )
 
-    _sql_constraints = [("unique_name", "unique(name)", "Message ID must be unique.")]
+    _unique_name = models.Constraint(
+        "unique(name)",
+        "Message ID must be unique.",
+    )
 
     @api.onchange("invoice_id")
     def _onchange_invoice_id(self):
@@ -504,7 +507,9 @@ class MessageSPV(models.Model):
 
         res = requests.post(url, data=xml, headers=headers, timeout=25)
         if "The requested URL was rejected" in res.text:
-            raise UserError(_("ANAF service unable to generate PDF from this XML."))
+            raise UserError(
+                self.env._("ANAF service unable to generate PDF from this XML.")
+            )
 
         if res.status_code == 200:
             pdf = b64encode(res.content)
