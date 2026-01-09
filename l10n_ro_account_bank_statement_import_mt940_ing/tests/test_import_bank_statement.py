@@ -165,3 +165,119 @@ class TestImport(TestMT940BankStatementImport):
         wizard = self.env["account.statement.import"].with_context(mt940_ro_ing=True)
         res = wizard._parse_file(datafile)
         self.assertEqual(res[1], "RO19INGB0000999904621843")
+
+    def test_handle_tag_61_nonref(self):
+        """Test handle_tag_61 with NONREF reference."""
+        parser = self.env["l10n.ro.account.bank.statement.import.mt940.parser"]
+        parser = parser.with_context(type="mt940_ro_ing")
+        result = {"statement": {"transactions": []}}
+        data = "200211CN1000,00NTRFNONREF//INGID123-TRANSCODE456"
+        parser.handle_tag_61(data, result)
+        transaction = result["statement"]["transactions"][0]
+        self.assertEqual(transaction["ref"], "INGID123-TRANSCODE456")
+
+    def test_handle_common_subfields_partner_search(self):
+        """Test handle_common_subfields search partner by name."""
+        partner = self.env["res.partner"].create({"name": "TEST PARTNER SRL"})
+        parser = self.env["l10n.ro.account.bank.statement.import.mt940.parser"]
+        parser = parser.with_context(type="mt940_ro_ing")
+        transaction = {"amount": 100.0}
+        subfields = {"32": ["TEST PARTNER SRL"]}
+        parser.handle_common_subfields(transaction, subfields)
+        self.assertEqual(transaction.get("partner_id"), partner.id)
+
+    def test_handle_common_subfields_31_cleaning(self):
+        """Test handle_common_subfields cleaning spaces in 31."""
+        parser = self.env["l10n.ro.account.bank.statement.import.mt940.parser"]
+        parser = parser.with_context(type="mt940_ro_ing")
+        transaction = {"amount": 100.0}
+        # In handle_common_subfields:
+        # tag "31" is cleaned of spaces and put in counterpart_fields[0]
+        # In get_counterpart:
+        # counterpart_fields[0] is put in partner_name
+        # counterpart_fields[1] is put in account_number
+        subfields = {
+            "31": ["RO25 INGB 0014 0000 3194 8911"],
+            "32": ["PARTNER NAME"],
+        }
+        parser.handle_common_subfields(transaction, subfields)
+        # partner_name will be the cleaned 31
+        self.assertEqual(transaction.get("partner_name"), "RO25INGB0014000031948911")
+
+    def test_handle_common_subfields_100_vat_search(self):
+        """Test handle_common_subfields_100 search partner by VAT."""
+        # Create partner with unique name and VAT
+        unique_vat = "99999999"
+        unique_name = "UNIQUE VAT PARTNER"
+        partner = self.env["res.partner"].create(
+            {
+                "name": unique_name,
+                "vat": "RO" + unique_vat,
+                "l10n_ro_vat_number": unique_vat,
+            }
+        )
+        parser = self.env["l10n.ro.account.bank.statement.import.mt940.parser"]
+        parser = parser.with_context(type="mt940_ro_ing", journal_id=self.journal.id)
+        transaction = {}
+        # INCASARE UNIQUE VAT PARTNER 99999999 RO25INGB0014000031948911
+        subfields = {
+            "110": [
+                "INCASARE "
+                + unique_name
+                + " "
+                + unique_vat
+                + " RO25INGB0014000031948911"
+            ]
+        }
+        parser.handle_common_subfields_100(transaction, subfields)
+        self.assertEqual(transaction.get("partner_id"), partner.id)
+        self.assertEqual(transaction.get("partner_name"), unique_name)
+        self.assertEqual(transaction.get("account_number"), "RO25INGB0014000031948911")
+
+    def test_handle_tag_28_and_62F(self):
+        """Test handle_tag_28 and handle_tag_62F for statement name."""
+        parser = self.env["l10n.ro.account.bank.statement.import.mt940.parser"]
+        parser = parser.with_context(type="mt940_ro_ing")
+        acc_number = "RO19INGB0000999904621843"
+        result = {
+            "statement": {"name": None, "transactions": [], "date": None},
+            "account_number": acc_number,
+        }
+        # Test handle_tag_28
+        parser.handle_tag_28("00015/00001", result)
+        self.assertEqual(result["statement"]["name"], "00015/00001")
+
+        # Set name to account number to trigger the specific logic in 62F
+        result["statement"]["name"] = acc_number
+        # Test handle_tag_62F
+        # C200211RON2000,00 -> date 200211 (2020-02-11), balance 2000.00
+        parser.handle_tag_62F("C200211RON2000,00", result)
+        self.assertEqual(result["statement"]["name"], acc_number + " - 2020-02-11")
+        self.assertEqual(result["statement"]["balance_end_real"], 2000.0)
+
+    def test_get_counterpart_variants(self):
+        """Test get_counterpart with different subfield lengths."""
+        parser = self.env["l10n.ro.account.bank.statement.import.mt940.parser"]
+        parser = parser.with_context(type="mt940_ro_ing")
+
+        # Length 1
+        transaction = {}
+        parser.get_counterpart(transaction, ["PARTNER NAME"])
+        self.assertEqual(transaction.get("partner_name"), "PARTNER NAME")
+
+        # Length 2
+        transaction = {}
+        parser.get_counterpart(transaction, ["PARTNER NAME", "ACC123"])
+        self.assertEqual(transaction.get("account_number"), "ACC123")
+
+        # Length 3, account_number already set
+        transaction = {"account_number": "ACC123"}
+        parser.get_counterpart(transaction, ["PARTNER NAME", "ACC456", "UNUSED"])
+        self.assertEqual(
+            transaction.get("account_number"), "ACC456"
+        )  # Index 1 is not empty, so it updates
+
+        # Length 3, account_number not set, uses index 2
+        transaction = {}
+        parser.get_counterpart(transaction, ["PARTNER NAME", "", "ACC789"])
+        self.assertEqual(transaction.get("account_number"), "ACC789")
