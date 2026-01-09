@@ -197,7 +197,9 @@ class MT940Parser(models.AbstractModel):
 
     def handle_common_subfields_100(self, transaction, subfields):
         # tag 86 nestructurat
-        journal = self.env["account.journal"].browse(self._context.get("journal_id", 0))
+        journal = self.env["account.journal"].browse(
+            self.env.context.get("journal_id", 0)
+        )
         if journal.bank_account_id.l10n_ro_unstructured_tag86:
             patterns = journal.bank_account_id.l10n_ro_unstructured_tag86.split("\n")
         else:
