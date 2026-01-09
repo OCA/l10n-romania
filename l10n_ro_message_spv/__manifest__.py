@@ -17,7 +17,7 @@
     ],
     "license": "AGPL-3",
     "version": "18.0.1.12.0",
-    "author": "Terrabit," "Odoo Community Association (OCA)",
+    "author": "Terrabit,Odoo Community Association (OCA)",
     "website": "https://github.com/OCA/l10n-romania",
     "installable": True,
     "development_status": "Beta",
