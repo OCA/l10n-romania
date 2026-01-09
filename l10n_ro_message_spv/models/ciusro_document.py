@@ -11,7 +11,7 @@ from lxml import etree
 
 from odoo import api, models
 
-from odoo.addons.l10n_ro_edi.models import ciusro_document
+from odoo.addons.l10n_ro_edi.models.utils import NS_HEADER, make_efactura_request
 
 _logger = logging.getLogger(__name__)
 
@@ -21,11 +21,10 @@ class L10nRoEdiDocument(models.Model):
 
     @api.model
     def _request_ciusro_download_zip(self, company, key_download, session):
-        result = ciusro_document.make_efactura_request(
+        result = make_efactura_request(
             session=session,
             company=company,
             endpoint="descarcare",
-            method="GET",
             params={"id": key_download},
         )
         if result.get("error", False):
@@ -45,7 +44,7 @@ class L10nRoEdiDocument(models.Model):
         recovering_parser = etree.XMLParser(recover=True)
 
         root = etree.parse(xml_bytes, parser=recovering_parser)
-        error_element = root.find(".//ns:Error", namespaces=ciusro_document.NS_HEADER)
+        error_element = root.find(".//ns:Error", namespaces=NS_HEADER)
         if error_element is not None:
             return {"error": error_element.get("errorMessage")}
 
@@ -80,12 +79,11 @@ class L10nRoEdiDocument(models.Model):
         if filtru:
             params["filtru"] = filtru
 
-        result = ciusro_document.make_efactura_request(
+        result = make_efactura_request(
             session=requests,
             company=company,
             endpoint="listaMesajePaginatieFactura",
             params=params,
-            method="GET",
         )
 
         if "error" not in result:

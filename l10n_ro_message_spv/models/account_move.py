@@ -50,7 +50,7 @@ class AccountMove(models.Model):
                                 "product_id": line.product_id.id,
                                 "price": line.price_unit,
                                 "currency_id": invoice.currency_id.id,
-                                "product_uom": line.product_uom_id.id,
+                                "product_uom_id": line.product_uom_id.id,
                             }
                         )
                     else:
