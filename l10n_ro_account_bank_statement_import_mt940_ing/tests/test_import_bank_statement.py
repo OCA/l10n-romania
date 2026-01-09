@@ -19,6 +19,7 @@ class TestImport(TestMT940BankStatementImport):
         ron_curr = self.env.ref("base.RON")
         ron_curr.write({"active": True})
         self.bank = self.create_partner_bank("RO19INGB0000999904621843")
+        self.bank.bank_id.bic = "INGBROBU"
         self.journal = self.create_journal("TBNK2MT940", self.bank, ron_curr)
 
         self.data = """035~20AMT RCD RON 1000,00        ~21                           ~
@@ -142,3 +143,25 @@ class TestImport(TestMT940BankStatementImport):
         self.assertTrue(line.date == fields.Date.from_string("2020-02-11"))
         self.assertTrue(line.payment_ref == transact["payment_ref"])
         self.assertTrue(line.ref == transact["ref"])
+
+    def test_is_ing(self):
+        """Test _is_ing function."""
+        wizard = self.env["account.statement.import"].with_context(
+            journal_id=self.journal.id
+        )
+        self.assertTrue(wizard._is_ing())
+
+        wizard = self.env["account.statement.import"].with_context(mt940_ro_ing=True)
+        self.assertTrue(wizard._is_ing())
+
+    def test_parse_file_no_bank(self):
+        """Test _parse_file when no matching bank account is found."""
+        testfile = file_path(
+            "l10n_ro_account_bank_statement_import_mt940_ing/test_files/test_ing_940.txt",
+        )
+        datafile = open(testfile, "rb").read()
+        # Create a wizard without the bank account in company bank_ids
+        self.bank.unlink()
+        wizard = self.env["account.statement.import"].with_context(mt940_ro_ing=True)
+        res = wizard._parse_file(datafile)
+        self.assertEqual(res[1], "RO19INGB0000999904621843")
