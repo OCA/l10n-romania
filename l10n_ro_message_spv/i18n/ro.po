@@ -385,10 +385,3 @@ msgstr "Cod furnizor"
 #: model:ir.model.fields,field_description:l10n_ro_message_spv.field_l10n_ro_message_spv__attachment_xml_id
 msgid "XML"
 msgstr ""
-
-#, python-format
-#~ msgid "ANAF configuration is missing."
-#~ msgstr "Lipsește configurarea ANAF."
-
-#~ msgid "Last Modified on"
-#~ msgstr "Ultima modificare la"
