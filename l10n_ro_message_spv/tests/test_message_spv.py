@@ -353,6 +353,69 @@ class TestMessageSPV(TestMessageSPV):
         self.assertTrue(message_spv.attachment_embedded_pdf_id)
         self.assertEqual(message_spv.attachment_embedded_pdf_id.name, "embedded.pdf")
 
+    def test_missing_data_coverage(self):
+        """Testează ramurile de date lipsă în get_xml_fom_zip și get_embedded_pdf"""
+        message_spv = self.env["l10n.ro.message.spv"].create(
+            {
+                "name": "TEST_MISSING",
+                "request_id": "REQ_MISSING",
+            }
+        )
+        # 1. get_xml_fom_zip fără attachment
+        message_spv.get_xml_fom_zip()
+        self.assertFalse(message_spv.attachment_xml_id)
+
+        # 2. get_xml_fom_zip cu ZIP gol
+        buffer = io.BytesIO()
+        with zipfile.ZipFile(buffer, "w") as zip_file:  # noqa
+            pass
+        attachment = self.env["ir.attachment"].create(
+            {"name": "empty.zip", "raw": buffer.getvalue()}
+        )
+        message_spv.attachment_id = attachment
+        message_spv.get_xml_fom_zip()
+        self.assertFalse(message_spv.attachment_xml_id)
+
+        # 3. get_embedded_pdf declanșează download_from_spv și get_xml_fom_zip
+        message_spv.attachment_id = False
+        message_spv.attachment_xml_id = False
+        with (
+            patch.object(type(message_spv), "download_from_spv") as mock_download,
+            patch.object(type(message_spv), "get_xml_fom_zip") as mock_get_xml,
+        ):
+            # Mock get_xml_fom_zip to set attachment_xml_id so
+            # the rest of method doesn't crash
+            def side_effect_get_xml():
+                message_spv.attachment_xml_id = self.env["ir.attachment"].create(
+                    {"name": "test.xml", "raw": b"<root/>"}
+                )
+
+            mock_get_xml.side_effect = side_effect_get_xml
+            message_spv.get_embedded_pdf()
+            self.assertTrue(mock_download.called)
+            self.assertTrue(mock_get_xml.called)
+
+    def test_create_invoice_error(self):
+        """Testează ramura de eroare în create_invoice"""
+        message_spv = self.env["l10n.ro.message.spv"].create(
+            {
+                "name": "TEST_CREATE_ERR",
+                "message_type": "in_invoice",
+                "partner_id": self.vendor.id,
+            }
+        )
+        message_spv.attachment_xml_id = self.env["ir.attachment"].create(
+            {"name": "test.xml", "raw": b"<root/>"}
+        )
+
+        with patch(
+            "odoo.addons.account.models.account_move.AccountMove._extend_with_attachments",
+            side_effect=Exception("Test Exception"),
+        ):
+            message_spv.create_invoice()
+            self.assertEqual(message_spv.state, "error")
+            self.assertIn("Test Exception", message_spv.error)
+
     def test_advanced_invoice_matching(self):
         """Testează potrivirea avansată a facturilor (get_invoice_from_move)"""
         partner = self.env["res.partner"].create(
