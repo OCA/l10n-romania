@@ -6,6 +6,8 @@ import json
 import zipfile
 from unittest.mock import patch
 
+from lxml import etree
+
 from odoo.tests import tagged
 from odoo.tools.misc import file_path
 
@@ -547,3 +549,163 @@ class TestMessageSPV(TestMessageSPV):
         ) as mock_download:
             message_spv.refresh()
             self.assertTrue(mock_download.called)
+
+    def test_cron_methods(self):
+        """Testează metodele apelate de cron jobs pe res.company"""
+        self.env.company.l10n_ro_edi_access_token = "123"
+        self.env.company.vat = "RO23685159"
+
+        # 1. Test l10n_ro_download_message_spv
+        msg_dict = {
+            "mesaje": [
+                {
+                    "data_creare": "202312120940",
+                    "cif": "23685159",
+                    "id_solicitare": "CRON_REQ_1",
+                    "detalii": "Factura emisa de 8486152",
+                    "tip": "FACTURA PRIMITA",
+                    "id": "CRON_MSG_1",
+                }
+            ],
+            "numar_total_pagini": 1,
+        }
+        anaf_messages = {"content": json.dumps(msg_dict).encode("utf-8")}
+
+        with patch(
+            "odoo.addons.l10n_ro_message_spv.models.ciusro_document.make_efactura_request",
+            return_value=anaf_messages,
+        ):
+            self.env.company.l10n_ro_download_message_spv()
+
+        # Verificăm că mesajul a fost creat
+        msg = self.env["l10n.ro.message.spv"].search([("name", "=", "CRON_MSG_1")])
+        self.assertTrue(msg)
+        self.assertEqual(msg.request_id, "CRON_REQ_1")
+
+        # 2. Test l10n_ro_download_zip_message_spv
+        # Mocking zip download
+        file_invoice = file_path("l10n_ro_message_spv/tests/invoice.zip")
+        zip_content = {"content": open(file_invoice, "rb").read()}
+
+        with patch(
+            "odoo.addons.l10n_ro_message_spv.models.ciusro_document.make_efactura_request",
+            return_value=zip_content,
+        ):
+            # Limităm la 5 mesaje, oricum avem doar unul creat acum fără atașament
+            self.env.company.l10n_ro_download_zip_message_spv(limit=5)
+
+        # Verificăm că atașamentul a fost descărcat
+        self.assertTrue(msg.attachment_id)
+        self.assertEqual(msg.state, "downloaded")
+
+    def test_import_fill_invoice_line_form(self):
+        """Testează _import_fill_invoice_line_form
+        pentru extragerea codului furnizor și potrivirea produsului"""
+        # 1. Creăm un produs cu supplierinfo (seller_ids)
+        product = self.env["product.product"].create(
+            {
+                "name": "Import Test Product",
+            }
+        )
+        self.env["product.supplierinfo"].create(
+            {
+                "partner_id": self.vendor.id,
+                "product_tmpl_id": product.product_tmpl_id.id,
+                "product_code": "VEND_IMPORT_001",
+            }
+        )
+
+        # 2. Pregătim un XML minimal care să conțină SellersItemIdentification
+        xml_content = b"""<?xml version="1.0" encoding="UTF-8"?>
+<Invoice xmlns="urn:oasis:names:specification:ubl:schema:xsd:Invoice-2"
+         xmlns:cac="urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2"
+         xmlns:cbc="urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2">
+    <cbc:CustomizationID>urn:cen.eu:en16931:2017#compliant#urn:efactura.mfinante.ro:CIUS-RO:1.0.1</cbc:CustomizationID>
+    <cbc:ID>INV_IMPORT_001</cbc:ID>
+    <cac:InvoiceLine>
+        <cbc:ID>1</cbc:ID>
+        <cbc:InvoicedQuantity>1.0</cbc:InvoicedQuantity>
+        <cbc:LineExtensionAmount currencyID="RON">100.0</cbc:LineExtensionAmount>
+        <cac:Item>
+            <cbc:Name>Import Test Product</cbc:Name>
+            <cac:SellersItemIdentification>
+                <cbc:ID>VEND_IMPORT_001</cbc:ID>
+            </cac:SellersItemIdentification>
+        </cac:Item>
+        <cac:Price>
+            <cbc:PriceAmount currencyID="RON">100.0</cbc:PriceAmount>
+        </cac:Price>
+    </cac:InvoiceLine>
+</Invoice>"""
+
+        attachment_xml = self.env["ir.attachment"].create(
+            {
+                "name": "import_test.xml",
+                "raw": xml_content,
+                "mimetype": "application/xml",
+            }
+        )
+
+        # 3. Creăm o factură și apelăm importul
+        invoice = self.env["account.move"].create(
+            {
+                "move_type": "in_invoice",
+                "partner_id": self.vendor.id,
+            }
+        )
+
+        # Pregătim datele fișierului așa cum le așteaptă Odoo 19
+        file_data = {
+            "attachment": attachment_xml,
+            "name": attachment_xml.name,
+            "filename": attachment_xml.name,
+            "content": attachment_xml.raw,
+            "mimetype": attachment_xml.mimetype,
+            "type": "xml",
+            "xml_tree": etree.fromstring(attachment_xml.raw),
+        }
+        # Identificăm tipul de fișier pentru a activa decoderul corect
+        file_data["import_file_type"] = invoice._get_import_file_type(file_data)
+
+        # Metoda _extend_with_attachments apelează intern logica de import UBL
+        invoice._extend_with_attachments([file_data])
+
+        # 4. Verificăm rezultatele pe prima linie a facturii
+        line = invoice.invoice_line_ids[0]
+        self.assertEqual(line.l10n_ro_vendor_code, "VEND_IMPORT_001")
+        self.assertEqual(line.product_id.id, product.id)
+
+        # 5. Testăm și cu StandardItemIdentification
+        xml_content_std = xml_content.replace(
+            b"SellersItemIdentification", b"StandardItemIdentification"
+        )
+        attachment_xml_std = self.env["ir.attachment"].create(
+            {
+                "name": "import_test_std.xml",
+                "raw": xml_content_std,
+                "mimetype": "application/xml",
+            }
+        )
+        invoice_std = self.env["account.move"].create(
+            {
+                "move_type": "in_invoice",
+                "partner_id": self.vendor.id,
+            }
+        )
+        file_data_std = {
+            "attachment": attachment_xml_std,
+            "name": attachment_xml_std.name,
+            "filename": attachment_xml_std.name,
+            "content": attachment_xml_std.raw,
+            "mimetype": attachment_xml_std.mimetype,
+            "type": "xml",
+            "xml_tree": etree.fromstring(attachment_xml_std.raw),
+        }
+        file_data_std["import_file_type"] = invoice_std._get_import_file_type(
+            file_data_std
+        )
+
+        invoice_std._extend_with_attachments([file_data_std])
+        line_std = invoice_std.invoice_line_ids[0]
+        self.assertEqual(line_std.l10n_ro_vendor_code, "VEND_IMPORT_001")
+        self.assertEqual(line_std.product_id.id, product.id)

@@ -32,7 +32,7 @@ class ResCompany(models.Model):
             )
             if len(messages) > limit:
                 need_retrigger = True
-            messages = messages[:-1]
+                messages = messages[:limit]
             messages.download_from_spv()
 
         if need_retrigger:
