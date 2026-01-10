@@ -145,10 +145,10 @@ class MessageSPV(models.Model):
             zip_ref = zipfile.ZipFile(io.BytesIO(attachment.raw))
             xml_file = [f for f in zip_ref.namelist() if "semnatura" not in f]
             file_name = f"{message.request_id}.xml"
+            xml_bytes = False
             if xml_file:
                 file_name = xml_file[0]
                 xml_bytes = zip_ref.open(file_name)
-                # xml_file = zip_ref.read(file_name)
             if not xml_bytes:
                 continue
 
