@@ -284,26 +284,21 @@ class MessageSPV(models.Model):
         messages_with_error = self.filtered(lambda m: m.message_type == "error")
         if messages_with_error:
             request_ids = messages_with_error.mapped("request_id")
-            domain = [("key_loading", "in", request_ids)]
-            edi_docs = self.env["l10n_ro_edi.document"].search(domain)
+            invoices = self.env["account.move"].search(
+                [("l10n_ro_edi_index", "in", request_ids)]
+            )
             for message in messages_with_error:
-                edi_doc = edi_docs.filtered(
-                    lambda e, m=message: e.key_loading == m.request_id
+                invoice = invoices.filtered(
+                    lambda i, m=message: i.l10n_ro_edi_index == m.request_id
                 )
-                if not edi_doc:
+                if not invoice:
                     continue
                 message.write(
                     {
-                        "invoice_id": edi_doc.invoice_id.id,
+                        "invoice_id": invoice.id,
                     }
                 )
-                if not edi_doc.key_loading:
-                    edi_doc.write(
-                        {
-                            "key_loading": message.request_id,
-                            "state": "invoice_sent",
-                        }
-                    )
+                edi_docs = invoice.l10n_ro_edi_document_ids
                 domain = [
                     ("res_model", "=", "account.move"),
                     (
@@ -311,14 +306,15 @@ class MessageSPV(models.Model):
                         "in",
                         ["ubl_cii_xml_file", "invoice_pdf_report_file"],
                     ),
-                    ("res_id", "=", edi_doc.invoice_id.id),
+                    ("res_id", "=", invoice.id),
                 ]
                 attachments = self.env["ir.attachment"].sudo().search(domain)
                 attachments.unlink()
-                edi_doc.write(
-                    {"state": "invoice_sending_failed", "message": message.error}
-                )
-                edi_doc.invoice_id.write({"l10n_ro_edi_state": False})
+                for edi_doc in edi_docs:
+                    edi_doc.write(
+                        {"state": "invoice_refused", "message": message.error}
+                    )
+                invoice.write({"l10n_ro_edi_state": False})
 
         messages = self.filtered(lambda m: not m.invoice_id)
         messages_without_invoice = messages.filtered(lambda m: not m.invoice_id)
@@ -401,20 +397,18 @@ class MessageSPV(models.Model):
                             {
                                 "invoice_id": message.invoice_id.id,
                                 "state": "invoice_sent",
-                                "key_loading": message.request_id,
                             }
                         )
                 if not message.invoice_id.l10n_ro_edi_document_ids:
                     if message.message_type != "error":
                         state = "invoice_sent"
                     else:
-                        state = "invoice_sending_failed"
+                        state = "invoice_refused"
 
                     self.env["l10n_ro_edi.document"].create(
                         {
                             "invoice_id": message.invoice_id.id,
                             "state": state,
-                            "key_loading": message.request_id,
                         }
                     )
 
@@ -449,6 +443,11 @@ class MessageSPV(models.Model):
                 message.write({"state": "error", "error": str(e)})
                 continue
 
+            _logger.info(
+                "Search existing invoice: ref=%s, partner=%s",
+                new_invoice.ref,
+                new_invoice.commercial_partner_id.id,
+            )
             exist_invoice = move_obj.search(
                 [
                     ("ref", "=", new_invoice.ref),
@@ -463,6 +462,7 @@ class MessageSPV(models.Model):
                 ],
                 limit=1,
             )
+            _logger.info("Exist invoice found: %s", exist_invoice.ids)
             if exist_invoice:
                 domain = [
                     ("res_model", "=", "account.move"),
