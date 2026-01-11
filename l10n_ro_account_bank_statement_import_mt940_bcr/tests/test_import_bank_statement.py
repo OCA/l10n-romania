@@ -123,3 +123,140 @@ class TestImport(TestMT940BankStatementImport):
         self.assertTrue(line.date == fields.Date.from_string("2022-10-31"))
         self.assertTrue(line.payment_ref == transact["payment_ref"])
         self.assertTrue(line.ref == transact["ref"])
+
+    def test_is_bcr(self):
+        """Test _is_bcr function."""
+        # Create a journal with BCR BIC
+        bank = self.create_partner_bank("RO48RNCB0090000506460002")
+        bank.bank_id.bic = "RNCBROBU"
+        journal = self.create_journal("BCRJRNL", bank, self.env.ref("base.RON"))
+
+        wizard = self.env["account.statement.import"].with_context(
+            journal_id=journal.id
+        )
+        self.assertTrue(wizard._is_bcr())
+
+        wizard = self.env["account.statement.import"].with_context(mt940_ro_bcr=True)
+        self.assertTrue(wizard._is_bcr())
+
+    def test_handle_tag_28(self):
+        """Test handle_tag_28 for statement name."""
+        parser = self.env["l10n.ro.account.bank.statement.import.mt940.parser"]
+        parser = parser.with_context(type="mt940_ro_bcr")
+        result = {"statement": {"name": None}}
+        parser.handle_tag_28("00015/00001.", result)
+        self.assertEqual(result["statement"]["name"], "00015/00001")
+
+    def test_get_counterpart_variants(self):
+        """Test get_counterpart with different subfield lengths."""
+        parser = self.env["l10n.ro.account.bank.statement.import.mt940.parser"]
+        parser = parser.with_context(type="mt940_ro_bcr")
+
+        # Length 1
+        transaction = {}
+        parser.get_counterpart(transaction, ["ACC123"])
+        self.assertEqual(transaction.get("account_number"), "ACC123")
+
+        # Length 2
+        transaction = {}
+        parser.get_counterpart(transaction, ["ACC123", "PARTNER NAME"])
+        self.assertEqual(transaction.get("partner_name"), "PARTNER NAME")
+
+    def test_handle_tag_86_variants(self):
+        """Test handle_tag_86 with various data formats."""
+        parser = self.env["l10n.ro.account.bank.statement.import.mt940.parser"]
+        parser = parser.with_context(type="mt940_ro_bcr")
+
+        # variant 1: ref + p + cfp + b + cfb + d
+        data = (
+            "Referinta 1234567890123456"
+            "Platitor PARTNER P RO48RNCB0090000506460001"
+            "CODFISC 12345"
+            "Beneficiar PARTNER B RO48RNCB0090000506460002"
+            "CODFISC 67890"
+            "Detalii SOME DETAILS"
+        )
+        result = {"statement": {"transactions": [{"amount": 100.0}]}}
+        parser.handle_tag_86(data, result)
+        transaction = result["statement"]["transactions"][0]
+        self.assertEqual(transaction["ref"], "1234567890123456")
+        self.assertEqual(transaction["partner_name"], "PARTNER P")
+        self.assertEqual(transaction["account_number"], "RO48RNCB0090000506460001")
+
+        # variant 3: ref + p + b + d
+        data = (
+            "Referinta 1234567890123456"
+            "Platitor PARTNER P RO48RNCB0090000506460001"
+            "Beneficiar PARTNER B RO48RNCB0090000506460002"
+            "Detalii SOME DETAILS"
+        )
+        result = {"statement": {"transactions": [{"amount": -100.0}]}}
+        parser.handle_tag_86(data, result)
+        transaction = result["statement"]["transactions"][0]
+        self.assertEqual(transaction["partner_name"], "PARTNER B")
+        self.assertEqual(transaction["account_number"], "RO48RNCB0090000506460002")
+
+        # variant 5: ref + b + p
+        data = (
+            "Referinta 1234567890123456"
+            "Beneficiar PARTNER B RO48RNCB0090000506460002"
+            "Platitor PARTNER P RO48RNCB0090000506460001"
+        )
+        result = {"statement": {"transactions": [{"amount": -100.0}]}}
+        parser.handle_tag_86(data, result)
+        transaction = result["statement"]["transactions"][0]
+        self.assertEqual(transaction["partner_name"], "PARTNER B")
+        self.assertEqual(transaction["account_number"], "RO48RNCB0090000506460002")
+
+        # Test with transaction already having a name (should skip regex)
+        data = "Referinta 9999999999999999"
+        result = {
+            "statement": {"transactions": [{"amount": 100.0, "name": "ALREADY SET"}]}
+        }
+        parser.handle_tag_86(data, result)
+        transaction = result["statement"]["transactions"][0]
+        self.assertNotEqual(transaction.get("ref"), "9999999999999999")
+
+    def test_handle_tag_86_vat_search(self):
+        """Test handle_tag_86 search partner by VAT."""
+        unique_vat = "RO12345678"
+        partner = self.env["res.partner"].create(
+            {"name": "VAT PARTNER", "vat": unique_vat, "is_company": True}
+        )
+        parser = self.env["l10n.ro.account.bank.statement.import.mt940.parser"]
+        parser = parser.with_context(type="mt940_ro_bcr")
+
+        # Data containing the unique VAT
+        data = (
+            "Referinta 1234567890123456"
+            "Platitor VAT PARTNER RO48RNCB0090000506460001"
+            "CODFISC 12345678"  # Regex for codfis_p is \w+
+            "Beneficiar PARTNER B RO48RNCB0090000506460002"
+            "CODFISC 67890"
+            "Detalii SOME DETAILS"
+        )
+        # Note: BCR logic for VAT search uses parsed_data.get("codfis_p")
+        # and searches for vat = unique_vat.
+        # But wait, unique_vat has "RO" prefix, but codfisc from bank usually doesn't.
+        # BCR code does: domain = [("vat", "=", vat), ("is_company", "=", True)]
+        # So I should create the partner with vat="12345678" if codfisc is "12345678"
+        partner.vat = "12345678"
+
+        result = {"statement": {"transactions": [{"amount": 100.0}]}}
+        parser.handle_tag_86(data, result)
+        transaction = result["statement"]["transactions"][0]
+        self.assertEqual(transaction.get("partner_id"), partner.id)
+        self.assertEqual(transaction.get("partner_name"), "VAT PARTNER")
+
+    def test_handle_tag_61(self):
+        """Test handle_tag_61 regex and extraction."""
+        parser = self.env["l10n.ro.account.bank.statement.import.mt940.parser"]
+        parser = parser.with_context(type="mt940_ro_bcr")
+        result = {"statement": {"transactions": []}}
+        # 221031 (date) 1031 (line_date) C (sign) 1000,00 (amount)
+        # NTRF (type) .//2022103180931993 (ref)
+        data = "2210311031C1000,00NTRF.//2022103180931993Test Partner"
+        parser.handle_tag_61(data, result)
+        transaction = result["statement"]["transactions"][0]
+        self.assertEqual(transaction["amount"], 1000.0)
+        self.assertEqual(transaction["ref"], "2022103180931993")
