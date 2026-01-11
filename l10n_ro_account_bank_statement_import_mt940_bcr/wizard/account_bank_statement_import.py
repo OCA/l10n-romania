@@ -9,10 +9,10 @@ class AccountBankStatementImport(models.TransientModel):
     _inherit = "account.statement.import"
 
     def _is_bcr(self):
-        if self._context.get("journal_id"):
-            journal = self.env["account.journal"].browse(self._context["journal_id"])
+        if self.env.context.get("journal_id"):
+            journal = self.env["account.journal"].browse(self.env.context["journal_id"])
             return journal.bank_account_id.bank_bic == "RNCBROBU"
-        return self._context.get("mt940_ro_bcr")
+        return self.env.context.get("mt940_ro_bcr")
 
     def _parse_file(self, data_file):
         if self._is_bcr():
