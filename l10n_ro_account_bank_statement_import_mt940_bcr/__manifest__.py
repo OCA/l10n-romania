@@ -6,7 +6,7 @@
     "name": "MT940 BCR Format Bank Statements Import",
     "version": "18.0.0.2.0",
     "license": "AGPL-3",
-    "author": "NextERP Romania SRL," "Terrabit," "Odoo Community Association (OCA)",
+    "author": "NextERP Romania SRL,Terrabit,Odoo Community Association (OCA)",
     "website": "https://github.com/OCA/l10n-romania",
     "category": "Localization",
     "depends": ["l10n_ro_account_bank_statement_import_mt940_base"],
