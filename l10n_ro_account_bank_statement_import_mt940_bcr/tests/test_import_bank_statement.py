@@ -208,6 +208,13 @@ class TestImport(TestMT940BankStatementImport):
         self.assertEqual(transaction["partner_name"], "PARTNER B")
         self.assertEqual(transaction["account_number"], "RO48RNCB0090000506460002")
 
+        # No match regex
+        data = "Random data without codewords"
+        result = {"statement": {"transactions": [{"amount": 100.0}]}}
+        parser.handle_tag_86(data, result)
+        transaction = result["statement"]["transactions"][0]
+        self.assertEqual(transaction["payment_ref"], data)
+
         # Test with transaction already having a name (should skip regex)
         data = "Referinta 9999999999999999"
         result = {
@@ -216,6 +223,31 @@ class TestImport(TestMT940BankStatementImport):
         parser.handle_tag_86(data, result)
         transaction = result["statement"]["transactions"][0]
         self.assertNotEqual(transaction.get("ref"), "9999999999999999")
+
+    def test_post_parse_file_vat_search(self):
+        """Test _post_parse_file search partner by VAT."""
+        partner = self.env["res.partner"].create(
+            {"name": "VAT PARTNER POST", "vat": "RO999999", "is_company": True}
+        )
+        wizard = self.env["account.statement.import"]
+        data = (
+            "RON",
+            "ACC123",
+            [
+                {
+                    "transactions": [
+                        {"amount": 100.0, "vat": "RO999999"},
+                        {"amount": -50.0, "vat": "INVALID"},
+                    ]
+                }
+            ],
+        )
+        res = wizard._post_parse_file(data)
+        transactions = res[2][0]["transactions"]
+        self.assertEqual(transactions[0]["partner_id"], partner.id)
+        self.assertEqual(transactions[0]["partner_name"], partner.name)
+        self.assertNotIn("vat", transactions[0])
+        self.assertFalse(transactions[1].get("partner_id"))
 
     def test_handle_tag_86_vat_search(self):
         """Test handle_tag_86 search partner by VAT."""

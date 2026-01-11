@@ -111,3 +111,115 @@ class TestImport(TestMT940BankStatementImport):
         parser = parser.with_context(type="mt940_general")
         datafile = open(testfile, "rb").read()
         self.assertFalse(parser.parse(datafile, header_lines=1))
+
+    def test_clean_codewords(self):
+        """Unit Test function _clean_codewords()."""
+        parser = self.env["l10n.ro.account.bank.statement.import.mt940.parser"]
+        data = "R T R N B E N M"
+        codewords = ["RTRN", "BENM"]
+        res = parser._clean_codewords(data, codewords)
+        self.assertEqual(res, "RTRN BENM")
+
+    def test_parse_amount(self):
+        """Unit Test function parse_amount()."""
+        parser = self.env["l10n.ro.account.bank.statement.import.mt940.parser"]
+        self.assertEqual(parser.parse_amount("C", "100,50"), 100.50)
+        self.assertEqual(parser.parse_amount("D", "100,50"), -100.50)
+
+    def test_handle_tag_25(self):
+        """Unit Test function handle_tag_25()."""
+        parser = self.env["l10n.ro.account.bank.statement.import.mt940.parser"]
+        result = {"account_number": None}
+        parser.handle_tag_25("NL34.RABO.0142.623.393", result)
+        self.assertEqual(result["account_number"], "NL34RABO0142623393")
+
+    def test_handle_tag_20_and_28(self):
+        """Unit Test function handle_tag_20() and handle_tag_28()."""
+        parser = self.env["l10n.ro.account.bank.statement.import.mt940.parser"]
+        result = {"statement": {"name": None}}
+        parser.handle_tag_20("STMT123", result)
+        self.assertEqual(result["statement"]["name"], "STMT123")
+        # handle_tag_28 should not change anything
+        parser.handle_tag_28("000", result)
+        self.assertEqual(result["statement"]["name"], "STMT123")
+        parser.handle_tag_28C("000", result)
+        self.assertEqual(result["statement"]["name"], "STMT123")
+
+    def test_handle_tag_60F_and_62F(self):
+        """Unit Test function handle_tag_60F() and handle_tag_62F()."""
+        parser = self.env["l10n.ro.account.bank.statement.import.mt940.parser"]
+        result = {
+            "currency": None,
+            "account_number": "NL34RABO0142623393",
+            "statement": {
+                "name": None,
+                "date": None,
+                "balance_start": 0.0,
+                "balance_end_real": 0.0,
+            },
+        }
+        # C 221031 RON 1000,00
+        parser.handle_tag_60F("C221031RON1000,00", result)
+        self.assertEqual(result["currency"], "RON")
+        self.assertEqual(result["statement"]["balance_start"], 1000.0)
+        self.assertEqual(
+            result["statement"]["date"].date(), fields.Date.from_string("2022-10-31")
+        )
+
+        # Test handle_tag_60M (calls 60F)
+        result["currency"] = None
+        parser.handle_tag_60M("C221031EUR2000,00", result)
+        self.assertEqual(result["currency"], "EUR")
+
+        # Test handle_tag_62F
+        parser.handle_tag_62F("C221101EUR1500,00", result)
+        self.assertEqual(result["statement"]["balance_end_real"], 1500.0)
+        self.assertEqual(
+            result["statement"]["date"].date(), fields.Date.from_string("2022-11-01")
+        )
+        self.assertTrue(result["statement"]["name"].startswith("NL34RABO0142623393"))
+
+        # Test handle_tag_62M (calls 62F)
+        parser.handle_tag_62M("C221102EUR1200,00", result)
+        self.assertEqual(result["statement"]["balance_end_real"], 1200.0)
+
+    def test_handle_tag_64_65(self):
+        """Test handle_tag_64 and 65 (ignored tags)."""
+        parser = self.env["l10n.ro.account.bank.statement.import.mt940.parser"]
+        result = {}
+        self.assertEqual(parser.handle_tag_64("data", result), result)
+        self.assertEqual(parser.handle_tag_65("data", result), result)
+
+    def test_is_mt940_statement_error(self):
+        """Test is_mt940_statement raises ValueError."""
+        parser = self.env["l10n.ro.account.bank.statement.import.mt940.parser"]
+        with self.assertRaises(ValueError):
+            parser.is_mt940_statement("Invalid Line")
+
+    def test_get_counterpart(self):
+        """Unit Test function get_counterpart()."""
+        parser = self.env["l10n.ro.account.bank.statement.import.mt940.parser"]
+        transaction = {}
+        # subfield [account, partner, partner_fallback]
+        parser.get_counterpart(transaction, ["ACC123", "PARTNER1", "PARTNER2"])
+        self.assertEqual(transaction["account_number"], "ACC123")
+        self.assertEqual(transaction["partner_name"], "PARTNER1")
+
+        transaction = {}
+        parser.get_counterpart(transaction, ["ACC456", "", "PARTNER2"])
+        self.assertEqual(transaction["account_number"], "ACC456")
+        self.assertEqual(transaction["partner_name"], "PARTNER2")
+
+    def test_pre_process_data_variants(self):
+        """Test pre_process_data with different formats."""
+        parser = self.env["l10n.ro.account.bank.statement.import.mt940.parser"]
+        # Case with {4:
+        # Each :20: in the data (if data starts with header_regex) creates a match
+        data = ":940:\n:20:STMT1\n:20:STMT2"
+        res = parser.pre_process_data(data)
+        self.assertEqual(len(res), 2)
+
+        # Case with default fallback to tag_re
+        data = "{4:\n:20:STMT3\n}{4:\n:20:STMT4\n}"
+        res = parser.pre_process_data(data)
+        self.assertEqual(len(res), 2)
