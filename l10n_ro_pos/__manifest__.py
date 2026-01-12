@@ -3,7 +3,7 @@
 # See README.rst file on addons root folder for license details
 {
     "name": "Romania - Point of Sale",
-    "version": "19.0.1.1.0",
+    "version": "19.0.1.3.0",
     "category": "Localization",
     "countries": ["ro"],
     "license": "AGPL-3",

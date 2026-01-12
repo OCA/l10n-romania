@@ -1,0 +1,7 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+acces_stock_landed_cost,acces_stock_landed_cost,model_stock_landed_cost,base.group_user,1,1,1,1
+acces_stock_landed_cost_ac,acces_stock_landed_cost_account,model_stock_landed_cost,account.group_account_user,1,1,1,1
+acces_l10n_ro_account_dvi,acces_account_dvi,model_l10n_ro_account_dvi,base.group_user,1,1,1,0
+acces_l10n_ro_account_dvi_ac,acces_account_dvi_account,model_l10n_ro_account_dvi,account.group_account_user,1,1,1,1
+acces_l10n_ro_account_dvi_line,acces_account_dvi_line,model_l10n_ro_account_dvi_line,base.group_user,1,1,1,1
+acces_l10n_ro_account_dvi_line_ac,acces_account_dvi_line_account,model_l10n_ro_account_dvi_line,account.group_account_user,1,1,1,1
