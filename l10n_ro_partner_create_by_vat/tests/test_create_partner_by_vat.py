@@ -2,7 +2,7 @@
 # Copyright (C) 2020 NextERP Romania
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
-import logging
+
 from unittest.mock import Mock, patch
 
 import requests
@@ -12,8 +12,6 @@ from odoo.tests import Form, tagged
 from odoo.addons.account.tests.common import AccountTestInvoicingCommon
 
 from .anaf_data import ANAF_TEST_DATA
-
-logging.getLogger("zeep").setLevel(logging.ERROR)
 
 
 @tagged("post_install", "-at_install")

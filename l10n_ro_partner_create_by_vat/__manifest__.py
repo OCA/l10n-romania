@@ -19,10 +19,4 @@
         "security/ir.model.access.csv",
     ],
     "maintainers": ["feketemihai"],
-    "external_dependencies": {
-        "python": ["zeep==4.3.2"],
-        "apt": {
-            "zeep": "python3-zeep",
-        },
-    },
 }
