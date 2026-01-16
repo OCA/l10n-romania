@@ -29,13 +29,6 @@ def migrate(cr, version):
             table_name: [(field_name, 'date_old')]
         })
 
-    # Update order model
-    openupgrade.logged_query(cr, """
-        UPDATE ir_model 
-        SET order_view = 'start_date desc' 
-        WHERE model = %s AND order_view LIKE '%%date%%'
-    """, (model_name,))
-
     # Clear ref for all External ID
     openupgrade.logged_query(cr, """
         DELETE FROM ir_model_data 
