@@ -12,12 +12,12 @@ def migrate(cr, version):
     openupgrade.logged_query(cr, """
         UPDATE ir_ui_view 
         SET arch_db = regexp_replace(
-            arch_db, 
-            '<field[^>]+name=' || quote_literal(%s) || '[^>]*/>', 
+            arch_db::text, 
+            '<field[^>]+name=[''"]' || %s || '[''"][^>]*/>', 
             '', 
             'g'
-        )
-        WHERE arch_db LIKE %s
+        )::jsonb
+        WHERE arch_db::text LIKE %s
     """, (field_name, f'%name="{field_name}"%'))
 
     if openupgrade.column_exists(cr, table_name, field_name):
@@ -29,3 +29,9 @@ def migrate(cr, version):
         DELETE FROM ir_model_fields 
         WHERE name = %s AND model = %s
     """, (field_name, model_name))
+
+    openupgrade.logged_query(cr, """
+        DELETE FROM ir_model_data 
+        WHERE model = 'ir.model.fields' 
+          AND name LIKE %s
+    """, (f'field_{table_name}_{field_name}%',))
