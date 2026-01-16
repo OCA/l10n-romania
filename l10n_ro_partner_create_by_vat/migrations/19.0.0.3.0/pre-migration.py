@@ -9,6 +9,7 @@ def migrate(cr, version):
     table_name = 'l10n_ro_res_partner_anaf_status'
     field_name = 'date'
 
+    # TODO: Fix the id to not be hardcoded
     openupgrade.logged_query(cr, """
        SELECT replace(
             arch_db::text, 
