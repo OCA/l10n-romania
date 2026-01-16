@@ -11,12 +11,11 @@ def migrate(cr, version):
 
     # TODO: Fix the id to not be hardcoded
     openupgrade.logged_query(cr, """
-       SELECT replace(
+       UPDATE ir_ui_view SET arch_db = replace(
             arch_db::text, 
             '<field name=\"date\"/>\n', 
             ''
         )::jsonb
-        FROM ir_ui_view
         WHERE id=(SELECT res_id FROM ir_model_data WHERE module = 'l10n_ro_partner_create_by_vat' AND name = 'view_partner_anaf_status_form');
     """)
 
