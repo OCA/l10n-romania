@@ -12,7 +12,7 @@ def migrate(cr, version):
     # Drop ref for XML
     openupgrade.logged_query(cr, """
         UPDATE ir_ui_view 
-        SET arch_db = regexp_replace(arch_db, '<field[^>]*name=["\']%s["\'][^>]*/>', '', 'g')
+        SET arch_db = regexp_replace(arch_db, '<field[^>]*name=[''"]' || %s || '[''"][^>]*/>', '', 'g')
         WHERE model = %s AND arch_db LIKE %s
     """, (field_name, model_name, f'%{field_name}%'))
 
