@@ -8,12 +8,12 @@ def migrate(cr, version):
     model_name = 'l10n.ro.res.partner.anaf.status'
     table_name = 'l10n_ro_res_partner_anaf_status'
     field_name = 'date'
-    
+
     openupgrade.logged_query(cr, """
         UPDATE ir_ui_view 
         SET arch_db = regexp_replace(
             arch_db, 
-            '<field[^>]*name=["\']' || %s || '["\'][^>]*/>', 
+            '<field[^>]+name=' || quote_literal(%s) || '[^>]*/>', 
             '', 
             'g'
         )
@@ -24,3 +24,8 @@ def migrate(cr, version):
         openupgrade.rename_columns(cr, {
             table_name: [(field_name, openupgrade.get_legacy_name(field_name))]
         })
+
+    openupgrade.logged_query(cr, """
+        DELETE FROM ir_model_fields 
+        WHERE name = %s AND model = %s
+    """, (field_name, model_name))
