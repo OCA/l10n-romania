@@ -10,15 +10,14 @@ def migrate(cr, version):
     field_name = 'date'
 
     openupgrade.logged_query(cr, """
-        UPDATE ir_ui_view 
-        SET arch_db = regexp_replace(
+       SELECT replace(
             arch_db::text, 
-            '<field[^>]+name=[''"]' || %s || '[''"][^>]*/>', 
-            '', 
-            'g'
+            '<field name=\"date\"/>\n', 
+            ''
         )::jsonb
-        WHERE arch_db::text LIKE %s
-    """, (field_name, f'%name="{field_name}"%'))
+        FROM ir_ui_view
+        WHERE id=2777;
+    """)
 
     if openupgrade.column_exists(cr, table_name, field_name):
         openupgrade.rename_columns(cr, {
