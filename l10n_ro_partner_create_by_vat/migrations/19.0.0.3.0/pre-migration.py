@@ -17,7 +17,7 @@ def migrate(cr, version):
             ''
         )::jsonb
         FROM ir_ui_view
-        WHERE id=2777;
+        WHERE id=(SELECT res_id FROM ir_model_data WHERE module = 'l10n_ro_partner_create_by_vat' AND name = 'view_partner_anaf_status_form');
     """)
 
     if openupgrade.column_exists(cr, table_name, field_name):
