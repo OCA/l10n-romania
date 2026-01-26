@@ -10,8 +10,7 @@
                 <field name="is_l10n_ro_record" invisible="1" />
             </xpath>
             <xpath
-                expr="//div[@data-key='account']//field[@name='module_currency_rate_live']/../.."
-                position="after"
+                expr="//div[@id='update_exchange_rates']" position="inside"
             >
                 <div class="col-12 col-lg-6 o_setting_box">
                     <div class="o_setting_left_pane">
