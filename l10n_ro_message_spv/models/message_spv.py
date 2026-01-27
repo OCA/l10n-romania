@@ -405,7 +405,10 @@ class MessageSPV(models.Model):
                         )
                 if not message.invoice_id.l10n_ro_edi_document_ids:
                     if message.message_type != "error":
-                        state = "invoice_sent"
+                        if "out" in message.message_type:
+                            state = "invoice_sent"
+                        else:
+                            state = "invoice_validated"
                     else:
                         state = "invoice_sending_failed"
 
