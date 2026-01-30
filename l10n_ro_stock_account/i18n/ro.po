@@ -227,8 +227,8 @@ msgstr "Minus Inventar"
 #. odoo-python
 #: code:addons/l10n_ro_stock_account/models/stock_move.py:0
 msgid ""
-"Missing credit account when generating account move for stock move line "
-"%(move)s"
+"Missing credit account when generating account move for stock move line %"
+"(move)s"
 msgstr ""
 "Lipsește contul de credit la generarea mutării contabile pentru linia de "
 "mișcare stoc %(move)s"
@@ -237,8 +237,8 @@ msgstr ""
 #. odoo-python
 #: code:addons/l10n_ro_stock_account/models/stock_move.py:0
 msgid ""
-"Missing debit account when generating account move for stock move line "
-"%(move)s"
+"Missing debit account when generating account move for stock move line %"
+"(move)s"
 msgstr ""
 "Lipsește contul de debit la generarea mutării contabile pentru linia de "
 "mișcare stoc %(move)s"
@@ -247,11 +247,11 @@ msgstr ""
 #. odoo-python
 #: code:addons/l10n_ro_stock_account/tests/common.py:0
 msgid ""
-"No picking type found for type %(picking_type)s and locations %(location)s "
-"%(location1)s."
+"No picking type found for type %(picking_type)s and locations %(location)s %"
+"(location1)s."
 msgstr ""
-"Niciun tip de preluare găsit pentru tipul %(picking_type)s și locațiile "
-"%(location)s %(location1)s."
+"Niciun tip de preluare găsit pentru tipul %(picking_type)s și locațiile %"
+"(location)s %(location1)s."
 
 #. module: l10n_ro_stock_account
 #. odoo-python
@@ -441,6 +441,11 @@ msgid "Usage Giving Return"
 msgstr "Returnare Dare în Utilizare"
 
 #. module: l10n_ro_stock_account
+#: model:ir.model.fields,field_description:l10n_ro_stock_account.field_stock_move__l10n_ro_account_id
+msgid "Valuation Account"
+msgstr "Cont evaluare"
+
+#. module: l10n_ro_stock_account
 #. odoo-python
 #: code:addons/l10n_ro_stock_account/models/fifo/stock_move.py:0
 msgid "Value based on origin move %(reference)s"
@@ -549,9 +554,6 @@ msgstr "Depozit"
 
 #~ msgid "Use anglo-saxon accounting"
 #~ msgstr "Utilizare contabilitate anglo-saxonă"
-
-#~ msgid "Valuation Account"
-#~ msgstr "Cont evaluare"
 
 #~ msgid "Valued Type"
 #~ msgstr "Tip evaluat"
