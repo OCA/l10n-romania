@@ -15,7 +15,7 @@ msgstr ""
 
 #. module: l10n_ro_vat_on_payment
 #: model_terms:ir.ui.view,arch_db:l10n_ro_vat_on_payment.view_partner_anaf_form
-msgid "ANAF - VAT on Payment"
+msgid "ANAF - VAT on Payment History"
 msgstr ""
 
 #. module: l10n_ro_vat_on_payment
