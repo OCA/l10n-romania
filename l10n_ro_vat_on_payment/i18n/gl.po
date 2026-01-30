@@ -20,7 +20,7 @@ msgstr ""
 
 #. module: l10n_ro_vat_on_payment
 #: model_terms:ir.ui.view,arch_db:l10n_ro_vat_on_payment.view_partner_anaf_form
-msgid "ANAF - VAT on Payment"
+msgid "ANAF - VAT on Payment History"
 msgstr ""
 
 #. module: l10n_ro_vat_on_payment
@@ -49,7 +49,11 @@ msgid "Created on"
 msgstr "Creado en"
 
 #. module: l10n_ro_vat_on_payment
+#: model:ir.model.fields,field_description:l10n_ro_vat_on_payment.field_account_move__display_name
+#: model:ir.model.fields,field_description:l10n_ro_vat_on_payment.field_account_move_line__display_name
+#: model:ir.model.fields,field_description:l10n_ro_vat_on_payment.field_account_tax_repartition_line__display_name
 #: model:ir.model.fields,field_description:l10n_ro_vat_on_payment.field_l10n_ro_res_partner_anaf__display_name
+#: model:ir.model.fields,field_description:l10n_ro_vat_on_payment.field_res_partner__display_name
 msgid "Display Name"
 msgstr ""
 
@@ -69,7 +73,11 @@ msgid "Fix error"
 msgstr ""
 
 #. module: l10n_ro_vat_on_payment
+#: model:ir.model.fields,field_description:l10n_ro_vat_on_payment.field_account_move__id
+#: model:ir.model.fields,field_description:l10n_ro_vat_on_payment.field_account_move_line__id
+#: model:ir.model.fields,field_description:l10n_ro_vat_on_payment.field_account_tax_repartition_line__id
 #: model:ir.model.fields,field_description:l10n_ro_vat_on_payment.field_l10n_ro_res_partner_anaf__id
+#: model:ir.model.fields,field_description:l10n_ro_vat_on_payment.field_res_partner__id
 msgid "ID"
 msgstr ""
 
