@@ -7,7 +7,7 @@
         "views/res_config_settings_views.xml",
     ],
     "license": "AGPL-3",
-    "version": "19.0.1.0.0",
+    "version": "19.0.1.0.1",
     "author": "DakaiSoft, Odoo Community Association (OCA)",
     "maintainer": "Flavia0320",
     "website": "https://github.com/OCA/l10n-romania",

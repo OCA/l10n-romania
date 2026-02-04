@@ -3,7 +3,7 @@ import requests
 import logging
 import json
 
-from odoo import models, _
+from odoo import fields, models, _
 from odoo.exceptions import UserError
 
 _logger = logging.getLogger(__name__)
@@ -12,11 +12,13 @@ _logger = logging.getLogger(__name__)
 class L10n_ROEdiDocument(models.Model):
     _inherit = "l10n_ro_edi.document"
 
+    xml_attachment = fields.Binary(string="XML Attachment", readonly=True)
+
     # add PDF in attachment when fetching invoices
     def action_l10n_ro_edi_download_attachment(self):
         # super().action_l10n_ro_edi_download_attachment()
         _logger.info("Fetching sent documents for invoice %s", self.id)
-        xml_file = base64.b64decode(self.attachment)
+        xml_file = base64.b64decode(self.xml_attachment)
         headers = {"Content-Type": "text/plain"}
         xml = xml_file
         val1 = "FACT1"
