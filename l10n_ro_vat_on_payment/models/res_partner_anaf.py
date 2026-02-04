@@ -26,7 +26,12 @@ class ResPartnerAnaf(models.Model):
     publish_date = fields.Date()
     operation_date = fields.Date()
     operation_type = fields.Selection(
-        [("I", "Register"), ("E", "Fix error"), ("D", "Removal")],
+        [
+            ("I", "Register"),
+            ("E", "Fix error"),
+            ("D", "Removal"),
+            ("S", "Suspension"),
+        ],
     )
 
     @api.model
