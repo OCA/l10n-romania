@@ -83,7 +83,6 @@ msgstr "Returnare Livrare"
 #: model:ir.model.fields,field_description:l10n_ro_stock_account.field_product_product__display_name
 #: model:ir.model.fields,field_description:l10n_ro_stock_account.field_product_template__display_name
 #: model:ir.model.fields,field_description:l10n_ro_stock_account.field_stock_location__display_name
-#: model:ir.model.fields,field_description:l10n_ro_stock_account.field_stock_lot__display_name
 #: model:ir.model.fields,field_description:l10n_ro_stock_account.field_stock_move__display_name
 #: model:ir.model.fields,field_description:l10n_ro_stock_account.field_stock_picking__display_name
 #: model:ir.model.fields,field_description:l10n_ro_stock_account.field_stock_quant__display_name
@@ -130,7 +129,6 @@ msgstr "Valoare forțată pentru %(qty)s unități"
 #: model:ir.model.fields,field_description:l10n_ro_stock_account.field_product_product__id
 #: model:ir.model.fields,field_description:l10n_ro_stock_account.field_product_template__id
 #: model:ir.model.fields,field_description:l10n_ro_stock_account.field_stock_location__id
-#: model:ir.model.fields,field_description:l10n_ro_stock_account.field_stock_lot__id
 #: model:ir.model.fields,field_description:l10n_ro_stock_account.field_stock_move__id
 #: model:ir.model.fields,field_description:l10n_ro_stock_account.field_stock_picking__id
 #: model:ir.model.fields,field_description:l10n_ro_stock_account.field_stock_quant__id
@@ -180,7 +178,6 @@ msgstr "Locații inventar"
 #: model:ir.model.fields,field_description:l10n_ro_stock_account.field_product_category__is_l10n_ro_record
 #: model:ir.model.fields,field_description:l10n_ro_stock_account.field_product_product__is_l10n_ro_record
 #: model:ir.model.fields,field_description:l10n_ro_stock_account.field_product_template__is_l10n_ro_record
-#: model:ir.model.fields,field_description:l10n_ro_stock_account.field_stock_lot__is_l10n_ro_record
 #: model:ir.model.fields,field_description:l10n_ro_stock_account.field_stock_move__is_l10n_ro_record
 #: model:ir.model.fields,field_description:l10n_ro_stock_account.field_stock_picking__is_l10n_ro_record
 #: model:ir.model.fields,field_description:l10n_ro_stock_account.field_stock_quant__is_l10n_ro_record
@@ -212,11 +209,6 @@ msgstr "Aviz"
 #: model:ir.model.fields,field_description:l10n_ro_stock_account.field_stock_picking__l10n_ro_reception_in_progress
 msgid "L10N Ro Reception In Progress"
 msgstr "Recepție în curs"
-
-#. module: l10n_ro_stock_account
-#: model:ir.model,name:l10n_ro_stock_account.model_stock_lot
-msgid "Lot/Serial"
-msgstr ""
 
 #. module: l10n_ro_stock_account
 #: model:ir.model.fields.selection,name:l10n_ro_stock_account.selection__stock_move__l10n_ro_move_type__minus_inventory
