@@ -95,6 +95,9 @@ class LandedCost(models.Model):
                 accounts_data = (
                     customs_duty_product.product_tmpl_id.get_product_accounts()
                 )
+                accounts_data["expense"] = (
+                    customs_duty_product.categ_id.property_account_expense_categ_id
+                )
                 tax_values = cost.l10n_ro_tax_id.compute_all(
                     cost.l10n_ro_base_tax_value
                 )
@@ -188,9 +191,7 @@ class AdjustmentLines(models.Model):
             self.is_l10n_ro_record
             and self.cost_line_id.product_id == customs_duty_product
         ):
-            tax = self.cost_id.l10n_ro_tax_id
-            if not tax:
-                return res
+            tax = customs_duty_product.supplier_taxes_id[0]
 
             if self.cost_id.l10n_ro_dvi_bill_ids[0].move_type == "in_invoice":
                 base_repartition = tax.invoice_repartition_line_ids.filtered(
