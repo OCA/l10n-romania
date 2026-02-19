@@ -14,19 +14,9 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=n==1 ? 0 : (n==0 || (n%100 > 0 && n%100 < 20)) ? 1 : 2;\n"
+"Plural-Forms: nplurals=3; plural=n==1 ? 0 : (n==0 || (n%100 > 0 && n%100 < "
+"20)) ? 1 : 2;\n"
 "X-Generator: Poedit 3.0.1\n"
-
-#. module: l10n_ro_account_report_invoice
-#: model_terms:ir.ui.view,arch_db:l10n_ro_account_report_invoice.res_config_settings_view_form
-msgid ""
-"<span class=\"fa fa-lg fa-building-o\" title=\"Values set here are company-"
-"specific.\" aria-label=\"Values set here are company-specific.\" "
-"groups=\"base.group_multi_company\" role=\"img\"/>"
-msgstr ""
-"<span class=\"fa fa-lg fa-building-o\" title=\"Valoare setată este specifică"
-" pe companie.\" aria-label=\"Valoare setată este specifică pe companie.\" "
-"groups=\"base.group_multi_company\" role=\"img\"/>"
 
 #. module: l10n_ro_account_report_invoice
 #: model_terms:ir.ui.view,arch_db:l10n_ro_account_report_invoice.l10n_ro_report_invoice_document
@@ -59,9 +49,25 @@ msgid "Config Settings"
 msgstr "Setări de configurare"
 
 #. module: l10n_ro_account_report_invoice
-#: model_terms:ir.ui.view,arch_db:l10n_ro_account_report_invoice.l10n_ro_report_invoice_document
-msgid "Currency rate: 1"
-msgstr "Cursul valutar: 1"
+#: model:ir.model.fields,field_description:l10n_ro_account_report_invoice.field_account_move__display_name
+#: model:ir.model.fields,field_description:l10n_ro_account_report_invoice.field_res_company__display_name
+#: model:ir.model.fields,field_description:l10n_ro_account_report_invoice.field_res_config_settings__display_name
+#: model:ir.model.fields,field_description:l10n_ro_account_report_invoice.field_sale_order__display_name
+msgid "Display Name"
+msgstr ""
+
+#. module: l10n_ro_account_report_invoice
+#: model_terms:ir.ui.view,arch_db:l10n_ro_account_report_invoice.document_tax_totals_company_currency_template
+msgid "Exchange Rate"
+msgstr ""
+
+#. module: l10n_ro_account_report_invoice
+#: model:ir.model.fields,field_description:l10n_ro_account_report_invoice.field_account_move__id
+#: model:ir.model.fields,field_description:l10n_ro_account_report_invoice.field_res_company__id
+#: model:ir.model.fields,field_description:l10n_ro_account_report_invoice.field_res_config_settings__id
+#: model:ir.model.fields,field_description:l10n_ro_account_report_invoice.field_sale_order__id
+msgid "ID"
+msgstr ""
 
 #. module: l10n_ro_account_report_invoice
 #: model_terms:ir.ui.view,arch_db:l10n_ro_account_report_invoice.res_config_settings_view_form
@@ -92,13 +98,6 @@ msgid "NRC:"
 msgstr ""
 
 #. module: l10n_ro_account_report_invoice
-#: model:ir.model.fields,field_description:l10n_ro_account_report_invoice.field_account_bank_statement_line__l10n_ro_currency_rate
-#: model:ir.model.fields,field_description:l10n_ro_account_report_invoice.field_account_move__l10n_ro_currency_rate
-#: model:ir.model.fields,field_description:l10n_ro_account_report_invoice.field_account_payment__l10n_ro_currency_rate
-msgid "Romania - Currency Rate"
-msgstr "România - Cursul valutar"
-
-#. module: l10n_ro_account_report_invoice
 #: model:ir.model.fields,field_description:l10n_ro_account_report_invoice.field_res_company__l10n_ro_no_signature_text
 #: model:ir.model.fields,field_description:l10n_ro_account_report_invoice.field_res_config_settings__l10n_ro_no_signature_text
 msgid "Romania - No Signature Text"
@@ -123,3 +122,23 @@ msgstr "Taxe excluse"
 #: model_terms:ir.ui.view,arch_db:l10n_ro_account_report_invoice.l10n_ro_view_move_form
 msgid "Total"
 msgstr ""
+
+#. module: l10n_ro_account_report_invoice
+#: model_terms:ir.ui.view,arch_db:l10n_ro_account_report_invoice.res_config_settings_view_form
+msgid "Values set here are company-specific."
+msgstr ""
+
+#~ msgid ""
+#~ "<span class=\"fa fa-lg fa-building-o\" title=\"Values set here are "
+#~ "company-specific.\" aria-label=\"Values set here are company-specific.\" "
+#~ "groups=\"base.group_multi_company\" role=\"img\"/>"
+#~ msgstr ""
+#~ "<span class=\"fa fa-lg fa-building-o\" title=\"Valoare setată este "
+#~ "specifică pe companie.\" aria-label=\"Valoare setată este specifică pe "
+#~ "companie.\" groups=\"base.group_multi_company\" role=\"img\"/>"
+
+#~ msgid "Currency rate: 1"
+#~ msgstr "Cursul valutar: 1"
+
+#~ msgid "Romania - Currency Rate"
+#~ msgstr "România - Cursul valutar"
