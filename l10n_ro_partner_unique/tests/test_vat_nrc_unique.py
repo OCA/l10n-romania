@@ -21,7 +21,7 @@ class TestVatUnique(AccountTestInvoicingCommon):
                 "vat": "RO30834857",
                 "nrc": "J35/2622/2012",
                 "is_company": True,
-                "country_id": cls.country_ro.id
+                "country_id": cls.country_ro.id,
             }
         )
 
@@ -38,7 +38,7 @@ class TestVatUnique(AccountTestInvoicingCommon):
                     "vat": "RO30834857",
                     "nrc": "J35/2622/2012",
                     "is_company": True,
-                    "country_id": self.country_ro.id
+                    "country_id": self.country_ro.id,
                 }
             )
 
@@ -48,7 +48,7 @@ class TestVatUnique(AccountTestInvoicingCommon):
                 "vat": "RO30834857",
                 "nrc": "J2012002622359",
                 "is_company": True,
-                "country_id": self.country_ro.id
+                "country_id": self.country_ro.id,
             }
         )
 
@@ -65,7 +65,7 @@ class TestVatUnique(AccountTestInvoicingCommon):
                     "vat": "RO30834857",
                     "nrc": "J35/2622/2012",
                     "is_company": True,
-                    "country_id": self.country_ro.id
+                    "country_id": self.country_ro.id,
                 }
             )
         with self.assertRaises(ValidationError):
@@ -75,7 +75,7 @@ class TestVatUnique(AccountTestInvoicingCommon):
                     "vat": "RO30834857",
                     "nrc": "J2012002622359",
                     "is_company": True,
-                    "country_id": self.country_ro.id
+                    "country_id": self.country_ro.id,
                 }
             )
 
@@ -91,7 +91,7 @@ class TestVatUnique(AccountTestInvoicingCommon):
                     "vat": "30834857",
                     "nrc": "J35/2622/2012",
                     "is_company": True,
-                    "country_id": self.country_ro.id
+                    "country_id": self.country_ro.id,
                 }
             )
 
@@ -107,7 +107,7 @@ class TestVatUnique(AccountTestInvoicingCommon):
                 "is_company": False,
                 "vat": "RO30834857",
                 "nrc": "J35/2622/2012",
-                "country_id": self.country_ro.id
+                "country_id": self.country_ro.id,
             }
         )
         self.env["res.partner"].create(
@@ -117,7 +117,7 @@ class TestVatUnique(AccountTestInvoicingCommon):
                 "is_company": True,
                 "vat": "RO30834857",
                 "nrc": "J35/2622/2012",
-                "country_id": self.country_ro.id
+                "country_id": self.country_ro.id,
             }
         )
 
@@ -132,7 +132,7 @@ class TestVatUnique(AccountTestInvoicingCommon):
                 "vat": "RO30834857",
                 "nrc": "J35/2622/2012",
                 "is_company": False,
-                "country_id": self.country_ro.id
+                "country_id": self.country_ro.id,
             }
         )
 
@@ -141,8 +141,9 @@ class TestVatUnique(AccountTestInvoicingCommon):
 
     def test_merge_two_partners_same_cui_without_country_then_set_ro(self):
         """
-        Creează 2 parteneri companie fără țară, cu același CUI (VAT numeric, fără prefix RO),
-        apoi setează țara România și verifică faptul că pot fi uniți (merge) fără eroare.
+        Creează 2 parteneri companie fără țară, cu același CUI
+        (VAT numeric, fără prefix RO),
+        apoi setează țara România și verifică faptul că pot fi uniți fără eroare.
 
         Constrângerea de unicat este omisă în contextul de merge (partner_merge=True)
         prin override-ul din wizard-ul local.
