@@ -14,12 +14,14 @@ class TestVatUnique(AccountTestInvoicingCommon):
     def setUpClass(cls):
         super().setUpClass(chart_template_ref="ro")
         cls.env.company.l10n_ro_accounting = True
+        cls.country_ro = cls.env.ref("base.ro")
         cls.partner = cls.env["res.partner"].create(
             {
                 "name": "Test partner",
                 "vat": "RO30834857",
                 "nrc": "J35/2622/2012",
                 "is_company": True,
+                "country_id": cls.country_ro.id
             }
         )
 
@@ -36,6 +38,7 @@ class TestVatUnique(AccountTestInvoicingCommon):
                     "vat": "RO30834857",
                     "nrc": "J35/2622/2012",
                     "is_company": True,
+                    "country_id": self.country_ro.id
                 }
             )
 
@@ -45,6 +48,7 @@ class TestVatUnique(AccountTestInvoicingCommon):
                 "vat": "RO30834857",
                 "nrc": "J2012002622359",
                 "is_company": True,
+                "country_id": self.country_ro.id
             }
         )
 
@@ -61,6 +65,7 @@ class TestVatUnique(AccountTestInvoicingCommon):
                     "vat": "RO30834857",
                     "nrc": "J35/2622/2012",
                     "is_company": True,
+                    "country_id": self.country_ro.id
                 }
             )
         with self.assertRaises(ValidationError):
@@ -70,6 +75,7 @@ class TestVatUnique(AccountTestInvoicingCommon):
                     "vat": "RO30834857",
                     "nrc": "J2012002622359",
                     "is_company": True,
+                    "country_id": self.country_ro.id
                 }
             )
 
@@ -85,6 +91,7 @@ class TestVatUnique(AccountTestInvoicingCommon):
                     "vat": "30834857",
                     "nrc": "J35/2622/2012",
                     "is_company": True,
+                    "country_id": self.country_ro.id
                 }
             )
 
@@ -100,6 +107,7 @@ class TestVatUnique(AccountTestInvoicingCommon):
                 "is_company": False,
                 "vat": "RO30834857",
                 "nrc": "J35/2622/2012",
+                "country_id": self.country_ro.id
             }
         )
         self.env["res.partner"].create(
@@ -109,10 +117,9 @@ class TestVatUnique(AccountTestInvoicingCommon):
                 "is_company": True,
                 "vat": "RO30834857",
                 "nrc": "J35/2622/2012",
+                "country_id": self.country_ro.id
             }
         )
-
-
 
     def test_duplicated_vat_creation_individual(self):
         """
@@ -125,8 +132,47 @@ class TestVatUnique(AccountTestInvoicingCommon):
                 "vat": "RO30834857",
                 "nrc": "J35/2622/2012",
                 "is_company": False,
+                "country_id": self.country_ro.id
             }
         )
 
         with self.assertRaises(ValidationError):
             partner.is_company = True
+
+    def test_merge_two_partners_same_cui_without_country_then_set_ro(self):
+        """
+        Creează 2 parteneri companie fără țară, cu același CUI (VAT numeric, fără prefix RO),
+        apoi setează țara România și verifică faptul că pot fi uniți (merge) fără eroare.
+
+        Constrângerea de unicat este omisă în contextul de merge (partner_merge=True)
+        prin override-ul din wizard-ul local.
+        """
+        # Setăm regula de unicat pe CUI (VAT)
+        self.env["ir.config_parameter"].sudo().set_param(
+            "l10n_ro_partner_unique.vat_nrc_unique", "vat"
+        )
+
+        # 1) Creăm 2 companii fără țară, cu același CUI numeric (fără prefix RO)
+        p1 = self.env["res.partner"].create(
+            {
+                "name": "P1 Test",
+                "vat": "30834857",
+                "is_company": True,
+                "country_id": False,
+            }
+        )
+        p2 = self.env["res.partner"].create(
+            {
+                "name": "P2 Test",
+                "vat": "30834857",
+                "is_company": True,
+                "country_id": False,
+            }
+        )
+
+        ro = self.env.ref("base.ro")
+        p1.country_id = ro
+        p2.country_id = ro
+
+        wiz = self.env["base.partner.merge.automatic.wizard"].create({})
+        wiz._merge([p1.id, p2.id])

@@ -56,7 +56,7 @@ class ResPartner(models.Model):
         for record in self.filtered("is_company"):
             if record.parent_id:
                 continue
-            if record.vat and record.is_l10n_ro_record:
+            if record.vat and record.country_id.code == "RO":
                 domain = record._get_vat_nrc_constrain_domain()
                 if self.env["res.partner"].search(domain, limit=1):
                     raise ValidationError(
