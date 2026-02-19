@@ -87,8 +87,6 @@ class ProductProduct(models.Model):
                 quantity, lot=lot, at_date=at_date, location=location
             )
         if self.uom_id.compare(quantity, 0) <= 0:
-            if at_date:
-                return quantity * self._get_standard_price_at_date(at_date)
             return [
                 {
                     "move_id": False,
