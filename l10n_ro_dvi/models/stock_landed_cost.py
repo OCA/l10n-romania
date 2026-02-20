@@ -179,38 +179,9 @@ class AdjustmentLines(models.Model):
 
         if self.env.context.get("l10n_ro_revert_landed_cost"):
             return []
+        else:
+            res = super()._create_account_move_line(
+                credit_account_id, debit_account_id, remaining_qty
+            )
 
-        res = super()._create_account_move_line(
-            credit_account_id, debit_account_id, remaining_qty
-        )
-        customs_duty_product = (
-            self.cost_id.company_id._l10n_ro_get_or_create_custom_duty_product()
-        )
-
-        if (
-            self.is_l10n_ro_record
-            and self.cost_line_id.product_id == customs_duty_product
-        ):
-            tax = customs_duty_product.supplier_taxes_id[0]
-
-            if self.cost_id.l10n_ro_dvi_bill_ids[0].move_type == "in_invoice":
-                base_repartition = tax.invoice_repartition_line_ids.filtered(
-                    lambda r: r.repartition_type == "base"
-                )
-            else:
-                base_repartition = tax.refund_repartition_line_ids.filtered(
-                    lambda r: r.repartition_type == "base"
-                )
-
-            for line in res:
-                line_dict = line[2]
-                if line_dict.get("account_id") == debit_account_id:
-                    if base_repartition:
-                        line_dict["tax_tag_ids"] = [
-                            (6, 0, base_repartition.tag_ids.ids)
-                        ]
-
-                    line_dict.pop("tax_ids", None)
-                    line_dict.pop("tax_line_id", None)
-
-        return res
+            return res
