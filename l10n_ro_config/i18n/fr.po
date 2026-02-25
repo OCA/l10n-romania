@@ -204,35 +204,12 @@ msgid "ID"
 msgstr ""
 
 #. module: l10n_ro_config
-#: model_terms:ir.ui.view,arch_db:l10n_ro_config.res_config_settings_view_form
-msgid ""
-"If this field is checked and the company use Romanian Accounting, the value "
-"used for stock out operations will be the value recorded at the reception of "
-"the lot/serial, ignoring FIFO rule; If this field is NOT checked and the "
-"company use Romanian Accounting, the value used for stock out operations "
-"will be the value provided by FIFO rule, applied strictly on a location "
-"level (including its children)."
-msgstr ""
-
-#. module: l10n_ro_config
 #: model:ir.model.fields,help:l10n_ro_config.field_res_company__l10n_ro_stock_acc_price_diff
 #: model:ir.model.fields,help:l10n_ro_config.field_res_config_settings__l10n_ro_stock_acc_price_diff
 msgid ""
 "If this field is checked and the company use Romanian Accounting,the "
 "currency rate differences between reception and invoice will be reflected in "
 "the stock valuation."
-msgstr ""
-
-#. module: l10n_ro_config
-#: model:ir.model.fields,help:l10n_ro_config.field_res_company__l10n_ro_stock_account_svl_lot_allocation
-#: model:ir.model.fields,help:l10n_ro_config.field_res_config_settings__l10n_ro_stock_account_svl_lot_allocation
-msgid ""
-"If this field is checked and the company use Romanian Accounting,the value "
-"used for stock out operations will be the value recorded at the reception of "
-"the lot/serial, ignoring FIFO rule;If this field is NOT checked and the "
-"company use Romanian Accounting,the value used for stock out operations will "
-"be the value provided by FIFO rule, applied strictly on a location level "
-"(including its children)"
 msgstr ""
 
 #. module: l10n_ro_config
@@ -271,18 +248,6 @@ msgstr ""
 #. module: l10n_ro_config
 #: model:ir.model,name:l10n_ro_config.model_account_journal
 msgid "Journal"
-msgstr ""
-
-#. module: l10n_ro_config
-#: model:ir.model.fields,field_description:l10n_ro_config.field_res_config_settings__l10n_ro_stock_account_svl_lot_allocation_visible
-msgid "L10N Ro Stock Account Svl Lot Allocation Visible"
-msgstr ""
-
-#. module: l10n_ro_config
-#: model_terms:ir.ui.view,arch_db:l10n_ro_config.res_config_settings_view_form
-msgid ""
-"Mark stock operations as notice operations. Stock accounting will change to "
-"use and accounts."
 msgstr ""
 
 #. module: l10n_ro_config
@@ -483,12 +448,6 @@ msgid "Romania - Share Capital"
 msgstr ""
 
 #. module: l10n_ro_config
-#: model:ir.model.fields,field_description:l10n_ro_config.field_res_company__l10n_ro_stock_account_svl_lot_allocation
-#: model:ir.model.fields,field_description:l10n_ro_config.field_res_config_settings__l10n_ro_stock_account_svl_lot_allocation
-msgid "Romania - Stock Accounting Valuation Lot/Serial allocation"
-msgstr ""
-
-#. module: l10n_ro_config
 #: model:ir.model.fields,field_description:l10n_ro_config.field_res_company__l10n_ro_stock_acc_price_diff
 #: model:ir.model.fields,field_description:l10n_ro_config.field_res_config_settings__l10n_ro_stock_acc_price_diff
 msgid "Romania - Stock Valuation Update"
@@ -578,11 +537,6 @@ msgstr ""
 #. module: l10n_ro_config
 #: model:ir.model.fields,field_description:l10n_ro_config.field_res_config_settings__module_l10n_ro_stock
 msgid "Romanian Stock"
-msgstr ""
-
-#. module: l10n_ro_config
-#: model:ir.model.fields,field_description:l10n_ro_config.field_res_config_settings__module_l10n_ro_stock_account_notice
-msgid "Romanian Stock Account Notice"
 msgstr ""
 
 #. module: l10n_ro_config
