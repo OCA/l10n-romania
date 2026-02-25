@@ -20,7 +20,7 @@ class TestReportPoSOrder(CommonPosTest):
             {
                 "name": "RO Partner",
                 "country_id": cls.env.ref("base.ro").id,
-                "vat": "RO12345678",
+                "vat": "RO39187746",
             }
         )
         # Configurare conturi și locații pentru testele RO
