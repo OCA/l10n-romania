@@ -9,7 +9,6 @@ class ResPartner(models.Model):
     _inherit = ["res.partner", "l10n.ro.mixin"]
 
     l10n_ro_vat_subjected = fields.Boolean(string="Romania - VAT Subjected")
-    # TO-DO Add migration script
     l10n_ro_vat_number = fields.Char(
         string="Romania - VAT number digits",
         compute="_compute_l10n_ro_vat_number",

@@ -204,19 +204,6 @@
                             <field name="module_l10n_ro_stock_account" />
                         </setting>
 
-                        <field
-                            name="l10n_ro_stock_account_svl_lot_allocation_visible"
-                            invisible="1"
-                        />
-                        <setting
-                            id="module_l10n_ro_stock_account_svl_allocation_config"
-                            help="If this field is checked and the company use Romanian Accounting, the value used for stock out operations will be the value recorded at the reception of the lot/serial, ignoring FIFO rule; If this field is NOT checked and the company use Romanian Accounting, the value used for stock out operations will be the value provided by FIFO rule, applied strictly on a location level (including its children)."
-                            company_dependent="1"
-                            invisible="not l10n_ro_stock_account_svl_lot_allocation_visible"
-                        >
-                            <field name="l10n_ro_stock_account_svl_lot_allocation" />
-                        </setting>
-
                         <setting
                             id="module_l10n_ro_stock_price_difference"
                             help="Record price differences between bills and reception through Landed Cost"
@@ -284,13 +271,6 @@
                                     placeholder="Select a product"
                                 />
                             </div>
-                        </setting>
-
-                        <setting
-                            id="module_l10n_ro_stock_account_notice"
-                            help="Mark stock operations as notice operations. Stock accounting will change to use and accounts."
-                        >
-                            <field name="module_l10n_ro_stock_account_notice" />
                         </setting>
 
                         <setting
