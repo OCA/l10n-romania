@@ -193,8 +193,12 @@ msgid "Date"
 msgstr "Data"
 
 #. module: l10n_ro_dvi
+#: model:ir.model.fields,field_description:l10n_ro_dvi.field_account_move__display_name
 #: model:ir.model.fields,field_description:l10n_ro_dvi.field_l10n_ro_account_dvi__display_name
 #: model:ir.model.fields,field_description:l10n_ro_dvi.field_l10n_ro_account_dvi_line__display_name
+#: model:ir.model.fields,field_description:l10n_ro_dvi.field_res_company__display_name
+#: model:ir.model.fields,field_description:l10n_ro_dvi.field_stock_landed_cost__display_name
+#: model:ir.model.fields,field_description:l10n_ro_dvi.field_stock_valuation_adjustment_lines__display_name
 msgid "Display Name"
 msgstr "Nume afișat"
 
@@ -219,8 +223,12 @@ msgid "Has Message"
 msgstr "Are mesaj"
 
 #. module: l10n_ro_dvi
+#: model:ir.model.fields,field_description:l10n_ro_dvi.field_account_move__id
 #: model:ir.model.fields,field_description:l10n_ro_dvi.field_l10n_ro_account_dvi__id
 #: model:ir.model.fields,field_description:l10n_ro_dvi.field_l10n_ro_account_dvi_line__id
+#: model:ir.model.fields,field_description:l10n_ro_dvi.field_res_company__id
+#: model:ir.model.fields,field_description:l10n_ro_dvi.field_stock_landed_cost__id
+#: model:ir.model.fields,field_description:l10n_ro_dvi.field_stock_valuation_adjustment_lines__id
 msgid "ID"
 msgstr "ID"
 
@@ -535,14 +543,14 @@ msgid "Total Tax Value"
 msgstr "Total valoare TVA"
 
 #. module: l10n_ro_dvi
+#: model:ir.model.fields,field_description:l10n_ro_dvi.field_l10n_ro_account_dvi_line__product_uom_id
+msgid "Unit"
+msgstr ""
+
+#. module: l10n_ro_dvi
 #: model:ir.model.fields,field_description:l10n_ro_dvi.field_l10n_ro_account_dvi_line__price_unit
 msgid "Unit Price"
 msgstr "Preț unitar"
-
-#. module: l10n_ro_dvi
-#: model:ir.model.fields,field_description:l10n_ro_dvi.field_l10n_ro_account_dvi_line__product_uom_id
-msgid "Unit of Measure"
-msgstr "Unitate de măsură"
 
 #. module: l10n_ro_dvi
 #: model:ir.model.fields,help:l10n_ro_dvi.field_l10n_ro_account_dvi__currency_id
@@ -660,6 +668,9 @@ msgstr "taxă calculată din custom_duty_value"
 #: model:ir.model.fields,help:l10n_ro_dvi.field_l10n_ro_account_dvi__customs_commission_value
 msgid "taken from dvi if exists"
 msgstr "luat din DVI dacă există"
+
+#~ msgid "Unit of Measure"
+#~ msgstr "Unitate de măsură"
 
 #~ msgid "Last Modified on"
 #~ msgstr "Ultima modificare pe"
