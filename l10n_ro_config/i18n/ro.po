@@ -218,24 +218,6 @@ msgid "ID"
 msgstr "ID"
 
 #. module: l10n_ro_config
-#: model_terms:ir.ui.view,arch_db:l10n_ro_config.res_config_settings_view_form
-msgid ""
-"If this field is checked and the company use Romanian Accounting, the value "
-"used for stock out operations will be the value recorded at the reception of "
-"the lot/serial, ignoring FIFO rule; If this field is NOT checked and the "
-"company use Romanian Accounting, the value used for stock out operations "
-"will be the value provided by FIFO rule, applied strictly on a location "
-"level (including its children)."
-msgstr ""
-"Daca acest camp este bifat si firma foloseste Contabilitatea Romana, "
-"valoarea folosita pentru operatiunile de epuizare a stocurilor va fi "
-"valoarea inregistrata la receptia lotului/seria, ignorand regula FIFO; Daca "
-"acest camp NU este bifat si firma foloseste Contabilitatea Romana, valoarea "
-"utilizata pentru operatiunile de epuizare a stocurilor va fi valoarea "
-"prevazuta de regula FIFO, aplicata strict la nivel de locatie (inclusiv "
-"copiii acesteia)."
-
-#. module: l10n_ro_config
 #: model:ir.model.fields,help:l10n_ro_config.field_res_company__l10n_ro_stock_acc_price_diff
 #: model:ir.model.fields,help:l10n_ro_config.field_res_config_settings__l10n_ro_stock_acc_price_diff
 msgid ""
@@ -246,25 +228,6 @@ msgstr ""
 "Dacă acest câmp este bifat și compania utilizează Contabilitatea Românească, "
 "diferențele de curs valutar dintre recepție și factură se vor reflecta în "
 "evaluarea stocului."
-
-#. module: l10n_ro_config
-#: model:ir.model.fields,help:l10n_ro_config.field_res_company__l10n_ro_stock_account_svl_lot_allocation
-#: model:ir.model.fields,help:l10n_ro_config.field_res_config_settings__l10n_ro_stock_account_svl_lot_allocation
-msgid ""
-"If this field is checked and the company use Romanian Accounting,the value "
-"used for stock out operations will be the value recorded at the reception of "
-"the lot/serial, ignoring FIFO rule;If this field is NOT checked and the "
-"company use Romanian Accounting,the value used for stock out operations will "
-"be the value provided by FIFO rule, applied strictly on a location level "
-"(including its children)"
-msgstr ""
-"Dacă acest camp este bifat și firma folosește Contabilitate Romană, valoarea "
-"utilizată pentru operațiunile de epuizare a stocurilor va fi valoarea "
-"inregistrată la recepția lotului/serialului, ignorand regula FIFO; Dacă "
-"acest camp NU este bifat și firma folosește Contabilitatea Romană, valoarea "
-"utilizată pentru operațiunile de epuizare a stocurilor va fi valoarea "
-"prevăzută de regula FIFO, aplicată strict la nivel de locație (inclusiv "
-"copiii acesteia)"
 
 #. module: l10n_ro_config
 #: model_terms:ir.ui.view,arch_db:l10n_ro_config.res_config_settings_account_view_form
@@ -303,20 +266,6 @@ msgstr "Este înregistrarea Română"
 #: model:ir.model,name:l10n_ro_config.model_account_journal
 msgid "Journal"
 msgstr "Jurnal"
-
-#. module: l10n_ro_config
-#: model:ir.model.fields,field_description:l10n_ro_config.field_res_config_settings__l10n_ro_stock_account_svl_lot_allocation_visible
-msgid "L10N Ro Stock Account Svl Lot Allocation Visible"
-msgstr "L10N Ro Cont de stoc Svl Alocare lot Vizibil"
-
-#. module: l10n_ro_config
-#: model_terms:ir.ui.view,arch_db:l10n_ro_config.res_config_settings_view_form
-msgid ""
-"Mark stock operations as notice operations. Stock accounting will change to "
-"use and accounts."
-msgstr ""
-"Marcați operațiunile de stoc ca operațiuni de notificare. Contabilitatea "
-"stocurilor se va schimba în utilizare și conturi."
 
 #. module: l10n_ro_config
 #: model:ir.model,name:l10n_ro_config.model_ir_ui_menu
@@ -524,12 +473,6 @@ msgid "Romania - Share Capital"
 msgstr "Capital social"
 
 #. module: l10n_ro_config
-#: model:ir.model.fields,field_description:l10n_ro_config.field_res_company__l10n_ro_stock_account_svl_lot_allocation
-#: model:ir.model.fields,field_description:l10n_ro_config.field_res_config_settings__l10n_ro_stock_account_svl_lot_allocation
-msgid "Romania - Stock Accounting Valuation Lot/Serial allocation"
-msgstr "Romania - Evaluare Stoc Contabilitate Lot/Alocare in serie"
-
-#. module: l10n_ro_config
 #: model:ir.model.fields,field_description:l10n_ro_config.field_res_company__l10n_ro_stock_acc_price_diff
 #: model:ir.model.fields,field_description:l10n_ro_config.field_res_config_settings__l10n_ro_stock_acc_price_diff
 msgid "Romania - Stock Valuation Update"
@@ -620,11 +563,6 @@ msgstr "SIRUTA"
 #: model:ir.model.fields,field_description:l10n_ro_config.field_res_config_settings__module_l10n_ro_stock
 msgid "Romanian Stock"
 msgstr "Stoc"
-
-#. module: l10n_ro_config
-#: model:ir.model.fields,field_description:l10n_ro_config.field_res_config_settings__module_l10n_ro_stock_account_notice
-msgid "Romanian Stock Account Notice"
-msgstr "Aviz de Cont de Acțiuni"
 
 #. module: l10n_ro_config
 #: model:ir.model.fields,field_description:l10n_ro_config.field_res_config_settings__module_l10n_ro_stock_account
@@ -1088,6 +1026,54 @@ msgid ""
 msgstr ""
 "utilizați contul 4428 pentru tva neexigibil în notele făcute pentru 'Marfă "
 "în magazin'"
+
+#~ msgid ""
+#~ "If this field is checked and the company use Romanian Accounting, the "
+#~ "value used for stock out operations will be the value recorded at the "
+#~ "reception of the lot/serial, ignoring FIFO rule; If this field is NOT "
+#~ "checked and the company use Romanian Accounting, the value used for stock "
+#~ "out operations will be the value provided by FIFO rule, applied strictly "
+#~ "on a location level (including its children)."
+#~ msgstr ""
+#~ "Daca acest camp este bifat si firma foloseste Contabilitatea Romana, "
+#~ "valoarea folosita pentru operatiunile de epuizare a stocurilor va fi "
+#~ "valoarea inregistrata la receptia lotului/seria, ignorand regula FIFO; "
+#~ "Daca acest camp NU este bifat si firma foloseste Contabilitatea Romana, "
+#~ "valoarea utilizata pentru operatiunile de epuizare a stocurilor va fi "
+#~ "valoarea prevazuta de regula FIFO, aplicata strict la nivel de locatie "
+#~ "(inclusiv copiii acesteia)."
+
+#~ msgid ""
+#~ "If this field is checked and the company use Romanian Accounting,the "
+#~ "value used for stock out operations will be the value recorded at the "
+#~ "reception of the lot/serial, ignoring FIFO rule;If this field is NOT "
+#~ "checked and the company use Romanian Accounting,the value used for stock "
+#~ "out operations will be the value provided by FIFO rule, applied strictly "
+#~ "on a location level (including its children)"
+#~ msgstr ""
+#~ "Dacă acest camp este bifat și firma folosește Contabilitate Romană, "
+#~ "valoarea utilizată pentru operațiunile de epuizare a stocurilor va fi "
+#~ "valoarea inregistrată la recepția lotului/serialului, ignorand regula "
+#~ "FIFO; Dacă acest camp NU este bifat și firma folosește Contabilitatea "
+#~ "Romană, valoarea utilizată pentru operațiunile de epuizare a stocurilor "
+#~ "va fi valoarea prevăzută de regula FIFO, aplicată strict la nivel de "
+#~ "locație (inclusiv copiii acesteia)"
+
+#~ msgid "L10N Ro Stock Account Svl Lot Allocation Visible"
+#~ msgstr "L10N Ro Cont de stoc Svl Alocare lot Vizibil"
+
+#~ msgid ""
+#~ "Mark stock operations as notice operations. Stock accounting will change "
+#~ "to use and accounts."
+#~ msgstr ""
+#~ "Marcați operațiunile de stoc ca operațiuni de notificare. Contabilitatea "
+#~ "stocurilor se va schimba în utilizare și conturi."
+
+#~ msgid "Romania - Stock Accounting Valuation Lot/Serial allocation"
+#~ msgstr "Romania - Evaluare Stoc Contabilitate Lot/Alocare in serie"
+
+#~ msgid "Romanian Stock Account Notice"
+#~ msgstr "Aviz de Cont de Acțiuni"
 
 #~ msgid "Restrict Stock Move Date Future"
 #~ msgstr "Restricționați stocul de date mutare viitor"
