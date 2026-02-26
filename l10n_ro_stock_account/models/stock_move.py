@@ -56,6 +56,48 @@ class StockMove(models.Model):
         help="Specify the type of stock move for Romanian localization.",
     )
 
+    l10n_ro_account_id = fields.Many2one(
+        "account.account",
+        compute="_compute_account",
+        store=True,
+        string="Valuation Account",
+    )
+
+    @api.depends("product_id", "account_move_id")
+    def _compute_account(self):
+        for move in self.filtered(lambda m: m.is_l10n_ro_record):
+            account = self.env["account.account"]
+            move = move.with_company(move.company_id)
+
+            loc_dest = move.location_dest_id
+            loc_src = move.location_id
+            account = (
+                move.product_id.l10n_ro_property_stock_valuation_account_id
+                or move.product_id.categ_id.property_stock_valuation_account_id
+            )
+            if move.product_id.categ_id.l10n_ro_stock_account_change:
+                if (
+                    move.value > 0
+                    and loc_dest.l10n_ro_property_stock_valuation_account_id
+                ):
+                    account = loc_dest.l10n_ro_property_stock_valuation_account_id
+                if (
+                    move.value < 0
+                    and loc_src.l10n_ro_property_stock_valuation_account_id
+                ):
+                    account = loc_src.l10n_ro_property_stock_valuation_account_id
+
+            if move.account_move_id and "internal" not in move.l10n_ro_move_type:
+                for account_move in move.account_move_id:
+                    for aml in account_move.line_ids.sorted(
+                        lambda line: line.account_id.code
+                    ):
+                        if aml.account_id.code[0] in ["2", "3"]:
+                            if round(aml.balance, 2) == round(move.value, 2):
+                                account = aml.account_id
+                                break
+            move.l10n_ro_account_id = account
+
     @api.depends(
         "is_in",
         "is_out",

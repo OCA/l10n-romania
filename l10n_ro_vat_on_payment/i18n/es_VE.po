@@ -11,7 +11,8 @@ msgstr ""
 "POT-Creation-Date: 2016-12-24 02:52+0000\n"
 "PO-Revision-Date: 2016-12-24 02:52+0000\n"
 "Last-Translator: OCA Transbot <transbot@odoo-community.org>, 2016\n"
-"Language-Team: Spanish (Venezuela) (https://www.transifex.com/oca/teams/23907/es_VE/)\n"
+"Language-Team: Spanish (Venezuela) (https://www.transifex.com/oca/teams/"
+"23907/es_VE/)\n"
 "Language: es_VE\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -20,7 +21,7 @@ msgstr ""
 
 #. module: l10n_ro_vat_on_payment
 #: model_terms:ir.ui.view,arch_db:l10n_ro_vat_on_payment.view_partner_anaf_form
-msgid "ANAF - VAT on Payment"
+msgid "ANAF - VAT on Payment History"
 msgstr ""
 
 #. module: l10n_ro_vat_on_payment
@@ -49,7 +50,11 @@ msgid "Created on"
 msgstr "Creado en"
 
 #. module: l10n_ro_vat_on_payment
+#: model:ir.model.fields,field_description:l10n_ro_vat_on_payment.field_account_move__display_name
+#: model:ir.model.fields,field_description:l10n_ro_vat_on_payment.field_account_move_line__display_name
+#: model:ir.model.fields,field_description:l10n_ro_vat_on_payment.field_account_tax_repartition_line__display_name
 #: model:ir.model.fields,field_description:l10n_ro_vat_on_payment.field_l10n_ro_res_partner_anaf__display_name
+#: model:ir.model.fields,field_description:l10n_ro_vat_on_payment.field_res_partner__display_name
 msgid "Display Name"
 msgstr "Mostrar nombre"
 
@@ -69,7 +74,11 @@ msgid "Fix error"
 msgstr ""
 
 #. module: l10n_ro_vat_on_payment
+#: model:ir.model.fields,field_description:l10n_ro_vat_on_payment.field_account_move__id
+#: model:ir.model.fields,field_description:l10n_ro_vat_on_payment.field_account_move_line__id
+#: model:ir.model.fields,field_description:l10n_ro_vat_on_payment.field_account_tax_repartition_line__id
 #: model:ir.model.fields,field_description:l10n_ro_vat_on_payment.field_l10n_ro_res_partner_anaf__id
+#: model:ir.model.fields,field_description:l10n_ro_vat_on_payment.field_res_partner__id
 msgid "ID"
 msgstr ""
 
@@ -137,13 +146,30 @@ msgid "Romania - VAT on Payment"
 msgstr ""
 
 #. module: l10n_ro_vat_on_payment
+#: model:ir.model.fields,field_description:l10n_ro_vat_on_payment.field_res_partner__l10n_ro_vat_payment_check_date
+#: model:ir.model.fields,field_description:l10n_ro_vat_on_payment.field_res_users__l10n_ro_vat_payment_check_date
+msgid "Romania - VAT on Payment Check Date"
+msgstr ""
+
+#. module: l10n_ro_vat_on_payment
 #: model:ir.model.fields,field_description:l10n_ro_vat_on_payment.field_l10n_ro_res_partner_anaf__start_date
 msgid "Start Date"
 msgstr ""
 
 #. module: l10n_ro_vat_on_payment
+#: model:ir.model.fields.selection,name:l10n_ro_vat_on_payment.selection__l10n_ro_res_partner_anaf__operation_type__s
+msgid "Suspension"
+msgstr ""
+
+#. module: l10n_ro_vat_on_payment
 #: model:ir.model,name:l10n_ro_vat_on_payment.model_account_tax_repartition_line
 msgid "Tax Repartition Line"
+msgstr ""
+
+#. module: l10n_ro_vat_on_payment
+#: model:ir.model.fields,help:l10n_ro_vat_on_payment.field_res_partner__l10n_ro_vat_payment_check_date
+#: model:ir.model.fields,help:l10n_ro_vat_on_payment.field_res_users__l10n_ro_vat_payment_check_date
+msgid "The date on which the VAT on Payment status was last checked."
 msgstr ""
 
 #. module: l10n_ro_vat_on_payment
