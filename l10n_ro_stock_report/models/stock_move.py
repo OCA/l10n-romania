@@ -6,15 +6,13 @@ class StockMove(models.Model):
 
     l10n_ro_second_account_id = fields.Many2one(
         "account.account",
-        compute="_compute_account",
+        compute="_compute_second_account",
         store=True,
         string="Valuation Account",
     )
 
-    @api.depends("product_id", "account_move_id")
-    def _compute_account(self):
-        logging.info('dfasuc tbquw hvqhriqw ')
-        # super()._compute_account()
+    @api.depends("product_id", "account_move_id", "location_id", "location_dest_id")
+    def _compute_second_account(self):
 
         for move in self:
             loc_dest = move.location_dest_id
