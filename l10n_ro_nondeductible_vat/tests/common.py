@@ -28,6 +28,8 @@ class TestNondeductibleCommon(ValuationReconciliationTestCommon):
             account = cls.env["account.account.tag"].search(
                 [("name", "=", name)], limit=1
             )
+            if not account:
+                account = cls.env["account.account.tag"].create({"name": name})
             return account
 
         cls.account_vat_deductible = get_account("442600")
