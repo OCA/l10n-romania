@@ -261,7 +261,7 @@ class StorageSheet(models.TransientModel):
             SELECT %(report)s as report_id, x.product_id as product_id,
                 COALESCE(sum(x.amount), 0) as amount_initial,
                 COALESCE(sum(x.quantity), 0) as quantity_initial,
-                NULL::int as account_id,
+                x.account_id as account_id,
                 %(datetime_from)s::timestamp without time zone  as date_time,
                 %(date_from)s::date as date,
                 %(reference)s as reference,
@@ -272,7 +272,8 @@ class StorageSheet(models.TransientModel):
             from (
                 SELECT sm.product_id, pt.categ_id,
                        sm.value as amount,
-                       sm.quantity as quantity
+                       sm.quantity as quantity,
+                       sm.l10n_ro_account_id as account_id
                 from stock_move as sm
                     left join product_product prod on prod.id = sm.product_id
                     left join product_template pt on pt.id = prod.product_tmpl_id
@@ -286,7 +287,8 @@ class StorageSheet(models.TransientModel):
                 UNION ALL
                 SELECT sm.product_id, pt.categ_id,
                        -sm.value as amount,
-                       -sm.quantity as quantity
+                       -sm.quantity as quantity,
+                       sm.l10n_ro_account_id as account_id
                 from stock_move as sm
                     left join product_product prod on prod.id = sm.product_id
                     left join product_template pt on pt.id = prod.product_tmpl_id
@@ -298,7 +300,7 @@ class StorageSheet(models.TransientModel):
                     sm.date <  %(datetime_from)s AND
                     sm.location_id in %(locations)s
             ) as x
-            GROUP BY x.product_id, x.categ_id {group})
+            GROUP BY x.product_id, x.categ_id, x.account_id {group})
         a --where a.amount_initial!=0 and a.quantity_initial!=0
             """
         return sql
@@ -316,7 +318,7 @@ class StorageSheet(models.TransientModel):
                 COALESCE(sum(x.amount), 0) as amount_final,
                 COALESCE(sum(x.quantity), 0) as quantity_final,
 
-                NULL::int as account_id,
+                x.account_id as account_id,
                 %(datetime_to)s::timestamp without time zone as date_time,
                 %(date_to)s::date as date,
                 %(reference)s as reference,
@@ -327,7 +329,8 @@ class StorageSheet(models.TransientModel):
             from (
                 SELECT sm.product_id, pt.categ_id,
                        sm.value as amount,
-                       sm.quantity as quantity
+                       sm.quantity as quantity,
+                       sm.l10n_ro_account_id as account_id
                 from stock_move as sm
                     left join product_product prod on prod.id = sm.product_id
                     left join product_template pt on pt.id = prod.product_tmpl_id
@@ -341,7 +344,8 @@ class StorageSheet(models.TransientModel):
                 UNION ALL
                 SELECT sm.product_id, pt.categ_id,
                        -sm.value as amount,
-                       -sm.quantity as quantity
+                       -sm.quantity as quantity,
+                       sm.l10n_ro_account_id as account_id
                 from stock_move as sm
                     left join product_product prod on prod.id = sm.product_id
                     left join product_template pt on pt.id = prod.product_tmpl_id
@@ -353,7 +357,7 @@ class StorageSheet(models.TransientModel):
                     sm.date <=  %(datetime_to)s AND
                     sm.location_id in %(locations)s
             ) as x
-            GROUP BY x.product_id, x.categ_id {group})
+            GROUP BY x.product_id, x.categ_id, x.account_id {group})
         a
             """
         return sql
@@ -376,7 +380,7 @@ class StorageSheet(models.TransientModel):
                     THEN COALESCE(sum(sm.value),0) / NULLIF(sum(sm.quantity),0)
                 ELSE 0
             END as unit_price_in,
-             NULL::int as account_id,
+             sm.l10n_ro_account_id as account_id,
              NULL::int as invoice_id,
             sm.date as date_time,
             date_trunc('day', sm.date at time zone 'utc' at time zone %(tz)s) as date,
@@ -399,7 +403,7 @@ class StorageSheet(models.TransientModel):
                 sm.date >= %(datetime_from)s  AND  sm.date <= %(datetime_to)s  AND
                 sm.location_dest_id in %(locations)s
             GROUP BY sm.product_id, sm.date,
-             sm.reference, sp.partner_id,
+             sm.reference, sp.partner_id, sm.l10n_ro_account_id,
              pt.categ_id {group})
         a --where a.amount_in!=0 and a.quantity_in!=0
                 """
@@ -424,7 +428,7 @@ class StorageSheet(models.TransientModel):
                     THEN COALESCE(sum(sm.value),0) / NULLIF(sum(sm.quantity),0)
                 ELSE 0
             END as unit_price_out,
-            NULL::int as account_id,
+            sm.l10n_ro_account_id as account_id,
             NULL::int as invoice_id,
             sm.date as date_time,
             date_trunc('day', sm.date at time zone 'utc' at time zone %(tz)s) as date,
@@ -447,7 +451,7 @@ class StorageSheet(models.TransientModel):
                 sm.date >= %(datetime_from)s  AND  sm.date <= %(datetime_to)s  AND
                 sm.location_id in %(locations)s
             GROUP BY sm.product_id, sm.date,
-                     sm.reference, sp.partner_id,
+                     sm.reference, sp.partner_id, sm.l10n_ro_account_id,
                      pt.categ_id {group})
         a --where a.amount_out!=0 and a.quantity_out!=0
                 """
