@@ -299,6 +299,22 @@ class StorageSheet(models.TransientModel):
                     ( %(all_products)s  or sm.product_id in %(product)s ) AND
                     sm.date <  %(datetime_from)s AND
                     sm.location_id in %(locations)s
+                UNION ALL
+                    SELECT sm.product_id, pt.categ_id,
+                       -sm.value as amount,
+                       -sm.quantity as quantity,
+                       sm.l10n_ro_second_account_id as account_id
+                from stock_move as sm
+                    left join product_product prod on prod.id = sm.product_id
+                    left join product_template pt on pt.id = prod.product_tmpl_id
+                    {join}
+                where
+                    sm.state = 'done' AND
+                    sm.company_id = %(company)s AND
+                    ( %(all_products)s  or sm.product_id in %(product)s ) AND
+                    sm.date <  %(datetime_from)s AND
+                    sm.location_id in %(locations)s
+                    AND sm.l10n_ro_second_account_id IS NOT NULL
             ) as x
             GROUP BY x.product_id, x.categ_id, x.account_id {group})
         a --where a.amount_initial!=0 and a.quantity_initial!=0
@@ -356,6 +372,22 @@ class StorageSheet(models.TransientModel):
                     ( %(all_products)s  or sm.product_id in %(product)s ) AND
                     sm.date <=  %(datetime_to)s AND
                     sm.location_id in %(locations)s
+                UNION ALL
+                    SELECT sm.product_id, pt.categ_id,
+                    -sm.value as amount,
+                    -sm.quantity as quantity,
+                    sm.l10n_ro_second_account_id as account_id
+                from stock_move as sm
+                    left join product_product prod on prod.id = sm.product_id
+                    left join product_template pt on pt.id = prod.product_tmpl_id
+                    {join}
+                where
+                    sm.state = 'done' AND
+                    sm.company_id = %(company)s AND
+                    ( %(all_products)s  or sm.product_id in %(product)s ) AND
+                    sm.date <  %(datetime_from)s AND
+                    sm.location_id in %(locations)s
+                    AND sm.l10n_ro_second_account_id IS NOT NULL
             ) as x
             GROUP BY x.product_id, x.categ_id, x.account_id {group})
         a
@@ -367,46 +399,50 @@ class StorageSheet(models.TransientModel):
 
         sql = f"""
         insert into l10n_ro_stock_storage_sheet_line
-          (report_id, product_id, amount_in, quantity_in, unit_price_in,
-           account_id, invoice_id, date_time, date, reference,  location_id,
-           partner_id, document, valued_type, categ_id {field} )
-        select * from(
+        (report_id, product_id, amount_in, quantity_in, unit_price_in,
+        account_id, invoice_id, date_time, date, reference, location_id,
+        partner_id, document, valued_type, categ_id {field})
 
-        SELECT  %(report)s as report_id, sm.product_id as product_id,
-            COALESCE(sum(sm.value),0)   as amount_in,
-            COALESCE(ROUND(sum(sm.quantity), 5), 0)   as quantity_in,
+        SELECT
+            %(report)s as report_id,
+            sm.product_id as product_id,
+            COALESCE(sum(sm.value),0) as amount_in,
+            COALESCE(ROUND(sum(sm.quantity), 5), 0) as quantity_in,
             CASE
                 WHEN ROUND(COALESCE(sum(sm.quantity), 0), 5) != 0
                     THEN COALESCE(sum(sm.value),0) / NULLIF(sum(sm.quantity),0)
                 ELSE 0
             END as unit_price_in,
-             sm.l10n_ro_account_id as account_id,
-             NULL::int as invoice_id,
+            sm.l10n_ro_account_id as account_id,
+            NULL::int as invoice_id,
             sm.date as date_time,
             date_trunc('day', sm.date at time zone 'utc' at time zone %(tz)s) as date,
-            sm.reference as reference,
+            sm.reference,
             %(location)s as location_id,
             sp.partner_id,
             sm.reference as document,
             'indefinite' as valued_type,
             pt.categ_id as categ_id
-                {select}
-            from stock_move as sm
-                left join product_product prod on prod.id = sm.product_id
-                left join product_template pt on pt.id = prod.product_tmpl_id
-                left join stock_picking as sp on sm.picking_id = sp.id
+            {select}
+
+        FROM stock_move sm
+            LEFT JOIN product_product prod ON prod.id = sm.product_id
+            LEFT JOIN product_template pt ON pt.id = prod.product_tmpl_id
+            LEFT JOIN stock_picking sp ON sm.picking_id = sp.id
             {join}
-            where
-                sm.state = 'done' AND
-                sm.company_id = %(company)s AND
-                ( %(all_products)s  or sm.product_id in %(product)s ) AND
-                sm.date >= %(datetime_from)s  AND  sm.date <= %(datetime_to)s  AND
-                sm.location_dest_id in %(locations)s
-            GROUP BY sm.product_id, sm.date,
-             sm.reference, sp.partner_id, sm.l10n_ro_account_id,
-             pt.categ_id {group})
-        a --where a.amount_in!=0 and a.quantity_in!=0
-                """
+
+        WHERE
+            sm.state = 'done' AND
+            sm.company_id = %(company)s AND
+            ( %(all_products)s OR sm.product_id in %(product)s ) AND
+            sm.date >= %(datetime_from)s AND sm.date <= %(datetime_to)s AND
+            sm.location_dest_id in %(locations)s AND
+            sm.l10n_ro_account_id IS NOT NULL
+
+        GROUP BY sm.product_id, sm.date, sm.reference,
+                sp.partner_id, sm.l10n_ro_account_id,
+                pt.categ_id {group}
+        """
         return sql
 
     def _get_sql_select_out(self):
@@ -414,21 +450,21 @@ class StorageSheet(models.TransientModel):
 
         sql = f"""
         insert into l10n_ro_stock_storage_sheet_line
-          (report_id, product_id, amount_out, quantity_out, unit_price_out,
-           account_id, invoice_id, date_time, date, reference,  location_id,
-           partner_id, document, valued_type, categ_id {field})
+        (report_id, product_id, amount_out, quantity_out, unit_price_out,
+        account_id, invoice_id, date_time, date, reference, location_id,
+        partner_id, document, valued_type, categ_id {field})
 
-        select * from(
-
-        SELECT  %(report)s as report_id, sm.product_id as product_id,
-            COALESCE(sum(sm.value),0)   as amount_out,
-            COALESCE(ROUND(sum(sm.quantity), 5),0) as quantity_out,
+        SELECT
+            %(report)s as report_id,
+            sm.product_id as product_id,
+            COALESCE(sum(sm.value),0) as amount_out,
+            COALESCE(ROUND(sum(sm.quantity), 5), 0) as quantity_out,
             CASE
                 WHEN ROUND(COALESCE(sum(sm.quantity), 0), 5) != 0
                     THEN COALESCE(sum(sm.value),0) / NULLIF(sum(sm.quantity),0)
                 ELSE 0
             END as unit_price_out,
-            sm.l10n_ro_account_id as account_id,
+            sm.l10n_ro_second_account_id as account_id,
             NULL::int as invoice_id,
             sm.date as date_time,
             date_trunc('day', sm.date at time zone 'utc' at time zone %(tz)s) as date,
@@ -439,22 +475,25 @@ class StorageSheet(models.TransientModel):
             'indefinite' as valued_type,
             pt.categ_id as categ_id
             {select}
-            from stock_move as sm
-                left join product_product prod on prod.id = sm.product_id
-                left join product_template pt on pt.id = prod.product_tmpl_id
-                left join stock_picking as sp on sm.picking_id = sp.id
-                {join}
-            where
-                sm.state = 'done' AND
-                sm.company_id = %(company)s AND
-                ( %(all_products)s  or sm.product_id in %(product)s ) AND
-                sm.date >= %(datetime_from)s  AND  sm.date <= %(datetime_to)s  AND
-                sm.location_id in %(locations)s
-            GROUP BY sm.product_id, sm.date,
-                     sm.reference, sp.partner_id, sm.l10n_ro_account_id,
-                     pt.categ_id {group})
-        a --where a.amount_out!=0 and a.quantity_out!=0
-                """
+
+        FROM stock_move sm
+            LEFT JOIN product_product prod ON prod.id = sm.product_id
+            LEFT JOIN product_template pt ON pt.id = prod.product_tmpl_id
+            LEFT JOIN stock_picking sp ON sm.picking_id = sp.id
+            {join}
+
+        WHERE
+            sm.state = 'done' AND
+            sm.company_id = %(company)s AND
+            ( %(all_products)s OR sm.product_id in %(product)s ) AND
+            sm.date >= %(datetime_from)s AND sm.date <= %(datetime_to)s AND
+            sm.location_id in %(locations)s AND
+            sm.l10n_ro_second_account_id IS NOT NULL
+
+        GROUP BY sm.product_id, sm.date, sm.reference,
+                sp.partner_id, sm.l10n_ro_second_account_id,
+                pt.categ_id {group}
+        """
         return sql
 
     def get_report_products(self):
