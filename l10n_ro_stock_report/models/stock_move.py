@@ -20,4 +20,5 @@ class StockMove(models.Model):
 
             if loc_dest.usage == 'internal' and loc_src.usage == 'internal':
                 move.l10n_ro_second_account_id = loc_src.l10n_ro_property_stock_valuation_account_id
-    
+            else:
+                move.l10n_ro_second_account_id = False
