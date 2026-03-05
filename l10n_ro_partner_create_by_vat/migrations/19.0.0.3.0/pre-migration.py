@@ -9,17 +9,22 @@ def migrate(cr, version):
     table_name = "l10n_ro_res_partner_anaf_status"
     field_name = "date"
 
-    # TODO: Fix the id to not be hardcoded
     openupgrade.logged_query(
         cr,
         """
-       UPDATE ir_ui_view SET arch_db = replace(
+        UPDATE ir_ui_view
+        SET arch_db = replace(
             arch_db::text,
-            '<field name=\"date\"/>\n',
+            '<field name="date"/>\n',
             ''
         )::jsonb
-        WHERE id=(SELECT res_id FROM ir_model_data WHERE module = 'l10n_ro_partner_create_by_vat' AND name = 'view_partner_anaf_status_form');
-    """,
+        WHERE id = (
+            SELECT res_id
+            FROM ir_model_data
+            WHERE module = 'l10n_ro_partner_create_by_vat'
+            AND name = 'view_partner_anaf_status_form'
+        )
+        """,
     )
 
     if openupgrade.column_exists(cr, table_name, field_name):
