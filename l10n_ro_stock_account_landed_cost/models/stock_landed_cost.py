@@ -1,9 +1,12 @@
 # Copyright (C) 2022 NextERP Romania
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
+import logging
 
 from odoo import Command, api, fields, models
 from odoo.exceptions import UserError
+
+_logger = logging.getLogger(__name__)
 
 
 class StockLandedCost(models.Model):
@@ -178,6 +181,7 @@ class AdjustmentLines(models.Model):
     def _l10n_ro_get_extra_accounting_entries(self):
         """Get extra accounting entries for Romania landed cost."""
         self.ensure_one()
+        _logger.info("Create extra accounting entries for landed cost")
         ro_types = [
             "reception_notice",
             "reception_notice_return",
@@ -185,6 +189,7 @@ class AdjustmentLines(models.Model):
             "reception_in_progress_return",
         ]
         account_move = self.env["account.move"]
+        _logger.info("Romanian Stock Move Type: %s", self.move_id.l10n_ro_move_type)
         if (
             self.cost_id.l10n_ro_only_on_distributed_lines
             and self.move_id.l10n_ro_move_type in ro_types
@@ -193,6 +198,7 @@ class AdjustmentLines(models.Model):
             aml_vals_list = self.move_id._get_l10n_ro_move_line_vals_list(
                 account_list, [], forced_value=self.l10n_ro_not_distributed_amount
             )
+            _logger.info("Romanian Stock Move AML Vals List: %s", aml_vals_list)
             if aml_vals_list:
                 account_move = self.env["account.move"].create(
                     {
