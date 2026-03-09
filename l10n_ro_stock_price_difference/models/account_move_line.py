@@ -87,7 +87,7 @@ class AccountMoveLine(models.Model):
         )
         return res
 
-    def l10n_ro_modify_stock_valuation(self, diff_dict=None):
+    def l10n_ro_modify_stock_value(self, diff_dict=None):
         self.ensure_one()
         if not diff_dict:
             return
