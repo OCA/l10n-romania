@@ -5,6 +5,7 @@
 
 from odoo import api, fields, models
 from odoo.exceptions import ValidationError
+from odoo.tools.sql import column_exists, create_column
 
 
 class AccountMoveLine(models.Model):
@@ -20,12 +21,29 @@ class AccountMoveLine(models.Model):
         readonly=False,
     )
     l10n_ro_non_deductible_line_id = fields.Many2one(
-        "account.move.line", copy=False, string="Romania - Non Deductible Line"
+        "account.move.line",
+        copy=False,
+        string="Romania - Non Deductible Line",
+        ondelete="set null",
+        index=True,
     )
     display_type = fields.Selection(
         selection_add=[("non_deductible_tax_ro", "Romania - Non Deductible Tax")],
         ondelete={"non_deductible_tax_ro": "cascade"},
     )
+
+    def _auto_init(self):
+        res = super()._auto_init()
+        if not column_exists(
+            self.env.cr, "account_move_line", "l10n_ro_nondeductible_percent"
+        ):
+            create_column(
+                self.env.cr,
+                "account_move_line",
+                "l10n_ro_nondeductible_percent",
+                "character varying",
+            )
+        return res
 
     @api.depends("deductible_amount")
     def _compute_l10n_ro_nondeductible_amount(self):
