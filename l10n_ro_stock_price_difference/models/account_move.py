@@ -31,7 +31,7 @@ class AccountMove(models.Model):
                 return action
 
         res = super().action_post()
-        ro_price_diff_records.l10n_ro_fix_price_difference_svl(price_diffs)
+        ro_price_diff_records.l10n_ro_fix_price_difference_value(price_diffs)
         return res
 
     def _should_generate_ro_price_difference(self):
@@ -106,7 +106,7 @@ class AccountMove(models.Model):
             return action
         return False
 
-    def l10n_ro_fix_price_difference_svl(self, price_diffs=None):
+    def l10n_ro_fix_price_difference_value(self, price_diffs=None):
         if not price_diffs:
             return
         supp_invoices = self.filtered(
@@ -127,4 +127,4 @@ class AccountMove(models.Model):
                         break
                 if not line_price_diffs:
                     continue
-                line.l10n_ro_modify_stock_valuation(line_price_diffs)
+                line.l10n_ro_modify_stock_value(line_price_diffs)
