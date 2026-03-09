@@ -32,6 +32,12 @@ class L10nRoEdiDocument(models.Model):
             return result
 
         content = result["content"]
+        # There are some errors that will come directly in bytes string
+        # not in xml attachment, so we need to check if the content is
+        # bytes and contains error message
+        if isinstance(content, bytes) and "eroare" in str(content):
+            content_dict = json.loads(content.decode("utf-8"))
+            return {"error": content_dict["eroare"]}
         # E-Factura gives download response in ZIP format
         try:
             zip_ref = zipfile.ZipFile(io.BytesIO(content))

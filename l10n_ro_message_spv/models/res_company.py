@@ -26,7 +26,12 @@ class ResCompany(models.Model):
 
         need_retrigger = False
         for company in ro_companies:
-            domain = [("company_id", "=", company.id), ("attachment_id", "=", False)]
+            # Exclude error messages, not to download them all the time.
+            domain = [
+                ("company_id", "=", company.id),
+                ("attachment_id", "=", False),
+                ("message_type", "!=", "error"),
+            ]
             messages = company.env["l10n.ro.message.spv"].search(
                 domain, limit=limit + 1
             )
@@ -84,8 +89,11 @@ class ResCompany(models.Model):
         for company in self:
             # stergere erorile vechi
             domain = [("company_id", "=", company.id), ("message_type", "=", "error")]
-            error_messages = obj_message_spv.with_company(company).search(domain)
-            error_messages.unlink()
+            # Do not unlink error messages, since they will be refetched every time
+            # and in the end will raise an error that the message is downloaded more
+            # than 10 times per day.
+            # error_messages = obj_message_spv.with_company(company).search(domain)
+            # error_messages.unlink()
             days = no_days or company.l10n_ro_download_einvoices_days or no_days
             # company_messages = company._l10n_ro_get_anaf_efactura_messages()
             company_messages = obj_edi_document._request_ciusro_download_messages_spv(

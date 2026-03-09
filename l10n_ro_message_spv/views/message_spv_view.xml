@@ -37,14 +37,14 @@
 
                 <field name="partner_id" />
                 <field name="request_id" />
-                <field name="company_id" invisible="1" />
-                <field name="currency_id" invisible="1" />
+                <field name="company_id" optional="hide" />
+                <field name="currency_id" optional="hide" />
                 <field
                     name="amount"
                     sum="1"
                     decoration-danger="invoice_amount and amount != invoice_amount"
                 />
-                <field name="invoice_amount" invisible="1" />
+                <field name="invoice_amount" optional="hide" />
 
                 <field name="invoice_id" />
                 <field
