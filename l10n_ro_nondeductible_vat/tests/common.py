@@ -50,14 +50,18 @@ class TestNondeductibleCommon(ValuationReconciliationTestCommon):
         cls.account_expense.l10n_ro_nondeductible_account_id = (
             cls.account_expense_nondeductible
         )
-        cls.tag_base = get_account_tag("+24_1 - TAX BASE")
-        cls.tag_base_nondeductible = get_account_tag("+24_2 - TAX BASE")
-        cls.tag_vat = get_account_tag("+24_1 - VAT")
-        cls.tag_vat_nondeductible = get_account_tag("+24_2 - VAT")
-        cls.minus_tag_base = get_account_tag("-24_1 - TAX BASE")
-        cls.minus_tag_base_nondeductible = get_account_tag("-24_2 - TAX BASE")
-        cls.minus_tag_vat = get_account_tag("-24_1 - VAT")
-        cls.minus_tag_vat_nondeductible = get_account_tag("-24_2 - VAT")
+        cls.tag_base = get_account_tag("+24 - TAX BASE")
+        cls.tag_base_nondeductible = cls.tag_base.copy({"name": "+24_2 - TAX BASE"})
+        cls.tag_vat = get_account_tag("+24 - VAT")
+        cls.tag_vat_nondeductible = cls.tag_vat.copy({"name": "+24_2 - VAT"})
+        cls.minus_tag_base = get_account_tag("-24 - TAX BASE")
+        cls.minus_tag_base_nondeductible = cls.minus_tag_base.copy(
+            {"name": "-24_2 - TAX BASE"}
+        )
+        cls.minus_tag_vat = get_account_tag("-24 - VAT")
+        cls.minus_tag_vat_nondeductible = cls.minus_tag_vat.copy(
+            {"name": "-24_2 - VAT"}
+        )
 
         cls.uneligible_deductible_tax_account_id = get_account("442820")
         cls.account_cash_basis_base_account_id = (
