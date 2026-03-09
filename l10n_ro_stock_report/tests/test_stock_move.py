@@ -43,14 +43,13 @@ class TestStockMoveSecondAccount(TransactionCase):
         self.product = self.Product.create(
             {
                 "name": "Test Product",
-                "type": "product",
+                "type": "consu",
             }
         )
 
     def test_internal_to_internal_sets_account(self):
         move = self.Move.create(
             {
-                "name": "Test Move 1",
                 "product_id": self.product.id,
                 "product_uom_qty": 1,
                 "product_uom": self.product.uom_id.id,
@@ -67,7 +66,6 @@ class TestStockMoveSecondAccount(TransactionCase):
     def test_internal_to_customer_sets_false(self):
         move = self.Move.create(
             {
-                "name": "Test Move 2",
                 "product_id": self.product.id,
                 "product_uom_qty": 1,
                 "product_uom": self.product.uom_id.id,
