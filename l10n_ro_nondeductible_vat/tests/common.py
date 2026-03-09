@@ -63,10 +63,10 @@ class TestNondeductibleCommon(TestROStockCommon, TestVATonpayment):
             rep_line.l10n_ro_exclude_from_stock = True
 
         # Set l10n_ro_nondeductible_tag_id on tax tags for non-deductible logic
-        cls.tag_base = _get_tags_by_name("24_1 - TAX BASE")
-        cls.tag_base_nd = _get_tags_by_name("24_2 - TAX BASE")
-        cls.tag_vat = _get_tags_by_name("24_1 - VAT")
-        cls.tag_vat_nd = _get_tags_by_name("24_2 - VAT")
+        cls.tag_base = _get_tags_by_name("24 - TAX BASE")
+        cls.tag_base_nd = cls.tag_base.copy({"name": "24_2 - TAX BASE"})
+        cls.tag_vat = _get_tags_by_name("24 - VAT")
+        cls.tag_vat_nd = cls.tag_vat.copy({"name": "24_2 - VAT"})
         if cls.tag_base and cls.tag_base_nd:
             cls.tag_base.l10n_ro_nondeductible_tag_id = cls.tag_base_nd.id
         if cls.tag_vat and cls.tag_vat_nd:
