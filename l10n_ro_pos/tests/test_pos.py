@@ -16,6 +16,13 @@ class TestReportPoSOrder(CommonPosTest):
 
         cls.env.user.group_ids += cls.env.ref("point_of_sale.group_pos_manager")
 
+        cls.ro_partner = cls.env["res.partner"].create(
+            {
+                "name": "RO Partner",
+                "country_id": cls.env.ref("base.ro").id,
+                "vat": "RO39187746",
+            }
+        )
         # Configurare conturi și locații pentru testele RO
         cls.stock_journal = cls.env["account.journal"].create(
             {
@@ -69,7 +76,7 @@ class TestReportPoSOrder(CommonPosTest):
             "amount_total": 100.0,
             "date_order": "2024-01-01 10:00:00",
             "name": "Order 0001",
-            "partner_id": self.partner_adgu.id,
+            "partner_id": self.ro_partner.id,
             "session_id": session.id,
             "lines": [
                 Command.create(
@@ -136,7 +143,7 @@ class TestReportPoSOrder(CommonPosTest):
                 "amount_total": 100.0,
                 "date_order": fields.Datetime.now(),
                 "name": "Order 0001",
-                "partner_id": self.partner_adgu.id,
+                "partner_id": self.ro_partner.id,
                 "session_id": session.id,
                 "lines": [
                     Command.create(
@@ -166,7 +173,7 @@ class TestReportPoSOrder(CommonPosTest):
                 "amount_total": 200.0,
                 "date_order": fields.Datetime.now(),
                 "name": "Order 0002",
-                "partner_id": self.partner_adgu.id,
+                "partner_id": self.ro_partner.id,
                 "session_id": session.id,
                 "lines": [
                     Command.create(
@@ -247,7 +254,7 @@ class TestReportPoSOrder(CommonPosTest):
             "amount_total": 100.0,
             "date_order": "2024-01-01 10:00:00",
             "name": "Order 0002",
-            "partner_id": self.partner_adgu.id,
+            "partner_id": self.ro_partner.id,
             "session_id": session.id,
             "lines": [
                 Command.create(

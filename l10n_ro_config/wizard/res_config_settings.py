@@ -2,7 +2,7 @@
 # Copyright (C) 2020 NextERP Romania
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
-from odoo import api, fields, models
+from odoo import fields, models
 
 
 class ResConfigSettings(models.TransientModel):
@@ -104,11 +104,6 @@ class ResConfigSettings(models.TransientModel):
         related="company_id.l10n_ro_property_customs_commission_product_id",
         readonly=False,
     )
-    l10n_ro_stock_account_svl_lot_allocation = fields.Boolean(
-        related="company_id.l10n_ro_stock_account_svl_lot_allocation",
-        readonly=False,
-    )
-    l10n_ro_stock_account_svl_lot_allocation_visible = fields.Boolean(default=False)
     l10n_ro_restrict_stock_move_date_last_month = fields.Boolean(
         related="company_id.l10n_ro_restrict_stock_move_date_last_month",
         readonly=False,
@@ -207,9 +202,6 @@ class ResConfigSettings(models.TransientModel):
         "It will be done by using landed cost, to also threat "
         "deliveries between reception and supplier invoice confirmation.\n",
     )
-    module_l10n_ro_stock_account_notice = fields.Boolean(
-        "Romanian Stock Account Notice",
-    )
     module_l10n_ro_stock_account_date = fields.Boolean(
         "Romanian Stock Accounting Date",
         help="This allows you to set up the Accounting Date on stock operation",
@@ -229,14 +221,3 @@ class ResConfigSettings(models.TransientModel):
         "Romanian Stock Picking Comment Template"
     )
     module_l10n_ro_dvi = fields.Boolean("Romanian DVI")
-
-    @api.model
-    def default_get(self, fields):
-        res = super().default_get(fields)
-
-        IrModule = self.env["ir.module.module"]
-        stock_mod = IrModule.search([("name", "=", "stock")])
-        res["l10n_ro_stock_account_svl_lot_allocation_visible"] = (
-            stock_mod.state == "installed"
-        )
-        return res
