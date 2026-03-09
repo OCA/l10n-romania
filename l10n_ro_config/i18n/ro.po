@@ -19,6 +19,7 @@ msgstr ""
 "X-Generator: Poedit 3.0.1\n"
 
 #. module: l10n_ro_config
+#: model_terms:ir.ui.view,arch_db:l10n_ro_config.res_config_settings_account_view_form
 #: model_terms:ir.ui.view,arch_db:l10n_ro_config.res_config_settings_view_form
 msgid ""
 "<span class=\"fa fa-lg fa-building-o\" title=\"Values set here are company-"
@@ -356,7 +357,7 @@ msgstr ""
 "copiii săi)"
 
 #. module: l10n_ro_config
-#: model_terms:ir.ui.view,arch_db:l10n_ro_config.res_config_settings_view_form
+#: model_terms:ir.ui.view,arch_db:l10n_ro_config.res_config_settings_account_view_form
 msgid "Install BNR update rates"
 msgstr "Instalați actualizările de curs valutar BNR"
 
@@ -1450,7 +1451,7 @@ msgid "VAT on payment"
 msgstr "TVA la plată"
 
 #. module: l10n_ro_config
-#: model_terms:ir.ui.view,arch_db:l10n_ro_config.res_config_settings_view_form
+#: model_terms:ir.ui.view,arch_db:l10n_ro_config.res_config_settings_account_view_form
 msgid ""
 "Will update daily from cron only if is checked Automatic Currency Rates "
 "(OCA) and you added a rate_provider"
