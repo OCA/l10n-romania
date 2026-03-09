@@ -15,22 +15,12 @@ msgstr ""
 
 #. module: l10n_ro_partner_create_by_vat
 #: model_terms:ir.ui.view,arch_db:l10n_ro_partner_create_by_vat.view_partner_anaf_status_form
-msgid "ANAF"
-msgstr ""
-
-#. module: l10n_ro_partner_create_by_vat
-#: model_terms:ir.ui.view,arch_db:l10n_ro_partner_create_by_vat.view_partner_anaf_status_form
 msgid "ANAF - Active State History"
 msgstr ""
 
 #. module: l10n_ro_partner_create_by_vat
 #: model_terms:ir.ui.view,arch_db:l10n_ro_partner_create_by_vat.view_partner_anaf_status_form
 msgid "ANAF - VAT Subjected History"
-msgstr ""
-
-#. module: l10n_ro_partner_create_by_vat
-#: model_terms:ir.ui.view,arch_db:l10n_ro_partner_create_by_vat.view_partner_anaf_status_form
-msgid "ANAF History"
 msgstr ""
 
 #. module: l10n_ro_partner_create_by_vat

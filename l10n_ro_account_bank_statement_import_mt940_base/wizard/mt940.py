@@ -82,9 +82,11 @@ class MT940Parser(models.AbstractModel):
 
     def is_mt940(self, line):
         """determine if a line is the header of a statement"""
-        if not bool(re.match(self.get_header_regex(), line)):
-            return False
-        return True
+        if bool(re.match(self.get_header_regex(), line)):
+            return True
+        if line.startswith("{4:"):
+            return True
+        return False
 
     def is_mt940_statement(self, line):
         """determine if line is the start of a statement"""
@@ -202,8 +204,9 @@ class MT940Parser(models.AbstractModel):
                 if header_regex != ":20:":
                     data = data.replace(header_regex, "")
                 for statement in data.split(":20:"):
-                    match = "{4:\n:20:" + statement + "}"
-                    matches.append(match)
+                    if statement.strip():
+                        match = "{4:\n:20:" + statement + "}"
+                        matches.append(match)
             else:
                 tag_re = re.compile(r"(\{4:[^{}]+\})", re.MULTILINE)
                 matches = tag_re.findall(data)
