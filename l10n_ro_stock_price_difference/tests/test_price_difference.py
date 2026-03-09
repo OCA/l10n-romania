@@ -15,15 +15,14 @@ _logger = logging.getLogger(__name__)
 
 @tagged("post_install", "-at_install")
 class TestStockFifo(TestROStockCommon):
-    @TestROStockCommon.setup_country("ro")
-    def setUp(cls):
-        super().setUp()
-        cls.l10n_ro_cost_type = "normal"
-
     @classmethod
+    @TestROStockCommon.setup_country("ro")
     def setUpClass(cls):
         super().setUpClass()
         cls.log_checks = True
+        cls.l10n_ro_cost_type = "price_diff"
+        cls.l10n_ro_approved_price_difference = True
+        cls.env.company.l10n_ro_stock_acc_price_diff = True
 
     def test_ro_stock_product_fifo(self):
         module_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
