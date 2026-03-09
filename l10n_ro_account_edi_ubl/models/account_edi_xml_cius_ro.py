@@ -302,7 +302,14 @@ class AccountEdiXmlCIUSRO(models.Model):
                             "where X is a number between 1-6.",
                             partner.name,
                         )
-
+            elif not partner.l10n_ro_edi_ubl_no_send_cnp:
+                constraints.update(
+                    {
+                        f"ciusro_{partner_type}_vat_required": self._check_required_fields(
+                            partner, "vat"
+                        ),
+                    }
+                )
         return constraints
 
     def _get_invoice_payment_means_vals_list(self, invoice):
@@ -361,7 +368,9 @@ class AccountEdiXmlCIUSRO(models.Model):
                 if tax and not invoice_line.tax_ids:
                     invoice_line.tax_ids.add(tax)
             elif (
-                tax_nodes[0].text in ["S"] and invoice.partner_id.l10n_ro_vat_on_payment
+                tax_nodes[0].text in ["S"]
+                and hasattr(invoice.partner_id, "l10n_ro_vat_on_payment")
+                and invoice.partner_id.l10n_ro_vat_on_payment
             ):
                 tax = self.env["account.tax"].search(
                     [

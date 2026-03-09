@@ -1,6 +1,7 @@
 # Copyright (C) 2020 NextERP Romania
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
+import logging
 from unittest.mock import patch
 
 import freezegun
@@ -8,6 +9,8 @@ import freezegun
 from odoo.tests import tagged
 
 from .common_data_setup import CiusRoTestSetup
+
+_logger = logging.getLogger(__name__)
 
 
 @tagged("post_install", "-at_install")
@@ -103,6 +106,10 @@ class TestCiusRoAutoWorkflow(CiusRoTestSetup):
 
         # procesare step 1 - eroare
         self.invoice.action_process_edi_web_services()
+        _logger.info("Checking invoice documents for constraint no CNP error")
+        _logger.info(
+            "Invoice documents: %s", self.invoice.edi_document_ids.mapped("error")
+        )
         self.check_invoice_documents(
             self.invoice,
             "to_send",

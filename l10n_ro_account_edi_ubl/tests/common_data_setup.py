@@ -57,6 +57,7 @@ class CiusRoTestSetup(AccountEdiTestCommon, CronMixinCase):
                 "partner_id": cls.env.company.partner_id.id,
                 "bank_id": cls.env.ref("l10n_ro.res_bank_37").id,
                 "acc_number": "RO75TREZ0615069XXX001573",
+                "allow_out_payment": True,
             }
         )
 

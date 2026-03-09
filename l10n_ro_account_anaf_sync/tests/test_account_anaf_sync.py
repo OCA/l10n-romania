@@ -31,7 +31,12 @@ class TestAccountANAFSync(TransactionCase):
 
     def test_expire_message_token(self):
         days_ago = fields.Datetime.now() - relativedelta(days=5)
-        self.sync.write({"client_token_valability": days_ago})
+        self.sync.write(
+            {
+                "client_token_valability": days_ago,
+                "refresh_token": "123",
+            }
+        )
         self.sync.message_ids.sudo().unlink()
         self.sync.cron_send_expiration_token_message()
         self.assertTrue(self.sync.message_ids)
