@@ -183,7 +183,7 @@ class MT940Parser(models.AbstractModel):
                 "29",
                 "60",
                 "61",
-                "32"
+                "32",
                 # "110",
             ]:
                 if counterpart_field in subfields:

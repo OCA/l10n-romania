@@ -246,7 +246,6 @@ class StockPicking(models.Model):
 
     @api.model
     def _export_e_transport_data(self, data):
-
         anaf_config = self.company_id._l10n_ro_get_anaf_sync(scope="e-transport")
         params = {}
         standard = "ETRANSP"

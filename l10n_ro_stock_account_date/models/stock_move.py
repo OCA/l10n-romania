@@ -133,9 +133,7 @@ class StockMove(models.Model):
         if self.is_l10n_ro_record:
             val_date = self.l10n_ro_get_move_date()
             self = self.with_context(force_period_date=val_date)
-        return super(StockMove, self)._account_entry_move(
-            qty, description, svl_id, cost
-        )
+        return super()._account_entry_move(qty, description, svl_id, cost)
 
     def check_lock_date(self, move_date):
         self.ensure_one()

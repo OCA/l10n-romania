@@ -124,7 +124,6 @@ class StockMoveLine(models.Model):
                         else 0
                     )
             else:
-
                 svls = line.move_id.stock_valuation_layer_ids
                 svls_lc_not_same_invoice = self.env["stock.valuation.layer"]
                 price_unit = 0

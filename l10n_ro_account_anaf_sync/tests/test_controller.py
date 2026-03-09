@@ -10,7 +10,7 @@ from odoo.tests.common import HttpCase, tagged
 @tagged("-at_install", "post_install")
 class TestAnafSyncControllers(HttpCase):
     def setUp(self):
-        super(TestAnafSyncControllers, self).setUp()
+        super().setUp()
         self.test_company = self.env["res.company"].create({"name": "Test Sync"})
         self.sync = self.env["l10n.ro.account.anaf.sync"].create(
             {

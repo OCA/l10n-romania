@@ -44,7 +44,6 @@ class AccountPeriodClosing(models.Model):
 
     @api.onchange("company_id", "type")
     def _onchange_type(self):
-
         accounts = self.env["account.account"]
         if self.type == "income":
             accounts = self.env["account.account"].search(

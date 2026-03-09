@@ -12,7 +12,7 @@ class ProductTemplate(models.Model):
     def _onchange_type(self):
         # Update service products with the default service
         # taxes defined in company
-        res = super(ProductTemplate, self)._onchange_type()
+        res = super()._onchange_type()
         if self.type == "service" and self.is_l10n_ro_record:
             company = self.company_id or self.env.company
             if company.l10n_ro_account_serv_sale_tax_id:

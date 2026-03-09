@@ -16,7 +16,7 @@ class StockMove(models.Model):
 
     @api.model
     def _get_valued_types(self):
-        valued_types = super(StockMove, self)._get_valued_types()
+        valued_types = super()._get_valued_types()
         if not self.filtered("is_l10n_ro_record"):
             return valued_types
 
@@ -31,29 +31,23 @@ class StockMove(models.Model):
     def _is_reception(self):
         """Este receptie in stoc fara aviz"""
         if not self.is_l10n_ro_record:
-            return super(StockMove, self)._is_reception()
+            return super()._is_reception()
 
-        it_is = (
-            super(StockMove, self)._is_reception()
-            and not self.picking_id.l10n_ro_notice
-        )
+        it_is = super()._is_reception() and not self.picking_id.l10n_ro_notice
         return it_is
 
     def _is_reception_return(self):
         """Este un retur la o receptie in stoc fara aviz"""
         if not self.is_l10n_ro_record:
-            return super(StockMove, self)._is_reception_return()
+            return super()._is_reception_return()
 
-        it_is = (
-            super(StockMove, self)._is_reception_return()
-            and not self.picking_id.l10n_ro_notice
-        )
+        it_is = super()._is_reception_return() and not self.picking_id.l10n_ro_notice
         return it_is
 
     def _is_reception_notice(self):
         """Este receptie in stoc cu aviz"""
         if not self.is_l10n_ro_record:
-            return super(StockMove, self)._is_reception_return()
+            return super()._is_reception_return()
 
         it_is = (
             self.company_id.l10n_ro_accounting
@@ -101,21 +95,16 @@ class StockMove(models.Model):
     def _is_delivery(self):
         """Este livrare din stoc fara aviz"""
         if not self.is_l10n_ro_record:
-            return super(StockMove, self)._is_delivery()
+            return super()._is_delivery()
 
-        return (
-            super(StockMove, self)._is_delivery() and not self.picking_id.l10n_ro_notice
-        )
+        return super()._is_delivery() and not self.picking_id.l10n_ro_notice
 
     def _is_delivery_return(self):
         """Este retur la o livrare din stoc fara aviz"""
         if not self.is_l10n_ro_record:
-            return super(StockMove, self)._is_delivery_return()
+            return super()._is_delivery_return()
 
-        it_is = (
-            super(StockMove, self)._is_delivery_return()
-            and not self.picking_id.l10n_ro_notice
-        )
+        it_is = super()._is_delivery_return() and not self.picking_id.l10n_ro_notice
         return it_is
 
     def _is_delivery_notice(self):
@@ -223,9 +212,12 @@ class StockMove(models.Model):
         return valuation_amount
 
     def _get_accounting_data_for_valuation(self):
-        journal_id, acc_src, acc_dest, acc_valuation = super(
-            StockMove, self
-        )._get_accounting_data_for_valuation()
+        (
+            journal_id,
+            acc_src,
+            acc_dest,
+            acc_valuation,
+        ) = super()._get_accounting_data_for_valuation()
         if (
             self.is_l10n_ro_record
             and self.product_id.categ_id.l10n_ro_stock_account_change

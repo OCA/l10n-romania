@@ -13,9 +13,7 @@ class TestMT940BankStatementImport(AccountTestInvoicingCommon):
     @classmethod
     def setUpClass(cls):
         ro_template_ref = "l10n_ro.ro_chart_template"
-        super(TestMT940BankStatementImport, cls).setUpClass(
-            chart_template_ref=ro_template_ref
-        )
+        super().setUpClass(chart_template_ref=ro_template_ref)
 
     def create_partner_bank(self, bank_acc):
         bank = self.env["res.partner.bank"].create(

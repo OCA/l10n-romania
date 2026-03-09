@@ -29,9 +29,7 @@ class AccountMove(models.Model):
         for move in self.filtered("is_l10n_ro_record"):
             for line in move.line_ids:
                 _logger.debug(
-                    "{}\t\t{}\t\t{}".format(
-                        line.debit, line.credit, line.account_id.display_name
-                    )
+                    f"{line.debit}\t\t{line.credit}\t\t{line.account_id.display_name}"
                 )
             invoice_lines = move.invoice_line_ids.filtered(
                 lambda line: line.display_type == "product"

@@ -12,7 +12,7 @@ class PosOrder(models.Model):
         return True
 
     def _prepare_invoice(self):
-        res = super(PosOrder, self)._prepare_invoice()
+        res = super()._prepare_invoice()
         res["reference"] = self.pos_reference
         res["pos_ref"] = self.pos_reference
         return res
@@ -23,6 +23,6 @@ class PosOrder(models.Model):
         ).action_pos_order_invoice()
 
     def _prepare_invoice_line(self, order_line):
-        res = super(PosOrder, self)._prepare_invoice_line(order_line)
+        res = super()._prepare_invoice_line(order_line)
         # se va determina contul de venituri in functie de produs si de locatie
         return res

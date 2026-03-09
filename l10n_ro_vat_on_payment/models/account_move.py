@@ -17,7 +17,7 @@ class AccountMove(models.Model):
         Romanian law specify that the VAT on payment is applied only
         for internal invoices (National or not specified fiscal position)
         """
-        result = super(AccountMove, self)._onchange_partner_id()
+        result = super()._onchange_partner_id()
         if self.is_l10n_ro_record:
             fp_model = self.env["account.fiscal.position"]
             vatp = False

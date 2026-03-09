@@ -21,7 +21,7 @@ class AccountBankStatementImport(models.TransientModel):
             data = parser.parse(data_file)
             if data:
                 return self._post_parse_file(data)
-        return super(AccountBankStatementImport, self)._parse_file(data_file)
+        return super()._parse_file(data_file)
 
     def _post_parse_file(self, data):
         currency, account_num, all_statements = data

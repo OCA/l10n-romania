@@ -34,6 +34,6 @@ class CountryCity(models.Model):
                     )
                 else:
                     result.append(
-                        (record.id, "{} ({})".format(record.name, record.state_id.code))
+                        (record.id, f"{record.name} ({record.state_id.code})")
                     )
         return result

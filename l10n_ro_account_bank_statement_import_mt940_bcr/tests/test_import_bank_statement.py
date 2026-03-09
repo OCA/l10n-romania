@@ -13,7 +13,7 @@ from odoo.addons.l10n_ro_account_bank_statement_import_mt940_base.tests.common i
 @tagged("post_install", "-at_install")
 class TestImport(TestMT940BankStatementImport):
     def setUp(self):
-        super(TestImport, self).setUp()
+        super().setUp()
         ron_curr = self.env.ref("base.RON")
         self.bank = self.create_partner_bank("RO48RNCB0090000506460001")
         self.journal = self.create_journal("TBNK2MT940", self.bank, ron_curr)

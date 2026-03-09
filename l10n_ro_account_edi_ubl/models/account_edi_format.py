@@ -64,9 +64,7 @@ class AccountEdiXmlCIUSRO(models.Model):
     def _find_value(self, xpath, xml_element, namespaces=None):
         res = None
         try:
-            res = super(AccountEdiXmlCIUSRO, self)._find_value(
-                xpath, xml_element, namespaces=namespaces
-            )
+            res = super()._find_value(xpath, xml_element, namespaces=namespaces)
         except Exception:
             namespaces = {
                 "qdt": "urn:oasis:names:specification:ubl:schema:xsd:QualifiedDataTypes-2",
@@ -76,9 +74,7 @@ class AccountEdiXmlCIUSRO(models.Model):
                 "cbc": "urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2",
                 "xsi": "http://www.w3.org/2001/XMLSchema-instance",
             }
-            res = super(AccountEdiXmlCIUSRO, self)._find_value(
-                xpath, xml_element, namespaces=namespaces
-            )
+            res = super()._find_value(xpath, xml_element, namespaces=namespaces)
         return res
 
     def _get_xml_builder(self, company):
@@ -162,7 +158,6 @@ class AccountEdiXmlCIUSRO(models.Model):
         res = {}
         to_remove_invoices = self.env["account.move"]
         for invoice in invoices:
-
             anaf_config = invoice.company_id._l10n_ro_get_anaf_sync(scope="e-factura")
             if not anaf_config:
                 res[invoice] = {
@@ -304,7 +299,6 @@ class AccountEdiXmlCIUSRO(models.Model):
         return res
 
     def _l10n_ro_anaf_call(self, func, anaf_config, params, data=None, method="POST"):
-
         content, status_code = anaf_config._l10n_ro_einvoice_call(
             func, params, data, method
         )

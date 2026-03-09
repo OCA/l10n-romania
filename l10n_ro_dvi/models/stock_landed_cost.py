@@ -48,7 +48,7 @@ class LandedCost(models.Model):
     )
 
     def button_validate(self):
-        res = super(LandedCost, self).button_validate()
+        res = super().button_validate()
         ro_recs = self.filtered(lambda rec: rec.is_l10n_ro_record)
         for cost in ro_recs.filtered(
             lambda c: c.l10n_ro_tax_value and c.l10n_ro_tax_id

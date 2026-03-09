@@ -17,7 +17,7 @@ class TestCreatePartnerBase(AccountTestInvoicingCommon):
     @classmethod
     def setUpClass(cls):
         ro_template_ref = "l10n_ro.ro_chart_template"
-        super(TestCreatePartnerBase, cls).setUpClass(chart_template_ref=ro_template_ref)
+        super().setUpClass(chart_template_ref=ro_template_ref)
         cls.env.company.l10n_ro_accounting = True
         cls.mainpartner = cls.env["res.partner"].create({"name": "Test partner"})
         test_file_path = get_module_resource(

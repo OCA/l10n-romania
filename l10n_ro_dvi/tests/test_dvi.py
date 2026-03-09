@@ -12,7 +12,7 @@ from odoo.addons.l10n_ro_stock_account.tests.common2 import TestStockCommon2
 class TestDVI(TestStockCommon2):
     @classmethod
     def setUpClass(cls):
-        super(TestDVI, cls).setUpClass()
+        super().setUpClass()
         cls.env.company._l10n_ro_get_or_create_custom_duty_product()
         cls.env.company._l10n_ro_get_or_create_customs_commission_product()
         cls.tax_id = cls.product_1.supplier_taxes_id

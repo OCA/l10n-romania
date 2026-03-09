@@ -326,7 +326,6 @@ class AccountMove(models.Model):
             self.l10n_ro_process_anaf_xml_file(attachment)
 
     def l10n_ro_process_anaf_xml_file(self, attachment=None):
-
         edi_format_cius = self.env["account.edi.format"].search(
             [("code", "=", "cius_ro")]
         )

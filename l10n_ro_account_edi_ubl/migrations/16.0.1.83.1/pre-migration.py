@@ -22,7 +22,6 @@ except ImportError:
 
 @openupgrade.migrate(use_env=True)
 def migrate(env, version):
-
     openupgrade.logged_query(
         env.cr,
         """

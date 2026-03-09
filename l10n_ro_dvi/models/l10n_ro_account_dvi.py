@@ -125,7 +125,7 @@ class AccountInvoiceDVI(models.Model):
 
     @api.model
     def default_get(self, fields_list):
-        defaults = super(AccountInvoiceDVI, self).default_get(fields_list)
+        defaults = super().default_get(fields_list)
         defaults["date"] = fields.Date.today()
         if "company_id" not in defaults:
             defaults["company_id"] = self.env.company

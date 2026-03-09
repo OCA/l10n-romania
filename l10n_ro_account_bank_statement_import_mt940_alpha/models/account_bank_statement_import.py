@@ -21,4 +21,4 @@ class AccountBankStatementImport(models.TransientModel):
 
             if data:
                 return data
-        return super(AccountBankStatementImport, self)._parse_file(data_file)
+        return super()._parse_file(data_file)

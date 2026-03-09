@@ -523,13 +523,13 @@ class TestStockCommon(ValuationReconciliationTestCommon):
             rem_val = round(valuation["remaining_value"], 2)
 
             if valuation["product_id"][0] == self.product_1.id:
-                _logger.debug("Check stock P1 {} = {}".format(val, val_p1))
+                _logger.debug(f"Check stock P1 {val} = {val_p1}")
                 self.assertAlmostEqual(val, val_p1)
                 if self.product_1.cost_method == "fifo":
                     self.assertAlmostEqual(rem_val, val_p1)
 
             if valuation["product_id"][0] == self.product_2.id:
-                _logger.debug("Check stock P2 {} = {}".format(val, val_p2))
+                _logger.debug(f"Check stock P2 {val} = {val_p2}")
                 self.assertAlmostEqual(val, val_p2)
                 if self.product_2.cost_method == "fifo":
                     self.assertAlmostEqual(rem_val, val_p2)
@@ -555,10 +555,10 @@ class TestStockCommon(ValuationReconciliationTestCommon):
         for valuation in account_valuations:
             val = round(valuation["debit"] - valuation["credit"], 2)
             if valuation["product_id"][0] == self.product_1.id:
-                _logger.debug("Check account P1 {} = {}".format(val, val_p1))
+                _logger.debug(f"Check account P1 {val} = {val_p1}")
                 self.assertAlmostEqual(val, val_p1)
             if valuation["product_id"][0] == self.product_2.id:
-                _logger.debug("Check account P2 {} = {}".format(val, val_p2))
+                _logger.debug(f"Check account P2 {val} = {val_p2}")
                 self.assertAlmostEqual(val, val_p2)
 
     def check_account_diff(self, val_p1, val_p2):
@@ -580,7 +580,7 @@ class TestStockCommon(ValuationReconciliationTestCommon):
         for valuation in account_valuations:
             val = round(valuation["debit"] - valuation["credit"], 2)
             if valuation["product_id"][0] == self.product_mp.id:
-                _logger.debug("Check account P1 {} = {}".format(val, val_p1))
+                _logger.debug(f"Check account P1 {val} = {val_p1}")
                 self.assertAlmostEqual(val, val_p1)
 
     def set_stock(self, product, qty, location=None):

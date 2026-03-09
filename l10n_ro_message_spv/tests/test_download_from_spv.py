@@ -7,7 +7,7 @@ from .common import TestMessageSPV
 
 class TestDownloadFromSPV(TestMessageSPV):
     def setUp(self):
-        super(TestDownloadFromSPV, self).setUp()
+        super().setUp()
         # Setup test records and environment
         self.MessageSPV = self.env["l10n.ro.message.spv"]
         self.Attachment = self.env["ir.attachment"]

@@ -12,9 +12,7 @@ class TestMrpValuationStandardL10nRo(TestStockCommon):
     @classmethod
     def setUpClass(cls, chart_template_ref=None):
         ro_template_ref = "ro_chart_template"
-        super(TestMrpValuationStandardL10nRo, cls).setUpClass(
-            chart_template_ref=ro_template_ref
-        )
+        super().setUpClass(chart_template_ref=ro_template_ref)
 
         cls.uom_unit = cls.env.ref("uom.product_uom_unit")
 
@@ -87,7 +85,6 @@ class TestMrpValuationStandardL10nRo(TestStockCommon):
         self.assertEqual(self.fin_product.standard_price, 15)
 
     def test_avco(self):
-
         self.fin_product.product_tmpl_id.categ_id.property_cost_method = "average"
         self.product_1.product_tmpl_id.categ_id.property_cost_method = "average"
 

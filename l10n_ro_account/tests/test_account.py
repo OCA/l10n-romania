@@ -15,7 +15,7 @@ class TestAccount(AccountTestInvoicingCommon):
         super().setUpClass(chart_template_ref=ro_template_ref)
 
     def setUp(self):
-        super(TestAccount, self).setUp()
+        super().setUp()
         self.env.company.l10n_ro_accounting = True
 
         self.account = self.env["account.account"].create(

@@ -12,9 +12,7 @@ class TestPartnerVATSubjected(AccountTestInvoicingCommon):
     @classmethod
     def setUpClass(cls):
         ro_template_ref = "l10n_ro.ro_chart_template"
-        super(TestPartnerVATSubjected, cls).setUpClass(
-            chart_template_ref=ro_template_ref
-        )
+        super().setUpClass(chart_template_ref=ro_template_ref)
         cls.mainpartner = cls.env.ref("base.res_partner_1")
         cls.env.company.anglo_saxon_accounting = True
         cls.env.company.l10n_ro_accounting = True

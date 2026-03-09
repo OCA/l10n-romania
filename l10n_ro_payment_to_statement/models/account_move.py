@@ -63,7 +63,7 @@ class AccountMove(models.Model):
 
                 self._compute_split_sequence()
         else:
-            return super(AccountMove, self)._set_next_sequence()
+            return super()._set_next_sequence()
 
     def write(self, vals):
         if "state" in vals and vals.get("state") == "posted":
@@ -115,7 +115,7 @@ class AccountMove(models.Model):
                             move.journal_id.l10n_ro_cash_out_sequence_id.next_by_id()
                         )
                         super(AccountMove, move).write({"name": new_number})
-        return super(AccountMove, self).write(vals)
+        return super().write(vals)
 
     def _get_l10n_ro_bank_statement(self):
         self.ensure_one()
