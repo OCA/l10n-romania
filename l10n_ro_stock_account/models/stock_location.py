@@ -45,5 +45,5 @@ class StockLocation(models.Model):
                 "l10n_ro_property_account_expense_location_id": location.l10n_ro_property_account_expense_location_id.id,  # noqa
                 "l10n_ro_property_stock_valuation_account_id": location.l10n_ro_property_stock_valuation_account_id.id,  # noqa
             }
-            logging.info(f"values: {values}")
+
             children.write(values)

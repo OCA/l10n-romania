@@ -62,7 +62,7 @@ class StockMove(models.Model):
         store=True,
         string="Valuation Account",
     )
-    
+
     l10n_ro_transfer_account_id = fields.Many2one(
         "account.account",
         compute="_compute_account",
@@ -103,7 +103,7 @@ class StockMove(models.Model):
                             if round(aml.balance, 2) == round(move.value, 2):
                                 account = aml.account_id
                                 break
-                            
+
             if loc_dest.usage == "internal" and loc_src.usage == "internal":
                 move.l10n_ro_transfer_account_id = (
                     loc_src.l10n_ro_property_stock_valuation_account_id
