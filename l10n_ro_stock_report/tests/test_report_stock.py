@@ -50,6 +50,7 @@ class TestStockReport(TransactionCase):
             "property_account_expense_categ_id": self.account_expense.id,
             "property_stock_valuation_account_id": self.account_valuation.id,
             "property_stock_journal": self.stock_journal.id,
+            'l10n_ro_stock_account_change': True,
         }
 
         self.category = self.env["product.category"].search(
@@ -302,8 +303,8 @@ class TestStockReport(TransactionCase):
     def test_report_two_periods_quantities(self):
         """
         Scenario requested:
-        - On date1: purchase 5, sale 2 → report: init 0, in 5, out 2, final 3
-        - On later date2: purchase 10, sale 4 → report: init 3, in 10, out 4, final 9
+        - On date1: purchase 4, sale 2 → report: init 0, in 4, out 2, final 2
+        - On later date2: purchase 10, sale 4 → report: init 2, in 10, out 4, final 8
         """
         product = self.product_1
         # Use stable past dates to avoid timezone boundary issues

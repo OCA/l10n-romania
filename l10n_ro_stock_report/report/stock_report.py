@@ -439,7 +439,10 @@ class StorageSheet(models.TransientModel):
             ( %(all_products)s OR sm.product_id in %(product)s ) AND
             sm.date >= %(datetime_from)s AND sm.date <= %(datetime_to)s AND
             sm.location_dest_id in %(locations)s AND
-            sm.l10n_ro_account_id IS NOT NULL
+            (
+                sm.l10n_ro_account_id IS NOT NULL OR
+                sm.l10n_ro_transfer_account_id IS NOT NULL
+            )
 
         GROUP BY sm.product_id, sm.date, sm.reference,
                 sp.partner_id, sm.l10n_ro_account_id,
@@ -491,7 +494,15 @@ class StorageSheet(models.TransientModel):
             ( %(all_products)s OR sm.product_id in %(product)s ) AND
             sm.date >= %(datetime_from)s AND sm.date <= %(datetime_to)s AND
             sm.location_id in %(locations)s AND
-            sm.l10n_ro_transfer_account_id IS NOT NULL
+            (
+                sm.l10n_ro_transfer_account_id IS NOT NULL
+                OR (
+                    sm.location_id in %(locations)s
+                    AND sm.location_dest_id NOT IN (
+                        SELECT id FROM stock_location WHERE usage = 'internal'
+                    )
+                )
+            )
 
         GROUP BY sm.product_id, sm.date, sm.reference,
                 sp.partner_id, sm.l10n_ro_transfer_account_id,
