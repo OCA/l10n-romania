@@ -303,7 +303,7 @@ class StorageSheet(models.TransientModel):
                     SELECT sm.product_id, pt.categ_id,
                        -sm.value as amount,
                        -sm.quantity as quantity,
-                       sm.l10n_ro_transfer_account_id as account_id
+                       COALESCE(sm.l10n_ro_transfer_account_id, sm.l10n_ro_account_id) as account_id
                 from stock_move as sm
                     left join product_product prod on prod.id = sm.product_id
                     left join product_template pt on pt.id = prod.product_tmpl_id
@@ -376,7 +376,7 @@ class StorageSheet(models.TransientModel):
                     SELECT sm.product_id, pt.categ_id,
                     -sm.value as amount,
                     -sm.quantity as quantity,
-                    sm.l10n_ro_transfer_account_id as account_id
+                    COALESCE(sm.l10n_ro_transfer_account_id, sm.l10n_ro_account_id) as account_id
                 from stock_move as sm
                     left join product_product prod on prod.id = sm.product_id
                     left join product_template pt on pt.id = prod.product_tmpl_id
@@ -464,7 +464,7 @@ class StorageSheet(models.TransientModel):
                     THEN COALESCE(sum(sm.value),0) / NULLIF(sum(sm.quantity),0)
                 ELSE 0
             END as unit_price_out,
-            sm.l10n_ro_transfer_account_id as account_id,
+            COALESCE(sm.l10n_ro_transfer_account_id, sm.l10n_ro_account_id) as account_id,
             NULL::int as invoice_id,
             sm.date as date_time,
             date_trunc('day', sm.date at time zone 'utc' at time zone %(tz)s) as date,
@@ -492,6 +492,7 @@ class StorageSheet(models.TransientModel):
 
         GROUP BY sm.product_id, sm.date, sm.reference,
                 sp.partner_id, sm.l10n_ro_transfer_account_id,
+                sm.l10n_ro_account_id,
                 pt.categ_id {group}
         """
         return sql
