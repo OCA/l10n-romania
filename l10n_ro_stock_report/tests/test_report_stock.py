@@ -50,7 +50,7 @@ class TestStockReport(TransactionCase):
             "property_account_expense_categ_id": self.account_expense.id,
             "property_stock_valuation_account_id": self.account_valuation.id,
             "property_stock_journal": self.stock_journal.id,
-            'l10n_ro_stock_account_change': True,
+            "l10n_ro_stock_account_change": True,
         }
 
         self.category = self.env["product.category"].search(
