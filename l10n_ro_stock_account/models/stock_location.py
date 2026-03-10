@@ -3,8 +3,6 @@
 # Copyright (C) 2020 Terrabit
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
-import logging
-
 from odoo import fields, models
 
 from odoo.addons.account.models.product import ACCOUNT_DOMAIN

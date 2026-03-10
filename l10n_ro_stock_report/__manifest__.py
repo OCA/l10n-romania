@@ -13,7 +13,6 @@
         "purchase",
         "sale",
         "l10n_ro_config",
-        "l10n_ro_stock_account",
     ],
     "data": [
         "report/stock_report_view.xml",
