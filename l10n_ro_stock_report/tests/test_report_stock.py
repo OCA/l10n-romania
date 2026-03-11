@@ -22,24 +22,35 @@ class TestStockReport(TransactionCase):
             }
         )
         AccountAccount = self.env["account.account"]
-            
+
         def get_or_create_account(code, name, account_type):
-            account = AccountAccount.search([
-                ("code", "=", code),
-            ], limit=1)
+            account = AccountAccount.search(
+                [
+                    ("code", "=", code),
+                ],
+                limit=1,
+            )
             if not account:
-                account = AccountAccount.create({
-                    "code": code,
-                    "name": name,
-                    "account_type": account_type,
-                    "company_ids": [(4, self.env.company.id)],
-                })
+                account = AccountAccount.create(
+                    {
+                        "code": code,
+                        "name": name,
+                        "account_type": account_type,
+                        "company_ids": [(4, self.env.company.id)],
+                    }
+                )
             return account
 
-        self.account_difference = get_or_create_account("348000", "Price Difference", "asset_current")
-        self.account_expense    = get_or_create_account("607000", "Cost of Goods Sold", "expense")
-        self.account_income     = get_or_create_account("707000", "Revenue", "income")
-        self.account_valuation  = get_or_create_account("371000", "Stock Valuation", "asset_current")
+        self.account_difference = get_or_create_account(
+            "348000", "Price Difference", "asset_current"
+        )
+        self.account_expense = get_or_create_account(
+            "607000", "Cost of Goods Sold", "expense"
+        )
+        self.account_income = get_or_create_account("707000", "Revenue", "income")
+        self.account_valuation = get_or_create_account(
+            "371000", "Stock Valuation", "asset_current"
+        )
 
         self.stock_journal = self.env["account.journal"].search(
             [("code", "=", "STJ"), ("company_id", "=", self.env.company.id)]
