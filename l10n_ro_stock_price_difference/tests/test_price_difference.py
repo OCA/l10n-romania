@@ -19,10 +19,17 @@ class TestStockFifo(TestROStockCommon):
     @TestROStockCommon.setup_country("ro")
     def setUpClass(cls):
         super().setUpClass()
-        cls.log_checks = True
+        cls.log_checks = False
         cls.l10n_ro_cost_type = "price_diff"
         cls.l10n_ro_approved_price_difference = True
         cls.env.company.l10n_ro_stock_acc_price_diff = True
+        cls.product_dozen = cls.product_fifo.copy(
+            {
+                "name": "Product Dozen",
+                "default_code": "product_dozen",
+                "uom_id": cls.env.ref("uom.product_uom_dozen").id,
+            }
+        )
 
     def test_ro_stock_product_fifo(self):
         module_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
