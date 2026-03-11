@@ -1,9 +1,12 @@
 # Copyright (C) 2022 NextERP Romania
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
+import logging
 
 from odoo import Command, api, fields, models
 from odoo.exceptions import UserError
+
+_logger = logging.getLogger(__name__)
 
 
 class StockLandedCost(models.Model):
@@ -66,7 +69,15 @@ class StockLandedCost(models.Model):
         res = super().button_validate()
         for cost in self:
             for dist_line in cost.l10n_ro_distributed_valuation_lines:
-                dist_line.move_id._set_value()
+                # In case of out lines, this is not working, so we have to take
+                # directly the value from extra and add it to the manual amount
+                dest_move = dist_line.move_id
+                if dest_move._is_out():
+                    lc_values = dest_move._get_value_from_extra(dest_move.quantity)
+                    lc_amount = lc_values.get("value", 0)
+                    dest_move.value = dest_move._get_value() + lc_amount
+                else:
+                    dist_line.move_id._set_value()
         return res
 
     def compute_landed_cost(self):
@@ -178,6 +189,7 @@ class AdjustmentLines(models.Model):
     def _l10n_ro_get_extra_accounting_entries(self):
         """Get extra accounting entries for Romania landed cost."""
         self.ensure_one()
+        _logger.info("Create extra accounting entries for landed cost")
         ro_types = [
             "reception_notice",
             "reception_notice_return",
@@ -185,6 +197,7 @@ class AdjustmentLines(models.Model):
             "reception_in_progress_return",
         ]
         account_move = self.env["account.move"]
+        _logger.info("Romanian Stock Move Type: %s", self.move_id.l10n_ro_move_type)
         if (
             self.cost_id.l10n_ro_only_on_distributed_lines
             and self.move_id.l10n_ro_move_type in ro_types
@@ -193,6 +206,7 @@ class AdjustmentLines(models.Model):
             aml_vals_list = self.move_id._get_l10n_ro_move_line_vals_list(
                 account_list, [], forced_value=self.l10n_ro_not_distributed_amount
             )
+            _logger.info("Romanian Stock Move AML Vals List: %s", aml_vals_list)
             if aml_vals_list:
                 account_move = self.env["account.move"].create(
                     {

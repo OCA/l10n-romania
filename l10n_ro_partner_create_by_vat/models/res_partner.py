@@ -7,6 +7,7 @@ import logging
 import requests
 
 from odoo import api, fields, models
+from odoo.api import NewId
 
 _logger = logging.getLogger(__name__)
 
@@ -353,8 +354,16 @@ class ResPartner(models.Model):
                             .id
                         )
                         # Update ANAF history for vat_subjected and active status
-                        res = self._update_l10n_ro_anaf_status(res, result)
-                        res = self._update_l10n_ro_anaf_scptva(res, result)
+                        if (
+                            not isinstance(self, NewId)
+                            and not self.l10n_ro_active_anaf_line_ids
+                        ):
+                            res = self._update_l10n_ro_anaf_status(res, result)
+                        if (
+                            not isinstance(self, NewId)
+                            and not self.l10n_ro_anaf_history
+                        ):
+                            res = self._update_l10n_ro_anaf_scptva(res, result)
                         self.with_context(skip_ro_vat_change=True).update(res)
                     else:
                         res["warning"] = {"message": anaf_error}

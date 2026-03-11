@@ -13,6 +13,18 @@ from odoo.tools import DEFAULT_SERVER_DATE_FORMAT as DATE_FORMAT
 class ResPartner(models.Model):
     _inherit = "res.partner"
 
+    l10n_ro_vat_payment_check_date = fields.Date(
+        string="Romania - VAT on Payment Check Date",
+        help="The date on which the VAT on Payment status was last checked.",
+    )
+    l10n_ro_vat_on_payment = fields.Boolean(string="Romania - VAT on Payment")
+    l10n_ro_anaf_history = fields.One2many(
+        "l10n.ro.res.partner.anaf",
+        compute="_compute_l10n_ro_anaf_history",
+        string="Romania - ANAF History",
+        readonly=True,
+    )
+
     @api.depends("l10n_ro_vat_number")
     def _compute_l10n_ro_anaf_history(self):
         for partner in self:
@@ -24,15 +36,6 @@ class ResPartner(models.Model):
             else:
                 partner.l10n_ro_anaf_history = [(6, 0, [])]
 
-    l10n_ro_vat_on_payment = fields.Boolean(string="Romania - VAT on Payment")
-    l10n_ro_anaf_history = fields.One2many(
-        "l10n.ro.res.partner.anaf",
-        compute="_compute_l10n_ro_anaf_history",
-        string="Romania - ANAF History",
-        readonly=True,
-    )
-
-    @api.model
     def _insert_relevant_anaf_data(self):
         """Load VAT on payment lines for specified partners."""
 
@@ -75,9 +78,10 @@ class ResPartner(models.Model):
     def _check_vat_on_payment(self):
         self.ensure_one()
         ctx = dict(self.env.context)
+        if not self.env.context.get("no_insert", False):
+            self._insert_relevant_anaf_data()
+            self._compute_l10n_ro_anaf_history()
         vat_on_payment = False
-        self._insert_relevant_anaf_data()
-        self._compute_l10n_ro_anaf_history()
         if self.l10n_ro_anaf_history:
             if ctx.get("check_date", False):
                 line = self.env["l10n.ro.res.partner.anaf"].search(
@@ -100,22 +104,40 @@ class ResPartner(models.Model):
     def check_vat_on_payment(self):
         if self.env.context.get("no_vat_validation", False):
             return True
+        self._insert_relevant_anaf_data()
+        self._compute_l10n_ro_anaf_history()
+        self = self.with_context(no_insert=True)
         for partner in self:
-            company = partner.company_id or self.env.company
-            vopfp = company.l10n_ro_property_vat_on_payment_position_id
             partner.l10n_ro_vat_on_payment = partner.with_context(
                 check_date=date.today()
             )._check_vat_on_payment()
-            if partner.l10n_ro_vat_on_payment:
-                partner.property_account_position_id = vopfp
-            elif partner.property_account_position_id.id == vopfp.id:
-                partner.property_account_position_id = False
+        self.l10n_ro_vat_payment_check_date = date.today()
 
     @api.model
     def update_vat_payment_all(self):
+        ir_config = self.env["ir.config_parameter"].sudo()
         self.env["l10n.ro.res.partner.anaf"]._download_anaf_data()
-        partners = self.search([("vat", "!=", False), ("country_id.code", "=", "RO")])
-        partners.check_vat_on_payment()
+        partners = self.search(
+            [
+                ("vat", "!=", False),
+                ("country_id.code", "=", "RO"),
+                ("is_company", "=", True),
+                "|",
+                ("l10n_ro_vat_payment_check_date", "=", False),
+                ("l10n_ro_vat_payment_check_date", "<", date.today()),
+            ]
+        )
+        batch_size = int(
+            ir_config.get_param(
+                "l10n_ro_vat_on_payment.partner_batch_size", default="1000"
+            )
+        )
+        partner_batch = partners[:batch_size]
+        partner_batch.check_vat_on_payment()
+        if len(partners) > batch_size:
+            self.env.ref(
+                "l10n_ro_vat_on_payment.ir_cron_res_partner_vat_payment_update_every_day"
+            )._trigger()
 
     @api.model
     def _update_vat_payment_all(self):

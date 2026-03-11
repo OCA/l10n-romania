@@ -337,6 +337,8 @@ class TestROStockCommon(AccountTestInvoicingCommon):
             self.create_stock_picking("usage_giving", step)
         elif step.get("type") == "dropship":
             self.create_sale_dropship(step)
+        elif step.get("type") == "invoice":
+            self.create_invoice(step)
         if step.get("checks"):
             if isinstance(step.get("checks"), dict):
                 checks = step.get("checks")
@@ -387,6 +389,7 @@ class TestROStockCommon(AccountTestInvoicingCommon):
                     quant_domain.append(("lot_id", "=", lot.id))
                     move_domain.append(("lot_ids", "in", lot.id))
                 quants = self.env["stock.quant"].search(quant_domain)
+                quants._compute_value()
                 stock_moves = self.env["stock.move"].search(move_domain)
                 product_moves = self.env["stock.move"].search(
                     [
@@ -875,10 +878,28 @@ class TestROStockCommon(AccountTestInvoicingCommon):
                 self, f"reception_in_progress_invoice_{values.get('index', 0)}", invoice
             )
             invoice.action_post()
+            if hasattr(self, "l10n_ro_approved_price_difference"):
+                if self.l10n_ro_approved_price_difference:
+                    purchase = purchase.with_context(
+                        l10n_ro_approved_price_difference=True
+                    )
         self.receive_and_invoice_purchases(purchase, po_values)
         if values.get("step") == 2:
             self.receive_and_invoice_purchases(purchase.with_context(step=2), po_values)
         return purchase
+
+    def create_invoice(self, values):
+        po_values = self.get_references_from_values(values)
+        if po_values.get("inv_price"):
+            purchase = getattr(self, "purchase_order_1", None)
+        if po_values.get("inv_price2"):
+            purchase = getattr(self, "purchase_order_2", None)
+        if hasattr(self, "l10n_ro_approved_price_difference"):
+            if self.l10n_ro_approved_price_difference:
+                purchase = purchase.with_context(l10n_ro_approved_price_difference=True)
+        self.receive_and_invoice_purchases(purchase, po_values)
+        if values.get("step") == 2:
+            self.receive_and_invoice_purchases(purchase.with_context(step=2), po_values)
 
     def receive_and_invoice_purchases(self, purchases, values):
         for purchase in purchases:
@@ -957,7 +978,7 @@ class TestROStockCommon(AccountTestInvoicingCommon):
                     setattr(self, f"reception_{values.get('index', 0)}_{step}", picking)
                     if picking.state == "assigned":
                         picking._action_done()
-            if picking.state == "done" and invoice_qty:
+            if invoice_qty:
                 try:
                     action = purchase.action_create_invoice()
                     invoice = self.env["account.move"].browse(action["res_id"])

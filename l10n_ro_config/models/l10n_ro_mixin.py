@@ -56,6 +56,8 @@ class L10nRoMixin(models.AbstractModel):
             for field in doc.xpath('//group[contains(@id,"l10n_ro")]'):
                 field.set("invisible", "True")
 
+            for button in doc.xpath('//button[contains(@name,"l10n_ro")]'):
+                button.set("invisible", "True")
             result["arch"] = etree.tostring(doc)
 
         if view_type == "search":
