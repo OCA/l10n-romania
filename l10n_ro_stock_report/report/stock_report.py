@@ -212,7 +212,7 @@ class StorageSheet(models.TransientModel):
                 "datetime_to": fields.Datetime.to_string(datetime_to),
                 "tz": self.env.context.get("tz") or self.env.user.tz or "UTC",
             }
-            _logger.info("start query_select_sold_init %s", location.name)
+            # _logger.info("start query_select_sold_init %s", location.name)
             # defalcare sold initial pe preturi
             query_select_sold_init = self._get_sql_select_sold_init()
 
@@ -220,24 +220,24 @@ class StorageSheet(models.TransientModel):
             self.env.cr.execute(query_select_sold_init, params=params)
             # res = self.env.cr.dictfetchall()
             # self.env["l10n.ro.stock.storage.sheet.line"].create(res)
-            _logger.info("start query_select_sold_final %s", location.name)
+            # _logger.info("start query_select_sold_final %s", location.name)
             query_select_sold_final = self._get_sql_select_sold_final()
 
             params.update({"reference": "FINAL"})
             self.env.cr.execute(query_select_sold_final, params=params)
             # res = self.env.cr.dictfetchall()
             # self.env["l10n.ro.stock.storage.sheet.line"].create(res)
-            _logger.info("start query_in %s", location.name)
+            # _logger.info("start query_in %s", location.name)
             query_in = self._get_sql_select_in()
             self.env.cr.execute(query_in, params=params)
             # res = self.env.cr.dictfetchall()
             # self.env["l10n.ro.stock.storage.sheet.line"].create(res)
-            _logger.info("start query_out %s", location.name)
+            # _logger.info("start query_out %s", location.name)
             query_out = self._get_sql_select_out()
             self.env.cr.execute(query_out, params=params)
             # res = self.env.cr.dictfetchall()
             # self.line_product_ids.create(res)
-        _logger.info("end select ")
+        # _logger.info("end select ")
 
     def _get_lot_fields(self):
         # In v19 we aggregate by move only; lot breakdown is disabled to avoid
