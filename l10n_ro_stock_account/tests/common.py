@@ -389,6 +389,7 @@ class TestROStockCommon(AccountTestInvoicingCommon):
                     quant_domain.append(("lot_id", "=", lot.id))
                     move_domain.append(("lot_ids", "in", lot.id))
                 quants = self.env["stock.quant"].search(quant_domain)
+                quants._compute_value()
                 stock_moves = self.env["stock.move"].search(move_domain)
                 product_moves = self.env["stock.move"].search(
                     [
