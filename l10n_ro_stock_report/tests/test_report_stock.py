@@ -291,7 +291,6 @@ class TestStockReport(TransactionCase):
                 "company_id": self.env.company.id,
             }
         )
-        logging.info(move.read())
         picking.action_confirm()
 
         picking.button_validate()
