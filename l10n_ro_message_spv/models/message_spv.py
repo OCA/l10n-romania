@@ -507,7 +507,17 @@ class MessageSPV(models.Model):
         if no_validate:
             url = f"https://webservicesp.anaf.ro/prod/FCTEL/rest/transformare/{val1}/DA"
 
-        res = requests.post(url, data=xml, headers=headers, timeout=25)
+        try:
+            res = requests.post(url, data=xml, headers=headers, timeout=25)
+        except (requests.exceptions.ConnectionError, requests.exceptions.Timeout) as e:
+            raise UserError(
+                _("Could not connect to ANAF service. Please try again later.")
+            ) from e
+        except requests.exceptions.RequestException as e:
+            raise UserError(
+                _("An error occurred while connecting to ANAF service: %s", e)
+            ) from e
+
         if "The requested URL was rejected" in res.text:
             raise UserError(_("ANAF service unable to generate PDF from this XML."))
 
