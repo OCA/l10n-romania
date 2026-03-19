@@ -99,8 +99,6 @@ class StockMove(models.Model):
             move.l10n_ro_account_id = account
 
     @api.depends(
-        "is_in",
-        "is_out",
         "state",
         "location_id",
         "location_dest_id",
@@ -115,7 +113,7 @@ class StockMove(models.Model):
         self.ensure_one()
         if not self.is_l10n_ro_record:
             return False
-        if self.is_in:
+        if self._is_in():
             if self.picking_id.l10n_ro_reception_in_progress:
                 return "reception_in_progress"
             if self.picking_id.l10n_ro_notice:
@@ -139,7 +137,7 @@ class StockMove(models.Model):
                 return "production"
             if self.location_id.usage == "transit":
                 return "internal_transit_in"
-        if self.is_out:
+        if self._is_out():
             if self.picking_id.l10n_ro_reception_in_progress:
                 return "reception_in_progress_return"
             if self.picking_id.l10n_ro_notice:
