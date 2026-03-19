@@ -113,7 +113,10 @@ class StockMove(models.Model):
         self.ensure_one()
         if not self.is_l10n_ro_record:
             return False
-        if self._is_in():
+        if (
+            self.location_id.usage != "internal"
+            and self.location_dest_id.usage == "internal"
+        ):
             if self.picking_id.l10n_ro_reception_in_progress:
                 return "reception_in_progress"
             if self.picking_id.l10n_ro_notice:
@@ -137,7 +140,10 @@ class StockMove(models.Model):
                 return "production"
             if self.location_id.usage == "transit":
                 return "internal_transit_in"
-        if self._is_out():
+        if (
+            self.location_id.usage == "internal"
+            and self.location_dest_id.usage != "internal"
+        ):
             if self.picking_id.l10n_ro_reception_in_progress:
                 return "reception_in_progress_return"
             if self.picking_id.l10n_ro_notice:
