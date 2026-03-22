@@ -7,13 +7,7 @@
     "author": "Terrabit,NextERP Romania,Odoo Community Association (OCA)",
     "website": "https://github.com/OCA/l10n-romania",
     "category": "Warehouse",
-    "depends": [
-        "stock",
-        "account",
-        "purchase",
-        "sale",
-        "l10n_ro_config",
-    ],
+    "depends": ["l10n_ro_stock_account"],
     "data": [
         "report/stock_report_view.xml",
         "report/stock_report_template.xml",
