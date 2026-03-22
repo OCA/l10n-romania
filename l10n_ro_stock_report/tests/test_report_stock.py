@@ -21,17 +21,35 @@ class TestStockReport(TransactionCase):
                 "l10n_ro_stock_acc_price_diff": True,
             }
         )
-        self.account_difference = self.env["account.account"].search(
-            [("code", "=", "348000")]
+        AccountAccount = self.env["account.account"]
+
+        def get_or_create_account(code, name, account_type):
+            account = AccountAccount.search(
+                [
+                    ("code", "=", code),
+                ],
+                limit=1,
+            )
+            if not account:
+                account = AccountAccount.create(
+                    {
+                        "code": code,
+                        "name": name,
+                        "account_type": account_type,
+                        "company_ids": [(4, self.env.company.id)],
+                    }
+                )
+            return account
+
+        self.account_difference = get_or_create_account(
+            "348000", "Price Difference", "asset_current"
         )
-        self.account_expense = self.env["account.account"].search(
-            [("code", "=", "607000")]
+        self.account_expense = get_or_create_account(
+            "607000", "Cost of Goods Sold", "expense"
         )
-        self.account_income = self.env["account.account"].search(
-            [("code", "=", "707000")]
-        )
-        self.account_valuation = self.env["account.account"].search(
-            [("code", "=", "371000")]
+        self.account_income = get_or_create_account("707000", "Revenue", "income")
+        self.account_valuation = get_or_create_account(
+            "371000", "Stock Valuation", "asset_current"
         )
 
         self.stock_journal = self.env["account.journal"].search(
@@ -50,6 +68,7 @@ class TestStockReport(TransactionCase):
             "property_account_expense_categ_id": self.account_expense.id,
             "property_stock_valuation_account_id": self.account_valuation.id,
             "property_stock_journal": self.stock_journal.id,
+            "l10n_ro_stock_account_change": True,
         }
 
         self.category = self.env["product.category"].search(
@@ -302,8 +321,8 @@ class TestStockReport(TransactionCase):
     def test_report_two_periods_quantities(self):
         """
         Scenario requested:
-        - On date1: purchase 5, sale 2 → report: init 0, in 5, out 2, final 3
-        - On later date2: purchase 10, sale 4 → report: init 3, in 10, out 4, final 9
+        - On date1: purchase 4, sale 2 → report: init 0, in 4, out 2, final 2
+        - On later date2: purchase 10, sale 4 → report: init 2, in 10, out 4, final 8
         """
         product = self.product_1
         # Use stable past dates to avoid timezone boundary issues
