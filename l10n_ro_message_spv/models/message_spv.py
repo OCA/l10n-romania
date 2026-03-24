@@ -61,7 +61,7 @@ class MessageSPV(models.Model):
         ],
         default="draft",
     )
-    download_attempts = fields.Integer(string="Download Attempts", default=0)
+    download_attempts = fields.Integer(default=0)
     file_name = fields.Char()
     attachment_id = fields.Many2one("ir.attachment", string="Attachment")
     attachment_xml_id = fields.Many2one("ir.attachment", string="XML")
