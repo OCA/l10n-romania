@@ -7,6 +7,7 @@ import logging
 
 from odoo import Command, api, fields, models
 from odoo.exceptions import UserError
+from odoo.tools.sql import column_exists, create_column
 
 _logger = logging.getLogger(__name__)
 
@@ -18,7 +19,7 @@ class StockMove(models.Model):
     l10n_ro_extra_account_move_ids = fields.One2many(
         "account.move",
         "l10n_ro_extra_stock_move_id",
-        string="Extra Account Moves",
+        string="Romania - Extra Account Moves",
         readonly=True,
         copy=False,
     )
@@ -50,7 +51,7 @@ class StockMove(models.Model):
         ],
         compute="_compute_l10n_ro_move_type",
         store=True,
-        string="Romanian Move Type",
+        string="Romanian - Move Type",
         help="Specify the type of stock move for Romanian localization.",
     )
 
@@ -58,7 +59,13 @@ class StockMove(models.Model):
         "account.account",
         compute="_compute_account",
         store=True,
-        string="Valuation Account",
+        string="Romania - Valuation Account",
+    )
+    l10n_ro_transfer_account_id = fields.Many2one(
+        "account.account",
+        compute="_compute_account",
+        store=True,
+        string="Romania - Transfer Valuation Account",
     )
 
     @api.depends("product_id", "account_move_id")
@@ -73,6 +80,7 @@ class StockMove(models.Model):
                 move.product_id.l10n_ro_property_stock_valuation_account_id
                 or move.product_id.categ_id.property_stock_valuation_account_id
             )
+            transfer_account = account
             if move.product_id.categ_id.l10n_ro_stock_account_change:
                 if (
                     move.value > 0
@@ -84,7 +92,11 @@ class StockMove(models.Model):
                     and loc_src.l10n_ro_property_stock_valuation_account_id
                 ):
                     account = loc_src.l10n_ro_property_stock_valuation_account_id
-
+                if loc_src.usage == "internal" and loc_dest.usage == "transit":
+                    if loc_dest.l10n_ro_property_stock_valuation_account_id:
+                        account = loc_dest.l10n_ro_property_stock_valuation_account_id
+                    elif loc_dest.company_id.l10n_ro_property_stock_transfer_account_id:
+                        account = loc_src.company_id.l10n_ro_property_stock_transfer_account_id  # noqa: E501
             if move.account_move_id and "internal" not in move.l10n_ro_move_type:
                 for account_move in move.account_move_id:
                     for aml in account_move.line_ids.sorted(
@@ -96,9 +108,58 @@ class StockMove(models.Model):
                                 break
             move.l10n_ro_account_id = account
 
+            if (
+                loc_src.usage in ("internal", "transit")
+                and loc_dest.usage == "internal"
+            ):
+                if loc_src.l10n_ro_property_stock_valuation_account_id:
+                    transfer_account = (
+                        loc_src.l10n_ro_property_stock_valuation_account_id
+                    )
+                elif (
+                    loc_src.usage == "transit"
+                    and loc_src.company_id.l10n_ro_property_stock_transfer_account_id
+                ):
+                    transfer_account = (
+                        loc_src.company_id.l10n_ro_property_stock_transfer_account_id
+                    )
+            elif loc_src.usage == "internal" and loc_dest.usage == "transit":
+                if loc_src.l10n_ro_property_stock_valuation_account_id:
+                    transfer_account = (
+                        loc_src.l10n_ro_property_stock_valuation_account_id
+                    )
+
+            move.l10n_ro_transfer_account_id = (
+                transfer_account.id
+                if transfer_account and transfer_account != account
+                else False
+            )
+
+    def _auto_init(self):
+        res = super()._auto_init()
+        if not column_exists(self.env.cr, "stock_move", "l10n_ro_transfer_account_id"):
+            create_column(
+                self.env.cr,
+                "stock_move",
+                "l10n_ro_transfer_account_id",
+                "integer",
+            )
+            self.env.cr.execute(
+                """
+                    UPDATE stock_move sm
+                    SET l10n_ro_transfer_account_id =
+                        (sl.l10n_ro_property_stock_valuation_account_id->>'sm.company_id')::integer
+                    FROM stock_location sl, stock_location sld
+                    WHERE sm.location_id = sl.id
+                    AND sm.location_dest_id = sld.id
+                    AND sl.usage = 'internal'
+                    AND sld.usage = 'internal'
+                    AND sl.l10n_ro_property_stock_valuation_account_id IS NOT NULL
+                """,
+            )  # noqa
+        return res
+
     @api.depends(
-        "is_in",
-        "is_out",
         "state",
         "location_id",
         "location_dest_id",
@@ -113,7 +174,10 @@ class StockMove(models.Model):
         self.ensure_one()
         if not self.is_l10n_ro_record:
             return False
-        if self.is_in:
+        if (
+            self.location_id.usage != "internal"
+            and self.location_dest_id.usage == "internal"
+        ):
             if self.picking_id.l10n_ro_reception_in_progress:
                 return "reception_in_progress"
             if self.picking_id.l10n_ro_notice:
@@ -137,7 +201,10 @@ class StockMove(models.Model):
                 return "production"
             if self.location_id.usage == "transit":
                 return "internal_transit_in"
-        if self.is_out:
+        if (
+            self.location_id.usage == "internal"
+            and self.location_dest_id.usage != "internal"
+        ):
             if self.picking_id.l10n_ro_reception_in_progress:
                 return "reception_in_progress_return"
             if self.picking_id.l10n_ro_notice:
