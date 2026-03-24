@@ -29,7 +29,7 @@ class ResCompany(models.Model):
             domain = [
                 ("company_id", "=", company.id),
                 ("attachment_id", "=", False),
-                ("state", "!=", "error"),  # nu mai procesăm în cron mesajele în eroare
+                ("state", "=", "draft"),  # procesăm doar mesajele în starea draft (care nu au erori sau nu sunt gata)
             ]
             messages = company.env["l10n.ro.message.spv"].search(
                 domain, limit=limit + 1
