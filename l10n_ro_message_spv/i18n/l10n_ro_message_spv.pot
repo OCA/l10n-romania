@@ -126,6 +126,11 @@ msgid "Download"
 msgstr ""
 
 #. module: l10n_ro_message_spv
+#: model:ir.model.fields,field_description:l10n_ro_message_spv.field_l10n_ro_message_spv__download_attempts
+msgid "Download Attempts"
+msgstr ""
+
+#. module: l10n_ro_message_spv
 #: model:ir.model.fields.selection,name:l10n_ro_message_spv.selection__l10n_ro_message_spv__state__downloaded
 msgid "Downloaded"
 msgstr ""
@@ -151,6 +156,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_ro_message_spv.field_l10n_ro_message_spv__error
 #: model:ir.model.fields.selection,name:l10n_ro_message_spv.selection__l10n_ro_message_spv__message_type__error
 #: model:ir.model.fields.selection,name:l10n_ro_message_spv.selection__l10n_ro_message_spv__state__error
+#: model_terms:ir.ui.view,arch_db:l10n_ro_message_spv.view_l10n_ro_message_spv_search
 msgid "Error"
 msgstr ""
 
