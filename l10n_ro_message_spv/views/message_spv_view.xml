@@ -52,6 +52,7 @@
                     decoration-success="state == 'done'"
                     decoration-info="state == 'downloaded'"
                     decoration-primary="state == 'invoice'"
+                    decoration-danger="state == 'error'"
                 />
             </list>
         </field>
@@ -112,6 +113,7 @@
                                 decoration-success="state == 'done'"
                                 decoration-info="state == 'downloaded'"
                                 decoration-primary="state == 'invoice'"
+                                decoration-danger="state == 'error'"
                             />
                         </group>
 
@@ -189,6 +191,11 @@
                         string="Draft"
                         name="draft"
                         domain="[('state', '=', 'draft')]"
+                    />
+                    <filter
+                        string="Error"
+                        name="error"
+                        domain="[('state', '=', 'error')]"
                     />
                     <filter
                         string="Done"

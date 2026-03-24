@@ -26,10 +26,11 @@ class ResCompany(models.Model):
 
         need_retrigger = False
         for company in ro_companies:
+            # procesăm doar mesajele în starea draft (care nu au erori sau nu sunt gata)
             domain = [
                 ("company_id", "=", company.id),
                 ("attachment_id", "=", False),
-                ("state", "!=", "error"),  # nu mai procesăm în cron mesajele în eroare
+                ("state", "=", "draft"),
             ]
             messages = company.env["l10n.ro.message.spv"].search(
                 domain, limit=limit + 1
