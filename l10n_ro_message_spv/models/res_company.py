@@ -30,11 +30,7 @@ class ResCompany(models.Model):
             domain = [
                 ("company_id", "=", company.id),
                 ("attachment_id", "=", False),
-                (
-                    "state",
-                    "=",
-                    "draft",
-                ),
+                ("state", "=", "draft"),
             ]
             messages = company.env["l10n.ro.message.spv"].search(
                 domain, limit=limit + 1

@@ -150,6 +150,7 @@ class MessageSPV(models.Model):
             zip_ref = zipfile.ZipFile(io.BytesIO(attachment.raw))
             xml_file = [f for f in zip_ref.namelist() if "semnatura" not in f]
             file_name = f"{message.request_id}.xml"
+            xml_bytes = False
             if xml_file:
                 file_name = xml_file[0]
                 xml_bytes = zip_ref.open(file_name)
@@ -459,6 +460,11 @@ class MessageSPV(models.Model):
                 message.write({"state": "error", "error": str(e)})
                 continue
 
+            _logger.info(
+                "Search existing invoice: ref=%s, partner=%s",
+                new_invoice.ref,
+                new_invoice.commercial_partner_id.id,
+            )
             exist_invoice = move_obj.search(
                 [
                     ("ref", "=", new_invoice.ref),
@@ -473,6 +479,7 @@ class MessageSPV(models.Model):
                 ],
                 limit=1,
             )
+            _logger.info("Exist invoice found: %s", exist_invoice.ids)
             if exist_invoice:
                 domain = [
                     ("res_model", "=", "account.move"),
