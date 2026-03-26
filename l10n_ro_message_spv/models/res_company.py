@@ -26,7 +26,21 @@ class ResCompany(models.Model):
 
         need_retrigger = False
         for company in ro_companies:
-            # procesăm doar mesajele în starea draft (care nu au erori sau nu sunt gata)
+            # resetăm mesajele cu erori din zilele trecute la starea draft
+            error_messages_from_past = company.env["l10n.ro.message.spv"].search(
+                [
+                    ("company_id", "=", company.id),
+                    ("attachment_id", "=", False),
+                    ("state", "=", "error"),
+                    ("last_download_date", "<", fields.Date.today()),
+                ]
+            )
+            if error_messages_from_past:
+                error_messages_from_past.write(
+                    {"state": "draft", "download_attempts": 0}
+                )
+
+            # procesăm mesajele în starea draft
             domain = [
                 ("company_id", "=", company.id),
                 ("attachment_id", "=", False),
@@ -37,9 +51,7 @@ class ResCompany(models.Model):
             )
             if len(messages) > limit:
                 need_retrigger = True
-            # Procesează mesajele individual pentru a nu bloca cron-ul în caz de eroare
-            messages_to_process = messages[:-1]
-            for message in messages_to_process:
+            for message in messages[:limit]:
                 try:
                     # rulează descărcarea pentru fiecare mesaj în parte
                     message.download_from_spv()
@@ -50,12 +62,17 @@ class ResCompany(models.Model):
                         message.name,
                         company.id,
                     )
-                    message.sudo().write(
-                        {
-                            "state": "error",
-                            "error": str(e),
-                        }
-                    )
+                    today = fields.Date.today()
+                    attempts = message.download_attempts + 1
+                    if message.last_download_date != today:
+                        attempts = 1
+                    vals = {
+                        "state": "error",
+                        "error": str(e),
+                        "download_attempts": attempts,
+                        "last_download_date": today,
+                    }
+                    message.sudo().write(vals)
 
         if need_retrigger:
             self.env.ref(
@@ -78,10 +95,21 @@ class ResCompany(models.Model):
         ]
         partner = self.env["res.partner"].search(domain, limit=1)
         if not partner:
-            domain = [("vat", "like", cif), ("is_company", "=", True)]
+            domain = [
+                ("vat", "like", cif),
+                ("is_company", "=", True),
+                "|",
+                ("company_id", "=", company_id),
+                ("company_id", "=", False),
+            ]
             partner = self.env["res.partner"].search(domain, limit=1)
         if not partner:
-            domain = [("vat", "like", cif)]
+            domain = [
+                ("vat", "like", cif),
+                "|",
+                ("company_id", "=", company_id),
+                ("company_id", "=", False),
+            ]
             partner = self.env["res.partner"].search(domain, limit=1)
         if not partner:
             partner = self.env["res.partner"].create(
