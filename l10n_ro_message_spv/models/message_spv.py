@@ -44,8 +44,8 @@ class MessageSPV(models.Model):
 
     # campuri suplimentare
 
-    invoice_id = fields.Many2one("account.move", string="Invoice")
-    partner_id = fields.Many2one("res.partner", string="Partner")
+    invoice_id = fields.Many2one("account.move", string="Invoice", check_company=True)
+    partner_id = fields.Many2one("res.partner", string="Partner", check_company=True)
 
     # draft - starea initiala a mesajului descarcat din SPV
     # downloaded - fisierul a fost descarcat cu succes
@@ -64,10 +64,18 @@ class MessageSPV(models.Model):
     download_attempts = fields.Integer(default=0)
     last_download_date = fields.Date()
     file_name = fields.Char()
-    attachment_id = fields.Many2one("ir.attachment", string="Attachment")
-    attachment_xml_id = fields.Many2one("ir.attachment", string="XML")
-    attachment_anaf_pdf_id = fields.Many2one("ir.attachment", string="ANAF PDF")
-    attachment_embedded_pdf_id = fields.Many2one("ir.attachment", string="Embedded PDF")
+    attachment_id = fields.Many2one(
+        "ir.attachment", string="Attachment", check_company=True
+    )
+    attachment_xml_id = fields.Many2one(
+        "ir.attachment", string="XML", check_company=True
+    )
+    attachment_anaf_pdf_id = fields.Many2one(
+        "ir.attachment", string="ANAF PDF", check_company=True
+    )
+    attachment_embedded_pdf_id = fields.Many2one(
+        "ir.attachment", string="Embedded PDF", check_company=True
+    )
     amount = fields.Monetary()
     invoice_amount = fields.Monetary()
 
@@ -141,6 +149,7 @@ class MessageSPV(models.Model):
                 "name": file_name,
                 "raw": response["content"],
                 "mimetype": "application/zip",
+                "company_id": message.company_id.id,
             }
             attachment = self.env["ir.attachment"].sudo().create(attachment_value)
 
@@ -180,6 +189,7 @@ class MessageSPV(models.Model):
                 "name": file_name,
                 "raw": xml_file,
                 "mimetype": "application/xml",
+                "company_id": message.company_id.id,
             }
             attachment_xml = self.env["ir.attachment"].sudo().create(attachment_value)
             if message.attachment_xml_id:
@@ -455,6 +465,7 @@ class MessageSPV(models.Model):
                 "partner_id": message.partner_id.id,
                 "l10n_ro_edi_download": message.name,
                 "l10n_ro_edi_transaction": message.request_id,
+                "company_id": message.company_id.id,
             }
             if "extract_state" in move_obj._fields:
                 invoice_values["extract_state"] = "no_extract_requested"
@@ -556,6 +567,7 @@ class MessageSPV(models.Model):
                 "datas": pdf,
                 "type": "binary",
                 "mimetype": "application/pdf",
+                "company_id": message.company_id.id,
             }
 
             attachment_pdf = self.env["ir.attachment"].sudo().create(attachment_value)
@@ -601,6 +613,7 @@ class MessageSPV(models.Model):
                                 + "=" * (len(text) % 3),  # Fix incorrect padding
                                 "type": "binary",
                                 "mimetype": "application/pdf",
+                                "company_id": message.company_id.id,
                             }
                         )
                     )
@@ -634,7 +647,13 @@ class MessageSPV(models.Model):
     def get_partner(self):
         for message in self.filtered(lambda m: not m.partner_id):
             if message.cif:
-                domain = [("vat", "like", message.cif), ("is_company", "=", True)]
+                domain = [
+                    ("vat", "like", message.cif),
+                    ("is_company", "=", True),
+                    "|",
+                    ("company_id", "=", message.company_id.id),
+                    ("company_id", "=", False),
+                ]
                 partner = self.env["res.partner"].search(domain, limit=1)
                 if not partner:
                     partner = self.env["res.partner"].create(
@@ -642,6 +661,7 @@ class MessageSPV(models.Model):
                             "name": message.cif,
                             "vat": message.cif,
                             "is_company": True,
+                            "company_id": message.company_id.id,
                         }
                     )
                 message.write({"partner_id": partner.id})

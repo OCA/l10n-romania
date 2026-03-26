@@ -95,10 +95,21 @@ class ResCompany(models.Model):
         ]
         partner = self.env["res.partner"].search(domain, limit=1)
         if not partner:
-            domain = [("vat", "like", cif), ("is_company", "=", True)]
+            domain = [
+                ("vat", "like", cif),
+                ("is_company", "=", True),
+                "|",
+                ("company_id", "=", company_id),
+                ("company_id", "=", False),
+            ]
             partner = self.env["res.partner"].search(domain, limit=1)
         if not partner:
-            domain = [("vat", "like", cif)]
+            domain = [
+                ("vat", "like", cif),
+                "|",
+                ("company_id", "=", company_id),
+                ("company_id", "=", False),
+            ]
             partner = self.env["res.partner"].search(domain, limit=1)
         if not partner:
             partner = self.env["res.partner"].create(
