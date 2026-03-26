@@ -319,13 +319,21 @@ class TestMessageSPV(TestMessageSPV):
 
         # Forțăm o excepție în timpul download_from_spv pentru a
         # declanșa rollback-ul tranzacției interne
-        with patch.object(
-            type(self.env["l10n.ro.message.spv"]),
-            "download_from_spv",
-            side_effect=Exception("Crash!"),
-        ):
-            # Rulăm cron-ul (metoda din res.company)
-            self.env.company.l10n_ro_download_zip_message_spv(limit=1)
+        with self.assertLogs(
+            "odoo.addons.l10n_ro_message_spv.models.res_company", level="ERROR"
+        ) as cm:
+            with patch.object(
+                type(self.env["l10n.ro.message.spv"]),
+                "download_from_spv",
+                side_effect=Exception("Crash!"),
+            ):
+                # Rulăm cron-ul (metoda din res.company)
+                self.env.company.l10n_ro_download_zip_message_spv(limit=1)
+
+            # Verificăm că eroarea a fost logată
+            self.assertTrue(
+                any("Eroare la descărcarea ZIP" in log for log in cm.output)
+            )
 
         # Verificăm că, în ciuda crash-ului, cron-ul a salvat eroarea
         # și a incrementat încercările
