@@ -62,6 +62,7 @@ class MessageSPV(models.Model):
         default="draft",
     )
     download_attempts = fields.Integer(default=0)
+    last_download_date = fields.Date()
     file_name = fields.Char()
     attachment_id = fields.Many2one("ir.attachment", string="Attachment")
     attachment_xml_id = fields.Many2one("ir.attachment", string="XML")
@@ -96,17 +97,26 @@ class MessageSPV(models.Model):
         session = requests.Session()
 
         for message in self.filtered(lambda m: not m.attachment_id):
+            today = fields.Date.today()
             if message.state == "error":
-                message.write({"state": "draft", "download_attempts": 0})
-            # anaf_config = message.company_id.sudo()._l10n_ro_get_anaf_sync(
-            #     scope="e-factura"
-            # )
-            # if not anaf_config:
-            #     raise UserError(_("ANAF configuration is missing."))
+                message.write(
+                    {
+                        "state": "draft",
+                        "download_attempts": 0,
+                        "last_download_date": False,
+                    }
+                )
 
-            # params = {"id": message.name}
+            attempts = message.download_attempts + 1
+            if message.last_download_date != today:
+                attempts = 1
 
-            message.write({"download_attempts": message.download_attempts + 1})
+            message.write(
+                {
+                    "download_attempts": attempts,
+                    "last_download_date": today,
+                }
+            )
 
             response = self.env["l10n_ro_edi.document"]._request_ciusro_download_zip(
                 company=message.company_id,
