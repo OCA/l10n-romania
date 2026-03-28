@@ -19,12 +19,6 @@ msgstr ""
 "X-Generator: Weblate 5.10.4\n"
 
 #. module: l10n_ro_stock_account
-#. odoo-python
-#: code:addons/l10n_ro_stock_account/models/stock_move.py:0
-msgid "%(value)s for %(quantity)s %(unit)s from %(bills)s"
-msgstr "%(value)s pentru %(quantity)s %(unit)s din %(bills)s"
-
-#. module: l10n_ro_stock_account
 #: model:ir.model,name:l10n_ro_stock_account.model_account_account
 msgid "Account"
 msgstr "Cont"
@@ -452,6 +446,9 @@ msgstr "Valoare bazată pe mișcarea de origine %(reference)s"
 #: model:ir.model,name:l10n_ro_stock_account.model_stock_warehouse
 msgid "Warehouse"
 msgstr "Depozit"
+
+#~ msgid "%(value)s for %(quantity)s %(unit)s from %(bills)s"
+#~ msgstr "%(value)s pentru %(quantity)s %(unit)s din %(bills)s"
 
 #~ msgid "Extra Account Moves"
 #~ msgstr "Mutări Extra Contabile"
