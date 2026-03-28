@@ -41,6 +41,9 @@ class AccountMoveLine(models.Model):
         if line.product_id.cost_method == "standard":
             return res
 
+        if line.product_id.cost_method == "average":
+            return res
+
         stock_moves = self._get_stock_moves().filtered(lambda sm: sm.state == "done")
         if not stock_moves:
             return res
