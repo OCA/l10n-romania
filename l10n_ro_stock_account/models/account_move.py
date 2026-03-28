@@ -39,7 +39,7 @@ class AccountMove(models.Model):
             if move.is_l10n_ro_record:
                 stock_moves = move.line_ids._get_stock_moves()
                 if stock_moves and all(
-                    "return" in m.l10n_ro_move_type
+                    "return" in (m.l10n_ro_move_type or "")
                     or m.l10n_ro_move_type == "plus_inventory"
                     for m in stock_moves
                 ):
