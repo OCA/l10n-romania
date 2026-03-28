@@ -1,9 +1,12 @@
 # Copyright (C) 2022 NextERP Romania
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
+import logging
 
 from odoo import Command, api, fields, models
 from odoo.exceptions import UserError
+
+_logger = logging.getLogger(__name__)
 
 
 class StockLandedCost(models.Model):
@@ -66,7 +69,15 @@ class StockLandedCost(models.Model):
         res = super().button_validate()
         for cost in self:
             for dist_line in cost.l10n_ro_distributed_valuation_lines:
-                dist_line.move_id._set_value()
+                # In case of out lines, this is not working, so we have to take
+                # directly the value from extra and add it to the manual amount
+                dest_move = dist_line.move_id
+                if dest_move._is_out():
+                    lc_values = dest_move._get_value_from_extra(dest_move.quantity)
+                    lc_amount = lc_values.get("value", 0)
+                    dest_move.value = dest_move._get_value() + lc_amount
+                else:
+                    dist_line.move_id._set_value()
         return res
 
     def compute_landed_cost(self):

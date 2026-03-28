@@ -164,7 +164,7 @@ class TestStockReport(TransactionCase):
         invoice = self.env["account.move"].browse(action["res_id"])
         invoice.invoice_date = fields.Date.today()
         invoice.action_post()
-        _logger.info("Factura introdusa")
+        # _logger.info("Factura introdusa")
 
     def test_report_storage_sheet(self):
         self.create_po()
