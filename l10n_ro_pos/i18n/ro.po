@@ -19,25 +19,27 @@ msgstr ""
 "X-Generator: Weblate 4.17\n"
 
 #. module: l10n_ro_pos
-#: model_terms:ir.ui.view,arch_db:l10n_ro_pos.pos_session_sales_details
-msgid "<strong>Totals</strong>"
-msgstr "<strong>Totaluri</strong>"
-
-#. module: l10n_ro_pos
 #. odoo-javascript
 #: code:addons/l10n_ro_pos/static/src/xml/pos.xml:0
 msgid "A cash sale of more than 10,000 lei cannot be made."
 msgstr "Nu se poate face o vânzare cu numerar mai mare de 10.000 lei."
 
 #. module: l10n_ro_pos
-#: model:ir.model,name:l10n_ro_pos.model_report_point_of_sale_report_saledetails
-msgid "Point of Sale Details"
-msgstr "Detalii Punct de Vânzare"
+#: model:ir.model.fields,field_description:l10n_ro_pos.field_pos_order__display_name
+#: model:ir.model.fields,field_description:l10n_ro_pos.field_pos_session__display_name
+msgid "Display Name"
+msgstr "Nume afișat"
 
 #. module: l10n_ro_pos
-#: model:ir.model,name:l10n_ro_pos.model_report_point_of_sale_report_invoice
-msgid "Point of Sale Invoice Report"
-msgstr "Raport Facturi Punct de Vânzare"
+#: model:ir.model.fields,field_description:l10n_ro_pos.field_pos_order__id
+#: model:ir.model.fields,field_description:l10n_ro_pos.field_pos_session__id
+msgid "ID"
+msgstr ""
+
+#. module: l10n_ro_pos
+#: model:ir.model.fields,field_description:l10n_ro_pos.field_pos_order__is_l10n_ro_record
+msgid "Is Romanian Record"
+msgstr ""
 
 #. module: l10n_ro_pos
 #: model:ir.model,name:l10n_ro_pos.model_pos_order
@@ -55,15 +57,20 @@ msgstr "Sesiune Punct de vânzare"
 msgid "Sale to individuals only.."
 msgstr "Vânzare doar către persoane fizice."
 
-#. module: l10n_ro_pos
-#: model_terms:ir.ui.view,arch_db:l10n_ro_pos.pos_session_sales_details
-msgid "Stock Amount"
-msgstr "Valoare stoc"
+#~ msgid "<strong>Totals</strong>"
+#~ msgstr "<strong>Totaluri</strong>"
 
-#. module: l10n_ro_pos
-#: model_terms:ir.ui.view,arch_db:l10n_ro_pos.pos_session_sales_details
-msgid "Stock Price Unit"
-msgstr "Preț stoc"
+#~ msgid "Point of Sale Details"
+#~ msgstr "Detalii Punct de Vânzare"
+
+#~ msgid "Point of Sale Invoice Report"
+#~ msgstr "Raport Facturi Punct de Vânzare"
+
+#~ msgid "Stock Amount"
+#~ msgstr "Valoare stoc"
+
+#~ msgid "Stock Price Unit"
+#~ msgstr "Preț stoc"
 
 #~ msgid ""
 #~ "Account used as counterpart of the income account in the accounting entry "
@@ -74,9 +81,6 @@ msgstr "Preț stoc"
 
 #~ msgid "Bank Journal"
 #~ msgstr "Jurnal bancă"
-
-#~ msgid "Display Name"
-#~ msgstr "Nume afișat"
 
 #~ msgid "Intermediary Account"
 #~ msgstr "Cont Intermediar"
