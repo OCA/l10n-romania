@@ -100,11 +100,6 @@ msgid "Expense Account"
 msgstr ""
 
 #. module: l10n_ro_stock_account
-#: model:ir.model.fields,field_description:l10n_ro_stock_account.field_stock_move__l10n_ro_extra_account_move_ids
-msgid "Extra Account Moves"
-msgstr ""
-
-#. module: l10n_ro_stock_account
 #: model:ir.model.fields,field_description:l10n_ro_stock_account.field_stock_warehouse__l10n_ro_fiscal_position_id
 msgid "Fiscal Position"
 msgstr ""
@@ -323,6 +318,11 @@ msgid "Reception Return"
 msgstr ""
 
 #. module: l10n_ro_stock_account
+#: model:ir.model.fields,field_description:l10n_ro_stock_account.field_stock_move__l10n_ro_extra_account_move_ids
+msgid "Romania - Extra Account Moves"
+msgstr ""
+
+#. module: l10n_ro_stock_account
 #: model:ir.model.fields,field_description:l10n_ro_stock_account.field_account_bank_statement_line__l10n_ro_extra_stock_move_id
 #: model:ir.model.fields,field_description:l10n_ro_stock_account.field_account_move__l10n_ro_extra_stock_move_id
 msgid "Romania - Extra Stock Move"
@@ -334,13 +334,23 @@ msgid "Romania - Reception in Progress Account"
 msgstr ""
 
 #. module: l10n_ro_stock_account
+#: model:ir.model.fields,field_description:l10n_ro_stock_account.field_stock_move__l10n_ro_transfer_account_id
+msgid "Romania - Transfer Valuation Account"
+msgstr ""
+
+#. module: l10n_ro_stock_account
+#: model:ir.model.fields,field_description:l10n_ro_stock_account.field_stock_move__l10n_ro_account_id
+msgid "Romania - Valuation Account"
+msgstr ""
+
+#. module: l10n_ro_stock_account
 #: model_terms:ir.ui.view,arch_db:l10n_ro_stock_account.view_location_form_inherit
 msgid "Romania Accounting"
 msgstr ""
 
 #. module: l10n_ro_stock_account
 #: model:ir.model.fields,field_description:l10n_ro_stock_account.field_stock_move__l10n_ro_move_type
-msgid "Romanian Move Type"
+msgid "Romanian - Move Type"
 msgstr ""
 
 #. module: l10n_ro_stock_account
@@ -407,11 +417,6 @@ msgstr ""
 #. module: l10n_ro_stock_account
 #: model:ir.model.fields.selection,name:l10n_ro_stock_account.selection__stock_move__l10n_ro_move_type__usage_giving_return
 msgid "Usage Giving Return"
-msgstr ""
-
-#. module: l10n_ro_stock_account
-#: model:ir.model.fields,field_description:l10n_ro_stock_account.field_stock_move__l10n_ro_account_id
-msgid "Valuation Account"
 msgstr ""
 
 #. module: l10n_ro_stock_account
