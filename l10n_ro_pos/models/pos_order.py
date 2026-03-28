@@ -7,13 +7,11 @@ from odoo import models
 
 class PosOrder(models.Model):
     _inherit = "pos.order"
+    _name = "pos.order"
+    _inherit = ["pos.order", "l10n.ro.mixin"]
 
     def _prepare_invoice_vals(self):
         vals = super()._prepare_invoice_vals()
-        vals["ref"] = self.pos_reference
+        if self.is_l10n_ro_record:
+            vals["ref"] = self.pos_reference
         return vals
-
-    def action_pos_order_invoice(self):
-        return super(
-            PosOrder, self.with_context(allowed_change_product=True)
-        ).action_pos_order_invoice()
