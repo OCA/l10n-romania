@@ -361,7 +361,7 @@ class ResPartner(models.Model):
                             res = self._update_l10n_ro_anaf_status(res, result)
                         if (
                             not isinstance(self, NewId)
-                            and not self.l10n_ro_anaf_history
+                            and not self.l10n_ro_vat_subjected_anaf_line_ids
                         ):
                             res = self._update_l10n_ro_anaf_scptva(res, result)
                         self.with_context(skip_ro_vat_change=True).update(res)
