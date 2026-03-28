@@ -9,16 +9,11 @@
     "license": "AGPL-3",
     "author": "Terrabit,Odoo Community Association (OCA)",
     "website": "https://github.com/OCA/l10n-romania",
-    "depends": ["point_of_sale", "l10n_ro_stock", "l10n_ro_config"],
-    "data": [
-        "views/report_saledetails.xml",
-    ],
+    "depends": ["point_of_sale", "l10n_ro_config"],
     "maintainers": ["dhongu", "cristianPanaite"],
     "assets": {
         "point_of_sale._assets_pos": [
-            "l10n_ro_pos/static/src/css/pos.css",
-            "l10n_ro_pos/static/src/js/PaymentScreenStatus.esm.js",
-            "l10n_ro_pos/static/src/xml/pos.xml",
+            "l10n_ro_pos/static/src/**/*",
         ],
     },
 }
