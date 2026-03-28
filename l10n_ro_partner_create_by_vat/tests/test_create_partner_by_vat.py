@@ -26,6 +26,10 @@ class TestCreatePartnerBase(AccountTestInvoicingCommon):
         cls.anaf_data = ANAF_TEST_DATA
         cls.mainpartner = cls.mainpartner.with_context(anaf_data=cls.anaf_data)
 
+    @staticmethod
+    def _check_vies_iap(record):
+        return "valid" if record.vat == "BE0477472701" else "unassigned"
+
     @classmethod
     def _request_handler(cls, s, r, /, **kw):
         """Don't block external requests."""
@@ -219,8 +223,8 @@ class TestCreatePartner(TestCreatePartnerBase):
 
     def test_vat_vies(self):
         with patch(
-            "odoo.addons.base_vat.models.res_partner.check_vies",
-            return_value={"valid": True},
+            "odoo.addons.base_vat.models.res_partner.ResPartner._check_vies_iap",
+            TestCreatePartnerBase._check_vies_iap,
         ):
             self.env.company.vat_check_vies = True
             partner_odoo = Form(self.env["res.partner"])
