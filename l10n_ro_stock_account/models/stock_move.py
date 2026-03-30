@@ -136,7 +136,6 @@ class StockMove(models.Model):
             )
 
     def _auto_init(self):
-        res = super()._auto_init()
         if not column_exists(self.env.cr, "stock_move", "l10n_ro_transfer_account_id"):
             create_column(
                 self.env.cr,
@@ -157,7 +156,7 @@ class StockMove(models.Model):
                     AND sl.l10n_ro_property_stock_valuation_account_id IS NOT NULL
                 """,
             )  # noqa
-        return res
+        return super()._auto_init()
 
     @api.depends(
         "state",
