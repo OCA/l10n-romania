@@ -6,7 +6,7 @@
     "category": "Localization",
     "summary": "Romania - Nondeductible VAT",
     "license": "AGPL-3",
-    "version": "19.0.0.2.0",
+    "version": "19.0.0.3.0",
     "data": [
         "views/account_account_view.xml",
         "views/account_move_view.xml",
