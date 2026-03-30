@@ -136,28 +136,32 @@ class StockMove(models.Model):
             )
 
     def _auto_init(self):
-        res = super()._auto_init()
         if not column_exists(self.env.cr, "stock_move", "l10n_ro_transfer_account_id"):
-            create_column(
+            if column_exists(
                 self.env.cr,
-                "stock_move",
-                "l10n_ro_transfer_account_id",
-                "integer",
-            )
-            self.env.cr.execute(
-                """
-                    UPDATE stock_move sm
-                    SET l10n_ro_transfer_account_id =
-                        (sl.l10n_ro_property_stock_valuation_account_id->>'sm.company_id')::integer
-                    FROM stock_location sl, stock_location sld
-                    WHERE sm.location_id = sl.id
-                    AND sm.location_dest_id = sld.id
-                    AND sl.usage = 'internal'
-                    AND sld.usage = 'internal'
-                    AND sl.l10n_ro_property_stock_valuation_account_id IS NOT NULL
-                """,
-            )  # noqa
-        return res
+                "stock_location",
+                "l10n_ro_property_stock_valuation_account_id",
+            ):
+                create_column(
+                    self.env.cr,
+                    "stock_move",
+                    "l10n_ro_transfer_account_id",
+                    "integer",
+                )
+                self.env.cr.execute(
+                    """
+                        UPDATE stock_move sm
+                        SET l10n_ro_transfer_account_id =
+                            (sl.l10n_ro_property_stock_valuation_account_id->>'sm.company_id')::integer
+                        FROM stock_location sl, stock_location sld
+                        WHERE sm.location_id = sl.id
+                        AND sm.location_dest_id = sld.id
+                        AND sl.usage = 'internal'
+                        AND sld.usage = 'internal'
+                        AND sl.l10n_ro_property_stock_valuation_account_id IS NOT NULL
+                    """,
+                )  # noqa
+        return super()._auto_init()
 
     @api.depends(
         "state",
