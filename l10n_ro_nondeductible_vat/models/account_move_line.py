@@ -33,7 +33,6 @@ class AccountMoveLine(models.Model):
     )
 
     def _auto_init(self):
-        res = super()._auto_init()
         if not column_exists(
             self.env.cr, "account_move_line", "l10n_ro_nondeductible_percent"
         ):
@@ -43,7 +42,7 @@ class AccountMoveLine(models.Model):
                 "l10n_ro_nondeductible_percent",
                 "character varying",
             )
-        return res
+        return super()._auto_init()
 
     @api.depends("deductible_amount")
     def _compute_l10n_ro_nondeductible_amount(self):
