@@ -21,6 +21,7 @@ class ResCompany(models.Model):
 
     def l10n_ro_download_zip_message_spv(self, limit=5):
         # method to be used in cron job to auto download e-invoices from ANAF
+        _logger.info("⏱️ Cron job for download ZIP messages from SPV")
         domain = [("l10n_ro_edi_access_token", "!=", False)]
         ro_companies = self or self.env["res.company"].sudo().search(domain)
 
@@ -51,7 +52,17 @@ class ResCompany(models.Model):
             )
             if len(messages) > limit:
                 need_retrigger = True
-            for message in messages[:limit]:
+                _logger.info(
+                    "🔁 More messages to download from SPV, retriggering cron..."
+                )
+
+            # Procesează mesajele individual pentru a nu bloca cron-ul în caz de eroare
+            messages_to_process = messages[:limit]
+            if messages_to_process:
+                _logger.info(f"📥 Download ZIP for {len(messages_to_process)} messages")
+            else:
+                _logger.info(f"No messages to download for company {company.name}")
+            for message in messages_to_process:
                 try:
                     # rulează descărcarea pentru fiecare mesaj în parte
                     message.download_from_spv()
@@ -75,6 +86,7 @@ class ResCompany(models.Model):
                     message.sudo().write(vals)
 
         if need_retrigger:
+            _logger.info("⏳ Retrigger cron scheduled")
             self.env.ref(
                 "l10n_ro_message_spv.ir_cron_download_zip_message_spv"
             )._trigger()
