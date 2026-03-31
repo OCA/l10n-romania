@@ -107,10 +107,9 @@ class AccountMoveLine(models.Model):
         )._get_product_accounts()["stock_valuation"]
         if (
             not stock_moves.mapped("l10n_ro_move_track_dest_ids")
-            or self.account_id == product_account
+            and self.account_id == product_account
         ):
             return
-
         price_diff_lc = self._l10n_ro_create_price_difference_landed_cost(val_dif)
         price_diff_lc.compute_landed_cost()
         price_diff_lc.with_context(
