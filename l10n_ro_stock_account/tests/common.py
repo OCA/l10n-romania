@@ -397,6 +397,9 @@ class TestROStockCommon(AccountTestInvoicingCommon):
                     ]
                 )
                 if self.log_checks:
+                    product_moves._invalidate_cache(
+                        ["remaining_qty", "remaining_value"]
+                    )
                     _logger.info("Stock quants for product %s", product.name)
                     for quant in quants:
                         _logger.info(
