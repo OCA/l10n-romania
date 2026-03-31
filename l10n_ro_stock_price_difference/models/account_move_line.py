@@ -48,8 +48,6 @@ class AccountMoveLine(models.Model):
         stock_moves = self._get_stock_moves().filtered(lambda sm: sm.state == "done")
         if not stock_moves:
             return res
-        if not stock_moves.mapped("l10n_ro_move_track_dest_ids"):
-            return res
 
         stock_value = stock_qty = 0.0
         for stock_move in stock_moves:
@@ -99,6 +97,18 @@ class AccountMoveLine(models.Model):
             return
         val_dif = diff_dict.get("value_diff", 0.0)
         if float_is_zero(val_dif, precision_rounding=0.01):
+            return
+
+        # Distribute in case having stock move destinations or account in the
+        # invoice line is different than the product stock account
+        stock_moves = self._get_stock_moves().filtered(lambda sm: sm.state == "done")
+        product_account = self.product_id.product_tmpl_id.with_context(
+            l10_ro_stock_move=stock_moves[0]
+        )._get_product_accounts()["stock_valuation"]
+        if (
+            not stock_moves.mapped("l10n_ro_move_track_dest_ids")
+            or self.account_id == product_account
+        ):
             return
 
         price_diff_lc = self._l10n_ro_create_price_difference_landed_cost(val_dif)
