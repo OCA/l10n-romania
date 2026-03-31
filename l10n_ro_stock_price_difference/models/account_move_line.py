@@ -28,6 +28,7 @@ class AccountMoveLine(models.Model):
             "qty_diff": 0.0,
             "stock_move_id": self.env["stock.move"],
         }
+
         # Retrieve stock valuation moves.
         if not line.purchase_line_id:
             return res
@@ -46,6 +47,8 @@ class AccountMoveLine(models.Model):
 
         stock_moves = self._get_stock_moves().filtered(lambda sm: sm.state == "done")
         if not stock_moves:
+            return res
+        if not stock_moves.mapped("l10n_ro_move_track_dest_ids"):
             return res
 
         stock_value = stock_qty = 0.0
