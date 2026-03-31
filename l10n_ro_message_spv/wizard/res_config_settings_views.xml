@@ -10,15 +10,17 @@
         <field name="arch" type="xml">
             <xpath
                 expr="//setting[@id='l10n_ro_edi_test_env_setting']"
-                position="before"
+                position="after"
             >
-                <div class="row">
-                    <label
-                        for="l10n_ro_download_einvoices_days"
-                        class="col-lg-3 o_light_label"
-                    />
-                    <field name="l10n_ro_download_einvoices_days" />
-                </div>
+                <setting id="l10n_ro_download_einvoices_days_setting">
+                    <div class="row">
+                        <label
+                            for="l10n_ro_download_einvoices_days"
+                            class="col-lg-3 o_light_label"
+                        />
+                        <field name="l10n_ro_download_einvoices_days" />
+                    </div>
+                </setting>
             </xpath>
         </field>
     </record>
