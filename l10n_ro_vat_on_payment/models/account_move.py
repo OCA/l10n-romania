@@ -44,6 +44,6 @@ class AccountMove(models.Model):
         self_no_ro = self - self_ro
         for record in self_ro:
             record.always_tax_exigible = (
-                record.is_invoice(True) and record._collect_tax_cash_basis_values()
+                record.is_invoice(True) or record._collect_tax_cash_basis_values()
             )
         return super(AccountMove, self_no_ro)._compute_always_tax_exigible()
