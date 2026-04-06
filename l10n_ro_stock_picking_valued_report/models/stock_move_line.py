@@ -151,7 +151,14 @@ class StockMoveLine(models.Model):
         sm_value = stock_move._get_value_data(add_extra_value=False)
         sm_value_with_extra = stock_move._get_value_data(add_extra_value=True)
         if not sm_value.get("quantity"):
-            return {}
+            return {
+                "l10n_ro_currency_id": stock_move.company_id.currency_id.id,
+                "l10n_ro_price_unit": 0,
+                "l10n_ro_price_subtotal": 0,
+                "l10n_ro_price_tax": 0,
+                "l10n_ro_price_total": 0,
+                "l10n_ro_additional_charges": 0,
+            }
         value = sm_value.get("value", 0.0)
         price_unit = value / sm_value["quantity"]
         extra_value = sm_value_with_extra.get("value", 0.0)
