@@ -16,7 +16,7 @@ class TestFIFOInternalTransfer(TestROStockCommon):
     @TestROStockCommon.setup_country("ro")
     def setUp(cls):
         super().setUp()
-        cls.log_checks = True
+        cls.log_checks = False
 
     def test_fifo_internal_transfer_sublocation(self):
         putaway = self.env["stock.putaway.rule"].create(

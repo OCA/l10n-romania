@@ -1,19 +1,17 @@
-# ©  2015-2018 Deltatech
-#              Dorin Hongu <dhongu(@)gmail(.)com
-# See README.rst file on addons root folder for license details
+# Copyright (C) 2015 Deltatech
+# Copyright (C) 2015 Dorin Hongu <dhongu(@)gmail(.)com
+# Copyright (C) 2026 NextERP Romania
+# License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
 from odoo import models
 
 
 class PosOrder(models.Model):
-    _inherit = "pos.order"
+    _name = "pos.order"
+    _inherit = ["pos.order", "l10n.ro.mixin"]
 
     def _prepare_invoice_vals(self):
         vals = super()._prepare_invoice_vals()
-        vals["ref"] = self.pos_reference
+        if self.is_l10n_ro_record and self.pos_reference:
+            vals["ref"] = self.pos_reference
         return vals
-
-    def action_pos_order_invoice(self):
-        return super(
-            PosOrder, self.with_context(allowed_change_product=True)
-        ).action_pos_order_invoice()

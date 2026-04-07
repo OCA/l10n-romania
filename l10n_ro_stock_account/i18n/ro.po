@@ -19,12 +19,6 @@ msgstr ""
 "X-Generator: Weblate 5.10.4\n"
 
 #. module: l10n_ro_stock_account
-#. odoo-python
-#: code:addons/l10n_ro_stock_account/models/stock_move.py:0
-msgid "%(value)s for %(quantity)s %(unit)s from %(bills)s"
-msgstr "%(value)s pentru %(quantity)s %(unit)s din %(bills)s"
-
-#. module: l10n_ro_stock_account
 #: model:ir.model,name:l10n_ro_stock_account.model_account_account
 msgid "Account"
 msgstr "Cont"
@@ -104,11 +98,6 @@ msgstr "Returnare Livrare Directă"
 #: model:ir.model.fields,field_description:l10n_ro_stock_account.field_stock_location__l10n_ro_property_account_expense_location_id
 msgid "Expense Account"
 msgstr "Cont cheltuieli"
-
-#. module: l10n_ro_stock_account
-#: model:ir.model.fields,field_description:l10n_ro_stock_account.field_stock_move__l10n_ro_extra_account_move_ids
-msgid "Extra Account Moves"
-msgstr "Mutări Extra Contabile"
 
 #. module: l10n_ro_stock_account
 #: model:ir.model.fields,field_description:l10n_ro_stock_account.field_stock_warehouse__l10n_ro_fiscal_position_id
@@ -342,6 +331,11 @@ msgid "Reception Return"
 msgstr "Returnare Recepție"
 
 #. module: l10n_ro_stock_account
+#: model:ir.model.fields,field_description:l10n_ro_stock_account.field_stock_move__l10n_ro_extra_account_move_ids
+msgid "Romania - Extra Account Moves"
+msgstr ""
+
+#. module: l10n_ro_stock_account
 #: model:ir.model.fields,field_description:l10n_ro_stock_account.field_account_bank_statement_line__l10n_ro_extra_stock_move_id
 #: model:ir.model.fields,field_description:l10n_ro_stock_account.field_account_move__l10n_ro_extra_stock_move_id
 msgid "Romania - Extra Stock Move"
@@ -353,14 +347,24 @@ msgid "Romania - Reception in Progress Account"
 msgstr "Cont Recepție în Curs"
 
 #. module: l10n_ro_stock_account
+#: model:ir.model.fields,field_description:l10n_ro_stock_account.field_stock_move__l10n_ro_transfer_account_id
+msgid "Romania - Transfer Valuation Account"
+msgstr ""
+
+#. module: l10n_ro_stock_account
+#: model:ir.model.fields,field_description:l10n_ro_stock_account.field_stock_move__l10n_ro_account_id
+msgid "Romania - Valuation Account"
+msgstr ""
+
+#. module: l10n_ro_stock_account
 #: model_terms:ir.ui.view,arch_db:l10n_ro_stock_account.view_location_form_inherit
 msgid "Romania Accounting"
 msgstr "Contabilitate România"
 
 #. module: l10n_ro_stock_account
 #: model:ir.model.fields,field_description:l10n_ro_stock_account.field_stock_move__l10n_ro_move_type
-msgid "Romanian Move Type"
-msgstr "Tip Mișcare"
+msgid "Romanian - Move Type"
+msgstr ""
 
 #. module: l10n_ro_stock_account
 #. odoo-python
@@ -433,11 +437,6 @@ msgid "Usage Giving Return"
 msgstr "Returnare Dare în Utilizare"
 
 #. module: l10n_ro_stock_account
-#: model:ir.model.fields,field_description:l10n_ro_stock_account.field_stock_move__l10n_ro_account_id
-msgid "Valuation Account"
-msgstr "Cont evaluare"
-
-#. module: l10n_ro_stock_account
 #. odoo-python
 #: code:addons/l10n_ro_stock_account/models/fifo/stock_move.py:0
 msgid "Value based on origin move %(reference)s"
@@ -447,6 +446,18 @@ msgstr "Valoare bazată pe mișcarea de origine %(reference)s"
 #: model:ir.model,name:l10n_ro_stock_account.model_stock_warehouse
 msgid "Warehouse"
 msgstr "Depozit"
+
+#~ msgid "%(value)s for %(quantity)s %(unit)s from %(bills)s"
+#~ msgstr "%(value)s pentru %(quantity)s %(unit)s din %(bills)s"
+
+#~ msgid "Extra Account Moves"
+#~ msgstr "Mutări Extra Contabile"
+
+#~ msgid "Romanian Move Type"
+#~ msgstr "Tip Mișcare"
+
+#~ msgid "Valuation Account"
+#~ msgstr "Cont evaluare"
 
 #~ msgid "Accounting Information"
 #~ msgstr "Informații contabile"

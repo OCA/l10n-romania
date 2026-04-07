@@ -42,6 +42,7 @@ class StockMove(models.Model):
             and m.product_id.cost_method == "fifo"
             and m.is_l10n_ro_record
             and not m.product_id.lot_valuated
+            and m.product_uom.compare(m.quantity, 0) != 0
         )
         res = super(StockMove, self - ro_fifo_moves_out)._action_done(
             cancel_backorder=cancel_backorder
