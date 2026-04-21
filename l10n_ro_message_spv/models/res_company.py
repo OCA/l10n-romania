@@ -21,12 +21,27 @@ class ResCompany(models.Model):
 
     def l10n_ro_download_zip_message_spv(self, limit=5):
         # method to be used in cron job to auto download e-invoices from ANAF
+        _logger.info("⏱️ Cron job for download ZIP messages from SPV")
         domain = [("l10n_ro_edi_access_token", "!=", False)]
         ro_companies = self or self.env["res.company"].sudo().search(domain)
 
         need_retrigger = False
         for company in ro_companies:
-            # procesăm doar mesajele în starea draft (care nu au erori sau nu sunt gata)
+            # resetăm mesajele cu erori din zilele trecute la starea draft
+            error_messages_from_past = company.env["l10n.ro.message.spv"].search(
+                [
+                    ("company_id", "=", company.id),
+                    ("attachment_id", "=", False),
+                    ("state", "=", "error"),
+                    ("last_download_date", "<", fields.Date.today()),
+                ]
+            )
+            if error_messages_from_past:
+                error_messages_from_past.write(
+                    {"state": "draft", "download_attempts": 0}
+                )
+
+            # procesăm mesajele în starea draft
             domain = [
                 ("company_id", "=", company.id),
                 ("attachment_id", "=", False),
@@ -37,8 +52,16 @@ class ResCompany(models.Model):
             )
             if len(messages) > limit:
                 need_retrigger = True
+                _logger.info(
+                    "🔁 More messages to download from SPV, retriggering cron..."
+                )
+
             # Procesează mesajele individual pentru a nu bloca cron-ul în caz de eroare
-            messages_to_process = messages[:-1]
+            messages_to_process = messages[:limit]
+            if messages_to_process:
+                _logger.info(f"📥 Download ZIP for {len(messages_to_process)} messages")
+            else:
+                _logger.info(f"No messages to download for company {company.name}")
             for message in messages_to_process:
                 try:
                     # rulează descărcarea pentru fiecare mesaj în parte
@@ -50,14 +73,20 @@ class ResCompany(models.Model):
                         message.name,
                         company.id,
                     )
-                    message.sudo().write(
-                        {
-                            "state": "error",
-                            "error": str(e),
-                        }
-                    )
+                    today = fields.Date.today()
+                    attempts = message.download_attempts + 1
+                    if message.last_download_date != today:
+                        attempts = 1
+                    vals = {
+                        "state": "error",
+                        "error": str(e),
+                        "download_attempts": attempts,
+                        "last_download_date": today,
+                    }
+                    message.sudo().write(vals)
 
         if need_retrigger:
+            _logger.info("⏳ Retrigger cron scheduled")
             self.env.ref(
                 "l10n_ro_message_spv.ir_cron_download_zip_message_spv"
             )._trigger()
@@ -71,28 +100,34 @@ class ResCompany(models.Model):
     def _l10n_ro_get_partner_from_cif(self, cif):
         self.ensure_one()
         company_id = self.id
-        domain = [
-            ("vat", "like", cif),
-            ("is_company", "=", True),
-            ("company_id", "=", company_id),
-        ]
-        partner = self.env["res.partner"].search(domain, limit=1)
+
+        cif_clean = re.sub(r"^RO", "", cif.strip().upper())
+        cif_variants = [cif_clean, "RO" + cif_clean]
+
+        def _search(extra_domain):
+            for variant in cif_variants:
+                result = self.env["res.partner"].search(
+                    [("vat", "=ilike", variant)] + extra_domain, limit=1
+                )
+                if result:
+                    return result
+            return self.env["res.partner"]
+
+        partner = _search([("is_company", "=", True), ("company_id", "=", company_id)])
         if not partner:
-            domain = [("vat", "like", cif), ("is_company", "=", True)]
-            partner = self.env["res.partner"].search(domain, limit=1)
+            partner = _search([("is_company", "=", True)])
         if not partner:
-            domain = [("vat", "like", cif)]
-            partner = self.env["res.partner"].search(domain, limit=1)
+            partner = _search([])
         if not partner:
             partner = self.env["res.partner"].create(
                 {
                     "name": "Unknown",
-                    "vat": cif,
                     "company_id": company_id,
                     "country_id": self.env.ref("base.ro").id,
                     "is_company": True,
                 }
             )
+            partner.write({"vat": cif_clean})
         return partner
 
     def _l10n_ro_download_message_spv(self, no_days=0):
