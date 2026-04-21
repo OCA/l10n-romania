@@ -42,7 +42,13 @@ class L10nRoEdiDocument(models.Model):
         try:
             zip_ref = zipfile.ZipFile(io.BytesIO(content))
         except Exception as e:
-            _logger.error(f"Error {e} while parsing ZIP file: {content}")
+            # Check if it's a JSON error message instead of a ZIP file
+            try:
+                doc = json.loads(content.decode("utf-8"))
+                if doc.get("eroare"):
+                    return {"error": doc.get("eroare")}
+            except Exception:
+                _logger.error(f"Error {e} while parsing ZIP file: {content}")
             return {"error": "Error while parsing ZIP file"}
 
         xml_file = next(file for file in zip_ref.namelist() if "semnatura" not in file)
