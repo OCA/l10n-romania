@@ -13,7 +13,15 @@ _logger = logging.getLogger(__name__)
 @tagged("post_install", "-at_install")
 class TestProductCategory(TestStockCommon):
     def test_product_category(self):
-        category = Form(self.category_fifo.copy())
+        category = Form(
+            self.category_fifo.copy(
+                {
+                    "property_stock_account_input_categ_id": self.account_valuation_mp.id,  # noqa: E501
+                    "property_stock_account_output_categ_id": self.account_valuation_mp.id,  # noqa: E501
+                    "property_stock_valuation_account_id": self.account_valuation_mp.id,
+                }
+            )
+        )
         category.property_stock_valuation_account_id = self.account_valuation_mp
 
         category = category.save()

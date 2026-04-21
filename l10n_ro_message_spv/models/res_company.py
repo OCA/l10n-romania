@@ -100,39 +100,34 @@ class ResCompany(models.Model):
     def _l10n_ro_get_partner_from_cif(self, cif):
         self.ensure_one()
         company_id = self.id
-        domain = [
-            ("vat", "like", cif),
-            ("is_company", "=", True),
-            ("company_id", "=", company_id),
-        ]
-        partner = self.env["res.partner"].search(domain, limit=1)
+
+        cif_clean = re.sub(r"^RO", "", cif.strip().upper())
+        cif_variants = [cif_clean, "RO" + cif_clean]
+
+        def _search(extra_domain):
+            for variant in cif_variants:
+                result = self.env["res.partner"].search(
+                    [("vat", "=ilike", variant)] + extra_domain, limit=1
+                )
+                if result:
+                    return result
+            return self.env["res.partner"]
+
+        partner = _search([("is_company", "=", True), ("company_id", "=", company_id)])
         if not partner:
-            domain = [
-                ("vat", "like", cif),
-                ("is_company", "=", True),
-                "|",
-                ("company_id", "=", company_id),
-                ("company_id", "=", False),
-            ]
-            partner = self.env["res.partner"].search(domain, limit=1)
+            partner = _search([("is_company", "=", True)])
         if not partner:
-            domain = [
-                ("vat", "like", cif),
-                "|",
-                ("company_id", "=", company_id),
-                ("company_id", "=", False),
-            ]
-            partner = self.env["res.partner"].search(domain, limit=1)
+            partner = _search([])
         if not partner:
             partner = self.env["res.partner"].create(
                 {
                     "name": "Unknown",
-                    "vat": cif,
                     "company_id": company_id,
                     "country_id": self.env.ref("base.ro").id,
                     "is_company": True,
                 }
             )
+            partner.write({"vat": cif_clean})
         return partner
 
     def _l10n_ro_download_message_spv(self, no_days=0):
