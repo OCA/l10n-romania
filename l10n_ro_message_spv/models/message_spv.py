@@ -596,7 +596,13 @@ class MessageSPV(models.Model):
     def get_partner(self):
         for message in self.filtered(lambda m: not m.partner_id):
             if message.cif:
-                domain = [("vat", "like", message.cif), ("is_company", "=", True)]
+                domain = [
+                    ("vat", "like", message.cif),
+                    ("is_company", "=", True),
+                    "|",
+                    ("company_id", "=", message.company_id.id),
+                    ("company_id", "=", False),
+                ]
                 partner = self.env["res.partner"].search(domain, limit=1)
                 if not partner:
                     partner = self.env["res.partner"].create(
@@ -604,6 +610,7 @@ class MessageSPV(models.Model):
                             "name": message.cif,
                             "vat": message.cif,
                             "is_company": True,
+                            "company_id": message.company_id.id,
                         }
                     )
                 message.write({"partner_id": partner.id})

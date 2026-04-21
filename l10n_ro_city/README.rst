@@ -1,7 +1,3 @@
-.. image:: https://odoo-community.org/readme-banner-image
-   :target: https://odoo-community.org/get-involved?utm_source=readme
-   :alt: Odoo Community Association
-
 ==============
 Romania - City
 ==============
@@ -17,7 +13,7 @@ Romania - City
 .. |badge1| image:: https://img.shields.io/badge/maturity-Mature-brightgreen.png
     :target: https://odoo-community.org/page/development-status
     :alt: Mature
-.. |badge2| image:: https://img.shields.io/badge/license-AGPL--3-blue.png
+.. |badge2| image:: https://img.shields.io/badge/licence-AGPL--3-blue.png
     :target: http://www.gnu.org/licenses/agpl-3.0-standalone.html
     :alt: License: AGPL-3
 .. |badge3| image:: https://img.shields.io/badge/github-OCA%2Fl10n--romania-lightgray.png?logo=github
@@ -32,8 +28,29 @@ Romania - City
 
 |badge1| |badge2| |badge3| |badge4| |badge5|
 
-This module adds to the database the nomenclature of localities from
-Romania
+Acest modul adaugă în bază de date nomenclatorul localităților din
+România (SIRUTA) și județele, oferind funcționalități extinse pentru
+gestionarea adreselor:
+
+- Funcționalități:
+
+  - Nomenclator SIRUTA: include localitățile din România cu codurile
+    SIRUTA aferente.
+  - Personalizare afișare localități: numele localității este afișat
+    împreună cu codul județului și, dacă este cazul, numele municipiului
+    de care aparține (ex: "Localitate (Municipiu) (CJ)").
+  - Automatizare pe baza codului poștal:
+
+    - Completarea automată a județului pe baza primelor două cifre ale
+      codului poștal.
+    - Completarea automată a localității (inclusiv tratarea specială a
+      sectoarelor din București pentru codurile poștale specifice).
+    - Validarea consistenței între județ și codul poștal introdus.
+
+  - Normalizare cod poștal: asigură formatarea corectă a codului poștal
+    la 6 cifre.
+  - Extindere model județe: adaugă prefixul de cod poștal specific
+    fiecărui județ.
 
 **Table of contents**
 
