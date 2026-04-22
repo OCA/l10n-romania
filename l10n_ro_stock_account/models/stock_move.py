@@ -64,7 +64,11 @@ class StockMove(models.Model):
 
     def _is_reception(self):
         """Este receptie in stoc fara aviz"""
-        it_is = self.location_id.usage == "supplier" and self._is_in()
+        it_is = (
+            self.location_id.usage == "supplier"
+            and self._is_in()
+            and self.is_l10n_ro_record
+        )
         return it_is
 
     def _create_reception_svl(self, forced_quantity=None):
@@ -73,7 +77,11 @@ class StockMove(models.Model):
 
     def _is_reception_return(self):
         """Este un retur la o receptie in stoc fara aviz"""
-        it_is = self.location_dest_id.usage == "supplier" and self._is_out()
+        it_is = (
+            self.location_dest_id.usage == "supplier"
+            and self._is_out()
+            and self.is_l10n_ro_record
+        )
         return it_is
 
     def _create_reception_return_svl(self, forced_quantity=None):
@@ -94,7 +102,12 @@ class StockMove(models.Model):
 
     def _is_delivery(self):
         """Este livrare din stoc fara aviz"""
-        return self.location_dest_id.usage == "customer" and self._is_out()
+        it_is = (
+            self.location_dest_id.usage == "customer"
+            and self._is_out()
+            and self.is_l10n_ro_record
+        )
+        return it_is
 
     def _create_delivery_svl(self, forced_quantity=None):
         move = self.with_context(standard=True, valued_type="delivery")
@@ -102,7 +115,11 @@ class StockMove(models.Model):
 
     def _is_delivery_return(self):
         """Este retur la o livrare din stoc fara aviz"""
-        it_is = self.location_id.usage == "customer" and self._is_in()
+        it_is = (
+            self.location_id.usage == "customer"
+            and self._is_in()
+            and self.is_l10n_ro_record
+        )
         return it_is
 
     def _create_delivery_return_svl(self, forced_quantity=None):
@@ -113,6 +130,7 @@ class StockMove(models.Model):
         it_is = (
             self.location_id.usage == "inventory"
             and self.location_dest_id.usage == "internal"
+            and self.is_l10n_ro_record
         )
 
         return it_is
@@ -125,6 +143,7 @@ class StockMove(models.Model):
         it_is = (
             self.location_id.usage == "internal"
             and self.location_dest_id.usage == "inventory"
+            and self.is_l10n_ro_record
         )
 
         return it_is
@@ -139,6 +158,7 @@ class StockMove(models.Model):
             self._is_in()
             and self.location_id.usage == "production"
             and not self.origin_returned_move_id
+            and self.is_l10n_ro_record
         )
         return it_is
 
@@ -152,6 +172,7 @@ class StockMove(models.Model):
             self._is_out()
             and self.location_dest_id.usage == "production"
             and self.origin_returned_move_id
+            and self.is_l10n_ro_record
         )
         return it_is
 
@@ -175,6 +196,7 @@ class StockMove(models.Model):
             self._is_out()
             and self.location_dest_id.usage in ("consume", "production")
             and not self.origin_returned_move_id
+            and self.is_l10n_ro_record
         )
         return it_is
 
@@ -188,6 +210,7 @@ class StockMove(models.Model):
             self._is_in()
             and self.location_id.usage in ("consume", "production")
             and self.origin_returned_move_id
+            and self.is_l10n_ro_record
         )
         return it_is
 
@@ -226,6 +249,7 @@ class StockMove(models.Model):
         it_is = (
             self.location_dest_id.usage == "transit"
             and self.location_id.usage == "internal"
+            and self.is_l10n_ro_record
         )
         return it_is
 
@@ -271,6 +295,7 @@ class StockMove(models.Model):
         it_is = (
             self.location_dest_id.usage == "internal"
             and self.location_id.usage == "transit"
+            and self.is_l10n_ro_record
         )
         return it_is
 
@@ -321,6 +346,7 @@ class StockMove(models.Model):
         it_is = (
             self.location_dest_id.usage == "internal"
             and self.location_id.usage == "internal"
+            and self.is_l10n_ro_record
         )
         return it_is
 
@@ -334,8 +360,11 @@ class StockMove(models.Model):
 
     def _is_usage_giving(self):
         """Este dare in folosinta"""
-        it_is = self.location_dest_id.usage == "usage_giving" and self._is_out()
-
+        it_is = (
+            self.location_dest_id.usage == "usage_giving"
+            and self._is_out()
+            and self.is_l10n_ro_record
+        )
         return it_is
 
     def _create_usage_giving_svl(self, forced_quantity=None):
@@ -344,7 +373,11 @@ class StockMove(models.Model):
 
     def _is_usage_giving_return(self):
         """Este return dare in folosinta"""
-        it_is = self.location_id.usage == "usage_giving" and self._is_in()
+        it_is = (
+            self.location_id.usage == "usage_giving"
+            and self._is_in()
+            and self.is_l10n_ro_record
+        )
         return it_is
 
     def _create_usage_giving_return_svl(self, forced_quantity=None):
