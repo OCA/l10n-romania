@@ -379,22 +379,96 @@ ul.auto-toc {
 VAT number. It will complete the name, address of the partner from ANAF
 webservice.</p>
 <p>ANAF <a class="reference external" href="https://webservicesp.anaf.ro/PlatitorTvaRest/api/v8/ws/tva">https://webservicesp.anaf.ro/PlatitorTvaRest/api/v8/ws/tva</a></p>
+<hr class="docutils" />
+<div class="section" id="cui-codul-unic-de-inregistrare">
+<h2>1. CUI (Codul Unic de Înregistrare)</h2>
+<p><strong>CUI-ul</strong> este “CNP-ul” unei firme. Este numărul atribuit de Registrul
+Comerțului (sau de Ministerul Finanțelor, după caz) în momentul în care
+o entitate juridică este înființată.</p>
+<ul class="simple">
+<li><strong>Format:</strong> Este alcătuit dintr-un șir de cifre (între 2 și 10 cifre).</li>
+<li><strong>Cine îl are:</strong> Toate entitățile juridice (SRL, PFA, ONG, etc.).</li>
+<li><strong>Rol:</strong> Identifică în mod unic firma în fața autorităților și a
+partenerilor de afaceri.</li>
+</ul>
+</div>
+<div class="section" id="cif-codul-de-identificare-fiscala">
+<h2>2. CIF (Codul de Identificare Fiscală)</h2>
+<p><strong>CIF-ul</strong> este, în esență, denumirea generică pentru codul de
+identificare al unui plătitor de taxe.</p>
+<ul class="simple">
+<li><strong>Confuzia frecventă:</strong> Pentru o firmă (SRL), <strong>CUI și CIF sunt de
+cele mai multe ori același număr</strong>. Termenul “CIF” este folosit mai
+des de ANAF, în timp ce “CUI” este folosit de Registrul Comerțului.</li>
+<li><strong>Cazuri speciale:</strong> Alte entități care nu sunt firme (de exemplu,
+asociațiile de proprietari sau instituțiile publice) primesc un CIF
+pentru a putea plăti taxe și impozite.</li>
+</ul>
+</div>
+<div class="section" id="vat-id-codul-de-tva">
+<h2>3. VAT ID (Codul de TVA)</h2>
+<p><strong>VAT ID</strong> (sau codul de înregistrare în scopuri de TVA) reprezintă
+CUI-ul/CIF-ul firmei tale, dar cu prefixul de țară (pentru România,
+acesta este <strong>RO</strong>) atașat în față.</p>
+<ul class="simple">
+<li><strong>Exemplu:</strong> Dacă CUI-ul firmei tale este <tt class="docutils literal">12345678</tt>, VAT ID-ul va
+fi <tt class="docutils literal">RO12345678</tt>.</li>
+<li><strong>Importanță:</strong> Nu toate firmele au un VAT ID automat. O firmă are un
+cod de TVA doar dacă:<ol class="arabic">
+<li>A depășit plafonul de scutire de TVA (300.000 lei cifră de
+afaceri).</li>
+<li>A ales să devină plătitoare de TVA prin opțiune.</li>
+<li>S-a înregistrat pentru operațiuni intracomunitare
+(achiziții/vânzări de servicii sau bunuri în UE).</li>
+</ol>
+</li>
+</ul>
+<hr class="docutils" />
+<div class="section" id="rezumat-comparativ">
+<h3>Rezumat comparativ</h3>
+<table border="1" class="docutils">
+<colgroup>
+<col width="18%" />
+<col width="59%" />
+<col width="24%" />
+</colgroup>
+<thead valign="bottom">
+<tr><th class="head">Termen</th>
+<th class="head">Ce înseamnă</th>
+<th class="head">Exemplu</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr><td><strong>CUI</strong></td>
+<td>Identificatorul oficial al firmei.</td>
+<td><tt class="docutils literal">12345678</tt></td>
+</tr>
+<tr><td><strong>CIF</strong></td>
+<td>Termenul fiscal pentru CUI.</td>
+<td><tt class="docutils literal">12345678</tt></td>
+</tr>
+<tr><td><strong>VAT ID</strong></td>
+<td>CUI-ul cu prefixul de țară (doar
+pentru firmele plătitoare de TVA).</td>
+<td><tt class="docutils literal">RO12345678</tt></td>
+</tr>
+</tbody>
+</table>
+<!--  -->
+<blockquote>
+<strong>Notă:</strong> Dacă o firmă <strong>nu</strong> este plătitoare de TVA, pe facturile
+emise de ea va apărea doar numărul simplu (CUI), fără prefixul “RO”.</blockquote>
 <p><strong>Table of contents</strong></p>
 <div class="contents local topic" id="contents">
 <ul class="simple">
 <li><a class="reference internal" href="#installation" id="toc-entry-1">Installation</a></li>
 <li><a class="reference internal" href="#usage" id="toc-entry-2">Usage</a></li>
 <li><a class="reference internal" href="#bug-tracker" id="toc-entry-3">Bug Tracker</a></li>
-<li><a class="reference internal" href="#credits" id="toc-entry-4">Credits</a><ul>
-<li><a class="reference internal" href="#authors" id="toc-entry-5">Authors</a></li>
-<li><a class="reference internal" href="#contributors" id="toc-entry-6">Contributors</a></li>
-<li><a class="reference internal" href="#maintainers" id="toc-entry-7">Maintainers</a></li>
-</ul>
-</li>
+<li><a class="reference internal" href="#credits" id="toc-entry-4">Credits</a></li>
 </ul>
 </div>
 <div class="section" id="installation">
-<h2><a class="toc-backref" href="#toc-entry-1">Installation</a></h2>
+<h4><a class="toc-backref" href="#toc-entry-1">Installation</a></h4>
 <p>To install this module, you need to:</p>
 <ul class="simple">
 <li>clone the branch 16.0 of the repository
@@ -406,12 +480,12 @@ webservice.</p>
 </ul>
 </div>
 <div class="section" id="usage">
-<h2><a class="toc-backref" href="#toc-entry-2">Usage</a></h2>
+<h4><a class="toc-backref" href="#toc-entry-2">Usage</a></h4>
 <p>Put the VAT number in the partner’s form and if it’s a romanian company,
 it will fetch data available on ANAF website.</p>
 </div>
 <div class="section" id="bug-tracker">
-<h2><a class="toc-backref" href="#toc-entry-3">Bug Tracker</a></h2>
+<h4><a class="toc-backref" href="#toc-entry-3">Bug Tracker</a></h4>
 <p>Bugs are tracked on <a class="reference external" href="https://github.com/OCA/l10n-romania/issues">GitHub Issues</a>.
 In case of trouble, please check there if your issue has already been reported.
 If you spotted it first, help us to smash it by providing a detailed and welcomed
@@ -419,16 +493,19 @@ If you spotted it first, help us to smash it by providing a detailed and welcome
 <p>Do not contact contributors directly about support or help with technical issues.</p>
 </div>
 <div class="section" id="credits">
-<h2><a class="toc-backref" href="#toc-entry-4">Credits</a></h2>
+<h4><a class="toc-backref" href="#toc-entry-4">Credits</a></h4>
+</div>
+</div>
+</div>
 <div class="section" id="authors">
-<h3><a class="toc-backref" href="#toc-entry-5">Authors</a></h3>
+<h2>Authors</h2>
 <ul class="simple">
 <li>NextERP Romania</li>
 <li>Forest and Biomass Romania</li>
 </ul>
 </div>
 <div class="section" id="contributors">
-<h3><a class="toc-backref" href="#toc-entry-6">Contributors</a></h3>
+<h2>Contributors</h2>
 <ul class="simple">
 <li><a class="reference external" href="https://www.nexterp.ro">NextERP Romania</a>:<ul>
 <li>Fekete Mihai &lt;<a class="reference external" href="mailto:feketemihai&#64;nexterp.ro">feketemihai&#64;nexterp.ro</a>&gt;</li>
@@ -441,7 +518,7 @@ If you spotted it first, help us to smash it by providing a detailed and welcome
 technical issues.</p>
 </div>
 <div class="section" id="maintainers">
-<h3><a class="toc-backref" href="#toc-entry-7">Maintainers</a></h3>
+<h2>Maintainers</h2>
 <p>This module is maintained by the OCA.</p>
 <a class="reference external image-reference" href="https://odoo-community.org">
 <img alt="Odoo Community Association" src="https://odoo-community.org/logo.png" />
@@ -453,7 +530,6 @@ promote its widespread use.</p>
 <p><a class="reference external image-reference" href="https://github.com/feketemihai"><img alt="feketemihai" src="https://github.com/feketemihai.png?size=40px" /></a></p>
 <p>This module is part of the <a class="reference external" href="https://github.com/OCA/l10n-romania/tree/19.0/l10n_ro_partner_create_by_vat">OCA/l10n-romania</a> project on GitHub.</p>
 <p>You are welcome to contribute. To learn how please visit <a class="reference external" href="https://odoo-community.org/page/Contribute">https://odoo-community.org/page/Contribute</a>.</p>
-</div>
 </div>
 </div>
 </div>
