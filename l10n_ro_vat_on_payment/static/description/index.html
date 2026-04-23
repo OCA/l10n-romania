@@ -375,8 +375,64 @@ ul.auto-toc {
 !! source digest: sha256:7cf5c1b2fefc0a5422d8ced90429793089cc7aa74d70b271105f808e0e73f94a
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! -->
 <p><a class="reference external image-reference" href="https://odoo-community.org/page/development-status"><img alt="Mature" src="https://img.shields.io/badge/maturity-Mature-brightgreen.png" /></a> <a class="reference external image-reference" href="http://www.gnu.org/licenses/agpl-3.0-standalone.html"><img alt="License: AGPL-3" src="https://img.shields.io/badge/license-AGPL--3-blue.png" /></a> <a class="reference external image-reference" href="https://github.com/OCA/l10n-romania/tree/19.0/l10n_ro_vat_on_payment"><img alt="OCA/l10n-romania" src="https://img.shields.io/badge/github-OCA%2Fl10n--romania-lightgray.png?logo=github" /></a> <a class="reference external image-reference" href="https://translation.odoo-community.org/projects/l10n-romania-19-0/l10n-romania-19-0-l10n_ro_vat_on_payment"><img alt="Translate me on Weblate" src="https://img.shields.io/badge/weblate-Translate%20me-F47D42.png" /></a> <a class="reference external image-reference" href="https://runboat.odoo-community.org/builds?repo=OCA/l10n-romania&amp;target_branch=19.0"><img alt="Try me on Runboat" src="https://img.shields.io/badge/runboat-Try%20me-875A7B.png" /></a></p>
-<p>This module allows you to check partners (companies) that applies VAT on
-Payment.</p>
+<p>Acest modul implementează suportul pentru <strong>TVA la Încasare</strong> (regim
+special de TVA conform legislației române), permițând verificarea
+automată a partenerilor înregistrați în sistemul ANAF ca plătitori de
+TVA la Încasare.</p>
+<p>Funcționalități principale:</p>
+<ul class="simple">
+<li><strong>Verificare ANAF</strong>: Descarcă și procesează fișierul de istoric ANAF
+(<tt class="docutils literal">istoric.txt</tt>) cu toți contribuabilii înregistrați în regimul TVA
+la Încasare, stocând istoricul perioadelor de aplicare.</li>
+<li><strong>Câmp TVA la Încasare pe partener</strong>: Adaugă câmpul
+<tt class="docutils literal">Romania - VAT on Payment</tt> pe fișa contabilă a partenerului,
+indicând dacă partenerul aplică în prezent regimul TVA la Încasare.</li>
+<li><strong>Verificare automată</strong>: La crearea sau modificarea unui partener
+român (cu TVA românesc), statusul TVA la Încasare este verificat și
+actualizat automat din datele ANAF.</li>
+<li><strong>Setare automată poziție fiscală pe facturi</strong>: La selectarea
+partenerului pe o factură, modulul verifică dacă firma proprie sau
+furnizorul aplică TVA la Încasare și setează automat poziția fiscală
+„Regim TVA la Încasare”
+(<tt class="docutils literal">l10n_ro_property_vat_on_payment_position_id</tt>).</li>
+<li><strong>Joburi cron zilnice</strong>: Două joburi automate — unul pentru
+descărcarea datelor ANAF, altul pentru actualizarea statusului TVA la
+Încasare al partenerilor români — asigură că informațiile sunt mereu
+la zi.</li>
+<li><strong>Istoric ANAF</strong>: Pe fișa partenerului este disponibil istoricul
+complet al perioadelor în care acesta a fost înregistrat în regimul
+TVA la Încasare.</li>
+</ul>
+<hr class="docutils" />
+<div class="section" id="de-ce-este-nevoie-de-acest-modul-fata-de-comportamentul-standard-odoo">
+<h2>De ce este nevoie de acest modul față de comportamentul standard Odoo?</h2>
+<p>Odoo standard poate seta o poziție fiscală pe o factură pe baza
+regulilor de mapare configurate manual (țară, grup de taxe etc.) sau
+dacă pe partener este setată explicit o poziție fiscală. <strong>Însă Odoo
+standard nu știe dacă un furnizor este înregistrat în regimul TVA la
+Încasare</strong> — nu există nicio integrare cu ANAF și nicio verificare
+automată.</p>
+<p>Fără acest modul, ar fi necesară verificarea manuală a fiecărui furnizor
+pe site-ul ANAF și setarea manuală a poziției fiscale pe fiecare
+partener — un proces imposibil de menținut în practică pentru un număr
+mare de furnizori.</p>
+<p>Modulul aduce trei avantaje esențiale față de configurarea manuală:</p>
+<ol class="arabic simple">
+<li><strong>Sursa oficială de adevăr — datele ANAF</strong>: Statusul TVA la Încasare
+provine direct din fișierul oficial ANAF (<tt class="docutils literal">istoric.txt</tt>), nu
+dintr-o configurare manuală care poate fi uitată sau greșită. Toți
+contribuabilii înregistrați în regim sunt acoperiți automat.</li>
+<li><strong>Verificare temporală bazată pe data facturii</strong>: Modulul verifică
+dacă furnizorul era în regim TVA la Încasare <strong>la data facturii</strong>, nu
+doar în prezent. Aceasta este o cerință legală importantă: un
+furnizor poate fi intrat sau ieșit din regim între timp, iar factura
+trebuie tratată conform statusului din ziua emiterii.</li>
+<li><strong>Verificare pe firma proprie (emitent)</strong>: Pe lângă verificarea
+furnizorului, modulul verifică și dacă <strong>firma ta</strong> aplică TVA la
+Încasare. Dacă da, toate facturile de vânzare emise de firma ta
+trebuie să folosească automat poziția fiscală corespunzătoare —
+indiferent de clientul selectat.</li>
+</ol>
 <p><strong>Table of contents</strong></p>
 <div class="contents local topic" id="contents">
 <ul class="simple">
@@ -392,7 +448,7 @@ Payment.</p>
 </ul>
 </div>
 <div class="section" id="installation">
-<h2><a class="toc-backref" href="#toc-entry-1">Installation</a></h2>
+<h3><a class="toc-backref" href="#toc-entry-1">Installation</a></h3>
 <p>To install this module, you need to:</p>
 <ul class="simple">
 <li>clone the repository <a class="reference external" href="https://github.com/OCA/l10n-romania">https://github.com/OCA/l10n-romania</a></li>
@@ -403,7 +459,7 @@ Payment.</p>
 </ul>
 </div>
 <div class="section" id="usage">
-<h2><a class="toc-backref" href="#toc-entry-2">Usage</a></h2>
+<h3><a class="toc-backref" href="#toc-entry-2">Usage</a></h3>
 <p>On the partner accounting page you will have a new field called “VAT on
 Payment” and a new button, called “Update VAT on Payment”, available
 only on companies (is_company field set to True). Pushing the button
@@ -419,7 +475,7 @@ one.</p>
 for checking the Romanian partners for VAT on Payment.</p>
 </div>
 <div class="section" id="bug-tracker">
-<h2><a class="toc-backref" href="#toc-entry-3">Bug Tracker</a></h2>
+<h3><a class="toc-backref" href="#toc-entry-3">Bug Tracker</a></h3>
 <p>Bugs are tracked on <a class="reference external" href="https://github.com/OCA/l10n-romania/issues">GitHub Issues</a>.
 In case of trouble, please check there if your issue has already been reported.
 If you spotted it first, help us to smash it by providing a detailed and welcomed
@@ -427,16 +483,16 @@ If you spotted it first, help us to smash it by providing a detailed and welcome
 <p>Do not contact contributors directly about support or help with technical issues.</p>
 </div>
 <div class="section" id="credits">
-<h2><a class="toc-backref" href="#toc-entry-4">Credits</a></h2>
+<h3><a class="toc-backref" href="#toc-entry-4">Credits</a></h3>
 <div class="section" id="authors">
-<h3><a class="toc-backref" href="#toc-entry-5">Authors</a></h3>
+<h4><a class="toc-backref" href="#toc-entry-5">Authors</a></h4>
 <ul class="simple">
 <li>NextERP Romania</li>
 <li>Forest and Biomass Romania</li>
 </ul>
 </div>
 <div class="section" id="contributors">
-<h3><a class="toc-backref" href="#toc-entry-6">Contributors</a></h3>
+<h4><a class="toc-backref" href="#toc-entry-6">Contributors</a></h4>
 <ul class="simple">
 <li><a class="reference external" href="https://www.nexterp.ro">NextERP Romania</a>:<ul>
 <li>Fekete Mihai &lt;<a class="reference external" href="mailto:feketemihai&#64;nexterp.ro">feketemihai&#64;nexterp.ro</a>&gt;</li>
@@ -449,7 +505,7 @@ If you spotted it first, help us to smash it by providing a detailed and welcome
 technical issues.</p>
 </div>
 <div class="section" id="maintainers">
-<h3><a class="toc-backref" href="#toc-entry-7">Maintainers</a></h3>
+<h4><a class="toc-backref" href="#toc-entry-7">Maintainers</a></h4>
 <p>This module is maintained by the OCA.</p>
 <a class="reference external image-reference" href="https://odoo-community.org">
 <img alt="Odoo Community Association" src="https://odoo-community.org/logo.png" />
@@ -461,6 +517,7 @@ promote its widespread use.</p>
 <p><a class="reference external image-reference" href="https://github.com/feketemihai"><img alt="feketemihai" src="https://github.com/feketemihai.png?size=40px" /></a></p>
 <p>This module is part of the <a class="reference external" href="https://github.com/OCA/l10n-romania/tree/19.0/l10n_ro_vat_on_payment">OCA/l10n-romania</a> project on GitHub.</p>
 <p>You are welcome to contribute. To learn how please visit <a class="reference external" href="https://odoo-community.org/page/Contribute">https://odoo-community.org/page/Contribute</a>.</p>
+</div>
 </div>
 </div>
 </div>
