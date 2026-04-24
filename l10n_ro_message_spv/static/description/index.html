@@ -375,24 +375,215 @@ ul.auto-toc {
 !! source digest: sha256:77b2c5b1f428c3ab11c131ffef302fac78caf48ed4f077869a74bbcdde282e53
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! -->
 <p><a class="reference external image-reference" href="https://odoo-community.org/page/development-status"><img alt="Beta" src="https://img.shields.io/badge/maturity-Beta-yellow.png" /></a> <a class="reference external image-reference" href="http://www.gnu.org/licenses/agpl-3.0-standalone.html"><img alt="License: AGPL-3" src="https://img.shields.io/badge/license-AGPL--3-blue.png" /></a> <a class="reference external image-reference" href="https://github.com/OCA/l10n-romania/tree/19.0/l10n_ro_message_spv"><img alt="OCA/l10n-romania" src="https://img.shields.io/badge/github-OCA%2Fl10n--romania-lightgray.png?logo=github" /></a> <a class="reference external image-reference" href="https://translation.odoo-community.org/projects/l10n-romania-19-0/l10n-romania-19-0-l10n_ro_message_spv"><img alt="Translate me on Weblate" src="https://img.shields.io/badge/weblate-Translate%20me-F47D42.png" /></a> <a class="reference external image-reference" href="https://runboat.odoo-community.org/builds?repo=OCA/l10n-romania&amp;target_branch=19.0"><img alt="Try me on Runboat" src="https://img.shields.io/badge/runboat-Try%20me-875A7B.png" /></a></p>
+<p>Acest modul facilitează gestionarea mesajelor din Spațiul Privat Virtual
+(SPV) ANAF, asigurând descărcarea și procesarea automată a facturilor
+electronice (e-Factura):</p>
+<ul class="simple">
+<li>Funcționalități:<ul>
+<li>Descărcare automată mesaje SPV: sincronizare periodică (via cron) a
+listei de mesaje din SPV pentru facturi primite, trimise sau erori.</li>
+<li>Procesare fișiere ZIP: descărcarea automată a arhivelor ZIP de la
+ANAF și extragerea fișierelor XML semnate.</li>
+<li>Creare automată facturi de furnizor: generează schițe de factură
+(draft) direct din fișierele XML descărcate, mapând automat
+furnizorul pe baza codului fiscal (CIF).</li>
+<li>Gestionare PDF-uri e-Factura:<ul>
+<li>Generare PDF ANAF: posibilitatea de a genera și descărca
+vizualizarea PDF oficială a XML-ului folosind serviciile ANAF.</li>
+<li>Extragere PDF încorporat: extrage PDF-urile atașate direct în
+fișierul XML (dacă există).</li>
+</ul>
+</li>
+<li>Monitorizare stări: urmărirea stării fiecărui mesaj (Draft,
+Downloaded, Invoice, Error, Done) și a încercărilor de descărcare.</li>
+<li>Integrare cu fluxul de facturare: legarea automată a mesajelor de
+facturile existente în sistem pe baza ID-ului de tranzacție sau a
+referinței.</li>
+<li>Căutare produs după codul furnizorului: la importul UBL/CIUS-RO,
+produsul este identificat automat după codul furnizorului
+(<tt class="docutils literal">SellersItemIdentification</tt> sau <tt class="docutils literal">StandardItemIdentification</tt>)
+folosind <tt class="docutils literal">product.supplierinfo</tt>, cu prioritate maximă față de
+celelalte criterii de căutare.</li>
+<li>Salvare cod furnizor pe linia de factură: codul furnizorului
+(<tt class="docutils literal">l10n_ro_vendor_code</tt>) este salvat pe linia de factură la import,
+chiar dacă produsul nu a fost găsit, pentru a permite asocierea
+ulterioară la validarea facturii.</li>
+<li>Sincronizarea datelor produselor: permite salvarea automată a
+codurilor de furnizor pentru produse la validarea facturilor
+primite.</li>
+</ul>
+</li>
+</ul>
+<hr class="docutils" />
+<div class="section" id="diferente-fata-de-modulul-standard-l10n-ro-edi">
+<h2>Diferențe față de modulul standard <tt class="docutils literal">l10n_ro_edi</tt></h2>
+<p>Modulul <tt class="docutils literal">l10n_ro_message_spv</tt> extinde modulul standard Odoo
+<tt class="docutils literal">l10n_ro_edi</tt> (Romania - E-invoicing), adăugând funcționalități
+suplimentare pentru gestionarea avansată a mesajelor din SPV.</p>
+<div class="section" id="ce-face-modulul-standard-l10n-ro-edi">
+<h3>Ce face modulul standard <tt class="docutils literal">l10n_ro_edi</tt>?</h3>
+<ul class="simple">
+<li><strong>Trimitere facturi de ieșire</strong> către SPV ANAF (e-Factura) cu
+urmărirea stării (Trimis / Validat / Refuzat).</li>
+<li><strong>Sincronizare automată</strong> (via cron) a stărilor facturilor trimise și
+descărcarea răspunsurilor de la SPV.</li>
+<li><strong>Descărcare facturi primite</strong> (received bills): creează automat o
+factură draft de furnizor din XML-ul primit, atașează XML-ul și PDF-ul
+generat de ANAF.</li>
+<li><strong>Jurnal configurabil</strong> pentru facturile importate
+(<tt class="docutils literal">l10n_ro_edi_anaf_imported_inv_journal_id</tt>).</li>
+<li><strong>Deduplicare</strong> facturi primite pe baza sumei totale, CIF-ului
+furnizorului și datei.</li>
+</ul>
+</div>
+<div class="section" id="ce-adauga-l10n-ro-message-spv-in-plus">
+<h3>Ce adaugă <tt class="docutils literal">l10n_ro_message_spv</tt> în plus?</h3>
+<table border="1" class="docutils">
+<colgroup>
+<col width="34%" />
+<col width="30%" />
+<col width="36%" />
+</colgroup>
+<thead valign="bottom">
+<tr><th class="head">Funcționalitate</th>
+<th class="head"><tt class="docutils literal">l10n_ro_edi</tt>
+(standard)</th>
+<th class="head"><tt class="docutils literal">l10n_ro_message_spv</tt>
+(acest modul)</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr><td>Trimitere facturi
+ieșire</td>
+<td>✅</td>
+<td>✅ (moștenit)</td>
+</tr>
+<tr><td>Descărcare facturi
+primite</td>
+<td>✅ (simplu)</td>
+<td>✅ (extins)</td>
+</tr>
+<tr><td>Interfață dedicată
+mesaje SPV</td>
+<td>❌</td>
+<td>✅ cu stări: Draft,
+Downloaded, Invoice,
+Error, Done</td>
+</tr>
+<tr><td>Monitorizare încercări
+descărcare</td>
+<td>❌</td>
+<td>✅</td>
+</tr>
+<tr><td>Procesare fișiere ZIP
+ANAF</td>
+<td>❌</td>
+<td>✅</td>
+</tr>
+<tr><td>Generare PDF oficial
+ANAF</td>
+<td>✅</td>
+<td>✅</td>
+</tr>
+<tr><td>Extragere PDF
+încorporat în XML</td>
+<td>❌</td>
+<td>✅</td>
+</tr>
+<tr><td>Căutare produs după cod
+furnizor</td>
+<td>❌</td>
+<td>✅ via
+<tt class="docutils literal">product.supplierinfo</tt></td>
+</tr>
+<tr><td>Salvare
+<tt class="docutils literal">l10n_ro_vendor_code</tt>
+pe linie</td>
+<td>❌</td>
+<td>✅</td>
+</tr>
+<tr><td>Sincronizare coduri
+furnizor la validare</td>
+<td>❌</td>
+<td>✅</td>
+</tr>
+</tbody>
+</table>
+<!--  -->
+<blockquote>
+<strong>Notă:</strong> <tt class="docutils literal">l10n_ro_message_spv</tt> depinde de <tt class="docutils literal">l10n_ro_edi</tt> și îl
+extinde — nu îl înlocuiește. Ambele module trebuie instalate pentru
+funcționalitate completă.</blockquote>
+</div>
+</div>
+<hr class="docutils" />
+<div class="section" id="de-ce-este-importanta-descarcarea-periodica-a-mesajelor-din-spv">
+<h2>De ce este importantă descărcarea periodică a mesajelor din SPV?</h2>
+<p>Descărcarea mesajelor și a facturilor din SPV nu este doar o recomandare
+de „bună practică”, ci o necesitate critică din motive legale, fiscale
+și tehnice.</p>
+<div class="section" id="termenul-de-arhivare-in-spv-limitarea-tehnica">
+<h3>1. Termenul de Arhivare în SPV (Limitarea Tehnică)</h3>
+<p>Sistemul ANAF nu este un spațiu de stocare permanentă.</p>
+<ul class="simple">
+<li><strong>Ștergerea automată:</strong> Mesajele și documentele (inclusiv facturile
+din e-Factura) sunt păstrate în SPV pentru o perioadă limitată (de
+regulă <strong>60 de zile</strong>).</li>
+<li><strong>Consecință:</strong> Dacă nu le descarci în acest interval, ele dispar din
+interfață și recuperarea lor devine un proces birocratic anevoios sau
+chiar imposibil prin metodele standard.</li>
+</ul>
+</div>
+<div class="section" id="valabilitatea-juridica-si-fiscala">
+<h3>2. Valabilitatea Juridică și Fiscală</h3>
+<p>Conform legislației din România (Codul Fiscal), documentul original care
+stă la baza deducerii TVA și a cheltuielilor este <strong>fișierul XML însoțit
+de sigiliul electronic al Ministerului Finanțelor</strong>.</p>
+<ul class="simple">
+<li><strong>Proba în caz de control:</strong> În fața inspectorilor ANAF, simpla
+vizualizare a facturii în portal nu este suficientă. Trebuie să poți
+prezenta fișierul descărcat care conține semnătura electronică ce
+atestă autenticitatea.</li>
+<li><strong>Arhivarea obligatorie:</strong> Firmele sunt obligate prin lege să arhiveze
+documentele contabile pe termene lungi (de regulă 10 ani). Deoarece
+SPV le șterge după 60 de zile, sarcina arhivării îți revine exclusiv
+ție.</li>
+</ul>
+</div>
+<div class="section" id="integrarea-in-contabilitate">
+<h3>3. Integrarea în Contabilitate</h3>
+<p>Majoritatea programelor de contabilitate au nevoie de fișierele XML
+descărcate pentru a automatiza procesele.</p>
+<ul class="simple">
+<li>Fără descărcare, datele trebuie introduse manual, ceea ce crește
+riscul de erori umane.</li>
+<li>Descărcarea permite corelarea rapidă între plățile efectuate și
+facturile primite.</li>
+</ul>
+</div>
+<div class="section" id="ce-trebuie-descarcat">
+<h3>Ce trebuie descărcat?</h3>
+<p>Nu este suficient să salvezi doar PDF-ul (care este doar o reprezentare
+vizuală). Trebuie să salvezi:</p>
+<ol class="arabic simple">
+<li><strong>Fișierul XML:</strong> Acesta este documentul „rege” din punct de vedere
+legal.</li>
+<li><strong>Recipisa (Semnătura electronică):</strong> Fișierul care confirmă că
+XML-ul a fost validat de sistemul ANAF.</li>
+</ol>
 <p><strong>Table of contents</strong></p>
 <div class="contents local topic" id="contents">
 <ul class="simple">
 <li><a class="reference internal" href="#configuration" id="toc-entry-1">Configuration</a></li>
 <li><a class="reference internal" href="#bug-tracker" id="toc-entry-2">Bug Tracker</a></li>
-<li><a class="reference internal" href="#credits" id="toc-entry-3">Credits</a><ul>
-<li><a class="reference internal" href="#authors" id="toc-entry-4">Authors</a></li>
-<li><a class="reference internal" href="#contributors" id="toc-entry-5">Contributors</a></li>
-<li><a class="reference internal" href="#maintainers" id="toc-entry-6">Maintainers</a></li>
-</ul>
-</li>
+<li><a class="reference internal" href="#credits" id="toc-entry-3">Credits</a></li>
 </ul>
 </div>
 <div class="section" id="configuration">
-<h2><a class="toc-backref" href="#toc-entry-1">Configuration</a></h2>
+<h4><a class="toc-backref" href="#toc-entry-1">Configuration</a></h4>
 </div>
 <div class="section" id="bug-tracker">
-<h2><a class="toc-backref" href="#toc-entry-2">Bug Tracker</a></h2>
+<h4><a class="toc-backref" href="#toc-entry-2">Bug Tracker</a></h4>
 <p>Bugs are tracked on <a class="reference external" href="https://github.com/OCA/l10n-romania/issues">GitHub Issues</a>.
 In case of trouble, please check there if your issue has already been reported.
 If you spotted it first, help us to smash it by providing a detailed and welcomed
@@ -400,15 +591,18 @@ If you spotted it first, help us to smash it by providing a detailed and welcome
 <p>Do not contact contributors directly about support or help with technical issues.</p>
 </div>
 <div class="section" id="credits">
-<h2><a class="toc-backref" href="#toc-entry-3">Credits</a></h2>
+<h4><a class="toc-backref" href="#toc-entry-3">Credits</a></h4>
+</div>
+</div>
+</div>
 <div class="section" id="authors">
-<h3><a class="toc-backref" href="#toc-entry-4">Authors</a></h3>
+<h2>Authors</h2>
 <ul class="simple">
 <li>Terrabit</li>
 </ul>
 </div>
 <div class="section" id="contributors">
-<h3><a class="toc-backref" href="#toc-entry-5">Contributors</a></h3>
+<h2>Contributors</h2>
 <ul class="simple">
 <li><a class="reference external" href="https://www.terrabit.ro">Terrabit</a>:<ul>
 <li>Dorin Hongu &lt;<a class="reference external" href="mailto:dhongu&#64;gmail.com">dhongu&#64;gmail.com</a>&gt;</li>
@@ -419,7 +613,7 @@ If you spotted it first, help us to smash it by providing a detailed and welcome
 technical issues.</p>
 </div>
 <div class="section" id="maintainers">
-<h3><a class="toc-backref" href="#toc-entry-6">Maintainers</a></h3>
+<h2>Maintainers</h2>
 <p>This module is maintained by the OCA.</p>
 <a class="reference external image-reference" href="https://odoo-community.org">
 <img alt="Odoo Community Association" src="https://odoo-community.org/logo.png" />
@@ -431,7 +625,6 @@ promote its widespread use.</p>
 <p><a class="reference external image-reference" href="https://github.com/dhongu"><img alt="dhongu" src="https://github.com/dhongu.png?size=40px" /></a></p>
 <p>This module is part of the <a class="reference external" href="https://github.com/OCA/l10n-romania/tree/19.0/l10n_ro_message_spv">OCA/l10n-romania</a> project on GitHub.</p>
 <p>You are welcome to contribute. To learn how please visit <a class="reference external" href="https://odoo-community.org/page/Contribute">https://odoo-community.org/page/Contribute</a>.</p>
-</div>
 </div>
 </div>
 </div>
