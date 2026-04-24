@@ -72,6 +72,76 @@ electronice (e-Factura):
 
 --------------
 
+Diferențe față de modulul standard ``l10n_ro_edi``
+--------------------------------------------------
+
+Modulul ``l10n_ro_message_spv`` extinde modulul standard Odoo
+``l10n_ro_edi`` (Romania - E-invoicing), adăugând funcționalități
+suplimentare pentru gestionarea avansată a mesajelor din SPV.
+
+Ce face modulul standard ``l10n_ro_edi``?
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+- **Trimitere facturi de ieșire** către SPV ANAF (e-Factura) cu
+  urmărirea stării (Trimis / Validat / Refuzat).
+- **Sincronizare automată** (via cron) a stărilor facturilor trimise și
+  descărcarea răspunsurilor de la SPV.
+- **Descărcare facturi primite** (received bills): creează automat o
+  factură draft de furnizor din XML-ul primit, atașează XML-ul și PDF-ul
+  generat de ANAF.
+- **Jurnal configurabil** pentru facturile importate
+  (``l10n_ro_edi_anaf_imported_inv_journal_id``).
+- **Deduplicare** facturi primite pe baza sumei totale, CIF-ului
+  furnizorului și datei.
+
+Ce adaugă ``l10n_ro_message_spv`` în plus?
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
++-------------------------+----------------------+--------------------------+
+| Funcționalitate         | ``l10n_ro_edi``      | ``l10n_ro_message_spv``  |
+|                         | (standard)           | (acest modul)            |
++=========================+======================+==========================+
+| Trimitere facturi       | ✅                   | ✅ (moștenit)            |
+| ieșire                  |                      |                          |
++-------------------------+----------------------+--------------------------+
+| Descărcare facturi      | ✅ (simplu)          | ✅ (extins)              |
+| primite                 |                      |                          |
++-------------------------+----------------------+--------------------------+
+| Interfață dedicată      | ❌                   | ✅ cu stări: Draft,      |
+| mesaje SPV              |                      | Downloaded, Invoice,     |
+|                         |                      | Error, Done              |
++-------------------------+----------------------+--------------------------+
+| Monitorizare încercări  | ❌                   | ✅                       |
+| descărcare              |                      |                          |
++-------------------------+----------------------+--------------------------+
+| Procesare fișiere ZIP   | ❌                   | ✅                       |
+| ANAF                    |                      |                          |
++-------------------------+----------------------+--------------------------+
+| Generare PDF oficial    | ✅                   | ✅                       |
+| ANAF                    |                      |                          |
++-------------------------+----------------------+--------------------------+
+| Extragere PDF           | ❌                   | ✅                       |
+| încorporat în XML       |                      |                          |
++-------------------------+----------------------+--------------------------+
+| Căutare produs după cod | ❌                   | ✅ via                   |
+| furnizor                |                      | ``product.supplierinfo`` |
++-------------------------+----------------------+--------------------------+
+| Salvare                 | ❌                   | ✅                       |
+| ``l10n_ro_vendor_code`` |                      |                          |
+| pe linie                |                      |                          |
++-------------------------+----------------------+--------------------------+
+| Sincronizare coduri     | ❌                   | ✅                       |
+| furnizor la validare    |                      |                          |
++-------------------------+----------------------+--------------------------+
+
+..
+
+   **Notă:** ``l10n_ro_message_spv`` depinde de ``l10n_ro_edi`` și îl
+   extinde — nu îl înlocuiește. Ambele module trebuie instalate pentru
+   funcționalitate completă.
+
+--------------
+
 De ce este importantă descărcarea periodică a mesajelor din SPV?
 ----------------------------------------------------------------
 

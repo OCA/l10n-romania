@@ -415,6 +415,108 @@ primite.</li>
 </li>
 </ul>
 <hr class="docutils" />
+<div class="section" id="diferente-fata-de-modulul-standard-l10n-ro-edi">
+<h2>Diferențe față de modulul standard <tt class="docutils literal">l10n_ro_edi</tt></h2>
+<p>Modulul <tt class="docutils literal">l10n_ro_message_spv</tt> extinde modulul standard Odoo
+<tt class="docutils literal">l10n_ro_edi</tt> (Romania - E-invoicing), adăugând funcționalități
+suplimentare pentru gestionarea avansată a mesajelor din SPV.</p>
+<div class="section" id="ce-face-modulul-standard-l10n-ro-edi">
+<h3>Ce face modulul standard <tt class="docutils literal">l10n_ro_edi</tt>?</h3>
+<ul class="simple">
+<li><strong>Trimitere facturi de ieșire</strong> către SPV ANAF (e-Factura) cu
+urmărirea stării (Trimis / Validat / Refuzat).</li>
+<li><strong>Sincronizare automată</strong> (via cron) a stărilor facturilor trimise și
+descărcarea răspunsurilor de la SPV.</li>
+<li><strong>Descărcare facturi primite</strong> (received bills): creează automat o
+factură draft de furnizor din XML-ul primit, atașează XML-ul și PDF-ul
+generat de ANAF.</li>
+<li><strong>Jurnal configurabil</strong> pentru facturile importate
+(<tt class="docutils literal">l10n_ro_edi_anaf_imported_inv_journal_id</tt>).</li>
+<li><strong>Deduplicare</strong> facturi primite pe baza sumei totale, CIF-ului
+furnizorului și datei.</li>
+</ul>
+</div>
+<div class="section" id="ce-adauga-l10n-ro-message-spv-in-plus">
+<h3>Ce adaugă <tt class="docutils literal">l10n_ro_message_spv</tt> în plus?</h3>
+<table border="1" class="docutils">
+<colgroup>
+<col width="34%" />
+<col width="30%" />
+<col width="36%" />
+</colgroup>
+<thead valign="bottom">
+<tr><th class="head">Funcționalitate</th>
+<th class="head"><tt class="docutils literal">l10n_ro_edi</tt>
+(standard)</th>
+<th class="head"><tt class="docutils literal">l10n_ro_message_spv</tt>
+(acest modul)</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr><td>Trimitere facturi
+ieșire</td>
+<td>✅</td>
+<td>✅ (moștenit)</td>
+</tr>
+<tr><td>Descărcare facturi
+primite</td>
+<td>✅ (simplu)</td>
+<td>✅ (extins)</td>
+</tr>
+<tr><td>Interfață dedicată
+mesaje SPV</td>
+<td>❌</td>
+<td>✅ cu stări: Draft,
+Downloaded, Invoice,
+Error, Done</td>
+</tr>
+<tr><td>Monitorizare încercări
+descărcare</td>
+<td>❌</td>
+<td>✅</td>
+</tr>
+<tr><td>Procesare fișiere ZIP
+ANAF</td>
+<td>❌</td>
+<td>✅</td>
+</tr>
+<tr><td>Generare PDF oficial
+ANAF</td>
+<td>✅</td>
+<td>✅</td>
+</tr>
+<tr><td>Extragere PDF
+încorporat în XML</td>
+<td>❌</td>
+<td>✅</td>
+</tr>
+<tr><td>Căutare produs după cod
+furnizor</td>
+<td>❌</td>
+<td>✅ via
+<tt class="docutils literal">product.supplierinfo</tt></td>
+</tr>
+<tr><td>Salvare
+<tt class="docutils literal">l10n_ro_vendor_code</tt>
+pe linie</td>
+<td>❌</td>
+<td>✅</td>
+</tr>
+<tr><td>Sincronizare coduri
+furnizor la validare</td>
+<td>❌</td>
+<td>✅</td>
+</tr>
+</tbody>
+</table>
+<!--  -->
+<blockquote>
+<strong>Notă:</strong> <tt class="docutils literal">l10n_ro_message_spv</tt> depinde de <tt class="docutils literal">l10n_ro_edi</tt> și îl
+extinde — nu îl înlocuiește. Ambele module trebuie instalate pentru
+funcționalitate completă.</blockquote>
+</div>
+</div>
+<hr class="docutils" />
 <div class="section" id="de-ce-este-importanta-descarcarea-periodica-a-mesajelor-din-spv">
 <h2>De ce este importantă descărcarea periodică a mesajelor din SPV?</h2>
 <p>Descărcarea mesajelor și a facturilor din SPV nu este doar o recomandare
