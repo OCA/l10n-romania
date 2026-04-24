@@ -43,6 +43,11 @@ msgid "Attachment"
 msgstr "Atașament"
 
 #. module: l10n_ro_message_spv
+#: model:ir.model,name:l10n_ro_message_spv.model_account_edi_xml_ubl_ro
+msgid "CIUS RO"
+msgstr ""
+
+#. module: l10n_ro_message_spv
 #: model:ir.model.fields,field_description:l10n_ro_message_spv.field_l10n_ro_message_spv__cif
 msgid "Cif"
 msgstr "CIF"
@@ -95,7 +100,14 @@ msgid "Details"
 msgstr "Detalii"
 
 #. module: l10n_ro_message_spv
+#: model:ir.model.fields,field_description:l10n_ro_message_spv.field_account_edi_xml_ubl_ro__display_name
+#: model:ir.model.fields,field_description:l10n_ro_message_spv.field_account_move__display_name
+#: model:ir.model.fields,field_description:l10n_ro_message_spv.field_account_move_line__display_name
+#: model:ir.model.fields,field_description:l10n_ro_message_spv.field_l10n_ro_edi_document__display_name
 #: model:ir.model.fields,field_description:l10n_ro_message_spv.field_l10n_ro_message_spv__display_name
+#: model:ir.model.fields,field_description:l10n_ro_message_spv.field_product_product__display_name
+#: model:ir.model.fields,field_description:l10n_ro_message_spv.field_res_company__display_name
+#: model:ir.model.fields,field_description:l10n_ro_message_spv.field_res_config_settings__display_name
 msgid "Display Name"
 msgstr "Nume afișat"
 
@@ -177,7 +189,14 @@ msgid "Get Invoice"
 msgstr "Găsește factură"
 
 #. module: l10n_ro_message_spv
+#: model:ir.model.fields,field_description:l10n_ro_message_spv.field_account_edi_xml_ubl_ro__id
+#: model:ir.model.fields,field_description:l10n_ro_message_spv.field_account_move__id
+#: model:ir.model.fields,field_description:l10n_ro_message_spv.field_account_move_line__id
+#: model:ir.model.fields,field_description:l10n_ro_message_spv.field_l10n_ro_edi_document__id
 #: model:ir.model.fields,field_description:l10n_ro_message_spv.field_l10n_ro_message_spv__id
+#: model:ir.model.fields,field_description:l10n_ro_message_spv.field_product_product__id
+#: model:ir.model.fields,field_description:l10n_ro_message_spv.field_res_company__id
+#: model:ir.model.fields,field_description:l10n_ro_message_spv.field_res_config_settings__id
 msgid "ID"
 msgstr ""
 
@@ -301,6 +320,11 @@ msgid "Partner"
 msgstr "Partener"
 
 #. module: l10n_ro_message_spv
+#: model:ir.model,name:l10n_ro_message_spv.model_product_product
+msgid "Product Variant"
+msgstr ""
+
+#. module: l10n_ro_message_spv
 #: model:ir.model.fields,field_description:l10n_ro_message_spv.field_l10n_ro_message_spv__ref
 #: model_terms:ir.ui.view,arch_db:l10n_ro_message_spv.view_l10n_ro_message_spv_form
 msgid "Reference"
@@ -370,11 +394,6 @@ msgstr "ID tranzacție SPV"
 #: model_terms:ir.ui.view,arch_db:l10n_ro_message_spv.view_l10n_ro_message_spv_search
 msgid "Type"
 msgstr "Tip"
-
-#. module: l10n_ro_message_spv
-#: model:ir.model,name:l10n_ro_message_spv.model_account_edi_xml_ubl_20
-msgid "UBL 2.0"
-msgstr ""
 
 #. module: l10n_ro_message_spv
 #: model:ir.model.fields,field_description:l10n_ro_message_spv.field_account_move_line__l10n_ro_vendor_code
