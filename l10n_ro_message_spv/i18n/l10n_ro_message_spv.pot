@@ -102,6 +102,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_ro_message_spv.field_account_move_line__display_name
 #: model:ir.model.fields,field_description:l10n_ro_message_spv.field_l10n_ro_edi_document__display_name
 #: model:ir.model.fields,field_description:l10n_ro_message_spv.field_l10n_ro_message_spv__display_name
+#: model:ir.model.fields,field_description:l10n_ro_message_spv.field_product_product__display_name
 #: model:ir.model.fields,field_description:l10n_ro_message_spv.field_res_company__display_name
 #: model:ir.model.fields,field_description:l10n_ro_message_spv.field_res_config_settings__display_name
 msgid "Display Name"
@@ -190,6 +191,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_ro_message_spv.field_account_move_line__id
 #: model:ir.model.fields,field_description:l10n_ro_message_spv.field_l10n_ro_edi_document__id
 #: model:ir.model.fields,field_description:l10n_ro_message_spv.field_l10n_ro_message_spv__id
+#: model:ir.model.fields,field_description:l10n_ro_message_spv.field_product_product__id
 #: model:ir.model.fields,field_description:l10n_ro_message_spv.field_res_company__id
 #: model:ir.model.fields,field_description:l10n_ro_message_spv.field_res_config_settings__id
 msgid "ID"
@@ -312,6 +314,11 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_ro_message_spv.field_l10n_ro_message_spv__partner_id
 #: model_terms:ir.ui.view,arch_db:l10n_ro_message_spv.view_l10n_ro_message_spv_search
 msgid "Partner"
+msgstr ""
+
+#. module: l10n_ro_message_spv
+#: model:ir.model,name:l10n_ro_message_spv.model_product_product
+msgid "Product Variant"
 msgstr ""
 
 #. module: l10n_ro_message_spv
