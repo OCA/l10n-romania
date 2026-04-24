@@ -52,7 +52,6 @@ msgstr "Creado en"
 #. module: l10n_ro_vat_on_payment
 #: model:ir.model.fields,field_description:l10n_ro_vat_on_payment.field_account_move__display_name
 #: model:ir.model.fields,field_description:l10n_ro_vat_on_payment.field_account_move_line__display_name
-#: model:ir.model.fields,field_description:l10n_ro_vat_on_payment.field_account_tax_repartition_line__display_name
 #: model:ir.model.fields,field_description:l10n_ro_vat_on_payment.field_l10n_ro_res_partner_anaf__display_name
 #: model:ir.model.fields,field_description:l10n_ro_vat_on_payment.field_res_partner__display_name
 msgid "Display Name"
@@ -76,7 +75,6 @@ msgstr ""
 #. module: l10n_ro_vat_on_payment
 #: model:ir.model.fields,field_description:l10n_ro_vat_on_payment.field_account_move__id
 #: model:ir.model.fields,field_description:l10n_ro_vat_on_payment.field_account_move_line__id
-#: model:ir.model.fields,field_description:l10n_ro_vat_on_payment.field_account_tax_repartition_line__id
 #: model:ir.model.fields,field_description:l10n_ro_vat_on_payment.field_l10n_ro_res_partner_anaf__id
 #: model:ir.model.fields,field_description:l10n_ro_vat_on_payment.field_res_partner__id
 msgid "ID"
@@ -159,11 +157,6 @@ msgstr ""
 #. module: l10n_ro_vat_on_payment
 #: model:ir.model.fields.selection,name:l10n_ro_vat_on_payment.selection__l10n_ro_res_partner_anaf__operation_type__s
 msgid "Suspension"
-msgstr ""
-
-#. module: l10n_ro_vat_on_payment
-#: model:ir.model,name:l10n_ro_vat_on_payment.model_account_tax_repartition_line
-msgid "Tax Repartition Line"
 msgstr ""
 
 #. module: l10n_ro_vat_on_payment
