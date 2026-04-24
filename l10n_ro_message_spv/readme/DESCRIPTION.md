@@ -1,1 +1,50 @@
+Acest modul facilitează gestionarea mesajelor din Spațiul Privat Virtual (SPV) ANAF, asigurând descărcarea și procesarea automată a facturilor electronice (e-Factura):
+
+  - Funcționalități:
+
+    - Descărcare automată mesaje SPV: sincronizare periodică (via cron) a listei de mesaje din SPV pentru facturi primite, trimise sau erori.
+    - Procesare fișiere ZIP: descărcarea automată a arhivelor ZIP de la ANAF și extragerea fișierelor XML semnate.
+    - Creare automată facturi de furnizor: generează schițe de factură (draft) direct din fișierele XML descărcate, mapând automat furnizorul pe baza codului fiscal (CIF).
+    - Gestionare PDF-uri e-Factura:
+      - Generare PDF ANAF: posibilitatea de a genera și descărca vizualizarea PDF oficială a XML-ului folosind serviciile ANAF.
+      - Extragere PDF încorporat: extrage PDF-urile atașate direct în fișierul XML (dacă există).
+    - Monitorizare stări: urmărirea stării fiecărui mesaj (Draft, Downloaded, Invoice, Error, Done) și a încercărilor de descărcare.
+    - Integrare cu fluxul de facturare: legarea automată a mesajelor de facturile existente în sistem pe baza ID-ului de tranzacție sau a referinței.
+    - Căutare produs după codul furnizorului: la importul UBL/CIUS-RO, produsul este identificat automat după codul furnizorului (`SellersItemIdentification` sau `StandardItemIdentification`) folosind `product.supplierinfo`, cu prioritate maximă față de celelalte criterii de căutare.
+    - Salvare cod furnizor pe linia de factură: codul furnizorului (`l10n_ro_vendor_code`) este salvat pe linia de factură la import, chiar dacă produsul nu a fost găsit, pentru a permite asocierea ulterioară la validarea facturii.
+    - Sincronizarea datelor produselor: permite salvarea automată a codurilor de furnizor pentru produse la validarea facturilor primite.
+
+---
+
+## De ce este importantă descărcarea periodică a mesajelor din SPV?
+
+Descărcarea mesajelor și a facturilor din SPV nu este doar o recomandare de „bună practică", ci o necesitate critică din motive legale, fiscale și tehnice.
+
+### 1. Termenul de Arhivare în SPV (Limitarea Tehnică)
+
+Sistemul ANAF nu este un spațiu de stocare permanentă.
+
+- **Ștergerea automată:** Mesajele și documentele (inclusiv facturile din e-Factura) sunt păstrate în SPV pentru o perioadă limitată (de regulă **60 de zile**).
+- **Consecință:** Dacă nu le descarci în acest interval, ele dispar din interfață și recuperarea lor devine un proces birocratic anevoios sau chiar imposibil prin metodele standard.
+
+### 2. Valabilitatea Juridică și Fiscală
+
+Conform legislației din România (Codul Fiscal), documentul original care stă la baza deducerii TVA și a cheltuielilor este **fișierul XML însoțit de sigiliul electronic al Ministerului Finanțelor**.
+
+- **Proba în caz de control:** În fața inspectorilor ANAF, simpla vizualizare a facturii în portal nu este suficientă. Trebuie să poți prezenta fișierul descărcat care conține semnătura electronică ce atestă autenticitatea.
+- **Arhivarea obligatorie:** Firmele sunt obligate prin lege să arhiveze documentele contabile pe termene lungi (de regulă 10 ani). Deoarece SPV le șterge după 60 de zile, sarcina arhivării îți revine exclusiv ție.
+
+### 3. Integrarea în Contabilitate
+
+Majoritatea programelor de contabilitate au nevoie de fișierele XML descărcate pentru a automatiza procesele.
+
+- Fără descărcare, datele trebuie introduse manual, ceea ce crește riscul de erori umane.
+- Descărcarea permite corelarea rapidă între plățile efectuate și facturile primite.
+
+### Ce trebuie descărcat?
+
+Nu este suficient să salvezi doar PDF-ul (care este doar o reprezentare vizuală). Trebuie să salvezi:
+
+1. **Fișierul XML:** Acesta este documentul „rege" din punct de vedere legal.
+2. **Recipisa (Semnătura electronică):** Fișierul care confirmă că XML-ul a fost validat de sistemul ANAF.
 

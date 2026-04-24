@@ -8,39 +8,37 @@ from odoo import models
 class AccountEdiXmlUBLRO(models.AbstractModel):
     _inherit = "account.edi.xml.ubl_ro"
 
-    def _retrieve_invoice_line_vals(self, tree, document_type=False, qty_factor=1):
-        res = super()._retrieve_invoice_line_vals(tree, document_type, qty_factor)
+    def _import_ubl_invoice_line_add_product_values(self, collected_values):
+        # EXTENDS account.edi.xml.ubl_ro
+        res = super()._import_ubl_invoice_line_add_product_values(collected_values)
 
-        vendor_code = self._find_value(
-            "./cac:Item/cac:SellersItemIdentification/cbc:ID", tree
+        line_tree = collected_values["line_tree"]
+
+        vendor_code = line_tree.findtext(
+            ".//{*}Item/{*}SellersItemIdentification/{*}ID"
         )
         if not vendor_code:
-            vendor_code = self._find_value(
-                "./cac:Item/cac:StandardItemIdentification/cbc:ID", tree
+            vendor_code = line_tree.findtext(
+                ".//{*}Item/{*}StandardItemIdentification/{*}ID"
             )
 
         if vendor_code:
-            res["l10n_ro_vendor_code"] = vendor_code
-            domain = [("seller_ids.product_code", "=", vendor_code)]
-
-            # Try to find the partner to make the product search more specific
-            invoice_tree = tree.getroottree().getroot()
-            # In UBL 2.1, the partner is under
-            # AccountingSupplierParty (for vendor bills)
-            # or AccountingCustomerParty (for customer invoices)
-            # Since we are usually importing vendor bills in this context:
-            partner_vals = self._import_retrieve_partner_vals(
-                invoice_tree, "AccountingSupplier"
-            )
-            partner, _logs = self.with_company(self.env.company)._import_partner(
-                self.env.company, **partner_vals
-            )
-
-            if partner:
-                domain.append(("seller_ids.partner_id", "=", partner.id))
-
-            product = self.env["product.product"].search(domain, limit=1)
-            if product:
-                res["product_id"] = product.id
+            # Store vendor_code in product_values so the search plan can use it
+            collected_values["product_values"]["l10n_ro_vendor_code"] = vendor_code
+            # Store also for later use in _create_values
+            collected_values["l10n_ro_vendor_code"] = vendor_code
 
         return res
+
+    def _import_ubl_invoice_line_get_product_base_line_kwargs(self, collected_values):
+        # EXTENDS account.edi.xml.ubl_ro
+        base_line_kwargs = (
+            super()._import_ubl_invoice_line_get_product_base_line_kwargs(
+                collected_values
+            )
+        )
+
+        if vendor_code := collected_values.get("l10n_ro_vendor_code"):
+            base_line_kwargs["_create_values"]["l10n_ro_vendor_code"] = vendor_code
+
+        return base_line_kwargs
