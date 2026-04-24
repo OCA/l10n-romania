@@ -206,7 +206,7 @@ class StockMove(models.Model):
             if self.location_id.usage == "transit":
                 return "internal_transit_in"
         if (
-            self.location_id.usage == "internal"
+            self.location_id.usage in ["internal", "transit"]
             and self.location_dest_id.usage != "internal"
         ):
             if self.picking_id.l10n_ro_reception_in_progress:
