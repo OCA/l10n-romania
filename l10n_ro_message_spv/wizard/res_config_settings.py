@@ -8,3 +8,7 @@ class ResConfigSettings(models.TransientModel):
         related="company_id.l10n_ro_download_einvoices_days",
         readonly=False,
     )
+    l10n_ro_refresh_message_days = fields.Integer(
+        related="company_id.l10n_ro_refresh_message_days",
+        readonly=False,
+    )
