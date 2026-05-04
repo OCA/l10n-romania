@@ -38,7 +38,7 @@ class TestBankAccount(common.TransactionCase):
         cls.bank_test = cls.env["res.bank"].create(
             {
                 "name": "Bank 1",
-                "bic": "BIC 1",
+                "bic": "BIC00001",
             }
         )
 
