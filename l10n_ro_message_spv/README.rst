@@ -69,6 +69,12 @@ electronice (e-Factura):
   - Sincronizarea datelor produselor: permite salvarea automată a
     codurilor de furnizor pentru produse la validarea facturilor
     primite.
+  - Configurare număr de zile pentru descărcarea e-facturilor
+    (``l10n_ro_download_einvoices_days``): numărul maxim de zile pentru
+    care se descarcă mesajele din SPV (implicit 60 de zile).
+  - Configurare număr de zile pentru reîmprospătarea mesajelor
+    (``l10n_ro_refresh_message_days``): numărul maxim de zile pentru
+    care se reîmprospătează mesajele e-Factura (implicit 60 de zile).
 
 --------------
 
@@ -97,42 +103,47 @@ Ce face modulul standard ``l10n_ro_edi``?
 Ce adaugă ``l10n_ro_message_spv`` în plus?
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-+-------------------------+----------------------+--------------------------+
-| Funcționalitate         | ``l10n_ro_edi``      | ``l10n_ro_message_spv``  |
-|                         | (standard)           | (acest modul)            |
-+=========================+======================+==========================+
-| Trimitere facturi       | ✅                   | ✅ (moștenit)            |
-| ieșire                  |                      |                          |
-+-------------------------+----------------------+--------------------------+
-| Descărcare facturi      | ✅ (simplu)          | ✅ (extins)              |
-| primite                 |                      |                          |
-+-------------------------+----------------------+--------------------------+
-| Interfață dedicată      | ❌                   | ✅ cu stări: Draft,      |
-| mesaje SPV              |                      | Downloaded, Invoice,     |
-|                         |                      | Error, Done              |
-+-------------------------+----------------------+--------------------------+
-| Monitorizare încercări  | ❌                   | ✅                       |
-| descărcare              |                      |                          |
-+-------------------------+----------------------+--------------------------+
-| Procesare fișiere ZIP   | ❌                   | ✅                       |
-| ANAF                    |                      |                          |
-+-------------------------+----------------------+--------------------------+
-| Generare PDF oficial    | ✅                   | ✅                       |
-| ANAF                    |                      |                          |
-+-------------------------+----------------------+--------------------------+
-| Extragere PDF           | ❌                   | ✅                       |
-| încorporat în XML       |                      |                          |
-+-------------------------+----------------------+--------------------------+
-| Căutare produs după cod | ❌                   | ✅ via                   |
-| furnizor                |                      | ``product.supplierinfo`` |
-+-------------------------+----------------------+--------------------------+
-| Salvare                 | ❌                   | ✅                       |
-| ``l10n_ro_vendor_code`` |                      |                          |
-| pe linie                |                      |                          |
-+-------------------------+----------------------+--------------------------+
-| Sincronizare coduri     | ❌                   | ✅                       |
-| furnizor la validare    |                      |                          |
-+-------------------------+----------------------+--------------------------+
++-------------------------+----------------------+---------------------------------------+
+| Funcționalitate         | ``l10n_ro_edi``      | ``l10n_ro_message_spv`` (acest modul) |
+|                         | (standard)           |                                       |
++=========================+======================+=======================================+
+| Trimitere facturi       | ✅                   | ✅ (moștenit)                         |
+| ieșire                  |                      |                                       |
++-------------------------+----------------------+---------------------------------------+
+| Descărcare facturi      | ✅ (simplu)          | ✅ (extins)                           |
+| primite                 |                      |                                       |
++-------------------------+----------------------+---------------------------------------+
+| Interfață dedicată      | ❌                   | ✅ cu stări: Draft, Downloaded,       |
+| mesaje SPV              |                      | Invoice, Error, Done                  |
++-------------------------+----------------------+---------------------------------------+
+| Monitorizare încercări  | ❌                   | ✅                                    |
+| descărcare              |                      |                                       |
++-------------------------+----------------------+---------------------------------------+
+| Procesare fișiere ZIP   | ❌                   | ✅                                    |
+| ANAF                    |                      |                                       |
++-------------------------+----------------------+---------------------------------------+
+| Generare PDF oficial    | ✅                   | ✅                                    |
+| ANAF                    |                      |                                       |
++-------------------------+----------------------+---------------------------------------+
+| Extragere PDF           | ❌                   | ✅                                    |
+| încorporat în XML       |                      |                                       |
++-------------------------+----------------------+---------------------------------------+
+| Căutare produs după cod | ❌                   | ✅ via ``product.supplierinfo``       |
+| furnizor                |                      |                                       |
++-------------------------+----------------------+---------------------------------------+
+| Salvare                 | ❌                   | ✅                                    |
+| ``l10n_ro_vendor_code`` |                      |                                       |
+| pe linie                |                      |                                       |
++-------------------------+----------------------+---------------------------------------+
+| Sincronizare coduri     | ❌                   | ✅                                    |
+| furnizor la validare    |                      |                                       |
++-------------------------+----------------------+---------------------------------------+
+| Configurare zile        | ❌                   | ✅                                    |
+| descărcare mesaje SPV   |                      | (``l10n_ro_download_einvoices_days``) |
++-------------------------+----------------------+---------------------------------------+
+| Configurare zile        | ❌                   | ✅ (``l10n_ro_refresh_message_days``) |
+| reîmprospătare mesaje   |                      |                                       |
++-------------------------+----------------------+---------------------------------------+
 
 ..
 

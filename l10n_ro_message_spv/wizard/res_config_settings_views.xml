@@ -19,6 +19,13 @@
                     />
                     <field name="l10n_ro_download_einvoices_days" />
                 </div>
+                <div class="row">
+                    <label
+                        for="l10n_ro_refresh_message_days"
+                        class="col-lg-3 o_light_label"
+                    />
+                    <field name="l10n_ro_refresh_message_days" />
+                </div>
             </xpath>
         </field>
     </record>

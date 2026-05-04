@@ -411,6 +411,12 @@ ulterioară la validarea facturii.</li>
 <li>Sincronizarea datelor produselor: permite salvarea automată a
 codurilor de furnizor pentru produse la validarea facturilor
 primite.</li>
+<li>Configurare număr de zile pentru descărcarea e-facturilor
+(<tt class="docutils literal">l10n_ro_download_einvoices_days</tt>): numărul maxim de zile pentru
+care se descarcă mesajele din SPV (implicit 60 de zile).</li>
+<li>Configurare număr de zile pentru reîmprospătarea mesajelor
+(<tt class="docutils literal">l10n_ro_refresh_message_days</tt>): numărul maxim de zile pentru
+care se reîmprospătează mesajele e-Factura (implicit 60 de zile).</li>
 </ul>
 </li>
 </ul>
@@ -440,16 +446,15 @@ furnizorului și datei.</li>
 <h3>Ce adaugă <tt class="docutils literal">l10n_ro_message_spv</tt> în plus?</h3>
 <table border="1" class="docutils">
 <colgroup>
-<col width="34%" />
-<col width="30%" />
-<col width="36%" />
+<col width="29%" />
+<col width="26%" />
+<col width="45%" />
 </colgroup>
 <thead valign="bottom">
 <tr><th class="head">Funcționalitate</th>
 <th class="head"><tt class="docutils literal">l10n_ro_edi</tt>
 (standard)</th>
-<th class="head"><tt class="docutils literal">l10n_ro_message_spv</tt>
-(acest modul)</th>
+<th class="head"><tt class="docutils literal">l10n_ro_message_spv</tt> (acest modul)</th>
 </tr>
 </thead>
 <tbody valign="top">
@@ -466,9 +471,8 @@ primite</td>
 <tr><td>Interfață dedicată
 mesaje SPV</td>
 <td>❌</td>
-<td>✅ cu stări: Draft,
-Downloaded, Invoice,
-Error, Done</td>
+<td>✅ cu stări: Draft, Downloaded,
+Invoice, Error, Done</td>
 </tr>
 <tr><td>Monitorizare încercări
 descărcare</td>
@@ -493,8 +497,7 @@ ANAF</td>
 <tr><td>Căutare produs după cod
 furnizor</td>
 <td>❌</td>
-<td>✅ via
-<tt class="docutils literal">product.supplierinfo</tt></td>
+<td>✅ via <tt class="docutils literal">product.supplierinfo</tt></td>
 </tr>
 <tr><td>Salvare
 <tt class="docutils literal">l10n_ro_vendor_code</tt>
@@ -506,6 +509,17 @@ pe linie</td>
 furnizor la validare</td>
 <td>❌</td>
 <td>✅</td>
+</tr>
+<tr><td>Configurare zile
+descărcare mesaje SPV</td>
+<td>❌</td>
+<td>✅
+(<tt class="docutils literal">l10n_ro_download_einvoices_days</tt>)</td>
+</tr>
+<tr><td>Configurare zile
+reîmprospătare mesaje</td>
+<td>❌</td>
+<td>✅ (<tt class="docutils literal">l10n_ro_refresh_message_days</tt>)</td>
 </tr>
 </tbody>
 </table>

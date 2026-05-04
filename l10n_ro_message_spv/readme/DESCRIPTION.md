@@ -13,6 +13,8 @@ Acest modul facilitează gestionarea mesajelor din Spațiul Privat Virtual (SPV)
     - Căutare produs după codul furnizorului: la importul UBL/CIUS-RO, produsul este identificat automat după codul furnizorului (`SellersItemIdentification` sau `StandardItemIdentification`) folosind `product.supplierinfo`, cu prioritate maximă față de celelalte criterii de căutare.
     - Salvare cod furnizor pe linia de factură: codul furnizorului (`l10n_ro_vendor_code`) este salvat pe linia de factură la import, chiar dacă produsul nu a fost găsit, pentru a permite asocierea ulterioară la validarea facturii.
     - Sincronizarea datelor produselor: permite salvarea automată a codurilor de furnizor pentru produse la validarea facturilor primite.
+    - Configurare număr de zile pentru descărcarea e-facturilor (`l10n_ro_download_einvoices_days`): numărul maxim de zile pentru care se descarcă mesajele din SPV (implicit 60 de zile).
+    - Configurare număr de zile pentru reîmprospătarea mesajelor (`l10n_ro_refresh_message_days`): numărul maxim de zile pentru care se reîmprospătează mesajele e-Factura (implicit 60 de zile).
 
 ---
 
@@ -42,6 +44,8 @@ Modulul `l10n_ro_message_spv` extinde modulul standard Odoo `l10n_ro_edi` (Roman
 | Căutare produs după cod furnizor | ❌ | ✅ via `product.supplierinfo` |
 | Salvare `l10n_ro_vendor_code` pe linie | ❌ | ✅ |
 | Sincronizare coduri furnizor la validare | ❌ | ✅ |
+| Configurare zile descărcare mesaje SPV | ❌ | ✅ (`l10n_ro_download_einvoices_days`) |
+| Configurare zile reîmprospătare mesaje | ❌ | ✅ (`l10n_ro_refresh_message_days`) |
 
 > **Notă:** `l10n_ro_message_spv` depinde de `l10n_ro_edi` și îl extinde — nu îl înlocuiește. Ambele module trebuie instalate pentru funcționalitate completă.
 
