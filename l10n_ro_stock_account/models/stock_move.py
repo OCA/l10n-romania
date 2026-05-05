@@ -468,6 +468,10 @@ class StockMove(models.Model):
         return am_vals
 
     def _account_entry_move_internal_transit_in(self, qty, description, svl_id, cost):
+        # intrare in tranzit - iesire in gestiune
+        # internal_transit_in = depozit -> tranzit (iesire din gestiune)
+        # acc_dest = stock_transfer_account (setat in _get_accounting_data_for_valuation)
+        # nota corecta: gestiunea sursa (credit=acc_valuation) -> cont_transfer (debit=acc_dest)
         move = self.with_context(valued_type="internal_transit_in")
         (
             journal_id,
@@ -481,6 +485,10 @@ class StockMove(models.Model):
         return [am_vals]
 
     def _account_entry_move_internal_transit_out(self, qty, description, svl_id, cost):
+        # iesire din tranzit - intrare in gestiune
+        # internal_transit_out = tranzit -> depozit (intrare in gestiune)
+        # acc_src = stock_transfer_account (setat in _get_accounting_data_for_valuation)
+        # nota corecta: cont_transfer (credit=acc_src) -> gestiunea destinatie (debit=acc_valuation)
         move = self.with_context(valued_type="internal_transit_out")
         (
             journal_id,
