@@ -35,7 +35,10 @@ class StockLocation(models.Model):
 
     def _should_be_valued(self):
         res = super()._should_be_valued()
-        if self.env.context.get("valued_type") in ["internal_transit_out", "internal_transit_in"]:
+        if self.env.context.get("valued_type") in [
+            "internal_transit_out",
+            "internal_transit_in",
+        ]:
             res = True
         return res
 
