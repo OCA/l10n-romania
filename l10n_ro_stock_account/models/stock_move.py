@@ -279,6 +279,7 @@ class StockMove(models.Model):
         - Se creaza SVL prin copiere, pastram remaining
         - Daca nu avem o inlantuire, si transportul este manual, iesirea de face fifo.
         - SVL vor fi inregistrare cu + pe contul de gestiune de destinatie.
+        forced_quantity: tuple(stock.lot, float)
         """
         svls = self.env["stock.valuation.layer"].sudo()
         # company_id = self.env.context.get("force_company", self.env.company.id)
@@ -286,16 +287,27 @@ class StockMove(models.Model):
         # currency = company.currency_id
         moves = self.with_context(standard=True, valued_type="internal_transit_out")
         for move in moves:
-            svls |= move._create_in_svl(forced_quantity)
-            # for svl in svls:
-            #     svl.write(
-            #         {
-            #             "quantity": abs(svl.quantity),
-            #             "value": abs(svl.value),
-            #             "remaining_qty": abs(svl.quantity),
-            #             "remaining_value": abs(svl.value),
-            #         }
-            #     )
+            valued_move_lines = move._get_out_move_lines()
+            qty_by_lot = {}
+            for valued_move_line in valued_move_lines:
+                lot = valued_move_line.lot_id
+                qty = valued_move_line.product_uom_id._compute_quantity(
+                    valued_move_line.quantity, move.product_id.uom_id
+                )
+                qty_by_lot[lot] = qty_by_lot.get(lot, 0.0) + qty
+            valued_quantity = list(qty_by_lot.items())
+
+            for fq in valued_quantity:
+                svls |= move._create_in_svl(fq)
+            for svl in svls:
+                svl.write(
+                    {
+                        "quantity": abs(svl.quantity),
+                        "value": abs(svl.value),
+                        "remaining_qty": abs(svl.quantity),
+                        "remaining_value": abs(svl.value),
+                    }
+                )
             # vls_vals = move._prepare_common_svl_vals()
             # quantity = forced_quantity or move.quantity
             # product = move.product_id
@@ -456,6 +468,11 @@ class StockMove(models.Model):
         return am_vals
 
     def _account_entry_move_internal_transit_in(self, qty, description, svl_id, cost):
+        # intrare in tranzit - iesire in gestiune
+        # internal_transit_in = depozit -> tranzit (iesire din gestiune)
+        # acc_dest = stock_transfer_account
+        # nota corecta: gestiunea sursa (credit=acc_valuation)
+        #               -> cont_transfer (debit=acc_dest)
         move = self.with_context(valued_type="internal_transit_in")
         (
             journal_id,
@@ -469,6 +486,11 @@ class StockMove(models.Model):
         return [am_vals]
 
     def _account_entry_move_internal_transit_out(self, qty, description, svl_id, cost):
+        # iesire din tranzit - intrare in gestiune
+        # internal_transit_out = tranzit -> depozit (intrare in gestiune)
+        # acc_src = stock_transfer_account
+        # nota corecta: cont_transfer (credit=acc_src)
+        #               -> gestiunea destinatie (debit=acc_valuation)
         move = self.with_context(valued_type="internal_transit_out")
         (
             journal_id,
