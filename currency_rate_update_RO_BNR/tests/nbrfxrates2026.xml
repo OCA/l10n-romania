@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<DataSet
+    xmlns="http://www.bnr.ro/xsd"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.bnr.ro/xsd nbrfxrates.xsd"
+>
+    <Header>
+        <Publisher>National Bank of Romania</Publisher>
+        <PublishingDate>2026-05-06</PublishingDate>
+        <MessageType>DR</MessageType>
+    </Header>
+    <Body>
+        <Subject>Reference rates</Subject>
+        <OrigCurrency>RON</OrigCurrency>
+        <Cube date="2026-04-07">
+            <Rate currency="AED">1.3154</Rate>
+            <Rate currency="AUD">3.0215</Rate>
+            <Rate currency="BGN">2.5436</Rate>
+            <Rate currency="BRL">0.8634</Rate>
+            <Rate currency="CAD">3.4128</Rate>
+            <Rate currency="CHF">5.3980</Rate>
+            <Rate currency="CNY">0.6712</Rate>
+            <Rate currency="CZK">0.2014</Rate>
+            <Rate currency="DKK">0.6671</Rate>
+            <Rate currency="EGP">0.0962</Rate>
+            <Rate currency="EUR">4.9749</Rate>
+            <Rate currency="GBP">6.0312</Rate>
+            <Rate currency="HUF" multiplier="100">1.2341</Rate>
+            <Rate currency="INR">0.0574</Rate>
+            <Rate currency="JPY" multiplier="100">3.2841</Rate>
+            <Rate currency="KRW" multiplier="100">0.3412</Rate>
+            <Rate currency="MDL">0.2641</Rate>
+            <Rate currency="MXN">0.2384</Rate>
+            <Rate currency="NOK">0.4512</Rate>
+            <Rate currency="NZD">2.7634</Rate>
+            <Rate currency="PLN">1.1562</Rate>
+            <Rate currency="RSD">0.0424</Rate>
+            <Rate currency="RUB">0.0498</Rate>
+            <Rate currency="SEK">0.4628</Rate>
+            <Rate currency="TRY">0.1398</Rate>
+            <Rate currency="UAH">0.1162</Rate>
+            <Rate currency="USD">4.8234</Rate>
+            <Rate currency="XAU">15234.56</Rate>
+            <Rate currency="XDR">6.4123</Rate>
+            <Rate currency="ZAR">0.2634</Rate>
+        </Cube>
+        <Cube date="2026-05-05">
+            <Rate currency="AED">1.3167</Rate>
+            <Rate currency="AUD">3.0341</Rate>
+            <Rate currency="BGN">2.5436</Rate>
+            <Rate currency="BRL">0.8712</Rate>
+            <Rate currency="CAD">3.4256</Rate>
+            <Rate currency="CHF">5.4123</Rate>
+            <Rate currency="CNY">0.6734</Rate>
+            <Rate currency="CZK">0.2021</Rate>
+            <Rate currency="DKK">0.6671</Rate>
+            <Rate currency="EGP">0.0958</Rate>
+            <Rate currency="EUR">4.9749</Rate>
+            <Rate currency="GBP">6.0489</Rate>
+            <Rate currency="HUF" multiplier="100">1.2298</Rate>
+            <Rate currency="INR">0.0571</Rate>
+            <Rate currency="JPY" multiplier="100">3.2956</Rate>
+            <Rate currency="KRW" multiplier="100">0.3389</Rate>
+            <Rate currency="MDL">0.2638</Rate>
+            <Rate currency="MXN">0.2371</Rate>
+            <Rate currency="NOK">0.4534</Rate>
+            <Rate currency="NZD">2.7812</Rate>
+            <Rate currency="PLN">1.1589</Rate>
+            <Rate currency="RSD">0.0424</Rate>
+            <Rate currency="RUB">0.0501</Rate>
+            <Rate currency="SEK">0.4651</Rate>
+            <Rate currency="TRY">0.1389</Rate>
+            <Rate currency="UAH">0.1158</Rate>
+            <Rate currency="USD">4.8512</Rate>
+            <Rate currency="XAU">15412.34</Rate>
+            <Rate currency="XDR">6.4289</Rate>
+            <Rate currency="ZAR">0.2612</Rate>
+        </Cube>
+    </Body>
+</DataSet>
