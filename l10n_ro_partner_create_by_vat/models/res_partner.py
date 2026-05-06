@@ -173,6 +173,12 @@ class ResPartner(models.Model):
 
         get_param = self.env["ir.config_parameter"].sudo().get_param
         anaf_url = get_param("l10n_ro_partner_create_by_vat.anaf_url", ANAF_URL)
+        anaf_api_key_header_tag = get_param(
+            "l10n_ro_partner_create_by_vat.anaf_api_key_header_tag", "x-api-key"
+        )
+        anaf_api_key = get_param("l10n_ro_partner_create_by_vat.anaf_api_key", "")
+        if anaf_api_key:
+            headers.update({anaf_api_key_header_tag: anaf_api_key})
         if not data:
             data = fields.Date.to_string(fields.Date.today())
         if type(cod) in [list, tuple]:
