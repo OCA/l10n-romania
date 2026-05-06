@@ -379,53 +379,6 @@ class StockMove(models.Model):
             if svl.quantity > 0:
                 svl.write({"l10n_ro_valued_type": "reception"})
 
-        # Odoo standard nu apeleaza _validate_accounting_entries pentru SVL-urile
-        # de dropshipping pentru ca le considera "virtuale" si face o singura nota
-        # anglo-saxona in _action_done.
-        # Noi le-am impartit in doua (receptie si livrare) si vrem note pentru ambele.
-        for svl in svls:
-            if not self.is_l10n_ro_record:
-                continue
-            (
-                journal_id,
-                acc_src,
-                acc_dest,
-                acc_valuation,
-            ) = self.with_context(
-                valued_type=svl.l10n_ro_valued_type
-            )._get_accounting_data_for_valuation()
-
-            credit_account_id = acc_src
-            debit_account_id = acc_valuation
-            if svl.l10n_ro_valued_type == "delivery":
-                credit_account_id = acc_valuation
-                debit_account_id = acc_dest
-
-            # Daca este receptie dropshipping (reception), verificam daca avem
-            # contul 408 (acc_src). Daca acc_src este acelasi cu acc_valuation
-            # (contul de stoc), inseamna ca nu s-a gasit 408. In acest caz,
-            # conform cerintei, nu facem nota contabila dar pastram SVL-ul.
-            if (
-                svl.l10n_ro_valued_type == "reception"
-                and credit_account_id == debit_account_id
-            ):
-                continue
-
-            # print(
-            #     f"DEBUG: Creating account move for SVL {svl.l10n_ro_valued_type} "
-            #     f"credit {credit_account_id} debit {debit_account_id}"
-            # )
-
-            self._l10n_ro_create_account_move_line(
-                credit_account_id,
-                debit_account_id,
-                journal_id,
-                svl.quantity,
-                self.reference,
-                svl,
-                abs(svl.unit_cost),
-            )
-
         return svls
 
     def _get_company(self, svl):
@@ -485,10 +438,6 @@ class StockMove(models.Model):
                 qty, description, svl_id, cost
             )
 
-        if svl.l10n_ro_valued_type == "reception" and self._is_dropshipped():
-            pass
-        if svl.l10n_ro_valued_type == "delivery" and self._is_dropshipped():
-            pass
         # todo: de eliminat
         if self.is_l10n_ro_record:
             self._l10n_ro_account_entry_move(qty, description, svl_id, cost)

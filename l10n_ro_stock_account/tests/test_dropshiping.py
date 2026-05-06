@@ -48,6 +48,13 @@ class TestStockDropshipping(TestStockCommon):
         purchase.button_confirm()
 
         picking = sale_order.picking_ids
+        picking = sale_order.picking_ids
+        is_dropshipped = picking._is_dropshipped()
+        self.assertTrue(is_dropshipped, "Picking should be dropshipped")
+        _is_dropshipped_returned = picking._is_dropshipped_returned()
+        self.assertFalse(
+            _is_dropshipped_returned, "Picking should not be dropshipped returned"
+        )
         picking.action_assign()
         for move in picking.move_ids:
             move._set_quantity_done(move.product_uom_qty)
