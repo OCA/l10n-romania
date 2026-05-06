@@ -32,6 +32,12 @@ class ResPartner(models.Model):
     def update_l10n_ro_vat_subjected(self):  # noqa C901
         get_param = self.env["ir.config_parameter"].sudo().get_param
         anaf_url = get_param("l10n_ro_fiscal_validation.anaf_bulk_url", ANAF_BULK_URL)
+        anaf_api_key_header_tag = get_param(
+            "l10n_ro_partner_create_by_vat.anaf_api_key_header_tag", "x-api-key"
+        )
+        anaf_api_key = get_param("l10n_ro_partner_create_by_vat.anaf_api_key", "")
+        if anaf_api_key:
+            headers.update({anaf_api_key_header_tag: anaf_api_key})
         anaf_corr = get_param("l10n_ro_fiscal_validation.anaf_corr", ANAF_CORR)
         anaf_dict = []
         check_date = fields.Date.to_string(fields.Date.today())
@@ -41,7 +47,7 @@ class ResPartner(models.Model):
         chunk = []
         chunks = []
         # Process 500 vat numbers once
-        max_no = 499
+        max_no = get_param("l10n_ro_fiscal_validation.anaf_bulk_number", 499)
         for position in range(0, len(anaf_dict), max_no):
             chunk = anaf_dict[position : position + max_no]
             chunks.append(chunk)
