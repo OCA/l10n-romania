@@ -379,8 +379,9 @@ class StockMove(models.Model):
             if svl.quantity > 0:
                 svl.write({"l10n_ro_valued_type": "reception"})
 
-        # Odoo standard nu apeleaza _validate_accounting_entries pentru SVL-urile de dropshipping
-        # pentru ca le considera "virtuale" si face o singura nota anglo-saxona in _action_done.
+        # Odoo standard nu apeleaza _validate_accounting_entries pentru SVL-urile
+        # de dropshipping pentru ca le considera "virtuale" si face o singura nota
+        # anglo-saxona in _action_done.
         # Noi le-am impartit in doua (receptie si livrare) si vrem note pentru ambele.
         for svl in svls:
             if not self.is_l10n_ro_record:
@@ -400,16 +401,20 @@ class StockMove(models.Model):
                 credit_account_id = acc_valuation
                 debit_account_id = acc_dest
 
-            # Daca este receptie dropshipping (reception), verificam daca avem contul 408 (acc_src)
-            # Daca acc_src este acelasi cu acc_valuation (contul de stoc), inseamna ca nu s-a gasit 408
-            # In acest caz, conform cerintei, nu facem nota contabila dar pastram SVL-ul.
+            # Daca este receptie dropshipping (reception), verificam daca avem
+            # contul 408 (acc_src). Daca acc_src este acelasi cu acc_valuation
+            # (contul de stoc), inseamna ca nu s-a gasit 408. In acest caz,
+            # conform cerintei, nu facem nota contabila dar pastram SVL-ul.
             if (
                 svl.l10n_ro_valued_type == "reception"
                 and credit_account_id == debit_account_id
             ):
                 continue
 
-            # print(f"DEBUG: Creating account move for SVL {svl.l10n_ro_valued_type} credit {credit_account_id} debit {debit_account_id}")
+            # print(
+            #     f"DEBUG: Creating account move for SVL {svl.l10n_ro_valued_type} "
+            #     f"credit {credit_account_id} debit {debit_account_id}"
+            # )
 
             self._l10n_ro_create_account_move_line(
                 credit_account_id,

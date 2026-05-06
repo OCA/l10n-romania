@@ -73,7 +73,8 @@ class TestStockDropshipping(TestStockCommon):
             if svl.l10n_ro_valued_type == "reception":
                 self.assertFalse(
                     svl.account_move_id,
-                    "NU ar trebui sa avem note contabile pentru receptie daca 408 nu e configurat",
+                    "NU ar trebui sa avem note contabile pentru receptie "
+                    "daca 408 nu e configurat",
                 )
             elif svl.l10n_ro_valued_type == "delivery":
                 self.assertTrue(

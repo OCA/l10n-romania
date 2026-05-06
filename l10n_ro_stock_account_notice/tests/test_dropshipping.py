@@ -77,7 +77,8 @@ class TestStockDropshippingNotice(TestStockCommon):
         for svl in svls:
             self.assertTrue(
                 svl.account_move_id,
-                f"Ar trebui sa avem note contabile pentru SVL {svl.l10n_ro_valued_type}",
+                "Ar trebui sa avem note contabile pentru SVL "
+                f"{svl.l10n_ro_valued_type}",
             )
             am_lines = svl.account_move_id.line_ids
             debit_accounts = am_lines.filtered(lambda ln: ln.debit > 0).mapped(
