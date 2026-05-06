@@ -1,7 +1,8 @@
 [project]
 name = "odoo-addons-oca-l10n-romania"
-version = "18.0.20250928.0"
+version = "18.0.20260506.0"
 dependencies = [
+    "odoo-addon-currency_rate_update_RO_BNR==18.0.*",
     "odoo-addon-l10n_ro_account==18.0.*",
     "odoo-addon-l10n_ro_account_bank_statement_import_mt940_alpha==18.0.*",
     "odoo-addon-l10n_ro_account_bank_statement_import_mt940_base==18.0.*",
