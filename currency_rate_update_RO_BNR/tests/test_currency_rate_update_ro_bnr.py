@@ -5,12 +5,14 @@ from unittest.mock import patch
 from dateutil.relativedelta import relativedelta
 
 from odoo import fields
+from odoo.tests import tagged
 from odoo.tests.common import TransactionCase
 from odoo.tools.misc import file_path
 
 _logger = logging.getLogger(__name__)
 
 
+@tagged("post_install", "-at_install")
 class TestCurrencyRateUpdateRoBnr(TransactionCase):
     @classmethod
     def setUpClass(cls):
@@ -33,8 +35,7 @@ class TestCurrencyRateUpdateRoBnr(TransactionCase):
         )
         cls.company.currency_id = cls.ron_currency
 
-        # By default, tests are run with the current user set
-        # on the first company.
+        cls.env.user.company_ids += cls.company
         cls.env.user.company_id = cls.company
         cls.bnr_provider = cls.CurrencyRateProvider.create(
             {
