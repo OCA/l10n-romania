@@ -4,7 +4,6 @@
 from odoo import api, fields, models
 
 
-
 class AccountMove(models.Model):
     _inherit = "account.move"
 
@@ -32,8 +31,8 @@ class AccountMove(models.Model):
                 # For downpayment deduction lines, use the price from the original
                 # downpayment invoice so the amount exactly offsets what was billed.
                 orig_lines = so_line.invoice_lines.filtered(
-                    lambda l: l.move_id.state == "posted"
-                    and l.move_id != self._origin
+                    lambda lin: lin.move_id.state == "posted"
+                    and lin.move_id != self._origin
                 )
                 if orig_lines:
                     orig = orig_lines[0]
@@ -50,8 +49,10 @@ class AccountMove(models.Model):
                 else:
                     new_price = (line._origin.price_unit or line.price_unit) * rate
             else:
-                base_price = so_line.price_unit if so_line else (
-                    line._origin.price_unit or line.price_unit
+                base_price = (
+                    so_line.price_unit
+                    if so_line
+                    else (line._origin.price_unit or line.price_unit)
                 )
                 new_price = base_price * rate
 
