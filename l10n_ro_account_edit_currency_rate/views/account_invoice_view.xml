@@ -1,0 +1,16 @@
+<?xml version="1.0" ?>
+<odoo>
+    <record id="l10n_ro_view_move_form_edit_currency" model="ir.ui.view">
+        <field name="name">account.move.form.edit.currency</field>
+        <field name="model">account.move</field>
+        <field name="type">form</field>
+        <field name="inherit_id" ref="account.view_move_form" />
+        <field name="arch" type="xml">
+            <field name="invoice_currency_rate" position="attributes">
+                <attribute
+                    name="readonly"
+                >country_code != 'RO' and state != 'draft'</attribute>
+            </field>
+        </field>
+    </record>
+</odoo>
