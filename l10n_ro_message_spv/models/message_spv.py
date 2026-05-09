@@ -441,7 +441,6 @@ class MessageSPV(models.Model):
             attachment_xml = message.attachment_xml_id.sudo()
             files_data = new_invoice._to_files_data([attachment_xml])
 
-            new_invoice._extend_with_attachments(files_data)
             try:
                 new_invoice._extend_with_attachments(files_data)
             except Exception as e:
