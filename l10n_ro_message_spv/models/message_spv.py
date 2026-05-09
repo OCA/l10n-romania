@@ -437,8 +437,12 @@ class MessageSPV(models.Model):
             new_invoice = new_invoice.with_context(
                 disable_onchange_name_predictive=True
             )
+
+            attachment_xml = message.attachment_xml_id.sudo()
+            files_data = new_invoice._to_files_data([attachment_xml])
+
             try:
-                new_invoice._extend_with_attachments(message.attachment_xml_id.sudo())
+                new_invoice._extend_with_attachments(files_data)
             except Exception as e:
                 message.write({"state": "error", "error": str(e)})
                 continue
