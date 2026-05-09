@@ -5,13 +5,13 @@ import logging
 
 from odoo.tests import Form, tagged
 
-from .common import TestStockCommon
+from odoo.addons.l10n_ro_stock_account.tests.common import TestStockCommon
 
 _logger = logging.getLogger(__name__)
 
 
 @tagged("post_install", "-at_install", "dropshipping")
-class TestStockDropshipping(TestStockCommon):
+class TestStockDropshippingNotice(TestStockCommon):
     def _create_dropshipping_order(self, price_unit=150.0, vendor_price=80.0):
         # creare comanda de vanzre cu dropshiping
         so_form = Form(self.env["sale.order"])
@@ -48,13 +48,7 @@ class TestStockDropshipping(TestStockCommon):
         purchase.button_confirm()
 
         picking = sale_order.picking_ids
-        picking = sale_order.picking_ids
-        is_dropshipped = picking._is_dropshipped()
-        self.assertTrue(is_dropshipped, "Picking should be dropshipped")
-        _is_dropshipped_returned = picking._is_dropshipped_returned()
-        self.assertFalse(
-            _is_dropshipped_returned, "Picking should not be dropshipped returned"
-        )
+        picking.l10n_ro_notice = True
         picking.action_assign()
         for move in picking.move_ids:
             move._set_quantity_done(move.product_uom_qty)
@@ -62,29 +56,43 @@ class TestStockDropshipping(TestStockCommon):
 
         return picking
 
-    def test_dropshipping_without_408(self):
-        """Test dropshipping FARA contul 408 configurat.
-        Ar trebui sa avem SVL-uri, dar nota de receptie sa NU se genereze.
+    def test_dropshipping_with_408(self):
+        """Test dropshipping cu contul 408 (facturi de primit) configurat.
+        Ar trebui sa se genereze note contabile pentru receptie si livrare.
         """
-        # Ne asiguram ca 408 NU este configurat pe companie
-        self.env.company.l10n_ro_property_stock_picking_payable_account_id = False
+        # Asiguram configurarea contului 408 pe companie
+        self.env.company.l10n_ro_property_stock_picking_payable_account_id = (
+            self.stock_picking_payable_account_id
+        )
 
         picking = self._create_dropshipping_order()
 
         svls = self.env["stock.valuation.layer"].search(
             [("stock_move_id", "in", picking.move_ids.ids)]
         )
-        self.assertEqual(len(svls), 2, "Ar trebui sa avem 2 SVL-uri")
+        self.assertEqual(
+            len(svls), 2, "Ar trebui sa avem 2 SVL-uri (reception si delivery)"
+        )
 
         for svl in svls:
-            if svl.l10n_ro_valued_type == "reception":
-                self.assertFalse(
-                    svl.account_move_id,
-                    "NU ar trebui sa avem note contabile pentru receptie "
-                    "daca 408 nu e configurat",
-                )
-            elif svl.l10n_ro_valued_type == "delivery":
-                self.assertTrue(
-                    svl.account_move_id,
-                    "Ar trebui sa avem in continuare note contabile pentru livrare",
-                )
+            self.assertTrue(
+                svl.account_move_id,
+                "Ar trebui sa avem note contabile pentru SVL "
+                f"{svl.l10n_ro_valued_type}",
+            )
+            am_lines = svl.account_move_id.line_ids
+            debit_accounts = am_lines.filtered(lambda ln: ln.debit > 0).mapped(
+                "account_id"
+            )
+            credit_accounts = am_lines.filtered(lambda ln: ln.credit > 0).mapped(
+                "account_id"
+            )
+
+            if svl.l10n_ro_valued_type == "reception_notice":
+                # Reception: Cont Gestiune (Debit) -> Cont 408 (Credit)
+                self.assertIn(self.account_valuation, debit_accounts)
+                self.assertIn(self.stock_picking_payable_account_id, credit_accounts)
+            elif svl.l10n_ro_valued_type == "delivery_notice":
+                # Delivery: Cont Cheltuiala (Debit) -> Cont Gestiune (Credit)
+                self.assertIn(self.account_expense, debit_accounts)
+                self.assertIn(self.account_valuation, credit_accounts)

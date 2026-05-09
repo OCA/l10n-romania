@@ -378,6 +378,7 @@ class StockMove(models.Model):
                 svl.write({"l10n_ro_valued_type": "delivery"})
             if svl.quantity > 0:
                 svl.write({"l10n_ro_valued_type": "reception"})
+
         return svls
 
     def _get_company(self, svl):

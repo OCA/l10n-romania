@@ -153,7 +153,7 @@ class TestStockReport(TransactionCase):
         invoice.action_post()
         _logger.info("Factura introdusa")
 
-    def test_report_storeage_sheet(self):
+    def test_report_storage_sheet(self):
         self.create_po()
         self.create_invoice()
 
@@ -228,7 +228,7 @@ class TestStockReport(TransactionCase):
         # with self.assertRaises(UserError):
         #     wizard_product.get_found_products()
 
-    def test_report_storeage_sheet_sublocation(self):
+    def test_report_storage_sheet_sublocation(self):
         self.create_po()
         self.create_invoice()
 
@@ -245,7 +245,7 @@ class TestStockReport(TransactionCase):
         )
         self.assertTrue(line)
 
-    def test_report_storeage_sheet_sublocation2(self):
+    def test_report_storage_sheet_sublocation2(self):
         self.create_po()
         self.create_invoice()
 
