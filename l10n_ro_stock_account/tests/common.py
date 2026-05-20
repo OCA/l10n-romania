@@ -24,6 +24,10 @@ class TestROStockCommon(AccountTestInvoicingCommon):
         super().setUpClass()
         cls.log_checks = False
         cls.env.user.group_ids += cls.env.ref("sales_team.group_sale_salesman")
+        # Enable FIFO per location on the test company. The module default
+        # is True, but we set it explicitly so the tests are self-contained
+        # and do not depend on future changes to the default.
+        cls.env.company.fifo_per_location = True
         cls.stock_journal = cls.env["account.journal"].create(
             {
                 "name": "Stock Journal",

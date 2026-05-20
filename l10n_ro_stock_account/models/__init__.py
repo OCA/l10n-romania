@@ -1,3 +1,5 @@
+from . import res_company
+
 from . import fifo
 
 from . import account_account

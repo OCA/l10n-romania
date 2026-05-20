@@ -15,7 +15,7 @@ class StockQuant(models.Model):
     def _compute_value(self):
         res = super()._compute_value()
         ro_fifo_quants = self.filtered(
-            lambda quant: quant.is_l10n_ro_record
+            lambda quant: quant.company_id.fifo_per_location
             and quant.product_id.cost_method == "fifo"
             and not quant.product_id.lot_valuated
         )

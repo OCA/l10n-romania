@@ -14,10 +14,6 @@ _logger = logging.getLogger(__name__)
 
 @tagged("post_install", "-at_install")
 class TestStockFifo(TestROStockCommon):
-    @TestROStockCommon.setup_country("ro")
-    def setUp(cls):
-        super().setUp()
-
     def test_ro_stock_product_fifo(self):
         filename = "test_cases_fifo.csv"
         test_cases = self.read_test_cases_from_csv_file(filename)
