@@ -18,7 +18,7 @@ class ProductProduct(models.Model):
         company_id = self.env.company
         self.company_currency_id = company_id.currency_id
         ro_fifo_products = self.filtered(
-            lambda p: p.is_l10n_ro_record
+            lambda p: company_id.fifo_per_location
             and p.cost_method == "fifo"
             and not p.lot_valuated
         )
@@ -56,7 +56,7 @@ class ProductProduct(models.Model):
 
     def _get_cogs_value(self, quantity):
         ro_fifo_products = self.filtered(
-            lambda p: p.is_l10n_ro_record
+            lambda p: self.env.company.fifo_per_location
             and p.cost_method == "fifo"
             and not p.lot_valuated
         )
@@ -78,7 +78,7 @@ class ProductProduct(models.Model):
         give as argument."""
         self.ensure_one()
         ro_fifo_products = self.filtered(
-            lambda p: p.is_l10n_ro_record
+            lambda p: self.env.company.fifo_per_location
             and p.cost_method == "fifo"
             and not p.lot_valuated
         )
@@ -148,7 +148,7 @@ class ProductProduct(models.Model):
 
     def _run_fifo_get_stack(self, lot=None, at_date=None, location=None):
         ro_fifo_products = self.filtered(
-            lambda p: p.is_l10n_ro_record
+            lambda p: self.env.company.fifo_per_location
             and p.cost_method == "fifo"
             and not p.lot_valuated
         )

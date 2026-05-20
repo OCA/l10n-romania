@@ -3,7 +3,7 @@
 
 import logging
 
-from odoo import api, models
+from odoo import Command, api, fields, models
 
 _logger = logging.getLogger(__name__)
 
@@ -12,10 +12,32 @@ class StockMove(models.Model):
     _name = "stock.move"
     _inherit = ["stock.move", "l10n.ro.mixin"]
 
+    fifo_neg_pending_qty = fields.Float(
+        string="Negative Stock Pending Qty",
+        copy=False,
+        readonly=True,
+        help="Quantity from a FIFO outgoing move that was valued at "
+        "standard_price because the location stack was empty. "
+        "Compensated FIFO on the next incoming move for the same "
+        "(product, location) pair.",
+    )
+    fifo_neg_origin_value = fields.Monetary(
+        string="Negative Stock Initial Value",
+        currency_field="company_currency_id",
+        copy=False,
+        readonly=True,
+    )
+    fifo_neg_compensation_move_ids = fields.One2many(
+        "account.move",
+        "fifo_neg_origin_move_id",
+        string="Negative Stock Compensation Entries",
+        readonly=True,
+    )
+
     def _compute_remaining_qty(self):
         res = super()._compute_remaining_qty()
         ro_fifo_moves = self.filtered(
-            lambda move: move.is_l10n_ro_record
+            lambda move: move.company_id.fifo_per_location
             and move.product_id.cost_method == "fifo"
             and not move.product_id.lot_valuated
         )
@@ -40,7 +62,7 @@ class StockMove(models.Model):
         ro_fifo_moves_out = self.filtered(
             lambda m: m._is_out()
             and m.product_id.cost_method == "fifo"
-            and m.is_l10n_ro_record
+            and m.company_id.fifo_per_location
             and not m.product_id.lot_valuated
             and m.product_uom.compare(m.quantity, 0) != 0
         )
@@ -59,7 +81,7 @@ class StockMove(models.Model):
 
     def _set_value(self, correction_quantity=None):
         ro_fifo_out_moves = self.filtered(
-            lambda move: move.is_l10n_ro_record
+            lambda move: move.company_id.fifo_per_location
             and move._is_out()
             and move.product_id.cost_method == "fifo"
             and not move.product_id.lot_valuated
@@ -81,6 +103,16 @@ class StockMove(models.Model):
                         location=move_line.location_dest_id,
                     )
                 move.value = value
+        # Negative stock compensation on incoming moves
+        ins = self.filtered(
+            lambda m: m.company_id.fifo_per_location
+            and m.company_id.fifo_location_negative_compensation
+            and m.is_in
+            and m.product_id.cost_method == "fifo"
+            and not m.product_id.lot_valuated
+        )
+        for move in ins:
+            move._fifo_neg_apply_compensation()
         return res
 
     def _get_value_from_origin_move(
@@ -116,7 +148,7 @@ class StockMove(models.Model):
             quantity=quantity, std_price=std_price, at_date=at_date
         )
         ro_fifo_move_with_origin = self.filtered(
-            lambda move: move.is_l10n_ro_record
+            lambda move: move.company_id.fifo_per_location
             and move.product_id.cost_method == "fifo"
             and not move.product_id.lot_valuated
             and move.move_orig_ids
@@ -171,12 +203,20 @@ class StockMove(models.Model):
             move.quantity = quantity
         else:
             quantity = 0
-            move.write(
-                {
-                    "value_manual": fifo_item["value"] / fifo_quantity * move.quantity,
-                    "price_unit": fifo_item["value"] / fifo_quantity,
-                }
-            )
+            move_vals = {
+                "value_manual": fifo_item["value"] / fifo_quantity * move.quantity,
+                "price_unit": fifo_item["value"] / fifo_quantity,
+            }
+            # No-split case: the whole move is on negative stock (forced value).
+            # Mark it for compensation on the next incoming move.
+            if (
+                not fifo_item.get("move_id")
+                and move.company_id.fifo_location_negative_compensation
+            ):
+                unit = fifo_item["value"] / fifo_quantity if fifo_quantity else 0
+                move_vals["fifo_neg_pending_qty"] = move.quantity
+                move_vals["fifo_neg_origin_value"] = unit * move.quantity
+            move.write(move_vals)
             new_move_vals_list = []
         if fifo_item:
             move._l10n_ro_update_fifo_move(fifo_item, move)
@@ -196,3 +236,139 @@ class StockMove(models.Model):
         new_move_vals["picking_id"] = move.picking_id.id
         new_move_vals["quantity"] = fifo_quantity
         new_move_vals["date"] = move.date
+        # Mark split moves generated from a 'forced value' (negative stock on
+        # the location) so they get compensated on the next incoming move.
+        if (
+            not fifo_item.get("move_id")
+            and move.company_id.fifo_location_negative_compensation
+        ):
+            new_move_vals["fifo_neg_pending_qty"] = fifo_quantity
+            new_move_vals["fifo_neg_origin_value"] = fifo_item["value"]
+
+    # ------------------------------------------------------------------
+    # Negative stock compensation
+    # ------------------------------------------------------------------
+    def _fifo_neg_apply_compensation(self):
+        """Allocate the current incoming move's value over previous outgoing
+        moves with ``fifo_neg_pending_qty > 0`` on the same
+        (product, location_dest_id) pair and emit a correction accounting
+        entry for the price difference.
+
+        Idempotent: if this incoming move has already generated compensation
+        entries (e.g. _set_value is re-called when the invoice is posted),
+        we return immediately to avoid doubling the effect."""
+        self.ensure_one()
+        if self.fifo_neg_compensation_move_ids:
+            return
+        location = self.location_dest_id
+        if not location._should_be_valued():
+            return
+        valued_qty = self._get_valued_qty()
+        if not valued_qty or not self.value:
+            return
+        pending_moves = self.env["stock.move"].search(
+            [
+                ("product_id", "=", self.product_id.id),
+                ("location_id", "=", location.id),
+                ("company_id", "=", self.company_id.id),
+                ("fifo_neg_pending_qty", ">", 0),
+                ("state", "=", "done"),
+                ("date", "<=", self.date),
+            ],
+            order="date, id",
+        )
+        if not pending_moves:
+            return
+        in_price = self.value / valued_qty
+        remaining_in_qty = valued_qty
+        line_vals = []
+        for out_move in pending_moves:
+            if remaining_in_qty <= 0:
+                break
+            consume_qty = min(out_move.fifo_neg_pending_qty, remaining_in_qty)
+            if not consume_qty:
+                continue
+            unit_origin = (
+                out_move.fifo_neg_origin_value / out_move.fifo_neg_pending_qty
+                if out_move.fifo_neg_pending_qty
+                else 0
+            )
+            old_value_for_qty = unit_origin * consume_qty
+            new_value_for_qty = in_price * consume_qty
+            delta = new_value_for_qty - old_value_for_qty
+            out_move.write(
+                {
+                    "value": out_move.value + delta,
+                    "fifo_neg_pending_qty": out_move.fifo_neg_pending_qty - consume_qty,
+                    "fifo_neg_origin_value": out_move.fifo_neg_origin_value
+                    - old_value_for_qty,
+                }
+            )
+            remaining_in_qty -= consume_qty
+            if self.company_id.currency_id.is_zero(delta):
+                continue
+            line_vals += self._fifo_neg_build_adjust_lines(out_move, delta)
+        if not line_vals:
+            return
+        journal = self.company_id.account_stock_journal_id
+        if not journal:
+            _logger.warning(
+                "FIFO compensation: missing stock journal on company %s",
+                self.company_id.display_name,
+            )
+            return
+        adjust = (
+            self.env["account.move"]
+            .sudo()
+            .create(
+                {
+                    "ref": self.env._(
+                        "Negative stock compensation %s",
+                        self.reference or self.name,
+                    ),
+                    "journal_id": journal.id,
+                    "date": fields.Date.context_today(self),
+                    "fifo_neg_origin_move_id": self.id,
+                    "line_ids": [Command.create(v) for v in line_vals],
+                }
+            )
+        )
+        adjust._post()
+        return adjust
+
+    def _fifo_neg_build_adjust_lines(self, out_move, delta):
+        """Journal lines for the negative stock correction.
+        delta > 0: the outgoing move was undervalued; we add the difference
+                   to the variation/COGS account and credit the stock account.
+        delta < 0: the outgoing move was overvalued; we invert the direction."""
+        accounts = out_move.product_id._get_product_accounts()
+        stock_acc = out_move.location_id.valuation_account_id or accounts.get(
+            "stock_valuation"
+        )
+        variation_acc = accounts.get("stock_variation") or accounts.get("expense")
+        if not stock_acc or not variation_acc:
+            return []
+        amount = abs(delta)
+        label = self.env._(
+            "FIFO location compensation: %(product)s / %(loc)s",
+            product=out_move.product_id.display_name,
+            loc=out_move.location_id.display_name,
+        )
+        debit_acc = variation_acc if delta > 0 else stock_acc
+        credit_acc = stock_acc if delta > 0 else variation_acc
+        return [
+            {
+                "account_id": debit_acc.id,
+                "name": label,
+                "debit": amount,
+                "credit": 0,
+                "product_id": out_move.product_id.id,
+            },
+            {
+                "account_id": credit_acc.id,
+                "name": label,
+                "debit": 0,
+                "credit": amount,
+                "product_id": out_move.product_id.id,
+            },
+        ]
