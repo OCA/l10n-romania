@@ -15,6 +15,15 @@ class AccountMove(models.Model):
         string="Romania - Extra Stock Move",
         readonly=True,
     )
+    fifo_neg_origin_move_id = fields.Many2one(
+        "stock.move",
+        string="Source IN move for negative stock compensation",
+        index="btree_not_null",
+        readonly=True,
+        copy=False,
+        help="The incoming stock move that triggered this FIFO negative "
+        "stock compensation accounting entry.",
+    )
 
     def _stock_account_prepare_anglo_saxon_in_lines_vals(self):
         l10n_ro_moves = self.filtered(lambda m: m.company_id.l10n_ro_accounting)
