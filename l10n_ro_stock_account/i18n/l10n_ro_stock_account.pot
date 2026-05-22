@@ -4,8 +4,10 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 19.0\n"
+"Project-Id-Version: Odoo Server 19.0+e\n"
 "Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-05-21 19:27+0000\n"
+"PO-Revision-Date: 2026-05-21 19:27+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -26,6 +28,11 @@ msgstr ""
 #. module: l10n_ro_stock_account
 #: model:ir.model.fields,field_description:l10n_ro_stock_account.field_product_category__l10n_ro_stock_account_change
 msgid "Allow stock account change from locations"
+msgstr ""
+
+#. module: l10n_ro_stock_account
+#: model:ir.model,name:l10n_ro_stock_account.model_res_company
+msgid "Companies"
 msgstr ""
 
 #. module: l10n_ro_stock_account
@@ -70,6 +77,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_ro_stock_account.field_product_category__display_name
 #: model:ir.model.fields,field_description:l10n_ro_stock_account.field_product_product__display_name
 #: model:ir.model.fields,field_description:l10n_ro_stock_account.field_product_template__display_name
+#: model:ir.model.fields,field_description:l10n_ro_stock_account.field_res_company__display_name
 #: model:ir.model.fields,field_description:l10n_ro_stock_account.field_stock_location__display_name
 #: model:ir.model.fields,field_description:l10n_ro_stock_account.field_stock_move__display_name
 #: model:ir.model.fields,field_description:l10n_ro_stock_account.field_stock_picking__display_name
@@ -89,8 +97,35 @@ msgid "Dropshipped Return"
 msgstr ""
 
 #. module: l10n_ro_stock_account
+#: model:ir.model.fields,help:l10n_ro_stock_account.field_res_company__fifo_per_location
+msgid ""
+"Enable FIFO valuation at the source location level (instead of the company "
+"level). Outgoing moves for products with cost_method=fifo are automatically "
+"split into one stock.move per FIFO layer. Defaults to True for Romanian "
+"companies; editable per company."
+msgstr ""
+
+#. module: l10n_ro_stock_account
 #: model:ir.model.fields,field_description:l10n_ro_stock_account.field_stock_location__l10n_ro_property_account_expense_location_id
 msgid "Expense Account"
+msgstr ""
+
+#. module: l10n_ro_stock_account
+#: model:ir.model.fields,field_description:l10n_ro_stock_account.field_res_company__fifo_location_negative_compensation
+#: model_terms:ir.ui.view,arch_db:l10n_ro_stock_account.view_stock_move_form_fifo_neg
+msgid "FIFO Negative Stock Compensation"
+msgstr ""
+
+#. module: l10n_ro_stock_account
+#. odoo-python
+#: code:addons/l10n_ro_stock_account/models/fifo/stock_move.py:0
+msgid "FIFO location compensation: %(product)s / %(loc)s"
+msgstr ""
+
+#. module: l10n_ro_stock_account
+#: model:ir.model.fields,field_description:l10n_ro_stock_account.field_res_company__fifo_per_location
+#: model_terms:ir.ui.view,arch_db:l10n_ro_stock_account.view_company_form_fifo_location
+msgid "FIFO per Location"
 msgstr ""
 
 #. module: l10n_ro_stock_account
@@ -111,6 +146,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_ro_stock_account.field_product_category__id
 #: model:ir.model.fields,field_description:l10n_ro_stock_account.field_product_product__id
 #: model:ir.model.fields,field_description:l10n_ro_stock_account.field_product_template__id
+#: model:ir.model.fields,field_description:l10n_ro_stock_account.field_res_company__id
 #: model:ir.model.fields,field_description:l10n_ro_stock_account.field_stock_location__id
 #: model:ir.model.fields,field_description:l10n_ro_stock_account.field_stock_move__id
 #: model:ir.model.fields,field_description:l10n_ro_stock_account.field_stock_picking__id
@@ -213,6 +249,27 @@ msgid ""
 msgstr ""
 
 #. module: l10n_ro_stock_account
+#: model:ir.model.fields,field_description:l10n_ro_stock_account.field_stock_move__fifo_neg_compensation_move_ids
+msgid "Negative Stock Compensation Entries"
+msgstr ""
+
+#. module: l10n_ro_stock_account
+#: model:ir.model.fields,field_description:l10n_ro_stock_account.field_stock_move__fifo_neg_origin_value
+msgid "Negative Stock Initial Value"
+msgstr ""
+
+#. module: l10n_ro_stock_account
+#: model:ir.model.fields,field_description:l10n_ro_stock_account.field_stock_move__fifo_neg_pending_qty
+msgid "Negative Stock Pending Qty"
+msgstr ""
+
+#. module: l10n_ro_stock_account
+#. odoo-python
+#: code:addons/l10n_ro_stock_account/models/fifo/stock_move.py:0
+msgid "Negative stock compensation %s"
+msgstr ""
+
+#. module: l10n_ro_stock_account
 #. odoo-python
 #: code:addons/l10n_ro_stock_account/tests/common.py:0
 msgid ""
@@ -274,6 +331,14 @@ msgstr ""
 #. module: l10n_ro_stock_account
 #: model:ir.actions.server,name:l10n_ro_stock_account.action_location_account_propagate
 msgid "Propagate Accounts"
+msgstr ""
+
+#. module: l10n_ro_stock_account
+#: model:ir.model.fields,help:l10n_ro_stock_account.field_stock_move__fifo_neg_pending_qty
+msgid ""
+"Quantity from a FIFO outgoing move that was valued at standard_price because"
+" the location stack was empty. Compensated FIFO on the next incoming move "
+"for the same (product, location) pair."
 msgstr ""
 
 #. module: l10n_ro_stock_account
@@ -354,6 +419,12 @@ msgid "Romanian Stock Move Type not set on stock move %(move)s"
 msgstr ""
 
 #. module: l10n_ro_stock_account
+#: model:ir.model.fields,field_description:l10n_ro_stock_account.field_account_bank_statement_line__fifo_neg_origin_move_id
+#: model:ir.model.fields,field_description:l10n_ro_stock_account.field_account_move__fifo_neg_origin_move_id
+msgid "Source IN move for negative stock compensation"
+msgstr ""
+
+#. module: l10n_ro_stock_account
 #: model:ir.model.fields,help:l10n_ro_stock_account.field_stock_move__l10n_ro_move_type
 msgid "Specify the type of stock move for Romanian localization."
 msgstr ""
@@ -378,6 +449,14 @@ msgstr ""
 #. odoo-python
 #: code:addons/l10n_ro_stock_account/models/stock_move.py:0
 msgid "Stock move %(move)s has no linked sale line for sale price computation"
+msgstr ""
+
+#. module: l10n_ro_stock_account
+#: model:ir.model.fields,help:l10n_ro_stock_account.field_account_bank_statement_line__fifo_neg_origin_move_id
+#: model:ir.model.fields,help:l10n_ro_stock_account.field_account_move__fifo_neg_origin_move_id
+msgid ""
+"The incoming stock move that triggered this FIFO negative stock compensation"
+" accounting entry."
 msgstr ""
 
 #. module: l10n_ro_stock_account
@@ -422,4 +501,14 @@ msgstr ""
 #. module: l10n_ro_stock_account
 #: model:ir.model,name:l10n_ro_stock_account.model_stock_warehouse
 msgid "Warehouse"
+msgstr ""
+
+#. module: l10n_ro_stock_account
+#: model:ir.model.fields,help:l10n_ro_stock_account.field_res_company__fifo_location_negative_compensation
+msgid ""
+"When a FIFO outgoing move happens before the corresponding incoming move "
+"(negative stock on the location), its initial value is the standard_price. "
+"On the next incoming move, the module emits a correction accounting entry to"
+" align the outgoing value with the actual incoming price. Defaults to True "
+"for Romanian companies; editable per company."
 msgstr ""
