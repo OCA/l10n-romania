@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo noupdate="1">
+    <record id="seq_retail_price_change" model="ir.sequence">
+        <field name="name">Proces Verbal Schimbare Pret</field>
+        <field name="code">l10n.ro.retail.price.change</field>
+        <field name="prefix">PVSP/%(year)s/</field>
+        <field name="padding">5</field>
+        <field name="company_id" eval="False" />
+    </record>
+</odoo>

@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="view_location_form_retail" model="ir.ui.view">
+        <field name="name">stock.location.form.l10n.ro.retail</field>
+        <field name="model">stock.location</field>
+        <field name="inherit_id" ref="l10n_ro_stock_account.view_location_form_inherit" />
+        <field name="arch" type="xml">
+            <xpath
+                expr="//field[@name='l10n_ro_property_stock_valuation_account_id']"
+                position="after"
+            >
+                <field name="l10n_ro_retail" readonly="1" />
+                <field
+                    name="l10n_ro_account_markup_id"
+                    options="{'no_create': True}"
+                    invisible="not l10n_ro_retail"
+                />
+                <field
+                    name="l10n_ro_account_deferred_vat_id"
+                    options="{'no_create': True}"
+                    invisible="not l10n_ro_retail"
+                />
+            </xpath>
+        </field>
+    </record>
+</odoo>
