@@ -33,20 +33,23 @@
                 <field name="location_id" />
                 <field name="product_id" />
                 <field name="categ_id" />
-                <group string="Group By">
+                <group>
                     <filter
                         name="group_warehouse"
                         string="Warehouse"
+                        domain="[]"
                         context="{'group_by': 'warehouse_id'}"
                     />
                     <filter
                         name="group_location"
                         string="Location"
+                        domain="[]"
                         context="{'group_by': 'location_id'}"
                     />
                     <filter
                         name="group_category"
                         string="Category"
+                        domain="[]"
                         context="{'group_by': 'categ_id'}"
                     />
                 </group>

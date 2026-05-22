@@ -130,15 +130,17 @@
                     string="Auto Created"
                     domain="[('auto_created', '=', True)]"
                 />
-                <group string="Group By">
+                <group>
                     <filter
                         name="group_warehouse"
                         string="Warehouse"
+                        domain="[]"
                         context="{'group_by': 'warehouse_id'}"
                     />
                     <filter
                         name="group_state"
                         string="State"
+                        domain="[]"
                         context="{'group_by': 'state'}"
                     />
                 </group>

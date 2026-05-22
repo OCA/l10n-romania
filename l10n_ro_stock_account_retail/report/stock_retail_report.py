@@ -19,19 +19,29 @@ class StockRetailReport(models.Model):
     categ_id = fields.Many2one("product.category", string="Category", readonly=True)
     company_id = fields.Many2one("res.company", string="Company", readonly=True)
     quantity = fields.Float(readonly=True)
-    cost_unit = fields.Float(string="Cost / Unit", readonly=True)
-    cost_total = fields.Float(string="Cost Total", readonly=True)
+    cost_unit = fields.Float(
+        string="Cost / Unit", compute="_compute_values", store=False
+    )
+    cost_total = fields.Float(string="Cost Total", compute="_compute_values")
     price_no_vat_unit = fields.Float(
-        string="Retail Price / Unit (ex VAT)", readonly=True
+        string="Retail Price / Unit (ex VAT)", compute="_compute_values"
     )
     price_with_vat_unit = fields.Float(
-        string="Retail Price / Unit (incl VAT)", readonly=True
+        string="Retail Price / Unit (incl VAT)", compute="_compute_values"
     )
-    markup_unit = fields.Float(string="Markup / Unit (378)", readonly=True)
-    vat_unit = fields.Float(string="Deferred VAT / Unit (4428)", readonly=True)
-    markup_total = fields.Float(string="Markup Total (378)", readonly=True)
-    vat_total = fields.Float(string="Deferred VAT Total (4428)", readonly=True)
-    retail_value = fields.Float(string="Retail Value (371)", readonly=True)
+    markup_unit = fields.Float(string="Markup / Unit (378)", compute="_compute_values")
+    vat_unit = fields.Float(
+        string="Deferred VAT / Unit (4428)", compute="_compute_values"
+    )
+    markup_total = fields.Float(
+        string="Markup Total (378)", compute="_compute_values"
+    )
+    vat_total = fields.Float(
+        string="Deferred VAT Total (4428)", compute="_compute_values"
+    )
+    retail_value = fields.Float(
+        string="Retail Value (371)", compute="_compute_values"
+    )
 
     @property
     def _table_query(self):
@@ -44,16 +54,7 @@ class StockRetailReport(models.Model):
                 sq.product_id AS product_id,
                 pp.product_tmpl_id AS product_tmpl_id,
                 pt.categ_id AS categ_id,
-                SUM(sq.quantity) AS quantity,
-                MAX(sq.value / NULLIF(sq.quantity, 0)) AS cost_unit,
-                SUM(sq.value) AS cost_total,
-                0.0::numeric AS price_no_vat_unit,
-                0.0::numeric AS price_with_vat_unit,
-                0.0::numeric AS markup_unit,
-                0.0::numeric AS vat_unit,
-                0.0::numeric AS markup_total,
-                0.0::numeric AS vat_total,
-                0.0::numeric AS retail_value
+                SUM(sq.quantity) AS quantity
             FROM stock_quant sq
             JOIN stock_location sl ON sl.id = sq.location_id
             JOIN product_product pp ON pp.id = sq.product_id
@@ -67,54 +68,41 @@ class StockRetailReport(models.Model):
                      sq.product_id, pp.product_tmpl_id, pt.categ_id
         """
 
-    @api.depends_context("company")
-    def _compute_display_name(self):
+    @api.depends("product_id", "warehouse_id", "company_id", "quantity")
+    def _compute_values(self):
         for rec in self:
-            rec.display_name = (
-                f"{rec.warehouse_id.display_name or ''} - "
-                f"{rec.product_id.display_name or ''}"
-            )
-
-    def read(self, fields_to_read=None, load="_classic_read"):
-        """Enrich the recordset with the live retail prices (which depend
-        on the warehouse pricelist and product taxes — too dynamic to
-        compute in SQL)."""
-        records = super().read(fields_to_read=fields_to_read, load=load)
-        if not records:
-            return records
-        recs_by_id = {r["id"]: r for r in records}
-        recordset = self.browse(list(recs_by_id))
-        for rec in recordset:
-            data = recs_by_id[rec.id]
-            warehouse = rec.warehouse_id
             company = rec.company_id or self.env.company
-            prices = rec.product_id.product_tmpl_id._l10n_ro_get_retail_prices(
-                warehouse=warehouse, company=company
+            currency = company.currency_id
+            cost_unit = (
+                rec.product_id.with_company(company).standard_price
+                if rec.product_id
+                else 0.0
             )
-            markup_unit = prices["price_without_vat"] - (data.get("cost_unit") or 0.0)
+            prices = (
+                rec.product_id.product_tmpl_id._l10n_ro_get_retail_prices(
+                    warehouse=rec.warehouse_id, company=company
+                )
+                if rec.product_id
+                else {"price_without_vat": 0.0, "price_with_vat": 0.0, "vat": 0.0}
+            )
+            markup_unit = prices["price_without_vat"] - cost_unit
             vat_unit = prices["vat"]
-            qty = data.get("quantity") or 0.0
-            if "price_no_vat_unit" in data:
-                data["price_no_vat_unit"] = prices["price_without_vat"]
-            if "price_with_vat_unit" in data:
-                data["price_with_vat_unit"] = prices["price_with_vat"]
-            if "markup_unit" in data:
-                data["markup_unit"] = markup_unit
-            if "vat_unit" in data:
-                data["vat_unit"] = vat_unit
-            if "markup_total" in data:
-                data["markup_total"] = tools.float_round(
-                    markup_unit * qty,
-                    precision_rounding=company.currency_id.rounding,
-                )
-            if "vat_total" in data:
-                data["vat_total"] = tools.float_round(
-                    vat_unit * qty,
-                    precision_rounding=company.currency_id.rounding,
-                )
-            if "retail_value" in data:
-                data["retail_value"] = tools.float_round(
-                    prices["price_with_vat"] * qty,
-                    precision_rounding=company.currency_id.rounding,
-                )
-        return records
+            qty = rec.quantity or 0.0
+            rec.cost_unit = cost_unit
+            rec.cost_total = tools.float_round(
+                cost_unit * qty, precision_rounding=currency.rounding
+            )
+            rec.price_no_vat_unit = prices["price_without_vat"]
+            rec.price_with_vat_unit = prices["price_with_vat"]
+            rec.markup_unit = markup_unit
+            rec.vat_unit = vat_unit
+            rec.markup_total = tools.float_round(
+                markup_unit * qty, precision_rounding=currency.rounding
+            )
+            rec.vat_total = tools.float_round(
+                vat_unit * qty, precision_rounding=currency.rounding
+            )
+            rec.retail_value = tools.float_round(
+                prices["price_with_vat"] * qty,
+                precision_rounding=currency.rounding,
+            )
