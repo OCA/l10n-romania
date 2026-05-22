@@ -11,7 +11,7 @@
                 <field name="categ_id" optional="hide" />
                 <field name="quantity" />
                 <field name="cost_unit" />
-                <field name="cost_total" sum="Cost Total" />
+                <field name="value_total" sum="Stock Value (cost)" />
                 <field name="price_no_vat_unit" optional="hide" />
                 <field name="price_with_vat_unit" />
                 <field name="markup_unit" optional="hide" />

@@ -1,6 +1,8 @@
 # Copyright (C) 2026 NextERP Romania
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
+from psycopg2 import sql
+
 from odoo import api, fields, models, tools
 
 
@@ -19,10 +21,14 @@ class StockRetailReport(models.Model):
     categ_id = fields.Many2one("product.category", string="Category", readonly=True)
     company_id = fields.Many2one("res.company", string="Company", readonly=True)
     quantity = fields.Float(readonly=True)
+    value_total = fields.Float(
+        string="Stock Value (cost)", readonly=True,
+        help="On-hand cost value at the requested date (from "
+        "stock.valuation.layer).",
+    )
     cost_unit = fields.Float(
         string="Cost / Unit", compute="_compute_values", store=False
     )
-    cost_total = fields.Float(string="Cost Total", compute="_compute_values")
     price_no_vat_unit = fields.Float(
         string="Retail Price / Unit (ex VAT)", compute="_compute_values"
     )
@@ -45,39 +51,79 @@ class StockRetailReport(models.Model):
 
     @property
     def _table_query(self):
-        return """
+        # at_date may be a datetime, a date, a string, or None
+        raw = self.env.context.get("l10n_ro_retail_at_date")
+        if raw:
+            at_date = fields.Datetime.to_string(fields.Datetime.to_datetime(raw))
+            date_clause = sql.SQL("sm.date <= {}").format(sql.Literal(at_date))
+        else:
+            date_clause = sql.SQL("TRUE")
+        query = sql.SQL(
+            """
+            WITH retail_legs AS (
+                -- inbound to a retail location (counts +qty / +value)
+                SELECT
+                    sm.product_id,
+                    sm.company_id,
+                    sld.warehouse_id AS warehouse_id,
+                    sld.id AS location_id,
+                    sm.product_qty AS qty,
+                    sm.value AS value
+                FROM stock_move sm
+                JOIN stock_location sld ON sld.id = sm.location_dest_id
+                JOIN stock_warehouse sw ON sw.id = sld.warehouse_id
+                WHERE sm.state = 'done'
+                  AND {date_clause}
+                  AND sld.usage = 'internal'
+                  AND sld.l10n_ro_retail = TRUE
+                  AND sw.l10n_ro_retail = TRUE
+                UNION ALL
+                -- outbound from a retail location (counts -qty / -value)
+                SELECT
+                    sm.product_id,
+                    sm.company_id,
+                    sls.warehouse_id AS warehouse_id,
+                    sls.id AS location_id,
+                    -sm.product_qty AS qty,
+                    -sm.value AS value
+                FROM stock_move sm
+                JOIN stock_location sls ON sls.id = sm.location_id
+                JOIN stock_warehouse sw ON sw.id = sls.warehouse_id
+                WHERE sm.state = 'done'
+                  AND {date_clause}
+                  AND sls.usage = 'internal'
+                  AND sls.l10n_ro_retail = TRUE
+                  AND sw.l10n_ro_retail = TRUE
+            )
             SELECT
-                row_number() OVER () AS id,
-                sq.company_id AS company_id,
-                sl.warehouse_id AS warehouse_id,
-                sq.location_id AS location_id,
-                sq.product_id AS product_id,
+                (rl.warehouse_id * 100000000
+                    + rl.location_id * 1000000
+                    + rl.product_id) AS id,
+                rl.company_id AS company_id,
+                rl.warehouse_id AS warehouse_id,
+                rl.location_id AS location_id,
+                rl.product_id AS product_id,
                 pp.product_tmpl_id AS product_tmpl_id,
                 pt.categ_id AS categ_id,
-                SUM(sq.quantity) AS quantity
-            FROM stock_quant sq
-            JOIN stock_location sl ON sl.id = sq.location_id
-            JOIN product_product pp ON pp.id = sq.product_id
+                SUM(rl.qty)::numeric AS quantity,
+                SUM(rl.value)::numeric AS value_total
+            FROM retail_legs rl
+            JOIN product_product pp ON pp.id = rl.product_id
             JOIN product_template pt ON pt.id = pp.product_tmpl_id
-            JOIN stock_warehouse sw ON sw.id = sl.warehouse_id
-            WHERE sl.usage = 'internal'
-              AND sl.l10n_ro_retail = TRUE
-              AND sw.l10n_ro_retail = TRUE
-              AND sq.quantity > 0
-            GROUP BY sq.company_id, sl.warehouse_id, sq.location_id,
-                     sq.product_id, pp.product_tmpl_id, pt.categ_id
-        """
+            GROUP BY rl.company_id, rl.warehouse_id, rl.location_id,
+                     rl.product_id, pp.product_tmpl_id, pt.categ_id
+            HAVING SUM(rl.qty) > 0
+            """
+        ).format(date_clause=date_clause)
+        return query.as_string(self.env.cr._cnx)
 
-    @api.depends("product_id", "warehouse_id", "company_id", "quantity")
+    @api.depends("product_id", "warehouse_id", "company_id", "quantity", "value_total")
     def _compute_values(self):
         for rec in self:
             company = rec.company_id or self.env.company
             currency = company.currency_id
-            cost_unit = (
-                rec.product_id.with_company(company).standard_price
-                if rec.product_id
-                else 0.0
-            )
+            qty = rec.quantity or 0.0
+            cost_unit = (rec.value_total / qty) if qty else 0.0
             prices = (
                 rec.product_id.product_tmpl_id._l10n_ro_get_retail_prices(
                     warehouse=rec.warehouse_id, company=company
@@ -87,11 +133,7 @@ class StockRetailReport(models.Model):
             )
             markup_unit = prices["price_without_vat"] - cost_unit
             vat_unit = prices["vat"]
-            qty = rec.quantity or 0.0
             rec.cost_unit = cost_unit
-            rec.cost_total = tools.float_round(
-                cost_unit * qty, precision_rounding=currency.rounding
-            )
             rec.price_no_vat_unit = prices["price_without_vat"]
             rec.price_with_vat_unit = prices["price_with_vat"]
             rec.markup_unit = markup_unit

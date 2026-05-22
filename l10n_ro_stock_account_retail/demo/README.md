@@ -1,72 +1,79 @@
 # Demo script for `l10n_ro_stock_account_retail`
 
-`setup_demo.py` builds a runnable end-to-end demo: Romanian chart of
-accounts, two retail products, opening stock, transfer from main
-warehouse to a retail warehouse, a retail sale, and an automatic
-*Proces Verbal de Schimbare Pret* triggered by a pricelist change.
+`setup_demo.py` builds a runnable, end-to-end demo:
+- Romanian chart of accounts on the main company
+- One default 378 + 4428 account on the company plus a *location-level*
+  override 378.001/4428.001 for MAG1 and 378.002/4428.002 for MAG2,
+  exercising the priority `location > product > category > company`
+- FIFO product category
+- Two retail warehouses (`MG1` Bucuresti, `MG2` Cluj), each with its
+  own retail pricelist
+- ~30 procedurally-generated products (cost 2–30 RON, MAG1 markup 50 %,
+  MAG2 markup 40 %)
+- 3 purchase orders (different dates) → reception in the main
+  warehouse → vendor bills
+- 2 internal transfers (main → MAG1 on 2026-04-05, main → MAG2 on
+  2026-04-18)
+- 4 sale orders → delivery from each shop → customer invoices
+  (different dates)
+- A pricelist change on a MAG1 product that triggers an auto-generated
+  *Proces Verbal de Schimbare Pret*
+- Stock moves and account.moves are **backdated** so the historical
+  retail report can be queried at past dates
 
-## How to run
-
-The script is meant to be piped into `odoo-bin shell` (not loaded as
-Odoo demo data — it intentionally posts stock moves and account.moves
-at runtime).
+## Run
 
 ```bash
-# 1. Create an empty database
+./scripts/odb.sh ro19 drop demo_retail
 ./scripts/odb.sh ro19 create demo_retail
-
-# 2. Install the module (pulls in l10n_ro, l10n_ro_stock_account, etc.)
 docker exec odoo_ro19 /opt/odoo/odoo/odoo-bin \
     -c /etc/odoo/odoo.conf -d demo_retail \
     -i l10n_ro_stock_account_retail --stop-after-init
-
-# 3. Run the demo
-docker cp \
-    /home/nexterp/odoo/nexterp_dev/19.0/nexterp/l10n-romania/l10n_ro_stock_account_retail/demo/setup_demo.py \
-    odoo_ro19:/tmp/setup_demo.py
 docker exec -i odoo_ro19 /opt/odoo/odoo/odoo-bin shell \
     -c /etc/odoo/odoo.conf -d demo_retail --no-http \
-    < /home/nexterp/odoo/nexterp_dev/19.0/nexterp/l10n-romania/l10n_ro_stock_account_retail/demo/setup_demo.py
+    < 19.0/nexterp/l10n-romania/l10n_ro_stock_account_retail/demo/setup_demo.py
 ```
 
-## What gets created
-
-- Company set to Romania (RON, country_id=base.ro), Romanian accounting
-  enabled, Romanian chart of accounts loaded
-- Stock journal `STJ` set as `company.account_stock_journal_id`
-- Accounts `371000`, `378000`, `442800`, `607000`, `707000` (created
-  if missing); `378`/`4428` wired as company defaults
-- Sale tax `TVA 19% (PVA)`, tax-excluded (Odoo convention — the
-  customer-visible PVA-with-VAT is computed via `taxes.compute_all`)
-- Category `Marfuri Demo` valued at average cost, with stock val =
-  `371000`, expense = `607000`, income = `707000`
-- Pricelist `PVA Magazin Centru` with fixed-price items for each
-  product
-- Two products: Cafea Macinata (cost 20, PVA 30 ex-VAT = 35.70 incl),
-  Detergent 2L (cost 18, PVA 25 ex-VAT = 29.75 incl)
-- Two warehouses: `WH` (Depozit Central) and `MAG` (Magazin Centru,
-  retail, pricelist linked)
-
-## What gets posted
-
-| Step | Doc | Effect |
-|------|-----|--------|
-| Opening stock | `STJ/.../0001-2` | inventory adjustment 100/100 in WH |
-| Internal transfer 30+30 → MAG | `WH/INT/00001` | cost moved via 482; markup booked at MAG entry |
-| Sale of 5 cafea | `MAG/OUT/00001` | 607 += cost; markup reversed (storno) |
-| Pricelist update detergent 25 → 27 ex-VAT | auto | a draft `PVSP/2026/00001` is created by the hook |
-| Posting the proces verbal | `STJ/.../0008` | books the markup / VAT delta for the 30 buc on hand |
-
-## Expected balances
+## Sample output
 
 ```
-371000 Marfuri                = 3,376.40 RON
-378000 Diferente de pret      =  -520.00 RON  (credit: adaos pe stoc)
-442800 TVA neexigibila        =  -296.40 RON  (credit)
-607000 Cheltuieli marfuri     = -2,560.00 RON
+ACCOUNT BALANCES (current)
+  371000 Merchandise                                =     54,898.80 RON
+  378000 Adaos comercial - default                  =           0.00 RON
+  378001 Adaos comercial - MAG1 Bucuresti           =     -3,057.41 RON
+  378002 Adaos comercial - MAG2 Cluj                =     -1,524.37 RON
+  442800 TVA neexigibila - default                  =           0.00 RON
+  442801 TVA neexigibila - MAG1 Bucuresti           =     -1,734.65 RON
+  442802 TVA neexigibila - MAG2 Cluj                =     -1,013.58 RON
+  607000 Cheltuieli marfuri                         =     13,478.83 RON
+  707000 Venituri marfuri                           =     -2,409.02 RON
 ```
 
-Verification:
-- 378 credit = 25 buc cafea × 10 + 30 buc detergent × 9 (after PVSP)
-  = 250 + 270 = 520 ✓
-- 4428 credit = 25 × 5.70 + 30 × 5.13 = 142.5 + 153.9 = 296.4 ✓
+The two default accounts (378000, 442800) stay at 0 — every booking
+hits the location-level override.
+
+## Historical retail report
+
+`l10n.ro.stock.retail.report` reads from `stock.move` (filtered by
+`sm.date <= at_date` when the context key `l10n_ro_retail_at_date` is
+set) so it can answer "what was the stock at this past date":
+
+```
+RETAIL STOCK — NOW                       606 buc  17,636.25 retail
+RETAIL STOCK AT 2026-04-10               389 buc  11,602.70 retail   (only MG1, after so1)
+RETAIL STOCK AT 2026-04-25               659 buc  19,006.42 retail   (both shops, before later sales)
+```
+
+Programmatic use from anywhere:
+
+```python
+env["l10n.ro.stock.retail.report"].with_context(
+    l10n_ro_retail_at_date="2026-04-25 23:59:59"
+).search([])
+```
+
+Note: when running multiple historical queries in the same env, call
+`env["l10n.ro.stock.retail.report"].invalidate_model()` between
+queries — the row ids are derived from
+`warehouse_id * 1e8 + location_id * 1e6 + product_id` (stable across
+queries) so the ORM cache will return stale values otherwise.
