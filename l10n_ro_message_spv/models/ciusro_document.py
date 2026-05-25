@@ -110,7 +110,11 @@ class L10nRoEdiDocument(models.Model):
             _logger.error(f"Error {e} while parsing ZIP file: {content}")
             return {"error": "Error while parsing ZIP file"}
 
-        xml_file = next(file for file in zip_ref.namelist() if "semnatura" not in file)
+        xml_file = next(
+            (file for file in zip_ref.namelist() if "semnatura" not in file), None
+        )
+        if not xml_file:
+            return {"error": "No XML file found in ZIP archive"}
         xml_bytes = zip_ref.open(xml_file)
 
         recovering_parser = etree.XMLParser(recover=True)
