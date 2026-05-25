@@ -316,16 +316,17 @@ class MessageSPV(models.Model):
                     )
                 invoice.write({"l10n_ro_edi_state": False})
 
-        messages = self.filtered(lambda m: not m.invoice_id)
-        messages_without_invoice = messages.filtered(lambda m: not m.invoice_id)
+        messages_without_invoice = self.filtered(lambda m: not m.invoice_id)
         message_ids = messages_without_invoice.mapped("name")
         request_ids = messages_without_invoice.mapped("request_id")
-        messages_without_invoice = self.filtered(lambda m: not m.invoice_id)
         invoices = self.env["account.move"].search(
             [
                 "|",
+                "|",
                 ("l10n_ro_edi_download", "in", message_ids),
                 ("l10n_ro_edi_transaction", "in", request_ids),
+                # facturi create automat de l10n_ro_edi core (v19)
+                ("l10n_ro_edi_index", "in", request_ids),
             ]
         )
         messages_with_ref = messages_without_invoice.filtered(lambda m: m.ref)
@@ -336,6 +337,7 @@ class MessageSPV(models.Model):
             invoice = invoices.filtered(
                 lambda i, m=message: i.l10n_ro_edi_download == m.name
                 or i.l10n_ro_edi_transaction == m.request_id
+                or i.l10n_ro_edi_index == m.request_id
                 or i.ref == m.ref
                 or i.name == m.ref
             )
