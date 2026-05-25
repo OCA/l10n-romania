@@ -20,6 +20,6 @@
     "author": "Terrabit,Odoo Community Association (OCA)",
     "website": "https://github.com/OCA/l10n-romania",
     "installable": True,
-    "development_status": "Beta",
+    "development_status": "Production/Stable",
     "maintainers": ["dhongu"],
 }
