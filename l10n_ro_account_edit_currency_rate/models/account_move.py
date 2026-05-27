@@ -12,24 +12,27 @@ class AccountMove(models.Model):
         if self.company_id.country_id.code != "RO":
             return
 
-        # Apply only when SO currency differs from invoice currency
         sale_lines = self.invoice_line_ids.mapped("sale_line_ids")
         if not sale_lines:
             return
         so_currency = sale_lines[0].order_id.currency_id
-        if not so_currency or so_currency == self.currency_id:
+        if not so_currency:
             return
 
-        rate = self.invoice_currency_rate
-        if not rate or rate <= 0:
-            return
+        reverting_to_so_currency = so_currency == self.currency_id
+
+        if not reverting_to_so_currency:
+            rate = self.invoice_currency_rate
+            if not rate or rate <= 0:
+                return
 
         for line in self.invoice_line_ids:
             so_line = line.sale_line_ids and line.sale_line_ids[0]
 
             if so_line and so_line.is_downpayment:
-                # For downpayment deduction lines, use the price from the original
-                # downpayment invoice so the amount exactly offsets what was billed.
+                # For deduction lines in final invoice:
+                # use the posted downpayment invoice price
+                # so the amount exactly offsets what was already billed.
                 orig_lines = so_line.invoice_lines.filtered(
                     lambda lin: lin.move_id.state == "posted"
                     and lin.move_id != self._origin
@@ -47,7 +50,22 @@ class AccountMove(models.Model):
                             orig.move_id.invoice_date or fields.Date.today(),
                         )
                 else:
-                    new_price = (line._origin.price_unit or line.price_unit) * rate
+                    # Downpayment invoice itself (not a deduction):
+                    # use SO line price as base
+                    base_price = (
+                        so_line.price_unit
+                        if so_line
+                        else (line._origin.price_unit or line.price_unit)
+                    )
+                    new_price = (
+                        base_price if reverting_to_so_currency else base_price * rate
+                    )
+            elif reverting_to_so_currency:
+                new_price = (
+                    so_line.price_unit
+                    if so_line
+                    else (line._origin.price_unit or line.price_unit)
+                )
             else:
                 base_price = (
                     so_line.price_unit
