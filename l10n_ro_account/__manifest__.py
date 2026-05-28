@@ -11,7 +11,12 @@
     "author": "Terrabit,Odoo Community Association (OCA)",
     "website": "https://github.com/OCA/l10n-romania",
     "category": "Localization",
-    "depends": ["account", "l10n_ro", "l10n_ro_config"],
+    "depends": ["account", "l10n_ro", "l10n_ro_config", "account_reports"],
     "data": [],
+    "assets": {
+        "web.assets_backend": [
+            "l10n_ro_account/static/src/search_bar_patch.js",
+        ],
+    },
     "maintainers": ["dhongu"],
 }
