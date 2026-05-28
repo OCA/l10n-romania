@@ -13,70 +13,107 @@ class AccountMove(models.Model):
             return
 
         sale_lines = self.invoice_line_ids.mapped("sale_line_ids")
-        if not sale_lines:
-            return
-        so_currency = sale_lines[0].order_id.currency_id
-        if not so_currency:
-            return
 
-        reverting_to_so_currency = so_currency == self.currency_id
-
-        if not reverting_to_so_currency:
-            rate = self.invoice_currency_rate
-            if not rate or rate <= 0:
+        if sale_lines:
+            so_currency = sale_lines[0].order_id.currency_id
+            if not so_currency:
                 return
 
-        for line in self.invoice_line_ids:
-            so_line = line.sale_line_ids and line.sale_line_ids[0]
+            reverting_to_so_currency = so_currency == self.currency_id
 
-            if so_line and so_line.is_downpayment:
-                # For deduction lines in final invoice:
-                # use the posted downpayment invoice price
-                # so the amount exactly offsets what was already billed.
-                orig_lines = so_line.invoice_lines.filtered(
-                    lambda lin: lin.move_id.state == "posted"
-                    and lin.move_id != self._origin
-                )
-                if orig_lines:
-                    orig = orig_lines[0]
-                    orig_currency = orig.move_id.currency_id
-                    if orig_currency == self.currency_id:
-                        new_price = orig.price_unit
+            if not reverting_to_so_currency:
+                rate = self.invoice_currency_rate
+                if not rate or rate <= 0:
+                    return
+
+            for line in self.invoice_line_ids:
+                so_line = line.sale_line_ids and line.sale_line_ids[0]
+
+                if so_line and so_line.is_downpayment:
+                    # For deduction lines in final invoice:
+                    # use the posted downpayment invoice price
+                    # so the amount exactly offsets what was already billed.
+                    orig_lines = so_line.invoice_lines.filtered(
+                        lambda lin: lin.move_id.state == "posted"
+                        and lin.move_id != self._origin
+                    )
+                    if orig_lines:
+                        orig = orig_lines[0]
+                        orig_currency = orig.move_id.currency_id
+                        if orig_currency == self.currency_id:
+                            new_price = orig.price_unit
+                        else:
+                            new_price = orig_currency._convert(
+                                orig.price_unit,
+                                self.currency_id,
+                                self.company_id,
+                                orig.move_id.invoice_date or fields.Date.today(),
+                            )
                     else:
-                        new_price = orig_currency._convert(
-                            orig.price_unit,
-                            self.currency_id,
-                            self.company_id,
-                            orig.move_id.invoice_date or fields.Date.today(),
+                        # Downpayment invoice itself (not a deduction):
+                        # use SO line price as base
+                        base_price = (
+                            so_line.price_unit
+                            if so_line
+                            else (line._origin.price_unit or line.price_unit)
                         )
+                        new_price = (
+                            base_price
+                            if reverting_to_so_currency
+                            else base_price * rate
+                        )
+                elif reverting_to_so_currency:
+                    new_price = (
+                        so_line.price_unit
+                        if so_line
+                        else (line._origin.price_unit or line.price_unit)
+                    )
                 else:
-                    # Downpayment invoice itself (not a deduction):
-                    # use SO line price as base
                     base_price = (
                         so_line.price_unit
                         if so_line
                         else (line._origin.price_unit or line.price_unit)
                     )
-                    new_price = (
-                        base_price if reverting_to_so_currency else base_price * rate
-                    )
-            elif reverting_to_so_currency:
-                new_price = (
-                    so_line.price_unit
-                    if so_line
-                    else (line._origin.price_unit or line.price_unit)
-                )
-            else:
-                base_price = (
-                    so_line.price_unit
-                    if so_line
-                    else (line._origin.price_unit or line.price_unit)
-                )
-                new_price = base_price * rate
+                    new_price = base_price * rate
 
-            if abs(line.price_unit - new_price) > 0.0001:
-                line.price_unit = new_price
-                line.tax_ids = line.tax_ids
+                if abs(line.price_unit - new_price) > 0.0001:
+                    line.price_unit = new_price
+                    line.tax_ids = line.tax_ids
+        else:
+            # No SO lines: recalculate prices using the invoice currency rate.
+            # Convert original price (in original currency) →
+            # company currency → new currency.
+            company_currency = self.company_id.currency_id
+            orig_currency = self._origin.currency_id or company_currency
+            orig_rate = self._origin.invoice_currency_rate or 1.0
+            reverting_to_orig_currency = orig_currency == self.currency_id
+
+            rate = self.invoice_currency_rate
+            if not reverting_to_orig_currency and (not rate or rate <= 0):
+                return
+
+            for line in self.invoice_line_ids:
+                orig_price = line._origin.price_unit or line.price_unit
+                if not orig_price:
+                    continue
+
+                if reverting_to_orig_currency:
+                    new_price = orig_price
+                else:
+                    price_in_company = (
+                        orig_price
+                        if orig_currency == company_currency
+                        else orig_price / orig_rate
+                    )
+                    new_price = (
+                        price_in_company
+                        if self.currency_id == company_currency
+                        else price_in_company * rate
+                    )
+
+                if abs(line.price_unit - new_price) > 0.0001:
+                    line.price_unit = new_price
+                    line.tax_ids = line.tax_ids
 
         if hasattr(self, "_sync_dynamic_lines"):
             self._sync_dynamic_lines(container={"records": self})
