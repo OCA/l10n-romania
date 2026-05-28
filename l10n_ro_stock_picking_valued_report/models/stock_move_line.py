@@ -44,7 +44,7 @@ class StockMoveLine(models.Model):
     )
 
     def _get_move_line_quantity(self):
-        return self.quantity or self.reserved_qty
+        return self.quantity
 
     @api.depends(
         "l10n_ro_sale_line_id",
