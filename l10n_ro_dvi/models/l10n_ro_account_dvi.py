@@ -38,7 +38,7 @@ class AccountInvoiceDVI(models.Model):
         "account.journal",
         string="Journal",
         required=True,
-        domain="[('type', '=', 'general')]",
+        domain="[('type', '=', 'general'), ('company_id', '=', company_id)]",
     )
     currency_id = fields.Many2one(
         related="company_id.currency_id",
@@ -49,7 +49,7 @@ class AccountInvoiceDVI(models.Model):
     tax_id = fields.Many2one(
         "account.tax",
         required=True,
-        domain="[('type_tax_use', '=', 'purchase')]",
+        domain="[('type_tax_use', '=', 'purchase'), ('company_id', '=', company_id)]",
         help="Is the vat that is paid in custom for products."
         " default is taken from custom duty tax"
         ". will put this vat tag in journal entry to find it in reports",

@@ -95,9 +95,6 @@ class LandedCost(models.Model):
                 accounts_data = (
                     customs_duty_product.product_tmpl_id.get_product_accounts()
                 )
-                accounts_data["expense"] = (
-                    customs_duty_product.categ_id.property_account_expense_categ_id
-                )
                 tax_values = cost.l10n_ro_tax_id.compute_all(
                     cost.l10n_ro_base_tax_value
                 )
@@ -148,7 +145,7 @@ class LandedCost(models.Model):
                         "move_id": cost.account_move_id.id,
                     },
                 ]
-                if cost.account_move_id:
+                if cost.account_move_id and cost.account_move_id.state != "draft":
                     cost.account_move_id.button_draft()
                 cost.account_move_id.write(
                     {
