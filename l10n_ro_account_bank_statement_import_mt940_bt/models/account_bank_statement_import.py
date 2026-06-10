@@ -19,11 +19,13 @@ class AccountBankStatementImport(models.TransientModel):
             parser = parser.with_context(type="mt940_ro_bt")
             data = parser.parse(data_file)
             if data:
-                account_number = data[1]
+                currency, account_number, statements = data
+                for stmt in statements:
+                    stmt.pop("_bt_closed", None)
                 bank = self.env.company.bank_ids.filtered(
                     lambda b: account_number in b.sanitized_acc_number
                 )
                 if bank:
-                    return (data[0], bank.sanitized_acc_number, data[2])
-                return data
+                    return (currency, bank.sanitized_acc_number, statements)
+                return (currency, account_number, statements)
         return super()._parse_file(data_file)
