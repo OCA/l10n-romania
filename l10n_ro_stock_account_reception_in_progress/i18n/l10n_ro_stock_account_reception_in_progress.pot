@@ -4,7 +4,7 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 18.0\n"
+"Project-Id-Version: Odoo Server 19.0\n"
 "Report-Msgid-Bugs-To: \n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -14,21 +14,13 @@ msgstr ""
 "Plural-Forms: \n"
 
 #. module: l10n_ro_stock_account_reception_in_progress
-#: model:ir.model,name:l10n_ro_stock_account_reception_in_progress.model_account_account
-msgid "Account"
-msgstr ""
-
-#. module: l10n_ro_stock_account_reception_in_progress
 #: model_terms:ir.ui.view,arch_db:l10n_ro_stock_account_reception_in_progress.purchase_order_form
 msgid "Create Reception in Progress Bill"
 msgstr ""
 
 #. module: l10n_ro_stock_account_reception_in_progress
-#: model:ir.model.fields,field_description:l10n_ro_stock_account_reception_in_progress.field_account_account__is_l10n_ro_record
 #: model:ir.model.fields,field_description:l10n_ro_stock_account_reception_in_progress.field_account_move_line__is_l10n_ro_record
-#: model:ir.model.fields,field_description:l10n_ro_stock_account_reception_in_progress.field_product_template__is_l10n_ro_record
 #: model:ir.model.fields,field_description:l10n_ro_stock_account_reception_in_progress.field_purchase_order__is_l10n_ro_record
-#: model:ir.model.fields,field_description:l10n_ro_stock_account_reception_in_progress.field_stock_move__is_l10n_ro_record
 #: model:ir.model.fields,field_description:l10n_ro_stock_account_reception_in_progress.field_stock_picking__is_l10n_ro_record
 msgid "Is Romanian Record"
 msgstr ""
@@ -36,11 +28,6 @@ msgstr ""
 #. module: l10n_ro_stock_account_reception_in_progress
 #: model:ir.model,name:l10n_ro_stock_account_reception_in_progress.model_account_move_line
 msgid "Journal Item"
-msgstr ""
-
-#. module: l10n_ro_stock_account_reception_in_progress
-#: model:ir.model,name:l10n_ro_stock_account_reception_in_progress.model_product_template
-msgid "Product"
 msgstr ""
 
 #. module: l10n_ro_stock_account_reception_in_progress
@@ -54,18 +41,8 @@ msgid "Reception in Progress"
 msgstr ""
 
 #. module: l10n_ro_stock_account_reception_in_progress
-#: model:ir.model.fields,field_description:l10n_ro_stock_account_reception_in_progress.field_account_account__l10n_ro_reception_in_progress_account_id
-msgid "Romania - Reception in Progress Account"
-msgstr ""
-
-#. module: l10n_ro_stock_account_reception_in_progress
 #: model:ir.model.fields,field_description:l10n_ro_stock_account_reception_in_progress.field_purchase_order__l10n_ro_reception_in_progress
 msgid "Romania - Reception in progress"
-msgstr ""
-
-#. module: l10n_ro_stock_account_reception_in_progress
-#: model:ir.model,name:l10n_ro_stock_account_reception_in_progress.model_stock_move
-msgid "Stock Move"
 msgstr ""
 
 #. module: l10n_ro_stock_account_reception_in_progress

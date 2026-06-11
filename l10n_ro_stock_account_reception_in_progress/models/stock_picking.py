@@ -1,7 +1,7 @@
 # Copyright (C) 2022 NextERP Romania
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
-from odoo import _, models
+from odoo import models
 from odoo.exceptions import ValidationError
 
 
@@ -17,11 +17,9 @@ class StockPicking(models.Model):
                 invoices = picking.purchase_id.invoice_ids
                 if len(invoices) > 1:
                     raise ValidationError(
-                        _(
+                        self.env._(
                             "You cannot have 2 invoices on one purchase order "
                             "marked as Reception in Progress."
                         )
                     )
-                if invoices:
-                    invoices.l10n_ro_fix_price_difference_svl()
         return res

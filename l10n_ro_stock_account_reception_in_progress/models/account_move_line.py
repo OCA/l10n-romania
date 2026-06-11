@@ -11,7 +11,7 @@ class AccountMoveLine(models.Model):
     def _compute_account_id(self):
         res = super()._compute_account_id()
         for linie in self:
-            if linie.product_id.type == "consu" and linie.is_l10n_ro_record:
+            if linie.product_id.is_storable and linie.is_l10n_ro_record:
                 if linie.move_id.is_purchase_document():
                     purchase = linie.purchase_order_id
                     if (
