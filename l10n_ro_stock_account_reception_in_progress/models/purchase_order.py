@@ -1,10 +1,9 @@
 # Copyright (C) 2022 NextERP Romania
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
-from itertools import groupby
-
-from odoo import _, fields, models
+from odoo import fields, models
 from odoo.exceptions import UserError
+from odoo.tools import groupby
 
 
 class PurchaseOrder(models.Model):
@@ -17,10 +16,15 @@ class PurchaseOrder(models.Model):
 
     def action_create_reception_in_progress_invoice(self):
         """Create the reception in progress invoice associated to the PO."""
-        self.env["decimal.precision"].precision_get("Product Unit of Measure")
         self = self.with_context(
             l10n_ro_reception_in_progress=True, valued_type="reception_in_progress"
         )
+        # Flag the order and its receipts before creating the invoice so that the
+        # invoice lines (account_id is computed at creation time) and the stock
+        # moves use the reception in progress account (e.g. 327) instead of the
+        # standard stock valuation account.
+        self.l10n_ro_reception_in_progress = True
+        self.picking_ids.l10n_ro_reception_in_progress = True
         # 1) Prepare invoice vals and clean-up the section lines
         invoice_vals_list = []
         sequence = 10
@@ -31,7 +35,7 @@ class PurchaseOrder(models.Model):
             invoice_vals = order._prepare_invoice()
             # Invoice line values (keep only necessary sections).
             for line in order.order_line:
-                if line.display_type == "line_section":
+                if line.display_type in ("line_section", "line_subsection"):
                     pending_section = line
                     continue
                 if pending_section:
@@ -49,7 +53,7 @@ class PurchaseOrder(models.Model):
 
         if not invoice_vals_list:
             raise UserError(
-                _(
+                self.env._(
                     "There is no invoiceable line. If a product has a control"
                     " policy based on received quantity, please make sure that"
                     " a quantity has been received."
@@ -67,8 +71,6 @@ class PurchaseOrder(models.Model):
             ),
         ):
             origins = set()
-            payment_refs = set()
-            refs = set()
             ref_invoice_vals = None
             for invoice_vals in invoices:
                 if not ref_invoice_vals:
@@ -78,17 +80,7 @@ class PurchaseOrder(models.Model):
                         "invoice_line_ids"
                     ]
                 origins.add(invoice_vals["invoice_origin"])
-                payment_refs.add(invoice_vals["payment_reference"])
-                refs.add(invoice_vals["ref"])
-            ref_invoice_vals.update(
-                {
-                    "ref": ", ".join(refs)[:2000],
-                    "invoice_origin": ", ".join(origins),
-                    "payment_reference": len(payment_refs) == 1
-                    and payment_refs.pop()
-                    or False,
-                }
-            )
+            ref_invoice_vals.update({"invoice_origin": ", ".join(origins)})
             new_invoice_vals_list.append(ref_invoice_vals)
         invoice_vals_list = new_invoice_vals_list
 
@@ -106,12 +98,11 @@ class PurchaseOrder(models.Model):
         moves.filtered(
             lambda m: m.currency_id.round(m.amount_total) < 0
         ).action_switch_move_type()
-        self.l10n_ro_reception_in_progress = True
         return self.action_view_invoice(moves)
 
-    def action_create_invoice(self):
+    def action_create_invoice(self, attachment_ids=False):
         if len(self) == 1 and self.l10n_ro_reception_in_progress:
             self = self.with_context(
                 l10n_ro_reception_in_progress=True, valued_type="reception_in_progress"
             )
-        return super().action_create_invoice()
+        return super().action_create_invoice(attachment_ids=attachment_ids)
