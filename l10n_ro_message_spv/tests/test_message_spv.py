@@ -151,6 +151,32 @@ class TestMessageSPV(TestMessageSPV):
         self.assertFalse(attachment.res_id)
         self.assertFalse(attachment.res_model)
 
+    def test_unlink_draft_invoice_with_edi_document(self):
+        """O factură ciornă cu document EDI atașat trebuie să poată fi ștearsă.
+
+        Documentul EDI are invoice_id required (FK ON DELETE RESTRICT), ceea ce
+        altfel ar bloca ștergerea facturilor ciornă duplicate descărcate de core
+        din SPV. Override-ul de unlink șterge întâi documentele EDI."""
+        invoice = self.env["account.move"].create(
+            {
+                "move_type": "in_invoice",
+                "partner_id": self.vendor.id,
+            }
+        )
+        edi_doc = self.env["l10n_ro_edi.document"].create(
+            {
+                "invoice_id": invoice.id,
+                "state": "invoice_validated",
+            }
+        )
+        self.assertEqual(invoice.state, "draft")
+        self.assertIn(edi_doc, invoice.l10n_ro_edi_document_ids)
+
+        invoice.unlink()
+
+        self.assertFalse(invoice.exists())
+        self.assertFalse(edi_doc.exists())
+
     def test_edi_transaction_tracking(self):
         """Testează câmpurile de urmărire a tranzacțiilor EDI"""
         # Creăm o factură

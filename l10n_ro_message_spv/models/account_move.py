@@ -70,6 +70,15 @@ class AccountMove(models.Model):
         attachments += message_spv_ids.mapped("attachment_anaf_pdf_id")
         attachments += message_spv_ids.mapped("attachment_embedded_pdf_id")
         attachments.sudo().write({"res_id": False, "res_model": False})
+
+        # Documentul EDI (l10n_ro_edi.document) are invoice_id required, deci FK-ul
+        # e ON DELETE RESTRICT și blochează ștergerea facturii. Pentru facturile
+        # ciornă (duplicate descărcate de core din SPV) ștergem întâi documentele
+        # EDI, ca factura să poată fi eliminată fără intervenție manuală în DB.
+        draft_moves = self.filtered(lambda m: m.state == "draft")
+        if draft_moves and "l10n_ro_edi_document_ids" in draft_moves._fields:
+            draft_moves.l10n_ro_edi_document_ids.sudo().unlink()
+
         return super().unlink()
 
     # def _get_edi_decoder(self, file_data, new=False):
