@@ -402,15 +402,23 @@ class MessageSPV(models.Model):
                             }
                         )
                 if not message.invoice_id.l10n_ro_edi_document_ids:
-                    if message.message_type != "error":
-                        state = "invoice_sent"
+                    if message.message_type in ("in_invoice", "in_receipt"):
+                        # Facturile primite se marchează invoice_validated, nu
+                        # invoice_sent. Core-ul l10n_ro_edi deduplică facturile
+                        # primite dupa l10n_ro_edi_state == 'invoice_validated';
+                        # cum starea e calculata din primul document EDI, daca
+                        # punem invoice_sent factura importata nu mai e gasita la
+                        # dedup, iar cronul de import o recreeaza (duplicat).
+                        edi_state = "invoice_validated"
+                    elif message.message_type == "error":
+                        edi_state = "invoice_refused"
                     else:
-                        state = "invoice_refused"
+                        edi_state = "invoice_sent"
 
                     self.env["l10n_ro_edi.document"].create(
                         {
                             "invoice_id": message.invoice_id.id,
-                            "state": state,
+                            "state": edi_state,
                         }
                     )
 
