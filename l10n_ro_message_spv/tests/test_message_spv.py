@@ -520,6 +520,40 @@ class TestMessageSPV(TestMessageSPV):
 
         self.assertEqual(message_spv.invoice_id.id, existing_invoice.id)
 
+    def test_received_invoice_edi_state_validated(self):
+        """Documentul EDI creat pentru o factură primită trebuie să fie
+        invoice_validated, nu invoice_sent.
+
+        Core-ul l10n_ro_edi deduplică facturile primite după
+        l10n_ro_edi_state == 'invoice_validated'; dacă punem invoice_sent,
+        factura importată nu mai e recunoscută la dedup și cronul o recreează
+        (sursa facturilor duplicate)."""
+        invoice = self.env["account.move"].create(
+            {
+                "move_type": "in_invoice",
+                "partner_id": self.vendor.id,
+            }
+        )
+        message_spv = self.env["l10n.ro.message.spv"].create(
+            {
+                "name": "MSG_VALIDATED",
+                "request_id": "REQ_VALIDATED",
+                "cif": "123",
+                "message_type": "in_invoice",
+                "partner_id": self.vendor.id,
+                "invoice_id": invoice.id,
+            }
+        )
+
+        # Nu există încă document EDI pe factură
+        self.assertFalse(invoice.l10n_ro_edi_document_ids)
+
+        message_spv.get_data_from_invoice()
+
+        self.assertTrue(invoice.l10n_ro_edi_document_ids)
+        self.assertEqual(invoice.l10n_ro_edi_document_ids[0].state, "invoice_validated")
+        self.assertEqual(invoice.l10n_ro_edi_state, "invoice_validated")
+
     def test_onchange_invoice_id(self):
         """Testează _onchange_invoice_id pentru diverse tipuri de facturi"""
         invoice = self.env["account.move"].create(
