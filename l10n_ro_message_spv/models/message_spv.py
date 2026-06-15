@@ -115,7 +115,11 @@ class MessageSPV(models.Model):
             error = response.get("error", "")
 
             if error:
-                message.write({"error": error})
+                # Marcăm mesajul ca eroare ca să nu fie reselectat la infinit de
+                # cron (domeniul exclude state="error"). ANAF limitează la 10
+                # descărcări/zi pe mesaj; reîncercarea oarbă doar epuizează cota
+                # și spamează logul. Re-descărcarea se face manual de pe mesaj.
+                message.write({"error": str(error), "state": "error"})
                 continue
             if message.message_type == "message":
                 info_message = message.check_anaf_message_xml(response["content"])

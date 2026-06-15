@@ -103,6 +103,23 @@ class L10nRoEdiDocument(models.Model):
             return result
 
         content = result["content"]
+        # ANAF poate răspunde cu HTTP 200 dar corp JSON de eroare (ex: limita de
+        # 10 descărcări/zi pe mesaj atinsă) în loc de arhiva ZIP. Tratăm explicit
+        # această condiție de business, fără a încerca parsarea ca ZIP și fără a
+        # o loga ca eroare de cod.
+        if content[:1] in (b"{", b"["):
+            try:
+                error_json = json.loads(content.decode("utf-8"))
+            except Exception:
+                error_json = None
+            if isinstance(error_json, dict) and error_json.get("eroare"):
+                _logger.warning(
+                    "ANAF download refused for id=%s: %s",
+                    key_download,
+                    error_json["eroare"],
+                )
+                return {"error": error_json["eroare"]}
+
         # E-Factura gives download response in ZIP format
         try:
             zip_ref = zipfile.ZipFile(io.BytesIO(content))
