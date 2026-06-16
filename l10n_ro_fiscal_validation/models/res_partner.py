@@ -35,6 +35,12 @@ class ResPartner(models.Model):
             anaf_url = get_param(
                 "l10n_ro_fiscal_validation.anaf_bulk_url", ANAF_BULK_URL
             )
+            anaf_api_key_header_tag = get_param(
+                "l10n_ro_partner_create_by_vat.anaf_api_key_header_tag", "x-api-key"
+            )
+            anaf_api_key = get_param("l10n_ro_partner_create_by_vat.anaf_api_key", "")
+            if anaf_api_key:
+                headers.update({anaf_api_key_header_tag: anaf_api_key})
             anaf_corr = get_param("l10n_ro_fiscal_validation.anaf_corr", ANAF_CORR)
             if get_param("l10n_ro_partner_create_by_vat.anaf_authorization", False):
                 headers["Authorization"] = "Bearer " + get_param(
@@ -48,7 +54,7 @@ class ResPartner(models.Model):
             chunk = []
             chunks = []
             # Process 500 vat numbers once
-            max_no = 499
+            max_no = get_param("l10n_ro_fiscal_validation.anaf_bulk_number", 499)
             for position in range(0, len(anaf_dict), max_no):
                 chunk = anaf_dict[position : position + max_no]
                 chunks.append(chunk)
