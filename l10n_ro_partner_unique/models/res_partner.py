@@ -51,6 +51,8 @@ class ResPartner(models.Model):
 
     @api.constrains("vat", "nrc", "is_company")
     def _check_vat_nrc_unique(self):
+        if self.env.context.get("partner_merge"):
+            return
         for record in self.filtered("is_company"):
             if record.parent_id:
                 continue
