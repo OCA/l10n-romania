@@ -2,8 +2,6 @@ import logging
 from datetime import date, timedelta
 from unittest.mock import patch
 
-from dateutil.relativedelta import relativedelta
-
 from odoo import fields
 from odoo.tests import tagged
 from odoo.tests.common import TransactionCase
@@ -93,7 +91,7 @@ class TestCurrencyRateUpdateRoBnr(TransactionCase):
             f"{self.module_path}.ResCurrencyRateProviderROBNR.call_bnr",
             self.call_bnr,
         ):
-            self.bnr_provider._update(self.today - relativedelta(months=1), self.today)
+            self.bnr_provider._update(date(2026, 4, 6), self.today)
 
         rates = self.CurrencyRate.search(
             [("currency_id", "=", self.usd_currency.id)], limit=1
