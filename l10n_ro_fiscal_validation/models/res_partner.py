@@ -54,7 +54,7 @@ class ResPartner(models.Model):
             chunk = []
             chunks = []
             # Process 500 vat numbers once
-            max_no = get_param("l10n_ro_fiscal_validation.anaf_bulk_number", 499)
+            max_no = int(get_param("l10n_ro_fiscal_validation.anaf_bulk_number", 499))
             for position in range(0, len(anaf_dict), max_no):
                 chunk = anaf_dict[position : position + max_no]
                 chunks.append(chunk)

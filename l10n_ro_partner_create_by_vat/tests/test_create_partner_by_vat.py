@@ -49,7 +49,9 @@ class TestCreatePartner(TestCreatePartnerBase):
             self.assertEqual(res["street2"], "Zona Nr.3, Etaj 1")
             self.assertEqual(res["state_id"], self.env.ref("base.RO_TM"))
             self.assertEqual(res["city"], "Timișoara")
-            self.assertEqual(res["zip"], "")
+            # codPostal is "" in test data, empty ANAF values are skipped,
+            # so "zip" should be absent from res
+            self.assertNotIn("zip", res)
             self.assertEqual(res["phone"], "0356179038")
 
     def test_vat_anaf_error(self):
