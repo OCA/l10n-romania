@@ -35,6 +35,11 @@ msgid "Allow stock account change from locations"
 msgstr "Permite schimbarea contului de stoc din locații"
 
 #. module: l10n_ro_stock_account
+#: model:ir.model,name:l10n_ro_stock_account.model_res_company
+msgid "Companies"
+msgstr "Companii"
+
+#. module: l10n_ro_stock_account
 #: model:ir.model.fields,field_description:l10n_ro_stock_account.field_account_account__l10n_ro_stock_consume_account_id
 msgid "Consume Account"
 msgstr "Cont consum"
@@ -76,6 +81,7 @@ msgstr "Returnare Livrare"
 #: model:ir.model.fields,field_description:l10n_ro_stock_account.field_product_category__display_name
 #: model:ir.model.fields,field_description:l10n_ro_stock_account.field_product_product__display_name
 #: model:ir.model.fields,field_description:l10n_ro_stock_account.field_product_template__display_name
+#: model:ir.model.fields,field_description:l10n_ro_stock_account.field_res_company__display_name
 #: model:ir.model.fields,field_description:l10n_ro_stock_account.field_stock_location__display_name
 #: model:ir.model.fields,field_description:l10n_ro_stock_account.field_stock_move__display_name
 #: model:ir.model.fields,field_description:l10n_ro_stock_account.field_stock_picking__display_name
@@ -95,9 +101,40 @@ msgid "Dropshipped Return"
 msgstr "Returnare Livrare Directă"
 
 #. module: l10n_ro_stock_account
+#: model:ir.model.fields,help:l10n_ro_stock_account.field_res_company__fifo_per_location
+msgid ""
+"Enable FIFO valuation at the source location level (instead of the company "
+"level). Outgoing moves for products with cost_method=fifo are automatically "
+"split into one stock.move per FIFO layer. Defaults to True for Romanian "
+"companies; editable per company."
+msgstr ""
+"Activează valorizarea FIFO la nivel de locație sursă (în loc de nivel de "
+"companie). Ieșirile pentru produsele cu cost_method=fifo sunt sparte automat "
+"în câte un stock.move per strat FIFO. Implicit activat pentru companiile din "
+"România; poate fi editat pe fiecare companie."
+
+#. module: l10n_ro_stock_account
 #: model:ir.model.fields,field_description:l10n_ro_stock_account.field_stock_location__l10n_ro_property_account_expense_location_id
 msgid "Expense Account"
 msgstr "Cont cheltuieli"
+
+#. module: l10n_ro_stock_account
+#: model:ir.model.fields,field_description:l10n_ro_stock_account.field_res_company__fifo_location_negative_compensation
+#: model_terms:ir.ui.view,arch_db:l10n_ro_stock_account.view_stock_move_form_fifo_neg
+msgid "FIFO Negative Stock Compensation"
+msgstr "Compensare stoc negativ FIFO"
+
+#. module: l10n_ro_stock_account
+#. odoo-python
+#: code:addons/l10n_ro_stock_account/models/fifo/stock_move.py:0
+msgid "FIFO location compensation: %(product)s / %(loc)s"
+msgstr "Compensare FIFO loc.: %(product)s / %(loc)s"
+
+#. module: l10n_ro_stock_account
+#: model:ir.model.fields,field_description:l10n_ro_stock_account.field_res_company__fifo_per_location
+#: model_terms:ir.ui.view,arch_db:l10n_ro_stock_account.view_company_form_fifo_location
+msgid "FIFO per Location"
+msgstr "FIFO pe locație"
 
 #. module: l10n_ro_stock_account
 #: model:ir.model.fields,field_description:l10n_ro_stock_account.field_stock_warehouse__l10n_ro_fiscal_position_id
@@ -117,6 +154,7 @@ msgstr "Valoare forțată pentru %(qty)s unități"
 #: model:ir.model.fields,field_description:l10n_ro_stock_account.field_product_category__id
 #: model:ir.model.fields,field_description:l10n_ro_stock_account.field_product_product__id
 #: model:ir.model.fields,field_description:l10n_ro_stock_account.field_product_template__id
+#: model:ir.model.fields,field_description:l10n_ro_stock_account.field_res_company__id
 #: model:ir.model.fields,field_description:l10n_ro_stock_account.field_stock_location__id
 #: model:ir.model.fields,field_description:l10n_ro_stock_account.field_stock_move__id
 #: model:ir.model.fields,field_description:l10n_ro_stock_account.field_stock_picking__id
@@ -225,6 +263,27 @@ msgstr ""
 "mișcare stoc %(move)s"
 
 #. module: l10n_ro_stock_account
+#: model:ir.model.fields,field_description:l10n_ro_stock_account.field_stock_move__fifo_neg_compensation_move_ids
+msgid "Negative Stock Compensation Entries"
+msgstr "Note de compensare stoc negativ"
+
+#. module: l10n_ro_stock_account
+#: model:ir.model.fields,field_description:l10n_ro_stock_account.field_stock_move__fifo_neg_origin_value
+msgid "Negative Stock Initial Value"
+msgstr "Valoare inițială pe stoc negativ"
+
+#. module: l10n_ro_stock_account
+#: model:ir.model.fields,field_description:l10n_ro_stock_account.field_stock_move__fifo_neg_pending_qty
+msgid "Negative Stock Pending Qty"
+msgstr "Cantitate stoc negativ în așteptare"
+
+#. module: l10n_ro_stock_account
+#. odoo-python
+#: code:addons/l10n_ro_stock_account/models/fifo/stock_move.py:0
+msgid "Negative stock compensation %s"
+msgstr "Compensare stoc negativ %s"
+
+#. module: l10n_ro_stock_account
 #. odoo-python
 #: code:addons/l10n_ro_stock_account/tests/common.py:0
 msgid ""
@@ -294,6 +353,17 @@ msgstr "Returnare Producție"
 #: model:ir.actions.server,name:l10n_ro_stock_account.action_location_account_propagate
 msgid "Propagate Accounts"
 msgstr "Propagare Conturi"
+
+#. module: l10n_ro_stock_account
+#: model:ir.model.fields,help:l10n_ro_stock_account.field_stock_move__fifo_neg_pending_qty
+msgid ""
+"Quantity from a FIFO outgoing move that was valued at standard_price because "
+"the location stack was empty. Compensated FIFO on the next incoming move for "
+"the same (product, location) pair."
+msgstr ""
+"Cantitate dintr-o ieșire FIFO care a fost valorificată la standard_price "
+"pentru că stiva pe locație era goală. Se compensează FIFO la prima intrare "
+"ulterioară pe aceeași pereche (produs, locație)."
 
 #. module: l10n_ro_stock_account
 #: model:ir.model,name:l10n_ro_stock_account.model_stock_quant
@@ -373,6 +443,12 @@ msgid "Romanian Stock Move Type not set on stock move %(move)s"
 msgstr ""
 
 #. module: l10n_ro_stock_account
+#: model:ir.model.fields,field_description:l10n_ro_stock_account.field_account_bank_statement_line__fifo_neg_origin_move_id
+#: model:ir.model.fields,field_description:l10n_ro_stock_account.field_account_move__fifo_neg_origin_move_id
+msgid "Source IN move for negative stock compensation"
+msgstr "Intrarea care a generat compensarea de stoc negativ"
+
+#. module: l10n_ro_stock_account
 #: model:ir.model.fields,help:l10n_ro_stock_account.field_stock_move__l10n_ro_move_type
 msgid "Specify the type of stock move for Romanian localization."
 msgstr "Specificați tipul de mișcare a stocului pentru localizarea românească."
@@ -400,6 +476,16 @@ msgid "Stock move %(move)s has no linked sale line for sale price computation"
 msgstr ""
 "Mișcarea stocului %(move)s nu are o linie de vânzare legată pentru calculul "
 "prețului de vânzare"
+
+#. module: l10n_ro_stock_account
+#: model:ir.model.fields,help:l10n_ro_stock_account.field_account_bank_statement_line__fifo_neg_origin_move_id
+#: model:ir.model.fields,help:l10n_ro_stock_account.field_account_move__fifo_neg_origin_move_id
+msgid ""
+"The incoming stock move that triggered this FIFO negative stock compensation "
+"accounting entry."
+msgstr ""
+"Mișcarea de intrare care a declanșat această notă contabilă de compensare "
+"stoc negativ FIFO."
 
 #. module: l10n_ro_stock_account
 #: model:ir.model.fields,help:l10n_ro_stock_account.field_stock_location__l10n_ro_property_account_expense_location_id
@@ -447,6 +533,21 @@ msgstr "Valoare bazată pe mișcarea de origine %(reference)s"
 msgid "Warehouse"
 msgstr "Depozit"
 
+#. module: l10n_ro_stock_account
+#: model:ir.model.fields,help:l10n_ro_stock_account.field_res_company__fifo_location_negative_compensation
+msgid ""
+"When a FIFO outgoing move happens before the corresponding incoming move "
+"(negative stock on the location), its initial value is the standard_price. "
+"On the next incoming move, the module emits a correction accounting entry to "
+"align the outgoing value with the actual incoming price. Defaults to True "
+"for Romanian companies; editable per company."
+msgstr ""
+"Când o ieșire FIFO se face înainte de intrarea corespunzătoare (stoc negativ "
+"pe locație), valoarea ei inițială este standard_price. La prima intrare "
+"ulterioară modulul emite o notă contabilă de corecție pentru a alinia "
+"valoarea ieșirii la prețul real al intrării. Implicit activat pentru "
+"companiile din România; poate fi editat pe fiecare companie."
+
 #~ msgid "%(value)s for %(quantity)s %(unit)s from %(bills)s"
 #~ msgstr "%(value)s pentru %(quantity)s %(unit)s din %(bills)s"
 
@@ -461,9 +562,6 @@ msgstr "Depozit"
 
 #~ msgid "Accounting Information"
 #~ msgstr "Informații contabile"
-
-#~ msgid "Companies"
-#~ msgstr "Companii"
 
 #~ msgid "Company"
 #~ msgstr "Companie"
@@ -563,95 +661,3 @@ msgstr "Depozit"
 
 #~ msgid "Invoice Line"
 #~ msgstr "Linie factură"
-
-#. module: l10n_ro_stock_account
-#: model:ir.model.fields,field_description:l10n_ro_stock_account.field_res_company__fifo_per_location
-#: model_terms:ir.ui.view,arch_db:l10n_ro_stock_account.view_company_form_fifo_location
-msgid "FIFO per Location"
-msgstr "FIFO pe locație"
-
-#. module: l10n_ro_stock_account
-#: model:ir.model.fields,help:l10n_ro_stock_account.field_res_company__fifo_per_location
-msgid ""
-"Enable FIFO valuation at the source location level (instead of the company "
-"level). Outgoing moves for products with cost_method=fifo are automatically "
-"split into one stock.move per FIFO layer. Defaults to True for Romanian "
-"companies; editable per company."
-msgstr ""
-"Activează valorizarea FIFO la nivel de locație sursă (în loc de nivel de "
-"companie). Ieșirile pentru produsele cu cost_method=fifo sunt sparte automat "
-"în câte un stock.move per strat FIFO. Implicit activat pentru companiile din "
-"România; poate fi editat pe fiecare companie."
-
-#. module: l10n_ro_stock_account
-#: model:ir.model.fields,field_description:l10n_ro_stock_account.field_res_company__fifo_location_negative_compensation
-#: model_terms:ir.ui.view,arch_db:l10n_ro_stock_account.view_stock_move_form_fifo_neg
-msgid "FIFO Negative Stock Compensation"
-msgstr "Compensare stoc negativ FIFO"
-
-#. module: l10n_ro_stock_account
-#: model:ir.model.fields,help:l10n_ro_stock_account.field_res_company__fifo_location_negative_compensation
-msgid ""
-"When a FIFO outgoing move happens before the corresponding incoming move "
-"(negative stock on the location), its initial value is the standard_price. "
-"On the next incoming move, the module emits a correction accounting entry "
-"to align the outgoing value with the actual incoming price. Defaults to "
-"True for Romanian companies; editable per company."
-msgstr ""
-"Când o ieșire FIFO se face înainte de intrarea corespunzătoare (stoc "
-"negativ pe locație), valoarea ei inițială este standard_price. La prima "
-"intrare ulterioară modulul emite o notă contabilă de corecție pentru a "
-"alinia valoarea ieșirii la prețul real al intrării. Implicit activat pentru "
-"companiile din România; poate fi editat pe fiecare companie."
-
-#. module: l10n_ro_stock_account
-#: model:ir.model.fields,field_description:l10n_ro_stock_account.field_stock_move__fifo_neg_pending_qty
-msgid "Negative Stock Pending Qty"
-msgstr "Cantitate stoc negativ în așteptare"
-
-#. module: l10n_ro_stock_account
-#: model:ir.model.fields,help:l10n_ro_stock_account.field_stock_move__fifo_neg_pending_qty
-msgid ""
-"Quantity from a FIFO outgoing move that was valued at standard_price "
-"because the location stack was empty. Compensated FIFO on the next "
-"incoming move for the same (product, location) pair."
-msgstr ""
-"Cantitate dintr-o ieșire FIFO care a fost valorificată la standard_price "
-"pentru că stiva pe locație era goală. Se compensează FIFO la prima intrare "
-"ulterioară pe aceeași pereche (produs, locație)."
-
-#. module: l10n_ro_stock_account
-#: model:ir.model.fields,field_description:l10n_ro_stock_account.field_stock_move__fifo_neg_origin_value
-msgid "Negative Stock Initial Value"
-msgstr "Valoare inițială pe stoc negativ"
-
-#. module: l10n_ro_stock_account
-#: model:ir.model.fields,field_description:l10n_ro_stock_account.field_stock_move__fifo_neg_compensation_move_ids
-msgid "Negative Stock Compensation Entries"
-msgstr "Note de compensare stoc negativ"
-
-#. module: l10n_ro_stock_account
-#: model:ir.model.fields,field_description:l10n_ro_stock_account.field_account_bank_statement_line__fifo_neg_origin_move_id
-#: model:ir.model.fields,field_description:l10n_ro_stock_account.field_account_move__fifo_neg_origin_move_id
-msgid "Source IN move for negative stock compensation"
-msgstr "Intrarea care a generat compensarea de stoc negativ"
-
-#. module: l10n_ro_stock_account
-#: model:ir.model.fields,help:l10n_ro_stock_account.field_account_bank_statement_line__fifo_neg_origin_move_id
-#: model:ir.model.fields,help:l10n_ro_stock_account.field_account_move__fifo_neg_origin_move_id
-msgid ""
-"The incoming stock move that triggered this FIFO negative stock "
-"compensation accounting entry."
-msgstr ""
-"Mișcarea de intrare care a declanșat această notă contabilă de compensare "
-"stoc negativ FIFO."
-
-#. module: l10n_ro_stock_account
-#: code:addons/l10n_ro_stock_account/models/fifo/stock_move.py:0
-msgid "Negative stock compensation %s"
-msgstr "Compensare stoc negativ %s"
-
-#. module: l10n_ro_stock_account
-#: code:addons/l10n_ro_stock_account/models/fifo/stock_move.py:0
-msgid "FIFO location compensation: %(product)s / %(loc)s"
-msgstr "Compensare FIFO loc.: %(product)s / %(loc)s"
