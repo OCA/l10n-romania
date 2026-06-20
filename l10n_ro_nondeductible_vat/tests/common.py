@@ -33,44 +33,6 @@ class TestNondeductibleCommon(TestROStockCommon, TestVATonpayment):
         cls.env.user.group_ids += cls.env.ref(
             "account.group_partial_purchase_deductibility"
         )
-        # Use standard Odoo tax (e.g. VAT 21% G)
-        cls.tax = cls.env["account.tax"].search(
-            [
-                ("type_tax_use", "=", "purchase"),
-                ("name", "=", "21% G"),
-                ("company_id", "=", cls.env.company.id),
-            ],
-            limit=1,
-        )
-        if not cls.tax:
-            raise Exception("Standard VAT 21% G tax not found for company!")
-        cls.vatp_tax = cls.env["account.tax"].search(
-            [
-                ("type_tax_use", "=", "purchase"),
-                ("name", "=", "21%"),
-                ("company_id", "=", cls.env.company.id),
-            ],
-            limit=1,
-        )
-        if not cls.vatp_tax:
-            raise Exception(
-                "Standard VAT on Payment VAT 21% tax not found for company!"
-            )
-        # Set l10n_ro_exclude_from_stock on tax repartition lines
-        for rep_line in cls.tax.repartition_line_ids.filtered(
-            lambda line: line.repartition_type == "tax"
-        ):
-            rep_line.l10n_ro_exclude_from_stock = True
-
-        # Set l10n_ro_nondeductible_tag_id on tax tags for non-deductible logic
-        cls.tag_base = _get_tags_by_name("24 - TAX BASE")
-        cls.tag_base_nd = cls.tag_base.copy({"name": "24_2 - TAX BASE"})
-        cls.tag_vat = _get_tags_by_name("24 - VAT")
-        cls.tag_vat_nd = cls.tag_vat.copy({"name": "24_2 - VAT"})
-        if cls.tag_base and cls.tag_base_nd:
-            cls.tag_base.l10n_ro_nondeductible_tag_id = cls.tag_base_nd.id
-        if cls.tag_vat and cls.tag_vat_nd:
-            cls.tag_vat.l10n_ro_nondeductible_tag_id = cls.tag_vat_nd.id
 
         cls.tax_account = get_account("442600")
         cls.payable_account = get_account("401100")
@@ -95,6 +57,41 @@ class TestNondeductibleCommon(TestROStockCommon, TestVATonpayment):
         )
         cls.env.company.account_cash_basis_base_account_id = vatp_base_account_id
         cls.vatp_base_account_id = vatp_base_account_id
+
+        # Set up the non-deductible tax grids: the deductible grids
+        # (24 - TAX BASE / 24 - VAT) point to their non-deductible
+        # counterparts (24_2 - ...). This is what flags a tax as
+        # `l10n_ro_is_nondeductible`.
+        cls.tag_base = _get_tags_by_name("24 - TAX BASE")
+        cls.tag_base_nd = cls.tag_base.copy({"name": "24_2 - TAX BASE"})
+        cls.tag_vat = _get_tags_by_name("24 - VAT")
+        cls.tag_vat_nd = cls.tag_vat.copy({"name": "24_2 - VAT"})
+        cls.tag_base.l10n_ro_nondeductible_tag_id = cls.tag_base_nd.id
+        cls.tag_vat.l10n_ro_nondeductible_tag_id = cls.tag_vat_nd.id
+
+        # Build dedicated non-deductible purchase taxes instead of relying
+        # on the taxes shipped with the chart of accounts (which are not
+        # configured for the Romanian non-deductible flow). The tax line
+        # is flagged `l10n_ro_exclude_from_stock` so that, on stock moves,
+        # it does not generate a deductible VAT entry (the VAT was already
+        # deducted on reception); only the non-deductible reversal is kept.
+        cls.tax = cls._l10n_ro_create_nondeductible_tax("21% Not deductible")
+        # VAT on payment non-deductible tax: identical configuration but
+        # with exigibility on payment (cash basis).
+        cls.vatp_tax = cls._l10n_ro_create_nondeductible_tax(
+            "21% Not deductible VATP",
+            tax_exigibility="on_payment",
+            cash_basis_account=cls.vatp_tax_account,
+        )
+        # A second VAT-on-payment tax sharing the very same grids (24 - TAX
+        # BASE / 24 - VAT). It is used on fully deductible lines, to check that
+        # a deductible and a non-deductible cash-basis tax can coexist on the
+        # same invoice without the split bleeding from one into the other.
+        cls.vatp_tax_deductible = cls._l10n_ro_create_nondeductible_tax(
+            "21% VATP",
+            tax_exigibility="on_payment",
+            cash_basis_account=cls.vatp_tax_account,
+        )
 
         # Create invoices
         cls.nd_invoice = cls.invoice_model.create(
@@ -147,3 +144,46 @@ class TestNondeductibleCommon(TestROStockCommon, TestVATonpayment):
         cls.env["stock.quant"].with_context(inventory_mode=True).create(
             inventory_vals
         ).action_apply_inventory()
+
+    @classmethod
+    def _l10n_ro_create_nondeductible_tax(
+        cls, name, tax_exigibility="on_invoice", cash_basis_account=None
+    ):
+        """Create a 21% purchase tax wired for the Romanian non-deductible
+        flow: base grid 24 - TAX BASE, tax grid 24 - VAT (both with a
+        non-deductible counterpart), and the tax repartition line flagged
+        `l10n_ro_exclude_from_stock`."""
+
+        def rep_lines():
+            return [
+                Command.create(
+                    {
+                        "repartition_type": "base",
+                        "factor_percent": 100,
+                        "tag_ids": [Command.set(cls.tag_base.ids)],
+                    }
+                ),
+                Command.create(
+                    {
+                        "repartition_type": "tax",
+                        "factor_percent": 100,
+                        "account_id": cls.tax_account.id,
+                        "tag_ids": [Command.set(cls.tag_vat.ids)],
+                        "l10n_ro_exclude_from_stock": True,
+                    }
+                ),
+            ]
+
+        vals = {
+            "name": name,
+            "type_tax_use": "purchase",
+            "amount_type": "percent",
+            "amount": 21.0,
+            "company_id": cls.env.company.id,
+            "tax_exigibility": tax_exigibility,
+            "invoice_repartition_line_ids": rep_lines(),
+            "refund_repartition_line_ids": rep_lines(),
+        }
+        if cash_basis_account:
+            vals["cash_basis_transition_account_id"] = cash_basis_account.id
+        return cls.env["account.tax"].create(vals)
