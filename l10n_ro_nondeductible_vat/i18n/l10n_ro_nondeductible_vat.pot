@@ -14,6 +14,12 @@ msgstr ""
 "Plural-Forms: \n"
 
 #. module: l10n_ro_nondeductible_vat
+#. odoo-python
+#: code:addons/l10n_ro_nondeductible_vat/models/account_move.py:0
+msgid "%(tax)s (non-deductible)"
+msgstr ""
+
+#. module: l10n_ro_nondeductible_vat
 #: model:ir.model.fields.selection,name:l10n_ro_nondeductible_vat.selection__account_move_line__l10n_ro_nondeductible_percent__50
 #: model:ir.model.fields.selection,name:l10n_ro_nondeductible_vat.selection__stock_move__l10n_ro_nondeductible_percent__50
 #: model:ir.model.fields.selection,name:l10n_ro_nondeductible_vat.selection__stock_quant__l10n_ro_nondeductible_percent__50
