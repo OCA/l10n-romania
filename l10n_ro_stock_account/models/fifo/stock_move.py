@@ -77,9 +77,9 @@ class StockMove(models.Model):
                 remaining_by_product = move.product_id._get_remaining_moves_ro(
                     location=location
                 )
-                move.remaining_qty = remaining_by_product.get(
-                    move.product_id, {}
-                ).get(move, 0)
+                move.remaining_qty = remaining_by_product.get(move.product_id, {}).get(
+                    move, 0
+                )
         return res
 
     def search_remaining_qty(self, operator, value):
@@ -192,9 +192,9 @@ class StockMove(models.Model):
             and not m.fifo_neg_pending_qty
         )
         for move in avg_out_moves:
-            product_at_loc = move.product_id.with_company(
-                move.company_id
-            ).with_context(location=move.location_id.id)
+            product_at_loc = move.product_id.with_company(move.company_id).with_context(
+                location=move.location_id.id
+            )
             qty_avail_before = product_at_loc.qty_available
             valued_qty = move._get_valued_qty()
             if not valued_qty:

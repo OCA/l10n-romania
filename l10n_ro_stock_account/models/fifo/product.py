@@ -28,9 +28,7 @@ class ProductProduct(models.Model):
         cache = self.env.context.get("fifo_stack_cache")
         if cache is None:
             cache = {}
-            ro_fifo_products = ro_fifo_products.with_context(
-                fifo_stack_cache=cache
-            )
+            ro_fifo_products = ro_fifo_products.with_context(fifo_stack_cache=cache)
         for product in ro_fifo_products:
             at_date = fields.Datetime.to_datetime(product.env.context.get("to_date"))
             if at_date:
@@ -236,8 +234,14 @@ class ProductProduct(models.Model):
         # cold caches with 500+ moves).
         if moves_in:
             moves_in.move_line_ids.fetch(
-                ["quantity_product_uom", "picked", "owner_id", "location_id",
-                 "location_dest_id", "lot_id"]
+                [
+                    "quantity_product_uom",
+                    "picked",
+                    "owner_id",
+                    "location_id",
+                    "location_dest_id",
+                    "lot_id",
+                ]
             )
         remaining_qty_on_first_stack_move = 0
         current_offset = 0
@@ -263,8 +267,14 @@ class ProductProduct(models.Model):
                 )
                 if moves_in:
                     moves_in.move_line_ids.fetch(
-                        ["quantity_product_uom", "picked", "owner_id",
-                         "location_id", "location_dest_id", "lot_id"]
+                        [
+                            "quantity_product_uom",
+                            "picked",
+                            "owner_id",
+                            "location_id",
+                            "location_dest_id",
+                            "lot_id",
+                        ]
                     )
                 idx = 0
         fifo_stack.reverse()
