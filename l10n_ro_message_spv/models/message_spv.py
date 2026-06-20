@@ -115,7 +115,11 @@ class MessageSPV(models.Model):
             error = response.get("error", "")
 
             if error:
-                message.write({"error": error})
+                # Marcăm mesajul ca eroare ca să nu fie reselectat la infinit de
+                # cron (domeniul exclude state="error"). ANAF limitează la 10
+                # descărcări/zi pe mesaj; reîncercarea oarbă doar epuizează cota
+                # și spamează logul. Re-descărcarea se face manual de pe mesaj.
+                message.write({"error": str(error), "state": "error"})
                 continue
             if message.message_type == "message":
                 info_message = message.check_anaf_message_xml(response["content"])
@@ -316,16 +320,17 @@ class MessageSPV(models.Model):
                     )
                 invoice.write({"l10n_ro_edi_state": False})
 
-        messages = self.filtered(lambda m: not m.invoice_id)
-        messages_without_invoice = messages.filtered(lambda m: not m.invoice_id)
+        messages_without_invoice = self.filtered(lambda m: not m.invoice_id)
         message_ids = messages_without_invoice.mapped("name")
         request_ids = messages_without_invoice.mapped("request_id")
-        messages_without_invoice = self.filtered(lambda m: not m.invoice_id)
         invoices = self.env["account.move"].search(
             [
                 "|",
+                "|",
                 ("l10n_ro_edi_download", "in", message_ids),
                 ("l10n_ro_edi_transaction", "in", request_ids),
+                # facturi create automat de l10n_ro_edi core (v19)
+                ("l10n_ro_edi_index", "in", request_ids),
             ]
         )
         messages_with_ref = messages_without_invoice.filtered(lambda m: m.ref)
@@ -336,6 +341,7 @@ class MessageSPV(models.Model):
             invoice = invoices.filtered(
                 lambda i, m=message: i.l10n_ro_edi_download == m.name
                 or i.l10n_ro_edi_transaction == m.request_id
+                or i.l10n_ro_edi_index == m.request_id
                 or i.ref == m.ref
                 or i.name == m.ref
             )
@@ -400,15 +406,23 @@ class MessageSPV(models.Model):
                             }
                         )
                 if not message.invoice_id.l10n_ro_edi_document_ids:
-                    if message.message_type != "error":
-                        state = "invoice_sent"
+                    if message.message_type in ("in_invoice", "in_receipt"):
+                        # Facturile primite se marchează invoice_validated, nu
+                        # invoice_sent. Core-ul l10n_ro_edi deduplică facturile
+                        # primite dupa l10n_ro_edi_state == 'invoice_validated';
+                        # cum starea e calculata din primul document EDI, daca
+                        # punem invoice_sent factura importata nu mai e gasita la
+                        # dedup, iar cronul de import o recreeaza (duplicat).
+                        edi_state = "invoice_validated"
+                    elif message.message_type == "error":
+                        edi_state = "invoice_refused"
                     else:
-                        state = "invoice_refused"
+                        edi_state = "invoice_sent"
 
                     self.env["l10n_ro_edi.document"].create(
                         {
                             "invoice_id": message.invoice_id.id,
-                            "state": state,
+                            "state": edi_state,
                         }
                     )
 
