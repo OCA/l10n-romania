@@ -39,6 +39,20 @@ class StockMove(models.Model):
             else:
                 s.l10n_ro_nondeductible_usage = False
 
+    def _create_account_move(self):
+        # When a stock move carries a non-deductible tax, the VAT was already
+        # deducted on reception, so the stock valuation entry must not generate
+        # a fresh deductible VAT line (and the balancing line that comes with
+        # it). The `l10n_ro_exclude_from_stock` context drops that tax line and
+        # keeps only the non-deductible reversal. This mirrors what
+        # stock.quant._apply_inventory does for inventory adjustments.
+        if any(
+            move.is_l10n_ro_record and move.l10n_ro_nondeductible_tax_id
+            for move in self
+        ):
+            self = self.with_context(l10n_ro_exclude_from_stock=True)
+        return super()._create_account_move()
+
     def _get_account_move_line_vals(self):
         # For nondeductible operation, add the taxes to the expense debit line
         res = super()._get_account_move_line_vals()
