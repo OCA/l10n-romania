@@ -178,3 +178,41 @@ class TestVatUnique(AccountTestInvoicingCommon):
 
         wiz = self.env["base.partner.merge.automatic.wizard"].create({})
         wiz._merge([p1.id, p2.id])
+
+    def test_merge_two_partners_explicit_dst_partner(self):
+        """
+        Unește 2 companii cu același CUI pasând explicit partenerul destinație
+        (fluxul real din UI: action_merge -> _merge(ids, dst_partner_id)).
+
+        Partenerul destinație este citit în contextul apelantului, deci
+        contextul partner_merge trebuie propagat explicit pe el, altfel
+        constrângerea de unicat ridică ValidationError la scrierea pe dst.
+        """
+        self.env["ir.config_parameter"].sudo().set_param(
+            "l10n_ro_partner_unique.vat_nrc_unique", "vat"
+        )
+
+        # Creăm fără țară (constrângerea de unicat se aplică doar pe RO),
+        # apoi setăm România — setarea țării nu re-declanșează constrângerea.
+        p1 = self.env["res.partner"].create(
+            {
+                "name": "P1 Test",
+                "vat": "30834857",
+                "is_company": True,
+                "country_id": False,
+            }
+        )
+        p2 = self.env["res.partner"].create(
+            {
+                "name": "P2 Test",
+                "vat": "30834857",
+                "is_company": True,
+                "country_id": False,
+            }
+        )
+        ro = self.env.ref("base.ro")
+        p1.country_id = ro
+        p2.country_id = ro
+
+        wiz = self.env["base.partner.merge.automatic.wizard"].create({})
+        wiz._merge([p1.id, p2.id], dst_partner=p1)
