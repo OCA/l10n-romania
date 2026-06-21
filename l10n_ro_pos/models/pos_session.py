@@ -18,14 +18,16 @@ class PosSession(models.Model):
     def _accumulate_amounts(self, data):
         data = super()._accumulate_amounts(data)
         if self.company_id.l10n_ro_accounting:
-            amounts = {"amount": 0.0, "amount_converted": 0.0}
             # nu trebuie generate note contabile
-            # pentru ca acestea sunt generate in miscarea de stoc
+            # pentru ca acestea sunt generate in miscarea de stoc.
+            # In Odoo 19 cheile sunt dict-uri grupate pe cont (defaultdict),
+            # consumate cu .items() => fiecare valoare trebuie sa fie un dict
+            # {amount, amount_converted}. Le golim ca sa nu se genereze linii.
             data.update(
                 {
-                    "stock_expense": amounts,
-                    "stock_return": amounts,
-                    "stock_output": amounts,
+                    "stock_expense": {},
+                    "stock_return": {},
+                    "stock_output": {},
                 }
             )
         return data
