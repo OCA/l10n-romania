@@ -174,19 +174,16 @@ class TestReportPoSOrder(CommonPosTest):
             data,
             "Trebuie să existe cheile pentru stoc în datele acumulate",
         )
-        # All amounts related to stock should be 0.0 since no accounting entries
-        # are generated for stock in l10n_ro_accounting:
-        # amounts = {"amount": 0.0, "amount_converted": 0.0}
+        # Cheile de stoc trebuie să fie dict-uri goale, deoarece nu se generează
+        # note contabile pentru stoc în l10n_ro_accounting (sunt generate în
+        # mișcarea de stoc). În Odoo 19 aceste structuri sunt grupate pe cont și
+        # consumate cu .items() la închiderea sesiunii — fiecare valoare ar fi
+        # trebuit să fie un dict {amount, amount_converted}, deci golirea lor
+        # previne generarea liniilor (și TypeError-ul de la iterare).
         for key in ["stock_expense", "stock_return", "stock_output"]:
             self.assertEqual(
-                data[key]["amount"],
-                0.0,
-                f"Suma pentru {key} ar trebui să fie 0.0 deoarece nu se generează \
+                data[key],
+                {},
+                f"Cheia {key} ar trebui să fie goală deoarece nu se generează \
                 note contabile pentru stoc",
-            )
-            self.assertEqual(
-                data[key]["amount_converted"],
-                0.0,
-                f"Suma convertită pentru {key} ar trebui să fie 0.0 deoarece nu se \
-                generează note contabile pentru stoc",
             )
