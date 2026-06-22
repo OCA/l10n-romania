@@ -6,7 +6,7 @@
     "summary": "Creates a rule for vat and nrc unique for partners.",
     "depends": ["l10n_ro_config"],
     "license": "AGPL-3",
-    "version": "19.0.0.3.0",
+    "version": "19.0.0.4.0",
     "author": "NextERP Romania,"
     "Forest and Biomass Romania,"
     "Odoo Community Association (OCA)",
