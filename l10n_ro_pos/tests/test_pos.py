@@ -174,13 +174,23 @@ class TestReportPoSOrder(CommonPosTest):
             data,
             "Trebuie să existe cheile pentru stoc în datele acumulate",
         )
+        self.assertIn(
+            "stock_valuation",
+            data,
+            "Trebuie să existe cheile pentru stoc în datele acumulate",
+        )
         # Cheile de stoc trebuie să fie dict-uri goale, deoarece nu se generează
         # note contabile pentru stoc în l10n_ro_accounting (sunt generate în
         # mișcarea de stoc). În Odoo 19 aceste structuri sunt grupate pe cont și
         # consumate cu .items() la închiderea sesiunii — fiecare valoare ar fi
         # trebuit să fie un dict {amount, amount_converted}, deci golirea lor
         # previne generarea liniilor (și TypeError-ul de la iterare).
-        for key in ["stock_expense", "stock_return", "stock_output"]:
+        #
+        # "stock_valuation" trebuie golit explicit: e consumat separat de core în
+        # _create_stock_valuation_lines, iar dacă rămâne populat generează o linie
+        # de valorizare fără contrapartidă (stock_output e golit) => notă de
+        # închidere dezechilibrată cu costul mărfii comenzilor nefacturate.
+        for key in ["stock_expense", "stock_return", "stock_output", "stock_valuation"]:
             self.assertEqual(
                 data[key],
                 {},
