@@ -91,9 +91,9 @@ class StockValuationLayer(models.Model):
                 not svl.l10n_ro_valued_type or "internal" not in svl.l10n_ro_valued_type
             ):
                 for aml in svl.account_move_id.line_ids.sorted(
-                    lambda layer: layer.account_id.code
+                    lambda layer: layer.account_id.code or ""
                 ):
-                    if aml.account_id.code[0] in ["2", "3"]:
+                    if aml.account_id.code and aml.account_id.code[0] in ["2", "3"]:
                         if round(aml.balance, 2) == round(svl.value, 2):
                             account = aml.account_id
                             break
