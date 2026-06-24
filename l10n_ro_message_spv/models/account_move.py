@@ -70,6 +70,15 @@ class AccountMove(models.Model):
         attachments += message_spv_ids.mapped("attachment_anaf_pdf_id")
         attachments += message_spv_ids.mapped("attachment_embedded_pdf_id")
         attachments.sudo().write({"res_id": False, "res_model": False})
+        # Facturile venite din SPV primesc un document l10n_ro_edi.document
+        # (vezi message_spv._confirm), al cărui invoice_id e required => ondelete
+        # restrict. El blocheaza stergerea facturii (ex. achizitie anulata adusa
+        # automat din SPV). Documentul e sintetic, creat doar pentru controlul
+        # dedup-ului; urma reala SPV ramane pe l10n.ro.message.spv + atasamente.
+        # Il curatam doar pentru facturile cu origine SPV, ca sa nu atingem
+        # documentele-audit ale facturilor proprii trimise la e-Factura.
+        spv_moves = self.filtered(lambda m: m.l10n_ro_message_spv_ids)
+        spv_moves.l10n_ro_edi_document_ids.sudo().unlink()
         return super().unlink()
 
     # def _get_edi_decoder(self, file_data, new=False):
