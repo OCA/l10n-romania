@@ -100,9 +100,9 @@ class StockMove(models.Model):
             if move.account_move_id and "internal" not in move.l10n_ro_move_type:
                 for account_move in move.account_move_id:
                     for aml in account_move.line_ids.sorted(
-                        lambda line: line.account_id.code
+                        lambda line: line.account_id.code or ""
                     ):
-                        if aml.account_id.code[0] in ["2", "3"]:
+                        if aml.account_id.code and aml.account_id.code[0] in ["2", "3"]:
                             if round(aml.balance, 2) == round(move.value, 2):
                                 account = aml.account_id
                                 break
