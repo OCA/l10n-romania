@@ -141,11 +141,25 @@ class TestMessageSPV(TestMessageSPV):
         )
         message_spv.write({"invoice_id": invoice.id})
 
+        # Facturile primite din SPV primesc un l10n_ro_edi.document (vezi
+        # message_spv._confirm). invoice_id e required => ondelete restrict, deci
+        # documentul ar bloca stergerea facturii daca nu l-am curata in unlink.
+        edi_document = self.env["l10n_ro_edi.document"].create(
+            {
+                "invoice_id": invoice.id,
+                "state": "invoice_validated",
+            }
+        )
+
         # Verificăm că mesajul SPV este asociat cu factura
         self.assertEqual(invoice.l10n_ro_message_spv_ids[0].id, message_spv.id)
+        self.assertEqual(invoice.l10n_ro_edi_document_ids[0].id, edi_document.id)
 
-        # Ștergem factura
+        # Ștergem factura (nu trebuie să fie blocată de documentul EDI)
         invoice.unlink()
+
+        # Documentul EDI sintetic a fost curățat odată cu factura
+        self.assertFalse(edi_document.exists())
 
         # Verificăm că atașamentul nu mai este asociat cu niciun model/înregistrare
         self.assertFalse(attachment.res_id)
