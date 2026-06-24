@@ -100,7 +100,7 @@ class MT940Parser(models.AbstractModel):
         tag 86. The text is unstructured Romanian narrative; we look for
         a trailing company suffix (SRL, SA, PFA, etc.)."""
         m = re.search(
-            r"(?P<name>[A-ZĂÂÎȘȚ][\wĂÂÎȘȚăâîșț\.\- ]+?\s+(?:SRL|S\.R\.L\.|SA|S\.A\.|PFA|SNC))",  # noqa: E501
+            r"(?P<name>[A-ZĂÂÎȘȚ][\wĂÂÎȘȚăâîșț\.\- ]+?\s+(?:S\.?\s*R\.?\s*L\.?|S\.?\s*A\.?|PFA|SNC))",  # noqa: E501
             text,
         )
         if m:
