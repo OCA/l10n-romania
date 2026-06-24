@@ -165,6 +165,34 @@ class TestMessageSPV(TestMessageSPV):
         self.assertFalse(attachment.res_id)
         self.assertFalse(attachment.res_model)
 
+    def test_unlink_cancelled_spv_bill(self):
+        """Factura de achiziție anulată adusă din SPV (cazul raportat) se poate
+        șterge chiar dacă are document EDI atașat."""
+        message_spv = self.env["l10n.ro.message.spv"].create(
+            {
+                "name": "3006372782",
+                "company_id": self.env.company.id,
+                "message_type": "in_invoice",
+                "cif": "8486152",
+            }
+        )
+        invoice = self.env["account.move"].create(
+            {
+                "move_type": "in_invoice",
+                "partner_id": self.vendor.id,
+            }
+        )
+        invoice.button_cancel()
+        self.assertEqual(invoice.state, "cancel")
+        message_spv.write({"invoice_id": invoice.id})
+        edi_document = self.env["l10n_ro_edi.document"].create(
+            {"invoice_id": invoice.id, "state": "invoice_validated"}
+        )
+
+        invoice.unlink()
+
+        self.assertFalse(edi_document.exists())
+
     def test_edi_transaction_tracking(self):
         """Testează câmpurile de urmărire a tranzacțiilor EDI"""
         # Creăm o factură
