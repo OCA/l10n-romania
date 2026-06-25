@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <template
+        id="pos_session_sales_details"
+        inherit_id="point_of_sale.pos_session_sales_details"
+    >
+        <!-- Rand categorie (Sales + Refunds): celule goale ca sa pastram alinierea coloanelor -->
+        <xpath expr="//tr[@t-as='category']" position="inside">
+            <td class="fw-bold" />
+            <td class="text-end fw-bold" />
+        </xpath>
+
+        <!-- Rand produs (Sales + Refunds): cost unitar din stoc + valoare stoc -->
+        <xpath expr="//tr[@t-as='line']" position="inside">
+            <td class="text-end">
+                <span
+                    t-out="line.get('stock_price', 0.0)"
+                    t-options="{'widget': 'float', 'precision': currency['precision']}"
+                >0.00</span>
+            </td>
+            <td class="text-end">
+                <span
+                    t-out="line.get('stock_amount', 0.0)"
+                    t-options="{'widget': 'float', 'precision': currency['precision']}"
+                >0.00</span>
+            </td>
+        </xpath>
+
+        <!-- Rand Total (sectiunea Sales): valoarea totala de stoc -->
+        <xpath
+            expr="//tr[td/strong/span[@t-out=&quot;products_info['qty']&quot;]]"
+            position="inside"
+        >
+            <td />
+            <td class="text-end">
+                <strong>
+                    <span
+                        t-out="total_stock_amount"
+                        t-options="{'widget': 'float', 'precision': currency['precision']}"
+                    >0.00</span>
+                </strong>
+            </td>
+        </xpath>
+    </template>
+</odoo>
