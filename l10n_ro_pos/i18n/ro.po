@@ -27,12 +27,14 @@ msgstr "Nu se poate face o vânzare cu numerar mai mare de 10.000 lei."
 #. module: l10n_ro_pos
 #: model:ir.model.fields,field_description:l10n_ro_pos.field_pos_order__display_name
 #: model:ir.model.fields,field_description:l10n_ro_pos.field_pos_session__display_name
+#: model:ir.model.fields,field_description:l10n_ro_pos.field_report_point_of_sale_report_saledetails__display_name
 msgid "Display Name"
 msgstr "Nume afișat"
 
 #. module: l10n_ro_pos
 #: model:ir.model.fields,field_description:l10n_ro_pos.field_pos_order__id
 #: model:ir.model.fields,field_description:l10n_ro_pos.field_pos_session__id
+#: model:ir.model.fields,field_description:l10n_ro_pos.field_report_point_of_sale_report_saledetails__id
 msgid "ID"
 msgstr ""
 
@@ -40,6 +42,11 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_ro_pos.field_pos_order__is_l10n_ro_record
 msgid "Is Romanian Record"
 msgstr ""
+
+#. module: l10n_ro_pos
+#: model:ir.model,name:l10n_ro_pos.model_report_point_of_sale_report_saledetails
+msgid "Point of Sale Details"
+msgstr "Detalii Punct de Vânzare"
 
 #. module: l10n_ro_pos
 #: model:ir.model,name:l10n_ro_pos.model_pos_order
@@ -59,9 +66,6 @@ msgstr "Vânzare doar către persoane fizice."
 
 #~ msgid "<strong>Totals</strong>"
 #~ msgstr "<strong>Totaluri</strong>"
-
-#~ msgid "Point of Sale Details"
-#~ msgstr "Detalii Punct de Vânzare"
 
 #~ msgid "Point of Sale Invoice Report"
 #~ msgstr "Raport Facturi Punct de Vânzare"
