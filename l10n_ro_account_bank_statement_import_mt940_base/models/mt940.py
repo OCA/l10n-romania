@@ -82,7 +82,7 @@ class MT940Parser(models.AbstractModel):
 
     def is_mt940(self, line):
         """determine if a line is the header of a statement"""
-        if not bool(re.match(self.get_header_regex(), line)):
+        if not bool(re.search(self.get_header_regex(), line)):
             return False
         return True
 
