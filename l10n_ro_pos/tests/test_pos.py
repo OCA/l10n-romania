@@ -115,6 +115,91 @@ class TestReportPoSOrder(CommonPosTest):
             "Referința facturii trebuie să fie aceeași cu referința comenzii POS",
         )
 
+    def test_sale_details_stock_columns(self):
+        """Raportul Sale Details injecteaza cost unitar / valoare de stoc per produs."""
+        report = self.env["report.point_of_sale.report_saledetails"]
+
+        # Smoke: structura noua O19 + cheia de total, fara comenzi
+        res = report.get_sale_details()
+        self.assertIn("total_stock_amount", res)
+        self.assertIsInstance(res.get("products"), list)
+
+        # Seedam stoc (receptie 10 buc @ cost 60), ca iesirea sa fie valorizata
+        # si sa nu cadem pe constraintul de stoc negativ.
+        warehouse = self.company_data["default_warehouse"]
+        stock_location = warehouse.lot_stock_id
+        supplier_location = self.env.ref("stock.stock_location_suppliers")
+        receipt = self.env["stock.move"].create(
+            {
+                "product_id": self.product_a.id,
+                "product_uom": self.product_a.uom_id.id,
+                "product_uom_qty": 10.0,
+                "location_id": supplier_location.id,
+                "location_dest_id": stock_location.id,
+                "price_unit": 60.0,
+            }
+        )
+        receipt._action_confirm()
+        receipt._action_assign()
+        receipt.move_line_ids.quantity = 10.0
+        receipt.picked = True
+        receipt._action_done()
+
+        # Scenariu real: o comanda POS cu un produs cu cost
+        self.pos_config_usd.open_ui()
+        session = self.pos_config_usd.current_session_id
+        order_data = {
+            "amount_paid": 100.0,
+            "amount_return": 0,
+            "amount_tax": 0,
+            "amount_total": 100.0,
+            "date_order": "2024-01-01 10:00:00",
+            "name": "Order SD01",
+            "partner_id": self.ro_partner.id,
+            "session_id": session.id,
+            "lines": [
+                Command.create(
+                    {
+                        "product_id": self.product_a.id,
+                        "price_unit": 100.0,
+                        "qty": 2,
+                        "price_subtotal": 200.0,
+                        "price_subtotal_incl": 200.0,
+                    }
+                )
+            ],
+            "payment_ids": [
+                Command.create(
+                    {
+                        "amount": 100.0,
+                        "payment_method_id": self.cash_payment_method.id,
+                    }
+                )
+            ],
+            "uuid": "SD01",
+        }
+        self.env["pos.order"].sync_from_ui([order_data])
+
+        res = report.get_sale_details(session_ids=[session.id])
+        # Gasim linia produsului in structura grupata pe categorii
+        line = None
+        for category in res.get("products", []):
+            for product_line in category.get("products", []):
+                if product_line.get("product_id") == self.product_a.id:
+                    line = product_line
+                    break
+        self.assertIsNotNone(line, "Produsul vandut trebuie sa apara in raport")
+        # Cheile de stoc trebuie injectate pe fiecare linie
+        self.assertIn("stock_price", line)
+        self.assertIn("stock_amount", line)
+        # Cost mediu unitar din valorizarea miscarii de iesire (FIFO, receptie @ 60)
+        self.assertGreater(line["stock_price"], 0.0)
+        # stock_amount = cost unitar * cantitate vanduta
+        self.assertAlmostEqual(
+            line["stock_amount"], line["stock_price"] * line["quantity"], places=2
+        )
+        self.assertGreater(res["total_stock_amount"], 0.0)
+
     def test_session_accumulate_amounts(self):
         """Test that the amounts are accumulated correctly in the session."""
         self.pos_config_usd.open_ui()
