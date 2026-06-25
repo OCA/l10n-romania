@@ -77,13 +77,20 @@ class StockValuationLayer(models.Model):
                 or svl.product_id.categ_id.property_stock_valuation_account_id
             )
             if svl.product_id.categ_id.l10n_ro_stock_account_change:
+                # Pick the source/destination valuation account based on the
+                # quantity sign, not the value sign. A zero-value move (e.g. a
+                # 100% discounted / free product) has value == 0 on every layer,
+                # so keying on ``value`` leaves both the out-leg and the in-leg
+                # on the category default account, breaking the per-account stock
+                # card (residual quantity on both warehouses). The quantity sign
+                # always reflects the leg direction, including for value == 0.
                 if (
-                    svl.value > 0
+                    svl.quantity > 0
                     and loc_dest.l10n_ro_property_stock_valuation_account_id
                 ):
                     account = loc_dest.l10n_ro_property_stock_valuation_account_id
                 if (
-                    svl.value < 0
+                    svl.quantity < 0
                     and loc_scr.l10n_ro_property_stock_valuation_account_id
                 ):
                     account = loc_scr.l10n_ro_property_stock_valuation_account_id
