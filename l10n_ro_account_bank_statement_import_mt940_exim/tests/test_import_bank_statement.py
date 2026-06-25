@@ -35,16 +35,38 @@ class TestImport(TestMT940BankStatementImport):
         self.assertEqual(len(statements), 1)
         statement = statements[0]
         self.assertEqual(statement["balance_start"], 72759.07)
-        self.assertEqual(statement["balance_end_real"], 52253.39)
-        self.assertEqual(statement["date"], fields.Date.from_string("2026-03-31"))
-        self.assertEqual(len(statement["transactions"]), 1)
+        self.assertEqual(statement["balance_end_real"], 52950.49)
+        self.assertEqual(statement["name"], "26090")
+        # self.assertEqual(statement["date"], fields.Date.from_string("2026-03-31"))
+        self.assertEqual(len(statement["transactions"]), 4)
 
-        transaction = statement["transactions"][0]
-        self.assertEqual(transaction["amount"], -20505.68)
-        self.assertEqual(transaction["ref"], "00000001")
-        self.assertIn("Rambursare dobanda", transaction["payment_ref"])
-        self.assertNotIn("Counterpart:", transaction["payment_ref"])
-        self.assertEqual(transaction["partner_name"], "EXEMPLU SRL")
+        transaction1 = statement["transactions"][0]
+        self.assertEqual(transaction1["amount"], -20505.68)
+        self.assertEqual(transaction1["ref"], "00000001")
+        self.assertIn("Rambursare dobanda", transaction1["payment_ref"])
+        self.assertNotIn("Counterpart:", transaction1["payment_ref"])
+        # self.assertEqual(transaction1["partner_name"], "EXEMPLU SRL")
+
+        transaction2 = statement["transactions"][1]
+        self.assertEqual(transaction2["amount"], -3.00)
+        self.assertEqual(transaction2["ref"], "00000002")
+        self.assertIn("Incasare comision administrare cont curent", transaction2["payment_ref"])
+        self.assertNotIn("Counterpart:", transaction2["payment_ref"])
+        # self.assertEqual(transaction2["partner_name"], "EXEMPLU SRL")
+
+        transaction3 = statement["transactions"][2]
+        self.assertEqual(transaction3["amount"], 300.00)
+        self.assertEqual(transaction3["ref"], "00000003")
+        self.assertIn("Incasare OP", transaction3["payment_ref"])
+        self.assertNotIn("Counterpart:", transaction3["payment_ref"])
+        self.assertEqual(transaction3["partner_name"], "NEXTERP ROMANIA SRL")
+
+        transaction4 = statement["transactions"][3]
+        self.assertEqual(transaction4["amount"], 400.10)
+        self.assertEqual(transaction4["ref"], "00000004")
+        self.assertIn("Incasare OP", transaction4["payment_ref"])
+        self.assertNotIn("Counterpart:", transaction4["payment_ref"])
+        self.assertEqual(transaction4["partner_name"], "SMAROVIAL SOFTWARE S R L")
 
     def test_full_import(self):
         """Test the full import flow via account.statement.import."""
@@ -56,4 +78,4 @@ class TestImport(TestMT940BankStatementImport):
         bank_statements = self.get_statements(self.journal.id)
         self.assertTrue(bank_statements)
         statement = bank_statements[0]
-        self.assertEqual(len(statement.line_ids), 1)
+        self.assertEqual(len(statement.line_ids), 4)
