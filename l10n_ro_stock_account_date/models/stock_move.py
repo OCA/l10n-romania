@@ -45,11 +45,11 @@ class StockMove(models.Model):
             last_posting_date = now
 
         if isinstance(first_posting_date, datetime):
-            first_posting_date = first_posting_date.date()
+            first_posting_date = first_posting_date
         if isinstance(last_posting_date, datetime):
-            last_posting_date = last_posting_date.date()
+            last_posting_date = last_posting_date
         if isinstance(new_date, datetime):
-            new_date = new_date.date()
+            new_date = new_date
 
         if first_posting_date and last_posting_date:
             if not (first_posting_date <= new_date <= last_posting_date):
