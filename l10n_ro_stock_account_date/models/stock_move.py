@@ -16,7 +16,7 @@ class StockMove(models.Model):
     def l10n_ro_get_move_date(self):
         self.ensure_one()
         new_date = self._context.get("force_period_date")
-        now = fields.Date.today()
+        now = fields.Datetime.now()
         if not new_date:
             if self.picking_id:
                 if self.picking_id.l10n_ro_accounting_date:
