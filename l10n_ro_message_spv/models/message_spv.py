@@ -61,6 +61,8 @@ class MessageSPV(models.Model):
         ],
         default="draft",
     )
+    download_attempts = fields.Integer(default=0)
+    last_download_date = fields.Date()
     file_name = fields.Char()
     attachment_id = fields.Many2one("ir.attachment", string="Attachment")
     attachment_xml_id = fields.Many2one("ir.attachment", string="XML")
@@ -98,13 +100,24 @@ class MessageSPV(models.Model):
         session = requests.Session()
 
         for message in self.filtered(lambda m: not m.attachment_id):
-            # anaf_config = message.company_id.sudo()._l10n_ro_get_anaf_sync(
-            #     scope="e-factura"
-            # )
-            # if not anaf_config:
-            #     raise UserError(_("ANAF configuration is missing."))
+            today = fields.Date.today()
+            # La o redescărcare manuală a unui mesaj căzut în eroare repornim
+            # contorul de încercări de la zero.
+            if message.state == "error":
+                message.write(
+                    {
+                        "state": "draft",
+                        "download_attempts": 0,
+                        "last_download_date": False,
+                    }
+                )
 
-            # params = {"id": message.name}
+            # Numărăm încercările pe zi: dacă ultima descărcare a fost într-o zi
+            # anterioară, repornim contorul la 1.
+            attempts = message.download_attempts + 1
+            if message.last_download_date != today:
+                attempts = 1
+            message.write({"download_attempts": attempts, "last_download_date": today})
 
             response = self.env["l10n_ro_edi.document"]._request_ciusro_download_zip(
                 company=message.company_id,
@@ -115,11 +128,15 @@ class MessageSPV(models.Model):
             error = response.get("error", "")
 
             if error:
-                # Marcăm mesajul ca eroare ca să nu fie reselectat la infinit de
-                # cron (domeniul exclude state="error"). ANAF limitează la 10
-                # descărcări/zi pe mesaj; reîncercarea oarbă doar epuizează cota
-                # și spamează logul. Re-descărcarea se face manual de pe mesaj.
-                message.write({"error": str(error), "state": "error"})
+                # ANAF limitează la 10 descărcări/zi pe mesaj. Reîncercarea oarbă
+                # doar epuizează cota și spamează logul, așa că marcăm mesajul ca
+                # eroare după 3 încercări într-o zi - domeniul cron-ului exclude
+                # state="error", deci nu mai e reselectat în aceeași zi. Resetul
+                # zilnic error→draft din res.company îl readuce în coadă a doua zi.
+                vals = {"error": str(error)}
+                if message.download_attempts >= 3:
+                    vals["state"] = "error"
+                message.write(vals)
                 continue
             if message.message_type == "message":
                 info_message = message.check_anaf_message_xml(response["content"])
