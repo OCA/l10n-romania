@@ -29,18 +29,57 @@ class ResCompany(models.Model):
 
         need_retrigger = False
         for company in ro_companies:
+            # Resetăm la draft mesajele căzute în eroare în zilele trecute, ca să
+            # fie reîncercate (cota ANAF de 10 descărcări/zi/mesaj se reînnoiește).
+            error_messages_from_past = company.env["l10n.ro.message.spv"].search(
+                [
+                    ("company_id", "=", company.id),
+                    ("attachment_id", "=", False),
+                    ("state", "=", "error"),
+                    ("last_download_date", "<", fields.Date.today()),
+                ]
+            )
+            if error_messages_from_past:
+                error_messages_from_past.write(
+                    {"state": "draft", "download_attempts": 0}
+                )
+
+            # Procesăm mesajele în starea draft (state="error" rămâne exclus,
+            # deci un mesaj epuizat în ziua curentă nu mai e reselectat).
             domain = [
                 ("company_id", "=", company.id),
                 ("attachment_id", "=", False),
-                ("state", "!=", "error"),
+                ("state", "=", "draft"),
             ]
             messages = company.env["l10n.ro.message.spv"].search(
                 domain, limit=limit + 1
             )
             if len(messages) > limit:
                 need_retrigger = True
-                messages = messages[:limit]
-            messages.download_from_spv()
+
+            # Procesăm fiecare mesaj individual ca o eroare la unul să nu
+            # blocheze descărcarea celorlalte.
+            for message in messages[:limit]:
+                try:
+                    message.download_from_spv()
+                except Exception as e:  # pragma: no cover - protecție runtime
+                    _logger.exception(
+                        "Eroare la descărcarea ZIP pentru mesajul %s (compania %s)",
+                        message.name,
+                        company.id,
+                    )
+                    today = fields.Date.today()
+                    attempts = message.download_attempts + 1
+                    if message.last_download_date != today:
+                        attempts = 1
+                    message.sudo().write(
+                        {
+                            "state": "error",
+                            "error": str(e),
+                            "download_attempts": attempts,
+                            "last_download_date": today,
+                        }
+                    )
 
         if need_retrigger:
             self.env.ref(

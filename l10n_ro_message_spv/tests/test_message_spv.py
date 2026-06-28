@@ -6,8 +6,10 @@ import json
 import zipfile
 from unittest.mock import patch
 
+from dateutil.relativedelta import relativedelta
 from lxml import etree
 
+from odoo import fields
 from odoo.tests import tagged
 from odoo.tools.misc import file_path
 
@@ -80,6 +82,126 @@ class TestMessageSPV(TestMessageSPV):
         ):
             message_spv.download_from_spv()
             self.assertEqual(message_spv.error, "Invalid token")
+
+    def test_download_attempts_limit(self):
+        """Testează limitarea la 3 încercări de descărcare și trecerea
+        în starea de eroare"""
+        message_spv = self.env["l10n.ro.message.spv"].create(
+            {
+                "name": "TEST_LIMIT",
+                "company_id": self.env.company.id,
+                "message_type": "in_invoice",
+            }
+        )
+
+        # Simulăm un răspuns cu eroare de la ANAF
+        error_response = {"error": "Limita de descărcări atinsă"}
+
+        with patch(
+            "odoo.addons.l10n_ro_message_spv.models.ciusro_document.make_efactura_request",
+            return_value=error_response,
+        ):
+            # Prima încercare
+            message_spv.download_from_spv()
+            self.assertEqual(message_spv.download_attempts, 1)
+            self.assertEqual(message_spv.state, "draft")
+
+            # A doua încercare
+            message_spv.download_from_spv()
+            self.assertEqual(message_spv.download_attempts, 2)
+            self.assertEqual(message_spv.state, "draft")
+
+            # A treia încercare -> starea devine eroare
+            message_spv.download_from_spv()
+            self.assertEqual(message_spv.download_attempts, 3)
+            self.assertEqual(message_spv.state, "error")
+
+    def test_download_attempts_daily_reset(self):
+        """Testează resetarea încercărilor de descărcare la schimbarea zilei"""
+        yesterday = fields.Date.today() - relativedelta(days=1)
+        message_spv = self.env["l10n.ro.message.spv"].create(
+            {
+                "name": "TEST_RESET",
+                "company_id": self.env.company.id,
+                "message_type": "in_invoice",
+                "download_attempts": 2,
+                "last_download_date": yesterday,
+            }
+        )
+
+        # Simulăm un răspuns cu eroare
+        error_response = {"error": "Eroare temporară"}
+
+        with patch(
+            "odoo.addons.l10n_ro_message_spv.models.ciusro_document.make_efactura_request",
+            return_value=error_response,
+        ):
+            # Descărcarea astăzi ar trebui să reseteze încercările la 1
+            message_spv.download_from_spv()
+            self.assertEqual(message_spv.download_attempts, 1)
+            self.assertEqual(message_spv.last_download_date, fields.Date.today())
+
+    def test_cron_error_persistence_with_rollback(self):
+        """Testează dacă download_attempts este salvat de cron chiar
+        și în caz de excepție Python"""
+        message_spv = self.env["l10n.ro.message.spv"].create(
+            {
+                "name": "TEST_ROLLBACK",
+                "company_id": self.env.company.id,
+                "state": "draft",
+                "download_attempts": 0,
+            }
+        )
+
+        # Forțăm o excepție în timpul download_from_spv pentru a verifica
+        # că eroarea este capturată și persistată de cron.
+        with self.assertLogs(
+            "odoo.addons.l10n_ro_message_spv.models.res_company", level="ERROR"
+        ) as cm:
+            with patch.object(
+                type(self.env["l10n.ro.message.spv"]),
+                "download_from_spv",
+                side_effect=Exception("Crash!"),
+            ):
+                self.env.company.l10n_ro_download_zip_message_spv(limit=1)
+
+            self.assertTrue(
+                any("Eroare la descărcarea ZIP" in log for log in cm.output)
+            )
+
+        # În ciuda crash-ului, cron-ul a salvat eroarea și a incrementat încercările
+        message_spv.invalidate_recordset()
+        self.assertEqual(message_spv.state, "error")
+        self.assertEqual(message_spv.download_attempts, 1)
+        self.assertIn("Crash!", message_spv.error)
+
+    def test_cron_daily_reset_error_to_draft(self):
+        """Testează resetul zilnic error→draft din cron pentru mesajele
+        căzute în eroare în zilele trecute"""
+        yesterday = fields.Date.today() - relativedelta(days=1)
+        message_spv = self.env["l10n.ro.message.spv"].create(
+            {
+                "name": "TEST_DAILY_RESET",
+                "company_id": self.env.company.id,
+                "message_type": "in_invoice",
+                "state": "error",
+                "download_attempts": 3,
+                "last_download_date": yesterday,
+            }
+        )
+
+        file_invoice = file_path("l10n_ro_message_spv/tests/invoice.zip")
+        zip_content = {"content": open(file_invoice, "rb").read()}
+        with patch(
+            "odoo.addons.l10n_ro_message_spv.models.ciusro_document.make_efactura_request",
+            return_value=zip_content,
+        ):
+            self.env.company.l10n_ro_download_zip_message_spv(limit=5)
+
+        # Mesajul a fost readus în coadă, descărcat și contorul reluat de la 1
+        self.assertEqual(message_spv.state, "downloaded")
+        self.assertTrue(message_spv.attachment_id)
+        self.assertEqual(message_spv.download_attempts, 1)
 
     def test_download_from_spv(self):
         # test descarcare zip from SPV
