@@ -31,7 +31,7 @@ class MT940Parser(models.AbstractModel):
                 r"(?P<reference>\w+)\s*//\s*(?P<bank_ref>\d+)\s*(?P<info>.*)"
             )
         return super().get_tag_61_regex()
-    
+
     def handle_tag_28C(self, data, result):
         if result["statement"] and self.get_mt940_type() == "mt940_ro_exim":
             if result["statement"]["name"]:
@@ -50,7 +50,9 @@ class MT940Parser(models.AbstractModel):
             parsed_data = re_61.groupdict()
             result["statement"]["transactions"].append({})
             transaction = result["statement"]["transactions"][-1]
-            transaction["date"] = datetime.strptime(parsed_data["date"], "%y%m%d").date()
+            transaction["date"] = datetime.strptime(
+                parsed_data["date"], "%y%m%d"
+            ).date()
             transaction["amount"] = self.parse_amount(
                 parsed_data["sign"], parsed_data["amount"]
             )
@@ -118,7 +120,7 @@ class MT940Parser(models.AbstractModel):
         if m:
             return m.group("name").strip()
         return False
-    
+
     def _extract_exim_partner_cif(self, data):
         # Structured format: /PARTNER NAME/CIF / — CIF is 5–9 digits followed by
         # a space and then a slash, which distinguishes it from OP references

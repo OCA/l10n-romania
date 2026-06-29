@@ -1,7 +1,6 @@
 # Copyright (C) 2026 NextERP Romania
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
-from odoo import fields
 from odoo.tests import tagged
 from odoo.tools.misc import file_path
 
@@ -50,7 +49,9 @@ class TestImport(TestMT940BankStatementImport):
         transaction2 = statement["transactions"][1]
         self.assertEqual(transaction2["amount"], -3.00)
         self.assertEqual(transaction2["ref"], "00000002")
-        self.assertIn("Incasare comision administrare cont curent", transaction2["payment_ref"])
+        self.assertIn(
+            "Incasare comision administrare cont curent", transaction2["payment_ref"]
+        )
         self.assertNotIn("Counterpart:", transaction2["payment_ref"])
         # self.assertEqual(transaction2["partner_name"], "EXEMPLU SRL")
 
