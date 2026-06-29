@@ -58,7 +58,9 @@ class MT940Parser(models.AbstractModel):
             parsed_data = re_61.groupdict()
             result["statement"]["transactions"].append({})
             transaction = result["statement"]["transactions"][-1]
-            transaction["date"] = datetime.strptime(parsed_data["date"], "%y%m%d").date()
+            transaction["date"] = datetime.strptime(
+                parsed_data["date"], "%y%m%d"
+            ).date()
             transaction["amount"] = self.parse_amount(
                 parsed_data["sign"], parsed_data["amount"]
             )
@@ -143,13 +145,13 @@ class MT940Parser(models.AbstractModel):
         if m:
             return m.group("name").strip()
         return False
-    
+
     def _extract_bt_partner_cif(self, data):
         m = re.search(r"C\.I\.F\.?:?\s*(?P<cif>\d{5,})", data)
         if m:
             return m.group("cif").strip()
         return False
-    
+
     def _extract_bt_partner_bank_account(self, data):
         m = re.search(r"(?P<iban>[A-Z]{2}\d{2}[A-Z0-9]{10,30})", data)
         if m:

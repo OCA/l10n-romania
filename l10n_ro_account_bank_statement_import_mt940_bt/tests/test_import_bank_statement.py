@@ -1,7 +1,6 @@
 # Copyright (C) 2026 NextERP Romania
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
-from odoo import fields
 from odoo.tests import tagged
 from odoo.tools.misc import file_path
 
@@ -158,7 +157,8 @@ class TestImport(TestMT940BankStatementImport):
         )
 
     def test_full_import_bt940(self):
-        """Test the full import flow via account.statement.import for test_bt_940.txt."""
+        """Test the full import flow via
+        account.statement.import for test_bt_940.txt."""
         testfile = file_path(
             "l10n_ro_account_bank_statement_import_mt940_bt/test_files/test_bt_940.txt",
         )
