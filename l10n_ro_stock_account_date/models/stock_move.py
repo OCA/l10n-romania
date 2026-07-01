@@ -16,7 +16,7 @@ class StockMove(models.Model):
     def l10n_ro_get_move_date(self):
         self.ensure_one()
         new_date = self._context.get("force_period_date")
-        now = fields.Date.today()
+        now = fields.Datetime.now()
         if not new_date:
             if self.picking_id:
                 if self.picking_id.l10n_ro_accounting_date:
@@ -44,15 +44,19 @@ class StockMove(models.Model):
         if restrict_date_future:
             last_posting_date = now
 
-        if isinstance(first_posting_date, datetime):
-            first_posting_date = first_posting_date.date()
-        if isinstance(last_posting_date, datetime):
-            last_posting_date = last_posting_date.date()
-        if isinstance(new_date, datetime):
-            new_date = new_date.date()
-
         if first_posting_date and last_posting_date:
-            if not (first_posting_date <= new_date <= last_posting_date):
+            check_date = new_date.date() if isinstance(new_date, datetime) else new_date
+            fp = (
+                first_posting_date.date()
+                if isinstance(first_posting_date, datetime)
+                else first_posting_date
+            )
+            lp = (
+                last_posting_date.date()
+                if isinstance(last_posting_date, datetime)
+                else last_posting_date
+            )
+            if not (fp <= check_date <= lp):
                 raise UserError(
                     _(
                         f"Cannot validate stock move due to date restriction."
