@@ -44,15 +44,19 @@ class StockMove(models.Model):
         if restrict_date_future:
             last_posting_date = now
 
-        if isinstance(first_posting_date, datetime):
-            first_posting_date = first_posting_date
-        if isinstance(last_posting_date, datetime):
-            last_posting_date = last_posting_date
-        if isinstance(new_date, datetime):
-            new_date = new_date
-
         if first_posting_date and last_posting_date:
-            if not (first_posting_date <= new_date <= last_posting_date):
+            check_date = new_date.date() if isinstance(new_date, datetime) else new_date
+            fp = (
+                first_posting_date.date()
+                if isinstance(first_posting_date, datetime)
+                else first_posting_date
+            )
+            lp = (
+                last_posting_date.date()
+                if isinstance(last_posting_date, datetime)
+                else last_posting_date
+            )
+            if not (fp <= check_date <= lp):
                 raise UserError(
                     _(
                         f"Cannot validate stock move due to date restriction."
