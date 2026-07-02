@@ -4,16 +4,33 @@
 import io
 import json
 import zipfile
-from unittest.mock import patch
+from unittest.mock import MagicMock, patch
 
 from dateutil.relativedelta import relativedelta
 from lxml import etree
 
 from odoo import fields
+from odoo.exceptions import UserError
 from odoo.tests import tagged
 from odoo.tools.misc import file_path
 
 from .common import TestMessageSPV
+
+EMBEDDED_PDF_XML = b"""<?xml version="1.0" encoding="UTF-8"?>
+<Invoice xmlns="urn:oasis:names:specification:ubl:schema:xsd:Invoice-2"
+    xmlns:cac="urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2"
+    xmlns:cbc="urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2">
+    <cbc:ID>TESTEMB</cbc:ID>
+    <cac:AdditionalDocumentReference>
+        <cbc:ID>embedded.pdf</cbc:ID>
+        <cac:Attachment>
+            <cbc:EmbeddedDocumentBinaryObject
+                mimeCode="application/pdf"
+            >JVBERi10ZXN0</cbc:EmbeddedDocumentBinaryObject>
+        </cac:Attachment>
+    </cac:AdditionalDocumentReference>
+</Invoice>
+"""
 
 
 @tagged("post_install", "-at_install")
@@ -31,6 +48,30 @@ class TestMessageSPV(TestMessageSPV):
                 "is_company": True,
             }
         )
+
+    def _create_message_with_zip(self, name, request_id, xml_bytes, **extra):
+        """Create a message holding a ZIP built in memory around xml_bytes."""
+        buffer = io.BytesIO()
+        with zipfile.ZipFile(buffer, "w") as zip_file:
+            zip_file.writestr(f"{request_id}.xml", xml_bytes)
+            zip_file.writestr(f"semnatura_{request_id}.xml", b"<signature/>")
+        values = {
+            "name": name,
+            "request_id": request_id,
+            "company_id": self.env.company.id,
+            "message_type": "in_invoice",
+        }
+        values.update(extra)
+        message = self.env["l10n.ro.message.spv"].create(values)
+        attachment = self.env["ir.attachment"].create(
+            {
+                "name": f"{request_id}.zip",
+                "raw": buffer.getvalue(),
+                "mimetype": "application/zip",
+            }
+        )
+        message.write({"attachment_id": attachment.id, "state": "downloaded"})
+        return message
 
     def test_download_messages(self):
         # test de descarcare a mesajelor de la SPV
@@ -224,6 +265,83 @@ class TestMessageSPV(TestMessageSPV):
         message_spv.get_invoice_from_move()
         message_spv.create_invoice()
         message_spv.show_invoice()
+
+    def test_download_stores_only_zip(self):
+        """The download must store only the ZIP; the metadata is parsed in
+        memory and no XML attachment is created."""
+        message_spv = self.env["l10n.ro.message.spv"].create(
+            {
+                "name": "3006372781",
+                "request_id": "5004111924",
+                "company_id": self.env.company.id,
+                "message_type": "in_invoice",
+                "cif": "8486152",
+            }
+        )
+
+        file_invoice = file_path("l10n_ro_message_spv/tests/invoice.zip")
+        anaf_messages = {"content": open(file_invoice, "rb").read()}
+        with patch(
+            "odoo.addons.l10n_ro_message_spv.models.ciusro_document.make_efactura_request",
+            return_value=anaf_messages,
+        ):
+            message_spv.download_from_spv()
+
+        # only the ZIP is stored
+        self.assertTrue(message_spv.attachment_id)
+        self.assertEqual(message_spv.attachment_id.mimetype, "application/zip")
+        self.assertFalse(message_spv.attachment_xml_id)
+        no_xml_attachment = self.env["ir.attachment"].search(
+            [("name", "=", "5004111924.xml")]
+        )
+        self.assertFalse(no_xml_attachment)
+
+        # the metadata was parsed in memory from the ZIP
+        self.assertTrue(message_spv.ref)
+        self.assertTrue(message_spv.amount)
+        self.assertTrue(message_spv.invoice_date)
+
+        # the XML can be derived from the ZIP at any time
+        file_name, xml_bytes = message_spv._get_xml_bytes()
+        self.assertEqual(file_name, "5004111924.xml")
+        self.assertIn(b"Invoice", xml_bytes)
+
+    def test_create_invoice_materializes_xml_on_move(self):
+        """create_invoice stores the XML once, directly on the bill, and
+        the computed attachment_xml_id finds it there."""
+        message_spv = self.env["l10n.ro.message.spv"].create(
+            {
+                "name": "3006372781",
+                "request_id": "5004111924",
+                "company_id": self.env.company.id,
+                "message_type": "in_invoice",
+                "cif": "8486152",
+            }
+        )
+        file_invoice = file_path("l10n_ro_message_spv/tests/invoice.zip")
+        anaf_messages = {"content": open(file_invoice, "rb").read()}
+        with patch(
+            "odoo.addons.l10n_ro_message_spv.models.ciusro_document.make_efactura_request",
+            return_value=anaf_messages,
+        ):
+            message_spv.download_from_spv()
+
+        message_spv.create_invoice()
+
+        invoice = message_spv.invoice_id
+        self.assertTrue(invoice)
+        # the UBL import moves the XML into the invoice's ubl_cii_xml_file
+        # binary field — a single stored copy, on the bill
+        xml_attachment = self.env["ir.attachment"].search(
+            [
+                ("res_model", "=", "account.move"),
+                ("res_id", "=", invoice.id),
+                ("res_field", "in", ["ubl_cii_xml_file", False]),
+                ("name", "=", "5004111924.xml"),
+            ]
+        )
+        self.assertEqual(len(xml_attachment), 1)
+        self.assertEqual(message_spv.attachment_xml_id, xml_attachment)
 
     def test_unlink_account_move(self):
         """Testează funcționalitatea de ștergere a
@@ -471,65 +589,78 @@ class TestMessageSPV(TestMessageSPV):
         self.assertIn("Error 2", err_msg)
 
     def test_pdf_rendering_and_embedded(self):
-        """Testează randarea PDF și extragerea PDF-ului embedded"""
-        message_spv = self.env["l10n.ro.message.spv"].create(
-            {
-                "name": "TEST_PDF",
-                "request_id": "REQ_PDF",
-            }
+        """The ANAF PDF and the embedded PDF are derived on the fly from
+        the stored ZIP — nothing is persisted."""
+        message_spv = self._create_message_with_zip(
+            "TEST_PDF", "REQ_PDF", EMBEDDED_PDF_XML
         )
-        xml_content = b"""<?xml version="1.0" encoding="UTF-8"?><Invoice xmlns="urn:oasis:names:specification:ubl:schema:xsd:Invoice-2" xmlns:cac="urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2" xmlns:cbc="urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2"><cbc:ID>INV123</cbc:ID><cac:AdditionalDocumentReference><cbc:ID>embedded.pdf</cbc:ID><cac:Attachment><cbc:EmbeddedDocumentBinaryObject mimeCode="application/pdf">dGVzdA==</cbc:EmbeddedDocumentBinaryObject></cac:Attachment></cac:AdditionalDocumentReference></Invoice>"""  # noqa
-
-        attachment_xml = self.env["ir.attachment"].create(
-            {
-                "name": "test.xml",
-                "raw": xml_content,
-            }
-        )
-        message_spv.attachment_xml_id = attachment_xml
-        # attachment_id is required by render_anaf_pdf
-        message_spv.attachment_id = attachment_xml
 
         # Mock requests.post for PDF rendering
+        response_ok = MagicMock(status_code=200, content=b"PDF_CONTENT", text="ok")
         with patch(
-            "odoo.addons.l10n_ro_message_spv.models.message_spv.requests.post"
+            "odoo.addons.l10n_ro_message_spv.models.message_spv.requests.post",
+            return_value=response_ok,
         ) as mock_post:
-            mock_post.return_value.status_code = 200
-            mock_post.return_value.content = b"PDF_CONTENT"
-            message_spv.render_anaf_pdf()
-            message_spv.invalidate_recordset()
-            self.assertTrue(message_spv.attachment_anaf_pdf_id)
+            pdf_bytes = message_spv._render_anaf_pdf_bytes()
+        self.assertEqual(pdf_bytes, b"PDF_CONTENT")
+        self.assertEqual(mock_post.call_count, 1)
+        # nothing is stored
+        self.assertFalse(message_spv.attachment_anaf_pdf_id)
+        self.assertFalse(
+            self.env["ir.attachment"].search([("name", "=", "REQ_PDF.pdf")])
+        )
 
-            # Test failure and retry with no_validate
-            mock_post.return_value.status_code = 400
-            mock_post.return_value.text = "Error"
-            message_spv.attachment_anaf_pdf_id = False
-            # We need to make sure the second call (recursive) also happens
-            # but we need to check if it actually sets the field if it fails.
-            # In code: if res.status_code != 200 and no_validate
-            # is None: self.render_xml_anaf_pdf(no_validate=True)
-            message_spv.render_anaf_pdf()
-            # If it fails twice, it won't have an attachment
-            self.assertFalse(message_spv.attachment_anaf_pdf_id)
+        # first attempt fails, the no-validate fallback succeeds
+        response_ko = MagicMock(status_code=400, content=b"", text="Error")
+        with patch(
+            "odoo.addons.l10n_ro_message_spv.models.message_spv.requests.post",
+            side_effect=[response_ko, response_ok],
+        ) as mock_post:
+            pdf_bytes = message_spv._render_anaf_pdf_bytes()
+        self.assertEqual(pdf_bytes, b"PDF_CONTENT")
+        self.assertEqual(mock_post.call_count, 2)
 
-        # Test embedded PDF
-        message_spv.get_embedded_pdf()
-        self.assertTrue(message_spv.attachment_embedded_pdf_id)
-        self.assertEqual(message_spv.attachment_embedded_pdf_id.name, "embedded.pdf")
+        # both attempts fail
+        with patch(
+            "odoo.addons.l10n_ro_message_spv.models.message_spv.requests.post",
+            return_value=response_ko,
+        ):
+            with self.assertRaises(UserError):
+                message_spv._render_anaf_pdf_bytes()
+
+        # the ANAF WAF rejects the request
+        response_waf = MagicMock(
+            status_code=200, content=b"", text="The requested URL was rejected"
+        )
+        with patch(
+            "odoo.addons.l10n_ro_message_spv.models.message_spv.requests.post",
+            return_value=response_waf,
+        ):
+            with self.assertRaises(UserError):
+                message_spv._render_anaf_pdf_bytes()
+
+        # the embedded PDF is extracted in memory
+        name, pdf_bytes = message_spv._get_embedded_pdf_bytes()
+        self.assertEqual(name, "embedded.pdf")
+        self.assertEqual(pdf_bytes, b"%PDF-test")
+        self.assertFalse(message_spv.attachment_embedded_pdf_id)
 
     def test_missing_data_coverage(self):
-        """Testează ramurile de date lipsă în get_xml_fom_zip și get_embedded_pdf"""
+        """Testează ramurile de date lipsă în derivarea din ZIP"""
         message_spv = self.env["l10n.ro.message.spv"].create(
             {
                 "name": "TEST_MISSING",
                 "request_id": "REQ_MISSING",
             }
         )
-        # 1. get_xml_fom_zip fără attachment
+        # 1. no attachment at all
         message_spv.get_xml_fom_zip()
-        self.assertFalse(message_spv.attachment_xml_id)
+        self.assertEqual(message_spv._get_xml_bytes(), (False, False))
+        self.assertEqual(message_spv._get_embedded_pdf_bytes(), (False, False))
+        with self.assertRaises(UserError):
+            message_spv._render_anaf_pdf_bytes()
 
-        # 2. get_xml_fom_zip cu ZIP gol
+        # 2. empty ZIP
         buffer = io.BytesIO()
         with zipfile.ZipFile(buffer, "w") as zip_file:  # noqa
             pass
@@ -538,38 +669,25 @@ class TestMessageSPV(TestMessageSPV):
         )
         message_spv.attachment_id = attachment
         message_spv.get_xml_fom_zip()
-        self.assertFalse(message_spv.attachment_xml_id)
+        self.assertEqual(message_spv._get_xml_bytes(), (False, False))
 
-        # 3. get_embedded_pdf declanșează download_from_spv și get_xml_fom_zip
-        message_spv.attachment_id = False
-        message_spv.attachment_xml_id = False
-        with (
-            patch.object(type(message_spv), "download_from_spv") as mock_download,
-            patch.object(type(message_spv), "get_xml_fom_zip") as mock_get_xml,
-        ):
-            # Mock get_xml_fom_zip to set attachment_xml_id so
-            # the rest of method doesn't crash
-            def side_effect_get_xml():
-                message_spv.attachment_xml_id = self.env["ir.attachment"].create(
-                    {"name": "test.xml", "raw": b"<root/>"}
-                )
+        # 3. corrupt ZIP
+        attachment.raw = b"this is not a zip"
+        self.assertEqual(message_spv._get_xml_bytes(), (False, False))
 
-            mock_get_xml.side_effect = side_effect_get_xml
-            message_spv.get_embedded_pdf()
-            self.assertTrue(mock_download.called)
-            self.assertTrue(mock_get_xml.called)
+        # 4. XML without an embedded PDF
+        message_no_pdf = self._create_message_with_zip(
+            "TEST_NOPDF", "REQ_NOPDF", b"<Invoice/>"
+        )
+        self.assertEqual(message_no_pdf._get_embedded_pdf_bytes(), (False, False))
 
     def test_create_invoice_error(self):
         """Testează ramura de eroare în create_invoice"""
-        message_spv = self.env["l10n.ro.message.spv"].create(
-            {
-                "name": "TEST_CREATE_ERR",
-                "message_type": "in_invoice",
-                "partner_id": self.vendor.id,
-            }
-        )
-        message_spv.attachment_xml_id = self.env["ir.attachment"].create(
-            {"name": "test.xml", "raw": b"<root/>"}
+        message_spv = self._create_message_with_zip(
+            "TEST_CREATE_ERR",
+            "REQ_CREATE_ERR",
+            b"<root/>",
+            partner_id=self.vendor.id,
         )
 
         with patch(
@@ -579,6 +697,19 @@ class TestMessageSPV(TestMessageSPV):
             message_spv.create_invoice()
             self.assertEqual(message_spv.state, "error")
             self.assertIn("Test Exception", message_spv.error)
+
+        # without a usable ZIP, create_invoice records an error
+        message_no_zip = self.env["l10n.ro.message.spv"].create(
+            {
+                "name": "TEST_CREATE_NOZIP",
+                "request_id": "REQ_CREATE_NOZIP",
+                "message_type": "in_invoice",
+                "partner_id": self.vendor.id,
+            }
+        )
+        message_no_zip.create_invoice()
+        self.assertEqual(message_no_zip.state, "error")
+        self.assertIn("No XML", message_no_zip.error)
 
     def test_advanced_invoice_matching(self):
         """Testează potrivirea avansată a facturilor (get_invoice_from_move)"""
@@ -639,25 +770,15 @@ class TestMessageSPV(TestMessageSPV):
         partner = self.env["res.partner"].create(
             {"name": "Partner Test", "vat": "RO123", "is_company": True}
         )
-        message_spv = self.env["l10n.ro.message.spv"].create(
-            {
-                "name": "MSG_CREATE",
-                "request_id": "REQ_CREATE",
-                "cif": "123",
-                "ref": "REF_DUP",
-                "message_type": "in_invoice",
-                "partner_id": partner.id,
-            }
-        )
-
         xml_content = b'<?xml version="1.0" encoding="UTF-8"?><Invoice xmlns="urn:oasis:names:specification:ubl:schema:xsd:Invoice-2" xmlns:cbc="urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2"><cbc:ID>REF_DUP</cbc:ID></Invoice>'  # noqa: E501
-        attachment_xml = self.env["ir.attachment"].create(
-            {
-                "name": "test.xml",
-                "raw": xml_content,
-            }
+        message_spv = self._create_message_with_zip(
+            "MSG_CREATE",
+            "REQ_CREATE",
+            xml_content,
+            cif="123",
+            ref="REF_DUP",
+            partner_id=partner.id,
         )
-        message_spv.attachment_xml_id = attachment_xml
 
         # Create an existing posted invoice
         existing_invoice = self.env["account.move"].create(
@@ -777,32 +898,38 @@ class TestMessageSPV(TestMessageSPV):
         action = message_spv.show_invoice()
         self.assertEqual(action["res_model"], "account.move")
 
-        # download actions
+        # download actions: the ZIP is a stored attachment, the derived
+        # files are streamed through the controller routes
         attachment = self.env["ir.attachment"].create({"name": "test", "raw": b"test"})
         message_spv.attachment_id = attachment
         res = message_spv.action_download_attachment()
         self.assertIn(str(attachment.id), res["url"])
 
-        attachment_xml = self.env["ir.attachment"].create(
-            {"name": "test.xml", "raw": b"test"}
+        res = message_spv.action_download_xml()
+        self.assertEqual(res["url"], f"/l10n_ro/message_spv/{message_spv.id}/xml")
+
+        res = message_spv.action_download_anaf_pdf()
+        self.assertEqual(res["url"], f"/l10n_ro/message_spv/{message_spv.id}/anaf_pdf")
+
+        res = message_spv.action_download_embedded_pdf()
+        self.assertEqual(
+            res["url"], f"/l10n_ro/message_spv/{message_spv.id}/embedded_pdf"
         )
-        message_spv.attachment_xml_id = attachment_xml
+
+        # once the files exist on the invoice, the computed fields point to
+        # them and the download uses /web/content
+        attachment_xml = self.env["ir.attachment"].create(
+            {
+                "name": "MSG_UTIL_REQ.xml",
+                "raw": b"<Invoice/>",
+                "res_model": "account.move",
+                "res_id": invoice.id,
+            }
+        )
+        message_spv.request_id = "MSG_UTIL_REQ"
+        message_spv.invalidate_recordset()
         res = message_spv.action_download_xml()
         self.assertIn(str(attachment_xml.id), res["url"])
-
-        attachment_pdf = self.env["ir.attachment"].create(
-            {"name": "test.pdf", "raw": b"test", "type": "binary"}
-        )
-        message_spv.attachment_anaf_pdf_id = attachment_pdf
-        res = message_spv.action_download_anaf_pdf()
-        self.assertIn(str(attachment_pdf.id), res["url"])
-
-        attachment_emb = self.env["ir.attachment"].create(
-            {"name": "test_emb.pdf", "raw": b"test", "type": "binary"}
-        )
-        message_spv.attachment_embedded_pdf_id = attachment_emb
-        res = message_spv.action_download_embedded_pdf()
-        self.assertIn(str(attachment_emb.id), res["url"])
 
         # refresh
         with patch(
