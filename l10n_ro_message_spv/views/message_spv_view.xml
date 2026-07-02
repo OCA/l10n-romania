@@ -76,13 +76,6 @@
                         type="object"
                         invisible="message_type not in ('in_invoice','in_receipt')"
                     />
-
-                    <button name="render_anaf_pdf" string="Render PDF" type="object" />
-                    <button
-                        name="get_embedded_pdf"
-                        string="Get Embedded PDF"
-                        type="object"
-                    />
                 </header>
                 <sheet>
                     <group>
@@ -133,7 +126,7 @@
                                     name="action_download_xml"
                                     string="Download"
                                     type="object"
-                                    invisible="not attachment_xml_id"
+                                    invisible="not attachment_id"
                                 />
                             </div>
                             <label for="attachment_anaf_pdf_id" />
@@ -143,7 +136,7 @@
                                     name="action_download_anaf_pdf"
                                     string="Download"
                                     type="object"
-                                    invisible="not attachment_anaf_pdf_id"
+                                    invisible="not attachment_id"
                                 />
                             </div>
 
@@ -154,7 +147,7 @@
                                     name="action_download_embedded_pdf"
                                     string="Download"
                                     type="object"
-                                    invisible="not attachment_embedded_pdf_id"
+                                    invisible="not attachment_id"
                                 />
                             </div>
                         </group>
