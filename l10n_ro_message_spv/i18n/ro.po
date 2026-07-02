@@ -50,6 +50,12 @@ msgid "Amount"
 msgstr "Sumă"
 
 #. module: l10n_ro_message_spv
+#. odoo-python
+#: code:addons/l10n_ro_message_spv/models/message_spv.py:0
+msgid "An error occurred while connecting to ANAF service: %s"
+msgstr ""
+
+#. module: l10n_ro_message_spv
 #: model:ir.model.fields,field_description:l10n_ro_message_spv.field_l10n_ro_message_spv__attachment_id
 msgid "Attachment"
 msgstr "Atașament"
@@ -77,6 +83,12 @@ msgstr "Companie"
 #. module: l10n_ro_message_spv
 #: model:ir.model,name:l10n_ro_message_spv.model_res_config_settings
 msgid "Config Settings"
+msgstr ""
+
+#. module: l10n_ro_message_spv
+#. odoo-python
+#: code:addons/l10n_ro_message_spv/models/message_spv.py:0
+msgid "Could not connect to ANAF service. Please try again later."
 msgstr ""
 
 #. module: l10n_ro_message_spv
@@ -193,11 +205,6 @@ msgstr "Nume fișier"
 #: model_terms:ir.ui.view,arch_db:l10n_ro_message_spv.view_l10n_ro_message_spv_form
 msgid "Files"
 msgstr "Fișiere"
-
-#. module: l10n_ro_message_spv
-#: model_terms:ir.ui.view,arch_db:l10n_ro_message_spv.view_l10n_ro_message_spv_form
-msgid "Get Embedded PDF"
-msgstr "Obține PDF încorporat"
 
 #. module: l10n_ro_message_spv
 #: model_terms:ir.ui.view,arch_db:l10n_ro_message_spv.view_l10n_ro_message_spv_form
@@ -327,6 +334,12 @@ msgid "Messages SPV"
 msgstr "Mesaje SPV"
 
 #. module: l10n_ro_message_spv
+#. odoo-python
+#: code:addons/l10n_ro_message_spv/models/message_spv.py:0
+msgid "No XML found in the downloaded ZIP."
+msgstr ""
+
+#. module: l10n_ro_message_spv
 #: model:ir.model.fields.selection,name:l10n_ro_message_spv.selection__l10n_ro_message_spv__message_type__out_invoice
 msgid "Out Invoice"
 msgstr "Factură vânzare"
@@ -362,11 +375,6 @@ msgstr "Referință"
 #: model_terms:ir.ui.view,arch_db:l10n_ro_message_spv.view_l10n_ro_message_spv_tree
 msgid "Refresh"
 msgstr "Actualizare"
-
-#. module: l10n_ro_message_spv
-#: model_terms:ir.ui.view,arch_db:l10n_ro_message_spv.view_l10n_ro_message_spv_form
-msgid "Render PDF"
-msgstr "Generează PDF"
 
 #. module: l10n_ro_message_spv
 #: model:ir.model.fields,field_description:l10n_ro_message_spv.field_l10n_ro_message_spv__request_id
@@ -457,3 +465,9 @@ msgstr ""
 #: code:addons/l10n_ro_message_spv/models/ciusro_document.py:0
 msgid "You reached the limit of requests. Please try again later."
 msgstr ""
+
+#~ msgid "Get Embedded PDF"
+#~ msgstr "Obține PDF încorporat"
+
+#~ msgid "Render PDF"
+#~ msgstr "Generează PDF"
