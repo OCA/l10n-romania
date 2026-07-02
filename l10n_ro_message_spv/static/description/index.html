@@ -589,15 +589,41 @@ XML-ul a fost validat de sistemul ANAF.</li>
 <div class="contents local topic" id="contents">
 <ul class="simple">
 <li><a class="reference internal" href="#configuration" id="toc-entry-1">Configuration</a></li>
-<li><a class="reference internal" href="#bug-tracker" id="toc-entry-2">Bug Tracker</a></li>
-<li><a class="reference internal" href="#credits" id="toc-entry-3">Credits</a></li>
+<li><a class="reference internal" href="#changelog" id="toc-entry-2">Changelog</a></li>
+<li><a class="reference internal" href="#bug-tracker" id="toc-entry-3">Bug Tracker</a></li>
+<li><a class="reference internal" href="#credits" id="toc-entry-4">Credits</a></li>
 </ul>
 </div>
 <div class="section" id="configuration">
 <h4><a class="toc-backref" href="#toc-entry-1">Configuration</a></h4>
 </div>
+<div class="section" id="changelog">
+<h4><a class="toc-backref" href="#toc-entry-2">Changelog</a></h4>
+<p><strong>19.0.2.0.0 (2026-07-02)</strong></p>
+<p>Storage optimization: the signed ANAF ZIP is now the only file stored
+per SPV message.</p>
+<ul class="simple">
+<li>The XML extracted from the ZIP is no longer stored as a separate
+attachment at download time; the message metadata (reference, amount,
+invoice date, currency) is parsed in memory.</li>
+<li><tt class="docutils literal">attachment_xml_id</tt>, <tt class="docutils literal">attachment_anaf_pdf_id</tt> and
+<tt class="docutils literal">attachment_embedded_pdf_id</tt> became non-stored computed fields that
+expose the files materialized on the linked invoice.</li>
+<li>The XML is created once, directly on the vendor bill, when the invoice
+is created from the message; the PDF embedded in the XML is attached
+once on the bill as its preview (main attachment).</li>
+<li>The ANAF PDF and the embedded PDF are no longer persisted per message:
+the download buttons stream them on the fly, derived from the ZIP, via
+the new <tt class="docutils literal"><span class="pre">/l10n_ro/message_spv/&lt;id&gt;/{xml,anaf_pdf,embedded_pdf}</span></tt>
+routes.</li>
+<li>Migration: derived attachments of messages linked to an invoice are
+relinked to the invoice; those of messages without an invoice are
+deleted (they can be re-extracted from the ZIP), reclaiming the
+duplicated filestore space.</li>
+</ul>
+</div>
 <div class="section" id="bug-tracker">
-<h4><a class="toc-backref" href="#toc-entry-2">Bug Tracker</a></h4>
+<h4><a class="toc-backref" href="#toc-entry-3">Bug Tracker</a></h4>
 <p>Bugs are tracked on <a class="reference external" href="https://github.com/OCA/l10n-romania/issues">GitHub Issues</a>.
 In case of trouble, please check there if your issue has already been reported.
 If you spotted it first, help us to smash it by providing a detailed and welcomed
@@ -605,7 +631,7 @@ If you spotted it first, help us to smash it by providing a detailed and welcome
 <p>Do not contact contributors directly about support or help with technical issues.</p>
 </div>
 <div class="section" id="credits">
-<h4><a class="toc-backref" href="#toc-entry-3">Credits</a></h4>
+<h4><a class="toc-backref" href="#toc-entry-4">Credits</a></h4>
 </div>
 </div>
 </div>
