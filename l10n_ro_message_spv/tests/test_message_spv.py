@@ -1,17 +1,35 @@
 # Copyright (C) 2020 Terrabit
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html)
 
+import io
 import json
-from unittest.mock import patch
+import zipfile
+from unittest.mock import MagicMock, patch
 
 from dateutil.relativedelta import relativedelta
 
 from odoo import fields
-from odoo.exceptions import AccessError
+from odoo.exceptions import AccessError, UserError
 from odoo.tests import tagged
 from odoo.tools.misc import file_path
 
 from .common import TestMessageSPV
+
+EMBEDDED_PDF_XML = b"""<?xml version="1.0" encoding="UTF-8"?>
+<Invoice xmlns="urn:oasis:names:specification:ubl:schema:xsd:Invoice-2"
+    xmlns:cac="urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2"
+    xmlns:cbc="urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2">
+    <cbc:ID>TESTEMB</cbc:ID>
+    <cac:AdditionalDocumentReference>
+        <cbc:ID>factura.pdf</cbc:ID>
+        <cac:Attachment>
+            <cbc:EmbeddedDocumentBinaryObject
+                mimeCode="application/pdf"
+            >JVBERi10ZXN0</cbc:EmbeddedDocumentBinaryObject>
+        </cac:Attachment>
+    </cac:AdditionalDocumentReference>
+</Invoice>
+"""
 
 
 @tagged("post_install", "-at_install")
@@ -77,6 +95,225 @@ class TestMessageSPV(TestMessageSPV):
         message_spv.get_invoice_from_move()
         message_spv.create_invoice()
         message_spv.show_invoice()
+
+    def test_download_stores_only_zip(self):
+        """The download must store only the ZIP; the metadata is parsed in
+        memory and no XML attachment is created."""
+        message_spv = self.env["l10n.ro.message.spv"].create(
+            {
+                "name": "3006372781",
+                "request_id": "5004111924",
+                "company_id": self.env.company.id,
+                "message_type": "in_invoice",
+                "cif": "8486152",
+            }
+        )
+
+        file_invoice = file_path("l10n_ro_message_spv/tests/invoice.zip")
+        anaf_messages = {"content": open(file_invoice, "rb").read()}
+        with patch(
+            "odoo.addons.l10n_ro_edi.models.ciusro_document.make_efactura_request",
+            return_value=anaf_messages,
+        ):
+            message_spv.download_from_spv()
+
+        # only the ZIP is stored
+        self.assertTrue(message_spv.attachment_id)
+        self.assertEqual(message_spv.attachment_id.mimetype, "application/zip")
+        self.assertFalse(message_spv.attachment_xml_id)
+        no_xml_attachment = self.env["ir.attachment"].search(
+            [("name", "=", "5004111924.xml")]
+        )
+        self.assertFalse(no_xml_attachment)
+
+        # the metadata was parsed in memory from the ZIP
+        self.assertTrue(message_spv.ref)
+        self.assertTrue(message_spv.amount)
+        self.assertTrue(message_spv.invoice_date)
+
+    def test_get_xml_bytes_from_zip(self):
+        """The XML is derived in memory from the stored ZIP."""
+        message_spv = self.env["l10n.ro.message.spv"].create(
+            {
+                "name": "3006372781",
+                "request_id": "5004111924",
+                "company_id": self.env.company.id,
+                "message_type": "in_invoice",
+                "cif": "8486152",
+            }
+        )
+        self.assertEqual(message_spv._get_xml_bytes(), (False, False))
+
+        file_invoice = file_path("l10n_ro_message_spv/tests/invoice.zip")
+        anaf_messages = {"content": open(file_invoice, "rb").read()}
+        with patch(
+            "odoo.addons.l10n_ro_edi.models.ciusro_document.make_efactura_request",
+            return_value=anaf_messages,
+        ):
+            message_spv.download_from_spv()
+
+        file_name, xml_bytes = message_spv._get_xml_bytes()
+        self.assertEqual(file_name, "5004111924.xml")
+        self.assertIn(b"Invoice", xml_bytes)
+
+    def test_create_invoice_materializes_xml_on_move(self):
+        """create_invoice stores the XML once, directly on the bill, and
+        the computed attachment_xml_id finds it there."""
+        message_spv = self.env["l10n.ro.message.spv"].create(
+            {
+                "name": "3006372781",
+                "request_id": "5004111924",
+                "company_id": self.env.company.id,
+                "message_type": "in_invoice",
+                "cif": "8486152",
+            }
+        )
+        file_invoice = file_path("l10n_ro_message_spv/tests/invoice.zip")
+        anaf_messages = {"content": open(file_invoice, "rb").read()}
+        with patch(
+            "odoo.addons.l10n_ro_edi.models.ciusro_document.make_efactura_request",
+            return_value=anaf_messages,
+        ):
+            message_spv.download_from_spv()
+
+        message_spv.create_invoice()
+
+        invoice = message_spv.invoice_id
+        self.assertTrue(invoice)
+        # the UBL import moves the XML into the invoice's ubl_cii_xml_file
+        # binary field — a single stored copy, on the bill
+        xml_attachment = self.env["ir.attachment"].search(
+            [
+                ("res_model", "=", "account.move"),
+                ("res_id", "=", invoice.id),
+                ("res_field", "in", ["ubl_cii_xml_file", False]),
+                ("name", "=", "5004111924.xml"),
+            ]
+        )
+        self.assertEqual(len(xml_attachment), 1)
+        self.assertEqual(message_spv.attachment_xml_id, xml_attachment)
+
+    def _create_message_with_zip(self, name, request_id, xml_bytes):
+        """Create a message holding a ZIP built in memory around xml_bytes."""
+        buf = io.BytesIO()
+        with zipfile.ZipFile(buf, "w") as zip_file:
+            zip_file.writestr(f"{request_id}.xml", xml_bytes)
+            zip_file.writestr(f"semnatura_{request_id}.xml", b"<signature/>")
+        message = self.env["l10n.ro.message.spv"].create(
+            {
+                "name": name,
+                "request_id": request_id,
+                "company_id": self.env.company.id,
+                "message_type": "in_invoice",
+            }
+        )
+        attachment = self.env["ir.attachment"].create(
+            {
+                "name": f"{request_id}.zip",
+                "raw": buf.getvalue(),
+                "mimetype": "application/zip",
+            }
+        )
+        message.write({"attachment_id": attachment.id, "state": "downloaded"})
+        return message
+
+    def test_embedded_pdf_from_zip(self):
+        """The embedded PDF is derived in memory from the ZIP."""
+        message = self._create_message_with_zip("EMB1", "TESTEMB", EMBEDDED_PDF_XML)
+        name, pdf_bytes = message._get_embedded_pdf_bytes()
+        self.assertEqual(name, "factura.pdf")
+        self.assertEqual(pdf_bytes, b"%PDF-test")
+
+    def test_embedded_pdf_absent(self):
+        """XML without an embedded PDF yields nothing."""
+        message = self._create_message_with_zip("EMB2", "TESTNOPDF", b"<Invoice/>")
+        name, pdf_bytes = message._get_embedded_pdf_bytes()
+        self.assertFalse(name)
+        self.assertFalse(pdf_bytes)
+
+    def test_get_xml_bytes_bad_zip(self):
+        """A corrupt ZIP is handled gracefully."""
+        message = self.env["l10n.ro.message.spv"].create(
+            {
+                "name": "BADZIP",
+                "request_id": "BADZIP",
+                "company_id": self.env.company.id,
+                "message_type": "in_invoice",
+            }
+        )
+        attachment = self.env["ir.attachment"].create(
+            {"name": "bad.zip", "raw": b"this is not a zip"}
+        )
+        message.write({"attachment_id": attachment.id})
+        self.assertEqual(message._get_xml_bytes(), (False, False))
+
+    def test_render_anaf_pdf_bytes(self):
+        """The ANAF PDF is rendered on the fly and never stored."""
+        message = self._create_message_with_zip("ANAF1", "TESTANAF", b"<Invoice/>")
+
+        # successful conversion
+        response_ok = MagicMock(status_code=200, content=b"%PDF-anaf", text="ok")
+        with patch(
+            "odoo.addons.l10n_ro_message_spv.models.message_spv.requests.post",
+            return_value=response_ok,
+        ) as post:
+            pdf_bytes = message._render_anaf_pdf_bytes()
+        self.assertEqual(pdf_bytes, b"%PDF-anaf")
+        self.assertEqual(post.call_count, 1)
+        self.assertFalse(
+            self.env["ir.attachment"].search([("name", "=", "TESTANAF.pdf")])
+        )
+
+        # first attempt fails with a validation error, the no-validate
+        # fallback succeeds
+        response_ko = MagicMock(status_code=400, content=b"", text="invalid")
+        with patch(
+            "odoo.addons.l10n_ro_message_spv.models.message_spv.requests.post",
+            side_effect=[response_ko, response_ok],
+        ) as post:
+            pdf_bytes = message._render_anaf_pdf_bytes()
+        self.assertEqual(pdf_bytes, b"%PDF-anaf")
+        self.assertEqual(post.call_count, 2)
+
+        # the ANAF WAF rejects the request
+        response_waf = MagicMock(
+            status_code=200, content=b"", text="The requested URL was rejected"
+        )
+        with patch(
+            "odoo.addons.l10n_ro_message_spv.models.message_spv.requests.post",
+            return_value=response_waf,
+        ):
+            with self.assertRaises(UserError):
+                message._render_anaf_pdf_bytes()
+
+        # no ZIP at all
+        message_no_zip = self.env["l10n.ro.message.spv"].create(
+            {
+                "name": "ANAF2",
+                "request_id": "TESTANAF2",
+                "company_id": self.env.company.id,
+                "message_type": "in_invoice",
+            }
+        )
+        with self.assertRaises(UserError):
+            message_no_zip._render_anaf_pdf_bytes()
+
+    def test_action_download_urls(self):
+        """Without an invoice the download actions point to the on-the-fly
+        controller routes; the ZIP one downloads the stored attachment."""
+        message = self._create_message_with_zip("DL1", "TESTDL", b"<Invoice/>")
+        action = message.action_download_attachment()
+        self.assertEqual(
+            action["url"], f"/web/content/{message.attachment_id.id}?download=true"
+        )
+        action = message.action_download_xml()
+        self.assertEqual(action["url"], f"/l10n_ro/message_spv/{message.id}/xml")
+        action = message.action_download_anaf_pdf()
+        self.assertEqual(action["url"], f"/l10n_ro/message_spv/{message.id}/anaf_pdf")
+        action = message.action_download_embedded_pdf()
+        self.assertEqual(
+            action["url"], f"/l10n_ro/message_spv/{message.id}/embedded_pdf"
+        )
 
     def test_unlink_account_move(self):
         """Testează funcționalitatea de ștergere a
