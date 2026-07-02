@@ -186,11 +186,6 @@ msgstr "Fișiere"
 
 #. module: l10n_ro_message_spv
 #: model_terms:ir.ui.view,arch_db:l10n_ro_message_spv.view_l10n_ro_message_spv_form
-msgid "Get Embedded PDF"
-msgstr "Obține PDF încorporat"
-
-#. module: l10n_ro_message_spv
-#: model_terms:ir.ui.view,arch_db:l10n_ro_message_spv.view_l10n_ro_message_spv_form
 #: model_terms:ir.ui.view,arch_db:l10n_ro_message_spv.view_l10n_ro_message_spv_tree
 msgid "Get Invoice"
 msgstr "Găsește factură"
@@ -304,6 +299,12 @@ msgid "Messages SPV"
 msgstr "Mesaje SPV"
 
 #. module: l10n_ro_message_spv
+#. odoo-python
+#: code:addons/l10n_ro_message_spv/models/message_spv.py:0
+msgid "No XML found in the downloaded ZIP."
+msgstr ""
+
+#. module: l10n_ro_message_spv
 #: model:ir.model.fields.selection,name:l10n_ro_message_spv.selection__l10n_ro_message_spv__message_type__out_invoice
 msgid "Out Invoice"
 msgstr "Factură vânzare"
@@ -334,11 +335,6 @@ msgstr "Referință"
 #: model_terms:ir.ui.view,arch_db:l10n_ro_message_spv.view_l10n_ro_message_spv_tree
 msgid "Refresh"
 msgstr "Actualizare"
-
-#. module: l10n_ro_message_spv
-#: model_terms:ir.ui.view,arch_db:l10n_ro_message_spv.view_l10n_ro_message_spv_form
-msgid "Render PDF"
-msgstr "Generează PDF"
 
 #. module: l10n_ro_message_spv
 #: model:ir.model.fields,field_description:l10n_ro_message_spv.field_l10n_ro_message_spv__request_id
@@ -409,6 +405,12 @@ msgstr "Cod furnizor"
 #: model:ir.model.fields,field_description:l10n_ro_message_spv.field_l10n_ro_message_spv__attachment_xml_id
 msgid "XML"
 msgstr ""
+
+#~ msgid "Get Embedded PDF"
+#~ msgstr "Obține PDF încorporat"
+
+#~ msgid "Render PDF"
+#~ msgstr "Generează PDF"
 
 #, python-format
 #~ msgid "ANAF configuration is missing."
