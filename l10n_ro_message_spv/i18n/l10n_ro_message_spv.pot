@@ -183,11 +183,6 @@ msgstr ""
 
 #. module: l10n_ro_message_spv
 #: model_terms:ir.ui.view,arch_db:l10n_ro_message_spv.view_l10n_ro_message_spv_form
-msgid "Get Embedded PDF"
-msgstr ""
-
-#. module: l10n_ro_message_spv
-#: model_terms:ir.ui.view,arch_db:l10n_ro_message_spv.view_l10n_ro_message_spv_form
 #: model_terms:ir.ui.view,arch_db:l10n_ro_message_spv.view_l10n_ro_message_spv_tree
 msgid "Get Invoice"
 msgstr ""
@@ -301,6 +296,12 @@ msgid "Messages SPV"
 msgstr ""
 
 #. module: l10n_ro_message_spv
+#. odoo-python
+#: code:addons/l10n_ro_message_spv/models/message_spv.py:0
+msgid "No XML found in the downloaded ZIP."
+msgstr ""
+
+#. module: l10n_ro_message_spv
 #: model:ir.model.fields.selection,name:l10n_ro_message_spv.selection__l10n_ro_message_spv__message_type__out_invoice
 msgid "Out Invoice"
 msgstr ""
@@ -330,11 +331,6 @@ msgstr ""
 #. module: l10n_ro_message_spv
 #: model_terms:ir.ui.view,arch_db:l10n_ro_message_spv.view_l10n_ro_message_spv_tree
 msgid "Refresh"
-msgstr ""
-
-#. module: l10n_ro_message_spv
-#: model_terms:ir.ui.view,arch_db:l10n_ro_message_spv.view_l10n_ro_message_spv_form
-msgid "Render PDF"
 msgstr ""
 
 #. module: l10n_ro_message_spv
