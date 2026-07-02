@@ -62,13 +62,13 @@ class AccountMove(models.Model):
         return res
 
     def unlink(self):
+        # Detach the signed ANAF ZIP so it survives the invoice deletion —
+        # it is the legal proof and stays on the SPV message. The derived
+        # files (XML, PDFs) live only on the invoice and are deleted with
+        # it; they can be re-derived from the ZIP at any time.
         domain = [("invoice_id", "in", self.ids)]
         message_spv_ids = self.env["l10n.ro.message.spv"].search(domain)
-        attachments = self.env["ir.attachment"]
-        attachments += message_spv_ids.mapped("attachment_id")
-        attachments += message_spv_ids.mapped("attachment_xml_id")
-        attachments += message_spv_ids.mapped("attachment_anaf_pdf_id")
-        attachments += message_spv_ids.mapped("attachment_embedded_pdf_id")
+        attachments = message_spv_ids.mapped("attachment_id")
         attachments.sudo().write({"res_id": False, "res_model": False})
         # Facturile de achizitie venite din SPV primesc un document
         # l10n_ro_edi.document (vezi message_spv._confirm), al carui invoice_id e
