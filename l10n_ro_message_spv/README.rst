@@ -1,7 +1,3 @@
-.. image:: https://odoo-community.org/readme-banner-image
-   :target: https://odoo-community.org/get-involved?utm_source=readme
-   :alt: Odoo Community Association
-
 ====================
 Romania - Mesaje SPV
 ====================
@@ -17,7 +13,7 @@ Romania - Mesaje SPV
 .. |badge1| image:: https://img.shields.io/badge/maturity-Beta-yellow.png
     :target: https://odoo-community.org/page/development-status
     :alt: Beta
-.. |badge2| image:: https://img.shields.io/badge/license-AGPL--3-blue.png
+.. |badge2| image:: https://img.shields.io/badge/licence-AGPL--3-blue.png
     :target: http://www.gnu.org/licenses/agpl-3.0-standalone.html
     :alt: License: AGPL-3
 .. |badge3| image:: https://img.shields.io/badge/github-OCA%2Fl10n--romania-lightgray.png?logo=github
@@ -70,6 +66,33 @@ Configuration
 =============
 
 
+
+Changelog
+=========
+
+18.0.2.0.0 (2026-07-02)
+-----------------------
+
+Storage optimization: the signed ANAF ZIP is now the only file stored
+per SPV message.
+
+- The XML extracted from the ZIP is no longer stored as a separate
+  attachment at download time; the message metadata (reference, amount,
+  invoice date, currency) is parsed in memory.
+- ``attachment_xml_id``, ``attachment_anaf_pdf_id`` and
+  ``attachment_embedded_pdf_id`` became non-stored computed fields that
+  expose the files materialized on the linked invoice.
+- The XML is created once, directly on the vendor bill, when the invoice
+  is created from the message; the PDF embedded in the XML is attached
+  once on the bill as its preview (main attachment).
+- The ANAF PDF and the embedded PDF are no longer persisted per message:
+  the download buttons stream them on the fly, derived from the ZIP, via
+  the new ``/l10n_ro/message_spv/<id>/{xml,anaf_pdf,embedded_pdf}``
+  routes.
+- Migration: derived attachments of messages linked to an invoice are
+  relinked to the invoice; those of messages without an invoice are
+  deleted (they can be re-extracted from the ZIP), reclaiming the
+  duplicated filestore space.
 
 Bug Tracker
 ===========

@@ -78,6 +78,103 @@ class TestMessageSPV(TestMessageSPV):
         message_spv.create_invoice()
         message_spv.show_invoice()
 
+    def test_download_stores_only_zip(self):
+        """The download must store only the ZIP; the metadata is parsed in
+        memory and no XML attachment is created."""
+        message_spv = self.env["l10n.ro.message.spv"].create(
+            {
+                "name": "3006372781",
+                "request_id": "5004111924",
+                "company_id": self.env.company.id,
+                "message_type": "in_invoice",
+                "cif": "8486152",
+            }
+        )
+
+        file_invoice = file_path("l10n_ro_message_spv/tests/invoice.zip")
+        anaf_messages = {"content": open(file_invoice, "rb").read()}
+        with patch(
+            "odoo.addons.l10n_ro_edi.models.ciusro_document.make_efactura_request",
+            return_value=anaf_messages,
+        ):
+            message_spv.download_from_spv()
+
+        # only the ZIP is stored
+        self.assertTrue(message_spv.attachment_id)
+        self.assertEqual(message_spv.attachment_id.mimetype, "application/zip")
+        self.assertFalse(message_spv.attachment_xml_id)
+        no_xml_attachment = self.env["ir.attachment"].search(
+            [("name", "=", "5004111924.xml")]
+        )
+        self.assertFalse(no_xml_attachment)
+
+        # the metadata was parsed in memory from the ZIP
+        self.assertTrue(message_spv.ref)
+        self.assertTrue(message_spv.amount)
+        self.assertTrue(message_spv.invoice_date)
+
+    def test_get_xml_bytes_from_zip(self):
+        """The XML is derived in memory from the stored ZIP."""
+        message_spv = self.env["l10n.ro.message.spv"].create(
+            {
+                "name": "3006372781",
+                "request_id": "5004111924",
+                "company_id": self.env.company.id,
+                "message_type": "in_invoice",
+                "cif": "8486152",
+            }
+        )
+        self.assertEqual(message_spv._get_xml_bytes(), (False, False))
+
+        file_invoice = file_path("l10n_ro_message_spv/tests/invoice.zip")
+        anaf_messages = {"content": open(file_invoice, "rb").read()}
+        with patch(
+            "odoo.addons.l10n_ro_edi.models.ciusro_document.make_efactura_request",
+            return_value=anaf_messages,
+        ):
+            message_spv.download_from_spv()
+
+        file_name, xml_bytes = message_spv._get_xml_bytes()
+        self.assertEqual(file_name, "5004111924.xml")
+        self.assertIn(b"Invoice", xml_bytes)
+
+    def test_create_invoice_materializes_xml_on_move(self):
+        """create_invoice stores the XML once, directly on the bill, and
+        the computed attachment_xml_id finds it there."""
+        message_spv = self.env["l10n.ro.message.spv"].create(
+            {
+                "name": "3006372781",
+                "request_id": "5004111924",
+                "company_id": self.env.company.id,
+                "message_type": "in_invoice",
+                "cif": "8486152",
+            }
+        )
+        file_invoice = file_path("l10n_ro_message_spv/tests/invoice.zip")
+        anaf_messages = {"content": open(file_invoice, "rb").read()}
+        with patch(
+            "odoo.addons.l10n_ro_edi.models.ciusro_document.make_efactura_request",
+            return_value=anaf_messages,
+        ):
+            message_spv.download_from_spv()
+
+        message_spv.create_invoice()
+
+        invoice = message_spv.invoice_id
+        self.assertTrue(invoice)
+        # the UBL import moves the XML into the invoice's ubl_cii_xml_file
+        # binary field — a single stored copy, on the bill
+        xml_attachment = self.env["ir.attachment"].search(
+            [
+                ("res_model", "=", "account.move"),
+                ("res_id", "=", invoice.id),
+                ("res_field", "in", ["ubl_cii_xml_file", False]),
+                ("name", "=", "5004111924.xml"),
+            ]
+        )
+        self.assertEqual(len(xml_attachment), 1)
+        self.assertEqual(message_spv.attachment_xml_id, xml_attachment)
+
     def test_unlink_account_move(self):
         """Testează funcționalitatea de ștergere a
         facturilor care au mesaje SPV atașate"""
