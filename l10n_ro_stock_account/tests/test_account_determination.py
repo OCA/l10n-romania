@@ -143,9 +143,7 @@ class TestStockAccountDetermination(TestStockCommon):
         account just because no single line matches on its own.
         """
         self.create_po()
-        move = self.picking.move_ids.filtered(
-            lambda m: m.product_id == self.product_1
-        )
+        move = self.picking.move_ids.filtered(lambda m: m.product_id == self.product_1)
 
         target_account = self.account_valuation.copy({"name": "371999"})
         journal = self.env["account.journal"].search(
