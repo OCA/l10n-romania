@@ -97,13 +97,24 @@ class StockValuationLayer(models.Model):
             if svl.account_move_id and (
                 not svl.l10n_ro_valued_type or "internal" not in svl.l10n_ro_valued_type
             ):
-                for aml in svl.account_move_id.line_ids.sorted(
-                    lambda layer: layer.account_id.code or ""
-                ):
+                # Some postings (e.g. landed costs split between capitalizing on
+                # remaining stock and expensing to 607 the part already sold)
+                # impact the SAME stock account through several lines whose
+                # individual balances don't match ``svl.value`` on their own,
+                # only their sum does. Matching a single line misses this case
+                # and silently falls back to the category's default account,
+                # leaving a stock-card residual on the correct account. Group
+                # class 2/3 lines by account and match on the aggregated balance.
+                by_account = {}
+                for aml in svl.account_move_id.line_ids:
                     if aml.account_id.code and aml.account_id.code[0] in ["2", "3"]:
-                        if round(aml.balance, 2) == round(svl.value, 2):
-                            account = aml.account_id
-                            break
+                        by_account[aml.account_id] = (
+                            by_account.get(aml.account_id, 0.0) + aml.balance
+                        )
+                for acc in sorted(by_account, key=lambda a: a.code or ""):
+                    if round(by_account[acc], 2) == round(svl.value, 2):
+                        account = acc
+                        break
             if svl._l10n_ro_can_use_invoice_line_account(account):
                 if (
                     svl.l10n_ro_valued_type in ("reception", "reception_return")
