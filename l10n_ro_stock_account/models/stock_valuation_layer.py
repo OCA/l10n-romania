@@ -105,8 +105,18 @@ class StockValuationLayer(models.Model):
                 # and silently falls back to the category's default account,
                 # leaving a stock-card residual on the correct account. Group
                 # class 2/3 lines by account and match on the aggregated balance.
+                #
+                # A single journal entry can cover SEVERAL products (e.g. one
+                # landed cost split across a whole shipment) — restrict the
+                # aggregation to this layer's own product first, otherwise
+                # unrelated products' lines on the same account get folded
+                # into the sum and the match fails, or worse, coincidentally
+                # matches the wrong total.
+                candidate_lines = svl.account_move_id.line_ids.filtered(
+                    lambda aml, product=svl.product_id: aml.product_id == product
+                )
                 by_account = {}
-                for aml in svl.account_move_id.line_ids:
+                for aml in candidate_lines:
                     if aml.account_id.code and aml.account_id.code[0] in ["2", "3"]:
                         by_account[aml.account_id] = (
                             by_account.get(aml.account_id, 0.0) + aml.balance
