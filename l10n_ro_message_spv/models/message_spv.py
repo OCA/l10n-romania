@@ -684,6 +684,11 @@ class MessageSPV(models.Model):
         self.ensure_one()
         if self.attachment_embedded_pdf_id:
             return self._action_download(self.attachment_embedded_pdf_id.id)
+        _name, pdf_bytes = self._get_embedded_pdf_bytes()
+        if not pdf_bytes:
+            raise UserError(
+                self.env._("This invoice's XML does not contain an embedded PDF.")
+            )
         return self._action_download_derived("embedded_pdf")
 
     def _action_download(self, attachment_field_id):

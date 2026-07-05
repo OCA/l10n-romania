@@ -1,3 +1,14 @@
+**19.0.2.1.1 (2026-07-05)**
+
+- Clicking "Download embedded PDF" when the invoice XML has no embedded
+  PDF now raises a user-friendly error instead of navigating to a raw
+  404 page.
+- The form view no longer shows the derived attachment fields (ZIP, XML,
+  ANAF PDF, embedded PDF) with their file names, since those are only
+  materialized on demand and often have no name to display. The four
+  download actions are now buttons with suggestive icons in the form
+  header instead.
+
 **19.0.2.0.0 (2026-07-02)**
 
 Storage optimization: the signed ANAF ZIP is now the only file stored per

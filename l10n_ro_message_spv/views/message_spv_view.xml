@@ -76,6 +76,38 @@
                         type="object"
                         invisible="message_type not in ('in_invoice','in_receipt')"
                     />
+                    <button
+                        name="action_download_attachment"
+                        string="ZIP"
+                        type="object"
+                        icon="fa-file-archive-o"
+                        invisible="not attachment_id"
+                        title="Download the signed ANAF ZIP"
+                    />
+                    <button
+                        name="action_download_xml"
+                        string="XML"
+                        type="object"
+                        icon="fa-file-code-o"
+                        invisible="not attachment_id"
+                        title="Download the invoice XML"
+                    />
+                    <button
+                        name="action_download_anaf_pdf"
+                        string="PDF ANAF"
+                        type="object"
+                        icon="fa-file-pdf-o"
+                        invisible="not attachment_id"
+                        title="Download the PDF rendered by ANAF"
+                    />
+                    <button
+                        name="action_download_embedded_pdf"
+                        string="PDF"
+                        type="object"
+                        icon="fa-paperclip"
+                        invisible="not attachment_id"
+                        title="Download the PDF embedded in the invoice XML"
+                    />
                 </header>
                 <sheet>
                     <group>
@@ -108,49 +140,6 @@
                             />
                         </group>
 
-                        <group string="Files">
-                            <label for="attachment_id" />
-                            <div name="attachment_div" class="o_row">
-                                <field name="attachment_id" />
-                                <button
-                                    name="action_download_attachment"
-                                    string="Download"
-                                    type="object"
-                                    invisible="not attachment_id"
-                                />
-                            </div>
-                            <label for="attachment_xml_id" />
-                            <div name="attachment_xml_div" class="o_row">
-                                <field name="attachment_xml_id" />
-                                <button
-                                    name="action_download_xml"
-                                    string="Download"
-                                    type="object"
-                                    invisible="not attachment_id"
-                                />
-                            </div>
-                            <label for="attachment_anaf_pdf_id" />
-                            <div name="attachment_anaf_pdf_div" class="o_row">
-                                <field name="attachment_anaf_pdf_id" />
-                                <button
-                                    name="action_download_anaf_pdf"
-                                    string="Download"
-                                    type="object"
-                                    invisible="not attachment_id"
-                                />
-                            </div>
-
-                            <label for="attachment_embedded_pdf_id" />
-                            <div name="attachment_embedded_pdf_div" class="o_row">
-                                <field name="attachment_embedded_pdf_id" />
-                                <button
-                                    name="action_download_embedded_pdf"
-                                    string="Download"
-                                    type="object"
-                                    invisible="not attachment_id"
-                                />
-                            </div>
-                        </group>
                         <group string="Errors and Info">
                             <field name="error" invisible="not error" />
                             <field name="message" invisible="not message" />
