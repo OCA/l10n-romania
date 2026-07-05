@@ -135,6 +135,26 @@ msgid "Download Attempts"
 msgstr ""
 
 #. module: l10n_ro_message_spv
+#: model_terms:ir.ui.view,arch_db:l10n_ro_message_spv.view_l10n_ro_message_spv_form
+msgid "Download the PDF embedded in the invoice XML"
+msgstr ""
+
+#. module: l10n_ro_message_spv
+#: model_terms:ir.ui.view,arch_db:l10n_ro_message_spv.view_l10n_ro_message_spv_form
+msgid "Download the PDF rendered by ANAF"
+msgstr ""
+
+#. module: l10n_ro_message_spv
+#: model_terms:ir.ui.view,arch_db:l10n_ro_message_spv.view_l10n_ro_message_spv_form
+msgid "Download the invoice XML"
+msgstr ""
+
+#. module: l10n_ro_message_spv
+#: model_terms:ir.ui.view,arch_db:l10n_ro_message_spv.view_l10n_ro_message_spv_form
+msgid "Download the signed ANAF ZIP"
+msgstr ""
+
+#. module: l10n_ro_message_spv
 #: model:ir.model.fields.selection,name:l10n_ro_message_spv.selection__l10n_ro_message_spv__state__downloaded
 msgid "Downloaded"
 msgstr "Descărcat"
@@ -178,11 +198,6 @@ msgstr "Erori și informații"
 #: model:ir.model.fields,field_description:l10n_ro_message_spv.field_l10n_ro_message_spv__file_name
 msgid "File Name"
 msgstr "Nume fișier"
-
-#. module: l10n_ro_message_spv
-#: model_terms:ir.ui.view,arch_db:l10n_ro_message_spv.view_l10n_ro_message_spv_form
-msgid "Files"
-msgstr "Fișiere"
 
 #. module: l10n_ro_message_spv
 #: model_terms:ir.ui.view,arch_db:l10n_ro_message_spv.view_l10n_ro_message_spv_form
@@ -320,6 +335,16 @@ msgid "Out Receipt"
 msgstr "Factură vânzare cu bon"
 
 #. module: l10n_ro_message_spv
+#: model_terms:ir.ui.view,arch_db:l10n_ro_message_spv.view_l10n_ro_message_spv_form
+msgid "PDF"
+msgstr ""
+
+#. module: l10n_ro_message_spv
+#: model_terms:ir.ui.view,arch_db:l10n_ro_message_spv.view_l10n_ro_message_spv_form
+msgid "PDF ANAF"
+msgstr ""
+
+#. module: l10n_ro_message_spv
 #: model:ir.model.fields,field_description:l10n_ro_message_spv.field_l10n_ro_message_spv__partner_id
 #: model_terms:ir.ui.view,arch_db:l10n_ro_message_spv.view_l10n_ro_message_spv_search
 msgid "Partner"
@@ -380,6 +405,12 @@ msgid "Technical field used to track the status of a submission."
 msgstr "Câmp tehnic folosit pentru a urmări starea unei trimiteri."
 
 #. module: l10n_ro_message_spv
+#. odoo-python
+#: code:addons/l10n_ro_message_spv/models/message_spv.py:0
+msgid "This invoice's XML does not contain an embedded PDF."
+msgstr ""
+
+#. module: l10n_ro_message_spv
 #: model:ir.model.fields,field_description:l10n_ro_message_spv.field_account_bank_statement_line__l10n_ro_edi_transaction
 #: model:ir.model.fields,field_description:l10n_ro_message_spv.field_account_move__l10n_ro_edi_transaction
 msgid "Transaction ID (RO)"
@@ -403,8 +434,17 @@ msgstr "Cod furnizor"
 
 #. module: l10n_ro_message_spv
 #: model:ir.model.fields,field_description:l10n_ro_message_spv.field_l10n_ro_message_spv__attachment_xml_id
+#: model_terms:ir.ui.view,arch_db:l10n_ro_message_spv.view_l10n_ro_message_spv_form
 msgid "XML"
 msgstr ""
+
+#. module: l10n_ro_message_spv
+#: model_terms:ir.ui.view,arch_db:l10n_ro_message_spv.view_l10n_ro_message_spv_form
+msgid "ZIP"
+msgstr ""
+
+#~ msgid "Files"
+#~ msgstr "Fișiere"
 
 #~ msgid "Get Embedded PDF"
 #~ msgstr "Obține PDF încorporat"
