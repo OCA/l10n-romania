@@ -168,10 +168,18 @@ class StockMove(models.Model):
         )
         if ro_fifo_out_moves:
             for move in ro_fifo_out_moves:
-                value = 0
+                if correction_quantity:
+                    # Quantity edited after validation: value the correction at
+                    # the move's current unit value (the FIFO layers were
+                    # already consumed at validation), like base Odoo does.
+                    previous_qty = move.quantity - correction_quantity
+                    if previous_qty:
+                        move.value += move.value / previous_qty * correction_quantity
+                    continue
                 if move.value_manual:
                     move.value = move.value_manual
                     continue
+                value = 0
                 for move_line in move.move_line_ids:
                     value += move.product_id._run_fifo_value(
                         move_line.quantity_product_uom,
