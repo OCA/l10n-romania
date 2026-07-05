@@ -310,10 +310,22 @@ class TestMessageSPV(TestMessageSPV):
         self.assertEqual(action["url"], f"/l10n_ro/message_spv/{message.id}/xml")
         action = message.action_download_anaf_pdf()
         self.assertEqual(action["url"], f"/l10n_ro/message_spv/{message.id}/anaf_pdf")
+
+    def test_action_download_embedded_pdf_url(self):
+        """When the XML holds an embedded PDF, the action points to the
+        on-the-fly controller route."""
+        message = self._create_message_with_zip("DL2", "TESTDL2", EMBEDDED_PDF_XML)
         action = message.action_download_embedded_pdf()
         self.assertEqual(
             action["url"], f"/l10n_ro/message_spv/{message.id}/embedded_pdf"
         )
+
+    def test_action_download_embedded_pdf_missing_raises(self):
+        """Clicking the button when the XML has no embedded PDF must raise
+        a user-friendly error instead of surfacing a raw 404."""
+        message = self._create_message_with_zip("DL3", "TESTDL3", b"<Invoice/>")
+        with self.assertRaises(UserError):
+            message.action_download_embedded_pdf()
 
     def test_unlink_account_move(self):
         """Testează funcționalitatea de ștergere a
