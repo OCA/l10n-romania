@@ -284,9 +284,9 @@ class StockMove(models.Model):
                 res |= move_line
         return res
 
-    def _set_value(self):
+    def _set_value(self, correction_quantity=None):
         """Set the value of the move"""
-        res = super()._set_value()
+        res = super()._set_value(correction_quantity=correction_quantity)
         ro_internal_moves = self.filtered(
             lambda m: m.is_l10n_ro_record and m.l10n_ro_move_type == "internal_transfer"
         )
