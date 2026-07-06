@@ -645,6 +645,12 @@ class TestMessageSPV(TestMessageSPV):
         self.assertEqual(pdf_bytes, b"%PDF-test")
         self.assertFalse(message_spv.attachment_embedded_pdf_id)
 
+        # the download action points to the on-the-fly controller route
+        action = message_spv.action_download_embedded_pdf()
+        self.assertEqual(
+            action["url"], f"/l10n_ro/message_spv/{message_spv.id}/embedded_pdf"
+        )
+
     def test_missing_data_coverage(self):
         """Testează ramurile de date lipsă în derivarea din ZIP"""
         message_spv = self.env["l10n.ro.message.spv"].create(
@@ -911,10 +917,10 @@ class TestMessageSPV(TestMessageSPV):
         res = message_spv.action_download_anaf_pdf()
         self.assertEqual(res["url"], f"/l10n_ro/message_spv/{message_spv.id}/anaf_pdf")
 
-        res = message_spv.action_download_embedded_pdf()
-        self.assertEqual(
-            res["url"], f"/l10n_ro/message_spv/{message_spv.id}/embedded_pdf"
-        )
+        # the ZIP holds no embedded PDF: clicking the button must raise a
+        # user-friendly error instead of hitting a raw 404
+        with self.assertRaises(UserError):
+            message_spv.action_download_embedded_pdf()
 
         # once the files exist on the invoice, the computed fields point to
         # them and the download uses /web/content
