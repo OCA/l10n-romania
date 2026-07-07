@@ -7,7 +7,8 @@ from odoo import SUPERUSER_ID, api
 
 _logger = logging.getLogger(__name__)
 
-BATCH_SIZE = 1000
+BATCH_SIZE_PARAM = "l10n_ro_message_spv.migration_batch_size"
+DEFAULT_BATCH_SIZE = 1000
 
 
 def migrate(cr, version):
@@ -51,6 +52,8 @@ def migrate(cr, version):
     )
     attachment_ids = [row[0] for row in cr.fetchall()]
     env = api.Environment(cr, SUPERUSER_ID, {})
+    get_param = env["ir.config_parameter"].sudo().get_param
+    BATCH_SIZE = int(get_param(BATCH_SIZE_PARAM, DEFAULT_BATCH_SIZE))
     for start in range(0, len(attachment_ids), BATCH_SIZE):
         batch = attachment_ids[start : start + BATCH_SIZE]
         env["ir.attachment"].browse(batch).exists().unlink()
