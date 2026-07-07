@@ -58,3 +58,12 @@ class TestRoCity(TransactionCase):
         with self.assertRaises(UserError):
             # 607185 belongs to BC while the partner state is B.
             partner_form.zip = "607185"
+
+    def test_onchange_zip_bucharest_sector_mismatch_raises_usererror(self):
+        partner_form = Form(self.env["res.partner"])
+        partner_form.country_id = self.env.ref("base.ro")
+        partner_form.state_id = self.state_bc
+
+        with self.assertRaises(UserError):
+            # 030011 belongs to Bucharest sectors and requires state B.
+            partner_form.zip = "030011"
