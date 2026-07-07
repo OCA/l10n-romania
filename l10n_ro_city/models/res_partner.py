@@ -53,7 +53,8 @@ class Partner(models.Model):
                 if self.state_id != state_b:
                     raise UserError(
                         self.env._(
-                            "The city %(city)s doesn't match the zip code and the state %(state)s",
+                            "The city %(city)s doesn't match"
+                            " the zip code and the state %(state)s",
                             city=city.name,
                             state=state_b.name,
                         )
