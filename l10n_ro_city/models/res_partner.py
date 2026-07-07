@@ -32,7 +32,12 @@ class Partner(models.Model):
             state = self.env["res.country.state"].search(domain, limit=1)
             if state:
                 if self.state_id and self.state_id != state:
-                    raise UserError(self.env._("The state %s doesn't match the zip code") % state.name)
+                    raise UserError(
+                        self.env._(
+                            "The state %(state)s doesn't match the zip code",
+                            state=state.name,
+                        )
+                    )
                 self.state_id = state
 
             if self.zip[:2] in ["01", "02", "03", "04", "05", "06"]:
@@ -47,8 +52,11 @@ class Partner(models.Model):
                 city = self.env.ref(mapping[self.zip[:2]])
                 if self.state_id != state_b:
                     raise UserError(
-                        self.env._("The city %s doesn't match the zip code and the state %s")
-                        % (city.name, state.name)
+                        self.env._(
+                            "The city %(city)s doesn't match the zip code and the state %(state)s",
+                            city=city.name,
+                            state=state_b.name,
+                        )
                     )
             else:
                 domain = [

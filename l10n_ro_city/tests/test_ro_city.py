@@ -4,6 +4,7 @@
 
 from odoo.tests import Form
 from odoo.tests.common import TransactionCase
+from odoo.exceptions import UserError
 
 
 class TestRoCity(TransactionCase):
@@ -48,3 +49,12 @@ class TestRoCity(TransactionCase):
         partner_form.state_id = self.state_b
         partner_form.zip = "030011"
         self.assertEqual(partner_form.city_id.name, "Sector3")
+
+    def test_onchange_zip_state_mismatch_raises_usererror(self):
+        partner_form = Form(self.env["res.partner"])
+        partner_form.country_id = self.env.ref("base.ro")
+        partner_form.state_id = self.state_b
+
+        with self.assertRaises(UserError):
+            # 607185 belongs to BC while the partner state is B.
+            partner_form.zip = "607185"
