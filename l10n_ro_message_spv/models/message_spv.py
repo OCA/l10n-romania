@@ -421,7 +421,7 @@ class MessageSPV(models.Model):
         messages_with_ref = messages_without_invoice.filtered(lambda m: m.ref)
         domain = [("name", "in", messages_with_ref.mapped("ref"))]
         invoices |= self.env["account.move"].search(domain)
-        invoices = invoices.filtered(lambda i: i.state == "posted")
+        invoices = invoices.filtered(lambda i: i.state != "cancel")
         for message in messages_without_invoice:
             invoice = invoices.filtered(
                 lambda i, m=message: i.l10n_ro_edi_download == m.name
@@ -579,7 +579,7 @@ class MessageSPV(models.Model):
                 [
                     ("ref", "=", new_invoice.ref),
                     ("move_type", "in", ("in_invoice", "in_receipt")),
-                    ("state", "=", "posted"),
+                    ("state", "!=", "cancel"),
                     (
                         "commercial_partner_id",
                         "=",
