@@ -1,3 +1,12 @@
+**19.0.2.1.2 (2026-07-09)**
+
+- Fixed duplicate vendor bills when a bill already exists in Odoo (e.g.
+  created from a purchase order) and is still in draft when the matching
+  invoice is later downloaded from SPV: the deduplication search used to
+  only match `posted` invoices, so a draft bill with the same reference
+  and vendor was never found, and a second draft bill was created for the
+  same document. The search now matches any non-cancelled invoice.
+
 **19.0.2.1.1 (2026-07-05)**
 
 - Clicking "Download embedded PDF" when the invoice XML has no embedded
