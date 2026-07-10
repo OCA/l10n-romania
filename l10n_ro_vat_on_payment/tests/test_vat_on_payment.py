@@ -187,8 +187,34 @@ class TestVATonpayment(AccountTestInvoicingCommon):
             return True
 
     def test_invoice_fp(self):
-        """Test download file and partner link."""
-        if not self.invoice.partner_id.l10n_ro_vat_on_payment:
-            self.lxt_partner.l10n_ro_vat_on_payment = True
-        self.invoice._onchange_partner_id()
-        self.assertEqual(self.invoice.fiscal_position_id, self.fptvainc)
+        """The VAT on payment fiscal position must be applied on programmatic
+        creation (no onchange), for Romanian VAT-on-payment partners."""
+        self.lxt_partner.l10n_ro_vat_on_payment = True
+        invoice = self.invoice_model.create(
+            {
+                "partner_id": self.lxt_partner.id,
+                "move_type": "in_invoice",
+                "invoice_line_ids": self.invoice_line,
+            }
+        )
+        self.assertEqual(invoice.fiscal_position_id, self.fptvainc)
+
+    def test_invoice_fp_foreign_partner(self):
+        """VAT on payment is an internal regime: even for a partner flagged as
+        VAT on payment, an intracommunity / foreign partner must not get the
+        fiscal position applied."""
+        foreign_partner = self.partner_model.create(
+            {
+                "name": "Foreign Supplier",
+                "country_id": self.env.ref("base.de").id,
+                "l10n_ro_vat_on_payment": True,
+            }
+        )
+        invoice = self.invoice_model.create(
+            {
+                "partner_id": foreign_partner.id,
+                "move_type": "in_invoice",
+                "invoice_line_ids": self.invoice_line,
+            }
+        )
+        self.assertNotEqual(invoice.fiscal_position_id, self.fptvainc)
