@@ -64,6 +64,7 @@ class ResPartner(models.Model):
                         result = res.json()
                     except Exception:
                         _logger.warning("ANAF sync not working: %s" % res.content)
+
                     if result.get("correlationId"):
                         time.sleep(3)
                         resp = False
@@ -76,19 +77,22 @@ class ResPartner(models.Model):
                         except Exception as e:
                             _logger.warning("ANAF sync not working: %s" % e)
                         if resp and resp.status_code == 200:
-                            resp = resp.json()
-                            for result_partner in resp["found"] + resp["notfound"]:
-                                vat = result_partner.get("date_generale").get("cui")
-                                if vat:
-                                    partners = self.search(
-                                        [
-                                            ("l10n_ro_vat_number", "=", vat),
-                                            ("is_company", "=", True),
-                                        ]
-                                    )
-                                    for partner in partners:
-                                        data = partner._Anaf_to_Odoo(result_partner)
-                                        partner.update(data)
+                            result = resp.json()
+
+                    for result_partner in result.get("found", []) + result.get(
+                        "notFound", []
+                    ):
+                        vat = result_partner.get("date_generale").get("cui")
+                        if vat:
+                            partners = self.search(
+                                [
+                                    ("l10n_ro_vat_number", "=", vat),
+                                    ("is_company", "=", True),
+                                ]
+                            )
+                            for partner in partners:
+                                data = partner._Anaf_to_Odoo(result_partner)
+                                partner.update(data)
             except Exception as e:
                 _logger.warning("ANAF sync not working: %s" % e)
 
