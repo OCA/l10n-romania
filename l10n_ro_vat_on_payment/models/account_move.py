@@ -11,32 +11,46 @@ class AccountMove(models.Model):
     _name = "account.move"
     _inherit = ["account.move", "l10n.ro.mixin"]
 
-    @api.onchange("partner_id", "company_id")
-    def _onchange_partner_id(self):
-        """Check if invoice is with VAT on Payment.
-        Romanian law specify that the VAT on payment is applied only
-        for internal invoices (National or not specified fiscal position)
+    @api.depends("partner_id", "partner_shipping_id", "company_id", "move_type")
+    def _compute_fiscal_position_id(self):
+        """Set the VAT on Payment fiscal position when the company (or, for
+        purchase documents, the supplier) is registered as VAT on Payment.
+
+        This is done in the compute (not only in an onchange) so that it also
+        applies when moves are created programmatically - e.g. from
+        subscriptions, imports or direct ``create()`` calls - where onchanges
+        never run. ``no_insert=True`` avoids triggering the ANAF subprocess
+        during the compute; the history is kept up to date by the daily cron
+        and by res.partner create/write.
         """
-        result = super()._onchange_partner_id()
-        if self.is_l10n_ro_record:
-            ctx = dict(self.env.context)
-            company = self.company_id
+        res = super()._compute_fiscal_position_id()
+        for move in self:
+            if not move.is_l10n_ro_record or move.move_type == "entry":
+                continue
+            company = move.company_id
+            fptvainc = company.l10n_ro_property_vat_on_payment_position_id
+            if not fptvainc:
+                continue
             partner = (
-                self.env["res.partner"]._find_accounting_partner(self.partner_id)
-                or self.partner_id
+                self.env["res.partner"]._find_accounting_partner(move.partner_id)
+                or move.partner_id
             )
-            if self.invoice_date:
-                ctx.update({"check_date": self.invoice_date})
-            else:
-                ctx.update({"check_date": date.today()})
+            # TVA la încasare este un regim intern: se aplică doar în relația
+            # cu parteneri români. La operațiuni intracomunitare / export
+            # (partener cu țară străină) nu se aplică. Partenerii fără țară
+            # completată sunt tratați ca interni (național / nespecificat).
+            if partner.country_id and partner.country_id.code != "RO":
+                continue
+            ctx = {
+                "no_insert": True,
+                "check_date": move.invoice_date or date.today(),
+            }
             vatp = company.partner_id.with_context(**ctx)._check_vat_on_payment()
-            if not vatp and self.is_purchase_document() and partner:
+            if not vatp and move.is_purchase_document() and partner:
                 vatp = partner.with_context(**ctx)._check_vat_on_payment()
-            if vatp and self.move_type != "entry":
-                fptvainc = company.l10n_ro_property_vat_on_payment_position_id
-                if fptvainc:
-                    self.fiscal_position_id = fptvainc
-        return result
+            if vatp:
+                move.fiscal_position_id = fptvainc
+        return res
 
     # urmatoerele linii strica inchiderea standard de TVA
     # @api.depends("line_ids.account_id.account_type")
