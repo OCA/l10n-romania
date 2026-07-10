@@ -38,7 +38,7 @@ AnafFiled_OdooField_Overwrite = [
     ("city", "city", "over_all_the_time"),
     ("city_id", "city_id", "over_all_the_time"),
     ("state_id", "state_id", "over_all_the_time"),
-    ("zip", "codPostal", "over_all_the_time"),
+    ("zip", "codPostal", "over_if_new_value"),
     ("phone", "telefon", "write_if_empty"),
     ("l10n_ro_caen_code", "cod_CAEN", "over_all_the_time"),
 ]
@@ -261,14 +261,22 @@ class ResPartner(models.Model):
         if odoo_result["state_id"] == self.env.ref("base.RO_B"):
             if odoo_result.get("codPostal") and odoo_result["codPostal"][0] != "0":
                 odoo_result["codPostal"] = "0" + odoo_result["codPostal"]
+
         for field in AnafFiled_OdooField_Overwrite:
             if field[1] not in odoo_result:
                 continue
             anaf_value = odoo_result.get(field[1], "")
+            if field[2] == "over_if_new_value":
+                if not anaf_value:
+                    continue  # Skip update if ANAF did not provide a value
+                # Update the field only when ANAF returned a value
+                res[field[0]] = anaf_value
             if type(self._fields[field[0]]) in [fields.Date, fields.Datetime]:
                 if not anaf_value.strip():
                     anaf_value = False
             if field[2] == "over_all_the_time":
+                # Always update the field, even with an empty value
+                # (used to clear previously stored data)
                 res[field[0]] = anaf_value
             elif field[2] == "write_if_empty&add_date" and anaf_value:
                 # we are only writing if is not already a value
