@@ -64,6 +64,11 @@ msgid "Accounting"
 msgstr "Contabilitate"
 
 #. module: l10n_ro_config
+#: model:ir.model,name:l10n_ro_config.model_ir_actions_actions
+msgid "Actions"
+msgstr ""
+
+#. module: l10n_ro_config
 #: model_terms:ir.ui.view,arch_db:l10n_ro_config.res_config_settings_view_form
 msgid "Add a mechanism to close Incomes, Expense, VAT on a period base."
 msgstr ""
