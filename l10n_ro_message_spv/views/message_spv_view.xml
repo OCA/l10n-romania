@@ -233,11 +233,13 @@
         name="SPV"
         parent="account.menu_finance_entries"
         action="action_l10n_ro_message_spv"
+        groups="l10n_ro_config.group_ro_menus"
     />
     <menuitem
         id="menu_l10n_ro_message_spv"
         name="Messages SPV"
         parent="menu_l10n_ro_spv"
         action="action_l10n_ro_message_spv"
+        groups="l10n_ro_config.group_ro_menus"
     />
 </odoo>
