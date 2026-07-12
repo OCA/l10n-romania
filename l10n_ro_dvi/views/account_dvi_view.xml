@@ -156,7 +156,7 @@
         <field name="name">Romanian DVI</field>
         <field name="action" ref="action_account_dvi" />
         <field name="parent_id" ref="account.menu_finance_entries" />
-        <field name="group_ids" eval="[(4, ref('account.group_account_user'))]" />
+        <field name="group_ids" eval="[(4, ref('l10n_ro_config.group_ro_menus'))]" />
         <field name="sequence" eval="45" />
     </record>
 </odoo>
