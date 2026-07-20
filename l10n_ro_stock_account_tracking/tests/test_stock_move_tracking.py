@@ -70,3 +70,60 @@ class TestStockMoveTracking(TestROStockCommon):
         self.assertEqual(track_vals["src_move_id"], self.src_move.id)
         self.assertEqual(track_vals["quantity"], 3)
         self.assertAlmostEqual(track_vals["value"], 60)
+
+    def test_fifo_delivery_spanning_two_layers_does_not_duplicate_tracking(self):
+        """An outgoing move consuming two successive FIFO layers must not
+        get an extra tracking entry on the leftover move for the layer that
+        was actually split off into a sibling move."""
+        second_src_move = self.StockMove.create(
+            {
+                "product_id": self.product_fifo.id,
+                "product_uom_qty": 5,
+                "product_uom": self.product_fifo.uom_id.id,
+                "location_id": self.env.ref("stock.stock_location_suppliers").id,
+                "location_dest_id": self.location1.id,
+                "price_unit": 40,
+                "value_manual": 200,
+            }
+        )
+        second_src_move._action_confirm()
+        second_src_move._action_assign()
+        second_src_move.picked = True
+        second_src_move._action_done()
+
+        out_move = self.StockMove.create(
+            {
+                "product_id": self.product_fifo.id,
+                "product_uom_qty": 8,
+                "product_uom": self.product_fifo.uom_id.id,
+                "location_id": self.location1.id,
+                "location_dest_id": self.env.ref("stock.stock_location_customers").id,
+            }
+        )
+        out_move._action_confirm()
+        out_move._action_assign()
+        out_move.move_line_ids.quantity = 8.0
+        out_move.picked = True
+        out_move._action_done()
+
+        resulting_moves = self.StockMove.search(
+            [
+                ("product_id", "=", self.product_fifo.id),
+                ("location_id", "=", self.location1.id),
+                (
+                    "location_dest_id",
+                    "=",
+                    self.env.ref("stock.stock_location_customers").id,
+                ),
+                ("state", "=", "done"),
+                ("id", "not in", self.dest_move.ids),
+            ]
+        )
+        tracked_qty = sum(resulting_moves.l10n_ro_move_track_src_ids.mapped("quantity"))
+        self.assertEqual(sum(resulting_moves.mapped("quantity")), 8.0)
+        self.assertEqual(
+            tracked_qty,
+            8.0,
+            "Tracked quantity across all resulting moves must match the "
+            "physical quantity delivered, with no duplicate attribution.",
+        )
