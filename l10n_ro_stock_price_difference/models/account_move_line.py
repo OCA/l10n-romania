@@ -95,8 +95,24 @@ class AccountMoveLine(models.Model):
         self.ensure_one()
         if not diff_dict:
             return
+        self = self.with_company(self.company_id)
         val_dif = diff_dict.get("value_diff", 0.0)
         if float_is_zero(val_dif, precision_rounding=0.01):
+            return
+
+        # If this stock move's price difference was already corrected by a
+        # prior confirm (e.g. the bill was reset to draft and confirmed
+        # again), skip it: the correction was already applied and redoing it
+        # would double it up, since the diff is recomputed from the original
+        # move's value, which distribution to destinations does not update.
+        stock_move_id = diff_dict.get("stock_move_id")
+        if stock_move_id and self.env["stock.landed.cost"].search_count(
+            [
+                ("l10n_ro_cost_type", "=", "price_diff"),
+                ("state", "=", "done"),
+                ("valuation_adjustment_lines.move_id", "=", stock_move_id),
+            ]
+        ):
             return
 
         # Distribute in case having stock move destinations or account in the
