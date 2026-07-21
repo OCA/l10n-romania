@@ -5,6 +5,7 @@ import logging
 
 from odoo import Command, api, fields, models
 from odoo.exceptions import UserError
+from odoo.tools.float_utils import float_compare, float_is_zero
 
 _logger = logging.getLogger(__name__)
 
@@ -61,7 +62,18 @@ class StockLandedCost(models.Model):
                     / line.move_id.quantity
                     * line.l10n_ro_not_distributed_amount
                 )
-            if not landed_cost.currency_id.is_zero(total_amount - lc_total):
+            # Compare rounding each side first (like currency.compare_amounts)
+            # rather than rounding the difference: the two are not
+            # equivalent, and the latter incorrectly rejects an exact match
+            # whenever lc_total sits precisely at a half-cent boundary.
+            if (
+                float_compare(
+                    total_amount,
+                    lc_total,
+                    precision_rounding=landed_cost.currency_id.rounding,
+                )
+                != 0
+            ):
                 return False
         return res
 
@@ -121,14 +133,64 @@ class StockLandedCost(models.Model):
         AdjustementLines.search([("cost_id", "in", self.ids)]).unlink()
 
         for cost in self:
+            currency = cost.currency_id
             for line in cost.valuation_adjustment_lines:
                 move = line.move_id
                 if not move:
                     continue
                 um_add_cost = line.additional_landed_cost / move.quantity
+                consumed_qty = move.quantity - move.remaining_qty
+                precision = move.product_id.uom_id.rounding
                 move_dest_vals_list = self._get_l10n_ro_move_destinations(move)
-                for dest_vals in move_dest_vals_list:
-                    additional_landed_cost = um_add_cost * dest_vals["quantity"]
+                if move_dest_vals_list:
+                    # Destination tracking can be imperfect (e.g. historical
+                    # duplicate or partial entries), so the tracked quantity
+                    # does not always add up to what was actually consumed.
+                    # Rescale proportionally to guarantee the distributed
+                    # total always matches (quantity - remaining_qty), which
+                    # is what _check_sum() requires.
+                    total_dest_qty = sum(
+                        dest_vals["quantity"] for dest_vals in move_dest_vals_list
+                    )
+                    if total_dest_qty and not float_is_zero(
+                        total_dest_qty - consumed_qty, precision_rounding=precision
+                    ):
+                        scale = consumed_qty / total_dest_qty
+                        for dest_vals in move_dest_vals_list:
+                            dest_vals["quantity"] *= scale
+                elif cost.l10n_ro_only_on_distributed_lines and not float_is_zero(
+                    consumed_qty, precision_rounding=precision
+                ):
+                    # No destination is tracked at all, yet some of the
+                    # move's quantity was consumed. For price-difference
+                    # costs the base additional_landed_cost is zeroed out
+                    # right after this (see compute_landed_cost()), so with
+                    # nowhere else to attribute the consumed portion it
+                    # would otherwise be silently lost: apply that portion
+                    # on the source move itself instead.
+                    move_dest_vals_list = [{"move": move, "quantity": consumed_qty}]
+                else:
+                    # Nothing was consumed (the reception is still fully on
+                    # hand, correctly revalued from the invoice directly),
+                    # or this is a normal (non price-difference) cost, whose
+                    # full amount already applies on the source move via
+                    # the base mechanism - nothing to do here.
+                    continue
+
+                # Round each destination's share individually, then let the
+                # last one absorb the rounding remainder, so the created
+                # lines always sum up to exactly the target amount (matching
+                # what _check_sum() expects).
+                target_total = currency.round(um_add_cost * consumed_qty)
+                running_total = 0.0
+                for index, dest_vals in enumerate(move_dest_vals_list):
+                    if index == len(move_dest_vals_list) - 1:
+                        additional_landed_cost = target_total - running_total
+                    else:
+                        additional_landed_cost = currency.round(
+                            um_add_cost * dest_vals["quantity"]
+                        )
+                        running_total += additional_landed_cost
                     adj_line_vals = line._l10n_ro_prepare_adj_line_vals(
                         dest_vals, additional_landed_cost
                     )

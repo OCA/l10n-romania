@@ -335,8 +335,8 @@ class StockMove(models.Model):
                 move_vals["fifo_neg_origin_value"] = unit * move.quantity
             move.write(move_vals)
             new_move_vals_list = []
-        if fifo_item:
-            move._l10n_ro_update_fifo_move(fifo_item, move)
+            if fifo_item:
+                move._l10n_ro_update_fifo_move(fifo_item, move)
         if new_move_vals_list:
             for new_move_vals in new_move_vals_list:
                 self._l10n_ro_update_fifo_split_move_vals(
