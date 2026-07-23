@@ -7,14 +7,16 @@ msgstr ""
 "Project-Id-Version: Odoo Server 16.0+e\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2024-06-19 17:11+0000\n"
-"PO-Revision-Date: 2024-06-19 17:11+0000\n"
-"Last-Translator: \n"
+"PO-Revision-Date: 2026-07-23 12:46+0000\n"
+"Last-Translator: loredana-a11y <loredana@nexterp.ro>\n"
 "Language-Team: \n"
-"Language: \n"
+"Language: ro\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
-"Plural-Forms: \n"
+"Plural-Forms: nplurals=3; plural=n==1 ? 0 : (n==0 || (n%100 > 0 && n%100 < "
+"20)) ? 1 : 2;\n"
+"X-Generator: Weblate 5.15.2\n"
 
 #. module: l10n_ro_message_spv
 #: model:ir.model.fields,field_description:l10n_ro_message_spv.field_l10n_ro_message_spv__attachment_anaf_pdf_id
@@ -36,13 +38,13 @@ msgstr "Serviciul ANAF nu poate să genereze PFD pentru acest XML."
 #. odoo-python
 #: code:addons/l10n_ro_message_spv/models/ciusro_document.py:0
 msgid "Access token is forbidden."
-msgstr ""
+msgstr "Token de acces refuzat."
 
 #. module: l10n_ro_message_spv
 #. odoo-python
 #: code:addons/l10n_ro_message_spv/models/ciusro_document.py:0
 msgid "Access token is unauthorized."
-msgstr ""
+msgstr "Token de acces neautorizat."
 
 #. module: l10n_ro_message_spv
 #: model:ir.model.fields,field_description:l10n_ro_message_spv.field_l10n_ro_message_spv__amount
@@ -53,7 +55,7 @@ msgstr "Sumă"
 #. odoo-python
 #: code:addons/l10n_ro_message_spv/models/message_spv.py:0
 msgid "An error occurred while connecting to ANAF service: %s"
-msgstr ""
+msgstr "A apărut o eroare la conectarea la serviciul ANAF: %s"
 
 #. module: l10n_ro_message_spv
 #: model:ir.model.fields,field_description:l10n_ro_message_spv.field_l10n_ro_message_spv__attachment_id
@@ -63,7 +65,7 @@ msgstr "Atașament"
 #. module: l10n_ro_message_spv
 #: model:ir.model,name:l10n_ro_message_spv.model_account_edi_xml_ubl_ro
 msgid "CIUS RO"
-msgstr ""
+msgstr "CIUS RO"
 
 #. module: l10n_ro_message_spv
 #: model:ir.model.fields,field_description:l10n_ro_message_spv.field_l10n_ro_message_spv__cif
@@ -83,13 +85,15 @@ msgstr "Companie"
 #. module: l10n_ro_message_spv
 #: model:ir.model,name:l10n_ro_message_spv.model_res_config_settings
 msgid "Config Settings"
-msgstr ""
+msgstr "Setări de configurare"
 
 #. module: l10n_ro_message_spv
 #. odoo-python
 #: code:addons/l10n_ro_message_spv/models/message_spv.py:0
 msgid "Could not connect to ANAF service. Please try again later."
 msgstr ""
+"Nu s-a putut conecta la serviciul ANAF. Vă rugăm să încercați din nou mai "
+"târziu."
 
 #. module: l10n_ro_message_spv
 #: model_terms:ir.ui.view,arch_db:l10n_ro_message_spv.view_l10n_ro_message_spv_form
@@ -155,27 +159,27 @@ msgstr "Descarcă"
 #. module: l10n_ro_message_spv
 #: model:ir.model.fields,field_description:l10n_ro_message_spv.field_l10n_ro_message_spv__download_attempts
 msgid "Download Attempts"
-msgstr ""
+msgstr "Încercări de descărcare"
 
 #. module: l10n_ro_message_spv
 #: model_terms:ir.ui.view,arch_db:l10n_ro_message_spv.view_l10n_ro_message_spv_form
 msgid "Download the PDF embedded in the invoice XML"
-msgstr ""
+msgstr "Descarcă PDF-ul încorporat în XML-ul facturii"
 
 #. module: l10n_ro_message_spv
 #: model_terms:ir.ui.view,arch_db:l10n_ro_message_spv.view_l10n_ro_message_spv_form
 msgid "Download the PDF rendered by ANAF"
-msgstr ""
+msgstr "Descarcă PDF-ul generat de ANAF"
 
 #. module: l10n_ro_message_spv
 #: model_terms:ir.ui.view,arch_db:l10n_ro_message_spv.view_l10n_ro_message_spv_form
 msgid "Download the invoice XML"
-msgstr ""
+msgstr "Descarcă XML-ul facturii"
 
 #. module: l10n_ro_message_spv
 #: model_terms:ir.ui.view,arch_db:l10n_ro_message_spv.view_l10n_ro_message_spv_form
 msgid "Download the signed ANAF ZIP"
-msgstr ""
+msgstr "Descarcă ZIP-ul semnat de ANAF"
 
 #. module: l10n_ro_message_spv
 #: model:ir.model.fields.selection,name:l10n_ro_message_spv.selection__l10n_ro_message_spv__state__downloaded
@@ -237,13 +241,13 @@ msgstr "Găsește factură"
 #: model:ir.model.fields,field_description:l10n_ro_message_spv.field_res_company__id
 #: model:ir.model.fields,field_description:l10n_ro_message_spv.field_res_config_settings__id
 msgid "ID"
-msgstr ""
+msgstr "ID"
 
 #. module: l10n_ro_message_spv
 #: model:ir.model.fields,field_description:l10n_ro_message_spv.field_account_bank_statement_line__l10n_ro_edi_download
 #: model:ir.model.fields,field_description:l10n_ro_message_spv.field_account_move__l10n_ro_edi_download
 msgid "ID Download ANAF (RO)"
-msgstr ""
+msgstr "ID Descărcare ANAF (RO)"
 
 #. module: l10n_ro_message_spv
 #: model:ir.model.fields,help:l10n_ro_message_spv.field_account_bank_statement_line__l10n_ro_edi_download
@@ -281,12 +285,12 @@ msgstr "Valoare factură"
 #: model:ir.model.fields,field_description:l10n_ro_message_spv.field_l10n_ro_message_spv__invoice_date
 #: model_terms:ir.ui.view,arch_db:l10n_ro_message_spv.view_l10n_ro_message_spv_search
 msgid "Invoice Date"
-msgstr ""
+msgstr "Dată factură"
 
 #. module: l10n_ro_message_spv
 #: model:ir.model,name:l10n_ro_message_spv.model_account_move
 msgid "Journal Entry"
-msgstr ""
+msgstr "Înregistrare jurnal"
 
 #. module: l10n_ro_message_spv
 #: model:ir.model,name:l10n_ro_message_spv.model_account_move_line
@@ -296,7 +300,7 @@ msgstr "Element jurnal"
 #. module: l10n_ro_message_spv
 #: model:ir.model.fields,field_description:l10n_ro_message_spv.field_l10n_ro_message_spv__last_download_date
 msgid "Last Download Date"
-msgstr ""
+msgstr "Data ultimei descărcări"
 
 #. module: l10n_ro_message_spv
 #: model:ir.model.fields,field_description:l10n_ro_message_spv.field_l10n_ro_message_spv__write_uid
@@ -312,13 +316,13 @@ msgstr "Ultima actualizare la"
 #: model:ir.model.fields,field_description:l10n_ro_message_spv.field_res_company__l10n_ro_download_einvoices_days
 #: model:ir.model.fields,field_description:l10n_ro_message_spv.field_res_config_settings__l10n_ro_download_einvoices_days
 msgid "Maximum number of days to download e-invoices."
-msgstr ""
+msgstr "Numărul maxim de zile pentru descărcarea e-facturilor."
 
 #. module: l10n_ro_message_spv
 #: model:ir.model.fields,field_description:l10n_ro_message_spv.field_res_company__l10n_ro_refresh_message_days
 #: model:ir.model.fields,field_description:l10n_ro_message_spv.field_res_config_settings__l10n_ro_refresh_message_days
 msgid "Maximum number of days to refresh e-invoice messages."
-msgstr ""
+msgstr "Numărul maxim de zile pentru reîmprospătarea mesajelor e-factură."
 
 #. module: l10n_ro_message_spv
 #: model:ir.model.fields,field_description:l10n_ro_message_spv.field_l10n_ro_message_spv__message
@@ -352,7 +356,7 @@ msgstr "Mesaje SPV"
 #. odoo-python
 #: code:addons/l10n_ro_message_spv/models/message_spv.py:0
 msgid "No XML found in the downloaded ZIP."
-msgstr ""
+msgstr "Nu s-a găsit XML în ZIP-ul descărcat."
 
 #. module: l10n_ro_message_spv
 #: model:ir.model.fields.selection,name:l10n_ro_message_spv.selection__l10n_ro_message_spv__message_type__out_invoice
@@ -372,12 +376,12 @@ msgstr "Factură vânzare cu bon"
 #. module: l10n_ro_message_spv
 #: model_terms:ir.ui.view,arch_db:l10n_ro_message_spv.view_l10n_ro_message_spv_form
 msgid "PDF"
-msgstr ""
+msgstr "PDF"
 
 #. module: l10n_ro_message_spv
 #: model_terms:ir.ui.view,arch_db:l10n_ro_message_spv.view_l10n_ro_message_spv_form
 msgid "PDF ANAF"
-msgstr ""
+msgstr "PDF ANAF"
 
 #. module: l10n_ro_message_spv
 #: model:ir.model.fields,field_description:l10n_ro_message_spv.field_l10n_ro_message_spv__partner_id
@@ -388,7 +392,7 @@ msgstr "Partener"
 #. module: l10n_ro_message_spv
 #: model:ir.model,name:l10n_ro_message_spv.model_product_product
 msgid "Product Variant"
-msgstr ""
+msgstr "Variantă de produs"
 
 #. module: l10n_ro_message_spv
 #: model:ir.model.fields,field_description:l10n_ro_message_spv.field_l10n_ro_message_spv__ref
@@ -410,7 +414,7 @@ msgstr "ID cerere"
 #: model:ir.model.fields,field_description:l10n_ro_message_spv.field_account_bank_statement_line__l10n_ro_message_spv_ids
 #: model:ir.model.fields,field_description:l10n_ro_message_spv.field_account_move__l10n_ro_message_spv_ids
 msgid "Romania - E-invoice messages"
-msgstr ""
+msgstr "România - Mesaje e-factură"
 
 #. module: l10n_ro_message_spv
 #: model:ir.actions.server,name:l10n_ro_message_spv.ir_cron_res_company_download_message_spv_ir_actions_server
@@ -420,7 +424,7 @@ msgstr "Facturare electronică România: Descarcă mesaj SPV"
 #. module: l10n_ro_message_spv
 #: model:ir.actions.server,name:l10n_ro_message_spv.ir_cron_download_zip_message_spv_ir_actions_server
 msgid "Romania e-Invoicing: Download ZIP SPV Message"
-msgstr ""
+msgstr "Facturare electronică România: Descarcă mesaj ZIP SPV"
 
 #. module: l10n_ro_message_spv
 #: model:ir.ui.menu,name:l10n_ro_message_spv.menu_l10n_ro_spv
@@ -448,13 +452,13 @@ msgstr "Câmp tehnic folosit pentru a urmări starea unei trimiteri."
 #. odoo-python
 #: code:addons/l10n_ro_message_spv/models/ciusro_document.py:0
 msgid "There is something wrong with the SPV. Please try again later."
-msgstr ""
+msgstr "Există o problemă cu SPV. Vă rugăm să încercați din nou mai târziu."
 
 #. module: l10n_ro_message_spv
 #. odoo-python
 #: code:addons/l10n_ro_message_spv/models/message_spv.py:0
 msgid "This invoice's XML does not contain an embedded PDF."
-msgstr ""
+msgstr "XML-ul acestei facturi nu conține un PDF încorporat."
 
 #. module: l10n_ro_message_spv
 #. odoo-python
@@ -462,6 +466,8 @@ msgstr ""
 msgid ""
 "Timeout while sending to SPV. Use Synchronise to SPV to update the status."
 msgstr ""
+"Timeout la trimiterea către SPV. Utilizați Sincronizare cu SPV pentru a "
+"actualiza starea."
 
 #. module: l10n_ro_message_spv
 #: model:ir.model.fields,field_description:l10n_ro_message_spv.field_account_bank_statement_line__l10n_ro_edi_transaction
@@ -479,7 +485,7 @@ msgstr "Tip"
 #. odoo-python
 #: code:addons/l10n_ro_message_spv/models/ciusro_document.py:0
 msgid "Unknown endpoint."
-msgstr ""
+msgstr "Endpoint necunoscut."
 
 #. module: l10n_ro_message_spv
 #: model:ir.model.fields,field_description:l10n_ro_message_spv.field_account_move_line__l10n_ro_vendor_code
@@ -490,18 +496,19 @@ msgstr "Cod furnizor"
 #: model:ir.model.fields,field_description:l10n_ro_message_spv.field_l10n_ro_message_spv__attachment_xml_id
 #: model_terms:ir.ui.view,arch_db:l10n_ro_message_spv.view_l10n_ro_message_spv_form
 msgid "XML"
-msgstr ""
+msgstr "XML"
 
 #. module: l10n_ro_message_spv
 #. odoo-python
 #: code:addons/l10n_ro_message_spv/models/ciusro_document.py:0
 msgid "You reached the limit of requests. Please try again later."
 msgstr ""
+"Ați atins limita de solicitări. Vă rugăm să încercați din nou mai târziu."
 
 #. module: l10n_ro_message_spv
 #: model_terms:ir.ui.view,arch_db:l10n_ro_message_spv.view_l10n_ro_message_spv_form
 msgid "ZIP"
-msgstr ""
+msgstr "ZIP"
 
 #~ msgid "Files"
 #~ msgstr "Fișiere"
