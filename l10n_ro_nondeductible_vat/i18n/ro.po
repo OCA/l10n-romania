@@ -7,28 +7,29 @@ msgstr ""
 "Project-Id-Version: Odoo Server 16.0+e\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2024-05-22 09:42+0000\n"
-"PO-Revision-Date: 2024-05-22 12:46+0300\n"
-"Last-Translator: \n"
+"PO-Revision-Date: 2026-07-23 12:46+0000\n"
+"Last-Translator: loredana-a11y <loredana@nexterp.ro>\n"
 "Language-Team: \n"
 "Language: ro\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: \n"
-"X-Generator: Poedit 3.0.1\n"
+"Plural-Forms: nplurals=3; plural=n==1 ? 0 : (n==0 || (n%100 > 0 && n%100 < "
+"20)) ? 1 : 2;\n"
+"X-Generator: Weblate 5.15.2\n"
 
 #. module: l10n_ro_nondeductible_vat
 #. odoo-python
 #: code:addons/l10n_ro_nondeductible_vat/models/account_move.py:0
 msgid "%(tax)s (non-deductible)"
-msgstr ""
+msgstr "%(tax)s (nedeductibil)"
 
 #. module: l10n_ro_nondeductible_vat
 #: model:ir.model.fields.selection,name:l10n_ro_nondeductible_vat.selection__account_move_line__l10n_ro_nondeductible_percent__50
 #: model:ir.model.fields.selection,name:l10n_ro_nondeductible_vat.selection__stock_move__l10n_ro_nondeductible_percent__50
 #: model:ir.model.fields.selection,name:l10n_ro_nondeductible_vat.selection__stock_quant__l10n_ro_nondeductible_percent__50
 msgid "50% Nondeductible"
-msgstr ""
+msgstr "50% Nedeductibil"
 
 #. module: l10n_ro_nondeductible_vat
 #: model:ir.model,name:l10n_ro_nondeductible_vat.model_account_account
@@ -38,25 +39,25 @@ msgstr "Cont"
 #. module: l10n_ro_nondeductible_vat
 #: model:ir.model,name:l10n_ro_nondeductible_vat.model_account_account_tag
 msgid "Account Tag"
-msgstr ""
+msgstr "Etichetă cont"
 
 #. module: l10n_ro_nondeductible_vat
 #: model:ir.model.fields,field_description:l10n_ro_nondeductible_vat.field_stock_quant__l10n_ro_nondeductible_percent
 msgid "Deductibility"
-msgstr ""
+msgstr "Deductibilitate"
 
 #. module: l10n_ro_nondeductible_vat
 #: model_terms:ir.ui.view,arch_db:l10n_ro_nondeductible_vat.view_move_form
 #: model_terms:ir.ui.view,arch_db:l10n_ro_nondeductible_vat.view_move_line_tree
 msgid "Deductibility %"
-msgstr ""
+msgstr "Deductibilitate %"
 
 #. module: l10n_ro_nondeductible_vat
 #: model:ir.model.fields.selection,name:l10n_ro_nondeductible_vat.selection__account_move_line__l10n_ro_nondeductible_percent__0
 #: model:ir.model.fields.selection,name:l10n_ro_nondeductible_vat.selection__stock_move__l10n_ro_nondeductible_percent__0
 #: model:ir.model.fields.selection,name:l10n_ro_nondeductible_vat.selection__stock_quant__l10n_ro_nondeductible_percent__0
 msgid "Deductible"
-msgstr ""
+msgstr "Deductibil"
 
 #. module: l10n_ro_nondeductible_vat
 #: model:ir.model.fields,field_description:l10n_ro_nondeductible_vat.field_account_account__display_name
@@ -69,12 +70,12 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_ro_nondeductible_vat.field_stock_move__display_name
 #: model:ir.model.fields,field_description:l10n_ro_nondeductible_vat.field_stock_quant__display_name
 msgid "Display Name"
-msgstr ""
+msgstr "Nume afișat"
 
 #. module: l10n_ro_nondeductible_vat
 #: model:ir.model.fields,field_description:l10n_ro_nondeductible_vat.field_account_move_line__display_type
 msgid "Display Type"
-msgstr ""
+msgstr "Tip afișare"
 
 #. module: l10n_ro_nondeductible_vat
 #: model:ir.model.fields,field_description:l10n_ro_nondeductible_vat.field_account_account__id
@@ -87,7 +88,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_ro_nondeductible_vat.field_stock_move__id
 #: model:ir.model.fields,field_description:l10n_ro_nondeductible_vat.field_stock_quant__id
 msgid "ID"
-msgstr ""
+msgstr "ID"
 
 #. module: l10n_ro_nondeductible_vat
 #: model:ir.model.fields,field_description:l10n_ro_nondeductible_vat.field_account_account__is_l10n_ro_record
@@ -104,7 +105,7 @@ msgstr "Inregistrare Romania"
 #. module: l10n_ro_nondeductible_vat
 #: model:ir.model,name:l10n_ro_nondeductible_vat.model_account_move
 msgid "Journal Entry"
-msgstr ""
+msgstr "Înregistrare jurnal"
 
 #. module: l10n_ro_nondeductible_vat
 #: model:ir.model,name:l10n_ro_nondeductible_vat.model_account_move_line
@@ -114,14 +115,14 @@ msgstr "Element jurnal"
 #. module: l10n_ro_nondeductible_vat
 #: model:ir.model.fields,field_description:l10n_ro_nondeductible_vat.field_stock_quant__l10n_ro_nondeductible_tax_id
 msgid "Non Deductible Tax"
-msgstr ""
+msgstr "Taxă nedeductibilă"
 
 #. module: l10n_ro_nondeductible_vat
 #: model:ir.model.fields.selection,name:l10n_ro_nondeductible_vat.selection__account_move_line__l10n_ro_nondeductible_percent__100
 #: model:ir.model.fields.selection,name:l10n_ro_nondeductible_vat.selection__stock_move__l10n_ro_nondeductible_percent__100
 #: model:ir.model.fields.selection,name:l10n_ro_nondeductible_vat.selection__stock_quant__l10n_ro_nondeductible_percent__100
 msgid "Nondeductible"
-msgstr ""
+msgstr "Nedeductibil"
 
 #. module: l10n_ro_nondeductible_vat
 #. odoo-python
@@ -130,6 +131,8 @@ msgid ""
 "Only stock moves of type %(types)s allow for non-deductibility of product/"
 "services."
 msgstr ""
+"Numai mișcările de stoc de tip %(types)s permit nedeductibilitatea "
+"produselor/serviciilor."
 
 #. module: l10n_ro_nondeductible_vat
 #: model:ir.model,name:l10n_ro_nondeductible_vat.model_account_partial_reconcile
@@ -159,13 +162,13 @@ msgstr "România - Este Nedeductibilă"
 #. module: l10n_ro_nondeductible_vat
 #: model:ir.model.fields,field_description:l10n_ro_nondeductible_vat.field_account_move_line__l10n_ro_non_deductible_line_id
 msgid "Romania - Non Deductible Line"
-msgstr ""
+msgstr "România - Linie nedeductibilă"
 
 #. module: l10n_ro_nondeductible_vat
 #: model:ir.model.fields,field_description:l10n_ro_nondeductible_vat.field_account_move_line__l10n_ro_nondeductible_percent
 #: model:ir.model.fields,field_description:l10n_ro_nondeductible_vat.field_stock_move__l10n_ro_nondeductible_percent
 msgid "Romania - Non Deductible Percent"
-msgstr ""
+msgstr "România - Procent nedeductibil"
 
 #. module: l10n_ro_nondeductible_vat
 #: model:ir.model.fields,field_description:l10n_ro_nondeductible_vat.field_stock_move__l10n_ro_nondeductible_tax_id
@@ -181,13 +184,14 @@ msgstr "România - Cont nedeductibil"
 #. module: l10n_ro_nondeductible_vat
 #: model:ir.model.fields,field_description:l10n_ro_nondeductible_vat.field_account_account_tag__l10n_ro_nondeductible_tag_id
 msgid "Romania - Nondeductible Tag"
-msgstr ""
+msgstr "România - Etichetă nedeductibilă"
 
 #. module: l10n_ro_nondeductible_vat
 #. odoo-python
 #: code:addons/l10n_ro_nondeductible_vat/models/account_move_line.py:0
 msgid "Sales document doesn't allow for deductibility of product/services."
 msgstr ""
+"Documentul de vânzare nu permite deductibilitatea produselor/serviciilor."
 
 #. module: l10n_ro_nondeductible_vat
 #: model:ir.model,name:l10n_ro_nondeductible_vat.model_stock_move
@@ -208,14 +212,14 @@ msgstr "Linie de repartizare a taxei"
 #. odoo-python
 #: code:addons/l10n_ro_nondeductible_vat/models/account_move_line.py:0
 msgid "The deductibility must be a value between 0 and 100."
-msgstr ""
+msgstr "Deductibilitatea trebuie să fie o valoare între 0 și 100."
 
 #. module: l10n_ro_nondeductible_vat
 #. odoo-python
 #: code:addons/l10n_ro_nondeductible_vat/models/account_move.py:0
 #: code:addons/l10n_ro_nondeductible_vat/models/account_move_line.py:0
 msgid "private part"
-msgstr ""
+msgstr "parte privată"
 
 #~ msgid ""
 #~ "If checked, then it doesn't change expense account in the tax line for "
