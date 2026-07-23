@@ -7,15 +7,16 @@ msgstr ""
 "Project-Id-Version: Odoo Server 14.0+ec\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-12-08 03:29+0000\n"
-"PO-Revision-Date: 2024-05-22 19:14+0300\n"
-"Last-Translator: \n"
+"PO-Revision-Date: 2026-07-23 12:46+0000\n"
+"Last-Translator: loredana-a11y <loredana@nexterp.ro>\n"
 "Language-Team: \n"
 "Language: ro\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: \n"
-"X-Generator: Poedit 3.0.1\n"
+"Plural-Forms: nplurals=3; plural=n==1 ? 0 : (n==0 || (n%100 > 0 && n%100 < "
+"20)) ? 1 : 2;\n"
+"X-Generator: Weblate 5.15.2\n"
 
 #. module: l10n_ro_stock_account_tracking
 #: model:ir.model.fields,field_description:l10n_ro_stock_account_tracking.field_stock_quant__company_id
@@ -45,7 +46,7 @@ msgstr "Nume afișat"
 #. module: l10n_ro_stock_account_tracking
 #: model:ir.model.fields,field_description:l10n_ro_stock_account_tracking.field_l10n_ro_stock_valuation_layer_tracking__id
 msgid "ID"
-msgstr ""
+msgstr "ID"
 
 #. module: l10n_ro_stock_account_tracking
 #: model:ir.model.fields,field_description:l10n_ro_stock_account_tracking.field_product_product__is_l10n_ro_record
@@ -176,12 +177,12 @@ msgstr "Nivel evaluare stoc"
 #. module: l10n_ro_stock_account_tracking
 #: model:ir.model.fields,field_description:l10n_ro_stock_account_tracking.field_l10n_ro_stock_valuation_layer_tracking__svl_dest_id
 msgid "Svl Dest"
-msgstr ""
+msgstr "SVL Destinație"
 
 #. module: l10n_ro_stock_account_tracking
 #: model:ir.model.fields,field_description:l10n_ro_stock_account_tracking.field_l10n_ro_stock_valuation_layer_tracking__svl_src_id
 msgid "Svl Src"
-msgstr ""
+msgstr "SVL Sursă"
 
 #. module: l10n_ro_stock_account_tracking
 #: model_terms:ir.ui.view,arch_db:l10n_ro_stock_account_tracking.stock_valuation_layer_form
