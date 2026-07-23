@@ -10,8 +10,8 @@ msgstr ""
 "Project-Id-Version: Odoo Server 8.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-07-10 00:01+0000\n"
-"PO-Revision-Date: 2024-12-22 08:06+0000\n"
-"Last-Translator: Dorin Hongu <dhongu@gmail.com>\n"
+"PO-Revision-Date: 2026-07-23 12:46+0000\n"
+"Last-Translator: loredana-a11y <loredana@nexterp.ro>\n"
 "Language-Team: Romanian (https://www.transifex.com/oca/teams/23907/ro/)\n"
 "Language: ro\n"
 "MIME-Version: 1.0\n"
@@ -19,12 +19,12 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=n==1 ? 0 : (n==0 || (n%100 > 0 && n%100 < "
 "20)) ? 1 : 2;\n"
-"X-Generator: Weblate 5.6.2\n"
+"X-Generator: Weblate 5.15.2\n"
 
 #. module: l10n_ro_vat_on_payment
 #: model_terms:ir.ui.view,arch_db:l10n_ro_vat_on_payment.view_partner_anaf_form
 msgid "ANAF - VAT on Payment History"
-msgstr ""
+msgstr "ANAF - Istoric TVA la Încasare"
 
 #. module: l10n_ro_vat_on_payment
 #: model:ir.model,name:l10n_ro_vat_on_payment.model_l10n_ro_res_partner_anaf
@@ -149,7 +149,7 @@ msgstr "România - VAT la plată"
 #: model:ir.model.fields,field_description:l10n_ro_vat_on_payment.field_res_partner__l10n_ro_vat_payment_check_date
 #: model:ir.model.fields,field_description:l10n_ro_vat_on_payment.field_res_users__l10n_ro_vat_payment_check_date
 msgid "Romania - VAT on Payment Check Date"
-msgstr ""
+msgstr "România - Dată verificare TVA la Încasare"
 
 #. module: l10n_ro_vat_on_payment
 #: model:ir.model.fields,field_description:l10n_ro_vat_on_payment.field_l10n_ro_res_partner_anaf__start_date
@@ -159,17 +159,16 @@ msgstr "Dată Început"
 #. module: l10n_ro_vat_on_payment
 #: model:ir.model.fields.selection,name:l10n_ro_vat_on_payment.selection__l10n_ro_res_partner_anaf__operation_type__s
 msgid "Suspension"
-msgstr ""
+msgstr "Suspendare"
 
 #. module: l10n_ro_vat_on_payment
 #: model:ir.model.fields,help:l10n_ro_vat_on_payment.field_res_partner__l10n_ro_vat_payment_check_date
 #: model:ir.model.fields,help:l10n_ro_vat_on_payment.field_res_users__l10n_ro_vat_payment_check_date
 msgid "The date on which the VAT on Payment status was last checked."
-msgstr ""
+msgstr "Data la care a fost verificat ultima dată statutul TVA la Încasare."
 
 #. module: l10n_ro_vat_on_payment
 #: model:ir.actions.server,name:l10n_ro_vat_on_payment.ir_cron_res_partner_vat_payment_update_every_day_ir_actions_server
-#, fuzzy
 msgid "Update Partner VAT on Payment"
 msgstr "Actualizează TVA la Încasare"
 
