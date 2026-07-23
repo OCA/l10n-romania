@@ -7,15 +7,16 @@ msgstr ""
 "Project-Id-Version: Odoo Server 16.0+e\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2024-05-22 07:50+0000\n"
-"PO-Revision-Date: 2024-05-22 10:57+0300\n"
-"Last-Translator: \n"
+"PO-Revision-Date: 2026-07-23 12:46+0000\n"
+"Last-Translator: loredana-a11y <loredana@nexterp.ro>\n"
 "Language-Team: \n"
 "Language: ro\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: \n"
-"X-Generator: Poedit 3.0.1\n"
+"Plural-Forms: nplurals=3; plural=n==1 ? 0 : (n==0 || (n%100 > 0 && n%100 < "
+"20)) ? 1 : 2;\n"
+"X-Generator: Weblate 5.15.2\n"
 
 #. module: l10n_ro_account_bank_statement_import_mt940_ing
 #: model:ir.model,name:l10n_ro_account_bank_statement_import_mt940_ing.model_l10n_ro_account_bank_statement_import_mt940_parser
@@ -37,6 +38,12 @@ msgid ""
 "                    (.*)(?P&amp;lt;<code>account_number</code>&amp;gt;[A-Z]"
 "{2}[0-9]{2}[A-Z]{4}\\w{16}).*"
 msgstr ""
+"INCASARE[\\n]?[ ]*(?P&amp;lt;<code>partner_name</code>&amp;gt;.*)[ ]"
+"(?P&amp;lt;<code>vat</code>&amp;gt;[A-Z]{0,}[0-9]{8})?[ ](?P&amp;lt;<code>"
+"account_number</code>&amp;gt;[A-Z]{2}[0-9]{2}[A-Z]{4}\\w{16}).*\n"
+"                    <br/>\n"
+"                    (.*)(?P&amp;lt;<code>account_number</code>&amp;gt;[A-Z]"
+"{2}[0-9]{2}[A-Z]{4}\\w{16}).*"
 
 #. module: l10n_ro_account_bank_statement_import_mt940_ing
 #: model:ir.model,name:l10n_ro_account_bank_statement_import_mt940_ing.model_account_statement_import
