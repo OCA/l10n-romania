@@ -278,12 +278,13 @@ class StockMove(models.Model):
         return res
 
     def _split_for_fifo_assignment(self):
-        """Splits moves based on FIFO list coming from product _run_fifo."""
+        """Splits moves based on FIFO list coming from product
+        _run_fifo_layers."""
         fifo_split_vals_list = []
         for move in self:
             fifo_list = move.product_id.with_context(
                 location=move.location_id.ids
-            )._run_fifo(move.product_qty, location=move.location_id)
+            )._run_fifo_layers(move.product_qty, location=move.location_id)
             quantity = move.product_qty
             while quantity >= move.quantity and fifo_list:
                 fifo_split_vals_list, quantity = self._l10n_ro_process_fifo_split(

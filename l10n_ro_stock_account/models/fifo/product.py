@@ -73,15 +73,44 @@ class ProductProduct(models.Model):
     def _run_fifo_value(self, quantity, lot=None, at_date=None, location=None):
         """Returns the total value for the next outgoing product base on the
         qty give as argument."""
-        fifo_list = self._run_fifo(
+        fifo_list = self._run_fifo_layers(
             quantity, lot=lot, at_date=at_date, location=location
         )
         total_value = sum(item["value"] for item in fifo_list)
         return total_value
 
     def _run_fifo(self, quantity, lot=None, at_date=None, location=None):
-        """Returns the value for the next outgoing product base on the qty
-        give as argument."""
+        """Returns the total *value* (float) for the next outgoing product
+        based on the qty given as argument.
+
+        This keeps the core ``_run_fifo`` contract: core callers
+        (``_run_fifo_batch``, ``account.move.line``, ``stock.move``,
+        ``stock.lot``) divide or assign the result as a float. The RO
+        ``fifo_per_location`` flow derives that value from the per-location
+        FIFO layers (see ``_run_fifo_layers``); every other case falls back
+        to core. This must not return a list, otherwise a RO product reaching
+        a core caller (e.g. in a multi-company read where the active company
+        has ``fifo_per_location`` set) crashes with ``list / float``.
+        """
+        self.ensure_one()
+        is_ro_fifo = (
+            self.env.company.fifo_per_location
+            and self.cost_method == "fifo"
+            and not self.lot_valuated
+        )
+        if not is_ro_fifo:
+            return super()._run_fifo(
+                quantity, lot=lot, at_date=at_date, location=location
+            )
+        return self._run_fifo_value(
+            quantity, lot=lot, at_date=at_date, location=location
+        )
+
+    def _run_fifo_layers(self, quantity, lot=None, at_date=None, location=None):
+        """Returns the list of FIFO layers (dicts with ``move_id``,
+        ``quantity``, ``value`` and ``description``) consumed to satisfy the
+        given outgoing ``quantity``. Used by ``_run_fifo_value`` and by the
+        outgoing move split (RO ``fifo_per_location`` flow)."""
         self.ensure_one()
         ro_fifo_products = self.filtered(
             lambda p: self.env.company.fifo_per_location
@@ -89,9 +118,16 @@ class ProductProduct(models.Model):
             and not p.lot_valuated
         )
         if not ro_fifo_products:
-            return super()._run_fifo(
-                quantity, lot=lot, at_date=at_date, location=location
-            )
+            return [
+                {
+                    "move_id": False,
+                    "quantity": quantity,
+                    "value": super()._run_fifo(
+                        quantity, lot=lot, at_date=at_date, location=location
+                    ),
+                    "description": self.display_name,
+                }
+            ]
         if self.uom_id.compare(quantity, 0) <= 0:
             return [
                 {
