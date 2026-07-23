@@ -7,15 +7,16 @@ msgstr ""
 "Project-Id-Version: Odoo Server 14.0+ec\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-12-08 03:29+0000\n"
-"PO-Revision-Date: 2024-05-22 13:45+0300\n"
-"Last-Translator: \n"
+"PO-Revision-Date: 2026-07-23 12:46+0000\n"
+"Last-Translator: loredana-a11y <loredana@nexterp.ro>\n"
 "Language-Team: \n"
 "Language: ro\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: \n"
-"X-Generator: Poedit 3.0.1\n"
+"Plural-Forms: nplurals=3; plural=n==1 ? 0 : (n==0 || (n%100 > 0 && n%100 < "
+"20)) ? 1 : 2;\n"
+"X-Generator: Weblate 5.15.2\n"
 
 #. module: l10n_ro_stock_account_landed_cost
 #. odoo-python
@@ -61,7 +62,7 @@ msgstr "Tipuri de Costuri Adiționale"
 #. module: l10n_ro_stock_account_landed_cost
 #: model:ir.model.fields.selection,name:l10n_ro_stock_account_landed_cost.selection__stock_landed_cost__l10n_ro_cost_type__normal
 msgid "Normal"
-msgstr ""
+msgstr "Normal"
 
 #. module: l10n_ro_stock_account_landed_cost
 #. odoo-python
