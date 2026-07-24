@@ -4,6 +4,7 @@
 import logging
 
 from odoo import SUPERUSER_ID, api
+from odoo.tools.sql import column_exists
 
 _logger = logging.getLogger(__name__)
 
@@ -21,6 +22,11 @@ def migrate(cr, version):
     - messages without an invoice: delete the derived files — they can be
       re-extracted from the ZIP at any time.
     """
+    # On databases that never stored these fields as plain columns there is
+    # nothing to clean up; skip so the migration stays idempotent.
+    if not column_exists(cr, "l10n_ro_message_spv", "attachment_xml_id"):
+        return
+
     # Relink derived attachments to the invoice for messages that have one,
     # so the computed fields keep finding them.
     cr.execute(
