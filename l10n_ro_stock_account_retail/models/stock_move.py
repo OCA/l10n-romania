@@ -3,7 +3,7 @@
 
 from odoo import Command, fields, models
 from odoo.exceptions import UserError
-from odoo.tools.float_utils import float_compare, float_is_zero
+from odoo.tools.float_utils import float_is_zero
 
 
 class StockMove(models.Model):
@@ -51,13 +51,17 @@ class StockMove(models.Model):
         currency = self.company_id.currency_id
         if float_is_zero(qty, precision_rounding=self.product_id.uom_id.rounding):
             return []
-        stock_account = self.l10n_ro_account_id
-        if not stock_account:
-            return []
         cost_total = abs(self.value)
         cost_per_unit = cost_total / qty if qty else 0.0
         aml_vals = []
         for direction, location, warehouse in legs:
+            stock_account = (
+                location.l10n_ro_property_stock_valuation_account_id
+                or self.product_id.l10n_ro_property_stock_valuation_account_id
+                or self.product_id.categ_id.property_stock_valuation_account_id
+            )
+            if not stock_account:
+                continue
             markup_account = location._l10n_ro_get_markup_account(
                 product=self.product_id
             )
@@ -95,13 +99,10 @@ class StockMove(models.Model):
 
         Direction 'in':  Dr stock_account / Cr other_account
         Direction 'out': Dr other_account / Cr stock_account
-        Negative amounts are booked as storno on the same accounts.
         """
         self.ensure_one()
-        currency = self.company_id.currency_id
         sign = 1 if direction == "in" else -1
         signed = sign * amount
-        is_storno = float_compare(signed, 0.0, precision_rounding=currency.rounding) < 0
         debit_account = stock_account if signed > 0 else other_account
         credit_account = other_account if signed > 0 else stock_account
         abs_value = abs(signed)
@@ -109,7 +110,6 @@ class StockMove(models.Model):
             "name": self.reference or self.name,
             "product_id": self.product_id.id,
             "quantity": self.product_qty,
-            "is_storno": is_storno,
         }
         return [
             dict(base, account_id=debit_account.id, debit=abs_value, credit=0.0),

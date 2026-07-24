@@ -1,7 +1,7 @@
 # Copyright (C) 2026 NextERP Romania
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
-from odoo import Command, _, api, fields, models
+from odoo import Command, api, fields, models
 from odoo.exceptions import UserError
 from odoo.tools.float_utils import float_is_zero
 
@@ -92,17 +92,18 @@ class RetailPriceChange(models.Model):
     def create(self, vals_list):
         for vals in vals_list:
             if vals.get("name", "/") == "/":
-                vals["name"] = self.env["ir.sequence"].next_by_code(
-                    "l10n.ro.retail.price.change"
-                ) or "/"
+                vals["name"] = (
+                    self.env["ir.sequence"].next_by_code("l10n.ro.retail.price.change")
+                    or "/"
+                )
         return super().create(vals_list)
 
     def action_load_products(self):
         self.ensure_one()
         if self.state != "draft":
-            raise UserError(_("Only draft documents can be loaded."))
+            raise UserError(self.env._("Only draft documents can be loaded."))
         if not self.warehouse_id:
-            raise UserError(_("Select a retail warehouse first."))
+            raise UserError(self.env._("Select a retail warehouse first."))
         Quant = self.env["stock.quant"]
         quants = Quant.search(
             [
@@ -112,9 +113,7 @@ class RetailPriceChange(models.Model):
                 ("quantity", ">", 0),
             ]
         )
-        existing_keys = {
-            (l.product_id.id, l.location_id.id) for l in self.line_ids
-        }
+        existing_keys = {(ln.product_id.id, ln.location_id.id) for ln in self.line_ids}
         new_lines = []
         for (product, location), qs in self._group_quants(quants):
             key = (product.id, location.id)
@@ -146,10 +145,9 @@ class RetailPriceChange(models.Model):
     def _group_quants(quants):
         seen = {}
         for q in quants:
-            seen.setdefault((q.product_id, q.location_id), q.browse([])).__iadd__
-            seen[(q.product_id, q.location_id)] = seen.get(
-                (q.product_id, q.location_id), q.browse([])
-            ) | q
+            seen[(q.product_id, q.location_id)] = (
+                seen.get((q.product_id, q.location_id), q.browse([])) | q
+            )
         return seen.items()
 
     def action_post(self):
@@ -160,11 +158,11 @@ class RetailPriceChange(models.Model):
     def _post_one(self):
         self.ensure_one()
         if self.state != "draft":
-            raise UserError(_("Document %s is not in draft.", self.name))
+            raise UserError(self.env._("Document %s is not in draft.", self.name))
         if not self.line_ids:
-            raise UserError(_("No lines to post on %s.", self.name))
+            raise UserError(self.env._("No lines to post on %s.", self.name))
         if not self.journal_id:
-            raise UserError(_("No journal defined."))
+            raise UserError(self.env._("No journal defined."))
         self._update_pricelist()
         move = self._create_account_move()
         self.write(
@@ -217,7 +215,7 @@ class RetailPriceChange(models.Model):
             stock_account = line._get_stock_account()
             if not stock_account:
                 raise UserError(
-                    _(
+                    self.env._(
                         "Missing stock valuation account for product %s.",
                         line.product_id.display_name,
                     )
@@ -225,23 +223,21 @@ class RetailPriceChange(models.Model):
             markup_account = line.location_id._l10n_ro_get_markup_account(
                 product=line.product_id
             )
-            deferred_vat_account = (
-                line.location_id._l10n_ro_get_deferred_vat_account(
-                    product=line.product_id
-                )
+            deferred_vat_account = line.location_id._l10n_ro_get_deferred_vat_account(
+                product=line.product_id
             )
             if not markup_account or not deferred_vat_account:
                 raise UserError(
-                    _(
+                    self.env._(
                         "Missing markup (378) or deferred VAT (4428) account "
-                        "for product %(p)s at location %(l)s.",
+                        "for product %(p)s at location %(loc)s.",
                         p=line.product_id.display_name,
-                        l=line.location_id.display_name,
+                        loc=line.location_id.display_name,
                     )
                 )
             markup_delta = currency.round(line.markup_diff_total)
             vat_delta = currency.round(line.vat_diff_total)
-            ref = _("Price change %s", line.product_id.display_name)
+            ref = self.env._("Price change %s", line.product_id.display_name)
             if not float_is_zero(markup_delta, precision_rounding=currency.rounding):
                 aml_vals += line._aml_pair(
                     stock_account, markup_account, markup_delta, ref
@@ -256,7 +252,7 @@ class RetailPriceChange(models.Model):
             {
                 "journal_id": self.journal_id.id,
                 "date": self.date,
-                "ref": _(
+                "ref": self.env._(
                     "Proces verbal schimbare pret %s",
                     self.name,
                 ),
@@ -270,7 +266,7 @@ class RetailPriceChange(models.Model):
         for doc in self:
             if doc.state == "done" and doc.account_move_id:
                 raise UserError(
-                    _(
+                    self.env._(
                         "Cancel the related journal entry %s first.",
                         doc.account_move_id.display_name,
                     )
@@ -281,7 +277,7 @@ class RetailPriceChange(models.Model):
         for doc in self:
             if doc.account_move_id and doc.account_move_id.state == "posted":
                 raise UserError(
-                    _(
+                    self.env._(
                         "Reverse the related journal entry %s first.",
                         doc.account_move_id.display_name,
                     )
@@ -356,7 +352,7 @@ class RetailPriceChangeLine(models.Model):
         for line in self:
             company = line.document_id.company_id or line.env.company
             taxes = line.product_id.taxes_id.filtered(
-                lambda t: t.company_id == company
+                lambda t, company=company: t.company_id == company
             )
             line.old_markup_unit, line.old_vat_unit = line._split(
                 line.old_price_with_vat, taxes, company
@@ -412,16 +408,16 @@ class RetailPriceChangeLine(models.Model):
         if loc_account:
             return loc_account
         return (
-            self.product_id.with_company(company)
-            .l10n_ro_property_stock_valuation_account_id
+            self.product_id.with_company(
+                company
+            ).l10n_ro_property_stock_valuation_account_id
             or self.product_id.categ_id.property_stock_valuation_account_id
         )
 
     def _aml_pair(self, stock_account, other_account, signed_amount, ref):
-        """Debit/credit AML pair, picking storno on negatives."""
+        """Debit/credit AML pair, swapping sides on negatives."""
         self.ensure_one()
         currency = self.document_id.company_id.currency_id
-        is_storno = signed_amount < 0
         abs_value = abs(signed_amount)
         debit_account = stock_account if signed_amount > 0 else other_account
         credit_account = other_account if signed_amount > 0 else stock_account
@@ -429,7 +425,6 @@ class RetailPriceChangeLine(models.Model):
             "name": ref,
             "product_id": self.product_id.id,
             "quantity": self.quantity,
-            "is_storno": is_storno,
         }
         return [
             Command.create(

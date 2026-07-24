@@ -5,5 +5,6 @@ from . import product_template
 from . import product_pricelist_item
 from . import stock_warehouse
 from . import stock_location
+from . import stock_quant
 from . import stock_move
 from . import retail_price_change
