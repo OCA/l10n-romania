@@ -33,8 +33,10 @@ class Partner(models.Model):
             if state:
                 if self.state_id and self.state_id != state:
                     raise UserError(
-                        self.env._("The state {name} doesn't match the zip code"),
-                        name=state.name,
+                        self.env._(
+                            "The state %(state)s doesn't match the zip code",
+                            state=state.name,
+                        )
                     )
                 self.state_id = state
 
@@ -51,11 +53,11 @@ class Partner(models.Model):
                 if self.state_id != state_b:
                     raise UserError(
                         self.env._(
-                            "The city {city} doesn't match the"
-                            " zip code and the state {state}"
-                        ),
-                        city=city.name,
-                        state=state.name,
+                            "The city %(city)s doesn't match"
+                            " the zip code and the state %(state)s",
+                            city=city.name,
+                            state=state_b.name,
+                        )
                     )
             else:
                 domain = [
