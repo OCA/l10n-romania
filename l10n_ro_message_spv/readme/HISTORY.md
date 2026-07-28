@@ -1,3 +1,20 @@
+**19.0.2.7.0 (2026-07-28)**
+
+- The product can now be corrected on a bill line imported from SPV
+  without losing the data received from the supplier: the description
+  and the unit price read from the XML are kept when a different product
+  is selected. Previously the description was overwritten with the
+  product name as soon as the product changed on bills fetched by the
+  standard `l10n_ro_edi` SPV import (those bills carry
+  `l10n_ro_edi_index`, not `l10n_ro_edi_download`, so the former guard
+  did not apply to them).
+- The guard is now evaluated per line instead of per bill: lines added
+  by hand on an SPV bill are filled in from the product as usual, while
+  the imported lines keep their SPV values.
+- The vendor item code received from SPV is available as an optional
+  column on the bill lines, so the user can see what the supplier
+  invoiced while correcting the product.
+
 **19.0.2.1.2 (2026-07-09)**
 
 - Fixed duplicate vendor bills when a bill already exists in Odoo (e.g.
