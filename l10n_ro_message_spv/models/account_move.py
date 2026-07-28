@@ -100,24 +100,56 @@ class AccountMove(models.Model):
                     move.show_reset_to_draft_button = True
         return res
 
+    def _l10n_ro_is_spv_bill(self):
+        """Vendor bill whose content was imported from an SPV XML.
+
+        Both SPV stacks are covered: bills created by this module
+        (``l10n_ro_edi_download``) and bills created by the standard
+        ``l10n_ro_edi`` SPV fetch (``l10n_ro_edi_index``).
+        """
+        self.ensure_one()
+        if self.move_type not in self.get_purchase_types():
+            return False
+        return bool(
+            self.l10n_ro_edi_download
+            or self.l10n_ro_edi_transaction
+            or self.l10n_ro_edi_index
+            or self.l10n_ro_message_spv_ids
+        )
+
 
 class AccountMoveLine(models.Model):
     _inherit = "account.move.line"
 
     l10n_ro_vendor_code = fields.Char(string="Vendor Code", copy=False)
 
+    def _l10n_ro_is_spv_imported_line(self):
+        """Line brought in from the SPV XML, as opposed to one keyed in by hand.
+
+        The values of such a line (description, unit price) are the ones the
+        supplier legally issued, so they must survive the user correcting the
+        product. Lines added manually on the same bill keep the standard Odoo
+        behaviour.
+        """
+        self.ensure_one()
+        move = self.move_id
+        if not move or not move._l10n_ro_is_spv_bill():
+            return False
+        # ``is_imported`` is set by the core on every line created from an
+        # imported attachment; the vendor code covers lines imported before
+        # this flag existed.
+        return bool(self.is_imported or self.l10n_ro_vendor_code)
+
     def _compute_name(self):
+        # Keep the description received from SPV when the product is corrected.
         lines = self.filtered(
-            lambda line: line.move_id.move_type in ["in_invoice", "in_refund"]
-            and line.move_id.l10n_ro_edi_download
+            lambda line: line.name and line._l10n_ro_is_spv_imported_line()
         )
 
         return super(AccountMoveLine, self - lines)._compute_name()
 
     def _compute_price_unit(self):
-        lines = self.filtered(
-            lambda line: line.move_id.move_type in ["in_invoice", "in_refund"]
-            and line.move_id.l10n_ro_edi_download
-        )
+        # Keep the unit price received from SPV when the product is corrected.
+        lines = self.filtered(lambda line: line._l10n_ro_is_spv_imported_line())
 
         return super(AccountMoveLine, self - lines)._compute_price_unit()
