@@ -11,7 +11,7 @@ from lxml import etree
 
 from odoo import fields
 from odoo.exceptions import UserError
-from odoo.tests import tagged
+from odoo.tests import Form, tagged
 from odoo.tools.misc import file_path
 
 from .common import TestMessageSPV
@@ -1103,3 +1103,147 @@ class TestMessageSPV(TestMessageSPV):
         line_std = invoice_std.invoice_line_ids[0]
         self.assertEqual(line_std.l10n_ro_vendor_code, "VEND_IMPORT_001")
         self.assertEqual(line_std.product_id.id, product.id)
+
+    def _import_spv_bill_with_one_line(self, spv_marker=None):
+        """Bill imported from an SPV XML, holding a single product line.
+
+        `spv_marker` tells which SPV stack created the bill: this module
+        (`l10n_ro_edi_download`) or the standard SPV fetch of `l10n_ro_edi`
+        (`l10n_ro_edi_index`).
+        """
+        xml_content = b"""<?xml version="1.0" encoding="UTF-8"?>
+<Invoice xmlns="urn:oasis:names:specification:ubl:schema:xsd:Invoice-2"
+         xmlns:cac="urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2"
+         xmlns:cbc="urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2">
+    <cbc:CustomizationID>urn:cen.eu:en16931:2017#compliant#urn:efactura.mfinante.ro:CIUS-RO:1.0.1</cbc:CustomizationID>
+    <cbc:ID>INV_KEEP_001</cbc:ID>
+    <cac:InvoiceLine>
+        <cbc:ID>1</cbc:ID>
+        <cbc:InvoicedQuantity>2.0</cbc:InvoicedQuantity>
+        <cbc:LineExtensionAmount currencyID="RON">246.9</cbc:LineExtensionAmount>
+        <cac:Item>
+            <cbc:Name>Descriere din SPV</cbc:Name>
+            <cac:SellersItemIdentification>
+                <cbc:ID>VEND_KEEP_001</cbc:ID>
+            </cac:SellersItemIdentification>
+        </cac:Item>
+        <cac:Price>
+            <cbc:PriceAmount currencyID="RON">123.45</cbc:PriceAmount>
+        </cac:Price>
+    </cac:InvoiceLine>
+</Invoice>"""
+        attachment = self.env["ir.attachment"].create(
+            {
+                "name": "keep_spv_values.xml",
+                "raw": xml_content,
+                "mimetype": "application/xml",
+            }
+        )
+        invoice = self.env["account.move"].create(
+            {
+                "move_type": "in_invoice",
+                "partner_id": self.vendor.id,
+                # marks the bill as coming from SPV
+                **(spv_marker or {"l10n_ro_edi_download": "3001"}),
+            }
+        )
+        file_data = {
+            "attachment": attachment,
+            "name": attachment.name,
+            "filename": attachment.name,
+            "content": attachment.raw,
+            "mimetype": attachment.mimetype,
+            "type": "xml",
+            "xml_tree": etree.fromstring(attachment.raw),
+        }
+        file_data["import_file_type"] = invoice._get_import_file_type(file_data)
+        invoice._extend_with_attachments([file_data])
+        return invoice
+
+    def test_correct_product_keeps_spv_price_and_description(self):
+        """Correcting the product on an SPV line keeps the imported
+        description and unit price."""
+        invoice = self._import_spv_bill_with_one_line()
+        line = invoice.invoice_line_ids[0]
+        spv_name = line.name
+        self.assertIn("Descriere din SPV", spv_name)
+        self.assertEqual(line.price_unit, 123.45)
+        self.assertTrue(line._l10n_ro_is_spv_imported_line())
+
+        correct_product = self.env["product.product"].create(
+            {
+                "name": "Produsul corect",
+                "description_purchase": "Descriere din fisa produsului",
+                "standard_price": 10.0,
+                "list_price": 10.0,
+            }
+        )
+        line.product_id = correct_product
+
+        self.assertEqual(line.product_id, correct_product)
+        self.assertEqual(line.name, spv_name)
+        self.assertEqual(line.price_unit, 123.45)
+
+    def test_correct_product_keeps_spv_values_on_core_imported_bill(self):
+        """Same protection on bills created by the standard `l10n_ro_edi`
+        SPV fetch, which marks them with `l10n_ro_edi_index`."""
+        invoice = self._import_spv_bill_with_one_line(
+            spv_marker={"l10n_ro_edi_index": "3002"}
+        )
+        line = invoice.invoice_line_ids[0]
+        spv_name = line.name
+        self.assertTrue(line._l10n_ro_is_spv_imported_line())
+
+        correct_product = self.env["product.product"].create(
+            {"name": "Alt produs corect", "standard_price": 7.0}
+        )
+        line.product_id = correct_product
+
+        self.assertEqual(line.name, spv_name)
+        self.assertEqual(line.price_unit, 123.45)
+
+    def test_correct_product_in_form_keeps_spv_price_and_description(self):
+        """Same protection through the form onchange, the way the user
+        actually corrects the product."""
+        invoice = self._import_spv_bill_with_one_line()
+        spv_name = invoice.invoice_line_ids[0].name
+        correct_product = self.env["product.product"].create(
+            {
+                "name": "Produsul corect din form",
+                "description_purchase": "Descriere din fisa produsului",
+                "standard_price": 10.0,
+                "list_price": 10.0,
+            }
+        )
+
+        with Form(invoice) as invoice_form:
+            with invoice_form.invoice_line_ids.edit(0) as line_form:
+                line_form.product_id = correct_product
+                # values seen by the user before saving
+                self.assertEqual(line_form.name, spv_name)
+                self.assertEqual(line_form.price_unit, 123.45)
+
+        line = invoice.invoice_line_ids[0]
+        self.assertEqual(line.product_id, correct_product)
+        self.assertEqual(line.name, spv_name)
+        self.assertEqual(line.price_unit, 123.45)
+
+    def test_manual_line_on_spv_bill_keeps_standard_behaviour(self):
+        """A line keyed in by hand on an SPV bill is filled in from the
+        product, as usual."""
+        invoice = self._import_spv_bill_with_one_line()
+        product = self.env["product.product"].create(
+            {
+                "name": "Produs adaugat manual",
+                "standard_price": 55.0,
+            }
+        )
+        invoice.write(
+            {"invoice_line_ids": [(0, 0, {"product_id": product.id, "quantity": 1})]}
+        )
+        manual_line = invoice.invoice_line_ids.filtered(
+            lambda line: line.product_id == product
+        )
+        self.assertFalse(manual_line._l10n_ro_is_spv_imported_line())
+        self.assertEqual(manual_line.name, "Produs adaugat manual")
+        self.assertEqual(manual_line.price_unit, 55.0)
