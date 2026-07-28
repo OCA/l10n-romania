@@ -46188,13 +46188,13 @@ msgstr ""
 #. module: l10n_ro_city
 #. odoo-python
 #: code:addons/l10n_ro_city/models/res_partner.py:0
-msgid "The city {city} doesn't match the zip code and the state {state}"
+msgid "The city %(city)s doesn't match the zip code and the state %(state)s"
 msgstr ""
 
 #. module: l10n_ro_city
 #. odoo-python
 #: code:addons/l10n_ro_city/models/res_partner.py:0
-msgid "The state {name} doesn't match the zip code"
+msgid "The state %(state)s doesn't match the zip code"
 msgstr ""
 
 #. module: l10n_ro_city
