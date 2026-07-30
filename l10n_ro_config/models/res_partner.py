@@ -37,12 +37,25 @@ class ResPartner(models.Model):
         return country_code_map.get(country_code, country_code)
 
     def _split_vat(self, vat):
+        """Allow the Romanian CUI to be written without the "RO" prefix.
+
+        The country code is taken from the current record, never from a database
+        lookup. A previous implementation searched for a partner having the same
+        ``vat`` and borrowed its country code: during create/write the record is
+        already in the database when ``_check_vat`` runs, so it found itself and
+        ``_run_vat_checks`` re-attached the prefix. That made it impossible to
+        store a tax ID without its country prefix - for instance a Hungarian
+        11-digit adoszam, which VIES only accepts in its 8-digit EU form.
+        """
         vat_country, l10n_ro_vat_number = super()._split_vat(vat)
-        partner = self.search([("vat", "=", vat)], limit=1)
-        if partner and partner.country_id and partner.country_id.code:
-            vat_country = self._l10n_ro_map_vat_country_code(
-                partner.country_id.code.upper()
-            ).upper()
+        if vat_country or not vat or not vat.isdigit():
+            return vat_country, l10n_ro_vat_number
+        country_code = self.country_id.code if len(self) == 1 else False
+        if (
+            country_code
+            and self._l10n_ro_map_vat_country_code(country_code.upper()) == "RO"
+        ):
+            vat_country = "RO"
         return vat_country, l10n_ro_vat_number
 
     def _get_ro_vat(self):
