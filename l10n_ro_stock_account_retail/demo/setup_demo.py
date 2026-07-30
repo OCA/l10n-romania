@@ -20,6 +20,7 @@ Builds:
 - Prints balances, retail report at "now" and at three past dates
 """
 
+# pylint: disable=print-used
 import random as _random
 
 env = env  # noqa: F821 (provided by `odoo shell`)
@@ -194,7 +195,7 @@ if not tax_purchase:
             ],
         }
     )
-log("Taxes ready: sale=%s purchase=%s" % (tax_sale.name, tax_purchase.name))
+log(f"Taxes ready: sale={tax_sale.name} purchase={tax_purchase.name}")
 
 
 # -----------------------------------------------------------------------------
@@ -214,7 +215,7 @@ if not category:
             "property_account_expense_categ_id": a_607.id,
         }
     )
-log("Category ready (FIFO) — %s" % category.name)
+log(f"Category ready (FIFO) — {category.name}")
 
 
 # -----------------------------------------------------------------------------
@@ -264,8 +265,8 @@ def make_retail_wh(name, code, pricelist, loc_markup, loc_def_vat):
 mag1 = make_retail_wh("MAG1 Bucuresti", "MG1", pl_buc, a_378_b, a_4428_b)
 mag2 = make_retail_wh("MAG2 Cluj", "MG2", pl_cluj, a_378_c, a_4428_c)
 log(
-    "Retail warehouses: %s (378=%s/4428=%s), %s (378=%s/4428=%s)"
-    % (mag1.code, a_378_b.code, a_4428_b.code, mag2.code, a_378_c.code, a_4428_c.code)
+    f"Retail warehouses: {mag1.code} (378={a_378_b.code}/4428={a_4428_b.code}), "
+    f"{mag2.code} (378={a_378_c.code}/4428={a_4428_c.code})"
 )
 
 
@@ -275,13 +276,21 @@ log(
 supplier = env["res.partner"].search([("name", "=", "Furnizor Demo SRL")], limit=1)
 if not supplier:
     supplier = env["res.partner"].create(
-        {"name": "Furnizor Demo SRL", "is_company": True, "country_id": env.ref("base.ro").id}
+        {
+            "name": "Furnizor Demo SRL",
+            "is_company": True,
+            "country_id": env.ref("base.ro").id,
+        }
     )
 
 customer = env["res.partner"].search([("name", "=", "Client Demo SRL")], limit=1)
 if not customer:
     customer = env["res.partner"].create(
-        {"name": "Client Demo SRL", "is_company": True, "country_id": env.ref("base.ro").id}
+        {
+            "name": "Client Demo SRL",
+            "is_company": True,
+            "country_id": env.ref("base.ro").id,
+        }
     )
 
 
@@ -289,14 +298,35 @@ if not customer:
 # Products (~30) with cost + per-shop PVA
 # -----------------------------------------------------------------------------
 PRODUCT_NAMES = [
-    "Cafea Macinata 250g", "Cafea Boabe 1kg", "Ceai Negru 100g", "Ceai Verde 100g",
-    "Zahar Tos 1kg", "Faina 1kg", "Ulei Floarea Soarelui 1L", "Otet 1L",
-    "Sare Mare 1kg", "Piper Negru 50g", "Lapte 1L", "Iaurt 400g",
-    "Branza Telemea 500g", "Cascaval 500g", "Unt 200g", "Smantana 200g",
-    "Detergent 2L", "Sapun Lichid 500ml", "Sampon 400ml", "Balsam 400ml",
-    "Pasta Dinti 100ml", "Periuta Dinti", "Hartie Igienica 10buc",
-    "Servetele Umede", "Detergent Vase 1L", "Burete Bucatarie",
-    "Saci Menaj 30L", "Folie Aluminiu 10m", "Punga Frigider 20buc",
+    "Cafea Macinata 250g",
+    "Cafea Boabe 1kg",
+    "Ceai Negru 100g",
+    "Ceai Verde 100g",
+    "Zahar Tos 1kg",
+    "Faina 1kg",
+    "Ulei Floarea Soarelui 1L",
+    "Otet 1L",
+    "Sare Mare 1kg",
+    "Piper Negru 50g",
+    "Lapte 1L",
+    "Iaurt 400g",
+    "Branza Telemea 500g",
+    "Cascaval 500g",
+    "Unt 200g",
+    "Smantana 200g",
+    "Detergent 2L",
+    "Sapun Lichid 500ml",
+    "Sampon 400ml",
+    "Balsam 400ml",
+    "Pasta Dinti 100ml",
+    "Periuta Dinti",
+    "Hartie Igienica 10buc",
+    "Servetele Umede",
+    "Detergent Vase 1L",
+    "Burete Bucatarie",
+    "Saci Menaj 30L",
+    "Folie Aluminiu 10m",
+    "Punga Frigider 20buc",
     "Lumanari 12buc",
 ]
 
@@ -342,7 +372,7 @@ for name in PRODUCT_NAMES:
                 }
             )
     products |= p
-log("Products created: %d" % len(products))
+log(f"Products created: {len(products)}")
 
 
 # -----------------------------------------------------------------------------
@@ -394,7 +424,7 @@ po_dates = ["2026-04-01", "2026-04-15", "2026-04-28"]
 for d in po_dates:
     qts = [(p, _random.randint(20, 60)) for p in products]
     po = make_po(d, qts)
-    log("PO %s on %s: %d lines, %.2f RON" % (po.name, d, len(qts), po.amount_untaxed))
+    log(f"PO {po.name} on {d}: {len(qts)} lines, {po.amount_untaxed:.2f} RON")
 
 
 # -----------------------------------------------------------------------------
@@ -437,7 +467,7 @@ transfer_lines_buc = [(p, _random.randint(8, 20)) for p in products]
 transfer_lines_cluj = [(p, _random.randint(5, 15)) for p in products]
 t1 = make_transfer("2026-04-05", mag1, transfer_lines_buc)
 t2 = make_transfer("2026-04-18", mag2, transfer_lines_cluj)
-log("Transfers: %s -> MAG1, %s -> MAG2" % (t1.name, t2.name))
+log(f"Transfers: {t1.name} -> MAG1, {t2.name} -> MAG2")
 
 
 # -----------------------------------------------------------------------------
@@ -492,10 +522,7 @@ so1 = make_so("2026-04-10", mag1, pl_buc, so_lines_b1)
 so2 = make_so("2026-05-02", mag1, pl_buc, so_lines_b2)
 so3 = make_so("2026-04-22", mag2, pl_cluj, so_lines_c1)
 so4 = make_so("2026-05-10", mag2, pl_cluj, so_lines_c2)
-log(
-    "Sales: %s, %s (MAG1), %s, %s (MAG2)"
-    % (so1.name, so2.name, so3.name, so4.name)
-)
+log(f"Sales: {so1.name}, {so2.name} (MAG1), {so3.name}, {so4.name} (MAG2)")
 
 
 # -----------------------------------------------------------------------------
@@ -509,13 +536,13 @@ item = env["product.pricelist.item"].search(
 old_price = item.fixed_price
 new_price = round(old_price * 1.10, 2)
 item.fixed_price = new_price
-log("MAG1 pricelist %s: %s → %s" % (chosen.name, old_price, new_price))
+log(f"MAG1 pricelist {chosen.name}: {old_price} → {new_price}")
 
 docs = env["l10n.ro.retail.price.change"].search(
     [("warehouse_id", "=", mag1.id), ("state", "=", "draft")]
 )
 docs.action_post()
-log("Posted PVSP: %s" % docs.mapped("name"))
+log(f"Posted PVSP: {docs.mapped('name')}")
 
 
 # -----------------------------------------------------------------------------
@@ -604,16 +631,16 @@ print("=" * 78)
 pos_total = sum(p.amount_total for p in env["purchase.order"].search([]))
 sos_total = sum(s.amount_total for s in env["sale.order"].search([]))
 print(
-    "  Purchase orders: %d (total %.2f RON inc VAT)"
-    % (env["purchase.order"].search_count([]), pos_total)
+    f"  Purchase orders: {env['purchase.order'].search_count([])} "
+    f"(total {pos_total:.2f} RON inc VAT)"
 )
 print(
-    "  Sale orders:     %d (total %.2f RON inc VAT)"
-    % (env["sale.order"].search_count([]), sos_total)
+    f"  Sale orders:     {env['sale.order'].search_count([])} "
+    f"(total {sos_total:.2f} RON inc VAT)"
 )
 print(
-    "  Quants on hand:  %d distinct rows"
-    % env["stock.quant"].search_count([("quantity", ">", 0)])
+    f"  Quants on hand:  {env['stock.quant'].search_count([('quantity', '>', 0)])} "
+    "distinct rows"
 )
 
 env.cr.commit()

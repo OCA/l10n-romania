@@ -22,9 +22,9 @@ class StockRetailReport(models.Model):
     company_id = fields.Many2one("res.company", string="Company", readonly=True)
     quantity = fields.Float(readonly=True)
     value_total = fields.Float(
-        string="Stock Value (cost)", readonly=True,
-        help="On-hand cost value at the requested date (from "
-        "stock.valuation.layer).",
+        string="Stock Value (cost)",
+        readonly=True,
+        help="On-hand cost value at the requested date (from stock.valuation.layer).",
     )
     cost_unit = fields.Float(
         string="Cost / Unit", compute="_compute_values", store=False
@@ -39,15 +39,11 @@ class StockRetailReport(models.Model):
     vat_unit = fields.Float(
         string="Deferred VAT / Unit (4428)", compute="_compute_values"
     )
-    markup_total = fields.Float(
-        string="Markup Total (378)", compute="_compute_values"
-    )
+    markup_total = fields.Float(string="Markup Total (378)", compute="_compute_values")
     vat_total = fields.Float(
         string="Deferred VAT Total (4428)", compute="_compute_values"
     )
-    retail_value = fields.Float(
-        string="Retail Value (371)", compute="_compute_values"
-    )
+    retail_value = fields.Float(string="Retail Value (371)", compute="_compute_values")
 
     @property
     def _table_query(self):

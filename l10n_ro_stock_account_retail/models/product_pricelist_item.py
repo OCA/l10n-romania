@@ -3,7 +3,7 @@
 
 import logging
 
-from odoo import Command, _, api, fields, models
+from odoo import Command, api, fields, models
 from odoo.tools.float_utils import float_compare
 
 _logger = logging.getLogger(__name__)
@@ -143,7 +143,7 @@ class ProductPricelistItem(models.Model):
                     "date": fields.Date.context_today(self),
                     "auto_created": True,
                     "line_ids": [Command.create(v) for v in line_vals],
-                    "notes": _(
+                    "notes": self.env._(
                         "<p>Auto-generated from pricelist change "
                         "(item id %(item)s on %(pl)s).</p>",
                         item=self.id,

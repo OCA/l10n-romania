@@ -3,7 +3,10 @@
     <record id="view_location_form_retail" model="ir.ui.view">
         <field name="name">stock.location.form.l10n.ro.retail</field>
         <field name="model">stock.location</field>
-        <field name="inherit_id" ref="l10n_ro_stock_account.view_location_form_inherit" />
+        <field
+            name="inherit_id"
+            ref="l10n_ro_stock_account.view_location_form_inherit"
+        />
         <field name="arch" type="xml">
             <xpath
                 expr="//field[@name='l10n_ro_property_stock_valuation_account_id']"

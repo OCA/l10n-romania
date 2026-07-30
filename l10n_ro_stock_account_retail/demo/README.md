@@ -1,25 +1,23 @@
 # Demo script for `l10n_ro_stock_account_retail`
 
 `setup_demo.py` builds a runnable, end-to-end demo:
+
 - Romanian chart of accounts on the main company
-- One default 378 + 4428 account on the company plus a *location-level*
-  override 378.001/4428.001 for MAG1 and 378.002/4428.002 for MAG2,
-  exercising the priority `location > product > category > company`
+- One default 378 + 4428 account on the company plus a _location-level_ override
+  378.001/4428.001 for MAG1 and 378.002/4428.002 for MAG2, exercising the priority
+  `location > product > category > company`
 - FIFO product category
-- Two retail warehouses (`MG1` Bucuresti, `MG2` Cluj), each with its
-  own retail pricelist
-- ~30 procedurally-generated products (cost 2–30 RON, MAG1 markup 50 %,
-  MAG2 markup 40 %)
-- 3 purchase orders (different dates) → reception in the main
-  warehouse → vendor bills
-- 2 internal transfers (main → MAG1 on 2026-04-05, main → MAG2 on
-  2026-04-18)
-- 4 sale orders → delivery from each shop → customer invoices
-  (different dates)
-- A pricelist change on a MAG1 product that triggers an auto-generated
-  *Proces Verbal de Schimbare Pret*
-- Stock moves and account.moves are **backdated** so the historical
-  retail report can be queried at past dates
+- Two retail warehouses (`MG1` Bucuresti, `MG2` Cluj), each with its own retail
+  pricelist
+- ~30 procedurally-generated products (cost 2–30 RON, MAG1 markup 50 %, MAG2 markup 40
+  %)
+- 3 purchase orders (different dates) → reception in the main warehouse → vendor bills
+- 2 internal transfers (main → MAG1 on 2026-04-05, main → MAG2 on 2026-04-18)
+- 4 sale orders → delivery from each shop → customer invoices (different dates)
+- A pricelist change on a MAG1 product that triggers an auto-generated _Proces Verbal de
+  Schimbare Pret_
+- Stock moves and account.moves are **backdated** so the historical retail report can be
+  queried at past dates
 
 ## Run
 
@@ -49,14 +47,14 @@ ACCOUNT BALANCES (current)
   707000 Venituri marfuri                           =     -2,409.02 RON
 ```
 
-The two default accounts (378000, 442800) stay at 0 — every booking
-hits the location-level override.
+The two default accounts (378000, 442800) stay at 0 — every booking hits the
+location-level override.
 
 ## Historical retail report
 
-`l10n.ro.stock.retail.report` reads from `stock.move` (filtered by
-`sm.date <= at_date` when the context key `l10n_ro_retail_at_date` is
-set) so it can answer "what was the stock at this past date":
+`l10n.ro.stock.retail.report` reads from `stock.move` (filtered by `sm.date <= at_date`
+when the context key `l10n_ro_retail_at_date` is set) so it can answer "what was the
+stock at this past date":
 
 ```
 RETAIL STOCK — NOW                       606 buc  17,636.25 retail
@@ -73,7 +71,6 @@ env["l10n.ro.stock.retail.report"].with_context(
 ```
 
 Note: when running multiple historical queries in the same env, call
-`env["l10n.ro.stock.retail.report"].invalidate_model()` between
-queries — the row ids are derived from
-`warehouse_id * 1e8 + location_id * 1e6 + product_id` (stable across
+`env["l10n.ro.stock.retail.report"].invalidate_model()` between queries — the row ids
+are derived from `warehouse_id * 1e8 + location_id * 1e6 + product_id` (stable across
 queries) so the ORM cache will return stale values otherwise.

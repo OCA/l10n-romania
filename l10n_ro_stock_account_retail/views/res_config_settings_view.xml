@@ -3,10 +3,7 @@
     <record id="res_config_settings_view_form_retail" model="ir.ui.view">
         <field name="name">res.config.settings.form.l10n.ro.retail</field>
         <field name="model">res.config.settings</field>
-        <field
-            name="inherit_id"
-            ref="l10n_ro_config.res_config_settings_view_form"
-        />
+        <field name="inherit_id" ref="l10n_ro_config.res_config_settings_view_form" />
         <field name="arch" type="xml">
             <xpath
                 expr="//field[@name='l10n_ro_property_stock_transfer_account_id']/.."
