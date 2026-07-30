@@ -309,8 +309,18 @@ class StockMove(models.Model):
         """Processes the FIFO split for a given move."""
         fifo_item = fifo_list.pop(0)
         fifo_quantity = fifo_item["quantity"]
-        if fifo_quantity < quantity:
+        # A slice with nothing left to consume (a stack move with zero valued
+        # quantity, or a rounding residue) carries no value and cannot become
+        # a stock move: ``_split`` returns no values for a quantity that is
+        # zero at the UoM rounding. Drop it and keep consuming the next one.
+        if move.product_id.uom_id.compare(fifo_quantity, 0) <= 0:
+            return fifo_split_vals_list, quantity
+        if move.product_id.uom_id.compare(fifo_quantity, quantity) < 0:
             new_move_vals_list = move._split(fifo_quantity)
+            if not new_move_vals_list:
+                # Nothing could be split off; leave the quantity on the
+                # original move instead of losing it.
+                return fifo_split_vals_list, quantity
             new_move_vals_list[0].update(
                 {
                     "value_manual": fifo_item["value"],

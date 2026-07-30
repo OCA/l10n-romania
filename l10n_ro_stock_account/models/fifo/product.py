@@ -107,10 +107,15 @@ class ProductProduct(models.Model):
         )
 
     def _run_fifo_layers(self, quantity, lot=None, at_date=None, location=None):
-        """Returns the list of FIFO layers (dicts with ``move_id``,
+        """Returns the list of quantity/value slices (dicts with ``move_id``,
         ``quantity``, ``value`` and ``description``) consumed to satisfy the
         given outgoing ``quantity``. Used by ``_run_fifo_value`` and by the
-        outgoing move split (RO ``fifo_per_location`` flow)."""
+        outgoing move split (RO ``fifo_per_location`` flow).
+
+        Despite the ``layers`` in the name, these are slices of the incoming
+        ``stock.move`` records making up the location stack: 19.0 values the
+        moves themselves (``stock.move.value``), there is no
+        ``stock.valuation.layer`` any more."""
         self.ensure_one()
         ro_fifo_products = self.filtered(
             lambda p: self.env.company.fifo_per_location
@@ -159,6 +164,14 @@ class ProductProduct(models.Model):
                 move_values["move_id"] = move.id
             rem_qty = move_values["quantity"]
             move_value = move_values["value"]
+            # A move in the stack can have nothing left to consume: an incoming
+            # move whose valued quantity is zero (all its lines excluded from
+            # valuation, or a quantity corrected to 0 after validation), or a
+            # quantity that rounds to zero in the product UoM. Skip it so the
+            # returned list stays free of zero-quantity entries - the outgoing
+            # move split cannot turn those into stock moves.
+            if self.uom_id.compare(rem_qty, 0) <= 0:
+                continue
             if rem_qty >= quantity:
                 reserved_qty = min(quantity, rem_qty)
                 fifo_list.append(
@@ -289,9 +302,13 @@ class ProductProduct(models.Model):
             move = moves_in[idx]
             idx += 1
             in_qty = move._get_valued_qty()
-            fifo_stack.append(move)
-            remaining_qty_on_first_stack_move = min(in_qty, fifo_stack_size)
-            fifo_stack_size -= in_qty
+            # Moves that value nothing (all lines excluded from valuation,
+            # quantity corrected to 0 after validation) must not enter the
+            # stack: they would be reported with a remaining quantity of zero.
+            if self.uom_id.compare(in_qty, 0) > 0:
+                fifo_stack.append(move)
+                remaining_qty_on_first_stack_move = min(in_qty, fifo_stack_size)
+                fifo_stack_size -= in_qty
             if self.uom_id.compare(fifo_stack_size, 0) > 0 and idx >= len(moves_in):
                 # We need to fetch more moves
                 current_offset += 1
