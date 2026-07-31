@@ -49,6 +49,21 @@ class AccountMoveLine(models.Model):
         if not stock_moves:
             return res
 
+        # Reception on notice: account 408 is the pivot, so the price difference is
+        # what is left on it once the exchange rate difference is recognised (see
+        # l10n_ro_stock_account). Comparing the invoice value with the stock value
+        # here would take the rate delta for a price difference and capitalise it
+        # into inventory, on top of the 765/665 entry - the same delta twice.
+        notice_price_diff, notice_rate_diff = self._l10n_ro_notice_settlement_amounts()
+        if not float_is_zero(
+            notice_rate_diff, precision_rounding=self.company_id.currency_id.rounding
+        ) or not float_is_zero(
+            notice_price_diff, precision_rounding=self.company_id.currency_id.rounding
+        ):
+            res["stock_move_id"] = stock_moves.sorted("id", reverse=True)[:1].id
+            res["value_diff"] = notice_price_diff
+            return res
+
         stock_value = stock_qty = 0.0
         for stock_move in stock_moves:
             if stock_move._is_incoming():
