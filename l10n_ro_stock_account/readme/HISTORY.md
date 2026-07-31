@@ -1,3 +1,26 @@
+## 19.0.1.0.0
+
+- Recognise the exchange rate difference on the 408 pivot (*Furnizori - facturi nesosite*) when
+  a reception on notice (`picking.l10n_ro_notice`) comes from a purchase order in a foreign
+  currency. Until now the 408 leg of the notice entry was booked in company currency only, so
+  the order currency was lost and nothing could compute the rate delta: it stayed as a silent
+  balance on 408, a manual reconciliation could not clear it, and the stock ledger drifted away
+  from the stock account by that same delta.
+- The 408 leg now keeps the order currency, since the estimated liability is a monetary item,
+  while the stock leg stays in company currency at the reception rate. When the invoice is
+  posted, the rate delta on the quantity already received is booked as `Dr 408 / Cr 765`
+  (favourable) or `Cr 408 / Dr 665` (unfavourable) - per OMFP 1802/2014 the function of account
+  408 lists exactly these differences as "recorded when the invoice is received". The lines are
+  `cogs` lines on the bill, so the invoice total is untouched, they stay out of the e-invoice
+  and they are removed when the bill is reset to draft.
+- Account 408 therefore does **not** need to be reconcilable: the pivot closes by document, not
+  by matching amounts. No reconciliation is attempted.
+- `_get_value_from_bill` keeps the reception rate for the quantity received on notice, so
+  inventory is no longer revalued for exchange rate movements (IAS 21 / OMFP 1802: a
+  non-monetary asset is not retranslated) and the stock ledger agrees with the stock account.
+  Only the quantity invoiced beyond the reception - a genuine price difference, whose liability
+  arises at the invoice date - is taken at the invoice rate.
+
 ## 19.0.0.26.1
 
 - Expose the `stock.move.l10n_ro_move_type` selection as the module level

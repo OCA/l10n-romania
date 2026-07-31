@@ -37,6 +37,95 @@ class AccountMoveLine(models.Model):
                     line.account_id = account
         return res
 
+    def _l10n_ro_notice_receipt_amounts(self):
+        """Amounts credited to the 408 pivot by the notice receptions behind
+        this bill line.
+
+        Returns `(value, value_currency, currency, quantity)`. The lines are
+        looked up on this bill line's own account, so a warehouse fiscal
+        position that remaps 408 is respected. Signs are kept, so a return
+        (storno entry) yields negative amounts and the same formula applies
+        on a refund.
+        """
+        self.ensure_one()
+        value = value_currency = qty = 0.0
+        currency = self.company_id.currency_id
+        for stock_move in self._get_stock_moves():
+            if not (stock_move.l10n_ro_move_type or "").startswith("reception_notice"):
+                continue
+            pivot_lines = stock_move.account_move_id.line_ids.filtered(
+                lambda line: line.account_id == self.account_id
+            )
+            if not pivot_lines:
+                continue
+            # 408 is credited on reception, so flip the sign to get the received value
+            value -= sum(pivot_lines.mapped("balance"))
+            value_currency -= sum(pivot_lines.mapped("amount_currency"))
+            if pivot_lines[:1].currency_id:
+                currency = pivot_lines[:1].currency_id
+            qty += stock_move._get_valued_qty()
+        return value, value_currency, currency, qty
+
+    def _l10n_ro_notice_rate_difference(self):
+        """The exchange rate difference due on the 408 pivot when this bill
+        line arrives.
+
+        It is the part of the estimated liability already received, valued at
+        the reception rate minus the same amount valued at the invoice rate.
+        Positive means a favourable difference (765), negative an unfavourable
+        one (665). Zero for purchases in company currency, and zero for the
+        quantity invoiced beyond what was received, which is a price
+        difference and not a rate difference.
+        """
+        self.ensure_one()
+        company_currency = self.company_id.currency_id
+        value, value_currency, currency, qty = self._l10n_ro_notice_receipt_amounts()
+        if not qty or currency == company_currency:
+            return 0.0
+        if currency != self.currency_id or not self.amount_currency:
+            return 0.0
+        billed_qty = self.product_uom_id._compute_quantity(
+            self.quantity, self.product_id.uom_id
+        )
+        ratio = min(abs(billed_qty), abs(qty)) / abs(qty)
+        expected_value = company_currency.round(value * ratio)
+        expected_currency = currency.round(value_currency * ratio)
+        bill_rate = self.balance / self.amount_currency
+        covered_at_bill_rate = company_currency.round(expected_currency * bill_rate)
+        return company_currency.round(expected_value - covered_at_bill_rate)
+
+    def _l10n_ro_rate_difference_line_vals(self, rate_diff):
+        """The balanced pair booking the exchange rate difference:
+        `Dr 408 / Cr 765` when favourable, `Cr 408 / Dr 665` when
+        unfavourable. Currency neutral - an exchange rate difference exists
+        only in company currency."""
+        self.ensure_one()
+        company = self.company_id
+        exchange_account = (
+            company.income_currency_exchange_account_id
+            if rate_diff > 0
+            else company.expense_currency_exchange_account_id
+        )
+        if not exchange_account:
+            return []
+        label = self.env._("Currency exchange rate difference")
+        common = {
+            "move_id": self.move_id.id,
+            "name": label,
+            "product_id": self.product_id.id,
+            "product_uom_id": self.product_uom_id.id,
+            "quantity": 0.0,
+            "currency_id": self.currency_id.id,
+            "amount_currency": 0.0,
+            "analytic_distribution": self.analytic_distribution,
+            "display_type": "cogs",
+            "tax_ids": [],
+        }
+        return [
+            dict(common, account_id=self.account_id.id, balance=rate_diff),
+            dict(common, account_id=exchange_account.id, balance=-rate_diff),
+        ]
+
     def _get_l10n_ro_line_account(self, stock_move, product, accounts):
         self.ensure_one()
         if self.move_id.is_purchase_document():
