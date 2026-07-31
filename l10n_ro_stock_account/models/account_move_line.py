@@ -66,33 +66,66 @@ class AccountMoveLine(models.Model):
             qty += stock_move._get_valued_qty()
         return value, value_currency, currency, qty
 
-    def _l10n_ro_notice_rate_difference(self):
-        """The exchange rate difference due on the 408 pivot when this bill
-        line arrives.
+    def _l10n_ro_notice_settlement_amounts(self):
+        """Split the gap between this bill line and the 408 pivot in two.
 
-        It is the part of the estimated liability already received, valued at
-        the reception rate minus the same amount valued at the invoice rate.
-        Positive means a favourable difference (765), negative an unfavourable
-        one (665). Zero for purchases in company currency, and zero for the
-        quantity invoiced beyond what was received, which is a price
-        difference and not a rate difference.
+        Returns `(price_difference, rate_difference)`, both in company currency,
+        or `(0, 0)` when the line is not settling a reception on notice.
+
+        The pivot was credited at the reception rate. The bill line debits it at
+        the invoice rate, and the rate difference below closes the rate part, so
+        whatever is left on 408 afterwards is, by construction, the price
+        difference:
+
+            residual = balance + rate_difference - value_received
+
+        It is computed analytically rather than read back from the posted
+        balance, so it is available before posting (the price difference
+        confirmation dialog needs it) and it stays correct on partial invoicing.
         """
         self.ensure_one()
         company_currency = self.company_id.currency_id
         value, value_currency, currency, qty = self._l10n_ro_notice_receipt_amounts()
-        if not qty or currency == company_currency:
-            return 0.0
-        if currency != self.currency_id or not self.amount_currency:
-            return 0.0
+        if not qty:
+            return 0.0, 0.0
         billed_qty = self.product_uom_id._compute_quantity(
             self.quantity, self.product_id.uom_id
         )
+        # 408 is settled only for the quantity actually received; anything
+        # invoiced beyond it is a price difference, never a rate difference
         ratio = min(abs(billed_qty), abs(qty)) / abs(qty)
         expected_value = company_currency.round(value * ratio)
-        expected_currency = currency.round(value_currency * ratio)
-        bill_rate = self.balance / self.amount_currency
-        covered_at_bill_rate = company_currency.round(expected_currency * bill_rate)
-        return company_currency.round(expected_value - covered_at_bill_rate)
+        in_currency = (
+            currency != company_currency
+            and currency == self.currency_id
+            and bool(self.amount_currency)
+        )
+        if in_currency:
+            expected_currency = currency.round(value_currency * ratio)
+            bill_rate = self.balance / self.amount_currency
+            covered_at_bill_rate = company_currency.round(expected_currency * bill_rate)
+        else:
+            covered_at_bill_rate = expected_value
+        rate_diff = company_currency.round(expected_value - covered_at_bill_rate)
+        price_diff = company_currency.round(self.balance - covered_at_bill_rate)
+        return price_diff, rate_diff
+
+    def _l10n_ro_notice_rate_difference(self):
+        """The exchange rate difference due on the 408 pivot when this bill
+        line arrives: the part of the estimated liability already received,
+        valued at the reception rate minus the same amount valued at the
+        invoice rate. Positive is favourable (765), negative unfavourable
+        (665). Zero for purchases in company currency."""
+        self.ensure_one()
+        return self._l10n_ro_notice_settlement_amounts()[1]
+
+    def _l10n_ro_notice_price_difference(self):
+        """The price difference left on the 408 pivot once the rate difference
+        is recognised: the amount invoiced beyond what was received, valued at
+        the invoice rate. This is what `l10n_ro_stock_price_difference`
+        capitalises, so the pivot closes."""
+        self.ensure_one()
+        return self._l10n_ro_notice_settlement_amounts()[0]
 
     def _l10n_ro_rate_difference_line_vals(self, rate_diff):
         """The balanced pair booking the exchange rate difference:
