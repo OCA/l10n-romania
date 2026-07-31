@@ -1,27 +1,23 @@
 # Copyright (C) 2026 Terrabit
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
-"""Reception on notice (`picking.l10n_ro_notice`) for a purchase in foreign currency.
+"""Reception on notice (`picking.l10n_ro_notice`) for a purchase in a foreign currency.
 
-Characterisation tests: they pin the CURRENT behaviour of the 4081 pivot (Suppliers -
-uninvoiced receipts) so that any change to it is visible, and they mark a gap rather
-than
-endorsing it.
+The 408 pivot (Suppliers - uninvoiced receipts) is an estimated liability: a monetary
+item.
+Per OMFP 1802/2014, account 408 is debited with "the value of the invoices received
+(401)" and
+with the favourable exchange rate differences "recorded when the invoice is received"
+(765), and
+credited with the unfavourable ones (665). Inventory, being a non-monetary asset, is not
+revalued
+for exchange rate movements (IAS 21).
 
-The gap: per OMFP 1802/2014, the function of account 408 lists on its debit side "the
-value
-of the invoices received (401)" plus the FAVOURABLE exchange rate differences "recorded
-when
-the invoice is received" (765), and on its credit side "the value of the goods purchased
-(371, 301, 302, ...)" plus the UNFAVOURABLE ones (665). So the exchange rate difference
-is due
-when the invoice arrives, and the price difference goes through 408 against 371.
-
-This module does neither: the 4081 line of the notice entry carries no foreign currency
-amount,
-nothing ever settles 4081, and `_get_value_from_bill` is not overridden - so the rate
-delta is
-left as a silent balance on 4081 while the stock ledger and account 371 drift apart. The
-`reconcile` flag on 4081 is irrelevant here, since no reconciliation is ever attempted.
+So the reception keeps the order currency on the 408 leg, and when the invoice arrives
+the rate
+delta on the received quantity goes to 765/665 while the stock value stays at the
+reception rate.
+No reconciliation is involved, which is why 408 does not need to be a reconcilable
+account.
 """
 
 from datetime import timedelta
@@ -126,16 +122,17 @@ class TestNoticeCurrency(TestROStockCommon):
     def _balance(self, accounts):
         return sum(self._lines(accounts).mapped("balance"))
 
-    def _exchange_moves(self):
-        return self._lines(self.acc_765 | self.acc_665).move_id
+    def _exchange_lines(self):
+        return self._lines(self.acc_765 | self.acc_665)
 
     # ------------------------------------------------------------------
     # 1. Structure of the notice reception entry
     # ------------------------------------------------------------------
 
-    def test_notice_reception_posts_371_4081_without_currency(self):
-        """The notice reception books 371 = 4081 at the receipt rate, but the 4081
-        line carries NO foreign currency - the order currency is lost."""
+    def test_notice_reception_keeps_order_currency_on_408(self):
+        """The notice reception books 371 = 408 at the reception rate, and the 408 leg
+        keeps
+        the order currency so the rate difference stays computable."""
         purchase = self._purchase()
         move = self._receive_on_notice(purchase)
 
@@ -145,18 +142,26 @@ class TestNoticeCurrency(TestROStockCommon):
         line_371 = entry.line_ids.filtered(
             lambda line: line.account_id == self.account_valuation
         )
-        line_4081 = entry.line_ids.filtered(
+        line_408 = entry.line_ids.filtered(
             lambda line: line.account_id == self.acc_4081
         )
         self.assertAlmostEqual(sum(line_371.mapped("balance")), 5000.0)
-        self.assertAlmostEqual(sum(line_4081.mapped("balance")), -5000.0)
+        self.assertAlmostEqual(sum(line_408.mapped("balance")), -5000.0)
         self.assertEqual(
-            line_4081.currency_id,
+            line_408.currency_id, self.eur, "408 must keep the order currency"
+        )
+        self.assertAlmostEqual(
+            line_408.amount_currency,
+            -1000.0,
+            msg="408 = 1000 units of foreign currency",
+        )
+        self.assertEqual(
+            line_371.currency_id,
             self.company_currency,
-            "4081 is booked in company currency only - the foreign amount is lost",
+            "the stock leg stays in company currency, at the reception rate",
         )
 
-    def test_bill_line_routed_to_4081(self):
+    def test_bill_line_routed_to_408(self):
         purchase = self._purchase()
         self._receive_on_notice(purchase)
         self._set_rate(self.date_bill, 4.0)
@@ -166,82 +171,90 @@ class TestNoticeCurrency(TestROStockCommon):
         self.assertEqual(
             invoice.invoice_line_ids.account_id,
             self.acc_4081,
-            "The bill line of a notice reception must be routed to 4081",
+            "The bill line of a notice reception must be routed to 408",
         )
         self.assertAlmostEqual(
             invoice.invoice_line_ids.balance, 4000.0, msg="Bill at its own rate (1:4)"
         )
 
     # ------------------------------------------------------------------
-    # 2. No automatic exchange difference on this path
+    # 2. Exchange rate difference when the invoice is received
     # ------------------------------------------------------------------
 
-    def test_no_exchange_difference_even_when_4081_is_reconcilable(self):
-        """4081 is reconcilable by default in the Romanian chart, but this module never
-        reconciles it: no exchange difference is recognised and the rate delta stays as
-        a balance on 4081.
-
-        GAP: OMFP 1802/2014 requires the exchange rate difference on 408 to be recorded
-        when
-        the invoice is received (765 favourable / 665 unfavourable). This test pins the
-        current
-        behaviour so a fix is visible as a change here."""
-        self.assertTrue(self.acc_4081.reconcile, "4081 is reconcilable in the RO chart")
+    def test_favourable_rate_difference_goes_to_765(self):
+        """Lower rate on the invoice (1:4): Dr 408 / Cr 765, the pivot closes and the
+        stock
+        value stays at the reception rate."""
         purchase = self._purchase()
-        self._receive_on_notice(purchase)
+        move = self._receive_on_notice(purchase)
         self._set_rate(self.date_bill, 4.0)
-        invoice = self._bill(purchase)
+        self._bill(purchase)
 
-        self.assertFalse(
-            self._exchange_moves(),
-            "No exchange difference can be generated without reconciliation",
+        self.assertAlmostEqual(
+            self._balance(self.acc_765),
+            -1000.0,
+            msg="favourable difference of 1000 on 765",
         )
-        self.assertFalse(
-            invoice.invoice_line_ids.matched_credit_ids,
-            "The bill line is not reconciled against the notice entry",
+        self.assertAlmostEqual(self._balance(self.acc_665), 0.0)
+        self.assertAlmostEqual(
+            self._balance(self.acc_4081), 0.0, msg="the 408 pivot must close"
         )
         self.assertAlmostEqual(
-            self._balance(self.acc_4081),
-            -1000.0,
-            msg="The rate delta (5000 - 4000) is left as a credit balance on 4081",
+            self._balance(self.account_valuation),
+            5000.0,
+            msg="inventory is not revalued for the rate movement",
+        )
+        self.assertAlmostEqual(
+            move.value,
+            self._balance(self.account_valuation),
+            msg="the stock ledger must agree with the stock account",
         )
 
-    def test_reconcile_flag_makes_no_difference(self):
-        """Turning the `reconcile` flag off on 4081 changes nothing on this path:
-        the outcome is identical because nothing is ever reconciled."""
-        self.acc_4081.reconcile = False
+    def test_unfavourable_rate_difference_goes_to_665(self):
+        """Higher rate on the invoice (1:6): Cr 408 / Dr 665, the pivot closes."""
         purchase = self._purchase()
-        self._receive_on_notice(purchase)
-        self._set_rate(self.date_bill, 4.0)
-        invoice = self._bill(purchase)
+        move = self._receive_on_notice(purchase)
+        self._set_rate(self.date_bill, 6.0)
+        self._bill(purchase)
 
-        self.assertEqual(invoice.invoice_line_ids.account_id, self.acc_4081)
-        self.assertFalse(self._exchange_moves())
-        self.assertAlmostEqual(self._balance(self.acc_4081), -1000.0)
+        self.assertAlmostEqual(
+            self._balance(self.acc_665),
+            1000.0,
+            msg="unfavourable difference of 1000 on 665",
+        )
+        self.assertAlmostEqual(self._balance(self.acc_765), 0.0)
+        self.assertAlmostEqual(self._balance(self.acc_4081), 0.0)
+        self.assertAlmostEqual(self._balance(self.account_valuation), 5000.0)
+        self.assertAlmostEqual(move.value, self._balance(self.account_valuation))
 
-    def test_no_residual_when_rate_unchanged(self):
-        """Control: same rate on receipt and bill - 4081 nets to zero on its own,
-        without any reconciliation."""
+    def test_no_rate_difference_when_rate_unchanged(self):
+        """Same rate on reception and invoice: nothing to recognise, the pivot closes on
+        its
+        own."""
         purchase = self._purchase()
         self._receive_on_notice(purchase)
         invoice = self._bill(purchase, date=self.date_recv)
 
         self.assertAlmostEqual(invoice.invoice_line_ids.balance, 5000.0)
-        self.assertFalse(self._exchange_moves())
+        self.assertFalse(self._exchange_lines())
         self.assertAlmostEqual(self._balance(self.acc_4081), 0.0)
 
-    def test_purchase_in_company_currency_nets_to_zero(self):
+    def test_no_rate_difference_on_purchase_in_company_currency(self):
         """Control: purchase in company currency - no rate exposure at all."""
         purchase = self._purchase(currency=self.company_currency)
-        self._receive_on_notice(purchase)
+        move = self._receive_on_notice(purchase)
         self._set_rate(self.date_bill, 4.0)
         self._bill(purchase)
 
-        self.assertFalse(self._exchange_moves())
+        entry_408 = move.account_move_id.line_ids.filtered(
+            lambda line: line.account_id == self.acc_4081
+        )
+        self.assertEqual(entry_408.currency_id, self.company_currency)
+        self.assertFalse(self._exchange_lines())
         self.assertAlmostEqual(self._balance(self.acc_4081), 0.0)
 
-    def test_no_notice_no_4081(self):
-        """Control: without the notice flag the reception does not use 4081."""
+    def test_no_notice_no_408(self):
+        """Control: without the notice flag the reception does not use 408."""
         purchase = self._purchase()
         move = self._receive_on_notice(purchase, notice=False)
         invoice = self._bill(purchase)
@@ -251,63 +264,77 @@ class TestNoticeCurrency(TestROStockCommon):
         self.assertAlmostEqual(self._balance(self.acc_4081), 0.0)
 
     # ------------------------------------------------------------------
-    # 3. Manual reconciliation of the 4081 pivot
+    # 3. The pivot does not rely on reconciliation
     # ------------------------------------------------------------------
 
-    def test_manual_reconciliation_leaves_residual_in_company_currency(self):
-        """Reconciling 4081 by hand does not settle the pivot: because the notice line
-        has no foreign currency amount, the reconciliation is done in company currency
-        and the rate delta is left over instead of being booked to 765/665.
-
-        GAP: there is no way for the accountant to settle 4081 on this path, by hand or
-        otherwise. Keeping the order currency on the 4081 line would let the
-        reconciliation
-        recognise the difference on 765/665 by itself."""
+    def test_settlement_works_without_reconcile_flag(self):
+        """Account 408 does not need to be reconcilable: the pivot closes by
+        document."""
+        self.acc_4081.reconcile = False
         purchase = self._purchase()
-        move = self._receive_on_notice(purchase)
-        self._set_rate(self.date_bill, 4.0)
-        invoice = self._bill(purchase)
-
-        notice_line = move.account_move_id.line_ids.filtered(
-            lambda line: line.account_id == self.acc_4081
-        )
-        bill_line = invoice.invoice_line_ids
-        (notice_line + bill_line).reconcile()
-
-        self.assertAlmostEqual(
-            self._balance(self.acc_4081),
-            -1000.0,
-            msg="4081 still carries the rate delta after a manual reconciliation",
-        )
-        self.assertAlmostEqual(
-            notice_line.amount_residual,
-            -1000.0,
-            msg="The notice line stays partially reconciled for the rate delta",
-        )
-
-    # ------------------------------------------------------------------
-    # 4. Stock valuation vs accounting
-    # ------------------------------------------------------------------
-
-    def test_stock_value_follows_bill_rate_while_371_keeps_receipt_rate(self):
-        """The stock layer revalues the move at the bill rate (no `_get_value_from_bill`
-        override on this path), while the accounting entry keeps the receipt rate: the
-        stock ledger and account 371 diverge by the rate delta.
-
-        GAP: inventory is a non-monetary asset and must not be revalued for exchange
-        rate
-        movements (IAS 21 / OMFP 1802); the stock ledger and account 371 should
-        agree."""
-        purchase = self._purchase()
-        move = self._receive_on_notice(purchase)
+        self._receive_on_notice(purchase)
         self._set_rate(self.date_bill, 4.0)
         self._bill(purchase)
 
+        self.assertAlmostEqual(self._balance(self.acc_765), -1000.0)
+        self.assertAlmostEqual(self._balance(self.acc_4081), 0.0)
+
+    def test_no_reconciliation_is_performed_on_408(self):
+        """Nothing reconciles 408 - the closing is driven by documents, not by
+        matching."""
+        purchase = self._purchase()
+        self._receive_on_notice(purchase)
+        self._set_rate(self.date_bill, 4.0)
+        self._bill(purchase)
+
+        lines = self._lines(self.acc_4081)
+        self.assertFalse(lines.matched_debit_ids | lines.matched_credit_ids)
+
+    # ------------------------------------------------------------------
+    # 4. Rate difference versus price difference
+    # ------------------------------------------------------------------
+
+    def test_rate_difference_only_on_the_received_quantity(self):
+        """Invoiced above the order (1100 instead of 1000 units of currency) at a
+        different
+        rate: only the received part carries a rate difference. The surplus is a price
+        difference, whose liability arises at the invoice date, so it is valued at the
+        invoice
+        rate and left on 408 - settling it is out of scope here."""
+        purchase = self._purchase()
+        self._receive_on_notice(purchase)
+        self._set_rate(self.date_bill, 4.0)
+        invoice = self._bill(purchase, price=110.0)
+
+        self.assertAlmostEqual(invoice.invoice_line_ids.balance, 4400.0)
         self.assertAlmostEqual(
-            move.value, 4000.0, msg="Stock layer follows the bill rate"
+            self._balance(self.acc_765),
+            -1000.0,
+            msg="rate difference on the received 1000",
         )
         self.assertAlmostEqual(
-            self._balance(self.account_valuation),
-            5000.0,
-            msg="Account 371 keeps the receipt rate",
+            self._balance(self.acc_4081),
+            400.0,
+            msg="the surplus of 100 at the invoice rate remains a price difference",
         )
+
+    def test_partial_bill_leaves_the_uninvoiced_part_on_408(self):
+        """Partial invoicing: 408 keeps the value of the quantity not yet invoiced, at
+        the
+        reception rate, and the rate difference covers only what was invoiced."""
+        purchase = self._purchase()
+        self._receive_on_notice(purchase)
+        self._set_rate(self.date_bill, 4.0)
+        action = purchase.action_create_invoice()
+        invoice = self.env["account.move"].browse(action["res_id"])
+        invoice.invoice_date = self.date_bill
+        invoice.invoice_line_ids.quantity = 4.0
+        invoice.action_post()
+
+        self.assertAlmostEqual(
+            self._balance(self.acc_765), -400.0, msg="rate difference on 4 units only"
+        )
+        self.assertAlmostEqual(
+            self._balance(self.acc_4081), -3000.0, msg="6 units x 500 still pending"
+        )
+        self.assertAlmostEqual(self._balance(self.account_valuation), 5000.0)

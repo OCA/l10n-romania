@@ -40,6 +40,42 @@ class AccountMove(models.Model):
             AccountMove, self - ro_invoices
         )._stock_account_prepare_realtime_out_lines_vals()
 
+    def _l10n_ro_prepare_notice_rate_difference_vals(self):
+        """Values for the lines recognising the exchange rate difference on
+        the 408 pivot.
+
+        Per OMFP 1802/2014, account 408 is debited with "the value of the
+        invoices received (401)" and with the favourable exchange rate
+        differences "recorded when the invoice is received" (765), and
+        credited with the unfavourable ones (665). The bill line debits 408 at
+        the invoice rate, so the difference up to the amount credited at
+        reception is booked here and the pivot closes for the rate part - no
+        reconciliation needed, which is why 408 does not have to be a
+        reconcilable account.
+
+        The lines are `cogs` lines on the bill itself, like the native price
+        difference in `stock_account`: each pair balances, so the invoice
+        total is untouched, they stay out of the e-invoice and they are
+        removed when the bill is reset to draft.
+        """
+        vals_list = []
+        for move in self:
+            if move.move_type not in ("in_invoice", "in_refund"):
+                continue
+            for line in move.invoice_line_ids:
+                rate_diff = line._l10n_ro_notice_rate_difference()
+                if not move.company_id.currency_id.is_zero(rate_diff):
+                    vals_list += line._l10n_ro_rate_difference_line_vals(rate_diff)
+        return vals_list
+
+    def _post(self, soft=True):
+        if not self.env.context.get("move_reverse_cancel"):
+            ro_bills = self.filtered(lambda m: m.is_l10n_ro_record)
+            rate_diff_vals = ro_bills._l10n_ro_prepare_notice_rate_difference_vals()
+            if rate_diff_vals:
+                self.env["account.move.line"].create(rate_diff_vals)
+        return super()._post(soft=soft)
+
     def _compute_is_storno(self):
         # EXTENDS 'account' for Romania
         # Stock moves with 'return' type or plus_inventory are considered storno
