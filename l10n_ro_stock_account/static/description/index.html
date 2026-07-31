@@ -464,6 +464,31 @@ Inventory Valuation reports drop from O(N) queries to O(distinct
 </div>
 </div>
 <div class="section" id="section-1">
+<h2>19.0.0.26.1</h2>
+<ul class="simple">
+<li>Fix silent over-delivery in <tt class="docutils literal">stock_move._split_for_fifo_assignment</tt>:
+it walked the per-location FIFO stack for
+<tt class="docutils literal">product_uom_qty</tt>/<tt class="docutils literal">product_qty</tt> - the <em>ordered</em> demand - instead
+of <tt class="docutils literal">quantity</tt>, the amount actually being shipped on this transfer.
+Reducing <tt class="docutils literal">quantity</tt> below the ordered demand so the remainder
+backorders is the normal Odoo workflow (core’s own
+<tt class="docutils literal">_create_backorder</tt> compares <tt class="docutils literal">quantity</tt> against
+<tt class="docutils literal">product_uom_qty</tt> for exactly this); <tt class="docutils literal">product_uom_qty</tt> is supposed
+to stay at the full order. Consuming/valuing FIFO layers against the
+full order instead of the actual shipped quantity meant that whenever
+satisfying the (wrongly inflated) target required more than one price
+layer, the split created an extra <tt class="docutils literal">stock.move</tt> for the difference
+and shipped it too - delivering the full original demand regardless of
+what was actually picked, with no backorder. When a single layer
+happened to cover the full order the bug was silent (wrong valuation,
+same visible outcome). The split now walks the stack for <tt class="docutils literal">quantity</tt>
+(what’s actually shipping), matching what core already uses for its
+own backorder decision; a consistency check raises a clear error
+instead of silently completing the transfer if the amount accounted
+for by the split still doesn’t match.</li>
+</ul>
+</div>
+<div class="section" id="section-2">
 <h2>19.0.0.25.1</h2>
 <ul class="simple">
 <li>Fix <tt class="docutils literal">IndexError: list index out of range</tt> in
@@ -478,7 +503,7 @@ the quantities are compared with the UoM rounding instead of raw
 floats.</li>
 </ul>
 </div>
-<div class="section" id="section-2">
+<div class="section" id="section-3">
 <h2>19.0.0.19.1</h2>
 <ul class="simple">
 <li>Fix
