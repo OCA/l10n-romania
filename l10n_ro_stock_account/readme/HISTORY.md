@@ -1,4 +1,4 @@
-## 19.0.0.26.1
+## 19.0.0.27.1
 
 - Fix silent over-delivery in `stock_move._split_for_fifo_assignment`: it
   walked the per-location FIFO stack for `product_uom_qty`/`product_qty` -
@@ -18,6 +18,13 @@
   already uses for its own backorder decision; a consistency check raises
   a clear error instead of silently completing the transfer if the amount
   accounted for by the split still doesn't match.
+
+## 19.0.0.26.1
+
+- Expose the `stock.move.l10n_ro_move_type` selection as the module level
+  `MOVE_TYPE` constant, so other modules can reuse it instead of duplicating the
+  list. Up to 18.0 the same list was available as `VALUED_TYPE` on
+  `stock.valuation.layer`. No functional change.
 
 ## 19.0.0.25.1
 
