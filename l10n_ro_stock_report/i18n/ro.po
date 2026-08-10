@@ -87,6 +87,11 @@ msgid "Consumption"
 msgstr "Consum"
 
 #. module: l10n_ro_stock_report
+#: model:ir.model.fields.selection,name:l10n_ro_stock_report.selection__l10n_ro_stock_storage_sheet_line__valued_type__consumption_return
+msgid "Consumption Return"
+msgstr ""
+
+#. module: l10n_ro_stock_report
 #: model:ir.model.fields,field_description:l10n_ro_stock_report.field_l10n_ro_stock_storage_sheet__create_uid
 #: model:ir.model.fields,field_description:l10n_ro_stock_report.field_l10n_ro_stock_storage_sheet_line__create_uid
 msgid "Created by"
@@ -136,8 +141,18 @@ msgstr "Livrare"
 
 #. module: l10n_ro_stock_report
 #: model:ir.model.fields.selection,name:l10n_ro_stock_report.selection__l10n_ro_stock_storage_sheet_line__valued_type__delivery_notice
-msgid "Delivery with notice"
-msgstr "Livrare cu eaviz"
+msgid "Delivery Notice"
+msgstr ""
+
+#. module: l10n_ro_stock_report
+#: model:ir.model.fields.selection,name:l10n_ro_stock_report.selection__l10n_ro_stock_storage_sheet_line__valued_type__delivery_notice_return
+msgid "Delivery Notice Return"
+msgstr ""
+
+#. module: l10n_ro_stock_report
+#: model:ir.model.fields.selection,name:l10n_ro_stock_report.selection__l10n_ro_stock_storage_sheet_line__valued_type__delivery_return
+msgid "Delivery Return"
+msgstr ""
 
 #. module: l10n_ro_stock_report
 #: model:ir.model.fields,field_description:l10n_ro_stock_report.field_l10n_ro_stock_storage_sheet__detailed_locations
@@ -161,6 +176,11 @@ msgid "Dropshipped"
 msgstr "Livrare directă"
 
 #. module: l10n_ro_stock_report
+#: model:ir.model.fields.selection,name:l10n_ro_stock_report.selection__l10n_ro_stock_storage_sheet_line__valued_type__dropshipped_return
+msgid "Dropshipped Return"
+msgstr ""
+
+#. module: l10n_ro_stock_report
 #: model:ir.model.fields,field_description:l10n_ro_stock_report.field_l10n_ro_stock_storage_sheet__date_to
 msgid "End Date"
 msgstr "Dată final"
@@ -179,11 +199,6 @@ msgstr "Valoare finală"
 #: model:ir.model.fields,field_description:l10n_ro_stock_report.field_l10n_ro_stock_storage_sheet_line__quantity_final
 msgid "Final Quantity"
 msgstr "Cantitate finală"
-
-#. module: l10n_ro_stock_report
-#: model_terms:ir.ui.view,arch_db:l10n_ro_stock_report.view_sheet_stock_report_line_search
-msgid "Group by"
-msgstr "Grupează după"
 
 #. module: l10n_ro_stock_report
 #: model:ir.model.fields,field_description:l10n_ro_stock_report.field_l10n_ro_stock_storage_sheet__id
@@ -232,25 +247,14 @@ msgid "Internal Transfer"
 msgstr "Transfer intern"
 
 #. module: l10n_ro_stock_report
-#: model:ir.model.fields.selection,name:l10n_ro_stock_report.selection__l10n_ro_stock_storage_sheet_line__valued_type__internal_transfer_in
-msgid "Internal Transfer In"
-msgstr "Intrare transfer intern"
-
-#. module: l10n_ro_stock_report
-#: model:ir.model.fields.selection,name:l10n_ro_stock_report.selection__l10n_ro_stock_storage_sheet_line__valued_type__internal_transfer_out
-msgid "Internal Transfer Out"
-msgstr "Ieșire transfer intern"
-
-#. module: l10n_ro_stock_report
-#: model:ir.model.fields.selection,name:l10n_ro_stock_report.selection__l10n_ro_stock_storage_sheet_line__valued_type__internal_transit
-msgid "Internal Transit"
-msgstr "Tranzit intern"
-
-#. module: l10n_ro_stock_report
 #: model:ir.model.fields.selection,name:l10n_ro_stock_report.selection__l10n_ro_stock_storage_sheet_line__valued_type__internal_transit_in
-#: model:ir.model.fields.selection,name:l10n_ro_stock_report.selection__l10n_ro_stock_storage_sheet_line__valued_type__internal_transit_out
 msgid "Internal Transit In"
 msgstr "Intrare tranzit intern"
+
+#. module: l10n_ro_stock_report
+#: model:ir.model.fields.selection,name:l10n_ro_stock_report.selection__l10n_ro_stock_storage_sheet_line__valued_type__internal_transit_out
+msgid "Internal Transit Out"
+msgstr ""
 
 #. module: l10n_ro_stock_report
 #: model:ir.model.fields,field_description:l10n_ro_stock_report.field_l10n_ro_stock_storage_sheet_line__invoice_id
@@ -284,8 +288,8 @@ msgstr "Locație"
 
 #. module: l10n_ro_stock_report
 #: model:ir.model.fields.selection,name:l10n_ro_stock_report.selection__l10n_ro_stock_storage_sheet_line__valued_type__minus_inventory
-msgid "Minus inventory"
-msgstr "Minus inventar"
+msgid "Minus Inventory"
+msgstr ""
 
 #. module: l10n_ro_stock_report
 #: model:ir.model.fields,field_description:l10n_ro_stock_report.field_l10n_ro_stock_storage_sheet__one_product
@@ -319,8 +323,8 @@ msgstr "Partener"
 
 #. module: l10n_ro_stock_report
 #: model:ir.model.fields.selection,name:l10n_ro_stock_report.selection__l10n_ro_stock_storage_sheet_line__valued_type__plus_inventory
-msgid "Plus inventory"
-msgstr "Plus inventar"
+msgid "Plus Inventory"
+msgstr ""
 
 #. module: l10n_ro_stock_report
 #: model_terms:ir.ui.view,arch_db:l10n_ro_stock_report.report_storage_sheet_lines_header
@@ -354,6 +358,11 @@ msgid "Production"
 msgstr "Producție"
 
 #. module: l10n_ro_stock_report
+#: model:ir.model.fields.selection,name:l10n_ro_stock_report.selection__l10n_ro_stock_storage_sheet_line__valued_type__production_return
+msgid "Production Return"
+msgstr ""
+
+#. module: l10n_ro_stock_report
 #: model:ir.model.fields,field_description:l10n_ro_stock_report.field_l10n_ro_stock_storage_sheet__products_with_move
 msgid "Products With Move"
 msgstr "Produse cu mișcări"
@@ -379,9 +388,29 @@ msgid "Reception"
 msgstr "Recepţie"
 
 #. module: l10n_ro_stock_report
+#: model:ir.model.fields.selection,name:l10n_ro_stock_report.selection__l10n_ro_stock_storage_sheet_line__valued_type__reception_in_progress
+msgid "Reception In Progress"
+msgstr ""
+
+#. module: l10n_ro_stock_report
+#: model:ir.model.fields.selection,name:l10n_ro_stock_report.selection__l10n_ro_stock_storage_sheet_line__valued_type__reception_in_progress_return
+msgid "Reception In Progress Return"
+msgstr ""
+
+#. module: l10n_ro_stock_report
 #: model:ir.model.fields.selection,name:l10n_ro_stock_report.selection__l10n_ro_stock_storage_sheet_line__valued_type__reception_notice
-msgid "Reception with notice"
-msgstr "Recepție cu preaviz"
+msgid "Reception Notice"
+msgstr ""
+
+#. module: l10n_ro_stock_report
+#: model:ir.model.fields.selection,name:l10n_ro_stock_report.selection__l10n_ro_stock_storage_sheet_line__valued_type__reception_notice_return
+msgid "Reception Notice Return"
+msgstr ""
+
+#. module: l10n_ro_stock_report
+#: model:ir.model.fields.selection,name:l10n_ro_stock_report.selection__l10n_ro_stock_storage_sheet_line__valued_type__reception_return
+msgid "Reception Return"
+msgstr ""
 
 #. module: l10n_ro_stock_report
 #: model:ir.model.fields,field_description:l10n_ro_stock_report.field_l10n_ro_stock_storage_sheet_line__reference
@@ -398,41 +427,6 @@ msgstr "Raport"
 #: model_terms:ir.ui.view,arch_db:l10n_ro_stock_report.view_stock_sheet_report_form
 msgid "Report Options"
 msgstr "Opțiuni raport"
-
-#. module: l10n_ro_stock_report
-#: model:ir.model.fields.selection,name:l10n_ro_stock_report.selection__l10n_ro_stock_storage_sheet_line__valued_type__consumption_return
-msgid "Return Consumption"
-msgstr "Retur consum"
-
-#. module: l10n_ro_stock_report
-#: model:ir.model.fields.selection,name:l10n_ro_stock_report.selection__l10n_ro_stock_storage_sheet_line__valued_type__production_return
-msgid "Return Production"
-msgstr "Retur de producție"
-
-#. module: l10n_ro_stock_report
-#: model:ir.model.fields.selection,name:l10n_ro_stock_report.selection__l10n_ro_stock_storage_sheet_line__valued_type__usage_giving_return
-msgid "Return Usage Giving"
-msgstr "Retur Utilizare"
-
-#. module: l10n_ro_stock_report
-#: model:ir.model.fields.selection,name:l10n_ro_stock_report.selection__l10n_ro_stock_storage_sheet_line__valued_type__delivery_return
-msgid "Return delivery"
-msgstr "Livrare retur"
-
-#. module: l10n_ro_stock_report
-#: model:ir.model.fields.selection,name:l10n_ro_stock_report.selection__l10n_ro_stock_storage_sheet_line__valued_type__delivery_notice_return
-msgid "Return delivery with notice"
-msgstr "Livrare retur cu notificare"
-
-#. module: l10n_ro_stock_report
-#: model:ir.model.fields.selection,name:l10n_ro_stock_report.selection__l10n_ro_stock_storage_sheet_line__valued_type__reception_return
-msgid "Return reception"
-msgstr "Recepție de întoarcere"
-
-#. module: l10n_ro_stock_report
-#: model:ir.model.fields.selection,name:l10n_ro_stock_report.selection__l10n_ro_stock_storage_sheet_line__valued_type__reception_notice_return
-msgid "Return reception with notice"
-msgstr "Recepție returnată cu notificare"
 
 #. module: l10n_ro_stock_report
 #: model:ir.ui.menu,name:l10n_ro_stock_report.menu_sheet_stock_report
@@ -513,6 +507,11 @@ msgid "Usage Giving"
 msgstr "Utilizare de"
 
 #. module: l10n_ro_stock_report
+#: model:ir.model.fields.selection,name:l10n_ro_stock_report.selection__l10n_ro_stock_storage_sheet_line__valued_type__usage_giving_return
+msgid "Usage Giving Return"
+msgstr ""
+
+#. module: l10n_ro_stock_report
 #: model:ir.model.fields,field_description:l10n_ro_stock_report.field_l10n_ro_stock_storage_sheet_line__valued_type
 #: model_terms:ir.ui.view,arch_db:l10n_ro_stock_report.view_sheet_stock_report_line_search
 msgid "Valued Type"
@@ -531,3 +530,48 @@ msgid ""
 msgstr ""
 "Va afișa raportul numai pentru aceste produse.     Dacă nimic nu va fi "
 "selectat arata numai produsele care au miscari de stoc in perioada"
+
+#~ msgid "Delivery with notice"
+#~ msgstr "Livrare cu eaviz"
+
+#~ msgid "Group by"
+#~ msgstr "Grupează după"
+
+#~ msgid "Internal Transfer In"
+#~ msgstr "Intrare transfer intern"
+
+#~ msgid "Internal Transfer Out"
+#~ msgstr "Ieșire transfer intern"
+
+#~ msgid "Internal Transit"
+#~ msgstr "Tranzit intern"
+
+#~ msgid "Minus inventory"
+#~ msgstr "Minus inventar"
+
+#~ msgid "Plus inventory"
+#~ msgstr "Plus inventar"
+
+#~ msgid "Reception with notice"
+#~ msgstr "Recepție cu preaviz"
+
+#~ msgid "Return Consumption"
+#~ msgstr "Retur consum"
+
+#~ msgid "Return Production"
+#~ msgstr "Retur de producție"
+
+#~ msgid "Return Usage Giving"
+#~ msgstr "Retur Utilizare"
+
+#~ msgid "Return delivery"
+#~ msgstr "Livrare retur"
+
+#~ msgid "Return delivery with notice"
+#~ msgstr "Livrare retur cu notificare"
+
+#~ msgid "Return reception"
+#~ msgstr "Recepție de întoarcere"
+
+#~ msgid "Return reception with notice"
+#~ msgstr "Recepție returnată cu notificare"
