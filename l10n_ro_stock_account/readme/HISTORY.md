@@ -1,3 +1,10 @@
+## 19.0.0.26.1
+
+- Expose the `stock.move.l10n_ro_move_type` selection as the module level
+  `MOVE_TYPE` constant, so other modules can reuse it instead of duplicating the
+  list. Up to 18.0 the same list was available as `VALUED_TYPE` on
+  `stock.valuation.layer`. No functional change.
+
 ## 19.0.0.25.1
 
 - Fix `IndexError: list index out of range` in
