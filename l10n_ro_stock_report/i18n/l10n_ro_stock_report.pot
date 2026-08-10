@@ -77,6 +77,16 @@ msgid "Company"
 msgstr ""
 
 #. module: l10n_ro_stock_report
+#: model:ir.model.fields.selection,name:l10n_ro_stock_report.selection__l10n_ro_stock_storage_sheet_line__valued_type__consumption
+msgid "Consumption"
+msgstr ""
+
+#. module: l10n_ro_stock_report
+#: model:ir.model.fields.selection,name:l10n_ro_stock_report.selection__l10n_ro_stock_storage_sheet_line__valued_type__consumption_return
+msgid "Consumption Return"
+msgstr ""
+
+#. module: l10n_ro_stock_report
 #: model:ir.model.fields,field_description:l10n_ro_stock_report.field_l10n_ro_stock_storage_sheet__create_uid
 #: model:ir.model.fields,field_description:l10n_ro_stock_report.field_l10n_ro_stock_storage_sheet_line__create_uid
 msgid "Created by"
@@ -120,6 +130,26 @@ msgid "Datetime"
 msgstr ""
 
 #. module: l10n_ro_stock_report
+#: model:ir.model.fields.selection,name:l10n_ro_stock_report.selection__l10n_ro_stock_storage_sheet_line__valued_type__delivery
+msgid "Delivery"
+msgstr ""
+
+#. module: l10n_ro_stock_report
+#: model:ir.model.fields.selection,name:l10n_ro_stock_report.selection__l10n_ro_stock_storage_sheet_line__valued_type__delivery_notice
+msgid "Delivery Notice"
+msgstr ""
+
+#. module: l10n_ro_stock_report
+#: model:ir.model.fields.selection,name:l10n_ro_stock_report.selection__l10n_ro_stock_storage_sheet_line__valued_type__delivery_notice_return
+msgid "Delivery Notice Return"
+msgstr ""
+
+#. module: l10n_ro_stock_report
+#: model:ir.model.fields.selection,name:l10n_ro_stock_report.selection__l10n_ro_stock_storage_sheet_line__valued_type__delivery_return
+msgid "Delivery Return"
+msgstr ""
+
+#. module: l10n_ro_stock_report
 #: model:ir.model.fields,field_description:l10n_ro_stock_report.field_l10n_ro_stock_storage_sheet__detailed_locations
 msgid "Detailed by locations"
 msgstr ""
@@ -133,6 +163,16 @@ msgstr ""
 #. module: l10n_ro_stock_report
 #: model:ir.model.fields,field_description:l10n_ro_stock_report.field_l10n_ro_stock_storage_sheet_line__document
 msgid "Document"
+msgstr ""
+
+#. module: l10n_ro_stock_report
+#: model:ir.model.fields.selection,name:l10n_ro_stock_report.selection__l10n_ro_stock_storage_sheet_line__valued_type__dropshipped
+msgid "Dropshipped"
+msgstr ""
+
+#. module: l10n_ro_stock_report
+#: model:ir.model.fields.selection,name:l10n_ro_stock_report.selection__l10n_ro_stock_storage_sheet_line__valued_type__dropshipped_return
+msgid "Dropshipped Return"
 msgstr ""
 
 #. module: l10n_ro_stock_report
@@ -197,6 +237,21 @@ msgid "Input Quantity"
 msgstr ""
 
 #. module: l10n_ro_stock_report
+#: model:ir.model.fields.selection,name:l10n_ro_stock_report.selection__l10n_ro_stock_storage_sheet_line__valued_type__internal_transfer
+msgid "Internal Transfer"
+msgstr ""
+
+#. module: l10n_ro_stock_report
+#: model:ir.model.fields.selection,name:l10n_ro_stock_report.selection__l10n_ro_stock_storage_sheet_line__valued_type__internal_transit_in
+msgid "Internal Transit In"
+msgstr ""
+
+#. module: l10n_ro_stock_report
+#: model:ir.model.fields.selection,name:l10n_ro_stock_report.selection__l10n_ro_stock_storage_sheet_line__valued_type__internal_transit_out
+msgid "Internal Transit Out"
+msgstr ""
+
+#. module: l10n_ro_stock_report
 #: model:ir.model.fields,field_description:l10n_ro_stock_report.field_l10n_ro_stock_storage_sheet_line__invoice_id
 msgid "Invoice"
 msgstr ""
@@ -224,6 +279,11 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:l10n_ro_stock_report.report_storage_sheet_report_filters
 #: model_terms:ir.ui.view,arch_db:l10n_ro_stock_report.view_sheet_stock_report_line_search
 msgid "Location"
+msgstr ""
+
+#. module: l10n_ro_stock_report
+#: model:ir.model.fields.selection,name:l10n_ro_stock_report.selection__l10n_ro_stock_storage_sheet_line__valued_type__minus_inventory
+msgid "Minus Inventory"
 msgstr ""
 
 #. module: l10n_ro_stock_report
@@ -257,6 +317,11 @@ msgid "Partner"
 msgstr ""
 
 #. module: l10n_ro_stock_report
+#: model:ir.model.fields.selection,name:l10n_ro_stock_report.selection__l10n_ro_stock_storage_sheet_line__valued_type__plus_inventory
+msgid "Plus Inventory"
+msgstr ""
+
+#. module: l10n_ro_stock_report
 #: model_terms:ir.ui.view,arch_db:l10n_ro_stock_report.report_storage_sheet_lines_header
 msgid "Price Input"
 msgstr ""
@@ -283,6 +348,16 @@ msgid "Product"
 msgstr ""
 
 #. module: l10n_ro_stock_report
+#: model:ir.model.fields.selection,name:l10n_ro_stock_report.selection__l10n_ro_stock_storage_sheet_line__valued_type__production
+msgid "Production"
+msgstr ""
+
+#. module: l10n_ro_stock_report
+#: model:ir.model.fields.selection,name:l10n_ro_stock_report.selection__l10n_ro_stock_storage_sheet_line__valued_type__production_return
+msgid "Production Return"
+msgstr ""
+
+#. module: l10n_ro_stock_report
 #: model:ir.model.fields,field_description:l10n_ro_stock_report.field_l10n_ro_stock_storage_sheet__products_with_move
 msgid "Products With Move"
 msgstr ""
@@ -300,6 +375,36 @@ msgstr ""
 #. module: l10n_ro_stock_report
 #: model_terms:ir.ui.view,arch_db:l10n_ro_stock_report.report_storage_sheet_lines_header
 msgid "Quantity Total"
+msgstr ""
+
+#. module: l10n_ro_stock_report
+#: model:ir.model.fields.selection,name:l10n_ro_stock_report.selection__l10n_ro_stock_storage_sheet_line__valued_type__reception
+msgid "Reception"
+msgstr ""
+
+#. module: l10n_ro_stock_report
+#: model:ir.model.fields.selection,name:l10n_ro_stock_report.selection__l10n_ro_stock_storage_sheet_line__valued_type__reception_in_progress
+msgid "Reception In Progress"
+msgstr ""
+
+#. module: l10n_ro_stock_report
+#: model:ir.model.fields.selection,name:l10n_ro_stock_report.selection__l10n_ro_stock_storage_sheet_line__valued_type__reception_in_progress_return
+msgid "Reception In Progress Return"
+msgstr ""
+
+#. module: l10n_ro_stock_report
+#: model:ir.model.fields.selection,name:l10n_ro_stock_report.selection__l10n_ro_stock_storage_sheet_line__valued_type__reception_notice
+msgid "Reception Notice"
+msgstr ""
+
+#. module: l10n_ro_stock_report
+#: model:ir.model.fields.selection,name:l10n_ro_stock_report.selection__l10n_ro_stock_storage_sheet_line__valued_type__reception_notice_return
+msgid "Reception Notice Return"
+msgstr ""
+
+#. module: l10n_ro_stock_report
+#: model:ir.model.fields.selection,name:l10n_ro_stock_report.selection__l10n_ro_stock_storage_sheet_line__valued_type__reception_return
+msgid "Reception Return"
 msgstr ""
 
 #. module: l10n_ro_stock_report
@@ -389,6 +494,16 @@ msgstr ""
 #. odoo-python
 #: code:addons/l10n_ro_stock_report/report/stock_report.py:0
 msgid "There are no stock movements in the selected period"
+msgstr ""
+
+#. module: l10n_ro_stock_report
+#: model:ir.model.fields.selection,name:l10n_ro_stock_report.selection__l10n_ro_stock_storage_sheet_line__valued_type__usage_giving
+msgid "Usage Giving"
+msgstr ""
+
+#. module: l10n_ro_stock_report
+#: model:ir.model.fields.selection,name:l10n_ro_stock_report.selection__l10n_ro_stock_storage_sheet_line__valued_type__usage_giving_return
+msgid "Usage Giving Return"
 msgstr ""
 
 #. module: l10n_ro_stock_report
