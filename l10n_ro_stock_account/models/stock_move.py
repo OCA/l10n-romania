@@ -11,6 +11,35 @@ from odoo.tools.sql import column_exists, create_column
 
 _logger = logging.getLogger(__name__)
 
+# Kept as a module level constant so that other modules can reuse it; up to 18.0
+# the same list lived on stock.valuation.layer as VALUED_TYPE, and the storage
+# sheet report imported it from there.
+MOVE_TYPE = [
+    ("reception", "Reception"),
+    ("reception_return", "Reception Return"),
+    ("reception_notice", "Reception Notice"),
+    ("reception_notice_return", "Reception Notice Return"),
+    ("reception_in_progress", "Reception In Progress"),
+    ("reception_in_progress_return", "Reception In Progress Return"),
+    ("delivery", "Delivery"),
+    ("delivery_return", "Delivery Return"),
+    ("delivery_notice", "Delivery Notice"),
+    ("delivery_notice_return", "Delivery Notice Return"),
+    ("plus_inventory", "Plus Inventory"),
+    ("minus_inventory", "Minus Inventory"),
+    ("consumption", "Consumption"),
+    ("consumption_return", "Consumption Return"),
+    ("usage_giving", "Usage Giving"),
+    ("usage_giving_return", "Usage Giving Return"),
+    ("production", "Production"),
+    ("production_return", "Production Return"),
+    ("internal_transfer", "Internal Transfer"),
+    ("internal_transit_out", "Internal Transit Out"),
+    ("internal_transit_in", "Internal Transit In"),
+    ("dropshipped", "Dropshipped"),
+    ("dropshipped_return", "Dropshipped Return"),
+]
+
 
 class StockMove(models.Model):
     _name = "stock.move"
@@ -24,31 +53,7 @@ class StockMove(models.Model):
         copy=False,
     )
     l10n_ro_move_type = fields.Selection(
-        [
-            ("reception", "Reception"),
-            ("reception_return", "Reception Return"),
-            ("reception_notice", "Reception Notice"),
-            ("reception_notice_return", "Reception Notice Return"),
-            ("reception_in_progress", "Reception In Progress"),
-            ("reception_in_progress_return", "Reception In Progress Return"),
-            ("delivery", "Delivery"),
-            ("delivery_return", "Delivery Return"),
-            ("delivery_notice", "Delivery Notice"),
-            ("delivery_notice_return", "Delivery Notice Return"),
-            ("plus_inventory", "Plus Inventory"),
-            ("minus_inventory", "Minus Inventory"),
-            ("consumption", "Consumption"),
-            ("consumption_return", "Consumption Return"),
-            ("usage_giving", "Usage Giving"),
-            ("usage_giving_return", "Usage Giving Return"),
-            ("production", "Production"),
-            ("production_return", "Production Return"),
-            ("internal_transfer", "Internal Transfer"),
-            ("internal_transit_out", "Internal Transit Out"),
-            ("internal_transit_in", "Internal Transit In"),
-            ("dropshipped", "Dropshipped"),
-            ("dropshipped_return", "Dropshipped Return"),
-        ],
+        MOVE_TYPE,
         compute="_compute_l10n_ro_move_type",
         store=True,
         string="Romanian - Move Type",
