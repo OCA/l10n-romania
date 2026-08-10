@@ -392,3 +392,53 @@ class TestStockReport(TransactionCase):
         self.assertEqual(qty_in_2, 10)
         self.assertEqual(qty_out_2, 4)
         self.assertEqual(qty_final_2, 8)
+
+    def test_report_valued_type_from_move_type(self):
+        """The valued type of a movement line comes from the move type.
+
+        Up to 18.0 it was read from the valuation layer; since that layer is gone
+        in 19.0 the report has to read stock.move.l10n_ro_move_type, otherwise
+        every line falls into a single "Indefinite" group.
+        """
+        product = self.product_1
+        date_dt = fields.Datetime.now() - timedelta(days=5)
+        date_from = fields.Datetime.now() - timedelta(days=10)
+        date_to = fields.Datetime.now() - timedelta(days=1)
+
+        receipt = self._create_receipt(product, 6, date_dt)
+        delivery = self._create_delivery(product, 2, date_dt)
+        self.assertEqual(receipt.move_ids.l10n_ro_move_type, "reception")
+        self.assertEqual(delivery.move_ids.l10n_ro_move_type, "delivery")
+
+        wizard = Form(self.env["l10n.ro.stock.storage.sheet"])
+        wizard.location_id = self.location
+        wizard.product_ids = product
+        wizard.date_from = date_from.date()
+        wizard.date_to = date_to.date()
+        wizard = wizard.save()
+        wizard.button_show_sheet_pdf()
+
+        lines = self.env["l10n.ro.stock.storage.sheet.line"].search(
+            [
+                ("report_id", "=", wizard.id),
+                ("product_id", "=", product.id),
+                ("location_id", "=", self.location.id),
+            ]
+        )
+        lines_in = lines.filtered(lambda line: line.quantity_in)
+        lines_out = lines.filtered(lambda line: line.quantity_out)
+        self.assertTrue(lines_in)
+        self.assertTrue(lines_out)
+        self.assertEqual(set(lines_in.mapped("valued_type")), {"reception"})
+        self.assertEqual(set(lines_out.mapped("valued_type")), {"delivery"})
+
+        # Movement types must be part of the selection, otherwise the values
+        # cannot be grouped nor read in the user interface.
+        selection = dict(
+            self.env["l10n.ro.stock.storage.sheet.line"]
+            ._fields["valued_type"]
+            .selection
+        )
+        self.assertIn("reception", selection)
+        self.assertIn("delivery", selection)
+        self.assertIn("indefinite", selection)
