@@ -1,7 +1,3 @@
-.. image:: https://odoo-community.org/readme-banner-image
-   :target: https://odoo-community.org/get-involved?utm_source=readme
-   :alt: Odoo Community Association
-
 ==========================
 Romania - Stock Accounting
 ==========================
@@ -17,7 +13,7 @@ Romania - Stock Accounting
 .. |badge1| image:: https://img.shields.io/badge/maturity-Mature-brightgreen.png
     :target: https://odoo-community.org/page/development-status
     :alt: Mature
-.. |badge2| image:: https://img.shields.io/badge/license-AGPL--3-blue.png
+.. |badge2| image:: https://img.shields.io/badge/licence-AGPL--3-blue.png
     :target: http://www.gnu.org/licenses/agpl-3.0-standalone.html
     :alt: License: AGPL-3
 .. |badge3| image:: https://img.shields.io/badge/github-OCA%2Fl10n--romania-lightgray.png?logo=github
@@ -42,6 +38,22 @@ usage_giving, inventory and production.
 
 Changelog
 =========
+
+18.0.1.29.0
+-----------
+
+- Fix the valuation of an internal transfer between two valuation
+  accounts (gestiuni). The outgoing leg was valued at
+  ``product.standard_price``, i.e. the average cost over ALL the
+  valuation accounts of the product, so whenever the source account held
+  the goods at a different cost the transfer took out more (or less)
+  than that account owned. The source account was left with value and no
+  quantity, the accounting entry (which follows the outgoing leg) moved
+  the wrong amount, and the discrepancy showed up both in the storage
+  sheet and in the trial balance. Both legs are now valued at the cost
+  the source account actually holds for the transferred goods, so a
+  transfer neither creates nor destroys value. FIFO products are
+  unaffected: they already consume the real layers.
 
 18.0.1.25.1
 -----------

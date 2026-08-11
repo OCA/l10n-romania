@@ -7,6 +7,7 @@ import logging
 
 from odoo import _, api, models
 from odoo.exceptions import UserError
+from odoo.tools import float_is_zero
 
 _logger = logging.getLogger(__name__)
 
@@ -329,12 +330,78 @@ class StockMove(models.Model):
         )
         return it_is
 
+    def _l10n_ro_get_source_account_unit_cost(self):
+        """Unit cost the source valuation account holds for this product.
+
+        An internal transfer between two valuation accounts (gestiuni) must
+        take out of the source account exactly the value that account holds
+        for the transferred goods. The standard out valuation uses
+        ``product.standard_price``, which is the average cost over ALL the
+        valuation accounts of the product, so whenever the source account
+        holds the goods at a different cost the transfer takes out more (or
+        less) than the account owns and leaves it with value and no quantity.
+
+        Returns ``None`` when no per account cost can be computed, so the
+        caller keeps the standard behaviour.
+        """
+        self.ensure_one()
+        if self.product_id.cost_method == "fifo":
+            # FIFO consumes the real layers, so the out value is already the
+            # cost of the goods being transferred.
+            return None
+        move = self.with_context(standard=True, valued_type="internal_transfer")
+        _journal_id, acc_src, _acc_dest, _acc_valuation = (
+            move._get_accounting_data_for_valuation()
+        )
+        if not acc_src:
+            return None
+        groups = (
+            self.env["stock.valuation.layer"]
+            .sudo()
+            ._read_group(
+                [
+                    ("product_id", "=", self.product_id.id),
+                    ("l10n_ro_account_id", "=", acc_src),
+                    ("id", "not in", self.stock_valuation_layer_ids.ids),
+                ],
+                aggregates=["value:sum", "quantity:sum"],
+            )
+        )
+        if not groups:
+            return None
+        value, quantity = groups[0]
+        if float_is_zero(quantity, precision_rounding=self.product_id.uom_id.rounding):
+            return None
+        currency = self.company_id.currency_id
+        return currency.round(value) / quantity
+
     # cred ca este mai bine sa generam doua svl - o intrare si o iesire
     def _create_internal_transfer_svl(self, forced_quantity=None):
-        move = self.with_context(standard=True, valued_type="internal_transfer")
-        svls = move._create_out_svl(forced_quantity)
-        move = self.with_context(standard=True, valued_type="internal_transfer")
-        svls |= move._create_in_svl(forced_quantity)
+        svls = self.env["stock.valuation.layer"]
+        for move in self:
+            out_move = move.with_context(standard=True, valued_type="internal_transfer")
+            out_svls = out_move._create_out_svl(forced_quantity)
+            unit_cost = move._l10n_ro_get_source_account_unit_cost()
+            if unit_cost is not None:
+                out_svls._l10n_ro_set_unit_cost(unit_cost)
+            in_move = move.with_context(standard=True, valued_type="internal_transfer")
+            in_svls = in_move._create_in_svl(forced_quantity)
+            # A transfer neither creates nor destroys value: whatever leaves
+            # the source account has to land in the destination one. The out
+            # leg is the one carrying the accounting entry, so the in leg
+            # mirrors it and not the other way around.
+            out_qty = sum(out_svls.mapped("quantity"))
+            if (
+                out_svls
+                and in_svls
+                and not float_is_zero(
+                    out_qty, precision_rounding=move.product_id.uom_id.rounding
+                )
+            ):
+                in_svls._l10n_ro_set_unit_cost(
+                    abs(sum(out_svls.mapped("value")) / out_qty)
+                )
+            svls |= out_svls | in_svls
         return svls
 
     def _is_usage_giving(self):
