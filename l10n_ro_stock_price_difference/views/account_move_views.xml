@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="view_move_form_l10n_ro_price_diff" model="ir.ui.view">
+        <field name="name">account.move.form.l10n.ro.price.diff</field>
+        <field name="model">account.move</field>
+        <field name="inherit_id" ref="account.view_move_form" />
+        <field name="arch" type="xml">
+            <xpath expr="//div[@name='button_box']" position="inside">
+                <field name="l10n_ro_price_diff_invoice_ids" invisible="1" />
+                <field name="l10n_ro_price_diff_picking_ids" invisible="1" />
+                <button
+                    type="object"
+                    name="action_view_l10n_ro_price_diff_invoices"
+                    class="oe_stat_button"
+                    icon="fa-file-text-o"
+                    invisible="not l10n_ro_price_diff_invoice_ids"
+                >
+                    <div class="o_stat_info">
+                        <span class="o_stat_text">Factură diferență preț</span>
+                    </div>
+                </button>
+                <button
+                    type="object"
+                    name="action_view_l10n_ro_price_diff_pickings"
+                    class="oe_stat_button"
+                    icon="fa-truck"
+                    invisible="not l10n_ro_price_diff_picking_ids"
+                >
+                    <div class="o_stat_info">
+                        <span class="o_stat_text">Document stoc</span>
+                    </div>
+                </button>
+            </xpath>
+        </field>
+    </record>
+</odoo>
