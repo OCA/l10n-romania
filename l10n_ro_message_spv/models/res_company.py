@@ -132,7 +132,7 @@ class ResCompany(models.Model):
             domain = [("company_id", "=", company.id), ("message_type", "=", "error")]
             error_messages = obj_message_spv.with_company(company).search(domain)
             error_messages.unlink()
-            days = no_days or company.l10n_ro_download_einvoices_days or no_days
+            days = no_days or int(company.l10n_ro_download_einvoices_days or 1)
             # company_messages = company._l10n_ro_get_anaf_efactura_messages()
             company_messages = obj_edi_document._request_ciusro_download_messages_spv(
                 company, no_days=days
