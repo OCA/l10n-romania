@@ -367,13 +367,15 @@ class StockMove(models.Model):
                 aggregates=["value:sum", "quantity:sum"],
             )
         )
-        if not groups:
+        # An account holding nothing for this product sums to no quantity at
+        # all (`None` over an empty set), in which case there is no per account
+        # cost to use and the standard valuation applies.
+        value, quantity = groups[0] if groups else (0.0, 0.0)
+        if not quantity or float_is_zero(
+            quantity, precision_rounding=self.product_id.uom_id.rounding
+        ):
             return None
-        value, quantity = groups[0]
-        if float_is_zero(quantity, precision_rounding=self.product_id.uom_id.rounding):
-            return None
-        currency = self.company_id.currency_id
-        return currency.round(value) / quantity
+        return self.company_id.currency_id.round(value) / quantity
 
     # cred ca este mai bine sa generam doua svl - o intrare si o iesire
     def _create_internal_transfer_svl(self, forced_quantity=None):
