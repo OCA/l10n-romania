@@ -8,7 +8,15 @@ from .common import TestStockCommonPriceDiff
 @tagged("post_install", "-at_install")
 class TestAccountMovePriceDiffSourceDocs(TestStockCommonPriceDiff):
     def test_price_diff_source_docs_smart_buttons(self):
-        po = self.create_po()
+        # Un aviz de receptie fara nota contabila la receptie, urmata de
+        # factura cu diferenta de pret, e scenariul in care se genereaza
+        # efectiv o nota contabila pentru diferenta (contul din factura,
+        # 408100, e diferit de contul de stoc 371000). La factura directa,
+        # fara aviz, contul din factura e acelasi cu cel de stoc, deci nu se
+        # mai genereaza o nota contabila separata (vezi
+        # test_purchase.py::test_nir_with_invoice_and_diff), asa ca nu ar
+        # exista nicio nota contabila de legat la factura/aviz.
+        po = self.create_po(vals={"l10n_ro_notice": True})
         self.create_invoice(self.diff_p1, self.diff_p2)
 
         price_diff_svl = self.env["stock.valuation.layer"].search(
