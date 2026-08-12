@@ -503,6 +503,16 @@ msgid "Value based on origin move %(reference)s"
 msgstr ""
 
 #. module: l10n_ro_stock_account
+#. odoo-python
+#: code:addons/l10n_ro_stock_account/models/fifo/stock_move.py:0
+msgid ""
+"Verificare de consistență FIFO eșuată la transferul %(picking)s, produsul "
+"%(product)s: se livrează %(shipping)s dar %(accounted)s a fost procesat la "
+"validare. Nimic nu a fost livrat încă - anulează și reia operația (verifică "
+"rezervarea/cantitatea)."
+msgstr ""
+
+#. module: l10n_ro_stock_account
 #: model:ir.model,name:l10n_ro_stock_account.model_stock_warehouse
 msgid "Warehouse"
 msgstr ""
