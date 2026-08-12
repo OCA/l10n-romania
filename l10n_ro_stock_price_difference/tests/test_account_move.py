@@ -1,0 +1,45 @@
+# Copyright (C) 2026 NextERP Romania
+# License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
+from odoo.tests import tagged
+
+from .common import TestStockCommonPriceDiff
+
+
+@tagged("post_install", "-at_install")
+class TestAccountMovePriceDiffSourceDocs(TestStockCommonPriceDiff):
+    def test_price_diff_source_docs_smart_buttons(self):
+        po = self.create_po()
+        self.create_invoice(self.diff_p1, self.diff_p2)
+
+        price_diff_svl = self.env["stock.valuation.layer"].search(
+            [("l10n_ro_invoice_id", "=", self.invoice.id)]
+        )
+        self.assertTrue(price_diff_svl)
+        diff_moves = price_diff_svl.account_move_id
+        self.assertTrue(diff_moves)
+
+        for move in diff_moves:
+            self.assertEqual(move.l10n_ro_price_diff_invoice_ids, self.invoice)
+            self.assertEqual(move.l10n_ro_price_diff_picking_ids, po.picking_ids)
+
+            action = move.action_view_l10n_ro_price_diff_invoices()
+            self.assertEqual(action["res_id"], self.invoice.id)
+            self.assertEqual(action["views"], [(False, "form")])
+
+            action = move.action_view_l10n_ro_price_diff_pickings()
+            self.assertEqual(action["res_id"], po.picking_ids.id)
+            self.assertEqual(action["views"], [(False, "form")])
+
+    def test_price_diff_source_docs_empty_without_price_diff(self):
+        self.create_po()
+        self.create_invoice()
+
+        move = self.invoice
+        self.assertFalse(move.l10n_ro_price_diff_invoice_ids)
+        self.assertFalse(move.l10n_ro_price_diff_picking_ids)
+
+        action = move.action_view_l10n_ro_price_diff_invoices()
+        self.assertEqual(action["domain"], [("id", "in", [])])
+
+        action = move.action_view_l10n_ro_price_diff_pickings()
+        self.assertEqual(action["domain"], [("id", "in", [])])
