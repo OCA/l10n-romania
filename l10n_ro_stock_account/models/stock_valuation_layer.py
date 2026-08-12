@@ -142,13 +142,13 @@ class StockValuationLayer(models.Model):
         """
         for svl in self:
             currency = svl.company_id.currency_id
-            vals = {
-                "unit_cost": unit_cost,
-                "value": currency.round(svl.quantity * unit_cost),
-            }
-            if svl.remaining_qty:
-                vals["remaining_value"] = currency.round(svl.remaining_qty * unit_cost)
-            svl.write(vals)
+            svl.write(
+                {
+                    "unit_cost": unit_cost,
+                    "value": currency.round(svl.quantity * unit_cost),
+                    "remaining_value": currency.round(svl.remaining_qty * unit_cost),
+                }
+            )
 
     # hook method for reception in progress
     def _l10n_ro_can_use_invoice_line_account(self, account):
