@@ -133,6 +133,23 @@ class StockValuationLayer(models.Model):
                     account = svl.l10n_ro_invoice_line_id.account_id
             svl.l10n_ro_account_id = account
 
+    def _l10n_ro_set_unit_cost(self, unit_cost):
+        """Revalue the layers at ``unit_cost``, keeping their quantity.
+
+        ``unit_cost`` is always positive; the sign of the value follows the
+        sign of the quantity, so an out leg stays negative and an in leg stays
+        positive.
+        """
+        for svl in self:
+            currency = svl.company_id.currency_id
+            vals = {
+                "unit_cost": unit_cost,
+                "value": currency.round(svl.quantity * unit_cost),
+            }
+            if svl.remaining_qty:
+                vals["remaining_value"] = currency.round(svl.remaining_qty * unit_cost)
+            svl.write(vals)
+
     # hook method for reception in progress
     def _l10n_ro_can_use_invoice_line_account(self, account):
         self.ensure_one()

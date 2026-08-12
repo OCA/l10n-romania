@@ -1,7 +1,3 @@
-.. image:: https://odoo-community.org/readme-banner-image
-   :target: https://odoo-community.org/get-involved?utm_source=readme
-   :alt: Odoo Community Association
-
 ===================================
 Romania - Stock Accounting tracking
 ===================================
@@ -17,7 +13,7 @@ Romania - Stock Accounting tracking
 .. |badge1| image:: https://img.shields.io/badge/maturity-Mature-brightgreen.png
     :target: https://odoo-community.org/page/development-status
     :alt: Mature
-.. |badge2| image:: https://img.shields.io/badge/license-AGPL--3-blue.png
+.. |badge2| image:: https://img.shields.io/badge/licence-AGPL--3-blue.png
     :target: http://www.gnu.org/licenses/agpl-3.0-standalone.html
     :alt: License: AGPL-3
 .. |badge3| image:: https://img.shields.io/badge/github-OCA%2Fl10n--romania-lightgray.png?logo=github
@@ -41,6 +37,22 @@ Stock valuation by lots/serial number
 
 .. contents::
    :local:
+
+Changelog
+=========
+
+18.0.1.6.0
+----------
+
+- Apply the internal transfer fix from ``l10n_ro_stock_account``
+  18.0.1.29.0 here as well. This module fully overrides
+  ``_create_internal_transfer_svl``, for every cost method and not only
+  for FIFO, so a non FIFO product was still valued at
+  ``product.standard_price`` — the average cost over ALL the valuation
+  accounts of the product — whenever this module was installed. Both
+  legs are now valued at the cost the source valuation account actually
+  holds for the transferred goods. FIFO keeps consuming the real layers,
+  unchanged.
 
 Bug Tracker
 ===========

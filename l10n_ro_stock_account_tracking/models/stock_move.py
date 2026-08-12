@@ -305,6 +305,14 @@ class StockMove(models.Model):
             move = move.with_context(standard=True, valued_type="internal_transfer")
             move = move.with_company(move.company_id.id)
 
+            # `_prepare_out_svl_vals` values a non FIFO product at
+            # `product.standard_price`, i.e. the average cost over ALL the
+            # valuation accounts of the product. Both legs must instead be
+            # valued at the cost the source account actually holds for the
+            # transferred goods, otherwise the transfer takes out of that
+            # account more (or less) than it owns. Returns None for FIFO, where
+            # the real layers are consumed anyway.
+            unit_cost = move._l10n_ro_get_source_account_unit_cost()
             valued_move_lines = move.move_line_ids
             for valued_move_line in valued_move_lines:
                 move = move.with_context(stock_move_line_id=valued_move_line)
@@ -321,6 +329,11 @@ class StockMove(models.Model):
                 )
                 for svl_vals in svl_vals_list:
                     svl_vals.update(move._prepare_common_svl_vals())
+                    if unit_cost is not None:
+                        svl_vals["unit_cost"] = unit_cost
+                        svl_vals["value"] = move.company_id.currency_id.round(
+                            svl_vals["quantity"] * unit_cost
+                        )
                     if forced_quantity:
                         svl_vals["description"] = (
                             f"Correction of {move.picking_id.name or move.name}"
