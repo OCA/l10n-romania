@@ -845,6 +845,76 @@ class TestMessageSPV(TestMessageSPV):
         self.assertEqual(invoice.l10n_ro_edi_document_ids[0].state, "invoice_validated")
         self.assertEqual(invoice.l10n_ro_edi_state, "invoice_validated")
 
+    def test_out_message_edi_state_validated(self):
+        """An out message matched by hand (typically a self-billed invoice the
+        customer issued in our name) must get an invoice_validated EDI
+        document, not invoice_sent.
+
+        With invoice_sent the fetch-status cron queries ANAF using
+        l10n_ro_edi_index — empty, because the upload never left this
+        instance — fails on every run and re-triggers itself every 2 minutes
+        for as long as an invoice_sent invoice exists, so it never stops."""
+        refund = self.env["account.move"].create(
+            {
+                "move_type": "out_refund",
+                "partner_id": self.vendor.id,
+                "ref": "00027547122026",
+            }
+        )
+        message_spv = self.env["l10n.ro.message.spv"].create(
+            {
+                "name": "MSG_OUT_SELF",
+                "request_id": "REQ_OUT_SELF",
+                "cif": "123",
+                "message_type": "out_invoice",
+                "partner_id": self.vendor.id,
+                "invoice_id": refund.id,
+            }
+        )
+        self.assertFalse(refund.l10n_ro_edi_document_ids)
+
+        message_spv.get_data_from_invoice()
+
+        self.assertEqual(len(refund.l10n_ro_edi_document_ids), 1)
+        self.assertEqual(refund.l10n_ro_edi_document_ids[0].state, "invoice_validated")
+        self.assertEqual(refund.l10n_ro_edi_state, "invoice_validated")
+        # The state is no longer the one the fetch-status cron queries, and
+        # re-sending stays blocked: _is_ro_edi_applicable requires an empty
+        # l10n_ro_edi_state or invoice_refused.
+        self.assertNotIn(
+            refund.l10n_ro_edi_state, (False, "invoice_sent", "invoice_refused")
+        )
+
+    def test_out_message_keeps_existing_edi_document(self):
+        """Invoices uploaded by this very instance already have an EDI document
+        holding the index: matching must not touch their state, so the normal
+        invoice_sent -> invoice_validated flow (and the signature retrieval)
+        stays unchanged."""
+        invoice = self.env["account.move"].create(
+            {
+                "move_type": "out_invoice",
+                "partner_id": self.vendor.id,
+            }
+        )
+        existing = self.env["l10n_ro_edi.document"].create(
+            {"invoice_id": invoice.id, "state": "invoice_sent"}
+        )
+        message_spv = self.env["l10n.ro.message.spv"].create(
+            {
+                "name": "MSG_OUT_OWN",
+                "request_id": "REQ_OUT_OWN",
+                "cif": "123",
+                "message_type": "out_invoice",
+                "partner_id": self.vendor.id,
+                "invoice_id": invoice.id,
+            }
+        )
+
+        message_spv.get_data_from_invoice()
+
+        self.assertEqual(invoice.l10n_ro_edi_document_ids, existing)
+        self.assertEqual(invoice.l10n_ro_edi_state, "invoice_sent")
+
     def test_onchange_invoice_id(self):
         """Testează _onchange_invoice_id pentru diverse tipuri de facturi"""
         invoice = self.env["account.move"].create(
