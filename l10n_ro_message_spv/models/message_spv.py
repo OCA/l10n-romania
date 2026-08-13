@@ -480,23 +480,36 @@ class MessageSPV(models.Model):
                     {"res_id": message.invoice_id.id, "res_model": "account.move"}
                 )
 
-                if "out" in message.message_type:
-                    if not message.invoice_id.l10n_ro_edi_document_ids:
-                        self.env["l10n_ro_edi.document"].create(
-                            {
-                                "invoice_id": message.invoice_id.id,
-                                "state": "invoice_sent",
-                                "key_loading": message.request_id,
-                            }
-                        )
                 if not message.invoice_id.l10n_ro_edi_document_ids:
-                    if message.message_type != "error":
-                        if "out" in message.message_type:
-                            state = "invoice_sent"
-                        else:
-                            state = "invoice_validated"
-                    else:
+                    if message.message_type == "error":
                         state = "invoice_sending_failed"
+                    else:
+                        # The document is already in the SPV — the very
+                        # existence of the message proves it — and the invoice
+                        # carries no EDI document, so this instance never
+                        # uploaded anything. The correct state is the terminal
+                        # one, invoice_validated:
+                        #
+                        # - for received bills, l10n_ro_edi core deduplicates on
+                        #   l10n_ro_edi_state == 'invoice_validated'; with
+                        #   invoice_sent the imported bill is no longer found at
+                        #   dedup time and the import cron recreates it
+                        #   (duplicate bills);
+                        # - for our own invoices (including self-billed ones the
+                        #   customer issued in our name), invoice_sent would
+                        #   queue the document for the fetch-status cron, which
+                        #   queries ANAF with l10n_ro_edi_index — empty, since we
+                        #   did not upload it (the document's key_loading is not
+                        #   what the fetch reads). The fetch fails on every run,
+                        #   logs in the chatter, and re-triggers itself every 2
+                        #   minutes for as long as an invoice_sent invoice
+                        #   exists, so the loop never ends.
+                        #
+                        # Invoices this instance did upload already have an EDI
+                        # document holding the index, so they never reach this
+                        # branch: their normal sent -> validated flow (and the
+                        # signature retrieval) is untouched.
+                        state = "invoice_validated"
 
                     self.env["l10n_ro_edi.document"].create(
                         {
