@@ -1,3 +1,21 @@
+**19.0.2.9.1 (2026-08-13)**
+
+- Matching an SPV message to an invoice no longer leaves the invoice in
+  the `invoice_sent` E-Factura state. The EDI document created at match
+  time is now `invoice_validated`, a terminal state: the document is
+  already in the SPV (the message proves it) and this instance never
+  uploaded it, so there is nothing to fetch a status for. With
+  `invoice_sent`, the fetch-status cron queried ANAF with an empty
+  `l10n_ro_edi_index`, failed on every run, logged the failure in the
+  chatter and re-triggered itself every 2 minutes for as long as such an
+  invoice existed — an endless loop. This shows up on self-billed
+  invoices a customer issues in the supplier's name, which can only be
+  matched by hand. Re-sending to the SPV stays blocked, as before.
+- Invoices this instance did upload are unaffected: they already carry an
+  EDI document with the upload index, so their normal
+  `invoice_sent` -> `invoice_validated` flow and signature retrieval are
+  untouched.
+
 **19.0.2.7.0 (2026-07-28)**
 
 - The product can now be corrected on a bill line imported from SPV
