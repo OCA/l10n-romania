@@ -1,3 +1,49 @@
+## 19.0.1.3.0
+
+- Value an internal transfer at the cost the source warehouse actually holds
+  for the product, instead of the product's global average. Both legs of the
+  transfer entry are built from a single `stock.move.value`, so they can never
+  diverge on this series - what was wrong is the amount itself: a transfer
+  between two warehouses took out of the source warehouse the average computed
+  over *all* warehouses. When that average was higher than what the source
+  warehouse held, the warehouse was left with value and no quantity to carry
+  it (and the other way round when it was lower), which is what the storage
+  sheet shows per warehouse. The accounting stayed balanced throughout, only
+  the per-warehouse valuation was off.
+- The new `_l10n_ro_get_source_account_unit_cost` rebuilds that cost from the
+  done moves in and out of the locations sharing the source valuation account.
+  It is plugged into `_get_value_from_std_price`, the last step of the standard
+  valuation chain, so a value coming from a bill, a quotation, a return or a
+  landed cost keeps priority exactly as before; only the fallback to the
+  product's global cost is replaced. FIFO and lot valued products are left
+  alone - there the cost already comes from the layers or from the lot - and so
+  are source locations without a valuation account of their own, where there is
+  no per-warehouse cost to follow.
+- Same defect as the one fixed on 18.0 by `_l10n_ro_get_source_account_unit_cost`
+  in 18.0.1.29.0, but with a different mechanism: on this series the valuation
+  layer is gone and the value lives on the move.
+
+## 19.0.1.1.1
+
+- Fix silent over-delivery in `stock_move._split_for_fifo_assignment`: it
+  walked the per-location FIFO stack for `product_uom_qty`/`product_qty` -
+  the *ordered* demand - instead of `quantity`, the amount actually being
+  shipped on this transfer. Reducing `quantity` below the ordered demand so
+  the remainder backorders is the normal Odoo workflow (core's own
+  `_create_backorder` compares `quantity` against `product_uom_qty` for
+  exactly this); `product_uom_qty` is supposed to stay at the full order.
+  Consuming/valuing FIFO layers against the full order instead of the
+  actual shipped quantity meant that whenever satisfying the (wrongly
+  inflated) target required more than one price layer, the split created
+  an extra `stock.move` for the difference and shipped it too - delivering
+  the full original demand regardless of what was actually picked, with no
+  backorder. When a single layer happened to cover the full order the bug
+  was silent (wrong valuation, same visible outcome). The split now walks
+  the stack for `quantity` (what's actually shipping), matching what core
+  already uses for its own backorder decision; a consistency check raises
+  a clear error instead of silently completing the transfer if the amount
+  accounted for by the split still doesn't match.
+
 ## 19.0.1.0.0
 
 - Recognise the exchange rate difference on the 408 pivot (*Furnizori - facturi nesosite*) when
