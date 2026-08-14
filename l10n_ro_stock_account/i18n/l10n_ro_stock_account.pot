@@ -14,6 +14,12 @@ msgstr ""
 "Plural-Forms: \n"
 
 #. module: l10n_ro_stock_account
+#. odoo-python
+#: code:addons/l10n_ro_stock_account/models/stock_move.py:0
+msgid "%(quantity)s %(uom)s at the cost of the source warehouse"
+msgstr ""
+
+#. module: l10n_ro_stock_account
 #: model:ir.model,name:l10n_ro_stock_account.model_account_account
 msgid "Account"
 msgstr ""
