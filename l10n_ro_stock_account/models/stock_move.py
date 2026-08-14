@@ -301,6 +301,103 @@ class StockMove(models.Model):
             move.value = move.sudo()._get_value()
         return res
 
+    def _l10n_ro_get_source_account_unit_cost(self):
+        """Unit cost the source warehouse account actually holds for the product.
+
+        An internal transfer must move the value the source warehouse owns for
+        the goods, not the average taken over every warehouse. The balance is
+        rebuilt from the done moves in and out of the locations sharing the
+        source valuation account, which is what the storage sheet reports per
+        warehouse.
+
+        Returns ``None`` when the cost cannot be established, in which case the
+        caller keeps the standard behaviour. This is notably the case when the
+        source location has no valuation account of its own: source and
+        destination then share the product account and the global cost is
+        already the right one.
+        """
+        self.ensure_one()
+        src_account = self.location_id.with_company(
+            self.company_id
+        ).l10n_ro_property_stock_valuation_account_id
+        if not src_account:
+            return None
+        locations = (
+            self.env["stock.location"]
+            .sudo()
+            .with_company(self.company_id)
+            .search(
+                [
+                    ("usage", "=", "internal"),
+                    ("company_id", "in", [False, self.company_id.id]),
+                    (
+                        "l10n_ro_property_stock_valuation_account_id",
+                        "=",
+                        src_account.id,
+                    ),
+                ]
+            )
+        )
+        if not locations:
+            return None
+        domain = [
+            ("product_id", "=", self.product_id.id),
+            ("state", "=", "done"),
+            ("company_id", "=", self.company_id.id),
+            ("id", "!=", self.id),
+        ]
+        move_obj = self.env["stock.move"].sudo()
+        value = quantity = 0.0
+        # Moves landing in the warehouse add value, moves leaving it remove
+        # value; a move inside the warehouse appears on both sides and cancels
+        # out, as it should.
+        for sign, location_field in ((1, "location_dest_id"), (-1, "location_id")):
+            groups = move_obj._read_group(
+                domain + [(location_field, "in", locations.ids)],
+                aggregates=["value:sum", "product_qty:sum"],
+            )
+            # _read_group returns an empty list when nothing matches.
+            group_value, group_quantity = groups[0] if groups else (0.0, 0.0)
+            value += sign * (group_value or 0.0)
+            quantity += sign * (group_quantity or 0.0)
+        if quantity <= 0 or self.product_id.uom_id.is_zero(quantity):
+            return None
+        return value / quantity
+
+    def _get_value_from_std_price(self, quantity, std_price=False, at_date=None):
+        """Value an internal transfer at the cost held by the source warehouse.
+
+        Only the last step of ``_get_value_data`` is replaced, so a value coming
+        from a bill, a quotation, a return or a landed cost keeps priority
+        exactly as in the standard flow; the override kicks in only where the
+        standard flow would fall back to the product's global cost.
+
+        FIFO and lot valued products are left alone: there the cost already
+        comes from the layers or from the lot, not from a global average.
+        """
+        if (
+            not std_price
+            and not at_date
+            and self.is_l10n_ro_record
+            and self.l10n_ro_move_type == "internal_transfer"
+            and self.product_id.cost_method != "fifo"
+            and not self.product_id.lot_valuated
+        ):
+            unit_cost = self.sudo()._l10n_ro_get_source_account_unit_cost()
+            if unit_cost is not None:
+                return {
+                    "value": unit_cost * quantity,
+                    "quantity": quantity,
+                    "description": self.env._(
+                        "%(quantity)s %(uom)s at the cost of the source warehouse",
+                        quantity=quantity,
+                        uom=self.product_id.uom_id.name,
+                    ),
+                }
+        return super()._get_value_from_std_price(
+            quantity, std_price=std_price, at_date=at_date
+        )
+
     def _get_valued_qty(self, lot=None):
         self.ensure_one()
         if self.is_l10n_ro_record and self.l10n_ro_move_type == "internal_transfer":
