@@ -117,3 +117,54 @@ class TestAVGInternalTransfer(TestROStockCommon):
 
         self.assertEqual(move.l10n_ro_move_type, "internal_transfer")
         self.assertAlmostEqual(move.value, 500.0)
+
+    def test_internal_transfer_out_of_a_negative_warehouse(self):
+        """A warehouse holding a negative balance falls back to the standard.
+
+        The per-warehouse cost is the balance over the quantity, so a warehouse
+        left by earlier mis-valuations with a negative balance and goods still
+        on hand yields a negative cost. Valuing the move at it would make the
+        move value negative, which runs the whole entry backwards: the source
+        warehouse comes out debited instead of credited, so the transfer
+        deepens its negative balance instead of relieving it. There is no cost
+        the goods can honestly be taken out at here, so the standard valuation
+        is kept.
+        """
+        self._receive(self.location1, 10.0, 40.0)
+        self._receive(self.location2, 10.0, 60.0)
+        self.assertAlmostEqual(self.product_avg.standard_price, 50.0)
+
+        # Warehouse 1 still holds the 10 pieces, but an earlier mis-valuation
+        # left its balance at -100, i.e. a cost of -10 a piece.
+        receipt_move = self.env["stock.move"].search(
+            [
+                ("product_id", "=", self.product_avg.id),
+                ("location_dest_id", "=", self.location1.id),
+                ("state", "=", "done"),
+            ]
+        )
+        self.assertTrue(receipt_move)
+        receipt_move.value = -100.0
+
+        # Writing that balance off also moves the product's global average,
+        # and the average is recomputed again while the transfer is processed,
+        # so no particular figure is asserted here: what the fix owes is a
+        # positive cost and an entry that runs the right way round.
+        move = self._transfer(self.location1, self.location2, 10.0)
+
+        self.assertEqual(move.l10n_ro_move_type, "internal_transfer")
+        # Falls back to the standard valuation instead of the negative
+        # per-warehouse cost (-10), so the value stays positive. Unguarded,
+        # the move came out at -100.
+        self.assertGreater(move.value, 0.0)
+
+        # And the entry runs the right way round: the source warehouse is
+        # credited for the value of the move. Unguarded, the whole entry ran
+        # backwards - the source warehouse came out debited by 100.
+        account_move = move.account_move_id
+        self.assertTrue(account_move)
+        source_lines = account_move.line_ids.filtered(
+            lambda line: line.account_id
+            == self.location1.l10n_ro_property_stock_valuation_account_id
+        )
+        self.assertAlmostEqual(sum(source_lines.mapped("balance")), -move.value, 2)
