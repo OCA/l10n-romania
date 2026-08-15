@@ -362,7 +362,17 @@ class StockMove(models.Model):
             quantity += sign * (group_quantity or 0.0)
         if quantity <= 0 or self.product_id.uom_id.is_zero(quantity):
             return None
-        return value / quantity
+        unit_cost = value / quantity
+        if unit_cost <= 0:
+            # A warehouse left with a negative balance by earlier
+            # mis-valuations gives a negative cost, which is not a cost the
+            # goods can be taken out at: the move would be valued negatively,
+            # which runs its whole entry backwards - the source warehouse
+            # debited instead of credited - so the transfer would deepen the
+            # negative balance instead of relieving it. Keep the standard
+            # valuation and let the existing imbalance be corrected on its own.
+            return None
+        return unit_cost
 
     def _get_value_from_std_price(self, quantity, std_price=False, at_date=None):
         """Value an internal transfer at the cost held by the source warehouse.

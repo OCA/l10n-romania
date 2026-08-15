@@ -1,3 +1,13 @@
+## 19.0.1.5.0
+
+- Keep the standard valuation for an internal transfer whose source warehouse
+  holds a negative balance with goods still on hand, a state left behind by
+  earlier mis-valuations. The per-warehouse cost is the balance over the
+  quantity, so such a warehouse yields a negative cost; valuing the move at it
+  made the move value negative, which ran the whole entry backwards: the
+  source warehouse came out debited instead of credited, so the transfer
+  deepened its negative balance instead of relieving it.
+
 ## 19.0.1.3.0
 
 - Value an internal transfer at the cost the source warehouse actually holds

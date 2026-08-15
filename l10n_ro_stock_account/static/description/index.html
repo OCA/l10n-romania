@@ -464,6 +464,19 @@ Inventory Valuation reports drop from O(N) queries to O(distinct
 </div>
 </div>
 <div class="section" id="section-1">
+<h2>19.0.1.5.0</h2>
+<ul class="simple">
+<li>Keep the standard valuation for an internal transfer whose source
+warehouse holds a negative balance with goods still on hand, a state
+left behind by earlier mis-valuations. The per-warehouse cost is the
+balance over the quantity, so such a warehouse yields a negative cost;
+valuing the move at it made the move value negative, which ran the
+whole entry backwards: the source warehouse came out debited instead
+of credited, so the transfer deepened its negative balance instead of
+relieving it.</li>
+</ul>
+</div>
+<div class="section" id="section-2">
 <h2>19.0.1.3.0</h2>
 <ul class="simple">
 <li>Value an internal transfer at the cost the source warehouse actually
@@ -493,7 +506,7 @@ different mechanism: on this series the valuation layer is gone and
 the value lives on the move.</li>
 </ul>
 </div>
-<div class="section" id="section-2">
+<div class="section" id="section-3">
 <h2>19.0.1.1.1</h2>
 <ul class="simple">
 <li>Fix silent over-delivery in <tt class="docutils literal">stock_move._split_for_fifo_assignment</tt>:
@@ -518,7 +531,7 @@ instead of silently completing the transfer if the amount accounted
 for by the split still doesn’t match.</li>
 </ul>
 </div>
-<div class="section" id="section-3">
+<div class="section" id="section-4">
 <h2>19.0.1.0.0</h2>
 <ul class="simple">
 <li>Recognise the exchange rate difference on the 408 pivot (<em>Furnizori -
@@ -551,7 +564,7 @@ difference, whose liability arises at the invoice date - is taken at
 the invoice rate.</li>
 </ul>
 </div>
-<div class="section" id="section-4">
+<div class="section" id="section-5">
 <h2>19.0.0.26.1</h2>
 <ul class="simple">
 <li>Expose the <tt class="docutils literal">stock.move.l10n_ro_move_type</tt> selection as the module
@@ -560,7 +573,7 @@ duplicating the list. Up to 18.0 the same list was available as
 <tt class="docutils literal">VALUED_TYPE</tt> on <tt class="docutils literal">stock.valuation.layer</tt>. No functional change.</li>
 </ul>
 </div>
-<div class="section" id="section-5">
+<div class="section" id="section-6">
 <h2>19.0.0.25.1</h2>
 <ul class="simple">
 <li>Fix <tt class="docutils literal">IndexError: list index out of range</tt> in
@@ -575,7 +588,7 @@ the quantities are compared with the UoM rounding instead of raw
 floats.</li>
 </ul>
 </div>
-<div class="section" id="section-6">
+<div class="section" id="section-7">
 <h2>19.0.0.19.1</h2>
 <ul class="simple">
 <li>Fix
