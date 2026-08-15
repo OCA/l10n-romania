@@ -341,8 +341,8 @@ class StockMove(models.Model):
         holds the goods at a different cost the transfer takes out more (or
         less) than the account owns and leaves it with value and no quantity.
 
-        Returns ``None`` when no per account cost can be computed, so the
-        caller keeps the standard behaviour.
+        Returns ``None`` when no usable per account cost can be computed, so
+        the caller keeps the standard behaviour.
         """
         self.ensure_one()
         if self.product_id.cost_method == "fifo":
@@ -375,7 +375,17 @@ class StockMove(models.Model):
             quantity, precision_rounding=self.product_id.uom_id.rounding
         ):
             return None
-        return self.company_id.currency_id.round(value) / quantity
+        unit_cost = self.company_id.currency_id.round(value) / quantity
+        if unit_cost <= 0:
+            # A source account left with value and quantity of opposite signs
+            # by earlier mis-valuations gives a negative cost, which is not a
+            # cost the goods can be taken out at: the out leg would end up
+            # with a positive value and the transfer would create value out of
+            # nothing, with no accounting entry to match (the entry branches on
+            # the sign of the cost). Keep the standard valuation and let the
+            # existing imbalance be corrected on its own.
+            return None
+        return unit_cost
 
     # cred ca este mai bine sa generam doua svl - o intrare si o iesire
     def _create_internal_transfer_svl(self, forced_quantity=None):

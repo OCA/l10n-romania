@@ -172,3 +172,85 @@ class TestInternalTransferValue(TestStockCommon):
             80.0,
             2,
         )
+
+    def _add_residual_value(self, product, account, value):
+        """Leave `value` on `account` without any quantity behind it.
+
+        This is the state earlier mis-valuations left on real databases: the
+        account owns goods, but its value has drifted away from them, up to
+        the point of turning negative.
+        """
+        svl = self.env["stock.valuation.layer"].create(
+            {
+                "product_id": product.id,
+                "company_id": self.env.company.id,
+                "quantity": 0.0,
+                "unit_cost": 0.0,
+                "value": value,
+                "description": "residual value from an earlier mis-valuation",
+            }
+        )
+        svl.l10n_ro_account_id = account
+        return svl
+
+    def test_internal_transfer_out_of_a_negative_source_account(self):
+        """A source account holding negative value falls back to the standard.
+
+        The per account cost is ``value / quantity``, so an account left with
+        value and quantity of opposite signs yields a negative cost. Valuing
+        the out leg at it flips the sign of its value: both legs end up
+        positive, the transfer creates value out of nothing, and no accounting
+        entry is written at all, because the entry branches on the sign of the
+        cost. There is no cost the goods can honestly be taken out at here, so
+        the standard valuation has to be kept.
+        """
+        product = self._setup_two_accounts()
+        account_src = self.account_valuation
+        account_dest = self.account_valuation_mp
+        # 10 pieces worth 400, minus a residue of 500: the account owns the
+        # goods but holds -100 for them, i.e. a cost of -10 a piece.
+        self._add_residual_value(product, account_src, -500.0)
+        self.assertEqual(
+            self._valuation_on_account(product, account_src), (10.0, -100.0)
+        )
+
+        self.transfer(
+            self.location_warehouse, self.location_warehouse_other, product=product
+        )
+        svls = self.picking.move_ids.stock_valuation_layer_ids.filtered(
+            lambda svl: svl.l10n_ro_valued_type == "internal_transfer"
+        )
+        self.assertEqual(len(svls), 2)
+        out_svl = svls.filtered(lambda svl: svl.quantity < 0)
+        in_svl = svls.filtered(lambda svl: svl.quantity > 0)
+        self.assertEqual(len(out_svl), 1, "The out leg must keep its negative value")
+        self.assertEqual(len(in_svl), 1)
+
+        # Falls back to the global average cost (50) instead of the negative
+        # per account one, so the out leg stays negative and the two legs
+        # still cancel each other out.
+        self.assertAlmostEqual(out_svl.unit_cost, 50.0, 2)
+        self.assertAlmostEqual(out_svl.value, -100.0, 2)
+        self.assertAlmostEqual(in_svl.value, 100.0, 2)
+        self.assertAlmostEqual(sum(svls.mapped("value")), 0.0, 2)
+
+        # The transfer creates no value: the drift stays exactly where it was.
+        self.assertEqual(
+            self._valuation_on_account(product, account_src), (8.0, -200.0)
+        )
+
+        # And it is still backed by an accounting entry.
+        self.assertTrue(
+            out_svl.account_move_id, "The out leg must carry its accounting entry"
+        )
+        aml = out_svl.account_move_id.line_ids
+        self.assertAlmostEqual(
+            sum(aml.filtered(lambda ln: ln.account_id == account_dest).mapped("debit")),
+            100.0,
+            2,
+        )
+        self.assertAlmostEqual(
+            sum(aml.filtered(lambda ln: ln.account_id == account_src).mapped("credit")),
+            100.0,
+            2,
+        )
