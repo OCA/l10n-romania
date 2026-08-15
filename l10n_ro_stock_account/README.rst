@@ -1,7 +1,3 @@
-.. image:: https://odoo-community.org/readme-banner-image
-   :target: https://odoo-community.org/get-involved?utm_source=readme
-   :alt: Odoo Community Association
-
 ==========================
 Romania - Stock Accounting
 ==========================
@@ -17,7 +13,7 @@ Romania - Stock Accounting
 .. |badge1| image:: https://img.shields.io/badge/maturity-Mature-brightgreen.png
     :target: https://odoo-community.org/page/development-status
     :alt: Mature
-.. |badge2| image:: https://img.shields.io/badge/license-AGPL--3-blue.png
+.. |badge2| image:: https://img.shields.io/badge/licence-AGPL--3-blue.png
     :target: http://www.gnu.org/licenses/agpl-3.0-standalone.html
     :alt: License: AGPL-3
 .. |badge3| image:: https://img.shields.io/badge/github-OCA%2Fl10n--romania-lightgray.png?logo=github
@@ -42,6 +38,19 @@ usage_giving, inventory and production.
 
 Changelog
 =========
+
+18.0.1.32.0
+-----------
+
+- Keep the standard valuation for an internal transfer whose source
+  valuation account (gestiune) holds value and quantity of opposite
+  signs, a state left behind by earlier mis-valuations. The per account
+  cost is ``value / quantity``, so such an account yields a negative
+  cost; valuing the outgoing leg at it flipped the sign of its value,
+  both legs came out positive, the transfer created value out of nothing
+  and no accounting entry was written at all, because the entry branches
+  on the sign of the cost. Also applies to
+  ``l10n_ro_stock_account_tracking``, which shares the same helper.
 
 18.0.1.29.0
 -----------

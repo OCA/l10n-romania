@@ -1,3 +1,14 @@
+## 18.0.1.32.0
+
+- Keep the standard valuation for an internal transfer whose source valuation
+  account (gestiune) holds value and quantity of opposite signs, a state left
+  behind by earlier mis-valuations. The per account cost is `value / quantity`,
+  so such an account yields a negative cost; valuing the outgoing leg at it
+  flipped the sign of its value, both legs came out positive, the transfer
+  created value out of nothing and no accounting entry was written at all,
+  because the entry branches on the sign of the cost. Also applies to
+  `l10n_ro_stock_account_tracking`, which shares the same helper.
+
 ## 18.0.1.29.0
 
 - Fix the valuation of an internal transfer between two valuation accounts
