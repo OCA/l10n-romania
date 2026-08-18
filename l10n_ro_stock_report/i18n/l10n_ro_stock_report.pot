@@ -191,6 +191,11 @@ msgid "Final Amount"
 msgstr ""
 
 #. module: l10n_ro_stock_report
+#: model:ir.model.fields.selection,name:l10n_ro_stock_report.selection__l10n_ro_stock_storage_sheet_line__valued_type__final
+msgid "Final Balance"
+msgstr ""
+
+#. module: l10n_ro_stock_report
 #: model:ir.model.fields,field_description:l10n_ro_stock_report.field_l10n_ro_stock_storage_sheet_line__quantity_final
 msgid "Final Quantity"
 msgstr ""
@@ -219,6 +224,11 @@ msgstr ""
 #. module: l10n_ro_stock_report
 #: model:ir.model.fields,field_description:l10n_ro_stock_report.field_l10n_ro_stock_storage_sheet_line__amount_initial
 msgid "Initial Amount"
+msgstr ""
+
+#. module: l10n_ro_stock_report
+#: model:ir.model.fields.selection,name:l10n_ro_stock_report.selection__l10n_ro_stock_storage_sheet_line__valued_type__initial
+msgid "Initial Balance"
 msgstr ""
 
 #. module: l10n_ro_stock_report
