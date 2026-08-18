@@ -11,6 +11,7 @@ The module extends Odoo's standard stock accounting to meet Romanian accounting 
 - Specialized accounts for stock operations
 - Per-location FIFO valuation (vs. Odoo's default company-wide FIFO)
 - Automatic negative stock compensation for FIFO products
+- Stock valuation entries for dropship deliveries, symmetric with regular deliveries
 
 ## Per-location FIFO
 
@@ -56,6 +57,22 @@ compensation is detected and not duplicated.
 
 Controlled by `res.company.fifo_location_negative_compensation`
 (defaults to `True` for Romanian companies, editable per company).
+
+## Dropship valuation
+
+A dropship move (supplier location straight to a customer location, goods
+never entering the company's own stock) is now valued and accounted for the
+same way a regular delivery is: the vendor bill still debits the stock
+valuation account on receipt, and the module now credits that same account
+and debits the expense account when the goods leave to the customer,
+leaving no residual balance. Without this, the stock valuation account
+accumulated a balance that no longer corresponded to any goods on hand, and
+the cost of the dropshipped goods was never recognised as an expense.
+
+This applies to dropship moves validated after the fix is installed;
+historical dropship moves keep their original (missing) accounting entries
+and require a separate, deliberate regularisation if that balance needs to
+be cleared.
 
 ## Performance notes
 
