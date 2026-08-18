@@ -390,6 +390,8 @@ accounting requirements, providing:</p>
 <li>Specialized accounts for stock operations</li>
 <li>Per-location FIFO valuation (vs. Odoo’s default company-wide FIFO)</li>
 <li>Automatic negative stock compensation for FIFO products</li>
+<li>Stock valuation entries for dropship deliveries, symmetric with
+regular deliveries</li>
 </ul>
 </div>
 <div class="section" id="per-location-fifo">
@@ -438,6 +440,22 @@ compensation is detected and not duplicated.</p>
 <p>Controlled by <tt class="docutils literal">res.company.fifo_location_negative_compensation</tt>
 (defaults to <tt class="docutils literal">True</tt> for Romanian companies, editable per company).</p>
 </div>
+<div class="section" id="dropship-valuation">
+<h2>Dropship valuation</h2>
+<p>A dropship move (supplier location straight to a customer location,
+goods never entering the company’s own stock) is now valued and
+accounted for the same way a regular delivery is: the vendor bill still
+debits the stock valuation account on receipt, and the module now
+credits that same account and debits the expense account when the goods
+leave to the customer, leaving no residual balance. Without this, the
+stock valuation account accumulated a balance that no longer
+corresponded to any goods on hand, and the cost of the dropshipped goods
+was never recognised as an expense.</p>
+<p>This applies to dropship moves validated after the fix is installed;
+historical dropship moves keep their original (missing) accounting
+entries and require a separate, deliberate regularisation if that
+balance needs to be cleared.</p>
+</div>
 <div class="section" id="performance-notes">
 <h2>Performance notes</h2>
 <ul class="simple">
@@ -464,6 +482,37 @@ Inventory Valuation reports drop from O(N) queries to O(distinct
 </div>
 </div>
 <div class="section" id="section-1">
+<h2>19.0.1.7.0</h2>
+<ul class="simple">
+<li>Fix missing stock valuation entries for dropshipped stock moves. A
+move from a supplier location straight to a customer location
+(dropship) never gets <tt class="docutils literal">stock.move.value</tt> populated by core
+<tt class="docutils literal">stock_account</tt>: <tt class="docutils literal">_action_done</tt> routes it through the same
+<tt class="docutils literal">moves_in._set_value()</tt> call used for regular incoming moves (the
+filter is <tt class="docutils literal">is_in or is_dropship</tt>), but the assignment
+<tt class="docutils literal">move.value = move._get_value()</tt> inside <tt class="docutils literal">_set_value</tt> only runs
+when <tt class="docutils literal">is_in</tt> is true, never for a pure dropship move. On top of
+that, <tt class="docutils literal">_get_l10n_ro_move_type_account_list()</tt> mapped
+<tt class="docutils literal">&quot;dropshipped&quot;</tt> and <tt class="docutils literal">&quot;dropshipped_return&quot;</tt> to an empty account
+list, so even a correctly valued move would have produced no
+accounting line. Combined, the vendor bill kept debiting the stock
+valuation account (371) on receipt, the customer invoice kept
+crediting the sale account (707) as usual, but the stock side was
+never credited back and the cost of goods sold expense account (607)
+was never debited — the stock valuation account accumulated an
+ever-growing balance with no goods behind it, and gross margin was
+permanently overstated by the un-recognised cost. Dropship moves now
+get <tt class="docutils literal">value</tt> populated the same way <tt class="docutils literal">internal_transfer</tt> moves
+already do in this module, and use the same account mapping as
+<tt class="docutils literal">delivery</tt>/ <tt class="docutils literal">delivery_return</tt> (debit expense, credit stock
+valuation, symmetric on the return). This only affects new moves going
+forward; historical dropship moves already validated before this fix
+keep their original (missing) accounting and need a separate,
+deliberate regularisation entry if the accumulated balance is to be
+cleared.</li>
+</ul>
+</div>
+<div class="section" id="section-2">
 <h2>19.0.1.5.0</h2>
 <ul class="simple">
 <li>Keep the standard valuation for an internal transfer whose source
@@ -476,7 +525,7 @@ of credited, so the transfer deepened its negative balance instead of
 relieving it.</li>
 </ul>
 </div>
-<div class="section" id="section-2">
+<div class="section" id="section-3">
 <h2>19.0.1.3.0</h2>
 <ul class="simple">
 <li>Value an internal transfer at the cost the source warehouse actually
@@ -506,7 +555,7 @@ different mechanism: on this series the valuation layer is gone and
 the value lives on the move.</li>
 </ul>
 </div>
-<div class="section" id="section-3">
+<div class="section" id="section-4">
 <h2>19.0.1.1.1</h2>
 <ul class="simple">
 <li>Fix silent over-delivery in <tt class="docutils literal">stock_move._split_for_fifo_assignment</tt>:
@@ -531,7 +580,7 @@ instead of silently completing the transfer if the amount accounted
 for by the split still doesn’t match.</li>
 </ul>
 </div>
-<div class="section" id="section-4">
+<div class="section" id="section-5">
 <h2>19.0.1.0.0</h2>
 <ul class="simple">
 <li>Recognise the exchange rate difference on the 408 pivot (<em>Furnizori -
@@ -564,7 +613,7 @@ difference, whose liability arises at the invoice date - is taken at
 the invoice rate.</li>
 </ul>
 </div>
-<div class="section" id="section-5">
+<div class="section" id="section-6">
 <h2>19.0.0.26.1</h2>
 <ul class="simple">
 <li>Expose the <tt class="docutils literal">stock.move.l10n_ro_move_type</tt> selection as the module
@@ -573,7 +622,7 @@ duplicating the list. Up to 18.0 the same list was available as
 <tt class="docutils literal">VALUED_TYPE</tt> on <tt class="docutils literal">stock.valuation.layer</tt>. No functional change.</li>
 </ul>
 </div>
-<div class="section" id="section-6">
+<div class="section" id="section-7">
 <h2>19.0.0.25.1</h2>
 <ul class="simple">
 <li>Fix <tt class="docutils literal">IndexError: list index out of range</tt> in
@@ -588,7 +637,7 @@ the quantities are compared with the UoM rounding instead of raw
 floats.</li>
 </ul>
 </div>
-<div class="section" id="section-7">
+<div class="section" id="section-8">
 <h2>19.0.0.19.1</h2>
 <ul class="simple">
 <li>Fix
