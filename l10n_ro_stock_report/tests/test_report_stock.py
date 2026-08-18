@@ -442,3 +442,61 @@ class TestStockReport(TransactionCase):
         self.assertIn("reception", selection)
         self.assertIn("delivery", selection)
         self.assertIn("indefinite", selection)
+
+    def test_report_balance_lines_have_own_valued_type(self):
+        """The opening and closing balance lines carry their own valued type.
+
+        The balances are not movements, so they have no move type to read. When
+        they are left without a valued type they land in the same empty-type
+        group as the movements of unknown type, and that group then shows an
+        opening balance differing from the closing balance with no movement in
+        between - the movements sitting on the typed rows instead. Every figure
+        is correct, but the sheet reads as broken.
+        """
+        product = self.product_1
+        date_dt = fields.Datetime.now() - timedelta(days=5)
+        date_from = fields.Datetime.now() - timedelta(days=10)
+        date_to = fields.Datetime.now() - timedelta(days=1)
+
+        self._create_receipt(product, 6, date_dt)
+        self._create_delivery(product, 2, date_dt)
+
+        wizard = Form(self.env["l10n.ro.stock.storage.sheet"])
+        wizard.location_id = self.location
+        wizard.product_ids = product
+        wizard.date_from = date_from.date()
+        wizard.date_to = date_to.date()
+        wizard = wizard.save()
+        wizard.button_show_sheet_pdf()
+
+        lines = self.env["l10n.ro.stock.storage.sheet.line"].search(
+            [
+                ("report_id", "=", wizard.id),
+                ("product_id", "=", product.id),
+                ("location_id", "=", self.location.id),
+            ]
+        )
+        self.assertTrue(lines)
+
+        # No report line may be left without a valued type: that is the bucket
+        # the balances used to fall into.
+        self.assertNotIn(
+            False,
+            lines.mapped("valued_type"),
+            "Every storage sheet line must carry a valued type",
+        )
+
+        final_lines = lines.filtered(lambda line: line.valued_type == "final")
+        self.assertTrue(final_lines, "The closing balance line must be typed 'final'")
+        # Receipt of 6 less delivery of 2 left on hand at the end of the period.
+        self.assertEqual(sum(final_lines.mapped("quantity_final")), 4)
+
+        # The balance types must be part of the selection, otherwise the values
+        # cannot be grouped nor read in the user interface.
+        selection = dict(
+            self.env["l10n.ro.stock.storage.sheet.line"]
+            ._fields["valued_type"]
+            .selection
+        )
+        self.assertIn("initial", selection)
+        self.assertIn("final", selection)
