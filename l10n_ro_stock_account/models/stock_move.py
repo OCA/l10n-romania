@@ -299,6 +299,19 @@ class StockMove(models.Model):
             # Since we create double entry throught transfer account
             # we need to set the value to the same as the stock valuation
             move.value = move.sudo()._get_value()
+
+        # Dropship: core stock_account._set_value() includes dropship moves in
+        # the moves_in filter (is_in or is_dropship), but only assigns
+        # move.value when is_in is True. Without this, the accounting entry
+        # generated right after (still inside the same core _action_done())
+        # would see value=0 and be silently skipped.
+        ro_dropship_moves = self.filtered(
+            lambda m: m.is_l10n_ro_record
+            and m.l10n_ro_move_type in ("dropshipped", "dropshipped_return")
+            and not m.value
+        )
+        for move in ro_dropship_moves:
+            move.value = move.sudo()._get_value()
         return res
 
     def _l10n_ro_get_source_account_unit_cost(self):
@@ -515,8 +528,8 @@ class StockMove(models.Model):
             "internal_transit_in": [
                 ("stock_valuation", "l10n_ro_transfer", "value", 1)
             ],
-            "dropshipped": [],
-            "dropshipped_return": [],
+            "dropshipped": [("expense", "stock_valuation", "value", 1)],
+            "dropshipped_return": [("expense", "stock_valuation", "value", -1)],
         }
         return vals.get(self.l10n_ro_move_type, [])
 
