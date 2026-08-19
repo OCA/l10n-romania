@@ -1,3 +1,20 @@
+**19.0.2.11.0 (2026-08-19)**
+
+- The partner lookup by tax ID now accepts both spellings of the Romanian
+  CIF. ANAF sends the code sometimes with and sometimes without the `RO`
+  prefix, while the partner in Odoo may hold the other variant; the
+  lookup used to fail in that case and a duplicate `Unknown` partner was
+  created for a company already in the database. Both variants are now
+  searched, and the tax ID written on a newly created partner is
+  normalized without the prefix.
+- Multi-company isolation on SPV messages: `Invoice`, `Partner` and
+  `Attachment` are company-checked, the downloaded ZIP is stored in the
+  message's company, the invoice is created explicitly in that company,
+  and the partner lookup/creation is restricted to the message's company
+  (or to partners shared between companies). The `Company` field is shown
+  in the list, form and search views, together with a `Company` grouping,
+  only for users with multi-company rights.
+
 **19.0.2.9.1 (2026-08-13)**
 
 - Matching an SPV message to an invoice no longer leaves the invoice in
