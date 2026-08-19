@@ -116,27 +116,31 @@ class TestROStockDropship(TestROStockCommon):
         self.assertAlmostEqual(expense_line.debit, -original_value, places=2)
         self.assertAlmostEqual(valuation_line.credit, -original_value, places=2)
 
-    def test_dropship_does_not_affect_existing_stock_valuation(self):
+    def test_dropship_does_not_affect_existing_fifo_stock_valuation(self):
         """Dropshipping a product that also has real FIFO stock elsewhere
-        must not change that stock's quantity, value, or per-unit cost.
-        Populating stock.move.value on the dropship move (this fix) only
-        feeds that move's own journal entry — it must not leak into the
-        product's quants or standard_price.
+        must not change that stock's quantity, value, or per-unit cost."""
+        self._assert_dropship_does_not_affect_existing_stock_valuation(
+            self.product_fifo
+        )
 
-        This is deliberately run on a FIFO product, not an average-cost one:
-        core stock_account's average-cost engine
+    def test_dropship_does_not_affect_existing_average_stock_valuation(self):
+        """Same as above, for an average-cost (AVCO) product.
+
+        Core stock_account's own averaging engine
         (`product._run_average_batch`, see `stock_account/models/product.py`)
-        folds `is_dropship` moves into the same moving-average pool as real
-        purchases by design, which does retroactively change an
-        average-cost product's `standard_price` — and, since Odoo 19 quant
-        values for average-cost products are derived live from
-        `standard_price`, the value of unrelated real stock changes too.
-        That is a pre-existing core Odoo behaviour, unrelated to this fix
-        (reproduces identically with this module's dropship changes
-        reverted) and out of scope here; it does not affect FIFO products,
-        which is what this module's own valuation is built around."""
-        product = self.product_fifo
+        folds any `is_dropship` move into the SAME moving-average pool as
+        real purchases, by design — core's `_set_value()` adds the
+        dropship's product to `products_to_recompute` (keyed on
+        `is_dropship or is_in`) regardless of whether the move contributes
+        any value there. Since Odoo 19 derives average-cost quant values
+        live from `standard_price`, that recompute would retroactively
+        reprice unrelated real stock of the same product just because it
+        was also dropshipped. This module routes dropship moves around
+        core's `_set_value()` entirely (see the `_set_value` override in
+        `models/stock_move.py`) so they never reach that recompute."""
+        self._assert_dropship_does_not_affect_existing_stock_valuation(self.product_avg)
 
+    def _assert_dropship_does_not_affect_existing_stock_valuation(self, product):
         # Normal receipt into the company's own stock: 10 units @ 50.
         po = self.env["purchase.order"].create(
             {

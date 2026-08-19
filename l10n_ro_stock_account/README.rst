@@ -169,6 +169,14 @@ traffic at period end; and dropship quantities should flow through a
 distinct location so they never mix into a real warehouse's physical
 inventory count.
 
+Dropshipping a product does not affect the value of that same product's
+real stock held elsewhere, on either costing method (FIFO or average
+cost). Core Odoo's own average-cost engine folds dropship moves into the
+same moving-average pool as real purchases by design, which would
+otherwise retroactively reprice unrelated stock on hand purely because
+the same product was also dropshipped; this module routes dropship moves
+around that recompute entirely for Romanian-accounted companies.
+
 Performance notes
 -----------------
 
@@ -191,6 +199,31 @@ Performance notes
 
 Changelog
 =========
+
+19.0.1.8.0
+----------
+
+- Fix dropship moves retroactively repricing unrelated real stock of the
+  same product, for average-cost (AVCO) products. Core
+  ``stock_account``'s ``_set_value()`` adds a move's product to
+  ``products_to_recompute`` whenever ``is_dropship or is_in`` is true,
+  regardless of whether the move ends up contributing any value there,
+  and later recomputes the average cost for every product in that set.
+  Core's own averaging engine (``product._run_average_batch``)
+  explicitly includes ``is_dropship`` moves in the same moving-average
+  pool as real purchases, and since Odoo 19 derives average-cost quant
+  values live from ``standard_price``, that recompute retroactively
+  changes the reported value of a product's real stock held elsewhere,
+  purely because the same product was also dropshipped — even though the
+  dropship transaction never touched that stock. Confirmed this
+  reproduces in plain Odoo (no Romanian accounting involved) as well as
+  on a Romanian-accounted company before this fix. Dropship moves now
+  bypass core's ``_set_value()`` entirely on Romanian-accounted
+  companies (this module already sets their ``value`` itself, see the
+  19.0.1.7.0 entry below) so they never enter that recompute. FIFO
+  products were never affected: core's FIFO branch reprices existing
+  stock strictly from its own ``total_value``/``qty_available``, neither
+  of which a dropship move ever touches.
 
 19.0.1.7.0
 ----------

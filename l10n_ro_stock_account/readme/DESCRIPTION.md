@@ -116,6 +116,14 @@ period end; and dropship quantities should flow through a distinct
 location so they never mix into a real warehouse's physical inventory
 count.
 
+Dropshipping a product does not affect the value of that same product's
+real stock held elsewhere, on either costing method (FIFO or average
+cost). Core Odoo's own average-cost engine folds dropship moves into the
+same moving-average pool as real purchases by design, which would
+otherwise retroactively reprice unrelated stock on hand purely because the
+same product was also dropshipped; this module routes dropship moves
+around that recompute entirely for Romanian-accounted companies.
+
 ## Performance notes
 
 - Partial composite index on `stock_move(product_id, location_dest_id,
