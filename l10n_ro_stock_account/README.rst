@@ -49,6 +49,8 @@ accounting requirements, providing:
 - Specialized accounts for stock operations
 - Per-location FIFO valuation (vs. Odoo's default company-wide FIFO)
 - Automatic negative stock compensation for FIFO products
+- Stock valuation entries for dropship deliveries, symmetric with
+  regular deliveries
 
 Per-location FIFO
 -----------------
@@ -101,6 +103,72 @@ compensation is detected and not duplicated.
 Controlled by ``res.company.fifo_location_negative_compensation``
 (defaults to ``True`` for Romanian companies, editable per company).
 
+Dropship valuation
+------------------
+
+A dropship move (supplier location straight to a customer location,
+goods never entering the company's own stock) is now valued and
+accounted for the same way a regular delivery is: the vendor bill still
+debits the stock valuation account on receipt, and the module now
+credits that same account and debits the expense account when the goods
+leave to the customer, leaving no residual balance. Without this, the
+stock valuation account accumulated a balance that no longer
+corresponded to any goods on hand, and the cost of the dropshipped goods
+was never recognised as an expense.
+
+This applies to dropship moves validated after the fix is installed;
+historical dropship moves keep their original (missing) accounting
+entries and require a separate, deliberate regularisation if that
+balance needs to be cleared.
+
+Dropship accounting entries
+---------------------------
+
+The company never physically holds the dropshipped goods (the supplier
+ships straight to the customer), but under Romanian accounting rules
+stock is recognised at the transfer of risks and rewards (OMFP
+1802/2014, pt. 283 para. 1), not at physical possession — the same
+principle behind accounts 327 "Goods in transit" and 357 "Goods held by
+third parties" for stock the company owns without holding. Routing a
+dropship purchase through the stock valuation account rather than
+expensing it directly at the vendor bill also keeps a
+purchase-invoice/sale-invoice timing mismatch (e.g. vendor bill in
+December, customer invoice in January) from misstating the period
+result, per the accrual principle (pt. 53).
+
+Forward move (goods leave to the customer):
+
+===================== ===== ======
+Account               Debit Credit
+===================== ===== ======
+Expense (607)         value 
+Stock valuation (371)       value
+===================== ===== ======
+
+Return move (``dropshipped_return``), storno convention — same accounts
+as the forward move, amount in red, not a debit/credit swap:
+
+===================== ====== ======
+Account               Debit  Credit
+===================== ====== ======
+Expense (607)         −value 
+Stock valuation (371)        −value
+===================== ====== ======
+
+408 "Suppliers - invoices not received" never applies to a dropship
+move: that account is a pivot for goods physically received into a
+warehouse before the vendor bill arrives, and a dropship move never has
+that physical-receipt leg. If the vendor bill is missing at the time of
+the customer sale, the correct counterpart is 327 (a stock-in-transit
+account), not 408.
+
+For the entry above to stay correct in practice: the credit to 371 must
+happen in the same accounting period as the debit from the vendor bill
+and for the same amount, so the account nets to zero for dropship
+traffic at period end; and dropship quantities should flow through a
+distinct location so they never mix into a real warehouse's physical
+inventory count.
+
 Performance notes
 -----------------
 
@@ -123,6 +191,36 @@ Performance notes
 
 Changelog
 =========
+
+19.0.1.7.0
+----------
+
+- Fix missing stock valuation entries for dropshipped stock moves. A
+  move from a supplier location straight to a customer location
+  (dropship) never gets ``stock.move.value`` populated by core
+  ``stock_account``: ``_action_done`` routes it through the same
+  ``moves_in._set_value()`` call used for regular incoming moves (the
+  filter is ``is_in or is_dropship``), but the assignment
+  ``move.value = move._get_value()`` inside ``_set_value`` only runs
+  when ``is_in`` is true, never for a pure dropship move. On top of
+  that, ``_get_l10n_ro_move_type_account_list()`` mapped
+  ``"dropshipped"`` and ``"dropshipped_return"`` to an empty account
+  list, so even a correctly valued move would have produced no
+  accounting line. Combined, the vendor bill kept debiting the stock
+  valuation account (371) on receipt, the customer invoice kept
+  crediting the sale account (707) as usual, but the stock side was
+  never credited back and the cost of goods sold expense account (607)
+  was never debited — the stock valuation account accumulated an
+  ever-growing balance with no goods behind it, and gross margin was
+  permanently overstated by the un-recognised cost. Dropship moves now
+  get ``value`` populated the same way ``internal_transfer`` moves
+  already do in this module, and use the same account mapping as
+  ``delivery``/ ``delivery_return`` (debit expense, credit stock
+  valuation, symmetric on the return). This only affects new moves going
+  forward; historical dropship moves already validated before this fix
+  keep their original (missing) accounting and need a separate,
+  deliberate regularisation entry if the accumulated balance is to be
+  cleared.
 
 19.0.1.5.0
 ----------
