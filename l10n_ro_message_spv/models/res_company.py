@@ -95,28 +95,45 @@ class ResCompany(models.Model):
     def _l10n_ro_get_partner_from_cif(self, cif):
         self.ensure_one()
         company_id = self.id
-        domain = [
-            ("vat", "like", cif),
-            ("is_company", "=", True),
+
+        # ANAF sends the CIF sometimes with and sometimes without the "RO"
+        # prefix, while the partner stored in Odoo may hold the other variant.
+        # Search both spellings, otherwise the lookup fails and a duplicate
+        # "Unknown" partner is created for an already known company.
+        cif_clean = re.sub(r"^RO", "", (cif or "").strip().upper())
+        cif_variants = [cif_clean, "RO" + cif_clean]
+        # Multi-company: only partners of this company (or shared ones) may
+        # be matched, so that data does not leak between companies.
+        company_domain = [
+            "|",
             ("company_id", "=", company_id),
+            ("company_id", "=", False),
         ]
-        partner = self.env["res.partner"].search(domain, limit=1)
+
+        def _search(extra_domain):
+            for variant in cif_variants:
+                result = self.env["res.partner"].search(
+                    [("vat", "=ilike", variant)] + extra_domain, limit=1
+                )
+                if result:
+                    return result
+            return self.env["res.partner"]
+
+        partner = _search([("is_company", "=", True), ("company_id", "=", company_id)])
         if not partner:
-            domain = [("vat", "like", cif), ("is_company", "=", True)]
-            partner = self.env["res.partner"].search(domain, limit=1)
+            partner = _search([("is_company", "=", True)] + company_domain)
         if not partner:
-            domain = [("vat", "like", cif)]
-            partner = self.env["res.partner"].search(domain, limit=1)
+            partner = _search(company_domain)
         if not partner:
             partner = self.env["res.partner"].create(
                 {
                     "name": "Unknown",
-                    "vat": cif,
                     "company_id": company_id,
                     "country_id": self.env.ref("base.ro").id,
                     "is_company": True,
                 }
             )
+            partner.write({"vat": cif_clean})
         return partner
 
     def _l10n_ro_download_message_spv(self, no_days=0):

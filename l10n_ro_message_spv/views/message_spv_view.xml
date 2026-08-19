@@ -36,7 +36,7 @@
 
                 <field name="partner_id" />
                 <field name="request_id" />
-                <field name="company_id" invisible="1" />
+                <field name="company_id" groups="base.group_multi_company" />
                 <field name="currency_id" invisible="1" />
                 <field
                     name="amount"
@@ -120,7 +120,10 @@
                             <field name="request_id" />
                         </group>
                         <group string="Reference">
-                            <field name="company_id" invisible="1" />
+                            <field
+                                name="company_id"
+                                groups="base.group_multi_company"
+                            />
                             <field name="partner_id" />
                             <field name="ref" />
                             <field name="invoice_date" />
@@ -163,7 +166,7 @@
                 <field name="invoice_date" />
                 <field name="partner_id" />
                 <field name="request_id" />
-                <field name="company_id" />
+                <field name="company_id" groups="base.group_multi_company" />
                 <field name="invoice_id" />
                 <field name="state" />
                 <group>
@@ -216,6 +219,12 @@
                         name="group_partner_id"
                         string="Partner"
                         context="{'group_by': 'partner_id'}"
+                    />
+                    <filter
+                        name="group_company_id"
+                        string="Company"
+                        context="{'group_by': 'company_id'}"
+                        groups="base.group_multi_company"
                     />
                 </group>
             </search>

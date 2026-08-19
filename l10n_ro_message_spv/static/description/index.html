@@ -599,6 +599,24 @@ XML-ul a fost validat de sistemul ANAF.</li>
 </div>
 <div class="section" id="changelog">
 <h4><a class="toc-backref" href="#toc-entry-2">Changelog</a></h4>
+<p><strong>19.0.2.11.0 (2026-08-19)</strong></p>
+<ul class="simple">
+<li>The partner lookup by tax ID now accepts both spellings of the
+Romanian CIF. ANAF sends the code sometimes with and sometimes without
+the <tt class="docutils literal">RO</tt> prefix, while the partner in Odoo may hold the other
+variant; the lookup used to fail in that case and a duplicate
+<tt class="docutils literal">Unknown</tt> partner was created for a company already in the database.
+Both variants are now searched, and the tax ID written on a newly
+created partner is normalized without the prefix.</li>
+<li>Multi-company isolation on SPV messages: <tt class="docutils literal">Invoice</tt>, <tt class="docutils literal">Partner</tt> and
+<tt class="docutils literal">Attachment</tt> are company-checked, the downloaded ZIP is stored in
+the message’s company, the invoice is created explicitly in that
+company, and the partner lookup/creation is restricted to the
+message’s company (or to partners shared between companies). The
+<tt class="docutils literal">Company</tt> field is shown in the list, form and search views,
+together with a <tt class="docutils literal">Company</tt> grouping, only for users with
+multi-company rights.</li>
+</ul>
 <p><strong>19.0.2.9.1 (2026-08-13)</strong></p>
 <ul class="simple">
 <li>Matching an SPV message to an invoice no longer leaves the invoice in
