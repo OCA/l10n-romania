@@ -115,3 +115,109 @@ class TestROStockDropship(TestROStockCommon):
         self.assertTrue(valuation_line.is_storno)
         self.assertAlmostEqual(expense_line.debit, -original_value, places=2)
         self.assertAlmostEqual(valuation_line.credit, -original_value, places=2)
+
+    def test_dropship_does_not_affect_existing_fifo_stock_valuation(self):
+        """Dropshipping a product that also has real FIFO stock elsewhere
+        must not change that stock's quantity, value, or per-unit cost."""
+        self._assert_dropship_does_not_affect_existing_stock_valuation(
+            self.product_fifo
+        )
+
+    def test_dropship_does_not_affect_existing_average_stock_valuation(self):
+        """Same as above, for an average-cost (AVCO) product.
+
+        Core stock_account's own averaging engine
+        (`product._run_average_batch`, see `stock_account/models/product.py`)
+        folds any `is_dropship` move into the SAME moving-average pool as
+        real purchases, by design — core's `_set_value()` adds the
+        dropship's product to `products_to_recompute` (keyed on
+        `is_dropship or is_in`) regardless of whether the move contributes
+        any value there. Since Odoo 19 derives average-cost quant values
+        live from `standard_price`, that recompute would retroactively
+        reprice unrelated real stock of the same product just because it
+        was also dropshipped. This module routes dropship moves around
+        core's `_set_value()` entirely (see the `_set_value` override in
+        `models/stock_move.py`) so they never reach that recompute."""
+        self._assert_dropship_does_not_affect_existing_stock_valuation(self.product_avg)
+
+    def _assert_dropship_does_not_affect_existing_stock_valuation(self, product):
+        # Normal receipt into the company's own stock: 10 units @ 50.
+        po = self.env["purchase.order"].create(
+            {
+                "partner_id": self.supplier_1.id,
+                "order_line": [
+                    (
+                        0,
+                        0,
+                        {
+                            "product_id": product.id,
+                            "product_qty": 10.0,
+                            "price_unit": 50.0,
+                        },
+                    )
+                ],
+            }
+        )
+        po.button_confirm()
+        receipt = po.picking_ids
+        receipt.move_ids.quantity = 10.0
+        receipt.button_validate()
+        self.assertEqual(receipt.state, "done")
+
+        quants_before = self.env["stock.quant"]._gather(
+            product, receipt.location_dest_id
+        )
+        qty_before = sum(quants_before.mapped("quantity"))
+        value_before = sum(quants_before.mapped("value"))
+        standard_price_before = product.standard_price
+        self.assertEqual(qty_before, 10.0)
+
+        # Dropship the same product at a different (higher) unit cost, so any
+        # bleed into the average cost would be detectable.
+        so_form = Form(self.env["sale.order"])
+        so_form.partner_id = self.customer_1
+        with so_form.order_line.new() as line:
+            line.product_id = product
+            line.product_uom_qty = 4.0
+        so = so_form.save()
+        so.order_line.write({"route_ids": [(6, 0, self.dropship_route.ids)]})
+        so.action_confirm()
+
+        dropship_po = self.env["purchase.order"].search(
+            [("partner_id", "=", self.supplier_1.id), ("origin", "=", so.name)]
+        )
+        self.assertTrue(dropship_po)
+        dropship_po.order_line.price_unit = 80.0
+        dropship_po.button_confirm()
+        dropship_picking = dropship_po.picking_ids
+        self.assertEqual(dropship_picking.picking_type_id.code, "dropship")
+        dropship_picking.move_ids.quantity = 4.0
+        dropship_picking.button_validate()
+
+        dropship_move = dropship_picking.move_ids
+        self.assertEqual(dropship_move.l10n_ro_move_type, "dropshipped")
+        self.assertAlmostEqual(dropship_move.value, 80.0 * 4.0, places=2)
+
+        quants_after = self.env["stock.quant"]._gather(
+            product, receipt.location_dest_id
+        )
+        qty_after = sum(quants_after.mapped("quantity"))
+        value_after = sum(quants_after.mapped("value"))
+
+        self.assertEqual(
+            qty_after,
+            qty_before,
+            "Dropshipping the same product must not change the real stock quantity",
+        )
+        self.assertAlmostEqual(
+            value_after,
+            value_before,
+            places=2,
+            msg="Dropshipping the same product must not change the real stock's value",
+        )
+        self.assertAlmostEqual(
+            product.standard_price,
+            standard_price_before,
+            places=2,
+            msg="Dropship cost must not bleed into the product's average cost",
+        )
