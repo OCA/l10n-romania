@@ -69,11 +69,13 @@ class StockLandedCost(models.Model):
         valuation_layer_ids.append(valuation_layer.id)
         if product.cost_method == "average":
             cost_to_add_byproduct[product] += cost_to_add
-        # Retain this svl's own share of the additional cost. For nodes
-        # further down the tracking chain this gets partially offset right
-        # below by the amount passed on to their own destination svls, so
-        # only the portion matching their remaining_qty stays booked here.
-        svl.remaining_value += cost_to_add
+        # Only a positive (held-inventory) svl retains a share of the
+        # additional cost - a negative svl (internal-transfer mirror,
+        # sale/consumption out layer, ...) always has remaining_qty == 0
+        # and must stay at 0 remaining_value; it only forwards its cost
+        # to its own tracked destinations below.
+        if svl.quantity > 0:
+            svl.remaining_value += cost_to_add
         if product.valuation == "real_time":
             if svl_type == "out":
                 move_vals["date"] = svl.create_date
@@ -89,7 +91,8 @@ class StockLandedCost(models.Model):
 
         for svl_out in svl.l10n_ro_svl_dest_ids.filtered(lambda s: s.quantity != 0):
             out_cost_to_add = (svl_out.quantity / svl.quantity) * cost_to_add
-            svl.remaining_value += out_cost_to_add
+            if svl.quantity > 0:
+                svl.remaining_value += out_cost_to_add
             self._l10n_ro_create_svl_landed_cost(
                 line,
                 svl_out,
