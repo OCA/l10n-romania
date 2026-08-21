@@ -14,6 +14,16 @@ msgstr ""
 "Plural-Forms: \n"
 
 #. module: l10n_ro_stock_price_difference
+#: model_terms:ir.ui.view,arch_db:l10n_ro_stock_price_difference.view_move_form_l10n_ro_price_diff
+msgid "<span class=\"o_stat_text\">Document stoc</span>"
+msgstr ""
+
+#. module: l10n_ro_stock_price_difference
+#: model_terms:ir.ui.view,arch_db:l10n_ro_stock_price_difference.view_move_form_l10n_ro_price_diff
+msgid "<span class=\"o_stat_text\">Factură diferență preț</span>"
+msgstr ""
+
+#. module: l10n_ro_stock_price_difference
 #: model:ir.model.fields,field_description:l10n_ro_stock_price_difference.field_l10n_ro_price_difference_item__amount_difference
 msgid "Amount Difference"
 msgstr ""
@@ -125,6 +135,20 @@ msgstr ""
 #: model:ir.actions.act_window,name:l10n_ro_stock_price_difference.action_price_difference_confirmation
 #: model_terms:ir.ui.view,arch_db:l10n_ro_stock_price_difference.view_price_difference_confirmation_form
 msgid "Price Difference Confirmation"
+msgstr ""
+
+#. module: l10n_ro_stock_price_difference
+#: model:ir.model.fields,field_description:l10n_ro_stock_price_difference.field_account_bank_statement_line__l10n_ro_price_diff_invoice_ids
+#: model:ir.model.fields,field_description:l10n_ro_stock_price_difference.field_account_move__l10n_ro_price_diff_invoice_ids
+#: model:ir.model.fields,field_description:l10n_ro_stock_price_difference.field_account_payment__l10n_ro_price_diff_invoice_ids
+msgid "Price Difference Source Invoices"
+msgstr ""
+
+#. module: l10n_ro_stock_price_difference
+#: model:ir.model.fields,field_description:l10n_ro_stock_price_difference.field_account_bank_statement_line__l10n_ro_price_diff_picking_ids
+#: model:ir.model.fields,field_description:l10n_ro_stock_price_difference.field_account_move__l10n_ro_price_diff_picking_ids
+#: model:ir.model.fields,field_description:l10n_ro_stock_price_difference.field_account_payment__l10n_ro_price_diff_picking_ids
+msgid "Price Difference Stock Documents"
 msgstr ""
 
 #. module: l10n_ro_stock_price_difference
