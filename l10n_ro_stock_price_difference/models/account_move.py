@@ -4,7 +4,7 @@
 
 import logging
 
-from odoo import models
+from odoo import api, fields, models
 from odoo.tools import float_round
 
 _logger = logging.getLogger(__name__)
@@ -12,6 +12,62 @@ _logger = logging.getLogger(__name__)
 
 class AccountMove(models.Model):
     _inherit = "account.move"
+
+    l10n_ro_price_diff_invoice_ids = fields.Many2many(
+        "account.move",
+        compute="_compute_l10n_ro_price_diff_source_docs",
+        string="Price Difference Source Invoices",
+    )
+    l10n_ro_price_diff_picking_ids = fields.Many2many(
+        "stock.picking",
+        compute="_compute_l10n_ro_price_diff_source_docs",
+        string="Price Difference Stock Documents",
+    )
+
+    @api.depends(
+        "stock_valuation_layer_ids.stock_landed_cost_id",
+        "stock_valuation_layer_ids.l10n_ro_invoice_id",
+        "stock_valuation_layer_ids.stock_move_id.picking_id",
+    )
+    def _compute_l10n_ro_price_diff_source_docs(self):
+        for move in self:
+            price_diff_layers = move.stock_valuation_layer_ids.filtered(
+                "stock_landed_cost_id"
+            )
+            if price_diff_layers:
+                move.l10n_ro_price_diff_invoice_ids = (
+                    price_diff_layers.stock_landed_cost_id.vendor_bill_id
+                )
+                move.l10n_ro_price_diff_picking_ids = (
+                    price_diff_layers.stock_move_id.picking_id
+                )
+            else:
+                move.l10n_ro_price_diff_invoice_ids = False
+                move.l10n_ro_price_diff_picking_ids = False
+
+    def action_view_l10n_ro_price_diff_invoices(self):
+        self.ensure_one()
+        invoices = self.l10n_ro_price_diff_invoice_ids
+        action = self.env["ir.actions.actions"]._for_xml_id(
+            "account.action_move_in_invoice_type"
+        )
+        action["domain"] = [("id", "in", invoices.ids)]
+        if len(invoices) == 1:
+            action["views"] = [(False, "form")]
+            action["res_id"] = invoices.id
+        return action
+
+    def action_view_l10n_ro_price_diff_pickings(self):
+        self.ensure_one()
+        pickings = self.l10n_ro_price_diff_picking_ids
+        action = self.env["ir.actions.actions"]._for_xml_id(
+            "stock.action_picking_tree_all"
+        )
+        action["domain"] = [("id", "in", pickings.ids)]
+        if len(pickings) == 1:
+            action["views"] = [(False, "form")]
+            action["res_id"] = pickings.id
+        return action
 
     def action_post(self):
         l10n_ro_records = self.filtered("is_l10n_ro_record")
