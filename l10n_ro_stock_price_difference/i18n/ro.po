@@ -18,6 +18,16 @@ msgstr ""
 "X-Generator: Poedit 3.0.1\n"
 
 #. module: l10n_ro_stock_price_difference
+#: model_terms:ir.ui.view,arch_db:l10n_ro_stock_price_difference.view_move_form_l10n_ro_price_diff
+msgid "<span class=\"o_stat_text\">Document stoc</span>"
+msgstr ""
+
+#. module: l10n_ro_stock_price_difference
+#: model_terms:ir.ui.view,arch_db:l10n_ro_stock_price_difference.view_move_form_l10n_ro_price_diff
+msgid "<span class=\"o_stat_text\">Factură diferență preț</span>"
+msgstr ""
+
+#. module: l10n_ro_stock_price_difference
 #: model:ir.model.fields,field_description:l10n_ro_stock_price_difference.field_l10n_ro_price_difference_item__amount_difference
 msgid "Amount Difference"
 msgstr "Diferența de sumă"
@@ -134,6 +144,20 @@ msgid "Price Difference Confirmation"
 msgstr "Confirmarea diferenței de preț"
 
 #. module: l10n_ro_stock_price_difference
+#: model:ir.model.fields,field_description:l10n_ro_stock_price_difference.field_account_bank_statement_line__l10n_ro_price_diff_invoice_ids
+#: model:ir.model.fields,field_description:l10n_ro_stock_price_difference.field_account_move__l10n_ro_price_diff_invoice_ids
+#: model:ir.model.fields,field_description:l10n_ro_stock_price_difference.field_account_payment__l10n_ro_price_diff_invoice_ids
+msgid "Price Difference Source Invoices"
+msgstr ""
+
+#. module: l10n_ro_stock_price_difference
+#: model:ir.model.fields,field_description:l10n_ro_stock_price_difference.field_account_bank_statement_line__l10n_ro_price_diff_picking_ids
+#: model:ir.model.fields,field_description:l10n_ro_stock_price_difference.field_account_move__l10n_ro_price_diff_picking_ids
+#: model:ir.model.fields,field_description:l10n_ro_stock_price_difference.field_account_payment__l10n_ro_price_diff_picking_ids
+msgid "Price Difference Stock Documents"
+msgstr ""
+
+#. module: l10n_ro_stock_price_difference
 #: model:ir.model.fields,field_description:l10n_ro_stock_price_difference.field_l10n_ro_price_difference_item__product_id
 msgid "Product"
 msgstr "Produs"
@@ -151,8 +175,7 @@ msgstr "Costuri Adiționale Stoc"
 #. module: l10n_ro_stock_price_difference
 #: model_terms:ir.ui.view,arch_db:l10n_ro_stock_price_difference.view_price_difference_confirmation_form
 msgid "There are price differences between reception pickings and this bill !"
-msgstr ""
-"Există diferențe de preț între ridicarea recepției și această factură!"
+msgstr "Există diferențe de preț între ridicarea recepției și această factură!"
 
 #. module: l10n_ro_stock_price_difference
 #: model:ir.model,name:l10n_ro_stock_price_difference.model_l10n_ro_price_difference_confirm_dialog
