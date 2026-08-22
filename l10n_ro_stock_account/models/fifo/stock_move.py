@@ -426,7 +426,7 @@ class StockMove(models.Model):
         entries (e.g. _set_value is re-called when the invoice is posted),
         we return immediately to avoid doubling the effect."""
         self.ensure_one()
-        if self.fifo_neg_compensation_move_ids:
+        if self.sudo().fifo_neg_compensation_move_ids:
             return
         location = self.location_dest_id
         if not location._should_be_valued():
