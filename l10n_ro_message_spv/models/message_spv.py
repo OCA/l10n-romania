@@ -3,6 +3,7 @@
 
 import io
 import logging
+import re
 import zipfile
 from base64 import b64decode
 
@@ -20,6 +21,7 @@ class MessageSPV(models.Model):
     _name = "l10n.ro.message.spv"
     _description = "Message SPV"
     _order = "date desc"
+    _check_company_auto = True
 
     name = fields.Char(string="Message ID")  # id
     cif = fields.Char()  # cif
@@ -44,8 +46,8 @@ class MessageSPV(models.Model):
 
     # campuri suplimentare
 
-    invoice_id = fields.Many2one("account.move", string="Invoice")
-    partner_id = fields.Many2one("res.partner", string="Partner")
+    invoice_id = fields.Many2one("account.move", string="Invoice", check_company=True)
+    partner_id = fields.Many2one("res.partner", string="Partner", check_company=True)
 
     # draft - starea initiala a mesajului descarcat din SPV
     # downloaded - fisierul a fost descarcat cu succes
@@ -64,11 +66,17 @@ class MessageSPV(models.Model):
     download_attempts = fields.Integer(default=0)
     last_download_date = fields.Date()
     file_name = fields.Char()
-    attachment_id = fields.Many2one("ir.attachment", string="Attachment")
+    attachment_id = fields.Many2one(
+        "ir.attachment", string="Attachment", check_company=True
+    )
     # The signed ANAF ZIP (attachment_id) is the only stored file. The XML
     # and the PDFs are derived from it on demand; these fields only expose
     # what was materialized on the invoice (the XML import source and the
     # embedded PDF preview).
+    # They are computed and not stored, so they carry no `check_company`:
+    # nothing is written through them, and their company consistency is
+    # already guaranteed by `invoice_id` (they can only point to attachments
+    # of that invoice, which is itself company-checked).
     attachment_xml_id = fields.Many2one(
         "ir.attachment", string="XML", compute="_compute_derived_attachments"
     )
@@ -238,6 +246,7 @@ class MessageSPV(models.Model):
                 "name": file_name,
                 "raw": response["content"],
                 "mimetype": "application/zip",
+                "company_id": message.company_id.id,
             }
             attachment = self.env["ir.attachment"].sudo().create(attachment_value)
 
@@ -532,6 +541,7 @@ class MessageSPV(models.Model):
                 "partner_id": message.partner_id.id,
                 "l10n_ro_edi_download": message.name,
                 "l10n_ro_edi_transaction": message.request_id,
+                "company_id": message.company_id.id,
             }
             if "extract_state" in move_obj._fields:
                 invoice_values["extract_state"] = "no_extract_requested"
@@ -716,16 +726,33 @@ class MessageSPV(models.Model):
         }
 
     def get_partner(self):
+        partner_obj = self.env["res.partner"]
         for message in self.filtered(lambda m: not m.partner_id):
             if message.cif:
-                domain = [("vat", "like", message.cif), ("is_company", "=", True)]
-                partner = self.env["res.partner"].search(domain, limit=1)
+                # The CIF may reach us with or without the "RO" prefix, while
+                # the partner in Odoo can hold the other spelling: try both.
+                cif_clean = re.sub(r"^RO", "", message.cif.strip().upper())
+                partner = partner_obj.browse()
+                for variant in (cif_clean, "RO" + cif_clean):
+                    partner = partner_obj.search(
+                        [
+                            ("vat", "=ilike", variant),
+                            ("is_company", "=", True),
+                            "|",
+                            ("company_id", "=", message.company_id.id),
+                            ("company_id", "=", False),
+                        ],
+                        limit=1,
+                    )
+                    if partner:
+                        break
                 if not partner:
-                    partner = self.env["res.partner"].create(
+                    partner = partner_obj.create(
                         {
                             "name": message.cif,
                             "vat": message.cif,
                             "is_company": True,
+                            "company_id": message.company_id.id,
                         }
                     )
                 message.write({"partner_id": partner.id})
