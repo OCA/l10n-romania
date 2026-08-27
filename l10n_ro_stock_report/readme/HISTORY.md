@@ -1,3 +1,22 @@
+## 19.0.2.9.0
+
+- Fix the "Toate locațiile" (all-locations) storage sheet report: the printed
+  FINAL row recomputed a running total from the individual in/out detail
+  lines instead of using the already-correct `quantity_final`/`amount_final`
+  stored on the FINAL line. The `t-if` meant to branch on the FINAL row
+  (`product!=line_product.product_id`) is always false, since the lines it
+  iterates are already filtered to a single product, so every row, FINAL
+  included, went through the running-sum branch instead. Ported from the
+  18.0 fix, where a manual correction layer with no valued type was silently
+  dropped from the in/out detail queries and so was missing from the running
+  total while still counted in the correctly-computed final sum. The
+  in/out queries were rewritten for 19.0 (stock.valuation.layer removed) and
+  no longer have that specific exclusion, but the template still recomputes
+  instead of trusting the stored final value, which stays fragile to any
+  future gap between the detail and final queries. The single-product report
+  (`report_storage_sheet`) was not affected, it already reads the final line
+  separately.
+
 ## 19.0.2.6.0
 
 - Give the opening and closing balance rows a valued type of their own,
