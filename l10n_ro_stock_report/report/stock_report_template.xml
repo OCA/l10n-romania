@@ -365,7 +365,7 @@
                                 <t t-set="quantity" t-value="0" />
                                 <t t-set="amount" t-value="0" />
                                 <t t-foreach="prod_acc_lines" t-as="line_product">
-                                    <t t-if="product!=line_product.product_id">
+                                    <t t-if="line_product.reference == 'FINAL'">
                                         <div>
                                             <span>
                                                 <strong
