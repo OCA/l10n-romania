@@ -3,7 +3,7 @@
 
 {
     "name": "MT940 EXIM Format Bank Statements Import",
-    "version": "19.0.0.2.0",
+    "version": "19.0.0.3.0",
     "license": "AGPL-3",
     "summary": "Romania - Import bank statements from Eximbank",
     "author": "NextERP Romania SRL, Odoo Community Association (OCA)",
