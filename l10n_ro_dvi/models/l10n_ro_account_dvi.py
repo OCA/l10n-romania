@@ -228,11 +228,20 @@ class AccountInvoiceDVI(models.Model):
             tags = self.tax_id.invoice_repartition_line_ids.filtered(
                 lambda m: m.repartition_type == "tax"
             )[0]
+            base_repartition_line = self.tax_id.invoice_repartition_line_ids.filtered(
+                lambda m: m.repartition_type == "base"
+            )[0]
+            if self.company_id.account_cash_basis_base_account_id:
+                base_account_id = self.company_id.account_cash_basis_base_account_id.id
+            else:
+                base_account_id = tags.account_id.id
+            base_value = round(amount * 100 / self.tax_id.amount, 2)
             vals = {
                 "ref": "VAT Price Difference " + self.name,
                 "journal_id": self.journal_id.id,
                 "move_type": "entry",
                 "date": self.date,
+                "is_storno": True if amount < 0 else False,
                 "line_ids": [
                     (
                         0,
@@ -242,9 +251,10 @@ class AccountInvoiceDVI(models.Model):
                             if amount > 0
                             else tags.account_id.id,
                             "currency_id": self.currency_id.id,
-                            "debit": amount if amount > 0 else 0.0,
-                            "credit": -amount if amount < 0 else 0.0,
+                            "debit": amount,
+                            "credit": 0.0,
                             "amount_currency": amount,
+                            "balance": amount,
                             "tax_tag_ids": tags.tag_ids,
                         },
                     ),
@@ -254,9 +264,39 @@ class AccountInvoiceDVI(models.Model):
                         {
                             "account_id": account2,
                             "currency_id": self.currency_id.id,
-                            "debit": -amount if amount < 0 else 0.0,
-                            "credit": amount if amount > 0 else 0.0,
+                            "debit": 0.0,
+                            "credit": amount,
                             "amount_currency": -amount,
+                            "balance": -amount,
+                        },
+                    ),
+                    (
+                        0,
+                        0,
+                        {
+                            "name": _("BASE VAT Price Difference"),
+                            "account_id": base_account_id,
+                            "currency_id": self.currency_id.id,
+                            "debit": base_value,
+                            "credit": 0.0,
+                            "amount_currency": base_value,
+                            "balance": base_value,
+                            "tax_base_amount": base_value,
+                            "tax_tag_ids": base_repartition_line.tag_ids,
+                        },
+                    ),
+                    (
+                        0,
+                        0,
+                        {
+                            "name": _("BASE VAT Price Difference - offset"),
+                            "account_id": base_account_id,
+                            "currency_id": self.currency_id.id,
+                            "debit": -base_value,
+                            "credit": 0.0,
+                            "amount_currency": -base_value,
+                            "balance": -base_value,
+                            "is_refund": True,
                         },
                     ),
                 ],
