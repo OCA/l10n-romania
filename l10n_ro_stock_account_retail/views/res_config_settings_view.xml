@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="res_config_settings_view_form_retail" model="ir.ui.view">
+        <field name="name">res.config.settings.form.l10n.ro.retail</field>
+        <field name="model">res.config.settings</field>
+        <field name="inherit_id" ref="l10n_ro_config.res_config_settings_view_form" />
+        <field name="arch" type="xml">
+            <xpath
+                expr="//field[@name='l10n_ro_property_stock_transfer_account_id']/.."
+                position="after"
+            >
+                <div class="row mt16">
+                    <label
+                        for="l10n_ro_account_markup_id"
+                        class="col-lg-3 o_light_label"
+                        string="Default Retail Markup (378)"
+                    />
+                    <field
+                        name="l10n_ro_account_markup_id"
+                        placeholder="378 - default pentru depozite retail (marfa in magazin)"
+                    />
+                </div>
+                <div class="row mt16">
+                    <label
+                        for="l10n_ro_account_deferred_vat_id"
+                        class="col-lg-3 o_light_label"
+                        string="Default Retail Deferred VAT (4428)"
+                    />
+                    <field
+                        name="l10n_ro_account_deferred_vat_id"
+                        placeholder="4428 - default TVA neexigibila pentru marfa in magazin"
+                    />
+                </div>
+            </xpath>
+        </field>
+    </record>
+</odoo>

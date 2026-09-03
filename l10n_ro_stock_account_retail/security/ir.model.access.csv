@@ -1,0 +1,9 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_l10n_ro_retail_price_change_stock_user,l10n.ro.retail.price.change stock user,model_l10n_ro_retail_price_change,stock.group_stock_user,1,0,0,0
+access_l10n_ro_retail_price_change_stock_manager,l10n.ro.retail.price.change stock manager,model_l10n_ro_retail_price_change,stock.group_stock_manager,1,1,1,1
+access_l10n_ro_retail_price_change_account_user,l10n.ro.retail.price.change account user,model_l10n_ro_retail_price_change,account.group_account_user,1,1,1,0
+access_l10n_ro_retail_price_change_line_stock_user,l10n.ro.retail.price.change.line stock user,model_l10n_ro_retail_price_change_line,stock.group_stock_user,1,0,0,0
+access_l10n_ro_retail_price_change_line_stock_manager,l10n.ro.retail.price.change.line stock manager,model_l10n_ro_retail_price_change_line,stock.group_stock_manager,1,1,1,1
+access_l10n_ro_retail_price_change_line_account_user,l10n.ro.retail.price.change.line account user,model_l10n_ro_retail_price_change_line,account.group_account_user,1,1,1,0
+access_l10n_ro_stock_retail_report_user,l10n.ro.stock.retail.report user,model_l10n_ro_stock_retail_report,stock.group_stock_user,1,0,0,0
+access_l10n_ro_stock_retail_report_account,l10n.ro.stock.retail.report account,model_l10n_ro_stock_retail_report,account.group_account_user,1,0,0,0

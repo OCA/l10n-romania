@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="product_template_retail_form_view" model="ir.ui.view">
+        <field name="name">product.template.form.l10n.ro.retail</field>
+        <field name="model">product.template</field>
+        <field
+            name="inherit_id"
+            ref="l10n_ro_stock_account.product_template_form_view"
+        />
+        <field name="arch" type="xml">
+            <field name="l10n_ro_property_stock_valuation_account_id" position="after">
+                <field
+                    name="l10n_ro_account_markup_id"
+                    options="{'no_create': True}"
+                    groups="account.group_account_readonly"
+                />
+                <field
+                    name="l10n_ro_account_deferred_vat_id"
+                    options="{'no_create': True}"
+                    groups="account.group_account_readonly"
+                />
+            </field>
+        </field>
+    </record>
+</odoo>

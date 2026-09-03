@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="view_retail_price_change_form" model="ir.ui.view">
+        <field name="name">l10n.ro.retail.price.change.form</field>
+        <field name="model">l10n.ro.retail.price.change</field>
+        <field name="arch" type="xml">
+            <form string="Proces Verbal de Schimbare Pret">
+                <header>
+                    <button
+                        name="action_load_products"
+                        type="object"
+                        string="Load Products"
+                        invisible="state != 'draft'"
+                    />
+                    <button
+                        name="action_post"
+                        type="object"
+                        string="Post"
+                        class="btn-primary"
+                        invisible="state != 'draft'"
+                    />
+                    <button
+                        name="action_cancel"
+                        type="object"
+                        string="Cancel"
+                        invisible="state == 'cancel'"
+                    />
+                    <button
+                        name="action_draft"
+                        type="object"
+                        string="Reset to Draft"
+                        invisible="state == 'draft'"
+                    />
+                    <field name="state" widget="statusbar" />
+                </header>
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button
+                            name="action_view_move"
+                            type="object"
+                            class="oe_stat_button"
+                            icon="fa-book"
+                            invisible="not account_move_id"
+                        >
+                            <field name="account_move_id" widget="statinfo" />
+                        </button>
+                    </div>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="name" readonly="1" />
+                        </h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field
+                                name="company_id"
+                                groups="base.group_multi_company"
+                            />
+                            <field name="warehouse_id" readonly="state != 'draft'" />
+                            <field name="pricelist_id" readonly="1" />
+                        </group>
+                        <group>
+                            <field name="date" readonly="state != 'draft'" />
+                            <field name="journal_id" readonly="state != 'draft'" />
+                            <field name="auto_created" readonly="1" />
+                        </group>
+                    </group>
+                    <field name="line_ids" readonly="state != 'draft'">
+                        <list editable="bottom">
+                            <field name="product_id" readonly="1" />
+                            <field name="location_id" readonly="1" />
+                            <field name="quantity" />
+                            <field name="cost_unit" />
+                            <field name="old_price_with_vat" />
+                            <field name="old_markup_unit" optional="hide" />
+                            <field name="old_vat_unit" optional="hide" />
+                            <field name="new_price_with_vat" />
+                            <field name="new_markup_unit" optional="hide" />
+                            <field name="new_vat_unit" optional="hide" />
+                            <field name="markup_diff_total" sum="Markup Delta" />
+                            <field name="vat_diff_total" sum="VAT Delta" />
+                        </list>
+                    </field>
+                    <group>
+                        <field name="notes" placeholder="Internal notes..." />
+                    </group>
+                </sheet>
+                <chatter />
+            </form>
+        </field>
+    </record>
+
+    <record id="view_retail_price_change_list" model="ir.ui.view">
+        <field name="name">l10n.ro.retail.price.change.list</field>
+        <field name="model">l10n.ro.retail.price.change</field>
+        <field name="arch" type="xml">
+            <list
+                string="Procese Verbale Schimbare Pret"
+                decoration-info="state == 'draft'"
+                decoration-muted="state == 'cancel'"
+            >
+                <field name="name" />
+                <field name="date" />
+                <field name="warehouse_id" />
+                <field name="pricelist_id" />
+                <field name="auto_created" optional="hide" />
+                <field name="account_move_id" optional="hide" />
+                <field name="state" widget="badge" />
+                <field name="company_id" groups="base.group_multi_company" />
+            </list>
+        </field>
+    </record>
+
+    <record id="view_retail_price_change_search" model="ir.ui.view">
+        <field name="name">l10n.ro.retail.price.change.search</field>
+        <field name="model">l10n.ro.retail.price.change</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name" />
+                <field name="warehouse_id" />
+                <field name="pricelist_id" />
+                <filter
+                    name="draft"
+                    string="Draft"
+                    domain="[('state', '=', 'draft')]"
+                />
+                <filter name="done" string="Done" domain="[('state', '=', 'done')]" />
+                <filter
+                    name="auto_created"
+                    string="Auto Created"
+                    domain="[('auto_created', '=', True)]"
+                />
+                <group>
+                    <filter
+                        name="group_warehouse"
+                        string="Warehouse"
+                        domain="[]"
+                        context="{'group_by': 'warehouse_id'}"
+                    />
+                    <filter
+                        name="group_state"
+                        string="State"
+                        domain="[]"
+                        context="{'group_by': 'state'}"
+                    />
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_retail_price_change" model="ir.actions.act_window">
+        <field name="name">Schimbari de Pret (Marfa in Magazin)</field>
+        <field name="res_model">l10n.ro.retail.price.change</field>
+        <field name="view_mode">list,form</field>
+        <field name="search_view_id" ref="view_retail_price_change_search" />
+    </record>
+
+    <menuitem
+        id="menu_retail_price_change"
+        name="Schimbari de Pret Retail"
+        parent="stock.menu_stock_warehouse_mgmt"
+        action="action_retail_price_change"
+        sequence="100"
+    />
+</odoo>
