@@ -315,7 +315,9 @@ class StockMove(models.Model):
             split_qty_for_move = sum(
                 vals.get("quantity", 0.0) for vals in fifo_split_vals_list[vals_before:]
             )
-            accounted_for = move.quantity + split_qty_for_move
+            accounted_for = move.product_uom._compute_quantity(
+                move.quantity + split_qty_for_move, move.product_id.uom_id, round=False
+            )
             if move.product_uom.compare(accounted_for, quantity_to_ship):
                 raise UserError(
                     self.env._(
