@@ -231,9 +231,23 @@ class AccountInvoiceDVI(models.Model):
             raise ValidationError((self.env._(msg), self.customs_duty_product_id.name))
         if account1 and account2:
             amount = self.vat_price_difference
+            # Always use invoice_repartition_line_ids, even when amount < 0:
+            # the negative balance already nets out correctly in the tax
+            # grid, so there's no need to switch to refund_repartition_line_ids.
             tags = self.tax_id.invoice_repartition_line_ids.filtered(
                 lambda m: m.repartition_type == "tax"
             )[0]
+            base_repartition_line = self.tax_id.invoice_repartition_line_ids.filtered(
+                lambda m: m.repartition_type == "base"
+            )[0]
+            if self.company_id.account_cash_basis_base_account_id:
+                base_account_id = self.company_id.account_cash_basis_base_account_id.id
+            else:
+                base_account_id = tags.account_id.id
+
+            base_value = self.tax_id._l10n_ro_get_base_from_tax_amount(
+                amount, currency=self.company_id.currency_id
+            )
             vals = {
                 "ref": "VAT Price Difference " + self.name,
                 "journal_id": self.journal_id.id,
@@ -248,9 +262,10 @@ class AccountInvoiceDVI(models.Model):
                             if amount > 0
                             else tags.account_id.id,
                             "currency_id": self.currency_id.id,
-                            "debit": amount if amount > 0 else 0.0,
-                            "credit": -amount if amount < 0 else 0.0,
+                            "debit": amount,
+                            "credit": 0.0,
                             "amount_currency": amount,
+                            "balance": amount,
                             "tax_tag_ids": tags.tag_ids,
                         },
                     ),
@@ -260,9 +275,38 @@ class AccountInvoiceDVI(models.Model):
                         {
                             "account_id": account2,
                             "currency_id": self.currency_id.id,
-                            "debit": -amount if amount < 0 else 0.0,
-                            "credit": amount if amount > 0 else 0.0,
+                            "debit": 0.0,
+                            "credit": amount,
                             "amount_currency": -amount,
+                            "balance": -amount,
+                        },
+                    ),
+                    (
+                        0,
+                        0,
+                        {
+                            "name": self.env._("BASE VAT Price Difference"),
+                            "account_id": base_account_id,
+                            "currency_id": self.currency_id.id,
+                            "debit": base_value,
+                            "credit": 0.0,
+                            "amount_currency": base_value,
+                            "balance": base_value,
+                            "tax_base_amount": base_value,
+                            "tax_tag_ids": base_repartition_line.tag_ids,
+                        },
+                    ),
+                    (
+                        0,
+                        0,
+                        {
+                            "name": self.env._("BASE VAT Price Difference - offset"),
+                            "account_id": base_account_id,
+                            "currency_id": self.currency_id.id,
+                            "debit": -base_value,
+                            "credit": 0.0,
+                            "amount_currency": -base_value,
+                            "balance": -base_value,
                         },
                     ),
                 ],
@@ -316,10 +360,7 @@ class AccountInvoiceDVI(models.Model):
 
         if self.vat_price_difference_product_id and self.vat_price_difference != 0:
             values_move = self.create_account_move_dvi()
-            move_object = self.env["account.move"]
-            if self.vat_price_difference < 0:
-                move_object = move_object.with_context(is_dvi_storno=True)
-            move = move_object.create(values_move)
+            move = self.env["account.move"].create(values_move)
 
             move.action_post()
             self.vat_price_difference_move_id = move.id
