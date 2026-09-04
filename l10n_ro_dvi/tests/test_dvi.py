@@ -154,16 +154,42 @@ class TestDVI(TestStockCommon2):
         dvi.journal_id = self.journal_id
         dvi.customs_duty_value = 100
         dvi.customs_commission_value = 50
-        dvi.vat_price_difference = 10
+        dvi.vat_price_difference = 10  # positive amount
         dvi.vat_price_difference_product_id = self.vat_product_id
-        dvi.vat_price_difference = 10
         dvi = dvi.save()
         dvi.button_post()
-        for line in dvi.vat_price_difference_move_id.line_ids:
+
+        # VAT price diffference DVI positive amount
+        base_lines = dvi.vat_price_difference_move_id.line_ids.filtered(
+            lambda line: line.name and "BASE VAT Price Difference" in line.name
+        )
+        main_lines = dvi.vat_price_difference_move_id.line_ids - base_lines
+
+        self.assertEqual(len(base_lines), 2)
+        self.assertAlmostEqual(
+            sum(base_lines.mapped("debit")), sum(base_lines.mapped("credit"))
+        )
+
+        # Expected main_lines:
+        # Debit			Credit			Tax Grids
+        # 10.00 lei		0.00 lei		+24 - VAT
+        # 0.00 lei		10.00 lei
+        for line in main_lines:
             if line.account_id.id == self.account_expense.id:
                 self.assertEqual(line.debit, 10)
             else:
                 self.assertEqual(line.credit, 10)
+
+        # Expected base_lines:
+        # Debit			        Credit			    Tax Grids
+        # positive_amount		    0.00 lei		    +24 - TAX BASE
+        # 0.00 lei                positive_amount
+        for line in base_lines:
+            if line.tax_tag_ids:
+                self.assertTrue(line.debit > 0)
+            elif not line.tax_tag_ids:
+                self.assertTrue(line.credit > 0)
+
         # pentru valoare negativa
         self.create_po()
         self.create_invoice()
@@ -178,18 +204,44 @@ class TestDVI(TestStockCommon2):
         dvi.journal_id = self.journal_id
         dvi.customs_duty_value = 100
         dvi.customs_commission_value = 50
-        dvi.vat_price_difference = -10
+        dvi.vat_price_difference = -10  # negative amount
         dvi.vat_price_difference_product_id = self.vat_product_id
         dvi = dvi.save()
         dvi.button_post()
-        for line in dvi.vat_price_difference_move_id.line_ids:
+
+        # VAT price diffference DVI negative amount
+        base_lines = dvi.vat_price_difference_move_id.line_ids.filtered(
+            lambda line: line.name and "BASE VAT Price Difference" in line.name
+        )
+        main_lines = dvi.vat_price_difference_move_id.line_ids - base_lines
+
+        self.assertEqual(len(base_lines), 2)
+        self.assertAlmostEqual(
+            sum(base_lines.mapped("debit")), sum(base_lines.mapped("credit"))
+        )
+
+        # Expected main_lines:
+        # Debit			Credit			Tax Grids
+        # -10.00 lei		0.00 lei		+24 - VAT
+        # 0.00 lei		-10.00 lei
+        for line in main_lines:
             tags = tax_id.invoice_repartition_line_ids.filtered(
                 lambda m: m.repartition_type == "tax"
             )[0]
             if line.account_id.id == tags.account_id.id:
-                self.assertEqual(line.credit, 10)
+                self.assertEqual(line.debit, -10)
             else:
-                self.assertEqual(line.debit, 10)
+                self.assertEqual(line.credit, -10)
+
+        # Expected base_lines:
+        # Debit			        Credit			    Tax Grids
+        # negative_amount		    0.00 lei		    +24 - TAX BASE
+        # 0.00 lei                negative_amount
+        for line in base_lines:
+            if line.tax_tag_ids:
+                self.assertTrue(line.debit < 0)
+            elif not line.tax_tag_ids:
+                self.assertTrue(line.credit < 0)
 
         # cand da reverse move-ul trebuie sa fie in cancel
         self.create_po()
