@@ -33,6 +33,18 @@ msgstr ""
 
 #. module: l10n_ro_dvi
 #. odoo-python
+#: code:addons/l10n_ro_dvi/models/l10n_ro_account_dvi.py:0
+msgid "BASE VAT Price Difference"
+msgstr ""
+
+#. module: l10n_ro_dvi
+#. odoo-python
+#: code:addons/l10n_ro_dvi/models/l10n_ro_account_dvi.py:0
+msgid "BASE VAT Price Difference - offset"
+msgstr ""
+
+#. module: l10n_ro_dvi
+#. odoo-python
 #: code:addons/l10n_ro_dvi/models/stock_landed_cost.py:0
 msgid "BASE paid at customs"
 msgstr ""
