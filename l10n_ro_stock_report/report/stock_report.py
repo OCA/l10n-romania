@@ -401,6 +401,14 @@ class StorageSheet(models.TransientModel):
         return sql
 
     def _get_sql_select_in(self):
+        # A move whose source AND destination are both in the reported set is an
+        # internal transfer for that set: neither an entry nor an exit. Without
+        # the exclusion it was counted once as input and once as output, which
+        # inflated both turnover columns by its value (transfers created by the
+        # relocation flows do carry a value). Balances were not affected.
+        # With detailed_locations the set holds one location, so transfers
+        # between two locations still show as exit from one and entry into the
+        # other.
         field, select, join, group = self._get_lot_fields()
 
         sql = f"""
@@ -444,6 +452,7 @@ class StorageSheet(models.TransientModel):
             ( %(all_products)s OR sm.product_id in %(product)s ) AND
             sm.date >= %(datetime_from)s AND sm.date <= %(datetime_to)s AND
             sm.location_dest_id in %(locations)s AND
+            sm.location_id not in %(locations)s AND
            (sm.l10n_ro_transfer_account_id IS NOT NULL
             OR sm.l10n_ro_account_id IS NOT NULL)
 
@@ -499,6 +508,7 @@ class StorageSheet(models.TransientModel):
             ( %(all_products)s OR sm.product_id in %(product)s ) AND
             sm.date >= %(datetime_from)s AND sm.date <= %(datetime_to)s AND
             sm.location_id in %(locations)s AND
+            sm.location_dest_id not in %(locations)s AND
             (sm.l10n_ro_account_id IS NOT NULL
              OR sm.l10n_ro_transfer_account_id IS NOT NULL)
 

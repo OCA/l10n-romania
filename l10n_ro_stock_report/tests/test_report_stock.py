@@ -583,3 +583,68 @@ class TestStockReport(TransactionCase):
         self.assertAlmostEqual(
             sum(initial.mapped("amount_initial")), receipt_value, places=2
         )
+
+    def test_report_internal_transfer_not_counted_as_in_and_out(self):
+        """An internal transfer between two locations of the reported set is
+        neither an entry nor an exit for the set.
+
+        Without a location filter the set holds every internal location, so a
+        transfer matched both the input query (destination in set) and the
+        output query (source in set) and inflated both turnover columns by its
+        value. Per-location sheets (detailed_locations) must keep showing it as
+        exit from one location and entry into the other.
+        """
+        product = self.product_1
+        date_in = fields.Datetime.now() - timedelta(days=20)
+        receipt = self._create_receipt(product, 10, date_in)
+        receipt_value = sum(receipt.move_ids.mapped("value"))
+        self._create_internal_transfer(
+            product, 4, self.location, self.location_2, date_in
+        )
+        Line = self.env["l10n.ro.stock.storage.sheet.line"]
+
+        # Whole stock: only the receipt is an entry, nothing left the stock.
+        wizard = Form(self.env["l10n.ro.stock.storage.sheet"])
+        wizard.date_from = (date_in - timedelta(days=1)).date()
+        wizard.date_to = (date_in + timedelta(days=1)).date()
+        wizard.product_ids.add(product)
+        wizard = wizard.save()
+        wizard.do_compute_product()
+        lines = Line.search(
+            [("report_id", "=", wizard.id), ("product_id", "=", product.id)]
+        )
+        self.assertAlmostEqual(sum(lines.mapped("quantity_in")), 10.0, places=2)
+        self.assertAlmostEqual(sum(lines.mapped("amount_in")), receipt_value, places=2)
+        self.assertAlmostEqual(sum(lines.mapped("quantity_out")), 0.0, places=2)
+        self.assertAlmostEqual(sum(lines.mapped("amount_out")), 0.0, places=2)
+        final = lines.filtered(lambda line: line.reference == "FINAL")
+        self.assertAlmostEqual(sum(final.mapped("quantity_final")), 10.0, places=2)
+
+        # Per location: the transfer is an exit from one and an entry into the other.
+        wizard = Form(self.env["l10n.ro.stock.storage.sheet"])
+        wizard.date_from = (date_in - timedelta(days=1)).date()
+        wizard.date_to = (date_in + timedelta(days=1)).date()
+        wizard.location_id = self.location
+        wizard.sublocation = True
+        wizard.detailed_locations = True
+        wizard.product_ids.add(product)
+        wizard = wizard.save()
+        wizard.do_compute_product()
+        src = Line.search(
+            [
+                ("report_id", "=", wizard.id),
+                ("product_id", "=", product.id),
+                ("location_id", "=", self.location.id),
+            ]
+        )
+        dest = Line.search(
+            [
+                ("report_id", "=", wizard.id),
+                ("product_id", "=", product.id),
+                ("location_id", "=", self.location_2.id),
+            ]
+        )
+        self.assertAlmostEqual(sum(src.mapped("quantity_in")), 10.0, places=2)
+        self.assertAlmostEqual(sum(src.mapped("quantity_out")), 4.0, places=2)
+        self.assertAlmostEqual(sum(dest.mapped("quantity_in")), 4.0, places=2)
+        self.assertAlmostEqual(sum(dest.mapped("quantity_out")), 0.0, places=2)
