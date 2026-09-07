@@ -16,6 +16,7 @@
     "license": "AGPL-3",
     "data": [
         "security/ir.model.access.csv",
+        "views/account_tax_view.xml",
         "views/stock_warehouse_view.xml",
         "views/stock_location_view.xml",
         "views/product_category_view.xml",

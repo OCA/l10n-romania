@@ -91,6 +91,16 @@ class StockMove(models.Model):
         residue on both accounts whenever the price moved in between - the very
         thing the ledger exists to prevent.
 
+        The amounts come back with the sign the caller expects for
+        ``direction`` - positive for an ordinary markup - so that the ledger
+        row it writes is exactly the negation of the rows being returned.
+        Taking their absolute value instead looked equivalent, and is, right
+        up to the point where the markup carried is negative: a shop that
+        sells below cost, or a price cut that pushed the balance under zero.
+        There the sign is the whole answer, and dropping it made the return
+        push 378 further in the direction the sale had already taken it
+        instead of reversing it, leaving a residue that never clears.
+
         Returns ``None`` when there is nothing to prorate, so the caller falls
         back to the normal valuation.
         """
@@ -114,8 +124,13 @@ class StockMove(models.Model):
         ):
             return None
         ratio = min(qty / origin_qty, 1.0)
-        markup = abs(sum(lines.mapped("markup"))) * ratio
-        vat = abs(sum(lines.mapped("vat"))) * ratio
+        # The caller multiplies by +1 for 'in' and -1 for 'out', so dividing
+        # the wanted ledger row (-ratio * the origin rows) by that sign leaves
+        # the reversal correct whichever way the goods travel, and whatever
+        # sign the origin carried.
+        sign = 1 if direction == "in" else -1
+        markup = -sign * ratio * sum(lines.mapped("markup"))
+        vat = -sign * ratio * sum(lines.mapped("vat"))
         return markup, vat
 
     def _l10n_ro_retail_in_amounts(self, location, warehouse, qty):
@@ -135,7 +150,7 @@ class StockMove(models.Model):
             and not warehouse.l10n_ro_retail_allow_negative_markup
         ):
             minimum = self.product_id._l10n_ro_minimum_retail_price(
-                cost_unit, company=self.company_id
+                cost_unit, company=self.company_id, warehouse=warehouse
             )
             raise UserError(
                 self.env._(
@@ -156,7 +171,7 @@ class StockMove(models.Model):
             )
         return markup_unit * qty, prices["vat"] * qty
 
-    def _l10n_ro_retail_out_amounts(self, location, warehouse, qty, exclude=None):
+    def _l10n_ro_retail_out_amounts(self, location, warehouse, qty):
         """Markup and VAT to release when ``qty`` leaves a retail warehouse.
 
         Taken from the ledger, never recomputed from the pricelist: the release
@@ -201,6 +216,29 @@ class StockMove(models.Model):
     # ------------------------------------------------------------------
     # Journal entries
     # ------------------------------------------------------------------
+    def _l10n_ro_retail_qty(self):
+        """The quantity the markup is spread over: the one core valued.
+
+        It has to be the quantity ``value`` was computed on, not
+        ``product_qty``. ``value`` comes from ``_get_valued_qty()``, the sum of
+        the move lines actually done, while ``product_qty`` is the demand
+        converted to the product unit. The two agree in the ordinary flows -
+        a backorder split realigns the demand on what was done, an inventory
+        move is created with both equal - and part company in two cases a shop
+        meets every week: a partial validation answered with "no backorder",
+        and a reception or a delivery of more than was asked for, neither of
+        which splits the move.
+
+        Dividing the value by the demand there gives a unit cost for a
+        quantity that never moved, and the invariant the whole module rests on
+        - cost + markup + deferred VAT = what sits on 371 - breaks on the
+        spot: 371 carries the cost of twelve units while 378 carries the
+        markup of ten, and the ledger records ten units as carrying it, so
+        every later release rate is computed off the wrong quantity too.
+        """
+        self.ensure_one()
+        return self._get_valued_qty()
+
     def _l10n_ro_get_retail_aml_vals(self, ledger_vals):
         """Build the markup (378) and deferred VAT (4428) lines for this move,
         appending the matching ledger rows to ``ledger_vals``."""
@@ -210,7 +248,7 @@ class StockMove(models.Model):
         legs = self._l10n_ro_retail_legs()
         if not legs:
             return []
-        qty = self.product_qty
+        qty = self._l10n_ro_retail_qty()
         if float_is_zero(qty, precision_rounding=self.product_id.uom_id.rounding):
             return []
         currency = self.company_id.currency_id
@@ -279,23 +317,34 @@ class StockMove(models.Model):
             )
             if not float_is_zero(markup_total, precision_rounding=currency.rounding):
                 aml_vals += self._l10n_ro_retail_amls(
-                    direction, stock_account, markup_account, markup_total
+                    direction, stock_account, markup_account, markup_total, qty
                 )
             if not float_is_zero(vat_total, precision_rounding=currency.rounding):
                 aml_vals += self._l10n_ro_retail_amls(
-                    direction, stock_account, deferred_vat_account, vat_total
+                    direction, stock_account, deferred_vat_account, vat_total, qty
                 )
         return aml_vals
 
     def _l10n_ro_retail_ledger_date(self):
-        """Accounting date of the retail entry for this move."""
+        """Accounting date of the retail entry for this move.
+
+        A date, not a datetime, and resolved the same way the entry itself
+        resolves its own: ``force_period_date`` when a backdated posting sets
+        one, otherwise the day the move landed on read in the user timezone -
+        which is what ``fields.Date.context_today`` gives the entry. Reading
+        ``self.date`` as UTC instead put a move validated at one in the
+        morning on the previous day, and once a month on the previous month,
+        so the row and the entry it belongs to fell in different periods.
+        """
         self.ensure_one()
         forced = self.env.context.get("force_period_date")
         if forced:
-            return fields.Datetime.to_datetime(forced)
-        return self.date or fields.Datetime.now()
+            return fields.Date.to_date(forced)
+        return fields.Date.context_today(self, self.date or fields.Datetime.now())
 
-    def _l10n_ro_retail_amls(self, direction, stock_account, other_account, amount):
+    def _l10n_ro_retail_amls(
+        self, direction, stock_account, other_account, amount, quantity
+    ):
         """Build the two-line AML pair for a retail entry.
 
         Direction 'in':  Dr stock_account / Cr other_account
@@ -310,7 +359,7 @@ class StockMove(models.Model):
         base = {
             "name": self.reference or self.name,
             "product_id": self.product_id.id,
-            "quantity": self.product_qty,
+            "quantity": quantity,
         }
         return [
             dict(base, account_id=debit_account.id, debit=abs_value, credit=0.0),

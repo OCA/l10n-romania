@@ -40,7 +40,12 @@ class RetailMarkupLine(models.Model):
     company_currency_id = fields.Many2one(
         "res.currency", related="company_id.currency_id", readonly=True
     )
-    date = fields.Datetime(required=True, index=True, default=fields.Datetime.now)
+    date = fields.Date(
+        required=True,
+        index=True,
+        default=fields.Date.context_today,
+        help="Accounting date of the event, the same one its journal entry carries.",
+    )
     product_id = fields.Many2one(
         "product.product", required=True, index=True, ondelete="restrict"
     )
@@ -49,10 +54,11 @@ class RetailMarkupLine(models.Model):
     )
     warehouse_id = fields.Many2one(
         "stock.warehouse",
-        related="location_id.warehouse_id",
-        store=True,
         index=True,
         readonly=True,
+        ondelete="restrict",
+        help="Warehouse the markup was loaded on, written once when the row "
+        "is created.",
     )
     quantity = fields.Float(
         digits="Product Unit of Measure",
@@ -109,6 +115,24 @@ class RetailMarkupLine(models.Model):
     def _compute_retail_value(self):
         for line in self:
             line.retail_value = line.cost + line.markup + line.vat
+
+    @api.model_create_multi
+    def create(self, vals_list):
+        """Stamp the warehouse at creation instead of following the location.
+
+        It used to be ``related="location_id.warehouse_id", store=True``,
+        which is the same value right up to the day somebody reorganises the
+        locations: moving a shelf under another warehouse rewrote the
+        warehouse on every row that had ever mentioned it, and a subsidiary
+        ledger that reconciles against the trial balance cannot have its past
+        rewritten by a configuration change made today.
+        """
+        Location = self.env["stock.location"]
+        for vals in vals_list:
+            if not vals.get("warehouse_id") and vals.get("location_id"):
+                warehouse = Location.browse(vals["location_id"]).warehouse_id
+                vals["warehouse_id"] = warehouse.id
+        return super().create(vals_list)
 
     # ------------------------------------------------------------------
     # Balances

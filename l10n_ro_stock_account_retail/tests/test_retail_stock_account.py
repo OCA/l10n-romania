@@ -966,3 +966,277 @@ class TestRetailStockAccount(TestRetailCommon):
         self.assertTrue(wizard.has_shortfall)
         with self.assertRaises(UserError):
             wizard.action_post()
+
+    # -------------------------------------------------------------------
+    # The markup is spread over the quantity that was actually valued
+    # -------------------------------------------------------------------
+    def test_over_receipt_books_markup_on_the_quantity_received(self):
+        """Receive 12 against an order for 10.
+
+        No backorder is created - there is nothing left to receive - so the
+        move keeps a demand of 10 while core values it at 12. Reading the
+        demand made the module divide the cost of twelve units by ten, book
+        the markup of ten, and record ten units as carrying it, while 371 had
+        already taken the cost of twelve. Cost + markup + VAT stopped adding
+        up to 371 on the spot, and every later release rate was computed off
+        a quantity smaller than what was on the shelf.
+        """
+        _po, move = self._do_purchase_receipt(
+            self.warehouse_mag1, self.product_retail, 10, 50.0, qty_done=12
+        )
+        ledger = move.l10n_ro_retail_markup_line_ids
+        self.assertEqual(len(ledger), 1)
+        self.assertAlmostEqual(ledger.quantity, 12.0, places=2)
+        self.assertAlmostEqual(ledger.cost, 12 * 50.0, places=2)
+        self.assertAlmostEqual(ledger.markup, 12 * 50.0, places=2)
+        self.assertAlmostEqual(ledger.vat, 12 * 19.0, places=2)
+        # The whole point: what the row says about 371 is what 371 got.
+        self.assertAlmostEqual(ledger.retail_value, 12 * 119.0, places=2)
+
+        extra_move = self.env["account.move"].search(
+            [("l10n_ro_extra_stock_move_id", "=", move.id)]
+        )
+        self.assertEqual(
+            self._lines_as_tuples(extra_move),
+            sorted(
+                [
+                    (self.account_371_mag1.id, 600.0, 0.0),
+                    (self.account_378_mag1.id, 0.0, 600.0),
+                    (self.account_371_mag1.id, 228.0, 0.0),
+                    (self.account_4428_mag1.id, 0.0, 228.0),
+                ]
+            ),
+        )
+
+    def test_ledger_row_shares_the_entry_date(self):
+        """A row and the entry it belongs to have to fall in the same period,
+        or a balance as of a date answers for a different set of movements
+        than the trial balance it is reconciled against."""
+        _po, move = self._do_purchase_receipt(
+            self.warehouse_mag1, self.product_retail, 5, 50.0
+        )
+        extra_move = self.env["account.move"].search(
+            [("l10n_ro_extra_stock_move_id", "=", move.id)]
+        )
+        self.assertEqual(move.l10n_ro_retail_markup_line_ids.date, extra_move.date)
+
+    # -------------------------------------------------------------------
+    # A shelf price has to be configured, not guessed
+    # -------------------------------------------------------------------
+    def test_missing_shelf_price_is_refused(self):
+        """Without a rule on the retail pricelist the module used to fall back
+        on the sale price - a price without VAT in any standard Romanian
+        setup - and book it on 371 as if it were the price on the label."""
+        self.env["product.pricelist.item"].search(
+            [("pricelist_id", "=", self.retail_pricelist.id)]
+        ).unlink()
+        with self.assertRaises(UserError):
+            self._set_initial_stock(self.retail_stock_loc, self.product_retail, 5)
+
+    def test_warehouse_without_retail_pricelist_is_refused(self):
+        self.retail_warehouse.l10n_ro_retail_pricelist_id = False
+        with self.assertRaises(UserError):
+            self._set_initial_stock(self.retail_stock_loc, self.product_retail, 5)
+
+    # -------------------------------------------------------------------
+    # The shop's fiscal position decides both the taxes and the accounts
+    # -------------------------------------------------------------------
+    def _make_retail_fiscal_position(self, warehouse, name="Retail"):
+        fiscal_position = self.env["account.fiscal.position"].create(
+            {"name": name, "company_id": self.env.company.id}
+        )
+        warehouse.l10n_ro_fiscal_position_id = fiscal_position
+        return fiscal_position
+
+    def test_split_follows_the_warehouse_fiscal_position(self):
+        """The VAT loaded on 4428 is the one the shop will collect.
+
+        The product carries the 19% domestic tax for everybody else; this shop
+        maps it to 9%. Splitting the shelf price with the raw ``taxes_id``
+        would load a VAT the till is never going to charge, and leave the
+        difference stranded on 4428 for good."""
+        fiscal_position = self._make_retail_fiscal_position(self.warehouse_mag1)
+        tax_9 = self.env["account.tax"].create(
+            {
+                "name": "TVA 9% retail",
+                "amount_type": "percent",
+                "amount": 9.0,
+                "type_tax_use": "sale",
+                "company_id": self.env.company.id,
+                "fiscal_position_ids": [(6, 0, fiscal_position.ids)],
+                "original_tax_ids": [(6, 0, self.tax_19.ids)],
+            }
+        )
+        self.assertEqual(fiscal_position.map_tax(self.tax_19), tax_9)
+
+        prices = self.product_retail._l10n_ro_get_retail_prices(
+            warehouse=self.warehouse_mag1
+        )
+        # 119 on the label, 9% of it VAT: 109.17 base and 9.83 deferred VAT.
+        self.assertAlmostEqual(prices["price_with_vat"], 119.0, places=2)
+        self.assertAlmostEqual(prices["price_without_vat"], 109.17, places=2)
+        self.assertAlmostEqual(prices["vat"], 9.83, places=2)
+
+        # And MAG2, which maps nothing, still splits at 19%.
+        prices_mag2 = self.product_retail._l10n_ro_get_retail_prices(
+            warehouse=self.warehouse_mag2
+        )
+        self.assertAlmostEqual(prices_mag2["vat"], 19.0, places=2)
+
+    def test_accounts_follow_the_warehouse_fiscal_position(self):
+        """A shop keeping its goods on a 371 of its own maps it once on its
+        fiscal position, and the markup and deferred VAT accounts follow the
+        same map rather than staying behind in another set of books."""
+        fiscal_position = self._make_retail_fiscal_position(self.warehouse_mag1)
+        account_371_alt = self.account_371_mag1.copy({"code": "371mag1b"})
+        account_378_alt = self.account_378_mag1.copy({"code": "378mag1b"})
+        account_4428_alt = self.account_4428_mag1.copy({"code": "4428mag1b"})
+        self.env["account.fiscal.position.account"].create(
+            [
+                {
+                    "position_id": fiscal_position.id,
+                    "account_src_id": src.id,
+                    "account_dest_id": dest.id,
+                }
+                for src, dest in (
+                    (self.account_371_mag1, account_371_alt),
+                    (self.account_378_mag1, account_378_alt),
+                    (self.account_4428_mag1, account_4428_alt),
+                )
+            ]
+        )
+        _po, move = self._do_purchase_receipt(
+            self.warehouse_mag1, self.product_retail, 4, 50.0
+        )
+        extra_move = self.env["account.move"].search(
+            [("l10n_ro_extra_stock_move_id", "=", move.id)]
+        )
+        markup = 4 * 50.0
+        vat = 4 * 19.0
+        self.assertEqual(
+            self._lines_as_tuples(extra_move),
+            sorted(
+                [
+                    (account_371_alt.id, markup, 0.0),
+                    (account_378_alt.id, 0.0, markup),
+                    (account_371_alt.id, vat, 0.0),
+                    (account_4428_alt.id, 0.0, vat),
+                ]
+            ),
+        )
+
+    def test_price_included_mapping_does_not_change_the_split(self):
+        """A shop whose fiscal position swaps the ordinary taxes for their
+        price included variants prices the same shelf. The module reads the
+        PVA as VAT inclusive whatever the tax says about itself, so only a
+        change of rate can move the split - not a change of convention."""
+        fiscal_position = self._make_retail_fiscal_position(self.warehouse_mag1)
+        tax_19_incl = self.env["account.tax"].create(
+            {
+                "name": "TVA 19% inclus",
+                "amount_type": "percent",
+                "amount": 19.0,
+                "type_tax_use": "sale",
+                "price_include_override": "tax_included",
+                "company_id": self.env.company.id,
+                "fiscal_position_ids": [(6, 0, fiscal_position.ids)],
+                "original_tax_ids": [(6, 0, self.tax_19.ids)],
+            }
+        )
+        self.assertEqual(fiscal_position.map_tax(self.tax_19), tax_19_incl)
+        prices = self.product_retail._l10n_ro_get_retail_prices(
+            warehouse=self.warehouse_mag1
+        )
+        self.assertAlmostEqual(prices["price_without_vat"], 100.0, places=2)
+        self.assertAlmostEqual(prices["vat"], 19.0, places=2)
+
+    # -------------------------------------------------------------------
+    # Only VAT belongs on 4428
+    # -------------------------------------------------------------------
+    def test_non_vat_sale_taxes_stay_out_of_the_retail_split(self):
+        """A packaging deposit or an eco fee riding on the shop's taxes is
+        neither markup nor deferred VAT: it is collected for somebody else.
+        Splitting the shelf price with every tax pushed it onto 4428 as VAT
+        that was never owed."""
+        eco_tax = self.env["account.tax"].create(
+            {
+                "name": "Taxa verde 5%",
+                "amount_type": "percent",
+                "amount": 5.0,
+                "type_tax_use": "sale",
+                "company_id": self.env.company.id,
+                "l10n_ro_retail_non_vat": True,
+            }
+        )
+        self.assertFalse(eco_tax._l10n_ro_is_retail_vat())
+        self.assertTrue(self.tax_19._l10n_ro_is_retail_vat())
+
+        product = self.env["product.product"].create(
+            {
+                "name": "Produs cu taxa verde",
+                "is_storable": True,
+                "categ_id": self.product_retail.categ_id.id,
+                "list_price": 124.0,  # 100 net + 19 VAT + 5 eco fee
+                "standard_price": 50.0,
+                "taxes_id": [(6, 0, (self.tax_19 | eco_tax).ids)],
+            }
+        )
+        prices = product._l10n_ro_get_retail_prices(warehouse=self.warehouse_mag1)
+        self.assertAlmostEqual(prices["price_without_vat"], 100.0, places=2)
+        self.assertAlmostEqual(prices["vat"], 19.0, places=2)
+        # The eco fee is not part of what the shop carries on 371 either.
+        self.assertAlmostEqual(prices["price_with_vat"], 119.0, places=2)
+
+    # -------------------------------------------------------------------
+    # Returns reverse what was booked, sign included
+    # -------------------------------------------------------------------
+    def test_return_reverses_a_negative_markup(self):
+        """A shop allowed to sell below cost carries a negative markup. The
+        return of such a sale has to give the negative markup back, not book
+        another release in the same direction: the absolute value looked
+        equivalent and was, until the sign turned."""
+        self.warehouse_mag1.l10n_ro_retail_allow_negative_markup = True
+        self.env["product.pricelist.item"].with_context(
+            skip_retail_price_change=True
+        ).create(
+            {
+                "pricelist_id": self.pricelist_mag1.id,
+                "applied_on": "0_product_variant",
+                "product_id": self.product_retail.id,
+                "compute_price": "fixed",
+                "fixed_price": 35.7,  # 30 net and 5.70 VAT, against a cost of 50
+            }
+        )
+        self._set_initial_stock(self.loc_mag1, self.product_retail, 10)
+        markup, vat = self._carried(self.warehouse_mag1, self.product_retail)
+        self.assertAlmostEqual(markup, -200.0, places=2)
+        self.assertAlmostEqual(vat, 57.0, places=2)
+
+        delivery = self._do_sale_delivery(
+            self.warehouse_mag1, self.product_retail, 4, 35.7
+        )
+        markup, vat = self._carried(self.warehouse_mag1, self.product_retail)
+        self.assertAlmostEqual(markup, -120.0, places=2)
+        self.assertAlmostEqual(vat, 34.2, places=2)
+
+        return_move = self._do_return(delivery.picking_id, 2)
+        markup, vat = self._carried(self.warehouse_mag1, self.product_retail)
+        # Eight units left in the shop, carrying eight units of markup.
+        self.assertAlmostEqual(markup, -160.0, places=2)
+        self.assertAlmostEqual(vat, 45.6, places=2)
+
+        extra_move = self.env["account.move"].search(
+            [("l10n_ro_extra_stock_move_id", "=", return_move.id)]
+        )
+        self.assertEqual(
+            self._lines_as_tuples(extra_move),
+            sorted(
+                [
+                    # Giving back a negative markup takes 371 down, not up.
+                    (self.account_378_mag1.id, 40.0, 0.0),
+                    (self.account_371_mag1.id, 0.0, 40.0),
+                    (self.account_371_mag1.id, 11.4, 0.0),
+                    (self.account_4428_mag1.id, 0.0, 11.4),
+                ]
+            ),
+        )

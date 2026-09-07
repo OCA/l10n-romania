@@ -185,6 +185,29 @@ class TestRetailCommon(TestROStockCommon):
             }
         )
 
+        # Every shop declares its shelf prices, because the module refuses to
+        # guess one: a product with no rule on the retail pricelist cannot be
+        # valued at its sale price, which is a price without VAT. These shops
+        # price everything at the sale price read as a PVA - the products here
+        # carry a VAT inclusive list price - and the tests that need a
+        # different shelf price add a variant rule, which wins over this one.
+        for pricelist in (
+            cls.retail_pricelist,
+            cls.pricelist_mag1,
+            cls.pricelist_mag2,
+        ):
+            cls.env["product.pricelist.item"].with_context(
+                skip_retail_price_change=True
+            ).create(
+                {
+                    "pricelist_id": pricelist.id,
+                    "applied_on": "3_global",
+                    "compute_price": "formula",
+                    "base": "list_price",
+                    "price_discount": 0.0,
+                }
+            )
+
     # -------------------------------------------------------------------
     # Helpers
     # -------------------------------------------------------------------
@@ -225,7 +248,10 @@ class TestRetailCommon(TestROStockCommon):
             for line in move.line_ids
         )
 
-    def _do_purchase_receipt(self, warehouse, product, qty, price_unit):
+    def _do_purchase_receipt(self, warehouse, product, qty, price_unit, qty_done=None):
+        """Receive ``qty_done`` (default: everything ordered) against a PO for
+        ``qty``. Receiving more than was ordered does not split the move, so
+        the demand and the quantity actually valued part company."""
         po = self.env["purchase.order"].create(
             {
                 "partner_id": self.supplier_1.id,
@@ -245,7 +271,7 @@ class TestRetailCommon(TestROStockCommon):
         )
         po.button_confirm()
         picking = po.picking_ids
-        picking.move_ids._set_quantity_done(qty)
+        picking.move_ids._set_quantity_done(qty if qty_done is None else qty_done)
         picking.move_ids.picked = True
         picking.button_validate()
         return po, picking.move_ids

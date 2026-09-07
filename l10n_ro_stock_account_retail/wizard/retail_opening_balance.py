@@ -238,9 +238,10 @@ class RetailOpeningBalance(models.TransientModel):
             ledger_vals.append(
                 {
                     "company_id": self.company_id.id,
-                    "date": fields.Datetime.to_datetime(self.date),
+                    "date": self.date,
                     "product_id": product.id,
                     "location_id": location.id,
+                    "warehouse_id": line.warehouse_id.id,
                     "quantity": line.quantity,
                     # The cost is already on 371 - it came in with the goods -
                     # so it is recorded, not posted. Only the markup and the
