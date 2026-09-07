@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="view_stock_retail_report_list" model="ir.ui.view">
+        <field name="name">l10n.ro.stock.retail.report.list</field>
+        <field name="model">l10n.ro.stock.retail.report</field>
+        <field name="arch" type="xml">
+            <list
+                string="Retail Stock"
+                create="false"
+                edit="false"
+                decoration-warning="price_gap_total != 0"
+                decoration-danger="quantity_unrecorded != 0"
+            >
+                <field name="warehouse_id" />
+                <field name="product_id" />
+                <field name="categ_id" optional="hide" />
+
+                <field name="quantity_initial" optional="hide" />
+                <field name="cost_initial" optional="hide" sum="Opening Cost" />
+                <field name="markup_initial" optional="hide" sum="Opening Markup" />
+                <field name="vat_initial" optional="hide" sum="Opening VAT" />
+                <field
+                    name="retail_initial"
+                    optional="hide"
+                    sum="Opening Retail Value"
+                />
+
+                <field name="quantity_in" optional="hide" />
+                <field name="cost_in" optional="hide" sum="Cost In" />
+                <field name="markup_in" optional="hide" sum="Markup In" />
+                <field name="vat_in" optional="hide" sum="VAT In" />
+                <field name="quantity_out" optional="hide" />
+                <field name="cost_out" optional="hide" sum="Cost Out" />
+                <field name="markup_out" optional="hide" sum="Markup Out" />
+                <field name="vat_out" optional="hide" sum="VAT Out" />
+                <field name="cost_adjustment" optional="hide" sum="Cost Corrections" />
+                <field
+                    name="markup_adjustment"
+                    optional="hide"
+                    sum="Markup Corrections"
+                />
+                <field name="vat_adjustment" optional="hide" sum="VAT Corrections" />
+
+                <field name="quantity" />
+                <field name="quantity_on_hand" optional="hide" />
+                <field name="quantity_unrecorded" sum="Unrecorded" />
+                <field name="cost_unit" optional="hide" />
+                <field name="cost_total" sum="Stock Value (cost)" />
+                <field name="markup_total" sum="Markup Carried (378)" />
+                <field name="vat_total" sum="Deferred VAT Carried (4428)" />
+                <field name="retail_value" sum="Retail Value (371)" />
+                <field name="retail_price_unit" optional="hide" />
+                <field name="current_price_unit" optional="hide" />
+                <field name="price_gap_total" sum="To Revalue" />
+                <field name="currency_id" column_invisible="1" />
+                <field name="company_id" groups="base.group_multi_company" />
+            </list>
+        </field>
+    </record>
+
+    <record id="view_stock_retail_report_search" model="ir.ui.view">
+        <field name="name">l10n.ro.stock.retail.report.search</field>
+        <field name="model">l10n.ro.stock.retail.report</field>
+        <field name="arch" type="xml">
+            <search string="Retail Stock">
+                <field name="warehouse_id" />
+                <field name="product_id" />
+                <field name="categ_id" />
+                <filter
+                    name="unrecorded"
+                    string="Not in the ledger"
+                    domain="[('quantity_unrecorded', '!=', 0)]"
+                    help="Stock on the shelf the markup ledger has no record
+                        of - run the opening balance to settle it"
+                />
+                <group>
+                    <filter
+                        name="group_warehouse"
+                        string="Warehouse"
+                        domain="[]"
+                        context="{'group_by': 'warehouse_id'}"
+                    />
+                    <filter
+                        name="group_category"
+                        string="Category"
+                        domain="[]"
+                        context="{'group_by': 'categ_id'}"
+                    />
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_stock_retail_report" model="ir.actions.act_window">
+        <field name="name">Retail Stock</field>
+        <field name="res_model">l10n.ro.stock.retail.report</field>
+        <field name="view_mode">list</field>
+        <field name="search_view_id" ref="view_stock_retail_report_search" />
+    </record>
+
+    <menuitem
+        id="menu_stock_retail_report"
+        name="Retail Stock"
+        parent="stock.menu_warehouse_report"
+        action="action_stock_retail_report"
+        sequence="100"
+    />
+</odoo>
