@@ -49,6 +49,9 @@ class ProductTemplate(models.Model):
                 stock_acc = dest_location.l10n_ro_property_stock_valuation_account_id
 
             if stock_move.l10n_ro_move_type == "internal_transfer":
+                # The incoming leg of a transfer takes the goods into the
+                # destination warehouse, so the `expense` key carries its
+                # valuation account, not an expense account.
                 if dest_location.l10n_ro_property_stock_valuation_account_id:
                     accounts["expense"] = (
                         dest_location.l10n_ro_property_stock_valuation_account_id
@@ -58,7 +61,10 @@ class ProductTemplate(models.Model):
 
             if inc_acc:
                 accounts["income"] = inc_acc
-            if exp_acc:
+            # `exp_acc` comes from the source location for an internal transfer
+            # (the source is internal), and would send the incoming leg to an
+            # expense account instead of the destination warehouse.
+            if exp_acc and stock_move.l10n_ro_move_type != "internal_transfer":
                 accounts["expense"] = exp_acc
             if stock_acc:
                 accounts["stock_valuation"] = stock_acc
