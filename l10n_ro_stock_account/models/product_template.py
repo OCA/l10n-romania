@@ -38,6 +38,19 @@ class ProductTemplate(models.Model):
             return accounts
         src_location = stock_move.location_id
         dest_location = stock_move.location_dest_id
+        if stock_move.l10n_ro_move_type == "internal_transfer":
+            # The incoming leg of a transfer takes the goods into the
+            # destination warehouse, so the `expense` key carries its
+            # valuation account, not an expense account. The destination's own
+            # account only counts when the category asks for the location
+            # accounts; otherwise both legs resolve to the product's valuation
+            # account and the entry is dropped as a whole further down.
+            dest_valuation = self.env["account.account"]
+            if self.categ_id.l10n_ro_stock_account_change:
+                dest_valuation = (
+                    dest_location.l10n_ro_property_stock_valuation_account_id
+                )
+            accounts["expense"] = dest_valuation or accounts["stock_valuation"]
         if self.categ_id.l10n_ro_stock_account_change:
             if src_location.usage == "internal":
                 inc_acc = src_location.l10n_ro_property_account_income_location_id
@@ -47,17 +60,6 @@ class ProductTemplate(models.Model):
                 inc_acc = dest_location.l10n_ro_property_account_income_location_id
                 exp_acc = dest_location.l10n_ro_property_account_expense_location_id
                 stock_acc = dest_location.l10n_ro_property_stock_valuation_account_id
-
-            if stock_move.l10n_ro_move_type == "internal_transfer":
-                # The incoming leg of a transfer takes the goods into the
-                # destination warehouse, so the `expense` key carries its
-                # valuation account, not an expense account.
-                if dest_location.l10n_ro_property_stock_valuation_account_id:
-                    accounts["expense"] = (
-                        dest_location.l10n_ro_property_stock_valuation_account_id
-                    )
-                else:
-                    accounts["expense"] = accounts["stock_valuation"]
 
             if inc_acc:
                 accounts["income"] = inc_acc

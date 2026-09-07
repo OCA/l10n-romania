@@ -21,14 +21,21 @@
   *same* warehouse - which must produce no accounting at all - booked that
   spurious expense too. The account resolved for `internal_transfer` is now
   kept; every other move type keeps reading the location's expense account
-  exactly as before. The existing coverage never reproduced this: the direct
-  transfer cases only transfer *into* the warehouse that has its own accounts,
-  and the sub-location one uses locations that share the product's account.
-  Added regression tests for both cost methods - the reverse direction as a
-  case in each CSV suite, and
+  exactly as before. It is also resolved for every category, not only for the
+  ones carrying `l10n_ro_stock_account_change`: without that flag the location
+  accounts are ignored altogether, so both legs land on the product's own
+  valuation account and the entry is dropped as a whole, where before every
+  single internal transfer of such a product - the default configuration -
+  debited the product's expense account and credited the stock account. The
+  existing coverage never reproduced this: the direct transfer cases only
+  transfer *into* the warehouse that has its own accounts, the sub-location one
+  uses locations that share the product's account, and every category in the
+  test fixture has the flag set. Added regression tests for both cost methods -
+  the reverse direction as a case in each CSV suite, and
   `tests/test_internal_transfer_expense_account.py` asserting the entry leg by
-  leg, including a FIFO transfer split over two price layers and a transfer
-  inside one warehouse that must post nothing.
+  leg, including a FIFO transfer split over two price layers, a transfer inside
+  one warehouse and a transfer of a category without location accounts, both of
+  which must post nothing.
 - List the extra accounting entries on a picking's *Journal Items* button. A
   `stock.move` carries two kinds of entries: the valuation entry on
   `account_move_id` and the ones in `l10n_ro_extra_account_move_ids` - the

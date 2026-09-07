@@ -201,6 +201,67 @@ class TestInternalTransferExpenseAccount(TestROStockCommon):
                     self._balance(self.account_expense_wh2), expense_before
                 )
 
+    def test_transfer_of_a_category_without_location_accounts_posts_nothing(self):
+        """A category not asking for the location accounts must not expense.
+
+        Without ``l10n_ro_stock_account_change`` the location accounts are
+        ignored altogether, so both ends of the transfer are the product's own
+        valuation account and no entry is due - not the product's expense
+        account, which is what the ``expense`` key holds when nothing
+        overrides it.
+        """
+        category = self.env["product.category"].create(
+            {
+                "name": "Test category without location accounts",
+                "property_valuation": "real_time",
+                "property_cost_method": "average",
+                "property_stock_valuation_account_id": (
+                    self.env.company.account_stock_valuation_id.id
+                ),
+                "l10n_ro_stock_account_change": False,
+            }
+        )
+        product = self.env["product.product"].create(
+            {
+                "name": "Product Without Location Accounts",
+                "is_storable": True,
+                "purchase_method": "receive",
+                "invoice_policy": "delivery",
+                "categ_id": category.id,
+            }
+        )
+        self._receive(product, self.location1, 10.0, 100.0)
+
+        accounts = product.product_tmpl_id.get_product_accounts()
+        expense_account = accounts["expense"]
+        valuation_account = accounts["stock_valuation"]
+        self.assertTrue(expense_account)
+        self.assertNotEqual(expense_account, valuation_account)
+        balances_before = {
+            account: self._balance(account)
+            for account in (
+                expense_account,
+                valuation_account,
+                self.account_valuation_wh2,
+                self.account_expense_wh2,
+            )
+        }
+
+        moves = self._transfer(product, self.location1, self.location, 6.0)
+
+        self.assertTrue(moves)
+        self.assertEqual(set(moves.mapped("l10n_ro_move_type")), {"internal_transfer"})
+        self.assertFalse(
+            moves.account_move_id,
+            "a transfer of a category without location accounts posts nothing",
+        )
+        for account, balance in balances_before.items():
+            self.assertAlmostEqual(
+                self._balance(account),
+                balance,
+                msg=f"account {account.code} was touched by the transfer",
+            )
+
     def test_picking_journal_items_lists_the_extra_entries(self):
         """The Journal Items button must list the extra entries as well.
 

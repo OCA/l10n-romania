@@ -589,15 +589,23 @@ valuation account (<tt class="docutils literal">expense == stock_valuation</tt>)
 between two locations of the <em>same</em> warehouse - which must produce no
 accounting at all - booked that spurious expense too. The account
 resolved for <tt class="docutils literal">internal_transfer</tt> is now kept; every other move type
-keeps reading the location’s expense account exactly as before. The
-existing coverage never reproduced this: the direct transfer cases
-only transfer <em>into</em> the warehouse that has its own accounts, and the
-sub-location one uses locations that share the product’s account.
+keeps reading the location’s expense account exactly as before. It is
+also resolved for every category, not only for the ones carrying
+<tt class="docutils literal">l10n_ro_stock_account_change</tt>: without that flag the location
+accounts are ignored altogether, so both legs land on the product’s
+own valuation account and the entry is dropped as a whole, where
+before every single internal transfer of such a product - the default
+configuration - debited the product’s expense account and credited the
+stock account. The existing coverage never reproduced this: the direct
+transfer cases only transfer <em>into</em> the warehouse that has its own
+accounts, the sub-location one uses locations that share the product’s
+account, and every category in the test fixture has the flag set.
 Added regression tests for both cost methods - the reverse direction
 as a case in each CSV suite, and
 <tt class="docutils literal">tests/test_internal_transfer_expense_account.py</tt> asserting the
 entry leg by leg, including a FIFO transfer split over two price
-layers and a transfer inside one warehouse that must post nothing.</li>
+layers, a transfer inside one warehouse and a transfer of a category
+without location accounts, both of which must post nothing.</li>
 <li>List the extra accounting entries on a picking’s <em>Journal Items</em>
 button. A <tt class="docutils literal">stock.move</tt> carries two kinds of entries: the valuation
 entry on <tt class="docutils literal">account_move_id</tt> and the ones in
