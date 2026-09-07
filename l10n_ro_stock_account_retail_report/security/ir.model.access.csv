@@ -1,0 +1,4 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_l10n_ro_stock_retail_report_user,l10n.ro.stock.retail.report user,model_l10n_ro_stock_retail_report,stock.group_stock_user,1,0,0,0
+access_l10n_ro_stock_retail_report_account,l10n.ro.stock.retail.report account,model_l10n_ro_stock_retail_report,account.group_account_user,1,0,0,0
+access_l10n_ro_stock_retail_report_wizard_user,l10n.ro.stock.retail.report.wizard user,model_l10n_ro_stock_retail_report_wizard,stock.group_stock_user,1,1,1,1

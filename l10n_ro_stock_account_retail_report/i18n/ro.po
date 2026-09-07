@@ -1,0 +1,440 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* l10n_ro_stock_account_retail_report
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 19.0+e\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-09-06 17:10+0000\n"
+"PO-Revision-Date: 2026-09-06 17:10+0000\n"
+"Last-Translator: NextERP Romania\n"
+"Language-Team: Romanian\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: nplurals=3; plural=(n==1 ? 0 : (n==0 || (n%100 > 0 && n%100 < 20)) ? 1 : 2);\n"
+"Language: ro\n"
+
+#. module: l10n_ro_stock_account_retail_report
+#: model_terms:ir.ui.view,arch_db:l10n_ro_stock_account_retail_report.view_stock_retail_report_wizard_form
+msgid "Cancel"
+msgstr "Anulează"
+
+#. module: l10n_ro_stock_account_retail_report
+#: model:ir.model.fields,field_description:l10n_ro_stock_account_retail_report.field_l10n_ro_stock_retail_report__retail_price_unit
+msgid "Carried PVA / Unit"
+msgstr "PVA unitar purtat"
+
+#. module: l10n_ro_stock_account_retail_report
+#: model:ir.model.fields,field_description:l10n_ro_stock_account_retail_report.field_l10n_ro_stock_retail_report__categ_id
+#: model_terms:ir.ui.view,arch_db:l10n_ro_stock_account_retail_report.view_stock_retail_report_search
+msgid "Category"
+msgstr "Categorie"
+
+#. module: l10n_ro_stock_account_retail_report
+#: model:ir.model.fields,field_description:l10n_ro_stock_account_retail_report.field_l10n_ro_stock_retail_report__company_id
+#: model:ir.model.fields,field_description:l10n_ro_stock_account_retail_report.field_l10n_ro_stock_retail_report_wizard__company_id
+msgid "Company"
+msgstr "Companie"
+
+#. module: l10n_ro_stock_account_retail_report
+#: model:ir.model.fields,field_description:l10n_ro_stock_account_retail_report.field_l10n_ro_stock_retail_report__cost_unit
+msgid "Cost / Unit"
+msgstr "Cost unitar"
+
+#. module: l10n_ro_stock_account_retail_report
+#: model:ir.model.fields,field_description:l10n_ro_stock_account_retail_report.field_l10n_ro_stock_retail_report__cost_adjustment
+#: model_terms:ir.ui.view,arch_db:l10n_ro_stock_account_retail_report.view_stock_retail_report_list
+msgid "Cost Corrections"
+msgstr "Corecții de cost"
+
+#. module: l10n_ro_stock_account_retail_report
+#: model:ir.model.fields,field_description:l10n_ro_stock_account_retail_report.field_l10n_ro_stock_retail_report__cost_in
+#: model_terms:ir.ui.view,arch_db:l10n_ro_stock_account_retail_report.view_stock_retail_report_list
+msgid "Cost In"
+msgstr "Cost intrat"
+
+#. module: l10n_ro_stock_account_retail_report
+#: model:ir.model.fields,field_description:l10n_ro_stock_account_retail_report.field_l10n_ro_stock_retail_report__cost_out
+#: model_terms:ir.ui.view,arch_db:l10n_ro_stock_account_retail_report.view_stock_retail_report_list
+msgid "Cost Out"
+msgstr "Cost ieșit"
+
+#. module: l10n_ro_stock_account_retail_report
+#: model:ir.model.fields,help:l10n_ro_stock_account_retail_report.field_l10n_ro_stock_retail_report__cost_adjustment
+msgid ""
+"Cost added by landed costs and purchase price differences, which move no "
+"goods."
+msgstr "Costul adăugat de costurile adiționale și de diferențele de preț de la achiziție, care nu mișcă marfă."
+
+#. module: l10n_ro_stock_account_retail_report
+#: model:ir.model.fields,help:l10n_ro_stock_account_retail_report.field_l10n_ro_stock_retail_report__retail_value
+msgid ""
+"Cost plus the markup and deferred VAT carried - what account 371 holds for "
+"this stock."
+msgstr "Costul plus adaosul și TVA neexigibilă purtate - ceea ce ține contul 371 pentru acest stoc."
+
+#. module: l10n_ro_stock_account_retail_report
+#: model:ir.model.fields,field_description:l10n_ro_stock_account_retail_report.field_l10n_ro_stock_retail_report_wizard__create_uid
+msgid "Created by"
+msgstr "Creat de"
+
+#. module: l10n_ro_stock_account_retail_report
+#: model:ir.model.fields,field_description:l10n_ro_stock_account_retail_report.field_l10n_ro_stock_retail_report_wizard__create_date
+msgid "Created on"
+msgstr "Creat pe"
+
+#. module: l10n_ro_stock_account_retail_report
+#: model:ir.model.fields,field_description:l10n_ro_stock_account_retail_report.field_l10n_ro_stock_retail_report__currency_id
+msgid "Currency"
+msgstr "Monedă"
+
+#. module: l10n_ro_stock_account_retail_report
+#: model:ir.model.fields,field_description:l10n_ro_stock_account_retail_report.field_l10n_ro_stock_retail_report__current_price_unit
+msgid "Current Shelf Price / Unit"
+msgstr "Preț de raft actual pe bucată"
+
+#. module: l10n_ro_stock_account_retail_report
+#: model:ir.model.fields,field_description:l10n_ro_stock_account_retail_report.field_l10n_ro_stock_retail_report__vat_total
+#: model_terms:ir.ui.view,arch_db:l10n_ro_stock_account_retail_report.view_stock_retail_report_list
+msgid "Deferred VAT Carried (4428)"
+msgstr "TVA neexigibilă purtată (4428)"
+
+#. module: l10n_ro_stock_account_retail_report
+#: model:ir.model.fields,field_description:l10n_ro_stock_account_retail_report.field_l10n_ro_stock_retail_report__vat_adjustment
+msgid "Deferred VAT Corrections (4428)"
+msgstr "Corecții de TVA neexigibilă (4428)"
+
+#. module: l10n_ro_stock_account_retail_report
+#: model:ir.model.fields,field_description:l10n_ro_stock_account_retail_report.field_l10n_ro_stock_retail_report__vat_in
+msgid "Deferred VAT In (4428)"
+msgstr "TVA neexigibilă intrată (4428)"
+
+#. module: l10n_ro_stock_account_retail_report
+#: model:ir.model.fields,field_description:l10n_ro_stock_account_retail_report.field_l10n_ro_stock_retail_report__vat_out
+msgid "Deferred VAT Out (4428)"
+msgstr "TVA neexigibilă ieșită (4428)"
+
+#. module: l10n_ro_stock_account_retail_report
+#: model:ir.model.fields,help:l10n_ro_stock_account_retail_report.field_l10n_ro_stock_retail_report__price_gap_total
+msgid ""
+"Difference between the current shelf price and what the stock carries. "
+"Anything other than zero means a price change document is due for this "
+"product."
+msgstr "Diferența dintre prețul de raft actual și ce poartă stocul. Orice valoare diferită de zero înseamnă că pentru acest produs este nevoie de un proces verbal de schimbare a prețului."
+
+#. module: l10n_ro_stock_account_retail_report
+#: model:ir.model.fields,field_description:l10n_ro_stock_account_retail_report.field_l10n_ro_stock_retail_report__display_name
+#: model:ir.model.fields,field_description:l10n_ro_stock_account_retail_report.field_l10n_ro_stock_retail_report_wizard__display_name
+msgid "Display Name"
+msgstr "Nume afișat"
+
+#. module: l10n_ro_stock_account_retail_report
+#: model:ir.model.fields,field_description:l10n_ro_stock_account_retail_report.field_l10n_ro_stock_retail_report_wizard__date_from
+msgid "From"
+msgstr "De la"
+
+#. module: l10n_ro_stock_account_retail_report
+#: model:ir.model.fields,field_description:l10n_ro_stock_account_retail_report.field_l10n_ro_stock_retail_report__id
+#: model:ir.model.fields,field_description:l10n_ro_stock_account_retail_report.field_l10n_ro_stock_retail_report_wizard__id
+msgid "ID"
+msgstr "ID"
+
+#. module: l10n_ro_stock_account_retail_report
+#: model:ir.model.fields,field_description:l10n_ro_stock_account_retail_report.field_l10n_ro_stock_retail_report_wizard__write_uid
+msgid "Last Updated by"
+msgstr "Ultima actualizare făcută de"
+
+#. module: l10n_ro_stock_account_retail_report
+#: model:ir.model.fields,field_description:l10n_ro_stock_account_retail_report.field_l10n_ro_stock_retail_report_wizard__write_date
+msgid "Last Updated on"
+msgstr "Ultima actualizare pe"
+
+#. module: l10n_ro_stock_account_retail_report
+#: model:ir.model.fields,help:l10n_ro_stock_account_retail_report.field_l10n_ro_stock_retail_report_wizard__warehouse_ids
+msgid "Leave empty for every retail warehouse of the company."
+msgstr "Lăsați gol pentru toate gestiunile de tip magazin ale companiei."
+
+#. module: l10n_ro_stock_account_retail_report
+#: model:ir.model.fields,field_description:l10n_ro_stock_account_retail_report.field_l10n_ro_stock_retail_report__markup_total
+#: model_terms:ir.ui.view,arch_db:l10n_ro_stock_account_retail_report.view_stock_retail_report_list
+msgid "Markup Carried (378)"
+msgstr "Adaos purtat (378)"
+
+#. module: l10n_ro_stock_account_retail_report
+#: model_terms:ir.ui.view,arch_db:l10n_ro_stock_account_retail_report.view_stock_retail_report_list
+msgid "Markup Corrections"
+msgstr "Corecții de adaos"
+
+#. module: l10n_ro_stock_account_retail_report
+#: model:ir.model.fields,field_description:l10n_ro_stock_account_retail_report.field_l10n_ro_stock_retail_report__markup_adjustment
+msgid "Markup Corrections (378)"
+msgstr "Corecții de adaos (378)"
+
+#. module: l10n_ro_stock_account_retail_report
+#: model_terms:ir.ui.view,arch_db:l10n_ro_stock_account_retail_report.view_stock_retail_report_list
+msgid "Markup In"
+msgstr "Adaos intrat"
+
+#. module: l10n_ro_stock_account_retail_report
+#: model:ir.model.fields,field_description:l10n_ro_stock_account_retail_report.field_l10n_ro_stock_retail_report__markup_in
+msgid "Markup In (378)"
+msgstr "Adaos intrat (378)"
+
+#. module: l10n_ro_stock_account_retail_report
+#: model_terms:ir.ui.view,arch_db:l10n_ro_stock_account_retail_report.view_stock_retail_report_list
+msgid "Markup Out"
+msgstr "Adaos ieșit"
+
+#. module: l10n_ro_stock_account_retail_report
+#: model:ir.model.fields,field_description:l10n_ro_stock_account_retail_report.field_l10n_ro_stock_retail_report__markup_out
+msgid "Markup Out (378)"
+msgstr "Adaos ieșit (378)"
+
+#. module: l10n_ro_stock_account_retail_report
+#: model:ir.model.fields,help:l10n_ro_stock_account_retail_report.field_l10n_ro_stock_retail_report__markup_adjustment
+msgid ""
+"Markup moved by price changes, landed costs and purchase price differences, "
+"which move no goods."
+msgstr "Adaosul mișcat de schimbările de preț, de costurile adiționale și de diferențele de preț de la achiziție, care nu mișcă marfă."
+
+#. module: l10n_ro_stock_account_retail_report
+#: model_terms:ir.ui.view,arch_db:l10n_ro_stock_account_retail_report.view_stock_retail_report_wizard_form
+msgid ""
+"Movements before the start date are folded into the opening\n"
+"                    balance. The closing balance is the position at the end of\n"
+"                    the last day - cost, markup and deferred VAT add up to what\n"
+"                    account 371 held, so the three columns can be compared\n"
+"                    against the trial balance."
+msgstr ""
+"Mișcările dinaintea datei de început sunt cumulate în soldul\n"
+"                    inițial. Soldul final este poziția de la sfârșitul ultimei\n"
+"                    zile - costul, adaosul și TVA neexigibilă însumate dau ce\n"
+"                    ținea contul 371, deci cele trei coloane se pot confrunta\n"
+"                    cu balanța de verificare."
+
+#. module: l10n_ro_stock_account_retail_report
+#: model:ir.model.fields,help:l10n_ro_stock_account_retail_report.field_l10n_ro_stock_retail_report_wizard__date_from
+msgid "Movements before this date are folded into the opening balance."
+msgstr "Mișcările dinaintea acestei date sunt cumulate în soldul inițial."
+
+#. module: l10n_ro_stock_account_retail_report
+#: model_terms:ir.ui.view,arch_db:l10n_ro_stock_account_retail_report.view_stock_retail_report_search
+msgid "Not in the ledger"
+msgstr "Lipsă din registru"
+
+#. module: l10n_ro_stock_account_retail_report
+#: model_terms:ir.ui.view,arch_db:l10n_ro_stock_account_retail_report.view_stock_retail_report_wizard_form
+msgid "Open"
+msgstr "Deschide"
+
+#. module: l10n_ro_stock_account_retail_report
+#: model:ir.model.fields,field_description:l10n_ro_stock_account_retail_report.field_l10n_ro_stock_retail_report__cost_initial
+#: model_terms:ir.ui.view,arch_db:l10n_ro_stock_account_retail_report.view_stock_retail_report_list
+msgid "Opening Cost"
+msgstr "Cost inițial"
+
+#. module: l10n_ro_stock_account_retail_report
+#: model:ir.model.fields,field_description:l10n_ro_stock_account_retail_report.field_l10n_ro_stock_retail_report__vat_initial
+msgid "Opening Deferred VAT (4428)"
+msgstr "TVA neexigibilă inițială (4428)"
+
+#. module: l10n_ro_stock_account_retail_report
+#: model_terms:ir.ui.view,arch_db:l10n_ro_stock_account_retail_report.view_stock_retail_report_list
+msgid "Opening Markup"
+msgstr "Adaos inițial"
+
+#. module: l10n_ro_stock_account_retail_report
+#: model:ir.model.fields,field_description:l10n_ro_stock_account_retail_report.field_l10n_ro_stock_retail_report__markup_initial
+msgid "Opening Markup (378)"
+msgstr "Adaos inițial (378)"
+
+#. module: l10n_ro_stock_account_retail_report
+#: model:ir.model.fields,field_description:l10n_ro_stock_account_retail_report.field_l10n_ro_stock_retail_report__quantity_initial
+msgid "Opening Quantity"
+msgstr "Cantitate inițială"
+
+#. module: l10n_ro_stock_account_retail_report
+#: model_terms:ir.ui.view,arch_db:l10n_ro_stock_account_retail_report.view_stock_retail_report_list
+msgid "Opening Retail Value"
+msgstr "Valoare inițială la preț de vânzare"
+
+#. module: l10n_ro_stock_account_retail_report
+#: model:ir.model.fields,field_description:l10n_ro_stock_account_retail_report.field_l10n_ro_stock_retail_report__retail_initial
+msgid "Opening Retail Value (371)"
+msgstr "Valoare inițială la preț de vânzare (371)"
+
+#. module: l10n_ro_stock_account_retail_report
+#: model_terms:ir.ui.view,arch_db:l10n_ro_stock_account_retail_report.view_stock_retail_report_list
+msgid "Opening VAT"
+msgstr "TVA inițială"
+
+#. module: l10n_ro_stock_account_retail_report
+#: model:ir.model.fields,field_description:l10n_ro_stock_account_retail_report.field_l10n_ro_stock_retail_report__product_id
+msgid "Product"
+msgstr "Produs"
+
+#. module: l10n_ro_stock_account_retail_report
+#: model:ir.model.fields,field_description:l10n_ro_stock_account_retail_report.field_l10n_ro_stock_retail_report__product_tmpl_id
+msgid "Product Template"
+msgstr "Șablon produs"
+
+#. module: l10n_ro_stock_account_retail_report
+#: model:ir.model.fields,field_description:l10n_ro_stock_account_retail_report.field_l10n_ro_stock_retail_report__quantity_in
+msgid "Quantity In"
+msgstr "Cantitate intrată"
+
+#. module: l10n_ro_stock_account_retail_report
+#: model:ir.model.fields,field_description:l10n_ro_stock_account_retail_report.field_l10n_ro_stock_retail_report__quantity_on_hand
+msgid "Quantity On Hand"
+msgstr "Cantitate în stoc"
+
+#. module: l10n_ro_stock_account_retail_report
+#: model:ir.model.fields,field_description:l10n_ro_stock_account_retail_report.field_l10n_ro_stock_retail_report__quantity_out
+msgid "Quantity Out"
+msgstr "Cantitate ieșită"
+
+#. module: l10n_ro_stock_account_retail_report
+#: model:ir.model.fields,field_description:l10n_ro_stock_account_retail_report.field_l10n_ro_stock_retail_report__quantity_unrecorded
+msgid "Quantity Unrecorded"
+msgstr "Cantitate neînregistrată"
+
+#. module: l10n_ro_stock_account_retail_report
+#: model:ir.model.fields,field_description:l10n_ro_stock_account_retail_report.field_l10n_ro_stock_retail_report__quantity
+msgid "Recorded Quantity"
+msgstr "Cantitate înregistrată"
+
+#. module: l10n_ro_stock_account_retail_report
+#: model:ir.actions.act_window,name:l10n_ro_stock_account_retail_report.action_stock_retail_report
+#: model:ir.ui.menu,name:l10n_ro_stock_account_retail_report.menu_stock_retail_report
+#: model_terms:ir.ui.view,arch_db:l10n_ro_stock_account_retail_report.view_stock_retail_report_list
+#: model_terms:ir.ui.view,arch_db:l10n_ro_stock_account_retail_report.view_stock_retail_report_search
+msgid "Retail Stock"
+msgstr "Stoc în magazin"
+
+#. module: l10n_ro_stock_account_retail_report
+#. odoo-python
+#: code:addons/l10n_ro_stock_account_retail_report/wizard/stock_retail_report_wizard.py:0
+msgid "Retail Stock %(date_from)s - %(date_to)s"
+msgstr "Stoc în magazin %(date_from)s - %(date_to)s"
+
+#. module: l10n_ro_stock_account_retail_report
+#: model:ir.model,name:l10n_ro_stock_account_retail_report.model_l10n_ro_stock_retail_report
+#: model_terms:ir.ui.view,arch_db:l10n_ro_stock_account_retail_report.view_stock_retail_report_wizard_form
+msgid "Retail Stock Report"
+msgstr "Raport stoc în magazin"
+
+#. module: l10n_ro_stock_account_retail_report
+#: model:ir.model,name:l10n_ro_stock_account_retail_report.model_l10n_ro_stock_retail_report_wizard
+msgid "Retail Stock Report Period"
+msgstr "Perioada raportului de stoc în magazin"
+
+#. module: l10n_ro_stock_account_retail_report
+#: model:ir.actions.act_window,name:l10n_ro_stock_account_retail_report.action_stock_retail_report_wizard
+#: model:ir.ui.menu,name:l10n_ro_stock_account_retail_report.menu_stock_retail_report_wizard
+msgid "Retail Stock by Period"
+msgstr "Stoc în magazin pe perioadă"
+
+#. module: l10n_ro_stock_account_retail_report
+#: model:ir.model.fields,field_description:l10n_ro_stock_account_retail_report.field_l10n_ro_stock_retail_report__retail_value
+#: model_terms:ir.ui.view,arch_db:l10n_ro_stock_account_retail_report.view_stock_retail_report_list
+msgid "Retail Value (371)"
+msgstr "Valoare la preț de vânzare (371)"
+
+#. module: l10n_ro_stock_account_retail_report
+#: model:ir.model.fields,help:l10n_ro_stock_account_retail_report.field_l10n_ro_stock_retail_report__retail_price_unit
+msgid "Retail value per unit, VAT included, as loaded."
+msgstr "Valoarea de vânzare pe bucată, cu TVA inclus, așa cum a fost încărcată."
+
+#. module: l10n_ro_stock_account_retail_report
+#: model:ir.model.fields,help:l10n_ro_stock_account_retail_report.field_l10n_ro_stock_retail_report__current_price_unit
+msgid ""
+"Shelf price the warehouse pricelist gives today, VAT included. Always "
+"today's price, whatever period the rest of the row covers."
+msgstr "Prețul de raft dat azi de lista de prețuri a gestiunii, cu TVA inclus. Întotdeauna prețul de azi, indiferent de perioada acoperită de restul rândului."
+
+#. module: l10n_ro_stock_account_retail_report
+#: model:ir.model.fields,field_description:l10n_ro_stock_account_retail_report.field_l10n_ro_stock_retail_report_wizard__warehouse_ids
+msgid "Shops"
+msgstr "Magazine"
+
+#. module: l10n_ro_stock_account_retail_report
+#: model:ir.model.fields,field_description:l10n_ro_stock_account_retail_report.field_l10n_ro_stock_retail_report__cost_total
+#: model_terms:ir.ui.view,arch_db:l10n_ro_stock_account_retail_report.view_stock_retail_report_list
+msgid "Stock Value (cost)"
+msgstr "Valoare stoc (la cost)"
+
+#. module: l10n_ro_stock_account_retail_report
+#: model:ir.model.fields,help:l10n_ro_stock_account_retail_report.field_l10n_ro_stock_retail_report__quantity_unrecorded
+msgid ""
+"Stock on the shelf that the markup ledger has no record of, normally goods "
+"that were already there when this module was installed. Their shelf value is"
+" not on 371 yet: run the retail markup opening balance to settle them. Only "
+"filled when the report answers for today."
+msgstr "Marfă din magazin de care registrul adaosului nu are cunoștință, de obicei marfa care era deja acolo la instalarea modulului. Valoarea ei de raft nu este încă în 371: rulați soldul inițial al adaosului comercial pentru a o regla. Se completează doar când raportul răspunde pentru azi."
+
+#. module: l10n_ro_stock_account_retail_report
+#: model_terms:ir.ui.view,arch_db:l10n_ro_stock_account_retail_report.view_stock_retail_report_search
+msgid ""
+"Stock on the shelf the markup ledger has no record                         "
+"of - run the opening balance to settle it"
+msgstr "Marfă din magazin de care registrul adaosului nu are                         cunoștință - rulați soldul inițial pentru a o regla"
+
+#. module: l10n_ro_stock_account_retail_report
+#: model:ir.model.fields,help:l10n_ro_stock_account_retail_report.field_l10n_ro_stock_retail_report_wizard__date_to
+msgid ""
+"The closing balance is the position at the end of this day - the figure to "
+"compare against the trial balance."
+msgstr "Soldul final este poziția de la sfârșitul acestei zile - cifra de confruntat cu balanța de verificare."
+
+#. module: l10n_ro_stock_account_retail_report
+#. odoo-python
+#: code:addons/l10n_ro_stock_account_retail_report/wizard/stock_retail_report_wizard.py:0
+msgid "The start of the period is after its end."
+msgstr "Începutul perioadei este după sfârșitul ei."
+
+#. module: l10n_ro_stock_account_retail_report
+#: model:ir.model.fields,field_description:l10n_ro_stock_account_retail_report.field_l10n_ro_stock_retail_report_wizard__date_to
+msgid "To"
+msgstr "Până la"
+
+#. module: l10n_ro_stock_account_retail_report
+#: model:ir.model.fields,field_description:l10n_ro_stock_account_retail_report.field_l10n_ro_stock_retail_report__price_gap_total
+#: model_terms:ir.ui.view,arch_db:l10n_ro_stock_account_retail_report.view_stock_retail_report_list
+msgid "To Revalue"
+msgstr "De reevaluat"
+
+#. module: l10n_ro_stock_account_retail_report
+#: model_terms:ir.ui.view,arch_db:l10n_ro_stock_account_retail_report.view_stock_retail_report_list
+msgid "Unrecorded"
+msgstr "Neînregistrat"
+
+#. module: l10n_ro_stock_account_retail_report
+#: model_terms:ir.ui.view,arch_db:l10n_ro_stock_account_retail_report.view_stock_retail_report_list
+msgid "VAT Corrections"
+msgstr "Corecții de TVA"
+
+#. module: l10n_ro_stock_account_retail_report
+#: model_terms:ir.ui.view,arch_db:l10n_ro_stock_account_retail_report.view_stock_retail_report_list
+msgid "VAT In"
+msgstr "TVA intrată"
+
+#. module: l10n_ro_stock_account_retail_report
+#: model_terms:ir.ui.view,arch_db:l10n_ro_stock_account_retail_report.view_stock_retail_report_list
+msgid "VAT Out"
+msgstr "TVA ieșită"
+
+#. module: l10n_ro_stock_account_retail_report
+#: model:ir.model.fields,field_description:l10n_ro_stock_account_retail_report.field_l10n_ro_stock_retail_report__warehouse_id
+#: model_terms:ir.ui.view,arch_db:l10n_ro_stock_account_retail_report.view_stock_retail_report_search
+msgid "Warehouse"
+msgstr "Depozit"
+
+#. module: l10n_ro_stock_account_retail_report
+#: model:ir.model.fields,help:l10n_ro_stock_account_retail_report.field_l10n_ro_stock_retail_report__quantity_on_hand
+msgid ""
+"What the shop actually holds, from the quants. Only filled when the report "
+"answers for today: the quants keep no history, so a report asked for a past "
+"position leaves this empty."
+msgstr "Ce ține efectiv magazinul, din stoc. Se completează doar când raportul răspunde pentru azi: stocul nu păstrează istoric, deci un raport cerut pentru o poziție trecută lasă coloana goală."
