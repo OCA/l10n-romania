@@ -226,7 +226,15 @@ Changelog
   between two locations of the *same* warehouse - which must produce no
   accounting at all - booked that spurious expense too. The account
   resolved for ``internal_transfer`` is now kept; every other move type
-  keeps reading the location's expense account exactly as before.
+  keeps reading the location's expense account exactly as before. The
+  existing coverage never reproduced this: the direct transfer cases
+  only transfer *into* the warehouse that has its own accounts, and the
+  sub-location one uses locations that share the product's account.
+  Added regression tests for both cost methods - the reverse direction
+  as a case in each CSV suite, and
+  ``tests/test_internal_transfer_expense_account.py`` asserting the
+  entry leg by leg, including a FIFO transfer split over two price
+  layers and a transfer inside one warehouse that must post nothing.
 - List the extra accounting entries on a picking's *Journal Items*
   button. A ``stock.move`` carries two kinds of entries: the valuation
   entry on ``account_move_id`` and the ones in
@@ -235,7 +243,8 @@ Changelog
   entries added by ``l10n_ro_stock_account_landed_cost``. The button
   listed only the first, so the rest of what the transfer posted was
   unreachable from the picking, and for a move whose only entry is an
-  extra one the button opened nothing at all. Both sets are listed now.
+  extra one the button opened nothing at all. Both sets are listed now,
+  covered by a test on a usage giving.
 
 19.0.1.8.0
 ----------

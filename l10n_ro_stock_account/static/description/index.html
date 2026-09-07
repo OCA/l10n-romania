@@ -589,7 +589,15 @@ valuation account (<tt class="docutils literal">expense == stock_valuation</tt>)
 between two locations of the <em>same</em> warehouse - which must produce no
 accounting at all - booked that spurious expense too. The account
 resolved for <tt class="docutils literal">internal_transfer</tt> is now kept; every other move type
-keeps reading the location’s expense account exactly as before.</li>
+keeps reading the location’s expense account exactly as before. The
+existing coverage never reproduced this: the direct transfer cases
+only transfer <em>into</em> the warehouse that has its own accounts, and the
+sub-location one uses locations that share the product’s account.
+Added regression tests for both cost methods - the reverse direction
+as a case in each CSV suite, and
+<tt class="docutils literal">tests/test_internal_transfer_expense_account.py</tt> asserting the
+entry leg by leg, including a FIFO transfer split over two price
+layers and a transfer inside one warehouse that must post nothing.</li>
 <li>List the extra accounting entries on a picking’s <em>Journal Items</em>
 button. A <tt class="docutils literal">stock.move</tt> carries two kinds of entries: the valuation
 entry on <tt class="docutils literal">account_move_id</tt> and the ones in
@@ -598,7 +606,8 @@ delivery on notice, the off-balance entry of a usage giving, and the
 entries added by <tt class="docutils literal">l10n_ro_stock_account_landed_cost</tt>. The button
 listed only the first, so the rest of what the transfer posted was
 unreachable from the picking, and for a move whose only entry is an
-extra one the button opened nothing at all. Both sets are listed now.</li>
+extra one the button opened nothing at all. Both sets are listed now,
+covered by a test on a usage giving.</li>
 </ul>
 </div>
 <div class="section" id="section-2">
