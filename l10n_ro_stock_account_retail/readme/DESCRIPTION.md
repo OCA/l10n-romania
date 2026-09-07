@@ -55,6 +55,35 @@ label, what the customer pays, and what account 371 carries. The
 product taxes are used to split it into the base the markup is measured
 against and the deferred VAT inside it — never to add VAT on top.
 
+Those taxes are the product's sale taxes **mapped through the fiscal
+position of the shop** (`l10n_ro_fiscal_position_id` on the warehouse,
+the one Romanian stock accounting already uses to map valuation
+accounts). A company selling both retail and B2B keeps one set of taxes
+on the product and maps them per shop — to the VAT included variants a
+till works with, or to another rate — and the VAT loaded on 4428 has to
+be the one that shop will actually collect. The same fiscal position
+maps the three accounts an entry touches, so a shop keeping its goods
+on a 371 of its own says it once instead of overriding every product,
+category and location.
+
+A mapping to the *price included* variants of the same taxes changes
+nothing: the shelf price is read as VAT inclusive whatever the tax says
+about itself, so only a change of rate moves the split.
+
+Only the VAT part of those taxes reaches 4428. A charge collected for
+somebody else — a packaging deposit (SGR), an eco fee — is kept out of
+the split and out of the value carried on 371; nothing on a tax says
+whether it is VAT, so mark those with *Not VAT (Retail)* on the tax
+(on every variant a fiscal position can map to). Sale taxes are treated
+as VAT unless it is ticked.
+
+The shelf price has to come from a rule on the retail pricelist of the
+warehouse. There is no fallback on the product sale price: that is a
+price *without* VAT in a standard Romanian setup, so booking it as a
+PVA would put the wrong figure on 371, understate the markup and
+compute the deferred VAT on a different base — silently. A product
+without a price on the shop's retail pricelist is refused instead.
+
 ## Accounting flow
 
 Standard `l10n_ro_stock_account` keeps booking the cost. This module

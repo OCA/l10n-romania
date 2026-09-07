@@ -44,6 +44,16 @@ class StockQuant(models.Model):
         The markup comes from the ledger, not from today's pricelist, so this
         is what is really on 378 and 4428 - and the gap against the current
         shelf price is exactly what a price change document has to settle.
+
+        The quantity used to spread it is the one on hand, taken from the
+        quants, and deliberately not the ledger quantity that
+        ``_l10n_ro_retail_out_amounts`` divides by. The two answer different
+        questions. A release has to close 378 to zero on the last unit out, so
+        it can only be measured against the quantity the ledger knows it
+        loaded. A column has to add up to the balance it is showing, so it
+        apportions that balance over the stock actually sitting there -
+        otherwise a ledger with a gap displays a total that matches neither
+        378 nor the shop.
         """
         Ledger = self.env["l10n.ro.retail.markup.line"]
         self.l10n_ro_retail_markup_value = 0.0

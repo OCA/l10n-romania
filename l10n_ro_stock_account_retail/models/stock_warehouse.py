@@ -21,7 +21,9 @@ class StockWarehouse(models.Model):
         help="Pricelist holding the shelf price (PVA) of the products in this "
         "warehouse. Prices on a retail pricelist are always VAT included: it "
         "is the price on the shelf label, and the price account 371 carries. "
-        "If empty, the product sale price is used.",
+        "Required: a product moving in or out of the shop without a price on "
+        "this pricelist is refused, rather than valued at its sale price - "
+        "which is a price without VAT, and would put the wrong figure on 371.",
     )
     l10n_ro_retail_allow_negative_markup = fields.Boolean(
         string="Allow Selling Below Cost",
