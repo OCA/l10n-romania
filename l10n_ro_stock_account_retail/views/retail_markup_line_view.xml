@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="view_retail_markup_line_list" model="ir.ui.view">
+        <field name="name">l10n.ro.retail.markup.line.list</field>
+        <field name="model">l10n.ro.retail.markup.line</field>
+        <field name="arch" type="xml">
+            <list
+                string="Retail Markup Ledger"
+                create="false"
+                edit="false"
+                decoration-muted="markup == 0 and vat == 0"
+            >
+                <field name="date" />
+                <field name="warehouse_id" />
+                <field name="location_id" optional="hide" />
+                <field name="product_id" />
+                <field name="quantity" sum="Quantity" />
+                <field name="markup" sum="Markup (378)" />
+                <field name="vat" sum="Deferred VAT (4428)" />
+                <field name="origin_type" />
+                <field name="reference" optional="hide" />
+                <field name="move_id" optional="hide" />
+                <field name="account_move_id" />
+                <field name="company_currency_id" column_invisible="1" />
+                <field name="company_id" groups="base.group_multi_company" />
+            </list>
+        </field>
+    </record>
+
+    <record id="view_retail_markup_line_search" model="ir.ui.view">
+        <field name="name">l10n.ro.retail.markup.line.search</field>
+        <field name="model">l10n.ro.retail.markup.line</field>
+        <field name="arch" type="xml">
+            <search string="Retail Markup Ledger">
+                <field name="product_id" />
+                <field name="warehouse_id" />
+                <field name="location_id" />
+                <field name="reference" />
+                <filter
+                    name="incoming"
+                    string="Into the Shop"
+                    domain="[('quantity', '>', 0)]"
+                />
+                <filter
+                    name="outgoing"
+                    string="Out of the Shop"
+                    domain="[('quantity', '&lt;', 0)]"
+                />
+                <group>
+                    <filter
+                        name="group_warehouse"
+                        string="Warehouse"
+                        domain="[]"
+                        context="{'group_by': 'warehouse_id'}"
+                    />
+                    <filter
+                        name="group_product"
+                        string="Product"
+                        domain="[]"
+                        context="{'group_by': 'product_id'}"
+                    />
+                    <filter
+                        name="group_origin"
+                        string="Origin"
+                        domain="[]"
+                        context="{'group_by': 'origin_type'}"
+                    />
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_retail_markup_line" model="ir.actions.act_window">
+        <field name="name">Retail Markup Ledger</field>
+        <field name="res_model">l10n.ro.retail.markup.line</field>
+        <field name="view_mode">list</field>
+        <field name="search_view_id" ref="view_retail_markup_line_search" />
+    </record>
+
+    <menuitem
+        id="menu_retail_markup_line"
+        name="Retail Markup Ledger"
+        parent="stock.menu_warehouse_report"
+        action="action_retail_markup_line"
+        sequence="101"
+        groups="account.group_account_user"
+    />
+</odoo>
