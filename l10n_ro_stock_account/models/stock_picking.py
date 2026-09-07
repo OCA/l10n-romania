@@ -16,7 +16,10 @@ class StockPicking(models.Model):
 
     def action_l10n_ro_view_account_moves(self):
         self.ensure_one()
-        acc_lines = self.move_ids.account_move_id.line_ids
+        acc_lines = (
+            self.move_ids.account_move_id.line_ids
+            + self.move_ids.l10n_ro_extra_account_move_ids.line_ids
+        )
         if not acc_lines:
             return {}
         return {
