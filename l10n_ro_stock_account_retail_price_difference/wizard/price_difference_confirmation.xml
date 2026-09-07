@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="view_price_difference_confirmation_form_retail" model="ir.ui.view">
+        <field name="name">l10n_ro.price_difference_confirm_dialog.form.retail</field>
+        <field name="model">l10n_ro.price_difference_confirm_dialog</field>
+        <field
+            name="inherit_id"
+            ref="l10n_ro_stock_price_difference.view_price_difference_confirmation_form"
+        />
+        <field name="arch" type="xml">
+            <xpath
+                expr="//field[@name='item_ids']/list/field[@name='qty_diff']"
+                position="after"
+            >
+                <field name="l10n_ro_retail_warehouse_id" optional="show" />
+                <field name="l10n_ro_retail_markup" optional="show" />
+                <field name="l10n_ro_retail_markup_after" optional="show" />
+                <field
+                    name="l10n_ro_retail_covered"
+                    widget="badge"
+                    decoration-danger="l10n_ro_retail_covered == 'short'"
+                    decoration-success="l10n_ro_retail_covered == 'ok'"
+                    decoration-muted="l10n_ro_retail_covered == 'na'"
+                />
+            </xpath>
+        </field>
+    </record>
+</odoo>

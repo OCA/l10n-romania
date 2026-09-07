@@ -1,0 +1,91 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* l10n_ro_stock_account_retail_price_difference
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 19.0+e\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-09-06 17:10+0000\n"
+"PO-Revision-Date: 2026-09-06 17:10+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: l10n_ro_stock_account_retail_price_difference
+#: model:ir.model.fields.selection,name:l10n_ro_stock_account_retail_price_difference.selection__l10n_ro_price_difference_item__l10n_ro_retail_covered__short
+msgid "Below cost"
+msgstr ""
+
+#. module: l10n_ro_stock_account_retail_price_difference
+#: model:ir.model.fields.selection,name:l10n_ro_stock_account_retail_price_difference.selection__l10n_ro_price_difference_item__l10n_ro_retail_covered__ok
+msgid "Covered"
+msgstr ""
+
+#. module: l10n_ro_stock_account_retail_price_difference
+#: model:ir.model.fields,field_description:l10n_ro_stock_account_retail_price_difference.field_l10n_ro_price_difference_item__display_name
+msgid "Display Name"
+msgstr ""
+
+#. module: l10n_ro_stock_account_retail_price_difference
+#: model:ir.model.fields,field_description:l10n_ro_stock_account_retail_price_difference.field_l10n_ro_price_difference_item__id
+msgid "ID"
+msgstr ""
+
+#. module: l10n_ro_stock_account_retail_price_difference
+#: model:ir.model,name:l10n_ro_stock_account_retail_price_difference.model_l10n_ro_price_difference_item
+msgid ""
+"Item from Wizard to show price differences between invoice and reception"
+msgstr ""
+
+#. module: l10n_ro_stock_account_retail_price_difference
+#: model:ir.model.fields,field_description:l10n_ro_stock_account_retail_price_difference.field_l10n_ro_price_difference_item__l10n_ro_retail_markup_after
+msgid "Markup After"
+msgstr ""
+
+#. module: l10n_ro_stock_account_retail_price_difference
+#: model:ir.model.fields,field_description:l10n_ro_stock_account_retail_price_difference.field_l10n_ro_price_difference_item__l10n_ro_retail_markup
+msgid "Markup Now"
+msgstr ""
+
+#. module: l10n_ro_stock_account_retail_price_difference
+#: model:ir.model.fields,help:l10n_ro_stock_account_retail_price_difference.field_l10n_ro_price_difference_item__l10n_ro_retail_markup
+msgid "Markup the goods in the shop carry on 378 today."
+msgstr ""
+
+#. module: l10n_ro_stock_account_retail_price_difference
+#: model:ir.model.fields.selection,name:l10n_ro_stock_account_retail_price_difference.selection__l10n_ro_price_difference_item__l10n_ro_retail_covered__na
+msgid "Not in a shop"
+msgstr ""
+
+#. module: l10n_ro_stock_account_retail_price_difference
+#: model:ir.model.fields,field_description:l10n_ro_stock_account_retail_price_difference.field_l10n_ro_price_difference_item__l10n_ro_retail_covered
+msgid "Shelf Price"
+msgstr ""
+
+#. module: l10n_ro_stock_account_retail_price_difference
+#: model:ir.model.fields,field_description:l10n_ro_stock_account_retail_price_difference.field_l10n_ro_price_difference_item__l10n_ro_retail_warehouse_id
+msgid "Shop"
+msgstr ""
+
+#. module: l10n_ro_stock_account_retail_price_difference
+#: model:ir.model.fields,help:l10n_ro_stock_account_retail_price_difference.field_l10n_ro_price_difference_item__l10n_ro_retail_warehouse_id
+msgid "The retail warehouse holding these goods, if any."
+msgstr ""
+
+#. module: l10n_ro_stock_account_retail_price_difference
+#: model:ir.model.fields,help:l10n_ro_stock_account_retail_price_difference.field_l10n_ro_price_difference_item__l10n_ro_retail_markup_after
+msgid ""
+"What the markup becomes once this price difference is absorbed. The shelf "
+"price does not move, so the difference comes out of here."
+msgstr ""
+
+#. module: l10n_ro_stock_account_retail_price_difference
+#: model:ir.model.fields,help:l10n_ro_stock_account_retail_price_difference.field_l10n_ro_price_difference_item__l10n_ro_retail_covered
+msgid ""
+"Whether the shelf price still covers the cost after the difference. 'Below "
+"cost' means a price change is due first."
+msgstr ""
