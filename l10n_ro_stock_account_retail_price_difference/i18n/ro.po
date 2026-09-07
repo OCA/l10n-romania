@@ -1,0 +1,92 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* l10n_ro_stock_account_retail_price_difference
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 19.0+e\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-09-06 17:10+0000\n"
+"PO-Revision-Date: 2026-09-06 17:10+0000\n"
+"Last-Translator: NextERP Romania\n"
+"Language-Team: Romanian\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: nplurals=3; plural=(n==1 ? 0 : (n==0 || (n%100 > 0 && n%100 < 20)) ? 1 : 2);\n"
+"Language: ro\n"
+
+#. module: l10n_ro_stock_account_retail_price_difference
+#: model:ir.model.fields.selection,name:l10n_ro_stock_account_retail_price_difference.selection__l10n_ro_price_difference_item__l10n_ro_retail_covered__short
+msgid "Below cost"
+msgstr "Sub cost"
+
+#. module: l10n_ro_stock_account_retail_price_difference
+#: model:ir.model.fields.selection,name:l10n_ro_stock_account_retail_price_difference.selection__l10n_ro_price_difference_item__l10n_ro_retail_covered__ok
+msgid "Covered"
+msgstr "Acoperit"
+
+#. module: l10n_ro_stock_account_retail_price_difference
+#: model:ir.model.fields,field_description:l10n_ro_stock_account_retail_price_difference.field_l10n_ro_price_difference_item__display_name
+msgid "Display Name"
+msgstr "Nume afișat"
+
+#. module: l10n_ro_stock_account_retail_price_difference
+#: model:ir.model.fields,field_description:l10n_ro_stock_account_retail_price_difference.field_l10n_ro_price_difference_item__id
+msgid "ID"
+msgstr "ID"
+
+#. module: l10n_ro_stock_account_retail_price_difference
+#: model:ir.model,name:l10n_ro_stock_account_retail_price_difference.model_l10n_ro_price_difference_item
+msgid ""
+"Item from Wizard to show price differences between invoice and reception"
+msgstr "Linie din asistentul care arată diferențele de preț dintre factură și recepție"
+
+#. module: l10n_ro_stock_account_retail_price_difference
+#: model:ir.model.fields,field_description:l10n_ro_stock_account_retail_price_difference.field_l10n_ro_price_difference_item__l10n_ro_retail_markup_after
+msgid "Markup After"
+msgstr "Adaos rămas"
+
+#. module: l10n_ro_stock_account_retail_price_difference
+#: model:ir.model.fields,field_description:l10n_ro_stock_account_retail_price_difference.field_l10n_ro_price_difference_item__l10n_ro_retail_markup
+msgid "Markup Now"
+msgstr "Adaos actual"
+
+#. module: l10n_ro_stock_account_retail_price_difference
+#: model:ir.model.fields,help:l10n_ro_stock_account_retail_price_difference.field_l10n_ro_price_difference_item__l10n_ro_retail_markup
+msgid "Markup the goods in the shop carry on 378 today."
+msgstr "Adaosul pe care marfa din magazin îl poartă azi în 378."
+
+#. module: l10n_ro_stock_account_retail_price_difference
+#: model:ir.model.fields.selection,name:l10n_ro_stock_account_retail_price_difference.selection__l10n_ro_price_difference_item__l10n_ro_retail_covered__na
+msgid "Not in a shop"
+msgstr "Nu este în magazin"
+
+#. module: l10n_ro_stock_account_retail_price_difference
+#: model:ir.model.fields,field_description:l10n_ro_stock_account_retail_price_difference.field_l10n_ro_price_difference_item__l10n_ro_retail_covered
+msgid "Shelf Price"
+msgstr "Preț de raft"
+
+#. module: l10n_ro_stock_account_retail_price_difference
+#: model:ir.model.fields,field_description:l10n_ro_stock_account_retail_price_difference.field_l10n_ro_price_difference_item__l10n_ro_retail_warehouse_id
+msgid "Shop"
+msgstr "Magazin"
+
+#. module: l10n_ro_stock_account_retail_price_difference
+#: model:ir.model.fields,help:l10n_ro_stock_account_retail_price_difference.field_l10n_ro_price_difference_item__l10n_ro_retail_warehouse_id
+msgid "The retail warehouse holding these goods, if any."
+msgstr "Gestiunea de tip magazin care ține această marfă, dacă există."
+
+#. module: l10n_ro_stock_account_retail_price_difference
+#: model:ir.model.fields,help:l10n_ro_stock_account_retail_price_difference.field_l10n_ro_price_difference_item__l10n_ro_retail_markup_after
+msgid ""
+"What the markup becomes once this price difference is absorbed. The shelf "
+"price does not move, so the difference comes out of here."
+msgstr "Cât devine adaosul după absorbirea acestei diferențe de preț. Prețul de raft nu se schimbă, deci diferența iese de aici."
+
+#. module: l10n_ro_stock_account_retail_price_difference
+#: model:ir.model.fields,help:l10n_ro_stock_account_retail_price_difference.field_l10n_ro_price_difference_item__l10n_ro_retail_covered
+msgid ""
+"Whether the shelf price still covers the cost after the difference. 'Below "
+"cost' means a price change is due first."
+msgstr "Dacă prețul de raft mai acoperă costul după diferență. „Sub cost” înseamnă că este nevoie întâi de o schimbare de preț."
