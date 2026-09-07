@@ -1,0 +1,93 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* l10n_ro_stock_account_retail_landed_cost
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 19.0+e\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-09-06 17:10+0000\n"
+"PO-Revision-Date: 2026-09-06 17:10+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: l10n_ro_stock_account_retail_landed_cost
+#. odoo-python
+#: code:addons/l10n_ro_stock_account_retail_landed_cost/models/stock_landed_cost.py:0
+msgid ""
+"%(cost)s adds %(amount).2f of cost to %(product)s in %(warehouse)s, which carries only %(markup).2f of markup: the goods would cost more than they are priced at.\n"
+"\n"
+"Raise the shelf price by at least %(per_unit).2f a unit with a retail price change before validating, or tick 'Allow Selling Below Cost' on the warehouse if the shop genuinely sells this below cost."
+msgstr ""
+
+#. module: l10n_ro_stock_account_retail_landed_cost
+#: model:ir.model.fields,field_description:l10n_ro_stock_account_retail_landed_cost.field_l10n_ro_retail_markup_line__display_name
+#: model:ir.model.fields,field_description:l10n_ro_stock_account_retail_landed_cost.field_stock_landed_cost__display_name
+msgid "Display Name"
+msgstr ""
+
+#. module: l10n_ro_stock_account_retail_landed_cost
+#: model:ir.model.fields,field_description:l10n_ro_stock_account_retail_landed_cost.field_l10n_ro_retail_markup_line__id
+#: model:ir.model.fields,field_description:l10n_ro_stock_account_retail_landed_cost.field_stock_landed_cost__id
+msgid "ID"
+msgstr ""
+
+#. module: l10n_ro_stock_account_retail_landed_cost
+#: model:ir.model.fields,field_description:l10n_ro_stock_account_retail_landed_cost.field_l10n_ro_retail_markup_line__landed_cost_id
+msgid "Landed Cost"
+msgstr ""
+
+#. module: l10n_ro_stock_account_retail_landed_cost
+#: model_terms:ir.ui.view,arch_db:l10n_ro_stock_account_retail_landed_cost.view_stock_landed_cost_retail_form
+msgid "Markup (378)"
+msgstr ""
+
+#. module: l10n_ro_stock_account_retail_landed_cost
+#. odoo-python
+#: code:addons/l10n_ro_stock_account_retail_landed_cost/models/stock_landed_cost.py:0
+msgid ""
+"Missing stock valuation (371) or markup (378) account for product "
+"%(product)s at location %(location)s."
+msgstr ""
+
+#. module: l10n_ro_stock_account_retail_landed_cost
+#. odoo-python
+#: code:addons/l10n_ro_stock_account_retail_landed_cost/models/stock_landed_cost.py:0
+msgid "No journal to post the retail markup correction of %(cost)s on."
+msgstr ""
+
+#. module: l10n_ro_stock_account_retail_landed_cost
+#: model_terms:ir.ui.view,arch_db:l10n_ro_stock_account_retail_landed_cost.view_stock_landed_cost_retail_form
+msgid "Retail Markup Correction"
+msgstr ""
+
+#. module: l10n_ro_stock_account_retail_landed_cost
+#: model:ir.model.fields,field_description:l10n_ro_stock_account_retail_landed_cost.field_stock_landed_cost__l10n_ro_retail_markup_line_ids
+msgid "Retail Markup Ledger"
+msgstr ""
+
+#. module: l10n_ro_stock_account_retail_landed_cost
+#: model:ir.model,name:l10n_ro_stock_account_retail_landed_cost.model_l10n_ro_retail_markup_line
+msgid "Retail Markup Ledger Line"
+msgstr ""
+
+#. module: l10n_ro_stock_account_retail_landed_cost
+#. odoo-python
+#: code:addons/l10n_ro_stock_account_retail_landed_cost/models/stock_landed_cost.py:0
+msgid "Retail markup correction %(cost)s"
+msgstr ""
+
+#. module: l10n_ro_stock_account_retail_landed_cost
+#. odoo-python
+#: code:addons/l10n_ro_stock_account_retail_landed_cost/models/stock_landed_cost.py:0
+msgid "Retail markup correction %(ref)s"
+msgstr ""
+
+#. module: l10n_ro_stock_account_retail_landed_cost
+#: model:ir.model,name:l10n_ro_stock_account_retail_landed_cost.model_stock_landed_cost
+msgid "Stock Landed Cost"
+msgstr ""
