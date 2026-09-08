@@ -124,3 +124,56 @@ class TestRetailLandedCost(TestRetailCommon):
         cost = self._make_landed_cost(move.picking_id, 100.0)
         cost.button_validate()
         self.assertFalse(cost.l10n_ro_retail_markup_line_ids)
+
+    def test_a_cost_on_goods_partly_moved_on_is_given_back_once(self):
+        """MAG1 receives, sends part to MAG2, then the transport invoice
+        arrives.
+
+        The reception line keeps the whole amount and a distributed line is
+        created for the portion that moved on, so reading both at face value
+        gave back the transferred portion twice: MAG1's 378 was relieved by
+        the whole cost while its 371 had only kept the part that stayed.
+        Each shop gives back exactly what its own 371 kept.
+        """
+        # A FIFO product, because that is where the Romanian stock accounting
+        # tracks a move's destinations - and destination tracking is what
+        # creates the distributed lines this is about.
+        product = self.env["product.product"].create(
+            {
+                "name": "Marfa FIFO magazin",
+                "is_storable": True,
+                "categ_id": self.category_marfa_fifo.id,
+                "list_price": 119.0,
+                "standard_price": 50.0,
+                "taxes_id": [(6, 0, self.tax_19.ids)],
+            }
+        )
+        _po, move = self._do_purchase_receipt(self.warehouse_mag1, product, 10, 50.0)
+        self._do_transfer(self.loc_mag1, self.loc_mag2, product, 4)
+
+        markup_mag1_before, _vat = self._carried(self.warehouse_mag1, product)
+        markup_mag2_before, _vat = self._carried(self.warehouse_mag2, product)
+
+        cost = self._make_landed_cost(move.picking_id, 100.0)
+        self.assertTrue(
+            cost.l10n_ro_distributed_valuation_lines,
+            "No distributed line was created, so this proves nothing",
+        )
+        cost.button_validate()
+
+        markup_mag1_after, _vat = self._carried(self.warehouse_mag1, product)
+        markup_mag2_after, _vat = self._carried(self.warehouse_mag2, product)
+
+        # Six of the ten units stayed, so sixty of the hundred stayed with
+        # them; the other forty went to MAG2 with the goods.
+        self.assertAlmostEqual(markup_mag1_before - markup_mag1_after, 60.0, places=2)
+        self.assertAlmostEqual(markup_mag2_before - markup_mag2_after, 40.0, places=2)
+        # And the whole cost was given back once, not once and a bit.
+        self.assertAlmostEqual(
+            sum(cost.l10n_ro_retail_markup_line_ids.mapped("markup")),
+            -100.0,
+            places=2,
+        )
+        self.assertAlmostEqual(
+            sum(cost.l10n_ro_retail_markup_line_ids.mapped("cost")), 100.0, places=2
+        )

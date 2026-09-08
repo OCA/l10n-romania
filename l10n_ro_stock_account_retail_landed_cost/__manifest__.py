@@ -19,7 +19,13 @@
         "views/stock_landed_cost_view.xml",
     ],
     "installable": True,
-    "auto_install": False,
+    # A bridge that keeps 371 at the shelf price. Without it any landed cost
+    # or price difference on goods held in a shop raises 371 above the price
+    # on the label, silently, so it belongs wherever both its dependencies
+    # are - like the other bridges of this family. The price difference
+    # bridge, which depends on this one and is itself auto installed, could
+    # never install on its own while this one waited to be asked for.
+    "auto_install": True,
     "development_status": "Mature",
     "maintainers": ["feketemihai", "adrian-dks"],
 }
