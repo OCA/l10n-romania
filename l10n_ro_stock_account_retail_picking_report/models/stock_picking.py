@@ -17,7 +17,12 @@ class StockPicking(models.Model):
         "cost, the markup and the shelf price.",
     )
 
-    @api.depends("move_ids.location_id", "move_ids.location_dest_id")
+    @api.depends(
+        "move_ids.location_id",
+        "move_ids.location_dest_id",
+        "move_ids.location_id.l10n_ro_retail",
+        "move_ids.location_dest_id.l10n_ro_retail",
+    )
     def _compute_l10n_ro_retail_incoming(self):
         """True when goods actually cross into a shop.
 
@@ -25,6 +30,12 @@ class StockPicking(models.Model):
         putaway rule can send the lines of one transfer to several places, and
         the picking header then says nothing useful about where the goods
         ended up.
+
+        The retail flag of those locations is part of what this depends on,
+        not just the locations themselves. A warehouse is routinely marked
+        retail after it has been trading for a while, and every transfer made
+        before that day went on printing without its reception note title -
+        the locations had not changed, only what they are.
         """
         for picking in self:
             picking.l10n_ro_retail_incoming = any(

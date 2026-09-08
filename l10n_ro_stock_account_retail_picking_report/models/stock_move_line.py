@@ -56,7 +56,20 @@ class StockMoveLine(models.Model):
             agg_line = aggregated_lines.get(line_key)
             if not agg_line:
                 continue
-            share = move_line.quantity / move.product_qty if move.product_qty else 0.0
+            # Both halves of the share in the product's unit, and the whole
+            # being the quantity the markup was actually spread over.
+            #
+            # ``move_line.quantity`` is counted in the line's own unit while
+            # ``product_qty`` is the demand in the product's, so a reception
+            # bought by the dozen and stocked by the unit divided two by
+            # twenty-four and printed a fraction of the cost, the markup and
+            # the shelf price - on the document the shop signs when the goods
+            # arrive. And the demand is not what was received: over a
+            # reception, or a partial one answered with no backorder, the
+            # shares stopped adding up to one and the printed total stopped
+            # matching what went on 371.
+            move_qty = move._l10n_ro_retail_qty()
+            share = move_line.quantity_product_uom / move_qty if move_qty else 0.0
             agg_line["l10n_ro_retail_cost_subtotal"] += abs(move.value) * share
             agg_line["l10n_ro_retail_markup"] += sum(rows.mapped("markup")) * share
             agg_line["l10n_ro_retail_vat"] += sum(rows.mapped("vat")) * share
