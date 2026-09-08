@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright (C) 2026 NextERP Romania
+     Copyright (C) 2026 Dakai Soft SRL
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html). -->
+<odoo>
+    <!-- A model built on a SQL view gets none of the multi-company filtering
+         the ORM applies elsewhere, so it has to be spelled out. Without it
+         the menu - which carries no domain of its own, and should not have to -
+         showed every shop of every company in the database to anybody allowed
+         to read the report. The wizard filtered by company on its own way in,
+         which made the gap easy to miss.
+
+         The variable is company_ids: that, company_id and user are what
+         ir.rule puts in the evaluation context. allowed_company_ids belongs to
+         the client context and is not defined here. -->
+    <record id="rule_stock_retail_report_company" model="ir.rule">
+        <field name="name">Retail Stock Report: company</field>
+        <field name="model_id" ref="model_l10n_ro_stock_retail_report" />
+        <field name="domain_force">[('company_id', 'in', company_ids)]</field>
+    </record>
+</odoo>

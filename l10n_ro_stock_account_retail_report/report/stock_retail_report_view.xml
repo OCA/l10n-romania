@@ -33,6 +33,11 @@
                 <field name="cost_out" optional="hide" sum="Cost Out" />
                 <field name="markup_out" optional="hide" sum="Markup Out" />
                 <field name="vat_out" optional="hide" sum="VAT Out" />
+                <field
+                    name="quantity_adjustment"
+                    optional="hide"
+                    sum="Quantity Corrections"
+                />
                 <field name="cost_adjustment" optional="hide" sum="Cost Corrections" />
                 <field
                     name="markup_adjustment"

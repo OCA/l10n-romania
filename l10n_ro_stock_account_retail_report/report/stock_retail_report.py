@@ -2,6 +2,8 @@
 # Copyright (C) 2026 Dakai Soft SRL
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
+from collections import defaultdict
+
 from psycopg2 import sql
 
 from odoo import api, fields, models
@@ -94,6 +96,15 @@ class StockRetailReport(models.Model):
     vat_out = fields.Monetary(
         string="Deferred VAT Out (4428)", readonly=True, currency_field="currency_id"
     )
+    quantity_adjustment = fields.Float(
+        string="Quantity Corrections",
+        readonly=True,
+        help="Quantity brought in by events that are not stock moves, chiefly "
+        "the retail opening balance. Without it the quantities of a period "
+        "did not add up: opening plus in plus out fell short of the closing "
+        "balance by whatever the opening balance had recognised, and nothing "
+        "in the report said where the difference had gone.",
+    )
     cost_adjustment = fields.Monetary(
         string="Cost Corrections",
         readonly=True,
@@ -180,6 +191,13 @@ class StockRetailReport(models.Model):
     def _l10n_ro_period(self):
         """The period asked for, as ``(date_from, date_to)`` SQL literals.
 
+        Dates, because the ledger is dated - a row carries the accounting date
+        of the entry it belongs to, not the instant a move happened. Bounding
+        it with timestamps was both pointless and wrong: it read the user's
+        local dates as if they were UTC, so a shop closing after nine in the
+        evening had its last sales counted in the previous day, and the report
+        parted company with the trial balance at every month end.
+
         Either bound may be absent: with no start the opening balance is
         empty, with no end everything up to now is reported.
         """
@@ -189,9 +207,7 @@ class StockRetailReport(models.Model):
             raw = context.get(key)
             if not raw:
                 return None
-            return sql.Literal(
-                fields.Datetime.to_string(fields.Datetime.to_datetime(raw))
-            )
+            return sql.Literal(fields.Date.to_string(fields.Date.to_date(raw)))
 
         return as_literal("l10n_ro_retail_date_from"), as_literal(
             "l10n_ro_retail_date_to"
@@ -219,9 +235,18 @@ class StockRetailReport(models.Model):
         quants_apply = (
             sql.SQL("TRUE") if not (date_from or date_to) else sql.SQL("FALSE")
         )
+        # A line is worth printing while anything is still attached to it.
+        # Testing the quantity alone dropped the row of a product sold past
+        # its stock - a negative recorded quantity and no quants left - and
+        # that is the row with a balance stranded on 378 and 4428, the one
+        # case a reconciliation against the trial balance exists to catch.
         having = (
             sql.SQL(
-                "COALESCE(l.quantity, 0) > 0 OR COALESCE(h.quantity_on_hand, 0) > 0"
+                "COALESCE(l.quantity, 0) != 0 "
+                "OR COALESCE(h.quantity_on_hand, 0) != 0 "
+                "OR COALESCE(l.cost_total, 0) != 0 "
+                "OR COALESCE(l.markup_total, 0) != 0 "
+                "OR COALESCE(l.vat_total, 0) != 0"
             )
             if not (date_from or date_to)
             else sql.SQL(
@@ -249,7 +274,6 @@ class StockRetailReport(models.Model):
                     ml.company_id,
                     ml.warehouse_id,
                     ml.product_id,
-                    MIN(ml.id) AS first_id,
                     {qty_initial}::numeric AS quantity_initial,
                     {cost_initial}::numeric AS cost_initial,
                     {markup_initial}::numeric AS markup_initial,
@@ -262,6 +286,7 @@ class StockRetailReport(models.Model):
                     {cost_out}::numeric AS cost_out,
                     {markup_out}::numeric AS markup_out,
                     {vat_out}::numeric AS vat_out,
+                    {qty_adj}::numeric AS quantity_adjustment,
                     {cost_adj}::numeric AS cost_adjustment,
                     {markup_adj}::numeric AS markup_adjustment,
                     {vat_adj}::numeric AS vat_adjustment,
@@ -294,7 +319,11 @@ class StockRetailReport(models.Model):
                 -- Arithmetic on the two ids overflows a 4 byte integer as
                 -- soon as a warehouse id passes 21, so the row number is the
                 -- key. It is computed over the whole view, before any domain
-                -- is applied, so it stays put between reads.
+                -- is applied, so it is stable for a given period. It is not
+                -- stable across periods: the same number names a different
+                -- row, so reading two periods inside one transaction has to
+                -- invalidate the cache in between. A client asks in separate
+                -- requests and never meets this.
                 (ROW_NUMBER() OVER (
                     ORDER BY COALESCE(l.warehouse_id, h.warehouse_id),
                              COALESCE(l.product_id, h.product_id)
@@ -316,6 +345,7 @@ class StockRetailReport(models.Model):
                 COALESCE(l.cost_out, 0) AS cost_out,
                 COALESCE(l.markup_out, 0) AS markup_out,
                 COALESCE(l.vat_out, 0) AS vat_out,
+                COALESCE(l.quantity_adjustment, 0) AS quantity_adjustment,
                 COALESCE(l.cost_adjustment, 0) AS cost_adjustment,
                 COALESCE(l.markup_adjustment, 0) AS markup_adjustment,
                 COALESCE(l.vat_adjustment, 0) AS vat_adjustment,
@@ -324,8 +354,16 @@ class StockRetailReport(models.Model):
                 COALESCE(l.markup_total, 0) AS markup_total,
                 COALESCE(l.vat_total, 0) AS vat_total,
                 COALESCE(h.quantity_on_hand, 0) AS quantity_on_hand,
-                (COALESCE(h.quantity_on_hand, 0)
-                    - COALESCE(l.quantity, 0)) AS quantity_unrecorded
+                -- The quants are out of the picture over a period, so there
+                -- is nothing to compare the ledger against and the column has
+                -- no answer to give. Left to subtract from an absent figure it
+                -- reported the whole recorded quantity as missing, in red, and
+                -- the "Not in the ledger" filter matched every row.
+                CASE WHEN {quants_apply}
+                    THEN COALESCE(h.quantity_on_hand, 0)
+                        - COALESCE(l.quantity, 0)
+                    ELSE 0
+                END AS quantity_unrecorded
             FROM ledger l
             FULL OUTER JOIN on_hand h
                 ON h.company_id = l.company_id
@@ -349,6 +387,7 @@ class StockRetailReport(models.Model):
             cost_out=bucket("cost", moved_out),
             markup_out=bucket("markup", moved_out),
             vat_out=bucket("vat", moved_out),
+            qty_adj=bucket("quantity", adjusted),
             cost_adj=bucket("cost", adjusted),
             markup_adj=bucket("markup", adjusted),
             vat_adj=bucket("vat", adjusted),
@@ -362,6 +401,50 @@ class StockRetailReport(models.Model):
         )
         return query.as_string(self.env.cr._cnx)
 
+    def _l10n_ro_current_prices(self):
+        """Today's shelf price per row, one pricelist evaluation per shop.
+
+        Asked row by row this was one rule search and one currency conversion
+        per product, which a shop with twenty thousand articles feels; the
+        pricelist answers for a whole recordset in one go.
+
+        It also has to survive a product with no price. Since the retail
+        module refuses to guess a shelf price, asking for one that is not
+        configured raises - and a report that raises on one unpriced article
+        shows nothing at all, when unpriced articles are precisely what the
+        reader is here to find. Such a row simply reports no current price.
+        """
+        prices = {}
+        by_warehouse = defaultdict(lambda: self.browse())
+        for rec in self:
+            if rec.product_id and rec.warehouse_id:
+                by_warehouse[rec.warehouse_id] |= rec
+        for warehouse, rows in by_warehouse.items():
+            pricelist = warehouse.l10n_ro_retail_pricelist_id
+            if not pricelist:
+                continue
+            company = warehouse.company_id or self.env.company
+            products = rows.product_id
+            computed = pricelist._compute_price_rule(products, 1.0)
+            for product in products:
+                price, rule_id = computed.get(product.id, (0.0, False))
+                # No rule, no shelf price: the pricelist answers with the sale
+                # price, which is a net figure and not what the label says.
+                if not rule_id:
+                    continue
+                if (
+                    pricelist.currency_id
+                    and pricelist.currency_id != company.currency_id
+                ):
+                    price = pricelist.currency_id._convert(
+                        price,
+                        company.currency_id,
+                        company,
+                        fields.Date.context_today(self),
+                    )
+                prices[(warehouse.id, product.id)] = price
+        return prices
+
     @api.depends(
         "product_id",
         "warehouse_id",
@@ -371,6 +454,7 @@ class StockRetailReport(models.Model):
         "vat_total",
     )
     def _compute_values(self):
+        current_prices = self._l10n_ro_current_prices()
         for rec in self:
             company = rec.company_id or self.env.company
             currency = company.currency_id
@@ -382,12 +466,8 @@ class StockRetailReport(models.Model):
             rec.retail_value = currency.round(retail_value)
             rec.cost_unit = currency.round(rec.cost_total / qty) if qty else 0.0
             rec.retail_price_unit = currency.round(retail_value / qty) if qty else 0.0
-            current_unit = (
-                rec.product_id._l10n_ro_get_retail_price(
-                    warehouse=rec.warehouse_id, company=company
-                )
-                if rec.product_id and rec.warehouse_id
-                else 0.0
+            current_unit = current_prices.get(
+                (rec.warehouse_id.id, rec.product_id.id), 0.0
             )
             rec.current_price_unit = currency.round(current_unit)
             rec.price_gap_total = currency.round(current_unit * qty - retail_value)

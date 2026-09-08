@@ -68,16 +68,13 @@ class StockRetailReportWizard(models.TransientModel):
                 ),
                 "context": {
                     **self.env.context,
-                    "l10n_ro_retail_date_from": fields.Datetime.to_string(
-                        fields.Datetime.to_datetime(self.date_from)
-                    ),
-                    # Inclusive of the last day, the way an accounting period
-                    # is read.
-                    "l10n_ro_retail_date_to": fields.Datetime.to_string(
-                        fields.Datetime.to_datetime(self.date_to).replace(
-                            hour=23, minute=59, second=59
-                        )
-                    ),
+                    # Dates, plainly. The ledger carries the accounting date
+                    # of the entry each row belongs to, so the period is read
+                    # the way an accounting period is: the last day included,
+                    # and no timezone in the middle to shift a shop's evening
+                    # sales into the day before.
+                    "l10n_ro_retail_date_from": fields.Date.to_string(self.date_from),
+                    "l10n_ro_retail_date_to": fields.Date.to_string(self.date_to),
                     "search_default_group_warehouse": 1,
                 },
             }
