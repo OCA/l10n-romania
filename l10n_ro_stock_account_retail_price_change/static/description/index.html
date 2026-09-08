@@ -379,10 +379,16 @@ ul.auto-toc {
 <h2>Romania - Retail Price Change (Proces Verbal de Schimbare Pret)</h2>
 <p>Adds the price change document to the retail merchandise accounting of
 <tt class="docutils literal">l10n_ro_stock_account_retail</tt>.</p>
-<p><tt class="docutils literal">l10n.ro.retail.price.change</tt> is a persistent document numbered by the
-sequence <tt class="docutils literal">PVSP/YYYY/00000</tt>. It captures the warehouse, the date, the
-products on hand and the old versus new shelf price (PVA, VAT included)
-per line, with the markup (378) and deferred VAT (4428) split.</p>
+<p><tt class="docutils literal">l10n.ro.retail.price.change</tt> is a persistent document numbered
+<tt class="docutils literal">PVSP/YYYY/00000</tt> out of a sequence of its own company. It captures
+the warehouse, the date, the products on hand and the old versus new
+shelf price (PVA, VAT included) per line, with the markup (378) and
+deferred VAT (4428) split.</p>
+<p>The old side is what the stock carries — cost, markup and deferred VAT
+per unit, read from the markup ledger — and it is read again when the
+document is posted, so the delta always measures the gap that exists at
+the moment the entry is made. A posted document is final: it is revoked
+by posting another one, never reset, cancelled or deleted.</p>
 <p>There are two flows:</p>
 <ol class="arabic simple">
 <li><strong>Manual</strong> - create a draft, load the products on hand, edit the new
@@ -408,6 +414,92 @@ products it covers. The <em>Price History</em> button on a product shows the
 lines that concern it, oldest first, so the sequence of shelf prices and
 the document that decided each of them are visible in one place.</p>
 <p><strong>Table of contents</strong></p>
+</div>
+</div>
+<div class="section" id="configuration">
+<h2>Configuration</h2>
+<p>Nothing to configure beyond what <tt class="docutils literal">l10n_ro_stock_account_retail</tt>
+already asks for. What that module needs, this one relies on:</p>
+<ol class="arabic simple">
+<li><strong>Retail warehouse.</strong> Tick <em>Retail Warehouse</em> on the shop and give it
+its <em>Retail Pricelist</em>. That pricelist holds the shelf price (PVA),
+VAT included, and is the one this document writes back to.</li>
+<li><strong>Accounts.</strong> 371, 378 and 4428 must resolve for every product the
+shop holds — on the location, the product, its category or the
+company, mapped through the warehouse fiscal position if it has one.
+Posting refuses rather than guessing.</li>
+<li><strong>Stock journal.</strong> The entry is posted in the company’s stock
+journal; the document also lets you pick another one per document.</li>
+</ol>
+<p>Two things are worth doing once, before the first price change:</p>
+<ul class="simple">
+<li><strong>Settle the opening balance.</strong> Stock that was on the shelf before
+<tt class="docutils literal">l10n_ro_stock_account_retail</tt> was installed is in the quants and
+not in the markup ledger. Run <em>Retail Opening Balance</em> until it finds
+nothing. A price change document refuses to post while the ledger does
+not account for the same quantity it revalues, because the rate it
+applies is derived from the ledger.</li>
+<li><strong>Numbering.</strong> Each company gets its own <tt class="docutils literal">PVSP/YYYY/00000</tt> sequence,
+created on install and whenever a company is added. Change the prefix
+or padding per company under <em>Settings → Technical → Sequences</em> if the
+shop’s own numbering differs.</li>
+</ul>
+</div>
+<div class="section" id="usage">
+<h2>Usage</h2>
+<div class="section" id="changing-a-shelf-price">
+<h3>Changing a shelf price</h3>
+<p>The shop can start from either end.</p>
+<p><strong>From the document.</strong> <em>Inventory → Retail → Price Changes</em>, create one,
+pick the warehouse, <em>Load Products</em>. Every product on hand in the shop’s
+retail locations comes in with what it currently carries on the left —
+cost, markup and deferred VAT per unit, read from the markup ledger, not
+from the price list — and the current shelf price on the right. Edit the
+<em>New PVA</em> of the lines that are changing, delete the rest, then <em>Post</em>.</p>
+<p><strong>From the price list.</strong> Change the price of a product on a shop’s
+retail pricelist, and a draft Proces Verbal is raised for each retail
+warehouse that has that product on hand. It is a draft on purpose:
+somebody reviews it and posts it. Deleting a rule raises one too,
+because the label changes then as well.</p>
+<p>Posting does four things, in one transaction: writes the new prices on
+the retail pricelist, posts the revaluation of 371 against 378 and 4428,
+records it in the markup ledger so the next sale releases the new
+markup, and prints as the <em>Proces-verbal privind modificarea pretului de
+vanzare cu amanuntul</em>.</p>
+<p>The old side and the quantity are re-read at the moment of posting, not
+at the moment of loading. A draft raised this morning and posted this
+afternoon measures itself against what the shop holds this afternoon, so
+two documents on the same goods cannot each revalue from the same
+starting point.</p>
+</div>
+<div class="section" id="correcting-a-document">
+<h3>Correcting a document</h3>
+<p>There is no reset to draft, and a posted document cannot be cancelled or
+deleted. It wrote prices, posted an entry and moved what the stock
+carries; the paper trail is the point. A price decision that turned out
+wrong is revoked the way it was made — post another Proces Verbal
+bringing the price back. Only a document still in draft can be cancelled
+or deleted.</p>
+</div>
+<div class="section" id="price-history-1">
+<h3>Price history</h3>
+<p><em>Price History</em> on a product lists every posted line that concerns it,
+oldest first: the date, the shop, the old and new PVA and the document
+that decided each. That is the shelf price history the shop has to be
+able to show.</p>
+</div>
+<div class="section" id="what-does-not-raise-a-document">
+<h3>What does not raise a document</h3>
+<p>Only fixed prices set per product or per template are followed. Category
+rules, global rules and formula rules are defaults over a whole range,
+and turning one of them into a revaluation of everything underneath is
+almost never what the shop means — raise the document by hand.</p>
+<p>A <strong>dated</strong> promotion is a real limitation to know about. Editing the
+window of a rule is caught, because it is a write. The day a future
+window opens is not: nothing is written then, the price list simply
+starts answering with another price, and 371 stays on the old PVA until
+somebody raises the document. Plan dated shelf prices with a Proces
+Verbal on the day they take effect.</p>
 </div>
 </div>
 <div class="section" id="bug-tracker">

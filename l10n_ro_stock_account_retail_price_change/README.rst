@@ -38,10 +38,17 @@ Romania - Retail Price Change (Proces Verbal de Schimbare Pret)
 Adds the price change document to the retail merchandise accounting of
 ``l10n_ro_stock_account_retail``.
 
-``l10n.ro.retail.price.change`` is a persistent document numbered by the
-sequence ``PVSP/YYYY/00000``. It captures the warehouse, the date, the
-products on hand and the old versus new shelf price (PVA, VAT included)
-per line, with the markup (378) and deferred VAT (4428) split.
+``l10n.ro.retail.price.change`` is a persistent document numbered
+``PVSP/YYYY/00000`` out of a sequence of its own company. It captures
+the warehouse, the date, the products on hand and the old versus new
+shelf price (PVA, VAT included) per line, with the markup (378) and
+deferred VAT (4428) split.
+
+The old side is what the stock carries — cost, markup and deferred VAT
+per unit, read from the markup ledger — and it is read again when the
+document is posted, so the delta always measures the gap that exists at
+the moment the entry is made. A posted document is final: it is revoked
+by posting another one, never reset, cancelled or deleted.
 
 There are two flows:
 
@@ -74,6 +81,101 @@ the document that decided each of them are visible in one place.
 
 .. contents::
    :local:
+
+Configuration
+=============
+
+Nothing to configure beyond what ``l10n_ro_stock_account_retail``
+already asks for. What that module needs, this one relies on:
+
+1. **Retail warehouse.** Tick *Retail Warehouse* on the shop and give it
+   its *Retail Pricelist*. That pricelist holds the shelf price (PVA),
+   VAT included, and is the one this document writes back to.
+2. **Accounts.** 371, 378 and 4428 must resolve for every product the
+   shop holds — on the location, the product, its category or the
+   company, mapped through the warehouse fiscal position if it has one.
+   Posting refuses rather than guessing.
+3. **Stock journal.** The entry is posted in the company's stock
+   journal; the document also lets you pick another one per document.
+
+Two things are worth doing once, before the first price change:
+
+- **Settle the opening balance.** Stock that was on the shelf before
+  ``l10n_ro_stock_account_retail`` was installed is in the quants and
+  not in the markup ledger. Run *Retail Opening Balance* until it finds
+  nothing. A price change document refuses to post while the ledger does
+  not account for the same quantity it revalues, because the rate it
+  applies is derived from the ledger.
+- **Numbering.** Each company gets its own ``PVSP/YYYY/00000`` sequence,
+  created on install and whenever a company is added. Change the prefix
+  or padding per company under *Settings → Technical → Sequences* if the
+  shop's own numbering differs.
+
+Usage
+=====
+
+Changing a shelf price
+----------------------
+
+The shop can start from either end.
+
+**From the document.** *Inventory → Retail → Price Changes*, create one,
+pick the warehouse, *Load Products*. Every product on hand in the shop's
+retail locations comes in with what it currently carries on the left —
+cost, markup and deferred VAT per unit, read from the markup ledger, not
+from the price list — and the current shelf price on the right. Edit the
+*New PVA* of the lines that are changing, delete the rest, then *Post*.
+
+**From the price list.** Change the price of a product on a shop's
+retail pricelist, and a draft Proces Verbal is raised for each retail
+warehouse that has that product on hand. It is a draft on purpose:
+somebody reviews it and posts it. Deleting a rule raises one too,
+because the label changes then as well.
+
+Posting does four things, in one transaction: writes the new prices on
+the retail pricelist, posts the revaluation of 371 against 378 and 4428,
+records it in the markup ledger so the next sale releases the new
+markup, and prints as the *Proces-verbal privind modificarea pretului de
+vanzare cu amanuntul*.
+
+The old side and the quantity are re-read at the moment of posting, not
+at the moment of loading. A draft raised this morning and posted this
+afternoon measures itself against what the shop holds this afternoon, so
+two documents on the same goods cannot each revalue from the same
+starting point.
+
+Correcting a document
+---------------------
+
+There is no reset to draft, and a posted document cannot be cancelled or
+deleted. It wrote prices, posted an entry and moved what the stock
+carries; the paper trail is the point. A price decision that turned out
+wrong is revoked the way it was made — post another Proces Verbal
+bringing the price back. Only a document still in draft can be cancelled
+or deleted.
+
+Price history
+-------------
+
+*Price History* on a product lists every posted line that concerns it,
+oldest first: the date, the shop, the old and new PVA and the document
+that decided each. That is the shelf price history the shop has to be
+able to show.
+
+What does not raise a document
+------------------------------
+
+Only fixed prices set per product or per template are followed. Category
+rules, global rules and formula rules are defaults over a whole range,
+and turning one of them into a revaluation of everything underneath is
+almost never what the shop means — raise the document by hand.
+
+A **dated** promotion is a real limitation to know about. Editing the
+window of a rule is caught, because it is a write. The day a future
+window opens is not: nothing is written then, the price list simply
+starts answering with another price, and 371 stays on the old PVA until
+somebody raises the document. Plan dated shelf prices with a Proces
+Verbal on the day they take effect.
 
 Bug Tracker
 ===========

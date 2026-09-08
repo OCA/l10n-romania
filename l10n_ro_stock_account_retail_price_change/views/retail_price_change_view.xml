@@ -23,13 +23,7 @@
                         name="action_cancel"
                         type="object"
                         string="Cancel"
-                        invisible="state == 'cancel'"
-                    />
-                    <button
-                        name="action_draft"
-                        type="object"
-                        string="Reset to Draft"
-                        invisible="state == 'draft'"
+                        invisible="state != 'draft'"
                     />
                     <button
                         name="%(action_report_retail_price_change)d"
