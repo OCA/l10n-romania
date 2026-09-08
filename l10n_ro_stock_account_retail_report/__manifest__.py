@@ -17,6 +17,7 @@
     "license": "AGPL-3",
     "data": [
         "security/ir.model.access.csv",
+        "security/stock_retail_report_security.xml",
         "report/stock_retail_report_view.xml",
         "wizard/stock_retail_report_wizard.xml",
     ],

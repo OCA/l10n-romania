@@ -179,12 +179,23 @@ class TestRetailStockReport(TestRetailCommon):
         """A revaluation moves no goods: it belongs in the corrections
         column, and it must not disturb the quantities."""
         self._set_initial_stock(self.loc_mag1, self.product_retail, 10)
-        doc = self.env["l10n.ro.retail.price.change"].create(
-            {"warehouse_id": self.warehouse_mag1.id}
+        # The ledger row a price change document writes: the markup and the
+        # deferred VAT move, no goods and no cost do. Written here rather than
+        # by posting a document, because this module does not depend on the
+        # one that raises them - and a test that quietly did was a test that
+        # passed or failed depending on what else was installed.
+        self.env["l10n.ro.retail.markup.line"].sudo().create(
+            {
+                "company_id": self.env.company.id,
+                "product_id": self.product_retail.id,
+                "location_id": self.loc_mag1.id,
+                "quantity": 0.0,
+                "cost": 0.0,
+                "markup": 500.0,
+                "vat": 95.0,
+                "origin_type": "price_change",
+            }
         )
-        doc.action_load_products()
-        doc.line_ids.new_price_with_vat = 178.5
-        doc.action_post()
         report = self.env["l10n.ro.stock.retail.report"].with_context(
             l10n_ro_retail_date_from=self._at(-1),
             l10n_ro_retail_date_to=self._at(1),
@@ -210,9 +221,8 @@ class TestRetailStockReport(TestRetailCommon):
             }
         )
         action = wizard.action_open_report()
-        self.assertEqual(
-            action["context"]["l10n_ro_retail_date_to"], "2026-12-31 23:59:59"
-        )
+        self.assertEqual(action["context"]["l10n_ro_retail_date_from"], "2026-01-01")
+        self.assertEqual(action["context"]["l10n_ro_retail_date_to"], "2026-12-31")
         self.assertIn(("warehouse_id", "in", self.warehouse_mag1.ids), action["domain"])
 
     # -------------------------------------------------------------------
@@ -242,3 +252,178 @@ class TestRetailStockReport(TestRetailCommon):
         row = self._report_line(self.warehouse_mag1, self.product_retail)
         self.assertAlmostEqual(row.quantity_on_hand, 10.0, places=2)
         self.assertAlmostEqual(row.quantity_unrecorded, 0.0, places=2)
+
+    # -------------------------------------------------------------------
+    # The period is read as an accounting period, dates and all
+    # -------------------------------------------------------------------
+    def _over(self, date_from, date_to, warehouse, product):
+        return (
+            self.env["l10n.ro.stock.retail.report"]
+            .with_context(
+                l10n_ro_retail_date_from=fields.Date.to_string(date_from),
+                l10n_ro_retail_date_to=fields.Date.to_string(date_to),
+            )
+            .search(
+                [
+                    ("warehouse_id", "=", warehouse.id),
+                    ("product_id", "=", product.id),
+                ]
+            )
+        )
+
+    def test_the_last_day_of_the_period_is_inside_it(self):
+        """A row dated on the closing day belongs to the period.
+
+        The bounds used to be timestamps built from the user's local dates as
+        if they were UTC, so a shop trading in the evening had its last
+        movements counted in the previous day and the closing balance parted
+        company with the trial balance at every month end.
+        """
+        self._set_initial_stock(self.loc_mag1, self.product_retail, 10)
+        ledger = (
+            self.env["l10n.ro.retail.markup.line"]
+            .sudo()
+            .search([("product_id", "=", self.product_retail.id)], limit=1)
+        )
+        day = fields.Date.context_today(self)
+        ledger.date = day
+
+        inside = self._over(day, day, self.warehouse_mag1, self.product_retail)
+        self.assertAlmostEqual(inside.quantity_in, 10.0, places=2)
+        self.assertAlmostEqual(inside.quantity_initial, 0.0, places=2)
+
+        # The row number is the same in both periods, so the values read for
+        # the first one are still in the cache when the second is asked for.
+        self.env.invalidate_all()
+        after = self._over(
+            day + timedelta(days=1),
+            day + timedelta(days=2),
+            self.warehouse_mag1,
+            self.product_retail,
+        )
+        self.assertAlmostEqual(after.quantity_initial, 10.0, places=2)
+        self.assertAlmostEqual(after.quantity_in, 0.0, places=2)
+
+    def test_unrecorded_is_silent_over_a_period(self):
+        """The quants keep no history, so over a period the column has no
+        answer - and reporting the whole recorded quantity as missing, in red,
+        made the "Not in the ledger" filter match every row."""
+        self._set_initial_stock(self.loc_mag1, self.product_retail, 10)
+        day = fields.Date.context_today(self)
+        row = self._over(
+            day - timedelta(days=30), day, self.warehouse_mag1, self.product_retail
+        )
+        self.assertAlmostEqual(row.quantity, 10.0, places=2)
+        self.assertAlmostEqual(row.quantity_unrecorded, 0.0, places=2)
+        self.assertFalse(
+            row.filtered(lambda r: r.quantity_unrecorded != 0),
+            "Over a period nothing is unrecorded, because nothing is compared",
+        )
+
+    def test_quantities_of_a_period_add_up(self):
+        """Opening plus in plus out plus corrections is the closing balance.
+
+        The opening balance recognises stock the ledger had never seen, and it
+        moves no goods, so its quantity belonged in none of the movement
+        buckets. Left out of the report altogether it simply went missing from
+        the arithmetic of the period.
+        """
+        self._set_initial_stock(self.loc_mag1, self.product_retail, 10)
+        self.env["l10n.ro.retail.markup.line"].sudo().search(
+            [("product_id", "=", self.product_retail.id)]
+        ).unlink()
+        wizard = self.env["l10n.ro.retail.opening.balance"].create(
+            {"warehouse_ids": [(6, 0, self.warehouse_mag1.ids)]}
+        )
+        wizard.action_refresh()
+        wizard.action_post()
+
+        day = fields.Date.context_today(self)
+        row = self._over(
+            day - timedelta(days=1), day, self.warehouse_mag1, self.product_retail
+        )
+        self.assertAlmostEqual(row.quantity_adjustment, 10.0, places=2)
+        self.assertAlmostEqual(
+            row.quantity_initial
+            + row.quantity_in
+            + row.quantity_out
+            + row.quantity_adjustment,
+            row.quantity,
+            places=2,
+        )
+
+    # -------------------------------------------------------------------
+    # The rows that most need to be seen
+    # -------------------------------------------------------------------
+    def test_a_negative_quantity_keeps_its_row(self):
+        """Sold past the stock: nothing on the shelf, a balance still on 378.
+
+        Testing the quantity alone dropped exactly this row - the one case a
+        reconciliation against the trial balance exists to catch.
+        """
+        self._set_initial_stock(self.loc_mag1, self.product_retail, 10)
+        self.env["l10n.ro.retail.markup.line"].sudo().create(
+            {
+                "company_id": self.env.company.id,
+                "product_id": self.product_retail.id,
+                "location_id": self.loc_mag1.id,
+                "quantity": -14.0,
+                "cost": -700.0,
+                "markup": -640.0,
+                "vat": -190.0,
+                "origin_type": "manual",
+            }
+        )
+        self.env["stock.quant"].sudo().search(
+            [
+                ("product_id", "=", self.product_retail.id),
+                ("location_id", "=", self.loc_mag1.id),
+            ]
+        ).unlink()
+
+        row = self._report_line(self.warehouse_mag1, self.product_retail)
+        self.assertEqual(len(row), 1, "A row with a stranded balance vanished")
+        self.assertAlmostEqual(row.quantity, -4.0, places=2)
+        self.assertAlmostEqual(row.markup_total, -140.0, places=2)
+
+    def test_a_product_without_a_shelf_price_does_not_break_the_report(self):
+        """The retail module refuses to guess a shelf price, so asking for one
+        that is not configured raises. A report that raises on one unpriced
+        article shows nothing at all - and unpriced articles on the shelf are
+        what the reader is here to find."""
+        self.env["product.pricelist.item"].search(
+            [("pricelist_id", "=", self.pricelist_mag1.id)]
+        ).with_context(skip_retail_price_change=True).unlink()
+        self.env["l10n.ro.retail.markup.line"].sudo().create(
+            {
+                "company_id": self.env.company.id,
+                "product_id": self.product_retail.id,
+                "location_id": self.loc_mag1.id,
+                "quantity": 5.0,
+                "cost": 250.0,
+                "markup": 250.0,
+                "vat": 95.0,
+                "origin_type": "manual",
+            }
+        )
+        row = self._report_line(self.warehouse_mag1, self.product_retail)
+        self.assertAlmostEqual(row.retail_value, 595.0, places=2)
+        self.assertAlmostEqual(row.current_price_unit, 0.0, places=2)
+
+    def test_the_report_is_filtered_by_company(self):
+        """A model on a SQL view gets no multi-company filtering of its own,
+        and the menu carries no domain: without a record rule every shop of
+        every company was readable."""
+        other = self.env["res.company"].create({"name": "Alta firma retail"})
+        self._set_initial_stock(self.loc_mag1, self.product_retail, 10)
+        rows = (
+            self.env["l10n.ro.stock.retail.report"]
+            .with_context(allowed_company_ids=[other.id])
+            .with_company(other)
+            .search([("product_id", "=", self.product_retail.id)])
+        )
+        self.assertFalse(rows, "Another company's shop was readable")
+        rows = self.env["l10n.ro.stock.retail.report"].search(
+            [("product_id", "=", self.product_retail.id)]
+        )
+        self.assertTrue(rows)
