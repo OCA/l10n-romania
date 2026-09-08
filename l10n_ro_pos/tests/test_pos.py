@@ -115,6 +115,73 @@ class TestReportPoSOrder(CommonPosTest):
             "Referința facturii trebuie să fie aceeași cu referința comenzii POS",
         )
 
+    def test_closing_an_uninvoiced_session_carries_no_stock(self):
+        """Close a session on an order that was not invoiced.
+
+        This is the path that can break, and the only one: point of sale
+        leaves invoiced orders out of the stock buckets to begin with
+        (``not p.is_invoiced``), so a check run on an invoiced order never
+        reaches it. On an ordinary till sale the buckets are full, and without
+        the emptying above the closing entry books the cost of the goods a
+        second time - the Romanian stock accounting has already posted that
+        discharge on the stock move - or, worse, carries a valuation line
+        whose counterpart was cleared and comes out unbalanced.
+        """
+        self.pos_config_usd.open_ui()
+        session = self.pos_config_usd.current_session_id
+        order_data = {
+            "amount_paid": 100.0,
+            "amount_return": 0,
+            "amount_tax": 0,
+            "amount_total": 100.0,
+            "date_order": "2024-01-01 10:00:00",
+            "name": "Order 0002",
+            "partner_id": self.ro_partner.id,
+            "session_id": session.id,
+            "lines": [
+                Command.create(
+                    {
+                        "product_id": self.product_a.id,
+                        "price_unit": 100.0,
+                        "qty": 1,
+                        "price_subtotal": 100.0,
+                        "price_subtotal_incl": 100.0,
+                    }
+                )
+            ],
+            "payment_ids": [
+                Command.create(
+                    {
+                        "amount": 100.0,
+                        "payment_method_id": self.cash_payment_method.id,
+                    }
+                )
+            ],
+            "uuid": "0002",
+            "to_invoice": False,
+        }
+        self.env["pos.order"].sync_from_ui([order_data])
+
+        session.action_pos_session_closing_control()
+        self.assertEqual(session.state, "closed")
+
+        closing_accounts = session.move_id.line_ids.account_id
+        accounts = self.product_a.product_tmpl_id.get_product_accounts()
+        for key in ("stock_valuation", "stock_output", "expense"):
+            account = accounts.get(key)
+            if account:
+                self.assertNotIn(
+                    account,
+                    closing_accounts,
+                    f"Nota de inchidere contine o linie de {key}",
+                )
+        self.assertAlmostEqual(
+            sum(session.move_id.line_ids.mapped("debit")),
+            sum(session.move_id.line_ids.mapped("credit")),
+            places=2,
+            msg="Nota de inchidere nu este echilibrata",
+        )
+
     def test_sale_details_stock_columns(self):
         """Raportul Sale Details injecteaza cost unitar / valoare de stoc per produs."""
         report = self.env["report.point_of_sale.report_saledetails"]
