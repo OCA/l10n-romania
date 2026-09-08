@@ -27,13 +27,24 @@ class StockLandedCost(models.Model):
         """Return ``[(move, amount)]`` for the parts of this landed cost that
         landed on goods currently held in a shop.
 
-        Both sets of adjustment lines are read. A normal landed cost carries
-        its amount on ``valuation_adjustment_lines``; one distributed only on
-        destinations - a purchase price difference, for instance - zeroes those
-        and carries the amounts on the Romanian distributed lines instead.
-        Reading ``additional_landed_cost`` on both therefore picks up each
-        amount exactly once. The two are separate models, so they are walked
-        one after the other rather than joined into one recordset.
+        Both sets of adjustment lines are read, but the source line only
+        contributes what stayed on it. A landed cost distributed only on
+        destinations - a purchase price difference - has its source amounts
+        zeroed by the base module and carries everything on the Romanian
+        distributed lines. An ordinary one - transport, DVI - does not: the
+        source line keeps the whole amount **and** distributed lines are
+        created for the portion that has since moved on.
+
+        Reading both at face value therefore counted that portion twice, and
+        it is not a hypothetical: a shop that receives its own goods and sends
+        part of them to another shop is a chain a retail network runs weekly.
+        The reception line and the transfer line are both retail, so 378 of
+        the receiving shop was relieved by the whole amount while 371 had only
+        kept the part that stayed - the invariant this module exists to hold
+        broke, quietly. The base module posts the source amount in full on the
+        receiving shop's 371 and then moves the consumed portion across to the
+        other shop's, so what each shop has to give back is exactly what its
+        own 371 kept.
 
         Lines whose destination is not a retail location are left out on
         purpose: goods that have already been sold carry their extra cost on
@@ -43,18 +54,30 @@ class StockLandedCost(models.Model):
         self.ensure_one()
         rounding = self.currency_id.rounding
         result = []
-        for lines in (
-            self.valuation_adjustment_lines,
-            self.l10n_ro_distributed_valuation_lines,
-        ):
-            for line in lines:
-                move = line.move_id
-                if not move or not move.location_dest_id.l10n_ro_retail:
-                    continue
-                amount = line.additional_landed_cost
-                if float_is_zero(amount, precision_rounding=rounding):
-                    continue
-                result.append((move, amount))
+        for line in self.valuation_adjustment_lines:
+            move = line.move_id
+            if not move or not move.location_dest_id.l10n_ro_retail:
+                continue
+            if self.l10n_ro_only_on_distributed_lines:
+                # Nothing left here: the base module moved the whole amount
+                # onto the distributed lines and zeroed this one.
+                continue
+            amount = line.additional_landed_cost - sum(
+                line.l10n_ro_distributed_valuation_lines.mapped(
+                    "additional_landed_cost"
+                )
+            )
+            if float_is_zero(amount, precision_rounding=rounding):
+                continue
+            result.append((move, amount))
+        for line in self.l10n_ro_distributed_valuation_lines:
+            move = line.move_id
+            if not move or not move.location_dest_id.l10n_ro_retail:
+                continue
+            amount = line.additional_landed_cost
+            if float_is_zero(amount, precision_rounding=rounding):
+                continue
+            result.append((move, amount))
         return result
 
     def _l10n_ro_retail_origin_type(self):
@@ -75,6 +98,12 @@ class StockLandedCost(models.Model):
         depends on the price, not on the cost.
         """
         for cost in self.filtered(lambda c: c.is_l10n_ro_record):
+            if cost.l10n_ro_retail_markup_line_ids:
+                # Already given back. Core refuses to validate a landed cost
+                # twice, so this cannot happen today - but the correction
+                # leaves no trace in its own entry that would show a second
+                # pass, and the rest of the family guards itself the same way.
+                continue
             adjustments = cost._l10n_ro_retail_adjustments()
             if not adjustments:
                 continue
@@ -184,7 +213,7 @@ class StockLandedCost(models.Model):
         self.ensure_one()
         return {
             "company_id": self.company_id.id,
-            "date": fields.Datetime.to_datetime(self.date),
+            "date": self.date,
             "product_id": move.product_id.id,
             "location_id": move.location_dest_id.id,
             # No goods move: only the split between cost and markup changes,
