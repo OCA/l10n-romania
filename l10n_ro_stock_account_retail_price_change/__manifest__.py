@@ -15,11 +15,11 @@
     "license": "AGPL-3",
     "data": [
         "security/ir.model.access.csv",
-        "data/ir_sequence.xml",
         "report/report_retail_price_change.xml",
         "views/retail_price_change_view.xml",
         "views/product_template_view.xml",
     ],
+    "post_init_hook": "post_init_hook",
     "installable": True,
     "auto_install": False,
     "development_status": "Mature",

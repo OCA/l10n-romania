@@ -3,10 +3,17 @@
 Adds the price change document to the retail merchandise accounting of
 `l10n_ro_stock_account_retail`.
 
-`l10n.ro.retail.price.change` is a persistent document numbered by the
-sequence `PVSP/YYYY/00000`. It captures the warehouse, the date, the
-products on hand and the old versus new shelf price (PVA, VAT included)
-per line, with the markup (378) and deferred VAT (4428) split.
+`l10n.ro.retail.price.change` is a persistent document numbered
+`PVSP/YYYY/00000` out of a sequence of its own company. It captures the
+warehouse, the date, the products on hand and the old versus new shelf
+price (PVA, VAT included) per line, with the markup (378) and deferred
+VAT (4428) split.
+
+The old side is what the stock carries — cost, markup and deferred VAT
+per unit, read from the markup ledger — and it is read again when the
+document is posted, so the delta always measures the gap that exists at
+the moment the entry is made. A posted document is final: it is revoked
+by posting another one, never reset, cancelled or deleted.
 
 There are two flows:
 

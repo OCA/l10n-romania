@@ -3,6 +3,7 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
 from odoo import Command, api, fields, models
+from odoo.exceptions import UserError
 from odoo.tools.float_utils import float_compare
 
 TRIGGER_FIELDS = {
@@ -12,6 +13,15 @@ TRIGGER_FIELDS = {
     "product_id",
     "product_tmpl_id",
     "pricelist_id",
+    # A promotion is a shelf price too. Editing its window can make it
+    # effective, or stop it being effective, right now - and then the label
+    # changes with it. What this cannot catch is the day a future window
+    # opens on its own: nothing is written then, and the price a pricelist
+    # answers with simply becomes another one. See the module description.
+    "date_start",
+    "date_end",
+    # The rule for quantity 1 is the one on the label.
+    "min_quantity",
 }
 
 
@@ -76,7 +86,7 @@ class ProductPricelistItem(models.Model):
             return items
         retail_items = items._l10n_ro_retail_items()
         if retail_items:
-            retail_items._l10n_ro_capture_change({})
+            self._l10n_ro_capture_change({}, retail_items._l10n_ro_snapshot())
         return items
 
     def write(self, vals):
@@ -87,32 +97,76 @@ class ProductPricelistItem(models.Model):
         retail_items = self._l10n_ro_retail_items()
         if not retail_items:
             return super().write(vals)
-        snapshots = retail_items._l10n_ro_snapshot()
+        old_snapshot = retail_items._l10n_ro_snapshot()
         res = super().write(vals)
         # The write may have moved an item onto or off a retail pricelist, so
         # the affected set is recomputed rather than reused.
-        (retail_items | self._l10n_ro_retail_items())._l10n_ro_capture_change(snapshots)
+        affected = retail_items | self._l10n_ro_retail_items()
+        self._l10n_ro_capture_change(old_snapshot, affected._l10n_ro_snapshot())
+        return res
+
+    def unlink(self):
+        """Deleting a rule moves the shelf price too.
+
+        The label then shows whatever answers next - the rule underneath, or
+        the sale price - while 371 still carries the price the deleted rule
+        set. That is the same divergence a price edit causes, and it deserves
+        the same Proces Verbal. The prices after have to be read once the rule
+        is gone, so the keys are carried over from the snapshot taken before.
+        """
+        if self.env.context.get("skip_retail_price_change"):
+            return super().unlink()
+        retail_items = self._l10n_ro_retail_items()
+        if not retail_items:
+            return super().unlink()
+        old_snapshot = retail_items._l10n_ro_snapshot()
+        res = super().unlink()
+        self._l10n_ro_capture_change(
+            old_snapshot, self._l10n_ro_prices_for_keys(set(old_snapshot))
+        )
         return res
 
     def _l10n_ro_snapshot(self):
         """Shelf price per ``(warehouse, product)`` for the items in ``self``."""
         mapping = self._l10n_ro_retail_pricelist_ids(self)
-        result = {}
+        keys = set()
         for item in self:
             for warehouse in mapping.get(item.pricelist_id.id, []):
                 for product in item._l10n_ro_affected_products():
-                    key = (warehouse.id, product.id)
-                    if key in result:
-                        continue
-                    result[key] = product._l10n_ro_get_retail_prices(
-                        warehouse=warehouse, company=warehouse.company_id
-                    )
+                    keys.add((warehouse.id, product.id))
+        return self._l10n_ro_prices_for_keys(keys)
+
+    @api.model
+    def _l10n_ro_prices_for_keys(self, keys):
+        """Shelf prices for ``(warehouse, product)`` keys, as they stand now.
+
+        A product with no rule left on the shop's retail pricelist has no
+        shelf price at all, and asking for one raises. That is the right
+        answer when goods are about to move, and the wrong one here: this
+        hook watches prices, it does not authorise anything, and it must not
+        turn a pricelist edit into an error. Such a key is simply left out -
+        the shop is stopped later, when it tries to move or revalue goods it
+        has no price for.
+        """
+        Warehouse = self.env["stock.warehouse"]
+        Product = self.env["product.product"]
+        result = {}
+        for warehouse_id, product_id in keys:
+            warehouse = Warehouse.browse(warehouse_id)
+            try:
+                result[(warehouse_id, product_id)] = Product.browse(
+                    product_id
+                )._l10n_ro_get_retail_prices(
+                    warehouse=warehouse, company=warehouse.company_id
+                )
+            except UserError:
+                continue
         return result
 
-    def _l10n_ro_capture_change(self, old_snapshot):
+    @api.model
+    def _l10n_ro_capture_change(self, old_snapshot, new_snapshot):
         """Raise one draft Proces Verbal per warehouse for the products whose
         shelf price actually moved and that are actually on the shelf."""
-        new_snapshot = self._l10n_ro_snapshot()
         keys = set(old_snapshot) | set(new_snapshot)
         if not keys:
             return

@@ -2,9 +2,11 @@
 # Copyright (C) 2026 Dakai Soft SRL
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
+from collections import defaultdict
+
 from odoo import Command, api, fields, models
 from odoo.exceptions import UserError
-from odoo.tools.float_utils import float_is_zero
+from odoo.tools.float_utils import float_compare, float_is_zero
 
 
 class RetailPriceChange(models.Model):
@@ -97,13 +99,48 @@ class RetailPriceChange(models.Model):
 
     @api.model_create_multi
     def create(self, vals_list):
+        """Number each document out of the sequence of its own company.
+
+        ``next_by_code`` reads ``self.env.company``, which is not necessarily
+        the company of the document being created: the pricelist hook raises
+        one document per retail warehouse, in sudo, and a warehouse can belong
+        to another company of the group. With a sequence per company that
+        would hand a document the series of a different firm.
+        """
+        Sequence = self.env["ir.sequence"]
+        Company = self.env["res.company"]
         for vals in vals_list:
-            if vals.get("name", "/") == "/":
-                vals["name"] = (
-                    self.env["ir.sequence"].next_by_code("l10n.ro.retail.price.change")
-                    or "/"
+            if vals.get("name", "/") != "/":
+                continue
+            company = Company.browse(vals.get("company_id")) or self.env.company
+            vals["name"] = (
+                Sequence.with_company(company).next_by_code(
+                    "l10n.ro.retail.price.change"
                 )
+                or "/"
+            )
         return super().create(vals_list)
+
+    @api.ondelete(at_uninstall=False)
+    def _unlink_except_done(self):
+        """A posted document is not deletable.
+
+        It wrote the prices on the pricelist, posted an entry and left rows in
+        the markup ledger. Deleting it cascades its lines - the price history
+        of those products - and leaves the ledger rows pointing at nothing,
+        with the entry they explain still on the books. A price decision that
+        turned out wrong is revoked by posting another Proces Verbal, which is
+        also what the paper trail requires.
+        """
+        for doc in self:
+            if doc.state == "done":
+                raise UserError(
+                    self.env._(
+                        "%s has been posted and cannot be deleted. Post a new "
+                        "price change document to revoke it.",
+                        doc.name,
+                    )
+                )
 
     def action_load_products(self):
         self.ensure_one()
@@ -172,6 +209,8 @@ class RetailPriceChange(models.Model):
             raise UserError(self.env._("No lines to post on %s.", self.name))
         if not self.journal_id:
             raise UserError(self.env._("No journal defined."))
+        self._refresh_from_stock()
+        self._check_ledger_covers_stock()
         self._update_pricelist()
         move = self._create_account_move()
         self._create_markup_ledger(move)
@@ -180,6 +219,84 @@ class RetailPriceChange(models.Model):
                 "state": "done",
                 "account_move_id": move.id if move else False,
             }
+        )
+
+    def _refresh_from_stock(self):
+        """Re-read the quantity and what the stock carries, at posting time.
+
+        The old side of a document is a statement of fact, and the fact it
+        states is the one that holds when the entry is made - not the one that
+        held when somebody loaded the lines. The two part company routinely: a
+        pricelist change raises a draft to be reviewed later, and in between
+        the shop sells, receives, or another Proces Verbal is posted on the
+        same goods. Read once at load, the document then measured its delta
+        against a markup that was no longer carried and a quantity that was no
+        longer on the shelf - two documents posted one after the other applied
+        their deltas to the same starting point and doubled the revaluation
+        between them, with nothing in either entry to show it.
+        """
+        self.ensure_one()
+        on_hand = self.line_ids._l10n_ro_on_hand()
+        for line in self.line_ids:
+            line.quantity = on_hand.get((line.product_id.id, line.location_id.id), 0.0)
+        # The quantity may well be unchanged, and the carried markup can have
+        # moved anyway - the ledger is not a dependency of the compute, and
+        # cannot be, so the refresh is asked for explicitly.
+        for field_name in ("cost_unit", "old_markup_unit", "old_vat_unit"):
+            self.env.add_to_compute(self.line_ids._fields[field_name], self.line_ids)
+        self.line_ids.flush_recordset()
+
+    def _check_ledger_covers_stock(self):
+        """Refuse to post a rate derived from one quantity onto another.
+
+        The old markup per unit is the ledger balance divided by the quantity
+        the ledger knows about, and it is then applied to the quantity on the
+        lines. The two have to be the same quantity, or the document moves
+        378 by an amount the rate was never meant to produce, and leaves the
+        release rate of the remaining stock wrong for good.
+
+        They differ in two cases. Stock that was on the shelf before this
+        module was installed is in the quants and not in the ledger - that is
+        what the opening balance wizard is for. And a document that covers
+        only part of what the shop holds of a product applies a whole-shop
+        rate to a slice of it.
+        """
+        self.ensure_one()
+        Ledger = self.env["l10n.ro.retail.markup.line"].sudo()
+        per_product = defaultdict(float)
+        for line in self.line_ids:
+            per_product[line.product_id] += line.quantity
+        problems = []
+        for product, qty in per_product.items():
+            recorded, _cost, _markup, _vat = Ledger._l10n_ro_balance(
+                self.warehouse_id, product, self.company_id
+            )
+            if (
+                float_compare(recorded, qty, precision_rounding=product.uom_id.rounding)
+                != 0
+            ):
+                problems.append((product, recorded, qty))
+        if not problems:
+            return
+        details = "\n".join(
+            self.env._(
+                " - %(product)s: ledger %(recorded).3f, document %(qty).3f",
+                product=product.display_name,
+                recorded=recorded,
+                qty=qty,
+            )
+            for product, recorded, qty in problems
+        )
+        raise UserError(
+            self.env._(
+                "The markup ledger of %(warehouse)s does not account for the "
+                "same quantity this document revalues:\n\n%(details)s\n\n"
+                "Load every location that holds these products, and settle "
+                "stock the ledger never saw with the retail opening balance "
+                "wizard, before posting.",
+                warehouse=self.warehouse_id.display_name,
+                details=details,
+            )
         )
 
     def _update_pricelist(self):
@@ -299,9 +416,10 @@ class RetailPriceChange(models.Model):
             vals_list.append(
                 {
                     "company_id": self.company_id.id,
-                    "date": fields.Datetime.to_datetime(self.date),
+                    "date": self.date,
                     "product_id": line.product_id.id,
                     "location_id": line.location_id.id,
+                    "warehouse_id": self.warehouse_id.id,
                     # A revaluation moves no goods: it changes what the stock
                     # on hand carries, so the quantity that carries it is
                     # unchanged and this row must not shift the rate.
@@ -322,45 +440,25 @@ class RetailPriceChange(models.Model):
             self.env["l10n.ro.retail.markup.line"].sudo().create(vals_list)
 
     def action_cancel(self):
-        for doc in self:
-            if doc.state == "done" and doc.account_move_id:
-                raise UserError(
-                    self.env._(
-                        "Cancel the related journal entry %s first.",
-                        doc.account_move_id.display_name,
-                    )
-                )
-            doc.state = "cancel"
+        """Drop a document that was never posted.
 
-    def action_draft(self):
-        """Send the document back to draft.
-
-        Refused while any trace of the posting survives. Checking only for a
-        *posted* entry let a document whose entry had been reversed - so left
-        in state 'cancel' - go back to draft and be posted a second time: a
-        second journal entry, a second set of ledger rows, and the link to the
-        first entry silently overwritten.
+        Only from draft, and there is no way back from done. A posted Proces
+        Verbal wrote the shelf prices, posted an entry and moved what the
+        stock carries; undoing it in place would leave the three out of step
+        with each other and the printed document out of step with the books.
+        A price decision that turned out wrong is revoked the way it was made,
+        by posting another one.
         """
         for doc in self:
-            if doc.account_move_id and doc.account_move_id.state != "cancel":
+            if doc.state != "draft":
                 raise UserError(
-                    doc.env._(
-                        "Reverse and cancel the related journal entry "
-                        "%(entry)s before resetting %(document)s to draft.",
-                        entry=doc.account_move_id.display_name,
-                        document=doc.name,
-                    )
-                )
-            if doc.markup_line_ids:
-                raise UserError(
-                    doc.env._(
-                        "%s already moved the markup carried by the stock. "
-                        "Post a new price change document to correct it "
-                        "instead of resetting this one to draft.",
+                    self.env._(
+                        "%s is no longer a draft. Post a new price change "
+                        "document to revoke it.",
                         doc.name,
                     )
                 )
-            doc.write({"state": "draft", "account_move_id": False})
+            doc.state = "cancel"
 
     def action_view_move(self):
         self.ensure_one()
@@ -392,16 +490,17 @@ class RetailPriceChangeLine(models.Model):
         related="document_id.warehouse_id", store=True, string="Warehouse"
     )
     state = fields.Selection(related="document_id.state", store=False)
+    currency_id = fields.Many2one(related="company_id.currency_id", readonly=True)
     product_id = fields.Many2one("product.product", required=True)
     location_id = fields.Many2one("stock.location", required=True)
-    quantity = fields.Float(readonly=True)
-    cost_unit = fields.Float(
+    quantity = fields.Float(digits="Product Unit of Measure", readonly=True)
+    cost_unit = fields.Monetary(
         string="Cost / Unit",
         compute="_compute_carried",
         store=True,
         help="Cost the stock on hand carries, from the markup ledger.",
     )
-    old_price_with_vat = fields.Float(
+    old_price_with_vat = fields.Monetary(
         string="Old PVA",
         compute="_compute_old_price",
         store=True,
@@ -409,34 +508,54 @@ class RetailPriceChangeLine(models.Model):
         "cost plus the markup and deferred VAT recorded against it. This is "
         "what 371 holds, which is not always what the pricelist says.",
     )
-    new_price_with_vat = fields.Float(
+    new_price_with_vat = fields.Monetary(
         string="New PVA",
         help="New retail price including VAT.",
     )
-    old_markup_unit = fields.Float(
+    old_markup_unit = fields.Monetary(
         compute="_compute_carried",
         string="Old Markup / Unit",
         store=True,
         help="Markup the stock carries on 378 per unit, as recorded.",
     )
-    old_vat_unit = fields.Float(
+    old_vat_unit = fields.Monetary(
         compute="_compute_carried",
         string="Old VAT / Unit",
         store=True,
         help="Deferred VAT the stock carries on 4428 per unit, as recorded.",
     )
-    new_markup_unit = fields.Float(
+    new_markup_unit = fields.Monetary(
         compute="_compute_splits", string="New Markup / Unit", store=True
     )
-    new_vat_unit = fields.Float(
+    new_vat_unit = fields.Monetary(
         compute="_compute_splits", string="New VAT / Unit", store=True
     )
-    markup_diff_total = fields.Float(
+    markup_diff_total = fields.Monetary(
         compute="_compute_splits", string="Markup Delta", store=True
     )
-    vat_diff_total = fields.Float(
+    vat_diff_total = fields.Monetary(
         compute="_compute_splits", string="VAT Delta", store=True
     )
+
+    def _l10n_ro_on_hand(self):
+        """Quantity on hand per ``(product, location)`` for the lines in self."""
+        if not self:
+            return {}
+        groups = (
+            self.env["stock.quant"]
+            .sudo()
+            ._read_group(
+                [
+                    ("product_id", "in", self.product_id.ids),
+                    ("location_id", "in", self.location_id.ids),
+                ],
+                groupby=["product_id", "location_id"],
+                aggregates=["quantity:sum"],
+            )
+        )
+        return {
+            (product.id, location.id): qty or 0.0 for product, location, qty in groups
+        }
 
     @api.depends("product_id", "location_id", "quantity", "document_id.warehouse_id")
     def _compute_carried(self):
@@ -448,28 +567,112 @@ class RetailPriceChangeLine(models.Model):
         assumed the two agree, which is exactly the assumption that fails: a
         shop whose ledger has drifted then loads a document where old equals
         new, posts nothing, and has no way to put itself right.
+
+        The ledger is read for the whole batch, and so is the cost that stands
+        in for it when it holds nothing yet. That cost is the value of the
+        quants, the same figure the retail opening balance wizard settles
+        against; ``standard_price`` was a different number on any product that
+        is not valued at standard, and the difference went straight into the
+        markup - two ways of recognising the same stock, disagreeing.
         """
-        Ledger = self.env["l10n.ro.retail.markup.line"]
         for line in self:
-            company = line.document_id.company_id or line.env.company
-            warehouse = line.document_id.warehouse_id
-            product = line.product_id
             line.cost_unit = 0.0
             line.old_markup_unit = 0.0
             line.old_vat_unit = 0.0
-            if not product or not warehouse:
+        lines = self.filtered(lambda ln: ln.product_id and ln.document_id.warehouse_id)
+        if not lines:
+            return
+        carried = lines._l10n_ro_carried_balances()
+        fallback = None
+        for line in lines:
+            product = line.product_id
+            company = line.document_id.company_id or line.env.company
+            key = (company.id, line.document_id.warehouse_id.id, product.id)
+            qty, cost, markup, vat = carried.get(key, (0.0, 0.0, 0.0, 0.0))
+            if not float_is_zero(qty, precision_rounding=product.uom_id.rounding):
+                line.cost_unit = cost / qty
+                line.old_markup_unit = markup / qty
+                line.old_vat_unit = vat / qty
                 continue
-            qty, cost, markup, vat = Ledger._l10n_ro_balance(
-                warehouse, product, company
+            # Nothing carried yet: the whole shelf price is markup and VAT
+            # over what the goods actually cost.
+            if fallback is None:
+                fallback = lines._l10n_ro_quant_cost()
+            on_hand_qty, on_hand_value = fallback.get(key, (0.0, 0.0))
+            line.cost_unit = (
+                on_hand_value / on_hand_qty
+                if not float_is_zero(
+                    on_hand_qty, precision_rounding=product.uom_id.rounding
+                )
+                else product.with_company(company).standard_price
             )
-            if float_is_zero(qty, precision_rounding=product.uom_id.rounding):
-                # Nothing carried yet: fall back to the product cost, and let
-                # the whole shelf price be markup and VAT.
-                line.cost_unit = product.with_company(company).standard_price
-                continue
-            line.cost_unit = cost / qty
-            line.old_markup_unit = markup / qty
-            line.old_vat_unit = vat / qty
+
+    def _l10n_ro_keys(self):
+        """``(company, warehouse, product)`` triples covered by these lines."""
+        keys = set()
+        for line in self:
+            company = line.document_id.company_id or line.env.company
+            keys.add((company.id, line.document_id.warehouse_id.id, line.product_id.id))
+        return keys
+
+    def _l10n_ro_carried_balances(self):
+        """Ledger balance per ``(company, warehouse, product)``, in one read."""
+        keys = self._l10n_ro_keys()
+        if not keys:
+            return {}
+        groups = (
+            self.env["l10n.ro.retail.markup.line"]
+            .sudo()
+            ._read_group(
+                [
+                    ("company_id", "in", [k[0] for k in keys]),
+                    ("warehouse_id", "in", [k[1] for k in keys]),
+                    ("product_id", "in", [k[2] for k in keys]),
+                ],
+                groupby=["company_id", "warehouse_id", "product_id"],
+                aggregates=[
+                    "quantity:sum",
+                    "cost:sum",
+                    "markup:sum",
+                    "vat:sum",
+                ],
+            )
+        )
+        return {
+            (company.id, warehouse.id, product.id): (
+                qty or 0.0,
+                cost or 0.0,
+                markup or 0.0,
+                vat or 0.0,
+            )
+            for company, warehouse, product, qty, cost, markup, vat in groups
+        }
+
+    def _l10n_ro_quant_cost(self):
+        """Quantity and value on hand per ``(company, warehouse, product)``."""
+        keys = self._l10n_ro_keys()
+        if not keys:
+            return {}
+        groups = (
+            self.env["stock.quant"]
+            .sudo()
+            ._read_group(
+                [
+                    ("company_id", "in", [k[0] for k in keys]),
+                    ("location_id.warehouse_id", "in", [k[1] for k in keys]),
+                    ("location_id.l10n_ro_retail", "=", True),
+                    ("product_id", "in", [k[2] for k in keys]),
+                ],
+                groupby=["company_id", "product_id", "location_id"],
+                aggregates=["quantity:sum", "value:sum"],
+            )
+        )
+        result = defaultdict(lambda: (0.0, 0.0))
+        for company, product, location, qty, value in groups:
+            key = (company.id, location.warehouse_id.id, product.id)
+            had_qty, had_value = result[key]
+            result[key] = (had_qty + (qty or 0.0), had_value + (value or 0.0))
+        return result
 
     @api.depends("cost_unit", "old_markup_unit", "old_vat_unit")
     def _compute_old_price(self):
@@ -508,7 +711,9 @@ class RetailPriceChangeLine(models.Model):
         if not price_with_vat or not self.product_id:
             return 0.0, 0.0
         prices = self.product_id._l10n_ro_split_retail_price(
-            price_with_vat, company=company
+            price_with_vat,
+            company=company,
+            warehouse=self.document_id.warehouse_id,
         )
         return prices["price_without_vat"] - self.cost_unit, prices["vat"]
 
