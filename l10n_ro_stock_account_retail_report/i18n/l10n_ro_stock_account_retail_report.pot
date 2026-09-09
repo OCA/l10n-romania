@@ -1,0 +1,434 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* l10n_ro_stock_account_retail_report
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 19.0+e\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-09-06 17:10+0000\n"
+"PO-Revision-Date: 2026-09-06 17:10+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: l10n_ro_stock_account_retail_report
+#: model_terms:ir.ui.view,arch_db:l10n_ro_stock_account_retail_report.view_stock_retail_report_wizard_form
+msgid "Cancel"
+msgstr ""
+
+#. module: l10n_ro_stock_account_retail_report
+#: model:ir.model.fields,field_description:l10n_ro_stock_account_retail_report.field_l10n_ro_stock_retail_report__retail_price_unit
+msgid "Carried PVA / Unit"
+msgstr ""
+
+#. module: l10n_ro_stock_account_retail_report
+#: model:ir.model.fields,field_description:l10n_ro_stock_account_retail_report.field_l10n_ro_stock_retail_report__categ_id
+#: model_terms:ir.ui.view,arch_db:l10n_ro_stock_account_retail_report.view_stock_retail_report_search
+msgid "Category"
+msgstr ""
+
+#. module: l10n_ro_stock_account_retail_report
+#: model:ir.model.fields,field_description:l10n_ro_stock_account_retail_report.field_l10n_ro_stock_retail_report__company_id
+#: model:ir.model.fields,field_description:l10n_ro_stock_account_retail_report.field_l10n_ro_stock_retail_report_wizard__company_id
+msgid "Company"
+msgstr ""
+
+#. module: l10n_ro_stock_account_retail_report
+#: model:ir.model.fields,field_description:l10n_ro_stock_account_retail_report.field_l10n_ro_stock_retail_report__cost_unit
+msgid "Cost / Unit"
+msgstr ""
+
+#. module: l10n_ro_stock_account_retail_report
+#: model:ir.model.fields,field_description:l10n_ro_stock_account_retail_report.field_l10n_ro_stock_retail_report__cost_adjustment
+#: model_terms:ir.ui.view,arch_db:l10n_ro_stock_account_retail_report.view_stock_retail_report_list
+msgid "Cost Corrections"
+msgstr ""
+
+#. module: l10n_ro_stock_account_retail_report
+#: model:ir.model.fields,field_description:l10n_ro_stock_account_retail_report.field_l10n_ro_stock_retail_report__cost_in
+#: model_terms:ir.ui.view,arch_db:l10n_ro_stock_account_retail_report.view_stock_retail_report_list
+msgid "Cost In"
+msgstr ""
+
+#. module: l10n_ro_stock_account_retail_report
+#: model:ir.model.fields,field_description:l10n_ro_stock_account_retail_report.field_l10n_ro_stock_retail_report__cost_out
+#: model_terms:ir.ui.view,arch_db:l10n_ro_stock_account_retail_report.view_stock_retail_report_list
+msgid "Cost Out"
+msgstr ""
+
+#. module: l10n_ro_stock_account_retail_report
+#: model:ir.model.fields,help:l10n_ro_stock_account_retail_report.field_l10n_ro_stock_retail_report__cost_adjustment
+msgid ""
+"Cost added by landed costs and purchase price differences, which move no "
+"goods."
+msgstr ""
+
+#. module: l10n_ro_stock_account_retail_report
+#: model:ir.model.fields,help:l10n_ro_stock_account_retail_report.field_l10n_ro_stock_retail_report__retail_value
+msgid ""
+"Cost plus the markup and deferred VAT carried - what account 371 holds for "
+"this stock."
+msgstr ""
+
+#. module: l10n_ro_stock_account_retail_report
+#: model:ir.model.fields,field_description:l10n_ro_stock_account_retail_report.field_l10n_ro_stock_retail_report_wizard__create_uid
+msgid "Created by"
+msgstr ""
+
+#. module: l10n_ro_stock_account_retail_report
+#: model:ir.model.fields,field_description:l10n_ro_stock_account_retail_report.field_l10n_ro_stock_retail_report_wizard__create_date
+msgid "Created on"
+msgstr ""
+
+#. module: l10n_ro_stock_account_retail_report
+#: model:ir.model.fields,field_description:l10n_ro_stock_account_retail_report.field_l10n_ro_stock_retail_report__currency_id
+msgid "Currency"
+msgstr ""
+
+#. module: l10n_ro_stock_account_retail_report
+#: model:ir.model.fields,field_description:l10n_ro_stock_account_retail_report.field_l10n_ro_stock_retail_report__current_price_unit
+msgid "Current Shelf Price / Unit"
+msgstr ""
+
+#. module: l10n_ro_stock_account_retail_report
+#: model:ir.model.fields,field_description:l10n_ro_stock_account_retail_report.field_l10n_ro_stock_retail_report__vat_total
+#: model_terms:ir.ui.view,arch_db:l10n_ro_stock_account_retail_report.view_stock_retail_report_list
+msgid "Deferred VAT Carried (4428)"
+msgstr ""
+
+#. module: l10n_ro_stock_account_retail_report
+#: model:ir.model.fields,field_description:l10n_ro_stock_account_retail_report.field_l10n_ro_stock_retail_report__vat_adjustment
+msgid "Deferred VAT Corrections (4428)"
+msgstr ""
+
+#. module: l10n_ro_stock_account_retail_report
+#: model:ir.model.fields,field_description:l10n_ro_stock_account_retail_report.field_l10n_ro_stock_retail_report__vat_in
+msgid "Deferred VAT In (4428)"
+msgstr ""
+
+#. module: l10n_ro_stock_account_retail_report
+#: model:ir.model.fields,field_description:l10n_ro_stock_account_retail_report.field_l10n_ro_stock_retail_report__vat_out
+msgid "Deferred VAT Out (4428)"
+msgstr ""
+
+#. module: l10n_ro_stock_account_retail_report
+#: model:ir.model.fields,help:l10n_ro_stock_account_retail_report.field_l10n_ro_stock_retail_report__price_gap_total
+msgid ""
+"Difference between the current shelf price and what the stock carries. "
+"Anything other than zero means a price change document is due for this "
+"product."
+msgstr ""
+
+#. module: l10n_ro_stock_account_retail_report
+#: model:ir.model.fields,field_description:l10n_ro_stock_account_retail_report.field_l10n_ro_stock_retail_report__display_name
+#: model:ir.model.fields,field_description:l10n_ro_stock_account_retail_report.field_l10n_ro_stock_retail_report_wizard__display_name
+msgid "Display Name"
+msgstr ""
+
+#. module: l10n_ro_stock_account_retail_report
+#: model:ir.model.fields,field_description:l10n_ro_stock_account_retail_report.field_l10n_ro_stock_retail_report_wizard__date_from
+msgid "From"
+msgstr ""
+
+#. module: l10n_ro_stock_account_retail_report
+#: model:ir.model.fields,field_description:l10n_ro_stock_account_retail_report.field_l10n_ro_stock_retail_report__id
+#: model:ir.model.fields,field_description:l10n_ro_stock_account_retail_report.field_l10n_ro_stock_retail_report_wizard__id
+msgid "ID"
+msgstr ""
+
+#. module: l10n_ro_stock_account_retail_report
+#: model:ir.model.fields,field_description:l10n_ro_stock_account_retail_report.field_l10n_ro_stock_retail_report_wizard__write_uid
+msgid "Last Updated by"
+msgstr ""
+
+#. module: l10n_ro_stock_account_retail_report
+#: model:ir.model.fields,field_description:l10n_ro_stock_account_retail_report.field_l10n_ro_stock_retail_report_wizard__write_date
+msgid "Last Updated on"
+msgstr ""
+
+#. module: l10n_ro_stock_account_retail_report
+#: model:ir.model.fields,help:l10n_ro_stock_account_retail_report.field_l10n_ro_stock_retail_report_wizard__warehouse_ids
+msgid "Leave empty for every retail warehouse of the company."
+msgstr ""
+
+#. module: l10n_ro_stock_account_retail_report
+#: model:ir.model.fields,field_description:l10n_ro_stock_account_retail_report.field_l10n_ro_stock_retail_report__markup_total
+#: model_terms:ir.ui.view,arch_db:l10n_ro_stock_account_retail_report.view_stock_retail_report_list
+msgid "Markup Carried (378)"
+msgstr ""
+
+#. module: l10n_ro_stock_account_retail_report
+#: model_terms:ir.ui.view,arch_db:l10n_ro_stock_account_retail_report.view_stock_retail_report_list
+msgid "Markup Corrections"
+msgstr ""
+
+#. module: l10n_ro_stock_account_retail_report
+#: model:ir.model.fields,field_description:l10n_ro_stock_account_retail_report.field_l10n_ro_stock_retail_report__markup_adjustment
+msgid "Markup Corrections (378)"
+msgstr ""
+
+#. module: l10n_ro_stock_account_retail_report
+#: model_terms:ir.ui.view,arch_db:l10n_ro_stock_account_retail_report.view_stock_retail_report_list
+msgid "Markup In"
+msgstr ""
+
+#. module: l10n_ro_stock_account_retail_report
+#: model:ir.model.fields,field_description:l10n_ro_stock_account_retail_report.field_l10n_ro_stock_retail_report__markup_in
+msgid "Markup In (378)"
+msgstr ""
+
+#. module: l10n_ro_stock_account_retail_report
+#: model_terms:ir.ui.view,arch_db:l10n_ro_stock_account_retail_report.view_stock_retail_report_list
+msgid "Markup Out"
+msgstr ""
+
+#. module: l10n_ro_stock_account_retail_report
+#: model:ir.model.fields,field_description:l10n_ro_stock_account_retail_report.field_l10n_ro_stock_retail_report__markup_out
+msgid "Markup Out (378)"
+msgstr ""
+
+#. module: l10n_ro_stock_account_retail_report
+#: model:ir.model.fields,help:l10n_ro_stock_account_retail_report.field_l10n_ro_stock_retail_report__markup_adjustment
+msgid ""
+"Markup moved by price changes, landed costs and purchase price differences, "
+"which move no goods."
+msgstr ""
+
+#. module: l10n_ro_stock_account_retail_report
+#: model_terms:ir.ui.view,arch_db:l10n_ro_stock_account_retail_report.view_stock_retail_report_wizard_form
+msgid ""
+"Movements before the start date are folded into the opening\n"
+"                    balance. The closing balance is the position at the end of\n"
+"                    the last day - cost, markup and deferred VAT add up to what\n"
+"                    account 371 held, so the three columns can be compared\n"
+"                    against the trial balance."
+msgstr ""
+
+#. module: l10n_ro_stock_account_retail_report
+#: model:ir.model.fields,help:l10n_ro_stock_account_retail_report.field_l10n_ro_stock_retail_report_wizard__date_from
+msgid "Movements before this date are folded into the opening balance."
+msgstr ""
+
+#. module: l10n_ro_stock_account_retail_report
+#: model_terms:ir.ui.view,arch_db:l10n_ro_stock_account_retail_report.view_stock_retail_report_search
+msgid "Not in the ledger"
+msgstr ""
+
+#. module: l10n_ro_stock_account_retail_report
+#: model_terms:ir.ui.view,arch_db:l10n_ro_stock_account_retail_report.view_stock_retail_report_wizard_form
+msgid "Open"
+msgstr ""
+
+#. module: l10n_ro_stock_account_retail_report
+#: model:ir.model.fields,field_description:l10n_ro_stock_account_retail_report.field_l10n_ro_stock_retail_report__cost_initial
+#: model_terms:ir.ui.view,arch_db:l10n_ro_stock_account_retail_report.view_stock_retail_report_list
+msgid "Opening Cost"
+msgstr ""
+
+#. module: l10n_ro_stock_account_retail_report
+#: model:ir.model.fields,field_description:l10n_ro_stock_account_retail_report.field_l10n_ro_stock_retail_report__vat_initial
+msgid "Opening Deferred VAT (4428)"
+msgstr ""
+
+#. module: l10n_ro_stock_account_retail_report
+#: model_terms:ir.ui.view,arch_db:l10n_ro_stock_account_retail_report.view_stock_retail_report_list
+msgid "Opening Markup"
+msgstr ""
+
+#. module: l10n_ro_stock_account_retail_report
+#: model:ir.model.fields,field_description:l10n_ro_stock_account_retail_report.field_l10n_ro_stock_retail_report__markup_initial
+msgid "Opening Markup (378)"
+msgstr ""
+
+#. module: l10n_ro_stock_account_retail_report
+#: model:ir.model.fields,field_description:l10n_ro_stock_account_retail_report.field_l10n_ro_stock_retail_report__quantity_initial
+msgid "Opening Quantity"
+msgstr ""
+
+#. module: l10n_ro_stock_account_retail_report
+#: model_terms:ir.ui.view,arch_db:l10n_ro_stock_account_retail_report.view_stock_retail_report_list
+msgid "Opening Retail Value"
+msgstr ""
+
+#. module: l10n_ro_stock_account_retail_report
+#: model:ir.model.fields,field_description:l10n_ro_stock_account_retail_report.field_l10n_ro_stock_retail_report__retail_initial
+msgid "Opening Retail Value (371)"
+msgstr ""
+
+#. module: l10n_ro_stock_account_retail_report
+#: model_terms:ir.ui.view,arch_db:l10n_ro_stock_account_retail_report.view_stock_retail_report_list
+msgid "Opening VAT"
+msgstr ""
+
+#. module: l10n_ro_stock_account_retail_report
+#: model:ir.model.fields,field_description:l10n_ro_stock_account_retail_report.field_l10n_ro_stock_retail_report__product_id
+msgid "Product"
+msgstr ""
+
+#. module: l10n_ro_stock_account_retail_report
+#: model:ir.model.fields,field_description:l10n_ro_stock_account_retail_report.field_l10n_ro_stock_retail_report__product_tmpl_id
+msgid "Product Template"
+msgstr ""
+
+#. module: l10n_ro_stock_account_retail_report
+#: model:ir.model.fields,field_description:l10n_ro_stock_account_retail_report.field_l10n_ro_stock_retail_report__quantity_in
+msgid "Quantity In"
+msgstr ""
+
+#. module: l10n_ro_stock_account_retail_report
+#: model:ir.model.fields,field_description:l10n_ro_stock_account_retail_report.field_l10n_ro_stock_retail_report__quantity_on_hand
+msgid "Quantity On Hand"
+msgstr ""
+
+#. module: l10n_ro_stock_account_retail_report
+#: model:ir.model.fields,field_description:l10n_ro_stock_account_retail_report.field_l10n_ro_stock_retail_report__quantity_out
+msgid "Quantity Out"
+msgstr ""
+
+#. module: l10n_ro_stock_account_retail_report
+#: model:ir.model.fields,field_description:l10n_ro_stock_account_retail_report.field_l10n_ro_stock_retail_report__quantity_unrecorded
+msgid "Quantity Unrecorded"
+msgstr ""
+
+#. module: l10n_ro_stock_account_retail_report
+#: model:ir.model.fields,field_description:l10n_ro_stock_account_retail_report.field_l10n_ro_stock_retail_report__quantity
+msgid "Recorded Quantity"
+msgstr ""
+
+#. module: l10n_ro_stock_account_retail_report
+#: model:ir.actions.act_window,name:l10n_ro_stock_account_retail_report.action_stock_retail_report
+#: model:ir.ui.menu,name:l10n_ro_stock_account_retail_report.menu_stock_retail_report
+#: model_terms:ir.ui.view,arch_db:l10n_ro_stock_account_retail_report.view_stock_retail_report_list
+#: model_terms:ir.ui.view,arch_db:l10n_ro_stock_account_retail_report.view_stock_retail_report_search
+msgid "Retail Stock"
+msgstr ""
+
+#. module: l10n_ro_stock_account_retail_report
+#. odoo-python
+#: code:addons/l10n_ro_stock_account_retail_report/wizard/stock_retail_report_wizard.py:0
+msgid "Retail Stock %(date_from)s - %(date_to)s"
+msgstr ""
+
+#. module: l10n_ro_stock_account_retail_report
+#: model:ir.model,name:l10n_ro_stock_account_retail_report.model_l10n_ro_stock_retail_report
+#: model_terms:ir.ui.view,arch_db:l10n_ro_stock_account_retail_report.view_stock_retail_report_wizard_form
+msgid "Retail Stock Report"
+msgstr ""
+
+#. module: l10n_ro_stock_account_retail_report
+#: model:ir.model,name:l10n_ro_stock_account_retail_report.model_l10n_ro_stock_retail_report_wizard
+msgid "Retail Stock Report Period"
+msgstr ""
+
+#. module: l10n_ro_stock_account_retail_report
+#: model:ir.actions.act_window,name:l10n_ro_stock_account_retail_report.action_stock_retail_report_wizard
+#: model:ir.ui.menu,name:l10n_ro_stock_account_retail_report.menu_stock_retail_report_wizard
+msgid "Retail Stock by Period"
+msgstr ""
+
+#. module: l10n_ro_stock_account_retail_report
+#: model:ir.model.fields,field_description:l10n_ro_stock_account_retail_report.field_l10n_ro_stock_retail_report__retail_value
+#: model_terms:ir.ui.view,arch_db:l10n_ro_stock_account_retail_report.view_stock_retail_report_list
+msgid "Retail Value (371)"
+msgstr ""
+
+#. module: l10n_ro_stock_account_retail_report
+#: model:ir.model.fields,help:l10n_ro_stock_account_retail_report.field_l10n_ro_stock_retail_report__retail_price_unit
+msgid "Retail value per unit, VAT included, as loaded."
+msgstr ""
+
+#. module: l10n_ro_stock_account_retail_report
+#: model:ir.model.fields,help:l10n_ro_stock_account_retail_report.field_l10n_ro_stock_retail_report__current_price_unit
+msgid ""
+"Shelf price the warehouse pricelist gives today, VAT included. Always "
+"today's price, whatever period the rest of the row covers."
+msgstr ""
+
+#. module: l10n_ro_stock_account_retail_report
+#: model:ir.model.fields,field_description:l10n_ro_stock_account_retail_report.field_l10n_ro_stock_retail_report_wizard__warehouse_ids
+msgid "Shops"
+msgstr ""
+
+#. module: l10n_ro_stock_account_retail_report
+#: model:ir.model.fields,field_description:l10n_ro_stock_account_retail_report.field_l10n_ro_stock_retail_report__cost_total
+#: model_terms:ir.ui.view,arch_db:l10n_ro_stock_account_retail_report.view_stock_retail_report_list
+msgid "Stock Value (cost)"
+msgstr ""
+
+#. module: l10n_ro_stock_account_retail_report
+#: model:ir.model.fields,help:l10n_ro_stock_account_retail_report.field_l10n_ro_stock_retail_report__quantity_unrecorded
+msgid ""
+"Stock on the shelf that the markup ledger has no record of, normally goods "
+"that were already there when this module was installed. Their shelf value is"
+" not on 371 yet: run the retail markup opening balance to settle them. Only "
+"filled when the report answers for today."
+msgstr ""
+
+#. module: l10n_ro_stock_account_retail_report
+#: model_terms:ir.ui.view,arch_db:l10n_ro_stock_account_retail_report.view_stock_retail_report_search
+msgid ""
+"Stock on the shelf the markup ledger has no record                         "
+"of - run the opening balance to settle it"
+msgstr ""
+
+#. module: l10n_ro_stock_account_retail_report
+#: model:ir.model.fields,help:l10n_ro_stock_account_retail_report.field_l10n_ro_stock_retail_report_wizard__date_to
+msgid ""
+"The closing balance is the position at the end of this day - the figure to "
+"compare against the trial balance."
+msgstr ""
+
+#. module: l10n_ro_stock_account_retail_report
+#. odoo-python
+#: code:addons/l10n_ro_stock_account_retail_report/wizard/stock_retail_report_wizard.py:0
+msgid "The start of the period is after its end."
+msgstr ""
+
+#. module: l10n_ro_stock_account_retail_report
+#: model:ir.model.fields,field_description:l10n_ro_stock_account_retail_report.field_l10n_ro_stock_retail_report_wizard__date_to
+msgid "To"
+msgstr ""
+
+#. module: l10n_ro_stock_account_retail_report
+#: model:ir.model.fields,field_description:l10n_ro_stock_account_retail_report.field_l10n_ro_stock_retail_report__price_gap_total
+#: model_terms:ir.ui.view,arch_db:l10n_ro_stock_account_retail_report.view_stock_retail_report_list
+msgid "To Revalue"
+msgstr ""
+
+#. module: l10n_ro_stock_account_retail_report
+#: model_terms:ir.ui.view,arch_db:l10n_ro_stock_account_retail_report.view_stock_retail_report_list
+msgid "Unrecorded"
+msgstr ""
+
+#. module: l10n_ro_stock_account_retail_report
+#: model_terms:ir.ui.view,arch_db:l10n_ro_stock_account_retail_report.view_stock_retail_report_list
+msgid "VAT Corrections"
+msgstr ""
+
+#. module: l10n_ro_stock_account_retail_report
+#: model_terms:ir.ui.view,arch_db:l10n_ro_stock_account_retail_report.view_stock_retail_report_list
+msgid "VAT In"
+msgstr ""
+
+#. module: l10n_ro_stock_account_retail_report
+#: model_terms:ir.ui.view,arch_db:l10n_ro_stock_account_retail_report.view_stock_retail_report_list
+msgid "VAT Out"
+msgstr ""
+
+#. module: l10n_ro_stock_account_retail_report
+#: model:ir.model.fields,field_description:l10n_ro_stock_account_retail_report.field_l10n_ro_stock_retail_report__warehouse_id
+#: model_terms:ir.ui.view,arch_db:l10n_ro_stock_account_retail_report.view_stock_retail_report_search
+msgid "Warehouse"
+msgstr ""
+
+#. module: l10n_ro_stock_account_retail_report
+#: model:ir.model.fields,help:l10n_ro_stock_account_retail_report.field_l10n_ro_stock_retail_report__quantity_on_hand
+msgid ""
+"What the shop actually holds, from the quants. Only filled when the report "
+"answers for today: the quants keep no history, so a report asked for a past "
+"position leaves this empty."
+msgstr ""
