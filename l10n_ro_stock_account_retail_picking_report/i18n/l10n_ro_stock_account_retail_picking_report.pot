@@ -1,0 +1,98 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* l10n_ro_stock_account_retail_picking_report
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 19.0+e\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-09-06 17:10+0000\n"
+"PO-Revision-Date: 2026-09-06 17:10+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: l10n_ro_stock_account_retail_picking_report
+#: model_terms:ir.ui.view,arch_db:l10n_ro_stock_account_retail_picking_report.report_delivery_document
+msgid ""
+"<span>Goods Receipt and Discrepancy Note</span>\n"
+"                <br/>"
+msgstr ""
+
+#. module: l10n_ro_stock_account_retail_picking_report
+#: model_terms:ir.ui.view,arch_db:l10n_ro_stock_account_retail_picking_report.report_delivery_document
+msgid "<strong>Deferred VAT</strong>"
+msgstr ""
+
+#. module: l10n_ro_stock_account_retail_picking_report
+#: model_terms:ir.ui.view,arch_db:l10n_ro_stock_account_retail_picking_report.report_delivery_document
+msgid "<strong>Markup %</strong>"
+msgstr ""
+
+#. module: l10n_ro_stock_account_retail_picking_report
+#: model_terms:ir.ui.view,arch_db:l10n_ro_stock_account_retail_picking_report.report_delivery_document
+msgid "<strong>Markup Value</strong>"
+msgstr ""
+
+#. module: l10n_ro_stock_account_retail_picking_report
+#: model_terms:ir.ui.view,arch_db:l10n_ro_stock_account_retail_picking_report.report_delivery_document
+msgid "<strong>Purchase Unit Price</strong>"
+msgstr ""
+
+#. module: l10n_ro_stock_account_retail_picking_report
+#: model_terms:ir.ui.view,arch_db:l10n_ro_stock_account_retail_picking_report.report_delivery_document
+msgid "<strong>Purchase Value</strong>"
+msgstr ""
+
+#. module: l10n_ro_stock_account_retail_picking_report
+#: model_terms:ir.ui.view,arch_db:l10n_ro_stock_account_retail_picking_report.report_delivery_document
+msgid "<strong>Retail Price excl. VAT</strong>"
+msgstr ""
+
+#. module: l10n_ro_stock_account_retail_picking_report
+#: model_terms:ir.ui.view,arch_db:l10n_ro_stock_account_retail_picking_report.report_delivery_document
+msgid "<strong>Retail Price</strong>"
+msgstr ""
+
+#. module: l10n_ro_stock_account_retail_picking_report
+#: model_terms:ir.ui.view,arch_db:l10n_ro_stock_account_retail_picking_report.report_delivery_document
+msgid "<strong>Retail Value</strong>"
+msgstr ""
+
+#. module: l10n_ro_stock_account_retail_picking_report
+#: model:ir.model.fields,help:l10n_ro_stock_account_retail_picking_report.field_stock_picking__l10n_ro_retail_incoming
+msgid ""
+"At least one line brings goods into a retail location from outside it. Such "
+"a transfer prints as a reception note showing the cost, the markup and the "
+"shelf price."
+msgstr ""
+
+#. module: l10n_ro_stock_account_retail_picking_report
+#: model:ir.model.fields,field_description:l10n_ro_stock_account_retail_picking_report.field_stock_move_line__display_name
+#: model:ir.model.fields,field_description:l10n_ro_stock_account_retail_picking_report.field_stock_picking__display_name
+msgid "Display Name"
+msgstr ""
+
+#. module: l10n_ro_stock_account_retail_picking_report
+#: model:ir.model.fields,field_description:l10n_ro_stock_account_retail_picking_report.field_stock_move_line__id
+#: model:ir.model.fields,field_description:l10n_ro_stock_account_retail_picking_report.field_stock_picking__id
+msgid "ID"
+msgstr ""
+
+#. module: l10n_ro_stock_account_retail_picking_report
+#: model:ir.model,name:l10n_ro_stock_account_retail_picking_report.model_stock_move_line
+msgid "Product Moves (Stock Move Line)"
+msgstr ""
+
+#. module: l10n_ro_stock_account_retail_picking_report
+#: model:ir.model.fields,field_description:l10n_ro_stock_account_retail_picking_report.field_stock_picking__l10n_ro_retail_incoming
+msgid "Reception Into a Shop"
+msgstr ""
+
+#. module: l10n_ro_stock_account_retail_picking_report
+#: model:ir.model,name:l10n_ro_stock_account_retail_picking_report.model_stock_picking
+msgid "Transfer"
+msgstr ""

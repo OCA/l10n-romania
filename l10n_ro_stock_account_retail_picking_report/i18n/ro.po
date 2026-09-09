@@ -1,0 +1,101 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* l10n_ro_stock_account_retail_picking_report
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 19.0+e\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-09-06 17:10+0000\n"
+"PO-Revision-Date: 2026-09-06 17:10+0000\n"
+"Last-Translator: NextERP Romania\n"
+"Language-Team: Romanian\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: nplurals=3; plural=(n==1 ? 0 : (n==0 || (n%100 > 0 && n%100 < 20)) ? 1 : 2);\n"
+"Language: ro\n"
+
+#. module: l10n_ro_stock_account_retail_picking_report
+#: model_terms:ir.ui.view,arch_db:l10n_ro_stock_account_retail_picking_report.report_delivery_document
+msgid ""
+"<span>Goods Receipt and Discrepancy Note</span>\n"
+"                <br/>"
+msgstr ""
+"<span>Notă de recepție și constatare de diferențe</span>\n"
+"                <br/>"
+
+#. module: l10n_ro_stock_account_retail_picking_report
+#: model_terms:ir.ui.view,arch_db:l10n_ro_stock_account_retail_picking_report.report_delivery_document
+msgid "<strong>Deferred VAT</strong>"
+msgstr "<strong>TVA neexigibilă</strong>"
+
+#. module: l10n_ro_stock_account_retail_picking_report
+#: model_terms:ir.ui.view,arch_db:l10n_ro_stock_account_retail_picking_report.report_delivery_document
+msgid "<strong>Markup %</strong>"
+msgstr "<strong>Procent adaos</strong>"
+
+#. module: l10n_ro_stock_account_retail_picking_report
+#: model_terms:ir.ui.view,arch_db:l10n_ro_stock_account_retail_picking_report.report_delivery_document
+msgid "<strong>Markup Value</strong>"
+msgstr "<strong>Valoare adaos</strong>"
+
+#. module: l10n_ro_stock_account_retail_picking_report
+#: model_terms:ir.ui.view,arch_db:l10n_ro_stock_account_retail_picking_report.report_delivery_document
+msgid "<strong>Purchase Unit Price</strong>"
+msgstr "<strong>Preț unitar achiziție</strong>"
+
+#. module: l10n_ro_stock_account_retail_picking_report
+#: model_terms:ir.ui.view,arch_db:l10n_ro_stock_account_retail_picking_report.report_delivery_document
+msgid "<strong>Purchase Value</strong>"
+msgstr "<strong>Valoare achiziție</strong>"
+
+#. module: l10n_ro_stock_account_retail_picking_report
+#: model_terms:ir.ui.view,arch_db:l10n_ro_stock_account_retail_picking_report.report_delivery_document
+msgid "<strong>Retail Price excl. VAT</strong>"
+msgstr "<strong>Preț vânzare fără TVA</strong>"
+
+#. module: l10n_ro_stock_account_retail_picking_report
+#: model_terms:ir.ui.view,arch_db:l10n_ro_stock_account_retail_picking_report.report_delivery_document
+msgid "<strong>Retail Price</strong>"
+msgstr "<strong>Preț vânzare</strong>"
+
+#. module: l10n_ro_stock_account_retail_picking_report
+#: model_terms:ir.ui.view,arch_db:l10n_ro_stock_account_retail_picking_report.report_delivery_document
+msgid "<strong>Retail Value</strong>"
+msgstr "<strong>Valoare vânzare</strong>"
+
+#. module: l10n_ro_stock_account_retail_picking_report
+#: model:ir.model.fields,help:l10n_ro_stock_account_retail_picking_report.field_stock_picking__l10n_ro_retail_incoming
+msgid ""
+"At least one line brings goods into a retail location from outside it. Such "
+"a transfer prints as a reception note showing the cost, the markup and the "
+"shelf price."
+msgstr "Cel puțin o linie aduce marfă într-o locație de magazin din afara ei. Un astfel de transfer se tipărește ca notă de recepție, cu costul, adaosul și prețul de raft."
+
+#. module: l10n_ro_stock_account_retail_picking_report
+#: model:ir.model.fields,field_description:l10n_ro_stock_account_retail_picking_report.field_stock_move_line__display_name
+#: model:ir.model.fields,field_description:l10n_ro_stock_account_retail_picking_report.field_stock_picking__display_name
+msgid "Display Name"
+msgstr "Nume afișat"
+
+#. module: l10n_ro_stock_account_retail_picking_report
+#: model:ir.model.fields,field_description:l10n_ro_stock_account_retail_picking_report.field_stock_move_line__id
+#: model:ir.model.fields,field_description:l10n_ro_stock_account_retail_picking_report.field_stock_picking__id
+msgid "ID"
+msgstr "ID"
+
+#. module: l10n_ro_stock_account_retail_picking_report
+#: model:ir.model,name:l10n_ro_stock_account_retail_picking_report.model_stock_move_line
+msgid "Product Moves (Stock Move Line)"
+msgstr "Mișcări de produse (linie mișcare stoc)"
+
+#. module: l10n_ro_stock_account_retail_picking_report
+#: model:ir.model.fields,field_description:l10n_ro_stock_account_retail_picking_report.field_stock_picking__l10n_ro_retail_incoming
+msgid "Reception Into a Shop"
+msgstr "Recepție în magazin"
+
+#. module: l10n_ro_stock_account_retail_picking_report
+#: model:ir.model,name:l10n_ro_stock_account_retail_picking_report.model_stock_picking
+msgid "Transfer"
+msgstr "Transfer"

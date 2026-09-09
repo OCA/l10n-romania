@@ -1,0 +1,6 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_l10n_ro_retail_markup_line_stock_user,l10n.ro.retail.markup.line stock user,model_l10n_ro_retail_markup_line,stock.group_stock_user,1,0,0,0
+access_l10n_ro_retail_markup_line_stock_manager,l10n.ro.retail.markup.line stock manager,model_l10n_ro_retail_markup_line,stock.group_stock_manager,1,0,0,0
+access_l10n_ro_retail_markup_line_account_user,l10n.ro.retail.markup.line account user,model_l10n_ro_retail_markup_line,account.group_account_user,1,0,0,0
+access_l10n_ro_retail_opening_balance,l10n.ro.retail.opening.balance,model_l10n_ro_retail_opening_balance,account.group_account_manager,1,1,1,1
+access_l10n_ro_retail_opening_balance_line,l10n.ro.retail.opening.balance.line,model_l10n_ro_retail_opening_balance_line,account.group_account_manager,1,1,1,1

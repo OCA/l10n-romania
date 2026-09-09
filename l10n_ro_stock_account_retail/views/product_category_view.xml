@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="view_product_category_retail_form" model="ir.ui.view">
+        <field name="name">view_product_category_retail_form</field>
+        <field name="model">product.category</field>
+        <field
+            name="inherit_id"
+            ref="l10n_ro_stock_account.view_product_category_add_romania_form"
+        />
+        <field name="arch" type="xml">
+            <field name="l10n_ro_stock_account_change" position="after">
+                <field
+                    name="l10n_ro_account_markup_id"
+                    options="{'no_create': True}"
+                    groups="account.group_account_readonly"
+                />
+                <field
+                    name="l10n_ro_account_deferred_vat_id"
+                    options="{'no_create': True}"
+                    groups="account.group_account_readonly"
+                />
+            </field>
+        </field>
+    </record>
+</odoo>
