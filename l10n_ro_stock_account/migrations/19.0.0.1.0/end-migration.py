@@ -11,11 +11,24 @@ MODULES_TO_REMOVE = [
 
 
 def _uninstall_modules(env):
-    _logger.info("Uninstalling l10n_ro_stock_account_notice module")
+    to_uninstall_modules = env["ir.module.module"].search(
+        [("name", "in", MODULES_TO_REMOVE), ("state", "!=", "uninstalled")]
+    )
     env.cr.execute(
-        "update ir_module_module set state = 'uninstalled' where name in %s",
+        "update ir_module_module set state = 'installed' where name in %s",
         (tuple(MODULES_TO_REMOVE),),
     )
+    for module in to_uninstall_modules:
+        _logger.info(f"Found module: {module.name} with current state {module.state}")
+        if module.state in ("installed", "to upgrade"):
+            _logger.info(f"Uninstalling module: {module.name}")
+            module.button_uninstall()
+            _logger.info(f"Module {module.name} uninstalled successfully")
+        else:
+            _logger.info(
+                f"Module {module.name} is already uninstalled or "
+                f"in an unexpected state: {module.state}"
+            )
 
 
 def migrate(cr, version):
