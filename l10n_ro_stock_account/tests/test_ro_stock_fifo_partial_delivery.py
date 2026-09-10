@@ -5,13 +5,10 @@ from unittest.mock import patch
 
 from odoo import Command
 from odoo.exceptions import UserError
-from odoo.tests import Form, tagged
-
-from .common import TestROStockCommon
+from odoo.tests import Form
 
 
-@tagged("post_install", "-at_install")
-class TestROStockFifoPartialDelivery(TestROStockCommon):
+class FifoPartialDeliveryCases:
     """``stock_move._split_for_fifo_assignment`` must walk the per-location FIFO
     stack for ``move.quantity`` - what is actually being shipped on this
     transfer - and not for ``product_uom_qty``/``product_qty``, the *ordered*
@@ -38,32 +35,6 @@ class TestROStockFifoPartialDelivery(TestROStockCommon):
     # ------------------------------------------------------------------
     # Helpers
     # ------------------------------------------------------------------
-    def _receive(self, qty, price, index):
-        """Receive ``qty`` at ``price`` into ``self.location``, one FIFO layer."""
-        self.create_purchase(
-            {
-                "currency_id": self.ron,
-                "partner_id": self.supplier_1,
-                "product_id": self.product_fifo,
-                "qty": qty,
-                "stock_qty": qty,
-                "inv_qty": qty,
-                "price": price,
-                "inv_price": price,
-                "index": index,
-            }
-        )
-        return self.env["stock.move"].search(
-            [
-                ("product_id", "=", self.product_fifo.id),
-                ("is_in", "=", True),
-                ("state", "=", "done"),
-                ("location_dest_id", "=", self.location.id),
-            ],
-            order="id desc",
-            limit=1,
-        )
-
     def _two_layers(self):
         """10 @ 100 then 10 @ 150 - two layers, so a split is needed as soon as
         more than 10 units are shipped. Returns the two incoming moves."""

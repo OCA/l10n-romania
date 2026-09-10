@@ -38,7 +38,7 @@ class TestAVGInternalTransfer(TestROStockCommon):
         )
 
     def _receive(self, location, qty, price):
-        self.test_case(
+        self.run_test_case(
             {
                 "steps": [
                     {

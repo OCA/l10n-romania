@@ -5,15 +5,10 @@
 import logging
 from contextlib import closing
 
-from odoo.tests import tagged
-
-from .common import TestROStockCommon
-
 _logger = logging.getLogger(__name__)
 
 
-@tagged("post_install", "-at_install")
-class TestStockFifo(TestROStockCommon):
+class StockFifoCases:
     def test_ro_stock_product_fifo(self):
         filename = "test_cases_fifo.csv"
         test_cases = self.read_test_cases_from_csv_file(filename)
@@ -22,7 +17,7 @@ class TestStockFifo(TestROStockCommon):
                 "Running test case: %s - %s", case.get("code"), case.get("name")
             )
             with self.subTest(case=case), closing(self.cr.savepoint()):
-                self.test_case(case)
+                self.run_test_case(case)
 
     def test_ro_search_remaining_qty_per_location(self):
         """Verify that ``search([('remaining_qty', '=', True)])`` returns the

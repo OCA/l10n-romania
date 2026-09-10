@@ -54,7 +54,7 @@ class TestInternalTransferExpenseAccount(TestROStockCommon):
         cls.location1.propagate_account()
 
     def _receive(self, product, location, qty, price):
-        self.test_case(
+        self.run_test_case(
             {
                 "steps": [
                     {

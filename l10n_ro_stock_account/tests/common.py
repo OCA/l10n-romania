@@ -339,7 +339,36 @@ class TestROStockCommon(AccountTestInvoicingCommon):
                 test_cases[row["case_no"]]["steps"].append(row)
         return test_cases
 
-    def test_case(self, case=False):
+    def _receive(self, qty, price, index):
+        """Receive ``qty`` of ``product_fifo`` at ``price``, one FIFO layer.
+
+        Returns the incoming ``stock.move`` that carries the layer.
+        """
+        self.create_purchase(
+            {
+                "currency_id": self.ron,
+                "partner_id": self.supplier_1,
+                "product_id": self.product_fifo,
+                "qty": qty,
+                "stock_qty": qty,
+                "inv_qty": qty,
+                "price": price,
+                "inv_price": price,
+                "index": index,
+            }
+        )
+        return self.env["stock.move"].search(
+            [
+                ("product_id", "=", self.product_fifo.id),
+                ("is_in", "=", True),
+                ("state", "=", "done"),
+                ("location_dest_id", "=", self.location.id),
+            ],
+            order="id desc",
+            limit=1,
+        )
+
+    def run_test_case(self, case=False):
         if case:
             for step in case.get("steps", []):
                 step["index"] = case.get("steps", []).index(step) + 1

@@ -1,13 +1,8 @@
 # Copyright (C) 2026 NextERP Romania SRL
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
-from odoo.tests import tagged
 
-from .common import TestROStockCommon
-
-
-@tagged("post_install", "-at_install")
-class TestROStockFifoZeroQty(TestROStockCommon):
+class FifoZeroQtyCases:
     """An incoming move with nothing left to consume (its valued quantity is
     zero) must not be split off from the outgoing move: ``_split`` returns no
     values for a zero quantity, which used to raise ``IndexError: list index
@@ -15,31 +10,6 @@ class TestROStockFifoZeroQty(TestROStockCommon):
 
     ``_run_fifo_layers`` returns slices of the incoming moves making up the
     location stack - 19.0 has no ``stock.valuation.layer`` any more."""
-
-    def _receive(self, qty, price, index):
-        self.create_purchase(
-            {
-                "currency_id": self.ron,
-                "partner_id": self.supplier_1,
-                "product_id": self.product_fifo,
-                "qty": qty,
-                "stock_qty": qty,
-                "inv_qty": qty,
-                "price": price,
-                "inv_price": price,
-                "index": index,
-            }
-        )
-        return self.env["stock.move"].search(
-            [
-                ("product_id", "=", self.product_fifo.id),
-                ("is_in", "=", True),
-                ("state", "=", "done"),
-                ("location_dest_id", "=", self.location.id),
-            ],
-            order="id desc",
-            limit=1,
-        )
 
     def _deliver(self, qty, index):
         sale = self.create_sale_order(
