@@ -6,20 +6,10 @@ import logging
 import os
 from contextlib import closing
 
-from odoo.tests import tagged
-
-from odoo.addons.l10n_ro_stock_account.tests.common import TestROStockCommon
-
 _logger = logging.getLogger(__name__)
 
 
-@tagged("post_install", "-at_install")
-class TestStockFifo(TestROStockCommon):
-    @TestROStockCommon.setup_country("ro")
-    def setUp(cls):
-        super().setUp()
-        cls.l10n_ro_cost_type = "normal"
-
+class LandedCostFifoCases:
     def test_ro_stock_product_fifo(self):
         module_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
         filename = "test_cases_fifo.csv"
@@ -29,7 +19,7 @@ class TestStockFifo(TestROStockCommon):
                 "Running test case: %s - %s", case.get("code"), case.get("name")
             )
             with self.subTest(case=case), closing(self.cr.savepoint()):
-                self.test_case(case)
+                self.run_test_case(case)
 
     def test_button_create_landed_costs(self):
         purchase = self.env["purchase.order"].create(
