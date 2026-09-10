@@ -1,18 +1,20 @@
 # Copyright (C) 2019 NextERP Romania
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
-from odoo.tests import tagged
-
-from odoo.addons.account.tests.common import AccountTestInvoicingCommon
+from odoo.tests import TransactionCase, tagged
 
 
 @tagged("post_install", "-at_install")
-class TestStockWarehouseCreation(AccountTestInvoicingCommon):
+class TestStockWarehouseCreation(TransactionCase):
     @classmethod
-    @AccountTestInvoicingCommon.setup_country("ro")
     def setUpClass(cls):
         super().setUpClass()
+        # These tests need a Romanian company, not the Romanian chart of
+        # accounts that AccountTestInvoicingCommon rebuilds from scratch for
+        # every post_install test class.
+        cls.env.company.country_id = cls.env.ref("base.ro")
         cls.env.company.anglo_saxon_accounting = True
         cls.env.company.l10n_ro_accounting = True
+        cls.product_category = cls.env.ref("product.product_category_goods")
         cls.env.company._create_usage_location()
         cls.env.company._create_consume_location()
 
