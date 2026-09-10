@@ -51,7 +51,7 @@ class TestStockFifo(TestROStockCommon):
                 "Running test case: %s - %s", case.get("code"), case.get("name")
             )
             with self.subTest(case=case), closing(self.cr.savepoint()):
-                self.test_case(case)
+                self.run_test_case(case)
 
     def _create_kg_reception(self, qty, price, partner_name):
         """Confirm and fully receive a purchase order for `self.product_kg`
