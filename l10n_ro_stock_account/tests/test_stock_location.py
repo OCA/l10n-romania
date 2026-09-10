@@ -4,15 +4,10 @@
 
 import logging
 
-from odoo.tests import tagged
-
-from .common import TestROStockCommon
-
 _logger = logging.getLogger(__name__)
 
 
-@tagged("post_install", "-at_install")
-class TestStockLocation(TestROStockCommon):
+class StockLocationCases:
     def test_propagate_account_child_locations(self):
         """Test propagate_account with child stock locations"""
         # Create a parent location
