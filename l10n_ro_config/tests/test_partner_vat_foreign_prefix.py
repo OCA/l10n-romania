@@ -1,12 +1,10 @@
 # Copyright (C) 2026 Terrabit Solutions
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
-from odoo.tests import tagged
-
-from odoo.addons.account.tests.common import AccountTestInvoicingCommon
+from odoo.tests import TransactionCase, tagged
 
 
 @tagged("post_install", "-at_install")
-class TestPartnerVatForeignPrefix(AccountTestInvoicingCommon):
+class TestPartnerVatForeignPrefix(TransactionCase):
     """A foreign tax ID must keep the exact form it was entered with.
 
     ``_split_vat`` used to look up a partner having the same ``vat`` and borrow
@@ -17,9 +15,12 @@ class TestPartnerVatForeignPrefix(AccountTestInvoicingCommon):
     """
 
     @classmethod
-    @AccountTestInvoicingCommon.setup_country("ro")
     def setUpClass(cls):
         super().setUpClass()
+        # These tests need a Romanian company, not the Romanian chart of
+        # accounts that AccountTestInvoicingCommon rebuilds from scratch for
+        # every post_install test class.
+        cls.env.company.country_id = cls.env.ref("base.ro")
         cls.env.company.l10n_ro_accounting = True
         cls.env.companies.vat_check_vies = False
         cls.country_hu = cls.env.ref("base.hu")

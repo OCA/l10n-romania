@@ -3,21 +3,22 @@
 
 from lxml import etree
 
-from odoo.tests import tagged
-
-from odoo.addons.account.tests.common import AccountTestInvoicingCommon
+from odoo.tests import TransactionCase, tagged
 
 
 @tagged("post_install", "-at_install")
-class TestL10nRoHide(AccountTestInvoicingCommon):
+class TestL10nRoHide(TransactionCase):
     """The Romanian localization hides its own fields, buttons and contextual
     actions when the active company is not a Romanian company (see
     ``l10n.ro.mixin.get_view`` and ``ir.actions.actions.get_bindings``)."""
 
     @classmethod
-    @AccountTestInvoicingCommon.setup_country("ro")
     def setUpClass(cls):
         super().setUpClass()
+        # These tests need a Romanian company, not the Romanian chart of
+        # accounts that AccountTestInvoicingCommon rebuilds from scratch for
+        # every post_install test class.
+        cls.env.company.country_id = cls.env.ref("base.ro")
         cls.ro_company = cls.env.company
         cls.ro_company.l10n_ro_accounting = True
         cls.non_ro_company = cls.env["res.company"].create(
