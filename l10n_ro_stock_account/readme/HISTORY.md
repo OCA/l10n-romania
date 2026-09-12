@@ -1,3 +1,51 @@
+## 19.0.1.11.0
+
+- Fix an internal transfer expensing the goods instead of handing them over to
+  the destination warehouse, whenever the source location carries its own
+  expense account (`l10n_ro_property_account_expense_location_id`) and the
+  product category has `l10n_ro_stock_account_change` set. The transfer entry is
+  built from two legs, `Dr <transfer> / Cr <source valuation>` and
+  `Dr <destination valuation> / Cr <transfer>`, and the destination valuation
+  account reaches the entry builder under the `expense` key, which
+  `_get_product_accounts` resolves for `internal_transfer` from the destination
+  location. That resolution was overwritten a few lines below by the source
+  location's expense account - which for an internal transfer is always the one
+  read, the source being internal, so the location accounts are taken from it.
+  The second leg therefore debited the expense account instead of the
+  destination's stock valuation account: the value left the source warehouse and
+  was recognised as a cost, the destination warehouse never received it, and the
+  stock ledger drifted away from the stock account by the transferred amount for
+  good. The same override also defeated the guard that suppresses the entry
+  altogether when both ends resolve to one valuation account
+  (`expense == stock_valuation`), so a transfer between two locations of the
+  *same* warehouse - which must produce no accounting at all - booked that
+  spurious expense too. The account resolved for `internal_transfer` is now
+  kept; every other move type keeps reading the location's expense account
+  exactly as before. It is also resolved for every category, not only for the
+  ones carrying `l10n_ro_stock_account_change`: without that flag the location
+  accounts are ignored altogether, so both legs land on the product's own
+  valuation account and the entry is dropped as a whole, where before every
+  single internal transfer of such a product - the default configuration -
+  debited the product's expense account and credited the stock account. The
+  existing coverage never reproduced this: the direct transfer cases only
+  transfer *into* the warehouse that has its own accounts, the sub-location one
+  uses locations that share the product's account, and every category in the
+  test fixture has the flag set. Added regression tests for both cost methods -
+  the reverse direction as a case in each CSV suite, and
+  `tests/test_internal_transfer_expense_account.py` asserting the entry leg by
+  leg, including a FIFO transfer split over two price layers, a transfer inside
+  one warehouse and a transfer of a category without location accounts, both of
+  which must post nothing.
+- List the extra accounting entries on a picking's *Journal Items* button. A
+  `stock.move` carries two kinds of entries: the valuation entry on
+  `account_move_id` and the ones in `l10n_ro_extra_account_move_ids` - the
+  receivable/income entry of a delivery on notice, the off-balance entry of a
+  usage giving, and the entries added by
+  `l10n_ro_stock_account_landed_cost`. The button listed only the first, so the
+  rest of what the transfer posted was unreachable from the picking, and for a
+  move whose only entry is an extra one the button opened nothing at all. Both
+  sets are listed now, covered by a test on a usage giving.
+
 ## 19.0.1.8.0
 
 - Fix dropship moves retroactively repricing unrelated real stock of the
