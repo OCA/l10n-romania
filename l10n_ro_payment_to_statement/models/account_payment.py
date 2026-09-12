@@ -28,7 +28,7 @@ class AccountPayment(models.Model):
         lines = self.env["account.bank.statement.line"]
         for payment in self:
             if (
-                payment.state == "in_process"
+                (payment.state == "in_process" or not payment.move_id)
                 and not payment.l10n_ro_statement_line_id
                 and payment.l10n_ro_statement_id
             ):
@@ -53,12 +53,43 @@ class AccountPayment(models.Model):
                 lines |= line
                 payment.write({"l10n_ro_statement_line_id": line.id})
 
+                if not payment.move_id:
+                    statement = payment.l10n_ro_statement_id
+                    amount = payment.l10n_ro_statement_line_id.amount
+                    statement._l10n_ro_update_balance_end(amount)
+
+    def _get_l10n_ro_bank_statement(self):
+        self.ensure_one()
+        domain = [
+            ("date", "=", self.date),
+            ("journal_id", "=", self.journal_id.id),
+            ("journal_id.l10n_ro_auto_statement", "=", True),
+        ]
+        statement = self.env["account.bank.statement"].search(domain, limit=1)
+        if statement:
+            self.l10n_ro_statement_id = statement
+        else:
+            # daca tipul este numerar trebuie generat
+            if self.journal_id.l10n_ro_auto_statement:
+                values = {
+                    "journal_id": self.journal_id.id,
+                    "date": self.date,
+                    # "name": "/",
+                }
+                statement = self.env["account.bank.statement"].sudo().create(values)
+                self.l10n_ro_statement_id = statement
+
     def action_post(self):
         res = super().action_post()
         l10n_ro_records = self.filtered(lambda p: p.is_l10n_ro_record)
         if l10n_ro_records:
             for payment in l10n_ro_records:
-                payment.move_id._get_l10n_ro_bank_statement()
+                if payment.move_id:
+                    payment.move_id._get_l10n_ro_bank_statement()
+                else:
+                    payment._get_l10n_ro_bank_statement()
+                    payment.state = "paid"
+
             l10n_ro_records.get_l10n_ro_statement_line()
         return res
 
