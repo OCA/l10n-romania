@@ -42,6 +42,18 @@ msgstr "Număr de atașamente"
 
 #. module: l10n_ro_dvi
 #. odoo-python
+#: code:addons/l10n_ro_dvi/models/l10n_ro_account_dvi.py:0
+msgid "BASE VAT Price Difference"
+msgstr ""
+
+#. module: l10n_ro_dvi
+#. odoo-python
+#: code:addons/l10n_ro_dvi/models/l10n_ro_account_dvi.py:0
+msgid "BASE VAT Price Difference - offset"
+msgstr ""
+
+#. module: l10n_ro_dvi
+#. odoo-python
 #: code:addons/l10n_ro_dvi/models/stock_landed_cost.py:0
 msgid "BASE paid at customs"
 msgstr "Bază plată în vamă"
@@ -189,6 +201,7 @@ msgstr "Data"
 
 #. module: l10n_ro_dvi
 #: model:ir.model.fields,field_description:l10n_ro_dvi.field_account_move__display_name
+#: model:ir.model.fields,field_description:l10n_ro_dvi.field_account_tax__display_name
 #: model:ir.model.fields,field_description:l10n_ro_dvi.field_l10n_ro_account_dvi__display_name
 #: model:ir.model.fields,field_description:l10n_ro_dvi.field_l10n_ro_account_dvi_line__display_name
 #: model:ir.model.fields,field_description:l10n_ro_dvi.field_res_company__display_name
@@ -219,6 +232,7 @@ msgstr "Are mesaj"
 
 #. module: l10n_ro_dvi
 #: model:ir.model.fields,field_description:l10n_ro_dvi.field_account_move__id
+#: model:ir.model.fields,field_description:l10n_ro_dvi.field_account_tax__id
 #: model:ir.model.fields,field_description:l10n_ro_dvi.field_l10n_ro_account_dvi__id
 #: model:ir.model.fields,field_description:l10n_ro_dvi.field_l10n_ro_account_dvi_line__id
 #: model:ir.model.fields,field_description:l10n_ro_dvi.field_res_company__id
@@ -479,10 +493,25 @@ msgid "Stock Landed Cost"
 msgstr "Cost Adițional Stoc"
 
 #. module: l10n_ro_dvi
+#: model:ir.model,name:l10n_ro_dvi.model_account_tax
 #: model:ir.model.fields,field_description:l10n_ro_dvi.field_l10n_ro_account_dvi__tax_id
 #: model:ir.model.fields,field_description:l10n_ro_dvi.field_l10n_ro_account_dvi_line__tax_id
 msgid "Tax"
 msgstr "TVA"
+
+#. module: l10n_ro_dvi
+#. odoo-python
+#: code:addons/l10n_ro_dvi/models/account_tax.py:0
+msgid "Tax %s has no rate; the VAT base cannot be deduced."
+msgstr ""
+
+#. module: l10n_ro_dvi
+#. odoo-python
+#: code:addons/l10n_ro_dvi/models/account_tax.py:0
+msgid ""
+"Tax %s is a fixed amount tax; the VAT base cannot be deduced from a VAT "
+"amount."
+msgstr ""
 
 #. module: l10n_ro_dvi
 #: model:ir.model.fields,help:l10n_ro_dvi.field_l10n_ro_account_dvi_line__qty
