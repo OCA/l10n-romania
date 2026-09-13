@@ -244,41 +244,29 @@ class TestReportPoSOrder(CommonPosTest):
         # Validare comandă și creare factură
         order.action_pos_order_invoice()
         data = session._accumulate_amounts({})
-        self.assertIn(
-            "stock_expense",
-            data,
-            "Trebuie să existe cheile pentru stoc în datele acumulate",
-        )
-        self.assertIn(
-            "stock_return",
-            data,
-            "Trebuie să existe cheile pentru stoc în datele acumulate",
-        )
-        self.assertIn(
-            "stock_output",
-            data,
-            "Trebuie să existe cheile pentru stoc în datele acumulate",
-        )
-        self.assertIn(
-            "stock_valuation",
-            data,
-            "Trebuie să existe cheile pentru stoc în datele acumulate",
-        )
-        # Cheile de stoc trebuie să fie dict-uri goale, deoarece nu se generează
-        # note contabile pentru stoc în l10n_ro_accounting (sunt generate în
-        # mișcarea de stoc). În Odoo 19 aceste structuri sunt grupate pe cont și
-        # consumate cu .items() la închiderea sesiunii — fiecare valoare ar fi
-        # trebuit să fie un dict {amount, amount_converted}, deci golirea lor
-        # previne generarea liniilor (și TypeError-ul de la iterare).
-        #
-        # "stock_valuation" trebuie golit explicit: e consumat separat de core în
-        # _create_stock_valuation_lines, iar dacă rămâne populat generează o linie
-        # de valorizare fără contrapartidă (stock_output e golit) => notă de
-        # închidere dezechilibrată cu costul mărfii comenzilor nefacturate.
-        for key in ["stock_expense", "stock_return", "stock_output", "stock_valuation"]:
-            self.assertEqual(
-                data[key],
-                {},
-                f"Cheia {key} ar trebui să fie goală deoarece nu se generează \
-                note contabile pentru stoc",
-            )
+        # Cheile de stoc exista mereu (le pune core-ul), dar nu mai trebuie sa
+        # genereze linii atunci cand descarcarea de gestiune e deja postata pe
+        # miscarea de stoc de l10n_ro_stock_account. "stock_valuation" merge
+        # golit odata cu "stock_expense": e consumat separat de core in
+        # _create_stock_valuation_lines, iar contrapartida sa tocmai a fost
+        # golita, deci ar iesi o linie de valorizare fara contrapartida =>
+        # nota de inchidere dezechilibrata exact cu costul marfii.
+        stock_keys = ["stock_expense", "stock_return", "stock_valuation"]
+        for key in stock_keys:
+            self.assertIn(key, data, "Cheile de stoc trebuie sa existe in date")
+
+        if session._l10n_ro_stock_move_posts_goods_issue():
+            for key in stock_keys:
+                self.assertEqual(
+                    data[key],
+                    {},
+                    f"Cheia {key} trebuie golita: nota contabila vine din "
+                    f"miscarea de stoc",
+                )
+                # Sumele raman disponibile pentru raportare.
+                self.assertIn(f"l10n_ro_{key}", data)
+        else:
+            # Fara l10n_ro_stock_account nimeni nu posteaza iesirea din
+            # gestiune, deci nota de inchidere ramane singura sursa a ei.
+            for key in stock_keys:
+                self.assertNotIn(f"l10n_ro_{key}", data)
