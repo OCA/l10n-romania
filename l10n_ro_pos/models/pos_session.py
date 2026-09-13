@@ -6,36 +6,42 @@
 
 from odoo import models
 
+# Buckets accumulated by core for the goods issue of the uninvoiced orders.
+# "stock_valuation" belongs here even though it is consumed separately by
+# _create_stock_valuation_lines (called from _create_account_move): its
+# counterpart is "stock_expense", so the two have to go together or the closing
+# entry ends up unbalanced by exactly the cost of goods of those orders.
+L10N_RO_STOCK_KEYS = ("stock_expense", "stock_return", "stock_valuation")
+
 
 class PosSession(models.Model):
     _inherit = "pos.session"
 
-    def _reconcile_account_move_lines(self, data):
-        if self.company_id.l10n_ro_accounting:
-            data["stock_output_lines"] = {}
-        return super()._reconcile_account_move_lines(data)
+    def _l10n_ro_stock_move_posts_goods_issue(self):
+        """Is the goods issue already posted by the stock move itself?
+
+        l10n_ro_stock_account makes every Romanian stock move create its own
+        accounting entry, whatever the product valuation is, so the session
+        closing entry would post the goods issue a second time.  With only
+        l10n_ro_config installed nothing posts it and the closing entry stays
+        the sole source of it, so the check is on the module, not on the
+        company.
+        """
+        self.ensure_one()
+        return (
+            self.company_id.l10n_ro_accounting
+            and "l10n_ro_move_type" in self.env["stock.move"]._fields
+        )
 
     def _accumulate_amounts(self, data):
         data = super()._accumulate_amounts(data)
-        if self.company_id.l10n_ro_accounting:
-            # nu trebuie generate note contabile
-            # pentru ca acestea sunt generate in miscarea de stoc.
-            # In Odoo 19 cheile sunt dict-uri grupate pe cont (defaultdict),
-            # consumate cu .items() => fiecare valoare trebuie sa fie un dict
-            # {amount, amount_converted}. Le golim ca sa nu se genereze linii.
-            #
-            # IMPORTANT: trebuie golit si "stock_valuation". Core-ul O19 il
-            # consuma separat in _create_stock_valuation_lines (apelat din
-            # _create_account_move), iar contrapartida sa (stock_output) e deja
-            # golita aici. Daca lasam "stock_valuation" populat, se genereaza o
-            # linie de valorizare fara contrapartida => nota de inchidere iese
-            # dezechilibrata exact cu costul marfii al comenzilor nefacturate.
-            data.update(
-                {
-                    "stock_expense": {},
-                    "stock_return": {},
-                    "stock_output": {},
-                    "stock_valuation": {},
-                }
-            )
+        if not self._l10n_ro_stock_move_posts_goods_issue():
+            return data
+        # The amounts themselves stay correct -- they are the cost of goods of
+        # the session -- so keep them under l10n_ro_* keys for reporting and
+        # for modules building on top of them; only the accounting lines must
+        # not be generated.
+        for key in L10N_RO_STOCK_KEYS:
+            data[f"l10n_ro_{key}"] = data[key]
+            data[key] = {}
         return data
