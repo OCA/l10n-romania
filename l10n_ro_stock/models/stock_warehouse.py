@@ -96,10 +96,10 @@ class StockWarehouse(models.Model):
         ro_whs = self.filtered("is_l10n_ro_record")
         for warehouse in ro_whs:
             sequence_data = warehouse._get_sequence_values()
-            warehouse.l10n_ro_consume_type_id.sequence_id.write(
+            warehouse.l10n_ro_consume_type_id.sequence_id.sudo().write(
                 sequence_data["l10n_ro_consume_type_id"]
             )
-            warehouse.l10n_ro_usage_type_id.sequence_id.write(
+            warehouse.l10n_ro_usage_type_id.sequence_id.sudo().write(
                 sequence_data["l10n_ro_usage_type_id"]
             )
         return res
