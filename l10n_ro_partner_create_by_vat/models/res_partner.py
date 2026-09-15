@@ -36,7 +36,7 @@ AnafFiled_OdooField_Overwrite = [
     ("street2", "street2", "over_all_the_time"),
     ("city", "city", "over_all_the_time"),
     ("city_id", "city_id", "over_all_the_time"),
-    ("state_id", "state_id", "over_all_the_time"),
+    ("state_id", "state_id", "over_if_new_value"),
     ("zip", "codPostal", "over_if_new_value"),
     ("phone", "telefon", "write_if_empty"),
     ("l10n_ro_caen_code", "cod_CAEN", "over_all_the_time"),
@@ -310,14 +310,27 @@ class ResPartner(models.Model):
                 result["street"] += " Nr. " + result.get("dnumar_Strada")
             result["street"] = result["street"].strip().title()
             result["street2"] = result.get("ddetalii_Adresa", " ").strip().title()
+            if not result["street"] and result["street2"]:
+                result["street"] = result["street2"]
+                result["street2"] = ""
+            result["zip"] = result.get("dcod_Postal", "").strip()
             result["city"] = get_city(result.get("ddenumire_Localitate"))
             state_name = get_city(result.get("ddenumire_Judet"))
-            if state_name:
-                state = self.env["res.country.state"].search(
-                    [("name", "=", state_name)],
-                    limit=1,
-                )
-        result["state_id"] = state
+            state_code = result.get("dcod_JudetAuto")
+
+            if state_code:
+                domain = [
+                    ("code", "=", state_code),
+                    ("country_id", "=", self.env.ref("base.ro").id),
+                ]
+                state = self.env["res.country.state"].search(domain, limit=1)
+
+            if not state and state_name:
+                domain = [("name", "=", state_name)]
+                state = self.env["res.country.state"].search(domain, limit=1)
+
+        if state:
+            result["state_id"] = state
         return result
 
     @api.onchange("vat", "country_id")
