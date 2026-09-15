@@ -4,15 +4,10 @@
 
 import logging
 
-from odoo.tests import tagged
-
-from .common import TestROStockCommon
-
 _logger = logging.getLogger(__name__)
 
 
-@tagged("post_install", "-at_install")
-class TestFIFOInternalTransfer(TestROStockCommon):
+class FifoInternalTransferCases:
     def test_fifo_internal_transfer_sublocation(self):
         putaway = self.env["stock.putaway.rule"].create(
             {
@@ -75,4 +70,4 @@ class TestFIFOInternalTransfer(TestROStockCommon):
                 },
             ],
         }
-        self.test_case(case)
+        self.run_test_case(case)
