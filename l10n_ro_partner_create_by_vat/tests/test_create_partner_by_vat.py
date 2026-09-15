@@ -7,20 +7,21 @@ from unittest.mock import Mock, patch
 
 import requests
 
-from odoo.tests import Form, tagged
-
-from odoo.addons.account.tests.common import AccountTestInvoicingCommon
+from odoo.tests import Form, TransactionCase, tagged
 
 from .anaf_data import ANAF_TEST_DATA
 
 
 @tagged("post_install", "-at_install")
-class TestCreatePartnerBase(AccountTestInvoicingCommon):
+class TestCreatePartnerBase(TransactionCase):
     @classmethod
-    @AccountTestInvoicingCommon.setup_country("ro")
     def setUpClass(cls):
         cls._super_send = requests.Session.send
         super().setUpClass()
+        # These tests need a Romanian company, not the Romanian chart of
+        # accounts that AccountTestInvoicingCommon rebuilds from scratch for
+        # every post_install test class.
+        cls.env.company.country_id = cls.env.ref("base.ro")
         cls.env.company.l10n_ro_accounting = True
         cls.mainpartner = cls.env["res.partner"].create({"name": "Test partner"})
         cls.anaf_data = ANAF_TEST_DATA
