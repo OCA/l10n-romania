@@ -85,6 +85,49 @@ class ProductProduct(models.Model):
             price_with_vat, company=company, warehouse=warehouse
         )
 
+    def _l10n_ro_get_retail_prices_batch(self, warehouse=None, company=None):
+        """Shelf price split for every variant in ``self``, in one pass.
+
+        Same answer as ``_l10n_ro_get_retail_prices`` per product, with two
+        differences that matter to the callers that ask for a batch.
+
+        The pricelist is consulted once for the whole recordset rather than
+        once per product. ``_compute_price_rule`` searches the applicable
+        rules for all of them together, which is what makes it possible to
+        watch a rule that prices a whole category, or the whole shop: asking
+        product by product meant one rule search per product, and a global
+        rule on a few thousand articles turned a price edit into minutes of
+        work.
+
+        And a product with no rule is simply absent from the result instead
+        of raising. Refusing is the right answer when goods are about to
+        move - that is what ``_l10n_ro_get_retail_price`` is for - and the
+        wrong one when prices are only being watched: an unpriced article
+        sitting in a corner of the shop must not make a pricelist edit fail.
+
+        :returns: ``{product_id: {price_with_vat, price_without_vat, vat}}``
+        """
+        company = company or (warehouse.company_id if warehouse else self.env.company)
+        pricelist = warehouse.l10n_ro_retail_pricelist_id if warehouse else False
+        if not pricelist or not self:
+            return {}
+        date = self.env.context.get("date") or fields.Date.context_today(self)
+        computed = pricelist._compute_price_rule(self, 1.0)
+        convert = pricelist.currency_id and pricelist.currency_id != company.currency_id
+        result = {}
+        for product in self:
+            price, rule_id = computed.get(product.id, (0.0, False))
+            if not rule_id:
+                continue
+            if convert:
+                price = pricelist.currency_id._convert(
+                    price, company.currency_id, company, date
+                )
+            result[product.id] = product._l10n_ro_split_retail_price(
+                price, company=company, warehouse=warehouse
+            )
+        return result
+
     def _l10n_ro_retail_taxes(self, warehouse=None, company=None):
         """The taxes the shelf price of this variant is split with.
 
