@@ -158,34 +158,49 @@ class RetailPriceChange(models.Model):
             ]
         )
         existing_keys = {(ln.product_id.id, ln.location_id.id) for ln in self.line_ids}
-        new_lines = []
+        candidates = []
+        products = self.env["product.product"]
         for (product, location), qs in self._group_quants(quants):
-            key = (product.id, location.id)
-            if key in existing_keys:
+            if (product.id, location.id) in existing_keys:
                 continue
             qty = sum(qs.mapped("quantity"))
             if float_is_zero(qty, precision_rounding=product.uom_id.rounding):
                 continue
-            prices = product._l10n_ro_get_retail_prices(
+            candidates.append((product, location, qty))
+            products |= product
+        if not candidates:
+            return
+        # One pricelist call for the whole shop. Asking product by product ran
+        # a rule search per article, which a shop that prices a whole category
+        # with one rule feels immediately: the rule is cheap, looking it up
+        # five thousand times is not.
+        prices = products._l10n_ro_get_retail_prices_batch(
+            warehouse=self.warehouse_id, company=self.company_id
+        )
+        unpriced = products.filtered(lambda p: p.id not in prices)
+        if unpriced:
+            # The batch leaves an unpriced article out; a load has to refuse it
+            # instead, and say so in the terms the shop can act on. The single
+            # product call raises exactly that message.
+            unpriced[0]._l10n_ro_get_retail_price(
                 warehouse=self.warehouse_id, company=self.company_id
             )
-            new_lines.append(
-                Command.create(
-                    {
-                        "product_id": product.id,
-                        "location_id": location.id,
-                        "quantity": qty,
-                        # The old side is read from the ledger. Loading with
-                        # today's shelf price on both sides made the document
-                        # unable to say anything: a shop whose 371 had drifted
-                        # away from its own price list posted nothing and had
-                        # no way to put itself right.
-                        "new_price_with_vat": prices["price_with_vat"],
-                    }
-                )
+        self.line_ids = [
+            Command.create(
+                {
+                    "product_id": product.id,
+                    "location_id": location.id,
+                    "quantity": qty,
+                    # The old side is read from the ledger. Loading with
+                    # today's shelf price on both sides made the document
+                    # unable to say anything: a shop whose 371 had drifted
+                    # away from its own price list posted nothing and had
+                    # no way to put itself right.
+                    "new_price_with_vat": prices[product.id]["price_with_vat"],
+                }
             )
-        if new_lines:
-            self.line_ids = new_lines
+            for product, location, qty in candidates
+        ]
 
     @staticmethod
     def _group_quants(quants):
@@ -300,19 +315,44 @@ class RetailPriceChange(models.Model):
         )
 
     def _update_pricelist(self):
-        """Write the new shelf prices on the warehouse retail pricelist.
+        """Make the warehouse retail pricelist answer with the new prices.
 
         A retail pricelist holds the price VAT included - the figure on the
-        shelf label. The old code converted the new PVA to a net price before
-        writing it, so the pricelist ended up holding a different number from
-        the one on the document, and reading it back produced a third one.
+        shelf label - so the PVA is written as it stands, with no conversion
+        to a net price on the way in.
+
+        A fixed rule per variant is written only where one is needed, that is
+        where the pricelist does not already answer with the price this
+        document decided. Writing one unconditionally quietly dismantled the
+        way the shop prices its shelves: a document raised *by* a category
+        rule or a markup formula pinned the product to a fixed price on its
+        way out, so the rule that produced the price stopped reaching it, and
+        after a few rounds of price changes a shop priced by formula was a
+        shop with one fixed rule per article and no formula left in sight. A
+        fixed rule is an override, and it is written when the user actually
+        overrode something.
         """
         self.ensure_one()
         if not self.pricelist_id:
             return
         Item = self.env["product.pricelist.item"]
-        for line in self.line_ids:
-            if not line.new_price_with_vat:
+        lines = self.line_ids.filtered("new_price_with_vat")
+        if not lines:
+            return
+        rounding = self.company_id.currency_id.rounding
+        computed = lines.product_id._l10n_ro_get_retail_prices_batch(
+            warehouse=self.warehouse_id, company=self.company_id
+        )
+        for line in lines:
+            already = computed.get(line.product_id.id)
+            if already and (
+                float_compare(
+                    already["price_with_vat"],
+                    line.new_price_with_vat,
+                    precision_rounding=rounding,
+                )
+                == 0
+            ):
                 continue
             item = Item.search(
                 [
@@ -459,6 +499,278 @@ class RetailPriceChange(models.Model):
                     )
                 )
             doc.state = "cancel"
+
+    # ------------------------------------------------------------------
+    # Recording a shelf price that has moved
+    # ------------------------------------------------------------------
+    @api.model
+    def _l10n_ro_record_moves(self, old_snapshot, new_snapshot):
+        """Put the shelf prices that moved on a draft document, one per shop.
+
+        Both arguments are ``{(warehouse_id, product_id): prices}``, and only
+        the keys whose ``price_with_vat`` differs between them are kept: the
+        callers hand over everything a change *could* have touched, and this
+        is where it is settled by comparison rather than by assumption. That
+        is what lets a rule on a category, or on the whole shop, be followed
+        at all - the answer is the handful of labels that actually moved, not
+        the range the rule names.
+
+        A shop has at most one open automatic document at a time. Without
+        that, a shop that moves a price three times in a morning ends the
+        morning with three drafts for the same product, two of them quoting a
+        price that is no longer the one on the label; and the nightly
+        reconciliation would raise the same divergence again every night until
+        somebody posted it. An existing draft is therefore topped up: a line
+        for goods already on it has its new price brought up to date, and
+        anything new is added.
+        """
+        keys = set(old_snapshot) | set(new_snapshot)
+        if not keys:
+            return self.browse()
+        empty = {"price_with_vat": 0.0, "price_without_vat": 0.0, "vat": 0.0}
+        Warehouse = self.env["stock.warehouse"]
+        Product = self.env["product.product"]
+
+        moved = []
+        for warehouse_id, product_id in keys:
+            warehouse = Warehouse.browse(warehouse_id)
+            old = old_snapshot.get((warehouse_id, product_id)) or empty
+            new = new_snapshot.get((warehouse_id, product_id)) or empty
+            rounding = warehouse.company_id.currency_id.rounding
+            if (
+                float_compare(
+                    old["price_with_vat"],
+                    new["price_with_vat"],
+                    precision_rounding=rounding,
+                )
+                == 0
+            ):
+                continue
+            moved.append((warehouse, Product.browse(product_id), new))
+        if not moved:
+            return self.browse()
+
+        # One quant read for the whole batch instead of one per product.
+        quants = (
+            self.env["stock.quant"]
+            .sudo()
+            ._read_group(
+                [
+                    ("product_id", "in", [p.id for _w, p, _n in moved]),
+                    ("location_id.warehouse_id", "in", [w.id for w, _p, _n in moved]),
+                    ("location_id.l10n_ro_retail", "=", True),
+                    ("quantity", ">", 0),
+                ],
+                groupby=["product_id", "location_id"],
+                aggregates=["quantity:sum"],
+            )
+        )
+        on_hand = {}
+        for product, location, qty in quants:
+            on_hand.setdefault((location.warehouse_id.id, product.id), []).append(
+                (location, qty)
+            )
+
+        per_warehouse = {}
+        for warehouse, product, new in moved:
+            for location, qty in on_hand.get((warehouse.id, product.id), []):
+                per_warehouse.setdefault(warehouse, []).append(
+                    {
+                        "product_id": product.id,
+                        "location_id": location.id,
+                        "quantity": qty,
+                        # The old side comes from what the stock carries, not
+                        # from the price it used to be quoted at: if the two
+                        # had drifted apart, this settles both at once.
+                        "new_price_with_vat": new["price_with_vat"],
+                    }
+                )
+        documents = self.browse()
+        for warehouse, line_vals in per_warehouse.items():
+            documents |= self._l10n_ro_open_draft(warehouse, line_vals)
+        return documents
+
+    @api.model
+    def _l10n_ro_open_draft(self, warehouse, line_vals):
+        """Top up the shop's open automatic draft, or raise a new one."""
+        Doc = self.sudo()
+        document = Doc.search(
+            [
+                ("warehouse_id", "=", warehouse.id),
+                ("state", "=", "draft"),
+                ("auto_created", "=", True),
+            ],
+            limit=1,
+        )
+        if not document:
+            return Doc.create(
+                {
+                    "warehouse_id": warehouse.id,
+                    "company_id": warehouse.company_id.id,
+                    "date": fields.Date.context_today(self),
+                    "auto_created": True,
+                    "line_ids": [Command.create(vals) for vals in line_vals],
+                    "notes": self.env._(
+                        "<p>Auto-generated from a change affecting pricelist "
+                        "%(pl)s.</p>",
+                        pl=warehouse.l10n_ro_retail_pricelist_id.display_name,
+                    ),
+                }
+            )
+        existing = {
+            (line.product_id.id, line.location_id.id): line
+            for line in document.line_ids
+        }
+        commands = []
+        for vals in line_vals:
+            line = existing.get((vals["product_id"], vals["location_id"]))
+            if line:
+                commands.append(
+                    Command.update(
+                        line.id,
+                        {
+                            "quantity": vals["quantity"],
+                            "new_price_with_vat": vals["new_price_with_vat"],
+                        },
+                    )
+                )
+            else:
+                commands.append(Command.create(vals))
+        document.line_ids = commands
+        return document
+
+    # ------------------------------------------------------------------
+    # Nightly reconciliation
+    # ------------------------------------------------------------------
+    @api.model
+    def _l10n_ro_carried_prices(self, warehouse, products=None):
+        """What the goods on the shelves of ``warehouse`` carry, per unit.
+
+        ``{(warehouse_id, product_id): {price_with_vat, price_without_vat,
+        vat}}`` - the cost plus the markup and the deferred VAT recorded
+        against the stock, which is what account 371 holds for it. This is the
+        other half of the invariant the pricelist answers: the label reads one
+        figure, the accounts carry another, and the two agreeing is what this
+        family of modules exists to maintain.
+
+        Goods the markup ledger does not account for are left out. That is the
+        opening balance a shop settles once with its own wizard, and a
+        document raised over it would refuse to post anyway - the rate it
+        applies is derived from the ledger it would be contradicting.
+        """
+        domain = [
+            ("location_id.warehouse_id", "=", warehouse.id),
+            ("location_id.l10n_ro_retail", "=", True),
+            ("quantity", ">", 0),
+        ]
+        if products is not None:
+            if not products:
+                return {}
+            domain.append(("product_id", "in", products.ids))
+        company = warehouse.company_id
+        on_hand = (
+            self.env["stock.quant"]
+            .sudo()
+            ._read_group(domain, groupby=["product_id"], aggregates=["quantity:sum"])
+        )
+        if not on_hand:
+            return {}
+        balances = {
+            product.id: (
+                quantity or 0.0,
+                cost or 0.0,
+                markup or 0.0,
+                vat or 0.0,
+            )
+            for product, quantity, cost, markup, vat in self.env[
+                "l10n.ro.retail.markup.line"
+            ]
+            .sudo()
+            ._read_group(
+                [
+                    ("company_id", "=", company.id),
+                    ("warehouse_id", "=", warehouse.id),
+                    ("product_id", "in", [p.id for p, _q in on_hand]),
+                ],
+                groupby=["product_id"],
+                aggregates=["quantity:sum", "cost:sum", "markup:sum", "vat:sum"],
+            )
+        }
+        carried = {}
+        for product, quantity in on_hand:
+            recorded, cost, markup, vat = balances.get(product.id, (0.0, 0.0, 0.0, 0.0))
+            rounding = product.uom_id.rounding
+            if float_is_zero(recorded, precision_rounding=rounding):
+                continue
+            if float_compare(recorded, quantity, precision_rounding=rounding) != 0:
+                continue
+            carried[(warehouse.id, product.id)] = {
+                "price_with_vat": (cost + markup + vat) / recorded,
+                "price_without_vat": (cost + markup) / recorded,
+                "vat": vat / recorded,
+            }
+        return carried
+
+    @api.model
+    def _l10n_ro_compare_with_carried(self, targets):
+        """Raise drafts wherever the label and account 371 disagree.
+
+        ``targets`` is ``{warehouse: products}``. Used where there is no price
+        from before to compare against - a rule that has just been created had
+        no answer before it existed - and by the nightly reconciliation, which
+        has nothing else to compare against by design.
+        """
+        documents = self.browse()
+        for warehouse, products in targets.items():
+            carried = self._l10n_ro_carried_prices(warehouse, products=products)
+            if not carried:
+                continue
+            covered = self.env["product.product"].browse(
+                {product_id for _wh_id, product_id in carried}
+            )
+            shelf = {
+                (warehouse.id, product_id): prices
+                for product_id, prices in covered._l10n_ro_get_retail_prices_batch(
+                    warehouse=warehouse, company=warehouse.company_id
+                ).items()
+            }
+            # A product with no rule has no shelf price to compare against -
+            # it is left out of both sides rather than read as a drop to zero.
+            documents |= self._l10n_ro_record_moves(
+                {key: value for key, value in carried.items() if key in shelf},
+                shelf,
+            )
+        return documents
+
+    # ------------------------------------------------------------------
+    # Nightly reconciliation
+    # ------------------------------------------------------------------
+    @api.model
+    def _cron_reconcile_shelf_prices(self):
+        """Raise a draft wherever the label and account 371 no longer agree.
+
+        The write hooks on the pricelist catch a price that somebody changed.
+        They cannot catch a price that changed by itself, and several do: the
+        day a dated promotion opens, nothing is written - the pricelist simply
+        starts answering with another figure. A formula over the cost re-prices
+        the shelf on the next reception at a different cost. A formula over the
+        sale price, or over another list, follows edits made somewhere else
+        entirely. A change of VAT rate re-splits every price in the shop.
+
+        All of those have the same shape, and so does the answer. The markup
+        ledger says what each unit on the shelf carries - cost plus markup plus
+        deferred VAT, which is what 371 holds. The pricelist says what the label
+        reads. The two agreeing is the invariant this whole family of modules
+        exists to maintain, so the reliable way to find work is to check the
+        invariant itself rather than to enumerate the ways it can break.
+        """
+        warehouses = self.env["stock.warehouse"].search(
+            [
+                ("l10n_ro_retail", "=", True),
+                ("l10n_ro_retail_pricelist_id", "!=", False),
+            ]
+        )
+        return self._l10n_ro_compare_with_carried(dict.fromkeys(warehouses, None))
 
     def action_view_move(self):
         self.ensure_one()
