@@ -50,16 +50,37 @@ document is posted, so the delta always measures the gap that exists at
 the moment the entry is made. A posted document is final: it is revoked
 by posting another one, never reset, cancelled or deleted.
 
-There are two flows:
+There are three flows:
 
 1. **Manual** - create a draft, load the products on hand, edit the new
    prices, then post. Posting writes the new prices on the warehouse
    retail pricelist, books the revaluation and records it in the markup
    ledger, so the next sale releases the new markup and not the old one.
-2. **Automatic** - when a ``product.pricelist.item`` on a retail
-   pricelist is created or its price is modified, a draft document is
-   raised for each affected retail warehouse that has stock on hand. The
-   user reviews it and posts it.
+
+2. **Automatic** - a draft document is raised for each affected retail
+   warehouse whenever a shelf price moves, and the user reviews it and
+   posts it. What decided the price does not matter: a fixed rule, a
+   rule over a category or the whole shop, any term of a formula, a
+   change on another pricelist the shop derives from, or the product's
+   own sale price. The price before and the price after are compared per
+   product and per shop, so a rule that names a whole range raises a
+   document holding the labels that actually moved.
+
+   A shop has at most one open automatic document, topped up as prices
+   keep moving, so it always quotes the price that is on the label.
+
+   Posting writes a fixed rule back on the pricelist only where the
+   pricelist does not already answer with the price decided, which is
+   what keeps a shop priced by formula priced by formula.
+
+3. **Reconciled** - a daily cron, *Retail: Reconcile Shelf Prices*,
+   compares what the markup ledger says each unit on the shelf carries
+   with what the pricelist says the label reads, and raises a draft
+   wherever the two have parted company. That catches the prices which
+   move with nobody writing anything: the day a dated promotion opens, a
+   shelf price computed over a cost that a reception has moved, a change
+   of VAT rate. Stock the ledger does not yet account for is left to the
+   opening balance wizard.
 
 Report
 ------
@@ -106,10 +127,19 @@ Two things are worth doing once, before the first price change:
   nothing. A price change document refuses to post while the ledger does
   not account for the same quantity it revalues, because the rate it
   applies is derived from the ledger.
+
 - **Numbering.** Each company gets its own ``PVSP/YYYY/00000`` sequence,
   created on install and whenever a company is added. Change the prefix
   or padding per company under *Settings → Technical → Sequences* if the
   shop's own numbering differs.
+
+- **The nightly reconciliation.** *Retail: Reconcile Shelf Prices* is
+  scheduled daily under *Settings → Technical → Scheduled Actions*. It
+  raises drafts, never posts anything, and is what catches a price that
+  moved without anyone writing a rule - a dated promotion opening, a
+  shelf price computed over a cost the last reception moved, a change of
+  VAT rate. Leave it on: the write hooks on the price list only make the
+  common cases immediate, they cannot see those.
 
 Usage
 =====
@@ -162,20 +192,70 @@ oldest first: the date, the shop, the old and new PVA and the document
 that decided each. That is the shelf price history the shop has to be
 able to show.
 
-What does not raise a document
-------------------------------
+What raises a document
+----------------------
 
-Only fixed prices set per product or per template are followed. Category
-rules, global rules and formula rules are defaults over a whole range,
-and turning one of them into a revaluation of everything underneath is
-almost never what the shop means — raise the document by hand.
+A Proces Verbal is raised for every shelf price that moves, whatever
+decided it. What is compared is the price before and the price after,
+per product and per shop, so a rule that names a whole range produces a
+document holding the labels that actually changed — not the range.
 
-A **dated** promotion is a real limitation to know about. Editing the
-window of a rule is caught, because it is a write. The day a future
-window opens is not: nothing is written then, the price list simply
-starts answering with another price, and 371 stays on the old PVA until
-somebody raises the document. Plan dated shelf prices with a Proces
-Verbal on the day they take effect.
+Caught as it happens, from a write on the price list:
+
+- a fixed price on a product or a template;
+- a rule on a **category**, or a **global** rule;
+- any term of a **formula** — the base it starts from, the discount or
+  markup, the rounding, the extra fee, the margins;
+- a change on **another price list the shop derives from**, however long
+  the chain: the buyer moves a price on the buying list and the shop's
+  labels move with it;
+- deleting a rule, because the label changes then as well;
+- a change to the product's **sale price**, for the shops that price
+  their shelves off it — which is the default setup.
+
+Caught overnight, by *Retail: Reconcile Shelf Prices*:
+
+- the day a **dated promotion** opens or closes on its own;
+- a shelf price computed over the **cost**, which moves on the next
+  reception at a different cost;
+- a change of **VAT rate**, which re-splits every price in the shop;
+- anything else that moved the label without anyone writing a rule.
+
+The cron is the mechanism of record, and it is the one to trust: it
+checks the invariant itself — the markup ledger says what each unit on
+the shelf carries, the price list says what the label reads, and those
+two agreeing is what this family of modules exists to maintain. The
+write hooks only make the common cases immediate.
+
+The cost is deliberately not watched as it is written.
+``standard_price`` is rewritten by the valuation on every reception
+under average cost, and hanging a price check off the hot path of every
+goods movement would make every receipt pay for a check that almost
+never finds anything.
+
+Stock the markup ledger does not yet account for is left alone by the
+reconciliation. That is the opening balance, it has its own wizard, and
+a document raised over it would refuse to post anyway.
+
+One open draft per shop
+-----------------------
+
+A shop has at most one open automatic document. A second price move on
+the same goods brings the open draft up to date instead of raising
+another one, so three price moves in a morning are one document quoting
+the price that is actually on the label — and the nightly reconciliation
+does not add the same divergence again every night until somebody posts
+it.
+
+Posting does not replace your price rules
+-----------------------------------------
+
+Posting writes a fixed rule per variant only where the price list does
+not already answer with the price the document decided. A document
+raised *by* a category rule or a markup formula therefore writes nothing
+back: the rule that produced the price still reaches the product
+afterwards. A fixed rule is an override, and it is written when somebody
+actually overrode something — a price typed by hand on the document.
 
 Bug Tracker
 ===========

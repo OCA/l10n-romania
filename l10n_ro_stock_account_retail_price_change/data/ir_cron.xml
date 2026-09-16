@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright (C) 2026 NextERP Romania
+     Copyright (C) 2026 Dakai Soft SRL
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html). -->
+<odoo noupdate="1">
+    <record model="ir.cron" id="ir_cron_reconcile_shelf_prices">
+        <field name="name">Retail: Reconcile Shelf Prices</field>
+        <field name="model_id" ref="model_l10n_ro_retail_price_change" />
+        <field name="state">code</field>
+        <field name="code">model._cron_reconcile_shelf_prices()</field>
+        <field name="interval_number">1</field>
+        <field name="interval_type">days</field>
+    </record>
+</odoo>

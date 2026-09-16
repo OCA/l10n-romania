@@ -15,6 +15,7 @@
     "license": "AGPL-3",
     "data": [
         "security/ir.model.access.csv",
+        "data/ir_cron.xml",
         "report/report_retail_price_change.xml",
         "views/retail_price_change_view.xml",
         "views/product_template_view.xml",
