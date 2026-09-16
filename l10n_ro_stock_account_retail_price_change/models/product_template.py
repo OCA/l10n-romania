@@ -49,3 +49,35 @@ class ProductTemplate(models.Model):
             "domain": self._l10n_ro_retail_price_change_domain(),
             "context": {"create": False, "edit": False},
         }
+
+    def write(self, vals):
+        """A shop priced off the sale price re-prices its shelves here.
+
+        ``base='list_price'`` is the default of a formula rule and the most
+        common way a shop is set up: the shelf price is the sale price, or the
+        sale price less a discount. For that shop the repricing action is
+        editing the product, and nothing at all is written on the pricelist -
+        so watching only ``product.pricelist.item`` saw none of it, and 371
+        stayed on the old price with no document raised.
+
+        The cost is the other base a formula can have, and it is deliberately
+        not watched here. ``standard_price`` is written by the valuation on
+        every reception under average cost, which is the hot path of every
+        goods movement in the database, and hanging a price snapshot off it
+        would make every receipt pay for a check that almost never finds
+        anything. A shelf price that follows the cost is caught by the nightly
+        reconciliation instead, which is where the other prices that move
+        without anyone writing them are caught too.
+        """
+        Item = self.env["product.pricelist.item"]
+        if self.env.context.get("skip_retail_price_change") or "list_price" not in vals:
+            return super().write(vals)
+        targets = self.product_variant_ids._l10n_ro_retail_shelves()
+        if not targets:
+            return super().write(vals)
+        old_snapshot = Item._l10n_ro_prices(targets)
+        res = super().write(vals)
+        self.env["l10n.ro.retail.price.change"]._l10n_ro_record_moves(
+            old_snapshot, Item._l10n_ro_prices(targets)
+        )
+        return res

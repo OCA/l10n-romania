@@ -15,16 +15,36 @@ document is posted, so the delta always measures the gap that exists at
 the moment the entry is made. A posted document is final: it is revoked
 by posting another one, never reset, cancelled or deleted.
 
-There are two flows:
+There are three flows:
 
 1. **Manual** - create a draft, load the products on hand, edit the new
    prices, then post. Posting writes the new prices on the warehouse
    retail pricelist, books the revaluation and records it in the markup
    ledger, so the next sale releases the new markup and not the old one.
-2. **Automatic** - when a `product.pricelist.item` on a retail pricelist
-   is created or its price is modified, a draft document is raised for
-   each affected retail warehouse that has stock on hand. The user
-   reviews it and posts it.
+2. **Automatic** - a draft document is raised for each affected retail
+   warehouse whenever a shelf price moves, and the user reviews it and
+   posts it. What decided the price does not matter: a fixed rule, a rule
+   over a category or the whole shop, any term of a formula, a change on
+   another pricelist the shop derives from, or the product's own sale
+   price. The price before and the price after are compared per product
+   and per shop, so a rule that names a whole range raises a document
+   holding the labels that actually moved.
+
+   A shop has at most one open automatic document, topped up as prices
+   keep moving, so it always quotes the price that is on the label.
+
+   Posting writes a fixed rule back on the pricelist only where the
+   pricelist does not already answer with the price decided, which is
+   what keeps a shop priced by formula priced by formula.
+
+3. **Reconciled** - a daily cron, *Retail: Reconcile Shelf Prices*,
+   compares what the markup ledger says each unit on the shelf carries
+   with what the pricelist says the label reads, and raises a draft
+   wherever the two have parted company. That catches the prices which
+   move with nobody writing anything: the day a dated promotion opens, a
+   shelf price computed over a cost that a reception has moved, a change
+   of VAT rate. Stock the ledger does not yet account for is left to the
+   opening balance wizard.
 
 ## Report
 

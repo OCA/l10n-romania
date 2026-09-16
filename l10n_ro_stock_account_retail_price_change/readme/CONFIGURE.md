@@ -23,3 +23,11 @@ Two things are worth doing once, before the first price change:
   created on install and whenever a company is added. Change the prefix
   or padding per company under *Settings → Technical → Sequences* if the
   shop's own numbering differs.
+
+- **The nightly reconciliation.** *Retail: Reconcile Shelf Prices* is
+  scheduled daily under *Settings → Technical → Scheduled Actions*. It
+  raises drafts, never posts anything, and is what catches a price that
+  moved without anyone writing a rule - a dated promotion opening, a
+  shelf price computed over a cost the last reception moved, a change of
+  VAT rate. Leave it on: the write hooks on the price list only make the
+  common cases immediate, they cannot see those.
