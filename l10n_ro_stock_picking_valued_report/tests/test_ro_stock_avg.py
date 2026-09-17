@@ -6,19 +6,10 @@ import logging
 import os
 from contextlib import closing
 
-from odoo.tests import tagged
-
-from .common import TestStockPickingValued
-
 _logger = logging.getLogger(__name__)
 
 
-@tagged("post_install", "-at_install")
-class TestStockAvg(TestStockPickingValued):
-    @TestStockPickingValued.setup_country("ro")
-    def setUp(cls):
-        super().setUp()
-
+class PickingValuedAvgCases:
     def test_ro_stock_product_avg(self):
         module_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
         filename = "test_cases_avg.csv"
@@ -28,4 +19,4 @@ class TestStockAvg(TestStockPickingValued):
                 "Running test case: %s - %s", case.get("code"), case.get("name")
             )
             with self.subTest(case=case), closing(self.cr.savepoint()):
-                self.test_case(case)
+                self.run_test_case(case)
