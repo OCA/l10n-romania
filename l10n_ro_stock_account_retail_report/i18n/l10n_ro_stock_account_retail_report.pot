@@ -4,10 +4,8 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 19.0+e\n"
+"Project-Id-Version: Odoo Server 19.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-09-06 17:10+0000\n"
-"PO-Revision-Date: 2026-09-06 17:10+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -275,6 +273,12 @@ msgid "Product Template"
 msgstr ""
 
 #. module: l10n_ro_stock_account_retail_report
+#: model:ir.model.fields,field_description:l10n_ro_stock_account_retail_report.field_l10n_ro_stock_retail_report__quantity_adjustment
+#: model_terms:ir.ui.view,arch_db:l10n_ro_stock_account_retail_report.view_stock_retail_report_list
+msgid "Quantity Corrections"
+msgstr ""
+
+#. module: l10n_ro_stock_account_retail_report
 #: model:ir.model.fields,field_description:l10n_ro_stock_account_retail_report.field_l10n_ro_stock_retail_report__quantity_in
 msgid "Quantity In"
 msgstr ""
@@ -292,6 +296,16 @@ msgstr ""
 #. module: l10n_ro_stock_account_retail_report
 #: model:ir.model.fields,field_description:l10n_ro_stock_account_retail_report.field_l10n_ro_stock_retail_report__quantity_unrecorded
 msgid "Quantity Unrecorded"
+msgstr ""
+
+#. module: l10n_ro_stock_account_retail_report
+#: model:ir.model.fields,help:l10n_ro_stock_account_retail_report.field_l10n_ro_stock_retail_report__quantity_adjustment
+msgid ""
+"Quantity brought in by events that are not stock moves, chiefly the retail "
+"opening balance. Without it the quantities of a period did not add up: "
+"opening plus in plus out fell short of the closing balance by whatever the "
+"opening balance had recognised, and nothing in the report said where the "
+"difference had gone."
 msgstr ""
 
 #. module: l10n_ro_stock_account_retail_report
