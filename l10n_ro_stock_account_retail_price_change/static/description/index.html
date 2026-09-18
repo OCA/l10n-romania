@@ -1,0 +1,628 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="Docutils: https://docutils.sourceforge.io/" />
+<title>README.rst</title>
+<style type="text/css">
+
+/*
+:Author: David Goodger (goodger@python.org)
+:Id: $Id: html4css1.css 9511 2024-01-13 09:50:07Z milde $
+:Copyright: This stylesheet has been placed in the public domain.
+
+Default cascading style sheet for the HTML output of Docutils.
+Despite the name, some widely supported CSS2 features are used.
+
+See https://docutils.sourceforge.io/docs/howto/html-stylesheets.html for how to
+customize this style sheet.
+*/
+
+/* used to remove borders from tables and images */
+.borderless, table.borderless td, table.borderless th {
+  border: 0 }
+
+table.borderless td, table.borderless th {
+  /* Override padding for "table.docutils td" with "! important".
+     The right padding separates the table cells. */
+  padding: 0 0.5em 0 0 ! important }
+
+.first {
+  /* Override more specific margin styles with "! important". */
+  margin-top: 0 ! important }
+
+.last, .with-subtitle {
+  margin-bottom: 0 ! important }
+
+.hidden {
+  display: none }
+
+.subscript {
+  vertical-align: sub;
+  font-size: smaller }
+
+.superscript {
+  vertical-align: super;
+  font-size: smaller }
+
+a.toc-backref {
+  text-decoration: none ;
+  color: black }
+
+blockquote.epigraph {
+  margin: 2em 5em ; }
+
+dl.docutils dd {
+  margin-bottom: 0.5em }
+
+object[type="image/svg+xml"], object[type="application/x-shockwave-flash"] {
+  overflow: hidden;
+}
+
+/* Uncomment (and remove this text!) to get bold-faced definition list terms
+dl.docutils dt {
+  font-weight: bold }
+*/
+
+div.abstract {
+  margin: 2em 5em }
+
+div.abstract p.topic-title {
+  font-weight: bold ;
+  text-align: center }
+
+div.admonition, div.attention, div.caution, div.danger, div.error,
+div.hint, div.important, div.note, div.tip, div.warning {
+  margin: 2em ;
+  border: medium outset ;
+  padding: 1em }
+
+div.admonition p.admonition-title, div.hint p.admonition-title,
+div.important p.admonition-title, div.note p.admonition-title,
+div.tip p.admonition-title {
+  font-weight: bold ;
+  font-family: sans-serif }
+
+div.attention p.admonition-title, div.caution p.admonition-title,
+div.danger p.admonition-title, div.error p.admonition-title,
+div.warning p.admonition-title, .code .error {
+  color: red ;
+  font-weight: bold ;
+  font-family: sans-serif }
+
+/* Uncomment (and remove this text!) to get reduced vertical space in
+   compound paragraphs.
+div.compound .compound-first, div.compound .compound-middle {
+  margin-bottom: 0.5em }
+
+div.compound .compound-last, div.compound .compound-middle {
+  margin-top: 0.5em }
+*/
+
+div.dedication {
+  margin: 2em 5em ;
+  text-align: center ;
+  font-style: italic }
+
+div.dedication p.topic-title {
+  font-weight: bold ;
+  font-style: normal }
+
+div.figure {
+  margin-left: 2em ;
+  margin-right: 2em }
+
+div.footer, div.header {
+  clear: both;
+  font-size: smaller }
+
+div.line-block {
+  display: block ;
+  margin-top: 1em ;
+  margin-bottom: 1em }
+
+div.line-block div.line-block {
+  margin-top: 0 ;
+  margin-bottom: 0 ;
+  margin-left: 1.5em }
+
+div.sidebar {
+  margin: 0 0 0.5em 1em ;
+  border: medium outset ;
+  padding: 1em ;
+  background-color: #ffffee ;
+  width: 40% ;
+  float: right ;
+  clear: right }
+
+div.sidebar p.rubric {
+  font-family: sans-serif ;
+  font-size: medium }
+
+div.system-messages {
+  margin: 5em }
+
+div.system-messages h1 {
+  color: red }
+
+div.system-message {
+  border: medium outset ;
+  padding: 1em }
+
+div.system-message p.system-message-title {
+  color: red ;
+  font-weight: bold }
+
+div.topic {
+  margin: 2em }
+
+h1.section-subtitle, h2.section-subtitle, h3.section-subtitle,
+h4.section-subtitle, h5.section-subtitle, h6.section-subtitle {
+  margin-top: 0.4em }
+
+h1.title {
+  text-align: center }
+
+h2.subtitle {
+  text-align: center }
+
+hr.docutils {
+  width: 75% }
+
+img.align-left, .figure.align-left, object.align-left, table.align-left {
+  clear: left ;
+  float: left ;
+  margin-right: 1em }
+
+img.align-right, .figure.align-right, object.align-right, table.align-right {
+  clear: right ;
+  float: right ;
+  margin-left: 1em }
+
+img.align-center, .figure.align-center, object.align-center {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+table.align-center {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.align-left {
+  text-align: left }
+
+.align-center {
+  clear: both ;
+  text-align: center }
+
+.align-right {
+  text-align: right }
+
+/* reset inner alignment in figures */
+div.align-right {
+  text-align: inherit }
+
+/* div.align-center * { */
+/*   text-align: left } */
+
+.align-top    {
+  vertical-align: top }
+
+.align-middle {
+  vertical-align: middle }
+
+.align-bottom {
+  vertical-align: bottom }
+
+ol.simple, ul.simple {
+  margin-bottom: 1em }
+
+ol.arabic {
+  list-style: decimal }
+
+ol.loweralpha {
+  list-style: lower-alpha }
+
+ol.upperalpha {
+  list-style: upper-alpha }
+
+ol.lowerroman {
+  list-style: lower-roman }
+
+ol.upperroman {
+  list-style: upper-roman }
+
+p.attribution {
+  text-align: right ;
+  margin-left: 50% }
+
+p.caption {
+  font-style: italic }
+
+p.credits {
+  font-style: italic ;
+  font-size: smaller }
+
+p.label {
+  white-space: nowrap }
+
+p.rubric {
+  font-weight: bold ;
+  font-size: larger ;
+  color: maroon ;
+  text-align: center }
+
+p.sidebar-title {
+  font-family: sans-serif ;
+  font-weight: bold ;
+  font-size: larger }
+
+p.sidebar-subtitle {
+  font-family: sans-serif ;
+  font-weight: bold }
+
+p.topic-title {
+  font-weight: bold }
+
+pre.address {
+  margin-bottom: 0 ;
+  margin-top: 0 ;
+  font: inherit }
+
+pre.literal-block, pre.doctest-block, pre.math, pre.code {
+  margin-left: 2em ;
+  margin-right: 2em }
+
+pre.code .ln { color: gray; } /* line numbers */
+pre.code, code { background-color: #eeeeee }
+pre.code .comment, code .comment { color: #5C6576 }
+pre.code .keyword, code .keyword { color: #3B0D06; font-weight: bold }
+pre.code .literal.string, code .literal.string { color: #0C5404 }
+pre.code .name.builtin, code .name.builtin { color: #352B84 }
+pre.code .deleted, code .deleted { background-color: #DEB0A1}
+pre.code .inserted, code .inserted { background-color: #A3D289}
+
+span.classifier {
+  font-family: sans-serif ;
+  font-style: oblique }
+
+span.classifier-delimiter {
+  font-family: sans-serif ;
+  font-weight: bold }
+
+span.interpreted {
+  font-family: sans-serif }
+
+span.option {
+  white-space: nowrap }
+
+span.pre {
+  white-space: pre }
+
+span.problematic, pre.problematic {
+  color: red }
+
+span.section-subtitle {
+  /* font-size relative to parent (h1..h6 element) */
+  font-size: 80% }
+
+table.citation {
+  border-left: solid 1px gray;
+  margin-left: 1px }
+
+table.docinfo {
+  margin: 2em 4em }
+
+table.docutils {
+  margin-top: 0.5em ;
+  margin-bottom: 0.5em }
+
+table.footnote {
+  border-left: solid 1px black;
+  margin-left: 1px }
+
+table.docutils td, table.docutils th,
+table.docinfo td, table.docinfo th {
+  padding-left: 0.5em ;
+  padding-right: 0.5em ;
+  vertical-align: top }
+
+table.docutils th.field-name, table.docinfo th.docinfo-name {
+  font-weight: bold ;
+  text-align: left ;
+  white-space: nowrap ;
+  padding-left: 0 }
+
+/* "booktabs" style (no vertical lines) */
+table.docutils.booktabs {
+  border: 0px;
+  border-top: 2px solid;
+  border-bottom: 2px solid;
+  border-collapse: collapse;
+}
+table.docutils.booktabs * {
+  border: 0px;
+}
+table.docutils.booktabs th {
+  border-bottom: thin solid;
+  text-align: left;
+}
+
+h1 tt.docutils, h2 tt.docutils, h3 tt.docutils,
+h4 tt.docutils, h5 tt.docutils, h6 tt.docutils {
+  font-size: 100% }
+
+ul.auto-toc {
+  list-style-type: none }
+
+</style>
+</head>
+<body>
+<div class="document">
+
+
+<a class="reference external image-reference" href="https://odoo-community.org/get-involved?utm_source=readme">
+<img alt="Odoo Community Association" src="https://odoo-community.org/readme-banner-image" />
+</a>
+<div class="section" id="romania-retail-price-change-proces-verbal-schimbare-pret">
+<h1>Romania - Retail Price Change (Proces Verbal Schimbare Pret)</h1>
+<!-- !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+!! This file is generated by oca-gen-addon-readme !!
+!! changes will be overwritten.                   !!
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+!! source digest: sha256:55c999c34709c3f534e60d7b97cf7639d5199335e735169667ed527fe92be79f
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! -->
+<p><a class="reference external image-reference" href="https://odoo-community.org/page/development-status"><img alt="Mature" src="https://img.shields.io/badge/maturity-Mature-brightgreen.png" /></a> <a class="reference external image-reference" href="http://www.gnu.org/licenses/agpl-3.0-standalone.html"><img alt="License: AGPL-3" src="https://img.shields.io/badge/license-AGPL--3-blue.png" /></a> <a class="reference external image-reference" href="https://github.com/OCA/l10n-romania/tree/19.0/l10n_ro_stock_account_retail_price_change"><img alt="OCA/l10n-romania" src="https://img.shields.io/badge/github-OCA%2Fl10n--romania-lightgray.png?logo=github" /></a> <a class="reference external image-reference" href="https://translation.odoo-community.org/projects/l10n-romania-19-0/l10n-romania-19-0-l10n_ro_stock_account_retail_price_change"><img alt="Translate me on Weblate" src="https://img.shields.io/badge/weblate-Translate%20me-F47D42.png" /></a> <a class="reference external image-reference" href="https://runboat.odoo-community.org/builds?repo=OCA/l10n-romania&amp;target_branch=19.0"><img alt="Try me on Runboat" src="https://img.shields.io/badge/runboat-Try%20me-875A7B.png" /></a></p>
+<div class="section" id="romania-retail-price-change-proces-verbal-de-schimbare-pret">
+<h2>Romania - Retail Price Change (Proces Verbal de Schimbare Pret)</h2>
+<p>Adds the price change document to the retail merchandise accounting of
+<tt class="docutils literal">l10n_ro_stock_account_retail</tt>.</p>
+<p><tt class="docutils literal">l10n.ro.retail.price.change</tt> is a persistent document numbered
+<tt class="docutils literal">PVSP/YYYY/00000</tt> out of a sequence of its own company. It captures
+the warehouse, the date, the products on hand and the old versus new
+shelf price (PVA, VAT included) per line, with the markup (378) and
+deferred VAT (4428) split.</p>
+<p>The old side is what the stock carries — cost, markup and deferred VAT
+per unit, read from the markup ledger — and it is read again when the
+document is posted, so the delta always measures the gap that exists at
+the moment the entry is made. A posted document is final: it is revoked
+by posting another one, never reset, cancelled or deleted.</p>
+<p>There are three flows:</p>
+<ol class="arabic">
+<li><p class="first"><strong>Manual</strong> - create a draft, load the products on hand, edit the new
+prices, then post. Posting writes the new prices on the warehouse
+retail pricelist, books the revaluation and records it in the markup
+ledger, so the next sale releases the new markup and not the old one.</p>
+</li>
+<li><p class="first"><strong>Automatic</strong> - a draft document is raised for each affected retail
+warehouse whenever a shelf price moves, and the user reviews it and
+posts it. What decided the price does not matter: a fixed rule, a
+rule over a category or the whole shop, any term of a formula, a
+change on another pricelist the shop derives from, or the product’s
+own sale price. The price before and the price after are compared per
+product and per shop, so a rule that names a whole range raises a
+document holding the labels that actually moved.</p>
+<p>A shop has at most one open automatic document, topped up as prices
+keep moving, so it always quotes the price that is on the label.</p>
+<p>Posting writes a fixed rule back on the pricelist only where the
+pricelist does not already answer with the price decided, which is
+what keeps a shop priced by formula priced by formula.</p>
+</li>
+<li><p class="first"><strong>Reconciled</strong> - a daily cron, <em>Retail: Reconcile Shelf Prices</em>,
+compares what the markup ledger says each unit on the shelf carries
+with what the pricelist says the label reads, and raises a draft
+wherever the two have parted company. That catches the prices which
+move with nobody writing anything: the day a dated promotion opens, a
+shelf price computed over a cost that a reception has moved, a change
+of VAT rate. Stock the ledger does not yet account for is left to the
+opening balance wizard.</p>
+</li>
+</ol>
+<div class="section" id="report">
+<h3>Report</h3>
+<p>The document prints as <em>Proces-verbal privind modificarea pretului de
+vanzare cu amanuntul</em>, listing quantity, old and new price, old and new
+value and the difference per product, with the markup and VAT split
+shown separately.</p>
+</div>
+<div class="section" id="price-history">
+<h3>Price history</h3>
+<p>Every posted document is a dated record of the shelf price of the
+products it covers. The <em>Price History</em> button on a product shows the
+lines that concern it, oldest first, so the sequence of shelf prices and
+the document that decided each of them are visible in one place.</p>
+<p><strong>Table of contents</strong></p>
+</div>
+</div>
+<div class="section" id="configuration">
+<h2>Configuration</h2>
+<p>Nothing to configure beyond what <tt class="docutils literal">l10n_ro_stock_account_retail</tt>
+already asks for. What that module needs, this one relies on:</p>
+<ol class="arabic simple">
+<li><strong>Retail warehouse.</strong> Tick <em>Retail Warehouse</em> on the shop and give it
+its <em>Retail Pricelist</em>. That pricelist holds the shelf price (PVA),
+VAT included, and is the one this document writes back to.</li>
+<li><strong>Accounts.</strong> 371, 378 and 4428 must resolve for every product the
+shop holds — on the location, the product, its category or the
+company, mapped through the warehouse fiscal position if it has one.
+Posting refuses rather than guessing.</li>
+<li><strong>Stock journal.</strong> The entry is posted in the company’s stock
+journal; the document also lets you pick another one per document.</li>
+</ol>
+<p>Two things are worth doing once, before the first price change:</p>
+<ul class="simple">
+<li><strong>Settle the opening balance.</strong> Stock that was on the shelf before
+<tt class="docutils literal">l10n_ro_stock_account_retail</tt> was installed is in the quants and
+not in the markup ledger. Run <em>Retail Opening Balance</em> until it finds
+nothing. A price change document refuses to post while the ledger does
+not account for the same quantity it revalues, because the rate it
+applies is derived from the ledger.</li>
+<li><strong>Numbering.</strong> Each company gets its own <tt class="docutils literal">PVSP/YYYY/00000</tt> sequence,
+created on install and whenever a company is added. Change the prefix
+or padding per company under <em>Settings → Technical → Sequences</em> if the
+shop’s own numbering differs.</li>
+<li><strong>The nightly reconciliation.</strong> <em>Retail: Reconcile Shelf Prices</em> is
+scheduled daily under <em>Settings → Technical → Scheduled Actions</em>. It
+raises drafts, never posts anything, and is what catches a price that
+moved without anyone writing a rule - a dated promotion opening, a
+shelf price computed over a cost the last reception moved, a change of
+VAT rate. Leave it on: the write hooks on the price list only make the
+common cases immediate, they cannot see those.</li>
+</ul>
+</div>
+<div class="section" id="usage">
+<h2>Usage</h2>
+<div class="section" id="changing-a-shelf-price">
+<h3>Changing a shelf price</h3>
+<p>The shop can start from either end.</p>
+<p><strong>From the document.</strong> <em>Inventory → Retail → Price Changes</em>, create one,
+pick the warehouse, <em>Load Products</em>. Every product on hand in the shop’s
+retail locations comes in with what it currently carries on the left —
+cost, markup and deferred VAT per unit, read from the markup ledger, not
+from the price list — and the current shelf price on the right. Edit the
+<em>New PVA</em> of the lines that are changing, delete the rest, then <em>Post</em>.</p>
+<p><strong>From the price list.</strong> Change the price of a product on a shop’s
+retail pricelist, and a draft Proces Verbal is raised for each retail
+warehouse that has that product on hand. It is a draft on purpose:
+somebody reviews it and posts it. Deleting a rule raises one too,
+because the label changes then as well.</p>
+<p>Posting does four things, in one transaction: writes the new prices on
+the retail pricelist, posts the revaluation of 371 against 378 and 4428,
+records it in the markup ledger so the next sale releases the new
+markup, and prints as the <em>Proces-verbal privind modificarea pretului de
+vanzare cu amanuntul</em>.</p>
+<p>The old side and the quantity are re-read at the moment of posting, not
+at the moment of loading. A draft raised this morning and posted this
+afternoon measures itself against what the shop holds this afternoon, so
+two documents on the same goods cannot each revalue from the same
+starting point.</p>
+</div>
+<div class="section" id="correcting-a-document">
+<h3>Correcting a document</h3>
+<p>There is no reset to draft, and a posted document cannot be cancelled or
+deleted. It wrote prices, posted an entry and moved what the stock
+carries; the paper trail is the point. A price decision that turned out
+wrong is revoked the way it was made — post another Proces Verbal
+bringing the price back. Only a document still in draft can be cancelled
+or deleted.</p>
+</div>
+<div class="section" id="price-history-1">
+<h3>Price history</h3>
+<p><em>Price History</em> on a product lists every posted line that concerns it,
+oldest first: the date, the shop, the old and new PVA and the document
+that decided each. That is the shelf price history the shop has to be
+able to show.</p>
+</div>
+<div class="section" id="what-raises-a-document">
+<h3>What raises a document</h3>
+<p>A Proces Verbal is raised for every shelf price that moves, whatever
+decided it. What is compared is the price before and the price after,
+per product and per shop, so a rule that names a whole range produces a
+document holding the labels that actually changed — not the range.</p>
+<p>Caught as it happens, from a write on the price list:</p>
+<ul class="simple">
+<li>a fixed price on a product or a template;</li>
+<li>a rule on a <strong>category</strong>, or a <strong>global</strong> rule;</li>
+<li>any term of a <strong>formula</strong> — the base it starts from, the discount or
+markup, the rounding, the extra fee, the margins;</li>
+<li>a change on <strong>another price list the shop derives from</strong>, however long
+the chain: the buyer moves a price on the buying list and the shop’s
+labels move with it;</li>
+<li>deleting a rule, because the label changes then as well;</li>
+<li>a change to the product’s <strong>sale price</strong>, for the shops that price
+their shelves off it — which is the default setup.</li>
+</ul>
+<p>Caught overnight, by <em>Retail: Reconcile Shelf Prices</em>:</p>
+<ul class="simple">
+<li>the day a <strong>dated promotion</strong> opens or closes on its own;</li>
+<li>a shelf price computed over the <strong>cost</strong>, which moves on the next
+reception at a different cost;</li>
+<li>a change of <strong>VAT rate</strong>, which re-splits every price in the shop;</li>
+<li>anything else that moved the label without anyone writing a rule.</li>
+</ul>
+<p>The cron is the mechanism of record, and it is the one to trust: it
+checks the invariant itself — the markup ledger says what each unit on
+the shelf carries, the price list says what the label reads, and those
+two agreeing is what this family of modules exists to maintain. The
+write hooks only make the common cases immediate.</p>
+<p>The cost is deliberately not watched as it is written.
+<tt class="docutils literal">standard_price</tt> is rewritten by the valuation on every reception
+under average cost, and hanging a price check off the hot path of every
+goods movement would make every receipt pay for a check that almost
+never finds anything.</p>
+<p>Stock the markup ledger does not yet account for is left alone by the
+reconciliation. That is the opening balance, it has its own wizard, and
+a document raised over it would refuse to post anyway.</p>
+</div>
+<div class="section" id="one-open-draft-per-shop">
+<h3>One open draft per shop</h3>
+<p>A shop has at most one open automatic document. A second price move on
+the same goods brings the open draft up to date instead of raising
+another one, so three price moves in a morning are one document quoting
+the price that is actually on the label — and the nightly reconciliation
+does not add the same divergence again every night until somebody posts
+it.</p>
+</div>
+<div class="section" id="posting-does-not-replace-your-price-rules">
+<h3>Posting does not replace your price rules</h3>
+<p>Posting writes a fixed rule per variant only where the price list does
+not already answer with the price the document decided. A document
+raised <em>by</em> a category rule or a markup formula therefore writes nothing
+back: the rule that produced the price still reaches the product
+afterwards. A fixed rule is an override, and it is written when somebody
+actually overrode something — a price typed by hand on the document.</p>
+</div>
+</div>
+<div class="section" id="bug-tracker">
+<h2>Bug Tracker</h2>
+<p>Bugs are tracked on <a class="reference external" href="https://github.com/OCA/l10n-romania/issues">GitHub Issues</a>.
+In case of trouble, please check there if your issue has already been reported.
+If you spotted it first, help us to smash it by providing a detailed and welcomed
+<a class="reference external" href="https://github.com/OCA/l10n-romania/issues/new?body=module:%20l10n_ro_stock_account_retail_price_change%0Aversion:%2019.0%0A%0A**Steps%20to%20reproduce**%0A-%20...%0A%0A**Current%20behavior**%0A%0A**Expected%20behavior**">feedback</a>.</p>
+<p>Do not contact contributors directly about support or help with technical issues.</p>
+</div>
+<div class="section" id="credits">
+<h2>Credits</h2>
+<div class="section" id="authors">
+<h3>Authors</h3>
+<ul class="simple">
+<li>NextERP Romania</li>
+<li>Dakai Soft SRL</li>
+</ul>
+</div>
+<div class="section" id="contributors">
+<h3>Contributors</h3>
+<ul class="simple">
+<li><a class="reference external" href="https://www.nexterp.ro">NextERP Romania</a>:<ul>
+<li>Fekete Mihai &lt;<a class="reference external" href="mailto:contact&#64;nexterp.ro">contact&#64;nexterp.ro</a>&gt;</li>
+</ul>
+</li>
+<li><a class="reference external" href="https://www.dakai.ro">Dakai Soft SRL</a>:<ul>
+<li>Adrian Vacaru &lt;<a class="reference external" href="mailto:adrian.vacaru&#64;dakai.ro">adrian.vacaru&#64;dakai.ro</a>&gt;</li>
+</ul>
+</li>
+</ul>
+<p>Do not contact contributors directly about support or help with
+technical issues.</p>
+</div>
+<div class="section" id="maintainers">
+<h3>Maintainers</h3>
+<p>This module is maintained by the OCA.</p>
+<a class="reference external image-reference" href="https://odoo-community.org">
+<img alt="Odoo Community Association" src="https://odoo-community.org/logo.png" />
+</a>
+<p>OCA, or the Odoo Community Association, is a nonprofit organization whose
+mission is to support the collaborative development of Odoo features and
+promote its widespread use.</p>
+<p>Current <a class="reference external" href="https://odoo-community.org/page/maintainer-role">maintainers</a>:</p>
+<p><a class="reference external image-reference" href="https://github.com/feketemihai"><img alt="feketemihai" src="https://github.com/feketemihai.png?size=40px" /></a> <a class="reference external image-reference" href="https://github.com/adrian-dks"><img alt="adrian-dks" src="https://github.com/adrian-dks.png?size=40px" /></a></p>
+<p>This module is part of the <a class="reference external" href="https://github.com/OCA/l10n-romania/tree/19.0/l10n_ro_stock_account_retail_price_change">OCA/l10n-romania</a> project on GitHub.</p>
+<p>You are welcome to contribute. To learn how please visit <a class="reference external" href="https://odoo-community.org/page/Contribute">https://odoo-community.org/page/Contribute</a>.</p>
+</div>
+</div>
+</div>
+</div>
+</body>
+</html>
