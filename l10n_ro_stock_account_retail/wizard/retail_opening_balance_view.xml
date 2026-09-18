@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="view_retail_opening_balance_form" model="ir.ui.view">
+        <field name="name">l10n.ro.retail.opening.balance.form</field>
+        <field name="model">l10n.ro.retail.opening.balance</field>
+        <field name="arch" type="xml">
+            <form string="Retail Markup Opening Balance">
+                <p class="text-muted">
+                    A shop that was trading before this module was installed
+                    carries its stock at cost: 371 holds what the goods cost,
+                    and 378 and 4428 hold nothing for them. This brings 371 up
+                    to the price on the shelf label, and records the position
+                    in the markup ledger so later sales release the right
+                    amount. Run it once per company.
+                </p>
+                <group>
+                    <group>
+                        <field name="date" />
+                        <field name="journal_id" required="1" />
+                    </group>
+                    <group>
+                        <field name="company_id" groups="base.group_multi_company" />
+                        <field name="warehouse_ids" widget="many2many_tags" />
+                    </group>
+                </group>
+                <button
+                    name="action_refresh"
+                    string="Measure the gap"
+                    type="object"
+                    class="btn-secondary mb-3"
+                />
+                <div
+                    class="alert alert-danger"
+                    role="alert"
+                    invisible="not has_shortfall"
+                >
+                    Some products are priced below what they cost. Raise their
+                    shelf price, or allow selling below cost on the warehouse,
+                    before posting.
+                </div>
+                <field name="has_shortfall" invisible="1" />
+                <field name="line_ids" readonly="1">
+                    <list decoration-danger="below_cost">
+                        <field name="warehouse_id" />
+                        <field name="product_id" />
+                        <field name="quantity" />
+                        <field name="cost" sum="Cost already on 371" />
+                        <field name="price_unit" />
+                        <field name="markup" sum="Markup to post (378)" />
+                        <field name="vat" sum="Deferred VAT to post (4428)" />
+                        <field name="below_cost" optional="hide" />
+                        <field name="currency_id" column_invisible="1" />
+                    </list>
+                </field>
+                <footer>
+                    <button
+                        name="action_post"
+                        string="Post"
+                        type="object"
+                        class="btn-primary"
+                        invisible="not line_ids"
+                    />
+                    <button string="Cancel" class="btn-secondary" special="cancel" />
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_retail_opening_balance" model="ir.actions.act_window">
+        <field name="name">Retail Markup Opening Balance</field>
+        <field name="res_model">l10n.ro.retail.opening.balance</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+
+    <menuitem
+        id="menu_retail_opening_balance"
+        name="Retail Markup Opening Balance"
+        parent="stock.menu_warehouse_config"
+        action="action_retail_opening_balance"
+        sequence="200"
+        groups="account.group_account_manager"
+    />
+</odoo>

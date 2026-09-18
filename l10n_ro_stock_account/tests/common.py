@@ -288,6 +288,38 @@ class TestROStockCommon(AccountTestInvoicingCommon):
         )
         cls.location2 = warehouse2.lot_stock_id
 
+        # ``account.account.code`` is computed and company dependent, so
+        # ``search([("code", "=", ...)])`` goes through ``_search_code`` and
+        # orders by ``placeholder_code``, which costs ~250ms per call.  The
+        # test cases look accounts up by code on every check, so resolve them
+        # once here and keep them in a map.
+        cls.accounts_by_code = {}
+        accounts = (
+            cls.env["account.account"]
+            .with_company(cls.env.company)
+            .search([("company_ids", "in", cls.env.company.id)])
+        )
+        for account in accounts:
+            cls.accounts_by_code.setdefault(account.code, account)
+
+    def get_account_by_code(self, account_code):
+        """Return the company account having ``account_code``.
+
+        Uses the map built in :meth:`setUpClass` instead of searching, see the
+        comment there.  Falls back to a search for accounts created by a test.
+        """
+        account = self.accounts_by_code.get(account_code)
+        if account is None:
+            account = self.env["account.account"].search(
+                [
+                    ("code", "=", account_code),
+                    ("company_ids", "in", self.env.company.id),
+                ],
+                limit=1,
+            )
+            self.accounts_by_code[account_code] = account
+        return account
+
     def read_test_cases_from_csv_file(self, filename, module_dir=None):
         if not module_dir:
             module_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -307,7 +339,36 @@ class TestROStockCommon(AccountTestInvoicingCommon):
                 test_cases[row["case_no"]]["steps"].append(row)
         return test_cases
 
-    def test_case(self, case=False):
+    def _receive(self, qty, price, index):
+        """Receive ``qty`` of ``product_fifo`` at ``price``, one FIFO layer.
+
+        Returns the incoming ``stock.move`` that carries the layer.
+        """
+        self.create_purchase(
+            {
+                "currency_id": self.ron,
+                "partner_id": self.supplier_1,
+                "product_id": self.product_fifo,
+                "qty": qty,
+                "stock_qty": qty,
+                "inv_qty": qty,
+                "price": price,
+                "inv_price": price,
+                "index": index,
+            }
+        )
+        return self.env["stock.move"].search(
+            [
+                ("product_id", "=", self.product_fifo.id),
+                ("is_in", "=", True),
+                ("state", "=", "done"),
+                ("location_dest_id", "=", self.location.id),
+            ],
+            order="id desc",
+            limit=1,
+        )
+
+    def run_test_case(self, case=False):
         if case:
             for step in case.get("steps", []):
                 step["index"] = case.get("steps", []).index(step) + 1
@@ -516,13 +577,7 @@ class TestROStockCommon(AccountTestInvoicingCommon):
                         line.balance,
                     )
         for account_code, expected_balance in checks.items():
-            account = self.env["account.account"].search(
-                [
-                    ("code", "=", account_code),
-                    ("company_ids", "in", self.env.company.id),
-                ],
-                limit=1,
-            )
+            account = self.get_account_by_code(account_code)
 
             if not account:
                 raise AssertionError(f"Account with code {account_code} not found")
@@ -1352,13 +1407,7 @@ class TestROStockCommon(AccountTestInvoicingCommon):
             limit=1,
         )
         # For landed cost use 624000 account
-        acc = self.env["account.account"].search(
-            [
-                ("company_ids", "in", self.env.company.id),
-                ("code", "=", "624000"),
-            ],
-            limit=1,
-        )
+        acc = self.get_account_by_code("624000")
         product = self.landed_cost
         landed_cost = self.env["stock.landed.cost"].create(
             {
