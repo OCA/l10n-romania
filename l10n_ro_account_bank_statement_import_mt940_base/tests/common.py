@@ -3,17 +3,18 @@
 
 import base64
 
-from odoo.tests import tagged
-
-from odoo.addons.account.tests.common import AccountTestInvoicingCommon
+from odoo.tests import TransactionCase, tagged
 
 
 @tagged("post_install", "-at_install")
-class TestMT940BankStatementImport(AccountTestInvoicingCommon):
+class TestMT940BankStatementImport(TransactionCase):
     @classmethod
-    @AccountTestInvoicingCommon.setup_country("ro")
     def setUpClass(cls):
         super().setUpClass()
+        # The statements are imported into a journal these tests create
+        # themselves, so there is no need for AccountTestInvoicingCommon to
+        # build a company and load the whole Romanian chart of accounts.
+        cls.env.company.country_id = cls.env.ref("base.ro")
         cls.env.company.anglo_saxon_accounting = True
         cls.env.company.l10n_ro_accounting = True
 
