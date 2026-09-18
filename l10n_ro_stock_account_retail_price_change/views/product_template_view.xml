@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="view_retail_price_change_line_history_list" model="ir.ui.view">
+        <field name="name">l10n.ro.retail.price.change.line.history.list</field>
+        <field name="model">l10n.ro.retail.price.change.line</field>
+        <field name="arch" type="xml">
+            <list string="Retail Price History" create="false" edit="false">
+                <field name="document_date" />
+                <field name="document_id" />
+                <field name="warehouse_id" />
+                <field name="product_id" />
+                <field name="location_id" optional="hide" />
+                <field name="quantity" optional="hide" />
+                <field name="cost_unit" optional="hide" />
+                <field name="old_price_with_vat" />
+                <field name="new_price_with_vat" />
+                <field name="markup_diff_total" sum="Markup Delta" optional="hide" />
+                <field name="vat_diff_total" sum="VAT Delta" optional="hide" />
+                <field name="company_id" groups="base.group_multi_company" />
+            </list>
+        </field>
+    </record>
+
+    <record id="view_product_template_retail_price_change_form" model="ir.ui.view">
+        <field name="name">product.template.form.l10n.ro.retail.price.change</field>
+        <field name="model">product.template</field>
+        <field name="inherit_id" ref="product.product_template_form_view" />
+        <field name="arch" type="xml">
+            <div name="button_box" position="inside">
+                <button
+                    name="action_l10n_ro_retail_price_history"
+                    type="object"
+                    class="oe_stat_button"
+                    icon="fa-history"
+                    invisible="l10n_ro_retail_price_change_count == 0"
+                    groups="stock.group_stock_user"
+                >
+                    <field
+                        name="l10n_ro_retail_price_change_count"
+                        widget="statinfo"
+                        string="Price History"
+                    />
+                </button>
+            </div>
+        </field>
+    </record>
+</odoo>
