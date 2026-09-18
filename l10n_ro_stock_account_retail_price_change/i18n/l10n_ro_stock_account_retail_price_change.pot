@@ -4,10 +4,8 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 19.0+e\n"
+"Project-Id-Version: Odoo Server 19.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-09-06 17:10+0000\n"
-"PO-Revision-Date: 2026-09-06 17:10+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -18,15 +16,28 @@ msgstr ""
 #. module: l10n_ro_stock_account_retail_price_change
 #. odoo-python
 #: code:addons/l10n_ro_stock_account_retail_price_change/models/retail_price_change.py:0
-msgid ""
-"%s already moved the markup carried by the stock. Post a new price change "
-"document to correct it instead of resetting this one to draft."
+msgid " - %(product)s: ledger %(recorded).3f, document %(qty).3f"
 msgstr ""
 
 #. module: l10n_ro_stock_account_retail_price_change
 #. odoo-python
-#: code:addons/l10n_ro_stock_account_retail_price_change/models/product_pricelist_item.py:0
-msgid "<p>Auto-generated from a change on pricelist %(pl)s.</p>"
+#: code:addons/l10n_ro_stock_account_retail_price_change/models/retail_price_change.py:0
+msgid ""
+"%s has been posted and cannot be deleted. Post a new price change document "
+"to revoke it."
+msgstr ""
+
+#. module: l10n_ro_stock_account_retail_price_change
+#. odoo-python
+#: code:addons/l10n_ro_stock_account_retail_price_change/models/retail_price_change.py:0
+msgid ""
+"%s is no longer a draft. Post a new price change document to revoke it."
+msgstr ""
+
+#. module: l10n_ro_stock_account_retail_price_change
+#. odoo-python
+#: code:addons/l10n_ro_stock_account_retail_price_change/models/retail_price_change.py:0
+msgid "<p>Auto-generated from a change affecting pricelist %(pl)s.</p>"
 msgstr ""
 
 #. module: l10n_ro_stock_account_retail_price_change
@@ -106,12 +117,6 @@ msgid "Cancel"
 msgstr ""
 
 #. module: l10n_ro_stock_account_retail_price_change
-#. odoo-python
-#: code:addons/l10n_ro_stock_account_retail_price_change/models/retail_price_change.py:0
-msgid "Cancel the related journal entry %s first."
-msgstr ""
-
-#. module: l10n_ro_stock_account_retail_price_change
 #: model:ir.model.fields.selection,name:l10n_ro_stock_account_retail_price_change.selection__l10n_ro_retail_price_change__state__cancel
 msgid "Cancelled"
 msgstr ""
@@ -119,6 +124,11 @@ msgstr ""
 #. module: l10n_ro_stock_account_retail_price_change
 #: model_terms:ir.ui.view,arch_db:l10n_ro_stock_account_retail_price_change.report_retail_price_change
 msgid "Commercial Markup (378)"
+msgstr ""
+
+#. module: l10n_ro_stock_account_retail_price_change
+#: model:ir.model,name:l10n_ro_stock_account_retail_price_change.model_res_company
+msgid "Companies"
 msgstr ""
 
 #. module: l10n_ro_stock_account_retail_price_change
@@ -150,6 +160,11 @@ msgid "Created on"
 msgstr ""
 
 #. module: l10n_ro_stock_account_retail_price_change
+#: model:ir.model.fields,field_description:l10n_ro_stock_account_retail_price_change.field_l10n_ro_retail_price_change_line__currency_id
+msgid "Currency"
+msgstr ""
+
+#. module: l10n_ro_stock_account_retail_price_change
 #: model:ir.model.fields,field_description:l10n_ro_stock_account_retail_price_change.field_l10n_ro_retail_price_change__date
 #: model:ir.model.fields,field_description:l10n_ro_stock_account_retail_price_change.field_l10n_ro_retail_price_change_line__document_date
 msgid "Date"
@@ -176,7 +191,9 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_ro_stock_account_retail_price_change.field_l10n_ro_retail_price_change__display_name
 #: model:ir.model.fields,field_description:l10n_ro_stock_account_retail_price_change.field_l10n_ro_retail_price_change_line__display_name
 #: model:ir.model.fields,field_description:l10n_ro_stock_account_retail_price_change.field_product_pricelist_item__display_name
+#: model:ir.model.fields,field_description:l10n_ro_stock_account_retail_price_change.field_product_product__display_name
 #: model:ir.model.fields,field_description:l10n_ro_stock_account_retail_price_change.field_product_template__display_name
+#: model:ir.model.fields,field_description:l10n_ro_stock_account_retail_price_change.field_res_company__display_name
 msgid "Display Name"
 msgstr ""
 
@@ -237,7 +254,9 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_ro_stock_account_retail_price_change.field_l10n_ro_retail_price_change__id
 #: model:ir.model.fields,field_description:l10n_ro_stock_account_retail_price_change.field_l10n_ro_retail_price_change_line__id
 #: model:ir.model.fields,field_description:l10n_ro_stock_account_retail_price_change.field_product_pricelist_item__id
+#: model:ir.model.fields,field_description:l10n_ro_stock_account_retail_price_change.field_product_product__id
 #: model:ir.model.fields,field_description:l10n_ro_stock_account_retail_price_change.field_product_template__id
+#: model:ir.model.fields,field_description:l10n_ro_stock_account_retail_price_change.field_res_company__id
 msgid "ID"
 msgstr ""
 
@@ -258,7 +277,6 @@ msgstr ""
 
 #. module: l10n_ro_stock_account_retail_price_change
 #: model:ir.model.fields,help:l10n_ro_stock_account_retail_price_change.field_l10n_ro_retail_price_change__message_has_error
-#: model:ir.model.fields,help:l10n_ro_stock_account_retail_price_change.field_l10n_ro_retail_price_change__message_has_sms_error
 msgid "If checked, some messages have a delivery error."
 msgstr ""
 
@@ -528,14 +546,14 @@ msgid "Product"
 msgstr ""
 
 #. module: l10n_ro_stock_account_retail_price_change
-#: model:ir.model.fields,field_description:l10n_ro_stock_account_retail_price_change.field_l10n_ro_retail_price_change_line__quantity
-#: model_terms:ir.ui.view,arch_db:l10n_ro_stock_account_retail_price_change.report_retail_price_change
-msgid "Quantity"
+#: model:ir.model,name:l10n_ro_stock_account_retail_price_change.model_product_product
+msgid "Product Variant"
 msgstr ""
 
 #. module: l10n_ro_stock_account_retail_price_change
-#: model_terms:ir.ui.view,arch_db:l10n_ro_stock_account_retail_price_change.view_retail_price_change_form
-msgid "Reset to Draft"
+#: model:ir.model.fields,field_description:l10n_ro_stock_account_retail_price_change.field_l10n_ro_retail_price_change_line__quantity
+#: model_terms:ir.ui.view,arch_db:l10n_ro_stock_account_retail_price_change.report_retail_price_change
+msgid "Quantity"
 msgstr ""
 
 #. module: l10n_ro_stock_account_retail_price_change
@@ -592,16 +610,8 @@ msgid "Retail price change %s"
 msgstr ""
 
 #. module: l10n_ro_stock_account_retail_price_change
-#. odoo-python
-#: code:addons/l10n_ro_stock_account_retail_price_change/models/retail_price_change.py:0
-msgid ""
-"Reverse and cancel the related journal entry %(entry)s before resetting "
-"%(document)s to draft."
-msgstr ""
-
-#. module: l10n_ro_stock_account_retail_price_change
-#: model:ir.model.fields,field_description:l10n_ro_stock_account_retail_price_change.field_l10n_ro_retail_price_change__message_has_sms_error
-msgid "SMS Delivery error"
+#: model:ir.actions.server,name:l10n_ro_stock_account_retail_price_change.ir_cron_reconcile_shelf_prices_ir_actions_server
+msgid "Retail: Reconcile Shelf Prices"
 msgstr ""
 
 #. module: l10n_ro_stock_account_retail_price_change
@@ -629,6 +639,17 @@ msgstr ""
 #. module: l10n_ro_stock_account_retail_price_change
 #: model_terms:ir.ui.view,arch_db:l10n_ro_stock_account_retail_price_change.report_retail_price_change
 msgid "Stock keeper,"
+msgstr ""
+
+#. module: l10n_ro_stock_account_retail_price_change
+#. odoo-python
+#: code:addons/l10n_ro_stock_account_retail_price_change/models/retail_price_change.py:0
+msgid ""
+"The markup ledger of %(warehouse)s does not account for the same quantity this document revalues:\n"
+"\n"
+"%(details)s\n"
+"\n"
+"Load every location that holds these products, and settle stock the ledger never saw with the retail opening balance wizard, before posting."
 msgstr ""
 
 #. module: l10n_ro_stock_account_retail_price_change
