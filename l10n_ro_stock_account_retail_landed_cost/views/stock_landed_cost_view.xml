@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="view_stock_landed_cost_retail_form" model="ir.ui.view">
+        <field name="name">stock.landed.cost.form.l10n.ro.retail</field>
+        <field name="model">stock.landed.cost</field>
+        <field
+            name="inherit_id"
+            ref="l10n_ro_stock_account_landed_cost.view_stock_landed_cost_form"
+        />
+        <field name="arch" type="xml">
+            <xpath expr="//notebook" position="inside">
+                <page
+                    string="Retail Markup Correction"
+                    name="l10n_ro_retail_markup"
+                    invisible="not l10n_ro_retail_markup_line_ids"
+                >
+                    <field name="l10n_ro_retail_markup_line_ids" readonly="1">
+                        <list>
+                            <field name="warehouse_id" />
+                            <field name="location_id" optional="hide" />
+                            <field name="product_id" />
+                            <field name="markup" sum="Markup (378)" />
+                            <field name="move_id" optional="hide" />
+                            <field name="account_move_id" />
+                            <field name="company_currency_id" column_invisible="1" />
+                        </list>
+                    </field>
+                </page>
+            </xpath>
+        </field>
+    </record>
+</odoo>
