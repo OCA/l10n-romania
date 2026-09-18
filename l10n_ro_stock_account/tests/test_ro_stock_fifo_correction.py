@@ -1,13 +1,8 @@
 # Copyright (C) 2026 NextERP Romania SRL
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
-from odoo.tests import tagged
 
-from .common import TestROStockCommon
-
-
-@tagged("post_install", "-at_install")
-class TestROStockFifoCorrection(TestROStockCommon):
+class FifoCorrectionCases:
     """A FIFO out move whose quantity is edited after validation must be
     revalued (``move.value``) proportionally to the corrected quantity, for
     companies using ``fifo_per_location``."""

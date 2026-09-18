@@ -30,15 +30,13 @@ class AccountEdiXmlUBLRO(models.AbstractModel):
 
         return res
 
-    def _import_ubl_invoice_line_get_product_base_line_kwargs(self, collected_values):
-        # EXTENDS account.edi.xml.ubl_ro
-        base_line_kwargs = (
-            super()._import_ubl_invoice_line_get_product_base_line_kwargs(
-                collected_values
-            )
-        )
+    def _import_invoice_line_add_optional_fields(self, collected_values):
+        # EXTENDS account.edi.common
+        # Punctul de extensie pentru câmpurile suplimentare scrise pe linia de
+        # factură la import; valorile întoarse se fuzionează în `_create_values`.
+        values = super()._import_invoice_line_add_optional_fields(collected_values)
 
         if vendor_code := collected_values.get("l10n_ro_vendor_code"):
-            base_line_kwargs["_create_values"]["l10n_ro_vendor_code"] = vendor_code
+            values["l10n_ro_vendor_code"] = vendor_code
 
-        return base_line_kwargs
+        return values

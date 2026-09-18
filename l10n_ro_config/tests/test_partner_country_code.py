@@ -5,18 +5,19 @@ from unittest.mock import Mock, patch
 
 import requests
 
-from odoo.tests import Form, tagged
+from odoo.tests import Form, TransactionCase, tagged
 from odoo.tools import mute_logger
-
-from odoo.addons.account.tests.common import AccountTestInvoicingCommon
 
 
 @tagged("post_install", "-at_install")
-class TestPartnerVATSubjected(AccountTestInvoicingCommon):
+class TestPartnerVATSubjected(TransactionCase):
     @classmethod
-    @AccountTestInvoicingCommon.setup_country("ro")
     def setUpClass(cls):
         super().setUpClass()
+        # These tests need a Romanian company, not the Romanian chart of
+        # accounts that AccountTestInvoicingCommon rebuilds from scratch for
+        # every post_install test class.
+        cls.env.company.country_id = cls.env.ref("base.ro")
         cls.mainpartner = cls.env.ref("base.main_partner")
         cls.env.company.l10n_ro_accounting = True
 

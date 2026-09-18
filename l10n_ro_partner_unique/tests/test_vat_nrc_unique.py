@@ -3,17 +3,18 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
 from odoo.exceptions import ValidationError
-from odoo.tests import tagged
-
-from odoo.addons.account.tests.common import AccountTestInvoicingCommon
+from odoo.tests import TransactionCase, tagged
 
 
 @tagged("post_install", "-at_install")
-class TestVatUnique(AccountTestInvoicingCommon):
+class TestVatUnique(TransactionCase):
     @classmethod
-    @AccountTestInvoicingCommon.setup_country("ro")
     def setUpClass(cls):
         super().setUpClass()
+        # These tests only create partners; they need a Romanian company, not
+        # the Romanian chart of accounts that AccountTestInvoicingCommon loads
+        # from scratch for every post_install class.
+        cls.env.company.country_id = cls.env.ref("base.ro")
         cls.env.company.l10n_ro_accounting = True
         cls.partner = cls.env["res.partner"].create(
             {
