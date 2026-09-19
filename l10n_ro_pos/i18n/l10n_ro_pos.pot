@@ -20,22 +20,66 @@ msgid "A cash sale of more than 10,000 lei cannot be made."
 msgstr ""
 
 #. module: l10n_ro_pos
+#: model:ir.model.fields,field_description:l10n_ro_pos.field_pos_config__display_name
 #: model:ir.model.fields,field_description:l10n_ro_pos.field_pos_order__display_name
+#: model:ir.model.fields,field_description:l10n_ro_pos.field_pos_payment_method__display_name
 #: model:ir.model.fields,field_description:l10n_ro_pos.field_pos_session__display_name
 #: model:ir.model.fields,field_description:l10n_ro_pos.field_report_point_of_sale_report_saledetails__display_name
 msgid "Display Name"
 msgstr ""
 
 #. module: l10n_ro_pos
+#. odoo-javascript
+#: code:addons/l10n_ro_pos/static/src/js/receipt_screen.esm.js:0
+msgid "Error generating invoice"
+msgstr ""
+
+#. module: l10n_ro_pos
+#. odoo-javascript
+#: code:addons/l10n_ro_pos/static/src/xml/receipt_screen.xml:0
+msgid "Generate Invoice"
+msgstr ""
+
+#. module: l10n_ro_pos
+#: model:ir.model.fields,field_description:l10n_ro_pos.field_pos_config__id
 #: model:ir.model.fields,field_description:l10n_ro_pos.field_pos_order__id
+#: model:ir.model.fields,field_description:l10n_ro_pos.field_pos_payment_method__id
 #: model:ir.model.fields,field_description:l10n_ro_pos.field_pos_session__id
 #: model:ir.model.fields,field_description:l10n_ro_pos.field_report_point_of_sale_report_saledetails__id
 msgid "ID"
 msgstr ""
 
 #. module: l10n_ro_pos
+#. odoo-javascript
+#: code:addons/l10n_ro_pos/static/src/js/receipt_screen.esm.js:0
+msgid "Invoice generated successfully."
+msgstr ""
+
+#. module: l10n_ro_pos
+#: model:ir.model.fields,field_description:l10n_ro_pos.field_pos_config__is_l10n_ro_record
 #: model:ir.model.fields,field_description:l10n_ro_pos.field_pos_order__is_l10n_ro_record
+#: model:ir.model.fields,field_description:l10n_ro_pos.field_pos_payment_method__is_l10n_ro_record
 msgid "Is Romanian Record"
+msgstr ""
+
+#. module: l10n_ro_pos
+#: model:ir.model.fields,field_description:l10n_ro_pos.field_pos_payment_method__journal_id
+msgid "Journal"
+msgstr ""
+
+#. module: l10n_ro_pos
+#: model:ir.model.fields,help:l10n_ro_pos.field_pos_payment_method__journal_id
+msgid ""
+"Leave empty to use the receivable account of customer.\n"
+"Defines the journal where to book the accumulated payments (or individual payment if Identify Customer is true) after closing the session.\n"
+"For cash journal, we directly write to the default account in the journal via statement lines.\n"
+"For bank journal, we write to the outstanding account specified in this payment method.\n"
+"Only cash and bank journals are allowed."
+msgstr ""
+
+#. module: l10n_ro_pos
+#: model:ir.model,name:l10n_ro_pos.model_pos_config
+msgid "Point of Sale Configuration"
 msgstr ""
 
 #. module: l10n_ro_pos
@@ -49,6 +93,11 @@ msgid "Point of Sale Orders"
 msgstr ""
 
 #. module: l10n_ro_pos
+#: model:ir.model,name:l10n_ro_pos.model_pos_payment_method
+msgid "Point of Sale Payment Methods"
+msgstr ""
+
+#. module: l10n_ro_pos
 #: model:ir.model,name:l10n_ro_pos.model_pos_session
 msgid "Point of Sale Session"
 msgstr ""
@@ -57,4 +106,13 @@ msgstr ""
 #. odoo-javascript
 #: code:addons/l10n_ro_pos/static/src/xml/pos.xml:0
 msgid "Sale to individuals only.."
+msgstr ""
+
+#. module: l10n_ro_pos
+#. odoo-python
+#: code:addons/l10n_ro_pos/models/pos_config.py:0
+msgid ""
+"The cash payment method %(method)s is already used by another point of sale."
+" Each register closes its own drawer, so it needs a payment method of its "
+"own -- they may share the cash journal behind it."
 msgstr ""
