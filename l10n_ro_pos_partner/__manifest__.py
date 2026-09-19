@@ -3,7 +3,7 @@
 {
     "name": "Romania - Point of Sale Partner",
     "summary": "Search a customer by CUI in the Point of Sale and create it from ANAF",
-    "version": "19.0.1.0.0",
+    "version": "19.0.1.1.0",
     "category": "Localization",
     "countries": ["ro"],
     "license": "AGPL-3",
