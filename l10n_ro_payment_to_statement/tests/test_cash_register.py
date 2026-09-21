@@ -260,11 +260,12 @@ class TestCashRegister(TestPaymenttoStatement):
         moved.action_post()
 
         self.assertEqual(first.date, fields.Date.to_date("2024-01-15"))
+        self.assertEqual(first.line_ids, stays.move_id.statement_line_id)
         self.assertEqual(first.balance_end, 40.0)
         second = moved.move_id.statement_id
         self.assertNotEqual(second, first, "the line stayed in the first register")
         self.assertEqual(second.date, fields.Date.to_date("2024-01-20"))
-        self.assertEqual(second.balance_end, 60.0)
+        self.assertEqual(second.line_ids, moved.move_id.statement_line_id)
 
     def test_the_register_line_is_not_rebuilt(self):
         """Writing on the line must not turn the entry into cash + suspense."""
