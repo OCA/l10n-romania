@@ -32,38 +32,144 @@ Romania - Payment to Statement
 
 |badge1| |badge2| |badge3| |badge4| |badge5|
 
-Features:
+Keeps the cash register (registru de casa) of a cash journal.
 
-   - Adding the payments in the bank statements
+Every payment posted in a cash journal set to keep a register is added
+to the register of its day, which is opened when it does not exist yet.
+The line of the register never has to be reconciled: it stands for a
+payment which is already reconciled with its invoice.
 
-   This module added features on customer/supplier payments to allow
-   account user to link payment with bank statement direct through
-   payment menu or customer/supplier invoices register payment option.
-   After selecting and validating payment, module will add bank
-   statement line on selected bank statement.
+The module also numbers the documents of a cash journal with sequences
+of its own, instead of letting Odoo build the numbers: receipt
+(chitanta), cash in and cash out slips (dispozitie de incasare / de
+plata) and the register itself.
 
-   - Sequences can be attached to journals, so the invoices/payments are
-     not computed by odoo, but taken from the selected sequences:
-
-   ..
-
-      - Journal sequence: for sale journals, this will be the invoice's
-        sequence. For cash/bank journals, this will be the sequence for
-        other journal entries (for closing the statement, for statement
-        lines etc.)
-      - Customer sequence cash in: only for cash journals. This sequence
-        will be used for customer payments
-      - Statement sequence: only for cash/bank journals. This sequence
-        will be used for bank/cash statements
-      - Cash in sequence: only for cash. This sequence will be used for
-        supplier refunds
-      - Cash out sequence: only for cash. This sequence will be used for
-        customer refunds
+A sequence can be set on any other journal as well, in *Journal
+sequence*, and the entries of that journal are then numbered from it:
+the invoices of a sale journal, the bills of a purchase one, the entries
+of a miscellaneous one.
 
 **Table of contents**
 
 .. contents::
    :local:
+
+Configuration
+=============
+
+The sequence of a journal
+-------------------------
+
+*Journal sequence* can be set on any journal, not only on a cash one.
+The entries of that journal then take their number from it, instead of
+from the numbering Odoo builds itself:
+
+- a sale journal numbers its invoices from it (FCT/00001)
+- a purchase journal numbers its bills
+- a miscellaneous journal numbers its entries (NC/00001)
+- a cash journal numbers the supplier payments and everything which is
+  neither a receipt nor a slip, see the table below
+
+The number is taken when the entry is posted: a draft has none yet, and
+a draft which is discarded leaves no gap behind. Set *Implementation* to
+*No gap* on the sequence if the numbering has to be without holes.
+
+The cash journal
+----------------
+
+A cash journal of a romanian company is set up when it is created:
+
+- it is given the sequences of its documents, named after the code of
+  the journal:
+
+  +------------------------------+--------+------------------------------+
+  | sequence                     | suffix | numbers                      |
+  +==============================+========+==============================+
+  | Customer sequence cash in    | CH     | customer payments (chitanta) |
+  +------------------------------+--------+------------------------------+
+  | Cash in sequence             | DI     | money in from a supplier     |
+  |                              |        | (dispozitie de incasare)     |
+  +------------------------------+--------+------------------------------+
+  | Cash out sequence            | DP     | money out to a customer      |
+  |                              |        | (dispozitie de plata)        |
+  +------------------------------+--------+------------------------------+
+  | Statement sequence           | RC     | the register itself          |
+  |                              |        | (registru de casa)           |
+  +------------------------------+--------+------------------------------+
+  | Journal sequence             | none   | supplier payments and the    |
+  |                              |        | other entries                |
+  +------------------------------+--------+------------------------------+
+
+- *Romania - Auto Statement* is ticked, which is what makes the journal
+  keep a register. Untick it on a journal which should not have one, or
+  create the journal with it set to false.
+
+The sequences can be replaced afterwards with sequences of your own; the
+module only fills in the ones which are empty.
+
+The account of the payment method
+---------------------------------
+
+What the register line looks like depends on the account set on the
+payment method of the journal (*Incoming/Outgoing Payments*):
+
++-----------------------------+---------+-----------------------------+
+| account                     | entries | register line               |
++=============================+=========+=============================+
+| the cash account of the     | one     | the entry of the payment    |
+| journal                     |         | itself                      |
++-----------------------------+---------+-----------------------------+
+| an outstanding (transit)    | two     | its own entry, reconciled   |
+| account                     |         | with the payment            |
++-----------------------------+---------+-----------------------------+
+| none                        | none    | none, there is nothing to   |
+|                             |         | register                    |
++-----------------------------+---------+-----------------------------+
+
+The first one is the usual setup of a romanian cash journal: a receipt
+is booked straight as 5311 = 4111 and the register shows that entry.
+
+The second one is for the money reaching the cash register through a
+transit account (4111 = 581 when the payment is posted, 5311 = 581 in
+the register). Both entries are needed here, and the module reconciles
+them, so there is still nothing left to do by hand.
+
+The third one only happens in Odoo Enterprise, where a payment method
+without an account produces no journal entry at all. Such a payment
+cannot be put in a register, and none is created for it.
+
+Usage
+=====
+
+Registering a payment
+---------------------
+
+Post a payment in a cash journal which keeps a register, from the
+payment itself or from the *Register Payment* button of an invoice. The
+payment takes its number from the sequence of its kind, and the register
+of the day gets a line for it.
+
+The line is already reconciled, so it does not show up in the bank
+reconciliation screen, and the balance of the register follows the
+payments of the day.
+
+Cancelling a payment cancels its register line as well, and posting it
+again puts it back. A payment posted again on another day moves to the
+register of that day, unless it is alone in its own register, which then
+simply follows it.
+
+Cash in and cash out slips
+--------------------------
+
+A line made straight in the register, without a payment behind it, joins
+the register of its day too.
+
+The balance of the register
+---------------------------
+
+The module computes the balance of the register from its lines. The
+*Ending Balance* is left to whoever counts the money: the module never
+writes it.
 
 Bug Tracker
 ===========
