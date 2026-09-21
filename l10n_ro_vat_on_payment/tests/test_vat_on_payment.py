@@ -213,6 +213,11 @@ class TestVATonpayment(AccountTestInvoicingCommon):
                 "operation_type": "I",
             }
         )
+        # l10n_ro_anaf_history is a compute field that does not
+        # auto-refresh when new l10n.ro.res.partner.anaf records are
+        # created for this vat; force a recompute before checking,
+        # otherwise the result depends on stale ORM cache state.
+        partner._compute_l10n_ro_anaf_history()
         result = partner.with_context(
             no_insert=True, check_date=date.today()
         )._check_vat_on_payment()
