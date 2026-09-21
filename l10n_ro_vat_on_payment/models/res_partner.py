@@ -84,11 +84,21 @@ class ResPartner(models.Model):
         vat_on_payment = False
         if self.l10n_ro_anaf_history:
             if ctx.get("check_date", False):
+                # A partner can carry more than one ANAF register line
+                # (e.g. a de-registration followed by a later
+                # re-registration). Require the selected line to still
+                # be open at check_date (no end_date, or end_date after
+                # it) — otherwise an already-expired line can win over a
+                # currently active one and wrongly clear the flag.
                 line = self.env["l10n.ro.res.partner.anaf"].search(
                     [
                         ("id", "in", [rec.id for rec in self.l10n_ro_anaf_history]),
                         ("start_date", "<=", ctx["check_date"]),
+                        "|",
+                        ("end_date", "=", False),
+                        ("end_date", ">", ctx["check_date"]),
                     ],
+                    order="start_date desc",
                     limit=1,
                 )
             else:
