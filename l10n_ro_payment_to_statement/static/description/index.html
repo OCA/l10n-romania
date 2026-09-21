@@ -375,51 +375,191 @@ ul.auto-toc {
 !! source digest: sha256:ac43031144594609e5f64892883a70ed0b08d3e21e9556723c12f6e1fba5f48c
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! -->
 <p><a class="reference external image-reference" href="https://odoo-community.org/page/development-status"><img alt="Mature" src="https://img.shields.io/badge/maturity-Mature-brightgreen.png" /></a> <a class="reference external image-reference" href="http://www.gnu.org/licenses/agpl-3.0-standalone.html"><img alt="License: AGPL-3" src="https://img.shields.io/badge/license-AGPL--3-blue.png" /></a> <a class="reference external image-reference" href="https://github.com/OCA/l10n-romania/tree/19.0/l10n_ro_payment_to_statement"><img alt="OCA/l10n-romania" src="https://img.shields.io/badge/github-OCA%2Fl10n--romania-lightgray.png?logo=github" /></a> <a class="reference external image-reference" href="https://translation.odoo-community.org/projects/l10n-romania-19-0/l10n-romania-19-0-l10n_ro_payment_to_statement"><img alt="Translate me on Weblate" src="https://img.shields.io/badge/weblate-Translate%20me-F47D42.png" /></a> <a class="reference external image-reference" href="https://runboat.odoo-community.org/builds?repo=OCA/l10n-romania&amp;target_branch=19.0"><img alt="Try me on Runboat" src="https://img.shields.io/badge/runboat-Try%20me-875A7B.png" /></a></p>
-<p>Features:</p>
-<blockquote>
-<ul class="simple">
-<li>Adding the payments in the bank statements</li>
-</ul>
-<p>This module added features on customer/supplier payments to allow
-account user to link payment with bank statement direct through
-payment menu or customer/supplier invoices register payment option.
-After selecting and validating payment, module will add bank
-statement line on selected bank statement.</p>
-<ul class="simple">
-<li>Sequences can be attached to journals, so the invoices/payments are
-not computed by odoo, but taken from the selected sequences:</li>
-</ul>
-<!--  -->
-<blockquote>
-<ul class="simple">
-<li>Journal sequence: for sale journals, this will be the invoice’s
-sequence. For cash/bank journals, this will be the sequence for
-other journal entries (for closing the statement, for statement
-lines etc.)</li>
-<li>Customer sequence cash in: only for cash journals. This sequence
-will be used for customer payments</li>
-<li>Statement sequence: only for cash/bank journals. This sequence
-will be used for bank/cash statements</li>
-<li>Cash in sequence: only for cash. This sequence will be used for
-supplier refunds</li>
-<li>Cash out sequence: only for cash. This sequence will be used for
-customer refunds</li>
-</ul>
-</blockquote>
-</blockquote>
+<p>Keeps the cash register (registru de casa) of a cash journal.</p>
+<p>Every payment posted in a cash journal set to keep a register is added
+to the register of its day, which is opened when it does not exist yet.
+The line of the register never has to be reconciled: it stands for a
+payment which is already reconciled with its invoice.</p>
+<p>The module also numbers the documents of a cash journal with sequences
+of its own, instead of letting Odoo build the numbers: receipt
+(chitanta), cash in and cash out slips (dispozitie de incasare / de
+plata) and the register itself.</p>
+<p>A sequence can be set on any other journal as well, in <em>Journal
+sequence</em>, and the entries of that journal are then numbered from it:
+the invoices of a sale journal, the bills of a purchase one, the entries
+of a miscellaneous one.</p>
 <p><strong>Table of contents</strong></p>
 <div class="contents local topic" id="contents">
 <ul class="simple">
-<li><a class="reference internal" href="#bug-tracker" id="toc-entry-1">Bug Tracker</a></li>
-<li><a class="reference internal" href="#credits" id="toc-entry-2">Credits</a><ul>
-<li><a class="reference internal" href="#authors" id="toc-entry-3">Authors</a></li>
-<li><a class="reference internal" href="#maintainers" id="toc-entry-4">Maintainers</a></li>
+<li><a class="reference internal" href="#configuration" id="toc-entry-1">Configuration</a><ul>
+<li><a class="reference internal" href="#the-sequence-of-a-journal" id="toc-entry-2">The sequence of a journal</a></li>
+<li><a class="reference internal" href="#the-cash-journal" id="toc-entry-3">The cash journal</a></li>
+<li><a class="reference internal" href="#the-account-of-the-payment-method" id="toc-entry-4">The account of the payment method</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#usage" id="toc-entry-5">Usage</a><ul>
+<li><a class="reference internal" href="#registering-a-payment" id="toc-entry-6">Registering a payment</a></li>
+<li><a class="reference internal" href="#cash-in-and-cash-out-slips" id="toc-entry-7">Cash in and cash out slips</a></li>
+<li><a class="reference internal" href="#the-balance-of-the-register" id="toc-entry-8">The balance of the register</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#bug-tracker" id="toc-entry-9">Bug Tracker</a></li>
+<li><a class="reference internal" href="#credits" id="toc-entry-10">Credits</a><ul>
+<li><a class="reference internal" href="#authors" id="toc-entry-11">Authors</a></li>
+<li><a class="reference internal" href="#maintainers" id="toc-entry-12">Maintainers</a></li>
 </ul>
 </li>
 </ul>
 </div>
+<div class="section" id="configuration">
+<h2><a class="toc-backref" href="#toc-entry-1">Configuration</a></h2>
+<div class="section" id="the-sequence-of-a-journal">
+<h3><a class="toc-backref" href="#toc-entry-2">The sequence of a journal</a></h3>
+<p><em>Journal sequence</em> can be set on any journal, not only on a cash one.
+The entries of that journal then take their number from it, instead of
+from the numbering Odoo builds itself:</p>
+<ul class="simple">
+<li>a sale journal numbers its invoices from it (FCT/00001)</li>
+<li>a purchase journal numbers its bills</li>
+<li>a miscellaneous journal numbers its entries (NC/00001)</li>
+<li>a cash journal numbers the supplier payments and everything which is
+neither a receipt nor a slip, see the table below</li>
+</ul>
+<p>The number is taken when the entry is posted: a draft has none yet, and
+a draft which is discarded leaves no gap behind. Set <em>Implementation</em> to
+<em>No gap</em> on the sequence if the numbering has to be without holes.</p>
+</div>
+<div class="section" id="the-cash-journal">
+<h3><a class="toc-backref" href="#toc-entry-3">The cash journal</a></h3>
+<p>A cash journal of a romanian company is set up when it is created:</p>
+<ul>
+<li><p class="first">it is given the sequences of its documents, named after the code of
+the journal:</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="44%" />
+<col width="12%" />
+<col width="44%" />
+</colgroup>
+<thead valign="bottom">
+<tr><th class="head">sequence</th>
+<th class="head">suffix</th>
+<th class="head">numbers</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr><td>Customer sequence cash in</td>
+<td>CH</td>
+<td>customer payments (chitanta)</td>
+</tr>
+<tr><td>Cash in sequence</td>
+<td>DI</td>
+<td>money in from a supplier
+(dispozitie de incasare)</td>
+</tr>
+<tr><td>Cash out sequence</td>
+<td>DP</td>
+<td>money out to a customer
+(dispozitie de plata)</td>
+</tr>
+<tr><td>Statement sequence</td>
+<td>RC</td>
+<td>the register itself
+(registru de casa)</td>
+</tr>
+<tr><td>Journal sequence</td>
+<td>none</td>
+<td>supplier payments and the
+other entries</td>
+</tr>
+</tbody>
+</table>
+</li>
+<li><p class="first"><em>Romania - Auto Statement</em> is ticked, which is what makes the journal
+keep a register. Untick it on a journal which should not have one, or
+create the journal with it set to false.</p>
+</li>
+</ul>
+<p>The sequences can be replaced afterwards with sequences of your own; the
+module only fills in the ones which are empty.</p>
+</div>
+<div class="section" id="the-account-of-the-payment-method">
+<h3><a class="toc-backref" href="#toc-entry-4">The account of the payment method</a></h3>
+<p>What the register line looks like depends on the account set on the
+payment method of the journal (<em>Incoming/Outgoing Payments</em>):</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="43%" />
+<col width="13%" />
+<col width="43%" />
+</colgroup>
+<thead valign="bottom">
+<tr><th class="head">account</th>
+<th class="head">entries</th>
+<th class="head">register line</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr><td>the cash account of the
+journal</td>
+<td>one</td>
+<td>the entry of the payment
+itself</td>
+</tr>
+<tr><td>an outstanding (transit)
+account</td>
+<td>two</td>
+<td>its own entry, reconciled
+with the payment</td>
+</tr>
+<tr><td>none</td>
+<td>none</td>
+<td>none, there is nothing to
+register</td>
+</tr>
+</tbody>
+</table>
+<p>The first one is the usual setup of a romanian cash journal: a receipt
+is booked straight as 5311 = 4111 and the register shows that entry.</p>
+<p>The second one is for the money reaching the cash register through a
+transit account (4111 = 581 when the payment is posted, 5311 = 581 in
+the register). Both entries are needed here, and the module reconciles
+them, so there is still nothing left to do by hand.</p>
+<p>The third one only happens in Odoo Enterprise, where a payment method
+without an account produces no journal entry at all. Such a payment
+cannot be put in a register, and none is created for it.</p>
+</div>
+</div>
+<div class="section" id="usage">
+<h2><a class="toc-backref" href="#toc-entry-5">Usage</a></h2>
+<div class="section" id="registering-a-payment">
+<h3><a class="toc-backref" href="#toc-entry-6">Registering a payment</a></h3>
+<p>Post a payment in a cash journal which keeps a register, from the
+payment itself or from the <em>Register Payment</em> button of an invoice. The
+payment takes its number from the sequence of its kind, and the register
+of the day gets a line for it.</p>
+<p>The line is already reconciled, so it does not show up in the bank
+reconciliation screen, and the balance of the register follows the
+payments of the day.</p>
+<p>Cancelling a payment cancels its register line as well, and posting it
+again puts it back. A payment posted again on another day moves to the
+register of that day, unless it is alone in its own register, which then
+simply follows it.</p>
+</div>
+<div class="section" id="cash-in-and-cash-out-slips">
+<h3><a class="toc-backref" href="#toc-entry-7">Cash in and cash out slips</a></h3>
+<p>A line made straight in the register, without a payment behind it, joins
+the register of its day too.</p>
+</div>
+<div class="section" id="the-balance-of-the-register">
+<h3><a class="toc-backref" href="#toc-entry-8">The balance of the register</a></h3>
+<p>The module computes the balance of the register from its lines. The
+<em>Ending Balance</em> is left to whoever counts the money: the module never
+writes it.</p>
+</div>
+</div>
 <div class="section" id="bug-tracker">
-<h2><a class="toc-backref" href="#toc-entry-1">Bug Tracker</a></h2>
+<h2><a class="toc-backref" href="#toc-entry-9">Bug Tracker</a></h2>
 <p>Bugs are tracked on <a class="reference external" href="https://github.com/OCA/l10n-romania/issues">GitHub Issues</a>.
 In case of trouble, please check there if your issue has already been reported.
 If you spotted it first, help us to smash it by providing a detailed and welcomed
@@ -427,16 +567,16 @@ If you spotted it first, help us to smash it by providing a detailed and welcome
 <p>Do not contact contributors directly about support or help with technical issues.</p>
 </div>
 <div class="section" id="credits">
-<h2><a class="toc-backref" href="#toc-entry-2">Credits</a></h2>
+<h2><a class="toc-backref" href="#toc-entry-10">Credits</a></h2>
 <div class="section" id="authors">
-<h3><a class="toc-backref" href="#toc-entry-3">Authors</a></h3>
+<h3><a class="toc-backref" href="#toc-entry-11">Authors</a></h3>
 <ul class="simple">
 <li>Terrabit</li>
 <li>NextERP Romania</li>
 </ul>
 </div>
 <div class="section" id="maintainers">
-<h3><a class="toc-backref" href="#toc-entry-4">Maintainers</a></h3>
+<h3><a class="toc-backref" href="#toc-entry-12">Maintainers</a></h3>
 <p>This module is maintained by the OCA.</p>
 <a class="reference external image-reference" href="https://odoo-community.org">
 <img alt="Odoo Community Association" src="https://odoo-community.org/logo.png" />

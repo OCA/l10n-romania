@@ -13,9 +13,59 @@ class TestPaymenttoStatement(AccountTestInvoicingCommon):
     def setUpClass(cls):
         super().setUpClass()
         cls.env.company.l10n_ro_accounting = True
-        cls.partner_a = cls.env["res.partner"].create({"name": "test"})
-        cash_journals = cls.env["account.journal"].search(
-            [("type", "=", "cash"), ("company_id", "=", cls.env.company.id)]
+
+        # the journal of the common setup was created before the company was
+        # romanian, so it has none of the romanian sequences
+        cls.cash_journal = cls.env["account.journal"].create(
+            {
+                "name": "Cash register",
+                "code": "CSHRO",
+                "type": "cash",
+                "company_id": cls.env.company.id,
+            }
         )
-        for journal in cash_journals:
-            journal.l10n_ro_update_cash_vals()
+        cls.cash_account = cls.cash_journal.default_account_id
+        cls.bank_journal = cls.company_data["default_journal_bank"]
+
+        cls.transit_account = cls.env["account.account"].create(
+            {
+                "name": "Internal transfers",
+                "code": "581000",
+                "account_type": "asset_current",
+                "reconcile": True,
+            }
+        )
+        cls.partner = cls.env["res.partner"].create({"name": "Test partner"})
+
+    @classmethod
+    def _set_payment_account(cls, journal, account):
+        """Account taken by the payments of a journal (the outstanding one)."""
+        lines = (
+            journal.inbound_payment_method_line_ids
+            | journal.outbound_payment_method_line_ids
+        )
+        lines.payment_account_id = account
+
+    def _create_payment(self, **vals):
+        payment = self.env["account.payment"].create(
+            {
+                "amount": 100.0,
+                "date": "2024-01-15",
+                "payment_type": "inbound",
+                "partner_type": "customer",
+                "journal_id": self.cash_journal.id,
+                "partner_id": self.partner.id,
+                **vals,
+            }
+        )
+        return payment
+
+    def _post_payment(self, **vals):
+        payment = self._create_payment(**vals)
+        payment.action_post()
+        return payment
+
+    def _statements(self, journal=None):
+        return self.env["account.bank.statement"].search(
+            [("journal_id", "=", (journal or self.cash_journal).id)]
+        )

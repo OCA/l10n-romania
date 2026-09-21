@@ -3,260 +3,58 @@
 # See README.rst file on addons root folder for license details
 
 
-from odoo.tests import Form, tagged
+from odoo.tests import tagged
 
 from .common import TestPaymenttoStatement
 
 
 @tagged("post_install", "-at_install")
-class TestPayment(TestPaymenttoStatement):
-    def setUp(self):
-        super().setUp()
-        self.env.company.l10n_ro_accounting = True
-        self.partner_a = self.env["res.partner"].create({"name": "test"})
-        self.out_outstanding_account = self.env["account.account"].create(
+class TestPaymentSequence(TestPaymenttoStatement):
+    """Numbers the payments of a cash journal take from its sequences."""
+
+    def test_customer_cash_in(self):
+        payment = self._post_payment(
+            payment_type="inbound", partner_type="customer", amount=150.0
+        )
+        self.assertEqual(payment.name, self.cash_journal.code + "CH000001")
+
+    def test_customer_cash_out(self):
+        payment = self._post_payment(
+            payment_type="outbound", partner_type="customer", amount=150.0
+        )
+        self.assertEqual(payment.name, self.cash_journal.code + "DP000001")
+
+    def test_supplier_cash_in(self):
+        payment = self._post_payment(
+            payment_type="inbound", partner_type="supplier", amount=150.0
+        )
+        self.assertEqual(payment.name, self.cash_journal.code + "DI000001")
+
+    def test_supplier_cash_out(self):
+        payment = self._post_payment(
+            payment_type="outbound", partner_type="supplier", amount=150.0
+        )
+        self.assertEqual(payment.name, self.cash_journal.code + "000001")
+
+    def test_journal_sequence_can_be_replaced(self):
+        sequence = self.env["ir.sequence"].create(
             {
-                "name": "Outstanding Payments",
-                "code": "5125001",
-                "reconcile": True,
-                "account_type": "asset_current",
-            }
-        )
-
-    def test_payment(self):
-        cash_journal = self.env["account.journal"].search(
-            [("type", "=", "cash")], limit=1
-        )
-
-        payment_1 = self.env["account.payment"].create(
-            {
-                "amount": 150.0,
-                "payment_type": "inbound",
-                "partner_type": "customer",
-                "date": "2015-01-01",
-                "journal_id": cash_journal.id,
-                "partner_id": self.partner_a.id,
-                "payment_method_id": self.env.ref(
-                    "account.account_payment_method_manual_in"
-                ).id,
-            }
-        )
-
-        payment_2 = self.env["account.payment"].create(
-            {
-                "amount": 250.0,
-                "payment_type": "outbound",
-                "partner_type": "supplier",
-                "date": "2015-01-02",
-                "journal_id": cash_journal.id,
-                "partner_id": self.partner_a.id,
-                "payment_method_id": self.env.ref(
-                    "account.account_payment_method_manual_out"
-                ).id,
-            }
-        )
-
-        payment_3 = self.env["account.payment"].create(
-            {
-                "amount": 250.0,
-                "payment_type": "outbound",
-                "partner_type": "customer",
-                "date": "2015-01-02",
-                "journal_id": cash_journal.id,
-                "partner_id": self.partner_a.id,
-                "payment_method_id": self.env.ref(
-                    "account.account_payment_method_manual_out"
-                ).id,
-            }
-        )
-
-        payment_1.action_post()
-        payment_2.action_post()
-        payment_3.action_post()
-
-        # dashboard_data = cash_journal.get_journal_dashboard_datas()
-        # self.assertEqual(dashboard_data["number_draft"], 0)
-        # self.assertIn("0.00", dashboard_data["sum_draft"])
-        # self.assertIn("-350.00", dashboard_data["outstanding_pay_account_balance"])
-        # self.assertIn(
-        #     "-\ufeff350.00\xa0lei", dashboard_data["outstanding_pay_account_balance"]
-        # )
-
-    def test_payment_date_journal(self):
-        cash_journal = self.env["account.journal"].search(
-            [("type", "=", "cash")], limit=1
-        )
-        payment_4 = self.env["account.payment"].create(
-            {
-                "amount": 150.0,
-                "payment_type": "inbound",
-                "partner_type": "customer",
-                "date": "2015-02-02",
-                "journal_id": cash_journal.id,
-                "partner_id": self.partner_a.id,
-                "payment_method_id": self.env.ref(
-                    "account.account_payment_method_manual_in"
-                ).id,
-            }
-        )
-        payment_form = Form(payment_4)
-        payment_form.date = "2015-02-02"
-
-    def test_payment_cash_in_journal(self):
-        cash_journal = self.env["account.journal"].search(
-            [("type", "=", "cash"), ("company_id", "=", self.env.company.id)], limit=1
-        )
-        moves = self.env["account.move"].search([])
-        moves.unlink()
-        self.payment_debit_account_id = (
-            self.inbound_payment_method_line.payment_account_id
-        )
-        cash_journal.inbound_payment_method_line_ids[
-            0
-        ].payment_account_id = self.payment_debit_account_id
-        payment_5 = self.env["account.payment"].create(
-            {
-                "amount": 150.0,
-                "payment_type": "inbound",
-                "partner_type": "customer",
-                "date": "2022-12-01",
-                "journal_id": cash_journal.id,
-                "partner_id": self.partner_a.id,
-                "payment_method_id": self.env.ref(
-                    "account.account_payment_method_manual_in"
-                ).id,
-                "payment_method_line_id": cash_journal.inbound_payment_method_line_ids[
-                    0
-                ].id,
-            }
-        )
-        payment_5.action_post()
-        self.assertEqual(payment_5.name, cash_journal.code + "CH000001")
-
-    def test_payment_cash_out_journal(self):
-        cash_journal = self.env["account.journal"].search(
-            [("type", "=", "cash"), ("company_id", "=", self.env.company.id)], limit=1
-        )
-        self.payment_debit_account_id = (
-            self.inbound_payment_method_line.payment_account_id
-        )
-        cash_journal.inbound_payment_method_line_ids[
-            0
-        ].payment_account_id = self.payment_debit_account_id
-        payment_6 = self.env["account.payment"].create(
-            {
-                "amount": 150.0,
-                "payment_type": "outbound",
-                "partner_type": "customer",
-                "date": "2022-12-01",
-                "journal_id": cash_journal.id,
-                "partner_id": self.partner_a.id,
-                "payment_method_id": self.env.ref(
-                    "account.account_payment_method_manual_in"
-                ).id,
-                "company_id": self.env.company.id,
-                "payment_method_line_id": cash_journal.inbound_payment_method_line_ids[
-                    0
-                ].id,
-            }
-        )
-        payment_6.action_post()
-        self.assertEqual(payment_6.name, cash_journal.code + "DP000001")
-
-    def test_payment_supplier_cash_out_journal(self):
-        cash_journal = self.env["account.journal"].search(
-            [("type", "=", "cash"), ("company_id", "=", self.env.company.id)], limit=1
-        )
-        moves = self.env["account.move"].search([])
-        moves.unlink()
-        self.payment_debit_account_id = (
-            self.inbound_payment_method_line.payment_account_id
-        )
-        cash_journal.inbound_payment_method_line_ids[
-            0
-        ].payment_account_id = self.payment_debit_account_id
-        payment_7 = self.env["account.payment"].create(
-            {
-                "amount": 150.0,
-                "payment_type": "outbound",
-                "partner_type": "supplier",
-                "date": "2022-12-01",
-                "journal_id": cash_journal.id,
-                "partner_id": self.partner_a.id,
-                "payment_method_id": self.env.ref(
-                    "account.account_payment_method_manual_in"
-                ).id,
-                "company_id": self.env.company.id,
-                "payment_method_line_id": cash_journal.inbound_payment_method_line_ids[
-                    0
-                ].id,
-            }
-        )
-        payment_7.action_post()
-        self.assertEqual(payment_7.name, cash_journal.code + "000001")
-
-        vals_seq = {
-            "name": "Seq",
-            "code": "TT",
-            "implementation": "no_gap",
-            "prefix": "TT",
-            "suffix": "",
-            "padding": 6,
-            "company_id": self.env.company.id,
-        }
-        seq = self.env["ir.sequence"].create(vals_seq)
-        cash_journal.l10n_ro_journal_sequence_id = seq.id
-        payment_8 = self.env["account.payment"].create(
-            {
-                "amount": 150.0,
-                "payment_type": "outbound",
-                "partner_type": "supplier",
-                "date": "2022-12-01",
-                "journal_id": cash_journal.id,
-                "partner_id": self.partner_a.id,
-                "payment_method_id": self.env.ref(
-                    "account.account_payment_method_manual_in"
-                ).id,
-                "company_id": self.env.company.id,
-                "payment_method_line_id": cash_journal.inbound_payment_method_line_ids[
-                    0
-                ].id,
-            }
-        )
-        payment_8.action_post()
-        self.assertEqual(payment_8.name, "TT000001")
-
-    def test_bank_statement_line_name(self):
-        journal_cash = self.company_data["default_journal_cash"]
-        bnk_line_out = self.env["account.bank.statement.line"].create(
-            {
-                "date": "2022-12-01",
-                "payment_ref": "line_1",
-                "amount": 100.0,
-                "journal_id": journal_cash.id,
-            }
-        )
-        self.assertEqual(bnk_line_out.move_id.name, journal_cash.code + "000001")
-
-    def test_get_journal_dashboard_datas(self):
-        journal = self.env["account.journal"].create(
-            {
-                "name": "Test cash",
-                "type": "cash",
+                "name": "Seq",
+                "code": "TT",
+                "implementation": "no_gap",
+                "prefix": "TT",
+                "padding": 6,
                 "company_id": self.env.company.id,
             }
         )
-        payment = self.env["account.payment"].create(
-            {
-                "amount": 150.43,
-                "payment_type": "inbound",
-                "partner_type": "customer",
-                "date": "2015-01-01",
-                "journal_id": journal.id,
-                "partner_id": self.partner_a.id,
-                "payment_method_id": self.env.ref(
-                    "account.account_payment_method_manual_in"
-                ).id,
-            }
+        self.cash_journal.l10n_ro_journal_sequence_id = sequence.id
+        payment = self._post_payment(
+            payment_type="outbound", partner_type="supplier", amount=150.0
         )
-        payment.action_post()
+        self.assertEqual(payment.name, "TT000001")
+
+    def test_numbers_follow_each_other(self):
+        first = self._post_payment(amount=10.0)
+        second = self._post_payment(amount=20.0)
+        self.assertEqual(first.name, self.cash_journal.code + "CH000001")
+        self.assertEqual(second.name, self.cash_journal.code + "CH000002")

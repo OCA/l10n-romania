@@ -15,10 +15,7 @@
                     name="l10n_ro_statement_sequence_id"
                     invisible="type not in ['cash','bank']"
                 />
-                <field
-                    name="l10n_ro_auto_statement"
-                    invisible="type not in ['cash','bank']"
-                />
+                <field name="l10n_ro_auto_statement" invisible="type != 'cash'" />
                 <field name="l10n_ro_cash_in_sequence_id" invisible="type != 'cash'" />
                 <field name="l10n_ro_cash_out_sequence_id" invisible="type != 'cash'" />
             </xpath>
