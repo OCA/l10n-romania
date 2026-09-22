@@ -3,12 +3,10 @@
 
 import logging
 
-from odoo.tools import SQL
 from odoo.tools.sql import column_exists
 
 _logger = logging.getLogger(__name__)
 
-OBSOLETE_COLUMNS = ["l10n_ro_statement_id", "l10n_ro_statement_line_id"]
 LISTED_LINES = 500
 
 
@@ -19,12 +17,16 @@ def migrate(cr, version):
     day happened to exist, and the payment held links of its own to that
     statement and to its line. The register is now kept for cash journals
     asking for it, and the links are the ones odoo holds already.
+
+    l10n_ro_statement_id and l10n_ro_statement_line_id are no longer fields of
+    account.payment, but their columns are left in the database: they are the
+    only way left to tell which line was made out of which payment, which is
+    what a cleanup of the lines below needs. A later version drops them.
     """
     if not column_exists(cr, "account_payment", "l10n_ro_statement_line_id"):
         return
     _report_lines_of_journals_without_a_register(cr)
     _stop_offering_a_register_outside_cash(cr)
-    _drop_obsolete_columns(cr)
 
 
 def _report_lines_of_journals_without_a_register(cr):
@@ -47,7 +49,14 @@ def _report_lines_of_journals_without_a_register(cr):
          ORDER BY j.code
         """
     )
-    for code, journal_type, count, amount, line_ids in cr.fetchall():
+    rows = cr.fetchall()
+    if rows:
+        _logger.warning(
+            "The links of the payments to their statement lines are kept in "
+            "the database, although they are not fields any more, so that the "
+            "lines below can still be found and cleaned up."
+        )
+    for code, journal_type, count, amount, line_ids in rows:
         _logger.warning(
             "Journal %s (%s) holds %s statement line(s) worth %s made out of "
             "payments, which this version would not create. They are left "
@@ -73,14 +82,3 @@ def _stop_offering_a_register_outside_cash(cr):
             "The cash register was unset on %s journal(s) which are not cash",
             cr.rowcount,
         )
-
-
-def _drop_obsolete_columns(cr):
-    for column in OBSOLETE_COLUMNS:
-        if column_exists(cr, "account_payment", column):
-            cr.execute(
-                SQL(
-                    "ALTER TABLE account_payment DROP COLUMN %s",
-                    SQL.identifier(column),
-                )
-            )
