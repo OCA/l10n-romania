@@ -11,23 +11,17 @@ class AccountPayment(models.Model):
     _name = "account.payment"
     _inherit = ["account.payment", "l10n.ro.mixin"]
 
-    # Deprecated. Nothing writes them any more: the register line of a payment
-    # is move_id.statement_line_id, or reconciled_statement_line_ids when the
-    # money goes through a transit account. They are kept because they are the
-    # only thing telling which line was made out of which payment on the
-    # instances carrying lines made by the previous behaviour, which is what
-    # cleaning those lines up needs. A later version removes them.
     l10n_ro_statement_id = fields.Many2one(
         "account.bank.statement",
         string="Romania - Statement",
-        readonly=True,
-        copy=False,
+        domain="[('journal_id','=',journal_id)]",
     )
+
     l10n_ro_statement_line_id = fields.Many2one(
         "account.bank.statement.line",
-        string="Romania - Statement Line",
+        string="Statement Line",
         readonly=True,
-        copy=False,
+        domain="[('l10n_ro_statement_id','=',statement_id)]",
     )
 
     def _l10n_ro_is_auto_statement(self):
@@ -42,7 +36,11 @@ class AccountPayment(models.Model):
     def _l10n_ro_get_statement_line(self):
         """Cash register line of this payment, however it was built."""
         self.ensure_one()
-        return self.move_id.statement_line_id or self.reconciled_statement_line_ids
+        return (
+            self.l10n_ro_statement_line_id
+            or self.move_id.statement_line_id
+            or self.reconciled_statement_line_ids
+        )
 
     def _l10n_ro_add_to_statement(self):
         """Add the payment to the cash register of its day.
@@ -69,6 +67,8 @@ class AccountPayment(models.Model):
             # already registered, but the payment may have been posted again
             # on another day
             lines._l10n_ro_move_to_statement_of_the_day()
+            if self.l10n_ro_statement_line_id:
+                self.l10n_ro_statement_id = self.l10n_ro_statement_line_id.statement_id
             return
         statement = self.env["account.bank.statement"]._l10n_ro_get_statement(
             self.journal_id, self.date
@@ -117,6 +117,12 @@ class AccountPayment(models.Model):
             move.write({"name": name})
         # the entry is the one of the payment, there is nothing left to review
         move.checked = True
+        self.write(
+            {
+                "l10n_ro_statement_id": statement.id,
+                "l10n_ro_statement_line_id": line.id,
+            }
+        )
         return line
 
     def _l10n_ro_create_statement_line(self, statement):
@@ -136,6 +142,12 @@ class AccountPayment(models.Model):
                 and not aml.reconciled
             )
             transit_lines.reconcile()
+        self.write(
+            {
+                "l10n_ro_statement_id": statement.id,
+                "l10n_ro_statement_line_id": line.id,
+            }
+        )
         return line
 
     def action_post(self):

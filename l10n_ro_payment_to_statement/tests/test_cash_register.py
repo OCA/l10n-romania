@@ -25,6 +25,8 @@ class TestCashRegister(TestPaymenttoStatement):
             line.move_id, payment.move_id, "a second journal entry was created"
         )
         self.assertEqual(line.amount, 100.0)
+        self.assertEqual(payment.l10n_ro_statement_line_id, line)
+        self.assertEqual(payment.l10n_ro_statement_id, line.statement_id)
         self.assertEqual(line.statement_id.journal_id, self.cash_journal)
         self.assertEqual(line.statement_id.date, fields.Date.to_date("2024-01-15"))
 
@@ -84,6 +86,8 @@ class TestCashRegister(TestPaymenttoStatement):
         )
         self.assertIn(self.transit_account, lines.move_id.line_ids.account_id)
         self.assertIn(self.cash_account, lines.move_id.line_ids.account_id)
+        self.assertEqual(payment.l10n_ro_statement_line_id, lines)
+        self.assertEqual(payment.l10n_ro_statement_id, lines.statement_id)
 
     def test_transit_account_line_needs_no_reconciliation(self):
         self._set_payment_account(self.cash_journal, self.transit_account)
@@ -266,6 +270,11 @@ class TestCashRegister(TestPaymenttoStatement):
         self.assertNotEqual(second, first, "the line stayed in the first register")
         self.assertEqual(second.date, fields.Date.to_date("2024-01-20"))
         self.assertEqual(second.line_ids, moved.move_id.statement_line_id)
+        self.assertEqual(
+            moved.l10n_ro_statement_id,
+            second,
+            "the payment still points at the first register",
+        )
 
     def test_the_register_line_is_not_rebuilt(self):
         """Writing on the line must not turn the entry into cash + suspense."""
