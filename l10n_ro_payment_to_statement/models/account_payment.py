@@ -3,13 +3,32 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
 
-from odoo import Command, api, models
+from odoo import Command, api, fields, models
 from odoo.exceptions import UserError
 
 
 class AccountPayment(models.Model):
     _name = "account.payment"
     _inherit = ["account.payment", "l10n.ro.mixin"]
+
+    # Deprecated. Nothing writes them any more: the register line of a payment
+    # is move_id.statement_line_id, or reconciled_statement_line_ids when the
+    # money goes through a transit account. They are kept because they are the
+    # only thing telling which line was made out of which payment on the
+    # instances carrying lines made by the previous behaviour, which is what
+    # cleaning those lines up needs. A later version removes them.
+    l10n_ro_statement_id = fields.Many2one(
+        "account.bank.statement",
+        string="Romania - Statement",
+        readonly=True,
+        copy=False,
+    )
+    l10n_ro_statement_line_id = fields.Many2one(
+        "account.bank.statement.line",
+        string="Romania - Statement Line",
+        readonly=True,
+        copy=False,
+    )
 
     def _l10n_ro_is_auto_statement(self):
         """Payment kept in an automatic cash register (registru de casa)."""
