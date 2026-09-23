@@ -107,13 +107,6 @@ class AccountMove(models.Model):
                 self._l10n_ro_set_disposal_name(statement_line)
         return super().write(vals)
 
-    def action_post(self):
-        if self.env.context.get("is_statement_line"):
-            # a register line can be created on the entry of a payment, which
-            # is already posted
-            self = self.filtered(lambda move: move.state == "draft")
-        return super().action_post()
-
     def _post(self, soft=True):
         for move in self.filtered("is_l10n_ro_record"):
             if (
