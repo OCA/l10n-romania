@@ -19,19 +19,11 @@ msgstr ""
 "X-Generator: Weblate 5.6.2\n"
 
 #. module: l10n_ro_payment_to_statement
-#: model_terms:ir.ui.view,arch_db:l10n_ro_payment_to_statement.account_journal_dashboard_kanban_view
-msgid "<span title=\"Transfer\">Transfer</span>"
-msgstr "<span title=\"Transfer\">Transfer</span>"
-
-#. module: l10n_ro_payment_to_statement
-#: model_terms:ir.ui.view,arch_db:l10n_ro_payment_to_statement.view_account_payment_form
-msgid "Add to statement"
-msgstr "Adaugă la extras"
-
-#. module: l10n_ro_payment_to_statement
 #: model:ir.model.fields,help:l10n_ro_payment_to_statement.field_account_journal__l10n_ro_auto_statement
-msgid "Automatically add payments with this journal to a statement"
-msgstr "Adaugă automat tranzacțiile la extras"
+msgid ""
+"Automatically add the payments of this cash journal to the cash register "
+"(statement) of their day"
+msgstr ""
 
 #. module: l10n_ro_payment_to_statement
 #: model:ir.model,name:l10n_ro_payment_to_statement.model_account_bank_statement
@@ -44,9 +36,22 @@ msgid "Bank Statement Line"
 msgstr "Linie extras bacă"
 
 #. module: l10n_ro_payment_to_statement
-#: model_terms:ir.ui.view,arch_db:l10n_ro_payment_to_statement.view_account_payment_form
-msgid "Get statement Line"
-msgstr "Preia linia de extras"
+#: model:ir.model.fields,field_description:l10n_ro_payment_to_statement.field_account_bank_statement__display_name
+#: model:ir.model.fields,field_description:l10n_ro_payment_to_statement.field_account_bank_statement_line__display_name
+#: model:ir.model.fields,field_description:l10n_ro_payment_to_statement.field_account_journal__display_name
+#: model:ir.model.fields,field_description:l10n_ro_payment_to_statement.field_account_move__display_name
+#: model:ir.model.fields,field_description:l10n_ro_payment_to_statement.field_account_payment__display_name
+msgid "Display Name"
+msgstr ""
+
+#. module: l10n_ro_payment_to_statement
+#: model:ir.model.fields,field_description:l10n_ro_payment_to_statement.field_account_bank_statement__id
+#: model:ir.model.fields,field_description:l10n_ro_payment_to_statement.field_account_bank_statement_line__id
+#: model:ir.model.fields,field_description:l10n_ro_payment_to_statement.field_account_journal__id
+#: model:ir.model.fields,field_description:l10n_ro_payment_to_statement.field_account_move__id
+#: model:ir.model.fields,field_description:l10n_ro_payment_to_statement.field_account_payment__id
+msgid "ID"
+msgstr ""
 
 #. module: l10n_ro_payment_to_statement
 #: model:ir.model.fields,field_description:l10n_ro_payment_to_statement.field_account_bank_statement_line__is_l10n_ro_payment_disposal
@@ -131,8 +136,8 @@ msgstr "Secvența folosită pentru încasări de la clienți (chitanțe)"
 #: model:ir.model.fields,help:l10n_ro_payment_to_statement.field_account_journal__l10n_ro_journal_sequence_id
 msgid "Sequence used for other (closing, line) account move names"
 msgstr ""
-"Secvența folosită pentru alte note contabile (facturi în cazul jurnalelor de"
-" vânzare, n.c. închidere, linii extras în cazul jurnalelor de casă/bancă)"
+"Secvența folosită pentru alte note contabile (facturi în cazul jurnalelor de "
+"vânzare, n.c. închidere, linii extras în cazul jurnalelor de casă/bancă)"
 
 #. module: l10n_ro_payment_to_statement
 #: model:ir.model.fields,help:l10n_ro_payment_to_statement.field_account_journal__l10n_ro_statement_sequence_id
@@ -140,14 +145,35 @@ msgid "Sequence used for statement name"
 msgstr "Secvența folosită pentru numele extrasului"
 
 #. module: l10n_ro_payment_to_statement
-#: model:ir.model.fields,field_description:l10n_ro_payment_to_statement.field_account_payment__statement_line_id
+#: model:ir.model.fields,field_description:l10n_ro_payment_to_statement.field_account_payment__l10n_ro_statement_line_id
 msgid "Statement Line"
 msgstr "Linie a Extrasului de cont"
 
 #. module: l10n_ro_payment_to_statement
 #. odoo-python
 #: code:addons/l10n_ro_payment_to_statement/models/account_payment.py:0
-#, python-format
+msgid ""
+"The journal %(journal)s keeps a cash register, so the payment method %"
+"(method)s needs an outstanding account of its own, other than the cash "
+"account %(cash)s of the journal. The register line brings the money from "
+"that account into the cash one, and there is nothing to bring in otherwise."
+msgstr ""
+
+#. module: l10n_ro_payment_to_statement
+#. odoo-python
+#: code:addons/l10n_ro_payment_to_statement/models/account_payment.py:0
 msgid "You cannot delete the payment %s, as it already consumed a number."
 msgstr ""
 "Nu se poate șterge plata/încasarea %s, deoarece a consumat deja un număr."
+
+#~ msgid "<span title=\"Transfer\">Transfer</span>"
+#~ msgstr "<span title=\"Transfer\">Transfer</span>"
+
+#~ msgid "Add to statement"
+#~ msgstr "Adaugă la extras"
+
+#~ msgid "Automatically add payments with this journal to a statement"
+#~ msgstr "Adaugă automat tranzacțiile la extras"
+
+#~ msgid "Get statement Line"
+#~ msgstr "Preia linia de extras"
