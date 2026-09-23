@@ -238,3 +238,40 @@ class TestCashRegister(TestPaymenttoStatement):
 
         with self.assertRaises(UserError):
             payment.unlink()
+
+    # -- disposal: a cash in/out slip made straight in the register ---------
+
+    def _create_disposal(self, amount):
+        return self.env["account.bank.statement.line"].create(
+            {
+                "journal_id": self.cash_journal.id,
+                "date": "2024-01-15",
+                "payment_ref": "disposal",
+                "amount": amount,
+                "partner_id": self.partner.id,
+                "is_l10n_ro_payment_disposal": True,
+            }
+        )
+
+    def test_disposal_in_takes_the_number_of_its_own_sequence(self):
+        line = self._create_disposal(100.0)
+
+        self.assertEqual(
+            line.move_id.name,
+            self.cash_journal.l10n_ro_cash_in_sequence_id.get_next_char(1),
+        )
+
+    def test_disposal_out_takes_the_number_of_its_own_sequence(self):
+        line = self._create_disposal(-100.0)
+
+        self.assertEqual(
+            line.move_id.name,
+            self.cash_journal.l10n_ro_cash_out_sequence_id.get_next_char(1),
+        )
+
+    def test_disposal_does_not_burn_the_general_sequence(self):
+        self._create_disposal(100.0)
+
+        self.assertEqual(
+            self.cash_journal.l10n_ro_journal_sequence_id.number_next_actual, 1
+        )
