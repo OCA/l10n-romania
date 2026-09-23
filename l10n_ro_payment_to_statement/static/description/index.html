@@ -377,9 +377,12 @@ ul.auto-toc {
 <p><a class="reference external image-reference" href="https://odoo-community.org/page/development-status"><img alt="Mature" src="https://img.shields.io/badge/maturity-Mature-brightgreen.png" /></a> <a class="reference external image-reference" href="http://www.gnu.org/licenses/agpl-3.0-standalone.html"><img alt="License: AGPL-3" src="https://img.shields.io/badge/license-AGPL--3-blue.png" /></a> <a class="reference external image-reference" href="https://github.com/OCA/l10n-romania/tree/19.0/l10n_ro_payment_to_statement"><img alt="OCA/l10n-romania" src="https://img.shields.io/badge/github-OCA%2Fl10n--romania-lightgray.png?logo=github" /></a> <a class="reference external image-reference" href="https://translation.odoo-community.org/projects/l10n-romania-19-0/l10n-romania-19-0-l10n_ro_payment_to_statement"><img alt="Translate me on Weblate" src="https://img.shields.io/badge/weblate-Translate%20me-F47D42.png" /></a> <a class="reference external image-reference" href="https://runboat.odoo-community.org/builds?repo=OCA/l10n-romania&amp;target_branch=19.0"><img alt="Try me on Runboat" src="https://img.shields.io/badge/runboat-Try%20me-875A7B.png" /></a></p>
 <p>Keeps the cash register (registru de casa) of a cash journal.</p>
 <p>Every payment posted in a cash journal set to keep a register is added
-to the register of its day, which is opened when it does not exist yet.
-The line of the register never has to be reconciled: it stands for a
-payment which is already reconciled with its invoice.</p>
+to the register of its day, which is opened when it does not exist yet.</p>
+<p>The payment and its register line are two entries: the payment moves the
+money to the account of its payment method (4111 = 581), the line of the
+register brings it into the cash account (5311 = 581), and the module
+reconciles the two with each other. So the line never has to be
+reconciled by hand, and the register shows the cash as it moves.</p>
 <p>The module also numbers the documents of a cash journal with sequences
 of its own, instead of letting Odoo build the numbers: receipt
 (chitanta), cash in and cash out slips (dispozitie de incasare / de
@@ -485,49 +488,40 @@ module only fills in the ones which are empty.</p>
 </div>
 <div class="section" id="the-account-of-the-payment-method">
 <h3><a class="toc-backref" href="#toc-entry-4">The account of the payment method</a></h3>
-<p>What the register line looks like depends on the account set on the
-payment method of the journal (<em>Incoming/Outgoing Payments</em>):</p>
+<p>A cash journal which keeps a register needs an <strong>outstanding account</strong>
+on its payment methods (<em>Incoming/Outgoing Payments</em>), other than the
+cash account of the journal. That account is what the register line
+brings the money in from:</p>
 <table border="1" class="docutils">
 <colgroup>
-<col width="43%" />
-<col width="13%" />
-<col width="43%" />
+<col width="44%" />
+<col width="28%" />
+<col width="28%" />
 </colgroup>
 <thead valign="bottom">
-<tr><th class="head">account</th>
-<th class="head">entries</th>
-<th class="head">register line</th>
+<tr><th class="head">entry</th>
+<th class="head">debit</th>
+<th class="head">credit</th>
 </tr>
 </thead>
 <tbody valign="top">
-<tr><td>the cash account of the
-journal</td>
-<td>one</td>
-<td>the entry of the payment
-itself</td>
+<tr><td>the payment (receipt)</td>
+<td>outstanding 581</td>
+<td>receivable 4111</td>
 </tr>
-<tr><td>an outstanding (transit)
-account</td>
-<td>two</td>
-<td>its own entry, reconciled
-with the payment</td>
-</tr>
-<tr><td>none</td>
-<td>none</td>
-<td>none, there is nothing to
-register</td>
+<tr><td>the line of the register</td>
+<td>cash 5311</td>
+<td>outstanding 581</td>
 </tr>
 </tbody>
 </table>
-<p>The first one is the usual setup of a romanian cash journal: a receipt
-is booked straight as 5311 = 4111 and the register shows that entry.</p>
-<p>The second one is for the money reaching the cash register through a
-transit account (4111 = 581 when the payment is posted, 5311 = 581 in
-the register). Both entries are needed here, and the module reconciles
-them, so there is still nothing left to do by hand.</p>
-<p>The third one only happens in Odoo Enterprise, where a payment method
-without an account produces no journal entry at all. Such a payment
-cannot be put in a register, and none is created for it.</p>
+<p>The module reconciles the two 581 lines with each other, so nothing is
+left to match by hand and the line does not show up in the bank
+reconciliation screen.</p>
+<p>Posting a payment is refused when that account is missing, or when it is
+the cash account of the journal itself: the register line would then
+move the money from the cash account into the cash account, which is no
+movement at all. The message says which account to set.</p>
 </div>
 </div>
 <div class="section" id="usage">
@@ -537,14 +531,15 @@ cannot be put in a register, and none is created for it.</p>
 <p>Post a payment in a cash journal which keeps a register, from the
 payment itself or from the <em>Register Payment</em> button of an invoice. The
 payment takes its number from the sequence of its kind, and the register
-of the day gets a line for it.</p>
+of the day gets a line for it, reconciled with the payment.</p>
 <p>The line is already reconciled, so it does not show up in the bank
 reconciliation screen, and the balance of the register follows the
 payments of the day.</p>
-<p>Cancelling a payment cancels its register line as well, and posting it
-again puts it back. A payment posted again on another day moves to the
-register of that day, unless it is alone in its own register, which then
-simply follows it.</p>
+<p>Cancelling a payment, or setting it back to draft, takes its register
+line away with it; posting it again makes a new one. A payment posted
+again with the same amount on another day moves to the register of that
+day, unless it is alone in its own register, which then simply follows
+it.</p>
 </div>
 <div class="section" id="cash-in-and-cash-out-slips">
 <h3><a class="toc-backref" href="#toc-entry-7">Cash in and cash out slips</a></h3>

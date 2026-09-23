@@ -83,14 +83,33 @@ class AccountBankStatementLine(models.Model):
                 "account.bank.statement"
             ]._l10n_ro_get_statement(line.journal_id, line.date)
 
-    def _l10n_ro_get_payment(self):
-        """Payment this cash register line stands for, if any.
-
-        The line either reuses the journal entry of the payment, or has its own
-        entry reconciled with it through the outstanding account.
-        """
+    def _l10n_ro_stands_for(self, payment):
+        """The line still says what the payment says."""
         self.ensure_one()
-        return self.move_id.origin_payment_id or self.move_id._get_reconciled_payments()
+        amount = (
+            -payment.amount if payment.payment_type == "outbound" else payment.amount
+        )
+        return (
+            self.date == payment.date
+            and self.currency_id.compare_amounts(self.amount, amount) == 0
+            and self.partner_id == payment.partner_id
+        )
+
+    def _l10n_ro_drop(self):
+        """Take the line out of the register, with what it reconciled."""
+        for line in self:
+            line.move_id.line_ids.remove_move_reconcile()
+            # a valid and complete register does not let its lines go,
+            # see account.bank.statement.line._check_allow_unlink
+            line.statement_id = False
+            line.unlink()
+
+    def _l10n_ro_get_payment(self):
+        """Payment this cash register line stands for, if any."""
+        self.ensure_one()
+        return self.env["account.payment"].search(
+            [("l10n_ro_statement_line_id", "=", self.id)], limit=1
+        )
 
     def _synchronize_to_moves(self, changed_fields):
         # A line standing for a payment is written by the payment itself. The

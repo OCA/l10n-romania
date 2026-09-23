@@ -1,9 +1,13 @@
 Keeps the cash register (registru de casa) of a cash journal.
 
 Every payment posted in a cash journal set to keep a register is added to
-the register of its day, which is opened when it does not exist yet. The
-line of the register never has to be reconciled: it stands for a payment
-which is already reconciled with its invoice.
+the register of its day, which is opened when it does not exist yet.
+
+The payment and its register line are two entries: the payment moves the
+money to the account of its payment method (4111 = 581), the line of the
+register brings it into the cash account (5311 = 581), and the module
+reconciles the two with each other. So the line never has to be
+reconciled by hand, and the register shows the cash as it moves.
 
 The module also numbers the documents of a cash journal with sequences of
 its own, instead of letting Odoo build the numbers: receipt (chitanta),

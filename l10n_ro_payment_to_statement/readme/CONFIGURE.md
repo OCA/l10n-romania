@@ -38,23 +38,21 @@ module only fills in the ones which are empty.
 
 ## The account of the payment method
 
-What the register line looks like depends on the account set on the payment
-method of the journal (*Incoming/Outgoing Payments*):
+A cash journal which keeps a register needs an **outstanding account** on
+its payment methods (*Incoming/Outgoing Payments*), other than the cash
+account of the journal. That account is what the register line brings the
+money in from:
 
-| account | entries | register line |
+| entry | debit | credit |
 | --- | --- | --- |
-| the cash account of the journal | one | the entry of the payment itself |
-| an outstanding (transit) account | two | its own entry, reconciled with the payment |
-| none | none | none, there is nothing to register |
+| the payment (receipt) | outstanding 581 | receivable 4111 |
+| the line of the register | cash 5311 | outstanding 581 |
 
-The first one is the usual setup of a romanian cash journal: a receipt is
-booked straight as 5311 = 4111 and the register shows that entry.
+The module reconciles the two 581 lines with each other, so nothing is
+left to match by hand and the line does not show up in the bank
+reconciliation screen.
 
-The second one is for the money reaching the cash register through a
-transit account (4111 = 581 when the payment is posted, 5311 = 581 in the
-register). Both entries are needed here, and the module reconciles them, so
-there is still nothing left to do by hand.
-
-The third one only happens in Odoo Enterprise, where a payment method
-without an account produces no journal entry at all. Such a payment cannot
-be put in a register, and none is created for it.
+Posting a payment is refused when that account is missing, or when it is
+the cash account of the journal itself: the register line would then move
+the money from the cash account into the cash account, which is no
+movement at all. The message says which account to set.
