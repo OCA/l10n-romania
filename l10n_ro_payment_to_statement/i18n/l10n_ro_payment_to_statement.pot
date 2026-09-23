@@ -14,13 +14,10 @@ msgstr ""
 "Plural-Forms: \n"
 
 #. module: l10n_ro_payment_to_statement
-#: model_terms:ir.ui.view,arch_db:l10n_ro_payment_to_statement.account_journal_dashboard_kanban_view
-msgid "<span title=\"Transfer\">Transfer</span>"
-msgstr ""
-
-#. module: l10n_ro_payment_to_statement
 #: model:ir.model.fields,help:l10n_ro_payment_to_statement.field_account_journal__l10n_ro_auto_statement
-msgid "Automatically add payments with this journal to a statement"
+msgid ""
+"Automatically add the payments of this cash journal to the cash register "
+"(statement) of their day"
 msgstr ""
 
 #. module: l10n_ro_payment_to_statement
@@ -143,6 +140,16 @@ msgstr ""
 #. module: l10n_ro_payment_to_statement
 #: model:ir.model.fields,field_description:l10n_ro_payment_to_statement.field_account_payment__l10n_ro_statement_line_id
 msgid "Statement Line"
+msgstr ""
+
+#. module: l10n_ro_payment_to_statement
+#. odoo-python
+#: code:addons/l10n_ro_payment_to_statement/models/account_payment.py:0
+msgid ""
+"The journal %(journal)s keeps a cash register, so the payment method "
+"%(method)s needs an outstanding account of its own, other than the cash "
+"account %(cash)s of the journal. The register line brings the money from "
+"that account into the cash one, and there is nothing to bring in otherwise."
 msgstr ""
 
 #. module: l10n_ro_payment_to_statement
