@@ -200,6 +200,52 @@ class TestVATonpayment(AccountTestInvoicingCommon):
             "A re-registration published after a removal must win over it.",
         )
 
+    def test_check_vat_on_payment_reregistration_on_removal_day(self):
+        """A re-registration starting the very day the removal ends leaves
+        no gap, so the partner is on VAT on payment on that day too. The
+        register holds 102 such partners; this one mirrors CUI 22440."""
+        partner = self.partner_model.create(
+            {
+                "name": "Test Same Day SRL",
+                "vat": "RO20000013",
+                "country_id": self.env.ref("base.ro").id,
+                "is_company": True,
+                "l10n_ro_vat_subjected": True,
+            }
+        )
+        self._create_anaf_history(
+            partner,
+            "20000013",
+            [
+                {
+                    "start_date": date(2013, 1, 1),
+                    "end_date": date(2021, 4, 1),
+                    "publish_date": date(2021, 3, 18),
+                    "operation_date": date(2021, 3, 17),
+                    "operation_type": "D",
+                },
+                {
+                    "start_date": date(2021, 4, 1),
+                    "end_date": False,
+                    "publish_date": date(2021, 3, 20),
+                    "operation_date": date(2021, 3, 19),
+                    "operation_type": "I",
+                },
+            ],
+        )
+        for check_date, expected in (
+            (date(2021, 3, 31), True),
+            (date(2021, 4, 1), True),
+            (date.today(), True),
+        ):
+            self.assertEqual(
+                partner.with_context(
+                    no_insert=True, check_date=check_date
+                )._check_vat_on_payment(),
+                expected,
+                f"wrong VAT on payment status at {check_date}",
+            )
+
     def test_check_vat_on_payment_removal_is_last_operation(self):
         """Mirror case: when the removal is the most recent operation it
         must win over the still open registration record it closes, which
