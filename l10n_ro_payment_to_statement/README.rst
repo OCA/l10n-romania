@@ -36,8 +36,12 @@ Keeps the cash register (registru de casa) of a cash journal.
 
 Every payment posted in a cash journal set to keep a register is added
 to the register of its day, which is opened when it does not exist yet.
-The line of the register never has to be reconciled: it stands for a
-payment which is already reconciled with its invoice.
+
+The payment and its register line are two entries: the payment moves the
+money to the account of its payment method (4111 = 581), the line of the
+register brings it into the cash account (5311 = 581), and the module
+reconciles the two with each other. So the line never has to be
+reconciled by hand, and the register shows the cash as it moves.
 
 The module also numbers the documents of a cash journal with sequences
 of its own, instead of letting Odoo build the numbers: receipt
@@ -110,33 +114,26 @@ module only fills in the ones which are empty.
 The account of the payment method
 ---------------------------------
 
-What the register line looks like depends on the account set on the
-payment method of the journal (*Incoming/Outgoing Payments*):
+A cash journal which keeps a register needs an **outstanding account**
+on its payment methods (*Incoming/Outgoing Payments*), other than the
+cash account of the journal. That account is what the register line
+brings the money in from:
 
-+-----------------------------+---------+-----------------------------+
-| account                     | entries | register line               |
-+=============================+=========+=============================+
-| the cash account of the     | one     | the entry of the payment    |
-| journal                     |         | itself                      |
-+-----------------------------+---------+-----------------------------+
-| an outstanding (transit)    | two     | its own entry, reconciled   |
-| account                     |         | with the payment            |
-+-----------------------------+---------+-----------------------------+
-| none                        | none    | none, there is nothing to   |
-|                             |         | register                    |
-+-----------------------------+---------+-----------------------------+
+======================== =============== ===============
+entry                    debit           credit
+======================== =============== ===============
+the payment (receipt)    outstanding 581 receivable 4111
+the line of the register cash 5311       outstanding 581
+======================== =============== ===============
 
-The first one is the usual setup of a romanian cash journal: a receipt
-is booked straight as 5311 = 4111 and the register shows that entry.
+The module reconciles the two 581 lines with each other, so nothing is
+left to match by hand and the line does not show up in the bank
+reconciliation screen.
 
-The second one is for the money reaching the cash register through a
-transit account (4111 = 581 when the payment is posted, 5311 = 581 in
-the register). Both entries are needed here, and the module reconciles
-them, so there is still nothing left to do by hand.
-
-The third one only happens in Odoo Enterprise, where a payment method
-without an account produces no journal entry at all. Such a payment
-cannot be put in a register, and none is created for it.
+Posting a payment is refused when that account is missing, or when it is
+the cash account of the journal itself: the register line would then
+move the money from the cash account into the cash account, which is no
+movement at all. The message says which account to set.
 
 Usage
 =====
@@ -147,16 +144,17 @@ Registering a payment
 Post a payment in a cash journal which keeps a register, from the
 payment itself or from the *Register Payment* button of an invoice. The
 payment takes its number from the sequence of its kind, and the register
-of the day gets a line for it.
+of the day gets a line for it, reconciled with the payment.
 
 The line is already reconciled, so it does not show up in the bank
 reconciliation screen, and the balance of the register follows the
 payments of the day.
 
-Cancelling a payment cancels its register line as well, and posting it
-again puts it back. A payment posted again on another day moves to the
-register of that day, unless it is alone in its own register, which then
-simply follows it.
+Cancelling a payment, or setting it back to draft, takes its register
+line away with it; posting it again makes a new one. A payment posted
+again with the same amount on another day moves to the register of that
+day, unless it is alone in its own register, which then simply follows
+it.
 
 Cash in and cash out slips
 --------------------------
