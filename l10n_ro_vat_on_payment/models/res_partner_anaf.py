@@ -34,6 +34,31 @@ class ResPartnerAnaf(models.Model):
         ],
     )
 
+    def _get_line_at_date(self, check_date):
+        """Return the record describing the VAT on payment status at a date.
+
+        ANAF publishes one record per operation performed on the register,
+        so the status on a given date is the one set by the most recent
+        operation among the registrations already started at that date.
+
+        Records without an operation date are sorted last, so that they can
+        never shadow a dated operation: a removal followed by a later
+        re-registration would otherwise be decided by the database's NULL
+        ordering instead of by the ANAF chronology.
+        """
+        candidates = self.filtered(
+            lambda anaf: anaf.start_date and anaf.start_date <= check_date
+        )
+        return candidates.sorted(
+            key=lambda anaf: (
+                anaf.operation_date or date.min,
+                anaf.publish_date or date.min,
+                anaf.start_date,
+                anaf.id,
+            ),
+            reverse=True,
+        )[:1]
+
     @api.model
     def download_anaf_data(self, file_date=None):
         """Download VAT on Payment data from ANAF if the file
