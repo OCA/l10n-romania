@@ -73,8 +73,15 @@ class AccountMove(models.Model):
         """Give a posted cash entry the number of its Romanian sequence."""
         for move in self.filtered("is_l10n_ro_record"):
             cash_sequence = move.get_l10n_ro_sequence()
-            if not cash_sequence or (
-                move.origin_payment_id and move.origin_payment_id.state != "in_process"
+            if (
+                not cash_sequence
+                or (
+                    move.origin_payment_id
+                    and move.origin_payment_id.state != "in_process"
+                )
+                # a disposal already got its final number, from its own
+                # sequence, in _l10n_ro_set_disposal_name
+                or move.statement_line_id.is_l10n_ro_payment_disposal
             ):
                 continue
             if not move.name or move.name == "/":
@@ -105,6 +112,9 @@ class AccountMove(models.Model):
             )
             if statement_line.is_l10n_ro_payment_disposal:
                 self._l10n_ro_set_disposal_name(statement_line)
+                # the disposal number was just assigned directly on the
+                # move(s); don't let the "name": False below wipe it out
+                vals = {key: value for key, value in vals.items() if key != "name"}
         return super().write(vals)
 
     def _post(self, soft=True):
