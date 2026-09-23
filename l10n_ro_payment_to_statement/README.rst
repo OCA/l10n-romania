@@ -68,11 +68,11 @@ The sequence of a journal
 The entries of that journal then take their number from it, instead of
 from the numbering Odoo builds itself:
 
-- a sale journal numbers its invoices from it (FCT/00001)
-- a purchase journal numbers its bills
-- a miscellaneous journal numbers its entries (NC/00001)
-- a cash journal numbers the supplier payments and everything which is
-  neither a receipt nor a slip, see the table below
+-  a sale journal numbers its invoices from it (FCT/00001)
+-  a purchase journal numbers its bills
+-  a miscellaneous journal numbers its entries (NC/00001)
+-  a cash journal numbers the supplier payments and everything which is
+   neither a receipt nor a slip, see the table below
 
 The number is taken when the entry is posted: a draft has none yet, and
 a draft which is discarded leaves no gap behind. Set *Implementation* to
@@ -83,30 +83,31 @@ The cash journal
 
 A cash journal of a romanian company is set up when it is created:
 
-- it is given the sequences of its documents, named after the code of
-  the journal:
+-  it is given the sequences of its documents, named after the code of
+   the journal:
 
-  +------------------------------+--------+------------------------------+
-  | sequence                     | suffix | numbers                      |
-  +==============================+========+==============================+
-  | Customer sequence cash in    | CH     | customer payments (chitanta) |
-  +------------------------------+--------+------------------------------+
-  | Cash in sequence             | DI     | money in from a supplier     |
-  |                              |        | (dispozitie de incasare)     |
-  +------------------------------+--------+------------------------------+
-  | Cash out sequence            | DP     | money out to a customer      |
-  |                              |        | (dispozitie de plata)        |
-  +------------------------------+--------+------------------------------+
-  | Statement sequence           | RC     | the register itself          |
-  |                              |        | (registru de casa)           |
-  +------------------------------+--------+------------------------------+
-  | Journal sequence             | none   | supplier payments and the    |
-  |                              |        | other entries                |
-  +------------------------------+--------+------------------------------+
+   +---------------------------+--------+-----------------------------+
+   | sequence                  | suffix | numbers                     |
+   +===========================+========+=============================+
+   | Customer sequence cash in | CH     | customer payments           |
+   |                           |        | (chitanta)                  |
+   +---------------------------+--------+-----------------------------+
+   | Cash in sequence          | DI     | money in from a supplier    |
+   |                           |        | (dispozitie de incasare)    |
+   +---------------------------+--------+-----------------------------+
+   | Cash out sequence         | DP     | money out to a customer     |
+   |                           |        | (dispozitie de plata)       |
+   +---------------------------+--------+-----------------------------+
+   | Statement sequence        | RC     | the register itself         |
+   |                           |        | (registru de casa)          |
+   +---------------------------+--------+-----------------------------+
+   | Journal sequence          | none   | supplier payments and the   |
+   |                           |        | other entries               |
+   +---------------------------+--------+-----------------------------+
 
-- *Romania - Auto Statement* is ticked, which is what makes the journal
-  keep a register. Untick it on a journal which should not have one, or
-  create the journal with it set to false.
+-  *Romania - Auto Statement* is ticked, which is what makes the journal
+   keep a register. Untick it on a journal which should not have one, or
+   create the journal with it set to false.
 
 The sequences can be replaced afterwards with sequences of your own; the
 module only fills in the ones which are empty.
