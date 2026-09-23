@@ -2,8 +2,6 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html)
 
 
-from lxml import etree
-
 from odoo import api, fields, models
 
 
@@ -33,19 +31,16 @@ class L10nRoMixin(models.AbstractModel):
         return []
 
     @api.model
-    def get_view(self, view_id=None, view_type="form", **options):
-        result = super().get_view(view_id=view_id, view_type=view_type, **options)
+    def _get_view(self, view_id=None, view_type="form", **options):
+        doc, view = super()._get_view(view_id=view_id, view_type=view_type, **options)
         if self.env.company._check_is_l10n_ro_record():
-            return result
+            return doc, view
         if view_type == "list":
-            doc = etree.fromstring(result["arch"])
             for field in doc.xpath('//field[contains(@name,"l10n_ro")]'):
                 field.set("column_invisible", "True")
             self._l10n_ro_hide_buttons(doc)
-            result["arch"] = etree.tostring(doc)
 
         if view_type == "form":
-            doc = etree.fromstring(result["arch"])
             for field in doc.xpath('//field[contains(@name,"l10n_ro")]'):
                 parent = field.getparent()
                 if parent is not None and parent.tag == "list":
@@ -57,18 +52,22 @@ class L10nRoMixin(models.AbstractModel):
                 field.set("invisible", "True")
 
             self._l10n_ro_hide_buttons(doc)
-            result["arch"] = etree.tostring(doc)
 
         if view_type == "search":
-            doc = etree.fromstring(result["arch"])
             # Hide filters
             for field in doc.xpath('//filter[contains(@domain,"l10n_ro")]'):
                 field.set("invisible", "True")
             # Hide groups by
             for field in doc.xpath('//filter[contains(@context,"l10n_ro")]'):
                 field.set("invisible", "True")
-            result["arch"] = etree.tostring(doc)
-        return result
+        return doc, view
+
+    @api.model
+    def _get_view_cache_key(self, view_id=None, view_type="form", **options):
+        key = super()._get_view_cache_key(
+            view_id=view_id, view_type=view_type, **options
+        )
+        return key + (self.env.company._check_is_l10n_ro_record(),)
 
     @api.model
     def _l10n_ro_hide_buttons(self, doc):
