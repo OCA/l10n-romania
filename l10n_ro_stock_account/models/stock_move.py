@@ -604,19 +604,49 @@ class StockMove(models.Model):
                     acc_valuation, acc_src, journal_id, qty, description, svl, cost
                 )
         if self._is_usage_giving_return() or self._is_consumption_return():
-            (
-                journal_id,
-                acc_src,
-                acc_dest,
-                acc_valuation,
-            ) = self._get_accounting_data_for_valuation()
-            acc_valuation_rec = self.env["account.account"].browse(acc_valuation)
-            if acc_valuation_rec and acc_valuation_rec.l10n_ro_stock_consume_account_id:
-                acc_valuation = acc_valuation_rec.l10n_ro_stock_consume_account_id.id
-            if acc_dest != acc_valuation:
-                self._l10n_ro_create_account_move_line(
-                    acc_dest, acc_valuation, journal_id, qty, description, svl, cost
-                )
+            is_unbuild = "unbuild_id" in self._fields and self.unbuild_id
+            if is_unbuild:
+                # nota standard este deja pe contul de consum (daca exista), aici se
+                # face doar mutarea din contul de consum inapoi in contul de stoc;
+                # acc_dest este contul de cheltuiala, nu trebuie folosit (dubla nota)
+                (
+                    journal_id,
+                    acc_src,
+                    acc_dest,
+                    acc_valuation,
+                ) = self._get_accounting_data_for_valuation()
+                acc_stock = self.with_context(
+                    valued_type="indefinite"
+                )._get_accounting_data_for_valuation()[3]
+                if acc_stock != acc_valuation:
+                    self._l10n_ro_create_account_move_line(
+                        acc_valuation,
+                        acc_stock,
+                        journal_id,
+                        qty,
+                        description,
+                        svl,
+                        cost,
+                    )
+            else:
+                (
+                    journal_id,
+                    acc_src,
+                    acc_dest,
+                    acc_valuation,
+                ) = self._get_accounting_data_for_valuation()
+                acc_valuation_rec = self.env["account.account"].browse(acc_valuation)
+                if (
+                    acc_valuation_rec
+                    and acc_valuation_rec.l10n_ro_stock_consume_account_id
+                ):
+                    acc_valuation = (
+                        acc_valuation_rec.l10n_ro_stock_consume_account_id.id
+                    )
+                if acc_dest != acc_valuation:
+                    self._l10n_ro_create_account_move_line(
+                        acc_dest, acc_valuation, journal_id, qty, description, svl, cost
+                    )
         if self._is_usage_giving() or self._is_usage_giving_return():
             # inregistrare dare in folosinta 8035
             move = self.with_context(valued_type="usage_giving_secondary")
