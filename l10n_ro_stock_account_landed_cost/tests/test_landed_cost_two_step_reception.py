@@ -6,19 +6,14 @@ import logging
 _logger = logging.getLogger(__name__)
 
 
-class LandedCostTwoStepReceptionCases:
-    """Landed cost on a two step reception (Vendors -> Input -> Stock).
+class TwoStepReceptionHelpers:
+    """Building blocks for a two step reception (Vendors -> Input -> Stock).
 
-    The landed cost is distributed on the reception move and, through the
-    move tracking, on the internal move that brings the goods from Input to
-    Stock.  The value of the internal move must stay equal to the value of
-    the reception it comes from: the landed cost travels along the chain, it
-    is not added again at every step.
+    Kept apart from the scenarios so that other modules can reuse them; a
+    class holding no test method of its own is never collected by the test
+    loader.
     """
 
-    # ------------------------------------------------------------------
-    # helpers
-    # ------------------------------------------------------------------
     def _lc_two_steps_warehouse(self):
         warehouse = self.env["stock.warehouse"].search(
             [("lot_stock_id", "=", self.location.id)], limit=1
@@ -95,9 +90,17 @@ class LandedCostTwoStepReceptionCases:
             f"{move.value_justification}",
         )
 
-    # ------------------------------------------------------------------
-    # scenarios
-    # ------------------------------------------------------------------
+
+class LandedCostTwoStepReceptionCases(TwoStepReceptionHelpers):
+    """Landed cost on a two step reception.
+
+    The landed cost is distributed on the reception move and, through the
+    move tracking, on the internal move that brings the goods from Input to
+    Stock.  The value of the internal move must stay equal to the value of
+    the reception it comes from: the landed cost travels along the chain, it
+    is not added again at every step.
+    """
+
     def test_landed_cost_two_steps_after_storage_fifo(self):
         """Landed cost booked after both steps are done."""
         self._lc_two_steps_warehouse()
