@@ -81,13 +81,23 @@ class StockLandedCost(models.Model):
         res = super().button_validate()
         for cost in self:
             for dist_line in cost.l10n_ro_distributed_valuation_lines:
-                # In case of out lines, this is not working, so we have to take
-                # directly the value from extra and add it to the manual amount
+                # Outgoing moves take their value from the FIFO layers they
+                # consumed at validation time, which `_set_value` can no
+                # longer replay once those layers are gone, so their value is
+                # rebuilt here: the base value without any landed cost, plus
+                # every landed cost distributed on the move.
                 dest_move = dist_line.move_id
                 if dest_move._is_out():
                     lc_values = dest_move._get_value_from_extra(dest_move.quantity)
                     lc_amount = lc_values.get("value", 0)
-                    dest_move.value = dest_move._get_value() + lc_amount
+                    # `_get_value()` already adds the distributed landed cost
+                    # through `_get_value_from_extra`; asking for the value
+                    # without it is what keeps `lc_amount` from being counted
+                    # a second time.
+                    base_value = dest_move._get_value_data(add_extra_value=False)[
+                        "value"
+                    ]
+                    dest_move.value = base_value + lc_amount
                 else:
                     dist_line.move_id._set_value()
         return res
