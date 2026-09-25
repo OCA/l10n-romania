@@ -172,6 +172,8 @@ class StockMove(models.Model):
         "state",
         "location_id",
         "location_dest_id",
+        "move_line_ids.location_id",
+        "move_line_ids.location_dest_id",
         "picking_id.l10n_ro_notice",
         "picking_id.l10n_ro_reception_in_progress",
     )
@@ -179,71 +181,82 @@ class StockMove(models.Model):
         for move in self:
             move.l10n_ro_move_type = move._get_l10n_ro_move_type()
 
+    def _l10n_ro_get_location_usage(self, location, line_locations):
+        """Usage of the move location, as seen by the Romanian move type.
+
+        A `view` location cannot hold stock: a move keeps it as its location
+        when the goods are taken from (or put into) several of its children,
+        see `_set_locations_from_move_line`. Like the core valuation, which
+        reads the locations of the move lines, such a move is classified as
+        internal when all its move lines use internal locations.
+        """
+        if (
+            location.usage == "view"
+            and line_locations
+            and all(loc.usage == "internal" for loc in line_locations)
+        ):
+            return "internal"
+        return location.usage
+
     def _get_l10n_ro_move_type(self):
         self.ensure_one()
         if not self.is_l10n_ro_record:
             return False
-        if (
-            self.location_id.usage != "internal"
-            and self.location_dest_id.usage == "internal"
-        ):
+        src_usage = self._l10n_ro_get_location_usage(
+            self.location_id, self.move_line_ids.location_id
+        )
+        dest_usage = self._l10n_ro_get_location_usage(
+            self.location_dest_id, self.move_line_ids.location_dest_id
+        )
+        if src_usage != "internal" and dest_usage == "internal":
             if self.picking_id.l10n_ro_reception_in_progress:
                 return "reception_in_progress"
             if self.picking_id.l10n_ro_notice:
-                if self.location_id.usage == "supplier":
+                if src_usage == "supplier":
                     return "reception_notice"
-                if self.location_id.usage == "customer":
+                if src_usage == "customer":
                     return "delivery_notice_return"
-            if self.location_id.usage == "supplier":
+            if src_usage == "supplier":
                 return "reception"
-            if self.location_id.usage == "customer":
+            if src_usage == "customer":
                 return "delivery_return"
-            if self.location_id.usage == "inventory":
+            if src_usage == "inventory":
                 return "plus_inventory"
-            if self.location_id.usage in "consume":
+            if src_usage in "consume":
                 return "consumption_return"
-            if self.location_id.usage == "usage_giving":
+            if src_usage == "usage_giving":
                 return "usage_giving_return"
-            if self.location_id.usage == "production" and self.origin_returned_move_id:
+            if src_usage == "production" and self.origin_returned_move_id:
                 return "consumption_return"
-            if self.location_id.usage == "production":
+            if src_usage == "production":
                 return "production"
-            if self.location_id.usage == "transit":
+            if src_usage == "transit":
                 return "internal_transit_in"
-        if (
-            self.location_id.usage == "internal"
-            and self.location_dest_id.usage != "internal"
-        ):
+        if src_usage == "internal" and dest_usage != "internal":
             if self.picking_id.l10n_ro_reception_in_progress:
                 return "reception_in_progress_return"
             if self.picking_id.l10n_ro_notice:
-                if self.location_dest_id.usage == "supplier":
+                if dest_usage == "supplier":
                     return "reception_notice_return"
-                if self.location_dest_id.usage == "customer":
+                if dest_usage == "customer":
                     return "delivery_notice"
-            if self.location_dest_id.usage == "supplier":
+            if dest_usage == "supplier":
                 return "reception_return"
-            if self.location_dest_id.usage == "customer":
+            if dest_usage == "customer":
                 return "delivery"
-            if self.location_dest_id.usage == "inventory":
+            if dest_usage == "inventory":
                 return "minus_inventory"
-            if self.location_dest_id.usage == "consume":
+            if dest_usage == "consume":
                 return "consumption"
-            if self.location_dest_id.usage == "usage_giving":
+            if dest_usage == "usage_giving":
                 return "usage_giving"
-            if (
-                self.location_dest_id.usage == "production"
-                and self.origin_returned_move_id
-            ):
+            if dest_usage == "production" and self.origin_returned_move_id:
                 return "production_return"
-            if self.location_dest_id.usage == "production":
+            if dest_usage == "production":
                 return "consumption"
-            if self.location_dest_id.usage == "transit":
+            if dest_usage == "transit":
                 return "internal_transit_out"
-        if (
-            self.location_id.usage == "internal"
-            and self.location_dest_id.usage == "internal"
-        ):
+        if src_usage == "internal" and dest_usage == "internal":
             # _logger.warning(
             #     self.env._(
             #         "All internal moves should be done through transit location."
