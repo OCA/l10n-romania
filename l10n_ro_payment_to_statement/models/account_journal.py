@@ -4,7 +4,18 @@
 
 
 from odoo import api, fields, models
-from odoo.tools.misc import formatLang
+
+# the sequence of each kind of document of a romanian cash journal, and the
+# suffix its code and prefix are made of
+L10N_RO_CASH_SEQUENCES = {
+    "l10n_ro_journal_sequence_id": "",
+    "l10n_ro_statement_sequence_id": "RC",
+    "l10n_ro_cash_in_sequence_id": "DI",
+    "l10n_ro_cash_out_sequence_id": "DP",
+    "l10n_ro_customer_cash_in_sequence_id": "CH",
+}
+# the names coming from those sequences are not the ones odoo builds itself
+L10N_RO_SEQUENCE_REGEX = r"^(?P<prefix1>.*?)(?P<seq>\d*)(?P<suffix>\D*?)$"
 
 
 class AccountJournal(models.Model):
@@ -19,7 +30,8 @@ class AccountJournal(models.Model):
     )
     l10n_ro_auto_statement = fields.Boolean(
         string="Romania - Auto Statement",
-        help="Automatically add payments with this journal to a statement",
+        help="Automatically add the payments of this cash journal to the "
+        "cash register (statement) of their day",
     )
     l10n_ro_journal_sequence_id = fields.Many2one(
         "ir.sequence",
@@ -47,103 +59,49 @@ class AccountJournal(models.Model):
     )
     #
 
-    def _get_journal_dashboard_data_batched(self):
-        datas = super()._get_journal_dashboard_data_batched()
+    @api.model_create_multi
+    def create(self, vals_list):
+        journals = super().create(vals_list)
+        for journal, vals in zip(journals, vals_list, strict=True):
+            journal._l10n_ro_setup_cash_journal(vals)
+        return journals
 
-        for journal in self.filtered("is_l10n_ro_record"):
-            currency = journal.currency_id or journal.company_id.currency_id
+    def _l10n_ro_setup_cash_journal(self, vals):
+        """A romanian cash journal numbers its documents with own sequences.
 
-            amount_field = (
-                "balance"
-                if (
-                    not journal.currency_id
-                    or journal.currency_id == journal.company_id.currency_id
-                )
-                else "amount_currency"
-            )
-            account_transfer_sum = 0.0
-            if journal.company_id.transfer_account_id and journal.type not in [
-                "cash",
-                "bank",
-            ]:
-                query = """
-                SELECT sum(balance) as balance, sum(amount_currency)  as amount_currency
-                FROM account_move_line
-                WHERE
-                 parent_state = 'posted' AND account_id = %s AND date <= %s;
-                """
-                self.env.cr.execute(
-                    query,
-                    (journal.company_id.transfer_account_id.id, fields.Date.today()),
-                )
-                query_results = self.env.cr.dictfetchall()
-                if query_results and query_results[0].get(amount_field) is not None:
-                    account_transfer_sum = query_results[0].get(amount_field)
-
-            datas[journal.id]["account_transfer_balance"] = formatLang(
-                self.env,
-                currency.round(account_transfer_sum) + 0.0,
-                currency_obj=currency,
-            )
-        return datas
-
-    @api.model
-    def _fill_missing_values(self, vals, protected_codes=False):
-        res = super()._fill_missing_values(vals, protected_codes)
-        if not vals:
-            vals = {}
-        if (
-            self.env["res.company"]._check_is_l10n_ro_record(
-                company=vals.get("company_id")
-            )
-            and vals.get("type", "") == "cash"
-        ):
-            l10n_ro_sequence_fields = {
-                "l10n_ro_journal_sequence_id": "",
-                "l10n_ro_statement_sequence_id": "RC",
-                "l10n_ro_cash_in_sequence_id": "DI",
-                "l10n_ro_cash_out_sequence_id": "DP",
-                "l10n_ro_customer_cash_in_sequence_id": "CH",
-            }
-            journal_code = vals.get("code") or self.env[
-                "account.journal"
-            ]._get_next_journal_default_code("cash", self.env.company)
-            journal_name = vals.get("name") or ""
-            company = vals.get("company_id") or self.env.company.id
-            vals["sequence_override_regex"] = (
-                r"^(?P<prefix1>.*?)(?P<seq>\d*)(?P<suffix>\D*?)$"
-            )
-            for seq_field, code in l10n_ro_sequence_fields.items():
-                if not vals.get(seq_field):
-                    vals_seq = {
-                        "name": f"{journal_name} - {seq_field}",
-                        "code": f"{journal_code}{code}",
-                        "implementation": "no_gap",
-                        "prefix": f"{journal_code}{code}",
-                        "suffix": "",
-                        "padding": 6,
-                        "company_id": company,
-                    }
-                    seq = self.env["ir.sequence"].sudo().create(vals_seq)
-                    vals[seq_field] = seq.id
-        return res
-
-    def l10n_ro_update_cash_vals(self):
+        Called on creation only: the code of the journal, which names the
+        sequences, is settled by then.
+        """
         self.ensure_one()
-        customer_cash_in_sequence_id = self.l10n_ro_customer_cash_in_sequence_id.id
-        new_vals = {
-            "type": self.type,
-            "name": self.name,
-            "code": self.code,
-            "company_id": self.company_id.id,
-            "l10n_ro_auto_statement": True,
-            "l10n_ro_journal_sequence_id": self.l10n_ro_journal_sequence_id.id,
-            "l10n_ro_statement_sequence_id": self.l10n_ro_statement_sequence_id.id,
-            "l10n_ro_cash_in_sequence_id": self.l10n_ro_cash_in_sequence_id.id,
-            "l10n_ro_cash_out_sequence_id": self.l10n_ro_cash_out_sequence_id.id,
-            "l10n_ro_customer_cash_in_sequence_id": customer_cash_in_sequence_id,
+        if self.type != "cash" or not self.is_l10n_ro_record:
+            return
+        values = {
+            field: self._l10n_ro_create_sequence(suffix).id
+            for field, suffix in L10N_RO_CASH_SEQUENCES.items()
+            if not self[field]
         }
-        self._fill_missing_values(new_vals)
-        # cannot write type when journal is used in POS
-        new_vals.pop("type")
-        self.write(new_vals)
+        if not self.sequence_override_regex:
+            values["sequence_override_regex"] = L10N_RO_SEQUENCE_REGEX
+        if "l10n_ro_auto_statement" not in vals:
+            # a romanian cash journal keeps a cash register unless told not to
+            values["l10n_ro_auto_statement"] = True
+        self.write(values)
+
+    def _l10n_ro_create_sequence(self, suffix):
+        """Sequence giving the numbers of one kind of cash document."""
+        self.ensure_one()
+        code = f"{self.code}{suffix}"
+        return (
+            self.env["ir.sequence"]
+            .sudo()
+            .create(
+                {
+                    "name": f"{self.name} - {code}",
+                    "code": code,
+                    "implementation": "no_gap",
+                    "prefix": code,
+                    "padding": 6,
+                    "company_id": self.company_id.id,
+                }
+            )
+        )

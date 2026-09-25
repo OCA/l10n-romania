@@ -8,6 +8,8 @@ from . import test_ro_stock_fifo_uom
 from . import test_ro_stock_avg
 from . import test_stock_fifo_internal_transfer
 from . import test_avg_internal_transfer
+from . import test_internal_transfer_expense_account
 from . import test_stock_location
 from . import test_notice_currency
 from . import test_ro_stock_dropship
+from . import test_suite

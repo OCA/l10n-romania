@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <template
+        id="report_delivery_document"
+        inherit_id="l10n_ro_stock_picking_valued_report.report_delivery_document"
+        priority="110"
+    >
+        <!-- Name the document for what it is when goods enter a shop. -->
+        <xpath expr="//h2/span[1]" position="before">
+            <t t-if="o.l10n_ro_retail_incoming">
+                <span>Goods Receipt and Discrepancy Note</span>
+                <br />
+            </t>
+        </xpath>
+
+        <!-- Columns of the reception note, in the order they are checked:
+             what the goods cost, what is added on top, what they are sold at. -->
+        <xpath
+            expr="//table[@name='stock_move_line_table']//t[@t-if='o.l10n_ro_is_internal']"
+            position="before"
+        >
+            <t t-if="o.l10n_ro_retail_incoming">
+                <th class="text-end">
+                    <strong>Purchase Unit Price</strong>
+                </th>
+                <th class="text-end">
+                    <strong>Purchase Value</strong>
+                </th>
+                <th class="text-end">
+                    <strong>Markup %</strong>
+                </th>
+                <th class="text-end">
+                    <strong>Markup Value</strong>
+                </th>
+                <th class="text-end">
+                    <strong>Retail Price excl. VAT</strong>
+                </th>
+                <th class="text-end">
+                    <strong>Deferred VAT</strong>
+                </th>
+                <th class="text-end">
+                    <strong>Retail Price</strong>
+                </th>
+                <th class="text-end">
+                    <strong>Retail Value</strong>
+                </th>
+            </t>
+        </xpath>
+    </template>
+
+    <template
+        id="stock_report_delivery_aggregated_move_lines"
+        inherit_id="l10n_ro_stock_picking_valued_report.stock_report_delivery_aggregated_move_lines"
+        priority="110"
+    >
+        <xpath expr="//t[@t-if='o.l10n_ro_is_internal']" position="before">
+            <t t-if="o.l10n_ro_retail_incoming">
+                <td class="text-end">
+                    <span
+                        t-esc="'%.2f' % aggregated_lines[line]['l10n_ro_retail_cost_unit']"
+                    />
+                </td>
+                <td class="text-end">
+                    <span
+                        t-esc="'%.2f' % aggregated_lines[line]['l10n_ro_retail_cost_subtotal']"
+                    />
+                </td>
+                <td class="text-end">
+                    <span
+                        t-esc="'%.2f' % aggregated_lines[line]['l10n_ro_retail_markup_percent']"
+                    />
+                </td>
+                <td class="text-end">
+                    <span
+                        t-esc="'%.2f' % aggregated_lines[line]['l10n_ro_retail_markup']"
+                    />
+                </td>
+                <td class="text-end">
+                    <span
+                        t-esc="'%.2f' % aggregated_lines[line]['l10n_ro_retail_price_no_vat_unit']"
+                    />
+                </td>
+                <td class="text-end">
+                    <span
+                        t-esc="'%.2f' % aggregated_lines[line]['l10n_ro_retail_vat']"
+                    />
+                </td>
+                <td class="text-end">
+                    <span
+                        t-esc="'%.2f' % aggregated_lines[line]['l10n_ro_retail_price_unit']"
+                    />
+                </td>
+                <td class="text-end">
+                    <span
+                        t-esc="'%.2f' % aggregated_lines[line]['l10n_ro_retail_price_total']"
+                    />
+                </td>
+            </t>
+        </xpath>
+    </template>
+</odoo>

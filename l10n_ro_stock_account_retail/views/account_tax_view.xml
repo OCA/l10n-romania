@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright (C) 2026 NextERP Romania
+     Copyright (C) 2026 Dakai Soft SRL
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html). -->
+<odoo>
+    <record id="view_tax_form" model="ir.ui.view">
+        <field name="name">account.tax.form.l10n.ro.retail</field>
+        <field name="model">account.tax</field>
+        <field name="inherit_id" ref="account.view_tax_form" />
+        <field name="arch" type="xml">
+            <group name="advanced_booleans" position="inside">
+                <field
+                    name="l10n_ro_retail_non_vat"
+                    invisible="amount_type == 'group' or type_tax_use != 'sale'"
+                />
+            </group>
+        </field>
+    </record>
+</odoo>

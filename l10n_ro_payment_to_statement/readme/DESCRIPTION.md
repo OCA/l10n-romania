@@ -1,25 +1,20 @@
-Features:
+Keeps the cash register (registru de casa) of a cash journal.
 
-> - Adding the payments in the bank statements
->
-> This module added features on customer/supplier payments to allow
-> account user to link payment with bank statement direct through
-> payment menu or customer/supplier invoices register payment option.
-> After selecting and validating payment, module will add bank statement
-> line on selected bank statement.
->
-> - Sequences can be attached to journals, so the invoices/payments are
->   not computed by odoo, but taken from the selected sequences:
->
-> > - Journal sequence: for sale journals, this will be the invoice's
-> >   sequence. For cash/bank journals, this will be the sequence for
-> >   other journal entries (for closing the statement, for statement
-> >   lines etc.)
-> > - Customer sequence cash in: only for cash journals. This sequence
-> >   will be used for customer payments
-> > - Statement sequence: only for cash/bank journals. This sequence
-> >   will be used for bank/cash statements
-> > - Cash in sequence: only for cash. This sequence will be used for
-> >   supplier refunds
-> > - Cash out sequence: only for cash. This sequence will be used for
-> >   customer refunds
+Every payment posted in a cash journal set to keep a register is added to
+the register of its day, which is opened when it does not exist yet.
+
+The payment and its register line are two entries: the payment moves the
+money to the account of its payment method (4111 = 581), the line of the
+register brings it into the cash account (5311 = 581), and the module
+reconciles the two with each other. So the line never has to be
+reconciled by hand, and the register shows the cash as it moves.
+
+The module also numbers the documents of a cash journal with sequences of
+its own, instead of letting Odoo build the numbers: receipt (chitanta),
+cash in and cash out slips (dispozitie de incasare / de plata) and the
+register itself.
+
+A sequence can be set on any other journal as well, in *Journal sequence*,
+and the entries of that journal are then numbered from it: the invoices of
+a sale journal, the bills of a purchase one, the entries of a
+miscellaneous one.

@@ -77,29 +77,21 @@ class ResPartner(models.Model):
 
     def _check_vat_on_payment(self):
         self.ensure_one()
-        ctx = dict(self.env.context)
+        check_date = self.env.context.get("check_date") or fields.Date.context_today(
+            self
+        )
         if not self.env.context.get("no_insert", False):
             self._insert_relevant_anaf_data()
             self._compute_l10n_ro_anaf_history()
-        vat_on_payment = False
-        if self.l10n_ro_anaf_history:
-            if ctx.get("check_date", False):
-                line = self.env["l10n.ro.res.partner.anaf"].search(
-                    [
-                        ("id", "in", [rec.id for rec in self.l10n_ro_anaf_history]),
-                        ("start_date", "<=", ctx["check_date"]),
-                    ],
-                    limit=1,
-                )
-            else:
-                line = self.l10n_ro_anaf_history[0]
-            if line:
-                vat_on_payment = True
-                if line.end_date and line.end_date <= ctx.get("check_date", False):
-                    vat_on_payment = False
-        elif self.l10n_ro_vat_on_payment:
-            vat_on_payment = True
-        return vat_on_payment
+        if not self.l10n_ro_anaf_history:
+            return self.l10n_ro_vat_on_payment
+        # A partner can carry several ANAF records (e.g. a removal followed
+        # by a later re-registration). The one that decides the status is
+        # the most recent operation, not the first record in the history.
+        line = self.l10n_ro_anaf_history._get_line_at_date(check_date)
+        if not line:
+            return False
+        return not (line.end_date and line.end_date <= check_date)
 
     def check_vat_on_payment(self):
         if self.env.context.get("no_vat_validation", False):

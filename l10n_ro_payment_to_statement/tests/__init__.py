@@ -5,4 +5,5 @@
 from . import test_account_journal
 from . import test_account_bank_statement
 from . import test_payment
+from . import test_cash_register
 from . import test_account_move

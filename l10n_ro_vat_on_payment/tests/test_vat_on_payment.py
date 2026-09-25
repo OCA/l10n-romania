@@ -2,7 +2,6 @@
 # Copyright (C) 2020 NextERP Romania
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
-import logging
 import os
 import shutil
 from datetime import date, timedelta
@@ -10,15 +9,11 @@ from io import BytesIO
 from unittest.mock import MagicMock, patch
 from zipfile import ZipFile
 
-import requests
-
 from odoo import tools
 from odoo.tests import tagged
 from odoo.tools.misc import file_path
 
 from odoo.addons.account.tests.common import AccountTestInvoicingCommon
-
-_logger = logging.getLogger(__name__)
 
 
 @tagged("post_install", "-at_install")
@@ -50,6 +45,8 @@ class TestVATonpayment(AccountTestInvoicingCommon):
                 "name": "FBR",
                 "vat": "RO30834857",
                 "country_id": cls.env.ref("base.ro").id,
+                "is_company": True,
+                "l10n_ro_vat_subjected": True,
             }
         )
         cls.lxt_partner = cls.partner_model.create(
@@ -57,6 +54,8 @@ class TestVATonpayment(AccountTestInvoicingCommon):
                 "name": "Luxmet",
                 "vat": "RO16507426",
                 "country_id": cls.env.ref("base.ro").id,
+                "is_company": True,
+                "l10n_ro_vat_subjected": True,
             }
         )
         default_line_account = cls.env["account.account"].search(
@@ -124,67 +123,216 @@ class TestVATonpayment(AccountTestInvoicingCommon):
         mock_get.return_value = self._mock_anaf_request()
 
         data_dir = tools.config["data_dir"]
+        istoric = os.path.join(data_dir, "istoric.txt")
         prev_day = date.today() - timedelta(1)
-        try:
-            self.partner_anaf_model._download_anaf_data(prev_day)
-            istoric = os.path.join(data_dir, "istoric.txt")
-            self.assertEqual(os.path.exists(istoric), True)
-        except (
-            Exception,
-            requests.exceptions.ConnectionError,
-            requests.exceptions.MissingSchema,
-            requests.exceptions.Timeout,
-            requests.exceptions.HTTPError,
-            requests.exceptions.ChunkedEncodingError,
-        ) as e:
-            _logger.info(f"Server ANAF is down. Exception: {e}")
-            return True
 
-        try:
-            self.partner_anaf_model._download_anaf_data()
-            istoric = os.path.join(data_dir, "istoric.txt")
-            self.assertEqual(os.path.exists(istoric), True)
-        except (
-            Exception,
-            requests.exceptions.ConnectionError,
-            requests.exceptions.MissingSchema,
-            requests.exceptions.Timeout,
-            requests.exceptions.HTTPError,
-            requests.exceptions.ChunkedEncodingError,
-        ) as e:
-            _logger.info(f"Server ANAF is down. Exception: {e}")
-            return True
+        self.partner_anaf_model._download_anaf_data(prev_day)
+        self.assertTrue(mock_get.called)
+        self.assertTrue(os.path.exists(istoric))
 
-    def test_update_partner_data(self):
+        self.partner_anaf_model._download_anaf_data()
+        self.assertTrue(os.path.exists(istoric))
+
+    @patch("requests.get")
+    def test_update_partner_data(self, mock_get):
         """Test download file and partner link."""
-        try:
-            self.partner_model._update_vat_payment_all()
-            self.assertEqual(len(self.fbr_partner.l10n_ro_anaf_history), 2)
-            self.assertEqual(self.fbr_partner.l10n_ro_vat_on_payment, False)
-            self.assertEqual(
-                self.fbr_partner.with_context(
-                    check_date=date(2013, 4, 23)
-                )._check_vat_on_payment(),
-                True,
+        mock_get.return_value = self._mock_anaf_request()
+
+        self.partner_model._update_vat_payment_all()
+        # FBR was registered on 2013-02-01 and removed from the register
+        # on 2013-08-01, so it is not on VAT on payment any more.
+        self.assertEqual(len(self.fbr_partner.l10n_ro_anaf_history), 2)
+        self.assertEqual(self.fbr_partner.l10n_ro_vat_on_payment, False)
+        self.assertEqual(
+            self.fbr_partner.with_context(
+                check_date=date(2013, 4, 23)
+            )._check_vat_on_payment(),
+            True,
+        )
+        self.assertEqual(
+            self.fbr_partner.with_context(
+                check_date=date(2013, 8, 1)
+            )._check_vat_on_payment(),
+            False,
+        )
+        self.assertEqual(len(self.lxt_partner.l10n_ro_anaf_history), 1)
+        self.assertEqual(self.lxt_partner.l10n_ro_vat_on_payment, True)
+
+    def _create_anaf_history(self, partner, vat, lines):
+        """Create ANAF records for ``vat`` and refresh the partner history."""
+        for index, vals in enumerate(lines):
+            self.partner_anaf_model.create(
+                dict(vals, anaf_id=f"test-{vat}-{index}", vat=vat)
             )
-            self.assertEqual(
-                self.fbr_partner.with_context(
-                    check_date=date(2013, 8, 1)
-                )._check_vat_on_payment(),
-                False,
-            )
-            self.assertEqual(len(self.lxt_partner.l10n_ro_anaf_history), 1)
-            self.assertEqual(self.lxt_partner.l10n_ro_vat_on_payment, True)
-        except (
-            Exception,
-            requests.exceptions.ConnectionError,
-            requests.exceptions.MissingSchema,
-            requests.exceptions.Timeout,
-            requests.exceptions.HTTPError,
-            requests.exceptions.ChunkedEncodingError,
+        # l10n_ro_anaf_history is a computed field that does not refresh on
+        # its own when new l10n.ro.res.partner.anaf records appear for this
+        # vat; recompute it so the result does not depend on cache state.
+        partner._compute_l10n_ro_anaf_history()
+
+    def test_check_vat_on_payment_reregistration_after_removal(self):
+        """A removal followed by a later re-registration must leave the
+        partner on VAT on payment: the most recent ANAF operation wins."""
+        partner = self.partner_model.create(
+            {
+                "name": "Test Reregistered SRL",
+                "vat": "RO24148595",
+                "country_id": self.env.ref("base.ro").id,
+            }
+        )
+        self._create_anaf_history(
+            partner,
+            "24148595",
+            [
+                {
+                    "start_date": date(2024, 3, 1),
+                    "end_date": date(2025, 8, 1),
+                    "publish_date": date(2025, 7, 20),
+                    "operation_date": date(2025, 7, 15),
+                    "operation_type": "D",
+                },
+                {
+                    "start_date": date(2025, 9, 1),
+                    "end_date": False,
+                    "publish_date": date(2025, 8, 25),
+                    "operation_date": date(2025, 8, 20),
+                    "operation_type": "I",
+                },
+            ],
+        )
+        self.assertTrue(
+            partner.with_context(
+                no_insert=True, check_date=date.today()
+            )._check_vat_on_payment(),
+            "A re-registration published after a removal must win over it.",
+        )
+
+    def test_check_vat_on_payment_reregistration_on_removal_day(self):
+        """A re-registration starting the very day the removal ends leaves
+        no gap, so the partner is on VAT on payment on that day too. The
+        register holds 102 such partners; this one mirrors CUI 22440."""
+        partner = self.partner_model.create(
+            {
+                "name": "Test Same Day SRL",
+                "vat": "RO20000013",
+                "country_id": self.env.ref("base.ro").id,
+                "is_company": True,
+                "l10n_ro_vat_subjected": True,
+            }
+        )
+        self._create_anaf_history(
+            partner,
+            "20000013",
+            [
+                {
+                    "start_date": date(2013, 1, 1),
+                    "end_date": date(2021, 4, 1),
+                    "publish_date": date(2021, 3, 18),
+                    "operation_date": date(2021, 3, 17),
+                    "operation_type": "D",
+                },
+                {
+                    "start_date": date(2021, 4, 1),
+                    "end_date": False,
+                    "publish_date": date(2021, 3, 20),
+                    "operation_date": date(2021, 3, 19),
+                    "operation_type": "I",
+                },
+            ],
+        )
+        for check_date, expected in (
+            (date(2021, 3, 31), True),
+            (date(2021, 4, 1), True),
+            (date.today(), True),
         ):
-            _logger.info("Server ANAF is down.")
-            return True
+            self.assertEqual(
+                partner.with_context(
+                    no_insert=True, check_date=check_date
+                )._check_vat_on_payment(),
+                expected,
+                f"wrong VAT on payment status at {check_date}",
+            )
+
+    def test_check_vat_on_payment_removal_is_last_operation(self):
+        """Mirror case: when the removal is the most recent operation it
+        must win over the still open registration record it closes, which
+        keeps the same start_date and an empty end_date."""
+        partner = self.partner_model.create(
+            {
+                "name": "Test Removed SRL",
+                "vat": "RO12345674",
+                "country_id": self.env.ref("base.ro").id,
+            }
+        )
+        self._create_anaf_history(
+            partner,
+            "12345674",
+            [
+                {
+                    "start_date": date(2024, 3, 1),
+                    "end_date": False,
+                    "publish_date": date(2024, 3, 5),
+                    "operation_date": date(2024, 3, 4),
+                    "operation_type": "I",
+                },
+                {
+                    "start_date": date(2024, 3, 1),
+                    "end_date": date(2025, 8, 1),
+                    "publish_date": date(2025, 7, 20),
+                    "operation_date": date(2025, 7, 15),
+                    "operation_type": "D",
+                },
+            ],
+        )
+        self.assertFalse(
+            partner.with_context(
+                no_insert=True, check_date=date.today()
+            )._check_vat_on_payment(),
+            "The removal closing the registration must clear the flag.",
+        )
+        # The removal is also the most recent operation for a date before
+        # it was performed; there, the period it defines was still open.
+        self.assertTrue(
+            partner.with_context(
+                no_insert=True, check_date=date(2025, 1, 1)
+            )._check_vat_on_payment(),
+            "Before its end_date the partner was still on VAT on payment.",
+        )
+
+    def test_check_vat_on_payment_undated_line_does_not_shadow(self):
+        """A record without an operation date must not outrank a dated
+        one: the database sorts NULLs first on a descending order, which
+        would otherwise pick the record at random."""
+        partner = self.partner_model.create(
+            {
+                "name": "Test Undated SRL",
+                "vat": "RO20000005",
+                "country_id": self.env.ref("base.ro").id,
+            }
+        )
+        self._create_anaf_history(
+            partner,
+            "20000005",
+            [
+                {
+                    "start_date": date(2024, 1, 1),
+                    "end_date": False,
+                    "operation_type": "I",
+                },
+                {
+                    "start_date": date(2024, 1, 1),
+                    "end_date": date(2024, 6, 1),
+                    "publish_date": date(2024, 5, 25),
+                    "operation_date": date(2024, 5, 20),
+                    "operation_type": "D",
+                },
+            ],
+        )
+        self.assertFalse(
+            partner.with_context(
+                no_insert=True, check_date=date.today()
+            )._check_vat_on_payment(),
+            "The dated removal must win over the undated registration.",
+        )
 
     def test_invoice_fp(self):
         """The VAT on payment fiscal position must be applied on programmatic

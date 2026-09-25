@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="view_stock_retail_report_wizard_form" model="ir.ui.view">
+        <field name="name">l10n.ro.stock.retail.report.wizard.form</field>
+        <field name="model">l10n.ro.stock.retail.report.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Retail Stock Report">
+                <p class="text-muted">
+                    Movements before the start date are folded into the opening
+                    balance. The closing balance is the position at the end of
+                    the last day - cost, markup and deferred VAT add up to what
+                    account 371 held, so the three columns can be compared
+                    against the trial balance.
+                </p>
+                <group>
+                    <group>
+                        <field name="date_from" />
+                        <field name="date_to" />
+                    </group>
+                    <group>
+                        <field name="company_id" groups="base.group_multi_company" />
+                        <field name="warehouse_ids" widget="many2many_tags" />
+                    </group>
+                </group>
+                <footer>
+                    <button
+                        name="action_open_report"
+                        string="Open"
+                        type="object"
+                        class="btn-primary"
+                    />
+                    <button string="Cancel" class="btn-secondary" special="cancel" />
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_stock_retail_report_wizard" model="ir.actions.act_window">
+        <field name="name">Retail Stock by Period</field>
+        <field name="res_model">l10n.ro.stock.retail.report.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+
+    <menuitem
+        id="menu_stock_retail_report_wizard"
+        name="Retail Stock by Period"
+        parent="stock.menu_warehouse_report"
+        action="action_stock_retail_report_wizard"
+        sequence="101"
+    />
+</odoo>
