@@ -3,7 +3,7 @@
 {
     "name": "Romania - Point of Sale Refunds",
     "summary": "Credit note and payment disposal for Point of Sale refunds",
-    "version": "19.0.1.3.0",
+    "version": "19.0.1.4.0",
     "category": "Localization",
     "countries": ["ro"],
     "license": "AGPL-3",
