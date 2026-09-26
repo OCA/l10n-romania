@@ -10,7 +10,11 @@ class AccountPaymentRegister(models.TransientModel):
         to_process_standard = [
             vals
             for vals in to_process
-            if vals["payment"].move_id or not vals["payment"].is_l10n_ro_record
+            if (
+                 vals["payment"].move_id
+                 or not vals["payment"].is_l10n_ro_record
+                 or not vals["payment"].l10n_ro_statement_line_id
+            )
         ]
         super()._reconcile_payments(to_process_standard, edit_mode=edit_mode)
 

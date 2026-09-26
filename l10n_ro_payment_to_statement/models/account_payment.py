@@ -88,8 +88,8 @@ class AccountPayment(models.Model):
                     payment.move_id._get_l10n_ro_bank_statement()
                 else:
                     payment._get_l10n_ro_bank_statement()
-                    payment.state = "paid"
-
+                    if payment.l10n_ro_statement_id:
+                         payment.state = "paid"
             l10n_ro_records.get_l10n_ro_statement_line()
         return res
 
