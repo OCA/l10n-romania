@@ -32,6 +32,12 @@ class AccountBankStatement(models.Model):
                 record.display_name = fields.Date.to_string(record.date)
         return res
 
+    def _l10n_ro_update_balance_end(self, amount):
+        self.ensure_one()
+        lines = self.line_ids.filtered(lambda x: x.state == "posted")
+        balance_end = self.balance_start + sum(lines.mapped("amount")) + amount
+        self.write({"balance_end": balance_end, "balance_end_real": balance_end})
+
 
 class AccountBankStatementLine(models.Model):
     _name = "account.bank.statement.line"
