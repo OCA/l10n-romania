@@ -89,7 +89,7 @@ class AccountPayment(models.Model):
                 else:
                     payment._get_l10n_ro_bank_statement()
                     if payment.l10n_ro_statement_id:
-                         payment.state = "paid"
+                        payment.state = "paid"
             l10n_ro_records.get_l10n_ro_statement_line()
         return res
 

@@ -11,12 +11,12 @@ class AccountPaymentRegister(models.TransientModel):
             vals
             for vals in to_process
             if (
-                 vals["payment"].move_id
-                 or not vals["payment"].is_l10n_ro_record
-                 or not vals["payment"].l10n_ro_statement_line_id
+                vals["payment"].move_id
+                or not vals["payment"].is_l10n_ro_record
+                or not vals["payment"].l10n_ro_statement_line_id
             )
         ]
-        super()._reconcile_payments(to_process_standard, edit_mode=edit_mode)
+        res = super()._reconcile_payments(to_process_standard, edit_mode=edit_mode)
 
         # reconciliere factura direct cu payment.l10n_ro_statement_line_id
         to_process_without_move = [
@@ -65,3 +65,5 @@ class AccountPaymentRegister(models.TransientModel):
                         ]
                     ).reconcile()
                 lines.move_id.matched_payment_ids = [Command.link(payment.id)]
+
+        return res

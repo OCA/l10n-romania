@@ -24,7 +24,7 @@ class TestPaymentNoMove(TestPaymenttoStatement):
         #                                    707      100 lei
         #                                    4427     21 lei
         #   payment:           no journal entry of its own (empty move_id)
-        #   payment.l10n_ro_statement_line_id: 
+        #   payment.l10n_ro_statement_line_id:
         #                              531 = 411      121 lei
 
         cash_journal = self.env["account.journal"].search(
@@ -52,6 +52,7 @@ class TestPaymentNoMove(TestPaymenttoStatement):
         )
         invoice.action_post()
 
+        pml = cash_journal.inbound_payment_method_line_ids[0].id
         payment_register = (
             self.env["account.payment.register"]
             .with_context(
@@ -61,9 +62,7 @@ class TestPaymentNoMove(TestPaymenttoStatement):
             .create(
                 {
                     "journal_id": cash_journal.id,
-                    "payment_method_line_id": cash_journal.inbound_payment_method_line_ids[
-                        0
-                    ].id,
+                    "payment_method_line_id": pml,
                 }
             )
         )
