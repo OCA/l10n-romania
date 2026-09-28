@@ -200,6 +200,28 @@ Performance notes
 Changelog
 =========
 
+19.0.1.16.0
+-----------
+
+- Fix a transfer that mixes FIFO products with products costed otherwise
+  shipping only the non-FIFO lines. The per-location FIFO stack has to
+  be walked before anything is marked done, so
+  ``stock_move._action_done`` validated the non-FIFO moves on their own
+  first and only then handled the FIFO ones. That first call hands core
+  a strict subset of the transfer's moves, and ``_create_backorder``
+  moves everything outside that subset - every FIFO move - into a fresh
+  backorder, clearing ``picked`` on the way. The second call then looked
+  for those moves behind core's ``moves_todo`` filter, which drops
+  anything with ``picked`` unset, and found nothing left to do. The FIFO
+  goods never left the warehouse: the operator saw a validated transfer,
+  the stock was never decreased, and the leftover backorder sat
+  ``assigned`` with a quantity nobody would think to look for. Point of
+  Sale made it worse, since it validates its own transfer in the
+  background - a receipt mixing a FIFO product with a non-FIFO one
+  silently failed to decrease the stock, with nothing surfacing to the
+  cashier. The split is now computed first and the whole transfer, split
+  moves included, goes through a single ``super()._action_done()``.
+
 19.0.1.11.0
 -----------
 

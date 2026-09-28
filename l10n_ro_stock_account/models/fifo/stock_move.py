@@ -144,18 +144,30 @@ class StockMove(models.Model):
             and not m.product_id.lot_valuated
             and m.product_uom.compare(m.quantity, 0) != 0
         )
-        res = super(StockMove, self - ro_fifo_moves_out)._action_done(
-            cancel_backorder=cancel_backorder
-        )
+        # The FIFO stack has to be walked before anything is marked done -
+        # `_split_for_fifo_assignment` reads `move.quantity` and the layers
+        # still standing at the source location - but the resulting moves must
+        # then reach `super()._action_done()` in the *same* call as the rest of
+        # the transfer.
+        #
+        # Validating the non-FIFO moves on their own first (what this used to
+        # do) hands core a strict subset of the transfer's moves, and
+        # `_create_backorder` moves everything outside that subset - that is,
+        # every FIFO move - into a fresh backorder, resetting `picked` to False
+        # on the way. The second `_action_done` then found those moves behind
+        # core's `moves_todo` filter, which drops anything with `picked` unset,
+        # so they stayed `assigned` for good: on a transfer mixing FIFO and
+        # non-FIFO products the FIFO goods were never shipped and the stock was
+        # never decreased - silently, the operator seeing a validated transfer.
+        moves_out_fifo_splitted = self.env["stock.move"]
         if ro_fifo_moves_out:
             moves_out_fifo_splitted = ro_fifo_moves_out._split_for_fifo_assignment()
             for move in moves_out_fifo_splitted:
                 move._set_quantity_done(move.quantity)
                 move.picked = True
-            res += super(
-                StockMove, ro_fifo_moves_out + moves_out_fifo_splitted
-            )._action_done(cancel_backorder=cancel_backorder)
-        return res
+        return super(StockMove, self | moves_out_fifo_splitted)._action_done(
+            cancel_backorder=cancel_backorder
+        )
 
     def _set_value(self, correction_quantity=None):
         ro_fifo_out_moves = self.filtered(
