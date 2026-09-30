@@ -171,7 +171,7 @@ class ResPartner(models.Model):
             if result:
                 return anaf_error, test_data[cod]
 
-        get_param = self.env["ir.config_parameter"].sudo().get_param
+        get_param = self.env["ir.config_parameter"].sudo().get_str
         anaf_url = get_param("l10n_ro_partner_create_by_vat.anaf_url", ANAF_URL)
         anaf_api_key_header_tag = get_param(
             "l10n_ro_partner_create_by_vat.anaf_api_key_header_tag", "x-api-key"
@@ -187,7 +187,7 @@ class ResPartner(models.Model):
             json_data = [{"cui": cod, "data": data}]
         try:
             res = requests.post(anaf_url, json=json_data, headers=headers, timeout=30)
-        except Exception as ex:
+        except requests.RequestException as ex:
             error = self.env._(
                 "ANAF Webservice not working. Exception raised: %(error)s", error=ex
             )
@@ -238,7 +238,6 @@ class ResPartner(models.Model):
         res = {
             "name": odoo_result["denumire"].upper(),
             "l10n_ro_vat_subjected": odoo_result.get("scpTVA"),
-            "company_type": "company",
         }
 
         odoo_result = self.get_result_address(odoo_result)
@@ -258,10 +257,19 @@ class ResPartner(models.Model):
             if city:
                 odoo_result["city_id"] = city.id
 
-        if odoo_result["state_id"] == self.env.ref("base.RO_B"):
-            if odoo_result.get("codPostal") and odoo_result["codPostal"][0] != "0":
-                odoo_result["codPostal"] = "0" + odoo_result["codPostal"]
+        if (
+            odoo_result["state_id"] == self.env.ref("base.RO_B")
+            and odoo_result.get("codPostal")
+            and odoo_result["codPostal"][0] != "0"
+        ):
+            odoo_result["codPostal"] = "0" + odoo_result["codPostal"]
 
+        self._anaf_overwrite_fields(res, odoo_result)
+        return res
+
+    def _anaf_overwrite_fields(self, res, odoo_result):
+        """Copy the ANAF values into ``res``, each field the way its entry in
+        ``AnafFiled_OdooField_Overwrite`` asks for."""
         for field in AnafFiled_OdooField_Overwrite:
             if field[1] not in odoo_result:
                 continue
@@ -271,23 +279,29 @@ class ResPartner(models.Model):
                     continue  # Skip update if ANAF did not provide a value
                 # Update the field only when ANAF returned a value
                 res[field[0]] = anaf_value
-            if type(self._fields[field[0]]) in [fields.Date, fields.Datetime]:
-                if not anaf_value.strip():
-                    anaf_value = False
+            if (
+                type(self._fields[field[0]]) in [fields.Date, fields.Datetime]
+                and not anaf_value.strip()
+            ):
+                anaf_value = False
             if field[2] == "over_all_the_time":
                 # Always update the field, even with an empty value
                 # (used to clear previously stored data)
                 res[field[0]] = anaf_value
-            elif field[2] == "write_if_empty&add_date" and anaf_value:
+            elif (
+                field[2] == "write_if_empty&add_date"
+                and anaf_value
+                and not getattr(self, field[0], None)
+            ):
                 # we are only writing if is not already a value
-                if not getattr(self, field[0], None):
-                    now = fields.datetime.now()
-                    res[field[0]] = (f"UTC {now}:") + anaf_value
-            elif field[2] == "write_if_empty" and anaf_value:
-                if not getattr(self, field[0], None):
-                    res[field[0]] = anaf_value
-
-        return res
+                now = fields.datetime.now()
+                res[field[0]] = (f"UTC {now}:") + anaf_value
+            elif (
+                field[2] == "write_if_empty"
+                and anaf_value
+                and not getattr(self, field[0], None)
+            ):
+                res[field[0]] = anaf_value
 
     def get_result_address(self, result):
         # Take address from domiciliu fiscal
@@ -345,42 +359,45 @@ class ResPartner(models.Model):
     @api.onchange("vat", "country_id")
     def ro_vat_change(self):
         res = {}
-        if self.is_l10n_ro_record and not self.parent_id:
-            if not self.env.context.get("skip_ro_vat_change"):
-                if not self.vat:
-                    return res
-                vat = self.vat.strip().upper()
-                original_vat_country, vat_number = self._split_vat(vat)
-                vat_country = original_vat_country.upper()
-                if not vat_country and self.country_id:
-                    vat_country = self._l10n_ro_map_vat_country_code(
-                        self.country_id.code.upper()
+        if (
+            self.is_l10n_ro_record
+            and not self.parent_id
+            and not self.env.context.get("skip_ro_vat_change")
+        ):
+            if not self.vat:
+                return res
+            vat = self.vat.strip().upper()
+            original_vat_country, vat_number = self._split_vat(vat)
+            vat_country = original_vat_country.upper()
+            if not vat_country and self.country_id:
+                vat_country = self._l10n_ro_map_vat_country_code(
+                    self.country_id.code.upper()
+                )
+                if not vat_number:
+                    vat_number = self.vat
+            if vat_country == "RO":
+                anaf_error, result = self._get_Anaf(vat_number)
+                if not anaf_error:
+                    res = self._Anaf_to_Odoo(result)
+                    res["country_id"] = (
+                        self.env["res.country"]
+                        .search([("code", "ilike", vat_country)])[0]
+                        .id
                     )
-                    if not vat_number:
-                        vat_number = self.vat
-                if vat_country == "RO":
-                    anaf_error, result = self._get_Anaf(vat_number)
-                    if not anaf_error:
-                        res = self._Anaf_to_Odoo(result)
-                        res["country_id"] = (
-                            self.env["res.country"]
-                            .search([("code", "ilike", vat_country)])[0]
-                            .id
-                        )
-                        # Update ANAF history for vat_subjected and active status
-                        if (
-                            not isinstance(self, NewId)
-                            and not self.l10n_ro_active_anaf_line_ids
-                        ):
-                            res = self._update_l10n_ro_anaf_status(res, result)
-                        if (
-                            not isinstance(self, NewId)
-                            and not self.l10n_ro_vat_subjected_anaf_line_ids
-                        ):
-                            res = self._update_l10n_ro_anaf_scptva(res, result)
-                        self.with_context(skip_ro_vat_change=True).update(res)
-                    else:
-                        res["warning"] = {"message": anaf_error}
+                    # Update ANAF history for vat_subjected and active status
+                    if (
+                        not isinstance(self, NewId)
+                        and not self.l10n_ro_active_anaf_line_ids
+                    ):
+                        res = self._update_l10n_ro_anaf_status(res, result)
+                    if (
+                        not isinstance(self, NewId)
+                        and not self.l10n_ro_vat_subjected_anaf_line_ids
+                    ):
+                        res = self._update_l10n_ro_anaf_scptva(res, result)
+                    self.with_context(skip_ro_vat_change=True).update(res)
+                else:
+                    res["warning"] = {"message": anaf_error}
         return res
 
     def get_date_from_anaf(self, date_string):

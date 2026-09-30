@@ -28,7 +28,7 @@ class TestCreatePartnerBase(TransactionCase):
         cls.mainpartner = cls.mainpartner.with_context(anaf_data=cls.anaf_data)
 
     @staticmethod
-    def _check_vies_iap(record):
+    def _check_vies_validity_iap(record):
         return "valid" if record.vat == "BE0477472701" else "unassigned"
 
     @classmethod
@@ -52,7 +52,6 @@ class TestCreatePartner(TestCreatePartnerBase):
                 res = self.mainpartner._Anaf_to_Odoo(result)
                 self.assertEqual(res["name"], "FOREST AND BIOMASS ROMÂNIA S.A.")
                 self.assertEqual(res["l10n_ro_vat_subjected"], True)
-                self.assertEqual(res["company_type"], "company")
                 self.assertEqual(res["nrc"], "J2012002622359")
                 self.assertEqual(res["street"], "Ferma 5-6")
                 self.assertEqual(res["street2"], "")
@@ -203,7 +202,7 @@ class TestCreatePartner(TestCreatePartnerBase):
 
     def test_anaf_exception(self):
         """Check anaf exception."""
-        set_param = self.env["ir.config_parameter"].sudo().set_param
+        set_param = self.env["ir.config_parameter"].sudo().set_str
         anaf_url = "https://webservicesp.anaf.ro/PlatitorTvaRest/api/v7/ws/tvaERROR"
         set_param("l10n_ro_partner_create_by_vat.anaf_url", anaf_url)
         cod = "20603502"
@@ -223,9 +222,21 @@ class TestCreatePartner(TestCreatePartnerBase):
             self.assertTrue(res.get("warning"))
 
     def test_vat_vies(self):
+        # Odoo 20 folded base_vat away: the VIES check lives in
+        # l10n_eu_account_vies, and _check_vies_iap is _check_vies_validity_iap.
+        # That module is optional, so the test only runs where it is installed.
+        if (
+            not self.env["ir.module.module"]
+            .sudo()
+            .search_count(
+                [("name", "=", "l10n_eu_account_vies"), ("state", "=", "installed")]
+            )
+        ):
+            self.skipTest("l10n_eu_account_vies is not installed")
         with patch(
-            "odoo.addons.base_vat.models.res_partner.ResPartner._check_vies_iap",
-            TestCreatePartnerBase._check_vies_iap,
+            "odoo.addons.l10n_eu_account_vies.models.res_partner.ResPartner"
+            "._check_vies_validity_iap",
+            TestCreatePartnerBase._check_vies_validity_iap,
         ):
             self.env.company.vat_check_vies = True
             partner_odoo = Form(self.env["res.partner"])
