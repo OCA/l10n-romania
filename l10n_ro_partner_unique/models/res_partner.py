@@ -18,7 +18,7 @@ class ResPartner(models.Model):
         vat_1 = "RO" + vat_2
 
         # citiere paramentru legat de uniticatea VAT sau unitictate de CUI+NRC
-        get_param = self.env["ir.config_parameter"].sudo().get_param
+        get_param = self.env["ir.config_parameter"].sudo().get_str
         vat_nrc_unique = get_param(
             "l10n_ro_partner_unique.vat_nrc_unique", default="vat"
         )
