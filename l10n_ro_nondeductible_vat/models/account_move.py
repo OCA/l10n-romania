@@ -33,9 +33,11 @@ class AccountMove(models.Model):
             lambda line: line.display_type == "product"
         ):
             for tax in line.tax_ids.filtered(
-                lambda t: t.amount_type != "fixed"
-                and t.tax_exigibility == "on_payment"
-                and t.l10n_ro_is_nondeductible
+                lambda t: (
+                    t.amount_type != "fixed"
+                    and t.tax_exigibility == "on_payment"
+                    and t.l10n_ro_is_nondeductible
+                )
             ):
                 base = abs(line.balance)
                 total_base[tax.id] += base
@@ -161,9 +163,11 @@ class AccountMove(models.Model):
             # entry) inside the sync creation loops.
             return move.state == "draft" and any(
                 move.line_ids.filtered(
-                    lambda line: line.display_type == "product"
-                    and line.company_id.l10n_ro_accounting
-                    and line.deductible_amount < 100
+                    lambda line: (
+                        line.display_type == "product"
+                        and line.company_id.l10n_ro_accounting
+                        and line.deductible_amount < 100
+                    )
                 )
             )
 
@@ -199,9 +203,11 @@ class AccountMove(models.Model):
             if move.state != "draft" or not move.company_id.l10n_ro_accounting:
                 continue
             has_on_payment = move.line_ids.filtered(
-                lambda line, move=move: line.display_type == "product"
-                and line.deductible_amount < 100
-                and move._l10n_ro_line_is_on_payment(line)
+                lambda line, move=move: (
+                    line.display_type == "product"
+                    and line.deductible_amount < 100
+                    and move._l10n_ro_line_is_on_payment(line)
+                )
             )
             if not has_on_payment:
                 continue
@@ -211,11 +217,13 @@ class AccountMove(models.Model):
             # syncs (priorities 50/60) that recreate these after the RO syncs,
             # hence this final cleanup step (lowest priority).
             to_delete |= move.line_ids.filtered(
-                lambda line: line.display_type
-                in (
-                    "non_deductible_product",
-                    "non_deductible_product_total",
-                    "non_deductible_tax",
+                lambda line: (
+                    line.display_type
+                    in (
+                        "non_deductible_product",
+                        "non_deductible_product_total",
+                        "non_deductible_tax",
+                    )
                 )
             )
         if to_delete:
@@ -270,8 +278,10 @@ class AccountMove(models.Model):
                 continue
 
             non_deductible_base_lines = move.line_ids.filtered(
-                lambda line: line.display_type
-                in ("non_deductible_product", "non_deductible_product_total")
+                lambda line: (
+                    line.display_type
+                    in ("non_deductible_product", "non_deductible_product_total")
+                )
             )
             if non_deductible_base_lines:
                 to_delete += non_deductible_base_lines.ids
@@ -375,8 +385,10 @@ class AccountMove(models.Model):
                 continue
 
             non_deductible_tax_lines = move.line_ids.filtered(
-                lambda tax_line: tax_line.display_type
-                in ["non_deductible_tax", "non_deductible_tax_ro"]
+                lambda tax_line: (
+                    tax_line.display_type
+                    in ["non_deductible_tax", "non_deductible_tax_ro"]
+                )
             )
 
             # Find non-deductible tax base lines

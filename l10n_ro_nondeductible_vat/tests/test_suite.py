@@ -331,12 +331,12 @@ class TestNonDeductibleVAT(TestNondeductibleCommon):
                 "display_type": "product",
                 "account_id": self.account_expense,
                 "quantity": 1,
-                "price_unit": 100,  # noqa
+                "price_unit": 100,
                 "tax_ids": self.tax,
                 "tax_tag_ids": self.tag_base,
-                "tax_line_id": self.env["account.tax"],  # noqa
+                "tax_line_id": self.env["account.tax"],
                 "l10n_ro_non_deductible_line_id": self.env["account.move.line"],
-                "deductible_amount": 50,  # noqa
+                "deductible_amount": 50,
                 "debit": 100,
                 "credit": 0,
                 "amount_currency": 100,
@@ -344,86 +344,86 @@ class TestNonDeductibleVAT(TestNondeductibleCommon):
             {
                 "display_type": "non_deductible_product",
                 "account_id": self.account_expense,
-                "quantity": 0,  # noqa
+                "quantity": 0,
                 "price_unit": 0,
                 "tax_ids": self.env["account.tax"],
-                "tax_tag_ids": self.tag_base,  # noqa
+                "tax_tag_ids": self.tag_base,
                 "tax_line_id": self.env["account.tax"],
-                "l10n_ro_non_deductible_line_id": invoice.invoice_line_ids,  # noqa
+                "l10n_ro_non_deductible_line_id": invoice.invoice_line_ids,
                 "deductible_amount": 100,
                 "debit": -50,
                 "credit": 0,
-                "amount_currency": -50,  # noqa
+                "amount_currency": -50,
             },
             {
                 "display_type": "non_deductible_product_total",
                 "account_id": self.nd_account,
-                "quantity": 0,  # noqa
+                "quantity": 0,
                 "price_unit": 0,
                 "tax_ids": self.env["account.tax"],
-                "tax_tag_ids": self.tag_base_nd,  # noqa
+                "tax_tag_ids": self.tag_base_nd,
                 "tax_line_id": self.env["account.tax"],
-                "l10n_ro_non_deductible_line_id": invoice.invoice_line_ids,  # noqa
+                "l10n_ro_non_deductible_line_id": invoice.invoice_line_ids,
                 "deductible_amount": 100,
                 "debit": 50,
                 "credit": 0,
-                "amount_currency": 50,  # noqa
+                "amount_currency": 50,
             },
             {
                 "display_type": "tax",
                 "account_id": self.tax_account,
                 "quantity": 0,
-                "price_unit": 0,  # noqa
+                "price_unit": 0,
                 "tax_ids": self.env["account.tax"],
                 "tax_tag_ids": self.tag_vat,
-                "tax_line_id": self.tax,  # noqa
+                "tax_line_id": self.tax,
                 "l10n_ro_non_deductible_line_id": self.env["account.move.line"],
-                "deductible_amount": 100,  # noqa
+                "deductible_amount": 100,
                 "debit": 21,
                 "credit": 0,
-                "amount_currency": 21,  # noqa
+                "amount_currency": 21,
             },
             {
                 "display_type": "payment_term",
                 "account_id": self.payable_account,
-                "quantity": 0,  # noqa
+                "quantity": 0,
                 "price_unit": 0,
                 "tax_ids": self.env["account.tax"],
-                "tax_tag_ids": self.env["account.account.tag"],  # noqa
+                "tax_tag_ids": self.env["account.account.tag"],
                 "tax_line_id": self.env["account.tax"],
-                "l10n_ro_non_deductible_line_id": self.env["account.move.line"],  # noqa
+                "l10n_ro_non_deductible_line_id": self.env["account.move.line"],
                 "deductible_amount": 100,
                 "debit": 0,
                 "credit": 121,
-                "amount_currency": -121,  # noqa
+                "amount_currency": -121,
             },
             {
                 "display_type": "non_deductible_tax_ro",
                 "account_id": self.tax_account,
-                "quantity": 0,  # noqa
+                "quantity": 0,
                 "price_unit": 0,
                 "tax_ids": self.env["account.tax"],
-                "tax_tag_ids": self.tag_vat,  # noqa
+                "tax_tag_ids": self.tag_vat,
                 "tax_line_id": self.env["account.tax"],
-                "l10n_ro_non_deductible_line_id": invoice.invoice_line_ids,  # noqa
+                "l10n_ro_non_deductible_line_id": invoice.invoice_line_ids,
                 "deductible_amount": 100,
                 "debit": -10.5,
                 "credit": 0,
-                "amount_currency": -10.5,  # noqa
+                "amount_currency": -10.5,
             },
             {
                 "display_type": "non_deductible_tax_ro",
                 "account_id": self.nd_expense_tax_account,
-                "quantity": 0,  # noqa
+                "quantity": 0,
                 "price_unit": 0,
                 "tax_ids": self.env["account.tax"],
-                "tax_tag_ids": self.tag_vat_nd,  # noqa
+                "tax_tag_ids": self.tag_vat_nd,
                 "tax_line_id": self.env["account.tax"],
-                "l10n_ro_non_deductible_line_id": invoice.invoice_line_ids,  # noqa
+                "l10n_ro_non_deductible_line_id": invoice.invoice_line_ids,
                 "deductible_amount": 100,
                 "debit": 10.5,
                 "credit": 0,
-                "amount_currency": 10.5,  # noqa
+                "amount_currency": 10.5,
             },
         ]
 
@@ -474,12 +474,14 @@ class TestNonDeductibleVAT(TestNondeductibleCommon):
         # No non-deductible line whatsoever on the invoice.
         self.assertFalse(
             inv.line_ids.filtered(
-                lambda line: line.display_type
-                in (
-                    "non_deductible_product",
-                    "non_deductible_product_total",
-                    "non_deductible_tax",
-                    "non_deductible_tax_ro",
+                lambda line: (
+                    line.display_type
+                    in (
+                        "non_deductible_product",
+                        "non_deductible_product_total",
+                        "non_deductible_tax",
+                        "non_deductible_tax_ro",
+                    )
                 )
             )
         )
