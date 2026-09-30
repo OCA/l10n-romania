@@ -398,12 +398,13 @@ class ResPartner(models.Model):
             inactive_res = result.get("stare_inactiv", {})
             if inactive_res:
                 same_date_record = self.l10n_ro_active_anaf_line_ids.filtered(
-                    lambda r: str(r.start_date)
-                    == inactive_res.get("dataReactivare", "")
-                    and str(r.end_date) == inactive_res.get("dataInactivare", "")
-                    and str(r.publish_date) == inactive_res.get("dataPublicare", "")
-                    and str(r.delete_date) == inactive_res.get("dataRadiere", "")
-                    and r.active_status == inactive_res.get("statusInactivi")
+                    lambda r: (
+                        str(r.start_date) == inactive_res.get("dataReactivare", "")
+                        and str(r.end_date) == inactive_res.get("dataInactivare", "")
+                        and str(r.publish_date) == inactive_res.get("dataPublicare", "")
+                        and str(r.delete_date) == inactive_res.get("dataRadiere", "")
+                        and r.active_status == inactive_res.get("statusInactivi")
+                    )
                 )
                 if not same_date_record and not res.get("l10n_ro_active_anaf_line_ids"):
                     res["l10n_ro_active_anaf_line_ids"] = [
@@ -443,13 +444,15 @@ class ResPartner(models.Model):
                 for vat_period in vat_res.get("perioade_TVA", [{}]):
                     same_date_record = (
                         self.l10n_ro_vat_subjected_anaf_line_ids.filtered(
-                            lambda r, vat_period=vat_period: str(r.start_date)
-                            == vat_period.get("data_inceput_ScpTVA", "")
-                            and str(r.end_date)
-                            == vat_period.get("data_sfarsit_ScpTVA", "")
-                            and str(r.year_date)
-                            == vat_period.get("data_anul_imp_ScpTVA", "")
-                            and r.message == vat_period.get("mesaj_ScpTVA")
+                            lambda r, vat_period=vat_period: (
+                                str(r.start_date)
+                                == vat_period.get("data_inceput_ScpTVA", "")
+                                and str(r.end_date)
+                                == vat_period.get("data_sfarsit_ScpTVA", "")
+                                and str(r.year_date)
+                                == vat_period.get("data_anul_imp_ScpTVA", "")
+                                and r.message == vat_period.get("mesaj_ScpTVA")
+                            )
                         )
                     )
                     if not same_date_record:

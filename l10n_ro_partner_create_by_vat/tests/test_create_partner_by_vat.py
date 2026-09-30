@@ -44,7 +44,7 @@ class TestCreatePartner(TestCreatePartnerBase):
         # Test retrieve information from ANAF
         cod = "30834857"
         with patch(
-            "odoo.addons.l10n_ro_partner_create_by_vat.models.res_partner.ResPartner._get_Anaf",  # NOQA
+            "odoo.addons.l10n_ro_partner_create_by_vat.models.res_partner.ResPartner._get_Anaf",
             new=Mock(return_value=("", ANAF_TEST_DATA.get(cod, {}))),
         ):
             error, result = self.mainpartner._get_Anaf(cod)
@@ -101,7 +101,7 @@ class TestCreatePartner(TestCreatePartnerBase):
         # Test retrieve information from ANAF
         cod = "3083485711"
         with patch(
-            "odoo.addons.l10n_ro_partner_create_by_vat.models.res_partner.ResPartner._get_Anaf",  # NOQA
+            "odoo.addons.l10n_ro_partner_create_by_vat.models.res_partner.ResPartner._get_Anaf",
             new=Mock(return_value=("Nu exista date pentru CUI-ul introdus", {})),
         ):
             error, result = self.mainpartner._get_Anaf(cod)
@@ -115,7 +115,7 @@ class TestCreatePartner(TestCreatePartnerBase):
         mainpartner.country_id = self.env.ref("base.ro")
         cod = "30834857"
         with patch(
-            "odoo.addons.l10n_ro_partner_create_by_vat.models.res_partner.ResPartner._get_Anaf",  # NOQA
+            "odoo.addons.l10n_ro_partner_create_by_vat.models.res_partner.ResPartner._get_Anaf",
             new=Mock(return_value=("", ANAF_TEST_DATA.get(cod, {}))),
         ):
             mainpartner.vat = cod
@@ -130,7 +130,7 @@ class TestCreatePartner(TestCreatePartnerBase):
         # Check inactive vatnumber
         cod = "27193515"
         with patch(
-            "odoo.addons.l10n_ro_partner_create_by_vat.models.res_partner.ResPartner._get_Anaf",  # NOQA
+            "odoo.addons.l10n_ro_partner_create_by_vat.models.res_partner.ResPartner._get_Anaf",
             new=Mock(return_value=("", ANAF_TEST_DATA.get(cod, {}))),
         ):
             mainpartner.vat = cod
@@ -147,7 +147,7 @@ class TestCreatePartner(TestCreatePartnerBase):
         # Check address from commune
         cod = "8235738"
         with patch(
-            "odoo.addons.l10n_ro_partner_create_by_vat.models.res_partner.ResPartner._get_Anaf",  # NOQA
+            "odoo.addons.l10n_ro_partner_create_by_vat.models.res_partner.ResPartner._get_Anaf",
             new=Mock(return_value=("", ANAF_TEST_DATA.get(cod, {}))),
         ):
             mainpartner.vat = cod
@@ -161,7 +161,7 @@ class TestCreatePartner(TestCreatePartnerBase):
         # Check address from vat without country code - vat subjected
         cod = "4264242"
         with patch(
-            "odoo.addons.l10n_ro_partner_create_by_vat.models.res_partner.ResPartner._get_Anaf",  # NOQA
+            "odoo.addons.l10n_ro_partner_create_by_vat.models.res_partner.ResPartner._get_Anaf",
             new=Mock(return_value=("", ANAF_TEST_DATA.get(cod, {}))),
         ):
             mainpartner.vat = cod
@@ -178,7 +178,7 @@ class TestCreatePartner(TestCreatePartnerBase):
         # Check address from vat without country code - no vat subjected
         cod = "42078234"
         with patch(
-            "odoo.addons.l10n_ro_partner_create_by_vat.models.res_partner.ResPartner._get_Anaf",  # NOQA
+            "odoo.addons.l10n_ro_partner_create_by_vat.models.res_partner.ResPartner._get_Anaf",
             new=Mock(return_value=("", ANAF_TEST_DATA.get(cod, {}))),
         ):
             mainpartner.vat = cod
@@ -210,11 +210,11 @@ class TestCreatePartner(TestCreatePartnerBase):
         mainpartner = self.mainpartner
         mainpartner.country_id = self.env.ref("base.ro")
         with patch(
-            "odoo.addons.l10n_ro_partner_create_by_vat.models.res_partner.ResPartner._get_Anaf",  # NOQA
+            "odoo.addons.l10n_ro_partner_create_by_vat.models.res_partner.ResPartner._get_Anaf",
             new=Mock(
                 return_value=("Anaf request error", {"message": "Anaf request error"})
             ),
-        ):  # NOQA
+        ):
             error, res = mainpartner._get_Anaf(cod)
             self.assertEqual(error, "Anaf request error")
             self.assertEqual(res, {"message": "Anaf request error"})
