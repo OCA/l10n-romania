@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" ?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <odoo>
     <template id="banks">
         <small>
@@ -59,7 +59,7 @@
                 <div>
                     <div t-if="res_company.partner_id.vat">
                         <strong>
-                            <t t-esc="res_company.country_id.vat_label or 'Tax ID'" />
+                            <t t-out="res_company.country_id.vat_label or 'Tax ID'" />
                             :
                         </strong>
                         <span t-field="res_company.partner_id.vat" />
@@ -70,7 +70,7 @@
                     </div>
                     <div i-if="res_company.l10n_ro_share_capital">
                         <strong>Share Capital:</strong>
-                        <span t-esc="int(res_company.l10n_ro_share_capital)" />
+                        <span t-out="int(res_company.l10n_ro_share_capital)" />
                     </div>
                 </div>
             </div>
