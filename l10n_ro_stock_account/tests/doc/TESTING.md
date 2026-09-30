@@ -107,13 +107,12 @@ implementează contabilitatea stocurilor conform standardelor românești.
 
 ### Coloane Opțiuni
 
-| Coloană                 | Descriere                |
-| ----------------------- | ------------------------ | -------------------------------------------------------------- |
-| `discount`              | Reducerea aplicată       |
-| `advance`               | Avansul plătit           |
-| `notice`                | Operațiune cu aviz (1/0) |
-| `landed_cost`           | Costuri suplimentare     | - nefolosit aici de mutat poate in modulul de landed cost      |
-| `reception_in_progress` | Recepție în curs (1/0)   | - nefolosit aici de mutat poate in modulul de receptii in curs |
+| Coloană | Descriere | | ----------------------- | ------------------------ |
+-------------------------------------------------------------- | | `discount` |
+Reducerea aplicată | | `advance` | Avansul plătit | | `notice` | Operațiune cu aviz
+(1/0) | | `landed_cost` | Costuri suplimentare | - nefolosit aici de mutat poate in
+modulul de landed cost | | `reception_in_progress` | Recepție în curs (1/0) | -
+nefolosit aici de mutat poate in modulul de receptii in curs |
 
 ### Verificări (`checks`)
 

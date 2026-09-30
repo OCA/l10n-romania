@@ -53,9 +53,11 @@ class StockMove(models.Model):
     def _compute_remaining_qty(self):
         res = super()._compute_remaining_qty()
         ro_fifo_moves = self.filtered(
-            lambda move: move.company_id.fifo_per_location
-            and move.product_id.cost_method == "fifo"
-            and not move.product_id.lot_valuated
+            lambda move: (
+                move.company_id.fifo_per_location
+                and move.product_id.cost_method == "fifo"
+                and not move.product_id.lot_valuated
+            )
         )
         if not ro_fifo_moves:
             return res
@@ -138,11 +140,13 @@ class StockMove(models.Model):
 
     def _action_done(self, cancel_backorder=False):
         ro_fifo_moves_out = self.filtered(
-            lambda m: m._is_out()
-            and m.product_id.cost_method == "fifo"
-            and m.company_id.fifo_per_location
-            and not m.product_id.lot_valuated
-            and m.product_uom.compare(m.quantity, 0) != 0
+            lambda m: (
+                m._is_out()
+                and m.product_id.cost_method == "fifo"
+                and m.company_id.fifo_per_location
+                and not m.product_id.lot_valuated
+                and m.product_uom.compare(m.quantity, 0) != 0
+            )
         )
         res = super(StockMove, self - ro_fifo_moves_out)._action_done(
             cancel_backorder=cancel_backorder
@@ -159,10 +163,12 @@ class StockMove(models.Model):
 
     def _set_value(self, correction_quantity=None):
         ro_fifo_out_moves = self.filtered(
-            lambda move: move.company_id.fifo_per_location
-            and move._is_out()
-            and move.product_id.cost_method == "fifo"
-            and not move.product_id.lot_valuated
+            lambda move: (
+                move.company_id.fifo_per_location
+                and move._is_out()
+                and move.product_id.cost_method == "fifo"
+                and not move.product_id.lot_valuated
+            )
         )
         res = super(StockMove, self - ro_fifo_out_moves)._set_value(
             correction_quantity=correction_quantity
@@ -193,12 +199,14 @@ class StockMove(models.Model):
         # at the source location, so they get compensated on the next IN.
         # For FIFO this is handled by the explicit split into FIFO layers.
         avg_out_moves = self.filtered(
-            lambda m: m.company_id.fifo_per_location
-            and m.company_id.fifo_location_negative_compensation
-            and m._is_out()
-            and m.product_id.cost_method == "average"
-            and not m.product_id.lot_valuated
-            and not m.fifo_neg_pending_qty
+            lambda m: (
+                m.company_id.fifo_per_location
+                and m.company_id.fifo_location_negative_compensation
+                and m._is_out()
+                and m.product_id.cost_method == "average"
+                and not m.product_id.lot_valuated
+                and not m.fifo_neg_pending_qty
+            )
         )
         for move in avg_out_moves:
             product_at_loc = move.product_id.with_company(move.company_id).with_context(
@@ -223,11 +231,13 @@ class StockMove(models.Model):
             )
         # Negative stock compensation on incoming moves (FIFO and AVG).
         ins = self.filtered(
-            lambda m: m.company_id.fifo_per_location
-            and m.company_id.fifo_location_negative_compensation
-            and m.is_in
-            and m.product_id.cost_method in ("fifo", "average")
-            and not m.product_id.lot_valuated
+            lambda m: (
+                m.company_id.fifo_per_location
+                and m.company_id.fifo_location_negative_compensation
+                and m.is_in
+                and m.product_id.cost_method in ("fifo", "average")
+                and not m.product_id.lot_valuated
+            )
         )
         for move in ins:
             move._fifo_neg_apply_compensation()
@@ -266,11 +276,13 @@ class StockMove(models.Model):
             quantity=quantity, std_price=std_price, at_date=at_date
         )
         ro_fifo_move_with_origin = self.filtered(
-            lambda move: move.company_id.fifo_per_location
-            and move.product_id.cost_method == "fifo"
-            and not move.product_id.lot_valuated
-            and move.move_orig_ids
-            and quantity
+            lambda move: (
+                move.company_id.fifo_per_location
+                and move.product_id.cost_method == "fifo"
+                and not move.product_id.lot_valuated
+                and move.move_orig_ids
+                and quantity
+            )
         )
         if ro_fifo_move_with_origin:
             res = ro_fifo_move_with_origin._get_value_from_origin_move(

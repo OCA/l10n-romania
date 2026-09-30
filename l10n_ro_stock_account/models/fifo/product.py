@@ -18,9 +18,11 @@ class ProductProduct(models.Model):
         company_id = self.env.company
         self.company_currency_id = company_id.currency_id
         ro_fifo_products = self.filtered(
-            lambda p: company_id.fifo_per_location
-            and p.cost_method == "fifo"
-            and not p.lot_valuated
+            lambda p: (
+                company_id.fifo_per_location
+                and p.cost_method == "fifo"
+                and not p.lot_valuated
+            )
         )
         res = super(ProductProduct, self - ro_fifo_products)._compute_value()
         # Share a request-scoped cache across all FIFO stack lookups in this
@@ -62,9 +64,11 @@ class ProductProduct(models.Model):
 
     def _get_cogs_value(self, quantity):
         ro_fifo_products = self.filtered(
-            lambda p: self.env.company.fifo_per_location
-            and p.cost_method == "fifo"
-            and not p.lot_valuated
+            lambda p: (
+                self.env.company.fifo_per_location
+                and p.cost_method == "fifo"
+                and not p.lot_valuated
+            )
         )
         res = super(ProductProduct, self - ro_fifo_products)._get_cogs_value(quantity)
         ro_fifo_products._run_fifo_value(quantity)
@@ -118,9 +122,11 @@ class ProductProduct(models.Model):
         ``stock.valuation.layer`` any more."""
         self.ensure_one()
         ro_fifo_products = self.filtered(
-            lambda p: self.env.company.fifo_per_location
-            and p.cost_method == "fifo"
-            and not p.lot_valuated
+            lambda p: (
+                self.env.company.fifo_per_location
+                and p.cost_method == "fifo"
+                and not p.lot_valuated
+            )
         )
         if not ro_fifo_products:
             return [
@@ -203,9 +209,11 @@ class ProductProduct(models.Model):
 
     def _run_fifo_get_stack(self, lot=None, at_date=None, location=None):
         ro_fifo_products = self.filtered(
-            lambda p: self.env.company.fifo_per_location
-            and p.cost_method == "fifo"
-            and not p.lot_valuated
+            lambda p: (
+                self.env.company.fifo_per_location
+                and p.cost_method == "fifo"
+                and not p.lot_valuated
+            )
         )
         if not ro_fifo_products:
             return super()._run_fifo_get_stack(
