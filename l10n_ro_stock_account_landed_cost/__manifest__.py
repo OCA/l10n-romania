@@ -1,7 +1,7 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 {
     "name": "Romania - Stock Accounting Landed Cost",
-    "version": "19.0.1.9.1",
+    "version": "19.0.1.9.2",
     "category": "Localization",
     "summary": "Romania - Stock Accounting Landed Cost",
     "author": "NextERP Romania,"

@@ -50,18 +50,28 @@ class StockLandedCost(models.Model):
         )
         res = super(StockLandedCost, self - not_distributed_costs)._check_sum()
         for landed_cost in not_distributed_costs:
-            total_amount = sum(
-                landed_cost.l10n_ro_distributed_valuation_lines.mapped(
-                    "additional_landed_cost"
-                )
-            )
+            total_amount = 0
             lc_total = 0
             for line in landed_cost.valuation_adjustment_lines:
+                move = line.move_id
+                if not move.quantity:
+                    continue
                 lc_total += (
-                    (line.move_id.quantity - line.move_id.remaining_qty)
-                    / line.move_id.quantity
+                    (move.quantity - move.remaining_qty)
+                    / move.quantity
                     * line.l10n_ro_not_distributed_amount
                 )
+                # What leaves the move is what the first step after it took;
+                # the steps beyond carry that same amount further along the
+                # chain, so counting them too would make the total grow with
+                # the number of steps the goods go through.
+                first_step = move.l10n_ro_move_track_dest_ids.dest_move_id
+                distributed = line.l10n_ro_distributed_valuation_lines
+                if first_step:
+                    distributed = distributed.filtered(
+                        lambda dist, first_step=first_step: dist.move_id in first_step
+                    )
+                total_amount += sum(distributed.mapped("additional_landed_cost"))
             # Compare rounding each side first (like currency.compare_amounts)
             # rather than rounding the difference: the two are not
             # equivalent, and the latter incorrectly rejects an exact match
@@ -119,20 +129,35 @@ class StockLandedCost(models.Model):
         return res
 
     @api.model
-    def _get_l10n_ro_move_destinations(self, move):
-        """Get recursive all destination moves for a given move."""
+    def _get_l10n_ro_move_destinations(self, move, amount, currency):
+        """Spread ``amount`` over the moves that consumed ``move``.
+
+        ``amount`` is what the whole of ``move`` carries, so a destination
+        takes the share of it matching what it took out of ``move``.  Each
+        destination is in turn a source: the goods keep travelling, through
+        the steps of a reception and out of the company, and every step is
+        worth the cost of what it carries.  The share is therefore passed on
+        whole to the next step rather than split between the steps - a three
+        step reception moves the same goods twice, it does not halve them.
+        """
         dest_vals_list = []
+        move_qty = move._get_valued_qty()
+        if not move_qty:
+            return dest_vals_list
         for track in move.l10n_ro_move_track_dest_ids:
+            share = currency.round(amount * track.quantity / move_qty)
+            if currency.is_zero(share):
+                continue
             dest_vals_list.append(
                 {
                     "move": track.dest_move_id,
                     "quantity": track.quantity,
+                    "amount": share,
                 }
             )
-            if track.dest_move_id.l10n_ro_move_track_dest_ids:
-                dest_vals_list += self._get_l10n_ro_move_destinations(
-                    track.dest_move_id
-                )
+            dest_vals_list += self._get_l10n_ro_move_destinations(
+                track.dest_move_id, share, currency
+            )
         return dest_vals_list
 
     def _l10n_ro_distribute_landed_cost(self):
@@ -148,61 +173,48 @@ class StockLandedCost(models.Model):
                 move = line.move_id
                 if not move:
                     continue
-                um_add_cost = line.additional_landed_cost / move.quantity
-                consumed_qty = move.quantity - move.remaining_qty
-                precision = move.product_id.uom_id.rounding
-                move_dest_vals_list = self._get_l10n_ro_move_destinations(move)
-                if move_dest_vals_list:
-                    # Destination tracking can be imperfect (e.g. historical
-                    # duplicate or partial entries), so the tracked quantity
-                    # does not always add up to what was actually consumed.
-                    # Rescale proportionally to guarantee the distributed
-                    # total always matches (quantity - remaining_qty), which
-                    # is what _check_sum() requires.
-                    total_dest_qty = sum(
-                        dest_vals["quantity"] for dest_vals in move_dest_vals_list
-                    )
-                    if total_dest_qty and not float_is_zero(
-                        total_dest_qty - consumed_qty, precision_rounding=precision
+                dest_vals_list = self._get_l10n_ro_move_destinations(
+                    move, line.additional_landed_cost, currency
+                )
+                if not dest_vals_list:
+                    consumed_qty = move.quantity - move.remaining_qty
+                    precision = move.product_id.uom_id.rounding
+                    if cost.l10n_ro_only_on_distributed_lines and not float_is_zero(
+                        consumed_qty, precision_rounding=precision
                     ):
-                        scale = consumed_qty / total_dest_qty
-                        for dest_vals in move_dest_vals_list:
-                            dest_vals["quantity"] *= scale
-                elif cost.l10n_ro_only_on_distributed_lines and not float_is_zero(
-                    consumed_qty, precision_rounding=precision
-                ):
-                    # No destination is tracked at all, yet some of the
-                    # move's quantity was consumed. For price-difference
-                    # costs the base additional_landed_cost is zeroed out
-                    # right after this (see compute_landed_cost()), so with
-                    # nowhere else to attribute the consumed portion it
-                    # would otherwise be silently lost: apply that portion
-                    # on the source move itself instead.
-                    move_dest_vals_list = [{"move": move, "quantity": consumed_qty}]
-                else:
-                    # Nothing was consumed (the reception is still fully on
-                    # hand, correctly revalued from the invoice directly),
-                    # or this is a normal (non price-difference) cost, whose
-                    # full amount already applies on the source move via
-                    # the base mechanism - nothing to do here.
-                    continue
-
-                # Round each destination's share individually, then let the
-                # last one absorb the rounding remainder, so the created
-                # lines always sum up to exactly the target amount (matching
-                # what _check_sum() expects).
-                target_total = currency.round(um_add_cost * consumed_qty)
-                running_total = 0.0
-                for index, dest_vals in enumerate(move_dest_vals_list):
-                    if index == len(move_dest_vals_list) - 1:
-                        additional_landed_cost = target_total - running_total
+                        # No destination is tracked at all, yet some of the
+                        # move's quantity was consumed. For price-difference
+                        # costs the base additional_landed_cost is zeroed out
+                        # right after this (see compute_landed_cost()), so
+                        # with nowhere else to attribute the consumed portion
+                        # it would otherwise be silently lost: apply that
+                        # portion on the source move itself instead.
+                        move_qty = move.quantity
+                        dest_vals_list = [
+                            {
+                                "move": move,
+                                "quantity": consumed_qty,
+                                "amount": currency.round(
+                                    line.additional_landed_cost
+                                    * consumed_qty
+                                    / move_qty
+                                )
+                                if move_qty
+                                else 0,
+                            }
+                        ]
                     else:
-                        additional_landed_cost = currency.round(
-                            um_add_cost * dest_vals["quantity"]
-                        )
-                        running_total += additional_landed_cost
+                        # Nothing was consumed (the reception is still fully
+                        # on hand, correctly revalued from the invoice
+                        # directly), or this is a normal (non price
+                        # difference) cost, whose full amount already applies
+                        # on the source move via the base mechanism - nothing
+                        # to do here.
+                        continue
+
+                for dest_vals in dest_vals_list:
                     adj_line_vals = line._l10n_ro_prepare_adj_line_vals(
-                        dest_vals, additional_landed_cost
+                        dest_vals, dest_vals["amount"]
                     )
                     self.env["l10n.ro.stock.valuation.adjustment.lines"].create(
                         adj_line_vals

@@ -96,3 +96,54 @@ class TestPriceDifferenceTwoStepReception(
             2,
             "the goods must be worth the billed price",
         )
+
+    def test_price_difference_three_steps(self):
+        """Three step reception: the difference has to reach the last step."""
+        self._lc_two_steps_warehouse(steps="three_steps")
+        product = self.product_fifo
+        purchase = self._lc_two_steps_purchase(product, 10.0, 100.0)
+        in_move = self._lc_in_move(purchase)
+        self._lc_validate(in_move.picking_id, 10.0)
+        quality_move, storage_move = self._lc_chain(in_move, 10.0)
+
+        self._bill_at(purchase, 120.0)
+
+        self._lc_assert(in_move, 1200.0, "reception move")
+        self._lc_assert(quality_move, 1200.0, "quality control move")
+        self._lc_assert(storage_move, 1200.0, "storage move")
+        self.assertAlmostEqual(
+            self._lc_stock_value(product),
+            1200.0,
+            2,
+            "the goods must be worth the billed price",
+        )
+
+    def _price_difference_delivered_before_bill(self, steps):
+        """Goods shipped out at the reception price, billed higher after."""
+        self._lc_two_steps_warehouse(steps=steps)
+        product = self.product_fifo
+        purchase = self._lc_two_steps_purchase(product, 10.0, 100.0)
+        in_move = self._lc_in_move(purchase)
+        self._lc_validate(in_move.picking_id, 10.0)
+        chain = self._lc_chain(in_move, 10.0)
+        out_move = self._lc_deliver(product, 4.0)
+        self._lc_assert(out_move, 400.0, "delivery before the bill")
+
+        self._bill_at(purchase, 120.0)
+
+        self._lc_assert(in_move, 1200.0, "reception move")
+        for move in chain:
+            self._lc_assert(move, 1200.0, "reception chain move")
+        self._lc_assert(out_move, 480.0, "delivery after the bill")
+        self.assertAlmostEqual(
+            self._lc_stock_value(product),
+            720.0,
+            2,
+            "what is left on hand carries the rest of the difference",
+        )
+
+    def test_price_difference_two_steps_delivered_before_bill(self):
+        self._price_difference_delivered_before_bill("two_steps")
+
+    def test_price_difference_three_steps_delivered_before_bill(self):
+        self._price_difference_delivered_before_bill("three_steps")
