@@ -2,14 +2,13 @@
 # Copyright (C) 2020 NextERP Romania
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
-from datetime import date
 
-from odoo import api, models
+from odoo import api, fields, models
 
 
 class AccountMove(models.Model):
     _name = "account.move"
-    _inherit = ["account.move", "l10n.ro.mixin"]
+    _inherit = ("account.move", "l10n.ro.mixin")
 
     @api.depends("partner_id", "partner_shipping_id", "company_id", "move_type")
     def _compute_fiscal_position_id(self):
@@ -43,7 +42,7 @@ class AccountMove(models.Model):
                 continue
             ctx = {
                 "no_insert": True,
-                "check_date": move.invoice_date or date.today(),
+                "check_date": move.invoice_date or fields.Date.today(),
             }
             vatp = company.partner_id.with_context(**ctx)._check_vat_on_payment()
             if not vatp and move.is_purchase_document() and partner:

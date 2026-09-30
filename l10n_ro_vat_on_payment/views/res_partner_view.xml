@@ -31,21 +31,21 @@
             <field name="l10n_ro_vat_number" position="before">
                 <label
                     for="l10n_ro_vat_on_payment"
-                    invisible="vat == False or company_type != 'company'"
+                    invisible="vat == False or not is_company"
                 />
                 <div
                     id="l10n_ro_vat_on_payment_info"
                     class="o_row"
                     name="vat_on_payment_info"
-                    invisible="vat == False or company_type != 'company'"
+                    invisible="vat == False or not is_company"
                 >
                     <field
                         name="l10n_ro_vat_on_payment"
-                        invisible="vat == False or company_type != 'company'"
+                        invisible="vat == False or not is_company"
                     />
                     <button
                         name="check_vat_on_payment"
-                        invisible="vat == False or company_type != 'company'"
+                        invisible="vat == False or not is_company"
                         string="Update VAT on Payment"
                         type="object"
                         class="oe_highlight"

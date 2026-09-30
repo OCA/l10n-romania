@@ -6,12 +6,12 @@
     "summary": "Romania - VAT on Payment",
     "data": [
         "views/res_partner_view.xml",
-        "security/ir.model.access.csv",
+        "security/ir.access.csv",
         "data/res_partner_anaf_cron.xml",
     ],
     "depends": ["l10n_ro_config"],
     "license": "AGPL-3",
-    "version": "19.0.0.9.0",
+    "version": "20.0.1.0.0",
     "author": "NextERP Romania,"
     "Forest and Biomass Romania,"
     "Odoo Community Association (OCA)",

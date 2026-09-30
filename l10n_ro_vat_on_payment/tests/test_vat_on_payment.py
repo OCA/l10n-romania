@@ -9,7 +9,7 @@ from io import BytesIO
 from unittest.mock import MagicMock, patch
 from zipfile import ZipFile
 
-from odoo import tools
+from odoo import fields, tools
 from odoo.tests import tagged
 from odoo.tools.misc import file_path
 
@@ -124,7 +124,7 @@ class TestVATonpayment(AccountTestInvoicingCommon):
 
         data_dir = tools.config["data_dir"]
         istoric = os.path.join(data_dir, "istoric.txt")
-        prev_day = date.today() - timedelta(1)
+        prev_day = fields.Date.today() - timedelta(1)
 
         self.partner_anaf_model._download_anaf_data(prev_day)
         self.assertTrue(mock_get.called)
@@ -201,7 +201,7 @@ class TestVATonpayment(AccountTestInvoicingCommon):
         )
         self.assertTrue(
             partner.with_context(
-                no_insert=True, check_date=date.today()
+                no_insert=True, check_date=fields.Date.today()
             )._check_vat_on_payment(),
             "A re-registration published after a removal must win over it.",
         )
@@ -242,7 +242,7 @@ class TestVATonpayment(AccountTestInvoicingCommon):
         for check_date, expected in (
             (date(2021, 3, 31), True),
             (date(2021, 4, 1), True),
-            (date.today(), True),
+            (fields.Date.today(), True),
         ):
             self.assertEqual(
                 partner.with_context(
@@ -285,7 +285,7 @@ class TestVATonpayment(AccountTestInvoicingCommon):
         )
         self.assertFalse(
             partner.with_context(
-                no_insert=True, check_date=date.today()
+                no_insert=True, check_date=fields.Date.today()
             )._check_vat_on_payment(),
             "The removal closing the registration must clear the flag.",
         )
@@ -329,7 +329,7 @@ class TestVATonpayment(AccountTestInvoicingCommon):
         )
         self.assertFalse(
             partner.with_context(
-                no_insert=True, check_date=date.today()
+                no_insert=True, check_date=fields.Date.today()
             )._check_vat_on_payment(),
             "The dated removal must win over the undated registration.",
         )

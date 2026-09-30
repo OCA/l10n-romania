@@ -3,7 +3,7 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
 import os
-from datetime import date
+from datetime import UTC, date, datetime
 from io import BytesIO
 from zipfile import ZipFile
 
@@ -67,11 +67,13 @@ class ResPartnerAnaf(models.Model):
         data_dir = tools.config["data_dir"]
         istoric = os.path.join(data_dir, "istoric.txt")
         if os.path.exists(istoric):
-            modify = date.fromtimestamp(os.path.getmtime(istoric))
+            mtime = os.path.getmtime(istoric)
         else:
-            modify = date.fromtimestamp(0)
+            mtime = 0
+        # the file is stamped by the filesystem, so read it back in UTC
+        modify = datetime.fromtimestamp(mtime, tz=UTC).date()
         if not file_date:
-            file_date = date.today()
+            file_date = fields.Date.today()
         if bool(file_date - modify):
             result = requests.get(ANAF_URL % file_date.strftime("%Y%m%d"), timeout=30)
             if result.status_code == requests.codes.ok:

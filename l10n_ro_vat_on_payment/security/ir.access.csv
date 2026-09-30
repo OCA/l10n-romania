@@ -1,0 +1,2 @@
+id,name,model_id:id,group_id:id,operation
+access_l10n_ro_res_partner_anaf,l10n.ro.res.partner.anaf,model_l10n_ro_res_partner_anaf,base.group_user,crud

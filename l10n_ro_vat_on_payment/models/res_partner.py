@@ -3,7 +3,7 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
 import os
-from datetime import date, datetime
+from datetime import date
 from subprocess import PIPE, Popen
 
 from odoo import api, fields, models, tools
@@ -40,8 +40,12 @@ class ResPartner(models.Model):
         """Load VAT on payment lines for specified partners."""
 
         def format_date(strdate):
+            # ANAF sends bare calendar dates as YYYYMMDD: no time, no zone
             if strdate != "":
-                return datetime.strptime(str(strdate), "%Y%m%d").strftime(DATE_FORMAT)
+                strdate = str(strdate)
+                return date(
+                    int(strdate[:4]), int(strdate[4:6]), int(strdate[6:8])
+                ).strftime(DATE_FORMAT)
 
         vat_numbers = [
             p.l10n_ro_vat_number
@@ -98,12 +102,12 @@ class ResPartner(models.Model):
             return True
         self._insert_relevant_anaf_data()
         self._compute_l10n_ro_anaf_history()
-        self = self.with_context(no_insert=True)
-        for partner in self:
+        partners = self.with_context(no_insert=True)
+        for partner in partners:
             partner.l10n_ro_vat_on_payment = partner.with_context(
-                check_date=date.today()
+                check_date=fields.Date.today()
             )._check_vat_on_payment()
-        self.l10n_ro_vat_payment_check_date = date.today()
+        partners.l10n_ro_vat_payment_check_date = fields.Date.today()
 
     @api.model
     def update_vat_payment_all(self):
@@ -116,11 +120,11 @@ class ResPartner(models.Model):
                 ("is_company", "=", True),
                 "|",
                 ("l10n_ro_vat_payment_check_date", "=", False),
-                ("l10n_ro_vat_payment_check_date", "<", date.today()),
+                ("l10n_ro_vat_payment_check_date", "<", fields.Date.today()),
             ]
         )
         batch_size = int(
-            ir_config.get_param(
+            ir_config.get_str(
                 "l10n_ro_vat_on_payment.partner_batch_size", default="1000"
             )
         )
