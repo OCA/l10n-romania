@@ -51,7 +51,7 @@ class FifoZeroQtyCases:
             {
                 "product_id": self.product_fifo.id,
                 "product_uom_qty": 5,
-                "product_uom": self.product_fifo.uom_id.id,
+                "uom_id": self.product_fifo.uom_id.id,
                 "location_id": self.location.id,
                 "location_dest_id": self.env.ref("stock.stock_location_customers").id,
                 "company_id": self.env.company.id,

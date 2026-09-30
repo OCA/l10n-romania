@@ -43,7 +43,7 @@ MOVE_TYPE = [
 
 class StockMove(models.Model):
     _name = "stock.move"
-    _inherit = ["stock.move", "l10n.ro.mixin"]
+    _inherit = ("stock.move", "l10n.ro.mixin")
 
     l10n_ro_extra_account_move_ids = fields.One2many(
         "account.move",
@@ -107,10 +107,13 @@ class StockMove(models.Model):
                     for aml in account_move.line_ids.sorted(
                         lambda line: line.account_id.code or ""
                     ):
-                        if aml.account_id.code and aml.account_id.code[0] in ["2", "3"]:
-                            if round(aml.balance, 2) == round(move.value, 2):
-                                account = aml.account_id
-                                break
+                        if (
+                            aml.account_id.code
+                            and aml.account_id.code[0] in ["2", "3"]
+                            and round(aml.balance, 2) == round(move.value, 2)
+                        ):
+                            account = aml.account_id
+                            break
             move.l10n_ro_account_id = account
 
             if (
@@ -128,11 +131,12 @@ class StockMove(models.Model):
                     transfer_account = (
                         loc_src.company_id.l10n_ro_property_stock_transfer_account_id
                     )
-            elif loc_src.usage == "internal" and loc_dest.usage == "transit":
-                if loc_src.l10n_ro_property_stock_valuation_account_id:
-                    transfer_account = (
-                        loc_src.l10n_ro_property_stock_valuation_account_id
-                    )
+            elif (
+                loc_src.usage == "internal"
+                and loc_dest.usage == "transit"
+                and loc_src.l10n_ro_property_stock_valuation_account_id
+            ):
+                transfer_account = loc_src.l10n_ro_property_stock_valuation_account_id
 
             move.l10n_ro_transfer_account_id = (
                 transfer_account.id
@@ -141,31 +145,32 @@ class StockMove(models.Model):
             )
 
     def _auto_init(self):
-        if not column_exists(self.env.cr, "stock_move", "l10n_ro_transfer_account_id"):
-            if column_exists(
+        if not column_exists(
+            self.env.cr, "stock_move", "l10n_ro_transfer_account_id"
+        ) and column_exists(
+            self.env.cr,
+            "stock_location",
+            "l10n_ro_property_stock_valuation_account_id",
+        ):
+            create_column(
                 self.env.cr,
-                "stock_location",
-                "l10n_ro_property_stock_valuation_account_id",
-            ):
-                create_column(
-                    self.env.cr,
-                    "stock_move",
-                    "l10n_ro_transfer_account_id",
-                    "integer",
-                )
-                self.env.cr.execute(
-                    """
-                        UPDATE stock_move sm
-                        SET l10n_ro_transfer_account_id =
-                            (sl.l10n_ro_property_stock_valuation_account_id->>'sm.company_id')::integer
-                        FROM stock_location sl, stock_location sld
-                        WHERE sm.location_id = sl.id
-                        AND sm.location_dest_id = sld.id
-                        AND sl.usage = 'internal'
-                        AND sld.usage = 'internal'
-                        AND sl.l10n_ro_property_stock_valuation_account_id IS NOT NULL
-                    """,
-                )
+                "stock_move",
+                "l10n_ro_transfer_account_id",
+                "int4",
+            )
+            self.env.cr.execute(
+                """
+                    UPDATE stock_move sm
+                    SET l10n_ro_transfer_account_id =
+                        (sl.l10n_ro_property_stock_valuation_account_id->>'sm.company_id')::integer
+                    FROM stock_location sl, stock_location sld
+                    WHERE sm.location_id = sl.id
+                    AND sm.location_dest_id = sld.id
+                    AND sl.usage = 'internal'
+                    AND sld.usage = 'internal'
+                    AND sl.l10n_ro_property_stock_valuation_account_id IS NOT NULL
+                """,
+            )
         return super()._auto_init()
 
     @api.depends(
@@ -183,67 +188,17 @@ class StockMove(models.Model):
         self.ensure_one()
         if not self.is_l10n_ro_record:
             return False
-        if (
-            self.location_id.usage != "internal"
-            and self.location_dest_id.usage == "internal"
-        ):
-            if self.picking_id.l10n_ro_reception_in_progress:
-                return "reception_in_progress"
-            if self.picking_id.l10n_ro_notice:
-                if self.location_id.usage == "supplier":
-                    return "reception_notice"
-                if self.location_id.usage == "customer":
-                    return "delivery_notice_return"
-            if self.location_id.usage == "supplier":
-                return "reception"
-            if self.location_id.usage == "customer":
-                return "delivery_return"
-            if self.location_id.usage == "inventory":
-                return "plus_inventory"
-            if self.location_id.usage in "consume":
-                return "consumption_return"
-            if self.location_id.usage == "usage_giving":
-                return "usage_giving_return"
-            if self.location_id.usage == "production" and self.origin_returned_move_id:
-                return "consumption_return"
-            if self.location_id.usage == "production":
-                return "production"
-            if self.location_id.usage == "transit":
-                return "internal_transit_in"
-        if (
-            self.location_id.usage == "internal"
-            and self.location_dest_id.usage != "internal"
-        ):
-            if self.picking_id.l10n_ro_reception_in_progress:
-                return "reception_in_progress_return"
-            if self.picking_id.l10n_ro_notice:
-                if self.location_dest_id.usage == "supplier":
-                    return "reception_notice_return"
-                if self.location_dest_id.usage == "customer":
-                    return "delivery_notice"
-            if self.location_dest_id.usage == "supplier":
-                return "reception_return"
-            if self.location_dest_id.usage == "customer":
-                return "delivery"
-            if self.location_dest_id.usage == "inventory":
-                return "minus_inventory"
-            if self.location_dest_id.usage == "consume":
-                return "consumption"
-            if self.location_dest_id.usage == "usage_giving":
-                return "usage_giving"
-            if (
-                self.location_dest_id.usage == "production"
-                and self.origin_returned_move_id
-            ):
-                return "production_return"
-            if self.location_dest_id.usage == "production":
-                return "consumption"
-            if self.location_dest_id.usage == "transit":
-                return "internal_transit_out"
-        if (
-            self.location_id.usage == "internal"
-            and self.location_dest_id.usage == "internal"
-        ):
+        src = self.location_id.usage
+        dest = self.location_dest_id.usage
+        if src != "internal" and dest == "internal":
+            move_type = self._l10n_ro_move_type_in()
+            if move_type:
+                return move_type
+        if src == "internal" and dest != "internal":
+            move_type = self._l10n_ro_move_type_out()
+            if move_type:
+                return move_type
+        if src == "internal" and dest == "internal":
             # _logger.warning(
             #     self.env._(
             #         "All internal moves should be done through transit location."
@@ -254,6 +209,60 @@ class StockMove(models.Model):
             return "dropshipped"
         if self._is_dropshipped_returned():
             return "dropshipped_return"
+        return False
+
+    def _l10n_ro_move_type_in(self):
+        """Goods arriving in an internal location, named by where they come from."""
+        if self.picking_id.l10n_ro_reception_in_progress:
+            return "reception_in_progress"
+        if self.picking_id.l10n_ro_notice:
+            if self.location_id.usage == "supplier":
+                return "reception_notice"
+            if self.location_id.usage == "customer":
+                return "delivery_notice_return"
+        if self.location_id.usage == "supplier":
+            return "reception"
+        if self.location_id.usage == "customer":
+            return "delivery_return"
+        if self.location_id.usage == "inventory":
+            return "plus_inventory"
+        if self.location_id.usage in "consume":
+            return "consumption_return"
+        if self.location_id.usage == "usage_giving":
+            return "usage_giving_return"
+        if self.location_id.usage == "production" and self.origin_returned_move_id:
+            return "consumption_return"
+        if self.location_id.usage == "production":
+            return "production"
+        if self.location_id.usage == "transit":
+            return "internal_transit_in"
+        return False
+
+    def _l10n_ro_move_type_out(self):
+        """Goods leaving an internal location, named by where they go."""
+        if self.picking_id.l10n_ro_reception_in_progress:
+            return "reception_in_progress_return"
+        if self.picking_id.l10n_ro_notice:
+            if self.location_dest_id.usage == "supplier":
+                return "reception_notice_return"
+            if self.location_dest_id.usage == "customer":
+                return "delivery_notice"
+        if self.location_dest_id.usage == "supplier":
+            return "reception_return"
+        if self.location_dest_id.usage == "customer":
+            return "delivery"
+        if self.location_dest_id.usage == "inventory":
+            return "minus_inventory"
+        if self.location_dest_id.usage == "consume":
+            return "consumption"
+        if self.location_dest_id.usage == "usage_giving":
+            return "usage_giving"
+        if self.location_dest_id.usage == "production" and self.origin_returned_move_id:
+            return "production_return"
+        if self.location_dest_id.usage == "production":
+            return "consumption"
+        if self.location_dest_id.usage == "transit":
+            return "internal_transit_out"
         return False
 
     def _get_in_move_lines(self, lot=None):
@@ -289,8 +298,13 @@ class StockMove(models.Model):
                 res |= move_line
         return res
 
-    def _set_value(self, correction_quantity=None):
-        """Set the value of the move"""
+    def _set_value(self, recompute_date=None, skip_check=False):
+        """Set the value of the move.
+
+        Odoo 20 replaced ``correction_quantity`` with the ``recompute_date`` /
+        ``skip_check`` pair that drives its valuation replay; both are passed
+        straight through.
+        """
         # Dropship moves gain nothing from core's own _set_value (they never
         # satisfy its is_in/_is_out branches), but core still adds their
         # product to `products_to_recompute` (keyed on `is_dropship or
@@ -307,7 +321,7 @@ class StockMove(models.Model):
             )
         )
         res = super(StockMove, self - ro_dropship_moves)._set_value(
-            correction_quantity=correction_quantity
+            recompute_date=recompute_date, skip_check=skip_check
         )
         ro_internal_moves = self.filtered(
             lambda m: m.is_l10n_ro_record and m.l10n_ro_move_type == "internal_transfer"
@@ -394,7 +408,17 @@ class StockMove(models.Model):
             return None
         return unit_cost
 
-    def _get_value_from_std_price(self, quantity, std_price=False, at_date=None):
+    def _l10n_ro_valuation_date(self):
+        """The date a valuation is asked to answer for, or None for now.
+
+        Odoo 20 took ``at_date`` off the whole ``_get_value_*`` family, so the
+        Romanian valuation carries it in the context instead: the argument was
+        only ever set by Romanian callers, and core has no place left to pass
+        it through.
+        """
+        return self.env.context.get("l10n_ro_valuation_date")
+
+    def _get_value_from_std_price(self, quantity, std_price=False):
         """Value an internal transfer at the cost held by the source warehouse.
 
         Only the last step of ``_get_value_data`` is replaced, so a value coming
@@ -407,7 +431,7 @@ class StockMove(models.Model):
         """
         if (
             not std_price
-            and not at_date
+            and not self._l10n_ro_valuation_date()
             and self.is_l10n_ro_record
             and self.l10n_ro_move_type == "internal_transfer"
             and self.product_id.cost_method != "fifo"
@@ -424,15 +448,17 @@ class StockMove(models.Model):
                         uom=self.product_id.uom_id.name,
                     ),
                 }
-        return super()._get_value_from_std_price(
-            quantity, std_price=std_price, at_date=at_date
-        )
+        return super()._get_value_from_std_price(quantity, std_price=std_price)
 
-    def _get_valued_qty(self, lot=None):
+    def _get_valued_qty(self, lot=None, signed=False):
         self.ensure_one()
         if self.is_l10n_ro_record and self.l10n_ro_move_type == "internal_transfer":
-            return self.product_qty
-        return super()._get_valued_qty(lot=lot)
+            # An internal transfer is valued as a whole; ``signed`` still has to
+            # answer, because Odoo 20 pairs the quantity with a value that is
+            # negative on the way out.
+            qty = self.product_qty
+            return -qty if signed and self._is_out() else qty
+        return super()._get_valued_qty(lot=lot, signed=signed)
 
     def _should_create_account_move(self):
         # For Romania we should create account moves for all stock moves
@@ -573,9 +599,7 @@ class StockMove(models.Model):
         company_currency = self.company_id.currency_id
         po_line = self.purchase_line_id if "purchase_line_id" in self._fields else False
         if po_line and po_line.currency_id and po_line.currency_id != company_currency:
-            qty = self.product_uom._compute_quantity(
-                self.quantity, po_line.product_uom_id
-            )
+            qty = self.uom_id._compute_quantity(self.quantity, po_line.uom_id)
             return po_line.currency_id, po_line.price_unit * qty
         return company_currency, value
 
@@ -617,7 +641,15 @@ class StockMove(models.Model):
     def _get_l10n_ro_value(self, price_type):
         self.ensure_one()
         if price_type == "value":
-            return self.value
+            # Odoo 20 signs the move value: negative on the way out, where 19.0
+            # stored the magnitude. The Romanian account table carries a sign of
+            # its own per move type (delivery 1, delivery_return -1, ...), so it
+            # is the magnitude it wants; handing it a signed value turns every
+            # delivery into a storno entry.
+            # A move that is both in and out - an internal transfer between two
+            # valued locations - is valued as an incoming one, the way core
+            # settles that tie in its own ``_set_value``.
+            return -self.value if self._is_out() and not self._is_in() else self.value
         if price_type == "sale_price":
             if hasattr(self, "sale_line_id") and self.sale_line_id is not None:
                 sale_value = self.sale_line_id.currency_id._convert(

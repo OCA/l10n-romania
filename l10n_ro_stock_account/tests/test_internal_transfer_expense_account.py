@@ -86,7 +86,7 @@ class TestInternalTransferExpenseAccount(TestROStockCommon):
                 "location_id": location_src.id,
                 "location_dest_id": location_dest.id,
                 "product_id": product.id,
-                "product_uom": product.uom_id.id,
+                "uom_id": product.uom_id.id,
                 "product_uom_qty": qty,
             }
         )

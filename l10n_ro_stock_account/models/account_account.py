@@ -8,7 +8,7 @@ from odoo.addons.account.models.product import ACCOUNT_DOMAIN
 
 class AccountAccount(models.Model):
     _name = "account.account"
-    _inherit = ["account.account", "l10n.ro.mixin"]
+    _inherit = ("account.account", "l10n.ro.mixin")
 
     l10n_ro_stock_consume_account_id = fields.Many2one(
         "account.account",

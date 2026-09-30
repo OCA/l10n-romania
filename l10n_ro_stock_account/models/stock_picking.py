@@ -9,7 +9,7 @@ from odoo import fields, models
 
 class StockPicking(models.Model):
     _name = "stock.picking"
-    _inherit = ["stock.picking", "l10n.ro.mixin"]
+    _inherit = ("stock.picking", "l10n.ro.mixin")
 
     l10n_ro_notice = fields.Boolean()
     l10n_ro_reception_in_progress = fields.Boolean()

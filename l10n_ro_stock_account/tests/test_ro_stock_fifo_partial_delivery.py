@@ -71,7 +71,7 @@ class FifoPartialDeliveryCases:
                         {
                             "product_id": self.product_fifo.id,
                             "product_uom_qty": ordered_qty,
-                            "product_uom": self.product_fifo.uom_id.id,
+                            "uom_id": self.product_fifo.uom_id.id,
                             "location_id": self.location.id,
                             "location_dest_id": self.customer_location.id,
                         }
@@ -241,13 +241,16 @@ class FifoPartialDeliveryCases:
             move.quantity = quantity - 1
             return vals_list, 0
 
-        with self.assertRaises(UserError) as error, self.cr.savepoint():
-            with patch.object(
+        with (
+            self.assertRaises(UserError) as error,
+            self.cr.savepoint(),
+            patch.object(
                 type(self.env["stock.move"]),
                 "_l10n_ro_process_fifo_split",
                 under_accounting_split,
-            ):
-                picking.button_validate()
+            ),
+        ):
+            picking.button_validate()
         self.assertIn("FIFO", error.exception.args[0])
 
         self.env.invalidate_all()

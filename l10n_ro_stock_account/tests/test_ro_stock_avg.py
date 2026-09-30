@@ -12,7 +12,7 @@ class StockAvgCases:
     def test_ro_stock_product_avg(self):
         filename = "test_cases_avg.csv"
         test_cases = self.read_test_cases_from_csv_file(filename)
-        for _key, case in test_cases.items():
+        for case in test_cases.values():
             _logger.info(
                 "Running test case: %s - %s", case.get("code"), case.get("name")
             )

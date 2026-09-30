@@ -31,8 +31,10 @@ class TestROStockDropship(TestROStockCommon):
         so.order_line.write({"route_ids": [(6, 0, self.dropship_route.ids)]})
         so.action_confirm()
 
-        po = self.env["purchase.order"].search(
-            [("partner_id", "=", self.supplier_1.id), ("origin", "=", so.name)]
+        # Odoo 20 writes the company into the purchase order's origin, so the
+        # order is reached through the sale order rather than matched on it.
+        po = so._get_purchase_orders().filtered(
+            lambda order: order.partner_id == self.supplier_1
         )
         self.assertTrue(po, "A Purchase Order should be created for the dropship line")
         po.button_confirm()
@@ -86,13 +88,9 @@ class TestROStockDropship(TestROStockCommon):
         move = self._create_and_validate_dropship(qty=3.0)
         original_value = move.value
 
-        return_wizard = (
-            self.env["stock.return.picking"]
-            .with_context(active_id=move.picking_id.id, active_model="stock.picking")
-            .create({})
-        )
-        return_wizard.product_return_moves.quantity = 3.0
-        return_picking = return_wizard._create_return()
+        return_picking = move.picking_id._create_return()
+        return_picking.move_ids.product_uom_qty = 3.0
+        return_picking.action_confirm()
         return_picking.move_ids.quantity = 3.0
         return_picking.button_validate()
 
@@ -183,8 +181,8 @@ class TestROStockDropship(TestROStockCommon):
         so.order_line.write({"route_ids": [(6, 0, self.dropship_route.ids)]})
         so.action_confirm()
 
-        dropship_po = self.env["purchase.order"].search(
-            [("partner_id", "=", self.supplier_1.id), ("origin", "=", so.name)]
+        dropship_po = so._get_purchase_orders().filtered(
+            lambda order: order.partner_id == self.supplier_1
         )
         self.assertTrue(dropship_po)
         dropship_po.order_line.price_unit = 80.0

@@ -65,7 +65,7 @@ class TestAVGInternalTransfer(TestROStockCommon):
                 "location_id": location_src.id,
                 "location_dest_id": location_dest.id,
                 "product_id": self.product_avg.id,
-                "product_uom": self.product_avg.uom_id.id,
+                "uom_id": self.product_avg.uom_id.id,
                 "product_uom_qty": qty,
             }
         )

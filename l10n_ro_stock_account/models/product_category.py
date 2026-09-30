@@ -12,7 +12,7 @@ _logger = logging.getLogger(__name__)
 
 class ProductCategory(models.Model):
     _name = "product.category"
-    _inherit = ["product.category", "l10n.ro.mixin"]
+    _inherit = ("product.category", "l10n.ro.mixin")
 
     l10n_ro_stock_account_change = fields.Boolean(
         string="Allow stock account change from locations",

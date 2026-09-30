@@ -8,7 +8,24 @@ from odoo import models
 
 class AccountMoveLine(models.Model):
     _name = "account.move.line"
-    _inherit = ["account.move.line", "l10n.ro.mixin"]
+    _inherit = ("account.move.line", "l10n.ro.mixin")
+
+    def _get_stock_moves(self):
+        """The stock moves an invoice line accounts for.
+
+        Odoo 19 had this as a hook on ``account.move.line``: ``stock_account``
+        returned an empty recordset and ``purchase_stock`` / ``sale_stock``
+        extended it with the moves of their order line. Odoo 20 dropped the hook
+        altogether, so the Romanian stock accounting -- which needs the move to
+        decide the account and the storno direction -- keeps it here, over the
+        same two paths.
+        """
+        moves = self.env["stock.move"]
+        if "purchase_line_id" in self._fields:
+            moves |= self.purchase_line_id.move_ids
+        if "sale_line_ids" in self._fields:
+            moves |= self.sale_line_ids.move_ids
+        return moves
 
     def _compute_account_id(self):
         # For Romania, we need to set the account based on the stock
@@ -167,15 +184,13 @@ class AccountMoveLine(models.Model):
                 if stock_move.l10n_ro_move_type in (
                     "reception_notice",
                     "reception_notice_return",
-                ):
-                    if accounts.get("l10n_ro_picking_payable"):
-                        account = accounts["l10n_ro_picking_payable"]
+                ) and accounts.get("l10n_ro_picking_payable"):
+                    account = accounts["l10n_ro_picking_payable"]
                 if stock_move.l10n_ro_move_type in (
                     "reception_in_progress",
                     "reception_in_progress_return",
-                ):
-                    if accounts.get("l10n_ro_reception_in_progress"):
-                        account = accounts["l10n_ro_reception_in_progress"]
+                ) and accounts.get("l10n_ro_reception_in_progress"):
+                    account = accounts["l10n_ro_reception_in_progress"]
             else:
                 account = accounts["expense"]
         elif self.move_id.is_sale_document():
@@ -183,7 +198,6 @@ class AccountMoveLine(models.Model):
             if stock_move.l10n_ro_move_type in (
                 "delivery_notice",
                 "delivery_notice_return",
-            ):
-                if accounts.get("l10n_ro_picking_receivable"):
-                    account = accounts["l10n_ro_picking_receivable"]
+            ) and accounts.get("l10n_ro_picking_receivable"):
+                account = accounts["l10n_ro_picking_receivable"]
         return account

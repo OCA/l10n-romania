@@ -10,7 +10,7 @@ _logger = logging.getLogger(__name__)
 
 class StockQuant(models.Model):
     _name = "stock.quant"
-    _inherit = ["stock.quant", "l10n.ro.mixin"]
+    _inherit = ("stock.quant", "l10n.ro.mixin")
 
     def _compute_value(self):
         res = super()._compute_value()
