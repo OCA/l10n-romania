@@ -62,9 +62,11 @@ class AccountMoveLine(models.Model):
     def _compute_is_storno(self):
         res = super()._compute_is_storno()
         nd_ro_lines = self.filtered(
-            lambda move_line: move_line.company_id.l10n_ro_accounting
-            and move_line.display_type == "non_deductible_product"
-            and move_line.name != self.env._("private part")
+            lambda move_line: (
+                move_line.company_id.l10n_ro_accounting
+                and move_line.display_type == "non_deductible_product"
+                and move_line.name != self.env._("private part")
+            )
         )
         nd_ro_lines.is_storno = True
         return res
