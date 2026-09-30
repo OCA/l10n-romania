@@ -8,7 +8,7 @@ from odoo import fields, models
 
 class StockLocation(models.Model):
     _name = "stock.location"
-    _inherit = ["stock.location", "l10n.ro.mixin"]
+    _inherit = ("stock.location", "l10n.ro.mixin")
 
     usage = fields.Selection(
         selection_add=[("usage_giving", "Usage Giving"), ("consume", "Consume")],
