@@ -57,12 +57,21 @@ class TestPartnerVatForeignPrefix(TransactionCase):
         self.assertEqual(partner.vat, self.local_vat)
 
     def test_split_vat_does_not_borrow_country_from_database(self):
-        """A second partner must not inherit the first one's country code."""
+        """A second partner must not inherit the first one's country code.
+
+        The number comes back without its separators: Odoo 20 normalises it in
+        ``odoo.tools.business_data.split_vat``, where 19.0 only stripped the
+        country prefix. What this test watches is the country code, which must
+        stay empty.
+        """
         self._create_hu_partner(self.local_vat)
         other = self.env["res.partner"].create(
             {"name": "No Country Partner", "is_company": True}
         )
-        self.assertEqual(other._split_vat(self.local_vat), ("", self.local_vat))
+        self.assertEqual(
+            other._split_vat(self.local_vat),
+            ("", self.local_vat.replace("-", "")),
+        )
 
     def test_ro_cui_without_prefix_still_resolves_to_ro(self):
         """The Romanian shortcut must keep working: bare digits mean RO."""

@@ -2,11 +2,12 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
 from odoo import api, fields, models
+from odoo.tools.business_data import split_vat
 
 
 class ResPartner(models.Model):
     _name = "res.partner"
-    _inherit = ["res.partner", "l10n.ro.mixin"]
+    _inherit = ("res.partner", "l10n.ro.mixin")
 
     l10n_ro_vat_subjected = fields.Boolean(string="Romania - VAT Subjected")
     l10n_ro_vat_number = fields.Char(
@@ -39,6 +40,11 @@ class ResPartner(models.Model):
     def _split_vat(self, vat):
         """Allow the Romanian CUI to be written without the "RO" prefix.
 
+        Odoo 20 folded base_vat away and turned the splitting into the plain
+        function ``odoo.tools.business_data.split_vat``, so there is no parent
+        method to extend any more -- this calls the function and keeps applying
+        the Romanian rule on top of it.
+
         The country code is taken from the current record, never from a database
         lookup. A previous implementation searched for a partner having the same
         ``vat`` and borrowed its country code: during create/write the record is
@@ -47,7 +53,7 @@ class ResPartner(models.Model):
         store a tax ID without its country prefix - for instance a Hungarian
         11-digit adoszam, which VIES only accepts in its 8-digit EU form.
         """
-        vat_country, l10n_ro_vat_number = super()._split_vat(vat)
+        vat_country, l10n_ro_vat_number = split_vat(vat)
         if vat_country or not vat or not vat.isdigit():
             return vat_country, l10n_ro_vat_number
         country_code = self.country_id.code if len(self) == 1 else False
@@ -90,11 +96,3 @@ class ResPartner(models.Model):
             and self.country_id.code == "RO"
         ):
             self.vat = self._get_ro_vat()
-
-    @api.depends("nrc", "vat", "country_id")
-    def _compute_company_registry(self):
-        res = super()._compute_company_registry()
-        for partner in self:
-            if partner.is_l10n_ro_record and partner.nrc:
-                partner.company_registry = partner.nrc
-        return res

@@ -101,7 +101,7 @@ class TestL10nRoHide(TransactionCase):
                 "res_id": action.id,
             }
         )
-        self.env.registry.clear_cache()
+        self.env.transaction.invalidate_ormcache()
         return action
 
     def _binding_ids(self, company):

@@ -6,7 +6,7 @@ from odoo import api, models
 
 class ProductTemplate(models.Model):
     _name = "product.template"
-    _inherit = ["product.template", "l10n.ro.mixin"]
+    _inherit = ("product.template", "l10n.ro.mixin")
 
     @api.onchange("type")
     def _onchange_type(self):

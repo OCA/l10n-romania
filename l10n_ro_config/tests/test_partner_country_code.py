@@ -33,32 +33,32 @@ class TestPartnerVAT(TestPartnerVATSubjected):
             response._content = b"ok"
             return response
 
-        with mute_logger("odoo.tests.form.onchange"):
-            with (
-                patch.object(requests, "post", post),
-                patch.object(requests.Session, "post", post),
-            ):
-                # test setting l10n_ro_vat_subjected as True
-                partner = self.env["res.partner"].create(
-                    {
-                        "name": "Test Partner",
-                        "is_company": True,
-                    }
-                )
-                partner_form = Form(partner)
-                partner_form.vat = "4264242"
-                partner_form.country_id = self.env.ref("base.ro")
-                partner_form.l10n_ro_vat_subjected = True
-                partner_form.save()
-                self.assertEqual(partner.vat, "RO4264242")
-                # Test setting l10n_ro_vat_subjected as False
-                partner_form.l10n_ro_vat_subjected = False
-                partner_form.save()
-                self.assertEqual(partner.vat, "4264242")
-                # Check split vat with no country code in vat
-                vat_country, l10n_ro_vat_number = partner._split_vat(partner.vat)
-                self.assertEqual(vat_country, "RO")
-                self.assertEqual(l10n_ro_vat_number, "4264242")
+        with (
+            mute_logger("odoo.tests.form.onchange"),
+            patch.object(requests, "post", post),
+            patch.object(requests.Session, "post", post),
+        ):
+            # test setting l10n_ro_vat_subjected as True
+            partner = self.env["res.partner"].create(
+                {
+                    "name": "Test Partner",
+                    "is_company": True,
+                }
+            )
+            partner_form = Form(partner)
+            partner_form.vat = "4264242"
+            partner_form.country_id = self.env.ref("base.ro")
+            partner_form.l10n_ro_vat_subjected = True
+            partner_form.save()
+            self.assertEqual(partner.vat, "RO4264242")
+            # Test setting l10n_ro_vat_subjected as False
+            partner_form.l10n_ro_vat_subjected = False
+            partner_form.save()
+            self.assertEqual(partner.vat, "4264242")
+            # Check split vat with no country code in vat
+            vat_country, l10n_ro_vat_number = partner._split_vat(partner.vat)
+            self.assertEqual(vat_country, "RO")
+            self.assertEqual(l10n_ro_vat_number, "4264242")
 
     def test_form_partner(self):
         test_company = self.env["res.company"].create(
@@ -66,12 +66,17 @@ class TestPartnerVAT(TestPartnerVATSubjected):
                 "name": "Test Company",
             }
         )
+        # A VAT of its own: Odoo 20 computes ``is_company`` from it and stores
+        # it read-only, so a partner without one is a person and the Romanian
+        # fields -- which the view shows only to companies -- stay invisible.
         partner = self.env["res.partner"].create(
             {
                 "name": "Test Partner",
-                "is_company": True,
+                "country_id": self.env.ref("base.ro").id,
+                "vat": "11111110",
             }
         )
+        self.assertTrue(partner.is_company)
 
         partner_form = Form(partner)
         partner_form.name = "Test Partner"

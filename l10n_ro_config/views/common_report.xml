@@ -11,18 +11,25 @@
                 t-foreach="partner_id.bank_ids.filtered(lambda r: r.l10n_ro_print_report)"
                 t-as="bank"
             >
+                <!-- Odoo 20 dropped res.partner.bank.currency_id. A bank
+                     account belongs to at most one journal, and that journal
+                     says which currency it is kept in; an empty journal
+                     currency means the company one. An account no journal
+                     holds has no currency to match against, so it is not
+                     printed. -->
+                <t t-set="bank_journal" t-value="bank.journal_id" />
                 <t
                     t-set="bank_currency"
-                    t-value="bank.currency_id or res_company.currency_id"
+                    t-value="bank_journal.currency_id or res_company.currency_id"
                 />
-                <t t-if="bank_currency == currency_id and counts&lt;3">
+                <t t-if="bank_journal and bank_currency == currency_id and counts&lt;3">
                     <div t-if="bank.bank_name">
                         <strong>Bank:</strong>
                         <span t-field="bank.bank_name" />
                     </div>
-                    <div t-if="bank.acc_number">
+                    <div t-if="bank.account_number">
                         <strong>Account:</strong>
-                        <span t-field="bank.acc_number" />
+                        <span t-field="bank.account_number" />
                     </div>
                     <t t-set="counts" t-value="counts+1" />
                 </t>
@@ -68,7 +75,7 @@
                         <strong>NRC:</strong>
                         <span t-field="res_company.partner_id.nrc" />
                     </div>
-                    <div i-if="res_company.l10n_ro_share_capital">
+                    <div t-if="res_company.l10n_ro_share_capital">
                         <strong>Share Capital:</strong>
                         <span t-out="int(res_company.l10n_ro_share_capital)" />
                     </div>

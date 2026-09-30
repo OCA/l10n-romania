@@ -6,7 +6,7 @@ from odoo import api, fields, models
 
 class AccountJournal(models.Model):
     _name = "account.journal"
-    _inherit = ["account.journal", "l10n.ro.mixin"]
+    _inherit = ("account.journal", "l10n.ro.mixin")
 
     # TO-DO Add migration script
     l10n_ro_print_report = fields.Boolean(
@@ -17,12 +17,6 @@ class AccountJournal(models.Model):
     )
 
     l10n_ro_fiscal_receipt = fields.Boolean("Fiscal Receipts Journal")
-
-    l10n_ro_fiscal_position_id = fields.Many2one(
-        "account.fiscal.position",
-        "Romania - Fiscal Position",
-        domain="[('company_id', '=', company_id)]",
-    )
 
     @api.depends("bank_account_id.l10n_ro_print_report")
     def _compute_l10n_ro_print_report(self):

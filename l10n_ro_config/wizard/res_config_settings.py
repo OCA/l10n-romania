@@ -7,7 +7,7 @@ from odoo import fields, models
 
 class ResConfigSettings(models.TransientModel):
     _name = "res.config.settings"
-    _inherit = ["res.config.settings", "l10n.ro.mixin"]
+    _inherit = ("res.config.settings", "l10n.ro.mixin")
 
     l10n_ro_accounting = fields.Boolean(
         related="company_id.l10n_ro_accounting",

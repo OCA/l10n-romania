@@ -82,12 +82,15 @@ class L10nRoMixin(models.AbstractModel):
             if "l10n_ro" in name:
                 button.set("invisible", "True")
                 continue
-            if button.get("type") == "action" and name.isdigit():
-                if imd.search_count(
+            if (
+                button.get("type") == "action"
+                and name.isdigit()
+                and imd.search_count(
                     [
                         ("model", "=like", "ir.actions.%"),
                         ("res_id", "=", int(name)),
                         ("module", "=like", "l10n_ro%"),
                     ]
-                ):
-                    button.set("invisible", "True")
+                )
+            ):
+                button.set("invisible", "True")
