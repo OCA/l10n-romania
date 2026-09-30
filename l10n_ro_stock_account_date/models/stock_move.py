@@ -12,7 +12,7 @@ from odoo.tools.misc import groupby
 
 class StockMove(models.Model):
     _name = "stock.move"
-    _inherit = ["stock.move", "l10n.ro.mixin"]
+    _inherit = ("stock.move", "l10n.ro.mixin")
 
     def _action_done(self, cancel_backorder=False):
         ro_moves = self.filtered("is_l10n_ro_record")

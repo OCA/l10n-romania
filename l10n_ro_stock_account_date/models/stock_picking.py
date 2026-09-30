@@ -6,7 +6,7 @@ from odoo import fields, models
 
 class StockPicking(models.Model):
     _name = "stock.picking"
-    _inherit = ["stock.picking", "l10n.ro.mixin"]
+    _inherit = ("stock.picking", "l10n.ro.mixin")
 
     l10n_ro_accounting_date = fields.Datetime(
         "Accounting Date",
