@@ -1,6 +1,6 @@
-<?xml version="1.0" encoding="utf-8" ?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <odoo>
-    <record model="ir.ui.view" id="partner_vat_on_payment_filter">
+    <record id="partner_vat_on_payment_filter" model="ir.ui.view">
         <field name="name">partners_vat_on_payment_filter</field>
         <field name="model">res.partner</field>
         <field name="inherit_id" ref="base.view_res_partner_filter" />
@@ -13,7 +13,7 @@
             </field>
         </field>
     </record>
-    <record model="ir.ui.view" id="partner_vat_on_payment_tree">
+    <record id="partner_vat_on_payment_tree" model="ir.ui.view">
         <field name="name">partners_vat_on_payment_tree</field>
         <field name="model">res.partner</field>
         <field name="inherit_id" ref="base.view_partner_tree" />
@@ -23,7 +23,7 @@
             </field>
         </field>
     </record>
-    <record model="ir.ui.view" id="partners_form_add_vat_payment">
+    <record id="partners_form_add_vat_payment" model="ir.ui.view">
         <field name="name">partners_form_add_vat_payment</field>
         <field name="model">res.partner</field>
         <field name="inherit_id" ref="l10n_ro_config.view_partner_create_by_vat" />
@@ -35,8 +35,8 @@
                 />
                 <div
                     id="l10n_ro_vat_on_payment_info"
-                    name="vat_on_payment_info"
                     class="o_row"
+                    name="vat_on_payment_info"
                     invisible="vat == False or company_type != 'company'"
                 >
                     <field
