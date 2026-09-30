@@ -144,21 +144,43 @@ class StockLandedCost(models.Model):
         move_qty = move._get_valued_qty()
         if not move_qty:
             return dest_vals_list
-        for track in move.l10n_ro_move_track_dest_ids:
-            share = currency.round(amount * track.quantity / move_qty)
+        for dest_move, quantity in self._get_l10n_ro_move_next_steps(move):
+            share = currency.round(amount * quantity / move_qty)
             if currency.is_zero(share):
                 continue
             dest_vals_list.append(
                 {
-                    "move": track.dest_move_id,
-                    "quantity": track.quantity,
+                    "move": dest_move,
+                    "quantity": quantity,
                     "amount": share,
                 }
             )
             dest_vals_list += self._get_l10n_ro_move_destinations(
-                track.dest_move_id, share, currency
+                dest_move, share, currency
             )
         return dest_vals_list
+
+    @api.model
+    def _get_l10n_ro_move_next_steps(self, move):
+        """The moves that took the goods from ``move``, and how much.
+
+        The tracking answers this for everything that consumed stock, which
+        is what FIFO records when it walks the stack.  A move that receives
+        the goods without consuming any - the second leg of a transfer
+        through a transit location, which comes out of transit rather than
+        out of a warehouse - leaves no tracking behind, and the chain would
+        stop there while the goods keep going.  The chain the moves already
+        carry covers that gap; only steps that keep the goods inside the
+        company are followed, as what left it was settled when it left.
+        """
+        tracks = move.l10n_ro_move_track_dest_ids
+        if tracks:
+            return [(track.dest_move_id, track.quantity) for track in tracks]
+        return [
+            (dest_move, dest_move._get_valued_qty())
+            for dest_move in move.move_dest_ids
+            if dest_move.state == "done" and dest_move.is_in
+        ]
 
     def _l10n_ro_distribute_landed_cost(self):
         """Distribute landed cost on stock moves quantity,

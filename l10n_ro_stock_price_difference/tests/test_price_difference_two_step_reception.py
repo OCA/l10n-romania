@@ -147,3 +147,61 @@ class TestPriceDifferenceTwoStepReception(
 
     def test_price_difference_three_steps_delivered_before_bill(self):
         self._price_difference_delivered_before_bill("three_steps")
+
+    def test_price_difference_transferred_then_delivered(self):
+        """An internal move stands between the reception and the delivery."""
+        self._lc_two_steps_warehouse()
+        product = self.product_fifo
+        purchase = self._lc_two_steps_purchase(product, 10.0, 100.0)
+        in_move = self._lc_in_move(purchase)
+        self._lc_validate(in_move.picking_id, 10.0)
+        (storage_move,) = self._lc_chain(in_move, 10.0)
+        transfer_move = self._lc_internal_transfer(product, 10.0, self.location_sub_1)
+        out_move = self._lc_deliver(product, 4.0, source=self.location_sub_1)
+        self._lc_assert(out_move, 400.0, "delivery before the bill")
+
+        self._bill_at(purchase, 120.0)
+
+        self._lc_assert(in_move, 1200.0, "reception move")
+        self._lc_assert(storage_move, 1200.0, "storage move")
+        self._lc_assert(transfer_move, 1200.0, "internal transfer")
+        self._lc_assert(out_move, 480.0, "delivery after the bill")
+        self.assertAlmostEqual(self._lc_stock_value(product), 720.0, 2, "on hand")
+
+    def test_price_difference_transit_transfer_then_delivered(self):
+        """The goods reach the other warehouse before the bill arrives."""
+        self._lc_two_steps_warehouse()
+        product = self.product_fifo
+        purchase = self._lc_two_steps_purchase(product, 10.0, 100.0)
+        in_move = self._lc_in_move(purchase)
+        self._lc_validate(in_move.picking_id, 10.0)
+        (storage_move,) = self._lc_chain(in_move, 10.0)
+        transit_out, transit_in = self._lc_transit_transfer(product, 10.0)
+        warehouse2 = self.env["stock.warehouse"].search(
+            [("lot_stock_id", "=", self.location1.id)], limit=1
+        )
+        out_move = self._lc_deliver(
+            product, 4.0, source=self.location1, warehouse=warehouse2
+        )
+
+        self._bill_at(purchase, 120.0)
+
+        self._lc_assert(in_move, 1200.0, "reception move")
+        self._lc_assert(storage_move, 1200.0, "storage move")
+        self._lc_assert(transit_out, 1200.0, "transit leg out")
+        self._lc_assert(transit_in, 1200.0, "transit leg in")
+        self._lc_assert(out_move, 480.0, "delivery after the bill")
+        self.assertAlmostEqual(
+            self._lc_account_balance(
+                self.location1.l10n_ro_property_stock_valuation_account_id
+            ),
+            720.0,
+            2,
+            "the other warehouse must account for what it holds",
+        )
+        self.assertAlmostEqual(
+            self._lc_account_balance(self.account_valuation),
+            0.0,
+            2,
+            "nothing may be left behind in the first warehouse or in transit",
+        )
