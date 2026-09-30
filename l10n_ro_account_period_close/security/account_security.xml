@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" ?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <odoo noupdate="1">
     <record id="l10n_ro_account_period_closing_comp_rule" model="ir.rule">
         <field name="name">Account Period Closing</field>
