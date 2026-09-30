@@ -1,4 +1,4 @@
-<?xml version="1.0" ?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <odoo>
     <record id="l10n_ro_view_move_form_edit_currency" model="ir.ui.view">
         <field name="name">account.move.form.edit.currency</field>

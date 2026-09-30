@@ -34,8 +34,10 @@ class AccountMove(models.Model):
                     # use the posted downpayment invoice price
                     # so the amount exactly offsets what was already billed.
                     orig_lines = so_line.invoice_lines.filtered(
-                        lambda lin: lin.move_id.state == "posted"
-                        and lin.move_id != self._origin
+                        lambda lin: (
+                            lin.move_id.state == "posted"
+                            and lin.move_id != self._origin
+                        )
                     )
                     if orig_lines:
                         orig = orig_lines[0]
