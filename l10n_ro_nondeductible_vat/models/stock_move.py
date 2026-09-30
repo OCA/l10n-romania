@@ -68,3 +68,19 @@ class StockMove(models.Model):
                         }
                     )
         return res
+
+    def _l10n_ro_update_fifo_split_move_vals(
+        self, move, new_move_vals, fifo_item, fifo_quantity
+    ):
+        """Updates the move vals for a FIFO split move."""
+        res = super()._l10n_ro_update_fifo_split_move_vals(
+            move, new_move_vals, fifo_item, fifo_quantity
+        )
+        new_move_vals.update(
+            {
+                "l10n_ro_nondeductible_usage": move.l10n_ro_nondeductible_usage,
+                "l10n_ro_nondeductible_tax_id": move.l10n_ro_nondeductible_tax_id.id,
+                "l10n_ro_nondeductible_percent": move.l10n_ro_nondeductible_percent,
+            }
+        )
+        return res
