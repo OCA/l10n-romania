@@ -30,7 +30,7 @@ class ResPartner(models.Model):
 
     @api.model
     def update_l10n_ro_vat_subjected(self):
-        get_param = self.env["ir.config_parameter"].sudo().get_param
+        get_param = self.env["ir.config_parameter"].sudo().get_str
         anaf_url = get_param("l10n_ro_fiscal_validation.anaf_bulk_url", ANAF_BULK_URL)
         anaf_api_key_header_tag = get_param(
             "l10n_ro_partner_create_by_vat.anaf_api_key_header_tag", "x-api-key"
@@ -64,7 +64,7 @@ class ResPartner(models.Model):
                     result = {}
                     try:
                         result = res.json()
-                    except Exception:
+                    except ValueError:
                         _logger.warning(f"ANAF sync not working: {res.content}")
 
                     if result.get("correlationId"):
@@ -76,7 +76,7 @@ class ResPartner(models.Model):
                                 headers=headers,
                                 timeout=30,
                             )
-                        except Exception as e:
+                        except requests.RequestException as e:
                             _logger.warning(f"ANAF sync not working: {e}")
                         if resp and resp.status_code == 200:
                             result = resp.json()
@@ -95,7 +95,9 @@ class ResPartner(models.Model):
                             for partner in partners:
                                 data = partner._Anaf_to_Odoo(result_partner)
                                 partner.update(data)
-            except Exception as e:
+            # deliberately broad: whatever one malformed ANAF answer does, the
+            # remaining chunks still have to be asked for
+            except Exception as e:  # noqa: BLE001
                 _logger.warning(f"ANAF sync not working: {e}")
 
     @api.model

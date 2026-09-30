@@ -33,11 +33,9 @@ class TestPartnerUpdateVatSubjectedBase(TransactionCase):
             "no_vat_validation": True,
         }
 
-        f = open(os.path.join(data_dir, "res.partner.csv"), "rb")
-
-        csvdata = csv.DictReader(codecs.iterdecode(f, "utf-8"))
-
-        lines = [line for line in csvdata if any(line)]
+        with open(os.path.join(data_dir, "res.partner.csv"), "rb") as f:
+            csvdata = csv.DictReader(codecs.iterdecode(f, "utf-8"))
+            lines = [line for line in csvdata if any(line)]
         cls.env.user.company_id.write({"vat_check_vies": False})
         # A single create() for the whole file: the cron is checked against
         # more than one ANAF chunk, so this builds over a thousand partners.
@@ -80,12 +78,12 @@ class TestUpdatePartner(TestPartnerUpdateVatSubjectedBase):
             calls.append(kwargs.get("json"))
             return FakeResponse()
 
-        with mute_logger("odoo.addons.l10n_ro_fiscal_validation.models.res_partner"):
-            with (
-                patch.object(requests, "post", post),
-                patch.object(requests.Session, "post", post),
-            ):
-                self.partner_model._update_l10n_ro_vat_subjected_all()
+        with (
+            mute_logger("odoo.addons.l10n_ro_fiscal_validation.models.res_partner"),
+            patch.object(requests, "post", post),
+            patch.object(requests.Session, "post", post),
+        ):
+            self.partner_model._update_l10n_ro_vat_subjected_all()
 
         self.assertTrue(calls, "the cron must call ANAF")
         self.assertGreater(
