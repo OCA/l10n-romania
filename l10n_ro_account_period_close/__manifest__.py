@@ -9,10 +9,10 @@
         "views/account_period_close_view.xml",
         "wizards/wizard_account_period_closing_view.xml",
         "security/account_security.xml",
-        "security/ir.model.access.csv",
+        "security/ir.access.csv",
     ],
     "license": "AGPL-3",
-    "version": "19.0.1.1.0",
+    "version": "20.0.1.0.0",
     "author": "NextERP Romania,"
     "Forest and Biomass Romania,"
     "Odoo Community Association (OCA)",

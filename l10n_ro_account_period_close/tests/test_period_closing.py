@@ -36,7 +36,7 @@ class TestPeriodClosing(AccountTestInvoicingCommon):
         cls.debit_acc = cls.env["account.account"].create(
             {
                 "name": "DEBIT ACC",
-                "code": "DEBITACC",
+                "code": "DEBITAC",
                 "account_type": "liability_current",
                 "reconcile": True,
                 "company_ids": cls.company.ids,

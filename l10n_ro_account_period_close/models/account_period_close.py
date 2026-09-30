@@ -12,7 +12,6 @@ class AccountPeriodClosing(models.Model):
     name = fields.Char(required=True)
     company_id = fields.Many2one(
         "res.company",
-        string="Company",
         required=True,
         default=lambda self: self.env.user.company_id,
     )
@@ -21,7 +20,7 @@ class AccountPeriodClosing(models.Model):
         required=True,
     )
     close_result = fields.Boolean("Close debit and credit accounts")
-    journal_id = fields.Many2one("account.journal", string="Journal", required=True)
+    journal_id = fields.Many2one("account.journal", required=True)
     account_ids = fields.Many2many("account.account", string="Accounts to close")
     debit_account_id = fields.Many2one(
         "account.account", "Closing account, debit", required=True, check_company=True

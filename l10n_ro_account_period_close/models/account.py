@@ -7,7 +7,7 @@ from odoo import fields, models
 
 class Account(models.Model):
     _name = "account.account"
-    _inherit = ["account.account", "l10n.ro.mixin"]
+    _inherit = ("account.account", "l10n.ro.mixin")
 
     l10n_ro_close_check = fields.Boolean(
         string="Romania - Bypass Closing Side Check",
@@ -20,7 +20,7 @@ class Account(models.Model):
 
 class AccountMove(models.Model):
     _name = "account.move"
-    _inherit = ["account.move", "l10n.ro.mixin"]
+    _inherit = ("account.move", "l10n.ro.mixin")
 
     l10n_ro_close_id = fields.Many2one(
         "l10n.ro.account.period.closing", string="Romania - Closed Account Period"
