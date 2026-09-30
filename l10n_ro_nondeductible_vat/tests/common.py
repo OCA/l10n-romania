@@ -62,10 +62,16 @@ class TestNondeductibleCommon(TestROStockCommon, TestVATonpayment):
         # (24 - TAX BASE / 24 - VAT) point to their non-deductible
         # counterparts (24_2 - ...). This is what flags a tax as
         # `l10n_ro_is_nondeductible`.
+        # The Romanian chart already ships the 24_2 grids, and Odoo 20 makes a
+        # tag unique on (name, applicability, country): take the existing one
+        # rather than copying a second tag with the same name.
+        def _get_or_copy(tag, name):
+            return _get_tags_by_name(name) or tag.copy({"name": name})
+
         cls.tag_base = _get_tags_by_name("24 - TAX BASE")
-        cls.tag_base_nd = cls.tag_base.copy({"name": "24_2 - TAX BASE"})
+        cls.tag_base_nd = _get_or_copy(cls.tag_base, "24_2 - TAX BASE")
         cls.tag_vat = _get_tags_by_name("24 - VAT")
-        cls.tag_vat_nd = cls.tag_vat.copy({"name": "24_2 - VAT"})
+        cls.tag_vat_nd = _get_or_copy(cls.tag_vat, "24_2 - VAT")
         cls.tag_base.l10n_ro_nondeductible_tag_id = cls.tag_base_nd.id
         cls.tag_vat.l10n_ro_nondeductible_tag_id = cls.tag_vat_nd.id
 

@@ -12,7 +12,7 @@ from odoo.tools import float_compare
 
 class AccountMove(models.Model):
     _name = "account.move"
-    _inherit = ["account.move", "l10n.ro.mixin"]
+    _inherit = ("account.move", "l10n.ro.mixin")
 
     def _post(self, soft=True):
         # Realize the deferred non-deductibility on the cash-basis entry that
@@ -41,7 +41,7 @@ class AccountMove(models.Model):
             ):
                 base = abs(line.balance)
                 total_base[tax.id] += base
-                nd_base[tax.id] += base * (1 - line.deductible_amount / 100.0)
+                nd_base[tax.id] += base * (1 - line.deductible_percentage)
         return {
             tax_id: nd_base[tax_id] / total_base[tax_id]
             for tax_id in total_base
@@ -166,7 +166,7 @@ class AccountMove(models.Model):
                     lambda line: (
                         line.display_type == "product"
                         and line.company_id.l10n_ro_accounting
-                        and line.deductible_amount < 100
+                        and line.deductible_percentage < 1
                     )
                 )
             )
@@ -205,7 +205,7 @@ class AccountMove(models.Model):
             has_on_payment = move.line_ids.filtered(
                 lambda line, move=move: (
                     line.display_type == "product"
-                    and line.deductible_amount < 100
+                    and line.deductible_percentage < 1
                     and move._l10n_ro_line_is_on_payment(line)
                 )
             )
@@ -252,20 +252,19 @@ class AccountMove(models.Model):
                 if "refund" not in self.move_type
                 else tax.refund_repartition_line_ids
             )
-        elif self.stock_move_ids:
-            if hasattr(self.stock_move_ids, "l10n_ro_move_type"):
-                l10n_ro_move_type = self.stock_move_ids.l10n_ro_move_type
-                types_allow_ndeductibility = [
-                    "minus_inventory",
-                    "consumption",
-                    "consumption_return",
-                    "usage_giving",
-                    "usage_giving_return",
-                ]
-                if l10n_ro_move_type and "return" in l10n_ro_move_type:
-                    rep_lines = tax.invoice_repartition_line_ids
-                elif l10n_ro_move_type in types_allow_ndeductibility:
-                    rep_lines = tax.refund_repartition_line_ids
+        elif self.stock_move_ids and hasattr(self.stock_move_ids, "l10n_ro_move_type"):
+            l10n_ro_move_type = self.stock_move_ids.l10n_ro_move_type
+            types_allow_ndeductibility = [
+                "minus_inventory",
+                "consumption",
+                "consumption_return",
+                "usage_giving",
+                "usage_giving_return",
+            ]
+            if l10n_ro_move_type and "return" in l10n_ro_move_type:
+                rep_lines = tax.invoice_repartition_line_ids
+            elif l10n_ro_move_type in types_allow_ndeductibility:
+                rep_lines = tax.refund_repartition_line_ids
         return rep_lines
 
     @contextmanager
@@ -293,14 +292,14 @@ class AccountMove(models.Model):
                 lambda line: line.display_type == "product"
             ):
                 if (
-                    float_compare(line.deductible_amount, 100, precision_rounding=2)
+                    float_compare(line.deductible_percentage, 1, precision_digits=4)
                     == 0
                 ):
                     continue
                 if move._l10n_ro_line_is_on_payment(line):
                     continue
 
-                percentage = 1 - line.deductible_amount / 100
+                percentage = 1 - line.deductible_percentage
                 non_deductible_subtotal = line.currency_id.round(
                     line.balance * percentage
                 )
@@ -399,7 +398,7 @@ class AccountMove(models.Model):
                 lambda line: line.display_type == "product"
             ):
                 if (
-                    float_compare(line.deductible_amount, 100, precision_rounding=2)
+                    float_compare(line.deductible_percentage, 1, precision_digits=4)
                     == 0
                 ):
                     continue
@@ -440,8 +439,7 @@ class AccountMove(models.Model):
                         tax_line_amount = (
                             tax_amount
                             * tax_repartition_line.factor
-                            * (100 - line.deductible_amount)
-                            / 100
+                            * (1 - line.deductible_percentage)
                         )
                         to_create.append(
                             {

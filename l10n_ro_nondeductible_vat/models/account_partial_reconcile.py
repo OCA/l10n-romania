@@ -9,14 +9,14 @@ class AccountPartialReconcile(models.Model):
         vals = super()._prepare_cash_basis_tax_line_vals(
             tax_line, balance, amount_currency
         )
-        if tax_line.company_id.l10n_ro_accounting:
-            if (
-                tax_line.tax_repartition_line_id.repartition_type == "base"
-                and tax_line.company_id.account_cash_basis_base_account_id
-            ):
-                vals["account_id"] = (
-                    tax_line.company_id.account_cash_basis_base_account_id.id
-                )
+        if (
+            tax_line.company_id.l10n_ro_accounting
+            and tax_line.tax_repartition_line_id.repartition_type == "base"
+            and tax_line.company_id.account_cash_basis_base_account_id
+        ):
+            vals["account_id"] = (
+                tax_line.company_id.account_cash_basis_base_account_id.id
+            )
         return vals
 
     @api.model
@@ -24,12 +24,12 @@ class AccountPartialReconcile(models.Model):
         vals = super()._prepare_cash_basis_counterpart_tax_line_vals(
             tax_line, cb_tax_line_vals
         )
-        if tax_line.company_id.l10n_ro_accounting:
-            if (
-                tax_line.tax_repartition_line_id.repartition_type == "base"
-                and tax_line.company_id.account_cash_basis_base_account_id
-            ):
-                vals["account_id"] = (
-                    tax_line.company_id.account_cash_basis_base_account_id.id
-                )
+        if (
+            tax_line.company_id.l10n_ro_accounting
+            and tax_line.tax_repartition_line_id.repartition_type == "base"
+            and tax_line.company_id.account_cash_basis_base_account_id
+        ):
+            vals["account_id"] = (
+                tax_line.company_id.account_cash_basis_base_account_id.id
+            )
         return vals

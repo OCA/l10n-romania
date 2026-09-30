@@ -7,7 +7,7 @@ from odoo import api, fields, models
 
 class StockQuant(models.Model):
     _name = "stock.quant"
-    _inherit = ["stock.quant", "l10n.ro.mixin"]
+    _inherit = ("stock.quant", "l10n.ro.mixin")
 
     l10n_ro_nondeductible_tax_id = fields.Many2one(
         "account.tax",
@@ -69,7 +69,8 @@ class StockQuant(models.Model):
 
     def _apply_inventory(self, date=None):
         if self.l10n_ro_nondeductible_tax_id:
-            self = self.with_context(l10n_ro_exclude_from_stock=True)
+            # rebinding self is how an override hands a context down to super()
+            self = self.with_context(l10n_ro_exclude_from_stock=True)  # noqa: PLW0642
         res = super()._apply_inventory(date=date)
         if self.l10n_ro_nondeductible_tax_id:
             self.l10n_ro_nondeductible_tax_id = False

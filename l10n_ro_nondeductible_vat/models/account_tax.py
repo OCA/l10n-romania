@@ -8,7 +8,7 @@ from odoo.fields import Command
 
 class AccountTax(models.Model):
     _name = "account.tax"
-    _inherit = ["account.tax", "l10n.ro.mixin"]
+    _inherit = ("account.tax", "l10n.ro.mixin")
 
     l10n_ro_is_nondeductible = fields.Boolean(
         string="Romania - Is Nondeductible",
@@ -49,9 +49,11 @@ class AccountTax(models.Model):
                     and base_line["record"]._name == "account.move.line"
                 ):
                     aml = base_line["record"]
-                    if self.env.context.get("l10n_ro_exclude_from_stock"):
-                        if base_line.get("special_mode") == "total_excluded":
-                            vals["tax_tag_ids"] = [Command.set([])]
+                    if (
+                        self.env.context.get("l10n_ro_exclude_from_stock")
+                        and base_line.get("special_mode") == "total_excluded"
+                    ):
+                        vals["tax_tag_ids"] = [Command.set([])]
                     if aml.l10n_ro_non_deductible_line_id:
                         tax = aml.l10n_ro_non_deductible_line_id.tax_ids.filtered(
                             lambda t: t.amount_type != "fixed"

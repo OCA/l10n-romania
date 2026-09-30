@@ -29,7 +29,7 @@
         <field name="model">account.move.line</field>
         <field name="inherit_id" ref="account.view_move_line_tree" />
         <field name="arch" type="xml">
-            <field name="deductible_amount" position="before">
+            <field name="deductible_percentage" position="before">
                 <field
                     name="l10n_ro_nondeductible_percent"
                     string="Deductibility %"

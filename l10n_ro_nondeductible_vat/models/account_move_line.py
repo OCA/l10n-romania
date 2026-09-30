@@ -10,7 +10,7 @@ from odoo.tools.sql import column_exists, create_column
 
 class AccountMoveLine(models.Model):
     _name = "account.move.line"
-    _inherit = ["account.move.line", "l10n.ro.mixin"]
+    _inherit = ("account.move.line", "l10n.ro.mixin")
 
     l10n_ro_nondeductible_percent = fields.Selection(
         [("0", "Deductible"), ("50", "50% Nondeductible"), ("100", "Nondeductible")],
@@ -40,14 +40,14 @@ class AccountMoveLine(models.Model):
                 self.env.cr,
                 "account_move_line",
                 "l10n_ro_nondeductible_percent",
-                "character varying",
+                "varchar",
             )
         return super()._auto_init()
 
-    @api.depends("deductible_amount")
+    @api.depends("deductible_percentage")
     def _compute_l10n_ro_nondeductible_amount(self):
         for line in self:
-            ded_perc = int(100 - line.deductible_amount)
+            ded_perc = round(100 * (1 - line.deductible_percentage))
             if ded_perc in (50, 100):
                 line.l10n_ro_nondeductible_percent = str(ded_perc)
             else:
@@ -57,7 +57,9 @@ class AccountMoveLine(models.Model):
     def _inverse_l10n_ro_nondeductible_amount(self):
         for line in self:
             if line.l10n_ro_nondeductible_percent:
-                line.deductible_amount = 100 - int(line.l10n_ro_nondeductible_percent)
+                line.deductible_percentage = (
+                    100 - int(line.l10n_ro_nondeductible_percent)
+                ) / 100
 
     def _compute_is_storno(self):
         res = super()._compute_is_storno()
@@ -71,8 +73,8 @@ class AccountMoveLine(models.Model):
         nd_ro_lines.is_storno = True
         return res
 
-    @api.constrains("deductible_amount")
-    def _constrains_deductible_amount(self):
+    @api.constrains("deductible_percentage")
+    def _constrains_deductible_percentage(self):
         ro_move_lines = self.filtered(
             lambda line: line.move_id.company_id.l10n_ro_accounting
         )
@@ -80,41 +82,44 @@ class AccountMoveLine(models.Model):
         if self - ro_move_lines:
             res = super(
                 AccountMoveLine, self - ro_move_lines
-            )._constrains_deductible_amount()
+            )._constrains_deductible_percentage()
         for line in ro_move_lines:
-            if line.deductible_amount not in (0, 50, 100):
+            if line.deductible_percentage not in (0, 0.5, 1):
                 raise ValidationError(
                     self.env._("The deductibility must be a value between 0 and 100.")
                 )
-            if line.move_id.is_sale_document() and line.deductible_amount != 100:
+            if line.move_id.is_sale_document() and line.deductible_percentage != 1:
                 raise ValidationError(
                     self.env._(
                         "Sales document doesn't allow for deductibility of "
                         "product/services."
                     )
                 )
-            if line.move_id.stock_move_ids and line.tax_ids:
-                # We need to check this validation since when setting up
-                # deductible_amount, the stock move is not linked with
-                # the account move, this is done after.
-                if hasattr(line.move_id.stock_move_ids, "l10n_ro_move_type"):
-                    l10n_ro_move_type = line.move_id.stock_move_ids.l10n_ro_move_type
-                    types_allow_ndeductibility = [
-                        "minus_inventory",
-                        "consumption",
-                        "consumption_return",
-                        "usage_giving",
-                        "usage_giving_return",
-                    ]
+            # We need to check this validation since when setting up
+            # deductible_percentage, the stock move is not linked with
+            # the account move, this is done after.
+            if (
+                line.move_id.stock_move_ids
+                and line.tax_ids
+                and hasattr(line.move_id.stock_move_ids, "l10n_ro_move_type")
+            ):
+                l10n_ro_move_type = line.move_id.stock_move_ids.l10n_ro_move_type
+                types_allow_ndeductibility = [
+                    "minus_inventory",
+                    "consumption",
+                    "consumption_return",
+                    "usage_giving",
+                    "usage_giving_return",
+                ]
 
-                    if l10n_ro_move_type not in types_allow_ndeductibility:
-                        raise ValidationError(
-                            self.env._(
-                                "Only stock moves of type %(types)s allow for "
-                                "non-deductibility of product/services.",
-                                types=", ".join(types_allow_ndeductibility),
-                            )
+                if l10n_ro_move_type not in types_allow_ndeductibility:
+                    raise ValidationError(
+                        self.env._(
+                            "Only stock moves of type %(types)s allow for "
+                            "non-deductibility of product/services.",
+                            types=", ".join(types_allow_ndeductibility),
                         )
+                    )
         return res
 
     @api.model_create_multi
@@ -124,9 +129,11 @@ class AccountMoveLine(models.Model):
         for line in lines.filtered(lambda aml: aml.company_id.l10n_ro_accounting):
             # Remove the lines marked to be removed from stock non deductible
             tax_rep_line = line.tax_repartition_line_id
-            if self.env.context.get("l10n_ro_exclude_from_stock"):
-                if tax_rep_line.l10n_ro_exclude_from_stock:
-                    to_remove_lines |= line
+            if (
+                self.env.context.get("l10n_ro_exclude_from_stock")
+                and tax_rep_line.l10n_ro_exclude_from_stock
+            ):
+                to_remove_lines |= line
         lines -= to_remove_lines
         to_remove_lines.with_context(dynamic_unlink=True).sudo().unlink()
         return lines
