@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" ?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <odoo>
     <record id="l10n_ro_product_template_form_inherit" model="ir.ui.view">
         <field name="name">l10n.ro.product.template.form.inherit</field>

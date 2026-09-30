@@ -42,7 +42,7 @@ class StockWarehouse(models.Model):
                             "use_create_lots": True,
                             "use_existing_lots": False,
                             "default_location_src_id": self.lot_stock_id.id,
-                            "default_location_dest_id": consume_location.id,  # noqa
+                            "default_location_dest_id": consume_location.id,
                             "sequence": max_sequence + 6,
                             "barcode": self.code.replace(" ", "").upper() + "-CONSUME",
                             "sequence_code": "CONS",
@@ -59,7 +59,7 @@ class StockWarehouse(models.Model):
                             "use_create_lots": True,
                             "use_existing_lots": False,
                             "default_location_src_id": self.lot_stock_id.id,
-                            "default_location_dest_id": usage_location.id,  # noqa
+                            "default_location_dest_id": usage_location.id,
                             "sequence": max_sequence + 7,
                             "barcode": self.code.replace(" ", "").upper() + "-USAGE",
                             "sequence_code": "USAGE",
