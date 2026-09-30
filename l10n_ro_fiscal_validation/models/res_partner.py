@@ -29,7 +29,7 @@ class ResPartner(models.Model):
     _inherit = "res.partner"
 
     @api.model
-    def update_l10n_ro_vat_subjected(self):  # noqa C901
+    def update_l10n_ro_vat_subjected(self):
         get_param = self.env["ir.config_parameter"].sudo().get_param
         anaf_url = get_param("l10n_ro_fiscal_validation.anaf_bulk_url", ANAF_BULK_URL)
         anaf_api_key_header_tag = get_param(
