@@ -8,7 +8,7 @@ from odoo import fields, models
 
 class StockWarehouse(models.Model):
     _name = "stock.warehouse"
-    _inherit = ["stock.warehouse", "l10n.ro.mixin"]
+    _inherit = ("stock.warehouse", "l10n.ro.mixin")
 
     l10n_ro_fiscal_position_id = fields.Many2one(
         "account.fiscal.position", string="Fiscal Position"

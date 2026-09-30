@@ -55,11 +55,17 @@ class TestNoticeCurrency(TestROStockCommon):
 
     @classmethod
     def _set_rate(cls, date, inverse_rate):
-        """`inverse_rate` units of company currency for 1 unit of EUR."""
+        """`inverse_rate` units of company currency for 1 unit of EUR, in force
+        on ``date``.
+
+        Odoo 20 reads rates with ``name < date`` where 19.0 used ``<=``, so a
+        rate takes effect the day after it is published. The row is dated one
+        day earlier for the rate to answer on the date asked for.
+        """
         return cls.env["res.currency.rate"].create(
             {
                 "currency_id": cls.eur.id,
-                "name": date,
+                "name": date - timedelta(days=1),
                 "company_id": cls.env.company.root_id.id,
                 "inverse_company_rate": inverse_rate,
             }

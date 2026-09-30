@@ -8,7 +8,7 @@ from odoo import fields, models
 
 class AccountMove(models.Model):
     _name = "account.move"
-    _inherit = ["account.move", "l10n.ro.mixin"]
+    _inherit = ("account.move", "l10n.ro.mixin")
 
     l10n_ro_extra_stock_move_id = fields.Many2one(
         "stock.move",
@@ -25,20 +25,32 @@ class AccountMove(models.Model):
         "stock compensation accounting entry.",
     )
 
-    def _stock_account_prepare_anglo_saxon_in_lines_vals(self):
-        l10n_ro_moves = self.filtered(lambda m: m.company_id.l10n_ro_accounting)
-        if l10n_ro_moves == self:
-            return []
-        return super(
-            AccountMove, self - l10n_ro_moves
-        )._stock_account_prepare_anglo_saxon_in_lines_vals()
+    def _get_cogs_lines_vals(self):
+        """Romania does not discharge inventory when the invoice is posted.
 
-    def _stock_account_prepare_realtime_out_lines_vals(self):
-        # nu se mai face descarcarea de gestiune la facturare
-        ro_invoices = self.filtered(lambda inv: inv.is_l10n_ro_record)
-        return super(
-            AccountMove, self - ro_invoices
-        )._stock_account_prepare_realtime_out_lines_vals()
+        The stock move books 607 against 371 when the goods leave, so the COGS
+        pair Odoo adds on the customer invoice would relieve the same goods a
+        second time. Odoo 19 suppressed it in
+        ``_stock_account_prepare_realtime_out_lines_vals``; Odoo 20 builds the
+        lines here instead.
+        """
+        self.ensure_one()
+        if self.is_l10n_ro_record:
+            return []
+        return super()._get_cogs_lines_vals()
+
+    def _get_price_difference_lines_vals(self):
+        """The Romanian price difference has its own module.
+
+        ``l10n_ro_stock_price_difference`` decides what a bill priced
+        differently from the reception does to inventory, so the Anglo-Saxon
+        pair Odoo would add on the bill has no place here. Odoo 19 suppressed
+        it in ``_stock_account_prepare_anglo_saxon_in_lines_vals``.
+        """
+        self.ensure_one()
+        if self.company_id.l10n_ro_accounting:
+            return []
+        return super()._get_price_difference_lines_vals()
 
     def _l10n_ro_prepare_notice_rate_difference_vals(self):
         """Values for the lines recognising the exchange rate difference on
