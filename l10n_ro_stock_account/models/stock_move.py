@@ -165,7 +165,7 @@ class StockMove(models.Model):
                         AND sld.usage = 'internal'
                         AND sl.l10n_ro_property_stock_valuation_account_id IS NOT NULL
                     """,
-                )  # noqa
+                )
         return super()._auto_init()
 
     @api.depends(
@@ -301,8 +301,10 @@ class StockMove(models.Model):
         # unrelated quants already on hand. Route dropship moves around
         # core's _set_value entirely and value them ourselves below instead.
         ro_dropship_moves = self.filtered(
-            lambda m: m.is_l10n_ro_record
-            and m.l10n_ro_move_type in ("dropshipped", "dropshipped_return")
+            lambda m: (
+                m.is_l10n_ro_record
+                and m.l10n_ro_move_type in ("dropshipped", "dropshipped_return")
+            )
         )
         res = super(StockMove, self - ro_dropship_moves)._set_value(
             correction_quantity=correction_quantity
@@ -779,17 +781,17 @@ class StockMove(models.Model):
     #         if aml.move_type == "in_invoice":
     #             aml_quantity += aml.product_uom_id._compute_quantity(
     #                 aml.quantity, self.product_id.uom_id
-    #             )  # noqa
+    #             )
     #             value += aml.currency_id._convert(
     #                 aml.price_subtotal, self.company_id.currency_id, date=aml.date
-    #             )  # noqa
+    #             )
     #         elif aml.move_type == "in_refund":
     #             aml_quantity -= aml.product_uom_id._compute_quantity(
     #                 aml.quantity, self.product_id.uom_id
-    #             )  # noqa
+    #             )
     #             value -= aml.currency_id._convert(
     #                 aml.price_subtotal, self.company_id.currency_id, date=aml.date
-    #             )  # noqa
+    #             )
 
     #     if aml_quantity <= 0:
     #         return valuation_data
@@ -801,11 +803,11 @@ class StockMove(models.Model):
     #     #     if move.date > self.date or (move.date == self.date and move.id > self.id): # noqa
     #     #         continue
     #     #     if move.is_in or move.is_dropship:
-    #     #         other_candidates_qty += move._get_valued_qty() # noqa
+    #     #         other_candidates_qty += move._get_valued_qty()
     #     #     elif move.is_out:
-    #     #         other_candidates_qty -= -move._get_valued_qty() # noqa
+    #     #         other_candidates_qty -= -move._get_valued_qty()
 
-    #     # if self.product_uom.compare(aml_quantity, other_candidates_qty) <= 0: # noqa
+    #     # if self.product_uom.compare(aml_quantity, other_candidates_qty) <= 0:
     #     #     return valuation_data
 
     #     # # Remove quantity from prior moves.
@@ -817,13 +819,13 @@ class StockMove(models.Model):
     #         valuation_data["value"] = value
     #     else:
     #         valuation_data["quantity"] = quantity
-    #         valuation_data["value"] = quantity * value / aml_quantity  # noqa
-    #     account_moves = self.env["account.move.line"].browse(aml_ids).move_id  # noqa
+    #         valuation_data["value"] = quantity * value / aml_quantity
+    #     account_moves = self.env["account.move.line"].browse(aml_ids).move_id
     #     valuation_data["description"] = self.env._(
-    #         "%(value)s for %(quantity)s %(unit)s from %(bills)s",  # noqa
+    #         "%(value)s for %(quantity)s %(unit)s from %(bills)s",
     #         value=self.company_currency_id.format(value),
     #         quantity=aml_quantity,
-    #         unit=self.product_id.uom_id.name,  # noqa
+    #         unit=self.product_id.uom_id.name,
     #         bills=account_moves.mapped("display_name"),
     #     )
     #     return valuation_data

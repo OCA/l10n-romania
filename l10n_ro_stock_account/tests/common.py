@@ -486,7 +486,7 @@ class TestROStockCommon(AccountTestInvoicingCommon):
                         "Value",
                         "Remain Qty",
                         "Price Unit",
-                        "Remain Value",  # noqa
+                        "Remain Value",
                     )
                     _logger.info("-" * 120)
                     for move in product_moves:
@@ -613,7 +613,7 @@ class TestROStockCommon(AccountTestInvoicingCommon):
                 ),
                 0,
                 f"Account {account_code} balance expected {expected_balance}, got {balance}",  # noqa
-            )  # noqa
+            )
 
     def get_references_from_values(self, values):
         refs = [
@@ -652,7 +652,6 @@ class TestROStockCommon(AccountTestInvoicingCommon):
                     values[key] = bool(float(values[key]))
         except Exception as e:
             _logger.debug("Error getting references from values: %(error)s", error=e)
-            pass
         return dict(values)
 
     def get_stock_quantity(self, values, step):
@@ -1340,7 +1339,6 @@ class TestROStockCommon(AccountTestInvoicingCommon):
             _logger.warning(
                 "You need to provide the location source for stock operations"
             )
-            pass
         domain = [
             ("company_id", "=", self.env.company.id),
             ("default_location_src_id", "=", picking_values["location"].id),

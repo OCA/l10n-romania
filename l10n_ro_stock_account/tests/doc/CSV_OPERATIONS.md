@@ -36,6 +36,7 @@ def get_stock_quantity(self, values, step):
     else:
         return 1
 
+
 def get_invoice_quantity(self, values, step):
     if step == 1:
         return values.get("inv_qty")  # None dacă nu există
@@ -43,12 +44,14 @@ def get_invoice_quantity(self, values, step):
         return values.get("inv_qty2")  # None dacă nu există
     return None
 
+
 def get_invoice_price(self, values, step):
     if step == 1:
         return values.get("inv_price")  # None dacă nu există
     elif step == 2:
         return values.get("inv_price2")  # None dacă nu există
     return None
+
 
 def get_stock_lot(self, values, step):
     if step == 1:
@@ -68,9 +71,8 @@ def run_test_step(self, step):
 
         # Pentru pasul 2, setează contextul corespunzător
         if step.get("step") == 2:
-            self.receive_and_invoice_purchases(
-                purchase.with_context(step=2), step
-            )
+            self.receive_and_invoice_purchases(purchase.with_context(step=2), step)
+
 
 def receive_and_invoice_purchases(self, purchases, values):
     for purchase in purchases:
@@ -215,6 +217,7 @@ def get_stock_quantity(self, values, step):
     else:
         return 1
 
+
 # În metodele de procesare:
 stock_qty = get_stock_quantity(values, current_step)
 move._set_quantity_done(stock_qty)
@@ -296,6 +299,7 @@ def get_invoice_quantity(self, values, step):
     elif step == 2:
         return values.get("inv_qty2")  # None dacă nu există
     return None
+
 
 # În metodele de facturare:
 inv_qty = get_invoice_quantity(values, current_step)
@@ -395,6 +399,7 @@ def get_invoice_price(self, values, step):
     elif step == 2:
         price = values.get("inv_price2")  # None dacă nu există
     return price
+
 
 # În metodele de facturare:
 inv_price = get_invoice_price(values, current_step)

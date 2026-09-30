@@ -94,8 +94,10 @@ class TestAVGInternalTransfer(TestROStockCommon):
         account_move = move.account_move_id
         self.assertTrue(account_move)
         source_lines = account_move.line_ids.filtered(
-            lambda line: line.account_id
-            == self.location1.l10n_ro_property_stock_valuation_account_id
+            lambda line: (
+                line.account_id
+                == self.location1.l10n_ro_property_stock_valuation_account_id
+            )
         )
         self.assertAlmostEqual(sum(source_lines.mapped("balance")), -400.0)
 
@@ -164,7 +166,9 @@ class TestAVGInternalTransfer(TestROStockCommon):
         account_move = move.account_move_id
         self.assertTrue(account_move)
         source_lines = account_move.line_ids.filtered(
-            lambda line: line.account_id
-            == self.location1.l10n_ro_property_stock_valuation_account_id
+            lambda line: (
+                line.account_id
+                == self.location1.l10n_ro_property_stock_valuation_account_id
+            )
         )
         self.assertAlmostEqual(sum(source_lines.mapped("balance")), -move.value, 2)
