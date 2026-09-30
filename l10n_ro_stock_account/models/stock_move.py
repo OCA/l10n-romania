@@ -111,9 +111,7 @@ class StockMove(models.Model):
                         lambda line: line.account_id.code or ""
                     ):
                         if aml.account_id.code and aml.account_id.code[0] in ["2", "3"]:
-                            if round(abs(aml.balance), 2) == round(
-                                abs(move.value), 2
-                            ):
+                            if round(abs(aml.balance), 2) == round(abs(move.value), 2):
                                 account = aml.account_id
                                 break
             move.l10n_ro_account_id = account
