@@ -87,13 +87,16 @@ class StockMove(models.Model):
             )
             transfer_account = account
             if move.product_id.categ_id.l10n_ro_stock_account_change:
+                # In v19 the move value is always positive, so the direction
+                # is given by the locations: the internal destination holds
+                # the stock on an input, the internal source on an output.
                 if (
-                    move.value > 0
+                    loc_dest.usage == "internal"
                     and loc_dest.l10n_ro_property_stock_valuation_account_id
                 ):
                     account = loc_dest.l10n_ro_property_stock_valuation_account_id
-                if (
-                    move.value < 0
+                elif (
+                    loc_src.usage == "internal"
                     and loc_src.l10n_ro_property_stock_valuation_account_id
                 ):
                     account = loc_src.l10n_ro_property_stock_valuation_account_id
@@ -108,7 +111,9 @@ class StockMove(models.Model):
                         lambda line: line.account_id.code or ""
                     ):
                         if aml.account_id.code and aml.account_id.code[0] in ["2", "3"]:
-                            if round(aml.balance, 2) == round(move.value, 2):
+                            if round(abs(aml.balance), 2) == round(
+                                abs(move.value), 2
+                            ):
                                 account = aml.account_id
                                 break
             move.l10n_ro_account_id = account
@@ -133,6 +138,9 @@ class StockMove(models.Model):
                     transfer_account = (
                         loc_src.l10n_ro_property_stock_valuation_account_id
                     )
+            else:
+                # Only a transfer between stock locations has a source account
+                transfer_account = self.env["account.account"]
 
             move.l10n_ro_transfer_account_id = (
                 transfer_account.id
