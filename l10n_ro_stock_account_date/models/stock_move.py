@@ -26,10 +26,17 @@ class StockMove(models.Model):
         ):
             moves = self.env["stock.move"].concat(*move_ids)
             moves.check_lock_date(moves_date)
-            moves_todo |= super(
+            moves_done = super(
                 StockMove, moves.with_context(force_period_date=moves_date)
             )._action_done(cancel_backorder=cancel_backorder)
-            moves._l10n_ro_update_accounting_date(moves_date)
+            moves_todo |= moves_done
+            # Update using moves_done (this group's super() result), not the
+            # pre-super `moves`: super() may split off extra moves (e.g.
+            # FIFO backorders) that aren't in `moves` and would otherwise
+            # keep the wrong accounting date.
+            moves_done.filtered("is_l10n_ro_record")._l10n_ro_update_accounting_date(
+                moves_date
+            )
         return moves_todo
 
     def l10n_ro_get_move_date(self):
