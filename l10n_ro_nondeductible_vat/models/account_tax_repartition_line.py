@@ -7,6 +7,6 @@ from odoo import fields, models
 
 class AccountTaxRepartitionLineExtend(models.Model):
     _name = "account.tax.repartition.line"
-    _inherit = ["account.tax.repartition.line", "l10n.ro.mixin"]
+    _inherit = ("account.tax.repartition.line", "l10n.ro.mixin")
 
     l10n_ro_exclude_from_stock = fields.Boolean(string="Romania - Exclude From Stock")

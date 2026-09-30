@@ -7,7 +7,7 @@ from odoo import api, fields, models
 
 class StockMove(models.Model):
     _name = "stock.move"
-    _inherit = ["stock.move", "l10n.ro.mixin"]
+    _inherit = ("stock.move", "l10n.ro.mixin")
 
     l10n_ro_nondeductible_tax_id = fields.Many2one(
         "account.tax",
@@ -27,7 +27,7 @@ class StockMove(models.Model):
 
     def _l10n_ro_checkUsageLocation(self, listUsageLocation):
         permit_location_usage = ["usage_giving", "consume", "inventory"]
-        return any([u in permit_location_usage for u in listUsageLocation])
+        return any(u in permit_location_usage for u in listUsageLocation)
 
     @api.depends("location_dest_id", "location_id")
     def _compute_l10n_ro_nondeductible_usage(self):
@@ -50,7 +50,8 @@ class StockMove(models.Model):
             move.is_l10n_ro_record and move.l10n_ro_nondeductible_tax_id
             for move in self
         ):
-            self = self.with_context(l10n_ro_exclude_from_stock=True)
+            # rebinding self is how an override hands a context down to super()
+            self = self.with_context(l10n_ro_exclude_from_stock=True)  # noqa: PLW0642
         return super()._create_account_move()
 
     def _get_account_move_line_vals(self):
@@ -63,8 +64,10 @@ class StockMove(models.Model):
                     line.update(
                         {
                             "tax_ids": [(6, 0, [self.l10n_ro_nondeductible_tax_id.id])],
-                            "deductible_amount": 100
-                            - int(self.l10n_ro_nondeductible_percent),
+                            "deductible_percentage": (
+                                100 - int(self.l10n_ro_nondeductible_percent)
+                            )
+                            / 100,
                         }
                     )
         return res
