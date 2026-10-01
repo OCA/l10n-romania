@@ -8,7 +8,7 @@ from odoo import fields, models
 
 class StockMove(models.Model):
     _name = "stock.move"
-    _inherit = ["stock.move", "l10n.ro.mixin"]
+    _inherit = ("stock.move", "l10n.ro.mixin")
 
     l10n_ro_move_track_src_ids = fields.One2many(
         "l10n.ro.stock.move.tracking",

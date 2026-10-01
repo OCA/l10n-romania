@@ -1,0 +1,2 @@
+id,name,model_id:id,group_id:id,operation
+access_l10n_ro_stock_move_tracking,access_l10n_ro_stock_move_tracking,model_l10n_ro_stock_move_tracking,stock.group_stock_user,crud

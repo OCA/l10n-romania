@@ -14,7 +14,7 @@ class TestStockMoveTracking(TestROStockCommon):
             {
                 "product_id": cls.product_fifo.id,
                 "product_uom_qty": 10,
-                "product_uom": cls.product_fifo.uom_id.id,
+                "uom_id": cls.product_fifo.uom_id.id,
                 "location_id": cls.env.ref("stock.stock_location_suppliers").id,
                 "location_dest_id": cls.location1.id,
                 "price_unit": 20,
@@ -31,7 +31,7 @@ class TestStockMoveTracking(TestROStockCommon):
             {
                 "product_id": cls.product_fifo.id,
                 "product_uom_qty": 5,
-                "product_uom": cls.product_fifo.uom_id.id,
+                "uom_id": cls.product_fifo.uom_id.id,
                 "location_id": cls.location1.id,
                 "location_dest_id": cls.env.ref("stock.stock_location_customers").id,
             }
@@ -79,7 +79,7 @@ class TestStockMoveTracking(TestROStockCommon):
             {
                 "product_id": self.product_fifo.id,
                 "product_uom_qty": 5,
-                "product_uom": self.product_fifo.uom_id.id,
+                "uom_id": self.product_fifo.uom_id.id,
                 "location_id": self.env.ref("stock.stock_location_suppliers").id,
                 "location_dest_id": self.location1.id,
                 "price_unit": 40,
@@ -95,7 +95,7 @@ class TestStockMoveTracking(TestROStockCommon):
             {
                 "product_id": self.product_fifo.id,
                 "product_uom_qty": 8,
-                "product_uom": self.product_fifo.uom_id.id,
+                "uom_id": self.product_fifo.uom_id.id,
                 "location_id": self.location1.id,
                 "location_dest_id": self.env.ref("stock.stock_location_customers").id,
             }
