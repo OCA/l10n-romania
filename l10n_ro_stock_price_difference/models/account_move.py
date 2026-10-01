@@ -36,13 +36,11 @@ class AccountMove(models.Model):
 
     def _should_generate_ro_price_difference(self):
         self.ensure_one()
-        if (
+        return (
             self.move_type in ["in_invoice", "in_refund"]
             and self.company_id.l10n_ro_accounting
             and self.company_id.l10n_ro_stock_acc_price_diff
-        ):
-            return True
-        return False
+        )
 
     def _get_l10n_ro_price_differences(self):
         """Return a dictionary mapping invoice IDs to a list of price difference

@@ -23,7 +23,7 @@ class TestStockAvg(TestROStockCommon):
         module_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
         filename = "test_price_difference_avg.csv"
         test_cases = self.read_test_cases_from_csv_file(filename, module_dir=module_dir)
-        for _key, case in test_cases.items():
+        for case in test_cases.values():
             _logger.info(
                 "Running test case: %s - %s", case.get("code"), case.get("name")
             )
