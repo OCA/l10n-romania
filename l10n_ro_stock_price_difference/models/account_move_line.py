@@ -12,7 +12,7 @@ _logger = logging.getLogger(__name__)
 
 class AccountMoveLine(models.Model):
     _name = "account.move.line"
-    _inherit = ["account.move.line", "l10n.ro.mixin"]
+    _inherit = ("account.move.line", "l10n.ro.mixin")
 
     def l10n_ro_get_stock_valuation_difference(self):
         """
@@ -36,7 +36,7 @@ class AccountMoveLine(models.Model):
         if line.purchase_line_id.product_id.purchase_method != "receive":
             return res
 
-        if not line._eligible_for_stock_account():
+        if not line._use_inventory_valuation():
             return res
 
         if line.product_id.cost_method == "standard":
@@ -73,9 +73,9 @@ class AccountMoveLine(models.Model):
                 stock_value -= stock_move.value
                 stock_qty -= stock_move.quantity
         res["stock_move_id"] = stock_moves.sorted("id", reverse=True)[:1].id
-        precision = line.product_uom_id.rounding or line.product_id.uom_id.rounding
+        uom = line.product_uom_id or line.product_id.uom_id
 
-        if float_is_zero(stock_qty, precision_rounding=precision):
+        if uom.compare(stock_qty, 0) == 0:
             return res
 
         inv_lines = self.search(
@@ -110,7 +110,8 @@ class AccountMoveLine(models.Model):
         self.ensure_one()
         if not diff_dict:
             return
-        self = self.with_company(self.company_id)
+        # rebinding self is how an override hands a company down to what follows
+        self = self.with_company(self.company_id)  # noqa: PLW0642
         val_dif = diff_dict.get("value_diff", 0.0)
         if float_is_zero(val_dif, precision_rounding=0.01):
             return
@@ -158,11 +159,11 @@ class AccountMoveLine(models.Model):
             or self.company_id.lc_journal_id
             or False
         )
-        return dict(
-            account_journal_id=stock_journal_id and stock_journal_id.id,
-            l10n_ro_cost_type="price_diff",
-            l10n_ro_only_on_distributed_lines=True,
-            cost_lines=[
+        return {
+            "account_journal_id": stock_journal_id and stock_journal_id.id,
+            "l10n_ro_cost_type": "price_diff",
+            "l10n_ro_only_on_distributed_lines": True,
+            "cost_lines": [
                 (
                     0,
                     0,
@@ -175,7 +176,7 @@ class AccountMoveLine(models.Model):
                     },
                 )
             ],
-        )
+        }
 
     def _l10n_ro_get_or_create_price_difference_product(self):
         price_diff_product = (

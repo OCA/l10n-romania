@@ -41,10 +41,13 @@ class TestNoticeCurrencyPriceDifference(TestROStockCommon):
 
     @classmethod
     def _set_rate(cls, date, inverse_rate):
+        """In force on ``date``: Odoo 20 reads rates with ``name < date``, so
+        the row is dated one day earlier (see the same helper in
+        ``l10n_ro_stock_account``)."""
         return cls.env["res.currency.rate"].create(
             {
                 "currency_id": cls.eur.id,
-                "name": date,
+                "name": date - timedelta(days=1),
                 "company_id": cls.env.company.root_id.id,
                 "inverse_company_rate": inverse_rate,
             }

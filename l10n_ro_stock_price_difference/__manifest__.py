@@ -2,7 +2,7 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 {
     "name": "Romania - Stock Accounting Price Difference",
-    "version": "19.0.1.2.0",
+    "version": "20.0.1.0.0",
     "category": "Localization",
     "summary": "Romania - Stock Accounting Price Difference",
     "author": "NextERP Romania,Dorin Hongu,Odoo Community Association (OCA)",
@@ -15,7 +15,7 @@
     "license": "AGPL-3",
     "data": [
         "wizard/price_difference_confirmation.xml",
-        "security/ir.model.access.csv",
+        "security/ir.access.csv",
     ],
     "installable": True,
     "auto_install": False,

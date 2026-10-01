@@ -46,7 +46,7 @@ class TestStockFifo(TestROStockCommon):
         module_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
         filename = "test_price_difference_fifo.csv"
         test_cases = self.read_test_cases_from_csv_file(filename, module_dir=module_dir)
-        for _key, case in test_cases.items():
+        for case in test_cases.values():
             _logger.info(
                 "Running test case: %s - %s", case.get("code"), case.get("name")
             )
@@ -67,7 +67,7 @@ class TestStockFifo(TestROStockCommon):
                         {
                             "product_id": self.product_kg.id,
                             "product_qty": qty,
-                            "product_uom_id": self.kg.id,
+                            "uom_id": self.kg.id,
                             "price_unit": price,
                         },
                     )
@@ -106,7 +106,9 @@ class TestStockFifo(TestROStockCommon):
         )
         try:
             wizard.action_confirm()
-        except Exception:
+        # the helper reports whether the confirmation went through, so any
+        # failure is an answer rather than something to let through
+        except Exception:  # noqa: BLE001
             return True, False
         return True, invoice.state == "posted"
 
