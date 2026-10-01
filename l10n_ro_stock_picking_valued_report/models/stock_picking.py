@@ -6,7 +6,7 @@ from odoo import api, fields, models
 
 class StockPicking(models.Model):
     _name = "stock.picking"
-    _inherit = ["stock.picking", "l10n.ro.mixin"]
+    _inherit = ("stock.picking", "l10n.ro.mixin")
 
     l10n_ro_currency_id = fields.Many2one(
         "res.currency",

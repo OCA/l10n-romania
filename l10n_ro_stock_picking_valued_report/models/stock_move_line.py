@@ -9,7 +9,7 @@ _logger = logging.getLogger(__name__)
 
 class StockMoveLine(models.Model):
     _name = "stock.move.line"
-    _inherit = ["stock.move.line", "l10n.ro.mixin"]
+    _inherit = ("stock.move.line", "l10n.ro.mixin")
 
     l10n_ro_sale_line_id = fields.Many2one(
         related="move_id.sale_line_id", readonly=True, string="Related order line"

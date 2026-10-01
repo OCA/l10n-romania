@@ -132,9 +132,7 @@
                                 <span
                                     t-out="aggregated_lines[line]['product_uom_qty']"
                                 />
-                                <span
-                                    t-out="aggregated_lines[line]['product_uom_id']"
-                                />
+                                <span t-out="aggregated_lines[line]['uom_id']" />
                             </td>
                         </t>
                         <td class="text-end">
