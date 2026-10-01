@@ -409,7 +409,6 @@
         <field name="model">l10n.ro.stock.storage.sheet</field>
         <field name="report_type">qweb-pdf</field>
         <field name="report_name">l10n_ro_stock_report.report_storage_sheet</field>
-        <field name="report_file">l10n_ro_stock_report.report_storage_sheet</field>
         <field name="print_report_name">(object._get_report_base_filename())</field>
     </record>
 
@@ -418,7 +417,6 @@
         <field name="model">l10n.ro.stock.storage.sheet</field>
         <field name="report_type">qweb-pdf</field>
         <field name="report_name">l10n_ro_stock_report.report_storage_sheet_all</field>
-        <field name="report_file">l10n_ro_stock_report.report_storage_sheet_all</field>
         <field name="print_report_name">(object._get_report_base_filename())</field>
     </record>
 </odoo>
