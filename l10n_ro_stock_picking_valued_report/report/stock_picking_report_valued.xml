@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" ?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <odoo>
     <template
         id="report_delivery_document"
@@ -63,7 +63,7 @@
                                             </td>
                                             <td class="text-end">
                                                 <span
-                                                    t-esc="round(o.l10n_ro_amount_total, 2)"
+                                                    t-out="round(o.l10n_ro_amount_total, 2)"
                                                 />
                                             </td>
                                         </tr>
@@ -117,12 +117,12 @@
                     <t t-if="o.l10n_ro_is_internal">
                         <td class="text-end">
                             <span
-                                t-esc="'%.2f' % aggregated_lines[line]['l10n_ro_price_unit']"
+                                t-out="'%.2f' % aggregated_lines[line]['l10n_ro_price_unit']"
                             />
                         </td>
                         <td class="text-endt">
                             <span
-                                t-esc="'%.2f' % aggregated_lines[line]['l10n_ro_price_subtotal']"
+                                t-out="'%.2f' % aggregated_lines[line]['l10n_ro_price_subtotal']"
                             />
                         </td>
                     </t>
@@ -130,36 +130,36 @@
                         <t t-if="o.state != 'done'">
                             <td class="text-end">
                                 <span
-                                    t-esc="aggregated_lines[line]['product_uom_qty']"
+                                    t-out="aggregated_lines[line]['product_uom_qty']"
                                 />
                                 <span
-                                    t-esc="aggregated_lines[line]['product_uom_id']"
+                                    t-out="aggregated_lines[line]['product_uom_id']"
                                 />
                             </td>
                         </t>
                         <td class="text-end">
                             <span
-                                t-esc="'%.2f' % aggregated_lines[line]['l10n_ro_price_unit']"
+                                t-out="'%.2f' % aggregated_lines[line]['l10n_ro_price_unit']"
                             />
                         </td>
                         <td class="text-end">
                             <span
-                                t-esc="'%.2f' % aggregated_lines[line]['l10n_ro_additional_charges']"
+                                t-out="'%.2f' % aggregated_lines[line]['l10n_ro_additional_charges']"
                             />
                         </td>
                         <td class="text-end">
                             <span
-                                t-esc="'%.2f' % aggregated_lines[line]['l10n_ro_price_subtotal']"
+                                t-out="'%.2f' % aggregated_lines[line]['l10n_ro_price_subtotal']"
                             />
                         </td>
                         <td class="text-end">
                             <span
-                                t-esc="'%.2f' % aggregated_lines[line]['l10n_ro_price_tax']"
+                                t-out="'%.2f' % aggregated_lines[line]['l10n_ro_price_tax']"
                             />
                         </td>
                         <td class="text-end">
                             <span
-                                t-esc="'%.2f' % aggregated_lines[line]['l10n_ro_price_total']"
+                                t-out="'%.2f' % aggregated_lines[line]['l10n_ro_price_total']"
                             />
                         </td>
                     </t>
@@ -179,29 +179,29 @@
                         t-if="move_line.picking_id and move_line.picking_id.l10n_ro_is_internal"
                     >
                         <td class="text-end">
-                            <span t-esc="'%.2f' % move_line.l10n_ro_price_unit" />
+                            <span t-out="'%.2f' % move_line.l10n_ro_price_unit" />
                         </td>
                         <td class="text-end">
-                            <span t-esc="'%.2f' % move_line.l10n_ro_price_subtotal" />
+                            <span t-out="'%.2f' % move_line.l10n_ro_price_subtotal" />
                         </td>
                     </t>
                     <t t-else="">
                         <td class="text-end">
-                            <span t-esc="'%.2f' % move_line.l10n_ro_price_unit" />
+                            <span t-out="'%.2f' % move_line.l10n_ro_price_unit" />
                         </td>
                         <td class="text-end">
                             <span
-                                t-esc="'%.2f' % move_line.l10n_ro_additional_charges"
+                                t-out="'%.2f' % move_line.l10n_ro_additional_charges"
                             />
                         </td>
                         <td class="text-end">
-                            <span t-esc="'%.2f' % move_line.l10n_ro_price_subtotal" />
+                            <span t-out="'%.2f' % move_line.l10n_ro_price_subtotal" />
                         </td>
                         <td class="text-end">
-                            <span t-esc="'%.2f' % move_line.l10n_ro_price_tax" />
+                            <span t-out="'%.2f' % move_line.l10n_ro_price_tax" />
                         </td>
                         <td class="text-end">
-                            <span t-esc="'%.2f' % move_line.l10n_ro_price_total" />
+                            <span t-out="'%.2f' % move_line.l10n_ro_price_total" />
                         </td>
                     </t>
                 </t>
