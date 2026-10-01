@@ -34,7 +34,7 @@ class TestStockAccountDateWizard(TestStockAccountDate):
                         {
                             "product_id": self.product_fifo.id,
                             "product_uom_qty": 5,
-                            "product_uom": self.product_fifo.uom_id.id,
+                            "uom_id": self.product_fifo.uom_id.id,
                             "location_id": self.location.id,
                             "location_dest_id": self.location1.id,
                         },

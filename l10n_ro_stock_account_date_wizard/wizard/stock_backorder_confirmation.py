@@ -6,7 +6,7 @@ from odoo import api, fields, models
 
 class StockBackorderConfirmation(models.TransientModel):
     _name = "stock.backorder.confirmation"
-    _inherit = ["stock.backorder.confirmation", "l10n.ro.mixin"]
+    _inherit = ("stock.backorder.confirmation", "l10n.ro.mixin")
 
     l10n_ro_accounting_date = fields.Datetime(
         help="If this field is set, the svl and accounting entries will "
@@ -19,17 +19,11 @@ class StockBackorderConfirmation(models.TransientModel):
         res = super().default_get(fields)
         if self.env["res.company"]._check_is_l10n_ro_record(self.env.company.id):
             res["is_l10n_ro_record"] = True
+            picking = self.env["stock.picking"]
             if res.get("pick_ids"):
-                if (
-                    self.env["stock.picking"]
-                    .browse(res["pick_ids"][0][2][0])
-                    .l10n_ro_accounting_date
-                ):
-                    res["l10n_ro_accounting_date"] = (
-                        self.env["stock.picking"]
-                        .browse(res["pick_ids"][0][2][0])
-                        .l10n_ro_accounting_date
-                    )
+                picking = picking.browse(res["pick_ids"][0][2][0])
+            if picking.l10n_ro_accounting_date:
+                res["l10n_ro_accounting_date"] = picking.l10n_ro_accounting_date
         return res
 
     def process(self):
