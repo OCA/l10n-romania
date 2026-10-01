@@ -2,8 +2,8 @@
 # Copyright (C) 2020 Terrabit
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 import logging
+from datetime import UTC
 
-import pytz
 from dateutil.relativedelta import relativedelta
 
 from odoo import api, fields, models
@@ -57,9 +57,7 @@ class StorageSheet(models.TransientModel):
 
     date_from = fields.Date("Start Date", required=True, default=fields.Date.today)
     date_to = fields.Date("End Date", required=True, default=fields.Date.today)
-    company_id = fields.Many2one(
-        "res.company", string="Company", default=lambda self: self.env.company
-    )
+    company_id = fields.Many2one("res.company", default=lambda self: self.env.company)
 
     one_product = fields.Boolean("One product per page")
     line_product_ids = fields.One2many(
@@ -202,12 +200,12 @@ class StorageSheet(models.TransientModel):
         datetime_from = fields.Datetime.to_datetime(self.date_from)
         datetime_from = fields.Datetime.context_timestamp(self, datetime_from)
         datetime_from = datetime_from.replace(hour=0)
-        datetime_from = datetime_from.astimezone(pytz.utc)
+        datetime_from = datetime_from.astimezone(UTC)
 
         datetime_to = fields.Datetime.to_datetime(self.date_to)
         datetime_to = fields.Datetime.context_timestamp(self, datetime_to)
         datetime_to = datetime_to.replace(hour=23, minute=59, second=59)
-        datetime_to = datetime_to.astimezone(pytz.utc)
+        datetime_to = datetime_to.astimezone(UTC)
 
         if self.detailed_locations:
             all_locations = self.with_context(active_test=False).location_ids
@@ -573,7 +571,7 @@ class StorageSheetLine(models.TransientModel):
     report_id = fields.Many2one(
         "l10n.ro.stock.storage.sheet", index=True, ondelete="cascade"
     )
-    product_id = fields.Many2one("product.product", string="Product", index=True)
+    product_id = fields.Many2one("product.product", index=True)
     amount_initial = fields.Monetary(
         currency_field="currency_id", string="Initial Amount", default=0.0
     )
@@ -616,7 +614,6 @@ class StorageSheetLine(models.TransientModel):
     partner_id = fields.Many2one("res.partner", index=True)
     currency_id = fields.Many2one(
         "res.currency",
-        string="Currency",
         default=lambda self: self.env.company.currency_id,
         index=True,
     )

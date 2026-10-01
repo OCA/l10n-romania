@@ -293,7 +293,7 @@ class TestStockReport(TransactionCase):
         Move.create(
             {
                 "product_id": product.id,
-                "product_uom": product.uom_id.id,
+                "uom_id": product.uom_id.id,
                 "product_uom_qty": qty,
                 "picking_id": picking.id,
                 "location_id": picking.location_id.id,
