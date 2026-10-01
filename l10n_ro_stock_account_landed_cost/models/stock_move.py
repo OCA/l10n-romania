@@ -16,9 +16,10 @@ class StockMove(models.Model):
         ]._read_group(domain, ["move_id"], ["id:recordset"])
         return dict(landed_cost_group)
 
-    def _get_value_from_extra(self, quantity, at_date=None):
+    def _get_value_from_extra(self, quantity):
         self.ensure_one()
-        accounting_data = super()._get_value_from_extra(quantity, at_date=at_date)
+        at_date = self._l10n_ro_valuation_date()
+        accounting_data = super()._get_value_from_extra(quantity)
         # Add landed costs value
         lcs = self._get_l10n_ro_distrib_landed_cost(at_date=at_date)
         lcs = lcs.get(self)
@@ -53,12 +54,13 @@ class StockMove(models.Model):
             accounting_data["description"] += "\n" + description
         return accounting_data
 
-    def _get_value_from_account_move(self, quantity, at_date=None):
+    def _get_value_from_account_move(self, quantity):
         """For Romania if it has an accounting entry, take the value from there.
         For landed cost distribution will take real value, not value from standard
         price, which can be different.
         """
-        valuation_data = super()._get_value_from_account_move(quantity, at_date=at_date)
+        at_date = self._l10n_ro_valuation_date()
+        valuation_data = super()._get_value_from_account_move(quantity)
         if not (self.is_l10n_ro_record and self.account_move_id and self._is_out()):
             return valuation_data
 
