@@ -8,7 +8,7 @@ from odoo import models
 
 class AccountMove(models.Model):
     _name = "account.move"
-    _inherit = ["account.move", "l10n.ro.mixin"]
+    _inherit = ("account.move", "l10n.ro.mixin")
 
     def button_create_landed_costs(self):
         """Update account of the landed cost ine with the one from invoice line."""
