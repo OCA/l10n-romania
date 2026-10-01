@@ -110,10 +110,12 @@ class AccountMove(models.Model):
         if not price_diffs:
             return
         supp_invoices = self.filtered(
-            lambda inv: inv.is_l10n_ro_record
-            and inv.state == "posted"
-            and inv.move_type in ["in_invoice", "in_refund"]
-            and inv.company_id.l10n_ro_stock_acc_price_diff
+            lambda inv: (
+                inv.is_l10n_ro_record
+                and inv.state == "posted"
+                and inv.move_type in ["in_invoice", "in_refund"]
+                and inv.company_id.l10n_ro_stock_acc_price_diff
+            )
         )
         for invoice in supp_invoices:
             inv_price_diffs = price_diffs.get(invoice.id, [])
