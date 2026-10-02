@@ -303,7 +303,7 @@ class StockMove(models.Model):
             )._run_fifo_layers(quantity_to_ship, location=move.location_id)
             quantity = quantity_to_ship
             vals_before = len(fifo_split_vals_list)
-            while quantity >= move.quantity and fifo_list:
+            while move.product_id.uom_id.compare(quantity, 0) > 0 and fifo_list:
                 fifo_split_vals_list, quantity = self._l10n_ro_process_fifo_split(
                     move, fifo_list, quantity, fifo_split_vals_list
                 )
@@ -313,10 +313,20 @@ class StockMove(models.Model):
             # instead of silently shipping/valuing the wrong amount -
             # nothing has been marked done yet at this point.
             split_qty_for_move = sum(
-                vals.get("quantity", 0.0) for vals in fifo_split_vals_list[vals_before:]
+                self.env["uom.uom"]
+                .browse(vals.get("product_uom", move.product_uom.id))
+                ._compute_quantity(
+                    vals.get("quantity", 0.0), move.product_id.uom_id, round=False
+                )
+                for vals in fifo_split_vals_list[vals_before:]
             )
-            accounted_for = move.quantity + split_qty_for_move
-            if move.product_uom.compare(accounted_for, quantity_to_ship):
+            accounted_for = (
+                move.product_uom._compute_quantity(
+                    move.quantity, move.product_id.uom_id, round=False
+                )
+                + split_qty_for_move
+            )
+            if move.product_id.uom_id.compare(accounted_for, quantity_to_ship):
                 raise UserError(
                     self.env._(
                         "Verificare de consistență FIFO eșuată la transferul"
