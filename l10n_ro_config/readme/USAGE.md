@@ -20,9 +20,8 @@
 ## Bank Accounts
 
 - Tick the "Ro Print in Report" fields if you want the bank account to
-  be printed in reports (not all reports are updated but you can use the
-  example from the Invoice Report to change the other report where you
-  want to print the bank accounts).
+  be printed in reports. The flag only marks the accounts; it is up to
+  each report to filter the bank accounts on it.
 
   \*\* This applies also for company bank accounts, there you can use
   also the related field from Account Journal to mark them.

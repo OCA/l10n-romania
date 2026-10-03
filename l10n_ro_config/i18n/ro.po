@@ -19,36 +19,6 @@ msgstr ""
 "X-Generator: Weblate 5.15.2\n"
 
 #. module: l10n_ro_config
-#: model_terms:ir.ui.view,arch_db:l10n_ro_config.banks
-msgid "<strong>Account:</strong>"
-msgstr "<strong>Cont:</strong>"
-
-#. module: l10n_ro_config
-#: model_terms:ir.ui.view,arch_db:l10n_ro_config.report_address_company
-msgid "<strong>Address:</strong>"
-msgstr "<strong>Adresa:</strong>"
-
-#. module: l10n_ro_config
-#: model_terms:ir.ui.view,arch_db:l10n_ro_config.banks
-msgid "<strong>Bank:</strong>"
-msgstr "<strong>Banca:</strong>"
-
-#. module: l10n_ro_config
-#: model_terms:ir.ui.view,arch_db:l10n_ro_config.report_address_company
-msgid "<strong>Company</strong>"
-msgstr "<strong>Companie</strong>"
-
-#. module: l10n_ro_config
-#: model_terms:ir.ui.view,arch_db:l10n_ro_config.report_address_company
-msgid "<strong>NRC:</strong>"
-msgstr "<strong>NRC:</strong>"
-
-#. module: l10n_ro_config
-#: model_terms:ir.ui.view,arch_db:l10n_ro_config.report_address_company
-msgid "<strong>Share Capital:</strong>"
-msgstr "<strong>Capital social:</strong>"
-
-#. module: l10n_ro_config
 #: model_terms:ir.ui.view,arch_db:l10n_ro_config.view_partner_anaf_status_form
 msgid "ANAF"
 msgstr "ANAF"

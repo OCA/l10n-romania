@@ -1,3 +1,12 @@
+## 20.0.0.10.0
+
+- Removed the `banks` and `report_address_company` QWeb templates
+  (`views/common_report.xml`). They were an example left over from a report
+  override that no longer exists, no module in the repository calls them, and
+  `res.partner.bank.currency_id`, which `banks` filtered on, is gone in Odoo
+  20.0. The "Ro Print in Report" fields are kept - they are the configuration
+  the reports read.
+
 ## 19.0.0.8.1
 
 - Fix a foreign tax ID being silently prefixed with its country code on every

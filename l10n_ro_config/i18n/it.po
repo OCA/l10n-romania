@@ -17,36 +17,6 @@ msgstr ""
 "Plural-Forms: \n"
 
 #. module: l10n_ro_config
-#: model_terms:ir.ui.view,arch_db:l10n_ro_config.banks
-msgid "<strong>Account:</strong>"
-msgstr "<strong>Conto:</strong>"
-
-#. module: l10n_ro_config
-#: model_terms:ir.ui.view,arch_db:l10n_ro_config.report_address_company
-msgid "<strong>Address:</strong>"
-msgstr ""
-
-#. module: l10n_ro_config
-#: model_terms:ir.ui.view,arch_db:l10n_ro_config.banks
-msgid "<strong>Bank:</strong>"
-msgstr "<strong>Banca:</strong>"
-
-#. module: l10n_ro_config
-#: model_terms:ir.ui.view,arch_db:l10n_ro_config.report_address_company
-msgid "<strong>Company</strong>"
-msgstr ""
-
-#. module: l10n_ro_config
-#: model_terms:ir.ui.view,arch_db:l10n_ro_config.report_address_company
-msgid "<strong>NRC:</strong>"
-msgstr ""
-
-#. module: l10n_ro_config
-#: model_terms:ir.ui.view,arch_db:l10n_ro_config.report_address_company
-msgid "<strong>Share Capital:</strong>"
-msgstr ""
-
-#. module: l10n_ro_config
 #: model_terms:ir.ui.view,arch_db:l10n_ro_config.view_partner_anaf_status_form
 msgid "ANAF"
 msgstr ""
