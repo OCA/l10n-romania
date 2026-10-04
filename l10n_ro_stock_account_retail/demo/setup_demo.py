@@ -29,7 +29,7 @@ import random as _random
 from odoo.exceptions import UserError
 
 env = env  # noqa: F821 (provided by `odoo shell`)
-log = lambda *a: print("[demo]", *a)  # noqa: E731
+log = lambda *a: print("[demo]", *a)
 _random.seed(42)
 
 
@@ -539,7 +539,7 @@ def make_so(date_str, warehouse, pricelist, lines):
     return so
 
 
-so_lines_b1 = [(products[i], _random.randint(2, 5)) for i in range(0, 10)]
+so_lines_b1 = [(products[i], _random.randint(2, 5)) for i in range(10)]
 so_lines_b2 = [(products[i], _random.randint(1, 4)) for i in range(10, 20)]
 so_lines_c1 = [(products[i], _random.randint(2, 5)) for i in range(5, 15)]
 so_lines_c2 = [(products[i], _random.randint(1, 4)) for i in range(15, 25)]
@@ -693,7 +693,7 @@ if "l10n.ro.retail.price.change" in env:
 # shelf price, destination loads its own
 # -----------------------------------------------------------------------------
 shop_to_shop = make_transfer_between(
-    "2026-05-12", mag1, mag2, [(products[i], 2) for i in range(0, 5)]
+    "2026-05-12", mag1, mag2, [(products[i], 2) for i in range(5)]
 )
 log(f"Shop to shop transfer: {shop_to_shop.name} MAG1 -> MAG2")
 
