@@ -25,7 +25,7 @@ patch(PartnerList.prototype, {
      * The two lines the cashier is shown when the CUI matched nothing.
      *
      * Built here rather than in the template: a sentence broken around a
-     * `t-esc` is exported to translators in pieces, and no language keeps
+     * `t-out` is exported to translators in pieces, and no language keeps
      * the same word order as English.
      */
     get l10nRoNoPartnerMessage() {
