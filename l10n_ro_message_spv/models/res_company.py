@@ -3,9 +3,8 @@
 
 import logging
 import re
-from datetime import datetime
-
-import pytz
+from datetime import UTC, datetime
+from zoneinfo import ZoneInfo
 
 from odoo import fields, models
 
@@ -140,7 +139,7 @@ class ResCompany(models.Model):
         pattern_in = r"cif_emitent=(\d+)"
         pattern_out = r"cif_beneficiar=(\d+)"
 
-        romania_tz = pytz.timezone("Europe/Bucharest")
+        romania_tz = ZoneInfo("Europe/Bucharest")
         obj_message_spv = self.env["l10n.ro.message.spv"]
         obj_edi_document = self.env["l10n_ro_edi.document"]
 
@@ -159,11 +158,13 @@ class ResCompany(models.Model):
             for message in company_messages:
                 domain = [("name", "=", message["id"])]
                 if not message_spv_obj.search(domain, limit=1):
-                    date = datetime.strptime(message.get("data_creare"), "%Y%m%d%H%M")
-                    localized_date = romania_tz.localize(date)
-                    # Convertim data și ora la GMT
-                    gmt_tz = pytz.timezone("GMT")
-                    gmt_date = localized_date.astimezone(gmt_tz)
+                    # ANAF da o ora locala fara fus: o citim ca atare si o
+                    # asezam in fusul Romaniei inainte de a o duce in UTC
+                    date = datetime.strptime(  # noqa: DTZ007
+                        message.get("data_creare"), "%Y%m%d%H%M"
+                    )
+                    localized_date = date.replace(tzinfo=romania_tz)
+                    gmt_date = localized_date.astimezone(UTC)
                     partner = self.env["res.partner"]
                     cif = message["cif"]
                     message_type = False

@@ -55,9 +55,8 @@ class TestMessageSPVController(TestMessageSPVCommon, HttpCase):
         return buf.getvalue()
 
     def test_download_xml_route(self):
-        zip_content = open(
-            file_path("l10n_ro_message_spv/tests/invoice.zip"), "rb"
-        ).read()
+        with open(file_path("l10n_ro_message_spv/tests/invoice.zip"), "rb") as f:
+            zip_content = f.read()
         message = self._create_message_with_zip("CTRL1", "5004111924", zip_content)
         self.env.cr.flush()
         self.authenticate("admin", "admin")
