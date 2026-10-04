@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" ?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <odoo>
     <template id="report_payment_receipt_document">
         <t t-call="web.external_layout">
@@ -51,7 +51,7 @@
                         t-options='{"widget": "contact", "fields": ["address", ], "no_marker": True, "no_tag_br": True}'
                     />
                         <t t-if="o.partner_id.vat">
-                            <t t-esc="o.partner_id.country_id.vat_label or 'TIN'" />
+                            <t t-out="o.partner_id.country_id.vat_label or 'TIN'" />
                             <span t-field="o.partner_id.vat" />,
                         </t>
                         <t t-if="o.partner_id.nrc">
@@ -65,11 +65,11 @@
                         t-options="{'widget': 'monetary', 'display_currency': o.currency_id}"
                     />
                         </span>
-                        (<span t-esc="o.currency_id.amount_to_text(o.amount)" />)
+                        (<span t-out="o.currency_id.amount_to_text(o.amount)" />)
                         <br />
                         <span>for payment of:
                             <span
-                        t-esc="','.join(o.reconciled_invoice_ids.mapped('name'))"
+                        t-out="','.join(o.reconciled_invoice_ids.mapped('name'))"
                     />
                         </span>
                         .

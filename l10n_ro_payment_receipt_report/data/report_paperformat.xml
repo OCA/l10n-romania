@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" ?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <odoo>
     <record id="paperformat_A5_landscape" model="report.paperformat">
         <field name="name">L10n RO A5 Landscape</field>
