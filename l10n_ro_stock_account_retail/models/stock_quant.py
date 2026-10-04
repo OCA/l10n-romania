@@ -3,7 +3,6 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
 from odoo import api, fields, models
-from odoo.tools.float_utils import float_is_zero
 
 
 class StockQuant(models.Model):
@@ -69,9 +68,7 @@ class StockQuant(models.Model):
             qty_on_hand = Ledger._l10n_ro_carried_qty(
                 warehouse, quant.product_id, company
             )
-            if float_is_zero(
-                qty_on_hand, precision_rounding=quant.product_id.uom_id.rounding
-            ):
+            if quant.product_id.uom_id.is_zero(qty_on_hand):
                 continue
             markup, vat = Ledger._l10n_ro_carried(warehouse, quant.product_id, company)
             share = quant.quantity / qty_on_hand

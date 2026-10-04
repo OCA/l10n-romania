@@ -2,7 +2,6 @@
 # Copyright (C) 2026 Dakai Soft SRL
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
-from odoo.tests import Form
 
 from odoo.addons.l10n_ro_stock_account.tests.common import TestROStockCommon
 
@@ -202,7 +201,7 @@ class TestRetailCommon(TestROStockCommon):
                 {
                     "pricelist_id": pricelist.id,
                     "applied_on": "3_global",
-                    "compute_price": "formula",
+                    "compute_price": "discount",
                     "base": "list_price",
                     "price_discount": 0.0,
                 }
@@ -226,7 +225,7 @@ class TestRetailCommon(TestROStockCommon):
             {
                 "company_id": self.env.company.id,
                 "product_id": product.id,
-                "product_uom": product.uom_id.id,
+                "uom_id": product.uom_id.id,
                 "product_uom_qty": qty,
                 "location_id": src_location.id,
                 "location_dest_id": dest_location.id,
@@ -303,17 +302,10 @@ class TestRetailCommon(TestROStockCommon):
         return picking.move_ids
 
     def _do_return(self, picking, qty):
-        return_form = Form(
-            self.env["stock.return.picking"].with_context(
-                active_ids=[picking.id],
-                active_id=picking.id,
-                active_model="stock.picking",
-            )
-        )
-        return_wiz = return_form.save()
-        return_wiz.product_return_moves.write({"quantity": qty, "to_refund": True})
-        res = return_wiz.action_create_returns()
-        return_picking = self.env["stock.picking"].browse(res["res_id"])
+        # Odoo 20 dropped the stock.return.picking wizard: the picking makes
+        # its own draft return, already linked to the moves it reverses.
+        return_picking = picking._create_return()
+        return_picking.move_ids.write({"product_uom_qty": qty, "to_refund": True})
         return_picking.action_confirm()
         return_picking.action_assign()
         return_picking.move_ids._set_quantity_done(qty)
