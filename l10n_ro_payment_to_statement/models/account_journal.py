@@ -20,7 +20,7 @@ L10N_RO_SEQUENCE_REGEX = r"^(?P<prefix1>.*?)(?P<seq>\d*)(?P<suffix>\D*?)$"
 
 class AccountJournal(models.Model):
     _name = "account.journal"
-    _inherit = ["account.journal", "l10n.ro.mixin"]
+    _inherit = ("account.journal", "l10n.ro.mixin")
 
     l10n_ro_statement_sequence_id = fields.Many2one(
         "ir.sequence",

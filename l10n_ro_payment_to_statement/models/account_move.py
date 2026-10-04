@@ -8,13 +8,14 @@ from odoo import models
 
 class AccountMove(models.Model):
     _name = "account.move"
-    _inherit = ["account.move", "l10n.ro.mixin"]
+    _inherit = ("account.move", "l10n.ro.mixin")
 
     def get_l10n_ro_sequence(self):
         """Sequence giving the number of a Romanian cash entry."""
         self.ensure_one()
         if self.origin_payment_id:
-            self = self.with_context(
+            # rebinding self is how an override hands a context down
+            self = self.with_context(  # noqa: PLW0642
                 l10n_ro_payment_type=self.origin_payment_id.payment_type,
                 l10n_ro_partner_type=self.origin_payment_id.partner_type,
             )

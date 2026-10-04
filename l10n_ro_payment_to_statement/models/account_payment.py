@@ -9,7 +9,7 @@ from odoo.exceptions import UserError
 
 class AccountPayment(models.Model):
     _name = "account.payment"
-    _inherit = ["account.payment", "l10n.ro.mixin"]
+    _inherit = ("account.payment", "l10n.ro.mixin")
 
     l10n_ro_statement_id = fields.Many2one(
         "account.bank.statement",
@@ -205,7 +205,8 @@ class AccountPayment(models.Model):
                 new_context["l10n_ro_payment_type"] = vals.get("payment_type")
             if vals.get("partner_type"):
                 new_context["l10n_ro_partner_type"] = vals.get("partner_type")
-            self = self.with_context(**new_context)
+            # rebinding self is how an override hands a context down
+            self = self.with_context(**new_context)  # noqa: PLW0642
             payment = super().create([vals])
             res |= payment
         return res
