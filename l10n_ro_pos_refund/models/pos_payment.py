@@ -23,6 +23,8 @@ class PosPayment(models.Model):
         every place where core would count the POS payment itself.
         """
         return self.filtered(
-            lambda payment: payment.payment_method_id.type == "cash"
-            and payment.pos_order_id._l10n_ro_is_refund_order()
+            lambda payment: (
+                payment.payment_method_id.type == "cash"
+                and payment.pos_order_id._l10n_ro_is_refund_order()
+            )
         )
