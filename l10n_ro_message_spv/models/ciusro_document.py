@@ -2,7 +2,7 @@ import io
 import json
 import logging
 import zipfile
-from datetime import datetime, timedelta
+from datetime import UTC, datetime, timedelta
 
 import requests
 from dateutil import parser
@@ -110,7 +110,7 @@ class L10nRoEdiDocument(models.Model):
         if content[:1] in (b"{", b"["):
             try:
                 error_json = json.loads(content.decode("utf-8"))
-            except Exception:
+            except (UnicodeDecodeError, ValueError):
                 error_json = None
             if isinstance(error_json, dict) and error_json.get("eroare"):
                 _logger.warning(
@@ -123,7 +123,7 @@ class L10nRoEdiDocument(models.Model):
         # E-Factura gives download response in ZIP format
         try:
             zip_ref = zipfile.ZipFile(io.BytesIO(content))
-        except Exception as e:
+        except zipfile.BadZipFile as e:
             _logger.error(f"Error {e} while parsing ZIP file: {content}")
             return {"error": "Error while parsing ZIP file"}
 
@@ -150,15 +150,16 @@ class L10nRoEdiDocument(models.Model):
         messages = []
 
         numar_total_pagini = 0
-        now = then = datetime.now()
+        # the window asked of ANAF is sent as a timestamp, so it is built in UTC
+        now = then = datetime.now(UTC)
 
         if not start:
-            now = end and parser.parse(end) or datetime.now() - timedelta(seconds=60)
+            now = end and parser.parse(end) or datetime.now(UTC) - timedelta(seconds=60)
             then = now - relativedelta(days=no_days)
         elif start:
             then = parser.parse(start)
             now = end and parser.parse(end) or (then + relativedelta(days=no_days))
-            now = min(now, (datetime.now() - timedelta(seconds=60)))
+            now = min(now, (datetime.now(UTC) - timedelta(seconds=60)))
         start_time = str(then.timestamp() * 1e3).split(".")[0]
         end_time = str(now.timestamp() * 1e3).split(".")[0]
 

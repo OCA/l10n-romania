@@ -103,10 +103,7 @@ class TestMessageSPV(TestMessageSPV):
         }
         anaf_messages = {"content": b"""%s""" % json.dumps(msg_dict).encode("utf-8")}
 
-        with patch(
-            "odoo.addons.l10n_ro_message_spv.models.ciusro_document.make_efactura_request",
-            return_value=anaf_messages,
-        ):
+        with self._patch_efactura_request(return_value=anaf_messages):
             self.env.company._l10n_ro_download_message_spv()
 
     def test_download_from_spv_error(self):
@@ -232,7 +229,8 @@ class TestMessageSPV(TestMessageSPV):
         )
 
         file_invoice = file_path("l10n_ro_message_spv/tests/invoice.zip")
-        zip_content = {"content": open(file_invoice, "rb").read()}
+        with open(file_invoice, "rb") as f:
+            zip_content = {"content": f.read()}
         with patch(
             "odoo.addons.l10n_ro_message_spv.models.ciusro_document.make_efactura_request",
             return_value=zip_content,
@@ -256,7 +254,8 @@ class TestMessageSPV(TestMessageSPV):
         )
 
         file_invoice = file_path("l10n_ro_message_spv/tests/invoice.zip")
-        anaf_messages = {"content": open(file_invoice, "rb").read()}
+        with open(file_invoice, "rb") as f:
+            anaf_messages = {"content": f.read()}
         with patch(
             "odoo.addons.l10n_ro_message_spv.models.ciusro_document.make_efactura_request",
             return_value=anaf_messages,
@@ -280,7 +279,8 @@ class TestMessageSPV(TestMessageSPV):
         )
 
         file_invoice = file_path("l10n_ro_message_spv/tests/invoice.zip")
-        anaf_messages = {"content": open(file_invoice, "rb").read()}
+        with open(file_invoice, "rb") as f:
+            anaf_messages = {"content": f.read()}
         with patch(
             "odoo.addons.l10n_ro_message_spv.models.ciusro_document.make_efactura_request",
             return_value=anaf_messages,
@@ -319,7 +319,8 @@ class TestMessageSPV(TestMessageSPV):
             }
         )
         file_invoice = file_path("l10n_ro_message_spv/tests/invoice.zip")
-        anaf_messages = {"content": open(file_invoice, "rb").read()}
+        with open(file_invoice, "rb") as f:
+            anaf_messages = {"content": f.read()}
         with patch(
             "odoo.addons.l10n_ro_message_spv.models.ciusro_document.make_efactura_request",
             return_value=anaf_messages,
@@ -621,23 +622,27 @@ class TestMessageSPV(TestMessageSPV):
         self.assertEqual(mock_post.call_count, 2)
 
         # both attempts fail
-        with patch(
-            "odoo.addons.l10n_ro_message_spv.models.message_spv.requests.post",
-            return_value=response_ko,
+        with (
+            patch(
+                "odoo.addons.l10n_ro_message_spv.models.message_spv.requests.post",
+                return_value=response_ko,
+            ),
+            self.assertRaises(UserError),
         ):
-            with self.assertRaises(UserError):
-                message_spv._render_anaf_pdf_bytes()
+            message_spv._render_anaf_pdf_bytes()
 
         # the ANAF WAF rejects the request
         response_waf = MagicMock(
             status_code=200, content=b"", text="The requested URL was rejected"
         )
-        with patch(
-            "odoo.addons.l10n_ro_message_spv.models.message_spv.requests.post",
-            return_value=response_waf,
+        with (
+            patch(
+                "odoo.addons.l10n_ro_message_spv.models.message_spv.requests.post",
+                return_value=response_waf,
+            ),
+            self.assertRaises(UserError),
         ):
-            with self.assertRaises(UserError):
-                message_spv._render_anaf_pdf_bytes()
+            message_spv._render_anaf_pdf_bytes()
 
         # the embedded PDF is extracted in memory
         name, pdf_bytes = message_spv._get_embedded_pdf_bytes()
@@ -1009,7 +1014,7 @@ class TestMessageSPV(TestMessageSPV):
 
         # refresh
         with patch(
-            "odoo.addons.l10n_ro_message_spv.models.res_company.ResCompany._l10n_ro_download_message_spv"  # noqa
+            "odoo.addons.l10n_ro_message_spv.models.res_company.ResCompany._l10n_ro_download_message_spv"
         ) as mock_download:
             message_spv.refresh()
             self.assertTrue(mock_download.called)
@@ -1035,10 +1040,7 @@ class TestMessageSPV(TestMessageSPV):
         }
         anaf_messages = {"content": json.dumps(msg_dict).encode("utf-8")}
 
-        with patch(
-            "odoo.addons.l10n_ro_message_spv.models.ciusro_document.make_efactura_request",
-            return_value=anaf_messages,
-        ):
+        with self._patch_efactura_request(return_value=anaf_messages):
             self.env.company.l10n_ro_download_message_spv()
 
         # Verificăm că mesajul a fost creat
@@ -1049,7 +1051,8 @@ class TestMessageSPV(TestMessageSPV):
         # 2. Test l10n_ro_download_zip_message_spv
         # Mocking zip download
         file_invoice = file_path("l10n_ro_message_spv/tests/invoice.zip")
-        zip_content = {"content": open(file_invoice, "rb").read()}
+        with open(file_invoice, "rb") as f:
+            zip_content = {"content": f.read()}
 
         with patch(
             "odoo.addons.l10n_ro_message_spv.models.ciusro_document.make_efactura_request",
@@ -1126,7 +1129,7 @@ class TestMessageSPV(TestMessageSPV):
             "content": attachment_xml.raw,
             "mimetype": attachment_xml.mimetype,
             "type": "xml",
-            "xml_tree": etree.fromstring(attachment_xml.raw),
+            "xml_tree": etree.fromstring(bytes(attachment_xml.raw)),
         }
         # Identificăm tipul de fișier pentru a activa decoderul corect
         file_data["import_file_type"] = invoice._get_import_file_type(file_data)
@@ -1163,7 +1166,7 @@ class TestMessageSPV(TestMessageSPV):
             "content": attachment_xml_std.raw,
             "mimetype": attachment_xml_std.mimetype,
             "type": "xml",
-            "xml_tree": etree.fromstring(attachment_xml_std.raw),
+            "xml_tree": etree.fromstring(bytes(attachment_xml_std.raw)),
         }
         file_data_std["import_file_type"] = invoice_std._get_import_file_type(
             file_data_std
@@ -1224,7 +1227,7 @@ class TestMessageSPV(TestMessageSPV):
             "content": attachment.raw,
             "mimetype": attachment.mimetype,
             "type": "xml",
-            "xml_tree": etree.fromstring(attachment.raw),
+            "xml_tree": etree.fromstring(bytes(attachment.raw)),
         }
         file_data["import_file_type"] = invoice._get_import_file_type(file_data)
         invoice._extend_with_attachments([file_data])
@@ -1286,12 +1289,14 @@ class TestMessageSPV(TestMessageSPV):
             }
         )
 
-        with Form(invoice) as invoice_form:
-            with invoice_form.invoice_line_ids.edit(0) as line_form:
-                line_form.product_id = correct_product
-                # values seen by the user before saving
-                self.assertEqual(line_form.name, spv_name)
-                self.assertEqual(line_form.price_unit, 123.45)
+        with (
+            Form(invoice) as invoice_form,
+            invoice_form.invoice_line_ids.edit(0) as line_form,
+        ):
+            line_form.product_id = correct_product
+            # values seen by the user before saving
+            self.assertEqual(line_form.name, spv_name)
+            self.assertEqual(line_form.price_unit, 123.45)
 
         line = invoice.invoice_line_ids[0]
         self.assertEqual(line.product_id, correct_product)
@@ -1315,7 +1320,11 @@ class TestMessageSPV(TestMessageSPV):
             lambda line: line.product_id == product
         )
         self.assertFalse(manual_line._l10n_ro_is_spv_imported_line())
-        self.assertEqual(manual_line.name, "Produs adaugat manual")
+        # Odoo 20 no longer copies the product name into the line: the product
+        # itself carries it and ``name`` is an extra description the user may
+        # add. Standard behaviour for a manual line is therefore an empty one,
+        # against the description an SPV line keeps.
+        self.assertFalse(manual_line.name)
         self.assertEqual(manual_line.price_unit, 55.0)
 
     # ------------------------------------------------------------------

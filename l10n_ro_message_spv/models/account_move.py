@@ -50,7 +50,7 @@ class AccountMove(models.Model):
                                 "product_id": line.product_id.id,
                                 "price": line.price_unit,
                                 "currency_id": invoice.currency_id.id,
-                                "product_uom_id": line.product_uom_id.id,
+                                "uom_id": line.product_uom_id.id,
                             }
                         )
                     else:
@@ -81,9 +81,11 @@ class AccountMove(models.Model):
         # sa nu atingem documentele-audit ale facturilor proprii trimise la
         # e-Factura.
         spv_moves = self.filtered(
-            lambda m: m.l10n_ro_message_spv_ids
-            and m.move_type in ("in_invoice", "in_refund")
-            and m.state in ("draft", "cancel")
+            lambda m: (
+                m.l10n_ro_message_spv_ids
+                and m.move_type in ("in_invoice", "in_refund")
+                and m.state in ("draft", "cancel")
+            )
         )
         spv_moves.l10n_ro_edi_document_ids.sudo().unlink()
         return super().unlink()
@@ -95,9 +97,11 @@ class AccountMove(models.Model):
     def _compute_show_reset_to_draft_button(self):
         res = super()._compute_show_reset_to_draft_button()
         for move in self:
-            if not move.show_reset_to_draft_button:
-                if move.move_type in ["in_invoice", "in_refund"]:
-                    move.show_reset_to_draft_button = True
+            if not move.show_reset_to_draft_button and move.move_type in [
+                "in_invoice",
+                "in_refund",
+            ]:
+                move.show_reset_to_draft_button = True
         return res
 
     def _l10n_ro_is_spv_bill(self):

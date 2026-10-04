@@ -2,6 +2,9 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html)
 
 
+from contextlib import ExitStack
+from unittest.mock import patch
+
 from odoo.tests import tagged
 
 from odoo.addons.account.tests.common import AccountTestInvoicingCommon
@@ -11,6 +14,30 @@ from odoo.addons.base.tests.test_ir_cron import CronMixinCase
 
 @tagged("post_install", "-at_install")
 class TestMessageSPV(AccountEdiTestCommon, CronMixinCase):
+    @staticmethod
+    def _patch_efactura_request(**kwargs):
+        """Patch ``make_efactura_request`` wherever the running stack calls it.
+
+        The module binds the function in its own ``ciusro_document``, but
+        ``l10n_ro_edi_extension`` -- installed alongside it in a full NextERP
+        stack -- routes the download through a copy of its own. Patching only
+        one of the two leaves the other one talking to ANAF.
+        """
+        targets = (
+            (
+                "odoo.addons.l10n_ro_message_spv.models.ciusro_document"
+                ".make_efactura_request"
+            ),
+            "odoo.addons.l10n_ro_edi_extension.models.utils.make_efactura_request",
+        )
+        stack = ExitStack()
+        for target in targets:
+            try:
+                stack.enter_context(patch(target, **kwargs))
+            except (AttributeError, ImportError, ModuleNotFoundError):
+                continue
+        return stack
+
     # test de creare mesaje preluate de la SPV
 
     @classmethod
