@@ -11,11 +11,12 @@
          which made the gap easy to miss.
 
          The variable is company_ids: that, company_id and user are what
-         ir.rule puts in the evaluation context. allowed_company_ids belongs to
+         ir.access puts in the evaluation context. allowed_company_ids belongs to
          the client context and is not defined here. -->
-    <record id="rule_stock_retail_report_company" model="ir.rule">
+    <record id="rule_stock_retail_report_company" model="ir.access">
         <field name="name">Retail Stock Report: company</field>
         <field name="model_id" ref="model_l10n_ro_stock_retail_report" />
-        <field name="domain_force">[('company_id', 'in', company_ids)]</field>
+        <field name="domain">[('company_id', 'in', company_ids)]</field>
+        <field name="operation">crud</field>
     </record>
 </odoo>

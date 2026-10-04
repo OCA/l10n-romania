@@ -4,9 +4,8 @@
 
 from collections import defaultdict
 
-from psycopg2 import sql
-
 from odoo import api, fields, models
+from odoo.tools import SQL, frozendict
 
 
 class StockRetailReport(models.Model):
@@ -34,28 +33,30 @@ class StockRetailReport(models.Model):
     # the same transaction are flushed before the query runs. Without it the
     # report silently comes back short for anything that posts and then
     # reports in one go.
-    _depends = {
-        "l10n.ro.retail.markup.line": [
-            "company_id",
-            "warehouse_id",
-            "product_id",
-            "date",
-            "quantity",
-            "cost",
-            "markup",
-            "vat",
-            "origin_type",
-        ],
-        "stock.quant": ["company_id", "location_id", "product_id", "quantity"],
-    }
+    _depends = frozendict(
+        {
+            "l10n.ro.retail.markup.line": (
+                "company_id",
+                "warehouse_id",
+                "product_id",
+                "date",
+                "quantity",
+                "cost",
+                "markup",
+                "vat",
+                "origin_type",
+            ),
+            "stock.quant": ("company_id", "location_id", "product_id", "quantity"),
+        }
+    )
 
-    warehouse_id = fields.Many2one("stock.warehouse", string="Warehouse", readonly=True)
-    product_id = fields.Many2one("product.product", string="Product", readonly=True)
+    warehouse_id = fields.Many2one("stock.warehouse", readonly=True)
+    product_id = fields.Many2one("product.product", readonly=True)
     product_tmpl_id = fields.Many2one(
         "product.template", string="Product Template", readonly=True
     )
     categ_id = fields.Many2one("product.category", string="Category", readonly=True)
-    company_id = fields.Many2one("res.company", string="Company", readonly=True)
+    company_id = fields.Many2one("res.company", readonly=True)
     currency_id = fields.Many2one(
         "res.currency", related="company_id.currency_id", readonly=True
     )
@@ -189,7 +190,7 @@ class StockRetailReport(models.Model):
     # ------------------------------------------------------------------
     @api.model
     def _l10n_ro_period(self):
-        """The period asked for, as ``(date_from, date_to)`` SQL literals.
+        """The period asked for, as ``(date_from, date_to)`` dates.
 
         Dates, because the ledger is dated - a row carries the accounting date
         of the entry it belongs to, not the instant a move happened. Bounding
@@ -203,25 +204,21 @@ class StockRetailReport(models.Model):
         """
         context = self.env.context
 
-        def as_literal(key):
+        def as_date(key):
             raw = context.get(key)
             if not raw:
                 return None
-            return sql.Literal(fields.Date.to_string(fields.Date.to_date(raw)))
+            return fields.Date.to_date(raw)
 
-        return as_literal("l10n_ro_retail_date_from"), as_literal(
-            "l10n_ro_retail_date_to"
-        )
+        return as_date("l10n_ro_retail_date_from"), as_date("l10n_ro_retail_date_to")
 
     @property
-    def _table_query(self):
+    def _table_sql(self) -> SQL:
         date_from, date_to = self._l10n_ro_period()
 
-        before = (
-            sql.SQL("ml.date < {}").format(date_from) if date_from else sql.SQL("FALSE")
-        )
-        upto = sql.SQL("ml.date <= {}").format(date_to) if date_to else sql.SQL("TRUE")
-        in_period = sql.SQL("({} AND NOT ({}))").format(upto, before)
+        before = SQL("ml.date < %s", date_from) if date_from else SQL("FALSE")
+        upto = SQL("ml.date <= %s", date_to) if date_to else SQL("TRUE")
+        in_period = SQL("(%s AND NOT (%s))", upto, before)
 
         # With no period asked for, a line is worth printing when the shop
         # holds the goods - whether or not the ledger knows about them. With a
@@ -232,16 +229,14 @@ class StockRetailReport(models.Model):
         # when it is answering for today - asked for a past position it must
         # speak from the ledger alone, or a product bought last week would show
         # up in a report about last month.
-        quants_apply = (
-            sql.SQL("TRUE") if not (date_from or date_to) else sql.SQL("FALSE")
-        )
+        quants_apply = SQL("TRUE") if not (date_from or date_to) else SQL("FALSE")
         # A line is worth printing while anything is still attached to it.
         # Testing the quantity alone dropped the row of a product sold past
         # its stock - a negative recorded quantity and no quants left - and
         # that is the row with a balance stranded on 378 and 4428, the one
         # case a reconciliation against the trial balance exists to catch.
         having = (
-            sql.SQL(
+            SQL(
                 "COALESCE(l.quantity, 0) != 0 "
                 "OR COALESCE(h.quantity_on_hand, 0) != 0 "
                 "OR COALESCE(l.cost_total, 0) != 0 "
@@ -249,52 +244,54 @@ class StockRetailReport(models.Model):
                 "OR COALESCE(l.vat_total, 0) != 0"
             )
             if not (date_from or date_to)
-            else sql.SQL(
+            else SQL(
                 "COALESCE(l.rows_upto, 0) > 0 OR COALESCE(h.quantity_on_hand, 0) > 0"
             )
         )
 
         def bucket(column, condition):
-            return sql.SQL("SUM(CASE WHEN {cond} THEN ml.{col} ELSE 0 END)").format(
-                cond=condition, col=sql.Identifier(column)
+            return SQL(
+                "SUM(CASE WHEN %s THEN ml.%s ELSE 0 END)",
+                condition,
+                SQL.identifier(column),
             )
 
-        moved_in = sql.SQL(
-            "({} AND ml.origin_type = 'move' AND ml.quantity > 0)"
-        ).format(in_period)
-        moved_out = sql.SQL(
-            "({} AND ml.origin_type = 'move' AND ml.quantity < 0)"
-        ).format(in_period)
-        adjusted = sql.SQL("({} AND ml.origin_type != 'move')").format(in_period)
+        moved_in = SQL(
+            "(%s AND ml.origin_type = 'move' AND ml.quantity > 0)", in_period
+        )
+        moved_out = SQL(
+            "(%s AND ml.origin_type = 'move' AND ml.quantity < 0)", in_period
+        )
+        adjusted = SQL("(%s AND ml.origin_type != 'move')", in_period)
 
-        query = sql.SQL(
+        query = SQL(
             """
             WITH ledger AS (
                 SELECT
                     ml.company_id,
                     ml.warehouse_id,
                     ml.product_id,
-                    {qty_initial}::numeric AS quantity_initial,
-                    {cost_initial}::numeric AS cost_initial,
-                    {markup_initial}::numeric AS markup_initial,
-                    {vat_initial}::numeric AS vat_initial,
-                    {qty_in}::numeric AS quantity_in,
-                    {cost_in}::numeric AS cost_in,
-                    {markup_in}::numeric AS markup_in,
-                    {vat_in}::numeric AS vat_in,
-                    {qty_out}::numeric AS quantity_out,
-                    {cost_out}::numeric AS cost_out,
-                    {markup_out}::numeric AS markup_out,
-                    {vat_out}::numeric AS vat_out,
-                    {qty_adj}::numeric AS quantity_adjustment,
-                    {cost_adj}::numeric AS cost_adjustment,
-                    {markup_adj}::numeric AS markup_adjustment,
-                    {vat_adj}::numeric AS vat_adjustment,
-                    {qty_final}::numeric AS quantity,
-                    {cost_final}::numeric AS cost_total,
-                    {markup_final}::numeric AS markup_total,
-                    {vat_final}::numeric AS vat_total,
-                    COUNT(*) FILTER (WHERE {upto}) AS rows_upto
+                    %(qty_initial)s::numeric AS quantity_initial,
+                    %(cost_initial)s::numeric AS cost_initial,
+                    %(markup_initial)s::numeric AS markup_initial,
+                    %(vat_initial)s::numeric AS vat_initial,
+                    %(qty_in)s::numeric AS quantity_in,
+                    %(cost_in)s::numeric AS cost_in,
+                    %(markup_in)s::numeric AS markup_in,
+                    %(vat_in)s::numeric AS vat_in,
+                    %(qty_out)s::numeric AS quantity_out,
+                    %(cost_out)s::numeric AS cost_out,
+                    %(markup_out)s::numeric AS markup_out,
+                    %(vat_out)s::numeric AS vat_out,
+                    %(qty_adj)s::numeric AS quantity_adjustment,
+                    %(cost_adj)s::numeric AS cost_adjustment,
+                    %(markup_adj)s::numeric AS markup_adjustment,
+                    %(vat_adj)s::numeric AS vat_adjustment,
+                    %(qty_final)s::numeric AS quantity,
+                    %(cost_final)s::numeric AS cost_total,
+                    %(markup_final)s::numeric AS markup_total,
+                    %(vat_final)s::numeric AS vat_total,
+                    COUNT(*) FILTER (WHERE %(upto)s) AS rows_upto
                 FROM l10n_ro_retail_markup_line ml
                 WHERE ml.warehouse_id IS NOT NULL
                 GROUP BY ml.company_id, ml.warehouse_id, ml.product_id
@@ -312,7 +309,7 @@ class StockRetailReport(models.Model):
                 FROM stock_quant sq
                 JOIN stock_location sl ON sl.id = sq.location_id
                 WHERE sl.l10n_ro_retail AND sl.warehouse_id IS NOT NULL
-                  AND {quants_apply}
+                  AND %(quants_apply)s
                 GROUP BY sq.company_id, sl.warehouse_id, sq.product_id
             )
             SELECT
@@ -359,7 +356,7 @@ class StockRetailReport(models.Model):
                 -- no answer to give. Left to subtract from an absent figure it
                 -- reported the whole recorded quantity as missing, in red, and
                 -- the "Not in the ledger" filter matched every row.
-                CASE WHEN {quants_apply}
+                CASE WHEN %(quants_apply)s
                     THEN COALESCE(h.quantity_on_hand, 0)
                         - COALESCE(l.quantity, 0)
                     ELSE 0
@@ -372,9 +369,8 @@ class StockRetailReport(models.Model):
             JOIN product_product pp
                 ON pp.id = COALESCE(l.product_id, h.product_id)
             JOIN product_template pt ON pt.id = pp.product_tmpl_id
-            WHERE {having}
-            """
-        ).format(
+            WHERE %(having)s
+            """,
             qty_initial=bucket("quantity", before),
             cost_initial=bucket("cost", before),
             markup_initial=bucket("markup", before),
@@ -399,7 +395,24 @@ class StockRetailReport(models.Model):
             quants_apply=quants_apply,
             having=having,
         )
-        return query.as_string(self.env.cr._cnx)
+        # Odoo 20 no longer materialises this as a view: the query is inlined
+        # in the FROM clause, and with it goes the flushing that _depends
+        # earns a table-backed model. Carry the same fields here, or a row
+        # written earlier in the transaction is not yet in the database when
+        # the report reads it.
+        return SQL("(%s)", query, to_flush=self._l10n_ro_depends_fields())
+
+    def _l10n_ro_depends_fields(self):
+        """The fields of ``_depends``, transitively, as the ORM collects them."""
+        fields_to_flush = []
+        models = [self]
+        while models:
+            current = models.pop()
+            for model_name, field_names in current._depends.items():
+                model = self.env[model_name]
+                models.append(model)
+                fields_to_flush.extend(model._fields[name] for name in field_names)
+        return fields_to_flush
 
     def _l10n_ro_current_prices(self):
         """Today's shelf price per row, one pricelist evaluation per shop.
