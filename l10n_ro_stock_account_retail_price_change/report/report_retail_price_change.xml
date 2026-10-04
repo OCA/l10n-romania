@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" ?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <odoo>
     <record id="action_report_retail_price_change" model="ir.actions.report">
         <field name="name">Retail Price Change Report</field>
@@ -83,7 +83,7 @@
                                     />
                                     <tr>
                                         <td class="text-center">
-                                            <span t-esc="seq" />
+                                            <span t-out="seq" />
                                         </td>
                                         <td>
                                             <span t-field="line.product_id" />
@@ -96,31 +96,31 @@
                                         </td>
                                         <td class="text-end">
                                             <span
-                                                t-esc="line.old_price_with_vat"
+                                                t-out="line.old_price_with_vat"
                                                 t-options="{'widget': 'float', 'precision': 2}"
                                             />
                                         </td>
                                         <td class="text-end">
                                             <span
-                                                t-esc="line.new_price_with_vat"
+                                                t-out="line.new_price_with_vat"
                                                 t-options="{'widget': 'float', 'precision': 2}"
                                             />
                                         </td>
                                         <td class="text-end">
                                             <span
-                                                t-esc="old_value"
+                                                t-out="old_value"
                                                 t-options="{'widget': 'float', 'precision': 2}"
                                             />
                                         </td>
                                         <td class="text-end">
                                             <span
-                                                t-esc="new_value"
+                                                t-out="new_value"
                                                 t-options="{'widget': 'float', 'precision': 2}"
                                             />
                                         </td>
                                         <td class="text-end">
                                             <span
-                                                t-esc="new_value - old_value"
+                                                t-out="new_value - old_value"
                                                 t-options="{'widget': 'float', 'precision': 2}"
                                             />
                                         </td>
@@ -134,19 +134,19 @@
                                     </td>
                                     <td class="text-end">
                                         <strong
-                                            t-esc="total_old"
+                                            t-out="total_old"
                                             t-options="{'widget': 'float', 'precision': 2}"
                                         />
                                     </td>
                                     <td class="text-end">
                                         <strong
-                                            t-esc="total_new"
+                                            t-out="total_new"
                                             t-options="{'widget': 'float', 'precision': 2}"
                                         />
                                     </td>
                                     <td class="text-end">
                                         <strong
-                                            t-esc="total_new - total_old"
+                                            t-out="total_new - total_old"
                                             t-options="{'widget': 'float', 'precision': 2}"
                                         />
                                     </td>
@@ -194,7 +194,7 @@
                                         </td>
                                         <td class="text-end">
                                             <span
-                                                t-esc="line.markup_diff_total + line.vat_diff_total"
+                                                t-out="line.markup_diff_total + line.vat_diff_total"
                                                 t-options="{'widget': 'float', 'precision': 2}"
                                             />
                                         </td>
@@ -208,19 +208,19 @@
                                     </td>
                                     <td class="text-end">
                                         <strong
-                                            t-esc="total_markup"
+                                            t-out="total_markup"
                                             t-options="{'widget': 'float', 'precision': 2}"
                                         />
                                     </td>
                                     <td class="text-end">
                                         <strong
-                                            t-esc="total_vat"
+                                            t-out="total_vat"
                                             t-options="{'widget': 'float', 'precision': 2}"
                                         />
                                     </td>
                                     <td class="text-end">
                                         <strong
-                                            t-esc="total_markup + total_vat"
+                                            t-out="total_markup + total_vat"
                                             t-options="{'widget': 'float', 'precision': 2}"
                                         />
                                     </td>
