@@ -5,7 +5,7 @@
         inherit_id="account.report_invoice_document"
     >
         <xpath
-            expr="//div[@name='address_not_same_as_shipping']//div[@t-if='o.partner_id.vat']"
+            expr="//div[@id='partner_vat_address_not_same_as_shipping']"
             position="after"
         >
             <t t-if="o.is_l10n_ro_record">
@@ -23,20 +23,16 @@
                             <strong>Bank:</strong>
                             <span t-field="bank.bank_name" />
                         </div>
-                        <div t-if="bank.acc_number">
+                        <div t-if="bank.account_number">
                             <strong>Account:</strong>
-                            <span t-field="bank.acc_number" />
-                            -
-                            <strong t-if="bank.currency_id">
-                            <span t-field="bank.currency_id" />
-                        </strong>
+                            <span t-field="bank.account_number" />
                         </div>
                     </t>
                 </div>
             </t>
         </xpath>
         <xpath
-            expr="//div[@name='address_same_as_shipping']//div[@t-if='o.partner_id.vat']"
+            expr="//div[@id='partner_vat_address_same_as_shipping']"
             position="after"
         >
             <t t-if="o.is_l10n_ro_record">
@@ -54,22 +50,15 @@
                             <strong>Bank:</strong>
                             <span t-field="bank.bank_name" />
                         </div>
-                        <div t-if="bank.acc_number">
+                        <div t-if="bank.account_number">
                             <strong>Account:</strong>
-                            <span t-field="bank.acc_number" />
-                            -
-                            <strong t-if="bank.currency_id">
-                            <span t-field="bank.currency_id" />
-                        </strong>
+                            <span t-field="bank.account_number" />
                         </div>
                     </t>
                 </div>
             </t>
         </xpath>
-        <xpath
-            expr="//div[@name='no_shipping']//div[@t-if='o.partner_id.vat']"
-            position="after"
-        >
+        <xpath expr="//div[@id='partner_vat_no_shipping']" position="after">
             <t t-if="o.is_l10n_ro_record">
                 <div t-if="o.partner_id.nrc" class="mt16">
                     NRC:
@@ -85,13 +74,9 @@
                             <strong>Bank:</strong>
                             <span t-field="bank.bank_name" />
                         </div>
-                        <div t-if="bank.acc_number">
+                        <div t-if="bank.account_number">
                             <strong>Account:</strong>
-                            <span t-field="bank.acc_number" />
-                            -
-                            <strong t-if="bank.currency_id">
-                            <span t-field="bank.currency_id" />
-                        </strong>
+                            <span t-field="bank.account_number" />
                         </div>
                     </t>
                 </div>
