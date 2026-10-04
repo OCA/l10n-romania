@@ -57,7 +57,6 @@ class AccountJournal(models.Model):
         copy=False,
         help="Sequence used for customer cash in operations (customer payments)",
     )
-    #
 
     @api.model_create_multi
     def create(self, vals_list):
