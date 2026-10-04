@@ -9,7 +9,7 @@ from odoo.exceptions import ValidationError
 
 class AccountInvoice(models.Model):
     _name = "account.move"
-    _inherit = ["account.move", "l10n.ro.mixin"]
+    _inherit = ("account.move", "l10n.ro.mixin")
 
     l10n_ro_dvi_ids = fields.Many2many(
         "stock.landed.cost",

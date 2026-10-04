@@ -168,6 +168,26 @@ class TestDVI(TestROStockCommon):
         self.assertEqual(revert_lc.l10n_ro_dvi_bill_ids, dvi.invoice_ids)
         self.assertEqual(lc.account_move_id.state, "cancel")
 
+    def _l10n_ro_tax(self):
+        """The tax of this company, when the fixture carries more than one."""
+        if len(self.tax_id) > 1:
+            return self.tax_id.filtered(lambda tax: tax.company_id == self.env.company)[
+                0
+            ]
+        return self.tax_id
+
+    def _l10n_ro_vat_difference_form(self, amount, product):
+        """A DVI carrying a VAT price difference, filled in but not saved."""
+        dvi = Form(self.env["l10n.ro.account.dvi"])
+        dvi.name = "DVI test vat difference"
+        dvi.tax_id = self._l10n_ro_tax()
+        dvi.journal_id = self.journal_id
+        dvi.customs_duty_value = 100
+        dvi.customs_commission_value = 50
+        dvi.vat_price_difference = amount
+        dvi.vat_price_difference_product_id = product
+        return dvi
+
     def test_vat_price_difference(self):
         # pentru valoare pozitiva
         purchase = self.env["purchase.order"]
@@ -196,19 +216,9 @@ class TestDVI(TestROStockCommon):
                 "property_account_expense_id": self.account_expense.id,
             }
         )
-        dvi = Form(self.env["l10n.ro.account.dvi"])
-        dvi.name = "DVI test vat difference"
-        tax_id = self.tax_id
-        if len(self.tax_id) > 1:
-            tax_id = self.tax_id.filtered(
-                lambda tax: tax.company_id == self.env.company
-            )[0]
-        dvi.tax_id = tax_id
-        dvi.journal_id = self.journal_id
-        dvi.customs_duty_value = 100
-        dvi.customs_commission_value = 50
-        dvi.vat_price_difference = 10  # positive amount
-        dvi.vat_price_difference_product_id = self.vat_product_id
+        tax_id = self._l10n_ro_tax()
+        # positive amount
+        dvi = self._l10n_ro_vat_difference_form(10, self.vat_product_id)
         dvi = dvi.save()
         dvi.button_post()
 
@@ -256,19 +266,9 @@ class TestDVI(TestROStockCommon):
         # pentru valoare negativa
         # self.create_po()
         # self.create_invoice()
-        dvi = Form(self.env["l10n.ro.account.dvi"])
-        dvi.name = "DVI test vat difference"
-        tax_id = self.tax_id
-        if len(self.tax_id) > 1:
-            tax_id = self.tax_id.filtered(
-                lambda tax: tax.company_id == self.env.company
-            )[0]
-        dvi.tax_id = tax_id
-        dvi.journal_id = self.journal_id
-        dvi.customs_duty_value = 100
-        dvi.customs_commission_value = 50
-        dvi.vat_price_difference = -10  # negative amount
-        dvi.vat_price_difference_product_id = self.vat_product_id
+        tax_id = self._l10n_ro_tax()
+        # negative amount
+        dvi = self._l10n_ro_vat_difference_form(-10, self.vat_product_id)
         dvi = dvi.save()
         dvi.button_post()
 
@@ -330,19 +330,8 @@ class TestDVI(TestROStockCommon):
                 "invoice_policy": "order",
             }
         )
-        dvi = Form(self.env["l10n.ro.account.dvi"])
-        dvi.name = "DVI test vat difference"
-        tax_id = self.tax_id
-        if len(self.tax_id) > 1:
-            tax_id = self.tax_id.filtered(
-                lambda tax: tax.company_id == self.env.company
-            )[0]
-        dvi.tax_id = tax_id
-        dvi.journal_id = self.journal_id
-        dvi.customs_duty_value = 100
-        dvi.customs_commission_value = 50
-        dvi.vat_price_difference = -10
-        dvi.vat_price_difference_product_id = self.vat_product_id
+        tax_id = self._l10n_ro_tax()
+        dvi = self._l10n_ro_vat_difference_form(-10, self.vat_product_id)
         dvi = dvi.save()
         dvi.invoice_ids = [(6, 0, purchase.invoice_ids.ids)]
         for dvi_line in dvi.line_ids:
@@ -366,19 +355,8 @@ class TestDVI(TestROStockCommon):
         )
         self.vat_product_id.categ_id.property_account_expense_categ_id = False
         self.env.company.expense_account_id = False
-        dvi = Form(self.env["l10n.ro.account.dvi"])
-        dvi.name = "DVI test vat difference"
-        tax_id = self.tax_id
-        if len(self.tax_id) > 1:
-            tax_id = self.tax_id.filtered(
-                lambda tax: tax.company_id == self.env.company
-            )[0]
-        dvi.tax_id = tax_id
-        dvi.journal_id = self.journal_id
-        dvi.customs_duty_value = 100
-        dvi.customs_commission_value = 50
-        dvi.vat_price_difference = -10
-        dvi.vat_price_difference_product_id = self.vat_product_id
+        tax_id = self._l10n_ro_tax()
+        dvi = self._l10n_ro_vat_difference_form(-10, self.vat_product_id)
         dvi = dvi.save()
         with self.assertRaises(
             ValidationError,
@@ -398,19 +376,8 @@ class TestDVI(TestROStockCommon):
                 "property_account_expense_id": self.account_expense.id,
             }
         )
-        dvi = Form(self.env["l10n.ro.account.dvi"])
-        dvi.name = "DVI test vat difference"
-        tax_id = self.tax_id
-        if len(self.tax_id) > 1:
-            tax_id = self.tax_id.filtered(
-                lambda tax: tax.company_id == self.env.company
-            )[0]
-        dvi.tax_id = tax_id
-        dvi.journal_id = self.journal_id
-        dvi.customs_duty_value = 100
-        dvi.customs_commission_value = 50
-        dvi.vat_price_difference = -10
-        dvi.vat_price_difference_product_id = self.vat_product_id
+        tax_id = self._l10n_ro_tax()
+        dvi = self._l10n_ro_vat_difference_form(-10, self.vat_product_id)
         dvi.customs_duty_product_id.categ_id.property_account_expense_categ_id = False
         dvi.customs_duty_product_id.property_account_expense_id = False
         dvi = dvi.save()
