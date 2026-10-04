@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" ?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <odoo>
     <template id="report_l10n_ro_statement_daily">
         <t t-call="web.html_container">
@@ -16,7 +16,7 @@
                             <div class="col-4">
                                 <div>
                                     <strong>
-                                        <span t-esc="o.company_id.name" />
+                                        <span t-out="o.company_id.name" />
                                     </strong>
                                 </div>
                                 <div>
@@ -57,7 +57,7 @@
                                 </div>
                                 <div class="row">
                                     <span
-                                        t-esc="o.journal_id.default_account_id.code"
+                                        t-out="o.journal_id.default_account_id.code"
                                     />
                                 </div>
                             </div>
@@ -111,7 +111,7 @@
                             <tr t-foreach="o.line_ids" t-as="line">
                                 <tr>
                                     <td style="border: 1px solid black;">
-                                        <span t-esc="nr_crt" />
+                                        <span t-out="nr_crt" />
                                         <t t-set="nr_crt" t-value="nr_crt + 1" />
                                     </td>
                                     <td style="border: 1px solid black;">
@@ -136,7 +136,7 @@
                                     </td>
                                     <td style="border: 1px solid black;">
                                         <span
-                                            t-esc="line.move_id.line_ids.filtered(lambda l:l.account_id.id!=o.journal_id.default_account_id.id)[0].account_id.code"
+                                            t-out="line.move_id.line_ids.filtered(lambda l:l.account_id.id!=o.journal_id.default_account_id.id)[0].account_id.code"
                                         />
                                     </td>
                                     <td
@@ -155,7 +155,7 @@
                                         </t>
                                         <t t-else="">
                                             <span
-                                                t-esc="0.0"
+                                                t-out="0.0"
                                                 t-options='{"widget": "monetary", "display_currency": o.currency_id}'
                                             />
                                         </t>
@@ -166,7 +166,7 @@
                                     >
                                         <t t-if="line.amount&lt;0">
                                             <span
-                                                t-esc="-1 * line.amount"
+                                                t-out="-1 * line.amount"
                                                 t-options='{"widget": "monetary", "display_currency": o.currency_id}'
                                             />
                                             <t
@@ -176,18 +176,18 @@
                                         </t>
                                         <t t-else="">
                                             <span
-                                                t-esc="0.0"
+                                                t-out="0.0"
                                                 t-options='{"widget": "monetary", "display_currency": o.currency_id}'
                                             />
                                         </t>
                                     </td>
                                     <td
-                                        style="border: 1px solid black;"
-                                        class="text-right"
                                         t-if="with_currency"
+                                        class="text-right"
+                                        style="border: 1px solid black;"
                                     >
                                         <span
-                                            t-esc="line.amount_total_signed"
+                                            t-out="line.amount_total_signed"
                                             t-options='{"widget": "monetary", "display_currency": line.foreign_currency_id or o.company_id.currency_id or o.currency_id}'
                                         />
                                     </td>
@@ -200,13 +200,13 @@
                                 </td>
                                 <td style="border: 1px solid black;" class="text-right">
                                     <strong
-                                        t-esc="total_received"
+                                        t-out="total_received"
                                         t-options='{"widget": "monetary", "display_currency": o.currency_id}'
                                     />
                                 </td>
                                 <td style="border: 1px solid black;" class="text-right">
                                     <strong
-                                        t-esc="total_paid"
+                                        t-out="total_paid"
                                         t-options='{"widget": "monetary", "display_currency": o.currency_id}'
                                     />
                                 </td>
@@ -249,7 +249,7 @@
                         <div class="row">
                             <div class="col-4">
                                 <span
-                                    t-esc="context_timestamp(datetime.datetime.now()).strftime('%Y-%m-%d %H:%M')"
+                                    t-out="context_timestamp(datetime.datetime.now()).strftime('%Y-%m-%d %H:%M')"
                                 />
                             </div>
                             <div class="col-6 text-center" />
