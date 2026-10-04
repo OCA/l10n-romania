@@ -10,7 +10,6 @@ class RetailMarkupLine(models.Model):
 
     landed_cost_id = fields.Many2one(
         "stock.landed.cost",
-        string="Landed Cost",
         index="btree_not_null",
         ondelete="set null",
     )
