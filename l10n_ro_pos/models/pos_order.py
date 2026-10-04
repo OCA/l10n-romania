@@ -8,7 +8,7 @@ from odoo import models
 
 class PosOrder(models.Model):
     _name = "pos.order"
-    _inherit = ["pos.order", "l10n.ro.mixin"]
+    _inherit = ("pos.order", "l10n.ro.mixin")
 
     def _prepare_invoice_vals(self):
         vals = super()._prepare_invoice_vals()

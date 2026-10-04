@@ -4,14 +4,7 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
 
-from odoo import models
-
-# Buckets accumulated by core for the goods issue of the uninvoiced orders.
-# "stock_valuation" belongs here even though it is consumed separately by
-# _create_stock_valuation_lines (called from _create_account_move): its
-# counterpart is "stock_expense", so the two have to go together or the closing
-# entry ends up unbalanced by exactly the cost of goods of those orders.
-L10N_RO_STOCK_KEYS = ("stock_expense", "stock_return", "stock_valuation")
+from odoo import Command, models
 
 
 class PosSession(models.Model):
@@ -33,15 +26,52 @@ class PosSession(models.Model):
             and "l10n_ro_move_type" in self.env["stock.move"]._fields
         )
 
-    def _accumulate_amounts(self, data):
-        data = super()._accumulate_amounts(data)
+    def _prepare_session_closing_extra_line_commands(
+        self, orders, refund, payments=None
+    ):
+        """Keep the closing entry from posting the goods issue a second time.
+
+        Odoo 19 accumulated the cost of goods of a session into buckets that
+        ``_accumulate_amounts`` could empty. Odoo 20 removed them: ``pos_stock``
+        appends an expense/stock pair straight onto the closing entry, one per
+        stock move of the session. The Romanian stock move posts that entry
+        itself, so the pair books the same goods a second time.
+
+        Core offers no seam to keep ``pos_stock`` out of the chain, so its pairs
+        are taken off again here -- recognised by the move they come from
+        already carrying its own accounting entry. The moves keep their value,
+        which is where the cost of goods is read from anyway.
+        """
+        lines = super()._prepare_session_closing_extra_line_commands(
+            orders, refund, payments if payments is not None else []
+        )
         if not self._l10n_ro_stock_move_posts_goods_issue():
-            return data
-        # The amounts themselves stay correct -- they are the cost of goods of
-        # the session -- so keep them under l10n_ro_* keys for reporting and
-        # for modules building on top of them; only the accounting lines must
-        # not be generated.
-        for key in L10N_RO_STOCK_KEYS:
-            data[f"l10n_ro_{key}"] = data[key]
-            data[key] = {}
-        return data
+            return lines
+        posted = (self.picking_ids | orders.picking_ids).move_ids.filtered(
+            "account_move_id"
+        )
+        if not posted:
+            return lines
+        names = set(posted.product_id.mapped("display_name"))
+        accounts = set()
+        for move in posted:
+            product_accounts = move.with_company(
+                move.company_id
+            ).product_id._get_product_accounts()
+            accounts.update(
+                account.id
+                for account in (
+                    product_accounts.get("expense"),
+                    product_accounts.get("stock_valuation"),
+                )
+                if account
+            )
+        return [
+            command
+            for command in lines
+            if not (
+                command[0] == Command.CREATE
+                and command[2].get("name") in names
+                and command[2].get("account_id") in accounts
+            )
+        ]
