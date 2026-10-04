@@ -293,18 +293,26 @@ class TestL10nRoPosRefund(CommonPosTest):
         cash = session.get_closing_control_data()["default_cash_details"]
         self.assertAlmostEqual(cash["amount"], session.cash_register_balance_end, 2)
 
-    def test_the_closing_entry_ignores_the_refunded_cash(self):
+    def test_the_credit_note_carries_no_pos_payment_line(self):
+        """Odoo 20 pays an invoiced order on the invoice itself, out of this
+        aggregation. The cash a payment disposal settles has to be left out of
+        it, or the credit note is paid twice."""
         session = self._session()
         refund = self._refund(self._sale(self.customer))
         session.invalidate_recordset()
 
-        data = session._accumulate_amounts({})
-        method = self.cash_payment_method
-        cash = data["combine_receivables_cash"].get(method, {"amount": 0.0})
-        # Only the sale that funded the refund is left in the bucket.
-        self.assertAlmostEqual(cash["amount"], 10.0, places=2)
-        self.assertNotIn(method, data["combine_invoice_receivables"])
-        self.assertFalse(data["combine_inv_payment_receivable_lines"].get(method))
+        payments = refund._prepare_account_move_line_data_for_payments(
+            refund.partner_id
+        )
+        self.assertFalse(
+            [
+                payment
+                for payment in payments
+                if payment["metadata"]["payment_method_id"] == self.cash_payment_method
+            ],
+            "Numerarul stins prin dispozitia de plata nu trebuie sa plateasca "
+            "si nota de credit",
+        )
         self.assertTrue(refund.l10n_ro_payment_disposal_id)
 
     def test_the_session_closes_balanced(self):

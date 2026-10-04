@@ -100,12 +100,53 @@ class PosOrder(models.Model):
         message = credit_note.message_ids[:1]
         return html2plaintext(message.body) if message.body else ""
 
-    def _get_payments(self):
-        payments = super()._get_payments()
-        # The cash handed back is settled by the payment disposal statement
-        # line, which reconciles the credit note itself; core must not also
-        # create a POS payment move for it.
-        return payments - payments._l10n_ro_payment_disposals()
+    def _prepare_account_move_line_data_for_payments(self, partner=None):
+        """Leave out what a payment disposal settles.
+
+        Odoo 20 pays an invoiced order on the invoice itself: this aggregation
+        becomes both the ``payment_term`` lines of the credit note and the
+        payment moves reconciled against them. The cash handed back here
+        leaves the till against a signed payment disposal, whose statement
+        line reconciles the credit note, so counting it here as well would pay
+        the credit note twice.
+
+        The keys are rebuilt exactly as core builds them, by payment method
+        and by the currency actually handed over, so a refund paid partly by
+        card keeps its card line.
+        """
+        payments = super()._prepare_account_move_line_data_for_payments(partner)
+        disposed = self.payment_ids._l10n_ro_payment_disposals()
+        if not disposed:
+            return payments
+
+        no_currency = self.env["res.currency"]
+        taken = {}
+        for payment in disposed:
+            foreign_currency = payment.foreign_currency_id
+            if foreign_currency == payment.currency_id:
+                foreign_currency = no_currency
+            key = (payment.payment_method_id, foreign_currency)
+            amounts = taken.setdefault(key, {"amount": 0.0, "amount_currency": 0.0})
+            amounts["amount"] += payment.amount
+            if foreign_currency:
+                amounts["amount_currency"] += payment.amount_currency
+
+        remaining = []
+        for payment in payments:
+            metadata = payment["metadata"]
+            amounts = taken.get(
+                (metadata["payment_method_id"], metadata["foreign_currency_id"])
+            )
+            if amounts:
+                metadata["amount"] -= amounts["amount"]
+                metadata["amount_currency"] -= amounts["amount_currency"]
+                payment["account.move.line"]["amount_currency"] = metadata["amount"]
+                if self.currency_id.is_zero(metadata["amount"]):
+                    # core creates a line for every entry it is handed, a zero
+                    # one included
+                    continue
+            remaining.append(payment)
+        return remaining
 
     def _l10n_ro_create_payment_disposal(self):
         """Pay the credit note out of the till with its own cash statement line.
