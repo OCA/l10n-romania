@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" ?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <odoo>
     <template
         id="report_delivery_document"
@@ -57,42 +57,42 @@
             <t t-if="o.l10n_ro_retail_incoming">
                 <td class="text-end">
                     <span
-                        t-esc="'%.2f' % aggregated_lines[line]['l10n_ro_retail_cost_unit']"
+                        t-out="'%.2f' % aggregated_lines[line]['l10n_ro_retail_cost_unit']"
                     />
                 </td>
                 <td class="text-end">
                     <span
-                        t-esc="'%.2f' % aggregated_lines[line]['l10n_ro_retail_cost_subtotal']"
+                        t-out="'%.2f' % aggregated_lines[line]['l10n_ro_retail_cost_subtotal']"
                     />
                 </td>
                 <td class="text-end">
                     <span
-                        t-esc="'%.2f' % aggregated_lines[line]['l10n_ro_retail_markup_percent']"
+                        t-out="'%.2f' % aggregated_lines[line]['l10n_ro_retail_markup_percent']"
                     />
                 </td>
                 <td class="text-end">
                     <span
-                        t-esc="'%.2f' % aggregated_lines[line]['l10n_ro_retail_markup']"
+                        t-out="'%.2f' % aggregated_lines[line]['l10n_ro_retail_markup']"
                     />
                 </td>
                 <td class="text-end">
                     <span
-                        t-esc="'%.2f' % aggregated_lines[line]['l10n_ro_retail_price_no_vat_unit']"
+                        t-out="'%.2f' % aggregated_lines[line]['l10n_ro_retail_price_no_vat_unit']"
                     />
                 </td>
                 <td class="text-end">
                     <span
-                        t-esc="'%.2f' % aggregated_lines[line]['l10n_ro_retail_vat']"
+                        t-out="'%.2f' % aggregated_lines[line]['l10n_ro_retail_vat']"
                     />
                 </td>
                 <td class="text-end">
                     <span
-                        t-esc="'%.2f' % aggregated_lines[line]['l10n_ro_retail_price_unit']"
+                        t-out="'%.2f' % aggregated_lines[line]['l10n_ro_retail_price_unit']"
                     />
                 </td>
                 <td class="text-end">
                     <span
-                        t-esc="'%.2f' % aggregated_lines[line]['l10n_ro_retail_price_total']"
+                        t-out="'%.2f' % aggregated_lines[line]['l10n_ro_retail_price_total']"
                     />
                 </td>
             </t>
