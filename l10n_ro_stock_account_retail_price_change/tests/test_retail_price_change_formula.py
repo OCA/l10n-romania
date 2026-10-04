@@ -138,7 +138,7 @@ class TestRetailPriceChangeFormula(TestRetailCommon):
             pricelist_id=self.pricelist_mag1.id,
             applied_on="0_product_variant",
             product_id=self.product_retail.id,
-            compute_price="formula",
+            compute_price="discount",
             base="list_price",
             price_discount=0.0,
         )
@@ -160,7 +160,7 @@ class TestRetailPriceChangeFormula(TestRetailCommon):
             pricelist_id=self.pricelist_mag1.id,
             applied_on="0_product_variant",
             product_id=self.product_retail.id,
-            compute_price="formula",
+            compute_price="discount",
             base="list_price",
             price_discount=0.0,
         )
@@ -177,22 +177,23 @@ class TestRetailPriceChangeFormula(TestRetailCommon):
             places=2,
         )
 
-    def test_percentage_rule_change_raises_a_document(self):
+    def test_plain_discount_rule_change_raises_a_document(self):
         """A discount rule prices the shelf as much as a fixed rule does."""
         item = self._new_item(
             pricelist_id=self.pricelist_mag1.id,
             applied_on="0_product_variant",
             product_id=self.product_retail.id,
-            compute_price="percentage",
-            percent_price=10.0,
+            compute_price="discount",
+            base="list_price",
+            price_discount=10.0,
         )
         self._set_initial_stock(self.loc_mag1, self.product_retail, 10)
 
         documents = self._documents_raised_by(
-            lambda: self._edit(item, percent_price=20.0)
+            lambda: self._edit(item, price_discount=20.0)
         )
 
-        self.assertTrue(documents, "A percentage rule moved no shelf price")
+        self.assertTrue(documents, "A discount rule moved no shelf price")
         self.assertAlmostEqual(
             self._line_for(documents, self.product_retail).new_price_with_vat,
             95.2,
@@ -226,7 +227,7 @@ class TestRetailPriceChangeFormula(TestRetailCommon):
         self._new_item(
             pricelist_id=self.pricelist_mag1.id,
             applied_on="3_global",
-            compute_price="formula",
+            compute_price="discount",
             base="pricelist",
             base_pricelist_id=base_list.id,
             price_discount=markup_discount,
@@ -295,7 +296,7 @@ class TestRetailPriceChangeFormula(TestRetailCommon):
         self._new_item(
             pricelist_id=middle.id,
             applied_on="3_global",
-            compute_price="formula",
+            compute_price="discount",
             base="pricelist",
             base_pricelist_id=root.id,
             price_discount=0.0,
@@ -303,7 +304,7 @@ class TestRetailPriceChangeFormula(TestRetailCommon):
         self._new_item(
             pricelist_id=self.pricelist_mag1.id,
             applied_on="3_global",
-            compute_price="formula",
+            compute_price="discount",
             base="pricelist",
             base_pricelist_id=middle.id,
             price_discount=0.0,

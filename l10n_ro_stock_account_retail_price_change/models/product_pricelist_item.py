@@ -7,7 +7,6 @@ from odoo import api, models
 TRIGGER_FIELDS = {
     # What the rule prices, and what it answers with.
     "fixed_price",
-    "percent_price",
     "compute_price",
     "applied_on",
     "product_id",
