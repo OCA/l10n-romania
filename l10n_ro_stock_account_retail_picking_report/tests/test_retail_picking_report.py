@@ -87,7 +87,7 @@ class TestRetailPickingReport(TestRetailCommon):
             {
                 "company_id": self.env.company.id,
                 "product_id": product.id,
-                "product_uom": dozen.id,
+                "uom_id": dozen.id,
                 "product_uom_qty": 2,
                 "location_id": self.env.ref("stock.stock_location_suppliers").id,
                 "location_dest_id": self.loc_mag1.id,
@@ -101,7 +101,7 @@ class TestRetailPickingReport(TestRetailCommon):
         move._action_done()
         picking = move.picking_id
         # The line counts dozens, the move counts units: exactly the mismatch.
-        self.assertEqual(move.move_line_ids.product_uom_id, dozen)
+        self.assertEqual(move.move_line_ids.uom_id, dozen)
         self.assertAlmostEqual(move.move_line_ids.quantity, 2.0, places=2)
         self.assertAlmostEqual(move.product_qty, 24.0, places=2)
 
