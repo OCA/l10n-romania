@@ -6,7 +6,7 @@ from odoo import api, fields, models
 
 class CountryCity(models.Model):
     _name = "res.city"
-    _inherit = ["res.city", "l10n.ro.mixin"]
+    _inherit = ("res.city", "l10n.ro.mixin")
 
     l10n_ro_siruta = fields.Char(string="Romania - Siruta")
     l10n_ro_municipality = fields.Char(string="Romania - Municipality")
