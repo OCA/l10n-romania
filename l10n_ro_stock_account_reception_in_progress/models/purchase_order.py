@@ -8,7 +8,7 @@ from odoo.tools import groupby
 
 class PurchaseOrder(models.Model):
     _name = "purchase.order"
-    _inherit = ["purchase.order", "l10n.ro.mixin"]
+    _inherit = ("purchase.order", "l10n.ro.mixin")
 
     l10n_ro_reception_in_progress = fields.Boolean(
         string="Romania - Reception in progress"
@@ -16,7 +16,8 @@ class PurchaseOrder(models.Model):
 
     def action_create_reception_in_progress_invoice(self):
         """Create the reception in progress invoice associated to the PO."""
-        self = self.with_context(
+        # rebinding self is how an override hands a context down to what follows
+        self = self.with_context(  # noqa: PLW0642
             l10n_ro_reception_in_progress=True, valued_type="reception_in_progress"
         )
         # Flag the order and its receipts before creating the invoice so that the
@@ -102,7 +103,8 @@ class PurchaseOrder(models.Model):
 
     def action_create_invoice(self, attachment_ids=False):
         if len(self) == 1 and self.l10n_ro_reception_in_progress:
-            self = self.with_context(
+            # rebinding self is how an override hands a context down to super()
+            self = self.with_context(  # noqa: PLW0642
                 l10n_ro_reception_in_progress=True, valued_type="reception_in_progress"
             )
         return super().action_create_invoice(attachment_ids=attachment_ids)

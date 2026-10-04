@@ -7,7 +7,7 @@ from odoo.exceptions import ValidationError
 
 class StockPicking(models.Model):
     _name = "stock.picking"
-    _inherit = ["stock.picking", "l10n.ro.mixin"]
+    _inherit = ("stock.picking", "l10n.ro.mixin")
 
     def _action_done(self):
         res = super()._action_done()
