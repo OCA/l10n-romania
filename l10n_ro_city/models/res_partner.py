@@ -8,15 +8,18 @@ from odoo.exceptions import UserError
 
 class Partner(models.Model):
     _name = "res.partner"
-    _inherit = ["res.partner", "l10n.ro.mixin"]
+    _inherit = ("res.partner", "l10n.ro.mixin")
 
     city_id = fields.Many2one("res.city", domain="[('state_id','=',state_id)]")
 
     @api.onchange("state_id")
     def onchange_state(self):
-        if self.country_id.code == "RO":
-            if self.city_id and self.city_id.state_id != self.state_id:
-                self.city_id = None
+        if (
+            self.country_id.code == "RO"
+            and self.city_id
+            and self.city_id.state_id != self.state_id
+        ):
+            self.city_id = None
 
     @api.onchange("zip")
     def onchange_zip(self):
