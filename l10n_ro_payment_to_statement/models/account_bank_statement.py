@@ -8,7 +8,7 @@ from odoo import api, fields, models
 
 class AccountBankStatement(models.Model):
     _name = "account.bank.statement"
-    _inherit = ["account.bank.statement", "l10n.ro.mixin"]
+    _inherit = ("account.bank.statement", "l10n.ro.mixin")
 
     @api.model
     def _l10n_ro_get_journal(self, vals):
@@ -59,7 +59,7 @@ class AccountBankStatement(models.Model):
 
 class AccountBankStatementLine(models.Model):
     _name = "account.bank.statement.line"
-    _inherit = ["account.bank.statement.line", "l10n.ro.mixin"]
+    _inherit = ("account.bank.statement.line", "l10n.ro.mixin")
 
     is_l10n_ro_payment_disposal = fields.Boolean()
 

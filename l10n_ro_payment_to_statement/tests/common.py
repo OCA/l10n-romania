@@ -37,6 +37,14 @@ class TestPaymenttoStatement(AccountTestInvoicingCommon):
         )
         cls.partner = cls.env["res.partner"].create({"name": "Test partner"})
 
+        # A Romanian cash journal keeps a cash register, and the register line
+        # brings the money in from the account of the payment method. Odoo 20
+        # gives a new payment method line the journal's own account, which
+        # leaves nothing to bring in, so the transit account is set here - the
+        # way every cash register test configures it. The one test that wants
+        # the refusal puts the cash account back itself.
+        cls._set_payment_account(cls.cash_journal, cls.transit_account)
+
     @classmethod
     def _set_payment_account(cls, journal, account):
         """Account taken by the payments of a journal (the outstanding one)."""
