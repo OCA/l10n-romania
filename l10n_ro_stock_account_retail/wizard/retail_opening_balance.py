@@ -125,9 +125,8 @@ class RetailOpeningBalance(models.TransientModel):
             qty_done, cost_done = recorded.get(key, (0.0, 0.0))
             qty_gap = qty_hand - qty_done
             cost_gap = cost_hand - cost_done
-            rounding = product.uom_id.rounding
             currency_rounding = self.company_id.currency_id.rounding
-            if float_is_zero(qty_gap, precision_rounding=rounding) and float_is_zero(
+            if product.uom_id.is_zero(qty_gap) and float_is_zero(
                 cost_gap, precision_rounding=currency_rounding
             ):
                 continue

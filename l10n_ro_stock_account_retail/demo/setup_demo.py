@@ -28,7 +28,7 @@ import random as _random
 
 from odoo.exceptions import UserError
 
-env = env  # noqa: F821 (provided by `odoo shell`)
+env = env  # noqa: F821,PLW0127 (provided by `odoo shell`)
 log = lambda *a: print("[demo]", *a)
 _random.seed(42)
 
@@ -471,7 +471,7 @@ def make_transfer(date_str, dest_warehouse, lines):
             {
                 "product_id": product.id,
                 "product_uom_qty": qty,
-                "product_uom": product.uom_id.id,
+                "uom_id": product.uom_id.id,
                 "location_id": main_wh.lot_stock_id.id,
                 "location_dest_id": dest_warehouse.lot_stock_id.id,
                 "picking_id": picking.id,
@@ -594,7 +594,7 @@ def make_transfer_to_location(date_str, src_location, dest_location, lines):
             {
                 "product_id": product.id,
                 "product_uom_qty": qty,
-                "product_uom": product.uom_id.id,
+                "uom_id": product.uom_id.id,
                 "location_id": src_location.id,
                 "location_dest_id": dest_location.id,
                 "picking_id": picking.id,
@@ -618,18 +618,14 @@ def make_transfer_between(date_str, src_warehouse, dest_warehouse, lines):
 
 
 def make_return(picking, date_str, ratio=1.0):
-    """Return part of a done picking, through the standard return wizard, so
+    """Return part of a done picking, the way the picking itself returns, so
     ``origin_returned_move_id`` is set and the retail legs settle against the
     original move rather than against today's price."""
-    wizard = (
-        env["stock.return.picking"]
-        .with_context(active_id=picking.id, active_model="stock.picking")
-        .create({})
-    )
-    for line in wizard.product_return_moves:
-        line.quantity = max(round(line.quantity * ratio, 2), 1.0)
-    result = wizard.action_create_returns()
-    ret = env["stock.picking"].browse(result["res_id"])
+    ret = picking._create_return()
+    for move in ret.move_ids:
+        origin_qty = move.origin_returned_move_id.quantity
+        move.product_uom_qty = max(round(origin_qty * ratio, 2), 1.0)
+    ret.action_confirm()
     ret.action_assign()
     for m in ret.move_ids:
         m.quantity = m.product_uom_qty

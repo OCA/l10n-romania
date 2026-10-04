@@ -403,7 +403,7 @@ class TestRetailStockAccount(TestRetailCommon):
         other outgoing leg, just on a 'reception_return' move (which,
         like a plain reception, books no main valuation entry until a
         credit note is posted)."""
-        po, move = self._do_purchase_receipt(
+        _po, move = self._do_purchase_receipt(
             self.warehouse_mag1, self.product_retail, 4, 50.0
         )
         return_move = self._do_return(move.picking_id, 4)
@@ -883,7 +883,7 @@ class TestRetailStockAccount(TestRetailCommon):
         # Then two units arrive the normal way and are recorded. The helper
         # sets the count, so 42 is an increase of two over the 40 already there.
         self._set_initial_stock(self.loc_mag1, self.product_retail, 42)
-        markup_before, vat_before = self._carried(
+        markup_before, _vat_before = self._carried(
             self.warehouse_mag1, self.product_retail
         )
         self.assertAlmostEqual(markup_before, 100.0, places=2)  # 2 * 50

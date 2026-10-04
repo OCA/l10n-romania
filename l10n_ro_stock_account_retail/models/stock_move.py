@@ -119,9 +119,7 @@ class StockMove(models.Model):
         if not lines:
             return None
         origin_qty = abs(sum(lines.mapped("quantity")))
-        if float_is_zero(
-            origin_qty, precision_rounding=self.product_id.uom_id.rounding
-        ):
+        if self.product_id.uom_id.is_zero(origin_qty):
             return None
         ratio = min(qty / origin_qty, 1.0)
         # The caller multiplies by +1 for 'in' and -1 for 'out', so dividing
@@ -199,14 +197,14 @@ class StockMove(models.Model):
         qty_before, _cost, markup, vat = Ledger._l10n_ro_balance(
             warehouse, self.product_id, self.company_id
         )
-        rounding = self.product_id.uom_id.rounding
+        uom = self.product_id.uom_id
         if float_is_zero(
             markup, precision_rounding=self.company_id.currency_id.rounding
         ) and float_is_zero(
             vat, precision_rounding=self.company_id.currency_id.rounding
         ):
             return 0.0, 0.0
-        if float_compare(qty_before, qty, precision_rounding=rounding) <= 0:
+        if uom.compare(qty_before, qty) <= 0:
             # The ledger accounts for no more than what is leaving, so
             # everything it carries goes with it and both accounts close.
             return markup, vat
@@ -249,7 +247,7 @@ class StockMove(models.Model):
         if not legs:
             return []
         qty = self._l10n_ro_retail_qty()
-        if float_is_zero(qty, precision_rounding=self.product_id.uom_id.rounding):
+        if self.product_id.uom_id.is_zero(qty):
             return []
         currency = self.company_id.currency_id
         aml_vals = []
