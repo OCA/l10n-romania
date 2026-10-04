@@ -115,8 +115,9 @@ class AccountPayment(models.Model):
             outstanding_lines = (
                 line.move_id.line_ids | self.move_id.line_ids
             ).filtered(
-                lambda aml: aml.account_id == self.outstanding_account_id
-                and not aml.reconciled
+                lambda aml: (
+                    aml.account_id == self.outstanding_account_id and not aml.reconciled
+                )
             )
             outstanding_lines.reconcile()
         self.write(

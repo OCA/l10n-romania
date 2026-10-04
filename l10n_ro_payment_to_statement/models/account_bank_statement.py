@@ -118,10 +118,12 @@ class AccountBankStatementLine(models.Model):
         # line of the payment, or its outstanding line, undoing the
         # reconciliation with the invoice.
         lines = self.filtered(
-            lambda line: not (
-                line.is_l10n_ro_record
-                and line.journal_id.type == "cash"
-                and line._l10n_ro_get_payment()
+            lambda line: (
+                not (
+                    line.is_l10n_ro_record
+                    and line.journal_id.type == "cash"
+                    and line._l10n_ro_get_payment()
+                )
             )
         )
         return super(AccountBankStatementLine, lines)._synchronize_to_moves(
