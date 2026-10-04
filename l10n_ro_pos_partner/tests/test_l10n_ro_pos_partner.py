@@ -80,7 +80,7 @@ class TestL10nRoPosPartner(CommonPosTest):
         partner = self.Partner.search([("vat", "=", "RO" + CUI)])
         self.assertEqual(len(partner), 1)
         self.assertEqual(partner.name, "FOREST AND BIOMASS ROMÂNIA S.A.")
-        self.assertEqual(partner.company_type, "company")
+        self.assertTrue(partner.is_company)
         self.assertEqual(partner.country_id, self.env.ref("base.ro"))
         self.assertEqual(partner.state_id, self.env.ref("base.RO_TM"))
         self.assertEqual(partner.nrc, "J2012002622359")
@@ -109,9 +109,11 @@ class TestL10nRoPosPartner(CommonPosTest):
     # -- when ANAF cannot answer ------------------------------------------
 
     def test_an_anaf_error_reaches_the_cashier(self):
-        with patch(ANAF_PATH, return_value=("ANAF is down", None)):
-            with self.assertRaises(UserError):
-                self.Partner.l10n_ro_pos_create_partner_from_vat(self.config.id, CUI)
+        with (
+            patch(ANAF_PATH, return_value=("ANAF is down", None)),
+            self.assertRaises(UserError),
+        ):
+            self.Partner.l10n_ro_pos_create_partner_from_vat(self.config.id, CUI)
 
     def test_an_unknown_cui_leaves_no_placeholder_customer_behind(self):
         unknown = "3083485711"
