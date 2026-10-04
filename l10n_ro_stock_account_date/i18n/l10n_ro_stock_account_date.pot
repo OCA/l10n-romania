@@ -1,0 +1,86 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* l10n_ro_stock_account_date
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 19.0\n"
+"Report-Msgid-Bugs-To: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: l10n_ro_stock_account_date
+#: model:ir.model.fields,field_description:l10n_ro_stock_account_date.field_stock_picking__l10n_ro_accounting_date
+#: model_terms:ir.ui.view,arch_db:l10n_ro_stock_account_date.view_picking_internal_search
+msgid "Accounting Date"
+msgstr ""
+
+#. module: l10n_ro_stock_account_date
+#. odoo-python
+#: code:addons/l10n_ro_stock_account_date/models/stock_move.py:0
+msgid ""
+"Cannot validate stock move due to date restriction. The date must be after "
+"%(last_posting_date)s"
+msgstr ""
+
+#. module: l10n_ro_stock_account_date
+#. odoo-python
+#: code:addons/l10n_ro_stock_account_date/models/stock_move.py:0
+msgid ""
+"Cannot validate stock move due to date restriction. The date must be before "
+"%(last_posting_date)s"
+msgstr ""
+
+#. module: l10n_ro_stock_account_date
+#. odoo-python
+#: code:addons/l10n_ro_stock_account_date/models/stock_move.py:0
+msgid ""
+"Cannot validate stock move with accounting date %(move_date)s as it falls "
+"within a locked fiscal period."
+msgstr ""
+
+#. module: l10n_ro_stock_account_date
+#: model:ir.model.fields,field_description:l10n_ro_stock_account_date.field_stock_move__display_name
+#: model:ir.model.fields,field_description:l10n_ro_stock_account_date.field_stock_picking__display_name
+#: model:ir.model.fields,field_description:l10n_ro_stock_account_date.field_stock_quant__display_name
+msgid "Display Name"
+msgstr ""
+
+#. module: l10n_ro_stock_account_date
+#: model:ir.model.fields,field_description:l10n_ro_stock_account_date.field_stock_move__id
+#: model:ir.model.fields,field_description:l10n_ro_stock_account_date.field_stock_picking__id
+#: model:ir.model.fields,field_description:l10n_ro_stock_account_date.field_stock_quant__id
+msgid "ID"
+msgstr ""
+
+#. module: l10n_ro_stock_account_date
+#: model:ir.model.fields,help:l10n_ro_stock_account_date.field_stock_picking__l10n_ro_accounting_date
+msgid ""
+"If this field is set, the svl and accounting entries will have this date, If"
+" not will have the today date as it should be"
+msgstr ""
+
+#. module: l10n_ro_stock_account_date
+#: model:ir.model.fields,field_description:l10n_ro_stock_account_date.field_stock_move__is_l10n_ro_record
+#: model:ir.model.fields,field_description:l10n_ro_stock_account_date.field_stock_picking__is_l10n_ro_record
+msgid "Is Romanian Record"
+msgstr ""
+
+#. module: l10n_ro_stock_account_date
+#: model:ir.model,name:l10n_ro_stock_account_date.model_stock_quant
+msgid "Quants"
+msgstr ""
+
+#. module: l10n_ro_stock_account_date
+#: model:ir.model,name:l10n_ro_stock_account_date.model_stock_move
+msgid "Stock Move"
+msgstr ""
+
+#. module: l10n_ro_stock_account_date
+#: model:ir.model,name:l10n_ro_stock_account_date.model_stock_picking
+msgid "Transfer"
+msgstr ""
