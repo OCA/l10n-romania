@@ -3,7 +3,7 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 {
     "name": "Romania - Retail Stock Report (Marfa in Magazin)",
-    "version": "19.0.1.0.0",
+    "version": "20.0.1.0.0",
     "category": "Localization",
     "countries": ["ro"],
     "summary": "Romania - Retail stock report (adaos si TVA neexigibila "
@@ -16,7 +16,7 @@
     ],
     "license": "AGPL-3",
     "data": [
-        "security/ir.model.access.csv",
+        "security/ir.access.csv",
         "security/stock_retail_report_security.xml",
         "report/stock_retail_report_view.xml",
         "wizard/stock_retail_report_wizard.xml",
