@@ -22,8 +22,7 @@ class ResPartner(models.Model):
         part of the code ANAF is asked about.
         """
         vat = re.sub(r"\s+", "", vat_number or "").upper()
-        if vat.startswith("RO"):
-            vat = vat[2:]
+        vat = vat.removeprefix("RO")
         if not vat.isdigit():
             raise UserError(self.env._("Invalid CUI: %(vat)s", vat=vat_number))
         return vat
