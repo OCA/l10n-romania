@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" ?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <odoo>
     <template
         id="l10n_ro_report_invoice_document"
@@ -118,12 +118,12 @@
             <tr t-if="o.company_id.country_id.code == 'RO'">
                 <td>Exchange Rate</td>
                 <td class="text-end">
-                    1 <span t-esc="o.currency_id.symbol" /> =
+                    1 <span t-out="o.currency_id.symbol" /> =
                     <span
-                    t-esc="o.invoice_currency_rate"
+                    t-out="o.invoice_currency_rate"
                     t-options='{"widget": "float", "precision": 5}'
                 />
-                    <span t-esc="o.company_id.currency_id.symbol" />
+                    <span t-out="o.company_id.currency_id.symbol" />
                 </td>
             </tr>
         </xpath>
