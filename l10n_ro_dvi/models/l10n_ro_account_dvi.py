@@ -190,11 +190,12 @@ class AccountInvoiceDVI(models.Model):
                     dvi.line_ids.unlink()
                 for invoice in dvi.invoice_ids:
                     invoice_lines = invoice.invoice_line_ids.filtered(
-                        lambda line: line.display_type
-                        not in ("line_section", "line_note")
-                        and (
-                            line.product_id.type == "consu"
-                            or line.is_landed_costs_line is True
+                        lambda line: (
+                            line.display_type not in ("line_section", "line_note")
+                            and (
+                                line.product_id.type == "consu"
+                                or line.is_landed_costs_line is True
+                            )
                         )
                     )
                     for inv_line in invoice_lines:
@@ -324,11 +325,12 @@ class AccountInvoiceDVI(models.Model):
                         dvi.line_ids.unlink()
                     for invoice in dvi.invoice_ids:
                         invoice_lines = invoice.invoice_line_ids.filtered(
-                            lambda line: line.display_type
-                            not in ("line_section", "line_note")
-                            and (
-                                line.product_id.type == "consu"
-                                or line.is_landed_costs_line is True
+                            lambda line: (
+                                line.display_type not in ("line_section", "line_note")
+                                and (
+                                    line.product_id.type == "consu"
+                                    or line.is_landed_costs_line is True
+                                )
                             )
                         )
                         for inv_line in invoice_lines:
