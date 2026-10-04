@@ -10,7 +10,6 @@ class RetailMarkupLine(models.Model):
 
     price_change_id = fields.Many2one(
         "l10n.ro.retail.price.change",
-        string="Price Change",
         index="btree_not_null",
         ondelete="set null",
     )

@@ -4,6 +4,8 @@
 
 from odoo import api, fields, models
 
+from .product_product import _l10n_ro_retail_price_history_action
+
 
 class ProductTemplate(models.Model):
     _inherit = "product.template"
@@ -32,23 +34,9 @@ class ProductTemplate(models.Model):
         """Every shelf price this product has had, and the document that
         decided each of them."""
         self.ensure_one()
-        return {
-            "type": "ir.actions.act_window",
-            "name": self.env._("Retail Price History"),
-            "res_model": "l10n.ro.retail.price.change.line",
-            "view_mode": "list",
-            "views": [
-                (
-                    self.env.ref(
-                        "l10n_ro_stock_account_retail_price_change."
-                        "view_retail_price_change_line_history_list"
-                    ).id,
-                    "list",
-                )
-            ],
-            "domain": self._l10n_ro_retail_price_change_domain(),
-            "context": {"create": False, "edit": False},
-        }
+        return _l10n_ro_retail_price_history_action(
+            self.env, self._l10n_ro_retail_price_change_domain()
+        )
 
     def write(self, vals):
         """A shop priced off the sale price re-prices its shelves here.

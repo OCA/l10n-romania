@@ -12,7 +12,7 @@ from odoo.tools.float_utils import float_compare, float_is_zero
 class RetailPriceChange(models.Model):
     _name = "l10n.ro.retail.price.change"
     _description = "Retail Price Change (Proces Verbal de Schimbare Pret)"
-    _inherit = ["mail.thread", "mail.activity.mixin"]
+    _inherit = ("mail.thread", "mail.activity.mixin")
     _order = "date desc, id desc"
 
     name = fields.Char(
@@ -164,7 +164,7 @@ class RetailPriceChange(models.Model):
             if (product.id, location.id) in existing_keys:
                 continue
             qty = sum(qs.mapped("quantity"))
-            if float_is_zero(qty, precision_rounding=product.uom_id.rounding):
+            if product.uom_id.is_zero(qty):
                 continue
             candidates.append((product, location, qty))
             products |= product
@@ -286,10 +286,7 @@ class RetailPriceChange(models.Model):
             recorded, _cost, _markup, _vat = Ledger._l10n_ro_balance(
                 self.warehouse_id, product, self.company_id
             )
-            if (
-                float_compare(recorded, qty, precision_rounding=product.uom_id.rounding)
-                != 0
-            ):
+            if product.uom_id.compare(recorded, qty) != 0:
                 problems.append((product, recorded, qty))
         if not problems:
             return
@@ -699,10 +696,10 @@ class RetailPriceChange(models.Model):
         carried = {}
         for product, quantity in on_hand:
             recorded, cost, markup, vat = balances.get(product.id, (0.0, 0.0, 0.0, 0.0))
-            rounding = product.uom_id.rounding
-            if float_is_zero(recorded, precision_rounding=rounding):
+            uom = product.uom_id
+            if uom.is_zero(recorded):
                 continue
-            if float_compare(recorded, quantity, precision_rounding=rounding) != 0:
+            if uom.compare(recorded, quantity) != 0:
                 continue
             carried[(warehouse.id, product.id)] = {
                 "price_with_vat": (cost + markup + vat) / recorded,
@@ -901,7 +898,7 @@ class RetailPriceChangeLine(models.Model):
             company = line.document_id.company_id or line.env.company
             key = (company.id, line.document_id.warehouse_id.id, product.id)
             qty, cost, markup, vat = carried.get(key, (0.0, 0.0, 0.0, 0.0))
-            if not float_is_zero(qty, precision_rounding=product.uom_id.rounding):
+            if not product.uom_id.is_zero(qty):
                 line.cost_unit = cost / qty
                 line.old_markup_unit = markup / qty
                 line.old_vat_unit = vat / qty
@@ -913,9 +910,7 @@ class RetailPriceChangeLine(models.Model):
             on_hand_qty, on_hand_value = fallback.get(key, (0.0, 0.0))
             line.cost_unit = (
                 on_hand_value / on_hand_qty
-                if not float_is_zero(
-                    on_hand_qty, precision_rounding=product.uom_id.rounding
-                )
+                if not product.uom_id.is_zero(on_hand_qty)
                 else product.with_company(company).standard_price
             )
 
