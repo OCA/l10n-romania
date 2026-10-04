@@ -36,7 +36,6 @@ class AccountInvoiceDVI(models.Model):
 
     journal_id = fields.Many2one(
         "account.journal",
-        string="Journal",
         required=True,
         domain="[('type', '=', 'general'), ('company_id', '=', company_id)]",
     )
@@ -486,12 +485,11 @@ class AccountDVILine(models.Model):
     )
     invoice_line_id = fields.Many2one(
         "account.move.line",
-        "Invoice Line",
         copy=False,
         readonly=True,
         check_company=True,
     )
-    name = fields.Char(related="invoice_line_id.name", readonly=True)
+    name = fields.Text(related="invoice_line_id.name", readonly=True)
     product_id = fields.Many2one(related="invoice_line_id.product_id", readonly=True)
     product_uom_id = fields.Many2one(
         related="invoice_line_id.product_uom_id", readonly=True

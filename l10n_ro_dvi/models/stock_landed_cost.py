@@ -12,7 +12,7 @@ _logger = logging.getLogger(__name__)
 
 class LandedCost(models.Model):
     _name = "stock.landed.cost"
-    _inherit = ["stock.landed.cost", "l10n.ro.mixin"]
+    _inherit = ("stock.landed.cost", "l10n.ro.mixin")
 
     l10n_ro_cost_type = fields.Selection(
         selection_add=[("dvi", "DVI")], ondelete={"dvi": "set default"}
