@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<templates id="template">
+    <t
+        t-name="PaymentScreenStatus"
+        t-inherit="point_of_sale.PaymentScreenStatus"
+        t-inherit-mode="extension"
+    >
+        <xpath expr="//section" position="before">
+            <div t-if="warningMessage=='L5000'" class="limit-warning">
+                <span>Sale to individuals only..</span>
+            </div>
+            <div t-if="warningMessage=='L10000'" class="limit-error">
+                <span>A cash sale of more than 10,000 lei cannot be made.</span>
+            </div>
+        </xpath>
+    </t>
+</templates>
