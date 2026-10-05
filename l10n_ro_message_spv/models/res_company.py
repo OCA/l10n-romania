@@ -18,7 +18,7 @@ class ResCompany(models.Model):
     l10n_ro_download_einvoices_days = fields.Integer(
         string="Maximum number of days to download e-invoices.", default=60
     )
-    
+
     l10n_ro_refresh_message_days = fields.Integer(
         string="Maximum number of days to refresh e-invoice messages.", default=60
     )
