@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright (C) 2025 NextERP Romania
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html). -->
+<odoo>
+    <!-- Datele de identificare românești ale firmei demo din România,
+         peste cele create de l10n_ro (demo/demo_company.xml). -->
+    <record id="base.partner_demo_company_ro" model="res.partner">
+        <field name="nrc">J40/1234/2018</field>
+        <field name="l10n_ro_vat_subjected" eval="True" />
+        <field name="l10n_ro_e_invoice" eval="True" />
+        <field name="l10n_ro_caen_code">4690</field>
+    </record>
+
+    <record id="base.demo_company_ro" model="res.company">
+        <field name="l10n_ro_share_capital">45000.0</field>
+    </record>
+</odoo>
