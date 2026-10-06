@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright (C) 2025 NextERP Romania
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html). -->
+<odoo>
+    <!-- Localitatea partenerilor interni se leagă de nomenclatorul SIRUTA
+         adus de modul, nu mai rămâne text liber. -->
+
+    <record id="base.partner_demo_company_ro" model="res.partner">
+        <field name="city_id" ref="l10n_ro_city.RO_179132" />
+    </record>
+
+    <record id="l10n_ro_config.demo_partner_ro_company_supplier" model="res.partner">
+        <field name="city_id" ref="l10n_ro_city.RO_155252" />
+    </record>
+
+    <record
+        id="l10n_ro_config.demo_partner_ro_company_supplier_raw"
+        model="res.partner"
+    >
+        <field name="city_id" ref="l10n_ro_city.RO_155369" />
+    </record>
+
+    <record
+        id="l10n_ro_config.demo_partner_ro_company_supplier_service"
+        model="res.partner"
+    >
+        <field name="city_id" ref="l10n_ro_city.RO_54984" />
+    </record>
+
+    <record id="l10n_ro_config.demo_partner_ro_company_customer" model="res.partner">
+        <field name="city_id" ref="l10n_ro_city.RO_179132" />
+    </record>
+
+    <record
+        id="l10n_ro_config.demo_partner_ro_company_customer_vat_payment"
+        model="res.partner"
+    >
+        <field name="city_id" ref="l10n_ro_city.RO_60428" />
+    </record>
+
+    <record
+        id="l10n_ro_config.demo_partner_ro_company_not_vat_subjected"
+        model="res.partner"
+    >
+        <field name="city_id" ref="l10n_ro_city.RO_95079" />
+    </record>
+
+    <record id="l10n_ro_config.demo_partner_ro_pfa" model="res.partner">
+        <field name="city_id" ref="l10n_ro_city.RO_155252" />
+    </record>
+
+    <record id="l10n_ro_config.demo_partner_ro_individual_customer" model="res.partner">
+        <field name="city_id" ref="l10n_ro_city.RO_179132" />
+    </record>
+
+    <record id="l10n_ro_config.demo_partner_ro_individual_supplier" model="res.partner">
+        <field name="city_id" ref="l10n_ro_city.RO_40205" />
+    </record>
+</odoo>
