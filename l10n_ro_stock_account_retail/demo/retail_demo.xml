@@ -1,0 +1,417 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright (C) 2025 NextERP Romania
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html). -->
+<odoo>
+    <!-- Conturile implicite ale gestiunii de mărfuri la preț de vânzare:
+         adaosul comercial în 378 și TVA-ul neexigibil în 4428. -->
+
+    <record id="base.demo_company_ro" model="res.company">
+        <field
+            name="l10n_ro_account_markup_id"
+            model="account.chart.template"
+            eval="obj().with_company(obj().env.ref('base.demo_company_ro')).ref('pcg_378').id"
+        />
+        <field
+            name="l10n_ro_account_deferred_vat_id"
+            model="account.chart.template"
+            eval="obj().with_company(obj().env.ref('base.demo_company_ro')).ref('pcg_44281').id"
+        />
+    </record>
+
+    <!-- ===================================================================
+         Taxa pe care o vede casa: aceeași cotă de 21%, dar cu TVA inclus în
+         preț, fiindcă prețul de pe etichetă este un preț de vânzare cu
+         amănuntul. Repartizarea și etichetele fiscale se iau de la taxa de
+         21% din planul de conturi, ca să raporteze la fel în decont.
+         =================================================================== -->
+
+    <record
+        id="demo_tax_sale_21_included"
+        model="account.tax"
+        context="{'allowed_company_ids': [ref('base.demo_company_ro')]}"
+    >
+        <field name="name">TVA 21% inclus în preț</field>
+        <field name="description">21% PVA</field>
+        <field name="amount">21.0</field>
+        <field name="amount_type">percent</field>
+        <field name="type_tax_use">sale</field>
+        <field name="price_include_override">tax_included</field>
+        <field name="company_id" ref="base.demo_company_ro" />
+        <field
+            name="original_tax_ids"
+            model="account.chart.template"
+            eval="[Command.set(obj().with_company(obj().env.ref('base.demo_company_ro')).ref('tvac_21').ids)]"
+        />
+        <field
+            name="tax_group_id"
+            model="account.chart.template"
+            eval="obj().with_company(obj().env.ref('base.demo_company_ro')).ref('tax_group_tva_21').id"
+        />
+        <field
+            name="repartition_line_ids"
+            model="account.chart.template"
+            eval="[
+                Command.create({
+                    'document_type': line.document_type,
+                    'repartition_type': line.repartition_type,
+                    'factor_percent': line.factor_percent,
+                    'account_id': line.account_id.id,
+                    'tag_ids': [Command.set(line.tag_ids.ids)],
+                })
+                for line in obj().with_company(obj().env.ref('base.demo_company_ro')).ref('tvac_21').repartition_line_ids
+            ]"
+        />
+    </record>
+
+    <!-- ===================================================================
+         Conturile analitice pe magazin. Fiecare gestiune își ține marfa,
+         adaosul și TVA-ul neexigibil pe contul ei, ca soldurile să se poată
+         citi pe magazin fără să fie nevoie de rapoarte separate.
+         =================================================================== -->
+
+    <record
+        id="demo_account_371_centru"
+        model="account.account"
+        context="{'allowed_company_ids': [ref('base.demo_company_ro')]}"
+    >
+        <field name="name">Mărfuri - Magazin Centru</field>
+        <field name="code">371001</field>
+        <field name="account_type">asset_current</field>
+        <field name="company_ids" eval="[Command.set([ref('base.demo_company_ro')])]" />
+    </record>
+
+    <record
+        id="demo_account_378_centru"
+        model="account.account"
+        context="{'allowed_company_ids': [ref('base.demo_company_ro')]}"
+    >
+        <field name="name">Diferențe de preț la mărfuri - Magazin Centru</field>
+        <field name="code">378001</field>
+        <field name="account_type">asset_current</field>
+        <field name="company_ids" eval="[Command.set([ref('base.demo_company_ro')])]" />
+    </record>
+
+    <record
+        id="demo_account_4428_centru"
+        model="account.account"
+        context="{'allowed_company_ids': [ref('base.demo_company_ro')]}"
+    >
+        <field name="name">TVA neexigibilă colectată - Magazin Centru</field>
+        <field name="code">442801</field>
+        <field name="account_type">liability_current</field>
+        <field name="company_ids" eval="[Command.set([ref('base.demo_company_ro')])]" />
+    </record>
+
+    <record
+        id="demo_account_371_nord"
+        model="account.account"
+        context="{'allowed_company_ids': [ref('base.demo_company_ro')]}"
+    >
+        <field name="name">Mărfuri - Magazin Nord</field>
+        <field name="code">371002</field>
+        <field name="account_type">asset_current</field>
+        <field name="company_ids" eval="[Command.set([ref('base.demo_company_ro')])]" />
+    </record>
+
+    <record
+        id="demo_account_378_nord"
+        model="account.account"
+        context="{'allowed_company_ids': [ref('base.demo_company_ro')]}"
+    >
+        <field name="name">Diferențe de preț la mărfuri - Magazin Nord</field>
+        <field name="code">378002</field>
+        <field name="account_type">asset_current</field>
+        <field name="company_ids" eval="[Command.set([ref('base.demo_company_ro')])]" />
+    </record>
+
+    <record
+        id="demo_account_4428_nord"
+        model="account.account"
+        context="{'allowed_company_ids': [ref('base.demo_company_ro')]}"
+    >
+        <field name="name">TVA neexigibilă colectată - Magazin Nord</field>
+        <field name="code">442802</field>
+        <field name="account_type">liability_current</field>
+        <field name="company_ids" eval="[Command.set([ref('base.demo_company_ro')])]" />
+    </record>
+
+    <!-- ===================================================================
+         Câte o poziție fiscală pe gestiune. Modulul o citește de pe depozit
+         și o aplică pe toate cele trei conturi pe care le atinge o intrare
+         în magazin - marfa, adaosul și TVA-ul neexigibil - precum și pe
+         taxele cu care se desface prețul de raft.
+         =================================================================== -->
+
+    <record
+        id="demo_fiscal_position_shop_centru"
+        model="account.fiscal.position"
+        context="{'allowed_company_ids': [ref('base.demo_company_ro')]}"
+    >
+        <field name="name">Magazin Centru - preț de vânzare</field>
+        <field name="company_id" ref="base.demo_company_ro" />
+        <field
+            name="account_ids"
+            model="account.chart.template"
+            eval="[
+                Command.create({
+                    'account_src_id': obj().with_company(obj().env.ref('base.demo_company_ro')).ref('pcg_371').id,
+                    'account_dest_id': ref('demo_account_371_centru'),
+                }),
+                Command.create({
+                    'account_src_id': obj().with_company(obj().env.ref('base.demo_company_ro')).ref('pcg_378').id,
+                    'account_dest_id': ref('demo_account_378_centru'),
+                }),
+                Command.create({
+                    'account_src_id': obj().with_company(obj().env.ref('base.demo_company_ro')).ref('pcg_44281').id,
+                    'account_dest_id': ref('demo_account_4428_centru'),
+                }),
+            ]"
+        />
+        <field
+            name="tax_ids"
+            eval="[Command.set([ref('demo_tax_sale_21_included')])]"
+        />
+    </record>
+
+    <record
+        id="demo_fiscal_position_shop_nord"
+        model="account.fiscal.position"
+        context="{'allowed_company_ids': [ref('base.demo_company_ro')]}"
+    >
+        <field name="name">Magazin Nord - preț de vânzare</field>
+        <field name="company_id" ref="base.demo_company_ro" />
+        <field
+            name="account_ids"
+            model="account.chart.template"
+            eval="[
+                Command.create({
+                    'account_src_id': obj().with_company(obj().env.ref('base.demo_company_ro')).ref('pcg_371').id,
+                    'account_dest_id': ref('demo_account_371_nord'),
+                }),
+                Command.create({
+                    'account_src_id': obj().with_company(obj().env.ref('base.demo_company_ro')).ref('pcg_378').id,
+                    'account_dest_id': ref('demo_account_378_nord'),
+                }),
+                Command.create({
+                    'account_src_id': obj().with_company(obj().env.ref('base.demo_company_ro')).ref('pcg_44281').id,
+                    'account_dest_id': ref('demo_account_4428_nord'),
+                }),
+            ]"
+        />
+        <field
+            name="tax_ids"
+            eval="[Command.set([ref('demo_tax_sale_21_included')])]"
+        />
+    </record>
+
+    <!-- Prețurile de raft. Pe o listă de prețuri de magazin prețul este
+         întotdeauna cu TVA inclus: este prețul de pe etichetă și cel pe care
+         îl poartă contul 371. -->
+
+    <record id="demo_pricelist_retail" model="product.pricelist">
+        <field name="name">Prețuri de raft - Magazin Centru</field>
+        <field name="company_id" ref="base.demo_company_ro" />
+        <field name="currency_id" ref="base.RON" />
+    </record>
+
+    <record id="demo_pricelist_item_espressor" model="product.pricelist.item">
+        <field name="pricelist_id" ref="demo_pricelist_retail" />
+        <field name="applied_on">1_product</field>
+        <field
+            name="product_tmpl_id"
+            ref="l10n_ro_config.demo_product_marfa_standard"
+        />
+        <field name="compute_price">fixed</field>
+        <field name="fixed_price">1512.50</field>
+    </record>
+
+    <record id="demo_pricelist_item_paine" model="product.pricelist.item">
+        <field name="pricelist_id" ref="demo_pricelist_retail" />
+        <field name="applied_on">1_product</field>
+        <field name="product_tmpl_id" ref="l10n_ro_config.demo_product_marfa_redusa" />
+        <field name="compute_price">fixed</field>
+        <field name="fixed_price">6.10</field>
+    </record>
+
+    <record id="demo_pricelist_item_conserva" model="product.pricelist.item">
+        <field name="pricelist_id" ref="demo_pricelist_retail" />
+        <field name="applied_on">1_product</field>
+        <field name="product_tmpl_id" ref="l10n_ro_config.demo_product_marfa_lot" />
+        <field name="compute_price">fixed</field>
+        <field name="fixed_price">9.90</field>
+    </record>
+
+    <record id="demo_pricelist_retail_nord" model="product.pricelist">
+        <field name="name">Prețuri de raft - Magazin Nord</field>
+        <field name="company_id" ref="base.demo_company_ro" />
+        <field name="currency_id" ref="base.RON" />
+    </record>
+
+    <record id="demo_pricelist_item_espressor_nord" model="product.pricelist.item">
+        <field name="pricelist_id" ref="demo_pricelist_retail_nord" />
+        <field name="applied_on">1_product</field>
+        <field
+            name="product_tmpl_id"
+            ref="l10n_ro_config.demo_product_marfa_standard"
+        />
+        <field name="compute_price">fixed</field>
+        <field name="fixed_price">1573.00</field>
+    </record>
+
+    <record id="demo_pricelist_item_paine_nord" model="product.pricelist.item">
+        <field name="pricelist_id" ref="demo_pricelist_retail_nord" />
+        <field name="applied_on">1_product</field>
+        <field name="product_tmpl_id" ref="l10n_ro_config.demo_product_marfa_redusa" />
+        <field name="compute_price">fixed</field>
+        <field name="fixed_price">5.90</field>
+    </record>
+
+    <record id="demo_pricelist_item_conserva_nord" model="product.pricelist.item">
+        <field name="pricelist_id" ref="demo_pricelist_retail_nord" />
+        <field name="applied_on">1_product</field>
+        <field name="product_tmpl_id" ref="l10n_ro_config.demo_product_marfa_lot" />
+        <field name="compute_price">fixed</field>
+        <field name="fixed_price">10.40</field>
+    </record>
+
+    <!-- Cele două magazine: gestiuni la preț de vânzare, fiecare cu lista ei
+         de prețuri de raft și cu poziția ei fiscală, care duce marfa,
+         adaosul și TVA-ul neexigibil pe conturile analitice ale magazinului. -->
+
+    <record id="demo_warehouse_retail" model="stock.warehouse">
+        <field name="name">Magazin Centru</field>
+        <field name="code">MAG</field>
+        <field name="company_id" ref="base.demo_company_ro" />
+        <field name="partner_id" ref="base.partner_demo_company_ro" />
+    </record>
+
+    <record id="demo_warehouse_retail_nord" model="stock.warehouse">
+        <field name="name">Magazin Nord</field>
+        <field name="code">MAGN</field>
+        <field name="company_id" ref="base.demo_company_ro" />
+        <field name="partner_id" ref="base.partner_demo_company_ro" />
+    </record>
+
+    <function model="stock.warehouse" name="write">
+        <value eval="[ref('demo_warehouse_retail')]" />
+        <value
+            model="stock.warehouse"
+            eval="{
+                'l10n_ro_retail': True,
+                'l10n_ro_retail_pricelist_id': obj().env.ref('l10n_ro_stock_account_retail.demo_pricelist_retail').id,
+                'l10n_ro_fiscal_position_id': obj().env.ref('l10n_ro_stock_account_retail.demo_fiscal_position_shop_centru').id,
+            }"
+        />
+    </function>
+
+    <function model="stock.warehouse" name="write">
+        <value eval="[ref('demo_warehouse_retail_nord')]" />
+        <value
+            model="stock.warehouse"
+            eval="{
+                'l10n_ro_retail': True,
+                'l10n_ro_retail_pricelist_id': obj().env.ref('l10n_ro_stock_account_retail.demo_pricelist_retail_nord').id,
+                'l10n_ro_fiscal_position_id': obj().env.ref('l10n_ro_stock_account_retail.demo_fiscal_position_shop_nord').id,
+            }"
+        />
+    </function>
+
+    <!-- Marfă trimisă din depozitul central în magazin: iese din depozit la
+         cost și intră în magazin la prețul de raft, cu adaosul în 378 și
+         TVA-ul neexigibil în 4428. -->
+
+    <record
+        id="demo_picking_to_shop"
+        model="stock.picking"
+        context="{'allowed_company_ids': [ref('base.demo_company_ro')]}"
+    >
+        <field name="company_id" ref="base.demo_company_ro" />
+        <field
+            name="picking_type_id"
+            model="stock.picking.type"
+            eval="obj().env.ref('l10n_ro_stock.demo_warehouse_main').int_type_id.id"
+        />
+        <field name="location_id" ref="l10n_ro_stock.demo_location_zone_a" />
+        <field
+            name="location_dest_id"
+            model="stock.location"
+            eval="obj().env.ref('l10n_ro_stock_account_retail.demo_warehouse_retail').lot_stock_id.id"
+        />
+        <field name="origin">Aprovizionare magazin</field>
+        <field
+            name="move_ids"
+            model="stock.move"
+            eval="[
+                (0, 0, {
+                    'product_id': obj().env.ref('l10n_ro_config.demo_product_marfa_standard').product_variant_id.id,
+                    'product_uom_qty': 4.0,
+                    'location_id': obj().env.ref('l10n_ro_stock.demo_location_zone_a').id,
+                    'location_dest_id': obj().env.ref('l10n_ro_stock_account_retail.demo_warehouse_retail').lot_stock_id.id,
+                }),
+                (0, 0, {
+                    'product_id': obj().env.ref('l10n_ro_config.demo_product_marfa_redusa').product_variant_id.id,
+                    'product_uom_qty': 150.0,
+                    'location_id': obj().env.ref('l10n_ro_stock.demo_location_zone_a').id,
+                    'location_dest_id': obj().env.ref('l10n_ro_stock_account_retail.demo_warehouse_retail').lot_stock_id.id,
+                }),
+            ]"
+        />
+    </record>
+
+    <function
+        model="stock.picking"
+        name="button_validate"
+        context="{'allowed_company_ids': [ref('base.demo_company_ro')]}"
+    >
+        <value eval="[ref('demo_picking_to_shop')]" />
+    </function>
+    <!-- Aceeași marfă trimisă și în al doilea magazin: aceleași mișcări, dar
+         pe conturile analitice ale lui, fiindcă poziția fiscală se citește de
+         pe depozitul în care intră marfa. -->
+
+    <record
+        id="demo_picking_to_shop_nord"
+        model="stock.picking"
+        context="{'allowed_company_ids': [ref('base.demo_company_ro')]}"
+    >
+        <field name="company_id" ref="base.demo_company_ro" />
+        <field
+            name="picking_type_id"
+            model="stock.picking.type"
+            eval="obj().env.ref('l10n_ro_stock.demo_warehouse_main').int_type_id.id"
+        />
+        <field name="location_id" ref="l10n_ro_stock.demo_location_zone_a" />
+        <field
+            name="location_dest_id"
+            model="stock.location"
+            eval="obj().env.ref('l10n_ro_stock_account_retail.demo_warehouse_retail_nord').lot_stock_id.id"
+        />
+        <field name="origin">Aprovizionare magazin Nord</field>
+        <field
+            name="move_ids"
+            model="stock.move"
+            eval="[
+                (0, 0, {
+                    'product_id': obj().env.ref('l10n_ro_config.demo_product_marfa_standard').product_variant_id.id,
+                    'product_uom_qty': 3.0,
+                    'location_id': obj().env.ref('l10n_ro_stock.demo_location_zone_a').id,
+                    'location_dest_id': obj().env.ref('l10n_ro_stock_account_retail.demo_warehouse_retail_nord').lot_stock_id.id,
+                }),
+                (0, 0, {
+                    'product_id': obj().env.ref('l10n_ro_config.demo_product_marfa_redusa').product_variant_id.id,
+                    'product_uom_qty': 100.0,
+                    'location_id': obj().env.ref('l10n_ro_stock.demo_location_zone_a').id,
+                    'location_dest_id': obj().env.ref('l10n_ro_stock_account_retail.demo_warehouse_retail_nord').lot_stock_id.id,
+                }),
+            ]"
+        />
+    </record>
+
+    <function
+        model="stock.picking"
+        name="button_validate"
+        context="{'allowed_company_ids': [ref('base.demo_company_ro')]}"
+    >
+        <value eval="[ref('demo_picking_to_shop_nord')]" />
+    </function>
+</odoo>
