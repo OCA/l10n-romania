@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright (C) 2025 NextERP Romania
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html). -->
+<odoo>
+    <!-- Avizul de însoțire a mărfii cere delegatul și mijlocul de transport.
+         Delegatul este o persoană fizică, iar mijlocul de transport se
+         păstrează pe el de la o livrare la alta. -->
+
+    <record id="demo_partner_delegate" model="res.partner">
+        <field name="name">Dumitru Vasile</field>
+        <field name="is_company" eval="False" />
+        <field name="function">Șofer distribuție</field>
+        <field name="country_id" ref="base.ro" />
+        <field name="state_id" ref="base.RO_TM" />
+        <field name="city">Timișoara</field>
+        <field name="street">Strada Cloșca 17</field>
+        <field name="zip">300201</field>
+        <field name="phone">+40 745 400 400</field>
+        <field name="l10n_ro_mean_transp">Auto TM 12 NXT</field>
+    </record>
+
+    <!-- Livrare către clientul en-gros, cu delegat și mijloc de transport
+         completate, așa cum apar pe aviz. -->
+
+    <record
+        id="demo_picking_delivery_with_delegate"
+        model="stock.picking"
+        context="{'allowed_company_ids': [ref('base.demo_company_ro')]}"
+    >
+        <field name="company_id" ref="base.demo_company_ro" />
+        <field
+            name="partner_id"
+            ref="l10n_ro_config.demo_partner_ro_company_customer"
+        />
+        <field
+            name="picking_type_id"
+            model="stock.picking.type"
+            eval="obj().env.ref('l10n_ro_stock.demo_warehouse_main').out_type_id.id"
+        />
+        <field name="location_id" ref="l10n_ro_stock.demo_location_zone_a" />
+        <field name="location_dest_id" ref="stock.stock_location_customers" />
+        <field name="origin">Aviz de însoțire a mărfii</field>
+        <field name="l10n_ro_delegate_id" ref="demo_partner_delegate" />
+        <field name="l10n_ro_mean_transp">Auto TM 12 NXT</field>
+        <field
+            name="move_ids"
+            model="stock.move"
+            eval="[
+                (0, 0, {
+                    'product_id': obj().env.ref('l10n_ro_config.demo_product_marfa_redusa').product_variant_id.id,
+                    'product_uom_qty': 80.0,
+                    'location_id': obj().env.ref('l10n_ro_stock.demo_location_zone_a').id,
+                    'location_dest_id': obj().env.ref('stock.stock_location_customers').id,
+                }),
+                (0, 0, {
+                    'product_id': obj().env.ref('l10n_ro_config.demo_product_marfa_lot').product_variant_id.id,
+                    'product_uom_qty': 40.0,
+                    'location_id': obj().env.ref('l10n_ro_stock.demo_location_zone_a').id,
+                    'location_dest_id': obj().env.ref('stock.stock_location_customers').id,
+                }),
+            ]"
+        />
+    </record>
+
+    <function
+        model="stock.picking"
+        name="button_validate"
+        context="{'allowed_company_ids': [ref('base.demo_company_ro')]}"
+    >
+        <value eval="[ref('demo_picking_delivery_with_delegate')]" />
+    </function>
+</odoo>
