@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright (C) 2025 NextERP Romania
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html). -->
+<odoo>
+    <!-- Datele luate de la ANAF pentru partenerii interni se păstrează pe
+         partener, ca să se vadă starea de înregistrare fără să fie nevoie
+         de o nouă interogare. -->
+
+    <record id="demo_anaf_status_carpatica" model="l10n.ro.res.partner.anaf.status">
+        <field
+            name="partner_id"
+            ref="l10n_ro_config.demo_partner_ro_company_supplier"
+        />
+        <field name="vat_number">12345674</field>
+        <field name="status">INREGISTRAT din data 15.06.2015</field>
+        <field name="act" />
+        <field name="start_date">2015-06-15</field>
+        <field name="publish_date">2015-06-20</field>
+        <field name="active_status" eval="True" />
+    </record>
+
+    <record id="demo_anaf_status_agrobanat" model="l10n.ro.res.partner.anaf.status">
+        <field
+            name="partner_id"
+            ref="l10n_ro_config.demo_partner_ro_company_supplier_raw"
+        />
+        <field name="vat_number">67890120</field>
+        <field name="status">INREGISTRAT din data 03.02.2010</field>
+        <field name="act" />
+        <field name="start_date">2010-02-03</field>
+        <field name="publish_date">2010-02-08</field>
+        <field name="active_status" eval="True" />
+    </record>
+
+    <record id="demo_anaf_status_danubius" model="l10n.ro.res.partner.anaf.status">
+        <field
+            name="partner_id"
+            ref="l10n_ro_config.demo_partner_ro_company_customer"
+        />
+        <field name="vat_number">34567892</field>
+        <field name="status">INREGISTRAT din data 22.09.2012</field>
+        <field name="act" />
+        <field name="start_date">2012-09-22</field>
+        <field name="publish_date">2012-09-28</field>
+        <field name="active_status" eval="True" />
+    </record>
+
+    <!-- Firma neplătitoare de TVA este înregistrată la ANAF, dar fără cod
+         de TVA: exact cazul în care prefixul RO nu trebuie pus pe cod. -->
+
+    <record id="demo_anaf_status_microservice" model="l10n.ro.res.partner.anaf.status">
+        <field
+            name="partner_id"
+            ref="l10n_ro_config.demo_partner_ro_company_not_vat_subjected"
+        />
+        <field name="vat_number">56789016</field>
+        <field name="status">INREGISTRAT din data 10.03.2021</field>
+        <field name="act" />
+        <field name="start_date">2021-03-10</field>
+        <field name="publish_date">2021-03-15</field>
+        <field name="active_status" eval="True" />
+    </record>
+
+    <!-- Un partener radiat, ca să se vadă și starea inactivă. -->
+
+    <record id="demo_partner_ro_company_deregistered" model="res.partner">
+        <field name="name">Vechi Comerț SRL (radiată)</field>
+        <field name="is_company" eval="True" />
+        <field name="country_id" ref="base.ro" />
+        <field name="state_id" ref="base.RO_AR" />
+        <field name="city">Arad</field>
+        <field name="street">Bulevardul Revoluției 42</field>
+        <field name="zip">310130</field>
+        <field name="vat">98765438</field>
+        <field name="nrc">J02/888/2008</field>
+        <field name="l10n_ro_vat_subjected" eval="False" />
+    </record>
+
+    <record id="demo_anaf_status_deregistered" model="l10n.ro.res.partner.anaf.status">
+        <field name="partner_id" ref="demo_partner_ro_company_deregistered" />
+        <field name="vat_number">98765438</field>
+        <field name="status">RADIAT din data 31.12.2023</field>
+        <field name="act">Radiere din Registrul Comerțului</field>
+        <field name="start_date">2008-05-14</field>
+        <field name="end_date">2023-12-31</field>
+        <field name="publish_date">2024-01-10</field>
+        <field name="active_status" eval="False" />
+    </record>
+</odoo>
