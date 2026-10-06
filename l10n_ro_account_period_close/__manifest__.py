@@ -11,8 +11,11 @@
         "security/account_security.xml",
         "security/ir.model.access.csv",
     ],
+    "demo": [
+        "demo/account_period_close_demo.xml",
+    ],
     "license": "AGPL-3",
-    "version": "19.0.1.1.0",
+    "version": "19.0.1.2.0",
     "author": "NextERP Romania,"
     "Forest and Biomass Romania,"
     "Odoo Community Association (OCA)",
