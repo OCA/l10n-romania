@@ -4,7 +4,7 @@
 {
     "name": "Romania - Invoice Edit Currency Rate",
     "summary": "Romania - Invoice Edit Currency Rate",
-    "version": "19.0.0.5.0",
+    "version": "19.0.0.6.0",
     "category": "Localization",
     "author": "NextERP Romania,Odoo Community Association (OCA)",
     "website": "https://github.com/OCA/l10n-romania",
@@ -15,5 +15,8 @@
     "depends": ["account", "sale_management"],
     "data": [
         "views/account_invoice_view.xml",
+    ],
+    "demo": [
+        "demo/res_currency_rate_demo.xml",
     ],
 }
