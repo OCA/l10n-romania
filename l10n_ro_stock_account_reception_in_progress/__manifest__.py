@@ -2,7 +2,7 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 {
     "name": "Romania - Stock Accounting Reception In progress",
-    "version": "19.0.1.2.0",
+    "version": "19.0.1.3.0",
     "category": "Localization",
     "summary": "Romania - Stock Accounting Reception In progress",
     "author": "NextERP Romania,Odoo Community Association (OCA)",
@@ -11,6 +11,9 @@
     "license": "AGPL-3",
     "data": [
         "views/purchase_order_view.xml",
+    ],
+    "demo": [
+        "demo/purchase_reception_in_progress_demo.xml",
     ],
     "installable": True,
     "auto_install": False,

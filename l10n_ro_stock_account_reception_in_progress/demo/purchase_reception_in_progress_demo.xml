@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright (C) 2025 NextERP Romania
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html). -->
+<odoo>
+    <!-- Marfa facturată înainte să ajungă în gestiune stă în 327, Mărfuri
+         în curs de aprovizionare, și trece în 371 abia la recepție.
+         Legătura se face pe contul de stoc. -->
+
+    <function
+        model="account.account"
+        name="write"
+        context="{'allowed_company_ids': [ref('base.demo_company_ro')]}"
+    >
+        <value
+            model="account.account"
+            eval="obj().env['account.chart.template'].with_company(obj().env.ref('base.demo_company_ro')).ref('pcg_371').ids"
+        />
+        <value
+            model="account.account"
+            eval="{
+                'l10n_ro_reception_in_progress_account_id': obj().env['account.chart.template'].with_company(obj().env.ref('base.demo_company_ro')).ref('pcg_327').id,
+            }"
+        />
+    </function>
+
+    <!-- Comandă marcată ca recepție în curs: factura se face înaintea
+         recepției, pe 327, iar la recepție marfa trece în 371. -->
+
+    <record
+        id="demo_purchase_order_in_progress"
+        model="purchase.order"
+        context="{'allowed_company_ids': [ref('base.demo_company_ro')]}"
+    >
+        <field name="company_id" ref="base.demo_company_ro" />
+        <field
+            name="partner_id"
+            ref="l10n_ro_config.demo_partner_ro_company_supplier"
+        />
+        <field name="l10n_ro_reception_in_progress" eval="True" />
+        <field
+            name="picking_type_id"
+            model="stock.picking.type"
+            eval="obj().env.ref('l10n_ro_stock.demo_warehouse_main').in_type_id.id"
+        />
+        <field
+            name="order_line"
+            model="purchase.order.line"
+            eval="[
+                (0, 0, {
+                    'product_id': obj().env.ref('l10n_ro_config.demo_product_marfa_redusa').product_variant_id.id,
+                    'product_qty': 300.0,
+                    'price_unit': 3.0,
+                    'name': 'Pâine feliată 500 g',
+                    'date_planned': time.strftime('%Y-%m-%d'),
+                }),
+            ]"
+        />
+    </record>
+
+    <function
+        model="purchase.order"
+        name="button_confirm"
+        context="{'allowed_company_ids': [ref('base.demo_company_ro')]}"
+    >
+        <value eval="[ref('demo_purchase_order_in_progress')]" />
+    </function>
+
+    <function
+        model="purchase.order"
+        name="action_create_reception_in_progress_invoice"
+        context="{'allowed_company_ids': [ref('base.demo_company_ro')]}"
+    >
+        <value eval="[ref('demo_purchase_order_in_progress')]" />
+    </function>
+
+    <!-- Factura creată din comandă nu are dată, iar fără ea nu se poate
+         valida. -->
+    <function
+        model="account.move"
+        name="write"
+        context="{'allowed_company_ids': [ref('base.demo_company_ro')]}"
+    >
+        <value
+            model="account.move"
+            eval="obj().env.ref('l10n_ro_stock_account_reception_in_progress.demo_purchase_order_in_progress').invoice_ids.ids"
+        />
+        <value
+            model="account.move"
+            eval="{'invoice_date': time.strftime('%Y-%m-%d'), 'ref': 'FACT-AVANS-MARFA-001'}"
+        />
+    </function>
+
+    <function
+        model="account.move"
+        name="action_post"
+        context="{
+            'allowed_company_ids': [ref('base.demo_company_ro')],
+            'l10n_ro_approved_price_difference': True,
+        }"
+    >
+        <value
+            model="account.move"
+            eval="obj().env.ref('l10n_ro_stock_account_reception_in_progress.demo_purchase_order_in_progress').invoice_ids.ids"
+        />
+    </function>
+
+    <function
+        model="stock.picking"
+        name="button_validate"
+        context="{'allowed_company_ids': [ref('base.demo_company_ro')]}"
+    >
+        <value
+            model="stock.picking"
+            eval="obj().env.ref('l10n_ro_stock_account_reception_in_progress.demo_purchase_order_in_progress').picking_ids.ids"
+        />
+    </function>
+</odoo>
