@@ -132,6 +132,7 @@
         <field name="name">Popescu Ioana</field>
         <field name="is_company" eval="False" />
         <field name="country_id" ref="base.ro" />
+        <field name="vat">2850412411236</field>
         <field name="state_id" ref="base.RO_B" />
         <field name="city">București</field>
         <field name="street">Strada Mihai Eminescu 12, ap. 4</field>
@@ -144,6 +145,7 @@
         <field name="name">Marinescu Andrei</field>
         <field name="is_company" eval="False" />
         <field name="country_id" ref="base.ro" />
+        <field name="vat">1780903081230</field>
         <field name="state_id" ref="base.RO_BV" />
         <field name="city">Brașov</field>
         <field name="street">Strada Lungă 143</field>

@@ -7,7 +7,12 @@
          =================================================================== -->
 
     <record id="demo_categ_marfa" model="product.category">
-        <field name="name">Mărfuri (371)</field>
+        <field name="name">Mărfuri FIFO (371)</field>
+        <field name="parent_id" ref="product.product_category_goods" />
+    </record>
+
+    <record id="demo_categ_marfa_avco" model="product.category">
+        <field name="name">Mărfuri AVCO (371)</field>
         <field name="parent_id" ref="product.product_category_goods" />
     </record>
 
@@ -82,6 +87,30 @@
         <field name="list_price">4800.0</field>
         <field name="standard_price">3600.0</field>
         <field name="description_sale">Marfă urmărită pe număr de serie.</field>
+    </record>
+
+    <record id="demo_product_marfa_avco" model="product.template">
+        <field name="name">Espressor automat ProBrew (AVCO)</field>
+        <field name="default_code">MF-ESP-002</field>
+        <field name="type">consu</field>
+        <field name="categ_id" ref="demo_categ_marfa_avco" />
+        <field name="uom_id" ref="uom.product_uom_unit" />
+        <field name="list_price">1390.0</field>
+        <field name="standard_price">910.0</field>
+        <field
+            name="description_sale"
+        >Aceeași marfă, evaluată la cost mediu ponderat.</field>
+    </record>
+
+    <record id="demo_product_marfa_avco_lot" model="product.template">
+        <field name="name">Cafea boabe 1 kg (AVCO pe lot)</field>
+        <field name="default_code">MF-CAF-001</field>
+        <field name="type">consu</field>
+        <field name="categ_id" ref="demo_categ_marfa_avco" />
+        <field name="uom_id" ref="uom.product_uom_kgm" />
+        <field name="list_price">78.0</field>
+        <field name="standard_price">52.0</field>
+        <field name="description_sale">Marfă AVCO urmărită și evaluată pe lot.</field>
     </record>
 
     <!-- ===================================================================
@@ -188,6 +217,7 @@
         <value
             eval="[
                 ref('demo_product_marfa_standard'),
+                ref('demo_product_marfa_avco'),
                 ref('demo_product_marfa_serie'),
                 ref('demo_product_ambalaj'),
                 ref('demo_product_obiect_inventar'),
@@ -207,6 +237,7 @@
             eval="[
                 ref('demo_product_marfa_redusa'),
                 ref('demo_product_marfa_lot'),
+                ref('demo_product_marfa_avco_lot'),
                 ref('demo_product_materie_prima'),
                 ref('demo_product_materie_prima_lot'),
                 ref('demo_product_produs_finit'),
