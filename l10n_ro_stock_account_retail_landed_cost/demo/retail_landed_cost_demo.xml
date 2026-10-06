@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright (C) 2025 NextERP Romania
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html). -->
+<odoo>
+    <!-- Recepție direct în magazin, peste care vine transportul ca și cost
+         suplimentar. Prețul de raft nu se schimbă, deci 371 rămâne la
+         prețul de pe etichetă, iar costul în plus se scade din adaosul
+         comercial înregistrat pe 378. -->
+
+    <record
+        id="demo_picking_in_shop"
+        model="stock.picking"
+        context="{'allowed_company_ids': [ref('base.demo_company_ro')]}"
+    >
+        <field name="company_id" ref="base.demo_company_ro" />
+        <field
+            name="partner_id"
+            ref="l10n_ro_config.demo_partner_ro_company_supplier"
+        />
+        <field
+            name="picking_type_id"
+            model="stock.picking.type"
+            eval="obj().env.ref('l10n_ro_stock_account_retail.demo_warehouse_retail').in_type_id.id"
+        />
+        <field name="location_id" ref="stock.stock_location_suppliers" />
+        <field
+            name="location_dest_id"
+            model="stock.location"
+            eval="obj().env.ref('l10n_ro_stock_account_retail.demo_warehouse_retail').lot_stock_id.id"
+        />
+        <field name="origin">Recepție marfă în magazin</field>
+        <field
+            name="move_ids"
+            model="stock.move"
+            eval="[
+                (0, 0, {
+                    'product_id': obj().env.ref('l10n_ro_config.demo_product_marfa_standard').product_variant_id.id,
+                    'product_uom_qty': 6.0,
+                    'price_unit': 820.0,
+                    'location_id': obj().env.ref('stock.stock_location_suppliers').id,
+                    'location_dest_id': obj().env.ref('l10n_ro_stock_account_retail.demo_warehouse_retail').lot_stock_id.id,
+                }),
+            ]"
+        />
+    </record>
+
+    <function
+        model="stock.picking"
+        name="button_validate"
+        context="{'allowed_company_ids': [ref('base.demo_company_ro')]}"
+    >
+        <value eval="[ref('demo_picking_in_shop')]" />
+    </function>
+
+    <record
+        id="demo_landed_cost_shop"
+        model="stock.landed.cost"
+        context="{'allowed_company_ids': [ref('base.demo_company_ro')]}"
+    >
+        <field name="company_id" ref="base.demo_company_ro" />
+        <field name="date" eval="time.strftime('%Y-%m-%d')" />
+        <field name="l10n_ro_cost_type">normal</field>
+        <field name="picking_ids" eval="[Command.set([ref('demo_picking_in_shop')])]" />
+        <field
+            name="cost_lines"
+            model="stock.landed.cost.lines"
+            eval="[
+                (0, 0, {
+                    'name': 'Transport marfă magazin',
+                    'product_id': obj().env.ref('l10n_ro_config.demo_product_serviciu_transport').product_variant_id.id,
+                    'price_unit': 300.0,
+                    'split_method': 'by_quantity',
+                }),
+            ]"
+        />
+    </record>
+
+    <function
+        model="stock.landed.cost"
+        name="button_validate"
+        context="{'allowed_company_ids': [ref('base.demo_company_ro')]}"
+    >
+        <value eval="[ref('demo_landed_cost_shop')]" />
+    </function>
+</odoo>
