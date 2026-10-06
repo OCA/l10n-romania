@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright (C) 2025 NextERP Romania
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html). -->
+<odoo>
+    <!-- Magazinul își schimbă prețurile de raft. Marfa aflată deja în
+         gestiune poartă vechiul preț în 371, 378 și 4428, așa că
+         diferența se regularizează printr-un proces-verbal de schimbare
+         de preț. -->
+
+    <function model="product.pricelist.item" name="write">
+        <value
+            eval="[ref('l10n_ro_stock_account_retail.demo_pricelist_item_espressor')]"
+        />
+        <value model="product.pricelist.item" eval="{'fixed_price': 1560.0}" />
+    </function>
+
+    <function model="product.pricelist.item" name="write">
+        <value eval="[ref('l10n_ro_stock_account_retail.demo_pricelist_item_paine')]" />
+        <value model="product.pricelist.item" eval="{'fixed_price': 6.80}" />
+    </function>
+
+    <record
+        id="demo_retail_price_change"
+        model="l10n.ro.retail.price.change"
+        context="{'allowed_company_ids': [ref('base.demo_company_ro')]}"
+    >
+        <field name="company_id" ref="base.demo_company_ro" />
+        <field
+            name="warehouse_id"
+            ref="l10n_ro_stock_account_retail.demo_warehouse_retail"
+        />
+        <field name="date" eval="time.strftime('%Y-%m-%d')" />
+    </record>
+
+    <function
+        model="l10n.ro.retail.price.change"
+        name="action_load_products"
+        context="{'allowed_company_ids': [ref('base.demo_company_ro')]}"
+    >
+        <value eval="[ref('demo_retail_price_change')]" />
+    </function>
+
+    <function
+        model="l10n.ro.retail.price.change"
+        name="action_post"
+        context="{'allowed_company_ids': [ref('base.demo_company_ro')]}"
+    >
+        <value eval="[ref('demo_retail_price_change')]" />
+    </function>
+</odoo>
