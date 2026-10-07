@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright (C) 2025 NextERP Romania
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html). -->
+<odoo>
+    <!-- Plafoanele de încasare în numerar din Legea 70/2015, pe care
+         modulul le verifică la înregistrarea plăților din casă:
+         5.000 lei pe zi de la o persoană juridică și 10.000 lei de la
+         o persoană fizică. -->
+
+    <record id="demo_param_amount_company_limit" model="ir.config_parameter">
+        <field name="key">l10n_ro_accounting.amount_company_limit</field>
+        <field name="value">5000</field>
+    </record>
+
+    <record id="demo_param_amount_person_limit" model="ir.config_parameter">
+        <field name="key">l10n_ro_accounting.amount_person_limit</field>
+        <field name="value">10000</field>
+    </record>
+</odoo>
