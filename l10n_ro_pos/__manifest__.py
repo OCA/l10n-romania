@@ -24,6 +24,7 @@
     "demo": [
         "demo/pos_config_demo.xml",
     ],
+    "development_status": "Mature",
     "assets": {
         "point_of_sale._assets_pos": [
             "l10n_ro_pos/static/src/**/*",
