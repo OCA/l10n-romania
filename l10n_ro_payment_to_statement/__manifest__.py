@@ -6,7 +6,7 @@
 {
     "name": "Romania - Payment to Statement",
     "summary": "Keep the cash register of a cash journal",
-    "version": "19.0.1.3.0",
+    "version": "19.0.1.4.0",
     "author": "Terrabit,NextERP Romania,Odoo Community Association (OCA)",
     "website": "https://github.com/OCA/l10n-romania",
     "category": "Accounting",
@@ -16,6 +16,9 @@
     "data": [
         "views/account_journal_view.xml",
         "views/account_payment_view.xml",
+    ],
+    "demo": [
+        "demo/account_payment_demo.xml",
     ],
     "development_status": "Mature",
     "maintainers": ["dhongu"],

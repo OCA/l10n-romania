@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright (C) 2025 NextERP Romania
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html). -->
+<odoo>
+    <!-- Gestiunile firmei demo din România. Modulul adaugă pe fiecare
+         depozit tipurile de transfer pentru consum și pentru darea în
+         folosință, către locațiile create pe companie. -->
+
+    <record id="demo_warehouse_main" model="stock.warehouse">
+        <field name="name">Depozit Central</field>
+        <field name="code">DC</field>
+        <field name="company_id" ref="base.demo_company_ro" />
+        <field name="partner_id" ref="base.partner_demo_company_ro" />
+    </record>
+
+    <record id="demo_warehouse_secondary" model="stock.warehouse">
+        <field name="name">Depozit Timișoara</field>
+        <field name="code">DTM</field>
+        <field name="company_id" ref="base.demo_company_ro" />
+        <field name="partner_id" ref="base.partner_demo_company_ro" />
+    </record>
+
+    <!-- Zone în depozitul central, pentru transferuri interne și pentru
+         gestiunile separate pe locație. -->
+
+    <record id="demo_location_zone_a" model="stock.location">
+        <field name="name">Zona A - marfă</field>
+        <field name="usage">internal</field>
+        <field name="company_id" ref="base.demo_company_ro" />
+        <field
+            name="location_id"
+            eval="obj().env.ref('l10n_ro_stock.demo_warehouse_main').lot_stock_id.id"
+            model="stock.location"
+        />
+    </record>
+
+    <record id="demo_location_zone_b" model="stock.location">
+        <field name="name">Zona B - materii prime</field>
+        <field name="usage">internal</field>
+        <field name="company_id" ref="base.demo_company_ro" />
+        <field
+            name="location_id"
+            eval="obj().env.ref('l10n_ro_stock.demo_warehouse_main').lot_stock_id.id"
+            model="stock.location"
+        />
+    </record>
+</odoo>

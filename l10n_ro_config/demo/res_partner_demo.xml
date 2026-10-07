@@ -1,0 +1,337 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright (C) 2025 NextERP Romania
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html). -->
+<odoo>
+    <!-- ===================================================================
+         Parteneri interni (România) - companii
+         =================================================================== -->
+
+    <record id="demo_partner_ro_company_supplier" model="res.partner">
+        <field name="name">Carpatica Distribuție SRL</field>
+        <field name="is_company" eval="True" />
+        <field name="country_id" ref="base.ro" />
+        <field name="state_id" ref="base.RO_TM" />
+        <field name="city">Timișoara</field>
+        <field name="street">Calea Aradului 52</field>
+        <field name="zip">300291</field>
+        <field name="vat">RO12345674</field>
+        <field name="nrc">J35/1234/2015</field>
+        <field name="l10n_ro_vat_subjected" eval="True" />
+        <field name="l10n_ro_e_invoice" eval="True" />
+        <field name="l10n_ro_caen_code">4639</field>
+        <field name="phone">+40 256 100 101</field>
+        <field name="email">comenzi@carpatica-distributie.roexample.com</field>
+    </record>
+
+    <record id="demo_partner_ro_company_supplier_raw" model="res.partner">
+        <field name="name">Agro Banat SA</field>
+        <field name="is_company" eval="True" />
+        <field name="country_id" ref="base.ro" />
+        <field name="state_id" ref="base.RO_TM" />
+        <field name="city">Lugoj</field>
+        <field name="street">Strada Timișorii 118</field>
+        <field name="zip">305500</field>
+        <field name="vat">RO67890120</field>
+        <field name="nrc">J35/2211/2010</field>
+        <field name="l10n_ro_vat_subjected" eval="True" />
+        <field name="l10n_ro_e_invoice" eval="True" />
+        <field name="l10n_ro_caen_code">0111</field>
+        <field name="phone">+40 256 200 202</field>
+        <field name="email">vanzari@agrobanat.roexample.com</field>
+    </record>
+
+    <record id="demo_partner_ro_company_supplier_service" model="res.partner">
+        <field name="name">Transilvania Logistic SRL</field>
+        <field name="is_company" eval="True" />
+        <field name="country_id" ref="base.ro" />
+        <field name="state_id" ref="base.RO_CJ" />
+        <field name="city">Cluj-Napoca</field>
+        <field name="street">Bulevardul Muncii 16</field>
+        <field name="zip">400641</field>
+        <field name="vat">RO23456783</field>
+        <field name="nrc">J12/987/2017</field>
+        <field name="l10n_ro_vat_subjected" eval="True" />
+        <field name="l10n_ro_e_invoice" eval="True" />
+        <field name="l10n_ro_caen_code">4941</field>
+        <field name="phone">+40 264 300 303</field>
+        <field name="email">transport@transilvania-logistic.roexample.com</field>
+    </record>
+
+    <record id="demo_partner_ro_company_customer" model="res.partner">
+        <field name="name">Danubius Retail SRL</field>
+        <field name="is_company" eval="True" />
+        <field name="country_id" ref="base.ro" />
+        <field name="state_id" ref="base.RO_B" />
+        <field name="city">București</field>
+        <field name="street">Bulevardul Unirii 74</field>
+        <field name="zip">030837</field>
+        <field name="vat">RO34567892</field>
+        <field name="nrc">J40/5566/2012</field>
+        <field name="l10n_ro_vat_subjected" eval="True" />
+        <field name="l10n_ro_e_invoice" eval="True" />
+        <field name="l10n_ro_caen_code">4711</field>
+        <field name="phone">+40 21 400 404</field>
+        <field name="email">achizitii@danubius-retail.roexample.com</field>
+    </record>
+
+    <record id="demo_partner_ro_company_customer_vat_payment" model="res.partner">
+        <field name="name">Someș Construct SRL</field>
+        <field name="is_company" eval="True" />
+        <field name="country_id" ref="base.ro" />
+        <field name="state_id" ref="base.RO_CT" />
+        <field name="city">Constanța</field>
+        <field name="street">Strada Mircea cel Bătrân 93</field>
+        <field name="zip">900663</field>
+        <field name="vat">RO45678900</field>
+        <field name="nrc">J13/77/2019</field>
+        <field name="l10n_ro_vat_subjected" eval="True" />
+        <field name="l10n_ro_e_invoice" eval="True" />
+        <field name="l10n_ro_caen_code">4120</field>
+        <field name="phone">+40 241 500 505</field>
+        <field name="email">contabilitate@somes-construct.roexample.com</field>
+    </record>
+
+    <record id="demo_partner_ro_company_not_vat_subjected" model="res.partner">
+        <field name="name">Micro Service SRL</field>
+        <field name="is_company" eval="True" />
+        <field name="country_id" ref="base.ro" />
+        <field name="state_id" ref="base.RO_IS" />
+        <field name="city">Iași</field>
+        <field name="street">Strada Palat 5</field>
+        <field name="zip">700051</field>
+        <field name="vat">56789016</field>
+        <field name="nrc">J22/345/2021</field>
+        <field name="l10n_ro_vat_subjected" eval="False" />
+        <field name="l10n_ro_caen_code">9511</field>
+        <field name="phone">+40 232 600 606</field>
+        <field name="email">office@micro-service.roexample.com</field>
+    </record>
+
+    <!-- ===================================================================
+         Parteneri interni (România) - persoane fizice
+         =================================================================== -->
+
+    <record id="demo_partner_ro_pfa" model="res.partner">
+        <field name="name">Ionescu Dan PFA</field>
+        <field name="is_company" eval="False" />
+        <field name="country_id" ref="base.ro" />
+        <field name="state_id" ref="base.RO_TM" />
+        <field name="city">Timișoara</field>
+        <field name="street">Strada Gheorghe Doja 24</field>
+        <field name="zip">300195</field>
+        <field name="vat">RO78901233</field>
+        <field name="nrc">F35/123/2019</field>
+        <field name="l10n_ro_vat_subjected" eval="True" />
+        <field name="l10n_ro_e_invoice" eval="True" />
+        <field name="l10n_ro_caen_code">6201</field>
+        <field name="phone">+40 744 100 100</field>
+        <field name="email">dan.ionescu.pfa@roexample.com</field>
+    </record>
+
+    <record id="demo_partner_ro_individual_customer" model="res.partner">
+        <field name="name">Popescu Ioana</field>
+        <field name="is_company" eval="False" />
+        <field name="country_id" ref="base.ro" />
+        <field name="vat">2850412411236</field>
+        <field name="state_id" ref="base.RO_B" />
+        <field name="city">București</field>
+        <field name="street">Strada Mihai Eminescu 12, ap. 4</field>
+        <field name="zip">010511</field>
+        <field name="phone">+40 722 200 200</field>
+        <field name="email">ioana.popescu@roexample.com</field>
+    </record>
+
+    <record id="demo_partner_ro_individual_supplier" model="res.partner">
+        <field name="name">Marinescu Andrei</field>
+        <field name="is_company" eval="False" />
+        <field name="country_id" ref="base.ro" />
+        <field name="vat">1780903081230</field>
+        <field name="state_id" ref="base.RO_BV" />
+        <field name="city">Brașov</field>
+        <field name="street">Strada Lungă 143</field>
+        <field name="zip">500051</field>
+        <field name="phone">+40 733 300 300</field>
+        <field name="email">andrei.marinescu@roexample.com</field>
+    </record>
+
+    <!-- ===================================================================
+         Parteneri intracomunitari - companii
+         =================================================================== -->
+
+    <record id="demo_partner_eu_company_supplier_de" model="res.partner">
+        <field name="name">Bayern Technik GmbH</field>
+        <field name="is_company" eval="True" />
+        <field name="country_id" ref="base.de" />
+        <field name="city">München</field>
+        <field name="street">Landsberger Straße 110</field>
+        <field name="zip">80339</field>
+        <field name="vat">DE111111117</field>
+        <field name="phone">+49 89 1000 100</field>
+        <field name="email">vertrieb@bayern-technik.deexample.com</field>
+    </record>
+
+    <record id="demo_partner_eu_company_supplier_it" model="res.partner">
+        <field name="name">Lombardia Forniture SRL</field>
+        <field name="is_company" eval="True" />
+        <field name="country_id" ref="base.it" />
+        <field name="city">Milano</field>
+        <field name="street">Via Vittor Pisani 22</field>
+        <field name="zip">20124</field>
+        <field name="vat">IT12345670017</field>
+        <field name="phone">+39 02 2000 200</field>
+        <field name="email">ordini@lombardiaforniture.itexample.com</field>
+    </record>
+
+    <record id="demo_partner_eu_company_customer_hu" model="res.partner">
+        <field name="name">Magyar Kereskedelem Kft</field>
+        <field name="is_company" eval="True" />
+        <field name="country_id" ref="base.hu" />
+        <field name="city">Szeged</field>
+        <field name="street">Kossuth Lajos sugárút 18</field>
+        <field name="zip">6722</field>
+        <field name="vat">HU12345676</field>
+        <field name="phone">+36 62 300 300</field>
+        <field name="email">beszerzes@magyarkereskedelem.huexample.com</field>
+    </record>
+
+    <record id="demo_partner_eu_company_customer_fr" model="res.partner">
+        <field name="name">Provence Distribution SARL</field>
+        <field name="is_company" eval="True" />
+        <field name="country_id" ref="base.fr" />
+        <field name="city">Lyon</field>
+        <field name="street">Rue de la République 45</field>
+        <field name="zip">69002</field>
+        <field name="vat">FR11123456782</field>
+        <field name="phone">+33 4 7200 4000</field>
+        <field name="email">achats@provence-distribution.frexample.com</field>
+    </record>
+
+    <record id="demo_partner_eu_company_customer_bg" model="res.partner">
+        <field name="name">Sofia Trade EOOD</field>
+        <field name="is_company" eval="True" />
+        <field name="country_id" ref="base.bg" />
+        <field name="city">Sofia</field>
+        <field name="street">bul. Tsarigradsko shose 115</field>
+        <field name="zip">1784</field>
+        <field name="vat">BG123456786</field>
+        <field name="phone">+359 2 500 500</field>
+        <field name="email">office@sofiatrade.bgexample.com</field>
+    </record>
+
+    <!-- ===================================================================
+         Parteneri intracomunitari - persoane fizice (B2C)
+         =================================================================== -->
+
+    <record id="demo_partner_eu_individual_de" model="res.partner">
+        <field name="name">Hans Weber</field>
+        <field name="is_company" eval="False" />
+        <field name="country_id" ref="base.de" />
+        <field name="city">Nürnberg</field>
+        <field name="street">Bahnhofstraße 9</field>
+        <field name="zip">90402</field>
+        <field name="phone">+49 170 600 600</field>
+        <field name="email">hans.weber@deexample.com</field>
+    </record>
+
+    <record id="demo_partner_eu_individual_hu" model="res.partner">
+        <field name="name">Kovács Eszter</field>
+        <field name="is_company" eval="False" />
+        <field name="country_id" ref="base.hu" />
+        <field name="city">Budapest</field>
+        <field name="street">Váci utca 31</field>
+        <field name="zip">1052</field>
+        <field name="phone">+36 30 700 700</field>
+        <field name="email">eszter.kovacs@huexample.com</field>
+    </record>
+
+    <!-- ===================================================================
+         Parteneri extracomunitari - companii
+         =================================================================== -->
+
+    <record id="demo_partner_noneu_company_supplier_cn" model="res.partner">
+        <field name="name">Shenzhen Global Trading Co., Ltd</field>
+        <field name="is_company" eval="True" />
+        <field name="country_id" ref="base.cn" />
+        <field name="city">Shenzhen</field>
+        <field name="street">Futian District, Shennan Road 3003</field>
+        <field name="zip">518033</field>
+        <field name="company_registry">91440300MA5EXAMPLE</field>
+        <field name="phone">+86 755 8000 800</field>
+        <field name="email">export@szglobaltrading.cnexample.com</field>
+    </record>
+
+    <record id="demo_partner_noneu_company_supplier_tr" model="res.partner">
+        <field name="name">Istanbul Tekstil A.Ş.</field>
+        <field name="is_company" eval="True" />
+        <field name="country_id" ref="base.tr" />
+        <field name="city">Istanbul</field>
+        <field name="street">Merkez Mahallesi, Atatürk Caddesi 61</field>
+        <field name="zip">34406</field>
+        <field name="company_registry">1234567890</field>
+        <field name="phone">+90 212 900 900</field>
+        <field name="email">export@istanbultekstil.trexample.com</field>
+    </record>
+
+    <record id="demo_partner_noneu_company_supplier_ch" model="res.partner">
+        <field name="name">Helvetia Precision AG</field>
+        <field name="is_company" eval="True" />
+        <field name="country_id" ref="base.ch" />
+        <field name="city">Zürich</field>
+        <field name="street">Bahnhofstrasse 70</field>
+        <field name="zip">8001</field>
+        <field name="company_registry">CHE-123.456.789</field>
+        <field name="phone">+41 44 100 1000</field>
+        <field name="email">sales@helvetia-precision.chexample.com</field>
+    </record>
+
+    <record id="demo_partner_noneu_company_customer_gb" model="res.partner">
+        <field name="name">Albion Trading Ltd</field>
+        <field name="is_company" eval="True" />
+        <field name="country_id" ref="base.uk" />
+        <field name="city">Manchester</field>
+        <field name="street">Deansgate 215</field>
+        <field name="zip">M3 3NW</field>
+        <field name="company_registry">01234567</field>
+        <field name="phone">+44 161 200 2000</field>
+        <field name="email">purchasing@albiontrading.ukexample.com</field>
+    </record>
+
+    <record id="demo_partner_noneu_company_customer_md" model="res.partner">
+        <field name="name">Chișinău Comerț SRL</field>
+        <field name="is_company" eval="True" />
+        <field name="country_id" ref="base.md" />
+        <field name="city">Chișinău</field>
+        <field name="street">Bulevardul Ștefan cel Mare 73</field>
+        <field name="zip">MD-2001</field>
+        <field name="company_registry">1003600000000</field>
+        <field name="phone">+373 22 800 800</field>
+        <field name="email">office@chisinau-comert.mdexample.com</field>
+    </record>
+
+    <!-- ===================================================================
+         Parteneri extracomunitari - persoane fizice (export B2C)
+         =================================================================== -->
+
+    <record id="demo_partner_noneu_individual_us" model="res.partner">
+        <field name="name">John Miller</field>
+        <field name="is_company" eval="False" />
+        <field name="country_id" ref="base.us" />
+        <field name="state_id" ref="base.state_us_14" />
+        <field name="city">Chicago</field>
+        <field name="street">West Monroe Street 120</field>
+        <field name="zip">60603</field>
+        <field name="phone">+1 312 900 9000</field>
+        <field name="email">john.miller@usexample.com</field>
+    </record>
+
+    <record id="demo_partner_noneu_individual_md" model="res.partner">
+        <field name="name">Vasile Rusu</field>
+        <field name="is_company" eval="False" />
+        <field name="country_id" ref="base.md" />
+        <field name="city">Bălți</field>
+        <field name="street">Strada Independenței 14</field>
+        <field name="zip">MD-3100</field>
+        <field name="phone">+373 69 900 900</field>
+        <field name="email">vasile.rusu@mdexample.com</field>
+    </record>
+</odoo>

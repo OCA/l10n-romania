@@ -1,0 +1,271 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright (C) 2025 NextERP Romania
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html). -->
+<odoo>
+    <!-- ===================================================================
+         Categorii de produse, pe clasele de stoc din planul de conturi român
+         =================================================================== -->
+
+    <record id="demo_categ_marfa" model="product.category">
+        <field name="name">Mărfuri FIFO (371)</field>
+        <field name="parent_id" ref="product.product_category_goods" />
+    </record>
+
+    <record id="demo_categ_marfa_avco" model="product.category">
+        <field name="name">Mărfuri AVCO (371)</field>
+        <field name="parent_id" ref="product.product_category_goods" />
+    </record>
+
+    <record id="demo_categ_materie_prima" model="product.category">
+        <field name="name">Materii prime (301)</field>
+        <field name="parent_id" ref="product.product_category_goods" />
+    </record>
+
+    <record id="demo_categ_produs_finit" model="product.category">
+        <field name="name">Produse finite (345)</field>
+        <field name="parent_id" ref="product.product_category_goods" />
+    </record>
+
+    <record id="demo_categ_ambalaj" model="product.category">
+        <field name="name">Ambalaje (381)</field>
+        <field name="parent_id" ref="product.product_category_goods" />
+    </record>
+
+    <record id="demo_categ_obiect_inventar" model="product.category">
+        <field name="name">Obiecte de inventar (303)</field>
+        <field name="parent_id" ref="product.product_category_goods" />
+    </record>
+
+    <record id="demo_categ_serviciu" model="product.category">
+        <field name="name">Servicii</field>
+        <field name="parent_id" ref="product.product_category_services" />
+    </record>
+
+    <!-- ===================================================================
+         Mărfuri
+         =================================================================== -->
+
+    <record id="demo_product_marfa_standard" model="product.template">
+        <field name="name">Espressor automat ClassicBrew</field>
+        <field name="default_code">MF-ESP-001</field>
+        <field name="type">consu</field>
+        <field name="categ_id" ref="demo_categ_marfa" />
+        <field name="uom_id" ref="uom.product_uom_unit" />
+        <field name="list_price">1250.0</field>
+        <field name="standard_price">850.0</field>
+        <field name="description_sale">Marfă cu cotă standard de TVA.</field>
+    </record>
+
+    <record id="demo_product_marfa_redusa" model="product.template">
+        <field name="name">Pâine feliată 500 g</field>
+        <field name="default_code">MF-PAI-001</field>
+        <field name="type">consu</field>
+        <field name="categ_id" ref="demo_categ_marfa" />
+        <field name="uom_id" ref="uom.product_uom_unit" />
+        <field name="list_price">5.5</field>
+        <field name="standard_price">3.2</field>
+        <field name="description_sale">Marfă alimentară, cotă redusă de TVA.</field>
+    </record>
+
+    <record id="demo_product_marfa_lot" model="product.template">
+        <field name="name">Conservă legume 400 g</field>
+        <field name="default_code">MF-CON-001</field>
+        <field name="type">consu</field>
+        <field name="categ_id" ref="demo_categ_marfa" />
+        <field name="uom_id" ref="uom.product_uom_unit" />
+        <field name="list_price">8.9</field>
+        <field name="standard_price">5.4</field>
+        <field name="description_sale">Marfă urmărită pe loturi.</field>
+    </record>
+
+    <record id="demo_product_marfa_serie" model="product.template">
+        <field name="name">Laptop business NX-14</field>
+        <field name="default_code">MF-LAP-001</field>
+        <field name="type">consu</field>
+        <field name="categ_id" ref="demo_categ_marfa" />
+        <field name="uom_id" ref="uom.product_uom_unit" />
+        <field name="list_price">4800.0</field>
+        <field name="standard_price">3600.0</field>
+        <field name="description_sale">Marfă urmărită pe număr de serie.</field>
+    </record>
+
+    <record id="demo_product_marfa_avco" model="product.template">
+        <field name="name">Espressor automat ProBrew (AVCO)</field>
+        <field name="default_code">MF-ESP-002</field>
+        <field name="type">consu</field>
+        <field name="categ_id" ref="demo_categ_marfa_avco" />
+        <field name="uom_id" ref="uom.product_uom_unit" />
+        <field name="list_price">1390.0</field>
+        <field name="standard_price">910.0</field>
+        <field
+            name="description_sale"
+        >Aceeași marfă, evaluată la cost mediu ponderat.</field>
+    </record>
+
+    <record id="demo_product_marfa_avco_lot" model="product.template">
+        <field name="name">Cafea boabe 1 kg (AVCO pe lot)</field>
+        <field name="default_code">MF-CAF-001</field>
+        <field name="type">consu</field>
+        <field name="categ_id" ref="demo_categ_marfa_avco" />
+        <field name="uom_id" ref="uom.product_uom_kgm" />
+        <field name="list_price">78.0</field>
+        <field name="standard_price">52.0</field>
+        <field name="description_sale">Marfă AVCO urmărită și evaluată pe lot.</field>
+    </record>
+
+    <!-- ===================================================================
+         Materii prime, produse finite, ambalaje, obiecte de inventar
+         =================================================================== -->
+
+    <record id="demo_product_materie_prima" model="product.template">
+        <field name="name">Făină tip 650</field>
+        <field name="default_code">MP-FAI-650</field>
+        <field name="type">consu</field>
+        <field name="categ_id" ref="demo_categ_materie_prima" />
+        <field name="uom_id" ref="uom.product_uom_kgm" />
+        <field name="list_price">3.4</field>
+        <field name="standard_price">2.6</field>
+    </record>
+
+    <record id="demo_product_materie_prima_lot" model="product.template">
+        <field name="name">Ulei de floarea-soarelui</field>
+        <field name="default_code">MP-ULE-001</field>
+        <field name="type">consu</field>
+        <field name="categ_id" ref="demo_categ_materie_prima" />
+        <field name="uom_id" ref="uom.product_uom_litre" />
+        <field name="list_price">9.2</field>
+        <field name="standard_price">7.1</field>
+    </record>
+
+    <record id="demo_product_produs_finit" model="product.template">
+        <field name="name">Cutie biscuiți 200 g</field>
+        <field name="default_code">PF-BIS-200</field>
+        <field name="type">consu</field>
+        <field name="categ_id" ref="demo_categ_produs_finit" />
+        <field name="uom_id" ref="uom.product_uom_unit" />
+        <field name="list_price">12.5</field>
+        <field name="standard_price">7.8</field>
+    </record>
+
+    <record id="demo_product_ambalaj" model="product.template">
+        <field name="name">Palet lemn 1200x800</field>
+        <field name="default_code">AMB-PAL-001</field>
+        <field name="type">consu</field>
+        <field name="categ_id" ref="demo_categ_ambalaj" />
+        <field name="uom_id" ref="uom.product_uom_unit" />
+        <field name="list_price">45.0</field>
+        <field name="standard_price">32.0</field>
+    </record>
+
+    <record id="demo_product_obiect_inventar" model="product.template">
+        <field name="name">Scaun ergonomic de birou</field>
+        <field name="default_code">OBI-SCA-001</field>
+        <field name="type">consu</field>
+        <field name="categ_id" ref="demo_categ_obiect_inventar" />
+        <field name="uom_id" ref="uom.product_uom_unit" />
+        <field name="list_price">780.0</field>
+        <field name="standard_price">520.0</field>
+        <field
+            name="description"
+        >Obiect de inventar, dat în folosință pe cont în afara bilanțului (8035).</field>
+    </record>
+
+    <!-- ===================================================================
+         Servicii
+         =================================================================== -->
+
+    <record id="demo_product_serviciu_consultanta" model="product.template">
+        <field name="name">Consultanță implementare</field>
+        <field name="default_code">SRV-CONS-001</field>
+        <field name="type">service</field>
+        <field name="categ_id" ref="demo_categ_serviciu" />
+        <field name="uom_id" ref="uom.product_uom_hour" />
+        <field name="list_price">350.0</field>
+        <field name="standard_price">0.0</field>
+    </record>
+
+    <record id="demo_product_serviciu_transport" model="product.template">
+        <field name="name">Transport pe factura furnizorului</field>
+        <field name="default_code">SRV-TRANS-001</field>
+        <field name="type">service</field>
+        <field name="categ_id" ref="demo_categ_serviciu" />
+        <field name="uom_id" ref="uom.product_uom_unit" />
+        <field name="list_price">0.0</field>
+        <field name="standard_price">0.0</field>
+        <field
+            name="description"
+        >Cost suplimentar de achiziție, repartizat pe mărfurile recepționate.</field>
+    </record>
+
+    <record id="demo_product_serviciu_chirie" model="product.template">
+        <field name="name">Chirie spațiu comercial</field>
+        <field name="default_code">SRV-CHIR-001</field>
+        <field name="type">service</field>
+        <field name="categ_id" ref="demo_categ_serviciu" />
+        <field name="uom_id" ref="uom.product_uom_unit" />
+        <field name="list_price">4500.0</field>
+        <field name="standard_price">0.0</field>
+    </record>
+
+    <!-- ===================================================================
+         Taxele implicite ale firmei demo din România.
+         Conturile și taxele sunt create pe companie, așa că sunt citite din
+         planul de conturi al companiei demo, nu prin ref() direct.
+         =================================================================== -->
+
+    <function model="product.template" name="write">
+        <value
+            eval="[
+                ref('demo_product_marfa_standard'),
+                ref('demo_product_marfa_avco'),
+                ref('demo_product_marfa_serie'),
+                ref('demo_product_ambalaj'),
+                ref('demo_product_obiect_inventar'),
+            ]"
+        />
+        <value
+            model="product.template"
+            eval="{
+                'taxes_id': [Command.set(obj().env['account.chart.template'].with_company(obj().env.ref('base.demo_company_ro')).ref('tvac_21').ids)],
+                'supplier_taxes_id': [Command.set(obj().env['account.chart.template'].with_company(obj().env.ref('base.demo_company_ro')).ref('tvad_21').ids)],
+            }"
+        />
+    </function>
+
+    <function model="product.template" name="write">
+        <value
+            eval="[
+                ref('demo_product_marfa_redusa'),
+                ref('demo_product_marfa_lot'),
+                ref('demo_product_marfa_avco_lot'),
+                ref('demo_product_materie_prima'),
+                ref('demo_product_materie_prima_lot'),
+                ref('demo_product_produs_finit'),
+            ]"
+        />
+        <value
+            model="product.template"
+            eval="{
+                'taxes_id': [Command.set(obj().env['account.chart.template'].with_company(obj().env.ref('base.demo_company_ro')).ref('tvac_11').ids)],
+                'supplier_taxes_id': [Command.set(obj().env['account.chart.template'].with_company(obj().env.ref('base.demo_company_ro')).ref('tvad_11').ids)],
+            }"
+        />
+    </function>
+
+    <function model="product.template" name="write">
+        <value
+            eval="[
+                ref('demo_product_serviciu_consultanta'),
+                ref('demo_product_serviciu_transport'),
+                ref('demo_product_serviciu_chirie'),
+            ]"
+        />
+        <value
+            model="product.template"
+            eval="{
+                'taxes_id': [Command.set(obj().env['account.chart.template'].with_company(obj().env.ref('base.demo_company_ro')).ref('tvac_21_s').ids)],
+                'supplier_taxes_id': [Command.set(obj().env['account.chart.template'].with_company(obj().env.ref('base.demo_company_ro')).ref('tvad_21_s').ids)],
+            }"
+        />
+    </function>
+</odoo>

@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright (C) 2025 NextERP Romania
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html). -->
+<odoo>
+    <!-- Marfă livrată în ultima zi a lunii precedente, dar operată în Odoo
+         abia acum. Data contabilă pusă pe livrare duce descărcarea de
+         gestiune în luna căreia îi aparține, nu în ziua în care s-a
+         introdus documentul. -->
+
+    <record
+        id="demo_picking_out_previous_month"
+        model="stock.picking"
+        context="{'allowed_company_ids': [ref('base.demo_company_ro')]}"
+    >
+        <field name="company_id" ref="base.demo_company_ro" />
+        <field
+            name="partner_id"
+            ref="l10n_ro_config.demo_partner_ro_company_customer"
+        />
+        <field
+            name="picking_type_id"
+            model="stock.picking.type"
+            eval="obj().env.ref('l10n_ro_stock.demo_warehouse_main').out_type_id.id"
+        />
+        <field name="location_id" ref="l10n_ro_stock.demo_location_zone_a" />
+        <field name="location_dest_id" ref="stock.stock_location_customers" />
+        <field name="origin">Livrare marfă - lună precedentă</field>
+        <field
+            name="l10n_ro_accounting_date"
+            eval="(DateTime.today() + relativedelta(day=1, days=-1)).strftime('%Y-%m-%d 12:00:00')"
+        />
+        <field
+            name="move_ids"
+            model="stock.move"
+            eval="[
+                (0, 0, {
+                    'product_id': obj().env.ref('l10n_ro_config.demo_product_marfa_standard').product_variant_id.id,
+                    'product_uom_qty': 3.0,
+                    'location_id': obj().env.ref('l10n_ro_stock.demo_location_zone_a').id,
+                    'location_dest_id': obj().env.ref('stock.stock_location_customers').id,
+                }),
+            ]"
+        />
+    </record>
+
+    <function
+        model="stock.picking"
+        name="button_validate"
+        context="{'allowed_company_ids': [ref('base.demo_company_ro')]}"
+    >
+        <value eval="[ref('demo_picking_out_previous_month')]" />
+    </function>
+</odoo>

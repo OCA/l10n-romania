@@ -1,0 +1,194 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright (C) 2025 NextERP Romania
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html). -->
+<odoo>
+    <!-- ===================================================================
+         FIFO pe locație este o opțiune pe companie, așa că nu pot exista
+         ambele comportamente în aceeași firmă. A doua firmă demo din
+         România ține aceleași mărfuri, dar scoate FIFO la nivel de
+         companie: la livrare se consumă straturile în ordinea intrării,
+         indiferent de gestiunea din care pleacă marfa.
+         =================================================================== -->
+
+    <record id="demo_partner_company_ro_fifo" model="res.partner">
+        <field name="name">RO Company FIFO Global</field>
+        <field name="is_company" eval="True" />
+        <field name="country_id" ref="base.ro" />
+        <field name="state_id" ref="base.RO_TM" />
+        <field name="city">Timișoara</field>
+        <field name="street">Strada Circumvalațiunii 8</field>
+        <field name="zip">300013</field>
+        <field name="vat">RO89012341</field>
+        <field name="nrc">J35/2222/2020</field>
+        <field name="l10n_ro_vat_subjected" eval="True" />
+        <field name="l10n_ro_caen_code">4690</field>
+    </record>
+
+    <record id="demo_company_ro_fifo" model="res.company">
+        <field name="name">RO Company FIFO Global</field>
+        <field name="partner_id" ref="demo_partner_company_ro_fifo" />
+    </record>
+
+    <function model="res.company" name="_onchange_country_id">
+        <value eval="[ref('demo_company_ro_fifo')]" />
+    </function>
+
+    <function model="res.users" name="write">
+        <value
+            eval="[ref('base.user_root'), ref('base.user_admin'), ref('base.user_demo')]"
+        />
+        <value eval="{'company_ids': [(4, ref('demo_company_ro_fifo'))]}" />
+    </function>
+
+    <function model="account.chart.template" name="try_loading">
+        <value eval="[]" />
+        <value>ro</value>
+        <value
+            model="res.company"
+            eval="obj().env.ref('l10n_ro_stock_account.demo_company_ro_fifo')"
+        />
+        <value name="install_demo" eval="False" />
+    </function>
+
+    <!-- FIFO la nivel de companie, nu pe locație. Se scrie după încărcarea
+         planului de conturi, de unde vine contul de stoc. -->
+    <function model="res.company" name="write">
+        <value eval="[ref('demo_company_ro_fifo')]" />
+        <value
+            model="res.company"
+            eval="{
+                'fifo_per_location': False,
+                'account_stock_valuation_id': obj().env['account.chart.template'].with_company(obj().env.ref('l10n_ro_stock_account.demo_company_ro_fifo')).ref('pcg_371').id,
+            }"
+        />
+    </function>
+
+    <!-- Aceleași categorii, configurate și pentru a doua firmă -->
+    <function
+        model="product.category"
+        name="write"
+        context="{'allowed_company_ids': [ref('demo_company_ro_fifo')]}"
+    >
+        <value
+            eval="[
+                ref('l10n_ro_config.demo_categ_marfa'),
+            ]"
+        />
+        <value
+            model="product.category"
+            eval="{
+                'property_valuation': 'real_time',
+                'property_cost_method': 'fifo',
+                'property_stock_valuation_account_id': obj().env['account.chart.template'].with_company(obj().env.ref('l10n_ro_stock_account.demo_company_ro_fifo')).ref('pcg_371').id,
+                'property_account_expense_categ_id': obj().env['account.chart.template'].with_company(obj().env.ref('l10n_ro_stock_account.demo_company_ro_fifo')).ref('ro_pcg_expense').id,
+                'property_account_income_categ_id': obj().env['account.chart.template'].with_company(obj().env.ref('l10n_ro_stock_account.demo_company_ro_fifo')).ref('ro_pcg_sale').id,
+            }"
+        />
+    </function>
+
+    <function
+        model="product.category"
+        name="write"
+        context="{'allowed_company_ids': [ref('demo_company_ro_fifo')]}"
+    >
+        <value
+            eval="[
+                ref('l10n_ro_config.demo_categ_marfa_avco'),
+            ]"
+        />
+        <value
+            model="product.category"
+            eval="{
+                'property_valuation': 'real_time',
+                'property_cost_method': 'average',
+                'property_stock_valuation_account_id': obj().env['account.chart.template'].with_company(obj().env.ref('l10n_ro_stock_account.demo_company_ro_fifo')).ref('pcg_371').id,
+                'property_account_expense_categ_id': obj().env['account.chart.template'].with_company(obj().env.ref('l10n_ro_stock_account.demo_company_ro_fifo')).ref('ro_pcg_expense').id,
+                'property_account_income_categ_id': obj().env['account.chart.template'].with_company(obj().env.ref('l10n_ro_stock_account.demo_company_ro_fifo')).ref('ro_pcg_sale').id,
+            }"
+        />
+    </function>
+
+    <!-- Costul mărfii pe a doua firmă -->
+    <function
+        model="product.template"
+        name="write"
+        context="{'allowed_company_ids': [ref('demo_company_ro_fifo')]}"
+    >
+        <value eval="[ref('l10n_ro_config.demo_product_marfa_standard')]" />
+        <value model="product.template" eval="{'standard_price': 850.0}" />
+    </function>
+
+    <!-- Gestiunile firmei cu FIFO global -->
+    <record id="demo_warehouse_fifo" model="stock.warehouse">
+        <field name="name">Depozit FIFO Global</field>
+        <field name="code">DFG</field>
+        <field name="company_id" ref="demo_company_ro_fifo" />
+        <field name="partner_id" ref="demo_partner_company_ro_fifo" />
+    </record>
+
+    <record id="demo_location_fifo_zone_a" model="stock.location">
+        <field name="name">Zona A</field>
+        <field name="usage">internal</field>
+        <field name="company_id" ref="demo_company_ro_fifo" />
+        <field
+            name="location_id"
+            model="stock.location"
+            eval="obj().env.ref('l10n_ro_stock_account.demo_warehouse_fifo').lot_stock_id.id"
+        />
+    </record>
+
+    <record id="demo_location_fifo_zone_b" model="stock.location">
+        <field name="name">Zona B</field>
+        <field name="usage">internal</field>
+        <field name="company_id" ref="demo_company_ro_fifo" />
+        <field
+            name="location_id"
+            model="stock.location"
+            eval="obj().env.ref('l10n_ro_stock_account.demo_warehouse_fifo').lot_stock_id.id"
+        />
+    </record>
+
+    <!-- Același produs în două zone: cu FIFO global se consumă stratul
+         cel mai vechi, oricare ar fi zona din care pleacă marfa. -->
+
+    <record
+        id="demo_quant_fifo_zone_a"
+        model="stock.quant"
+        context="{'allowed_company_ids': [ref('demo_company_ro_fifo')]}"
+    >
+        <field
+            name="product_id"
+            model="product.product"
+            eval="obj().env.ref('l10n_ro_config.demo_product_marfa_standard').product_variant_id.id"
+        />
+        <field name="location_id" ref="demo_location_fifo_zone_a" />
+        <field name="inventory_quantity">20.0</field>
+    </record>
+
+    <record
+        id="demo_quant_fifo_zone_b"
+        model="stock.quant"
+        context="{'allowed_company_ids': [ref('demo_company_ro_fifo')]}"
+    >
+        <field
+            name="product_id"
+            model="product.product"
+            eval="obj().env.ref('l10n_ro_config.demo_product_marfa_standard').product_variant_id.id"
+        />
+        <field name="location_id" ref="demo_location_fifo_zone_b" />
+        <field name="inventory_quantity">15.0</field>
+    </record>
+
+    <function
+        model="stock.quant"
+        name="action_apply_inventory"
+        context="{'allowed_company_ids': [ref('demo_company_ro_fifo')]}"
+    >
+        <value
+            eval="[
+                ref('demo_quant_fifo_zone_a'),
+                ref('demo_quant_fifo_zone_b'),
+            ]"
+        />
+    </function>
+</odoo>

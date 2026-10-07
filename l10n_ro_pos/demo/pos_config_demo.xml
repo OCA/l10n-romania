@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright (C) 2025 NextERP Romania
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html). -->
+<odoo>
+    <!-- Câte o casă de marcat pentru fiecare dintre cele două magazine ale
+         firmei demo. Jurnalul de numerar este marcat ca jurnal de bonuri
+         fiscale și poartă regimul național de TVA, fiindcă vânzarea la casă
+         se face cu TVA inclus în preț.
+
+         Casele nu sunt legate aici de gestiunile magazinelor: modulul nu
+         depinde de contabilitatea mărfii la preț de vânzare, deci nu poate
+         referi depozitele ei. Legătura o face modulul punte
+         ``l10n_ro_pos_retail``. -->
+
+    <record
+        id="demo_journal_pos_cash"
+        model="account.journal"
+        context="{'allowed_company_ids': [ref('base.demo_company_ro')]}"
+    >
+        <field name="name">Casa de marcat - Magazin Centru</field>
+        <field name="code">CASAM</field>
+        <field name="type">cash</field>
+        <field name="company_id" ref="base.demo_company_ro" />
+        <field
+            name="default_account_id"
+            model="account.chart.template"
+            eval="obj().with_company(obj().env.ref('base.demo_company_ro')).ref('pcg_5311').id"
+        />
+        <field name="l10n_ro_fiscal_receipt" eval="True" />
+        <field
+            name="l10n_ro_fiscal_position_id"
+            model="account.chart.template"
+            eval="obj().with_company(obj().env.ref('base.demo_company_ro')).ref('fiscal_position_template_1').id"
+        />
+    </record>
+
+    <record
+        id="demo_journal_pos_cash_nord"
+        model="account.journal"
+        context="{'allowed_company_ids': [ref('base.demo_company_ro')]}"
+    >
+        <field name="name">Casa de marcat - Magazin Nord</field>
+        <field name="code">CASAN</field>
+        <field name="type">cash</field>
+        <field name="company_id" ref="base.demo_company_ro" />
+        <field
+            name="default_account_id"
+            model="account.chart.template"
+            eval="obj().with_company(obj().env.ref('base.demo_company_ro')).ref('pcg_5311').id"
+        />
+        <field name="l10n_ro_fiscal_receipt" eval="True" />
+        <field
+            name="l10n_ro_fiscal_position_id"
+            model="account.chart.template"
+            eval="obj().with_company(obj().env.ref('base.demo_company_ro')).ref('fiscal_position_template_1').id"
+        />
+    </record>
+
+    <record
+        id="demo_pos_payment_cash"
+        model="pos.payment.method"
+        context="{'allowed_company_ids': [ref('base.demo_company_ro')]}"
+    >
+        <field name="name">Numerar - Magazin Centru</field>
+        <field name="company_id" ref="base.demo_company_ro" />
+        <field name="journal_id" ref="demo_journal_pos_cash" />
+    </record>
+
+    <record
+        id="demo_pos_payment_cash_nord"
+        model="pos.payment.method"
+        context="{'allowed_company_ids': [ref('base.demo_company_ro')]}"
+    >
+        <field name="name">Numerar - Magazin Nord</field>
+        <field name="company_id" ref="base.demo_company_ro" />
+        <field name="journal_id" ref="demo_journal_pos_cash_nord" />
+    </record>
+
+    <record
+        id="demo_pos_payment_card"
+        model="pos.payment.method"
+        context="{'allowed_company_ids': [ref('base.demo_company_ro')]}"
+    >
+        <field name="name">Card bancar</field>
+        <field name="company_id" ref="base.demo_company_ro" />
+        <field
+            name="journal_id"
+            model="account.journal"
+            eval="obj().env['account.journal'].search([
+                ('type', '=', 'bank'),
+                ('company_id', '=', obj().env.ref('base.demo_company_ro').id),
+            ], limit=1).id"
+        />
+    </record>
+
+    <record
+        id="demo_pos_config"
+        model="pos.config"
+        context="{'allowed_company_ids': [ref('base.demo_company_ro')]}"
+    >
+        <field name="name">Casa Magazin Centru</field>
+        <field name="company_id" ref="base.demo_company_ro" />
+        <field
+            name="payment_method_ids"
+            eval="[Command.set([ref('demo_pos_payment_cash'), ref('demo_pos_payment_card')])]"
+        />
+    </record>
+
+    <record
+        id="demo_pos_config_nord"
+        model="pos.config"
+        context="{'allowed_company_ids': [ref('base.demo_company_ro')]}"
+    >
+        <field name="name">Casa Magazin Nord</field>
+        <field name="company_id" ref="base.demo_company_ro" />
+        <field
+            name="payment_method_ids"
+            eval="[Command.set([ref('demo_pos_payment_cash_nord'), ref('demo_pos_payment_card')])]"
+        />
+    </record>
+</odoo>

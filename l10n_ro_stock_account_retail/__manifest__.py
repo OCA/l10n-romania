@@ -3,7 +3,7 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 {
     "name": "Romania - Stock Accounting Retail (Marfa in Magazin)",
-    "version": "19.0.2.1.0",
+    "version": "19.0.2.2.0",
     "category": "Localization",
     "countries": ["ro"],
     "summary": "Romania - Retail merchandise accounting "
@@ -24,6 +24,9 @@
         "views/res_config_settings_view.xml",
         "views/retail_markup_line_view.xml",
         "wizard/retail_opening_balance_view.xml",
+    ],
+    "demo": [
+        "demo/retail_demo.xml",
     ],
     "installable": True,
     "auto_install": False,

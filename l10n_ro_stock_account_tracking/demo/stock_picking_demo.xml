@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright (C) 2025 NextERP Romania
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html). -->
+<odoo>
+    <!-- Transfer între gestiuni, din zona de marfă a depozitului central
+         în depozitul din Timișoara. Modulul leagă mișcarea de ieșire de
+         intrările din care provine marfa, așa că se vede din ce strat
+         FIFO a plecat fiecare bucată. -->
+
+    <record
+        id="demo_picking_transfer_dc_dtm"
+        model="stock.picking"
+        context="{'allowed_company_ids': [ref('base.demo_company_ro')]}"
+    >
+        <field name="company_id" ref="base.demo_company_ro" />
+        <field
+            name="picking_type_id"
+            model="stock.picking.type"
+            eval="obj().env.ref('l10n_ro_stock.demo_warehouse_main').int_type_id.id"
+        />
+        <field name="location_id" ref="l10n_ro_stock.demo_location_zone_a" />
+        <field
+            name="location_dest_id"
+            model="stock.location"
+            eval="obj().env.ref('l10n_ro_stock.demo_warehouse_secondary').lot_stock_id.id"
+        />
+        <field name="origin">Redistribuire marfă</field>
+        <field
+            name="move_ids"
+            model="stock.move"
+            eval="[
+                (0, 0, {
+                    'product_id': obj().env.ref('l10n_ro_config.demo_product_marfa_standard').product_variant_id.id,
+                    'product_uom_qty': 5.0,
+                    'location_id': obj().env.ref('l10n_ro_stock.demo_location_zone_a').id,
+                    'location_dest_id': obj().env.ref('l10n_ro_stock.demo_warehouse_secondary').lot_stock_id.id,
+                }),
+                (0, 0, {
+                    'product_id': obj().env.ref('l10n_ro_config.demo_product_marfa_redusa').product_variant_id.id,
+                    'product_uom_qty': 60.0,
+                    'location_id': obj().env.ref('l10n_ro_stock.demo_location_zone_a').id,
+                    'location_dest_id': obj().env.ref('l10n_ro_stock.demo_warehouse_secondary').lot_stock_id.id,
+                }),
+            ]"
+        />
+    </record>
+
+    <function
+        model="stock.picking"
+        name="button_validate"
+        context="{'allowed_company_ids': [ref('base.demo_company_ro')]}"
+    >
+        <value eval="[ref('demo_picking_transfer_dc_dtm')]" />
+    </function>
+</odoo>

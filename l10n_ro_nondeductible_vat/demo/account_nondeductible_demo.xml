@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright (C) 2025 NextERP Romania
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html). -->
+<odoo>
+    <!-- TVA-ul nedeductibil se duce pe cheltuiala cu impozite și taxe
+         nedeductibile (6352). -->
+
+    <record id="base.demo_company_ro" model="res.company">
+        <field
+            name="l10n_ro_nondeductible_account_id"
+            model="account.chart.template"
+            eval="obj().with_company(obj().env.ref('base.demo_company_ro')).ref('pcg_6352').id"
+        />
+    </record>
+
+    <!-- Două cheltuieli cu TVA parțial sau integral nedeductibil:
+         carburantul auto, la care se deduce jumătate din TVA, și
+         protocolul, la care nu se deduce nimic. -->
+
+    <record id="demo_product_carburant" model="product.template">
+        <field name="name">Carburant auto</field>
+        <field name="default_code">SRV-CARB-001</field>
+        <field name="type">service</field>
+        <field name="categ_id" ref="l10n_ro_config.demo_categ_serviciu" />
+        <field name="list_price">0.0</field>
+    </record>
+
+    <record id="demo_product_protocol" model="product.template">
+        <field name="name">Cheltuieli de protocol</field>
+        <field name="default_code">SRV-PROT-001</field>
+        <field name="type">service</field>
+        <field name="categ_id" ref="l10n_ro_config.demo_categ_serviciu" />
+        <field name="list_price">0.0</field>
+    </record>
+
+    <function
+        model="product.template"
+        name="write"
+        context="{'allowed_company_ids': [ref('base.demo_company_ro')]}"
+    >
+        <value eval="[ref('demo_product_carburant')]" />
+        <value
+            model="product.template"
+            eval="{
+                'property_account_expense_id': obj().env['account.chart.template'].with_company(obj().env.ref('base.demo_company_ro')).ref('pcg_6022').id,
+                'supplier_taxes_id': [Command.set(obj().env['account.chart.template'].with_company(obj().env.ref('base.demo_company_ro')).ref('tvad_21_s').ids)],
+            }"
+        />
+    </function>
+
+    <function
+        model="product.template"
+        name="write"
+        context="{'allowed_company_ids': [ref('base.demo_company_ro')]}"
+    >
+        <value eval="[ref('demo_product_protocol')]" />
+        <value
+            model="product.template"
+            eval="{
+                'property_account_expense_id': obj().env['account.chart.template'].with_company(obj().env.ref('base.demo_company_ro')).ref('pcg_6231').id,
+                'supplier_taxes_id': [Command.set(obj().env['account.chart.template'].with_company(obj().env.ref('base.demo_company_ro')).ref('tvad_21_s').ids)],
+            }"
+        />
+    </function>
+
+    <record
+        id="demo_bill_nondeductible"
+        model="account.move"
+        context="{'allowed_company_ids': [ref('base.demo_company_ro')]}"
+    >
+        <field name="company_id" ref="base.demo_company_ro" />
+        <field name="move_type">in_invoice</field>
+        <field
+            name="partner_id"
+            ref="l10n_ro_config.demo_partner_ro_company_supplier"
+        />
+        <field name="invoice_date" eval="time.strftime('%Y-%m-%d')" />
+        <field name="ref">FACT-TVA-NEDED-001</field>
+        <field
+            name="invoice_line_ids"
+            model="account.move.line"
+            eval="[
+                (0, 0, {
+                    'product_id': obj().env.ref('l10n_ro_nondeductible_vat.demo_product_carburant').product_variant_id.id,
+                    'quantity': 1.0,
+                    'price_unit': 1000.0,
+                    'l10n_ro_nondeductible_percent': '50',
+                }),
+                (0, 0, {
+                    'product_id': obj().env.ref('l10n_ro_nondeductible_vat.demo_product_protocol').product_variant_id.id,
+                    'quantity': 1.0,
+                    'price_unit': 500.0,
+                    'l10n_ro_nondeductible_percent': '100',
+                }),
+            ]"
+        />
+    </record>
+
+    <function
+        model="account.move"
+        name="action_post"
+        context="{'allowed_company_ids': [ref('base.demo_company_ro')]}"
+    >
+        <value eval="[ref('demo_bill_nondeductible')]" />
+    </function>
+</odoo>

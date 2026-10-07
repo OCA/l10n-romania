@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright (C) 2025 NextERP Romania
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html). -->
+<odoo>
+    <!-- Modulul lasă cursul să fie corectat pe factură, de regulă pe cursul
+         BNR din ziua documentului. Ca să se vadă efectul, firma din România
+         primește o serie de cursuri lunare pentru euro și dolar.
+
+         Modulul nu depinde de restul localizării, așa că firma se caută după
+         țară, nu printr-un identificator extern al ei. -->
+
+    <record id="demo_rate_eur_m2" model="res.currency.rate">
+        <field name="currency_id" ref="base.EUR" />
+        <field
+            name="name"
+            eval="(DateTime.today() + relativedelta(day=1, months=-2)).strftime('%Y-%m-%d')"
+        />
+        <field name="inverse_company_rate">5.0421</field>
+        <field
+            name="company_id"
+            model="res.company"
+            eval="obj().env['res.company'].search([('partner_id.country_id.code', '=', 'RO')], limit=1).id"
+        />
+    </record>
+
+    <record id="demo_rate_eur_m1" model="res.currency.rate">
+        <field name="currency_id" ref="base.EUR" />
+        <field
+            name="name"
+            eval="(DateTime.today() + relativedelta(day=1, months=-1)).strftime('%Y-%m-%d')"
+        />
+        <field name="inverse_company_rate">5.0738</field>
+        <field
+            name="company_id"
+            model="res.company"
+            eval="obj().env['res.company'].search([('partner_id.country_id.code', '=', 'RO')], limit=1).id"
+        />
+    </record>
+
+    <record id="demo_rate_eur_m0" model="res.currency.rate">
+        <field name="currency_id" ref="base.EUR" />
+        <field
+            name="name"
+            eval="(DateTime.today() + relativedelta(day=1)).strftime('%Y-%m-%d')"
+        />
+        <field name="inverse_company_rate">5.0896</field>
+        <field
+            name="company_id"
+            model="res.company"
+            eval="obj().env['res.company'].search([('partner_id.country_id.code', '=', 'RO')], limit=1).id"
+        />
+    </record>
+
+    <record id="demo_rate_usd_m1" model="res.currency.rate">
+        <field name="currency_id" ref="base.USD" />
+        <field
+            name="name"
+            eval="(DateTime.today() + relativedelta(day=1, months=-1)).strftime('%Y-%m-%d')"
+        />
+        <field name="inverse_company_rate">4.6210</field>
+        <field
+            name="company_id"
+            model="res.company"
+            eval="obj().env['res.company'].search([('partner_id.country_id.code', '=', 'RO')], limit=1).id"
+        />
+    </record>
+
+    <record id="demo_rate_usd_m0" model="res.currency.rate">
+        <field name="currency_id" ref="base.USD" />
+        <field
+            name="name"
+            eval="(DateTime.today() + relativedelta(day=1)).strftime('%Y-%m-%d')"
+        />
+        <field name="inverse_company_rate">4.6584</field>
+        <field
+            name="company_id"
+            model="res.company"
+            eval="obj().env['res.company'].search([('partner_id.country_id.code', '=', 'RO')], limit=1).id"
+        />
+    </record>
+
+    <function model="res.currency" name="write">
+        <value eval="[ref('base.EUR'), ref('base.USD')]" />
+        <value eval="{'active': True}" />
+    </function>
+</odoo>

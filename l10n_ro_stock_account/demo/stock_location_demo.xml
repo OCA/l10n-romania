@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright (C) 2025 NextERP Romania
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html). -->
+<odoo>
+    <!-- Conturile de stoc pe locație: categoriile marcate cu
+         „Allow stock account change from locations” iau contul de la
+         gestiunea în care se află marfa, nu de la categorie. -->
+
+    <record
+        id="l10n_ro_stock.demo_location_zone_a"
+        model="stock.location"
+        context="{'allowed_company_ids': [ref('base.demo_company_ro')]}"
+    >
+        <field
+            name="l10n_ro_property_stock_valuation_account_id"
+            model="account.chart.template"
+            eval="obj().with_company(obj().env.ref('base.demo_company_ro')).ref('pcg_371').id"
+        />
+    </record>
+
+    <record
+        id="l10n_ro_stock.demo_location_zone_b"
+        model="stock.location"
+        context="{'allowed_company_ids': [ref('base.demo_company_ro')]}"
+    >
+        <field
+            name="l10n_ro_property_stock_valuation_account_id"
+            model="account.chart.template"
+            eval="obj().with_company(obj().env.ref('base.demo_company_ro')).ref('pcg_301').id"
+        />
+        <field
+            name="l10n_ro_property_account_expense_location_id"
+            model="account.chart.template"
+            eval="obj().with_company(obj().env.ref('base.demo_company_ro')).ref('pcg_601').id"
+        />
+    </record>
+</odoo>

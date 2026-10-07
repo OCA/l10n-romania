@@ -2,7 +2,7 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 {
     "name": "Romania - Stock Accounting Date",
-    "version": "19.0.0.2.0",
+    "version": "19.0.0.3.0",
     "category": "Localization",
     "countries": ["ro"],
     "summary": "Romania - Stock Accounting Date",
@@ -12,6 +12,9 @@
     "license": "AGPL-3",
     "data": [
         "views/stock_picking_views.xml",
+    ],
+    "demo": [
+        "demo/stock_picking_date_demo.xml",
     ],
     "installable": True,
     "development_status": "Mature",
