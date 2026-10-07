@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright (C) 2025 NextERP Romania
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html). -->
+<odoo>
+    <!-- Datele de identificare românești ale firmei demo din România,
+         peste cele create de l10n_ro (demo/demo_company.xml). -->
+    <record id="base.partner_demo_company_ro" model="res.partner">
+        <field name="nrc">J40/1234/2018</field>
+        <field name="l10n_ro_vat_subjected" eval="True" />
+        <field name="l10n_ro_e_invoice" eval="True" />
+        <field name="l10n_ro_caen_code">4690</field>
+    </record>
+
+    <!-- Conturile și pozițiile fiscale românești ale companiei. Planul de
+         conturi se încarcă odată cu l10n_ro, înaintea instalării acestui
+         modul, așa că valorile din ``_get_ro_res_company`` nu ajung pe
+         companie; aici le punem pe firma demo. -->
+    <record id="base.demo_company_ro" model="res.company">
+        <field name="l10n_ro_share_capital">45000.0</field>
+        <field
+            name="l10n_ro_account_serv_sale_tax_id"
+            model="account.chart.template"
+            eval="obj().with_company(obj().env.ref('base.demo_company_ro')).ref('tvac_21_s').id"
+        />
+        <field
+            name="l10n_ro_account_serv_purchase_tax_id"
+            model="account.chart.template"
+            eval="obj().with_company(obj().env.ref('base.demo_company_ro')).ref('tvad_21_s').id"
+        />
+        <field
+            name="l10n_ro_property_vat_on_payment_position_id"
+            model="account.chart.template"
+            eval="obj().with_company(obj().env.ref('base.demo_company_ro')).ref('fiscal_position_template_8').id"
+        />
+        <field
+            name="l10n_ro_property_inverse_taxation_position_id"
+            model="account.chart.template"
+            eval="obj().with_company(obj().env.ref('base.demo_company_ro')).ref('fiscal_position_template_2').id"
+        />
+        <field
+            name="l10n_ro_property_stock_picking_payable_account_id"
+            model="account.chart.template"
+            eval="obj().with_company(obj().env.ref('base.demo_company_ro')).ref('pcg_4081').id"
+        />
+        <field
+            name="l10n_ro_property_stock_picking_receivable_account_id"
+            model="account.chart.template"
+            eval="obj().with_company(obj().env.ref('base.demo_company_ro')).ref('pcg_418').id"
+        />
+        <field
+            name="l10n_ro_property_stock_usage_giving_account_id"
+            model="account.chart.template"
+            eval="obj().with_company(obj().env.ref('base.demo_company_ro')).ref('pcg_8035').id"
+        />
+        <field
+            name="l10n_ro_property_stock_picking_custody_account_id"
+            model="account.chart.template"
+            eval="obj().with_company(obj().env.ref('base.demo_company_ro')).ref('pcg_8033').id"
+        />
+        <field
+            name="l10n_ro_property_uneligible_tax_account_id"
+            model="account.chart.template"
+            eval="obj().with_company(obj().env.ref('base.demo_company_ro')).ref('pcg_6352').id"
+        />
+        <field
+            name="l10n_ro_property_stock_transfer_account_id"
+            model="account.chart.template"
+            eval="obj().with_company(obj().env.ref('base.demo_company_ro')).ref('pcg_482').id"
+        />
+        <field
+            name="l10n_ro_property_trade_discount_received_account_id"
+            model="account.chart.template"
+            eval="obj().with_company(obj().env.ref('base.demo_company_ro')).ref('pcg_6091').id"
+        />
+        <field
+            name="l10n_ro_property_trade_discount_granted_account_id"
+            model="account.chart.template"
+            eval="obj().with_company(obj().env.ref('base.demo_company_ro')).ref('pcg_709').id"
+        />
+    </record>
+</odoo>
