@@ -13,6 +13,9 @@
     "data": [
         "views/stock_picking_views.xml",
     ],
+    "demo": [
+        "demo/stock_picking_date_demo.xml",
+    ],
     "installable": True,
     "development_status": "Mature",
     "maintainers": ["feketemihai"],
