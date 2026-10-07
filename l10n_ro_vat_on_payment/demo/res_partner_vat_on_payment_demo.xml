@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright (C) 2025 NextERP Romania
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html). -->
+<odoo>
+    <!-- Someș Construct SRL este în Registrul persoanelor care aplică TVA
+         la încasare. Facturile emise către el preiau automat poziția
+         fiscală „Sistem de colectare TVA” configurată pe companie. -->
+
+    <record id="demo_anaf_vat_on_payment_somes" model="l10n.ro.res.partner.anaf">
+        <field name="anaf_id">1</field>
+        <field name="vat">45678900</field>
+        <field name="operation_type">I</field>
+        <field name="start_date" eval="time.strftime('%Y-01-01')" />
+        <field name="publish_date" eval="time.strftime('%Y-01-01')" />
+        <field name="operation_date" eval="time.strftime('%Y-01-01')" />
+    </record>
+
+    <record
+        id="l10n_ro_config.demo_partner_ro_company_customer_vat_payment"
+        model="res.partner"
+    >
+        <field name="l10n_ro_vat_on_payment" eval="True" />
+        <field name="l10n_ro_vat_payment_check_date" eval="time.strftime('%Y-%m-%d')" />
+    </record>
+
+    <!-- Transilvania Logistic SRL aplică și el TVA la încasare, pe partea de
+         furnizor: facturile primite de la el iau poziția fiscală de colectare
+         a TVA, deci TVA-ul devine deductibil abia la plată. -->
+
+    <record id="demo_anaf_vat_on_payment_transilvania" model="l10n.ro.res.partner.anaf">
+        <field name="anaf_id">2</field>
+        <field name="vat">23456783</field>
+        <field name="operation_type">I</field>
+        <field name="start_date" eval="time.strftime('%Y-01-01')" />
+        <field name="publish_date" eval="time.strftime('%Y-01-01')" />
+        <field name="operation_date" eval="time.strftime('%Y-01-01')" />
+    </record>
+
+    <record
+        id="l10n_ro_config.demo_partner_ro_company_supplier_service"
+        model="res.partner"
+    >
+        <field name="l10n_ro_vat_on_payment" eval="True" />
+        <field name="l10n_ro_vat_payment_check_date" eval="time.strftime('%Y-%m-%d')" />
+    </record>
+</odoo>
