@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright (C) 2025 NextERP Romania
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html). -->
+<odoo>
+    <!-- Marfă cumpărată direct pentru magazin, recepționată la prețul din
+         comandă și facturată mai scump. Diferența de preț urcă valoarea
+         recepției, iar adaosul rămas pe marfa din magazin scade cu aceeași
+         sumă. Modulul arată acest lucru în dialogul de confirmare a
+         diferenței, înainte de postare, ca magazinul să vadă dacă mai are
+         adaos sau dacă trebuie întâi o schimbare de preț. -->
+
+    <record
+        id="demo_purchase_order_shop"
+        model="purchase.order"
+        context="{'allowed_company_ids': [ref('base.demo_company_ro')]}"
+    >
+        <field name="company_id" ref="base.demo_company_ro" />
+        <field
+            name="partner_id"
+            ref="l10n_ro_config.demo_partner_ro_company_supplier"
+        />
+        <field
+            name="picking_type_id"
+            model="stock.picking.type"
+            eval="obj().env.ref('l10n_ro_stock_account_retail.demo_warehouse_retail').in_type_id.id"
+        />
+        <field
+            name="order_line"
+            model="purchase.order.line"
+            eval="[
+                (0, 0, {
+                    'product_id': obj().env.ref('l10n_ro_config.demo_product_marfa_standard').product_variant_id.id,
+                    'product_qty': 5.0,
+                    'price_unit': 800.0,
+                    'name': 'Espressor automat ClassicBrew - pentru magazin',
+                    'date_planned': time.strftime('%Y-%m-%d'),
+                }),
+            ]"
+        />
+    </record>
+
+    <function
+        model="purchase.order"
+        name="button_confirm"
+        context="{'allowed_company_ids': [ref('base.demo_company_ro')]}"
+    >
+        <value eval="[ref('demo_purchase_order_shop')]" />
+    </function>
+
+    <function
+        model="stock.picking"
+        name="button_validate"
+        context="{'allowed_company_ids': [ref('base.demo_company_ro')]}"
+    >
+        <value
+            model="stock.picking"
+            eval="obj().env.ref('l10n_ro_stock_account_retail_price_difference.demo_purchase_order_shop').picking_ids.ids"
+        />
+    </function>
+
+    <record
+        id="demo_bill_shop_price_difference"
+        model="account.move"
+        context="{'allowed_company_ids': [ref('base.demo_company_ro')]}"
+    >
+        <field name="company_id" ref="base.demo_company_ro" />
+        <field name="move_type">in_invoice</field>
+        <field
+            name="partner_id"
+            ref="l10n_ro_config.demo_partner_ro_company_supplier"
+        />
+        <field name="invoice_date" eval="time.strftime('%Y-%m-%d')" />
+        <field name="ref">FACT-CARPATICA-MAG-001</field>
+        <field
+            name="invoice_line_ids"
+            model="account.move.line"
+            eval="[
+                (0, 0, {
+                    'product_id': obj().env.ref('l10n_ro_config.demo_product_marfa_standard').product_variant_id.id,
+                    'quantity': 5.0,
+                    'price_unit': 870.0,
+                    'purchase_line_id': obj().env.ref('l10n_ro_stock_account_retail_price_difference.demo_purchase_order_shop').order_line[0].id,
+                }),
+            ]"
+        />
+    </record>
+
+    <function
+        model="account.move"
+        name="action_post"
+        context="{
+            'allowed_company_ids': [ref('base.demo_company_ro')],
+            'l10n_ro_approved_price_difference': True,
+        }"
+    >
+        <value eval="[ref('demo_bill_shop_price_difference')]" />
+    </function>
+</odoo>
