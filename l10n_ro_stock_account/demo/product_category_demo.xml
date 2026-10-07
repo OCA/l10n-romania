@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright (C) 2025 NextERP Romania
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html). -->
+<odoo>
+    <!-- Categoriile din l10n_ro_config primesc aici gestiunea cantitativ-
+         valorică: evaluare permanentă, FIFO și conturile din planul de
+         conturi român. Conturile sunt pe companie, de aceea înregistrările
+         se scriu în contextul firmei demo din România. -->
+
+    <record
+        id="l10n_ro_config.demo_categ_marfa"
+        model="product.category"
+        context="{'allowed_company_ids': [ref('base.demo_company_ro')]}"
+    >
+        <field name="property_valuation">real_time</field>
+        <field name="property_cost_method">fifo</field>
+        <field name="l10n_ro_stock_account_change" eval="True" />
+        <field
+            name="property_stock_valuation_account_id"
+            model="account.chart.template"
+            eval="obj().with_company(obj().env.ref('base.demo_company_ro')).ref('pcg_371').id"
+        />
+        <field
+            name="property_account_expense_categ_id"
+            model="account.chart.template"
+            eval="obj().with_company(obj().env.ref('base.demo_company_ro')).ref('ro_pcg_expense').id"
+        />
+        <field
+            name="property_account_income_categ_id"
+            model="account.chart.template"
+            eval="obj().with_company(obj().env.ref('base.demo_company_ro')).ref('ro_pcg_sale').id"
+        />
+    </record>
+
+    <record
+        id="l10n_ro_config.demo_categ_marfa_avco"
+        model="product.category"
+        context="{'allowed_company_ids': [ref('base.demo_company_ro')]}"
+    >
+        <field name="property_valuation">real_time</field>
+        <field name="property_cost_method">average</field>
+        <field name="l10n_ro_stock_account_change" eval="True" />
+        <field
+            name="property_stock_valuation_account_id"
+            model="account.chart.template"
+            eval="obj().with_company(obj().env.ref('base.demo_company_ro')).ref('pcg_371').id"
+        />
+        <field
+            name="property_account_expense_categ_id"
+            model="account.chart.template"
+            eval="obj().with_company(obj().env.ref('base.demo_company_ro')).ref('ro_pcg_expense').id"
+        />
+        <field
+            name="property_account_income_categ_id"
+            model="account.chart.template"
+            eval="obj().with_company(obj().env.ref('base.demo_company_ro')).ref('ro_pcg_sale').id"
+        />
+    </record>
+
+    <record
+        id="l10n_ro_config.demo_categ_materie_prima"
+        model="product.category"
+        context="{'allowed_company_ids': [ref('base.demo_company_ro')]}"
+    >
+        <field name="property_valuation">real_time</field>
+        <field name="property_cost_method">fifo</field>
+        <field name="l10n_ro_stock_account_change" eval="True" />
+        <field
+            name="property_stock_valuation_account_id"
+            model="account.chart.template"
+            eval="obj().with_company(obj().env.ref('base.demo_company_ro')).ref('pcg_301').id"
+        />
+        <field
+            name="property_account_expense_categ_id"
+            model="account.chart.template"
+            eval="obj().with_company(obj().env.ref('base.demo_company_ro')).ref('pcg_601').id"
+        />
+        <field
+            name="property_account_income_categ_id"
+            model="account.chart.template"
+            eval="obj().with_company(obj().env.ref('base.demo_company_ro')).ref('pcg_7588').id"
+        />
+    </record>
+
+    <record
+        id="l10n_ro_config.demo_categ_produs_finit"
+        model="product.category"
+        context="{'allowed_company_ids': [ref('base.demo_company_ro')]}"
+    >
+        <field name="property_valuation">real_time</field>
+        <field name="property_cost_method">fifo</field>
+        <field name="l10n_ro_stock_account_change" eval="True" />
+        <field
+            name="property_stock_valuation_account_id"
+            model="account.chart.template"
+            eval="obj().with_company(obj().env.ref('base.demo_company_ro')).ref('pcg_345').id"
+        />
+        <field
+            name="property_account_expense_categ_id"
+            model="account.chart.template"
+            eval="obj().with_company(obj().env.ref('base.demo_company_ro')).ref('pcg_711').id"
+        />
+        <field
+            name="property_account_income_categ_id"
+            model="account.chart.template"
+            eval="obj().with_company(obj().env.ref('base.demo_company_ro')).ref('pcg_7015').id"
+        />
+    </record>
+
+    <record
+        id="l10n_ro_config.demo_categ_ambalaj"
+        model="product.category"
+        context="{'allowed_company_ids': [ref('base.demo_company_ro')]}"
+    >
+        <field name="property_valuation">real_time</field>
+        <field name="property_cost_method">fifo</field>
+        <field name="l10n_ro_stock_account_change" eval="True" />
+        <field
+            name="property_stock_valuation_account_id"
+            model="account.chart.template"
+            eval="obj().with_company(obj().env.ref('base.demo_company_ro')).ref('pcg_381').id"
+        />
+        <field
+            name="property_account_expense_categ_id"
+            model="account.chart.template"
+            eval="obj().with_company(obj().env.ref('base.demo_company_ro')).ref('pcg_608').id"
+        />
+        <field
+            name="property_account_income_categ_id"
+            model="account.chart.template"
+            eval="obj().with_company(obj().env.ref('base.demo_company_ro')).ref('ro_pcg_sale').id"
+        />
+    </record>
+
+    <record
+        id="l10n_ro_config.demo_categ_obiect_inventar"
+        model="product.category"
+        context="{'allowed_company_ids': [ref('base.demo_company_ro')]}"
+    >
+        <field name="property_valuation">real_time</field>
+        <field name="property_cost_method">fifo</field>
+        <field name="l10n_ro_stock_account_change" eval="True" />
+        <field
+            name="property_stock_valuation_account_id"
+            model="account.chart.template"
+            eval="obj().with_company(obj().env.ref('base.demo_company_ro')).ref('pcg_303').id"
+        />
+        <field
+            name="property_account_expense_categ_id"
+            model="account.chart.template"
+            eval="obj().with_company(obj().env.ref('base.demo_company_ro')).ref('pcg_603').id"
+        />
+        <field
+            name="property_account_income_categ_id"
+            model="account.chart.template"
+            eval="obj().with_company(obj().env.ref('base.demo_company_ro')).ref('pcg_7588').id"
+        />
+    </record>
+
+    <record
+        id="l10n_ro_config.demo_categ_serviciu"
+        model="product.category"
+        context="{'allowed_company_ids': [ref('base.demo_company_ro')]}"
+    >
+        <field
+            name="property_account_expense_categ_id"
+            model="account.chart.template"
+            eval="obj().with_company(obj().env.ref('base.demo_company_ro')).ref('pcg_628').id"
+        />
+        <field
+            name="property_account_income_categ_id"
+            model="account.chart.template"
+            eval="obj().with_company(obj().env.ref('base.demo_company_ro')).ref('pcg_704').id"
+        />
+    </record>
+</odoo>
