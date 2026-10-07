@@ -3,7 +3,7 @@
 {
     "name": "Romania - DVI",
     "license": "AGPL-3",
-    "version": "19.0.0.4.0",
+    "version": "19.0.0.5.0",
     "author": "Terrabit,NextERP Romania,Odoo Community Association (OCA)",
     "website": "https://github.com/OCA/l10n-romania",
     "category": "Localization",
@@ -15,6 +15,9 @@
         "views/account_invoice_view.xml",
         "views/stock_landed_cost_view.xml",
         "views/account_dvi_view.xml",
+    ],
+    "demo": [
+        "demo/account_dvi_demo.xml",
     ],
     "installable": True,
     "development_status": "Mature",
