@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright (C) 2025 NextERP Romania
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html). -->
+<odoo>
+    <!-- Conturile 711 se închid pe partea opusă față de restul veniturilor,
+         așa că li se bifează ocolirea verificării de sens. -->
+    <function
+        model="account.account"
+        name="write"
+        context="{'allowed_company_ids': [ref('base.demo_company_ro')]}"
+    >
+        <value
+            model="account.account"
+            eval="obj().env['account.chart.template'].with_company(obj().env.ref('base.demo_company_ro')).ref('pcg_711').ids"
+        />
+        <value model="account.account" eval="{'l10n_ro_close_check': True}" />
+    </function>
+
+    <!-- ===================================================================
+         Închiderea de TVA: 4426 și 4427 se sting între ele, iar diferența
+         rămâne în 4423 TVA de plată sau în 4424 TVA de recuperat.
+         =================================================================== -->
+
+    <record
+        id="demo_closing_vat"
+        model="l10n.ro.account.period.closing"
+        context="{'allowed_company_ids': [ref('base.demo_company_ro')]}"
+    >
+        <field name="name">Închidere TVA</field>
+        <field name="company_id" ref="base.demo_company_ro" />
+        <field name="type">selected</field>
+        <field name="close_result" eval="True" />
+        <field
+            name="journal_id"
+            model="account.journal"
+            eval="obj().env['account.journal'].search([('type', '=', 'general'), ('company_id', '=', obj().env.ref('base.demo_company_ro').id)], limit=1).id"
+        />
+        <field
+            name="account_ids"
+            model="account.account"
+            eval="[Command.set((
+                obj().env['account.chart.template'].with_company(obj().env.ref('base.demo_company_ro')).ref('pcg_4426')
+                + obj().env['account.chart.template'].with_company(obj().env.ref('base.demo_company_ro')).ref('pcg_4427')
+            ).ids)]"
+        />
+        <field
+            name="debit_account_id"
+            model="account.chart.template"
+            eval="obj().with_company(obj().env.ref('base.demo_company_ro')).ref('pcg_4424').id"
+        />
+        <field
+            name="credit_account_id"
+            model="account.chart.template"
+            eval="obj().with_company(obj().env.ref('base.demo_company_ro')).ref('pcg_44231').id"
+        />
+    </record>
+
+    <!-- ===================================================================
+         Închiderea conturilor de venituri și de cheltuieli în 121
+         =================================================================== -->
+
+    <record
+        id="demo_closing_income"
+        model="l10n.ro.account.period.closing"
+        context="{'allowed_company_ids': [ref('base.demo_company_ro')]}"
+    >
+        <field name="name">Închidere venituri</field>
+        <field name="company_id" ref="base.demo_company_ro" />
+        <field name="type">income</field>
+        <field
+            name="journal_id"
+            model="account.journal"
+            eval="obj().env['account.journal'].search([('type', '=', 'general'), ('company_id', '=', obj().env.ref('base.demo_company_ro').id)], limit=1).id"
+        />
+        <field
+            name="account_ids"
+            model="account.account"
+            eval="[Command.set(obj().env['account.account'].search([
+                ('account_type', '=', 'income'),
+                ('company_ids', 'in', [obj().env.ref('base.demo_company_ro').id]),
+            ]).ids)]"
+        />
+        <field
+            name="debit_account_id"
+            model="account.chart.template"
+            eval="obj().with_company(obj().env.ref('base.demo_company_ro')).ref('pcg_121').id"
+        />
+        <field
+            name="credit_account_id"
+            model="account.chart.template"
+            eval="obj().with_company(obj().env.ref('base.demo_company_ro')).ref('pcg_121').id"
+        />
+    </record>
+
+    <record
+        id="demo_closing_expense"
+        model="l10n.ro.account.period.closing"
+        context="{'allowed_company_ids': [ref('base.demo_company_ro')]}"
+    >
+        <field name="name">Închidere cheltuieli</field>
+        <field name="company_id" ref="base.demo_company_ro" />
+        <field name="type">expense</field>
+        <field
+            name="journal_id"
+            model="account.journal"
+            eval="obj().env['account.journal'].search([('type', '=', 'general'), ('company_id', '=', obj().env.ref('base.demo_company_ro').id)], limit=1).id"
+        />
+        <field
+            name="account_ids"
+            model="account.account"
+            eval="[Command.set(obj().env['account.account'].search([
+                ('account_type', '=', 'expense'),
+                ('company_ids', 'in', [obj().env.ref('base.demo_company_ro').id]),
+            ]).ids)]"
+        />
+        <field
+            name="debit_account_id"
+            model="account.chart.template"
+            eval="obj().with_company(obj().env.ref('base.demo_company_ro')).ref('pcg_121').id"
+        />
+        <field
+            name="credit_account_id"
+            model="account.chart.template"
+            eval="obj().with_company(obj().env.ref('base.demo_company_ro')).ref('pcg_121').id"
+        />
+    </record>
+</odoo>
