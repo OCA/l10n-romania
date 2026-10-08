@@ -19,6 +19,10 @@ class ResCompany(models.Model):
         string="Maximum number of days to download e-invoices.", default=60
     )
 
+    l10n_ro_refresh_message_days = fields.Integer(
+        string="Maximum number of days to refresh e-invoice messages.", default=60
+    )
+
     def l10n_ro_download_zip_message_spv(self, limit=5):
         # method to be used in cron job to auto download e-invoices from ANAF
         _logger.info("⏱️ Cron job for download ZIP messages from SPV")
