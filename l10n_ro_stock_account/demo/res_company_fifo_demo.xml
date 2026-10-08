@@ -151,44 +151,23 @@
     <!-- Același produs în două zone: cu FIFO global se consumă stratul
          cel mai vechi, oricare ar fi zona din care pleacă marfa. -->
 
-    <record
-        id="demo_quant_fifo_zone_a"
-        model="stock.quant"
-        context="{'allowed_company_ids': [ref('demo_company_ro_fifo')]}"
-    >
-        <field
-            name="product_id"
-            model="product.product"
-            eval="obj().env.ref('l10n_ro_config.demo_product_marfa_standard').product_variant_id.id"
-        />
-        <field name="location_id" ref="demo_location_fifo_zone_a" />
-        <field name="inventory_quantity">20.0</field>
-    </record>
-
-    <record
-        id="demo_quant_fifo_zone_b"
-        model="stock.quant"
-        context="{'allowed_company_ids': [ref('demo_company_ro_fifo')]}"
-    >
-        <field
-            name="product_id"
-            model="product.product"
-            eval="obj().env.ref('l10n_ro_config.demo_product_marfa_standard').product_variant_id.id"
-        />
-        <field name="location_id" ref="demo_location_fifo_zone_b" />
-        <field name="inventory_quantity">15.0</field>
-    </record>
+    <!-- Aceeași marfă în două zone, descrisă în
+         demo/cases/stoc_initial_fifo_global.csv: cu FIFO la nivel de
+         companie, la livrare se consumă stratul cel mai vechi, oricare ar fi
+         zona din care pleacă marfa. -->
 
     <function
-        model="stock.quant"
-        name="action_apply_inventory"
+        model="l10n.ro.stock.scenario.loader"
+        name="_load_cases"
         context="{'allowed_company_ids': [ref('demo_company_ro_fifo')]}"
     >
+        <value>l10n_ro_stock_account</value>
+        <value>stoc_initial_fifo_global.csv</value>
         <value
-            eval="[
-                ref('demo_quant_fifo_zone_a'),
-                ref('demo_quant_fifo_zone_b'),
-            ]"
+            eval="{
+                'zona_a': 'l10n_ro_stock_account.demo_location_fifo_zone_a',
+                'zona_b': 'l10n_ro_stock_account.demo_location_fifo_zone_b',
+            }"
         />
     </function>
 </odoo>
