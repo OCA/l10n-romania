@@ -52,8 +52,29 @@ class DemoScenario(StockScenario):
         records that have no external identifier of their own - the stock
         location of a warehouse, for instance, which Odoo creates along with
         it.
+
+        It may also be a search, for what no module ever named: ``code:X``
+        finds the product whose internal reference is ``X``, ``lot:X`` the lot
+        or serial number called ``X``.  A scenario that creates a lot can then
+        hand it to the next one, which an external identifier cannot do.
         """
         xmlid = self._aliases.get(name, name)
+        for prefix, model, field_name in (
+            ("code:", "product.product", "default_code"),
+            ("lot:", "stock.lot", "name"),
+        ):
+            if xmlid.startswith(prefix):
+                value = xmlid[len(prefix) :]
+                domain = [(field_name, "=", value)]
+                if "company_id" in self.env[model]._fields:
+                    domain += [("company_id", "in", (False, self.env.company.id))]
+                record = self.env[model].search(domain, limit=1)
+                if not record:
+                    raise ValueError(
+                        f"The scenario asks for {name} as {xmlid}, "
+                        f"and no {model} answers to it."
+                    )
+                return record
         xmlid, _, field = xmlid.partition("::")
         if "." not in xmlid:
             return getattr(self, name, None)

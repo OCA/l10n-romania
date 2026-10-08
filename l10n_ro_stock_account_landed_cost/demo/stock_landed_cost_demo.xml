@@ -23,8 +23,8 @@
             eval="{
                 'ron': 'base.RON',
                 'supplier_1': 'l10n_ro_config.demo_partner_ro_company_supplier',
-                'product_fifo': 'l10n_ro_config.demo_product_marfa_standard',
-                'product_redusa': 'l10n_ro_config.demo_product_marfa_redusa',
+                'product_fifo': 'code:MF-ESP-001',
+                'product_redusa': 'code:MF-PAI-001',
                 'location': 'l10n_ro_stock.demo_location_zone_a',
                 'landed_cost': 'l10n_ro_config.demo_product_serviciu_transport',
             }"
