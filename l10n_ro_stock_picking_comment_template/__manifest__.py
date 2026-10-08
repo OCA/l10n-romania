@@ -19,8 +19,11 @@
         "views/report_picking.xml",
         "security/ir.model.access.csv",
     ],
+    "demo": [
+        "demo/stock_picking_delegate_demo.xml",
+    ],
     "license": "AGPL-3",
-    "version": "19.0.1.3.0",
+    "version": "19.0.1.4.0",
     "author": "NextERP Romania,Odoo Community Association (OCA)",
     "website": "https://github.com/OCA/l10n-romania",
     "installable": True,

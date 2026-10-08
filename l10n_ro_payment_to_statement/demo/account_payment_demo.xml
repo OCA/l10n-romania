@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright (C) 2025 NextERP Romania
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html). -->
+<odoo>
+    <!-- Planul de conturi nu creează jurnal de casă, dar o firmă din
+         România ține registru de casă. La crearea jurnalului modulul îi
+         atașează seriile românești: registru de casă, dispoziție de
+         încasare, dispoziție de plată și chitanță. -->
+
+    <record
+        id="demo_journal_cash"
+        model="account.journal"
+        context="{'allowed_company_ids': [ref('base.demo_company_ro')]}"
+    >
+        <field name="name">Casa în lei</field>
+        <field name="code">CASA</field>
+        <field name="type">cash</field>
+        <field name="company_id" ref="base.demo_company_ro" />
+        <field
+            name="default_account_id"
+            model="account.chart.template"
+            eval="obj().with_company(obj().env.ref('base.demo_company_ro')).ref('pcg_5311').id"
+        />
+    </record>
+
+    <!-- Încasare în numerar de la o persoană fizică și o plată în numerar
+         către un furnizor persoană fizică. Amândouă intră automat în
+         registrul de casă al zilei. -->
+
+    <record
+        id="demo_payment_cash_in"
+        model="account.payment"
+        context="{'allowed_company_ids': [ref('base.demo_company_ro')]}"
+    >
+        <field name="company_id" ref="base.demo_company_ro" />
+        <field name="payment_type">inbound</field>
+        <field name="partner_type">customer</field>
+        <field
+            name="partner_id"
+            ref="l10n_ro_config.demo_partner_ro_individual_customer"
+        />
+        <field name="amount">450.0</field>
+        <field name="date" eval="time.strftime('%Y-%m-%d')" />
+        <field name="journal_id" ref="demo_journal_cash" />
+        <field name="memo">Încasare numerar client</field>
+    </record>
+
+    <record
+        id="demo_payment_cash_out"
+        model="account.payment"
+        context="{'allowed_company_ids': [ref('base.demo_company_ro')]}"
+    >
+        <field name="company_id" ref="base.demo_company_ro" />
+        <field name="payment_type">outbound</field>
+        <field name="partner_type">supplier</field>
+        <field
+            name="partner_id"
+            ref="l10n_ro_config.demo_partner_ro_individual_supplier"
+        />
+        <field name="amount">180.0</field>
+        <field name="date" eval="time.strftime('%Y-%m-%d')" />
+        <field name="journal_id" ref="demo_journal_cash" />
+        <field name="memo">Plată numerar furnizor</field>
+    </record>
+
+    <function
+        model="account.payment"
+        name="action_post"
+        context="{'allowed_company_ids': [ref('base.demo_company_ro')]}"
+    >
+        <value eval="[ref('demo_payment_cash_in'), ref('demo_payment_cash_out')]" />
+    </function>
+</odoo>

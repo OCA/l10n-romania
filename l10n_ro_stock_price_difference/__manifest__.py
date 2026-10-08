@@ -17,6 +17,9 @@
         "wizard/price_difference_confirmation.xml",
         "security/ir.model.access.csv",
     ],
+    "demo": [
+        "demo/purchase_price_difference_demo.xml",
+    ],
     "installable": True,
     "auto_install": False,
     "development_status": "Mature",

@@ -1,0 +1,2 @@
+- [NextERP Romania](https://www.nexterp.ro):
+  - Fekete Mihai \<<feketemihai@nexterp.ro>\>

@@ -7,7 +7,7 @@
     "summary": "Romania - Localization Install and Config Applications",
     "license": "AGPL-3",
     "countries": ["ro"],
-    "version": "19.0.0.10.0",
+    "version": "19.0.0.12.0",
     "author": "NextERP Romania,"
     "Forest and Biomass Romania,"
     "Odoo Community Association (OCA)",
@@ -20,6 +20,11 @@
         "views/res_bank_view.xml",
         "views/res_partner_view.xml",
         "wizard/res_config_settings_views.xml",
+    ],
+    "demo": [
+        "demo/res_company_demo.xml",
+        "demo/res_partner_demo.xml",
+        "demo/product_demo.xml",
     ],
     "pre_init_hook": "pre_init_hook",
     "development_status": "Mature",

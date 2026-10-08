@@ -4,7 +4,7 @@
 
 {
     "name": "Romania - Account",
-    "version": "19.0.0.5.0",
+    "version": "19.0.0.6.0",
     "summary": "Romania - Account",
     "countries": ["ro"],
     "license": "AGPL-3",
@@ -13,5 +13,8 @@
     "category": "Localization",
     "depends": ["account", "l10n_ro", "l10n_ro_config"],
     "data": [],
+    "demo": [
+        "demo/res_config_demo.xml",
+    ],
     "maintainers": ["dhongu"],
 }

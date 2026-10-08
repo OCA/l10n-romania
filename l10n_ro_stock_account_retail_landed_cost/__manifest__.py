@@ -3,7 +3,7 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 {
     "name": "Romania - Retail Landed Cost (Marfa in Magazin)",
-    "version": "19.0.1.0.0",
+    "version": "19.0.1.1.0",
     "category": "Localization",
     "countries": ["ro"],
     "summary": "Romania - Keep 371 at the shelf price when a landed cost "
@@ -17,6 +17,9 @@
     "license": "AGPL-3",
     "data": [
         "views/stock_landed_cost_view.xml",
+    ],
+    "demo": [
+        "demo/retail_landed_cost_demo.xml",
     ],
     "installable": True,
     # A bridge that keeps 371 at the shelf price. Without it any landed cost

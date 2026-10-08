@@ -5,13 +5,17 @@
     "category": "Localization",
     "countries": ["ro"],
     "depends": ["stock", "l10n_ro_config"],
+    "demo": [
+        "demo/product_stock_demo.xml",
+        "demo/stock_warehouse_demo.xml",
+    ],
     "data": [
         "data/stock_data.xml",
         "views/stock_warehouse_view.xml",
         "views/product_template_view.xml",
     ],
     "license": "AGPL-3",
-    "version": "19.0.0.6.0",
+    "version": "19.0.0.7.0",
     "author": "NextERP Romania,"
     "Dorin Hongu,"
     "Forest and Biomass Romania,"

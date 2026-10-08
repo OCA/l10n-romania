@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright (C) 2025 NextERP Romania
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html). -->
+<odoo>
+    <!-- Recepție pe aviz de la furnizorul intern: marfa intră în gestiune
+         înainte să vină factura, deci se înregistrează prin contul de
+         facturi nesosite (408). Peste ea se așază transportul ca și cost
+         suplimentar de achiziție - în contabilitatea românească transportul
+         intră în costul mărfii, nu pe cheltuială, deci valoarea recepției
+         crește, iar straturile FIFO primesc costul repartizat. -->
+
+    <record
+        id="demo_picking_in_marfa"
+        model="stock.picking"
+        context="{'allowed_company_ids': [ref('base.demo_company_ro')]}"
+    >
+        <field name="company_id" ref="base.demo_company_ro" />
+        <field
+            name="partner_id"
+            ref="l10n_ro_config.demo_partner_ro_company_supplier"
+        />
+        <field
+            name="picking_type_id"
+            model="stock.picking.type"
+            eval="obj().env.ref('l10n_ro_stock.demo_warehouse_main').in_type_id.id"
+        />
+        <field name="location_id" ref="stock.stock_location_suppliers" />
+        <field name="location_dest_id" ref="l10n_ro_stock.demo_location_zone_a" />
+        <field name="origin">Recepție marfă cu transport</field>
+        <field name="l10n_ro_notice" eval="True" />
+        <field
+            name="move_ids"
+            model="stock.move"
+            eval="[
+                (0, 0, {
+                    'product_id': obj().env.ref('l10n_ro_config.demo_product_marfa_standard').product_variant_id.id,
+                    'product_uom_qty': 20.0,
+                    'price_unit': 820.0,
+                    'location_id': obj().env.ref('stock.stock_location_suppliers').id,
+                    'location_dest_id': obj().env.ref('l10n_ro_stock.demo_location_zone_a').id,
+                }),
+                (0, 0, {
+                    'product_id': obj().env.ref('l10n_ro_config.demo_product_marfa_redusa').product_variant_id.id,
+                    'product_uom_qty': 500.0,
+                    'price_unit': 3.1,
+                    'location_id': obj().env.ref('stock.stock_location_suppliers').id,
+                    'location_dest_id': obj().env.ref('l10n_ro_stock.demo_location_zone_a').id,
+                }),
+            ]"
+        />
+    </record>
+
+    <function
+        model="stock.picking"
+        name="button_validate"
+        context="{'allowed_company_ids': [ref('base.demo_company_ro')]}"
+    >
+        <value eval="[ref('demo_picking_in_marfa')]" />
+    </function>
+
+    <record
+        id="demo_landed_cost_transport"
+        model="stock.landed.cost"
+        context="{'allowed_company_ids': [ref('base.demo_company_ro')]}"
+    >
+        <field name="company_id" ref="base.demo_company_ro" />
+        <field name="date" eval="time.strftime('%Y-%m-%d')" />
+        <field name="l10n_ro_cost_type">normal</field>
+        <field
+            name="picking_ids"
+            eval="[Command.set([ref('demo_picking_in_marfa')])]"
+        />
+        <field
+            name="cost_lines"
+            model="stock.landed.cost.lines"
+            eval="[
+                (0, 0, {
+                    'name': 'Transport furnizor',
+                    'product_id': obj().env.ref('l10n_ro_config.demo_product_serviciu_transport').product_variant_id.id,
+                    'price_unit': 750.0,
+                    'split_method': 'by_current_cost_price',
+                }),
+            ]"
+        />
+    </record>
+
+    <function
+        model="stock.landed.cost"
+        name="button_validate"
+        context="{'allowed_company_ids': [ref('base.demo_company_ro')]}"
+    >
+        <value eval="[ref('demo_landed_cost_transport')]" />
+    </function>
+</odoo>

@@ -1,0 +1,399 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright (C) 2025 NextERP Romania
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html). -->
+<odoo>
+    <!-- ===================================================================
+         Loturi și numere de serie
+         =================================================================== -->
+
+    <record id="demo_lot_conserve_1" model="stock.lot">
+        <field name="name">LOT-CON-2601</field>
+        <field name="company_id" ref="base.demo_company_ro" />
+        <field
+            name="product_id"
+            model="product.product"
+            eval="obj().env.ref('l10n_ro_config.demo_product_marfa_lot').product_variant_id.id"
+        />
+    </record>
+
+    <record id="demo_lot_conserve_2" model="stock.lot">
+        <field name="name">LOT-CON-2602</field>
+        <field name="company_id" ref="base.demo_company_ro" />
+        <field
+            name="product_id"
+            model="product.product"
+            eval="obj().env.ref('l10n_ro_config.demo_product_marfa_lot').product_variant_id.id"
+        />
+    </record>
+
+    <record id="demo_lot_ulei_1" model="stock.lot">
+        <field name="name">LOT-ULEI-2601</field>
+        <field name="company_id" ref="base.demo_company_ro" />
+        <field
+            name="product_id"
+            model="product.product"
+            eval="obj().env.ref('l10n_ro_config.demo_product_materie_prima_lot').product_variant_id.id"
+        />
+    </record>
+
+    <record id="demo_lot_biscuiti_1" model="stock.lot">
+        <field name="name">LOT-BIS-2601</field>
+        <field name="company_id" ref="base.demo_company_ro" />
+        <field
+            name="product_id"
+            model="product.product"
+            eval="obj().env.ref('l10n_ro_config.demo_product_produs_finit').product_variant_id.id"
+        />
+    </record>
+
+    <record id="demo_serial_laptop_1" model="stock.lot">
+        <field name="name">SN-NX14-0001</field>
+        <field name="company_id" ref="base.demo_company_ro" />
+        <field
+            name="product_id"
+            model="product.product"
+            eval="obj().env.ref('l10n_ro_config.demo_product_marfa_serie').product_variant_id.id"
+        />
+    </record>
+
+    <record id="demo_serial_laptop_2" model="stock.lot">
+        <field name="name">SN-NX14-0002</field>
+        <field name="company_id" ref="base.demo_company_ro" />
+        <field
+            name="product_id"
+            model="product.product"
+            eval="obj().env.ref('l10n_ro_config.demo_product_marfa_serie').product_variant_id.id"
+        />
+    </record>
+
+    <record id="demo_serial_laptop_3" model="stock.lot">
+        <field name="name">SN-NX14-0003</field>
+        <field name="company_id" ref="base.demo_company_ro" />
+        <field
+            name="product_id"
+            model="product.product"
+            eval="obj().env.ref('l10n_ro_config.demo_product_marfa_serie').product_variant_id.id"
+        />
+    </record>
+
+    <record id="demo_lot_cafea_1" model="stock.lot">
+        <field name="name">LOT-CAF-2601</field>
+        <field name="company_id" ref="base.demo_company_ro" />
+        <field
+            name="product_id"
+            model="product.product"
+            eval="obj().env.ref('l10n_ro_config.demo_product_marfa_avco_lot').product_variant_id.id"
+        />
+    </record>
+
+    <record id="demo_lot_cafea_2" model="stock.lot">
+        <field name="name">LOT-CAF-2602</field>
+        <field name="company_id" ref="base.demo_company_ro" />
+        <field
+            name="product_id"
+            model="product.product"
+            eval="obj().env.ref('l10n_ro_config.demo_product_marfa_avco_lot').product_variant_id.id"
+        />
+    </record>
+
+    <!-- ===================================================================
+         Stocul inițial al firmei demo, pe zonele depozitului central și pe
+         depozitul din Timișoara. Intrarea se evaluează la costul produsului
+         și creează straturile FIFO pe locație.
+         =================================================================== -->
+
+    <record
+        id="demo_quant_marfa_standard"
+        model="stock.quant"
+        context="{'allowed_company_ids': [ref('base.demo_company_ro')]}"
+    >
+        <field
+            name="product_id"
+            model="product.product"
+            eval="obj().env.ref('l10n_ro_config.demo_product_marfa_standard').product_variant_id.id"
+        />
+        <field name="location_id" ref="l10n_ro_stock.demo_location_zone_a" />
+        <field name="inventory_quantity">25.0</field>
+    </record>
+
+    <record
+        id="demo_quant_marfa_redusa"
+        model="stock.quant"
+        context="{'allowed_company_ids': [ref('base.demo_company_ro')]}"
+    >
+        <field
+            name="product_id"
+            model="product.product"
+            eval="obj().env.ref('l10n_ro_config.demo_product_marfa_redusa').product_variant_id.id"
+        />
+        <field name="location_id" ref="l10n_ro_stock.demo_location_zone_a" />
+        <field name="inventory_quantity">400.0</field>
+    </record>
+
+    <record
+        id="demo_quant_marfa_lot_1"
+        model="stock.quant"
+        context="{'allowed_company_ids': [ref('base.demo_company_ro')]}"
+    >
+        <field
+            name="product_id"
+            model="product.product"
+            eval="obj().env.ref('l10n_ro_config.demo_product_marfa_lot').product_variant_id.id"
+        />
+        <field name="location_id" ref="l10n_ro_stock.demo_location_zone_a" />
+        <field name="lot_id" ref="demo_lot_conserve_1" />
+        <field name="inventory_quantity">200.0</field>
+    </record>
+
+    <record
+        id="demo_quant_marfa_lot_2"
+        model="stock.quant"
+        context="{'allowed_company_ids': [ref('base.demo_company_ro')]}"
+    >
+        <field
+            name="product_id"
+            model="product.product"
+            eval="obj().env.ref('l10n_ro_config.demo_product_marfa_lot').product_variant_id.id"
+        />
+        <field name="location_id" ref="l10n_ro_stock.demo_location_zone_a" />
+        <field name="lot_id" ref="demo_lot_conserve_2" />
+        <field name="inventory_quantity">150.0</field>
+    </record>
+
+    <record
+        id="demo_quant_marfa_serie_1"
+        model="stock.quant"
+        context="{'allowed_company_ids': [ref('base.demo_company_ro')]}"
+    >
+        <field
+            name="product_id"
+            model="product.product"
+            eval="obj().env.ref('l10n_ro_config.demo_product_marfa_serie').product_variant_id.id"
+        />
+        <field name="location_id" ref="l10n_ro_stock.demo_location_zone_a" />
+        <field name="lot_id" ref="demo_serial_laptop_1" />
+        <field name="inventory_quantity">1.0</field>
+    </record>
+
+    <record
+        id="demo_quant_marfa_serie_2"
+        model="stock.quant"
+        context="{'allowed_company_ids': [ref('base.demo_company_ro')]}"
+    >
+        <field
+            name="product_id"
+            model="product.product"
+            eval="obj().env.ref('l10n_ro_config.demo_product_marfa_serie').product_variant_id.id"
+        />
+        <field name="location_id" ref="l10n_ro_stock.demo_location_zone_a" />
+        <field name="lot_id" ref="demo_serial_laptop_2" />
+        <field name="inventory_quantity">1.0</field>
+    </record>
+
+    <record
+        id="demo_quant_marfa_serie_3"
+        model="stock.quant"
+        context="{'allowed_company_ids': [ref('base.demo_company_ro')]}"
+    >
+        <field
+            name="product_id"
+            model="product.product"
+            eval="obj().env.ref('l10n_ro_config.demo_product_marfa_serie').product_variant_id.id"
+        />
+        <field name="location_id" ref="l10n_ro_stock.demo_location_zone_a" />
+        <field name="lot_id" ref="demo_serial_laptop_3" />
+        <field name="inventory_quantity">1.0</field>
+    </record>
+
+    <record
+        id="demo_quant_ambalaj"
+        model="stock.quant"
+        context="{'allowed_company_ids': [ref('base.demo_company_ro')]}"
+    >
+        <field
+            name="product_id"
+            model="product.product"
+            eval="obj().env.ref('l10n_ro_config.demo_product_ambalaj').product_variant_id.id"
+        />
+        <field
+            name="location_id"
+            model="stock.location"
+            eval="obj().env.ref('l10n_ro_stock.demo_warehouse_main').lot_stock_id.id"
+        />
+        <field name="inventory_quantity">60.0</field>
+    </record>
+
+    <record
+        id="demo_quant_obiect_inventar"
+        model="stock.quant"
+        context="{'allowed_company_ids': [ref('base.demo_company_ro')]}"
+    >
+        <field
+            name="product_id"
+            model="product.product"
+            eval="obj().env.ref('l10n_ro_config.demo_product_obiect_inventar').product_variant_id.id"
+        />
+        <field
+            name="location_id"
+            model="stock.location"
+            eval="obj().env.ref('l10n_ro_stock.demo_warehouse_main').lot_stock_id.id"
+        />
+        <field name="inventory_quantity">12.0</field>
+    </record>
+
+    <record
+        id="demo_quant_materie_prima"
+        model="stock.quant"
+        context="{'allowed_company_ids': [ref('base.demo_company_ro')]}"
+    >
+        <field
+            name="product_id"
+            model="product.product"
+            eval="obj().env.ref('l10n_ro_config.demo_product_materie_prima').product_variant_id.id"
+        />
+        <field name="location_id" ref="l10n_ro_stock.demo_location_zone_b" />
+        <field name="inventory_quantity">1500.0</field>
+    </record>
+
+    <record
+        id="demo_quant_materie_prima_lot"
+        model="stock.quant"
+        context="{'allowed_company_ids': [ref('base.demo_company_ro')]}"
+    >
+        <field
+            name="product_id"
+            model="product.product"
+            eval="obj().env.ref('l10n_ro_config.demo_product_materie_prima_lot').product_variant_id.id"
+        />
+        <field name="location_id" ref="l10n_ro_stock.demo_location_zone_b" />
+        <field name="lot_id" ref="demo_lot_ulei_1" />
+        <field name="inventory_quantity">800.0</field>
+    </record>
+
+    <record
+        id="demo_quant_produs_finit"
+        model="stock.quant"
+        context="{'allowed_company_ids': [ref('base.demo_company_ro')]}"
+    >
+        <field
+            name="product_id"
+            model="product.product"
+            eval="obj().env.ref('l10n_ro_config.demo_product_produs_finit').product_variant_id.id"
+        />
+        <field
+            name="location_id"
+            model="stock.location"
+            eval="obj().env.ref('l10n_ro_stock.demo_warehouse_main').lot_stock_id.id"
+        />
+        <field name="lot_id" ref="demo_lot_biscuiti_1" />
+        <field name="inventory_quantity">300.0</field>
+    </record>
+
+    <record
+        id="demo_quant_marfa_standard_dtm"
+        model="stock.quant"
+        context="{'allowed_company_ids': [ref('base.demo_company_ro')]}"
+    >
+        <field
+            name="product_id"
+            model="product.product"
+            eval="obj().env.ref('l10n_ro_config.demo_product_marfa_standard').product_variant_id.id"
+        />
+        <field
+            name="location_id"
+            model="stock.location"
+            eval="obj().env.ref('l10n_ro_stock.demo_warehouse_secondary').lot_stock_id.id"
+        />
+        <field name="inventory_quantity">10.0</field>
+    </record>
+
+    <record
+        id="demo_quant_marfa_redusa_dtm"
+        model="stock.quant"
+        context="{'allowed_company_ids': [ref('base.demo_company_ro')]}"
+    >
+        <field
+            name="product_id"
+            model="product.product"
+            eval="obj().env.ref('l10n_ro_config.demo_product_marfa_redusa').product_variant_id.id"
+        />
+        <field
+            name="location_id"
+            model="stock.location"
+            eval="obj().env.ref('l10n_ro_stock.demo_warehouse_secondary').lot_stock_id.id"
+        />
+        <field name="inventory_quantity">120.0</field>
+    </record>
+
+    <record
+        id="demo_quant_marfa_avco"
+        model="stock.quant"
+        context="{'allowed_company_ids': [ref('base.demo_company_ro')]}"
+    >
+        <field
+            name="product_id"
+            model="product.product"
+            eval="obj().env.ref('l10n_ro_config.demo_product_marfa_avco').product_variant_id.id"
+        />
+        <field name="location_id" ref="l10n_ro_stock.demo_location_zone_a" />
+        <field name="inventory_quantity">18.0</field>
+    </record>
+
+    <record
+        id="demo_quant_marfa_avco_lot_1"
+        model="stock.quant"
+        context="{'allowed_company_ids': [ref('base.demo_company_ro')]}"
+    >
+        <field
+            name="product_id"
+            model="product.product"
+            eval="obj().env.ref('l10n_ro_config.demo_product_marfa_avco_lot').product_variant_id.id"
+        />
+        <field name="location_id" ref="l10n_ro_stock.demo_location_zone_a" />
+        <field name="lot_id" ref="demo_lot_cafea_1" />
+        <field name="inventory_quantity">120.0</field>
+    </record>
+
+    <record
+        id="demo_quant_marfa_avco_lot_2"
+        model="stock.quant"
+        context="{'allowed_company_ids': [ref('base.demo_company_ro')]}"
+    >
+        <field
+            name="product_id"
+            model="product.product"
+            eval="obj().env.ref('l10n_ro_config.demo_product_marfa_avco_lot').product_variant_id.id"
+        />
+        <field name="location_id" ref="l10n_ro_stock.demo_location_zone_a" />
+        <field name="lot_id" ref="demo_lot_cafea_2" />
+        <field name="inventory_quantity">80.0</field>
+    </record>
+
+    <function
+        model="stock.quant"
+        name="action_apply_inventory"
+        context="{'allowed_company_ids': [ref('base.demo_company_ro')]}"
+    >
+        <value
+            eval="[
+                ref('demo_quant_marfa_standard'),
+                ref('demo_quant_marfa_redusa'),
+                ref('demo_quant_marfa_lot_1'),
+                ref('demo_quant_marfa_lot_2'),
+                ref('demo_quant_marfa_avco'),
+                ref('demo_quant_marfa_avco_lot_1'),
+                ref('demo_quant_marfa_avco_lot_2'),
+                ref('demo_quant_marfa_serie_1'),
+                ref('demo_quant_marfa_serie_2'),
+                ref('demo_quant_marfa_serie_3'),
+                ref('demo_quant_ambalaj'),
+                ref('demo_quant_obiect_inventar'),
+                ref('demo_quant_materie_prima'),
+                ref('demo_quant_materie_prima_lot'),
+                ref('demo_quant_produs_finit'),
+                ref('demo_quant_marfa_standard_dtm'),
+                ref('demo_quant_marfa_redusa_dtm'),
+            ]"
+        />
+    </function>
+</odoo>

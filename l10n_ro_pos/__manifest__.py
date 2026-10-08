@@ -3,7 +3,7 @@
 # See README.rst file on addons root folder for license details
 {
     "name": "Romania - Point of Sale",
-    "version": "19.0.1.12.0",
+    "version": "19.0.1.13.0",
     "category": "Localization",
     "countries": ["ro"],
     "license": "AGPL-3",
@@ -21,6 +21,10 @@
     "data": [
         "views/report_saledetails.xml",
     ],
+    "demo": [
+        "demo/pos_config_demo.xml",
+    ],
+    "development_status": "Mature",
     "assets": {
         "point_of_sale._assets_pos": [
             "l10n_ro_pos/static/src/**/*",

@@ -9,9 +9,12 @@
         "security/ir.model.access.csv",
         "data/res_partner_anaf_cron.xml",
     ],
+    "demo": [
+        "demo/res_partner_vat_on_payment_demo.xml",
+    ],
     "depends": ["l10n_ro_config"],
     "license": "AGPL-3",
-    "version": "19.0.0.9.0",
+    "version": "19.0.0.10.0",
     "author": "NextERP Romania,"
     "Forest and Biomass Romania,"
     "Odoo Community Association (OCA)",

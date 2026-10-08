@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright (C) 2026 NextERP Romania
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html). -->
+<odoo>
+    <!-- Cele două case de marcat ale firmei demo se leagă fiecare de
+         magazinul ei. De aici încolo vând pe poziția fiscală a magazinului,
+         deci cu prețul de pe etichetă și pe conturile analitice ale
+         gestiunii. -->
+
+    <function
+        model="pos.config"
+        name="write"
+        context="{'allowed_company_ids': [ref('base.demo_company_ro')]}"
+    >
+        <value eval="[ref('l10n_ro_pos.demo_pos_config')]" />
+        <value
+            model="pos.config"
+            eval="{
+                'picking_type_id': (
+                    obj().env.ref('l10n_ro_stock_account_retail.demo_warehouse_retail').pos_type_id
+                    or obj().env.ref('l10n_ro_stock_account_retail.demo_warehouse_retail').out_type_id
+                ).id,
+            }"
+        />
+    </function>
+
+    <function
+        model="pos.config"
+        name="write"
+        context="{'allowed_company_ids': [ref('base.demo_company_ro')]}"
+    >
+        <value eval="[ref('l10n_ro_pos.demo_pos_config_nord')]" />
+        <value
+            model="pos.config"
+            eval="{
+                'picking_type_id': (
+                    obj().env.ref('l10n_ro_stock_account_retail.demo_warehouse_retail_nord').pos_type_id
+                    or obj().env.ref('l10n_ro_stock_account_retail.demo_warehouse_retail_nord').out_type_id
+                ).id,
+            }"
+        />
+    </function>
+
+    <!-- Scrierea tipului de operație nu trece prin ``create``, așa că
+         preluarea setărilor magazinului se cere explicit. -->
+
+    <function
+        model="pos.config"
+        name="_l10n_ro_apply_retail_shop"
+        context="{'allowed_company_ids': [ref('base.demo_company_ro')]}"
+    >
+        <value
+            eval="[ref('l10n_ro_pos.demo_pos_config'), ref('l10n_ro_pos.demo_pos_config_nord')]"
+        />
+    </function>
+</odoo>

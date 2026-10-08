@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright (C) 2025 NextERP Romania
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html). -->
+<odoo>
+    <!-- Produsul pe care se înregistrează diferența dintre recepție și
+         factură, ca și cost suplimentar de achiziție. -->
+
+    <record id="demo_product_price_difference" model="product.template">
+        <field name="name">Diferență de preț recepție / factură</field>
+        <field name="default_code">SRV-DIFP-001</field>
+        <field name="type">service</field>
+        <field name="categ_id" ref="l10n_ro_config.demo_categ_serviciu" />
+        <field name="landed_cost_ok" eval="True" />
+        <field name="list_price">0.0</field>
+    </record>
+
+    <record id="base.demo_company_ro" model="res.company">
+        <field name="l10n_ro_stock_acc_price_diff" eval="True" />
+        <field
+            name="l10n_ro_property_stock_price_difference_product_id"
+            model="product.product"
+            eval="obj().env.ref('l10n_ro_stock_price_difference.demo_product_price_difference').product_variant_id.id"
+        />
+    </record>
+
+    <!-- Comandă de achiziție recepționată la prețul din comandă, facturată
+         apoi la alt preț. Diferența nu merge pe cheltuială, ci în valoarea
+         mărfii din gestiune. -->
+
+    <record
+        id="demo_purchase_order"
+        model="purchase.order"
+        context="{'allowed_company_ids': [ref('base.demo_company_ro')]}"
+    >
+        <field name="company_id" ref="base.demo_company_ro" />
+        <field
+            name="partner_id"
+            ref="l10n_ro_config.demo_partner_ro_company_supplier"
+        />
+        <field
+            name="picking_type_id"
+            model="stock.picking.type"
+            eval="obj().env.ref('l10n_ro_stock.demo_warehouse_main').in_type_id.id"
+        />
+        <field
+            name="order_line"
+            model="purchase.order.line"
+            eval="[
+                (0, 0, {
+                    'product_id': obj().env.ref('l10n_ro_config.demo_product_marfa_standard').product_variant_id.id,
+                    'product_qty': 10.0,
+                    'price_unit': 800.0,
+                    'name': 'Espressor automat ClassicBrew',
+                    'date_planned': time.strftime('%Y-%m-%d'),
+                }),
+            ]"
+        />
+    </record>
+
+    <function
+        model="purchase.order"
+        name="button_confirm"
+        context="{'allowed_company_ids': [ref('base.demo_company_ro')]}"
+    >
+        <value eval="[ref('demo_purchase_order')]" />
+    </function>
+
+    <function
+        model="stock.picking"
+        name="button_validate"
+        context="{'allowed_company_ids': [ref('base.demo_company_ro')]}"
+    >
+        <value
+            model="stock.picking"
+            eval="obj().env.ref('l10n_ro_stock_price_difference.demo_purchase_order').picking_ids.ids"
+        />
+    </function>
+
+    <record
+        id="demo_bill_price_difference"
+        model="account.move"
+        context="{'allowed_company_ids': [ref('base.demo_company_ro')]}"
+    >
+        <field name="company_id" ref="base.demo_company_ro" />
+        <field name="move_type">in_invoice</field>
+        <field
+            name="partner_id"
+            ref="l10n_ro_config.demo_partner_ro_company_supplier"
+        />
+        <field name="invoice_date" eval="time.strftime('%Y-%m-%d')" />
+        <field name="ref">FACT-CARPATICA-001</field>
+        <field
+            name="invoice_line_ids"
+            model="account.move.line"
+            eval="[
+                (0, 0, {
+                    'product_id': obj().env.ref('l10n_ro_config.demo_product_marfa_standard').product_variant_id.id,
+                    'quantity': 10.0,
+                    'price_unit': 880.0,
+                    'purchase_line_id': obj().env.ref('l10n_ro_stock_price_difference.demo_purchase_order').order_line[0].id,
+                }),
+            ]"
+        />
+    </record>
+
+    <!-- La postare modulul cere confirmarea diferenței; în date demo
+         confirmarea se dă direct prin context, ca și cum utilizatorul ar fi
+         apăsat butonul din dialog. -->
+    <function
+        model="account.move"
+        name="action_post"
+        context="{
+            'allowed_company_ids': [ref('base.demo_company_ro')],
+            'l10n_ro_approved_price_difference': True,
+        }"
+    >
+        <value eval="[ref('demo_bill_price_difference')]" />
+    </function>
+</odoo>

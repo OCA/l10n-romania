@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright (C) 2025 NextERP Romania
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html). -->
+<odoo>
+    <!-- Produsele din l10n_ro_config devin stocabile abia aici, unde
+         modulul stock aduce câmpurile de urmărire și greutate. -->
+
+    <record id="l10n_ro_config.demo_product_marfa_standard" model="product.template">
+        <field name="is_storable" eval="True" />
+        <field name="weight">9.5</field>
+        <field name="l10n_ro_net_weight">8.2</field>
+    </record>
+
+    <record id="l10n_ro_config.demo_product_marfa_redusa" model="product.template">
+        <field name="is_storable" eval="True" />
+        <field name="weight">0.55</field>
+        <field name="l10n_ro_net_weight">0.5</field>
+    </record>
+
+    <record id="l10n_ro_config.demo_product_marfa_lot" model="product.template">
+        <field name="is_storable" eval="True" />
+        <field name="tracking">lot</field>
+        <field name="weight">0.45</field>
+        <field name="l10n_ro_net_weight">0.4</field>
+    </record>
+
+    <record id="l10n_ro_config.demo_product_marfa_serie" model="product.template">
+        <field name="is_storable" eval="True" />
+        <field name="tracking">serial</field>
+        <field name="weight">1.8</field>
+        <field name="l10n_ro_net_weight">1.6</field>
+    </record>
+
+    <record id="l10n_ro_config.demo_product_marfa_avco" model="product.template">
+        <field name="is_storable" eval="True" />
+        <field name="weight">10.2</field>
+        <field name="l10n_ro_net_weight">8.8</field>
+    </record>
+
+    <record id="l10n_ro_config.demo_product_marfa_avco_lot" model="product.template">
+        <field name="is_storable" eval="True" />
+        <field name="tracking">lot</field>
+        <field name="weight">1.05</field>
+        <field name="l10n_ro_net_weight">1.0</field>
+    </record>
+
+    <record id="l10n_ro_config.demo_product_materie_prima" model="product.template">
+        <field name="is_storable" eval="True" />
+        <field name="weight">25.0</field>
+        <field name="l10n_ro_net_weight">25.0</field>
+    </record>
+
+    <record id="l10n_ro_config.demo_product_materie_prima_lot" model="product.template">
+        <field name="is_storable" eval="True" />
+        <field name="tracking">lot</field>
+        <field name="weight">9.6</field>
+        <field name="l10n_ro_net_weight">9.2</field>
+    </record>
+
+    <record id="l10n_ro_config.demo_product_produs_finit" model="product.template">
+        <field name="is_storable" eval="True" />
+        <field name="tracking">lot</field>
+        <field name="weight">0.23</field>
+        <field name="l10n_ro_net_weight">0.2</field>
+    </record>
+
+    <record id="l10n_ro_config.demo_product_ambalaj" model="product.template">
+        <field name="is_storable" eval="True" />
+        <field name="weight">22.0</field>
+        <field name="l10n_ro_net_weight">22.0</field>
+    </record>
+
+    <record id="l10n_ro_config.demo_product_obiect_inventar" model="product.template">
+        <field name="is_storable" eval="True" />
+        <field name="weight">14.0</field>
+        <field name="l10n_ro_net_weight">13.0</field>
+    </record>
+</odoo>
