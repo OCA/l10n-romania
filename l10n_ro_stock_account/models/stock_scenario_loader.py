@@ -47,11 +47,19 @@ class DemoScenario(StockScenario):
 
         A product is returned as its variant, because that is what the
         scenarios move, while demo data names the template.
+
+        An alias may end in ``::field`` to follow one step further, for the
+        records that have no external identifier of their own - the stock
+        location of a warehouse, for instance, which Odoo creates along with
+        it.
         """
         xmlid = self._aliases.get(name, name)
+        xmlid, _, field = xmlid.partition("::")
         if "." not in xmlid:
             return getattr(self, name, None)
         record = self.env.ref(xmlid, raise_if_not_found=False)
+        if record and field:
+            record = record[field]
         if record and record._name == "product.template":
             return record.product_variant_id
         return record
