@@ -500,3 +500,157 @@ class TestStockReport(TransactionCase):
         )
         self.assertIn("initial", selection)
         self.assertIn("final", selection)
+
+    def _run_sheet(self, location, product, date_from, date_to):
+        wizard = Form(self.env["l10n.ro.stock.storage.sheet"])
+        wizard.location_id = location
+        wizard.product_ids = product
+        wizard.date_from = date_from.date()
+        wizard.date_to = date_to.date()
+        wizard = wizard.save()
+        wizard.button_show_sheet_pdf()
+        return self.env["l10n.ro.stock.storage.sheet.line"].search(
+            [
+                ("report_id", "=", wizard.id),
+                ("product_id", "=", product.id),
+                ("location_id", "=", location.id),
+            ]
+        )
+
+    def _done_move(self, product, qty, location, location_dest, date_dt):
+        move = self.env["stock.move"].create(
+            {
+                "product_id": product.id,
+                "product_uom": product.uom_id.id,
+                "product_uom_qty": qty,
+                "location_id": location.id,
+                "location_dest_id": location_dest.id,
+                "company_id": self.env.company.id,
+            }
+        )
+        move._action_confirm()
+        move._action_assign()
+        move._set_quantity_done(qty)
+        move.picked = True
+        move._action_done()
+        move.date = date_dt
+        return move
+
+    def _create_location_marfa(self):
+        """Return a stock location with its own valuation account, with the
+        company transfer account (482) set."""
+        company = self.env.company
+        if not company.l10n_ro_property_stock_transfer_account_id:
+            company.l10n_ro_property_stock_transfer_account_id = (
+                self.account_valuation.copy(
+                    {"code": "482100", "account_type": "asset_current"}
+                )
+            )
+        account_marfa = self.account_valuation.copy({"code": "371100"})
+        location_marfa = self.env["stock.location"].create(
+            {
+                "name": "Marfa",
+                "usage": "internal",
+                "location_id": self.location.location_id.id,
+                "l10n_ro_property_stock_valuation_account_id": account_marfa.id,
+            }
+        )
+        return account_marfa, location_marfa
+
+    def test_report_account_on_location_with_own_account(self):
+        """Stock -> Marfa (own valuation account) -> customer.
+
+        The Marfa sheet must show the Marfa account on both the input from
+        Stock and the delivery, and the Stock sheet the category account on
+        the output to Marfa, as in the journal entries.
+        """
+        product = self.product_1
+        date_dt = fields.Datetime.now() - timedelta(days=5)
+        date_from = fields.Datetime.now() - timedelta(days=10)
+        date_to = fields.Datetime.now() - timedelta(days=1)
+        account_marfa, location_marfa = self._create_location_marfa()
+
+        self._create_receipt(product, 10, date_dt)
+        transfer = self._done_move(product, 4, self.location, location_marfa, date_dt)
+        delivery = self._done_move(
+            product,
+            4,
+            location_marfa,
+            self.env.ref("stock.stock_location_customers"),
+            date_dt,
+        )
+
+        self.assertEqual(transfer.l10n_ro_account_id, account_marfa)
+        self.assertEqual(transfer.l10n_ro_transfer_account_id, self.account_valuation)
+        self.assertEqual(delivery.l10n_ro_account_id, account_marfa)
+        self.assertIn(
+            account_marfa,
+            delivery.account_move_id.line_ids.filtered("credit").account_id,
+        )
+
+        lines = self._run_sheet(location_marfa, product, date_from, date_to)
+        lines_in = lines.filtered("quantity_in")
+        lines_out = lines.filtered("quantity_out")
+        self.assertEqual(sum(lines_in.mapped("quantity_in")), 4)
+        self.assertEqual(sum(lines_out.mapped("quantity_out")), 4)
+        self.assertEqual(lines_in.account_id, account_marfa)
+        self.assertEqual(lines_out.account_id, account_marfa)
+        self.assertEqual(sum(lines.mapped("quantity_final")), 0)
+
+        lines = self._run_sheet(self.location, product, date_from, date_to)
+        self.assertEqual(lines.account_id, self.account_valuation)
+        self.assertEqual(sum(lines.mapped("quantity_in")), 10)
+        self.assertEqual(sum(lines.mapped("quantity_out")), 4)
+        self.assertEqual(sum(lines.mapped("quantity_final")), 6)
+
+    def test_report_account_on_transfer_through_transit(self):
+        """Stock -> Transit -> Marfa (own valuation account).
+
+        The transfer goes through the transit account (482): the output from
+        Stock credits the category account, the input in Marfa debits the
+        Marfa account, and each sheet shows only its own stock account.
+        """
+        product = self.product_1
+        date_dt = fields.Datetime.now() - timedelta(days=5)
+        date_from = fields.Datetime.now() - timedelta(days=10)
+        date_to = fields.Datetime.now() - timedelta(days=1)
+        account_marfa, location_marfa = self._create_location_marfa()
+        account_transit = self.env.company.l10n_ro_property_stock_transfer_account_id
+        location_transit = self.env.company.internal_transit_location_id
+
+        self._create_receipt(product, 10, date_dt)
+        transit_out = self._done_move(
+            product, 4, self.location, location_transit, date_dt
+        )
+        transit_in = self._done_move(
+            product, 4, location_transit, location_marfa, date_dt
+        )
+
+        self.assertEqual(transit_out.l10n_ro_move_type, "internal_transit_out")
+        self.assertEqual(transit_out.l10n_ro_account_id, account_transit)
+        self.assertEqual(
+            transit_out.l10n_ro_transfer_account_id, self.account_valuation
+        )
+        lines_out = transit_out.account_move_id.line_ids
+        self.assertEqual(lines_out.filtered("debit").account_id, account_transit)
+        self.assertEqual(
+            lines_out.filtered("credit").account_id, self.account_valuation
+        )
+
+        self.assertEqual(transit_in.l10n_ro_move_type, "internal_transit_in")
+        self.assertEqual(transit_in.l10n_ro_account_id, account_marfa)
+        self.assertEqual(transit_in.l10n_ro_transfer_account_id, account_transit)
+        lines_in = transit_in.account_move_id.line_ids
+        self.assertEqual(lines_in.filtered("debit").account_id, account_marfa)
+        self.assertEqual(lines_in.filtered("credit").account_id, account_transit)
+
+        lines = self._run_sheet(location_marfa, product, date_from, date_to)
+        self.assertEqual(lines.account_id, account_marfa)
+        self.assertEqual(sum(lines.mapped("quantity_in")), 4)
+        self.assertEqual(sum(lines.mapped("quantity_final")), 4)
+
+        lines = self._run_sheet(self.location, product, date_from, date_to)
+        self.assertEqual(lines.account_id, self.account_valuation)
+        self.assertEqual(sum(lines.mapped("quantity_in")), 10)
+        self.assertEqual(sum(lines.mapped("quantity_out")), 4)
+        self.assertEqual(sum(lines.mapped("quantity_final")), 6)
