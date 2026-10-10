@@ -75,7 +75,17 @@ class StockMoveLine(models.Model):
         return agg_move_lines
 
     def _get_move_line_quantity(self):
-        return self.quantity or self.reserved_qty
+        """Quantity of the line in the product's reference UoM.
+
+        Every unit price this module works with - the sale line price
+        converted with ``_compute_price``, and ``value / _get_valued_qty()``
+        coming from ``_get_value_data`` - is per product UoM, so the quantity
+        it multiplies must be too. ``quantity``/``reserved_qty`` are stored in
+        the line's own UoM."""
+        qty = self.quantity or self.reserved_qty
+        return self.product_uom_id._compute_quantity(
+            qty, self.product_id.uom_id, round=False
+        )
 
     def _get_l10n_ro_values_from_sale_line(self):
         self.ensure_one()
@@ -90,16 +100,22 @@ class StockMoveLine(models.Model):
             price_unit, sale_line.product_id.uom_id
         )
         price_subtotal = move_qty * price_unit_converted
-        price_tax = (
-            (sale_line.price_tax / sale_line.product_uom_qty) * move_qty
+        # ``price_tax``/``price_total`` per sale-line unit have to be
+        # converted to the product UoM as well, since ``move_qty`` is.
+        tax_unit = sale_line.product_uom_id._compute_price(
+            (sale_line.price_tax / sale_line.product_uom_qty)
             if sale_line.product_uom_qty
-            else 0
+            else 0,
+            sale_line.product_id.uom_id,
         )
-        price_total = (
-            (sale_line.price_total / sale_line.product_uom_qty) * move_qty
+        total_unit = sale_line.product_uom_id._compute_price(
+            (sale_line.price_total / sale_line.product_uom_qty)
             if sale_line.product_uom_qty
-            else 0
+            else 0,
+            sale_line.product_id.uom_id,
         )
+        price_tax = tax_unit * move_qty
+        price_total = total_unit * move_qty
         return {
             "l10n_ro_currency_id": sale_line.currency_id.id,
             "l10n_ro_price_unit": price_unit_converted,

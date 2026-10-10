@@ -70,7 +70,10 @@ class StockMove(models.Model):
             return valuation_data
         if at_date and self.account_move_id.date > at_date:
             return valuation_data
-        quantity = quantity or self.quantity
+        # Callers pass a product-UoM quantity (``_get_value_data`` works
+        # off ``_get_valued_qty()``), so the fallback must be in that
+        # unit too - ``self.quantity`` is in the move's own UoM.
+        quantity = quantity or self._get_valued_qty()
         value = self.account_move_id.amount_total_signed
         if self.l10n_ro_move_type == "internal_transfer":
             value = value / 2

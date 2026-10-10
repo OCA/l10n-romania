@@ -55,7 +55,12 @@ class ProductProduct(models.Model):
             moves = self.env["stock.move"].concat(*moves)
             if not moves:
                 continue
-            qty_by_move = {m: m.quantity for m in moves[1:]}
+            # ``_get_valued_qty`` returns the quantity in the product's
+            # reference UoM (like core's ``_get_remaining_moves`` does), while
+            # ``move.quantity`` is expressed in the move's own UoM. Using the
+            # latter mixes units in the stack as soon as an incoming move was
+            # encoded in a secondary UoM (product in m, reception in mm).
+            qty_by_move = {m: m._get_valued_qty() for m in moves[1:]}
             qty_by_move[moves[0]] = remaining_qty
             moves_qty_by_product[product] = qty_by_move
         return moves_qty_by_product
