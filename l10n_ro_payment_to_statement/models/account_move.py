@@ -128,20 +128,16 @@ class AccountMove(models.Model):
         return super().write(vals)
 
     def _get_l10n_ro_bank_statement(self):
-        domain = [("date", "=", self.date), ("journal_id", "=", self.journal_id.id)]
+        domain = [
+            ("date", "=", self.date),
+            ("journal_id", "=", self.journal_id.id),
+            ("journal_id.l10n_ro_auto_statement", "=", True),
+        ]
         statement = self.env["account.bank.statement"].search(domain, limit=1)
         if statement:
             self.origin_payment_id.l10n_ro_statement_id = statement
-            self.statement_line_id.statement_id = statement
-            lines = statement.line_ids.filtered(lambda x: x.state == "posted")
-            balance_end = (
-                statement.balance_start
-                + sum(lines.mapped("amount"))
-                + self.statement_line_id.amount
-            )
-            statement.write(
-                {"balance_end": balance_end, "balance_end_real": balance_end}
-            )
+            amount = self.statement_line_id.amount
+            statement._l10n_ro_update_balance_end(amount)
         else:
             # daca tipul este numerar trebuie generat
             if self.journal_id.l10n_ro_auto_statement:
@@ -153,15 +149,8 @@ class AccountMove(models.Model):
                 statement = self.env["account.bank.statement"].sudo().create(values)
                 self.origin_payment_id.l10n_ro_statement_id = statement
                 self.statement_line_id.statement_id = statement
-                lines = statement.line_ids.filtered(lambda x: x.state == "posted")
-                balance_end = (
-                    statement.balance_start
-                    + sum(lines.mapped("amount"))
-                    + self.statement_line_id.amount
-                )
-                statement.write(
-                    {"balance_end": balance_end, "balance_end_real": balance_end}
-                )
+                amount = self.statement_line_id.amount
+                statement._l10n_ro_update_balance_end(amount)
 
     def _post(self, soft=True):
         for move in self:
@@ -178,3 +167,13 @@ class AccountMove(models.Model):
                 ) and move.journal_id.l10n_ro_auto_statement:
                     move._get_l10n_ro_bank_statement()
         return super()._post(soft)
+
+    def _get_invoice_in_payment_state(self):
+        # copy-paste din enterprise/account_accountant
+        # In account.payment.create() nu creaza nota contabila
+        #   daca avem 'in_payment' si jurnalul nu are cont in
+        #   Incomming Payments/Outgoing Payments
+        if self.env.company.l10n_ro_accounting:
+            return "in_payment"
+
+        return super()._get_invoice_in_payment_state()
