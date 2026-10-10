@@ -75,8 +75,14 @@ class StorageSheet(models.TransientModel):
     @api.depends("sublocation", "location_id", "show_locations")
     def _compute_location_ids(self):
         if not self.location_id:
-            self.location_ids = self.env["stock.location"].search(
-                [("usage", "=", "internal")]
+            # Include archived locations: goods received in an internal location
+            # that was archived later (and moved on with zero-valued internal
+            # transfers) would otherwise be missing from the opening balance -
+            # the quantity would still be right, the value would not.
+            self.location_ids = (
+                self.env["stock.location"]
+                .with_context(active_test=False)
+                .search([("usage", "=", "internal")])
             )
         else:
             if self.sublocation:
@@ -88,6 +94,15 @@ class StorageSheet(models.TransientModel):
                 self.location_ids = self.location_id + children_location
             else:
                 self.location_ids = self.location_id
+
+    def _get_report_locations(self):
+        """Locations the report works on, archived ones included.
+
+        Reading a Many2many filters archived records out by default, so the
+        archived locations put in ``location_ids`` by the compute would be lost
+        again here without ``active_test=False``.
+        """
+        return self.with_context(active_test=False).location_ids
 
     def _get_report_base_filename(self):
         self.ensure_one()
@@ -108,7 +123,7 @@ class StorageSheet(models.TransientModel):
         return res
 
     def get_products_with_move_sql(self, product_list=False):
-        locations = self.location_ids
+        locations = self._get_report_locations()
 
         if product_list:
             query = """
@@ -164,8 +179,8 @@ class StorageSheet(models.TransientModel):
                         ("company_id", "=", self.company_id.id),
                         ("company_id", "=", False),
                         "|",
-                        ("location_id", "in", self.location_ids.ids),
-                        ("location_dest_id", "in", self.location_ids.ids),
+                        ("location_id", "in", self._get_report_locations().ids),
+                        ("location_dest_id", "in", self._get_report_locations().ids),
                     ]
                 )
                 .mapped("product_id")
@@ -209,11 +224,12 @@ class StorageSheet(models.TransientModel):
         datetime_to = datetime_to.replace(hour=23, minute=59, second=59)
         datetime_to = datetime_to.astimezone(pytz.utc)
 
+        report_locations = self._get_report_locations()
         if self.detailed_locations:
-            all_locations = self.with_context(active_test=False).location_ids
+            all_locations = report_locations
         else:
-            all_locations = self.location_id or self.location_ids[0]
-            locations = self.location_ids
+            all_locations = self.location_id or report_locations[0]
+            locations = report_locations
 
         for location in all_locations:
             if self.detailed_locations:
