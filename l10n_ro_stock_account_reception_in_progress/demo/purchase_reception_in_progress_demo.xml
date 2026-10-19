@@ -24,94 +24,25 @@
     </function>
 
     <!-- Comandă marcată ca recepție în curs: factura se face înaintea
-         recepției, pe 327, iar la recepție marfa trece în 371. -->
+         recepției, pe 327, iar la recepție marfa trece în 371.
 
-    <record
-        id="demo_purchase_order_in_progress"
-        model="purchase.order"
-        context="{'allowed_company_ids': [ref('base.demo_company_ro')]}"
-    >
-        <field name="company_id" ref="base.demo_company_ro" />
-        <field
-            name="partner_id"
-            ref="l10n_ro_config.demo_partner_ro_company_supplier"
-        />
-        <field name="l10n_ro_reception_in_progress" eval="True" />
-        <field
-            name="picking_type_id"
-            model="stock.picking.type"
-            eval="obj().env.ref('l10n_ro_stock.demo_warehouse_main').in_type_id.id"
-        />
-        <field
-            name="order_line"
-            model="purchase.order.line"
-            eval="[
-                (0, 0, {
-                    'product_id': obj().env.ref('l10n_ro_config.demo_product_marfa_redusa').product_variant_id.id,
-                    'product_qty': 300.0,
-                    'price_unit': 3.0,
-                    'name': 'Pâine feliată 500 g',
-                    'date_planned': time.strftime('%Y-%m-%d'),
-                }),
-            ]"
-        />
-    </record>
+         Scenariul e descris în demo/cases/reception_in_progress.csv, în
+         același format ca în teste, și construit de același cod. -->
 
     <function
-        model="purchase.order"
-        name="button_confirm"
+        model="l10n.ro.stock.scenario.loader"
+        name="_load_cases"
         context="{'allowed_company_ids': [ref('base.demo_company_ro')]}"
     >
-        <value eval="[ref('demo_purchase_order_in_progress')]" />
-    </function>
-
-    <function
-        model="purchase.order"
-        name="action_create_reception_in_progress_invoice"
-        context="{'allowed_company_ids': [ref('base.demo_company_ro')]}"
-    >
-        <value eval="[ref('demo_purchase_order_in_progress')]" />
-    </function>
-
-    <!-- Factura creată din comandă nu are dată, iar fără ea nu se poate
-         valida. -->
-    <function
-        model="account.move"
-        name="write"
-        context="{'allowed_company_ids': [ref('base.demo_company_ro')]}"
-    >
+        <value>l10n_ro_stock_account_reception_in_progress</value>
+        <value>reception_in_progress.csv</value>
         <value
-            model="account.move"
-            eval="obj().env.ref('l10n_ro_stock_account_reception_in_progress.demo_purchase_order_in_progress').invoice_ids.ids"
-        />
-        <value
-            model="account.move"
-            eval="{'invoice_date': time.strftime('%Y-%m-%d'), 'ref': 'FACT-AVANS-MARFA-001'}"
-        />
-    </function>
-
-    <function
-        model="account.move"
-        name="action_post"
-        context="{
-            'allowed_company_ids': [ref('base.demo_company_ro')],
-            'l10n_ro_approved_price_difference': True,
-        }"
-    >
-        <value
-            model="account.move"
-            eval="obj().env.ref('l10n_ro_stock_account_reception_in_progress.demo_purchase_order_in_progress').invoice_ids.ids"
-        />
-    </function>
-
-    <function
-        model="stock.picking"
-        name="button_validate"
-        context="{'allowed_company_ids': [ref('base.demo_company_ro')]}"
-    >
-        <value
-            model="stock.picking"
-            eval="obj().env.ref('l10n_ro_stock_account_reception_in_progress.demo_purchase_order_in_progress').picking_ids.ids"
+            eval="{
+                'ron': 'base.RON',
+                'supplier_1': 'l10n_ro_config.demo_partner_ro_company_supplier',
+                'product_redusa': 'l10n_ro_config.demo_product_marfa_redusa',
+                'location': 'l10n_ro_stock.demo_warehouse_main::lot_stock_id',
+            }"
         />
     </function>
 </odoo>
