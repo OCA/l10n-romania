@@ -90,6 +90,7 @@ msgstr "Returnare Livrare"
 #: model:ir.model.fields,field_description:l10n_ro_stock_account.field_account_account__display_name
 #: model:ir.model.fields,field_description:l10n_ro_stock_account.field_account_move__display_name
 #: model:ir.model.fields,field_description:l10n_ro_stock_account.field_account_move_line__display_name
+#: model:ir.model.fields,field_description:l10n_ro_stock_account.field_l10n_ro_stock_scenario_loader__display_name
 #: model:ir.model.fields,field_description:l10n_ro_stock_account.field_product_category__display_name
 #: model:ir.model.fields,field_description:l10n_ro_stock_account.field_product_product__display_name
 #: model:ir.model.fields,field_description:l10n_ro_stock_account.field_product_template__display_name
@@ -163,6 +164,7 @@ msgstr "Valoare forțată pentru %(qty)s unități"
 #: model:ir.model.fields,field_description:l10n_ro_stock_account.field_account_account__id
 #: model:ir.model.fields,field_description:l10n_ro_stock_account.field_account_move__id
 #: model:ir.model.fields,field_description:l10n_ro_stock_account.field_account_move_line__id
+#: model:ir.model.fields,field_description:l10n_ro_stock_account.field_l10n_ro_stock_scenario_loader__id
 #: model:ir.model.fields,field_description:l10n_ro_stock_account.field_product_category__id
 #: model:ir.model.fields,field_description:l10n_ro_stock_account.field_product_product__id
 #: model:ir.model.fields,field_description:l10n_ro_stock_account.field_product_template__id
@@ -250,6 +252,11 @@ msgid "L10N Ro Reception In Progress"
 msgstr "Recepție în curs"
 
 #. module: l10n_ro_stock_account
+#: model:ir.model,name:l10n_ro_stock_account.model_l10n_ro_stock_scenario_loader
+msgid "Loads the Romanian stock scenarios as demo data"
+msgstr ""
+
+#. module: l10n_ro_stock_account
 #: model:ir.model.fields.selection,name:l10n_ro_stock_account.selection__stock_move__l10n_ro_move_type__minus_inventory
 msgid "Minus Inventory"
 msgstr "Minus Inventar"
@@ -297,7 +304,7 @@ msgstr "Compensare stoc negativ %s"
 
 #. module: l10n_ro_stock_account
 #. odoo-python
-#: code:addons/l10n_ro_stock_account/tests/common.py:0
+#: code:addons/l10n_ro_stock_account/scenario.py:0
 msgid ""
 "No picking type found for type %(picking_type)s and locations %(location)s %"
 "(location1)s."
