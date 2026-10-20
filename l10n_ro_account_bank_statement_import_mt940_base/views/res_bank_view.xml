@@ -6,7 +6,11 @@
         <field name="inherit_id" ref="l10n_ro_config.view_partner_bank_form" />
         <field name="arch" type="xml">
             <xpath expr="//group" position="after">
-                <group name="l10n_ro_unstructured_tag86_ing" colspan="2">
+                <group
+                    name="l10n_ro_unstructured_tag86_ing"
+                    colspan="2"
+                    invisible="not is_l10n_ro_record"
+                >
                     <field name="l10n_ro_unstructured_tag86" widget="text" />
                 </group>
             </xpath>
