@@ -110,6 +110,7 @@
     <template
         id="stock_report_delivery_aggregated_move_lines"
         inherit_id="stock.stock_report_delivery_aggregated_move_lines"
+        priority="10"
     >
         <xpath expr="//td[@name='move_line_aggregated_quantity']" position="after">
             <t t-if="o.is_l10n_ro_record and o.company_id.country_id.code == 'RO'">
@@ -171,6 +172,7 @@
     <template
         id="stock_report_delivery_has_serial_move_line"
         inherit_id="stock.stock_report_delivery_has_serial_move_line"
+        priority="10"
     >
         <xpath expr="//td[@name='move_line_lot_quantity']" position="after">
             <t t-if="o.is_l10n_ro_record and o.company_id.country_id.code == 'RO'">
