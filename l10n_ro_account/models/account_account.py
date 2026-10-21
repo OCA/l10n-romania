@@ -11,6 +11,7 @@ class Account(models.Model):
         compute="_compute_l10n_ro_external_code", store=False
     )
 
+    @api.depends_context("company")
     @api.depends("code")
     def _compute_l10n_ro_external_code(self):
         for account in self:
@@ -42,11 +43,28 @@ class Account(models.Model):
                 cont += "." + str(analytic)
         return cont
 
+    def _l10n_ro_get_display_company(self):
+        """Compania din care se citeste codul contului (code e company_dependent).
+        Prioritate: compania curenta, apoi prima companie activa a contului,
+        apoi prima companie a contului."""
+        self.ensure_one()
+        company = self.env.company
+        if not self.company_ids or company in self.company_ids:
+            # compania curenta
+            return company
+        # prima companie activa a contului, altfel prima companie a contului
+        allowed = self.company_ids & self.env.companies
+        return allowed[:1] or self.company_ids[:1]
+
+    @api.depends_context("company", "allowed_company_ids", "formatted_display_name")
+    @api.depends("code")
     def _compute_display_name(self):
         rest = self
         for account in self:
-            if self.env.company.l10n_ro_accounting:
-                code = account.l10n_ro_external_code or account.code
+            company = account._l10n_ro_get_display_company()
+            if company.l10n_ro_accounting:
+                account_cmp = account.with_company(company)
+                code = account_cmp.l10n_ro_external_code or account_cmp.code
                 if code and account.name:
                     name = code + " " + account.name
                     account.display_name = name
