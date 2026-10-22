@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <odoo>
+        <record id="view_stock_landed_cost_form" model="ir.ui.view">
+            <field name="model">stock.landed.cost</field>
+            <field
+                name="inherit_id"
+                ref="stock_landed_costs.view_stock_landed_cost_form"
+            />
+            <field name="arch" type="xml">
+                <notebook position="before">
+                    <group name="l10n_ro_extend">
+                        <group name="l10n_ro_general">
+                            <field
+                                name="l10n_ro_cost_type"
+                                readonly="state == 'done'"
+                            />
+                            <field
+                                name="l10n_ro_only_on_distributed_lines"
+                                readonly="state == 'done'"
+                            />
+                        </group>
+                    </group>
+                </notebook>
+                <xpath
+                    expr="//field[@name='valuation_adjustment_lines']/form/group[1]/group[2]/field[@name='additional_landed_cost']"
+                    position="after"
+                >
+                    <field name="l10n_ro_not_distributed_amount" readonly="1" />
+                </xpath>
+                <xpath
+                    expr="//field[@name='valuation_adjustment_lines']/list/field[@name='additional_landed_cost']"
+                    position="after"
+                >
+                    <field
+                        name="l10n_ro_not_distributed_amount"
+                        readonly="1"
+                        optional="hide"
+                    />
+                </xpath>
+                <xpath expr="//page[@name='valuation_adjustments']" position="after">
+                    <page
+                        name="l10n_ro_valuation_adjustments"
+                        string="Romania - Distributed Valuation Lines"
+                    >
+                        <field name="l10n_ro_distributed_valuation_lines" readonly="1">
+                            <form string="Valuation Adjustments">
+                                <group>
+                                    <group>
+                                        <field name="move_id" readonly="1" />
+                                        <field name="product_id" />
+                                        <field name="quantity" />
+                                    </group>
+                                    <group>
+                                        <field name="currency_id" invisible="1" />
+                                        <field name="former_cost" />
+                                        <field name="additional_landed_cost" />
+                                    </group>
+                                </group>
+                            </form>
+                            <list
+                                string="Valuation Adjustments"
+                                editable="bottom"
+                                create="0"
+                            >
+                                <field name="cost_line_id" readonly="1" />
+                                <field name="product_id" readonly="1" />
+                                <field name="move_id" readonly="1" />
+                                <field name="weight" readonly="1" optional="hide" />
+                                <field name="volume" readonly="1" optional="hide" />
+                                <field name="quantity" readonly="1" />
+                                <field name="currency_id" column_invisible="True" />
+                                <field name="former_cost" readonly="1" />
+                                <field name="final_cost" readonly="1" />
+                                <field name="additional_landed_cost" />
+                            </list>
+                        </field>
+                    </page>
+                </xpath>
+            </field>
+        </record>
+    </odoo>
+</odoo>
