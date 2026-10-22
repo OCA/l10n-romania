@@ -1,0 +1,700 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* l10n_ro_stock_account_retail_price_change
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 19.0+e\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-09-06 17:10+0000\n"
+"PO-Revision-Date: 2026-09-06 17:10+0000\n"
+"Last-Translator: NextERP Romania\n"
+"Language-Team: Romanian\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: nplurals=3; plural=(n==1 ? 0 : (n==0 || (n%100 > 0 && n%100 < 20)) ? 1 : 2);\n"
+"Language: ro\n"
+
+#. module: l10n_ro_stock_account_retail_price_change
+#. odoo-python
+#: code:addons/l10n_ro_stock_account_retail_price_change/models/retail_price_change.py:0
+msgid ""
+"%s already moved the markup carried by the stock. Post a new price change "
+"document to correct it instead of resetting this one to draft."
+msgstr "%s a mutat deja adaosul purtat de stoc. Contabilizați un nou proces verbal de schimbare a prețului pentru a corecta, în loc să îl readuceți pe acesta în ciornă."
+
+#. module: l10n_ro_stock_account_retail_price_change
+#. odoo-python
+#: code:addons/l10n_ro_stock_account_retail_price_change/models/product_pricelist_item.py:0
+msgid "<p>Auto-generated from a change on pricelist %(pl)s.</p>"
+msgstr "<p>Generat automat dintr-o schimbare pe lista de prețuri %(pl)s.</p>"
+
+#. module: l10n_ro_stock_account_retail_price_change
+#: model_terms:ir.ui.view,arch_db:l10n_ro_stock_account_retail_price_change.report_retail_price_change
+msgid "<span> of </span>"
+msgstr "<span> din </span>"
+
+#. module: l10n_ro_stock_account_retail_price_change
+#: model_terms:ir.ui.view,arch_db:l10n_ro_stock_account_retail_price_change.report_retail_price_change
+msgid "<strong>Pricelist:</strong>"
+msgstr "<strong>Lista de prețuri:</strong>"
+
+#. module: l10n_ro_stock_account_retail_price_change
+#: model_terms:ir.ui.view,arch_db:l10n_ro_stock_account_retail_price_change.report_retail_price_change
+msgid "<strong>Total</strong>"
+msgstr "<strong>Total</strong>"
+
+#. module: l10n_ro_stock_account_retail_price_change
+#: model_terms:ir.ui.view,arch_db:l10n_ro_stock_account_retail_price_change.report_retail_price_change
+msgid "<strong>Warehouse:</strong>"
+msgstr "<strong>Gestiunea:</strong>"
+
+#. module: l10n_ro_stock_account_retail_price_change
+#: model:ir.model.fields,field_description:l10n_ro_stock_account_retail_price_change.field_l10n_ro_retail_price_change__account_move_id
+msgid "Account Move"
+msgstr "Notă contabilă"
+
+#. module: l10n_ro_stock_account_retail_price_change
+#: model:ir.model.fields,field_description:l10n_ro_stock_account_retail_price_change.field_l10n_ro_retail_price_change__message_needaction
+msgid "Action Needed"
+msgstr "Necesită acțiune"
+
+#. module: l10n_ro_stock_account_retail_price_change
+#: model:ir.model.fields,field_description:l10n_ro_stock_account_retail_price_change.field_l10n_ro_retail_price_change__activity_ids
+msgid "Activities"
+msgstr "Activități"
+
+#. module: l10n_ro_stock_account_retail_price_change
+#: model:ir.model.fields,field_description:l10n_ro_stock_account_retail_price_change.field_l10n_ro_retail_price_change__activity_exception_decoration
+msgid "Activity Exception Decoration"
+msgstr "Decorare excepție activitate"
+
+#. module: l10n_ro_stock_account_retail_price_change
+#: model:ir.model.fields,field_description:l10n_ro_stock_account_retail_price_change.field_l10n_ro_retail_price_change__activity_state
+msgid "Activity State"
+msgstr "Stare activitate"
+
+#. module: l10n_ro_stock_account_retail_price_change
+#: model:ir.model.fields,field_description:l10n_ro_stock_account_retail_price_change.field_l10n_ro_retail_price_change__activity_type_icon
+msgid "Activity Type Icon"
+msgstr "Pictogramă tip activitate"
+
+#. module: l10n_ro_stock_account_retail_price_change
+#: model_terms:ir.ui.view,arch_db:l10n_ro_stock_account_retail_price_change.report_retail_price_change
+msgid "Approved by,"
+msgstr "Aprobat,"
+
+#. module: l10n_ro_stock_account_retail_price_change
+#: model:ir.model.fields,field_description:l10n_ro_stock_account_retail_price_change.field_l10n_ro_retail_price_change__message_attachment_count
+msgid "Attachment Count"
+msgstr "Număr atașamente"
+
+#. module: l10n_ro_stock_account_retail_price_change
+#: model:ir.model.fields,field_description:l10n_ro_stock_account_retail_price_change.field_l10n_ro_retail_price_change__auto_created
+#: model_terms:ir.ui.view,arch_db:l10n_ro_stock_account_retail_price_change.view_retail_price_change_search
+msgid "Auto Created"
+msgstr "Generat automat"
+
+#. module: l10n_ro_stock_account_retail_price_change
+#: model_terms:ir.ui.view,arch_db:l10n_ro_stock_account_retail_price_change.report_retail_price_change
+msgid "Breakdown of the difference by account"
+msgstr "Repartizarea diferenței pe conturi"
+
+#. module: l10n_ro_stock_account_retail_price_change
+#: model_terms:ir.ui.view,arch_db:l10n_ro_stock_account_retail_price_change.view_retail_price_change_form
+msgid "Cancel"
+msgstr "Anulează"
+
+#. module: l10n_ro_stock_account_retail_price_change
+#. odoo-python
+#: code:addons/l10n_ro_stock_account_retail_price_change/models/retail_price_change.py:0
+msgid "Cancel the related journal entry %s first."
+msgstr "Anulați mai întâi nota contabilă asociată %s."
+
+#. module: l10n_ro_stock_account_retail_price_change
+#: model:ir.model.fields.selection,name:l10n_ro_stock_account_retail_price_change.selection__l10n_ro_retail_price_change__state__cancel
+msgid "Cancelled"
+msgstr "Anulat"
+
+#. module: l10n_ro_stock_account_retail_price_change
+#: model_terms:ir.ui.view,arch_db:l10n_ro_stock_account_retail_price_change.report_retail_price_change
+msgid "Commercial Markup (378)"
+msgstr "Adaos comercial (378)"
+
+#. module: l10n_ro_stock_account_retail_price_change
+#: model:ir.model.fields,field_description:l10n_ro_stock_account_retail_price_change.field_l10n_ro_retail_price_change__company_id
+#: model:ir.model.fields,field_description:l10n_ro_stock_account_retail_price_change.field_l10n_ro_retail_price_change_line__company_id
+msgid "Company"
+msgstr "Companie"
+
+#. module: l10n_ro_stock_account_retail_price_change
+#: model:ir.model.fields,field_description:l10n_ro_stock_account_retail_price_change.field_l10n_ro_retail_price_change_line__cost_unit
+msgid "Cost / Unit"
+msgstr "Cost unitar"
+
+#. module: l10n_ro_stock_account_retail_price_change
+#: model:ir.model.fields,help:l10n_ro_stock_account_retail_price_change.field_l10n_ro_retail_price_change_line__cost_unit
+msgid "Cost the stock on hand carries, from the markup ledger."
+msgstr "Costul purtat de stocul existent, din registrul adaosului."
+
+#. module: l10n_ro_stock_account_retail_price_change
+#: model:ir.model.fields,field_description:l10n_ro_stock_account_retail_price_change.field_l10n_ro_retail_price_change__create_uid
+#: model:ir.model.fields,field_description:l10n_ro_stock_account_retail_price_change.field_l10n_ro_retail_price_change_line__create_uid
+msgid "Created by"
+msgstr "Creat de"
+
+#. module: l10n_ro_stock_account_retail_price_change
+#: model:ir.model.fields,field_description:l10n_ro_stock_account_retail_price_change.field_l10n_ro_retail_price_change__create_date
+#: model:ir.model.fields,field_description:l10n_ro_stock_account_retail_price_change.field_l10n_ro_retail_price_change_line__create_date
+msgid "Created on"
+msgstr "Creat pe"
+
+#. module: l10n_ro_stock_account_retail_price_change
+#: model:ir.model.fields,field_description:l10n_ro_stock_account_retail_price_change.field_l10n_ro_retail_price_change__date
+#: model:ir.model.fields,field_description:l10n_ro_stock_account_retail_price_change.field_l10n_ro_retail_price_change_line__document_date
+msgid "Date"
+msgstr "Dată"
+
+#. module: l10n_ro_stock_account_retail_price_change
+#: model_terms:ir.ui.view,arch_db:l10n_ro_stock_account_retail_price_change.report_retail_price_change
+#: model_terms:ir.ui.view,arch_db:l10n_ro_stock_account_retail_price_change.view_retail_price_change_form
+msgid "Deferred VAT (4428)"
+msgstr "TVA neexigibilă (4428)"
+
+#. module: l10n_ro_stock_account_retail_price_change
+#: model:ir.model.fields,help:l10n_ro_stock_account_retail_price_change.field_l10n_ro_retail_price_change_line__old_vat_unit
+msgid "Deferred VAT the stock carries on 4428 per unit, as recorded."
+msgstr "TVA neexigibilă purtată de stoc în 4428 pe bucată, așa cum e înregistrată."
+
+#. module: l10n_ro_stock_account_retail_price_change
+#: model_terms:ir.ui.view,arch_db:l10n_ro_stock_account_retail_price_change.report_retail_price_change
+msgid "Difference"
+msgstr "Diferență"
+
+#. module: l10n_ro_stock_account_retail_price_change
+#: model:ir.model.fields,field_description:l10n_ro_stock_account_retail_price_change.field_l10n_ro_retail_markup_line__display_name
+#: model:ir.model.fields,field_description:l10n_ro_stock_account_retail_price_change.field_l10n_ro_retail_price_change__display_name
+#: model:ir.model.fields,field_description:l10n_ro_stock_account_retail_price_change.field_l10n_ro_retail_price_change_line__display_name
+#: model:ir.model.fields,field_description:l10n_ro_stock_account_retail_price_change.field_product_pricelist_item__display_name
+#: model:ir.model.fields,field_description:l10n_ro_stock_account_retail_price_change.field_product_template__display_name
+msgid "Display Name"
+msgstr "Nume afișat"
+
+#. module: l10n_ro_stock_account_retail_price_change
+#: model:ir.model.fields,field_description:l10n_ro_stock_account_retail_price_change.field_l10n_ro_retail_price_change_line__document_id
+msgid "Document"
+msgstr "Document"
+
+#. module: l10n_ro_stock_account_retail_price_change
+#. odoo-python
+#: code:addons/l10n_ro_stock_account_retail_price_change/models/retail_price_change.py:0
+msgid "Document %s is not in draft."
+msgstr "Documentul %s nu este în ciornă."
+
+#. module: l10n_ro_stock_account_retail_price_change
+#: model:ir.model.fields.selection,name:l10n_ro_stock_account_retail_price_change.selection__l10n_ro_retail_price_change__state__done
+#: model_terms:ir.ui.view,arch_db:l10n_ro_stock_account_retail_price_change.view_retail_price_change_search
+msgid "Done"
+msgstr "Efectuat"
+
+#. module: l10n_ro_stock_account_retail_price_change
+#: model:ir.model.fields.selection,name:l10n_ro_stock_account_retail_price_change.selection__l10n_ro_retail_price_change__state__draft
+#: model_terms:ir.ui.view,arch_db:l10n_ro_stock_account_retail_price_change.view_retail_price_change_search
+msgid "Draft"
+msgstr "Ciornă"
+
+#. module: l10n_ro_stock_account_retail_price_change
+#: model:ir.model.fields,field_description:l10n_ro_stock_account_retail_price_change.field_l10n_ro_retail_price_change__message_follower_ids
+msgid "Followers"
+msgstr "Persoane urmăritoare"
+
+#. module: l10n_ro_stock_account_retail_price_change
+#: model:ir.model.fields,field_description:l10n_ro_stock_account_retail_price_change.field_l10n_ro_retail_price_change__message_partner_ids
+msgid "Followers (Partners)"
+msgstr "Persoane urmăritoare (parteneri)"
+
+#. module: l10n_ro_stock_account_retail_price_change
+#: model:ir.model.fields,help:l10n_ro_stock_account_retail_price_change.field_l10n_ro_retail_price_change__activity_type_icon
+msgid "Font awesome icon e.g. fa-tasks"
+msgstr "Pictogramă Font Awesome, de ex. fa-tasks"
+
+#. module: l10n_ro_stock_account_retail_price_change
+#: model_terms:ir.ui.view,arch_db:l10n_ro_stock_account_retail_price_change.report_retail_price_change
+msgid ""
+"Given the movement of supply and demand on the market,\n"
+"                            the retail price of the following goods held in stock is\n"
+"                            changed, within the commercial markup practised. Prices\n"
+"                            are stated VAT included."
+msgstr ""
+"Având în vedere evoluția cererii și a ofertei pe piață,\n"
+"                            se modifică prețul de vânzare cu amănuntul al\n"
+"                            următoarelor produse aflate în stoc, în limita\n"
+"                            adaosului comercial practicat. Prețurile sunt\n"
+"                            exprimate cu TVA inclus."
+
+#. module: l10n_ro_stock_account_retail_price_change
+#: model:ir.model.fields,field_description:l10n_ro_stock_account_retail_price_change.field_l10n_ro_retail_price_change__has_message
+msgid "Has Message"
+msgstr "Are mesaj"
+
+#. module: l10n_ro_stock_account_retail_price_change
+#: model:ir.model.fields,field_description:l10n_ro_stock_account_retail_price_change.field_l10n_ro_retail_markup_line__id
+#: model:ir.model.fields,field_description:l10n_ro_stock_account_retail_price_change.field_l10n_ro_retail_price_change__id
+#: model:ir.model.fields,field_description:l10n_ro_stock_account_retail_price_change.field_l10n_ro_retail_price_change_line__id
+#: model:ir.model.fields,field_description:l10n_ro_stock_account_retail_price_change.field_product_pricelist_item__id
+#: model:ir.model.fields,field_description:l10n_ro_stock_account_retail_price_change.field_product_template__id
+msgid "ID"
+msgstr "ID"
+
+#. module: l10n_ro_stock_account_retail_price_change
+#: model:ir.model.fields,field_description:l10n_ro_stock_account_retail_price_change.field_l10n_ro_retail_price_change__activity_exception_icon
+msgid "Icon"
+msgstr "Pictogramă"
+
+#. module: l10n_ro_stock_account_retail_price_change
+#: model:ir.model.fields,help:l10n_ro_stock_account_retail_price_change.field_l10n_ro_retail_price_change__activity_exception_icon
+msgid "Icon to indicate an exception activity."
+msgstr "Pictogramă care indică o activitate de excepție."
+
+#. module: l10n_ro_stock_account_retail_price_change
+#: model:ir.model.fields,help:l10n_ro_stock_account_retail_price_change.field_l10n_ro_retail_price_change__message_needaction
+msgid "If checked, new messages require your attention."
+msgstr "Dacă e bifat, mesajele noi necesită atenția dumneavoastră."
+
+#. module: l10n_ro_stock_account_retail_price_change
+#: model:ir.model.fields,help:l10n_ro_stock_account_retail_price_change.field_l10n_ro_retail_price_change__message_has_error
+#: model:ir.model.fields,help:l10n_ro_stock_account_retail_price_change.field_l10n_ro_retail_price_change__message_has_sms_error
+msgid "If checked, some messages have a delivery error."
+msgstr "Dacă e bifat, unele mesaje au o eroare de livrare."
+
+#. module: l10n_ro_stock_account_retail_price_change
+#: model_terms:ir.ui.view,arch_db:l10n_ro_stock_account_retail_price_change.view_retail_price_change_form
+msgid "Internal notes..."
+msgstr "Note interne..."
+
+#. module: l10n_ro_stock_account_retail_price_change
+#: model:ir.model.fields,field_description:l10n_ro_stock_account_retail_price_change.field_l10n_ro_retail_price_change__message_is_follower
+msgid "Is Follower"
+msgstr "Este urmăritor"
+
+#. module: l10n_ro_stock_account_retail_price_change
+#: model:ir.model.fields,field_description:l10n_ro_stock_account_retail_price_change.field_l10n_ro_retail_price_change__journal_id
+msgid "Journal"
+msgstr "Jurnal"
+
+#. module: l10n_ro_stock_account_retail_price_change
+#: model:ir.model.fields,field_description:l10n_ro_stock_account_retail_price_change.field_l10n_ro_retail_price_change__write_uid
+#: model:ir.model.fields,field_description:l10n_ro_stock_account_retail_price_change.field_l10n_ro_retail_price_change_line__write_uid
+msgid "Last Updated by"
+msgstr "Ultima actualizare făcută de"
+
+#. module: l10n_ro_stock_account_retail_price_change
+#: model:ir.model.fields,field_description:l10n_ro_stock_account_retail_price_change.field_l10n_ro_retail_price_change__write_date
+#: model:ir.model.fields,field_description:l10n_ro_stock_account_retail_price_change.field_l10n_ro_retail_price_change_line__write_date
+msgid "Last Updated on"
+msgstr "Ultima actualizare pe"
+
+#. module: l10n_ro_stock_account_retail_price_change
+#: model:ir.model.fields,field_description:l10n_ro_stock_account_retail_price_change.field_l10n_ro_retail_price_change__line_ids
+msgid "Lines"
+msgstr "Linii"
+
+#. module: l10n_ro_stock_account_retail_price_change
+#: model_terms:ir.ui.view,arch_db:l10n_ro_stock_account_retail_price_change.view_retail_price_change_form
+msgid "Load Products"
+msgstr "Încarcă produsele"
+
+#. module: l10n_ro_stock_account_retail_price_change
+#: model:ir.model.fields,field_description:l10n_ro_stock_account_retail_price_change.field_l10n_ro_retail_price_change_line__location_id
+msgid "Location"
+msgstr "Locație"
+
+#. module: l10n_ro_stock_account_retail_price_change
+#: model_terms:ir.ui.view,arch_db:l10n_ro_stock_account_retail_price_change.view_retail_price_change_form
+msgid "Markup (378)"
+msgstr "Adaos comercial (378)"
+
+#. module: l10n_ro_stock_account_retail_price_change
+#: model:ir.model.fields,field_description:l10n_ro_stock_account_retail_price_change.field_l10n_ro_retail_price_change_line__markup_diff_total
+#: model_terms:ir.ui.view,arch_db:l10n_ro_stock_account_retail_price_change.view_retail_price_change_form
+#: model_terms:ir.ui.view,arch_db:l10n_ro_stock_account_retail_price_change.view_retail_price_change_line_history_list
+msgid "Markup Delta"
+msgstr "Variație adaos"
+
+#. module: l10n_ro_stock_account_retail_price_change
+#: model:ir.model.fields,field_description:l10n_ro_stock_account_retail_price_change.field_l10n_ro_retail_price_change__markup_line_ids
+#: model_terms:ir.ui.view,arch_db:l10n_ro_stock_account_retail_price_change.view_retail_price_change_form
+msgid "Markup Ledger"
+msgstr "Registrul adaosului"
+
+#. module: l10n_ro_stock_account_retail_price_change
+#: model:ir.model.fields,help:l10n_ro_stock_account_retail_price_change.field_l10n_ro_retail_price_change_line__old_markup_unit
+msgid "Markup the stock carries on 378 per unit, as recorded."
+msgstr "Adaosul purtat de stoc în 378 pe bucată, așa cum e înregistrat."
+
+#. module: l10n_ro_stock_account_retail_price_change
+#: model:ir.model.fields,field_description:l10n_ro_stock_account_retail_price_change.field_l10n_ro_retail_price_change__message_has_error
+msgid "Message Delivery error"
+msgstr "Eroare la livrarea mesajului"
+
+#. module: l10n_ro_stock_account_retail_price_change
+#: model:ir.model.fields,field_description:l10n_ro_stock_account_retail_price_change.field_l10n_ro_retail_price_change__message_ids
+msgid "Messages"
+msgstr "Mesaje"
+
+#. module: l10n_ro_stock_account_retail_price_change
+#. odoo-python
+#: code:addons/l10n_ro_stock_account_retail_price_change/models/retail_price_change.py:0
+msgid ""
+"Missing markup (378) or deferred VAT (4428) account for product %(p)s at "
+"location %(loc)s."
+msgstr "Lipsește contul de adaos (378) sau de TVA neexigibilă (4428) pentru produsul %(p)s în locația %(loc)s."
+
+#. module: l10n_ro_stock_account_retail_price_change
+#. odoo-python
+#: code:addons/l10n_ro_stock_account_retail_price_change/models/retail_price_change.py:0
+msgid "Missing stock valuation account for product %s."
+msgstr "Lipsește contul de stoc pentru produsul %s."
+
+#. module: l10n_ro_stock_account_retail_price_change
+#: model:ir.model.fields,field_description:l10n_ro_stock_account_retail_price_change.field_l10n_ro_retail_price_change__my_activity_date_deadline
+msgid "My Activity Deadline"
+msgstr "Termenul activității mele"
+
+#. module: l10n_ro_stock_account_retail_price_change
+#: model:ir.model.fields,field_description:l10n_ro_stock_account_retail_price_change.field_l10n_ro_retail_price_change__name
+msgid "Name"
+msgstr "Nume"
+
+#. module: l10n_ro_stock_account_retail_price_change
+#: model:ir.model.fields,field_description:l10n_ro_stock_account_retail_price_change.field_l10n_ro_retail_price_change_line__new_markup_unit
+msgid "New Markup / Unit"
+msgstr "Adaos unitar nou"
+
+#. module: l10n_ro_stock_account_retail_price_change
+#: model:ir.model.fields,field_description:l10n_ro_stock_account_retail_price_change.field_l10n_ro_retail_price_change_line__new_price_with_vat
+msgid "New PVA"
+msgstr "PVA nou"
+
+#. module: l10n_ro_stock_account_retail_price_change
+#: model_terms:ir.ui.view,arch_db:l10n_ro_stock_account_retail_price_change.report_retail_price_change
+msgid "New Price"
+msgstr "Preț nou"
+
+#. module: l10n_ro_stock_account_retail_price_change
+#: model:ir.model.fields,field_description:l10n_ro_stock_account_retail_price_change.field_l10n_ro_retail_price_change_line__new_vat_unit
+msgid "New VAT / Unit"
+msgstr "TVA unitară nouă"
+
+#. module: l10n_ro_stock_account_retail_price_change
+#: model_terms:ir.ui.view,arch_db:l10n_ro_stock_account_retail_price_change.report_retail_price_change
+msgid "New Value"
+msgstr "Valoare nouă"
+
+#. module: l10n_ro_stock_account_retail_price_change
+#: model:ir.model.fields,help:l10n_ro_stock_account_retail_price_change.field_l10n_ro_retail_price_change_line__new_price_with_vat
+msgid "New retail price including VAT."
+msgstr "Noul preț de vânzare, cu TVA inclus."
+
+#. module: l10n_ro_stock_account_retail_price_change
+#: model:ir.model.fields,field_description:l10n_ro_stock_account_retail_price_change.field_l10n_ro_retail_price_change__activity_date_deadline
+msgid "Next Activity Deadline"
+msgstr "Termenul următoarei activități"
+
+#. module: l10n_ro_stock_account_retail_price_change
+#: model:ir.model.fields,field_description:l10n_ro_stock_account_retail_price_change.field_l10n_ro_retail_price_change__activity_summary
+msgid "Next Activity Summary"
+msgstr "Rezumatul următoarei activități"
+
+#. module: l10n_ro_stock_account_retail_price_change
+#: model:ir.model.fields,field_description:l10n_ro_stock_account_retail_price_change.field_l10n_ro_retail_price_change__activity_type_id
+msgid "Next Activity Type"
+msgstr "Tipul următoarei activități"
+
+#. module: l10n_ro_stock_account_retail_price_change
+#. odoo-python
+#: code:addons/l10n_ro_stock_account_retail_price_change/models/retail_price_change.py:0
+msgid "No journal defined."
+msgstr "Nu este definit niciun jurnal."
+
+#. module: l10n_ro_stock_account_retail_price_change
+#. odoo-python
+#: code:addons/l10n_ro_stock_account_retail_price_change/models/retail_price_change.py:0
+msgid "No lines to post on %s."
+msgstr "Nu există linii de contabilizat pe %s."
+
+#. module: l10n_ro_stock_account_retail_price_change
+#: model_terms:ir.ui.view,arch_db:l10n_ro_stock_account_retail_price_change.report_retail_price_change
+msgid "No."
+msgstr "Nr."
+
+#. module: l10n_ro_stock_account_retail_price_change
+#: model:ir.model.fields,field_description:l10n_ro_stock_account_retail_price_change.field_l10n_ro_retail_price_change__notes
+msgid "Notes"
+msgstr "Note"
+
+#. module: l10n_ro_stock_account_retail_price_change
+#: model:ir.model.fields,field_description:l10n_ro_stock_account_retail_price_change.field_l10n_ro_retail_price_change__message_needaction_counter
+msgid "Number of Actions"
+msgstr "Număr de acțiuni"
+
+#. module: l10n_ro_stock_account_retail_price_change
+#: model:ir.model.fields,field_description:l10n_ro_stock_account_retail_price_change.field_l10n_ro_retail_price_change__message_has_error_counter
+msgid "Number of errors"
+msgstr "Număr de erori"
+
+#. module: l10n_ro_stock_account_retail_price_change
+#: model:ir.model.fields,help:l10n_ro_stock_account_retail_price_change.field_l10n_ro_retail_price_change__message_needaction_counter
+msgid "Number of messages requiring action"
+msgstr "Număr de mesaje care necesită acțiune"
+
+#. module: l10n_ro_stock_account_retail_price_change
+#: model:ir.model.fields,help:l10n_ro_stock_account_retail_price_change.field_l10n_ro_retail_price_change__message_has_error_counter
+msgid "Number of messages with delivery error"
+msgstr "Număr de mesaje cu eroare de livrare"
+
+#. module: l10n_ro_stock_account_retail_price_change
+#: model:ir.model.fields,field_description:l10n_ro_stock_account_retail_price_change.field_l10n_ro_retail_price_change_line__old_markup_unit
+msgid "Old Markup / Unit"
+msgstr "Adaos unitar vechi"
+
+#. module: l10n_ro_stock_account_retail_price_change
+#: model:ir.model.fields,field_description:l10n_ro_stock_account_retail_price_change.field_l10n_ro_retail_price_change_line__old_price_with_vat
+msgid "Old PVA"
+msgstr "PVA vechi"
+
+#. module: l10n_ro_stock_account_retail_price_change
+#: model_terms:ir.ui.view,arch_db:l10n_ro_stock_account_retail_price_change.report_retail_price_change
+msgid "Old Price"
+msgstr "Preț vechi"
+
+#. module: l10n_ro_stock_account_retail_price_change
+#: model:ir.model.fields,field_description:l10n_ro_stock_account_retail_price_change.field_l10n_ro_retail_price_change_line__old_vat_unit
+msgid "Old VAT / Unit"
+msgstr "TVA unitară veche"
+
+#. module: l10n_ro_stock_account_retail_price_change
+#: model_terms:ir.ui.view,arch_db:l10n_ro_stock_account_retail_price_change.report_retail_price_change
+msgid "Old Value"
+msgstr "Valoare veche"
+
+#. module: l10n_ro_stock_account_retail_price_change
+#. odoo-python
+#: code:addons/l10n_ro_stock_account_retail_price_change/models/retail_price_change.py:0
+msgid "Only draft documents can be loaded."
+msgstr "Doar documentele în ciornă pot fi încărcate."
+
+#. module: l10n_ro_stock_account_retail_price_change
+#: model_terms:ir.ui.view,arch_db:l10n_ro_stock_account_retail_price_change.view_retail_price_change_form
+msgid "Post"
+msgstr "Contabilizează"
+
+#. module: l10n_ro_stock_account_retail_price_change
+#: model_terms:ir.ui.view,arch_db:l10n_ro_stock_account_retail_price_change.report_retail_price_change
+msgid "Prepared by,"
+msgstr "Întocmit,"
+
+#. module: l10n_ro_stock_account_retail_price_change
+#: model:ir.model.fields,field_description:l10n_ro_stock_account_retail_price_change.field_l10n_ro_retail_markup_line__price_change_id
+msgid "Price Change"
+msgstr "Schimbare de preț"
+
+#. module: l10n_ro_stock_account_retail_price_change
+#: model_terms:ir.ui.view,arch_db:l10n_ro_stock_account_retail_price_change.view_product_template_retail_price_change_form
+msgid "Price History"
+msgstr "Istoric preț"
+
+#. module: l10n_ro_stock_account_retail_price_change
+#. odoo-python
+#: code:addons/l10n_ro_stock_account_retail_price_change/models/retail_price_change.py:0
+msgid "Price change %s"
+msgstr "Schimbare de preț %s"
+
+#. module: l10n_ro_stock_account_retail_price_change
+#: model:ir.model.fields,field_description:l10n_ro_stock_account_retail_price_change.field_l10n_ro_retail_price_change__pricelist_id
+msgid "Pricelist"
+msgstr "Listă de prețuri"
+
+#. module: l10n_ro_stock_account_retail_price_change
+#: model:ir.model,name:l10n_ro_stock_account_retail_price_change.model_product_pricelist_item
+msgid "Pricelist Rule"
+msgstr "Regulă listă de prețuri"
+
+#. module: l10n_ro_stock_account_retail_price_change
+#: model_terms:ir.ui.view,arch_db:l10n_ro_stock_account_retail_price_change.view_retail_price_change_form
+msgid "Print"
+msgstr "Tipărește"
+
+#. module: l10n_ro_stock_account_retail_price_change
+#: model:ir.model,name:l10n_ro_stock_account_retail_price_change.model_product_template
+#: model:ir.model.fields,field_description:l10n_ro_stock_account_retail_price_change.field_l10n_ro_retail_price_change_line__product_id
+#: model_terms:ir.ui.view,arch_db:l10n_ro_stock_account_retail_price_change.report_retail_price_change
+msgid "Product"
+msgstr "Produs"
+
+#. module: l10n_ro_stock_account_retail_price_change
+#: model:ir.model.fields,field_description:l10n_ro_stock_account_retail_price_change.field_l10n_ro_retail_price_change_line__quantity
+#: model_terms:ir.ui.view,arch_db:l10n_ro_stock_account_retail_price_change.report_retail_price_change
+msgid "Quantity"
+msgstr "Cantitate"
+
+#. module: l10n_ro_stock_account_retail_price_change
+#: model_terms:ir.ui.view,arch_db:l10n_ro_stock_account_retail_price_change.view_retail_price_change_form
+msgid "Reset to Draft"
+msgstr "Înapoi în ciornă"
+
+#. module: l10n_ro_stock_account_retail_price_change
+#: model:ir.model.fields,field_description:l10n_ro_stock_account_retail_price_change.field_l10n_ro_retail_price_change__activity_user_id
+msgid "Responsible User"
+msgstr "Utilizator responsabil"
+
+#. module: l10n_ro_stock_account_retail_price_change
+#: model:ir.model,name:l10n_ro_stock_account_retail_price_change.model_l10n_ro_retail_markup_line
+msgid "Retail Markup Ledger Line"
+msgstr "Linie din registrul adaosului comercial"
+
+#. module: l10n_ro_stock_account_retail_price_change
+#: model_terms:ir.ui.view,arch_db:l10n_ro_stock_account_retail_price_change.view_retail_price_change_form
+msgid "Retail Price Change"
+msgstr "Proces verbal de schimbare a prețului"
+
+#. module: l10n_ro_stock_account_retail_price_change
+#: model:ir.model,name:l10n_ro_stock_account_retail_price_change.model_l10n_ro_retail_price_change
+msgid "Retail Price Change (Proces Verbal de Schimbare Pret)"
+msgstr "Proces verbal de schimbare a prețului"
+
+#. module: l10n_ro_stock_account_retail_price_change
+#: model:ir.model,name:l10n_ro_stock_account_retail_price_change.model_l10n_ro_retail_price_change_line
+msgid "Retail Price Change Line"
+msgstr "Linie din procesul verbal de schimbare a prețului"
+
+#. module: l10n_ro_stock_account_retail_price_change
+#: model:ir.actions.report,name:l10n_ro_stock_account_retail_price_change.action_report_retail_price_change
+#: model_terms:ir.ui.view,arch_db:l10n_ro_stock_account_retail_price_change.report_retail_price_change
+msgid "Retail Price Change Report"
+msgstr "Proces-verbal de schimbare a prețului"
+
+#. module: l10n_ro_stock_account_retail_price_change
+#: model:ir.actions.act_window,name:l10n_ro_stock_account_retail_price_change.action_retail_price_change
+#: model:ir.model.fields,field_description:l10n_ro_stock_account_retail_price_change.field_product_product__l10n_ro_retail_price_change_count
+#: model:ir.model.fields,field_description:l10n_ro_stock_account_retail_price_change.field_product_template__l10n_ro_retail_price_change_count
+#: model:ir.ui.menu,name:l10n_ro_stock_account_retail_price_change.menu_retail_price_change
+#: model_terms:ir.ui.view,arch_db:l10n_ro_stock_account_retail_price_change.view_retail_price_change_list
+msgid "Retail Price Changes"
+msgstr "Procese verbale de schimbare a prețului"
+
+#. module: l10n_ro_stock_account_retail_price_change
+#. odoo-python
+#: code:addons/l10n_ro_stock_account_retail_price_change/models/product_template.py:0
+#: model_terms:ir.ui.view,arch_db:l10n_ro_stock_account_retail_price_change.view_retail_price_change_line_history_list
+msgid "Retail Price History"
+msgstr "Istoricul prețului de vânzare"
+
+#. module: l10n_ro_stock_account_retail_price_change
+#. odoo-python
+#: code:addons/l10n_ro_stock_account_retail_price_change/models/retail_price_change.py:0
+msgid "Retail price change %s"
+msgstr "Proces verbal de schimbare a prețului %s"
+
+#. module: l10n_ro_stock_account_retail_price_change
+#. odoo-python
+#: code:addons/l10n_ro_stock_account_retail_price_change/models/retail_price_change.py:0
+msgid ""
+"Reverse and cancel the related journal entry %(entry)s before resetting "
+"%(document)s to draft."
+msgstr "Stornați și anulați nota contabilă asociată %(entry)s înainte de a readuce %(document)s în ciornă."
+
+#. module: l10n_ro_stock_account_retail_price_change
+#: model:ir.model.fields,field_description:l10n_ro_stock_account_retail_price_change.field_l10n_ro_retail_price_change__message_has_sms_error
+msgid "SMS Delivery error"
+msgstr "Eroare la livrarea SMS-ului"
+
+#. module: l10n_ro_stock_account_retail_price_change
+#. odoo-python
+#: code:addons/l10n_ro_stock_account_retail_price_change/models/retail_price_change.py:0
+msgid "Select a retail warehouse first."
+msgstr "Selectați mai întâi o gestiune de tip magazin."
+
+#. module: l10n_ro_stock_account_retail_price_change
+#: model:ir.model.fields,field_description:l10n_ro_stock_account_retail_price_change.field_l10n_ro_retail_price_change__state
+#: model:ir.model.fields,field_description:l10n_ro_stock_account_retail_price_change.field_l10n_ro_retail_price_change_line__state
+#: model_terms:ir.ui.view,arch_db:l10n_ro_stock_account_retail_price_change.view_retail_price_change_search
+msgid "State"
+msgstr "Stare"
+
+#. module: l10n_ro_stock_account_retail_price_change
+#: model:ir.model.fields,help:l10n_ro_stock_account_retail_price_change.field_l10n_ro_retail_price_change__activity_state
+msgid ""
+"Status based on activities\n"
+"Overdue: Due date is already passed\n"
+"Today: Activity date is today\n"
+"Planned: Future activities."
+msgstr ""
+"Stare bazată pe activități\n"
+"Întârziat: termenul a trecut deja\n"
+"Astăzi: activitatea este pentru azi\n"
+"Planificat: activități viitoare."
+
+#. module: l10n_ro_stock_account_retail_price_change
+#: model_terms:ir.ui.view,arch_db:l10n_ro_stock_account_retail_price_change.report_retail_price_change
+msgid "Stock keeper,"
+msgstr "Gestionar,"
+
+#. module: l10n_ro_stock_account_retail_price_change
+#: model_terms:ir.ui.view,arch_db:l10n_ro_stock_account_retail_price_change.report_retail_price_change
+msgid "Total (371)"
+msgstr "Total (371)"
+
+#. module: l10n_ro_stock_account_retail_price_change
+#: model:ir.model.fields,help:l10n_ro_stock_account_retail_price_change.field_l10n_ro_retail_price_change__auto_created
+msgid ""
+"True when this document was generated automatically from a pricelist change."
+msgstr "Adevărat când documentul a fost generat automat dintr-o schimbare a listei de prețuri."
+
+#. module: l10n_ro_stock_account_retail_price_change
+#: model:ir.model.fields,help:l10n_ro_stock_account_retail_price_change.field_l10n_ro_retail_price_change__activity_exception_decoration
+msgid "Type of the exception activity on record."
+msgstr "Tipul activității de excepție de pe înregistrare."
+
+#. module: l10n_ro_stock_account_retail_price_change
+#: model_terms:ir.ui.view,arch_db:l10n_ro_stock_account_retail_price_change.report_retail_price_change
+msgid "UoM"
+msgstr "UM"
+
+#. module: l10n_ro_stock_account_retail_price_change
+#: model:ir.model.fields,field_description:l10n_ro_stock_account_retail_price_change.field_l10n_ro_retail_price_change_line__vat_diff_total
+#: model_terms:ir.ui.view,arch_db:l10n_ro_stock_account_retail_price_change.view_retail_price_change_form
+#: model_terms:ir.ui.view,arch_db:l10n_ro_stock_account_retail_price_change.view_retail_price_change_line_history_list
+msgid "VAT Delta"
+msgstr "Variație TVA"
+
+#. module: l10n_ro_stock_account_retail_price_change
+#: model:ir.model.fields,field_description:l10n_ro_stock_account_retail_price_change.field_l10n_ro_retail_price_change__warehouse_id
+#: model:ir.model.fields,field_description:l10n_ro_stock_account_retail_price_change.field_l10n_ro_retail_price_change_line__warehouse_id
+#: model_terms:ir.ui.view,arch_db:l10n_ro_stock_account_retail_price_change.view_retail_price_change_search
+msgid "Warehouse"
+msgstr "Depozit"
+
+#. module: l10n_ro_stock_account_retail_price_change
+#: model:ir.model.fields,field_description:l10n_ro_stock_account_retail_price_change.field_l10n_ro_retail_price_change__website_message_ids
+msgid "Website Messages"
+msgstr "Mesaje site web"
+
+#. module: l10n_ro_stock_account_retail_price_change
+#: model:ir.model.fields,help:l10n_ro_stock_account_retail_price_change.field_l10n_ro_retail_price_change__website_message_ids
+msgid "Website communication history"
+msgstr "Istoricul comunicării pe site"
+
+#. module: l10n_ro_stock_account_retail_price_change
+#: model:ir.model.fields,help:l10n_ro_stock_account_retail_price_change.field_l10n_ro_retail_price_change_line__old_price_with_vat
+msgid ""
+"What the stock on the shelf carries per unit, VAT included - the cost plus "
+"the markup and deferred VAT recorded against it. This is what 371 holds, "
+"which is not always what the pricelist says."
+msgstr "Ce poartă stocul din magazin pe bucată, cu TVA inclus - costul plus adaosul și TVA neexigibilă înregistrate pentru el. Este ce ține contul 371, care nu coincide întotdeauna cu lista de prețuri."
+
+#. module: l10n_ro_stock_account_retail_price_change
+#: model:ir.actions.report,print_report_name:l10n_ro_stock_account_retail_price_change.action_report_retail_price_change
+msgid "object.name"
+msgstr "object.name"
