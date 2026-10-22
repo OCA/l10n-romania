@@ -1,0 +1,11 @@
+[project]
+name = "odoo-addons-oca-l10n-romania"
+version = "20.0.20261022.0"
+dependencies = [
+    "odoo-addon-l10n_ro_config==20.0.*",
+]
+classifiers=[
+    "Programming Language :: Python",
+    "Framework :: Odoo",
+    "Framework :: Odoo :: 20.0",
+]
