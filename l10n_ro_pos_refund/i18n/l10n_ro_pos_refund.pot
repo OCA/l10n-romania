@@ -1,0 +1,150 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* l10n_ro_pos_refund
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 19.0\n"
+"Report-Msgid-Bugs-To: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: l10n_ro_pos_refund
+#. odoo-javascript
+#: code:addons/l10n_ro_pos_refund/static/src/js/ticket_screen.esm.js:0
+msgid ""
+"A refund is issued as a credit note and a payment disposal, both in the "
+"customer's name. Please select the customer."
+msgstr ""
+
+#. module: l10n_ro_pos_refund
+#: model:ir.model.fields,help:l10n_ro_pos_refund.field_pos_order__l10n_ro_payment_disposal_id
+msgid ""
+"Cash statement line paying the customer back for this refund. It is the "
+"payment disposal handed over at the till."
+msgstr ""
+
+#. module: l10n_ro_pos_refund
+#: model:ir.model.fields,help:l10n_ro_pos_refund.field_pos_payment__l10n_ro_payment_disposal_id
+msgid "Cash statement line that paid this refund out of the till."
+msgstr ""
+
+#. module: l10n_ro_pos_refund
+#: model:ir.model,name:l10n_ro_pos_refund.model_res_company
+msgid "Companies"
+msgstr ""
+
+#. module: l10n_ro_pos_refund
+#. odoo-python
+#: code:addons/l10n_ro_pos_refund/models/pos_order.py:0
+msgid ""
+"Credit note %(move)s has no receivable line to settle with a payment "
+"disposal."
+msgstr ""
+
+#. module: l10n_ro_pos_refund
+#. odoo-python
+#: code:addons/l10n_ro_pos_refund/models/pos_order.py:0
+msgid ""
+"Credit note %(move)s spreads over several receivable accounts, so no single "
+"payment disposal can settle it."
+msgstr ""
+
+#. module: l10n_ro_pos_refund
+#: model:ir.model.fields,field_description:l10n_ro_pos_refund.field_pos_order__display_name
+#: model:ir.model.fields,field_description:l10n_ro_pos_refund.field_pos_payment__display_name
+#: model:ir.model.fields,field_description:l10n_ro_pos_refund.field_pos_session__display_name
+#: model:ir.model.fields,field_description:l10n_ro_pos_refund.field_res_company__display_name
+msgid "Display Name"
+msgstr ""
+
+#. module: l10n_ro_pos_refund
+#: model:ir.model.fields,field_description:l10n_ro_pos_refund.field_pos_order__id
+#: model:ir.model.fields,field_description:l10n_ro_pos_refund.field_pos_payment__id
+#: model:ir.model.fields,field_description:l10n_ro_pos_refund.field_pos_session__id
+#: model:ir.model.fields,field_description:l10n_ro_pos_refund.field_res_company__id
+msgid "ID"
+msgstr ""
+
+#. module: l10n_ro_pos_refund
+#: model_terms:ir.ui.view,arch_db:l10n_ro_pos_refund.view_pos_pos_form_l10n_ro_refund
+msgid "Payment Disposal"
+msgstr ""
+
+#. module: l10n_ro_pos_refund
+#: model:ir.model,name:l10n_ro_pos_refund.model_pos_order
+msgid "Point of Sale Orders"
+msgstr ""
+
+#. module: l10n_ro_pos_refund
+#: model:ir.model,name:l10n_ro_pos_refund.model_pos_payment
+msgid "Point of Sale Payments"
+msgstr ""
+
+#. module: l10n_ro_pos_refund
+#: model:ir.model,name:l10n_ro_pos_refund.model_pos_session
+msgid "Point of Sale Session"
+msgstr ""
+
+#. module: l10n_ro_pos_refund
+#. odoo-python
+#: code:addons/l10n_ro_pos_refund/models/pos_order.py:0
+msgid "Refund %(order)s - %(move)s"
+msgstr ""
+
+#. module: l10n_ro_pos_refund
+#. odoo-python
+#: code:addons/l10n_ro_pos_refund/models/pos_order.py:0
+msgid ""
+"Refund %(order)s is paid in cash through several journals, so no single "
+"payment disposal can be issued for it."
+msgstr ""
+
+#. module: l10n_ro_pos_refund
+#. odoo-python
+#: code:addons/l10n_ro_pos_refund/models/pos_order.py:0
+msgid ""
+"Refund %(order)s needs a customer: both the credit note and the payment "
+"disposal are issued in the customer's name."
+msgstr ""
+
+#. module: l10n_ro_pos_refund
+#: model:ir.model.fields,field_description:l10n_ro_pos_refund.field_pos_order__l10n_ro_payment_disposal_id
+#: model:ir.model.fields,field_description:l10n_ro_pos_refund.field_pos_payment__l10n_ro_payment_disposal_id
+msgid "Romania - Payment Disposal"
+msgstr ""
+
+#. module: l10n_ro_pos_refund
+#. odoo-javascript
+#: code:addons/l10n_ro_pos_refund/static/src/xml/payment_screen.xml:0
+msgid ""
+"Select the customer: the refund is issued as a credit note\n"
+"                    and a payment disposal in their name."
+msgstr ""
+
+#. module: l10n_ro_pos_refund
+#. odoo-python
+#: code:addons/l10n_ro_pos_refund/models/pos_order.py:0
+msgid ""
+"The credit note for %(order)s could not be issued, only a proforma, which reverses nothing. The refund was not made.\n"
+"\n"
+"%(reason)s"
+msgstr ""
+
+#. module: l10n_ro_pos_refund
+#. odoo-javascript
+#: code:addons/l10n_ro_pos_refund/static/src/js/order_payment_validation.esm.js:0
+msgid ""
+"The payment disposal could not be printed. Print it from the refund order "
+"before the customer leaves."
+msgstr ""
+
+#. module: l10n_ro_pos_refund
+#. odoo-python
+#: code:addons/l10n_ro_pos_refund/models/pos_order.py:0
+msgid "There is no payment disposal for %(order)s."
+msgstr ""
