@@ -361,7 +361,7 @@
     <function
         model="stock.picking"
         name="button_validate"
-        context="{'allowed_company_ids': [ref('base.demo_company_ro')]}"
+        context="{'allowed_company_ids': [ref('base.demo_company_ro')], 'demo_mode': True}"
     >
         <value eval="[ref('demo_picking_to_shop')]" />
     </function>
@@ -410,7 +410,7 @@
     <function
         model="stock.picking"
         name="button_validate"
-        context="{'allowed_company_ids': [ref('base.demo_company_ro')]}"
+        context="{'allowed_company_ids': [ref('base.demo_company_ro')], 'demo_mode': True}"
     >
         <value eval="[ref('demo_picking_to_shop_nord')]" />
     </function>
