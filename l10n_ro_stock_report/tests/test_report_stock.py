@@ -318,6 +318,34 @@ class TestStockReport(TransactionCase):
         picking_type_out = self.env.ref("stock.picking_type_out")
         return self._create_simple_picking(picking_type_out, product, qty, date_dt)
 
+    def _create_internal_transfer(self, product, qty, src, dest, date_dt):
+        picking_type = self.env.ref("stock.picking_type_internal")
+        picking = self.env["stock.picking"].create(
+            {
+                "picking_type_id": picking_type.id,
+                "location_id": src.id,
+                "location_dest_id": dest.id,
+                "scheduled_date": date_dt,
+            }
+        )
+        self.env["stock.move"].create(
+            {
+                "product_id": product.id,
+                "product_uom": product.uom_id.id,
+                "product_uom_qty": qty,
+                "picking_id": picking.id,
+                "location_id": src.id,
+                "location_dest_id": dest.id,
+                "date": date_dt,
+                "company_id": self.env.company.id,
+            }
+        )
+        picking.action_confirm()
+        picking.button_validate()
+        for m in picking.move_ids:
+            m.date = date_dt
+        return picking
+
     def test_report_two_periods_quantities(self):
         """
         Scenario requested:
@@ -500,3 +528,123 @@ class TestStockReport(TransactionCase):
         )
         self.assertIn("initial", selection)
         self.assertIn("final", selection)
+
+    def test_report_counts_moves_of_archived_internal_locations(self):
+        """Goods received in an internal location that is archived afterwards
+        must stay in the report.
+
+        Real-world case: receipts went to an input location, the goods were
+        moved on to the main stock with internal transfers (zero-valued in
+        Odoo 19), then the input location was archived. Without the archived
+        locations in the set, the receipt is skipped and only the transfer is
+        counted as an entry: right quantity, missing value.
+        """
+        product = self.product_1
+        date_in = fields.Datetime.now() - timedelta(days=20)
+        receipt_type = self.env.ref("stock.picking_type_in")
+        receipt_type.default_location_dest_id = self.location_2
+        receipt = self._create_receipt(product, 10, date_in)
+        receipt_value = sum(receipt.move_ids.mapped("value"))
+        self.assertTrue(receipt_value, "The receipt must be valued")
+        self._create_internal_transfer(
+            product, 10, self.location_2, self.location, date_in
+        )
+        self.location_2.action_archive()
+        self.assertFalse(self.location_2.active)
+
+        # Period covering the receipt: the receipt line itself must be there.
+        wizard = Form(self.env["l10n.ro.stock.storage.sheet"])
+        wizard.date_from = (date_in - timedelta(days=1)).date()
+        wizard.date_to = (date_in + timedelta(days=1)).date()
+        wizard.product_ids.add(product)
+        wizard = wizard.save()
+        self.assertIn(self.location_2, wizard._get_report_locations())
+        wizard.do_compute_product()
+        lines = self.env["l10n.ro.stock.storage.sheet.line"].search(
+            [("report_id", "=", wizard.id), ("product_id", "=", product.id)]
+        )
+        self.assertIn(receipt.name, lines.mapped("reference"))
+
+        # Period after the receipt: the opening balance must carry its value.
+        wizard = Form(self.env["l10n.ro.stock.storage.sheet"])
+        wizard.date_from = (date_in + timedelta(days=5)).date()
+        wizard.date_to = (date_in + timedelta(days=6)).date()
+        wizard.product_ids.add(product)
+        wizard = wizard.save()
+        wizard.do_compute_product()
+        initial = self.env["l10n.ro.stock.storage.sheet.line"].search(
+            [
+                ("report_id", "=", wizard.id),
+                ("product_id", "=", product.id),
+                ("reference", "=", "INITIAL"),
+            ]
+        )
+        self.assertAlmostEqual(sum(initial.mapped("quantity_initial")), 10.0, places=2)
+        self.assertAlmostEqual(
+            sum(initial.mapped("amount_initial")), receipt_value, places=2
+        )
+
+    def test_report_internal_transfer_not_counted_as_in_and_out(self):
+        """An internal transfer between two locations of the reported set is
+        neither an entry nor an exit for the set.
+
+        Without a location filter the set holds every internal location, so a
+        transfer matched both the input query (destination in set) and the
+        output query (source in set) and inflated both turnover columns by its
+        value. Per-location sheets (detailed_locations) must keep showing it as
+        exit from one location and entry into the other.
+        """
+        product = self.product_1
+        date_in = fields.Datetime.now() - timedelta(days=20)
+        receipt = self._create_receipt(product, 10, date_in)
+        receipt_value = sum(receipt.move_ids.mapped("value"))
+        self._create_internal_transfer(
+            product, 4, self.location, self.location_2, date_in
+        )
+        Line = self.env["l10n.ro.stock.storage.sheet.line"]
+
+        # Whole stock: only the receipt is an entry, nothing left the stock.
+        wizard = Form(self.env["l10n.ro.stock.storage.sheet"])
+        wizard.date_from = (date_in - timedelta(days=1)).date()
+        wizard.date_to = (date_in + timedelta(days=1)).date()
+        wizard.product_ids.add(product)
+        wizard = wizard.save()
+        wizard.do_compute_product()
+        lines = Line.search(
+            [("report_id", "=", wizard.id), ("product_id", "=", product.id)]
+        )
+        self.assertAlmostEqual(sum(lines.mapped("quantity_in")), 10.0, places=2)
+        self.assertAlmostEqual(sum(lines.mapped("amount_in")), receipt_value, places=2)
+        self.assertAlmostEqual(sum(lines.mapped("quantity_out")), 0.0, places=2)
+        self.assertAlmostEqual(sum(lines.mapped("amount_out")), 0.0, places=2)
+        final = lines.filtered(lambda line: line.reference == "FINAL")
+        self.assertAlmostEqual(sum(final.mapped("quantity_final")), 10.0, places=2)
+
+        # Per location: the transfer is an exit from one and an entry into the other.
+        wizard = Form(self.env["l10n.ro.stock.storage.sheet"])
+        wizard.date_from = (date_in - timedelta(days=1)).date()
+        wizard.date_to = (date_in + timedelta(days=1)).date()
+        wizard.location_id = self.location
+        wizard.sublocation = True
+        wizard.detailed_locations = True
+        wizard.product_ids.add(product)
+        wizard = wizard.save()
+        wizard.do_compute_product()
+        src = Line.search(
+            [
+                ("report_id", "=", wizard.id),
+                ("product_id", "=", product.id),
+                ("location_id", "=", self.location.id),
+            ]
+        )
+        dest = Line.search(
+            [
+                ("report_id", "=", wizard.id),
+                ("product_id", "=", product.id),
+                ("location_id", "=", self.location_2.id),
+            ]
+        )
+        self.assertAlmostEqual(sum(src.mapped("quantity_in")), 10.0, places=2)
+        self.assertAlmostEqual(sum(src.mapped("quantity_out")), 4.0, places=2)
+        self.assertAlmostEqual(sum(dest.mapped("quantity_in")), 4.0, places=2)
+        self.assertAlmostEqual(sum(dest.mapped("quantity_out")), 0.0, places=2)
