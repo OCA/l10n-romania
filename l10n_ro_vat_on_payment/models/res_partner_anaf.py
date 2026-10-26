@@ -1,0 +1,85 @@
+# Copyright (C) 2015 Forest and Biomass Romania
+# Copyright (C) 2020 NextERP Romania
+# License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
+
+import os
+from datetime import UTC, date, datetime
+from io import BytesIO
+from zipfile import ZipFile
+
+import requests
+
+from odoo import api, fields, models, tools
+
+ANAF_URL = "http://static.anaf.ro/static/10/Anaf/TVA_incasare/ultim_%s.zip"
+
+
+class ResPartnerAnaf(models.Model):
+    _name = "l10n.ro.res.partner.anaf"
+    _description = "ANAF History about VAT on Payment"
+    _order = "vat, operation_date DESC, end_date, start_date"
+
+    anaf_id = fields.Char(index=True)
+    vat = fields.Char(index=True)
+    start_date = fields.Date(index=True)
+    end_date = fields.Date(index=True)
+    publish_date = fields.Date()
+    operation_date = fields.Date()
+    operation_type = fields.Selection(
+        [
+            ("I", "Register"),
+            ("E", "Fix error"),
+            ("D", "Removal"),
+            ("S", "Suspension"),
+        ],
+    )
+
+    def _get_line_at_date(self, check_date):
+        """Return the record describing the VAT on payment status at a date.
+
+        ANAF publishes one record per operation performed on the register,
+        so the status on a given date is the one set by the most recent
+        operation among the registrations already started at that date.
+
+        Records without an operation date are sorted last, so that they can
+        never shadow a dated operation: a removal followed by a later
+        re-registration would otherwise be decided by the database's NULL
+        ordering instead of by the ANAF chronology.
+        """
+        candidates = self.filtered(
+            lambda anaf: anaf.start_date and anaf.start_date <= check_date
+        )
+        return candidates.sorted(
+            key=lambda anaf: (
+                anaf.operation_date or date.min,
+                anaf.publish_date or date.min,
+                anaf.start_date,
+                anaf.id,
+            ),
+            reverse=True,
+        )[:1]
+
+    @api.model
+    def download_anaf_data(self, file_date=None):
+        """Download VAT on Payment data from ANAF if the file
+        was not modified in the same date
+        """
+        data_dir = tools.config["data_dir"]
+        istoric = os.path.join(data_dir, "istoric.txt")
+        if os.path.exists(istoric):
+            mtime = os.path.getmtime(istoric)
+        else:
+            mtime = 0
+        # the file is stamped by the filesystem, so read it back in UTC
+        modify = datetime.fromtimestamp(mtime, tz=UTC).date()
+        if not file_date:
+            file_date = fields.Date.today()
+        if bool(file_date - modify):
+            result = requests.get(ANAF_URL % file_date.strftime("%Y%m%d"), timeout=30)
+            if result.status_code == requests.codes.ok:
+                files = ZipFile(BytesIO(result.content))
+                files.extractall(path=str(data_dir))
+
+    @api.model
+    def _download_anaf_data(self, file_date=None):
+        self.download_anaf_data(file_date=file_date)
