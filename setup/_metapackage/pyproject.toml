@@ -1,6 +1,6 @@
 [project]
 name = "odoo-addons-oca-l10n-romania"
-version = "20.0.20261026.4"
+version = "20.0.20261026.5"
 dependencies = [
     "odoo-addon-l10n_ro_account==20.0.*",
     "odoo-addon-l10n_ro_account_period_close==20.0.*",
@@ -8,6 +8,7 @@ dependencies = [
     "odoo-addon-l10n_ro_partner_create_by_vat==20.0.*",
     "odoo-addon-l10n_ro_partner_unique==20.0.*",
     "odoo-addon-l10n_ro_stock==20.0.*",
+    "odoo-addon-l10n_ro_vat_on_payment==20.0.*",
 ]
 classifiers=[
     "Programming Language :: Python",
