@@ -24,7 +24,7 @@ class StockMove(models.Model):
         for moves_date, move_ids in groupby(
             ro_moves, key=lambda move: move.l10n_ro_get_move_date()
         ):
-            moves = self.env["stock.move"].concat(*move_ids)
+            moves = self.env["stock.move"].concat(move_ids)
             moves.check_lock_date(moves_date)
             moves_todo |= super(
                 StockMove, moves.with_context(force_period_date=moves_date)
