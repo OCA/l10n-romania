@@ -59,7 +59,7 @@ class ProductProduct(models.Model):
                 stack_size_extra_qty=stack_size_extra_qty,
                 location=location,
             )
-            moves = self.env["stock.move"].concat(*moves)
+            moves = self.env["stock.move"].concat(moves)
             if not moves:
                 continue
             qty_by_move = {m: m.quantity for m in moves[1:]}
