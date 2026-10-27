@@ -1,6 +1,7 @@
 # Copyright (C) 2015 Forest and Biomass Romania
 # Copyright (C) 2020 NextERP Romania
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
+from contextlib import contextmanager
 from unittest.mock import Mock, patch
 
 import requests
@@ -24,8 +25,13 @@ class TestPartnerVATSubjected(TransactionCase):
 
 @tagged("post_install", "-at_install")
 class TestPartnerVAT(TestPartnerVATSubjected):
-    def test_onchange_l10n_ro_vat_subjected(self):
-        """Check onchange vat subjected and country."""
+    @contextmanager
+    def _mock_anaf(self):
+        """Keep the ANAF lookup off the network.
+
+        With l10n_ro_partner_create_by_vat installed, a form on a Romanian
+        partner with a VAT runs its onchange, which posts to ANAF.
+        """
 
         def post(url, **kwargs):
             response = Mock()
@@ -38,6 +44,12 @@ class TestPartnerVAT(TestPartnerVATSubjected):
             patch.object(requests, "post", post),
             patch.object(requests.Session, "post", post),
         ):
+            yield
+
+    def test_onchange_l10n_ro_vat_subjected(self):
+        """Check onchange vat subjected and country."""
+
+        with self._mock_anaf():
             # test setting l10n_ro_vat_subjected as True
             partner = self.env["res.partner"].create(
                 {
@@ -78,11 +90,12 @@ class TestPartnerVAT(TestPartnerVATSubjected):
         )
         self.assertTrue(partner.is_company)
 
-        partner_form = Form(partner)
-        partner_form.name = "Test Partner"
-        partner_form.l10n_ro_vat_subjected = True
-
-        partner_form = Form(partner.with_company(test_company))
-        partner_form.name = "Test Partner"
-        with self.assertRaises(AssertionError):
+        with self._mock_anaf():
+            partner_form = Form(partner)
+            partner_form.name = "Test Partner"
             partner_form.l10n_ro_vat_subjected = True
+
+            partner_form = Form(partner.with_company(test_company))
+            partner_form.name = "Test Partner"
+            with self.assertRaises(AssertionError):
+                partner_form.l10n_ro_vat_subjected = True
