@@ -51,7 +51,15 @@ class StockMove(models.Model):
         return new_date
 
     def _l10n_ro_update_accounting_date(self, move_date):
-        self.date = move_date
+        # Since 20.0, writing the date of a valued move makes stock_account
+        # replay the valuation of the product from that date on. These moves
+        # are already valued and posted for this date: a replay would revalue
+        # them and leave their journal entries behind. Write the column itself
+        # so that only the date changes.
+        self.flush_recordset(["date"])
+        self._write({"date": fields.Datetime.to_datetime(move_date)})
+        self.invalidate_recordset(["date"])
+        self.modified(["date"])
         self.move_line_ids.write({"date": move_date})
 
     def check_lock_date(self, move_date):
