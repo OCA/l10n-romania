@@ -18,5 +18,8 @@
         "views/partner_view.xml",
         "security/ir.access.csv",
     ],
+    "demo": [
+        "demo/res_partner_anaf_demo.xml",
+    ],
     "maintainers": ["feketemihai"],
 }
