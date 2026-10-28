@@ -17,6 +17,9 @@
         "views/account_journal_view.xml",
         "views/account_payment_view.xml",
     ],
+    "demo": [
+        "demo/account_payment_demo.xml",
+    ],
     "development_status": "Mature",
     "maintainers": ["dhongu"],
 }
