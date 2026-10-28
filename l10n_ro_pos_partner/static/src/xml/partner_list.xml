@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<templates id="template" xml:space="preserve">
+
+    <!-- A CUI that matches nothing locally is not a dead end in Romania: the
+         company is public record at ANAF, so offer to fetch it instead of
+         telling the cashier to press enter for more of nothing. -->
+    <t
+        t-name="l10n_ro_pos_partner.PartnerListAnaf"
+        t-inherit="point_of_sale.PartnerList"
+        t-inherit-mode="extension"
+    >
+        <xpath expr="//p[hasclass('mt-3')]" position="attributes">
+            <attribute name="t-if">!l10nRoVatSearchQuery</attribute>
+        </xpath>
+        <xpath expr="//p[hasclass('mt-3')]" position="after">
+            <t t-if="l10nRoVatSearchQuery">
+                <p class="mt-3" t-out="l10nRoNoPartnerMessage" />
+                <button
+                    class="btn btn-primary btn-lg mt-2"
+                    t-on-click="() => this.l10nRoCreatePartnerFromAnaf()"
+                >
+                    <i class="oi oi-fw me-2" data-icon="download" />
+                    <t t-out="l10nRoCreateFromAnafLabel" />
+                </button>
+            </t>
+        </xpath>
+    </t>
+
+</templates>
