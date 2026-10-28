@@ -18,6 +18,9 @@
     "data": [
         "views/stock_landed_cost_view.xml",
     ],
+    "demo": [
+        "demo/retail_landed_cost_demo.xml",
+    ],
     "installable": True,
     # A bridge that keeps 371 at the shelf price. Without it any landed cost
     # or price difference on goods held in a shop raises 371 above the price
