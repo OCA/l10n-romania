@@ -1,6 +1,6 @@
 [project]
 name = "odoo-addons-oca-l10n-romania"
-version = "20.0.20261028.9"
+version = "20.0.20261028.10"
 dependencies = [
     "odoo-addon-l10n_ro_account==20.0.*",
     "odoo-addon-l10n_ro_account_bank_statement_report==20.0.*",
@@ -16,6 +16,7 @@ dependencies = [
     "odoo-addon-l10n_ro_partner_unique==20.0.*",
     "odoo-addon-l10n_ro_payment_receipt_report==20.0.*",
     "odoo-addon-l10n_ro_payment_to_statement==20.0.*",
+    "odoo-addon-l10n_ro_pos==20.0.*",
     "odoo-addon-l10n_ro_stock==20.0.*",
     "odoo-addon-l10n_ro_stock_account==20.0.*",
     "odoo-addon-l10n_ro_stock_account_date==20.0.*",
@@ -26,6 +27,7 @@ dependencies = [
     "odoo-addon-l10n_ro_stock_account_retail_landed_cost==20.0.*",
     "odoo-addon-l10n_ro_stock_account_retail_picking_report==20.0.*",
     "odoo-addon-l10n_ro_stock_account_retail_price_change==20.0.*",
+    "odoo-addon-l10n_ro_stock_account_retail_price_difference==20.0.*",
     "odoo-addon-l10n_ro_stock_account_retail_report==20.0.*",
     "odoo-addon-l10n_ro_stock_account_tracking==20.0.*",
     "odoo-addon-l10n_ro_stock_picking_valued_report==20.0.*",
