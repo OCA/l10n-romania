@@ -327,10 +327,16 @@ class TestReportPoSOrder(CommonPosTest):
         }
         self.env["pos.order"].sync_from_ui([order_data])
 
-        session.action_pos_session_closing_control()
+        session.close_session_from_ui({self.cash_payment_method.id: 100.0})
         self.assertEqual(session.state, "closed")
 
-        closing_accounts = session.move_id.line_ids.account_id
+        # Since 20.0 the closing entry is no longer session.move_id: the
+        # session keeps it in sale_move_ids and refund_move_ids. Not move_ids:
+        # pos_stock adds the entries of the stock moves to it, and those carry
+        # the stock valuation account by design.
+        closing_lines = (session.sale_move_ids | session.refund_move_ids).line_ids
+        self.assertTrue(closing_lines, "Sesiunea nu are nota de inchidere")
+        closing_accounts = closing_lines.account_id
         accounts = self.product_a.product_tmpl_id.get_product_accounts()
         for key in ("stock_valuation", "stock_output", "expense"):
             account = accounts.get(key)
@@ -341,8 +347,8 @@ class TestReportPoSOrder(CommonPosTest):
                     f"Nota de inchidere contine o linie de {key}",
                 )
         self.assertAlmostEqual(
-            sum(session.move_id.line_ids.mapped("debit")),
-            sum(session.move_id.line_ids.mapped("credit")),
+            sum(closing_lines.mapped("debit")),
+            sum(closing_lines.mapped("credit")),
             places=2,
             msg="Nota de inchidere nu este echilibrata",
         )

@@ -9,7 +9,7 @@
     "license": "AGPL-3",
     "author": "Terrabit,Odoo Community Association (OCA)",
     "website": "https://github.com/OCA/l10n-romania",
-    "depends": ["point_of_sale", "l10n_ro_config"],
+    "depends": ["pos_stock", "l10n_ro_config"],
     # Any Romanian company with a point of sale needs this. Without it the
     # session closing entry books the cost of what was sold a second time -
     # the Romanian stock accounting has already posted that discharge on each
