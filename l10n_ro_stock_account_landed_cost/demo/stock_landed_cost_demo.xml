@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!-- Copyright (C) 2025 NextERP Romania
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html). -->
+<odoo>
+    <!-- Recepții pe aviz de la furnizorul intern, peste care se așază
+         transportul ca și cost suplimentar de achiziție. Marfa intră în
+         gestiune înainte să vină factura, deci prin contul de facturi
+         nesosite (408), iar transportul intră în costul mărfii, nu pe
+         cheltuială.
+
+         Scenariile sunt descrise în demo/cases/landed_cost.csv, în același
+         format ca în teste, și construite de același cod. Harta de mai jos
+         spune ce înseamnă numele din fișier pentru datele demo. -->
+
+    <function
+        model="l10n.ro.stock.scenario.loader"
+        name="_load_cases"
+        context="{'allowed_company_ids': [ref('base.demo_company_ro')]}"
+    >
+        <value>l10n_ro_stock_account_landed_cost</value>
+        <value>landed_cost.csv</value>
+        <value
+            eval="{
+                'ron': 'base.RON',
+                'supplier_1': 'l10n_ro_config.demo_partner_ro_company_supplier',
+                'product_fifo': 'code:MF-ESP-001',
+                'product_redusa': 'code:MF-PAI-001',
+                'location': 'l10n_ro_stock.demo_location_zone_a',
+                'landed_cost': 'l10n_ro_config.demo_product_serviciu_transport',
+            }"
+        />
+    </function>
+</odoo>
