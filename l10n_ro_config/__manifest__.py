@@ -20,6 +20,11 @@
         "views/res_partner_view.xml",
         "wizard/res_config_settings_views.xml",
     ],
+    "demo": [
+        "demo/res_company_demo.xml",
+        "demo/res_partner_demo.xml",
+        "demo/product_demo.xml",
+    ],
     "pre_init_hook": "pre_init_hook",
     "development_status": "Mature",
     "maintainers": ["feketemihai"],
