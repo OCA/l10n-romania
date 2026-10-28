@@ -16,6 +16,9 @@
         "views/stock_landed_cost_view.xml",
         "views/account_dvi_view.xml",
     ],
+    "demo": [
+        "demo/account_dvi_demo.xml",
+    ],
     "installable": True,
     "development_status": "Mature",
     "maintainers": ["dhongu", "feketemihai"],
