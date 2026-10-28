@@ -31,11 +31,16 @@ class PosSession(models.Model):
         if not cash_details:
             return data
         # Unlike the cash balance, the closing control sums the POS payments
-        # itself instead of going through _get_captured_payments_domain.
+        # itself instead of going through _get_captured_payments_domain. It
+        # leaves out the orders invoiced one by one, which every refund with a
+        # payment disposal is, so only what it did count is taken out again.
         disposed = sum(
             self._l10n_ro_get_disposed_payments()
             .filtered(
-                lambda payment: payment.payment_method_id.id == cash_details.get("id")
+                lambda payment: (
+                    payment.payment_method_id.id == cash_details.get("id")
+                    and not payment.pos_order_id.is_singly_invoiced
+                )
             )
             .mapped("amount")
         )

@@ -84,7 +84,17 @@ class TestL10nRoPosRefund(CommonPosTest):
     def _session(self):
         if not self.config.current_session_id:
             self.config.open_ui()
+            # The opening control is what creates the cash statement of the
+            # session, which the cash out of a payment disposal is booked on.
+            self.config.current_session_id.set_opening_control(0, "")
         return self.config.current_session_id
+
+    def _cash_in_the_till(self, session):
+        """What the till holds, as the closing control counts it.
+
+        Since 20.0 the session no longer carries a cash register balance.
+        """
+        return session.get_closing_control_data()["default_cash_details"]["amount"]
 
     def _sale(self, partner=None, qty=1.0, product=None):
         product = product or self.product
@@ -149,7 +159,8 @@ class TestL10nRoPosRefund(CommonPosTest):
         credit_note = refund.account_move
         self.assertTrue(refund.to_invoice, "Invoicing a refund is not optional")
         self.assertEqual(credit_note.move_type, "out_refund")
-        self.assertEqual(credit_note.journal_id, self.config.invoice_journal_id)
+        # Since 20.0 journal_id is the journal of the invoices of the POS.
+        self.assertEqual(credit_note.journal_id, self.config.journal_id)
         self.assertEqual(credit_note.partner_id, self.customer)
         self.assertEqual(credit_note.amount_total, 10.0)
 
@@ -193,8 +204,19 @@ class TestL10nRoPosRefund(CommonPosTest):
             self._sale(self.customer), payment_method=self.bank_payment_method
         )
         self.assertFalse(refund.l10n_ro_payment_disposal_id)
-        self.assertTrue(refund.payment_ids.account_move_id)
         self.assertEqual(refund.account_move.move_type, "out_refund")
+        # Since 20.0 the payment of an invoiced order is a line of the invoice
+        # itself, not a payment move of its own: the card still pays it.
+        payments = refund._prepare_account_move_line_data_for_payments(
+            refund.partner_id
+        )
+        self.assertTrue(
+            [
+                payment
+                for payment in payments
+                if payment["metadata"]["payment_method_id"] == self.bank_payment_method
+            ]
+        )
 
     def test_the_credit_note_is_a_real_pdf(self):
         sale = self._sale(self.customer, product=self.taxed_product)
@@ -276,13 +298,13 @@ class TestL10nRoPosRefund(CommonPosTest):
         session = self._session()
         self._sale(self.customer)
         session.invalidate_recordset()
-        before = session.cash_register_balance_end
+        before = self._cash_in_the_till(session)
 
         self._refund(self._sale(self.customer))
         session.invalidate_recordset()
 
         # One sale paid in (+10) and one refund paid out (-10) since `before`.
-        self.assertAlmostEqual(session.cash_register_balance_end, before, places=2)
+        self.assertAlmostEqual(self._cash_in_the_till(session), before, places=2)
 
     def test_the_closing_control_counts_the_refund_once(self):
         session = self._session()
@@ -290,8 +312,9 @@ class TestL10nRoPosRefund(CommonPosTest):
         self._refund(self._sale(self.customer))
         session.invalidate_recordset()
 
+        # Two sales paid in (+20), one refund paid out (-10).
         cash = session.get_closing_control_data()["default_cash_details"]
-        self.assertAlmostEqual(cash["amount"], session.cash_register_balance_end, 2)
+        self.assertAlmostEqual(cash["amount"], cash["opening"] + 10.0, 2)
 
     def test_the_credit_note_carries_no_pos_payment_line(self):
         """Odoo 20 pays an invoiced order on the invoice itself, out of this
@@ -321,8 +344,11 @@ class TestL10nRoPosRefund(CommonPosTest):
         self._refund(self._sale(self.customer))
         session.invalidate_recordset()
 
-        session.post_closing_cash_details(session.cash_register_balance_end)
-        session.close_session_from_ui()
+        cash = session.get_closing_control_data()["default_cash_details"]
+        session.close_session_from_ui({self.cash_payment_method.id: cash["amount"]})
         self.assertEqual(session.state, "closed")
-        self.assertTrue(session.move_id)
-        self.assertEqual(session.move_id.state, "posted")
+        # Since 20.0 the closing entry is no longer session.move_id: the
+        # session keeps it in sale_move_ids and refund_move_ids.
+        closing_moves = session.sale_move_ids | session.refund_move_ids
+        self.assertTrue(closing_moves)
+        self.assertEqual(set(closing_moves.mapped("state")), {"posted"})

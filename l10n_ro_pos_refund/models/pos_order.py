@@ -201,6 +201,10 @@ class PosOrder(models.Model):
             .create(
                 {
                     "pos_session_id": self.session_id.id,
+                    # On the cash statement of the session, like every cash
+                    # line of the POS: the closing control reads the cash out
+                    # of the till from the balance of that statement.
+                    "statement_id": self.session_id.bank_statement_id.id,
                     "journal_id": journal.id,
                     "date": fields.Date.context_today(self, self.date_order),
                     # Refund payments are already negative: cash out of the till.
