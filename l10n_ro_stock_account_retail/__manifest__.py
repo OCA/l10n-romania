@@ -25,6 +25,9 @@
         "views/retail_markup_line_view.xml",
         "wizard/retail_opening_balance_view.xml",
     ],
+    "demo": [
+        "demo/retail_demo.xml",
+    ],
     "installable": True,
     "auto_install": False,
     "development_status": "Mature",
