@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!-- Copyright (C) 2025 NextERP Romania
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html). -->
+<odoo>
+    <!-- Produsul pe care se înregistrează diferența dintre recepție și
+         factură, ca și cost suplimentar de achiziție. -->
+
+    <record id="demo_product_price_difference" model="product.template">
+        <field name="name">Diferență de preț recepție / factură</field>
+        <field name="default_code">SRV-DIFP-001</field>
+        <field name="type">service</field>
+        <field name="categ_id" ref="l10n_ro_config.demo_categ_serviciu" />
+        <field name="landed_cost_ok" eval="True" />
+        <field name="list_price" eval="0.0" />
+    </record>
+
+    <record id="base.demo_company_ro" model="res.company">
+        <field name="l10n_ro_stock_acc_price_diff" eval="True" />
+        <field
+            name="l10n_ro_property_stock_price_difference_product_id"
+            model="product.product"
+            eval="obj().env.ref('l10n_ro_stock_price_difference.demo_product_price_difference').product_variant_id.id"
+        />
+    </record>
+
+    <!-- Comandă recepționată la prețul din comandă și facturată la alt
+         preț. Diferența nu merge pe cheltuială, ci în valoarea mărfii din
+         gestiune.
+
+         Scenariul e descris în demo/cases/price_difference.csv, în același
+         format ca în teste, și construit de același cod. -->
+
+    <function
+        model="l10n.ro.stock.scenario.loader"
+        name="_load_cases"
+        context="{'allowed_company_ids': [ref('base.demo_company_ro')]}"
+    >
+        <value>l10n_ro_stock_price_difference</value>
+        <value>price_difference.csv</value>
+        <value
+            eval="{
+                'ron': 'base.RON',
+                'supplier_1': 'l10n_ro_config.demo_partner_ro_company_supplier',
+                'product_fifo': 'l10n_ro_config.demo_product_marfa_standard',
+                'location': 'l10n_ro_stock.demo_warehouse_main::lot_stock_id',
+            }"
+        />
+    </function>
+</odoo>
