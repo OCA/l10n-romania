@@ -11,6 +11,9 @@
         "security/account_security.xml",
         "security/ir.access.csv",
     ],
+    "demo": [
+        "demo/account_period_close_demo.xml",
+    ],
     "license": "AGPL-3",
     "version": "20.0.1.0.0",
     "author": "NextERP Romania,"
