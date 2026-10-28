@@ -12,6 +12,9 @@
     "data": [
         "views/purchase_order_view.xml",
     ],
+    "demo": [
+        "demo/purchase_reception_in_progress_demo.xml",
+    ],
     "installable": True,
     "auto_install": False,
     "development_status": "Mature",

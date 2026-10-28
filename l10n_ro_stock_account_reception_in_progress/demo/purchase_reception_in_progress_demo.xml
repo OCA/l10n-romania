@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!-- Copyright (C) 2025 NextERP Romania
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html). -->
+<odoo>
+    <!-- Marfa facturată înainte să ajungă în gestiune stă în 327, Mărfuri
+         în curs de aprovizionare, și trece în 371 abia la recepție.
+         Legătura se face pe contul de stoc. -->
+
+    <function
+        model="account.account"
+        name="write"
+        context="{'allowed_company_ids': [ref('base.demo_company_ro')]}"
+    >
+        <value
+            model="account.account"
+            eval="obj().env['account.chart.template'].with_company(obj().env.ref('base.demo_company_ro')).ref('pcg_371').ids"
+        />
+        <value
+            model="account.account"
+            eval="{
+                'l10n_ro_reception_in_progress_account_id': obj().env['account.chart.template'].with_company(obj().env.ref('base.demo_company_ro')).ref('pcg_327').id,
+            }"
+        />
+    </function>
+
+    <!-- Comandă marcată ca recepție în curs: factura se face înaintea
+         recepției, pe 327, iar la recepție marfa trece în 371.
+
+         Scenariul e descris în demo/cases/reception_in_progress.csv, în
+         același format ca în teste, și construit de același cod. -->
+
+    <function
+        model="l10n.ro.stock.scenario.loader"
+        name="_load_cases"
+        context="{'allowed_company_ids': [ref('base.demo_company_ro')]}"
+    >
+        <value>l10n_ro_stock_account_reception_in_progress</value>
+        <value>reception_in_progress.csv</value>
+        <value
+            eval="{
+                'ron': 'base.RON',
+                'supplier_1': 'l10n_ro_config.demo_partner_ro_company_supplier',
+                'product_redusa': 'l10n_ro_config.demo_product_marfa_redusa',
+                'location': 'l10n_ro_stock.demo_warehouse_main::lot_stock_id',
+            }"
+        />
+    </function>
+</odoo>

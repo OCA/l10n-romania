@@ -1,0 +1,2 @@
+case_no,type,currency_id,partner_id,fiscal_position_id,location,location1,product_id,step,qty,lot1,stock_qty,inv_qty,lot2,stock_qty2,inv_qty2,price,inv_price,inv_price2,discount,advance,notice,landed_cost,reception_in_progress,checks,name
+1,purchase,ron,supplier_1,,location,,product_redusa,1,300,,300,0,,0,0,3,0,0,0,0,0,0,1,,"Factură înaintea recepției: marfa stă în 327 până sosește"
