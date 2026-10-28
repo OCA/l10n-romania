@@ -20,6 +20,9 @@
         "views/retail_price_change_view.xml",
         "views/product_template_view.xml",
     ],
+    "demo": [
+        "demo/retail_price_change_demo.xml",
+    ],
     "post_init_hook": "post_init_hook",
     "installable": True,
     "auto_install": False,
