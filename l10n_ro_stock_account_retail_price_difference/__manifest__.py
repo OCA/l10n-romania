@@ -18,6 +18,9 @@
     "data": [
         "wizard/price_difference_confirmation.xml",
     ],
+    "demo": [
+        "demo/retail_price_difference_demo.xml",
+    ],
     "installable": True,
     "auto_install": True,
     "development_status": "Mature",
