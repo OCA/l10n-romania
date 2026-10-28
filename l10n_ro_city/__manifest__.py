@@ -16,6 +16,9 @@
         "views/res_city_view.xml",
         "data/res.country.state.csv",
     ],
+    "demo": [
+        "demo/res_partner_city_demo.xml",
+    ],
     "development_status": "Mature",
     "installable": True,
     "maintainers": ["dhongu"],
