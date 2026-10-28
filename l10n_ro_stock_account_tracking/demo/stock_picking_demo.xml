@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!-- Copyright (C) 2025 NextERP Romania
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html). -->
+<odoo>
+    <!-- Transferuri între gestiuni, din zona de marfă a depozitului central
+         în depozitul din Timișoara. Modulul leagă mișcarea de ieșire de
+         intrările din care provine marfa, așa că se vede din ce strat FIFO a
+         plecat fiecare bucată.
+
+         Scenariile sunt descrise în demo/cases/transfer.csv, în același
+         format ca în teste, și construite de același cod. -->
+
+    <function
+        model="l10n.ro.stock.scenario.loader"
+        name="_load_cases"
+        context="{'allowed_company_ids': [ref('base.demo_company_ro')]}"
+    >
+        <value>l10n_ro_stock_account_tracking</value>
+        <value>transfer.csv</value>
+        <value
+            eval="{
+                'ron': 'base.RON',
+                'product_fifo': 'l10n_ro_config.demo_product_marfa_standard',
+                'product_redusa': 'l10n_ro_config.demo_product_marfa_redusa',
+                'location': 'l10n_ro_stock.demo_location_zone_a',
+                'location1': 'l10n_ro_stock.demo_warehouse_secondary::lot_stock_id',
+            }"
+        />
+    </function>
+</odoo>
