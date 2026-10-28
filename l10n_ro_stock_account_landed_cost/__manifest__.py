@@ -18,6 +18,9 @@
         "security/ir.access.csv",
         "views/stock_landed_cost_view.xml",
     ],
+    "demo": [
+        "demo/stock_landed_cost_demo.xml",
+    ],
     "installable": True,
     "development_status": "Mature",
     "maintainers": ["dhongu", "feketemihai"],
