@@ -5,6 +5,10 @@
     "category": "Localization",
     "countries": ["ro"],
     "depends": ["stock", "l10n_ro_config"],
+    "demo": [
+        "demo/product_stock_demo.xml",
+        "demo/stock_warehouse_demo.xml",
+    ],
     "data": [
         "data/stock_data.xml",
         "views/stock_warehouse_view.xml",
