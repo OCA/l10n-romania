@@ -66,12 +66,20 @@ class AccountMoveLine(models.Model):
 
         stock_value = stock_qty = 0.0
         for stock_move in stock_moves:
+            # ``move.quantity`` is in the move's own UoM while the invoiced
+            # quantity below is converted to the product UoM: compare both in
+            # the product UoM, otherwise a receipt encoded in a secondary unit
+            # (product in m, reception in mm) produces a bogus price
+            # difference.
+            move_qty = stock_move.product_uom._compute_quantity(
+                stock_move.quantity, stock_move.product_id.uom_id, round=False
+            )
             if stock_move._is_incoming():
                 stock_value += stock_move.value
-                stock_qty += stock_move.quantity
+                stock_qty += move_qty
             else:
                 stock_value -= stock_move.value
-                stock_qty -= stock_move.quantity
+                stock_qty -= move_qty
         res["stock_move_id"] = stock_moves.sorted("id", reverse=True)[:1].id
         precision = line.product_uom_id.rounding or line.product_id.uom_id.rounding
 

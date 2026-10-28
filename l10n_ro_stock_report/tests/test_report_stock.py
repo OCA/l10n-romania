@@ -278,7 +278,7 @@ class TestStockReport(TransactionCase):
         )
         self.assertTrue(line)
 
-    def _create_simple_picking(self, picking_type, product, qty, date_dt):
+    def _create_simple_picking(self, picking_type, product, qty, date_dt, uom=None):
         Picking = self.env["stock.picking"]
         Move = self.env["stock.move"]
 
@@ -293,7 +293,7 @@ class TestStockReport(TransactionCase):
         Move.create(
             {
                 "product_id": product.id,
-                "product_uom": product.uom_id.id,
+                "product_uom": (uom or product.uom_id).id,
                 "product_uom_qty": qty,
                 "picking_id": picking.id,
                 "location_id": picking.location_id.id,
@@ -310,13 +310,17 @@ class TestStockReport(TransactionCase):
             m.date = date_dt
         return picking
 
-    def _create_receipt(self, product, qty, date_dt):
+    def _create_receipt(self, product, qty, date_dt, uom=None):
         picking_type_in = self.env.ref("stock.picking_type_in")
-        return self._create_simple_picking(picking_type_in, product, qty, date_dt)
+        return self._create_simple_picking(
+            picking_type_in, product, qty, date_dt, uom=uom
+        )
 
-    def _create_delivery(self, product, qty, date_dt):
+    def _create_delivery(self, product, qty, date_dt, uom=None):
         picking_type_out = self.env.ref("stock.picking_type_out")
-        return self._create_simple_picking(picking_type_out, product, qty, date_dt)
+        return self._create_simple_picking(
+            picking_type_out, product, qty, date_dt, uom=uom
+        )
 
     def test_report_two_periods_quantities(self):
         """
@@ -500,3 +504,93 @@ class TestStockReport(TransactionCase):
         )
         self.assertIn("initial", selection)
         self.assertIn("final", selection)
+
+    def test_report_quantities_secondary_uom(self):
+        """Moves encoded in a UoM other than the product's must be reported in
+        the product UoM.
+
+        ``stock_move.quantity`` is stored in the move's own unit, so summing
+        the raw column adds 2 boxes to 5 units as if they were the same thing,
+        and the unit price then comes out per box instead of per unit."""
+        uom_unit = self.env.ref("uom.product_uom_unit")
+        uom_dozen = self.env.ref("uom.product_uom_dozen")
+        product = self.env["product.product"].create(
+            {
+                "name": "Product UoM",
+                "is_storable": True,
+                "categ_id": self.category.id,
+                "uom_id": uom_unit.id,
+                "standard_price": 5.0,
+            }
+        )
+        date1_dt = fields.Datetime.now() - timedelta(days=25)
+        date_from = fields.Datetime.now() - timedelta(days=30)
+        date_to = fields.Datetime.now() - timedelta(days=20)
+
+        # Bigger unit in, reference unit out: 2 dozens = 24 units in, 5 out.
+        self._create_receipt(product, 2, date1_dt, uom=uom_dozen)
+        self._create_delivery(product, 5, date1_dt, uom=uom_unit)
+
+        wizard = Form(self.env["l10n.ro.stock.storage.sheet"])
+        wizard.location_id = self.location
+        wizard.product_ids = product
+        wizard.date_from = date_from.date()
+        wizard.date_to = date_to.date()
+        wizard = wizard.save()
+        wizard.button_show_sheet_pdf()
+
+        lines = self.env["l10n.ro.stock.storage.sheet.line"].search(
+            [
+                ("report_id", "=", wizard.id),
+                ("product_id", "=", product.id),
+                ("location_id", "=", self.location.id),
+            ]
+        )
+        self.assertEqual(sum(lines.mapped("quantity_initial")), 0)
+        self.assertEqual(sum(lines.mapped("quantity_in")), 24)
+        self.assertEqual(sum(lines.mapped("quantity_out")), 5)
+        self.assertEqual(sum(lines.mapped("quantity_final")), 19)
+        # 24 units at 5 -> the unit price must be per unit, not per dozen.
+        in_lines = lines.filtered("quantity_in")
+        self.assertTrue(in_lines)
+        self.assertAlmostEqual(sum(in_lines.mapped("unit_price_in")), 5.0, places=2)
+
+    def test_report_quantities_smaller_uom(self):
+        """Same check with a unit smaller than the product's reference one."""
+        uom_unit = self.env.ref("uom.product_uom_unit")
+        uom_dozen = self.env.ref("uom.product_uom_dozen")
+        product = self.env["product.product"].create(
+            {
+                "name": "Product UoM Dozen",
+                "is_storable": True,
+                "categ_id": self.category.id,
+                "uom_id": uom_dozen.id,
+                "standard_price": 60.0,
+            }
+        )
+        date1_dt = fields.Datetime.now() - timedelta(days=25)
+        date_from = fields.Datetime.now() - timedelta(days=30)
+        date_to = fields.Datetime.now() - timedelta(days=20)
+
+        # Product is kept in dozens; the reception is encoded in units.
+        self._create_receipt(product, 36, date1_dt, uom=uom_unit)
+        self._create_delivery(product, 1, date1_dt, uom=uom_dozen)
+
+        wizard = Form(self.env["l10n.ro.stock.storage.sheet"])
+        wizard.location_id = self.location
+        wizard.product_ids = product
+        wizard.date_from = date_from.date()
+        wizard.date_to = date_to.date()
+        wizard = wizard.save()
+        wizard.button_show_sheet_pdf()
+
+        lines = self.env["l10n.ro.stock.storage.sheet.line"].search(
+            [
+                ("report_id", "=", wizard.id),
+                ("product_id", "=", product.id),
+                ("location_id", "=", self.location.id),
+            ]
+        )
+        self.assertEqual(sum(lines.mapped("quantity_in")), 3)
+        self.assertEqual(sum(lines.mapped("quantity_out")), 1)
+        self.assertEqual(sum(lines.mapped("quantity_final")), 2)

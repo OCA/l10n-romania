@@ -57,9 +57,17 @@ class StockLandedCost(models.Model):
             )
             lc_total = 0
             for line in landed_cost.valuation_adjustment_lines:
+                # ``line.quantity`` and ``remaining_qty`` are both in the
+                # product UoM (core fills the adjustment line by converting
+                # ``move.quantity``), so the consumed ratio must be built
+                # from them and not from ``move.quantity``, which is stored
+                # in the move's own UoM.
+                move_qty = line.quantity
+                if not move_qty:
+                    continue
                 lc_total += (
-                    (line.move_id.quantity - line.move_id.remaining_qty)
-                    / line.move_id.quantity
+                    (move_qty - line.move_id.remaining_qty)
+                    / move_qty
                     * line.l10n_ro_not_distributed_amount
                 )
             # Compare rounding each side first (like currency.compare_amounts)
@@ -85,7 +93,11 @@ class StockLandedCost(models.Model):
                 # directly the value from extra and add it to the manual amount
                 dest_move = dist_line.move_id
                 if dest_move._is_out():
-                    lc_values = dest_move._get_value_from_extra(dest_move.quantity)
+                    # ``_get_value_from_extra`` is called by core with
+                    # ``_get_valued_qty()``, i.e. in the product UoM.
+                    lc_values = dest_move._get_value_from_extra(
+                        dest_move._get_valued_qty()
+                    )
                     lc_amount = lc_values.get("value", 0)
                     dest_move.value = dest_move._get_value() + lc_amount
                 else:
@@ -138,8 +150,15 @@ class StockLandedCost(models.Model):
                 move = line.move_id
                 if not move:
                     continue
-                um_add_cost = line.additional_landed_cost / move.quantity
-                consumed_qty = move.quantity - move.remaining_qty
+                # ``line.quantity`` is the move quantity converted to the
+                # product UoM by core; ``remaining_qty`` and the tracked
+                # destination quantities are in that same unit, while
+                # ``move.quantity`` is in the move's own UoM.
+                move_qty = line.quantity
+                if not move_qty:
+                    continue
+                um_add_cost = line.additional_landed_cost / move_qty
+                consumed_qty = move_qty - move.remaining_qty
                 precision = move.product_id.uom_id.rounding
                 move_dest_vals_list = self._get_l10n_ro_move_destinations(move)
                 if move_dest_vals_list:
@@ -240,8 +259,11 @@ class AdjustmentLines(models.Model):
             res = []
         for line in ro_adj_lines:
             line = line.with_context(l10n_ro_stock_move=line.move_id)
+            # Core computes ``additional_landed_cost * remaining_qty /
+            # self.quantity``; ``self.quantity`` is in the product UoM, so
+            # the full move quantity must be passed in that unit too.
             res += super(AdjustmentLines, line)._create_accounting_entries(
-                line.move_id.quantity
+                line.quantity
             )
             line._l10n_ro_get_extra_accounting_entries()
             for distributed_line in line.l10n_ro_distributed_valuation_lines:
