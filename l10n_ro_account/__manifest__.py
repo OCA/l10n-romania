@@ -13,5 +13,8 @@
     "category": "Localization",
     "depends": ["account", "l10n_ro", "l10n_ro_config"],
     "data": [],
+    "demo": [
+        "demo/res_config_demo.xml",
+    ],
     "maintainers": ["dhongu"],
 }
