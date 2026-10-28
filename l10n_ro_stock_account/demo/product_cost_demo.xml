@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!-- Copyright (C) 2025 NextERP Romania
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html). -->
+<odoo>
+    <!-- Costul este pe companie, iar l10n_ro_config îl scrie pe compania
+         curentă. Aici îl punem pe firma demo din România, ca intrările în
+         stoc să fie evaluate corect. -->
+
+    <record
+        id="l10n_ro_config.demo_product_marfa_standard"
+        model="product.template"
+        context="{'allowed_company_ids': [ref('base.demo_company_ro')]}"
+    >
+        <field name="standard_price" eval="850.0" />
+    </record>
+
+    <record
+        id="l10n_ro_config.demo_product_marfa_redusa"
+        model="product.template"
+        context="{'allowed_company_ids': [ref('base.demo_company_ro')]}"
+    >
+        <field name="standard_price" eval="3.2" />
+    </record>
+
+    <record
+        id="l10n_ro_config.demo_product_marfa_lot"
+        model="product.template"
+        context="{'allowed_company_ids': [ref('base.demo_company_ro')]}"
+    >
+        <field name="standard_price" eval="5.4" />
+    </record>
+
+    <record
+        id="l10n_ro_config.demo_product_marfa_serie"
+        model="product.template"
+        context="{'allowed_company_ids': [ref('base.demo_company_ro')]}"
+    >
+        <field name="standard_price" eval="3600.0" />
+    </record>
+
+    <record
+        id="l10n_ro_config.demo_product_materie_prima"
+        model="product.template"
+        context="{'allowed_company_ids': [ref('base.demo_company_ro')]}"
+    >
+        <field name="standard_price" eval="2.6" />
+    </record>
+
+    <record
+        id="l10n_ro_config.demo_product_materie_prima_lot"
+        model="product.template"
+        context="{'allowed_company_ids': [ref('base.demo_company_ro')]}"
+    >
+        <field name="standard_price" eval="7.1" />
+    </record>
+
+    <record
+        id="l10n_ro_config.demo_product_produs_finit"
+        model="product.template"
+        context="{'allowed_company_ids': [ref('base.demo_company_ro')]}"
+    >
+        <field name="standard_price" eval="7.8" />
+    </record>
+
+    <record
+        id="l10n_ro_config.demo_product_ambalaj"
+        model="product.template"
+        context="{'allowed_company_ids': [ref('base.demo_company_ro')]}"
+    >
+        <field name="standard_price" eval="32.0" />
+    </record>
+
+    <record
+        id="l10n_ro_config.demo_product_obiect_inventar"
+        model="product.template"
+        context="{'allowed_company_ids': [ref('base.demo_company_ro')]}"
+    >
+        <field name="standard_price" eval="520.0" />
+    </record>
+    <record
+        id="l10n_ro_config.demo_product_marfa_avco"
+        model="product.template"
+        context="{'allowed_company_ids': [ref('base.demo_company_ro')]}"
+    >
+        <field name="standard_price" eval="910.0" />
+    </record>
+
+    <!-- Cafeaua AVCO se evaluează pe lot: fiecare lot își ține costul mediu
+         propriu, nu unul comun pe produs. -->
+    <record
+        id="l10n_ro_config.demo_product_marfa_avco_lot"
+        model="product.template"
+        context="{'allowed_company_ids': [ref('base.demo_company_ro')]}"
+    >
+        <field name="standard_price" eval="52.0" />
+        <field name="lot_valuated" eval="True" />
+    </record>
+</odoo>

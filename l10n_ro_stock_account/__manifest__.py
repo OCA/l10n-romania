@@ -25,6 +25,13 @@
         "views/stock_picking_view.xml",
         "views/stock_warehouse_view.xml",
     ],
+    "demo": [
+        "demo/product_category_demo.xml",
+        "demo/stock_location_demo.xml",
+        "demo/product_cost_demo.xml",
+        "demo/stock_quant_demo.xml",
+        "demo/res_company_fifo_demo.xml",
+    ],
     "installable": True,
     "development_status": "Mature",
     "maintainers": ["dhongu", "feketemihai"],

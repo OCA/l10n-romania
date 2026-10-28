@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!-- Copyright (C) 2025 NextERP Romania
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html). -->
+<odoo>
+    <!-- ===================================================================
+         Loturi și numere de serie. Rămân înregistrări cu identificator
+         extern, fiindcă demo-ul altor module le referă pe nume.
+         =================================================================== -->
+
+    <record id="demo_lot_conserve_1" model="stock.lot">
+        <field name="name">LOT-CON-2601</field>
+        <field name="company_id" ref="base.demo_company_ro" />
+        <field
+            name="product_id"
+            model="product.product"
+            eval="obj().env.ref('l10n_ro_config.demo_product_marfa_lot').product_variant_id.id"
+        />
+    </record>
+
+    <record id="demo_lot_conserve_2" model="stock.lot">
+        <field name="name">LOT-CON-2602</field>
+        <field name="company_id" ref="base.demo_company_ro" />
+        <field
+            name="product_id"
+            model="product.product"
+            eval="obj().env.ref('l10n_ro_config.demo_product_marfa_lot').product_variant_id.id"
+        />
+    </record>
+
+    <record id="demo_lot_ulei_1" model="stock.lot">
+        <field name="name">LOT-ULEI-2601</field>
+        <field name="company_id" ref="base.demo_company_ro" />
+        <field
+            name="product_id"
+            model="product.product"
+            eval="obj().env.ref('l10n_ro_config.demo_product_materie_prima_lot').product_variant_id.id"
+        />
+    </record>
+
+    <record id="demo_lot_biscuiti_1" model="stock.lot">
+        <field name="name">LOT-BIS-2601</field>
+        <field name="company_id" ref="base.demo_company_ro" />
+        <field
+            name="product_id"
+            model="product.product"
+            eval="obj().env.ref('l10n_ro_config.demo_product_produs_finit').product_variant_id.id"
+        />
+    </record>
+
+    <record id="demo_serial_laptop_1" model="stock.lot">
+        <field name="name">SN-NX14-0001</field>
+        <field name="company_id" ref="base.demo_company_ro" />
+        <field
+            name="product_id"
+            model="product.product"
+            eval="obj().env.ref('l10n_ro_config.demo_product_marfa_serie').product_variant_id.id"
+        />
+    </record>
+
+    <record id="demo_serial_laptop_2" model="stock.lot">
+        <field name="name">SN-NX14-0002</field>
+        <field name="company_id" ref="base.demo_company_ro" />
+        <field
+            name="product_id"
+            model="product.product"
+            eval="obj().env.ref('l10n_ro_config.demo_product_marfa_serie').product_variant_id.id"
+        />
+    </record>
+
+    <record id="demo_serial_laptop_3" model="stock.lot">
+        <field name="name">SN-NX14-0003</field>
+        <field name="company_id" ref="base.demo_company_ro" />
+        <field
+            name="product_id"
+            model="product.product"
+            eval="obj().env.ref('l10n_ro_config.demo_product_marfa_serie').product_variant_id.id"
+        />
+    </record>
+
+    <record id="demo_lot_cafea_1" model="stock.lot">
+        <field name="name">LOT-CAF-2601</field>
+        <field name="company_id" ref="base.demo_company_ro" />
+        <field
+            name="product_id"
+            model="product.product"
+            eval="obj().env.ref('l10n_ro_config.demo_product_marfa_avco_lot').product_variant_id.id"
+        />
+    </record>
+
+    <record id="demo_lot_cafea_2" model="stock.lot">
+        <field name="name">LOT-CAF-2602</field>
+        <field name="company_id" ref="base.demo_company_ro" />
+        <field
+            name="product_id"
+            model="product.product"
+            eval="obj().env.ref('l10n_ro_config.demo_product_marfa_avco_lot').product_variant_id.id"
+        />
+    </record>
+
+    <!-- ===================================================================
+         Stocul inițial al firmei demo, descris în demo/cases/stoc_initial.csv
+         ca pași de inventariere, în același format ca scenariile din teste.
+         Intrarea se evaluează la costul produsului și creează straturile FIFO
+         pe locație.
+
+         Produsele și loturile sunt căutate direct din fișier, după referința
+         internă și după nume, așa că harta de mai jos poartă doar gestiunile,
+         care n-au cod după care să fie găsite.
+         =================================================================== -->
+
+    <function
+        model="l10n.ro.stock.scenario.loader"
+        name="_load_cases"
+        context="{'allowed_company_ids': [ref('base.demo_company_ro')]}"
+    >
+        <value>l10n_ro_stock_account</value>
+        <value>stoc_initial.csv</value>
+        <value
+            eval="{
+                'zona_a': 'l10n_ro_stock.demo_location_zone_a',
+                'zona_b': 'l10n_ro_stock.demo_location_zone_b',
+                'depozit_central': 'l10n_ro_stock.demo_warehouse_main::lot_stock_id',
+                'depozit_timisoara': 'l10n_ro_stock.demo_warehouse_secondary::lot_stock_id',
+            }"
+        />
+    </function>
+</odoo>
